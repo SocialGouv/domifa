@@ -1,46 +1,47 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { usagerEntretienRepository, usagerRepository } from "../database";
-
-const STRUCTURE_ID = 1;
+import {
+  myDataSource,
+  usagerEntretienRepository,
+  usagerRepository,
+} from "../database";
+import { TOULOUSE_STRUCTURE_ID } from "../_common/tmp-toulouse";
 
 export class ManualMigration1692191990703 implements MigrationInterface {
-  public async up(queryRunner: QueryRunner): Promise<void> {
-    console.log("3️⃣ Création des entretiens commencée");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public async up(_queryRunner: QueryRunner): Promise<void> {
+    console.log("Suppression des entretiens ... 🏃‍♀️");
+    await usagerEntretienRepository.delete({
+      structureId: TOULOUSE_STRUCTURE_ID,
+    });
 
     const usagers = await usagerRepository.find({
-      where: { structureId: STRUCTURE_ID },
+      where: { structureId: TOULOUSE_STRUCTURE_ID },
       select: { uuid: true, ref: true },
     });
 
     let i = 0;
-    let usagersToSave = [];
+    console.log("Création des entretiens ... 🏃‍♀️");
 
-    console.log(usagers.length);
+    const queryRunner = myDataSource.createQueryRunner();
+    await queryRunner.startTransaction();
 
     for (const usager of usagers) {
-      if (i % 300 === 0) {
-        await usagerEntretienRepository.save(usagersToSave);
-        usagersToSave = [];
+      i++;
+      if (i % 4000 === 0) {
+        await queryRunner.commitTransaction();
+        console.log(i + "/" + usagers.length + " entretiens importés");
+        await queryRunner.startTransaction();
       }
 
-      if (i % 2000 === 0) {
-        console.log(i + "/" + usagers.length + " entretien créés");
-      }
-
-      usagersToSave.push({
-        structureId: STRUCTURE_ID,
+      await usagerEntretienRepository.save({
+        structureId: TOULOUSE_STRUCTURE_ID,
         usagerUUID: usager.uuid,
         usagerRef: usager.ref,
       });
-      i++;
     }
+    await queryRunner.release();
 
-    await usagerEntretienRepository.save(usagersToSave);
-    const test = await queryRunner.query(
-      `SELECT COUNT (*) FROM usager_entretien where "structureId" = 1`
-    );
-    console.log(test);
-    console.log("3️⃣ ✅ Création des entretiens commencée");
+    console.log("3️⃣ Création des entretiens terminée ✅ ");
   }
 
   public async down(): Promise<void> {

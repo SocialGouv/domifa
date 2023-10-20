@@ -11,44 +11,20 @@ export class ManualMigration1692191990701 implements MigrationInterface {
     const outputFile =
       domifaConfig().upload.basePath + "/toulouse/usagers.json";
 
-    readFile(inputFile, "utf8", (err, xmlData) => {
-      if (err) {
-        console.error(
-          `Erreur lors de la lecture du fichier XML : ${err.message}`
-        );
-        return;
-      }
+    const xmlData = await readFile(inputFile, "utf8");
 
-      const options = {
-        attributeNamePrefix: "_",
-        attrNodeName: "attr",
-        textNodeName: "#text",
-        ignoreAttributes: false,
-        parseAttributeValue: true,
-      };
+    const options = {
+      attributeNamePrefix: "_",
+      attrNodeName: "attr",
+      textNodeName: "#text",
+      ignoreAttributes: false,
+      parseAttributeValue: true,
+    };
 
-      const parser = new XMLParser(options);
-      const jsonData = parser.parse(xmlData);
+    const parser = new XMLParser(options);
+    const jsonData = parser.parse(xmlData);
 
-      // Écriture du fichier JSON
-      writeFile(
-        outputFile,
-        JSON.stringify(jsonData, null, 2),
-        "utf8",
-        (writeErr) => {
-          if (writeErr) {
-            console.error(
-              `Erreur lors de l'écriture du fichier JSON : ${writeErr.message}`
-            );
-            return;
-          }
-          console.log(
-            "Conversion réussie ! Fichier sauvegardé à l'emplacement :" +
-              outputFile
-          );
-        }
-      );
-    });
+    await writeFile(outputFile, JSON.stringify(jsonData, null, 2), "utf8");
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function

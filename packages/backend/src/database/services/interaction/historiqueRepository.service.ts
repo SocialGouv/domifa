@@ -1,8 +1,15 @@
 import {
-  Historique,
-  HistoriqueTable,
-} from "../../entities/interaction/HistoriqueTable.typeorm";
+  TmpHistorique,
+  TmpHistoriqueTable,
+} from "../../entities/interaction/TmpHistoriqueTable.typeorm";
+import {
+  TmpCourriers,
+  TmpCourriersTable,
+} from "../../entities/interaction/TmpCourriersTable.typeorm";
 import { myDataSource } from "../_postgres";
 
-export const historiqueRepository =
-  myDataSource.getRepository<Historique>(HistoriqueTable);
+export const tmpHistoriqueRepository =
+  myDataSource.getRepository<TmpHistorique>(TmpHistoriqueTable);
+
+export const tmpCourriersRepository =
+  myDataSource.getRepository<TmpCourriers>(TmpCourriersTable);

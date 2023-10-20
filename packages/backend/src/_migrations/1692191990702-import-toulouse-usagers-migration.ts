@@ -1,3 +1,5 @@
+import { isNil } from "lodash";
+import { ucFirst } from "./../usagers/services/custom-docs/buildCustomDoc.service";
 import { MigrationInterface } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -6,22 +8,30 @@ import {
   StructureLight,
   UsagerTypeDom,
 } from "../_common/model";
-import { usagerRepository, UsagerTable } from "../database";
+import { myDataSource, usagerRepository, UsagerTable } from "../database";
 
 import { usagersCreator } from "../usagers/services";
-import { TUsager } from "./tmp-toulouse/TUsager.interface";
 import { domifaConfig } from "../config";
 import { readFile } from "fs-extra";
-import { differenceInCalendarDays, isValid, parse, startOfDay } from "date-fns";
+import { differenceInCalendarDays } from "date-fns";
 import { resetUsagers } from "../structures/services";
-
-const STRUCTURE_ID = 1;
+import {
+  TOULOUSE_STRUCTURE_ID,
+  TUsager,
+  PAYS,
+  getDateFromXml,
+} from "../_common/tmp-toulouse";
+import { tmpHistoriqueRepository } from "../database/services/interaction/historiqueRepository.service";
 
 export class ManualMigration1692191990702 implements MigrationInterface {
   public async up(): Promise<void> {
-    console.log("2️⃣  Début de l'import des domiciliés");
+    if ((await tmpHistoriqueRepository.count()) === 0) {
+      throw new Error("Chargement des fichiers incomplets");
+    }
 
-    await resetUsagers({ id: STRUCTURE_ID } as StructureLight);
+    await resetUsagers({ id: TOULOUSE_STRUCTURE_ID } as StructureLight);
+
+    console.log("2️⃣  Début de l'import des domiciliés");
 
     const filePath = domifaConfig().upload.basePath + "/toulouse/usagers.json";
     const jsonData = await readFile(filePath, "utf8");
@@ -50,15 +60,15 @@ export class ManualMigration1692191990702 implements MigrationInterface {
     const childrens = this.extractChidrens(tmpChildrens);
 
     let i = 0;
-    let usagersToSave = [];
+
+    const queryRunner = myDataSource.createQueryRunner();
+
+    await queryRunner.startTransaction();
 
     for (const usagerToulouse of usagers) {
-      if (i % 400 === 0) {
-        await usagerRepository.save(usagersToSave);
-        usagersToSave = [];
-      }
-
-      if (i % 1000 === 0) {
+      if (i % 2000 === 0) {
+        await queryRunner.commitTransaction();
+        await queryRunner.startTransaction();
         console.log(i + "/" + usagers.length + " dossiers importés");
       }
       i++;
@@ -68,8 +78,8 @@ export class ManualMigration1692191990702 implements MigrationInterface {
         usagerToulouse?.date_creation &&
         usagerToulouse?.du &&
         differenceInCalendarDays(
-          this.getDate(usagerToulouse?.date_creation),
-          this.getDate(usagerToulouse?.du)
+          getDateFromXml(usagerToulouse?.date_creation),
+          getDateFromXml(usagerToulouse?.du)
         ) > 0
       ) {
         typeDom = "RENOUVELLEMENT";
@@ -82,45 +92,52 @@ export class ManualMigration1692191990702 implements MigrationInterface {
 
       if (statut === "RADIE") {
         if (usagerToulouse.au) {
-          dateDebut = this.getDate(usagerToulouse.au);
-          dateFin = this.getDate(usagerToulouse.au);
-          dateDecision = this.getDate(usagerToulouse.au);
+          dateDebut = getDateFromXml(usagerToulouse.au);
+          dateFin = getDateFromXml(usagerToulouse.au);
+          dateDecision = getDateFromXml(usagerToulouse.au);
         } else if (usagerToulouse.dernier_retrait) {
-          dateDebut = this.getDate(usagerToulouse.dernier_retrait);
-          dateFin = this.getDate(usagerToulouse.dernier_retrait);
-          dateDecision = this.getDate(usagerToulouse.dernier_retrait);
+          dateDebut = getDateFromXml(usagerToulouse.dernier_retrait);
+          dateFin = getDateFromXml(usagerToulouse.dernier_retrait);
+          dateDecision = getDateFromXml(usagerToulouse.dernier_retrait);
         } else {
-          dateDebut = this.getDate(usagerToulouse.date_creation);
-          dateFin = this.getDate(usagerToulouse.date_creation);
-          dateDecision = this.getDate(usagerToulouse.date_creation);
+          dateDebut = getDateFromXml(usagerToulouse.date_creation);
+          dateFin = getDateFromXml(usagerToulouse.date_creation);
+          dateDecision = getDateFromXml(usagerToulouse.date_creation);
         }
       } else {
-        dateDebut = this.getDate(usagerToulouse.du);
-        dateFin = this.getDate(usagerToulouse.au);
-        dateDecision = this.getDate(usagerToulouse.du);
+        dateDebut = getDateFromXml(usagerToulouse.du);
+        dateFin = getDateFromXml(usagerToulouse.au);
+        dateDecision = getDateFromXml(usagerToulouse.du);
       }
 
       const lastInteractionDate = usagerToulouse?.dernier_retrait
-        ? this.getDate(usagerToulouse?.dernier_retrait)
+        ? getDateFromXml(usagerToulouse?.dernier_retrait)
         : dateDebut;
 
       const partialUsager: Partial<Usager> = {
         ref: usagerToulouse.IDDomicilie,
-        nom: usagerToulouse.Nom,
-        surnom: usagerToulouse?.Nom_epouse ?? null,
-        prenom: usagerToulouse.prénom,
+        nom: usagerToulouse.Nom.trim().toUpperCase(),
+        surnom: usagerToulouse?.Nom_epouse
+          ? usagerToulouse?.Nom_epouse.toString().trim().toUpperCase()
+          : null,
+        prenom: usagerToulouse.prénom
+          ? ucFirst(usagerToulouse.prénom).trim()
+          : "Prénom",
         sexe: usagerToulouse.genre === 2 ? "homme" : "femme",
         telephone: {
           numero: usagerToulouse?.telephone ?? "",
           countryCode: "FR",
         },
         email: usagerToulouse?.email ?? null,
-        villeNaissance: usagerToulouse?.lieu_naiss ?? "Non renseigné",
+        villeNaissance: this.getBirthPlace(
+          usagerToulouse?.lieu_naiss,
+          usagerToulouse?.Pays_naissance
+        ),
         ayantsDroits:
           typeof childrens[usagerToulouse.IDDomicilie] !== "undefined"
             ? childrens[usagerToulouse.IDDomicilie]
             : [],
-        dateNaissance: this.getDate(usagerToulouse.date_naissance),
+        dateNaissance: getDateFromXml(usagerToulouse.date_naissance),
         customRef:
           usagerToulouse?.Num_domici.toString() ??
           usagerToulouse.IDDomicilie.toString(),
@@ -132,7 +149,7 @@ export class ManualMigration1692191990702 implements MigrationInterface {
           enAttente: false,
         },
         historique: [],
-        structureId: STRUCTURE_ID,
+        structureId: TOULOUSE_STRUCTURE_ID,
         decision: {
           uuid: uuidv4(),
           dateDecision,
@@ -149,11 +166,13 @@ export class ManualMigration1692191990702 implements MigrationInterface {
 
       const usager = new UsagerTable(partialUsager);
       usagersCreator.setUsagerDefaultAttributes(usager);
-      usagersToSave.push(usager);
+      await usagerRepository.save(usager);
     }
-    await usagerRepository.save(usagersToSave);
 
-    console.log("2️⃣ ✅Import des usagers terminés");
+    await queryRunner.commitTransaction();
+    await queryRunner.release();
+
+    console.log("2️⃣ Import des usagers terminés ✅");
   }
 
   public async down(): Promise<void> {
@@ -172,7 +191,7 @@ export class ManualMigration1692191990702 implements MigrationInterface {
         const ayantDroit: UsagerAyantDroit = {
           nom: child.Nom,
           prenom: child.prénom,
-          dateNaissance: this.getDate(child.date_naissance),
+          dateNaissance: getDateFromXml(child.date_naissance),
           lien: "ENFANT",
         };
         if (typeof usagersByRef[child.enfant_de] === "undefined") {
@@ -185,11 +204,20 @@ export class ManualMigration1692191990702 implements MigrationInterface {
     return usagersByRef;
   };
 
-  public getDate = (dateString: string): Date => {
-    const parsedDate = startOfDay(parse(dateString, "yyyyMMdd", new Date()));
-    if (!isValid(parsedDate)) {
-      throw new Error("CANNOT ADD DATE " + dateString);
+  public getBirthPlace(villeNaissance?: string, pays?: number): string {
+    if (
+      typeof villeNaissance !== "string" ||
+      isNil(villeNaissance) ||
+      villeNaissance === ""
+    ) {
+      return "Non renseigné";
     }
-    return parsedDate;
-  };
+    villeNaissance = villeNaissance.toString().trim();
+    villeNaissance = ucFirst(villeNaissance);
+
+    if (pays) {
+      villeNaissance = villeNaissance + ", " + PAYS[pays];
+    }
+    return villeNaissance;
+  }
 }

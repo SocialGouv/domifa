@@ -1,20 +1,12 @@
-import { readFile } from "fs-extra";
-import { MigrationInterface, QueryRunner } from "typeorm";
-import { domifaConfig } from "../config";
+import { In, MigrationInterface, QueryRunner } from "typeorm";
+
 import {
   Usager,
   UsagerDecision,
   UsagerHistory,
   UsagerHistoryState,
 } from "../_common/model";
-import {
-  addYears,
-  endOfDay,
-  isValid,
-  parse,
-  startOfDay,
-  subDays,
-} from "date-fns";
+import { addYears, endOfDay, format, startOfDay, subDays } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 import {
   UsagerHistoryTable,
@@ -24,7 +16,8 @@ import {
   usagerRepository,
 } from "../database";
 import { UsagerEntretien } from "@domifa/common";
-import { TOULOUSE_STRUCTURE_ID } from "./tmp-toulouse/TOULOUSE_STRUCTURE_ID.const";
+import { TOULOUSE_STRUCTURE_ID, getDateFromXml } from "../_common/tmp-toulouse";
+import { tmpHistoriqueRepository } from "../database/services/interaction/historiqueRepository.service";
 
 export class ManualMigration1692216772744 implements MigrationInterface {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -36,23 +29,29 @@ export class ManualMigration1692216772744 implements MigrationInterface {
     await usagerHistoryRepository.delete({
       structureId: TOULOUSE_STRUCTURE_ID,
     });
-    const decisionJson = await readFile(
-      `${domifaConfig().upload.basePath}toulouse/decisions.json`,
-      "utf-8"
-    );
 
-    const decisions = JSON.parse(decisionJson);
+    const decisions = await tmpHistoriqueRepository.find({
+      where: {
+        type: In(["creation", "renouv", "cloture", "resiliation"]),
+      },
+      order: {
+        id_domicilie: "ASC",
+        date: "ASC",
+      },
+    });
+
     const usagersByRef: { [key: string]: UsagerDecision[] } = {};
+    const queryRunner = myDataSource.createQueryRunner();
 
     for (const decision of decisions) {
-      if (typeof usagersByRef[decision.id_domicilié] === "undefined") {
-        usagersByRef[decision.id_domicilié] = [];
+      if (typeof usagersByRef[decision.id_domicilie] === "undefined") {
+        usagersByRef[decision.id_domicilie] = [];
       }
 
       const dateFin =
         decision.type === "cloture" || decision.type === "resiliation"
-          ? this.getDate(decision.date)
-          : addYears(this.getDate(decision.date), 1);
+          ? getDateFromXml(decision.date)
+          : addYears(getDateFromXml(decision.date), 1);
 
       const newDecision: UsagerDecision = {
         uuid: uuidv4(),
@@ -62,9 +61,9 @@ export class ManualMigration1692216772744 implements MigrationInterface {
             : "VALIDE",
         userId: 0,
         userName: "DomiFa",
-        dateDebut: this.getDate(decision.date),
+        dateDebut: getDateFromXml(decision.date),
         dateFin,
-        dateDecision: this.getDate(decision.date),
+        dateDecision: getDateFromXml(decision.date),
         typeDom:
           decision.type === "creation" ? "PREMIERE_DOM" : "RENOUVELLEMENT",
         motif:
@@ -77,10 +76,22 @@ export class ManualMigration1692216772744 implements MigrationInterface {
             : null,
       };
 
-      usagersByRef[decision.id_domicilié].push(newDecision);
+      usagersByRef[decision.id_domicilie].push(newDecision);
     }
 
+    let cpt = 0;
+
+    await queryRunner.startTransaction();
     for (const ref in usagersByRef) {
+      cpt++;
+      if (cpt % 1000 === 0) {
+        await queryRunner.commitTransaction();
+        console.log(
+          `${cpt} décisions importés ${format(new Date(), "HH:mm:ss")}`
+        );
+        await queryRunner.startTransaction();
+      }
+
       const usager = await myDataSource
         .getRepository<Usager>(UsagerTable)
         .findOne({
@@ -88,7 +99,6 @@ export class ManualMigration1692216772744 implements MigrationInterface {
             ref: parseInt(ref, 10),
             structureId: 1,
           },
-
           select: [
             "ref",
             "rdv",
@@ -190,13 +200,6 @@ export class ManualMigration1692216772744 implements MigrationInterface {
           ];
         }
 
-        console.log(
-          "Mise à jour de " +
-            usager.ref +
-            " - " +
-            usager.historique.length +
-            " decisions"
-        );
         await usagerHistoryRepository.save(usagerHistory);
         await usagerRepository.update(
           {
@@ -206,15 +209,9 @@ export class ManualMigration1692216772744 implements MigrationInterface {
         );
       }
     }
+    await queryRunner.release();
   }
 
-  public getDate = (dateString: string): Date => {
-    const parsedDate = startOfDay(parse(dateString, "yyyyMMdd", new Date()));
-    if (!isValid(parsedDate)) {
-      throw new Error("CANNOT ADD DATE " + dateString);
-    }
-    return parsedDate;
-  };
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async down(_queryRunner: QueryRunner): Promise<void> {
     console.log("down");
