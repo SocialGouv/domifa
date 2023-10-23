@@ -1,3 +1,10 @@
+## [2.141.2](https://github.com/SocialGouv/domifa/compare/v2.141.1...v2.141.2) (2023-10-23)
+
+
+### Bug Fixes
+
+* **cerfa:** delete useless field ([3f36466](https://github.com/SocialGouv/domifa/commit/3f36466253292567eb8d3d4c4ae6f7ab9659a496))
+
 ## [2.141.1](https://github.com/SocialGouv/domifa/compare/v2.141.0...v2.141.1) (2023-10-13)
 
 
