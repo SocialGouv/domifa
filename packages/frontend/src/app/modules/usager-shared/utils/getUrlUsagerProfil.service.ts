@@ -7,15 +7,7 @@ export const getUrlUsagerProfil = (usager?: UsagerLight): string => {
 
   const { decision, ref, typeDom, etapeDemande } = usager;
 
-  if (decision.statut === "ATTENTE_DECISION") {
-    return `/usager/${ref}/edit/decision`;
-  }
-
-  if (decision.statut === "INSTRUCTION") {
-    return typeDom === "RENOUVELLEMENT"
-      ? `/profil/general/${ref}`
-      : `/usager/${ref}/edit/${ETAPES_DEMANDE_URL[etapeDemande]}`;
-  }
-
-  return `/profil/general/${ref}`;
+  return decision.statut === "INSTRUCTION" && typeDom !== "RENOUVELLEMENT"
+    ? `/usager/${ref}/edit/${ETAPES_DEMANDE_URL[etapeDemande]}`
+    : `/profil/general/${ref}`;
 };
