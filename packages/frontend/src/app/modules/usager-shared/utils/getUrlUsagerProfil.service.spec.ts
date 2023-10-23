@@ -19,9 +19,7 @@ it("getUrlUsagerProfil: redirection vers le profil", () => {
 
   // Attente décision = page de décision
   USAGER_ACTIF_MOCK.decision.statut = "ATTENTE_DECISION";
-  expect(getUrlUsagerProfil(USAGER_ACTIF_MOCK)).toEqual(
-    "/usager/5/edit/decision"
-  );
+  expect(getUrlUsagerProfil(USAGER_ACTIF_MOCK)).toEqual("/profil/general/5");
 
   // Renouvellement + instruction = retour à la page profil
   USAGER_ACTIF_MOCK.decision.statut = "INSTRUCTION";
