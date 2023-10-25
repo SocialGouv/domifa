@@ -27,7 +27,8 @@ export const generateCerfaData = (
   const dateRdv = generateDateForCerfa(usager.rdv.dateRdv, user);
 
   const dateOfDocument = generateDateForCerfa(new Date());
-  const datePremiereDom = generateDateForCerfa(usager.datePremiereDom);
+
+  let datePremiereDom = generateDateForCerfa(usager.datePremiereDom);
   let dateDebut = generateDateForCerfa(usager.decision.dateDebut);
   let dateFin = generateDateForCerfa(usager.decision.dateFin);
 
@@ -44,6 +45,10 @@ export const generateCerfaData = (
     if (usager.typeDom === "PREMIERE_DOM") {
       dateDebut = generateDateForCerfa(new Date());
       dateFin = generateDateForCerfa(subDays(addYears(new Date(), 1), 1));
+
+      if (!usager?.datePremiereDom) {
+        datePremiereDom = generateDateForCerfa(new Date());
+      }
     } else if (typeof usager.historique[index] !== "undefined") {
       const lastDecision = usager.historique[usager.historique.length - 2];
       dateDebut = generateDateForCerfa(lastDecision.dateDebut);

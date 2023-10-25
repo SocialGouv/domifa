@@ -73,7 +73,12 @@
           >
             <div aria-hidden="true" class="svg-icon icon-calendar"></div>
             <p>
-              Demande de renouvellement actuellement en cours
+              {{
+                usager.typeDom === "PREMIERE_DOM"
+                  ? "Première demande"
+                  : "Demande de renouvellement"
+              }}
+              actuellement en cours
               {{
                 usager.rdvInfos.display
                   ? ": rendez-vous le " + usager.rdvInfos.content
@@ -97,20 +102,22 @@
 
           <div
             class="alert alert-info"
-            *ngIf="
-              usager.decision.statut === 'ATTENTE_DECISION' &&
-              usager.typeDom === 'RENOUVELLEMENT'
-            "
+            *ngIf="usager.decision.statut === 'ATTENTE_DECISION'"
           >
             <div aria-hidden="true" class="svg-icon icon-calendar"></div>
             <p>
-              Cette demande de renouvellement est actuellement en attente d'une
-              décision
+              Cette
+              {{
+                usager.typeDom === "PREMIERE_DOM"
+                  ? "première demande"
+                  : "demande de renouvellement"
+              }}
+              est actuellement en attente d'une décision.
             </p>
             <div>
               <a
                 [routerLink]="['/usager/' + usager.ref + '/edit/decision']"
-                class="btn btn-light"
+                class="ms-2"
                 ariaCurrentWhenActive="page"
               >
                 Voir le récapitulatif
