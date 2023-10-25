@@ -1,3 +1,10 @@
+## [2.141.3](https://github.com/SocialGouv/domifa/compare/v2.141.2...v2.141.3) (2023-10-25)
+
+
+### Bug Fixes
+
+* **history:** fix date displayed on history ([9926b65](https://github.com/SocialGouv/domifa/commit/9926b654e7e30d61a0bd5c7d1ad7ac22554eeef8))
+
 ## [2.141.2](https://github.com/SocialGouv/domifa/compare/v2.141.1...v2.141.2) (2023-10-23)
 
 
