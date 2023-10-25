@@ -106,7 +106,6 @@ export class UsagerFormModel {
 
     this.etapeDemande = usager?.etapeDemande || ETAPE_ETAT_CIVIL;
     this.ayantsDroits = usager?.ayantsDroits || [];
-
     this.typeDom = usager?.typeDom || "PREMIERE_DOM";
 
     this.datePremiereDom = usager?.datePremiereDom
@@ -118,10 +117,6 @@ export class UsagerFormModel {
           return new Decision(decision);
         })
       : [];
-
-    this.historique.sort((a, b) => {
-      return b.dateDecision.getTime() - a.dateDecision.getTime();
-    });
 
     this.lastInteraction = {
       dateInteraction: usager?.lastInteraction?.dateInteraction

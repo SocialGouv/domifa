@@ -33,6 +33,7 @@ import { ProfilHistoriqueComponent } from "./components/pages/profil-historique/
 import { ProfilHistoriqueSmsComponent } from "./components/historiques/profil-historique-sms/profil-historique-sms.component";
 import { ProfilHistoriqueProcurationsComponent } from "./components/historiques/profil-historique-procurations/profil-historique-procurations.component";
 import { ProfilHistoriqueTransfertsComponent } from "./components/historiques/profil-historique-transferts/profil-historique-transferts.component";
+import { OrderByDatePipe } from "./pipes/order-by-date.pipe";
 
 @NgModule({
   declarations: [
@@ -53,11 +54,10 @@ import { ProfilHistoriqueTransfertsComponent } from "./components/historiques/pr
     ProfilDocumentsSectionComponent,
     ProfilGeneralHistoriqueCourriersComponent,
     DisplayEtatCivilComponent,
-
     BaseUsagerProfilPageComponent,
     ProfilHistoriqueProcurationsComponent,
-
     ProfilHistoriqueTransfertsComponent,
+    OrderByDatePipe,
   ],
   imports: [
     CommonModule,

@@ -13,6 +13,7 @@ import { USER_STRUCTURE_MOCK } from "../../../../../../_common/mocks/USER_STRUCT
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../../shared";
+import { OrderByDatePipe } from "../../../pipes/order-by-date.pipe";
 
 describe("ProfilHistoriqueComponent", () => {
   let component: ProfilHistoriqueComponent;
@@ -20,7 +21,7 @@ describe("ProfilHistoriqueComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ProfilHistoriqueComponent],
+      declarations: [ProfilHistoriqueComponent, OrderByDatePipe],
       imports: [
         FormsModule,
         HttpClientTestingModule,
