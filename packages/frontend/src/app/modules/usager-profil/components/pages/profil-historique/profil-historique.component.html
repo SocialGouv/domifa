@@ -33,7 +33,10 @@
               </thead>
               <tbody>
                 <tr
-                  *ngFor="let histo of usager.historique; let i = index"
+                  *ngFor="
+                    let histo of usager.historique | orderByDate : 'desc';
+                    let i = index
+                  "
                   [attr.aria-rowindex]="i + 1"
                 >
                   <td>

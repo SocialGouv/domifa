@@ -61,15 +61,11 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
   }
 
   public getPreviousStatus(): void {
-    // On tri du plus récent au plus ancien
     const historique: Decision[] = Object.assign([], this.usager.historique);
-
     historique.sort((a, b) => {
       return a.dateDecision.getTime() - b.dateDecision.getTime();
     });
-
     const statut = historique[historique.length - 2].statut;
-
     this.previousStatus = USAGER_DECISION_STATUT_LABELS[statut];
   }
 
