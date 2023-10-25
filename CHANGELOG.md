@@ -1,3 +1,11 @@
+## [2.141.4](https://github.com/SocialGouv/domifa/compare/v2.141.3...v2.141.4) (2023-10-25)
+
+
+### Bug Fixes
+
+* **cerfa:** add first date of dom ([d48becf](https://github.com/SocialGouv/domifa/commit/d48becfe81e0491829b49cb9f90e46f765484d30))
+* **cerfa:** delete useless caracters ([722b00a](https://github.com/SocialGouv/domifa/commit/722b00aa716efb91f8e1bafcedce193bed628fe8))
+
 ## [2.141.3](https://github.com/SocialGouv/domifa/compare/v2.141.2...v2.141.3) (2023-10-25)
 
 
