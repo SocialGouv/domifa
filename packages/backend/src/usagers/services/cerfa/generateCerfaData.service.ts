@@ -207,7 +207,7 @@ export function generateAdressForCerfa(
 
     // Complément d'adresse
     if (!isNil(user.structure.complementAdresse)) {
-      adresseDomicilie += `\n----${user.structure.complementAdresse}`;
+      adresseDomicilie += `\n${user.structure.complementAdresse}`;
     }
     // Numéro de distribution spéciale
     adresseDomicilie += `${numeroDistribution}${user.structure.codePostal} - ${user.structure.ville}`;
