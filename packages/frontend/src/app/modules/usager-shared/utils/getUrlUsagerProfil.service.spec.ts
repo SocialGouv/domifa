@@ -17,21 +17,14 @@ it("getUrlUsagerProfil: redirection vers le profil", () => {
   USAGER_ACTIF_MOCK.decision.statut = "RADIE";
   expect(getUrlUsagerProfil(USAGER_ACTIF_MOCK)).toEqual("/profil/general/5");
 
-  // Attente décision = page de décision
-  USAGER_ACTIF_MOCK.decision.statut = "ATTENTE_DECISION";
-  expect(getUrlUsagerProfil(USAGER_ACTIF_MOCK)).toEqual("/profil/general/5");
-
-  // Renouvellement + instruction = retour à la page profil
-  USAGER_ACTIF_MOCK.decision.statut = "INSTRUCTION";
-  expect(getUrlUsagerProfil(USAGER_ACTIF_MOCK)).toEqual("/profil/general/5");
-
   // Premiere demande + instruction = Aller sur le dossier d'instruction
   USAGER_ACTIF_MOCK.typeDom = "PREMIERE_DOM";
+  USAGER_ACTIF_MOCK.decision.statut = "ATTENTE_DECISION";
   USAGER_ACTIF_MOCK.etapeDemande = ETAPE_DOCUMENTS;
   expect(getUrlUsagerProfil(USAGER_ACTIF_MOCK)).toEqual(
     "/usager/5/edit/documents"
   );
-
+  USAGER_ACTIF_MOCK.decision.statut = "INSTRUCTION";
   USAGER_ACTIF_MOCK.etapeDemande = ETAPE_ENTRETIEN;
   expect(getUrlUsagerProfil(USAGER_ACTIF_MOCK)).toEqual(
     "/usager/5/edit/entretien"

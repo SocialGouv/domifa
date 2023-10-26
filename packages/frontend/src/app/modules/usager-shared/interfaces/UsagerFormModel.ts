@@ -10,7 +10,7 @@ import {
   UsagerLight,
 } from "../../../../_common/model";
 
-import { getEcheanceInfos, getRdvInfos, getUrlUsagerProfil } from "../utils";
+import { getEcheanceInfos, getRdvInfos } from "../utils";
 import {
   ETAPE_ETAT_CIVIL,
   USAGER_DECISION_STATUT_COLORS,
@@ -76,10 +76,6 @@ export class UsagerFormModel {
 
   public nbNotes?: number = 0;
 
-  // Dates à afficher sur le manage, couleur selon le statut
-  // UNiquement pour la recherche
-  public usagerProfilUrl: string;
-
   constructor(usager?: UsagerLight) {
     this.pinnedNote = usager?.pinnedNote || null;
     this.ref = usager?.ref || 0;
@@ -141,7 +137,6 @@ export class UsagerFormModel {
     };
     this.echeanceInfos = getEcheanceInfos(usager);
     this.rdvInfos = getRdvInfos(usager);
-    this.usagerProfilUrl = getUrlUsagerProfil(usager);
     this.totalInteractionsEnAttente = 0;
     INTERACTIONS_IN_AVAILABLE.forEach((interaction) => {
       this.totalInteractionsEnAttente += this.lastInteraction[interaction];

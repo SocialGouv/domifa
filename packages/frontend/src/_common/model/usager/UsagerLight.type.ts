@@ -29,7 +29,6 @@ export type UsagerLight = AppEntity &
     | "langue"
     | "contactByPhone"
     | "import"
-    | "usagerProfilUrl"
     | "echeanceInfos"
     | "rdvInfos"
     | "pinnedNote"

@@ -180,7 +180,13 @@
         >
       </td>
       <td class="clickable table-name td-name">
-        <a [routerLink]="usager.usagerProfilUrl" ariaCurrentWhenActive="page">
+        <a
+          [routerLink]="
+          usager.decision.statut === 'INSTRUCTION' || usager.decision.statut === 'ATTENTE_DECISION'
+           ? '/usager/'+usager.ref+'/edit/'+ETAPES_DEMANDE_URL[usager.etapeDemande]
+           : '/profil/general/'+usager.ref"
+          ariaCurrentWhenActive="page"
+        >
           <span class="visually-hidden">Consulter la fiche de </span>
           <span>{{ usager.nom | uppercase }} {{ usager.prenom }}</span>
           <span *ngIf="usager.surnom && usager.surnom !== null">

@@ -10,7 +10,6 @@ import {
 import {
   getEcheanceInfos,
   getRdvInfos,
-  getUrlUsagerProfil,
 } from "../../modules/usager-shared/utils";
 import {
   Options,
@@ -232,7 +231,6 @@ export const setUsagerInformations = (usager: UsagerLight): any => {
     },
     echeanceInfos: getEcheanceInfos(usager),
     rdvInfos: getRdvInfos(usager),
-    usagerProfilUrl: getUrlUsagerProfil(usager),
     totalInteractionsEnAttente,
     historique: [],
     options: new Options(usager.options),

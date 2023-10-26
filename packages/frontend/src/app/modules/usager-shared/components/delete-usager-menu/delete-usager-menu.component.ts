@@ -11,14 +11,19 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 import {
   DEFAULT_MODAL_OPTIONS,
-  UserStructure,
+  UsagerLight,
 } from "../../../../../_common/model";
 
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { UsagerDecisionService } from "../../services/usager-decision.service";
 import { Decision } from "../../interfaces";
 import { Subscription } from "rxjs";
-import { USAGER_DECISION_STATUT_LABELS } from "@domifa/common";
+import {
+  USAGER_DECISION_STATUT_LABELS,
+  UsagerDecisionStatut,
+} from "@domifa/common";
+import { getUrlUsagerProfil } from "../../utils";
+import { AuthService } from "../../../shared/services";
 
 @Component({
   styleUrls: ["./delete-usager-menu.component.css"],
@@ -27,33 +32,40 @@ import { USAGER_DECISION_STATUT_LABELS } from "@domifa/common";
 })
 export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
-  @Input() public context!: "HISTORY" | "PROFIL";
-  @Input() public me!: UserStructure;
+  @Input() public context!: "HISTORY" | "PROFIL" | "INSTRUCTION_FORM";
 
   private subscription = new Subscription();
-  public isFirstInstruction: boolean;
+
   public previousStatus: string;
   public loading: boolean;
   public isAdmin: boolean;
+
+  public readonly DECISION_LABELS: {
+    [key in UsagerDecisionStatut]: string;
+  } = {
+    VALIDE: "Domiciliation acceptée",
+    INSTRUCTION: "Instruction du dossier",
+    ATTENTE_DECISION: "Dossier mis en attente de décision",
+    REFUS: "Dossier refusé",
+    RADIE: "Dossier radié",
+  };
 
   constructor(
     private readonly router: Router,
     private readonly modalService: NgbModal,
     private readonly usagerDecisionService: UsagerDecisionService,
-    private readonly toastService: CustomToastService
+    private readonly toastService: CustomToastService,
+    private readonly authService: AuthService
   ) {
     this.isAdmin = false;
     this.loading = false;
-    this.isFirstInstruction = false;
+
     this.previousStatus = "";
   }
 
   public ngOnInit(): void {
-    this.isAdmin = this.me?.role === "admin" || this.me?.role === "responsable";
-
-    const hasOneHistorique = this.usager.historique.length === 1;
-    this.isFirstInstruction =
-      hasOneHistorique && this.usager.decision.statut === "INSTRUCTION";
+    const user = this.authService.currentUserValue;
+    this.isAdmin = user?.role === "admin" || user?.role === "responsable";
 
     if (this.usager.historique.length > 1) {
       this.getPreviousStatus();
@@ -81,28 +93,19 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.subscription.add(
       this.usagerDecisionService.deleteDecision(this.usager.ref).subscribe({
-        next: () => {
-          this.toastService.success(
-            "Demande de renouvellement supprimée avec succès"
-          );
-
+        next: (newUsager: UsagerLight) => {
+          this.toastService.success("Décision supprimée avec succès");
+          this.modalService.dismissAll();
           setTimeout(() => {
-            this.modalService.dismissAll();
             this.loading = false;
-
-            const redirection =
-              this.usager.decision.statut === "INSTRUCTION" ||
-              this.usager.decision.statut === "ATTENTE_DECISION"
-                ? "usager/" + this.usager.ref + "/edit/decision"
-                : "profil/general/" + this.usager.ref;
-
+            const redirection = getUrlUsagerProfil(newUsager);
             this.router.navigate([redirection]);
           }, 500);
         },
         error: () => {
           this.loading = false;
           this.toastService.error(
-            "La demande de renouvellement n'a pas pu être supprimée"
+            "La demande décision n'a pas pu être supprimée"
           );
         },
       })
