@@ -4,3 +4,10 @@
     <app-profil-general-notes [usager]="usager"></app-profil-general-notes>
   </div>
 </div>
+
+<app-delete-usager-menu
+  *ngIf="usager"
+  class="my-4"
+  [usager]="usager"
+  [context]="'INSTRUCTION_FORM'"
+></app-delete-usager-menu>

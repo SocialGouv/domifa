@@ -69,6 +69,5 @@ export type Usager = AppEntity & {
   // Variables de front
   echeanceInfos?: UsagerEcheanceInfos;
   rdvInfos?: UsagerRdvInfos;
-  usagerProfilUrl?: string;
   nbNotes?: number;
 };

@@ -29,20 +29,30 @@
         </h1>
       </div>
 
-      <a
-        aria-label="Naviguer vers les commentaires privés"
-        ariaCurrentWhenActive="page"
-        [routerLink]="currentUrl"
-        class="btn btn-white-primary my-2 my-md-0 mx-auto mx-md-0 d-flex align-items-center"
-        *ngIf="usager.uuid"
-        fragment="notes"
-      >
-        <div class="icon-note me-2"></div>
-        Commentaires privés
-        <div class="notif-notes ms-2">
-          {{ nbNotes }}
-        </div>
-      </a>
+      <div class="px-0 mx-0 d-block d-md-flex align-items-center">
+        <a
+          ariaCurrentWhenActive="page"
+          [routerLink]="['/profil/general', usager.ref]"
+          class="btn btn-white-primary my-2 my-md-0 mx-auto mx-md-1"
+          *ngIf="usager.uuid"
+        >
+          Voir le dossier complet
+        </a>
+        <a
+          aria-label="Naviguer vers les commentaires privés"
+          ariaCurrentWhenActive="page"
+          [routerLink]="currentUrl"
+          class="btn btn-white-primary my-2 my-md-0 mx-auto mx-md-1 d-flex align-items-center"
+          *ngIf="usager.uuid"
+          fragment="notes"
+        >
+          <div class="icon-note me-2"></div>
+          Commentaires privés
+          <div class="notif-notes ms-2">
+            {{ nbNotes }}
+          </div>
+        </a>
+      </div>
     </div>
   </div>
 </div>

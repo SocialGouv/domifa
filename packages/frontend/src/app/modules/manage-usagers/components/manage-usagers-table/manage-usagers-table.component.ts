@@ -13,6 +13,7 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 import {
   DEFAULT_MODAL_OPTIONS,
+  ETAPES_DEMANDE_URL,
   UserStructure,
 } from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared";
@@ -24,6 +25,7 @@ import {
 } from "../usager-filter";
 import { Router } from "@angular/router";
 import { AuthService } from "../../../shared/services";
+import { getUrlUsagerProfil } from "../../../usager-shared/utils";
 
 @Component({
   animations: [fadeInOut],
@@ -59,6 +61,7 @@ export class ManageUsagersTableComponent implements OnDestroy {
   }>();
   public me!: UserStructure | null;
   private subscription = new Subscription();
+  public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
 
   constructor(
     private readonly modalService: NgbModal,
@@ -85,7 +88,7 @@ export class ManageUsagersTableComponent implements OnDestroy {
   }
 
   public goToProfil(usager: UsagerFormModel): void {
-    this.router.navigate([usager.usagerProfilUrl]);
+    this.router.navigate([getUrlUsagerProfil(usager)]);
   }
 
   public refTrackBy(_index: number, item: UsagerFormModel) {

@@ -77,10 +77,10 @@ export class StepDecisionComponent
   public setDecisionAttente() {
     this.subscription.add(
       this.usagerDecisionService
-        .setDecision(this.usager.ref, { statut: "ATTENTE_DECISION" })
+        .setDecision(this.usager.ref, { statut: "ATTENTE_DECISION" }, true)
         .subscribe({
           next: () => {
-            this.toastService.success("Décision enregistrée avec succès ! ");
+            this.toastService.success("Décision enregistrée avec succès !");
           },
           error: () => {
             this.toastService.error("La décision n'a pas pu être enregistrée");

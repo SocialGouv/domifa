@@ -6,6 +6,7 @@ import { CustomToastService } from "../../../shared/services";
 import { UsagerProfilService } from "../../../usager-profil/services/usager-profil.service";
 import { Store } from "@ngrx/store";
 import { cacheManager } from "../../../../shared";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-delete-usager",
@@ -25,7 +26,8 @@ export class DeleteUsagerComponent implements OnDestroy {
     private readonly modalService: NgbModal,
     private readonly usagerProfilService: UsagerProfilService,
     private readonly toastService: CustomToastService,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly router: Router
   ) {
     this.loading = false;
     this.selectedRefs = [];
@@ -45,12 +47,16 @@ export class DeleteUsagerComponent implements OnDestroy {
             const message =
               this.selectedRefs.length > 1
                 ? "Les dossiers sélectionnés ont été supprimé avec succès"
-                : "Usager supprimé avec succès";
+                : "Domicilié supprimé avec succès";
             this.toastService.success(message);
             this.loading = false;
             this.store.dispatch(
               cacheManager.deleteUsagers({ usagerRefs: this.selectedRefs })
             );
+
+            if (this.context === "PROFIL") {
+              this.router.navigate(["/manage"]);
+            }
             this.modalService.dismissAll();
           },
           error: () => {
