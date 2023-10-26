@@ -1,3 +1,10 @@
+## [2.141.5](https://github.com/SocialGouv/domifa/compare/v2.141.4...v2.141.5) (2023-10-26)
+
+
+### Bug Fixes
+
+* **profil:** add link to check user profile ([3c3ea15](https://github.com/SocialGouv/domifa/commit/3c3ea151d2c098fda8e9b86c5c5e69e59c1ab272))
+
 ## [2.141.4](https://github.com/SocialGouv/domifa/compare/v2.141.3...v2.141.4) (2023-10-25)
 
 
