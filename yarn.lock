@@ -2441,7 +2441,6 @@ __metadata:
     typescript: 4.9.5
     uuid: ^9.0.1
     xlsx: ^0.18.5
-    xml2csv: ^1.0.1
     yup: ^0.32.9
     yup-phone: ^1.3.2
   languageName: unknown
@@ -12680,6 +12679,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fs-extra@npm:^11.0.0, fs-extra@npm:^11.1.0, fs-extra@npm:^11.1.1":
+  version: 11.1.1
+  resolution: "fs-extra@npm:11.1.1"
+  dependencies:
+    graceful-fs: ^4.2.0
+    jsonfile: ^6.0.1
+    universalify: ^2.0.0
+  checksum: fb883c68245b2d777fbc1f2082c9efb084eaa2bbf9fddaa366130d196c03608eebef7fb490541276429ee1ca99f317e2d73e96f5ca0999eefedf5a624ae1edfd
+  languageName: node
+  linkType: hard
+
 "fs-extra@npm:^8.1.0":
   version: 8.1.0
   resolution: "fs-extra@npm:8.1.0"
@@ -16349,13 +16359,6 @@ __metadata:
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
-  languageName: node
-  linkType: hard
-
-"lodash@npm:4.17.5":
-  version: 4.17.5
-  resolution: "lodash@npm:4.17.5"
-  checksum: 9ae12b708f68c54f2701daae072c5e3f648ed7cbe78b9308ce12209cd41053de9856d59df11464d8a3f35c3828a8d9add11051e3efc8bb75672271bb7c9da393
   languageName: node
   linkType: hard
 
@@ -20731,7 +20734,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sax@npm:1.2.4, sax@npm:^1.2.4":
+"sax@npm:^1.2.4":
   version: 1.2.4
   resolution: "sax@npm:1.2.4"
   checksum: d3df7d32b897a2c2f28e941f732c71ba90e27c24f62ee918bd4d9a8cfb3553f2f81e5493c7f0be94a11c1911b643a9108f231dd6f60df3fa9586b5d2e3e9e1fe
@@ -24169,19 +24172,6 @@ __metadata:
   version: 4.0.0
   resolution: "xml-name-validator@npm:4.0.0"
   checksum: af100b79c29804f05fa35aa3683e29a321db9b9685d5e5febda3fa1e40f13f85abc40f45a6b2bf7bee33f68a1dc5e8eaef4cec100a304a9db565e6061d4cb5ad
-  languageName: node
-  linkType: hard
-
-"xml2csv@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "xml2csv@npm:1.0.1"
-  dependencies:
-    debug: 3.1.0
-    dottie: 2.0.0
-    lodash: 4.17.5
-    mkdirp: 0.5.1
-    sax: 1.2.4
-  checksum: 59e833fdce6aaba04a50d97c80cf50d071c11bbff5c42e5e22cb6e7a594eb1eed493fdc00e53a3ff76f1472d6d6373f990d702f6ded13cb50f45e525db5c751e
   languageName: node
   linkType: hard
 

@@ -283,7 +283,7 @@ export function buildCustomDoc({
 }
 
 export const ucFirst = (value: string) => {
-  return value === undefined || value === null || value === ""
+  return !value || value === ""
     ? ""
     : value.charAt(0).toUpperCase() + value.slice(1);
 };

@@ -32,7 +32,7 @@ export class ManualMigration1697659880952 implements MigrationInterface {
     let cpt = 0;
 
     while ((await usagerRepository.countMigratedUsagers()) > 0) {
-      let usagerIdsToUpdate = [];
+      const usagerIdsToUpdate = [];
       const usagers = await usagerRepository.find({
         where: { structureId: TOULOUSE_STRUCTURE_ID, migrated: false },
         take: 500,
@@ -75,7 +75,6 @@ export class ManualMigration1697659880952 implements MigrationInterface {
         { migrated: true }
       );
 
-      usagerIdsToUpdate = [];
       console.log(
         `${cpt}/${total} dossiers sont les passages sont importés ${format(
           new Date(),
@@ -84,7 +83,7 @@ export class ManualMigration1697659880952 implements MigrationInterface {
       );
       await queryRunner.commitTransaction();
     }
-
+    await queryRunner.commitTransaction();
     await queryRunner.release();
   }
 

@@ -28,6 +28,7 @@ if (isTypescriptMode) {
 
 export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
   applicationName: "domifa-api",
+  url: "",
   poolErrorHandler: (err: Error) => {
     appLogger.error("PG pool error:", { error: err, sentry: true });
   },

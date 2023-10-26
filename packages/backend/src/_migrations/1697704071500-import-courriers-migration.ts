@@ -69,7 +69,7 @@ export class ManualMigration1697704071500 implements MigrationInterface {
         take: 400,
       });
 
-      let usagerIdsToUpdate = [];
+      const usagerIdsToUpdate = [];
 
       for (const usager of usagers) {
         cpt++;
@@ -128,7 +128,6 @@ export class ManualMigration1697704071500 implements MigrationInterface {
         { migrated: true }
       );
 
-      usagerIdsToUpdate = [];
       console.log(
         `${cpt}/${total} dossiers sont les courriers sont importés ${format(
           new Date(),
@@ -137,6 +136,7 @@ export class ManualMigration1697704071500 implements MigrationInterface {
       );
       await queryRunner.commitTransaction();
     }
+    await queryRunner.commitTransaction();
     await queryRunner.release();
   }
 

@@ -2,5 +2,5 @@
   "watch": ["src", ".env"],
   "ext": "ts",
   "ignore": ["src/**/*.spec.ts"],
-  "exec": "NODE_OPTIONS='--max-old-space-size=4096' ts-node -r tsconfig-paths/register src/run-app.ts  | pino-pretty --singleLine"
+  "exec": "ts-node -r tsconfig-paths/register src/run-app.ts  | pino-pretty --singleLine"
 }
