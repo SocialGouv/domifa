@@ -20,7 +20,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Node.js v16.19
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "16.19"
 
@@ -67,7 +67,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Node.js v16.19
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "16.19"
 
@@ -104,7 +104,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Node.js v16.19
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "16.19"
 
@@ -137,7 +137,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Node.js v16.19
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "16.19"
 
