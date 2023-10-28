@@ -1,3 +1,11 @@
+## [2.141.6](https://github.com/SocialGouv/domifa/compare/v2.141.5...v2.141.6) (2023-10-28)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([1795f60](https://github.com/SocialGouv/domifa/commit/1795f606b52edc48cd5c534ed7cbc1458dd53c59))
+* **deps:** update dependency @nestjs/schedule to v4 ([0458308](https://github.com/SocialGouv/domifa/commit/045830821190917f9b08796fbb4ca1dcd46ef14f))
+
 ## [2.141.5](https://github.com/SocialGouv/domifa/compare/v2.141.4...v2.141.5) (2023-10-26)
 
 
