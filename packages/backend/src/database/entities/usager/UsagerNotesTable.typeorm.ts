@@ -10,8 +10,8 @@ import {
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import { StructureTable } from "../structure";
 import { UsagerTable } from "./UsagerTable.typeorm";
-import { UsagerNote, UserStructureResume } from "../../../_common/model";
-
+import { UsagerNote } from "../../../_common/model";
+import { UserStructureResume } from "@domifa/common";
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "usager_notes" })
 export class UsagerNotesTable

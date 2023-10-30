@@ -1,6 +1,6 @@
 import { CountryISO } from "ngx-intl-tel-input";
-import { UserStructure, UserStructureRole } from "../model";
-import { StructureType } from "@domifa/common";
+import { UserStructure } from "../model";
+import { StructureType, UserStructureRole } from "@domifa/common";
 
 export const USER_STRUCTURE_MOCK: UserStructure = {
   password: "xxx",

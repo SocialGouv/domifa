@@ -22,8 +22,8 @@ import {
   Usager,
   UsagerNote,
   UserStructureAuthenticated,
-  UserStructureResume,
 } from "../../_common/model";
+import { UserStructureResume } from "@domifa/common";
 import { CreateNoteDto } from "../dto/create-note.dto";
 import {
   AppLogTable,

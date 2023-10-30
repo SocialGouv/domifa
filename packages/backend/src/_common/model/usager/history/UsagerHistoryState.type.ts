@@ -1,4 +1,4 @@
-import { UserStructureResume } from "../../user-structure/UserStructureResume.type";
+import { UserStructureResume } from "@domifa/common";
 import { Usager } from "../Usager.type";
 import { UsagerHistoryStateCreationEvent } from "./UsagerHistoryStateCreationEvent.type";
 

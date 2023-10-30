@@ -1,5 +1,4 @@
-import { UserStructureResume } from "../../user-structure/UserStructureResume.type";
-
+import { UserStructureResume } from "@domifa/common";
 export type UsagerHistoryImport = {
   createdAt: Date;
   createdBy: UserStructureResume;

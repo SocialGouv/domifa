@@ -2,13 +2,17 @@ import { AppEntity } from "../_core/AppEntity.type";
 import { UsagerAyantDroit } from "./UsagerAyantDroit.type";
 import { UsagerDecision } from "./UsagerDecision.type";
 import { UsagerImport } from "./UsagerImport.type";
-import { UsagerLastInteractions } from "./UsagerLastInteractions.type";
 import { UsagerNote } from "./UsagerNote.type";
 import { UsagerOptions } from "./options/UsagerOptions.type";
 
 import { UsagerTypeDom } from "./UsagerTypeDom.type";
 import { Telephone } from "../telephone/Telephone.type";
-import { UsagerEntretien, UsagerRdv, UsagerSexe } from "@domifa/common";
+import {
+  UsagerLastInteraction,
+  UsagerEntretien,
+  UsagerRdv,
+  UsagerSexe,
+} from "@domifa/common";
 
 export type Usager = AppEntity & {
   ref: number; // unique par structure
@@ -52,7 +56,7 @@ export type Usager = AppEntity & {
   numeroDistribution: string | null;
 
   // INTERACTIONS
-  lastInteraction: UsagerLastInteractions;
+  lastInteraction: UsagerLastInteraction;
   options: UsagerOptions;
 
   migrated?: boolean;

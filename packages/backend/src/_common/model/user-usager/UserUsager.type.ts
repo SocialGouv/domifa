@@ -1,4 +1,4 @@
-import { UserStructureResume } from "../user-structure/UserStructureResume.type";
+import { UserStructureResume } from "@domifa/common";
 import { AppEntity } from "../_core/AppEntity.type";
 
 export type UserUsager = AppEntity & {

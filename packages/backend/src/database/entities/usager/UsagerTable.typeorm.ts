@@ -11,7 +11,6 @@ import {
 } from "typeorm";
 import {
   Usager,
-  UsagerLastInteractions,
   UsagerOptions,
   UsagerTypeDom,
   Telephone,
@@ -24,7 +23,12 @@ import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import { UsagerImport } from "./../../../_common/model/usager/UsagerImport.type";
 import { UsagerNotesTable } from "./UsagerNotesTable.typeorm";
-import { UsagerEntretien, UsagerRdv, UsagerSexe } from "@domifa/common";
+import {
+  UsagerEntretien,
+  UsagerRdv,
+  UsagerSexe,
+  UsagerLastInteraction,
+} from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "usager" })
@@ -108,7 +112,7 @@ export class UsagerTable
     default:
       '{"dateInteraction":"NOW()", "enAttente":"false", "courrierIn":"0", "recommandeIn":"0", "colisIn":"0"}',
   })
-  public lastInteraction!: UsagerLastInteractions;
+  public lastInteraction!: UsagerLastInteraction;
 
   @Column({ type: "integer", default: 0 })
   public etapeDemande!: number;

@@ -3,11 +3,7 @@ import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
-import {
-  UsagerDecision,
-  UsagerHistoryStateCreationEvent,
-  HISTORY_ACTIONS,
-} from "../../../../../../_common/model";
+import { HISTORY_ACTIONS } from "../../../../../../_common/model";
 import { AuthService } from "../../../../shared/services/auth.service";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
@@ -19,11 +15,6 @@ import { USAGER_DECISION_STATUT_LABELS_PROFIL } from "@domifa/common";
   templateUrl: "./profil-historique.component.html",
 })
 export class ProfilHistoriqueComponent extends BaseUsagerProfilPageComponent {
-  public newHistorique: {
-    decision: UsagerDecision;
-    createdEvent: UsagerHistoryStateCreationEvent;
-  }[];
-
   public readonly HISTORY_ACTIONS = HISTORY_ACTIONS;
 
   public readonly USAGER_DECISION_STATUT_LABELS_PROFIL =
@@ -48,7 +39,6 @@ export class ProfilHistoriqueComponent extends BaseUsagerProfilPageComponent {
       store
     );
 
-    this.newHistorique = [];
     this.titlePrefix = "Historique";
   }
 }

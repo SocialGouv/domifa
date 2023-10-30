@@ -2,12 +2,11 @@ import { Telephone } from "./../telephone/Telephone.type";
 import {
   UsagerAyantDroit,
   UsagerDecision,
-  UsagerLastInteractions,
   UsagerOptions,
   UsagerTypeDom,
 } from "..";
 import { AppEntity } from "../_core";
-import { UsagerRdv, UsagerSexe } from "@domifa/common";
+import { UsagerRdv, UsagerSexe, UsagerLastInteraction } from "@domifa/common";
 
 export type PortailUsagerPublic = AppEntity & {
   customRef: string; // valeur par défaut: 'ref'
@@ -45,7 +44,7 @@ export type PortailUsagerPublic = AppEntity & {
   historique: UsagerDecision[];
 
   // INTERACTIONS
-  lastInteraction: UsagerLastInteractions;
+  lastInteraction: UsagerLastInteraction;
 
   options: UsagerOptions;
 };

@@ -7,7 +7,6 @@ import {
   UsagerDecisionRadiationForm,
   UsagerDecisionRefusForm,
   UsagerDecisionValideForm,
-  UsagerHistoryState,
   UsagerLight,
 } from "../../../../_common/model";
 
@@ -76,14 +75,6 @@ export class UsagerDecisionService {
           }
         })
       );
-  }
-
-  public getHistoriqueDecisions(
-    usagerRef: number
-  ): Observable<UsagerHistoryState[]> {
-    return this.http.get<UsagerHistoryState[]>(
-      `${this.endPointDecision}/historique/${usagerRef}`
-    );
   }
 
   public getLastFiveCustomRef(usagerRef: number): Observable<UsagerLight[]> {

@@ -2,9 +2,10 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
-import { ApiMessage, MessageSms, UsagerLight } from "../../../../_common/model";
+import { MessageSms, UsagerLight } from "../../../../_common/model";
 import { Store } from "@ngrx/store";
 import { cacheManager } from "../../../shared";
+import { ApiMessage } from "@domifa/common";
 
 @Injectable({
   providedIn: "root",

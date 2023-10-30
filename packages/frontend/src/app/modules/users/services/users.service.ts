@@ -1,4 +1,3 @@
-import { ApiMessage } from "../../../../_common/model/_general/ApiMessage.type";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -9,9 +8,9 @@ import {
   UserStructure,
   UserStructureEditProfile,
   UserStructureProfile,
-  UserStructureRole,
 } from "../../../../_common/model";
 import { userStructureBuilder } from "./userStructureBuilder.service";
+import { ApiMessage, UserStructureRole } from "@domifa/common";
 
 @Injectable({
   providedIn: "root",

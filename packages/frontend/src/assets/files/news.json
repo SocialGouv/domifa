@@ -1,5 +1,32 @@
 [
   {
+    "date": "2023-10-30",
+    "description": "DomiFa fait sa rentrée !",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Consultation du dossier domicilié en attente de décision",
+        "message": [
+          "L’ensemble du dossier domicilié est accessible même lorsqu’une demande est en cours d’instruction ou soumise à décision"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Accès restreint au niveau Facteur",
+        "message": [
+          "Une mention explicite informe les facteurs qu'ils n'ont pas accès aux documents des domiciliés"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Dates de validité des Cerfas provisoires",
+        "message": [
+          "Les dates de début et de fin de domiciliation des cerfas provisoires ont été corrigées"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2023-09-26",
     "description": "DomiFa fait sa rentrée !",
     "content": [
