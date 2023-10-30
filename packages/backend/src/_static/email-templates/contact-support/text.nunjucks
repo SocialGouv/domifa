@@ -1,6 +1,6 @@
 Un nouveau message a été envoyé à DomiFa
 
-Structure existante :  {% if structureId %} Oui {% else %} Non {% endif %}
+Structure existante :  {% if structureId %} Oui: {{ structureId }} {% else %} Non {% endif %}
 
 Nom : {{ name }}
 
