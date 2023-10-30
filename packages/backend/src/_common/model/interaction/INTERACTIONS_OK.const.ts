@@ -1,14 +1,4 @@
-export type InteractionType =
-  | "courrierIn"
-  | "courrierOut"
-  | "recommandeIn"
-  | "recommandeOut"
-  | "colisIn"
-  | "colisOut"
-  | "appel"
-  | "visite"
-  | "npai"
-  | "loginPortail";
+import { InteractionType } from "@domifa/common";
 
 export const ALL_INTERACTION_TYPES: InteractionType[] = [
   "courrierIn",

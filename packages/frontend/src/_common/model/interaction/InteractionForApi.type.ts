@@ -1,4 +1,4 @@
-import { InteractionType } from ".";
+import { InteractionType } from "@domifa/common";
 
 export type InteractionInForApi = {
   nbCourrier: number;

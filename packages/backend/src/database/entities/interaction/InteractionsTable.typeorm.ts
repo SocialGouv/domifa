@@ -1,9 +1,7 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
-import {
-  InteractionEvent,
-  Interactions,
-  InteractionType,
-} from "../../../_common/model/interaction";
+import { Interactions } from "../../../_common/model/interaction";
+import { InteractionType, InteractionEvent } from "@domifa/common";
+
 import { StructureTable } from "../structure/StructureTable.typeorm";
 import { UsagerTable } from "../usager";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";

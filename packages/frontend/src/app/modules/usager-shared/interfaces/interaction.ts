@@ -1,7 +1,6 @@
+import { InteractionType, InteractionEvent } from "@domifa/common";
 import {
-  InteractionType,
   Interactions,
-  InteractionEvent,
   INTERACTIONS_LABELS_PLURIEL,
   INTERACTIONS_LABELS_SINGULIER,
 } from "../../../../_common/model/interaction";

@@ -14,10 +14,10 @@ import {
 import { TrimOrNullTransform } from "../../_common/decorators";
 import {
   ALL_INTERACTION_TYPES,
-  InteractionType,
   INTERACTION_IN_CREATE_SMS,
   INTERACTION_OUT_REMOVE_SMS,
 } from "../../_common/model";
+import { InteractionType } from "@domifa/common";
 
 export class InteractionDto {
   @ApiProperty({

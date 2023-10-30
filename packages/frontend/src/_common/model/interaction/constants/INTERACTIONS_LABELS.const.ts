@@ -1,4 +1,4 @@
-import { InteractionType } from "../InteractionType.type";
+import { InteractionType } from "@domifa/common";
 
 export const INTERACTIONS_LABELS_SINGULIER: {
   [key in InteractionType]: string;

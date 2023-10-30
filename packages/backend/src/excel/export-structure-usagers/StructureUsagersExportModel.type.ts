@@ -1,4 +1,4 @@
-import { InteractionType } from "./../../_common/model/interaction/InteractionType.type";
+import { InteractionType } from "@domifa/common";
 import { Usager } from "../../_common/model";
 
 export type StructureUsagersExportModel = {

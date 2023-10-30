@@ -7,13 +7,12 @@ import {
   UserStructureAuthenticated,
 } from "../../../_common/model";
 import {
-  InteractionEvent,
-  Interactions,
-  InteractionType,
   INTERACTION_OK_LIST,
+  Interactions,
 } from "../../../_common/model/interaction";
 import { InteractionsTable } from "../../entities";
 import { myDataSource } from "../_postgres";
+import { InteractionType, InteractionEvent } from "@domifa/common";
 
 export const interactionRepository = myDataSource
   .getRepository<Interactions>(InteractionsTable)

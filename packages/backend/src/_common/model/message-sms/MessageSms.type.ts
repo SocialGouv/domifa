@@ -1,5 +1,5 @@
+import { MessageSmsId } from "@domifa/common";
 import {
-  MessageSmsId,
   MessageSmsInteractionMetas,
   MessageSmsReminderMetas,
   MessageSmsStatus,

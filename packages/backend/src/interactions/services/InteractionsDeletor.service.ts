@@ -7,11 +7,11 @@ import {
   UserStructure,
   Structure,
   UsagerLight,
-  InteractionEvent,
   INTERACTION_OK_LIST,
 } from "../../_common/model";
 import { interactionsCreator } from "./interactionsCreator.service";
 import { interactionsTypeManager } from "./interactionsTypeManager.service";
+import { InteractionEvent } from "@domifa/common";
 
 @Injectable()
 export class InteractionsDeletor {

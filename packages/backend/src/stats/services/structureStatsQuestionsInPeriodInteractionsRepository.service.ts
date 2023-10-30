@@ -1,7 +1,8 @@
 import { Between } from "typeorm";
 import { interactionRepository } from "../../database";
-import { InteractionType } from "../../_common/model";
+
 import { StructureStatsQuestionsInPeriodInteractions } from "../../_common/model/structure-stats";
+import { InteractionType } from "@domifa/common";
 
 export const structureStatsQuestionsInPeriodInteractionsRepository = {
   getStats,
