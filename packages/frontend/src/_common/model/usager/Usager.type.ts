@@ -9,7 +9,7 @@ import { UsagerEntretien } from "./entretien";
 import { UsagerDecision } from "./decision/types/UsagerDecision.type";
 
 import { UsagerImport } from "./UsagerImport.type";
-import { UsagerLastInteractions } from "./UsagerLastInteractions.type";
+
 import { UsagerNote } from "./UsagerNote.type";
 import { UsagerOptions } from "./options/UsagerOptions.type";
 
@@ -18,6 +18,7 @@ import {
   UsagerRdv,
   UsagerSexe,
   UsagerTypeDom,
+  UsagerLastInteraction,
 } from "@domifa/common";
 
 export type Usager = AppEntity & {
@@ -59,7 +60,7 @@ export type Usager = AppEntity & {
   historique: UsagerDecision[];
 
   // INTERACTIONS
-  lastInteraction: UsagerLastInteractions;
+  lastInteraction: UsagerLastInteraction;
 
   options: UsagerOptions;
   numeroDistribution: string | null;

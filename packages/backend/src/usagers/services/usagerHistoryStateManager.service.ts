@@ -1,12 +1,7 @@
 import { UsagerHistoryTable } from "../../database/entities/usager/UsagerHistoryTable.typeorm";
 import { usagerHistoryRepository } from "../../database/services/usager/usagerHistoryRepository.service";
-
-import {
-  Usager,
-  UsagerHistory,
-  UsagerHistoryState,
-  UserStructureResume,
-} from "../../_common/model";
+import { UserStructureResume } from "@domifa/common";
+import { Usager, UsagerHistory, UsagerHistoryState } from "../../_common/model";
 import { UsagerHistoryStateCreationEvent } from "../../_common/model/usager/history/UsagerHistoryStateCreationEvent.type";
 import { v4 as uuidv4 } from "uuid";
 import { endOfDay, startOfDay, subDays } from "date-fns";
