@@ -7,7 +7,7 @@
 
   <p>
     <strong>Structure existante : </strong>
-    {% if structureId %} Oui {% else %} Non {% endif %}
+    {% if structureId %} Oui: {{structureId}} {% else %} Non {% endif %}
   </p>
 
   <p>
