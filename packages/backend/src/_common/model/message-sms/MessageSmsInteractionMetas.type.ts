@@ -1,4 +1,4 @@
-import { InteractionType } from "../interaction";
+import { InteractionType } from "@domifa/common";
 
 export type MessageSmsInteractionMetas = {
   nbCourrier: number;

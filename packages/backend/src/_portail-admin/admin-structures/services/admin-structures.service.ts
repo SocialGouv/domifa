@@ -18,12 +18,15 @@ import { FranceRegion } from "../../../util/territoires";
 import {
   AdminStructureListData,
   AdminStructureStatsData,
-  InteractionType,
   StatsByLocality,
   StatsByMonth,
   StructureAdmin,
 } from "../../../_common/model";
-import { StructureType, UsagerDecisionStatut } from "@domifa/common";
+import {
+  StructureType,
+  InteractionType,
+  UsagerDecisionStatut,
+} from "@domifa/common";
 
 @Injectable()
 export class AdminStructuresService {

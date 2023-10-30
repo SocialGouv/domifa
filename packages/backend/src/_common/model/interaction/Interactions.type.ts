@@ -1,5 +1,5 @@
-import { AppEntity, InteractionEvent } from "..";
-import { InteractionType } from "./InteractionType.type";
+import { InteractionType, InteractionEvent } from "@domifa/common";
+import { AppEntity } from "..";
 
 export type Interactions = AppEntity & {
   content?: string;

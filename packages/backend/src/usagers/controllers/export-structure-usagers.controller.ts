@@ -1,5 +1,5 @@
 import { interactionRepository } from "./../../database/services/interaction/interactionRepository.service";
-import { InteractionType } from "./../../_common/model/interaction/InteractionType.type";
+
 import { Controller, Get, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -21,6 +21,7 @@ import {
 import { UsagersService } from "../services/usagers.service";
 
 import { format } from "date-fns";
+import { InteractionType } from "@domifa/common";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("export")

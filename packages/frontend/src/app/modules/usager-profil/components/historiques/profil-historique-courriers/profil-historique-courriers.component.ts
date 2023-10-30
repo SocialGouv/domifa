@@ -11,7 +11,6 @@ import {
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   DEFAULT_MODAL_OPTIONS,
-  InteractionEvent,
   UserStructure,
 } from "../../../../../../_common/model";
 import {
@@ -20,6 +19,7 @@ import {
 } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { Subscription } from "rxjs";
+import { InteractionEvent } from "@domifa/common";
 
 @Component({
   selector: "app-profil-historique-courriers",

@@ -1,7 +1,7 @@
+import { InteractionType } from "@domifa/common";
 import {
   InteractionBaseDirectionalType,
   InteractionDirection,
-  InteractionType,
 } from "../../_common/model/interaction";
 
 export const interactionsTypeManager = {

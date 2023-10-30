@@ -1,4 +1,5 @@
-import { MessageSmsId } from "./MessageSmsId.type";
+import { MessageSmsId } from "@domifa/common";
+
 export const SMS_LABELS: {
   [key in MessageSmsId]: string;
 } = {

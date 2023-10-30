@@ -1,4 +1,5 @@
-import { InteractionType } from "./../interaction/InteractionType.type";
+import { InteractionType } from "@domifa/common";
+
 export type AdminStructureStatsData = {
   usersCount: number;
   structuresCount: number;

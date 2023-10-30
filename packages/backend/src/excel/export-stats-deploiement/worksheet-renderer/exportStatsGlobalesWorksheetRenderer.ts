@@ -1,10 +1,9 @@
 import { Column, Workbook } from "exceljs";
 import { REGIONS_LISTE } from "../../../util/territoires";
 
-import { InteractionType } from "../../../_common/model/interaction";
 import { WorksheetRenderer, xlFormater, xlRenderer } from "../../xlLib";
 import { StatsDeploiementExportModel } from "../StatsDeploiementExportModel.type";
-import { StructureType } from "@domifa/common";
+import { InteractionType, StructureType } from "@domifa/common";
 
 export const exportStatsGlobalesWorksheetRenderer = {
   renderWorksheet,
