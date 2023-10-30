@@ -1,3 +1,11 @@
+## [2.141.7](https://github.com/SocialGouv/domifa/compare/v2.141.6...v2.141.7) (2023-10-30)
+
+
+### Bug Fixes
+
+* **mail:** update contact mail ([563b1ec](https://github.com/SocialGouv/domifa/commit/563b1ecbbb3bb379e3290f3e58903d0f2d276d98))
+* **mails:** fix unit test contact support ([01b432f](https://github.com/SocialGouv/domifa/commit/01b432fe32257aa98dddfac02ef66d784b06e83e))
+
 ## [2.141.6](https://github.com/SocialGouv/domifa/compare/v2.141.5...v2.141.6) (2023-10-28)
 
 
