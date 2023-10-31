@@ -144,14 +144,6 @@ COPY public.open_data_places (uuid, "createdAt", "updatedAt", version, nom, adre
 
 
 --
--- Data for Name: spatial_ref_sys; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY public.spatial_ref_sys (srid, auth_name, auth_srid, srtext, proj4text) FROM stdin;
-\.
-
-
---
 -- Data for Name: structure_doc; Type: TABLE DATA; Schema: public; Owner: -
 --
 

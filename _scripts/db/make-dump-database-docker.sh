@@ -34,7 +34,7 @@ case $i in
 esac
 done
 
-if [ -z "${SOURCE_DB_ENV}" ] 
+if [ -z "${SOURCE_DB_ENV}" ]
 then
   echo ""
   echo "----------------------------------------------------------------------------------------------"
@@ -43,7 +43,7 @@ then
   exit 1
 fi
 
-if [ -z "${DUMP_ENV}" ] 
+if [ -z "${DUMP_ENV}" ]
 then
   DUMP_ENV=${SOURCE_DB_ENV}
 fi
@@ -59,7 +59,7 @@ echo "##########################################################################
 echo ""
 
 (set -x && docker exec ${POSTGRES_CONTAINER_NAME} bash -c "\
-(set -x && pg_dump --dbname=${POSTGRES_DUMP_FROM_DATABASE} --username=\${POSTGRES_USER} --no-owner --format=custom --compress=9 --file=${POSTGRES_DUMP_PATH}) \
+(set -x && pg_dump --dbname=${POSTGRES_DUMP_FROM_DATABASE} --exclude-table-data='spatial_ref_sys'  --username=\${POSTGRES_USER} --no-owner --format=custom --compress=9 --file=${POSTGRES_DUMP_PATH}) \
  && ls -lah ${POSTGRES_DUMP_PATH} \
 ")
 
