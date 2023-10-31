@@ -1,24 +1,54 @@
-import { Component } from "@angular/core";
+import { AfterViewInit, Component } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
-import { HISTORY_ACTIONS } from "../../../../../../_common/model";
 import { AuthService } from "../../../../shared/services/auth.service";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
 import { Store } from "@ngrx/store";
-import { USAGER_DECISION_STATUT_LABELS_PROFIL } from "@domifa/common";
 
+type HistorySections =
+  | "decisions"
+  | "interactions"
+  | "notes"
+  | "sms"
+  | "procurations"
+  | "transferts";
 @Component({
   selector: "app-profil-historique",
   templateUrl: "./profil-historique.component.html",
+  styleUrls: ["profil-historique.component.scss"],
 })
-export class ProfilHistoriqueComponent extends BaseUsagerProfilPageComponent {
-  public readonly HISTORY_ACTIONS = HISTORY_ACTIONS;
+export class ProfilHistoriqueComponent
+  extends BaseUsagerProfilPageComponent
+  implements AfterViewInit
+{
+  public currentSection: HistorySections;
 
-  public readonly USAGER_DECISION_STATUT_LABELS_PROFIL =
-    USAGER_DECISION_STATUT_LABELS_PROFIL;
+  public sections: { id: HistorySections; name: string }[] = [
+    {
+      id: "decisions",
+      name: "Décisions",
+    },
+    {
+      id: "interactions",
+      name: "Courriers colis et passages",
+    },
+    {
+      id: "notes",
+      name: "Notes",
+    },
+
+    {
+      id: "procurations",
+      name: "Procurations",
+    },
+    {
+      id: "transferts",
+      name: "Tranferts",
+    },
+  ];
 
   constructor(
     public authService: AuthService,
@@ -38,7 +68,23 @@ export class ProfilHistoriqueComponent extends BaseUsagerProfilPageComponent {
       router,
       store
     );
-
+    this.currentSection = "decisions";
     this.titlePrefix = "Historique";
+  }
+
+  public goToPrint(): void {
+    window.print();
+  }
+
+  ngAfterViewInit() {
+    if (
+      this.me.structure.sms.enabledByDomifa &&
+      this.me.structure.sms.enabledByStructure
+    ) {
+      this.sections.push({
+        id: "sms",
+        name: "SMS envoyés",
+      });
+    }
   }
 }

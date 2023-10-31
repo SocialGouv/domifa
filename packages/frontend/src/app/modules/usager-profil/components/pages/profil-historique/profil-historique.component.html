@@ -9,129 +9,125 @@
 <div class="content" *ngIf="usager && me">
   <div class="container p-0">
     <div class="page-content p-3">
-      <div class="row">
-        <div class="col-md-12">
-          <h2>Historique des décisions</h2>
-          <div class="alert alert-info" *ngIf="usager.historique.length === 0">
-            <p>Aucun historique de décision n'est enregistré</p>
-          </div>
-          <div class="table-responsive">
-            <table
-              *ngIf="usager.historique.length > 0"
-              class="table table-hover"
-            >
-              <caption class="visually-hidden">
-                Historique des décisions
-              </caption>
-              <thead>
-                <tr>
-                  <th scope="col">Date</th>
-                  <th scope="col">Type de décision</th>
-                  <th scope="col">Responsable</th>
-                  <th scope="col" class="text-end d-print-none">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  *ngFor="
-                    let histo of usager.historique | orderByDate : 'desc';
-                    let i = index
-                  "
-                  [attr.aria-rowindex]="i + 1"
-                >
-                  <td>
-                    {{ histo.dateDecision | date : "dd MMMM yyyy à HH:mm" }}
-                  </td>
-                  <td>
-                    {{ USAGER_DECISION_STATUT_LABELS_PROFIL[histo.statut] }}
-                    <span
-                      *ngIf="
-                        histo.statut === 'REFUS' || histo.statut === 'RADIE'
-                      "
-                    >
-                      le {{ histo.dateDebut | date : "dd MMMM yyyy" }}
-                    </span>
-
-                    <span *ngIf="histo.statut === 'VALIDE'">
-                      du
-                      <strong>
-                        {{ histo.dateDebut | date : "dd MMMM yyyy" }}
-                      </strong>
-                      au
-                      <strong>{{
-                        histo.dateFin | date : "dd MMMM yyyy"
-                      }}</strong>
-                    </span>
-                    <div *ngIf="histo.statut === 'RADIE'">
-                      {{ histo.motifString }}
-                    </div>
-                  </td>
-                  <td>{{ histo.userName }}</td>
-                  <td class="text-end d-print-none">
-                    <app-delete-usager-menu
-                      *ngIf="i === 0"
-                      [usager]="usager"
-                      context="HISTORY"
-                      [me]="me"
-                    ></app-delete-usager-menu>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <div class="d-flex my-3 justify-content-between align-items-center">
+        <h2 id="tablist-1" class="d-print-none">Historiques</h2>
+        <button
+          type="button"
+          class="btn btn-primary d-print-none"
+          (click)="goToPrint()"
+        >
+          <fa-icon
+            [icon]="['fas', 'print']"
+            class="me-2"
+            aria-hidden="true"
+          ></fa-icon>
+          Imprimer
+        </button>
       </div>
 
-      <app-profil-historique-procurations
-        [me]="me"
-        [usager]="usager"
-      ></app-profil-historique-procurations>
+      <div role="tablist" aria-labelledby="tablist-1" class="d-print-none">
+        <button
+          *ngFor="let section of sections"
+          [id]="'tab-' + section.id"
+          type="button"
+          role="tab"
+          [attr.aria-controls]="'tab-' + section.id"
+          [attr.tabindex]="currentSection === section.id ? null : -1"
+          class="btn me-1"
+          [ngClass]="
+            currentSection === section.id
+              ? 'btn-primary'
+              : 'btn-outline-primary'
+          "
+          [attr.aria-selected]="currentSection === section.id"
+          (click)="currentSection = section.id"
+        >
+          <span class="focus">{{ section.name }}</span>
+        </button>
+      </div>
 
-      <app-profil-historique-transferts
-        [me]="me"
-        [usager]="usager"
-      ></app-profil-historique-transferts>
+      <div class="row">
+        <div
+          class="col-md-12"
+          id="tabpanel-decisions"
+          [attr.aria-labelledby]="'tab-decisions'"
+          [hidden]="currentSection !== 'decisions'"
+        >
+          <app-profil-historique-decisions
+            [usager]="usager"
+            [me]="me"
+          ></app-profil-historique-decisions>
+        </div>
+        <div
+          class="col-md-12"
+          id="tabpanel-interactions"
+          [attr.aria-labelledby]="'tab-interactions'"
+          [hidden]="currentSection !== 'interactions'"
+        >
+          <app-profil-historique-courriers
+            [usager]="usager"
+            [me]="me"
+          ></app-profil-historique-courriers>
+        </div>
+        <div
+          class="col-md-12"
+          id="tabpanel-procurations"
+          [attr.aria-labelledby]="'tab-procurations'"
+          [hidden]="currentSection !== 'procurations'"
+        >
+          <app-profil-historique-procurations
+            [me]="me"
+            [usager]="usager"
+          ></app-profil-historique-procurations>
+        </div>
 
-      <div
-        class="row"
-        *ngIf="
-          me.structure.sms.enabledByDomifa &&
-          me.structure.sms.enabledByStructure
-        "
-      >
-        <div class="col-md-12">
-          <h2>Historique des envois de SMS</h2>
-
-          <ul class="mb-4">
-            <li>
-              pour l'arrivée d'un courrier, envoi les mardis et jeudis à 19h
-            </li>
-            <li>
-              pour le rappel d'échéance de domiciliation, envoi 2 mois avant la
-              date de fin
-            </li>
-          </ul>
-
+        <div
+          class="col-md-12"
+          id="tabpanel-transferts"
+          [attr.aria-labelledby]="'tab-transferts'"
+          [hidden]="currentSection !== 'transferts'"
+        >
+          <app-profil-historique-transferts
+            id="tabpanel-transferts"
+            *ngIf="currentSection === 'transferts'"
+            [me]="me"
+            [usager]="usager"
+          ></app-profil-historique-transferts>
+        </div>
+        <div
+          class="col-md-12"
+          id="tabpanel-sms"
+          [attr.aria-labelledby]="'tab-sms'"
+          [hidden]="currentSection !== 'sms'"
+          *ngIf="
+            me.structure.sms.enabledByDomifa &&
+            me.structure.sms.enabledByStructure
+          "
+        >
           <app-profil-historique-sms
+            id="tabpanel-sms"
             [usager]="usager"
           ></app-profil-historique-sms>
         </div>
-      </div>
-      <div class="row" *ngIf="usager">
-        <div class="col-md-12">
-          <h2>Historique des notes</h2>
+        <div
+          class="col-md-12"
+          id="tabpanel-notes"
+          [attr.aria-labelledby]="'tab-notes'"
+          [hidden]="currentSection !== 'notes'"
+        >
           <app-profil-historique-notes
             [me]="me"
+            id="tabpanel-notes"
             [usager]="usager"
           ></app-profil-historique-notes>
         </div>
       </div>
-    </div>
 
-    <app-delete-usager-menu
-      [usager]="usager"
-      [me]="me"
-      context="PROFIL"
-    ></app-delete-usager-menu>
+      <app-delete-usager-menu
+        [usager]="usager"
+        [me]="me"
+        context="PROFIL"
+      ></app-delete-usager-menu>
+    </div>
   </div>
 </div>

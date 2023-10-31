@@ -1,0 +1,44 @@
+<h2>Historique des procurations</h2>
+<div class="alert alert-info" *ngIf="procurationHistory.length === 0">
+  <p>Aucun historique de procurations actuellement</p>
+</div>
+<div class="table-responsive" *ngIf="procurationHistory.length > 0">
+  <table *ngIf="procurationHistory.length > 0" class="table table-hover">
+    <caption class="visually-hidden">
+      Historique des procurations
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Action</th>
+        <th scope="col">Nom prénom</th>
+        <th scope="col">Date de naissance</th>
+        <th scope="col">Période de validité</th>
+        <th scope="col">Responsable</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let procu of procurationHistory; let i = index"
+        [attr.aria-rowindex]="i + 1"
+      >
+        <td>{{ procu.createdAt | date : "dd/MM/yyyy à HH:mm" }}</td>
+        <td>
+          {{ HISTORY_ACTIONS[procu.action] }}
+        </td>
+        <td>{{ procu.nom }} {{ procu.prenom }}</td>
+        <td>{{ procu.dateNaissance | date : "dd/MM/yyyy" || "" }}</td>
+        <td>
+          <span *ngIf="procu.dateDebut === null">
+            {{ procu.dateFin | date : "dd/MM/yyyy" }}
+          </span>
+          <span class="valeur" *ngIf="procu.dateDebut">
+            Du {{ procu.dateDebut | date : "dd/MM/yyyy" }} au
+            {{ procu.dateFin | date : "dd/MM/yyyy" }}
+          </span>
+        </td>
+        <td>{{ procu.userName }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

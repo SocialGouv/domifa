@@ -1,4 +1,4 @@
-<div *ngIf="usager && me" class="head-page pt-3 d-print-none">
+<div *ngIf="usager && me" class="head-page pt-3">
   <div class="container">
     <div
       class="py-3 px-0 mx-0 d-md-flex justify-content-between align-items-center"
@@ -24,7 +24,7 @@
       </div>
 
       <div
-        class="px-0 mx-0 text-md-end text-center"
+        class="px-0 mx-0 text-md-end text-center d-print-none"
         *ngIf="me.role !== 'facteur'"
       >
         <ng-container *ngIf="usager.decision.statut === 'INSTRUCTION'">
@@ -112,7 +112,7 @@
       </div>
     </div>
 
-    <nav id="statut-selector" class="mt-4 row">
+    <nav id="statut-selector" class="mt-4 row d-print-none">
       <a
         [ngClass]="section === 'general' ? 'selected-section col' : 'col'"
         [routerLink]="['/profil/general/' + usager.ref]"
