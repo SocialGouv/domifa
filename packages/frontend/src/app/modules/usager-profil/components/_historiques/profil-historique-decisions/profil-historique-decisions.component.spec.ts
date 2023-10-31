@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ProfilHistoriqueDecisionsComponent } from "./profil-historique-decisions.component";
+import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 
 describe("ProfilHistoriqueDecisionsComponent", () => {
   let component: ProfilHistoriqueDecisionsComponent;
@@ -13,6 +14,7 @@ describe("ProfilHistoriqueDecisionsComponent", () => {
 
     fixture = TestBed.createComponent(ProfilHistoriqueDecisionsComponent);
     component = fixture.componentInstance;
+    component.usager = new UsagerFormModel();
     fixture.detectChanges();
   });
 

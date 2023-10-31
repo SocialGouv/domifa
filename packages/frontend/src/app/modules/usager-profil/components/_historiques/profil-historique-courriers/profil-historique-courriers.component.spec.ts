@@ -23,7 +23,6 @@ describe("ProfilHistoriqueCourriersComponent", () => {
         ReactiveFormsModule,
         NgbModule,
         StoreModule.forRoot({ app: _usagerReducer }),
-
         FormsModule,
         HttpClientTestingModule,
         RouterTestingModule,
