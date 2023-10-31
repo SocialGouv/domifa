@@ -22,10 +22,10 @@ case $i in
     ;;
     --dump=*)
       DUMP_ENV="${i#*=}"
-    ;;    
+    ;;
      --column-inserts=*)
       COLUMN_INSERTS="--column-inserts"
-    ;; 
+    ;;
     --exclude-table=*)
       TABLE_TO_EXCLUDE="${i#*=}"
       if [ "" != "${TABLE_TO_EXCLUDE}" ]
@@ -69,7 +69,7 @@ echo "##########################################################################
 echo ""
 
 (set -x && docker exec ${POSTGRES_CONTAINER_NAME} bash -c "\
-(set -x && pg_dump --dbname=${POSTGRES_DUMP_FROM_DATABASE} --username=\${POSTGRES_USER} ${COLUMN_INSERTS} --data-only --no-owner --format=plain ${EXCLUDE_TABLE} --exclude-table=migrations_id_seq --file=${POSTGRES_DUMP_PATH}) \
+(set -x && pg_dump --dbname=${POSTGRES_DUMP_FROM_DATABASE} --username=\${POSTGRES_USER} ${COLUMN_INSERTS} --data-only --no-owner --format=plain ${EXCLUDE_TABLE} --exclude-table=migrations_id_seq  --exclude-table-data=spatial_ref_sys --file=${POSTGRES_DUMP_PATH}) \
  && ls -lah ${POSTGRES_DUMP_PATH} \
 ")
 
