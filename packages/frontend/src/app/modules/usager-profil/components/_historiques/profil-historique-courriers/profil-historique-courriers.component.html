@@ -1,0 +1,222 @@
+<h3>Historique des courriers</h3>
+<div *ngIf="interactions.length > 0" class="table-responsive">
+  <table class="table table-hover">
+    <caption class="visually-hidden">
+      Historique des courriers
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Type d'interaction</th>
+        <th scope="col">Notifié par</th>
+        <th scope="col" class="text-end d-print-none">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <ng-container *ngFor="let interaction of interactions; let i = index">
+        <tr
+          [attr.aria-rowindex]="i + 1"
+          [ngClass]="{
+            'fw-bold':
+              interaction.type === 'courrierOut' ||
+              interaction.type === 'recommandeOut' ||
+              interaction.type === 'colisOut'
+          }"
+        >
+          <td>
+            {{ interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm" }}
+          </td>
+          <td>
+            <div *ngIf="interaction.event === 'create'">
+              {{ interaction.label }}
+              <p
+                *ngIf="interaction.content"
+                [innerHTML]="interaction.content | nl2br"
+              ></p>
+            </div>
+            <div *ngIf="interaction.event === 'delete'">
+              <strong>{{ interaction.label }}</strong
+              ><br />
+              <span
+                *ngIf="interaction.content"
+                [innerHTML]="interaction.content | nl2br"
+              >
+              </span>
+              <br />
+              Interaction supprimée le
+              {{
+                interaction?.previousValue?.dateInteraction
+                  | date : "dd/MM/yyyy à HH:mm"
+              }}
+              par {{ interaction?.previousValue?.userName }}
+            </div>
+          </td>
+          <td>{{ interaction.userName }}</td>
+          <td class="text-end d-print-none">
+            <ng-container *ngIf="i === 0">
+              <button
+                type="button"
+                aria-label="Supprimer l'interaction"
+                *ngIf="interaction.event === 'create'"
+                (click)="
+                  interactionToDelete = interaction;
+                  openDeleteInteractionModal('delete')
+                "
+                class="btn btn-danger"
+              >
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'trash']"
+                  class="delete"
+                ></fa-icon>
+              </button>
+              <button
+                type="button"
+                title="Restaurer"
+                aria-label="Restaurer l'interaction"
+                *ngIf="interaction.event === 'delete'"
+                (click)="
+                  interactionToDelete = interaction;
+                  openDeleteInteractionModal('create')
+                "
+                class="btn btn-outline-primary"
+              >
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'exclamation-triangle']"
+                ></fa-icon>
+              </button>
+            </ng-container>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+<div class="alert alert-info" *ngIf="interactions.length === 0">
+  <p>Aucune interaction enregistrée</p>
+</div>
+
+<ng-template #deleteInteractionModal let-modal>
+  <div class="modal-header bg-danger">
+    <span class="text-white" id="modal-title"> Supprimer une interaction </span>
+  </div>
+
+  <div class="modal-body py-4 text-center" *ngIf="interactionToDelete">
+    <strong>Êtes-vous sûr de vouloir supprimer cette interaction ?</strong>
+    <br />
+    <p
+      *ngIf="
+        interactionToDelete.type === 'courrierIn' ||
+        interactionToDelete.type === 'recommandeIn' ||
+        interactionToDelete.type === 'colisIn'
+      "
+    >
+      Cette interaction sera retirée des interactions en attente de
+      distribution.
+    </p>
+
+    <p
+      *ngIf="
+        interactionToDelete.type === 'courrierOut' ||
+        interactionToDelete.type === 'recommandeOut' ||
+        interactionToDelete.type === 'colisOut'
+      "
+    >
+      Tous les courriers, colis ou avis de passage liés à cette distribution
+      seront de nouveau marqués comme "à distribuer".
+    </p>
+    <p>Le compteur d'interactions en attente sera remis à jour.</p>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="submit"
+      class="btn btn-lg btn-danger"
+      (click)="deleteInteraction()"
+      [disabled]="loading"
+      [attr.aria-busy]="loading"
+    >
+      <span *ngIf="loading">
+        <fa-icon
+          [icon]="['fas', 'circle-notch']"
+          [spin]="true"
+          aria-hidden="true"
+        ></fa-icon>
+        Veuillez patienter...
+      </span>
+      <span *ngIf="!loading">Confirmer la suppression</span>
+    </button>
+    <button
+      type="button"
+      [disabled]="loading"
+      [attr.aria-busy]="loading"
+      [attr.aria-disabled]="loading"
+      class="btn btn-lg btn-outline-dark"
+      (click)="closeModals()"
+    >
+      Revenir au profil
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #restoreInteractionModal let-modal>
+  <div class="modal-header bg-danger">
+    <span class="text-white" id="modal-title"> Restaurer une interaction </span>
+  </div>
+
+  <div class="modal-body py-4 text-center" *ngIf="interactionToDelete">
+    <strong>Êtes-vous sûr de vouloir restaurer cette interaction ?</strong>
+    <br />
+    <p
+      *ngIf="
+        interactionToDelete.type === 'courrierIn' ||
+        interactionToDelete.type === 'recommandeIn' ||
+        interactionToDelete.type === 'colisIn'
+      "
+    >
+      Cette interaction sera de nouveau considérée comme en attente de
+      distribution
+    </p>
+
+    <p
+      *ngIf="
+        interactionToDelete.type === 'courrierOut' ||
+        interactionToDelete.type === 'recommandeOut' ||
+        interactionToDelete.type === 'colisOut'
+      "
+    >
+      Tous les courriers, colis ou avis de passage liés à cette distribution
+      seront de nouveau marqués comme distribués.
+    </p>
+    <p>Le compteur d'interactions en attente sera remis à jour.</p>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="submit"
+      [disabled]="loading"
+      [attr.aria-busy]="loading"
+      class="btn btn-lg btn-danger"
+      (click)="deleteInteraction()"
+    >
+      <span *ngIf="loading">
+        <fa-icon
+          [icon]="['fas', 'circle-notch']"
+          [spin]="true"
+          aria-hidden="true"
+        ></fa-icon>
+        Veuillez patienter...
+      </span>
+      <span *ngIf="!loading">Confirmer la restauration</span>
+    </button>
+    <button
+      type="button"
+      class="btn btn-lg btn-outline-dark"
+      (click)="closeModals()"
+    >
+      Revenir au profil
+    </button>
+  </div>
+</ng-template>

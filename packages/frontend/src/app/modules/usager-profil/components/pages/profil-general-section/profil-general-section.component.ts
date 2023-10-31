@@ -7,7 +7,7 @@ import {
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
 
-import { ProfilGeneralHistoriqueCourriersComponent } from "../../profil-general-historique-courriers/profil-general-historique-courriers.component";
+import { ProfilGeneralHistoriqueCourriersComponent } from "../../_general-section/profil-general-historique-courriers/profil-general-historique-courriers.component";
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
 import {
   ETAPES_DEMANDE_URL,
