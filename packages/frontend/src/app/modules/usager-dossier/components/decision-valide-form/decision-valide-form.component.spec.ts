@@ -20,6 +20,7 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DecisionValideFormComponent } from "./decision-valide-form.component";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
+import { UsagerDossierModule } from "../../usager-dossier.module";
 
 describe("DecisionValideFormComponent", () => {
   let component: DecisionValideFormComponent;
@@ -35,10 +36,10 @@ describe("DecisionValideFormComponent", () => {
         SharedModule,
         ReactiveFormsModule,
         FormsModule,
+        UsagerDossierModule,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [
-        NgbDateCustomParserFormatter,
         { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
         {
           provide: NgbDateParserFormatter,

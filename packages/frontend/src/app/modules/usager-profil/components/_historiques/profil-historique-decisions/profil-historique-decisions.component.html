@@ -3,22 +3,30 @@
   <p>Aucun historique de décision n'est enregistré</p>
 </div>
 <div class="table-responsive" *ngIf="usager.historique.length > 0">
-  <table class="table table-hover">
+  <table class="table-history table">
     <caption class="visually-hidden">
       Historique des décisions
     </caption>
     <thead>
       <tr>
-        <th scope="col">Date</th>
+        <th scope="col">
+          <app-table-head-sort
+            sortKey="dateDecision"
+            [(sortValue)]="sortValue"
+            currentKey="dateDecision"
+            columnName="Date"
+          >
+          </app-table-head-sort>
+        </th>
         <th scope="col">Type de décision</th>
-        <th scope="col">Responsable</th>
+        <th scope="col">Notifié par</th>
         <th scope="col" class="text-end d-print-none">Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr
         *ngFor="
-          let histo of usager.historique | orderByDate : 'desc';
+          let histo of usager.historique | sortArray : currentKey : sortValue;
           let i = index
         "
         [attr.aria-rowindex]="i + 1"

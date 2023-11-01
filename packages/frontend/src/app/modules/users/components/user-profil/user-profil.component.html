@@ -18,9 +18,8 @@
               <th scope="col">
                 <app-table-head-sort
                   sortKey="nom"
-                  [sortValue]="sortValue"
-                  [currentKey]="currentKey"
-                  (sortArray)="sortArray($event)"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
                   columnName="Nom prénom"
                 >
                 </app-table-head-sort>
@@ -28,9 +27,8 @@
               <th scope="col">
                 <app-table-head-sort
                   sortKey="email"
-                  [sortValue]="sortValue"
-                  [currentKey]="currentKey"
-                  (sortArray)="sortArray($event)"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
                   columnName="Email"
                 >
                 </app-table-head-sort>
@@ -38,9 +36,8 @@
               <th scope="col">
                 <app-table-head-sort
                   sortKey="createdAt"
-                  [sortValue]="sortValue"
-                  [currentKey]="currentKey"
-                  (sortArray)="sortArray($event)"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
                   columnName="Date d'inscription"
                 >
                 </app-table-head-sort>
@@ -48,9 +45,8 @@
               <th scope="col">
                 <app-table-head-sort
                   sortKey="lastLogin"
-                  [sortValue]="sortValue"
-                  [currentKey]="currentKey"
-                  (sortArray)="sortArray($event)"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
                   columnName="Statut"
                 >
                 </app-table-head-sort>
@@ -58,19 +54,22 @@
               <th scope="col">
                 <app-table-head-sort
                   sortKey="role"
-                  [sortValue]="sortValue"
-                  [currentKey]="currentKey"
-                  (sortArray)="sortArray($event)"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
                   columnName="Rôle"
                 >
                 </app-table-head-sort>
               </th>
-              <th scope="col">Supprimer</th>
+              <th scope="col" *ngIf="me.role === 'admin'">Supprimer</th>
             </tr>
           </thead>
           <tbody>
             <tr
-              *ngFor="let user of users; let i = index; trackBy: userIdTrackBy"
+              *ngFor="
+                let user of users | sortArray : currentKey : sortValue;
+                let i = index;
+                trackBy: userIdTrackBy
+              "
               [attr.aria-rowindex]="i + 1"
             >
               <td class="fw-bold">{{ user.nom }} {{ user.prenom }}</td>
@@ -87,6 +86,9 @@
                 </p>
               </td>
               <td>
+                <ng-container *ngIf="me.role !== 'admin'">{{
+                  USER_ROLES_LABELS[user.role]
+                }}</ng-container>
                 <ng-container
                   *ngIf="me.role === 'admin' && me.uuid !== user.uuid"
                 >
@@ -108,7 +110,7 @@
                   </select>
                 </ng-container>
               </td>
-              <td>
+              <td *ngIf="me.role === 'admin'">
                 <button
                   type="button"
                   *ngIf="me.role === 'admin' && me.uuid !== user.uuid"

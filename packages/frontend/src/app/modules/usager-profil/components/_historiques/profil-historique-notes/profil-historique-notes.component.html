@@ -1,0 +1,63 @@
+<h3>Historique des notes</h3>
+
+<div class="table-responsive">
+  <table *ngIf="notes.length > 0" class="table-history table">
+    <caption class="visually-hidden">
+      Notes sur l'usager
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">
+          <app-table-head-sort
+            sortKey="createdAt"
+            [(sortValue)]="sortValue"
+            [(currentKey)]="currentKey"
+            columnName="Date"
+          >
+          </app-table-head-sort>
+        </th>
+        <th scope="col">Statut</th>
+        <th scope="col">Message</th>
+        <th scope="col">Notifié par</th>
+        <th scope="col" class="text-end">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let note of notes | sortArray : currentKey : sortValue;
+          let i = index
+        "
+        [attr.aria-rowindex]="i + 1"
+      >
+        <td>
+          {{ note.createdAt | date : "dd MMMM yyyy à HH:mm" }}
+        </td>
+        <td>
+          <span *ngIf="note.archivedAt" class="label-info orange-status">
+            Archivée
+          </span>
+          <span class="label-info green-status" *ngIf="note.pinned">
+            Épinglée
+          </span>
+        </td>
+        <td class="text-break">
+          {{ note.message }}
+        </td>
+        <td>{{ note.createdBy.userName }}</td>
+        <td class="text-end">
+          <app-usager-notes-actions
+            *ngIf="me?.role !== 'facteur'"
+            class="ms-3"
+            [usager]="usager"
+            [note]="note"
+            (getUsagerNotes)="getUsagerNotes()"
+          ></app-usager-notes-actions>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="notes.length === 0" class="alert alert-info">
+  <p>Aucune note enregistrée actuellement</p>
+</div>

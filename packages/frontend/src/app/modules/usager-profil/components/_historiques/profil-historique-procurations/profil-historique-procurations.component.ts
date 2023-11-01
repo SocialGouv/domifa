@@ -7,10 +7,12 @@ import {
 import { Subscription } from "rxjs";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerOptionsService } from "../../../services/usager-options.service";
+import { UsagersFilterCriteriaSortValues } from "../../../../manage-usagers/components/usager-filter";
 
 @Component({
   selector: "app-profil-historique-procurations",
   templateUrl: "./profil-historique-procurations.component.html",
+  styleUrls: ["../historique-table.scss"],
 })
 export class ProfilHistoriqueProcurationsComponent
   implements OnInit, OnDestroy
@@ -18,13 +20,15 @@ export class ProfilHistoriqueProcurationsComponent
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
   private subscription = new Subscription();
-
   public procurationHistory: UsagerOptionsHistory[];
   public readonly HISTORY_ACTIONS = HISTORY_ACTIONS;
 
   constructor(private readonly usagerOptionsService: UsagerOptionsService) {
     this.procurationHistory = [];
   }
+
+  public sortValue: UsagersFilterCriteriaSortValues = "desc";
+  public currentKey: keyof UsagerOptionsHistory = "createdAt";
 
   public ngOnInit(): void {
     this.subscription.add(

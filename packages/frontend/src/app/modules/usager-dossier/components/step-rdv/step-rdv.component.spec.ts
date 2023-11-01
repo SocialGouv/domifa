@@ -13,6 +13,7 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { StepRdvComponent } from "./step-rdv.component";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
+import { UsagerDossierModule } from "../../usager-dossier.module";
 
 describe("StepRdvComponent", () => {
   let component: StepRdvComponent;
@@ -28,6 +29,7 @@ describe("StepRdvComponent", () => {
         SharedModule,
         ReactiveFormsModule,
         FormsModule,
+        UsagerDossierModule,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

@@ -1,4 +1,4 @@
-export type UsagersFilterCriteriaSortValues = "ascending" | "descending";
+export type UsagersFilterCriteriaSortValues = "asc" | "desc";
 
 export type UsagersFilterCriteriaStatut =
   | "TOUS"
@@ -60,7 +60,7 @@ export class UsagersFilterCriteria {
     this.page = search?.page || 0;
 
     this.sortKey = search?.sortKey || "NAME";
-    this.sortValue = search?.sortValue || "ascending";
+    this.sortValue = search?.sortValue || "asc";
 
     // Ne pas trier par autre que les nom & ID si on est sur TOUS
     if (this.statut === "TOUS") {

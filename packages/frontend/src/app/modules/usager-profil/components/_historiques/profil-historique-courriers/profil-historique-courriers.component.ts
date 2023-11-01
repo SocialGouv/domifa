@@ -8,7 +8,6 @@ import {
   ViewChild,
 } from "@angular/core";
 
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   DEFAULT_MODAL_OPTIONS,
   UserStructure,
@@ -20,10 +19,12 @@ import {
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { Subscription } from "rxjs";
 import { InteractionEvent } from "@domifa/common";
+import { CustomToastService } from "../../../../shared/services";
 
 @Component({
   selector: "app-profil-historique-courriers",
   templateUrl: "./profil-historique-courriers.component.html",
+  styleUrls: ["../historique-table.scss"],
 })
 export class ProfilHistoriqueCourriersComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;

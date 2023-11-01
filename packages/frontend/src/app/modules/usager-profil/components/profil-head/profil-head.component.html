@@ -118,7 +118,7 @@
         [routerLink]="['/profil/general/' + usager.ref]"
         ariaCurrentWhenActive="page"
       >
-        <span class="statut-label"> Vue d'ensemble</span>
+        <span class="statut-label">Vue d'ensemble</span>
         <span class="visually-hidden" *ngIf="section === 'general'"
           >, onglet actif</span
         >
@@ -127,7 +127,7 @@
       <a
         [ngClass]="section === 'courrier' ? 'selected-section col' : 'col'"
         [routerLink]="['/profil/courriers/' + usager.ref]"
-        ><span class="statut-label"> Courriers</span>
+        ><span class="statut-label">Courriers</span>
         <span class="visually-hidden" *ngIf="section === 'courrier'"
           >, onglet actif</span
         >

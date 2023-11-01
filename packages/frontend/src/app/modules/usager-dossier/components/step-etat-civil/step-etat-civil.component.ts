@@ -25,7 +25,6 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 @Component({
   animations: [fadeInOut],
   providers: [
-    NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],

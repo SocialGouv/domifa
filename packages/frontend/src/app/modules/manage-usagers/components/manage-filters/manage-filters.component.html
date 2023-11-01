@@ -294,14 +294,14 @@
                 <strong class="text-primary">dernier passage</strong>
               </ng-container>
               <fa-icon
-                *ngIf="filters.sortValue === 'ascending'"
+                *ngIf="filters.sortValue === 'asc'"
                 [icon]="['fas', 'sort-amount-up']"
                 aria-hidden="true"
                 class="ms-2"
               ></fa-icon>
 
               <fa-icon
-                *ngIf="filters.sortValue === 'descending'"
+                *ngIf="filters.sortValue === 'desc'"
                 [icon]="['fas', 'sort-amount-down']"
                 aria-hidden="true"
                 class="ms-2"
@@ -321,14 +321,13 @@
                   updateFilters.emit({
                     element: 'sortKey',
                     value: option.id,
-                    sortValue: 'ascending'
+                    sortValue: 'asc'
                   })
                 "
                 ngbDropdownItem
                 role="option"
                 [attr.aria-selected]="
-                  filters.sortKey === option.id &&
-                  filters.sortValue === 'ascending'
+                  filters.sortKey === option.id && filters.sortValue === 'asc'
                 "
               >
                 <fa-icon
@@ -345,14 +344,13 @@
                   updateFilters.emit({
                     element: 'sortKey',
                     value: option.id,
-                    sortValue: 'descending'
+                    sortValue: 'desc'
                   })
                 "
                 ngbDropdownItem
                 role="option"
                 [attr.aria-selected]="
-                  filters.sortKey === option.id &&
-                  filters.sortValue === 'descending'
+                  filters.sortKey === option.id && filters.sortValue === 'desc'
                 "
               >
                 <fa-icon

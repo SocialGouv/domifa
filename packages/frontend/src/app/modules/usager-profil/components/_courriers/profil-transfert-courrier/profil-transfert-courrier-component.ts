@@ -4,7 +4,6 @@ import {
   ElementRef,
   Input,
   OnDestroy,
-  OnInit,
   TemplateRef,
   ViewChild,
 } from "@angular/core";
@@ -15,13 +14,10 @@ import {
   Validators,
 } from "@angular/forms";
 import {
-  NgbDateParserFormatter,
-  NgbDatepickerI18n,
   NgbDateStruct,
   NgbModal,
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoTracker } from "ngx-matomo-client";
 import { Subscription } from "rxjs";
 import {
   DEFAULT_MODAL_OPTIONS,
@@ -35,24 +31,16 @@ import {
 } from "../../../../../shared";
 import {
   NgbDateCustomParserFormatter,
-  CustomDatepickerI18n,
   CustomToastService,
 } from "../../../../shared/services";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerOptionsService } from "../../../services/usager-options.service";
 
 @Component({
-  providers: [
-    NgbDateCustomParserFormatter,
-    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
-  ],
   selector: "app-profil-transfert-courrier",
   templateUrl: "./profil-transfert-courrier.html",
 })
-export class UsagersProfilTransfertCourrierComponent
-  implements OnInit, OnDestroy
-{
+export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
 
@@ -76,7 +64,6 @@ export class UsagersProfilTransfertCourrierComponent
     private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly toastService: CustomToastService,
     private readonly usagerOptionsService: UsagerOptionsService,
-    private readonly matomo: MatomoTracker,
     private readonly modalService: NgbModal,
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {
@@ -84,10 +71,6 @@ export class UsagersProfilTransfertCourrierComponent
     this.loading = false;
     this.submitted = false;
     this.minDateToday = minDateToday;
-  }
-
-  public ngOnInit(): void {
-    this.initForm();
   }
 
   public ngOnDestroy(): void {
@@ -177,8 +160,6 @@ export class UsagersProfilTransfertCourrierComponent
         .subscribe({
           next: () => {
             this.hideForm();
-            this.matomo.trackEvent("profil", "actions", "edit_transfert", 1);
-
             this.toastService.success("Transfert modifié avec succès");
           },
           error: () => {
@@ -215,7 +196,6 @@ export class UsagersProfilTransfertCourrierComponent
             this.hideForm();
             this.transfertForm.reset();
             this.submitted = false;
-            this.matomo.trackEvent("profil", "actions", "delete_transfert", 1);
           }, 500);
         },
         error: () => {

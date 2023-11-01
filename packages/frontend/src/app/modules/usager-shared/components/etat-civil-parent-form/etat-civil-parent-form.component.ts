@@ -62,7 +62,6 @@ import { LIEN_PARENTE_LABELS, UsagerAyantDroit } from "@domifa/common";
   selector: "app-etat-civil-parent-form",
   templateUrl: "./etat-civil-parent-form.component.html",
   providers: [
-    NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],

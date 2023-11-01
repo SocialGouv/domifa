@@ -14,7 +14,7 @@ function sortBy(
     return usagers;
   }
 
-  const asc = sortValue !== "descending";
+  const asc = sortValue !== "desc";
 
   if (sortKey === "ID") {
     return sortUsagersByCustomRef(usagers, asc);

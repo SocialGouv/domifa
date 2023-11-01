@@ -7,10 +7,12 @@ import {
 } from "../../../../../../_common/model";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerOptionsService } from "../../../services/usager-options.service";
+import { UsagersFilterCriteriaSortValues } from "../../../../manage-usagers/components/usager-filter";
 
 @Component({
   selector: "app-profil-historique-transferts",
   templateUrl: "./profil-historique-transferts.component.html",
+  styleUrls: ["../historique-table.scss"],
 })
 export class ProfilHistoriqueTransfertsComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
@@ -19,6 +21,9 @@ export class ProfilHistoriqueTransfertsComponent implements OnInit, OnDestroy {
 
   public transfertHistory: UsagerOptionsHistory[];
   public readonly HISTORY_ACTIONS = HISTORY_ACTIONS;
+
+  public sortValue: UsagersFilterCriteriaSortValues = "desc";
+  public currentKey: keyof UsagerOptionsHistory = "createdAt";
 
   constructor(private readonly usagerOptionsService: UsagerOptionsService) {
     this.transfertHistory = [];

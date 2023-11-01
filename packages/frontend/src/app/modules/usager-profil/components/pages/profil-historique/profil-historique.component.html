@@ -33,7 +33,7 @@
           role="tab"
           [attr.aria-controls]="'tab-' + section.id"
           [attr.tabindex]="currentSection === section.id ? null : -1"
-          class="btn me-1"
+          class="btn me-1 my-1"
           [ngClass]="
             currentSection === section.id
               ? 'btn-primary'
@@ -45,7 +45,7 @@
           <span class="focus">{{ section.name }}</span>
         </button>
       </div>
-
+      <br />
       <div class="row">
         <div
           class="col-md-12"

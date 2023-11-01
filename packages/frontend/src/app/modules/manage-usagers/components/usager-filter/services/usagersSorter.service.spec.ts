@@ -77,7 +77,7 @@ const usagers = [
 it("usagersSorter NAME (nom, prenom)", () => {
   const results = usagersSorter.sortBy(usagers, {
     sortKey: "NAME",
-    sortValue: "ascending",
+    sortValue: "asc",
   });
   expect(results.length).toEqual(usagers.length);
   expect(results.map((x) => x.ref)).toEqual([3, 5, 4, 1, 2]);
@@ -86,7 +86,7 @@ it("usagersSorter NAME (nom, prenom)", () => {
 it("usagersSorter RADIE (usager.decision.dateFin)", () => {
   const results = usagersSorter.sortBy(usagers, {
     sortKey: "RADIE",
-    sortValue: "descending",
+    sortValue: "desc",
   });
   expect(results.length).toEqual(usagers.length);
   expect(results.map((x) => x.ref)).toEqual([2, 3, 5, 4, 1]); // null last
@@ -95,7 +95,7 @@ it("usagersSorter RADIE (usager.decision.dateFin)", () => {
 it("usagersSorter customRef asc", () => {
   const results = usagersSorter.sortBy(usagers, {
     sortKey: "ID",
-    sortValue: "ascending",
+    sortValue: "asc",
   });
   expect(results.length).toEqual(usagers.length);
   expect(results.map((x) => x.customRef)).toEqual([
@@ -110,7 +110,7 @@ it("usagersSorter customRef asc", () => {
 it("usagersSorter customRef desc", () => {
   const results = usagersSorter.sortBy(usagers, {
     sortKey: "ID",
-    sortValue: "descending",
+    sortValue: "desc",
   });
   expect(results.length).toEqual(usagers.length);
   expect(results.map((x) => x.customRef)).toEqual([

@@ -19,8 +19,6 @@ import {
   Validators,
 } from "@angular/forms";
 import {
-  NgbDateParserFormatter,
-  NgbDatepickerI18n,
   NgbDateStruct,
   NgbModal,
   NgbModalRef,
@@ -43,17 +41,11 @@ import {
   formatDateToNgb,
 } from "../../../../../shared/bootstrap-util";
 
-import { CustomDatepickerI18n } from "../../../../shared/services/date-french.service";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerProcuration } from "../../../../usager-shared/interfaces/UsagerProcuration.interface";
 import { UsagerOptionsService } from "../../../services/usager-options.service";
 import { UsagerOptionsProcuration } from "@domifa/common";
 @Component({
-  providers: [
-    NgbDateCustomParserFormatter,
-    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
-  ],
   selector: "app-profil-procuration-courrier",
   templateUrl: "./profil-procuration-courrier.html",
 })
@@ -105,7 +97,6 @@ export class UsagersProfilProcurationCourrierComponent
     this.procurationsForm = this.formBuilder.group({
       procurations: this.formBuilder.array([]),
     });
-    this.initForm();
   }
 
   public get form(): UntypedFormArray {
@@ -116,11 +107,12 @@ export class UsagersProfilProcurationCourrierComponent
     this.submitted = false;
     this.loading = false;
     this.isFormVisible = false;
-    this.procurationsForm.reset();
+    this.form.clear();
   }
 
   public openForm() {
     this.isFormVisible = true;
+    this.initForm();
     this.changeFocus(0);
   }
 
