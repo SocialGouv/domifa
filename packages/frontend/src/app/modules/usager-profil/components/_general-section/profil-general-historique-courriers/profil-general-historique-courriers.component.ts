@@ -1,6 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
-import { UserStructure } from "../../../../../../_common/model";
+import {
+  Order,
+  PageResults,
+  UserStructure,
+} from "../../../../../../_common/model";
 
 import {
   UsagerFormModel,
@@ -34,19 +38,13 @@ export class ProfilGeneralHistoriqueCourriersComponent
   public getInteractions(): void {
     this.subscription.add(
       this.interactionService
-        .getInteractions({
-          usagerRef: this.usager.ref,
+        .getInteractions(this.usager.ref, {
+          order: Order.DESC,
+          page: 1,
+          take: 5,
         })
-        .subscribe((interactions: Interaction[]) => {
-          this.interactions = interactions.reduce(
-            (filtered: Interaction[], interaction: Interaction) => {
-              if (interaction.event !== "delete") {
-                filtered.push(interaction);
-              }
-              return filtered;
-            },
-            []
-          );
+        .subscribe((interactions: PageResults<Interaction>) => {
+          this.interactions = interactions.data;
         })
     );
   }

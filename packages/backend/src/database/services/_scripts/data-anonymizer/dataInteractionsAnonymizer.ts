@@ -18,7 +18,6 @@ async function anonymizeInteractions() {
     },
     {
       content: "Random content",
-      previousValue: null,
       userName: faker.person.fullName(),
     }
   );

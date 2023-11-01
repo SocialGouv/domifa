@@ -12,7 +12,7 @@ import {
 } from "../../../_common/model/interaction";
 import { InteractionsTable } from "../../entities";
 import { myDataSource } from "../_postgres";
-import { InteractionType, InteractionEvent } from "@domifa/common";
+import { InteractionType } from "@domifa/common";
 
 export const interactionRepository = myDataSource
   .getRepository<Interactions>(InteractionsTable)
@@ -34,7 +34,7 @@ async function updateInteractionAfterDistribution(
 ): Promise<void> {
   // Liste des interactions entrantes à mettre à jour
   return interactionRepository.query(
-    `UPDATE interactions SET "interactionOutUUID" = $1 where "usagerUUID" = $2 AND type = $3 AND "interactionOutUUID" is null AND event = 'create'`,
+    `UPDATE interactions SET "interactionOutUUID" = $1 where "usagerUUID" = $2 AND type = $3 AND "interactionOutUUID" is null AND `,
     [interaction.uuid, usager.uuid, oppositeType]
   );
 }
@@ -42,18 +42,15 @@ async function updateInteractionAfterDistribution(
 async function findLastInteractionOk({
   user,
   usager,
-  event,
 }: {
   user: Pick<UserStructureAuthenticated, "structureId">;
   usager: Pick<Usager, "ref">;
-  event: InteractionEvent;
 }): Promise<Interactions> {
   const lastInteractions = await interactionRepository.findOne({
     where: {
       structureId: user.structureId,
       usagerRef: usager.ref,
       type: In(INTERACTION_OK_LIST),
-      event,
     },
     order: { dateInteraction: "DESC" },
   });
@@ -75,7 +72,6 @@ async function findLastInteractionInWithContent({
       structureId: user.structureId,
       usagerRef: usager.ref,
       type: oppositeType,
-      event: "create",
     },
     order: { dateInteraction: "DESC" },
   });
@@ -97,7 +93,7 @@ async function countPendingInteraction({
     SELECT
       coalesce (SUM(CASE WHEN i.type = $1 THEN "nbCourrier" END), 0) AS "nbInteractions"
     FROM interactions i
-    WHERE i."structureId" = $2 AND i."usagerRef" = $3 and i.event = 'create' AND i."interactionOutUUID" is null
+    WHERE i."structureId" = $2 AND i."usagerRef" = $3 AND i."interactionOutUUID" is null
     GROUP BY i."usagerRef"`;
   const results = await interactionRepository.query(query, [
     interactionType,
@@ -137,9 +133,9 @@ async function countPendingInteractionsIn({
       coalesce (SUM(CASE WHEN i.type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn",
       coalesce (SUM(CASE WHEN i.type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn",
       coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn",
-      (SELECT "dateInteraction" from interactions where type IN($1) and "usagerUUID" = $2 and event = 'create' ORDER BY "dateInteraction" DESC LIMIT 1) as "lastInteractionOut"
+      (SELECT "dateInteraction" from interactions where type IN($1) and "usagerUUID" = $2 ORDER BY "dateInteraction" DESC LIMIT 1) as "lastInteractionOut"
     FROM interactions i
-    WHERE i."usagerUUID" = $2 and i.event = 'create' AND i."interactionOutUUID" is null
+    WHERE i."usagerUUID" = $2 AND i."interactionOutUUID" is null
     GROUP BY i."usagerRef"`;
   const results = await interactionRepository.query(query, [
     inArray,
@@ -263,7 +259,7 @@ async function totalInteractionAllUsagersStructure({
       coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn",
       coalesce (SUM(CASE WHEN i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOut"
     FROM interactions i
-    WHERE i."structureId" = $1 and i.event = 'create'
+    WHERE i."structureId" = $1
     GROUP BY i."usagerRef"`;
 
   const results = await interactionRepository.query(query, [structureId]);

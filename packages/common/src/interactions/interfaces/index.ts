@@ -1,2 +1,2 @@
 // @index('./*', f => `export * from '${f.path}'`)
-export * from "./InteractionType.type";
+export * from "./CommonInteraction.interface";

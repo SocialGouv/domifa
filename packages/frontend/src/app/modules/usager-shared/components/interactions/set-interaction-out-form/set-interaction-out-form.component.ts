@@ -1,3 +1,4 @@
+import { PageResults } from "./../../../../../../_common/model/pagination/PageResults.interface";
 import {
   Component,
   EventEmitter,
@@ -13,6 +14,7 @@ import {
   InteractionOutForm,
   InteractionOutForApi,
   INTERACTIONS_OUT_AVAILABLE,
+  Order,
 } from "../../../../../../_common/model";
 import { bounce } from "../../../../../shared";
 import { CustomToastService } from "../../../../shared/services";
@@ -193,10 +195,16 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   private getInteractions(): void {
     this.subscription.add(
       this.interactionService
-        .getInteractions({
-          usagerRef: this.usager.ref,
+        .getInteractions(this.usager.ref, {
+          order: Order.DESC,
+          page: 1,
+          take: 5,
         })
-        .subscribe((interactions: Interaction[]) => {
+        .subscribe((response: PageResults<Interaction>) => {
+          const interactions = Array.isArray(response.data)
+            ? response.data.map((item: Interaction) => new Interaction(item))
+            : [new Interaction(response.data)];
+
           this.interactions$.next(interactions);
         })
     );

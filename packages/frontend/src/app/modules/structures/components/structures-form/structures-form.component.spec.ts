@@ -3,11 +3,11 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, waitForAsync, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
 import { StructuresFormComponent } from "./structures-form.component";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
 describe("StructuresFormComponent", () => {
   let component: StructuresFormComponent;
@@ -21,7 +21,7 @@ describe("StructuresFormComponent", () => {
         ReactiveFormsModule,
         FormsModule,
         HttpClientTestingModule,
-        BrowserAnimationsModule,
+        NoopAnimationsModule,
         NgxIntlTelInputModule,
         RouterTestingModule,
       ],

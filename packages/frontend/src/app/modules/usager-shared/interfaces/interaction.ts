@@ -1,11 +1,10 @@
-import { InteractionType, InteractionEvent } from "@domifa/common";
+import { InteractionType, CommonInteraction } from "@domifa/common";
 import {
-  Interactions,
   INTERACTIONS_LABELS_PLURIEL,
   INTERACTIONS_LABELS_SINGULIER,
 } from "../../../../_common/model/interaction";
 
-export class Interaction implements Interactions {
+export class Interaction implements CommonInteraction {
   public type: InteractionType;
   public dateInteraction: Date | null;
   public content?: string;
@@ -16,12 +15,8 @@ export class Interaction implements Interactions {
   public userId: number | null;
   public label: string;
   public uuid: string;
-  public event: InteractionEvent;
-  public previousValue?: Interactions; // if event === 'delete'
 
-  constructor(interaction: Interactions) {
-    this.event = interaction?.event || "create";
-    this.previousValue = interaction?.previousValue;
+  constructor(interaction: CommonInteraction) {
     this.uuid = interaction?.uuid;
 
     this.usagerRef = interaction?.usagerRef || null;

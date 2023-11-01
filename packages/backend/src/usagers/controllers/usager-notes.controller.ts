@@ -65,7 +65,7 @@ export class UsagerNotesController {
     queryBuilder
       .where(whereConditions)
       .orderBy("id", pageOptionsDto.order)
-      .skip(pageOptionsDto.skip)
+      .skip((pageOptionsDto.page - 1) * pageOptionsDto.take)
       .take(pageOptionsDto.take);
 
     const itemCount = await queryBuilder.getCount();

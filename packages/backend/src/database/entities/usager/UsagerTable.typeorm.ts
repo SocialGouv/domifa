@@ -33,12 +33,15 @@ import {
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "usager" })
 @Unique(["structureId", "ref"])
+@Index("idx_usagers", ["structureId", "ref"])
+@Index("idx_structure_statut", ["structureId", "decision"])
+@Index("idx_decision_gin", { synchronize: false })
 export class UsagerTable
   extends AppTypeormTable<UsagerTable>
   implements Usager
 {
   @Index()
-  @Column({ type: "integer" }) // unique par structure
+  @Column({ type: "integer" })
   public ref!: number;
 
   @Column({ type: "text", nullable: true })
@@ -109,8 +112,6 @@ export class UsagerTable
 
   @Column({
     type: "jsonb",
-    default:
-      '{"dateInteraction":"NOW()", "enAttente":"false", "courrierIn":"0", "recommandeIn":"0", "colisIn":"0"}',
   })
   public lastInteraction!: UsagerLastInteraction;
 
