@@ -13,6 +13,7 @@ import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 
 import { UsagersProfilTransfertCourrierComponent } from "./profil-transfert-courrier-component";
 import { StoreModule } from "@ngrx/store";
+import { UsagerProfilModule } from "../../../usager-profil.module";
 
 describe("UsagersProfilTransfertCourrierComponent", () => {
   let fixture: ComponentFixture<UsagersProfilTransfertCourrierComponent>;
@@ -29,6 +30,7 @@ describe("UsagersProfilTransfertCourrierComponent", () => {
         ...MATOMO_INJECTORS,
         StoreModule.forRoot({ app: _usagerReducer }),
         RouterTestingModule,
+        UsagerProfilModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

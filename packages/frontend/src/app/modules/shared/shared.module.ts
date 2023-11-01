@@ -12,6 +12,7 @@ import {
   UsagerNomCompletPipe,
   FormatBigNumberPipe,
   ReplaceLineBreaks,
+  SortArrayPipe,
 } from "./pipes";
 import { DisplayTableImageComponent } from "./components/display-table-image/display-table-image.component";
 import {
@@ -30,6 +31,8 @@ import {
     ReplaceLineBreaks,
     StrCapsAlphaDirective,
     DisplayTableImageComponent,
+
+    SortArrayPipe,
   ],
   exports: [
     ReplaceLineBreaks,
@@ -41,6 +44,8 @@ import {
     CustomToastrComponent,
     StrCapsAlphaDirective,
     DisplayTableImageComponent,
+
+    SortArrayPipe,
   ],
   imports: [CommonModule, FontAwesomeModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

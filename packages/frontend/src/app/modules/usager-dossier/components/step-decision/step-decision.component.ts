@@ -27,7 +27,6 @@ import { CerfaDocType } from "@domifa/common";
 
 @Component({
   providers: [
-    NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],

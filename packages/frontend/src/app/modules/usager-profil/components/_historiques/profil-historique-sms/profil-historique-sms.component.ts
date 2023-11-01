@@ -10,8 +10,8 @@ import { UsagerProfilService } from "../../../services/usager-profil.service";
 
 @Component({
   selector: "app-profil-historique-sms",
+  styleUrls: ["../historique-table.scss"],
   templateUrl: "./profil-historique-sms.component.html",
-  styleUrls: ["./profil-historique-sms.component.css"],
 })
 export class ProfilHistoriqueSmsComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;

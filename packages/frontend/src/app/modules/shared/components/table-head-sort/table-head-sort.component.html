@@ -1,9 +1,9 @@
 <button
   type="button"
-  [ngClass]="sortKey === currentKey ? 'text-primary' : ''"
+  [ngClass]="sortKey === currentKey ? 'fw-bold text-primary' : ''"
   class="btn"
   [attr.aria-sort]="sortKey === currentKey ? sortValue : null"
-  (click)="sortArray.emit(sortKey)"
+  (click)="rotate()"
 >
   <span class="visually-hidden">Trier par</span>
   <span>{{ columnName }}</span>
@@ -11,7 +11,7 @@
     *ngIf="sortKey === currentKey"
     class="sort-selected ms-2"
     aria-hidden="true"
-    [icon]="sortValue === 'descending' ? faArrowDown : faArrowUp"
+    [icon]="sortValue === 'desc' ? faArrowDown : faArrowUp"
   ></fa-icon>
   <span *ngIf="sortKey === currentKey" class="visually-hidden">
     Colonne triée actuellement</span

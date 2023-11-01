@@ -2,7 +2,11 @@ import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbDateParserFormatter,
+  NgbDatepickerI18n,
+  NgbModule,
+} from "@ng-bootstrap/ng-bootstrap";
 
 import { SharedModule } from "../shared/shared.module";
 import { UsagerSharedModule } from "../usager-shared/usager-shared.module";
@@ -25,8 +29,13 @@ import { ProfilHistoriqueComponent } from "./components/pages/profil-historique/
 import { ProfilHistoriqueSmsComponent } from "./components/_historiques/profil-historique-sms/profil-historique-sms.component";
 import { ProfilHistoriqueProcurationsComponent } from "./components/_historiques/profil-historique-procurations/profil-historique-procurations.component";
 import { ProfilHistoriqueTransfertsComponent } from "./components/_historiques/profil-historique-transferts/profil-historique-transferts.component";
-import { OrderByDatePipe } from "./pipes/order-by-date.pipe";
 import { ProfilHistoriqueDecisionsComponent } from "./components/_historiques/profil-historique-decisions/profil-historique-decisions.component";
+import { ProfilHistoriqueNotesComponent } from "./components/_historiques/profil-historique-notes/profil-historique-notes.component";
+import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
+import {
+  NgbDateCustomParserFormatter,
+  CustomDatepickerI18n,
+} from "../shared/services";
 
 @NgModule({
   declarations: [
@@ -36,12 +45,11 @@ import { ProfilHistoriqueDecisionsComponent } from "./components/_historiques/pr
     ProfilDossierComponent,
     ProfilHistoriqueComponent,
     ProfilHistoriqueSmsComponent,
-
+    ProfilHistoriqueNotesComponent,
     UsagersProfilTransfertCourrierComponent,
     UsagersProfilProcurationCourrierComponent,
     ProfilHistoriqueCourriersComponent,
     ProfilStructureDocsComponent,
-
     ProfilEditPortailUsagerPreferenceComponent,
     ProfilDocumentsSectionComponent,
     ProfilGeneralHistoriqueCourriersComponent,
@@ -49,7 +57,6 @@ import { ProfilHistoriqueDecisionsComponent } from "./components/_historiques/pr
     BaseUsagerProfilPageComponent,
     ProfilHistoriqueProcurationsComponent,
     ProfilHistoriqueTransfertsComponent,
-    OrderByDatePipe,
     ProfilHistoriqueDecisionsComponent,
   ],
   imports: [
@@ -63,6 +70,12 @@ import { ProfilHistoriqueDecisionsComponent } from "./components/_historiques/pr
     SharedModule,
     UsagerNotesModule,
     UsagerProfilRoutingModule,
+    TableHeadSortComponent,
+  ],
+  providers: [
+    NgbDateCustomParserFormatter,
+    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

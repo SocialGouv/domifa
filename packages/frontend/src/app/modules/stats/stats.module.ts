@@ -41,7 +41,6 @@ import { CountUpModule } from "ngx-countup";
     ReactiveFormsModule,
     StatsRoutingModule,
   ],
-  providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class StatsModule {}

@@ -1,6 +1,6 @@
 <h3>Historique des courriers</h3>
 <div *ngIf="interactions.length > 0" class="table-responsive">
-  <table class="table table-hover">
+  <table class="table-history table">
     <caption class="visually-hidden">
       Historique des courriers
     </caption>
@@ -8,6 +8,7 @@
       <tr>
         <th scope="col">Date</th>
         <th scope="col">Type d'interaction</th>
+        <th scope="col">Contenu</th>
         <th scope="col">Notifié par</th>
         <th scope="col" class="text-end d-print-none">Actions</th>
       </tr>
@@ -15,42 +16,25 @@
 
     <tbody>
       <ng-container *ngFor="let interaction of interactions; let i = index">
-        <tr
-          [attr.aria-rowindex]="i + 1"
-          [ngClass]="{
-            'fw-bold':
-              interaction.type === 'courrierOut' ||
-              interaction.type === 'recommandeOut' ||
-              interaction.type === 'colisOut'
-          }"
-        >
+        <tr [attr.aria-rowindex]="i + 1">
           <td>
             {{ interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm" }}
           </td>
+          <td
+            [ngClass]="{
+              'fw-bold':
+                interaction.type === 'courrierOut' ||
+                interaction.type === 'recommandeOut' ||
+                interaction.type === 'colisOut'
+            }"
+          >
+            {{ interaction.label }}
+          </td>
           <td>
-            <div *ngIf="interaction.event === 'create'">
-              {{ interaction.label }}
-              <p
-                *ngIf="interaction.content"
-                [innerHTML]="interaction.content | nl2br"
-              ></p>
-            </div>
-            <div *ngIf="interaction.event === 'delete'">
-              <strong>{{ interaction.label }}</strong
-              ><br />
-              <span
-                *ngIf="interaction.content"
-                [innerHTML]="interaction.content | nl2br"
-              >
-              </span>
-              <br />
-              Interaction supprimée le
-              {{
-                interaction?.previousValue?.dateInteraction
-                  | date : "dd/MM/yyyy à HH:mm"
-              }}
-              par {{ interaction?.previousValue?.userName }}
-            </div>
+            <span
+              *ngIf="interaction.content"
+              [innerHTML]="interaction.content | nl2br"
+            ></span>
           </td>
           <td>{{ interaction.userName }}</td>
           <td class="text-end d-print-none">

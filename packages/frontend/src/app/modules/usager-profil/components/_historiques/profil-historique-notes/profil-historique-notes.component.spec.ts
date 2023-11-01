@@ -5,12 +5,12 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 
-import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
+import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks/USAGER_ACTIF.mock";
 import { ProfilHistoriqueNotesComponent } from "./profil-historique-notes.component";
 import { StoreModule } from "@ngrx/store";
-import { _usagerReducer } from "../../../../shared";
+import { _usagerReducer } from "../../../../../shared";
 
 describe("ProfilHistoriqueNotesComponent", () => {
   let component: ProfilHistoriqueNotesComponent;

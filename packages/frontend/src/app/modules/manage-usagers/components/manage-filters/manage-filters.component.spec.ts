@@ -28,7 +28,7 @@ describe("ManageFiltersComponent", () => {
       page: 0,
       passage: null,
       sortKey: "NAME",
-      sortValue: "ascending",
+      sortValue: "asc",
       statut: "VALIDE",
     };
 

@@ -8,11 +8,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import {
-  NgbDateParserFormatter,
-  NgbDatepickerI18n,
-  NgbDateStruct,
-} from "@ng-bootstrap/ng-bootstrap";
+import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 
 import {
   UserStructure,
@@ -42,7 +38,6 @@ import { BaseUsagerDossierPageComponent } from "../base-usager-dossier-page/base
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import {
   NgbDateCustomParserFormatter,
-  CustomDatepickerI18n,
   AuthService,
   CustomToastService,
 } from "../../../shared/services";
@@ -50,11 +45,7 @@ import { CerfaDocType } from "@domifa/common";
 
 @Component({
   animations: [fadeInOut],
-  providers: [
-    NgbDateCustomParserFormatter,
-    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
-  ],
+
   selector: "app-rdv",
   styleUrls: ["./step-rdv.component.css"],
   templateUrl: "./step-rdv.component.html",

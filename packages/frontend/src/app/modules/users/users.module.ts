@@ -13,7 +13,7 @@ import { EditUserComponent } from "./components/edit-user/edit-user.component";
 import { SharedModule } from "../shared/shared.module";
 import { UsersRoutingModule } from "./users-routing.module";
 import { UserStructurePasswordFormComponent } from "./components/user-structure-password-form/user-structure-password-form.component";
-import { TableHeadSortComponent } from "./components/table-head-sort/table-head-sort.component";
+import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 
 @NgModule({
   declarations: [
@@ -22,10 +22,10 @@ import { TableHeadSortComponent } from "./components/table-head-sort/table-head-
     RegisterUserAdminComponent,
     EditUserComponent,
     UserStructurePasswordFormComponent,
-    TableHeadSortComponent,
   ],
   exports: [UserStructurePasswordFormComponent],
   imports: [
+    TableHeadSortComponent,
     FormsModule,
     HttpClientModule,
     NgbModule,

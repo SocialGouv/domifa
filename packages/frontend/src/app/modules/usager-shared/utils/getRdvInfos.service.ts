@@ -14,10 +14,9 @@ export const getRdvInfos = (usager?: Partial<UsagerLight>): UsagerRdvInfos => {
     return rdvDisplay;
   }
 
-  const dateRdv = new Date(usager.rdv.dateRdv);
-
-  // Rdv à venir
   if (usager.etapeDemande && usager.etapeDemande < ETAPE_ENTRETIEN) {
+    const dateRdv = new Date(usager.rdv.dateRdv);
+
     rdvDisplay.display = true;
     rdvDisplay.content = `${format(dateRdv, "dd MMMM yyyy", {
       locale: fr,

@@ -323,7 +323,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     ) {
       const newValue = this.filters[element] === value ? null : value;
       this.filters[element] = newValue;
-      this.setSortKeyAndValue("NAME", "ascending");
+      this.setSortKeyAndValue("NAME", "asc");
     } else if (element === "statut") {
       if (this.filters[element] === value) {
         return;
@@ -351,12 +351,12 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       // Tri issu des en-tête de tableau
       if (!sortValue) {
         const isCurrentSortKey = value === this.filters.sortKey;
-        const isAscendingSort = this.filters.sortValue === "ascending";
+        const isAscendingSort = this.filters.sortValue === "asc";
 
         if (isCurrentSortKey) {
-          sortValue = isAscendingSort ? "descending" : "ascending";
+          sortValue = isAscendingSort ? "desc" : "asc";
         } else {
-          sortValue = "ascending";
+          sortValue = "asc";
         }
       }
 

@@ -31,6 +31,12 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   public currentKey: keyof UserStructureProfile;
   private subscription = new Subscription();
 
+  public readonly USER_ROLES_LABELS: { [key in UserStructureRole]: string } = {
+    admin: "Administrateur",
+    responsable: "Gestionnaire",
+    simple: "Instructeur",
+    facteur: "Facteur",
+  };
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UsersService,
@@ -39,7 +45,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     private readonly titleService: Title
   ) {
     this.users = [];
-    this.sortValue = "ascending";
+    this.sortValue = "asc";
     this.currentKey = "nom";
     this.loading = false;
     this.selectedUser = null;
@@ -121,39 +127,6 @@ export class UserProfilComponent implements OnInit, OnDestroy {
         this.loading = false;
       })
     );
-  }
-
-  public sortArray(key: keyof UserStructureProfile) {
-    this.currentKey = key;
-    if (key === this.currentKey) {
-      this.sortValue =
-        this.sortValue === "ascending" ? "descending" : "ascending";
-    } else {
-      this.sortValue = "ascending";
-    }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.users.sort((a: any, b: any) => {
-      const valA = a[this.currentKey];
-
-      const valB = b[this.currentKey];
-
-      if (valA === null) {
-        return -1;
-      }
-
-      let comparison = 0;
-      if (valA === valB) {
-        return 0;
-      } else if (typeof valA === "string") {
-        comparison = valA.localeCompare(valB);
-      } else if (typeof valA === "boolean") {
-        comparison = valA === valB ? 0 : valA ? -1 : 1;
-      } else if (valA instanceof Date) {
-        comparison = valB instanceof Date ? valA.getTime() - valB.getTime() : 1;
-      }
-
-      return this.sortValue === "ascending" ? comparison : -comparison;
-    });
   }
 
   public userIdTrackBy(_index: number, user: UserStructureProfile) {

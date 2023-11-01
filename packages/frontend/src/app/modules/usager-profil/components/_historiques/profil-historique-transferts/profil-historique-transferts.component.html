@@ -3,28 +3,52 @@
   <p>Aucun historique de transferts de courriers actuellement</p>
 </div>
 <div class="table-responsive" *ngIf="transfertHistory.length > 0">
-  <table class="table table-hover">
+  <table class="table-history table">
     <caption class="visually-hidden">
       Historique des transferts
     </caption>
     <thead>
       <tr>
-        <th scope="col">Date</th>
+        <th scope="col">
+          <app-table-head-sort
+            sortKey="createdAt"
+            [(sortValue)]="sortValue"
+            [(currentKey)]="currentKey"
+            columnName="Date"
+          >
+          </app-table-head-sort>
+        </th>
         <th scope="col">Action</th>
         <th scope="col">Nom</th>
         <th scope="col">Adresse</th>
-        <th scope="col">Période de validité</th>
-        <th scope="col">Responsable</th>
+        <th scope="col">
+          <app-table-head-sort
+            sortKey="dateDebut"
+            [(sortValue)]="sortValue"
+            [(currentKey)]="currentKey"
+            columnName="Période de validité"
+          >
+          </app-table-head-sort>
+        </th>
+        <th scope="col">Notifié par</th>
       </tr>
     </thead>
     <tbody>
       <tr
-        *ngFor="let transfert of transfertHistory; let i = index"
+        *ngFor="
+          let transfert of transfertHistory
+            | sortArray : currentKey : sortValue;
+          let i = index
+        "
         [attr.aria-rowindex]="i + 1"
       >
         <td>{{ transfert.createdAt | date : "dd/MM/yyyy à HH:mm" }}</td>
         <td>
-          {{ HISTORY_ACTIONS[transfert.action] }}
+          <span
+            [class]="'label-info ' + HISTORY_ACTIONS[transfert.action].class"
+          >
+            {{ HISTORY_ACTIONS[transfert.action].label }}
+          </span>
         </td>
         <td>{{ transfert.nom }}</td>
         <td>{{ transfert.adresse }}</td>
