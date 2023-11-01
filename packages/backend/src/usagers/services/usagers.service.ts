@@ -34,9 +34,9 @@ export class UsagersService {
     user: UserStructureProfile
   ): Promise<Usager> {
     const usager = new UsagerTable(usagerDto);
+    usagersCreator.setUsagerDefaultAttributes(usager);
     const now = new Date();
 
-    usagersCreator.setUsagerDefaultAttributes(usager);
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     usager.ref = await usagersCreator.findNextUsagerRef(user.structureId);
     usager.customRef = `${usager.ref}`;

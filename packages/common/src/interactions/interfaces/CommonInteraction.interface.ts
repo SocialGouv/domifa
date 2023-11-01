@@ -1,8 +1,7 @@
-import { AppEntity } from "..";
+import { type AppEntity } from "../../_core";
+import { type InteractionType } from "../types";
 
-import { InteractionType, InteractionEvent } from "@domifa/common";
-
-export type Interactions = AppEntity & {
+export interface CommonInteraction extends AppEntity {
   id?: number | null;
   createdAt?: Date;
   content?: string;
@@ -15,6 +14,4 @@ export type Interactions = AppEntity & {
   userId: number | null;
   userName: string | null;
   uuid: string;
-  event: InteractionEvent;
-  previousValue?: Interactions; // if event === 'delete'
-};
+}

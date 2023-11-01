@@ -3,7 +3,6 @@ import {
   Body,
   Controller,
   Delete,
-  Get,
   Param,
   ParseArrayPipe,
   ParseIntPipe,
@@ -32,6 +31,11 @@ import {
 } from "../_common/model";
 import { InteractionDto } from "./dto";
 import { InteractionsDeletor, interactionsCreator } from "./services";
+import {
+  PageMetaDto,
+  PageOptionsDto,
+  PageResultsDto,
+} from "../usagers/dto/pagination";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("interactions")
@@ -69,34 +73,36 @@ export class InteractionsController {
     return currentUsager;
   }
 
-  @Get(":usagerRef")
+  @Post("search/:usagerRef")
   @AllowUserProfiles("structure")
   public async getInteractions(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() currentUsager: Usager
+    @CurrentUsager() currentUsager: Usager,
+    @Body() pageOptionsDto: PageOptionsDto
   ) {
-    return interactionRepository.find({
-      where: {
+    const queryBuilder = interactionRepository
+      .createQueryBuilder("interactions")
+      .where({
         structureId: user.structureId,
         usagerUUID: currentUsager.uuid,
-      },
-      order: {
-        dateInteraction: "DESC",
-      },
-      select: [
+      })
+      .select([
         "type",
-        "dateInteraction",
-        "event",
+        `"dateInteraction"`,
         "content",
-        "nbCourrier",
-        "previousValue",
-        "userName",
+        `"nbCourrier"`,
+        `"userName"`,
         "uuid",
-      ],
-      skip: 0,
-      take: 50,
-    });
+      ])
+      .orderBy(`"dateInteraction"`, pageOptionsDto.order)
+      .skip((pageOptionsDto.page - 1) * pageOptionsDto.take)
+      .take(pageOptionsDto.take);
+
+    const itemCount = await queryBuilder.getCount();
+    const entities = await queryBuilder.getRawMany();
+    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+    return new PageResultsDto(entities, pageMetaDto);
   }
 
   @UseGuards(InteractionsGuard)
@@ -109,7 +115,7 @@ export class InteractionsController {
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentInteraction() interaction: Interactions
   ) {
-    return this.interactionDeletor.deleteOrRestoreInteraction({
+    return this.interactionDeletor.deleteInteraction({
       interaction,
       user,
       usager,

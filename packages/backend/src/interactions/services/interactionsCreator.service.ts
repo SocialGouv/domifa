@@ -87,14 +87,10 @@ async function createInteraction({
         usager.options.transfert.nom
       } - ${usager.options.transfert.adresse.toUpperCase()}`;
     }
-  }
-
-  // Entrants
-  else if (direction === "in") {
+  } else if (direction === "in") {
     interaction.nbCourrier = interaction.nbCourrier ?? 1;
   } else {
     interaction.nbCourrier = 0;
-    // Appels & Visites
     if (
       interaction.type === "appel" ||
       interaction.type === "visite" ||
@@ -117,7 +113,6 @@ async function createInteraction({
     userName: `${user.prenom} ${user.nom}`,
     dateInteraction: now,
     interactionOutUUID: null,
-    event: "create",
   };
 
   // Enregistrement de l'interaction

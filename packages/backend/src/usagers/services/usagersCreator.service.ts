@@ -29,33 +29,21 @@ function setUsagerDefaultAttributes(usager: Usager): void {
     },
     portailUsagerEnabled: false,
   };
-
   usager.typeDom = usager?.typeDom ?? "PREMIERE_DOM";
   usager.pinnedNote = null;
-
-  if (!usager.ayantsDroits) {
-    usager.ayantsDroits = [];
-  }
-
-  if (!usager.historique) {
-    usager.historique = [];
-  }
-
-  if (!usager.rdv) {
-    usager.rdv = null;
-  }
+  usager.ayantsDroits = [];
+  usager.historique = [];
+  usager.rdv = null;
 
   if (!usager.langue || usager.langue === "") {
     usager.langue = null;
   }
 
-  if (!usager.lastInteraction) {
-    usager.lastInteraction = {
-      dateInteraction: new Date(),
-      colisIn: 0,
-      courrierIn: 0,
-      recommandeIn: 0,
-      enAttente: false,
-    };
-  }
+  usager.lastInteraction = {
+    dateInteraction: new Date(),
+    colisIn: 0,
+    courrierIn: 0,
+    recommandeIn: 0,
+    enAttente: false,
+  };
 }

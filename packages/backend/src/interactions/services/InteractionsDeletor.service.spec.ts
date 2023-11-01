@@ -77,13 +77,12 @@ describe("InteractionsDeletor", () => {
     );
 
     {
-      const usagerAfterDelete =
-        await interactionsDeletor.deleteOrRestoreInteraction({
-          interaction: interactionCreated,
-          usager: usagerAfterCreate,
-          user,
-          structure,
-        });
+      const usagerAfterDelete = await interactionsDeletor.deleteInteraction({
+        interaction: interactionCreated,
+        usager: usagerAfterCreate,
+        user,
+        structure,
+      });
       expect(usagerAfterDelete.lastInteraction.colisIn).toEqual(
         usagerBefore.lastInteraction.colisIn
       );

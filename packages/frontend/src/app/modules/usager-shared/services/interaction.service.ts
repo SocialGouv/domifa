@@ -1,3 +1,4 @@
+import { PageResults } from "./../../../../_common/model/pagination/PageResults.interface";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -6,6 +7,7 @@ import { environment } from "../../../../environments/environment";
 import {
   InteractionInForApi,
   InteractionOutForApi,
+  PageOptions,
   UsagerLight,
 } from "../../../../_common/model";
 
@@ -38,21 +40,23 @@ export class InteractionService {
       );
   }
 
-  public getInteractions({
-    usagerRef: usagerRefNumberOrString,
-  }: {
-    usagerRef: number;
-  }): Observable<Interaction[]> {
-    // NOTE: usagerRef est une chaîne quand il vient d'un paramètre de l'URL, ce qui est incompatible avec la recherche dans le cache
-    const usagerRef: number = parseInt(`${usagerRefNumberOrString}`, 10);
-
-    return this.http.get<Interaction[]>(`${this.endPoint}${usagerRef}`).pipe(
-      map((response) => {
-        return Array.isArray(response)
-          ? response.map((item) => new Interaction(item))
-          : [new Interaction(response)];
-      })
-    );
+  public getInteractions(
+    usagerRef: number,
+    pageOptions: PageOptions
+  ): Observable<PageResults<Interaction>> {
+    return this.http
+      .post<PageResults<Interaction>>(
+        `${this.endPoint}search/${usagerRef}`,
+        pageOptions
+      )
+      .pipe(
+        map((response: PageResults<Interaction>) => {
+          response.data = Array.isArray(response.data)
+            ? response.data.map((item: Interaction) => new Interaction(item))
+            : [new Interaction(response.data)];
+          return response;
+        })
+      );
   }
 
   public delete(

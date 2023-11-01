@@ -4,4 +4,3 @@ export * from "./InteractionForApi.type";
 export * from "./InteractionForms.type";
 export * from "./InteractionIn.type";
 export * from "./InteractionOut.type";
-export * from "./Interactions.type";

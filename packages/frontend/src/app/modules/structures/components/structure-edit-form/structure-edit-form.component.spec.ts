@@ -1,4 +1,4 @@
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
@@ -24,7 +24,7 @@ describe("StructureEditFormComponent", () => {
         FormsModule,
         HttpClientTestingModule,
         NgxIntlTelInputModule,
-        BrowserAnimationsModule,
+        NoopAnimationsModule,
         RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

@@ -1,12 +1,13 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { Interactions } from "../../../_common/model/interaction";
-import { InteractionType, InteractionEvent } from "@domifa/common";
+import { InteractionType } from "@domifa/common";
 
 import { StructureTable } from "../structure/StructureTable.typeorm";
 import { UsagerTable } from "../usager";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "interactions" })
+@Index("idx_interactions", ["structureId", "usagerUUID", "dateInteraction"])
 export class InteractionsTable
   extends AppTypeormTable<InteractionsTable>
   implements Interactions
@@ -36,13 +37,6 @@ export class InteractionsTable
 
   @Column({ type: "text", nullable: true })
   content: string;
-
-  @Index()
-  @Column({ type: "text", default: "create" })
-  event: InteractionEvent;
-
-  @Column({ type: "jsonb", nullable: true })
-  previousValue: Interactions; // if event === 'delete'
 
   @Index()
   @Column({ type: "uuid", nullable: true })

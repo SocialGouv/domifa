@@ -68,7 +68,7 @@ export class ProfilHistoriqueComponent
       router,
       store
     );
-    this.currentSection = "decisions";
+    this.currentSection = "interactions";
     this.titlePrefix = "Historique";
   }
 

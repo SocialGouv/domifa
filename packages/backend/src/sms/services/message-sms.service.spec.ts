@@ -131,7 +131,7 @@ describe("MessageSmsService", () => {
 
       // clean
       const deletedFirstInteraction =
-        await interactionsDeletor.deleteOrRestoreInteraction({
+        await interactionsDeletor.deleteInteraction({
           interaction: created.interaction,
           structure: user.structure,
           usager,
