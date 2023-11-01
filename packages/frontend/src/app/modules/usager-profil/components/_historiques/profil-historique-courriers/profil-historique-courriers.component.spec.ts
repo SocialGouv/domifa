@@ -11,6 +11,7 @@ import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { ProfilHistoriqueCourriersComponent } from "./profil-historique-courriers.component";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../../shared";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
 describe("ProfilHistoriqueCourriersComponent", () => {
   let component: ProfilHistoriqueCourriersComponent;
@@ -26,6 +27,7 @@ describe("ProfilHistoriqueCourriersComponent", () => {
         FormsModule,
         HttpClientTestingModule,
         RouterTestingModule,
+        NoopAnimationsModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

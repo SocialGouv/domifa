@@ -153,7 +153,7 @@ describe("interactionsCreator", () => {
 
       // clean
       const deleteSecondInteraction =
-        await interactionsDeletor.deleteOrRestoreInteraction({
+        await interactionsDeletor.deleteInteraction({
           interaction: secondResult.interaction,
           structure: user.structure,
           usager,
@@ -163,7 +163,7 @@ describe("interactionsCreator", () => {
 
       // clean
       const deletedFirstInteraction =
-        await interactionsDeletor.deleteOrRestoreInteraction({
+        await interactionsDeletor.deleteInteraction({
           interaction: firstResult.interaction,
           structure: user.structure,
           usager,
@@ -204,7 +204,7 @@ describe("interactionsCreator", () => {
       expect(resultat.usager.lastInteraction.colisIn).toEqual(0);
 
       // clean
-      await interactionsDeletor.deleteOrRestoreInteraction({
+      await interactionsDeletor.deleteInteraction({
         interaction: resultat.interaction,
         structure: user.structure,
         usager,
@@ -251,7 +251,7 @@ describe("interactionsCreator", () => {
       expect(resultat.interaction.nbCourrier).toEqual(0);
 
       // Suppression de l'interaction sortante
-      await interactionsDeletor.deleteOrRestoreInteraction({
+      await interactionsDeletor.deleteInteraction({
         interaction: resultat.interaction,
         structure: user.structure,
         usager,
@@ -295,13 +295,12 @@ describe("interactionsCreator", () => {
       );
 
       // Suppression de l'interaction sortante
-      const usagerAfterDelete =
-        await interactionsDeletor.deleteOrRestoreInteraction({
-          interaction: resultat.interaction,
-          structure: user.structure,
-          usager,
-          user,
-        });
+      const usagerAfterDelete = await interactionsDeletor.deleteInteraction({
+        interaction: resultat.interaction,
+        structure: user.structure,
+        usager,
+        user,
+      });
       // Après suppression, date de dernier passage doit être la même qu'au début
       expect(usagerAfterDelete.lastInteraction.dateInteraction).toBeDefined();
     });
@@ -352,7 +351,7 @@ describe("interactionsCreator", () => {
       );
 
       // clean
-      await interactionsDeletor.deleteOrRestoreInteraction({
+      await interactionsDeletor.deleteInteraction({
         interaction: resultat.interaction,
         structure: user.structure,
         usager,
@@ -420,14 +419,14 @@ describe("interactionsCreator", () => {
       expect(resultat.usager.lastInteraction.courrierIn).toEqual(0);
 
       // clean
-      await interactionsDeletor.deleteOrRestoreInteraction({
+      await interactionsDeletor.deleteInteraction({
         interaction: createdInteractionIn.interaction,
         structure: user.structure,
         usager,
         user,
       });
       // clean
-      await interactionsDeletor.deleteOrRestoreInteraction({
+      await interactionsDeletor.deleteInteraction({
         interaction: resultat.interaction,
         structure: user.structure,
         usager,
@@ -476,7 +475,7 @@ describe("interactionsCreator", () => {
       expect(resultat.interaction.nbCourrier).toEqual(0);
 
       // Suppression de l'interaction sortante
-      await interactionsDeletor.deleteOrRestoreInteraction({
+      await interactionsDeletor.deleteInteraction({
         interaction: resultat.interaction,
         structure: user.structure,
         usager,

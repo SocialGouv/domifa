@@ -376,14 +376,12 @@ export class AdminStructuresService {
       return interactionRepository.count({
         where: {
           type: interactionType,
-          event: "create",
         },
       });
     }
 
     const whereCondition: Partial<InteractionsTable> = {
       type: interactionType,
-      event: "create",
     };
 
     if (structuresId) {

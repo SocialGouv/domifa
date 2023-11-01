@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { UsagersFilterCriteriaSortValues } from "../../../manage-usagers/components/usager-filter";
 import {
@@ -26,11 +27,11 @@ export class TableHeadSortComponent {
   @Output() public sortValueChange =
     new EventEmitter<UsagersFilterCriteriaSortValues>();
 
-  @Input() public sortKey: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() public currentKey: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Output() public currentKeyChange = new EventEmitter<any>();
+
+  @Input() public sortKey: string;
+  @Output() public sortArray = new EventEmitter<any>();
 
   public rotate() {
     const rotation: {
@@ -44,5 +45,6 @@ export class TableHeadSortComponent {
     } else {
       this.currentKeyChange.emit(this.sortKey);
     }
+    this.sortArray.emit();
   }
 }

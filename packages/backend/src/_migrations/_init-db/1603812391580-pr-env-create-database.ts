@@ -346,6 +346,8 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_b4d09870ec6cad2d2d98b7cc3a" ON public.usager USING btree (migrated);
     CREATE INDEX "IDX_d7abcf8875e8a94abf2dcf041e" ON public.usager USING btree ("dateNaissance");
     CREATE INDEX "IDX_fef5654bcc6595d885e57d1474" ON public.usager USING btree (sexe);
+    CREATE INDEX idx_structure_statut ON public.usager USING btree ("structureId", decision);
+    CREATE INDEX idx_usagers ON public.usager USING btree ("structureId", ref);
 
 
     -- public.usager_docs definition
@@ -644,8 +646,6 @@ async function createTables(queryRunner: QueryRunner) {
       "userName" text NOT NULL,
       "content" text NULL,
       "usagerUUID" uuid NOT NULL,
-      "event" text NOT NULL DEFAULT 'create'::text,
-      "previousValue" jsonb NULL,
       "interactionOutUUID" uuid NULL,
       CONSTRAINT "PK_006113a10247f411c459d62a5b3" PRIMARY KEY (uuid),
       CONSTRAINT "FK_1953f5ad67157bada8774f7e245" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE,
@@ -654,13 +654,13 @@ async function createTables(queryRunner: QueryRunner) {
     );
     CREATE INDEX "IDX_0c5d7e9585c77ff002d4072c3c" ON public.interactions USING btree ("usagerRef");
     CREATE INDEX "IDX_1953f5ad67157bada8774f7e24" ON public.interactions USING btree ("structureId");
-    CREATE INDEX "IDX_3bc72392a39f586374f0f7d577" ON public.interactions USING btree (event);
     CREATE INDEX "IDX_416154ec3c1e8fe5a96715b855" ON public.interactions USING btree ("nbCourrier");
     CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON public.interactions USING btree ("interactionOutUUID");
     CREATE INDEX "IDX_4a2ef430c9c7a9b4a66db96ec7" ON public.interactions USING btree ("dateInteraction");
     CREATE INDEX "IDX_9992157cbe54583ff7002ae4c0" ON public.interactions USING btree ("userId");
     CREATE INDEX "IDX_ef9fade8e5a6dac06ef5031986" ON public.interactions USING btree (type);
     CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
+    CREATE INDEX idx_interactions ON public.interactions USING btree ("structureId", "usagerUUID", "dateInteraction");
     `
   );
 }

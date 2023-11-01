@@ -147,7 +147,6 @@ export class UsagersDecisionController {
       {
         user,
         usager,
-        event: "create",
       }
     );
 
