@@ -2,4 +2,3 @@
 export * from "./MESSAGE_SMS_STATUS.const";
 export * from "./MessageSms.type";
 export * from "./MessageSmsReminderMetas.type";
-export * from "./MessageSmsReminders.type";

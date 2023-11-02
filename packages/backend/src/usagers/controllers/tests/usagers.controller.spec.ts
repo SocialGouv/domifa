@@ -65,7 +65,6 @@ describe("Usagers Controller", () => {
 
       const usager: Usager = response.body;
       const exceptedResponse: Usager = POST_USAGER.response;
-
       // Test des dates
       expect(new Date(usager.decision.dateDebut)).toEqual(new Date());
       expect(new Date(usager.decision.dateFin)).toEqual(new Date());
@@ -76,14 +75,16 @@ describe("Usagers Controller", () => {
       expect(usager.typeDom).toEqual("PREMIERE_DOM");
       expect(usager.decision.typeDom).toEqual("PREMIERE_DOM");
       expect(usager.historique[0].typeDom).toEqual("PREMIERE_DOM");
-
       // Trim et nettoyage des données
+
       expect(usager.nom).toEqual(exceptedResponse.nom);
       expect(usager.prenom).toEqual(exceptedResponse.prenom);
       expect(usager.surnom).toEqual(exceptedResponse.surnom);
+
       expect(usager.ayantsDroits[0].nom).toEqual(
         exceptedResponse.ayantsDroits[0].nom
       );
+      console.log("XXX");
       expect(usager.ayantsDroits[0].prenom).toEqual(
         exceptedResponse.ayantsDroits[0].prenom
       );

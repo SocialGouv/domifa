@@ -1,4 +1,3 @@
-import { InteractionInForApi } from "./../../../../../../_common/model/interaction/InteractionForApi.type";
 import {
   Component,
   EventEmitter,
@@ -9,10 +8,10 @@ import {
 } from "@angular/core";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
-  InteractionIn,
   InteractionInForm,
+  InteractionInForApi,
 } from "../../../../../../_common/model/interaction";
-import { INTERACTIONS_IN_AVAILABLE } from "../../../../../../_common/model/interaction/constants";
+import { INTERACTIONS_IN, InteractionIn } from "@domifa/common";
 import { bounce } from "../../../../../shared";
 import { UsagerFormModel } from "../../../interfaces";
 import { InteractionService } from "../../../services/interaction.service";
@@ -61,20 +60,19 @@ export class SetInteractionInFormComponent implements OnDestroy {
   }
 
   public setInteractionForm(): void {
-    const interactionsToSave: InteractionInForApi[] =
-      INTERACTIONS_IN_AVAILABLE.reduce(
-        (filtered: InteractionInForApi[], interaction) => {
-          if (this.interactionFormData[interaction].nbCourrier > 0) {
-            filtered.push({
-              nbCourrier: this.interactionFormData[interaction].nbCourrier,
-              type: interaction,
-              content: this.content,
-            });
-          }
-          return filtered;
-        },
-        []
-      );
+    const interactionsToSave: InteractionInForApi[] = INTERACTIONS_IN.reduce(
+      (filtered: InteractionInForApi[], interaction) => {
+        if (this.interactionFormData[interaction].nbCourrier > 0) {
+          filtered.push({
+            nbCourrier: this.interactionFormData[interaction].nbCourrier,
+            type: interaction,
+            content: this.content,
+          });
+        }
+        return filtered;
+      },
+      []
+    );
 
     if (interactionsToSave.length === 0) {
       this.toastService.warning(

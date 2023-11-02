@@ -1,12 +1,12 @@
 import { InteractionType } from "@domifa/common";
 
-export type InteractionInForApi = {
+export interface InteractionInForApi {
   nbCourrier: number;
   type: InteractionType;
   content: string | null;
-};
+}
 
-export type InteractionOutForApi = {
+export interface InteractionOutForApi {
   type: InteractionType;
   procurationIndex: number | null;
-};
+}

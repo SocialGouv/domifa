@@ -33,7 +33,7 @@ export class ProfilHistoriqueComponent
     },
     {
       id: "interactions",
-      name: "Courriers colis et passages",
+      name: "Interactions",
     },
     {
       id: "notes",

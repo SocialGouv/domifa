@@ -11,8 +11,6 @@ import {
   Structure,
   StructureSmsParams,
   Interactions,
-  INTERACTION_IN_CREATE_SMS,
-  INTERACTION_OUT_REMOVE_SMS,
 } from "../../_common/model";
 import { generateSmsInteraction } from "./generators";
 import { generateScheduleSendDate } from "./generators/generateScheduleSendDate";
@@ -20,6 +18,7 @@ import { generateScheduleSendDate } from "./generators/generateScheduleSendDate"
 import { getPhoneString } from "../../util/phone/phoneUtils.service";
 import { interactionsTypeManager } from "../../interactions/services";
 import { PhoneNumberFormat } from "google-libphonenumber";
+import { INTERACTIONS_IN, INTERACTIONS_OUT } from "@domifa/common";
 
 @Injectable()
 export class MessageSmsService {
@@ -149,11 +148,11 @@ export class MessageSmsService {
       usager.contactByPhone === true
     ) {
       // Courrier / Colis / Recommandé entrant = Envoi de SMS à prévoir
-      if (INTERACTION_IN_CREATE_SMS.includes(interaction.type)) {
+      if (INTERACTIONS_IN.includes(interaction.type)) {
         await this.createSmsInteraction(usager, structure, interaction);
       }
       // Suppression du SMS en file d'attente
-      if (INTERACTION_OUT_REMOVE_SMS.includes(interaction.type)) {
+      else if (INTERACTIONS_OUT.includes(interaction.type)) {
         const inType = interactionsTypeManager.getOppositeDirectionalType({
           type: interaction.type,
         });
