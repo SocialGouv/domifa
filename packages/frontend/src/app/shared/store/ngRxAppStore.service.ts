@@ -1,11 +1,12 @@
 import { createReducer, on } from "@ngrx/store";
-import { INTERACTIONS_IN_AVAILABLE, UsagerLight } from "../../../_common/model";
+import { UsagerLight } from "../../../_common/model";
 import { SearchPageLoadedUsagersData } from "./AppStoreModel.type";
 import { cacheManager } from "./ngRxUsagersCache.service";
 import { INITIAL_STATE } from "./INITIAL_STATE.const";
 import {
   USAGER_DECISION_STATUT_LABELS,
   USAGER_DECISION_STATUT_COLORS,
+  INTERACTIONS_IN,
 } from "@domifa/common";
 import {
   getEcheanceInfos,
@@ -218,7 +219,7 @@ function deleteSearchPageLoadedUsagersDataUsager({
 export const setUsagerInformations = (usager: UsagerLight): any => {
   let totalInteractionsEnAttente = 0;
   if (usager.lastInteraction) {
-    INTERACTIONS_IN_AVAILABLE.forEach((interaction) => {
+    INTERACTIONS_IN.forEach((interaction) => {
       totalInteractionsEnAttente += usager.lastInteraction[interaction];
     });
   }

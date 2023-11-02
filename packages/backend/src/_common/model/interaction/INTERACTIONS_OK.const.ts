@@ -21,7 +21,7 @@ export const INTERACTION_OK_LIST: InteractionType[] = [
   "recommandeOut",
 ];
 
-export const INTERACTION_IN_OUT_OBJECTS: {
+export const INTERACTIONS_IN_OUT_OBJECTS: {
   in: InteractionType;
   out: InteractionType;
 }[] = [
@@ -39,20 +39,8 @@ export const INTERACTION_IN_OUT_OBJECTS: {
   },
 ];
 
-export const INTERACTION_IN_OUT_LIST: InteractionType[] =
-  INTERACTION_IN_OUT_OBJECTS.map((io) => [io.in, io.out]).reduce(
+export const INTERACTIONS_IN_OUT_LIST: InteractionType[] =
+  INTERACTIONS_IN_OUT_OBJECTS.map((io) => [io.in, io.out]).reduce(
     (acc, arr) => acc.concat(arr),
     [] as InteractionType[]
   );
-
-export const INTERACTION_IN_CREATE_SMS: InteractionType[] = [
-  "courrierIn",
-  "colisIn",
-  "recommandeIn",
-];
-
-export const INTERACTION_OUT_REMOVE_SMS: InteractionType[] = [
-  "courrierOut",
-  "colisOut",
-  "recommandeOut",
-];

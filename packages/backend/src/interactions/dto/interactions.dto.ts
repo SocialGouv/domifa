@@ -12,12 +12,12 @@ import {
   ValidateIf,
 } from "class-validator";
 import { TrimOrNullTransform } from "../../_common/decorators";
+import { ALL_INTERACTION_TYPES } from "../../_common/model";
 import {
-  ALL_INTERACTION_TYPES,
-  INTERACTION_IN_CREATE_SMS,
-  INTERACTION_OUT_REMOVE_SMS,
-} from "../../_common/model";
-import { InteractionType } from "@domifa/common";
+  InteractionType,
+  INTERACTIONS_IN,
+  INTERACTIONS_OUT,
+} from "@domifa/common";
 
 export class InteractionDto {
   @ApiProperty({
@@ -33,7 +33,7 @@ export class InteractionDto {
     type: String,
     required: false,
   })
-  @ValidateIf((o) => INTERACTION_IN_CREATE_SMS.indexOf(o.type) !== -1)
+  @ValidateIf((o) => INTERACTIONS_IN.indexOf(o.type) !== -1)
   @IsOptional()
   @IsString()
   @TrimOrNullTransform()
@@ -43,7 +43,7 @@ export class InteractionDto {
     type: Number,
     required: false,
   })
-  @ValidateIf((o) => INTERACTION_OUT_REMOVE_SMS.indexOf(o.type) !== -1)
+  @ValidateIf((o) => INTERACTIONS_OUT.indexOf(o.type) !== -1)
   @IsOptional()
   @IsNumber()
   @Min(0)
@@ -54,7 +54,7 @@ export class InteractionDto {
     type: Number,
     required: true,
   })
-  @ValidateIf((o) => INTERACTION_IN_CREATE_SMS.indexOf(o.type) !== -1)
+  @ValidateIf((o) => INTERACTIONS_IN.indexOf(o.type) !== -1)
   @IsNumber()
   @IsNotEmpty()
   @Min(1)

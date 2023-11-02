@@ -6,7 +6,6 @@ import {
   UsagerEcheanceInfos,
   UsagerRdvInfos,
   Telephone,
-  INTERACTIONS_IN_AVAILABLE,
   UsagerLight,
 } from "../../../../_common/model";
 
@@ -18,6 +17,7 @@ import {
   UsagerSexe,
   UsagerTypeDom,
   UsagerAyantDroit,
+  INTERACTIONS_IN,
 } from "@domifa/common";
 
 export class UsagerFormModel {
@@ -138,7 +138,7 @@ export class UsagerFormModel {
     this.echeanceInfos = getEcheanceInfos(usager);
     this.rdvInfos = getRdvInfos(usager);
     this.totalInteractionsEnAttente = 0;
-    INTERACTIONS_IN_AVAILABLE.forEach((interaction) => {
+    INTERACTIONS_IN.forEach((interaction) => {
       this.totalInteractionsEnAttente += this.lastInteraction[interaction];
     });
   }

@@ -13,7 +13,6 @@ import { BehaviorSubject, Subscription, combineLatest } from "rxjs";
 import {
   InteractionOutForm,
   InteractionOutForApi,
-  INTERACTIONS_OUT_AVAILABLE,
   Order,
 } from "../../../../../../_common/model";
 import { bounce } from "../../../../../shared";
@@ -21,6 +20,7 @@ import { CustomToastService } from "../../../../shared/services";
 import { UsagerFormModel, Interaction } from "../../../interfaces";
 
 import { InteractionService } from "../../../services/interaction.service";
+import { INTERACTIONS_OUT } from "@domifa/common";
 
 @Component({
   animations: [bounce],
@@ -144,19 +144,18 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   }
 
   public setInteractionForm(): void {
-    const interactionsToSave: InteractionOutForApi[] =
-      INTERACTIONS_OUT_AVAILABLE.reduce(
-        (filtered: InteractionOutForApi[], interaction) => {
-          if (this.interactionFormData[interaction].selected) {
-            filtered.push({
-              procurationIndex: this.procurationIndex,
-              type: interaction,
-            });
-          }
-          return filtered;
-        },
-        []
-      );
+    const interactionsToSave: InteractionOutForApi[] = INTERACTIONS_OUT.reduce(
+      (filtered: InteractionOutForApi[], interaction) => {
+        if (this.interactionFormData[interaction].selected) {
+          filtered.push({
+            procurationIndex: this.procurationIndex,
+            type: interaction,
+          });
+        }
+        return filtered;
+      },
+      []
+    );
 
     if (interactionsToSave.length === 0) {
       this.cancelReception.emit();
