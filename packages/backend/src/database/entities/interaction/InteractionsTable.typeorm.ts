@@ -40,7 +40,6 @@ export class InteractionsTable
 
   @Index()
   @Column({ type: "uuid", nullable: true })
-  @ManyToOne(() => InteractionsTable, (interaction) => interaction.uuid)
   @JoinColumn({ name: "interactionOutUUID", referencedColumnName: "uuid" })
   interactionOutUUID!: string;
 

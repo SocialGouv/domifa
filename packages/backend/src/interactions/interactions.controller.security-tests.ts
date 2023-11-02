@@ -19,8 +19,13 @@ export const InteractionsControllerSecurityTests: AppTestHttpClientSecurityTestD
       label: `${CONTROLLER}.getInteractions`,
       query: async (context: AppTestContext) => {
         return {
-          response: await AppTestHttpClient.get(`/interactions/4444444`, {
+          response: await AppTestHttpClient.post(`/interactions/4444444`, {
             context,
+            body: {
+              order: "desc",
+              page: 0,
+              take: 10,
+            },
           }),
           expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
             context.user,

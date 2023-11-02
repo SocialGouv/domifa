@@ -32,9 +32,8 @@ async function updateInteractionAfterDistribution(
   interaction: Interactions,
   oppositeType: InteractionType
 ): Promise<void> {
-  // Liste des interactions entrantes à mettre à jour
   return interactionRepository.query(
-    `UPDATE interactions SET "interactionOutUUID" = $1 where "usagerUUID" = $2 AND type = $3 AND "interactionOutUUID" is null AND `,
+    `UPDATE interactions SET "interactionOutUUID" = $1 where "usagerUUID" = $2 AND type = $3 AND "interactionOutUUID" is null`,
     [interaction.uuid, usager.uuid, oppositeType]
   );
 }
@@ -101,11 +100,13 @@ async function countPendingInteraction({
     usagerRef,
   ]);
 
-  return typeof results[0] === "undefined"
-    ? 0
-    : results[0] === null || results[0].length === 0
-    ? 0
-    : parseInt(results[0].nbInteractions, 10);
+  if (typeof results[0] === "undefined") {
+    return 0;
+  }
+  if (results[0] === null || results[0].length === 0) {
+    return 0;
+  }
+  return parseInt(results[0].nbInteractions, 10);
 }
 
 async function countPendingInteractionsIn({
@@ -176,7 +177,7 @@ async function countInteractionsByMonth(
   let query = `select date_trunc('month', "dateInteraction") as date,
     SUM("nbCourrier") as count
     FROM interactions i
-    WHERE "event"='create' and "type" = $1 and "dateInteraction" BETWEEN $2 AND $3 `;
+    WHERE "type" = $1 and "dateInteraction" BETWEEN $2 AND $3 `;
 
   if (regionId) {
     query =
@@ -206,7 +207,6 @@ async function countVisiteOut({
     SELECT  date_trunc('minute', "dateInteraction"), 1
       FROM interactions as i
       WHERE "structureId" = $1
-      AND "event"='create'
       AND "dateInteraction" BETWEEN $2 AND $3
       AND  i.type in ('courrierOut', 'colisOut', 'recommandeOut')
     GROUP BY date_trunc('minute', "dateInteraction"))

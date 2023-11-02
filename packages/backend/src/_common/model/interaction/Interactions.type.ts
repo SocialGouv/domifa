@@ -12,5 +12,4 @@ export type Interactions = AppEntity & {
   userId: number;
   userName: string;
   interactionOutUUID: string | null;
-  interactionOut?: Interactions; // si interaction entrante, on associe la distribution
 };

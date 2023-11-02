@@ -1,4 +1,4 @@
-import { InteractionIn, InteractionOut } from ".";
+import { InteractionIn, InteractionOut } from "@domifa/common";
 
 export type InteractionInForm = {
   [key in InteractionIn]: {
