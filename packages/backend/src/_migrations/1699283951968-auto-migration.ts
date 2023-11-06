@@ -1,9 +1,15 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { domifaConfig } from "../config";
+import { appLogger } from "../util";
 
 export class AutoMigration1699283951968 implements MigrationInterface {
   name = "AutoMigration1699283951968";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    if (domifaConfig().envId === "dev") {
+      appLogger.info("[MIGRATION] Skipped");
+      return;
+    }
     await queryRunner.query(
       `DROP INDEX "public"."IDX_416154ec3c1e8fe5a96715b855"`
     );
