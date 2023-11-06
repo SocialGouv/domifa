@@ -55,7 +55,7 @@ async function createInteraction({
     const pendingInteractionsCount =
       await interactionRepository.countPendingInteraction({
         structureId: user.structureId,
-        usagerRef: usager.ref,
+        usagerUUID: usager.uuid,
         interactionType: oppositeType,
       });
 
@@ -64,10 +64,7 @@ async function createInteraction({
 
     // Note métier :
     // La date de dernier passage n'est pas mise à jour si remise à un mandataire
-    if (
-      typeof interaction.procurationIndex !== "undefined" &&
-      interaction.procurationIndex !== null
-    ) {
+    if (typeof interaction.procurationIndex === "number") {
       interaction.content = `${
         interaction.content
       }\nCourrier remis au mandataire : ${
@@ -101,7 +98,6 @@ async function createInteraction({
     }
   }
 
-  delete interaction.procurationIndex;
   interaction.content = interaction.content?.trim();
 
   const newInteraction: Interactions = {
@@ -115,7 +111,6 @@ async function createInteraction({
     interactionOutUUID: null,
   };
 
-  // Enregistrement de l'interaction
   const interactionCreated = await interactionRepository.save(
     new InteractionsTable(newInteraction)
   );

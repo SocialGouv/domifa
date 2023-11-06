@@ -127,6 +127,7 @@ async function createTables(queryRunner: QueryRunner) {
       CONSTRAINT "PK_6bffd9b803b67cd4e099fc795e1" PRIMARY KEY (uuid)
     );
 
+
     -- public.monitor_batch_process definition
 
     -- Drop table
@@ -649,18 +650,15 @@ async function createTables(queryRunner: QueryRunner) {
       "interactionOutUUID" uuid NULL,
       CONSTRAINT "PK_006113a10247f411c459d62a5b3" PRIMARY KEY (uuid),
       CONSTRAINT "FK_1953f5ad67157bada8774f7e245" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE,
-      CONSTRAINT "FK_495b59d0dd15e43b262f2da8907" FOREIGN KEY ("interactionOutUUID") REFERENCES public.interactions(uuid),
       CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE
     );
-    CREATE INDEX "IDX_0c5d7e9585c77ff002d4072c3c" ON public.interactions USING btree ("usagerRef");
     CREATE INDEX "IDX_1953f5ad67157bada8774f7e24" ON public.interactions USING btree ("structureId");
-    CREATE INDEX "IDX_416154ec3c1e8fe5a96715b855" ON public.interactions USING btree ("nbCourrier");
     CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON public.interactions USING btree ("interactionOutUUID");
     CREATE INDEX "IDX_4a2ef430c9c7a9b4a66db96ec7" ON public.interactions USING btree ("dateInteraction");
-    CREATE INDEX "IDX_9992157cbe54583ff7002ae4c0" ON public.interactions USING btree ("userId");
     CREATE INDEX "IDX_ef9fade8e5a6dac06ef5031986" ON public.interactions USING btree (type);
     CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
-    CREATE INDEX idx_interactions ON public.interactions USING btree ("structureId", "usagerUUID", "dateInteraction");
+    CREATE INDEX idx_interactions_date ON public.interactions USING btree ("structureId", "usagerUUID", "dateInteraction");
+    CREATE INDEX idx_interactions_type ON public.interactions USING btree ("structureId", "usagerUUID", type);
     `
   );
 }

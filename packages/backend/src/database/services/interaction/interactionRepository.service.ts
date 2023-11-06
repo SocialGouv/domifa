@@ -43,12 +43,12 @@ async function findLastInteractionOk({
   usager,
 }: {
   user: Pick<UserStructureAuthenticated, "structureId">;
-  usager: Pick<Usager, "ref">;
+  usager: Pick<Usager, "uuid">;
 }): Promise<Interactions> {
   const lastInteractions = await interactionRepository.findOne({
     where: {
       structureId: user.structureId,
-      usagerRef: usager.ref,
+      usagerUUID: usager.uuid,
       type: In(INTERACTION_OK_LIST),
     },
     order: { dateInteraction: "DESC" },
@@ -63,13 +63,13 @@ async function findLastInteractionInWithContent({
   oppositeType,
 }: {
   user: Pick<UserStructureAuthenticated, "structureId">;
-  usager: Pick<Usager, "ref">;
+  usager: Pick<Usager, "uuid">;
   oppositeType: InteractionType;
 }): Promise<Interactions> {
   const lastInteractions = await interactionRepository.findOne({
     where: {
       structureId: user.structureId,
-      usagerRef: usager.ref,
+      usagerUUID: usager.uuid,
       type: oppositeType,
     },
     order: { dateInteraction: "DESC" },
@@ -80,11 +80,11 @@ async function findLastInteractionInWithContent({
 
 async function countPendingInteraction({
   structureId,
-  usagerRef,
+  usagerUUID,
   interactionType,
 }: {
   structureId: number;
-  usagerRef: number;
+  usagerUUID: string;
   interactionType: InteractionType;
 }): Promise<number> {
   // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
@@ -92,12 +92,12 @@ async function countPendingInteraction({
     SELECT
       coalesce (SUM(CASE WHEN i.type = $1 THEN "nbCourrier" END), 0) AS "nbInteractions"
     FROM interactions i
-    WHERE i."structureId" = $2 AND i."usagerRef" = $3 AND i."interactionOutUUID" is null
-    GROUP BY i."usagerRef"`;
+    WHERE i."structureId" = $2 AND i."usagerUUID" = $3 AND i."interactionOutUUID" is null
+    GROUP BY i."usagerUUID"`;
   const results = await interactionRepository.query(query, [
     interactionType,
     structureId,
-    usagerRef,
+    usagerUUID,
   ]);
 
   if (typeof results[0] === "undefined") {

@@ -7,7 +7,12 @@ import { UsagerTable } from "../usager";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "interactions" })
-@Index("idx_interactions", ["structureId", "usagerUUID", "dateInteraction"])
+@Index("idx_interactions_date", [
+  "structureId",
+  "usagerUUID",
+  "dateInteraction",
+])
+@Index("idx_interactions_type", ["structureId", "usagerUUID", "type"])
 export class InteractionsTable
   extends AppTypeormTable<InteractionsTable>
   implements Interactions
@@ -16,7 +21,6 @@ export class InteractionsTable
   @Column({ type: "timestamptz" })
   dateInteraction: Date;
 
-  @Index()
   @Column({ type: "integer", default: 0, nullable: false })
   nbCourrier: number;
 
@@ -24,11 +28,9 @@ export class InteractionsTable
   @Column({ type: "text", nullable: false })
   type: InteractionType;
 
-  @Index()
   @Column({ type: "integer", nullable: false })
   usagerRef: number;
 
-  @Index()
   @Column({ type: "integer", nullable: true }) // nullable if user is deleted
   userId: number;
 
@@ -40,7 +42,6 @@ export class InteractionsTable
 
   @Index()
   @Column({ type: "uuid", nullable: true })
-  @JoinColumn({ name: "interactionOutUUID", referencedColumnName: "uuid" })
   interactionOutUUID!: string;
 
   @Index()
