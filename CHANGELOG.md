@@ -1,3 +1,24 @@
+# [2.142.0](https://github.com/SocialGouv/domifa/compare/v2.141.7...v2.142.0) (2023-11-06)
+
+
+### Bug Fixes
+
+* **dumps:** fix dump for tests ([7c0028f](https://github.com/SocialGouv/domifa/commit/7c0028fd607762a8cfcccdc1a4fc27544c33e0f6))
+* **dumps:** update dumps for test ([859c82a](https://github.com/SocialGouv/domifa/commit/859c82a7e03f067a3a46f0207f1e4c7b7b2858a9))
+* **frontend:** add structure name on print ([369d1d4](https://github.com/SocialGouv/domifa/commit/369d1d4ce5e2ba7968fc93e3ada531e4a6424eb6))
+* **interactions:** add indexes ([7b14127](https://github.com/SocialGouv/domifa/commit/7b14127e682c64791bdc5d9ea307e4d9c364954b))
+* **interactions:** delete 'event' in code ([32de1dd](https://github.com/SocialGouv/domifa/commit/32de1dd5eebf3fe07fae541e08735f39756b3776))
+* **migration:** update scripts ([adb6553](https://github.com/SocialGouv/domifa/commit/adb65537abb5336bff6465f89b3c73a92a285678))
+* **migrations:** disable migration for dev ([0f94038](https://github.com/SocialGouv/domifa/commit/0f940389500d641c1b4bdb97401c066b81b7d983))
+* **test:** fix unit test ([6f2bfb6](https://github.com/SocialGouv/domifa/commit/6f2bfb6a8593d6851bd5b2db7a162201097928fa))
+
+
+### Features
+
+* **history:** add sorting in tables ([6c819e6](https://github.com/SocialGouv/domifa/commit/6c819e6fb20a44ee45060f04a5ab4ef834872140))
+* **history:** add sorting in tables ([9c788be](https://github.com/SocialGouv/domifa/commit/9c788bee99bb20777e938cc6b7075e6a7fe6df58))
+* **history:** create a new history page ([0c4bdaa](https://github.com/SocialGouv/domifa/commit/0c4bdaafa4e4bbf009a9dae5950e14c5fb950263))
+
 ## [2.141.7](https://github.com/SocialGouv/domifa/compare/v2.141.6...v2.141.7) (2023-10-30)
 
 
