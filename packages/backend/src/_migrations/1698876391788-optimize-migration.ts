@@ -29,13 +29,10 @@ export class OptimizeInteractionsMigration1698876391788
     await queryRunner.query(
       `CREATE INDEX "idx_usagers" ON "usager" ("structureId", "ref") `
     );
-    await queryRunner.query(
-      `CREATE INDEX "idx_interactions" ON "interactions" ("structureId", "usagerUUID", "dateInteraction") `
-    );
 
     appLogger.info("[MIGRATION] DROP useless indexes");
     await queryRunner.query(
-      `DROP INDEX "public"."IDX_3bc72392a39f586374f0f7d577"`
+      `DROP INDEX "public"."IDX_0c5d7e9585c77ff002d4072c3c"`
     );
 
     await queryRunner.query(
@@ -44,7 +41,6 @@ export class OptimizeInteractionsMigration1698876391788
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DROP INDEX "public"."idx_interactions"`);
     await queryRunner.query(`DROP INDEX "public"."idx_usagers"`);
     await queryRunner.query(`DROP INDEX "public"."idx_structure_statut"`);
     await queryRunner.query(

@@ -127,7 +127,12 @@
         class="form-control"
         [(ngModel)]="content"
         id="content"
+        aria-describedby="message-informations"
       ></textarea>
+      <small class="my-2 text-start" id="message-informations">
+        1000 caractères maximum. Caractères interdits:
+        &#36;&#126;&#42;&lt;&gt;&#123;&#125;
+      </small>
       <app-rgpd-warning></app-rgpd-warning>
     </div>
   </div>

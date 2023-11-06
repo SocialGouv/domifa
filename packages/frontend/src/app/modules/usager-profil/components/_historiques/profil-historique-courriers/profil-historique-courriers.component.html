@@ -1,5 +1,5 @@
 <h3>
-  Historique des interactions
+  Historique des interactions:
   {{ searchResults.meta.itemCount }} interactions
 </h3>
 <div
@@ -87,10 +87,14 @@
   </div>
 </ng-container>
 
-<div class="justify-content-center d-flex p-3" *ngIf="interactions.length > 0">
-  <div class="justify-content-center d-flex me-auto">
+<div
+  class="justify-content-center d-flex p-3 d-print-none"
+  *ngIf="interactions.length > 0"
+>
+  <div
+    class="results-selector justify-content-start align-items-center d-flex me-auto"
+  >
     <select
-      class="form-select"
       name="limit"
       [(ngModel)]="params.take"
       (ngModelChange)="getInteractions()"
