@@ -11,7 +11,10 @@ import {
   Min,
   ValidateIf,
 } from "class-validator";
-import { TrimOrNullTransform } from "../../_common/decorators";
+import {
+  StripTagsTransform,
+  TrimOrNullTransform,
+} from "../../_common/decorators";
 import { ALL_INTERACTION_TYPES } from "../../_common/model";
 import {
   InteractionType,
@@ -36,6 +39,7 @@ export class InteractionDto {
   @ValidateIf((o) => INTERACTIONS_IN.indexOf(o.type) !== -1)
   @IsOptional()
   @IsString()
+  @StripTagsTransform()
   @TrimOrNullTransform()
   public content?: string;
 

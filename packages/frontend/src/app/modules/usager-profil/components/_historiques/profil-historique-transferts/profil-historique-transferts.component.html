@@ -42,7 +42,7 @@
         "
         [attr.aria-rowindex]="i + 1"
       >
-        <td>{{ transfert.createdAt | date : "dd/MM/yyyy à HH:mm" }}</td>
+        <td>{{ transfert.createdAt | date : "dd MMMM yyyy à HH:mm" }}</td>
         <td>
           <span
             [class]="'label-info ' + HISTORY_ACTIONS[transfert.action].class"

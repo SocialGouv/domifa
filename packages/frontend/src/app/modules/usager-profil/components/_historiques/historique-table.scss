@@ -36,3 +36,15 @@
     border: none;
   }
 }
+
+.results-selector {
+  select {
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+  }
+  label {
+    margin: 0;
+  }
+
+  width: 300px;
+}

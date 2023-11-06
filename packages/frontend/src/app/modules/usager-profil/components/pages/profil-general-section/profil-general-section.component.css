@@ -47,10 +47,6 @@ button:disabled .list-icon {
 }
 
 button:disabled {
-  border: 1px solid rgba(122, 122, 122, 1);
-  position: relative;
-  font-size: 1.2rem;
-  box-sizing: border-box;
   cursor: progress;
 }
 

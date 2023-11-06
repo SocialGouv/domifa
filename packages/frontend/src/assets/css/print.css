@@ -8,16 +8,8 @@
 
   @page {
     size: A4 !important;
-    margin: 1cm 0 !important;
+    margin: 0.75cm !important;
     padding: 0 !important;
-  }
-
-  @page :left {
-    margin-left: 1cm;
-  }
-
-  @page :right {
-    margin-left: 2cm;
   }
 
   *,
@@ -60,7 +52,10 @@
     display: none !important;
   }
 
+  .page-content,
+  .head-page,
   h1 {
+    background-color: white;
     margin: 0 !important;
     padding: 0 !important;
     color: black !important;

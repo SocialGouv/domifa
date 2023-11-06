@@ -1,11 +1,8 @@
 <div
-  class="container py-5"
+  class="container py-5 d-print-none"
   *ngIf="context === 'PROFIL' || context === 'INSTRUCTION_FORM'"
 >
-  <div
-    class="d-print-none col-md-12 text-center text-danger"
-    *ngIf="context === 'PROFIL'"
-  >
+  <div class="col-md-12 text-center text-danger" *ngIf="context === 'PROFIL'">
     <button
       type="button"
       class="btn btn-danger"
@@ -21,7 +18,7 @@
   </div>
 
   <div
-    class="d-print-none col-md-12 text-center text-danger"
+    class="col-md-12 text-center text-danger"
     *ngIf="context === 'INSTRUCTION_FORM'"
   >
     <button
@@ -45,7 +42,7 @@
 
 <ng-container *ngIf="context === 'HISTORY' && usager.historique.length > 1">
   <button
-    class="btn btn-danger"
+    class="btn btn-danger d-print-none"
     type="button"
     aria-label="Supprimer la dernière décision"
     (click)="open(deleteDecisionConfirmation)"
