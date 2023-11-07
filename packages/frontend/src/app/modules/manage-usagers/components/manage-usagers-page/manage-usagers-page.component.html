@@ -32,7 +32,6 @@
               type="button"
               aria-label="Type de donnée recherchée"
               aria-haspopup="listbox"
-              [attr.aria-expanded]="dropdownSearchString.isOpen()"
               ngbDropdownToggle
             >
               <span class="overflow-hidden">
@@ -101,7 +100,7 @@
             <input
               id="searchInput"
               type="text"
-              [(ngModel)]="searchString"
+              name="searchInput"
               #searchInput
               [placeholder]="
                 SEARCH_STRING_FIELD_LABELS[this.filters.searchStringField]

@@ -14,20 +14,19 @@ import {
   BehaviorSubject,
   combineLatest,
   fromEvent,
-  NEVER,
   Observable,
+  of,
   ReplaySubject,
   Subject,
   Subscription,
   timer,
 } from "rxjs";
 import {
-  catchError,
   debounceTime,
-  distinctUntilChanged,
   filter,
   map,
   switchMap,
+  take,
   tap,
 } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
@@ -107,8 +106,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     },
   };
 
-  public searchString: string | null;
-
   public filters: UsagersFilterCriteria;
   public filters$: Subject<UsagersFilterCriteria> = new ReplaySubject(1);
 
@@ -149,7 +146,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.usagers = [];
     this.filters = new UsagersFilterCriteria(this.getFilters());
 
-    this.searchString = this.filters.searchString;
     this.pageSize = 50;
     this.filters.page = 0;
     this.titleService.setTitle("Gestion des domiciliés - DomiFa");
@@ -159,6 +155,8 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     if (!this.me?.acceptTerms) {
       return;
     }
+
+    this.searchInput.nativeElement.value = this.filters.searchString;
 
     // 1. We load data from API
     this.subscription.add(
@@ -207,55 +205,57 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       })
     );
 
-    const onSearchInputKeyUp$: Observable<string> = fromEvent<KeyboardEvent>(
+    const onSearchInputKeyUp$: Observable<string> = fromEvent<InputEvent>(
       this.searchInput.nativeElement,
-      "keyup"
+      "input"
     ).pipe(
-      map((event: KeyboardEvent) => {
-        const target = event.target as HTMLInputElement;
-        return target?.value ? target.value : "";
+      map((event: InputEvent) => (event.target as HTMLInputElement).value),
+      debounceTime(200),
+      map((value: string) => value.trim()),
+      filter((value: string) => value !== this.filters.searchString),
+      switchMap((searchString: string) => {
+        if (
+          searchString.length > 3 &&
+          (this.filters.statut === "TOUS" || this.filters.statut === "RADIE")
+        ) {
+          this.loading = true;
+          return this.usagerService.getSearchPageRemoteSearchRadies({
+            searchString,
+          });
+        }
+        return of(searchString);
+      }),
+      tap((searchString: string) => {
+        if (searchString !== null) {
+          this.filters.searchString = searchString;
+          this.filters.page = 0;
+          this.filters$.next(this.filters);
+        }
       })
     );
 
     this.subscription.add(
-      onSearchInputKeyUp$
-        .pipe(
-          debounceTime(50),
-          map((filter: string) => (!filter ? filter : filter.trim())),
-          distinctUntilChanged()
-        )
-        .subscribe((text: string) => {
-          this.filters.searchString = text;
-          this.filters.page = 0;
-          this.filters$.next(this.filters);
-        })
-    );
-
-    this.subscription.add(
-      onSearchInputKeyUp$
-        .pipe(
-          debounceTime(500),
-          switchMap((searchString: string) => {
-            if (
-              searchString?.trim().length > 3 &&
-              (this.filters.statut === "TOUS" ||
-                this.filters.statut === "RADIE")
-            ) {
-              return this.usagerService.getSearchPageRemoteSearchRadies({
-                searchString,
-              });
-            }
-            return NEVER;
-          }),
-          catchError(() => NEVER)
-        )
-        .subscribe(() => {
-          this.store.select(selectSearchPageLoadedUsagersData()).pipe(
-            map((value) => {
-              this.searchPageLoadedUsagersData$.next(value);
-            })
-          );
-        })
+      onSearchInputKeyUp$.subscribe((searchString?: string) => {
+        // Gérez ici le résultat de la recherche à distance si nécessaire
+        if (searchString && searchString !== this.filters.searchString) {
+          // On suppose que la réponse de la recherche à distance n'est pas la même que la chaîne de recherche
+          this.store
+            .select(selectSearchPageLoadedUsagersData())
+            .pipe(take(1))
+            .subscribe({
+              next: (value) => {
+                this.searchPageLoadedUsagersData$.next(value);
+                this.loading = false;
+              },
+              error: () => {
+                console.log("ERROR");
+              },
+            });
+        } else {
+          // Si le résultat est la chaîne de recherche, il n'y a pas de recherche à distance effectuée
+          this.loading = false;
+        }
+      })
     );
 
     this.subscription.add(
@@ -299,8 +299,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
 
   public resetFilters(): void {
     this.filters = new UsagersFilterCriteria();
-    this.searchString = null;
-    this.filters$.next(this.filters);
+    this.resetSearchBar();
   }
 
   public updateFilters<T extends keyof UsagersFilterCriteria>({

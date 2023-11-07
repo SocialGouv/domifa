@@ -56,15 +56,12 @@ export class ManageUsagersService {
     searchString,
   }: {
     searchString: string;
-  }): Observable<UsagerLight[]> {
+  }): Observable<string> {
     return this.http
       .post<UsagerLight[]>(`${environment.apiUrl}usagers/search-radies`, {
         searchString,
       })
       .pipe(
-        map((usagers: UsagerLight[]) =>
-          usagers.map((usager: UsagerLight) => setUsagerInformations(usager))
-        ),
         tap((usagers: UsagerLight[]) => {
           this.store.dispatch(
             cacheManager.updateUsagers({
@@ -73,6 +70,9 @@ export class ManageUsagersService {
               ),
             })
           );
+        }),
+        map(() => {
+          return searchString;
         })
       );
   }

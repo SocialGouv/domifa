@@ -1,7 +1,34 @@
 [
   {
+    "date": "2023-11-08",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": " Historique des interactions",
+        "message": [
+          "Les historiques de passages, appels, courriers et connexions au portail sont désormais disponibles dans l'onglet 'Historique du dossier domicilié' sous l'appellation 'Interactions'"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Pagination des historiques",
+        "message": [
+          "Une nouvelle pagination vous permet d'avoir accès à un nombre plus conséquent des interactions passées enregistrées dans un dossier"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Impression des historiques",
+        "message": [
+          "Vous pouvez désormais imprimer les historiques du domiciliés en faisant figurer le nom et prénom du domicilié, ainsi que sont identifiant et le nom de la structure"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2023-10-30",
-    "description": "DomiFa fait sa rentrée !",
+    "description": "",
     "content": [
       {
         "type": "new",
