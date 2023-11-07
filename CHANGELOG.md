@@ -1,3 +1,11 @@
+## [2.142.1](https://github.com/SocialGouv/domifa/compare/v2.142.0...v2.142.1) (2023-11-07)
+
+
+### Bug Fixes
+
+* **frontend:** delete useless subscribe ([89ab521](https://github.com/SocialGouv/domifa/commit/89ab5217075ecfa24b18fd5cecc3f3357c1116e5))
+* **manage:** launch search after paste ([586f041](https://github.com/SocialGouv/domifa/commit/586f041071e04d7c18d9ec40a91bf0a7f64c247a))
+
 # [2.142.0](https://github.com/SocialGouv/domifa/compare/v2.141.7...v2.142.0) (2023-11-06)
 
 
