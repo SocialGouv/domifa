@@ -21,14 +21,7 @@ import {
   Subscription,
   timer,
 } from "rxjs";
-import {
-  debounceTime,
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-} from "rxjs/operators";
+import { debounceTime, filter, map, switchMap, tap } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { UsagerLight, UserStructure } from "../../../../../_common/model";
 import {
@@ -59,8 +52,6 @@ const AUTO_REFRESH_PERIOD = 3600000; // 1h
 })
 export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   public searching: boolean;
-  public loading: boolean;
-
   public searchPageLoadedUsagersData$ =
     new BehaviorSubject<SearchPageLoadedUsagersData>({
       usagersNonRadies: [],
@@ -139,7 +130,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     };
 
     this.me = this.authService.currentUserValue;
-    this.loading = false;
+
     this.nbResults = 0;
     this.needToPrint = false;
     this.searching = true;
@@ -163,7 +154,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       timer(0, AUTO_REFRESH_PERIOD)
         .pipe(
           tap(() => {
-            this.loading = true;
+            this.searching = true;
           }),
           switchMap(() => this.chargerTousRadies$),
           switchMap((chargerTousRadies) =>
@@ -192,7 +183,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
             this.usagersRadiesLoadedCount =
               searchPageLoadedUsagersData.usagersRadiesFirsts.length;
             this.searchPageLoadedUsagersData$.next(searchPageLoadedUsagersData);
-            this.loading = false;
             this.filters$.next(this.filters);
           }
         )
@@ -218,7 +208,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
           searchString.length > 3 &&
           (this.filters.statut === "TOUS" || this.filters.statut === "RADIE")
         ) {
-          this.loading = true;
+          this.searching = true;
           return this.usagerService.getSearchPageRemoteSearchRadies({
             searchString,
           });
@@ -235,26 +225,8 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      onSearchInputKeyUp$.subscribe((searchString?: string) => {
-        // Gérez ici le résultat de la recherche à distance si nécessaire
-        if (searchString && searchString !== this.filters.searchString) {
-          // On suppose que la réponse de la recherche à distance n'est pas la même que la chaîne de recherche
-          this.store
-            .select(selectSearchPageLoadedUsagersData())
-            .pipe(take(1))
-            .subscribe({
-              next: (value) => {
-                this.searchPageLoadedUsagersData$.next(value);
-                this.loading = false;
-              },
-              error: () => {
-                console.log("ERROR");
-              },
-            });
-        } else {
-          // Si le résultat est la chaîne de recherche, il n'y a pas de recherche à distance effectuée
-          this.loading = false;
-        }
+      onSearchInputKeyUp$.subscribe(() => {
+        // Nothing to do, just subscribe
       })
     );
 
@@ -293,8 +265,9 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
 
   public resetSearchBar(): void {
     this.searchInput.nativeElement.value = "";
-    this.filters.searchString = "";
+    this.filters.searchString = null;
     this.filters$.next(this.filters);
+    this.searchInput.nativeElement.focus();
   }
 
   public resetFilters(): void {
@@ -405,7 +378,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     ) as UsagerFormModel[];
 
     this.searching = false;
-    this.loading = false;
 
     // Impression: on attend la fin de la générationde la liste
     if (this.needToPrint) {
