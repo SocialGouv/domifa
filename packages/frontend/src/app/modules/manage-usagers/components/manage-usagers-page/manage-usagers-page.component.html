@@ -240,7 +240,7 @@
 <div class="content pt-3 pb-5">
   <div class="container">
     <div
-      *ngIf="usagers.length === 0 && !searching && !loading"
+      *ngIf="usagers.length === 0 && !searching"
       class="my-4 alert alert-warning flex-wrap text-center justify-content-md-between justify-content-center align-items-center"
     >
       <p class="me-2">
@@ -258,7 +258,7 @@
     </div>
 
     <div
-      *ngIf="(searching || loading) && filters.page === 0"
+      *ngIf="searching && filters.page === 0"
       @fadeInOut
       role="alert"
       aria-busy="true"

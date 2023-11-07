@@ -61,6 +61,6 @@ describe("ManageUsagersPageComponent", () => {
 
   it("X. Small functions : get letter, reset bar, go to profil", () => {
     component.resetSearchBar();
-    expect(component.filters.searchString).toEqual("");
+    expect(component.filters.searchString).toEqual(null);
   });
 });
