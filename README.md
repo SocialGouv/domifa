@@ -14,7 +14,4 @@ Voir [./\_docs/dev](./_docs/dev).
 ## OPS
 
 Voir [./\_docs/ops.md](./_docs/ops.md).
-
-## License
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSocialGouv%2Fdomifa.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FSocialGouv%2Fdomifa?ref=badge_large)
+ 
