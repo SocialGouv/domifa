@@ -1,10 +1,10 @@
-import { USAGER_ACTIF_MOCK } from "../../../../_common/mocks";
+import { USAGER_ACTIF_MOCK } from "../../mocks";
 import {
   ETAPE_RENDEZ_VOUS,
-  ETAPE_DECISION,
-  UsagerRdv,
   ETAPE_DOSSIER_COMPLET,
-} from "@domifa/common";
+  ETAPE_DECISION,
+} from "../constants";
+
 import { getRdvInfos } from "./getRdvInfos.service";
 
 beforeAll(() => {
@@ -15,7 +15,8 @@ beforeAll(() => {
 
 describe("Création des rendez-vous", () => {
   it("Rendez-vous dans le futur : affichage warning", () => {
-    const usager = USAGER_ACTIF_MOCK;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const usager = { ...USAGER_ACTIF_MOCK } as any;
     usager.rdv = {
       dateRdv: new Date(2021, 2, 20, 19, 20),
       userId: 1,
@@ -38,7 +39,7 @@ describe("Création des rendez-vous", () => {
   });
 
   it("Rendez-vous dans le passé", () => {
-    const usager = USAGER_ACTIF_MOCK;
+    const usager = USAGER_ACTIF_MOCK as any;
     usager.rdv = {
       dateRdv: new Date(2020, 6, 20, 19, 20),
       userId: 1,
@@ -69,14 +70,14 @@ describe("Création des rendez-vous", () => {
       display: false,
     });
 
-    usager.rdv.dateRdv = null as Date;
+    usager.rdv.dateRdv = null;
     expect(getRdvInfos(usager)).toEqual({
       class: "",
       content: "",
       display: false,
     });
 
-    usager.rdv = undefined as UsagerRdv;
+    usager.rdv = null as any;
     expect(getRdvInfos(usager)).toEqual({
       class: "",
       content: "",

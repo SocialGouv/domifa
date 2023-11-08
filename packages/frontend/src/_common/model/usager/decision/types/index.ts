@@ -2,5 +2,4 @@
 export * from "./UsagerDecision.type";
 export * from "./UsagerDecisionRadiationForm.type";
 export * from "./UsagerDecisionRefusForm.type";
-export * from "./UsagerDecisionStatusColor.type";
 export * from "./UsagerDecisionValideForm";

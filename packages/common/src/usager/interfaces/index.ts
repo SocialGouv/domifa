@@ -5,3 +5,4 @@ export * from "./UsagerDoc.interface";
 export * from "./UsagerEntretien.interface";
 export * from "./UsagerLastInteraction.interface";
 export * from "./UsagerRdv.interface";
+export * from "./UsagerRdvInfos.interface";

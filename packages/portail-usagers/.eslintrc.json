@@ -52,6 +52,7 @@
       "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {
+        "@angular-eslint/template/no-call-expression": "warn",
         "@angular-eslint/component-max-inline-declarations": "error",
         "@angular-eslint/template/accessibility-interactive-supports-focus": "error",
         "@angular-eslint/template/eqeqeq": "error",

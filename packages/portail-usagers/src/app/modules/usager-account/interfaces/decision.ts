@@ -1,17 +1,17 @@
 import {
-  UsagerDecision,
+  USAGER_DECISION_STATUT_LABELS_PROFIL,
   UsagerTypeDom,
   UsagerDecisionStatut,
   UsagerDecisionMotif,
-} from "../../../../_common";
-import { USAGER_DECISION_STATUT_LABELS_PROFIL } from "../../../../_common/usager/constants";
-import { UsagerDecisionOrientation } from "../../../../_common/usager/UsagerDecisionOrientation.type";
+  UsagerDecisionOrientation,
+  UsagerDecision,
+} from "@domifa/common";
 import { generateMotifLabel } from "./generateMotifLabel.service";
 
 export class Decision implements UsagerDecision {
-  public uuid?: string;
+  public uuid: string;
   public dateDebut: Date;
-  public dateFin?: Date;
+  public dateFin: Date | null;
   public dateDecision: Date; // Now()
 
   public typeDom: UsagerTypeDom;
@@ -35,20 +35,20 @@ export class Decision implements UsagerDecision {
   constructor(decision?: any) {
     this.uuid = decision?.uuid;
     this.typeDom = decision?.typeDom;
-    this.dateDebut = (decision && new Date(decision.dateDebut)) || undefined;
-    this.dateFin = (decision && new Date(decision.dateFin)) || undefined;
+    this.dateDebut = (decision && new Date(decision.dateDebut)) ?? undefined;
+    this.dateFin = (decision && new Date(decision.dateFin)) ?? undefined;
     this.dateDecision =
-      (decision && new Date(decision.dateDecision)) || new Date();
-    this.statut = (decision && decision.statut) || "INSTRUCTION";
+      (decision && new Date(decision.dateDecision)) ?? new Date();
+    this.statut = (decision && decision.statut) ?? "INSTRUCTION";
 
-    this.userName = (decision && decision.userName) || "";
-    this.userId = (decision && decision.userId) || "";
-    this.motifDetails = (decision && decision.motifDetails) || "";
-    this.motif = (decision && decision.motif) || "";
+    this.userName = (decision && decision.userName) ?? "";
+    this.userId = (decision && decision.userId) ?? "";
+    this.motifDetails = (decision && decision.motifDetails) ?? "";
+    this.motif = (decision && decision.motif) ?? "";
     this.motifString = "";
 
-    this.orientation = (decision && decision.orientation) || "";
-    this.orientationDetails = (decision && decision.orientationDetails) || "";
+    this.orientation = (decision && decision.orientation) ?? "";
+    this.orientationDetails = (decision && decision.orientationDetails) ?? "";
 
     this.statutLabel = USAGER_DECISION_STATUT_LABELS_PROFIL[this.statut];
 

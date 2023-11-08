@@ -2,12 +2,15 @@ import { Component, Input, OnInit } from "@angular/core";
 import {
   PortailUsagerPublic,
   UsagerEcheanceInfos,
-  UsagerRdvInfos,
 } from "../../../../../_common";
 import { DEFAULT_USAGER_PROFILE } from "../../../../../_common/mocks/DEFAULT_USAGER.const";
-import { USAGER_DECISION_STATUT_LABELS } from "../../../../../_common/usager/constants";
+
 import { getEcheanceInfos } from "../../interfaces/getEcheanceInfos.service";
-import { getRdvInfos } from "../../interfaces/getRdvInfos.service";
+import {
+  USAGER_DECISION_STATUT_LABELS,
+  getRdvInfos,
+  UsagerRdvInfos,
+} from "@domifa/common";
 
 @Component({
   selector: "app-section-infos",
@@ -29,6 +32,9 @@ export class SectionInfosComponent implements OnInit {
 
   ngOnInit(): void {
     this.echeanceInfos = getEcheanceInfos(this.usager);
-    this.rdvInfos = getRdvInfos(this.usager);
+    this.rdvInfos = getRdvInfos({
+      etapeDemande: this.usager.etapeDemande,
+      rdv: this.usager.rdv,
+    });
   }
 }

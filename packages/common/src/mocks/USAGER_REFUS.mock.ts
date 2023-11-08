@@ -1,9 +1,11 @@
-import { PortailUsagerPublic } from "..";
+import { ETAPE_DOSSIER_COMPLET } from "../usager";
 
-export const USAGER_REFUS_MOCK: PortailUsagerPublic = {
+export const USAGER_REFUS_MOCK = {
+  numeroDistribution: null,
+
   decision: {
-    uuid: "x",
-    orientationDetails: "",
+    orientationDetails: null,
+    orientation: null,
     statut: "REFUS",
     dateDebut: new Date("2020-02-12T00:00:00.000Z"),
     dateDecision: new Date("2020-02-12T00:00:00.000Z"),
@@ -22,18 +24,31 @@ export const USAGER_REFUS_MOCK: PortailUsagerPublic = {
     dateInteraction: new Date("2020-12-01T14:11:28.167Z"),
   },
   options: {
-    npai: {
-      actif: false,
-    },
-    procurations: [],
     transfert: {
       actif: false,
-      adresse: null,
       nom: null,
+      adresse: null,
+      dateDebut: null,
+      dateFin: null,
     },
+    procurations: [
+      {
+        nom: null,
+        prenom: null,
+        dateFin: null,
+        dateDebut: null,
+        dateNaissance: null,
+      },
+    ],
+    npai: {
+      actif: false,
+      dateDebut: null,
+    },
+    portailUsagerEnabled: false,
   },
   contactByPhone: false,
-  rdv: null,
+
+  rdv: { dateRdv: null, userId: 0, userName: "" },
   ayantsDroits: [
     {
       nom: "Karamoko",
@@ -43,25 +58,51 @@ export const USAGER_REFUS_MOCK: PortailUsagerPublic = {
     },
   ],
   datePremiereDom: new Date("2018-01-11T00:00:00.000Z"),
-
+  pinnedNote: null,
   email: "domicilie2@yopmail.com",
-  etapeDemande: 5,
+  entretien: {
+    typeMenage: "COUPLE_AVEC_ENFANT",
+    domiciliation: false,
+    revenus: false,
+    orientation: true,
+    orientationDetail: "Test orientation",
+    raison: "PRESTATIONS_SOCIALES",
+    liencommune: "SOCIAL",
+    liencommuneDetail: "Suivi social",
+    residence: "DOMICILE_MOBILE",
+    cause: "EXPULSION",
+    commentaires: "Ceci est un commentaire",
+    revenusDetail: null,
+    residenceDetail: null,
+    causeDetail: null,
+    rattachement: null,
+    raisonDetail: null,
+    accompagnement: null,
+    accompagnementDetail: null,
+  },
+  etapeDemande: ETAPE_DOSSIER_COMPLET,
   historique: [
     {
-      uuid: "x",
       dateDebut: new Date("2020-12-01T10:00:24.980Z"),
       dateDecision: new Date("2020-12-01T10:00:24.980Z"),
       dateFin: new Date("2020-12-01T10:00:24.980Z"),
-      motif: undefined,
+      motif: null,
+      orientation: null,
+      motifDetails: null,
+      orientationDetails: null,
       statut: "INSTRUCTION",
       userId: 30,
       userName: "Testeur Robin",
       typeDom: "PREMIERE_DOM",
     },
   ],
-
-  telephone: { countryCode: "fr", numero: "0142424242" },
+  telephone: { countryCode: "FR", numero: "0606060606" },
   surnom: "",
+  import: {
+    date: new Date("2020-12-01T10:00:24.980Z"),
+    userId: 30,
+    userName: "Testeur Robin",
+  },
   typeDom: "RENOUVELLEMENT",
   customRef: "5",
   dateNaissance: new Date("1998-08-07T00:00:00.000Z"),

@@ -1,14 +1,14 @@
-import {
-  UsagerAyantDroit,
-  UsagerDecision,
-  UsagerLastInteractions,
-  UsagerOptions,
-  UsagerRdv,
-  UsagerSexe,
-  UsagerTypeDom,
-} from "../usager";
+import { UsagerOptions } from "../usager";
 import { Telephone } from "../common";
 import { AppEntity } from "../_core";
+import {
+  UsagerSexe,
+  UsagerTypeDom,
+  UsagerLastInteraction,
+  UsagerRdv,
+  UsagerAyantDroit,
+  UsagerDecision,
+} from "@domifa/common";
 
 export type PortailUsagerPublic = AppEntity & {
   ref: number; // unique par structure
@@ -47,7 +47,7 @@ export type PortailUsagerPublic = AppEntity & {
   historique: UsagerDecision[];
 
   // INTERACTIONS
-  lastInteraction: UsagerLastInteractions;
+  lastInteraction: UsagerLastInteraction;
 
   options: UsagerOptions;
 };

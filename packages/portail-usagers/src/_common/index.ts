@@ -3,5 +3,4 @@ export * from "./_core";
 export * from "./_portail-usager";
 export * from "./common";
 export * from "./mocks";
-export * from "./structure";
 export * from "./usager";

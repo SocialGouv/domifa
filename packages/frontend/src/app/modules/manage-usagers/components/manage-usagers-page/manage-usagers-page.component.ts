@@ -408,23 +408,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     return filters === null ? {} : JSON.parse(filters);
   }
 
-  // private loadTallyScript(): void {
-  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //   const tally: any = window["Tally" as unknown as any];
-  //   if (tally) {
-  //     tally.openPopup("31k1RO", {
-  //       layout: "popup",
-  //       overlay: true,
-  //       showOnce: true,
-  //       emoji: {
-  //         text: "👋",
-  //         animation: "wave",
-  //       },
-  //       doNotShowAfterSubmit: true,
-  //     });
-  //   }
-  // }
-
   @HostListener("window:scroll", ["$event"])
   public onScroll(): void {
     const pos =
