@@ -2,6 +2,8 @@ projectName: domifa
 dependencies:
   fabrique:
     import: socialgouv/kontinuous/plugins/fabrique
+    extends:
+      - name: buildkit-service
     dependencies:
       contrib:
         preDeploy:

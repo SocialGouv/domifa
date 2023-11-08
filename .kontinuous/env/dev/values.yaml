@@ -1,3 +1,6 @@
+global:
+  pgSecretName: pg-app
+
 jobs:
   runs:
     build-backend:
@@ -8,24 +11,14 @@ jobs:
           DOMIFA_PORTAIL_USAGERS_URL: https://mon-{{ .Values.global.host }}/
           DOMIFA_FRONTEND_URL: https://{{ .Values.global.host }}/
 
-    drop-db:
-      use: drop-db
-      with:
-        pgAdminUserSecretRefName: azure-pg-admin-user-devflex
-    create-db:
-      ~needs: [drop-db]
-      use: create-db
-      with:
-        pgAdminUserSecretRefName: azure-pg-admin-user-devflex
-        useAzureFlex: "true"
     seed:
-      ~needs: [backend]
+      ~needs: [backend, pg]
       use: seed-db
       with:
         seedPath: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
 
 backend:
-  ~needs: [create-db, build-backend]
+  ~needs: [build-backend]
   volumes:
     - name: files
       emptyDir: {}
@@ -34,4 +27,4 @@ backend:
       name: files
 
 backend-cron:
-  ~needs: [create-db, build-backend]
+  ~needs: [build-backend]
