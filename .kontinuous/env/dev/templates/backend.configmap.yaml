@@ -12,6 +12,7 @@ data:
   DOMIFA_EMAILS_ENABLE: "true"
   DOMIFA_SMS_ENABLED: "false"
   POSTGRES_LOGGING: "schema,migration"
+  POSTGRES_SSL: "true"
   DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
   DOMIFA_SENTRY_ENABLED: "true"
   DOMIFA_LOG_HTTP_REQUESTS: "true"
