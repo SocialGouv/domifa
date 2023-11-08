@@ -1,3 +1,10 @@
+## [2.142.2](https://github.com/SocialGouv/domifa/compare/v2.142.1...v2.142.2) (2023-11-08)
+
+
+### Bug Fixes
+
+* **common:** delete useless interfaces ([f4b13e5](https://github.com/SocialGouv/domifa/commit/f4b13e578026be8c4a7d03382788f83483bd2b39))
+
 ## [2.142.1](https://github.com/SocialGouv/domifa/compare/v2.142.0...v2.142.1) (2023-11-07)
 
 
