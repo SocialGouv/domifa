@@ -18,7 +18,7 @@ jobs:
         seedPath: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
 
 backend:
-  ~needs: [build-backend]
+  ~needs: [build-backend, pg, seed]
   volumes:
     - name: files
       emptyDir: {}
@@ -27,4 +27,4 @@ backend:
       name: files
 
 backend-cron:
-  ~needs: [build-backend]
+  ~needs: [build-backend, pg, seed]
