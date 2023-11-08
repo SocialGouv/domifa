@@ -12,7 +12,7 @@ jobs:
           DOMIFA_FRONTEND_URL: https://{{ .Values.global.host }}/
 
     seed:
-      ~needs: [backend, pg]
+      ~needs: [pg]
       use: seed-db
       with:
         seedPath: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
