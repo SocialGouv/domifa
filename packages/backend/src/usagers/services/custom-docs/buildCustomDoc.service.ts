@@ -2,8 +2,6 @@ import { STRUCTURE_TYPE_LABELS } from "../../../_common/model/structure/constant
 
 import { StructureCommon, Usager } from "../../../_common/model";
 import { StructureCustomDocTags } from "../../../_common/model/structure-doc/StructureCustomDocTags.type";
-import { UsagerDecision } from "../../../_common/model/usager/UsagerDecision.type";
-import { generateMotifLabel } from "../generateMotifLabel.service";
 
 import { format } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
@@ -17,6 +15,8 @@ import {
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_TYPE_MENAGE,
   ENTRETIEN_RESIDENCE,
+  UsagerDecision,
+  generateMotifLabel,
 } from "@domifa/common";
 
 export const DATE_FORMAT = {

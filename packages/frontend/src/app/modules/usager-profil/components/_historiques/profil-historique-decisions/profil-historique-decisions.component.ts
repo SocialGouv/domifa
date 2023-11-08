@@ -1,7 +1,10 @@
 import { Component, Input } from "@angular/core";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
-import { USAGER_DECISION_STATUT_LABELS_PROFIL } from "@domifa/common";
-import { UsagerDecision, UserStructure } from "../../../../../../_common/model";
+import {
+  USAGER_DECISION_STATUT_LABELS_PROFIL,
+  UsagerDecision,
+} from "@domifa/common";
+import { UserStructure } from "../../../../../../_common/model";
 import { UsagersFilterCriteriaSortValues } from "../../../../manage-usagers/components/usager-filter";
 
 @Component({

@@ -1,17 +1,18 @@
 import { AppEntity } from "../_core/AppEntity.type";
-import { UsagerAyantDroit } from "./UsagerAyantDroit.type";
-import { UsagerDecision } from "./UsagerDecision.type";
+
 import { UsagerImport } from "./UsagerImport.type";
 import { UsagerNote } from "./UsagerNote.type";
 import { UsagerOptions } from "./options/UsagerOptions.type";
 
-import { UsagerTypeDom } from "./UsagerTypeDom.type";
 import { Telephone } from "../telephone/Telephone.type";
 import {
   UsagerLastInteraction,
   UsagerEntretien,
   UsagerRdv,
   UsagerSexe,
+  UsagerAyantDroit,
+  UsagerTypeDom,
+  UsagerDecision,
 } from "@domifa/common";
 
 export type Usager = AppEntity & {

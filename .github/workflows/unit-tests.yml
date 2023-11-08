@@ -112,11 +112,10 @@ jobs:
         uses: c-hive/gha-yarn-cache@v2
 
       - name: Install dependencies
-        run: |
-          yarn --immutable
-
-      - name: Install dependencies
         run: yarn workspaces focus @domifa/portail-usagers
+
+      - name: Build common dependencies
+        run: yarn workspace @domifa/common build
 
       - name: Run "Mon DomiFa" tests
         run: yarn workspace @domifa/portail-usagers test --coverage --detectOpenHandles --forceExit
@@ -141,14 +140,19 @@ jobs:
         with:
           node-version: "16.19"
 
+      - name: Change TimeZone
+        uses: szenius/set-timezone@v1.2
+        with:
+          timezoneLinux: "Europe/Paris"
+
       - name: Set up Yarn cache
         uses: c-hive/gha-yarn-cache@v2
 
-      - name: Build common dependencies
-        run: yarn workspace @domifa/common build
-
       - name: Install dependencies
         run: yarn workspaces focus @domifa/portail-admins
+
+      - name: Build common dependencies
+        run: yarn workspace @domifa/common build
 
       - name: Run "Portail Admin" tests
         run: yarn workspace @domifa/portail-admins test --coverage --detectOpenHandles --forceExit

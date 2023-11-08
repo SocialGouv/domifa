@@ -26,11 +26,7 @@ import {
   UserStructureAuthenticated,
 } from "../../_common/model";
 import { CheckDuplicateUsagerRefDto, DecisionDto } from "../dto";
-import {
-  UsagersService,
-  usagerHistoryStateManager,
-  generateNoteForDecision,
-} from "../services";
+import { UsagersService, usagerHistoryStateManager } from "../services";
 import {
   AllowUserStructureRoles,
   CurrentUser,
@@ -38,7 +34,13 @@ import {
 } from "../../auth/decorators";
 import { AppUserGuard, UsagerAccessGuard } from "../../auth/guards";
 import { Not } from "typeorm";
-import { ETAPE_ETAT_CIVIL, ETAPE_DECISION } from "@domifa/common";
+import {
+  ETAPE_ETAT_CIVIL,
+  ETAPE_DECISION,
+  USAGER_DECISION_STATUT_LABELS_PROFIL,
+  UsagerDecision,
+} from "@domifa/common";
+import { format } from "date-fns";
 
 @Controller("usagers-decision")
 @ApiTags("usagers-decision")
@@ -164,7 +166,7 @@ export class UsagersDecisionController {
     };
 
     const newNote: Partial<UsagerNote> = {
-      message: generateNoteForDecision(deletedDecision),
+      message: this.generateNoteForDecision(deletedDecision),
       usagerUUID: usager.uuid,
       usagerRef: usager.ref,
       structureId: usager.structureId,
@@ -183,4 +185,19 @@ export class UsagersDecisionController {
 
     return res.status(HttpStatus.OK).json(result);
   }
+
+  private generateNoteForDecision = (decision: UsagerDecision): string => {
+    let strDecision = `Suppression de la décision : \n ${
+      USAGER_DECISION_STATUT_LABELS_PROFIL[decision.statut]
+    }`;
+    const dateDebut = format(new Date(decision.dateDebut), "dd/MM/yyyy");
+
+    if (decision.statut === "VALIDE") {
+      const dateFin = format(new Date(decision.dateFin), "dd/MM/yyyy");
+      strDecision = `${strDecision} du ${dateDebut} au ${dateFin}\n`;
+    } else {
+      strDecision = `${strDecision} le ${dateDebut}\n`;
+    }
+    return strDecision;
+  };
 }

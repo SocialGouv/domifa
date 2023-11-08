@@ -2,14 +2,9 @@ import {
   AppEntity,
   Telephone,
   UsagerEcheanceInfos,
-  UsagerRdvInfos,
 } from "../../../_common/model";
 import { UsagerEntretien } from "./entretien";
-
-import { UsagerDecision } from "./decision/types/UsagerDecision.type";
-
 import { UsagerImport } from "./UsagerImport.type";
-
 import { UsagerNote } from "./UsagerNote.type";
 import { UsagerOptions } from "./options/UsagerOptions.type";
 
@@ -19,6 +14,8 @@ import {
   UsagerSexe,
   UsagerTypeDom,
   UsagerLastInteraction,
+  UsagerDecision,
+  UsagerRdvInfos,
 } from "@domifa/common";
 
 export type Usager = AppEntity & {

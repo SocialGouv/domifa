@@ -1,6 +1,6 @@
 import { Column, Workbook } from "exceljs";
 
-import { COUNTRY_CODES, UsagerDecision } from "../../../_common/model";
+import { COUNTRY_CODES } from "../../../_common/model";
 import {
   WorksheetRenderer,
   xlFormater,
@@ -8,8 +8,11 @@ import {
   XlRowModel,
 } from "../../xlLib";
 import { StructureUsagersExportModel } from "../StructureUsagersExportModel.type";
-import { generateMotifLabel } from "./../../../usagers/services/generateMotifLabel.service";
-import { USAGER_DECISION_STATUT_LABELS } from "@domifa/common";
+import {
+  USAGER_DECISION_STATUT_LABELS,
+  UsagerDecision,
+  generateMotifLabel,
+} from "@domifa/common";
 
 export const exportListeParticipantsWorksheetRenderer = {
   renderWorksheet,

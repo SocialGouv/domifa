@@ -1,4 +1,4 @@
-FROM node:18.16.1  AS builder
+FROM node:18.16.1 AS deps
 
 RUN apt-get update -y && apt-get install gettext-base && rm -rf /var/lib/apt/lists/*
 
@@ -7,6 +7,13 @@ WORKDIR /app
 COPY yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
 RUN yarn fetch workspaces focus @domifa/portail-admins
+
+FROM deps AS builder-common
+COPY ./packages/common ./packages/common
+RUN yarn workspace @domifa/common build
+
+FROM deps AS builder
+COPY --from=builder-common /app/packages/common ./packages/common
 
 COPY ./packages/portail-admins ./packages/portail-admins
 

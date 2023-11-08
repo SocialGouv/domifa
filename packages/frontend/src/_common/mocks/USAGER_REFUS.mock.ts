@@ -4,8 +4,8 @@ import { ETAPE_DOSSIER_COMPLET } from "@domifa/common";
 
 export const USAGER_REFUS_MOCK: UsagerLight = {
   numeroDistribution: null,
-
   decision: {
+    uuid: "x",
     orientationDetails: null,
     orientation: null,
     statut: "REFUS",
@@ -85,6 +85,7 @@ export const USAGER_REFUS_MOCK: UsagerLight = {
   etapeDemande: ETAPE_DOSSIER_COMPLET,
   historique: [
     {
+      uuid: "x",
       dateDebut: new Date("2020-12-01T10:00:24.980Z"),
       dateDecision: new Date("2020-12-01T10:00:24.980Z"),
       dateFin: new Date("2020-12-01T10:00:24.980Z"),

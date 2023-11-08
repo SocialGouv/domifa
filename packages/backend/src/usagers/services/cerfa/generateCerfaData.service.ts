@@ -6,11 +6,14 @@ import { UserStructureAuthenticated } from "../../../_common/model";
 import {
   DateCerfa,
   Usager,
-  UsagerAyantDroit,
   UsagerCerfaFields,
 } from "../../../_common/model/usager";
-import { generateMotifLabel } from "../generateMotifLabel.service";
-import { CerfaDocType } from "@domifa/common";
+
+import {
+  CerfaDocType,
+  UsagerAyantDroit,
+  generateMotifLabel,
+} from "@domifa/common";
 import { isNil } from "lodash";
 
 export const generateCerfaData = (

@@ -39,7 +39,7 @@
     "@ngrx/store-devtools": "^15.4.0",
     "@popperjs/core": "^2.11.8",
     "@schematics/angular": "^15.2.10",
-    "@sentry/angular": "^7.77.0",
+    "@sentry/angular": "^7.79.0",
     "@swimlane/ngx-charts": "^20.4.1",
     "angular-user-idle": "^4.0.0",
     "bootstrap": "^5.2.0",
@@ -54,7 +54,7 @@
     "ngx-matomo-client": "^5.0.4",
     "rxjs": "^7.6.0",
     "tslib": "^2.3.0",
-    "validator": "^13.9.0",
+    "validator": "^13.11.0",
     "zone.js": "~0.14.0"
   },
   "devDependencies": {
@@ -70,7 +70,7 @@
     "@angular/cli": "15.2.10",
     "@angular/compiler-cli": "^15.2.10",
     "@angular/language-service": "^15.2.10",
-    "@schematics/update": "^0.1102.18",
+    "@schematics/update": "^0.1102.19",
     "@types/file-saver": "^2.0.7",
     "@types/google-libphonenumber": "^7.4.30",
     "@types/jest": "^29.5.8",
