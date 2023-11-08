@@ -6,6 +6,7 @@ export type DomifaConfigPostgres = {
   username: string; // POSTGRES_USERNAME
   password: string; // POSTGRES_PASSWORD
   database: string; // POSTGRES_DATABASE
+  ssl: boolean; // POSTGRES_SSL
   logging: LoggerOptions; // POSTGRES_LOGGING
   poolMaxConnections: number; // POSTGRES_POOL_MAX_CONNEXIONS
 };
