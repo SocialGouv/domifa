@@ -8,8 +8,6 @@ import {
   Usager,
   UserStructure,
   UserStructureProfile,
-  UsagerTypeDom,
-  UsagerDecision,
   UserStructureAuthenticated,
 } from "../../_common/model";
 import { usagerHistoryStateManager } from "./usagerHistoryStateManager.service";
@@ -25,6 +23,8 @@ import {
   ETAPE_DOSSIER_COMPLET,
   ETAPE_DECISION,
   ETAPE_ENTRETIEN,
+  UsagerTypeDom,
+  UsagerDecision,
 } from "@domifa/common";
 
 @Injectable()

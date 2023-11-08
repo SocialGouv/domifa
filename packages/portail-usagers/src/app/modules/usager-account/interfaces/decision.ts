@@ -5,8 +5,8 @@ import {
   UsagerDecisionMotif,
   UsagerDecisionOrientation,
   UsagerDecision,
+  generateMotifLabel,
 } from "@domifa/common";
-import { generateMotifLabel } from "./generateMotifLabel.service";
 
 export class Decision implements UsagerDecision {
   public uuid: string;

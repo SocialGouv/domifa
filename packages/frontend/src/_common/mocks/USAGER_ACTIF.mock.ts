@@ -5,6 +5,7 @@ import { ETAPE_DOSSIER_COMPLET } from "@domifa/common";
 export const USAGER_ACTIF_MOCK: UsagerLight = {
   numeroDistribution: null,
   decision: {
+    uuid: "x",
     statut: "VALIDE",
     dateDebut: new Date("2020-02-12T00:00:00.000Z"),
     dateDecision: new Date("2020-02-12T00:00:00.000Z"),
@@ -84,6 +85,7 @@ export const USAGER_ACTIF_MOCK: UsagerLight = {
   etapeDemande: ETAPE_DOSSIER_COMPLET,
   historique: [
     {
+      uuid: "x",
       statut: "VALIDE",
       dateDebut: new Date("2020-02-12T00:00:00.000Z"),
       dateDecision: new Date("2020-02-12T00:00:00.000Z"),
@@ -97,6 +99,7 @@ export const USAGER_ACTIF_MOCK: UsagerLight = {
       userName: "Testeur Robin",
     },
     {
+      uuid: "x",
       dateDebut: new Date("2020-12-01T10:00:24.980Z"),
       dateDecision: new Date("2020-12-01T10:00:24.980Z"),
       dateFin: new Date("2020-12-01T10:00:24.980Z"),

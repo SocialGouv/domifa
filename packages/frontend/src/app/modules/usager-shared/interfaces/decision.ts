@@ -3,13 +3,13 @@ import {
   UsagerTypeDom,
   UsagerDecisionStatut,
   UsagerDecisionMotif,
+  UsagerDecision,
+  generateMotifLabel,
   UsagerDecisionOrientation,
 } from "@domifa/common";
-import { UsagerDecision } from "../../../../_common/model";
-import { generateMotifLabel } from "../utils";
 
 export class Decision implements UsagerDecision {
-  public uuid?: string;
+  public uuid: string;
   public dateDebut: Date | null;
   public dateFin: Date | null;
   public dateDecision: Date;

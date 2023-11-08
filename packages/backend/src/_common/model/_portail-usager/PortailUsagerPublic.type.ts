@@ -1,12 +1,14 @@
 import { Telephone } from "./../telephone/Telephone.type";
+import { UsagerOptions } from "..";
+import { AppEntity } from "../_core";
 import {
+  UsagerRdv,
+  UsagerSexe,
+  UsagerLastInteraction,
   UsagerAyantDroit,
   UsagerDecision,
-  UsagerOptions,
   UsagerTypeDom,
-} from "..";
-import { AppEntity } from "../_core";
-import { UsagerRdv, UsagerSexe, UsagerLastInteraction } from "@domifa/common";
+} from "@domifa/common";
 
 export type PortailUsagerPublic = AppEntity & {
   customRef: string; // valeur par défaut: 'ref'

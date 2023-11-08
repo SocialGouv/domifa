@@ -10,14 +10,15 @@ import {
   MinLength,
   ValidateIf,
 } from "class-validator";
-import { StripTagsTransform } from "../../_common/decorators";
 
-import { UsagerDecision } from "../../_common/model";
+import {} from "../../_common/model";
 import {
   UsagerDecisionStatut,
   UsagerDecisionMotif,
   UsagerDecisionOrientation,
+  UsagerDecision,
 } from "@domifa/common";
+import { StripTagsTransform } from "../../_common/decorators";
 
 export class DecisionDto implements UsagerDecision {
   @ApiProperty({

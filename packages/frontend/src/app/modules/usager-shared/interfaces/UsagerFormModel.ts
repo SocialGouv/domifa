@@ -2,9 +2,7 @@ import { CountryISO } from "ngx-intl-tel-input";
 import { Entretien, Rdv, Decision, Options } from ".";
 import {
   UsagerNote,
-  UsagerDecision,
   UsagerEcheanceInfos,
-  UsagerRdvInfos,
   Telephone,
   UsagerLight,
 } from "../../../../_common/model";
@@ -19,6 +17,8 @@ import {
   UsagerAyantDroit,
   INTERACTIONS_IN,
   getRdvInfos,
+  UsagerDecision,
+  UsagerRdvInfos,
 } from "@domifa/common";
 
 export class UsagerFormModel {
