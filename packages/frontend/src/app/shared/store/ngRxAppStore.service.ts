@@ -7,13 +7,13 @@ import {
   USAGER_DECISION_STATUT_LABELS,
   USAGER_DECISION_STATUT_COLORS,
   INTERACTIONS_IN,
+  getRdvInfos,
 } from "@domifa/common";
 import { getEcheanceInfos } from "../../modules/usager-shared/utils";
 import {
   Options,
   UsagerFormModel,
 } from "../../modules/usager-shared/interfaces";
-import { getRdvInfos } from "@domifa/common";
 
 export const _usagerReducer = createReducer(
   INITIAL_STATE,

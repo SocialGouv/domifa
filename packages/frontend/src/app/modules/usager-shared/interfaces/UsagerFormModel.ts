@@ -18,8 +18,8 @@ import {
   UsagerTypeDom,
   UsagerAyantDroit,
   INTERACTIONS_IN,
+  getRdvInfos,
 } from "@domifa/common";
-import { getRdvInfos } from "@domifa/common";
 
 export class UsagerFormModel {
   public ref: number;

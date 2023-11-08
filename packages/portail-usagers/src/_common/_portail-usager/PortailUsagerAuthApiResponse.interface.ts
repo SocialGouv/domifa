@@ -1,6 +1,6 @@
 import { PortailUsagerProfile } from "./PortailUsagerProfile.type";
 
-export type PortailUsagerAuthApiResponse = {
+export interface PortailUsagerAuthApiResponse {
   token: string;
   profile: PortailUsagerProfile;
-};
+}
