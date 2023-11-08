@@ -32,17 +32,14 @@ jobs:
       - name: Set up Yarn cache
         uses: c-hive/gha-yarn-cache@v2
 
-      - name: Build common dependencies
-        run: yarn workspace @domifa/common build
-
-      - name: Test common dependencies
-        run: yarn workspace @domifa/common test
-
       - name: Create backend .env file
         run: cp ./packages/backend/.env.backend.test.local.example.env ./packages/backend/.env
 
       - name: Install backend dependencies
         run: yarn workspaces focus @domifa/backend
+
+      - name: Build common dependencies
+        run: yarn workspace @domifa/common build
 
       - name: Create Postgres service
         run: docker-compose -f ./docker-compose.tests.yml up --build --detach
@@ -121,7 +118,7 @@ jobs:
       - name: Install dependencies
         run: yarn workspaces focus @domifa/portail-usagers
 
-      - name: Run front-end tests
+      - name: Run "Mon DomiFa" tests
         run: yarn workspace @domifa/portail-usagers test --coverage --detectOpenHandles --forceExit
 
       - name: Archive code coverage
@@ -147,10 +144,13 @@ jobs:
       - name: Set up Yarn cache
         uses: c-hive/gha-yarn-cache@v2
 
+      - name: Build common dependencies
+        run: yarn workspace @domifa/common build
+
       - name: Install dependencies
         run: yarn workspaces focus @domifa/portail-admins
 
-      - name: Run front-end tests
+      - name: Run "Portail Admin" tests
         run: yarn workspace @domifa/portail-admins test --coverage --detectOpenHandles --forceExit
 
       - name: Archive code coverage

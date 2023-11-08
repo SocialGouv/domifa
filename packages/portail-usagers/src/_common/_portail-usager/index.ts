@@ -1,4 +1,4 @@
-export * from "./PortailUsagerAuthApiResponse.type";
-export * from "./PortailUsagerAuthLoginForm.type";
+export * from "./PortailUsagerAuthApiResponse.interface";
+export * from "./PortailUsagerAuthLoginForm.interface";
 export * from "./PortailUsagerProfile.type";
 export * from "./PortailUsagerPublic.type";

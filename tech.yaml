@@ -28,13 +28,13 @@ stack:
   common:
     - Typescript
   frontend:
-    - Angular 13
+    - Angular 15
     - Typescript
   portail-admins:
-    - Angular 13
+    - Angular 15
     - Typescript
   portail-usagers:
-    - Angular 13
+    - Angular 15
     - Typescript
   backend:
     - NestJS
