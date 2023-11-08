@@ -9,7 +9,7 @@ import {
   UsagerLight,
 } from "../../../../_common/model";
 
-import { getEcheanceInfos, getRdvInfos } from "../utils";
+import { getEcheanceInfos } from "../utils";
 import {
   ETAPE_ETAT_CIVIL,
   USAGER_DECISION_STATUT_COLORS,
@@ -19,6 +19,7 @@ import {
   UsagerAyantDroit,
   INTERACTIONS_IN,
 } from "@domifa/common";
+import { getRdvInfos } from "@domifa/common";
 
 export class UsagerFormModel {
   public ref: number;
@@ -136,7 +137,11 @@ export class UsagerFormModel {
       color: USAGER_DECISION_STATUT_COLORS[this.decision.statut],
     };
     this.echeanceInfos = getEcheanceInfos(usager);
-    this.rdvInfos = getRdvInfos(usager);
+    this.rdvInfos = getRdvInfos({
+      rdv: this.rdv,
+      etapeDemande: this.etapeDemande,
+    });
+
     this.totalInteractionsEnAttente = 0;
     INTERACTIONS_IN.forEach((interaction) => {
       this.totalInteractionsEnAttente += this.lastInteraction[interaction];

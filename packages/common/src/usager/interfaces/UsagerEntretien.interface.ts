@@ -4,7 +4,7 @@ import {
   type UsagerEntretienCause,
   type UsagerEntretienRaisonDemande,
   type UsagerEntretienTypeMenage,
-} from "../entretien";
+} from "../types/entretien";
 
 export interface UsagerEntretien {
   uuid?: string;

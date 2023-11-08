@@ -8,14 +8,12 @@ import {
   USAGER_DECISION_STATUT_COLORS,
   INTERACTIONS_IN,
 } from "@domifa/common";
-import {
-  getEcheanceInfos,
-  getRdvInfos,
-} from "../../modules/usager-shared/utils";
+import { getEcheanceInfos } from "../../modules/usager-shared/utils";
 import {
   Options,
   UsagerFormModel,
 } from "../../modules/usager-shared/interfaces";
+import { getRdvInfos } from "@domifa/common";
 
 export const _usagerReducer = createReducer(
   INITIAL_STATE,
@@ -231,7 +229,10 @@ export const setUsagerInformations = (usager: UsagerLight): any => {
       color: USAGER_DECISION_STATUT_COLORS[usager?.decision?.statut],
     },
     echeanceInfos: getEcheanceInfos(usager),
-    rdvInfos: getRdvInfos(usager),
+    rdvInfos: getRdvInfos({
+      rdv: usager.rdv,
+      etapeDemande: usager.etapeDemande,
+    }),
     totalInteractionsEnAttente,
     historique: [],
     options: new Options(usager.options),

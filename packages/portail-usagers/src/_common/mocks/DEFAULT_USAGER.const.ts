@@ -13,6 +13,7 @@ export const DEFAULT_USAGER: PortailUsagerPublic = {
   dateNaissance: new Date("1998-08-07T00:00:00.000Z"),
   datePremiereDom: new Date("2018-01-11T00:00:00.000Z"),
   decision: {
+    uuid: "x",
     dateDebut: new Date("2020-02-12T00:00:00.000Z"),
     dateDecision: new Date("2020-02-12T00:00:00.000Z"),
     dateFin: new Date("2021-02-12T00:00:00.000Z"),

@@ -1,4 +1,4 @@
-import { UsagerAyantDroit, AyantDroiLienParent } from "../../../../_common";
+import { AyantDroiLienParent, UsagerAyantDroit } from "@domifa/common";
 
 export class AyantDroit implements UsagerAyantDroit {
   public dateNaissance: Date;

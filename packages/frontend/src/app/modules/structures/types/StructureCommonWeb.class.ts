@@ -2,12 +2,11 @@ import { Telephone } from "../../../../_common/model";
 import { TimeZone } from "../../../shared/territoires/types/TimeZone.type";
 
 import { CountryISO } from "ngx-intl-tel-input";
-import { StructureAddresseCourrier } from "./StructureAddresseCourrier.interface";
 import { StructureCommon } from "./StructureCommon.type";
 import { StructurePortailUsagerParams } from "./StructurePortailUsagerParams.type";
 import { StructureResponsable } from "./StructureResponsable.type";
 import { StructureSmsParams } from "./StructureSmsParams.type";
-import { StructureType } from "@domifa/common";
+import { StructureType, StructureAddresseCourrier } from "@domifa/common";
 
 export class StructureCommonWeb implements StructureCommon {
   public id = 0;

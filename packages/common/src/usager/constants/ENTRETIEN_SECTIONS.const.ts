@@ -1,10 +1,10 @@
-import { type UsagerEntretienResidence } from "../entretien/UsagerEntretienResidence.type";
+import { type UsagerEntretienResidence } from "../types/entretien/UsagerEntretienResidence.type";
 import {
   type UsagerEntretienCause,
   type UsagerEntretienLienCommune,
   type UsagerEntretienRaisonDemande,
   type UsagerEntretienTypeMenage,
-} from "../entretien";
+} from "../types/entretien";
 
 export const ENTRETIEN_LIEN_COMMUNE: {
   [key in UsagerEntretienLienCommune]: string;

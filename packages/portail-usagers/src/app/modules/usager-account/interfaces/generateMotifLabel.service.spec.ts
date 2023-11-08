@@ -31,7 +31,7 @@ describe("generateMotifLabel", () => {
       "Autre motif: Nombre maximal domiciliations atteint",
     );
 
-    USAGER_REFUS_MOCK.decision.motifDetails = null;
+    USAGER_REFUS_MOCK.decision.motifDetails = "";
 
     expect(generateMotifLabel(USAGER_REFUS_MOCK.decision)).toEqual(
       "Autre motif: non précisé",
