@@ -6,6 +6,7 @@ pg-metabase:
 
 backend:
   host: "api-{{ .Values.global.host }}"
+  ~needs: [build-backend, pg]
   addVolumes:
     - files
   envFrom:
@@ -21,6 +22,7 @@ backend:
         name: domifa-encryption-key
 
 backend-cron:
+  ~needs: [backend]
   envFrom:
     - secretRef:
         name: pg-app
@@ -40,6 +42,8 @@ portail-usagers:
 
 metabase:
   enabled: true
+  ~chart: metabase
+  ~needs: [pg-metabase]
   ingress:
     enabled: false
   envFrom:
