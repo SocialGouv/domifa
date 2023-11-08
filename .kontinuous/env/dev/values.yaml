@@ -12,13 +12,13 @@ jobs:
           DOMIFA_FRONTEND_URL: https://{{ .Values.global.host }}/
 
     seed:
-      ~needs: [pg]
+      ~needs: [pg, backend] # need backend to run migrations
       use: seed-db
       with:
         seedPath: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
 
 backend:
-  ~needs: [build-backend, pg, seed]
+  ~needs: [build-backend, pg]
   volumes:
     - name: files
       emptyDir: {}
@@ -27,4 +27,4 @@ backend:
       name: files
 
 backend-cron:
-  ~needs: [build-backend, pg, seed]
+  ~needs: [backend]
