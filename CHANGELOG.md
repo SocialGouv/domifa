@@ -1,3 +1,10 @@
+## [2.142.3](https://github.com/SocialGouv/domifa/compare/v2.142.2...v2.142.3) (2023-11-09)
+
+
+### Bug Fixes
+
+* **nginx:** update nginx rules ([9af36f5](https://github.com/SocialGouv/domifa/commit/9af36f5f03a8b644b989223dcfc92d84a143fb54))
+
 ## [2.142.2](https://github.com/SocialGouv/domifa/compare/v2.142.1...v2.142.2) (2023-11-08)
 
 
