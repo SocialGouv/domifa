@@ -1,3 +1,10 @@
+## [2.142.4](https://github.com/SocialGouv/domifa/compare/v2.142.3...v2.142.4) (2023-11-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependency axios to v1.6.0 [security] ([800d77a](https://github.com/SocialGouv/domifa/commit/800d77a5526fd92238174c6deaf2681dbee793d9))
+
 ## [2.142.3](https://github.com/SocialGouv/domifa/compare/v2.142.2...v2.142.3) (2023-11-09)
 
 
