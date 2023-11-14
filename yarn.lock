@@ -9229,6 +9229,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"clogy@npm:^1.3.3":
+  version: 1.3.3
+  resolution: "clogy@npm:1.3.3"
+  checksum: c8c4ca013bb05bc03843997abee18e13732a83c85e117b2553e3c09c1f44e69433c905daab476e191059d02ed00673345e6bbc12a43be1661e77820562ac1e35
+  languageName: node
+  linkType: hard
+
 "clone-deep@npm:4.0.1, clone-deep@npm:^4.0.1":
   version: 4.0.1
   resolution: "clone-deep@npm:4.0.1"
@@ -10772,8 +10779,10 @@ __metadata:
     "@commitlint/config-conventional": ^18.1.0
     "@socialgouv/sre-secrets": ^1.14.5
     husky: ^8.0.3
+    is-ci: ^3.0.1
     lerna: ^6.0.0
     lint-staged: ^15.0.0
+    node-talisman: ^1.29.10
   languageName: unknown
   linkType: soft
 
@@ -11978,6 +11987,13 @@ __metadata:
     unzipper: ^0.10.11
     uuid: ^8.3.0
   checksum: 5ff98a13ccb3bca4523588feffffded84d93bebf6bbe3b49f894c9f092f6bf42555bb29332de7c73df32f50a770d774abe9e5d19dd2e13ce4b705d5affc6b30c
+  languageName: node
+  linkType: hard
+
+"exec-sh@npm:^0.3.4":
+  version: 0.3.6
+  resolution: "exec-sh@npm:0.3.6"
+  checksum: 0be4f06929c8e4834ea4812f29fe59e2dfcc1bc3fc4b4bb71acb38a500c3b394628a05ef7ba432520bc6c5ec4fadab00cc9c513c4ff6a32104965af302e998e0
   languageName: node
   linkType: hard
 
@@ -14195,6 +14211,17 @@ __metadata:
   bin:
     is-ci: bin.js
   checksum: 77b869057510f3efa439bbb36e9be429d53b3f51abd4776eeea79ab3b221337fe1753d1e50058a9e2c650d38246108beffb15ccfd443929d77748d8c0cc90144
+  languageName: node
+  linkType: hard
+
+"is-ci@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "is-ci@npm:3.0.1"
+  dependencies:
+    ci-info: ^3.2.0
+  bin:
+    is-ci: bin.js
+  checksum: 192c66dc7826d58f803ecae624860dccf1899fc1f3ac5505284c0a5cf5f889046ffeb958fa651e5725d5705c5bcb14f055b79150ea5fcad7456a9569de60260e
   languageName: node
   linkType: hard
 
@@ -17436,6 +17463,20 @@ __metadata:
   version: 2.0.13
   resolution: "node-releases@npm:2.0.13"
   checksum: 17ec8f315dba62710cae71a8dad3cd0288ba943d2ece43504b3b1aa8625bf138637798ab470b1d9035b0545996f63000a8a926e0f6d35d0996424f8b6d36dda3
+  languageName: node
+  linkType: hard
+
+"node-talisman@npm:^1.29.10":
+  version: 1.29.10
+  resolution: "node-talisman@npm:1.29.10"
+  dependencies:
+    clogy: ^1.3.3
+    exec-sh: ^0.3.4
+    mkdirp: ^1.0.4
+    request: ^2.88.2
+  bin:
+    node-talisman: dist-node/index.bin.js
+  checksum: bc787209f460f813d53d082a01b816abbcf22283603797a84a6918247461ed9512241f52087605869d770cd3b050a0d3a0c2c4f74368ccf826366d8f1b99eae6
   languageName: node
   linkType: hard
 

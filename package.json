@@ -19,8 +19,10 @@
     "@commitlint/config-conventional": "^18.1.0",
     "@socialgouv/sre-secrets": "^1.14.5",
     "husky": "^8.0.3",
+    "is-ci": "^3.0.1",
     "lerna": "^6.0.0",
-    "lint-staged": "^15.0.0"
+    "lint-staged": "^15.0.0",
+    "node-talisman": "^1.29.10"
   },
   "workspaces": {
     "packages": [
