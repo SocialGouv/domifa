@@ -224,3 +224,43 @@ jobs:
           DOMIFA_BACKEND_URL: "https://api-{{ .Values.global.host }}/"
           DOMIFA_SENTRY_DSN_PORTAIL: "https://904877ea9ec4454aa1be7b629a6ea340@sentry.fabrique.social.gouv.fr/58"
           DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
+
+
+prod-dump:
+  enabled: false
+
+prod-dump-cnpg-cluster:
+  enabled: false
+  ~chart: pg
+  fullnameOverride: pg-restore
+  postgresqlParameters:
+    TimeZone: Europe/Paris
+  instances: 1
+  storage:
+    size: 20Gi
+  backup:
+    enabled: false
+  recovery:
+    enabled: true
+
+prod-dump-jobs:
+  ~chart: jobs
+  runs:
+    anonymise:
+      ~needs: [prod-dump-cnpg-cluster]
+      image: bash:latest
+      args:
+        - plop
+      envFrom:
+        - secretRef:
+            name: pg-tmp-superuser
+    dump:
+      ~needs: [anonymise]
+      image: ghcr.io/socialgouv/docker/psql:7.7.3
+        #pg_dump -c -d database > out.sql
+        #- copy to s3
+      envFrom:
+        - secretRef:
+            name: pg-tmp-superuser
+        - secretRef:
+            name: s3
