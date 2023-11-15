@@ -88,12 +88,7 @@ async function createInteraction({
     interaction.nbCourrier = interaction.nbCourrier ?? 1;
   } else {
     interaction.nbCourrier = 0;
-    if (
-      interaction.type === "appel" ||
-      interaction.type === "visite" ||
-      (interaction.type === "loginPortail" &&
-        user.structure.portailUsager.usagerLoginUpdateLastInteraction)
-    ) {
+    if (interaction.type === "appel" || interaction.type === "visite") {
       usager.lastInteraction.dateInteraction = now;
     }
   }

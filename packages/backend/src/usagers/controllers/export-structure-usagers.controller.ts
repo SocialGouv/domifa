@@ -59,7 +59,9 @@ export class ExportStructureUsagersController {
     const usagers = await this.usagersService.export(user.structureId);
 
     const usagersInteractionsCountByType: {
-      [usagerRef: number]: { [interactionType in InteractionType]: number };
+      [usagerRef: number]: {
+        [interactionType in InteractionType | "loginPortail"]: number;
+      };
     } = {};
 
     const interactionsByUsagerMap =

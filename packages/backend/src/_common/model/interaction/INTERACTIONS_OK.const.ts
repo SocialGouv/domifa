@@ -10,7 +10,6 @@ export const ALL_INTERACTION_TYPES: InteractionType[] = [
   "appel",
   "visite",
   "npai",
-  "loginPortail",
 ];
 
 export const INTERACTION_OK_LIST: InteractionType[] = [

@@ -1,10 +1,10 @@
 import {
-  AdminStructureStatsData,
-  INTERACTIONS_LABELS_PLURIEL,
   InteractionType,
   StructureType,
   UsagerDecisionStatut,
-} from "../../../../../../_common";
+  INTERACTIONS_LABELS_PLURIEL,
+} from "@domifa/common";
+import { AdminStructureStatsData } from "../../../../../../_common";
 import {
   DASHBOARD_STATUS_LABELS,
   STRUCTURE_TYPE_LABELS,

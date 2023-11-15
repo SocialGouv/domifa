@@ -1,7 +1,9 @@
-import { InteractionType } from "../interaction/InteractionType.type";
+import {
+  InteractionType,
+  StructureType,
+  UsagerDecisionStatut,
+} from "@domifa/common";
 import { StructureAdmin } from "../structure/StructureAdmin.type";
-import { StructureType } from "../structure/StructureType.type";
-import { UsagerDecisionStatut } from "../usager/UsagerDecisionStatut.type";
 import { StatsByRegion } from "./StatsByRegion.type";
 
 export type AdminStructureStatsData = {

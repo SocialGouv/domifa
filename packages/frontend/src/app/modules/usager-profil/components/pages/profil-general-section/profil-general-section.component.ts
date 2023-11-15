@@ -12,7 +12,6 @@ import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-u
 import {
   ETAPES_DEMANDE_URL,
   InteractionInForApi,
-  INTERACTIONS_LABELS_SINGULIER,
   DEFAULT_MODAL_OPTIONS,
 } from "../../../../../../_common/model";
 import { minDateNaissance, formatDateToNgb } from "../../../../../shared";
@@ -21,7 +20,11 @@ import { Interaction } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { Store } from "@ngrx/store";
-import { USAGER_DECISION_STATUT_LABELS, InteractionType } from "@domifa/common";
+import {
+  INTERACTIONS_LABELS_SINGULIER,
+  USAGER_DECISION_STATUT_LABELS,
+  InteractionType,
+} from "@domifa/common";
 
 @Component({
   selector: "app-profil-general-section",

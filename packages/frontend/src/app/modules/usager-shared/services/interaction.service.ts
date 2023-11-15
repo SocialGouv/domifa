@@ -14,6 +14,7 @@ import {
 import { Interaction } from "../interfaces";
 import { Store } from "@ngrx/store";
 import { cacheManager } from "../../../shared";
+import { UserUsagerLogin } from "@domifa/common";
 
 @Injectable({
   providedIn: "root",
@@ -57,6 +58,16 @@ export class InteractionService {
           return response;
         })
       );
+  }
+
+  public getLoginPortail(
+    usagerRef: number,
+    pageOptions: PageOptions
+  ): Observable<PageResults<UserUsagerLogin>> {
+    return this.http.post<PageResults<UserUsagerLogin>>(
+      `${this.endPoint}search-login-portail/${usagerRef}`,
+      pageOptions
+    );
   }
 
   public delete(

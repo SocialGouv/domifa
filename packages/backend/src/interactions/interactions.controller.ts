@@ -23,7 +23,7 @@ import {
   UsagerAccessGuard,
   InteractionsGuard,
 } from "../auth/guards";
-import { interactionRepository } from "../database";
+import { interactionRepository, userUsagerLoginRepository } from "../database";
 import {
   UserStructureAuthenticated,
   Interactions,
@@ -96,6 +96,31 @@ export class InteractionsController {
         "uuid",
       ])
       .orderBy(`"dateInteraction"`, pageOptionsDto.order)
+      .skip((pageOptionsDto.page - 1) * pageOptionsDto.take)
+      .take(pageOptionsDto.take);
+
+    const itemCount = await queryBuilder.getCount();
+    const entities = await queryBuilder.getRawMany();
+    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+    return new PageResultsDto(entities, pageMetaDto);
+  }
+
+  @Post("search-login-portail/:usagerRef")
+  @AllowUserProfiles("structure")
+  public async getLoginPortailHistory(
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentUsager() currentUsager: Usager,
+    @Body() pageOptionsDto: PageOptionsDto
+  ) {
+    const queryBuilder = userUsagerLoginRepository
+      .createQueryBuilder("user_usager_login")
+      .select([`"createdAt"`])
+      .where({
+        structureId: user.structureId,
+        usagerUUID: currentUsager.uuid,
+      })
+      .orderBy(`"createdAt"`, pageOptionsDto.order)
       .skip((pageOptionsDto.page - 1) * pageOptionsDto.take)
       .take(pageOptionsDto.take);
 
