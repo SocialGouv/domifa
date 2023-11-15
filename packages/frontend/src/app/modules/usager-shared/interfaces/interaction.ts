@@ -1,8 +1,9 @@
-import { InteractionType, CommonInteraction } from "@domifa/common";
 import {
   INTERACTIONS_LABELS_PLURIEL,
   INTERACTIONS_LABELS_SINGULIER,
-} from "../../../../_common/model/interaction";
+  InteractionType,
+  CommonInteraction,
+} from "@domifa/common";
 
 export class Interaction implements CommonInteraction {
   public type: InteractionType;

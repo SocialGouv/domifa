@@ -435,52 +435,52 @@ describe("interactionsCreator", () => {
     });
   });
 
-  describe("5. Création d'une interaction à la suite d'une connexion au portail", () => {
-    it("Sans mise à jour de la date de dernier passage", async () => {
-      const interaction: InteractionDto = {
-        type: "loginPortail",
-        nbCourrier: 0,
-      };
+  // describe("5. Création d'une interaction à la suite d'une connexion au portail", () => {
+  //   it("Sans mise à jour de la date de dernier passage", async () => {
+  //     const interaction: InteractionDto = {
+  //       type: "loginPortail",
+  //       nbCourrier: 0,
+  //     };
 
-      const resultat = await interactionsCreator.createInteraction({
-        usager,
-        user,
-        interaction,
-      });
+  //     const resultat = await interactionsCreator.createInteraction({
+  //       usager,
+  //       user,
+  //       interaction,
+  //     });
 
-      expect(resultat.usager.lastInteraction.dateInteraction).toEqual(
-        usager.lastInteraction.dateInteraction
-      );
-      expect(resultat.interaction.nbCourrier).toEqual(0);
-    });
+  //     expect(resultat.usager.lastInteraction.dateInteraction).toEqual(
+  //       usager.lastInteraction.dateInteraction
+  //     );
+  //     expect(resultat.interaction.nbCourrier).toEqual(0);
+  //   });
 
-    it("Avec mise à jour de la date de dernier passage", async () => {
-      const interaction: InteractionDto = {
-        type: "loginPortail",
-        nbCourrier: 1111, // Test avec un faux numéro, on vérifie que c'est bien 0 qui est enregistré
-      };
+  //   it("Avec mise à jour de la date de dernier passage", async () => {
+  //     const interaction: InteractionDto = {
+  //       type: "loginPortail",
+  //       nbCourrier: 1111, // Test avec un faux numéro, on vérifie que c'est bien 0 qui est enregistré
+  //     };
 
-      user.structure.portailUsager.usagerLoginUpdateLastInteraction = true;
+  //     user.structure.portailUsager.usagerLoginUpdateLastInteraction = true;
 
-      const resultat = await interactionsCreator.createInteraction({
-        usager,
-        user,
-        interaction,
-      });
+  //     const resultat = await interactionsCreator.createInteraction({
+  //       usager,
+  //       user,
+  //       interaction,
+  //     });
 
-      expect(resultat.usager.lastInteraction.dateInteraction).toEqual(
-        MOCKED_NEW_DATE
-      );
+  //     expect(resultat.usager.lastInteraction.dateInteraction).toEqual(
+  //       MOCKED_NEW_DATE
+  //     );
 
-      expect(resultat.interaction.nbCourrier).toEqual(0);
+  //     expect(resultat.interaction.nbCourrier).toEqual(0);
 
-      // Suppression de l'interaction sortante
-      await interactionsDeletor.deleteInteraction({
-        interaction: resultat.interaction,
-        structure: user.structure,
-        usager,
-        user,
-      });
-    });
-  });
+  //     // Suppression de l'interaction sortante
+  //     await interactionsDeletor.deleteInteraction({
+  //       interaction: resultat.interaction,
+  //       structure: user.structure,
+  //       usager,
+  //       user,
+  //     });
+  //   });
+  // });
 });

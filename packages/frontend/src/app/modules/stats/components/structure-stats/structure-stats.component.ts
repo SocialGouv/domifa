@@ -137,7 +137,13 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (year) {
       period.start = new Date(year.toString() + "-01-01");
       period.end = new Date(year.toString() + "-12-31");
+    } else {
+      this.end =
+        this.toDate !== null
+          ? new Date(this.formatter.formatEn(this.toDate))
+          : null;
     }
+
     const structureId = this.me?.structureId as number;
 
     this.subscription.add(

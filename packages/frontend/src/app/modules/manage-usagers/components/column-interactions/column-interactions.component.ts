@@ -10,13 +10,12 @@ import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import {
   InteractionInForApi,
-  INTERACTIONS_LABELS_SINGULIER,
   DEFAULT_MODAL_OPTIONS,
 } from "../../../../../_common/model";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { InteractionService } from "../../../usager-shared/services";
-import { InteractionType } from "@domifa/common";
+import { INTERACTIONS_LABELS_SINGULIER, InteractionType } from "@domifa/common";
 
 @Component({
   selector: "app-manage-usagers-interactions",

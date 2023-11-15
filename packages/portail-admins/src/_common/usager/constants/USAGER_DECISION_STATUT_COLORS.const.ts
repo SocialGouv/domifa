@@ -1,4 +1,4 @@
-import { UsagerDecisionStatut } from "..";
+import { UsagerDecisionStatut } from "@domifa/common";
 
 export const USAGER_DECISION_STATUT_COLORS: {
   [key in UsagerDecisionStatut]: string;

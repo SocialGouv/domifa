@@ -5,3 +5,4 @@ export * from "./message-sms";
 export * from "./structure";
 export * from "./usager";
 export * from "./user-structure";
+export * from "./user-usager";

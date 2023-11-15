@@ -5,7 +5,7 @@ import {
   AdminStructureStatsData,
   PortailAdminProfile,
 } from "../../../../../_common";
-import { INTERACTIONS_LABELS_PLURIEL } from "../../../../../_common/interaction";
+
 import {
   DASHBOARD_STATUS_LABELS,
   STRUCTURE_TYPE_LABELS,
@@ -15,6 +15,7 @@ import { AdminAuthService } from "../../../admin-auth/services/admin-auth.servic
 import { AdminStructuresApiClient } from "../../../shared/services";
 import { REGIONS_LISTE } from "../../../shared/territoires";
 import { AdminStructuresStatsVM, adminStructuresStatsVmBuilder } from "./vm";
+import { INTERACTIONS_LABELS_PLURIEL } from "@domifa/common";
 
 @Component({
   selector: "app-admin-structures-stats",

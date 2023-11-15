@@ -9,8 +9,8 @@ import {
   StructureAdmin,
   UserNewAdmin,
 } from "../../../../../_common";
-import { ApiMessage } from "../../../../../_common/_core";
 import { structuresCache } from "../../store/structuresCache.service";
+import { ApiMessage } from "@domifa/common";
 
 const BASE_URL = environment.apiUrl + "admin/structures";
 @Injectable()

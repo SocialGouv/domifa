@@ -15,5 +15,4 @@ export const SMS_LABELS: {
   echeanceDeuxMois: "Sms rappel de renouvellement",
   dernierPassageTroisMois: "Avertissement dernier passage plus de 3 mois",
   decision: "Nouvelle décision",
-  loginPortail: "Connexion au portail usager",
 };

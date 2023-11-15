@@ -14,6 +14,7 @@ type HistorySections =
   | "notes"
   | "sms"
   | "procurations"
+  | "login-portail"
   | "transferts";
 @Component({
   selector: "app-profil-historique",
@@ -84,6 +85,15 @@ export class ProfilHistoriqueComponent
       this.sections.push({
         id: "sms",
         name: "SMS envoyés",
+      });
+    }
+    if (
+      this.me.structure.portailUsager.enabledByDomifa &&
+      this.me.structure.portailUsager.enabledByStructure
+    ) {
+      this.sections.push({
+        id: "login-portail",
+        name: "Connexions à Mon DomiFa",
       });
     }
   }

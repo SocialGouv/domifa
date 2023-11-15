@@ -111,6 +111,7 @@
             [usager]="usager"
           ></app-profil-historique-sms>
         </div>
+
         <div
           class="col-md-12"
           id="tabpanel-notes"
@@ -122,6 +123,22 @@
             id="tabpanel-notes"
             [usager]="usager"
           ></app-profil-historique-notes>
+        </div>
+        <div
+          class="col-md-12"
+          id="tabpanel-login-portail"
+          [attr.aria-labelledby]="'tab-login-portail'"
+          [hidden]="currentSection !== 'login-portail'"
+          *ngIf="
+            me.structure.portailUsager.enabledByDomifa &&
+            me.structure.portailUsager.enabledByStructure
+          "
+        >
+          <app-profil-historique-login-portail
+            id="tabpanel-login-portail"
+            [usager]="usager"
+            [me]="me"
+          ></app-profil-historique-login-portail>
         </div>
       </div>
     </div>

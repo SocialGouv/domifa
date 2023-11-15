@@ -9,7 +9,9 @@ import {
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import {
+  UserUsagerLoginTable,
   usagerRepository,
+  userUsagerLoginRepository,
   userUsagerSecurityPasswordChecker,
 } from "../../database";
 import { UsagerLoginDto } from "../../users/dto";
@@ -17,11 +19,9 @@ import { ExpressResponse } from "../../util/express";
 import {
   PortailUsagerAuthApiResponse,
   PortailUsagerProfile,
-  UserStructure,
 } from "../../_common/model";
 import { portailUsagerProfilBuilder } from "../portail-usager-profil/services/portail-usager-profil-builder.service";
 import { UsagersAuthService } from "./services/usagers-auth.service";
-import { interactionsCreator } from "../../interactions/services";
 
 @Controller("portail-usagers/auth")
 @ApiTags("auth")
@@ -60,26 +60,20 @@ export class PortailUsagersLoginController {
         id: user.structureId,
       });
 
-      const userStructure: Pick<
-        UserStructure,
-        "id" | "structureId" | "nom" | "prenom" | "structure"
-      > = {
-        id: 0,
-        nom: usager.nom,
-        prenom: usager.prenom,
-        structureId: user.structureId,
-        structure,
-      };
+      await userUsagerLoginRepository.save(
+        new UserUsagerLoginTable({
+          usagerUUID: usager.uuid,
+          structureId: usager.structureId,
+        })
+      );
 
-      // Création d'une interaction avec la date de connexion
-      await interactionsCreator.createInteraction({
-        interaction: {
-          type: "loginPortail",
-          nbCourrier: 0,
-        },
-        usager,
-        user: userStructure,
-      });
+      if (structure.portailUsager.usagerLoginUpdateLastInteraction) {
+        usager.lastInteraction.dateInteraction = new Date();
+        await usagerRepository.update(
+          { uuid: usager.uuid },
+          { lastInteraction: usager.lastInteraction }
+        );
+      }
 
       const response: PortailUsagerAuthApiResponse = {
         token: access_token,

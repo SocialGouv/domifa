@@ -251,7 +251,6 @@ async function totalInteractionAllUsagersStructure({
       coalesce (COUNT(CASE WHEN i.type = 'appel' THEN 1 END), 0) AS "appel",
       coalesce (COUNT(CASE WHEN i.type = 'visite' THEN 1 END), 0) AS "visite",
       coalesce (COUNT(CASE WHEN i.type = 'npai' THEN 1 END), 0) AS "npai",
-      coalesce (COUNT(CASE WHEN i.type = 'loginPortail' THEN 1 END), 0) AS "loginPortail",
       coalesce (SUM(CASE WHEN i.type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn",
       coalesce (SUM(CASE WHEN i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOut",
       coalesce (SUM(CASE WHEN i.type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn",
@@ -264,6 +263,7 @@ async function totalInteractionAllUsagersStructure({
 
   const results = await interactionRepository.query(query, [structureId]);
 
+  // TODO: add loginPortail
   return results.map((x: any) => ({
     usagerRef: x.usagerRef,
     courrierIn: parseInt(x.courrierIn, 10),
@@ -274,7 +274,7 @@ async function totalInteractionAllUsagersStructure({
     colisOut: parseInt(x.colisOut, 10),
     appel: parseInt(x.appel, 10),
     visite: parseInt(x.visite, 10),
-    loginPortail: parseInt(x.loginPortail, 10),
+    loginPortail: 0,
     npai: parseInt(x.npai, 10),
   }));
 }

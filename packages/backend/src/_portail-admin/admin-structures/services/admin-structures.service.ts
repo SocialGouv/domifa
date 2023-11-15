@@ -10,6 +10,7 @@ import {
   typeOrmSearch,
   usagerRepository,
   UsagerTable,
+  userUsagerLoginRepository,
 } from "../../../database";
 import { usagerDocsRepository } from "../../../database/services/usager/usagerDocsRepository.service";
 import { StatsDeploiementExportModel } from "../../../excel/export-stats-deploiement";
@@ -140,7 +141,7 @@ export class AdminStructuresService {
   }
 
   public async getInteractionsCountByTypeMap(): Promise<{
-    [statut in InteractionType]: number;
+    [statut in InteractionType | "loginPortail"]: number;
   }> {
     return {
       courrierIn: await this.totalInteractions("courrierIn"),
@@ -152,7 +153,7 @@ export class AdminStructuresService {
       appel: await this.totalInteractions("appel"),
       visite: await this.totalInteractions("visite"),
       npai: await this.totalInteractions("npai"),
-      loginPortail: await this.totalInteractions("loginPortail"),
+      loginPortail: await userUsagerLoginRepository.count(),
     };
   }
 
@@ -370,7 +371,6 @@ export class AdminStructuresService {
     if (
       interactionType === "appel" ||
       interactionType === "visite" ||
-      interactionType === "loginPortail" ||
       interactionType === "npai"
     ) {
       return interactionRepository.count({

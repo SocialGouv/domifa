@@ -5,6 +5,8 @@ export type StructureUsagersExportModel = {
   exportDate: Date;
   usagers: Usager[];
   usagersInteractionsCountByType: {
-    [usagerRef: number]: { [interactionType in InteractionType]: number };
+    [usagerRef: number]: {
+      [interactionType in InteractionType | "loginPortail"]: number;
+    };
   };
 };

@@ -36,6 +36,7 @@ import {
   NgbDateCustomParserFormatter,
   CustomDatepickerI18n,
 } from "../shared/services";
+import { ProfilHistoriqueLoginPortailComponent } from "./components/_historiques/profil-historique-login-portail/profil-historique-login-portail.component";
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import {
     ProfilHistoriqueProcurationsComponent,
     ProfilHistoriqueTransfertsComponent,
     ProfilHistoriqueDecisionsComponent,
+    ProfilHistoriqueLoginPortailComponent,
   ],
   imports: [
     CommonModule,

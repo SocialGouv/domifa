@@ -1,9 +1,9 @@
 import {
   InteractionType,
-  StatsByRegion,
   StructureType,
   UsagerDecisionStatut,
-} from "../../../../../../_common";
+} from "@domifa/common";
+import { StatsByRegion } from "../../../../../../_common";
 
 export type AdminStructuresStatsVM = {
   usersCount: number;
