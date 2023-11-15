@@ -1,3 +1,10 @@
+# [2.143.0](https://github.com/SocialGouv/domifa/compare/v2.142.4...v2.143.0) (2023-11-15)
+
+
+### Features
+
+* **github:** install talisman ([92e08c3](https://github.com/SocialGouv/domifa/commit/92e08c3817aabc9684a81483a747044d8e26ada2))
+
 ## [2.142.4](https://github.com/SocialGouv/domifa/compare/v2.142.3...v2.142.4) (2023-11-13)
 
 
