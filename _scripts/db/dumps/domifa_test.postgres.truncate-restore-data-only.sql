@@ -288,6 +288,14 @@ a657f4bd-e4d1-4c38-bdd0-ffd268b356df	2021-10-05 11:34:41.369505+02	2021-11-30 15
 
 
 --
+-- Data for Name: user_usager_login; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.user_usager_login (uuid, "createdAt", "updatedAt", version, "usagerUUID", "structureId") FROM stdin;
+\.
+
+
+--
 -- Data for Name: user_usager_security; Type: TABLE DATA; Schema: public; Owner: -
 --
 
