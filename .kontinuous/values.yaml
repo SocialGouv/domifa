@@ -245,6 +245,7 @@ prod-dump-cnpg-cluster:
 
 prod-dump-jobs:
   ~chart: jobs
+  enabled: false
   runs:
     anonymise:
       ~needs: [prod-dump-cnpg-cluster]
