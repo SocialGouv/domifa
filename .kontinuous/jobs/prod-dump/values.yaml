@@ -1,0 +1,84 @@
+# yaml-language-server: $schema=../../../../kontinuous/docs/values.schema.json
+
+global:
+  namespace: domifa-prod-dump
+
+cnpg-cluster:
+  ~chart: cnpg-cluster
+  fullnameOverride: pg-restore
+  postgresqlParameters:
+    TimeZone: Europe/Paris
+  instances: 1
+  persistence:
+    size: 20Gi
+  backup:
+    enabled: false
+  recovery:
+    enabled: true
+    barmanObjectStore:
+      destinationPath: s3://domifa-prod-backups/domifa
+      endpointURL: https://s3.gra.io.cloud.ovh.net
+      serverName: pg
+      data:
+        compression: gzip
+      wal:
+        compression: gzip
+      s3Credentials:
+        accessKeyId:
+          key: bucket_access_key
+          name: domifa-prod-backups-access-key
+        region:
+          key: bucket_region
+          name: domifa-prod-backups-access-key
+        secretAccessKey:
+          key: bucket_secret_key
+          name: domifa-prod-backups-access-key
+
+prod-dump-jobs:
+  ~chart: jobs
+  runs:
+    anonymise:
+      ~needs: [cnpg-cluster]
+      image: ghcr.io/socialgouv/docker/s3-client:1.2.0
+      entrypoint: ["/bin/bash"]
+      args:
+        - "-c"
+        - "echo 42"
+      envFrom:
+        - secretRef:
+            name: pg-tmp-superuser
+    dump:
+      ~needs: [anonymise]
+      image: ghcr.io/socialgouv/docker/s3-client:1.2.0
+      env:
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: s3
+              key: bucket_access_key
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: s3
+              key: bucket_secret_key
+        - name: AWS_DEFAULT_REGION
+          valueFrom:
+            secretKeyRef:
+              name: s3
+              key: bucket_region
+        - name: AWS_ENDPOINT_URL
+          value: https://s3.gra.io.cloud.ovh.net
+        - name: DESTINATION_PATH
+          value: s3://domifa-tmp-restore/prod-anonymised-dump
+      envFrom:
+        - secretRef:
+            name: pg-tmp-superuser
+        - secretRef:
+            name: s3
+    destroy:
+      ~needs: [dump]
+      image: ghcr.io/socialgouv/docker/s3-client:1.2.0
+      entrypoint: ["/bin/bash"]
+      args:
+        - "-c"
+        - "echo 43"

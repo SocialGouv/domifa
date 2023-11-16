@@ -1,0 +1,7 @@
+apiVersion: v2
+name: cnpg-cluster
+version: 1.0.0
+dependencies:
+  - name: cnpg-cluster
+    version: 1.18.2
+    repository: https://socialgouv.github.io/helm-charts

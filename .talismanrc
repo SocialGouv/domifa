@@ -1,4 +1,8 @@
 fileignoreconfig:
+- filename: .kontinuous/jobs/prod-dump/templates/s3.sealed-secret.yaml
+  checksum: 440af74556bc0d4f8df2817596587a249091b37a32f89cc0ea8170f123dd9262
+- filename: .kontinuous/jobs/prod-dump/values.yaml
+  checksum: db0f473b39accc19002eacc1055377100fe26d73d9908400f1110015f98aa53b
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
   checksum: 23f737871ba69871381febc4f867d82367187384b16250e79ce8729fddf53030
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
