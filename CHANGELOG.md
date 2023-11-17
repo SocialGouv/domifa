@@ -1,3 +1,10 @@
+## [2.143.1](https://github.com/SocialGouv/domifa/compare/v2.143.0...v2.143.1) (2023-11-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency sharp to v0.32.6 [security] ([fa121e4](https://github.com/SocialGouv/domifa/commit/fa121e41fee754d7633ffa05295c3bcc9e976685))
+
 # [2.143.0](https://github.com/SocialGouv/domifa/compare/v2.142.4...v2.143.0) (2023-11-15)
 
 
