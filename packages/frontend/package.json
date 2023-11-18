@@ -51,7 +51,7 @@
     "ngx-bootstrap": "^10.2.0",
     "ngx-countup": "^13.1.0",
     "ngx-intl-tel-input": "^3.2.0",
-    "ngx-matomo-client": "^5.0.4",
+    "ngx-matomo-client": "^6.0.0",
     "rxjs": "^7.6.0",
     "tslib": "^2.3.0",
     "validator": "^13.11.0",

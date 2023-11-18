@@ -2471,7 +2471,7 @@ __metadata:
     ngx-bootstrap: ^10.2.0
     ngx-countup: ^13.1.0
     ngx-intl-tel-input: ^3.2.0
-    ngx-matomo-client: ^5.0.4
+    ngx-matomo-client: ^6.0.0
     prettier: 2.8.8
     rxjs: ^7.6.0
     source-map-explorer: ^2.5.3
@@ -2605,7 +2605,7 @@ __metadata:
     jest-preset-angular: ^13.1.3
     lint-staged: ^15.0.0
     ng-lint-staged: ^12.0.4
-    ngx-matomo-client: ^5.0.4
+    ngx-matomo-client: ^6.0.0
     prettier: 2.8.8
     rxjs: ^7.6.0
     source-map-explorer: ^2.5.3
@@ -17285,15 +17285,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ngx-matomo-client@npm:^5.0.4":
-  version: 5.0.4
-  resolution: "ngx-matomo-client@npm:5.0.4"
+"ngx-matomo-client@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "ngx-matomo-client@npm:6.0.0"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
-    "@angular/common": ^15.0.0 || ^16.0.0
-    "@angular/core": ^15.0.0 || ^16.0.0
-  checksum: b1efe6167a13e8ef232c789086d64163d4d1b0dfdb1ed00edcc363835d1b6123d7788d046c4dbfdaa1940d4d2702f90d40dc6afe594f38c75fcae50b61330a6e
+    "@angular/common": ^17.0.0
+    "@angular/core": ^17.0.0
+  checksum: daf3d7964b222ee3879c12a98312eac9945fd4d2f99dc0940d8f9c36b627299bda58f44d09cd6a8fe91d5d13ab3758f0f81a758ad0ba9e986eb0e68294dfd637
   languageName: node
   linkType: hard
 

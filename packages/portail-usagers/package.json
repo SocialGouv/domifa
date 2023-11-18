@@ -38,7 +38,7 @@
     "bootstrap": "5.2.3",
     "date-fns": "^2.30.0",
     "google-libphonenumber": "^3.2.33",
-    "ngx-matomo-client": "^5.0.4",
+    "ngx-matomo-client": "^6.0.0",
     "rxjs": "^7.6.0",
     "zone.js": "~0.14.0"
   },
