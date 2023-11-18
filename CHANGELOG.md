@@ -1,3 +1,10 @@
+## [2.143.2](https://github.com/SocialGouv/domifa/compare/v2.143.1...v2.143.2) (2023-11-18)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @opentelemetry/instrumentation-pg to ^0.37.0 ([fcb59bb](https://github.com/SocialGouv/domifa/commit/fcb59bbfd5d7daecc73dd3de33da2eba9f59429d))
+
 ## [2.143.1](https://github.com/SocialGouv/domifa/compare/v2.143.0...v2.143.1) (2023-11-17)
 
 
