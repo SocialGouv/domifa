@@ -47,7 +47,7 @@
     "zone.js": "~0.14.0"
   },
   "devDependencies": {
-    "@angular-devkit/architect": "^0.1602.0",
+    "@angular-devkit/architect": "^0.1700.0",
     "@angular-devkit/build-angular": "^15.2.10",
     "@angular-devkit/core": "^15.2.10",
     "@angular-devkit/schematics": "^15.2.10",
@@ -65,8 +65,8 @@
     "@types/jest": "^29.5.8",
     "@types/node": "^20.3.3",
     "@types/rimraf": "^4.0.5",
-    "@typescript-eslint/eslint-plugin": "6.10.0",
-    "@typescript-eslint/parser": "6.10.0",
+    "@typescript-eslint/eslint-plugin": "6.11.0",
+    "@typescript-eslint/parser": "6.11.0",
     "eslint": "^8.53.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.29.0",
