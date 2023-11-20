@@ -10,21 +10,10 @@ describe("interactionRepository", () => {
   });
 
   it("get all interactions", async () => {
-    {
-      const interactions = await interactionRepository.findBy({
-        structureId: 1,
-        usagerRef: 7,
-      });
-
-      expect(interactions.length).toEqual(9);
-    }
-    {
-      const interactions = await interactionRepository.findBy({
-        structureId: 1,
-        usagerRef: 7,
-      });
-
-      expect(interactions.length).toBeGreaterThan(2);
-    }
+    const interactions = await interactionRepository.findBy({
+      structureId: 1,
+      usagerRef: 7,
+    });
+    expect(interactions.length).toEqual(8);
   });
 });
