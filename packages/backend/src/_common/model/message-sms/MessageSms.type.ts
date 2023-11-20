@@ -1,9 +1,9 @@
-import { MessageSmsId } from "@domifa/common";
 import {
-  MessageSmsInteractionMetas,
+  MessageSmsId,
   MessageSmsReminderMetas,
   MessageSmsStatus,
-} from ".";
+  MessageSmsInteractionMetas,
+} from "@domifa/common";
 import { AppEntity } from "../../../_common/model";
 
 export type MessageSms = AppEntity & {

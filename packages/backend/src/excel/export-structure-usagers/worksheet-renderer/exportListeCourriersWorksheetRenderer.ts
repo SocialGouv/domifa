@@ -87,7 +87,6 @@ function renderWorksheet({
           appel: usagersInteractionsCounts.appel,
           visite: usagersInteractionsCounts.visite,
           npai: usagersInteractionsCounts.npai,
-          //  TODO: check loginPOrtail
           loginPortail: usagersInteractionsCounts.loginPortail,
         },
       };

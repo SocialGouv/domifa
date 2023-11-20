@@ -1,12 +1,13 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
-import {
-  MessageSms,
-  MessageSmsInteractionMetas,
-  MessageSmsReminderMetas,
-} from "../../../_common/model/message-sms";
+import { MessageSms } from "../../../_common/model/message-sms";
 import { StructureTable } from "../structure";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
-import { MessageSmsId, MessageSmsStatus } from "@domifa/common";
+import {
+  MessageSmsId,
+  MessageSmsStatus,
+  MessageSmsInteractionMetas,
+  MessageSmsReminderMetas,
+} from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "message_sms" })
