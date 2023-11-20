@@ -1,0 +1,36 @@
+pg-prod-dump:
+  ~chart: project.fabrique.pg
+  enabled: true
+  fullnameOverride: pg-restore
+  postgresqlParameters:
+    TimeZone: Europe/Paris
+  instances: 1
+  storage:
+    size: 20Gi
+  backup:
+    enabled: false
+  recovery:
+    enabled: true
+
+jobs-prod-dump:
+  ~chart: project.fabrique.contrib.jobs
+  enabled: true
+  runs:
+    anonymise:
+      ~needs: [cnpg-cluster]
+      image: bash:latest
+      args:
+        - plop
+      envFrom:
+        - secretRef:
+            name: pg-tmp-superuser
+    dump:
+      ~needs: [anonymise]
+      image: ghcr.io/socialgouv/docker/psql:7.7.3
+        #pg_dump -c -d database > out.sql
+        #- copy to s3
+      envFrom:
+        - secretRef:
+            name: pg-tmp-superuser
+        - secretRef:
+            name: s3
