@@ -3,6 +3,8 @@ fileignoreconfig:
   checksum: 104c8036ca644bc51bb4c797e56b3a5b178a55b1c293a77308844e54ca7c404d
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
   checksum: 9976de417c719ab5c3bec9d4a1bafc40bfa8d4388d2dbd5da7d1ea4a11d2db75
+- filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
+  checksum: 586e3b26481d71256a1b7626956aaf9e68211dfbda527dd862a2aad075b5cc04
 - filename: yarn.lock
   checksum: 4ac842f95592d194e65b208fdc4b9a78a0bb6470ad2d4950626c2ffcec831a33
 version: "1.0"

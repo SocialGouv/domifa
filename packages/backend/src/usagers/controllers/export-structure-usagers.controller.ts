@@ -22,6 +22,7 @@ import { UsagersService } from "../services/usagers.service";
 
 import { format } from "date-fns";
 import { InteractionType } from "@domifa/common";
+import { userUsagerLoginRepository } from "../../database";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("export")
@@ -69,6 +70,11 @@ export class ExportStructureUsagersController {
         structureId: user.structureId,
       });
 
+    const userUsagerLoginByUsagerMap =
+      await userUsagerLoginRepository.totalLoginAllUsagersStructure(
+        user.structureId
+      );
+
     for (const element of usagers) {
       const usager: Usager = element;
       const data = interactionsByUsagerMap.find(
@@ -83,37 +89,30 @@ export class ExportStructureUsagersController {
           colisIn: number;
           colisOut: number;
           npai: number;
-          loginPortail: number;
         }) => x.usagerRef === usager.ref
       );
 
-      if (data) {
-        usagersInteractionsCountByType[usager.ref] = {
-          courrierIn: data.courrierIn,
-          courrierOut: data.courrierOut,
-          recommandeIn: data.recommandeIn,
-          recommandeOut: data.recommandeOut,
-          colisIn: data.colisIn,
-          colisOut: data.colisOut,
-          appel: data.appel,
-          visite: data.visite,
-          loginPortail: data.loginPortail,
-          npai: data.npai,
-        };
-      } else {
-        usagersInteractionsCountByType[usager.ref] = {
-          courrierIn: 0,
-          courrierOut: 0,
-          recommandeIn: 0,
-          recommandeOut: 0,
-          colisIn: 0,
-          colisOut: 0,
-          appel: 0,
-          loginPortail: 0,
-          visite: 0,
-          npai: 0,
-        };
-      }
+      const userUsagerLogin = userUsagerLoginByUsagerMap.find(
+        (x: { usagerUUID: string; total: string }) =>
+          x.usagerUUID === usager.uuid
+      );
+
+      const loginPortail = userUsagerLogin
+        ? parseInt(userUsagerLogin.total, 10)
+        : 0;
+
+      usagersInteractionsCountByType[usager.ref] = {
+        courrierIn: data?.courrierIn ?? 0,
+        courrierOut: data?.courrierOut ?? 0,
+        recommandeIn: data?.recommandeIn ?? 0,
+        recommandeOut: data?.recommandeOut ?? 0,
+        colisIn: data?.colisIn ?? 0,
+        colisOut: data?.colisOut ?? 0,
+        appel: data?.appel ?? 0,
+        loginPortail,
+        visite: 0,
+        npai: data?.npai ?? 0,
+      };
     }
 
     const model: StructureUsagersExportModel = {

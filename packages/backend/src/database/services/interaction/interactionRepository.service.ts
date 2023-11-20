@@ -258,7 +258,6 @@ async function totalInteractionAllUsagersStructure({
     colisIn: number;
     colisOut: number;
     npai: number;
-    loginPortail: number;
   }[]
 > {
   // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
@@ -279,22 +278,29 @@ async function totalInteractionAllUsagersStructure({
 
   const results = await interactionRepository.query(query, [structureId]);
 
-  const loginPortailStats = await userUsagerLoginRepository.query(
-    `SELECT u."usagerRef", coalesce (COUNT(uuid THEN 1 END), 0) AS "loginPortail" FROM user_usager_login u WHERE u."structureId" = $1 GROUP BY u."usagerRef"`,
-    [structureId]
+  return results.map(
+    (x: {
+      usagerRef: string;
+      appel: string;
+      visite: string;
+      courrierIn: string;
+      courrierOut: string;
+      recommandeIn: string;
+      recommandeOut: string;
+      colisIn: string;
+      colisOut: string;
+      npai: string;
+    }) => ({
+      usagerRef: parseInt(x.usagerRef, 10),
+      courrierIn: parseInt(x.courrierIn, 10),
+      courrierOut: parseInt(x.courrierOut, 10),
+      recommandeIn: parseInt(x.recommandeIn, 10),
+      recommandeOut: parseInt(x.recommandeOut, 10),
+      colisIn: parseInt(x.colisIn, 10),
+      colisOut: parseInt(x.colisOut, 10),
+      appel: parseInt(x.appel, 10),
+      visite: parseInt(x.visite, 10),
+      npai: parseInt(x.npai, 10),
+    })
   );
-
-  return results.map((x: any) => ({
-    usagerRef: x.usagerRef,
-    courrierIn: parseInt(x.courrierIn, 10),
-    courrierOut: parseInt(x.courrierOut, 10),
-    recommandeIn: parseInt(x.recommandeIn, 10),
-    recommandeOut: parseInt(x.recommandeOut, 10),
-    colisIn: parseInt(x.colisIn, 10),
-    colisOut: parseInt(x.colisOut, 10),
-    appel: parseInt(x.appel, 10),
-    visite: parseInt(x.visite, 10),
-    loginPortail: loginPortailStats,
-    npai: parseInt(x.npai, 10),
-  }));
 }
