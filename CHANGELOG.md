@@ -1,3 +1,18 @@
+# [2.144.0](https://github.com/SocialGouv/domifa/compare/v2.143.2...v2.144.0) (2023-11-20)
+
+
+### Bug Fixes
+
+* **common:** delete useless types ([2dcabad](https://github.com/SocialGouv/domifa/commit/2dcabad5b2b1541f698ef9b6c6e180b71cab7eee))
+* **db:** update db after migration ([2da3cb1](https://github.com/SocialGouv/domifa/commit/2da3cb146c44f40c87bd374e164971d1b4b58c9e))
+* **mon-domifa:** add user usager login in stats ([78e4ede](https://github.com/SocialGouv/domifa/commit/78e4ede85ee077d7e883b17acd8fc874c879c20f))
+* **stats:** update stats functions ([05c8e56](https://github.com/SocialGouv/domifa/commit/05c8e5606b0ca4444c8de289fa226c1fb6f16585))
+
+
+### Features
+
+* **portail:** separate login from interactions ([fa93357](https://github.com/SocialGouv/domifa/commit/fa933578bb3cec64eb5808536593d514b0a7a7f5))
+
 ## [2.143.2](https://github.com/SocialGouv/domifa/compare/v2.143.1...v2.143.2) (2023-11-18)
 
 
