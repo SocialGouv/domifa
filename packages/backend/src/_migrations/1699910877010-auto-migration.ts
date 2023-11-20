@@ -5,8 +5,8 @@ export class AutoMigration1699910877010 implements MigrationInterface {
   name = "AutoMigration1699910877010";
   public async up(queryRunner: QueryRunner): Promise<void> {
     if (
-      domifaConfig().envId !== "preprod" &&
-      domifaConfig().envId === "prod" &&
+      domifaConfig().envId === "preprod" ||
+      domifaConfig().envId === "prod" ||
       domifaConfig().envId === "local"
     ) {
       await queryRunner.query(
