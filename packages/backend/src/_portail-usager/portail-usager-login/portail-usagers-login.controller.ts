@@ -60,7 +60,7 @@ export class PortailUsagersLoginController {
         id: user.structureId,
       });
 
-      await userUsagerLoginRepository.save(
+      const lastLogin = await userUsagerLoginRepository.save(
         new UserUsagerLoginTable({
           usagerUUID: usager.uuid,
           structureId: usager.structureId,
@@ -68,7 +68,7 @@ export class PortailUsagersLoginController {
       );
 
       if (structure.portailUsager.usagerLoginUpdateLastInteraction) {
-        usager.lastInteraction.dateInteraction = new Date();
+        usager.lastInteraction.dateInteraction = lastLogin.createdAt;
         await usagerRepository.update(
           { uuid: usager.uuid },
           { lastInteraction: usager.lastInteraction }

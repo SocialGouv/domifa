@@ -13,6 +13,8 @@ import {
 import { InteractionsTable } from "../../entities";
 import { myDataSource } from "../_postgres";
 import { InteractionType } from "@domifa/common";
+import { userUsagerLoginRepository } from "../user-usager";
+import { differenceInMinutes, parseISO } from "date-fns";
 
 export const interactionRepository = myDataSource
   .getRepository<Interactions>(InteractionsTable)
@@ -122,13 +124,6 @@ async function countPendingInteractionsIn({
   lastInteractionOut: Date | null;
 }> {
   const INTERACTIONS_TO_CHECK = Object.assign([], INTERACTION_OK_LIST);
-
-  if (structure.portailUsager.usagerLoginUpdateLastInteraction) {
-    INTERACTIONS_TO_CHECK.push("loginPortail");
-  }
-
-  const inArray = INTERACTIONS_TO_CHECK.join(", ");
-
   // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
   const query = `SELECT
       coalesce (SUM(CASE WHEN i.type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn",
@@ -138,31 +133,52 @@ async function countPendingInteractionsIn({
     FROM interactions i
     WHERE i."usagerUUID" = $2 AND i."interactionOutUUID" is null
     GROUP BY i."usagerRef"`;
+
   const results = await interactionRepository.query(query, [
-    inArray,
+    INTERACTIONS_TO_CHECK.join(", "),
     usagerUUID,
   ]);
 
-  const defaultResult = {
-    courrierIn: 0,
-    recommandeIn: 0,
-    colisIn: 0,
-    lastInteractionOut: null,
-  };
-
-  if (typeof results[0] === "undefined") {
-    return defaultResult;
+  if (
+    typeof results[0] === "undefined" ||
+    results[0] === null ||
+    results[0]?.length === 0
+  ) {
+    return {
+      courrierIn: 0,
+      recommandeIn: 0,
+      colisIn: 0,
+      lastInteractionOut: null,
+    };
   }
 
-  if (results[0] === null || results[0].length === 0) {
-    return defaultResult;
+  let lastInteractionOut: Date | null =
+    results[0].lastInteractionOut !== null
+      ? results[0].lastInteractionOut === "string"
+        ? parseISO(results[0].lastInteractionOut)
+        : results[0].lastInteractionOut
+      : null;
+
+  if (structure.portailUsager.usagerLoginUpdateLastInteraction) {
+    const lastUserUsagerLogin = await userUsagerLoginRepository.findOne({
+      where: {
+        usagerUUID,
+      },
+      order: { createdAt: "DESC" },
+    });
+
+    if (
+      differenceInMinutes(lastInteractionOut, lastUserUsagerLogin.createdAt) > 0
+    ) {
+      lastInteractionOut = lastUserUsagerLogin.createdAt;
+    }
   }
 
   return {
     courrierIn: parseInt(results[0].courrierIn, 10),
     recommandeIn: parseInt(results[0].recommandeIn, 10),
     colisIn: parseInt(results[0].colisIn, 10),
-    lastInteractionOut: results[0].lastInteractionOut,
+    lastInteractionOut,
   };
 }
 
@@ -263,7 +279,11 @@ async function totalInteractionAllUsagersStructure({
 
   const results = await interactionRepository.query(query, [structureId]);
 
-  // TODO: add loginPortail
+  const loginPortailStats = await userUsagerLoginRepository.query(
+    `SELECT u."usagerRef", coalesce (COUNT(uuid THEN 1 END), 0) AS "loginPortail" FROM user_usager_login u WHERE u."structureId" = $1 GROUP BY u."usagerRef"`,
+    [structureId]
+  );
+
   return results.map((x: any) => ({
     usagerRef: x.usagerRef,
     courrierIn: parseInt(x.courrierIn, 10),
@@ -274,7 +294,7 @@ async function totalInteractionAllUsagersStructure({
     colisOut: parseInt(x.colisOut, 10),
     appel: parseInt(x.appel, 10),
     visite: parseInt(x.visite, 10),
-    loginPortail: 0,
+    loginPortail: loginPortailStats,
     npai: parseInt(x.npai, 10),
   }));
 }

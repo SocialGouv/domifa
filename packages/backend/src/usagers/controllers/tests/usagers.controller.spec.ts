@@ -84,7 +84,7 @@ describe("Usagers Controller", () => {
       expect(usager.ayantsDroits[0].nom).toEqual(
         exceptedResponse.ayantsDroits[0].nom
       );
-      console.log("XXX");
+
       expect(usager.ayantsDroits[0].prenom).toEqual(
         exceptedResponse.ayantsDroits[0].prenom
       );
