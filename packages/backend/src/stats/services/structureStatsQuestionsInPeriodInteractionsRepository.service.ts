@@ -1,5 +1,8 @@
 import { Between } from "typeorm";
-import { interactionRepository } from "../../database";
+import {
+  interactionRepository,
+  userUsagerLoginRepository,
+} from "../../database";
 
 import { StructureStatsQuestionsInPeriodInteractions } from "../../_common/model/structure-stats";
 import { InteractionType } from "@domifa/common";
@@ -84,8 +87,17 @@ async function getStats({
       structureId,
       interactionType: "npai",
     }),
-    loginPortail: 0,
+    loginPortail: await userUsagerLoginRepository.count({
+      where: {
+        structureId,
+        createdAt: Between(
+          startDateUTC,
+          endDateUTCExclusive
+        ) as unknown as Date,
+      },
+    }),
   };
+
   return stats;
 }
 

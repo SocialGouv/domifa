@@ -237,6 +237,24 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_fa4dea9a1ff8deb8fcf47c451e" ON public.structure USING btree (departement);
 
 
+    -- public.user_usager_login definition
+
+    -- Drop table
+
+    -- DROP TABLE public.user_usager_login;
+
+    CREATE UNLOGGED TABLE public.user_usager_login (
+      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "createdAt" timestamptz NOT NULL DEFAULT now(),
+      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "version" int4 NOT NULL,
+      "usagerUUID" uuid NOT NULL,
+      "structureId" int4 NOT NULL,
+      CONSTRAINT "PK_cfb7dc4a81d1db054ab5b4d50bf" PRIMARY KEY (uuid)
+    );
+    CREATE INDEX idx_user_usager_login ON public.user_usager_login USING btree ("structureId", "usagerUUID");
+
+
     -- public.message_sms definition
 
     -- Drop table
