@@ -2388,7 +2388,7 @@ __metadata:
     "@typescript-eslint/parser": ^6.0.0
     date-fns: ^2.30.0
     eslint: ^8.53.0
-    eslint-config-standard-with-typescript: ^39.1.1
+    eslint-config-standard-with-typescript: ^40.0.0
     eslint-plugin-import: ^2.29.0
     eslint-plugin-jest: ^27.6.0
     eslint-plugin-n: ^16.3.0
@@ -2455,7 +2455,7 @@ __metadata:
     bootstrap: ^5.2.0
     date-fns: ^2.30.0
     eslint: ^8.53.0
-    eslint-config-standard-with-typescript: ^39.1.1
+    eslint-config-standard-with-typescript: ^40.0.0
     eslint-plugin-import: ^2.29.0
     eslint-plugin-n: ^16.3.0
     eslint-plugin-no-lookahead-lookbehind-regexp: ^0.3.0
@@ -2595,7 +2595,7 @@ __metadata:
     bootstrap: 5.2.3
     date-fns: ^2.30.0
     eslint: ^8.53.0
-    eslint-config-standard-with-typescript: ^39.1.1
+    eslint-config-standard-with-typescript: ^40.0.0
     eslint-plugin-import: ^2.29.0
     eslint-plugin-n: ^16.3.0
     eslint-plugin-no-lookahead-lookbehind-regexp: ^0.3.0
@@ -11472,9 +11472,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-standard-with-typescript@npm:^39.1.1":
-  version: 39.1.1
-  resolution: "eslint-config-standard-with-typescript@npm:39.1.1"
+"eslint-config-standard-with-typescript@npm:^40.0.0":
+  version: 40.0.0
+  resolution: "eslint-config-standard-with-typescript@npm:40.0.0"
   dependencies:
     "@typescript-eslint/parser": ^6.4.0
     eslint-config-standard: 17.1.0
@@ -11485,7 +11485,7 @@ __metadata:
     eslint-plugin-n: "^15.0.0 || ^16.0.0 "
     eslint-plugin-promise: ^6.0.0
     typescript: "*"
-  checksum: 803e22fb5ac413044ae33771042ead2666214fe0e034545c8c7e0725106f8e09bfda87fa3a9553ab94346f3921a10e795a7d798442955af19addce2cd3a0c664
+  checksum: 3d78c0c28ddaa2b35daaeb894b860857edae0f32f0dc9e3b57d5583da26082a1c310b784e8327269cc59e2505fce0abd630f9bea3c1ebae33793166efaee9442
   languageName: node
   linkType: hard
 
