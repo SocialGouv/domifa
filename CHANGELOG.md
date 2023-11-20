@@ -1,3 +1,10 @@
+## [2.144.1](https://github.com/SocialGouv/domifa/compare/v2.144.0...v2.144.1) (2023-11-20)
+
+
+### Bug Fixes
+
+* **migration:** fix migration for user usager login ([46d7ff4](https://github.com/SocialGouv/domifa/commit/46d7ff44437c89c82321495151d0c1efa8f0d462))
+
 # [2.144.0](https://github.com/SocialGouv/domifa/compare/v2.143.2...v2.144.0) (2023-11-20)
 
 
