@@ -1,0 +1,15 @@
+jobs-preprod-restore:
+  ~chart: project.fabrique.contrib.jobs
+  enabled: true
+  runs:
+    restore:
+      image: ghcr.io/socialgouv/docker/s3-client:1.2.0
+      entrypoint: ["/bin/bash"]
+      args:
+        - "-c"
+        - "pg_restore"
+      envFrom:
+        - secretRef:
+            name: pg-superuser
+        - secretRef:
+            name: s3

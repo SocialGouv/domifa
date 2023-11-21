@@ -1,4 +1,5 @@
 projectName: domifa
+ciNamespace: ci-domifa
 dependencies:
   fabrique:
     import: socialgouv/kontinuous/plugins/fabrique
