@@ -1,11 +1,7 @@
 import { In, IsNull } from "typeorm";
 import { getDateForMonthInterval } from "../../../stats/services";
 import { FranceRegion } from "../../../util/territoires";
-import {
-  Structure,
-  Usager,
-  UserStructureAuthenticated,
-} from "../../../_common/model";
+import { Usager, UserStructureAuthenticated } from "../../../_common/model";
 import {
   INTERACTION_OK_LIST,
   Interactions,
@@ -13,8 +9,6 @@ import {
 import { InteractionsTable } from "../../entities";
 import { myDataSource } from "../_postgres";
 import { InteractionType } from "@domifa/common";
-import { userUsagerLoginRepository } from "../user-usager";
-import { differenceInMinutes } from "date-fns";
 
 export const interactionRepository = myDataSource
   .getRepository<Interactions>(InteractionsTable)
@@ -117,15 +111,12 @@ async function countPendingInteraction({
 
 async function countPendingInteractionsIn({
   usager,
-  structure,
 }: {
   usager: Pick<Usager, "uuid" | "options" | "decision">;
-  structure: Pick<Structure, "portailUsager">;
 }): Promise<{
   courrierIn: number;
   recommandeIn: number;
   colisIn: number;
-  dateInteraction: Date | null;
 }> {
   // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
   const results: {
@@ -145,55 +136,11 @@ async function countPendingInteractionsIn({
     )
     .where({ usagerUUID: usager.uuid, interactionOutUUID: IsNull() })
     .getRawOne();
-
-  const lastInteractionDate = await interactionRepository.findOne({
-    where: {
-      usagerUUID: usager.uuid,
-      type: In(INTERACTION_OK_LIST),
-    },
-    select: {
-      dateInteraction: true,
-    },
-    order: { dateInteraction: "DESC" },
-  });
-
-  const lastInteractions = {
+  return {
     courrierIn: parseInt(results.courrierIn, 10),
     recommandeIn: parseInt(results.recommandeIn, 10),
     colisIn: parseInt(results.colisIn, 10),
-    // Si aucune interaction, on récupère la date de début du statut actuel (domicilié, radié, etc)
-    dateInteraction:
-      lastInteractionDate?.dateInteraction ?? usager.decision.dateDebut,
   };
-
-  // Si le portail est activé, on récupère la date de dernière connexion
-  if (
-    structure.portailUsager.usagerLoginUpdateLastInteraction &&
-    usager.options.portailUsagerEnabled
-  ) {
-    const lastUserUsagerLogin = await userUsagerLoginRepository.findOne({
-      where: {
-        usagerUUID: usager.uuid,
-      },
-      select: {
-        createdAt: true,
-      },
-      order: { createdAt: "DESC" },
-    });
-
-    if (lastUserUsagerLogin?.createdAt) {
-      if (
-        differenceInMinutes(
-          lastInteractions.dateInteraction,
-          lastUserUsagerLogin.createdAt
-        ) > 0
-      ) {
-        lastInteractions.dateInteraction = lastUserUsagerLogin.createdAt;
-      }
-    }
-  }
-
-  return lastInteractions;
 }
 
 async function countInteractionsByMonth(
