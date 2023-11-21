@@ -135,7 +135,6 @@ describe("MessageSmsService", () => {
           interaction: created.interaction,
           structure: user.structure,
           usager,
-          user,
         });
       expect(deletedFirstInteraction.lastInteraction.courrierIn).toEqual(0);
     });

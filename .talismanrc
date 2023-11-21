@@ -7,6 +7,8 @@ fileignoreconfig:
   checksum: bd05dd6b68f7fe2ca36ab1180a0449878cf78f4e048d2e5979b3dbe5fba1db53
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
   checksum: 586e3b26481d71256a1b7626956aaf9e68211dfbda527dd862a2aad075b5cc04
+- filename: packages/backend/src/interactions/services/InteractionsDeletor.service.spec.ts
+  checksum: b66659fea19859e55afaf0ed47519f0804857e486b2ecc6b01d5ae96f1a86a0b
 - filename: yarn.lock
   checksum: 4ac842f95592d194e65b208fdc4b9a78a0bb6470ad2d4950626c2ffcec831a33
 version: "1.0"

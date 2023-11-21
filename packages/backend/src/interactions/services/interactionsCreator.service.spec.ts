@@ -89,10 +89,9 @@ describe("interactionsCreator", () => {
       { sms: user.structure.sms }
     );
     await interactionRepository.delete({
-      usagerRef: 2,
+      usagerUUID: usager.uuid,
       structureId: 1,
     });
-    await usagerRepository.update({}, { contactByPhone: false });
     await messageSmsRepository.delete({ structureId: user.structureId });
     await AppTestHelper.tearDownTestApp(context);
   });
@@ -151,23 +150,19 @@ describe("interactionsCreator", () => {
         newusager.lastInteraction.dateInteraction
       );
 
-      // clean
       const deleteSecondInteraction =
         await interactionsDeletor.deleteInteraction({
           interaction: secondResult.interaction,
           structure: user.structure,
           usager,
-          user,
         });
       expect(deleteSecondInteraction.lastInteraction.courrierIn).toEqual(10);
 
-      // clean
       const deletedFirstInteraction =
         await interactionsDeletor.deleteInteraction({
           interaction: firstResult.interaction,
           structure: user.structure,
           usager,
-          user,
         });
       expect(deletedFirstInteraction.lastInteraction.courrierIn).toEqual(0);
     });
@@ -208,7 +203,6 @@ describe("interactionsCreator", () => {
         interaction: resultat.interaction,
         structure: user.structure,
         usager,
-        user,
       });
     });
   });
@@ -255,7 +249,6 @@ describe("interactionsCreator", () => {
         interaction: resultat.interaction,
         structure: user.structure,
         usager,
-        user,
       });
     });
   });
@@ -299,7 +292,6 @@ describe("interactionsCreator", () => {
         interaction: resultat.interaction,
         structure: user.structure,
         usager,
-        user,
       });
       // Après suppression, date de dernier passage doit être la même qu'au début
       expect(usagerAfterDelete.lastInteraction.dateInteraction).toBeDefined();
@@ -355,7 +347,6 @@ describe("interactionsCreator", () => {
         interaction: resultat.interaction,
         structure: user.structure,
         usager,
-        user,
       });
 
       const diffHours = differenceInHours(
@@ -423,14 +414,12 @@ describe("interactionsCreator", () => {
         interaction: createdInteractionIn.interaction,
         structure: user.structure,
         usager,
-        user,
       });
       // clean
       await interactionsDeletor.deleteInteraction({
         interaction: resultat.interaction,
         structure: user.structure,
         usager,
-        user,
       });
     });
   });

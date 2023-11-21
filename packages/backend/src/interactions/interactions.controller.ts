@@ -142,7 +142,6 @@ export class InteractionsController {
   ) {
     return this.interactionDeletor.deleteInteraction({
       interaction,
-      user,
       usager,
       structure: user.structure,
     });

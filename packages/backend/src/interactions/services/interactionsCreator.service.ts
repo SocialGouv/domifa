@@ -3,12 +3,7 @@ import {
   InteractionsTable,
   usagerRepository,
 } from "../../database";
-import {
-  Usager,
-  UserStructure,
-  Interactions,
-  Structure,
-} from "../../_common/model";
+import { Usager, UserStructure, Interactions } from "../../_common/model";
 import { InteractionDto } from "../dto";
 import { interactionsTypeManager } from "./interactionsTypeManager.service";
 
@@ -121,7 +116,6 @@ async function createInteraction({
   // Mise à jour des infos de dernier passage pour l'usager
   const usagerUpdated = await updateUsagerAfterCreation({
     usager,
-    structure: user.structure,
   });
 
   return { usager: usagerUpdated, interaction: interactionCreated };
@@ -129,26 +123,25 @@ async function createInteraction({
 
 async function updateUsagerAfterCreation({
   usager,
-  structure,
 }: {
-  structure: Pick<Structure, "portailUsager">;
   usager: Pick<Usager, "uuid" | "lastInteraction" | "decision" | "options">;
 }): Promise<Usager> {
-  const lastInteractions =
+  const pendingInteractionsIn =
     await interactionRepository.countPendingInteractionsIn({
       usager,
-      structure,
     });
-  usager.lastInteraction = {
-    ...lastInteractions,
-    enAttente:
-      usager.lastInteraction.courrierIn > 0 ||
-      usager.lastInteraction.colisIn > 0 ||
-      usager.lastInteraction.recommandeIn > 0,
-  };
 
   return usagerRepository.updateOneAndReturn(usager.uuid, {
     updatedAt: new Date(),
-    lastInteraction: usager.lastInteraction,
+    lastInteraction: {
+      ...usager.lastInteraction,
+      courrierIn: pendingInteractionsIn.courrierIn,
+      colisIn: pendingInteractionsIn.colisIn,
+      recommandeIn: pendingInteractionsIn.recommandeIn,
+      enAttente:
+        pendingInteractionsIn.courrierIn > 0 ||
+        pendingInteractionsIn.colisIn > 0 ||
+        pendingInteractionsIn.recommandeIn > 0,
+    },
   });
 }
