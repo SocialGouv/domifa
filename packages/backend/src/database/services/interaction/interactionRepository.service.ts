@@ -1,4 +1,4 @@
-import { In } from "typeorm";
+import { In, IsNull } from "typeorm";
 import { getDateForMonthInterval } from "../../../stats/services";
 import { FranceRegion } from "../../../util/territoires";
 import {
@@ -14,7 +14,7 @@ import { InteractionsTable } from "../../entities";
 import { myDataSource } from "../_postgres";
 import { InteractionType } from "@domifa/common";
 import { userUsagerLoginRepository } from "../user-usager";
-import { differenceInMinutes, parseISO } from "date-fns";
+import { differenceInMinutes } from "date-fns";
 
 export const interactionRepository = myDataSource
   .getRepository<Interactions>(InteractionsTable)
@@ -34,9 +34,15 @@ async function updateInteractionAfterDistribution(
   interaction: Interactions,
   oppositeType: InteractionType
 ): Promise<void> {
-  return interactionRepository.query(
-    `UPDATE interactions SET "interactionOutUUID" = $1 where "usagerUUID" = $2 AND type = $3 AND "interactionOutUUID" is null`,
-    [interaction.uuid, usager.uuid, oppositeType]
+  await interactionRepository.update(
+    {
+      usagerUUID: usager.uuid,
+      type: oppositeType,
+      interactionOutUUID: IsNull(),
+    },
+    {
+      interactionOutUUID: interaction.uuid,
+    }
   );
 }
 
@@ -90,96 +96,104 @@ async function countPendingInteraction({
   interactionType: InteractionType;
 }): Promise<number> {
   // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
-  const query = `
-    SELECT
-      coalesce (SUM(CASE WHEN i.type = $1 THEN "nbCourrier" END), 0) AS "nbInteractions"
-    FROM interactions i
-    WHERE i."structureId" = $2 AND i."usagerUUID" = $3 AND i."interactionOutUUID" is null
-    GROUP BY i."usagerUUID"`;
-  const results = await interactionRepository.query(query, [
-    interactionType,
-    structureId,
-    usagerUUID,
-  ]);
+  const results:
+    | {
+        total: string;
+      }
+    | undefined = await interactionRepository
+    .createQueryBuilder("interactions")
+    .select(`SUM("nbCourrier")`, "total")
+    .where({
+      structureId,
+      type: interactionType,
+      usagerUUID,
+      interactionOutUUID: IsNull(),
+    })
+    .groupBy(`"usagerUUID"`)
+    .getRawOne();
 
-  if (typeof results[0] === "undefined") {
-    return 0;
-  }
-  if (results[0] === null || results[0].length === 0) {
-    return 0;
-  }
-  return parseInt(results[0].nbInteractions, 10);
+  return results?.total ? parseInt(results?.total, 10) : 0;
 }
 
 async function countPendingInteractionsIn({
-  usagerUUID,
+  usager,
   structure,
 }: {
-  usagerUUID: string;
+  usager: Pick<Usager, "uuid" | "options" | "decision">;
   structure: Pick<Structure, "portailUsager">;
 }): Promise<{
   courrierIn: number;
   recommandeIn: number;
   colisIn: number;
-  lastInteractionOut: Date | null;
+  dateInteraction: Date | null;
 }> {
-  const INTERACTIONS_TO_CHECK = Object.assign([], INTERACTION_OK_LIST);
   // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
-  const query = `SELECT
-      coalesce (SUM(CASE WHEN i.type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn",
-      coalesce (SUM(CASE WHEN i.type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn",
-      coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn",
-      (SELECT "dateInteraction" from interactions where type IN($1) and "usagerUUID" = $2 ORDER BY "dateInteraction" DESC LIMIT 1) as "lastInteractionOut"
-    FROM interactions i
-    WHERE i."usagerUUID" = $2 AND i."interactionOutUUID" is null
-    GROUP BY i."usagerRef"`;
+  const results: {
+    courrierIn: string;
+    recommandeIn: string;
+    colisIn: string;
+  } = await interactionRepository
+    .createQueryBuilder("interactions")
+    .select(
+      `coalesce (SUM(CASE WHEN type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn"`
+    )
+    .addSelect(
+      `coalesce (SUM(CASE WHEN type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn"`
+    )
+    .addSelect(
+      `coalesce (SUM(CASE WHEN type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn"`
+    )
+    .where({ usagerUUID: usager.uuid, interactionOutUUID: IsNull() })
+    .getRawOne();
 
-  const results = await interactionRepository.query(query, [
-    INTERACTIONS_TO_CHECK.join(", "),
-    usagerUUID,
-  ]);
+  const lastInteractionDate = await interactionRepository.findOne({
+    where: {
+      usagerUUID: usager.uuid,
+      type: In(INTERACTION_OK_LIST),
+    },
+    select: {
+      dateInteraction: true,
+    },
+    order: { dateInteraction: "DESC" },
+  });
 
+  const lastInteractions = {
+    courrierIn: parseInt(results.courrierIn, 10),
+    recommandeIn: parseInt(results.recommandeIn, 10),
+    colisIn: parseInt(results.colisIn, 10),
+    // Si aucune interaction, on récupère la date de début du statut actuel (domicilié, radié, etc)
+    dateInteraction:
+      lastInteractionDate?.dateInteraction ?? usager.decision.dateDebut,
+  };
+
+  // Si le portail est activé, on récupère la date de dernière connexion
   if (
-    typeof results[0] === "undefined" ||
-    results[0] === null ||
-    results[0]?.length === 0
+    structure.portailUsager.usagerLoginUpdateLastInteraction &&
+    usager.options.portailUsagerEnabled
   ) {
-    return {
-      courrierIn: 0,
-      recommandeIn: 0,
-      colisIn: 0,
-      lastInteractionOut: null,
-    };
-  }
-
-  let lastInteractionOut: Date | null =
-    results[0].lastInteractionOut !== null
-      ? results[0].lastInteractionOut === "string"
-        ? parseISO(results[0].lastInteractionOut)
-        : results[0].lastInteractionOut
-      : null;
-
-  if (structure.portailUsager.usagerLoginUpdateLastInteraction) {
     const lastUserUsagerLogin = await userUsagerLoginRepository.findOne({
       where: {
-        usagerUUID,
+        usagerUUID: usager.uuid,
+      },
+      select: {
+        createdAt: true,
       },
       order: { createdAt: "DESC" },
     });
 
-    if (
-      differenceInMinutes(lastInteractionOut, lastUserUsagerLogin.createdAt) > 0
-    ) {
-      lastInteractionOut = lastUserUsagerLogin.createdAt;
+    if (lastUserUsagerLogin?.createdAt) {
+      if (
+        differenceInMinutes(
+          lastInteractions.dateInteraction,
+          lastUserUsagerLogin.createdAt
+        ) > 0
+      ) {
+        lastInteractions.dateInteraction = lastUserUsagerLogin.createdAt;
+      }
     }
   }
 
-  return {
-    courrierIn: parseInt(results[0].courrierIn, 10),
-    recommandeIn: parseInt(results[0].recommandeIn, 10),
-    colisIn: parseInt(results[0].colisIn, 10),
-    lastInteractionOut,
-  };
+  return lastInteractions;
 }
 
 async function countInteractionsByMonth(

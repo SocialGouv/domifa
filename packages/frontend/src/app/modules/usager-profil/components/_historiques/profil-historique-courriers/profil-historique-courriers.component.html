@@ -62,7 +62,7 @@
             </td>
             <td>{{ interaction.userName }}</td>
             <td class="text-end d-print-none">
-              <ng-container *ngIf="i === 0">
+              <ng-container *ngIf="i === 0 && params.page === 1">
                 <button
                   type="button"
                   aria-label="Supprimer l'interaction"
