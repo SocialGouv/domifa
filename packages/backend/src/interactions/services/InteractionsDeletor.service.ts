@@ -58,8 +58,16 @@ export class InteractionsDeletor {
         structure,
         usager,
       });
+    } else if (interaction.type === "npai") {
+      usager.options.npai.actif = false;
+      usager.options.npai.dateDebut = null;
 
-      //
+      return usagerRepository.updateOneAndReturn(usager.uuid, {
+        options: usager.options,
+      });
+    }
+
+    if (INTERACTION_OK_LIST.indexOf(interaction.type) !== -1) {
       const lastInteractionOut = await interactionRepository.findOne({
         where: {
           usagerUUID: usager.uuid,
@@ -73,13 +81,6 @@ export class InteractionsDeletor {
 
       usager.lastInteraction.dateInteraction =
         lastInteractionOut?.dateInteraction ?? usager.decision.dateDebut;
-    } else if (interaction.type === "npai") {
-      usager.options.npai.actif = false;
-      usager.options.npai.dateDebut = null;
-
-      return usagerRepository.updateOneAndReturn(usager.uuid, {
-        options: usager.options,
-      });
     }
 
     // Si le portail est activé, on récupère la date de dernière connexion
@@ -109,6 +110,7 @@ export class InteractionsDeletor {
         }
       }
     }
+
     return await interactionsCreator.updateUsagerAfterCreation({
       usager,
     });
