@@ -1,4 +1,3 @@
-import { differenceInCalendarDays } from "date-fns";
 import {
   interactionRepository,
   InteractionsTable,
@@ -60,7 +59,7 @@ async function createInteraction({
       });
 
     interaction.nbCourrier = pendingInteractionsCount;
-    interaction.content = lastInteraction?.content || "";
+    interaction.content = lastInteraction?.content ?? "";
 
     // Note métier :
     // La date de dernier passage n'est pas mise à jour si remise à un mandataire
@@ -133,42 +132,23 @@ async function updateUsagerAfterCreation({
   structure,
 }: {
   structure: Pick<Structure, "portailUsager">;
-  usager: Pick<Usager, "uuid" | "lastInteraction">;
+  usager: Pick<Usager, "uuid" | "lastInteraction" | "decision" | "options">;
 }): Promise<Usager> {
-  const lastInteraction = usager.lastInteraction;
-
-  const lastInteractionCount =
+  const lastInteractions =
     await interactionRepository.countPendingInteractionsIn({
-      usagerUUID: usager.uuid,
+      usager,
       structure,
     });
-
-  const lastDateFromInteractions: Date | null =
-    lastInteractionCount.lastInteractionOut;
-
-  if (lastDateFromInteractions) {
-    if (!lastInteraction.dateInteraction) {
-      lastInteraction.dateInteraction = lastDateFromInteractions;
-    } else {
-      const lastDate = usager.lastInteraction.dateInteraction;
-
-      if (differenceInCalendarDays(lastDateFromInteractions, lastDate) > 0) {
-        lastInteraction.dateInteraction = lastDateFromInteractions;
-      }
-    }
-  }
-
-  lastInteraction.courrierIn = lastInteractionCount.courrierIn;
-  lastInteraction.colisIn = lastInteractionCount.colisIn;
-  lastInteraction.recommandeIn = lastInteractionCount.recommandeIn;
-
-  lastInteraction.enAttente =
-    lastInteraction.courrierIn > 0 ||
-    lastInteraction.colisIn > 0 ||
-    lastInteraction.recommandeIn > 0;
+  usager.lastInteraction = {
+    ...lastInteractions,
+    enAttente:
+      usager.lastInteraction.courrierIn > 0 ||
+      usager.lastInteraction.colisIn > 0 ||
+      usager.lastInteraction.recommandeIn > 0,
+  };
 
   return usagerRepository.updateOneAndReturn(usager.uuid, {
     updatedAt: new Date(),
-    lastInteraction,
+    lastInteraction: usager.lastInteraction,
   });
 }
