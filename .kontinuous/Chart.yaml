@@ -1,0 +1,10 @@
+apiVersion: v2
+name: project
+version: 0.0.0
+dependencies:
+  - name: preprod-restore
+    repository: file://./charts/preprod-restore
+    condition: preprod-restore.enabled
+  - name: prod-dump
+    repository: file://./charts/prod-dump
+    condition: prod-dump.enabled

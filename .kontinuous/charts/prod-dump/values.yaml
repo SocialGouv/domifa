@@ -1,5 +1,6 @@
 pg-restore:
-  ~chart: cnpg-cluster
+  ~chart: project.fabrique.pg
+  enabled: true
   fullnameOverride: pg-restore
   postgresqlParameters:
     TimeZone: Europe/Paris
