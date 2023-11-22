@@ -39,20 +39,20 @@ export class Decision implements UsagerDecision {
     this.dateFin = (decision && new Date(decision.dateFin)) ?? undefined;
     this.dateDecision =
       (decision && new Date(decision.dateDecision)) ?? new Date();
-    this.statut = (decision && decision.statut) ?? "INSTRUCTION";
+    this.statut = decision?.statut ?? "INSTRUCTION";
 
-    this.userName = (decision && decision.userName) ?? "";
-    this.userId = (decision && decision.userId) ?? "";
-    this.motifDetails = (decision && decision.motifDetails) ?? "";
-    this.motif = (decision && decision.motif) ?? "";
+    this.userName = decision?.userName ?? "";
+    this.userId = decision?.userId ?? "";
+    this.motifDetails = decision?.motifDetails ?? "";
+    this.motif = decision?.motif ?? "";
     this.motifString = "";
 
-    this.orientation = (decision && decision.orientation) ?? "";
-    this.orientationDetails = (decision && decision.orientationDetails) ?? "";
+    this.orientation = decision?.orientation ?? "";
+    this.orientationDetails = decision?.orientationDetails ?? "";
 
     this.statutLabel = USAGER_DECISION_STATUT_LABELS_PROFIL[this.statut];
 
-    if (decision && decision.statut) {
+    if (decision?.statut) {
       this.motifString = generateMotifLabel(decision);
     }
   }
