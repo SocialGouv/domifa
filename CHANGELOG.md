@@ -1,3 +1,10 @@
+## [2.144.4](https://github.com/SocialGouv/domifa/compare/v2.144.3...v2.144.4) (2023-11-22)
+
+
+### Bug Fixes
+
+* **interactions:** delete visit ([1571426](https://github.com/SocialGouv/domifa/commit/1571426baa9ef5a478c63964e5caccd61346cc93))
+
 ## [2.144.3](https://github.com/SocialGouv/domifa/compare/v2.144.2...v2.144.3) (2023-11-21)
 
 
