@@ -262,6 +262,35 @@
               </p>
             </div>
           </div>
+          <div class="col-md-12 required">
+            <input
+              type="checkbox"
+              formControlName="acceptTerms"
+              name="acceptTerms"
+              class="form-check-input me-2"
+              [ngClass]="{
+                'is-invalid': f.acceptTerms?.errors
+              }"
+              [attr.aria-describedby]="
+                f.acceptTerms.errors ? 'invalid-cgu-choice' : null
+              "
+              id="acceptTerms"
+              required
+            />
+            <label class="form-check-label" for="acceptTerms"
+              >Le responsable de la structure accepte les
+              <a routerLink="/cgu-responsable" target="_blank"
+                >CGU du responsable de structure</a
+              ></label
+            >
+            <p
+              *ngIf="f.acceptTerms?.errors"
+              class="invalid-feedback"
+              id="invalid-cgu-choice"
+            >
+              Vous devez accepter les CGU afin de poursuivre l'inscription
+            </p>
+          </div>
         </ng-container>
 
         <!-- IMPORTANT: le champ de mot de passe situé juste après le login sera utilisé pour la mise à jour du mot de passe, donc il faut que ça soit le nouveau mot de passe le cas échéant -->

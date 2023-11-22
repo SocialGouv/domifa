@@ -1,10 +1,10 @@
-import { PortailUsagerProfile } from "./../_common/_portail-usager/PortailUsagerProfile.type";
 import { UsagerAuthService } from "./modules/usager-auth/services/usager-auth.service";
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs";
 import { LIENS_PARTENAIRES } from "./modules/general/components/_static/plan-site/LIENS_PARTENAIRES.const";
+import { PortailUsagerProfile } from "@domifa/common";
 
 @Component({
   selector: "app-root",

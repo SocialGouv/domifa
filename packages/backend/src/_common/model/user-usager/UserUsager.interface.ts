@@ -1,7 +1,6 @@
-import { UserStructureResume } from "@domifa/common";
-import { AppEntity } from "../_core/AppEntity.type";
+import { AppEntity, UserStructureResume } from "@domifa/common";
 
-export type UserUsager = AppEntity & {
+export interface UserUsager extends AppEntity {
   id: number;
   usagerUUID: string;
   structureId: number;
@@ -14,4 +13,5 @@ export type UserUsager = AppEntity & {
   lastPasswordResetDate: Date;
   lastPasswordResetStructureUser: UserStructureResume;
   enabled: boolean;
-};
+  acceptTerms: Date | null;
+}

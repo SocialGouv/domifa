@@ -9,9 +9,11 @@ import { UsagerAuthService } from "./services/usager-auth.service";
 
 import { UsagerAuthRoutingModule } from "./usager-auth-routing.module";
 import { UsagerLoginComponent } from "./usager-login/usager-login.component";
+import { UsagerAcceptCguComponent } from "./usager-accept-cgu/usager-accept-cgu.component";
+import { GeneralModule } from "../general/general.module";
 
 @NgModule({
-  declarations: [UsagerLoginComponent],
+  declarations: [UsagerLoginComponent, UsagerAcceptCguComponent],
   imports: [
     CommonModule,
     UsagerAuthRoutingModule,
@@ -20,6 +22,7 @@ import { UsagerLoginComponent } from "./usager-login/usager-login.component";
     FontAwesomeModule,
     SharedModule,
     ReactiveFormsModule,
+    GeneralModule,
   ],
   providers: [UsagerAuthService],
 })

@@ -1,8 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import {
-  PortailUsagerPublic,
-  UsagerEcheanceInfos,
-} from "../../../../../_common";
+import { UsagerEcheanceInfos } from "../../../../../_common";
 import { DEFAULT_USAGER_PROFILE } from "../../../../../_common/mocks/DEFAULT_USAGER.const";
 
 import { getEcheanceInfos } from "../../interfaces/getEcheanceInfos.service";
@@ -10,6 +7,7 @@ import {
   USAGER_DECISION_STATUT_LABELS,
   getRdvInfos,
   UsagerRdvInfos,
+  PortailUsagerPublic,
 } from "@domifa/common";
 
 @Component({

@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
+import { Telephone } from "@domifa/common";
 import * as lpn from "google-libphonenumber";
-
-import { Telephone } from "../../../../_common/";
 
 @Pipe({ name: "formatInternationalPhoneNumber" })
 export class FormatInternationalPhoneNumberPipe implements PipeTransform {

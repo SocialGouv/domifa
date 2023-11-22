@@ -9,6 +9,10 @@ fileignoreconfig:
   checksum: 586e3b26481d71256a1b7626956aaf9e68211dfbda527dd862a2aad075b5cc04
 - filename: packages/backend/src/interactions/services/InteractionsDeletor.service.spec.ts
   checksum: b66659fea19859e55afaf0ed47519f0804857e486b2ecc6b01d5ae96f1a86a0b
+- filename: packages/portail-usagers/src/app/modules/general/components/_static/cgu/cgu.component.html
+  checksum: 584da8c9b8ebc95d1d996d0201e0e57cf31e05c6704104e7adacba67a7eb4dd7
+- filename: packages/portail-usagers/src/app/modules/usager-auth/usager-accept-cgu/usager-accept-cgu.component.ts
+  checksum: 189eb0e583dc89e07c097b61b59e3ee952d84b098dd0fd75bc7cd4bc71ab3fa5
 - filename: yarn.lock
   checksum: 4ac842f95592d194e65b208fdc4b9a78a0bb6470ad2d4950626c2ffcec831a33
 version: "1.0"

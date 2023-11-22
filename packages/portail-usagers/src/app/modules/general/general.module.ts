@@ -30,7 +30,12 @@ import { PlanSiteComponent } from "./components/_static/plan-site/plan-site.comp
     PolitiqueComponent,
     RgaaComponent,
   ],
-  exports: [NotFoundComponent, IdleManagerComponent, PlanSiteComponent],
+  exports: [
+    NotFoundComponent,
+    IdleManagerComponent,
+    PlanSiteComponent,
+    CguComponent,
+  ],
   imports: [
     CommonModule,
     HttpClientModule,

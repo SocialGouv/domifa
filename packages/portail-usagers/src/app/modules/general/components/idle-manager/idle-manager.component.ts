@@ -1,9 +1,9 @@
-import { PortailUsagerProfile } from "./../../../../../_common/_portail-usager/PortailUsagerProfile.type";
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { UserIdleService } from "angular-user-idle";
 import { Subscription } from "rxjs";
 import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
+import { PortailUsagerProfile } from "@domifa/common";
 
 @Component({
   selector: "app-idle-manager",

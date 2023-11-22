@@ -1,0 +1,95 @@
+<div class="container my-5" *ngIf="!usagerProfile">
+  <section class="content section-content">
+    <h1>Veuillez lire et accepter les CGU</h1>
+
+    <p>
+      Les conditions générales d'utilisation de DomiFa évoluent. <br />Afin de
+      pouvoir continuer à l'utiliser, merci de lire et accepter les nouvelles
+      CGU
+    </p>
+    <div id="cgu-modal">
+      <app-cgu></app-cgu>
+    </div>
+    <form [formGroup]="acceptTermsForm">
+      <div class="required">
+        <input
+          type="checkbox"
+          formControlName="readTerms"
+          name="readTerms"
+          class="form-check-input me-2"
+          [ngClass]="{
+            'is-invalid': submitted && f.readTerms.errors
+          }"
+          [attr.aria-describedby]="
+            submitted && f.readTerms.errors ? 'invalid-cgu-read' : null
+          "
+          id="readTerms"
+          required
+        />
+        <label class="form-check-label" for="readTerms"
+          >Je confirme avoir lu les conditions générales d’utilisation
+        </label>
+        <p
+          *ngIf="submitted && f.readTerms?.errors"
+          class="invalid-feedback"
+          id="invalid-cgu-read"
+        >
+          La lecture des CGU est obligatoire
+        </p>
+      </div>
+      <div class="required">
+        <input
+          type="checkbox"
+          formControlName="acceptTerms"
+          name="acceptTerms"
+          class="form-check-input me-2"
+          [ngClass]="{
+            'is-invalid': submitted && f.acceptTerms.errors
+          }"
+          [attr.aria-describedby]="
+            submitted && f.acceptTerms.errors ? 'invalid-cgu-choice' : null
+          "
+          id="acceptTerms"
+          required
+        />
+        <label class="form-check-label" for="acceptTerms"
+          >J'accepte les conditions générales d’utilisation
+        </label>
+        <p
+          *ngIf="submitted && f.acceptTerms?.errors"
+          class="invalid-feedback"
+          id="invalid-cgu-choice"
+        >
+          Vous devez accepter les CGU afin de poursuivre l'inscription
+        </p>
+      </div>
+      <div class="text-center">
+        <button
+          class="btn btn-lg btn-outline-primary"
+          type="button"
+          (click)="logout()"
+        >
+          Se déconnecter
+        </button>
+        <button
+          class="btn btn-lg btn-primary ms-2"
+          type="submit"
+          (click)="submitAcceptTerms()"
+          [disabled]="loading"
+          [attr.aria-busy]="loading"
+        >
+          <span *ngIf="!loading"> Enregistrer </span>
+          <span *ngIf="loading"
+            ><fa-icon
+              [icon]="['fas', 'circle-notch']"
+              aria-hidden="true"
+              [spin]="true"
+            >
+            </fa-icon>
+            Enregistrement en cours...</span
+          >
+        </button>
+      </div>
+    </form>
+  </section>
+</div>
