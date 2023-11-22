@@ -67,6 +67,9 @@ export class UserUsagerTable
   @Column({ type: "boolean", default: false })
   enabled: boolean;
 
+  @Column({ type: "timestamptz", nullable: true })
+  acceptTerms: Date;
+
   public constructor(entity?: Partial<UserUsagerTable>) {
     super(entity);
     Object.assign(this, entity);

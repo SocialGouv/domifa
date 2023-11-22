@@ -1,9 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 
-import {
-  PortailUsagerPublic,
-  UsagerOptionsProcuration,
-} from "../../../../../_common";
+import { PortailUsagerPublic, UsagerOptionsProcuration } from "@domifa/common";
 
 @Component({
   selector: "app-section-options",
@@ -36,27 +33,13 @@ export class SectionOptionsComponent implements OnInit {
     if (this.usager?.options?.procurations.length > 0) {
       this.usager.options.procurations = this.usager.options.procurations.map(
         (apiProcuration: UsagerOptionsProcuration) => {
-          const procuration: UsagerOptionsProcuration = {
-            nom: null,
-            prenom: null,
-            dateNaissance: null,
-            dateFin: null,
-            dateDebut: null,
+          return {
+            nom: apiProcuration?.nom ?? "",
+            prenom: apiProcuration?.prenom ?? "",
+            dateNaissance: new Date(apiProcuration.dateNaissance),
+            dateFin: new Date(apiProcuration.dateFin),
+            dateDebut: new Date(apiProcuration.dateDebut),
           };
-
-          procuration.nom = apiProcuration?.nom ?? null;
-          procuration.prenom = apiProcuration?.prenom ?? null;
-
-          if (apiProcuration.dateNaissance) {
-            procuration.dateNaissance = new Date(apiProcuration.dateNaissance);
-          }
-          if (apiProcuration.dateFin) {
-            procuration.dateFin = new Date(apiProcuration.dateFin);
-          }
-          if (apiProcuration.dateDebut) {
-            procuration.dateDebut = new Date(apiProcuration.dateDebut);
-          }
-          return procuration;
         },
       );
     }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { PortailUsagerProfile } from "../../../../../_common";
+import { PortailUsagerProfile } from "@domifa/common";
 import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
 
 @Component({
@@ -25,23 +25,5 @@ export class HomeUsagerComponent implements OnInit {
         this.usagerProfile = apiResponse;
       },
     );
-
-    this.loadTallyScript();
-  }
-
-  private loadTallyScript(): void {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const tally: any = window["Tally" as unknown as any];
-    if (tally) {
-      tally.openPopup("n0B5MA", {
-        layout: "popup",
-        overlay: true,
-        emoji: {
-          text: "👋",
-          animation: "wave",
-        },
-        doNotShowAfterSubmit: true,
-      });
-    }
   }
 }

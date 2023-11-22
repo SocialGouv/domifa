@@ -1,21 +1,18 @@
-import { UsagerOptions } from "../usager";
-import { Telephone } from "../common";
-import { AppEntity } from "../_core";
+import { type AppEntity } from "../_core";
+import { type Telephone } from "../telephone";
 import {
-  UsagerSexe,
-  UsagerTypeDom,
-  UsagerLastInteraction,
-  UsagerRdv,
-  UsagerAyantDroit,
-  UsagerDecision,
-} from "@domifa/common";
+  type UsagerSexe,
+  type UsagerAyantDroit,
+  type UsagerRdv,
+  type UsagerTypeDom,
+  type UsagerDecision,
+  type UsagerLastInteraction,
+  type UsagerOptions,
+} from "../usager";
 
-export type PortailUsagerPublic = AppEntity & {
-  ref: number; // unique par structure
+export interface PortailUsagerPublic extends AppEntity {
   customRef: string; // valeur par défaut: 'ref'
   structureId: number;
-
-  // ETAT CIVIL
   nom: string;
   prenom: string;
   surnom?: string;
@@ -24,30 +21,20 @@ export type PortailUsagerPublic = AppEntity & {
   dateNaissance: Date;
   villeNaissance: string;
 
-  // CONTACT
-  email?: string;
+  email: string | null;
   telephone: Telephone;
   contactByPhone: boolean;
 
-  // AYANT-DROIT
   ayantsDroits: UsagerAyantDroit[];
 
-  // FORMULAIRE
   etapeDemande: number;
   rdv: UsagerRdv | null;
 
-  // INFOS DOMICILIATION
   typeDom: UsagerTypeDom;
   datePremiereDom?: Date;
 
-  // DECISIONS
   decision: UsagerDecision;
-
-  // visible history
   historique: UsagerDecision[];
-
-  // INTERACTIONS
   lastInteraction: UsagerLastInteraction;
-
   options: UsagerOptions;
-};
+}

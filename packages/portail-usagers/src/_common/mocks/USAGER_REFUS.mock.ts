@@ -1,4 +1,4 @@
-import { PortailUsagerPublic } from "..";
+import { PortailUsagerPublic } from "@domifa/common";
 
 export const USAGER_REFUS_MOCK: PortailUsagerPublic = {
   decision: {
@@ -22,6 +22,7 @@ export const USAGER_REFUS_MOCK: PortailUsagerPublic = {
     dateInteraction: new Date("2020-12-01T14:11:28.167Z"),
   },
   options: {
+    portailUsagerEnabled: true,
     npai: {
       actif: false,
     },
@@ -70,7 +71,7 @@ export const USAGER_REFUS_MOCK: PortailUsagerPublic = {
   sexe: "femme",
   structureId: 1,
   villeNaissance: "Bouaké, Côte d'Ivoire",
-  ref: 5,
+
   createdAt: new Date("2020-12-01T10:00:24.984Z"),
   updatedAt: new Date("2020-12-21T17:07:12.911Z"),
 };

@@ -1,4 +1,4 @@
-import { myDataSource } from "..";
+import { USAGER_PORTAIL_ATTRIBUTES, myDataSource } from "..";
 
 import { UsagerTable } from "../../entities";
 import { joinSelectFields, pgRepository } from "../_postgres";
@@ -6,6 +6,7 @@ import { joinSelectFields, pgRepository } from "../_postgres";
 import { Usager } from "../../../_common/model";
 import { FranceRegion } from "../../../util/territoires";
 import { getDateForMonthInterval } from "../../../stats/services";
+import { PortailUsagerPublic } from "@domifa/common";
 
 const baseRepository = pgRepository.get<UsagerTable, Usager>(UsagerTable);
 
@@ -25,7 +26,21 @@ export const usagerRepository = myDataSource
     countUsagers,
     findNextMeetings,
     findLastFiveCustomRef,
+    getUserUsagerData,
   });
+
+export async function getUserUsagerData({
+  usagerUUID,
+}: {
+  usagerUUID: string;
+}): Promise<PortailUsagerPublic> {
+  return usagerRepository.findOneOrFail({
+    where: {
+      uuid: usagerUUID,
+    },
+    select: USAGER_PORTAIL_ATTRIBUTES,
+  });
+}
 
 export async function updateOneAndReturn(
   uuid: string,

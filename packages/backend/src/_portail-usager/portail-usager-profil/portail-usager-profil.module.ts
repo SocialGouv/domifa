@@ -5,8 +5,6 @@ import { PortailUsagersProfileController } from "./portail-usagers-profile.contr
 
 @Module({
   controllers: [PortailUsagersProfileController],
-  exports: [],
   imports: [HttpModule, forwardRef(() => AuthModule)],
-  providers: [],
 })
 export class PortailUsagerProfilModule {}

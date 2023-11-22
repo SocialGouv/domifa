@@ -1,4 +1,4 @@
-import { PortailUsagerPublic } from "./../../../../_common/_portail-usager/PortailUsagerPublic.type";
+import { PortailUsagerPublic } from "@domifa/common";
 import { UsagerEcheanceInfos } from "../../../../_common";
 
 export const getEcheanceInfos = (

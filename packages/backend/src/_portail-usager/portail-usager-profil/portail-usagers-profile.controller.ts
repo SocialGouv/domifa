@@ -11,11 +11,8 @@ import { ApiTags } from "@nestjs/swagger";
 import { AllowUserProfiles, CurrentUser } from "../../auth/decorators";
 import { AppUserGuard } from "../../auth/guards";
 import { ExpressResponse } from "../../util/express";
-import {
-  PortailUsagerProfile,
-  UserUsagerAuthenticated,
-} from "../../_common/model";
-import { portailUsagerProfilBuilder } from "./services/portail-usager-profil-builder.service";
+import { UserUsagerAuthenticated } from "../../_common/model";
+import { usagerRepository } from "../../database";
 
 @Controller("portail-usagers/profile")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -28,11 +25,13 @@ export class PortailUsagersProfileController {
     @Res() res: ExpressResponse,
     @CurrentUser() currentUser: UserUsagerAuthenticated
   ) {
-    const portailUsagerProfile: PortailUsagerProfile =
-      await portailUsagerProfilBuilder.build({
-        usagerUUID: currentUser.usager.uuid,
-      });
+    const usager = await usagerRepository.getUserUsagerData({
+      usagerUUID: currentUser.usager.uuid,
+    });
 
-    return res.status(HttpStatus.OK).json(portailUsagerProfile);
+    return res.status(HttpStatus.OK).json({
+      usager,
+      acceptTerms: currentUser.user.acceptTerms,
+    });
   }
 }

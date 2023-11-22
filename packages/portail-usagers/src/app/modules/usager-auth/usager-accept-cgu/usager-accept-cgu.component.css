@@ -1,0 +1,7 @@
+#cgu-modal {
+  max-height: 400px;
+  overflow: auto;
+  border: 1px solid #b1b1b1;
+  border-radius: 5px;
+  margin: 1rem auto;
+}

@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { PortailUsagerPublic } from "../../../../_common";
+import { PortailUsagerPublic } from "@domifa/common";
+
 @Pipe({ name: "usagerNomComplet" })
 export class UsagerNomCompletPipe implements PipeTransform {
   transform(

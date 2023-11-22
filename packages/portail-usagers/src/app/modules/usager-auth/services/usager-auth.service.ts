@@ -5,13 +5,13 @@ import { Router, RouterStateSnapshot } from "@angular/router";
 
 import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
-import {
-  PortailUsagerAuthApiResponse,
-  PortailUsagerAuthLoginForm,
-  PortailUsagerProfile,
-} from "../../../../_common";
+import { PortailUsagerAuthLoginForm } from "../../../../_common";
 import { configureScope } from "@sentry/angular";
 import { globalConstants } from "../../../shared";
+import {
+  PortailUsagerProfile,
+  PortailUsagerAuthApiResponse,
+} from "@domifa/common";
 
 const END_POINT_AUTH = environment.apiUrl + "portail-usagers/auth";
 const END_POINT_PROFILE = environment.apiUrl + "portail-usagers/profile";
@@ -61,7 +61,7 @@ export class UsagerAuthService {
   }
 
   public get currentUserValue(): PortailUsagerProfile | null {
-    return this.currentUsagerSubject.value || null;
+    return this.currentUsagerSubject.value ?? null;
   }
 
   public logout(): void {
@@ -104,6 +104,12 @@ export class UsagerAuthService {
     this.saveAuthUsager(apiAuthResponse.profile);
   }
 
+  public acceptTerms(): Observable<PortailUsagerAuthApiResponse> {
+    return this.http.get<PortailUsagerAuthApiResponse>(
+      `${END_POINT_AUTH}/accept-terms`,
+    );
+  }
+
   public saveAuthUsager(authUsagerProfile: PortailUsagerProfile): void {
     // Enregistrement de l'utilisateur
     globalConstants.removeItem(USER_KEY);
@@ -111,11 +117,10 @@ export class UsagerAuthService {
 
     // Sentry
     configureScope((scope) => {
-      scope.setTag("auth-usager-ref", authUsagerProfile.toString());
       scope.setUser({
         username:
           "AuthUsager " +
-          authUsagerProfile.usager.ref.toString() +
+          authUsagerProfile.usager.customRef.toString() +
           " : " +
           authUsagerProfile.usager.prenom,
       });

@@ -1,4 +1,4 @@
-import { PortailUsagerProfile, PortailUsagerPublic } from "../_portail-usager";
+import { PortailUsagerPublic, PortailUsagerProfile } from "@domifa/common";
 
 export const DEFAULT_USAGER: PortailUsagerPublic = {
   ayantsDroits: [
@@ -38,6 +38,7 @@ export const DEFAULT_USAGER: PortailUsagerPublic = {
   },
   nom: "Martine",
   options: {
+    portailUsagerEnabled: true,
     npai: {
       actif: false,
     },
@@ -56,7 +57,6 @@ export const DEFAULT_USAGER: PortailUsagerPublic = {
   contactByPhone: false,
   prenom: "Sembat",
   rdv: null,
-  ref: 5,
   sexe: "femme",
   structureId: 1,
   typeDom: "RENOUVELLEMENT",

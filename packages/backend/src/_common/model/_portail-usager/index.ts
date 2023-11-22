@@ -1,6 +1,4 @@
-export * from "./PortailUsagerAuthApiResponse.type";
+//@index('./*', f => `export * from '${f.path}'`)
 export * from "./PortailUsagerAuthPayload.type";
-export * from "./PortailUsagerProfile.type";
-export * from "./PortailUsagerPublic.type";
 export * from "./PortailUsagerStructure.type";
 export * from "./PortailUsagerUsager.type";

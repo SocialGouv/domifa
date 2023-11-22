@@ -8,16 +8,16 @@ import {
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 
-import type {
-  PortailUsagerAuthApiResponse,
-  PortailUsagerAuthLoginForm,
-  PortailUsagerProfile,
-} from "../../../../_common";
+import type { PortailUsagerAuthLoginForm } from "../../../../_common";
 import { UsagerAuthService } from "../services/usager-auth.service";
 import { PasswordValidator } from "./password-validator.service";
 import { CustomToastService } from "../../shared/services/custom-toast.service";
 import { Subscription } from "rxjs";
 import { MatomoTracker } from "ngx-matomo-client";
+import {
+  PortailUsagerProfile,
+  PortailUsagerAuthApiResponse,
+} from "@domifa/common";
 
 @Component({
   selector: "app-usager-login",
@@ -98,6 +98,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
           { value: "", disabled: true },
           Validators.compose([Validators.required, Validators.minLength(8)]),
         ],
+        acceptTerms: [{ value: "", disabled: true }, [Validators.required]],
       },
       {
         validators: [
@@ -119,6 +120,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   private switchToChangePasswordMode() {
     this.mode = "login-change-password";
     this.loginForm.controls.newPassword.enable();
+    this.loginForm.controls.acceptTerms.enable();
     this.loginForm.controls.newPasswordConfirm.enable();
     this.loginForm.updateValueAndValidity();
   }
@@ -149,9 +151,12 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
       this.authService.login(loginForm).subscribe({
         next: (apiAuthResponse: PortailUsagerAuthApiResponse) => {
           this.toastr.success("Connexion réussie !");
-
-          // SAVE USER & Tokenn
           this.authService.saveToken(apiAuthResponse);
+
+          if (!apiAuthResponse.acceptTerms) {
+            this.router.navigate(["/auth/accept-terms"]);
+            return;
+          }
 
           this.loading = false;
           this.router.navigate(["/account"]);
