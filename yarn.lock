@@ -2435,7 +2435,7 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": ^6.2.1
     "@fortawesome/free-regular-svg-icons": ^6.2.1
     "@fortawesome/free-solid-svg-icons": ^6.2.1
-    "@ng-bootstrap/ng-bootstrap": ^14.2.0
+    "@ng-bootstrap/ng-bootstrap": ^16.0.0
     "@ngrx/effects": ^15.4.0
     "@ngrx/entity": ^15.4.0
     "@ngrx/store": ^15.4.0
@@ -2515,7 +2515,7 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": ^6.2.1
     "@fortawesome/free-regular-svg-icons": ^6.2.1
     "@fortawesome/free-solid-svg-icons": ^6.2.1
-    "@ng-bootstrap/ng-bootstrap": ^14.2.0
+    "@ng-bootstrap/ng-bootstrap": ^16.0.0
     "@popperjs/core": ^2.11.8
     "@schematics/update": ^0.1102.19
     "@sentry/angular": ^7.79.0
@@ -2583,7 +2583,7 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": ^6.2.1
     "@fortawesome/free-regular-svg-icons": ^6.2.1
     "@fortawesome/free-solid-svg-icons": ^6.2.1
-    "@ng-bootstrap/ng-bootstrap": ^14.2.0
+    "@ng-bootstrap/ng-bootstrap": ^16.0.0
     "@popperjs/core": ^2.11.8
     "@sentry/angular": ^7.79.0
     "@types/google-libphonenumber": ^7.4.30
@@ -4057,19 +4057,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ng-bootstrap/ng-bootstrap@npm:^14.2.0":
-  version: 14.2.0
-  resolution: "@ng-bootstrap/ng-bootstrap@npm:14.2.0"
+"@ng-bootstrap/ng-bootstrap@npm:^16.0.0":
+  version: 16.0.0
+  resolution: "@ng-bootstrap/ng-bootstrap@npm:16.0.0"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
-    "@angular/common": ^15.0.0
-    "@angular/core": ^15.0.0
-    "@angular/forms": ^15.0.0
-    "@angular/localize": ^15.0.0
-    "@popperjs/core": ^2.11.6
+    "@angular/common": ^17.0.0
+    "@angular/core": ^17.0.0
+    "@angular/forms": ^17.0.0
+    "@angular/localize": ^17.0.0
+    "@popperjs/core": ^2.11.8
     rxjs: ^6.5.3 || ^7.4.0
-  checksum: f42f6fd4acd63b462374eb7191c9aa8d4bc00af24e5feffe09d44924fb489a4b4dcef32243f514be3a2e7c2a5ccf6338ee5ee363bc9db9d5490ed40af63179c5
+  checksum: 5544765cfeae86a752e679a4b5ce36eec9683622d20244cadf6606b955fef58b76f4ea7787cb264982c0ad8bca56add836cdc511e3d851fa3f743eb159f89589
   languageName: node
   linkType: hard
 
