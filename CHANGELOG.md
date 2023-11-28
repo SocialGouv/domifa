@@ -1,3 +1,17 @@
+# [2.145.0](https://github.com/SocialGouv/domifa/compare/v2.144.5...v2.145.0) (2023-11-28)
+
+
+### Bug Fixes
+
+* **cgu:** add privacy policy ([9abf806](https://github.com/SocialGouv/domifa/commit/9abf80662bcbfdeba1c6b0b1260689995aeb5c98))
+* **portail:** update privacy policy ([448b71b](https://github.com/SocialGouv/domifa/commit/448b71bc82120ac5963fbf22fc62c5f3c4300498))
+
+
+### Features
+
+* **general:** update privacy policy ([d9b8d31](https://github.com/SocialGouv/domifa/commit/d9b8d31f80f020dcfe8f40ab35f26b9582ac2556))
+* **privacy:** add privacy page in 'mon-domifa' ([9a45523](https://github.com/SocialGouv/domifa/commit/9a4552346e7d1362cb247f1589de485873dac548))
+
 ## [2.144.5](https://github.com/SocialGouv/domifa/compare/v2.144.4...v2.144.5) (2023-11-28)
 
 
