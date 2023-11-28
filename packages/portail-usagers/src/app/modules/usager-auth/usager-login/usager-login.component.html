@@ -269,7 +269,7 @@
               name="acceptTerms"
               class="form-check-input me-2"
               [ngClass]="{
-                'is-invalid': f.acceptTerms?.errors
+                'is-invalid': f.acceptTerms.errors
               }"
               [attr.aria-describedby]="
                 f.acceptTerms.errors ? 'invalid-cgu-choice' : null

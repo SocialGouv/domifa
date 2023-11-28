@@ -65,4 +65,5 @@ export const DEFAULT_USAGER: PortailUsagerPublic = {
 
 export const DEFAULT_USAGER_PROFILE: PortailUsagerProfile = {
   usager: DEFAULT_USAGER,
+  acceptTerms: new Date(),
 };

@@ -30,14 +30,13 @@ import { SharedModule } from "./modules/shared/shared.module";
 
 import pkg from "../../package.json";
 
-import { UserIdleModule } from "angular-user-idle";
-
 import { createErrorHandler, init } from "@sentry/angular";
 import { MATOMO_INJECTORS } from "./shared";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "./shared/store/ngRxAppStore.service";
 import { registerLocaleData } from "@angular/common";
 import localeFr from "@angular/common/locales/fr";
+import { provideUserIdleConfig } from "angular-user-idle";
 
 const disableAnimations =
   !("animate" in document.documentElement) ||
@@ -68,13 +67,13 @@ registerLocaleData(localeFr, "fr");
     NgbModule,
     StoreModule.forRoot({ app: _usagerReducer }),
     SharedModule,
-    UserIdleModule.forRoot({ idle: 3600, timeout: 60, ping: 20 }),
     MATOMO_INJECTORS,
   ],
   providers: [
     AuthService,
     LoadingService,
     CustomToastService,
+    provideUserIdleConfig({ idle: 3600, timeout: 60, ping: 20 }),
     { provide: LOCALE_ID, useValue: "fr" },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {

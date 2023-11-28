@@ -1,16 +1,18 @@
 fileignoreconfig:
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: 104c8036ca644bc51bb4c797e56b3a5b178a55b1c293a77308844e54ca7c404d
+  checksum: 8c3fbddbda155e81d1ce861dfa05c391c60199d539272d4013b71ae0100648ea
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: 9976de417c719ab5c3bec9d4a1bafc40bfa8d4388d2dbd5da7d1ea4a11d2db75
+  checksum: 88414b9693efe32632ed9eed749e3cdc4ec5e66030160941e8d9643dfc61ad7b
 - filename: packages/backend/src/_migrations/1699910877010-auto-migration.ts
   checksum: bd05dd6b68f7fe2ca36ab1180a0449878cf78f4e048d2e5979b3dbe5fba1db53
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
-  checksum: 586e3b26481d71256a1b7626956aaf9e68211dfbda527dd862a2aad075b5cc04
+  checksum: 4933dc2edd58b0d9ced8906548fec306389d66a0b415b99cd29dc09fdfe76c3b
 - filename: packages/backend/src/interactions/services/InteractionsDeletor.service.spec.ts
   checksum: b66659fea19859e55afaf0ed47519f0804857e486b2ecc6b01d5ae96f1a86a0b
 - filename: packages/portail-usagers/src/app/modules/general/components/_static/cgu/cgu.component.html
   checksum: 584da8c9b8ebc95d1d996d0201e0e57cf31e05c6704104e7adacba67a7eb4dd7
+- filename: packages/portail-usagers/src/app/modules/usager-auth/services/usager-auth.service.ts
+  checksum: d55d8d80cec2984b300d93cedc411653bb3c49d172cfb2c66e347ad49c715634
 - filename: packages/portail-usagers/src/app/modules/usager-auth/usager-accept-cgu/usager-accept-cgu.component.ts
   checksum: 189eb0e583dc89e07c097b61b59e3ee952d84b098dd0fd75bc7cd4bc71ab3fa5
 - filename: yarn.lock

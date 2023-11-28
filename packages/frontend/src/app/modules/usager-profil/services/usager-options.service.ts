@@ -68,7 +68,6 @@ export class UsagerOptionsService {
       )
       .pipe(
         tap((newUsager: UsagerLight) => {
-          console.log(newUsager);
           this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
         })
       );

@@ -60,15 +60,13 @@ export class PortailUsagersLoginController {
         usagerUUID: user.usagerUUID,
       });
 
-      const portailUsagerProfile: PortailUsagerProfile = { usager };
+      const portailUsagerProfile: PortailUsagerProfile = {
+        usager,
+        acceptTerms: user.acceptTerms,
+      };
 
       const structure = await structureRepository.findOneByOrFail({
         id: user.structureId,
-      });
-
-      console.log({
-        usagerUUID: usager.uuid,
-        structureId: user.structureId,
       });
 
       const lastLogin = await userUsagerLoginRepository.save(

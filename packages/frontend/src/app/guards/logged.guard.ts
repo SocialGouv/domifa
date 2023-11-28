@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { CanActivate, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { CustomToastService } from "../modules/shared/services/custom-toast.service";
 
 import { Observable, of } from "rxjs";
@@ -8,7 +8,7 @@ import { map } from "rxjs/operators";
 import { AuthService } from "../modules/shared/services/auth.service";
 
 @Injectable({ providedIn: "root" })
-export class LoggedGuard implements CanActivate {
+export class LoggedGuard {
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService,

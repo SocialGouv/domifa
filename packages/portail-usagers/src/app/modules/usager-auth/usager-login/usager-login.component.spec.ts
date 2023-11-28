@@ -18,7 +18,7 @@ describe("UsagerLoginComponent", () => {
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
-        ...MATOMO_INJECTORS,
+        MATOMO_INJECTORS,
         NgbModule,
         FormsModule,
         RouterTestingModule,

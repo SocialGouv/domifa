@@ -238,6 +238,24 @@
           >
         </li>
       </ul>
+      <br />
+      <p>
+        <label>
+          <input
+            type="checkbox"
+            [ngModel]="optedOut$ | async"
+            (ngModelChange)="handleChange($event)"
+          />
+          <ng-container *ngIf="optedOut$ | async; else optedIn">
+            Vous n'êtes plus suivis de manière anonyme. Décochez cette case pour
+            activer le suivi anonyme.
+          </ng-container>
+          <ng-template #optedIn>
+            Vous êtes suivis de manière anonyme. Cochez cette case pour ne plus
+            être suivi.</ng-template
+          >
+        </label>
+      </p>
     </div>
   </div>
 </div>

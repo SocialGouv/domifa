@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
   Router,
   RouterStateSnapshot,
 } from "@angular/router";
@@ -11,7 +10,7 @@ import { catchError, map } from "rxjs/operators";
 import { UsagerAuthService } from "../modules/usager-auth/services/usager-auth.service";
 
 @Injectable({ providedIn: "root" })
-export class AuthGuard implements CanActivate {
+export class AuthGuard {
   constructor(
     private readonly router: Router,
     private readonly authService: UsagerAuthService,
