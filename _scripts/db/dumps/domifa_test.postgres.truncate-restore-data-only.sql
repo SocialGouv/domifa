@@ -28,8 +28,8 @@ TRUNCATE TABLE public.usager_options_history RESTART IDENTITY CASCADE;
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.9
--- Dumped by pg_dump version 14.9
+-- Dumped from database version 14.9 (Debian 14.9-1.pgdg110+1)
+-- Dumped by pg_dump version 14.9 (Debian 14.9-1.pgdg110+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -281,9 +281,9 @@ e0bcefc6-f1be-4c83-ac9d-6ea47335a9c3	2021-03-15 16:53:55.740856+01	2023-09-05 23
 -- Data for Name: user_usager; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.user_usager (uuid, "createdAt", "updatedAt", version, id, "usagerUUID", "structureId", login, password, salt, "isTemporaryPassword", "lastLogin", "passwordLastUpdate", "lastPasswordResetDate", "lastPasswordResetStructureUser", enabled) FROM stdin;
-a657f4bd-e4d1-4c38-bdd0-ffd268b356df	2021-10-05 11:34:41.369505+02	2021-11-30 15:02:07.705535+01	18	1	b2c26e55-ab37-457d-b307-6fe161050a9b	1	WKYJBDXS	$2a$10$cmwXTghEgrGRYTkGIJlj3Owjo8YVVDXOgceAGtkgzcD2M/Tf3Dhb.	$2a$10$/uFyiR8hCe8XkRe7x2fYm.	t	2021-11-30 15:02:07.69+01	\N	2021-10-05 11:34:41.365+02	{"userId": 1, "userName": "Patrick Roméro"}	t
-a03a9a49-ae31-4160-9879-bab02dc46361	2021-11-30 14:50:26.278073+01	2023-11-20 16:40:58.362384+01	17	2	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	LNQIFFBK	$2a$10$u..ofvcb5t5a44N0Oriwbew6oz600aoOFzll9yl92Lx1VOb0E8o0a	$2a$10$zmuPXxUOuQJ7nE6ag4.x6e	f	2023-11-20 16:40:58.36+01	2021-11-30 15:01:39.675+01	2021-11-30 14:50:26.275+01	{"userId": 1, "userName": "Patrick Roméro"}	t
+COPY public.user_usager (uuid, "createdAt", "updatedAt", version, id, "usagerUUID", "structureId", login, password, salt, "isTemporaryPassword", "lastLogin", "passwordLastUpdate", "lastPasswordResetDate", "lastPasswordResetStructureUser", enabled, "acceptTerms") FROM stdin;
+a657f4bd-e4d1-4c38-bdd0-ffd268b356df	2021-10-05 11:34:41.369505+02	2021-11-30 15:02:07.705535+01	18	1	b2c26e55-ab37-457d-b307-6fe161050a9b	1	WKYJBDXS	$2a$10$cmwXTghEgrGRYTkGIJlj3Owjo8YVVDXOgceAGtkgzcD2M/Tf3Dhb.	$2a$10$/uFyiR8hCe8XkRe7x2fYm.	t	2021-11-30 15:02:07.69+01	\N	2021-10-05 11:34:41.365+02	{"userId": 1, "userName": "Patrick Roméro"}	t	\N
+a03a9a49-ae31-4160-9879-bab02dc46361	2021-11-30 14:50:26.278073+01	2023-11-20 16:40:58.362384+01	17	2	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	LNQIFFBK	$2a$10$u..ofvcb5t5a44N0Oriwbew6oz600aoOFzll9yl92Lx1VOb0E8o0a	$2a$10$zmuPXxUOuQJ7nE6ag4.x6e	f	2023-11-20 16:40:58.36+01	2021-11-30 15:01:39.675+01	2021-11-30 14:50:26.275+01	{"userId": 1, "userName": "Patrick Roméro"}	t	\N
 \.
 
 

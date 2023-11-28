@@ -98,7 +98,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
           { value: "", disabled: true },
           Validators.compose([Validators.required, Validators.minLength(8)]),
         ],
-        acceptTerms: [{ value: "", disabled: true }, [Validators.required]],
+        acceptTerms: [{ value: false, disabled: true }, [Validators.required]],
       },
       {
         validators: [
@@ -153,13 +153,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
           this.toastr.success("Connexion réussie !");
           this.authService.saveToken(apiAuthResponse);
 
-          if (!apiAuthResponse.acceptTerms) {
-            this.router.navigate(["/auth/accept-terms"]);
-            return;
-          }
-
           this.loading = false;
-          this.router.navigate(["/account"]);
 
           this.matomo.trackEvent(
             "login-portail-usagers",
@@ -167,6 +161,12 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
             "null",
             1,
           );
+          if (!apiAuthResponse.acceptTerms) {
+            this.router.navigate(["/account/accept-terms"]);
+            return;
+          }
+
+          this.router.navigate(["/account"]);
         },
 
         error: (err) => {

@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { PortailUsagerProfile } from "@domifa/common";
 import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-home-usager",
@@ -14,6 +15,7 @@ export class HomeUsagerComponent implements OnInit {
   constructor(
     private readonly usagerAuthService: UsagerAuthService,
     private readonly titleService: Title,
+    private readonly router: Router,
   ) {
     this.usagerProfile = null;
     this.titleService.setTitle("Mon DomiFa");
@@ -22,6 +24,10 @@ export class HomeUsagerComponent implements OnInit {
   public ngOnInit(): void {
     this.usagerAuthService.currentUsagerSubject.subscribe(
       (apiResponse: PortailUsagerProfile | null) => {
+        if (!apiResponse?.acceptTerms) {
+          this.router.navigate(["/account/accept-terms"]);
+          return;
+        }
         this.usagerProfile = apiResponse;
       },
     );

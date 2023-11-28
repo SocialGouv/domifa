@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
-import { CanActivate, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { CustomToastService } from "../modules/shared/services/custom-toast.service";
 import { Observable } from "rxjs";
 import { AuthService } from "../modules/shared/services/auth.service";
 
 @Injectable({ providedIn: "root" })
-export class CanEditPortailUsagerGuard implements CanActivate {
+export class CanEditPortailUsagerGuard {
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService,

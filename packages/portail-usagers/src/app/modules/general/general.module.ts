@@ -19,6 +19,7 @@ import { CguComponent } from "./components/_static/cgu/cgu.component";
 import { RgaaComponent } from "./components/_static/rgaa/rgaa.component";
 import { IdleManagerComponent } from "./components/idle-manager/idle-manager.component";
 import { PlanSiteComponent } from "./components/_static/plan-site/plan-site.component";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { PlanSiteComponent } from "./components/_static/plan-site/plan-site.comp
     RouterModule.forChild([]),
     SharedModule,
     NgbModule,
+    FormsModule,
   ],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

@@ -8,6 +8,9 @@ import { SectionCourriersComponent } from "./components/section-courriers/sectio
 import { SectionInfosComponent } from "./components/section-infos/section-infos.component";
 import { SectionOptionsComponent } from "./components/section-options/section-options.component";
 import { SharedModule } from "../shared/shared.module";
+import { UsagerAcceptCguComponent } from "./components/usager-accept-cgu/usager-accept-cgu.component";
+import { GeneralModule } from "../general/general.module";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -15,11 +18,15 @@ import { SharedModule } from "../shared/shared.module";
     SectionInfosComponent,
     SectionCourriersComponent,
     SectionOptionsComponent,
+    UsagerAcceptCguComponent,
   ],
   imports: [
     CommonModule,
     UsagerAccountRoutingModule,
     SharedModule,
+    GeneralModule,
+    FormsModule,
+    ReactiveFormsModule,
     FontAwesomeModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

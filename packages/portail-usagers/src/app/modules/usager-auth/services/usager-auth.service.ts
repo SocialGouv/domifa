@@ -17,7 +17,7 @@ const END_POINT_AUTH = environment.apiUrl + "portail-usagers/auth";
 const END_POINT_PROFILE = environment.apiUrl + "portail-usagers/profile";
 
 const TOKEN_KEY = "usager-auth-token";
-const USER_KEY = "usager-auth-datas";
+const USER_KEY = "usager-auth-data";
 
 @Injectable({
   providedIn: "root",

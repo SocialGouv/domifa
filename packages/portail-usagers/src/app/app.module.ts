@@ -25,7 +25,7 @@ import { SharedModule } from "./modules/shared/shared.module";
 import { CustomToastService } from "./modules/shared/services/custom-toast.service";
 import { GeneralModule } from "./modules/general/general.module";
 import { MATOMO_INJECTORS } from "./shared";
-import { UserIdleModule } from "angular-user-idle";
+import { provideUserIdleConfig } from "angular-user-idle";
 
 import { registerLocaleData } from "@angular/common";
 import localeFr from "@angular/common/locales/fr";
@@ -46,8 +46,7 @@ registerLocaleData(localeFr, "fr");
     NgbModule,
     SharedModule,
     ReactiveFormsModule,
-    ...MATOMO_INJECTORS,
-    UserIdleModule.forRoot({ idle: 3600, timeout: 60, ping: 20 }),
+    MATOMO_INJECTORS,
   ],
   providers: [
     UsagerAuthService,
@@ -55,6 +54,7 @@ registerLocaleData(localeFr, "fr");
     { provide: LOCALE_ID, useValue: "fr" },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: ErrorHandler, useClass: SentryErrorHandler },
+    provideUserIdleConfig({ idle: 3600, timeout: 60, ping: 20 }),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })

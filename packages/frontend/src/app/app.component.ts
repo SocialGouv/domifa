@@ -68,11 +68,28 @@ export class AppComponent implements OnInit, OnDestroy {
     public matomo: MatomoTracker
   ) {
     this.apiVersion = localStorage.getItem("version");
+
     this.submitted = false;
     this.pendingNews = false;
     this.loading = false;
     this.me = null;
     this.initCguForm();
+    this.checkMatomo();
+  }
+
+  private checkMatomo() {
+    if (localStorage.getItem("matomo-opted-in") === null) {
+      localStorage.setItem("matomo-opted-in", JSON.stringify(true));
+    }
+
+    const disableMatomo =
+      JSON.parse(localStorage.getItem("matomo-opted-in")) === true;
+
+    if (!disableMatomo) {
+      this.matomo.optUserOut();
+    } else {
+      localStorage.setItem("matomo-opted-in", JSON.stringify(true));
+    }
   }
 
   private initCguForm() {

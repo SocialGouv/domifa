@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -6,8 +6,8 @@ import {
   Validators,
 } from "@angular/forms";
 import { Subscription } from "rxjs";
-import { CustomToastService } from "../../shared/services/custom-toast.service";
-import { UsagerAuthService } from "../services/usager-auth.service";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
 import { PortailUsagerProfile } from "@domifa/common";
 import { Router } from "@angular/router";
 
@@ -16,7 +16,7 @@ import { Router } from "@angular/router";
   templateUrl: "./usager-accept-cgu.component.html",
   styleUrls: ["./usager-accept-cgu.component.css"],
 })
-export class UsagerAcceptCguComponent implements OnInit {
+export class UsagerAcceptCguComponent {
   public acceptTermsForm!: FormGroup;
 
   public loading: boolean;
@@ -36,11 +36,11 @@ export class UsagerAcceptCguComponent implements OnInit {
     this.usagerAuthService.currentUsagerSubject.subscribe(
       (apiResponse: PortailUsagerProfile | null) => {
         this.usagerProfile = apiResponse;
+        if (apiResponse?.acceptTerms) {
+          this.router.navigate(["/account"]);
+        }
       },
     );
-  }
-
-  ngOnInit(): void {
     this.initCguForm();
   }
 

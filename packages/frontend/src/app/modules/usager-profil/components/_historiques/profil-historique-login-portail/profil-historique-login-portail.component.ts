@@ -61,7 +61,6 @@ export class ProfilHistoriqueLoginPortailComponent
       this.interactionService
         .getLoginPortail(this.usager.ref, this.params)
         .subscribe((searchResults: PageResults<UserUsagerLogin>) => {
-          console.log(searchResults);
           this.loading = false;
           this.interactions = searchResults.data;
           this.searchResults = searchResults;

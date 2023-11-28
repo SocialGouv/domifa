@@ -8,21 +8,12 @@ export class GlobalConstants {
     if (typeof localStorage !== "undefined" && localStorage !== null) {
       this.storageName = "localStorage";
       this.storage = localStorage;
-      if (!localStorage.getItem("DATA_CLEAN")) {
-        localStorage.clear();
-        localStorage.setItem("DATA_CLEAN", "true");
-      }
     } else if (
       typeof sessionStorage !== "undefined" &&
       sessionStorage !== null
     ) {
       this.storageName = "sessionStorage";
       this.storage = sessionStorage;
-
-      if (!sessionStorage.getItem("DATA_CLEAN")) {
-        sessionStorage.clear();
-        sessionStorage.setItem("DATA_CLEAN", "true");
-      }
     } else {
       this.storageName = "globalVariable";
       this.storage = null;

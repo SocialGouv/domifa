@@ -609,6 +609,7 @@ async function createTables(queryRunner: QueryRunner) {
       "lastPasswordResetDate" timestamptz NULL,
       "lastPasswordResetStructureUser" jsonb NULL,
       enabled bool NOT NULL DEFAULT false,
+      "acceptTerms" timestamptz NULL,
       CONSTRAINT "PK_46cd95ba6c330d680e13ce7d932" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_07ddbb376616a6bf4ffdbb2b6d7" UNIQUE ("usagerUUID"),
       CONSTRAINT "UQ_547d83b925177cadc602bc7e221" UNIQUE (id),
