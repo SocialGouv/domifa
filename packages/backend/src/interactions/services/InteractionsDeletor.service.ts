@@ -14,7 +14,7 @@ import {
 } from "../../_common/model";
 import { interactionsCreator } from "./interactionsCreator.service";
 import { interactionsTypeManager } from "./interactionsTypeManager.service";
-import { In } from "typeorm";
+import { In, Like, Not } from "typeorm";
 import { differenceInCalendarDays } from "date-fns";
 
 @Injectable()
@@ -72,6 +72,7 @@ export class InteractionsDeletor {
         where: {
           usagerUUID: usager.uuid,
           type: In(INTERACTION_OK_LIST),
+          content: Not(Like("%Courrier remis au mandataire%")),
         },
         select: {
           dateInteraction: true,
