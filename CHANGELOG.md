@@ -1,3 +1,10 @@
+## [2.144.5](https://github.com/SocialGouv/domifa/compare/v2.144.4...v2.144.5) (2023-11-28)
+
+
+### Bug Fixes
+
+* **interactions:** do not update lastInteraction with procuration ([722a54f](https://github.com/SocialGouv/domifa/commit/722a54fe9a255b1fac5ba1066216cd18f8304906))
+
 ## [2.144.4](https://github.com/SocialGouv/domifa/compare/v2.144.3...v2.144.4) (2023-11-22)
 
 
