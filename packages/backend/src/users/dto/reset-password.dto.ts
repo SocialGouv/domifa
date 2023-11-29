@@ -16,9 +16,7 @@ export class ResetPasswordDto {
     required: true,
   })
   @IsNotEmpty()
-  @IsValidPassword("password", {
-    message: "INCORRECT_PASSWORD",
-  })
+  @IsValidPassword("password")
   public readonly password!: string;
 
   @ApiProperty({
@@ -26,9 +24,7 @@ export class ResetPasswordDto {
     required: true,
   })
   @IsNotEmpty()
-  @IsValidPassword("passwordConfirmation", {
-    message: "INCORRECT_PASSWORD",
-  })
+  @IsValidPassword("passwordConfirmation")
   @Transform(({ value, obj }: TransformFnParams) => {
     if (
       typeof obj.password !== "undefined" &&

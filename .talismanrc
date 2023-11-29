@@ -3,12 +3,18 @@ fileignoreconfig:
   checksum: 8c3fbddbda155e81d1ce861dfa05c391c60199d539272d4013b71ae0100648ea
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
   checksum: 88414b9693efe32632ed9eed749e3cdc4ec5e66030160941e8d9643dfc61ad7b
+- filename: packages/backend/src/_common/decorators/IsValidPasswordDecorator.ts
+  checksum: f0d4b3cd2e6e2d9b1e0271c34d64adacf87a5f1e7a505402a20869962543608d
 - filename: packages/backend/src/_migrations/1699910877010-auto-migration.ts
   checksum: bd05dd6b68f7fe2ca36ab1180a0449878cf78f4e048d2e5979b3dbe5fba1db53
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
   checksum: 4933dc2edd58b0d9ced8906548fec306389d66a0b415b99cd29dc09fdfe76c3b
 - filename: packages/backend/src/interactions/services/InteractionsDeletor.service.spec.ts
   checksum: b66659fea19859e55afaf0ed47519f0804857e486b2ecc6b01d5ae96f1a86a0b
+- filename: packages/backend/src/users/dto/reset-password.dto.ts
+  checksum: 459ec0c5e439bca5375d3a06f4868f8078ca2ad1895fdc5c84bc81cc6bc394fc
+- filename: packages/frontend/src/app/modules/general/components/login/login.component.ts
+  checksum: 478ac6427b28b5473166ea12bc5ffe275d6dfb1bf3c190c1d852012907f4d317
 - filename: packages/portail-usagers/src/app/modules/general/components/_static/cgu/cgu.component.html
   checksum: 584da8c9b8ebc95d1d996d0201e0e57cf31e05c6704104e7adacba67a7eb4dd7
 - filename: packages/portail-usagers/src/app/modules/usager-auth/services/usager-auth.service.ts

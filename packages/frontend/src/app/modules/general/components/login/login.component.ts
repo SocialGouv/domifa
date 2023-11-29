@@ -1,4 +1,4 @@
-import { PASSWORD_VALIDATOR } from "./../../../users/PASSWORD_VALIDATOR.const";
+import { LEGACY_PASSWORD_VALIDATOR } from "./../../../users/PASSWORD_VALIDATOR.const";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public initForm() {
     this.loginForm = this.formBuilder.group({
       email: ["", [Validators.required, EmailValidator]],
-      password: ["", Validators.compose(PASSWORD_VALIDATOR)],
+      password: ["", Validators.compose(LEGACY_PASSWORD_VALIDATOR)],
     });
   }
 
