@@ -34,7 +34,7 @@ describe("Admins Login Controller", () => {
       .post("/portail-admins/auth/login")
       .send({
         email: "s1-admin@yopmail.com",
-        password: "Azerty012345",
+        password: "Azerty012345!",
       });
     expect(response.status).toBe(HttpStatus.OK);
   });

@@ -7,7 +7,7 @@ const ALL: TestUserStructure[] = [
     id: 1,
     structureId: 1,
     email: "s1-admin@yopmail.com",
-    password: "Azerty012345",
+    password: "Azerty012345!",
     role: "admin",
   },
   {
@@ -15,7 +15,7 @@ const ALL: TestUserStructure[] = [
     id: 2,
     structureId: 1,
     email: "s1-instructeur@yopmail.com",
-    password: "Azerty012345",
+    password: "Azerty012345!",
     role: "simple",
   },
   {
@@ -23,7 +23,7 @@ const ALL: TestUserStructure[] = [
     id: 3,
     structureId: 1,
     email: "s1-gestionnaire@yopmail.com",
-    password: "Azerty012345",
+    password: "Azerty012345!",
     role: "responsable",
   },
   {
@@ -31,7 +31,7 @@ const ALL: TestUserStructure[] = [
     id: 6,
     structureId: 1,
     email: "s1-facteur@yopmail.com",
-    password: "Azerty012345",
+    password: "Azerty012345!",
     role: "facteur",
   },
   {
@@ -39,7 +39,7 @@ const ALL: TestUserStructure[] = [
     id: 5,
     structureId: 3,
     email: "s3-admin@yopmail.com",
-    password: "Azerty012345",
+    password: "Azerty012345!",
     role: "admin",
   },
   {
@@ -47,7 +47,7 @@ const ALL: TestUserStructure[] = [
     id: 10,
     structureId: 3,
     email: "s3-gestionnaire@yopmail.com",
-    password: "Azerty012345",
+    password: "Azerty012345!",
     role: "responsable",
   },
   {
@@ -55,7 +55,7 @@ const ALL: TestUserStructure[] = [
     id: 8,
     structureId: 3,
     email: "s3-instructeur@yopmail.com",
-    password: "Azerty012345",
+    password: "Azerty012345!",
     role: "simple",
   },
   {
@@ -63,7 +63,7 @@ const ALL: TestUserStructure[] = [
     id: 4,
     structureId: 3,
     email: "s3-facteur@yopmail.com",
-    password: "Azerty012345",
+    password: "Azerty012345!",
     role: "facteur",
   },
 
@@ -72,7 +72,7 @@ const ALL: TestUserStructure[] = [
     id: 7,
     structureId: 4,
     email: "s4-admin@yopmail.com",
-    password: "Azerty012345",
+    password: "Azerty012345!",
     role: "admin",
   },
   {
@@ -80,7 +80,7 @@ const ALL: TestUserStructure[] = [
     id: 11,
     structureId: 5,
     email: "s5-admin@yopmail.com",
-    password: "Azerty012345",
+    password: "Azerty012345!",
     role: "admin",
   },
 ];
