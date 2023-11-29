@@ -13,6 +13,13 @@ jobs:
     drop-db:
       ~needs: [pg]
       use: drop-db
+      env:
+        - name: PGPASSWORD
+          value: "$(password)"
+        - name: PGHOST
+          value: "$(host)"
+        - name: PGUSER
+          value: "$(user)"
       with:
         pgAdminUserSecretRefName: pg-superuser
         #database
