@@ -48,6 +48,7 @@ describe("RegisterUserComponent", () => {
     component.userForm.controls.passwordConfirmation.setValue("1234567891011");
     expect(component.userForm.errors).toBeNull();
     expect(component.userForm.controls.password.errors).toEqual({
+      hasSpecialCharacter: true,
       hasCapitalCase: true,
       hasLowerCase: true,
     });

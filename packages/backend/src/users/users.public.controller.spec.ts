@@ -169,8 +169,8 @@ describe("Users Public Controller", () => {
       const responseOk = await supertest(context.app.getHttpServer())
         .post("/users/reset-password")
         .send({
-          password: "Azerty012345",
-          passwordConfirmation: "Azerty012345",
+          password: "Azerty012345!",
+          passwordConfirmation: "Azerty012345!",
           token: userSecurityDatas.temporaryTokens.token,
           userId: "1",
         });

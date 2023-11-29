@@ -47,13 +47,12 @@ describe("UserStructurePasswordFormComponent", () => {
 
   it("Passwords OK", () => {
     const testPasswords = [
-      "Azerty0123456",
-      "LsKVYkXBxDR3",
+      "Azerty0123456!",
+      "LsKVYkXBxDR3!",
       "!!!!!!V3K5nWvq84Fj",
       "  §'/(//(nvew3gKvzgKn",
       "x$rQAzhmaW(2Fzuk",
-      "Allez les bleus2022",
-
+      "Allez les bleus2022!",
       "cpXJydcMV7WjuVc7E2nDIpgHvt)LXhexqh#HvSVN8W6u&x8*LnmXVU&m@5uzfrD",
     ];
     component.newPasswordForm();
