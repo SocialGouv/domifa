@@ -57,7 +57,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Connexion à DomiFa");
+    this.titleService.setTitle("Connexion à Mon DomiFa");
 
     this.subscription.add(
       this.usagerAuthService.currentUsagerSubject.subscribe(

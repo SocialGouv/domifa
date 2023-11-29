@@ -50,7 +50,7 @@ async function updatePassword({
 
   await userUsagerRepository.update(
     { id: userId },
-    { password: hash, passwordLastUpdate: new Date() }
+    { password: hash, passwordLastUpdate: new Date(), acceptTerms: new Date() }
   );
 
   const updatedUser = await userUsagerRepository.findOneBy({

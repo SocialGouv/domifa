@@ -70,7 +70,10 @@ export class UsagerAcceptCguComponent {
           this.submitted = false;
           this.loading = false;
           this.toastr.success("Merci, vous pouvez continuer votre navigation");
-          this.router.navigate(["/account"]);
+
+          this.router.navigate(["/account"]).then(() => {
+            window.location.reload();
+          });
         },
         error: () => {
           this.loading = false;

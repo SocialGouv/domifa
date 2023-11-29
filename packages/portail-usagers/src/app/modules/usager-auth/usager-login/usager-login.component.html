@@ -90,7 +90,7 @@
               *ngIf="f.newPassword?.dirty && f.newPassword?.errors"
               class="invalid-feedback-custom"
             >
-              <p *ngIf="f.newPassword?.errors?.required">
+              <p *ngIf="f.newPassword.errors?.required">
                 Le mot de passe ne respecte pas les règles indiquées
               </p>
             </div>
@@ -100,8 +100,8 @@
             <p
               class="my-1"
               [ngClass]="
-                f.newPassword.hasError('required') ||
-                f.newPassword.hasError('hasNumber')
+                f.newPassword.errors?.required ||
+                f.newPassword.errors?.hasNumber
                   ? 'text-danger'
                   : 'text-success'
               "
@@ -110,8 +110,8 @@
                 aria-hidden="true"
                 [icon]="[
                   'fas',
-                  f.newPassword.hasError('required') ||
-                  f.newPassword.hasError('hasNumber')
+                  f.newPassword.errors?.required ||
+                  f.newPassword.errors?.hasNumber
                     ? 'times-circle'
                     : 'check-circle'
                 ]"
@@ -121,8 +121,8 @@
             <p
               class="my-1"
               [ngClass]="
-                f.newPassword.hasError('required') ||
-                f.newPassword.hasError('hasCapitalCase')
+                f.newPassword.errors?.required ||
+                f.newPassword.errors?.hasCapitalCase
                   ? 'text-danger'
                   : 'text-success'
               "
@@ -130,8 +130,8 @@
               <fa-icon
                 [icon]="[
                   'fas',
-                  f.newPassword.hasError('required') ||
-                  f.newPassword.hasError('hasCapitalCase')
+                  f.newPassword.errors?.required ||
+                  f.newPassword.errors?.hasCapitalCase
                     ? 'times-circle'
                     : 'check-circle'
                 ]"
@@ -142,8 +142,8 @@
             <p
               class="my-1"
               [ngClass]="
-                f.newPassword.hasError('required') ||
-                f.newPassword.hasError('hasLowerCase')
+                f.newPassword.errors?.required ||
+                f.newPassword.errors?.hasLowerCase
                   ? 'text-danger'
                   : 'text-success'
               "
@@ -152,8 +152,8 @@
                 aria-hidden="true"
                 [icon]="[
                   'fas',
-                  f.newPassword.hasError('required') ||
-                  f.newPassword.hasError('hasLowerCase')
+                  f.newPassword.errors?.required ||
+                  f.newPassword.errors?.hasLowerCase
                     ? 'times-circle'
                     : 'check-circle'
                 ]"
@@ -163,9 +163,9 @@
             <p
               class="my-1"
               [ngClass]="
-                f.newPassword.hasError('required') ||
-                f.newPassword.hasError('minlength') ||
-                f.newPassword.hasError('maxlength')
+                f.newPassword.errors?.required ||
+                f.newPassword.errors?.minlength ||
+                f.newPassword.errors?.maxlength
                   ? 'text-danger'
                   : 'text-success'
               "
@@ -174,9 +174,9 @@
                 aria-hidden="true"
                 [icon]="[
                   'fas',
-                  f.newPassword.hasError('required') ||
-                  f.newPassword.hasError('minlength') ||
-                  f.newPassword.hasError('maxlength')
+                  f.newPassword.errors?.required ||
+                  f.newPassword.errors?.minlength ||
+                  f.newPassword.errors?.maxlength
                     ? 'times-circle'
                     : 'check-circle'
                 ]"
@@ -187,7 +187,7 @@
           <div
             class="mt-3 form-group required"
             *ngIf="
-              !f.newPassword?.errors &&
+              !f.newPassword.errors &&
               !this.loginForm.hasError(
                 'new-password-same-as-temporary-password'
               )
@@ -245,13 +245,13 @@
             </div>
 
             <p
-              *ngIf="f.newPasswordConfirm?.errors?.required"
+              *ngIf="f.newPasswordConfirm.errors?.required"
               class="invalid-feedback-custom"
             >
               Veuillez confirmer le mot de passe
             </p>
 
-            <div *ngIf="!f.newPasswordConfirm?.errors?.required">
+            <div *ngIf="!f.newPasswordConfirm.errors?.required">
               <p
                 *ngIf="
                   this.loginForm.hasError('new-password-confim-does-not-match')
@@ -278,13 +278,13 @@
               required
             />
             <label class="form-check-label" for="acceptTerms"
-              >Le responsable de la structure accepte les
-              <a routerLink="/cgu-responsable" target="_blank"
-                >CGU du responsable de structure</a
+              >Je confirme avoir lu et accepter les
+              <a routerLink="/cgu" target="_blank"
+                >conditions générales d’utilisation</a
               ></label
             >
             <p
-              *ngIf="f.acceptTerms?.errors"
+              *ngIf="f.acceptTerms.errors"
               class="invalid-feedback"
               id="invalid-cgu-choice"
             >
