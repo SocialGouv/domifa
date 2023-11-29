@@ -25,6 +25,8 @@ export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "lastLogin",
   "acceptTerms",
   "role",
+  "lastLogin",
+  "createdAt",
 ];
 
 @Injectable()
@@ -129,6 +131,8 @@ export class StructuresAuthService {
         "responsable",
         "structureType",
         "ville",
+        "lastLogin",
+        "createdAt",
         "sms",
         "portailUsager",
         "acceptTerms",

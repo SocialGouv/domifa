@@ -1,21 +1,15 @@
 import { Injectable, Inject, forwardRef } from "@nestjs/common";
-import {
-  interactionRepository,
-  usagerRepository,
-  userUsagerLoginRepository,
-} from "../../database";
+import { interactionRepository, usagerRepository } from "../../database";
 import { MessageSmsService } from "../../sms/services/message-sms.service";
 import {
   Interactions,
   Usager,
   Structure,
   UsagerLight,
-  INTERACTION_OK_LIST,
 } from "../../_common/model";
 import { interactionsCreator } from "./interactionsCreator.service";
 import { interactionsTypeManager } from "./interactionsTypeManager.service";
-import { In, Like, Not } from "typeorm";
-import { differenceInCalendarDays } from "date-fns";
+import { getLastInteractionOut } from "./getLastInteractionDate.service";
 
 @Injectable()
 export class InteractionsDeletor {
@@ -67,51 +61,11 @@ export class InteractionsDeletor {
       });
     }
 
-    if (INTERACTION_OK_LIST.indexOf(interaction.type) !== -1) {
-      const lastInteractionOut = await interactionRepository.findOne({
-        where: {
-          usagerUUID: usager.uuid,
-          type: In(INTERACTION_OK_LIST),
-          content: Not(Like("%Courrier remis au mandataire%")),
-          uuid: Not(interaction.uuid),
-        },
-        select: {
-          dateInteraction: true,
-        },
-        order: { dateInteraction: "DESC" },
-      });
-
-      usager.lastInteraction.dateInteraction =
-        lastInteractionOut?.dateInteraction ?? usager.decision.dateDebut;
-    }
-
-    // Si le portail est activé, on récupère la date de dernière connexion
-    if (
-      structure.portailUsager.usagerLoginUpdateLastInteraction &&
-      usager.options.portailUsagerEnabled
-    ) {
-      const lastUserUsagerLogin = await userUsagerLoginRepository.findOne({
-        where: {
-          usagerUUID: usager.uuid,
-        },
-        select: {
-          createdAt: true,
-        },
-        order: { createdAt: "DESC" },
-      });
-
-      if (lastUserUsagerLogin?.createdAt) {
-        if (
-          differenceInCalendarDays(
-            usager.lastInteraction.dateInteraction,
-            lastUserUsagerLogin.createdAt
-          ) > 0
-        ) {
-          usager.lastInteraction.dateInteraction =
-            lastUserUsagerLogin.createdAt;
-        }
-      }
-    }
+    usager.lastInteraction.dateInteraction = await getLastInteractionOut(
+      usager,
+      structure,
+      interaction
+    );
 
     return await interactionsCreator.updateUsagerAfterCreation({
       usager,
