@@ -1,3 +1,18 @@
+# [2.146.0](https://github.com/SocialGouv/domifa/compare/v2.145.0...v2.146.0) (2023-11-29)
+
+
+### Bug Fixes
+
+* **cgu:** update terms and design of static pages ([bb5db38](https://github.com/SocialGouv/domifa/commit/bb5db38452351c138d8bbd54afa92d6cf985153e))
+* **tests:** update dump ([23219b2](https://github.com/SocialGouv/domifa/commit/23219b2630a8eeef7fb65b35883daf030ec6c50f))
+* **tests:** update dump for test ([cce7456](https://github.com/SocialGouv/domifa/commit/cce74567944a012d64870e64b974df917e47f043))
+* fin unit test and version ([5a8f96b](https://github.com/SocialGouv/domifa/commit/5a8f96bb5c0192690587560a685436466c9c3318))
+
+
+### Features
+
+* **login:** add special caracter to passwords ([f3ee3e4](https://github.com/SocialGouv/domifa/commit/f3ee3e40dac83ae0829cb0800bb9588b8c3ddd98))
+
 # [2.145.0](https://github.com/SocialGouv/domifa/compare/v2.144.5...v2.145.0) (2023-11-28)
 
 
