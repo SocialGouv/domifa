@@ -15,8 +15,14 @@ fileignoreconfig:
   checksum: b66659fea19859e55afaf0ed47519f0804857e486b2ecc6b01d5ae96f1a86a0b
 - filename: packages/backend/src/users/dto/reset-password.dto.ts
   checksum: 459ec0c5e439bca5375d3a06f4868f8078ca2ad1895fdc5c84bc81cc6bc394fc
+- filename: packages/backend/src/users/users.public.controller.spec.ts
+  checksum: c92d7fdda68498beff9b1680e5cc4b4ee6f0d658bb5a25efd6dd228fd8ce061e
 - filename: packages/frontend/src/app/modules/general/components/login/login.component.ts
   checksum: 478ac6427b28b5473166ea12bc5ffe275d6dfb1bf3c190c1d852012907f4d317
+- filename: packages/frontend/src/app/modules/users/components/user-structure-password-form/user-structure-password-form.component.html
+  checksum: 6b7878776dbcf983b920e6fdb090a52f5f79f3e4e36187c1460aff17c0cfba83
+- filename: packages/frontend/src/app/modules/users/components/user-structure-password-form/user-structure-password-form.component.spec.ts
+  checksum: 7749036582dd467fd5c71aba534aec66fecabc3185b7fd7ee75705204877b654
 - filename: packages/frontend/src/assets/files/news.json
   checksum: eef674a077a8c6b56e087ae5d664b10ba956b435f6e29cc241f90ba55f8c1f7a
 - filename: packages/portail-usagers/src/app/modules/general/components/_static/cgu/cgu.component.html

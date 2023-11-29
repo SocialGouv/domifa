@@ -73,6 +73,7 @@ export class InteractionsDeletor {
           usagerUUID: usager.uuid,
           type: In(INTERACTION_OK_LIST),
           content: Not(Like("%Courrier remis au mandataire%")),
+          uuid: Not(interaction.uuid),
         },
         select: {
           dateInteraction: true,
