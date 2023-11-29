@@ -14,11 +14,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 
-import {
-  interactionRepository,
-  usagerNotesRepository,
-  usagerRepository,
-} from "../../database";
+import { usagerNotesRepository, usagerRepository } from "../../database";
 
 import {
   Usager,
@@ -41,6 +37,7 @@ import {
   UsagerDecision,
 } from "@domifa/common";
 import { format } from "date-fns";
+import { getLastInteractionOut } from "../../interactions/services/getLastInteractionDate.service";
 
 @Controller("usagers-decision")
 @ApiTags("usagers-decision")
@@ -145,20 +142,15 @@ export class UsagersDecisionController {
     // On récupère la dernière décision
     usager.decision = usager.historique[usager.historique.length - 1];
 
-    const lastInteractionOk = await interactionRepository.findLastInteractionOk(
-      {
-        user,
-        usager,
-      }
+    usager.lastInteraction.dateInteraction = await getLastInteractionOut(
+      usager,
+      user.structure
     );
-
     // Si aucune interaction est trouvée, on remet la date de la décision actuelle
-    usager.lastInteraction.dateInteraction = lastInteractionOk
-      ? lastInteractionOk.dateInteraction
-      : usager.decision.dateDebut
-      ? usager.decision.dateDebut
-      : // Cas extrême, aucune date définie
-        usager.decision.dateDecision;
+    if (!usager.lastInteraction.dateInteraction) {
+      usager.lastInteraction.dateInteraction =
+        usager.decision.dateDebut ?? usager.decision.dateDecision;
+    }
 
     const createdBy = {
       userId: user.id,

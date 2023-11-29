@@ -1,4 +1,4 @@
-import { In, IsNull } from "typeorm";
+import { In, IsNull, Like, Not } from "typeorm";
 import { getDateForMonthInterval } from "../../../stats/services";
 import { FranceRegion } from "../../../util/territoires";
 import { Usager, UserStructureAuthenticated } from "../../../_common/model";
@@ -13,7 +13,6 @@ import { InteractionType } from "@domifa/common";
 export const interactionRepository = myDataSource
   .getRepository<Interactions>(InteractionsTable)
   .extend({
-    findLastInteractionOk,
     findLastInteractionInWithContent,
     countInteractionsByMonth,
     countPendingInteraction,
@@ -21,6 +20,7 @@ export const interactionRepository = myDataSource
     countVisiteOut,
     updateInteractionAfterDistribution,
     totalInteractionAllUsagersStructure,
+    getLastInteractionOut,
   });
 
 async function updateInteractionAfterDistribution(
@@ -38,25 +38,6 @@ async function updateInteractionAfterDistribution(
       interactionOutUUID: interaction.uuid,
     }
   );
-}
-
-async function findLastInteractionOk({
-  user,
-  usager,
-}: {
-  user: Pick<UserStructureAuthenticated, "structureId">;
-  usager: Pick<Usager, "uuid">;
-}): Promise<Interactions> {
-  const lastInteractions = await interactionRepository.findOne({
-    where: {
-      structureId: user.structureId,
-      usagerUUID: usager.uuid,
-      type: In(INTERACTION_OK_LIST),
-    },
-    order: { dateInteraction: "DESC" },
-  });
-
-  return lastInteractions ?? undefined;
 }
 
 async function findLastInteractionInWithContent({
@@ -264,4 +245,28 @@ async function totalInteractionAllUsagersStructure({
       npai: parseInt(x.npai, 10),
     })
   );
+}
+
+async function getLastInteractionOut(
+  usager: Pick<Usager, "uuid">
+): Promise<Pick<Interactions, "uuid" | "dateInteraction"> | null> {
+  return interactionRepository.findOne({
+    where: [
+      {
+        usagerUUID: usager.uuid,
+        type: In(INTERACTION_OK_LIST),
+        content: Not(Like(`'%Courrier remis au mandataire%' `)),
+      },
+      {
+        usagerUUID: usager.uuid,
+        type: In(INTERACTION_OK_LIST),
+        content: IsNull(),
+      },
+    ],
+    select: {
+      dateInteraction: true,
+      uuid: true,
+    },
+    order: { dateInteraction: "DESC" },
+  });
 }

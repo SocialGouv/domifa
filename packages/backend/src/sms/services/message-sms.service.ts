@@ -18,7 +18,11 @@ import { generateScheduleSendDate } from "./generators/generateScheduleSendDate"
 import { getPhoneString } from "../../util/phone/phoneUtils.service";
 import { interactionsTypeManager } from "../../interactions/services";
 import { PhoneNumberFormat } from "google-libphonenumber";
-import { INTERACTIONS_IN, INTERACTIONS_OUT } from "@domifa/common";
+import {
+  INTERACTIONS_IN,
+  INTERACTIONS_OUT,
+  InteractionType,
+} from "@domifa/common";
 
 @Injectable()
 export class MessageSmsService {
@@ -26,7 +30,7 @@ export class MessageSmsService {
   public async deleteSmsInteractionOut(
     usager: Pick<Usager, "ref" | "contactByPhone">,
     structure: Pick<Structure, "id" | "sms" | "telephone">,
-    interaction: InteractionDto
+    interactionType: InteractionType
   ) {
     if (!structure.sms.enabledByDomifa && !structure.sms.enabledByStructure) {
       return null;
@@ -35,7 +39,7 @@ export class MessageSmsService {
     const smsOnHold = await messageSmsRepository.findSmsOnHold({
       usagerRef: usager.ref,
       structureId: structure.id,
-      interactionType: interaction.type,
+      interactionType,
     });
 
     if (smsOnHold) {
@@ -145,7 +149,7 @@ export class MessageSmsService {
     if (
       structure.sms.enabledByDomifa &&
       structure.sms.enabledByStructure &&
-      usager.contactByPhone === true
+      usager.contactByPhone
     ) {
       // Courrier / Colis / Recommandé entrant = Envoi de SMS à prévoir
       if (INTERACTIONS_IN.includes(interaction.type)) {
@@ -156,8 +160,7 @@ export class MessageSmsService {
         const inType = interactionsTypeManager.getOppositeDirectionalType({
           type: interaction.type,
         });
-        interaction.type = inType;
-        await this.deleteSmsInteractionOut(usager, structure, interaction);
+        await this.deleteSmsInteractionOut(usager, structure, inType);
       }
     }
     return null;
