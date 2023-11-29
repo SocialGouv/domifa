@@ -1,3 +1,10 @@
+## [2.146.1](https://github.com/SocialGouv/domifa/compare/v2.146.0...v2.146.1) (2023-11-29)
+
+
+### Bug Fixes
+
+* **interaction:** fix date of last interaction ([0e18a3c](https://github.com/SocialGouv/domifa/commit/0e18a3c969e7435529221b3a40a387cce329b19e))
+
 # [2.146.0](https://github.com/SocialGouv/domifa/compare/v2.145.0...v2.146.0) (2023-11-29)
 
 
