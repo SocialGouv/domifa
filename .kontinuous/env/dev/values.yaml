@@ -10,15 +10,21 @@ jobs:
           DOMIFA_PORTAIL_ADMINS_URL: https://admin-{{ .Values.global.host }}/
           DOMIFA_PORTAIL_USAGERS_URL: https://mon-{{ .Values.global.host }}/
           DOMIFA_FRONTEND_URL: https://{{ .Values.global.host }}/
-
+    drop-db:
+      ~needs: [pg]
+      use: drop-db
+      with:
+        pgAdminUserSecretRefName: pg-superuser
+        #database
+        #databaseUser
     seed:
-      ~needs: [pg, backend] # need backend to run migrations
+      ~needs: [drop-db, backend] # need backend to run migrations
       use: seed-db
       with:
         seedPath: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
 
 backend:
-  ~needs: [build-backend, pg]
+  ~needs: [build-backend, drop-db]
   volumes:
     - name: files
       emptyDir: {}
