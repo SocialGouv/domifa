@@ -9,12 +9,16 @@ fileignoreconfig:
   checksum: bd05dd6b68f7fe2ca36ab1180a0449878cf78f4e048d2e5979b3dbe5fba1db53
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
   checksum: 4933dc2edd58b0d9ced8906548fec306389d66a0b415b99cd29dc09fdfe76c3b
+- filename: packages/backend/src/database/services/user-usager/user-usager-security/userUsagerSecurityPasswordUpdater.service.ts
+  checksum: 725e69e0017746a36f12e18f55c084ed3b733d2b0b5adf88c1978cc940fe8439
 - filename: packages/backend/src/interactions/services/InteractionsDeletor.service.spec.ts
   checksum: b66659fea19859e55afaf0ed47519f0804857e486b2ecc6b01d5ae96f1a86a0b
 - filename: packages/backend/src/users/dto/reset-password.dto.ts
   checksum: 459ec0c5e439bca5375d3a06f4868f8078ca2ad1895fdc5c84bc81cc6bc394fc
 - filename: packages/frontend/src/app/modules/general/components/login/login.component.ts
   checksum: 478ac6427b28b5473166ea12bc5ffe275d6dfb1bf3c190c1d852012907f4d317
+- filename: packages/frontend/src/assets/files/news.json
+  checksum: eef674a077a8c6b56e087ae5d664b10ba956b435f6e29cc241f90ba55f8c1f7a
 - filename: packages/portail-usagers/src/app/modules/general/components/_static/cgu/cgu.component.html
   checksum: 584da8c9b8ebc95d1d996d0201e0e57cf31e05c6704104e7adacba67a7eb4dd7
 - filename: packages/portail-usagers/src/app/modules/usager-auth/services/usager-auth.service.ts

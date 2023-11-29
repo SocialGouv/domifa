@@ -8,6 +8,6 @@ import { Title } from "@angular/platform-browser";
 export class MentionsLegalesComponent implements OnInit {
   public constructor(private titleService: Title) {}
   public ngOnInit(): void {
-    this.titleService.setTitle("Mentions-légales de DomiFa");
+    this.titleService.setTitle("Mentions-légales de Mon DomiFa");
   }
 }

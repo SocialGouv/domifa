@@ -22,10 +22,10 @@ export class PlanSiteComponent implements OnInit {
       section: "Général",
       links: [
         { label: "Accueil, mon compte", path: "/" },
-        { label: "Se connecter à DomiFa", path: "/auth/login" },
-        { label: "Mentions légales de DomiFa", path: "/mentions-legales" },
+        { label: "Se connecter à Mon DomiFa", path: "/auth/login" },
+        { label: "Mentions légales de Mon DomiFa", path: "/mentions-legales" },
         { label: "Déclaration d’accessibilité", path: "/accessibilite" },
-        { label: "Conditions d’utilisation de DomiFa", path: "/cgu" },
+        { label: "Conditions d’utilisation de Mon DomiFa", path: "/cgu" },
       ],
     },
   ];

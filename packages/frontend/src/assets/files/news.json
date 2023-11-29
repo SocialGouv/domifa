@@ -1,5 +1,46 @@
 [
   {
+    "date": "2023-11-30",
+    "description": "Nouveautés du 30 Novembre 2023",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Sécurité",
+        "message": [
+          "Afin de renforcer la sécurité des comptes, il sera désormais obligatoire d'ajouter un caractère spécial lors de toute nouvelle connexion d'un utilisateur, ou de la réinitialisation d'un mot de passe"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Enquête de satisfaction Domiciliés",
+        "message": [
+          "Dans la continuité de l'enquête menée auprès des structures sur le portail domicilié Mon DomiFa, nous avons interrogé les domiciliés sur leur utilisation du portail afin de prioriser leur besoin sur l'évolution de Mon DomiFa. Un retour de l'enquête vous sera communiqué prochainement"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Suppression des interactions",
+        "message": [
+          "Suite aux demandes multiples des structures, il est désormais possible de supprimer des interactions passées en cas d'erreur de saisies. Attention, une fois supprimée, l'interaction ne sera plus inscrite dans l'historique et c'est l'interaction précédente qui vaudra comme dernier passage du domicilié"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Consultation des historiques de connexion",
+        "message": [
+          "Pour plus de lisibilité, les connexions au portail domiciliés peuvent être consultées dans l'historique du domicilié de façon distinctes des autres interactions"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Mise à jour de la documentation",
+        "message": [
+          "Une mise à jour des politiques de confidentialité DomiFa et Mon DomiFa a été mise en ligne. Les conditions générales d'utilisation (CGU) de la plateforme Mon DomiFa doivent désormais être acceptées par les utilisateurs domiciliés lors de leur connexion"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2023-11-08",
     "description": "",
     "content": [
@@ -426,7 +467,7 @@
         "message": [
           "En cas de modification d’un dossier de domicilié : saisissez le numéro de téléphone qu’à un seul endroit, dans l’onglet ”dossier”",
           "En cas d’instruction de dossier: vous n’avez plus qu’un champ de téléphone à saisir si vous activez les SMS",
-          "Pour les domiciliés disposant des notifications par sms et d’un numéro différent entre l’onglet « dossier » et celui « courrier » c’est le numéro de téléphone présent dans l’onglet « courrier » que nous avons gardé afin que le domicilié reçoive toujours les SMS"
+          "Pour les domiciliés disposant des notifications par sms et d’un numéro différent entre l’onglet « dossier » et celui « courrier » c’est le numéro de téléphone présent dans l’onglet « courrier » que nous avons gardé afin que le domicilié reçoive toujours les SMS"
         ]
       },
       {

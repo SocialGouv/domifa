@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   ) {
     this.apiVersion = null;
     this.usagerProfile = null;
-    this.title = "Bienvenue sur le portail usager de DomiFa";
+    this.title = "Bienvenue sur le portail usager de Mon DomiFa";
     this.isNavbarCollapsed = false;
     this.matomoInfo = false;
     this.initMatomo();
