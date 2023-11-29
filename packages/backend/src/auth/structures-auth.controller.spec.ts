@@ -32,7 +32,7 @@ describe("Structure Auth Controller", () => {
       .post("/structures/auth/login")
       .send({
         email: "s3-instructeur@yopmail.com",
-        password: "Azerty012345",
+        password: "Azerty012345!",
       });
     expect(response.status).toBe(HttpStatus.OK);
   });
