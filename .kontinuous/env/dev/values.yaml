@@ -1,6 +1,9 @@
 global:
   pgSecretName: pg-app
 
+pg:
+  recreate: true
+
 jobs:
   runs:
     build-backend:
@@ -10,25 +13,25 @@ jobs:
           DOMIFA_PORTAIL_ADMINS_URL: https://admin-{{ .Values.global.host }}/
           DOMIFA_PORTAIL_USAGERS_URL: https://mon-{{ .Values.global.host }}/
           DOMIFA_FRONTEND_URL: https://{{ .Values.global.host }}/
-    drop-db:
-      ~needs: [pg]
-      use: drop-db
-      vars:
-        PGPASSWORD: "$(password)"
-        PGHOST: "$(host)"
-        PGUSER: "$(user)"
-      with:
-        pgAdminUserSecretRefName: pg-superuser
-        #database
-        #databaseUser
+    # drop-db:
+    #   ~needs: [pg]
+    #   use: drop-db
+    #   vars:
+    #     PGPASSWORD: "$(password)"
+    #     PGHOST: "$(host)"
+    #     PGUSER: "$(user)"
+    #   with:
+    #     pgAdminUserSecretRefName: pg-superuser
+    #     #database
+    #     #databaseUser
     seed:
-      ~needs: [drop-db, backend] # need backend to run migrations
+      ~needs: [backend] # need backend to run migrations
       use: seed-db
       with:
         seedPath: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
 
 backend:
-  ~needs: [build-backend, drop-db]
+  ~needs: [build-backend, pg]
   volumes:
     - name: files
       emptyDir: {}
