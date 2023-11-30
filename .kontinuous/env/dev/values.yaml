@@ -2,7 +2,7 @@ global:
   pgSecretName: pg-app
 
 pg:
-  recreate: true
+  strategyType: Recreate
 
 jobs:
   runs:
