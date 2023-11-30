@@ -2,7 +2,10 @@ global:
   pgSecretName: pg-app
 
 pg:
-  strategyType: Recreate
+  ~preDeploy.cleaner:
+    match:
+      kind: Cluster
+    value: true
 
 jobs:
   runs:
