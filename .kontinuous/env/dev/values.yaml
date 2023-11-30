@@ -1,3 +1,6 @@
+global:
+  pgSecretName: pg-app
+
 pg:
   # this force ce PG cluster to be destroyed on redeploys
   ~preDeploy.cleaner:
@@ -18,7 +21,6 @@ jobs:
       ~needs: [backend] # need backend to run migrations
       use: seed-db
       with:
-        pgSecretName: pg-app
         seedPath: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
 
 backend:
