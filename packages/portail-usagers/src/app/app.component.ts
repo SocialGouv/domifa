@@ -5,7 +5,6 @@ import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs";
 import { LIENS_PARTENAIRES } from "./modules/general/components/_static/plan-site/LIENS_PARTENAIRES.const";
 import { PortailUsagerProfile } from "@domifa/common";
-import { globalConstants } from "./shared";
 import { MatomoTracker } from "ngx-matomo-client";
 
 @Component({
@@ -38,26 +37,27 @@ export class AppComponent implements OnInit {
   public matomoInfo: boolean;
 
   public initMatomo(): void {
-    const matomo = globalConstants.getItem("matomo");
+    const matomo = localStorage.getItem("matomo");
+    const matomoOptedIn = localStorage.getItem("matomo-opted-in");
+    let disableMatomo = false;
     this.matomoInfo = matomo === "done";
 
-    if (globalConstants.getItem("matomo-opted-in") === null) {
-      globalConstants.setItem("matomo-opted-in", JSON.stringify(true));
+    if (matomoOptedIn === null) {
+      localStorage.setItem("matomo-opted-in", JSON.stringify(true));
+    } else {
+      disableMatomo = JSON.parse(matomoOptedIn) === true;
     }
-
-    const disableMatomo =
-      JSON.parse(globalConstants.getItem("matomo-opted-in")) === true;
 
     if (!disableMatomo) {
       this.matomo.optUserOut();
     } else {
-      globalConstants.setItem("matomo-opted-in", JSON.stringify(true));
+      localStorage.setItem("matomo-opted-in", JSON.stringify(true));
     }
   }
 
   public closeMatomo(): void {
     this.matomoInfo = true;
-    globalConstants.setItem("matomo", "done");
+    localStorage.setItem("matomo", "done");
   }
 
   public ngOnInit(): void {

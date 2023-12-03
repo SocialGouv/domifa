@@ -7,7 +7,7 @@ import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { PortailUsagerAuthLoginForm } from "../../../../_common";
 import { configureScope } from "@sentry/angular";
-import { globalConstants } from "../../../shared";
+
 import {
   PortailUsagerProfile,
   PortailUsagerAuthApiResponse,
@@ -66,7 +66,7 @@ export class UsagerAuthService {
 
   public logout(): void {
     this.currentUsagerSubject.next(null);
-    globalConstants.clearStorage();
+    localStorage.clearStorage();
 
     configureScope((scope) => {
       scope.setTag("profil-usager", "none");
@@ -92,13 +92,13 @@ export class UsagerAuthService {
   }
 
   public getToken(): string | null {
-    return globalConstants.getItem(TOKEN_KEY);
+    return localStorage.getItem(TOKEN_KEY);
   }
 
   public saveToken(apiAuthResponse: PortailUsagerAuthApiResponse): void {
     // Enregistrement du token
-    globalConstants.removeItem(TOKEN_KEY);
-    globalConstants.setItem(TOKEN_KEY, apiAuthResponse.token);
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.setItem(TOKEN_KEY, JSON.stringify(apiAuthResponse.token));
 
     // Build usager
     this.saveAuthUsager(apiAuthResponse.profile);
@@ -112,8 +112,8 @@ export class UsagerAuthService {
 
   public saveAuthUsager(authUsagerProfile: PortailUsagerProfile): void {
     // Enregistrement de l'utilisateur
-    globalConstants.removeItem(USER_KEY);
-    globalConstants.setItem(USER_KEY, JSON.stringify(authUsagerProfile));
+    localStorage.removeItem(USER_KEY);
+    localStorage.setItem(USER_KEY, JSON.stringify(authUsagerProfile));
 
     // Sentry
     configureScope((scope) => {

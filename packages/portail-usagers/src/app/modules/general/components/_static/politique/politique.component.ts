@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { MatomoTracker } from "ngx-matomo-client";
-import { globalConstants } from "../../../../../shared";
 
 @Component({
   selector: "app-politique",
@@ -21,9 +20,9 @@ export class PolitiqueComponent {
   handleChange(optOut: any) {
     if (optOut) {
       this.tracker.optUserOut();
-      globalConstants.setItem("matomo-opted-in", false);
+      localStorage.setItem("matomo-opted-in", JSON.stringify(false));
     } else {
-      globalConstants.setItem("matomo-opted-in", true);
+      localStorage.setItem("matomo-opted-in", JSON.stringify(true));
       this.tracker.forgetUserOptOut();
     }
 
