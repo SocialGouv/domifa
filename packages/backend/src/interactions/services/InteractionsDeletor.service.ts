@@ -1,15 +1,11 @@
 import { Injectable, Inject, forwardRef } from "@nestjs/common";
 import { interactionRepository, usagerRepository } from "../../database";
 import { MessageSmsService } from "../../sms/services/message-sms.service";
-import {
-  Interactions,
-  Usager,
-  Structure,
-  UsagerLight,
-} from "../../_common/model";
+import { Usager, Structure, UsagerLight } from "../../_common/model";
 import { interactionsCreator } from "./interactionsCreator.service";
 import { interactionsTypeManager } from "./interactionsTypeManager.service";
 import { getLastInteractionOut } from "./getLastInteractionDate.service";
+import { CommonInteraction } from "@domifa/common";
 
 @Injectable()
 export class InteractionsDeletor {
@@ -23,7 +19,7 @@ export class InteractionsDeletor {
     usager,
     structure,
   }: {
-    interaction: Interactions;
+    interaction: CommonInteraction;
     usager: Usager;
     structure: Pick<Structure, "id" | "sms" | "telephone" | "portailUsager">;
   }): Promise<UsagerLight> {

@@ -1,24 +1,26 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { domifaConfig } from "../config";
+import { appLogger } from "../util";
 
-export class AutoMigration1700663362619 implements MigrationInterface {
-  name = "AutoMigration1700663362619";
+export class AutoMigration1701726929874 implements MigrationInterface {
+  name = "AutoMigration1701726929874";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    appLogger.warn("[MIGRATION] Create procuration");
     if (
       domifaConfig().envId === "preprod" ||
       domifaConfig().envId === "prod" ||
       domifaConfig().envId === "local"
     ) {
       await queryRunner.query(
-        `ALTER TABLE "user_usager" ADD "acceptTerms" TIMESTAMP WITH TIME ZONE`
+        `ALTER TABLE "interactions" ADD "procuration" boolean`
       );
     }
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `ALTER TABLE "user_usager" DROP COLUMN "acceptTerms"`
+      `ALTER TABLE "interactions" DROP COLUMN "procuration"`
     );
   }
 }

@@ -24,11 +24,7 @@ import {
   InteractionsGuard,
 } from "../auth/guards";
 import { interactionRepository, userUsagerLoginRepository } from "../database";
-import {
-  UserStructureAuthenticated,
-  Interactions,
-  Usager,
-} from "../_common/model";
+import { UserStructureAuthenticated, Usager } from "../_common/model";
 import { InteractionDto } from "./dto";
 import { InteractionsDeletor, interactionsCreator } from "./services";
 import {
@@ -36,6 +32,7 @@ import {
   PageOptionsDto,
   PageResultsDto,
 } from "../usagers/dto/pagination";
+import { CommonInteraction } from "@domifa/common";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("interactions")
@@ -138,7 +135,7 @@ export class InteractionsController {
     @CurrentUsager() usager: Usager,
     @Param("interactionUuid", new ParseUUIDPipe()) _interactionUuid: string,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
-    @CurrentInteraction() interaction: Interactions
+    @CurrentInteraction() interaction: CommonInteraction
   ) {
     return this.interactionDeletor.deleteInteraction({
       interaction,

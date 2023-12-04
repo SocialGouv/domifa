@@ -3,9 +3,10 @@ import {
   InteractionsTable,
   usagerRepository,
 } from "../../database";
-import { Usager, UserStructure, Interactions } from "../../_common/model";
+import { Usager, UserStructure } from "../../_common/model";
 import { InteractionDto } from "../dto";
 import { interactionsTypeManager } from "./interactionsTypeManager.service";
+import { CommonInteraction } from "@domifa/common";
 
 export const interactionsCreator = {
   createInteraction,
@@ -25,10 +26,10 @@ async function createInteraction({
   >;
 }): Promise<{
   usager: Usager;
-  interaction: Interactions;
+  interaction: CommonInteraction;
 }> {
   const now = new Date();
-
+  let procuration: boolean | null = null;
   const direction = interactionsTypeManager.getDirection({
     type: interaction.type,
   });
@@ -66,6 +67,7 @@ async function createInteraction({
       } ${usager.options.procurations[
         interaction.procurationIndex
       ].nom.toUpperCase()}`;
+      procuration = true;
     } else {
       usager.lastInteraction.dateInteraction = now;
     }
@@ -89,7 +91,7 @@ async function createInteraction({
 
   interaction.content = interaction.content?.trim();
 
-  const newInteraction: Interactions = {
+  const newInteraction: CommonInteraction = {
     ...interaction,
     structureId: user.structureId,
     usagerRef: usager.ref,
@@ -98,6 +100,7 @@ async function createInteraction({
     userName: `${user.prenom} ${user.nom}`,
     dateInteraction: now,
     interactionOutUUID: null,
+    procuration,
   };
 
   const interactionCreated = await interactionRepository.save(

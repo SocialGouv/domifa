@@ -78,4 +78,7 @@ export class InteractionDto {
 
   @IsEmpty()
   public dateInteraction?: Date;
+
+  @IsEmpty()
+  public procuration?: boolean | null = null;
 }
