@@ -66,7 +66,7 @@ export class UsagerAuthService {
 
   public logout(): void {
     this.currentUsagerSubject.next(null);
-    localStorage.clearStorage();
+    localStorage.clear();
 
     configureScope((scope) => {
       scope.setTag("profil-usager", "none");
