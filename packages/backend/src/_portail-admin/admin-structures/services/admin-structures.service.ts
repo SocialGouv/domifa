@@ -19,11 +19,11 @@ import { FranceRegion } from "../../../util/territoires";
 import {
   AdminStructureListData,
   AdminStructureStatsData,
-  StatsByLocality,
-  StatsByMonth,
   StructureAdmin,
 } from "../../../_common/model";
 import {
+  StatsByLocality,
+  StatsByMonth,
   StructureType,
   InteractionType,
   UsagerDecisionStatut,

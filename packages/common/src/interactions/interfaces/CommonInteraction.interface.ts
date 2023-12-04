@@ -2,16 +2,16 @@ import { type AppEntity } from "../../_core";
 import { type InteractionType } from "../types";
 
 export interface CommonInteraction extends AppEntity {
-  id?: number | null;
   createdAt?: Date;
   content?: string;
-  dateInteraction: Date | null;
+  dateInteraction: Date;
   nbCourrier: number;
-  structureId: number | null;
+  structureId: number;
   type: InteractionType;
-  usagerRef: number | null;
-  usagerUUID?: string | null;
-  userId: number | null;
-  userName: string | null;
-  uuid: string;
+  usagerRef: number;
+  usagerUUID?: string;
+  userId: number;
+  userName: string;
+  interactionOutUUID: string | null;
+  procuration: boolean | null;
 }

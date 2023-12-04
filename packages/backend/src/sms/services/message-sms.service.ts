@@ -10,7 +10,6 @@ import {
   Usager,
   Structure,
   StructureSmsParams,
-  Interactions,
 } from "../../_common/model";
 import { generateSmsInteraction } from "./generators";
 import { generateScheduleSendDate } from "./generators/generateScheduleSendDate";
@@ -19,6 +18,7 @@ import { getPhoneString } from "../../util/phone/phoneUtils.service";
 import { interactionsTypeManager } from "../../interactions/services";
 import { PhoneNumberFormat } from "google-libphonenumber";
 import {
+  CommonInteraction,
   INTERACTIONS_IN,
   INTERACTIONS_OUT,
   InteractionType,
@@ -141,7 +141,7 @@ export class MessageSmsService {
     structure,
     usager,
   }: {
-    interaction: Interactions;
+    interaction: CommonInteraction;
     structure: Pick<Structure, "id" | "sms" | "telephone">;
     usager: Usager;
   }): Promise<void> {

@@ -1,19 +1,15 @@
 import { differenceInCalendarDays } from "date-fns";
-import {
-  INTERACTION_OK_LIST,
-  Interactions,
-  Structure,
-  Usager,
-} from "../../_common/model";
+import { INTERACTION_OK_LIST, Structure, Usager } from "../../_common/model";
 
 import {
   interactionRepository,
   userUsagerLoginRepository,
 } from "../../database";
+import { CommonInteraction } from "@domifa/common";
 export const getLastInteractionOut = async (
   usager: Usager,
   structure: Pick<Structure, "id" | "sms" | "telephone" | "portailUsager">,
-  interaction?: Interactions
+  interaction?: CommonInteraction
 ) => {
   let dateInteraction = await getDateFromInteraction(usager, interaction);
   dateInteraction = await getDateFromUserLogin(
@@ -29,7 +25,7 @@ export const getLastInteractionOut = async (
 
 const getDateFromInteraction = async (
   usager: Usager,
-  interaction: Interactions
+  interaction: CommonInteraction
 ): Promise<Date | null> => {
   if (
     (interaction && INTERACTION_OK_LIST.includes(interaction.type)) ||

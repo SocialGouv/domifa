@@ -41,7 +41,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.app_log;
 
     CREATE UNLOGGED TABLE public.app_log (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -61,7 +61,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.contact_support;
 
     CREATE UNLOGGED TABLE public.contact_support (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -89,7 +89,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.expired_token;
 
     CREATE UNLOGGED TABLE public.expired_token (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -110,7 +110,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.message_email;
 
     CREATE UNLOGGED TABLE public.message_email (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -135,7 +135,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.monitor_batch_process;
 
     CREATE UNLOGGED TABLE public.monitor_batch_process (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -158,7 +158,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.open_data_places;
 
     CREATE UNLOGGED TABLE public.open_data_places (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -190,7 +190,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public."structure";
 
     CREATE UNLOGGED TABLE public."structure" (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -244,7 +244,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.user_usager_login;
 
     CREATE UNLOGGED TABLE public.user_usager_login (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -262,7 +262,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.message_sms;
 
     CREATE UNLOGGED TABLE public.message_sms (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -297,7 +297,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.structure_doc;
 
     CREATE UNLOGGED TABLE public.structure_doc (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -325,7 +325,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.usager;
 
     CREATE UNLOGGED TABLE public.usager (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -376,7 +376,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.usager_docs;
 
     CREATE UNLOGGED TABLE public.usager_docs (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -390,7 +390,7 @@ async function createTables(queryRunner: QueryRunner) {
       "encryptionContext" text NULL,
       "encryptionVersion" int4 NULL,
       CONSTRAINT "PK_e7bb21f7a22254259ca123c5caa" PRIMARY KEY (uuid),
-      CONSTRAINT "FK_08c4299b8abc6b9f548f2aece20" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE,
+      CONSTRAINT "FK_08c4299b8abc6b9f548f2aece20" FOREIGN KEY ("usagerUUID") REFERENCES public.usager("uuid") ON DELETE CASCADE,
       CONSTRAINT "FK_b1db67565e53acec53d5f3aa926" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
     );
     CREATE INDEX "IDX_08c4299b8abc6b9f548f2aece2" ON public.usager_docs USING btree ("usagerUUID");
@@ -404,7 +404,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.usager_entretien;
 
     CREATE UNLOGGED TABLE public.usager_entretien (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -433,7 +433,7 @@ async function createTables(queryRunner: QueryRunner) {
       CONSTRAINT "UQ_5f4220e5a3e6d2ee1c1bb7fd3d2" UNIQUE ("structureId", "usagerRef"),
       CONSTRAINT "UQ_aa19c17fc79f4e4a648643096f9" UNIQUE ("usagerUUID"),
       CONSTRAINT "FK_6193a732dd00abc56e91e92fe48" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE,
-      CONSTRAINT "FK_aa19c17fc79f4e4a648643096f9" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE
+      CONSTRAINT "FK_aa19c17fc79f4e4a648643096f9" FOREIGN KEY ("usagerUUID") REFERENCES public.usager("uuid") ON DELETE CASCADE
     );
     CREATE INDEX "IDX_6193a732dd00abc56e91e92fe4" ON public.usager_entretien USING btree ("structureId");
     CREATE INDEX "IDX_aa19c17fc79f4e4a648643096f" ON public.usager_entretien USING btree ("usagerUUID");
@@ -446,7 +446,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.usager_history;
 
     CREATE UNLOGGED TABLE public.usager_history (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -459,7 +459,7 @@ async function createTables(queryRunner: QueryRunner) {
       CONSTRAINT "UQ_29a873927e96c4290d288d594f4" UNIQUE ("structureId", "usagerRef"),
       CONSTRAINT "UQ_7356ee08f3ac6e3e1c6fe08bd81" UNIQUE ("usagerUUID"),
       CONSTRAINT "FK_36a2e869faca3bb31cbacdf81ba" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE,
-      CONSTRAINT "FK_7356ee08f3ac6e3e1c6fe08bd81" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE
+      CONSTRAINT "FK_7356ee08f3ac6e3e1c6fe08bd81" FOREIGN KEY ("usagerUUID") REFERENCES public.usager("uuid") ON DELETE CASCADE
     );
     CREATE INDEX "IDX_36a2e869faca3bb31cbacdf81b" ON public.usager_history USING btree ("structureId");
     CREATE INDEX "IDX_7356ee08f3ac6e3e1c6fe08bd8" ON public.usager_history USING btree ("usagerUUID");
@@ -472,7 +472,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.usager_notes;
 
     CREATE UNLOGGED TABLE public.usager_notes (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -488,7 +488,7 @@ async function createTables(queryRunner: QueryRunner) {
       pinned bool NOT NULL DEFAULT false,
       CONSTRAINT "PK_11acb926f75642e9dcdd97e5be1" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_5d06e43196df8e4b02ceb16bc9a" UNIQUE (id),
-      CONSTRAINT "FK_6ca23b363643ae281d2f1eddf2f" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE,
+      CONSTRAINT "FK_6ca23b363643ae281d2f1eddf2f" FOREIGN KEY ("usagerUUID") REFERENCES public.usager("uuid") ON DELETE CASCADE,
       CONSTRAINT "FK_e8b75cd4ebe81d288a6ff7d4115" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
     );
     CREATE INDEX "IDX_5d06e43196df8e4b02ceb16bc9" ON public.usager_notes USING btree (id);
@@ -503,7 +503,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.usager_options_history;
 
     CREATE UNLOGGED TABLE public.usager_options_history (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -521,7 +521,7 @@ async function createTables(queryRunner: QueryRunner) {
       "dateFin" date NULL,
       "dateNaissance" date NULL,
       CONSTRAINT "PK_429ff2cc277afdc9e1ce5ac8d63" PRIMARY KEY (uuid),
-      CONSTRAINT "FK_3cb5af09bf7cd68d7070dbc8966" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE,
+      CONSTRAINT "FK_3cb5af09bf7cd68d7070dbc8966" FOREIGN KEY ("usagerUUID") REFERENCES public.usager("uuid") ON DELETE CASCADE,
       CONSTRAINT "FK_b509fe905bf502e510cda57080a" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
     );
     CREATE INDEX "IDX_3cb5af09bf7cd68d7070dbc896" ON public.usager_options_history USING btree ("usagerUUID");
@@ -536,7 +536,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.user_structure;
 
     CREATE UNLOGGED TABLE public.user_structure (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -570,7 +570,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.user_structure_security;
 
     CREATE UNLOGGED TABLE public.user_structure_security (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -593,7 +593,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.user_usager;
 
     CREATE UNLOGGED TABLE public.user_usager (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -614,7 +614,7 @@ async function createTables(queryRunner: QueryRunner) {
       CONSTRAINT "UQ_07ddbb376616a6bf4ffdbb2b6d7" UNIQUE ("usagerUUID"),
       CONSTRAINT "UQ_547d83b925177cadc602bc7e221" UNIQUE (id),
       CONSTRAINT "UQ_7d7ff538b491444ce070065252c" UNIQUE (login),
-      CONSTRAINT "FK_07ddbb376616a6bf4ffdbb2b6d7" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE,
+      CONSTRAINT "FK_07ddbb376616a6bf4ffdbb2b6d7" FOREIGN KEY ("usagerUUID") REFERENCES public.usager("uuid") ON DELETE CASCADE,
       CONSTRAINT "FK_0d31ec098c9d4e0507712b7f77c" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
     );
     CREATE INDEX "IDX_07ddbb376616a6bf4ffdbb2b6d" ON public.user_usager USING btree ("usagerUUID");
@@ -630,7 +630,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.user_usager_security;
 
     CREATE UNLOGGED TABLE public.user_usager_security (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -653,7 +653,7 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.interactions;
 
     CREATE UNLOGGED TABLE public.interactions (
-      uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
       "version" int4 NOT NULL,
@@ -667,9 +667,10 @@ async function createTables(queryRunner: QueryRunner) {
       "content" text NULL,
       "usagerUUID" uuid NOT NULL,
       "interactionOutUUID" uuid NULL,
+      procuration bool NULL,
       CONSTRAINT "PK_006113a10247f411c459d62a5b3" PRIMARY KEY (uuid),
       CONSTRAINT "FK_1953f5ad67157bada8774f7e245" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE,
-      CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE
+      CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES public.usager("uuid") ON DELETE CASCADE
     );
     CREATE INDEX "IDX_1953f5ad67157bada8774f7e24" ON public.interactions USING btree ("structureId");
     CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON public.interactions USING btree ("interactionOutUUID");

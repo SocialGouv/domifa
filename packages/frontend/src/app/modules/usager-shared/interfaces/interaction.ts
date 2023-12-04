@@ -16,6 +16,8 @@ export class Interaction implements CommonInteraction {
   public userId: number | null;
   public label: string;
   public uuid: string;
+  public procuration: boolean | null;
+  public interactionOutUUID: null;
 
   constructor(interaction: CommonInteraction) {
     this.uuid = interaction?.uuid;

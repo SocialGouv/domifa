@@ -1,17 +1,14 @@
-import { In, IsNull, Like, Not } from "typeorm";
+import { IsNull } from "typeorm";
 import { getDateForMonthInterval } from "../../../stats/services";
 import { FranceRegion } from "../../../util/territoires";
 import { Usager, UserStructureAuthenticated } from "../../../_common/model";
-import {
-  INTERACTION_OK_LIST,
-  Interactions,
-} from "../../../_common/model/interaction";
+import { INTERACTION_OK_LIST } from "../../../_common/model/interaction";
 import { InteractionsTable } from "../../entities";
 import { myDataSource } from "../_postgres";
-import { InteractionType } from "@domifa/common";
+import { CommonInteraction, InteractionType } from "@domifa/common";
 
 export const interactionRepository = myDataSource
-  .getRepository<Interactions>(InteractionsTable)
+  .getRepository<CommonInteraction>(InteractionsTable)
   .extend({
     findLastInteractionInWithContent,
     countInteractionsByMonth,
@@ -25,7 +22,7 @@ export const interactionRepository = myDataSource
 
 async function updateInteractionAfterDistribution(
   usager: Usager,
-  interaction: Interactions,
+  interaction: CommonInteraction,
   oppositeType: InteractionType
 ): Promise<void> {
   await interactionRepository.update(
@@ -48,7 +45,7 @@ async function findLastInteractionInWithContent({
   user: Pick<UserStructureAuthenticated, "structureId">;
   usager: Pick<Usager, "uuid">;
   oppositeType: InteractionType;
-}): Promise<Interactions> {
+}): Promise<CommonInteraction> {
   const lastInteractions = await interactionRepository.findOne({
     where: {
       structureId: user.structureId,
@@ -249,24 +246,15 @@ async function totalInteractionAllUsagersStructure({
 
 async function getLastInteractionOut(
   usager: Pick<Usager, "uuid">
-): Promise<Pick<Interactions, "uuid" | "dateInteraction"> | null> {
-  return interactionRepository.findOne({
-    where: [
-      {
-        usagerUUID: usager.uuid,
-        type: In(INTERACTION_OK_LIST),
-        content: Not(Like(`'%Courrier remis au mandataire%' `)),
-      },
-      {
-        usagerUUID: usager.uuid,
-        type: In(INTERACTION_OK_LIST),
-        content: IsNull(),
-      },
-    ],
-    select: {
-      dateInteraction: true,
-      uuid: true,
-    },
-    order: { dateInteraction: "DESC" },
-  });
+): Promise<Pick<CommonInteraction, "uuid" | "dateInteraction"> | null> {
+  return interactionRepository
+    .createQueryBuilder("interactions")
+    .where(`"usagerUUID' = :'usagerUUID"`, { usagerUUID: usager.uuid })
+    .andWhere("type IN (:...types)", { types: INTERACTION_OK_LIST })
+    .andWhere(`"procuration" = false OR "procuration" IS NULL`, {
+      procurationFalse: false,
+    })
+    .select([`"dateInteraction"`, "uuid"])
+    .orderBy(`"dateInteraction"`, "DESC")
+    .getOne();
 }

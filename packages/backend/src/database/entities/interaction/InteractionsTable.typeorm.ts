@@ -1,10 +1,9 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
-import { Interactions } from "../../../_common/model/interaction";
-import { InteractionType } from "@domifa/common";
 
 import { StructureTable } from "../structure/StructureTable.typeorm";
 import { UsagerTable } from "../usager";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
+import { CommonInteraction, InteractionType } from "@domifa/common";
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "interactions" })
 @Index("idx_interactions_date", [
@@ -15,7 +14,7 @@ import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 @Index("idx_interactions_type", ["structureId", "usagerUUID", "type"])
 export class InteractionsTable
   extends AppTypeormTable<InteractionsTable>
-  implements Interactions
+  implements CommonInteraction
 {
   @Index()
   @Column({ type: "timestamptz" })
@@ -38,11 +37,11 @@ export class InteractionsTable
   userName: string;
 
   @Column({ type: "text", nullable: true })
-  content: string;
+  content: string | null;
 
   @Index()
   @Column({ type: "uuid", nullable: true })
-  interactionOutUUID!: string;
+  interactionOutUUID: string | null;
 
   @Index()
   @Column({ type: "integer", nullable: false })
@@ -59,6 +58,9 @@ export class InteractionsTable
   })
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
   usagerUUID: string;
+
+  @Column({ type: "boolean", nullable: true })
+  procuration: boolean | null;
 
   public constructor(entity?: Partial<InteractionsTable>) {
     super(entity);
