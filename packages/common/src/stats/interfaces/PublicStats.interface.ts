@@ -1,10 +1,10 @@
 import {
-  StatsByLocality,
-  StatsByMonth,
-  StatsByStructureType,
-} from "@domifa/common";
+  type StatsByMonth,
+  type StatsByLocality,
+  type StatsByStructureType,
+} from "../types";
 
-export type PublicStats = {
+export interface PublicStats {
   // Stats globales
   usagersCount: number;
   usersCount: number;
@@ -17,4 +17,4 @@ export type PublicStats = {
   structuresCountByRegion: StatsByLocality;
   // Structures par type de structure
   structuresCountByTypeMap: StatsByStructureType;
-};
+}

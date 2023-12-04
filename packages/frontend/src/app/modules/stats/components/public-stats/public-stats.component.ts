@@ -1,5 +1,4 @@
 import { SeoService } from "./../../../shared/services/seo.service";
-import { PublicStats } from "./../../../../../_common/model/stats/PublicStats.type";
 import { StatsService } from "./../../services/stats.service";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 
@@ -17,8 +16,12 @@ import {
 } from "../../../../shared";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
-import { StatsByLocality } from "../../../../../_common/model";
-import { STRUCTURE_TYPE_LABELS } from "@domifa/common";
+
+import {
+  STRUCTURE_TYPE_LABELS,
+  StatsByLocality,
+  PublicStats,
+} from "@domifa/common";
 
 @Component({
   animations: [fadeInOut],

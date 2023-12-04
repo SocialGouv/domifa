@@ -4,9 +4,9 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { RouterTestingModule } from "@angular/router/testing";
-import { DEFAULT_PUBLIC_STATS } from "../../../../../../_common/model/stats/DEFAULT_PUBLIC_STATS.const";
 
 import { StatsMapComponent } from "./stats-map.component";
+import { DEFAULT_PUBLIC_STATS } from "../../../../../../_common/model/stats/DEFAULT_PUBLIC_STATS.const";
 
 describe("StatsMapComponent", () => {
   let component: StatsMapComponent;
