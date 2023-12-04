@@ -1,3 +1,10 @@
+## [2.146.4](https://github.com/SocialGouv/domifa/compare/v2.146.3...v2.146.4) (2023-12-04)
+
+
+### Bug Fixes
+
+* **manage:** fix localstorage ([02074aa](https://github.com/SocialGouv/domifa/commit/02074aae03f9d807c1af14adcfc9115d82edcda5))
+
 ## [2.146.3](https://github.com/SocialGouv/domifa/compare/v2.146.2...v2.146.3) (2023-12-03)
 
 
