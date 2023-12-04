@@ -1,4 +1,4 @@
-import { PublicStats } from "./PublicStats.type";
+import { PublicStats } from "@domifa/common";
 
 export const DEFAULT_PUBLIC_STATS: PublicStats = {
   structuresCountByRegion: [],
