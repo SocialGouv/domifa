@@ -79,6 +79,7 @@ import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
+    NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
