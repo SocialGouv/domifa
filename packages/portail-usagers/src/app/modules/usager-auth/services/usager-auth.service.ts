@@ -92,15 +92,15 @@ export class UsagerAuthService {
   }
 
   public getToken(): string | null {
-    return localStorage.getItem(TOKEN_KEY);
+    const token: string | null = localStorage.getItem(TOKEN_KEY);
+    if (!token) {
+      return null;
+    }
+    return JSON.parse(token);
   }
 
   public saveToken(apiAuthResponse: PortailUsagerAuthApiResponse): void {
-    // Enregistrement du token
-    localStorage.removeItem(TOKEN_KEY);
     localStorage.setItem(TOKEN_KEY, JSON.stringify(apiAuthResponse.token));
-
-    // Build usager
     this.saveAuthUsager(apiAuthResponse.profile);
   }
 
