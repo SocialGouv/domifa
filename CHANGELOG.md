@@ -1,3 +1,16 @@
+# [2.147.0](https://github.com/SocialGouv/domifa/compare/v2.146.5...v2.147.0) (2023-12-05)
+
+
+### Bug Fixes
+
+* **interaction:** delete npai ([8a9e56f](https://github.com/SocialGouv/domifa/commit/8a9e56f60b78eb0f77dd48d494e9e08e21f7b85f))
+
+
+### Features
+
+* **interactions:** add procuration in interaction ([283cb01](https://github.com/SocialGouv/domifa/commit/283cb01e97c95ffb1d70d0f5570b041bdecd28c0))
+* **npai:** delete npai from stats ([e8573c8](https://github.com/SocialGouv/domifa/commit/e8573c8d85e073603edcc8ace731f85243e1b9c8))
+
 ## [2.146.5](https://github.com/SocialGouv/domifa/compare/v2.146.4...v2.146.5) (2023-12-05)
 
 
