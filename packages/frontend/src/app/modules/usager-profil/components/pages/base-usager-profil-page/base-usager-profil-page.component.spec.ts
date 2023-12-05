@@ -24,7 +24,6 @@ describe("BaseUsagerProfilPageComponent", () => {
         FormsModule,
         HttpClientTestingModule,
         StoreModule.forRoot({ app: _usagerReducer }),
-
         RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
