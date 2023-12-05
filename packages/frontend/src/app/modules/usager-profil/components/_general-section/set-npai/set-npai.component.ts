@@ -14,8 +14,8 @@ export class SetNpaiComponent implements OnDestroy {
   public loading = false;
 
   constructor(
-    public usagerProfilService: UsagerProfilService,
-    public toastService: CustomToastService
+    private readonly usagerProfilService: UsagerProfilService,
+    private readonly toastService: CustomToastService
   ) {}
 
   public stopCourrier(): void {
