@@ -1,3 +1,10 @@
+## [2.146.5](https://github.com/SocialGouv/domifa/compare/v2.146.4...v2.146.5) (2023-12-05)
+
+
+### Bug Fixes
+
+* **mon-domifa:** fail after login ([1fc87ca](https://github.com/SocialGouv/domifa/commit/1fc87ca530890a127b576af687fff1d559674b87))
+
 ## [2.146.4](https://github.com/SocialGouv/domifa/compare/v2.146.3...v2.146.4) (2023-12-04)
 
 
