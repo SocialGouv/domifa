@@ -6,7 +6,6 @@ import {
 import { UsagerEntretien } from "./entretien";
 import { UsagerImport } from "./UsagerImport.type";
 import { UsagerNote } from "./UsagerNote.type";
-import { UsagerOptions } from "./options/UsagerOptions.type";
 
 import {
   UsagerAyantDroit,
@@ -16,6 +15,7 @@ import {
   UsagerLastInteraction,
   UsagerDecision,
   UsagerRdvInfos,
+  UsagerOptions,
 } from "@domifa/common";
 
 export type Usager = AppEntity & {

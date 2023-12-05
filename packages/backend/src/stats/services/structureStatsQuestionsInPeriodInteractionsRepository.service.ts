@@ -81,12 +81,6 @@ async function getStats({
     allVisites,
     visite,
     visiteOut,
-    npai: await countInteractions({
-      dateInteractionBefore: endDateUTCExclusive,
-      dateInteractionAfter: startDateUTC,
-      structureId,
-      interactionType: "npai",
-    }),
     loginPortail: await userUsagerLoginRepository.count({
       where: {
         structureId,
@@ -112,11 +106,7 @@ async function countInteractions({
   structureId: number;
   interactionType: InteractionType;
 }): Promise<number> {
-  if (
-    interactionType === "appel" ||
-    interactionType === "visite" ||
-    interactionType === "npai"
-  ) {
+  if (interactionType === "appel" || interactionType === "visite") {
     return interactionRepository.count({
       where: {
         structureId,

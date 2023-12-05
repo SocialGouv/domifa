@@ -1,0 +1,25 @@
+<button
+  type="button"
+  class="btn btn-danger me-2"
+  *ngIf="usager.decision.statut === 'RADIE'"
+  [disabled]="loading"
+  (click)="stopCourrier()"
+>
+  <ng-container *ngIf="loading">
+    <fa-icon
+      class="list-icon-disabled"
+      [icon]="['fas', 'circle-notch']"
+      [spin]="true"
+    >
+    </fa-icon>
+    <span class="list-icon-disabled">Veuillez patienter</span>
+  </ng-container>
+  <ng-container *ngIf="!loading && !usager.options?.npai?.actif">
+    <span class="list-icon icon-ban me-2"></span>
+    <span>Ne plus accepter le courrier</span>
+  </ng-container>
+  <ng-container *ngIf="!loading && usager.options?.npai?.actif">
+    <span class="list-icon icon-ban me-2"></span>
+    <span>Accepter le courrier</span>
+  </ng-container>
+</button>

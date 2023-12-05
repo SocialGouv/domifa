@@ -6,5 +6,4 @@ export type InteractionType =
   | "colisIn"
   | "colisOut"
   | "appel"
-  | "visite"
-  | "npai";
+  | "visite";

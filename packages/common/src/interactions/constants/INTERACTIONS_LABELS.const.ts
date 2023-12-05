@@ -11,7 +11,6 @@ export const INTERACTIONS_LABELS_SINGULIER: {
   recommandeIn: "Avis de passage enregistré",
   recommandeOut: "Avis de passage remis",
   visite: "Passage enregistré",
-  npai: "Le courrier ne sera plus enregistré",
 };
 
 export const INTERACTIONS_LABELS_PLURIEL: {
@@ -25,5 +24,4 @@ export const INTERACTIONS_LABELS_PLURIEL: {
   recommandeIn: "Avis de passage enregistrés",
   recommandeOut: "Avis de passage remis",
   visite: "Passages enregistrés",
-  npai: "Pli non distribuable enregistré",
 };

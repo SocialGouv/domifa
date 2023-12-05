@@ -1,5 +1,5 @@
 import { Injectable, Inject, forwardRef } from "@nestjs/common";
-import { interactionRepository, usagerRepository } from "../../database";
+import { interactionRepository } from "../../database";
 import { MessageSmsService } from "../../sms/services/message-sms.service";
 import { Usager, Structure, UsagerLight } from "../../_common/model";
 import { interactionsCreator } from "./interactionsCreator.service";
@@ -47,13 +47,6 @@ export class InteractionsDeletor {
         interaction,
         structure,
         usager,
-      });
-    } else if (interaction.type === "npai") {
-      usager.options.npai.actif = false;
-      usager.options.npai.dateDebut = null;
-
-      return usagerRepository.updateOneAndReturn(usager.uuid, {
-        options: usager.options,
       });
     }
 

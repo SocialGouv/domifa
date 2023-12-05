@@ -57,7 +57,6 @@ describe("structureStatsInPeriodGenerator", () => {
         colisOut: 0,
         courrierIn: 1, // 4 de base - 3 distribués dans les tests
         courrierOut: 0,
-        npai: 0,
         recommandeIn: 3,
         recommandeOut: 0,
         visite: 0,

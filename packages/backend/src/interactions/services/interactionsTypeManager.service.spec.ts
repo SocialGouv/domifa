@@ -26,9 +26,6 @@ describe("interactionsTypeManager", () => {
     expect(interactionsTypeManager.getDirection({ type: "visite" })).toEqual(
       "other"
     );
-    expect(interactionsTypeManager.getDirection({ type: "npai" })).toEqual(
-      "other"
-    );
   });
 
   it("interactionsTypeManager.getOppositeDirection", async () => {
@@ -63,9 +60,6 @@ describe("interactionsTypeManager", () => {
     expect(
       interactionsTypeManager.getBaseDirectionalType({ type: "visite" })
     ).toBeUndefined();
-    expect(
-      interactionsTypeManager.getBaseDirectionalType({ type: "npai" })
-    ).toBeUndefined();
   });
   it("interactionsTypeManager.getOppositeDirectionalType", async () => {
     expect(
@@ -97,9 +91,6 @@ describe("interactionsTypeManager", () => {
     ).toBeUndefined();
     expect(
       interactionsTypeManager.getOppositeDirectionalType({ type: "visite" })
-    ).toBeUndefined();
-    expect(
-      interactionsTypeManager.getOppositeDirectionalType({ type: "npai" })
     ).toBeUndefined();
   });
 });

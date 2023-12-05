@@ -118,19 +118,6 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
     );
   }
 
-  public stopCourrier(): void {
-    this.subscription.add(
-      this.usagerProfilService.stopCourrier(this.usager.ref).subscribe({
-        next: () => {
-          this.setSingleInteraction(this.usager.ref, "npai");
-        },
-        error: () => {
-          this.toastService.error("Impossible d'enregistrer cette interaction");
-        },
-      })
-    );
-  }
-
   public updateInteractions(): void {
     this.profileComponent.getInteractions();
   }

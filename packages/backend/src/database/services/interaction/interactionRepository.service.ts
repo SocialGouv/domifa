@@ -196,7 +196,6 @@ async function totalInteractionAllUsagersStructure({
     recommandeOut: number;
     colisIn: number;
     colisOut: number;
-    npai: number;
   }[]
 > {
   // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
@@ -204,7 +203,6 @@ async function totalInteractionAllUsagersStructure({
       i."usagerRef",
       coalesce (COUNT(CASE WHEN i.type = 'appel' THEN 1 END), 0) AS "appel",
       coalesce (COUNT(CASE WHEN i.type = 'visite' THEN 1 END), 0) AS "visite",
-      coalesce (COUNT(CASE WHEN i.type = 'npai' THEN 1 END), 0) AS "npai",
       coalesce (SUM(CASE WHEN i.type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn",
       coalesce (SUM(CASE WHEN i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOut",
       coalesce (SUM(CASE WHEN i.type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn",
@@ -228,7 +226,6 @@ async function totalInteractionAllUsagersStructure({
       recommandeOut: string;
       colisIn: string;
       colisOut: string;
-      npai: string;
     }) => ({
       usagerRef: parseInt(x.usagerRef, 10),
       courrierIn: parseInt(x.courrierIn, 10),
@@ -239,7 +236,6 @@ async function totalInteractionAllUsagersStructure({
       colisOut: parseInt(x.colisOut, 10),
       appel: parseInt(x.appel, 10),
       visite: parseInt(x.visite, 10),
-      npai: parseInt(x.npai, 10),
     })
   );
 }
@@ -249,7 +245,7 @@ async function getLastInteractionOut(
 ): Promise<Pick<CommonInteraction, "uuid" | "dateInteraction"> | null> {
   return interactionRepository
     .createQueryBuilder("interactions")
-    .where(`"usagerUUID' = :'usagerUUID"`, { usagerUUID: usager.uuid })
+    .where(`"usagerUUID" = :uuid`, { uuid: usager.uuid })
     .andWhere("type IN (:...types)", { types: INTERACTION_OK_LIST })
     .andWhere(`"procuration" = false OR "procuration" IS NULL`, {
       procurationFalse: false,

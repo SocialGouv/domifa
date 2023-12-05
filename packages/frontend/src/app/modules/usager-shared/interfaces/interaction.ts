@@ -35,11 +35,7 @@ export class Interaction implements CommonInteraction {
     this.nbCourrier = interaction?.nbCourrier || 0;
     this.userName = interaction?.userName || "";
 
-    if (
-      this.type !== "appel" &&
-      this.type !== "visite" &&
-      this.type !== "npai"
-    ) {
+    if (this.type !== "appel" && this.type !== "visite") {
       const nbCourrierTemp = this.nbCourrier || 1;
       const isPlural = nbCourrierTemp > 1;
       this.label = `${nbCourrierTemp} ${

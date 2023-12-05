@@ -9,7 +9,6 @@ export const ALL_INTERACTION_TYPES: InteractionType[] = [
   "colisOut",
   "appel",
   "visite",
-  "npai",
 ];
 
 export const INTERACTION_OK_LIST: InteractionType[] = [
