@@ -385,6 +385,7 @@
               <button
                 type="button"
                 [disabled]="loadingButtons.indexOf('appel') !== -1"
+                [attr.aria-disabled]="loadingButtons.indexOf('appel') !== -1"
                 class="my-1 btn btn-primary me-2"
                 (click)="setSingleInteraction(usager.ref, 'appel')"
               >
@@ -425,30 +426,9 @@
                 ></span>
                 Distribuer le courrier
               </button>
-
-              <button
-                type="button"
-                class="btn btn-danger me-2"
-                *ngIf="usager.decision.statut === 'RADIE'"
-                [disabled]="loadingButtons.indexOf('npai') !== -1"
-                (click)="
-                  stopCourrier(); setSingleInteraction(usager.ref, 'npai')
-                "
-              >
-                <fa-icon
-                  class="list-icon-disabled"
-                  [icon]="['fas', 'circle-notch']"
-                  [spin]="true"
-                >
-                </fa-icon>
-                <span class="list-icon-disabled">Veuillez patienter</span>
-                <ng-container *ngIf="loadingButtons.indexOf('npai') === -1">
-                  <span class="list-icon icon-ban me-2"></span>
-                  <span>Ne plus accepter le courrier</span>
-                </ng-container>
-              </button>
             </ng-container>
           </ng-container>
+          <app-set-npai [usager]="usager"></app-set-npai>
         </div>
       </div>
 

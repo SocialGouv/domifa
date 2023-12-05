@@ -97,9 +97,6 @@ function renderWorksheet({
       value: stats.interactionsCountByStatut["courrierOut" as InteractionType],
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.interactionsCountByStatut["npai" as InteractionType],
-    });
-    worksheetRendered.renderCell(i++, "b", {
       value: stats.interactionsCountByStatut["recommandeIn" as InteractionType],
     });
     worksheetRendered.renderCell(i++, "b", {

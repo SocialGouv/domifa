@@ -61,7 +61,6 @@ export class UsagerProfilService {
       );
   }
 
-  // Todo: rassembler en une seule requête
   public stopCourrier(usagerRef: number): Observable<UsagerLight> {
     return this.http
       .get<UsagerLight>(`${this.endPointUsagers}/stop-courrier/${usagerRef}`)

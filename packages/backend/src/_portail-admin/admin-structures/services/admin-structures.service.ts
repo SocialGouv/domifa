@@ -152,7 +152,6 @@ export class AdminStructuresService {
       colisOut: await this.totalInteractions("colisOut"),
       appel: await this.totalInteractions("appel"),
       visite: await this.totalInteractions("visite"),
-      npai: await this.totalInteractions("npai"),
       loginPortail: await userUsagerLoginRepository.count(),
     };
   }
@@ -368,11 +367,7 @@ export class AdminStructuresService {
     interactionType: InteractionType,
     structuresId?: number[]
   ): Promise<number> {
-    if (
-      interactionType === "appel" ||
-      interactionType === "visite" ||
-      interactionType === "npai"
-    ) {
+    if (interactionType === "appel" || interactionType === "visite") {
       return interactionRepository.count({
         where: {
           type: interactionType,

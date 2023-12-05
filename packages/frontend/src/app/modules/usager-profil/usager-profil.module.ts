@@ -37,6 +37,7 @@ import {
   CustomDatepickerI18n,
 } from "../shared/services";
 import { ProfilHistoriqueLoginPortailComponent } from "./components/_historiques/profil-historique-login-portail/profil-historique-login-portail.component";
+import { SetNpaiComponent } from "./components/_general-section/set-npai/set-npai.component";
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ProfilHistoriqueLoginPortailComponent } from "./components/_historiques
     ProfilHistoriqueTransfertsComponent,
     ProfilHistoriqueDecisionsComponent,
     ProfilHistoriqueLoginPortailComponent,
+    SetNpaiComponent,
   ],
   imports: [
     CommonModule,

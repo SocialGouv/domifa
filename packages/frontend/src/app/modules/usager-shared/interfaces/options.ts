@@ -1,8 +1,9 @@
-import { UsagerOptionsProcuration } from "@domifa/common";
 import {
-  UsagerOptionsTransfert,
   UsagerOptions,
-} from "../../../../_common/model";
+  UsagerOptionsProcuration,
+  UsagerOptionsTransfert,
+} from "@domifa/common";
+
 import { UsagerProcuration } from "./UsagerProcuration.interface";
 
 export class Options implements UsagerOptions {

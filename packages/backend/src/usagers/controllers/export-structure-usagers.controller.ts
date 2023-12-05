@@ -88,7 +88,6 @@ export class ExportStructureUsagersController {
           recommandeOut: number;
           colisIn: number;
           colisOut: number;
-          npai: number;
         }) => x.usagerRef === usager.ref
       );
 
@@ -111,7 +110,6 @@ export class ExportStructureUsagersController {
         appel: data?.appel ?? 0,
         loginPortail,
         visite: 0,
-        npai: data?.npai ?? 0,
       };
     }
 

@@ -10,6 +10,5 @@ export type StructureStatsQuestionsInPeriodInteractions = {
   visite: number;
   allVisites: number;
   visiteOut: number;
-  npai: number;
   loginPortail: number;
 };

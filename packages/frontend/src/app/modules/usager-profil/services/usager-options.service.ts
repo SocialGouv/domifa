@@ -2,14 +2,11 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
-import {
-  UsagerOptionsHistory,
-  UsagerOptionsTransfert,
-  UsagerLight,
-} from "../../../../_common/model";
+import { UsagerOptionsHistory, UsagerLight } from "../../../../_common/model";
 import { cacheManager } from "../../../shared";
 import { Store } from "@ngrx/store";
 import {
+  UsagerOptionsTransfert,
   UsagerOptionsHistoryType,
   UsagerOptionsProcuration,
 } from "@domifa/common";
