@@ -7,6 +7,8 @@ fileignoreconfig:
   checksum: f0d4b3cd2e6e2d9b1e0271c34d64adacf87a5f1e7a505402a20869962543608d
 - filename: packages/backend/src/_migrations/1699910877010-auto-migration.ts
   checksum: bd05dd6b68f7fe2ca36ab1180a0449878cf78f4e048d2e5979b3dbe5fba1db53
+- filename: packages/backend/src/_migrations/1701870413794-auto-migration.ts
+  checksum: 281adc67c437b0c3ea874865872dafb0b6a4b23be044694caa6f0d210bbba0f9
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
   checksum: 5e9ab65fc62b00a2a2092ccbcf0e2c9fdecefe418452b15b579425774cc1e1e2
 - filename: packages/backend/src/_portail-admin/portail-admin-login/portail-admin-login.controller.spec.ts

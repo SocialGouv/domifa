@@ -46,7 +46,7 @@ export class ProfilHistoriqueCourriersComponent implements OnInit, OnDestroy {
   public params: PageOptions = {
     order: Order.DESC,
     page: 1,
-    take: 10,
+    take: 50,
   };
 
   public searchResults: PageResults<Interaction> = {
@@ -103,6 +103,7 @@ export class ProfilHistoriqueCourriersComponent implements OnInit, OnDestroy {
         .getInteractions(this.usager.ref, this.params)
         .subscribe((searchResults: PageResults<Interaction>) => {
           this.loading = false;
+          console.log(searchResults);
           this.interactions = searchResults.data;
           this.searchResults = searchResults;
           window.scroll({

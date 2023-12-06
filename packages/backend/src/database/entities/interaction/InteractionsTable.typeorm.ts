@@ -59,6 +59,7 @@ export class InteractionsTable
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
   usagerUUID: string;
 
+  @Index()
   @Column({ type: "boolean", nullable: true })
   procuration: boolean | null;
 
