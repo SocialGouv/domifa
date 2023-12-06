@@ -18,7 +18,7 @@ import { Subscription } from "rxjs";
 import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import { CustomToastService } from "../../../shared/services";
 import { StructureService } from "../../services";
-import { StructureCommon } from "../../types";
+import { StructureCommon } from "@domifa/common";
 import { generateSender } from "../../utils/generateSender.service";
 import { NoWhiteSpaceValidator } from "../../../../shared/validators/no-whitespace.validator";
 @Component({

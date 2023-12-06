@@ -6,6 +6,7 @@ export * from "./mocks";
 export * from "./stats";
 export * from "./structure";
 export * from "./telephone";
+export * from "./territoires";
 export * from "./usager";
 export * from "./user-structure";
 export * from "./user-usager";

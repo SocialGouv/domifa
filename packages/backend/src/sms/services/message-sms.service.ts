@@ -5,12 +5,7 @@ import { structureRepository } from "../../database";
 import { messageSmsRepository } from "../../database/services/message-sms";
 import { InteractionDto } from "../../interactions/dto";
 
-import {
-  MessageSms,
-  Usager,
-  Structure,
-  StructureSmsParams,
-} from "../../_common/model";
+import { MessageSms, Usager, Structure } from "../../_common/model";
 import { generateSmsInteraction } from "./generators";
 import { generateScheduleSendDate } from "./generators/generateScheduleSendDate";
 
@@ -22,6 +17,7 @@ import {
   INTERACTIONS_IN,
   INTERACTIONS_OUT,
   InteractionType,
+  StructureSmsParams,
 } from "@domifa/common";
 
 @Injectable()

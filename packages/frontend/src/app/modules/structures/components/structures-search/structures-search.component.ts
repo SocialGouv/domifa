@@ -9,7 +9,7 @@ import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { environment } from "../../../../../environments/environment";
 import { StructureService } from "../../services/structure.service";
-import { StructureCommon } from "../../types";
+import { StructureCommon } from "@domifa/common";
 import { getPostalCodeValidator } from "../../utils/structure-validators";
 
 @Component({

@@ -46,6 +46,7 @@ const structureDto: StructureDto = {
   region: null,
   options: {
     numeroBoite: false,
+    surnom: false,
   },
   acceptCgu: true,
   readCgu: true,

@@ -17,7 +17,7 @@ import {
 } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { StructureService } from "../../services/structure.service";
-import { StructureCommon } from "../../types";
+import { StructureCommon } from "@domifa/common";
 
 @Component({
   selector: "app-structures-edit",

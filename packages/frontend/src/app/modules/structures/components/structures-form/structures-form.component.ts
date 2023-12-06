@@ -28,7 +28,7 @@ import {
   DEPARTEMENTS_LISTE,
   EmailValidator,
 } from "../../../../shared";
-import { StructureCommon, Structure } from "../../types";
+import { StructureCommon, Structure } from "@domifa/common";
 import { departementHelper } from "../../utils/departement-helper.service";
 import {
   getPostalCodeValidator,
@@ -170,6 +170,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
       ...this.structureForm.value,
       options: {
         numeroBoite: false,
+        surnom: false,
       },
       departement,
       telephone: getFormPhone(this.structureForm.value.telephone),
