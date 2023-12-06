@@ -1,3 +1,5 @@
+import { StructureCommon } from "@domifa/common";
+
 export const STRUCTURE_MOCK: StructureCommon = {
   id: 1,
   acceptTerms: new Date(),
