@@ -9,4 +9,12 @@ export class StructureOptionsDto {
   @IsNotEmpty()
   @IsBoolean()
   public numeroBoite: boolean;
+
+  @ApiProperty({
+    type: Boolean,
+    required: true,
+  })
+  @IsNotEmpty()
+  @IsBoolean()
+  public surnom: boolean;
 }

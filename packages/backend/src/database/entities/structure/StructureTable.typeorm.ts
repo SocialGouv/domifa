@@ -1,16 +1,16 @@
 import { BeforeInsert, Column, Entity, Generated, Index } from "typeorm";
 
 import { TimeZone } from "../../../util/territoires";
+import { Structure, Telephone } from "../../../_common/model";
+
+import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import {
-  Structure,
+  StructureAddresseCourrier,
+  StructureSmsParams,
   StructurePortailUsagerParams,
   StructureResponsable,
-  Telephone,
-} from "../../../_common/model";
-import { StructureAddresseCourrier } from "../../../_common/model/structure/StructureAddresseCourrier.type";
-import { StructureSmsParams } from "../../../_common/model/structure/StructureSmsParams.type";
-import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
-import { StructureType } from "@domifa/common";
+  StructureType,
+} from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "structure" })
@@ -89,9 +89,11 @@ export class StructureTable
 
   @Column({
     type: "jsonb",
+    default: () => `'{"numeroBoite": true, "surnom": false}'`,
   })
   options: {
     numeroBoite: boolean;
+    surnom: boolean;
   };
 
   @Column({

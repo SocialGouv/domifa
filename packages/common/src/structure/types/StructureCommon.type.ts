@@ -1,11 +1,12 @@
-import { Structure } from "./Structure.type";
+import { type Structure } from "../interfaces";
 
 // Structure: attributs publics (retournés au frontend via UserStructureAuthenticated)
 export type StructureCommon = Pick<
   Structure,
+  | "uuid"
   | "id"
-  | "adresse"
   | "createdAt"
+  | "adresse"
   | "complementAdresse"
   | "nom"
   | "structureType"
@@ -17,11 +18,12 @@ export type StructureCommon = Pick<
   | "agrement"
   | "telephone"
   | "email"
-  | "timeZone"
   | "responsable"
   | "options"
   | "adresseCourrier"
   | "sms"
-  | "portailUsager"
+  | "lastLogin"
+  | "timeZone"
   | "acceptTerms"
+  | "portailUsager"
 >;

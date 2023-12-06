@@ -1,6 +1,9 @@
-import { UserStructureRole, UserStructureMails } from "@domifa/common";
-import { StructureCommon } from "../../../app/modules/structures/types";
-import { AppEntity } from "../_core/AppEntity.type";
+import {
+  UserStructureRole,
+  UserStructureMails,
+  StructureCommon,
+  AppEntity,
+} from "@domifa/common";
 
 export type UserStructure = AppEntity & {
   id: number | null;
