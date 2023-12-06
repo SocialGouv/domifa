@@ -1,3 +1,10 @@
+## [2.147.1](https://github.com/SocialGouv/domifa/compare/v2.147.0...v2.147.1) (2023-12-06)
+
+
+### Bug Fixes
+
+* **procuration:** fix delete procurations ([b1e78eb](https://github.com/SocialGouv/domifa/commit/b1e78eb41e54966a19036e4dcf31e27305dfdd5b))
+
 # [2.147.0](https://github.com/SocialGouv/domifa/compare/v2.146.5...v2.147.0) (2023-12-05)
 
 
