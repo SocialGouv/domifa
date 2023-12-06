@@ -6,12 +6,14 @@ import {
   userUsagerLoginRepository,
 } from "../../database";
 import { CommonInteraction } from "@domifa/common";
+
 export const getLastInteractionOut = async (
   usager: Usager,
   structure: Pick<Structure, "id" | "sms" | "telephone" | "portailUsager">,
   interaction?: CommonInteraction
 ) => {
   let dateInteraction = await getDateFromInteraction(usager, interaction);
+
   dateInteraction = await getDateFromUserLogin(
     usager,
     structure,
@@ -32,9 +34,10 @@ const getDateFromInteraction = async (
     !interaction
   ) {
     const lastInteractionOut =
-      await interactionRepository.getLastInteractionOut(usager);
+      await interactionRepository.findLastInteractionOut(usager);
     return lastInteractionOut ? lastInteractionOut.dateInteraction : null;
   }
+
   return null;
 };
 

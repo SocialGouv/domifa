@@ -1,4 +1,4 @@
-import { IsNull } from "typeorm";
+import { In, IsNull } from "typeorm";
 import { getDateForMonthInterval } from "../../../stats/services";
 import { FranceRegion } from "../../../util/territoires";
 import { Usager, UserStructureAuthenticated } from "../../../_common/model";
@@ -17,7 +17,7 @@ export const interactionRepository = myDataSource
     countVisiteOut,
     updateInteractionAfterDistribution,
     totalInteractionAllUsagersStructure,
-    getLastInteractionOut,
+    findLastInteractionOut,
   });
 
 async function updateInteractionAfterDistribution(
@@ -240,17 +240,20 @@ async function totalInteractionAllUsagersStructure({
   );
 }
 
-async function getLastInteractionOut(
+async function findLastInteractionOut(
   usager: Pick<Usager, "uuid">
 ): Promise<Pick<CommonInteraction, "uuid" | "dateInteraction"> | null> {
-  return interactionRepository
-    .createQueryBuilder("interactions")
-    .where(`"usagerUUID" = :uuid`, { uuid: usager.uuid })
-    .andWhere("type IN (:...types)", { types: INTERACTION_OK_LIST })
-    .andWhere(`"procuration" = false OR "procuration" IS NULL`, {
-      procurationFalse: false,
-    })
-    .select([`"dateInteraction"`, "uuid"])
-    .orderBy(`"dateInteraction"`, "DESC")
-    .getOne();
+  return interactionRepository.findOne({
+    where: {
+      type: In(INTERACTION_OK_LIST),
+      procuration: IsNull(),
+      usagerUUID: usager.uuid,
+    },
+    select: {
+      dateInteraction: true,
+    },
+    order: {
+      dateInteraction: "DESC",
+    },
+  });
 }
