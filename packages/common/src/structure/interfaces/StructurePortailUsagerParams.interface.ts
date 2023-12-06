@@ -1,5 +1,5 @@
-export type StructurePortailUsagerParams = {
+export interface StructurePortailUsagerParams {
   enabledByDomifa: boolean;
   enabledByStructure: boolean;
   usagerLoginUpdateLastInteraction: boolean;
-};
+}

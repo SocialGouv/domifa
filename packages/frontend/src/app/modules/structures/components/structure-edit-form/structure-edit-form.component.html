@@ -705,8 +705,38 @@
           <label class="form-check-label" for="numeroBoiteNon">Non</label>
         </div>
       </fieldset>
+      <fieldset>
+        <legend class="label">
+          Afficher le contenu de la case "surnom" à la suite du nom dans le
+          Cerfa.
+        </legend>
+
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="surnom"
+            name="surnom"
+            id="surnomOui"
+            [value]="true"
+          />
+          <label class="form-check-label" for="surnomOui">Oui</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="surnom"
+            name="surnom"
+            id="surnomNon"
+            [value]="false"
+          />
+          <label class="form-check-label" for="surnomNon">Non</label>
+        </div>
+      </fieldset>
     </div>
   </div>
+
   <div class="row">
     <div class="col-md-12 my-2 text-center">
       <button

@@ -1,4 +1,4 @@
-import { Structure } from "../../../app/modules/structures/types";
+import { Structure } from "@domifa/common";
 import { StructureStatsQuestionsAtDateValidUsagers } from "./StructureStatsQuestionsAtDateValidUsagers.type";
 import { StructureStatsQuestionsInPeriodDecisions } from "./StructureStatsQuestionsInPeriodDecisions";
 import { StructureStatsQuestionsInPeriodInteractions } from "./StructureStatsQuestionsInPeriodInteractions";

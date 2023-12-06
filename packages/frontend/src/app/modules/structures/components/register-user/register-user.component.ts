@@ -27,8 +27,9 @@ import {
   PasswordValidator,
 } from "../../../users/services";
 import { StructureService } from "../../services";
-import { StructureCommon } from "../../types";
+
 import isEmail from "validator/lib/isEmail";
+import { StructureCommon } from "@domifa/common";
 
 @Component({
   animations: [fadeInOut],

@@ -103,7 +103,6 @@ export class ProfilHistoriqueCourriersComponent implements OnInit, OnDestroy {
         .getInteractions(this.usager.ref, this.params)
         .subscribe((searchResults: PageResults<Interaction>) => {
           this.loading = false;
-          console.log(searchResults);
           this.interactions = searchResults.data;
           this.searchResults = searchResults;
           window.scroll({

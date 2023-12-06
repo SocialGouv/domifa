@@ -29,13 +29,14 @@ import {
 } from "../../../shared/phone";
 import { CustomToastService } from "../../../shared/services";
 import { StructureService } from "../../services";
-import { StructureCommon, Structure } from "../../types";
+
 import {
   getPostalCodeValidator,
   updateComplementAdress,
   isInvalidStructureName,
 } from "../../utils/structure-validators";
 import isEmail from "validator/lib/isEmail";
+import { StructureCommon, Structure } from "@domifa/common";
 
 @Component({
   selector: "app-structure-edit-form",
@@ -91,6 +92,7 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
       nom: [this.structure.nom, [Validators.required]],
       options: this.formBuilder.group({
         numeroBoite: [this.structure.options.numeroBoite, []],
+        surnom: [this.structure.options.surnom, []],
       }),
       adresseCourrier: this.formBuilder.group({
         actif: [this.structure.adresseCourrier.actif, []],
@@ -102,7 +104,8 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
         ],
       }),
       telephone: new UntypedFormControl(
-        setFormPhone(this.structure.telephone),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        setFormPhone(this.structure.telephone as any),
         [Validators.required, anyPhoneValidator]
       ),
       responsable: this.formBuilder.group({

@@ -1,5 +1,3 @@
-import { StructureCommon } from "../model";
-
 export const STRUCTURE_MOCK: StructureCommon = {
   id: 1,
   acceptTerms: new Date(),
@@ -18,7 +16,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
   region: "11",
   email: "ccas.test@yopmail.com",
   nom: "CCAS de Test",
-  options: { numeroBoite: false },
+  options: { numeroBoite: false, surnom: false },
   telephone: { numero: "0602030405", countryCode: "fr" },
   responsable: { nom: "Jean", prenom: "Thomson", fonction: "PDG" },
   structureType: "ccas",

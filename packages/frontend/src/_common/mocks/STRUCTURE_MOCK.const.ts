@@ -1,5 +1,5 @@
+import { StructureCommon } from "@domifa/common";
 import { CountryISO } from "ngx-intl-tel-input";
-import { StructureCommon } from "../../app/modules/structures/types";
 
 export const STRUCTURE_MOCK: StructureCommon = {
   id: 1,
@@ -19,7 +19,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
   region: "11",
   email: "ccas.test@yopmail.com",
   nom: "CCAS de Test",
-  options: { numeroBoite: false },
+  options: { numeroBoite: false, surnom: false },
   telephone: {
     numero: "0602030405",
     countryCode: CountryISO.France,
@@ -29,6 +29,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
   responsable: { nom: "Jean", prenom: "Thomson", fonction: "PDG" },
   structureType: "ccas",
   ville: "Asnieres-sur-seine",
+  lastLogin: new Date(),
   sms: {
     enabledByDomifa: false,
     enabledByStructure: false,

@@ -1,17 +1,14 @@
-import { TimeZone } from "../../../util/territoires";
+import { type AppEntity } from "../../_core";
+import { type Telephone } from "../../telephone";
+import { type TimeZone } from "../../territoires";
+import { type StructureType } from "../types";
+import { type StructureAddresseCourrier } from "./StructureAddresseCourrier.interface";
+import { type StructureOptions } from "./StructureOptions.interface";
+import { type StructurePortailUsagerParams } from "./StructurePortailUsagerParams.interface";
+import { type StructureResponsable } from "./StructureResponsable.interface";
+import { type StructureSmsParams } from "./StructureSmsParams.interface";
 
-import { Telephone } from "../telephone/Telephone.type";
-import {
-  StructureOptions,
-  StructureType,
-  StructureAddresseCourrier,
-  StructurePortailUsagerParams,
-  StructureResponsable,
-  StructureSmsParams,
-  AppEntity,
-} from "@domifa/common";
-
-export type Structure = AppEntity & {
+export interface Structure extends AppEntity {
   id: number;
   adresse: string;
   complementAdresse: string;
@@ -55,4 +52,4 @@ export type Structure = AppEntity & {
 
   latitude: number;
   longitude: number;
-};
+}
