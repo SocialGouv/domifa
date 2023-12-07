@@ -63,8 +63,14 @@ export const generateCerfaData = (
   }
 
   usager.villeNaissance = usager.villeNaissance.toUpperCase();
-  usager.nom = usager.nom.toUpperCase();
   usager.prenom = usager.prenom.toUpperCase();
+
+  usager.nom = usager.nom.toUpperCase();
+  // Nom d'épouse à afficher sur le Cerfa
+  if (user.structure.options?.surnom === true && usager.surnom) {
+    usager.nom += ` (${usager.surnom})`;
+  }
+
   const dateNaissance = generateDateForCerfa(usager.dateNaissance);
   const sexe = usager.sexe === "femme" ? "1" : "2";
   const courriel = toString(usager.email);
@@ -223,9 +229,8 @@ export function generateAdressForCerfa(
 
   const adresseStructure = `${user.structure.adresse}\n${user.structure.codePostal} - ${user.structure.ville}`;
 
-  // Numéro de boite
-  // HOTFIX en attendant d'investiguer sur l'option des structures qui n'est pas censé être à null
-  if (user.structure.options?.numeroBoite === true) {
+  // Numéro de boite au lettre
+  if (user.structure.options?.numeroBoite) {
     adresseDomicilie = `Boite ${getUsagerRef(usager)}\n${adresseDomicilie}`;
   }
 
