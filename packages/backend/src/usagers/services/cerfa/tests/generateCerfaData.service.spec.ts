@@ -232,5 +232,26 @@ describe("Générer les données des Cerfa", () => {
         `CCAS de Test\n1 rue de l'océan\nTSA 30110\n92600 - Asnieres-sur-seine`
       );
     });
+
+    describe("Paramètres du Cerfa : afficher ou non le surnom (utilisé pour les noms d'épouse) ", () => {
+      it("Ne pas afficher le surnom si la structure ne le souhaite pas", async () => {
+        user.structure.options.surnom = true;
+        usagerValide.surnom = null;
+        const data = generateCerfaData(usagerValide, user, "attestation");
+        expect(data.noms1).toEqual("KARAMOKO");
+      });
+      it("Nom dépouse activé: ne pas afficher le surnom s'il est vide", async () => {
+        user.structure.options.surnom = true;
+        usagerValide.surnom = null;
+        const data = generateCerfaData(usagerValide, user, "attestation");
+        expect(data.noms1).toEqual("KARAMOKO");
+      });
+      it("Nom dépouse activé: afficher le surnom ", async () => {
+        user.structure.options.surnom = true;
+        usagerValide.surnom = "Marie-madeleine";
+        const data = generateCerfaData(usagerValide, user, "attestation");
+        expect(data.noms1).toEqual("KARAMOKO (Marie-madeleine)");
+      });
+    });
   });
 });
