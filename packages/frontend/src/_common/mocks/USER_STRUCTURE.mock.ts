@@ -1,4 +1,4 @@
-import { CountryISO } from "ngx-intl-tel-input";
+import { CountryISO } from "@khazii/ngx-intl-tel-input";
 import { UserStructure } from "../model";
 import { StructureType, UserStructureRole } from "@domifa/common";
 

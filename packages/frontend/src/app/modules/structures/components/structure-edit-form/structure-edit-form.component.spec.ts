@@ -6,7 +6,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
+import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 
 import { StructureEditFormComponent } from "./structure-edit-form.component";
 import { StructureCommonWeb } from "../../types";

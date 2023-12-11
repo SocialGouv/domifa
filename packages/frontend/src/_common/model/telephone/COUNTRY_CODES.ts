@@ -1,4 +1,4 @@
-import { CountryISO } from "ngx-intl-tel-input";
+import { CountryISO } from "@khazii/ngx-intl-tel-input";
 import { TimeZone } from "../../../app/shared";
 
 export const COUNTRY_CODES: { [key: string]: string } = {

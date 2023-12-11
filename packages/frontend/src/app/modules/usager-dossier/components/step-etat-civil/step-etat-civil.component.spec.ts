@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
+import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 
 import { SharedModule } from "./../../../shared/shared.module";
 import { StepEtatCivilComponent } from "./step-etat-civil.component";

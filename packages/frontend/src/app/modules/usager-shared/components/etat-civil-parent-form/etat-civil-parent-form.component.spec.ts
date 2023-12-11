@@ -6,7 +6,7 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
+import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks";
 import { UsagerFormModel } from "../../interfaces";
 
