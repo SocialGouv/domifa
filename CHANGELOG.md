@@ -1,3 +1,10 @@
+## [2.148.1](https://github.com/SocialGouv/domifa/compare/v2.148.0...v2.148.1) (2023-12-11)
+
+
+### Bug Fixes
+
+* **rights:** fix 'facteur' guard ([2f11763](https://github.com/SocialGouv/domifa/commit/2f11763e61bc72139a925b4224c605a57506d974))
+
 # [2.148.0](https://github.com/SocialGouv/domifa/compare/v2.147.2...v2.148.0) (2023-12-11)
 
 
