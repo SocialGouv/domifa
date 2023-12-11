@@ -1,5 +1,25 @@
 [
   {
+    "date": "2023-12-12",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Apparition du Nom d'usage dans le CERFA",
+        "message": [
+          "Un nouveau paramètre vous permet de faire apparaitre le nom d'usage d'un domicilié dans la ligne 'Nom' du Cerfa. Vous pouvez l'activer en vous rendant dans 'Informations de la structure' - 'Paramètres de la structure'"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Mention du Pli Non Distribuable",
+        "message": [
+          "La mention 'pli non distribuable' qui est attribuée aux dossiers radiés peut désormais être désactivée manuellement, et disparaît automatiquement lors d'une nouvelle demande suite à une radiation"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2023-11-30",
     "description": "",
     "content": [

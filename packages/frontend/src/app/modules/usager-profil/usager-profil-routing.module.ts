@@ -5,13 +5,18 @@ import { ProfilDossierComponent } from "./components/pages/profil-dossier/profil
 import { ProfilHistoriqueComponent } from "./components/pages/profil-historique/profil-historique.component";
 import { ProfilGeneralSectionComponent } from "./components/pages/profil-general-section/profil-general-section.component";
 import { ProfilDocumentsSectionComponent } from "./components/pages/profil-documents-section/profil-documents-section.component";
+import { FacteurGuard } from "../../guards";
 
 const routes: Routes = [
   { path: "dossier/:id", component: ProfilDossierComponent },
   { path: "historique/:id", component: ProfilHistoriqueComponent },
   { path: "courriers/:id", component: ProfilCourriersComponent },
   { path: "general/:id", component: ProfilGeneralSectionComponent },
-  { path: "documents/:id", component: ProfilDocumentsSectionComponent },
+  {
+    path: "documents/:id",
+    component: ProfilDocumentsSectionComponent,
+    canActivate: [FacteurGuard],
+  },
 ];
 
 @NgModule({

@@ -40,16 +40,15 @@
   </div>
 </div>
 
-<ng-container *ngIf="context === 'HISTORY' && usager.historique.length > 1">
-  <button
-    class="btn btn-danger d-print-none"
-    type="button"
-    aria-label="Supprimer la dernière décision"
-    (click)="open(deleteDecisionConfirmation)"
-  >
-    <fa-icon [icon]="['fas', 'trash']" aria-hidden="true"></fa-icon>
-  </button>
-</ng-container>
+<button
+  class="btn btn-danger d-print-none"
+  type="button"
+  aria-label="Supprimer la dernière décision"
+  *ngIf="context === 'HISTORY' && usager.historique.length > 1 && isAdmin"
+  (click)="open(deleteDecisionConfirmation)"
+>
+  <fa-icon [icon]="['fas', 'trash']" aria-hidden="true"></fa-icon>
+</button>
 
 <ng-template #deleteDecisionConfirmation let-modal>
   <div class="modal-header bg-danger">
