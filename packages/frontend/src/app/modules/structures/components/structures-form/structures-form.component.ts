@@ -11,7 +11,7 @@ import {
   CountryISO,
   PhoneNumberFormat,
   SearchCountryField,
-} from "ngx-intl-tel-input";
+} from "@khazii/ngx-intl-tel-input";
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { Subject, Subscription, of } from "rxjs";

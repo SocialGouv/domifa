@@ -15,7 +15,7 @@ import {
   CountryISO,
   PhoneNumberFormat,
   SearchCountryField,
-} from "ngx-intl-tel-input";
+} from "@khazii/ngx-intl-tel-input";
 import {
   PREFERRED_COUNTRIES,
   DEPARTEMENTS_LISTE,

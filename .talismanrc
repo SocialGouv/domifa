@@ -40,5 +40,5 @@ fileignoreconfig:
 - filename: packages/portail-usagers/src/app/modules/usager-auth/usager-accept-cgu/usager-accept-cgu.component.ts
   checksum: 189eb0e583dc89e07c097b61b59e3ee952d84b098dd0fd75bc7cd4bc71ab3fa5
 - filename: yarn.lock
-  checksum: 4ac842f95592d194e65b208fdc4b9a78a0bb6470ad2d4950626c2ffcec831a33
+  checksum: de4ceb88a150327647871bf04e289e3aecfa74130c0a2bec47884026042711ff
 version: "1.0"

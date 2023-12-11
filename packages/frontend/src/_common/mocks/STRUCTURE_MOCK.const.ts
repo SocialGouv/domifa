@@ -1,5 +1,5 @@
 import { StructureCommon } from "@domifa/common";
-import { CountryISO } from "ngx-intl-tel-input";
+import { CountryISO } from "@khazii/ngx-intl-tel-input";
 
 export const STRUCTURE_MOCK: StructureCommon = {
   id: 1,

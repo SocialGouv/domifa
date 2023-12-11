@@ -5,7 +5,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { RouterTestingModule } from "@angular/router/testing";
-import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
+import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 
 import { StructuresEditComponent } from "./structures-edit.component";
 

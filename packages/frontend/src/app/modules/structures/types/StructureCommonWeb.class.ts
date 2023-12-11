@@ -1,7 +1,7 @@
 import { Telephone } from "../../../../_common/model";
 import { TimeZone } from "../../../shared/territoires/types/TimeZone.type";
 
-import { CountryISO } from "ngx-intl-tel-input";
+import { CountryISO } from "@khazii/ngx-intl-tel-input";
 
 import {
   StructureType,

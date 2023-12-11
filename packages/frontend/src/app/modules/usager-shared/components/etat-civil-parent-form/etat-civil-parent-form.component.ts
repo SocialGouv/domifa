@@ -24,7 +24,7 @@ import {
   SearchCountryField,
   CountryISO,
   PhoneNumberFormat,
-} from "ngx-intl-tel-input";
+} from "@khazii/ngx-intl-tel-input";
 import { Observable, Subscription } from "rxjs";
 
 import {
