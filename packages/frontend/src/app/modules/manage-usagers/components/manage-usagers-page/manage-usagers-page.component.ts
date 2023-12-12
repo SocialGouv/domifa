@@ -42,7 +42,7 @@ import {
 } from "../usager-filter";
 import { select, Store } from "@ngrx/store";
 
-const AUTO_REFRESH_PERIOD = 3600000; // 1h
+const AUTO_REFRESH_PERIOD = 600000; // 10 minutes
 
 @Component({
   animations: [fadeInOut],
