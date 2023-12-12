@@ -1,3 +1,10 @@
+## [2.148.2](https://github.com/SocialGouv/domifa/compare/v2.148.1...v2.148.2) (2023-12-12)
+
+
+### Bug Fixes
+
+* **manage:** only 10 minutes to refresh ([2ca1cf2](https://github.com/SocialGouv/domifa/commit/2ca1cf2c6360f704c2cb173371121be1a83fe4c2))
+
 ## [2.148.1](https://github.com/SocialGouv/domifa/compare/v2.148.0...v2.148.1) (2023-12-11)
 
 
