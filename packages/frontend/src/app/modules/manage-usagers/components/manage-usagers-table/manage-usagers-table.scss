@@ -89,6 +89,7 @@
     border: none;
     font-weight: 600;
     vertical-align: middle;
+    background-color: transparent !important;
   }
 
   thead th {
@@ -102,6 +103,7 @@
     transition: all 0.2s ease;
     vertical-align: middle;
   }
+
   .table-name img {
     display: inline-block;
     vertical-align: middle;
