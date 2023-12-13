@@ -1,6 +1,7 @@
 import { Entity, Column, ManyToOne, JoinColumn, Index } from "typeorm";
 import { StructureTable } from "../structure";
 import { AppTypeormTable } from "../_core";
+import { StructureType } from "@domifa/common";
 
 @Entity("open_data_places")
 export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlaceTable> {
@@ -48,11 +49,17 @@ export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlaceTable> {
   @ManyToOne(() => StructureTable, (structure) => structure.id, {
     onDelete: "CASCADE",
   })
-  @JoinColumn({ name: "structureId", referencedColumnName: "id" })
-  structureId: number;
+  @JoinColumn({ name: "domifaStructureId", referencedColumnName: "id" })
+  domifaStructureId: number;
+
+  @Column({ type: "integer", nullable: true })
+  soliguideStructureId: number;
 
   @Column({ type: "text", nullable: true })
   mail: string;
+
+  @Column({ type: "text", nullable: true })
+  structureType: StructureType;
 
   public constructor(entity?: Partial<OpenDataPlaceTable>) {
     super(entity);

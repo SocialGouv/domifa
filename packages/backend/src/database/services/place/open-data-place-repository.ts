@@ -8,9 +8,9 @@ export const openDataPlaceRepository = myDataSource
     findExistingPlace: async (latitude: number, longitude: number) => {
       return openDataPlaceRepository
         .createQueryBuilder("open_data_places")
-        .select(`nom, ville, "structureId"`)
+        .select(`nom, ville, "domifaStructureId"`)
         .where(
-          `source='domifa' and ST_DWithin(ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::geography, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)::geography, 250);`,
+          `source='domifa' and ST_DWithin(ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::geography, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)::geography, 400);`,
           {
             longitude,
             latitude,

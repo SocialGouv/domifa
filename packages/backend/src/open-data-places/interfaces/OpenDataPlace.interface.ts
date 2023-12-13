@@ -13,5 +13,6 @@ export interface OpenDataPlace extends AppEntity {
   source: "soliguide" | "domifa" | "data-inclusion";
   uniqueId: string; // ID from soliguide | data-inclusion
   software: "domifa" | "millesime" | "other";
-  structureId: number;
+  domifaStructureId: number;
+  soliguideStructureId: number;
 }
