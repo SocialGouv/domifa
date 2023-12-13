@@ -24,6 +24,7 @@ export const loadDomifaData = async () => {
         "region",
         "latitude",
         "longitude",
+        "email",
         "id",
       ],
     });
@@ -47,7 +48,9 @@ export const loadDomifaData = async () => {
             latitude: place.latitude,
             longitude: place.longitude,
             source: "domifa",
-            structureId: place.id,
+            domifaStructureId: place.id,
+            soliguideStructureId: null,
+            mail: place.email,
             uniqueId: place.id.toString(),
           })
         );

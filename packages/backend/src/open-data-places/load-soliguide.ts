@@ -76,6 +76,7 @@ const getFromSoliguide = async () => {
             source: "soliguide",
             uniqueId: place.lieu_id.toString(),
             mail: place?.entity?.mail?.toString(),
+            soliguideStructureId: parseInt(place.lieu_id as any, 10),
           })
         );
       }
@@ -89,7 +90,12 @@ const getFromSoliguide = async () => {
       if (placeExist) {
         await openDataPlaceRepository.update(
           { uuid: soliguidePlace.uuid },
-          { structureId: placeExist.structureId }
+          { domifaStructureId: placeExist.domifaStructureId }
+        );
+
+        await openDataPlaceRepository.update(
+          { domifaStructureId: placeExist.domifaStructureId },
+          { soliguideStructureId: soliguidePlace.soliguideStructureId }
         );
       }
     }

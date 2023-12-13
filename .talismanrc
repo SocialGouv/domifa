@@ -1,14 +1,16 @@
 fileignoreconfig:
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: fc2c3720259ae183a86581dc71daa2e2762964470d112ec8cc4bb7c83b44bc02
+  checksum: 40a85fc5e2ee32756348aecf74a0b85754a55959160b84f0dad9dccdba830468
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: cc017bae84047b7761f61da63226cd3e419dc0bdd86264214922d4eeaf4cb5c1
+  checksum: 68720419374aa7549545e234e5097408ac669fb4514d6d0d0fffe20e26bfff55
 - filename: packages/backend/src/_common/decorators/IsValidPasswordDecorator.ts
   checksum: f0d4b3cd2e6e2d9b1e0271c34d64adacf87a5f1e7a505402a20869962543608d
 - filename: packages/backend/src/_migrations/1699910877010-auto-migration.ts
   checksum: bd05dd6b68f7fe2ca36ab1180a0449878cf78f4e048d2e5979b3dbe5fba1db53
 - filename: packages/backend/src/_migrations/1701870413794-auto-migration.ts
   checksum: 281adc67c437b0c3ea874865872dafb0b6a4b23be044694caa6f0d210bbba0f9
+- filename: packages/backend/src/_migrations/1702483465656-auto-migration.ts
+  checksum: 2dbc2450c1df10f68a54897946318976bf8163711f3143e0608ce6c0e7275447
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
   checksum: 5e9ab65fc62b00a2a2092ccbcf0e2c9fdecefe418452b15b579425774cc1e1e2
 - filename: packages/backend/src/_portail-admin/portail-admin-login/portail-admin-login.controller.spec.ts
