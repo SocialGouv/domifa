@@ -17,7 +17,7 @@ import { domifaConfig } from "./config";
       server.setTimeout(1000 * 60 * 5);
       appLogger.warn(`[${__filename}] Application listening on port 3000`);
 
-      if (domifaConfig().envId === "local") {
+      if (domifaConfig().envId === "local" && domifaConfig().cron.enable) {
         await loadDomifaData();
         await loadSoliguideData();
         // await loadDataInclusionData("CCAS");
