@@ -1,3 +1,10 @@
+## [2.148.3](https://github.com/SocialGouv/domifa/compare/v2.148.2...v2.148.3) (2023-12-13)
+
+
+### Bug Fixes
+
+* **frontend:** fix design after migration ([1037457](https://github.com/SocialGouv/domifa/commit/103745742e6cec1d8e532337a5e269f514e0d959))
+
 ## [2.148.2](https://github.com/SocialGouv/domifa/compare/v2.148.1...v2.148.2) (2023-12-12)
 
 
