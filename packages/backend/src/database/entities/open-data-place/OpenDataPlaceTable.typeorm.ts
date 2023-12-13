@@ -51,6 +51,9 @@ export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlaceTable> {
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   structureId: number;
 
+  @Column({ type: "text", nullable: true })
+  mail: string;
+
   public constructor(entity?: Partial<OpenDataPlaceTable>) {
     super(entity);
     Object.assign(this, entity);

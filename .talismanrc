@@ -1,8 +1,8 @@
 fileignoreconfig:
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: cc7d142171d74e4ec6fac672fdf444f811db83367028dbe23a4d38196a01fa15
+  checksum: fc2c3720259ae183a86581dc71daa2e2762964470d112ec8cc4bb7c83b44bc02
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: 4961fa117ae2fd0b34744927341881ac645dd14b68c7b7ade799223080376bba
+  checksum: cc017bae84047b7761f61da63226cd3e419dc0bdd86264214922d4eeaf4cb5c1
 - filename: packages/backend/src/_common/decorators/IsValidPasswordDecorator.ts
   checksum: f0d4b3cd2e6e2d9b1e0271c34d64adacf87a5f1e7a505402a20869962543608d
 - filename: packages/backend/src/_migrations/1699910877010-auto-migration.ts

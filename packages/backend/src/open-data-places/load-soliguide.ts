@@ -75,6 +75,7 @@ const getFromSoliguide = async () => {
             longitude: place.position.location.coordinates[0],
             source: "soliguide",
             uniqueId: place.lieu_id.toString(),
+            mail: place?.entity?.mail?.toString(),
           })
         );
       }
