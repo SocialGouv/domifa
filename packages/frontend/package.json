@@ -48,7 +48,7 @@
     "file-saver": "^2.0.5",
     "google-libphonenumber": "^3.2.33",
     "intl-tel-input": "18.3.3",
-    "jwt-decode": "^3.1.2",
+    "jwt-decode": "^4.0.0",
     "ngx-bootstrap": "^11.0.2",
     "ngx-countup": "^13.1.0",
     "ngx-matomo-client": "^5.0.4",
