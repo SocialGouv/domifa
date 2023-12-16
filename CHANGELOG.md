@@ -1,3 +1,10 @@
+## [2.148.4](https://github.com/SocialGouv/domifa/compare/v2.148.3...v2.148.4) (2023-12-16)
+
+
+### Bug Fixes
+
+* **deps:** update dependency ngx-bootstrap to v12 ([42f5901](https://github.com/SocialGouv/domifa/commit/42f59019bec803ac4e2ea4a3f497fac7712e5c99))
+
 ## [2.148.3](https://github.com/SocialGouv/domifa/compare/v2.148.2...v2.148.3) (2023-12-13)
 
 
