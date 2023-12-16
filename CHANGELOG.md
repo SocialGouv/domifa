@@ -1,3 +1,10 @@
+## [2.148.5](https://github.com/SocialGouv/domifa/compare/v2.148.4...v2.148.5) (2023-12-16)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([b42c6f6](https://github.com/SocialGouv/domifa/commit/b42c6f63866c1d16fbad7c4cbceb9119b61f418f))
+
 ## [2.148.4](https://github.com/SocialGouv/domifa/compare/v2.148.3...v2.148.4) (2023-12-16)
 
 
