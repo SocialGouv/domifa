@@ -1,3 +1,12 @@
+# [2.149.0](https://github.com/SocialGouv/domifa/compare/v2.148.5...v2.149.0) (2023-12-17)
+
+
+### Features
+
+* **open-data:** add email to data from soliguide ([bbb811c](https://github.com/SocialGouv/domifa/commit/bbb811c2ac1a5ae255ddd5c755b44e5ef36efbdf))
+* **open-data:** add soliguide link ([d363b6b](https://github.com/SocialGouv/domifa/commit/d363b6b6c425d1efd791822864e285414c3bdcb0))
+* **open-data:** add soliguide link ([cac938a](https://github.com/SocialGouv/domifa/commit/cac938a312014c30f99f7d9ee498407b8df84cc6))
+
 ## [2.148.5](https://github.com/SocialGouv/domifa/compare/v2.148.4...v2.148.5) (2023-12-16)
 
 
