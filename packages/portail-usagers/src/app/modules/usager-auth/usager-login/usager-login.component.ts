@@ -76,7 +76,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   public initForm(): void {
     this.loginForm = this.formBuilder.group(
       {
-        password: ["", Validators.required],
+        password: ["", [Validators.minLength(8), Validators.required]],
         login: ["", [Validators.required]],
         newPassword: [
           { value: "", disabled: true },
@@ -91,7 +91,15 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
             PasswordValidator.patternValidator(/[a-z]/, {
               hasLowerCase: true,
             }),
-            Validators.minLength(8),
+            PasswordValidator.patternValidator(
+              // eslint-disable-next-line no-useless-escape
+              /[@\[\]^_!"#$%&'()*+,\-./:;{}<>=|~?]/,
+              {
+                hasSpecialCharacter: true,
+              },
+            ),
+            Validators.minLength(12),
+            Validators.maxLength(150),
           ]),
         ],
         newPasswordConfirm: [

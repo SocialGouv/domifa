@@ -164,6 +164,28 @@
               class="my-1"
               [ngClass]="
                 f.newPassword.errors?.required ||
+                f.newPassword.errors?.hasSpecialCharacter
+                  ? 'text-danger'
+                  : 'text-success'
+              "
+            >
+              <fa-icon
+                aria-hidden="true"
+                [icon]="[
+                  'fas',
+                  f.newPassword.errors?.required ||
+                  f.newPassword.errors?.hasSpecialCharacter
+                    ? 'times-circle'
+                    : 'check-circle'
+                ]"
+              ></fa-icon>
+              Au moins un caractère spécial:
+              @[]^_!"#$%&amp;&apos;()*+,\-./:;&lbrace;&rbrace;&lt;&gt;=|~?
+            </p>
+            <p
+              class="my-1"
+              [ngClass]="
+                f.newPassword.errors?.required ||
                 f.newPassword.errors?.minlength ||
                 f.newPassword.errors?.maxlength
                   ? 'text-danger'
