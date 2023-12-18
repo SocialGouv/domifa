@@ -1,3 +1,15 @@
+# [2.150.0](https://github.com/SocialGouv/domifa/compare/v2.149.1...v2.150.0) (2023-12-18)
+
+
+### Bug Fixes
+
+* **mon-domifa:** fix unit tests ([626196c](https://github.com/SocialGouv/domifa/commit/626196cf207d6e87618962e5f54ae87408ca4f23))
+
+
+### Features
+
+* **mon-domifa:** add new password rules ([1371233](https://github.com/SocialGouv/domifa/commit/1371233f4def84001a45646bfbfc4ea620978991))
+
 ## [2.149.1](https://github.com/SocialGouv/domifa/compare/v2.149.0...v2.149.1) (2023-12-18)
 
 
