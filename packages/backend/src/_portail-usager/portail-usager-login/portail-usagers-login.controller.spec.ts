@@ -58,6 +58,17 @@ describe("Usagers Login Controller", () => {
     expect(response.text).toBe(`{"message":"CHANGE_PASSWORD_REQUIRED"}`);
   });
 
+  it("should not accept login for valid usager login/password with a password which not respect rules", async () => {
+    const response = await supertest(context.app.getHttpServer())
+      .post("/portail-usagers/auth/login")
+      .send({
+        login: TEMPORARY_PASS_USER.login,
+        password: TEMPORARY_PASS_USER.password,
+        newPassword: "password007",
+      });
+    expect(response.status).toBe(HttpStatus.BAD_GATEWAY);
+  });
+
   it("should accept login for valid usager login/password with temporary password and new password", async () => {
     const response = await supertest(context.app.getHttpServer())
       .post("/portail-usagers/auth/login")
