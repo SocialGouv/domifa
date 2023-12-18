@@ -21,6 +21,7 @@ import {
   STRUCTURE_TYPE_LABELS,
   StatsByLocality,
   PublicStats,
+  STRUCTURE_TYPE_MAP,
 } from "@domifa/common";
 
 @Component({
@@ -40,6 +41,7 @@ export class PublicStatsComponent implements OnInit, OnDestroy {
   public readonly REGIONS_SEO_ID: RegionsLabels = REGIONS_SEO_ID;
   public readonly REGIONS_ID_SEO: RegionsLabels = REGIONS_ID_SEO;
   public readonly DEPARTEMENTS_COM = DEPARTEMENTS_COM;
+  public readonly STRUCTURE_TYPE_MAP = STRUCTURE_TYPE_MAP;
 
   public readonly countOptions = {
     duration: 2,

@@ -1,8 +1,7 @@
 import { Component, Input, OnChanges } from "@angular/core";
-import { StatsByMonth } from "../../../../../../_common/model";
 import { Color, ScaleType } from "@swimlane/ngx-charts";
 import { fadeInOut } from "../../../../../shared";
-import { PublicStats } from "@domifa/common";
+import { PublicStats, StatsByMonth } from "@domifa/common";
 
 @Component({
   animations: [fadeInOut],

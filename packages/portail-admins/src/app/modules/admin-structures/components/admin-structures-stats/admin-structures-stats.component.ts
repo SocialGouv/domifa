@@ -6,16 +6,16 @@ import {
   PortailAdminProfile,
 } from "../../../../../_common";
 
-import {
-  DASHBOARD_STATUS_LABELS,
-  STRUCTURE_TYPE_LABELS,
-} from "../../../../../_common/usager/constants";
+import { DASHBOARD_STATUS_LABELS } from "../../../../../_common/usager/constants";
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
 
 import { AdminStructuresApiClient } from "../../../shared/services";
 import { REGIONS_LISTE } from "../../../shared/territoires";
 import { AdminStructuresStatsVM, adminStructuresStatsVmBuilder } from "./vm";
-import { INTERACTIONS_LABELS_PLURIEL } from "@domifa/common";
+import {
+  STRUCTURE_TYPE_LABELS,
+  INTERACTIONS_LABELS_PLURIEL,
+} from "@domifa/common";
 
 @Component({
   selector: "app-admin-structures-stats",

@@ -1,4 +1,4 @@
-import { AppEntity } from "../_core";
+import { AppEntity } from "@domifa/common";
 
 export type PortailAdminUser = AppEntity & {
   // ETAT CIVIL

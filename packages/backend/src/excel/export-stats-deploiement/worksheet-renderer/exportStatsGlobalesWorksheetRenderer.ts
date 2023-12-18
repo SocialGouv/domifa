@@ -3,7 +3,7 @@ import { REGIONS_LISTE } from "../../../util/territoires";
 
 import { WorksheetRenderer, xlFormater, xlRenderer } from "../../xlLib";
 import { StatsDeploiementExportModel } from "../StatsDeploiementExportModel.type";
-import { InteractionType, StructureType } from "@domifa/common";
+import { InteractionType } from "@domifa/common";
 
 export const exportStatsGlobalesWorksheetRenderer = {
   renderWorksheet,
@@ -70,17 +70,20 @@ function renderWorksheet({
       value: stats.structures.length,
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.structuresCountByType["asso" as StructureType],
+      value: stats.structuresCountByType["asso"],
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.structuresCountByType["ccas" as StructureType],
+      value: stats.structuresCountByType["ccas"],
     });
     worksheetRendered.renderCell(i++, "b", {
-      value: stats.structuresCountByType["cias" as StructureType],
+      value: stats.structuresCountByType["cias"],
+    });
+    worksheetRendered.renderCell(i++, "b", {
+      value: stats.structuresCountByType["mairie"],
     });
   }
   function renderInteractionsCountByType() {
-    let i = 22;
+    let i = 23;
     worksheetRendered.renderCell(i++, "b", {
       value: stats.interactionsCountByStatut["appel" as InteractionType],
     });
@@ -124,10 +127,10 @@ function renderWorksheet({
   }
 
   function renderUsersDocsCount() {
-    worksheetRendered.renderCell(18, "b", {
+    worksheetRendered.renderCell(19, "b", {
       value: stats.usersCount,
     });
-    worksheetRendered.renderCell(19, "b", {
+    worksheetRendered.renderCell(20, "b", {
       value: stats.docsCount,
     });
   }

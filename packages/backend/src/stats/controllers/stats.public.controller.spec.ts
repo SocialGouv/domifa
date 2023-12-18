@@ -1,5 +1,3 @@
-import { PublicStats } from "./../../_common/model/stats/PublicStats.type";
-import { HomeStats } from "./../../_common/model/stats/HomeStats.type";
 import { forwardRef, HttpStatus } from "@nestjs/common";
 import supertest from "supertest";
 
@@ -15,6 +13,7 @@ import {
 import { AdminStructuresModule } from "../../_portail-admin/admin-structures/admin-structures.module";
 import { StatsPublicController } from "./stats.public.controller";
 import { domifaConfig } from "../../config";
+import { HomeStats, PublicStats } from "@domifa/common";
 
 describe("Stats Public Controller", () => {
   let controller: StatsPublicController;
@@ -78,7 +77,7 @@ describe("Stats Public Controller", () => {
         { count: 1, region: "11" },
         { count: 1, region: "75" },
       ],
-      structuresCountByTypeMap: { asso: 2, cias: 2, ccas: 1 },
+      structuresCountByTypeMap: { asso: 2, cias: 2, ccas: 1, mairie: 0 },
       interactionsCountByMonth: [
         { name: "août", value: 0 },
         { name: "sept.", value: 0 },
@@ -134,6 +133,7 @@ describe("Stats Public Controller", () => {
         asso: 2,
         cias: 0,
         ccas: 0,
+        mairie: 0,
       },
       interactionsCountByMonth: [
         {

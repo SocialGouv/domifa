@@ -1,5 +1,4 @@
 // @index('./*', f => `export * from '${f.path}'`)
-export * from "./_core";
 export * from "./_portail-admin";
 export * from "./stats";
 export * from "./structure";

@@ -1,9 +1,9 @@
-import { PublicStats } from "./../../../../_common/model/stats/PublicStats.type";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { StructureStatsFull } from "../../../../_common/model";
+import { PublicStats } from "@domifa/common";
 
 @Injectable({
   providedIn: "root",

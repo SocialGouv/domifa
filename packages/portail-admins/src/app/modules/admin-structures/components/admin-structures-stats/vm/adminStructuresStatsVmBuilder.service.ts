@@ -3,12 +3,10 @@ import {
   StructureType,
   UsagerDecisionStatut,
   INTERACTIONS_LABELS_PLURIEL,
+  STRUCTURE_TYPE_LABELS,
 } from "@domifa/common";
 import { AdminStructureStatsData } from "../../../../../../_common";
-import {
-  DASHBOARD_STATUS_LABELS,
-  STRUCTURE_TYPE_LABELS,
-} from "../../../../../../_common/usager/constants";
+import { DASHBOARD_STATUS_LABELS } from "../../../../../../_common/usager/constants";
 import { AdminStructuresStatsVM } from "./AdminStructuresStatsVM.type";
 
 export const adminStructuresStatsVmBuilder = { buildViewModel };
