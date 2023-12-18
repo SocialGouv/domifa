@@ -66,7 +66,7 @@ describe("Usagers Login Controller", () => {
         password: TEMPORARY_PASS_USER.password,
         newPassword: "password007",
       });
-    expect(response.status).toBe(HttpStatus.BAD_GATEWAY);
+    expect(response.status).toBe(HttpStatus.BAD_REQUEST);
   });
 
   it("should accept login for valid usager login/password with temporary password and new password", async () => {
