@@ -1,5 +1,3 @@
-import { STRUCTURE_TYPE_LABELS } from "../../../_common/model/structure/constants/STRUCTURE_TYPE_LABELS.const";
-
 import { StructureCommon, Usager } from "../../../_common/model";
 import { StructureCustomDocTags } from "../../../_common/model/structure-doc/StructureCustomDocTags.type";
 
@@ -17,6 +15,7 @@ import {
   ENTRETIEN_RESIDENCE,
   UsagerDecision,
   generateMotifLabel,
+  STRUCTURE_TYPE_LABELS,
 } from "@domifa/common";
 
 export const DATE_FORMAT = {

@@ -80,6 +80,25 @@
               />
               Organisme agréé
             </label>
+            <label
+              for="mairie"
+              class="btn py-3 px-4"
+              [ngClass]="{
+                'btn-primary': f.structureType.value === 'mairie',
+                'btn-outline-primary': f.structureType.value !== 'mairie',
+                'btn-outline-danger':
+                  submitted && f.structureType.value === null
+              }"
+            >
+              <input
+                formControlName="structureType"
+                name="structureType"
+                type="radio"
+                value="mairie"
+                id="mairie"
+              />
+              Mairie
+            </label>
           </div>
           <p
             *ngIf="submitted && f.structureType.value === null"

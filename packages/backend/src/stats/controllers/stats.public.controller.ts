@@ -1,6 +1,5 @@
 import { ParseRegionPipe } from "./../../_common/decorators/ParseRegion.pipe";
 import { FranceRegion } from "./../../util/territoires/types/FranceRegion.type";
-import { HomeStats } from "./../../_common/model/stats/HomeStats.type";
 import { Controller, Get, Param } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import {
@@ -8,9 +7,9 @@ import {
   structureRepository,
   usagerRepository,
 } from "../../database";
-import { DEFAULT_PUBLIC_STATS, PublicStats } from "../../_common/model";
 import { AdminStructuresService } from "../../_portail-admin/admin-structures/services";
 import { StructuresService } from "./../../structures/services/structures.service";
+import { HomeStats, PublicStats } from "@domifa/common";
 
 @Controller("stats")
 @ApiTags("stats")
@@ -41,21 +40,7 @@ export class StatsPublicController {
   private async generatePublicStats(
     regionId?: FranceRegion
   ): Promise<PublicStats> {
-    const publicStats: PublicStats = {
-      structuresCountByRegion: [],
-      interactionsCountByMonth: [], // Par défaut: courriers distribués
-      usagersCount: 0,
-      usagersCountByMonth: [],
-      usersCount: 0,
-      courrierInCount: 0,
-      courrierOutCount: 0,
-      structuresCount: 0,
-      structuresCountByTypeMap: {
-        asso: 0,
-        ccas: 0,
-        cias: 0,
-      },
-    };
+    const publicStats = new PublicStats();
     // Si aucune region
     let structures: number[] = null;
 
@@ -66,7 +51,7 @@ export class StatsPublicController {
 
       // Si aucune structure dans la région, tous les indicateurs sont à zero
       if (!structures.length) {
-        return DEFAULT_PUBLIC_STATS;
+        return publicStats;
       }
 
       publicStats.structuresCountByRegion =

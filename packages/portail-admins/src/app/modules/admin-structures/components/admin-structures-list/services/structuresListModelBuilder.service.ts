@@ -1,5 +1,5 @@
-import { Structure, StructureAdminForList } from "../../../../../../_common";
-import { STRUCTURE_TYPE_LABELS } from "../../../../../../_common/usager/constants";
+import { STRUCTURE_TYPE_LABELS, Structure } from "@domifa/common";
+import { StructureAdminForList } from "../../../../../../_common";
 import {
   DEPARTEMENTS_LISTE,
   REGIONS_LISTE,

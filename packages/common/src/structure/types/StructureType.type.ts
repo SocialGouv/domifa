@@ -1,1 +1,1 @@
-export type StructureType = "asso" | "ccas" | "cias";
+export type StructureType = "asso" | "ccas" | "cias" | "mairie";

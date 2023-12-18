@@ -1,15 +1,11 @@
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
 import { Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.service";
 
 @Injectable({ providedIn: "root" })
 export class AuthGuard {
-  constructor(
-    private readonly router: Router,
-    private readonly authService: AdminAuthService
-  ) {}
+  constructor(private readonly authService: AdminAuthService) {}
 
   public canActivate(): Observable<boolean> {
     return this.authService.isAuth().pipe(

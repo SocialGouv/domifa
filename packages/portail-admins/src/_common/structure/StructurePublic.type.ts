@@ -1,6 +1,10 @@
 import { Telephone } from "./../telephone/Telephone.type";
-import { StructureType, StructureAddresseCourrier } from ".";
-import { AppEntity } from "../_core";
+
+import {
+  StructureType,
+  StructureAddresseCourrier,
+  AppEntity,
+} from "@domifa/common";
 
 export type StructurePublic = AppEntity & {
   id: number;

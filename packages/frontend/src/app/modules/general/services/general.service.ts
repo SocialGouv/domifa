@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { HomeStats } from "@domifa/common";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { HomeStats } from "../../../../_common/model/stats/HomeStats.type";
 
 @Injectable({
   providedIn: "root",
