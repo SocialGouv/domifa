@@ -174,12 +174,15 @@ async function createTables(queryRunner: QueryRunner) {
       "source" text NOT NULL,
       "uniqueId" text NOT NULL,
       software text NULL,
-      "structureId" int4 NULL,
+      mail text NULL,
+      "structureType" text NULL,
+      "domifaStructureId" int4 NULL,
+      "soliguideStructureId" int4 NULL,
       CONSTRAINT "PK_f80b64cfb42753deacd8bf6d78d" PRIMARY KEY (uuid)
     );
     CREATE INDEX "IDX_0408f9f2c0defbdc5e44f467a3" ON public.open_data_places USING btree (departement);
     CREATE INDEX "IDX_6e030c1cdb3fa54d0d735cdc6b" ON public.open_data_places USING btree (region);
-    CREATE INDEX "IDX_d10ac71fca9180b787ef468659" ON public.open_data_places USING btree ("structureId");
+    CREATE INDEX "IDX_7ee1e7a8d9441eb76ab7b4aa5a" ON public.open_data_places USING btree ("domifaStructureId");
     CREATE INDEX "IDX_d85d3252e11effca2f6b652fde" ON public.open_data_places USING btree ("codePostal");
 
 
