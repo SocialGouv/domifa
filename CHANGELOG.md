@@ -1,3 +1,11 @@
+## [2.149.1](https://github.com/SocialGouv/domifa/compare/v2.149.0...v2.149.1) (2023-12-18)
+
+
+### Bug Fixes
+
+* **open-data:** fix build ([375fb9e](https://github.com/SocialGouv/domifa/commit/375fb9e3d32d3ab404334c3f623aaf7d71527595))
+* **stats:** fix dump & file stats ([77de151](https://github.com/SocialGouv/domifa/commit/77de151396085afe5d0ef0df3346720c32ffba40))
+
 # [2.149.0](https://github.com/SocialGouv/domifa/compare/v2.148.5...v2.149.0) (2023-12-17)
 
 
