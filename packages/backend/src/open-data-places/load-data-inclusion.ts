@@ -96,7 +96,7 @@ const getFromDataInclusion = async (structureType: "CCAS" | "CIAS") => {
         if (placeExist) {
           await openDataPlaceRepository.update(
             { uuid: dataInclusionPlace.uuid },
-            { structureId: placeExist.structureId }
+            { domifaStructureId: placeExist.domifaStructureId }
           );
         }
       }
