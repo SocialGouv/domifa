@@ -6,7 +6,7 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
 import { StatsMapComponent } from "./stats-map.component";
-import { DEFAULT_PUBLIC_STATS } from "../../../../../../_common/model/stats/DEFAULT_PUBLIC_STATS.const";
+import { PublicStats } from "@domifa/common";
 
 describe("StatsMapComponent", () => {
   let component: StatsMapComponent;
@@ -25,7 +25,7 @@ describe("StatsMapComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StatsMapComponent);
     component = fixture.componentInstance;
-    component.publicStats = DEFAULT_PUBLIC_STATS;
+    component.publicStats = new PublicStats();
     component.statsRegionsValues = {};
     component.selectedRegion = null;
 
