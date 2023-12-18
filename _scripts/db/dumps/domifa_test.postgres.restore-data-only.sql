@@ -130,12 +130,6 @@ COPY public.monitor_batch_process (uuid, "createdAt", "updatedAt", version, "pro
 --
 
 COPY public.open_data_places (uuid, "createdAt", "updatedAt", version, nom, adresse, "complementAdresse", ville, "codePostal", departement, region, latitude, longitude, source, "uniqueId", software, mail, "structureType", "domifaStructureId", "soliguideStructureId") FROM stdin;
-2e311da7-5acf-4c4b-844a-49fe237ff60b	2023-12-13 20:22:43.289737+01	2023-12-13 20:22:43.289737+01	1	Structure de Test d'import	rue de l import	\N	Nantes	44000	44	52	47.2139730	-1.5369230	domifa	4	domifa	test.import@yopmail.com	\N	4	\N
-9a53b6e9-0e58-43d0-bebd-d4f679f6aa74	2023-12-13 20:22:43.302599+01	2023-12-13 20:22:43.302599+01	1	CCAS de Test	1 rue de l ocean	\N	Asnieres sur seine	92600	92	11	48.9037590	2.2837460	domifa	1	domifa	ccas.test@yopmail.com	\N	1	\N
-ad8a4b0a-c5a1-40eb-9f92-220d1e9c548f	2023-12-13 20:22:43.307155+01	2023-12-13 20:22:43.307155+01	1	CCAS de Cayenne	24 avenue louis pasteur	\N	Cayenne	97300	973	03	4.9434540	-52.3244580	domifa	5	domifa	ccas-cayenne@yopmail.com	\N	5	\N
-bb9949ec-206d-4ad6-88a4-1309dec2f2a0	2023-12-13 20:22:43.310765+01	2023-12-13 20:22:43.310765+01	1	Organisme agréé de Test	1 rue du test de l organise agree	\N	Nantes	44000	44	52	47.2181930	-1.5613680	domifa	3	domifa	structure@yopmail.com	\N	3	\N
-3f1db6bf-14d0-48a0-903e-bec13998480d	2023-12-13 20:22:43.313864+01	2023-12-13 20:22:43.313864+01	1	CIAS de Test	2 rue du test	\N	Pessac	33600	33	75	44.8176020	-0.6129570	domifa	2	domifa	cias.test@yopmail.com	\N	2	\N
-af7254b8-78c7-4760-a821-f8e20b996628	2023-12-13 20:22:44.125163+01	2023-12-13 20:22:44.125163+01	1	ESI La maison du partage	32 rue bouret 75019 paris	\N	Paris	75019	75	11	48.8817267	2.3742211	soliguide	0	other	mpartage@armeedusalut.fr	\N	\N	0
 \.
 
 

@@ -12,7 +12,7 @@ fileignoreconfig:
 - filename: packages/backend/src/_migrations/1702483465656-auto-migration.ts
   checksum: 2dbc2450c1df10f68a54897946318976bf8163711f3143e0608ce6c0e7275447
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
-  checksum: 5e9ab65fc62b00a2a2092ccbcf0e2c9fdecefe418452b15b579425774cc1e1e2
+  checksum: ed72b9f80448ddaa06717a97f4f98a01cfca8c4b95ceaa1535b669ca428a0308
 - filename: packages/backend/src/_portail-admin/portail-admin-login/portail-admin-login.controller.spec.ts
   checksum: 3bd78f8919cbe14a45484825d6ce816bc7e2a0456fc53b9beeb1fedb6bdb061a
 - filename: packages/backend/src/_tests/_core/constants/TESTS_USERS_STRUCTURE.mock.ts
