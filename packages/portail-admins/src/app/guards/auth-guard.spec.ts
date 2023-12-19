@@ -1,18 +1,14 @@
 import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { inject, TestBed } from "@angular/core/testing";
-import {
-  ActivatedRouteSnapshot,
-  Router,
-  RouterStateSnapshot,
-} from "@angular/router";
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.service";
 import { AuthGuard } from "./auth-guard";
 
 describe("AuthGuard", () => {
   let authGuard: AuthGuard;
-  let router: Router;
+
   let authService: AdminAuthService;
 
   beforeEach(() => {
@@ -39,7 +35,6 @@ describe("AuthGuard", () => {
 
     authService = TestBed.inject(AdminAuthService);
     authGuard = TestBed.inject(AuthGuard);
-    router = TestBed.inject(Router);
   });
 
   it("should be created", inject([AuthGuard], (service: AuthGuard) => {
@@ -47,7 +42,7 @@ describe("AuthGuard", () => {
   }));
 
   it("CanActivate", () => {
-    authGuard = new AuthGuard(router, authService);
+    authGuard = new AuthGuard(authService);
     expect(authGuard).toBeTruthy();
   });
 });
