@@ -1,6 +1,16 @@
 global:
   pgSecretName: pg-app
 
+pg:
+  cnpg-cluster:
+    persistence:
+      size: "20Gi"
+    resources:
+      requests:
+        memory: 3Gi
+      limits:
+        memory: 3Gi
+
 pg-metabase:
   ~chart: pg
 
