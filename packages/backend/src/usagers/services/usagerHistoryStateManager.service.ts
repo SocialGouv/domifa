@@ -5,7 +5,11 @@ import { UsagerHistoryStateCreationEvent } from "../../_common/model/usager/hist
 import { v4 as uuidv4 } from "uuid";
 import { endOfDay, startOfDay, subDays } from "date-fns";
 import { UsagerDecision, UsagerEntretien } from "@domifa/common";
-import { getDecisionForStats } from ".";
+import {
+  getAyantsDroitForStats,
+  getDecisionForStats,
+  getEntretienForStats,
+} from ".";
 
 export const usagerHistoryStateManager = {
   buildInitialHistoryState,
@@ -46,10 +50,6 @@ function buildInitialHistoryState({
     import: isImport
       ? {
           createdAt,
-          createdBy: {
-            userId: usager.decision.userId,
-            userName: usager.decision.userName,
-          },
         }
       : undefined,
   });
@@ -191,11 +191,9 @@ async function updateHistoryStateWithoutDecision({
 
 async function removeLastDecisionFromHistory({
   usager,
-
   removedDecisionUUID,
 }: {
   usager: Usager;
-
   removedDecisionUUID: string;
 }): Promise<UsagerHistory> {
   const usagerHistory: UsagerHistory = await usagerHistoryRepository.findOneBy({
@@ -213,19 +211,8 @@ async function removeLastDecisionFromHistory({
   const updatedHistoryStates = usagerHistory.states.map(
     (state: UsagerHistoryState) => {
       if (state.decision.uuid === lastDecisionUuid) {
-        state.ayantsDroits = usager.ayantsDroits;
-        state.entretien = {
-          ...usager.entretien,
-          commentaires: null,
-          revenusDetail: null,
-          orientationDetail: null,
-          liencommuneDetail: null,
-          residenceDetail: null,
-          causeDetail: null,
-          rattachement: null,
-          raisonDetail: null,
-          accompagnementDetail: null,
-        };
+        state.ayantsDroits = getAyantsDroitForStats(usager?.ayantsDroits);
+        state.entretien = getEntretienForStats(usager.entretien);
         state.historyEndDate = null;
       }
       return state;
@@ -259,20 +246,9 @@ function buildHistoryState({
     usager.decision
   );
 
-  const entretien: Partial<UsagerEntretien> = {
-    usagerUUID: usager.entretien.usagerUUID,
-    structureId: usager.entretien.structureId,
-    usagerRef: usager.entretien.usagerRef,
-    domiciliation: usager.entretien.domiciliation,
-    typeMenage: usager.entretien.typeMenage,
-    revenus: usager.entretien.revenus,
-    orientation: usager.entretien.orientation,
-    liencommune: usager.entretien.liencommune,
-    residence: usager.entretien.residence,
-    cause: usager.entretien.cause,
-    raison: usager.entretien.raison,
-    accompagnement: usager.entretien.accompagnement,
-  };
+  const entretien: Partial<UsagerEntretien> = getEntretienForStats(
+    usager.entretien
+  );
 
   const previousState = usagerHistory?.states.length
     ? usagerHistory.states[usagerHistory.states.length - 1]
@@ -283,6 +259,8 @@ function buildHistoryState({
     ((decision.statut === "ATTENTE_DECISION" ||
       decision.statut === "INSTRUCTION") &&
       (previousState?.isActive ?? false));
+
+  const ayantsDroits = getAyantsDroitForStats(usager?.ayantsDroits);
 
   const state: UsagerHistoryState = {
     uuid: uuidv4(),
@@ -295,8 +273,8 @@ function buildHistoryState({
     typeDom: usager.typeDom,
     etapeDemande: usager.etapeDemande,
     entretien,
-    ayantsDroits: [...usager.ayantsDroits],
-    rdv: usager.rdv,
+    ayantsDroits,
+    rdv: { dateRdv: usager?.rdv.dateRdv },
   };
 
   return state;

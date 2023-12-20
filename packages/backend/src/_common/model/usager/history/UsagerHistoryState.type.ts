@@ -1,15 +1,19 @@
-import { UsagerDecision, UsagerEntretien } from "@domifa/common";
+import {
+  UsagerDecision,
+  UsagerEntretien,
+  UsagerAyantDroit,
+  UsagerRdv,
+} from "@domifa/common";
 import { Usager } from "../Usager.type";
 import { UsagerHistoryStateCreationEvent } from "./UsagerHistoryStateCreationEvent.type";
 
 // état d'un usager pendant une période, change à chaque modification (décision, entretien, ayants droits)
 // les UsagerHistoryState ne se chevauchent pas, mais se succèdent
-export type UsagerHistoryState = Pick<
-  Usager,
-  "ayantsDroits" | "etapeDemande" | "rdv" | "typeDom"
-> & {
+export type UsagerHistoryState = Pick<Usager, "etapeDemande" | "typeDom"> & {
+  ayantsDroits: Partial<UsagerAyantDroit>[];
   decision: Partial<UsagerDecision>;
   entretien: Partial<UsagerEntretien>;
+  rdv: Partial<UsagerRdv>;
   uuid: string;
   createdAt: Date;
   createdEvent: UsagerHistoryStateCreationEvent;
