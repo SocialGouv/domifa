@@ -49,7 +49,7 @@ async function _anonymizeUsagerHistory(usagerHistory: UsagerHistory) {
     decision: dataUsagerAnonymizer.anonymizeUsagerDecision(
       s.decision as UsagerDecision
     ),
-    ayantsDroits: dataUsagerAnonymizer.anonymizeAyantDroits(s.ayantsDroits),
+    ayantsDroits: s.ayantsDroits,
     entretien: {
       ...s.entretien,
       commentaires: null,

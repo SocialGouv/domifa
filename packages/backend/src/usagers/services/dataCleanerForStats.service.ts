@@ -1,4 +1,8 @@
-import { UsagerDecision, UsagerEntretien } from "@domifa/common";
+import {
+  UsagerAyantDroit,
+  UsagerDecision,
+  UsagerEntretien,
+} from "@domifa/common";
 
 export const getDecisionForStats = (
   decision: UsagerDecision
@@ -19,7 +23,6 @@ export const getEntretienForStats = (
   entretien: UsagerEntretien
 ): Partial<UsagerEntretien> => {
   return {
-    usagerUUID: entretien.usagerUUID,
     domiciliation: entretien.domiciliation,
     typeMenage: entretien.typeMenage,
     revenus: entretien.revenus,
@@ -30,4 +33,13 @@ export const getEntretienForStats = (
     raison: entretien.raison,
     accompagnement: entretien.accompagnement,
   };
+};
+
+export const getAyantsDroitForStats = (
+  ayantsDroit?: UsagerAyantDroit[]
+): Partial<UsagerAyantDroit>[] => {
+  return (ayantsDroit ?? []).map((x) => ({
+    lien: x.lien,
+    dateNaissance: x.dateNaissance,
+  }));
 };
