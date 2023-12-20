@@ -42,6 +42,11 @@ export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
   username: domifaConfig().postgres.username,
   password: domifaConfig().postgres.password,
   database: domifaConfig().postgres.database,
+  ssl: domifaConfig().postgres.ssl
+    ? {
+        rejectUnauthorized: false,
+      }
+    : false,
   logger: new CustomTypeOrmLogger(
     domifaConfig().envId !== "test"
       ? domifaConfig().logger.logSqlRequests

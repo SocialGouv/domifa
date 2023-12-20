@@ -8,6 +8,7 @@ describe("loadConfig", () => {
       POSTGRES_USERNAME: "value POSTGRES_USERNAME",
       POSTGRES_PASSWORD: "value POSTGRES_PASSWORD",
       POSTGRES_DATABASE: "value POSTGRES_DATABASE",
+      POSTGRES_SSL: false,
       DOMIFA_SECURITY_JWT_SECRET: "******************",
     };
     const env = loadEnvWithPreset({ defaultEnv });
@@ -28,6 +29,7 @@ describe("loadConfig", () => {
     expect(config.postgres.username).toEqual(env.POSTGRES_USERNAME);
     expect(config.postgres.password).toEqual(env.POSTGRES_PASSWORD);
     expect(config.postgres.database).toEqual(env.POSTGRES_DATABASE);
+    expect(config.postgres.ssl).toEqual(env.POSTGRES_SSL);
 
     expect(config.upload.basePath).toBeDefined();
 
@@ -43,6 +45,7 @@ describe("loadConfig", () => {
       POSTGRES_USERNAME: "value POSTGRES_USERNAME",
       POSTGRES_PASSWORD: "value POSTGRES_PASSWORD",
       POSTGRES_DATABASE: "value POSTGRES_DATABASE",
+      POSTGRES_SSL: false,
       DOMIFA_SECURITY_JWT_SECRET: "******************",
     };
     const env = loadEnvWithPreset({ defaultEnv });
@@ -61,6 +64,7 @@ describe("loadConfig", () => {
     expect(config.postgres.username).toEqual(env.POSTGRES_USERNAME);
     expect(config.postgres.password).toEqual(env.POSTGRES_PASSWORD);
     expect(config.postgres.database).toEqual(env.POSTGRES_DATABASE);
+    expect(config.postgres.ssl).toEqual(env.POSTGRES_SSL);
 
     expect(config.upload.basePath).toBeDefined();
 
@@ -80,6 +84,7 @@ describe("loadConfig", () => {
       POSTGRES_USERNAME: "value POSTGRES_USERNAME",
       POSTGRES_PASSWORD: "value POSTGRES_PASSWORD",
       POSTGRES_DATABASE: "value POSTGRES_DATABASE",
+      POSTGRES_SSL: false,
       DOMIFA_SECURITY_JWT_SECRET: "******************",
       DOMIFA_FRONTEND_URL: "https://domifa.xxx",
       DOMIFA_PORTAIL_USAGERS_URL: "https://mon-domifa.xxx",
@@ -108,6 +113,7 @@ describe("loadConfig", () => {
     expect(config.postgres.username).toEqual(env.POSTGRES_USERNAME);
     expect(config.postgres.password).toEqual(env.POSTGRES_PASSWORD);
     expect(config.postgres.database).toEqual(env.POSTGRES_DATABASE);
+    expect(config.postgres.ssl).toEqual(env.POSTGRES_SSL);
 
     expect(config.upload.basePath).toBeDefined();
 

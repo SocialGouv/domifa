@@ -1,10 +1,17 @@
+global:
+  pgSecretName: pg-app
+
+pg-metabase:
+  ~chart: pg
+
 backend:
   host: "api-{{ .Values.global.host }}"
+  ~needs: [build-backend, pg]
   addVolumes:
     - files
   envFrom:
     - secretRef:
-        name: pg-user-devflex
+        name: pg-app
     - secretRef:
         name: backend-sealed-secret
     - configMapRef:
@@ -15,9 +22,10 @@ backend:
         name: domifa-encryption-key
 
 backend-cron:
+  ~needs: [backend]
   envFrom:
     - secretRef:
-        name: pg-user-devflex
+        name: pg-app
     - secretRef:
         name: backend-sealed-secret
     - configMapRef:
@@ -34,11 +42,13 @@ portail-usagers:
 
 metabase:
   enabled: true
+  ~chart: metabase
+  ~needs: [pg-metabase]
   ingress:
     enabled: false
   envFrom:
     - secretRef:
-        name: metabase
+        name: pg-metabase-app
 
 oauth2-proxy:
   enabled: true

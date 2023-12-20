@@ -26,6 +26,12 @@ jobs:
           PRODUCTION: "true"
           DOMIFA_FRONTEND_META_ROBOTS: index,follow
 
+pg:
+  ~chart: pg
+  cnpg-cluster:
+    persistence:
+      size: "50Gi"
+
 backend-cron:
   replicas: 1
   addVolumes:

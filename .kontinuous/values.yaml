@@ -1,3 +1,6 @@
+pg:
+  ~chart: pg
+
 backend:
   ~chart: app
   ~needs: [build-backend]
@@ -221,10 +224,3 @@ jobs:
           DOMIFA_BACKEND_URL: "https://api-{{ .Values.global.host }}/"
           DOMIFA_SENTRY_DSN_PORTAIL: "https://904877ea9ec4454aa1be7b629a6ea340@sentry.fabrique.social.gouv.fr/58"
           DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
-
-deactivate:
-  jobs-deactivate:
-    runs:
-      deactivate:
-        with:
-          db: true

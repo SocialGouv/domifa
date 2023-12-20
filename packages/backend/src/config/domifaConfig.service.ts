@@ -133,6 +133,10 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       username: configParser.parseString(x, "POSTGRES_USERNAME"),
       password: configParser.parseString(x, "POSTGRES_PASSWORD"),
       database: configParser.parseString(x, "POSTGRES_DATABASE"),
+      ssl: configParser.parseBoolean(x, "POSTGRES_SSL", {
+        required: false,
+        defaultValue: false,
+      }),
       logging: configTypeOrmLoggerParser.getTypeormLoggerOptions(
         x,
         "POSTGRES_LOGGING"

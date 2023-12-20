@@ -10,6 +10,7 @@ data:
   DOMIFA_PRINT_CONFIG: "false"
   DOMIFA_EMAILS_ENABLE: "true"
   DOMIFA_SMS_ENABLED: "true"
+  POSTGRES_SSL: "true"
   # 50 connexions max : https://docs.microsoft.com/fr-fr/azure/postgresql/concepts-limits
   POSTGRES_POOL_MAX_CONNEXIONS: "100"
   DOMIFA_FRONTEND_META_ROBOTS: index,follow
