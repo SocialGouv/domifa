@@ -75,6 +75,7 @@ async function _anonymizeUsager(usager: Usager) {
   if (usager.historique) {
     historique = usager.historique.map((h) => anonymizeUsagerDecision(h));
   }
+
   const options = anonymizeOptions(usager);
 
   const attributesToUpdate: Partial<Usager> = {
@@ -124,17 +125,6 @@ function anonymizeAyantDroits(
     prenom: dataGenerator.firstName(),
     dateNaissance: x.dateNaissance,
   }));
-}
-
-function anonymizeUsagerDecision(decision: UsagerDecision): UsagerDecision {
-  return {
-    ...decision,
-    motifDetails: null,
-    orientationDetails: null,
-    userName: faker.person.fullName(),
-    userId: dataGenerator.number(),
-    uuid: faker.string.uuid(),
-  };
 }
 
 async function anonymizeEntretiens() {
@@ -254,4 +244,15 @@ async function anonymizeOptionsHistory() {
       prenom: faker.person.firstName(),
     }
   );
+}
+
+function anonymizeUsagerDecision(decision: UsagerDecision): UsagerDecision {
+  return {
+    ...decision,
+    motifDetails: null,
+    orientationDetails: null,
+    userName: faker.person.fullName(),
+    userId: dataGenerator.number(),
+    uuid: faker.string.uuid(),
+  };
 }

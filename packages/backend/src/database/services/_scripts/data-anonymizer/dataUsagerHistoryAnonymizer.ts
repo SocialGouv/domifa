@@ -3,6 +3,7 @@ import { UsagerHistory } from "../../../../_common/model";
 import { usagerHistoryRepository } from "../../usager/usagerHistoryRepository.service";
 import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
 import { dataUsagerAnonymizer } from "./dataUsagerAnonymizer";
+import { UsagerDecision } from "@domifa/common";
 
 export const dataUsagerHistoryAnonymizer = {
   anonymizeUsagersHistory,
@@ -45,7 +46,9 @@ function isUsagerToAnonymize(x: { structureId: number }): unknown {
 async function _anonymizeUsagerHistory(usagerHistory: UsagerHistory) {
   const states = usagerHistory.states.map((s) => ({
     ...s,
-    decision: dataUsagerAnonymizer.anonymizeUsagerDecision(s.decision),
+    decision: dataUsagerAnonymizer.anonymizeUsagerDecision(
+      s.decision as UsagerDecision
+    ),
     ayantsDroits: dataUsagerAnonymizer.anonymizeAyantDroits(s.ayantsDroits),
     entretien: {
       ...s.entretien,

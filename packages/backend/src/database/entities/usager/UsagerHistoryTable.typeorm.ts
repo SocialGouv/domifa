@@ -49,6 +49,9 @@ export class UsagerHistoryTable
   @Column({ type: "jsonb" })
   states: UsagerHistoryState[];
 
+  @Column({ type: "boolean", default: false })
+  migrated: boolean;
+
   public constructor(entity?: Partial<UsagerHistoryTable>) {
     super(entity);
     Object.assign(this, entity);

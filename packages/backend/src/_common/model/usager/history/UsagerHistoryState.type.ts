@@ -1,4 +1,4 @@
-import { UserStructureResume } from "@domifa/common";
+import { UsagerDecision, UsagerEntretien } from "@domifa/common";
 import { Usager } from "../Usager.type";
 import { UsagerHistoryStateCreationEvent } from "./UsagerHistoryStateCreationEvent.type";
 
@@ -6,11 +6,12 @@ import { UsagerHistoryStateCreationEvent } from "./UsagerHistoryStateCreationEve
 // les UsagerHistoryState ne se chevauchent pas, mais se succèdent
 export type UsagerHistoryState = Pick<
   Usager,
-  "decision" | "entretien" | "ayantsDroits" | "etapeDemande" | "rdv" | "typeDom"
+  "ayantsDroits" | "etapeDemande" | "rdv" | "typeDom"
 > & {
+  decision: Partial<UsagerDecision>;
+  entretien: Partial<UsagerEntretien>;
   uuid: string;
   createdAt: Date;
-  createdBy: UserStructureResume;
   createdEvent: UsagerHistoryStateCreationEvent;
   historyBeginDate: Date; // début de la période historisée, correspond à l'attribut "historyEndDate" du UsagerHistoryState précédent si il existe (sans rapport avec decision.dateDebut)
   historyEndDate?: Date; // fin de la période historisée, correspond à l'attribut "historyBeginDate" du UsagerHistoryState suivant
