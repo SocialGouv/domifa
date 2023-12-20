@@ -1,10 +1,11 @@
 import { UsagerHistoryTable } from "../../database/entities/usager/UsagerHistoryTable.typeorm";
 import { usagerHistoryRepository } from "../../database/services/usager/usagerHistoryRepository.service";
-import { UserStructureResume } from "@domifa/common";
 import { Usager, UsagerHistory, UsagerHistoryState } from "../../_common/model";
 import { UsagerHistoryStateCreationEvent } from "../../_common/model/usager/history/UsagerHistoryStateCreationEvent.type";
 import { v4 as uuidv4 } from "uuid";
 import { endOfDay, startOfDay, subDays } from "date-fns";
+import { UsagerDecision, UsagerEntretien } from "@domifa/common";
+import { getDecisionForStats } from ".";
 
 export const usagerHistoryStateManager = {
   buildInitialHistoryState,
@@ -122,16 +123,10 @@ function buildHistoryFromNewDecision({
     });
   }
 
-  const createdBy: UserStructureResume = {
-    userId: decision.userId,
-    userName: decision.userName,
-  };
-
   const newHistoryState: UsagerHistoryState = buildHistoryState({
     usager,
     usagerHistory,
     createdAt,
-    createdBy,
     createdEvent,
     historyBeginDate,
   });
@@ -167,13 +162,12 @@ function addNewStateToHistory({
 
 async function updateHistoryStateWithoutDecision({
   usager,
-  createdBy,
   createdAt = new Date(),
   createdEvent,
   historyBeginDate = createdAt,
 }: {
   usager: Usager;
-  createdBy: UserStructureResume;
+
   createdAt?: Date;
   createdEvent: UsagerHistoryStateCreationEvent;
   historyBeginDate?: Date;
@@ -186,7 +180,6 @@ async function updateHistoryStateWithoutDecision({
     usager,
     usagerHistory,
     createdAt,
-    createdBy,
     createdEvent,
     historyBeginDate,
   });
@@ -253,19 +246,32 @@ function buildHistoryState({
   usager,
   usagerHistory,
   createdAt,
-  createdBy,
   createdEvent,
   historyBeginDate,
 }: {
   usager: Usager;
   usagerHistory: UsagerHistory;
   createdAt: Date;
-  createdBy: UserStructureResume;
   createdEvent: UsagerHistoryStateCreationEvent;
   historyBeginDate: Date;
 }): UsagerHistoryState {
-  const decision = {
-    ...usager.decision,
+  const decision: Partial<UsagerDecision> = getDecisionForStats(
+    usager.decision
+  );
+
+  const entretien: Partial<UsagerEntretien> = {
+    usagerUUID: usager.entretien.usagerUUID,
+    structureId: usager.entretien.structureId,
+    usagerRef: usager.entretien.usagerRef,
+    domiciliation: usager.entretien.domiciliation,
+    typeMenage: usager.entretien.typeMenage,
+    revenus: usager.entretien.revenus,
+    orientation: usager.entretien.orientation,
+    liencommune: usager.entretien.liencommune,
+    residence: usager.entretien.residence,
+    cause: usager.entretien.cause,
+    raison: usager.entretien.raison,
+    accompagnement: usager.entretien.accompagnement,
   };
 
   const previousState = usagerHistory?.states.length
@@ -281,7 +287,6 @@ function buildHistoryState({
   const state: UsagerHistoryState = {
     uuid: uuidv4(),
     createdAt,
-    createdBy,
     createdEvent,
     isActive,
     historyBeginDate: getHistoryBeginDate(historyBeginDate ?? createdAt),
@@ -289,9 +294,7 @@ function buildHistoryState({
     decision,
     typeDom: usager.typeDom,
     etapeDemande: usager.etapeDemande,
-    entretien: {
-      ...usager.entretien,
-    },
+    entretien,
     ayantsDroits: [...usager.ayantsDroits],
     rdv: usager.rdv,
   };

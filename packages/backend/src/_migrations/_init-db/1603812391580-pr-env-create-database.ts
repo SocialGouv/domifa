@@ -458,6 +458,7 @@ async function createTables(queryRunner: QueryRunner) {
       "structureId" int4 NOT NULL,
       "import" jsonb NULL,
       states jsonb NOT NULL,
+      migrated bool NOT NULL DEFAULT false,
       CONSTRAINT "PK_29638b771d16000882db14bab40" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_29a873927e96c4290d288d594f4" UNIQUE ("structureId", "usagerRef"),
       CONSTRAINT "UQ_7356ee08f3ac6e3e1c6fe08bd81" UNIQUE ("usagerUUID"),

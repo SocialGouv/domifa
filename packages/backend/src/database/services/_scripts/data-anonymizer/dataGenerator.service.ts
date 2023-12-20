@@ -46,7 +46,7 @@ function number(
 }
 
 function boolean(options?: { percentageTrue?: number }): boolean {
-  if (options && options.percentageTrue) {
+  if (options?.percentageTrue) {
     return number({ min: 1, max: 100 }) <= options.percentageTrue;
   }
   return faker.datatype.boolean();

@@ -168,7 +168,7 @@ export class UsagersController {
   @Patch(":usagerRef")
   public async patchUsager(
     @Body() usagerDto: CreateUsagerDto,
-    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentUser() _user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager
   ) {
     if (!usagerDto.langue || usagerDto.langue === "") {
@@ -189,10 +189,7 @@ export class UsagersController {
 
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
       usager: currentUsager,
-      createdBy: {
-        userId: user.id,
-        userName: user.prenom + " " + user.nom,
-      },
+
       createdEvent: "update-usager",
     });
 
@@ -204,7 +201,7 @@ export class UsagersController {
   @Post("entretien/:usagerRef")
   public async setEntretien(
     @Body() entretien: EntretienDto,
-    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentUser() _user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager
   ) {
     await usagerEntretienRepository.update(
@@ -225,10 +222,6 @@ export class UsagersController {
 
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
       usager,
-      createdBy: {
-        userId: user.id,
-        userName: user.prenom + " " + user.nom,
-      },
       createdEvent: "update-entretien",
     });
 
