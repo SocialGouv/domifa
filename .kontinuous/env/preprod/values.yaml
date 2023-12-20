@@ -4,7 +4,7 @@ global:
 pg:
   cnpg-cluster:
     persistence:
-      size: "20Gi"
+      size: "30Gi"
     resources:
       requests:
         memory: 3Gi
