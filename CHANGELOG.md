@@ -1,3 +1,16 @@
+# [2.151.0](https://github.com/SocialGouv/domifa/compare/v2.150.0...v2.151.0) (2023-12-20)
+
+
+### Bug Fixes
+
+* **admin:** fix unit test ([1dc7ee7](https://github.com/SocialGouv/domifa/commit/1dc7ee72e63245c69f9cf9636865dcc9613505d8))
+* unit test ([9b447a1](https://github.com/SocialGouv/domifa/commit/9b447a104f092b4ed628507cac4470be0fbe6bde))
+
+
+### Features
+
+* **stats:** add municipality ([b6f111f](https://github.com/SocialGouv/domifa/commit/b6f111fab80c320fbc56b0ede0c492c2d078ca34))
+
 # [2.150.0](https://github.com/SocialGouv/domifa/compare/v2.149.1...v2.150.0) (2023-12-18)
 
 
