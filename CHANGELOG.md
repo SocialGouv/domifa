@@ -1,3 +1,10 @@
+## [2.152.1](https://github.com/SocialGouv/domifa/compare/v2.152.0...v2.152.1) (2023-12-20)
+
+
+### Bug Fixes
+
+* **k8s:** metabase preprod ([#3119](https://github.com/SocialGouv/domifa/issues/3119)) ([0784027](https://github.com/SocialGouv/domifa/commit/078402714e36b5421001b197d1bd8e9167a073bc))
+
 # [2.152.0](https://github.com/SocialGouv/domifa/compare/v2.151.0...v2.152.0) (2023-12-20)
 
 
