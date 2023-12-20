@@ -1,3 +1,10 @@
+# [2.152.0](https://github.com/SocialGouv/domifa/compare/v2.151.0...v2.152.0) (2023-12-20)
+
+
+### Features
+
+* use cnpg in dev/preprod ([#3034](https://github.com/SocialGouv/domifa/issues/3034)) ([e5cbe46](https://github.com/SocialGouv/domifa/commit/e5cbe4636fce78200a592ae76cfecdf3c9fea814))
+
 # [2.151.0](https://github.com/SocialGouv/domifa/compare/v2.150.0...v2.151.0) (2023-12-20)
 
 
