@@ -49,6 +49,8 @@ metabase:
   envFrom:
     - secretRef:
         name: pg-metabase-app
+    - secretRef:
+        name: metabase
   env:
     - name: MB_DB_CONNECTION_URI
       value: "$(DATABASE_URL)"
