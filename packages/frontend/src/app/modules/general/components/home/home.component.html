@@ -240,7 +240,7 @@
   <div class="text-center section py-3 bg-primary-light" *ngIf="stats">
     <div class="container p-2">
       <div class="row text-center">
-        <div class="my-2 col-12 col-md-4">
+        <div class="my-2 col-12 col-md-3">
           <div
             [countUp]="stats.structures"
             [options]="countOptions"
@@ -248,7 +248,15 @@
           ></div>
           <div class="counter-title">structures inscrites</div>
         </div>
-        <div class="my-2 col-12 col-md-4">
+        <div class="my-2 col-12 col-md-3">
+          <div
+            [countUp]="stats.actifs"
+            [options]="countOptions"
+            class="display-4 fw-bold text-primary"
+          ></div>
+          <div class="counter-title">domiciliés actifs</div>
+        </div>
+        <div class="my-2 col-12 col-md-3">
           <div
             [countUp]="stats.usagers"
             [options]="countOptions"
@@ -256,7 +264,7 @@
           ></div>
           <div class="counter-title">domiciliés</div>
         </div>
-        <div class="my-2 col-12 col-md-4">
+        <div class="my-2 col-12 col-md-3">
           <div
             [countUp]="stats.interactions"
             [options]="countOptions"

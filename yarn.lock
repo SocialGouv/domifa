@@ -2357,6 +2357,7 @@ __metadata:
     "@domifa/common": "workspace:^"
     "@faker-js/faker": ^8.3.1
     "@nestjs/axios": ^3.0.1
+    "@nestjs/cache-manager": ^2.1.1
     "@nestjs/cli": ^10.1.1
     "@nestjs/common": ^10.0.5
     "@nestjs/core": ^10.0.5
@@ -2411,6 +2412,7 @@ __metadata:
     "@typescript-eslint/parser": ^6.0.0
     axios: ^1.6.2
     bcryptjs: ^2.4.3
+    cache-manager: ^5.3.2
     class-transformer: 0.5.1
     class-validator: ^0.14.0
     compression: ^1.7.4
@@ -4008,6 +4010,19 @@ __metadata:
     reflect-metadata: ^0.1.12
     rxjs: ^6.0.0 || ^7.0.0
   checksum: 01cebc64efa7a1d9df7a9053fbc5124986a95078789a0f280a2a61c31601a70a35745e07fc385497b4f85c7bdb6216a3575728646f1e6e684c038ac31900129c
+  languageName: node
+  linkType: hard
+
+"@nestjs/cache-manager@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "@nestjs/cache-manager@npm:2.1.1"
+  peerDependencies:
+    "@nestjs/common": ^9.0.0 || ^10.0.0
+    "@nestjs/core": ^9.0.0 || ^10.0.0
+    cache-manager: <=5
+    reflect-metadata: ^0.1.12
+    rxjs: ^7.0.0
+  checksum: 2f972580c61a4c3155f427f60deaa7e6d5719e4dc8f37bf489da418ed936cc6eda46125506d290bc80628bc1c962fb8d161848a92841f836c22bf4001267380e
   languageName: node
   linkType: hard
 
@@ -8754,6 +8769,17 @@ __metadata:
     tar: ^6.1.11
     unique-filename: ^3.0.0
   checksum: ae1f072f84b9bf0a3a6cfb8516774386c22ea902b25ca6b5dec471d370a4947fdec40dee7de5edd6b97f66407a52d40afee9eaeac49700b24bb1e932359ba277
+  languageName: node
+  linkType: hard
+
+"cache-manager@npm:^5.3.2":
+  version: 5.3.2
+  resolution: "cache-manager@npm:5.3.2"
+  dependencies:
+    lodash.clonedeep: ^4.5.0
+    lru-cache: ^10.1.0
+    promise-coalesce: ^1.1.2
+  checksum: e88eeadb35e1ed211afb1a89cc22c3818fd1d564f09905b8f8335a440a11210c9f3d57ed7c6200067f5f9b4464c845854744e6a3f9f6337a5b6b377cce1ea572
   languageName: node
   linkType: hard
 
@@ -15913,6 +15939,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.clonedeep@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "lodash.clonedeep@npm:4.5.0"
+  checksum: 92c46f094b064e876a23c97f57f81fbffd5d760bf2d8a1c61d85db6d1e488c66b0384c943abee4f6af7debf5ad4e4282e74ff83177c9e63d8ff081a4837c3489
+  languageName: node
+  linkType: hard
+
 "lodash.debounce@npm:^4.0.8":
   version: 4.0.8
   resolution: "lodash.debounce@npm:4.0.8"
@@ -16147,6 +16180,13 @@ __metadata:
     option: ~0.2.1
     underscore: ^1.13.1
   checksum: 0586a2601a6cc709664b40e69266fb684136d9f4041a97d76413030846f0c03f36c6a262873efbcf6ab8e5a584449e24b18722b8a7e5d58e5326359f0be08439
+  languageName: node
+  linkType: hard
+
+"lru-cache@npm:^10.1.0":
+  version: 10.1.0
+  resolution: "lru-cache@npm:10.1.0"
+  checksum: 58056d33e2500fbedce92f8c542e7c11b50d7d086578f14b7074d8c241422004af0718e08a6eaae8705cee09c77e39a61c1c79e9370ba689b7010c152e6a76ab
   languageName: node
   linkType: hard
 
@@ -19069,6 +19109,13 @@ __metadata:
   version: 0.11.10
   resolution: "process@npm:0.11.10"
   checksum: bfcce49814f7d172a6e6a14d5fa3ac92cc3d0c3b9feb1279774708a719e19acd673995226351a082a9ae99978254e320ccda4240ddc474ba31a76c79491ca7c3
+  languageName: node
+  linkType: hard
+
+"promise-coalesce@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "promise-coalesce@npm:1.1.2"
+  checksum: 6f951b5db40ca78d09ad0f72adea0a2e9c5bdb0fc5b3ef218c611e2191c6ce2e9f752f815630fd07875dd1c9f04cc7327d6bada04b662dce986ce86ab88c2d5e
   languageName: node
   linkType: hard
 

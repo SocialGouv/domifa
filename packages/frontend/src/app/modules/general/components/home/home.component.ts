@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       structures: 0,
       usagers: 0,
       interactions: 0,
+      actifs: 0,
     };
   }
 

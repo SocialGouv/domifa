@@ -1,8 +1,8 @@
 fileignoreconfig:
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: dfbe27ffb840b6bed7bf95429dac1e40f165fe0d7ef3caeef09c5b593ce948a1
+  checksum: f830f17c3ba34a7b96732625490c18b91d654a508c4c6d5f2d8ee98e658f3a8a
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: 69a9b39a6b6273cde140fb48b2dcd345c5f5e9a69883313d6aa02973f7909890
+  checksum: 85bd13b83873b42839f02568ff1ce9f24c43b345ba94b78dc3638d83f9f30efd
 - filename: packages/backend/src/_common/decorators/IsValidPasswordDecorator.ts
   checksum: f0d4b3cd2e6e2d9b1e0271c34d64adacf87a5f1e7a505402a20869962543608d
 - filename: packages/backend/src/_migrations/1699910877010-auto-migration.ts
@@ -27,6 +27,12 @@ fileignoreconfig:
   checksum: 725e69e0017746a36f12e18f55c084ed3b733d2b0b5adf88c1978cc940fe8439
 - filename: packages/backend/src/interactions/services/InteractionsDeletor.service.spec.ts
   checksum: b66659fea19859e55afaf0ed47519f0804857e486b2ecc6b01d5ae96f1a86a0b
+- filename: packages/backend/src/stats/controllers/StatsPublicController.ts
+  checksum: 3f61088ec58bbe92862d7204d8524408ddac3663e26c77a5c1d38525a949381c
+- filename: packages/backend/src/stats/controllers/stats.public.controller.ts
+  checksum: 49cfafd382157a518c1244f92b5b4f060bad102baaab3ec8f29328b07b3de06a
+- filename: packages/backend/src/stats/services/publicStats.service.ts
+  checksum: ef41cd3de7bf8b11479b8e4a24aaf09b6fb61d672ad2cc9c643f703a6d06f40f
 - filename: packages/backend/src/users/dto/reset-password.dto.ts
   checksum: 459ec0c5e439bca5375d3a06f4868f8078ca2ad1895fdc5c84bc81cc6bc394fc
 - filename: packages/backend/src/users/dto/usager-login.dto.ts
@@ -50,5 +56,5 @@ fileignoreconfig:
 - filename: packages/portail-usagers/src/app/modules/usager-auth/usager-login/usager-login.component.ts
   checksum: b04680c071a8098191859f5a67124df3d168478ee2f997a361595b7244d1f5f7
 - filename: yarn.lock
-  checksum: a6cca0f668a649e61f86f18d8f8525a30935f637d8d599b7890009d408cb92d8
+  checksum: ea8fbd6222244fa124b28e9ebb6d4e3b59e5a32bc0a620ccb7ae8a5ed536a7a2
 version: "1.0"

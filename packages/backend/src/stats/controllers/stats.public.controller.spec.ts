@@ -11,7 +11,7 @@ import {
   JEST_FAKE_TIMER,
 } from "../../util/test";
 import { AdminStructuresModule } from "../../_portail-admin/admin-structures/admin-structures.module";
-import { StatsPublicController } from "./stats.public.controller";
+import { StatsPublicController } from "./StatsPublicController";
 import { domifaConfig } from "../../config";
 import { HomeStats, PublicStats } from "@domifa/common";
 
