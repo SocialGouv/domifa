@@ -1,0 +1,144 @@
+import { HomeStats, PublicStats } from "@domifa/common";
+import { CACHE_MANAGER } from "@nestjs/cache-manager";
+import { Cache } from "cache-manager";
+import { Injectable, Inject, OnModuleInit } from "@nestjs/common";
+import { AdminStructuresService } from "../../_portail-admin/admin-structures/services";
+import {
+  structureRepository,
+  usagerRepository,
+  userStructureRepository,
+} from "../../database";
+import { StructuresService } from "../../structures/services";
+import { FRANCE_REGION_CODES, FranceRegion, appLogger } from "../../util";
+import { CronExpression, Cron } from "@nestjs/schedule";
+import { isCronEnabled } from "../../config/services/isCronEnabled.service";
+
+@Injectable()
+export class PublicStatsService implements OnModuleInit {
+  constructor(
+    private readonly adminStructuresService: AdminStructuresService,
+    private readonly structuresService: StructuresService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache
+  ) {}
+
+  onModuleInit() {
+    this.updateAllStatsCache();
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_3AM, {
+    timeZone: "Europe/Paris",
+    disabled: !isCronEnabled(),
+  })
+  public async updateAllStatsCache(): Promise<void> {
+    appLogger.info("[CACHE] Update home stats");
+    await this.generateHomeStats();
+
+    appLogger.info("[CACHE] Update public stats");
+    await this.generatePublicStats();
+
+    for (const regionId of FRANCE_REGION_CODES) {
+      appLogger.info("[CACHE] Update public stats for region " + regionId);
+      await this.generatePublicStats(regionId);
+    }
+
+    appLogger.info("[CACHE] End of cache update");
+  }
+
+  public async generateHomeStats(): Promise<HomeStats> {
+    const value: HomeStats | undefined = await this.cacheManager.get(
+      "home-stats"
+    );
+
+    if (value) {
+      return value;
+    }
+
+    const homeStats = {
+      structures: await structureRepository.count(),
+      interactions: await this.adminStructuresService.totalInteractions(
+        "courrierIn"
+      ),
+      usagers: await usagerRepository.countTotalUsagers(),
+      actifs: await usagerRepository.countTotalActifs(),
+    };
+
+    await this.cacheManager.set("home-stats", homeStats);
+
+    return homeStats;
+  }
+
+  public async generatePublicStats(
+    regionId?: FranceRegion
+  ): Promise<PublicStats> {
+    const key = regionId ? "publics-stats-" + regionId : "public-stats";
+    const value: PublicStats | undefined = await this.cacheManager.get(key);
+
+    if (value) {
+      return value;
+    }
+
+    const publicStats = new PublicStats();
+    // Si aucune region
+    let structures: number[] = null;
+
+    if (regionId) {
+      structures = await this.structuresService.findStructuresInRegion(
+        regionId
+      );
+
+      // Si aucune structure dans la région, tous les indicateurs sont à zero
+      if (!structures.length) {
+        return publicStats;
+      }
+
+      publicStats.structuresCountByRegion =
+        await this.adminStructuresService.getStructuresCountByDepartement(
+          regionId
+        );
+
+      publicStats.structuresCount = structures.length;
+
+      publicStats.usersCount =
+        await userStructureRepository.countUsersByRegionId({ regionId });
+    }
+    // Stats nationales
+    else {
+      publicStats.structuresCount = await structureRepository.count();
+
+      publicStats.structuresCountByRegion =
+        await this.adminStructuresService.getStructuresCountByRegion();
+
+      publicStats.usersCount = await userStructureRepository.count();
+    }
+
+    // Usagers
+    publicStats.usagersCount = await usagerRepository.countTotalUsagers(
+      structures
+    );
+
+    publicStats.courrierInCount =
+      await this.adminStructuresService.totalInteractions(
+        "courrierIn",
+        structures
+      );
+
+    publicStats.courrierOutCount =
+      await this.adminStructuresService.totalInteractions(
+        "courrierOut",
+        structures
+      );
+
+    publicStats.structuresCountByTypeMap =
+      await this.adminStructuresService.getStructuresCountByTypeMap(regionId);
+
+    publicStats.interactionsCountByMonth =
+      await this.adminStructuresService.countInteractionsByMonth(regionId);
+
+    publicStats.usagersCountByMonth =
+      await this.adminStructuresService.countUsagersByMonth(regionId);
+
+    await this.cacheManager.set(key, publicStats);
+
+    return publicStats;
+  }
+}

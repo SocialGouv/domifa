@@ -27,6 +27,7 @@ export const usagerRepository = myDataSource
     findNextMeetings,
     findLastFiveCustomRef,
     getUserUsagerData,
+    countTotalActifs,
   });
 
 export async function getUserUsagerData({
@@ -124,6 +125,20 @@ async function countTotalUsagers(structuresId?: number[]): Promise<number> {
   const usagers = await usagerRepository.countUsagers(structuresId);
   const ayantsDroits = await usagerRepository.countAyantsDroits(structuresId);
   return usagers + ayantsDroits;
+}
+
+async function countTotalActifs(): Promise<number> {
+  const usagers: [{ actifs: number }] = await usagerRepository.query(`
+    SELECT
+    COUNT(DISTINCT uh."usagerUUID") + COALESCE(SUM(jsonb_array_length(state->'ayantsDroits')), 0) AS "actifs"
+    FROM "usager_history" uh JOIN usager u ON uh."usagerUUID" = u.uuid JOIN jsonb_array_elements(uh.states) AS state ON true
+    WHERE
+    (state->>'isActive')::boolean
+    AND (state->>'historyBeginDate')::timestamptz <  CURRENT_DATE + INTERVAL '1 day'
+    AND (state->>'historyEndDate' is null OR (state->>'historyEndDate')::timestamptz >=  CURRENT_DATE + INTERVAL '1 day' )
+`);
+
+  return usagers[0].actifs;
 }
 
 async function countMigratedUsagers(): Promise<number> {

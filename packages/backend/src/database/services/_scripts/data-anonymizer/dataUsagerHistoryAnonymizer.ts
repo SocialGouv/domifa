@@ -2,8 +2,8 @@ import { appLogger } from "../../../../util";
 import { UsagerHistory } from "../../../../_common/model";
 import { usagerHistoryRepository } from "../../usager/usagerHistoryRepository.service";
 import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
-import { dataUsagerAnonymizer } from "./dataUsagerAnonymizer";
 import { UsagerDecision } from "@domifa/common";
+import { getDecisionForStats } from "../../../../usagers/services";
 
 export const dataUsagerHistoryAnonymizer = {
   anonymizeUsagersHistory,
@@ -46,9 +46,7 @@ function isUsagerToAnonymize(x: { structureId: number }): unknown {
 async function _anonymizeUsagerHistory(usagerHistory: UsagerHistory) {
   const states = usagerHistory.states.map((s) => ({
     ...s,
-    decision: dataUsagerAnonymizer.anonymizeUsagerDecision(
-      s.decision as UsagerDecision
-    ),
+    decision: getDecisionForStats(s.decision as UsagerDecision),
     ayantsDroits: s.ayantsDroits,
     entretien: {
       ...s.entretien,

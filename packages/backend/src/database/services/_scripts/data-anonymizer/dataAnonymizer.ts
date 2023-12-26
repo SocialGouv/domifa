@@ -6,7 +6,6 @@ import { dataMessageSmsAnonymizer } from "./dataMessageSmsAnonymizer";
 import { dataMonitoringAnonymizer } from "./dataMonitoringAnonymizer";
 import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
 import { dataUsagerAnonymizer } from "./dataUsagerAnonymizer";
-import { dataUsagerHistoryAnonymizer } from "./dataUsagerHistoryAnonymizer";
 import { dataUserStructureAnonymizer } from "./dataUserStructureAnonymizer";
 import { dataUserUsagerAnonymizer } from "./dataUserUsagerAnonymizer";
 
@@ -34,7 +33,6 @@ async function anonymize() {
     await dataUserUsagerAnonymizer.anonymizeUsersUsager();
     await dataUsagerAnonymizer.anonymizeEntretiens();
     await dateInteractionsAnonymizer.anonymizeInteractions();
-    await dataUsagerHistoryAnonymizer.anonymizeUsagersHistory();
   } else {
     appLogger.warn(`[dataAnonymizer] DB anonymisation OFF (env:${envId})`);
   }
