@@ -12,6 +12,7 @@ import { StructuresService } from "../../structures/services";
 import { FRANCE_REGION_CODES, FranceRegion, appLogger } from "../../util";
 import { CronExpression, Cron } from "@nestjs/schedule";
 import { isCronEnabled } from "../../config/services/isCronEnabled.service";
+import { domifaConfig } from "../../config";
 
 @Injectable()
 export class PublicStatsService implements OnModuleInit {
@@ -22,7 +23,10 @@ export class PublicStatsService implements OnModuleInit {
   ) {}
 
   onModuleInit() {
-    this.updateAllStatsCache();
+    // Inutile de rafraichir le cache sur le pod des tâches CRON
+    if (domifaConfig().envId !== "local" && !isCronEnabled()) {
+      this.updateAllStatsCache();
+    }
   }
 
   @Cron(CronExpression.EVERY_DAY_AT_3AM, {

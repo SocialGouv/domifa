@@ -20,8 +20,8 @@
     "@socialgouv/sre-secrets": "^1.14.5",
     "husky": "^8.0.3",
     "is-ci": "^3.0.1",
-    "lerna": "^8.0.0",
-    "lint-staged": "^15.0.0",
+    "lerna": "^8.0.1",
+    "lint-staged": "^15.2.0",
     "node-talisman": "^1.29.10"
   },
   "workspaces": {
