@@ -6,9 +6,8 @@ import { UsersModule } from "../users/users.module";
 import { AdminStructuresModule } from "../_portail-admin/admin-structures/admin-structures.module";
 import { StatsPrivateController } from "./controllers/stats.private.controller";
 import { StatsPublicController } from "./controllers/stats.public.controller";
-import { CacheInterceptor, CacheModule } from "@nestjs/cache-manager";
+import { CacheModule } from "@nestjs/cache-manager";
 import { PublicStatsService } from "./services/publicStats.service";
-import { APP_INTERCEPTOR } from "@nestjs/core";
 
 @Module({
   controllers: [StatsPublicController, StatsPrivateController],
@@ -21,12 +20,6 @@ import { APP_INTERCEPTOR } from "@nestjs/core";
     forwardRef(() => UsagersModule),
     forwardRef(() => InteractionsModule),
   ],
-  providers: [
-    PublicStatsService,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: CacheInterceptor,
-    },
-  ],
+  providers: [PublicStatsService],
 })
 export class StatsModule {}

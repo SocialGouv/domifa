@@ -389,12 +389,9 @@ export class AdminStructuresService {
     const usagersValidCountByStructure =
       await this.getUsagersValideCountByStructure();
 
-    console.log({ usagersValidCountByStructure });
-
     const usagersAllCountByStructure =
       await this.getUsagersAllCountByStructure();
 
-    console.log({ usagersAllCountByStructure });
     const usagersAyantsDroitsCountByStructure =
       await this.getUsagersAyantsDroitsCountByStructure();
 
