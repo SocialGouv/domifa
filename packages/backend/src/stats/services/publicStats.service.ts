@@ -24,7 +24,11 @@ export class PublicStatsService implements OnModuleInit {
 
   onModuleInit() {
     // Inutile de rafraichir le cache sur le pod des tâches CRON
-    if (domifaConfig().envId !== "local" && !isCronEnabled()) {
+    if (
+      domifaConfig().envId !== "local" &&
+      domifaConfig().envId !== "test" &&
+      !isCronEnabled()
+    ) {
       this.updateAllStatsCache();
     }
   }
@@ -35,25 +39,29 @@ export class PublicStatsService implements OnModuleInit {
   })
   public async updateAllStatsCache(): Promise<void> {
     appLogger.info("[CACHE] Update home stats");
-    await this.generateHomeStats();
+    await this.generateHomeStats({ updateCache: true });
 
     appLogger.info("[CACHE] Update public stats");
-    await this.generatePublicStats();
+    await this.generatePublicStats({ updateCache: true });
 
     for (const regionId of FRANCE_REGION_CODES) {
       appLogger.info("[CACHE] Update public stats for region " + regionId);
-      await this.generatePublicStats(regionId);
+      await this.generatePublicStats({ updateCache: true, regionId });
     }
 
     appLogger.info("[CACHE] End of cache update");
   }
 
-  public async generateHomeStats(): Promise<HomeStats> {
+  public async generateHomeStats({
+    updateCache,
+  }: {
+    updateCache: boolean;
+  }): Promise<HomeStats> {
     const value: HomeStats | undefined = await this.cacheManager.get(
       "home-stats"
     );
 
-    if (value) {
+    if (value && !updateCache) {
       return value;
     }
 
@@ -71,13 +79,17 @@ export class PublicStatsService implements OnModuleInit {
     return homeStats;
   }
 
-  public async generatePublicStats(
-    regionId?: FranceRegion
-  ): Promise<PublicStats> {
+  public async generatePublicStats({
+    updateCache,
+    regionId,
+  }: {
+    updateCache?: boolean;
+    regionId?: FranceRegion;
+  }): Promise<PublicStats> {
     const key = regionId ? "publics-stats-" + regionId : "public-stats";
     const value: PublicStats | undefined = await this.cacheManager.get(key);
 
-    if (value) {
+    if (value && !updateCache) {
       return value;
     }
 

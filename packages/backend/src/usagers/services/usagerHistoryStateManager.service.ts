@@ -274,7 +274,7 @@ function buildHistoryState({
     etapeDemande: usager.etapeDemande,
     entretien,
     ayantsDroits,
-    rdv: { dateRdv: usager?.rdv.dateRdv },
+    rdv: { dateRdv: usager?.rdv?.dateRdv },
   };
 
   return state;

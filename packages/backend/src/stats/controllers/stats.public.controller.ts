@@ -15,13 +15,16 @@ export class StatsPublicController {
 
   @Get("home")
   public async home(): Promise<HomeStats> {
-    return this.publicStatsService.generateHomeStats();
+    return this.publicStatsService.generateHomeStats({ updateCache: false });
   }
 
   @Get("public-stats/:regionId?")
   public async getPublicStats(
     @Param("regionId", new ParseRegionPipe()) regionId: FranceRegion
   ): Promise<PublicStats> {
-    return this.publicStatsService.generatePublicStats(regionId);
+    return this.publicStatsService.generatePublicStats({
+      updateCache: false,
+      regionId,
+    });
   }
 }
