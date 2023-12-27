@@ -11,6 +11,78 @@
     <span class="fw-bold text-danger">*</span> sont obligatoires
   </p>
 
+  <div class="row" *ngIf="structure.structureType !== 'asso'">
+    <div class="col-12 col-md-12 form-group required">
+      <fieldset class="text-center">
+        <legend>Vous appartenez à quel type de structure</legend>
+        <div class="btn-group btn-group-toggle required">
+          <label
+            for="cias"
+            class="btn py-3 px-4"
+            [ngClass]="{
+              'btn-primary': f.structureType.value === 'cias',
+              'btn-outline-primary': f.structureType.value !== 'cias',
+              'btn-outline-danger': submitted && f.structureType.value === null
+            }"
+          >
+            <input
+              id="cias"
+              formControlName="structureType"
+              name="structureType"
+              type="radio"
+              value="cias"
+            />
+            CIAS / COMMUNE
+          </label>
+          <label
+            for="ccas"
+            class="btn py-3 px-4"
+            [ngClass]="{
+              'btn-primary': f.structureType.value === 'ccas',
+              'btn-outline-primary': f.structureType.value !== 'ccas',
+              'btn-outline-danger': submitted && f.structureType.value === null
+            }"
+          >
+            <input
+              formControlName="structureType"
+              name="structureType"
+              type="radio"
+              id="ccas"
+              value="ccas"
+            />
+            CCAS
+          </label>
+
+          <label
+            for="mairie"
+            class="btn py-3 px-4"
+            [ngClass]="{
+              'btn-primary': f.structureType.value === 'mairie',
+              'btn-outline-primary': f.structureType.value !== 'mairie',
+              'btn-outline-danger': submitted && f.structureType.value === null
+            }"
+          >
+            <input
+              formControlName="structureType"
+              name="structureType"
+              type="radio"
+              value="mairie"
+              id="mairie"
+            />
+            Mairie
+          </label>
+        </div>
+        <p
+          *ngIf="submitted && f.structureType.value === null"
+          class="py-2 text-danger text-center"
+        >
+          Veuillez sélectionner un des types d'organismes suivants :
+          CIAS/Commune, CCAS ou organisme agréé
+        </p>
+      </fieldset>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-12 col-md-12 form-group required">
       <label for="nom">Raison sociale (nom de la structure)</label>

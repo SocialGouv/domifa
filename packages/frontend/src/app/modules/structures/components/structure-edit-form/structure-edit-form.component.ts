@@ -41,6 +41,7 @@ import { StructureCommon, Structure } from "@domifa/common";
 @Component({
   selector: "app-structure-edit-form",
   templateUrl: "./structure-edit-form.component.html",
+  styleUrls: ["./structure-edit-form.component.css"],
 })
 export class StructureEditFormComponent implements OnInit, OnDestroy {
   public readonly PhoneNumberFormat = PhoneNumberFormat;
@@ -91,8 +92,8 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
       email: [this.structure.email, [Validators.required, EmailValidator]],
       nom: [this.structure.nom, [Validators.required]],
       options: this.formBuilder.group({
-        numeroBoite: [this.structure.options.numeroBoite, []],
-        surnom: [this.structure.options.surnom, []],
+        numeroBoite: [this.structure.options.numeroBoite ?? false, []],
+        surnom: [this.structure.options.surnom ?? false, []],
       }),
       adresseCourrier: this.formBuilder.group({
         actif: [this.structure.adresseCourrier.actif, []],
