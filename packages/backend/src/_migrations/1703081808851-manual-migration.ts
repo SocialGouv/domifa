@@ -62,7 +62,7 @@ export class ManualMigration1703081808851 implements MigrationInterface {
     //
   }
 
-  private counteMigratedStats(): Promise<number> {
+  private async counteMigratedStats(): Promise<number> {
     return usagerHistoryRepository.countBy({ migrated: false });
   }
 }

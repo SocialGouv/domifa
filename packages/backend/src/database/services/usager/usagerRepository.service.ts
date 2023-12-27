@@ -128,7 +128,7 @@ async function countTotalUsagers(structuresId?: number[]): Promise<number> {
 }
 
 async function countTotalActifs(): Promise<number> {
-  const usagers: [{ actifs: number }] = await usagerRepository.query(`
+  const usagers: [{ actifs: string }] = await usagerRepository.query(`
     SELECT
     COUNT(DISTINCT uh."usagerUUID") + COALESCE(SUM(jsonb_array_length(state->'ayantsDroits')), 0) AS "actifs"
     FROM "usager_history" uh JOIN usager u ON uh."usagerUUID" = u.uuid JOIN jsonb_array_elements(uh.states) AS state ON true
@@ -138,7 +138,7 @@ async function countTotalActifs(): Promise<number> {
     AND (state->>'historyEndDate' is null OR (state->>'historyEndDate')::timestamptz >=  CURRENT_DATE + INTERVAL '1 day' )
 `);
 
-  return usagers[0].actifs;
+  return parseInt(usagers[0].actifs, 10);
 }
 
 async function countMigratedUsagers(): Promise<number> {
