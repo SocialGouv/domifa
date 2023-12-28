@@ -36,7 +36,7 @@
     "@sentry/angular": "^7.91.0",
     "angular-user-idle": "^4.0.0",
     "bootstrap": "^5.3.2",
-    "date-fns": "^2.30.0",
+    "date-fns": "^3.0.0",
     "google-libphonenumber": "^3.2.33",
     "ngx-matomo-client": "^5.0.4",
     "rxjs": "^7.6.0",

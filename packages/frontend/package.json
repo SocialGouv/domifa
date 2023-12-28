@@ -44,7 +44,7 @@
     "@swimlane/ngx-charts": "^20.5.0",
     "angular-user-idle": "^4.0.0",
     "bootstrap": "^5.3.2",
-    "date-fns": "^2.30.0",
+    "date-fns": "^3.0.0",
     "file-saver": "^2.0.5",
     "google-libphonenumber": "^3.2.33",
     "intl-tel-input": "18.3.3",
