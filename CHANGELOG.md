@@ -1,3 +1,19 @@
+# [2.153.0](https://github.com/SocialGouv/domifa/compare/v2.152.1...v2.153.0) (2023-12-28)
+
+
+### Bug Fixes
+
+* **stats:** add cache to stats ([5ac8b44](https://github.com/SocialGouv/domifa/commit/5ac8b44fb96ed93a226534ccb83612994d6ca051))
+* **stats:** delete interceptor ([1ddea6d](https://github.com/SocialGouv/domifa/commit/1ddea6d8e6ea887bfe5378776903559256eb7e8e))
+* **stats:** delete useless fields ([b978633](https://github.com/SocialGouv/domifa/commit/b978633559d5d64c1713d9c7f99e352a124a4636))
+* **structures:** add edition of structureType ([2e4f686](https://github.com/SocialGouv/domifa/commit/2e4f686663e9d12a08a677916dada4b801f3f90d))
+
+
+### Features
+
+* **stats:** add cache to stats ([1360288](https://github.com/SocialGouv/domifa/commit/1360288179905122f76e7c140379e5dd29805bb4))
+* **stats:** delete useless data ([08a11fa](https://github.com/SocialGouv/domifa/commit/08a11fa6ec20b3600127ef301cd29ab527a26db8))
+
 ## [2.152.1](https://github.com/SocialGouv/domifa/compare/v2.152.0...v2.152.1) (2023-12-20)
 
 
