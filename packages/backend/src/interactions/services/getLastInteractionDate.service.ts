@@ -20,14 +20,12 @@ export const getLastInteractionOut = async (
     dateInteraction
   );
 
-  return shouldReturnDateInteraction(usager, dateInteraction)
-    ? dateInteraction
-    : usager.decision.dateDebut;
+  return getMostRecentInteractionDate(usager, dateInteraction);
 };
 
-const getDateFromInteraction = async (
+export const getDateFromInteraction = async (
   usager: Usager,
-  interaction: CommonInteraction
+  interaction?: CommonInteraction
 ): Promise<Date | null> => {
   if (
     (interaction && INTERACTION_OK_LIST.includes(interaction.type)) ||
@@ -41,15 +39,12 @@ const getDateFromInteraction = async (
   return null;
 };
 
-const getDateFromUserLogin = async (
+export const getDateFromUserLogin = async (
   usager: Usager,
-  structure: Pick<Structure, "id" | "sms" | "telephone" | "portailUsager">,
+  structure: Pick<Structure, "id" | "portailUsager">,
   dateInteraction: Date | null
 ): Promise<Date | null> => {
-  if (
-    structure.portailUsager.usagerLoginUpdateLastInteraction &&
-    usager.options.portailUsagerEnabled
-  ) {
+  if (structure.portailUsager.usagerLoginUpdateLastInteraction) {
     const lastUserUsagerLogin = await userUsagerLoginRepository.findOne({
       where: { usagerUUID: usager.uuid },
       select: { createdAt: true },
@@ -71,15 +66,18 @@ const getDateFromUserLogin = async (
   return dateInteraction;
 };
 
-const shouldReturnDateInteraction = (
+export const getMostRecentInteractionDate = (
   usager: Usager,
   dateInteraction: Date | null
-): boolean => {
-  return (
+): Date => {
+  const dateDebut = new Date(usager.decision.dateDebut);
+
+  // Si la date d'interaction précède la dernière décision, on affecte la date de début de la décision
+  if (
     dateInteraction &&
-    differenceInCalendarDays(
-      dateInteraction,
-      new Date(usager.decision.dateDebut)
-    ) > 0
-  );
+    differenceInCalendarDays(dateInteraction, dateDebut) > 0
+  ) {
+    return dateInteraction;
+  }
+  return dateDebut;
 };
