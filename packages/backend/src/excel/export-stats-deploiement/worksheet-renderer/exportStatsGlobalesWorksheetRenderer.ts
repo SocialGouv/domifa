@@ -35,6 +35,7 @@ function renderWorksheet({
   renderExportDate();
   renderUsagersCountByStatus();
   renderStructuresCountByRegion();
+  renderTotalActifs();
   renderStructuresCountByType();
   renderUsersDocsCount();
   renderInteractionsCountByType();
@@ -63,9 +64,21 @@ function renderWorksheet({
       value: stats.usagersCountByStatut.AYANTS_DROITS,
     });
   }
+  function renderTotalActifs() {
+    let i = 13;
+    worksheetRendered.renderCell(i++, "b", {
+      value: stats.usagersActifs.actifs,
+    });
+    worksheetRendered.renderCell(i++, "b", {
+      value: stats.usagersActifs.domicilies,
+    });
+    worksheetRendered.renderCell(i++, "b", {
+      value: stats.usagersActifs.ayantsDroits,
+    });
+  }
 
   function renderStructuresCountByType() {
-    let i = 13;
+    let i = 18;
     worksheetRendered.renderCell(i++, "b", {
       value: stats.structures.length,
     });
@@ -82,8 +95,9 @@ function renderWorksheet({
       value: stats.structuresCountByType["mairie"],
     });
   }
+
   function renderInteractionsCountByType() {
-    let i = 23;
+    let i = 28;
     worksheetRendered.renderCell(i++, "b", {
       value: stats.interactionsCountByStatut["appel" as InteractionType],
     });
@@ -127,10 +141,10 @@ function renderWorksheet({
   }
 
   function renderUsersDocsCount() {
-    worksheetRendered.renderCell(19, "b", {
+    worksheetRendered.renderCell(24, "b", {
       value: stats.usersCount,
     });
-    worksheetRendered.renderCell(20, "b", {
+    worksheetRendered.renderCell(25, "b", {
       value: stats.docsCount,
     });
   }

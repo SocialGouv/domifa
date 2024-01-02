@@ -1,7 +1,5 @@
-import {
-  AdminStructureListData,
-  AdminStructureStatsData,
-} from "../../../../_common";
+import { AdminStructureStatsData } from "@domifa/common";
+import { AdminStructureListData } from "../../../../_common";
 
 export type AppStoreAction =
   | {

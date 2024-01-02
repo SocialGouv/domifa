@@ -16,17 +16,14 @@ import { usagerDocsRepository } from "../../../database/services/usager/usagerDo
 import { StatsDeploiementExportModel } from "../../../excel/export-stats-deploiement";
 import { StatsDeploiementStructureExportModel } from "../../../excel/export-stats-deploiement/StatsDeploiementStructureExportModel.type";
 import { FranceRegion } from "../../../util/territoires";
-import {
-  AdminStructureListData,
-  AdminStructureStatsData,
-  StructureAdmin,
-} from "../../../_common/model";
+import { AdminStructureListData, StructureAdmin } from "../../../_common/model";
 import {
   StatsByLocality,
   StatsByMonth,
   StructureType,
   InteractionType,
   UsagerDecisionStatut,
+  AdminStructureStatsData,
 } from "@domifa/common";
 
 @Injectable()
@@ -55,8 +52,10 @@ export class AdminStructuresService {
 
     const structuresCountBySmsEnabled = await this.getStructuresWithSms();
     const structuresCount = await structureRepository.count();
+    const usagersActifs = await usagerRepository.countTotalActifs();
 
     const stats: AdminStructureStatsData = {
+      usagersActifs,
       structuresCount,
       usagersValidCountByStructureMap,
       usagersAyantsDroitsCountByStructureMap,
@@ -345,10 +344,12 @@ export class AdminStructuresService {
 
     const interactionsCountByStatut =
       await this.getInteractionsCountByTypeMap();
+    const usagersActifs = await usagerRepository.countTotalActifs();
 
     const stats: StatsDeploiementExportModel = {
       exportDate: new Date(),
       structures: structuresModels,
+      usagersActifs,
       usagersAllCountByStructureId: usagersAllCountByStructureMap,
       usagersValideCountByStructureId: usagersValidCountByStructureMap,
       usagersAyantsDroitsByStructureId: usagersAyantsDroitsCountByStructureMap,

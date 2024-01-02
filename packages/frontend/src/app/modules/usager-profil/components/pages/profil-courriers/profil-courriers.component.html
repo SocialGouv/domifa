@@ -39,7 +39,7 @@
     <app-delete-usager-menu
       [usager]="usager"
       context="PROFIL"
-      [me]="me"
+      *ngIf="me.role !== 'facteur'"
     ></app-delete-usager-menu>
   </div>
 </div>

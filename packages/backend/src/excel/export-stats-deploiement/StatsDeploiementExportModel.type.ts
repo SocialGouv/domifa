@@ -12,6 +12,11 @@ export type StatsDeploiementExportModel = {
     region: string;
     count: number;
   }[];
+  usagersActifs: {
+    domicilies: number;
+    ayantsDroits: number;
+    actifs: number;
+  };
   usersCount: number;
   docsCount: number;
   interactionsCountByStatut: {

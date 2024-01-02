@@ -7,7 +7,6 @@ export * from "./contact-support";
 export * from "./interaction";
 export * from "./jwt";
 export * from "./message-sms";
-export * from "./stats";
 export * from "./structure";
 export * from "./structure-doc";
 export * from "./structure-stats";

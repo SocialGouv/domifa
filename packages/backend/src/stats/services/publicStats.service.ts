@@ -71,7 +71,7 @@ export class PublicStatsService implements OnModuleInit {
         "courrierIn"
       ),
       usagers: await usagerRepository.countTotalUsagers(),
-      actifs: await usagerRepository.countTotalActifs(),
+      actifs: (await usagerRepository.countTotalActifs()).actifs,
     };
 
     await this.cacheManager.set("home-stats", homeStats);

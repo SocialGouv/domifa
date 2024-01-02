@@ -5,12 +5,11 @@ import { filter, Observable, startWith, tap } from "rxjs";
 import { environment } from "src/environments/environment";
 import {
   AdminStructureListData,
-  AdminStructureStatsData,
   StructureAdmin,
   UserNewAdmin,
 } from "../../../../../_common";
 import { structuresCache } from "../../store/structuresCache.service";
-import { ApiMessage } from "@domifa/common";
+import { ApiMessage, AdminStructureStatsData } from "@domifa/common";
 
 const BASE_URL = environment.apiUrl + "admin/structures";
 @Injectable()

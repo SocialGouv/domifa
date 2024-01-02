@@ -72,6 +72,7 @@ export class FixLastInteractionMigration1703676787763
           ) > 0
         ) {
           const log = {
+            ref: usager.ref,
             structureId: usager.structureId,
             before: usager.lastInteraction.dateInteraction,
             after: dateInteractionOut,

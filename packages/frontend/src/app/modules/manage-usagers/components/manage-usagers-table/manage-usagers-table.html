@@ -181,8 +181,7 @@
       </td>
       <td class="clickable table-name td-name">
         <a
-          [routerLink]="
-          usager.decision.statut === 'INSTRUCTION' || usager.decision.statut === 'ATTENTE_DECISION'
+          [routerLink]="(usager.decision.statut === 'INSTRUCTION' || usager.decision.statut === 'ATTENTE_DECISION') && me.role !== 'facteur'
            ? '/usager/'+usager.ref+'/edit/'+ETAPES_DEMANDE_URL[usager.etapeDemande]
            : '/profil/general/'+usager.ref"
           ariaCurrentWhenActive="page"

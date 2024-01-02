@@ -127,9 +127,19 @@ async function countTotalUsagers(structuresId?: number[]): Promise<number> {
   return usagers + ayantsDroits;
 }
 
-async function countTotalActifs(): Promise<number> {
-  const usagers: [{ actifs: string }] = await usagerRepository.query(`
+async function countTotalActifs(): Promise<{
+  domicilies: number;
+  ayantsDroits: number;
+  actifs: number;
+}> {
+  const usagers: {
+    domicilies: string;
+    ayantsDroits: string;
+    actifs: string;
+  }[] = await usagerRepository.query(`
     SELECT
+    COUNT(DISTINCT uh."usagerUUID") as "domicilies",
+    COALESCE(SUM(jsonb_array_length(state->'ayantsDroits')), 0) as "ayantsDroits",
     COUNT(DISTINCT uh."usagerUUID") + COALESCE(SUM(jsonb_array_length(state->'ayantsDroits')), 0) AS "actifs"
     FROM "usager_history" uh JOIN usager u ON uh."usagerUUID" = u.uuid JOIN jsonb_array_elements(uh.states) AS state ON true
     WHERE
@@ -137,8 +147,11 @@ async function countTotalActifs(): Promise<number> {
     AND (state->>'historyBeginDate')::timestamptz <  CURRENT_DATE + INTERVAL '1 day'
     AND (state->>'historyEndDate' is null OR (state->>'historyEndDate')::timestamptz >=  CURRENT_DATE + INTERVAL '1 day' )
 `);
-
-  return parseInt(usagers[0].actifs, 10);
+  return {
+    domicilies: parseInt(usagers[0].domicilies, 10),
+    ayantsDroits: parseInt(usagers[0].ayantsDroits, 10),
+    actifs: parseInt(usagers[0].actifs, 10),
+  };
 }
 
 async function countMigratedUsagers(): Promise<number> {

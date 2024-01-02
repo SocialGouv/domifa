@@ -12,6 +12,7 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import {
   DEFAULT_MODAL_OPTIONS,
   UsagerLight,
+  UserStructure,
 } from "../../../../../_common/model";
 
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
@@ -39,6 +40,7 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
   public previousStatus: string;
   public loading: boolean;
   public isAdmin: boolean;
+  public me!: UserStructure | null;
 
   public readonly DECISION_LABELS: {
     [key in UsagerDecisionStatut]: string;
@@ -61,6 +63,7 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
     this.loading = false;
 
     this.previousStatus = "";
+    this.me = this.authService.currentUserValue;
   }
 
   public ngOnInit(): void {
