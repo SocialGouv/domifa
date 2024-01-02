@@ -1,108 +1,110 @@
-<div
-  class="container py-5 d-print-none"
-  *ngIf="context === 'PROFIL' || context === 'INSTRUCTION_FORM'"
->
-  <div class="col-md-12 text-center text-danger" *ngIf="context === 'PROFIL'">
-    <button
-      type="button"
-      class="btn btn-danger"
-      (click)="open(deleteConfirmation)"
-    >
-      <fa-icon
-        [icon]="['fas', 'trash']"
-        aria-hidden="true"
-        class="me-2"
-      ></fa-icon>
-      Supprimer ce dossier
-    </button>
-  </div>
-
+<ng-container *ngIf="me.role !== 'facteur'">
   <div
-    class="col-md-12 text-center text-danger"
-    *ngIf="context === 'INSTRUCTION_FORM'"
+    class="container py-5 d-print-none"
+    *ngIf="context === 'PROFIL' || context === 'INSTRUCTION_FORM'"
   >
-    <button
-      class="btn btn-danger"
-      type="button"
-      (click)="
-        usager.historique.length > 1
-          ? open(deleteDecisionConfirmation)
-          : open(deleteConfirmation)
-      "
-    >
-      <fa-icon
-        [icon]="['fas', 'trash']"
-        aria-hidden="true"
-        class="me-2"
-      ></fa-icon>
-      Supprimer cette demande
-    </button>
-  </div>
-</div>
-
-<button
-  class="btn btn-danger d-print-none"
-  type="button"
-  aria-label="Supprimer la dernière décision"
-  *ngIf="context === 'HISTORY' && usager.historique.length > 1 && isAdmin"
-  (click)="open(deleteDecisionConfirmation)"
->
-  <fa-icon [icon]="['fas', 'trash']" aria-hidden="true"></fa-icon>
-</button>
-
-<ng-template #deleteDecisionConfirmation let-modal>
-  <div class="modal-header bg-danger">
-    <span class="text-white" id="modal-title"
-      >Êtes-vous sûr de vouloir supprimer cette décision ?</span
-    >
-  </div>
-  <p class="modal-body py-3 text-center">
-    Vous êtes sur le point de supprimer la décision suivante:<br />
-
-    <strong>
-      {{ DECISION_LABELS[usager.decision.statut] }} le
-      {{ usager.decision.dateDecision | date : "d MMMM y à HH:mm" }} par
-      {{ usager.decision.userName }}.</strong
-    >
-    <br />
-    <br />
-    Les statistiques seront mises à jour, une note sera ajoutée au dossier et
-    l'usager retournera à son statut précédent:
-    <strong>{{ previousStatus }}</strong>
-    <br />
-  </p>
-  <div class="modal-footer">
-    <button
-      type="submit"
-      class="btn btn-lg btn-danger"
-      (click)="deleteDecision()"
-      [disabled]="loading"
-      [attr.aria-busy]="loading"
-    >
-      <span *ngIf="!loading">Confirmer la suppression</span>
-      <span *ngIf="loading"
-        ><fa-icon
-          [icon]="['fas', 'circle-notch']"
-          [spin]="true"
-          aria-hidden="true"
-        >
-        </fa-icon>
-        Veuillez patienter...</span
+    <div class="col-md-12 text-center text-danger" *ngIf="context === 'PROFIL'">
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="open(deleteConfirmation)"
       >
-    </button>
-    <button
-      type="button"
-      class="btn btn-lg btn-outline-dark"
-      (click)="closeModals()"
-    >
-      Annuler
-    </button>
-  </div>
-</ng-template>
+        <fa-icon
+          [icon]="['fas', 'trash']"
+          aria-hidden="true"
+          class="me-2"
+        ></fa-icon>
+        Supprimer ce dossier
+      </button>
+    </div>
 
-<ng-template #deleteConfirmation let-modal>
-  <app-delete-usager
-    [selectedRefs]="[usager.ref]"
-    [context]="'PROFIL'"
-  ></app-delete-usager>
-</ng-template>
+    <div
+      class="col-md-12 text-center text-danger"
+      *ngIf="context === 'INSTRUCTION_FORM'"
+    >
+      <button
+        class="btn btn-danger"
+        type="button"
+        (click)="
+          usager.historique.length > 1
+            ? open(deleteDecisionConfirmation)
+            : open(deleteConfirmation)
+        "
+      >
+        <fa-icon
+          [icon]="['fas', 'trash']"
+          aria-hidden="true"
+          class="me-2"
+        ></fa-icon>
+        Supprimer cette demande
+      </button>
+    </div>
+  </div>
+
+  <button
+    class="btn btn-danger d-print-none"
+    type="button"
+    aria-label="Supprimer la dernière décision"
+    *ngIf="context === 'HISTORY' && usager.historique.length > 1 && isAdmin"
+    (click)="open(deleteDecisionConfirmation)"
+  >
+    <fa-icon [icon]="['fas', 'trash']" aria-hidden="true"></fa-icon>
+  </button>
+
+  <ng-template #deleteDecisionConfirmation let-modal>
+    <div class="modal-header bg-danger">
+      <span class="text-white" id="modal-title"
+        >Êtes-vous sûr de vouloir supprimer cette décision ?</span
+      >
+    </div>
+    <p class="modal-body py-3 text-center">
+      Vous êtes sur le point de supprimer la décision suivante:<br />
+
+      <strong>
+        {{ DECISION_LABELS[usager.decision.statut] }} le
+        {{ usager.decision.dateDecision | date : "d MMMM y à HH:mm" }} par
+        {{ usager.decision.userName }}.</strong
+      >
+      <br />
+      <br />
+      Les statistiques seront mises à jour, une note sera ajoutée au dossier et
+      l'usager retournera à son statut précédent:
+      <strong>{{ previousStatus }}</strong>
+      <br />
+    </p>
+    <div class="modal-footer">
+      <button
+        type="submit"
+        class="btn btn-lg btn-danger"
+        (click)="deleteDecision()"
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
+      >
+        <span *ngIf="!loading">Confirmer la suppression</span>
+        <span *ngIf="loading"
+          ><fa-icon
+            [icon]="['fas', 'circle-notch']"
+            [spin]="true"
+            aria-hidden="true"
+          >
+          </fa-icon>
+          Veuillez patienter...</span
+        >
+      </button>
+      <button
+        type="button"
+        class="btn btn-lg btn-outline-dark"
+        (click)="closeModals()"
+      >
+        Annuler
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #deleteConfirmation let-modal>
+    <app-delete-usager
+      [selectedRefs]="[usager.ref]"
+      [context]="'PROFIL'"
+    ></app-delete-usager>
+  </ng-template>
+</ng-container>

@@ -88,7 +88,12 @@ export class ManageUsagersTableComponent implements OnDestroy {
   }
 
   public goToProfil(usager: UsagerFormModel): void {
-    this.router.navigate([getUrlUsagerProfil(usager)]);
+    const url =
+      this.me.role === "facteur"
+        ? `/profil/general/${usager.ref}`
+        : getUrlUsagerProfil(usager);
+
+    this.router.navigate([url]);
   }
 
   public refTrackBy(_index: number, item: UsagerFormModel) {

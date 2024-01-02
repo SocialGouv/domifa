@@ -4,8 +4,8 @@ import {
   UsagerDecisionStatut,
   INTERACTIONS_LABELS_PLURIEL,
   STRUCTURE_TYPE_LABELS,
+  AdminStructureStatsData,
 } from "@domifa/common";
-import { AdminStructureStatsData } from "../../../../../../_common";
 import { DASHBOARD_STATUS_LABELS } from "../../../../../../_common/usager/constants";
 import { AdminStructuresStatsVM } from "./AdminStructuresStatsVM.type";
 

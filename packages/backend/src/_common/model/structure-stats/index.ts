@@ -1,3 +1,4 @@
+// @index('./*', f => `export * from '${f.path}'`)
 export * from "./StructureStats.type";
 export * from "./StructureStatsFull.type";
 export * from "./StructureStatsQuestionsAtDateValidUsagers.type";

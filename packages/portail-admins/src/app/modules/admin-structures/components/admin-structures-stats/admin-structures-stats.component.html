@@ -50,7 +50,31 @@
           </div>
         </ng-container>
       </div>
-
+      <br />
+      <br />
+      <div>
+        <span class="stats-titre">Domiciliés actifs</span>
+      </div>
+      <div class="stats-blocks">
+        <div>
+          <span class="stats-chiffres">
+            {{ stats.usagersActifs.actifs | formatBigNumber }}
+          </span>
+          <span class="stats-labels">Total actifs</span>
+        </div>
+        <div>
+          <span class="stats-chiffres">
+            {{ stats.usagersActifs.domicilies | formatBigNumber }}
+          </span>
+          <span class="stats-labels">Domiciliés</span>
+        </div>
+        <div>
+          <span class="stats-chiffres">
+            {{ stats.usagersActifs.ayantsDroits | formatBigNumber }}
+          </span>
+          <span class="stats-labels">Ayants-droits</span>
+        </div>
+      </div>
       <br />
       <br />
 

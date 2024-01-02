@@ -1,10 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import {
-  AdminStructureStatsData,
-  PortailAdminProfile,
-} from "../../../../../_common";
+import { PortailAdminProfile } from "../../../../../_common";
 
 import { DASHBOARD_STATUS_LABELS } from "../../../../../_common/usager/constants";
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
@@ -15,6 +12,7 @@ import { AdminStructuresStatsVM, adminStructuresStatsVmBuilder } from "./vm";
 import {
   STRUCTURE_TYPE_LABELS,
   INTERACTIONS_LABELS_PLURIEL,
+  AdminStructureStatsData,
 } from "@domifa/common";
 
 @Component({
@@ -57,6 +55,7 @@ export class AdminStructuresStatsComponent implements OnInit, OnDestroy {
         .subscribe((data: AdminStructureStatsData) => {
           this.data = data;
           this.stats = adminStructuresStatsVmBuilder.buildViewModel(data);
+          console.log(this.stats.usagersActifs);
         })
     );
   }

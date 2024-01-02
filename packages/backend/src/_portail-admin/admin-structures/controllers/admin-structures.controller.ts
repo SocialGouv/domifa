@@ -35,7 +35,6 @@ import { dataCompare } from "../../../util/dataCompare.service";
 import { ExpressResponse } from "../../../util/express";
 import {
   AdminStructureListData,
-  AdminStructureStatsData,
   Structure,
   StructureAdmin,
   UserStructureAuthenticated,
@@ -47,6 +46,7 @@ import { UsersController } from "../../../users/users.controller";
 import { RegisterUserAdminDto } from "../../../users/dto";
 import { format } from "date-fns";
 import { structureCreatorService } from "../../../structures/services";
+import { AdminStructureStatsData } from "@domifa/common";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")

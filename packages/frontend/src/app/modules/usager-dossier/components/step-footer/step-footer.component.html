@@ -6,7 +6,7 @@
 </div>
 
 <app-delete-usager-menu
-  *ngIf="usager"
+  *ngIf="usager && me.role !== 'facteur'"
   class="my-4"
   [usager]="usager"
   [context]="'INSTRUCTION_FORM'"

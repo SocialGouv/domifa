@@ -5,10 +5,15 @@ import {
 } from "@domifa/common";
 import { StatsByRegion } from "../../../../../../_common";
 
-export type AdminStructuresStatsVM = {
+export interface AdminStructuresStatsVM {
   usersCount: number;
   structuresCount: number;
   usagersCount: number;
+  usagersActifs: {
+    domicilies: number;
+    ayantsDroits: number;
+    actifs: number;
+  };
   usagersCountByStatut: {
     status: UsagerDecisionStatut;
     label: string;
@@ -37,4 +42,4 @@ export type AdminStructuresStatsVM = {
   usagersAllCountByStructureMap: {
     [structureId: string]: number;
   };
-};
+}
