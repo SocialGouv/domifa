@@ -1,3 +1,10 @@
+# [2.154.0](https://github.com/SocialGouv/domifa/compare/v2.153.1...v2.154.0) (2024-01-02)
+
+
+### Features
+
+* **stats:** add 'actifs' in dashboard ([d998e46](https://github.com/SocialGouv/domifa/commit/d998e46beba409b8a5845a5d54cdd9d9fa7f96a6))
+
 ## [2.153.1](https://github.com/SocialGouv/domifa/compare/v2.153.0...v2.153.1) (2024-01-02)
 
 
