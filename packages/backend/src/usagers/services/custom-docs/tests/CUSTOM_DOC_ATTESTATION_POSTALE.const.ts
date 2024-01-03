@@ -49,6 +49,7 @@ export const CUSTOM_DOC_ATTESTATION_POSTALE: StructureCustomDocTags = {
   ENTRETIEN_CAUSE_INSTABILITE: "Violence familiale et/ou conjugale",
   ENTRETIEN_RAISON_DEMANDE: "Exercice des droits civils ou civiques",
   ENTRETIEN_RATTACHEMENT: "",
+  ENTRETIEN_SITUATION_PRO: "",
 
   // Transferts
   TRANSFERT_ACTIF: "NON",

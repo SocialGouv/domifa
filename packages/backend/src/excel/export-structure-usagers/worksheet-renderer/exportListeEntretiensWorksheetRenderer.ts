@@ -16,6 +16,7 @@ import {
   XlRowModel,
 } from "../../xlLib";
 import { StructureUsagersExportModel } from "../StructureUsagersExportModel.type";
+import { ENTRETIEN_SITUATION_PRO } from "@domifa/common";
 
 export const exportListeEntretiensWorksheetRenderer = {
   renderWorksheet,
@@ -53,6 +54,7 @@ function renderWorksheet({
       { key: "entretienOrientation" },
       { key: "entretienOrientationDetail" },
       { key: "entretienDomiciliation" },
+      { key: "situationPro" },
       { key: "entretienRevenus" },
       { key: "entretienRevenusDetail" },
       { key: "entretienLiencommune" },
@@ -123,6 +125,9 @@ function renderWorksheet({
             ? usager.entretien.accompagnementDetail
             : "",
           rattachement: usager.entretien.rattachement,
+          situationPro: usager.entretien.situationPro
+            ? ENTRETIEN_SITUATION_PRO[usager.entretien.situationPro]
+            : "",
           commentaires: usager.entretien.commentaires,
         },
       };

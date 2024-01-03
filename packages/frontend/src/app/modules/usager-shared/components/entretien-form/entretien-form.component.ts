@@ -75,8 +75,6 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    console.log(this.ENTRETIEN_SITUATION_PRO);
-
     if (this.usager.entretien) {
       this.entretienForm = this.formBuilder.group({
         accompagnement: [this.usager.entretien.accompagnement],

@@ -21,17 +21,30 @@ export const getDecisionForStats = (
 
 export const getEntretienForStats = (
   entretien: UsagerEntretien
-): Partial<UsagerEntretien> => {
+): Pick<
+  UsagerEntretien,
+  | "domiciliation"
+  | "typeMenage"
+  | "revenus"
+  | "orientation"
+  | "liencommune"
+  | "residence"
+  | "cause"
+  | "raison"
+  | "accompagnement"
+  | "situationPro"
+> => {
   return {
-    domiciliation: entretien.domiciliation,
-    typeMenage: entretien.typeMenage,
-    revenus: entretien.revenus,
-    orientation: entretien.orientation,
-    liencommune: entretien.liencommune,
-    residence: entretien.residence,
-    cause: entretien.cause,
-    raison: entretien.raison,
-    accompagnement: entretien.accompagnement,
+    domiciliation: entretien?.domiciliation ?? null,
+    typeMenage: entretien?.typeMenage ?? null,
+    revenus: entretien?.revenus ?? null,
+    orientation: entretien?.orientation ?? null,
+    liencommune: entretien?.liencommune ?? null,
+    residence: entretien?.residence ?? null,
+    cause: entretien?.cause ?? null,
+    raison: entretien?.raison ?? null,
+    accompagnement: entretien?.accompagnement ?? null,
+    situationPro: entretien?.situationPro ?? null,
   };
 };
 

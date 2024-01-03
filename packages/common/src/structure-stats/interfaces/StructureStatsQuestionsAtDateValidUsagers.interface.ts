@@ -72,7 +72,7 @@ export interface StructureStatsQuestionsAtDateValidUsagers {
   };
   // Ajout 2024: situation professionnelle des personnes
   situationPro: {
-    non_precise: number;
+    non_renseigne: number;
     etudiant: number;
     salarie: number;
     independant: number;

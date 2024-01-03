@@ -64,6 +64,11 @@ describe("structureStatsInPeriodGenerator", () => {
         loginPortail: 0,
       },
       validUsagers: {
+        accompagnement: {
+          non: 1,
+          non_renseigne: 1,
+          oui: 1,
+        },
         age: {
           ayantsDroits: { majeurs: 3, mineurs: 1 },
           usagers: {
@@ -93,6 +98,8 @@ describe("structureStatsInPeriodGenerator", () => {
           itinerant: 0,
           non_renseigne: 1,
           rupture: 0,
+          sortie_hospitalisation: 0,
+          sortie_incarceration: 0,
           sortie_structure: 0,
           violence: 1,
         },
@@ -130,6 +137,17 @@ describe("structureStatsInPeriodGenerator", () => {
           sans_abri: 0,
         },
         sexe: { f: 1, h: 2 },
+        situationPro: {
+          aah: 0,
+          autre: 0,
+          etudiant: 0,
+          france_travail: 0,
+          independant: 0,
+          non_renseigne: 3,
+          retraite: 0,
+          rsa: 0,
+          salarie: 0,
+        },
         total: { ayantsDroits: 4, usagerEtAyantsDroits: 7, usagers: 3 },
       },
     });

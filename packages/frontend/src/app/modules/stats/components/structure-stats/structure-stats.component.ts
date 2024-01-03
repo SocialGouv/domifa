@@ -24,7 +24,7 @@ import {
   CustomToastService,
   AuthService,
 } from "../../../shared/services";
-import { StructureStatsFull } from "@domifa/common";
+import { ENTRETIEN_SITUATION_PRO, StructureStatsFull } from "@domifa/common";
 
 @Component({
   providers: [
@@ -57,6 +57,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   private me!: UserStructure | null;
 
   private readonly subscription = new Subscription();
+  public readonly ENTRETIEN_SITUATION_PRO = ENTRETIEN_SITUATION_PRO;
 
   constructor(
     private readonly formatter: NgbDateCustomParserFormatter,
