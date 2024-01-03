@@ -1,8 +1,8 @@
-import { StructureStatsSexe } from "./StructureStatsSexe.type";
-import { StructureStatsTranchesAge } from "./StructureStatsTranchesAge.type";
+import { type StructureStatsSexe } from "./StructureStatsSexe.interface";
+import { type StructureStatsTranchesAge } from "./StructureStatsTranchesAge.interface";
 
 // stats sur les usagers valides à une date donnée
-export type StructureStatsQuestionsAtDateValidUsagers = {
+export interface StructureStatsQuestionsAtDateValidUsagers {
   total: {
     // Q11
     usagers: number;
@@ -33,7 +33,18 @@ export type StructureStatsQuestionsAtDateValidUsagers = {
     itinerant: number;
     rupture: number;
     sortie_structure: number;
+    sortie_hospitalisation: number;
+    sortie_incarceration: number;
     violence: number;
+    non_renseigne: number;
+  };
+  liencommune: {
+    residentiel: number;
+    parental: number;
+    familial: number;
+    professionnel: number;
+    social: number;
+    autre: number;
     non_renseigne: number;
   };
   raison: {
@@ -53,13 +64,22 @@ export type StructureStatsQuestionsAtDateValidUsagers = {
     autre: number;
     non_renseigne: number;
   };
-  liencommune: {
-    residentiel: number;
-    parental: number;
-    familial: number;
-    professionnel: number;
-    social: number;
-    autre: number;
+  // Ajout 2024: Personnes bénéficiant d'un accompagnement
+  accompagnement: {
+    oui: number;
+    non: number;
     non_renseigne: number;
   };
-};
+  // Ajout 2024: situation professionnelle des personnes
+  situationPro: {
+    non_precise: number;
+    etudiant: number;
+    salarie: number;
+    independant: number;
+    france_travail: number;
+    rsa: number;
+    aah: number;
+    retraite: number;
+    autre: number;
+  };
+}

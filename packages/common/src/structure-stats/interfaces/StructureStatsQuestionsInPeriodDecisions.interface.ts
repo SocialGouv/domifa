@@ -1,4 +1,4 @@
-export type StructureStatsQuestionsInPeriodDecisions = {
+export interface StructureStatsQuestionsInPeriodDecisions {
   valid: {
     usagers: {
       total: number; // Q10 - Nombre attestations delivres durant l'année
@@ -37,4 +37,4 @@ export type StructureStatsQuestionsInPeriodDecisions = {
       other: number;
     };
   };
-};
+}

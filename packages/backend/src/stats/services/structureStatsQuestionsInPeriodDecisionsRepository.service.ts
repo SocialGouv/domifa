@@ -1,5 +1,5 @@
+import { StructureStatsQuestionsInPeriodDecisions } from "@domifa/common";
 import { usagerHistoryRepository } from "../../database";
-import { StructureStatsQuestionsInPeriodDecisions } from "../../_common/model";
 
 export const structureStatsQuestionsInPeriodDecisionsRepository = {
   getStats,

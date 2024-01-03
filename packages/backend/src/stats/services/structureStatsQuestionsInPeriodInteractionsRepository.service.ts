@@ -4,8 +4,10 @@ import {
   userUsagerLoginRepository,
 } from "../../database";
 
-import { StructureStatsQuestionsInPeriodInteractions } from "../../_common/model/structure-stats";
-import { InteractionType } from "@domifa/common";
+import {
+  InteractionType,
+  StructureStatsQuestionsInPeriodInteractions,
+} from "@domifa/common";
 
 export const structureStatsQuestionsInPeriodInteractionsRepository = {
   getStats,

@@ -96,20 +96,35 @@
         <legend class="label">
           Quelle est votre situation professionelle ?
         </legend>
-        <div
-          class="form-check"
+
+        <ng-container
           *ngFor="let situationPro of ENTRETIEN_SITUATION_PRO | keyvalue"
         >
+          <div class="form-check" *ngIf="situationPro.key !== 'AUTRE'">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="situationPro"
+              name="situationPro"
+              id="{{ situationPro.key }}"
+              value="{{ situationPro.key }}"
+            />
+            <label class="form-check-label" for="{{ situationPro.key }}">
+              {{ situationPro.value }}
+            </label>
+          </div>
+        </ng-container>
+        <div class="form-check">
           <input
             class="form-check-input"
             type="radio"
             formControlName="situationPro"
             name="situationPro"
-            id="{{ situationPro.key }}"
-            value="{{ situationPro.key }}"
+            id="situationProAutre"
+            value="AUTRE"
           />
-          <label class="form-check-label" for="{{ situationPro.key }}">
-            {{ situationPro.value }}
+          <label class="form-check-label" for="situationProAutre">
+            Autre situation
           </label>
         </div>
       </fieldset>

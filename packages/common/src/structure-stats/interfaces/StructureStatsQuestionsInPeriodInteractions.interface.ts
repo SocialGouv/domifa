@@ -1,5 +1,5 @@
 // Q_20 - NOMBRE D'INTERACTIONS GLOBALES
-export type StructureStatsQuestionsInPeriodInteractions = {
+export interface StructureStatsQuestionsInPeriodInteractions {
   appel: number;
   colisIn: number;
   colisOut: number;
@@ -8,7 +8,7 @@ export type StructureStatsQuestionsInPeriodInteractions = {
   recommandeIn: number;
   recommandeOut: number;
   visite: number;
-  visiteOut: number; // Passages avec distribution de courriers, colis ou recommandés
-  npai: number;
+  allVisites: number;
+  visiteOut: number;
   loginPortail: number;
-};
+}

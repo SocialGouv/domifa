@@ -1,4 +1,4 @@
-import { StructureStatsFull } from "../../_common/model";
+import { StructureStatsFull } from "@domifa/common";
 
 export type StructureStatsExportModel = {
   exportDate: Date;

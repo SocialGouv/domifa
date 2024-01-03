@@ -5,6 +5,7 @@ export * from "./message-sms";
 export * from "./mocks";
 export * from "./stats";
 export * from "./structure";
+export * from "./structure-stats";
 export * from "./telephone";
 export * from "./territoires";
 export * from "./usager";

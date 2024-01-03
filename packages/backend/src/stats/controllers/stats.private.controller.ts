@@ -10,15 +10,13 @@ import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { structureStatsExporter } from "../../excel/export-structure-stats";
 import { expressResponseExcelRenderer } from "../../util";
-import {
-  StructureStatsFull,
-  UserStructureAuthenticated,
-} from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 import { StatsDto } from "../dto/stats.dto";
 import { structureStatsInPeriodGenerator } from "../services";
 import { statsQuestionsCoreBuilder } from "../services/statsQuestionsCoreBuilder.service";
 
 import { addDays, format } from "date-fns";
+import { StructureStatsFull } from "@domifa/common";
 
 @Controller("stats")
 @ApiTags("stats")

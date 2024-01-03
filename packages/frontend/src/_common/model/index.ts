@@ -6,7 +6,6 @@ export * from "./message-sms";
 export * from "./pagination";
 export * from "./stats";
 export * from "./structure-doc";
-export * from "./structure-stats";
 export * from "./telephone";
 export * from "./usager";
 export * from "./user";
