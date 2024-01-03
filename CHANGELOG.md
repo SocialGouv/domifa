@@ -1,3 +1,10 @@
+## [2.154.2](https://github.com/SocialGouv/domifa/compare/v2.154.1...v2.154.2) (2024-01-03)
+
+
+### Bug Fixes
+
+* **excel:** delete useless column in excel ([cbcbff6](https://github.com/SocialGouv/domifa/commit/cbcbff6d7edb404f13ba72208cd4189dcf816dc1))
+
 ## [2.154.1](https://github.com/SocialGouv/domifa/compare/v2.154.0...v2.154.1) (2024-01-03)
 
 
