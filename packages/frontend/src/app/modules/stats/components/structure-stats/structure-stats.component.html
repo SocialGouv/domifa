@@ -203,8 +203,9 @@
       <div class="row">
         <div class="col-md-12 my-5" *ngIf="stats">
           <h2>
-            1. Domiciliés par statut au
-            {{ stats.period.endDateUTC | date : "dd MMMM yyyy" : "UTC" }}
+            Axe 1. Connaissance du public domicilié au
+            {{ stats.period.endDateUTC | date : "dd MMMM yyyy" : "UTC" }} en
+            nombre de personnes
           </h2>
           <p>
             <strong>Astuce:</strong> pour avoir des statistiques sur une date
@@ -652,7 +653,7 @@
           <br />
 
           <h2>
-            2. Activité du
+            Axe 2. Activité de domiciliation du
             {{ stats.period.startDateUTC | date : "dd MMMM yyyy" }} au
             {{ stats.period.endDateUTC | date : "dd MMMM yyyy" }}
           </h2>
@@ -665,17 +666,16 @@
               <tbody>
                 <tr>
                   <th class="fw-bold" scope="row">
-                    Nombre total d'attestations d'élection de domicile délivrées
+                    Nombre total de domiciliations (au sens d'attestations
+                    d'élection de domicilie délivrées car une domiciliation peut
+                    concerner plusieurs personnes)
                   </th>
                   <td class="stats-table-value">
                     {{ stats.data.decisions.valid.usagers.total }}
                   </td>
                 </tr>
                 <tr>
-                  <th class="soustable" scope="row">
-                    Dont premières demandes conclues par une attestation
-                    d'élection de domicile
-                  </th>
+                  <th class="soustable" scope="row">Dont premières demandes</th>
                   <td class="stats-table-value">
                     {{ stats.data.decisions.valid.usagers.premiere_demande }}
                   </td>
@@ -840,7 +840,7 @@
           </div>
 
           <h2>
-            3. Total des interactions du
+            Axe 3. Total des interactions
             {{ stats.period.startDateUTC | date : "dd MMMM yyyy" }} au
             {{ stats.period.endDateUTC | date : "dd MMMM yyyy" }}
           </h2>

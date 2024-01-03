@@ -22,6 +22,7 @@ import {
   ENTRETIEN_LIEN_COMMUNE,
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_RESIDENCE,
+  ENTRETIEN_SITUATION_PRO,
   ENTRETIEN_TYPE_MENAGE,
 } from "@domifa/common";
 
@@ -41,6 +42,7 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
   public readonly ENTRETIEN_CAUSE_INSTABILITE = ENTRETIEN_CAUSE_INSTABILITE;
   public readonly ENTRETIEN_RAISON_DEMANDE = ENTRETIEN_RAISON_DEMANDE;
   public readonly ENTRETIEN_RESIDENCE = ENTRETIEN_RESIDENCE;
+  public readonly ENTRETIEN_SITUATION_PRO = ENTRETIEN_SITUATION_PRO;
 
   public entretienForm!: UntypedFormGroup;
   private subscription = new Subscription();
@@ -73,6 +75,8 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    console.log(this.ENTRETIEN_SITUATION_PRO);
+
     if (this.usager.entretien) {
       this.entretienForm = this.formBuilder.group({
         accompagnement: [this.usager.entretien.accompagnement],
@@ -93,6 +97,7 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
         revenus: [this.usager.entretien.revenus, []],
         revenusDetail: [this.usager.entretien.revenusDetail, []],
         typeMenage: [this.usager.entretien.typeMenage, []],
+        situationPro: [this.usager.entretien.situationPro, []],
       });
     }
   }

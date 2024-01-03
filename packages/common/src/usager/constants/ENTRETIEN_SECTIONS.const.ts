@@ -1,5 +1,6 @@
 import { type UsagerEntretienResidence } from "../types/entretien/UsagerEntretienResidence.type";
 import {
+  type UsagerEntretienSituationPro,
   type UsagerEntretienCause,
   type UsagerEntretienLienCommune,
   type UsagerEntretienRaisonDemande,
@@ -28,6 +29,8 @@ export const ENTRETIEN_CAUSE_INSTABILITE: {
   RUPTURE: "Rupture familiale et/ou conjugale ",
   SORTIE_STRUCTURE: "Sortie d'une structure d'hébergement",
   VIOLENCE: "Violence familiale et/ou conjugale",
+  SORTIE_HOSPITALISATION: "Sortie d'hospitalisation",
+  SORTIE_INCARCERATION: "Sortie d'incarcération",
 };
 
 export const ENTRETIEN_TYPE_MENAGE: {
@@ -39,6 +42,20 @@ export const ENTRETIEN_TYPE_MENAGE: {
   FEMME_ISOLE_SANS_ENFANT: "Femme isolée sans enfant",
   HOMME_ISOLE_AVEC_ENFANT: "Homme isolé avec enfant(s)",
   HOMME_ISOLE_SANS_ENFANT: "Homme isolé sans enfant",
+};
+
+export const ENTRETIEN_SITUATION_PRO: {
+  [key in UsagerEntretienSituationPro]: string;
+} = {
+  NON_PRECISE: "Sans situation",
+  ETUDIANT: "Etudiant",
+  SALARIE: "Salarié",
+  INDEPENDANT: "Indépendant",
+  FRANCE_TRAVAIL: "Inscrit à France Travail (ex Pôle-emploi)",
+  RSA: "RSA",
+  AAH: "Allocation aux adultes handicapés (AAH)",
+  RETRAITE: "Retraité",
+  AUTRE: "Autre raison",
 };
 
 export const ENTRETIEN_RAISON_DEMANDE: {

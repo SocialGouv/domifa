@@ -23,6 +23,18 @@
   </p>
 
   <p class="col-md-4 reponses">
+    <span class="question">Situation professionelle</span>
+    <span class="valeur" *ngIf="usager.entretien.situationPro !== 'AUTRE'">
+      {{
+        ENTRETIEN_SITUATION_PRO[usager.entretien.situationPro] ||
+          "Non renseigné"
+      }}
+    </span>
+    <span class="valeur" *ngIf="usager.entretien.situationPro === null">
+      Non renseigné
+    </span>
+  </p>
+  <p class="col-md-4 reponses">
     <span class="question">Revenus</span>
     <span class="valeur" *ngIf="usager.entretien.revenus !== null">
       {{ usager.entretien.revenus ? "Oui " : "Non" }}
@@ -34,7 +46,6 @@
       Non renseigné
     </span>
   </p>
-
   <p class="col-md-4 reponses">
     <span class="question">Lien commune</span>
     <span class="valeur" *ngIf="usager.entretien.liencommune === 'AUTRE'">

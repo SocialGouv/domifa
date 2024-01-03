@@ -143,6 +143,7 @@ function addNewStateToHistory({
 }) {
   const states: UsagerHistoryState[] = [
     ...usagerHistory.states.map((state, i) => {
+      // TODO: s'il s'agit d'une décision, rechercher la précédente décision pour indiquer qu'elle n'est plus valable
       if (i === usagerHistory.states.length - 1) {
         // finish previous history state
         state.historyEndDate = getHistoryEndDateFromNextBeginDate(

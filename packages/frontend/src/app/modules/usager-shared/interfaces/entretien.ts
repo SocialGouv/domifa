@@ -4,10 +4,11 @@ import {
   UsagerEntretienRaisonDemande,
   UsagerEntretienResidence,
   UsagerEntretienTypeMenage,
+  UsagerEntretien,
+  UsagerEntretienSituationPro,
 } from "@domifa/common";
-import { UsagerEntretien } from "../../../../_common/model";
 
-export class Entretien implements UsagerEntretien {
+export class Entretien implements Partial<UsagerEntretien> {
   public domiciliation: boolean | null;
   public commentaires: string | null;
   public typeMenage: UsagerEntretienTypeMenage | null;
@@ -26,6 +27,7 @@ export class Entretien implements UsagerEntretien {
   public raisonDetail: string | null;
   public accompagnement: boolean | null;
   public accompagnementDetail: string | null;
+  public situationPro: UsagerEntretienSituationPro | null;
 
   constructor(entretien?: Partial<UsagerEntretien> | null) {
     this.accompagnement =
@@ -56,5 +58,6 @@ export class Entretien implements UsagerEntretien {
       typeof entretien?.revenus !== "undefined" ? entretien?.revenus : null;
     this.revenusDetail = entretien?.revenusDetail || null;
     this.typeMenage = entretien?.typeMenage || null;
+    this.situationPro = entretien?.situationPro || null;
   }
 }

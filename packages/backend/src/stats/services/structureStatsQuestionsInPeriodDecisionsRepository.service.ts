@@ -35,7 +35,8 @@ async function getStats({
     ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'REFUS' and state->'decision'->>'motif' = 'SATURATION') as u_decision_refus_motif_saturation
     ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'REFUS' and state->'decision'->>'motif' = 'AUTRE') as u_decision_refus_motif_autre
     ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'REFUS' and state->'decision'->>'orientation' = 'ccas') as u_decision_refus_orientation_ccas
-    ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'REFUS' and state->'decision'->>'orientation' = 'asso') as u_decision_refus_orientation_asso    ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'REFUS' and state->'decision'->>'orientation' = 'cias') as u_decision_refus_orientation_cias
+    ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'REFUS' and state->'decision'->>'orientation' = 'asso') as u_decision_refus_orientation_asso
+    ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'REFUS' and state->'decision'->>'orientation' = 'cias') as u_decision_refus_orientation_cias
     ,count(state->'uuid') filter (where state->'decision'->>'statut' = 'REFUS' and state->'decision'->>'orientation' = 'other') as u_decision_refus_orientation_other
     FROM "usager_history" "uh"
     join usager u on uh."usagerUUID" = u.uuid

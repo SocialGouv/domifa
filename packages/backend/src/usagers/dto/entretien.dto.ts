@@ -6,12 +6,14 @@ import {
   ENTRETIEN_LIEN_COMMUNE,
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_RESIDENCE,
+  ENTRETIEN_SITUATION_PRO,
   ENTRETIEN_TYPE_MENAGE,
   UsagerEntretien,
   UsagerEntretienCause,
   UsagerEntretienLienCommune,
   UsagerEntretienRaisonDemande,
   UsagerEntretienResidence,
+  UsagerEntretienSituationPro,
   UsagerEntretienTypeMenage,
 } from "@domifa/common";
 
@@ -137,4 +139,13 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsString()
   @StripTagsTransform()
   public commentaires!: string;
+
+  @ApiProperty({
+    type: String,
+    required: false,
+    enum: Object.keys(ENTRETIEN_SITUATION_PRO),
+  })
+  @IsOptional()
+  @IsIn(Object.keys(ENTRETIEN_SITUATION_PRO))
+  public situationPro!: UsagerEntretienSituationPro;
 }

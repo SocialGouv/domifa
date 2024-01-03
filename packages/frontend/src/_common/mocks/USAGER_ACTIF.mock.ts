@@ -63,6 +63,10 @@ export const USAGER_ACTIF_MOCK: UsagerLight = {
 
   email: "domicilie2@yopmail.com",
   entretien: {
+    structureId: 1,
+    usagerUUID: "",
+    usagerRef: 5,
+    situationPro: null,
     typeMenage: "COUPLE_AVEC_ENFANT",
     domiciliation: false,
     revenus: false,

@@ -6,4 +6,6 @@ export type UsagerEntretienCause =
   | "ITINERANT"
   | "RUPTURE"
   | "SORTIE_STRUCTURE"
-  | "VIOLENCE";
+  | "VIOLENCE"
+  | "SORTIE_HOSPITALISATION"
+  | "SORTIE_INCARCERATION";

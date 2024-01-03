@@ -3,8 +3,6 @@ import {
   Telephone,
   UsagerEcheanceInfos,
 } from "../../../_common/model";
-import { UsagerEntretien } from "./entretien";
-import { UsagerImport } from "./UsagerImport.type";
 import { UsagerNote } from "./UsagerNote.type";
 
 import {
@@ -16,6 +14,8 @@ import {
   UsagerDecision,
   UsagerRdvInfos,
   UsagerOptions,
+  UsagerEntretien,
+  UsagerImport,
 } from "@domifa/common";
 
 export type Usager = AppEntity & {
@@ -44,7 +44,7 @@ export type Usager = AppEntity & {
   // FORMULAIRE
   etapeDemande: number;
   rdv: UsagerRdv;
-  entretien: UsagerEntretien;
+  entretien: Partial<UsagerEntretien>;
   // INFOS DOMICILIATION
   typeDom: UsagerTypeDom;
   datePremiereDom: Date;
