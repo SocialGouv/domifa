@@ -48,6 +48,7 @@ export const CUSTOM_DOC_COURRIER_REFUS: StructureCustomDocTags = {
   ENTRETIEN_CAUSE_INSTABILITE: "Expulsion",
   ENTRETIEN_RAISON_DEMANDE: "Accès aux prestations sociales",
   ENTRETIEN_RATTACHEMENT: "",
+  ENTRETIEN_SITUATION_PRO: "",
   // Transferts
   TRANSFERT_ACTIF: "NON",
   TRANSFERT_NOM: "",

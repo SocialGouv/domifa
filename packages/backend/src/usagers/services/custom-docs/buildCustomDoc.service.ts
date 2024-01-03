@@ -17,6 +17,7 @@ import {
   generateMotifLabel,
   STRUCTURE_TYPE_LABELS,
 } from "@domifa/common";
+import { ENTRETIEN_SITUATION_PRO } from "@domifa/common";
 
 export const DATE_FORMAT = {
   JOUR: "dd/MM/yyyy",
@@ -218,6 +219,9 @@ export function buildCustomDoc({
       : "",
 
     ENTRETIEN_ACCOMPAGNEMENT: usager.entretien.accompagnement ? "OUI" : "NON",
+    ENTRETIEN_SITUATION_PRO: usager.entretien.situationPro
+      ? ENTRETIEN_SITUATION_PRO[usager.entretien.situationPro]
+      : "",
 
     ENTRETIEN_ORIENTE_PAR: orientation,
     ENTRETIEN_RATTACHEMENT: usager.entretien.rattachement

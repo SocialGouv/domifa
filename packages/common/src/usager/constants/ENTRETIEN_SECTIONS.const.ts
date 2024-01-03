@@ -47,7 +47,6 @@ export const ENTRETIEN_TYPE_MENAGE: {
 export const ENTRETIEN_SITUATION_PRO: {
   [key in UsagerEntretienSituationPro]: string;
 } = {
-  NON_PRECISE: "Sans situation",
   ETUDIANT: "Etudiant",
   SALARIE: "Salarié",
   INDEPENDANT: "Indépendant",

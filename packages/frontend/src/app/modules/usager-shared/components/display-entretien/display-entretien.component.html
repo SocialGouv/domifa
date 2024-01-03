@@ -30,9 +30,6 @@
           "Non renseigné"
       }}
     </span>
-    <span class="valeur" *ngIf="usager.entretien.situationPro === null">
-      Non renseigné
-    </span>
   </p>
   <p class="col-md-4 reponses">
     <span class="question">Revenus</span>
@@ -111,8 +108,7 @@
       >Non renseigné</span
     >
   </p>
-  <p class="col-md-4 reponses"></p>
-  <p class="my-3 col-md-12 reponses">
+  <p class="col-md-4 reponses">
     <span class="question">Rattachement à une ville ou un arrondissement </span>
     <span class="valeur">
       {{ usager.entretien.rattachement || "Non renseigné" }}

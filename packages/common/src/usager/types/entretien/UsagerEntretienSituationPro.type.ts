@@ -1,5 +1,4 @@
 export type UsagerEntretienSituationPro =
-  | "NON_PRECISE"
   | "ETUDIANT"
   | "SALARIE"
   | "INDEPENDANT"
