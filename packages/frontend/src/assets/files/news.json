@@ -1,5 +1,39 @@
 [
   {
+    "date": "2024-01-03",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Catégorie de structure 'Mairie'",
+        "message": [
+          "La catégorie de structure 'Mairie' a été ajoutée en plus des catégories CCAS, CIAS, et organismes agréés. Vous pouvez modifier votre catégorie actuelle dans la page 'Informations de la structure'."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Sécurité",
+        "message": [
+          "Afin de renforcer la sécurité des comptes, il sera désormais obligatoire d'ajouter un caractère spécial lors de toute nouvelle connexion d'un domicilié, ou de la réinitialisation d'un mot de passe."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Accès des dossiers",
+        "message": [
+          "Les facteurs ont de nouveau accès aux dossiers en cours de renouvellement."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Dates de dernier passage",
+        "message": [
+          "Les erreurs dans les dates de dernier passage des domiciliés, suite à la suppression des anciennes interactions, sont désormais corrigées."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2023-12-12",
     "description": "",
     "content": [

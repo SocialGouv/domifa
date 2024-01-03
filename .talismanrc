@@ -46,7 +46,7 @@ fileignoreconfig:
 - filename: packages/frontend/src/app/modules/users/components/user-structure-password-form/user-structure-password-form.component.spec.ts
   checksum: 7749036582dd467fd5c71aba534aec66fecabc3185b7fd7ee75705204877b654
 - filename: packages/frontend/src/assets/files/news.json
-  checksum: eef674a077a8c6b56e087ae5d664b10ba956b435f6e29cc241f90ba55f8c1f7a
+  checksum: 87de77471263e0fd5b2561e4be2c9ea7fc1e34f29c24f168de3e378a6d738004
 - filename: packages/portail-usagers/src/app/modules/general/components/_static/cgu/cgu.component.html
   checksum: 584da8c9b8ebc95d1d996d0201e0e57cf31e05c6704104e7adacba67a7eb4dd7
 - filename: packages/portail-usagers/src/app/modules/usager-auth/services/usager-auth.service.ts
