@@ -33,9 +33,9 @@ export class PublicStatsService implements OnModuleInit {
     }
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_3AM, {
+  @Cron(CronExpression.EVERY_DAY_AT_2AM, {
     timeZone: "Europe/Paris",
-    disabled: !isCronEnabled(),
+    disabled: isCronEnabled(),
   })
   public async updateAllStatsCache(): Promise<void> {
     appLogger.info("[CACHE] Update home stats");
