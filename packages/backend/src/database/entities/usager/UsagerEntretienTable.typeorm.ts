@@ -20,6 +20,7 @@ import {
   UsagerEntretienCause,
   UsagerEntretienRaisonDemande,
   UsagerEntretien,
+  UsagerEntretienSituationPro,
 } from "@domifa/common";
 
 @Unique(["structureId", "usagerRef"])
@@ -103,6 +104,9 @@ export class UsagerEntretienTable
 
   @Column({ type: "text", nullable: true })
   public accompagnementDetail: string;
+
+  @Column({ type: "text", nullable: true })
+  public situationPro: UsagerEntretienSituationPro;
 
   public constructor(entity: Partial<UsagerNotesTable>) {
     super(entity);

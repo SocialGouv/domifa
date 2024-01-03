@@ -9,7 +9,7 @@ export * from "./rdv";
 export * from "./Usager.type";
 export * from "./UsagerDoc.type";
 export * from "./UsagerEcheanceInfos.type";
-export * from "./UsagerImport.type";
+
 export * from "./UsagerLight.type";
 export * from "./UsagerNote.type";
 export * from "./UsagersImportMode.type";

@@ -91,6 +91,29 @@
           >
         </p>
       </fieldset>
+
+      <fieldset class="questions">
+        <legend class="label">
+          Quelle est votre situation professionelle ?
+        </legend>
+        <div
+          class="form-check"
+          *ngFor="let situationPro of ENTRETIEN_SITUATION_PRO | keyvalue"
+        >
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="situationPro"
+            name="situationPro"
+            id="{{ situationPro.key }}"
+            value="{{ situationPro.key }}"
+          />
+          <label class="form-check-label" for="{{ situationPro.key }}">
+            {{ situationPro.value }}
+          </label>
+        </div>
+      </fieldset>
+
       <fieldset>
         <legend class="label">Avez-vous des revenus ?</legend>
         <div class="form-check form-check-inline">
@@ -117,7 +140,7 @@
         </div>
 
         <div *ngIf="e.revenus.value === true" class="my-2 form-group">
-          <label for="revenusDetail"> De quelle nature ? </label>
+          <label for="revenusDetail">De quelle nature ? </label>
           <textarea
             class="form-control"
             formControlName="revenusDetail"

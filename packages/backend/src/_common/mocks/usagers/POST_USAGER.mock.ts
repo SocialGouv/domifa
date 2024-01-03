@@ -113,6 +113,7 @@ export const POST_USAGER: {
       raison: null,
       raisonDetail: null,
       accompagnement: null,
+      situationPro: null,
       accompagnementDetail: null,
     },
     options: {

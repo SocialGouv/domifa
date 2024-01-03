@@ -4,6 +4,7 @@ import {
   type UsagerEntretienCause,
   type UsagerEntretienRaisonDemande,
   type UsagerEntretienTypeMenage,
+  type UsagerEntretienSituationPro,
 } from "../types/entretien";
 
 export interface UsagerEntretien {
@@ -38,4 +39,6 @@ export interface UsagerEntretien {
 
   accompagnement: boolean | null;
   accompagnementDetail: string | null;
+
+  situationPro: UsagerEntretienSituationPro | null;
 }

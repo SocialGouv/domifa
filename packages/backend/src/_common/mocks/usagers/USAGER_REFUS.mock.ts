@@ -74,6 +74,7 @@ export const USAGER_REFUS_MOCK: Usager = {
     causeDetail: null,
     rattachement: null,
     raisonDetail: null,
+    situationPro: null,
     accompagnement: null,
     accompagnementDetail: null,
   },

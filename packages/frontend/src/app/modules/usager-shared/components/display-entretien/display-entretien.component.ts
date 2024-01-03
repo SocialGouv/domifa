@@ -5,6 +5,7 @@ import {
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_TYPE_MENAGE,
   ENTRETIEN_CAUSE_INSTABILITE,
+  ENTRETIEN_SITUATION_PRO,
 } from "@domifa/common";
 import { UsagerFormModel } from "../../interfaces";
 
@@ -20,4 +21,5 @@ export class DisplayEntretienComponent {
   public readonly ENTRETIEN_RAISON_DEMANDE = ENTRETIEN_RAISON_DEMANDE;
   public readonly ENTRETIEN_TYPE_MENAGE = ENTRETIEN_TYPE_MENAGE;
   public readonly ENTRETIEN_CAUSE_INSTABILITE = ENTRETIEN_CAUSE_INSTABILITE;
+  public readonly ENTRETIEN_SITUATION_PRO = ENTRETIEN_SITUATION_PRO;
 }
