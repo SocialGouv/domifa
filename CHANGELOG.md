@@ -1,3 +1,10 @@
+## [2.154.1](https://github.com/SocialGouv/domifa/compare/v2.154.0...v2.154.1) (2024-01-03)
+
+
+### Bug Fixes
+
+* **news:** add news before prod ([e5878d2](https://github.com/SocialGouv/domifa/commit/e5878d2bed126e6b927fe44f70e61303191bd0c8))
+
 # [2.154.0](https://github.com/SocialGouv/domifa/compare/v2.153.1...v2.154.0) (2024-01-02)
 
 
