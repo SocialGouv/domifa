@@ -15,10 +15,7 @@ import {
 
 import { saveAs } from "file-saver";
 
-import {
-  StructureStatsFull,
-  UserStructure,
-} from "../../../../../_common/model";
+import { UserStructure } from "../../../../../_common/model";
 import { StatsService } from "../../services/stats.service";
 import { buildExportStructureStatsFileName } from "./services";
 import {
@@ -27,6 +24,7 @@ import {
   CustomToastService,
   AuthService,
 } from "../../../shared/services";
+import { StructureStatsFull } from "@domifa/common";
 
 @Component({
   providers: [

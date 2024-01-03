@@ -1,4 +1,4 @@
-export type StructureStatsTranchesAge = {
+export interface StructureStatsTranchesAge {
   mineurs: number;
   majeurs: number;
   t_0_14: number;
@@ -15,4 +15,4 @@ export type StructureStatsTranchesAge = {
   t_65_69: number;
   t_70_74: number;
   t_75_plus: number;
-};
+}

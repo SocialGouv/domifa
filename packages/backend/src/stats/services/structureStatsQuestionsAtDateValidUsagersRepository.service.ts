@@ -1,7 +1,7 @@
 import { subDays } from "date-fns";
 
+import { StructureStatsQuestionsAtDateValidUsagers } from "@domifa/common";
 import { usagerHistoryRepository } from "../../database";
-import { StructureStatsQuestionsAtDateValidUsagers } from "../../_common/model";
 
 export const structureStatsQuestionsAtDateValidUsagersRepository = {
   getStats,
@@ -56,6 +56,8 @@ async function getStats({
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'cause' = 'ITINERANT') as v_u_cause_itinerance
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'cause' = 'RUPTURE') as v_u_cause_rupture
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'cause' = 'SORTIE_STRUCTURE') as v_u_cause_sortie_struct
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'cause' = 'SORTIE_HOSPITALISATION') as v_u_cause_sortie_hospitalisation
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'cause' = 'SORTIE_INCARCERATION') as v_u_cause_sortie_incarceration
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'cause' = 'VIOLENCE') as v_u_cause_violence
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'cause' = 'AUTRE') as v_u_cause_autre
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'cause' is null or state->'entretien'->'cause' = 'null' or state->'entretien'->>'cause' = 'NON_RENSEIGNE') as v_u_cause_nr
@@ -77,6 +79,18 @@ async function getStats({
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'residence' = 'SANS_ABRI') as v_u_residence_sans_abri
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'residence' = 'AUTRE') as v_u_residence_autre
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'residence' is null or state->'entretien'->'residence' = 'null' or state->'entretien'->>'residence' = 'NON_RENSEIGNE') as v_u_residence_nr
+    ,count(distinct uh."usagerUUID") filter (where (state->'entretien'->>'accompagnement')::boolean is true) as v_u_accompagnement_oui
+    ,count(distinct uh."usagerUUID") filter (where (state->'entretien'->>'accompagnement')::boolean is false) as v_u_accompagnement_non
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'accompagnement' is null or state->'entretien'->'accompagnement' = 'null') as v_u_accompagnement_nr
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'situationPro' = 'ETUDIANT') as v_u_situation_pro_etudiant
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'situationPro' = 'SALARIE') as v_u_situation_pro_salarie
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'situationPro' = 'INDEPENDANT') as v_u_situation_pro_independant
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'situationPro' = 'FRANCE_TRAVAIL') as v_u_situation_pro_france_travail
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'situationPro' = 'RSA') as v_u_situation_pro_rsa
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'situationPro' = 'AAH') as v_u_situation_pro_aah
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'situationPro' = 'RETRAITE') as v_u_situation_pro_retraite
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'situationPro' = 'AUTRE') as v_u_situation_pro_autre
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'situationPro' is null or state->'entretien'->'situationPro' = 'null') as v_u_situation_pro_nr
     FROM "usager_history" "uh"
     join usager u on uh."usagerUUID" = u.uuid
     join jsonb_array_elements(uh.states) as state on true
@@ -135,6 +149,22 @@ async function getStats({
         homme_isole_sans_enfant: parseInt(r.v_u_menage_hise, 10),
         non_renseigne: parseInt(r.v_u_menage_nr, 10),
       },
+      situationPro: {
+        non_precise: parseInt(r.v_u_situation_pro_etudiant, 10),
+        etudiant: parseInt(r.v_u_situation_pro_salarie, 10),
+        salarie: parseInt(r.v_u_situation_pro_independant, 10),
+        independant: parseInt(r.v_u_situation_pro_france_travail, 10),
+        france_travail: parseInt(r.v_u_situation_pro_rsa, 10),
+        rsa: parseInt(r.v_u_situation_pro_aah, 10),
+        aah: parseInt(r.v_u_situation_pro_retraite, 10),
+        retraite: parseInt(r.v_u_situation_pro_autre, 10),
+        autre: parseInt(r.v_u_situation_pro_nr, 10),
+      },
+      accompagnement: {
+        oui: parseInt(r.v_u_accompagnement_oui, 10),
+        non: parseInt(r.v_u_accompagnement_non, 10),
+        non_renseigne: parseInt(r.v_u_accompagnement_nr, 10),
+      },
       cause: {
         // Q21
         autre: parseInt(r.v_u_cause_autre, 10),
@@ -144,6 +174,11 @@ async function getStats({
         itinerant: parseInt(r.v_u_cause_itinerance, 10),
         rupture: parseInt(r.v_u_cause_rupture, 10),
         sortie_structure: parseInt(r.v_u_cause_sortie_struct, 10),
+        sortie_hospitalisation: parseInt(
+          r.v_u_cause_sortie_hospitalisation,
+          10
+        ),
+        sortie_incarceration: parseInt(r.v_u_cause_sortie_incarceration, 10),
         violence: parseInt(r.v_u_cause_violence, 10),
         non_renseigne: parseInt(r.v_u_cause_nr, 10),
       },
@@ -221,6 +256,7 @@ async function getStats({
       homme_isole_sans_enfant: 0,
       non_renseigne: 0,
     },
+
     cause: {
       // Q21
       autre: 0,
@@ -230,6 +266,8 @@ async function getStats({
       itinerant: 0,
       rupture: 0,
       sortie_structure: 0,
+      sortie_incarceration: 0,
+      sortie_hospitalisation: 0,
       violence: 0,
       non_renseigne: 0,
     },
@@ -286,6 +324,23 @@ async function getStats({
     sexe: {
       h: 0,
       f: 0,
+    },
+    // Nouveautés 2024
+    accompagnement: {
+      oui: 0,
+      non: 0,
+      non_renseigne: 0,
+    },
+    situationPro: {
+      non_precise: 0,
+      etudiant: 0,
+      salarie: 0,
+      independant: 0,
+      france_travail: 0,
+      rsa: 0,
+      aah: 0,
+      retraite: 0,
+      autre: 0,
     },
   };
 }
