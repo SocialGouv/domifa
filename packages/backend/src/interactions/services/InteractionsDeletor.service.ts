@@ -52,8 +52,7 @@ export class InteractionsDeletor {
 
     usager.lastInteraction.dateInteraction = await getLastInteractionOut(
       usager,
-      structure,
-      interaction
+      structure
     );
 
     return await interactionsCreator.updateUsagerAfterCreation({

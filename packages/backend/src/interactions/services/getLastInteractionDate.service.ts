@@ -1,18 +1,22 @@
-import { differenceInCalendarDays } from "date-fns";
-import { INTERACTION_OK_LIST, Structure, Usager } from "../../_common/model";
+import { differenceInCalendarDays, max } from "date-fns";
+import { Structure, Usager } from "../../_common/model";
 
 import {
   interactionRepository,
   userUsagerLoginRepository,
 } from "../../database";
-import { CommonInteraction } from "@domifa/common";
 
 export const getLastInteractionOut = async (
   usager: Usager,
-  structure: Pick<Structure, "id" | "sms" | "telephone" | "portailUsager">,
-  interaction?: CommonInteraction
+  structure: Pick<Structure, "id" | "sms" | "telephone" | "portailUsager">
 ) => {
-  let dateInteraction = await getDateFromInteraction(usager, interaction);
+  const lastInteractionOut = await interactionRepository.findLastInteractionOut(
+    usager
+  );
+
+  let dateInteraction = lastInteractionOut?.dateInteraction
+    ? new Date(lastInteractionOut?.dateInteraction)
+    : null;
 
   dateInteraction = await getDateFromUserLogin(
     usager,
@@ -21,22 +25,6 @@ export const getLastInteractionOut = async (
   );
 
   return getMostRecentInteractionDate(usager, dateInteraction);
-};
-
-export const getDateFromInteraction = async (
-  usager: Usager,
-  interaction?: CommonInteraction
-): Promise<Date | null> => {
-  if (
-    (interaction && INTERACTION_OK_LIST.includes(interaction.type)) ||
-    !interaction
-  ) {
-    const lastInteractionOut =
-      await interactionRepository.findLastInteractionOut(usager);
-    return lastInteractionOut ? lastInteractionOut.dateInteraction : null;
-  }
-
-  return null;
 };
 
 export const getDateFromUserLogin = async (
@@ -51,16 +39,11 @@ export const getDateFromUserLogin = async (
       order: { createdAt: "DESC" },
     });
 
+    if (lastUserUsagerLogin?.createdAt && dateInteraction) {
+      return max([new Date(lastUserUsagerLogin.createdAt), dateInteraction]);
+    }
     if (lastUserUsagerLogin?.createdAt) {
-      if (
-        !dateInteraction ||
-        differenceInCalendarDays(
-          lastUserUsagerLogin.createdAt,
-          dateInteraction
-        ) > 0
-      ) {
-        return lastUserUsagerLogin.createdAt;
-      }
+      return new Date(lastUserUsagerLogin.createdAt);
     }
   }
   return dateInteraction;
@@ -68,7 +51,7 @@ export const getDateFromUserLogin = async (
 
 export const getMostRecentInteractionDate = (
   usager: Usager,
-  dateInteraction: Date | null
+  dateInteraction: Date
 ): Date => {
   const dateDebut = new Date(usager.decision.dateDebut);
 
