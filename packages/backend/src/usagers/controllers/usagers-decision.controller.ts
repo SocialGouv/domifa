@@ -146,11 +146,6 @@ export class UsagersDecisionController {
       usager,
       user.structure
     );
-    // Si aucune interaction est trouvée, on remet la date de la décision actuelle
-    if (!usager.lastInteraction.dateInteraction) {
-      usager.lastInteraction.dateInteraction =
-        usager.decision.dateDebut ?? usager.decision.dateDecision;
-    }
 
     const createdBy = {
       userId: user.id,
