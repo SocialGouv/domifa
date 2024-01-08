@@ -426,6 +426,7 @@ async function createTables(queryRunner: QueryRunner) {
       residence text NULL,
       "residenceDetail" text NULL,
       cause text NULL,
+      "situationPro" text NULL,
       "causeDetail" text NULL,
       rattachement text NULL,
       raison text NULL,
