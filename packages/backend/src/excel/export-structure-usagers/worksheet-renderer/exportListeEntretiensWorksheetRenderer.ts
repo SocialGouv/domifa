@@ -5,6 +5,7 @@ import {
   ENTRETIEN_RAISON_DEMANDE,
   ENTRETIEN_RESIDENCE,
   ENTRETIEN_TYPE_MENAGE,
+  ENTRETIEN_SITUATION_PRO,
 } from "@domifa/common";
 
 import { Usager } from "../../../_common/model";
@@ -16,7 +17,6 @@ import {
   XlRowModel,
 } from "../../xlLib";
 import { StructureUsagersExportModel } from "../StructureUsagersExportModel.type";
-import { ENTRETIEN_SITUATION_PRO } from "@domifa/common";
 
 export const exportListeEntretiensWorksheetRenderer = {
   renderWorksheet,

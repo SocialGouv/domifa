@@ -17,10 +17,10 @@ function renderSection2ActiviteDecisions(context: {
 
   const data = model.stats.data.decisions;
   worksheetRendered.renderCell(i++, "b", {
-    value: `2. ACTIVITÉ DU ${format(
+    value: `Axe 2. Activité de domiciliation du ${format(
       new Date(model.stats.period.startDateUTC),
       "dd/MM/yyyy"
-    )} AU ${format(new Date(model.stats.period.endDateUTC), "dd/MM/yyyy")}`,
+    )} au ${format(new Date(model.stats.period.endDateUTC), "dd/MM/yyyy")}`,
   });
   i++; // blank line
   worksheetRendered.renderCell(i++, "c", {
