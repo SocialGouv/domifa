@@ -2531,7 +2531,7 @@ __metadata:
     eslint-plugin-prettier: ^5.0.1
     file-saver: ^2.0.5
     google-libphonenumber: ^3.2.33
-    intl-tel-input: 18.3.3
+    intl-tel-input: 18.3.4
     jest: ^29.7.0
     jest-preset-angular: ^13.1.4
     jwt-decode: ^3.1.2
@@ -13899,16 +13899,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ignore-walk@npm:^6.0.0":
-  version: 6.0.3
-  resolution: "ignore-walk@npm:6.0.3"
-  dependencies:
-    minimatch: ^9.0.0
-  checksum: d8ba534beb3a3fa48ddd32c79bbedb14a831ff7fab548674765d661d8f8d0df4b0827e3ad86e35cb15ff027655bfd6a477bd8d5d0411e229975a7c716f1fc9de
-  languageName: node
-  linkType: hard
-
-"ignore-walk@npm:^6.0.4":
+"ignore-walk@npm:^6.0.0, ignore-walk@npm:^6.0.4":
   version: 6.0.4
   resolution: "ignore-walk@npm:6.0.4"
   dependencies:
@@ -14152,10 +14143,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"intl-tel-input@npm:18.3.3":
-  version: 18.3.3
-  resolution: "intl-tel-input@npm:18.3.3"
-  checksum: 12f7b82f752e9e0ba8868c4852fd4a5e648cda57d59a95b7760badaaa697fe09a95c1203d39c78e6f8fa94e362ebe6ad32f528e74862eac7e4c3d6a2e2008281
+"intl-tel-input@npm:18.3.4":
+  version: 18.3.4
+  resolution: "intl-tel-input@npm:18.3.4"
+  checksum: a966c5f5956a8bb5822fe49f32dc1e2be6d694ca5a071bb3ce199fe147d7b772f67ae5cff6c38c0b6d5055fadd0da01541e45cb7ff698078da0b7769b867cade
   languageName: node
   linkType: hard
 
@@ -16402,7 +16393,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:^10.0.1, lru-cache@npm:^10.1.0":
+"lru-cache@npm:^10.0.1, lru-cache@npm:^10.1.0, lru-cache@npm:^9.1.1 || ^10.0.0":
   version: 10.1.0
   resolution: "lru-cache@npm:10.1.0"
   checksum: 58056d33e2500fbedce92f8c542e7c11b50d7d086578f14b7074d8c241422004af0718e08a6eaae8705cee09c77e39a61c1c79e9370ba689b7010c152e6a76ab
@@ -16431,13 +16422,6 @@ __metadata:
   version: 7.18.3
   resolution: "lru-cache@npm:7.18.3"
   checksum: e550d772384709deea3f141af34b6d4fa392e2e418c1498c078de0ee63670f1f46f5eee746e8ef7e69e1c895af0d4224e62ee33e66a543a14763b0f2e74c1356
-  languageName: node
-  linkType: hard
-
-"lru-cache@npm:^9.1.1 || ^10.0.0":
-  version: 10.0.0
-  resolution: "lru-cache@npm:10.0.0"
-  checksum: 18f101675fe283bc09cda0ef1e3cc83781aeb8373b439f086f758d1d91b28730950db785999cd060d3c825a8571c03073e8c14512b6655af2188d623031baf50
   languageName: node
   linkType: hard
 
@@ -17005,14 +16989,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minipass@npm:^5.0.0 || ^6.0.2 || ^7.0.0":
-  version: 7.0.2
-  resolution: "minipass@npm:7.0.2"
-  checksum: 46776de732eb7cef2c7404a15fb28c41f5c54a22be50d47b03c605bf21f5c18d61a173c0a20b49a97e7a65f78d887245066410642551e45fffe04e9ac9e325bc
-  languageName: node
-  linkType: hard
-
-"minipass@npm:^7.0.2, minipass@npm:^7.0.3":
+"minipass@npm:^5.0.0 || ^6.0.2 || ^7.0.0, minipass@npm:^7.0.2, minipass@npm:^7.0.3":
   version: 7.0.4
   resolution: "minipass@npm:7.0.4"
   checksum: 87585e258b9488caf2e7acea242fd7856bbe9a2c84a7807643513a338d66f368c7d518200ad7b70a508664d408aa000517647b2930c259a8b1f9f0984f344a21
