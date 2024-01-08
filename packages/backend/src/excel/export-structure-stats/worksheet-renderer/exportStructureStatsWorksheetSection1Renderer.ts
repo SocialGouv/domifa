@@ -16,10 +16,10 @@ function renderSection1ValidUsagers(context: {
 
   const data = model.stats.data.validUsagers;
   worksheetRendered.renderCell(i++, "b", {
-    value: `1. DOMICILIÉS PAR STATUT AU ${format(
+    value: `Axe 1. Connaissance du public domicilié au ${format(
       model.stats.period.endDateUTC,
       "dd/MM/yyyy"
-    )}`,
+    )} en nombre de personnes`,
   });
   i++; // blank line
   worksheetRendered.renderCell(i++, "c", {
@@ -178,6 +178,21 @@ function renderSection1ValidUsagers(context: {
   worksheetRendered.renderCell(i++, "c", {
     value: data.cause.non_renseigne,
   });
+
+  i++; // blank line
+  i++; // title
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.raison.exercice_droits,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.raison.prestations_sociales,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.raison.autre,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.raison.non_renseigne,
+  });
   i++; // blank line
   i++; // title
   worksheetRendered.renderCell(i++, "c", {
@@ -219,20 +234,6 @@ function renderSection1ValidUsagers(context: {
     value: data.situationPro.non_renseigne,
   });
 
-  i++; // blank line
-  i++; // title
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.raison.exercice_droits,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.raison.prestations_sociales,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.raison.autre,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.raison.non_renseigne,
-  });
   i++; // blank line
 
   context.currentRowNumber = i;

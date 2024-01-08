@@ -54,7 +54,7 @@ export const ENTRETIEN_SITUATION_PRO: {
   RSA: "RSA",
   AAH: "Allocation aux adultes handicapés (AAH)",
   RETRAITE: "Retraité",
-  AUTRE: "Autre raison",
+  AUTRE: "Autre",
 };
 
 export const ENTRETIEN_RAISON_DEMANDE: {
