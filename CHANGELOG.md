@@ -1,3 +1,17 @@
+# [2.155.0](https://github.com/SocialGouv/domifa/compare/v2.154.4...v2.155.0) (2024-01-08)
+
+
+### Bug Fixes
+
+* **dumps:** update dumps for test ([4df6467](https://github.com/SocialGouv/domifa/commit/4df64678de91d66358174b09b6161d653203d36a))
+* **excel:** update excel files ([0cbf3dc](https://github.com/SocialGouv/domifa/commit/0cbf3dc2258f4ed353730e01a0192cd57c98d429))
+
+
+### Features
+
+* **entretien:** add new field ([4a66432](https://github.com/SocialGouv/domifa/commit/4a66432744c8bfd31f1f90b9e8fae06a8f549e6b))
+* **stats:** update custom docs, excel exports ([4173d73](https://github.com/SocialGouv/domifa/commit/4173d73f3fa3004bfa5f64cfd601e57f4f395908))
+
 ## [2.154.4](https://github.com/SocialGouv/domifa/compare/v2.154.3...v2.154.4) (2024-01-08)
 
 
