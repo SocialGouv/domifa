@@ -29,6 +29,7 @@ const structureDto: StructureDto = {
     ville: "Bordeaux",
     codePostal: "33000",
   },
+  organismeType: null,
   agrement: "",
   capacite: null,
   codePostal: "33600",
