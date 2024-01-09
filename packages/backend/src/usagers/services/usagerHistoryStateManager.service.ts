@@ -25,7 +25,7 @@ function getHistoryBeginDate(date: Date) {
   return startOfDay(new Date(date));
 }
 
-function getHistoryEndDateFromNextBeginDate(date: Date) {
+export function getHistoryEndDateFromNextBeginDate(date: Date) {
   return endOfDay(subDays(new Date(date), 1));
 }
 
@@ -141,41 +141,29 @@ function addNewStateToHistory({
   usagerHistory: UsagerHistory;
   newHistoryState: UsagerHistoryState;
 }) {
-  const states: UsagerHistoryState[] = [
-    ...usagerHistory.states.map((state, i) => {
-      // TODO: s'il s'agit d'une décision, rechercher la précédente décision pour indiquer qu'elle n'est plus valable
-      if (i === usagerHistory.states.length - 1) {
-        // finish previous history state
-        state.historyEndDate = getHistoryEndDateFromNextBeginDate(
-          newHistoryState.historyBeginDate
-        );
-      }
-      return state;
-    }),
-    newHistoryState,
-  ];
-
-  return {
-    ...usagerHistory,
-    states,
-  };
+  if (
+    typeof usagerHistory.states[usagerHistory.states.length - 1] !== "undefined"
+  ) {
+    usagerHistory.states[usagerHistory.states.length - 1].historyEndDate =
+      getHistoryEndDateFromNextBeginDate(newHistoryState.historyBeginDate);
+  }
+  usagerHistory.states.push(newHistoryState);
+  return usagerHistory;
 }
 
 async function updateHistoryStateWithoutDecision({
   usager,
-  createdAt = new Date(),
   createdEvent,
-  historyBeginDate = createdAt,
 }: {
   usager: Usager;
-
-  createdAt?: Date;
   createdEvent: UsagerHistoryStateCreationEvent;
-  historyBeginDate?: Date;
 }): Promise<UsagerHistory> {
   const usagerHistory: UsagerHistory = await usagerHistoryRepository.findOneBy({
     usagerUUID: usager.uuid,
   });
+
+  const createdAt = new Date();
+  const historyBeginDate = createdAt;
 
   const newHistoryState: UsagerHistoryState = buildHistoryState({
     usager,
