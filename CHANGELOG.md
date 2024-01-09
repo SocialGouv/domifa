@@ -1,3 +1,10 @@
+## [2.155.1](https://github.com/SocialGouv/domifa/compare/v2.155.0...v2.155.1) (2024-01-09)
+
+
+### Bug Fixes
+
+* **stats:** close stats periods ([7ae2e69](https://github.com/SocialGouv/domifa/commit/7ae2e691f81977a35b1c61a9ebad5e7273be843f))
+
 # [2.155.0](https://github.com/SocialGouv/domifa/compare/v2.154.4...v2.155.0) (2024-01-08)
 
 
