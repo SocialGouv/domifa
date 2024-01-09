@@ -2,12 +2,12 @@ import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import {
   UserStructure,
-  UsagerOptionsHistory,
   HISTORY_ACTIONS,
 } from "../../../../../../_common/model";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerOptionsService } from "../../../services/usager-options.service";
 import { UsagersFilterCriteriaSortValues } from "../../../../manage-usagers/components/usager-filter";
+import { UsagerOptionsHistory } from "@domifa/common";
 
 @Component({
   selector: "app-profil-historique-transferts",

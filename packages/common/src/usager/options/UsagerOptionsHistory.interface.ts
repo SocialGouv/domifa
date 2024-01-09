@@ -2,7 +2,7 @@ import { type AppEntity } from "../../_core";
 import { type UsagerOptionsHistoryAction } from "./UsagerOptionsHistoryAction.type";
 import { type UsagerOptionsHistoryType } from "./UsagerOptionsHistoryType.type";
 
-export type UsagerOptionsHistory = AppEntity & {
+export interface UsagerOptionsHistory extends AppEntity {
   usagerUUID: string;
   userId: number;
   userName: string;
@@ -16,4 +16,4 @@ export type UsagerOptionsHistory = AppEntity & {
   dateDebut: Date;
   dateFin: Date;
   dateNaissance?: Date;
-};
+}

@@ -4,12 +4,10 @@ export * from "./dossier";
 export * from "./entretien";
 export * from "./form";
 export * from "./HISTORY_ACTIONS.const";
-export * from "./options";
 export * from "./rdv";
 export * from "./Usager.type";
 export * from "./UsagerDoc.type";
 export * from "./UsagerEcheanceInfos.type";
-
 export * from "./UsagerLight.type";
 export * from "./UsagerNote.type";
 export * from "./UsagersImportMode.type";

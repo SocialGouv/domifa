@@ -4,11 +4,11 @@ import { HttpService } from "@nestjs/axios";
 import { domifaConfig } from "../../config";
 import { messageSmsRepository } from "../../database/services/message-sms";
 import {
-  MessageSms,
   MessageSmsSendResponse,
   MESSAGE_SMS_RESPONSE_ERRORS,
 } from "../../_common/model/message-sms";
 import { AxiosError } from "@nestjs/terminus/dist/errors/axios.error";
+import { MessageSms } from "@domifa/common";
 
 @Injectable()
 export class MessageSmsSenderService {

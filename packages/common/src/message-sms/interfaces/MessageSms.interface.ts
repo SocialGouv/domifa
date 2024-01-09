@@ -1,13 +1,9 @@
-import {
-  MessageSmsId,
-  MessageSmsReminderMetas,
-  MessageSmsStatus,
-  MessageSmsInteractionMetas,
-} from "@domifa/common";
-import { AppEntity } from "../../../_common/model";
+import { type AppEntity } from "../../_core";
+import { type MessageSmsId, type MessageSmsStatus } from "../types";
+import { type MessageSmsInteractionMetas } from "./MessageSmsInteractionMetas.interface";
+import { type MessageSmsReminderMetas } from "./MessageSmsReminderMetas.interface";
 
-export type MessageSms = AppEntity & {
-  // Infos sur l'usager
+export interface MessageSms extends AppEntity {
   usagerRef: number;
   structureId: number;
 
@@ -19,8 +15,6 @@ export type MessageSms = AppEntity & {
 
   scheduledDate: Date; // Date d'envoi PRÉVUE
   sendDate?: Date; // Date d'envoi EFFECTIVE
-
-  // Metas selon le contexte
   interactionMetas?: MessageSmsInteractionMetas;
   reminderMetas?: MessageSmsReminderMetas;
 
@@ -31,4 +25,4 @@ export type MessageSms = AppEntity & {
 
   errorCount: number;
   errorMessage?: string;
-};
+}

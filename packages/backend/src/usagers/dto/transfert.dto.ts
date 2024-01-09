@@ -7,8 +7,9 @@ import {
 } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
-import { UsagerOptionsTransfert } from "../../_common/model";
+
 import { TrimOrNullTransform } from "../../_common/decorators";
+import { UsagerOptionsTransfert } from "@domifa/common";
 
 export class TransfertDto implements UsagerOptionsTransfert {
   @IsEmpty()

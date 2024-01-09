@@ -1,13 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import {
   HISTORY_ACTIONS,
-  UsagerOptionsHistory,
   UserStructure,
 } from "../../../../../../_common/model";
 import { Subscription } from "rxjs";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerOptionsService } from "../../../services/usager-options.service";
 import { UsagersFilterCriteriaSortValues } from "../../../../manage-usagers/components/usager-filter";
+import { UsagerOptionsHistory } from "@domifa/common";
 
 @Component({
   selector: "app-profil-historique-procurations",

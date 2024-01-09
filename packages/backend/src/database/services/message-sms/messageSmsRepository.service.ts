@@ -1,6 +1,6 @@
-import { InteractionType } from "@domifa/common";
+import { InteractionType, MessageSms } from "@domifa/common";
 import { myDataSource } from "..";
-import { MessageSms } from "../../../_common/model";
+
 import { MessageSmsTable } from "./../../entities/message-sms/MessageSmsTable.typeorm";
 
 export const messageSmsRepository = myDataSource
