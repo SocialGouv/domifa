@@ -2,13 +2,14 @@ import { isNil } from "lodash";
 import { ucFirst } from "./../usagers/services/custom-docs/buildCustomDoc.service";
 import { MigrationInterface } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
+import { Usager, StructureLight } from "../_common/model";
 import {
-  Usager,
-  UsagerAyantDroit,
-  StructureLight,
-  UsagerTypeDom,
-} from "../_common/model";
-import { myDataSource, usagerRepository, UsagerTable } from "../database";
+  myDataSource,
+  usagerNotesRepository,
+  UsagerNotesTable,
+  usagerRepository,
+  UsagerTable,
+} from "../database";
 
 import { usagersCreator } from "../usagers/services";
 import { domifaConfig } from "../config";
@@ -20,15 +21,14 @@ import {
   TUsager,
   PAYS,
   getDateFromXml,
+  getText,
+  TOULOUSE_USER_ID,
 } from "../_common/tmp-toulouse";
-import { tmpHistoriqueRepository } from "../database/services/interaction/historiqueRepository.service";
+import { UsagerTypeDom, UsagerAyantDroit } from "@domifa/common";
 
 export class ManualMigration1692191990702 implements MigrationInterface {
+  name = "ImportUsagersFromJson1692191990702";
   public async up(): Promise<void> {
-    if ((await tmpHistoriqueRepository.count()) === 0) {
-      throw new Error("Chargement des fichiers incomplets");
-    }
-
     await resetUsagers({ id: TOULOUSE_STRUCTURE_ID } as StructureLight);
 
     console.log("2️⃣  Début de l'import des domiciliés");
@@ -49,16 +49,17 @@ export class ManualMigration1692191990702 implements MigrationInterface {
         usager.date_naissance !== 0
     );
 
-    const usagers = raw.filter((usager: TUsager) => usager?.enfant_de === 0);
-    console.log("\t" + usagers.length + " dossiers uniques à importer");
-
-    const tmpChildrens = raw.filter(
-      (usager: TUsager) => usager?.enfant_de !== 0
+    const usagers = raw.filter(
+      (usager: TUsager) => parseInt(usager?.enfant_de as string, 10) === 0
     );
-    console.log("\t" + tmpChildrens.length + " ayants-drois à importer");
+    console.log("\t" + usagers.length + " dossiers uniques à importer");
+    const ayantsDroits = raw.filter(
+      (usager: TUsager) => parseInt(usager?.enfant_de as string, 10) !== 0
+    );
 
-    const childrens = this.extractChidrens(tmpChildrens);
+    console.log("\t" + ayantsDroits.length + " ayants-drois à importer");
 
+    const childrens = this.extractChidrens(ayantsDroits);
     let i = 0;
 
     const queryRunner = myDataSource.createQueryRunner();
@@ -112,7 +113,7 @@ export class ManualMigration1692191990702 implements MigrationInterface {
 
       const lastInteractionDate = usagerToulouse?.dernier_retrait
         ? getDateFromXml(usagerToulouse?.dernier_retrait)
-        : dateDebut;
+        : null;
 
       const partialUsager: Partial<Usager> = {
         ref: usagerToulouse.IDDomicilie,
@@ -134,12 +135,12 @@ export class ManualMigration1692191990702 implements MigrationInterface {
           usagerToulouse?.Pays_naissance
         ),
         ayantsDroits:
-          typeof childrens[usagerToulouse.IDDomicilie] !== "undefined"
-            ? childrens[usagerToulouse.IDDomicilie]
+          typeof childrens[usagerToulouse.Num_domici.toString()] !== "undefined"
+            ? childrens[usagerToulouse.Num_domici.toString()]
             : [],
         dateNaissance: getDateFromXml(usagerToulouse.date_naissance),
         customRef:
-          usagerToulouse?.Num_domici.toString() ??
+          usagerToulouse?.Num_domici?.toString() ??
           usagerToulouse.IDDomicilie.toString(),
         lastInteraction: {
           dateInteraction: lastInteractionDate,
@@ -154,8 +155,8 @@ export class ManualMigration1692191990702 implements MigrationInterface {
           uuid: uuidv4(),
           dateDecision,
           statut,
-          userName: "DomiFa",
-          userId: 1200,
+          userName: "Croix-Rouge Toulouse",
+          userId: TOULOUSE_USER_ID,
           dateFin,
           dateDebut,
           typeDom,
@@ -164,9 +165,56 @@ export class ManualMigration1692191990702 implements MigrationInterface {
         },
       };
 
+      usagersCreator.setUsagerDefaultAttributes(partialUsager);
       const usager = new UsagerTable(partialUsager);
-      usagersCreator.setUsagerDefaultAttributes(usager);
       await usagerRepository.save(usager);
+
+      if (usagerToulouse?.procuration === 1) {
+        const message = getText(usagerToulouse?.nom_procuration);
+
+        await usagerNotesRepository.save(
+          new UsagerNotesTable({
+            message: `Procuration: ${message}`,
+            usagerRef: usager.ref,
+            usagerUUID: usager.uuid,
+            pinned: false,
+            structureId: TOULOUSE_STRUCTURE_ID,
+            createdBy: {
+              userName: "Croix-Rouge Toulouse",
+              userId: TOULOUSE_USER_ID,
+            },
+            archived: false,
+          })
+        );
+      }
+
+      if (getText(usagerToulouse?.Remarques) !== "") {
+        const newNote = new UsagerNotesTable({
+          message: getText(usagerToulouse?.Remarques),
+          usagerRef: usager.ref,
+          usagerUUID: usager.uuid,
+          pinned: true,
+          structureId: TOULOUSE_STRUCTURE_ID,
+          createdBy: {
+            userName: "Croix-Rouge Toulouse",
+            userId: TOULOUSE_USER_ID,
+          },
+          archived: false,
+        });
+        await usagerNotesRepository.save(newNote);
+
+        await usagerRepository.update(
+          { uuid: usager.uuid },
+          {
+            pinnedNote: {
+              message: newNote.message,
+              usagerRef: newNote.usagerRef,
+              createdAt: newNote.createdAt,
+              createdBy: newNote.createdBy,
+            },
+          }
+        );
+      }
     }
 
     await queryRunner.commitTransaction();
@@ -194,10 +242,11 @@ export class ManualMigration1692191990702 implements MigrationInterface {
           dateNaissance: getDateFromXml(child.date_naissance),
           lien: "ENFANT",
         };
-        if (typeof usagersByRef[child.enfant_de] === "undefined") {
-          usagersByRef[child.enfant_de] = [];
+        const key = child.enfant_de.toString();
+        if (typeof usagersByRef[key] === "undefined") {
+          usagersByRef[key] = [];
         }
-        usagersByRef[child.enfant_de].push(ayantDroit);
+        usagersByRef[key].push(ayantDroit);
       }
     }
 

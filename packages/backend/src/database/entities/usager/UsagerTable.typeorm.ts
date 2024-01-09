@@ -142,7 +142,10 @@ export class UsagerTable
   public numeroDistribution!: string | null;
 
   @Column({ type: "jsonb", default: null, nullable: true })
-  public pinnedNote!: Partial<UsagerNote> | null;
+  public pinnedNote!: Pick<
+    UsagerNote,
+    "usagerRef" | "createdAt" | "createdBy" | "message"
+  > | null;
 
   public constructor(entity?: Partial<UsagerTable>) {
     super(entity);

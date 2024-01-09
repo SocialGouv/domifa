@@ -2,20 +2,31 @@
 import { interactionRepository } from "../database/services/interaction/interactionRepository.service";
 import { In, MigrationInterface, QueryRunner } from "typeorm";
 import { InteractionsTable, myDataSource, usagerRepository } from "../database";
-import { TOULOUSE_STRUCTURE_ID, getDateFromXml } from "../_common/tmp-toulouse";
+import {
+  TOULOUSE_STRUCTURE_ID,
+  TOULOUSE_USER_ID,
+  getDateFromXml,
+} from "../_common/tmp-toulouse";
 import { tmpHistoriqueRepository } from "../database/services/interaction/historiqueRepository.service";
 import { format } from "date-fns";
 
-export class ManualMigration1697659880952 implements MigrationInterface {
+export class ImportPassagesToulouseMigration1697659880955
+  implements MigrationInterface
+{
+  name = "ImportPassagesToulouseMigration1697659880955";
   public async up(): Promise<void> {
+    if ((await tmpHistoriqueRepository.count()) === 0) {
+      throw new Error("Chargement des fichiers historique incomplets");
+    }
+
     const queryRunner = myDataSource.createQueryRunner();
 
     console.log("");
     console.log("Lancement de la migration d'import des passages 🏃‍♂️");
     console.log("");
+    await queryRunner.startTransaction();
 
     console.log("Réinitialisation des variables de migration");
-    await usagerRepository.update({}, { migrated: true });
     await usagerRepository.update(
       { structureId: TOULOUSE_STRUCTURE_ID },
       { migrated: false }
@@ -26,16 +37,21 @@ export class ManualMigration1697659880952 implements MigrationInterface {
       structureId: TOULOUSE_STRUCTURE_ID,
       type: "visite",
     });
+    await queryRunner.commitTransaction();
 
-    const total = await usagerRepository.countMigratedUsagers();
+    const total = await usagerRepository.countMigratedUsagers(
+      TOULOUSE_STRUCTURE_ID
+    );
     console.log(total + " usagers à migrer");
     let cpt = 0;
 
-    while ((await usagerRepository.countMigratedUsagers()) > 0) {
+    while (
+      (await usagerRepository.countMigratedUsagers(TOULOUSE_STRUCTURE_ID)) > 0
+    ) {
       const usagerIdsToUpdate = [];
       const usagers = await usagerRepository.find({
         where: { structureId: TOULOUSE_STRUCTURE_ID, migrated: false },
-        take: 500,
+        take: 1000,
         select: ["ref", "uuid", "nom"],
       });
 
@@ -58,10 +74,9 @@ export class ManualMigration1697659880952 implements MigrationInterface {
                 usagerRef: usager.ref,
                 dateInteraction: getDateFromXml(interaction.date),
                 type: "visite",
-                userId: 1200,
-                userName: "DomiFa",
+                userName: "Croix-Rouge Toulouse",
+                userId: TOULOUSE_USER_ID,
                 structureId: TOULOUSE_STRUCTURE_ID,
-                event: "create",
                 interactionOutUUID: null,
               })
           );
@@ -83,7 +98,6 @@ export class ManualMigration1697659880952 implements MigrationInterface {
       );
       await queryRunner.commitTransaction();
     }
-    await queryRunner.commitTransaction();
     await queryRunner.release();
   }
 

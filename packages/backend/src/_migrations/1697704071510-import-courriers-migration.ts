@@ -18,8 +18,16 @@ import { InteractionDto } from "../interactions/dto";
 import { MOTIF } from "../_common/tmp-toulouse/MOTIF.const";
 import { format } from "date-fns";
 
-export class ManualMigration1697704071500 implements MigrationInterface {
+export class ImportCourriersToulouseMigration1697704071510
+  implements MigrationInterface
+{
+  name = "ImportCourriersToulouseMigration1697704071510";
+
   public async up(): Promise<void> {
+    if ((await tmpCourriersRepository.count()) === 0) {
+      throw new Error("Chargement des fichiers Courriers incomplets");
+    }
+
     const queryRunner = myDataSource.createQueryRunner();
     await queryRunner.startTransaction();
     console.log("");
@@ -59,9 +67,13 @@ export class ManualMigration1697704071500 implements MigrationInterface {
 
     console.log("Début de l'import courriers des usagers");
 
-    const total = await usagerRepository.countMigratedUsagers();
+    const total = await usagerRepository.countMigratedUsagers(
+      TOULOUSE_STRUCTURE_ID
+    );
 
-    while ((await usagerRepository.countMigratedUsagers()) > 0) {
+    while (
+      (await usagerRepository.countMigratedUsagers(TOULOUSE_STRUCTURE_ID)) > 0
+    ) {
       await queryRunner.startTransaction();
 
       const usagers = await usagerRepository.find({
@@ -136,7 +148,6 @@ export class ManualMigration1697704071500 implements MigrationInterface {
       );
       await queryRunner.commitTransaction();
     }
-    await queryRunner.commitTransaction();
     await queryRunner.release();
   }
 

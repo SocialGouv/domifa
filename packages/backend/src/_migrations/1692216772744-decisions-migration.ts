@@ -1,34 +1,51 @@
 import { In, MigrationInterface, QueryRunner } from "typeorm";
 
-import {
-  Usager,
-  UsagerDecision,
-  UsagerHistory,
-  UsagerHistoryState,
-} from "../_common/model";
+import { UsagerHistory, UsagerHistoryState } from "../_common/model";
 import { addYears, endOfDay, format, startOfDay, subDays } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 import {
   UsagerHistoryTable,
-  UsagerTable,
   myDataSource,
   usagerHistoryRepository,
   usagerRepository,
 } from "../database";
-import { UsagerEntretien } from "@domifa/common";
-import { TOULOUSE_STRUCTURE_ID, getDateFromXml } from "../_common/tmp-toulouse";
+import { UsagerDecision, UsagerEntretien, UsagerTypeDom } from "@domifa/common";
+import {
+  TOULOUSE_STRUCTURE_ID,
+  TOULOUSE_USER_ID,
+  getDateFromXml,
+} from "../_common/tmp-toulouse";
 import { tmpHistoriqueRepository } from "../database/services/interaction/historiqueRepository.service";
 
-export class ManualMigration1692216772744 implements MigrationInterface {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async up(_queryRunner: QueryRunner): Promise<void> {
+export class ImportDecisionsMigration1692216772744
+  implements MigrationInterface
+{
+  name = "ImportDecisionsMigration1692216772744";
+
+  public async up(): Promise<void> {
+    if ((await tmpHistoriqueRepository.count()) === 0) {
+      throw new Error("Chargement des fichiers historique incomplets");
+    }
+    const queryRunner = myDataSource.createQueryRunner();
+
     console.log("");
     console.log("Lancement de la migration d'import des decisions");
     console.log("");
-
+    await queryRunner.startTransaction();
     await usagerHistoryRepository.delete({
       structureId: TOULOUSE_STRUCTURE_ID,
     });
+
+    console.log("Réinitialisation des variables de migration");
+    await usagerRepository.update(
+      { structureId: TOULOUSE_STRUCTURE_ID },
+      { migrated: false }
+    );
+    await queryRunner.commitTransaction();
+
+    console.log(
+      await usagerRepository.countMigratedUsagers(TOULOUSE_STRUCTURE_ID)
+    );
 
     const decisions = await tmpHistoriqueRepository.find({
       where: {
@@ -41,11 +58,11 @@ export class ManualMigration1692216772744 implements MigrationInterface {
     });
 
     const usagersByRef: { [key: string]: UsagerDecision[] } = {};
-    const queryRunner = myDataSource.createQueryRunner();
 
     for (const decision of decisions) {
-      if (typeof usagersByRef[decision.id_domicilie] === "undefined") {
-        usagersByRef[decision.id_domicilie] = [];
+      const key = decision.id_domicilie.toString();
+      if (typeof usagersByRef[key] === "undefined") {
+        usagersByRef[key] = [];
       }
 
       const dateFin =
@@ -59,8 +76,8 @@ export class ManualMigration1692216772744 implements MigrationInterface {
           decision.type === "cloture" || decision.type === "resiliation"
             ? "RADIE"
             : "VALIDE",
-        userId: 0,
-        userName: "DomiFa",
+        userName: "Croix-Rouge Toulouse",
+        userId: TOULOUSE_USER_ID,
         dateDebut: getDateFromXml(decision.date),
         dateFin,
         dateDecision: getDateFromXml(decision.date),
@@ -76,47 +93,50 @@ export class ManualMigration1692216772744 implements MigrationInterface {
             : null,
       };
 
-      usagersByRef[decision.id_domicilie].push(newDecision);
+      usagersByRef[key].push(newDecision);
     }
 
     let cpt = 0;
 
-    await queryRunner.startTransaction();
-    for (const ref in usagersByRef) {
-      cpt++;
-      if (cpt % 1000 === 0) {
-        await queryRunner.commitTransaction();
-        console.log(
-          `${cpt} décisions importés ${format(new Date(), "HH:mm:ss")}`
-        );
-        await queryRunner.startTransaction();
-      }
+    while (
+      (await usagerRepository.countMigratedUsagers(TOULOUSE_STRUCTURE_ID)) > 0
+    ) {
+      const usagers = await usagerRepository.find({
+        where: { structureId: TOULOUSE_STRUCTURE_ID, migrated: false },
+        take: 500,
+        select: [
+          "ref",
+          "rdv",
+          "ayantsDroits",
+          "uuid",
+          "decision",
+          "historique",
+          "typeDom",
+          "etapeDemande",
+        ],
+      });
 
-      const usager = await myDataSource
-        .getRepository<Usager>(UsagerTable)
-        .findOne({
-          where: {
-            ref: parseInt(ref, 10),
-            structureId: 1,
-          },
-          select: [
-            "ref",
-            "rdv",
-            "ayantsDroits",
-            "uuid",
-            "decision",
-            "historique",
-            "typeDom",
-            "etapeDemande",
-          ],
-        });
+      console.log(
+        `${cpt} décisions / ${Object.keys(usagersByRef).length} - ${format(
+          new Date(),
+          "HH:mm:ss"
+        )}`
+      );
 
-      if (usager) {
-        usagersByRef[ref].push(usager.decision);
+      await queryRunner.startTransaction();
+      for (const usager of usagers) {
+        cpt++;
 
+        const key = usager.ref.toString();
+
+        if (typeof usagersByRef[key] === "undefined") {
+          usagersByRef[key] = [];
+        }
+
+        usagersByRef[key].push(usager.decision);
         const uniqueCombinations = new Set();
 
-        const uniqueDecision = usagersByRef[ref].filter(
+        const uniqueDecision = usagersByRef[key].filter(
           (decision: UsagerDecision) => {
             const dateDebutFormatted = new Date(decision.dateDebut)
               .toISOString()
@@ -145,6 +165,13 @@ export class ManualMigration1692216772744 implements MigrationInterface {
           states: [],
         });
 
+        const typeDom: UsagerTypeDom =
+          { ...uniqueDecision }.filter(
+            (decision) => decision.statut === "VALIDE"
+          ).length > 1 || usager.typeDom === "RENOUVELLEMENT"
+            ? "RENOUVELLEMENT"
+            : "PREMIERE_DOM";
+
         for (const decision of uniqueDecision) {
           usager.decision = decision;
           usager.historique.push(decision);
@@ -159,6 +186,7 @@ export class ManualMigration1692216772744 implements MigrationInterface {
               decision.statut === "INSTRUCTION") &&
               (previousState?.isActive ?? false));
 
+          decision.typeDom = typeDom;
           const state: UsagerHistoryState = {
             uuid: uuidv4(),
             createdAt: startOfDay(new Date(decision.dateDebut)),
@@ -167,7 +195,7 @@ export class ManualMigration1692216772744 implements MigrationInterface {
             historyBeginDate: startOfDay(new Date(decision.dateDebut)),
             historyEndDate: undefined,
             decision,
-            typeDom: usager.typeDom,
+            typeDom,
             etapeDemande: usager.etapeDemande,
             entretien: {
               domiciliation: null,
@@ -205,10 +233,23 @@ export class ManualMigration1692216772744 implements MigrationInterface {
           {
             uuid: usager.uuid,
           },
-          { decision: usager.decision, historique: usager.historique }
+          {
+            decision: usager.decision,
+            historique: usager.historique,
+            migrated: true,
+            typeDom,
+          }
         );
       }
     }
+
+    console.log(
+      `${cpt} décisions / ${Object.keys(usagersByRef).length} - ${format(
+        new Date(),
+        "HH:mm:ss"
+      )}`
+    );
+
     await queryRunner.release();
   }
 

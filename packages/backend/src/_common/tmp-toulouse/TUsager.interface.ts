@@ -16,7 +16,7 @@ export interface TUsager {
   au: string; // ou au: number; selon ce que vous préférez
   Num_domici: number;
   enfant: number; // peut-être considéré comme un boolean si cela représente une valeur booléenne (1 ou 0)
-  enfant_de: number; // peut-être considéré comme un boolean si cela représente une valeur booléenne (1 ou 0)
+  enfant_de: string | number; // peut-être considéré comme un boolean si cela représente une valeur booléenne (1 ou 0)
   relation: string | null;
   motif: number;
   dernier_retrait: string; // ou dernier_retrait: number; selon ce que vous préférez

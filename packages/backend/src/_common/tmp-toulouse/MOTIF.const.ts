@@ -1,12 +1,8 @@
 export const MOTIF = {
-  1: "AME",
-  2: "Demandeur d'asile",
-  3: "DEMANDE DE PIECE D'IIDENTITE OFFICIELLE",
-  4: "OUVERTURE DE DROITS",
-  5: "DEMARCHES ADMINISTRATIVES",
-  6: "ADRESSE POUR EMPLOYEUR",
-  7: "RENOUVELLEMENT DES DROITS",
-  8: "LOGEMENT",
-  9: "ACCES AUX DROITS",
-  10: "S.D.F.",
+  1: "Recommandé",
+  4: "OFPRA",
+  5: "CNDA",
+  7: "Colis",
+  8: "OFII",
+  9: "DG des Etrangers en France",
 };

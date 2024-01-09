@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface } from "typeorm";
 import {
   myDataSource,
   usagerEntretienRepository,
@@ -7,8 +7,9 @@ import {
 import { TOULOUSE_STRUCTURE_ID } from "../_common/tmp-toulouse";
 
 export class ManualMigration1692191990703 implements MigrationInterface {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async up(_queryRunner: QueryRunner): Promise<void> {
+  name = "CreaationEntretien1692191990703";
+
+  public async up(): Promise<void> {
     console.log("Suppression des entretiens ... 🏃‍♀️");
     await usagerEntretienRepository.delete({
       structureId: TOULOUSE_STRUCTURE_ID,
@@ -39,9 +40,10 @@ export class ManualMigration1692191990703 implements MigrationInterface {
         usagerRef: usager.ref,
       });
     }
-    await queryRunner.release();
+    await queryRunner.commitTransaction();
 
     console.log("3️⃣ Création des entretiens terminée ✅ ");
+    await queryRunner.release();
   }
 
   public async down(): Promise<void> {

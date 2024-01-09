@@ -4,6 +4,8 @@ import { MigrationInterface } from "typeorm";
 import { domifaConfig } from "../config";
 
 export class ManualMigration1692191990701 implements MigrationInterface {
+  name = "OpenDomicilieXmlMigration1692191990701";
+
   public async up(): Promise<void> {
     const inputFile =
       domifaConfig().upload.basePath + "/toulouse/Domicilie.XML";
