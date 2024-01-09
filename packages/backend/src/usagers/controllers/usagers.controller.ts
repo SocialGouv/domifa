@@ -189,7 +189,6 @@ export class UsagersController {
 
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
       usager: currentUsager,
-
       createdEvent: "update-usager",
     });
 

@@ -12,6 +12,7 @@ import { usagerRepository } from "../../usager/usagerRepository.service";
 import { dataGenerator } from "./dataGenerator.service";
 import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
 import { UsagerAyantDroit, UsagerDecision } from "@domifa/common";
+import { myDataSource } from "../../_postgres";
 
 export const dataUsagerAnonymizer = {
   anonymizeUsagers,
@@ -45,16 +46,23 @@ async function anonymizeUsagers() {
   });
 
   const usagersToAnonymize = usagers.filter((x) => isUsagerToAnonymize(x));
-
+  const queryRunner = myDataSource.createQueryRunner();
   appLogger.warn(
     `[dataUsagerAnonymizer] ${usagersToAnonymize.length}/${usagers.length} usagers to anonymize`
   );
   for (let i = 0; i < usagersToAnonymize.length; i++) {
     const usager = usagersToAnonymize[i];
+
+    if (i === 0) {
+      await queryRunner.startTransaction();
+    }
     if (i !== 0 && i % 5000 === 0) {
+      await queryRunner.commitTransaction();
+
       appLogger.warn(
         `[dataUsagerAnonymizer] ${i}/${usagersToAnonymize.length} usagers anonymized`
       );
+      await queryRunner.startTransaction();
     }
 
     try {
@@ -63,6 +71,7 @@ async function anonymizeUsagers() {
       console.log(e);
     }
   }
+  await queryRunner.commitTransaction();
 }
 
 function isUsagerToAnonymize(x: Usager): unknown {
@@ -113,7 +122,7 @@ async function _anonymizeUsager(usager: Usager) {
     return usager;
   }
 
-  return usagerRepository.updateOneAndReturn(usager.uuid, attributesToUpdate);
+  return usagerRepository.update({ uuid: usager.uuid }, attributesToUpdate);
 }
 
 function anonymizeAyantDroits(
