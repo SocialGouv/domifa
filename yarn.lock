@@ -2370,7 +2370,7 @@ __metadata:
     "@types/node-pdftk": ^2.1.6
     "@types/nodemailer": ^6.4.2
     "@types/nunjucks": ^3.2.1
-    "@types/passport-jwt": ^3.0.5
+    "@types/passport-jwt": ^4.0.0
     "@types/pdfkit": ^0.13.0
     "@types/pino": ^7.0.5
     "@types/pizzip": ^3.0.1
@@ -6645,14 +6645,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/passport-jwt@npm:^3.0.5":
-  version: 3.0.9
-  resolution: "@types/passport-jwt@npm:3.0.9"
+"@types/passport-jwt@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@types/passport-jwt@npm:4.0.0"
   dependencies:
-    "@types/express": "*"
     "@types/jsonwebtoken": "*"
     "@types/passport-strategy": "*"
-  checksum: 9db11d4a6cd6b652fc98bfc98463d3d0e349edafb04447178536d0c1a53ecec999be1ae07773e80d40458b6e753ebe5f54130d584ae4e29ccb83a792dc88c075
+  checksum: f18d048b756356a80cda51a14e9cad51a97c86b162748373c433f9e2bb030c5947845efc03250a675e27596cdd4ca3500cc8db94e59bf428a566c34170ad40b8
   languageName: node
   linkType: hard
 
