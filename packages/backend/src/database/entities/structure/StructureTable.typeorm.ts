@@ -1,7 +1,7 @@
 import { BeforeInsert, Column, Entity, Generated, Index } from "typeorm";
 
 import { TimeZone } from "../../../util/territoires";
-import { Structure, Telephone } from "../../../_common/model";
+import { Telephone } from "../../../_common/model";
 
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import {
@@ -10,6 +10,7 @@ import {
   StructurePortailUsagerParams,
   StructureResponsable,
   StructureType,
+  Structure,
 } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres

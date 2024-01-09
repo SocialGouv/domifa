@@ -6,13 +6,13 @@ import { userStructureRepository, structureRepository } from "../../database";
 import { appLogger } from "../../util";
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
-  StructureCommon,
   UserStructure,
   UserStructureAuthenticated,
   UserStructureJwtPayload,
   UserStructurePublic,
 } from "../../_common/model";
 import { isDomifaAdmin } from "./auth-checker.service";
+import { StructureCommon } from "@domifa/common";
 
 export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "uuid",

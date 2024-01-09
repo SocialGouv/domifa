@@ -11,8 +11,9 @@ import {
   structureRepository,
 } from "../../../database";
 import { appLogger } from "../../../util";
-import { Structure } from "../../../_common/model";
+
 import { guideImportEmailSender } from "../templates-renderers";
+import { Structure } from "@domifa/common";
 
 @Injectable()
 export class CronMailImportGuideSenderService {

@@ -1,10 +1,11 @@
 import { differenceInCalendarDays, max } from "date-fns";
-import { Structure, Usager } from "../../_common/model";
+import { Usager } from "../../_common/model";
 
 import {
   interactionRepository,
   userUsagerLoginRepository,
 } from "../../database";
+import { Structure } from "@domifa/common";
 
 export const getLastInteractionOut = async (
   usager: Usager,

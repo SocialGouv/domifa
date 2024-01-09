@@ -1,5 +1,3 @@
-import { StructureLight } from "../../_common/model/structure/StructureLight.type";
-
 import { domifaConfig } from "../../config";
 import {
   appLogsRepository,
@@ -8,11 +6,12 @@ import {
   usagerRepository,
 } from "../../database";
 import { messageSmsRepository } from "../../database/services/message-sms";
-import { Structure } from "../../_common/model";
+
 import { randomBytes } from "crypto";
 import { rm } from "fs-extra";
 import { join } from "path";
 import { cleanPath } from "../../util";
+import { Structure } from "@domifa/common";
 
 export const structureDeletorService = {
   generateDeleteToken,
@@ -27,19 +26,25 @@ async function generateDeleteToken(uuid: string): Promise<Structure> {
   return structureRepository.findOneBy({ uuid });
 }
 
-async function deleteStructureUsagers(structure: StructureLight) {
+async function deleteStructureUsagers(
+  structure: Pick<Structure, "hardReset" | "id" | "uuid">
+) {
   await deleteStructureDocuments(structure);
 
   await resetUsagers(structure);
 }
 
-async function deleteStructure(structure: StructureLight): Promise<any> {
+async function deleteStructure(
+  structure: Pick<Structure, "hardReset" | "id" | "uuid">
+): Promise<any> {
   await deleteStructureUsagers(structure);
 
   return structureRepository.delete({ id: structure.id });
 }
 
-async function resetUsagers(structure: StructureLight): Promise<void> {
+async function resetUsagers(
+  structure: Pick<Structure, "hardReset" | "id" | "uuid">
+): Promise<void> {
   // Suppression des Documents
   await usagerDocsRepository.delete({
     structureId: structure.id,
@@ -58,7 +63,9 @@ async function resetUsagers(structure: StructureLight): Promise<void> {
   });
 }
 
-async function deleteStructureDocuments(structure: StructureLight) {
+async function deleteStructureDocuments(
+  structure: Pick<Structure, "hardReset" | "id" | "uuid">
+) {
   const oldUsagerFolder = join(
     domifaConfig().upload.basePath,
     `${structure.id}`

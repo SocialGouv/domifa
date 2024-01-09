@@ -1,4 +1,4 @@
-import { StructureCommon } from "../structure/StructureCommon.type";
+import { StructureCommon } from "@domifa/common";
 import { Usager } from "../usager/Usager.type";
 import { UserAuthenticated } from "../user/UserAuthenticated.type";
 import { UserUsager } from "./UserUsager.interface";

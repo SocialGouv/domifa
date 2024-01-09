@@ -1,6 +1,6 @@
-import { StructureLight } from "..";
+import { Structure } from "@domifa/common";
 
-export const STRUCTURE_LIGHT_ATTRIBUTES: (keyof StructureLight)[] = [
+export const STRUCTURE_LIGHT_ATTRIBUTES: (keyof Structure)[] = [
   "id",
   "adresse",
   "complementAdresse",

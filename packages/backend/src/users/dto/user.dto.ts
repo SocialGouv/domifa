@@ -8,7 +8,7 @@ import {
   MinLength,
 } from "class-validator";
 import { IsValidPassword } from "../../_common/decorators";
-import { StructureCommon } from "../../_common/model";
+import { StructureCommon } from "@domifa/common";
 
 export class UserDto {
   @MinLength(2)

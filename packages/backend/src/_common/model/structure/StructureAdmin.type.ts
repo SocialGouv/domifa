@@ -1,4 +1,4 @@
-import { Structure } from "./Structure.type";
+import { Structure } from "@domifa/common";
 
 // Structure: attributs publics (retournés au frontend via UserStructureAuthenticated)
 export type StructureAdmin = Pick<
