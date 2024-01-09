@@ -43,6 +43,7 @@ export const USER_STRUCTURE_MOCK: UserStructure = {
     telephone: { numero: "0134334410", countryCode: CountryISO.France },
     responsable: { nom: "Pompei", prenom: "Roma", fonction: "Directrice" },
     structureType: "asso" as StructureType,
+    organismeType: "HOPITAL",
     ville: "Cergy",
     acceptTerms: new Date(),
     sms: {

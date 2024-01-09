@@ -24,6 +24,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
     numero: "0602030405",
     countryCode: CountryISO.France,
   },
+  organismeType: null,
   acceptTerms: new Date(),
   timeZone: "Europe/Paris",
   responsable: { nom: "Jean", prenom: "Thomson", fonction: "PDG" },

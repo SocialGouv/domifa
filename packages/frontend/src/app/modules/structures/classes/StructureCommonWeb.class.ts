@@ -10,6 +10,7 @@ import {
   StructureResponsable,
   StructureSmsParams,
   StructureCommon,
+  StructureOrganismeType,
 } from "@domifa/common";
 
 export class StructureCommonWeb implements StructureCommon {
@@ -25,6 +26,7 @@ export class StructureCommonWeb implements StructureCommon {
   public capacite: number | null = 0;
   public codePostal = "";
   public agrement: string | null = "";
+  public organismeType: StructureOrganismeType | null = null;
   public telephone: Telephone = {
     numero: "",
     countryCode: CountryISO.France,
@@ -79,6 +81,7 @@ export class StructureCommonWeb implements StructureCommon {
       this.telephone = (structure.telephone as any) ?? this.telephone;
       this.email = structure.email ?? this.email;
       this.timeZone = structure.timeZone ?? this.timeZone;
+      this.organismeType = structure.organismeType ?? this.organismeType;
       this.responsable = structure.responsable ?? this.responsable;
       this.options = structure.options ?? this.options;
       this.adresseCourrier = structure.adresseCourrier ?? this.adresseCourrier;

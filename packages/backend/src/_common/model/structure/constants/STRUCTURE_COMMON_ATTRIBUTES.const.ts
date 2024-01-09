@@ -11,6 +11,7 @@ export const STRUCTURE_COMMON_ATTRIBUTES: (keyof StructureCommon)[] = [
   "departement",
   "region",
   "capacite",
+  "organismeType",
   "codePostal",
   "agrement",
   "telephone",
