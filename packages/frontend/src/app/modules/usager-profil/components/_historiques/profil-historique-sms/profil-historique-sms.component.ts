@@ -1,12 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
-import {
-  UserStructure,
-  SMS_LABELS,
-  MessageSms,
-} from "../../../../../../_common/model";
+import { UserStructure } from "../../../../../../_common/model";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
+import { MessageSms } from "@domifa/common";
+import { SMS_LABELS } from "../../../constants";
 
 @Component({
   selector: "app-profil-historique-sms",

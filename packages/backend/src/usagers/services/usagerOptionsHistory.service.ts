@@ -1,16 +1,15 @@
 import { Injectable } from "@nestjs/common";
 
 import { usagerOptionsHistoryRepository } from "../../database/services";
+import { Usager, UserStructureAuthenticated } from "../../_common/model";
+import { UsagerOptionsHistoryTable } from "../../database";
 import {
-  Usager,
-  UserStructureAuthenticated,
   UsagerOptionsHistoryAction,
   UsagerOptionsHistoryType,
-  UsagerOptionsHistory,
   UsagerOptionsProcuration,
   UsagerOptionsTransfert,
-} from "../../_common/model";
-import { UsagerOptionsHistoryTable } from "../../database";
+  UsagerOptionsHistory,
+} from "@domifa/common";
 
 @Injectable()
 export class UsagerOptionsHistoryService {

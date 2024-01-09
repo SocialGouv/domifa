@@ -2,7 +2,6 @@ import { AppEntity } from "../_core/AppEntity.type";
 
 import { UsagerImport } from "./UsagerImport.type";
 import { UsagerNote } from "./UsagerNote.type";
-import { UsagerOptions } from "./options/UsagerOptions.type";
 
 import { Telephone } from "../telephone/Telephone.type";
 import {
@@ -13,6 +12,7 @@ import {
   UsagerAyantDroit,
   UsagerTypeDom,
   UsagerDecision,
+  UsagerOptions,
 } from "@domifa/common";
 
 export type Usager = AppEntity & {

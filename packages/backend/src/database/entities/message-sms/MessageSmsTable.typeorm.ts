@@ -1,5 +1,4 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
-import { MessageSms } from "../../../_common/model/message-sms";
 import { StructureTable } from "../structure";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import {
@@ -7,6 +6,7 @@ import {
   MessageSmsStatus,
   MessageSmsInteractionMetas,
   MessageSmsReminderMetas,
+  MessageSms,
 } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres

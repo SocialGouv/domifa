@@ -1,4 +1,3 @@
-import { UsagerOptionsHistoryAction } from "./../../_common/model/usager/options/UsagerOptionsHistoryAction.type";
 import {
   Body,
   Controller,
@@ -19,11 +18,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import {
-  Usager,
-  UsagerOptionsHistoryTypeEnum,
-  UserStructureAuthenticated,
-} from "../../_common/model";
+import { Usager, UserStructureAuthenticated } from "../../_common/model";
 import { usagerOptionsHistoryRepository } from "../../database/services/usager/usagerOptionsHistoryRepository.service";
 import { AllowUserStructureRoles, CurrentUser } from "../../auth/decorators";
 import { TransfertDto, ProcurationDto } from "../dto";
@@ -33,6 +28,10 @@ import { isEqual } from "lodash";
 
 import sortObj = require("sort-object");
 import { usagerRepository } from "../../database";
+import {
+  UsagerOptionsHistoryAction,
+  UsagerOptionsHistoryTypeEnum,
+} from "@domifa/common";
 
 @ApiTags("usagers-options")
 @ApiBearerAuth()

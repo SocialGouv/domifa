@@ -1,7 +1,7 @@
 import { fakerFR as faker } from "@faker-js/faker";
 
 import { appLogger } from "../../../../util";
-import { Usager, UsagerOptions } from "../../../../_common/model";
+import { Usager } from "../../../../_common/model";
 import {
   usagerDocsRepository,
   usagerEntretienRepository,
@@ -11,7 +11,11 @@ import {
 import { usagerRepository } from "../../usager/usagerRepository.service";
 import { dataGenerator } from "./dataGenerator.service";
 import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
-import { UsagerAyantDroit, UsagerDecision } from "@domifa/common";
+import {
+  UsagerAyantDroit,
+  UsagerDecision,
+  UsagerOptions,
+} from "@domifa/common";
 import { myDataSource } from "../../_postgres";
 
 export const dataUsagerAnonymizer = {

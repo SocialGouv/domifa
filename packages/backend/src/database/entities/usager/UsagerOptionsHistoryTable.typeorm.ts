@@ -6,7 +6,7 @@ import {
   UsagerOptionsHistory,
   UsagerOptionsHistoryAction,
   UsagerOptionsHistoryType,
-} from "../../../_common/model";
+} from "@domifa/common";
 import { StructureTable } from "../structure";
 
 @Entity({ name: "usager_options_history" })

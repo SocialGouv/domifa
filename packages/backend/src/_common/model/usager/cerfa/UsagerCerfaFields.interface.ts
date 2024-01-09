@@ -1,5 +1,5 @@
 // Liste des champs disponibles dans les Cerfa de demande et d'attestation
-export type UsagerCerfaFields = {
+export interface UsagerCerfaFields {
   adresse: string;
   adresseOrga1: string;
   agrement: string;
@@ -61,4 +61,4 @@ export type UsagerCerfaFields = {
   telephone: string;
   telephoneOrga: string;
   typeDemande: string;
-};
+}
