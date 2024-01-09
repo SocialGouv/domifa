@@ -1,5 +1,4 @@
-import { StructureCommon, Usager } from "../../../_common/model";
-import { StructureCustomDocTags } from "../../../_common/model/structure-doc/StructureCustomDocTags.type";
+import { Usager, StructureCustomDocTags } from "../../../_common/model";
 
 import { format } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
@@ -16,6 +15,7 @@ import {
   UsagerDecision,
   generateMotifLabel,
   STRUCTURE_TYPE_LABELS,
+  StructureCommon,
 } from "@domifa/common";
 import { ENTRETIEN_SITUATION_PRO } from "@domifa/common";
 

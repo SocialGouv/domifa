@@ -10,11 +10,12 @@ import { newStructureEmailSender } from "../../mails/services/templates-renderer
 import { UserDto } from "../../users/dto/user.dto";
 import { userStructureCreator } from "../../users/services/user-structure-creator.service";
 import { appLogger } from "../../util/AppLogger.service";
-import { Structure, StructureCommon } from "../../_common/model";
+
 import { departementHelper } from "./departement-helper.service";
 import { StructureDto } from "../dto/structure.dto";
 import { generateSender } from "../../sms/services/generators";
 import { getLocation } from "./location.service";
+import { Structure, StructureCommon } from "@domifa/common";
 
 export const structureCreatorService = {
   checkStructureCreateArgs,

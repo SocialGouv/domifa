@@ -1,10 +1,9 @@
 import { AppUserForAdminEmail } from "../../../../database";
 import { DomifaMailTemplateRendering } from "../../../model";
 import { domifaMailTemplateRenderer } from "../../domifaMailTemplateRenderer.service";
-import { Structure } from "../../../../_common/model";
 import { DEPARTEMENTS_MAP } from "../../../../util/territoires";
 import { getPhoneString } from "../../../../util/phone/phoneUtils.service";
-import { STRUCTURE_TYPE_LABELS } from "@domifa/common";
+import { STRUCTURE_TYPE_LABELS, Structure } from "@domifa/common";
 
 export type NewStructureEmailModel = {
   structure: Pick<

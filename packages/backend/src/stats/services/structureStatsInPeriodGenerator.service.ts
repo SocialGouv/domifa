@@ -1,12 +1,11 @@
 import { subDays } from "date-fns";
 
 import { structureRepository } from "../../database";
-import { Structure } from "../../_common/model";
 import { statsQuestionsCoreBuilder } from "./statsQuestionsCoreBuilder.service";
 import { structureStatsQuestionsAtDateValidUsagersRepository } from "./structureStatsQuestionsAtDateValidUsagersRepository.service";
 import { structureStatsQuestionsInPeriodDecisionsRepository } from "./structureStatsQuestionsInPeriodDecisionsRepository.service";
 import { structureStatsQuestionsInPeriodInteractionsRepository } from "./structureStatsQuestionsInPeriodInteractionsRepository.service";
-import { StructureStatsFull } from "@domifa/common";
+import { Structure, StructureStatsFull } from "@domifa/common";
 
 export const structureStatsInPeriodGenerator = {
   buildStatsInPeriod,

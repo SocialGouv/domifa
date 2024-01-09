@@ -1,10 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 
 import { structureRepository } from "../../database";
-import { Structure, StructureLight, UserStructure } from "../../_common/model";
+import { UserStructure } from "../../_common/model";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 import { CodePostalDto } from "../dto";
 import { FranceRegion } from "../../util/territoires";
+import { Structure } from "@domifa/common";
 
 @Injectable()
 export class StructuresService {
@@ -29,7 +30,7 @@ export class StructuresService {
     return structure;
   }
 
-  public async findAllLight(dto: CodePostalDto): Promise<StructureLight[]> {
+  public async findAllLight(dto: CodePostalDto): Promise<Structure[]> {
     return structureRepository.find({
       where: {
         verified: true,

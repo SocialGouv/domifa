@@ -1,11 +1,12 @@
 import { appLogger } from "../../../../util";
-import { Structure } from "../../../../_common/model";
+
 import { structureRepository } from "../../structure";
 import { ANONYMIZE_STRUCTURE_ID_EXCEPTIONS } from "./ANONYMIZE_STRUCTURE_ID_EXCEPTIONS.const";
 import { dataEmailAnonymizer } from "./dataEmailAnonymizer";
 import { fakerFR as faker } from "@faker-js/faker";
 import { structureDocRepository } from "../../structure-doc";
 import { dataGenerator } from "./dataGenerator.service";
+import { Structure } from "@domifa/common";
 
 export const dataStructureAnonymizer = {
   isStructureToAnonymise,

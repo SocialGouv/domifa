@@ -3,7 +3,8 @@ import {
   AppUserForAdminEmail,
   MessageEmailContent,
 } from "../../../../database";
-import { Structure } from "../../../../_common/model";
+import { Structure } from "@domifa/common";
+
 import {
   DOMIFA_DEFAULT_MAIL_CONFIG,
   mailRecipientsFilter,

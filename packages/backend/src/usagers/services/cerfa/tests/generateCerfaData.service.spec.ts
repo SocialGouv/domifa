@@ -8,11 +8,7 @@ import {
   AppTestHelper,
   JEST_FAKE_TIMER,
 } from "../../../../util/test";
-import {
-  UserStructureAuthenticated,
-  Usager,
-  Structure,
-} from "../../../../_common/model";
+import { UserStructureAuthenticated, Usager } from "../../../../_common/model";
 import {
   generateCerfaData,
   getUsagerRef,
@@ -22,6 +18,7 @@ import {
   CERFA_MOCK_USAGER_ACTIF,
   CERFA_MOCK_USAGER_REFUS,
 } from "./CERFA_MOCKS.mock";
+import { Structure } from "@domifa/common";
 
 describe("Générer les données des Cerfa", () => {
   let user: UserStructureAuthenticated;

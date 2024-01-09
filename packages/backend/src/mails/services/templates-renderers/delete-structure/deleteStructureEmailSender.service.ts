@@ -1,12 +1,13 @@
 import { domifaConfig } from "../../../../config";
 import { MessageEmailContent } from "../../../../database";
-import { Structure } from "../../../../_common/model";
+
 import {
   DOMIFA_DEFAULT_MAIL_CONFIG,
   mailRecipientsFilter,
   messageEmailSender,
 } from "../../_core";
 import { deleteStructureEmailRenderer } from "./deleteStructureEmailRenderer.service";
+import { Structure } from "@domifa/common";
 
 const messageEmailId = "delete-structure";
 export const deleteStructureEmailSender = { sendMail };

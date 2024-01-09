@@ -1,4 +1,4 @@
-import { StructureCommon } from "../StructureCommon.type";
+import { StructureCommon } from "@domifa/common";
 
 export const STRUCTURE_COMMON_ATTRIBUTES: (keyof StructureCommon)[] = [
   "uuid",

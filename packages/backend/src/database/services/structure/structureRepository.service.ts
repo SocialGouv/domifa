@@ -1,8 +1,5 @@
-import {
-  Structure,
-  StructureCommon,
-  STRUCTURE_COMMON_ATTRIBUTES,
-} from "../../../_common/model";
+import { Structure } from "@domifa/common";
+
 import { StructureTable } from "../../entities";
 import { joinSelectFields, myDataSource, pgRepository } from "../_postgres";
 
@@ -20,10 +17,8 @@ export const structureRepository = myDataSource
     }: {
       userId: number;
       token: string;
-    }): Promise<StructureCommon & Pick<Structure, "hardReset">> {
-      const select: (keyof StructureCommon & Pick<Structure, "hardReset">)[] = (
-        STRUCTURE_COMMON_ATTRIBUTES as any[]
-      ).concat(["hardReset"]);
+    }): Promise<Pick<Structure, "hardReset" | "id" | "uuid">> {
+      const select = ["hardReset", "id", "uuid"];
 
       return this.createQueryBuilder()
         .select(joinSelectFields(select))

@@ -2,8 +2,9 @@ import { rm } from "fs-extra";
 import { join } from "path";
 import { domifaConfig } from "../../config/domifaConfig.service";
 
-import { StructureCommon, Usager } from "../../_common/model";
+import { Usager } from "../../_common/model";
 import { cleanPath } from "../../util";
+import { StructureCommon } from "@domifa/common";
 
 export async function deleteUsagerFolder(
   structure: StructureCommon,
