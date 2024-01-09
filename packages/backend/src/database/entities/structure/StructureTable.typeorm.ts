@@ -12,6 +12,7 @@ import {
   StructureType,
   Structure,
 } from "@domifa/common";
+import { StructureOrganismeType } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "structure" })
@@ -145,6 +146,9 @@ export class StructureTable
 
   @Column({ type: "float", nullable: true })
   longitude: number;
+
+  @Column({ type: "text", nullable: true })
+  organismeType: StructureOrganismeType;
 
   @BeforeInsert()
   nameToUpperCase() {

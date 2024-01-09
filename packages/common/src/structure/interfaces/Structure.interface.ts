@@ -4,6 +4,7 @@ import { type TimeZone } from "../../territoires";
 import { type StructureType } from "../types";
 import { type StructureAddresseCourrier } from "./StructureAddresseCourrier.interface";
 import { type StructureOptions } from "./StructureOptions.interface";
+import { type StructureOrganismeType } from "./StructureOrganismeType.type";
 import { type StructurePortailUsagerParams } from "./StructurePortailUsagerParams.interface";
 import { type StructureResponsable } from "./StructureResponsable.interface";
 import { type StructureSmsParams } from "./StructureSmsParams.interface";
@@ -30,6 +31,7 @@ export interface Structure extends AppEntity {
 
   responsable: StructureResponsable;
 
+  organismeType: StructureOrganismeType | null;
   hardReset: {
     token: string;
     expireAt?: Date;

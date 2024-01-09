@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { UserStructure } from "../../../../_common/model";
-import { StructureCommonWeb } from "../types";
+import { StructureCommonWeb } from "../classes";
 import { StructureCommon, Structure } from "@domifa/common";
 
 @Injectable({

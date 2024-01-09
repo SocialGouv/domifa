@@ -16,6 +16,7 @@ import {
   MaxLength,
   Min,
   MinLength,
+  ValidateIf,
   ValidateNested,
 } from "class-validator";
 import { StructureAdresseCourrierDto, StructureResponsableDto } from ".";
@@ -25,7 +26,12 @@ import { TrimOrNullTransform } from "../../_common/decorators";
 import { Telephone } from "../../_common/model";
 import { TelephoneDto } from "../../_common/dto";
 import { ValidationRegexp } from "../../usagers/controllers/import/step2-validate-row";
-import { StructureType, STRUCTURE_TYPE_MAP } from "@domifa/common";
+import {
+  StructureType,
+  STRUCTURE_TYPE_MAP,
+  STRUCTURE_ORGANISME_TYPE_LABELS,
+  StructureOrganismeType,
+} from "@domifa/common";
 
 export class StructureDto {
   @ApiProperty({
@@ -164,6 +170,13 @@ export class StructureDto {
   @IsOptional()
   @IsTimeZone()
   public timeZone: TimeZone;
+
+  @ValidateIf((o) => {
+    return o.structureType === "asso";
+  })
+  @IsIn(Object.keys(STRUCTURE_ORGANISME_TYPE_LABELS))
+  @IsNotEmpty()
+  public organismeType: StructureOrganismeType;
 
   @IsBoolean()
   @Equals(true)

@@ -9,7 +9,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 
 import { StructureEditFormComponent } from "./structure-edit-form.component";
-import { StructureCommonWeb } from "../../types";
+import { StructureCommonWeb } from "../../classes";
 
 describe("StructureEditFormComponent", () => {
   let component: StructureEditFormComponent;

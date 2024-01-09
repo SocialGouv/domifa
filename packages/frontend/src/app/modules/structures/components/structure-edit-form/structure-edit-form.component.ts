@@ -36,7 +36,11 @@ import {
   isInvalidStructureName,
 } from "../../utils/structure-validators";
 import isEmail from "validator/lib/isEmail";
-import { StructureCommon, Structure } from "@domifa/common";
+import {
+  StructureCommon,
+  Structure,
+  STRUCTURE_ORGANISME_TYPE_LABELS,
+} from "@domifa/common";
 
 @Component({
   selector: "app-structure-edit-form",
@@ -48,6 +52,8 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
   public readonly SearchCountryField = SearchCountryField;
   public readonly CountryISO = CountryISO;
   public readonly PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
+  public readonly STRUCTURE_ORGANISME_TYPE_LABELS =
+    STRUCTURE_ORGANISME_TYPE_LABELS;
   public readonly DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
 
   public loading = false;
@@ -123,8 +129,8 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
           [Validators.required, NoWhiteSpaceValidator],
         ],
       }),
-
       ville: [this.structure.ville, [Validators.required]],
+      organismeType: [this.structure.organismeType, assoRequired],
     });
 
     this.selectedCountryISO = COUNTRY_CODES_TIMEZONE[this.structure.timeZone];
@@ -163,6 +169,7 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
           this.toastService.success(
             "Les modifications ont bien été prises en compte"
           );
+          console.log(this.structure);
           this.structure = structure;
           this.loading = false;
         },

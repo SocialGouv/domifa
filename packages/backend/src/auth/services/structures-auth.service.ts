@@ -132,6 +132,7 @@ export class StructuresAuthService {
         "structureType",
         "ville",
         "lastLogin",
+        "organismeType",
         "createdAt",
         "sms",
         "portailUsager",

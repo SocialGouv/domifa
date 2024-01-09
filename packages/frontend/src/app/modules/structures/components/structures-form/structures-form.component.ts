@@ -19,7 +19,7 @@ import { map, takeUntil } from "rxjs/operators";
 
 import { FormEmailTakenValidator } from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
-import { StructureCommonWeb } from "../../types/StructureCommonWeb.class";
+import { StructureCommonWeb } from "../../classes/StructureCommonWeb.class";
 
 import { anyPhoneValidator } from "../../../shared/phone/mobilePhone.validator";
 import { getFormPhone } from "../../../shared/phone";
@@ -28,7 +28,11 @@ import {
   DEPARTEMENTS_LISTE,
   EmailValidator,
 } from "../../../../shared";
-import { StructureCommon, Structure } from "@domifa/common";
+import {
+  StructureCommon,
+  Structure,
+  STRUCTURE_ORGANISME_TYPE_LABELS,
+} from "@domifa/common";
 import { departementHelper } from "../../utils/departement-helper.service";
 import {
   getPostalCodeValidator,
@@ -46,13 +50,15 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   public PhoneNumberFormat = PhoneNumberFormat;
   public SearchCountryField = SearchCountryField;
   public CountryISO = CountryISO;
-  public PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
+  public readonly PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
   public success = false;
 
   public loading = false;
   public structureForm!: UntypedFormGroup;
   public structure: StructureCommon;
-  public DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
+  public readonly DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
+  public readonly STRUCTURE_ORGANISME_TYPE_LABELS =
+    STRUCTURE_ORGANISME_TYPE_LABELS;
   public submitted = false;
 
   public structureRegisterInfos: {
@@ -116,6 +122,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
         prenom: [this.structure.responsable.prenom, [Validators.required]],
       }),
       structureType: [this.structure.structureType, [Validators.required]],
+      organismeType: [this.structure.organismeType, []],
       ville: [this.structure.ville, [Validators.required]],
       readCgu: [null, [Validators.requiredTrue]],
       acceptCgu: [null, [Validators.requiredTrue]],
@@ -127,6 +134,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
         ?.valueChanges.subscribe((value) => {
           this.structureForm.get("agrement")?.setValidators(null);
           this.structureForm.get("departement")?.setValidators(null);
+          this.structureForm.get("organismeType")?.setValidators(null);
 
           if (value === "asso") {
             this.structureForm
@@ -135,10 +143,14 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
             this.structureForm
               .get("departement")
               ?.setValidators(Validators.required);
+            this.structureForm
+              .get("organismeType")
+              ?.setValidators(Validators.required);
           }
 
           this.structureForm.get("agrement")?.updateValueAndValidity();
           this.structureForm.get("departement")?.updateValueAndValidity();
+          this.structureForm.get("organismeType")?.updateValueAndValidity();
         })
     );
 

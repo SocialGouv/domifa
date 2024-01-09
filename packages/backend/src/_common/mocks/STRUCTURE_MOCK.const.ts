@@ -29,6 +29,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
     senderDetails: "",
     senderName: "",
   },
+  organismeType: null,
   lastLogin: null,
   timeZone: "Europe/Paris",
   portailUsager: {

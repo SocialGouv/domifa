@@ -609,6 +609,49 @@
           La capacité doit être supérieure à 0
         </p>
       </div>
+      <div class="col-12 col-md-6 form-group required">
+        <label for="organismeType">Type d'organisme agréée</label>
+        <select
+          id="organismeType"
+          formControlName="organismeType"
+          name="organismeType"
+          [ngClass]="{
+            'is-invalid':
+              (submitted || f.organismeType?.dirty) && f.organismeType.errors
+          }"
+          [attr.aria-describedby]="
+            (submitted || f.organismeType?.dirty) && f.organismeType.errors
+              ? 'organisme-type-errors'
+              : null
+          "
+          [attr.aria-invalid]="
+            (submitted || f.organismeType?.dirty) && f.organismeType.errors
+              ? true
+              : false
+          "
+          class="form-select"
+          required
+        >
+          <option [value]="null"></option>
+          <option
+            *ngFor="
+              let organismeType of STRUCTURE_ORGANISME_TYPE_LABELS | keyvalue
+            "
+            [ngValue]="organismeType.key"
+          >
+            {{ organismeType.value }}
+          </option>
+        </select>
+        <p
+          *ngIf="
+            (submitted || f.organismeType?.dirty) && f.organismeType.errors
+          "
+          id="organisme-type-errors"
+          class="invalid-feedback"
+        >
+          Veuillez sélectionner un type d'organisme
+        </p>
+      </div>
     </div>
   </fieldset>
 
