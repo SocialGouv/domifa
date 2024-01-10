@@ -1,3 +1,11 @@
+## [2.156.1](https://github.com/SocialGouv/domifa/compare/v2.156.0...v2.156.1) (2024-01-10)
+
+
+### Bug Fixes
+
+* **stats:** fix lastInteraction ([9540707](https://github.com/SocialGouv/domifa/commit/9540707f6990f6dceca8f01ec0f1b5b11bfc0269))
+* **stats:** order of stats ([40b43b2](https://github.com/SocialGouv/domifa/commit/40b43b20f5ec041459307fa934f0190dbf23202f))
+
 # [2.156.0](https://github.com/SocialGouv/domifa/compare/v2.155.2...v2.156.0) (2024-01-10)
 
 
