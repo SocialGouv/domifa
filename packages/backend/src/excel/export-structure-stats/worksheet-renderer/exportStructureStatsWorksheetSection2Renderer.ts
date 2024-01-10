@@ -20,7 +20,10 @@ function renderSection2ActiviteDecisions(context: {
     value: `Axe 2. Activité de domiciliation du ${format(
       new Date(model.stats.period.startDateUTC),
       "dd/MM/yyyy"
-    )} au ${format(new Date(model.stats.period.endDateUTC), "dd/MM/yyyy")}`,
+    )} au ${format(
+      new Date(model.stats.period.endDateUTC),
+      "dd/MM/yyyy"
+    )} (en nombre d'actes)`,
   });
   i++; // blank line
   worksheetRendered.renderCell(i++, "c", {

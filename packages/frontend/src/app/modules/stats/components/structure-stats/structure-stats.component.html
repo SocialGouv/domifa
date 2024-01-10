@@ -204,8 +204,8 @@
         <div class="col-md-12 my-5" *ngIf="stats">
           <h2>
             Axe 1. Connaissance du public domicilié au
-            {{ stats.period.endDateUTC | date : "dd MMMM yyyy" : "UTC" }} en
-            nombre de personnes
+            {{ stats.period.endDateUTC | date : "dd MMMM yyyy" : "UTC" }} (en
+            nombre de personnes)
           </h2>
           <p>
             <strong>Astuce:</strong> pour avoir des statistiques sur une date
@@ -246,7 +246,6 @@
                     {{ stats.data.validUsagers.total.ayantsDroits }}
                   </td>
                 </tr>
-
                 <tr>
                   <th class="fw-bold" colspan="2" scope="col">
                     Nombre de domiciliés actifs par sexe
@@ -391,13 +390,89 @@
                     {{ stats.data.validUsagers.age.usagers.t_75_plus }}
                   </td>
                 </tr>
+                <!-- SituationPro  -->
+                <tr>
+                  <th class="fw-bold" colspan="2" scope="col">
+                    Situation professionnelle
+                  </th>
+                </tr>
+                <tr>
+                  <th scope="row" class="soustable">
+                    {{ ENTRETIEN_SITUATION_PRO.ETUDIANT }}
+                  </th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.situationPro.etudiant }}
+                  </td>
+                </tr>
 
+                <tr>
+                  <th scope="row" class="soustable">
+                    {{ ENTRETIEN_SITUATION_PRO.SALARIE }}
+                  </th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.situationPro.salarie }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" class="soustable">
+                    {{ ENTRETIEN_SITUATION_PRO.INDEPENDANT }}
+                  </th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.situationPro.independant }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" class="soustable">
+                    {{ ENTRETIEN_SITUATION_PRO.FRANCE_TRAVAIL }}
+                  </th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.situationPro.france_travail }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" class="soustable">
+                    {{ ENTRETIEN_SITUATION_PRO.RSA }}
+                  </th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.situationPro.rsa }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" class="soustable">
+                    {{ ENTRETIEN_SITUATION_PRO.AAH }}
+                  </th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.situationPro.aah }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" class="soustable">
+                    {{ ENTRETIEN_SITUATION_PRO.RETRAITE }}
+                  </th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.situationPro.retraite }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" class="soustable">
+                    {{ ENTRETIEN_SITUATION_PRO.AUTRE }}
+                  </th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.situationPro.autre }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" class="soustable">Non renseigné</th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.situationPro.non_renseigne }}
+                  </td>
+                </tr>
+                <!-- Nombre de domiciliés actifs par type de ménage -->
                 <tr>
                   <th class="fw-bold" colspan="2" scope="col">
                     Nombre de domiciliés actifs par type de ménage
                   </th>
                 </tr>
-
                 <tr>
                   <th scope="row" class="soustable">Couple sans enfant(s)</th>
                   <td class="stats-table-value">
@@ -446,59 +521,7 @@
                     {{ stats.data.validUsagers.menage.non_renseigne }}
                   </td>
                 </tr>
-
-                <tr>
-                  <th class="fw-bold" colspan="2" scope="col">
-                    Situation résidentielle
-                  </th>
-                </tr>
-                <tr>
-                  <th scope="row" class="soustable">
-                    Domicile mobile (ex: caravane)
-                  </th>
-                  <td class="stats-table-value">
-                    {{ stats.data.validUsagers.residence.domicile_mobile }}
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row" class="soustable">
-                    Hébergement social (sans service courrier)
-                  </th>
-                  <td class="stats-table-value">
-                    {{ stats.data.validUsagers.residence.hebergement_social }}
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row" class="soustable">Hébergé chez un tiers</th>
-                  <td class="stats-table-value">
-                    {{ stats.data.validUsagers.residence.hebergement_tiers }}
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row" class="soustable">Hôtel</th>
-                  <td class="stats-table-value">
-                    {{ stats.data.validUsagers.residence.hotel }}
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row" class="soustable">Sans abris / Squat</th>
-                  <td class="stats-table-value">
-                    {{ stats.data.validUsagers.residence.sans_abri }}
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row" class="soustable">Autre situation</th>
-                  <td class="stats-table-value">
-                    {{ stats.data.validUsagers.residence.autre }}
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row" class="soustable">Non renseigné</th>
-                  <td class="stats-table-value">
-                    {{ stats.data.validUsagers.residence.non_renseigne }}
-                  </td>
-                </tr>
-
+                <!-- Cause de l'instabilité de logement -->
                 <tr>
                   <th class="fw-bold" colspan="2" scope="col">
                     Cause de l'instabilité de logement
@@ -580,6 +603,59 @@
                     {{ stats.data.validUsagers.cause.non_renseigne }}
                   </td>
                 </tr>
+                <!-- Situation résidentielle -->
+                <tr>
+                  <th class="fw-bold" colspan="2" scope="col">
+                    Situation résidentielle
+                  </th>
+                </tr>
+                <tr>
+                  <th scope="row" class="soustable">
+                    Domicile mobile (ex: caravane)
+                  </th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.residence.domicile_mobile }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" class="soustable">
+                    Hébergement social (sans service courrier)
+                  </th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.residence.hebergement_social }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" class="soustable">Hébergé chez un tiers</th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.residence.hebergement_tiers }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" class="soustable">Hôtel</th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.residence.hotel }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" class="soustable">Sans abris / Squat</th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.residence.sans_abri }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" class="soustable">Autre situation</th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.residence.autre }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" class="soustable">Non renseigné</th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.residence.non_renseigne }}
+                  </td>
+                </tr>
+                <!-- Motif principal de demande de domiciliation-->
                 <tr>
                   <th class="fw-bold" colspan="2" scope="col">
                     Motif principal de demande de domiciliation
@@ -615,7 +691,6 @@
                 </tr>
 
                 <!-- Lien commune -->
-
                 <tr>
                   <th class="fw-bold" colspan="2" scope="col">
                     Lien avec la commune
@@ -687,90 +762,6 @@
                     {{ stats.data.validUsagers.accompagnement.non_renseigne }}
                   </td>
                 </tr>
-
-                <!-- SituationPro  -->
-                <tr>
-                  <th class="fw-bold" colspan="2" scope="col">
-                    Situation professionnelle
-                  </th>
-                </tr>
-                <tr>
-                  <th scope="row" class="soustable">
-                    {{ ENTRETIEN_SITUATION_PRO.ETUDIANT }}
-                  </th>
-                  <td class="stats-table-value">
-                    {{ stats.data.validUsagers.situationPro.etudiant }}
-                  </td>
-                </tr>
-
-                <tr>
-                  <th scope="row" class="soustable">
-                    {{ ENTRETIEN_SITUATION_PRO.SALARIE }}
-                  </th>
-                  <td class="stats-table-value">
-                    {{ stats.data.validUsagers.situationPro.salarie }}
-                  </td>
-                </tr>
-
-                <tr>
-                  <th scope="row" class="soustable">
-                    {{ ENTRETIEN_SITUATION_PRO.INDEPENDANT }}
-                  </th>
-                  <td class="stats-table-value">
-                    {{ stats.data.validUsagers.situationPro.independant }}
-                  </td>
-                </tr>
-
-                <tr>
-                  <th scope="row" class="soustable">
-                    {{ ENTRETIEN_SITUATION_PRO.FRANCE_TRAVAIL }}
-                  </th>
-                  <td class="stats-table-value">
-                    {{ stats.data.validUsagers.situationPro.france_travail }}
-                  </td>
-                </tr>
-
-                <tr>
-                  <th scope="row" class="soustable">
-                    {{ ENTRETIEN_SITUATION_PRO.RSA }}
-                  </th>
-                  <td class="stats-table-value">
-                    {{ stats.data.validUsagers.situationPro.rsa }}
-                  </td>
-                </tr>
-
-                <tr>
-                  <th scope="row" class="soustable">
-                    {{ ENTRETIEN_SITUATION_PRO.AAH }}
-                  </th>
-                  <td class="stats-table-value">
-                    {{ stats.data.validUsagers.situationPro.aah }}
-                  </td>
-                </tr>
-
-                <tr>
-                  <th scope="row" class="soustable">
-                    {{ ENTRETIEN_SITUATION_PRO.RETRAITE }}
-                  </th>
-                  <td class="stats-table-value">
-                    {{ stats.data.validUsagers.situationPro.retraite }}
-                  </td>
-                </tr>
-
-                <tr>
-                  <th scope="row" class="soustable">
-                    {{ ENTRETIEN_SITUATION_PRO.AUTRE }}
-                  </th>
-                  <td class="stats-table-value">
-                    {{ stats.data.validUsagers.situationPro.autre }}
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row" class="soustable">Non renseigné</th>
-                  <td class="stats-table-value">
-                    {{ stats.data.validUsagers.situationPro.non_renseigne }}
-                  </td>
-                </tr>
               </tbody>
             </table>
           </div>
@@ -779,7 +770,8 @@
           <h2>
             Axe 2. Activité de domiciliation du
             {{ stats.period.startDateUTC | date : "dd MMMM yyyy" }} au
-            {{ stats.period.endDateUTC | date : "dd MMMM yyyy" }}
+            {{ stats.period.endDateUTC | date : "dd MMMM yyyy" }} (en nombre
+            d'actes)
           </h2>
 
           <div class="card p-2">

@@ -19,7 +19,7 @@ function renderSection1ValidUsagers(context: {
     value: `Axe 1. Connaissance du public domicilié au ${format(
       model.stats.period.endDateUTC,
       "dd/MM/yyyy"
-    )} en nombre de personnes`,
+    )} (en nombre de personnes)`,
   });
   i++; // blank line
   worksheetRendered.renderCell(i++, "c", {
@@ -100,6 +100,35 @@ function renderSection1ValidUsagers(context: {
   i++; // blank line
   i++; // title
   worksheetRendered.renderCell(i++, "c", {
+    value: data.situationPro.aah,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.situationPro.etudiant,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.situationPro.france_travail,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.situationPro.independant,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.situationPro.retraite,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.situationPro.rsa,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.situationPro.salarie,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.situationPro.autre,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.situationPro.non_renseigne,
+  });
+  i++; // blank line
+  i++; // title
+  worksheetRendered.renderCell(i++, "c", {
     value: data.menage.couple_avec_enfant,
   });
   worksheetRendered.renderCell(i++, "c", {
@@ -119,29 +148,6 @@ function renderSection1ValidUsagers(context: {
   });
   worksheetRendered.renderCell(i++, "c", {
     value: data.menage.non_renseigne,
-  });
-  i++; // blank line
-  i++; // title
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.residence.domicile_mobile,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.residence.hebergement_social,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.residence.hebergement_tiers,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.residence.hotel,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.residence.sans_abri,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.residence.autre,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.residence.non_renseigne,
   });
   i++; // blank line
   i++; // title
@@ -178,7 +184,29 @@ function renderSection1ValidUsagers(context: {
   worksheetRendered.renderCell(i++, "c", {
     value: data.cause.non_renseigne,
   });
-
+  i++; // blank line
+  i++; // title
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.residence.domicile_mobile,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.residence.hebergement_social,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.residence.hebergement_tiers,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.residence.hotel,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.residence.sans_abri,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.residence.autre,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.residence.non_renseigne,
+  });
   i++; // blank line
   i++; // title
   worksheetRendered.renderCell(i++, "c", {
@@ -196,6 +224,29 @@ function renderSection1ValidUsagers(context: {
   i++; // blank line
   i++; // title
   worksheetRendered.renderCell(i++, "c", {
+    value: data.liencommune.residentiel,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.liencommune.parental,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.liencommune.familial,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.liencommune.professionnel,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.liencommune.social,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.liencommune.autre,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.liencommune.non_renseigne,
+  });
+  i++; // blank line
+  i++; // title
+  worksheetRendered.renderCell(i++, "c", {
     value: data.accompagnement.oui,
   });
   worksheetRendered.renderCell(i++, "c", {
@@ -204,36 +255,6 @@ function renderSection1ValidUsagers(context: {
   worksheetRendered.renderCell(i++, "c", {
     value: data.accompagnement.non_renseigne,
   });
-  i++; // blank line
-  i++; // title
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.situationPro.aah,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.situationPro.etudiant,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.situationPro.france_travail,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.situationPro.independant,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.situationPro.retraite,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.situationPro.rsa,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.situationPro.salarie,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.situationPro.autre,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.situationPro.non_renseigne,
-  });
-
   i++; // blank line
 
   context.currentRowNumber = i;
