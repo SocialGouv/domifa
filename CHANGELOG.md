@@ -1,3 +1,15 @@
+# [2.156.0](https://github.com/SocialGouv/domifa/compare/v2.155.2...v2.156.0) (2024-01-10)
+
+
+### Bug Fixes
+
+* **api:** fix dto ([4ff820f](https://github.com/SocialGouv/domifa/commit/4ff820f49f293550c6cdb9f5cb7f05167a59c4b3))
+
+
+### Features
+
+* **structure:** add type of 'asso' ([e69eb4b](https://github.com/SocialGouv/domifa/commit/e69eb4b9a5304da1f22a84601e720f095e94a326))
+
 ## [2.155.2](https://github.com/SocialGouv/domifa/compare/v2.155.1...v2.155.2) (2024-01-10)
 
 
