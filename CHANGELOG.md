@@ -1,3 +1,10 @@
+## [2.155.2](https://github.com/SocialGouv/domifa/compare/v2.155.1...v2.155.2) (2024-01-10)
+
+
+### Bug Fixes
+
+* **excel:** add new templates ([9e2debf](https://github.com/SocialGouv/domifa/commit/9e2debfd2aab63738651bc9133ba19177e6a095e))
+
 ## [2.155.1](https://github.com/SocialGouv/domifa/compare/v2.155.0...v2.155.1) (2024-01-09)
 
 
