@@ -66,16 +66,6 @@
   </p>
 
   <p class="col-md-4 reponses">
-    <span class="question">Situation residentielle</span>
-    <span class="valeur" *ngIf="usager.entretien.residence === 'AUTRE'">
-      Autre situation: {{ usager.entretien.residenceDetail }}
-    </span>
-    <span class="valeur" *ngIf="usager.entretien.residence !== 'AUTRE'">
-      {{ ENTRETIEN_RESIDENCE[usager.entretien.residence] || "Non renseigné" }}
-    </span>
-  </p>
-
-  <p class="col-md-4 reponses">
     <span class="question">Composition ménage</span>
     <span class="valeur">
       {{
@@ -93,6 +83,16 @@
     </span>
     <span class="valeur" *ngIf="usager.entretien.cause === 'AUTRE'"
       >Autre cause: {{ usager.entretien.causeDetail || "Non renseigné" }}
+    </span>
+  </p>
+
+  <p class="col-md-4 reponses">
+    <span class="question">Situation residentielle</span>
+    <span class="valeur" *ngIf="usager.entretien.residence === 'AUTRE'">
+      Autre situation: {{ usager.entretien.residenceDetail }}
+    </span>
+    <span class="valeur" *ngIf="usager.entretien.residence !== 'AUTRE'">
+      {{ ENTRETIEN_RESIDENCE[usager.entretien.residence] || "Non renseigné" }}
     </span>
   </p>
 
