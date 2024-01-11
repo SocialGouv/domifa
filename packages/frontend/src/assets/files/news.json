@@ -1,5 +1,46 @@
 [
   {
+    "date": "2024-01-11",
+    "description": "Le rapport d'activité évolue",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Type d'organisme agréé",
+        "message": [
+          "Le type d'organisme agréé (association, établissement hospitalier, etc.) est désormais demandé lors de la création de tout nouvel organisme agréé. Vous pouvez ajouter votre type d'organisme agréé actuel dans la page 'Information de la structure' en dessous de votre 'Numéro d'agrément'."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Causes d'instabilité du logement",
+        "message": [
+          "Les causes d'instabilité du logement liées à une sortie d'hospitalisation et à une sortie d'incarcération ont été ajoutées dans l'entretien social ainsi que dans le rapport d'activité dans l'indicateur correspondant."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Nombre de domiciliés avec accompagnement social",
+        "message": [
+          "Un nouvel indicateur avec le nombre de domiciliés bénéficiant d'un accompagnement social a été ajouté dans le rapport d'activité à la fin de l'Axe n°1."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Situation professionnelle",
+        "message": [
+          "Une question sur la situation professionnelle des domiciliés a été ajoutée dans l'entretien social. Les réponses sont également disponibles dans un nouvel indicateur ajouté dans le rapport d'activité dans l'Axe n°1."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Nombre total des domiciliés actifs",
+        "message": [
+          "Une correction a été apportée pour que le nombre d'actifs disponible sur la liste des domiciliés soit identique au nombre total des domiciliés actifs indiqué dans l'Axe n°1 du rapport d'activité."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-01-03",
     "description": "",
     "content": [
