@@ -247,29 +247,6 @@ function renderSection1ValidUsagers(context: {
   i++; // blank line
   i++; // title
   worksheetRendered.renderCell(i++, "c", {
-    value: data.liencommune.residentiel,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.liencommune.parental,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.liencommune.familial,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.liencommune.professionnel,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.liencommune.social,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.liencommune.autre,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.liencommune.non_renseigne,
-  });
-  i++; // blank line
-  i++; // title
-  worksheetRendered.renderCell(i++, "c", {
     value: data.accompagnement.oui,
   });
   worksheetRendered.renderCell(i++, "c", {
