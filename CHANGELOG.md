@@ -1,3 +1,10 @@
+## [2.156.4](https://github.com/SocialGouv/domifa/compare/v2.156.3...v2.156.4) (2024-01-11)
+
+
+### Bug Fixes
+
+* **stats:** fix excel file ([2c8ef1c](https://github.com/SocialGouv/domifa/commit/2c8ef1c8f485e8a884c29802e6fc9355d7b3afe0))
+
 ## [2.156.3](https://github.com/SocialGouv/domifa/compare/v2.156.2...v2.156.3) (2024-01-10)
 
 
