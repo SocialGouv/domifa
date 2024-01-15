@@ -1,3 +1,10 @@
+# [2.157.0](https://github.com/SocialGouv/domifa/compare/v2.156.5...v2.157.0) (2024-01-15)
+
+
+### Features
+
+* **export:** add language to excel file ([5927d63](https://github.com/SocialGouv/domifa/commit/5927d637d9e3cd3ad313852214c5a692e616de90))
+
 ## [2.156.5](https://github.com/SocialGouv/domifa/compare/v2.156.4...v2.156.5) (2024-01-15)
 
 
