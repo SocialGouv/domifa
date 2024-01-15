@@ -120,6 +120,9 @@ describe("buildCustomDoc.service", () => {
 
       // Procuration
       expect(customDocGenerated.PROCURATION_ACTIF).toEqual("OUI");
+      expect(customDocGenerated.PROCURATIONS_LISTE).toEqual(
+        "Nom du mandataire Prénom du mandataire né(e) le 12/12/1998 - Du 20/12/2022 au 04/09/2023"
+      );
 
       expect(customDocGenerated.PROCURATION_PRENOM).toEqual(
         "Prénom du mandataire"
