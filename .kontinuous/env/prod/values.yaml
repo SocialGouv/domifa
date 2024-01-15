@@ -1,3 +1,6 @@
+global:
+  pgSecretName: pg-app
+
 jobs:
   runs:
     build-backend:
