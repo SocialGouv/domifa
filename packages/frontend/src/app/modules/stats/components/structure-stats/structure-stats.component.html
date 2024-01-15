@@ -263,7 +263,23 @@
                     {{ stats.data.validUsagers.sexe.h }}
                   </td>
                 </tr>
-
+                <tr>
+                  <th class="fw-bold" colspan="2" scope="col">
+                    Nombre de domiciliés actifs par type de demande
+                  </th>
+                </tr>
+                <tr>
+                  <th scope="row" class="soustable">Première demande</th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.typeDom.premiere }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" class="soustable">Renouvellement</th>
+                  <td class="stats-table-value">
+                    {{ stats.data.validUsagers.typeDom.renouvellement }}
+                  </td>
+                </tr>
                 <tr>
                   <th class="fw-bold" colspan="2" scope="col">
                     Nombre de domiciliés actifs + leurs ayants-droit par tranche

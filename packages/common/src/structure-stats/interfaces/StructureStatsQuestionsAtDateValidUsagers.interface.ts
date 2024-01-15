@@ -14,6 +14,10 @@ export interface StructureStatsQuestionsAtDateValidUsagers {
     ayantsDroits: Pick<StructureStatsTranchesAge, "mineurs" | "majeurs">;
   };
   sexe: StructureStatsSexe;
+  typeDom: {
+    premiere: number;
+    renouvellement: number;
+  };
   menage: {
     // Q19
     couple_avec_enfant: number;
