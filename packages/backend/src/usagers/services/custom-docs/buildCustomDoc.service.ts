@@ -16,8 +16,9 @@ import {
   generateMotifLabel,
   STRUCTURE_TYPE_LABELS,
   StructureCommon,
+  ENTRETIEN_SITUATION_PRO,
+  UsagerOptionsProcuration,
 } from "@domifa/common";
-import { ENTRETIEN_SITUATION_PRO } from "@domifa/common";
 
 export const DATE_FORMAT = {
   JOUR: "dd/MM/yyyy",
@@ -46,43 +47,7 @@ export function buildCustomDoc({
       adresseStructure + ", " + ucFirst(structure.complementAdresse);
   }
 
-  let dateDebutDom: Date;
-  let dateFinDom: Date;
-
-  if (usager.decision.statut === "RADIE") {
-    usager.historique.forEach((decision: UsagerDecision) => {
-      if (decision.statut === "VALIDE") {
-        // Premiere décision retenue
-        if (!dateDebutDom) {
-          dateDebutDom = decision.dateDebut;
-          dateFinDom = decision.dateFin;
-        }
-
-        // Si une décision plus récente est présente
-        if (dateDebutDom < decision.dateDebut) {
-          dateDebutDom = decision.dateDebut;
-          dateFinDom = decision.dateFin;
-        }
-      }
-    });
-
-    // Aucune date défini, on cherche la date de premième Dom
-    if (!dateDebutDom || !dateFinDom) {
-      // Date de premiere Dom par défaut
-      if (usager.datePremiereDom) {
-        dateDebutDom = usager.datePremiereDom;
-        dateFinDom = usager.datePremiereDom;
-      }
-      // Cas rares : on met une date par défaut
-      else {
-        dateDebutDom = usager.decision.dateDebut;
-        dateFinDom = usager.decision.dateFin;
-      }
-    }
-  } else {
-    dateDebutDom = usager.decision.dateDebut;
-    dateFinDom = usager.decision.dateFin;
-  }
+  const { dateDebutDom, dateFinDom } = getDateDecision(usager);
 
   // Motif de refus
   const motif = generateMotifLabel(usager.decision);
@@ -260,7 +225,7 @@ export function buildCustomDoc({
         ? dateFormat(transfert.dateFin, structure.timeZone, DATE_FORMAT.JOUR)
         : "",
 
-    // Procuration
+    PROCURATIONS_LISTE: getProcurationsListe(usager.options.procurations),
     PROCURATION_ACTIF: usager.options.procurations.length > 0 ? "OUI" : "NON",
     PROCURATION_NOM: procuration.nom ?? "",
     PROCURATION_PRENOM: procuration.prenom ?? "",
@@ -313,3 +278,64 @@ export const dateFormat = (
     locale: fr,
   });
 };
+
+export const getDateDecision = (
+  usager: Usager
+): {
+  dateDebutDom: Date;
+  dateFinDom: Date;
+} => {
+  if (usager.decision.statut !== "RADIE") {
+    return {
+      dateDebutDom: usager.decision.dateDebut,
+      dateFinDom: usager.decision.dateFin,
+    };
+  }
+
+  const valideDecisions = usager.historique.filter(
+    (decision: UsagerDecision) => decision.statut === "VALIDE"
+  );
+
+  if (valideDecisions.length) {
+    const valideDecision = valideDecisions[valideDecisions.length - 1];
+    return {
+      dateDebutDom: valideDecision.dateDebut,
+      dateFinDom: valideDecision.dateFin,
+    };
+  }
+
+  if (usager.datePremiereDom) {
+    return {
+      dateDebutDom: usager.datePremiereDom,
+      dateFinDom: usager.datePremiereDom,
+    };
+  }
+
+  return {
+    dateDebutDom: usager.decision.dateDebut,
+    dateFinDom: usager.decision.dateFin,
+  };
+};
+
+export function getProcurationsListe(procurations: UsagerOptionsProcuration[]) {
+  let procurationString = "";
+  if (procurations.length > 0) {
+    procurationString = procurations.reduce(
+      (prev: string, current: UsagerOptionsProcuration) => {
+        const dateNaissance = formatDateFromProcurations(current.dateNaissance);
+        const dateDebut = formatDateFromProcurations(current.dateDebut);
+        const dateFin = formatDateFromProcurations(current.dateFin);
+        return `${prev}${current.nom} ${current.prenom} né(e) le ${dateNaissance} - Du ${dateDebut} au ${dateFin}`;
+      },
+      ""
+    );
+  }
+  return procurationString;
+}
+
+function formatDateFromProcurations(date?: Date | string | null) {
+  if (date) {
+    return format(new Date(date), "dd/MM/yyyy");
+  }
+  return "Non renseigné";
+}

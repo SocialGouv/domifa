@@ -69,6 +69,7 @@ export type StructureCustomDocKeys =
   | "PROCURATION_DATE_DEBUT"
   | "PROCURATION_DATE_FIN"
   | "PROCURATION_DATE_NAISSANCE"
+  | "PROCURATIONS_LISTE"
   // et aussi, seulement pour le document d'accès à l'espace domicilié
   | "ESPACE_DOM_URL"
   | "ESPACE_DOM_ID"

@@ -176,7 +176,7 @@ export const getUsagerRef = (usager: Usager): string => {
 
 export function getAyantsDroitsText(usager: Usager): string {
   let ayantsDroitsTexte = "";
-  // Ayants-droits
+
   if (usager.ayantsDroits.length > 0) {
     ayantsDroitsTexte = usager.ayantsDroits.reduce(
       (prev: string, current: UsagerAyantDroit) =>
