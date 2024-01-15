@@ -1,3 +1,10 @@
+## [2.156.5](https://github.com/SocialGouv/domifa/compare/v2.156.4...v2.156.5) (2024-01-15)
+
+
+### Bug Fixes
+
+* same config for prod cnpg as preprod ([3ba370a](https://github.com/SocialGouv/domifa/commit/3ba370ae9e68024303f1265b75b87e2a7b57525c))
+
 ## [2.156.4](https://github.com/SocialGouv/domifa/compare/v2.156.3...v2.156.4) (2024-01-11)
 
 
