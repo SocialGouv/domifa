@@ -27,10 +27,14 @@ jobs:
           DOMIFA_FRONTEND_META_ROBOTS: index,follow
 
 pg:
-  ~chart: pg
   cnpg-cluster:
     persistence:
-      size: "50Gi"
+      size: "30Gi"
+    resources:
+      requests:
+        memory: 3Gi
+      limits:
+        memory: 3Gi
 
 backend-cron:
   replicas: 1
