@@ -24,6 +24,8 @@ async function getStats({
     ,COALESCE(sum(jsonb_array_length(state->'ayantsDroits')), 0) as v_ad
     ,count(distinct uh."usagerUUID") filter (where u.sexe = 'homme') as v_u_sexe_h
     ,count(distinct uh."usagerUUID") filter (where u.sexe = 'femme') as v_u_sexe_f
+    ,count(distinct uh."usagerUUID") filter (where u."typeDom" = 'PREMIERE_DOM') as v_u_decision_valide_typedom_premiere
+    ,count(distinct uh."usagerUUID") filter (where u."typeDom" = 'RENOUVELLEMENT') as v_u_decision_valide_typedom_renouvellement
     ,count(distinct uh."usagerUUID") filter (where date_part('year',age($3, u."dateNaissance" at time zone 'utc'))::int < 18) as v_u_age_mineur
     ,count(distinct uh."usagerUUID") filter (where date_part('year',age($3, u."dateNaissance" at time zone 'utc'))::int >= 18) as v_u_age_majeur
     ,count(distinct usager_tranche.uuid) filter (where usager_tranche.tranche_age = 'T_0_14') as v_u_age_0_14
@@ -139,6 +141,13 @@ async function getStats({
         ayantsDroits: totalAyantsDroits,
         usagerEtAyantsDroits: totalUsagers + totalAyantsDroits,
       },
+      typeDom: {
+        premiere: parseInt(r.v_u_decision_valide_typedom_premiere, 10),
+        renouvellement: parseInt(
+          r.v_u_decision_valide_typedom_renouvellement,
+          10
+        ),
+      },
       menage: {
         // Q19
         couple_avec_enfant: parseInt(r.v_u_menage_cae, 10),
@@ -245,6 +254,10 @@ async function getStats({
       usagers: 0,
       ayantsDroits: 0,
       usagerEtAyantsDroits: 0,
+    },
+    typeDom: {
+      premiere: 0,
+      renouvellement: 0,
     },
     menage: {
       // Q19

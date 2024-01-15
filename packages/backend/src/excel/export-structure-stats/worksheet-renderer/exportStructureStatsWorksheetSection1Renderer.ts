@@ -42,6 +42,14 @@ function renderSection1ValidUsagers(context: {
   i++; // blank line
   i++; // title
   worksheetRendered.renderCell(i++, "c", {
+    value: data.typeDom.premiere,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.typeDom.renouvellement,
+  });
+  i++; // blank line
+  i++; // title
+  worksheetRendered.renderCell(i++, "c", {
     value: data.age.usagers.mineurs + data.age.ayantsDroits.mineurs,
   });
   worksheetRendered.renderCell(i++, "c", {
