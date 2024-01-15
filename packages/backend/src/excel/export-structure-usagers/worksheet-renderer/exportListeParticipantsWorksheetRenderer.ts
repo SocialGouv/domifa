@@ -51,6 +51,7 @@ function renderWorksheet({
       { key: "countryCode" },
       { key: "phone" },
       { key: "email" },
+      { key: "langue" },
       { key: "numeroDistribution" },
       { key: "decisionStatut" },
       { key: "decisionMotifRefus" },
