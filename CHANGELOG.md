@@ -1,3 +1,10 @@
+# [2.158.0](https://github.com/SocialGouv/domifa/compare/v2.157.0...v2.158.0) (2024-01-17)
+
+
+### Features
+
+* **docs:** add new item in custom docs ([04c7365](https://github.com/SocialGouv/domifa/commit/04c73655065882865537fcbaab9a465243d097d2))
+
 # [2.157.0](https://github.com/SocialGouv/domifa/compare/v2.156.5...v2.157.0) (2024-01-15)
 
 
