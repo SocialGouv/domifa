@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=../../../../kontinuous/docs/values.schema.json
+
+jobs:
+  runs:
+    restore:
+      ~needs: [pg]
+      image: ghcr.io/socialgouv/docker/s3-client:1.2.0
+      entrypoint: ["/bin/bash"]
+      args:
+        - "-c"
+        - "pg_restore"
+      envFrom:
+        - secretRef:
+            name: pg-superuser
+        - secretRef:
+            name: s3
