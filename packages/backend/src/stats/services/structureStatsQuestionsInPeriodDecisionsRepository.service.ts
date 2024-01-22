@@ -43,8 +43,8 @@ async function getStats({
     join jsonb_array_elements(uh.states) as state on true
     WHERE uh."structureId" = $1
  	and state->>'createdEvent' = 'new-decision'
-    AND (state->'decision'->>'dateDecision')::timestamptz >= $2
-    AND (state->'decision'->>'dateDecision')::timestamptz < $3;
+    AND (state->'decision'->>'dateDebut')::timestamptz >= $2
+    AND (state->'decision'->>'dateDebut')::timestamptz < $3;
 `,
     [structureId, startDateUTC, endDateUTCExclusive]
   );

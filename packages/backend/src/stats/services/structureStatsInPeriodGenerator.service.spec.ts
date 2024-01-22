@@ -149,6 +149,10 @@ describe("structureStatsInPeriodGenerator", () => {
           salarie: 0,
         },
         total: { ayantsDroits: 4, usagerEtAyantsDroits: 7, usagers: 3 },
+        typeDom: {
+          premiere: 2,
+          renouvellement: 1,
+        },
       },
     });
   });

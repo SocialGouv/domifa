@@ -1,13 +1,14 @@
 import { TEST_INVALID_IMPORT_USAGER } from "./schema/test-data";
 import { usagersImportErrorBuilder } from "./usagersImportErrorBuilder.service";
 
+const AYANTS_DROIT_COLUMN = 35;
 describe("usagersImportErrorBuilder parse valid data", () => {
   it("_parseAyantsDroitsKey", async () => {
     expect(
       usagersImportErrorBuilder._parseAyantsDroitsKey("ayantsDroits[0].nom")
     ).toEqual({
       ayantDroitIndex: 0,
-      columnNumber: 1 + 34 + 4 * 0 + 0,
+      columnNumber: 1 + AYANTS_DROIT_COLUMN + 4 * 0 + 0,
       columnAttributeLabel: "Nom",
       attributeKey: "nom",
     });
@@ -15,7 +16,7 @@ describe("usagersImportErrorBuilder parse valid data", () => {
       usagersImportErrorBuilder._parseAyantsDroitsKey("ayantsDroits[3].prenom")
     ).toEqual({
       ayantDroitIndex: 3,
-      columnNumber: 1 + 34 + 4 * 3 + 1,
+      columnNumber: 1 + AYANTS_DROIT_COLUMN + 4 * 3 + 1,
       columnAttributeLabel: "Prénom",
       attributeKey: "prenom",
     });
@@ -25,7 +26,7 @@ describe("usagersImportErrorBuilder parse valid data", () => {
       )
     ).toEqual({
       ayantDroitIndex: 2,
-      columnNumber: 1 + 34 + 4 * 2 + 2,
+      columnNumber: 1 + AYANTS_DROIT_COLUMN + 4 * 2 + 2,
       columnAttributeLabel: "Date de naissance",
       attributeKey: "dateNaissance",
     });
@@ -35,7 +36,7 @@ describe("usagersImportErrorBuilder parse valid data", () => {
       )
     ).toEqual({
       ayantDroitIndex: 2,
-      columnNumber: 1 + 34 + 4 * 2 + 3,
+      columnNumber: 1 + AYANTS_DROIT_COLUMN + 4 * 2 + 3,
       columnAttributeLabel: "Lien de Parenté",
       attributeKey: "lienParente",
     });
@@ -68,7 +69,7 @@ describe("usagersImportErrorBuilder parse valid data", () => {
         value: "homme",
       },
       {
-        columnNumber: 40,
+        columnNumber: 41,
         details: {
           path: "ayantsDroits[1].prenom",
           value: "",

@@ -205,6 +205,9 @@
           Par quelle structure/personne la personne a-t-elle été orientée ?
         </th>
         <th scope="col">La personne a-t-elle déjà une domiciliation ?</th>
+        <th scope="col">
+          Quelle est la situation professionnelle de la personne ?
+        </th>
         <th scope="col">La personne a-t-elle des revenus ?</th>
         <th scope="col">
           <b>Seulement si revenus,</b> <br />
@@ -399,7 +402,13 @@
           >
             {{ row.columns[COL.DOMICILIATION_EXISTANTE]?.value }}
           </td>
-
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.SITUATION_PRO]?.isValid
+            }"
+          >
+            {{ row.columns[COL.SITUATION_PRO]?.value }}
+          </td>
           <td
             [ngClass]="{ 'table-danger': !row.columns[COL.REVENUS]?.isValid }"
           >

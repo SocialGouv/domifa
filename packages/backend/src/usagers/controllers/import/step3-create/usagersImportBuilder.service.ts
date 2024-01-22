@@ -179,6 +179,7 @@ function buildEntretien(usagerRow): Partial<UsagerEntretien> {
   if (usagerRow.revenus) {
     entretien.revenusDetail = usagerRow.revenusDetail;
   }
+  entretien.situationPro = usagerRow.situationPro;
 
   entretien.revenus = usagerRow.revenus;
   if (usagerRow.revenus) {

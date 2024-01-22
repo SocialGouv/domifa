@@ -42,6 +42,7 @@ describe("usagersImportValidator parse invalid data", () => {
           "invalid-orientation", // orientation
           "détails orientation", // orientationDetail
           "NO", // domiciliationExistante
+          "SALARIE", // revenus
           "yes", // revenus
           "détails revenus", // revenusDetail
           "SOCIAL", // liencommune
@@ -132,55 +133,55 @@ describe("usagersImportValidator parse invalid data", () => {
         value: "NO",
       },
       {
-        columnNumber: 21,
+        columnNumber: 22,
         label: "Le domicilié possède t-il des revenus ?",
         rowNumber: 10,
         value: "yes",
       },
       {
-        columnNumber: 25,
+        columnNumber: 26,
         label: "Composition du ménage",
         rowNumber: 10,
         value: "invalid-typeMenage",
       },
       {
-        columnNumber: 26,
+        columnNumber: 27,
         label: "Situation résidentielle",
         rowNumber: 10,
         value: "invalid-situationResidentielle",
       },
       {
-        columnNumber: 28,
+        columnNumber: 29,
         label: "Cause instabilité logement",
         rowNumber: 10,
         value: "invalid-causeInstabilite",
       },
       {
-        columnNumber: 30,
+        columnNumber: 31,
         label: "Motif principal de la demande",
         rowNumber: 10,
         value: "invalid-raisonDemande",
       },
       {
-        columnNumber: 32,
+        columnNumber: 33,
         label: "Accompagnement social",
         rowNumber: 10,
         value: "n",
       },
       {
-        columnNumber: 36,
+        columnNumber: 37,
         label: "Prénom Ayant-Droit 1",
         rowNumber: 10,
         value: undefined,
       },
       {
-        columnNumber: 37,
+        columnNumber: 38,
         label: "Date de naissance Ayant-Droit 1",
         rowNumber: 10,
         value: format(new Date(Date.UTC(2218, 7 - 1, 15)), "dd/MM/yyyy"),
       },
       {
-        columnNumber: 42,
+        columnNumber: 43,
         label: "Lien de Parenté Ayant-Droit 2",
         rowNumber: 10,
         value: "invalid-lienParente",

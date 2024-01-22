@@ -20,6 +20,7 @@ export type UsagerImportObject = {
   orientation?: string;
   orientationDetail?: string;
   domiciliationExistante?: string;
+  situationPro?: string;
   revenus?: string;
   revenusDetail?: string;
   liencommune?: string;
