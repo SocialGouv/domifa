@@ -49,6 +49,7 @@ describe("UsagersImportCiviliteSchema schema", () => {
       orientation: false,
       orientationDetail: "détails orientation",
       domiciliationExistante: false,
+      situationPro: "SALARIE",
       revenus: true,
       revenusDetail: "détails revenus",
       liencommune: "SOCIAL",

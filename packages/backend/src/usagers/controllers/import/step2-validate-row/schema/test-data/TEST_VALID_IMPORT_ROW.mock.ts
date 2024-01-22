@@ -20,6 +20,7 @@ export const TEST_VALID_IMPORT_ROW = [
   "NON", // orientation
   "détails orientation", // orientationDetail
   "NON", // domiciliationExistante
+  "SALARIE", // revenus
   "OUI", // revenus
   "détails revenus", // revenusDetail
   "SOCIAL", // liencommune

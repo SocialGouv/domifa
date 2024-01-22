@@ -9,6 +9,7 @@ import {
   MOTIFS_RADIATION_LABELS_MAP,
   MOTIFS_REFUS_LABELS_MAP,
   UsagerDecisionStatut,
+  ENTRETIEN_SITUATION_PRO,
 } from "@domifa/common";
 
 import {
@@ -69,6 +70,9 @@ export const UsagersImportUsagerSchema = yup
     orientation: booleanOuiNon().notRequired(),
     orientationDetail: yup.string(),
     domiciliationExistante: booleanOuiNon().notRequired(),
+    situationPro: oneOfString(
+      Object.keys(ENTRETIEN_SITUATION_PRO)
+    ).notRequired(),
     revenus: booleanOuiNon().notRequired(),
     revenusDetail: yup.string(),
     liencommune: oneOfString(Object.keys(ENTRETIEN_LIEN_COMMUNE)).notRequired(),

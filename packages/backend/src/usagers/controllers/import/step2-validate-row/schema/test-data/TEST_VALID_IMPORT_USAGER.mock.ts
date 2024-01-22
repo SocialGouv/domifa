@@ -21,6 +21,7 @@ export const TEST_VALID_IMPORT_USAGER: UsagerImportObject = {
   orientation: "NON",
   orientationDetail: "détails orientation",
   domiciliationExistante: "NON",
+  situationPro: "SALARIE",
   revenus: "OUI",
   revenusDetail: "détails revenus",
   liencommune: "SOCIAL",

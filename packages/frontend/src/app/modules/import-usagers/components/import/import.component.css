@@ -54,3 +54,6 @@
   padding: 15px 10px;
   border: 1px solid var(--bs-danger);
 }
+.table > :not(caption) > * > * {
+  background-color: transparent;
+}

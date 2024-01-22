@@ -49,6 +49,7 @@ describe("usagersImportValidator parse valid data", () => {
       orientationDetail: "détails orientation",
       domiciliationExistante: false,
       revenus: true,
+      situationPro: "SALARIE",
       revenusDetail: "détails revenus",
       liencommune: "SOCIAL",
       liencommuneDetail: "suivi social",

@@ -1,3 +1,3 @@
 export const USAGERS_IMPORT_COLUMNS_AYANT_DROIT = [
-  34, 38, 42, 46, 50, 54, 58, 62, 66,
+  35, 39, 43, 47, 51, 55, 59, 63, 67,
 ];
