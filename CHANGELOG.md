@@ -1,3 +1,16 @@
+# [2.159.0](https://github.com/SocialGouv/domifa/compare/v2.158.0...v2.159.0) (2024-01-22)
+
+
+### Bug Fixes
+
+* **dump:** update dump ([d0af31b](https://github.com/SocialGouv/domifa/commit/d0af31bbd2ff980c75635779cab8816544e72050))
+* **import:** add new features to import ([8bce304](https://github.com/SocialGouv/domifa/commit/8bce304d2e15d12043156c6758210a148922692e))
+
+
+### Features
+
+* **stats:** add stats in export excel ([d50c5cd](https://github.com/SocialGouv/domifa/commit/d50c5cd093064d384d4d75103d7b1cc2896a3eb4))
+
 # [2.158.0](https://github.com/SocialGouv/domifa/compare/v2.157.0...v2.158.0) (2024-01-17)
 
 
