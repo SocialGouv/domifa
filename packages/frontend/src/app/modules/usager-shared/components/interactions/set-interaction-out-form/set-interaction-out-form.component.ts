@@ -44,6 +44,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   public interactionFormData$: BehaviorSubject<InteractionOutForm>;
 
   public procurationIndex: number | null; // Mandataire = true / domicilié = false
+  public returnToSender: boolean = false;
   public loading = false;
 
   private subscription = new Subscription();
@@ -139,6 +140,11 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     this.interactionFormData$.next(this.interactionFormData);
   }
 
+  public toggleReturnToSender(): void {
+    this.procurationIndex = null;
+    this.returnToSender = true;
+  }
+
   public toggleProcurationIndex(value: number | null): void {
     this.procurationIndex = value;
   }
@@ -150,6 +156,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
           filtered.push({
             procurationIndex: this.procurationIndex,
             type: interaction,
+            returnToSender: this.returnToSender ?? null,
           });
         }
         return filtered;

@@ -68,17 +68,19 @@ async function createInteraction({
         interaction.procurationIndex
       ].nom.toUpperCase()}`;
       procuration = true;
-    } else {
-      usager.lastInteraction.dateInteraction = now;
-    }
-
-    if (
+    } else if (interaction.returnToSender === true) {
+      // Retour à l'expéditeur
+      interaction.content = `Courrier retourné à l'expéditeur\n${interaction.content}`;
+    } else if (
       usager.options.transfert.actif &&
       new Date(usager.options.transfert.dateFin) >= now
     ) {
+      usager.lastInteraction.dateInteraction = now;
       interaction.content += `\nCourrier transféré à : ${
         usager.options.transfert.nom
       } - ${usager.options.transfert.adresse.toUpperCase()}`;
+    } else {
+      usager.lastInteraction.dateInteraction = now;
     }
   } else if (direction === "in") {
     interaction.nbCourrier = interaction.nbCourrier ?? 1;

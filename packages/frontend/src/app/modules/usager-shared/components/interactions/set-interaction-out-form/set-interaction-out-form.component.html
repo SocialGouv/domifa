@@ -87,18 +87,42 @@
 
   <fieldset
     class="text-start my-3"
-    *ngIf="usager.options.procurations.length > 0"
+    *ngIf="usager.options.procurations.length > 0 || usager.options.npai.actif"
   >
     <legend>A qui est distribué le courrier ?</legend>
+    <div class="alert alert-danger" *ngIf="usager.options?.npai?.actif">
+      <div aria-hidden="true" class="svg-icon icon-danger"></div>
+      <p class="text-danger">
+        Le dossier est est indiqué comme ne recevant plus de courrier. Si le
+        courrier est renvoyé à l'expéditeur, vous pouveez cocher la case
+        correspondante
+      </p>
+    </div>
     <div class="row align-items-top">
+      <div class="col-md-6 my-2" *ngIf="usager.decision.statut === 'RADIE'">
+        <div class="interaction-icon-box">
+          <label for="return-to-sender"
+            ><span class="d-block fw-bold">Retour à l'expéditeur</span><br
+          /></label>
+        </div>
+
+        <div class="interaction-actions checkbox">
+          <input
+            name="procuration"
+            id="return-to-sender"
+            type="radio"
+            [attr.aria-checked]="procurationIndex === null && returnToSender"
+            (click)="toggleReturnToSender()"
+          />
+        </div>
+      </div>
+
       <div class="col-md-6 my-2">
         <div class="interaction-icon-box">
-          <div class="fw-bold">Domicilié</div>
-          <div class="mb-1">
-            <label for="distribution-domicilie"
-              >{{ usager.nom | uppercase }} {{ usager.prenom }}</label
-            >
-          </div>
+          <label for="distribution-domicilie">
+            <span class="d-block fw-bold">Domicilié</span>
+            {{ usager.nom | uppercase }} {{ usager.prenom }}
+          </label>
         </div>
         <div class="interaction-actions checkbox">
           <input
@@ -106,7 +130,7 @@
             id="distribution-domicilie"
             type="radio"
             checked
-            [attr.aria-checked]="procurationIndex === null"
+            [attr.aria-checked]="procurationIndex === null && !returnToSender"
             (click)="toggleProcurationIndex(null)"
           />
         </div>

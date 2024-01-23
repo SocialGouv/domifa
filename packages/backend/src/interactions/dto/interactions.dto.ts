@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 
 import {
+  IsBoolean,
   IsEmpty,
   IsIn,
   IsNotEmpty,
@@ -81,4 +82,8 @@ export class InteractionDto {
 
   @IsEmpty()
   public procuration?: boolean | null = null;
+
+  @IsOptional()
+  @IsBoolean()
+  public returnToSender?: boolean | null = null;
 }

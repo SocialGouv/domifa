@@ -9,4 +9,5 @@ export interface InteractionInForApi {
 export interface InteractionOutForApi {
   type: InteractionType;
   procurationIndex: number | null;
+  returnToSender: boolean | null;
 }

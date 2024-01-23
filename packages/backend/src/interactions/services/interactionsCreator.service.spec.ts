@@ -26,6 +26,7 @@ describe("interactionsCreator", () => {
   let interactionsDeletor: InteractionsDeletor;
   let user: UserStructure;
   let usager: Usager;
+  let usagerRadie: Usager;
 
   const MOCKED_NEW_DATE = "2021-09-11T09:45:30.000Z";
   const MOCKED_LAST_INTERACTION_DATE = new Date("2020-11-21T14:11:28");
@@ -75,6 +76,36 @@ describe("interactionsCreator", () => {
         recommandeIn: 0,
         colisIn: 0,
       },
+    });
+
+    // Usager pour tester le "npai"
+    await usagerRepository.update(
+      {
+        structureId: 1,
+        ref: 4,
+      },
+      {
+        options: {
+          npai: {
+            actif: true,
+            dateDebut: new Date("2020-11-21T14:11:28"),
+          },
+          transfert: {
+            nom: null,
+            actif: false,
+            adresse: null,
+            dateFin: null,
+            dateDebut: null,
+          },
+          procurations: [],
+          portailUsagerEnabled: false,
+        },
+      }
+    );
+
+    usagerRadie = await usagerRepository.findOneBy({
+      structureId: 1,
+      ref: 4,
     });
   });
 
@@ -416,6 +447,76 @@ describe("interactionsCreator", () => {
         usager,
       });
       // clean
+      await interactionsDeletor.deleteInteraction({
+        interaction: resultat.interaction,
+        structure: user.structure,
+        usager,
+      });
+    });
+  });
+
+  describe("5. Courrier retourné à l'expéditeur", () => {
+    it("NPAI actif: la date de dernier passage ne doit pas se mettre à jour  ", async () => {
+      const interactionIn: InteractionDto = {
+        type: "courrierIn",
+        nbCourrier: 10,
+      };
+
+      const firstInsert = await interactionsCreator.createInteraction({
+        usager: usagerRadie,
+        user,
+        interaction: interactionIn,
+      });
+
+      expect(firstInsert.usager.lastInteraction.dateInteraction).toEqual(
+        "2021-01-27T09:21:49.240Z"
+      );
+
+      const interactionOut: InteractionDto = {
+        type: "courrierOut",
+        nbCourrier: 10,
+        returnToSender: true,
+      };
+
+      const resultat = await interactionsCreator.createInteraction({
+        usager: firstInsert.usager,
+        user,
+        interaction: interactionOut,
+      });
+      expect(resultat.interaction.content).toEqual(
+        "Courrier retourné à l'expéditeur"
+      );
+
+      expect(resultat.usager.lastInteraction.dateInteraction).toEqual(
+        usagerRadie.lastInteraction.dateInteraction
+      );
+      expect(resultat.usager.lastInteraction.enAttente).toEqual(false);
+
+      await interactionsDeletor.deleteInteraction({
+        interaction: resultat.interaction,
+        structure: user.structure,
+        usager,
+      });
+    });
+
+    it("NPAI inactif: la date de dernier passage se met à jour", async () => {
+      const interaction: InteractionDto = {
+        type: "courrierOut",
+        nbCourrier: 1111, // Test avec un faux numéro, on vérifie que c'est bien 0 qui est enregistré
+      };
+
+      const resultat = await interactionsCreator.createInteraction({
+        usager,
+        user,
+        interaction,
+      });
+      expect(resultat.usager.lastInteraction.dateInteraction).toEqual(
+        MOCKED_NEW_DATE
+      );
+
+      expect(resultat.interaction.nbCourrier).toEqual(0);
+
+      // Suppression de l'interaction sortante
       await interactionsDeletor.deleteInteraction({
         interaction: resultat.interaction,
         structure: user.structure,

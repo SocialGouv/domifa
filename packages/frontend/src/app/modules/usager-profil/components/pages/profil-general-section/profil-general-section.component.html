@@ -358,7 +358,7 @@
           <ng-container
             *ngIf="
               usager?.echeanceInfos?.isActif ||
-              (usager.decision.statut === 'RADIE' && !usager.options.npai.actif)
+              usager.decision.statut === 'RADIE'
             "
           >
             <ng-container
@@ -401,32 +401,31 @@
               </button>
             </ng-container>
             <br />
-            <ng-container *ngIf="!usager.options.npai.actif">
-              <button
-                type="button"
-                class="my-1 btn btn-primary me-2"
-                (click)="openInteractionInModal()"
-              >
-                <span
-                  class="icon-reception list-icon me-2"
-                  aria-hidden="true"
-                ></span>
-                Ajouter du courrier
-              </button>
 
-              <button
-                type="button"
-                *ngIf="usager.lastInteraction.enAttente"
-                class="my-1 btn btn-primary me-2"
-                (click)="openInteractionOutModal()"
-              >
-                <span
-                  class="icon-distribution list-icon me-2"
-                  aria-hidden="true"
-                ></span>
-                Distribuer le courrier
-              </button>
-            </ng-container>
+            <button
+              type="button"
+              class="my-1 btn btn-primary me-2"
+              (click)="openInteractionInModal()"
+            >
+              <span
+                class="icon-reception list-icon me-2"
+                aria-hidden="true"
+              ></span>
+              Ajouter du courrier
+            </button>
+
+            <button
+              type="button"
+              *ngIf="usager.lastInteraction.enAttente"
+              class="my-1 btn btn-primary me-2"
+              (click)="openInteractionOutModal()"
+            >
+              <span
+                class="icon-distribution list-icon me-2"
+                aria-hidden="true"
+              ></span>
+              Distribuer le courrier
+            </button>
           </ng-container>
           <app-set-npai [usager]="usager"></app-set-npai>
         </div>
