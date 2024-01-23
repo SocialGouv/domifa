@@ -713,10 +713,12 @@ async function createTables(queryRunner: QueryRunner) {
       "usagerUUID" uuid NOT NULL,
       "interactionOutUUID" uuid NULL,
       procuration bool NULL,
+      "returnToSender" bool NULL,
       CONSTRAINT "PK_006113a10247f411c459d62a5b3" PRIMARY KEY (uuid),
       CONSTRAINT "FK_1953f5ad67157bada8774f7e245" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE,
       CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES public.usager("uuid") ON DELETE CASCADE
     );
+    CREATE INDEX "IDX_12b6501ee34f7b56be08b6536d" ON public.interactions USING btree ("returnToSender");
     CREATE INDEX "IDX_1953f5ad67157bada8774f7e24" ON public.interactions USING btree ("structureId");
     CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON public.interactions USING btree ("interactionOutUUID");
     CREATE INDEX "IDX_4a2ef430c9c7a9b4a66db96ec7" ON public.interactions USING btree ("dateInteraction");

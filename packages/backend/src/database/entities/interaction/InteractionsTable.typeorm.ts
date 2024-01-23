@@ -63,6 +63,10 @@ export class InteractionsTable
   @Column({ type: "boolean", nullable: true })
   procuration: boolean | null;
 
+  @Index()
+  @Column({ type: "boolean", nullable: true })
+  returnToSender: boolean | null;
+
   public constructor(entity?: Partial<InteractionsTable>) {
     super(entity);
     Object.assign(this, entity);

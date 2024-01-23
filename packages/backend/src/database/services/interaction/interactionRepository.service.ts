@@ -246,6 +246,7 @@ async function findLastInteractionOut(
     where: {
       type: In(INTERACTION_OK_LIST),
       procuration: IsNull(),
+      returnToSender: IsNull(),
       usagerUUID: usager.uuid,
     },
     select: {

@@ -136,6 +136,12 @@
       <app-rgpd-warning></app-rgpd-warning>
     </div>
   </div>
+  <div class="alert alert-danger" *ngIf="usager.options?.npai?.actif">
+    <div aria-hidden="true" class="svg-icon icon-danger"></div>
+    <p class="text-danger">
+      Il est indiqué que ce dossier ne doit plus recevoir de courrier.
+    </p>
+  </div>
 </div>
 
 <div class="text-end modal-footer">
