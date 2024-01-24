@@ -325,12 +325,12 @@ export function getProcurationsListe(procurations: UsagerOptionsProcuration[]) {
         const dateNaissance = formatDateFromProcurations(current.dateNaissance);
         const dateDebut = formatDateFromProcurations(current.dateDebut);
         const dateFin = formatDateFromProcurations(current.dateFin);
-        return `${prev}${current.nom} ${current.prenom} né(e) le ${dateNaissance} - Du ${dateDebut} au ${dateFin}`;
+        return `${prev}\n${current.nom} ${current.prenom} né(e) le ${dateNaissance} - Du ${dateDebut} au ${dateFin}`;
       },
       ""
     );
   }
-  return procurationString;
+  return procurationString.trim();
 }
 
 function formatDateFromProcurations(date?: Date | string | null) {

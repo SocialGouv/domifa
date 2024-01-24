@@ -1,5 +1,46 @@
 [
   {
+    "date": "2024-01-24",
+    "description": "",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Indicateur dans le rapport d'activité",
+        "message": [
+          "Un nouvel indicateur a été ajouté dans l'Axe 1 permettant de distinguer dans les domiciliés actifs, la part des nouvelles demandes et celle des renouvellements."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Documents personnalisables",
+        "message": [
+          "Ajout du libellé 'PROCURATION_LISTE' dans les documents personnalisables pour obtenir la liste complète des procurations rattachées à un dossier lors de la création d'un nouveau document."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Statistiques de refus et radiations",
+        "message": [
+          "Correction des dates prises en compte dans les statistiques pour les refus et radiations, qui étaient auparavant les dates de saisie sur DomiFa et non les dates effectives. Cette correction vise à éviter un décalage dans les données statistiques."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Import domiciliés",
+        "message": [
+          "Les données 'situation professionnelle' et 'cause d'instabilité du logement' sont désormais disponibles dans le fichier d'import des domiciliés pour toutes les nouvelles structures."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Export domiciliés",
+        "message": [
+          "La donnée 'langue parlée' a été ajoutée dans le fichier global d'export de vos domiciliés."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-01-11",
     "description": "Le rapport d'activité évolue",
     "content": [
