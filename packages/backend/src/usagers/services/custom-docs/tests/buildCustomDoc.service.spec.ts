@@ -95,6 +95,13 @@ describe("buildCustomDoc.service", () => {
             dateFin: new Date("2023-09-04 14:30:00"),
             dateNaissance: new Date("1998-12-12 04:30:00"),
           },
+          {
+            nom: "Deuxième nom",
+            prenom: "Deuxième prénom",
+            dateDebut: new Date("2022-12-20 14:30:00"),
+            dateFin: new Date("2023-09-04 14:30:00"),
+            dateNaissance: new Date("1998-12-12 04:30:00"),
+          },
         ],
         npai: {
           actif: false,
@@ -121,7 +128,7 @@ describe("buildCustomDoc.service", () => {
       // Procuration
       expect(customDocGenerated.PROCURATION_ACTIF).toEqual("OUI");
       expect(customDocGenerated.PROCURATIONS_LISTE).toEqual(
-        "Nom du mandataire Prénom du mandataire né(e) le 12/12/1998 - Du 20/12/2022 au 04/09/2023"
+        "Nom du mandataire Prénom du mandataire né(e) le 12/12/1998 - Du 20/12/2022 au 04/09/2023\nDeuxième nom Deuxième prénom né(e) le 12/12/1998 - Du 20/12/2022 au 04/09/2023"
       );
 
       expect(customDocGenerated.PROCURATION_PRENOM).toEqual(
