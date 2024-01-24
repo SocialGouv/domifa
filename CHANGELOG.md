@@ -1,3 +1,10 @@
+## [2.159.1](https://github.com/SocialGouv/domifa/compare/v2.159.0...v2.159.1) (2024-01-24)
+
+
+### Bug Fixes
+
+* **procurations:** add break line ([19baae9](https://github.com/SocialGouv/domifa/commit/19baae9625a20fa19b1ba9d611076763832378e4))
+
 # [2.159.0](https://github.com/SocialGouv/domifa/compare/v2.158.0...v2.159.0) (2024-01-22)
 
 
