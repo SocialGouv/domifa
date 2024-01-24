@@ -40,7 +40,10 @@ export type Usager = AppEntity & {
   etapeDemande: number;
   rdv: UsagerRdv | null;
   entretien: UsagerEntretien;
-  pinnedNote: Partial<UsagerNote> | null;
+  pinnedNote: Pick<
+    UsagerNote,
+    "message" | "usagerRef" | "createdAt" | "createdBy"
+  > | null;
 
   // INFOS DOMICILIATION
   typeDom: UsagerTypeDom;

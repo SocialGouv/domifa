@@ -153,10 +153,10 @@ async function countTotalActifs(): Promise<{
   };
 }
 
-async function countMigratedUsagers(): Promise<number> {
+async function countMigratedUsagers(structureId: number): Promise<number> {
   return myDataSource
     .getRepository<Usager>(UsagerTable)
-    .countBy({ migrated: false });
+    .countBy({ migrated: false, structureId });
 }
 
 async function findLastFiveCustomRef({

@@ -28,12 +28,13 @@ if (isTypescriptMode) {
 
 export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
   applicationName: "domifa-api",
+  url: "",
   poolErrorHandler: (err: Error) => {
     appLogger.error("PG pool error:", { error: err, sentry: true });
   },
   type: "postgres",
   synchronize: false,
-  migrationsTransactionMode: "each",
+  migrationsTransactionMode: "none",
   migrationsRun:
     (domifaConfig().envId !== "test" && domifaConfig().cron.enable) ||
     domifaConfig().envId === "local",

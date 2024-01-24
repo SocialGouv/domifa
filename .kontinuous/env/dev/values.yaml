@@ -27,10 +27,14 @@ backend:
   ~needs: [build-backend, pg]
   volumes:
     - name: files
-      emptyDir: {}
   volumeMounts:
     - mountPath: /mnt/files
       name: files
 
 backend-cron:
   ~needs: [backend]
+  volumes:
+    - name: files
+  volumeMounts:
+    - mountPath: /mnt/files
+      name: files

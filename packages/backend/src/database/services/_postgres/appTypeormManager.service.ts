@@ -19,7 +19,7 @@ async function migrateUp(connection: DataSource): Promise<Migration[]> {
   appLogger.warn(`\nStart migrations ....`);
 
   const migrations = await connection.runMigrations({
-    transaction: "each",
+    transaction: "all",
   });
 
   appLogger.warn(`\nMigration success: ${migrations.length}\n`);

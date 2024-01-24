@@ -27,7 +27,7 @@ async function generateDeleteToken(uuid: string): Promise<Structure> {
 }
 
 async function deleteStructureUsagers(
-  structure: Pick<Structure, "hardReset" | "id" | "uuid">
+  structure: Pick<Structure, "id" | "uuid">
 ) {
   await deleteStructureDocuments(structure);
 
@@ -35,15 +35,15 @@ async function deleteStructureUsagers(
 }
 
 async function deleteStructure(
-  structure: Pick<Structure, "hardReset" | "id" | "uuid">
+  structure: Pick<Structure, "id" | "uuid">
 ): Promise<any> {
   await deleteStructureUsagers(structure);
 
   return structureRepository.delete({ id: structure.id });
 }
 
-async function resetUsagers(
-  structure: Pick<Structure, "hardReset" | "id" | "uuid">
+export async function resetUsagers(
+  structure: Pick<Structure, "id">
 ): Promise<void> {
   // Suppression des Documents
   await usagerDocsRepository.delete({
@@ -64,7 +64,7 @@ async function resetUsagers(
 }
 
 async function deleteStructureDocuments(
-  structure: Pick<Structure, "hardReset" | "id" | "uuid">
+  structure: Pick<Structure, "id" | "uuid">
 ) {
   const oldUsagerFolder = join(
     domifaConfig().upload.basePath,
