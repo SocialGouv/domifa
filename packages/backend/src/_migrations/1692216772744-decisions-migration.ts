@@ -166,9 +166,8 @@ export class ImportDecisionsMigration1692216772744
         });
 
         const typeDom: UsagerTypeDom =
-          { ...uniqueDecision }.filter(
-            (decision) => decision.statut === "VALIDE"
-          ).length > 1 || usager.typeDom === "RENOUVELLEMENT"
+          uniqueDecision.filter((decision) => decision.statut === "VALIDE")
+            .length > 1 || usager.typeDom === "RENOUVELLEMENT"
             ? "RENOUVELLEMENT"
             : "PREMIERE_DOM";
 

@@ -7,14 +7,14 @@ export class ManualMigration1692191990701 implements MigrationInterface {
   name = "OpenDomicilieXmlMigration1692191990701";
 
   public async up(): Promise<void> {
-    const inputFile = domifaConfig().upload.basePath + "/Domicilie.XML";
+    const inputFile = domifaConfig().upload.basePath + "Domicilie.XML";
 
     if (!existsSync(inputFile)) {
       console.log("Wait for file ....");
       await new Promise((resolve) => setTimeout(resolve, 180000));
     }
 
-    const outputFile = domifaConfig().upload.basePath + "/usagers.json";
+    const outputFile = domifaConfig().upload.basePath + "usagers.json";
 
     const xmlData = await readFile(inputFile, "utf8");
 

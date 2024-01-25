@@ -37,7 +37,7 @@ export class ManualMigration1692191990702 implements MigrationInterface {
 
     console.log("2️⃣  Début de l'import des domiciliés");
 
-    const filePath = domifaConfig().upload.basePath + "/usagers.json";
+    const filePath = domifaConfig().upload.basePath + "usagers.json";
     const jsonData = await readFile(filePath, "utf8");
 
     let raw = JSON.parse(jsonData).HF_DOCUMENT.Domicilie as TUsager[];
