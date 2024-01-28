@@ -81,6 +81,7 @@ async function updateHistoryStateFromDecision({
     usagerUUID: usager.uuid,
   });
 
+  // TODO: créer un state dans la nouvelle table
   const newHistory = buildHistoryFromNewDecision({
     usager,
     usagerHistory,

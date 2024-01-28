@@ -26,8 +26,10 @@ async function getStats({
     ,count(distinct uh."usagerUUID") filter (where u.sexe = 'femme') as v_u_sexe_f
     ,count(distinct uh."usagerUUID") filter (where u."typeDom" = 'PREMIERE_DOM') as v_u_decision_valide_typedom_premiere
     ,count(distinct uh."usagerUUID") filter (where u."typeDom" = 'RENOUVELLEMENT') as v_u_decision_valide_typedom_renouvellement
+
     ,count(distinct uh."usagerUUID") filter (where date_part('year',age($3, u."dateNaissance" at time zone 'utc'))::int < 18) as v_u_age_mineur
     ,count(distinct uh."usagerUUID") filter (where date_part('year',age($3, u."dateNaissance" at time zone 'utc'))::int >= 18) as v_u_age_majeur
+
     ,count(distinct usager_tranche.uuid) filter (where usager_tranche.tranche_age = 'T_0_14') as v_u_age_0_14
     ,count(distinct usager_tranche.uuid) filter (where usager_tranche.tranche_age = 'T_15_19') as v_u_age_15_19
     ,count(distinct usager_tranche.uuid) filter (where usager_tranche.tranche_age = 'T_20_24') as v_u_age_20_24
@@ -42,16 +44,18 @@ async function getStats({
     ,count(distinct usager_tranche.uuid) filter (where usager_tranche.tranche_age = 'T_65_69') as v_u_age_65_69
     ,count(distinct usager_tranche.uuid) filter (where usager_tranche.tranche_age = 'T_70_74') as v_u_age_70_74
     ,count(distinct usager_tranche.uuid) filter (where usager_tranche.tranche_age = 'T_75_PLUS') as v_u_age_75_plus
+
     ,COALESCE(sum(state_ayant_droit_agg.count_mineur), 0) as v_ad_age_mineur
     ,COALESCE(sum(state_ayant_droit_agg.count_majeur), 0) as v_ad_age_majeur
-    ,count(distinct uh."usagerUUID") filter (where date_part('year',age($3, u."dateNaissance" at time zone 'utc'))::int >= 18) as v_u_age_majeur
+
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'typeMenage' = 'COUPLE_AVEC_ENFANT') as v_u_menage_cae
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'typeMenage' = 'COUPLE_SANS_ENFANT') as v_u_menage_cse
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'typeMenage' = 'FEMME_ISOLE_AVEC_ENFANT') as v_u_menage_fiae
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'typeMenage' = 'FEMME_ISOLE_SANS_ENFANT') as v_u_menage_fise
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'typeMenage' = 'HOMME_ISOLE_AVEC_ENFANT') as v_u_menage_hiae
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'typeMenage' = 'HOMME_ISOLE_SANS_ENFANT') as v_u_menage_hise
-    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'typeMenage' is null or state->'entretien'->'typeMenage' = 'null') as v_u_menage_nr
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'typeMenage' = 'null') as v_u_menage_nr
+
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'cause' = 'ERRANCE') as v_u_cause_errance
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'cause' = 'EXPULSION') as v_u_cause_expulsion
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'cause' = 'HEBERGE_SANS_ADRESSE') as v_u_cause_heb_sans_addr
@@ -62,28 +66,34 @@ async function getStats({
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'cause' = 'SORTIE_INCARCERATION') as v_u_cause_sortie_incarceration
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'cause' = 'VIOLENCE') as v_u_cause_violence
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'cause' = 'AUTRE') as v_u_cause_autre
-    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'cause' is null or state->'entretien'->'cause' = 'null' or state->'entretien'->>'cause' = 'NON_RENSEIGNE') as v_u_cause_nr
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'cause'  = 'null' ) as v_u_cause_nr
+
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'RESIDENTIEL') as v_u_liencommune_residentiel
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'PARENTAL') as v_u_liencommune_parental
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'FAMILIAL') as v_u_liencommune_familial
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'PROFESSIONNEL') as v_u_liencommune_professionnel
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'SOCIAL') as v_u_liencommune_social
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'liencommune' = 'AUTRE') as v_u_liencommune_autre
-    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'liencommune' is null or state->'entretien'->'liencommune' = 'null' or  state->'entretien'->>'liencommune' = 'NON_RENSEIGNE') as v_u_liencommune_nr
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'liencommune'  = 'null' ) as v_u_liencommune_nr
+
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'raison' = 'EXERCICE_DROITS') as v_u_raison_exercice_droits
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'raison' = 'PRESTATIONS_SOCIALES') as v_u_raison_prestations_sociales
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'raison' = 'AUTRE') as v_u_raison_autre
-    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'raison' is null or state->'entretien'->'raison' = 'null' or state->'entretien'->>'raison' = 'NON_RENSEIGNE') as v_u_raison_nr
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'raison'    = 'null' ) as v_u_raison_nr
+
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'residence' = 'DOMICILE_MOBILE') as v_u_residence_domicile_mobile
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'residence' = 'HEBERGEMENT_SOCIAL') as v_u_residence_hebergement_social
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'residence' = 'HEBERGEMENT_TIERS') as v_u_residence_hebergement_tiers
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'residence' = 'HOTEL') as v_u_residence_hotel
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'residence' = 'SANS_ABRI') as v_u_residence_sans_abri
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'residence' = 'AUTRE') as v_u_residence_autre
-    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'residence' is null or state->'entretien'->'residence' = 'null' or state->'entretien'->>'residence' = 'NON_RENSEIGNE') as v_u_residence_nr
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'residence' = 'null' ) as v_u_residence_nr
+
     ,count(distinct uh."usagerUUID") filter (where (state->'entretien'->>'accompagnement')::boolean is true) as v_u_accompagnement_oui
     ,count(distinct uh."usagerUUID") filter (where (state->'entretien'->>'accompagnement')::boolean is false) as v_u_accompagnement_non
-    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'accompagnement' is null or state->'entretien'->'accompagnement' = 'null') as v_u_accompagnement_nr
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'accompagnement'   = 'null') as v_u_accompagnement_nr
+
+
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'situationPro' = 'ETUDIANT') as v_u_situation_pro_etudiant
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'situationPro' = 'SALARIE') as v_u_situation_pro_salarie
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'situationPro' = 'INDEPENDANT') as v_u_situation_pro_independant
@@ -92,10 +102,11 @@ async function getStats({
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'situationPro' = 'AAH') as v_u_situation_pro_aah
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'situationPro' = 'RETRAITE') as v_u_situation_pro_retraite
     ,count(distinct uh."usagerUUID") filter (where state->'entretien'->>'situationPro' = 'AUTRE') as v_u_situation_pro_autre
-    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'situationPro' is null or state->'entretien'->'situationPro' = 'null') as v_u_situation_pro_nr
+    ,count(distinct uh."usagerUUID") filter (where state->'entretien'->'situationPro'   = 'null') as v_u_situation_pro_nr
+
     FROM "usager_history" "uh"
-    join usager u on uh."usagerUUID" = u.uuid
-    join jsonb_array_elements(uh.states) as state on true
+    inner join usager u on uh."usagerUUID" = u.uuid
+    inner join jsonb_array_elements(uh.states) as state on true
     left join lateral(
       select state->'uuid' as "stateUUID",
       count(state_ayant_droit) filter (where date_part('year',age($3, (state_ayant_droit->>'dateNaissance')::timestamptz at time zone 'utc'))::int < 18) as count_mineur,

@@ -14,8 +14,8 @@ export const getDecisionForStats = (
     dateFin: decision.dateFin,
     typeDom: decision.typeDom,
     statut: decision.statut,
-    motif: decision.motif,
-    orientation: decision.orientation,
+    motif: decision?.motif ?? null,
+    orientation: decision?.orientation ?? null,
   };
 };
 
