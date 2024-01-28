@@ -241,6 +241,42 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_fa4dea9a1ff8deb8fcf47c451e" ON public.structure USING btree (departement);
 
 
+    -- public.usager_history_states definition
+
+    -- Drop table
+
+    -- DROP TABLE public.usager_history_states;
+
+    CREATE TABLE public.usager_history_states (
+      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
+      "createdAt" timestamptz NOT NULL DEFAULT now(),
+      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "version" int4 NOT NULL,
+      "usagerUUID" uuid NOT NULL,
+      "usagerRef" int4 NOT NULL,
+      "structureId" int4 NOT NULL,
+      "ayantsDroits" jsonb NOT NULL,
+      decision jsonb NOT NULL,
+      entretien jsonb NOT NULL,
+      rdv jsonb NULL,
+      "createdEvent" text NOT NULL,
+      "historyBeginDate" timestamptz NOT NULL,
+      "historyEndDate" timestamptz NULL,
+      "isActive" bool NULL DEFAULT false,
+      migrated bool NOT NULL DEFAULT false,
+      "typeDom" text NULL DEFAULT 'PREMIERE_DOM'::text,
+      "etapeDemande" int4 NOT NULL DEFAULT 0,
+      CONSTRAINT "PK_c1bd0d42891df5715d2ef8474d7" PRIMARY KEY (uuid)
+    );
+    CREATE INDEX "IDX_78061fee381f67924d9a659dc6" ON public.usager_history_states USING btree ("isActive");
+    CREATE INDEX "IDX_7ed0bb63b8fc294757b8bd8854" ON public.usager_history_states USING btree ("historyEndDate");
+    CREATE INDEX "IDX_85ac9012f78c974fb73a5352df" ON public.usager_history_states USING btree ("structureId");
+    CREATE INDEX "IDX_9beb1346c63a45ba7c15db9ee7" ON public.usager_history_states USING btree ("historyBeginDate");
+    CREATE INDEX "IDX_b86af851802a2a2f3a2ab549e8" ON public.usager_history_states USING btree ("createdEvent");
+    CREATE INDEX "IDX_e819c8b113a23a4a0c13a741da" ON public.usager_history_states USING btree ("usagerUUID");
+    CREATE INDEX "IDX_f11adaadacdb25438cf2f92f1f" ON public.usager_history_states USING btree ("typeDom");
+
+
     -- public.user_usager_login definition
 
     -- Drop table
