@@ -1,3 +1,10 @@
+## [2.159.2](https://github.com/SocialGouv/domifa/compare/v2.159.1...v2.159.2) (2024-02-01)
+
+
+### Bug Fixes
+
+* **deps:** update dependency nodemailer to v6.9.9 [security] ([146a8cf](https://github.com/SocialGouv/domifa/commit/146a8cfb67629165b84648c020ae06471ff31476))
+
 ## [2.159.1](https://github.com/SocialGouv/domifa/compare/v2.159.0...v2.159.1) (2024-01-24)
 
 
