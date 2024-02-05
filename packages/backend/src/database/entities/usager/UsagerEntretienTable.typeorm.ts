@@ -108,6 +108,9 @@ export class UsagerEntretienTable
   @Column({ type: "text", nullable: true })
   public situationPro: UsagerEntretienSituationPro;
 
+  @Column({ type: "text", nullable: true })
+  public situationProDetail: string;
+
   public constructor(entity: Partial<UsagerNotesTable>) {
     super(entity);
     Object.assign(this, entity);

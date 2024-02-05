@@ -28,6 +28,7 @@ export class Entretien implements Partial<UsagerEntretien> {
   public accompagnement: boolean | null;
   public accompagnementDetail: string | null;
   public situationPro: UsagerEntretienSituationPro | null;
+  public situationProDetail: string | null;
 
   constructor(entretien?: Partial<UsagerEntretien> | null) {
     this.accompagnement =
@@ -59,5 +60,6 @@ export class Entretien implements Partial<UsagerEntretien> {
     this.revenusDetail = entretien?.revenusDetail || null;
     this.typeMenage = entretien?.typeMenage || null;
     this.situationPro = entretien?.situationPro || null;
+    this.situationProDetail = entretien?.situationProDetail || null;
   }
 }
