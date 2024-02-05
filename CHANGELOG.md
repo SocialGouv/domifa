@@ -1,3 +1,12 @@
+## [2.159.4](https://github.com/SocialGouv/domifa/compare/v2.159.3...v2.159.4) (2024-02-05)
+
+
+### Bug Fixes
+
+* **entretien:** add new information ([b21a528](https://github.com/SocialGouv/domifa/commit/b21a52816396fc594b577a829736b23fa48a79a1))
+* **entretien:** fix display of information ([74c92ba](https://github.com/SocialGouv/domifa/commit/74c92ba3231b697cf5243e1d2c2b2982abcd15b9))
+* **entretien:** update test files ([fa8669c](https://github.com/SocialGouv/domifa/commit/fa8669c535bb51cc668b3527dcfa8bcbb33a301c))
+
 ## [2.159.3](https://github.com/SocialGouv/domifa/compare/v2.159.2...v2.159.3) (2024-02-05)
 
 
