@@ -24,10 +24,11 @@
 
   <p class="col-md-4 reponses">
     <span class="question">Situation professionelle</span>
-    <span class="valeur" *ngIf="usager.entretien.situationPro !== 'AUTRE'">
+    <span class="valeur">
       {{
-        ENTRETIEN_SITUATION_PRO[usager.entretien.situationPro] ||
-          "Non renseigné"
+        usager.entretien?.situationPro
+          ? ENTRETIEN_SITUATION_PRO[usager.entretien.situationPro]
+          : "Non renseigné"
       }}
     </span>
   </p>
@@ -39,14 +40,15 @@
         : {{ usager.entretien.revenusDetail }}
       </ng-container>
     </span>
-    <span class="valeur" *ngIf="usager.entretien.revenus === null">
+    <span class="valeur" *ngIf="!usager.entretien.revenus === null">
       Non renseigné
     </span>
   </p>
   <p class="col-md-4 reponses">
     <span class="question">Lien commune</span>
     <span class="valeur" *ngIf="usager.entretien.liencommune === 'AUTRE'">
-      Autre : {{ usager.entretien.liencommuneDetail }}
+      Autre lien:
+      {{ usager.entretien?.liencommuneDetail ?? "non renseigné" }}
     </span>
     <span class="valeur" *ngIf="usager.entretien.liencommune !== 'AUTRE'">
       {{
@@ -58,7 +60,8 @@
   <p class="col-md-4 reponses">
     <span class="question">Motif de la demande</span>
     <span class="valeur" *ngIf="usager.entretien.raison === 'AUTRE'">
-      Autre raison: {{ usager.entretien.raisonDetail }}
+      Autre raison:
+      {{ usager.entretien?.raisonDetail ?? "non renseigné" }}
     </span>
     <span class="valeur" *ngIf="usager.entretien.raison !== 'AUTRE'">
       {{ ENTRETIEN_RAISON_DEMANDE[usager.entretien.raison] || "Non renseigné" }}
@@ -69,7 +72,9 @@
     <span class="question">Composition ménage</span>
     <span class="valeur">
       {{
-        ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage] || "Non renseigné"
+        usager.entretien.typeMenage
+          ? ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage]
+          : "Non renseigné"
       }}
     </span>
   </p>
@@ -78,11 +83,13 @@
     <span class="question">Cause de l'instabilité logement</span>
     <span class="valeur" *ngIf="usager.entretien.cause !== 'AUTRE'">
       {{
-        ENTRETIEN_CAUSE_INSTABILITE[usager.entretien.cause] || "Non renseigné"
+        usager.entretien.cause
+          ? ENTRETIEN_CAUSE_INSTABILITE[usager.entretien.cause]
+          : "Non renseigné"
       }}
     </span>
     <span class="valeur" *ngIf="usager.entretien.cause === 'AUTRE'"
-      >Autre cause: {{ usager.entretien.causeDetail || "Non renseigné" }}
+      >Autre cause: {{ usager.entretien.causeDetail ?? "Non renseigné" }}
     </span>
   </p>
 
@@ -92,7 +99,11 @@
       Autre situation: {{ usager.entretien.residenceDetail }}
     </span>
     <span class="valeur" *ngIf="usager.entretien.residence !== 'AUTRE'">
-      {{ ENTRETIEN_RESIDENCE[usager.entretien.residence] || "Non renseigné" }}
+      {{
+        usager.entretien.residence
+          ? ENTRETIEN_RESIDENCE[usager.entretien.residence]
+          : "Non renseigné"
+      }}
     </span>
   </p>
 
