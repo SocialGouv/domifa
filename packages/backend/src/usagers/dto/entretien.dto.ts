@@ -16,6 +16,7 @@ import {
   UsagerEntretienSituationPro,
   UsagerEntretienTypeMenage,
 } from "@domifa/common";
+import { Transform } from "class-transformer";
 
 export class EntretienDto implements Partial<UsagerEntretien> {
   @IsOptional()
@@ -27,6 +28,9 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   public revenus!: boolean;
 
   @IsOptional()
+  @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
+    obj.revenus ? value : null
+  )
   public revenusDetail!: string;
 
   @ApiProperty({
@@ -45,15 +49,6 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @ApiProperty({
     type: String,
     required: false,
-    enum: Object.keys(ENTRETIEN_RESIDENCE),
-  })
-  @IsOptional()
-  @IsIn(Object.keys(ENTRETIEN_RESIDENCE))
-  public residence!: UsagerEntretienResidence;
-
-  @ApiProperty({
-    type: String,
-    required: false,
     enum: Object.keys(ENTRETIEN_LIEN_COMMUNE),
   })
   @IsOptional()
@@ -63,11 +58,26 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsOptional()
   @IsString()
   @StripTagsTransform()
+  @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
+    obj.liencommune === "AUTRE" ? value : null
+  )
   public liencommuneDetail!: string;
+
+  @ApiProperty({
+    type: String,
+    required: false,
+    enum: Object.keys(ENTRETIEN_RESIDENCE),
+  })
+  @IsOptional()
+  @IsIn(Object.keys(ENTRETIEN_RESIDENCE))
+  public residence!: UsagerEntretienResidence;
 
   @IsOptional()
   @IsString()
   @StripTagsTransform()
+  @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
+    obj.residence === "AUTRE" ? value : null
+  )
   public residenceDetail!: string;
 
   @IsOptional()
@@ -77,6 +87,9 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsOptional()
   @IsString()
   @StripTagsTransform()
+  @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
+    obj.orientation ? value : null
+  )
   public orientationDetail!: string;
 
   @ApiProperty({
@@ -95,6 +108,9 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsOptional()
   @IsString()
   @StripTagsTransform()
+  @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
+    obj.cause === "AUTRE" ? value : null
+  )
   public causeDetail!: string;
 
   @ApiProperty({
@@ -113,6 +129,9 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsOptional()
   @IsString()
   @StripTagsTransform()
+  @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
+    obj.raison === "AUTRE" ? value : null
+  )
   public raisonDetail!: string;
 
   @ApiProperty({
@@ -129,6 +148,9 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsOptional()
   @IsString()
   @StripTagsTransform()
+  @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
+    obj.accompagnement ? value : null
+  )
   public accompagnementDetail!: string;
 
   @ApiProperty({
