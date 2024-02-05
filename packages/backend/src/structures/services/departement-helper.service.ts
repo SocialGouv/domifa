@@ -1,5 +1,5 @@
+import { DEPARTEMENTS_MAP } from "@domifa/common";
 import { appLogger } from "../../util";
-import { DEPARTEMENTS_MAP } from "../../util/territoires";
 
 // NOTE: service dupliqué côté frontend
 const EXCEPTIONS_CODE_POSTAL: { [codePostal: string]: string } = {

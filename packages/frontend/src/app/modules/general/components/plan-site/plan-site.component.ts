@@ -3,7 +3,7 @@ import { Title } from "@angular/platform-browser";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import { AuthService } from "../../../shared/services/auth.service";
 import { LIENS_PARTENAIRES } from "./LIENS_PARTENAIRES.const";
-import { REGIONS_LISTE, REGIONS_ID_SEO } from "../../../../shared";
+import { REGIONS_LISTE, REGIONS_ID_SEO } from "@domifa/common";
 
 @Component({
   selector: "app-plan-site",

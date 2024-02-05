@@ -8,7 +8,6 @@ import { setHours, setMinutes } from "date-fns";
 import { appLogger } from "../../../util";
 import { messageSmsRepository } from "../../../database/services/message-sms";
 
-import { TimeZone } from "../../../util/territoires";
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import { getPhoneString } from "../../../util/phone/phoneUtils.service";
 import { PhoneNumberFormat } from "google-libphonenumber";
@@ -18,7 +17,7 @@ import {
   monitoringBatchProcessSimpleCountRunner,
 } from "../../../database";
 import { MessageSmsSenderService } from "../message-sms-sender.service";
-import { StructureSmsParams, MessageSms } from "@domifa/common";
+import { StructureSmsParams, MessageSms, TimeZone } from "@domifa/common";
 
 @Injectable()
 export class CronSmsFetchEndDomService {

@@ -1,4 +1,6 @@
-import { DepartementInfos, RegionDef, RegionsLabels } from "../types";
+import { type RegionDef } from "../interfaces";
+import { type DepartementInfos, type RegionsLabels } from "../types";
+
 import { REGIONS_DEF } from "./REGIONS_DEF.const";
 
 // Départements et territoires d'outre mer
@@ -30,15 +32,13 @@ export const DEPARTEMENTS_MAP: DepartementInfos = REGIONS_DEF.reduce(
 );
 
 // Liste des départements : 93 => Seine-Saint-Denis
-export const DEPARTEMENTS_LISTE: RegionsLabels = REGIONS_DEF.reduce(
-  (acc, region: RegionDef) => {
+export const DEPARTEMENTS_LISTE: RegionsLabels =
+  REGIONS_DEF.reduce<RegionsLabels>((acc, region: RegionDef) => {
     region.departements.forEach((dep) => {
       acc[dep.departementCode] = dep.departementName;
     });
     return acc;
-  },
-  {} as unknown as RegionsLabels
-);
+  }, {});
 
 // Départements de métropole
 export const DEPARTEMENTS_METROPOLE: DepartementInfos = REGIONS_DEF.reduce(
@@ -105,23 +105,23 @@ export const DEPARTEMENTS_COM: DepartementInfos = REGIONS_DEF.reduce(
 // Liste des régions
 export const REGIONS_LISTE: RegionsLabels = Object.values(
   DEPARTEMENTS_MAP
-).reduce((acc, value) => {
+).reduce<RegionsLabels>((acc, value) => {
   acc[value.regionCode] = value.regionName;
   return acc;
-}, {} as unknown as RegionsLabels);
+}, {});
 
 // Récupérer l'ID à partir de la SEO url
 export const REGIONS_ID_SEO: RegionsLabels = Object.values(
   DEPARTEMENTS_MAP
-).reduce((acc, value) => {
+).reduce<RegionsLabels>((acc, value) => {
   acc[value.regionCode] = value.regionId;
   return acc;
-}, {} as unknown as RegionsLabels);
+}, {});
 
 // Récupérer l'URL Seo à partir de l'ID
 export const REGIONS_SEO_ID: RegionsLabels = Object.values(
   DEPARTEMENTS_MAP
-).reduce((acc, value) => {
+).reduce<RegionsLabels>((acc, value) => {
   acc[value.regionId] = value.regionCode;
   return acc;
-}, {} as unknown as RegionsLabels);
+}, {});

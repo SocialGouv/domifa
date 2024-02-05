@@ -1,6 +1,5 @@
 import { BeforeInsert, Column, Entity, Generated, Index } from "typeorm";
 
-import { TimeZone } from "../../../util/territoires";
 import { Telephone } from "../../../_common/model";
 
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
@@ -11,8 +10,9 @@ import {
   StructureResponsable,
   StructureType,
   Structure,
+  StructureOrganismeType,
 } from "@domifa/common";
-import { StructureOrganismeType } from "@domifa/common";
+import { TimeZone } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "structure" })
@@ -54,6 +54,14 @@ export class StructureTable
   @Index()
   @Column({ type: "text", nullable: false })
   region: string;
+
+  @Index()
+  @Column({ type: "text", nullable: true })
+  departmentName: string;
+
+  @Index()
+  @Column({ type: "text", nullable: true })
+  regionName: string;
 
   @Index()
   @Column({ type: "text", nullable: false, unique: true })

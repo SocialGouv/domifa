@@ -28,10 +28,10 @@ import { StructuresService } from "../services/structures.service";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
 import { ParseHardResetTokenPipe } from "../../_common/decorators";
-import { DEPARTEMENTS_MAP } from "../../util";
 import { departementHelper } from "../services";
 import { faker } from "@faker-js/faker";
 import { AppUserGuard } from "../../auth/guards";
+import { DEPARTEMENTS_MAP } from "@domifa/common";
 
 @Controller("structures")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -96,6 +96,11 @@ export class StructuresController {
     structureDto.departement = departementHelper.getDepartementFromCodePostal(
       structureDto.codePostal
     );
+
+    structureDto.departmentName =
+      DEPARTEMENTS_MAP[structureDto.departement].departmentName;
+    structureDto.regionName =
+      DEPARTEMENTS_MAP[structureDto.departement].regionName;
 
     structureDto.region = departementHelper.getRegionCodeFromDepartement(
       structureDto.departement

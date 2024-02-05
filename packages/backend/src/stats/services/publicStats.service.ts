@@ -1,4 +1,4 @@
-import { HomeStats, PublicStats } from "@domifa/common";
+import { HomeStats, PublicStats, REGIONS_LISTE } from "@domifa/common";
 import { CACHE_MANAGER } from "@nestjs/cache-manager";
 import { Cache } from "cache-manager";
 import { Injectable, Inject, OnModuleInit } from "@nestjs/common";
@@ -9,7 +9,7 @@ import {
   userStructureRepository,
 } from "../../database";
 import { StructuresService } from "../../structures/services";
-import { FRANCE_REGION_CODES, FranceRegion, appLogger } from "../../util";
+import { appLogger } from "../../util";
 import { CronExpression, Cron } from "@nestjs/schedule";
 import { isCronEnabled } from "../../config/services/isCronEnabled.service";
 import { domifaConfig } from "../../config";
@@ -44,7 +44,7 @@ export class PublicStatsService implements OnModuleInit {
     appLogger.info("[CACHE] Update public stats");
     await this.generatePublicStats({ updateCache: true });
 
-    for (const regionId of FRANCE_REGION_CODES) {
+    for (const regionId of Object.keys(REGIONS_LISTE)) {
       appLogger.info("[CACHE] Update public stats for region " + regionId);
       await this.generatePublicStats({ updateCache: true, regionId });
     }
@@ -84,7 +84,7 @@ export class PublicStatsService implements OnModuleInit {
     regionId,
   }: {
     updateCache?: boolean;
-    regionId?: FranceRegion;
+    regionId?: string;
   }): Promise<PublicStats> {
     const key = regionId ? "publics-stats-" + regionId : "public-stats";
     const value: PublicStats | undefined = await this.cacheManager.get(key);

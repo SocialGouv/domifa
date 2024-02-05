@@ -1,11 +1,7 @@
 import { ParseRegionPipe } from "./../../_common/decorators/ParseRegion.pipe";
-import { FranceRegion } from "./../../util/territoires/types/FranceRegion.type";
-
 import { Controller, Get, Param } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-
 import { HomeStats, PublicStats } from "@domifa/common";
-
 import { PublicStatsService } from "../services/publicStats.service";
 
 @Controller("stats")
@@ -20,7 +16,7 @@ export class StatsPublicController {
 
   @Get("public-stats/:regionId?")
   public async getPublicStats(
-    @Param("regionId", new ParseRegionPipe()) regionId: FranceRegion
+    @Param("regionId", new ParseRegionPipe()) regionId: string
   ): Promise<PublicStats> {
     return this.publicStatsService.generatePublicStats({
       updateCache: false,

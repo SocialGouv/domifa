@@ -1,4 +1,4 @@
-import { TimeZone } from "../../../util/territoires";
+import { TimeZone } from "@domifa/common";
 
 export const COUNTRY_CODES: { [key: string]: string } = {
   af: "93",

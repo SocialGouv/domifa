@@ -2,18 +2,7 @@ import { SeoService } from "./../../../shared/services/seo.service";
 import { StatsService } from "./../../services/stats.service";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 
-import {
-  DEPARTEMENTS_METROPOLE,
-  RegionsLabels,
-  REGIONS_ID_SEO,
-  REGIONS_LISTE,
-  REGIONS_SEO_ID,
-  REGIONS_OUTRE_MER,
-  fadeInOut,
-  DEPARTEMENTS_COM,
-  RegionDef,
-  REGIONS_DEF,
-} from "../../../../shared";
+import { fadeInOut } from "../../../../shared";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 
@@ -22,6 +11,15 @@ import {
   StatsByLocality,
   PublicStats,
   STRUCTURE_TYPE_MAP,
+  DEPARTEMENTS_COM,
+  DEPARTEMENTS_METROPOLE,
+  REGIONS_DEF,
+  REGIONS_ID_SEO,
+  REGIONS_LISTE,
+  REGIONS_OUTRE_MER,
+  REGIONS_SEO_ID,
+  RegionDef,
+  RegionsLabels,
 } from "@domifa/common";
 
 @Component({
