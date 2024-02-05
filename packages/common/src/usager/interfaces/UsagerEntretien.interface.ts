@@ -41,4 +41,5 @@ export interface UsagerEntretien {
   accompagnementDetail: string | null;
 
   situationPro: UsagerEntretienSituationPro | null;
+  situationProDetail: string | null;
 }

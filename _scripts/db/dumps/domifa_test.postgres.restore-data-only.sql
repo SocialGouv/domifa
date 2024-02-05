@@ -157,20 +157,20 @@ a77729a9-1b28-4090-bda8-760590bff982	2019-10-07 20:53:32.922+02	2022-06-28 22:52
 -- Data for Name: usager_entretien; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.usager_entretien (uuid, "createdAt", "updatedAt", version, "usagerUUID", "structureId", "usagerRef", domiciliation, commentaires, "typeMenage", revenus, "revenusDetail", orientation, "orientationDetail", liencommune, "liencommuneDetail", residence, "residenceDetail", cause, "causeDetail", rattachement, raison, "raisonDetail", accompagnement, "accompagnementDetail", "situationPro") FROM stdin;
-b56c7942-55de-4e66-8bc6-7aa046d58d43	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	e074c416-093a-46fc-ae47-77a3bc111d35	1	3	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-a1f75daa-858a-4b99-a370-b8a8b69f0eae	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	2	t	\N	COUPLE_AVEC_ENFANT	f	\N	t	\N	\N	\N	DOMICILE_MOBILE	\N	ERRANCE	\N	\N	AUTRE	\N	t	\N	\N
-e85b1ec0-d972-4ff3-b84c-19c0aa47f774	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	a034b69a-210a-4a3d-b7a9-8987840ef0c7	1	10	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-03092425-aeaa-4a28-9818-6d583f712405	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	16fe01bb-0c4d-4836-a24a-07d117b47fb9	1	9	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-54401773-a3dc-4a67-bed9-b34a2e69cac0	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	274427da-7482-4edb-86aa-4afaf48243d5	1	11	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-071a4aa3-ae50-400e-bda0-ce39cb4265eb	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	860ffa4c-88c4-4e1c-ad42-5a05cdf39830	1	1	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-adeaafb2-c791-42cd-837f-ae592e55d01c	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	5215f197-5f9b-4c2a-8b2e-60a0fcc5fc85	1	8	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-57495291-d7d9-43b8-b6b7-b0fdee610bba	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	3ba5c3f0-8003-4c1c-8bf5-929a12e396f5	1	12	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-65a59363-6dd1-40b3-ab0a-aab25d2504e2	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	b2c26e55-ab37-457d-b307-6fe161050a9b	1	7	t	Ceci est un commentaire sur l'entretien	FEMME_ISOLE_AVEC_ENFANT	f	\N	f	\N	\N	\N	HEBERGEMENT_TIERS	\N	RUPTURE	\N	\N	AUTRE	\N	f	\N	\N
-03595273-f06c-4f07-8a7d-161e6c3e53b0	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	6d93ecf8-c59a-42cc-ac1e-b5bd6f977a01	5	1	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	HEBERGE_SANS_ADRESSE	\N	\N	EXERCICE_DROITS	\N	\N	\N	\N
-7197d930-e154-4859-b46d-cb63f40fef34	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	427e6af6-706b-40d4-9506-de21190e6f0d	1	4	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-43df7440-579e-496e-96e6-fae9d13588f0	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	ee7ef219-b101-422c-8ad4-4d5aedf9caad	1	6	t	\N	FEMME_ISOLE_AVEC_ENFANT	t	\N	f	\N	\N	\N	HEBERGEMENT_TIERS	\N	VIOLENCE	\N	\N	EXERCICE_DROITS	\N	f	\N	\N
-2c7d5340-3758-44db-8582-2a217925e3e9	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	4dcdcddc-fad2-4827-aac5-0acf1df7b5bc	1	5	f	\N	\N	f	\N	\N	\N	\N	\N	HEBERGEMENT_TIERS	\N	ERRANCE	\N	\N	\N	\N	t	CCAS des mureaux	\N
+COPY public.usager_entretien (uuid, "createdAt", "updatedAt", version, "usagerUUID", "structureId", "usagerRef", domiciliation, commentaires, "typeMenage", revenus, "revenusDetail", orientation, "orientationDetail", liencommune, "liencommuneDetail", residence, "residenceDetail", cause, "causeDetail", rattachement, raison, "raisonDetail", accompagnement, "accompagnementDetail", "situationPro", "situationProDetail") FROM stdin;
+b56c7942-55de-4e66-8bc6-7aa046d58d43	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	e074c416-093a-46fc-ae47-77a3bc111d35	1	3	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+e85b1ec0-d972-4ff3-b84c-19c0aa47f774	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	a034b69a-210a-4a3d-b7a9-8987840ef0c7	1	10	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+03092425-aeaa-4a28-9818-6d583f712405	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	16fe01bb-0c4d-4836-a24a-07d117b47fb9	1	9	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+54401773-a3dc-4a67-bed9-b34a2e69cac0	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	274427da-7482-4edb-86aa-4afaf48243d5	1	11	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+071a4aa3-ae50-400e-bda0-ce39cb4265eb	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	860ffa4c-88c4-4e1c-ad42-5a05cdf39830	1	1	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+adeaafb2-c791-42cd-837f-ae592e55d01c	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	5215f197-5f9b-4c2a-8b2e-60a0fcc5fc85	1	8	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+57495291-d7d9-43b8-b6b7-b0fdee610bba	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	3ba5c3f0-8003-4c1c-8bf5-929a12e396f5	1	12	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+7197d930-e154-4859-b46d-cb63f40fef34	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	427e6af6-706b-40d4-9506-de21190e6f0d	1	4	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+03595273-f06c-4f07-8a7d-161e6c3e53b0	2022-12-19 11:29:56.604289+01	2024-02-05 17:17:17.873337+01	3	6d93ecf8-c59a-42cc-ac1e-b5bd6f977a01	5	1	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	HEBERGE_SANS_ADRESSE	\N	\N	EXERCICE_DROITS	\N	\N	\N	\N	\N
+43df7440-579e-496e-96e6-fae9d13588f0	2022-12-19 11:29:56.604289+01	2024-02-05 17:17:17.874929+01	6	ee7ef219-b101-422c-8ad4-4d5aedf9caad	1	6	t	\N	FEMME_ISOLE_AVEC_ENFANT	t	\N	f	\N	\N	\N	HEBERGEMENT_TIERS	\N	VIOLENCE	\N	\N	EXERCICE_DROITS	\N	f	\N	\N	\N
+a1f75daa-858a-4b99-a370-b8a8b69f0eae	2022-12-19 11:29:56.604289+01	2024-02-05 17:17:17.875833+01	4	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	2	t	\N	COUPLE_AVEC_ENFANT	f	\N	t	\N	\N	\N	DOMICILE_MOBILE	\N	ERRANCE	\N	\N	AUTRE	\N	t	\N	\N	\N
+2c7d5340-3758-44db-8582-2a217925e3e9	2022-12-19 11:29:56.604289+01	2024-02-05 17:17:17.875833+01	4	4dcdcddc-fad2-4827-aac5-0acf1df7b5bc	1	5	f	\N	\N	f	\N	\N	\N	\N	\N	HEBERGEMENT_TIERS	\N	ERRANCE	\N	\N	\N	\N	t	CCAS des mureaux	\N	\N
+65a59363-6dd1-40b3-ab0a-aab25d2504e2	2022-12-19 11:29:56.604289+01	2024-02-05 17:17:17.875833+01	6	b2c26e55-ab37-457d-b307-6fe161050a9b	1	7	t	Ceci est un commentaire sur l'entretien	FEMME_ISOLE_AVEC_ENFANT	f	\N	f	\N	\N	\N	HEBERGEMENT_TIERS	\N	RUPTURE	\N	\N	AUTRE	\N	f	\N	\N	\N
 \.
 
 
