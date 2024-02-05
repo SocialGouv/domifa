@@ -7,8 +7,12 @@ import {
 } from "./interfaces";
 import { OpenDataPlaceTable } from "../database/entities/open-data-place";
 import { openDataPlaceRepository } from "../database/services/place";
-import { departementHelper } from "../structures/services";
+
 import { appLogger, cleanAddress, cleanCity } from "../util";
+import {
+  getDepartementFromCodePostal,
+  getRegionCodeFromDepartement,
+} from "@domifa/common";
 
 let page = 1;
 let nbResults = 0;
@@ -65,9 +69,7 @@ const getFromDataInclusion = async (structureType: "CCAS" | "CIAS") => {
           .getOne();
 
         if (!dataInclusionPlace) {
-          const departement = departementHelper.getDepartementFromCodePostal(
-            place.code_postal
-          );
+          const departement = getDepartementFromCodePostal(place.code_postal);
 
           dataInclusionPlace = await openDataPlaceRepository.save(
             new OpenDataPlaceTable({
@@ -76,8 +78,7 @@ const getFromDataInclusion = async (structureType: "CCAS" | "CIAS") => {
               codePostal: place.code_postal,
               ville: cleanCity(place?.commune),
               departement,
-              region:
-                departementHelper.getRegionCodeFromDepartement(departement),
+              region: getRegionCodeFromDepartement(departement),
               software: "other",
               latitude: place?.latitude,
               longitude: place?.longitude,

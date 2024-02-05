@@ -1,38 +1,6 @@
-import { DEPARTEMENTS_MAP } from "../../../shared";
+import { DEPARTEMENTS_MAP, EXCEPTIONS_CODE_POSTAL } from "../constants";
 
-// NOTE: service dupliqué côté backend
-const EXCEPTIONS_CODE_POSTAL: { [codePostal: string]: string } = {
-  "42620": "03", // https://fr.wikipedia.org/wiki/Liste_des_communes_de_France_dont_le_code_postal_ne_correspond_pas_au_d%C3%A9partement
-  "05110": "04",
-  "05130": "04",
-  "05160": "04",
-  "06260": "04",
-  "48250": "07",
-  "43450": "15",
-  "36260": "18",
-  "18120": "18",
-  "33220": "24",
-  "05700": "26",
-  "73670": "38",
-  "01410": "39",
-  "39310": "39",
-  "01590": "39",
-  "52100": "51",
-  "21340": "71",
-  "01200": "74",
-  "13780": "83",
-  "37160": "86",
-  "94390": "91",
-  "97150": "978", // https://fr.wikipedia.org/wiki/Saint-Martin_(Antilles_fran%C3%A7aises)
-  "97133": "977", // https://fr.wikipedia.org/wiki/Saint-Barth%C3%A9lemy_(Antilles_fran%C3%A7aises)
-};
-
-export const departementHelper = {
-  getRegionCodeFromDepartement,
-  getDepartementFromCodePostal,
-};
-
-function getRegionCodeFromDepartement(departement: string): string {
+export function getRegionCodeFromDepartement(departement: string): string {
   if (!departement) {
     throw new Error("Department not set");
   }
@@ -46,7 +14,7 @@ function getRegionCodeFromDepartement(departement: string): string {
   }
 }
 
-function getDepartementFromCodePostal(codePostal: string): string {
+export function getDepartementFromCodePostal(codePostal: string): string {
   if (codePostal.length !== 5) {
     const errorMessage = `Invalid postal code ${codePostal} (cause: ${codePostal.length} characters)`;
     throw new Error(errorMessage);

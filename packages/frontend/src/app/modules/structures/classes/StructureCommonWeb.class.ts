@@ -1,5 +1,4 @@
 import { Telephone } from "../../../../_common/model";
-import { TimeZone } from "../../../shared/territoires/types/TimeZone.type";
 
 import { CountryISO } from "@khazii/ngx-intl-tel-input";
 
@@ -11,6 +10,7 @@ import {
   StructureSmsParams,
   StructureCommon,
   StructureOrganismeType,
+  TimeZone,
 } from "@domifa/common";
 
 export class StructureCommonWeb implements StructureCommon {
