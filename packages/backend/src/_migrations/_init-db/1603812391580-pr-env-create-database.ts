@@ -472,6 +472,7 @@ async function createTables(queryRunner: QueryRunner) {
       accompagnement bool NULL,
       "accompagnementDetail" text NULL,
       "situationPro" text NULL,
+      "situationProDetail" text NULL,
       CONSTRAINT "PK_1da0e283293a4bb213ffd0ef280" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_5f4220e5a3e6d2ee1c1bb7fd3d2" UNIQUE ("structureId", "usagerRef"),
       CONSTRAINT "UQ_aa19c17fc79f4e4a648643096f9" UNIQUE ("usagerUUID"),
@@ -722,6 +723,7 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_ef9fade8e5a6dac06ef5031986" ON public.interactions USING btree (type);
     CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
     CREATE INDEX idx_interactions_date ON public.interactions USING btree ("structureId", "usagerUUID", "dateInteraction");
-    CREATE INDEX idx_interactions_type ON public.interactions USING btree ("structureId", "usagerUUID", type);    `
+    CREATE INDEX idx_interactions_type ON public.interactions USING btree ("structureId", "usagerUUID", type);
+    `
   );
 }
