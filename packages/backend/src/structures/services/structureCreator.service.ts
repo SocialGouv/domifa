@@ -9,12 +9,16 @@ import { newStructureEmailSender } from "../../mails/services/templates-renderer
 import { UserDto } from "../../users/dto/user.dto";
 import { userStructureCreator } from "../../users/services/user-structure-creator.service";
 import { appLogger } from "../../util/AppLogger.service";
-
-import { departementHelper } from "./departement-helper.service";
 import { StructureDto } from "../dto/structure.dto";
 import { generateSender } from "../../sms/services/generators";
 import { getLocation } from "./location.service";
-import { DEPARTEMENTS_MAP, Structure, StructureCommon } from "@domifa/common";
+import {
+  DEPARTEMENTS_MAP,
+  Structure,
+  StructureCommon,
+  getDepartementFromCodePostal,
+  getRegionCodeFromDepartement,
+} from "@domifa/common";
 
 export const structureCreatorService = {
   checkStructureCreateArgs,
@@ -26,10 +30,8 @@ async function checkStructureCreateArgs(
   structureDto: StructureDto
 ): Promise<StructureDto> {
   try {
-    const departement = departementHelper.getDepartementFromCodePostal(
-      structureDto.codePostal
-    );
-    departementHelper.getRegionCodeFromDepartement(departement);
+    const departement = getDepartementFromCodePostal(structureDto.codePostal);
+    getRegionCodeFromDepartement(departement);
   } catch (err) {
     appLogger.warn(
       `[StructuresService] error validating postal code "${structureDto.codePostal}"`
@@ -128,11 +130,11 @@ async function createStructure(structureDto: StructureDto) {
   createdStructure.registrationDate = new Date();
   createdStructure.token = crypto.randomBytes(30).toString("hex");
 
-  createdStructure.departement = departementHelper.getDepartementFromCodePostal(
+  createdStructure.departement = getDepartementFromCodePostal(
     createdStructure.codePostal
   );
 
-  createdStructure.region = departementHelper.getRegionCodeFromDepartement(
+  createdStructure.region = getRegionCodeFromDepartement(
     createdStructure.departement
   );
 

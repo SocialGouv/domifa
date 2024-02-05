@@ -5,7 +5,10 @@ import {
   ValidatorFn,
   Validators,
 } from "@angular/forms";
-import { departementHelper } from "./departement-helper.service";
+import {
+  getDepartementFromCodePostal,
+  getRegionCodeFromDepartement,
+} from "@domifa/common";
 
 export function isInvalidStructureName(structureName: string): boolean {
   if (!structureName) {
@@ -39,9 +42,8 @@ export function codePostalValidator(): ValidatorFn {
     const testCode = RegExp(/^\d[0-9AB]\d{3}$/).test(postalCode);
     if (testCode) {
       try {
-        const departement =
-          departementHelper.getDepartementFromCodePostal(postalCode);
-        departementHelper.getRegionCodeFromDepartement(departement);
+        const departement = getDepartementFromCodePostal(postalCode);
+        getRegionCodeFromDepartement(departement);
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error(`Validation error for postalCode "${postalCode}"`, err);
@@ -57,7 +59,7 @@ export function codePostalValidator(): ValidatorFn {
 export const updateComplementAdress = (
   structureForm: FormGroup,
   actif: boolean
-) => {
+): void => {
   const isRequired = actif === true ? [Validators.required] : null;
 
   structureForm

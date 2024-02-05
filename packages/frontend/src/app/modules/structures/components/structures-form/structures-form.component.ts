@@ -23,17 +23,15 @@ import { StructureCommonWeb } from "../../classes/StructureCommonWeb.class";
 
 import { anyPhoneValidator } from "../../../shared/phone/mobilePhone.validator";
 import { getFormPhone } from "../../../shared/phone";
-import {
-  PREFERRED_COUNTRIES,
-  DEPARTEMENTS_LISTE,
-  EmailValidator,
-} from "../../../../shared";
+import { PREFERRED_COUNTRIES, EmailValidator } from "../../../../shared";
 import {
   StructureCommon,
   Structure,
   STRUCTURE_ORGANISME_TYPE_LABELS,
+  getDepartementFromCodePostal,
+  DEPARTEMENTS_LISTE,
 } from "@domifa/common";
-import { departementHelper } from "../../utils/departement-helper.service";
+
 import {
   getPostalCodeValidator,
   updateComplementAdress,
@@ -174,7 +172,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const departement = departementHelper.getDepartementFromCodePostal(
+    const departement = getDepartementFromCodePostal(
       this.structureForm.value.codePostal
     );
 

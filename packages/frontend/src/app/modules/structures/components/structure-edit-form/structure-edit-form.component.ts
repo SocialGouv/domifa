@@ -18,7 +18,6 @@ import {
 } from "@khazii/ngx-intl-tel-input";
 import {
   PREFERRED_COUNTRIES,
-  DEPARTEMENTS_LISTE,
   NoWhiteSpaceValidator,
   EmailValidator,
 } from "../../../../shared";
@@ -40,6 +39,7 @@ import {
   StructureCommon,
   Structure,
   STRUCTURE_ORGANISME_TYPE_LABELS,
+  DEPARTEMENTS_LISTE,
 } from "@domifa/common";
 
 @Component({

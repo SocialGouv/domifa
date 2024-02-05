@@ -52,6 +52,8 @@ const structureDto: StructureDto = {
   acceptCgu: true,
   readCgu: true,
   timeZone: "Europe/Paris",
+  departmentName: "",
+  regionName: "",
 };
 
 const res = {

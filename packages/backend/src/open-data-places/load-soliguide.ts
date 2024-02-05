@@ -2,11 +2,14 @@ import axios from "axios";
 import { domifaConfig } from "../config";
 import { OpenDataPlaceTable } from "../database/entities/open-data-place";
 import { SoliguidePlace } from "./interfaces/SoliguidePlace.interface";
-import { departementHelper } from "../structures/services";
 import { openDataPlaceRepository } from "../database/services/place/open-data-place-repository";
 import { appLogger, cleanAddress, cleanCity } from "../util";
 
 import { OpenDataPlace } from "./interfaces/OpenDataPlace.interface";
+import {
+  getDepartementFromCodePostal,
+  getRegionCodeFromDepartement,
+} from "@domifa/common";
 
 let page = 1;
 let nbResults = 0;
@@ -58,7 +61,7 @@ const getFromSoliguide = async () => {
       });
 
       if (!soliguidePlace) {
-        const departement = departementHelper.getDepartementFromCodePostal(
+        const departement = getDepartementFromCodePostal(
           place.position.codePostal
         );
 
@@ -69,7 +72,7 @@ const getFromSoliguide = async () => {
             codePostal: place.position.codePostal,
             ville: cleanCity(place?.position?.ville),
             departement,
-            region: departementHelper.getRegionCodeFromDepartement(departement),
+            region: getRegionCodeFromDepartement(departement),
             software: "other",
             latitude: place.position.location.coordinates[1],
             longitude: place.position.location.coordinates[0],
