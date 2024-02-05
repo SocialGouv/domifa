@@ -4,7 +4,6 @@ import { UsagerTable } from "../../entities";
 import { joinSelectFields, pgRepository } from "../_postgres";
 
 import { Usager } from "../../../_common/model";
-import { FranceRegion } from "../../../util/territoires";
 import { getDateForMonthInterval } from "../../../stats/services";
 import { PortailUsagerPublic } from "@domifa/common";
 
@@ -70,7 +69,7 @@ async function countUsagers(structuresId?: number[]): Promise<number> {
   return _advancedCount({ countType: "domicilie", structuresId });
 }
 
-async function countUsagersByMonth(regionId?: FranceRegion) {
+async function countUsagersByMonth(regionId?: string) {
   const { startDate, endDate } = getDateForMonthInterval();
 
   const where = [startDate, endDate];

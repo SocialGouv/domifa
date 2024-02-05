@@ -1,6 +1,5 @@
 import { In, IsNull } from "typeorm";
 import { getDateForMonthInterval } from "../../../stats/services";
-import { FranceRegion } from "../../../util/territoires";
 import { Usager, UserStructureAuthenticated } from "../../../_common/model";
 import { INTERACTION_OK_LIST } from "../../../_common/model/interaction";
 import { InteractionsTable } from "../../entities";
@@ -122,7 +121,7 @@ async function countPendingInteractionsIn({
 }
 
 async function countInteractionsByMonth(
-  regionId?: FranceRegion,
+  regionId?: string,
   interactionType: InteractionType = "courrierOut"
 ) {
   const { startDate, endDate } = getDateForMonthInterval();

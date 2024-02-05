@@ -4,7 +4,6 @@ import { structureRepository } from "../../database";
 import { UserStructure } from "../../_common/model";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 import { CodePostalDto } from "../dto";
-import { FranceRegion } from "../../util/territoires";
 import { Structure } from "@domifa/common";
 
 @Injectable()
@@ -46,9 +45,7 @@ export class StructuresService {
     });
   }
 
-  public async findStructuresInRegion(
-    regionId?: FranceRegion
-  ): Promise<number[]> {
+  public async findStructuresInRegion(regionId?: string): Promise<number[]> {
     const structures: Structure[] = await structureRepository.find({
       where: { region: regionId },
       select: { id: true },

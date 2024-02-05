@@ -229,6 +229,8 @@ async function createTables(queryRunner: QueryRunner) {
       latitude float8 NULL,
       longitude float8 NULL,
       "organismeType" text NULL,
+      "departmentName" text NULL,
+      "regionName" text NULL,
       CONSTRAINT "PK_a92a6b3dd54efb4ab48b2d6e7c1" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_90ac7986e769d602d218075215c" UNIQUE (id),
       CONSTRAINT "UQ_b36e92e49b2a68f8fea64ec8d5b" UNIQUE (email)
@@ -247,7 +249,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE public.usager_history_states;
 
-    CREATE TABLE public.usager_history_states (
+    CREATE UNLOGGED TABLE public.usager_history_states (
       "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
       "createdAt" timestamptz NOT NULL DEFAULT now(),
       "updatedAt" timestamptz NOT NULL DEFAULT now(),
@@ -720,7 +722,6 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_ef9fade8e5a6dac06ef5031986" ON public.interactions USING btree (type);
     CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
     CREATE INDEX idx_interactions_date ON public.interactions USING btree ("structureId", "usagerUUID", "dateInteraction");
-    CREATE INDEX idx_interactions_type ON public.interactions USING btree ("structureId", "usagerUUID", type);
-    `
+    CREATE INDEX idx_interactions_type ON public.interactions USING btree ("structureId", "usagerUUID", type);    `
   );
 }

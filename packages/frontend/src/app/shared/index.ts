@@ -7,6 +7,6 @@ export * from "./languages";
 export * from "./search";
 export * from "./sorter";
 export * from "./store";
+export * from "./string-cleaner.service.spec";
 export * from "./string-cleaner.service";
-export * from "./territoires";
 export * from "./validators";

@@ -1,6 +1,6 @@
 import { type AppEntity } from "../../_core";
 import { type Telephone } from "../../telephone";
-import { type TimeZone } from "../../territoires";
+import { type TimeZone } from "../../territoires/types";
 import { type StructureType } from "../types";
 import { type StructureAddresseCourrier } from "./StructureAddresseCourrier.interface";
 import { type StructureOptions } from "./StructureOptions.interface";
@@ -18,6 +18,11 @@ export interface Structure extends AppEntity {
   ville: string;
   departement: string;
   region: string;
+
+  // Only for stats
+  departmentName?: string;
+  regionName?: string;
+
   capacite: number;
   codePostal: string;
   agrement: string;

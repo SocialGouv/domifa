@@ -1,16 +1,16 @@
 import { Component, Input } from "@angular/core";
 import { STATS_REGIONS_FOR_MAP } from "../../../../../../_common/model";
 
+import { fadeInOut } from "../../../../../shared";
 import {
-  fadeInOut,
-  RegionsLabels,
-  REGIONS_ID_SEO,
-  REGIONS_LISTE,
+  PublicStats,
   REGIONS_COM,
   REGIONS_DOM_TOM,
+  REGIONS_ID_SEO,
+  REGIONS_LISTE,
   REGIONS_OUTRE_MER,
-} from "../../../../../shared";
-import { PublicStats } from "@domifa/common";
+  RegionsLabels,
+} from "@domifa/common";
 
 @Component({
   animations: [fadeInOut],

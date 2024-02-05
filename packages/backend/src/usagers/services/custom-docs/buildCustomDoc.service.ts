@@ -3,7 +3,6 @@ import { Usager, StructureCustomDocTags } from "../../../_common/model";
 import { format } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import { fr } from "date-fns/locale";
-import { TimeZone } from "../../../util/territoires";
 import { getPhoneString } from "../../../util/phone/phoneUtils.service";
 import { getAyantsDroitsText } from "../cerfa";
 import {
@@ -18,6 +17,7 @@ import {
   StructureCommon,
   ENTRETIEN_SITUATION_PRO,
   UsagerOptionsProcuration,
+  TimeZone,
 } from "@domifa/common";
 
 export const DATE_FORMAT = {

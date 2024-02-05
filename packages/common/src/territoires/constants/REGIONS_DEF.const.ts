@@ -1,6 +1,6 @@
 // constante dupliquée côté frontend
 
-import { RegionDef } from "../types/RegionDef.type";
+import { type RegionDef } from "../interfaces/RegionDef.interface";
 
 // https://fr.wikipedia.org/wiki/Liste_des_d%C3%A9partements_fran%C3%A7ais
 export const REGIONS_DEF: RegionDef[] = [

@@ -1,4 +1,3 @@
-import { DEPARTEMENTS_MAP } from "./../../util/territoires/constants/REGIONS_DEPARTEMENTS_MAP.const";
 import { HttpException, HttpStatus } from "@nestjs/common";
 import * as crypto from "crypto";
 import {
@@ -15,7 +14,7 @@ import { departementHelper } from "./departement-helper.service";
 import { StructureDto } from "../dto/structure.dto";
 import { generateSender } from "../../sms/services/generators";
 import { getLocation } from "./location.service";
-import { Structure, StructureCommon } from "@domifa/common";
+import { DEPARTEMENTS_MAP, Structure, StructureCommon } from "@domifa/common";
 
 export const structureCreatorService = {
   checkStructureCreateArgs,
@@ -136,6 +135,11 @@ async function createStructure(structureDto: StructureDto) {
   createdStructure.region = departementHelper.getRegionCodeFromDepartement(
     createdStructure.departement
   );
+
+  createdStructure.departmentName =
+    DEPARTEMENTS_MAP[createdStructure.departement].departmentName;
+  createdStructure.regionName =
+    DEPARTEMENTS_MAP[createdStructure.departement].regionName;
 
   createdStructure.timeZone =
     DEPARTEMENTS_MAP[createdStructure.departement].timeZone;

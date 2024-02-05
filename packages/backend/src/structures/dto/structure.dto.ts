@@ -20,7 +20,6 @@ import {
   ValidateNested,
 } from "class-validator";
 import { StructureAdresseCourrierDto, StructureResponsableDto } from ".";
-import { TimeZone } from "../../util/territoires";
 import { TrimOrNullTransform } from "../../_common/decorators";
 
 import { Telephone } from "../../_common/model";
@@ -31,6 +30,7 @@ import {
   STRUCTURE_TYPE_MAP,
   STRUCTURE_ORGANISME_TYPE_LABELS,
   StructureOrganismeType,
+  TimeZone,
 } from "@domifa/common";
 
 export class StructureDto {
@@ -166,6 +166,12 @@ export class StructureDto {
 
   @IsEmpty()
   public region!: string;
+
+  @IsEmpty()
+  public regionName!: string;
+
+  @IsEmpty()
+  public departmentName!: string;
 
   @IsOptional()
   @IsTimeZone()

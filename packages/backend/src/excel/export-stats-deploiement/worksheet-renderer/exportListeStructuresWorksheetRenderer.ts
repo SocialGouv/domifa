@@ -1,6 +1,5 @@
 import { Column, Workbook } from "exceljs";
 
-import { DEPARTEMENTS_MAP } from "../../../util/territoires";
 import {
   WorksheetRenderer,
   xlFormater,
@@ -8,7 +7,7 @@ import {
   XlRowModel,
 } from "../../xlLib";
 import { StatsDeploiementExportModel } from "../StatsDeploiementExportModel.type";
-import { STRUCTURE_TYPE_LABELS } from "@domifa/common";
+import { DEPARTEMENTS_MAP, STRUCTURE_TYPE_LABELS } from "@domifa/common";
 
 export const exportListeStructuresWorksheetRenderer = {
   renderWorksheet,

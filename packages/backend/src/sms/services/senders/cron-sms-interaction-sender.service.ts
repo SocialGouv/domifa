@@ -1,4 +1,3 @@
-import { TimeZone } from "./../../../util/territoires/types/TimeZone.type";
 import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import { domifaConfig } from "../../../config";
@@ -10,6 +9,7 @@ import { messageSmsRepository } from "../../../database/services/message-sms";
 import { appLogger } from "../../../util";
 import { MessageSmsSenderService } from "../message-sms-sender.service";
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
+import { TimeZone } from "@domifa/common";
 
 @Injectable()
 export class CronSmsInteractionSenderService {
