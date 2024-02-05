@@ -79,6 +79,7 @@ export const USAGER_VALIDE_MOCK: Usager = {
     accompagnement: null,
     accompagnementDetail: null,
     situationPro: null,
+    situationProDetail: null,
   },
   options: {
     transfert: {

@@ -58,6 +58,7 @@ async function _anonymizeUsagerHistory(usagerHistory: UsagerHistory) {
       causeDetail: null,
       raisonDetail: null,
       accompagnementDetail: null,
+      situationProDetail: null,
     },
   }));
 

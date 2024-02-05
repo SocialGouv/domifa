@@ -77,6 +77,7 @@ export const USAGER_REFUS_MOCK: Usager = {
     situationPro: null,
     accompagnement: null,
     accompagnementDetail: null,
+    situationProDetail: null,
   },
   etapeDemande: ETAPE_DOSSIER_COMPLET,
   historique: [
