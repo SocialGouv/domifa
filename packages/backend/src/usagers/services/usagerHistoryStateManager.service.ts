@@ -21,7 +21,7 @@ export const usagerHistoryStateManager = {
   getHistoryEndDateFromNextBeginDate,
 };
 
-function getHistoryBeginDate(date: Date) {
+export function getHistoryBeginDate(date: Date) {
   return startOfDay(new Date(date));
 }
 
@@ -252,6 +252,12 @@ function buildHistoryState({
 
   const ayantsDroits = getAyantsDroitForStats(usager?.ayantsDroits);
 
+  let typeDom = usager?.typeDom ?? usager?.decision?.typeDom;
+
+  if (!typeDom) {
+    typeDom = "PREMIERE_DOM";
+  }
+
   const state: UsagerHistoryState = {
     uuid: uuidv4(),
     createdAt,
@@ -260,7 +266,7 @@ function buildHistoryState({
     historyBeginDate: getHistoryBeginDate(historyBeginDate ?? createdAt),
     historyEndDate: undefined,
     decision,
-    typeDom: usager.typeDom,
+    typeDom,
     etapeDemande: usager.etapeDemande,
     entretien,
     ayantsDroits,
