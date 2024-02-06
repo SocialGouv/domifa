@@ -11,7 +11,7 @@ export class AutoMigration1706184061563 implements MigrationInterface {
       domifaConfig().envId === "local"
     ) {
       await queryRunner.query(
-        `CREATE TABLE "usager_history_states" ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "version" integer NOT NULL, "usagerUUID" uuid NOT NULL, "usagerRef" integer NOT NULL, "structureId" integer NOT NULL, "ayantsDroits" jsonb NOT NULL, "decision" jsonb NOT NULL, "entretien" jsonb NOT NULL, "rdv" jsonb, "createdEvent" text NOT NULL, "historyBeginDate" TIMESTAMP WITH TIME ZONE NOT NULL, "historyEndDate" TIMESTAMP WITH TIME ZONE, "isActive" boolean DEFAULT false, "migrated" boolean NOT NULL DEFAULT false, "typeDom" text DEFAULT 'PREMIERE_DOM', "etapeDemande" integer NOT NULL DEFAULT '0',  CONSTRAINT "PK_c1bd0d42891df5715d2ef8474d7" PRIMARY KEY ("uuid"))`
+        `CREATE TABLE "usager_history_states" ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "version" integer NOT NULL, "usagerUUID" uuid NOT NULL, "usagerRef" integer NOT NULL, "structureId" integer NOT NULL, "ayantsDroits" jsonb NOT NULL, "decision" jsonb NOT NULL, "entretien" jsonb NOT NULL, "rdv" jsonb, "createdEvent" text NOT NULL, "historyBeginDate" TIMESTAMP WITH TIME ZONE NOT NULL, "historyEndDate" TIMESTAMP WITH TIME ZONE, "isActive" boolean DEFAULT false, "migrated" boolean NOT NULL DEFAULT false, "typeDom" text DEFAULT 'PREMIERE_DOM', "etapeDemande" integer NOT NULL DEFAULT '0', CONSTRAINT "PK_c1bd0d42891df5715d2ef8474d7" PRIMARY KEY ("uuid"))`
       );
       await queryRunner.query(
         `CREATE INDEX "IDX_e819c8b113a23a4a0c13a741da" ON "usager_history_states" ("usagerUUID") `
@@ -33,9 +33,6 @@ export class AutoMigration1706184061563 implements MigrationInterface {
       );
       await queryRunner.query(
         `CREATE INDEX "IDX_f11adaadacdb25438cf2f92f1f" ON "usager_history_states" ("typeDom") `
-      );
-      await queryRunner.query(
-        `ALTER TABLE "usager_history_states" ADD CONSTRAINT "FK_e819c8b113a23a4a0c13a741da0" FOREIGN KEY ("usagerUUID") REFERENCES "usager"("uuid") ON DELETE CASCADE ON UPDATE NO ACTION`
       );
     }
   }
