@@ -15,8 +15,8 @@ export class TmpHistoriqueTable {
   @Column({ type: "integer", nullable: true })
   id_domicilie: number;
 
-  @Column({ type: "text", nullable: true })
-  date: string;
+  @Column({ type: "integer", nullable: true })
+  date: number;
 
   @Index()
   @Column({ nullable: true })

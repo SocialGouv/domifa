@@ -10,8 +10,8 @@ backend:
   containerPort: 3000
   resources:
     requests:
-      cpu: 0.2
-      memory: 256Mi
+      cpu: 1
+      memory: 512Mi
     limits: # exports need a lot of CPU/RAM ATM
       cpu: 3
       memory: 3Gi
@@ -82,8 +82,8 @@ backend-cron:
       memory: 2Gi
   startupProbe:
     initialDelaySeconds: 30
-    failureThreshold: 50
-    periodSeconds: 10
+    failureThreshold: 100
+    periodSeconds: 60
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"

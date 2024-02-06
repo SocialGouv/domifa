@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { In, IsNull, MigrationInterface, QueryRunner } from "typeorm";
+import { In, MigrationInterface, QueryRunner } from "typeorm";
 import {
   TOULOUSE_STRUCTURE_ID,
   TOULOUSE_USER_ID,
@@ -46,10 +46,6 @@ export class ImportCourriersToulouseMigration1697704071510
       type: In(["courrierIn", "courrierOut"]),
     });
 
-    console.log("Suppression des courriers temporaires non exploitables");
-    await tmpCourriersRepository.delete({
-      date: IsNull(),
-    });
     await queryRunner.commitTransaction();
 
     const user: any = await userStructureRepository.findOneBy({

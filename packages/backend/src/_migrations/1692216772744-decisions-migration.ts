@@ -1,4 +1,4 @@
-import { In, MigrationInterface, QueryRunner } from "typeorm";
+import { In, IsNull, MigrationInterface, MoreThan, QueryRunner } from "typeorm";
 
 import { UsagerHistory, UsagerHistoryState } from "../_common/model";
 import { addYears, endOfDay, format, startOfDay, subDays } from "date-fns";
@@ -15,7 +15,10 @@ import {
   TOULOUSE_USER_ID,
   getDateFromXml,
 } from "../_common/tmp-toulouse";
-import { tmpHistoriqueRepository } from "../database/services/interaction/historiqueRepository.service";
+import {
+  tmpCourriersRepository,
+  tmpHistoriqueRepository,
+} from "../database/services/interaction/historiqueRepository.service";
 
 export class ImportDecisionsMigration1692216772744
   implements MigrationInterface
@@ -26,6 +29,18 @@ export class ImportDecisionsMigration1692216772744
     if ((await tmpHistoriqueRepository.count()) === 0) {
       throw new Error("Chargement des fichiers historique incomplets");
     }
+
+    console.log("Suppression des courriers temporaires non exploitables");
+    await tmpCourriersRepository.delete({
+      date: IsNull(),
+    });
+    await tmpCourriersRepository.delete({
+      date: MoreThan(20241231),
+    });
+    await tmpCourriersRepository.delete({
+      Date_recup: MoreThan(20241231),
+    });
+
     const queryRunner = myDataSource.createQueryRunner();
 
     console.log("");
