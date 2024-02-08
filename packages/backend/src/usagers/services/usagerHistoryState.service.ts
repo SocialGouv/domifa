@@ -14,6 +14,25 @@ import { IsNull } from "typeorm";
 
 @Injectable()
 export class UsagerHistoryStateService {
+  async deleteHistoryState(usager: Pick<Usager, "uuid">): Promise<void> {
+    // Delete last entry
+    await usagerHistoryStatesRepository.delete({
+      usagerUUID: usager.uuid,
+      historyEndDate: IsNull(),
+    });
+
+    // Get last entry
+    const previousState = await this.getLastHistoryState(usager);
+
+    // Set null to last entry
+    await usagerHistoryStatesRepository.update(
+      {
+        uuid: previousState.uuid,
+      },
+      { historyEndDate: null }
+    );
+  }
+
   async buildState({
     usager,
     createdAt,
@@ -24,20 +43,11 @@ export class UsagerHistoryStateService {
     createdAt: Date;
     createdEvent: UsagerHistoryStateCreationEvent;
     historyBeginDate: Date;
-  }) {
-    const previousState = await usagerHistoryStatesRepository.findOne({
-      where: {
-        usagerUUID: usager.uuid,
-      },
-      order: {
-        createdAt: "DESC",
-      },
-    });
-
+  }): Promise<UsagerHistoryStates> {
+    const previousState = this.getLastHistoryState(usager);
     let isActive = usager.decision.statut === "VALIDE";
 
     if (previousState) {
-      console.log(previousState);
       // Update last decision
       await usagerHistoryStatesRepository.update(
         {
@@ -90,10 +100,20 @@ export class UsagerHistoryStateService {
       migrated: false,
     });
 
-    console.log({ state });
     // Update previous states
     await usagerHistoryStatesRepository.save(state);
 
     return state;
+  }
+
+  private async getLastHistoryState(usager: Pick<Usager, "uuid">) {
+    return usagerHistoryStatesRepository.findOne({
+      where: {
+        usagerUUID: usager.uuid,
+      },
+      order: {
+        createdAt: "DESC",
+      },
+    });
   }
 }

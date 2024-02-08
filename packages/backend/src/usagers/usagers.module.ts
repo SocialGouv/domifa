@@ -20,6 +20,7 @@ import { UsagersService } from "./services/usagers.service";
 import { UsagerOptionsHistoryService } from "./services/usagerOptionsHistory.service";
 import { AppLogsModule } from "../modules/app-logs/app-logs.module";
 import { UsagerHistoryStateService } from "./services/usagerHistoryState.service";
+import { ImportCreatorService } from "./controllers/import/step3-create";
 
 @Module({
   controllers: [
@@ -47,6 +48,7 @@ import { UsagerHistoryStateService } from "./services/usagerHistoryState.service
     UsagersService,
     UsagerOptionsHistoryService,
     UsagerHistoryStateService,
+    ImportCreatorService,
   ],
 })
 export class UsagersModule {}

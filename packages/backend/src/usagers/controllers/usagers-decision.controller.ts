@@ -38,13 +38,17 @@ import {
 } from "@domifa/common";
 import { format } from "date-fns";
 import { getLastInteractionOut } from "../../interactions/services/getLastInteractionDate.service";
+import { UsagerHistoryStateService } from "../services/usagerHistoryState.service";
 
 @Controller("usagers-decision")
 @ApiTags("usagers-decision")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiBearerAuth()
 export class UsagersDecisionController {
-  constructor(private readonly usagersService: UsagersService) {}
+  constructor(
+    private readonly usagersService: UsagersService,
+    private readonly usagerHistoryStateService: UsagerHistoryStateService
+  ) {}
 
   @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin")
@@ -124,6 +128,10 @@ export class UsagersDecisionController {
         .json({ message: "CANNOT_DELETE_DECISION" });
     }
 
+    await this.usagerHistoryStateService.deleteHistoryState(usager);
+
+    // Delete last decision
+    // @deprecated
     await usagerHistoryStateManager.removeLastDecisionFromHistory({
       usager,
       removedDecisionUUID: usager.decision.uuid,

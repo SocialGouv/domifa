@@ -32,7 +32,6 @@ import {
   UsagersImportUsager,
   usagersImportValidator,
 } from "./step2-validate-row";
-import { usagersImportCreator } from "./step3-create";
 import os from "os";
 import { AllowUserStructureRoles } from "../../../auth/decorators";
 import { addYears, endOfDay, startOfYear } from "date-fns";
@@ -44,6 +43,7 @@ import {
   ImportPreviewRow,
   ImportPreviewColumn,
 } from "@domifa/common";
+import { ImportCreatorService } from "./step3-create";
 
 const USAGERS_IMPORT_DIR = join(os.tmpdir(), "domifa", "usagers-imports");
 
@@ -94,6 +94,8 @@ type UsagersImportMode = "preview" | "confirm";
 @ApiBearerAuth()
 @Controller("import")
 export class ImportController {
+  constructor(private readonly importCreatorService: ImportCreatorService) {}
+
   @Post(":mode")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @UseInterceptors(UsagersImportFileInterceptor)
@@ -254,7 +256,7 @@ export class ImportController {
       });
     }
 
-    await usagersImportCreator.createFromImport({
+    await this.importCreatorService.createFromImport({
       usagersRows,
       user,
       processTracker,

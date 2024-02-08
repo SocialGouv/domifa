@@ -74,6 +74,7 @@ export class UsagersService {
       historyBeginDate: createdUsager.decision.dateDebut,
     });
 
+    // @deprecated
     const usagerHistory = usagerHistoryStateManager.buildInitialHistoryState({
       isImport: false,
       usager: createdUsager,
@@ -131,7 +132,14 @@ export class UsagersService {
     usager.etapeDemande = ETAPE_ETAT_CIVIL;
     usager.rdv = null;
 
-    // Ajout du nouvel état
+    await this.usagerHistoryStateService.buildState({
+      usager,
+      createdAt: new Date(),
+      createdEvent: "new-decision",
+      historyBeginDate: usager.decision.dateDebut,
+    });
+
+    // @deprecated
     await usagerHistoryStateManager.updateHistoryStateFromDecision({
       usager,
       createdAt: usager.decision.dateDecision,
@@ -195,6 +203,7 @@ export class UsagersService {
     usager.decision.uuid = uuidv4();
     usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
 
+    // @deprecated
     await usagerHistoryStateManager.updateHistoryStateFromDecision({
       usager,
       createdAt: usager.decision.dateDecision,
