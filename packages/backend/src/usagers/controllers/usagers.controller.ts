@@ -201,6 +201,7 @@ export class UsagersController {
       historyBeginDate,
     });
 
+    // @deprecated
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
       usager: currentUsager,
       createdEvent: "update-usager",
@@ -261,6 +262,7 @@ export class UsagersController {
       historyBeginDate,
     });
 
+    // @deprecated
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
       usager,
       createdEvent: "update-entretien",
