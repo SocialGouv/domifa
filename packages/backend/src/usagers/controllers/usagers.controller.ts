@@ -63,6 +63,7 @@ import { resolve } from "path";
 import { readFile } from "fs-extra";
 import { ExpressResponse } from "../../util/express";
 import { ETAPE_DOCUMENTS, CerfaDocType } from "@domifa/common";
+import { UsagerHistoryStateService } from "../services/usagerHistoryState.service";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -71,7 +72,8 @@ import { ETAPE_DOCUMENTS, CerfaDocType } from "@domifa/common";
 export class UsagersController {
   constructor(
     private readonly usagersService: UsagersService,
-    private readonly appLogsService: AppLogsService
+    private readonly appLogsService: AppLogsService,
+    private readonly usagerHistoryStateService: UsagerHistoryStateService
   ) {}
 
   @Get()
@@ -188,6 +190,17 @@ export class UsagersController {
       { ...usagerDto }
     );
 
+    const usager = await usagerRepository.getUsager(currentUsager.uuid);
+    const createdAt = new Date();
+    const historyBeginDate = createdAt;
+
+    await this.usagerHistoryStateService.buildState({
+      usager,
+      createdAt,
+      createdEvent: "update-usager",
+      historyBeginDate,
+    });
+
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
       usager: currentUsager,
       createdEvent: "update-usager",
@@ -238,6 +251,15 @@ export class UsagersController {
     }
 
     const usager = await usagerRepository.getUsager(currentUsager.uuid);
+    const createdAt = new Date();
+    const historyBeginDate = createdAt;
+
+    await this.usagerHistoryStateService.buildState({
+      usager,
+      createdAt,
+      createdEvent: "update-entretien",
+      historyBeginDate,
+    });
 
     await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
       usager,

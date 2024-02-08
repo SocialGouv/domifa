@@ -26,9 +26,13 @@ import {
   UsagerTypeDom,
   UsagerDecision,
 } from "@domifa/common";
+import { UsagerHistoryStateService } from "./usagerHistoryState.service";
 
 @Injectable()
 export class UsagersService {
+  constructor(
+    private readonly usagerHistoryStateService: UsagerHistoryStateService
+  ) {}
   public async create(
     usagerDto: CreateUsagerDto,
     user: UserStructureProfile
@@ -61,6 +65,13 @@ export class UsagersService {
       structureId: usager.structureId,
       usagerUUID: usager.uuid,
       usagerRef: usager.ref,
+    });
+
+    await this.usagerHistoryStateService.buildState({
+      usager,
+      createdAt: new Date(),
+      createdEvent: "new-decision",
+      historyBeginDate: createdUsager.decision.dateDebut,
     });
 
     const usagerHistory = usagerHistoryStateManager.buildInitialHistoryState({
@@ -185,6 +196,13 @@ export class UsagersService {
     usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
 
     await usagerHistoryStateManager.updateHistoryStateFromDecision({
+      usager,
+      createdAt: usager.decision.dateDecision,
+      createdEvent: "new-decision",
+      historyBeginDate: usager.decision.dateDebut,
+    });
+
+    await this.usagerHistoryStateService.buildState({
       usager,
       createdAt: usager.decision.dateDecision,
       createdEvent: "new-decision",
