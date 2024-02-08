@@ -19,6 +19,7 @@ import { UsagerOptionsController } from "./controllers/usager-options.controller
 import { UsagersService } from "./services/usagers.service";
 import { UsagerOptionsHistoryService } from "./services/usagerOptionsHistory.service";
 import { AppLogsModule } from "../modules/app-logs/app-logs.module";
+import { UsagerHistoryStateService } from "./services/usagerHistoryState.service";
 
 @Module({
   controllers: [
@@ -42,6 +43,10 @@ import { AppLogsModule } from "../modules/app-logs/app-logs.module";
     forwardRef(() => InteractionsModule),
     forwardRef(() => AppLogsModule),
   ],
-  providers: [UsagersService, UsagerOptionsHistoryService],
+  providers: [
+    UsagersService,
+    UsagerOptionsHistoryService,
+    UsagerHistoryStateService,
+  ],
 })
 export class UsagersModule {}
