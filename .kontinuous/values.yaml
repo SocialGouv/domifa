@@ -1,11 +1,11 @@
 pg:
   ~chart: pg
-  minSyncReplicas: 1
-  maxSyncReplicas: 1
-  instances: 3
+  ~tpl~minSyncReplicas: 1
+  ~tpl~maxSyncReplicas: 1
+  ~tpl~instances: 3
   clusterExtraSpec:
     nodeMaintenanceWindow:
-      inProgress: false
+      ~tpl~inProgress: false
 
 backend:
   ~chart: app
