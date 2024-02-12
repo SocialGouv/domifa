@@ -6,7 +6,7 @@ pg:
     instances: 3
     clusterExtraSpec:
       nodeMaintenanceWindow:
-        inProgress: "false"
+        ~tpl~inProgress: "false"
 
 backend:
   ~chart: app
