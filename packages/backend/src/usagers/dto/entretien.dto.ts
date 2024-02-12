@@ -170,4 +170,16 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsOptional()
   @IsIn(Object.keys(ENTRETIEN_SITUATION_PRO))
   public situationPro!: UsagerEntretienSituationPro;
+
+  @ApiProperty({
+    type: String,
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  @StripTagsTransform()
+  @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
+    obj.situationPro === "AUTRE" ? value : null
+  )
+  public situationProDetail!: UsagerEntretienSituationPro;
 }
