@@ -17,6 +17,7 @@ export const interactionRepository = myDataSource
     updateInteractionAfterDistribution,
     totalInteractionAllUsagersStructure,
     findLastInteractionOut,
+    totalInteractionsInPeriod,
   });
 
 async function updateInteractionAfterDistribution(
@@ -237,6 +238,71 @@ async function totalInteractionAllUsagersStructure({
       visite: parseInt(x.visite, 10),
     })
   );
+}
+
+async function totalInteractionsInPeriod({
+  structureId,
+  dateInteractionBefore,
+  dateInteractionAfter,
+}: {
+  structureId: number;
+  dateInteractionBefore: Date;
+  dateInteractionAfter: Date;
+}): Promise<{
+  appel: number;
+  visite: number;
+  courrierIn: number;
+  courrierOut: number;
+  recommandeIn: number;
+  recommandeOut: number;
+  colisIn: number;
+  colisOut: number;
+}> {
+  // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
+  const query = `SELECT
+  coalesce (COUNT(CASE WHEN i.type = 'appel' THEN 1 END), 0) AS "appel",
+  coalesce (COUNT(CASE WHEN i.type = 'visite' THEN 1 END), 0) AS "visite",
+  coalesce (SUM(CASE WHEN i.type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn",
+  coalesce (SUM(CASE WHEN i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOut",
+  coalesce (SUM(CASE WHEN i.type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn",
+  coalesce (SUM(CASE WHEN i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOut",
+  coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn",
+  coalesce (SUM(CASE WHEN i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOut"
+    FROM interactions i
+    WHERE i."structureId" = $1
+    AND i."dateInteraction" >= $2
+    AND i."dateInteraction" <  $3`;
+
+  const rawResults = await interactionRepository.query(query, [
+    structureId,
+    dateInteractionAfter,
+    dateInteractionBefore,
+  ]);
+
+  if (rawResults.length === 1) {
+    const results = rawResults[0];
+
+    return {
+      courrierIn: parseInt(results.courrierIn, 10),
+      courrierOut: parseInt(results.courrierOut, 10),
+      recommandeIn: parseInt(results.recommandeIn, 10),
+      recommandeOut: parseInt(results.recommandeOut, 10),
+      colisIn: parseInt(results.colisIn, 10),
+      colisOut: parseInt(results.colisOut, 10),
+      appel: parseInt(results.appel, 10),
+      visite: parseInt(results.visite, 10),
+    };
+  }
+  return {
+    courrierIn: 0,
+    courrierOut: 0,
+    recommandeIn: 0,
+    recommandeOut: 0,
+    colisIn: 0,
+    colisOut: 0,
+    appel: 0,
+    visite: 0,
+  };
 }
 
 async function findLastInteractionOut(

@@ -25,6 +25,7 @@ import {
   AuthService,
 } from "../../../shared/services";
 import { ENTRETIEN_SITUATION_PRO, StructureStatsFull } from "@domifa/common";
+import { formatDateToNgb } from "../../../../shared";
 
 @Component({
   providers: [
@@ -41,8 +42,8 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public loading: boolean;
 
-  public start: Date;
-  public end: Date | null;
+  public start: Date = new Date();
+  public end: Date | null = null;
 
   public hoveredDate: NgbDate | null = null;
 
@@ -53,11 +54,15 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public fromDate: NgbDate;
   public toDate: NgbDate | null = null;
-  public lastYear = new Date().getFullYear() - 1;
   private me!: UserStructure | null;
 
   private readonly subscription = new Subscription();
   public readonly ENTRETIEN_SITUATION_PRO = ENTRETIEN_SITUATION_PRO;
+
+  public years: number[] = [];
+  public currentYear = new Date().getFullYear();
+  public selectedYear = new Date().getFullYear() - 1;
+  public lastYear = new Date().getFullYear() - 1;
 
   constructor(
     private readonly formatter: NgbDateCustomParserFormatter,
@@ -67,6 +72,10 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly cdRef: ChangeDetectorRef,
     private readonly authService: AuthService
   ) {
+    for (let year = 2021; year <= this.currentYear; year++) {
+      this.years.push(year);
+    }
+
     this.loading = false;
     const date = new Date("2020-01-01");
 
@@ -95,21 +104,9 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
       yesterday.getDate() + 1
     );
 
-    this.maxDateFin = new NgbDate(
-      yesterday.getFullYear(),
-      yesterday.getMonth() + 1,
-      yesterday.getDate() + 1
-    );
+    this.maxDateFin = new NgbDate(yesterday.getFullYear() + 1, 1, 1);
 
-    this.toDate = null;
-    this.toDate = new NgbDate(
-      yesterday.getFullYear(),
-      yesterday.getMonth() + 1,
-      yesterday.getDate()
-    );
-
-    this.start = new Date();
-    this.end = null;
+    this.onYearChange(this.selectedYear);
   }
 
   public ngOnInit(): void {
@@ -173,6 +170,17 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
           },
         })
     );
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public onYearChange(year: any): void {
+    this.start = new Date(year as number, 0, 1);
+    this.end = new Date(year as number, 11, 31);
+
+    this.fromDate = formatDateToNgb(this.start);
+    this.toDate = formatDateToNgb(this.end);
+
+    console.log(this.fromDate);
   }
 
   public compare(): void {

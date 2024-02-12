@@ -1,9 +1,9 @@
 import { AyantDroiLienParent } from "@domifa/common";
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { NgbDate } from "@ng-bootstrap/ng-bootstrap";
 
-export type UsagerFormAyantDroit = {
-  dateNaissance: NgbDateStruct;
+export interface UsagerFormAyantDroit {
+  dateNaissance: NgbDate;
   lien: AyantDroiLienParent;
   nom: string;
   prenom: string;
-};
+}

@@ -28,7 +28,21 @@
             disponibles
           </div>
           <div class="col-md-4 text-end">
-            <button
+            <div class="form-group">
+              <label for="yearSelect">Sélectionner une année</label>
+              <select
+                id="yearSelect"
+                class="form-select"
+                [(ngModel)]="selectedYear"
+                (ngModelChange)="onYearChange($event)"
+                name="year"
+              >
+                <option *ngFor="let year of years" [value]="year">
+                  {{ year }}
+                </option>
+              </select>
+            </div>
+            <!-- <button
               type="button"
               [disabled]="loading"
               [attr.aria-busy]="loading"
@@ -51,7 +65,7 @@
                 </fa-icon>
                 Veuillez patienter...
               </span>
-            </button>
+            </button> -->
           </div>
         </div>
       </div>

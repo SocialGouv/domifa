@@ -24,13 +24,14 @@ export class UsagerHistoryStateService {
     // Get last entry
     const previousState = await this.getLastHistoryState(usager);
 
-    // Set null to last entry
-    await usagerHistoryStatesRepository.update(
-      {
-        uuid: previousState.uuid,
-      },
-      { historyEndDate: null }
-    );
+    if (previousState) {
+      await usagerHistoryStatesRepository.update(
+        {
+          uuid: previousState.uuid,
+        },
+        { historyEndDate: null }
+      );
+    }
   }
 
   async buildState({
@@ -44,7 +45,7 @@ export class UsagerHistoryStateService {
     createdEvent: UsagerHistoryStateCreationEvent;
     historyBeginDate: Date;
   }): Promise<UsagerHistoryStates> {
-    const previousState = this.getLastHistoryState(usager);
+    const previousState = await this.getLastHistoryState(usager);
     let isActive = usager.decision.statut === "VALIDE";
 
     if (previousState) {
@@ -63,7 +64,7 @@ export class UsagerHistoryStateService {
         isActive ||
         ((usager.decision.statut === "ATTENTE_DECISION" ||
           usager.decision.statut === "INSTRUCTION") &&
-          (isActive ?? false));
+          isActive);
     }
 
     const decision: Partial<UsagerDecision> = getDecisionForStats(
