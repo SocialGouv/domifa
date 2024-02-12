@@ -1,3 +1,10 @@
+## [2.159.6](https://github.com/SocialGouv/domifa/compare/v2.159.5...v2.159.6) (2024-02-12)
+
+
+### Bug Fixes
+
+* **migration:** hide migration ([d833a91](https://github.com/SocialGouv/domifa/commit/d833a9189374d5a223c4c326c9f161871e358043))
+
 ## [2.159.5](https://github.com/SocialGouv/domifa/compare/v2.159.4...v2.159.5) (2024-02-05)
 
 
