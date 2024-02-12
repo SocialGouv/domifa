@@ -1,12 +1,12 @@
 pg:
   ~chart: pg
   cnpg-cluster:
-    ~tpl~minSyncReplicas: 1
-    ~tpl~maxSyncReplicas: 1
-    ~tpl~instances: 3
+    minSyncReplicas: 1
+    maxSyncReplicas: 1
+    instances: 3
     clusterExtraSpec:
       nodeMaintenanceWindow:
-        ~tpl~inProgress: false
+        inProgress: "false"
 
 backend:
   ~chart: app
