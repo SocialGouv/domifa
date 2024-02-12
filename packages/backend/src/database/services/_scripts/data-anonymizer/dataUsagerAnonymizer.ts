@@ -155,6 +155,7 @@ async function anonymizeEntretiens() {
       residenceDetail: null,
       causeDetail: null,
       raisonDetail: null,
+      situationProDetail: null,
       accompagnementDetail: null,
     }
   );

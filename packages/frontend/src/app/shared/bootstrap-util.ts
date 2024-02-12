@@ -1,4 +1,4 @@
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { NgbDate } from "@ng-bootstrap/ng-bootstrap";
 
 export function toInteger(value: string): number {
   return parseInt(`${value}`, 10);
@@ -17,18 +17,14 @@ export function padNumber(value: number): string {
   }
 }
 
-export function formatDateToNgb(date: Date): NgbDateStruct {
+export function formatDateToNgb(date: Date): NgbDate {
   if (!date.getDate) {
     date = new Date(date);
   }
-  return {
-    day: date.getDate(),
-    month: date.getMonth() + 1,
-    year: date.getFullYear(),
-  };
+  return new NgbDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
 }
 
-export function parseDateFromNgb(ngbDate: NgbDateStruct): Date {
+export function parseDateFromNgb(ngbDate: NgbDate): Date {
   return new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
 }
 

@@ -1,9 +1,10 @@
 import { subDays } from "date-fns";
 
-import { structureRepository } from "../../database";
+import {
+  structureRepository,
+  usagerHistoryStatesRepository,
+} from "../../database";
 import { statsQuestionsCoreBuilder } from "./statsQuestionsCoreBuilder.service";
-import { structureStatsQuestionsAtDateValidUsagersRepository } from "./structureStatsQuestionsAtDateValidUsagersRepository.service";
-import { structureStatsQuestionsInPeriodDecisionsRepository } from "./structureStatsQuestionsInPeriodDecisionsRepository.service";
 import { structureStatsQuestionsInPeriodInteractionsRepository } from "./structureStatsQuestionsInPeriodInteractionsRepository.service";
 import { Structure, StructureStatsFull } from "@domifa/common";
 
@@ -43,17 +44,21 @@ async function buildStatsInPeriod({
   }
 
   const validUsagers =
-    await structureStatsQuestionsAtDateValidUsagersRepository.getStats({
-      dateUTC: endDateUTCExclusive,
-      structureId: structure.id,
-    });
+    await usagerHistoryStatesRepository.getStructureStatsQuestionsAtDateValidUsagers(
+      {
+        dateUTC: endDateUTCExclusive,
+        structureId: structure.id,
+      }
+    );
 
   const decisions =
-    await structureStatsQuestionsInPeriodDecisionsRepository.getStats({
-      startDateUTC,
-      endDateUTCExclusive,
-      structureId: structure.id,
-    });
+    await usagerHistoryStatesRepository.getStructureStatsQuestionsInPeriodDecisions(
+      {
+        startDateUTC,
+        endDateUTCExclusive,
+        structureId: structure.id,
+      }
+    );
 
   const interactions =
     await structureStatsQuestionsInPeriodInteractionsRepository.getStats({

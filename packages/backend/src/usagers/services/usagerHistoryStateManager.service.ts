@@ -185,7 +185,7 @@ async function removeLastDecisionFromHistory({
 }: {
   usager: Usager;
   removedDecisionUUID: string;
-}): Promise<UsagerHistory> {
+}): Promise<void> {
   const usagerHistory: UsagerHistory = await usagerHistoryRepository.findOneBy({
     usagerUUID: usager.uuid,
   });
@@ -213,10 +213,6 @@ async function removeLastDecisionFromHistory({
     { uuid: usagerHistory.uuid },
     { states: updatedHistoryStates }
   );
-
-  return usagerHistoryRepository.findOneBy({
-    uuid: usagerHistory.uuid,
-  });
 }
 
 function buildHistoryState({
