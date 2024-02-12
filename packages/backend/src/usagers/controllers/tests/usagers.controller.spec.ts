@@ -1,3 +1,4 @@
+import { UsagersModule } from "./../../usagers.module";
 import { UsersModule } from "../../../users/users.module";
 import {
   AppTestContext,
@@ -14,6 +15,7 @@ import { Usager } from "../../../_common/model";
 import { TESTS_USERS_STRUCTURE } from "../../../_tests";
 import { InteractionsModule } from "../../../interactions/interactions.module";
 import { UsagersService, UsagerOptionsHistoryService } from "../../services";
+import { UsagerHistoryStateService } from "../../services/usagerHistoryState.service";
 
 const ENDPOINT = "/usagers";
 
@@ -34,11 +36,12 @@ describe("Usagers Controller", () => {
     context = await AppTestHelper.bootstrapTestApp(
       {
         controllers: [UsagersController],
-        imports: [UsersModule, InteractionsModule],
+        imports: [UsagersModule, UsersModule, InteractionsModule],
         providers: [
           UsagersService,
           UsagerOptionsHistoryService,
           AppLogsService,
+          UsagerHistoryStateService,
         ],
       },
       { initApp: true }

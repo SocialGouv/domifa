@@ -34,7 +34,7 @@ import { ImportCreatorService } from "./controllers/import/step3-create";
     ExportStructureUsagersController,
     UsagerOptionsController,
   ],
-  exports: [UsagersService],
+  exports: [UsagersService, UsagerHistoryStateService, ImportCreatorService],
   imports: [
     HttpModule,
     forwardRef(() => MailsModule),
