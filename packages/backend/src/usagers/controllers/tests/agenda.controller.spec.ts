@@ -2,6 +2,7 @@ import { InteractionsModule } from "../../../interactions/interactions.module";
 import { StructuresModule } from "../../../structures/structure.module";
 import { UsersModule } from "../../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
+import { UsagerHistoryStateService } from "../../services/usagerHistoryState.service";
 
 import { UsagersService } from "../../services/usagers.service";
 import { AgendaController } from "../agenda.controller";
@@ -14,7 +15,7 @@ describe("Agenda Controller", () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [AgendaController],
       imports: [UsersModule, InteractionsModule, StructuresModule],
-      providers: [UsagersService],
+      providers: [UsagersService, UsagerHistoryStateService],
     });
     controller = context.module.get<AgendaController>(AgendaController);
   });

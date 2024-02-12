@@ -9,6 +9,7 @@ import { AppTestContext, AppTestHelper } from "../../../util/test";
 import { CreateUsagerDto } from "../../dto";
 import { UsagersService } from "../usagers.service";
 import { UserStructure } from "../../../_common/model";
+import { UsagerHistoryStateService } from "../usagerHistoryState.service";
 
 describe("UsagersService", () => {
   let service: UsagersService;
@@ -28,7 +29,7 @@ describe("UsagersService", () => {
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       imports: [forwardRef(() => UsersModule)],
-      providers: [UsagersService],
+      providers: [UsagersService, UsagerHistoryStateService],
     });
     service = context.module.get<UsagersService>(UsagersService);
   });
