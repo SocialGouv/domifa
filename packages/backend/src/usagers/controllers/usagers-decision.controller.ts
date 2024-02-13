@@ -22,7 +22,7 @@ import {
   UserStructureAuthenticated,
 } from "../../_common/model";
 import { CheckDuplicateUsagerRefDto, DecisionDto } from "../dto";
-import { UsagersService, usagerHistoryStateManager } from "../services";
+import { UsagersService } from "../services";
 import {
   AllowUserStructureRoles,
   CurrentUser,
@@ -129,13 +129,6 @@ export class UsagersDecisionController {
     }
 
     await this.usagerHistoryStateService.deleteHistoryState(usager);
-
-    // Delete last decision
-    // @deprecated
-    await usagerHistoryStateManager.removeLastDecisionFromHistory({
-      usager,
-      removedDecisionUUID: usager.decision.uuid,
-    });
 
     usager.etapeDemande =
       usager.decision.statut === "INSTRUCTION"

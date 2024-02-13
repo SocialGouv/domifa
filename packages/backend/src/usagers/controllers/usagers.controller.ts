@@ -49,11 +49,7 @@ import {
   UpdatePortailUsagerOptionsDto,
 } from "../dto";
 import { SearchUsagerDto } from "../dto/search-usager.dto";
-import {
-  deleteUsagerFolder,
-  usagerHistoryStateManager,
-  UsagersService,
-} from "../services";
+import { deleteUsagerFolder, UsagersService } from "../services";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { generateCerfaData } from "../services/cerfa";
 
@@ -201,12 +197,6 @@ export class UsagersController {
       historyBeginDate,
     });
 
-    // @deprecated
-    await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
-      usager: currentUsager,
-      createdEvent: "update-usager",
-    });
-
     return currentUsager;
   }
 
@@ -260,12 +250,6 @@ export class UsagersController {
       createdAt,
       createdEvent: "update-entretien",
       historyBeginDate,
-    });
-
-    // @deprecated
-    await usagerHistoryStateManager.updateHistoryStateWithoutDecision({
-      usager,
-      createdEvent: "update-entretien",
     });
 
     return usager;
