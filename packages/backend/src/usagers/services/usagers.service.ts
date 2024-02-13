@@ -2,15 +2,13 @@ import { usagerEntretienRepository } from "./../../database/services/usager/usag
 import { Injectable } from "@nestjs/common";
 import { v4 as uuidv4 } from "uuid";
 import { usagerRepository, UsagerTable } from "../../database";
-import { usagerHistoryRepository } from "../../database/services/usager/usagerHistoryRepository.service";
-
 import {
   Usager,
   UserStructure,
   UserStructureProfile,
   UserStructureAuthenticated,
 } from "../../_common/model";
-import { usagerHistoryStateManager } from "./usagerHistoryStateManager.service";
+
 import { usagersCreator } from "./usagersCreator.service";
 import { usagerVisibleHistoryManager } from "./usagerVisibleHistoryManager.service";
 
@@ -74,17 +72,6 @@ export class UsagersService {
       historyBeginDate: createdUsager.decision.dateDebut,
     });
 
-    // @deprecated
-    const usagerHistory = usagerHistoryStateManager.buildInitialHistoryState({
-      isImport: false,
-      usager: createdUsager,
-      createdAt: createdUsager.decision.dateDecision,
-      createdEvent: "new-decision",
-      historyBeginDate: createdUsager.decision.dateDebut,
-    });
-
-    await usagerHistoryRepository.save(usagerHistory);
-
     return createdUsager;
   }
 
@@ -135,14 +122,6 @@ export class UsagersService {
     await this.usagerHistoryStateService.buildState({
       usager,
       createdAt: new Date(),
-      createdEvent: "new-decision",
-      historyBeginDate: usager.decision.dateDebut,
-    });
-
-    // @deprecated
-    await usagerHistoryStateManager.updateHistoryStateFromDecision({
-      usager,
-      createdAt: usager.decision.dateDecision,
       createdEvent: "new-decision",
       historyBeginDate: usager.decision.dateDebut,
     });
@@ -201,15 +180,8 @@ export class UsagersService {
 
     usager.decision = newDecision as UsagerDecision;
     usager.decision.uuid = uuidv4();
-    usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
 
-    // @deprecated
-    await usagerHistoryStateManager.updateHistoryStateFromDecision({
-      usager,
-      createdAt: usager.decision.dateDecision,
-      createdEvent: "new-decision",
-      historyBeginDate: usager.decision.dateDebut,
-    });
+    usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
 
     await this.usagerHistoryStateService.buildState({
       usager,

@@ -6,14 +6,14 @@ import {
   UsagerRdv,
   UsagerTypeDom,
 } from "@domifa/common";
-import { UsagerHistoryImport } from "./UsagerHistoryImport.type";
+
 import { UsagerHistoryStateCreationEvent } from "./UsagerHistoryStateCreationEvent.type";
 
 export interface UsagerHistoryStates extends AppEntity {
   usagerUUID: string; // unique
   usagerRef: number; // unique par structure
   structureId: number;
-  import?: UsagerHistoryImport;
+
   migrated: boolean;
   etapeDemande: number;
   typeDom: UsagerTypeDom;

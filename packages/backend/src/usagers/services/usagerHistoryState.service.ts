@@ -8,18 +8,21 @@ import {
   getAyantsDroitForStats,
 } from "./dataCleanerForStats.service";
 import { UsagerHistoryStatesTable } from "../../database/entities/usager/UsagerHistoryStatesTable.typeorm";
-import { getHistoryBeginDate } from ".";
+
 import { usagerHistoryStatesRepository } from "../../database";
 import { IsNull } from "typeorm";
+import { getHistoryBeginDate } from "./usagerHistoryStateManager.service";
 
 @Injectable()
 export class UsagerHistoryStateService {
-  async deleteHistoryState(usager: Pick<Usager, "uuid">): Promise<void> {
-    // Delete last entry
-    await usagerHistoryStatesRepository.delete({
-      usagerUUID: usager.uuid,
-      historyEndDate: IsNull(),
-    });
+  async deleteHistoryState(
+    usager: Pick<Usager, "uuid" | "decision">
+  ): Promise<void> {
+    await usagerHistoryStatesRepository
+      .createQueryBuilder()
+      .delete()
+      .where(`decision->>'uuid' = $1`, [usager.decision.uuid])
+      .execute();
 
     // Get last entry
     const previousState = await this.getLastHistoryState(usager);
@@ -45,8 +48,9 @@ export class UsagerHistoryStateService {
     createdEvent: UsagerHistoryStateCreationEvent;
     historyBeginDate: Date;
   }): Promise<UsagerHistoryStates> {
-    const previousState = await this.getLastHistoryState(usager);
     let isActive = usager.decision.statut === "VALIDE";
+
+    const previousState = await this.getLastHistoryState(usager);
 
     if (previousState) {
       // Update last decision
@@ -67,6 +71,33 @@ export class UsagerHistoryStateService {
           isActive);
     }
 
+    const state = this.createState({
+      usager,
+      createdAt,
+      createdEvent,
+      historyBeginDate,
+      isActive,
+    });
+
+    // Update previous states
+    await usagerHistoryStatesRepository.save(state);
+
+    return state;
+  }
+
+  public createState({
+    usager,
+    createdAt,
+    createdEvent,
+    historyBeginDate,
+    isActive,
+  }: {
+    usager: Usager;
+    createdAt: Date;
+    createdEvent: UsagerHistoryStateCreationEvent;
+    historyBeginDate: Date;
+    isActive: boolean;
+  }): UsagerHistoryStates {
     const decision: Partial<UsagerDecision> = getDecisionForStats(
       usager.decision
     );
@@ -83,7 +114,7 @@ export class UsagerHistoryStateService {
       typeDom = "PREMIERE_DOM";
     }
 
-    const state: UsagerHistoryStates = new UsagerHistoryStatesTable({
+    return new UsagerHistoryStatesTable({
       usagerRef: usager.ref,
       usagerUUID: usager.uuid,
       structureId: usager.structureId,
@@ -100,11 +131,6 @@ export class UsagerHistoryStateService {
       rdv: { dateRdv: usager?.rdv?.dateRdv },
       migrated: false,
     });
-
-    // Update previous states
-    await usagerHistoryStatesRepository.save(state);
-
-    return state;
   }
 
   private async getLastHistoryState(usager: Pick<Usager, "uuid">) {

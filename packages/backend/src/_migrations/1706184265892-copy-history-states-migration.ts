@@ -35,7 +35,7 @@ export class MigrateStatsMigration1706184265892 implements MigrationInterface {
 
         for (const history of histories) {
           const historiesToPush = [];
-          let lastHistory;
+
           for (const state of history.states) {
             if (!state?.createdAt || !state?.historyBeginDate) {
               console.log({
@@ -75,20 +75,9 @@ export class MigrateStatsMigration1706184265892 implements MigrationInterface {
               historyEndDate: state.historyEndDate,
               isActive: state.isActive,
             };
-
-            if (
-              JSON.stringify(newHistory) !== JSON.stringify(lastHistory) ||
-              !lastHistory
-            ) {
-              lastHistory = newHistory;
-              newHistory.createdAt = state?.createdAt ?? state.historyBeginDate;
-              historiesToPush.push(new UsagerHistoryStatesTable(newHistory));
-            } else {
-              console.table({ newHistory, lastHistory });
-              throw new Error("");
-            }
+            newHistory.createdAt = state?.createdAt ?? state.historyBeginDate;
+            historiesToPush.push(new UsagerHistoryStatesTable(newHistory));
           }
-
           await usagerHistoryStatesRepository.save(historiesToPush);
         }
 

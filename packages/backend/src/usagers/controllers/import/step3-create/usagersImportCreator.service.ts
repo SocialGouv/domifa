@@ -1,3 +1,4 @@
+import { usagerHistoryStatesRepository } from "./../../../../database/services/usager/usagerHistoryStatesRepository.service";
 import { ImportProcessTracker } from "../ImportProcessTracker.type";
 import { UsagersImportUsager } from "../step2-validate-row";
 import { usagersImportBuilder } from "./usagersImportBuilder.service";
@@ -6,11 +7,10 @@ import {
   UsagerTable,
   usagerRepository,
   usagerEntretienRepository,
-  usagerHistoryRepository,
   UsagerEntretienTable,
 } from "../../../../database";
 import { UserStructure } from "../../../../_common/model";
-import { usagersCreator, usagerHistoryStateManager } from "../../../services";
+import { usagersCreator } from "../../../services";
 import { UsagerHistoryStateService } from "../../../services/usagerHistoryState.service";
 import { Injectable } from "@nestjs/common";
 
@@ -60,7 +60,6 @@ export class ImportCreatorService {
 
     for (let i = 0; i < usagersToPersist.length; i += 1000) {
       const nextUsagersToCreate = usagersToPersist.slice(i, i + 1000);
-
       const nextEntretienToSave = nextUsagersToCreate.map((usager) => {
         return new UsagerEntretienTable({
           ...usager.entretien,
@@ -69,34 +68,22 @@ export class ImportCreatorService {
           structureId: usager.structureId,
         });
       });
-
-      for await (const usager of nextUsagersToCreate) {
-        await this.usagerHistoryStateService.buildState({
-          usager,
-          createdAt: usager.decision.dateDecision,
-          createdEvent: "new-decision",
-          historyBeginDate: usager.decision.dateDebut,
-        });
-      }
-
-      // @deprecated
-      const nextUsagersHistoryToCreate = nextUsagersToCreate.map((usager) =>
-        usagerHistoryStateManager.buildInitialHistoryState({
-          isImport: true,
-          usager,
-          createdAt: usager.decision.dateDecision,
-          createdEvent: "new-decision",
-          historyBeginDate: usager.decision.dateDebut,
-        })
-      );
-
       await usagerRepository.save(nextUsagersToCreate);
-
       await usagerEntretienRepository.save(nextEntretienToSave);
 
-      // @deprecated
-      await usagerHistoryRepository.save(nextUsagersHistoryToCreate);
+      const historiesToSave = nextUsagersToCreate.map((usager) => {
+        return this.usagerHistoryStateService.createState({
+          usager,
+          createdAt: usager.decision.dateDecision,
+          createdEvent: "new-decision",
+          historyBeginDate: usager.decision.dateDebut,
+          isActive: usager.decision.statut === "VALIDE",
+        });
+      });
+
+      await usagerHistoryStatesRepository.save(historiesToSave);
     }
+
     processTracker.persist.end = new Date();
     processTracker.persist.duration =
       (processTracker.persist.end.getTime() -
