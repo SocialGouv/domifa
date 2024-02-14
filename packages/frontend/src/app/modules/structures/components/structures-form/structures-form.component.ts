@@ -45,9 +45,9 @@ import isEmail from "validator/lib/isEmail";
   templateUrl: "./structures-form.component.html",
 })
 export class StructuresFormComponent implements OnInit, OnDestroy {
-  public PhoneNumberFormat = PhoneNumberFormat;
-  public SearchCountryField = SearchCountryField;
-  public CountryISO = CountryISO;
+  public readonly PhoneNumberFormat = PhoneNumberFormat;
+  public readonly SearchCountryField = SearchCountryField;
+  public readonly CountryISO = CountryISO;
   public readonly PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
   public success = false;
 

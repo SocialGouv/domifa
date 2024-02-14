@@ -1,0 +1,24 @@
+<div class="row">
+  <p
+    class="col-md-4 reponses"
+    *ngIf="
+      me.structure.sms.enabledByDomifa && me.structure.sms.enabledByStructure
+    "
+  >
+    <span class="question"> Notifications par SMS activés</span>
+    <span class="valeur">
+      {{ usager.contactByPhone ? "OUI" : "NON" }}
+    </span>
+  </p>
+  <p class="col-md-4 reponses">
+    <span class="question">Numéro de téléphone</span>
+    <span class="valeur" *ngIf="usager.telephone.numero">{{
+      usager.telephone | formatInternationalPhoneNumber
+    }}</span>
+    <span class="valeur" *ngIf="!usager.telephone.numero">Non renseigné</span>
+  </p>
+  <p class="col-md-4 reponses">
+    <span class="question">Adresse email</span>
+    <span class="valeur">{{ usager.email || "Non renseigné" }}</span>
+  </p>
+</div>

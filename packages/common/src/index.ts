@@ -2,7 +2,6 @@
 export * from "./_core";
 export * from "./interactions";
 export * from "./message-sms";
-export * from "./mocks";
 export * from "./stats";
 export * from "./structure";
 export * from "./structure-stats";

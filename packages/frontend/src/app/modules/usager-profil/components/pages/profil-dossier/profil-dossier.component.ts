@@ -14,6 +14,7 @@ import { Store } from "@ngrx/store";
 export class ProfilDossierComponent extends BaseUsagerProfilPageComponent {
   public editInfos = false;
   public editEntretien = false;
+  public editContactDetails = false;
 
   constructor(
     public authService: AuthService,
@@ -38,5 +39,9 @@ export class ProfilDossierComponent extends BaseUsagerProfilPageComponent {
 
   public openEntretien(): void {
     this.editEntretien = !this.editEntretien;
+  }
+
+  public openContactForm(): void {
+    this.editContactDetails = !this.editContactDetails;
   }
 }

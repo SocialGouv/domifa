@@ -197,92 +197,6 @@
     </div>
   </fieldset>
   <div class="row">
-    <fieldset class="col-md-8 col-12">
-      <legend class="visually-hidden">
-        Informations de contact du domicilié
-      </legend>
-      <div class="row">
-        <div class="col-md-6 col-12">
-          <div
-            class="form-group"
-            [ngClass]="
-              f.contactByPhone.value === true
-                ? 'required form-group'
-                : 'form-group'
-            "
-          >
-            <label for="telephone"
-              >Numéro de téléphone (mobile uniquement)</label
-            >
-            <ngx-intl-tel-input
-              [cssClass]="
-                submitted && (f.telephone.errors || f.telephone.invalid)
-                  ? 'form-control is-invalid'
-                  : 'form-control'
-              "
-              [preferredCountries]="PREFERRED_COUNTRIES"
-              [enableAutoCountrySelect]="false"
-              [enablePlaceholder]="true"
-              [searchCountryFlag]="true"
-              [customPlaceholder]="mobilePhonePlaceHolder"
-              searchCountryPlaceholder="Choisissez un pays"
-              [searchCountryField]="[
-                SearchCountryField.Iso2,
-                SearchCountryField.Name
-              ]"
-              [selectFirstCountry]="false"
-              [maxLength]="15"
-              [phoneValidation]="true"
-              [separateDialCode]="true"
-              [numberFormat]="PhoneNumberFormat.International"
-              inputId="telephone"
-              formControlName="telephone"
-              name="telephone"
-              (countryChange)="updatePlaceHolder($event.iso2)"
-              [selectedCountryISO]="f.telephone.value?.countryCode"
-            ></ngx-intl-tel-input>
-
-            <p
-              *ngIf="submitted && f.telephone.errors"
-              class="invalid-feedback-custom"
-            >
-              Numéro de téléphone incorrect, mobile uniquement (Ex: 0606060606)
-            </p>
-          </div>
-        </div>
-        <div class="col-md-6 col-12">
-          <div class="form-group">
-            <label for="email">Adresse e-mail</label>
-            <input
-              type="email"
-              class="form-control"
-              id="email"
-              formControlName="email"
-              name="email"
-              [ngClass]="{
-                'is-invalid': (f.email.dirty || submitted) && f.email.errors
-              }"
-              [attr.aria-describedby]="
-                (f.email.dirty || submitted) && f.email.errors
-                  ? 'email-errors'
-                  : null
-              "
-              [attr.aria-invalid]="
-                (f.email.dirty || submitted) && f.email.errors ? true : false
-              "
-            />
-            <p
-              *ngIf="(f.email.dirty || submitted) && f.email.errors"
-              id="email-errors"
-              class="invalid-feedback"
-            >
-              Veuillez vérifier l'adresse email, format attendu : nom@domaine.fr
-            </p>
-          </div>
-        </div>
-      </div>
-    </fieldset>
-
     <div class="col-md-4 col-12 form-group">
       <label for="langue">Langue parlée</label>
       <input
@@ -344,44 +258,6 @@
         maxlength="20"
       />
       <small id="numero-description">Exemple : BP 102, TSA 11000 </small>
-    </div>
-  </div>
-
-  <div
-    class="row my-3"
-    *ngIf="
-      me.structure.sms.enabledByDomifa && me.structure.sms.enabledByStructure
-    "
-  >
-    <div class="col">
-      <fieldset>
-        <legend>
-          Le demandeur souhaite-t-il recevoir des notifications par SMS (arrivée
-          d'un courrier, échéance de domiciliation) ?
-        </legend>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="contactByPhone"
-            name="contactByPhone"
-            id="sms_oui"
-            [value]="true"
-          />
-          <label class="form-check-label" for="sms_oui">Oui</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="contactByPhone"
-            name="contactByPhone"
-            id="sms_non"
-            [value]="false"
-          />
-          <label class="form-check-label" for="sms_non">Non</label>
-        </div>
-      </fieldset>
     </div>
   </div>
 

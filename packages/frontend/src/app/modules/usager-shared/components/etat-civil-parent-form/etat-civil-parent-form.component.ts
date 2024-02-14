@@ -113,7 +113,6 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     protected readonly authService: AuthService,
     protected readonly changeDetectorRef: ChangeDetectorRef
   ) {
-    this.countryCode = null;
     this.submitted = false;
     this.loading = false;
     this.mobilePhonePlaceHolder = "";
@@ -224,10 +223,8 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     });
   }
 
-  //
-  // Gestion des téléphones
-  public updatePlaceHolder(country: string) {
-    if (!country && !this.countryCode) {
+  public updatePlaceHolder(country: string): void {
+    if (!country) {
       country =
         this.usagerForm.value?.telephone?.countryCode ||
         this.usager?.telephone?.countryCode;
@@ -238,13 +235,12 @@ export class EtatCivilParentFormComponent implements OnDestroy {
         .countryCode as CountryISO;
     }
 
-    this.countryCode = country.toLowerCase();
-    if (typeof PHONE_PLACEHOLDERS[this.countryCode] !== "undefined") {
-      this.mobilePhonePlaceHolder =
-        PHONE_PLACEHOLDERS[this.countryCode.toLowerCase()];
-    } else {
-      this.mobilePhonePlaceHolder = "";
-    }
+    country = country.toLowerCase();
+
+    this.mobilePhonePlaceHolder =
+      typeof PHONE_PLACEHOLDERS[country] !== "undefined"
+        ? PHONE_PLACEHOLDERS[country]
+        : "";
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -293,6 +289,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
       elementToFocus.focus();
     }
   }
+
   public ngOnDestroy() {
     this.subscription.unsubscribe();
   }
