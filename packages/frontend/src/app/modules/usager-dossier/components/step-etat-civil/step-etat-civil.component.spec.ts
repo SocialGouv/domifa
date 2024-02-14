@@ -35,7 +35,6 @@ describe("StepEtatCivilComponent", () => {
       providers: [
         AuthService,
         { provide: APP_BASE_HREF, useValue: "/" },
-
         { provide: APP_BASE_HREF, useValue: "/" },
         ...NGRX_PROVIDERS_TESTING,
       ],

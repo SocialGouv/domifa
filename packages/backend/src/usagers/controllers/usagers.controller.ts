@@ -45,6 +45,7 @@ import {
   CheckDuplicateUsagerDto,
   CreateUsagerDto,
   EntretienDto,
+  ContactDetailsDto,
   UpdatePortailUsagerOptionsDto,
 } from "../dto";
 import { SearchUsagerDto } from "../dto/search-usager.dto";
@@ -193,6 +194,25 @@ export class UsagersController {
     });
 
     return currentUsager;
+  }
+
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
+  @Post("contact-details/:usagerRef")
+  public async patchMailAndPhone(
+    @Body() contactDetails: ContactDetailsDto,
+    @CurrentUser() _user: UserStructureAuthenticated,
+    @CurrentUsager() currentUsager: Usager
+  ) {
+    await usagerRepository.update(
+      { uuid: currentUsager.uuid },
+      {
+        telephone: contactDetails.telephone,
+        contactByPhone: contactDetails.contactByPhone,
+        email: contactDetails.email,
+      }
+    );
+    return await usagerRepository.getUsager(currentUsager.uuid);
   }
 
   @UseGuards(UsagerAccessGuard)

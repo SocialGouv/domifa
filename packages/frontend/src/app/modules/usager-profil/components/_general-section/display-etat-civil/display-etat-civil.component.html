@@ -28,18 +28,6 @@
   </p>
 
   <p class="col-md-4 reponses">
-    <span class="question">Numéro de téléphone</span>
-    <span class="valeur" *ngIf="usager.telephone.numero">{{
-      usager.telephone | formatInternationalPhoneNumber
-    }}</span>
-    <span class="valeur" *ngIf="!usager.telephone.numero">Non renseigné</span>
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question">Adresse email</span>
-    <span class="valeur">{{ usager.email || "Non renseigné" }}</span>
-  </p>
-
-  <p class="col-md-4 reponses">
     <span class="question">Langue parlée</span>
     <span class="valeur" *ngIf="usager.langue">{{ langue }}</span>
     <span class="valeur" *ngIf="!usager.langue">Non renseigné</span>
@@ -55,12 +43,6 @@
     <span class="question">Numéro de distribution spéciale (BP, TSA, etc)</span>
     <span class="valeur">
       {{ usager.numeroDistribution || "Non renseigné" }}
-    </span>
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question"> Notifications par SMS activés</span>
-    <span class="valeur">
-      {{ usager.contactByPhone ? "OUI" : "NON" }}
     </span>
   </p>
 </div>

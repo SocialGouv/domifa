@@ -49,12 +49,33 @@ export class UsagerService {
         })
       );
   }
+
   public patchEtatCivil(
     ref: number,
     usager: UsagerEtatCivilFormData
   ): Observable<UsagerLight> {
     return this.http
       .patch<UsagerLight>(`${this.endPointUsagers}/${ref}`, usager)
+      .pipe(
+        tap((newUsager: UsagerLight) => {
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          return newUsager;
+        })
+      );
+  }
+
+  public patchContactDetails(
+    ref: number,
+    formData: Pick<
+      UsagerEtatCivilFormData,
+      "telephone" | "contactByPhone" | "email"
+    >
+  ): Observable<UsagerLight> {
+    return this.http
+      .patch<UsagerLight>(
+        `${this.endPointUsagers}/contact-detail/${ref}`,
+        formData
+      )
       .pipe(
         tap((newUsager: UsagerLight) => {
           this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));

@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from "@angular/core";
 import { PhoneNumberFormat, PhoneNumberUtil } from "google-libphonenumber";
 import { Telephone } from "../../../_common/model";
 
-@Pipe({ name: "formatInternationalPhoneNumber" })
+@Pipe({ name: "formatInternationalPhoneNumber", standalone: true })
 export class FormatInternationalPhoneNumberPipe implements PipeTransform {
   public transform(telephone: Telephone): string {
     const phoneUtil = PhoneNumberUtil.getInstance();

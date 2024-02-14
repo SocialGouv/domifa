@@ -112,7 +112,6 @@ export class CreateUsagerDto {
     description: "Email de l'usager",
   })
   @IsOptional()
-  @IsNotEmpty()
   @IsEmail()
   @TrimOrNullTransform()
   @LowerCaseTransform()
@@ -137,11 +136,7 @@ export class CreateUsagerDto {
   @IsOptional()
   @IsArray()
   @ValidateIf((o) => {
-    return typeof o.ayantsDroits !== "undefined"
-      ? o.ayantsDroits.length > 0
-        ? true
-        : false
-      : false;
+    return o?.ayantsDroits?.length > 0;
   })
   @ValidateNested({ each: true })
   @Type(() => UsagerAyantDroitDto)

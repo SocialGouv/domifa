@@ -63,8 +63,8 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
 
   @Input() public structure!: StructureCommon;
 
-  private subscription = new Subscription();
-  private unsubscribe: Subject<void> = new Subject();
+  private readonly subscription = new Subscription();
+  private readonly unsubscribe: Subject<void> = new Subject();
 
   constructor(
     private readonly structureService: StructureService,
@@ -169,7 +169,7 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
           this.toastService.success(
             "Les modifications ont bien été prises en compte"
           );
-          console.log(this.structure);
+
           this.structure = structure;
           this.loading = false;
         },

@@ -32,6 +32,7 @@ import { getUrlUsagerProfil } from "../../../usager-shared/utils";
   selector: "app-manage-manage-usagers-table",
   templateUrl: "./manage-usagers-table.html",
   styleUrls: ["./manage-usagers-table.scss"],
+
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManageUsagersTableComponent implements OnDestroy {
