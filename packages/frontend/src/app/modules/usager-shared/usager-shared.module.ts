@@ -30,6 +30,7 @@ import {
   CustomDatepickerI18n,
 } from "../shared/services";
 import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits/display-ayants-droits.component";
+import { FormContactDetailsComponent } from "./components/form-contact-details/form-contact-details.component";
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits
     DecisionRadiationFormComponent,
     DeleteUsagerComponent,
     DisplayAyantsDroitsComponent,
+    FormContactDetailsComponent,
   ],
   imports: [
     CommonModule,
@@ -73,6 +75,7 @@ import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits
     DisplayDuplicatesUsagerComponent,
     DeleteUsagerComponent,
     DecisionRadiationFormComponent,
+    FormContactDetailsComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

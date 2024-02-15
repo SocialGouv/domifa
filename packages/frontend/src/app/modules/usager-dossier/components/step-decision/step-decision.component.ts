@@ -39,6 +39,7 @@ export class StepDecisionComponent
 {
   public isAdmin: boolean;
   public editInfos: boolean;
+  public editContactDetails = false;
   public editEntretien: boolean;
   public editPJ: boolean;
 

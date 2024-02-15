@@ -17,16 +17,16 @@ import {
   Telephone,
   UsagerEtatCivilFormData,
   UserStructure,
-} from "../../../../../../_common/model";
+} from "../../../../../_common/model";
 
 import {
   setFormPhone,
   mobilePhoneValidator,
   getFormPhone,
-} from "../../../../shared/phone";
-import { AuthService, CustomToastService } from "../../../../shared/services";
-import { UsagerFormModel } from "../../../../usager-shared/interfaces";
-import { UsagerService } from "../../../../usager-shared/services";
+} from "../../../shared/phone";
+import { AuthService, CustomToastService } from "../../../shared/services";
+import { UsagerFormModel } from "../../interfaces";
+import { UsagerService } from "../../services";
 import {
   CountryISO,
   PhoneNumberFormat,
@@ -34,7 +34,7 @@ import {
 } from "@khazii/ngx-intl-tel-input";
 
 import { Observable, Subscription } from "rxjs";
-import { PREFERRED_COUNTRIES, EmailValidator } from "../../../../../shared";
+import { PREFERRED_COUNTRIES, EmailValidator } from "../../../../shared";
 
 @Component({
   selector: "app-form-contact-details",

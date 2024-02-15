@@ -36,7 +36,7 @@
             "extractLicenses": false,
             "buildOptimizer": false,
             "sourceMap": true,
-            "optimization": true,
+            "optimization": false,
             "namedChunks": true
           },
           "configurations": {
@@ -49,7 +49,7 @@
               "buildOptimizer": false
             },
             "analyze": {
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": true,
               "namedChunks": true,
@@ -72,7 +72,7 @@
                   "with": "./src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": true,

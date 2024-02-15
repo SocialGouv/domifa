@@ -28,6 +28,7 @@ import { DecisionValideFormComponent } from "./components/decision-valide-form/d
 import { UsagerNotesModule } from "../usager-notes/usager-notes.module";
 import { BaseUsagerDossierPageComponent } from "./components/base-usager-dossier-page/base-usager-dossier-page.component";
 import { FormatInternationalPhoneNumberPipe } from "../usager-shared/formatInternationalPhoneNumber.pipe";
+import { DisplayContactDetailsDecisionComponent } from "./components/display-contact-details-decision/display-contact-details-decision.component";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { FormatInternationalPhoneNumberPipe } from "../usager-shared/formatInter
     DecisionValideFormComponent,
     DecisionRefusFormComponent,
     BaseUsagerDossierPageComponent,
+    DisplayContactDetailsDecisionComponent,
   ],
   imports: [
     CommonModule,
