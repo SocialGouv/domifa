@@ -1,470 +1,79 @@
 --
 -- PostgreSQL database dump
 --
+
 -- Dumped from database version 14.9 (Debian 14.9-1.pgdg110+1)
 -- Dumped by pg_dump version 14.9 (Debian 14.9-1.pgdg110+1)
-SET
-  statement_timeout = 0;
 
-SET
-  lock_timeout = 0;
-
-SET
-  idle_in_transaction_session_timeout = 0;
-
-SET
-  client_encoding = 'UTF8';
-
-SET
-  standard_conforming_strings = on;
-
-SELECT
-  pg_catalog.set_config('search_path', '', false);
-
-SET
-  check_function_bodies = false;
-
-SET
-  xmloption = content;
-
-SET
-  client_min_messages = warning;
-
-SET
-  row_security = off;
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
 
 --
 -- Data for Name: app_log; Type: TABLE DATA; Schema: public; Owner: -
 --
-COPY public.app_log (
-  uuid,
-  "createdAt",
-  "updatedAt",
-  version,
-  "userId",
-  "usagerRef",
-  "structureId",
-  action
-)
-FROM
-  stdin;
 
-0c8c6826 - 9da4 - 45f0 - a726 - 9faf11b01eee 2023 -09 -05 23 :50 :23.616466 + 02 2023 -09 -05 23 :50 :23.616466 + 02 1 1 1 1 SUPPRIMER_PIECE_JOINTE e8112a58 - 5cda - 42ff - 8bf6 - 6dd1ed92bcff 2023 -12 -18 17 :54 :10.818639 + 01 2023 -12 -18 17 :54 :10.818639 + 01 1 1 7 1 RESET_PASSWORD_PORTAIL 448257b5 - f24e - 4b59 -9955 - 00590cd8d42f 2023 -12 -18 17 :54 :12.343842 + 01 2023 -12 -18 17 :54 :12.343842 + 01 1 1 7 1 DOWNLOAD_PASSWORD_PORTAIL \.--
+COPY public.app_log (uuid, "createdAt", "updatedAt", version, "userId", "usagerRef", "structureId", action) FROM stdin;
+0c8c6826-9da4-45f0-a726-9faf11b01eee	2023-09-05 23:50:23.616466+02	2023-09-05 23:50:23.616466+02	1	1	1	1	SUPPRIMER_PIECE_JOINTE
+e8112a58-5cda-42ff-8bf6-6dd1ed92bcff	2023-12-18 17:54:10.818639+01	2023-12-18 17:54:10.818639+01	1	1	7	1	RESET_PASSWORD_PORTAIL
+448257b5-f24e-4b59-9955-00590cd8d42f	2023-12-18 17:54:12.343842+01	2023-12-18 17:54:12.343842+01	1	1	7	1	DOWNLOAD_PASSWORD_PORTAIL
+\.
+
+
+--
 -- Data for Name: contact_support; Type: TABLE DATA; Schema: public; Owner: -
 --
-COPY public.contact_support (
-  uuid,
-  "createdAt",
-  "updatedAt",
-  version,
-  "userId",
-  "structureId",
-  content,
-  status,
-  attachment,
-  email,
-  category,
-  name,
-  comments,
-  "structureName"
-)
-FROM
-  stdin;
 
-\.--
+COPY public.contact_support (uuid, "createdAt", "updatedAt", version, "userId", "structureId", content, status, attachment, email, category, name, comments, "structureName") FROM stdin;
+\.
+
+
+--
 -- Data for Name: expired_token; Type: TABLE DATA; Schema: public; Owner: -
 --
-COPY public.expired_token (
-  uuid,
-  "createdAt",
-  "updatedAt",
-  version,
-  "userId",
-  "structureId",
-  token,
-  "userProfile"
-)
-FROM
-  stdin;
 
-\.--
+COPY public.expired_token (uuid, "createdAt", "updatedAt", version, "userId", "structureId", token, "userProfile") FROM stdin;
+\.
+
+
+--
 -- Data for Name: structure; Type: TABLE DATA; Schema: public; Owner: -
 --
-COPY public.structure (
-  uuid,
-  "createdAt",
-  "updatedAt",
-  version,
-  id,
-  adresse,
-  "adresseCourrier",
-  agrement,
-  capacite,
-  "codePostal",
-  "complementAdresse",
-  departement,
-  region,
-  email,
-  "hardReset",
-  "tokenDelete",
-  import,
-  "registrationDate",
-  "importDate",
-  "lastLogin",
-  nom,
-  options,
-  responsable,
-  "structureType",
-  token,
-  verified,
-  ville,
-  sms,
-  "portailUsager",
-  "timeZone",
-  telephone,
-  "acceptTerms",
-  "filesUpdated",
-  latitude,
-  longitude,
-  "organismeType",
-  "departmentName",
-  "regionName"
-)
-FROM
-  stdin;
 
-e159011b -6648 - 426d - a772 - b3ca4f27a6d5 2021 -01 -26 08 :51 :53.846157 + 01 2024 -02 -05 13 :16 :50.077269 + 01 5 2 2 rue du test \ N \ N \ N 33600 \ N 33 75 cias.test @yopmail.com \ N f 2020 -11 -17 14 :32 :21.959 + 01 \ N 2020 -11 -17 CIAS de Test { "numeroBoite": false } { "nom": "Anna",
-"prenom": "Dupond",
-"fonction": "PDG" } cias b1ca3193633282c675257f1b05771a7605a4aa1c5ba231b3545564bfa33a f Pessac { "senderName": null,
-"senderDetails": null,
-"enabledByDomifa": false,
-"enabledByStructure": false } { "enabledByDomifa": true,
-"enabledByStructure": false,
-"usagerLoginUpdateLastInteraction": false } Europe / Paris { "numero": "0102030405",
-"countryCode": "fr" } \ N f 44.817602 -0.612957 \ N Gironde Nouvelle - Aquitaine 610966c4 - ab91 - 43c0 - 88da - 483ae23d0af2 2021 -02 -01 17 :12 :30.65884 + 01 2024 -02 -05 13 :16 :50.088388 + 01 11 4 rue de l 'import	{"actif": false, "ville": "", "adresse": "", "codePostal": ""}	123	\N	44000		44	52	test.import@yopmail.com	\N	\N	f	2021-02-01 17:12:30.655+01	\N	\N	Structure de Test d' import { "numeroBoite": false } { "nom": "Test",
-"prenom": "Import",
-"fonction": "Testeur" } asso t Nantes { "senderName": "STRUCTURE D",
-"senderDetails": "STRUCTURE D",
-"enabledByDomifa": true,
-"enabledByStructure": false } { "enabledByDomifa": true,
-"enabledByStructure": false,
-"usagerLoginUpdateLastInteraction": false } Europe / Paris { "numero": "0101010101",
-"countryCode": "fr" } \ N f 47.213973 -1.536923 \ N Loire - Atlantique Pays de la Loire 1d1ed6f0 -7674 - 474a - 908b - d0bd8c6389cb 2021 -01 -26 08 :51 :53.846157 + 01 2024 -02 -05 13 :16 :50.088388 + 01 7 3 1 rue du test de l 'organise agréé	\N	1234	80	44000	\N	44	52	structure@yopmail.com	{"token": "6V0XR2S", "userId": 3}		t	2020-11-17 14:34:35.821+01	\N	2021-12-06	Organisme agréé de Test	{"numeroBoite": false}	{"nom": "Calvez", "prenom": "Simon", "fonction": "Directeur"}	asso	b8e2e05b767ac984f0f4b8a222062b07268f46265525f98d83e4b518b343	f	Nantes	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0506070809", "countryCode": "fr"}	\N	f	47.218193	-1.561368	\N	Loire-Atlantique	Pays de la Loire
-412f6962-fc6e-4e48-b0a6-a37d6eebbc67	2021-01-26 08:51:53.846157+01	2024-02-05 13:16:50.114981+01	370	1	1 rue de l' océan \ N \ N \ N 92600 \ N 92 11 ccas.test @yopmail.com \ N f 2020 -11 -17 14 :30 :23.692 + 01 \ N 2023 -12 -18 CCAS de Test { "numeroBoite": false } { "nom": "Jean",
-"prenom": "Thomson",
-"fonction": "PDG" } ccas adfbfe24ff6de1f4e7c0011ad05028f5a129ced7f120079d20c4adf21d89 t Asnieres - sur - seine { "senderName": "CCAS DE TES",
-"senderDetails": "CCAS DE TES",
-"enabledByDomifa": true,
-"enabledByStructure": false } { "enabledByDomifa": true,
-"enabledByStructure": true,
-"usagerLoginUpdateLastInteraction": false } Europe / Paris { "numero": "0602030405",
-"countryCode": "fr" } 2023 -02 -14 18 :33 :51.265 + 01 f 48.903759 2.283746 \ N Hauts - de - Seine Île - de - France 943d3acc - 2f9c - 4bb4 -9419 - 4194bbdfd624 2022 -03 -17 17 :25 :53.666507 + 01 2024 -02 -05 13 :16 :50.117779 + 01 38 5 24,
-avenue Louis PASTEUR { "actif": false,
-"ville": null,
-"adresse": null,
-"codePostal": "" } \ N 97300 \ N 973 03 ccas - cayenne @yopmail.com \ N \ N f 2022 -03 -17 17 :25 :53.646 + 01 \ N 2022 -03 -23 CCAS de Cayenne { "numeroBoite": false } { "nom": "Pali",
-"prenom": "Mauricette",
-"fonction": "Directrice" } cias t Cayenne { "senderName": "CCAS DE CAY",
-"senderDetails": "CCAS DE CAY",
-"enabledByDomifa": true,
-"enabledByStructure": false } { "enabledByDomifa": true,
-"enabledByStructure": false,
-"usagerLoginUpdateLastInteraction": false } America / Cayenne { "numero": "0101010101",
-"countryCode": "gf" } \ N f 4.943454 -52.324458 \ N Guyane Guyane \.--
+COPY public.structure (uuid, "createdAt", "updatedAt", version, id, adresse, "adresseCourrier", agrement, capacite, "codePostal", "complementAdresse", departement, region, email, "hardReset", "tokenDelete", import, "registrationDate", "importDate", "lastLogin", nom, options, responsable, "structureType", token, verified, ville, sms, "portailUsager", "timeZone", telephone, "acceptTerms", "filesUpdated", latitude, longitude, "organismeType", "departmentName", "regionName") FROM stdin;
+e159011b-6648-426d-a772-b3ca4f27a6d5	2021-01-26 08:51:53.846157+01	2024-02-05 13:16:50.077269+01	5	2	2 rue du test	\N	\N	\N	33600	\N	33	75	cias.test@yopmail.com	\N		f	2020-11-17 14:32:21.959+01	\N	2020-11-17	CIAS de Test	{"numeroBoite": false}	{"nom": "Anna", "prenom": "Dupond", "fonction": "PDG"}	cias	b1ca3193633282c675257f1b05771a7605a4aa1c5ba231b3545564bfa33a	f	Pessac	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0102030405", "countryCode": "fr"}	\N	f	44.817602	-0.612957	\N	Gironde	Nouvelle-Aquitaine
+610966c4-ab91-43c0-88da-483ae23d0af2	2021-02-01 17:12:30.65884+01	2024-02-05 13:16:50.088388+01	11	4	rue de l'import	{"actif": false, "ville": "", "adresse": "", "codePostal": ""}	123	\N	44000		44	52	test.import@yopmail.com	\N	\N	f	2021-02-01 17:12:30.655+01	\N	\N	Structure de Test d'import	{"numeroBoite": false}	{"nom": "Test", "prenom": "Import", "fonction": "Testeur"}	asso		t	Nantes	{"senderName": "STRUCTURE D", "senderDetails": "STRUCTURE D", "enabledByDomifa": true, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0101010101", "countryCode": "fr"}	\N	f	47.213973	-1.536923	\N	Loire-Atlantique	Pays de la Loire
+1d1ed6f0-7674-474a-908b-d0bd8c6389cb	2021-01-26 08:51:53.846157+01	2024-02-05 13:16:50.088388+01	7	3	1 rue du test de l'organise agréé	\N	1234	80	44000	\N	44	52	structure@yopmail.com	{"token": "6V0XR2S", "userId": 3}		t	2020-11-17 14:34:35.821+01	\N	2021-12-06	Organisme agréé de Test	{"numeroBoite": false}	{"nom": "Calvez", "prenom": "Simon", "fonction": "Directeur"}	asso	b8e2e05b767ac984f0f4b8a222062b07268f46265525f98d83e4b518b343	f	Nantes	{"senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0506070809", "countryCode": "fr"}	\N	f	47.218193	-1.561368	\N	Loire-Atlantique	Pays de la Loire
+412f6962-fc6e-4e48-b0a6-a37d6eebbc67	2021-01-26 08:51:53.846157+01	2024-02-05 13:16:50.114981+01	370	1	1 rue de l'océan	\N	\N	\N	92600	\N	92	11	ccas.test@yopmail.com	\N		f	2020-11-17 14:30:23.692+01	\N	2023-12-18	CCAS de Test	{"numeroBoite": false}	{"nom": "Jean", "prenom": "Thomson", "fonction": "PDG"}	ccas	adfbfe24ff6de1f4e7c0011ad05028f5a129ced7f120079d20c4adf21d89	t	Asnieres-sur-seine	{"senderName": "CCAS DE TES", "senderDetails": "CCAS DE TES", "enabledByDomifa": true, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": true, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0602030405", "countryCode": "fr"}	2023-02-14 18:33:51.265+01	f	48.903759	2.283746	\N	Hauts-de-Seine	Île-de-France
+943d3acc-2f9c-4bb4-9419-4194bbdfd624	2022-03-17 17:25:53.666507+01	2024-02-05 13:16:50.117779+01	38	5	24, avenue Louis PASTEUR	{"actif": false, "ville": null, "adresse": null, "codePostal": ""}		\N	97300	\N	973	03	ccas-cayenne@yopmail.com	\N	\N	f	2022-03-17 17:25:53.646+01	\N	2022-03-23	CCAS de Cayenne	{"numeroBoite": false}	{"nom": "Pali", "prenom": "Mauricette", "fonction": "Directrice"}	cias		t	Cayenne	{"senderName": "CCAS DE CAY", "senderDetails": "CCAS DE CAY", "enabledByDomifa": true, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}	America/Cayenne	{"numero": "0101010101", "countryCode": "gf"}	\N	f	4.943454	-52.324458	\N	Guyane	Guyane
+\.
+
+
+--
 -- Data for Name: usager; Type: TABLE DATA; Schema: public; Owner: -
 --
-COPY public.usager (
-  uuid,
-  "createdAt",
-  "updatedAt",
-  version,
-  ref,
-  "customRef",
-  "structureId",
-  nom,
-  prenom,
-  surnom,
-  sexe,
-  "dateNaissance",
-  "villeNaissance",
-  langue,
-  email,
-  "datePremiereDom",
-  "typeDom",
-  decision,
-  historique,
-  "ayantsDroits",
-  "lastInteraction",
-  "etapeDemande",
-  rdv,
-  options,
-  import,
-  migrated,
-  telephone,
-  "contactByPhone",
-  "numeroDistribution",
-  "pinnedNote"
-)
-FROM
-  stdin;
 
-e074c416 - 093a - 46fc - ae47 - 77a3bc111d35 2021 -01 -27 10 :21 :49.173276 + 01 2022 -12 -19 11 :29 :56.621829 + 01 6 3 3 1 Dupont Fred fredo homme 1940 -08 -07 02 :00 :00 + 02 Macon \ N \ N 2019 -10 -07 20 :50 :25.552 + 02 PREMIERE_DOM { "uuid": "30ababd0-8e2f-4917-9662-9c812d604dda",
-"motif": "SATURATION",
-"statut": "REFUS",
-"userId": 1,
-"dateFin": "2020-08-09T00:00:00.000Z",
-"typeDom": "PREMIERE",
-"userName": "Patrick Roméro",
-"dateDebut": "2019-09-12T00:00:00.000Z",
-"orientation": "",
-"dateDecision": "2019-09-12T00:00:00.000Z",
-"motifDetails": "",
-"orientationDetails": "" } [{"uuid": "30ababd0-8e2f-4917-9662-9c812d604dda", "motif": "SATURATION", "statut": "REFUS", "userId": 1, "dateFin": "2020-08-09T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2019-09-12T00:00:00.000Z", "orientation": null, "dateDecision": "2019-09-12T00:00:00.000Z", "motifDetails": null, "orientationDetails": null}] [] { "appel": null,
-"visite": null,
-"colisIn": 0,
-"enAttente": false,
-"courrierIn": 0,
-"nbCourrier": 0,
-"courrierOut": null,
-"recommandeIn": 0,
-"recommandeOut": null,
-"dateInteraction": "2021-01-27T09:21:49.237Z" } 5 \ N { "npai": { "actif": false,
-"dateDebut": null },
-"transfert": { "nom": null,
-"actif": false,
-"adresse": null,
-"dateFin": null,
-"dateDebut": null },
-"procurations": [],
-"portailUsagerEnabled": false } \ N t { "numero": "",
-"countryCode": "FR" } f \ N \ N 16fe01bb - 0c4d -4836 - a24a - 07d117b47fb9 2021 -11 -30 15 :02 :59.193913 + 01 2022 -12 -19 11 :29 :56.621829 + 01 5 9 9 1 TOMOU Papah homme 2001 -11 -03 01 :00 :00 + 01 Paris \ N \ N PREMIERE_DOM { "uuid": "c46924e6-fc2a-47d6-955c-8f7cabae70e3",
-"statut": "INSTRUCTION",
-"userId": 1,
-"dateFin": "2021-11-30T14:02:59.189Z",
-"userName": "Patrick Roméro",
-"dateDecision": "2021-11-30T14:02:59.189Z" } [{"uuid": "c46924e6-fc2a-47d6-955c-8f7cabae70e3", "motif": null, "statut": "INSTRUCTION", "userId": 1, "dateFin": "2021-11-30T14:02:59.189Z", "userName": "Patrick Roméro", "orientation": null, "dateDecision": "2021-11-30T14:02:59.189Z", "motifDetails": null, "orientationDetails": null}] [] { "colisIn": 0,
-"enAttente": false,
-"courrierIn": 0,
-"recommandeIn": 0,
-"dateInteraction": "2021-11-30T14:02:59.187Z" } 2 \ N { "npai": { "actif": false,
-"dateDebut": null },
-"transfert": { "nom": null,
-"actif": false,
-"adresse": null,
-"dateFin": null,
-"dateDebut": null },
-"procurations": [],
-"portailUsagerEnabled": false } \ N t { "numero": "",
-"countryCode": "FR" } f \ N \ N 274427da -7482 - 4edb - 86aa - 4afaf48243d5 2021 -11 -30 15 :04 :46.21552 + 01 2022 -12 -19 11 :29 :56.621829 + 01 9 11 11 1 Saura Sophie homme 1999 -08 -20 02 :00 :00 + 02 Lyon \ N \ N PREMIERE_DOM { "statut": "ATTENTE_DECISION",
-"userId": 1,
-"typeDom": "PREMIERE_DOM",
-"userName": "Patrick Roméro",
-"dateDebut": "2021-11-30T14:04:56.881Z",
-"dateDecision": "2021-11-30T14:04:56.881Z" } [{"uuid": "73cb88b5-c4bf-42ee-b6db-2f6f32d4fbc3", "motif": null, "statut": "INSTRUCTION", "userId": 1, "dateFin": "2021-11-30T14:04:46.214Z", "userName": "Patrick Roméro", "orientation": null, "dateDecision": "2021-11-30T14:04:46.214Z", "motifDetails": null, "orientationDetails": null}, {"motif": null, "statut": "ATTENTE_DECISION", "userId": 1, "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "orientation": null, "dateDecision": "2021-11-30T14:04:56.881Z", "motifDetails": null, "orientationDetails": null}] [] { "colisIn": 0,
-"enAttente": false,
-"courrierIn": 0,
-"recommandeIn": 0,
-"dateInteraction": "2021-11-30T14:04:46.212Z" } 4 { "userId": 1,
-"dateRdv": "2021-11-30T14:03:48.988Z",
-"userName": "Patrick Roméro" } { "npai": { "actif": false,
-"dateDebut": null },
-"transfert": { "nom": null,
-"actif": false,
-"adresse": null,
-"dateFin": null,
-"dateDebut": null },
-"procurations": [],
-"portailUsagerEnabled": false } \ N t { "numero": "",
-"countryCode": "FR" } f \ N \ N 860ffa4c - 88c4 - 4e1c - ad42 - 5a05cdf39830 2019 -11 -22 11 :33 :43 + 01 2022 -12 -19 11 :29 :56.621829 + 01 9 1 63 1 Ramirez Marta \ N femme 1978 -08 -07 02 :00 :00 + 02 Sao Paulo,
-Brésil \ N domicilie1 @yopmail.com 2018 -03 -01 01 :00 :00 + 01 PREMIERE_DOM { "uuid": "52ba789e-eb21-4d84-9176-abe1e0d3c778",
-"motif": null,
-"statut": "VALIDE",
-"userId": 1,
-"dateFin": "2019-02-27T00:00:00.000Z",
-"typeDom": "PREMIERE",
-"userName": "Patrick Roméro",
-"dateDebut": "2018-03-01T00:00:00.000Z",
-"orientation": "",
-"dateDecision": "2018-03-01T00:00:00.000Z",
-"motifDetails": "",
-"orientationDetails": "" } [{"uuid": "52ba789e-eb21-4d84-9176-abe1e0d3c778", "motif": null, "statut": "VALIDE", "userId": 1, "dateFin": "2019-02-27T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2018-03-01T00:00:00.000Z", "orientation": null, "dateDecision": "2018-03-01T00:00:00.000Z", "motifDetails": null, "orientationDetails": null}] [{"nom": "Martinez", "lien": "ENFANT", "prenom": "Luiz", "dateNaissance": "1992-12-20T00:00:00.000Z"}, {"nom": "Martinez", "lien": "ENFANT", "prenom": "Sylvia", "dateNaissance": "2007-10-20T00:00:00.000Z"}] { "colisIn": 4,
-"enAttente": true,
-"courrierIn": 1,
-"recommandeIn": 3,
-"dateInteraction": "2020-07-29T11:46:34.680Z" } 5 \ N { "npai": { "actif": false },
-"transfert": { "nom": "LHSS Plaisance",
-"actif": true,
-"adresse": "12 rue ridder 75014 Paris",
-"dateFin": "2020-11-07T00:00:00.000Z",
-"dateDebut": "2020-06-03T12:20:00.603Z" },
-"procurations": [],
-"portailUsagerEnabled": false } \ N t { "numero": "0600000000",
-"countryCode": "FR" } f \ N \ N 5215f197 - 5f9b - 4c2a - 8b2e - 60a0fcc5fc85 2021 -06 -28 15 :26 :31.533838 + 02 2022 -12 -19 11 :29 :56.621829 + 01 9 8 8 1 Smith John homme 2000 -03 -15 01 :00 :00 + 01 Londres \ N \ N PREMIERE_DOM { "motif": "LIEN_COMMUNE",
-"statut": "REFUS",
-"userId": 1,
-"dateFin": "2021-06-28T00:00:00.000Z",
-"typeDom": "PREMIERE_DOM",
-"userName": "Patrick Roméro",
-"dateDebut": "2021-06-28T00:00:00.000Z",
-"orientation": "asso",
-"dateDecision": "2021-06-28T13:27:25.493Z",
-"motifDetails": null,
-"orientationDetails": "CCAS de sa commune" } [{"uuid": "6d781a28-a5dc-4d95-826d-6aa0f78e5864", "motif": null, "statut": "INSTRUCTION", "userId": 1, "dateFin": "2021-06-28T13:26:31.533Z", "userName": "Patrick Roméro", "orientation": null, "dateDecision": "2021-06-28T13:26:31.533Z", "motifDetails": null, "orientationDetails": null}, {"motif": "LIEN_COMMUNE", "statut": "REFUS", "userId": 1, "dateFin": "2021-06-28T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2021-06-28T00:00:00.000Z", "orientation": "asso", "dateDecision": "2021-06-28T13:27:25.493Z", "motifDetails": null, "orientationDetails": "CCAS de sa commune"}] [] { "colisIn": 0,
-"enAttente": false,
-"courrierIn": 0,
-"recommandeIn": 0,
-"dateInteraction": "2021-06-28T13:26:31.530Z" } 5 { "userId": 1,
-"dateRdv": "2021-06-28T13:25:42.151Z",
-"userName": "Patrick Roméro" } { "npai": { "actif": false,
-"dateDebut": null },
-"transfert": { "nom": null,
-"actif": false,
-"adresse": null,
-"dateFin": null,
-"dateDebut": null },
-"procurations": [],
-"portailUsagerEnabled": false } \ N t { "numero": "",
-"countryCode": "FR" } f \ N \ N 3ba5c3f0 -8003 - 4c1c - 8bf5 - 929a12e396f5 2021 -11 -30 15 :05 :21.635622 + 01 2022 -12 -19 11 :29 :56.621829 + 01 10 12 12 1 Rara Dié homme 1975 -08 -08 01 :00 :00 + 01 Nantes \ N 2021 -11 -30 01 :00 :00 + 01 PREMIERE_DOM { "motif": "A_SA_DEMANDE",
-"statut": "RADIE",
-"userId": 1,
-"dateFin": "2021-11-30T00:00:00.000Z",
-"typeDom": "PREMIERE_DOM",
-"userName": "Patrick Roméro",
-"dateDebut": "2021-11-30T00:00:00.000Z",
-"dateDecision": "2021-11-30T14:05:41.678Z",
-"motifDetails": null } [{"uuid": "e8e8c681-9151-4335-8e1c-4e9140946b02", "motif": null, "statut": "INSTRUCTION", "userId": 1, "dateFin": "2021-11-30T14:05:21.634Z", "userName": "Patrick Roméro", "orientation": null, "dateDecision": "2021-11-30T14:05:21.634Z", "motifDetails": null, "orientationDetails": null}, {"motif": null, "statut": "VALIDE", "userId": 1, "dateFin": "2022-11-29T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "customRef": "12", "dateDebut": "2021-11-30T00:00:00.000Z", "orientation": null, "dateDecision": "2021-11-30T14:05:31.936Z", "motifDetails": null, "orientationDetails": null}, {"motif": "A_SA_DEMANDE", "statut": "RADIE", "userId": 1, "dateFin": "2021-11-30T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2021-11-30T00:00:00.000Z", "orientation": null, "dateDecision": "2021-11-30T14:05:41.678Z", "motifDetails": null, "orientationDetails": null}] [] { "colisIn": 0,
-"enAttente": false,
-"courrierIn": 0,
-"recommandeIn": 0,
-"dateInteraction": "2021-11-30T14:05:21.631Z" } 5 { "userId": 1,
-"dateRdv": "2021-11-30T14:04:24.108Z",
-"userName": "Patrick Roméro" } { "npai": { "actif": false,
-"dateDebut": null },
-"transfert": { "nom": null,
-"actif": false,
-"adresse": null,
-"dateFin": null,
-"dateDebut": null },
-"procurations": [],
-"portailUsagerEnabled": false } \ N t { "numero": "",
-"countryCode": "FR" } f \ N \ N 427e6af6 - 706b - 40d4 -9506 - de21190e6f0d 2021 -01 -27 10 :21 :49.173276 + 01 2024 -01 -24 00 :55 :16.571249 + 01 38 4 4 1 Loumiel Lisa Lilou femme 1990 -04 -18 02 :00 :00 + 02 Marseille \ N \ N 2019 -08 -09 02 :00 :00 + 02 PREMIERE_DOM { "uuid": "0c3f2589-d5d3-4138-a4bc-2a594678461e",
-"motif": "NON_RESPECT_REGLEMENT",
-"statut": "RADIE",
-"userId": 1,
-"dateFin": "2019-09-12T00:00:00.000Z",
-"typeDom": "PREMIERE",
-"userName": "Patrick Roméro",
-"dateDebut": "2019-08-09T00:00:00.000Z",
-"orientation": "",
-"dateDecision": "2019-09-12T00:00:00.000Z",
-"motifDetails": "",
-"orientationDetails": "" } [{"uuid": "0c3f2589-d5d3-4138-a4bc-2a594678461e", "motif": "NON_RESPECT_REGLEMENT", "statut": "RADIE", "userId": 1, "dateFin": "2019-09-12T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2019-08-09T00:00:00.000Z", "orientation": null, "dateDecision": "2019-09-12T00:00:00.000Z", "motifDetails": null, "orientationDetails": null}] [] { "appel": null,
-"visite": null,
-"colisIn": 0,
-"enAttente": false,
-"courrierIn": 0,
-"nbCourrier": 0,
-"courrierOut": null,
-"recommandeIn": 0,
-"recommandeOut": null,
-"dateInteraction": "2021-01-27T09:21:49.240Z" } 5 \ N { "npai": { "actif": true,
-"dateDebut": "2020-11-21T13:11:28.000Z" },
-"transfert": { "nom": null,
-"actif": false,
-"adresse": null,
-"dateFin": null,
-"dateDebut": null },
-"procurations": [],
-"portailUsagerEnabled": false } \ N t { "numero": "0606060606",
-"countryCode": "FR" } f \ N \ N ee7ef219 - b101 - 422c - 8ad4 - 4d5aedf9caad 2020 -11 -01 18 :50 :10.047 + 01 2022 -12 -19 11 :29 :56.621829 + 01 8 6 6 1 NOUVEAU DOSSIER TEST homme 1988 -11 -02 01 :00 :00 + 01 Paris \ N fake - mail @yopmail.com 2020 -11 -01 01 :00 :00 + 01 PREMIERE_DOM { "uuid": "bf35d476-35d6-4d3d-93b4-dfd49816904f",
-"statut": "VALIDE",
-"userId": 1,
-"dateFin": "2021-10-31T00:00:00.000Z",
-"userName": "Patrick Roméro",
-"dateDebut": "2020-11-01T00:00:00.000Z",
-"dateDecision": "2020-11-01T17:50:29.003Z",
-"orientationDetails": null } [{"uuid": "8bd1eae7-7635-4c75-ba64-ad78b1141baf", "motif": null, "statut": "INSTRUCTION", "userId": 1, "dateFin": "2020-11-01T17:50:10.042Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2020-11-01T17:50:10.042Z", "orientation": null, "dateDecision": "2020-11-01T17:50:10.042Z", "motifDetails": null, "orientationDetails": null}, {"uuid": "bf35d476-35d6-4d3d-93b4-dfd49816904f", "motif": null, "statut": "VALIDE", "userId": 1, "dateFin": "2021-10-31T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2020-11-01T00:00:00.000Z", "orientation": null, "dateDecision": "2020-11-01T17:50:29.003Z", "motifDetails": null, "orientationDetails": null}] [{"nom": "TEST 1 ", "lien": "PARENT", "prenom": "TEST 2 ", "dateNaissance": "1991-12-20T00:00:00.000Z"}] { "colisIn": 0,
-"enAttente": false,
-"courrierIn": 0,
-"recommandeIn": 0,
-"dateInteraction": "2020-11-01T00:00:00.000Z" } 5 { "userId": 1,
-"dateRdv": "2020-11-01T17:50:12.019Z",
-"userName": "Roméro Patrick" } { "npai": { "actif": false,
-"dateDebut": null },
-"transfert": { "nom": null,
-"actif": false,
-"adresse": null,
-"dateFin": null,
-"dateDebut": null },
-"procurations": [],
-"portailUsagerEnabled": false } \ N t { "numero": "0600000000",
-"countryCode": "FR" } f \ N \ N 4dcdcddc - fad2 -4827 - aac5 - 0acf1df7b5bc 2021 -01 -27 10 :21 :49.173276 + 01 2022 -12 -19 11 :29 :56.621829 + 01 7 5 5 1 Derick Inspecteur \ N homme 1911 -05 -24 00 :00 :00 + 00 Bergerac \ N \ N \ N PREMIERE_DOM { "uuid": "c6aabd3b-7485-4efd-8c09-5080b91709d9",
-"statut": "ATTENTE_DECISION",
-"userId": 2,
-"dateFin": "2021-01-27T09:21:49.242Z",
-"userName": "Isabelle Juste",
-"dateDecision": "2019-10-07T19:28:10.777Z",
-"orientationDetails": null } [{"uuid": "6f18c8d5-27b7-45c5-882d-e23876a3b1ed", "motif": null, "statut": "INSTRUCTION", "userId": 1, "dateFin": "2020-10-07T18:52:09.797Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2019-10-07T18:52:09.797Z", "orientation": null, "dateDecision": "2019-10-07T18:53:06.510Z", "motifDetails": null, "orientationDetails": null}, {"uuid": "c6aabd3b-7485-4efd-8c09-5080b91709d9", "motif": null, "statut": "ATTENTE_DECISION", "userId": 2, "dateFin": "2021-01-27T09:21:49.242Z", "typeDom": "PREMIERE_DOM", "userName": "Isabelle Juste", "dateDebut": "2019-10-07T19:28:10.777Z", "orientation": null, "dateDecision": "2019-10-07T19:28:10.777Z", "motifDetails": null, "orientationDetails": null}] [{"nom": "Inspecteur", "lien": "ENFANT", "prenom": "Gadget", "dateNaissance": "1990-10-12T00:00:00.000Z"}] { "appel": null,
-"visite": null,
-"colisIn": 0,
-"enAttente": false,
-"courrierIn": 0,
-"nbCourrier": 0,
-"courrierOut": null,
-"recommandeIn": 0,
-"recommandeOut": null,
-"dateInteraction": "2021-01-27T09:21:49.242Z" } 0 { "userId": 2,
-"dateRdv": "2019-10-07T19:30:02.675Z",
-"userName": "Juste Isabelle" } { "npai": { "actif": false,
-"dateDebut": null },
-"transfert": { "nom": null,
-"actif": false,
-"adresse": null,
-"dateFin": null,
-"dateDebut": null },
-"procurations": [],
-"portailUsagerEnabled": false } \ N t { "numero": "",
-"countryCode": "FR" } f \ N \ N a034b69a - 210a - 4a3d - b7a9 - 8987840ef0c7 2021 -11 -30 15 :03 :28.817939 + 01 2023 -05 -24 17 :51 :40.763319 + 02 6 10 10 1 Dupan Tom homme 1988 -02 -02 01 :00 :00 + 01 Marseille \ N \ N PREMIERE_DOM { "uuid": "fbe59327-0fef-4d74-ade1-97120407f43c",
-"statut": "INSTRUCTION",
-"userId": 1,
-"dateFin": "2021-11-30T14:03:28.817Z",
-"userName": "Patrick Roméro",
-"dateDecision": "2021-11-30T14:03:28.817Z" } [{"uuid": "fbe59327-0fef-4d74-ade1-97120407f43c", "motif": null, "statut": "INSTRUCTION", "userId": 1, "dateFin": "2021-11-30T14:03:28.817Z", "userName": "Patrick Roméro", "orientation": null, "dateDecision": "2021-11-30T14:03:28.817Z", "motifDetails": null, "orientationDetails": null}] [] { "colisIn": 0,
-"enAttente": false,
-"courrierIn": 0,
-"recommandeIn": 0,
-"dateInteraction": "2021-11-30T14:03:28.816Z" } 2 \ N { "npai": { "actif": false,
-"dateDebut": null },
-"transfert": { "nom": null,
-"actif": false,
-"adresse": null,
-"dateFin": null,
-"dateDebut": null },
-"procurations": [],
-"portailUsagerEnabled": false } \ N t { "numero": "",
-"countryCode": "FR" } f \ N { "message": "2eme note",
-"createdAt": "2023-05-24T15:51:38.893Z",
-"createdBy": { "userId": 1,
-"userName": "Patrick Roméro" },
-"usagerRef": 10 } b2c26e55 - ab37 - 457d - b307 - 6fe161050a9b 2021 -06 -28 15 :24 :22.924091 + 02 2023 -12 -18 17 :54 :10.680396 + 01 37 7 7 1 Dupont Pauline Paula homme 1996 -01 -02 01 :00 :00 + 01 Paris fr 2021 -06 -28 02 :00 :00 + 02 PREMIERE_DOM { "statut": "VALIDE",
-"userId": 1,
-"dateFin": "2022-06-28T00:00:00.000Z",
-"typeDom": "PREMIERE_DOM",
-"userName": "Patrick Roméro",
-"dateDebut": "2021-06-28T00:00:00.000Z",
-"dateDecision": "2021-06-28T13:25:20.685Z" } [{"uuid": "db7ff8b2-66e3-47ee-9346-e080945b418e", "motif": null, "statut": "INSTRUCTION", "userId": 1, "dateFin": "2021-06-28T13:24:22.920Z", "userName": "Patrick Roméro", "orientation": null, "dateDecision": "2021-06-28T13:24:22.920Z", "motifDetails": null, "orientationDetails": null}, {"motif": null, "statut": "VALIDE", "userId": 1, "dateFin": "2022-06-28T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2021-06-28T00:00:00.000Z", "orientation": null, "dateDecision": "2021-06-28T13:25:20.685Z", "motifDetails": null, "orientationDetails": null}] [{"nom": "Dupont", "lien": "ENFANT", "prenom": "Paulin", "dateNaissance": "2015-08-15T00:00:00.000Z"}, {"nom": "Dupont", "lien": "ENFANT", "prenom": "Sophie", "dateNaissance": "2018-12-03T00:00:00.000Z"}] { "colisIn": 1,
-"enAttente": true,
-"courrierIn": 2,
-"recommandeIn": 0,
-"dateInteraction": "2021-06-28T13:25:36.004Z" } 5 { "userId": 1,
-"dateRdv": "2021-06-28T13:23:27.041Z",
-"userName": "Patrick Roméro" } { "npai": { "actif": false },
-"transfert": { "actif": false },
-"procurations": [],
-"portailUsagerEnabled": true } \ N t { "numero": "",
-"countryCode": "FR" } f \ N \ N 97b7e840 - 0e93 - 4bf4 - ba7d - 0a406aa898f2 2019 -11 -22 11 :33 :43 + 01 2021 -09 -11 11 :45 :30 + 02 596 2 63 1 Karamoko Maurice \ N homme 1998 -08 -07 02 :00 :00 + 02 Bouaké,
-Côte d 'Ivoire	\N	domicilie2@yopmail.com	2018-01-11 01:00:00+01	RENOUVELLEMENT	{"uuid": "178ad317-0bd1-41e7-ad87-fd371f166310", "motif": null, "statut": "VALIDE", "userId": 1, "dateFin": "2020-02-12T00:00:00.000Z", "typeDom": "RENOUVELLEMENT", "userName": "Patrick Roméro", "dateDebut": "2019-02-12T00:00:00.000Z", "orientation": "", "dateDecision": "2019-02-12T00:00:00.000Z", "motifDetails": "", "orientationDetails": ""}	[{"uuid": "178ad317-0bd1-41e7-ad87-fd371f166310", "motif": null, "statut": "VALIDE", "userId": 1, "dateFin": "2020-02-12T00:00:00.000Z", "typeDom": "RENOUVELLEMENT", "userName": "Patrick Roméro", "dateDebut": "2019-02-12T00:00:00.000Z", "orientation": null, "dateDecision": "2019-02-12T00:00:00.000Z", "motifDetails": null, "orientationDetails": null}]	[{"nom": "Karamoko", "lien": "CONJOINT", "prenom": "Mauricette", "dateNaissance": "1978-12-20T00:00:00.000Z"}]	{"colisIn": 0, "enAttente": false, "courrierIn": 0, "recommandeIn": 0, "dateInteraction": "2019-02-12T00:00:00.000Z"}	3	\N	{"npai": {"actif": false}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [{"nom": "Milani", "prenom": "Marcel", "dateFin": "2022-06-05T00:00:00.000Z", "dateDebut": "2021-10-01T00:00:00.000Z", "dateNaissance": "1983-03-17T00:00:00.000Z"}], "portailUsagerEnabled": true}	\N	t	{"numero": "0606060606", "countryCode": "FR"}	f	\N	\N
-6d93ecf8-c59a-42cc-ac1e-b5bd6f977a01	2022-03-17 17:34:17.752334+01	2021-09-11 11:45:30+02	86	1	1	5	Salvador	Henri	\N	homme	1960-02-12 01:00:00+01	Cayenne	\N	\N	2022-03-16 20:00:00+01	PREMIERE_DOM	{"statut": "VALIDE", "userId": 11, "dateFin": "2023-03-15T22:59:59.999Z", "typeDom": "PREMIERE_DOM", "userName": "Mauricette Pali", "customRef": "1", "dateDebut": "2022-03-16T19:00:00.000Z", "dateDecision": "2022-03-17T11:34:29.960Z"}	[{"uuid": "db8c8e7d-0300-48e3-a970-10588d410194", "motif": null, "statut": "INSTRUCTION", "userId": 11, "dateFin": "2022-03-17T11:34:17.714Z", "userName": "Mauricette Pali", "dateDebut": "2022-03-17T11:34:17.714Z", "orientation": null, "dateDecision": "2022-03-17T11:34:17.714Z", "motifDetails": null, "orientationDetails": null}, {"motif": null, "statut": "VALIDE", "userId": 11, "dateFin": "2023-03-15T22:59:59.999Z", "typeDom": "PREMIERE_DOM", "userName": "Mauricette Pali", "customRef": "1", "dateDebut": "2022-03-16T19:00:00.000Z", "orientation": null, "dateDecision": "2022-03-17T11:34:29.960Z", "motifDetails": null, "orientationDetails": null}]	[]	{"colisIn": 0, "enAttente": false, "courrierIn": 0, "recommandeIn": 0, "dateInteraction": "2022-03-16T19:00:00.000Z"}	5	{"userId": 11, "dateRdv": "2022-03-17T16:33:19.998Z", "userName": "Mauricette Pali"}	{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}	\N	t	{"numero": "", "countryCode": "FR"}	f	\N	\N
+COPY public.usager (uuid, "createdAt", "updatedAt", version, ref, "customRef", "structureId", nom, prenom, surnom, sexe, "dateNaissance", "villeNaissance", langue, email, "datePremiereDom", "typeDom", decision, historique, "ayantsDroits", "lastInteraction", "etapeDemande", rdv, options, import, migrated, telephone, "contactByPhone", "numeroDistribution", "pinnedNote") FROM stdin;
+e074c416-093a-46fc-ae47-77a3bc111d35	2021-01-27 10:21:49.173276+01	2022-12-19 11:29:56.621829+01	6	3	3	1	Dupont	Fred	fredo	homme	1940-08-07 02:00:00+02	Macon	\N	\N	2019-10-07 20:50:25.552+02	PREMIERE_DOM	{"uuid": "30ababd0-8e2f-4917-9662-9c812d604dda", "motif": "SATURATION", "statut": "REFUS", "userId": 1, "dateFin": "2020-08-09T00:00:00.000Z", "typeDom": "PREMIERE", "userName": "Patrick Roméro", "dateDebut": "2019-09-12T00:00:00.000Z", "orientation": "", "dateDecision": "2019-09-12T00:00:00.000Z", "motifDetails": "", "orientationDetails": ""}	[{"uuid": "30ababd0-8e2f-4917-9662-9c812d604dda", "motif": "SATURATION", "statut": "REFUS", "userId": 1, "dateFin": "2020-08-09T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2019-09-12T00:00:00.000Z", "orientation": null, "dateDecision": "2019-09-12T00:00:00.000Z", "motifDetails": null, "orientationDetails": null}]	[]	{"appel": null, "visite": null, "colisIn": 0, "enAttente": false, "courrierIn": 0, "nbCourrier": 0, "courrierOut": null, "recommandeIn": 0, "recommandeOut": null, "dateInteraction": "2021-01-27T09:21:49.237Z"}	5	\N	{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}	\N	t	{"numero": "", "countryCode": "FR"}	f	\N	\N
+97b7e840-0e93-4bf4-ba7d-0a406aa898f2	2019-11-22 11:33:43+01	2022-12-19 11:29:56.621829+01	536	2	63	1	Karamoko	Maurice	\N	homme	1998-08-07 02:00:00+02	Bouaké, Côte d'Ivoire	\N	domicilie2@yopmail.com	2018-01-11 01:00:00+01	RENOUVELLEMENT	{"uuid": "178ad317-0bd1-41e7-ad87-fd371f166310", "motif": null, "statut": "VALIDE", "userId": 1, "dateFin": "2020-02-12T00:00:00.000Z", "typeDom": "RENOUVELLEMENT", "userName": "Patrick Roméro", "dateDebut": "2019-02-12T00:00:00.000Z", "orientation": "", "dateDecision": "2019-02-12T00:00:00.000Z", "motifDetails": "", "orientationDetails": ""}	[{"uuid": "178ad317-0bd1-41e7-ad87-fd371f166310", "motif": null, "statut": "VALIDE", "userId": 1, "dateFin": "2020-02-12T00:00:00.000Z", "typeDom": "RENOUVELLEMENT", "userName": "Patrick Roméro", "dateDebut": "2019-02-12T00:00:00.000Z", "orientation": null, "dateDecision": "2019-02-12T00:00:00.000Z", "motifDetails": null, "orientationDetails": null}]	[{"nom": "Karamoko", "lien": "CONJOINT", "prenom": "Mauricette", "dateNaissance": "1978-12-20T00:00:00.000Z"}]	{"colisIn": 3, "enAttente": true, "courrierIn": 0, "recommandeIn": 0, "dateInteraction": "2020-12-01T10:00:24.980Z"}	3	\N	{"npai": {"actif": false}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [{"nom": "Milani", "prenom": "Marcel", "dateFin": "2022-06-05T00:00:00.000Z", "dateDebut": "2021-10-01T00:00:00.000Z", "dateNaissance": "1983-03-17T00:00:00.000Z"}], "portailUsagerEnabled": true}	\N	t	{"numero": "0606060606", "countryCode": "FR"}	f	\N	\N
+16fe01bb-0c4d-4836-a24a-07d117b47fb9	2021-11-30 15:02:59.193913+01	2022-12-19 11:29:56.621829+01	5	9	9	1	TOMOU	Papah		homme	2001-11-03 01:00:00+01	Paris	\N		\N	PREMIERE_DOM	{"uuid": "c46924e6-fc2a-47d6-955c-8f7cabae70e3", "statut": "INSTRUCTION", "userId": 1, "dateFin": "2021-11-30T14:02:59.189Z", "userName": "Patrick Roméro", "dateDecision": "2021-11-30T14:02:59.189Z"}	[{"uuid": "c46924e6-fc2a-47d6-955c-8f7cabae70e3", "motif": null, "statut": "INSTRUCTION", "userId": 1, "dateFin": "2021-11-30T14:02:59.189Z", "userName": "Patrick Roméro", "orientation": null, "dateDecision": "2021-11-30T14:02:59.189Z", "motifDetails": null, "orientationDetails": null}]	[]	{"colisIn": 0, "enAttente": false, "courrierIn": 0, "recommandeIn": 0, "dateInteraction": "2021-11-30T14:02:59.187Z"}	2	\N	{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}	\N	t	{"numero": "", "countryCode": "FR"}	f	\N	\N
+274427da-7482-4edb-86aa-4afaf48243d5	2021-11-30 15:04:46.21552+01	2022-12-19 11:29:56.621829+01	9	11	11	1	Saura	Sophie		homme	1999-08-20 02:00:00+02	Lyon	\N		\N	PREMIERE_DOM	{"statut": "ATTENTE_DECISION", "userId": 1, "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2021-11-30T14:04:56.881Z", "dateDecision": "2021-11-30T14:04:56.881Z"}	[{"uuid": "73cb88b5-c4bf-42ee-b6db-2f6f32d4fbc3", "motif": null, "statut": "INSTRUCTION", "userId": 1, "dateFin": "2021-11-30T14:04:46.214Z", "userName": "Patrick Roméro", "orientation": null, "dateDecision": "2021-11-30T14:04:46.214Z", "motifDetails": null, "orientationDetails": null}, {"motif": null, "statut": "ATTENTE_DECISION", "userId": 1, "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "orientation": null, "dateDecision": "2021-11-30T14:04:56.881Z", "motifDetails": null, "orientationDetails": null}]	[]	{"colisIn": 0, "enAttente": false, "courrierIn": 0, "recommandeIn": 0, "dateInteraction": "2021-11-30T14:04:46.212Z"}	4	{"userId": 1, "dateRdv": "2021-11-30T14:03:48.988Z", "userName": "Patrick Roméro"}	{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}	\N	t	{"numero": "", "countryCode": "FR"}	f	\N	\N
+860ffa4c-88c4-4e1c-ad42-5a05cdf39830	2019-11-22 11:33:43+01	2022-12-19 11:29:56.621829+01	9	1	63	1	Ramirez	Marta	\N	femme	1978-08-07 02:00:00+02	Sao Paulo, Brésil	\N	domicilie1@yopmail.com	2018-03-01 01:00:00+01	PREMIERE_DOM	{"uuid": "52ba789e-eb21-4d84-9176-abe1e0d3c778", "motif": null, "statut": "VALIDE", "userId": 1, "dateFin": "2019-02-27T00:00:00.000Z", "typeDom": "PREMIERE", "userName": "Patrick Roméro", "dateDebut": "2018-03-01T00:00:00.000Z", "orientation": "", "dateDecision": "2018-03-01T00:00:00.000Z", "motifDetails": "", "orientationDetails": ""}	[{"uuid": "52ba789e-eb21-4d84-9176-abe1e0d3c778", "motif": null, "statut": "VALIDE", "userId": 1, "dateFin": "2019-02-27T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2018-03-01T00:00:00.000Z", "orientation": null, "dateDecision": "2018-03-01T00:00:00.000Z", "motifDetails": null, "orientationDetails": null}]	[{"nom": "Martinez", "lien": "ENFANT", "prenom": "Luiz", "dateNaissance": "1992-12-20T00:00:00.000Z"}, {"nom": "Martinez", "lien": "ENFANT", "prenom": "Sylvia", "dateNaissance": "2007-10-20T00:00:00.000Z"}]	{"colisIn": 4, "enAttente": true, "courrierIn": 1, "recommandeIn": 3, "dateInteraction": "2020-07-29T11:46:34.680Z"}	5	\N	{"npai": {"actif": false}, "transfert": {"nom": "LHSS Plaisance", "actif": true, "adresse": "12 rue ridder 75014 Paris", "dateFin": "2020-11-07T00:00:00.000Z", "dateDebut": "2020-06-03T12:20:00.603Z"}, "procurations": [], "portailUsagerEnabled": false}	\N	t	{"numero": "0600000000", "countryCode": "FR"}	f	\N	\N
+5215f197-5f9b-4c2a-8b2e-60a0fcc5fc85	2021-06-28 15:26:31.533838+02	2022-12-19 11:29:56.621829+01	9	8	8	1	Smith	John		homme	2000-03-15 01:00:00+01	Londres	\N		\N	PREMIERE_DOM	{"motif": "LIEN_COMMUNE", "statut": "REFUS", "userId": 1, "dateFin": "2021-06-28T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2021-06-28T00:00:00.000Z", "orientation": "asso", "dateDecision": "2021-06-28T13:27:25.493Z", "motifDetails": null, "orientationDetails": "CCAS de sa commune"}	[{"uuid": "6d781a28-a5dc-4d95-826d-6aa0f78e5864", "motif": null, "statut": "INSTRUCTION", "userId": 1, "dateFin": "2021-06-28T13:26:31.533Z", "userName": "Patrick Roméro", "orientation": null, "dateDecision": "2021-06-28T13:26:31.533Z", "motifDetails": null, "orientationDetails": null}, {"motif": "LIEN_COMMUNE", "statut": "REFUS", "userId": 1, "dateFin": "2021-06-28T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2021-06-28T00:00:00.000Z", "orientation": "asso", "dateDecision": "2021-06-28T13:27:25.493Z", "motifDetails": null, "orientationDetails": "CCAS de sa commune"}]	[]	{"colisIn": 0, "enAttente": false, "courrierIn": 0, "recommandeIn": 0, "dateInteraction": "2021-06-28T13:26:31.530Z"}	5	{"userId": 1, "dateRdv": "2021-06-28T13:25:42.151Z", "userName": "Patrick Roméro"}	{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}	\N	t	{"numero": "", "countryCode": "FR"}	f	\N	\N
+3ba5c3f0-8003-4c1c-8bf5-929a12e396f5	2021-11-30 15:05:21.635622+01	2022-12-19 11:29:56.621829+01	10	12	12	1	Rara	Dié		homme	1975-08-08 01:00:00+01	Nantes	\N		2021-11-30 01:00:00+01	PREMIERE_DOM	{"motif": "A_SA_DEMANDE", "statut": "RADIE", "userId": 1, "dateFin": "2021-11-30T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2021-11-30T00:00:00.000Z", "dateDecision": "2021-11-30T14:05:41.678Z", "motifDetails": null}	[{"uuid": "e8e8c681-9151-4335-8e1c-4e9140946b02", "motif": null, "statut": "INSTRUCTION", "userId": 1, "dateFin": "2021-11-30T14:05:21.634Z", "userName": "Patrick Roméro", "orientation": null, "dateDecision": "2021-11-30T14:05:21.634Z", "motifDetails": null, "orientationDetails": null}, {"motif": null, "statut": "VALIDE", "userId": 1, "dateFin": "2022-11-29T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "customRef": "12", "dateDebut": "2021-11-30T00:00:00.000Z", "orientation": null, "dateDecision": "2021-11-30T14:05:31.936Z", "motifDetails": null, "orientationDetails": null}, {"motif": "A_SA_DEMANDE", "statut": "RADIE", "userId": 1, "dateFin": "2021-11-30T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2021-11-30T00:00:00.000Z", "orientation": null, "dateDecision": "2021-11-30T14:05:41.678Z", "motifDetails": null, "orientationDetails": null}]	[]	{"colisIn": 0, "enAttente": false, "courrierIn": 0, "recommandeIn": 0, "dateInteraction": "2021-11-30T14:05:21.631Z"}	5	{"userId": 1, "dateRdv": "2021-11-30T14:04:24.108Z", "userName": "Patrick Roméro"}	{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}	\N	t	{"numero": "", "countryCode": "FR"}	f	\N	\N
+6d93ecf8-c59a-42cc-ac1e-b5bd6f977a01	2022-03-17 17:34:17.752334+01	2022-12-19 11:29:56.621829+01	78	1	1	5	Salvador	Henri	\N	homme	1960-02-12 01:00:00+01	Cayenne	\N	\N	2022-03-16 20:00:00+01	PREMIERE_DOM	{"statut": "VALIDE", "userId": 11, "dateFin": "2023-03-15T22:59:59.999Z", "typeDom": "PREMIERE_DOM", "userName": "Mauricette Pali", "customRef": "1", "dateDebut": "2022-03-16T19:00:00.000Z", "dateDecision": "2022-03-17T11:34:29.960Z"}	[{"uuid": "db8c8e7d-0300-48e3-a970-10588d410194", "motif": null, "statut": "INSTRUCTION", "userId": 11, "dateFin": "2022-03-17T11:34:17.714Z", "userName": "Mauricette Pali", "dateDebut": "2022-03-17T11:34:17.714Z", "orientation": null, "dateDecision": "2022-03-17T11:34:17.714Z", "motifDetails": null, "orientationDetails": null}, {"motif": null, "statut": "VALIDE", "userId": 11, "dateFin": "2023-03-15T22:59:59.999Z", "typeDom": "PREMIERE_DOM", "userName": "Mauricette Pali", "customRef": "1", "dateDebut": "2022-03-16T19:00:00.000Z", "orientation": null, "dateDecision": "2022-03-17T11:34:29.960Z", "motifDetails": null, "orientationDetails": null}]	[]	{"colisIn": 0, "enAttente": false, "courrierIn": 0, "recommandeIn": 0, "dateInteraction": "2020-12-01T05:00:24.980Z"}	5	{"userId": 11, "dateRdv": "2022-03-17T16:33:19.998Z", "userName": "Mauricette Pali"}	{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}	\N	t	{"numero": "", "countryCode": "FR"}	f	\N	\N
+427e6af6-706b-40d4-9506-de21190e6f0d	2021-01-27 10:21:49.173276+01	2022-12-19 11:29:56.621829+01	7	4	4	1	Loumiel	Lisa	Lilou	femme	1990-04-18 02:00:00+02	Marseille	\N	\N	2019-08-09 02:00:00+02	PREMIERE_DOM	{"uuid": "0c3f2589-d5d3-4138-a4bc-2a594678461e", "motif": "NON_RESPECT_REGLEMENT", "statut": "RADIE", "userId": 1, "dateFin": "2019-09-12T00:00:00.000Z", "typeDom": "PREMIERE", "userName": "Patrick Roméro", "dateDebut": "2019-08-09T00:00:00.000Z", "orientation": "", "dateDecision": "2019-09-12T00:00:00.000Z", "motifDetails": "", "orientationDetails": ""}	[{"uuid": "0c3f2589-d5d3-4138-a4bc-2a594678461e", "motif": "NON_RESPECT_REGLEMENT", "statut": "RADIE", "userId": 1, "dateFin": "2019-09-12T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2019-08-09T00:00:00.000Z", "orientation": null, "dateDecision": "2019-09-12T00:00:00.000Z", "motifDetails": null, "orientationDetails": null}]	[]	{"appel": null, "visite": null, "colisIn": 0, "enAttente": false, "courrierIn": 0, "nbCourrier": 0, "courrierOut": null, "recommandeIn": 0, "recommandeOut": null, "dateInteraction": "2021-01-27T09:21:49.240Z"}	5	\N	{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}	\N	t	{"numero": "0606060606", "countryCode": "FR"}	f	\N	\N
+ee7ef219-b101-422c-8ad4-4d5aedf9caad	2020-11-01 18:50:10.047+01	2022-12-19 11:29:56.621829+01	8	6	6	1	NOUVEAU	DOSSIER	TEST	homme	1988-11-02 01:00:00+01	Paris	\N	fake-mail@yopmail.com	2020-11-01 01:00:00+01	PREMIERE_DOM	{"uuid": "bf35d476-35d6-4d3d-93b4-dfd49816904f", "statut": "VALIDE", "userId": 1, "dateFin": "2021-10-31T00:00:00.000Z", "userName": "Patrick Roméro", "dateDebut": "2020-11-01T00:00:00.000Z", "dateDecision": "2020-11-01T17:50:29.003Z", "orientationDetails": null}	[{"uuid": "8bd1eae7-7635-4c75-ba64-ad78b1141baf", "motif": null, "statut": "INSTRUCTION", "userId": 1, "dateFin": "2020-11-01T17:50:10.042Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2020-11-01T17:50:10.042Z", "orientation": null, "dateDecision": "2020-11-01T17:50:10.042Z", "motifDetails": null, "orientationDetails": null}, {"uuid": "bf35d476-35d6-4d3d-93b4-dfd49816904f", "motif": null, "statut": "VALIDE", "userId": 1, "dateFin": "2021-10-31T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2020-11-01T00:00:00.000Z", "orientation": null, "dateDecision": "2020-11-01T17:50:29.003Z", "motifDetails": null, "orientationDetails": null}]	[{"nom": "TEST 1 ", "lien": "PARENT", "prenom": "TEST 2 ", "dateNaissance": "1991-12-20T00:00:00.000Z"}]	{"colisIn": 0, "enAttente": false, "courrierIn": 0, "recommandeIn": 0, "dateInteraction": "2020-11-01T00:00:00.000Z"}	5	{"userId": 1, "dateRdv": "2020-11-01T17:50:12.019Z", "userName": "Roméro Patrick"}	{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}	\N	t	{"numero": "0600000000", "countryCode": "FR"}	f	\N	\N
+4dcdcddc-fad2-4827-aac5-0acf1df7b5bc	2021-01-27 10:21:49.173276+01	2022-12-19 11:29:56.621829+01	7	5	5	1	Derick	Inspecteur	\N	homme	1911-05-24 00:00:00+00	Bergerac	\N	\N	\N	PREMIERE_DOM	{"uuid": "c6aabd3b-7485-4efd-8c09-5080b91709d9", "statut": "ATTENTE_DECISION", "userId": 2, "dateFin": "2021-01-27T09:21:49.242Z", "userName": "Isabelle Juste", "dateDecision": "2019-10-07T19:28:10.777Z", "orientationDetails": null}	[{"uuid": "6f18c8d5-27b7-45c5-882d-e23876a3b1ed", "motif": null, "statut": "INSTRUCTION", "userId": 1, "dateFin": "2020-10-07T18:52:09.797Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2019-10-07T18:52:09.797Z", "orientation": null, "dateDecision": "2019-10-07T18:53:06.510Z", "motifDetails": null, "orientationDetails": null}, {"uuid": "c6aabd3b-7485-4efd-8c09-5080b91709d9", "motif": null, "statut": "ATTENTE_DECISION", "userId": 2, "dateFin": "2021-01-27T09:21:49.242Z", "typeDom": "PREMIERE_DOM", "userName": "Isabelle Juste", "dateDebut": "2019-10-07T19:28:10.777Z", "orientation": null, "dateDecision": "2019-10-07T19:28:10.777Z", "motifDetails": null, "orientationDetails": null}]	[{"nom": "Inspecteur", "lien": "ENFANT", "prenom": "Gadget", "dateNaissance": "1990-10-12T00:00:00.000Z"}]	{"appel": null, "visite": null, "colisIn": 0, "enAttente": false, "courrierIn": 0, "nbCourrier": 0, "courrierOut": null, "recommandeIn": 0, "recommandeOut": null, "dateInteraction": "2021-01-27T09:21:49.242Z"}	0	{"userId": 2, "dateRdv": "2019-10-07T19:30:02.675Z", "userName": "Juste Isabelle"}	{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}	\N	t	{"numero": "", "countryCode": "FR"}	f	\N	\N
+a034b69a-210a-4a3d-b7a9-8987840ef0c7	2021-11-30 15:03:28.817939+01	2023-05-24 17:51:40.763319+02	6	10	10	1	Dupan	Tom		homme	1988-02-02 01:00:00+01	Marseille	\N		\N	PREMIERE_DOM	{"uuid": "fbe59327-0fef-4d74-ade1-97120407f43c", "statut": "INSTRUCTION", "userId": 1, "dateFin": "2021-11-30T14:03:28.817Z", "userName": "Patrick Roméro", "dateDecision": "2021-11-30T14:03:28.817Z"}	[{"uuid": "fbe59327-0fef-4d74-ade1-97120407f43c", "motif": null, "statut": "INSTRUCTION", "userId": 1, "dateFin": "2021-11-30T14:03:28.817Z", "userName": "Patrick Roméro", "orientation": null, "dateDecision": "2021-11-30T14:03:28.817Z", "motifDetails": null, "orientationDetails": null}]	[]	{"colisIn": 0, "enAttente": false, "courrierIn": 0, "recommandeIn": 0, "dateInteraction": "2021-11-30T14:03:28.816Z"}	2	\N	{"npai": {"actif": false, "dateDebut": null}, "transfert": {"nom": null, "actif": false, "adresse": null, "dateFin": null, "dateDebut": null}, "procurations": [], "portailUsagerEnabled": false}	\N	t	{"numero": "", "countryCode": "FR"}	f	\N	{"message": "2eme note", "createdAt": "2023-05-24T15:51:38.893Z", "createdBy": {"userId": 1, "userName": "Patrick Roméro"}, "usagerRef": 10}
+b2c26e55-ab37-457d-b307-6fe161050a9b	2021-06-28 15:24:22.924091+02	2023-12-18 17:54:10.680396+01	37	7	7	1	Dupont	Pauline	Paula	homme	1996-01-02 01:00:00+01	Paris	fr		2021-06-28 02:00:00+02	PREMIERE_DOM	{"statut": "VALIDE", "userId": 1, "dateFin": "2022-06-28T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2021-06-28T00:00:00.000Z", "dateDecision": "2021-06-28T13:25:20.685Z"}	[{"uuid": "db7ff8b2-66e3-47ee-9346-e080945b418e", "motif": null, "statut": "INSTRUCTION", "userId": 1, "dateFin": "2021-06-28T13:24:22.920Z", "userName": "Patrick Roméro", "orientation": null, "dateDecision": "2021-06-28T13:24:22.920Z", "motifDetails": null, "orientationDetails": null}, {"motif": null, "statut": "VALIDE", "userId": 1, "dateFin": "2022-06-28T00:00:00.000Z", "typeDom": "PREMIERE_DOM", "userName": "Patrick Roméro", "dateDebut": "2021-06-28T00:00:00.000Z", "orientation": null, "dateDecision": "2021-06-28T13:25:20.685Z", "motifDetails": null, "orientationDetails": null}]	[{"nom": "Dupont", "lien": "ENFANT", "prenom": "Paulin", "dateNaissance": "2015-08-15T00:00:00.000Z"}, {"nom": "Dupont", "lien": "ENFANT", "prenom": "Sophie", "dateNaissance": "2018-12-03T00:00:00.000Z"}]	{"colisIn": 1, "enAttente": true, "courrierIn": 2, "recommandeIn": 0, "dateInteraction": "2021-06-28T13:25:36.004Z"}	5	{"userId": 1, "dateRdv": "2021-06-28T13:23:27.041Z", "userName": "Patrick Roméro"}	{"npai": {"actif": false}, "transfert": {"actif": false}, "procurations": [], "portailUsagerEnabled": true}	\N	t	{"numero": "", "countryCode": "FR"}	f	\N	\N
 \.
 
 
@@ -486,184 +95,82 @@ fb8dde95-b421-4cf0-b205-9e940d9641e5	2021-06-28 15:25:28.512802+02	2021-12-24 01
 0a0dbf1d-055f-47db-b2ae-013c611033e8	2021-06-28 15:25:33.70286+02	2021-12-24 01:46:32.491031+01	2	2021-06-28 17:25:33.702+02	1	1	colisIn	7	1	Patrick Roméro	\N	b2c26e55-ab37-457d-b307-6fe161050a9b	53a50f2d-c906-421e-be21-8857dfca97fc	\N	\N
 2bbb1a89-c14f-4f32-8928-965dc2565174	2022-03-17 22:40:01.392572+01	2022-03-17 22:40:01.392572+01	1	2020-12-01 06:00:24.98+01	0	5	courrierOut	1	11	Mauricette Pali		6d93ecf8-c59a-42cc-ac1e-b5bd6f977a01	\N	\N	\N
 eaa91392-fe09-4faa-9bbd-3722b25dd013	2022-03-17 22:39:10.963799+01	2022-03-17 22:39:10.963799+01	1	2020-12-01 06:00:24.98+01	0	5	courrierOut	1	11	Mauricette Pali		6d93ecf8-c59a-42cc-ac1e-b5bd6f977a01	\N	\N	\N
+03d2f113-726a-4cab-8cee-f111cdbc2c66	2022-03-17 22:40:29.896899+01	2022-03-17 22:40:29.955167+01	3	2020-12-01 11:00:24.98+01	3	1	colisIn	2	1	Patrick Roméro	Colis à donner en urgence	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	\N	\N	\N
+bbf70ce8-d4d6-4318-adc6-143af0a06daa	2022-03-17 22:40:30.030609+01	2022-03-17 22:40:30.030609+01	1	2020-12-01 11:00:24.98+01	0	1	visite	2	1	Patrick Roméro	\N	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	\N	\N	\N
 efabd6a5-e8d3-464d-a700-f0fd723a43b9	2022-03-17 22:40:30.315091+01	2022-03-17 22:40:30.315091+01	1	2020-12-01 06:00:24.98+01	0	5	courrierOut	1	11	Mauricette Pali		6d93ecf8-c59a-42cc-ac1e-b5bd6f977a01	\N	\N	\N
 ccfdb5d8-dbb6-4cf8-9818-cd0f4211021e	2022-03-17 22:39:21.729672+01	2022-03-17 22:39:21.729672+01	1	2020-12-01 06:00:24.98+01	0	5	courrierOut	1	11	Mauricette Pali		6d93ecf8-c59a-42cc-ac1e-b5bd6f977a01	\N	\N	\N
 672bae2a-dfb3-41f3-a3d9-8eda89783612	2022-03-17 22:37:37.935256+01	2022-03-17 22:37:37.935256+01	1	2020-12-01 06:00:24.98+01	0	5	courrierOut	1	11	Mauricette Pali		6d93ecf8-c59a-42cc-ac1e-b5bd6f977a01	\N	\N	\N
-c4542759-4474-4fee-933f-d26cc693da2a	2024-01-24 00:53:44.559192+01	2024-01-24 00:53:44.559192+01	1	2021-09-11 11:45:30+02	10	5	courrierOut	4	11	Mauricette Pali	Courrier retourné à l' expéditeur 427e6af6 - 706b - 40d4 -9506 - de21190e6f0d \ N \ N t 01a5c92b - 060e - 452a - 8e64 - 855b90dfcc81 2024 -01 -24 00 :53 :44.551407 + 01 2024 -01 -24 00 :53 :44.561324 + 01 2 2021 -09 -11 11 :45 :30 + 02 10 5 courrierIn 4 11 Mauricette Pali \ N 427e6af6 - 706b - 40d4 -9506 - de21190e6f0d c4542759 -4474 - 4fee - 933f - d26cc693da2a \ N \ N 1e5d2560 - 06ee -4433 - 89f3 - 94bba7916319 2024 -01 -24 00 :55 :16.543906 + 01 2024 -01 -24 00 :55 :16.559747 + 01 3 2021 -09 -11 11 :45 :30 + 02 10 5 courrierIn 4 11 Mauricette Pali \ N 427e6af6 - 706b - 40d4 -9506 - de21190e6f0d \ N \ N \ N \.--
+\.
+
+
+--
 -- Data for Name: message_email; Type: TABLE DATA; Schema: public; Owner: -
 --
-COPY public.message_email (
-  uuid,
-  "createdAt",
-  "updatedAt",
-  version,
-  status,
-  "emailId",
-  "initialScheduledDate",
-  "nextScheduledDate",
-  "sendDate",
-  content,
-  "errorCount",
-  "errorMessage",
-  "sendDetails",
-  attachments
-)
-FROM
-  stdin;
 
-\.--
+COPY public.message_email (uuid, "createdAt", "updatedAt", version, status, "emailId", "initialScheduledDate", "nextScheduledDate", "sendDate", content, "errorCount", "errorMessage", "sendDetails", attachments) FROM stdin;
+\.
+
+
+--
 -- Data for Name: message_sms; Type: TABLE DATA; Schema: public; Owner: -
 --
-COPY public.message_sms (
-  uuid,
-  "createdAt",
-  "updatedAt",
-  version,
-  "usagerRef",
-  "structureId",
-  content,
-  status,
-  "smsId",
-  "scheduledDate",
-  "sendDate",
-  "interactionMetas",
-  "reminderMetas",
-  "lastUpdate",
-  "errorCount",
-  "errorMessage",
-  "responseId",
-  "phoneNumber",
-  "senderName"
-)
-FROM
-  stdin;
 
-\.--
+COPY public.message_sms (uuid, "createdAt", "updatedAt", version, "usagerRef", "structureId", content, status, "smsId", "scheduledDate", "sendDate", "interactionMetas", "reminderMetas", "lastUpdate", "errorCount", "errorMessage", "responseId", "phoneNumber", "senderName") FROM stdin;
+\.
+
+
+--
 -- Data for Name: monitor_batch_process; Type: TABLE DATA; Schema: public; Owner: -
 --
-COPY public.monitor_batch_process (
-  uuid,
-  "createdAt",
-  "updatedAt",
-  version,
-  "processId",
-  "beginDate",
-  "endDate",
-  trigger,
-  status,
-  details,
-  "errorMessage",
-  "alertMailSent"
-)
-FROM
-  stdin;
 
-\.--
+COPY public.monitor_batch_process (uuid, "createdAt", "updatedAt", version, "processId", "beginDate", "endDate", trigger, status, details, "errorMessage", "alertMailSent") FROM stdin;
+\.
+
+
+--
 -- Data for Name: open_data_places; Type: TABLE DATA; Schema: public; Owner: -
 --
-COPY public.open_data_places (
-  uuid,
-  "createdAt",
-  "updatedAt",
-  version,
-  nom,
-  adresse,
-  "complementAdresse",
-  ville,
-  "codePostal",
-  departement,
-  region,
-  latitude,
-  longitude,
-  source,
-  "uniqueId",
-  software,
-  mail,
-  "structureType",
-  "domifaStructureId",
-  "soliguideStructureId"
-)
-FROM
-  stdin;
 
-\.--
+COPY public.open_data_places (uuid, "createdAt", "updatedAt", version, nom, adresse, "complementAdresse", ville, "codePostal", departement, region, latitude, longitude, source, "uniqueId", software, mail, "structureType", "domifaStructureId", "soliguideStructureId") FROM stdin;
+\.
+
+
+--
 -- Data for Name: structure_doc; Type: TABLE DATA; Schema: public; Owner: -
 --
-COPY public.structure_doc (
-  uuid,
-  "createdAt",
-  "updatedAt",
-  version,
-  id,
-  label,
-  "createdBy",
-  custom,
-  filetype,
-  "structureId",
-  path,
-  "customDocType",
-  "displayInPortailUsager"
-)
-FROM
-  stdin;
 
-\.--
+COPY public.structure_doc (uuid, "createdAt", "updatedAt", version, id, label, "createdBy", custom, filetype, "structureId", path, "customDocType", "displayInPortailUsager") FROM stdin;
+\.
+
+
+--
 -- Data for Name: usager_docs; Type: TABLE DATA; Schema: public; Owner: -
 --
-COPY public.usager_docs (
-  uuid,
-  "createdAt",
-  "updatedAt",
-  version,
-  "usagerUUID",
-  "structureId",
-  "usagerRef",
-  path,
-  label,
-  filetype,
-  "createdBy",
-  "encryptionContext",
-  "encryptionVersion"
-)
-FROM
-  stdin;
 
-2eb5e74d - 4b25 - 4aa6 - ad2a - 7d963ae66072 2019 -10 -07 20 :51 :31.578 + 02 2022 -06 -28 22 :52 :59.282479 + 02 1 860ffa4c - 88c4 - 4e1c - ad42 - 5a05cdf39830 1 1 373144a3d9d0b3f4c84bd527a5cff880.jpg CNI image / jpeg Patrick Roméro ffe17c48 - 7a1a - 42c9 -8494 - 0b72ca8b3686 0 a77729a9 - 1b28 -4090 - bda8 - 760590bff982 2019 -10 -07 20 :53 :32.922 + 02 2022 -06 -28 22 :52 :59.28757 + 02 1 4dcdcddc - fad2 -4827 - aac5 - 0acf1df7b5bc 1 5 8242ba1bc7f3c3971f761b6a347fc1c4.jpg Carte identité image / jpeg Patrick Roméro ffe17c48 - 7a1a - 42c9 -8494 - 0b72ca8b3686 0 \.--
+COPY public.usager_docs (uuid, "createdAt", "updatedAt", version, "usagerUUID", "structureId", "usagerRef", path, label, filetype, "createdBy", "encryptionContext", "encryptionVersion") FROM stdin;
+2eb5e74d-4b25-4aa6-ad2a-7d963ae66072	2019-10-07 20:51:31.578+02	2022-06-28 22:52:59.282479+02	1	860ffa4c-88c4-4e1c-ad42-5a05cdf39830	1	1	373144a3d9d0b3f4c84bd527a5cff880.jpg	CNI	image/jpeg	Patrick Roméro	ffe17c48-7a1a-42c9-8494-0b72ca8b3686	0
+a77729a9-1b28-4090-bda8-760590bff982	2019-10-07 20:53:32.922+02	2022-06-28 22:52:59.28757+02	1	4dcdcddc-fad2-4827-aac5-0acf1df7b5bc	1	5	8242ba1bc7f3c3971f761b6a347fc1c4.jpg	Carte identité	image/jpeg	Patrick Roméro	ffe17c48-7a1a-42c9-8494-0b72ca8b3686	0
+\.
+
+
+--
 -- Data for Name: usager_entretien; Type: TABLE DATA; Schema: public; Owner: -
 --
-COPY public.usager_entretien (
-  uuid,
-  "createdAt",
-  "updatedAt",
-  version,
-  "usagerUUID",
-  "structureId",
-  "usagerRef",
-  domiciliation,
-  commentaires,
-  "typeMenage",
-  revenus,
-  "revenusDetail",
-  orientation,
-  "orientationDetail",
-  liencommune,
-  "liencommuneDetail",
-  residence,
-  "residenceDetail",
-  cause,
-  "causeDetail",
-  rattachement,
-  raison,
-  "raisonDetail",
-  accompagnement,
-  "accompagnementDetail",
-  "situationPro",
-  "situationProDetail"
-)
-FROM
-  stdin;
 
-b56c7942 - 55de - 4e66 - 8bc6 - 7aa046d58d43 2022 -12 -19 11 :29 :56.604289 + 01 2022 -12 -19 11 :29 :56.604289 + 01 1 e074c416 - 093a - 46fc - ae47 - 77a3bc111d35 1 3 \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N e85b1ec0 - d972 - 4ff3 - b84c - 19c0aa47f774 2022 -12 -19 11 :29 :56.604289 + 01 2022 -12 -19 11 :29 :56.604289 + 01 1 a034b69a - 210a - 4a3d - b7a9 - 8987840ef0c7 1 10 \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N 03092425 - aeaa - 4a28 -9818 - 6d583f712405 2022 -12 -19 11 :29 :56.604289 + 01 2022 -12 -19 11 :29 :56.604289 + 01 1 16fe01bb - 0c4d -4836 - a24a - 07d117b47fb9 1 9 \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N 54401773 - a3dc - 4a67 - bed9 - b34a2e69cac0 2022 -12 -19 11 :29 :56.604289 + 01 2022 -12 -19 11 :29 :56.604289 + 01 1 274427da -7482 - 4edb - 86aa - 4afaf48243d5 1 11 \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N 071a4aa3 - ae50 - 400e - bda0 - ce39cb4265eb 2022 -12 -19 11 :29 :56.604289 + 01 2022 -12 -19 11 :29 :56.604289 + 01 1 860ffa4c - 88c4 - 4e1c - ad42 - 5a05cdf39830 1 1 \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N adeaafb2 - c791 - 42cd - 837f - ae592e55d01c 2022 -12 -19 11 :29 :56.604289 + 01 2022 -12 -19 11 :29 :56.604289 + 01 1 5215f197 - 5f9b - 4c2a - 8b2e - 60a0fcc5fc85 1 8 \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N 57495291 - d7d9 - 43b8 - b6b7 - b0fdee610bba 2022 -12 -19 11 :29 :56.604289 + 01 2022 -12 -19 11 :29 :56.604289 + 01 1 3ba5c3f0 -8003 - 4c1c - 8bf5 - 929a12e396f5 1 12 \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N 7197d930 - e154 -4859 - b46d - cb63f40fef34 2022 -12 -19 11 :29 :56.604289 + 01 2022 -12 -19 11 :29 :56.604289 + 01 1 427e6af6 - 706b - 40d4 -9506 - de21190e6f0d 1 4 \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N 03595273 - f06c - 4f07 - 8a7d - 161e6c3e53b0 2022 -12 -19 11 :29 :56.604289 + 01 2024 -02 -05 17 :17 :17.873337 + 01 3 6d93ecf8 - c59a - 42cc - ac1e - b5bd6f977a01 5 1 \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N \ N HEBERGE_SANS_ADRESSE \ N \ N EXERCICE_DROITS \ N \ N \ N \ N \ N 43df7440 - 579e - 496e - 96e6 - fae9d13588f0 2022 -12 -19 11 :29 :56.604289 + 01 2024 -02 -05 17 :17 :17.874929 + 01 6 ee7ef219 - b101 - 422c - 8ad4 - 4d5aedf9caad 1 6 t \ N FEMME_ISOLE_AVEC_ENFANT t \ N f \ N \ N \ N HEBERGEMENT_TIERS \ N VIOLENCE \ N \ N EXERCICE_DROITS \ N f \ N \ N \ N a1f75daa - 858a - 4b99 - a370 - b8a8b69f0eae 2022 -12 -19 11 :29 :56.604289 + 01 2024 -02 -05 17 :17 :17.875833 + 01 4 97b7e840 - 0e93 - 4bf4 - ba7d - 0a406aa898f2 1 2 t \ N COUPLE_AVEC_ENFANT f \ N t \ N \ N \ N DOMICILE_MOBILE \ N ERRANCE \ N \ N AUTRE \ N t \ N \ N \ N 2c7d5340 -3758 - 44db -8582 - 2a217925e3e9 2022 -12 -19 11 :29 :56.604289 + 01 2024 -02 -05 17 :17 :17.875833 + 01 4 4dcdcddc - fad2 -4827 - aac5 - 0acf1df7b5bc 1 5 f \ N \ N f \ N \ N \ N \ N \ N HEBERGEMENT_TIERS \ N ERRANCE \ N \ N \ N \ N t CCAS des mureaux \ N \ N 65a59363 - 6dd1 - 40b3 - ab0a - aab25d2504e2 2022 -12 -19 11 :29 :56.604289 + 01 2024 -02 -05 17 :17 :17.875833 + 01 6 b2c26e55 - ab37 - 457d - b307 - 6fe161050a9b 1 7 t Ceci est un commentaire sur l 'entretien	FEMME_ISOLE_AVEC_ENFANT	f	\N	f	\N	\N	\N	HEBERGEMENT_TIERS	\N	RUPTURE	\N	\N	AUTRE	\N	f	\N	\N	\N
+COPY public.usager_entretien (uuid, "createdAt", "updatedAt", version, "usagerUUID", "structureId", "usagerRef", domiciliation, commentaires, "typeMenage", revenus, "revenusDetail", orientation, "orientationDetail", liencommune, "liencommuneDetail", residence, "residenceDetail", cause, "causeDetail", rattachement, raison, "raisonDetail", accompagnement, "accompagnementDetail", "situationPro", "situationProDetail") FROM stdin;
+b56c7942-55de-4e66-8bc6-7aa046d58d43	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	e074c416-093a-46fc-ae47-77a3bc111d35	1	3	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+e85b1ec0-d972-4ff3-b84c-19c0aa47f774	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	a034b69a-210a-4a3d-b7a9-8987840ef0c7	1	10	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+03092425-aeaa-4a28-9818-6d583f712405	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	16fe01bb-0c4d-4836-a24a-07d117b47fb9	1	9	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+54401773-a3dc-4a67-bed9-b34a2e69cac0	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	274427da-7482-4edb-86aa-4afaf48243d5	1	11	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+071a4aa3-ae50-400e-bda0-ce39cb4265eb	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	860ffa4c-88c4-4e1c-ad42-5a05cdf39830	1	1	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+adeaafb2-c791-42cd-837f-ae592e55d01c	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	5215f197-5f9b-4c2a-8b2e-60a0fcc5fc85	1	8	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+57495291-d7d9-43b8-b6b7-b0fdee610bba	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	3ba5c3f0-8003-4c1c-8bf5-929a12e396f5	1	12	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+7197d930-e154-4859-b46d-cb63f40fef34	2022-12-19 11:29:56.604289+01	2022-12-19 11:29:56.604289+01	1	427e6af6-706b-40d4-9506-de21190e6f0d	1	4	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+03595273-f06c-4f07-8a7d-161e6c3e53b0	2022-12-19 11:29:56.604289+01	2024-02-05 17:17:17.873337+01	3	6d93ecf8-c59a-42cc-ac1e-b5bd6f977a01	5	1	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	HEBERGE_SANS_ADRESSE	\N	\N	EXERCICE_DROITS	\N	\N	\N	\N	\N
+43df7440-579e-496e-96e6-fae9d13588f0	2022-12-19 11:29:56.604289+01	2024-02-05 17:17:17.874929+01	6	ee7ef219-b101-422c-8ad4-4d5aedf9caad	1	6	t	\N	FEMME_ISOLE_AVEC_ENFANT	t	\N	f	\N	\N	\N	HEBERGEMENT_TIERS	\N	VIOLENCE	\N	\N	EXERCICE_DROITS	\N	f	\N	\N	\N
+a1f75daa-858a-4b99-a370-b8a8b69f0eae	2022-12-19 11:29:56.604289+01	2024-02-05 17:17:17.875833+01	4	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	2	t	\N	COUPLE_AVEC_ENFANT	f	\N	t	\N	\N	\N	DOMICILE_MOBILE	\N	ERRANCE	\N	\N	AUTRE	\N	t	\N	\N	\N
+2c7d5340-3758-44db-8582-2a217925e3e9	2022-12-19 11:29:56.604289+01	2024-02-05 17:17:17.875833+01	4	4dcdcddc-fad2-4827-aac5-0acf1df7b5bc	1	5	f	\N	\N	f	\N	\N	\N	\N	\N	HEBERGEMENT_TIERS	\N	ERRANCE	\N	\N	\N	\N	t	CCAS des mureaux	\N	\N
+65a59363-6dd1-40b3-ab0a-aab25d2504e2	2022-12-19 11:29:56.604289+01	2024-02-05 17:17:17.875833+01	6	b2c26e55-ab37-457d-b307-6fe161050a9b	1	7	t	Ceci est un commentaire sur l'entretien	FEMME_ISOLE_AVEC_ENFANT	f	\N	f	\N	\N	\N	HEBERGEMENT_TIERS	\N	RUPTURE	\N	\N	AUTRE	\N	f	\N	\N	\N
 \.
 
 
@@ -740,8 +247,8 @@ e2df956a-cb5c-40f7-97f1-ab72b9002043	2023-05-24 17:51:38.893081+02	2023-05-24 17
 --
 
 COPY public.usager_options_history (uuid, "createdAt", "updatedAt", version, "usagerUUID", "userId", "userName", "structureId", action, type, nom, prenom, adresse, actif, "dateDebut", "dateFin", "dateNaissance") FROM stdin;
-c9192746-debf-48de-bd13-6fb5b2ee866b	2022-03-08 23:22:50.29536+01	2022-03-08 23:22:50.29536+01	1	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	Patrick Roméro	1	CREATION	transfert	Hôpital saint-antoine	\N	10 rue d' amsterdam,
-paris 10 t 2022 -03 -17 2022 -03 -31 \ N 315a308a - f0d0 - 4aff - 9dbd - deb604f37213 2022 -03 -08 23 :24 :17.740348 + 01 2022 -03 -08 23 :24 :17.740348 + 01 1 97b7e840 - 0e93 - 4bf4 - ba7d - 0a406aa898f2 1 Patrick Roméro 1 DELETE transfert Hôpital saint - antoine \ N 10 rue d 'amsterdam, paris 10	t	2022-03-17	2022-03-31	\N
+c9192746-debf-48de-bd13-6fb5b2ee866b	2022-03-08 23:22:50.29536+01	2022-03-08 23:22:50.29536+01	1	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	Patrick Roméro	1	CREATION	transfert	Hôpital saint-antoine	\N	10 rue d'amsterdam, paris 10	t	2022-03-17	2022-03-31	\N
+315a308a-f0d0-4aff-9dbd-deb604f37213	2022-03-08 23:24:17.740348+01	2022-03-08 23:24:17.740348+01	1	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	Patrick Roméro	1	DELETE	transfert	Hôpital saint-antoine	\N	10 rue d'amsterdam, paris 10	t	2022-03-17	2022-03-31	\N
 83b3a23f-2085-4f41-808b-409ab05d68d3	2022-03-08 23:26:18.597459+01	2022-03-08 23:26:18.597459+01	1	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	Patrick Roméro	1	CREATION	procuration	Marzouki	Moncef	\N	t	2021-09-12	2022-05-31	2000-03-12
 6b2d709e-5bbb-4d0e-9af2-0aecb41ded85	2022-03-08 23:26:37.754744+01	2022-03-08 23:26:37.754744+01	1	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	Patrick Roméro	1	EDIT	procuration	Marzouki	Moncef	\N	t	2021-09-12	2022-05-31	2000-03-12
 \.
@@ -817,37 +324,38 @@ fadd55b6-ca41-48d4-bd56-238b1a3c6f7b	2021-11-30 14:50:26.290488+01	2023-11-20 16
 -- Name: structure_doc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval(' public.structure_doc_id_seq ', 1, false);
+SELECT pg_catalog.setval('public.structure_doc_id_seq', 1, false);
 
 
 --
 -- Name: structure_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval(' public.structure_id_seq ', 5, true);
+SELECT pg_catalog.setval('public.structure_id_seq', 5, true);
 
 
 --
 -- Name: usager_notes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval(' public.usager_notes_id_seq ', 2, true);
+SELECT pg_catalog.setval('public.usager_notes_id_seq', 2, true);
 
 
 --
 -- Name: user_structure_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval(' public.user_structure_id_seq ', 11, true);
+SELECT pg_catalog.setval('public.user_structure_id_seq', 11, true);
 
 
 --
 -- Name: user_usager_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval(' public.user_usager_id_seq ', 2, true);
+SELECT pg_catalog.setval('public.user_usager_id_seq', 2, true);
 
 
 --
 -- PostgreSQL database dump complete
 --
+
