@@ -1,3 +1,10 @@
+# [2.160.0](https://github.com/SocialGouv/domifa/compare/v2.159.6...v2.160.0) (2024-02-15)
+
+
+### Features
+
+* **usagers:** add edition of contact details ([69fcabf](https://github.com/SocialGouv/domifa/commit/69fcabf8f2a73246d24b5b745efc670256af3d9c))
+
 ## [2.159.6](https://github.com/SocialGouv/domifa/compare/v2.159.5...v2.159.6) (2024-02-12)
 
 
