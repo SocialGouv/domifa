@@ -1,11 +1,5 @@
 <ng-container *ngIf="template === 'small-buttons' && usager">
-  <div
-    class="interaction-buttons"
-    *ngIf="
-      usager?.echeanceInfos?.isActif ||
-      (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)
-    "
-  >
+  <div class="interaction-buttons" *ngIf="usager?.echeanceInfos?.isActif">
     <button
       type="button"
       [id]="'visite-' + usager.ref"
@@ -53,10 +47,7 @@
 <ng-container *ngIf="template === 'big-buttons' && usager">
   <div
     class="interaction-buttons"
-    *ngIf="
-      usager?.echeanceInfos?.isActif ||
-      (usager.decision.statut === 'RADIE' && usager.options.npai.actif !== true)
-    "
+    *ngIf="usager?.echeanceInfos?.isActif || usager.decision.statut === 'RADIE'"
   >
     <button
       type="button"

@@ -59,32 +59,34 @@
             class="my-2 d-flex flex-wrap justify-content-between align-items-center"
           >
             <h2>Informations de contact</h2>
-            <button
-              type="submit"
-              class="btn btn-outline-dark"
-              *ngIf="!editContactDetails"
-              (click)="openContactForm()"
-            >
-              <fa-icon
-                [icon]="['far', 'edit']"
-                aria-hidden="true"
-                class="me-2"
-              ></fa-icon>
-              Modifier les informations
-            </button>
-            <button
-              type="button"
-              class="btn btn-outline-dark"
-              *ngIf="editContactDetails"
-              (click)="editContactDetails = false"
-            >
-              <fa-icon
-                [icon]="['fas', 'times']"
-                aria-hidden="true"
-                class="me-2"
-              ></fa-icon>
-              Annuler les modifications
-            </button>
+            <ng-container *ngIf="usager?.echeanceInfos?.isActif">
+              <button
+                type="submit"
+                class="btn btn-outline-dark"
+                *ngIf="!editContactDetails"
+                (click)="openContactForm()"
+              >
+                <fa-icon
+                  [icon]="['far', 'edit']"
+                  aria-hidden="true"
+                  class="me-2"
+                ></fa-icon>
+                Modifier les informations
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-dark"
+                *ngIf="editContactDetails"
+                (click)="editContactDetails = false"
+              >
+                <fa-icon
+                  [icon]="['fas', 'times']"
+                  aria-hidden="true"
+                  class="me-2"
+                ></fa-icon>
+                Annuler les modifications
+              </button>
+            </ng-container>
           </div>
           <app-form-contact-details
             *ngIf="editContactDetails"
