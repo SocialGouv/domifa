@@ -1,3 +1,10 @@
+## [2.160.1](https://github.com/SocialGouv/domifa/compare/v2.160.0...v2.160.1) (2024-02-15)
+
+
+### Bug Fixes
+
+* **entretien:** add details for pro situation ([07e0b0b](https://github.com/SocialGouv/domifa/commit/07e0b0badd50365b4a57350f9ef7659962222e71))
+
 # [2.160.0](https://github.com/SocialGouv/domifa/compare/v2.159.6...v2.160.0) (2024-02-15)
 
 
