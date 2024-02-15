@@ -38,7 +38,7 @@ import {
 } from "../shared/services";
 import { ProfilHistoriqueLoginPortailComponent } from "./components/_historiques/profil-historique-login-portail/profil-historique-login-portail.component";
 import { SetNpaiComponent } from "./components/_general-section/set-npai/set-npai.component";
-import { FormContactDetailsComponent } from "./components/_general-section/form-contact-details/form-contact-details.component";
+
 import { DisplayContactDetailsComponent } from "./components/_general-section/display-contact-details/display-contact-details.component";
 import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 import { FormatInternationalPhoneNumberPipe } from "../usager-shared/formatInternationalPhoneNumber.pipe";
@@ -66,7 +66,6 @@ import { FormatInternationalPhoneNumberPipe } from "../usager-shared/formatInter
     ProfilHistoriqueDecisionsComponent,
     ProfilHistoriqueLoginPortailComponent,
     SetNpaiComponent,
-    FormContactDetailsComponent,
     DisplayContactDetailsComponent,
   ],
   imports: [

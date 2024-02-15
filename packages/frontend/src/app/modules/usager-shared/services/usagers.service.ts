@@ -73,7 +73,7 @@ export class UsagerService {
   ): Observable<UsagerLight> {
     return this.http
       .patch<UsagerLight>(
-        `${this.endPointUsagers}/contact-detail/${ref}`,
+        `${this.endPointUsagers}/contact-details/${ref}`,
         formData
       )
       .pipe(

@@ -23,30 +23,6 @@
       {{ usager.numeroDistribution || "Non renseigné" }}
     </span>
   </p>
-
-  <div class="my-4">
-    <div class="py-2 text-primary fw-bold">Contact</div>
-    <p class="my-2">
-      <b>Téléphone:</b>
-      <span class="valeur" *ngIf="usager.telephone.numero">{{
-        usager.telephone | formatInternationalPhoneNumber
-      }}</span>
-      <span class="valeur" *ngIf="!usager.telephone.numero">Non renseigné</span>
-    </p>
-    <p class="my-2">
-      <b>Adresse e-mail:</b>
-      <span *ngIf="usager.email">
-        {{ usager.email }}
-      </span>
-      <span *ngIf="!usager.email">Non renseigné</span>
-    </p>
-    <p class="my-2">
-      <b>Notifications par SMS activés: </b>
-      <span>
-        {{ usager.contactByPhone ? "oui" : "non" }}
-      </span>
-    </p>
-  </div>
 </ng-container>
 
 <ng-container *ngIf="section === 'AYANTS_DROIT'">

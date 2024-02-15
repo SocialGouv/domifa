@@ -2,14 +2,14 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormContactDetailsComponent } from "./form-contact-details.component";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
-import { SharedModule } from "../../../../shared/shared.module";
+import { SharedModule } from "../../../shared/shared.module";
 import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { StoreModule } from "@ngrx/store";
-import { _usagerReducer } from "../../../../../shared";
-import { NGRX_PROVIDERS_TESTING } from "../../../../../shared/store/tests";
-import { UsagerFormModel } from "../../../../usager-shared/interfaces";
-import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks";
+import { _usagerReducer } from "../../../../shared";
+import { NGRX_PROVIDERS_TESTING } from "../../../../shared/store/tests";
+import { UsagerFormModel } from "../../interfaces";
+import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks";
 
 describe("FormContactDetailsComponent", () => {
   let component: FormContactDetailsComponent;

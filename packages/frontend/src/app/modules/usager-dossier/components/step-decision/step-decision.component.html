@@ -61,7 +61,6 @@
                   >l'état-civil et et ayant-droits</span
                 >
               </button>
-
               <button
                 class="btn btn-outline-primary d-print-none"
                 *ngIf="editInfos"
@@ -82,6 +81,50 @@
             [usager]="usager"
             [(editInfos)]="editInfos"
           ></app-profil-etat-civil-form>
+          <div class="row">
+            <div class="col"><h3>Informations de contact</h3></div>
+            <div class="col text-end">
+              <button
+                class="btn btn-outline-primary d-print-none"
+                *ngIf="!editContactDetails"
+                type="button"
+                (click)="editContactDetails = true"
+              >
+                <fa-icon
+                  [icon]="['far', 'edit']"
+                  aria-hidden="true"
+                  class="me-2"
+                ></fa-icon>
+                Modifier
+                <span class="visually-hidden">les informatiosn de contact</span>
+              </button>
+              <button
+                class="btn btn-outline-primary d-print-none"
+                *ngIf="editContactDetails"
+                type="button"
+                (click)="editContactDetails = false"
+              >
+                <fa-icon
+                  [icon]="['fas', 'times']"
+                  aria-hidden="true"
+                  class="me-2"
+                ></fa-icon>
+                Annuler
+              </button>
+            </div>
+            <div class="col-12">
+              <app-display-contact-details-decision
+                [usager]="usager"
+                *ngIf="!editContactDetails"
+              ></app-display-contact-details-decision>
+              <app-form-contact-details
+                [usager]="usager"
+                *ngIf="editContactDetails"
+                [(editContactDetails)]="editContactDetails"
+              ></app-form-contact-details>
+            </div>
+          </div>
+
           <hr />
           <div class="row">
             <div class="col-md-12">

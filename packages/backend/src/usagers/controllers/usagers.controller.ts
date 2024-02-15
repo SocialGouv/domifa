@@ -198,7 +198,7 @@ export class UsagersController {
 
   @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
-  @Post("contact-details/:usagerRef")
+  @Patch("contact-details/:usagerRef")
   public async patchMailAndPhone(
     @Body() contactDetails: ContactDetailsDto,
     @CurrentUser() _user: UserStructureAuthenticated,
