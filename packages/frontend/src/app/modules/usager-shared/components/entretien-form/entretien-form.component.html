@@ -127,8 +127,19 @@
             Autre situation
           </label>
         </div>
+        <div class="form-group" *ngIf="e.situationPro.value === 'AUTRE'">
+          <label class="form-check-label" for="situationProDetail">
+            Précisez la nature de la situation
+          </label>
+          <input
+            type="text"
+            id="situationProDetail"
+            class="form-control"
+            formControlName="situationProDetail"
+            name="situationProDetail"
+          />
+        </div>
       </fieldset>
-
       <fieldset>
         <legend class="label">Avez-vous des revenus ?</legend>
         <div class="form-check form-check-inline">
