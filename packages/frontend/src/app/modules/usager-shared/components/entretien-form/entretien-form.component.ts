@@ -30,6 +30,7 @@ import { Entretien } from "../../interfaces";
 
 import { Subscription } from "rxjs";
 import { UsagerService } from "../../services/usagers.service";
+import { NoWhiteSpaceValidator } from "../../../../shared";
 
 @Component({
   selector: "app-entretien-form",
@@ -45,15 +46,15 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
   public readonly ENTRETIEN_SITUATION_PRO = ENTRETIEN_SITUATION_PRO;
 
   public entretienForm!: UntypedFormGroup;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   @Input() public usager!: UsagerFormModel;
 
   @Input() public editEntretien!: boolean;
-  @Output() public editEntretienChange = new EventEmitter<boolean>();
+  @Output() public readonly editEntretienChange = new EventEmitter<boolean>();
 
   @Output()
-  public nextStep = new EventEmitter<number>();
+  public readonly nextStep = new EventEmitter<number>();
 
   @ViewChild("entretienConfirmation", { static: true })
   public entretienConfirmation!: TemplateRef<NgbModalRef>;
@@ -75,29 +76,49 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    if (this.usager.entretien) {
-      this.entretienForm = this.formBuilder.group({
-        accompagnement: [this.usager.entretien.accompagnement],
-        accompagnementDetail: [this.usager.entretien.accompagnementDetail, []],
-        cause: [this.usager.entretien.cause, []],
-        causeDetail: [this.usager.entretien.causeDetail, []],
-        commentaires: [this.usager.entretien.commentaires, []],
-        domiciliation: [this.usager.entretien.domiciliation, []],
-        liencommune: [this.usager.entretien.liencommune, []],
-        liencommuneDetail: [this.usager.entretien.liencommuneDetail, []],
-        orientation: [this.usager.entretien.orientation, []],
-        orientationDetail: [this.usager.entretien.orientationDetail, []],
-        rattachement: [this.usager.entretien.rattachement, []],
-        raison: [this.usager.entretien.raison, []],
-        raisonDetail: [this.usager.entretien.raisonDetail, []],
-        residence: [this.usager.entretien.residence, []],
-        residenceDetail: [this.usager.entretien.residenceDetail, []],
-        revenus: [this.usager.entretien.revenus, []],
-        revenusDetail: [this.usager.entretien.revenusDetail, []],
-        typeMenage: [this.usager.entretien.typeMenage, []],
-        situationPro: [this.usager.entretien.situationPro, []],
-      });
-    }
+    this.entretienForm = this.formBuilder.group({
+      accompagnement: [this.usager.entretien.accompagnement],
+      accompagnementDetail: [
+        this.usager.entretien.accompagnementDetail,
+        [NoWhiteSpaceValidator],
+      ],
+      cause: [this.usager.entretien.cause, []],
+      causeDetail: [this.usager.entretien.causeDetail, [NoWhiteSpaceValidator]],
+      commentaires: [this.usager.entretien.commentaires, []],
+      domiciliation: [this.usager.entretien.domiciliation, []],
+      liencommune: [this.usager.entretien.liencommune, []],
+      liencommuneDetail: [
+        this.usager.entretien.liencommuneDetail,
+        [NoWhiteSpaceValidator],
+      ],
+      orientation: [this.usager.entretien.orientation, []],
+      orientationDetail: [
+        this.usager.entretien.orientationDetail,
+        [NoWhiteSpaceValidator],
+      ],
+      rattachement: [this.usager.entretien.rattachement, []],
+      raison: [this.usager.entretien.raison, []],
+      raisonDetail: [
+        this.usager.entretien.raisonDetail,
+        [NoWhiteSpaceValidator],
+      ],
+      residence: [this.usager.entretien.residence, []],
+      residenceDetail: [
+        this.usager.entretien.residenceDetail,
+        [NoWhiteSpaceValidator],
+      ],
+      revenus: [this.usager.entretien.revenus, []],
+      revenusDetail: [
+        this.usager.entretien.revenusDetail,
+        [NoWhiteSpaceValidator],
+      ],
+      typeMenage: [this.usager.entretien.typeMenage, []],
+      situationPro: [this.usager.entretien.situationPro, []],
+      situationProDetail: [
+        this.usager.entretien.situationProDetail,
+        [NoWhiteSpaceValidator],
+      ],
+    });
   }
 
   public closeModal(): void {
