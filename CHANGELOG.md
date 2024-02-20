@@ -1,3 +1,17 @@
+# [2.162.0](https://github.com/SocialGouv/domifa/compare/v2.161.0...v2.162.0) (2024-02-20)
+
+
+### Bug Fixes
+
+* **import:** fix columns names ([9390ea0](https://github.com/SocialGouv/domifa/commit/9390ea07d075a34c48091049535b592397824bf1))
+* **import:** rename fields ([983f652](https://github.com/SocialGouv/domifa/commit/983f652d5c5864f8f44d60eac3bc6c80d6259278))
+* **structures:** delete useless labels ([191cfdb](https://github.com/SocialGouv/domifa/commit/191cfdbfb3adec8839eca9244b33179cd2fc126b))
+
+
+### Features
+
+* **import:** add details pro situation ([646e966](https://github.com/SocialGouv/domifa/commit/646e966fd71a4b3732521d1ac4f7156d75ee7c39))
+
 # [2.161.0](https://github.com/SocialGouv/domifa/compare/v2.160.1...v2.161.0) (2024-02-20)
 
 
