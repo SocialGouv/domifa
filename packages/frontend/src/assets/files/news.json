@@ -1,5 +1,32 @@
 [
   {
+    "date": "2024-02-19",
+    "description": "Nouveautés du 19 Février 2024",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Gestion des courriers",
+        "message": [
+          "Les courriers en attente dans les dossiers radiés peuvent désormais être distribués avec la mention 'retour à l'expéditeur' sans que cela n'impacte la date de dernier passage des domiciliés concernés."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Mise à jour des coordonnées",
+        "message": [
+          "Les facteurs peuvent désormais mettre à jour les informations de contact des domiciliés, incluant le numéro de téléphone, l'adresse email et la notification des sms."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Entretien des domiciliés",
+        "message": [
+          "Un champs libre pour préciser la réponse 'autre situation professionnelle' a été ajouté dans l'entretien, permettant d'ajouter un commentaire pour préciser la nature de la situation professionnelle d'un domicilié."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-01-24",
     "description": "",
     "content": [

@@ -9,7 +9,7 @@ export const CUSTOM_DOC_COURRIER_REFUS: StructureCustomDocTags = {
   RESPONSABLE_PRENOM: "Thomson",
   RESPONSABLE_FONCTION: "PDG",
   STRUCTURE_NOM: "CCAS de Test",
-  STRUCTURE_TYPE: "CCAS",
+  STRUCTURE_TYPE: "CCAS / Mairie / Commune",
   STRUCTURE_ADRESSE: "1 rue de l'océan, Batiment B",
   STRUCTURE_COMPLEMENT_ADRESSE: "",
   STRUCTURE_ADRESSE_EMAIL: "ccas.test@yopmail.com",

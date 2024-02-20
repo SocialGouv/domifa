@@ -29,7 +29,6 @@ export class PublicStats {
       asso: 0,
       ccas: 0,
       cias: 0,
-      mairie: 0,
     };
   }
 }
