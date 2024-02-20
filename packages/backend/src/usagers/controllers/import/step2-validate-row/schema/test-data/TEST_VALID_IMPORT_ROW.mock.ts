@@ -27,8 +27,8 @@ export const TEST_VALID_IMPORT_ROW = [
   "SOCIAL", // liencommune
   "suivi social", // liencommune
   "FEMME_ISOLE_AVEC_ENFANT", // typeMenage
-  "HEBERGEMENT_TIERS", // situationResidentielle
-  "détails situation", // situationResidentielleDetails
+  "HEBERGEMENT_TIERS", // residence
+  "détails situation", // residenceDetails
   "ERRANCE", // causeInstabilite
   "détails cause", // causeDetail
   "EXERCICE_DROITS", // raisonDemande

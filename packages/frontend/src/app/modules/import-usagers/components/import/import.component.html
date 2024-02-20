@@ -471,15 +471,14 @@
           </td>
           <td
             [ngClass]="{
-              'table-danger':
-                !row.columns[COL.situationResidentielle.index]?.isValid
+              'table-danger': !row.columns[COL.residence.index]?.isValid
             }"
           >
-            {{ row.columns[COL.situationResidentielle.index]?.value }}
+            {{ row.columns[COL.residence.index]?.value }}
           </td>
 
           <td>
-            {{ row.columns[COL.situationResidentielleDetail.index]?.value }}
+            {{ row.columns[COL.residenceDetail.index]?.value }}
           </td>
 
           <td

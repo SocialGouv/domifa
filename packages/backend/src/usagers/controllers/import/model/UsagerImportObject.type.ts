@@ -27,8 +27,8 @@ export type UsagerImportObject = {
   liencommune?: string;
   liencommuneDetail?: string;
   typeMenage?: string;
-  situationResidentielle?: string;
-  situationResidentielleDetail?: string;
+  residence?: string;
+  residenceDetail?: string;
   causeInstabilite?: string;
   causeDetail?: string;
   raisonDemande?: string;
