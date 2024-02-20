@@ -1,3 +1,17 @@
+# [2.161.0](https://github.com/SocialGouv/domifa/compare/v2.160.1...v2.161.0) (2024-02-20)
+
+
+### Bug Fixes
+
+* **dumps:** update dumps for test ([51a611e](https://github.com/SocialGouv/domifa/commit/51a611ed31c3d0ffade1523fe0cec740248d4881))
+* **dumps:** update dumps for test ([26794e8](https://github.com/SocialGouv/domifa/commit/26794e89a4497bd43c3f69331649f516ec24652b))
+* **profil:** fix display of edition's button ([0c4eb08](https://github.com/SocialGouv/domifa/commit/0c4eb08359dbdf190a3467377918b6380c7e5dcc))
+
+
+### Features
+
+* **interactions:** add return to sender ([e524f2b](https://github.com/SocialGouv/domifa/commit/e524f2badbfc5547cd065862693d1ce161b4424a))
+
 ## [2.160.1](https://github.com/SocialGouv/domifa/compare/v2.160.0...v2.160.1) (2024-02-15)
 
 
