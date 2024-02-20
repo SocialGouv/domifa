@@ -1,3 +1,19 @@
+# [2.163.0](https://github.com/SocialGouv/domifa/compare/v2.162.0...v2.163.0) (2024-02-20)
+
+
+### Bug Fixes
+
+* **stats:** add state in new table ([25d81ec](https://github.com/SocialGouv/domifa/commit/25d81ec2da787daed30b831976c19342440e961d))
+* **stats:** add stats to export ([84050ef](https://github.com/SocialGouv/domifa/commit/84050efea41c301e896cd53419da087de1fa6ee6))
+* **stats:** delete deprecated functions ([a709e7d](https://github.com/SocialGouv/domifa/commit/a709e7d05190a9770b612bc07238da6d487b1cef))
+* **stats:** fix tests of stats ([01f05d6](https://github.com/SocialGouv/domifa/commit/01f05d644c4ff5ced41bb78d080ccf958a1f0982))
+* **stats:** new format ([8a86408](https://github.com/SocialGouv/domifa/commit/8a86408be3df7e9a553c7cf3ac03eb0eb6e55bfd))
+
+
+### Features
+
+* **stats:** add new table for stats ([34dd0e6](https://github.com/SocialGouv/domifa/commit/34dd0e676659a6511f630bc53b3f0d255029fbf4))
+
 # [2.162.0](https://github.com/SocialGouv/domifa/compare/v2.161.0...v2.162.0) (2024-02-20)
 
 
