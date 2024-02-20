@@ -226,12 +226,11 @@
         <th scope="col">
           <b>Si autre cause d'instabilité</b><br />, précisions
         </th>
-        <th scope="col">Accompagnement social</th>
-        <th scope="col">Détail de l'accompagnement social</th>
         <th scope="col">Motif principal de la demande</th>
         <th scope="col"><b>Si autre motif,</b><br />, précisions</th>
+        <th scope="col">Accompagnement social</th>
+        <th scope="col">Détail de l'accompagnement social</th>
         <th scope="col">Commentaires</th>
-
         <ng-container
           *ngFor="
             let ayantDroitColumnIndex of USAGERS_IMPORT_COLUMNS_AYANT_DROIT;
@@ -321,10 +320,10 @@
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.phone.index]?.isValid
+              'table-danger': !row.columns[COL.telephone.index]?.isValid
             }"
           >
-            {{ row.columns[COL.phone.index]?.value }}
+            {{ row.columns[COL.telephone.index]?.value }}
           </td>
 
           <td
@@ -340,7 +339,7 @@
               'table-danger': !row.columns[COL.statutDom.index]?.isValid
             }"
           >
-            {{ row.columns[COL.STATUT_DOMstatutDom.index]?.value }}
+            {{ row.columns[COL.statutDom.index]?.value }}
           </td>
 
           <td
@@ -393,10 +392,10 @@
           <td
             [ngClass]="{
               'table-danger':
-                !row.columns[COL.dateDernierDassage.index]?.isValid
+                !row.columns[COL.dateDernierPassage.index]?.isValid
             }"
           >
-            {{ row.columns[COL.dateDernierDassage.index]?.value }}
+            {{ row.columns[COL.dateDernierPassage.index]?.value }}
           </td>
 
           <td
@@ -408,11 +407,10 @@
           </td>
           <td
             [ngClass]="{
-              'table-danger':
-                !row.columns[COL.orientationDetails.index]?.isValid
+              'table-danger': !row.columns[COL.orientationDetail.index]?.isValid
             }"
           >
-            {{ row.columns[COL.orientationDetails.index]?.value }}
+            {{ row.columns[COL.orientationDetail.index]?.value }}
           </td>
 
           <td
@@ -456,23 +454,21 @@
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.lienCommune.index]?.isValid
+              'table-danger': !row.columns[COL.liencommune.index]?.isValid
             }"
           >
-            {{ row.columns[COL.lienCommune.index]?.value }}
+            {{ row.columns[COL.liencommune.index]?.value }}
           </td>
           <td>
-            {{ row.columns[COL.lienCommuneDetails.index]?.value }}
+            {{ row.columns[COL.liencommuneDetail.index]?.value }}
           </td>
-
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.compositionMenage.index]?.isValid
+              'table-danger': !row.columns[COL.typeMenage.index]?.isValid
             }"
           >
-            {{ row.columns[COL.compositionMenage.index]?.value }}
+            {{ row.columns[COL.typeMenage.index]?.value }}
           </td>
-
           <td
             [ngClass]="{
               'table-danger':
@@ -495,24 +491,7 @@
           </td>
 
           <td>
-            {{ row.columns[COL.causeDetails.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.accompagnement.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.accompagnement.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger':
-                !row.columns[COL.accompagnementDetails.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.accompagnementDetails.index]?.value }}
+            {{ row.columns[COL.causeDetail.index]?.value }}
           </td>
           <td
             [ngClass]="{
@@ -522,7 +501,22 @@
             {{ row.columns[COL.raisonDemande.index]?.value }}
           </td>
           <td>
-            {{ row.columns[COL.raisonDemandeDetails.index]?.value }}
+            {{ row.columns[COL.raisonDemandeDetail.index]?.value }}
+          </td>
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.accompagnement.index]?.isValid
+            }"
+          >
+            {{ row.columns[COL.accompagnement.index]?.value }}
+          </td>
+          <td
+            [ngClass]="{
+              'table-danger':
+                !row.columns[COL.accompagnementDetail.index]?.isValid
+            }"
+          >
+            {{ row.columns[COL.accompagnementDetail.index]?.value }}
           </td>
           <td>
             {{ row.columns[COL.commentaires.index]?.value }}
