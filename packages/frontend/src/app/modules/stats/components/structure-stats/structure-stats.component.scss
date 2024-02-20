@@ -1,0 +1,15 @@
+table {
+  tr .soustable {
+    padding-left: 40px !important;
+  }
+
+  tr th {
+    font-weight: normal;
+    width: 95%;
+  }
+
+  tr th:last-child,
+  tr td:last-child {
+    width: 6%;
+  }
+}

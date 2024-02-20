@@ -171,7 +171,7 @@ function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
 
       if (decisionValidePlusRecente) {
         decisionDateDebut = asDate(decisionValidePlusRecente.dateDebut);
-        decisionDateFin = asDate(usager.decision.dateDecision);
+        decisionDateFin = asDate(usager.decision.dateDebut);
       }
     }
 

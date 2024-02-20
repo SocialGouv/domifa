@@ -130,7 +130,7 @@ function renderWorksheet({
             ? ENTRETIEN_SITUATION_PRO[usager.entretien.situationPro]
             : "",
           entretienSituationProDetail:
-            usager.entretien.raison === "AUTRE"
+            usager.entretien.situationPro === "AUTRE"
               ? usager.entretien.situationProDetail
               : "",
           commentaires: usager.entretien.commentaires,

@@ -3,12 +3,13 @@ import {
   UsagerDecision,
   UsagerEntretien,
 } from "@domifa/common";
+import { v4 as uuidv4 } from "uuid";
 
 export const getDecisionForStats = (
   decision: UsagerDecision
 ): Partial<UsagerDecision> => {
   return {
-    uuid: decision.uuid,
+    uuid: decision?.uuid ?? uuidv4(),
     dateDecision: decision.dateDecision,
     dateDebut: decision.dateDebut,
     dateFin: decision.dateFin,
@@ -35,16 +36,16 @@ export const getEntretienForStats = (
   | "situationPro"
 > => {
   return {
-    domiciliation: entretien?.domiciliation ?? null,
-    typeMenage: entretien?.typeMenage ?? null,
-    revenus: entretien?.revenus ?? null,
-    orientation: entretien?.orientation ?? null,
-    liencommune: entretien?.liencommune ?? null,
-    residence: entretien?.residence ?? null,
-    cause: entretien?.cause ?? null,
-    raison: entretien?.raison ?? null,
-    accompagnement: entretien?.accompagnement ?? null,
-    situationPro: entretien?.situationPro ?? null,
+    domiciliation: getValue(entretien?.domiciliation),
+    typeMenage: getValue(entretien?.typeMenage),
+    revenus: getValue(entretien?.revenus),
+    orientation: getValue(entretien?.orientation),
+    liencommune: getValue(entretien?.liencommune),
+    residence: getValue(entretien?.residence),
+    cause: getValue(entretien?.cause),
+    raison: getValue(entretien?.raison),
+    accompagnement: getValue(entretien?.accompagnement),
+    situationPro: getValue(entretien?.situationPro),
   };
 };
 
@@ -55,4 +56,8 @@ export const getAyantsDroitForStats = (
     lien: x.lien,
     dateNaissance: x.dateNaissance,
   }));
+};
+
+const getValue = (value: any): any => {
+  return typeof value === "undefined" || value === null ? null : value;
 };
