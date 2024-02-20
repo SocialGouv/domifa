@@ -27,7 +27,7 @@ export const TEST_INVALID_IMPORT_USAGER: UsagerImportObject = {
   liencommuneDetail: "suivi social",
   typeMenage: "FEMME_ISOLE_AVEC_ENFANT",
   situationResidentielle: "HEBERGEMENT_TIERS",
-  situationDetails: "détails situation",
+  situationResidentielleDetail: "détails situation",
   causeInstabilite: "ERRANCE",
   causeDetail: "détails cause",
   raisonDemande: "EXERCICE_DROITS",

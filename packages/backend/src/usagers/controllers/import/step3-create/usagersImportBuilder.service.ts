@@ -193,7 +193,7 @@ function buildEntretien(usagerRow): Partial<UsagerEntretien> {
 
   entretien.residence = usagerRow.situationResidentielle;
   if (usagerRow.situationResidentielle) {
-    entretien.residenceDetail = usagerRow.situationDetails;
+    entretien.residenceDetail = usagerRow.situationResidentielleDetail;
   }
 
   entretien.orientation = usagerRow.orientation;

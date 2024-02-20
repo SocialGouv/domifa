@@ -1,7 +1,7 @@
 import { TEST_INVALID_IMPORT_USAGER } from "./schema/test-data";
 import { usagersImportErrorBuilder } from "./usagersImportErrorBuilder.service";
 
-const AYANTS_DROIT_COLUMN = 35;
+const AYANTS_DROIT_COLUMN = 36;
 describe("usagersImportErrorBuilder parse valid data", () => {
   it("_parseAyantsDroitsKey", async () => {
     expect(
@@ -69,7 +69,7 @@ describe("usagersImportErrorBuilder parse valid data", () => {
         value: "homme",
       },
       {
-        columnNumber: 41,
+        columnNumber: 42,
         details: {
           path: "ayantsDroits[1].prenom",
           value: "",

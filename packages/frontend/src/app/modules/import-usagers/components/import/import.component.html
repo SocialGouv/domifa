@@ -198,7 +198,6 @@
           DOM
         </th>
         <th scope="col">Date de dernier passage</th>
-
         <th scope="col">La personne a-t-elle été orientée ?</th>
         <th scope="col">
           <b>Seulement si orientation</b><br />
@@ -208,6 +207,7 @@
         <th scope="col">
           Quelle est la situation professionnelle de la personne ?
         </th>
+        <th>Si autre situation, précisez</th>
         <th scope="col">La personne a-t-elle des revenus ?</th>
         <th scope="col">
           <b>Seulement si revenus,</b> <br />
@@ -234,7 +234,7 @@
 
         <ng-container
           *ngFor="
-            let ayantDroitColumnIndex of COL.AYANT_DROIT;
+            let ayantDroitColumnIndex of USAGERS_IMPORT_COLUMNS_AYANT_DROIT;
             let rowIndex = index
           "
         >
@@ -267,237 +267,270 @@
           </td>
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.CUSTOM_ID]?.isValid
+              'table-danger': !row.columns[COL.customRef.index]?.isValid
             }"
           >
-            {{ row.columns[COL.CUSTOM_ID]?.value }}
+            {{ row.columns[COL.customRef.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.CIVILITE]?.isValid
+              'table-danger': !row.columns[COL.civilite.index]?.isValid
             }"
           >
-            {{ row.columns[COL.CIVILITE]?.value }}
+            {{ row.columns[COL.civilite.index]?.value }}
           </td>
 
-          <td [ngClass]="{ 'table-danger': !row.columns[COL.NOM]?.isValid }">
-            {{ row.columns[COL.NOM]?.value }}
-          </td>
-
-          <td [ngClass]="{ 'table-danger': !row.columns[COL.PRENOM]?.isValid }">
-            {{ row.columns[COL.PRENOM]?.value }}
-          </td>
-
-          <td [ngClass]="{ 'table-danger': !row.columns[COL.SURNOM]?.isValid }">
-            {{ row.columns[COL.SURNOM]?.value }}
+          <td
+            [ngClass]="{ 'table-danger': !row.columns[COL.nom.index]?.isValid }"
+          >
+            {{ row.columns[COL.nom.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.DATE_NAISSANCE]?.isValid
+              'table-danger': !row.columns[COL.prenom.index]?.isValid
             }"
           >
-            {{ row.columns[COL.DATE_NAISSANCE]?.value }}
+            {{ row.columns[COL.prenom.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.LIEU_NAISSANCE]?.isValid
+              'table-danger': !row.columns[COL.surnom.index]?.isValid
             }"
           >
-            {{ row.columns[COL.LIEU_NAISSANCE]?.value }}
-          </td>
-
-          <td [ngClass]="{ 'table-danger': !row.columns[COL.PHONE]?.isValid }">
-            {{ row.columns[COL.PHONE]?.value }}
-          </td>
-
-          <td [ngClass]="{ 'table-danger': !row.columns[COL.EMAIL]?.isValid }">
-            {{ row.columns[COL.EMAIL]?.value }}
+            {{ row.columns[COL.surnom.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.STATUT_DOM]?.isValid
+              'table-danger': !row.columns[COL.dateNaissance.index]?.isValid
             }"
           >
-            {{ row.columns[COL.STATUT_DOM]?.value }}
+            {{ row.columns[COL.dateNaissance.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.MOTIF_REFUS]?.isValid
+              'table-danger': !row.columns[COL.lieuNaissance.index]?.isValid
             }"
           >
-            {{ row.columns[COL.MOTIF_REFUS]?.value }}
-          </td>
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.MOTIF_RADIATION]?.isValid
-            }"
-          >
-            {{ row.columns[COL.MOTIF_RADIATION]?.value }}
+            {{ row.columns[COL.lieuNaissance.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.TYPE_DOM]?.isValid
+              'table-danger': !row.columns[COL.phone.index]?.isValid
             }"
           >
-            {{ row.columns[COL.TYPE_DOM]?.value }}
+            {{ row.columns[COL.phone.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.DATE_DEBUT_DOM]?.isValid
+              'table-danger': !row.columns[COL.email.index]?.isValid
             }"
           >
-            {{ row.columns[COL.DATE_DEBUT_DOM]?.value }}
+            {{ row.columns[COL.email.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.DATE_FIN_DOM]?.isValid
+              'table-danger': !row.columns[COL.statutDom.index]?.isValid
             }"
           >
-            {{ row.columns[COL.DATE_FIN_DOM]?.value }}
+            {{ row.columns[COL.STATUT_DOMstatutDom.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.DATE_PREMIERE_DOM]?.isValid
+              'table-danger': !row.columns[COL.motifRefus.index]?.isValid
             }"
           >
-            {{ row.columns[COL.DATE_PREMIERE_DOM]?.value }}
+            {{ row.columns[COL.motifRefus.index]?.value }}
+          </td>
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.motifRadiation.index]?.isValid
+            }"
+          >
+            {{ row.columns[COL.motifRadiation.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.DATE_DERNIER_PASSAGE]?.isValid
+              'table-danger': !row.columns[COL.typeDom.index]?.isValid
             }"
           >
-            {{ row.columns[COL.DATE_DERNIER_PASSAGE]?.value }}
+            {{ row.columns[COL.typeDom.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.ORIENTATION]?.isValid
+              'table-danger': !row.columns[COL.dateDebutDom.index]?.isValid
             }"
           >
-            {{ row.columns[COL.ORIENTATION]?.value }}
-          </td>
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.ORIENTATION_DETAILS]?.isValid
-            }"
-          >
-            {{ row.columns[COL.ORIENTATION_DETAILS]?.value }}
+            {{ row.columns[COL.dateDebutDom.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.DOMICILIATION_EXISTANTE]?.isValid
+              'table-danger': !row.columns[COL.dateFinDom.index]?.isValid
             }"
           >
-            {{ row.columns[COL.DOMICILIATION_EXISTANTE]?.value }}
-          </td>
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.SITUATION_PRO]?.isValid
-            }"
-          >
-            {{ row.columns[COL.SITUATION_PRO]?.value }}
-          </td>
-          <td
-            [ngClass]="{ 'table-danger': !row.columns[COL.REVENUS]?.isValid }"
-          >
-            {{ row.columns[COL.REVENUS]?.value }}
+            {{ row.columns[COL.dateFinDom.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.REVENUS_DETAILS]?.isValid
+              'table-danger': !row.columns[COL.datePremiereDom.index]?.isValid
             }"
           >
-            {{ row.columns[COL.REVENUS_DETAILS]?.value }}
+            {{ row.columns[COL.datePremiereDom.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.LIEN_COMMUNE]?.isValid
+              'table-danger':
+                !row.columns[COL.dateDernierDassage.index]?.isValid
             }"
           >
-            {{ row.columns[COL.LIEN_COMMUNE]?.value }}
+            {{ row.columns[COL.dateDernierDassage.index]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.orientation.index]?.isValid
+            }"
+          >
+            {{ row.columns[COL.orientation.index]?.value }}
+          </td>
+          <td
+            [ngClass]="{
+              'table-danger':
+                !row.columns[COL.orientationDetails.index]?.isValid
+            }"
+          >
+            {{ row.columns[COL.orientationDetails.index]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger':
+                !row.columns[COL.domiciliationExistante.index]?.isValid
+            }"
+          >
+            {{ row.columns[COL.domiciliationExistante.index]?.value }}
+          </td>
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.situationPro.index]?.isValid
+            }"
+          >
+            {{ row.columns[COL.situationPro.index]?.value }}
+          </td>
+          <td
+            [ngClass]="{
+              'table-danger':
+                !row.columns[COL.situationProDetail.index]?.isValid
+            }"
+          >
+            {{ row.columns[COL.situationProDetail.index]?.value }}
+          </td>
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.revenus.index]?.isValid
+            }"
+          >
+            {{ row.columns[COL.revenus.index]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.revenusDetail.index]?.isValid
+            }"
+          >
+            {{ row.columns[COL.revenusDetail.index]?.value }}
+          </td>
+
+          <td
+            [ngClass]="{
+              'table-danger': !row.columns[COL.lienCommune.index]?.isValid
+            }"
+          >
+            {{ row.columns[COL.lienCommune.index]?.value }}
           </td>
           <td>
-            {{ row.columns[COL.LIEN_COMMUNE_DETAILS]?.value }}
+            {{ row.columns[COL.lienCommuneDetails.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.COMPOSITION_MENAGE]?.isValid
+              'table-danger': !row.columns[COL.compositionMenage.index]?.isValid
             }"
           >
-            {{ row.columns[COL.COMPOSITION_MENAGE]?.value }}
+            {{ row.columns[COL.compositionMenage.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.SITUATION_RESIDENTIELLE]?.isValid
+              'table-danger':
+                !row.columns[COL.situationResidentielle.index]?.isValid
             }"
           >
-            {{ row.columns[COL.SITUATION_RESIDENTIELLE]?.value }}
+            {{ row.columns[COL.situationResidentielle.index]?.value }}
           </td>
 
           <td>
-            {{ row.columns[COL.SITUATION_DETAILS]?.value }}
+            {{ row.columns[COL.situationResidentielleDetail.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.CAUSE_INSTABILITE]?.isValid
+              'table-danger': !row.columns[COL.causeInstabilite.index]?.isValid
             }"
           >
-            {{ row.columns[COL.CAUSE_INSTABILITE]?.value }}
+            {{ row.columns[COL.causeInstabilite.index]?.value }}
           </td>
 
           <td>
-            {{ row.columns[COL.CAUSE_DETAILS]?.value }}
+            {{ row.columns[COL.causeDetails.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.ACCOMPAGNEMENT]?.isValid
+              'table-danger': !row.columns[COL.accompagnement.index]?.isValid
             }"
           >
-            {{ row.columns[COL.ACCOMPAGNEMENT]?.value }}
+            {{ row.columns[COL.accompagnement.index]?.value }}
           </td>
 
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.ACCOMPAGNEMENT_DETAILS]?.isValid
+              'table-danger':
+                !row.columns[COL.accompagnementDetails.index]?.isValid
             }"
           >
-            {{ row.columns[COL.ACCOMPAGNEMENT_DETAILS]?.value }}
+            {{ row.columns[COL.accompagnementDetails.index]?.value }}
           </td>
           <td
             [ngClass]="{
-              'table-danger': !row.columns[COL.RAISON_DEMANDE]?.isValid
+              'table-danger': !row.columns[COL.raisonDemande.index]?.isValid
             }"
           >
-            {{ row.columns[COL.RAISON_DEMANDE]?.value }}
+            {{ row.columns[COL.raisonDemande.index]?.value }}
           </td>
           <td>
-            {{ row.columns[COL.RAISON_DEMANDE_DETAILS]?.value }}
+            {{ row.columns[COL.raisonDemandeDetails.index]?.value }}
           </td>
           <td>
-            {{ row.columns[COL.COMMENTAIRES]?.value }}
+            {{ row.columns[COL.commentaires.index]?.value }}
           </td>
 
           <ng-container
             *ngFor="
-              let ayantDroitColumnIndex of COL.AYANT_DROIT;
+              let ayantDroitColumnIndex of USAGERS_IMPORT_COLUMNS_AYANT_DROIT;
               let rowIndex = index
             "
           >

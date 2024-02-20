@@ -45,22 +45,6 @@ describe("UsagersImportCiviliteSchema dates", () => {
     );
   });
 
-  // it("statutDom=REFUS dateFinDom > nextYear", async () => {
-  //   await expect(
-  //     UsagersImportUsagerSchema.validate(
-  //       {
-  //         ...TEST_VALID_IMPORT_USAGER,
-  //         statutDom: "REFUS",
-  //         dateDebutDom: "05/01/2020",
-  //         dateFinDom: "05/10/2022", // > Today
-  //       },
-  //       { context }
-  //     )
-  //   ).rejects.toThrowError(
-  //     "dateFinDom field must be at earlier than 2022-01-01T00:00:00.000Z"
-  //   );
-  // });
-
   it("statutDom=REFUS dateDebutDom < minDate", async () => {
     await expect(
       UsagersImportUsagerSchema.validate(

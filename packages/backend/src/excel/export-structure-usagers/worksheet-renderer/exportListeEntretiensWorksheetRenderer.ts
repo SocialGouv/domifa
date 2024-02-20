@@ -54,7 +54,8 @@ function renderWorksheet({
       { key: "entretienOrientation" },
       { key: "entretienOrientationDetail" },
       { key: "entretienDomiciliation" },
-      { key: "situationPro" },
+      { key: "entretienSituationPro" },
+      { key: "entretienSituationProDetail" },
       { key: "entretienRevenus" },
       { key: "entretienRevenusDetail" },
       { key: "entretienLiencommune" },
@@ -125,9 +126,13 @@ function renderWorksheet({
             ? usager.entretien.accompagnementDetail
             : "",
           rattachement: usager.entretien.rattachement,
-          situationPro: usager.entretien.situationPro
+          entretienSituationPro: usager.entretien.situationPro
             ? ENTRETIEN_SITUATION_PRO[usager.entretien.situationPro]
             : "",
+          entretienSituationProDetail:
+            usager.entretien.raison === "AUTRE"
+              ? usager.entretien.situationProDetail
+              : "",
           commentaires: usager.entretien.commentaires,
         },
       };

@@ -42,14 +42,15 @@ describe("usagersImportValidator parse invalid data", () => {
           "invalid-orientation", // orientation
           "détails orientation", // orientationDetail
           "NO", // domiciliationExistante
-          "SALARIE", // revenus
+          "SALARIE", // situation pro
+          undefined,
           "yes", // revenus
           "détails revenus", // revenusDetail
           "SOCIAL", // liencommune
           "suivi social", // liencommune
           "invalid-typeMenage", // typeMenage
           "invalid-situationResidentielle", // situationResidentielle
-          "détails situation", // situationDetails
+          "détails situation", // situationResidentielleDetail
           "invalid-causeInstabilite", // causeInstabilite
           "détails cause", // causeDetail
           "invalid-raisonDemande", // raisonDemande
@@ -133,55 +134,55 @@ describe("usagersImportValidator parse invalid data", () => {
         value: "NO",
       },
       {
-        columnNumber: 22,
+        columnNumber: 23,
         label: "Le domicilié possède t-il des revenus ?",
         rowNumber: 10,
         value: "yes",
       },
       {
-        columnNumber: 26,
+        columnNumber: 27,
         label: "Composition du ménage",
         rowNumber: 10,
         value: "invalid-typeMenage",
       },
       {
-        columnNumber: 27,
+        columnNumber: 28,
         label: "Situation résidentielle",
         rowNumber: 10,
         value: "invalid-situationResidentielle",
       },
       {
-        columnNumber: 29,
+        columnNumber: 30,
         label: "Cause instabilité logement",
         rowNumber: 10,
         value: "invalid-causeInstabilite",
       },
       {
-        columnNumber: 31,
+        columnNumber: 32,
         label: "Motif principal de la demande",
         rowNumber: 10,
         value: "invalid-raisonDemande",
       },
       {
-        columnNumber: 33,
+        columnNumber: 34,
         label: "Accompagnement social",
         rowNumber: 10,
         value: "n",
       },
       {
-        columnNumber: 37,
+        columnNumber: 38,
         label: "Prénom Ayant-Droit 1",
         rowNumber: 10,
         value: undefined,
       },
       {
-        columnNumber: 38,
+        columnNumber: 39,
         label: "Date de naissance Ayant-Droit 1",
         rowNumber: 10,
         value: format(new Date(Date.UTC(2218, 7 - 1, 15)), "dd/MM/yyyy"),
       },
       {
-        columnNumber: 43,
+        columnNumber: 44,
         label: "Lien de Parenté Ayant-Droit 2",
         rowNumber: 10,
         value: "invalid-lienParente",

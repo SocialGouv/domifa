@@ -1,3 +1,0 @@
-export const USAGERS_IMPORT_COLUMNS_AYANT_DROIT = [
-  35, 39, 43, 47, 51, 55, 59, 63, 67,
-];
