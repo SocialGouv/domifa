@@ -44,8 +44,8 @@ export const USAGERS_IMPORT_COLUMNS: Record<
   liencommune: { index: 24, label: "Lien avec la commune" },
   liencommuneDetail: { index: 25, label: "Détail du lien avec la commune" },
   typeMenage: { index: 26, label: "Composition du ménage" },
-  situationResidentielle: { index: 27, label: "Situation résidentielle" },
-  situationResidentielleDetail: {
+  residence: { index: 27, label: "Situation résidentielle" },
+  residenceDetail: {
     index: 28,
     label: "Si autre situation résidentielle, précisez",
   },

@@ -79,10 +79,8 @@ export const UsagersImportUsagerSchema = yup
     liencommune: oneOfString(Object.keys(ENTRETIEN_LIEN_COMMUNE)).notRequired(),
     liencommuneDetail: yup.string(),
     typeMenage: oneOfString(Object.keys(ENTRETIEN_TYPE_MENAGE)).notRequired(),
-    situationResidentielle: oneOfString(
-      Object.keys(ENTRETIEN_RESIDENCE)
-    ).notRequired(),
-    situationResidentielleDetail: yup.string().notRequired(),
+    residence: oneOfString(Object.keys(ENTRETIEN_RESIDENCE)).notRequired(),
+    residenceDetail: yup.string().notRequired(),
     causeInstabilite: oneOfString(
       Object.keys(ENTRETIEN_CAUSE_INSTABILITE)
     ).notRequired(),

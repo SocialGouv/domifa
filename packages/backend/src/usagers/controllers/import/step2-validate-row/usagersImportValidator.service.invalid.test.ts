@@ -49,8 +49,8 @@ describe("usagersImportValidator parse invalid data", () => {
           "SOCIAL", // liencommune
           "suivi social", // liencommune
           "invalid-typeMenage", // typeMenage
-          "invalid-situationResidentielle", // situationResidentielle
-          "détails situation", // situationResidentielleDetail
+          "invalid-residence", // residence
+          "détails situation", // residenceDetail
           "invalid-causeInstabilite", // causeInstabilite
           "détails cause", // causeDetail
           "invalid-raisonDemande", // raisonDemande
@@ -149,7 +149,7 @@ describe("usagersImportValidator parse invalid data", () => {
         columnNumber: 28,
         label: "Situation résidentielle",
         rowNumber: 10,
-        value: "invalid-situationResidentielle",
+        value: "invalid-residence",
       },
       {
         columnNumber: 30,

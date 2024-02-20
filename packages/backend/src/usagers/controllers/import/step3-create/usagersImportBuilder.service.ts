@@ -175,39 +175,38 @@ function buildEntretien(usagerRow): Partial<UsagerEntretien> {
     entretien.accompagnementDetail = usagerRow.accompagnementDetail;
   }
 
-  entretien.revenus = usagerRow.revenus;
-  if (usagerRow.revenus) {
-    entretien.revenusDetail = usagerRow.revenusDetail;
+  entretien.situationPro = usagerRow.situationPro ?? null;
+  if (usagerRow?.situationPro && usagerRow?.situationProDetail) {
+    entretien.situationProDetail = usagerRow.situationProDetail;
   }
-  entretien.situationPro = usagerRow.situationPro;
 
   entretien.revenus = usagerRow.revenus;
-  if (usagerRow.revenus) {
+  if (usagerRow?.revenus && usagerRow?.revenusDetail) {
     entretien.revenusDetail = usagerRow.revenusDetail;
   }
 
   entretien.liencommune = usagerRow.liencommune;
-  if (usagerRow.liencommune) {
+  if (usagerRow?.liencommune && usagerRow?.liencommuneDetail) {
     entretien.liencommuneDetail = usagerRow.liencommuneDetail;
   }
 
-  entretien.residence = usagerRow.situationResidentielle;
-  if (usagerRow.situationResidentielle) {
-    entretien.residenceDetail = usagerRow.situationResidentielleDetail;
+  entretien.residence = usagerRow.residence ?? null;
+  if (usagerRow?.residence && usagerRow?.residenceDetaildentielle) {
+    entretien.residenceDetail = usagerRow.residenceDetail;
   }
 
   entretien.orientation = usagerRow.orientation;
-  if (usagerRow.orientation) {
+  if (usagerRow?.orientation && usagerRow?.orientationDetail) {
     entretien.orientationDetail = usagerRow.orientationDetail;
   }
 
-  entretien.raison = usagerRow.raisonDemande;
-  if (usagerRow.raisonDemande) {
+  entretien.raison = usagerRow.raisonDemande ?? null;
+  if (usagerRow?.raisonDemande && usagerRow?.raisonDemandeDetail) {
     entretien.raisonDetail = usagerRow.raisonDemandeDetail;
   }
 
-  entretien.cause = usagerRow.causeInstabilite;
-  if (usagerRow.causeInstabilite) {
+  entretien.cause = usagerRow.causeInstabilite ?? null;
+  if (usagerRow?.causeInst && usagerRow?.causeDetailabilite) {
     entretien.causeDetail = usagerRow.causeDetail;
   }
   return entretien;
