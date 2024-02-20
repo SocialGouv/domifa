@@ -9,7 +9,7 @@ export const CUSTOM_DOC_ATTESTATION_POSTALE: StructureCustomDocTags = {
   RESPONSABLE_PRENOM: "Thomson",
   RESPONSABLE_FONCTION: "PDG",
   STRUCTURE_NOM: "CCAS de Test",
-  STRUCTURE_TYPE: "CCAS",
+  STRUCTURE_TYPE: "CCAS / Mairie / Commune",
   STRUCTURE_ADRESSE: "1 rue de l'océan, Batiment B",
   STRUCTURE_VILLE: "Asnieres-sur-seine",
   STRUCTURE_CODE_POSTAL: "92600",

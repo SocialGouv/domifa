@@ -90,9 +90,6 @@ function renderWorksheet({
     worksheetRendered.renderCell(i++, "b", {
       value: stats.structuresCountByType["cias"],
     });
-    worksheetRendered.renderCell(i++, "b", {
-      value: stats.structuresCountByType["mairie"],
-    });
   }
 
   function renderInteractionsCountByType() {

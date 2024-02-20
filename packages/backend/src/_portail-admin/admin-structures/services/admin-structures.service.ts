@@ -288,7 +288,6 @@ export class AdminStructuresService {
       ccas: 0,
       cias: 0,
       asso: 0,
-      mairie: 0,
     };
 
     const result = await this.getStructuresByType(region);

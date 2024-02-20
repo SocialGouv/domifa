@@ -63,7 +63,7 @@ describe("Stats Public Controller", () => {
       expect(response.status).toBe(HttpStatus.OK);
 
       const content = response.body as HomeStats;
-      expect(content.interactions).toEqual(5);
+      expect(content.interactions).toEqual(15);
       expect(content.structures).toEqual(5);
       expect(content.usagers).toEqual(20);
       expect(content.actifs).toEqual(11);
@@ -88,7 +88,7 @@ describe("Stats Public Controller", () => {
           { count: 1, region: "11" },
           { count: 1, region: "75" },
         ],
-        structuresCountByTypeMap: { asso: 2, cias: 2, ccas: 1, mairie: 0 },
+        structuresCountByTypeMap: { asso: 2, cias: 2, ccas: 1 },
         interactionsCountByMonth: [
           { name: "août", value: 0 },
           { name: "sept.", value: 0 },
@@ -144,7 +144,6 @@ describe("Stats Public Controller", () => {
           asso: 2,
           cias: 0,
           ccas: 0,
-          mairie: 0,
         },
         interactionsCountByMonth: [
           {

@@ -40,7 +40,7 @@
                 type="radio"
                 value="cias"
               />
-              CIAS / COMMUNE
+              CIAS
             </label>
             <label
               for="ccas"
@@ -59,7 +59,7 @@
                 id="ccas"
                 value="ccas"
               />
-              CCAS
+              CCAS / Commune / Mairie
             </label>
             <label
               for="asso"
@@ -79,25 +79,6 @@
                 id="asso"
               />
               Organisme agréé
-            </label>
-            <label
-              for="mairie"
-              class="btn py-3 px-4"
-              [ngClass]="{
-                'btn-primary': f.structureType.value === 'mairie',
-                'btn-outline-primary': f.structureType.value !== 'mairie',
-                'btn-outline-danger':
-                  submitted && f.structureType.value === null
-              }"
-            >
-              <input
-                formControlName="structureType"
-                name="structureType"
-                type="radio"
-                value="mairie"
-                id="mairie"
-              />
-              Mairie
             </label>
           </div>
           <p
