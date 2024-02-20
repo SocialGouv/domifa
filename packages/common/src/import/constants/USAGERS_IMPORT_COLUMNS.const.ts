@@ -1,4 +1,10 @@
-export const USAGERS_IMPORT_COLUMNS = {
+export const USAGERS_IMPORT_COLUMNS: Record<
+  string,
+  {
+    index: number;
+    label: string;
+  }
+> = {
   customRef: { index: 0, label: "Numéro d'identification" },
   civilite: { index: 1, label: "Civilité" },
   nom: { index: 2, label: "Nom" },
@@ -26,27 +32,31 @@ export const USAGERS_IMPORT_COLUMNS = {
     index: 20,
     label: "Quelle est la situation professionnelle ?",
   },
-  revenus: { index: 21, label: "Le domicilié possède t-il des revenus ?" },
+  situationProDetail: {
+    index: 21,
+    label: "Quelle est la situation professionnelle ?",
+  },
+  revenus: { index: 22, label: "Le domicilié possède t-il des revenus ?" },
   revenusDetail: {
-    index: 22,
+    index: 23,
     label: "Seulement si revenus, de quelle nature ?",
   },
-  liencommune: { index: 23, label: "Lien avec la commune" },
-  liencommuneDetail: { index: 24, label: "Détail du lien avec la commune" },
-  typeMenage: { index: 25, label: "Composition du ménage" },
-  situationResidentielle: { index: 26, label: "Situation résidentielle" },
-  situationDetails: {
-    index: 27,
+  liencommune: { index: 24, label: "Lien avec la commune" },
+  liencommuneDetail: { index: 25, label: "Détail du lien avec la commune" },
+  typeMenage: { index: 26, label: "Composition du ménage" },
+  situationResidentielle: { index: 27, label: "Situation résidentielle" },
+  situationResidentielleDetail: {
+    index: 28,
     label: "Si autre situation résidentielle, précisez",
   },
-  causeInstabilite: { index: 28, label: "Cause instabilité logement" },
-  causeDetail: { index: 29, label: "Si autre cause, précisez" },
-  raisonDemande: { index: 30, label: "Motif principal de la demande" },
-  raisonDemandeDetail: { index: 31, label: "Si autre motif, précisez" },
-  accompagnement: { index: 32, label: "Accompagnement social" },
+  causeInstabilite: { index: 29, label: "Cause instabilité logement" },
+  causeDetail: { index: 30, label: "Si autre cause, précisez" },
+  raisonDemande: { index: 31, label: "Motif principal de la demande" },
+  raisonDemandeDetail: { index: 32, label: "Si autre motif, précisez" },
+  accompagnement: { index: 33, label: "Accompagnement social" },
   accompagnementDetail: {
-    index: 33,
+    index: 34,
     label: "Par quelle structure est fait l'accompagnement ?",
   },
-  commentaires: { index: 34, label: "Commentaires" },
+  commentaires: { index: 35, label: "Commentaires" },
 };

@@ -3,7 +3,7 @@ import { appLogger } from "../../../../util";
 import {
   USAGERS_IMPORT_COLUMNS,
   USAGERS_IMPORT_COLUMNS_AYANT_DROIT,
-} from "../constants";
+} from "@domifa/common";
 import {
   UsagerImportAyantDroitColumn,
   UsagerImportObject,

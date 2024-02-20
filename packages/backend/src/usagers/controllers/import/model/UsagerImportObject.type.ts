@@ -21,13 +21,14 @@ export type UsagerImportObject = {
   orientationDetail?: string;
   domiciliationExistante?: string;
   situationPro?: string;
+  situationProDetail?: string;
   revenus?: string;
   revenusDetail?: string;
   liencommune?: string;
   liencommuneDetail?: string;
   typeMenage?: string;
   situationResidentielle?: string;
-  situationDetails?: string;
+  situationResidentielleDetail?: string;
   causeInstabilite?: string;
   causeDetail?: string;
   raisonDemande?: string;

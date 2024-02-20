@@ -20,9 +20,14 @@ import { Subscription } from "rxjs";
 import { UserStructure, UsagersImportMode } from "../../../../../_common/model";
 import { LoadingService } from "../../../shared/services";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
-import { IMPORT_PREVIEW_COLUMNS } from "../../constants";
 import { ImportUsagersService } from "../../import-usagers.service";
-import { ImportPreviewTable, ImportPreviewRow } from "../../types";
+
+import {
+  USAGERS_IMPORT_COLUMNS,
+  USAGERS_IMPORT_COLUMNS_AYANT_DROIT,
+  ImportPreviewTable,
+  ImportPreviewRow,
+} from "@domifa/common";
 
 @Component({
   selector: "app-import",
@@ -43,7 +48,9 @@ export class ImportComponent implements OnInit, OnDestroy {
 
   public previewTable?: ImportPreviewTable;
   public visibleRows: ImportPreviewRow[];
-  public readonly COL = IMPORT_PREVIEW_COLUMNS;
+  public readonly COL = USAGERS_IMPORT_COLUMNS;
+  public readonly USAGERS_IMPORT_COLUMNS_AYANT_DROIT =
+    USAGERS_IMPORT_COLUMNS_AYANT_DROIT;
 
   private readonly subscription = new Subscription();
 

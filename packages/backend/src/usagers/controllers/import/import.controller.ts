@@ -12,9 +12,7 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-
 import { diskStorage } from "multer";
-
 import { CurrentUser } from "../../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../../auth/guards";
 import { appLogger } from "../../../util";
@@ -28,13 +26,7 @@ import {
   UserStructureAuthenticated,
 } from "../../../_common/model";
 import { ImportProcessTracker } from "./ImportProcessTracker.type";
-import {
-  ImportPreviewColumn,
-  ImportPreviewRow,
-  ImportPreviewTable,
-  UsagersImportError,
-  UsagersImportRow,
-} from "./model";
+import { UsagersImportError, UsagersImportRow } from "./model";
 import { usagersImportExcelParser } from "./step1-parse-excel";
 import {
   UsagersImportUsager,
@@ -47,6 +39,11 @@ import { addYears, endOfDay, startOfYear } from "date-fns";
 import { ensureDir, pathExists, remove } from "fs-extra";
 import { join, resolve } from "path";
 import { FILES_SIZE_LIMIT } from "../../../util/file-manager";
+import {
+  ImportPreviewTable,
+  ImportPreviewRow,
+  ImportPreviewColumn,
+} from "@domifa/common";
 
 const USAGERS_IMPORT_DIR = join(os.tmpdir(), "domifa", "usagers-imports");
 

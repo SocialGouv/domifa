@@ -20,14 +20,15 @@ export const TEST_VALID_IMPORT_ROW = [
   "NON", // orientation
   "détails orientation", // orientationDetail
   "NON", // domiciliationExistante
-  "SALARIE", // revenus
+  "SALARIE", // situation pro
+  undefined,
   "OUI", // revenus
   "détails revenus", // revenusDetail
   "SOCIAL", // liencommune
   "suivi social", // liencommune
   "FEMME_ISOLE_AVEC_ENFANT", // typeMenage
   "HEBERGEMENT_TIERS", // situationResidentielle
-  "détails situation", // situationDetails
+  "détails situation", // situationResidentielleDetails
   "ERRANCE", // causeInstabilite
   "détails cause", // causeDetail
   "EXERCICE_DROITS", // raisonDemande

@@ -73,6 +73,7 @@ export const UsagersImportUsagerSchema = yup
     situationPro: oneOfString(
       Object.keys(ENTRETIEN_SITUATION_PRO)
     ).notRequired(),
+    situationProDetail: yup.string().notRequired(),
     revenus: booleanOuiNon().notRequired(),
     revenusDetail: yup.string(),
     liencommune: oneOfString(Object.keys(ENTRETIEN_LIEN_COMMUNE)).notRequired(),
@@ -81,11 +82,11 @@ export const UsagersImportUsagerSchema = yup
     situationResidentielle: oneOfString(
       Object.keys(ENTRETIEN_RESIDENCE)
     ).notRequired(),
-    situationDetails: yup.string(),
+    situationResidentielleDetail: yup.string().notRequired(),
     causeInstabilite: oneOfString(
       Object.keys(ENTRETIEN_CAUSE_INSTABILITE)
     ).notRequired(),
-    causeDetail: yup.string(),
+    causeDetail: yup.string().notRequired(),
     raisonDemande: oneOfString(
       Object.keys(ENTRETIEN_RAISON_DEMANDE)
     ).notRequired(),

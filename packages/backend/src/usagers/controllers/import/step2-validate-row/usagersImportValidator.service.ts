@@ -3,7 +3,7 @@ import { ValidationError } from "yup";
 import {
   USAGERS_IMPORT_COLUMNS,
   USAGERS_IMPORT_COLUMNS_AYANT_DROIT,
-} from "../constants";
+} from "@domifa/common";
 import {
   UsagerImportObject,
   UsagersImportError,
