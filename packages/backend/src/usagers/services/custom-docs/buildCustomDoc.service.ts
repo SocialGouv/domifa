@@ -146,7 +146,7 @@ export function buildCustomDoc({
     DATE_RADIATION:
       usager.decision.statut === "RADIE"
         ? dateFormat(
-            usager.decision.dateDecision,
+            usager.decision.dateDebut,
             structure.timeZone,
             DATE_FORMAT.JOUR_LONG
           )
@@ -296,7 +296,7 @@ export const getDateDecision = (
     (decision: UsagerDecision) => decision.statut === "VALIDE"
   );
 
-  if (valideDecisions.length) {
+  if (valideDecisions.length >= 1) {
     const valideDecision = valideDecisions[valideDecisions.length - 1];
     return {
       dateDebutDom: valideDecision.dateDebut,
@@ -322,20 +322,25 @@ export function getProcurationsListe(procurations: UsagerOptionsProcuration[]) {
   if (procurations.length > 0) {
     procurationString = procurations.reduce(
       (prev: string, current: UsagerOptionsProcuration) => {
-        const dateNaissance = formatDateFromProcurations(current.dateNaissance);
-        const dateDebut = formatDateFromProcurations(current.dateDebut);
-        const dateFin = formatDateFromProcurations(current.dateFin);
+        const dateNaissance = dateFormat(
+          current.dateNaissance,
+          "Europe/Paris",
+          DATE_FORMAT.JOUR
+        );
+        const dateDebut = dateFormat(
+          current.dateDebut,
+          "Europe/Paris",
+          DATE_FORMAT.JOUR
+        );
+        const dateFin = dateFormat(
+          current.dateFin,
+          "Europe/Paris",
+          DATE_FORMAT.JOUR
+        );
         return `${prev}\n${current.nom} ${current.prenom} né(e) le ${dateNaissance} - Du ${dateDebut} au ${dateFin}`;
       },
       ""
     );
   }
   return procurationString.trim();
-}
-
-function formatDateFromProcurations(date?: Date | string | null) {
-  if (date) {
-    return format(new Date(date), "dd/MM/yyyy");
-  }
-  return "Non renseigné";
 }

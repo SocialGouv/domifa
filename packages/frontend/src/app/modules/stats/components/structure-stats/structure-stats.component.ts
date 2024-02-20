@@ -34,7 +34,7 @@ import { formatDateToNgb } from "../../../../shared";
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
   selector: "app-stats",
-  styleUrls: ["./structure-stats.component.css"],
+  styleUrls: ["./structure-stats.component.scss"],
   templateUrl: "./structure-stats.component.html",
 })
 export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
