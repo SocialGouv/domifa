@@ -6,12 +6,12 @@ import { Router, RouterStateSnapshot } from "@angular/router";
 import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { PortailUsagerAuthLoginForm } from "../../../../_common";
-import { configureScope } from "@sentry/angular";
 
 import {
   PortailUsagerProfile,
   PortailUsagerAuthApiResponse,
 } from "@domifa/common";
+import { getCurrentScope } from "@sentry/angular-ivy";
 
 const END_POINT_AUTH = environment.apiUrl + "portail-usagers/auth";
 const END_POINT_PROFILE = environment.apiUrl + "portail-usagers/profile";
@@ -68,10 +68,8 @@ export class UsagerAuthService {
     this.currentUsagerSubject.next(null);
     localStorage.clear();
 
-    configureScope((scope) => {
-      scope.setTag("profil-usager", "none");
-      scope.setUser({});
-    });
+    getCurrentScope().setTag("profil-usager", "none");
+    getCurrentScope().setUser({});
   }
 
   public logoutAndRedirect(state?: RouterStateSnapshot): void {
@@ -116,14 +114,13 @@ export class UsagerAuthService {
     localStorage.setItem(USER_KEY, JSON.stringify(authUsagerProfile));
 
     // Sentry
-    configureScope((scope) => {
-      scope.setUser({
-        username:
-          "AuthUsager " +
-          authUsagerProfile.usager.customRef.toString() +
-          " : " +
-          authUsagerProfile.usager.prenom,
-      });
+
+    getCurrentScope().setUser({
+      username:
+        "AuthUsager " +
+        authUsagerProfile.usager.customRef.toString() +
+        " : " +
+        authUsagerProfile.usager.prenom,
     });
 
     // Mise à jour de l'observable

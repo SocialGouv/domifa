@@ -1,5 +1,5 @@
 import { ErrorHandler, Injectable } from "@angular/core";
-import { captureException } from "@sentry/angular";
+import { captureException } from "@sentry/angular-ivy";
 
 @Injectable()
 export class SentryErrorHandler implements ErrorHandler {

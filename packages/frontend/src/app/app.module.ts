@@ -1,7 +1,5 @@
 import { LoadingService } from "./modules/shared/services/loading.service";
-
 import { CustomToastService } from "./modules/shared/services/custom-toast.service";
-
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
@@ -30,7 +28,7 @@ import { SharedModule } from "./modules/shared/shared.module";
 
 import pkg from "../../package.json";
 
-import { createErrorHandler, init } from "@sentry/angular";
+import { createErrorHandler, init } from "@sentry/angular-ivy";
 import { MATOMO_INJECTORS } from "./shared";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "./shared/store/ngRxAppStore.service";
