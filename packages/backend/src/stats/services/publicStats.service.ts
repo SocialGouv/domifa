@@ -97,63 +97,82 @@ export class PublicStatsService implements OnModuleInit {
     // Si aucune region
     let structures: number[] = null;
 
+    console.log("DEBUGPOINT A")
     if (regionId) {
+      console.log("DEBUGPOINT B")
       structures = await this.structuresService.findStructuresInRegion(
         regionId
       );
+      console.log("DEBUGPOINT C")
 
       // Si aucune structure dans la région, tous les indicateurs sont à zero
       if (!structures.length) {
+        console.log("DEBUGPOINT D")
         return publicStats;
       }
+      console.log("DEBUGPOINT E")
 
       publicStats.structuresCountByRegion =
         await this.adminStructuresService.getStructuresCountByDepartement(
           regionId
         );
+      console.log("DEBUGPOINT F")
 
       publicStats.structuresCount = structures.length;
 
       publicStats.usersCount =
         await userStructureRepository.countUsersByRegionId({ regionId });
+      console.log("DEBUGPOINT G")
     }
     // Stats nationales
     else {
+      console.log("DEBUGPOINT H")
       publicStats.structuresCount = await structureRepository.count();
+      console.log("DEBUGPOINT I")
 
       publicStats.structuresCountByRegion =
-        await this.adminStructuresService.getStructuresCountByRegion();
+      await this.adminStructuresService.getStructuresCountByRegion();
+      console.log("DEBUGPOINT J")
 
       publicStats.usersCount = await userStructureRepository.count();
+      console.log("DEBUGPOINT K")
     }
 
+    console.log("DEBUGPOINT K")
     // Usagers
     publicStats.usagersCount = await usagerRepository.countTotalUsagers(
       structures
     );
+    console.log("DEBUGPOINT L")
 
     publicStats.courrierInCount =
       await this.adminStructuresService.totalInteractions(
         "courrierIn",
         structures
       );
+    console.log("DEBUGPOINT M")
 
     publicStats.courrierOutCount =
       await this.adminStructuresService.totalInteractions(
         "courrierOut",
         structures
       );
+    console.log("DEBUGPOINT N")
 
     publicStats.structuresCountByTypeMap =
       await this.adminStructuresService.getStructuresCountByTypeMap(regionId);
+    console.log("DEBUGPOINT O")
 
     publicStats.interactionsCountByMonth =
       await this.adminStructuresService.countInteractionsByMonth(regionId);
+    console.log("DEBUGPOINT P")
 
     publicStats.usagersCountByMonth =
       await this.adminStructuresService.countUsagersByMonth(regionId);
+    console.log("DEBUGPOINT Q")
 
     await this.cacheManager.set(key, publicStats);
+    console.log("DEBUGPOINT R")
 
     return publicStats;
   }
