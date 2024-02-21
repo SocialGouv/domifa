@@ -1,3 +1,11 @@
+## [2.163.1](https://github.com/SocialGouv/domifa/compare/v2.163.0...v2.163.1) (2024-02-21)
+
+
+### Bug Fixes
+
+* **sentry:** upgrade sentry version in frontend ([286e1db](https://github.com/SocialGouv/domifa/commit/286e1db99ea096073b520530f0167c451b3ace72))
+* **stats:** delete decision fail ([2eca899](https://github.com/SocialGouv/domifa/commit/2eca899aafc7df31ef45e5a61a36c9aeca94f759))
+
 # [2.163.0](https://github.com/SocialGouv/domifa/compare/v2.162.0...v2.163.0) (2024-02-20)
 
 
