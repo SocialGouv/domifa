@@ -21,7 +21,13 @@ export class UsagerHistoryStateService {
     await usagerHistoryStatesRepository
       .createQueryBuilder()
       .delete()
-      .where(`decision->>'uuid' = $1`, [usager.decision.uuid])
+      .where(
+        `"usagerUUID"= :usagerUUID and decision->>'uuid' = :decisionUuid`,
+        {
+          usagerUUID: usager.uuid,
+          decisionUuid: usager.decision.uuid,
+        }
+      )
       .execute();
 
     // Get last entry
