@@ -11,7 +11,7 @@ import { Injectable, Injector } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { AuthService } from "../modules/shared/services/auth.service";
-import { captureException } from "@sentry/angular";
+import { captureException } from "@sentry/angular-ivy";
 import { CustomToastService } from "../modules/shared/services";
 import { Router } from "@angular/router";
 

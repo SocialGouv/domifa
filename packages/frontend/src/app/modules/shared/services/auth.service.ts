@@ -11,7 +11,7 @@ import { UserStructure } from "../../../../_common/model";
 import { cacheManager } from "../../../shared";
 import { userStructureBuilder } from "../../users/services";
 import { CustomToastService } from "./custom-toast.service";
-import * as Sentry from "@sentry/angular";
+import { getCurrentScope } from "@sentry/angular-ivy";
 
 @Injectable({
   providedIn: "root",
@@ -93,8 +93,8 @@ export class AuthService {
     localStorage.removeItem("currentUser");
     localStorage.removeItem("MANAGE_USAGERS");
 
-    Sentry.getCurrentScope().setTag("structure", "none");
-    Sentry.getCurrentScope().setUser({});
+    getCurrentScope().setTag("structure", "none");
+    getCurrentScope().setUser({});
 
     this.router.navigate(["/connexion"]);
   }
@@ -120,8 +120,8 @@ export class AuthService {
     localStorage.setItem("currentUser", JSON.stringify(user));
     this.currentUserSubject.next(user);
 
-    Sentry.getCurrentScope().setTag("structure", user.structureId?.toString());
-    Sentry.getCurrentScope().setUser({
+    getCurrentScope().setTag("structure", user.structureId?.toString());
+    getCurrentScope().setUser({
       email: user.email,
       username:
         "STRUCTURE " + user.structureId?.toString() + " : " + user.prenom,

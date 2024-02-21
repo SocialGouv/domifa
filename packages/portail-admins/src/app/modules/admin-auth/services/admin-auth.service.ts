@@ -1,7 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { configureScope } from "@sentry/angular";
 
 import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
@@ -12,6 +11,7 @@ import {
 import { CustomToastService } from "../../shared/services/custom-toast.service";
 import { appStore } from "../../shared/store/appStore.service";
 import { PortailAdminAuthLoginForm } from "../model";
+import { getCurrentScope } from "@sentry/angular-ivy";
 
 const END_POINT_AUTH = environment.apiUrl + "portail-admins/auth";
 const END_POINT_PROFILE = environment.apiUrl + "portail-admins/profile";
@@ -72,10 +72,9 @@ export class AdminAuthService {
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.removeItem(USER_KEY);
     this.currentAdminSubject.next(null);
-    configureScope((scope) => {
-      scope.setTag("profil-admin", "none");
-      scope.setUser({});
-    });
+
+    getCurrentScope().setTag("profil-admin", "none");
+    getCurrentScope().setUser({});
   }
 
   public logoutAndRedirect({
@@ -114,16 +113,16 @@ export class AdminAuthService {
     window.sessionStorage.removeItem(USER_KEY);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(authAdminProfile));
 
-    // Sentry
-    configureScope((scope) => {
-      scope.setTag("auth-admin-ref", JSON.stringify(authAdminProfile));
-      scope.setUser({
-        username:
-          "AuthAdmin " +
-          authAdminProfile.user.id.toString() +
-          " : " +
-          authAdminProfile.user.prenom,
-      });
+    getCurrentScope().setTag(
+      "auth-admin-ref",
+      JSON.stringify(authAdminProfile)
+    );
+    getCurrentScope().setUser({
+      username:
+        "AuthAdmin " +
+        authAdminProfile.user.id.toString() +
+        " : " +
+        authAdminProfile.user.prenom,
     });
 
     // Mise à jour de l'observable
