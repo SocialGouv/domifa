@@ -4,7 +4,7 @@ global:
 pg:
   ~chart: pg
   backup:
-    name: ovh-preprod # backup on a new folder
+    name: ovh2 # backup on a new folder
   cnpg-cluster:
     persistence:
       size: "30Gi"
@@ -19,16 +19,16 @@ pg:
       ~tpl~owner: "{{ .Values.global.pgUser }}"
       secretName: "pg-db"
       barmanObjectStore:
-        ~tpl~destinationPath: "s3://domifa-dev-backups/domifa-prod"
+        ~tpl~destinationPath: "s3://domifa-dev-backups/domifa-dev"
         s3Credentials:
           accessKeyId:
-            ~tpl~name: "domifa-prod-backups-access-key"
+            ~tpl~name: "domifa-dev-backups-access-key"
             key: bucket_access_key
           secretAccessKey:
-            ~tpl~name: "domifa-prod-backups-access-key"
+            ~tpl~name: "domifa-dev-backups-access-key"
             key: bucket_secret_key
           region:
-            ~tpl~name: "domifa-prod-backups-access-key"
+            ~tpl~name: "domifa-dev-backups-access-key"
             key: bucket_region
 
 backend:
