@@ -30,6 +30,8 @@ jobs:
           DOMIFA_FRONTEND_META_ROBOTS: index,follow
 
 pg:
+  backup:
+    name: ovh # backup on a new folder
   cnpg-cluster:
     persistence:
       size: "30Gi"
@@ -38,6 +40,23 @@ pg:
         memory: 3Gi
       limits:
         memory: 3Gi
+    recovery:
+      enabled: true
+      ~tpl~database: "{{ .Values.global.pgDatabase }}"
+      ~tpl~owner: "{{ .Values.global.pgUser }}"
+      secretName: "pg-db"
+      barmanObjectStore:
+        ~tpl~destinationPath: "s3://domifa-dev-backups/domifa-prod"
+        s3Credentials:
+          accessKeyId:
+            ~tpl~name: "domifa-prod-backups-access-key"
+            key: bucket_access_key
+          secretAccessKey:
+            ~tpl~name: "domifa-prod-backups-access-key"
+            key: bucket_secret_key
+          region:
+            ~tpl~name: "domifa-prod-backups-access-key"
+            key: bucket_region
 
 backend-cron:
   replicas: 1
