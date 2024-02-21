@@ -31,9 +31,6 @@ pg:
             ~tpl~name: "domifa-dev-backups-access-key"
             key: bucket_region
 
-pg-metabase:
-  ~chart: pg
-
 backend:
   host: "api-{{ .Values.global.host }}"
   ~needs: [build-backend, pg]
@@ -69,31 +66,3 @@ portail-admins:
 
 portail-usagers:
   host: "mon-{{ .Values.global.host }}"
-
-metabase:
-  enabled: true
-  ~chart: metabase
-  ~needs: [pg-metabase]
-  ingress:
-    enabled: false
-  envFrom:
-    - secretRef:
-        name: pg-metabase-app
-    - secretRef:
-        name: metabase
-  env:
-    - name: MB_DB_CONNECTION_URI
-      value: "$(DATABASE_URL)"
-
-oauth2-proxy:
-  enabled: true
-  host: "metabase-domifa-preprod.dev.fabrique.social.gouv.fr"
-  additionalArgs:
-    - --skip-auth-route
-    - ^/public/.*,^/app/dist/.*,^/api/public/.*,^/api/session/.*,^/app/assets/.*,^/api/geojson/.*
-  upstream: http://metabase
-  envFrom:
-    - secretRef:
-        name: oauth2-proxy
-    - configMapRef:
-        name: oauth2-proxy
