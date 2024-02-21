@@ -3,6 +3,7 @@ dependencies:
   fabrique:
     import: socialgouv/kontinuous/plugins/fabrique
     extends:
+      - name: ovh
       - name: buildkit-service
     dependencies:
       contrib:
@@ -14,12 +15,3 @@ dependencies:
                   required: false
                 azure-pg-admin-user-devflex:
                   required: false
-                # secret-name:
-                # enabled: true
-                # reload: false
-                # required: false
-                # fromNamespace: <$projectName-ci>
-                # toNamespace: true
-                # toAllNamespace: false
-                # to: azure-pg-admin-user
-                # from: [azure-pg-admin-user]
