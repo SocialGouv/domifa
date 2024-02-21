@@ -11,6 +11,7 @@ export class ManualMigration1692191990701 implements MigrationInterface {
 
     if (!existsSync(inputFile)) {
       console.log("Wait for file ....");
+      console.log(inputFile);
       await new Promise((resolve) => setTimeout(resolve, 180000));
     }
 

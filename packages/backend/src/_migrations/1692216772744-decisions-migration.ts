@@ -1,12 +1,15 @@
+import {
+  getAyantsDroitForStats,
+  getDecisionForStats,
+} from "./../usagers/services/dataCleanerForStats.service";
 import { In, IsNull, MigrationInterface, MoreThan, QueryRunner } from "typeorm";
 
-import { UsagerHistory, UsagerHistoryState } from "../_common/model";
+import { UsagerHistoryStates } from "../_common/model";
 import { addYears, endOfDay, format, startOfDay, subDays } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 import {
-  UsagerHistoryTable,
   myDataSource,
-  usagerHistoryRepository,
+  usagerHistoryStatesRepository,
   usagerRepository,
 } from "../database";
 import { UsagerDecision, UsagerEntretien, UsagerTypeDom } from "@domifa/common";
@@ -19,6 +22,8 @@ import {
   tmpCourriersRepository,
   tmpHistoriqueRepository,
 } from "../database/services/interaction/historiqueRepository.service";
+import { UsagerHistoryStatesTable } from "../database/entities/usager/UsagerHistoryStatesTable.typeorm";
+import { getEntretienForStats } from "../usagers/services";
 
 export class ImportDecisionsMigration1692216772744
   implements MigrationInterface
@@ -47,7 +52,7 @@ export class ImportDecisionsMigration1692216772744
     console.log("Lancement de la migration d'import des decisions");
     console.log("");
     await queryRunner.startTransaction();
-    await usagerHistoryRepository.delete({
+    await usagerHistoryStatesRepository.delete({
       structureId: TOULOUSE_STRUCTURE_ID,
     });
 
@@ -128,6 +133,7 @@ export class ImportDecisionsMigration1692216772744
           "historique",
           "typeDom",
           "etapeDemande",
+          "structureId",
         ],
       });
 
@@ -172,13 +178,7 @@ export class ImportDecisionsMigration1692216772744
           return dateA - dateB;
         });
 
-        const usagerHistory: UsagerHistory = new UsagerHistoryTable({
-          usagerUUID: usager.uuid,
-          usagerRef: usager.ref,
-          structureId: TOULOUSE_STRUCTURE_ID,
-          import: null,
-          states: [],
-        });
+        const usagerHistory: UsagerHistoryStates[] = [];
 
         const typeDom: UsagerTypeDom =
           uniqueDecision.filter((decision) => decision.statut === "VALIDE")
@@ -186,63 +186,48 @@ export class ImportDecisionsMigration1692216772744
             ? "RENOUVELLEMENT"
             : "PREMIERE_DOM";
 
+        let i = 0;
+
         for (const decision of uniqueDecision) {
           usager.decision = decision;
           usager.historique.push(decision);
 
-          const previousState = usagerHistory?.states.length
-            ? usagerHistory.states[usagerHistory.states.length - 1]
-            : undefined;
+          let previousDecision: UsagerDecision | undefined = undefined;
 
+          if (i > 0) {
+            previousDecision = uniqueDecision[i - 1]
+              ? uniqueDecision[i - 1]
+              : undefined;
+          }
+
+          i++;
           const isActive =
             decision.statut === "VALIDE" ||
-            ((decision.statut === "ATTENTE_DECISION" ||
-              decision.statut === "INSTRUCTION") &&
-              (previousState?.isActive ?? false));
+            previousDecision?.statut === "VALIDE";
 
           decision.typeDom = typeDom;
-          const state: UsagerHistoryState = {
-            uuid: uuidv4(),
-            createdAt: startOfDay(new Date(decision.dateDebut)),
-            createdEvent: "new-decision",
-            isActive,
-            historyBeginDate: startOfDay(new Date(decision.dateDebut)),
-            historyEndDate: undefined,
-            decision,
-            typeDom,
-            etapeDemande: usager.etapeDemande,
-            entretien: {
-              domiciliation: null,
-              typeMenage: null,
-              revenus: null,
-              orientation: null,
-              liencommune: null,
-              residence: null,
-              cause: null,
-              rattachement: null,
-              raison: null,
-              accompagnement: null,
-              accompagnementDetail: null,
-            } as UsagerEntretien,
-            ayantsDroits: [...usager.ayantsDroits],
-            rdv: usager.rdv,
-          };
 
-          usagerHistory.states = [
-            ...usagerHistory.states.map((s, i) => {
-              if (i === usagerHistory.states.length - 1) {
-                // finish previous history state
-                s.historyEndDate = endOfDay(
-                  subDays(new Date(state.historyBeginDate), 1)
-                );
-              }
-              return s;
-            }),
-            state,
-          ];
+          usagerHistory.push(
+            new UsagerHistoryStatesTable({
+              createdAt: startOfDay(new Date(decision.dateDebut)),
+              createdEvent: "new-decision",
+              isActive,
+              structureId: usager.structureId,
+              usagerUUID: usager.uuid,
+              usagerRef: usager.ref,
+              historyBeginDate: startOfDay(new Date(decision.dateDebut)),
+              historyEndDate: endOfDay(subDays(new Date(decision.dateFin), 1)),
+              decision: getDecisionForStats(decision),
+              typeDom,
+              etapeDemande: usager.etapeDemande,
+              entretien: getEntretienForStats({} as UsagerEntretien),
+              ayantsDroits: getAyantsDroitForStats(usager.ayantsDroits),
+              rdv: usager.rdv,
+            })
+          );
         }
 
-        await usagerHistoryRepository.save(usagerHistory);
+        await usagerHistoryStatesRepository.save(usagerHistory);
         await usagerRepository.update(
           {
             uuid: usager.uuid,

@@ -167,7 +167,9 @@ export class ManualMigration1692191990702 implements MigrationInterface {
           motif: usagerToulouse.valide !== 1 ? "AUTRE" : null,
           motifDetails: usagerToulouse.valide !== 1 ? "Non renseigné" : null,
         },
-        datePremiereDom: getDateFromXml(usagerToulouse.date_creation) ?? null,
+        datePremiereDom: usagerToulouse?.date_creation
+          ? getDateFromXml(usagerToulouse.date_creation)
+          : null,
       };
 
       usagersCreator.setUsagerDefaultAttributes(partialUsager);
