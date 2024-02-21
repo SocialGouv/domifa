@@ -1,3 +1,10 @@
+## [2.163.2](https://github.com/SocialGouv/domifa/compare/v2.163.1...v2.163.2) (2024-02-21)
+
+
+### Bug Fixes
+
+* debug perfs ([9def42a](https://github.com/SocialGouv/domifa/commit/9def42a6399e043f4605449bd0b2595e84a96014))
+
 ## [2.163.1](https://github.com/SocialGouv/domifa/compare/v2.163.0...v2.163.1) (2024-02-21)
 
 
