@@ -1,5 +1,13 @@
 projectName: domifa
 dependencies:
   fabrique:
-    extends:
-      - name: ovh
+    dependencies:
+      contrib:
+        preDeploy:
+          importSecrets:
+            options:
+              secrets:
+                pg-admin-user:
+                  required: false
+                azure-pg-admin-user-devflex:
+                  required: false
