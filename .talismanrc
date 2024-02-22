@@ -1,8 +1,8 @@
 fileignoreconfig:
-- filename: yarn.lock
-  checksum: 5b1f22069465d7ea1f318577db7c209131ddb9a92ee43186fcbdf5e082872daf
+- filename: .kontinuous/env/dev/values.yaml
+  checksum: 93f8e61164970b6c69bcd15407470a8f33cfa817374df8bb63f31415d423a314
 version: ""
-4af6216d41926c79b354241ac8393baa544400
+1ac8393baa544400
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
   checksum: 2d9122704ca2d2aa45eeb044b1cb868b6f4be182701eedbd0ea06899b9b232e1
 - filename: packages/backend/src/\_migrations/1699910877010-auto-migration.ts
