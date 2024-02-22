@@ -4,7 +4,7 @@ global:
 pg:
   ~chart: pg
   backup:
-    name: ovh # backup on a new folder
+    name: ovh2 # backup on a new folder
   cnpg-cluster:
     persistence:
       size: "30Gi"

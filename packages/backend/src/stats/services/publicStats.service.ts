@@ -122,7 +122,7 @@ export class PublicStatsService implements OnModuleInit {
       publicStats.structuresCount = await structureRepository.count();
 
       publicStats.structuresCountByRegion =
-        await this.adminStructuresService.getStructuresCountByRegion();
+      await this.adminStructuresService.getStructuresCountByRegion();
 
       publicStats.usersCount = await userStructureRepository.count();
     }

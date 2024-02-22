@@ -1,5 +1,3 @@
-
-
 name: 👓 Review Auto
 on:
   push:
@@ -7,6 +5,7 @@ on:
       - "feat-**"
       - "fix-**"
       - "sre/**"
+      - "beta"
 
 concurrency:
   cancel-in-progress: true
