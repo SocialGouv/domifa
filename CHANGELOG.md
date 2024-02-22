@@ -1,3 +1,15 @@
+# [2.164.0](https://github.com/SocialGouv/domifa/compare/v2.163.1...v2.164.0) (2024-02-22)
+
+
+### Bug Fixes
+
+* kontinuous config back to azure ([439ceb7](https://github.com/SocialGouv/domifa/commit/439ceb7ebb29f5da0df36568d43363a7314cef8a))
+
+
+### Features
+
+* bump version ([c436582](https://github.com/SocialGouv/domifa/commit/c4365826886cfcea6b943754f866d4198d2d4426))
+
 ## [2.163.2](https://github.com/SocialGouv/domifa/compare/v2.163.1...v2.163.2) (2024-02-22)
 
 
