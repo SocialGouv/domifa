@@ -4,7 +4,7 @@ metadata:
   name: backend-configmap
 data:
   DOMIFA_ENV_PRESET: dist.preset.env
-  DOMIFA_ENV_ID: dev
+  DOMIFA_ENV_ID: preprod
   PGSSLMODE: "require"
   NODE_ENV: production
   DOMIFA_PRINT_CONFIG: "true"
