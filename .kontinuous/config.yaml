@@ -1,6 +1,8 @@
 projectName: domifa
 dependencies:
   fabrique:
+    extends:
+      - name: ovh
     dependencies:
       contrib:
         preDeploy:
