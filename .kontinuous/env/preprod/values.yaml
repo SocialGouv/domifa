@@ -1,5 +1,7 @@
 global:
   pgSecretName: pg-app
+  pgDatabase: preprod
+  pgUser: preprod
 
 pg:
   ~chart: pg
