@@ -5,7 +5,7 @@ on:
       - "feat-**"
       - "fix-**"
       - "sre/**"
-      - "sre/**"
+      - "beta"
 
 concurrency:
   cancel-in-progress: true
