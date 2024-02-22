@@ -54,6 +54,13 @@
 
 * kontinuous config back to azure ([439ceb7](https://github.com/SocialGouv/domifa/commit/439ceb7ebb29f5da0df36568d43363a7314cef8a))
 
+## [2.163.2](https://github.com/SocialGouv/domifa/compare/v2.163.1...v2.163.2) (2024-02-22)
+
+
+### Bug Fixes
+
+* kontinuous config back to azure ([439ceb7](https://github.com/SocialGouv/domifa/commit/439ceb7ebb29f5da0df36568d43363a7314cef8a))
+
 ## [2.163.1](https://github.com/SocialGouv/domifa/compare/v2.163.0...v2.163.1) (2024-02-21)
 
 
