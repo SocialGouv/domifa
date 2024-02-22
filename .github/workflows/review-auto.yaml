@@ -1,11 +1,10 @@
-
-
 name: 👓 Review Auto
 on:
   push:
     branches:
       - "feat-**"
       - "fix-**"
+      - "sre/**"
       - "sre/**"
 
 concurrency:
