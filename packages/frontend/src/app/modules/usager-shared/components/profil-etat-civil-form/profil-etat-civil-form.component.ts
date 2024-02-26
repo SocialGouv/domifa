@@ -42,6 +42,7 @@ export class ProfilEtatCivilFormComponent
     private readonly etatCivilService: UsagerService
   ) {
     super(formBuilder, authService, changeDetectorRef);
+    this.displayContactDetails = false;
   }
 
   public ngOnInit(): void {
