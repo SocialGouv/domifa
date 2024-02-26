@@ -1,4 +1,4 @@
-ARG NODE_VERSION=16.20-bookworm-slim@sha256:89061680359f5d9103d24f0066e2c96a8018c24d5c4fe8eb8d59d16dd4ab64ba
+ARG NODE_VERSION=lts-bookworm-slim
 
 FROM node:${NODE_VERSION} AS deps
 
