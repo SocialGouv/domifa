@@ -8,21 +8,21 @@ import { AllowUserStructureRoles } from "../../auth/decorators";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import {
-  structureUsagersExporter,
   StructureUsagersExportModel,
+  structureUsagersExporter,
 } from "../../excel/export-structure-usagers";
 
-import { expressResponseExcelRenderer } from "../../util";
 import {
   Usager,
   UserStructure,
   UserStructureAuthenticated,
 } from "../../_common/model";
+import { expressResponseExcelRenderer } from "../../util";
 import { UsagersService } from "../services/usagers.service";
 
 import { format } from "date-fns";
-import { InteractionType } from "@domifa/common";
 import { userUsagerLoginRepository } from "../../database";
+import { StructureStatsQuestionsInPeriodInteractions } from "@domifa/common";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("export")
@@ -60,9 +60,7 @@ export class ExportStructureUsagersController {
     const usagers = await this.usagersService.export(user.structureId);
 
     const usagersInteractionsCountByType: {
-      [usagerRef: number]: {
-        [interactionType in InteractionType | "loginPortail"]: number;
-      };
+      [usagerRef: number]: StructureStatsQuestionsInPeriodInteractions;
     } = {};
 
     const interactionsByUsagerMap =
@@ -78,17 +76,8 @@ export class ExportStructureUsagersController {
     for (const element of usagers) {
       const usager: Usager = element;
       const data = interactionsByUsagerMap.find(
-        (x: {
-          usagerRef: number;
-          appel: number;
-          visite: number;
-          courrierIn: number;
-          courrierOut: number;
-          recommandeIn: number;
-          recommandeOut: number;
-          colisIn: number;
-          colisOut: number;
-        }) => x.usagerRef === usager.ref
+        (x: StructureStatsQuestionsInPeriodInteractions) =>
+          x.usagerRef === usager.ref
       );
 
       const userUsagerLogin = userUsagerLoginByUsagerMap.find(
@@ -103,13 +92,19 @@ export class ExportStructureUsagersController {
       usagersInteractionsCountByType[usager.ref] = {
         courrierIn: data?.courrierIn ?? 0,
         courrierOut: data?.courrierOut ?? 0,
+        courrierOutForwarded: data?.courrierOutForwarded ?? 0,
         recommandeIn: data?.recommandeIn ?? 0,
         recommandeOut: data?.recommandeOut ?? 0,
+        recommandeOutForwarded: data?.recommandeOutForwarded ?? 0,
         colisIn: data?.colisIn ?? 0,
         colisOut: data?.colisOut ?? 0,
+        colisOutForwarded: data?.colisOutForwarded ?? 0,
         appel: data?.appel ?? 0,
         loginPortail,
         visite: 0,
+        usagerRef: usager.ref,
+        allVisites: 0,
+        visiteOut: 0,
       };
     }
 

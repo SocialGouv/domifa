@@ -34,19 +34,19 @@ async function getStats({
 
   const allVisites = visiteOut + totalInteractions.visite;
 
+  const loginPortail = await userUsagerLoginRepository.count({
+    where: {
+      structureId,
+      createdAt: Between(startDateUTC, endDateUTCExclusive) as unknown as Date,
+    },
+  });
+
   const stats: StructureStatsQuestionsInPeriodInteractions = {
     ...totalInteractions,
     allVisites,
     visiteOut,
-    loginPortail: await userUsagerLoginRepository.count({
-      where: {
-        structureId,
-        createdAt: Between(
-          startDateUTC,
-          endDateUTCExclusive
-        ) as unknown as Date,
-      },
-    }),
+    loginPortail,
+    usagerRef: 0,
   };
 
   return stats;
