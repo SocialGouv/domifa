@@ -1,6 +1,3 @@
-pg:
-  ~chart: pg
-
 backend:
   ~chart: app
   ~needs: [build-backend]

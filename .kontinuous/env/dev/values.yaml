@@ -1,12 +1,7 @@
 global:
   pgSecretName: pg-app
-
-pg:
-  # this force ce PG cluster to be destroyed on redeploys
-  ~preDeploy.cleaner:
-    match:
-      kind: Cluster
-    value: true
+  pgDatabase: app
+  pgUser: app
 
 jobs:
   runs:
