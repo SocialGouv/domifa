@@ -136,10 +136,11 @@
       <app-rgpd-warning></app-rgpd-warning>
     </div>
   </div>
-  <div class="alert alert-danger" *ngIf="usager.options?.npai?.actif">
+  <div class="alert alert-danger" *ngIf="usager.decision.statut === 'RADIE'">
     <div aria-hidden="true" class="svg-icon icon-danger"></div>
     <p class="text-danger">
-      Il est indiqué que ce dossier ne doit plus recevoir de courrier.
+      Vous êtes sur le point d'ajouter du courrier à un dossier marqué comme
+      radié
     </p>
   </div>
 </div>
