@@ -87,6 +87,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   public submitted = false;
   public loading = false;
   public ayantsDroitsExist = false;
+  public displayContactDetails = true;
 
   public languagesAutocomplete = languagesAutocomplete;
   public languagesAutocompleteSearch = languagesAutocomplete.typeahead({
@@ -256,12 +257,10 @@ export class EtatCivilParentFormComponent implements OnDestroy {
       }
     );
 
-    const telephone: Telephone = !formValue?.telephone
-      ? {
-          countryCode: CountryISO.France,
-          numero: "",
-        }
-      : getFormPhone(formValue.telephone);
+    const telephone: Telephone =
+      this.displayContactDetails && !formValue?.telephone
+        ? getFormPhone(formValue.telephone)
+        : this.usager.telephone;
 
     const datas: UsagerEtatCivilFormData = {
       sexe: formValue?.sexe,
