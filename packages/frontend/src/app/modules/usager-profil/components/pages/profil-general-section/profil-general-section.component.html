@@ -358,7 +358,7 @@
           <ng-container
             *ngIf="
               usager?.echeanceInfos?.isActif ||
-              usager.decision.statut === 'RADIE'
+              (usager.decision.statut === 'RADIE' && !usager.options.npai.actif)
             "
           >
             <ng-container
