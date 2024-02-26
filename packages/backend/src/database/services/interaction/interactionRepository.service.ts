@@ -202,8 +202,8 @@ async function totalInteractionAllUsagersStructure({
       coalesce (SUM(CASE WHEN i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOut",
       coalesce (SUM(CASE WHEN i."returnToSender" is true AND i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOutForwarded",
       coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn",
-      coalesce (SUM(CASE WHEN i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOut"
-      coalesce (SUM(CASE WHEN i."returnToSender" is true AND i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOuForwardedt"
+      coalesce (SUM(CASE WHEN i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOut",
+      coalesce (SUM(CASE WHEN i."returnToSender" is true AND i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOutForwarded"
     FROM interactions i
     WHERE i."structureId" = $1
     GROUP BY i."usagerRef"`;
@@ -274,8 +274,8 @@ async function totalInteractionsInPeriod({
   coalesce (SUM(CASE WHEN i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOut",
   coalesce (SUM(CASE WHEN i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOutForwarded",
   coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn",
-  coalesce (SUM(CASE WHEN i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOut"
-  coalesce (SUM(CASE WHEN i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOuForwardedt"
+  coalesce (SUM(CASE WHEN i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOut",
+  coalesce (SUM(CASE WHEN i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOutForwarded"
     FROM interactions i
     WHERE i."structureId" = $1
     AND i."dateInteraction" >= $2
