@@ -17,6 +17,26 @@ jobs:
           DOMIFA_PORTAIL_ADMINS_URL: https://admin-{{ .Values.global.host }}/
           DOMIFA_PORTAIL_USAGERS_URL: https://mon-{{ .Values.global.host }}/
           DOMIFA_FRONTEND_URL: https://{{ .Values.global.host }}/
+          DOMIFA_ENV_ID: preprod
+
+    build-frontend:
+      use: build
+      with:
+        buildArgs:
+          DOMIFA_ENV_ID: preprod
+
+    build-portail-admins:
+      use: build
+      with:
+        buildArgs:
+          DOMIFA_ENV_ID: preprod
+
+    build-portail-usagers:
+      use: build
+      with:
+        buildArgs:
+          DOMIFA_ENV_ID: preprod
+
     seed:
       ~needs: [backend] # need backend to run migrations
       use: seed-db
