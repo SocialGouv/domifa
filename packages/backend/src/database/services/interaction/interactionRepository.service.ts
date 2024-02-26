@@ -4,7 +4,11 @@ import { Usager, UserStructureAuthenticated } from "../../../_common/model";
 import { INTERACTION_OK_LIST } from "../../../_common/model/interaction";
 import { InteractionsTable } from "../../entities";
 import { myDataSource } from "../_postgres";
-import { CommonInteraction, InteractionType } from "@domifa/common";
+import {
+  CommonInteraction,
+  InteractionType,
+  StructureStatsQuestionsInPeriodInteractions,
+} from "@domifa/common";
 
 export const interactionRepository = myDataSource
   .getRepository<CommonInteraction>(InteractionsTable)
@@ -185,19 +189,7 @@ async function totalInteractionAllUsagersStructure({
   structureId,
 }: {
   structureId: number;
-}): Promise<
-  {
-    usagerRef: number;
-    appel: number;
-    visite: number;
-    courrierIn: number;
-    courrierOut: number;
-    recommandeIn: number;
-    recommandeOut: number;
-    colisIn: number;
-    colisOut: number;
-  }[]
-> {
+}): Promise<StructureStatsQuestionsInPeriodInteractions[]> {
   // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
   const query = `SELECT
       i."usagerRef",
@@ -205,10 +197,13 @@ async function totalInteractionAllUsagersStructure({
       coalesce (COUNT(CASE WHEN i.type = 'visite' THEN 1 END), 0) AS "visite",
       coalesce (SUM(CASE WHEN i.type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn",
       coalesce (SUM(CASE WHEN i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOut",
+      coalesce (SUM(CASE WHEN i."returnToSender" is true AND i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOutForwarded",
       coalesce (SUM(CASE WHEN i.type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn",
       coalesce (SUM(CASE WHEN i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOut",
+      coalesce (SUM(CASE WHEN i."returnToSender" is true AND i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOutForwarded",
       coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn",
       coalesce (SUM(CASE WHEN i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOut"
+      coalesce (SUM(CASE WHEN i."returnToSender" is true AND i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOuForwardedt"
     FROM interactions i
     WHERE i."structureId" = $1
     GROUP BY i."usagerRef"`;
@@ -222,20 +217,27 @@ async function totalInteractionAllUsagersStructure({
       visite: string;
       courrierIn: string;
       courrierOut: string;
+      courrierOutForwarded: string;
       recommandeIn: string;
       recommandeOut: string;
+      recommandeOutForwarded: string;
       colisIn: string;
       colisOut: string;
+      colisOutForwarded: string;
     }) => ({
       usagerRef: parseInt(x.usagerRef, 10),
       courrierIn: parseInt(x.courrierIn, 10),
       courrierOut: parseInt(x.courrierOut, 10),
+      courrierOutForwarded: parseInt(x.courrierOutForwarded, 10),
       recommandeIn: parseInt(x.recommandeIn, 10),
       recommandeOut: parseInt(x.recommandeOut, 10),
+      recommandeOutForwarded: parseInt(x.recommandeOutForwarded, 10),
       colisIn: parseInt(x.colisIn, 10),
       colisOut: parseInt(x.colisOut, 10),
+      colisOutForwarded: parseInt(x.colisOutForwarded, 10),
       appel: parseInt(x.appel, 10),
       visite: parseInt(x.visite, 10),
+      loginPortai: 0,
     })
   );
 }
@@ -253,10 +255,13 @@ async function totalInteractionsInPeriod({
   visite: number;
   courrierIn: number;
   courrierOut: number;
+  courrierOutForwarded: number;
   recommandeIn: number;
   recommandeOut: number;
+  recommandeOutForwarded: number;
   colisIn: number;
   colisOut: number;
+  colisOutForwarded: number;
 }> {
   // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
   const query = `SELECT
@@ -264,10 +269,13 @@ async function totalInteractionsInPeriod({
   coalesce (COUNT(CASE WHEN i.type = 'visite' THEN 1 END), 0) AS "visite",
   coalesce (SUM(CASE WHEN i.type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn",
   coalesce (SUM(CASE WHEN i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOut",
+  coalesce (SUM(CASE WHEN i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOutForwarded",
   coalesce (SUM(CASE WHEN i.type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn",
   coalesce (SUM(CASE WHEN i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOut",
+  coalesce (SUM(CASE WHEN i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOutForwarded",
   coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn",
   coalesce (SUM(CASE WHEN i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOut"
+  coalesce (SUM(CASE WHEN i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOuForwardedt"
     FROM interactions i
     WHERE i."structureId" = $1
     AND i."dateInteraction" >= $2
@@ -285,10 +293,13 @@ async function totalInteractionsInPeriod({
     return {
       courrierIn: parseInt(results.courrierIn, 10),
       courrierOut: parseInt(results.courrierOut, 10),
+      courrierOutForwarded: parseInt(results.courrierOutForwarded, 10),
       recommandeIn: parseInt(results.recommandeIn, 10),
       recommandeOut: parseInt(results.recommandeOut, 10),
+      recommandeOutForwarded: parseInt(results.recommandeOutForwarded, 10),
       colisIn: parseInt(results.colisIn, 10),
       colisOut: parseInt(results.colisOut, 10),
+      colisOutForwarded: parseInt(results.colisOutForwarded, 10),
       appel: parseInt(results.appel, 10),
       visite: parseInt(results.visite, 10),
     };
@@ -296,10 +307,13 @@ async function totalInteractionsInPeriod({
   return {
     courrierIn: 0,
     courrierOut: 0,
+    courrierOutForwarded: 0,
     recommandeIn: 0,
     recommandeOut: 0,
+    recommandeOutForwarded: 0,
     colisIn: 0,
     colisOut: 0,
+    colisOutForwarded: 0,
     appel: 0,
     visite: 0,
   };
