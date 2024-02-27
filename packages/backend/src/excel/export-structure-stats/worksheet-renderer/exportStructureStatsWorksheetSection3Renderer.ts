@@ -32,16 +32,25 @@ function renderSection3Interactions(context: {
     value: data.colisOut,
   });
   worksheetRendered.renderCell(i++, "c", {
+    value: data.colisOutForwarded,
+  });
+  worksheetRendered.renderCell(i++, "c", {
     value: data.courrierIn,
   });
   worksheetRendered.renderCell(i++, "c", {
     value: data.courrierOut,
   });
   worksheetRendered.renderCell(i++, "c", {
+    value: data.courrierOutForwarded,
+  });
+  worksheetRendered.renderCell(i++, "c", {
     value: data.recommandeIn,
   });
   worksheetRendered.renderCell(i++, "c", {
     value: data.recommandeOut,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.recommandeOutForwarded,
   });
   worksheetRendered.renderCell(i++, "c", {
     value: data.allVisites,
