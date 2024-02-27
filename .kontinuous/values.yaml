@@ -82,8 +82,8 @@ backend-cron:
       memory: 2Gi
   startupProbe:
     initialDelaySeconds: 30
-    failureThreshold: 50
-    periodSeconds: 10
+    failureThreshold: 100
+    periodSeconds: 60
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"
