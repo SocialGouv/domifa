@@ -1,3 +1,10 @@
+## [2.164.2](https://github.com/SocialGouv/domifa/compare/v2.164.1...v2.164.2) (2024-02-27)
+
+
+### Bug Fixes
+
+* **cron:** add ressources to backend-cron ([d7cef2c](https://github.com/SocialGouv/domifa/commit/d7cef2c48ff57c72acf5f1d6227b60fc62fa5435))
+
 ## [2.164.1](https://github.com/SocialGouv/domifa/compare/v2.164.0...v2.164.1) (2024-02-27)
 
 
