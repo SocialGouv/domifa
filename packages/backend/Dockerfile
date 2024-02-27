@@ -52,4 +52,6 @@ COPY --from=builder --chown=1000:1000 /app/packages/backend/package.json /app/pa
 COPY --from=builder --chown=1000:1000 /app/packages/backend/src/excel/_templates /app/packages/backend/dist/excel/_templates/
 COPY --from=builder --chown=1000:1000 /app/packages/backend/src/_static /app/packages/backend/dist/_static/
 
+ENV NODE_OPTIONS="--max-old-space-size=8192"
+
 CMD ["packages/backend/scripts/start"]
