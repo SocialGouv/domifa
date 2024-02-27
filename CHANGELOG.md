@@ -1,3 +1,14 @@
+## [2.164.1](https://github.com/SocialGouv/domifa/compare/v2.164.0...v2.164.1) (2024-02-27)
+
+
+### Bug Fixes
+
+* **ci:** upgrade nodejs ([f30a6d0](https://github.com/SocialGouv/domifa/commit/f30a6d05343a929b252da7d319f20c33c0e56f8e))
+* **interactions:** display interactions for 'radie' ([304ae49](https://github.com/SocialGouv/domifa/commit/304ae49dfae06445f653bd68cf9d37484d7b5e4e))
+* **phone:** add phone in decision ([463fa4b](https://github.com/SocialGouv/domifa/commit/463fa4b3499827449df26586463f6a86272e443c))
+* **stats:** add return to sender to stats ([d376730](https://github.com/SocialGouv/domifa/commit/d376730cb865c20dea8168784415d7435d505716))
+* **stats:** add stats to export ([d5dd0cb](https://github.com/SocialGouv/domifa/commit/d5dd0cb609f0523061d78069ed24236f13bd52cf))
+
 # [2.164.0](https://github.com/SocialGouv/domifa/compare/v2.163.2...v2.164.0) (2024-02-27)
 
 
