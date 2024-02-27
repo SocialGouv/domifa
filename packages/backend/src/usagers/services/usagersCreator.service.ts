@@ -13,7 +13,7 @@ async function findNextUsagerRef(structureId: number): Promise<number> {
   return usager?.ref ? usager?.ref + 1 : 1;
 }
 
-function setUsagerDefaultAttributes(usager: Usager): void {
+function setUsagerDefaultAttributes(usager: Partial<Usager>): void {
   usager.options = {
     transfert: {
       actif: false,

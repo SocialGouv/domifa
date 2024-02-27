@@ -2,5 +2,5 @@
   "watch": ["src", ".env"],
   "ext": "ts",
   "ignore": ["src/**/*.spec.ts"],
-  "exec": "ts-node -r tsconfig-paths/register src/run-app.ts | pino-pretty --singleLine"
+  "exec": "ts-node -r tsconfig-paths/register src/run-app.ts  | pino-pretty --singleLine"
 }

@@ -25,7 +25,6 @@ function get<T, _DEFAULT_RESULT extends Partial<T> | number = T>(
     typeorm,
     aggregateAsNumber,
     countBy,
-
     _parseCounts,
   };
 

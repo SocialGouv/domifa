@@ -1,14 +1,14 @@
 fileignoreconfig:
+- filename: packages/backend/src/_migrations/1692191990700-generate-temp-tables-migration.ts
+  checksum: 3b11e786b221fba3231d33bfaac82ebb381a6710a77f64b5b1ecdef7d8c704b1
+- filename: packages/backend/src/_migrations/1692191990702-import-toulouse-usagers-migration.ts
+  checksum: 974c35199bdbb773b318367d39d8ac7281c9fa8369b30bb195a9932d6c618fa2
+- filename: packages/backend/src/_migrations/1692216772744-decisions-migration.ts
+  checksum: a176807289516ad1b4774c3ca36833549921e7dc7d84db8f8d3027f626be6abb
 - filename: yarn.lock
-  checksum: 5b1f22069465d7ea1f318577db7c209131ddb9a92ee43186fcbdf5e082872daf
+  checksum: 7a0570840f05e89eadb1c7bd1000b043cecdff7eb43e7284ff048ea16308bc12
 version: ""
-4af6216d41926c79b354241ac8393baa544400
-- filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: 2d9122704ca2d2aa45eeb044b1cb868b6f4be182701eedbd0ea06899b9b232e1
-- filename: packages/backend/src/\_migrations/1699910877010-auto-migration.ts
-  checksum: bd05dd6b68f7fe2ca36ab1180a0449878cf78f4e048d2e5979b3dbe5fba1db53
-- filename: packages/backend/src/\_migrations/1701870413794-auto-migration.ts
-  checksum: 281adc67c437b0c3ea874865872dafb0b6a4b23be044694caa6f0d210bbba0f9
+ba0f9
 - filename: packages/backend/src/\_migrations/1702483465656-auto-migration.ts
   checksum: 2dbc2450c1df10f68a54897946318976bf8163711f3143e0608ce6c0e7275447
 - filename: packages/backend/src/\_portail-usager/portail-usager-login/portail-usagers-login.controller.spec.ts
