@@ -1,5 +1,4 @@
-global:
-  pgSecretName: pg-app
+# TODO: prod
 
 jobs:
   runs:

@@ -1,5 +1,5 @@
-pg:
-  ~chart: pg
+global:
+  pgSecretName: pg-app
 
 backend:
   ~chart: app

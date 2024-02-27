@@ -1,47 +1,14 @@
-global:
-  pgSecretName: pg-app
-
-pg:
-  ~chart: pg
-  backup:
-    name: ovh # backup on a new folder
-  cnpg-cluster:
-    persistence:
-      size: "30Gi"
-    resources:
-      requests:
-        memory: 3Gi
-      limits:
-        memory: 3Gi
-    recovery:
-      enabled: true
-      ~tpl~database: "{{ .Values.global.pgDatabase }}"
-      ~tpl~owner: "{{ .Values.global.pgUser }}"
-      secretName: "pg-db"
-      barmanObjectStore:
-        ~tpl~destinationPath: "s3://domifa-dev-backups/domifa-preprod"
-        s3Credentials:
-          accessKeyId:
-            ~tpl~name: "domifa-dev-backups-access-key"
-            key: bucket_access_key
-          secretAccessKey:
-            ~tpl~name: "domifa-dev-backups-access-key"
-            key: bucket_secret_key
-          region:
-            ~tpl~name: "domifa-dev-backups-access-key"
-            key: bucket_region
-
 pg-metabase:
   ~chart: pg
 
 backend:
   host: "api-{{ .Values.global.host }}"
-  ~needs: [build-backend, pg]
+  ~needs: [build-backend]
   addVolumes:
     - files
   envFrom:
     - secretRef:
-        name: pg-app
+        name: "{{ .Values.global.pgSecretName }}"
     - secretRef:
         name: backend-sealed-secret
     - configMapRef:
@@ -55,7 +22,7 @@ backend-cron:
   ~needs: [backend]
   envFrom:
     - secretRef:
-        name: pg-app
+        name: "{{ .Values.global.pgSecretName }}"
     - secretRef:
         name: backend-sealed-secret
     - configMapRef:
