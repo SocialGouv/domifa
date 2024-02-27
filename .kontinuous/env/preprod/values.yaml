@@ -14,8 +14,6 @@ backend:
     - configMapRef:
         name: backend-configmap
     - secretRef:
-        name: azure-domifa-volume
-    - secretRef:
         name: domifa-encryption-key
 
 backend-cron:
