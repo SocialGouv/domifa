@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:java="http://www.yworks.com/xml/yfiles-common/1.0/java" xmlns:sys="http://www.yworks.com/xml/yfiles-common/markup/primitives/2.0" xmlns:x="http://www.yworks.com/xml/yfiles-common/markup/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:y="http://www.yworks.com/xml/graphml" xmlns:yed="http://www.yworks.com/xml/yed/3" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://www.yworks.com/xml/schema/graphml/1.1/ygraphml.xsd">
+	<key for="node" id="nodegraph" yfiles.type="nodegraphics"/>
+	<key for="edge" id="edgegraph" yfiles.type="edgegraphics"/>
+	<graph edgedefault="directed" id="G">
+		<node id="entity0">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="188" width="286.64" x="736" y="2203"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="238" x="0" y="4">app_log</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="138" width="238" x="2" y="31.66796875">uuid: uuid NOT NULL
+createdAt: timestamptz NOT NULL
+updatedAt: timestamptz NOT NULL
+version: int4 NOT NULL
+userId: int4 NOT NULL
+usagerRef: int4
+structureId: int4 NOT NULL
+action: text NOT NULL						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<node id="entity1">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="302" width="309.64" x="20" y="2468"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="261" x="0" y="4">contact_support</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="252" width="261" x="2" y="31.66796875">uuid: uuid NOT NULL
+createdAt: timestamptz NOT NULL
+updatedAt: timestamptz NOT NULL
+version: int4 NOT NULL
+userId: int4
+structureId: int4
+content: text NOT NULL
+status: text NOT NULL
+attachment: jsonb
+email: text NOT NULL
+category: text
+name: text NOT NULL
+comments: text
+structureName: text						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<node id="entity2">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="131" width="180.36" x="325" y="2232"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="149" x="0" y="4">hypopg_list_indexes</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="100" width="149" x="2" y="31.66796875">indexrelid: oid
+index_name: text
+schema_name: name
+table_name: name
+am_name: name						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<node id="entity3">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="340" width="348.28" x="325" y="373"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="291" x="0" y="4">interactions</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="290" width="291" x="2" y="31.66796875">uuid: uuid NOT NULL
+createdAt: timestamptz NOT NULL
+updatedAt: timestamptz NOT NULL
+version: int4 NOT NULL
+dateInteraction: timestamptz NOT NULL
+nbCourrier: int4 NOT NULL
+structureId: int4 NOT NULL
+type: text NOT NULL
+usagerRef: int4 NOT NULL
+userId: int4
+userName: text NOT NULL
+content: text
+usagerUUID: uuid NOT NULL
+event: text NOT NULL
+previousValue: jsonb
+interactionOutUUID: uuid						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<node id="entity4">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="302" width="359.48" x="325" y="2468"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="295" x="0" y="4">message_email</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="252" width="295" x="2" y="31.66796875">uuid: uuid NOT NULL
+createdAt: timestamptz NOT NULL
+updatedAt: timestamptz NOT NULL
+version: int4 NOT NULL
+status: text NOT NULL
+emailId: text NOT NULL
+initialScheduledDate: timestamptz NOT NULL
+nextScheduledDate: timestamptz NOT NULL
+sendDate: timestamptz
+content: jsonb NOT NULL
+errorCount: int4 NOT NULL
+errorMessage: text
+sendDetails: jsonb
+attachments: jsonb						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<node id="entity5">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="397" width="327.4" x="736" y="2421"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="273" x="0" y="4">message_sms</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="347" width="273" x="2" y="31.66796875">uuid: uuid NOT NULL
+createdAt: timestamptz NOT NULL
+updatedAt: timestamptz NOT NULL
+version: int4 NOT NULL
+usagerRef: int4 NOT NULL
+structureId: int4 NOT NULL
+content: text NOT NULL
+status: text NOT NULL
+smsId: text NOT NULL
+scheduledDate: timestamptz NOT NULL
+sendDate: timestamptz
+interactionMetas: jsonb
+reminderMetas: jsonb
+lastUpdate: timestamptz
+errorCount: int4 NOT NULL
+errorMessage: text
+responseId: text
+phoneNumber: text NOT NULL
+senderName: text NOT NULL						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<node id="entity6">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="93" width="243.56" x="20" y="2251"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="205" x="0" y="4">migrations</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="43" width="205" x="2" y="31.66796875">id: serial4 NOT NULL
+timestamp: int8 NOT NULL
+name: varchar NOT NULL						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<node id="entity7">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="264" width="302.64" x="1088" y="2165"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="254" x="0" y="4">monitor_batch_process</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="214" width="254" x="2" y="31.66796875">uuid: uuid NOT NULL
+createdAt: timestamptz NOT NULL
+updatedAt: timestamptz NOT NULL
+version: int4 NOT NULL
+processId: text NOT NULL
+beginDate: timestamptz NOT NULL
+endDate: timestamptz NOT NULL
+trigger: text NOT NULL
+status: text NOT NULL
+details: jsonb
+errorMessage: text
+alertMailSent: bool NOT NULL						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<node id="entity8">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="625" width="352.72" x="1088" y="1234"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="294" x="0" y="4">structure</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="575" width="294" x="2" y="31.66796875">uuid: uuid NOT NULL
+createdAt: timestamptz NOT NULL
+updatedAt: timestamptz NOT NULL
+version: int4 NOT NULL
+id: serial4 NOT NULL
+adresse: text NOT NULL
+adresseCourrier: jsonb
+agrement: text
+capacite: int4
+codePostal: text
+complementAdresse: text
+departement: text NOT NULL
+region: text NOT NULL
+email: text NOT NULL
+hardReset: jsonb
+tokenDelete: text
+import: bool NOT NULL
+registrationDate: timestamptz NOT NULL
+importDate: date
+lastLogin: date
+nom: text NOT NULL
+options: jsonb NOT NULL
+responsable: jsonb NOT NULL
+structureType: text NOT NULL
+token: text
+verified: bool NOT NULL
+ville: text
+sms: jsonb NOT NULL
+portailUsager: jsonb NOT NULL
+timeZone: text
+telephone: jsonb NOT NULL						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<node id="entity9">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="302" width="365.28" x="736" y="20"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="308" x="0" y="4">structure_doc</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="252" width="308" x="2" y="31.66796875">uuid: uuid NOT NULL
+createdAt: timestamptz NOT NULL
+updatedAt: timestamptz NOT NULL
+version: int4 NOT NULL
+id: serial4 NOT NULL
+label: text NOT NULL
+createdBy: jsonb NOT NULL
+tags: jsonb
+custom: bool NOT NULL
+filetype: text NOT NULL
+structureId: int4 NOT NULL
+path: text NOT NULL
+customDocType: text
+displayInPortailUsager: bool NOT NULL						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<node id="entity10">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="625" width="344.4" x="736" y="901"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="290" x="0" y="4">usager</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="575" width="290" x="2" y="31.66796875">uuid: uuid NOT NULL
+createdAt: timestamptz NOT NULL
+updatedAt: timestamptz NOT NULL
+version: int4 NOT NULL
+ref: int4 NOT NULL
+customRef: text
+structureId: int4 NOT NULL
+nom: text NOT NULL
+prenom: text NOT NULL
+surnom: text
+sexe: text NOT NULL
+dateNaissance: timestamptz NOT NULL
+villeNaissance: text NOT NULL
+langue: text
+email: text
+datePremiereDom: timestamptz
+typeDom: text
+decision: jsonb NOT NULL
+historique: jsonb NOT NULL
+ayantsDroits: jsonb
+lastInteraction: jsonb NOT NULL
+etapeDemande: int4 NOT NULL
+rdv: jsonb
+entretien: jsonb NOT NULL
+options: jsonb NOT NULL
+import: jsonb
+notes: jsonb NOT NULL
+migrated: bool NOT NULL
+telephone: jsonb
+contactByPhone: bool
+numeroDistribution: text						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<node id="entity11">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="245" width="292.64" x="325" y="1113"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="244" x="0" y="4">usager_docs</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="195" width="244" x="2" y="31.66796875">uuid: uuid NOT NULL
+createdAt: timestamptz NOT NULL
+updatedAt: timestamptz NOT NULL
+version: int4 NOT NULL
+usagerUUID: uuid NOT NULL
+structureId: int4 NOT NULL
+usagerRef: int4 NOT NULL
+path: text NOT NULL
+label: text NOT NULL
+filetype: text NOT NULL
+createdBy: text NOT NULL						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<node id="entity12">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="207" width="292.64" x="325" y="1777"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="244" x="0" y="4">usager_history</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="157" width="244" x="2" y="31.66796875">uuid: uuid NOT NULL
+createdAt: timestamptz NOT NULL
+updatedAt: timestamptz NOT NULL
+version: int4 NOT NULL
+usagerUUID: uuid NOT NULL
+usagerRef: int4 NOT NULL
+structureId: int4 NOT NULL
+import: jsonb
+states: jsonb NOT NULL						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<node id="entity13">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="359" width="306.64" x="325" y="1388"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="258" x="0" y="4">usager_options_history</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="309" width="258" x="2" y="31.66796875">uuid: uuid NOT NULL
+createdAt: timestamptz NOT NULL
+updatedAt: timestamptz NOT NULL
+version: int4 NOT NULL
+usagerUUID: uuid NOT NULL
+userId: int4
+userName: text
+structureId: int4 NOT NULL
+action: text NOT NULL
+type: text NOT NULL
+nom: text
+prenom: text
+adresse: text
+actif: bool NOT NULL
+dateDebut: date
+dateFin: date
+dateNaissance: date						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<node id="entity14">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="340" width="346.64" x="736" y="1619"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="298" x="0" y="4">user_structure</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="290" width="298" x="2" y="31.66796875">uuid: uuid NOT NULL
+createdAt: timestamptz NOT NULL
+updatedAt: timestamptz NOT NULL
+version: int4 NOT NULL
+email: text NOT NULL
+fonction: text
+id: serial4 NOT NULL
+lastLogin: timestamptz
+nom: text NOT NULL
+password: text NOT NULL
+prenom: text NOT NULL
+role: text NOT NULL
+structureId: int4 NOT NULL
+mails: jsonb NOT NULL
+passwordLastUpdate: timestamptz
+verified: bool NOT NULL						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<node id="entity15">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="188" width="325.64" x="325" y="2014"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="277" x="0" y="4">user_structure_security</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="138" width="277" x="2" y="31.66796875">uuid: uuid NOT NULL
+createdAt: timestamptz NOT NULL
+updatedAt: timestamptz NOT NULL
+version: int4 NOT NULL
+userId: int4 NOT NULL
+structureId: int4 NOT NULL
+temporaryTokens: jsonb
+eventsHistory: jsonb NOT NULL						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<node id="entity16">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="340" width="424.28" x="325" y="743"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="367" x="0" y="4">user_usager</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="290" width="367" x="2" y="31.66796875">uuid: uuid NOT NULL
+createdAt: timestamptz NOT NULL
+updatedAt: timestamptz NOT NULL
+version: int4 NOT NULL
+id: serial4 NOT NULL
+usagerUUID: uuid NOT NULL
+structureId: int4 NOT NULL
+login: text NOT NULL
+password: text NOT NULL
+salt: text NOT NULL
+isTemporaryPassword: bool NOT NULL
+lastLogin: timestamptz
+passwordLastUpdate: timestamptz
+lastPasswordResetDate: timestamptz
+lastPasswordResetStructureUser: jsonb
+enabled: bool NOT NULL						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<node id="entity17">
+			<data key="nodegraph">
+				<y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
+					<y:Geometry height="169" width="302.64" x="20" y="258"/>
+					<y:Fill color="#FBEAA0" transparent="false"/>
+					<y:BorderStyle color="#4A4A4A" type="line" width="1.0"/>
+					<y:NodeLabel alignment="center" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.name" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="internal" modelPosition="t" backgroundColor="#FBEAA0" textColor="#FFFFFF" visible="true" horizontalTextPosition="center" iconTextGap="4" height="22" width="254" x="0" y="4">user_usager_security</y:NodeLabel>
+					<y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Courier" fontSize="12" fontStyle="plain" hasLineColor="false" modelName="custom" modelPosition="t" backgroundColor="#FFFFFF" textColor="#303030" visible="true" horizontalTextPosition="center" iconTextGap="4" height="119" width="254" x="2" y="31.66796875">uuid: uuid NOT NULL
+createdAt: timestamptz NOT NULL
+updatedAt: timestamptz NOT NULL
+version: int4 NOT NULL
+userId: int4 NOT NULL
+structureId: int4 NOT NULL
+eventsHistory: jsonb NOT NULL						<y:LabelModel>
+							<y:ErdAttributesNodeLabelModel/>
+						</y:LabelModel>
+						<y:ModelParameter>
+							<y:ErdAttributesNodeLabelModelParameter/>
+						</y:ModelParameter>
+					</y:NodeLabel>
+				</y:GenericNode>
+			</data>
+		</node>
+		<edge id="edge3" source="entity3" target="entity8">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+		<edge id="edge3" source="entity3" target="entity3">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+						<y:Point x="693" y="713"/>
+						<y:Point x="472" y="798"/>
+					</y:Path>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+		<edge id="edge3" source="entity3" target="entity10">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+		<edge id="edge9" source="entity9" target="entity8">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+		<edge id="edge10" source="entity10" target="entity8">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+		<edge id="edge11" source="entity11" target="entity10">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+		<edge id="edge11" source="entity11" target="entity8">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+		<edge id="edge12" source="entity12" target="entity8">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+		<edge id="edge12" source="entity12" target="entity10">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+		<edge id="edge13" source="entity13" target="entity10">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+		<edge id="edge13" source="entity13" target="entity8">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+		<edge id="edge14" source="entity14" target="entity8">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+		<edge id="edge15" source="entity15" target="entity14">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+		<edge id="edge15" source="entity15" target="entity8">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+		<edge id="edge16" source="entity16" target="entity10">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+		<edge id="edge16" source="entity16" target="entity8">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+		<edge id="edge17" source="entity17" target="entity8">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+						<y:Point x="325" y="342"/>
+						<y:Point x="736" y="342"/>
+					</y:Path>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+		<edge id="edge17" source="entity17" target="entity16">
+			<data key="edgegraph">
+				<y:PolyLineEdge>
+					<y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+					<y:LineStyle color="#000000" type="dashed" width="1.0"/>
+					<y:Arrows source="white_diamond" target="circle"/>
+					<y:BendStyle smoothed="false"/>
+				</y:PolyLineEdge>
+			</data>
+		</edge>
+	</graph>
+</graphml>
