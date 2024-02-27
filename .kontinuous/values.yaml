@@ -49,6 +49,8 @@ backend:
       value: "$(PGPASSWORD)"
     - name: POSTGRES_DATABASE
       value: "$(PGDATABASE)"
+    - name: POSTGRES_PORT
+      value: "$(PGPORT)"
     - name: DOMIFA_BACKEND_URL
       value: "https://api-{{ .Values.global.host }}/"
     - name: DOMIFA_FRONTEND_URL
@@ -102,6 +104,8 @@ backend-cron:
       value: "$(PGPASSWORD)"
     - name: POSTGRES_DATABASE
       value: "$(PGDATABASE)"
+    - name: POSTGRES_PORT
+      value: "$(PGPORT)"
     - name: DOMIFA_BACKEND_URL
       value: "https://api-{{ .Values.global.host }}/"
     - name: DOMIFA_FRONTEND_URL
