@@ -104,10 +104,20 @@ function renderWorksheet({
       value: stats.interactionsCountByStatut["colisOut" as InteractionType],
     });
     worksheetRendered.renderCell(i++, "b", {
+      value:
+        stats.interactionsCountByStatut["colisOutForwarded" as InteractionType],
+    });
+    worksheetRendered.renderCell(i++, "b", {
       value: stats.interactionsCountByStatut["courrierIn" as InteractionType],
     });
     worksheetRendered.renderCell(i++, "b", {
       value: stats.interactionsCountByStatut["courrierOut" as InteractionType],
+    });
+    worksheetRendered.renderCell(i++, "b", {
+      value:
+        stats.interactionsCountByStatut[
+          "courrierOutForwarded" as InteractionType
+        ],
     });
     worksheetRendered.renderCell(i++, "b", {
       value: stats.interactionsCountByStatut["recommandeIn" as InteractionType],
@@ -115,6 +125,12 @@ function renderWorksheet({
     worksheetRendered.renderCell(i++, "b", {
       value:
         stats.interactionsCountByStatut["recommandeOut" as InteractionType],
+    });
+    worksheetRendered.renderCell(i++, "b", {
+      value:
+        stats.interactionsCountByStatut[
+          "recommandeOutForwarded" as InteractionType
+        ],
     });
     worksheetRendered.renderCell(i++, "b", {
       value: stats.interactionsCountByStatut["allVisites" as InteractionType],

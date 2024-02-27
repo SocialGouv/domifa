@@ -950,18 +950,6 @@
               </td>
             </tr>
             <tr>
-              <th scope="row">Colis enregistrés</th>
-              <td class="stats-table-value">
-                {{ stats.data.interactions.colisIn }}
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Colis remis</th>
-              <td class="stats-table-value">
-                {{ stats.data.interactions.colisOut }}
-              </td>
-            </tr>
-            <tr>
               <th scope="row">Courriers enregistrés</th>
               <td class="stats-table-value">
                 {{ stats.data.interactions.courrierIn }}
@@ -974,11 +962,30 @@
               </td>
             </tr>
             <tr>
-              <th scope="row">Courriers reexpédiés</th>
+              <th scope="row">Courriers réexpédiés</th>
               <td class="stats-table-value">
-                {{ stats.data.interactions.courrierOut }}
+                {{ stats.data.interactions.courrierOutForwarded }}
               </td>
             </tr>
+            <tr>
+              <th scope="row">Colis enregistrés</th>
+              <td class="stats-table-value">
+                {{ stats.data.interactions.colisIn }}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Colis remis</th>
+              <td class="stats-table-value">
+                {{ stats.data.interactions.colisOut }}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Colis réexpédiés</th>
+              <td class="stats-table-value">
+                {{ stats.data.interactions.colisOutForwarded }}
+              </td>
+            </tr>
+
             <tr>
               <th scope="row">Avis de passage enregistrés</th>
               <td class="stats-table-value">
@@ -989,6 +996,12 @@
               <th scope="row">Avis de passage remis</th>
               <td class="stats-table-value">
                 {{ stats.data.interactions.recommandeOut }}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Avis de passage réexpédiés</th>
+              <td class="stats-table-value">
+                {{ stats.data.interactions.recommandeOutForwarded }}
               </td>
             </tr>
             <tr>
