@@ -4,10 +4,11 @@ import {
   myDataSource,
   usagerRepository,
 } from "../database";
-import { TOULOUSE_STRUCTURE_ID } from "../_common/tmp-toulouse";
 import { INTERACTION_OK_LIST } from "../_common/model";
 import { differenceInCalendarDays, format, parseISO } from "date-fns";
 import { appLogger } from "../util";
+import { domifaConfig } from "../config";
+import { TOULOUSE_STRUCTURE_ID } from "../_common/tmp-toulouse/TOULOUSE_STRUCTURE_ID.const";
 
 export class UpdateLastInteractionMigration1700433996795
   implements MigrationInterface
@@ -15,18 +16,14 @@ export class UpdateLastInteractionMigration1700433996795
   name = "UpdateLastInteractionMigration1700433996795";
 
   public async up(): Promise<void> {
+    if (domifaConfig().envId !== "prod") {
+      return;
+    }
+
     const queryRunner = myDataSource.createQueryRunner();
     console.log("");
     appLogger.info("Mise à jour des dates de dernier passage 🏃‍♂️");
     console.log("");
-
-    await queryRunner.startTransaction();
-    console.log("Réinitialisation des variables de migration");
-    await usagerRepository.update(
-      { structureId: TOULOUSE_STRUCTURE_ID },
-      { migrated: false }
-    );
-    await queryRunner.commitTransaction();
 
     const total = await usagerRepository.countMigratedUsagers(
       TOULOUSE_STRUCTURE_ID
