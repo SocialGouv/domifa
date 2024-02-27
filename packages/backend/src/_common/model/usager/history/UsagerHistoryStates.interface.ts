@@ -13,7 +13,6 @@ export interface UsagerHistoryStates extends AppEntity {
   usagerUUID: string; // unique
   usagerRef: number; // unique par structure
   structureId: number;
-
   migrated: boolean;
   etapeDemande: number;
   typeDom: UsagerTypeDom;

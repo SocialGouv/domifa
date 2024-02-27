@@ -33,7 +33,7 @@ export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
   },
   type: "postgres",
   synchronize: false,
-  migrationsTransactionMode: "each",
+  migrationsTransactionMode: "none",
   migrationsRun:
     (domifaConfig().envId !== "test" && domifaConfig().cron.enable) ||
     domifaConfig().envId === "local",

@@ -100,7 +100,7 @@ async function createInteraction({
     usagerUUID: usager.uuid,
     userId: user.id,
     userName: `${user.prenom} ${user.nom}`,
-    dateInteraction: now,
+    dateInteraction: interaction.dateInteraction ?? now,
     interactionOutUUID: null,
     procuration,
   };
