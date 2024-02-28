@@ -1,3 +1,11 @@
+## [2.164.6](https://github.com/SocialGouv/domifa/compare/v2.164.5...v2.164.6) (2024-02-28)
+
+
+### Bug Fixes
+
+* talisman ([f568fc3](https://github.com/SocialGouv/domifa/commit/f568fc3b9800910e40fadf7f2253ba65bc0a5690))
+* **frontend:** update privacy policy ([50c4ac2](https://github.com/SocialGouv/domifa/commit/50c4ac204610dfeb016745bea3982a43f9fda95b))
+
 ## [2.164.5](https://github.com/SocialGouv/domifa/compare/v2.164.4...v2.164.5) (2024-02-27)
 
 
