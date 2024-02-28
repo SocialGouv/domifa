@@ -1,13 +1,12 @@
 fileignoreconfig:
-- filename: packages/backend/src/excel/export-structure-usagers/worksheet-renderer/exportListeCourriersWorksheetRenderer.ts
-  checksum: 8c7faf33c0e276734f5252ce4a0e9b88effe7b97b6e786f49b887af633f52ffd
+- filename: packages/frontend/src/app/modules/general/components/static-pages/politique/politique.component.html
+  checksum: 79641371efd5fb3ce8a70936c8276e4e3358ab423217003adc343f1fe4731056
+- filename: packages/portail-admins/src/app/modules/general/components/static-pages/politique/politique.component.html
+  checksum: e8d6d48c1ad3edbd5a774bce0ebcffb4f0aac1f17a38ed3bcb627b1ba7283d1b
+- filename: packages/portail-usagers/src/app/modules/general/components/_static/politique/politique.component.html
+  checksum: e70f931dc85afe621bc822aa9993501f8d9bf06c2bc367e3cb1e6193b59b3bf3
 version: ""
-s/1692191990702-import-toulouse-usagers-migration.ts
-  checksum: 974c35199bdbb773b318367d39d8ac7281c9fa8369b30bb195a9932d6c618fa2
-- filename: packages/backend/src/_migrations/1692216772744-decisions-migration.ts
-  checksum: a176807289516ad1b4774c3ca36833549921e7dc7d84db8f8d3027f626be6abb
-- filename: yarn.lock
-  checksum: 7a0570840f05e89eadb1c7bd1000b043cecdff7eb43e7284ff048ea16308bc12
+a16308bc12
 version: ""
 ba0f9
 - filename: packages/backend/src/\_migrations/1702483465656-auto-migration.ts
