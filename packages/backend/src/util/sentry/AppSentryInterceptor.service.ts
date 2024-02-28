@@ -91,7 +91,7 @@ function logSentryRequest(req: any): Record<string, any> {
       "user-agent": req.headers["user-agent"],
       withAuthorizationToken: headers.authorization !== undefined,
     },
-    body: JSON.stringify(req.body),
+    payload: req.body,
   };
 }
 

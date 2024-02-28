@@ -258,7 +258,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     );
 
     const telephone: Telephone =
-      this.displayContactDetails && !formValue?.telephone
+      this.displayContactDetails && formValue?.telephone
         ? getFormPhone(formValue.telephone)
         : this.usager.telephone;
 
