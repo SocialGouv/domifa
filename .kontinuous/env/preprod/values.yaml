@@ -12,7 +12,7 @@ backend:
         name: backend-configmap
     - secretRef:
         name: domifa-encryption-key
-  env:
+  env: &backendEnv
     - name: S3_BUCKET_ENDPOINT
       valueFrom:
         secretKeyRef:
@@ -51,33 +51,7 @@ backend-cron:
     - configMapRef:
         name: backend-configmap
   env:
-    - name: S3_BUCKET_ENDPOINT
-      valueFrom:
-        secretKeyRef:
-          name: domifa-dev-app-access-key
-          key: bucket_endpoint
-    - name: S3_BUCKET_NAME
-      valueFrom:
-        secretKeyRef:
-          name: domifa-dev-app-access-key
-          key: bucket_name
-    - name: S3_BUCKET_REGION
-      valueFrom:
-        secretKeyRef:
-          name: domifa-dev-app-access-key
-          key: bucket_region
-    - name: S3_BUCKET_ACCESS_KEY
-      valueFrom:
-        secretKeyRef:
-          name: domifa-dev-app-access-key
-          key: bucket_access_key
-    - name: S3_BUCKET_SECRET_KEY
-      valueFrom:
-        secretKeyRef:
-          name: domifa-dev-app-access-key
-          key: bucket_secret_key
-    - name: S3_BUCKET_ROOT_DIR
-      value: preprod/files
+    <<: *backendEnv
 
 frontend:
   host: "{{ .Values.global.host }}"
