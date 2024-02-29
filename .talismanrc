@@ -40,7 +40,7 @@ fileignoreconfig:
 - filename: packages/backend/src/stats/services/publicStats.service.ts
   checksum: ef41cd3de7bf8b11479b8e4a24aaf09b6fb61d672ad2cc9c643f703a6d06f40f
 - filename: packages/backend/src/usagers/controllers/usager-docs.controller.ts
-  checksum: 5728212683cfb6c62c2f197fccfbb1e4a3125a90b25cd89b50d333e323c16e47
+  checksum: b1d6123ed4505335bed510c62b835a6cc4d21c7ae697999876656f1cdf823a1b
 - filename: packages/backend/src/users/dto/reset-password.dto.ts
   checksum: 459ec0c5e439bca5375d3a06f4868f8078ca2ad1895fdc5c84bc81cc6bc394fc
 - filename: packages/backend/src/users/dto/usager-login.dto.ts
@@ -74,5 +74,5 @@ fileignoreconfig:
 - filename: packages/portail-usagers/src/app/modules/usager-auth/usager-login/usager-login.component.ts
   checksum: b04680c071a8098191859f5a67124df3d168478ee2f997a361595b7244d1f5f7
 - filename: yarn.lock
-  checksum: f35baf84b13096097b1c6565010b1df788f1e6de320482df8076af2ae9da4e6b
+  checksum: 1780cf9302b5cb8bf74cae2f3282981578cc0eda454dba4d340031cd6e3cdfe6
 version: "1.0"

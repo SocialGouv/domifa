@@ -165,6 +165,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       bucketEndpoint: configParser.parseString(x, "S3_BUCKET_ENDPOINT"),
       bucketRegion: configParser.parseString(x, "S3_BUCKET_REGION"),
       bucketName: configParser.parseString(x, "S3_BUCKET_NAME"),
+      bucketRootDir: configParser.parseString(x, "S3_BUCKET_ROOT_DIR"),
     },
     dev: {
       swaggerEnabled: configParser.parseBoolean(x, "DOMIFA_SWAGGER_ENABLE"),

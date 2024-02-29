@@ -14,6 +14,7 @@ export type DomifaEnv = {
   S3_BUCKET_ENDPOINT: string;
   S3_BUCKET_NAME: string;
   S3_BUCKET_REGION: string;
+  S3_BUCKET_ROOT_DIR: string;
 
   DOMIFA_ENV_ID: string;
   DOMIFA_VERSION: string;
