@@ -12,6 +12,8 @@ backend:
         name: backend-configmap
     - secretRef:
         name: domifa-encryption-key
+  vars:
+    S3_BUCKET_ROOT_DIR: /preprod/files
 
 backend-cron:
   ~needs: [backend]
@@ -22,6 +24,8 @@ backend-cron:
         name: backend-sealed-secret
     - configMapRef:
         name: backend-configmap
+  vars:
+    S3_BUCKET_ROOT_DIR: /preprod/files
 
 frontend:
   host: "{{ .Values.global.host }}"

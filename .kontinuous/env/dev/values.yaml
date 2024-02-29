@@ -28,6 +28,10 @@ backend:
   volumeMounts:
     - mountPath: /mnt/files
       name: files
+  vars:
+    S3_BUCKET_ROOT_DIR: /dev/{{ .Values.global.branchSlug32  }}/files
 
 backend-cron:
   ~needs: [backend]
+  vars:
+    S3_BUCKET_ROOT_DIR: /dev/{{ .Values.global.branchSlug32  }}/files
