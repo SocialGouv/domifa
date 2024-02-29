@@ -1,3 +1,10 @@
+## [2.164.10](https://github.com/SocialGouv/domifa/compare/v2.164.9...v2.164.10) (2024-02-29)
+
+
+### Bug Fixes
+
+* **upload:** re-open forms ([248c721](https://github.com/SocialGouv/domifa/commit/248c72188b68983b7f027f5b4bdae378995ad7b3))
+
 ## [2.164.9](https://github.com/SocialGouv/domifa/compare/v2.164.8...v2.164.9) (2024-02-29)
 
 
