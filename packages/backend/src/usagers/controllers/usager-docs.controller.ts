@@ -20,7 +20,6 @@ import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import { diskStorage } from "multer";
 
 import { AllowUserStructureRoles } from "../../auth/decorators";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
@@ -29,20 +28,18 @@ import { AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
 
-import { appLogger } from "../../util";
 import {
+  cleanPath,
   compressAndResizeImage,
   deleteFile,
   getUsagerFilePath,
-  getUsagerFilesDir,
-  randomName,
   validateUpload,
 } from "../../util/file-manager/FileManager";
 import { UsagerDoc, UserStructureAuthenticated } from "../../_common/model";
 
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { UploadUsagerDocDto } from "../dto";
-import { createReadStream, createWriteStream, pathExists } from "fs-extra";
+import { createReadStream } from "fs-extra";
 
 import crypto from "node:crypto";
 import { ExpressRequest } from "../../util/express";
@@ -52,6 +49,9 @@ import {
 } from "@socialgouv/streaming-file-encryption";
 import { pipeline } from "node:stream/promises";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
+import { PassThrough, Readable } from "node:stream";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { join } from "node:path";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("docs")
@@ -78,28 +78,6 @@ export class UsagerDocsController {
         }
         callback(null, true);
       },
-      storage: diskStorage({
-        destination: (
-          req: any,
-          _file: Express.Multer.File,
-          callback: (error: Error | null, destination: string) => void
-        ) => {
-          (async () => {
-            const dir = await getUsagerFilesDir(
-              req.user.structure.uuid,
-              req.usager.uuid
-            );
-            callback(null, dir);
-          })();
-        },
-        filename: (
-          _req: ExpressRequest,
-          file: Express.Multer.File,
-          callback: (error: Error | null, destination: string) => void
-        ) => {
-          callback(null, randomName(file));
-        },
-      }),
     })
   )
   public async uploadDoc(
@@ -127,8 +105,9 @@ export class UsagerDocsController {
     };
 
     try {
-      await this.saveEncryptedFile(user, newDoc);
+      await this.saveEncryptedFile(user, newDoc, file);
     } catch (e) {
+      console.log(e);
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "CANNOT_ENCRYPT_FILE" });
@@ -249,50 +228,64 @@ export class UsagerDocsController {
   // encrypt a cleartext file to sfe and delete original
   private async saveEncryptedFile(
     user: UserStructureAuthenticated,
-    usagerDoc: UsagerDoc
-  ): Promise<void | Error> {
-    const sourceFilePath = await getUsagerFilePath(
-      user.structure.uuid,
-      usagerDoc.usagerUUID,
-      usagerDoc.path
+    usagerDoc: UsagerDoc,
+    file: Express.Multer.File
+  ): Promise<any> {
+    const s3 = new S3Client({
+      endpoint: "http://localhost:9000",
+      credentials: {
+        accessKeyId: domifaConfig().upload.bucketAccessKey,
+        secretAccessKey: domifaConfig().upload.bucketSecretKey,
+      },
+      region: domifaConfig().upload.bucketRegion,
+      forcePathStyle: true,
+    });
+
+    const destination = join(
+      "usager-documents",
+      cleanPath(user.structure.uuid),
+      cleanPath(usagerDoc.usagerUUID)
     );
 
-    const fileExist = await pathExists(sourceFilePath);
-    if (!fileExist) {
-      appLogger.error(`Fichier inexistant : ${sourceFilePath}`);
-      return new Error(`Fichier inexistant : ${sourceFilePath}`);
+    const passThrough = new PassThrough();
+
+    const mainSecret = domifaConfig().security.mainSecret;
+
+    if (
+      usagerDoc.filetype === "image/jpeg" ||
+      usagerDoc.filetype === "image/png"
+    ) {
+      await pipeline(
+        Readable.from(file.buffer),
+        compressAndResizeImage(usagerDoc),
+        encryptFile(mainSecret, usagerDoc.encryptionContext),
+        passThrough
+      );
+      console.log("END OF PIPELINE 1 ");
+    } else {
+      await pipeline(
+        Readable.from(file.buffer),
+        encryptFile(mainSecret, usagerDoc.encryptionContext),
+        passThrough
+      );
+      console.log("END OF PIPELINE 2 ");
     }
 
-    try {
-      const mainSecret = domifaConfig().security.mainSecret;
-      if (
-        usagerDoc.filetype === "image/jpeg" ||
-        usagerDoc.filetype === "image/png"
-      ) {
-        await pipeline(
-          createReadStream(sourceFilePath),
-          compressAndResizeImage(usagerDoc),
-          encryptFile(mainSecret, usagerDoc.encryptionContext),
-          createWriteStream(sourceFilePath + ".sfe")
-        );
-      } else {
-        await pipeline(
-          createReadStream(sourceFilePath),
-          encryptFile(mainSecret, usagerDoc.encryptionContext),
-          createWriteStream(sourceFilePath + ".sfe")
-        );
-      }
-    } catch (e) {
-      appLogger.error(e);
-      return new Error(
-        `Erreur de chiffrement : ${sourceFilePath} ${e.message}`
-      );
-    } finally {
-      await usagerDocsRepository.delete({
-        uuid: usagerDoc.uuid,
-      });
+    const params = {
+      Bucket: domifaConfig().upload.bucketName,
+      Key: `${destination}.sfe`, // Nom du fichier dans le bucket S3
+      Body: passThrough,
+    };
 
-      await deleteFile(sourceFilePath);
+    const command = new PutObjectCommand(params);
+
+    try {
+      const response = await s3.send(command);
+      console.log("Upload réussi", response);
+      return response;
+    } catch (error) {
+      console.error("Erreur lors de l'upload", error);
+      return new Error("Erreur lors de l'upload");
     }
   }
 }

@@ -3,8 +3,36 @@ version: "3.4"
 volumes:
   postgres-data:
   metabase-data:
+  minio_data:
 
 services:
+  minio:
+    image: minio/minio
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001" # Port pour l'interface de gestion MinIO Console
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_REGION: xxx
+    command: server /data --console-address ":9001"
+
+  # MinIO Console (facultatif, pour la gestion via une interface web)
+  minio-console:
+    image: minio/console
+    ports:
+      - "9001:9001"
+    environment:
+      CONSOLE_MINIO_SERVER: http://minio:9000
+      CONSOLE_PBKDF_PASSPHRASE: minioadmin
+      CONSOLE_PBKDF_SALT: minioadmin
+      CONSOLE_SECRET_KEY: minioadmin
+      CONSOLE_ACCESS_KEY: minioadmin
+    depends_on:
+      - minio
+
   postgres:
     image: postgres:14.9-alpine3.18
     container_name: domifa-postgres
@@ -32,103 +60,103 @@ services:
       timeout: 5s
       retries: 5
 
-  backend:
-    container_name: domifa-backend
-    hostname: domifa-backend
-    build:
-      context: _scripts/dev
-      dockerfile: local-node.dockerfile
-    command: tail -f /dev/null
-    working_dir: /app/packages/backend
-    volumes:
-      - $APP_DIR:/app:delegated
-      - $HOME/.ssh:/home/node/.ssh:ro
-      - $HOME/.gitconfig:/home/node/.gitconfig:ro
-      - $HOME/.gitignore:/home/node/.gitignore:ro
-      - $HOME/.npm:/home/node/.npm:delegated
-    ports:
-      - 3000:3000
-    env_file:
-      - ./.env
-    environment:
-      TZ: Europe/Paris
-    depends_on:
-      - "postgres"
+  # backend:
+  #   container_name: domifa-backend
+  #   hostname: domifa-backend
+  #   build:
+  #     context: _scripts/dev
+  #     dockerfile: local-node.dockerfile
+  #   command: tail -f /dev/null
+  #   working_dir: /app/packages/backend
+  #   volumes:
+  #     - $APP_DIR:/app:delegated
+  #     - $HOME/.ssh:/home/node/.ssh:ro
+  #     - $HOME/.gitconfig:/home/node/.gitconfig:ro
+  #     - $HOME/.gitignore:/home/node/.gitignore:ro
+  #     - $HOME/.npm:/home/node/.npm:delegated
+  #   ports:
+  #     - 3000:3000
+  #   env_file:
+  #     - ./.env
+  #   environment:
+  #     TZ: Europe/Paris
+  #   depends_on:
+  #     - "postgres"
 
-  frontend:
-    container_name: domifa-frontend
-    hostname: domifa-frontend
-    build:
-      context: _scripts/dev
-      dockerfile: local-node.dockerfile
-    command: tail -f /dev/null
-    working_dir: /app/packages/frontend
-    volumes:
-      - $APP_DIR:/app:delegated
-      - $HOME/.ssh:/home/node/.ssh:ro
-      - $HOME/.gitconfig:/home/node/.gitconfig:ro
-      - $HOME/.gitignore:/home/node/.gitignore:ro
-      - $HOME/.npm:/home/node/.npm:delegated
-    ports:
-      - 4200:4200
-    env_file:
-      - ./.env
-    environment:
-      TZ: Europe/Paris
+  # frontend:
+  #   container_name: domifa-frontend
+  #   hostname: domifa-frontend
+  #   build:
+  #     context: _scripts/dev
+  #     dockerfile: local-node.dockerfile
+  #   command: tail -f /dev/null
+  #   working_dir: /app/packages/frontend
+  #   volumes:
+  #     - $APP_DIR:/app:delegated
+  #     - $HOME/.ssh:/home/node/.ssh:ro
+  #     - $HOME/.gitconfig:/home/node/.gitconfig:ro
+  #     - $HOME/.gitignore:/home/node/.gitignore:ro
+  #     - $HOME/.npm:/home/node/.npm:delegated
+  #   ports:
+  #     - 4200:4200
+  #   env_file:
+  #     - ./.env
+  #   environment:
+  #     TZ: Europe/Paris
 
-  portail-usagers:
-    container_name: domifa-portail-usagers
-    hostname: domifa-portail-usagers
-    build:
-      context: _scripts/dev
-      dockerfile: local-node.dockerfile
-    command: tail -f /dev/null
-    working_dir: /app/packages/portail-usagers
-    volumes:
-      - $APP_DIR:/app:delegated
-      - $HOME/.ssh:/home/node/.ssh:ro
-      - $HOME/.gitconfig:/home/node/.gitconfig:ro
-      - $HOME/.gitignore:/home/node/.gitignore:ro
-      - $HOME/.npm:/home/node/.npm:delegated
-    ports:
-      - 4201:4201
-    env_file:
-      - ./.env
-    environment:
-      TZ: Europe/Paris
+  # portail-usagers:
+  #   container_name: domifa-portail-usagers
+  #   hostname: domifa-portail-usagers
+  #   build:
+  #     context: _scripts/dev
+  #     dockerfile: local-node.dockerfile
+  #   command: tail -f /dev/null
+  #   working_dir: /app/packages/portail-usagers
+  #   volumes:
+  #     - $APP_DIR:/app:delegated
+  #     - $HOME/.ssh:/home/node/.ssh:ro
+  #     - $HOME/.gitconfig:/home/node/.gitconfig:ro
+  #     - $HOME/.gitignore:/home/node/.gitignore:ro
+  #     - $HOME/.npm:/home/node/.npm:delegated
+  #   ports:
+  #     - 4201:4201
+  #   env_file:
+  #     - ./.env
+  #   environment:
+  #     TZ: Europe/Paris
 
-  portail-admins:
-    container_name: domifa-portail-admins
-    hostname: domifa-portail-admins
-    build:
-      context: _scripts/dev
-      dockerfile: local-node.dockerfile
-    command: tail -f /dev/null
-    working_dir: /app/packages/portail-admins
-    volumes:
-      - $APP_DIR:/app:delegated
-      - $HOME/.ssh:/home/node/.ssh:ro
-      - $HOME/.gitconfig:/home/node/.gitconfig:ro
-      - $HOME/.gitignore:/home/node/.gitignore:ro
-      - $HOME/.npm:/home/node/.npm:delegated
-    ports:
-      - 4202:4202
-    env_file:
-      - ./.env
-    environment:
-      TZ: Europe/Paris
+  # portail-admins:
+  #   container_name: domifa-portail-admins
+  #   hostname: domifa-portail-admins
+  #   build:
+  #     context: _scripts/dev
+  #     dockerfile: local-node.dockerfile
+  #   command: tail -f /dev/null
+  #   working_dir: /app/packages/portail-admins
+  #   volumes:
+  #     - $APP_DIR:/app:delegated
+  #     - $HOME/.ssh:/home/node/.ssh:ro
+  #     - $HOME/.gitconfig:/home/node/.gitconfig:ro
+  #     - $HOME/.gitignore:/home/node/.gitignore:ro
+  #     - $HOME/.npm:/home/node/.npm:delegated
+  #   ports:
+  #     - 4202:4202
+  #   env_file:
+  #     - ./.env
+  #   environment:
+  #     TZ: Europe/Paris
 
-  metabase-app:
-    container_name: domifa-metabase
-    image: metabase/metabase:latest
-    restart: always
-    ports:
-      - 3002:3000
-    volumes:
-      # declare your mount volume /host/dir:/container/dir
-      - metabase-data:/metabase-data
-    environment:
-      MB_DB_FILE: /metabase-data/metabase.db
-      MB_SITE_LOCALE: fr
-    depends_on:
-      - postgres
+  # metabase-app:
+  #   container_name: domifa-metabase
+  #   image: metabase/metabase:latest
+  #   restart: always
+  #   ports:
+  #     - 3002:3000
+  #   volumes:
+  #     # declare your mount volume /host/dir:/container/dir
+  #     - metabase-data:/metabase-data
+  #   environment:
+  #     MB_DB_FILE: /metabase-data/metabase.db
+  #     MB_SITE_LOCALE: fr
+  #   depends_on:
+  #     - postgres

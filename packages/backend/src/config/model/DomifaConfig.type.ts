@@ -23,6 +23,11 @@ export type DomifaConfig = {
     runOnStartup: boolean; // DOMIFA_TYPEORM_RUN_ON_STARTUP
   };
   upload: {
+    bucketAccessKey: string; // S3_BUCKET_ACCESS_KEY
+    bucketSecretKey: string; // S3_BUCKET_SECRET_KEY
+    bucketEndpoint: string; // S3_BUCKET_ENDPOINT
+    bucketName: string; // S3_BUCKET_NAME
+    bucketRegion: string; //  S3_BUCKET_REGION
     basePath: string; // DOMIFA_UPLOADS_FOLDER
   };
   dev: {
