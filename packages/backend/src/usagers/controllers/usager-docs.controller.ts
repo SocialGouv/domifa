@@ -57,7 +57,7 @@ import { join } from "node:path";
 import { Upload } from "@aws-sdk/lib-storage";
 
 const s3 = new S3Client({
-  endpoint: "http://localhost:9000",
+  endpoint: domifaConfig().upload.bucketEndpoint,
   credentials: {
     accessKeyId: domifaConfig().upload.bucketAccessKey,
     secretAccessKey: domifaConfig().upload.bucketSecretKey,
