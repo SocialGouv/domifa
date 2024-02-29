@@ -38,54 +38,18 @@ backend:
         name: backend-configmap
     - secretRef:
         name: domifa-encryption-key
-  env:
-    - name: TZ
-      value: Europe/Paris
-    - name: POSTGRES_HOST
-      value: "$(PGHOST)"
-    - name: POSTGRES_USERNAME
-      value: "$(PGUSER)"
-    - name: POSTGRES_PASSWORD
-      value: "$(PGPASSWORD)"
-    - name: POSTGRES_DATABASE
-      value: "$(PGDATABASE)"
-    - name: POSTGRES_PORT
-      value: "$(PGPORT)"
-    - name: DOMIFA_BACKEND_URL
-      value: "https://api-{{ .Values.global.host }}/"
-    - name: DOMIFA_FRONTEND_URL
-      value: "https://{{ .Values.global.host }}/"
-    - name: DOMIFA_PORTAIL_USAGERS_URL
-      value: "https://mon-{{ .Values.global.host }}/"
-    - name: DOMIFA_PORTAIL_ADMINS_URL
-      value: "https://admin-{{ .Values.global.host }}/"
-    - name: DOMIFA_CRON_ENABLED
-      value: "false"
-    - name: S3_BUCKET_ENDPOINT
-      valueFrom:
-        secretKeyRef:
-          name: domifa-prod-app-access-key
-          key: bucket_endpoint
-    - name: S3_BUCKET_NAME
-      valueFrom:
-        secretKeyRef:
-          name: domifa-prod-app-access-key
-          key: bucket_name
-    - name: S3_BUCKET_REGION
-      valueFrom:
-        secretKeyRef:
-          name: domifa-prod-app-access-key
-          key: bucket_region
-    - name: S3_BUCKET_ACCESS_KEY
-      valueFrom:
-        secretKeyRef:
-          name: domifa-prod-app-access-key
-          key: bucket_access_key
-    - name: S3_BUCKET_SECRET_KEY
-      valueFrom:
-        secretKeyRef:
-          name: domifa-prod-app-access-key
-          key: bucket_secret_key
+  vars: &backendVars
+    TZ: Europe/Paris
+    POSTGRES_HOST: "$(PGHOST)"
+    POSTGRES_USERNAME: "$(PGUSER)"
+    POSTGRES_PASSWORD: "$(PGPASSWORD)"
+    POSTGRES_DATABASE: "$(PGDATABASE)"
+    POSTGRES_PORT: "$(PGPORT)"
+    DOMIFA_BACKEND_URL: "https://api-{{ .Values.global.host }}/"
+    DOMIFA_FRONTEND_URL: "https://{{ .Values.global.host }}/"
+    DOMIFA_PORTAIL_USAGERS_URL: "https://mon-{{ .Values.global.host }}/"
+    DOMIFA_PORTAIL_ADMINS_URL: "https://admin-{{ .Values.global.host }}/"
+    DOMIFA_CRON_ENABLED: "false"
   securityContext:
     fsGroup: 1000
     runAsUser: 1000
@@ -116,54 +80,9 @@ backend-cron:
         name: backend-sealed-secret
     - configMapRef:
         name: backend-configmap
-  env:
-    - name: TZ
-      value: Europe/Paris
-    - name: POSTGRES_HOST
-      value: "$(PGHOST)"
-    - name: POSTGRES_USERNAME
-      value: "$(PGUSER)"
-    - name: POSTGRES_PASSWORD
-      value: "$(PGPASSWORD)"
-    - name: POSTGRES_DATABASE
-      value: "$(PGDATABASE)"
-    - name: POSTGRES_PORT
-      value: "$(PGPORT)"
-    - name: DOMIFA_BACKEND_URL
-      value: "https://api-{{ .Values.global.host }}/"
-    - name: DOMIFA_FRONTEND_URL
-      value: "https://{{ .Values.global.host }}/"
-    - name: DOMIFA_PORTAIL_USAGERS_URL
-      value: "https://mon-{{ .Values.global.host }}/"
-    - name: DOMIFA_PORTAIL_ADMINS_URL
-      value: "https://admin-{{ .Values.global.host }}/"
-    - name: DOMIFA_CRON_ENABLED
-      value: "true"
-    - name: S3_BUCKET_ENDPOINT
-      valueFrom:
-        secretKeyRef:
-          name: domifa-prod-app-access-key
-          key: bucket_endpoint
-    - name: S3_BUCKET_NAME
-      valueFrom:
-        secretKeyRef:
-          name: domifa-prod-app-access-key
-          key: bucket_name
-    - name: S3_BUCKET_REGION
-      valueFrom:
-        secretKeyRef:
-          name: domifa-prod-app-access-key
-          key: bucket_region
-    - name: S3_BUCKET_ACCESS_KEY
-      valueFrom:
-        secretKeyRef:
-          name: domifa-prod-app-access-key
-          key: bucket_access_key
-    - name: S3_BUCKET_SECRET_KEY
-      valueFrom:
-        secretKeyRef:
-          name: domifa-prod-app-access-key
-          key: bucket_secret_key
+  vars:
+    <<: *backendVars
+    DOMIFA_CRON_ENABLED: "true"
 
   securityContext:
     fsGroup: 1000
