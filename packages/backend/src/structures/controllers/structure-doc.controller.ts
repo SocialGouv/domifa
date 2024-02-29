@@ -54,7 +54,11 @@ export class StructureDocController {
         uuid,
       });
 
-      const filePath = join("structure-documents", doc.path);
+      const filePath = join(
+        "structure-documents",
+        cleanPath(`${user.structureId}`),
+        doc.path
+      );
       return await this.fileManagerService.downloadObject(filePath, res);
     } catch (e) {
       return res
@@ -102,12 +106,13 @@ export class StructureDocController {
       }
     }
 
+    const path = randomName(file);
+
     const filePath = join(
       "structure-documents",
       cleanPath(`${user.structureId}`),
-      randomName(file)
+      path
     );
-
     await this.fileManagerService.uploadFile(filePath, file.buffer);
 
     const newDoc: StructureDoc = {
@@ -119,7 +124,7 @@ export class StructureDocController {
       },
       displayInPortailUsager: false,
       filetype: file.mimetype,
-      path: filePath,
+      path,
       label: structureDocDto.label,
       custom: structureDocDto.custom,
       structureId: user.structureId,
