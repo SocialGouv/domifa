@@ -5,6 +5,7 @@ import { UsagersModule } from "../../../usagers/usagers.module";
 import { UsersModule } from "../../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
 import { AdminStructuresDeleteController } from "./admin-structures-delete.controller";
+import { FileManagerService } from "../../../util/file-manager/file-manager.service";
 
 describe("Dashboard AdminStructuresDeleteController", () => {
   let controller: AdminStructuresDeleteController;
@@ -19,7 +20,7 @@ describe("Dashboard AdminStructuresDeleteController", () => {
         forwardRef(() => UsagersModule),
         forwardRef(() => InteractionsModule),
       ],
-      providers: [],
+      providers: [FileManagerService],
     });
     controller = context.module.get<AdminStructuresDeleteController>(
       AdminStructuresDeleteController

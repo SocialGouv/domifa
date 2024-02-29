@@ -9,6 +9,7 @@ import { AdminStructuresController } from "./controllers/admin-structures.contro
 import { AdminStructuresService } from "./services";
 
 import { AdminStructuresDocsController } from "./controllers/admin-structures-docs.controller";
+import { FileManagerService } from "../../util/file-manager/file-manager.service";
 @Module({
   controllers: [AdminStructuresController, AdminStructuresDocsController],
   exports: [AdminStructuresService],
@@ -19,6 +20,6 @@ import { AdminStructuresDocsController } from "./controllers/admin-structures-do
     forwardRef(() => InteractionsModule),
     forwardRef(() => SmsModule),
   ],
-  providers: [AdminStructuresService, AppLogsService],
+  providers: [AdminStructuresService, AppLogsService, FileManagerService],
 })
 export class AdminStructuresModule {}

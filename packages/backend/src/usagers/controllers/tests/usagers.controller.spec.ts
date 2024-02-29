@@ -16,6 +16,7 @@ import { TESTS_USERS_STRUCTURE } from "../../../_tests";
 import { InteractionsModule } from "../../../interactions/interactions.module";
 import { UsagersService, UsagerOptionsHistoryService } from "../../services";
 import { UsagerHistoryStateService } from "../../services/usagerHistoryState.service";
+import { FileManagerService } from "../../../util/file-manager/file-manager.service";
 
 const ENDPOINT = "/usagers";
 
@@ -42,6 +43,7 @@ describe("Usagers Controller", () => {
           UsagerOptionsHistoryService,
           AppLogsService,
           UsagerHistoryStateService,
+          FileManagerService,
         ],
       },
       { initApp: true }

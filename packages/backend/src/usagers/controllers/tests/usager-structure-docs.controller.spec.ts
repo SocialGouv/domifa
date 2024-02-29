@@ -7,6 +7,7 @@ import { AdminStructuresService } from "../../../_portail-admin/admin-structures
 import { UsagersService } from "../../services";
 import { UsagerStructureDocsController } from "../usager-structure-docs.controller";
 import { UsagerHistoryStateService } from "../../services/usagerHistoryState.service";
+import { FileManagerService } from "../../../util/file-manager/file-manager.service";
 
 describe("UsagerStructureDocs Controller", () => {
   let controller: UsagerStructureDocsController;
@@ -22,6 +23,7 @@ describe("UsagerStructureDocs Controller", () => {
         AdminStructuresService,
         AppLogsService,
         UsagerHistoryStateService,
+        FileManagerService,
       ],
     });
     controller = context.module.get<UsagerStructureDocsController>(

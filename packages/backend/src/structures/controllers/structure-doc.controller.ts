@@ -41,6 +41,7 @@ import { FileManagerService } from "../../util/file-manager/file-manager.service
 @Controller("structure-docs")
 export class StructureDocController {
   constructor(private readonly fileManagerService: FileManagerService) {}
+
   @Get(":uuid")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getStructureDoc(

@@ -29,7 +29,6 @@ export type DomifaConfig = {
     bucketEndpoint: string; // S3_BUCKET_ENDPOINT
     bucketName: string; // S3_BUCKET_NAME
     bucketRegion: string; //  S3_BUCKET_REGION
-    basePath: string; // DOMIFA_UPLOADS_FOLDER
   };
   dev: {
     swaggerEnabled: boolean; // DOMIFA_SWAGGER_ENABLE

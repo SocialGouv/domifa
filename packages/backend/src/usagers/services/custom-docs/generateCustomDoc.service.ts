@@ -9,7 +9,6 @@ export async function generateCustomDoc(
   docValues: StructureCustomDocTags
 ): Promise<Buffer> {
   let doc: Docxtemplater;
-
   try {
     const zip = new PizZip(content);
     doc = new Docxtemplater(zip, { linebreaks: true });

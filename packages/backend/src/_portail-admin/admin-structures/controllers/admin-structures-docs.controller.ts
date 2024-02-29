@@ -4,7 +4,6 @@ import {
   Get,
   Param,
   Res,
-  HttpStatus,
   ParseUUIDPipe,
   ParseIntPipe,
 } from "@nestjs/common";
@@ -16,13 +15,17 @@ import { AppUserGuard } from "../../../auth/guards";
 import { structureDocRepository } from "../../../database";
 import { ExpressResponse } from "../../../util/express";
 import { UserStructureAuthenticated } from "../../../_common/model";
-import { buildCustomDocPath } from "../../../usagers/services/custom-docs";
+import { FileManagerService } from "../../../util/file-manager/file-manager.service";
+import { join } from "path";
+import { cleanPath } from "../../../util";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures-docs")
 @ApiTags("structures-docs")
 @ApiBearerAuth()
 export class AdminStructuresDocsController {
+  constructor(private readonly fileManagerService: FileManagerService) {}
+
   @Get("all")
   @AllowUserProfiles("super-admin-domifa")
   public async getAllStructureDocs() {
@@ -33,20 +36,24 @@ export class AdminStructuresDocsController {
   @AllowUserProfiles("super-admin-domifa")
   public async getStructureDoc(
     @Param("uuid", new ParseUUIDPipe()) uuid: string,
-    @Param("structureId", new ParseIntPipe()) structureId: number,
+    @Param("structureId", new ParseIntPipe()) _structureId: number,
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse
   ) {
     const doc = await structureDocRepository.findOneBy({
-      structureId: user.structureId,
       uuid,
     });
 
-    const output = buildCustomDocPath({
-      structureId,
-      docPath: doc.path,
-    });
+    if (!doc) {
+      return res.status(400);
+    }
 
-    return res.status(HttpStatus.OK).sendFile(output);
+    const filePath = join(
+      "structure-documents",
+      cleanPath(`${user.structureId}`),
+      doc.path
+    );
+
+    return await this.fileManagerService.downloadObject(filePath, res);
   }
 }

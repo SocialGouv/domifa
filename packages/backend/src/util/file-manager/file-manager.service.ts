@@ -1,6 +1,8 @@
 import {
   DeleteObjectCommand,
+  DeleteObjectsCommand,
   GetObjectCommand,
+  ListObjectsV2Command,
   S3Client,
 } from "@aws-sdk/client-s3";
 import { Readable } from "typeorm/platform/PlatformTools";
@@ -63,7 +65,9 @@ export class FileManagerService {
   // Return object in response
   public async downloadObject(filePath: string, res: ExpressResponse) {
     try {
-      const readObjectResult = await this.getObject(filePath);
+      const readObjectResult = await this.getObject(
+        `${domifaConfig().upload.bucketRootDir}/${filePath}`
+      );
 
       if (readObjectResult.CacheControl) {
         res.setHeader("cache-control", readObjectResult.CacheControl);
@@ -135,6 +139,33 @@ export class FileManagerService {
     } catch (e) {
       console.error(e);
       throw new Error("CANNOT_DELETE_FILE");
+    }
+  }
+
+  public async deleteAllUnderStructure(prefix: string) {
+    const listParams = {
+      Bucket: domifaConfig().upload.bucketName,
+      Prefix: prefix,
+    };
+
+    console.log({ listParams });
+    const listedObjects = await this.s3.send(
+      new ListObjectsV2Command(listParams)
+    );
+
+    if (listedObjects.Contents.length === 0) return;
+
+    const deleteParams = {
+      Bucket: domifaConfig().upload.bucketName,
+      Delete: {
+        Objects: listedObjects.Contents.map(({ Key }) => ({ Key })),
+      },
+    };
+
+    await this.s3.send(new DeleteObjectsCommand(deleteParams));
+
+    if (listedObjects.IsTruncated) {
+      await this.deleteAllUnderStructure(prefix);
     }
   }
 }

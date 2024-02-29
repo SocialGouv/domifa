@@ -31,8 +31,6 @@ describe("loadConfig", () => {
     expect(config.postgres.database).toEqual(env.POSTGRES_DATABASE);
     expect(config.postgres.ssl).toEqual(env.POSTGRES_SSL);
 
-    expect(config.upload.basePath).toBeDefined();
-
     expect(config.dev.swaggerEnabled).toEqual(false);
     expect(config.dev.sentry.enabled).toEqual(false);
 
@@ -65,8 +63,6 @@ describe("loadConfig", () => {
     expect(config.postgres.password).toEqual(env.POSTGRES_PASSWORD);
     expect(config.postgres.database).toEqual(env.POSTGRES_DATABASE);
     expect(config.postgres.ssl).toEqual(env.POSTGRES_SSL);
-
-    expect(config.upload.basePath).toBeDefined();
 
     expect(config.dev.swaggerEnabled).toEqual(true);
     expect(config.dev.sentry.enabled).toEqual(false);
@@ -114,8 +110,6 @@ describe("loadConfig", () => {
     expect(config.postgres.password).toEqual(env.POSTGRES_PASSWORD);
     expect(config.postgres.database).toEqual(env.POSTGRES_DATABASE);
     expect(config.postgres.ssl).toEqual(env.POSTGRES_SSL);
-
-    expect(config.upload.basePath).toBeDefined();
 
     expect(config.dev.swaggerEnabled).toEqual(false);
     expect(config.dev.sentry.enabled).toEqual(false);

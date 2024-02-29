@@ -34,7 +34,7 @@ import {
 } from "../../database";
 
 import { userUsagerCreator, userUsagerUpdator } from "../../users/services";
-import { appLogger } from "../../util";
+import { appLogger, cleanPath } from "../../util";
 import { dataCompare } from "../../util/dataCompare.service";
 import {
   Usager,
@@ -49,17 +49,19 @@ import {
   UpdatePortailUsagerOptionsDto,
 } from "../dto";
 import { SearchUsagerDto } from "../dto/search-usager.dto";
-import { deleteUsagerFolder, UsagersService } from "../services";
+import { UsagersService } from "../services";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { generateCerfaData } from "../services/cerfa";
 
 import pdftk = require("node-pdftk");
 
-import { resolve } from "path";
+import { join, resolve } from "path";
 import { readFile } from "fs-extra";
 import { ExpressResponse } from "../../util/express";
 import { ETAPE_DOCUMENTS, CerfaDocType } from "@domifa/common";
 import { UsagerHistoryStateService } from "../services/usagerHistoryState.service";
+import { domifaConfig } from "../../config";
+import { FileManagerService } from "../../util/file-manager/file-manager.service";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -69,7 +71,8 @@ export class UsagersController {
   constructor(
     private readonly usagersService: UsagersService,
     private readonly appLogsService: AppLogsService,
-    private readonly usagerHistoryStateService: UsagerHistoryStateService
+    private readonly usagerHistoryStateService: UsagerHistoryStateService,
+    private readonly fileManagerService: FileManagerService
   ) {}
 
   @Get()
@@ -344,8 +347,15 @@ export class UsagersController {
       action: "SUPPRIMER_DOMICILIE",
     });
 
-    // Suppression des fichiers de l'usager
-    await deleteUsagerFolder(user.structure, usager);
+    const key =
+      join(
+        domifaConfig().upload.bucketRootDir,
+        "usager-documents",
+        cleanPath(user.structure.uuid),
+        cleanPath(usager.uuid)
+      ) + "/";
+
+    await this.fileManagerService.deleteAllUnderStructure(key);
 
     return res.status(HttpStatus.OK).json({ message: "DELETE_SUCCESS" });
   }

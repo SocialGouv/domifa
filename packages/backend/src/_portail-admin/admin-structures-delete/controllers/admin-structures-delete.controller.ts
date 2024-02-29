@@ -21,12 +21,17 @@ import { ParseTokenPipe } from "../../../_common/decorators";
 
 import { STRUCTURE_LIGHT_ATTRIBUTES } from "../../../_common/model";
 import { StructureConfirmationDto } from "../../_dto";
+import { FileManagerService } from "../../../util/file-manager/file-manager.service";
+import { join } from "path";
+import { domifaConfig } from "../../../config";
+import { cleanPath } from "../../../util";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures-delete")
 @ApiTags("admin")
 @ApiBearerAuth()
 export class AdminStructuresDeleteController {
+  constructor(private readonly fileManagerService: FileManagerService) {}
   @AllowUserProfiles("super-admin-domifa")
   @ApiBearerAuth()
   @Put("send-mail/:uuid")
@@ -98,7 +103,16 @@ export class AdminStructuresDeleteController {
     }
 
     try {
+      const key =
+        join(
+          domifaConfig().upload.bucketRootDir,
+          "usager-documents",
+          cleanPath(structure.uuid)
+        ) + "/";
+
+      await this.fileManagerService.deleteAllUnderStructure(key);
       await structureDeletorService.deleteStructure(structure);
+
       return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (e) {
       return res

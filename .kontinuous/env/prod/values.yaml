@@ -28,8 +28,6 @@ jobs:
 
 backend-cron:
   replicas: 1
-  addVolumes:
-    - files
   resources:
     requests:
       cpu: 1
@@ -95,8 +93,6 @@ backend:
       cpu: 3
       memory: 3Gi
   certSecretName: backend-crt
-  addVolumes:
-    - files
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"
@@ -109,7 +105,6 @@ backend:
   vars:
     <<: *backendVars
   env: *backendEnv
-
 
 frontend:
   replicas: 1
