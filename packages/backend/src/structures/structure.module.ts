@@ -13,6 +13,7 @@ import { StructuresPublicController } from "./controllers/structures.public.cont
 import { StructureHardResetService } from "./services/structureHardReset.service";
 import { StructuresService } from "./services/structures.service";
 import { AppLogsService } from "../modules/app-logs/app-logs.service";
+import { FileManagerService } from "../util/file-manager/file-manager.service";
 
 @Module({
   controllers: [
@@ -29,6 +30,11 @@ import { AppLogsService } from "../modules/app-logs/app-logs.service";
     forwardRef(() => StatsModule),
     forwardRef(() => InteractionsModule),
   ],
-  providers: [StructuresService, StructureHardResetService, AppLogsService],
+  providers: [
+    StructuresService,
+    StructureHardResetService,
+    AppLogsService,
+    FileManagerService,
+  ],
 })
 export class StructuresModule {}

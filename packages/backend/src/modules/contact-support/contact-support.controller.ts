@@ -13,7 +13,6 @@ import {
 import { FileInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
 
-import { domifaConfig } from "../../config";
 import {
   validateUpload,
   randomName,
@@ -21,8 +20,6 @@ import {
 
 import { contactSupportEmailSender } from "../../mails/services/templates-renderers/contact-support";
 import { ExpressRequest, ExpressResponse } from "../../util/express";
-import { ensureDir } from "fs-extra";
-import { join } from "path";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 
 @Controller("contact")
@@ -45,17 +42,6 @@ export class ContactSupportController {
         callback(null, true);
       },
       storage: diskStorage({
-        destination: (
-          _req: ExpressRequest,
-          _file: Express.Multer.File,
-          callback: (error: Error | null, destination: string) => void
-        ) => {
-          (async () => {
-            const dir = join(domifaConfig().upload.basePath, "contact-support");
-            await ensureDir(dir);
-            callback(null, dir);
-          })();
-        },
         filename: (
           _req: ExpressRequest,
           file: Express.Multer.File,
@@ -72,7 +58,7 @@ export class ContactSupportController {
     @Res() res: ExpressResponse
   ) {
     const dataToSave = new ContactSupportTable(contactSupportDto);
-
+    console.log({ file });
     if (file) {
       dataToSave.attachment = {
         filename: file.filename,
