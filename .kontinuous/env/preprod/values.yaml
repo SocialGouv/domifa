@@ -38,8 +38,8 @@ backend:
         secretKeyRef:
           name: domifa-dev-app-access-key
           key: bucket_secret_key
-  vars:
-    S3_BUCKET_ROOT_DIR: /preprod/files
+    - name: S3_BUCKET_ROOT_DIR
+      value: /preprod/files
 
 backend-cron:
   ~needs: [backend]
@@ -77,7 +77,7 @@ backend-cron:
           name: domifa-dev-app-access-key
           key: bucket_secret_key
     - name: S3_BUCKET_ROOT_DIR
-      value: /files
+      value: /preprod/files
 
 frontend:
   host: "{{ .Values.global.host }}"
