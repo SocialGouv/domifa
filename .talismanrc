@@ -3,6 +3,12 @@ fileignoreconfig:
   checksum: ae67a7cafd3797780e29e6e3aca8f7a273dfe3f10f8456f95b3b4680e8440605
 - filename: packages/backend/.env.backend.test.local.example.env
   checksum: d8d00c5d51650278946bacb4394967cd954e18e3a8058ea3f8edb8c5f765d43d
+- filename: packages/backend/.env.preset/local-dev.preset.env
+  checksum: 2d170b848a0b2b0fd9c0e1ee3be023ccfff3bd3281f277a255638af3adf0f82d
+- filename: packages/backend/.env.preset/local-test-docker.preset.env
+  checksum: adb3054a36a00eac89fc03755c6cfb898c65f0dbedbbd4b98eee55af449efc5c
+- filename: packages/backend/.env.preset/local-test.preset.env
+  checksum: 3e41acb89f5e42958d4521b2cda68e35d6df3ff1ed4ee0e5e53a4207b41a8aa1
 - filename: packages/backend/src/\_migrations/1702483465656-auto-migration.ts
   checksum: 2dbc2450c1df10f68a54897946318976bf8163711f3143e0608ce6c0e7275447
 - filename: packages/backend/src/\_portail-usager/portail-usager-login/portail-usagers-login.controller.spec.ts
