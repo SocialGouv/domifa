@@ -28,19 +28,24 @@ import {
 } from "../../_common/model";
 import {
   buildCustomDoc,
-  buildCustomDocPath,
   customDocTemplateLoader,
   generateCustomDoc,
 } from "../services/custom-docs";
 
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
+import { join } from "path";
+import { cleanPath } from "../../util";
+import { FileManagerService } from "../../util/file-manager/file-manager.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("usagers-structure-docs")
 @ApiBearerAuth()
 @Controller("usagers-structure-docs")
 export class UsagerStructureDocsController {
-  constructor(private readonly appLogsService: AppLogsService) {}
+  constructor(
+    private readonly appLogsService: AppLogsService,
+    private readonly fileManagerService: FileManagerService
+  ) {}
 
   @ApiOperation({ summary: "Télécharger un document pré-rempli" })
   @Get("structure/:usagerRef/:structureDocUuid")
@@ -63,21 +68,29 @@ export class UsagerStructureDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
+    console.log({ doc });
+
     // Document statique
     if (!doc.custom) {
-      const output = buildCustomDocPath({
-        structureId: user.structureId,
-        docPath: doc.path,
-      });
-
-      return res.status(HttpStatus.OK).sendFile(output);
+      const filePath = join(
+        "structure-documents",
+        cleanPath(`${user.structureId}`),
+        doc.path
+      );
+      return await this.fileManagerService.downloadObject(filePath, res);
     }
 
     // Document à compléter
-    const content = await customDocTemplateLoader.loadCustomDocTemplate({
-      docPath: doc.path,
-      structureId: user.structureId,
-    });
+    const filePath = join(
+      "structure-documents",
+      cleanPath(`${doc.structureId}`),
+      doc.path
+    );
+    console.log({ filePath });
+    const content = (
+      await this.fileManagerService.getFileBody(filePath)
+    ).toString();
+    console.log({ content });
 
     if (!content) {
       return res
@@ -92,7 +105,10 @@ export class UsagerStructureDocsController {
     });
 
     try {
-      const docGenerated = await generateCustomDoc(content, docValues);
+      const docGenerated = await generateCustomDoc(
+        content.toString(),
+        docValues
+      );
       return res.end(docGenerated);
     } catch (e) {
       return res
@@ -132,14 +148,30 @@ export class UsagerStructureDocsController {
       customDocType: docType,
     });
 
-    const content = doc
-      ? await customDocTemplateLoader.loadCustomDocTemplate({
-          docPath: doc.path,
-          structureId: user.structureId,
-        })
-      : await customDocTemplateLoader.loadDefaultDocTemplate({
-          docType,
-        });
+    console.log({ doc });
+    let content = "";
+
+    if (doc) {
+      const filePath = join(
+        "structure-documents",
+        cleanPath(`${doc.structureId}`),
+        doc.path
+      );
+
+      const readable = await this.fileManagerService.getFileBody(filePath);
+      const chunks: Uint8Array[] = [];
+
+      for await (const chunk of readable) {
+        chunks.push(chunk);
+      }
+
+      const buffer = Buffer.concat(chunks);
+      content = buffer.toString("binary");
+    } else {
+      content = await customDocTemplateLoader.loadDefaultDocTemplate({
+        docType,
+      });
+    }
 
     if (!content) {
       return res

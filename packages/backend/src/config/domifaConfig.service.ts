@@ -159,7 +159,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       ),
     },
     upload: {
-      basePath: configParser.parseString(x, "DOMIFA_UPLOADS_FOLDER"),
       bucketAccessKey: configParser.parseString(x, "S3_BUCKET_ACCESS_KEY"),
       bucketSecretKey: configParser.parseString(x, "S3_BUCKET_SECRET_KEY"),
       bucketEndpoint: configParser.parseString(x, "S3_BUCKET_ENDPOINT"),

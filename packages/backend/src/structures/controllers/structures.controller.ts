@@ -22,7 +22,7 @@ import {
 import { StructureDto, StructureEditPortailUsagerDto } from "../dto";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 
-import { structureDeletorService } from "../services/structure-deletor.service";
+import { resetUsagers } from "../services/structure-deletor.service";
 import { StructureHardResetService } from "../services/structureHardReset.service";
 import { StructuresService } from "../services/structures.service";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
@@ -36,6 +36,10 @@ import {
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
 } from "@domifa/common";
+import { FileManagerService } from "../../util/file-manager/file-manager.service";
+import { domifaConfig } from "../../config";
+import { cleanPath } from "../../util";
+import { join } from "path";
 
 @Controller("structures")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -44,7 +48,8 @@ export class StructuresController {
   constructor(
     private readonly structureHardResetService: StructureHardResetService,
     private readonly structureService: StructuresService,
-    private readonly appLogsService: AppLogsService
+    private readonly appLogsService: AppLogsService,
+    private readonly fileManagerService: FileManagerService
   ) {}
 
   @ApiBearerAuth()
@@ -222,7 +227,16 @@ export class StructuresController {
         .json({ message: "HARD_RESET_EXPIRED_TOKEN" });
     }
 
-    await structureDeletorService.deleteStructureUsagers(structure);
+    await resetUsagers(structure);
+
+    const key =
+      join(
+        domifaConfig().upload.bucketRootDir,
+        "usager-documents",
+        cleanPath(user.structure.uuid)
+      ) + "/";
+
+    await this.fileManagerService.deleteAllUnderStructure(key);
 
     await this.structureHardResetService.hardResetClean(structure.id);
 

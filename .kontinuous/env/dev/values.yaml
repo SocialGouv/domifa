@@ -22,12 +22,6 @@ jobs:
 
 backend:
   ~needs: [build-backend, pg]
-  volumes:
-    - name: files
-      emptyDir: {}
-  volumeMounts:
-    - mountPath: /mnt/files
-      name: files
   env: &backendEnv
     - name: S3_BUCKET_ENDPOINT
       valueFrom:

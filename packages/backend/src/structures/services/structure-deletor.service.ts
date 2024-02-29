@@ -1,4 +1,3 @@
-import { domifaConfig } from "../../config";
 import {
   appLogsRepository,
   structureRepository,
@@ -8,14 +7,10 @@ import {
 import { messageSmsRepository } from "../../database/services/message-sms";
 
 import { randomBytes } from "crypto";
-import { rm } from "fs-extra";
-import { join } from "path";
-import { cleanPath } from "../../util";
 import { Structure } from "@domifa/common";
 
 export const structureDeletorService = {
   generateDeleteToken,
-  deleteStructureUsagers,
   deleteStructure,
 };
 
@@ -26,19 +21,10 @@ async function generateDeleteToken(uuid: string): Promise<Structure> {
   return structureRepository.findOneBy({ uuid });
 }
 
-async function deleteStructureUsagers(
-  structure: Pick<Structure, "id" | "uuid">
-) {
-  await deleteStructureDocuments(structure);
-
-  await resetUsagers(structure);
-}
-
 async function deleteStructure(
   structure: Pick<Structure, "id" | "uuid">
 ): Promise<any> {
-  await deleteStructureUsagers(structure);
-
+  await resetUsagers(structure);
   return structureRepository.delete({ id: structure.id });
 }
 
@@ -60,31 +46,5 @@ export async function resetUsagers(
 
   await messageSmsRepository.delete({
     structureId: structure.id,
-  });
-}
-
-async function deleteStructureDocuments(
-  structure: Pick<Structure, "id" | "uuid">
-) {
-  const oldUsagerFolder = join(
-    domifaConfig().upload.basePath,
-    `${structure.id}`
-  );
-  await rm(oldUsagerFolder, {
-    recursive: true,
-    force: true,
-    maxRetries: 2,
-  });
-
-  const newUsagerFolder = join(
-    domifaConfig().upload.basePath,
-    "usager-documents",
-    cleanPath(structure.uuid)
-  );
-
-  await rm(newUsagerFolder, {
-    recursive: true,
-    force: true,
-    maxRetries: 2,
   });
 }
