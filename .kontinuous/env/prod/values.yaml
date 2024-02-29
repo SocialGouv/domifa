@@ -52,7 +52,7 @@ backend-cron:
     DOMIFA_FRONTEND_URL: "https://{{ .Values.global.host }}/"
     DOMIFA_PORTAIL_USAGERS_URL: "https://mon-{{ .Values.global.host }}/"
     DOMIFA_PORTAIL_ADMINS_URL: "https://admin-{{ .Values.global.host }}/"
-  env:
+  env: &backendEnv
     - name: S3_BUCKET_ENDPOINT
       valueFrom:
         secretKeyRef:
@@ -109,33 +109,7 @@ backend:
   vars:
     <<: *backendVars
   env:
-    - name: S3_BUCKET_ENDPOINT
-      valueFrom:
-        secretKeyRef:
-          name: domifa-prod-app-access-key
-          key: bucket_endpoint
-    - name: S3_BUCKET_NAME
-      valueFrom:
-        secretKeyRef:
-          name: domifa-prod-app-access-key
-          key: bucket_name
-    - name: S3_BUCKET_REGION
-      valueFrom:
-        secretKeyRef:
-          name: domifa-prod-app-access-key
-          key: bucket_region
-    - name: S3_BUCKET_ACCESS_KEY
-      valueFrom:
-        secretKeyRef:
-          name: domifa-prod-app-access-key
-          key: bucket_access_key
-    - name: S3_BUCKET_SECRET_KEY
-      valueFrom:
-        secretKeyRef:
-          name: domifa-prod-app-access-key
-          key: bucket_secret_key
-    - name: S3_BUCKET_ROOT_DIR
-      value: backup/files
+    <<: *backendEnv
 
 
 frontend:

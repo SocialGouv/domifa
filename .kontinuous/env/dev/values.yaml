@@ -28,7 +28,7 @@ backend:
   volumeMounts:
     - mountPath: /mnt/files
       name: files
-  env:
+  env: &backendEnv
     - name: S3_BUCKET_ENDPOINT
       valueFrom:
         secretKeyRef:
@@ -60,30 +60,4 @@ backend:
 backend-cron:
   ~needs: [backend]
   env:
-    - name: S3_BUCKET_ENDPOINT
-      valueFrom:
-        secretKeyRef:
-          name: domifa-dev-app-access-key
-          key: bucket_endpoint
-    - name: S3_BUCKET_NAME
-      valueFrom:
-        secretKeyRef:
-          name: domifa-dev-app-access-key
-          key: bucket_name
-    - name: S3_BUCKET_REGION
-      valueFrom:
-        secretKeyRef:
-          name: domifa-dev-app-access-key
-          key: bucket_region
-    - name: S3_BUCKET_ACCESS_KEY
-      valueFrom:
-        secretKeyRef:
-          name: domifa-dev-app-access-key
-          key: bucket_access_key
-    - name: S3_BUCKET_SECRET_KEY
-      valueFrom:
-        secretKeyRef:
-          name: domifa-dev-app-access-key
-          key: bucket_secret_key
-    - name: S3_BUCKET_ROOT_DIR
-      value: review-branch/{{ .Values.global.branchSlug32  }}/files
+    <<: *backendEnv
