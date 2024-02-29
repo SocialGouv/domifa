@@ -71,6 +71,8 @@ backend-cron:
       value: "https://admin-{{ .Values.global.host }}/"
     - name: DOMIFA_CRON_ENABLED
       value: "true"
+  vars:
+    S3_BUCKET_ROOT_DIR: /backup/files
 
 backend:
   host: "domifa-api.{{ .Values.global.domain }}"
@@ -124,6 +126,8 @@ backend:
       value: "false"
     - name: NODE_OPTIONS
       value: "--max-old-space-size=2048"
+  vars:
+    S3_BUCKET_ROOT_DIR: /backup/files
 
 frontend:
   replicas: 1
