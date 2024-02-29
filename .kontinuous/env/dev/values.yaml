@@ -87,5 +87,3 @@ backend-cron:
           key: bucket_secret_key
     - name: S3_BUCKET_ROOT_DIR
       value: /review-branch/{{ .Values.global.branchSlug32  }}/files
-  vars:
-    S3_BUCKET_ROOT_DIR: /dev/{{ .Values.global.branchSlug32  }}/files
