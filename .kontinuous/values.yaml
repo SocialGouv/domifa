@@ -61,8 +61,31 @@ backend:
       value: "https://admin-{{ .Values.global.host }}/"
     - name: DOMIFA_CRON_ENABLED
       value: "false"
-    - name: NODE_OPTIONS
-      value: "--max-old-space-size=2048"
+    - name: S3_BUCKET_ENDPOINT
+      valueFrom:
+        secretKeyRef:
+          name: domifa-prod-app-access-key
+          key: bucket_endpoint
+    - name: S3_BUCKET_NAME
+      valueFrom:
+        secretKeyRef:
+          name: domifa-prod-app-access-key
+          key: bucket_name
+    - name: S3_BUCKET_REGION
+      valueFrom:
+        secretKeyRef:
+          name: domifa-prod-app-access-key
+          key: bucket_region
+    - name: S3_BUCKET_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: domifa-prod-app-access-key
+          key: bucket_access_key
+    - name: S3_BUCKET_SECRET_KEY
+      valueFrom:
+        secretKeyRef:
+          name: domifa-prod-app-access-key
+          key: bucket_secret_key
   securityContext:
     fsGroup: 1000
     runAsUser: 1000
@@ -116,6 +139,31 @@ backend-cron:
       value: "https://admin-{{ .Values.global.host }}/"
     - name: DOMIFA_CRON_ENABLED
       value: "true"
+    - name: S3_BUCKET_ENDPOINT
+      valueFrom:
+        secretKeyRef:
+          name: domifa-prod-app-access-key
+          key: bucket_endpoint
+    - name: S3_BUCKET_NAME
+      valueFrom:
+        secretKeyRef:
+          name: domifa-prod-app-access-key
+          key: bucket_name
+    - name: S3_BUCKET_REGION
+      valueFrom:
+        secretKeyRef:
+          name: domifa-prod-app-access-key
+          key: bucket_region
+    - name: S3_BUCKET_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: domifa-prod-app-access-key
+          key: bucket_access_key
+    - name: S3_BUCKET_SECRET_KEY
+      valueFrom:
+        secretKeyRef:
+          name: domifa-prod-app-access-key
+          key: bucket_secret_key
 
   securityContext:
     fsGroup: 1000
