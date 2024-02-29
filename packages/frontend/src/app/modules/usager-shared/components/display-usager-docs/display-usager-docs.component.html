@@ -1,16 +1,9 @@
 <div class="my-4">
-  <div class="alert alert-warning">
-    <div class="svg-icon icon-distribution"></div>
-    <p>
-      L'ajout de fichiers dans DomiFa est temporairement désactivé. Veuillez
-      nous excuser pour la gêne occasionnée
-    </p>
-  </div>
-  <!-- <app-upload
+  <app-upload
     *ngIf="me?.role !== 'facteur' && editPJ"
     (getUsagerDocs)="getUsagerDocs()"
     [usager]="usager"
-  ></app-upload> -->
+  ></app-upload>
 </div>
 
 <div class="alert-info alert" *ngIf="!docs.length">
