@@ -8,6 +8,13 @@ export type DomifaEnv = {
   DOMIFA_BACKEND_URL: string;
   DOMIFA_SECURITY_JWT_SECRET: string;
   DOMIFA_UPLOADS_FOLDER: string;
+  // S3
+  S3_BUCKET_ACCESS_KEY: string;
+  S3_BUCKET_SECRET_KEY: string;
+  S3_BUCKET_ENDPOINT: string;
+  S3_BUCKET_NAME: string;
+  S3_BUCKET_REGION: string;
+
   DOMIFA_ENV_ID: string;
   DOMIFA_VERSION: string;
   DOMIFA_SWAGGER_ENABLE: string;

@@ -33,6 +33,7 @@
     "test": "rimraf dist && ENV_FILE=tests-local jest"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.523.0",
     "@domifa/common": "workspace:^",
     "@faker-js/faker": "^8.3.1",
     "@nestjs/axios": "^3.0.1",
@@ -62,6 +63,7 @@
     "@socialgouv/streaming-file-encryption": "^1.1.0",
     "@types/source-map-support": "^0.5.4",
     "@wmfs/xml2csv": "^1.32.0",
+    "aws-sdk": "^2.1568.0",
     "axios": "^1.6.2",
     "bcryptjs": "^2.4.3",
     "cache-manager": "^5.3.2",
