@@ -47,12 +47,17 @@ export class FileManagerService {
   }
 
   public async getObject(filePath: string) {
-    return await this.s3.send(
-      new GetObjectCommand({
-        Bucket: domifaConfig().upload.bucketName,
-        Key: filePath,
-      })
-    );
+    try {
+      return await this.s3.send(
+        new GetObjectCommand({
+          Bucket: domifaConfig().upload.bucketName,
+          Key: filePath,
+        })
+      );
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
   }
 
   // Return object in response
