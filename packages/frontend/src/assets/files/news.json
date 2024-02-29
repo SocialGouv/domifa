@@ -1,5 +1,18 @@
 [
   {
+    "date": "2024-02-29",
+    "description": "Upload de fichiers indisponible",
+    "content": [
+      {
+        "type": "bug",
+        "categorie": "⚠️ Téléchargement de fichiers",
+        "message": [
+          "Le téléchargement de fichier dans les dossiers des usagers est temporairement indisponible."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-02-19",
     "description": "Nouveautés du 19 Février 2024",
     "content": [
