@@ -27,7 +27,6 @@ export const compressAndResizeImage = (
     "structureId" | "uuid" | "usagerRef" | "path" | "usagerUUID" | "filetype"
   >
 ) => {
-  console.log("compressAndResizeImage");
   const format = usagerDoc.filetype === "image/png" ? "png" : "jpeg";
   return sharp()
     .resize(3800, 3800, { fit: "inside" })
@@ -63,15 +62,6 @@ export function validateUpload(
   );
 
   return validFileMimeType && validFileExtension;
-}
-
-export async function getUsagerFilePath(
-  structureUUID: string,
-  usagerUUID: string,
-  fileName: string
-): Promise<string> {
-  const dir = await getUsagerFilesDir(structureUUID, usagerUUID);
-  return join(dir, fileName);
 }
 
 export function cleanPath(path: string): string {

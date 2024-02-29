@@ -31,15 +31,13 @@ import { domifaConfig } from "../../config";
 import {
   cleanPath,
   compressAndResizeImage,
-  deleteFile,
-  getUsagerFilePath,
+  randomName,
   validateUpload,
 } from "../../util/file-manager/FileManager";
 import { UsagerDoc, UserStructureAuthenticated } from "../../_common/model";
 
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { UploadUsagerDocDto } from "../dto";
-import { createReadStream } from "fs-extra";
 
 import crypto from "node:crypto";
 import { ExpressRequest } from "../../util/express";
@@ -50,8 +48,23 @@ import {
 import { pipeline } from "node:stream/promises";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 import { PassThrough, Readable } from "node:stream";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import {
+  S3Client,
+  GetObjectCommand,
+  DeleteObjectCommand,
+} from "@aws-sdk/client-s3";
 import { join } from "node:path";
+import { Upload } from "@aws-sdk/lib-storage";
+
+const s3 = new S3Client({
+  endpoint: "http://localhost:9000",
+  credentials: {
+    accessKeyId: domifaConfig().upload.bucketAccessKey,
+    secretAccessKey: domifaConfig().upload.bucketSecretKey,
+  },
+  region: domifaConfig().upload.bucketRegion,
+  forcePathStyle: true,
+});
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("docs")
@@ -91,12 +104,19 @@ export class UsagerDocsController {
     const encryptionContext = crypto.randomUUID();
     const userName = user.prenom + " " + user.nom;
 
+    const filePath = join(
+      "usager-documents",
+      cleanPath(user.structure.uuid),
+      cleanPath(currentUsager.uuid),
+      `${randomName(file)}.sfe`
+    );
+
     const newDoc: UsagerDocsTable = {
       createdAt: new Date(),
       createdBy: userName,
       filetype: file.mimetype,
       label: postData.label,
-      path: file.filename,
+      path: filePath,
       usagerRef,
       structureId: currentUsager.structureId,
       usagerUUID: currentUsager.uuid,
@@ -105,7 +125,7 @@ export class UsagerDocsController {
     };
 
     try {
-      await this.saveEncryptedFile(user, newDoc, file);
+      await this.saveEncryptedFile(filePath, newDoc, file);
     } catch (e) {
       console.log(e);
       return res
@@ -143,13 +163,12 @@ export class UsagerDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    const filePath = await getUsagerFilePath(
-      user.structure.uuid,
-      currentUsager.uuid,
-      doc.path + ".sfe"
+    await s3.send(
+      new DeleteObjectCommand({
+        Bucket: domifaConfig().upload.bucketName,
+        Key: `${domifaConfig().upload.bucketRootDir}/${doc.path}`,
+      })
     );
-
-    await deleteFile(filePath);
 
     await usagerDocsRepository.delete({
       uuid: doc.uuid,
@@ -188,7 +207,7 @@ export class UsagerDocsController {
     @Param("docUuid", new ParseUUIDPipe()) docUuid: string,
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @Res() res: Response,
-    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentUser() _user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager
   ) {
     const doc = await usagerDocsRepository.findOneBy({
@@ -204,17 +223,12 @@ export class UsagerDocsController {
     }
 
     const mainSecret = domifaConfig().security.mainSecret;
-
-    const encryptedFilePath = await getUsagerFilePath(
-      user.structure.uuid,
-      doc.usagerUUID,
-      doc.path + ".sfe"
-    );
+    const body = await this.downloadFile(doc.path);
 
     try {
       return pipeline(
         // note: encryptedFilePath should end with .sfe, not .encrypted, to prepare for phase 3.
-        createReadStream(encryptedFilePath),
+        body,
         decryptFile(mainSecret, doc.encryptionContext),
         res
       );
@@ -227,26 +241,10 @@ export class UsagerDocsController {
 
   // encrypt a cleartext file to sfe and delete original
   private async saveEncryptedFile(
-    user: UserStructureAuthenticated,
+    filePath: string,
     usagerDoc: UsagerDoc,
     file: Express.Multer.File
-  ): Promise<any> {
-    const s3 = new S3Client({
-      endpoint: "http://localhost:9000",
-      credentials: {
-        accessKeyId: domifaConfig().upload.bucketAccessKey,
-        secretAccessKey: domifaConfig().upload.bucketSecretKey,
-      },
-      region: domifaConfig().upload.bucketRegion,
-      forcePathStyle: true,
-    });
-
-    const destination = join(
-      "usager-documents",
-      cleanPath(user.structure.uuid),
-      cleanPath(usagerDoc.usagerUUID)
-    );
-
+  ): Promise<void> {
     const passThrough = new PassThrough();
 
     const mainSecret = domifaConfig().security.mainSecret;
@@ -255,37 +253,52 @@ export class UsagerDocsController {
       usagerDoc.filetype === "image/jpeg" ||
       usagerDoc.filetype === "image/png"
     ) {
-      await pipeline(
+      pipeline(
         Readable.from(file.buffer),
         compressAndResizeImage(usagerDoc),
         encryptFile(mainSecret, usagerDoc.encryptionContext),
         passThrough
       );
-      console.log("END OF PIPELINE 1 ");
     } else {
-      await pipeline(
+      pipeline(
         Readable.from(file.buffer),
         encryptFile(mainSecret, usagerDoc.encryptionContext),
         passThrough
       );
-      console.log("END OF PIPELINE 2 ");
     }
 
     const params = {
       Bucket: domifaConfig().upload.bucketName,
-      Key: `${destination}.sfe`, // Nom du fichier dans le bucket S3
+      Key: `${domifaConfig().upload.bucketRootDir}/${filePath}`,
       Body: passThrough,
     };
 
-    const command = new PutObjectCommand(params);
+    const parallelUploads3 = new Upload({
+      client: s3,
+      params,
+    });
 
     try {
-      const response = await s3.send(command);
-      console.log("Upload réussi", response);
-      return response;
-    } catch (error) {
-      console.error("Erreur lors de l'upload", error);
-      return new Error("Erreur lors de l'upload");
+      const uploadResult = await parallelUploads3.done();
+      console.log("done uploading", uploadResult);
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  }
+
+  private async downloadFile(path: string): Promise<Readable> {
+    const { Body } = await s3.send(
+      new GetObjectCommand({
+        Bucket: domifaConfig().upload.bucketName,
+        Key: `${domifaConfig().upload.bucketRootDir}/${path}`,
+      })
+    );
+
+    if (Body instanceof Readable) {
+      return Body;
+    } else {
+      throw new Error("Type de Body non pris en charge");
     }
   }
 }
