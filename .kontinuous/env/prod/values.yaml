@@ -108,8 +108,7 @@ backend:
         name: domifa-encryption-key
   vars:
     <<: *backendVars
-  env:
-    <<: *backendEnv
+  env: *backendEnv
 
 
 frontend:

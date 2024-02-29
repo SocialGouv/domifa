@@ -50,8 +50,7 @@ backend-cron:
         name: backend-sealed-secret
     - configMapRef:
         name: backend-configmap
-  env:
-    <<: *backendEnv
+  env: *backendEnv
 
 frontend:
   host: "{{ .Values.global.host }}"
