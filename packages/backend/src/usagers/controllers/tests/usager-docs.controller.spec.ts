@@ -5,6 +5,7 @@ import { UsersModule } from "../../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
 import { UsagerDocsController } from "../usager-docs.controller";
 import { TESTS_USERS_STRUCTURE } from "../../../_tests";
+import { FileManagerService } from "../../../util/file-manager/file-manager.service";
 
 describe("Document Controller", () => {
   let controller: UsagerDocsController;
@@ -15,7 +16,7 @@ describe("Document Controller", () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [UsagerDocsController],
       imports: [UsersModule, InteractionsModule, StructuresModule],
-      providers: [AppLogsService],
+      providers: [AppLogsService, FileManagerService],
     });
     controller = context.module.get<UsagerDocsController>(UsagerDocsController);
 

@@ -91,19 +91,14 @@ export class UsagerDocsController {
     const encryptionContext = crypto.randomUUID();
     const userName = user.prenom + " " + user.nom;
 
-    const filePath = join(
-      "usager-documents",
-      cleanPath(user.structure.uuid),
-      cleanPath(currentUsager.uuid),
-      `${randomName(file)}.sfe`
-    );
+    const path = randomName(file);
 
     const newDoc: UsagerDocsTable = {
       createdAt: new Date(),
       createdBy: userName,
       filetype: file.mimetype,
       label: postData.label,
-      path: filePath,
+      path,
       usagerRef,
       structureId: currentUsager.structureId,
       usagerUUID: currentUsager.uuid,
@@ -112,6 +107,13 @@ export class UsagerDocsController {
     };
 
     try {
+      const filePath = join(
+        "usager-documents",
+        cleanPath(user.structure.uuid),
+        cleanPath(currentUsager.uuid),
+        `${path}.sfe`
+      );
+
       await this.saveEncryptedFile(filePath, newDoc, file);
     } catch (e) {
       console.log(e);
@@ -189,7 +191,7 @@ export class UsagerDocsController {
     @Param("docUuid", new ParseUUIDPipe()) docUuid: string,
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @Res() res: Response,
-    @CurrentUser() _user: UserStructureAuthenticated,
+    @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager
   ) {
     const doc = await usagerDocsRepository.findOneBy({
@@ -204,8 +206,15 @@ export class UsagerDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
+    const filePath = join(
+      "usager-documents",
+      cleanPath(user.structure.uuid),
+      cleanPath(currentUsager.uuid),
+      `${doc.path}.sfe`
+    );
+
     const mainSecret = domifaConfig().security.mainSecret;
-    const body = await this.fileManagerService.getFileBody(doc.path);
+    const body = await this.fileManagerService.getFileBody(filePath);
 
     try {
       return pipeline(
