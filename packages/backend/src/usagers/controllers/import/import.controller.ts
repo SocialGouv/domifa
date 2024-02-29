@@ -32,11 +32,11 @@ import {
   UsagersImportUsager,
   usagersImportValidator,
 } from "./step2-validate-row";
-import os from "os";
+
 import { AllowUserStructureRoles } from "../../../auth/decorators";
 import { addYears, endOfDay, startOfYear } from "date-fns";
-import { ensureDir, pathExists, remove } from "fs-extra";
-import { join, resolve } from "path";
+import { remove } from "fs-extra";
+
 import { FILES_SIZE_LIMIT } from "../../../util/file-manager";
 import {
   ImportPreviewTable,
@@ -44,8 +44,6 @@ import {
   ImportPreviewColumn,
 } from "@domifa/common";
 import { ImportCreatorService } from "./step3-create";
-
-const USAGERS_IMPORT_DIR = join(os.tmpdir(), "domifa", "usagers-imports");
 
 const UsagersImportFileInterceptor = FileInterceptor("file", {
   limits: FILES_SIZE_LIMIT,
@@ -60,23 +58,6 @@ const UsagersImportFileInterceptor = FileInterceptor("file", {
     callback(null, true);
   },
   storage: diskStorage({
-    destination: (
-      _req: ExpressRequest,
-      _file: Express.Multer.File,
-      callback: (error: Error | null, destination: string) => void
-    ) => {
-      (async () => {
-        try {
-          const dir = USAGERS_IMPORT_DIR;
-          if (!(await pathExists(dir))) {
-            await ensureDir(dir);
-          }
-          callback(null, dir);
-        } catch (error) {
-          callback(error, "");
-        }
-      })();
-    },
     filename: (
       _req: ExpressRequest,
       file: Express.Multer.File,
@@ -117,9 +98,9 @@ export class ImportController {
         start: new Date(),
       },
     };
-
+    console.log({ file });
     const fileName = file.filename;
-    const filePath = resolve(USAGERS_IMPORT_DIR, fileName);
+    const filePath = file.path;
 
     let usagerImportRows: {
       rowNumber: number;

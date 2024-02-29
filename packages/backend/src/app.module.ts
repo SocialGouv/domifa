@@ -16,10 +16,11 @@ import { UsagersModule } from "./usagers/usagers.module";
 import { UsersModule } from "./users/users.module";
 import { AppLogsModule } from "./modules/app-logs/app-logs.module";
 import { ContactSupportModule } from "./modules/contact-support/contact-support.module";
+import { FileManagerService } from "./util/file-manager/file-manager.service";
 
 @Module({
   controllers: [HealthController],
-  exports: [],
+  exports: [FileManagerService],
   imports: [
     AuthModule,
     ScheduleModule.forRoot(),
@@ -36,6 +37,6 @@ import { ContactSupportModule } from "./modules/contact-support/contact-support.
     AppLogsModule,
     ContactSupportModule,
   ],
-  providers: [PostgresHealthIndicator],
+  providers: [PostgresHealthIndicator, FileManagerService],
 })
 export class AppModule {}

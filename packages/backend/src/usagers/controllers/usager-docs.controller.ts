@@ -35,7 +35,6 @@ import {
   validateUpload,
 } from "../../util/file-manager/FileManager";
 import { UsagerDoc, UserStructureAuthenticated } from "../../_common/model";
-
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { UploadUsagerDocDto } from "../dto";
 
@@ -48,30 +47,18 @@ import {
 import { pipeline } from "node:stream/promises";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 import { PassThrough, Readable } from "node:stream";
-import {
-  S3Client,
-  GetObjectCommand,
-  DeleteObjectCommand,
-} from "@aws-sdk/client-s3";
 import { join } from "node:path";
-import { Upload } from "@aws-sdk/lib-storage";
-
-const s3 = new S3Client({
-  endpoint: domifaConfig().upload.bucketEndpoint,
-  credentials: {
-    accessKeyId: domifaConfig().upload.bucketAccessKey,
-    secretAccessKey: domifaConfig().upload.bucketSecretKey,
-  },
-  region: domifaConfig().upload.bucketRegion,
-  forcePathStyle: true,
-});
+import { FileManagerService } from "../../util/file-manager/file-manager.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("docs")
 @ApiBearerAuth()
 @Controller("docs")
 export class UsagerDocsController {
-  constructor(private readonly appLogsService: AppLogsService) {}
+  constructor(
+    private readonly appLogsService: AppLogsService,
+    private readonly fileManagerService: FileManagerService
+  ) {}
 
   @ApiOperation({
     summary: "Téléverser des pièces-jointes dans le dossier d'un usager",
@@ -163,12 +150,7 @@ export class UsagerDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    await s3.send(
-      new DeleteObjectCommand({
-        Bucket: domifaConfig().upload.bucketName,
-        Key: `${domifaConfig().upload.bucketRootDir}/${doc.path}`,
-      })
-    );
+    await this.fileManagerService.deleteFile(doc.path);
 
     await usagerDocsRepository.delete({
       uuid: doc.uuid,
@@ -223,7 +205,7 @@ export class UsagerDocsController {
     }
 
     const mainSecret = domifaConfig().security.mainSecret;
-    const body = await this.downloadFile(doc.path);
+    const body = await this.fileManagerService.getFileBody(doc.path);
 
     try {
       return pipeline(
@@ -267,38 +249,6 @@ export class UsagerDocsController {
       );
     }
 
-    const params = {
-      Bucket: domifaConfig().upload.bucketName,
-      Key: `${domifaConfig().upload.bucketRootDir}/${filePath}`,
-      Body: passThrough,
-    };
-
-    const parallelUploads3 = new Upload({
-      client: s3,
-      params,
-    });
-
-    try {
-      const uploadResult = await parallelUploads3.done();
-      console.log("done uploading", uploadResult);
-    } catch (e) {
-      console.error(e);
-      throw new Error(e);
-    }
-  }
-
-  private async downloadFile(path: string): Promise<Readable> {
-    const { Body } = await s3.send(
-      new GetObjectCommand({
-        Bucket: domifaConfig().upload.bucketName,
-        Key: `${domifaConfig().upload.bucketRootDir}/${path}`,
-      })
-    );
-
-    if (Body instanceof Readable) {
-      return Body;
-    } else {
-      throw new Error("Type de Body non pris en charge");
-    }
+    await this.fileManagerService.uploadFile(filePath, passThrough);
   }
 }

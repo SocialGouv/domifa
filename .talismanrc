@@ -55,6 +55,8 @@ fileignoreconfig:
   checksum: 809d870844d5224912d7a93997131e4df85156d525153bfc1f3b68fdd06c6548
 - filename: packages/backend/src/users/users.public.controller.spec.ts
   checksum: c92d7fdda68498beff9b1680e5cc4b4ee6f0d658bb5a25efd6dd228fd8ce061e
+- filename: packages/backend/src/util/file-manager/file-manager.service.ts
+  checksum: 9c4e84a16d2905bb9e6ff980b0c7489397ebcddf7bcc34e72d6360d3de53a425
 - filename: packages/frontend/src/app/modules/general/components/login/login.component.ts
   checksum: 478ac6427b28b5473166ea12bc5ffe275d6dfb1bf3c190c1d852012907f4d317
 - filename: packages/frontend/src/app/modules/general/components/static-pages/politique/politique.component.html

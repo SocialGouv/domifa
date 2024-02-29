@@ -1,4 +1,4 @@
-import { ensureDir, readFile } from "fs-extra";
+import { readFile } from "fs-extra";
 import { join, resolve } from "path";
 import { domifaConfig } from "../../../config";
 import { StructureDocTypesAvailable } from "../../../_common/model";
@@ -74,15 +74,3 @@ async function loadTemplateFromFilePath(
 ): Promise<string> {
   return await readFile(resolve(templateFilePath), "binary");
 }
-
-export const getCustomDocsDir = async (
-  structureId: number
-): Promise<string> => {
-  const dir = join(
-    domifaConfig().upload.basePath,
-    "structure-documents",
-    cleanPath(`${structureId}`)
-  );
-  await ensureDir(dir);
-  return dir;
-};

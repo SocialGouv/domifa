@@ -16,13 +16,12 @@ import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import { diskStorage } from "multer";
 
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { AllowUserStructureRoles } from "../../auth/decorators";
 import {
-  deleteFile,
+  cleanPath,
   randomName,
   validateUpload,
 } from "../../util/file-manager/FileManager";
@@ -33,16 +32,15 @@ import { StructureDocDto } from "../dto/structure-doc.dto";
 import { structureDocRepository } from "../../database";
 import { ExpressRequest } from "../../util/express";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
-import {
-  buildCustomDocPath,
-  getCustomDocsDir,
-} from "../../usagers/services/custom-docs";
+import { join } from "path";
+import { FileManagerService } from "../../util/file-manager/file-manager.service";
 
 @ApiTags("structure-docs")
 @ApiBearerAuth()
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("structure-docs")
 export class StructureDocController {
+  constructor(private readonly fileManagerService: FileManagerService) {}
   @Get(":uuid")
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getStructureDoc(
@@ -56,12 +54,8 @@ export class StructureDocController {
         uuid,
       });
 
-      const output = buildCustomDocPath({
-        structureId: user.structureId,
-        docPath: doc.path,
-      });
-
-      return res.status(HttpStatus.OK).sendFile(output);
+      const filePath = join("structure-documents", doc.path);
+      return await this.fileManagerService.downloadObject(filePath, res);
     } catch (e) {
       return res
         .status(HttpStatus.BAD_REQUEST)
@@ -85,27 +79,6 @@ export class StructureDocController {
         }
         callback(null, true);
       },
-      storage: diskStorage({
-        destination: (
-          req: ExpressRequest,
-          _file: Express.Multer.File,
-          callback: (error: Error | null, destination: string) => void
-        ) => {
-          (async () => {
-            const user = req.user as UserStructureAuthenticated;
-            const dir = await getCustomDocsDir(user.structureId);
-            callback(null, dir);
-          })();
-        },
-
-        filename: (
-          _req: ExpressRequest,
-          file: Express.Multer.File,
-          callback: (error: Error | null, destination: string) => void
-        ) => {
-          return callback(null, randomName(file));
-        },
-      }),
     })
   )
   public async uploadStructureDoc(
@@ -129,6 +102,14 @@ export class StructureDocController {
       }
     }
 
+    const filePath = join(
+      "structure-documents",
+      cleanPath(`${user.structureId}`),
+      randomName(file)
+    );
+
+    await this.fileManagerService.uploadFile(filePath, file.buffer);
+
     const newDoc: StructureDoc = {
       createdAt: new Date(),
       createdBy: {
@@ -138,7 +119,7 @@ export class StructureDocController {
       },
       displayInPortailUsager: false,
       filetype: file.mimetype,
-      path: file.filename,
+      path: filePath,
       label: structureDocDto.label,
       custom: structureDocDto.custom,
       structureId: user.structureId,
@@ -182,11 +163,7 @@ export class StructureDocController {
         uuid,
       });
 
-      const pathFile = buildCustomDocPath({
-        structureId: user.structureId,
-        docPath: doc.path,
-      });
-      await deleteFile(pathFile);
+      await this.fileManagerService.deleteFile(doc.path);
 
       await structureDocRepository.delete({
         structureId: user.structureId,
