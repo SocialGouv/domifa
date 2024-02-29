@@ -1,3 +1,11 @@
+## [2.164.12](https://github.com/SocialGouv/domifa/compare/v2.164.11...v2.164.12) (2024-02-29)
+
+
+### Bug Fixes
+
+* **s3:** add correct path for structures ([2f3eea3](https://github.com/SocialGouv/domifa/commit/2f3eea385b63cbf2ffd93cabb7c7f2f070f3e62a))
+* **s3:** add logs, fix docPath ([da0ad98](https://github.com/SocialGouv/domifa/commit/da0ad9887fc86934d1c70866fdf012dc26ad4b4a))
+
 ## [2.164.11](https://github.com/SocialGouv/domifa/compare/v2.164.10...v2.164.11) (2024-02-29)
 
 
