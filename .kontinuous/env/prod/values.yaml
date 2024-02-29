@@ -79,7 +79,7 @@ backend-cron:
           name: domifa-prod-app-access-key
           key: bucket_secret_key
     - name: S3_BUCKET_ROOT_DIR
-      value: /backup/files
+      value: backup/files
 
 backend:
   host: "domifa-api.{{ .Values.global.domain }}"
@@ -135,7 +135,7 @@ backend:
           name: domifa-prod-app-access-key
           key: bucket_secret_key
     - name: S3_BUCKET_ROOT_DIR
-      value: /backup/files
+      value: backup/files
 
 
 frontend:

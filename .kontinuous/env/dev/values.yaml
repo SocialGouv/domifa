@@ -55,7 +55,7 @@ backend:
           name: domifa-dev-app-access-key
           key: bucket_secret_key
     - name: S3_BUCKET_ROOT_DIR
-      value: /review-branch/{{ .Values.global.branchSlug32  }}/files
+      value: review-branch/{{ .Values.global.branchSlug32  }}/files
 
 backend-cron:
   ~needs: [backend]
@@ -86,4 +86,4 @@ backend-cron:
           name: domifa-dev-app-access-key
           key: bucket_secret_key
     - name: S3_BUCKET_ROOT_DIR
-      value: /review-branch/{{ .Values.global.branchSlug32  }}/files
+      value: review-branch/{{ .Values.global.branchSlug32  }}/files
