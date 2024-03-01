@@ -1,3 +1,10 @@
+## [2.164.13](https://github.com/SocialGouv/domifa/compare/v2.164.12...v2.164.13) (2024-03-01)
+
+
+### Bug Fixes
+
+* **s3:** fix upload and download of files ([acff750](https://github.com/SocialGouv/domifa/commit/acff75056a44ab08d2cd87590a664b8462dbea73))
+
 ## [2.164.12](https://github.com/SocialGouv/domifa/compare/v2.164.11...v2.164.12) (2024-02-29)
 
 
