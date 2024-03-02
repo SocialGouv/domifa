@@ -57,6 +57,8 @@ fileignoreconfig:
   checksum: c92d7fdda68498beff9b1680e5cc4b4ee6f0d658bb5a25efd6dd228fd8ce061e
 - filename: packages/backend/src/util/file-manager/file-manager.service.ts
   checksum: 91f8b8bf2fee2a43973a2b046247279a016091c9fba3d23f6220a44ba765fa88
+- filename: packages/backend/src/util/test/AppTestHelper.service.ts
+  checksum: e0cbb6a7ebce699a3cbeeb128d38c79bd1ed4a4fbbd4766ca4e05329fa84b680
 - filename: packages/frontend/src/app/modules/general/components/login/login.component.ts
   checksum: 478ac6427b28b5473166ea12bc5ffe275d6dfb1bf3c190c1d852012907f4d317
 - filename: packages/frontend/src/app/modules/general/components/static-pages/politique/politique.component.html
@@ -84,5 +86,5 @@ fileignoreconfig:
 - filename: packages/portail-usagers/src/app/modules/usager-auth/usager-login/usager-login.component.ts
   checksum: b04680c071a8098191859f5a67124df3d168478ee2f997a361595b7244d1f5f7
 - filename: yarn.lock
-  checksum: 1780cf9302b5cb8bf74cae2f3282981578cc0eda454dba4d340031cd6e3cdfe6
+  checksum: 4172c1b84007c81c10f0bb9201b5e56e5d5d2fdd3e8df4dade315873c05aa3b5
 version: "1.0"

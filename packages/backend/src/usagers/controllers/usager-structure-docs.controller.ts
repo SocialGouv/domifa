@@ -68,8 +68,6 @@ export class UsagerStructureDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    console.log({ doc });
-
     // Document statique
     if (!doc.custom) {
       const filePath = join(
@@ -86,11 +84,8 @@ export class UsagerStructureDocsController {
       cleanPath(`${doc.structureId}`),
       doc.path
     );
-    console.log({ filePath });
-    const content = (
-      await this.fileManagerService.getFileBody(filePath)
-    ).toString();
-    console.log({ content });
+
+    const content = await this.fileManagerService.getObjectAndStream(filePath);
 
     if (!content) {
       return res
@@ -148,7 +143,6 @@ export class UsagerStructureDocsController {
       customDocType: docType,
     });
 
-    console.log({ doc });
     let content = "";
 
     if (doc) {
@@ -158,15 +152,7 @@ export class UsagerStructureDocsController {
         doc.path
       );
 
-      const readable = await this.fileManagerService.getFileBody(filePath);
-      const chunks: Uint8Array[] = [];
-
-      for await (const chunk of readable) {
-        chunks.push(chunk);
-      }
-
-      const buffer = Buffer.concat(chunks);
-      content = buffer.toString("binary");
+      content = await this.fileManagerService.getObjectAndStream(filePath);
     } else {
       content = await customDocTemplateLoader.loadDefaultDocTemplate({
         docType,

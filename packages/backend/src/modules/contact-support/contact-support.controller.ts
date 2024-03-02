@@ -58,7 +58,7 @@ export class ContactSupportController {
     @Res() res: ExpressResponse
   ) {
     const dataToSave = new ContactSupportTable(contactSupportDto);
-    console.log({ file });
+
     if (file) {
       dataToSave.attachment = {
         filename: file.filename,

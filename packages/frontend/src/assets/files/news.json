@@ -1,5 +1,19 @@
 [
   {
+    "date": "2024-03-03",
+    "description": "✅ Upload de fichiers à nouveau disponible",
+    "content": [
+      {
+        "type": "bug",
+        "categorie": "Téléchargement de fichiers",
+        "message": [
+          "L'incident empêchant le téléchargement de fichiers sur les dossiers des domiciliés a été corrigé.",
+          "Vous pouvez à nouveau utiliser toutes les fonctionnalités d'upload / téléchargement de documents."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-02-29",
     "description": "Upload de fichiers indisponible",
     "content": [

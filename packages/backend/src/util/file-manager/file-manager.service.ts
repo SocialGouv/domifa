@@ -40,8 +40,7 @@ export class FileManagerService {
     });
 
     try {
-      const uploadResult = await upload.done();
-      console.log("done uploading", uploadResult);
+      await upload.done();
     } catch (e) {
       console.error(e);
       throw new Error(e);
@@ -142,18 +141,32 @@ export class FileManagerService {
     }
   }
 
+  public async getObjectAndStream(filePath: string): Promise<string> {
+    const readable = await this.getFileBody(filePath);
+
+    const chunks: Uint8Array[] = [];
+
+    for await (const chunk of readable) {
+      chunks.push(chunk);
+    }
+
+    const buffer = Buffer.concat(chunks);
+    return buffer.toString("binary");
+  }
+
   public async deleteAllUnderStructure(prefix: string) {
     const listParams = {
       Bucket: domifaConfig().upload.bucketName,
       Prefix: prefix,
     };
 
-    console.log({ listParams });
     const listedObjects = await this.s3.send(
       new ListObjectsV2Command(listParams)
     );
 
-    if (listedObjects.Contents.length === 0) return;
+    if (listedObjects?.KeyCount === 0) {
+      return;
+    }
 
     const deleteParams = {
       Bucket: domifaConfig().upload.bucketName,

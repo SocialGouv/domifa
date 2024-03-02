@@ -98,7 +98,7 @@ export class ImportController {
         start: new Date(),
       },
     };
-    console.log({ file });
+
     const fileName = file.filename;
     const filePath = file.path;
 
