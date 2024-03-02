@@ -17,6 +17,13 @@ import {
 } from "../../_tests";
 
 import { AppTestContext } from "./AppTestContext.type";
+import {
+  S3Client,
+  GetObjectCommand,
+  ListObjectsV2Command,
+  DeleteObjectsCommand,
+} from "@aws-sdk/client-s3";
+import { mockClient } from "aws-sdk-client-mock";
 
 export const AppTestHelper = {
   bootstrapTestApp,
@@ -28,6 +35,46 @@ export const AppTestHelper = {
   authenticateSuperAdmin,
   filterSecurityTests,
 };
+
+const s3Mock = mockClient(S3Client);
+s3Mock.on(GetObjectCommand).resolves({
+  $metadata: {
+    httpStatusCode: 200,
+    requestId: "17B912C761BC159D",
+    extendedRequestId:
+      "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8",
+    cfId: undefined,
+    attempts: 1,
+    totalRetryDelay: 0,
+  },
+  ETag: '"691e6a288391886cff90055410335b82"',
+});
+s3Mock.on(ListObjectsV2Command).resolves({
+  Contents: [
+    {
+      Key: "files/6583c2671c304cc692368da8f3ed1154/84c10b8d481440f8aeb6e8e287ea54a5/46bbca5777439ef2c46571dcb9390fa7.pdf.sfe",
+      LastModified: new Date("2024-03-02T22:20:15.935Z"),
+      ETag: '"b79bfad228eace536fdad1713e6a34e5"',
+      Size: 738202,
+      StorageClass: "STANDARD",
+    },
+    {
+      Key: "domifa/usager-documents/6583c2671c304cc692368da8f3ed1154/84c10b8d481440f8aeb6e8e287ea54a5/bf66213430388f487bb4acb7eacdfd9c.pdf.sfe",
+      LastModified: new Date("2024-03-02T22:20:11.092Z"),
+      ETag: '"1e6b3acf7a33d0885faa1fd8d46bdd44"',
+      Size: 65720,
+      StorageClass: "STANDARD",
+    },
+  ],
+  IsTruncated: false,
+  KeyCount: 2,
+  MaxKeys: 1000,
+  Name: "domifa",
+  Prefix:
+    "files/6583c2671c304cc692368da8f3ed1154/84c10b8d481440f8aeb6e8e287ea54a5/",
+});
+
+s3Mock.on(DeleteObjectsCommand).resolves({ Deleted: [] });
 
 async function bootstrapTestApp(
   metadata: ModuleMetadata,
