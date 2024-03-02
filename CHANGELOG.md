@@ -1,3 +1,10 @@
+## [2.164.14](https://github.com/SocialGouv/domifa/compare/v2.164.13...v2.164.14) (2024-03-02)
+
+
+### Bug Fixes
+
+* **deps:** update dependency sanitize-html to v2.12.1 [security] ([36d425a](https://github.com/SocialGouv/domifa/commit/36d425ad8e573e48f30e98559e66c0bedc3769ce))
+
 ## [2.164.13](https://github.com/SocialGouv/domifa/compare/v2.164.12...v2.164.13) (2024-03-01)
 
 
