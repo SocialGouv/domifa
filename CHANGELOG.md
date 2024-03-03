@@ -1,3 +1,10 @@
+## [2.164.16](https://github.com/SocialGouv/domifa/compare/v2.164.15...v2.164.16) (2024-03-03)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([a002c6f](https://github.com/SocialGouv/domifa/commit/a002c6f8adda56c82319d088ca52aa27f78a07ce))
+
 ## [2.164.15](https://github.com/SocialGouv/domifa/compare/v2.164.14...v2.164.15) (2024-03-02)
 
 
