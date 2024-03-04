@@ -29,7 +29,8 @@ async function createInteraction({
   interaction: CommonInteraction;
 }> {
   const now = new Date();
-  let procuration: boolean | null = null;
+  let procuration: boolean = false;
+
   const direction = interactionsTypeManager.getDirection({
     type: interaction.type,
   });

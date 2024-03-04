@@ -81,9 +81,9 @@ export class InteractionDto {
   public dateInteraction?: Date;
 
   @IsEmpty()
-  public procuration?: boolean | null = null;
+  public procuration: boolean = false;
 
   @IsOptional()
   @IsBoolean()
-  public returnToSender?: boolean | null = null;
+  public returnToSender: boolean = false;
 }

@@ -1,10 +1,13 @@
+import { CommonInteraction } from "@domifa/common";
 import { generateSmsInteraction } from ".";
-import { InteractionDto } from "../../../interactions/dto";
 
 describe("generate SMS", () => {
   it("generate SMS", () => {
-    const firstInteraction: InteractionDto = {
+    const firstInteraction: CommonInteraction = {
+      returnToSender: false,
+      procuration: false,
       type: "courrierIn",
+      interactionOutUUID: null,
       content: "",
       nbCourrier: 2,
       structureId: 1,
@@ -14,8 +17,11 @@ describe("generate SMS", () => {
       dateInteraction: new Date(),
     };
 
-    const secondInteraction: InteractionDto = {
+    const secondInteraction: CommonInteraction = {
+      returnToSender: false,
+      procuration: false,
       type: "recommandeIn",
+      interactionOutUUID: null,
       content: "",
       nbCourrier: 1,
       structureId: 1,
@@ -25,8 +31,11 @@ describe("generate SMS", () => {
       dateInteraction: new Date(),
     };
 
-    const thirdInteraction: InteractionDto = {
+    const thirdInteraction: CommonInteraction = {
+      returnToSender: false,
+      procuration: false,
       type: "colisIn",
+      interactionOutUUID: null,
       content: "",
       nbCourrier: 19,
       structureId: 1,
@@ -36,8 +45,11 @@ describe("generate SMS", () => {
       dateInteraction: new Date(),
     };
 
-    const fourInteraction: InteractionDto = {
+    const fourInteraction: CommonInteraction = {
+      returnToSender: false,
+      procuration: false,
       type: "courrierIn",
+      interactionOutUUID: null,
       content: "",
       nbCourrier: 1,
       structureId: 1,

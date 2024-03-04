@@ -13,6 +13,6 @@ export interface CommonInteraction extends AppEntity {
   userId: number;
   userName: string;
   interactionOutUUID: string | null;
-  procuration: boolean | null;
-  returnToSender?: boolean | null;
+  procuration: boolean;
+  returnToSender?: boolean;
 }
