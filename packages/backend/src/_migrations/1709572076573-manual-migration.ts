@@ -91,7 +91,7 @@ export class ManualMigration1709572076573 implements MigrationInterface {
               }
             );
 
-            console.log();
+            console.log(log);
           }
         }
         cpt = cpt + 1000;
