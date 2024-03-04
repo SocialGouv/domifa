@@ -30,6 +30,7 @@ async function createInteraction({
 }> {
   const now = new Date();
   let procuration: boolean = false;
+  interaction.returnToSender = interaction?.returnToSender ?? false;
 
   const direction = interactionsTypeManager.getDirection({
     type: interaction.type,

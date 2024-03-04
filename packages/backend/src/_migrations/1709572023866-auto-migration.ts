@@ -15,7 +15,7 @@ export class AutoMigration1709572023866 implements MigrationInterface {
         "[MIGRATION] add false by default to interactions procuration and returnToSender"
       );
       await queryRunner.query(
-        `update interactions set "procuration" = false, "returnToSender" = false where procuration is null and "returnToSender" is null;`
+        `update interactions set "procuration" = false where procuration is null;`
       );
       await queryRunner.query(
         `update interactions set "returnToSender" = false where  "returnToSender" is null;`
