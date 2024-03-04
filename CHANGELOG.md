@@ -1,3 +1,10 @@
+## [2.164.17](https://github.com/SocialGouv/domifa/compare/v2.164.16...v2.164.17) (2024-03-04)
+
+
+### Bug Fixes
+
+* **interactions:** fix interactions last updated date ([d96564c](https://github.com/SocialGouv/domifa/commit/d96564c8649f2d7b75c65347cf9290e5a5ae5584))
+
 ## [2.164.16](https://github.com/SocialGouv/domifa/compare/v2.164.15...v2.164.16) (2024-03-03)
 
 
