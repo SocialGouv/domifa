@@ -3,7 +3,6 @@ import { Injectable } from "@nestjs/common";
 import { structureRepository } from "../../database";
 
 import { messageSmsRepository } from "../../database/services/message-sms";
-import { InteractionDto } from "../../interactions/dto";
 
 import { Usager } from "../../_common/model";
 import { generateSmsInteraction } from "./generators";
@@ -50,7 +49,7 @@ export class MessageSmsService {
   public async deleteSmsInteraction(
     usager: Pick<Usager, "ref" | "contactByPhone">,
     structure: Pick<Structure, "id" | "sms" | "telephone">,
-    interaction: InteractionDto
+    interaction: CommonInteraction
   ) {
     if (!structure.sms.enabledByDomifa && !structure.sms.enabledByStructure) {
       return null;
@@ -81,7 +80,7 @@ export class MessageSmsService {
   public async createSmsInteraction(
     usager: Usager,
     structure: Pick<Structure, "id" | "sms" | "telephone">,
-    interaction: InteractionDto
+    interaction: CommonInteraction
   ) {
     const scheduledDate = generateScheduleSendDate(new Date());
 

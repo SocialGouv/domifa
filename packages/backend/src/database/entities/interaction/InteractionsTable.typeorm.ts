@@ -60,12 +60,12 @@ export class InteractionsTable
   usagerUUID: string;
 
   @Index()
-  @Column({ type: "boolean", nullable: true })
-  procuration: boolean | null;
+  @Column({ type: "boolean", default: false })
+  procuration: boolean;
 
   @Index()
-  @Column({ type: "boolean", nullable: true })
-  returnToSender: boolean | null;
+  @Column({ type: "boolean", default: false })
+  returnToSender: boolean;
 
   public constructor(entity?: Partial<InteractionsTable>) {
     super(entity);

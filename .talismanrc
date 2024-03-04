@@ -1,4 +1,8 @@
 fileignoreconfig:
+- filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
+  checksum: 1e3af6483b906589d5ff94a3f5c9c4b461daacb252dd023adf9de9eb70aa2e05
+- filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
+  checksum: 0a5566f61d5418e27c400a112beaf0bcd6fa6cdca3f7f837108cc64a1e9a14c0
 - filename: docker-compose.local.yml
   checksum: ae67a7cafd3797780e29e6e3aca8f7a273dfe3f10f8456f95b3b4680e8440605
 - filename: packages/backend/.env.backend.test.local.example.env
@@ -24,7 +28,7 @@ fileignoreconfig:
 - filename: packages/backend/src/_migrations/1707149718714-auto-migration.ts
   checksum: aa054cce95ed17cdb3b5d3dd94ad82b56ff60d2b9dd002f15a617806e4883fda
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
-  checksum: e9749edc537ce0d902f2750870816c75a3e57a79955f5d92174c7b0f19b4267e
+  checksum: e427d473e2d46ea8e5e8a7051e2bd76b6f5097855f07cfe0b7ed91977d20da94
 - filename: packages/backend/src/_portail-admin/portail-admin-login/portail-admin-login.controller.spec.ts
   checksum: 3bd78f8919cbe14a45484825d6ce816bc7e2a0456fc53b9beeb1fedb6bdb061a
 - filename: packages/backend/src/auth/structures-auth.controller.spec.ts

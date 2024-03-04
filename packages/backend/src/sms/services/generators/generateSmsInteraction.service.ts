@@ -1,8 +1,7 @@
-import { InteractionType } from "@domifa/common";
-import { InteractionDto } from "../../../interactions/dto";
+import { CommonInteraction, InteractionType } from "@domifa/common";
 
 export function generateSmsInteraction(
-  interaction: InteractionDto,
+  interaction: CommonInteraction,
   senderDetails: string
 ): string {
   const interactionLabels: {

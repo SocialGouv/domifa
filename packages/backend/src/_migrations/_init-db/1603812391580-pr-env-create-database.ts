@@ -41,9 +41,9 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.app_log;
 
     CREATE UNLOGGED TABLE public.app_log (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       "userId" int4 NOT NULL,
       "usagerRef" int4 NULL,
@@ -61,14 +61,14 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.contact_support;
 
     CREATE UNLOGGED TABLE public.contact_support (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       "userId" int4 NULL,
       "structureId" int4 NULL,
       "content" text NOT NULL,
-      status text NOT NULL DEFAULT 'ON_HOLD'::text,
+      status text DEFAULT 'ON_HOLD'::text NOT NULL,
       attachment jsonb NULL,
       email text NOT NULL,
       category text NULL,
@@ -89,9 +89,9 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.expired_token;
 
     CREATE UNLOGGED TABLE public.expired_token (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       "userId" int4 NOT NULL,
       "structureId" int4 NOT NULL,
@@ -110,9 +110,9 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.message_email;
 
     CREATE UNLOGGED TABLE public.message_email (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       status text NOT NULL,
       "emailId" text NOT NULL,
@@ -120,7 +120,7 @@ async function createTables(queryRunner: QueryRunner) {
       "nextScheduledDate" timestamptz NOT NULL,
       "sendDate" timestamptz NULL,
       "content" jsonb NOT NULL,
-      "errorCount" int4 NOT NULL DEFAULT 0,
+      "errorCount" int4 DEFAULT 0 NOT NULL,
       "errorMessage" text NULL,
       "sendDetails" jsonb NULL,
       attachments jsonb NULL,
@@ -135,9 +135,9 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.monitor_batch_process;
 
     CREATE UNLOGGED TABLE public.monitor_batch_process (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       "processId" text NOT NULL,
       "beginDate" timestamptz NOT NULL,
@@ -146,7 +146,7 @@ async function createTables(queryRunner: QueryRunner) {
       status text NOT NULL,
       details jsonb NULL,
       "errorMessage" text NULL,
-      "alertMailSent" bool NOT NULL DEFAULT false,
+      "alertMailSent" bool DEFAULT false NOT NULL,
       CONSTRAINT "PK_f00131d757d1ddf39e70901e372" PRIMARY KEY (uuid)
     );
 
@@ -158,9 +158,9 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.open_data_places;
 
     CREATE UNLOGGED TABLE public.open_data_places (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       nom text NOT NULL,
       adresse text NOT NULL,
@@ -193,9 +193,9 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public."structure";
 
     CREATE UNLOGGED TABLE public."structure" (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       id serial4 NOT NULL,
       adresse text NOT NULL,
@@ -209,7 +209,7 @@ async function createTables(queryRunner: QueryRunner) {
       email text NOT NULL,
       "hardReset" jsonb NULL,
       "tokenDelete" text NULL,
-      "import" bool NOT NULL DEFAULT false,
+      "import" bool DEFAULT false NOT NULL,
       "registrationDate" timestamptz NOT NULL,
       "importDate" date NULL,
       "lastLogin" date NULL,
@@ -218,14 +218,14 @@ async function createTables(queryRunner: QueryRunner) {
       responsable jsonb NOT NULL,
       "structureType" text NOT NULL,
       "token" text NULL,
-      verified bool NOT NULL DEFAULT false,
+      verified bool DEFAULT false NOT NULL,
       ville text NULL,
-      sms jsonb NOT NULL DEFAULT '{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false}'::jsonb,
-      "portailUsager" jsonb NOT NULL DEFAULT '{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}'::jsonb,
+      sms jsonb DEFAULT '{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false}'::jsonb NOT NULL,
+      "portailUsager" jsonb DEFAULT '{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}'::jsonb NOT NULL,
       "timeZone" text NULL,
-      telephone jsonb NOT NULL DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb,
+      telephone jsonb DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb NOT NULL,
       "acceptTerms" timestamptz NULL,
-      "filesUpdated" bool NOT NULL DEFAULT false,
+      "filesUpdated" bool DEFAULT false NOT NULL,
       latitude float8 NULL,
       longitude float8 NULL,
       "organismeType" text NULL,
@@ -250,9 +250,9 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.usager_history_states;
 
     CREATE UNLOGGED TABLE public.usager_history_states (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       "usagerUUID" uuid NOT NULL,
       "usagerRef" int4 NOT NULL,
@@ -264,10 +264,10 @@ async function createTables(queryRunner: QueryRunner) {
       "createdEvent" text NOT NULL,
       "historyBeginDate" timestamptz NOT NULL,
       "historyEndDate" timestamptz NULL,
-      "isActive" bool NULL DEFAULT false,
-      migrated bool NOT NULL DEFAULT false,
-      "typeDom" text NULL DEFAULT 'PREMIERE_DOM'::text,
-      "etapeDemande" int4 NOT NULL DEFAULT 0,
+      "isActive" bool DEFAULT false NULL,
+      migrated bool DEFAULT false NOT NULL,
+      "typeDom" text DEFAULT 'PREMIERE_DOM'::text NULL,
+      "etapeDemande" int4 DEFAULT 0 NOT NULL,
       CONSTRAINT "PK_c1bd0d42891df5715d2ef8474d7" PRIMARY KEY (uuid)
     );
     CREATE INDEX "IDX_78061fee381f67924d9a659dc6" ON public.usager_history_states USING btree ("isActive");
@@ -286,9 +286,9 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.user_usager_login;
 
     CREATE UNLOGGED TABLE public.user_usager_login (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       "usagerUUID" uuid NOT NULL,
       "structureId" int4 NOT NULL,
@@ -304,21 +304,21 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.message_sms;
 
     CREATE UNLOGGED TABLE public.message_sms (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       "usagerRef" int4 NOT NULL,
       "structureId" int4 NOT NULL,
       "content" text NOT NULL,
-      status text NOT NULL DEFAULT 'TO_SEND'::text,
+      status text DEFAULT 'TO_SEND'::text NOT NULL,
       "smsId" text NOT NULL,
       "scheduledDate" timestamptz NOT NULL,
       "sendDate" timestamptz NULL,
       "interactionMetas" jsonb NULL,
       "reminderMetas" jsonb NULL,
       "lastUpdate" timestamptz NULL,
-      "errorCount" int4 NOT NULL DEFAULT 0,
+      "errorCount" int4 DEFAULT 0 NOT NULL,
       "errorMessage" text NULL,
       "responseId" text NULL,
       "phoneNumber" text NOT NULL,
@@ -339,19 +339,19 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.structure_doc;
 
     CREATE UNLOGGED TABLE public.structure_doc (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       id serial4 NOT NULL,
       "label" text NOT NULL,
       "createdBy" jsonb NOT NULL,
-      custom bool NOT NULL DEFAULT false,
+      custom bool DEFAULT false NOT NULL,
       filetype text NOT NULL,
       "structureId" int4 NOT NULL,
       "path" text NOT NULL,
       "customDocType" text NULL,
-      "displayInPortailUsager" bool NOT NULL DEFAULT false,
+      "displayInPortailUsager" bool DEFAULT false NOT NULL,
       CONSTRAINT "PK_6d6be27ca865c8ba30b9c862b70" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_b1dfa7ef1934657b38072e749e3" UNIQUE (id),
       CONSTRAINT "FK_d79d466c870df0b58864836899d" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
@@ -367,9 +367,9 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.usager;
 
     CREATE UNLOGGED TABLE public.usager (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       "ref" int4 NOT NULL,
       "customRef" text NULL,
@@ -383,18 +383,18 @@ async function createTables(queryRunner: QueryRunner) {
       langue text NULL,
       email text NULL,
       "datePremiereDom" timestamptz NULL,
-      "typeDom" text NULL DEFAULT 'PREMIERE_DOM'::text,
+      "typeDom" text DEFAULT 'PREMIERE_DOM'::text NULL,
       decision jsonb NOT NULL,
       historique jsonb NOT NULL,
       "ayantsDroits" jsonb NULL,
       "lastInteraction" jsonb NOT NULL,
-      "etapeDemande" int4 NOT NULL DEFAULT 0,
+      "etapeDemande" int4 DEFAULT 0 NOT NULL,
       rdv jsonb NULL,
       "options" jsonb NOT NULL,
       "import" jsonb NULL,
-      migrated bool NOT NULL DEFAULT false,
-      telephone jsonb NOT NULL DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb,
-      "contactByPhone" bool NULL DEFAULT false,
+      migrated bool DEFAULT false NOT NULL,
+      telephone jsonb DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb NOT NULL,
+      "contactByPhone" bool DEFAULT false NULL,
       "numeroDistribution" text NULL,
       "pinnedNote" jsonb NULL,
       CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY (uuid),
@@ -418,9 +418,9 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.usager_docs;
 
     CREATE UNLOGGED TABLE public.usager_docs (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       "usagerUUID" uuid NOT NULL,
       "structureId" int4 NOT NULL,
@@ -446,9 +446,9 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.usager_entretien;
 
     CREATE UNLOGGED TABLE public.usager_entretien (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       "usagerUUID" uuid NOT NULL,
       "structureId" int4 NOT NULL,
@@ -490,16 +490,16 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.usager_history;
 
     CREATE UNLOGGED TABLE public.usager_history (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       "usagerUUID" uuid NOT NULL,
       "usagerRef" int4 NOT NULL,
       "structureId" int4 NOT NULL,
       "import" jsonb NULL,
       states jsonb NOT NULL,
-      migrated bool NOT NULL DEFAULT false,
+      migrated bool DEFAULT false NOT NULL,
       CONSTRAINT "PK_29638b771d16000882db14bab40" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_29a873927e96c4290d288d594f4" UNIQUE ("structureId", "usagerRef"),
       CONSTRAINT "UQ_7356ee08f3ac6e3e1c6fe08bd81" UNIQUE ("usagerUUID"),
@@ -517,20 +517,20 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.usager_notes;
 
     CREATE UNLOGGED TABLE public.usager_notes (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       id serial4 NOT NULL,
       "usagerUUID" uuid NOT NULL,
       "structureId" int4 NOT NULL,
       "usagerRef" int4 NOT NULL,
       message text NOT NULL,
-      archived bool NOT NULL DEFAULT false,
+      archived bool DEFAULT false NOT NULL,
       "createdBy" jsonb NULL,
       "archivedBy" jsonb NULL,
       "archivedAt" date NULL,
-      pinned bool NOT NULL DEFAULT false,
+      pinned bool DEFAULT false NOT NULL,
       CONSTRAINT "PK_11acb926f75642e9dcdd97e5be1" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_5d06e43196df8e4b02ceb16bc9a" UNIQUE (id),
       CONSTRAINT "FK_6ca23b363643ae281d2f1eddf2f" FOREIGN KEY ("usagerUUID") REFERENCES public.usager("uuid") ON DELETE CASCADE,
@@ -548,9 +548,9 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.usager_options_history;
 
     CREATE UNLOGGED TABLE public.usager_options_history (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       "usagerUUID" uuid NOT NULL,
       "userId" int4 NULL,
@@ -561,7 +561,7 @@ async function createTables(queryRunner: QueryRunner) {
       nom text NULL,
       prenom text NULL,
       adresse text NULL,
-      actif bool NOT NULL DEFAULT false,
+      actif bool DEFAULT false NOT NULL,
       "dateDebut" date NULL,
       "dateFin" date NULL,
       "dateNaissance" date NULL,
@@ -581,9 +581,9 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.user_structure;
 
     CREATE UNLOGGED TABLE public.user_structure (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       email text NOT NULL,
       fonction text NULL,
@@ -592,11 +592,11 @@ async function createTables(queryRunner: QueryRunner) {
       nom text NOT NULL,
       "password" text NOT NULL,
       prenom text NOT NULL,
-      "role" text NOT NULL DEFAULT 'simple'::text,
+      "role" text DEFAULT 'simple'::text NOT NULL,
       "structureId" int4 NOT NULL,
-      mails jsonb NOT NULL DEFAULT '{"guide": false, "import": false}'::jsonb,
+      mails jsonb DEFAULT '{"guide": false, "import": false}'::jsonb NOT NULL,
       "passwordLastUpdate" timestamptz NULL,
-      verified bool NOT NULL DEFAULT true,
+      verified bool DEFAULT true NOT NULL,
       "acceptTerms" timestamptz NULL,
       CONSTRAINT "PK_a58dc229068f494a0360b170322" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_22a5c4a3d9b2fb8e4e73fc4ada1" UNIQUE (id),
@@ -615,14 +615,14 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.user_structure_security;
 
     CREATE UNLOGGED TABLE public.user_structure_security (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       "userId" int4 NOT NULL,
       "structureId" int4 NOT NULL,
       "temporaryTokens" jsonb NULL,
-      "eventsHistory" jsonb NOT NULL DEFAULT '[]'::jsonb,
+      "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
       CONSTRAINT "PK_a617f0127221193d06271877ae0" PRIMARY KEY (uuid),
       CONSTRAINT "FK_0389a8aa8e69b2d17210745d040" FOREIGN KEY ("userId") REFERENCES public.user_structure(id) ON DELETE CASCADE,
       CONSTRAINT "FK_57be1bdd772eb3fea1e201317e6" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
@@ -638,9 +638,9 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.user_usager;
 
     CREATE UNLOGGED TABLE public.user_usager (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       id serial4 NOT NULL,
       "usagerUUID" uuid NOT NULL,
@@ -648,12 +648,12 @@ async function createTables(queryRunner: QueryRunner) {
       login text NOT NULL,
       "password" text NOT NULL,
       salt text NOT NULL,
-      "isTemporaryPassword" bool NOT NULL DEFAULT false,
+      "isTemporaryPassword" bool DEFAULT false NOT NULL,
       "lastLogin" timestamptz NULL,
       "passwordLastUpdate" timestamptz NULL,
       "lastPasswordResetDate" timestamptz NULL,
       "lastPasswordResetStructureUser" jsonb NULL,
-      enabled bool NOT NULL DEFAULT false,
+      enabled bool DEFAULT false NOT NULL,
       "acceptTerms" timestamptz NULL,
       CONSTRAINT "PK_46cd95ba6c330d680e13ce7d932" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_07ddbb376616a6bf4ffdbb2b6d7" UNIQUE ("usagerUUID"),
@@ -675,13 +675,13 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.user_usager_security;
 
     CREATE UNLOGGED TABLE public.user_usager_security (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       "userId" int4 NOT NULL,
       "structureId" int4 NOT NULL,
-      "eventsHistory" jsonb NOT NULL DEFAULT '[]'::jsonb,
+      "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
       CONSTRAINT "PK_bae071b5eb7273c0b3d82e670d1" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_0b7885e1594c7af3a5b84a4bdb3" UNIQUE ("userId"),
       CONSTRAINT "FK_066d08686fd781a7ea049b115a2" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE,
@@ -698,12 +698,12 @@ async function createTables(queryRunner: QueryRunner) {
     -- DROP TABLE public.interactions;
 
     CREATE UNLOGGED TABLE public.interactions (
-      "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
-      "createdAt" timestamptz NOT NULL DEFAULT now(),
-      "updatedAt" timestamptz NOT NULL DEFAULT now(),
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       "dateInteraction" timestamptz NOT NULL,
-      "nbCourrier" int4 NOT NULL DEFAULT 0,
+      "nbCourrier" int4 DEFAULT 0 NOT NULL,
       "structureId" int4 NOT NULL,
       "type" text NOT NULL,
       "usagerRef" int4 NOT NULL,
@@ -712,8 +712,8 @@ async function createTables(queryRunner: QueryRunner) {
       "content" text NULL,
       "usagerUUID" uuid NOT NULL,
       "interactionOutUUID" uuid NULL,
-      procuration bool NULL,
-      "returnToSender" bool NULL,
+      procuration bool DEFAULT false NOT NULL,
+      "returnToSender" bool DEFAULT false NOT NULL,
       CONSTRAINT "PK_006113a10247f411c459d62a5b3" PRIMARY KEY (uuid),
       CONSTRAINT "FK_1953f5ad67157bada8774f7e245" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE,
       CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES public.usager("uuid") ON DELETE CASCADE

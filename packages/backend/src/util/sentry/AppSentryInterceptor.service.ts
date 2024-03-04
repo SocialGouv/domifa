@@ -31,6 +31,9 @@ export class AppSentryInterceptor implements NestInterceptor {
             if (user) {
               logContext.user = logSentryUser(user);
             }
+            if (req?.body) {
+              logContext.payload = req.body;
+            }
           } else {
             prefix = "[core]";
           }
@@ -91,7 +94,6 @@ function logSentryRequest(req: any): Record<string, any> {
       "user-agent": req.headers["user-agent"],
       withAuthorizationToken: headers.authorization !== undefined,
     },
-    payload: req.body,
   };
 }
 

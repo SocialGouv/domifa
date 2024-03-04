@@ -325,7 +325,7 @@ async function findLastInteractionOut(
   return interactionRepository.findOne({
     where: {
       type: In(INTERACTION_OK_LIST),
-      procuration: IsNull(),
+      procuration: false,
       returnToSender: false,
       usagerUUID: usager.uuid,
     },
