@@ -1,3 +1,11 @@
+## [2.164.19](https://github.com/SocialGouv/domifa/compare/v2.164.18...v2.164.19) (2024-03-05)
+
+
+### Bug Fixes
+
+* **migrations:** delete migrations ([3c57e39](https://github.com/SocialGouv/domifa/commit/3c57e39495b023dc2e9f97e02cfff404a2ffa9ef))
+* **stats:** fix stats of interactions ([3a15571](https://github.com/SocialGouv/domifa/commit/3a1557134cf7a9f03d006de081e350397bbebfe6))
+
 ## [2.164.18](https://github.com/SocialGouv/domifa/compare/v2.164.17...v2.164.18) (2024-03-04)
 
 
