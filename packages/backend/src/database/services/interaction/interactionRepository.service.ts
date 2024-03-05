@@ -196,13 +196,13 @@ async function totalInteractionAllUsagersStructure({
       coalesce (COUNT(CASE WHEN i.type = 'appel' THEN 1 END), 0) AS "appel",
       coalesce (COUNT(CASE WHEN i.type = 'visite' THEN 1 END), 0) AS "visite",
       coalesce (SUM(CASE WHEN i.type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn",
-      coalesce (SUM(CASE WHEN i."returnToSender" is null and i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOut",
+      coalesce (SUM(CASE WHEN i."returnToSender" is false and i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOut",
       coalesce (SUM(CASE WHEN i."returnToSender" is true AND i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOutForwarded",
       coalesce (SUM(CASE WHEN i.type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn",
-      coalesce (SUM(CASE WHEN i."returnToSender" is null and i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOut",
+      coalesce (SUM(CASE WHEN i."returnToSender" is false and i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOut",
       coalesce (SUM(CASE WHEN i."returnToSender" is true AND i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOutForwarded",
       coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn",
-      coalesce (SUM(CASE WHEN i."returnToSender" is null and i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOut",
+      coalesce (SUM(CASE WHEN i."returnToSender" is false and i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOut",
       coalesce (SUM(CASE WHEN i."returnToSender" is true AND i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOutForwarded"
     FROM interactions i
     WHERE i."structureId" = $1
@@ -268,13 +268,13 @@ async function totalInteractionsInPeriod({
   coalesce (COUNT(CASE WHEN i.type = 'appel' THEN 1 END), 0) AS "appel",
   coalesce (COUNT(CASE WHEN i.type = 'visite' THEN 1 END), 0) AS "visite",
   coalesce (SUM(CASE WHEN i.type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn",
-  coalesce (SUM(CASE WHEN i."returnToSender" is null AND i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOut",
+  coalesce (SUM(CASE WHEN i."returnToSender" is false AND i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOut",
   coalesce (SUM(CASE WHEN  i."returnToSender" is true AND i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOutForwarded",
   coalesce (SUM(CASE WHEN i.type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn",
-  coalesce (SUM(CASE WHEN i."returnToSender" is null AND i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOut",
+  coalesce (SUM(CASE WHEN i."returnToSender" is false AND i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOut",
   coalesce (SUM(CASE WHEN  i."returnToSender" is true AND i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOutForwarded",
   coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn",
-  coalesce (SUM(CASE WHEN i."returnToSender" is null AND i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOut",
+  coalesce (SUM(CASE WHEN i."returnToSender" is false AND i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOut",
   coalesce (SUM(CASE WHEN  i."returnToSender" is true AND i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOutForwarded"
     FROM interactions i
     WHERE i."structureId" = $1
