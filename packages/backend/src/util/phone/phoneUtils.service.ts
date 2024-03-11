@@ -31,7 +31,7 @@ export const isValidMobilePhone = (value: Telephone): boolean | null => {
     const parsedValue = phoneUtil.parse(value.numero, value.countryCode);
     if (phoneUtil.isValidNumber(parsedValue)) {
       const numberType = phoneUtil.getNumberType(parsedValue);
-      return numberType === 1 ? true : false;
+      return numberType === 1;
     }
     // Numéro invalide
     return false;
@@ -49,7 +49,7 @@ export const isAnyValidPhone = (value: Telephone): boolean => {
   }
   try {
     const parsedValue = phoneUtil.parse(value.numero, value.countryCode);
-    return phoneUtil.isValidNumber(parsedValue) ? true : false;
+    return phoneUtil.isValidNumber(parsedValue);
   } catch (e) {
     return false;
   }

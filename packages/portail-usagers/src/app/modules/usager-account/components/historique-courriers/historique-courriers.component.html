@@ -1,0 +1,61 @@
+<h1 class="mt-2 content section-title">Historique des interactions</h1>
+
+<div class="content section-content">
+  <p>
+    Vous trouverez ci-dessous, l'ensemble des courriers, colis et avis de
+    passage reçus et déjà récupérés
+  </p>
+  <br />
+  <div
+    *ngIf="!interactions || interactions.length === 0"
+    class="alert alert-info"
+  >
+    <p>Aucune interaction enregistrée</p>
+  </div>
+
+  <div
+    *ngFor="let interaction of interactions; let i = index"
+    class="interaction-historique"
+  >
+    <div class="d-flex align-items-top">
+      <div>
+        <div class="number d-print-none">
+          <div
+            class="icon-courrier"
+            [ngClass]="'icon-' + interaction.type"
+          ></div>
+        </div>
+        <div class="interaction-separator" *ngIf="i < 4"></div>
+      </div>
+
+      <div class="ms-3">
+        <p class="interaction-date">
+          {{ interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm" }}
+        </p>
+        <p class="fw-bold">
+          {{ interaction.label }}
+        </p>
+        <span
+          [innerHTML]="interaction.content | nl2br"
+          *ngIf="interaction.content"
+        ></span>
+      </div>
+    </div>
+  </div>
+  <ngb-pagination
+    class="my-5 d-flex justify-content-center"
+    [collectionSize]="searchResults.meta.itemCount"
+    [(page)]="params.page"
+    [boundaryLinks]="true"
+    [rotate]="true"
+    [maxSize]="5"
+    [pageSize]="params.take"
+    (pageChange)="getInteractions()"
+  ></ngb-pagination>
+  <div class="text-center my-2">
+    <a routerLink="/account" class="btn btn-outline-primary">
+      <fa-icon aria-hidden="true" [icon]="faChevronLeft"></fa-icon>
+      Retourner sur mon profil
+    </a>
+  </div>
+</div>

@@ -101,3 +101,18 @@
 .alert-danger .alert-link {
   color: #491217;
 }
+
+#modal-title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.4rem;
+  margin-bottom: 0.2rem;
+  margin-top: 0.2rem;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 720px;
+    margin: 1.75rem auto;
+  }
+}

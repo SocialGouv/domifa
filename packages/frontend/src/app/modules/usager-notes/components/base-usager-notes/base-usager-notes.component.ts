@@ -5,11 +5,7 @@ import {
   UsagerNote,
   UsagerLight,
 } from "../../../../../_common/model";
-import {
-  Order,
-  PageOptions,
-  PageResults,
-} from "../../../../../_common/model/pagination";
+import { PageOptions, PageResults, Order } from "@domifa/common";
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerNotesService } from "../../services/usager-notes.service";

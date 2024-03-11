@@ -20,6 +20,7 @@ import { RgaaComponent } from "./components/_static/rgaa/rgaa.component";
 import { IdleManagerComponent } from "./components/idle-manager/idle-manager.component";
 import { PlanSiteComponent } from "./components/_static/plan-site/plan-site.component";
 import { FormsModule } from "@angular/forms";
+import { NewsComponent } from "./components/_static/news/news.component";
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { FormsModule } from "@angular/forms";
     PlanSiteComponent,
     PolitiqueComponent,
     RgaaComponent,
+    NewsComponent,
   ],
   exports: [
     NotFoundComponent,

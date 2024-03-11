@@ -1,4 +1,4 @@
-export type MetaTag = {
+export interface MetaTag {
   name: string;
   content: string;
-};
+}

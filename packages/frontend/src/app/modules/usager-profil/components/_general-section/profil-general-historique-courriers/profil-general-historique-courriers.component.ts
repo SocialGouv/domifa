@@ -1,17 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
-import {
-  Order,
-  PageResults,
-  UserStructure,
-} from "../../../../../../_common/model";
+import { UserStructure } from "../../../../../../_common/model";
 
-import {
-  UsagerFormModel,
-  Interaction,
-} from "../../../../usager-shared/interfaces";
-
+import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
+import { Interaction, Order, PageResults } from "@domifa/common";
 
 @Component({
   selector: "app-profil-general-historique-courriers",
