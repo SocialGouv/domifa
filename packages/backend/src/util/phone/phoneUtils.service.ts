@@ -1,4 +1,4 @@
-import { Telephone } from "../../_common/model/telephone";
+import { Telephone } from "@domifa/common";
 import { PhoneNumberFormat, PhoneNumberUtil } from "google-libphonenumber";
 export const phoneUtil = PhoneNumberUtil.getInstance();
 

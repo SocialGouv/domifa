@@ -1,3 +1,3 @@
-import { Telephone } from "./../../../../_common/model/telephone/Telephone.type";
+import { Telephone } from "@domifa/common";
 
 export type UsagersImportRow = (Date | boolean | number | string | Telephone)[];

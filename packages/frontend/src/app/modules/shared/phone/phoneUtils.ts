@@ -1,6 +1,6 @@
 /* eslint-disable id-denylist */
 import { PhoneNumberUtil } from "google-libphonenumber";
-import { ChangeData, CountryISO } from "@khazii/ngx-intl-tel-input";
+import { ChangeData, CountryISO } from "ngx-intl-tel-input-gg";
 import { Telephone } from "../../../../_common/model";
 
 export function getFormPhone(formValue: ChangeData): Telephone {
@@ -12,7 +12,7 @@ export function getFormPhone(formValue: ChangeData): Telephone {
   }
   return {
     numero: formValue?.nationalNumber
-      ? formValue?.nationalNumber.replace(/\s/g, "")
+      ? formValue?.nationalNumber.replace(/\D/g, "")
       : "",
     countryCode: formValue?.countryCode
       ? (formValue?.countryCode.toLowerCase() as CountryISO)

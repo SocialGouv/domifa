@@ -1,4 +1,4 @@
-import { ChangeData } from "@khazii/ngx-intl-tel-input";
+import { ChangeData } from "ngx-intl-tel-input-gg";
 
 import { AbstractControl, ValidationErrors } from "@angular/forms";
 import { PhoneNumberUtil } from "google-libphonenumber";
