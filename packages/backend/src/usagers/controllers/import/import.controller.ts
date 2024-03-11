@@ -21,10 +21,7 @@ import {
   randomName,
   validateUpload,
 } from "../../../util/file-manager/FileManager";
-import {
-  COUNTRY_CODES_TIMEZONE,
-  UserStructureAuthenticated,
-} from "../../../_common/model";
+import { UserStructureAuthenticated } from "../../../_common/model";
 import { ImportProcessTracker } from "./ImportProcessTracker.type";
 import { UsagersImportError, UsagersImportRow } from "./model";
 import { usagersImportExcelParser } from "./step1-parse-excel";
@@ -42,6 +39,7 @@ import {
   ImportPreviewTable,
   ImportPreviewRow,
   ImportPreviewColumn,
+  COUNTRY_CODES_TIMEZONE,
 } from "@domifa/common";
 import { ImportCreatorService } from "./step3-create";
 

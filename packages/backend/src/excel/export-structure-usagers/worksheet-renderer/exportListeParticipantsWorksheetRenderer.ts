@@ -1,6 +1,5 @@
 import { Column, Workbook } from "exceljs";
 
-import { COUNTRY_CODES } from "../../../_common/model";
 import {
   WorksheetRenderer,
   xlFormater,
@@ -12,6 +11,7 @@ import {
   USAGER_DECISION_STATUT_LABELS,
   UsagerDecision,
   generateMotifLabel,
+  COUNTRY_CODES,
 } from "@domifa/common";
 
 export const exportListeParticipantsWorksheetRenderer = {

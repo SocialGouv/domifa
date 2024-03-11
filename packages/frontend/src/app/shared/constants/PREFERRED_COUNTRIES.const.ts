@@ -1,4 +1,4 @@
-import { CountryISO } from "@khazii/ngx-intl-tel-input";
+import { CountryISO } from "ngx-intl-tel-input-gg";
 
 export const PREFERRED_COUNTRIES: CountryISO[] = [
   CountryISO.France,

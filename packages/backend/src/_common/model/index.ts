@@ -9,7 +9,6 @@ export * from "./jwt";
 export * from "./message-sms";
 export * from "./structure";
 export * from "./structure-doc";
-export * from "./telephone";
 export * from "./usager";
 export * from "./user";
 export * from "./user-structure";

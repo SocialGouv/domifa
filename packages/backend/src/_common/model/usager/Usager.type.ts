@@ -3,7 +3,6 @@ import { AppEntity } from "../_core/AppEntity.type";
 import { UsagerImport } from "./UsagerImport.type";
 import { UsagerNote } from "./UsagerNote.type";
 
-import { Telephone } from "../telephone/Telephone.type";
 import {
   UsagerLastInteraction,
   UsagerEntretien,
@@ -13,6 +12,7 @@ import {
   UsagerTypeDom,
   UsagerDecision,
   UsagerOptions,
+  Telephone,
 } from "@domifa/common";
 
 export type Usager = AppEntity & {
@@ -32,7 +32,6 @@ export type Usager = AppEntity & {
 
   // CONTACT
   email: string | null;
-
   telephone: Telephone;
 
   ayantsDroits: UsagerAyantDroit[];

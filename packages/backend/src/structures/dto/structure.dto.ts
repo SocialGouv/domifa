@@ -9,6 +9,7 @@ import {
   IsIn,
   IsNotEmpty,
   IsNumber,
+  IsObject,
   IsOptional,
   IsString,
   IsTimeZone,
@@ -20,10 +21,7 @@ import {
   ValidateNested,
 } from "class-validator";
 import { StructureAdresseCourrierDto, StructureResponsableDto } from ".";
-import { TrimOrNullTransform } from "../../_common/decorators";
-
-import { Telephone } from "../../_common/model";
-import { TelephoneDto } from "../../_common/dto";
+import { IsValidPhone, TrimOrNullTransform } from "../../_common/decorators";
 import { ValidationRegexp } from "../../usagers/controllers/import/step2-validate-row";
 import {
   StructureType,
@@ -31,6 +29,7 @@ import {
   STRUCTURE_ORGANISME_TYPE_LABELS,
   StructureOrganismeType,
   TimeZone,
+  Telephone,
 } from "@domifa/common";
 
 export class StructureDto {
@@ -133,8 +132,8 @@ export class StructureDto {
     required: true,
   })
   @IsNotEmpty()
-  @ValidateNested()
-  @Type(() => TelephoneDto)
+  @IsObject()
+  @IsValidPhone("telephone", false)
   public telephone: Telephone;
 
   @ApiProperty({

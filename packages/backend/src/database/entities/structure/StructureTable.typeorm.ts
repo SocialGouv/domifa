@@ -1,7 +1,5 @@
 import { BeforeInsert, Column, Entity, Generated, Index } from "typeorm";
 
-import { Telephone } from "../../../_common/model";
-
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import {
   StructureAddresseCourrier,
@@ -10,9 +8,10 @@ import {
   StructureResponsable,
   StructureType,
   Structure,
+  Telephone,
   StructureOrganismeType,
+  TimeZone,
 } from "@domifa/common";
-import { TimeZone } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "structure" })

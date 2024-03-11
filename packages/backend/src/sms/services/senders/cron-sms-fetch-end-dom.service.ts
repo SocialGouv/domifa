@@ -11,13 +11,17 @@ import { messageSmsRepository } from "../../../database/services/message-sms";
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import { getPhoneString } from "../../../util/phone/phoneUtils.service";
 import { PhoneNumberFormat } from "google-libphonenumber";
-import { Telephone } from "../../../_common/model";
 import {
   MonitoringBatchProcessTrigger,
   monitoringBatchProcessSimpleCountRunner,
 } from "../../../database";
 import { MessageSmsSenderService } from "../message-sms-sender.service";
-import { StructureSmsParams, MessageSms, TimeZone } from "@domifa/common";
+import {
+  StructureSmsParams,
+  MessageSms,
+  TimeZone,
+  Telephone,
+} from "@domifa/common";
 
 @Injectable()
 export class CronSmsFetchEndDomService {

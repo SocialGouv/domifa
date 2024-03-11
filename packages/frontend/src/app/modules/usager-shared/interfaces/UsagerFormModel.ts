@@ -1,4 +1,4 @@
-import { CountryISO } from "@khazii/ngx-intl-tel-input";
+import { CountryISO } from "ngx-intl-tel-input-gg";
 import { Entretien, Rdv, Decision, Options } from ".";
 import {
   UsagerNote,
