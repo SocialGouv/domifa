@@ -121,7 +121,6 @@ describe("InteractionsDeletor", () => {
       userName: "Nom",
       dateInteraction: new Date(),
       returnToSender: false,
-      procuration: false,
     };
 
     const resultat = await interactionsCreator.createInteraction({
