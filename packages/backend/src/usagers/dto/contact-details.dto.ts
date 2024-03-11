@@ -1,18 +1,17 @@
 import { Telephone } from "@domifa/common";
 import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
 import {
   IsOptional,
   IsEmail,
-  ValidateNested,
   IsNotEmpty,
   IsBoolean,
+  IsObject,
 } from "class-validator";
 import {
   TrimOrNullTransform,
   LowerCaseTransform,
+  IsValidPhone,
 } from "../../_common/decorators";
-import { TelephoneDto } from "../../_common/dto";
 
 export class ContactDetailsDto {
   @ApiProperty({
@@ -29,9 +28,9 @@ export class ContactDetailsDto {
     type: Object,
     required: false,
   })
-  @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => TelephoneDto)
+  @IsObject()
+  @IsNotEmpty()
+  @IsValidPhone("telephone", true)
   public telephone!: Telephone;
 
   @IsNotEmpty()

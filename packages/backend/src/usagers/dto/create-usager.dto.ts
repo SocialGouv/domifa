@@ -7,13 +7,14 @@ import {
   IsEmail,
   IsIn,
   IsNotEmpty,
+  IsObject,
   IsOptional,
   IsString,
   MaxLength,
   ValidateIf,
   ValidateNested,
 } from "class-validator";
-import { Telephone } from "../../_common/model";
+
 import { UsagerAyantDroitDto } from "./UsagerAyantDroitDto";
 
 import {
@@ -21,8 +22,8 @@ import {
   StripTagsTransform,
   TrimOrNullTransform,
 } from "../../_common/decorators";
-import { TelephoneDto } from "../../_common/dto";
-import { UsagerAyantDroit, UsagerSexe } from "@domifa/common";
+import { Telephone, UsagerAyantDroit, UsagerSexe } from "@domifa/common";
+import { IsValidPhone } from "../../_common/decorators/IsValidPhoneDecorator";
 
 export class CreateUsagerDto {
   @ApiProperty({
@@ -121,9 +122,9 @@ export class CreateUsagerDto {
     type: Object,
     required: false,
   })
-  @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => TelephoneDto)
+  @IsObject()
+  @IsNotEmpty()
+  @IsValidPhone("telephone", true)
   public telephone!: Telephone;
 
   @IsNotEmpty()

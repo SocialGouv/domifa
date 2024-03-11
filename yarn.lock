@@ -3255,7 +3255,6 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": ^6.5.1
     "@fortawesome/free-regular-svg-icons": ^6.5.1
     "@fortawesome/free-solid-svg-icons": ^6.5.1
-    "@khazii/ngx-intl-tel-input": ^3.3.1
     "@ng-bootstrap/ng-bootstrap": ^15.1.2
     "@ngrx/effects": ^16.3.0
     "@ngrx/entity": ^16.3.0
@@ -3291,6 +3290,7 @@ __metadata:
     ng-lint-staged: ^12.0.4
     ngx-bootstrap: ^12.0.0
     ngx-countup: ^13.1.0
+    ngx-intl-tel-input-gg: ^1.0.10
     ngx-matomo-client: ^5.0.4
     prettier: 2.8.8
     rxjs: ^7.6.0
@@ -4565,22 +4565,6 @@ __metadata:
     "@jridgewell/resolve-uri": ^3.1.0
     "@jridgewell/sourcemap-codec": ^1.4.14
   checksum: 956a6f0f6fec060fb48c6bf1f5ec2064e13cd38c8be3873877d4b92b4a27ba58289a34071752671262a3e3c202abcc3fa2aac64d8447b4b0fa1ba3c9047f1c20
-  languageName: node
-  linkType: hard
-
-"@khazii/ngx-intl-tel-input@npm:^3.3.1":
-  version: 3.3.1
-  resolution: "@khazii/ngx-intl-tel-input@npm:3.3.1"
-  dependencies:
-    tslib: ^2.3.0
-  peerDependencies:
-    "@angular/common": ^16.2.0
-    "@angular/core": ^16.2.0
-    "@angular/forms": ^16.2.0
-    google-libphonenumber: ^3.2.3
-    intl-tel-input: ^17.0.3
-    ngx-bootstrap: ">= 6.0.0"
-  checksum: 02c6cd6446efbac8a3d92dc23cba21270738d229224d7a6daaafd23055ac71b5bccfa2be018e281860cd56c3b239e5a9482096f6b7c989231d36794d548f6a62
   languageName: node
   linkType: hard
 
@@ -18869,6 +18853,22 @@ __metadata:
     "@angular/common": ">=13.0.0"
     "@angular/core": ">=13.0.0"
   checksum: 27e1ab44526d5c5083e06aabcecb311eff6fe179058282f0a5577fe8dd433c8eb49c40c45c87e286234f8dee867d9a37dfa3cccaf4394b4ac56bd87e4b4b0d1e
+  languageName: node
+  linkType: hard
+
+"ngx-intl-tel-input-gg@npm:^1.0.10":
+  version: 1.0.10
+  resolution: "ngx-intl-tel-input-gg@npm:1.0.10"
+  dependencies:
+    tslib: ^2.3.0
+  peerDependencies:
+    "@angular/common": 8.x - 17.x
+    "@angular/core": 8.x - 17.x
+    "@angular/forms": 8.x - 17.x
+    google-libphonenumber: ^3.2.3
+    intl-tel-input: ^17.0.3
+    ngx-bootstrap: 6.x - 12.x
+  checksum: 770a1addea1004396a555a33006902c8cd59704af8fdd1e7f860321525a01ee0212f63e17e61a16626dc75f32d7fc7055b5bbcf6d8cdb22f2d81144b761206f3
   languageName: node
   linkType: hard
 

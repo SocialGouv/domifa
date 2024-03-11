@@ -9,7 +9,7 @@ import {
   OneToOne,
   Unique,
 } from "typeorm";
-import { Usager, Telephone } from "../../../_common/model";
+import { Usager } from "../../../_common/model";
 
 import { UsagerNote } from "../../../_common/model/usager/UsagerNote.type";
 import { StructureTable } from "../structure/StructureTable.typeorm";
@@ -25,6 +25,7 @@ import {
   UsagerAyantDroit,
   UsagerDecision,
   UsagerOptions,
+  Telephone,
 } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
