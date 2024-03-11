@@ -1,0 +1,16 @@
+[
+  {
+    "date": "2024-03-13",
+    "description": "📩 Du nouveau dans vos courriers",
+    "content": [
+      {
+        "type": "bug",
+        "categorie": "Historique du courrier",
+        "message": [
+          "Retrouvez désormais le détail des courriers en attente.",
+          "Désormais, vous pouvez aussi consulter l'historique de vos courriers, colis et recommandés"
+        ]
+      }
+    ]
+  }
+]

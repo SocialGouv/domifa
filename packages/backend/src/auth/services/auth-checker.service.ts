@@ -35,6 +35,7 @@ function checkProfile(
 ) {
   const userProfile = user._userProfile;
   const isValidRole = user && expectedProfiles.includes(userProfile);
+
   if (user && !isValidRole) {
     appLogger.error(`[authChecker] invalid profile`, {
       context: { userProfile, user: user._userId, expectedProfiles },

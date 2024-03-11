@@ -1,7 +1,6 @@
 import { DOCUMENT } from "@angular/common";
 import { Inject, Injectable } from "@angular/core";
-import { Meta, Title } from "@angular/platform-browser";
-import { MetaTag } from "../types";
+import { Meta, MetaDefinition, Title } from "@angular/platform-browser";
 
 @Injectable({
   providedIn: "root",
@@ -45,7 +44,7 @@ export class SeoService {
         ? description.substring(0, 155) + "..."
         : description;
 
-    const tags: MetaTag[] = [
+    const tags: MetaDefinition[] = [
       { name: "description", content: description },
       { name: "og:title", content: title },
       { name: "twitter:title", content: title },
@@ -56,7 +55,7 @@ export class SeoService {
     ];
 
     // Mise à jour de tous les tags
-    tags.forEach((tag: MetaTag) => {
+    tags.forEach((tag: MetaDefinition) => {
       this.metaService.updateTag(tag);
     });
   }

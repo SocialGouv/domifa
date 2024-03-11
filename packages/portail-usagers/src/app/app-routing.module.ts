@@ -9,6 +9,7 @@ import { CguComponent } from "./modules/general/components/_static/cgu/cgu.compo
 import { MentionsLegalesComponent } from "./modules/general/components/_static/mentions-legales/mentions-legales.component";
 import { PolitiqueComponent } from "./modules/general/components/_static/politique/politique.component";
 import { PlanSiteComponent } from "./modules/general/components/_static/plan-site/plan-site.component";
+import { NewsComponent } from "./modules/general/components/_static/news/news.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "/auth/login", pathMatch: "full" },
@@ -27,6 +28,7 @@ const routes: Routes = [
         (m) => m.UsagerAccountModule,
       ),
   },
+  { path: "news", component: NewsComponent },
   { path: "plan-site", component: PlanSiteComponent },
   { path: "accessibilite", component: RgaaComponent },
   { path: "mentions-legales", component: MentionsLegalesComponent },

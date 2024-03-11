@@ -1,6 +1,7 @@
 import { PortailUsagerPublic, PortailUsagerProfile } from "@domifa/common";
 
 export const DEFAULT_USAGER: PortailUsagerPublic = {
+  ref: 1,
   ayantsDroits: [
     {
       dateNaissance: new Date("1978-12-20T00:00:00.000Z"),

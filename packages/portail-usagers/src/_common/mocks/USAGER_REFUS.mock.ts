@@ -1,6 +1,7 @@
 import { PortailUsagerPublic } from "@domifa/common";
 
 export const USAGER_REFUS_MOCK: PortailUsagerPublic = {
+  ref: 1,
   decision: {
     uuid: "x",
     orientationDetails: "",

@@ -2,7 +2,6 @@
 export * from "./_core";
 export * from "./_general";
 export * from "./interaction";
-export * from "./pagination";
 export * from "./stats";
 export * from "./structure-doc";
 export * from "./telephone";

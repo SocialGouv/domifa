@@ -17,6 +17,7 @@ import { UsersModule } from "./users/users.module";
 import { AppLogsModule } from "./modules/app-logs/app-logs.module";
 import { ContactSupportModule } from "./modules/contact-support/contact-support.module";
 import { FileManagerService } from "./util/file-manager/file-manager.service";
+import { InteractionsService } from "./interactions/services";
 
 @Module({
   controllers: [HealthController],
@@ -37,6 +38,6 @@ import { FileManagerService } from "./util/file-manager/file-manager.service";
     AppLogsModule,
     ContactSupportModule,
   ],
-  providers: [PostgresHealthIndicator, FileManagerService],
+  providers: [PostgresHealthIndicator, FileManagerService, InteractionsService],
 })
 export class AppModule {}

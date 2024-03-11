@@ -16,7 +16,6 @@ import {
 } from "../../../../../../_common/model";
 import { minDateNaissance, formatDateToNgb } from "../../../../../shared";
 import { AuthService, CustomToastService } from "../../../../shared/services";
-import { Interaction } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { Store } from "@ngrx/store";
@@ -24,6 +23,7 @@ import {
   INTERACTIONS_LABELS_SINGULIER,
   USAGER_DECISION_STATUT_LABELS,
   InteractionType,
+  Interaction,
 } from "@domifa/common";
 
 @Component({

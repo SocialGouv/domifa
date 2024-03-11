@@ -16,6 +16,7 @@ export interface PortailUsagerPublic extends AppEntity {
   nom: string;
   prenom: string;
   surnom?: string;
+  ref: number;
   sexe: UsagerSexe;
 
   dateNaissance: Date;

@@ -3,9 +3,10 @@ import { Injectable } from "@angular/core";
 import { Observable, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { UsagerNote, Usager, UsagerLight } from "../../../../_common/model";
-import { PageOptions, PageResults } from "../../../../_common/model/pagination";
+
 import { cacheManager } from "../../../shared";
 import { Store } from "@ngrx/store";
+import { PageOptions, PageResults } from "@domifa/common";
 
 @Injectable({
   providedIn: "root",

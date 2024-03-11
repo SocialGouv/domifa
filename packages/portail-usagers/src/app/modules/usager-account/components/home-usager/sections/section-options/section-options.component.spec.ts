@@ -1,4 +1,4 @@
-import { USAGER_REFUS_MOCK } from "./../../../../../_common/mocks/USAGER_REFUS.mock";
+import { USAGER_REFUS_MOCK } from "../../../../../../../_common/mocks/USAGER_REFUS.mock";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { SectionOptionsComponent } from "./section-options.component";

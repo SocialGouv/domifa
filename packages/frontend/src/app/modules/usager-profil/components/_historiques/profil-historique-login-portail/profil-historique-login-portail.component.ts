@@ -1,12 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { UserUsagerLogin } from "@domifa/common";
-import { Subscription } from "rxjs";
 import {
-  UserStructure,
-  PageOptions,
   Order,
+  PageOptions,
   PageResults,
-} from "../../../../../../_common/model";
+  UserUsagerLogin,
+} from "@domifa/common";
+import { Subscription } from "rxjs";
+import { UserStructure } from "../../../../../../_common/model";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services";
 import { fadeIn } from "../../../../../shared";

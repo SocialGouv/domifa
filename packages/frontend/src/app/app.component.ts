@@ -190,11 +190,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public checkNews(): void {
     const lastNews = localStorage.getItem("news");
+    this.pendingNews = lastNews
+      ? new Date(lastNews) < new Date(DOMIFA_NEWS[0].date)
+      : true;
 
-    if (lastNews) {
-      this.pendingNews = new Date(lastNews) < new Date(DOMIFA_NEWS[0].date);
-    }
-
+    console.log(this.pendingNews);
     if (this.pendingNews) {
       this.news = DOMIFA_NEWS[0];
       this.modalService.open(this.newsModal, DEFAULT_MODAL_OPTIONS);

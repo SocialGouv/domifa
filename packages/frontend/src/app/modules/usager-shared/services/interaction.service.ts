@@ -1,4 +1,3 @@
-import { PageResults } from "./../../../../_common/model/pagination/PageResults.interface";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -7,14 +6,17 @@ import { environment } from "../../../../environments/environment";
 import {
   InteractionInForApi,
   InteractionOutForApi,
-  PageOptions,
   UsagerLight,
 } from "../../../../_common/model";
 
-import { Interaction } from "../interfaces";
 import { Store } from "@ngrx/store";
 import { cacheManager } from "../../../shared";
-import { UserUsagerLogin } from "@domifa/common";
+import {
+  Interaction,
+  PageOptions,
+  PageResults,
+  UserUsagerLogin,
+} from "@domifa/common";
 
 @Injectable({
   providedIn: "root",

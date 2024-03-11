@@ -90,5 +90,9 @@ fileignoreconfig:
 - filename: packages/portail-usagers/src/app/modules/usager-auth/usager-login/usager-login.component.ts
   checksum: b04680c071a8098191859f5a67124df3d168478ee2f997a361595b7244d1f5f7
 - filename: yarn.lock
-  checksum: 4172c1b84007c81c10f0bb9201b5e56e5d5d2fdd3e8df4dade315873c05aa3b5
+  checksum: 0117b93f039ead9cf6be2823d0832a7b146d7b6dd7eb74afb177a068163056db
+version: "1.0"
+ b04680c071a8098191859f5a67124df3d168478ee2f997a361595b7244d1f5f7
+  - filename: yarn.lock
+    checksum: 4172c1b84007c81c10f0bb9201b5e56e5d5d2fdd3e8df4dade315873c05aa3b5
 version: "1.0"

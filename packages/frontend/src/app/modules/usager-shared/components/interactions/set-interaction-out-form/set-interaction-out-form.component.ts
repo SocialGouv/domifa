@@ -1,4 +1,3 @@
-import { PageResults } from "./../../../../../../_common/model/pagination/PageResults.interface";
 import {
   Component,
   EventEmitter,
@@ -13,14 +12,18 @@ import { BehaviorSubject, Subscription, combineLatest } from "rxjs";
 import {
   InteractionOutForm,
   InteractionOutForApi,
-  Order,
 } from "../../../../../../_common/model";
 import { bounce } from "../../../../../shared";
 import { CustomToastService } from "../../../../shared/services";
-import { UsagerFormModel, Interaction } from "../../../interfaces";
+import { UsagerFormModel } from "../../../interfaces";
 
 import { InteractionService } from "../../../services/interaction.service";
-import { INTERACTIONS_OUT } from "@domifa/common";
+import {
+  INTERACTIONS_OUT,
+  Interaction,
+  Order,
+  PageResults,
+} from "@domifa/common";
 
 @Component({
   animations: [bounce],
@@ -156,7 +159,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
           filtered.push({
             procurationIndex: this.procurationIndex,
             type: interaction,
-            returnToSender: this.returnToSender ?? null,
+            returnToSender: this.returnToSender ?? false,
           });
         }
         return filtered;

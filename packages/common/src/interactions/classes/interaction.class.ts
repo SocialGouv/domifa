@@ -1,37 +1,36 @@
 import {
   INTERACTIONS_LABELS_PLURIEL,
   INTERACTIONS_LABELS_SINGULIER,
-  InteractionType,
-  CommonInteraction,
-} from "@domifa/common";
+} from "../constants";
+import { type CommonInteraction } from "../interfaces";
+import { type InteractionType } from "../types";
 
 export class Interaction implements CommonInteraction {
   public type: InteractionType;
-  public dateInteraction: Date | null;
+  public dateInteraction: Date;
   public content?: string;
   public nbCourrier: number;
-  public usagerRef: number | null;
-  public structureId: number | null;
-  public userName: string | null;
-  public userId: number | null;
+  public usagerRef: number;
+  public structureId: number;
+  public userName: string;
+  public userId: number;
   public label: string;
-  public uuid: string;
-  public procuration: boolean | null;
-  public interactionOutUUID: null;
+  public uuid?: string;
+  public procuration: boolean;
+  public returnToSender?: boolean;
+  public interactionOutUUID = null;
 
   constructor(interaction: CommonInteraction) {
     this.uuid = interaction?.uuid;
-
-    this.usagerRef = interaction?.usagerRef || null;
-    this.structureId = interaction?.structureId || null;
-    this.userId = interaction?.userId || null;
-    this.dateInteraction = interaction?.dateInteraction
-      ? new Date(interaction.dateInteraction)
-      : null;
+    this.usagerRef = interaction?.usagerRef;
+    this.procuration = interaction?.procuration;
+    this.structureId = interaction?.structureId;
+    this.userId = interaction?.userId;
+    this.dateInteraction = new Date(interaction.dateInteraction);
 
     this.type = interaction?.type || null;
 
-    this.content = interaction?.content || "";
+    this.content = interaction?.content ?? "";
     this.nbCourrier = interaction?.nbCourrier || 0;
     this.userName = interaction?.userName || "";
 
