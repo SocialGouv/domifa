@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { UsagerEcheanceInfos } from "../../../../../_common";
-import { DEFAULT_USAGER_PROFILE } from "../../../../../_common/mocks/DEFAULT_USAGER.const";
+import { UsagerEcheanceInfos } from "../../../../../../../_common";
+import { DEFAULT_USAGER_PROFILE } from "../../../../../../../_common/mocks/DEFAULT_USAGER.const";
 
-import { getEcheanceInfos } from "../../interfaces/getEcheanceInfos.service";
+import { getEcheanceInfos } from "../../../../interfaces/getEcheanceInfos.service";
 import {
   USAGER_DECISION_STATUT_LABELS,
   getRdvInfos,

@@ -1,0 +1,132 @@
+<div *ngIf="usager" class="py-3">
+  <div
+    *ngIf="
+      usager.decision.statut === 'INSTRUCTION' &&
+      usager.typeDom === 'RENOUVELLEMENT'
+    "
+    class="my-2 px-3"
+  >
+    <div class="alert alert-warning">
+      <div aria-hidden="true" class="svg-icon icon-calendar"></div>
+      <span class="content"
+        >Demande de renouvellement actuellement en cours</span
+      >
+    </div>
+  </div>
+
+  <div *ngIf="!usager.lastInteraction.enAttente" class="my-2">
+    <h2 class="content section-title">Votre courrier</h2>
+
+    <div class="content section-content">
+      <div class="d-flex align-items-top">
+        <div class="py-1">
+          <img
+            src="/assets/icones/profil/boite-lettre.svg"
+            alt=""
+            aria-hidden="true"
+          />
+        </div>
+        <p class="py-1 ms-3">
+          <b>Vous n’avez pas de nouveau courrier</b>
+          <br />
+          <i
+            >Revenez régulièrement, nous mettons ces informations à jour
+            quotidiennement</i
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="usager.lastInteraction.enAttente" class="my-2">
+    <h2 class="content section-title">Vous avez du courrier !</h2>
+
+    <div class="content section-content">
+      <p>Vous pouvez le récupérer dans votre centre de domiciliation</p>
+      <div class="d-flex align-items-top">
+        <div>
+          <ng-container *ngIf="usager.lastInteraction.courrierIn > 0">
+            <div class="d-flex align-items-center my-3">
+              <div class="interaction-icon icon-courrier me-3"></div>
+              <div class="profil-interaction-label">
+                <b class="text-primary">{{
+                  usager.lastInteraction.courrierIn
+                }}</b>
+                courriers
+              </div>
+            </div>
+            <ul *ngIf="pendingInteractions.courrierIn?.length">
+              <li *ngFor="let interaction of pendingInteractions.courrierIn">
+                <b class="interaction-date">
+                  {{
+                    interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm"
+                  }}
+                </b>
+                <ng-container *ngIf="interaction.content"
+                  >:
+                  <span [innerHTML]="interaction.content | nl2br"></span>
+                </ng-container>
+              </li>
+            </ul>
+          </ng-container>
+          <ng-container *ngIf="usager.lastInteraction.colisIn > 0">
+            <div class="d-flex align-items-center my-3">
+              <div class="interaction-icon icon-colis me-3"></div>
+
+              <div class="profil-interaction-label">
+                <b class="text-primary">{{ usager.lastInteraction.colisIn }}</b>
+                colis
+              </div>
+            </div>
+            <ul *ngIf="pendingInteractions.colisIn?.length">
+              <li *ngFor="let interaction of pendingInteractions.colisIn">
+                <b class="interaction-date">
+                  {{
+                    interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm"
+                  }}
+                </b>
+                <ng-container *ngIf="interaction.content"
+                  >:
+                  <span [innerHTML]="interaction.content | nl2br"></span>
+                </ng-container>
+              </li>
+            </ul>
+          </ng-container>
+
+          <ng-container *ngIf="usager.lastInteraction.recommandeIn > 0">
+            <div class="d-flex align-items-center my-3">
+              <div class="interaction-icon icon-recommande me-3"></div>
+
+              <div class="profil-interaction-label">
+                <b class="text-primary">{{
+                  usager.lastInteraction.recommandeIn
+                }}</b>
+                avis de passage
+              </div>
+            </div>
+            <ul *ngIf="pendingInteractions.recommandeIn?.length">
+              <li *ngFor="let interaction of pendingInteractions.recommandeIn">
+                <b class="interaction-date">
+                  {{
+                    interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm"
+                  }}
+                </b>
+                <ng-container *ngIf="interaction.content"
+                  >:
+                  <span [innerHTML]="interaction.content | nl2br"></span>
+                </ng-container>
+              </li>
+            </ul>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <a routerLink="/account/historique" class="btn btn-outline-primary">
+      <fa-icon aria-hidden="true" [icon]="faClockRotateLeft"></fa-icon>
+      Consulter l'historique des courriers
+    </a>
+  </div>
+</div>

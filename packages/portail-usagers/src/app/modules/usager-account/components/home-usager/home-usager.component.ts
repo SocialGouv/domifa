@@ -28,6 +28,7 @@ export class HomeUsagerComponent implements OnInit {
           this.router.navigate(["/account/accept-terms"]);
           return;
         }
+
         this.usagerProfile = apiResponse;
       },
     );

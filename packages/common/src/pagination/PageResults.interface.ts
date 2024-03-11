@@ -1,4 +1,4 @@
-import { PageMeta } from "./PageMeta.type";
+import { type PageMeta } from "./PageMeta.interface";
 
 export interface PageResults<T> {
   data: T[];

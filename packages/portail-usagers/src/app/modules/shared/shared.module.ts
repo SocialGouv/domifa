@@ -11,18 +11,23 @@ import {
 } from "@fortawesome/angular-fontawesome";
 import { FA_ICONS } from "./constants/FA_ICONS.const";
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
+import { SeoService } from "./services/seo.service";
+import { ReplaceLineBreaks } from "./pipes";
 
 @NgModule({
   declarations: [
     UsagerNomCompletPipe,
     FormatInternationalPhoneNumberPipe,
     CustomToastrComponent,
+    ReplaceLineBreaks,
   ],
   exports: [
     UsagerNomCompletPipe,
     FormatInternationalPhoneNumberPipe,
     CustomToastrComponent,
+    ReplaceLineBreaks,
   ],
+  providers: [SeoService],
   imports: [CommonModule, FontAwesomeModule],
 })
 export class SharedModule {

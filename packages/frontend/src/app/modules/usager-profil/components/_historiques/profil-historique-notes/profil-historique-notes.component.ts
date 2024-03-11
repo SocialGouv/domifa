@@ -4,10 +4,10 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { CustomToastService, AuthService } from "../../../../shared/services";
 import { UsagerNotesService } from "../../../../usager-notes/services/usager-notes.service";
 import { BaseUsagerNotesComponent } from "../../../../usager-notes/components/base-usager-notes/base-usager-notes.component";
-import { Order } from "../../../../../../_common/model/pagination";
 import { Store } from "@ngrx/store";
 import { UsagersFilterCriteriaSortValues } from "../../../../manage-usagers/components/usager-filter";
 import { UsagerNote } from "../../../../../../_common/model";
+import { Order } from "@domifa/common";
 
 @Component({
   selector: "app-profil-historique-notes",

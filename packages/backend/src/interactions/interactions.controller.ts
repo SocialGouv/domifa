@@ -23,10 +23,14 @@ import {
   UsagerAccessGuard,
   InteractionsGuard,
 } from "../auth/guards";
-import { interactionRepository, userUsagerLoginRepository } from "../database";
+import { userUsagerLoginRepository } from "../database";
 import { UserStructureAuthenticated, Usager } from "../_common/model";
 import { InteractionDto } from "./dto";
-import { InteractionsDeletor, interactionsCreator } from "./services";
+import {
+  InteractionsDeletor,
+  InteractionsService,
+  interactionsCreator,
+} from "./services";
 import {
   PageMetaDto,
   PageOptionsDto,
@@ -40,6 +44,7 @@ import { CommonInteraction } from "@domifa/common";
 export class InteractionsController {
   constructor(
     private readonly interactionDeletor: InteractionsDeletor,
+    private readonly interactionsService: InteractionsService,
     private readonly messageSmsService: MessageSmsService
   ) {}
 
@@ -78,28 +83,11 @@ export class InteractionsController {
     @CurrentUsager() currentUsager: Usager,
     @Body() pageOptionsDto: PageOptionsDto
   ) {
-    const queryBuilder = interactionRepository
-      .createQueryBuilder("interactions")
-      .where({
-        structureId: user.structureId,
-        usagerUUID: currentUsager.uuid,
-      })
-      .select([
-        "type",
-        `"dateInteraction"`,
-        "content",
-        `"nbCourrier"`,
-        `"userName"`,
-        "uuid",
-      ])
-      .orderBy(`"dateInteraction"`, pageOptionsDto.order)
-      .skip((pageOptionsDto.page - 1) * pageOptionsDto.take)
-      .take(pageOptionsDto.take);
-
-    const itemCount = await queryBuilder.getCount();
-    const entities = await queryBuilder.getRawMany();
-    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-    return new PageResultsDto(entities, pageMetaDto);
+    return this.interactionsService.searchInteractions(
+      user.structureId,
+      currentUsager.uuid,
+      pageOptionsDto
+    );
   }
 
   @Post("search-login-portail/:usagerRef")

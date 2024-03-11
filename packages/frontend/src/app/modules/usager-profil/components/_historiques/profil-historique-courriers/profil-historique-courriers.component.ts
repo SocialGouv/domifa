@@ -10,19 +10,14 @@ import {
 
 import {
   DEFAULT_MODAL_OPTIONS,
-  Order,
-  PageOptions,
-  PageResults,
   UserStructure,
 } from "../../../../../../_common/model";
-import {
-  UsagerFormModel,
-  Interaction,
-} from "../../../../usager-shared/interfaces";
+import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "../../../../shared/services";
 import { fadeIn } from "../../../../../shared";
+import { Interaction, PageOptions, Order, PageResults } from "@domifa/common";
 
 @Component({
   selector: "app-profil-historique-courriers",

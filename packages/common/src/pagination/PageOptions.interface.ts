@@ -1,4 +1,4 @@
-import { Order } from "./PageOrder.enum";
+import { type Order } from "./PageOrder.enum";
 
 export interface PageOptions {
   order: Order;

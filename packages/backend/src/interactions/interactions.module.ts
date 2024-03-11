@@ -8,6 +8,7 @@ import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { InteractionsController } from "./interactions.controller";
 import { InteractionsDeletor } from "./services";
+import { InteractionsService } from "./services/interactions.service";
 
 @Module({
   controllers: [InteractionsController],
@@ -20,6 +21,6 @@ import { InteractionsDeletor } from "./services";
     forwardRef(() => SmsModule),
     forwardRef(() => AuthModule),
   ],
-  providers: [InteractionsDeletor],
+  providers: [InteractionsDeletor, InteractionsService],
 })
 export class InteractionsModule {}

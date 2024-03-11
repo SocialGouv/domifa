@@ -1,0 +1,38 @@
+<div class="head-page py-4">
+  <div class="container">
+    <h1 class="title">Les dernières nouveautés de Mon DomiFa</h1>
+  </div>
+</div>
+
+<div class="content py-3" *ngIf="DOMIFA_NEWS">
+  <div class="container py-3">
+    <div class="card my-3 text-start" *ngFor="let news of DOMIFA_NEWS">
+      <h2 class="my-2">
+        Nouveautés du {{ news.date | date : "d MMMM y"
+        }}<span *ngIf="news.description"> - {{ news.description }}</span>
+      </h2>
+
+      <ng-container *ngFor="let content of news.content">
+        <p class="text-start my-1">
+          <span
+            class="badge badge-pill"
+            [ngClass]="{
+              'bg-primary': content.type === 'new',
+              'bg-warning text-dark': content.type === 'bug'
+            }"
+          >
+            {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
+          </span>
+          &nbsp;
+          <b>{{ content.categorie }}</b>
+        </p>
+        <ul class="mb-2">
+          <li
+            *ngFor="let message of content.message"
+            [innerHTML]="message | nl2br"
+          ></li>
+        </ul>
+      </ng-container>
+    </div>
+  </div>
+</div>
