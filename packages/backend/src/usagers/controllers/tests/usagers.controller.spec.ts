@@ -236,6 +236,8 @@ describe("Usagers Controller", () => {
                 dateNaissance: "1922-05-04T00:00:00.000Z",
               },
             ],
+            telephone: { countryCode: "fr", numero: "" },
+
             contactByPhone: false,
             ayantsDroitsExist: false,
             customRef: "2022_1_2",
