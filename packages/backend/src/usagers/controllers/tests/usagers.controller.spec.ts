@@ -237,7 +237,6 @@ describe("Usagers Controller", () => {
               },
             ],
             telephone: { countryCode: "fr", numero: "" },
-
             contactByPhone: false,
             ayantsDroitsExist: false,
             customRef: "2022_1_2",

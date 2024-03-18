@@ -1,5 +1,5 @@
 import { CriteriaSearchField } from "../usager-filter/UsagersFilterCriteria";
-import { ManageUsagersService } from "../../services/manage-usagers.service";
+
 import {
   Component,
   ElementRef,
@@ -41,6 +41,7 @@ import {
   UsagersFilterCriteriaSortValues,
 } from "../usager-filter";
 import { select, Store } from "@ngrx/store";
+import { ManageUsagersService } from "../../services/manage-usagers.service";
 
 const AUTO_REFRESH_PERIOD = 600000; // 10 minutes
 
@@ -157,11 +158,13 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
             this.searching = true;
           }),
           switchMap(() => this.chargerTousRadies$),
-          switchMap((chargerTousRadies) =>
-            this.usagerService.getSearchPageUsagerData({
+          switchMap((chargerTousRadies) => {
+            this.searching = true;
+            console.log(this.searching);
+            return this.usagerService.getSearchPageUsagerData({
               chargerTousRadies,
-            })
-          )
+            });
+          })
         )
         .subscribe()
     );

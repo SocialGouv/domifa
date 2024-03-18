@@ -93,6 +93,7 @@
     "
   >
     <legend>A qui est distribué le courrier ?</legend>
+
     <div class="alert alert-danger" *ngIf="usager.decision.statut === 'RADIE'">
       <div aria-hidden="true" class="svg-icon icon-danger"></div>
       <p class="text-danger">
@@ -164,6 +165,23 @@
     </div>
   </fieldset>
 
+  <div
+    *ngIf="
+      usager.options.transfert.dateFin &&
+      usager.options.transfert.dateFin > today
+    "
+    class="alert alert-warning"
+  >
+    <div class="svg-icon icon-distribution"></div>
+    <p>
+      Un transfert est actif sur le dossier. Le courrier doit être transféré à
+      l'adresse suivante:<br />
+      <i>
+        {{ usager.options.transfert.nom | titlecase }}
+        {{ usager.options.transfert.adresse | titlecase }}</i
+      >
+    </p>
+  </div>
   <div
     class="interaction-icon-box text-start px-3 py-3 my-3"
     *ngIf="this.selectedInteractionsWithContent.length !== 0"
