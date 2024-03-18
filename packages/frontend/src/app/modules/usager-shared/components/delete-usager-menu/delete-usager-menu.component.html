@@ -3,7 +3,10 @@
     class="container py-5 d-print-none"
     *ngIf="context === 'PROFIL' || context === 'INSTRUCTION_FORM'"
   >
-    <div class="col-md-12 text-center text-danger" *ngIf="context === 'PROFIL'">
+    <div
+      class="col-md-12 text-center text-danger"
+      *ngIf="context === 'PROFIL' && me.role !== 'simple'"
+    >
       <button
         type="button"
         class="btn btn-danger"

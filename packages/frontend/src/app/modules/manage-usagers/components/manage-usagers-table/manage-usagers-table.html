@@ -5,7 +5,7 @@
       *ngIf="selectedRefs.length > 0 && displayCheckboxes"
     >
       <div class="me-2">{{ selectedRefs.length }} selectionnés</div>
-      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <div data-toggle="buttons">
         <app-decision-radiation-form
           [selectedRefs]="selectedRefs"
           context="MANAGE"
@@ -15,8 +15,13 @@
           type="button"
           *ngIf="me?.role !== 'simple'"
           (click)="openDeleteUsagersModal()"
-          class="btn btn-sm btn-outline-dark"
+          class="btn btn-sm btn-outline-danger"
         >
+          <fa-icon
+            aria-hidden="true"
+            [icon]="['fas', 'trash']"
+            class="me-2"
+          ></fa-icon>
           <ng-container *ngIf="selectedRefs.length === 1"
             >Supprimer le domicilié</ng-container
           >

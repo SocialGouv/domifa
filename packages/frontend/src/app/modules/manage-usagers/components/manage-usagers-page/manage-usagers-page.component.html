@@ -31,7 +31,7 @@
             <button
               type="button"
               aria-label="Type de donnée recherchée"
-              aria-haspopup="listbox"
+              aria-haspopup="true"
               ngbDropdownToggle
             >
               <span class="overflow-hidden">
@@ -258,7 +258,7 @@
     </div>
 
     <div
-      *ngIf="searching && filters.page === 0"
+      *ngIf="searching"
       @fadeInOut
       role="alert"
       aria-busy="true"

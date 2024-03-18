@@ -121,7 +121,10 @@
   <div class="px-1 my-1">
     <div class="form-group">
       <label class="label text-start" for="content">
-        Informations importantes concernant les courriers
+        Informations importantes concernant les courriers (1000 caractères
+        maximum).<small class="my-2 text-start" id="message-informations">
+          Caractères interdits: &#36;&#126;&#42;&lt;&gt;&#123;&#125;
+        </small>
       </label>
       <textarea
         class="form-control"
@@ -129,10 +132,15 @@
         id="content"
         aria-describedby="message-informations"
       ></textarea>
-      <small class="my-2 text-start" id="message-informations">
-        1000 caractères maximum. Caractères interdits:
-        &#36;&#126;&#42;&lt;&gt;&#123;&#125;
-      </small>
+
+      <div
+        class="alert alert-warning mt-2"
+        *ngIf="usager.options.portailUsagerEnabled"
+      >
+        <b>Remarque:</b> les informations suivantes seront visibles par les
+        domiciliés dans leur portail Mon DomiFa
+      </div>
+
       <app-rgpd-warning></app-rgpd-warning>
     </div>
   </div>
