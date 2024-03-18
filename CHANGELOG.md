@@ -1,3 +1,12 @@
+## [2.164.21](https://github.com/SocialGouv/domifa/compare/v2.164.20...v2.164.21) (2024-03-18)
+
+
+### Bug Fixes
+
+* **backend:** fix unit tests ([f6db518](https://github.com/SocialGouv/domifa/commit/f6db518339eef66dae9e4516a00c33f9862125ae))
+* **frontend:** small fixes ([0feecf7](https://github.com/SocialGouv/domifa/commit/0feecf7dfbd228af90482a6e06671251aa6c6468))
+* **phones:** validation of phones ([4869c63](https://github.com/SocialGouv/domifa/commit/4869c6318b7d22fe4f4cd11ded22941c9e64e170))
+
 ## [2.164.20](https://github.com/SocialGouv/domifa/compare/v2.164.19...v2.164.20) (2024-03-11)
 
 
