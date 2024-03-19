@@ -17,6 +17,7 @@ export class PolitiqueComponent {
     this.titleService.setTitle("Politique de confidentialité de Mon DomiFa");
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleChange(optOut: any) {
     if (optOut) {
       this.tracker.optUserOut();
