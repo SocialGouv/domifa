@@ -1,11 +1,10 @@
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { SharedModule } from "./../../../shared/shared.module";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
 import { NewsComponent } from "./news.component";
+import { SharedModule } from "../../../../shared/shared.module";
 
 describe("NewsComponent", () => {
   let component: NewsComponent;
@@ -17,8 +16,8 @@ describe("NewsComponent", () => {
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
-        SharedModule,
         NgbModule,
+        SharedModule,
       ],
     }).compileComponents();
   }));

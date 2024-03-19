@@ -42,7 +42,7 @@
               "outputHashing": "all"
             },
             "production": {
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": true,
