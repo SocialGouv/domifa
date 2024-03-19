@@ -1,3 +1,16 @@
+# [2.165.0](https://github.com/SocialGouv/domifa/compare/v2.164.21...v2.165.0) (2024-03-19)
+
+
+### Bug Fixes
+
+* **api:** fix unit test ([c6863ea](https://github.com/SocialGouv/domifa/commit/c6863eade1d68e2e5e50f0ed53e372a5f220d638))
+* **portail:** fix unit tests portail ([97f173e](https://github.com/SocialGouv/domifa/commit/97f173ebc558eaf92c85a02f592e55f333794d99))
+
+
+### Features
+
+* **api:** add endpoint to search interactions ([9b658e0](https://github.com/SocialGouv/domifa/commit/9b658e0197db77b9ee5827792c79916ef4ba8024))
+
 ## [2.164.21](https://github.com/SocialGouv/domifa/compare/v2.164.20...v2.164.21) (2024-03-18)
 
 
