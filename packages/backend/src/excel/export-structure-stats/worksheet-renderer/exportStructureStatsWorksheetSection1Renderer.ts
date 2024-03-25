@@ -64,16 +64,10 @@ function renderSection1ValidUsagers(context: {
     value: data.age.usagers.majeurs,
   });
   worksheetRendered.renderCell(i++, "c", {
-    value: data.age.usagers.t_0_14,
+    value: data.age.usagers.t_18_25,
   });
   worksheetRendered.renderCell(i++, "c", {
-    value: data.age.usagers.t_15_19,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.age.usagers.t_20_24,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.age.usagers.t_25_29,
+    value: data.age.usagers.t_26_29,
   });
   worksheetRendered.renderCell(i++, "c", {
     value: data.age.usagers.t_30_34,

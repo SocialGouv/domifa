@@ -59,10 +59,10 @@ async function getStructureStatsQuestionsAtDateValidUsagers({
       ,count(distinct uh."usagerUUID") filter (where date_part('year', age( $3, u."dateNaissance" at time zone 'utc')) :: int < 18) as v_u_age_mineur
       ,count(distinct uh."usagerUUID") filter (where date_part('year', age( $3, u."dateNaissance" at time zone 'utc')) :: int >= 18) as v_u_age_majeur
 
-      ,count(distinct usager_tranche.uuid) filter ( where usager_tranche.tranche_age = 'T_0_14' ) as v_u_age_0_14
-      ,count(distinct usager_tranche.uuid) filter ( where usager_tranche.tranche_age = 'T_15_19' ) as v_u_age_15_19
-      ,count(distinct usager_tranche.uuid) filter ( where usager_tranche.tranche_age = 'T_20_24' ) as v_u_age_20_24
-      ,count(distinct usager_tranche.uuid) filter ( where usager_tranche.tranche_age = 'T_25_29' ) as v_u_age_25_29
+
+      ,count(distinct usager_tranche.uuid) filter ( where usager_tranche.tranche_age = 'T_0_17' ) as v_u_age_0_17
+      ,count(distinct usager_tranche.uuid) filter ( where usager_tranche.tranche_age = 'T_18_25' ) as v_u_age_18_25
+      ,count(distinct usager_tranche.uuid) filter ( where usager_tranche.tranche_age = 'T_26_29' ) as v_u_age_26_29
       ,count(distinct usager_tranche.uuid) filter ( where usager_tranche.tranche_age = 'T_30_34' ) as v_u_age_30_34
       ,count(distinct usager_tranche.uuid) filter ( where usager_tranche.tranche_age = 'T_35_39' ) as v_u_age_35_39
       ,count(distinct usager_tranche.uuid) filter ( where usager_tranche.tranche_age = 'T_40_44' ) as v_u_age_40_44
@@ -138,10 +138,9 @@ async function getStructureStatsQuestionsAtDateValidUsagers({
         select
           u2.uuid,
           CASE
-            WHEN date_part('year',  age( $3, u2."dateNaissance" at time zone 'utc' )) :: int < 15 THEN 'T_0_14'
-            WHEN date_part('year',  age( $3, u2."dateNaissance" at time zone 'utc' )) :: int < 20 THEN 'T_15_19'
-            WHEN date_part('year',  age( $3, u2."dateNaissance" at time zone 'utc' )) :: int < 25 THEN 'T_20_24'
-            WHEN date_part('year',  age( $3, u2."dateNaissance" at time zone 'utc' )) :: int < 30 THEN 'T_25_29'
+            WHEN date_part('year',  age( $3, u2."dateNaissance" at time zone 'utc' )) :: int < 18 THEN 'T_0_17'
+            WHEN date_part('year',  age( $3, u2."dateNaissance" at time zone 'utc' )) :: int < 26 THEN 'T_18_25'
+            WHEN date_part('year',  age( $3, u2."dateNaissance" at time zone 'utc' )) :: int < 30 THEN 'T_26_29'
             WHEN date_part('year',  age( $3, u2."dateNaissance" at time zone 'utc' )) :: int < 35 THEN 'T_30_34'
             WHEN date_part('year',  age( $3, u2."dateNaissance" at time zone 'utc' )) :: int < 40 THEN 'T_35_39'
             WHEN date_part('year',  age( $3, u2."dateNaissance" at time zone 'utc' )) :: int < 45 THEN 'T_40_44'
@@ -256,10 +255,9 @@ async function getStructureStatsQuestionsAtDateValidUsagers({
         usagers: {
           mineurs: parseInt(r.v_u_age_mineur, 10),
           majeurs: parseInt(r.v_u_age_majeur, 10),
-          t_0_14: parseInt(r.v_u_age_0_14, 10),
-          t_15_19: parseInt(r.v_u_age_15_19, 10),
-          t_20_24: parseInt(r.v_u_age_20_24, 10),
-          t_25_29: parseInt(r.v_u_age_25_29, 10),
+          t_0_17: parseInt(r.v_u_age_0_17, 10),
+          t_18_25: parseInt(r.v_u_age_18_25, 10),
+          t_26_29: parseInt(r.v_u_age_26_29, 10),
           t_30_34: parseInt(r.v_u_age_30_34, 10),
           t_35_39: parseInt(r.v_u_age_35_39, 10),
           t_40_44: parseInt(r.v_u_age_40_44, 10),
@@ -346,10 +344,9 @@ async function getStructureStatsQuestionsAtDateValidUsagers({
       usagers: {
         mineurs: 0,
         majeurs: 0,
-        t_0_14: 0,
-        t_15_19: 0,
-        t_20_24: 0,
-        t_25_29: 0,
+        t_0_17: 0,
+        t_18_25: 0,
+        t_26_29: 0,
         t_30_34: 0,
         t_35_39: 0,
         t_40_44: 0,

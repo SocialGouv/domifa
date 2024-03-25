@@ -78,10 +78,9 @@ describe("structureStatsInPeriodGenerator", () => {
           usagers: {
             majeurs: 3,
             mineurs: 0,
-            t_0_14: 0,
-            t_15_19: 0,
-            t_20_24: 1,
-            t_25_29: 0,
+            t_0_17: 1,
+            t_18_25: 1,
+            t_26_29: 0,
             t_30_34: 1,
             t_35_39: 0,
             t_40_44: 1,
