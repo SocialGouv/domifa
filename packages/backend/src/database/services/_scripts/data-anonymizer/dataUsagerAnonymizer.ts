@@ -10,7 +10,7 @@ import {
 } from "../../usager";
 import { usagerRepository } from "../../usager/usagerRepository.service";
 import { dataGenerator } from "./dataGenerator.service";
-import { dataStructureAnonymizer } from "./dataStructureAnonymizer";
+
 import {
   UsagerAyantDroit,
   UsagerDecision,
@@ -30,56 +30,55 @@ export const dataUsagerAnonymizer = {
 };
 
 async function anonymizeUsagers() {
-  const usagers = await usagerRepository.find({
-    select: [
-      "uuid",
-      "ref",
-      "structureId",
-      "email",
-      "historique",
-      "prenom",
-      "nom",
-      "surnom",
-      "rdv",
-      "options",
-      "ayantsDroits",
-      "datePremiereDom",
-      "updatedAt",
-      "decision",
-    ],
-  });
+  appLogger.warn(`[dataUsagerAnonymizer] Start anonymize usagers`);
 
-  const usagersToAnonymize = usagers.filter((x) => isUsagerToAnonymize(x));
+  await usagerRepository.update({ migrated: true }, { migrated: false });
+  const nbUsager = await usagerRepository.count();
+  appLogger.warn(`[dataUsagerAnonymizer] ${nbUsager} usagers to anonymize`);
   const queryRunner = myDataSource.createQueryRunner();
-  appLogger.warn(
-    `[dataUsagerAnonymizer] ${usagersToAnonymize.length}/${usagers.length} usagers to anonymize`
-  );
-  for (let i = 0; i < usagersToAnonymize.length; i++) {
-    const usager = usagersToAnonymize[i];
 
-    if (i === 0) {
-      await queryRunner.startTransaction();
-    }
-    if (i !== 0 && i % 5000 === 0) {
-      await queryRunner.commitTransaction();
+  let cpt = 0;
+  console.log(await usagerRepository.countUsagersToAnonymize());
+  while ((await usagerRepository.countUsagersToAnonymize()) < 0) {
+    await queryRunner.startTransaction();
 
-      appLogger.warn(
-        `[dataUsagerAnonymizer] ${i}/${usagersToAnonymize.length} usagers anonymized`
-      );
-      await queryRunner.startTransaction();
-    }
+    const usagersToAnonymize = await usagerRepository.find({
+      select: [
+        "uuid",
+        "ref",
+        "structureId",
+        "email",
+        "historique",
+        "prenom",
+        "nom",
+        "surnom",
+        "rdv",
+        "options",
+        "ayantsDroits",
+        "datePremiereDom",
+        "decision",
+      ],
+      where: {
+        migrated: false,
+      },
+      take: 1000,
+    });
 
-    try {
+    console.log("usagersToAnonymize.length");
+    console.log(usagersToAnonymize.length);
+
+    for await (const usager of usagersToAnonymize) {
       await _anonymizeUsager(usager);
-    } catch (e) {
-      console.log(e);
     }
-  }
-  await queryRunner.commitTransaction();
-}
 
-function isUsagerToAnonymize(x: Usager): unknown {
-  return dataStructureAnonymizer.isStructureToAnonymise({ id: x.structureId });
+    await queryRunner.commitTransaction();
+
+    appLogger.warn(
+      `[dataUsagerAnonymizer] ${cpt}/${nbUsager} usagers anonymized`
+    );
+    await queryRunner.commitTransaction();
+    cpt += 1000;
+  }
 }
 
 async function _anonymizeUsager(usager: Usager) {

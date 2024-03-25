@@ -184,9 +184,12 @@ export function buildCustomDoc({
       : "",
 
     ENTRETIEN_ACCOMPAGNEMENT: usager.entretien.accompagnement ? "OUI" : "NON",
-    ENTRETIEN_SITUATION_PRO: usager.entretien.situationPro
-      ? ENTRETIEN_SITUATION_PRO[usager.entretien.situationPro]
-      : "",
+    ENTRETIEN_SITUATION_PRO:
+      usager.entretien.situationPro === "AUTRE"
+        ? " Autre : " + usager.entretien.situationProDetail
+        : usager.entretien.situationPro
+        ? ENTRETIEN_SITUATION_PRO[usager.entretien.situationPro]
+        : "",
 
     ENTRETIEN_ORIENTE_PAR: orientation,
     ENTRETIEN_RATTACHEMENT: usager.entretien.rattachement
