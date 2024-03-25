@@ -67,7 +67,7 @@ export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
   ENTRETIEN_RAISON_DEMANDE: "Motif principal de la demande",
   ENTRETIEN_RATTACHEMENT: "Rattachement à une ville ou un arrondissement",
   ENTRETIEN_ACCOMPAGNEMENT: "Accompagnement social",
-  ENTRETIEN_SITUATION_PRO: "Situation professionnelle",
+  ENTRETIEN_SITUATION_PROFESSIONNELLE: "Situation professionnelle",
   // Transferts
   TRANSFERT_ACTIF: "Transfert actif ou non : (oui / non)",
   TRANSFERT_NOM: "Nom de l'établissement",
