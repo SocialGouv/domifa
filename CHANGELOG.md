@@ -1,3 +1,10 @@
+## [2.165.2](https://github.com/SocialGouv/domifa/compare/v2.165.1...v2.165.2) (2024-03-25)
+
+
+### Bug Fixes
+
+* **stats:** add new age range ([799917c](https://github.com/SocialGouv/domifa/commit/799917c2e7b6526c85038e3223dc4ccfb650c0e0))
+
 ## [2.165.1](https://github.com/SocialGouv/domifa/compare/v2.165.0...v2.165.1) (2024-03-25)
 
 
