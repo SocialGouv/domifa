@@ -184,7 +184,7 @@ export function buildCustomDoc({
       : "",
 
     ENTRETIEN_ACCOMPAGNEMENT: usager.entretien.accompagnement ? "OUI" : "NON",
-    ENTRETIEN_SITUATION_PRO:
+    ENTRETIEN_SITUATION_PROFESSIONNELLE:
       usager.entretien.situationPro === "AUTRE"
         ? " Autre : " + usager.entretien.situationProDetail
         : usager.entretien.situationPro
