@@ -1,5 +1,32 @@
 [
   {
+    "date": "2024-03-25",
+    "description": "Mise à jour des fonctionnalités sur le portail DomiFa",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Pop-up de nouveauté dans le portail domicilié Mon DomiFa",
+        "message": [
+          "Les évolutions du portail domicilié seront notifiées dans une pop-up de nouveautés que les domiciliés pourront consulter lors de leur connexion."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Accès aux détails des courriers dans le portail domicilié Mon DomiFa",
+        "message": [
+          "Les domiciliés pourront accéder aux commentaires laissés par les structures lors de l'ajout de courriers en attente de distribution."
+        ]
+      },
+      {
+        "type": "improvement",
+        "categorie": "Changement de design des boutons de gestion de masse",
+        "message": [
+          "Les boutons de gestion de masse 'Radier les domiciliés' et 'Supprimer les domiciliés' sont différenciés pour prévenir les erreurs de clics."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-03-03",
     "description": "✅ Upload de fichiers à nouveau disponible",
     "content": [
