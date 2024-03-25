@@ -1,10 +1,9 @@
 export interface StructureStatsTranchesAge {
   mineurs: number;
   majeurs: number;
-  t_0_14: number;
-  t_15_19: number;
-  t_20_24: number;
-  t_25_29: number;
+  t_0_17: number;
+  t_18_25: number;
+  t_26_29: number;
   t_30_34: number;
   t_35_39: number;
   t_40_44: number;
