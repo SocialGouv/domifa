@@ -1,3 +1,10 @@
+## [2.165.1](https://github.com/SocialGouv/domifa/compare/v2.165.0...v2.165.1) (2024-03-25)
+
+
+### Bug Fixes
+
+* **backend:** delete old history table ([9fe4620](https://github.com/SocialGouv/domifa/commit/9fe4620e3511b78932e98b615efea0b4ef29a248))
+
 # [2.165.0](https://github.com/SocialGouv/domifa/compare/v2.164.21...v2.165.0) (2024-03-19)
 
 
