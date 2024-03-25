@@ -482,34 +482,6 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_6193a732dd00abc56e91e92fe4" ON public.usager_entretien USING btree ("structureId");
     CREATE INDEX "IDX_aa19c17fc79f4e4a648643096f" ON public.usager_entretien USING btree ("usagerUUID");
 
-
-    -- public.usager_history definition
-
-    -- Drop table
-
-    -- DROP TABLE public.usager_history;
-
-    CREATE UNLOGGED TABLE public.usager_history (
-      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
-      "createdAt" timestamptz DEFAULT now() NOT NULL,
-      "updatedAt" timestamptz DEFAULT now() NOT NULL,
-      "version" int4 NOT NULL,
-      "usagerUUID" uuid NOT NULL,
-      "usagerRef" int4 NOT NULL,
-      "structureId" int4 NOT NULL,
-      "import" jsonb NULL,
-      states jsonb NOT NULL,
-      migrated bool DEFAULT false NOT NULL,
-      CONSTRAINT "PK_29638b771d16000882db14bab40" PRIMARY KEY (uuid),
-      CONSTRAINT "UQ_29a873927e96c4290d288d594f4" UNIQUE ("structureId", "usagerRef"),
-      CONSTRAINT "UQ_7356ee08f3ac6e3e1c6fe08bd81" UNIQUE ("usagerUUID"),
-      CONSTRAINT "FK_36a2e869faca3bb31cbacdf81ba" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE,
-      CONSTRAINT "FK_7356ee08f3ac6e3e1c6fe08bd81" FOREIGN KEY ("usagerUUID") REFERENCES public.usager("uuid") ON DELETE CASCADE
-    );
-    CREATE INDEX "IDX_36a2e869faca3bb31cbacdf81b" ON public.usager_history USING btree ("structureId");
-    CREATE INDEX "IDX_7356ee08f3ac6e3e1c6fe08bd8" ON public.usager_history USING btree ("usagerUUID");
-
-
     -- public.usager_notes definition
 
     -- Drop table

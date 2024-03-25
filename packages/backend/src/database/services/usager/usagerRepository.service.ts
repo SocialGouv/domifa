@@ -27,6 +27,7 @@ export const usagerRepository = myDataSource
     findLastFiveCustomRef,
     getUserUsagerData,
     countTotalActifs,
+    countUsagersToAnonymize,
   });
 
 export async function getUserUsagerData({
@@ -136,16 +137,35 @@ async function countTotalActifs(): Promise<{
     ayantsDroits: string;
     actifs: string;
   }[] = await usagerRepository.query(`
+  WITH LatestEntries AS (
     SELECT
-    COUNT(DISTINCT uh."usagerUUID") as "domicilies",
-    COALESCE(SUM(jsonb_array_length(state->'ayantsDroits')), 0) as "ayantsDroits",
-    COUNT(DISTINCT uh."usagerUUID") + COALESCE(SUM(jsonb_array_length(state->'ayantsDroits')), 0) AS "actifs"
-    FROM "usager_history" uh JOIN usager u ON uh."usagerUUID" = u.uuid JOIN jsonb_array_elements(uh.states) AS state ON true
+      DISTINCT ON ("usagerUUID") "usagerUUID",
+      "uuid",
+      "structureId",
+      "historyBeginDate"
+    FROM
+      "usager_history_states"
     WHERE
-    (state->>'isActive')::boolean
-    AND (state->>'historyBeginDate')::timestamptz <  CURRENT_DATE + INTERVAL '1 day'
-    AND (state->>'historyEndDate' is null OR (state->>'historyEndDate')::timestamptz >=  CURRENT_DATE + INTERVAL '1 day' )
+      "isActive" IS TRUE
+      AND ("historyBeginDate") ::timestamptz <  CURRENT_DATE + INTERVAL '1 day'
+      AND (
+        "historyEndDate" is null
+        OR ("historyEndDate")::timestamptz >=  CURRENT_DATE + INTERVAL '1 day'
+      )
+    ORDER BY
+      "usagerUUID",
+      "historyBeginDate" desc
+  )
+  SELECT
+    (COUNT(DISTINCT uh."usagerUUID") +   SUM(COALESCE(jsonb_array_length("uh"."ayantsDroits"), 0))) AS "actifs",
+    SUM(COALESCE(jsonb_array_length("uh"."ayantsDroits"), 0) ) AS "ayantsDroits",
+    COUNT(DISTINCT uh."usagerUUID") AS "domicilies"
+  from
+    "usager_history_states" uh
+    inner join LatestEntries as le ON uh."uuid" = le."uuid"
 `);
+
+  console.log(usagers);
   return {
     domicilies: parseInt(usagers[0].domicilies, 10),
     ayantsDroits: parseInt(usagers[0].ayantsDroits, 10),
@@ -157,6 +177,11 @@ async function countMigratedUsagers(structureId: number): Promise<number> {
   return myDataSource
     .getRepository<Usager>(UsagerTable)
     .countBy({ migrated: false, structureId });
+}
+async function countUsagersToAnonymize(): Promise<number> {
+  return myDataSource
+    .getRepository<Usager>(UsagerTable)
+    .countBy({ migrated: false });
 }
 
 async function findLastFiveCustomRef({

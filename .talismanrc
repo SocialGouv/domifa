@@ -1,9 +1,10 @@
 fileignoreconfig:
-- filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: 1e3af6483b906589d5ff94a3f5c9c4b461daacb252dd023adf9de9eb70aa2e05
+- filename: _scripts/db/dumps/domifa_test.postgres.truncate-data.sql
+  checksum: fa9b94f1c3685fa7d8bd3eb948f4eace99349b0681a0040d31783234c13d664c
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: 0a5566f61d5418e27c400a112beaf0bcd6fa6cdca3f7f837108cc64a1e9a14c0
-- filename: docker-compose.local.yml
+  checksum: d222ae3ebe1596386b7b24fa2abab610d2f67f1345e7abe2cadc1775d717e30c
+version: ""
+me: docker-compose.local.yml
   checksum: ae67a7cafd3797780e29e6e3aca8f7a273dfe3f10f8456f95b3b4680e8440605
 - filename: packages/backend/.env.backend.test.local.example.env
   checksum: d8d00c5d51650278946bacb4394967cd954e18e3a8058ea3f8edb8c5f765d43d

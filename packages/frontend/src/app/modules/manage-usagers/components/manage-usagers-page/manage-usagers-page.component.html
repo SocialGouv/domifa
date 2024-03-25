@@ -240,6 +240,27 @@
 <div class="content pt-3 pb-5">
   <div class="container">
     <div
+      class="my-4 alert alert-info flex-wrap text-center justify-content-md-between justify-content-center align-items-center"
+      *ngIf="
+        (filters.statut === 'TOUS' || filters.statut === 'RADIE') &&
+        usagersRadiesTotalCount !== usagersRadiesLoadedCount &&
+        !this.chargerTousRadies$.value
+      "
+    >
+      <p class="me-2">
+        <strong>Information:</strong>
+        80 dossiers radiés sont actuellement affichés. Le chargement de tous les
+        dossiers peut prendre plusieurs minutes
+      </p>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="chargerTousRadies()"
+      >
+        Afficher tous les radiés
+      </button>
+    </div>
+    <div
       *ngIf="usagers.length === 0 && !searching"
       class="my-4 alert alert-warning flex-wrap text-center justify-content-md-between justify-content-center align-items-center"
     >
@@ -286,24 +307,6 @@
         (updateFilters)="updateFilters($event)"
         (goToPrint)="goToPrint()"
       ></app-manage-manage-usagers-table>
-    </div>
-    <div
-      class="container py-3 px-2 text-center"
-      *ngIf="
-        (filters.statut === 'TOUS' || filters.statut === 'RADIE') &&
-        usagersRadiesTotalCount !== usagersRadiesLoadedCount &&
-        !this.chargerTousRadies$.value
-      "
-    >
-      <div class="my-2">
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="chargerTousRadies()"
-        >
-          Afficher tous les radiés
-        </button>
-      </div>
     </div>
   </div>
 </div>
