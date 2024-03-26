@@ -165,7 +165,6 @@ async function countTotalActifs(): Promise<{
     inner join LatestEntries as le ON uh."uuid" = le."uuid"
 `);
 
-  console.log(usagers);
   return {
     domicilies: parseInt(usagers[0].domicilies, 10),
     ayantsDroits: parseInt(usagers[0].ayantsDroits, 10),

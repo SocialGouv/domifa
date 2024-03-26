@@ -5,7 +5,7 @@ import { SharedModule } from "../../../shared/shared.module";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { NgbPagination } from "@ng-bootstrap/ng-bootstrap";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-
+import "@angular/localize/init";
 describe("HistoriqueCourriersComponent", () => {
   let component: HistoriqueCourriersComponent;
   let fixture: ComponentFixture<HistoriqueCourriersComponent>;
