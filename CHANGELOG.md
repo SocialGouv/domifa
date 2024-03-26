@@ -1,3 +1,12 @@
+## [2.165.3](https://github.com/SocialGouv/domifa/compare/v2.165.2...v2.165.3) (2024-03-26)
+
+
+### Bug Fixes
+
+* **backend:** add key to custom docs ([d95fbbb](https://github.com/SocialGouv/domifa/commit/d95fbbbb199a7e777af55f15fde007ac93325f49))
+* **frontend:** update popup ([1c36255](https://github.com/SocialGouv/domifa/commit/1c3625510f9c7b56067d71da0308818c36872ace))
+* **tests:** fix unit tests ([70549fa](https://github.com/SocialGouv/domifa/commit/70549fa5ec11f86883ef2f104052a83bf6ec1450))
+
 ## [2.165.2](https://github.com/SocialGouv/domifa/compare/v2.165.1...v2.165.2) (2024-03-25)
 
 
