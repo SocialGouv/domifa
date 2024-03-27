@@ -7,6 +7,7 @@ import { isAnyValidPhone, isValidMobilePhone } from "../../util/phone";
 
 export function IsValidPhone(
   property: string,
+  required: boolean = false,
   mobileOnly: boolean = false,
   validationOptions?: ValidationOptions
 ) {
@@ -26,13 +27,18 @@ export function IsValidPhone(
           if (!value && !relatedValue) {
             return false;
           }
+
+          if (!value?.numero && !required) {
+            return true;
+          }
+
           if (
             typeof value.numero !== "string" ||
             typeof relatedValue.numero !== "string" ||
             typeof value.countryCode !== "string" ||
             typeof relatedValue.countryCode !== "string"
           ) {
-            return false;
+            return !required;
           }
 
           return mobileOnly

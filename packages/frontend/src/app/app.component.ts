@@ -194,7 +194,6 @@ export class AppComponent implements OnInit, OnDestroy {
       ? new Date(lastNews) < new Date(DOMIFA_NEWS[0].date)
       : true;
 
-    console.log(this.pendingNews);
     if (this.pendingNews) {
       this.news = DOMIFA_NEWS[0];
       this.modalService.open(this.newsModal, DEFAULT_MODAL_OPTIONS);
