@@ -179,8 +179,6 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.fromDate = formatDateToNgb(this.start);
     this.toDate = formatDateToNgb(this.end);
-
-    console.log(this.fromDate);
   }
 
   public compare(): void {

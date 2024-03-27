@@ -35,11 +35,11 @@ async function anonymizeUsagers() {
   await usagerRepository.update({ migrated: true }, { migrated: false });
   const nbUsager = await usagerRepository.count();
   appLogger.warn(`[dataUsagerAnonymizer] ${nbUsager} usagers to anonymize`);
-  const queryRunner = myDataSource.createQueryRunner();
 
   let cpt = 0;
-  console.log(await usagerRepository.countUsagersToAnonymize());
-  while ((await usagerRepository.countUsagersToAnonymize()) < 0) {
+
+  const queryRunner = myDataSource.createQueryRunner();
+  while ((await usagerRepository.countUsagersToAnonymize()) > 0) {
     await queryRunner.startTransaction();
 
     const usagersToAnonymize = await usagerRepository.find({
@@ -61,23 +61,19 @@ async function anonymizeUsagers() {
       where: {
         migrated: false,
       },
-      take: 1000,
+      take: 5000,
     });
 
-    console.log("usagersToAnonymize.length");
-    console.log(usagersToAnonymize.length);
-
-    for await (const usager of usagersToAnonymize) {
+    for (const usager of usagersToAnonymize) {
       await _anonymizeUsager(usager);
     }
 
     await queryRunner.commitTransaction();
 
+    cpt += 5000;
     appLogger.warn(
       `[dataUsagerAnonymizer] ${cpt}/${nbUsager} usagers anonymized`
     );
-    await queryRunner.commitTransaction();
-    cpt += 1000;
   }
 }
 
@@ -119,6 +115,7 @@ async function _anonymizeUsager(usager: Usager) {
         }
       : null,
     options,
+    migrated: true,
   };
 
   if (Object.keys(attributesToUpdate).length === 0) {

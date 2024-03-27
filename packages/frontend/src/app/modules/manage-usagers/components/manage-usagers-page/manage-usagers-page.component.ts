@@ -160,7 +160,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
           switchMap(() => this.chargerTousRadies$),
           switchMap((chargerTousRadies) => {
             this.searching = true;
-            console.log(this.searching);
+
             return this.usagerService.getSearchPageUsagerData({
               chargerTousRadies,
             });

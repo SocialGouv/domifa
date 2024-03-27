@@ -32,6 +32,7 @@ export class AppSentryInterceptor implements NestInterceptor {
               logContext.user = logSentryUser(user);
             }
             if (req?.body) {
+              console.log(req.body);
               logContext.payload = req.body;
             }
           } else {
@@ -59,9 +60,11 @@ export class AppSentryInterceptor implements NestInterceptor {
 function parseRequest(context: ExecutionContext): {
   req: any;
   user: UserStructureAuthenticated;
+  body: any;
 } {
   const httpContext = context.switchToHttp();
   const expressRequest: any = httpContext.getRequest();
+
   if (!expressRequest) {
     return null;
   }
@@ -74,10 +77,12 @@ function parseRequest(context: ExecutionContext): {
 
   const req = data.request;
   const user = expressRequest.user as UserStructureAuthenticated;
+  const body = expressRequest.body;
 
   return {
     req,
     user,
+    body,
   };
 }
 

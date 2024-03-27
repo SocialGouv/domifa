@@ -124,7 +124,7 @@ export class CreateUsagerDto {
   })
   @IsObject()
   @IsNotEmpty()
-  @IsValidPhone("telephone", true)
+  @IsValidPhone("telephone", false, true)
   public telephone!: Telephone;
 
   @IsNotEmpty()

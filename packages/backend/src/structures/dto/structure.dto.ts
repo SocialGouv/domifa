@@ -133,7 +133,7 @@ export class StructureDto {
   })
   @IsNotEmpty()
   @IsObject()
-  @IsValidPhone("telephone", false)
+  @IsValidPhone("telephone", true, false)
   public telephone: Telephone;
 
   @ApiProperty({

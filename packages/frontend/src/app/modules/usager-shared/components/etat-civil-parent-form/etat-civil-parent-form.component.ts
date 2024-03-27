@@ -262,7 +262,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
         ? getFormPhone(formValue.telephone)
         : this.usager.telephone;
 
-    const datas: UsagerEtatCivilFormData = {
+    const data: UsagerEtatCivilFormData = {
       sexe: formValue?.sexe,
       nom: formValue?.nom.trim(),
       prenom: formValue?.prenom.trim(),
@@ -278,7 +278,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
       dateNaissance: endOfDay(parseDateFromNgb(formValue.dateNaissance)),
     };
 
-    return datas;
+    return data;
   }
 
   public changeFocus(index: number) {
