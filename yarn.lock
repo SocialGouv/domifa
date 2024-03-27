@@ -3212,7 +3212,7 @@ __metadata:
     passport-jwt: ^4.0.1
     pg: ^8.7.1
     pino: ^8.7.0
-    pino-pretty: ^10.0.1
+    pino-pretty: ^11.0.0
     pino-std-serializers: ^6.1.0
     pizzip: ^3.0.6
     prettier: ^2.8.8
@@ -14979,7 +14979,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^8.0.0, glob@npm:^8.0.1, glob@npm:^8.1.0":
+"glob@npm:^8.0.1, glob@npm:^8.1.0":
   version: 8.1.0
   resolution: "glob@npm:8.1.0"
   dependencies:
@@ -15326,13 +15326,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"help-me@npm:^4.0.1":
-  version: 4.2.0
-  resolution: "help-me@npm:4.2.0"
-  dependencies:
-    glob: ^8.0.0
-    readable-stream: ^3.6.0
-  checksum: 6548acba10dd79ebfc93f0d739c4cb2f32f7932c8d87b091992f3a0f844706263415eab81be015aed4ab874154232beb666920d7e280502c6bba29a40cde343e
+"help-me@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "help-me@npm:5.0.0"
+  checksum: 474436627b6c7d2f406a2768453895889eb2712c8ded4c47658d5c6dd46c2ff3f742be4e4e8dedd57b7f1ac6b28803896a2e026a32a977f507222c16f23ab2e1
   languageName: node
   linkType: hard
 
@@ -21040,15 +21037,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino-pretty@npm:^10.0.1":
-  version: 10.2.0
-  resolution: "pino-pretty@npm:10.2.0"
+"pino-pretty@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "pino-pretty@npm:11.0.0"
   dependencies:
     colorette: ^2.0.7
     dateformat: ^4.6.3
     fast-copy: ^3.0.0
     fast-safe-stringify: ^2.1.1
-    help-me: ^4.0.1
+    help-me: ^5.0.0
     joycon: ^3.1.1
     minimist: ^1.2.6
     on-exit-leak-free: ^2.1.0
@@ -21060,7 +21057,7 @@ __metadata:
     strip-json-comments: ^3.1.1
   bin:
     pino-pretty: bin.js
-  checksum: 8e8220ab647d11e05349adde37aac116dab1a96ce479297820475b7e2246ea5e56e3764b625c5877821ae66dcea62bdda563cc49eccbd4628c80952998068f48
+  checksum: 9915634548002c83b8217ab197e28ffdbda9f633d183b03cebb71ce8cccfc7c1295e59be4986229460a231ff71ca5bf9d5f9ff8bc291263b81e89d6688928484
   languageName: node
   linkType: hard
 
