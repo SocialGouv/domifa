@@ -3326,7 +3326,7 @@ __metadata:
     eslint-plugin-prettier: ^5.0.1
     file-saver: ^2.0.5
     google-libphonenumber: ^3.2.33
-    intl-tel-input: 18.5.3
+    intl-tel-input: 20.3.0
     jest: ^29.7.0
     jest-preset-angular: ^14.0.0
     jwt-decode: ^3.1.2
@@ -16010,10 +16010,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"intl-tel-input@npm:18.5.3":
-  version: 18.5.3
-  resolution: "intl-tel-input@npm:18.5.3"
-  checksum: f08fb6db91524886e4726e7b4486b1b8e138f5acadfcdd8dd4aa2ca6e82692cab88748bd36c724459d357cfe9d9c5e4d72ef40ced11a6a8aaa5015f3fec5c386
+"intl-tel-input@npm:20.3.0":
+  version: 20.3.0
+  resolution: "intl-tel-input@npm:20.3.0"
+  checksum: d5e45d1e0671930348f905eb97e73f5b33d61630cc5f72abcbd17966bd50df44b5b8771ac2127413c76b7df97bdc68a600d14e34be77e29f25c19000ae26a6ab
   languageName: node
   linkType: hard
 
