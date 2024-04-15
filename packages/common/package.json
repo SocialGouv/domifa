@@ -19,7 +19,7 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@eslint/create-config": "^0.4.6",
+    "@eslint/create-config": "^1.0.0",
     "@types/jest": "^29.5.12",
     "@types/rimraf": "^4.0.5",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
