@@ -105,6 +105,8 @@ async function getStructureStatsQuestionsAtDateValidUsagers({
       ,count(distinct uh."usagerUUID") filter (where "entretien" -> 'liencommune' = 'null') as v_u_liencommune_nr
 
       ,count(distinct uh."usagerUUID") filter (where "entretien" ->> 'raison' = 'EXERCICE_DROITS') as v_u_raison_exercice_droits
+      ,count(distinct uh."usagerUUID") filter (where "entretien" ->> 'raison' = 'EXERCICE_ACTIVITE_PRO') as v_u_raison_exercice_activite_pro
+      ,count(distinct uh."usagerUUID") filter (where "entretien" ->> 'raison' = 'LUTTE_VIOLENCE') as v_u_raison_lutte_violence
       ,count(distinct uh."usagerUUID") filter (where "entretien" ->> 'raison' = 'PRESTATIONS_SOCIALES') as v_u_raison_prestations_sociales
       ,count(distinct uh."usagerUUID") filter (where "entretien" ->> 'raison' = 'AUTRE') as v_u_raison_autre
       ,count(distinct uh."usagerUUID") filter ( where "entretien" -> 'raison' = 'null') as v_u_raison_nr
@@ -239,6 +241,8 @@ async function getStructureStatsQuestionsAtDateValidUsagers({
       raison: {
         exercice_droits: parseInt(r.v_u_raison_exercice_droits, 10),
         prestations_sociales: parseInt(r.v_u_raison_prestations_sociales, 10),
+        exercice_activite_pro: parseInt(r.v_u_raison_exercice_activite_pro, 10),
+        lutte_violence: parseInt(r.v_u_raison_lutte_violence, 10),
         autre: parseInt(r.v_u_raison_autre, 10),
         non_renseigne: parseInt(r.v_u_raison_nr, 10),
       },
@@ -327,6 +331,8 @@ async function getStructureStatsQuestionsAtDateValidUsagers({
       // Q21
       exercice_droits: 0,
       prestations_sociales: 0,
+      exercice_activite_pro: 0,
+      lutte_violence: 0,
       autre: 0,
       non_renseigne: 0,
     },

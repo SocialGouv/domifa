@@ -7,12 +7,13 @@ import { DASHBOARD_STATUS_LABELS } from "../../../../../_common/usager/constants
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
 
 import { AdminStructuresApiClient } from "../../../shared/services";
-import { REGIONS_LISTE } from "../../../shared/territoires";
+
 import { AdminStructuresStatsVM, adminStructuresStatsVmBuilder } from "./vm";
 import {
   STRUCTURE_TYPE_LABELS,
   INTERACTIONS_LABELS_PLURIEL,
   AdminStructureStatsData,
+  REGIONS_LISTE,
 } from "@domifa/common";
 
 @Component({
