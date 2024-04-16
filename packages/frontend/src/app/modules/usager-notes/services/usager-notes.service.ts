@@ -2,11 +2,11 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
-import { UsagerNote, Usager, UsagerLight } from "../../../../_common/model";
+import { UsagerLight } from "../../../../_common/model";
 
 import { cacheManager } from "../../../shared";
 import { Store } from "@ngrx/store";
-import { PageOptions, PageResults } from "@domifa/common";
+import { PageOptions, PageResults, UsagerNote, Usager } from "@domifa/common";
 
 @Injectable({
   providedIn: "root",
@@ -28,7 +28,7 @@ export class UsagerNotesService {
     usagerRef: number;
   }): Observable<Usager> {
     return this.http.post<Usager>(`${this.endPoint}/${usagerRef}`, note).pipe(
-      tap((newUsager: UsagerLight) => {
+      tap((newUsager: Usager) => {
         this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
       })
     );
@@ -101,7 +101,7 @@ export class UsagerNotesService {
     return this.http
       .delete<Usager>(`${this.endPoint}/${usagerRef}/${noteUUID}`, {})
       .pipe(
-        tap((newUsager: UsagerLight) => {
+        tap((newUsager: Usager) => {
           this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
           return newUsager;
         })

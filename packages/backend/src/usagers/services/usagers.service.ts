@@ -147,17 +147,18 @@ export class UsagersService {
     newDecision.dateDecision = now;
     usager.etapeDemande = ETAPE_DOSSIER_COMPLET;
 
-    if (newDecision.statut === "ATTENTE_DECISION") {
+    if (
+      newDecision.statut === "ATTENTE_DECISION" ||
+      newDecision.statut === "INSTRUCTION"
+    ) {
       usager.etapeDemande = ETAPE_DECISION;
-    }
-
-    if (newDecision.statut === "REFUS" || newDecision.statut === "RADIE") {
+    } else if (
+      newDecision.statut === "REFUS" ||
+      newDecision.statut === "RADIE"
+    ) {
       newDecision.dateFin = newDecision?.dateFin ? newDecision.dateFin : now;
       newDecision.dateDebut = newDecision.dateFin;
-    }
-
-    // Valide
-    if (newDecision.statut === "VALIDE") {
+    } else if (newDecision.statut === "VALIDE") {
       const actualLastInteraction = new Date(
         usager.lastInteraction.dateInteraction
       );

@@ -1,0 +1,85 @@
+<div class="modal-header bg-dark">
+  <span class="text-white" id="modal-title">Motivez votre décision</span>
+</div>
+<div class="modal-body py-4">
+  <form [formGroup]="addNoteForm" (ngSubmit)="submit()">
+    <div class="col-md-12">
+      <p>
+        Les champs suivis d'un
+        <span class="fw-bold text-danger">*</span> sont obligatoires
+      </p>
+    </div>
+
+    <div class="form-group required">
+      <label class="label text-start" for="message"
+        >Motif d'ajournement du dossier (Exemples: document manquant, dossier
+        incomplet, etc.)
+      </label>
+      <textarea
+        class="form-control"
+        formControlName="message"
+        name="message"
+        id="message"
+        maxlength="1000"
+        appCleanStr
+        required
+        [ngClass]="{
+          'is-invalid': (f.message.dirty || submitted) && f.message.errors
+        }"
+        [attr.aria-describedby]="
+          (f.message.dirty || submitted) && f.message.errors
+            ? 'message-errors'
+            : 'message-informations'
+        "
+        [attr.aria-invalid]="
+          (f.message.dirty || submitted) && f.message.errors ? true : false
+        "
+      ></textarea>
+      <div class="text-start">
+        <small
+          class="my-2 text-start"
+          id="message-informations"
+          *ngIf="!f.message.dirty || !f.message.errors"
+        >
+          1000 caractères maximum. Caractères interdits:
+          &#36;&#126;&#42;&lt;&gt;&#123;&#125;
+        </small>
+        <p
+          *ngIf="(submitted || f.message.dirty) && f.message.errors"
+          class="text-start invalid-feedback my-2"
+          id="message-errors"
+        >
+          Veuillez vérifier le contenu de la note saisie. 1000 caractères
+          maximum. Caractères interdits: &#36;&#126;&#42;&lt;&gt;&#123;&#125;
+        </p>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button
+    class="btn btn-lg btn-outline-dark"
+    type="button"
+    (click)="closeModals.emit()"
+  >
+    Annuler
+  </button>
+  <button
+    class="btn btn-lg btn-dark"
+    [disabled]="loading"
+    [attr.aria-busy]="loading"
+    type="submit"
+    (click)="submit()"
+  >
+    <span *ngIf="!loading">Confirmer l'ajournement</span>
+    <span *ngIf="loading"
+      ><fa-icon
+        [icon]="['fas', 'circle-notch']"
+        [spin]="true"
+        aria-hidden="true"
+      ></fa-icon>
+      Veuillez patienter...</span
+    >
+  </button>
+</div>

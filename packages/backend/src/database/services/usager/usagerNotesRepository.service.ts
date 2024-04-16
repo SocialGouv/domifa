@@ -1,4 +1,4 @@
-import { UsagerNote } from "./../../../_common/model/usager/UsagerNote.type";
+import { UsagerNote } from "@domifa/common";
 import { UsagerNotesTable } from "../../entities/usager/UsagerNotesTable.typeorm";
 import { myDataSource } from "../_postgres";
 

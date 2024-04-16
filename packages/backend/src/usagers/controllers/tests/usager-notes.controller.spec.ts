@@ -4,9 +4,10 @@ import {
   AppTestHelper,
   AppTestHttpClient,
 } from "../../../util/test";
-import { UsagerNote } from "../../../_common/model";
+
 import { TESTS_USERS_STRUCTURE } from "../../../_tests";
 import { UsagerNotesController } from "../usager-notes.controller";
+import { UsagerNote } from "@domifa/common";
 
 describe("UsagerNote Controller", () => {
   let context: AppTestContext;
