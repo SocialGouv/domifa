@@ -2,7 +2,7 @@
 
 set -e
 
-./greenmask dump --config anonymize_config.yaml
+./greenmask dump --config config.yaml
 
 # export PGHOST=localhost
 # export PGUSER=domifa_user
