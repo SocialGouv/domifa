@@ -55,6 +55,8 @@ export interface StructureStatsQuestionsAtDateValidUsagers {
     // Q21
     exercice_droits: number;
     prestations_sociales: number;
+    exercice_activite_pro: number;
+    lutte_violence: number;
     autre: number;
     non_renseigne: number;
   };

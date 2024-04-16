@@ -1,9 +1,10 @@
-import { STRUCTURE_TYPE_LABELS, Structure } from "@domifa/common";
-import { StructureAdminForList } from "../../../../../../_common";
 import {
+  STRUCTURE_TYPE_LABELS,
+  Structure,
   DEPARTEMENTS_LISTE,
   REGIONS_LISTE,
-} from "../../../../shared/territoires";
+} from "@domifa/common";
+import { StructureAdminForList } from "../../../../../../_common";
 
 export const structuresListModelBuilder = { buildStructuresViewModel };
 

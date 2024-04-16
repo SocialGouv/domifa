@@ -63,6 +63,8 @@ export const ENTRETIEN_RAISON_DEMANDE: {
   AUTRE: "Autre raison",
   EXERCICE_DROITS: "Exercice des droits civils ou civiques",
   PRESTATIONS_SOCIALES: "Accès aux prestations sociales",
+  EXERCICE_ACTIVITE_PRO: "Exercice d'une activité professionnelle",
+  LUTTE_VIOLENCE: "Lutte contre toute forme de violence (mise à l'abri)",
 };
 
 export const ENTRETIEN_RESIDENCE: {

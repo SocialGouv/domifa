@@ -129,6 +129,8 @@ describe("structureStatsInPeriodGenerator", () => {
           exercice_droits: 1,
           non_renseigne: 1,
           prestations_sociales: 0,
+          exercice_activite_pro: 0,
+          lutte_violence: 0,
         },
         residence: {
           autre: 0,

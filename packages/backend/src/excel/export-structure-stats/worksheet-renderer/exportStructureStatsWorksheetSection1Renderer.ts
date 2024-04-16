@@ -241,6 +241,12 @@ function renderSection1ValidUsagers(context: {
     value: data.raison.prestations_sociales,
   });
   worksheetRendered.renderCell(i++, "c", {
+    value: data.raison.exercice_activite_pro,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.raison.lutte_violence,
+  });
+  worksheetRendered.renderCell(i++, "c", {
     value: data.raison.autre,
   });
   worksheetRendered.renderCell(i++, "c", {
