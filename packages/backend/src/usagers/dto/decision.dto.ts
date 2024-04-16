@@ -24,9 +24,9 @@ export class DecisionDto implements UsagerDecision {
   @ApiProperty({
     type: String,
     required: true,
-    enum: ["VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE"],
+    enum: ["INSTRUCTION", "VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE"],
   })
-  @IsIn(["VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE"])
+  @IsIn(["INSTRUCTION", "VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE"])
   @IsNotEmpty()
   public statut!: UsagerDecisionStatut;
 

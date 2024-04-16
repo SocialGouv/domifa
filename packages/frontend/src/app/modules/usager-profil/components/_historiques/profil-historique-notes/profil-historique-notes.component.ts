@@ -6,8 +6,8 @@ import { UsagerNotesService } from "../../../../usager-notes/services/usager-not
 import { BaseUsagerNotesComponent } from "../../../../usager-notes/components/base-usager-notes/base-usager-notes.component";
 import { Store } from "@ngrx/store";
 import { UsagersFilterCriteriaSortValues } from "../../../../manage-usagers/components/usager-filter";
-import { UsagerNote } from "../../../../../../_common/model";
-import { Order } from "@domifa/common";
+
+import { Order, UsagerNote } from "@domifa/common";
 
 @Component({
   selector: "app-profil-historique-notes",

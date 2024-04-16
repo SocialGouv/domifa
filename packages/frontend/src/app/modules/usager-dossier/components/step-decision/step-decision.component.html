@@ -307,6 +307,20 @@
             <div class="mb-3 d-grid gap-2 d-md-flex">
               <button
                 type="button"
+                class="btn-block me-0 me-md-3 my-1 btn btn-dark"
+                (click)="open(standby)"
+                *ngIf="usager.decision.statut === 'ATTENTE_DECISION'"
+              >
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['far', 'clock']"
+                  class="me-2"
+                ></fa-icon>
+                Ajourner le dossier
+              </button>
+
+              <button
+                type="button"
                 class="btn-block me-0 me-md-3 my-1 btn btn-success"
                 (click)="open(confirmation)"
               >
@@ -364,5 +378,13 @@
       [usager]="usager"
       (closeModals)="closeModals()"
     ></app-decision-valide-form>
+  </ng-template>
+
+  <ng-template #standby let-modal>
+    <app-decision-standby-form
+      [usager]="usager"
+      [me]="me"
+      (closeModals)="closeModals()"
+    ></app-decision-standby-form>
   </ng-template>
 </div>

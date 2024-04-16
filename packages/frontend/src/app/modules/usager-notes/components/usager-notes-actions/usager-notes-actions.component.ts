@@ -8,14 +8,12 @@ import {
   ViewChild,
 } from "@angular/core";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import {
-  DEFAULT_MODAL_OPTIONS,
-  UsagerNote,
-} from "../../../../../_common/model";
+import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerNotesService } from "../../services/usager-notes.service";
 import { Subscription } from "rxjs";
+import { UsagerNote } from "@domifa/common";
 
 @Component({
   selector: "app-usager-notes-actions",

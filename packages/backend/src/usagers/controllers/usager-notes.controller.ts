@@ -18,12 +18,8 @@ import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 
-import {
-  Usager,
-  UsagerNote,
-  UserStructureAuthenticated,
-} from "../../_common/model";
-import { UserStructureResume } from "@domifa/common";
+import { Usager, UserStructureAuthenticated } from "../../_common/model";
+import { UserStructureResume, UsagerNote } from "@domifa/common";
 import { CreateNoteDto } from "../dto/create-note.dto";
 import {
   AppLogTable,

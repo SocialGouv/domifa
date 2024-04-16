@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   ParseArrayPipe,
   ParseIntPipe,
@@ -87,6 +88,19 @@ export class InteractionsController {
       user.structureId,
       currentUsager.uuid,
       pageOptionsDto
+    );
+  }
+
+  @Get("search-with-content/:usagerRef")
+  @AllowUserProfiles("structure")
+  public async getInteractionsWithContent(
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentUsager() currentUsager: Usager
+  ) {
+    return this.interactionsService.searchPendingInteractionsWithContent(
+      user.structureId,
+      currentUsager.uuid
     );
   }
 

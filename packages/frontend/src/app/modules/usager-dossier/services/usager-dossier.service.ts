@@ -6,7 +6,6 @@ import { Observable } from "rxjs";
 import { map, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import {
-  Usager,
   UsagerEtatCivilFormData,
   UsagerLight,
   UserStructure,
@@ -14,6 +13,7 @@ import {
 
 import { userStructureBuilder } from "../../users/services";
 import { Store } from "@ngrx/store";
+import { Usager } from "@domifa/common";
 
 @Injectable({
   providedIn: "root",
@@ -26,13 +26,13 @@ export class UsagerDossierService {
   public editStepEtatCivil(
     usager: UsagerEtatCivilFormData,
     ref: number
-  ): Observable<UsagerLight> {
+  ): Observable<Usager> {
     if (ref !== 0 && ref !== null) {
       return this.http
-        .patch<UsagerLight>(`${this.endPointUsagers}/${ref}`, usager)
+        .patch<Usager>(`${this.endPointUsagers}/${ref}`, usager)
         .pipe(
           tap({
-            next: (newUsager: UsagerLight) => {
+            next: (newUsager: Usager) => {
               this.store.dispatch(
                 cacheManager.updateUsager({ usager: newUsager })
               );
@@ -44,7 +44,7 @@ export class UsagerDossierService {
 
     return this.http.post<Usager>(`${this.endPointUsagers}`, usager).pipe(
       tap({
-        next: (newUsager: UsagerLight) => {
+        next: (newUsager: Usager) => {
           this.store.dispatch(cacheManager.addUsager({ usager: newUsager }));
           return newUsager;
         },

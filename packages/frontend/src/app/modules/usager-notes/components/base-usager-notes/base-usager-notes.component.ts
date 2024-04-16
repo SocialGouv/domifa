@@ -1,11 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Observable, Subscription, take } from "rxjs";
-import {
-  UserStructure,
-  UsagerNote,
-  UsagerLight,
-} from "../../../../../_common/model";
-import { PageOptions, PageResults, Order } from "@domifa/common";
+import { UserStructure, UsagerLight } from "../../../../../_common/model";
+
+import { PageOptions, PageResults, Order, UsagerNote } from "@domifa/common";
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerNotesService } from "../../services/usager-notes.service";

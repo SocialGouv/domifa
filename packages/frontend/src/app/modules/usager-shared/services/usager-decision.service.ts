@@ -61,7 +61,8 @@ export class UsagerDecisionService {
       | UsagerDecisionRadiationForm
       | UsagerDecisionRefusForm
       | UsagerDecisionValideForm
-      | { statut: "ATTENTE_DECISION" },
+      | { statut: "ATTENTE_DECISION" }
+      | { statut: "INSTRUCTION" },
     updateStore: boolean = true
   ): Observable<UsagerLight> {
     return this.http
