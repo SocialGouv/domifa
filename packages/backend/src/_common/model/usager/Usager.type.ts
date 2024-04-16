@@ -1,7 +1,4 @@
-import { AppEntity } from "../_core/AppEntity.type";
-
 import { UsagerImport } from "./UsagerImport.type";
-import { UsagerNote } from "./UsagerNote.type";
 
 import {
   UsagerLastInteraction,
@@ -13,6 +10,8 @@ import {
   UsagerDecision,
   UsagerOptions,
   Telephone,
+  UsagerNote,
+  AppEntity,
 } from "@domifa/common";
 
 export type Usager = AppEntity & {

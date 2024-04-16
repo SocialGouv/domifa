@@ -1,6 +1,7 @@
-import { UsagerLight, UsagerEcheanceInfos } from "../../../../_common/model";
+import { Usager } from "@domifa/common";
+import { UsagerEcheanceInfos } from "../../../../_common/model";
 
-export const getEcheanceInfos = (usager?: UsagerLight): UsagerEcheanceInfos => {
+export const getEcheanceInfos = (usager?: Usager): UsagerEcheanceInfos => {
   const usagerInfos: UsagerEcheanceInfos = {
     isActif: false,
     dateToDisplay: null,

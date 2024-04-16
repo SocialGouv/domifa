@@ -8,6 +8,7 @@ import {
   USAGER_DECISION_STATUT_COLORS,
   INTERACTIONS_IN,
   getRdvInfos,
+  Usager,
 } from "@domifa/common";
 import { getEcheanceInfos } from "../../modules/usager-shared/utils";
 import {
@@ -44,7 +45,7 @@ export const _usagerReducer = createReducer(
     };
   }),
   on(cacheManager.updateUsager, (state, action) => {
-    const usager = new UsagerFormModel(action.usager) as UsagerLight;
+    const usager = new UsagerFormModel(action.usager) as unknown as UsagerLight;
 
     // always update map
     const usagersByRefMap = {
@@ -86,7 +87,9 @@ export const _usagerReducer = createReducer(
     };
 
     usagers.forEach((usager) => {
-      usagersByRefMap[usager.ref] = new UsagerFormModel(usager) as UsagerLight;
+      usagersByRefMap[usager.ref] = new UsagerFormModel(
+        usager
+      ) as unknown as UsagerLight;
     });
 
     let searchPageLoadedUsagersData = state.searchPageLoadedUsagersData;
@@ -214,7 +217,7 @@ function deleteSearchPageLoadedUsagersDataUsager({
   return searchPageLoadedUsagersData;
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const setUsagerInformations = (usager: UsagerLight): any => {
+export const setUsagerInformations = (usager: Usager): any => {
   let totalInteractionsEnAttente = 0;
   if (usager.lastInteraction) {
     INTERACTIONS_IN.forEach((interaction) => {

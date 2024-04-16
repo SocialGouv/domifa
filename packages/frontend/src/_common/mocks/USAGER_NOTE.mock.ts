@@ -1,4 +1,4 @@
-import { UsagerNote } from "../model";
+import { UsagerNote } from "@domifa/common";
 
 export const USAGER_NOTE: UsagerNote = {
   uuid: "4ca03942-6eec-4ac5-aeb9-e76a4f1a9b27",

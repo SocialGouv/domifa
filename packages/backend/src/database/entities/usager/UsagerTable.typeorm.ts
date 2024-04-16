@@ -11,7 +11,6 @@ import {
 } from "typeorm";
 import { Usager } from "../../../_common/model";
 
-import { UsagerNote } from "../../../_common/model/usager/UsagerNote.type";
 import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import { UsagerImport } from "./../../../_common/model/usager/UsagerImport.type";
@@ -26,6 +25,7 @@ import {
   UsagerDecision,
   UsagerOptions,
   Telephone,
+  UsagerNote,
 } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
