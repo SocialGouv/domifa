@@ -41,7 +41,7 @@ dump:
               {{ $newPeople := list }}
               {{ if isNotNull $val }}
                 {{ range $val }}
-              {{ $modifiedPerson := dict "lien" .lien "prenom" fakerFirstName "nom" fakerFirstLastName "dateNaissance" (noiseDatePgInterval "1-2"::interval .dateNaissance) }}
+              {{ $modifiedPerson := dict "lien" .lien "prenom" fakerFirstName "nom" fakerFirstLastName "dateNaissance" .dateNaissance }}
                   {{ $newPeople = append $newPeople $modifiedPerson }}
                 {{ end }}
                 {{ $updatedValue := toJson $newPeople }}
