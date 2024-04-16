@@ -154,7 +154,7 @@ export class CronSmsFetchEndDomService {
       smsToSave.push({
         usagerRef: usager.ref,
         structureId: usager.structureId,
-        content: `Bonjour,\n\nVotre domiciliation expire dans 2 mois, nous vous invitons à vous rendre dans votre structure.\n\n${usager.sms.senderDetails}`,
+        content: `Bonjour,\nVotre domiciliation expire dans 2 mois, nous vous invitons à prendre rendez-vous dans votre structure pour votre renouvellement.\n${usager.sms.senderDetails}`,
         senderName: usager.sms.senderName,
         status: "TO_SEND",
         smsId: "echeanceDeuxMois",

@@ -378,7 +378,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.usagers = filteredUsagers.slice(
       0,
       filters.page === 0 ? this.pageSize : filters.page * this.pageSize
-    ) as UsagerFormModel[];
+    ) as unknown as UsagerFormModel[];
 
     this.searching = false;
 

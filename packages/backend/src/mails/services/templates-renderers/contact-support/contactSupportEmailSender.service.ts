@@ -38,6 +38,7 @@ async function sendMail(model: ContactSupport): Promise<void> {
     ...renderedTemplate,
     to,
     attachments,
+    replyTo: { personalName: model.name, address: model.email },
   };
 
   await messageEmailSender.sendMessageLater(messageContent, {
