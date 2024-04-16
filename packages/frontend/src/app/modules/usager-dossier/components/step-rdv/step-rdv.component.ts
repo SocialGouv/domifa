@@ -13,7 +13,6 @@ import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import {
   UserStructure,
   UsagerLight,
-  Usager,
   RdvForm,
 } from "../../../../../_common/model";
 import { DocumentService } from "../../../usager-shared/services/document.service";
@@ -41,7 +40,7 @@ import {
   AuthService,
   CustomToastService,
 } from "../../../shared/services";
-import { CerfaDocType } from "@domifa/common";
+import { CerfaDocType, Usager } from "@domifa/common";
 
 @Component({
   animations: [fadeInOut],

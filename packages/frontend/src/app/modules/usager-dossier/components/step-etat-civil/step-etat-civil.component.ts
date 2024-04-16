@@ -11,7 +11,6 @@ import { UsagerDossierService } from "../../services/usager-dossier.service";
 import {
   UsagerLight,
   UsagerEtatCivilFormData,
-  Usager,
 } from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared";
 import {
@@ -21,6 +20,7 @@ import {
   CustomToastService,
 } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { Usager } from "@domifa/common";
 
 @Component({
   animations: [fadeInOut],
@@ -119,7 +119,7 @@ export class StepEtatCivilComponent
       this.usagerDossierService
         .editStepEtatCivil(formValue, this.usager.ref)
         .subscribe({
-          next: (usager: UsagerLight) => {
+          next: (usager: Usager) => {
             this.toastService.success("Enregistrement réussi");
             this.router.navigate([
               "usager/" + usager.ref + "/edit/rendez-vous",

@@ -1,6 +1,8 @@
 fileignoreconfig:
-- filename: packages/frontend/src/app/modules/usager-dossier/components/decision-standby-form/decision-standby-form.component.ts
-  checksum: 3f80c744cdf0a73202a7d9222e5734e8f4ad01a9882e12dc4acbd4c08718231f
+- filename: packages/common/src/territoires/constants/COUNTRIES.const.ts
+  checksum: 01b6997cccd21810f70fa77038e7ba600faa9e3a4721464920684e9e637637e3
+version: ""
+9222e5734e8f4ad01a9882e12dc4acbd4c08718231f
 version: ""
 -only.sql
   checksum: d222ae3ebe1596386b7b24fa2abab610d2f67f1345e7abe2cadc1775d717e30c
