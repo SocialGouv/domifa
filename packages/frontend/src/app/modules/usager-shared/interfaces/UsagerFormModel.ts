@@ -1,11 +1,6 @@
 import { CountryISO } from "ngx-intl-tel-input-gg";
 import { Entretien, Rdv, Decision, Options } from ".";
-import {
-  UsagerNote,
-  UsagerEcheanceInfos,
-  Telephone,
-  UsagerLight,
-} from "../../../../_common/model";
+import { UsagerEcheanceInfos, Telephone } from "../../../../_common/model";
 
 import { getEcheanceInfos } from "../utils";
 import {
@@ -19,9 +14,11 @@ import {
   getRdvInfos,
   UsagerDecision,
   UsagerRdvInfos,
+  UsagerNote,
+  Usager,
 } from "@domifa/common";
 
-export class UsagerFormModel {
+export class UsagerFormModel implements Usager {
   public ref: number;
   public customRef: string;
   public uuid: string | null;
@@ -71,13 +68,13 @@ export class UsagerFormModel {
   public email: string;
   public telephone: Telephone;
   public contactByPhone: boolean;
-  public entretien?: Entretien;
+  public entretien: Entretien;
   public historique: Decision[];
   public numeroDistribution: string | null;
 
   public nbNotes?: number = 0;
 
-  constructor(usager?: UsagerLight) {
+  constructor(usager?: Usager) {
     this.pinnedNote = usager?.pinnedNote || null;
     this.ref = usager?.ref || 0;
     this.nbNotes = usager?.nbNotes || 0;
@@ -96,7 +93,7 @@ export class UsagerFormModel {
 
     this.villeNaissance = usager?.villeNaissance || "";
     this.email = usager?.email || "";
-    this.telephone = usager?.telephone || {
+    this.telephone = (usager?.telephone as Telephone) || {
       countryCode: CountryISO.France,
       numero: "",
     };
@@ -131,7 +128,6 @@ export class UsagerFormModel {
     this.options = new Options(usager?.options);
     this.decision = new Decision(usager?.decision);
 
-    // Affichage du statut
     this.statusInfos = {
       text: USAGER_DECISION_STATUT_LABELS[this.decision.statut],
       color: USAGER_DECISION_STATUT_COLORS[this.decision.statut],

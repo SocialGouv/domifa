@@ -4,11 +4,12 @@ import {
   createSelector,
   props,
 } from "@ngrx/store";
-import { Usager, UsagerLight } from "../../../_common/model";
+import { UsagerLight } from "../../../_common/model";
 import {
   AppStoreModel,
   SearchPageLoadedUsagersData,
 } from "./AppStoreModel.type";
+import { Usager } from "@domifa/common";
 
 export const cacheManager = {
   updateUsagerNotes: createAction(

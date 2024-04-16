@@ -1,8 +1,8 @@
-import { UserStructureResume } from "@domifa/common";
+import { type UserStructureResume } from "../../user-structure";
 
-export type UsagerNote = {
+export interface UsagerNote {
   id: number;
-  uuid?: string;
+  uuid: string;
   message: string;
   usagerRef: number;
   usagerUUID: string;
@@ -14,4 +14,4 @@ export type UsagerNote = {
   archived: boolean;
   archivedAt?: Date;
   archivedBy?: UserStructureResume;
-};
+}

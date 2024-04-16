@@ -1,4 +1,4 @@
-import { Usager } from "../../_common/model";
+import { Usager } from "@domifa/common";
 
 export const getUsagerNomComplet = (
   usager: Pick<Usager, "nom" | "prenom" | "sexe">
