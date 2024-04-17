@@ -27,6 +27,7 @@ export interface Usager extends AppEntity {
   dateNaissance: Date;
   villeNaissance: string;
   langue?: string;
+  nationalite?: string;
 
   email?: string;
   telephone: Telephone;

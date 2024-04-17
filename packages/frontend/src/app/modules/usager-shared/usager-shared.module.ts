@@ -31,6 +31,7 @@ import {
 } from "../shared/services";
 import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits/display-ayants-droits.component";
 import { FormContactDetailsComponent } from "./components/form-contact-details/form-contact-details.component";
+import { InputNationalityComponent } from "./components/input-nationality/input-nationality.component";
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { FormContactDetailsComponent } from "./components/form-contact-details/f
     DeleteUsagerComponent,
     DisplayAyantsDroitsComponent,
     FormContactDetailsComponent,
+    InputNationalityComponent,
   ],
   imports: [
     CommonModule,
@@ -76,6 +78,7 @@ import { FormContactDetailsComponent } from "./components/form-contact-details/f
     DeleteUsagerComponent,
     DecisionRadiationFormComponent,
     FormContactDetailsComponent,
+    InputNationalityComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

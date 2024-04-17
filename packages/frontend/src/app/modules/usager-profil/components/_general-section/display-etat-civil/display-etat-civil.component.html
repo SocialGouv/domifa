@@ -29,9 +29,13 @@
 
   <p class="col-md-4 reponses">
     <span class="question">Langue parlée</span>
-    <span class="valeur" *ngIf="usager.langue">{{ langue }}</span>
-    <span class="valeur" *ngIf="!usager.langue">Non renseigné</span>
+    <span class="valeur">{{ langue || "Non renseigné" }}</span>
   </p>
+  <p class="col-md-4 reponses">
+    <span class="question">Nationalité</span>
+    <span class="valeur">{{ usager?.nationalite || "Non renseigné" }}</span>
+  </p>
+
   <p class="col-md-4 reponses">
     <span class="question">Identifiant personnalisé</span>
     <span class="valeur">

@@ -42,7 +42,6 @@ export class UsagerAccessGuard implements CanActivate {
           entretien: true,
         },
       });
-
       r.usager = usager;
       return r;
     } catch (e) {

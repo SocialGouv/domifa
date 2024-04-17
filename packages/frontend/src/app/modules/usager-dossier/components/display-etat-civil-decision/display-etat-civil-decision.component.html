@@ -13,6 +13,13 @@
   </p>
 
   <p class="my-2">
+    Nationalité:
+    <span class="valeur" *ngIf="usager.nationalite">{{
+      usager.nationalite
+    }}</span>
+    <span class="valeur" *ngIf="!usager.nationalite">Non renseigné</span>
+  </p>
+  <p class="my-2">
     Langue parlée:
     <span class="valeur" *ngIf="usager.langue">{{ langue }}</span>
     <span class="valeur" *ngIf="!usager.langue">Non renseigné</span>

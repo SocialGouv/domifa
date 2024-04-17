@@ -1,6 +1,7 @@
-import { ETAPE_DOSSIER_COMPLET } from "@domifa/common";
-import { Usager } from "../../model";
+import { ETAPE_DOSSIER_COMPLET, Usager } from "@domifa/common";
+
 import { v4 as uuidv4 } from "uuid";
+
 export const USAGER_REFUS_MOCK: Usager = {
   numeroDistribution: null,
   decision: {
@@ -25,6 +26,7 @@ export const USAGER_REFUS_MOCK: Usager = {
     recommandeIn: 0,
     dateInteraction: new Date("2020-12-01T14:11:28.167Z"),
   },
+  nationalite: null,
   options: {
     transfert: {
       actif: false,

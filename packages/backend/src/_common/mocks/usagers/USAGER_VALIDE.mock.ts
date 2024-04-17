@@ -1,4 +1,4 @@
-import { Usager } from "../../model";
+import { Usager } from "@domifa/common";
 
 export const USAGER_VALIDE_MOCK: Usager = {
   numeroDistribution: "",
@@ -6,6 +6,7 @@ export const USAGER_VALIDE_MOCK: Usager = {
   ref: 6,
   customRef: "6",
   structureId: 1,
+  nationalite: null,
   nom: "NOUVEAU",
   prenom: "DOSSIER",
   surnom: "TEST",

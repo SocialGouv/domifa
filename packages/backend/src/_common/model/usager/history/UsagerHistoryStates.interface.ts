@@ -4,6 +4,7 @@ import {
   UsagerDecision,
   UsagerEntretien,
   UsagerRdv,
+  UsagerSexe,
   UsagerTypeDom,
 } from "@domifa/common";
 
@@ -16,6 +17,8 @@ export interface UsagerHistoryStates extends AppEntity {
   migrated: boolean;
   etapeDemande: number;
   typeDom: UsagerTypeDom;
+  sexe?: UsagerSexe;
+  dateNaissance?: Date;
   ayantsDroits: Partial<UsagerAyantDroit>[];
   decision: Partial<UsagerDecision>;
   entretien: Partial<UsagerEntretien>;

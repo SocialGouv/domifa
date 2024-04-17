@@ -32,7 +32,6 @@ export class AppSentryInterceptor implements NestInterceptor {
               logContext.user = logSentryUser(user);
             }
             if (req?.body) {
-              console.log(req.body);
               logContext.payload = req.body;
             }
           } else {

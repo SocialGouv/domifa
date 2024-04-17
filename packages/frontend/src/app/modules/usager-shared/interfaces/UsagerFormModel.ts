@@ -71,6 +71,7 @@ export class UsagerFormModel implements Usager {
   public entretien: Entretien;
   public historique: Decision[];
   public numeroDistribution: string | null;
+  public nationalite: string | null;
 
   public nbNotes?: number = 0;
 
@@ -92,6 +93,7 @@ export class UsagerFormModel implements Usager {
       : null;
 
     this.villeNaissance = usager?.villeNaissance || "";
+    this.nationalite = usager?.nationalite || "";
     this.email = usager?.email || "";
     this.telephone = (usager?.telephone as Telephone) || {
       countryCode: CountryISO.France,

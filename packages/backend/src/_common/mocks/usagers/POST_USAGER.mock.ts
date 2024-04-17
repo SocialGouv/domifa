@@ -27,8 +27,10 @@ export const POST_USAGER: {
     sexe: "homme",
     surnom: "Surnom ",
     villeNaissance: "Monaco",
+    nationalite: null,
   },
   response: {
+    nationalite: null,
     numeroDistribution: null,
     uuid: null,
     pinnedNote: null,
