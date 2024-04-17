@@ -97,6 +97,7 @@ describe("EtatCivilParentFormComponent", () => {
       contactByPhone: true,
       customRef: null,
       dateNaissance: new Date("2022-08-03T21:59:59.999Z"),
+      nationalite: null,
       email: null,
       langue: "ar",
       numeroDistribution: "TSA 1000",
