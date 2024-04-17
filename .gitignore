@@ -21,3 +21,8 @@ Thumbs.db
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Local anonymizer
+.anonymizer/tmp 
+.anonymizer/config.local.yaml
+.anonymizer/greenmask
