@@ -232,7 +232,13 @@
         liste des propositions
       </p>
     </div>
-
+    <div class="col-md-4 col-12 form-group">
+      <app-input-nationality
+        [parentFormGroup]="usagerForm"
+        [usager]="usager"
+        [submitted]="submitted"
+      ></app-input-nationality>
+    </div>
     <div class="col-md-4 col-12 form-group">
       <label for="customRef">Identifiant personnalisé</label>
       <input

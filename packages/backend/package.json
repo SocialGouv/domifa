@@ -82,6 +82,7 @@
     "fs-extra": "^11.1.1",
     "google-libphonenumber": "^3.2.33",
     "ics": "^2.41.0",
+    "iso-3166": "^4.3.0",
     "lodash.isequal": "^4.5.0",
     "mammoth": "^1.4.17",
     "moment": "^2.29.4",

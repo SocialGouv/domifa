@@ -28,6 +28,7 @@ export type Usager = AppEntity & {
   dateNaissance: Date;
   villeNaissance: string;
   langue: string | null;
+  nationalite: string | null;
 
   // CONTACT
   email: string | null;

@@ -9,7 +9,6 @@ import {
   OneToOne,
   Unique,
 } from "typeorm";
-import { Usager } from "../../../_common/model";
 
 import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
@@ -26,6 +25,7 @@ import {
   UsagerOptions,
   Telephone,
   UsagerNote,
+  Usager,
 } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
@@ -77,12 +77,14 @@ export class UsagerTable
   public langue!: string | null;
 
   @Column({ type: "text", nullable: true })
+  public nationalite!: string | null;
+
+  @Column({ type: "text", nullable: true })
   public email!: string | null;
 
   @Column({
     type: "jsonb",
     nullable: false,
-    default: '{"countryCode":"fr", "numero":""}',
   })
   public telephone: Telephone;
 

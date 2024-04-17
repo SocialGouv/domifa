@@ -129,6 +129,7 @@ export function buildCustomDoc({
     ),
 
     USAGER_LIEU_NAISSANCE: ucFirst(usager.villeNaissance),
+    NATIONALITE: ucFirst(usager?.nationalite),
 
     // CONTACT USAGER
     USAGER_PHONE: getPhoneString(usager.telephone),

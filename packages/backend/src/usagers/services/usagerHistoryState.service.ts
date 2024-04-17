@@ -1,7 +1,7 @@
 import { UsagerHistoryStates } from "./../../_common/model/usager/history/UsagerHistoryStates.interface";
-import { UsagerDecision, UsagerEntretien } from "@domifa/common";
+import { Usager, UsagerDecision, UsagerEntretien } from "@domifa/common";
 import { Injectable } from "@nestjs/common";
-import { Usager, UsagerHistoryStateCreationEvent } from "../../_common/model";
+import { UsagerHistoryStateCreationEvent } from "../../_common/model";
 import {
   getDecisionForStats,
   getEntretienForStats,
@@ -109,7 +109,7 @@ export class UsagerHistoryStateService {
     );
 
     const entretien: Partial<UsagerEntretien> = getEntretienForStats(
-      usager.entretien
+      usager?.entretien as UsagerEntretien
     );
 
     const ayantsDroits = getAyantsDroitForStats(usager?.ayantsDroits);
@@ -127,6 +127,9 @@ export class UsagerHistoryStateService {
       createdAt,
       createdEvent,
       isActive,
+      nationalite: usager.nationalite,
+      sexe: usager.sexe,
+      dateNaissance: usager.dateNaissance,
       historyBeginDate: getHistoryBeginDate(historyBeginDate ?? createdAt),
       historyEndDate: undefined,
       decision,

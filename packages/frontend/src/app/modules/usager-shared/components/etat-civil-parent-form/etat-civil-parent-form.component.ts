@@ -13,6 +13,7 @@ import {
   Validators,
   UntypedFormControl,
   UntypedFormBuilder,
+  ValidationErrors,
 } from "@angular/forms";
 import {
   NgbDateParserFormatter,
@@ -57,6 +58,7 @@ import {
   setFormPhone,
 } from "../../../shared/phone";
 import { LIEN_PARENTE_LABELS, UsagerAyantDroit } from "@domifa/common";
+import { COUNTRIES } from "@domifa/common";
 
 @Component({
   selector: "app-etat-civil-parent-form",
@@ -138,6 +140,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
         [Validators.required],
       ],
       customRef: [this.usager.customRef, []],
+      nationalite: [this.usager.nationalite, [this.countryValidator]],
       email: [this.usager.email, [EmailValidator]],
       nom: [this.usager.nom, [Validators.required, NoWhiteSpaceValidator]],
       numeroDistribution: [this.usager.numeroDistribution],
@@ -267,6 +270,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
       nom: formValue?.nom.trim(),
       prenom: formValue?.prenom.trim(),
       surnom: formValue?.surnom || null,
+      nationalite: formValue?.nationalite || null,
       villeNaissance: formValue?.villeNaissance,
       langue: formValue?.langue || null,
       customRef: formValue?.customRef || null,
@@ -292,4 +296,18 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   public ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
+  public countryValidator = (
+    control: AbstractControl
+  ): ValidationErrors | null => {
+    if (!control?.value) {
+      return null;
+    }
+    const value = control?.value.toString().trim();
+    const isWhitespace = value.length === 0;
+    const isValid = !isWhitespace;
+    return isValid && Object.values(COUNTRIES).includes(value)
+      ? null
+      : { wrongCountry: true };
+  };
 }

@@ -11,6 +11,7 @@ import {
   UsagerAyantDroit,
   UsagerDecision,
   UsagerEntretien,
+  UsagerSexe,
   UsagerTypeDom,
 } from "@domifa/common";
 
@@ -43,6 +44,14 @@ export class UsagerHistoryStatesTable
 
   @Column({ type: "jsonb", nullable: false })
   decision: Partial<UsagerDecision>;
+
+  @Column({ type: "text", nullable: true })
+  sexe: UsagerSexe;
+  @Column({ type: "text", nullable: true })
+  nationalite: string;
+
+  @Column({ type: "timestamptz", nullable: true })
+  dateNaissance: Date;
 
   @Column({ type: "jsonb", nullable: false })
   entretien: Partial<UsagerEntretien>;

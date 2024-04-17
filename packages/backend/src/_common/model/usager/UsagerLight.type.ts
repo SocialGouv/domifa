@@ -15,6 +15,7 @@ export type UsagerLight = AppEntity &
     | "numeroDistribution"
     | "sexe"
     | "dateNaissance"
+    | "nationalite"
     | "email"
     | "decision"
     | "typeDom"

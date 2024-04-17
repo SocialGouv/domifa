@@ -118,8 +118,7 @@
               Le prénom est obligatoire
             </p>
           </div>
-        </div>
-        <div class="row">
+
           <div class="col-md-6 col-12 form-group">
             <label for="surnom">Nom d'usage / Surnom</label>
             <input
@@ -132,42 +131,8 @@
               name="surnom"
             />
           </div>
-          <div class="col-md-6 col-12 form-group">
-            <label for="langue">Langue parlée</label>
-            <input
-              id="langue"
-              type="text"
-              class="form-control"
-              formControlName="langue"
-              name="langue"
-              [attr.aria-describedby]="
-                (f.langue.dirty || submitted) && f.langue.errors
-                  ? 'langue-errors'
-                  : 'langue-description'
-              "
-              [attr.aria-invalid]="
-                (f.langue.dirty || submitted) && f.langue.errors ? true : false
-              "
-              [ngClass]="{
-                'is-invalid': (f.langue.dirty || submitted) && f.langue.errors
-              }"
-              [ngbTypeahead]="languagesAutocompleteSearch"
-              [resultFormatter]="languagesAutocomplete.formatter"
-              [inputFormatter]="languagesAutocomplete.formatter"
-            />
-            <small id="langue-description"
-              >Saisissez la langue, puis choisissez un élément dans la liste.
-            </small>
-            <p
-              id="langue-errors"
-              *ngIf="f.langue.touched && f.langue.errors"
-              class="invalid-feedback"
-            >
-              La langue saisie est invalide. Veuillez sélectionner une langue
-              dans la liste des propositions
-            </p>
-          </div>
         </div>
+
         <div class="row">
           <div class="col-md-6 col-12 form-group required">
             <label for="dateNaissance">Date de naissance</label>
@@ -268,6 +233,50 @@
                 La ville de naissance est obligatoire
               </p>
             </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-12 form-group">
+            <label for="langue">Langue parlée</label>
+            <input
+              id="langue"
+              type="text"
+              class="form-control"
+              formControlName="langue"
+              name="langue"
+              [attr.aria-describedby]="
+                (f.langue.dirty || submitted) && f.langue.errors
+                  ? 'langue-errors'
+                  : 'langue-description'
+              "
+              [attr.aria-invalid]="
+                (f.langue.dirty || submitted) && f.langue.errors ? true : false
+              "
+              [ngClass]="{
+                'is-invalid': (f.langue.dirty || submitted) && f.langue.errors
+              }"
+              [ngbTypeahead]="languagesAutocompleteSearch"
+              [resultFormatter]="languagesAutocomplete.formatter"
+              [inputFormatter]="languagesAutocomplete.formatter"
+            />
+            <small id="langue-description"
+              >Saisissez la langue, puis choisissez un élément dans la liste.
+            </small>
+            <p
+              id="langue-errors"
+              *ngIf="f.langue.touched && f.langue.errors"
+              class="invalid-feedback"
+            >
+              La langue saisie est invalide. Veuillez sélectionner une langue
+              dans la liste des propositions
+            </p>
+          </div>
+          <div class="col-md-6 col-12 form-group">
+            <app-input-nationality
+              [parentFormGroup]="usagerForm"
+              [submitted]="submitted"
+              [usager]="usager"
+            ></app-input-nationality>
           </div>
         </div>
         <fieldset>

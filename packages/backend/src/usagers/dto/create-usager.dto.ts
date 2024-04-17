@@ -24,6 +24,7 @@ import {
 } from "../../_common/decorators";
 import { Telephone, UsagerAyantDroit, UsagerSexe } from "@domifa/common";
 import { IsValidPhone } from "../../_common/decorators/IsValidPhoneDecorator";
+import { COUNTRIES } from "@domifa/common";
 
 export class CreateUsagerDto {
   @ApiProperty({
@@ -96,6 +97,16 @@ export class CreateUsagerDto {
   @IsString()
   @StripTagsTransform()
   public langue!: string | null;
+
+  @ApiProperty({
+    example: "Congo",
+    required: false,
+    description: "Nationalité",
+  })
+  @IsOptional()
+  @IsString()
+  @IsIn(Object.values(COUNTRIES))
+  public nationalite!: string | null;
 
   @ApiProperty({
     example: "2020-1",

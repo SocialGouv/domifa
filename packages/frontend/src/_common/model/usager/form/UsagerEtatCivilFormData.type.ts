@@ -13,6 +13,7 @@ export type UsagerEtatCivilFormData = {
   customRef: string;
   numeroDistribution: string | null;
   email: string;
+  nationalite: string | null;
   telephone: Telephone;
   contactByPhone: boolean;
   ayantsDroits: UsagerAyantDroit[];

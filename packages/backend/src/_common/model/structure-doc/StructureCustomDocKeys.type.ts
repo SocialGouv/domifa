@@ -34,6 +34,7 @@ export type StructureCustomDocKeys =
   | "USAGER_EMAIL"
   | "USAGER_NUMERO_DISTRIBUTION_SPECIALE"
   | "AYANTS_DROITS_LISTE"
+  | "NATIONALITE"
   //
   | "STATUT_DOM"
   | "TYPE_DOM"
