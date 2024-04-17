@@ -268,6 +268,9 @@ async function createTables(queryRunner: QueryRunner) {
       migrated bool DEFAULT false NOT NULL,
       "typeDom" text DEFAULT 'PREMIERE_DOM'::text NULL,
       "etapeDemande" int4 DEFAULT 0 NOT NULL,
+      nationalite text NULL,
+      sexe text NULL,
+      "dateNaissance" timestamptz NULL,
       CONSTRAINT "PK_c1bd0d42891df5715d2ef8474d7" PRIMARY KEY (uuid)
     );
     CREATE INDEX "IDX_78061fee381f67924d9a659dc6" ON public.usager_history_states USING btree ("isActive");
@@ -393,10 +396,11 @@ async function createTables(queryRunner: QueryRunner) {
       "options" jsonb NOT NULL,
       "import" jsonb NULL,
       migrated bool DEFAULT false NOT NULL,
-      telephone jsonb DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb NOT NULL,
+      telephone jsonb NOT NULL,
       "contactByPhone" bool DEFAULT false NULL,
       "numeroDistribution" text NULL,
       "pinnedNote" jsonb NULL,
+      nationalite text NULL,
       CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_e76056fb098740de66d58a5055a" UNIQUE ("structureId", ref),
       CONSTRAINT "FK_a44d882d224e368efdee8eb8c80" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
@@ -481,6 +485,7 @@ async function createTables(queryRunner: QueryRunner) {
     );
     CREATE INDEX "IDX_6193a732dd00abc56e91e92fe4" ON public.usager_entretien USING btree ("structureId");
     CREATE INDEX "IDX_aa19c17fc79f4e4a648643096f" ON public.usager_entretien USING btree ("usagerUUID");
+
 
     -- public.usager_notes definition
 
