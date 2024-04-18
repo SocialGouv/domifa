@@ -23,7 +23,6 @@ import { structureDocRepository } from "../../database";
 import {
   StructureDoc,
   StructureDocTypesAvailable,
-  Usager,
   UserStructureAuthenticated,
 } from "../../_common/model";
 import {
@@ -36,6 +35,7 @@ import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { join } from "path";
 import { cleanPath } from "../../util";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
+import { Usager } from "@domifa/common";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("usagers-structure-docs")

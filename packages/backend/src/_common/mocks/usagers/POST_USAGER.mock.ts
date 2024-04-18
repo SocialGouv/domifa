@@ -1,4 +1,4 @@
-import { Usager } from "../../model/usager/Usager.type";
+import { Usager } from "@domifa/common";
 import { CreateUsagerDto } from "../../../usagers/dto";
 
 // Test OK 1

@@ -1,7 +1,6 @@
 import { fakerFR as faker } from "@faker-js/faker";
 
 import { appLogger } from "../../../../util";
-import { Usager } from "../../../../_common/model";
 import {
   usagerDocsRepository,
   usagerEntretienRepository,
@@ -15,6 +14,7 @@ import {
   UsagerAyantDroit,
   UsagerDecision,
   UsagerOptions,
+  Usager,
 } from "@domifa/common";
 import { myDataSource } from "../../_postgres";
 

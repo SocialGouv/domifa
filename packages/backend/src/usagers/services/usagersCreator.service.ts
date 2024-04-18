@@ -1,5 +1,5 @@
+import { Usager } from "@domifa/common";
 import { usagerRepository } from "../../database";
-import { Usager } from "../../_common/model";
 
 export const usagersCreator = { findNextUsagerRef, setUsagerDefaultAttributes };
 async function findNextUsagerRef(structureId: number): Promise<number> {

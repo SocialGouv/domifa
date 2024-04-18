@@ -37,7 +37,6 @@ import { userUsagerCreator, userUsagerUpdator } from "../../users/services";
 import { appLogger, cleanPath } from "../../util";
 import { dataCompare } from "../../util/dataCompare.service";
 import {
-  Usager,
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
 } from "../../_common/model";
@@ -58,7 +57,7 @@ import pdftk = require("node-pdftk");
 import { join, resolve } from "path";
 import { readFile } from "fs-extra";
 import { ExpressResponse } from "../../util/express";
-import { ETAPE_DOCUMENTS, CerfaDocType } from "@domifa/common";
+import { Usager, ETAPE_DOCUMENTS, CerfaDocType } from "@domifa/common";
 import { UsagerHistoryStateService } from "../services/usagerHistoryState.service";
 import { domifaConfig } from "../../config";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";

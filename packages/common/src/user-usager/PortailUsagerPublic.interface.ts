@@ -22,7 +22,8 @@ export interface PortailUsagerPublic extends AppEntity {
   dateNaissance: Date;
   villeNaissance: string;
 
-  email: string | null;
+  email?: string | null;
+  nationalite?: string | null;
   telephone: Telephone;
   contactByPhone: boolean;
 

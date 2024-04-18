@@ -72,6 +72,8 @@ export const USAGER_ACTIF_MOCK: UsagerLight = {
     revenus: false,
     orientation: true,
     orientationDetail: "Test orientation",
+    situationProDetail: null,
+
     raison: "PRESTATIONS_SOCIALES",
     liencommune: "SOCIAL",
     liencommuneDetail: "Suivi social",

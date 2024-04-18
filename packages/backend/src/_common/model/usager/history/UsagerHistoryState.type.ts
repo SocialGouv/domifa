@@ -3,8 +3,8 @@ import {
   UsagerEntretien,
   UsagerAyantDroit,
   UsagerRdv,
+  Usager,
 } from "@domifa/common";
-import { Usager } from "../Usager.type";
 import { UsagerHistoryStateCreationEvent } from "./UsagerHistoryStateCreationEvent.type";
 
 // état d'un usager pendant une période, change à chaque modification (décision, entretien, ayants droits)

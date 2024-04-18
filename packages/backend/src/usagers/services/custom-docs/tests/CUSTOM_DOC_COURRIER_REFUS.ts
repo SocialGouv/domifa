@@ -44,6 +44,7 @@ export const CUSTOM_DOC_COURRIER_REFUS: StructureCustomDocTags = {
   ENTRETIEN_LIEN_COMMUNE: "SOCIAL",
   ENTRETIEN_COMPOSITION_MENAGE: "Couple avec enfant(s)",
   ENTRETIEN_SITUATION_RESIDENTIELLE: "Domicile mobile (ex: caravane)",
+  NATIONALITE: "",
   ENTRETIEN_ACCOMPAGNEMENT: "NON",
   ENTRETIEN_CAUSE_INSTABILITE: "Expulsion",
   ENTRETIEN_RAISON_DEMANDE: "Accès aux prestations sociales",

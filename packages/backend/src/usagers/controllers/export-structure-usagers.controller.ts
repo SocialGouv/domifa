@@ -12,17 +12,16 @@ import {
   structureUsagersExporter,
 } from "../../excel/export-structure-usagers";
 
-import {
-  Usager,
-  UserStructure,
-  UserStructureAuthenticated,
-} from "../../_common/model";
+import { UserStructure, UserStructureAuthenticated } from "../../_common/model";
 import { expressResponseExcelRenderer } from "../../util";
 import { UsagersService } from "../services/usagers.service";
 
 import { format } from "date-fns";
 import { userUsagerLoginRepository } from "../../database";
-import { StructureStatsQuestionsInPeriodInteractions } from "@domifa/common";
+import {
+  StructureStatsQuestionsInPeriodInteractions,
+  Usager,
+} from "@domifa/common";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("export")

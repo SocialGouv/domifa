@@ -45,6 +45,7 @@ export const CUSTOM_DOC_ATTESTATION_POSTALE: StructureCustomDocTags = {
   ENTRETIEN_LIEN_COMMUNE: "",
   ENTRETIEN_COMPOSITION_MENAGE: "Femme isolée avec enfant(s)",
   ENTRETIEN_SITUATION_RESIDENTIELLE: "Hébergé chez un tiers",
+  NATIONALITE: "",
   ENTRETIEN_ACCOMPAGNEMENT: "NON",
   ENTRETIEN_CAUSE_INSTABILITE: "Violence familiale et/ou conjugale",
   ENTRETIEN_RAISON_DEMANDE: "Exercice des droits civils ou civiques",

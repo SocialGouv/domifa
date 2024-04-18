@@ -8,7 +8,11 @@ import {
   UsagerEntretienSituationPro,
 } from "@domifa/common";
 
-export class Entretien implements Partial<UsagerEntretien> {
+export class Entretien implements UsagerEntretien {
+  usagerUUID: string;
+  structureId: number;
+  usagerRef: number;
+
   public domiciliation: boolean | null;
   public commentaires: string | null;
   public typeMenage: UsagerEntretienTypeMenage | null;

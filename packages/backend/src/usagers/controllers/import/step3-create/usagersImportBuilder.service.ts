@@ -1,6 +1,6 @@
 import { setHours } from "date-fns";
 
-import { Usager, UserStructure } from "../../../../_common/model";
+import { UserStructure } from "../../../../_common/model";
 import { v4 as uuidv4 } from "uuid";
 
 import { UsagersImportUsager } from "../step2-validate-row/schema";
@@ -10,6 +10,7 @@ import {
   ETAPE_DOSSIER_COMPLET,
   UsagerAyantDroit,
   UsagerDecision,
+  Usager,
 } from "@domifa/common";
 
 export const usagersImportBuilder = {

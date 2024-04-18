@@ -1,5 +1,5 @@
+import { Usager } from "@domifa/common";
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
-import { Usager } from "../../_common/model";
 
 export const CurrentUsager = createParamDecorator(
   (_data: unknown, ctx: ExecutionContext) => {

@@ -25,12 +25,12 @@ import {
 import { usagerAppointmentCreatedEmailSender } from "../../mails/services/templates-renderers";
 import { ExpressResponse } from "../../util/express";
 import {
-  Usager,
   UserStructureAuthenticated,
   UserStructureProfile,
 } from "../../_common/model";
 import { RdvDto } from "../dto/rdv.dto";
 import { UsagersService } from "../services/usagers.service";
+import { Usager } from "@domifa/common";
 
 @ApiTags("agenda")
 @ApiBearerAuth()

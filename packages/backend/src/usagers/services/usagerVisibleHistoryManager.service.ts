@@ -1,5 +1,4 @@
-import { UsagerDecision } from "@domifa/common";
-import { Usager } from "../../_common/model";
+import { Usager, UsagerDecision } from "@domifa/common";
 
 export const usagerVisibleHistoryManager = {
   addDecisionToVisibleHistory,
