@@ -1,4 +1,4 @@
-import { Usager } from "../usager/Usager.type";
+import { Usager } from "@domifa/common";
 
 // PortailUsagerStructure: attributs publics (retournés au Portail Usager via UserStructureAuthenticated)
 export type PortailUsagerUsager = Pick<

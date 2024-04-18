@@ -1,5 +1,7 @@
-import { StructureStatsQuestionsInPeriodInteractions } from "@domifa/common";
-import { Usager } from "../../_common/model";
+import {
+  StructureStatsQuestionsInPeriodInteractions,
+  Usager,
+} from "@domifa/common";
 
 export type StructureUsagersExportModel = {
   exportDate: Date;

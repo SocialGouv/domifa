@@ -3,7 +3,6 @@ import { Injectable } from "@nestjs/common";
 import { v4 as uuidv4 } from "uuid";
 import { usagerRepository, UsagerTable } from "../../database";
 import {
-  Usager,
   UserStructure,
   UserStructureProfile,
   UserStructureAuthenticated,
@@ -23,6 +22,7 @@ import {
   ETAPE_ENTRETIEN,
   UsagerTypeDom,
   UsagerDecision,
+  Usager,
 } from "@domifa/common";
 import { UsagerHistoryStateService } from "./usagerHistoryState.service";
 

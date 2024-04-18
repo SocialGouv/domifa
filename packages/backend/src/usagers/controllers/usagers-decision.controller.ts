@@ -16,7 +16,7 @@ import { Response } from "express";
 
 import { usagerNotesRepository, usagerRepository } from "../../database";
 
-import { Usager, UserStructureAuthenticated } from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 import { CheckDuplicateUsagerRefDto, DecisionDto } from "../dto";
 import { UsagersService } from "../services";
 import {
@@ -32,6 +32,7 @@ import {
   USAGER_DECISION_STATUT_LABELS_PROFIL,
   UsagerDecision,
   UsagerNote,
+  Usager,
 } from "@domifa/common";
 import { format } from "date-fns";
 import { getLastInteractionOut } from "../../interactions/services/getLastInteractionDate.service";

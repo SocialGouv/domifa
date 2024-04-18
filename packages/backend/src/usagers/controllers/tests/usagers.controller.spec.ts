@@ -11,12 +11,12 @@ import { UsagersController } from "../usagers.controller";
 
 import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 import { POST_USAGER } from "../../../_common/mocks";
-import { Usager } from "../../../_common/model";
 import { TESTS_USERS_STRUCTURE } from "../../../_tests";
 import { InteractionsModule } from "../../../interactions/interactions.module";
 import { UsagersService, UsagerOptionsHistoryService } from "../../services";
 import { UsagerHistoryStateService } from "../../services/usagerHistoryState.service";
 import { FileManagerService } from "../../../util/file-manager/file-manager.service";
+import { Usager } from "@domifa/common";
 
 const ENDPOINT = "/usagers";
 

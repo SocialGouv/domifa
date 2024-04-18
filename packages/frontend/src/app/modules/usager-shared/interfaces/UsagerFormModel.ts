@@ -63,7 +63,10 @@ export class UsagerFormModel implements Usager {
   };
   public rdv: Rdv;
 
-  public pinnedNote: Partial<UsagerNote> | null;
+  public pinnedNote: Pick<
+    UsagerNote,
+    "usagerRef" | "createdAt" | "message" | "createdBy"
+  > | null;
 
   public email: string;
   public telephone: Telephone;

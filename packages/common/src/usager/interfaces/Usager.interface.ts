@@ -37,7 +37,7 @@ export interface Usager extends AppEntity {
 
   etapeDemande: number;
   rdv: UsagerRdv;
-  entretien: Partial<UsagerEntretien>;
+  entretien: UsagerEntretien;
 
   typeDom: UsagerTypeDom;
   datePremiereDom: Date;
@@ -50,10 +50,14 @@ export interface Usager extends AppEntity {
   options: UsagerOptions;
   numeroDistribution: string | null;
 
-  pinnedNote: Partial<UsagerNote> | null;
+  pinnedNote: Pick<
+    UsagerNote,
+    "createdAt" | "usagerRef" | "message" | "createdBy"
+  > | null;
 
   nbNotes?: number;
   statusInfos?: any;
   echeanceInfos?: any;
   rdvInfos?: any;
+  migrated?: boolean;
 }

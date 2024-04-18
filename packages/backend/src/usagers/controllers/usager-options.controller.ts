@@ -18,7 +18,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { Usager, UserStructureAuthenticated } from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 import { usagerOptionsHistoryRepository } from "../../database/services/usager/usagerOptionsHistoryRepository.service";
 import { AllowUserStructureRoles, CurrentUser } from "../../auth/decorators";
 import { TransfertDto, ProcurationDto } from "../dto";
@@ -29,6 +29,7 @@ import { isEqual } from "lodash";
 import sortObj = require("sort-object");
 import { usagerRepository } from "../../database";
 import {
+  Usager,
   UsagerOptionsHistoryAction,
   UsagerOptionsHistoryTypeEnum,
 } from "@domifa/common";

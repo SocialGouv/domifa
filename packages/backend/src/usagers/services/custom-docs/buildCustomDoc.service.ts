@@ -1,4 +1,4 @@
-import { Usager, StructureCustomDocTags } from "../../../_common/model";
+import { StructureCustomDocTags } from "../../../_common/model";
 
 import { format } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
@@ -18,6 +18,7 @@ import {
   ENTRETIEN_SITUATION_PRO,
   UsagerOptionsProcuration,
   TimeZone,
+  Usager,
 } from "@domifa/common";
 
 export const DATE_FORMAT = {

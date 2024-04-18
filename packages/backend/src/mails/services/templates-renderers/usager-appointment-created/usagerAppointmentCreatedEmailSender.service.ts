@@ -5,13 +5,13 @@ import {
   MessageEmailContent,
   MessageEmailIcalEvent,
 } from "../../../../database";
-import { Usager } from "../../../../_common/model";
 import {
   DOMIFA_DEFAULT_MAIL_CONFIG,
   mailRecipientsFilter,
   messageEmailSender,
 } from "../../_core";
 import { usagerAppointmentCreatedEmailRenderer } from "./usagerAppointmentCreatedEmailRenderer.service";
+import { Usager } from "@domifa/common";
 const messageEmailId = "usager-appointment-created";
 export const usagerAppointmentCreatedEmailSender = { sendMail };
 

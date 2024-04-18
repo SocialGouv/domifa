@@ -3,13 +3,10 @@ import { generateDateForCerfa } from ".";
 
 import { getPhoneString } from "../../../util/phone/phoneUtils.service";
 import { UserStructureAuthenticated } from "../../../_common/model";
-import {
-  DateCerfa,
-  Usager,
-  UsagerCerfaFields,
-} from "../../../_common/model/usager";
+import { DateCerfa, UsagerCerfaFields } from "../../../_common/model/usager";
 
 import {
+  Usager,
   CerfaDocType,
   UsagerAyantDroit,
   generateMotifLabel,

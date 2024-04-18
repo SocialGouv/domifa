@@ -7,11 +7,12 @@ import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../util/test";
-import { Usager, UserStructureAuthenticated } from "../_common/model";
+import { UserStructureAuthenticated } from "../_common/model";
 import { InteractionDto } from "./dto";
 import { InteractionsController } from "./interactions.controller";
 
 import { InteractionsModule } from "./interactions.module";
+import { Usager } from "@domifa/common";
 
 describe("Interactions Controller", () => {
   let controller: InteractionsController;

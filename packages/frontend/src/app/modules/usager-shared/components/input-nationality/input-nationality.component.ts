@@ -1,6 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { UntypedFormGroup } from "@angular/forms";
-import { COUNTRIES, Usager } from "@domifa/common";
+import { COUNTRIES } from "@domifa/common";
+import { UsagerFormModel } from "../../interfaces";
 
 @Component({
   selector: "app-input-nationality",
@@ -10,7 +11,7 @@ import { COUNTRIES, Usager } from "@domifa/common";
 export class InputNationalityComponent {
   @Input() public parentFormGroup!: UntypedFormGroup;
   @Input() public submitted!: boolean;
-  @Input() public usager!: Usager;
+  @Input() public usager!: UsagerFormModel;
 
   public readonly COUNTRIES = Object.values(COUNTRIES);
 

@@ -38,6 +38,7 @@ export class ImportCreatorService {
     const usagersToPersist = usagers.map((data) => {
       const usager = new UsagerTable({
         ...data,
+        entretien: undefined,
         uuid: uuidv4(), // generate manually to use reference in history table
       });
       usager.ref = nextRef++;

@@ -72,6 +72,7 @@ export const USAGER_REFUS_MOCK: UsagerLight = {
     revenus: false,
     orientation: true,
     orientationDetail: "Test orientation",
+    situationProDetail: null,
     raison: "PRESTATIONS_SOCIALES",
     liencommune: "SOCIAL",
     liencommuneDetail: "Suivi social",

@@ -8,7 +8,7 @@ import { CurrentUsager } from "../auth/decorators/current-usager.decorator";
 import { AppUserGuard } from "../auth/guards";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { messageSmsRepository } from "../database";
-import { Usager } from "../_common/model";
+import { Usager } from "@domifa/common";
 
 @Controller("sms")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)

@@ -25,7 +25,7 @@ import {
   InteractionsGuard,
 } from "../auth/guards";
 import { userUsagerLoginRepository } from "../database";
-import { UserStructureAuthenticated, Usager } from "../_common/model";
+import { UserStructureAuthenticated } from "../_common/model";
 import { InteractionDto } from "./dto";
 import {
   InteractionsDeletor,
@@ -37,7 +37,7 @@ import {
   PageOptionsDto,
   PageResultsDto,
 } from "../usagers/dto/pagination";
-import { CommonInteraction } from "@domifa/common";
+import { CommonInteraction, Usager } from "@domifa/common";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("interactions")

@@ -1,4 +1,3 @@
-import { Usager } from "./../../_common/model/usager/Usager.type";
 import { UsagerDocsTable } from "./../../database/entities/usager/UsagerDocsTable.typeorm";
 import { usagerDocsRepository } from "./../../database/services/usager/usagerDocsRepository.service";
 import {
@@ -49,6 +48,7 @@ import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 import { PassThrough, Readable } from "node:stream";
 import { join } from "node:path";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
+import { Usager } from "@domifa/common";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("docs")

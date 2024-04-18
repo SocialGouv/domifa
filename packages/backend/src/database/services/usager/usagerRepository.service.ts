@@ -3,9 +3,8 @@ import { USAGER_PORTAIL_ATTRIBUTES, myDataSource } from "..";
 import { UsagerTable } from "../../entities";
 import { joinSelectFields, pgRepository } from "../_postgres";
 
-import { Usager } from "../../../_common/model";
 import { getDateForMonthInterval } from "../../../stats/services";
-import { PortailUsagerPublic } from "@domifa/common";
+import { PortailUsagerPublic, Usager } from "@domifa/common";
 
 const baseRepository = pgRepository.get<UsagerTable, Usager>(UsagerTable);
 

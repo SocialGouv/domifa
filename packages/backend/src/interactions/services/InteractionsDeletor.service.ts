@@ -1,11 +1,11 @@
 import { Injectable, Inject, forwardRef } from "@nestjs/common";
 import { interactionRepository } from "../../database";
 import { MessageSmsService } from "../../sms/services/message-sms.service";
-import { Usager, UsagerLight } from "../../_common/model";
+import { UsagerLight } from "../../_common/model";
 import { interactionsCreator } from "./interactionsCreator.service";
 import { interactionsTypeManager } from "./interactionsTypeManager.service";
 import { getLastInteractionOut } from "./getLastInteractionDate.service";
-import { CommonInteraction, Structure } from "@domifa/common";
+import { Usager, CommonInteraction, Structure } from "@domifa/common";
 
 @Injectable()
 export class InteractionsDeletor {

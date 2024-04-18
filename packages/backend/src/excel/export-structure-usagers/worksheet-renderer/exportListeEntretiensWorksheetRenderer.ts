@@ -6,9 +6,8 @@ import {
   ENTRETIEN_RESIDENCE,
   ENTRETIEN_TYPE_MENAGE,
   ENTRETIEN_SITUATION_PRO,
+  Usager,
 } from "@domifa/common";
-
-import { Usager } from "../../../_common/model";
 
 import {
   WorksheetRenderer,
