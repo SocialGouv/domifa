@@ -44,6 +44,13 @@ function setUsagerDefaultAttributes(usager: Partial<Usager>): void {
     usager.rdv = null;
   }
 
+  if (!usager?.telephone) {
+    usager.telephone = {
+      countryCode: "fr",
+      numero: null,
+    };
+  }
+
   if (!usager.langue || usager.langue === "") {
     usager.langue = null;
   }
