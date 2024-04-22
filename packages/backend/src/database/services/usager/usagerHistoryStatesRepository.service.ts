@@ -50,14 +50,14 @@ async function getStructureStatsQuestionsAtDateValidUsagers({
       COUNT(DISTINCT uh."usagerUUID") AS v_u
       ,SUM(COALESCE(jsonb_array_length("uh"."ayantsDroits"), 0) ) AS v_ad
 
-      ,COUNT(DISTINCT uh."usagerUUID") FILTER ( WHERE u.sexe = 'homme') AS v_u_sexe_h
-      ,COUNT(DISTINCT uh."usagerUUID") FILTER ( WHERE u.sexe = 'femme') AS v_u_sexe_f
+      ,COUNT(DISTINCT uh."usagerUUID") FILTER ( WHERE uh.sexe = 'homme') AS v_u_sexe_h
+      ,COUNT(DISTINCT uh."usagerUUID") FILTER ( WHERE uh.sexe = 'femme') AS v_u_sexe_f
 
-      ,COUNT(DISTINCT uh."usagerUUID") FILTER ( WHERE u."typeDom" = 'PREMIERE_DOM') AS v_u_decision_valide_typedom_premiere
-      ,COUNT(DISTINCT uh."usagerUUID") FILTER ( WHERE u."typeDom" = 'RENOUVELLEMENT') AS v_u_decision_valide_typedom_renouvellement
+      ,COUNT(DISTINCT uh."usagerUUID") FILTER ( WHERE uh."typeDom" = 'PREMIERE_DOM') AS v_u_decision_valide_typedom_premiere
+      ,COUNT(DISTINCT uh."usagerUUID") FILTER ( WHERE uh."typeDom" = 'RENOUVELLEMENT') AS v_u_decision_valide_typedom_renouvellement
 
-      ,count(distinct uh."usagerUUID") filter (where date_part('year', age( $3, u."dateNaissance" at time zone 'utc')) :: int < 18) as v_u_age_mineur
-      ,count(distinct uh."usagerUUID") filter (where date_part('year', age( $3, u."dateNaissance" at time zone 'utc')) :: int >= 18) as v_u_age_majeur
+      ,count(distinct uh."usagerUUID") filter (where date_part('year', age( $3, uh."dateNaissance" at time zone 'utc')) :: int < 18) as v_u_age_mineur
+      ,count(distinct uh."usagerUUID") filter (where date_part('year', age( $3, uh."dateNaissance" at time zone 'utc')) :: int >= 18) as v_u_age_majeur
 
 
       ,count(distinct usager_tranche.uuid) filter ( where usager_tranche.tranche_age = 'T_0_17' ) as v_u_age_0_17
@@ -134,7 +134,6 @@ async function getStructureStatsQuestionsAtDateValidUsagers({
       ,count(distinct uh."usagerUUID") filter (where"entretien" -> 'situationPro' = 'null') as v_u_situation_pro_nr
 
       from "usager_history_states" uh inner join LatestEntries as le ON uh."uuid" = le."uuid"
-      inner JOIN usager u ON le."usagerUUID" = u.uuid
       INNER JOIN structure  on le."structureId" = structure."id"
       join (
         select
@@ -155,7 +154,7 @@ async function getStructureStatsQuestionsAtDateValidUsagers({
             ELSE 'T_75_PLUS' end as tranche_age
         from
           usager u2
-      ) as usager_tranche on usager_tranche.uuid = u.uuid
+      ) as usager_tranche on usager_tranche.uuid = uh."usagerUUID"
       left join lateral(
         select
           count(state_ayant_droit) filter (where date_part('year', age($3,(state_ayant_droit ->> 'dateNaissance') :: timestamptz at time zone 'utc')) :: int < 18) as count_mineur,
@@ -429,7 +428,6 @@ async function getStructureStatsQuestionsInPeriodDecisions({
   ,count('uuid') filter (where uh."decision"->>'statut' = 'REFUS' and uh."decision"->>'orientation' = 'other') as u_decision_refus_orientation_other
   ,count('uuid') filter (where uh."decision"->>'statut' = 'REFUS' and uh."decision"->>'orientation' is null) as u_decision_refus_motif_non_renseigne
   FROM "usager_history_states" "uh"
-  join usager  on uh."usagerUUID" = usager.uuid
   JOIN structure ON structure.id = uh."structureId"
   WHERE "createdEvent" = 'new-decision'
   AND uh."structureId"= $1

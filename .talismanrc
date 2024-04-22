@@ -3,12 +3,6 @@ fileignoreconfig:
   checksum: 97e562c0c49e2f562e3014369be5b07d3e1797df463c866bb60e36339ae0fda5
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
   checksum: 99239dc0626ef8f211573a6d22e9b5e7474c8454cd2738df6c5d1fa975832049
-- filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
-  checksum: 60ffa673d1470ea2cba422104ada3d6b5cb8316e9b454730a19973760790cc83
-version: ""
- checksum: 3e41acb89f5e42958d4521b2cda68e35d6df3ff1ed4ee0e5e53a4207b41a8aa1
-- filename: packages/backend/src/\_migrations/1702483465656-auto-migration.ts
-  checksum: 2dbc2450c1df10f68a54897946318976bf8163711f3143e0608ce6c0e7275447
 - filename: packages/backend/src/\_portail-usager/portail-usager-login/portail-usagers-login.controller.spec.ts
   checksum: 2e02fb9ee9e1324dfab89afeaf4357b6339df59376ea1191f44d394524d6efd8
 - filename: packages/backend/src/\_tests/\_core/constants/TESTS_USERS_STRUCTURE.mock.ts
@@ -36,7 +30,7 @@ version: ""
 - filename: packages/backend/src/excel/export-structure-usagers/worksheet-renderer/exportListeEntretiensWorksheetRenderer.ts
   checksum: 25d632ed3668fcc61130b9c6cd4b2a0f791013b14828160abeecd7927d93aa13
 - filename: packages/backend/src/excel/export-structure-usagers/worksheet-renderer/exportListeParticipantsWorksheetRenderer.ts
-  checksum: 49568176f12f3ac5d66bc17710bbbf70ff18eb57c29e3c4574e934cef136afa9
+  checksum: 551585c4deeca3fda37c4a0ee7fa57fc127006e1c667b0f4b5e177c8a8251d35
 - filename: packages/backend/src/interactions/services/InteractionsDeletor.service.spec.ts
   checksum: b66659fea19859e55afaf0ed47519f0804857e486b2ecc6b01d5ae96f1a86a0b
 - filename: packages/backend/src/interactions/services/interactionsCreator.service.spec.ts
@@ -92,7 +86,9 @@ version: ""
 - filename: yarn.lock
   checksum: 019719c371896426cd34ce43f8eb5bdf260917a6086afe210ad53540e4e60184
 version: "1.0"
- b04680c071a8098191859f5a67124df3d168478ee2f997a361595b7244d1f5f7
+b61b59e3ee952d84b098dd0fd75bc7cd4bc71ab3fa5
+  - filename: packages/portail-usagers/src/app/modules/usager-auth/usager-login/usager-login.component.ts
+    checksum: b04680c071a8098191859f5a67124df3d168478ee2f997a361595b7244d1f5f7
   - filename: yarn.lock
-    checksum: 61a7d493e8a74f6344119bde58169b2f50b67d15ba911d0f7cbc449a04ceaffc
+    checksum: 019719c371896426cd34ce43f8eb5bdf260917a6086afe210ad53540e4e60184
 version: "1.0"
