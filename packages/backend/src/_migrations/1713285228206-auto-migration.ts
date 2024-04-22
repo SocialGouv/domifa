@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { domifaConfig } from "../config";
 
-export class AutoMigration1713285228205 implements MigrationInterface {
-  name = "AutoMigration1713285228205";
+export class AutoMigration1713285228206 implements MigrationInterface {
+  name = "AutoMigration1713285228206";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     if (
