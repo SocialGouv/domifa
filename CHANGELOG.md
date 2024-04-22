@@ -1,3 +1,26 @@
+# [2.166.0](https://github.com/SocialGouv/domifa/compare/v2.165.6...v2.166.0) (2024-04-22)
+
+
+### Bug Fixes
+
+* **api:** fix unit tests ([395996a](https://github.com/SocialGouv/domifa/commit/395996a13d04425257d79640a0e696942034c74d))
+* **backend:** fix unit test ([5788ab5](https://github.com/SocialGouv/domifa/commit/5788ab5fe7fc6e85759c050ac8490f69ae28347f))
+* **ci:** fix deploy ([84e421b](https://github.com/SocialGouv/domifa/commit/84e421be476e2ec097bd9cde50408096589d2e25))
+* **dump:** fix test dump ([54470ca](https://github.com/SocialGouv/domifa/commit/54470ca532099c07af2f345003da22d299536e77))
+* **general:** fix mails and add new types ([704472e](https://github.com/SocialGouv/domifa/commit/704472eac07bc74e8054418f8de5c4bc57fcc509))
+* **general:** fix talisman ([9167a1f](https://github.com/SocialGouv/domifa/commit/9167a1fb8a774355f50771b8b782846dc6270cca))
+* **general:** update Usager type ([3f457b6](https://github.com/SocialGouv/domifa/commit/3f457b636a1437380ee2919c0ab4c687909e7bbe))
+* **stats:** update dumps ([61c2acd](https://github.com/SocialGouv/domifa/commit/61c2acd9eccf546a44961f5819dcf7f8754f778b))
+* **stats:** update stats & export ([858a620](https://github.com/SocialGouv/domifa/commit/858a62043b73947a0efbe074706a20dbd32207eb))
+* **tests:** fix unit tests ([f972b4a](https://github.com/SocialGouv/domifa/commit/f972b4a286ea2b2406a1093b0aeb46b0ac9976df))
+
+
+### Features
+
+* **decision:** add standby a decision ([62d91c4](https://github.com/SocialGouv/domifa/commit/62d91c44a6432eaeed507480eabb66b7a644a555))
+* **general:** add nationality ([27d6e48](https://github.com/SocialGouv/domifa/commit/27d6e487fc92b081ed19872e750ff7d29a12f27d))
+* **stats:** add new stats for 'raison de la demande' ([c3372f2](https://github.com/SocialGouv/domifa/commit/c3372f2b07caad8ef9b2d68fe985a5a9aa53a8ea))
+
 ## [2.165.6](https://github.com/SocialGouv/domifa/compare/v2.165.5...v2.165.6) (2024-04-15)
 
 
