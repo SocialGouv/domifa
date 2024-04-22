@@ -3211,10 +3211,10 @@ __metadata:
     date-fns: ^2.30.0
     eslint: ^8.57.0
     eslint-config-standard-with-typescript: ^42.0.0
-    eslint-plugin-import: ^2.29.0
-    eslint-plugin-jest: ^27.6.0
+    eslint-plugin-import: ^2.29.1
+    eslint-plugin-jest: ^27.9.0
     eslint-plugin-n: ^17.0.0
-    eslint-plugin-prettier: ^5.0.1
+    eslint-plugin-prettier: ^5.1.3
     eslint-plugin-promise: ^6.1.1
     jest: ^29.7.0
     license-check-and-add: ^4.0.5
@@ -3278,7 +3278,7 @@ __metadata:
     date-fns: ^2.30.0
     eslint: ^8.57.0
     eslint-config-standard-with-typescript: ^42.0.0
-    eslint-plugin-import: ^2.29.0
+    eslint-plugin-import: ^2.29.1
     eslint-plugin-n: ^17.0.0
     eslint-plugin-no-lookahead-lookbehind-regexp: ^0.3.0
     eslint-plugin-prettier: ^5.1.3
@@ -3419,7 +3419,7 @@ __metadata:
     date-fns: ^2.30.0
     eslint: ^8.57.0
     eslint-config-standard-with-typescript: ^42.0.0
-    eslint-plugin-import: ^2.29.0
+    eslint-plugin-import: ^2.29.1
     eslint-plugin-n: ^17.0.0
     eslint-plugin-no-lookahead-lookbehind-regexp: ^0.3.0
     eslint-plugin-prettier: ^5.1.3
@@ -10441,13 +10441,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"builtin-modules@npm:^3.3.0":
-  version: 3.3.0
-  resolution: "builtin-modules@npm:3.3.0"
-  checksum: db021755d7ed8be048f25668fe2117620861ef6703ea2c65ed2779c9e3636d5c3b82325bd912244293959ff3ae303afa3471f6a15bf5060c103e4cc3a839749d
-  languageName: node
-  linkType: hard
-
 "builtins@npm:^1.0.3":
   version: 1.0.3
   resolution: "builtins@npm:1.0.3"
@@ -13356,9 +13349,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "eslint-config-prettier@npm:9.0.0"
+"eslint-config-prettier@npm:^9.1.0":
+  version: 9.1.0
+  resolution: "eslint-config-prettier@npm:9.1.0"
   peerDependencies:
     eslint: ">=7.0.0"
   bin:
@@ -16191,15 +16184,6 @@ __metadata:
     call-bind: ^1.0.2
     has-tostringtag: ^1.0.0
   checksum: c03b23dbaacadc18940defb12c1c0e3aaece7553ef58b162a0f6bba0c2a7e1551b59f365b91e00d2dbac0522392d576ef322628cb1d036a0fe51eb466db67222
-  languageName: node
-  linkType: hard
-
-"is-builtin-module@npm:^3.2.1":
-  version: 3.2.1
-  resolution: "is-builtin-module@npm:3.2.1"
-  dependencies:
-    builtin-modules: ^3.3.0
-  checksum: e8f0ffc19a98240bda9c7ada84d846486365af88d14616e737d280d378695c8c448a621dcafc8332dbf0fcd0a17b0763b845400709963fa9151ddffece90ae88
   languageName: node
   linkType: hard
 
