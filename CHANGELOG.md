@@ -1,3 +1,10 @@
+## [2.166.3](https://github.com/SocialGouv/domifa/compare/v2.166.2...v2.166.3) (2024-04-22)
+
+
+### Bug Fixes
+
+* migration ([81a9d8a](https://github.com/SocialGouv/domifa/commit/81a9d8a9057d079bb7c145ccc11fe2e6be256d45))
+
 ## [2.166.2](https://github.com/SocialGouv/domifa/compare/v2.166.1...v2.166.2) (2024-04-22)
 
 
