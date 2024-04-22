@@ -1,7 +1,10 @@
 fileignoreconfig:
-- filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: 6309574f1ef3fad10dea971ccddbb63a3e683bab680f0528be331985b60bf618
-- filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
+- filename: packages/backend/package.json
+  checksum: 6e2190f08437ba56bf8a8234fae0e80913cbbd4dc9cfc3ce2a13b21843fbbffd
+- filename: yarn.lock
+  checksum: a4a11e9d9dfb5f62929135e01026b4e31a430c2b856dcc7845261b89db9e2e19
+version: ""
+l
   checksum: 0e5ae319352ebbb7f7c1b658d3124a1b5a6db90b5e8c2451d2ba275379761ba5
 version: ""
 packages/backend/src/\_portail-usager/portail-usager-login/portail-usagers-login.controller.spec.ts

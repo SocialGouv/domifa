@@ -7,7 +7,6 @@ export class AutoMigration1713285228205 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     if (
       domifaConfig().envId === "prod" ||
-      domifaConfig().envId === "preprod" ||
       domifaConfig().envId === "dev" ||
       domifaConfig().envId === "test"
     ) {
