@@ -1,3 +1,11 @@
+## [2.166.1](https://github.com/SocialGouv/domifa/compare/v2.166.0...v2.166.1) (2024-04-22)
+
+
+### Bug Fixes
+
+* yarn.lock ([1eefb32](https://github.com/SocialGouv/domifa/commit/1eefb3219d320c9e555499862fd08b173dea17d0))
+* **backend:** update migration ([a9171e5](https://github.com/SocialGouv/domifa/commit/a9171e57041d2a389e1fd5f87eb9cae5657d11d6))
+
 # [2.166.0](https://github.com/SocialGouv/domifa/compare/v2.165.6...v2.166.0) (2024-04-22)
 
 
