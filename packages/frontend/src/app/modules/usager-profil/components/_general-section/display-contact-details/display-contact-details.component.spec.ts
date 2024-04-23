@@ -7,7 +7,7 @@ import {
 } from "../../../../../../_common/mocks";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { NgxIntlTelInputModule } from "ngx-intl-tel-input-gg";
+import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 import { FormatInternationalPhoneNumberPipe } from "../../../../usager-shared/formatInternationalPhoneNumber.pipe";
 
 describe("DisplayContactDetailsComponent", () => {

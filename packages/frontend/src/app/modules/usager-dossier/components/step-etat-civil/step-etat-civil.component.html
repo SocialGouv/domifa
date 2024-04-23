@@ -319,10 +319,10 @@
                   [separateDialCode]="true"
                   [numberFormat]="PhoneNumberFormat.International"
                   inputId="telephone"
-                  name="telephone"
                   formControlName="telephone"
+                  name="telephone"
                   (countryChange)="updatePlaceHolder($event.iso2)"
-                  [selectedCountryISO]="f.telephone.value?.countryCode"
+                  [selectedCountryISO]="f.telephone?.value?.countryCode"
                 ></ngx-intl-tel-input>
                 <p
                   *ngIf="submitted && f.telephone.errors"

@@ -1,5 +1,5 @@
 import { TimeZone } from "@domifa/common";
-import { CountryISO } from "ngx-intl-tel-input-gg";
+import { CountryISO } from "@khazii/ngx-intl-tel-input";
 
 export const COUNTRY_CODES: { [key: string]: string } = {
   af: "93",

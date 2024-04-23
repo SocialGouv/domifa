@@ -71,6 +71,7 @@
           inputId="telephone"
           formControlName="telephone"
           name="telephone"
+          (countryChange)="updatePlaceHolder($event.iso2)"
           [selectedCountryISO]="f.telephone?.value?.countryCode"
         ></ngx-intl-tel-input>
 
