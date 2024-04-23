@@ -31,7 +31,7 @@ import {
   CountryISO,
   PhoneNumberFormat,
   SearchCountryField,
-} from "ngx-intl-tel-input-gg";
+} from "@khazii/ngx-intl-tel-input";
 
 import { Observable, Subscription } from "rxjs";
 import { PREFERRED_COUNTRIES, EmailValidator } from "../../../../shared";

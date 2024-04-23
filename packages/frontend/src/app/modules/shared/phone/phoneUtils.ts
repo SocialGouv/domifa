@@ -1,6 +1,6 @@
 /* eslint-disable id-denylist */
 import { PhoneNumberUtil } from "google-libphonenumber";
-import { ChangeData, CountryISO } from "ngx-intl-tel-input-gg";
+import { ChangeData, CountryISO } from "@khazii/ngx-intl-tel-input";
 import { Telephone } from "../../../../_common/model";
 
 export function getFormPhone(formValue: ChangeData): Telephone {

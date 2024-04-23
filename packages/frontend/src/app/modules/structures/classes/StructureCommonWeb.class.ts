@@ -1,6 +1,6 @@
 import { Telephone } from "../../../../_common/model";
 
-import { CountryISO } from "ngx-intl-tel-input-gg";
+import { CountryISO } from "@khazii/ngx-intl-tel-input";
 
 import {
   StructureType,

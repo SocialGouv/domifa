@@ -1,4 +1,4 @@
-import { CountryISO } from "ngx-intl-tel-input-gg";
+import { CountryISO } from "@khazii/ngx-intl-tel-input";
 import { UsagerLight } from "../model";
 import { ETAPE_DOSSIER_COMPLET } from "@domifa/common";
 

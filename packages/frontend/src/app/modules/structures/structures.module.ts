@@ -3,7 +3,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { NgxIntlTelInputModule } from "ngx-intl-tel-input-gg";
+import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";

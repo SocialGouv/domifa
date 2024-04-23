@@ -1,5 +1,5 @@
 /* eslint-disable id-denylist */
-import { CountryISO } from "ngx-intl-tel-input-gg";
+import { CountryISO } from "@khazii/ngx-intl-tel-input";
 import { setFormPhone } from "./phoneUtils";
 
 describe("Téléphones pour les formulaires", () => {

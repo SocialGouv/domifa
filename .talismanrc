@@ -1,6 +1,8 @@
 fileignoreconfig:
-- filename: packages/backend/package.json
-  checksum: 6e2190f08437ba56bf8a8234fae0e80913cbbd4dc9cfc3ce2a13b21843fbbffd
+- filename: yarn.lock
+  checksum: 49e6dff58e7069336eaf2f10aca870389685363b7bb2d99944e3096548afc71f
+version: ""
+3fbbffd
 - filename: yarn.lock
   checksum: a4a11e9d9dfb5f62929135e01026b4e31a430c2b856dcc7845261b89db9e2e19
 version: ""

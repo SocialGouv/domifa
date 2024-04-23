@@ -40,7 +40,7 @@ import { ProfilHistoriqueLoginPortailComponent } from "./components/_historiques
 import { SetNpaiComponent } from "./components/_general-section/set-npai/set-npai.component";
 
 import { DisplayContactDetailsComponent } from "./components/_general-section/display-contact-details/display-contact-details.component";
-import { NgxIntlTelInputModule } from "ngx-intl-tel-input-gg";
+import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 import { FormatInternationalPhoneNumberPipe } from "../usager-shared/formatInternationalPhoneNumber.pipe";
 
 @NgModule({
