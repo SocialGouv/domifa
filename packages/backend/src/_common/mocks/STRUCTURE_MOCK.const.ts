@@ -44,11 +44,4 @@ export const STRUCTURE_MOCK: StructureCommon = {
     enabledByDomifa: false,
     enabledByStructure: false,
   },
-  schedule: {
-    monday: false,
-    tuesday: false,
-    wednesday: false,
-    thursday: false,
-    friday: false,
-  },
 };
