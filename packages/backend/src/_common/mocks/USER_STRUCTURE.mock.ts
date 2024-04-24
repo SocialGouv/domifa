@@ -33,6 +33,13 @@ export const USER_STRUCTURE_MOCK = {
       senderDetails: "CCAS",
       enabledByDomifa: true,
       enabledByStructure: false,
+      schedule: {
+        monday: false,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+      },
     },
     portailUsager: {
       enabledByDomifa: false,

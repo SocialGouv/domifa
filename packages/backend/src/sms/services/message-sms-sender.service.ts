@@ -9,6 +9,9 @@ import {
 } from "../../_common/model/message-sms";
 import { AxiosError } from "@nestjs/terminus/dist/errors/axios.error";
 import { MessageSms } from "@domifa/common";
+import { phoneUtil } from "../../util/phone";
+import { appLogger } from "../../util";
+import { captureMessage } from "@sentry/node";
 
 @Injectable()
 export class MessageSmsSenderService {
@@ -21,7 +24,29 @@ export class MessageSmsSenderService {
     structureId: number;
     uuid: string;
     errorCount: number;
-  }): Promise<MessageSms> {
+  }): Promise<void> {
+    const parsedValue = phoneUtil.parse(message.phoneNumber);
+
+    if (!phoneUtil.isValidNumber(parsedValue)) {
+      appLogger.warn("[SMS] phone number is invalid " + message.phoneNumber);
+      captureMessage(
+        `[SMS] [${domifaConfig().envId}] phone number is invalid ${
+          message.phoneNumber
+        }`
+      );
+      return;
+    } else if (phoneUtil.getNumberType(parsedValue) !== 1) {
+      appLogger.warn(
+        "[SMS] phone number is not a mobile phone " + message.phoneNumber
+      );
+      captureMessage(
+        `[SMS] [${domifaConfig().envId}]  phone number is not a mobile phone ${
+          message.phoneNumber
+        }`
+      );
+      return;
+    }
+
     const options: {
       key: string;
       message: string;
@@ -78,13 +103,8 @@ export class MessageSmsSenderService {
 
     await messageSmsRepository.update({ uuid: message.uuid }, updateSms);
 
-    const messageSms = await messageSmsRepository.findOneBy({
-      uuid: message.uuid,
-    });
-
     if (updateSms.status === "FAILURE") {
       throw new Error(`Sms error: ${updateSms.errorMessage}`);
     }
-    return messageSms;
   }
 }

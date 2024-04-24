@@ -81,11 +81,11 @@
               </div>
               <fieldset>
                 <div class="row align-items-center">
-                  <legend class="label col-12 col-md-8">
+                  <legend class="col-12 col-md-8">
                     Activer l'envoi de SMS pour les domiciliés
                   </legend>
                   <div class="col-md-4 col-12 text-center text-md-end">
-                    <div class="btn-group btn-group-toggle" role="group">
+                    <div class="btn-group btn-group-toggle">
                       <label
                         [ngClass]="
                           form.enabledByStructure.value === true
@@ -125,6 +125,7 @@
                   </div>
                 </div>
               </fieldset>
+              <br />
               <div class="row">
                 <div class="col-md-6 col-12 form-group required">
                   <label for="senderName">Expéditeur</label>
@@ -212,6 +213,71 @@
                   </p>
                 </div>
 
+                <!-- <div class="col-12 my-2">
+                  <fieldset>
+                    <legend class=" ">
+                      Quel jour souhaitez-vous envoyer les SMS (2 jours par
+                      semaine maximum)
+                    </legend>
+                    <div formGroupName="schedule">
+                      <label for="monday" class="form-check-label me-3">
+                        <input
+                          type="checkbox"
+                          formControlName="monday"
+                          id="monday"
+                          name="monday"
+                        />
+                        Lundi
+                      </label>
+                      <label for="tuesday" class="form-check-label me-3">
+                        <input
+                          type="checkbox"
+                          formControlName="tuesday"
+                          id="tuesday"
+                          name="tuesday"
+                        />
+                        Mardi
+                      </label>
+                      <label for="wednesday" class="form-check-label me-3">
+                        <input
+                          type="checkbox"
+                          formControlName="wednesday"
+                          id="wednesday"
+                          name="wednesday"
+                        />
+                        Mercredi
+                      </label>
+                      <label for="thursday" class="form-check-label me-3">
+                        <input
+                          type="checkbox"
+                          formControlName="thursday"
+                          id="thursday"
+                          name="thursday"
+                        />
+                        Jeudi
+                      </label>
+                      <label for="friday" class="form-check-label me-3">
+                        <input
+                          type="checkbox"
+                          formControlName="friday"
+                          id="friday"
+                          name="friday"
+                        />
+                        Vendredi
+                      </label>
+
+                      <p
+                        *ngIf="submitted || form.errors"
+                        class="invalid-feedback"
+                        id="sender-details-errors"
+                      >
+                        La signature du message est obligatoire (maximum 30
+                        caractères)
+                      </p>
+                    </div>
+                  </fieldset>
+                </div> -->
+
                 <div class="col-md-12 my-2 text-center">
                   <button
                     class="btn btn-primary"
@@ -234,7 +300,6 @@
                     >
                   </button>
                 </div>
-                <br />
               </div>
             </form>
           </div>
@@ -261,8 +326,7 @@
                 <br />
                 <br />
                 Votre domiciliation expire dans 2 mois, nous vous invitons à
-                prendre rendez-vous dans votre structure pour votre
-                renouvellement.
+                vous rendre dans votre structure.
                 <br />
                 <br />
                 <strong>{{ form.senderDetails.value }}</strong>

@@ -28,6 +28,13 @@ export const STRUCTURE_MOCK: StructureCommon = {
     enabledByStructure: false,
     senderDetails: "",
     senderName: "",
+    schedule: {
+      monday: false,
+      tuesday: false,
+      wednesday: false,
+      thursday: false,
+      friday: false,
+    },
   },
   organismeType: null,
   lastLogin: null,
@@ -36,5 +43,12 @@ export const STRUCTURE_MOCK: StructureCommon = {
     usagerLoginUpdateLastInteraction: false,
     enabledByDomifa: false,
     enabledByStructure: false,
+  },
+  schedule: {
+    monday: false,
+    tuesday: false,
+    wednesday: false,
+    thursday: false,
+    friday: false,
   },
 };

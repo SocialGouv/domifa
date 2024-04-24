@@ -112,6 +112,13 @@ async function createStructure(structureDto: StructureDto) {
     senderDetails: generateSender(createdStructure.nom),
     enabledByDomifa: true,
     enabledByStructure: false,
+    schedule: {
+      monday: false,
+      tuesday: false,
+      wednesday: false,
+      thursday: false,
+      friday: false,
+    },
   };
 
   let address = createdStructure.adresse;

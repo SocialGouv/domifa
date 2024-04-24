@@ -7,6 +7,8 @@ import {
 } from "@angular/core";
 import {
   AbstractControl,
+  FormControl,
+  FormGroup,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
@@ -84,29 +86,56 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
   }
 
   public initForm() {
-    this.structureSmsForm = this.formBuilder.group({
-      enabledByStructure: [
-        this.structure.sms.enabledByStructure,
-        [Validators.required],
-      ],
-      senderName: [
-        this.structure.sms.senderName,
-        [
-          Validators.required,
-          NoWhiteSpaceValidator,
-          Validators.maxLength(11),
-          Validators.pattern("^[a-zA-Z ]*$"),
+    this.structureSmsForm = this.formBuilder.group(
+      {
+        enabledByStructure: [
+          this.structure.sms.enabledByStructure,
+          [Validators.required],
         ],
-      ],
-      senderDetails: [
-        this.structure.sms.senderDetails,
-        [Validators.required, Validators.maxLength(30), NoWhiteSpaceValidator],
-      ],
-    });
+        senderName: [
+          this.structure.sms.senderName,
+          [
+            Validators.required,
+            NoWhiteSpaceValidator,
+            Validators.maxLength(11),
+            Validators.pattern("^[a-zA-Z ]*$"),
+          ],
+        ],
+        senderDetails: [
+          this.structure.sms.senderDetails,
+          [
+            Validators.required,
+            Validators.maxLength(30),
+            NoWhiteSpaceValidator,
+          ],
+        ],
+        schedule: new FormGroup({
+          monday: new FormControl(this.structure.sms.schedule.monday ?? false),
+          tuesday: new FormControl(
+            this.structure.sms.schedule.tuesday ?? false
+          ),
+          wednesday: new FormControl(
+            this.structure.sms.schedule.wednesday ?? false
+          ),
+          thursday: new FormControl(
+            this.structure.sms.schedule.thursday ?? false
+          ),
+          friday: new FormControl(this.structure.sms.schedule.friday ?? false),
+        }),
+      },
+      {
+        validators: this.validateMaxTwoDays,
+      }
+    );
   }
 
   public submitStructureSmsForm() {
     this.submitted = true;
+
+    if (this.structureSmsForm.errors?.moreThanTwoDays) {
+      this.toastService.error("Seul 2 jours d'envoi sont autorisés");
+      return;
+    }
 
     if (this.structureSmsForm.invalid) {
       this.toastService.error("Veuillez vérifier le formulaire");
@@ -152,4 +181,18 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
+  public validateMaxTwoDays: Validators = (
+    formGroup: UntypedFormGroup
+  ): { [key: string]: boolean } | null => {
+    let count = 0;
+
+    const schedule: FormGroup = formGroup.controls.schedule as UntypedFormGroup;
+    Object.values(schedule.controls).forEach((control: AbstractControl) => {
+      if (control.value) {
+        count++;
+      }
+    });
+    return count <= 2 ? null : { moreThanTwoDays: true };
+  };
 }

@@ -1,17 +1,12 @@
 fileignoreconfig:
-- filename: yarn.lock
-  checksum: 49e6dff58e7069336eaf2f10aca870389685363b7bb2d99944e3096548afc71f
+- filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
+  checksum: e70fc9f85f795378cd1e0b656bedcd415b8552b37e0bb949328d01a749b2ee50
+- filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
+  checksum: 6c89f0d5a46b05931b225f9dba4af3c4bf06aaa6d15a4b143dea5b814389504e
+- filename: packages/frontend/src/app/modules/structures/components/structures-sms-form/structures-sms-form.component.ts
+  checksum: ee514fa4f2e6cb814bf4a2d9888989bc1b4024bb560a18afb905877c8985f7e6
 version: ""
-3fbbffd
-- filename: yarn.lock
-  checksum: a4a11e9d9dfb5f62929135e01026b4e31a430c2b856dcc7845261b89db9e2e19
-version: ""
-l
-  checksum: 0e5ae319352ebbb7f7c1b658d3124a1b5a6db90b5e8c2451d2ba275379761ba5
-version: ""
-packages/backend/src/\_portail-usager/portail-usager-login/portail-usagers-login.controller.spec.ts
-  checksum: 2e02fb9ee9e1324dfab89afeaf4357b6339df59376ea1191f44d394524d6efd8
-- filename: packages/backend/src/\_tests/\_core/constants/TESTS_USERS_STRUCTURE.mock.ts
+backend/src/\_tests/\_core/constants/TESTS_USERS_STRUCTURE.mock.ts
   checksum: 7fd396491726fce9ed96ac175c3acdb9ae93ecac0d66e7c6fc5554c5deeceb6f
 - filename: packages/backend/src/\_tests/\_core/constants/TEST_USER_USAGER.mock.ts
   checksum: d48d45f595373ce56749cfe5b17dc6b09093d5ed9090617052652922b78b333d

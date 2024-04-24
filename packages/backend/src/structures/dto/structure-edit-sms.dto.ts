@@ -2,13 +2,18 @@ import {
   IsBoolean,
   IsEmpty,
   IsNotEmpty,
+  IsObject,
   IsString,
   Matches,
   MaxLength,
   MinLength,
   ValidateIf,
+  ValidateNested,
 } from "class-validator";
 import { TrimOrNullTransform } from "../../_common/decorators";
+import { StructureMessageSmsSchedule } from "@domifa/common";
+import { ScheduleDto } from "./schedule.dto";
+import { Type } from "class-transformer";
 
 export class StructureEditSmsDto {
   @IsEmpty()
@@ -33,4 +38,10 @@ export class StructureEditSmsDto {
   @IsString()
   @IsNotEmpty()
   public senderDetails: string;
+
+  @IsNotEmpty()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => ScheduleDto)
+  public schedule: StructureMessageSmsSchedule;
 }

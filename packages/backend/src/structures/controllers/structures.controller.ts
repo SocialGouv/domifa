@@ -135,6 +135,14 @@ export class StructuresController {
         .json({ message: "SMS_NOT_ENABLED_BY_DOMIFA" });
     }
 
+    const values = Object.values(structureSmsDto.schedule);
+    const checkedDaysCount = values.filter((value) => value === true).length;
+    if (checkedDaysCount > 2) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "CANNOT_SET_MORE_THAN_2_DAYS_FOR_SMS" });
+    }
+
     if (
       user.structure.sms.enabledByStructure !==
       structureSmsDto.enabledByStructure
