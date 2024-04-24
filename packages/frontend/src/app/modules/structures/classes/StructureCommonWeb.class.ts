@@ -53,6 +53,13 @@ export class StructureCommonWeb implements StructureCommon {
     enabledByStructure: false,
     senderName: "",
     senderDetails: "",
+    schedule: {
+      monday: false,
+      tuesday: false,
+      wednesday: false,
+      thursday: false,
+      friday: false,
+    },
   };
   public portailUsager: StructurePortailUsagerParams = {
     enabledByDomifa: false,

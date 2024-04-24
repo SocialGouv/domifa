@@ -36,6 +36,13 @@ export const STRUCTURE_MOCK: StructureCommon = {
     enabledByStructure: false,
     senderDetails: "",
     senderName: "",
+    schedule: {
+      monday: false,
+      tuesday: false,
+      wednesday: false,
+      thursday: false,
+      friday: false,
+    },
   },
   portailUsager: {
     usagerLoginUpdateLastInteraction: false,

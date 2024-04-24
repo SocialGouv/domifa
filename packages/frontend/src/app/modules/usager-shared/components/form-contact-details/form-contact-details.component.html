@@ -81,6 +81,17 @@
         >
           Numéro de téléphone incorrect, mobile uniquement (Ex: 0606060606)
         </p>
+        <p
+          *ngIf="
+            PREFERRED_COUNTRIES.indexOf(f.telephone?.value?.countryCode) ===
+              -1 &&
+            f.telephone?.value &&
+            f?.contactByPhone?.value === true
+          "
+          class="invalid-feedback-custom"
+        >
+          Attention: les SMS ne sont pas envoyés aux numéros étrangers
+        </p>
       </div>
     </div>
     <div class="col-md-4 col-12">
