@@ -30,9 +30,9 @@ export const STRUCTURE_MOCK: StructureCommon = {
     senderName: "",
     schedule: {
       monday: false,
-      tuesday: false,
+      tuesday: true,
       wednesday: false,
-      thursday: false,
+      thursday: true,
       friday: false,
     },
   },

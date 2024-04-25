@@ -11,7 +11,7 @@ export class ManualMigration1713990377445 implements MigrationInterface {
 
     appLogger.info("[MIGRATION] Ajout des jours pour les SMS");
     await queryRunner.query(
-      `UPDATE structure SET sms = jsonb_set(sms, '{schedule}', '{ "monday": false, "tuesday": false, "wednesday": false, "thursday": false, "friday": false }'::jsonb);`
+      `UPDATE structure SET sms = jsonb_set(sms, '{schedule}', '{ "monday": false, "tuesday": true, "wednesday": false, "thursday": true, "friday": false }'::jsonb);`
     );
   }
 

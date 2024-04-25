@@ -10,6 +10,7 @@ import { appLogger } from "../../../util";
 import { MessageSmsSenderService } from "../message-sms-sender.service";
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import { TimeZone } from "@domifa/common";
+import { format } from "date-fns";
 
 @Injectable()
 export class CronSmsInteractionSenderService {
@@ -110,6 +111,8 @@ export class CronSmsInteractionSenderService {
       `[CronSms] [sendSmsInteraction] Start sendSmsInteraction for ${timeZone} at ${new Date().toString()}`
     );
 
+    const day = format(new Date(), "EEEE").toLowerCase();
+
     const messagesToSend: {
       content: string;
       phoneNumber: string;
@@ -127,9 +130,12 @@ export class CronSmsInteractionSenderService {
       "senderName"
       FROM message_sms m
       join structure s on s.id = m."structureId"
-      WHERE m.status = 'TO_SEND' and m."smsId" != 'echeanceDeuxMois' and
-      (s.sms->>'enabledByDomifa')::boolean is true and (s.sms->>'enabledByStructure')::boolean is true AND s."timeZone"=$1`,
-      [timeZone]
+      WHERE m.status = 'TO_SEND' and m."smsId" != 'echeanceDeuxMois'
+      and (s.sms->>'enabledByDomifa')::boolean is true
+      and (s.sms->>'enabledByStructure')::boolean is true
+      AND s."timeZone"=$1
+      AND (jsonb_object_field_text(s.sms, $2)::boolean IS TRUE)`,
+      [timeZone, day]
     );
 
     if (!messagesToSend || messagesToSend.length === 0) {
