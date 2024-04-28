@@ -1,3 +1,18 @@
+# [2.167.0](https://github.com/SocialGouv/domifa/compare/v2.166.3...v2.167.0) (2024-04-28)
+
+
+### Bug Fixes
+
+* **backend:** fix unit test for phones ([d9ec90a](https://github.com/SocialGouv/domifa/commit/d9ec90a9c5608b2482e59ddb2147f0bdf1800c5b))
+* **backend:** test unit ([57059b8](https://github.com/SocialGouv/domifa/commit/57059b810e13fce9f632bb844f9fa276fa6b316f))
+* **frontend:** update phone library ([3c68616](https://github.com/SocialGouv/domifa/commit/3c686168f0a9e29f1af37d8811d106b32b108089))
+* **sms:** choose your day for sending SMS ([c113000](https://github.com/SocialGouv/domifa/commit/c113000a8cc193d464f53cbfb7fa6b7d0721d1d7))
+
+
+### Features
+
+* **sms:** delete invalid phone numbers ([0e911a3](https://github.com/SocialGouv/domifa/commit/0e911a3da69dac0a20642265c84e2c41715e2eb6))
+
 ## [2.166.3](https://github.com/SocialGouv/domifa/compare/v2.166.2...v2.166.3) (2024-04-22)
 
 
