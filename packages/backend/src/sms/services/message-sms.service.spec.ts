@@ -71,6 +71,13 @@ describe("MessageSmsService", () => {
         enabledByStructure: true,
         senderName: "DOMIFA",
         senderDetails: "La direction",
+        schedule: {
+          monday: false,
+          tuesday: true,
+          wednesday: false,
+          thursday: true,
+          friday: false,
+        },
       };
 
       // Mise à jour des informations pour les SMS
