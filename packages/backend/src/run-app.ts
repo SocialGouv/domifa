@@ -5,6 +5,7 @@ import { appLogger } from "./util";
 import { loadSoliguideData } from "./open-data-places/load-soliguide";
 import { loadDomifaData } from "./open-data-places/load-domifa";
 import { domifaConfig } from "./config";
+import { loadDataInclusionData } from "./open-data-places/load-data-inclusion";
 
 (async () => {
   appLogger.warn(`[${__filename}] Starting app...`);
@@ -17,10 +18,10 @@ import { domifaConfig } from "./config";
       server.setTimeout(1000 * 60 * 5);
       appLogger.warn(`[${__filename}] Application listening on port 3000`);
 
-      if (domifaConfig().envId === "local" && domifaConfig().cron.enable) {
+      if (domifaConfig().cron.enable) {
         await loadDomifaData();
         await loadSoliguideData();
-        // await loadDataInclusionData("CCAS");
+        await loadDataInclusionData("CCAS");
         // await loadDataInclusionData("CIAS");
       }
     } catch (error) {

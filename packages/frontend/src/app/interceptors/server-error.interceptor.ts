@@ -45,7 +45,10 @@ export class ServerErrorInterceptor implements HttpInterceptor {
           } else if (error.status === 404) {
             toastr.error("La page que vous recherchez n'existe pas");
             router.navigate(["404"]);
-          } else {
+          } else if (
+            error.statusText !== "Unknown Error" &&
+            error.status !== 0
+          ) {
             captureException(error);
           }
         }
