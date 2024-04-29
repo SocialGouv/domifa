@@ -213,7 +213,7 @@
                   </p>
                 </div>
 
-                <!-- <div class="col-12 my-2">
+                <div class="col-12 my-2">
                   <fieldset>
                     <legend class=" ">
                       Quel jour souhaitez-vous envoyer les SMS (2 jours par
@@ -267,16 +267,18 @@
                       </label>
 
                       <p
-                        *ngIf="submitted || form.errors"
+                        *ngIf="
+                          submitted || structureSmsForm?.errors?.moreThanTwoDays
+                        "
                         class="invalid-feedback"
                         id="sender-details-errors"
                       >
-                        La signature du message est obligatoire (maximum 30
-                        caractères)
+                        Vous devez sélectionner entre 1 et 2 jours de la semaine
+                        pour l'envoi de SMS
                       </p>
                     </div>
                   </fieldset>
-                </div> -->
+                </div>
 
                 <div class="col-md-12 my-2 text-center">
                   <button
@@ -325,8 +327,8 @@
                 Bonjour,
                 <br />
                 <br />
-                Votre domiciliation expire dans 2 mois, nous vous invitons à
-                vous rendre dans votre structure.
+                Votre domiciliation expire dans 2 mois, veuillez contacter votre
+                structure pour votre renouvellement.
                 <br />
                 <br />
                 <strong>{{ form.senderDetails.value }}</strong>

@@ -1,5 +1,39 @@
 [
   {
+    "date": "2024-04-29",
+    "description": "Des nouveautés dans les dossiers et les SMS",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Gestion des dossiers",
+        "message": [
+          "Il est possible d'ajourner un dossier et de l'accompagner d'un commentaire afin qu'il soit renvoyé au statut 'à compléter' pour finaliser son instruction."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Mise à jour de l'État-civil",
+        "message": [
+          "La nationalité des domiciliés peut être désormais renseignée dans leur État-civil."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Communication SMS",
+        "message": [
+          "Le texte sms de rappel d'échéance a été modifié afin d'inviter les domiciliés à prendre rendez-vous pour leur renouvellement."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Gestion des SMS",
+        "message": [
+          "Une mention précise que les sms ne seront pas envoyés sur les numéros étrangers. Aussi, les envois de sms pour les numéros saisis de manière non conformes ont été désactivés."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-03-25",
     "description": "Mise à jour des fonctionnalités sur le portail DomiFa",
     "content": [
@@ -18,7 +52,7 @@
         ]
       },
       {
-        "type": "improvement",
+        "type": "bug",
         "categorie": "Changement de design des boutons de gestion de masse",
         "message": [
           "Les boutons de gestion de masse 'Radier les domiciliés' et 'Supprimer les domiciliés' sont différenciés pour prévenir les erreurs de clics."
