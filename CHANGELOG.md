@@ -1,3 +1,10 @@
+## [2.167.1](https://github.com/SocialGouv/domifa/compare/v2.167.0...v2.167.1) (2024-04-29)
+
+
+### Bug Fixes
+
+* **frontend:** display selector of days ([fe5c8d7](https://github.com/SocialGouv/domifa/commit/fe5c8d70315e272c49f4cd4ced753c9185ea7ab7))
+
 # [2.167.0](https://github.com/SocialGouv/domifa/compare/v2.166.3...v2.167.0) (2024-04-28)
 
 
