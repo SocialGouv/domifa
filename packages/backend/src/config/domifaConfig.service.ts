@@ -264,7 +264,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           x,
           "DOMIFA_CRON_FETCH_END_DOM_CRONTIME",
           {
-            defaultValue: "0 18 * * * *",
+            defaultValue: "0 18 * * *",
           }
         ),
       },
