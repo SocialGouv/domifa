@@ -1,3 +1,10 @@
+## [2.167.2](https://github.com/SocialGouv/domifa/compare/v2.167.1...v2.167.2) (2024-05-06)
+
+
+### Bug Fixes
+
+* **sms:** fix sms schedule date ([fbec1bc](https://github.com/SocialGouv/domifa/commit/fbec1bcc9bfb5896ac252deb9a0e7987375c5d9b))
+
 ## [2.167.1](https://github.com/SocialGouv/domifa/compare/v2.167.0...v2.167.1) (2024-04-29)
 
 
