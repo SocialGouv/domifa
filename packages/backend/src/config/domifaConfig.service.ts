@@ -257,7 +257,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           x,
           "DOMIFA_CRON_SMS_CONSUMER_CRONTIME",
           {
-            defaultValue: "40 19 * * 1-5",
+            defaultValue: "55 19 * * 1-5",
           }
         ),
         fetchEndDomCronTime: configParser.parseString(
