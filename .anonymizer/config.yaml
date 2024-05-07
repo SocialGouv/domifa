@@ -25,9 +25,32 @@ dump:
     - schema: "public"
       name: "usager"
       transformers:
-        - name: "RandomBool"
+        - name: "SetNull"
           params:
-            column: "migrated"
+            column: "email"
+        - name: "RandomFirstName"
+          params:
+            column: "prenom"
+        - name: "Json"
+          params:
+            column: "telephone"
+            operations:
+              - operation: "set"
+                path: "countryCode"
+                value: "fr"
+              - operation: "set"
+                path: "numero"
+                value: ""
+        - name: "SetNull"
+          params:
+            column: "pinnedNote"
+        - name: "RandomLastName"
+          params:
+            column: "nom"
+        - name: "RandomLastName"
+          params:
+            column: "surnom"
+            keep_null: true
         - name: "TemplateRecord"
           params:
             columns:
@@ -43,3 +66,8 @@ dump:
                 {{ $updatedValue := toJson $newPeople }}
                 {{ .SetColumnValue "ayantsDroits" $updatedValue }}
               {{ end }}
+        - name: "Replace"
+          params:
+            column: "migrated"
+            value: true
+            keep_null: false
