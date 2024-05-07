@@ -1,3 +1,10 @@
+## [2.167.3](https://github.com/SocialGouv/domifa/compare/v2.167.2...v2.167.3) (2024-05-07)
+
+
+### Bug Fixes
+
+* **sms:** send sms in good time ([fc5055c](https://github.com/SocialGouv/domifa/commit/fc5055cfb2dc37885b5c7ebcbf48c51dbd1ea388))
+
 ## [2.167.2](https://github.com/SocialGouv/domifa/compare/v2.167.1...v2.167.2) (2024-05-06)
 
 
