@@ -102,7 +102,7 @@ export class CronSmsInteractionSenderService {
   ) {
     console.log();
     console.log();
-    console.log("SMS SEND START");
+    console.log("SMS SEND START ", new Date());
     console.log();
     console.log();
 
