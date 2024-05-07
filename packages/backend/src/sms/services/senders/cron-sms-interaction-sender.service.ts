@@ -100,6 +100,12 @@ export class CronSmsInteractionSenderService {
     trigger: MonitoringBatchProcessTrigger,
     timeZone: TimeZone
   ) {
+    console.log();
+    console.log();
+    console.log("SMS SEND START");
+    console.log();
+    console.log();
+
     if (!isCronEnabled() || !domifaConfig().sms.enabled) {
       appLogger.warn(
         `[CronSms] [sendSmsInteraction] SMS disabled for ${timeZone} at ${new Date().toString()}`
@@ -113,6 +119,7 @@ export class CronSmsInteractionSenderService {
 
     const day = format(new Date(), "EEEE").toLowerCase();
 
+    console.log(day);
     const messagesToSend: {
       content: string;
       phoneNumber: string;
@@ -134,7 +141,8 @@ export class CronSmsInteractionSenderService {
       and (s.sms->>'enabledByDomifa')::boolean is true
       and (s.sms->>'enabledByStructure')::boolean is true
       AND s."timeZone"=$1
-      AND (s.sms->'schedule'->>'${day}')::boolean = true`[timeZone]
+      AND (s.sms->'schedule'->>'${day}')::boolean = true`,
+      [timeZone]
     );
 
     if (!messagesToSend || messagesToSend.length === 0) {
