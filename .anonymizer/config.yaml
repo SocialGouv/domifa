@@ -6,14 +6,18 @@ log:
   format: "text"
 
 storage:
+  # type: "directory"
   directory:
     path: "/tmp/pg_dump"
-#  s3:
-#    endpoint: "http://localhost:9000"
-#    bucket: "testbucket"
-#    region: "us-east-1"
-#    access_key_id: ""
-#    secret_access_key: ""
+  type: s3
+  s3:
+    endpoint: "{{bucket_endpoint}}"
+    bucket: "{{bucket_name}}"
+    region: "{{bucket_region}}"
+    access_key_id: "{{bucket_access_key}}"
+    secret_access_key: "{{bucket_secret_key}}"
+    prefix: "/anonymizer/pg_dumps"
+    # force_path_style: true
 
 dump:
 
@@ -33,7 +37,7 @@ dump:
               {{ $newPeople := list }}
               {{ if isNotNull $val }}
                 {{ range $val }}
-              {{ $modifiedPerson := dict "lien" .lien "prenom" fakerFirstName "nom" fakerFirstLastName "dateNaissance" .dateNaissance }}
+                  {{ $modifiedPerson := dict "lien" .lien "prenom" fakerFirstName "nom" fakerFirstLastName "dateNaissance" .dateNaissance }}
                   {{ $newPeople = append $newPeople $modifiedPerson }}
                 {{ end }}
                 {{ $updatedValue := toJson $newPeople }}
