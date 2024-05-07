@@ -3152,7 +3152,7 @@ __metadata:
     pg: ^8.7.1
     pino: ^8.7.0
     pino-pretty: ^11.0.0
-    pino-std-serializers: ^6.1.0
+    pino-std-serializers: ^7.0.0
     pizzip: ^3.0.6
     prettier: ^2.8.8
     reflect-metadata: ^0.2.0
@@ -20988,10 +20988,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino-std-serializers@npm:^6.0.0, pino-std-serializers@npm:^6.1.0":
+"pino-std-serializers@npm:^6.0.0":
   version: 6.2.2
   resolution: "pino-std-serializers@npm:6.2.2"
   checksum: aeb0662edc46ec926de9961ed4780a4f0586bb7c37d212cd469c069639e7816887a62c5093bc93f260a4e0900322f44fc8ab1343b5a9fa2864a888acccdb22a4
+  languageName: node
+  linkType: hard
+
+"pino-std-serializers@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "pino-std-serializers@npm:7.0.0"
+  checksum: 08cd1d7b7adc4cfca39e42c2d5fd21bcf4513153734e7b8fa278b0e9e9f62df78c4c202886343fe882a462539c931cb8110b661775ad7f7217c96856795b5a86
   languageName: node
   linkType: hard
 
