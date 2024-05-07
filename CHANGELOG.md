@@ -1,3 +1,10 @@
+## [2.167.4](https://github.com/SocialGouv/domifa/compare/v2.167.3...v2.167.4) (2024-05-07)
+
+
+### Bug Fixes
+
+* **sms:** fix sms on prod ([3f375dc](https://github.com/SocialGouv/domifa/commit/3f375dcaeefde243a0b480e1edc57567c6f39370))
+
 ## [2.167.3](https://github.com/SocialGouv/domifa/compare/v2.167.2...v2.167.3) (2024-05-07)
 
 
