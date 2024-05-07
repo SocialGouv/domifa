@@ -134,8 +134,7 @@ export class CronSmsInteractionSenderService {
       and (s.sms->>'enabledByDomifa')::boolean is true
       and (s.sms->>'enabledByStructure')::boolean is true
       AND s."timeZone"=$1
-      AND (jsonb_object_field_text(s.sms, $2)::boolean IS TRUE)`,
-      [timeZone, day]
+      AND (s.sms->'schedule'->>'${day}')::boolean = true`[timeZone]
     );
 
     if (!messagesToSend || messagesToSend.length === 0) {
