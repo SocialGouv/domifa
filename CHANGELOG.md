@@ -1,3 +1,10 @@
+## [2.167.6](https://github.com/SocialGouv/domifa/compare/v2.167.5...v2.167.6) (2024-05-07)
+
+
+### Bug Fixes
+
+* **sms:** push sms ([42ac24a](https://github.com/SocialGouv/domifa/commit/42ac24a86fe870b79764c6f9ef67759fa37b8492))
+
 ## [2.167.5](https://github.com/SocialGouv/domifa/compare/v2.167.4...v2.167.5) (2024-05-07)
 
 
