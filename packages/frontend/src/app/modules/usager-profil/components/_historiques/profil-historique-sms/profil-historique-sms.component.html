@@ -15,14 +15,21 @@
     </caption>
     <thead>
       <tr>
-        <th scope="col">Date</th>
+        <th scope="col">Date d'envoi</th>
+        <th scope="col">Statut</th>
         <th scope="col">Type de SMS</th>
         <th scope="col">Contenu</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let sms of messagesList">
-        <td>{{ sms.scheduledDate | date : "dd MMMM yyyy" }} à 19h00</td>
+        <td>
+          {{
+            (sms.sendDate ? sms.sendDate : sms.scheduledDate)
+              | date : "dd MMMM yyyy à HH:mm"
+          }}
+        </td>
+        <td>{{ SMS_STATUS_LABELS[sms.status] }}</td>
         <td>{{ SMS_LABELS[sms.smsId] }}</td>
         <td>{{ sms.content }}</td>
       </tr>
