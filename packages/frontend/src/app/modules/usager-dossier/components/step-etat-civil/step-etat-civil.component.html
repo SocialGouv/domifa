@@ -332,9 +332,9 @@
                 </p>
                 <p
                   *ngIf="
-                    PREFERRED_COUNTRIES.indexOf(
-                      f.telephone?.value?.countryCode
-                    ) === -1 &&
+                    !PREFERRED_COUNTRIES.includes(
+                      f.telephone?.value?.countryCode.toLowerCase()
+                    ) &&
                     f.telephone?.value &&
                     f?.contactByPhone?.value === true
                   "

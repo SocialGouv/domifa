@@ -1,25 +1,41 @@
-export const generateScheduleSendDate = (dateReference: Date): Date => {
-  const dayOfNow = dateReference.getDay();
+import { Structure } from "@domifa/common";
+import { Day, nextDay } from "date-fns";
 
-  const TUESDAY = 2;
-  const THURSDAY = 4;
+const weekDays = [
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+];
 
-  if (
-    dayOfNow === 3 ||
-    (dayOfNow === 2 && dateReference.getHours() > 19) ||
-    (dayOfNow === 4 && dateReference.getHours() < 19)
-  ) {
-    return getNextDay(dateReference, THURSDAY);
-  }
-
-  return getNextDay(dateReference, TUESDAY);
-};
-
-export const getNextDay = (dateReference: Date, dayToSearch: 2 | 4): Date => {
-  dateReference.setDate(
-    dateReference.getDate() + ((dayToSearch + (7 - dateReference.getDay())) % 7)
+export const generateScheduleSendDate = (
+  structure: Pick<Structure, "sms">,
+  dateReference: Date = new Date()
+): Date => {
+  const days: string[] = Object.keys(structure.sms.schedule).filter(
+    (day: string) => structure.sms.schedule[day]
   );
-  dateReference.setUTCHours(19, 0, 0);
 
-  return dateReference;
+  const nextDayId = getNextClosestDay(days, dateReference);
+
+  const nextDate = nextDay(dateReference, nextDayId as Day);
+  nextDate.setHours(19, 0, 0);
+  return nextDate;
 };
+
+function getNextClosestDay(days: string[], dateReference: Date): number {
+  const todayIndex = dateReference.getDay();
+  const dayIndices = days.map((day) => weekDays.indexOf(day.toLowerCase()));
+
+  dayIndices.sort((a, b) => a - b);
+
+  for (const dayIndex of dayIndices) {
+    if (dayIndex >= todayIndex) {
+      return dayIndex;
+    }
+  }
+  return dayIndices[0];
+}

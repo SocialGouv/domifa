@@ -82,7 +82,7 @@ export class MessageSmsService {
     structure: Pick<Structure, "id" | "sms" | "telephone">,
     interaction: CommonInteraction
   ) {
-    const scheduledDate = generateScheduleSendDate(new Date());
+    const scheduledDate = generateScheduleSendDate(structure, new Date());
 
     const smsReady: MessageSms = await messageSmsRepository.findSmsOnHold({
       usagerRef: usager.ref,
@@ -102,7 +102,7 @@ export class MessageSmsService {
 
       await messageSmsRepository.update(
         { uuid: smsReady.uuid },
-        { content, interactionMetas: smsReady.interactionMetas }
+        { content, interactionMetas: smsReady.interactionMetas, scheduledDate }
       );
 
       return messageSmsRepository.findOneBy({ uuid: smsReady.uuid });
