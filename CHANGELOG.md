@@ -1,3 +1,10 @@
+## [2.167.7](https://github.com/SocialGouv/domifa/compare/v2.167.6...v2.167.7) (2024-05-09)
+
+
+### Bug Fixes
+
+* **sms:** fix scheduled date, add column to history ([0a06e48](https://github.com/SocialGouv/domifa/commit/0a06e48155bcdb2f69d16af475283d72c5474732))
+
 ## [2.167.6](https://github.com/SocialGouv/domifa/compare/v2.167.5...v2.167.6) (2024-05-07)
 
 
