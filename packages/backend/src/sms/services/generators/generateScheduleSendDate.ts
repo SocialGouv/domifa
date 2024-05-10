@@ -21,16 +21,18 @@ export const generateScheduleSendDate = (
 
   const nextDayId = getNextClosestDay(days, dateReference);
 
-  const nextDate = nextDay(dateReference, nextDayId as Day);
-  nextDate.setHours(19, 0, 0);
+  const nextDate =
+    nextDayId === dateReference.getDay() && dateReference.getUTCHours() < 19
+      ? dateReference
+      : nextDay(dateReference, nextDayId as Day);
+
+  nextDate.setUTCHours(19, 0, 0);
   return nextDate;
 };
 
 function getNextClosestDay(days: string[], dateReference: Date): number {
   const todayIndex = dateReference.getDay();
   const dayIndices = days.map((day) => weekDays.indexOf(day.toLowerCase()));
-
-  dayIndices.sort((a, b) => a - b);
 
   for (const dayIndex of dayIndices) {
     if (dayIndex >= todayIndex) {
