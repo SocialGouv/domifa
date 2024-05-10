@@ -1,3 +1,10 @@
+## [2.167.8](https://github.com/SocialGouv/domifa/compare/v2.167.7...v2.167.8) (2024-05-10)
+
+
+### Bug Fixes
+
+* **sms:** fix Send Date ([9bc2333](https://github.com/SocialGouv/domifa/commit/9bc2333c9768b1d53a5f4bdfc62fe854708bf30b))
+
 ## [2.167.7](https://github.com/SocialGouv/domifa/compare/v2.167.6...v2.167.7) (2024-05-09)
 
 
