@@ -8,16 +8,17 @@ import { SharedModule } from "src/app/modules/shared/shared.module";
 import { AdminStructuresRoutingModule } from "./admin-structures-routing.module";
 import { AdminStructuresStatsComponent } from "./components";
 
-import { AdminStructuresDocsComponent } from "./components/admin-structures-docs/admin-structures-docs.component";
 import { AdminStructuresListComponent } from "./components/admin-structures-list/admin-structures-list.component";
+import { NationalStatsComponent } from "./components/national-stats/national-stats.component";
 import { AdminStructuresTableComponent } from "./components/admin-structures-list/admin-structures-table/admin-structures-table.component";
+import { StatsService } from "./services/stats.service";
 
 @NgModule({
   declarations: [
     AdminStructuresListComponent,
     AdminStructuresStatsComponent,
     AdminStructuresTableComponent,
-    AdminStructuresDocsComponent,
+    NationalStatsComponent,
   ],
   imports: [
     CommonModule,
@@ -28,6 +29,7 @@ import { AdminStructuresTableComponent } from "./components/admin-structures-lis
     FormsModule,
     ReactiveFormsModule,
   ],
+  providers: [StatsService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AdminStructuresModule {}

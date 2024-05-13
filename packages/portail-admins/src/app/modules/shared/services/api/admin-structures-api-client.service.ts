@@ -9,6 +9,7 @@ import {
   UserNewAdmin,
 } from "../../../../../_common";
 import { structuresCache } from "../../store/structuresCache.service";
+
 import { ApiMessage, AdminStructureStatsData } from "@domifa/common";
 
 const BASE_URL = environment.apiUrl + "admin/structures";

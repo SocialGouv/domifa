@@ -56,7 +56,6 @@ export class AdminStructuresStatsComponent implements OnInit, OnDestroy {
         .subscribe((data: AdminStructureStatsData) => {
           this.data = data;
           this.stats = adminStructuresStatsVmBuilder.buildViewModel(data);
-          console.log(this.stats.usagersActifs);
         })
     );
   }

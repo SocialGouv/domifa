@@ -55,52 +55,16 @@
         class="d-inline-block align-top"
         alt=""
       />
-      <span class="nav-brand">Domifa</span>
+      <span class="nav-brand">Administration de DomiFa</span>
     </a>
-    <div *ngIf="adminProfile">
-      <app-admin-structures-export></app-admin-structures-export>
-      <a class="ms-2 btn btn-outline-primary" [routerLink]="['/structures']">
-        <fa-icon
-          [icon]="['fas', 'list-alt']"
-          aria-hidden="true"
-          class="me-2"
-        ></fa-icon>
-        Structures
-      </a>
-
-      <div
-        ngbDropdown
-        id="dropdownAuthenticatedMenu"
-        display="dynamic"
-        placement="bottom-right"
-        class="ms-2 me-2 d-inline-block bg-white"
-      >
-        <button class="btn btn-outline-primary" ngbDropdownToggle>Menu</button>
-        <div ngbDropdownMenu aria-labelledby="dropdownAuthenticatedMenu">
-          <a ngbDropdownItem [routerLink]="['/structures/stats']">
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'chart-bar']"
-              class="me-2"
-            ></fa-icon>
-            Stats
-          </a>
-          <a ngbDropdownItem [routerLink]="['/structures/custom-docs']">
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['far', 'file-word']"
-              class="me-2"
-            ></fa-icon>
-            Documents des structures
-          </a>
-          <a ngbDropdownItem (click)="logout()" class="cursor-pointer">
-            <fa-icon aria-hidden="true" [icon]="['fas', 'sign-out-alt']">
-            </fa-icon>
-            Déconnexion
-          </a>
-        </div>
-      </div>
-    </div>
+    <a
+      class="btn btn-outline-primary"
+      (click)="logout()"
+      class="cursor-pointer"
+    >
+      <fa-icon aria-hidden="true" [icon]="['fas', 'sign-out-alt']"> </fa-icon>
+      Déconnexion
+    </a>
   </nav>
 </header>
 <main role="main" id="page">

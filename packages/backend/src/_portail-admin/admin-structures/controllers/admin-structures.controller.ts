@@ -45,7 +45,16 @@ import { UsersController } from "../../../users/users.controller";
 import { RegisterUserAdminDto } from "../../../users/dto";
 import { format } from "date-fns";
 import { structureCreatorService } from "../../../structures/services";
-import { AdminStructureStatsData, Structure } from "@domifa/common";
+import {
+  AdminStructureStatsData,
+  DEPARTEMENTS_MAP,
+  REGIONS_LISTE,
+  Structure,
+} from "@domifa/common";
+import { MetabaseStatsDto } from "../../_dto/MetabaseStats.dto";
+import { domifaConfig } from "../../../config";
+import jwt from "jsonwebtoken";
+import { FindOptionsWhere } from "typeorm";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
@@ -242,5 +251,79 @@ export class AdminStructuresController {
   ): Promise<ExpressResponse> {
     const userController = new UsersController();
     return userController.registerUser(user, res, registerUserDto);
+  }
+
+  @AllowUserProfiles("super-admin-domifa")
+  @Post("metabase-stats")
+  public async getMetabaseStats(
+    @CurrentUser() _user: UserStructureAuthenticated,
+    @Body() metabaseDto: MetabaseStatsDto
+  ): Promise<{ url: string }> {
+    const METABASE_SITE_URL =
+      "https://metabase-domifa.ovh.fabrique.social.gouv.fr";
+
+    const year = metabaseDto.year ? [metabaseDto.year] : null;
+    let region = metabaseDto.region
+      ? [REGIONS_LISTE[metabaseDto.region]]
+      : null;
+    let department = metabaseDto.department
+      ? [DEPARTEMENTS_MAP[metabaseDto.department].departmentName]
+      : null;
+    const structureId = metabaseDto.structureId
+      ? [metabaseDto.structureId]
+      : null;
+    const structureType = metabaseDto.structureType
+      ? [metabaseDto.structureType]
+      : null;
+
+    if (region) {
+      department = null;
+    }
+
+    if (department) {
+      region = null;
+    }
+    const payload = {
+      resource: { dashboard: 6 },
+      params: {
+        "ann%C3%A9e_du_rapport": year,
+        "r%C3%A9gion": region,
+        "d%C3%A9partement": department,
+        type_de_structure: structureType,
+        structureid: structureId,
+      },
+      exp: Math.round(Date.now() / 1000) + 10 * 60, // 10 minute expiration
+    };
+
+    const token = jwt.sign(payload, domifaConfig().metabaseToken);
+
+    const url =
+      METABASE_SITE_URL +
+      "/embed/dashboard/" +
+      token +
+      "#bordered=false&titled=false";
+
+    return { url };
+  }
+
+  @AllowUserProfiles("super-admin-domifa")
+  @Post("metabase-get-structures")
+  public async getStructures(
+    @CurrentUser() _user: UserStructureAuthenticated,
+    @Body() metabaseDto: MetabaseStatsDto
+  ): Promise<Array<Partial<Structure>>> {
+    const params: FindOptionsWhere<Structure> = {
+      region: metabaseDto?.region ?? undefined,
+      departement: metabaseDto?.department ?? undefined,
+      structureType: metabaseDto?.structureType ?? undefined,
+      verified: true,
+    };
+    return structureRepository.find({
+      where: params,
+      select: ["id", "nom", "ville", "codePostal"],
+      order: {
+        codePostal: "DESC",
+      },
+    });
   }
 }

@@ -18,8 +18,9 @@ export const REGIONS_OUTRE_MER = REGIONS_COM.concat(REGIONS_DOM_TOM);
 export const DEPARTEMENTS_MAP: DepartementInfos = REGIONS_DEF.reduce(
   (acc: DepartementInfos, region: RegionDef) => {
     region.departements.forEach((dep) => {
-      acc[dep.departementCode] = {
-        departmentName: dep.departementName,
+      acc[dep.departmentCode] = {
+        departmentName: dep.departmentName,
+        departmentCode: dep.departmentCode,
         regionCode: region.regionCode,
         regionName: region.regionName,
         regionId: region.regionId,
@@ -35,7 +36,7 @@ export const DEPARTEMENTS_MAP: DepartementInfos = REGIONS_DEF.reduce(
 export const DEPARTEMENTS_LISTE: RegionsLabels =
   REGIONS_DEF.reduce<RegionsLabels>((acc, region: RegionDef) => {
     region.departements.forEach((dep) => {
-      acc[dep.departementCode] = dep.departementName;
+      acc[dep.departmentCode] = dep.departmentName;
     });
     return acc;
   }, {});
@@ -48,8 +49,9 @@ export const DEPARTEMENTS_METROPOLE: DepartementInfos = REGIONS_DEF.reduce(
         !REGIONS_DOM_TOM.includes(region.regionCode) &&
         !REGIONS_COM.includes(region.regionCode)
       ) {
-        acc[dep.departementCode] = {
-          departmentName: dep.departementName,
+        acc[dep.departmentCode] = {
+          departmentName: dep.departmentName,
+          departmentCode: dep.departmentCode,
           regionCode: region.regionCode,
           regionName: region.regionName,
           regionId: region.regionId,
@@ -69,8 +71,9 @@ export const DEPARTEMENTS_DOM_TOM: DepartementInfos = REGIONS_DEF.reduce(
   (acc: DepartementInfos, region: RegionDef) => {
     region.departements.forEach((dep) => {
       if (REGIONS_DOM_TOM.includes(region.regionCode)) {
-        acc[dep.departementCode] = {
-          departmentName: dep.departementName,
+        acc[dep.departmentCode] = {
+          departmentName: dep.departmentName,
+          departmentCode: dep.departmentCode,
           regionCode: region.regionCode,
           regionName: region.regionName,
           regionId: region.regionId,
@@ -88,8 +91,9 @@ export const DEPARTEMENTS_COM: DepartementInfos = REGIONS_DEF.reduce(
   (acc: DepartementInfos, region: RegionDef) => {
     region.departements.forEach((dep) => {
       if (REGIONS_COM.includes(region.regionCode)) {
-        acc[dep.departementCode] = {
-          departmentName: dep.departementName,
+        acc[dep.departmentCode] = {
+          departmentName: dep.departmentName,
+          departmentCode: dep.departmentCode,
           regionCode: region.regionCode,
           regionName: region.regionName,
           regionId: region.regionId,

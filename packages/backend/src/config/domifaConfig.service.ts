@@ -342,7 +342,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       }),
     },
     metabaseToken: configParser.parseString(x, "METABASE_TOKEN", {
-      required: false,
+      required: true,
     }),
   };
   return config;

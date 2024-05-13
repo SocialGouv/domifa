@@ -51,7 +51,6 @@ export class AdminAuthService {
 
     return this.http.get<PortailAdminProfile>(`${END_POINT_PROFILE}/me`).pipe(
       map((portailAdminProfile: PortailAdminProfile) => {
-        // SAVE USER
         this.saveAuthAdmin(portailAdminProfile);
         return true;
       }),
