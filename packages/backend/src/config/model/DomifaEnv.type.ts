@@ -69,4 +69,5 @@ export type DomifaEnv = {
   SOLIGUIDE_TOKEN: string;
   DATA_INCLUSION_URL: string;
   DATA_INCLUSION_TOKEN: string;
+  METABASE_TOKEN: string;
 };

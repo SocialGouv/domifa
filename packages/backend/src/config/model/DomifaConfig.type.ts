@@ -87,4 +87,5 @@ export type DomifaConfig = {
     dataInclusionUrl: string;
     dataInclusionToken: string;
   };
+  metabaseToken: string;
 };

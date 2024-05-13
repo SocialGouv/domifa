@@ -1,6 +1,14 @@
 fileignoreconfig:
+- filename: .kontinuous/env/dev/templates/backend.sealed-secret.yaml
+  checksum: 4411ce3014e428ffefc86e6459aae2962cfc5ecc888d0c73416fe60e9d4f725e
+- filename: .kontinuous/env/preprod/templates/backend.sealed-secret.yaml
+  checksum: 181c00cbe49ec85d0b681638e763091ddb0b005ef4a15ff8fd6b2bebf27982a6
+- filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
+  checksum: 3cf66fd4a0f28be7ca275cf443dcf3079681cd56384a862eabbdc410618427a9
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
   checksum: 4b6c819ff79fad173f8e8ee4bc22a46ef9f5fdc7eea91c5563375a59b079d696
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
   checksum: 3c030be29d255b2fc88eeffc28129fa59c3153de1cc53eeb0327a17a5dbf254b
+- filename: packages/backend/.env.backend.dev.example.env
+  checksum: a29c6ec603cf8002a018ef5b2a8855d59999e9fc5fbcc4f64c24acf7ae7d9a32
 version: "1.0"
