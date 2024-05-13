@@ -4,6 +4,7 @@ export type DepartementInfos = Record<
   string,
   {
     departmentName: string;
+    departmentCode: string;
     regionCode: string;
     regionName: string;
     regionId: string;

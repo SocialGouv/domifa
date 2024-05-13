@@ -95,22 +95,6 @@
           <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
         </th>
         <th scope="col" class="col-font-xs">Email</th>
-        <th
-          scope="col"
-          (click)="sortDashboard('smsEnabled', 'desc')"
-          class="whitespace-nowrap col-font-xs d-none d-lg-table-cell"
-        >
-          SMS
-          <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
-        </th>
-        <th
-          scope="col"
-          (click)="sortDashboard('portailUsagerEnabled', 'desc')"
-          class="whitespace-nowrap col-font-xs d-none d-lg-table-cell"
-        >
-          Portail<br />usager
-          <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
-        </th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -158,47 +142,7 @@
         <td class="col-font-xs">
           {{ structure.email }}
         </td>
-        <td class="d-none d-lg-table-cell">
-          <a
-            class="cursor-pointer"
-            aria-label="Activer ou désactiver les sms"
-            (click)="enableSms(structure)"
-          >
-            <fa-icon
-              class="text-success"
-              *ngIf="structure.sms?.enabledByDomifa"
-              [icon]="['fas', 'check']"
-              aria-hidden="true"
-            ></fa-icon>
-            <fa-icon
-              class="text-warning"
-              *ngIf="!structure.sms?.enabledByDomifa"
-              [icon]="['fas', 'times']"
-              aria-hidden="true"
-            ></fa-icon>
-          </a>
-        </td>
-        <td class="d-none d-lg-table-cell">
-          <a
-            class="cursor-pointer"
-            aria-label="Activer ou désactiver le portail usager"
-            (click)="enablePortailUsager(structure)"
-          >
-            <fa-icon
-              class="text-success"
-              *ngIf="structure.portailUsager.enabledByDomifa"
-              [icon]="['fas', 'check']"
-              aria-hidden="true"
-            ></fa-icon>
-            <fa-icon
-              class="text-warning"
-              *ngIf="!structure.portailUsager.enabledByDomifa"
-              [icon]="['fas', 'times']"
-              aria-hidden="true"
-            ></fa-icon>
-          </a>
-        </td>
-        <td class="">
+        <td>
           <div
             ngbDropdown
             container="body"

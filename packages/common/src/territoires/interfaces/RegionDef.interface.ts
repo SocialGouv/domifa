@@ -4,5 +4,5 @@ export interface RegionDef {
   regionName: string;
   regionId: string;
   timeZone: TimeZone;
-  departements: Array<{ departementCode: string; departementName: string }>;
+  departements: Array<{ departmentCode: string; departmentName: string }>;
 }
