@@ -6,10 +6,9 @@ log:
   format: "text"
 
 storage:
-  # type: "directory"
+  type: "{{type}}"
   directory:
-    path: "/tmp/pg_dump"
-  type: s3
+    path: "{{tmp}}"
   s3:
     endpoint: "{{bucket_endpoint}}"
     bucket: "{{bucket_name}}"
@@ -51,6 +50,11 @@ dump:
           params:
             column: "surnom"
             keep_null: true
+        - name: "RealAddress"
+          params:
+            columns:
+              - name: "villeNaissance"
+                template: "{{.City}}"
         - name: "TemplateRecord"
           params:
             columns:
