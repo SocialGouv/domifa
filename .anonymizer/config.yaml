@@ -55,6 +55,26 @@ dump:
             columns:
               - name: "villeNaissance"
                 template: "{{.City}}"
+        - name: "Json"
+          params:
+            column: "decision"
+            operations: 
+              - operation: "set"
+                path: "motifDetails"
+                value: null
+              - operation: set
+                path: orientationDetails
+                value: null
+              - operation: set
+                path: userName
+                value_template: "{{ quote fakerName }}"
+              - operation: set
+                path: userId
+                value_template: "{{ randomInt 0 1000000000}}"
+              - operation: set
+                path: uuid
+                value_template: "{{ quote fakerUUID }}"
+
         - name: "TemplateRecord"
           params:
             columns:

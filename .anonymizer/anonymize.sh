@@ -8,7 +8,7 @@ source $directory/.env
 pg_dump_directory=$directory/tmp/pg_dump
 mkdir -p $pg_dump_directory
 
-greenmask -v || (echo "You need to download greenmask from https://github.com/GreenmaskIO/greenmask/releases/tag/v0.1.13 in $directory" && exit)
+greenmask -v || (echo "You need to download greenmask from https://github.com/GreenmaskIO/greenmask/releases/tag/v0.1.14 in $directory" && exit)
 
 cat $directory/config.yaml \
     | sed "s%{{tmp}}%$directory/tmp/pg_dump%" \
