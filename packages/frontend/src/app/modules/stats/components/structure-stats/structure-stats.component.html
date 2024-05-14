@@ -550,34 +550,40 @@
               </th>
             </tr>
             <tr>
-              <th scope="row" class="soustable">Errance</th>
+              <th scope="row" class="soustable">
+                {{ ENTRETIEN_CAUSE_INSTABILITE.ERRANCE }}
+              </th>
               <td class="stats-table-value">
                 {{ stats.data.validUsagers.cause.errance }}
               </td>
             </tr>
             <tr>
-              <th scope="row" class="soustable">Expulsion</th>
+              <th scope="row" class="soustable">
+                {{ ENTRETIEN_CAUSE_INSTABILITE.EXPULSION }}
+              </th>
               <td class="stats-table-value">
                 {{ stats.data.validUsagers.cause.expulsion }}
               </td>
             </tr>
             <tr>
               <th scope="row" class="soustable">
-                Hébergé, mais ne peut justifier d'une adresse
+                {{ ENTRETIEN_CAUSE_INSTABILITE.HEBERGE_SANS_ADRESSE }}
               </th>
               <td class="stats-table-value">
                 {{ stats.data.validUsagers.cause.heberge_sans_adresse }}
               </td>
             </tr>
             <tr>
-              <th scope="row" class="soustable">Personnes itinérantes</th>
+              <th scope="row" class="soustable">
+                {{ ENTRETIEN_CAUSE_INSTABILITE.ITINERANT }}
+              </th>
               <td class="stats-table-value">
                 {{ stats.data.validUsagers.cause.itinerant }}
               </td>
             </tr>
             <tr>
               <th scope="row" class="soustable">
-                Rupture familiale et/ou conjugale
+                {{ ENTRETIEN_CAUSE_INSTABILITE.RUPTURE }}
               </th>
               <td class="stats-table-value">
                 {{ stats.data.validUsagers.cause.rupture }}
@@ -585,27 +591,31 @@
             </tr>
             <tr>
               <th scope="row" class="soustable">
-                Sortie d'une structure d'hébergement
+                {{ ENTRETIEN_CAUSE_INSTABILITE.SORTIE_STRUCTURE }}
               </th>
               <td class="stats-table-value">
                 {{ stats.data.validUsagers.cause.sortie_structure }}
               </td>
             </tr>
             <tr>
-              <th scope="row" class="soustable">Sortie d'hospitalisation</th>
+              <th scope="row" class="soustable">
+                {{ ENTRETIEN_CAUSE_INSTABILITE.SORTIE_HOSPITALISATION }}
+              </th>
               <td class="stats-table-value">
                 {{ stats.data.validUsagers.cause.sortie_hospitalisation }}
               </td>
             </tr>
             <tr>
-              <th scope="row" class="soustable">Sortie d'incarcération</th>
+              <th scope="row" class="soustable">
+                {{ ENTRETIEN_CAUSE_INSTABILITE.SORTIE_INCARCERATION }}
+              </th>
               <td class="stats-table-value">
                 {{ stats.data.validUsagers.cause.sortie_incarceration }}
               </td>
             </tr>
             <tr>
               <th scope="row" class="soustable">
-                Violence familiale et/ou conjugale
+                {{ ENTRETIEN_CAUSE_INSTABILITE.VIOLENCE }}
               </th>
               <td class="stats-table-value">
                 {{ stats.data.validUsagers.cause.violence }}
@@ -631,7 +641,7 @@
             </tr>
             <tr>
               <th scope="row" class="soustable">
-                Domicile mobile (ex: caravane)
+                {{ ENTRETIEN_RESIDENCE.DOMICILE_MOBILE }}
               </th>
               <td class="stats-table-value">
                 {{ stats.data.validUsagers.residence.domicile_mobile }}
@@ -639,28 +649,42 @@
             </tr>
             <tr>
               <th scope="row" class="soustable">
-                Hébergement social (sans service courrier)
+                {{ ENTRETIEN_RESIDENCE.HEBERGEMENT_SOCIAL }}
               </th>
               <td class="stats-table-value">
                 {{ stats.data.validUsagers.residence.hebergement_social }}
               </td>
             </tr>
             <tr>
-              <th scope="row" class="soustable">Hébergé chez un tiers</th>
+              <th scope="row" class="soustable">
+                {{ ENTRETIEN_RESIDENCE.HEBERGEMENT_TIERS }}
+              </th>
               <td class="stats-table-value">
                 {{ stats.data.validUsagers.residence.hebergement_tiers }}
               </td>
             </tr>
             <tr>
-              <th scope="row" class="soustable">Hôtel</th>
+              <th scope="row" class="soustable">
+                {{ ENTRETIEN_RESIDENCE.HOTEL }}
+              </th>
               <td class="stats-table-value">
                 {{ stats.data.validUsagers.residence.hotel }}
               </td>
             </tr>
             <tr>
-              <th scope="row" class="soustable">Sans abris / Squat</th>
+              <th scope="row" class="soustable">
+                {{ ENTRETIEN_RESIDENCE.SANS_ABRI }}
+              </th>
               <td class="stats-table-value">
                 {{ stats.data.validUsagers.residence.sans_abri }}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row" class="soustable">
+                {{ ENTRETIEN_RESIDENCE.LOGEMENT_SANS_ADRESSE }}
+              </th>
+              <td class="stats-table-value">
+                {{ stats.data.validUsagers.residence.logement_sans_adresse }}
               </td>
             </tr>
             <tr>
@@ -721,7 +745,7 @@
             </tr>
             <tr>
               <th scope="row" class="soustable">Non renseigné</th>
-              <td class="stats-table-value">
+              <td class="sta©fts-table-value">
                 {{ stats.data.validUsagers.raison.non_renseigne }}
               </td>
             </tr>

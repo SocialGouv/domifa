@@ -14,7 +14,6 @@ describe("AdminStructuresListComponent", () => {
       imports: [
         AdminStructuresModule,
         RouterTestingModule,
-
         HttpClientTestingModule,
       ],
     }).compileComponents();

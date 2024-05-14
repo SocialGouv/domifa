@@ -116,6 +116,7 @@ async function getStructureStatsQuestionsAtDateValidUsagers({
       ,count(distinct uh."usagerUUID") filter (where"entretien" ->> 'residence' = 'HEBERGEMENT_TIERS') as v_u_residence_hebergement_tiers
       ,count(distinct uh."usagerUUID") filter (where"entretien" ->> 'residence' = 'HOTEL') as v_u_residence_hotel
       ,count(distinct uh."usagerUUID") filter (where"entretien" ->> 'residence' = 'SANS_ABRI') as v_u_residence_sans_abri
+      ,count(distinct uh."usagerUUID") filter (where"entretien" ->> 'residence' = 'LOGEMENT_SANS_ADRESSE') as v_u_residence_logement_sans_adresse
       ,count(distinct uh."usagerUUID") filter (where"entretien" ->> 'residence' = 'AUTRE') as v_u_residence_autre
       ,count(distinct uh."usagerUUID") filter (where"entretien" -> 'residence' = 'null') as v_u_residence_nr
 
@@ -251,6 +252,10 @@ async function getStructureStatsQuestionsAtDateValidUsagers({
         hebergement_tiers: parseInt(r.v_u_residence_hebergement_tiers, 10),
         hotel: parseInt(r.v_u_residence_hotel, 10),
         sans_abri: parseInt(r.v_u_residence_sans_abri, 10),
+        logement_sans_adresse: parseInt(
+          r.v_u_residence_logement_sans_adresse,
+          10
+        ),
         autre: parseInt(r.v_u_residence_autre, 10),
         non_renseigne: parseInt(r.v_u_residence_nr, 10),
       },
@@ -342,6 +347,7 @@ async function getStructureStatsQuestionsAtDateValidUsagers({
       hebergement_tiers: 0,
       hotel: 0,
       sans_abri: 0,
+      logement_sans_adresse: 0,
       autre: 0,
       non_renseigne: 0,
     },

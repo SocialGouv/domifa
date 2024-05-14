@@ -25,7 +25,7 @@ export const ENTRETIEN_CAUSE_INSTABILITE: {
   ERRANCE: "Errance",
   EXPULSION: "Expulsion",
   HEBERGE_SANS_ADRESSE: "Hébergé, mais ne peut justifier d'une adresse",
-  ITINERANT: "Personnes itinérantes",
+  ITINERANT: "Mode de vie (itinérants, gens du voyage)",
   RUPTURE: "Rupture familiale et/ou conjugale ",
   SORTIE_STRUCTURE: "Sortie d'une structure d'hébergement",
   VIOLENCE: "Violence familiale et/ou conjugale",
@@ -71,9 +71,11 @@ export const ENTRETIEN_RESIDENCE: {
   [key in UsagerEntretienResidence]: string;
 } = {
   AUTRE: "Autre résidence",
-  DOMICILE_MOBILE: "Domicile mobile (ex: caravane)",
-  HEBERGEMENT_SOCIAL: "Hébergement social (sans service courrier)",
+  DOMICILE_MOBILE:
+    "Domicile mobile (ex: Caravane) / Aire des gens du voyages / habitat itinérant",
+  HEBERGEMENT_SOCIAL: "Hébergement social stable",
   HEBERGEMENT_TIERS: "Hébergé chez un tiers",
   HOTEL: "Hôtel",
-  SANS_ABRI: "Sans abris / Squat",
+  SANS_ABRI: "Sans abri / Squat / Bidonville",
+  LOGEMENT_SANS_ADRESSE: "Logement avec impossibilité d'utiliser son adresse",
 };

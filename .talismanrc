@@ -11,4 +11,6 @@ fileignoreconfig:
   checksum: 3c030be29d255b2fc88eeffc28129fa59c3153de1cc53eeb0327a17a5dbf254b
 - filename: packages/backend/.env.backend.dev.example.env
   checksum: a29c6ec603cf8002a018ef5b2a8855d59999e9fc5fbcc4f64c24acf7ae7d9a32
+- filename: packages/backend/.env.backend.test.local.example.env
+  checksum: 3ed1c6c5f6620f7409e4a9ae012cb30602c171876ad0a42c596420945b2cbbc8
 version: "1.0"

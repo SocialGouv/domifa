@@ -227,6 +227,9 @@ function renderSection1ValidUsagers(context: {
     value: data.residence.sans_abri,
   });
   worksheetRendered.renderCell(i++, "c", {
+    value: data.residence.logement_sans_adresse,
+  });
+  worksheetRendered.renderCell(i++, "c", {
     value: data.residence.autre,
   });
   worksheetRendered.renderCell(i++, "c", {
