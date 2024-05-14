@@ -44,10 +44,10 @@ export class AppSentryInterceptor implements NestInterceptor {
             } ${new Date().toUTCString()}`,
             { error: err, sentry: true, context: logContext }
           );
-        } catch (err) {
+        } catch (error) {
           appLogger.error(
             "[AppSentryInterceptor] Unexpected error while processing sentry event",
-            { error: err, sentry: true }
+            { error, sentry: true }
           );
         }
         return throwError(() => new InternalServerErrorException());
