@@ -1,3 +1,18 @@
+# [2.168.0](https://github.com/SocialGouv/domifa/compare/v2.167.8...v2.168.0) (2024-05-14)
+
+
+### Bug Fixes
+
+* **backend:** fix unit test for config ([e5f8c3d](https://github.com/SocialGouv/domifa/commit/e5f8c3d9bd8ac107e4b2196ea0b0a2c08cf64131))
+* **general:** fix sonarcloud issues ([495a838](https://github.com/SocialGouv/domifa/commit/495a838900dd1ea857024908a2bf02f8b901183c))
+* **stats:** add new stats items ([ed9ea95](https://github.com/SocialGouv/domifa/commit/ed9ea95e3737fc05374bdd0e81faf7c247a71f71))
+
+
+### Features
+
+* **admin:** add stats in domiFa Admin ([a0c579c](https://github.com/SocialGouv/domifa/commit/a0c579c9265e95cc6bded6a1c04f589df52c1b52))
+* **metabase:** add metabase to config ([9f18d4f](https://github.com/SocialGouv/domifa/commit/9f18d4f1c40aab863d5afe605a1050d51ad105ba))
+
 ## [2.167.8](https://github.com/SocialGouv/domifa/compare/v2.167.7...v2.167.8) (2024-05-10)
 
 
