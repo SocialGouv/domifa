@@ -13,4 +13,10 @@ fileignoreconfig:
   checksum: a29c6ec603cf8002a018ef5b2a8855d59999e9fc5fbcc4f64c24acf7ae7d9a32
 - filename: packages/backend/.env.backend.test.local.example.env
   checksum: 3ed1c6c5f6620f7409e4a9ae012cb30602c171876ad0a42c596420945b2cbbc8
+- filename: packages/backend/.env.preset/local-dev.preset.env
+  checksum: 5fe39105797627d9c947ebebc348f735ecaa6914ec097fa80778eab4cddd73b9
+- filename: packages/backend/.env.preset/local-test-docker.preset.env
+  checksum: fb126c330739ab9529735b99088c9349f5c4803832e0765372d5b3f339199561
+- filename: packages/backend/.env.preset/local-test.preset.env
+  checksum: 6ba6d367425758ea9dbdd4baf7e60aff79276fb2e0c3758b58d9f8d084ed6f6d
 version: "1.0"
