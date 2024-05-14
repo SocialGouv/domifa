@@ -6,7 +6,7 @@ export const cleanAddress = (address: string): string => {
     return "";
   }
 
-  const cleanAddress = removeAccents(address)
+  const cleanedAddress = removeAccents(address)
     .toLowerCase()
     .replace(/\'/g, " ")
     .replace(/[^a-z0-9\s]/g, "")
@@ -18,7 +18,7 @@ export const cleanAddress = (address: string): string => {
     .replace(/\s+/g, " ")
     .trim();
 
-  return replaceAbbreviations(cleanAddress);
+  return replaceAbbreviations(cleanedAddress);
 };
 
 export function formatAddressForURL(address: string): string {

@@ -28,9 +28,9 @@ import {
   ENTRETIEN_RESIDENCE,
   ENTRETIEN_SITUATION_PRO,
   StructureStatsFull,
+  ENTRETIEN_CAUSE_INSTABILITE,
 } from "@domifa/common";
 import { formatDateToNgb } from "../../../../shared";
-import { ENTRETIEN_CAUSE_INSTABILITE } from "@domifa/common";
 
 @Component({
   providers: [
