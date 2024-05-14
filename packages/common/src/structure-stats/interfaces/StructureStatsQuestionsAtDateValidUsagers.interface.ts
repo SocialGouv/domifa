@@ -65,6 +65,7 @@ export interface StructureStatsQuestionsAtDateValidUsagers {
     domicile_mobile: number;
     hebergement_social: number;
     hebergement_tiers: number;
+    logement_sans_adresse: number;
     hotel: number;
     sans_abri: number;
     autre: number;

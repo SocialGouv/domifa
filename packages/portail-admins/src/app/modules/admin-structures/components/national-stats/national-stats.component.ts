@@ -6,12 +6,12 @@ import {
   REGIONS_LISTE,
   STRUCTURE_TYPE_LABELS,
   STRUCTURE_TYPE_MAP,
-  Structure,
 } from "@domifa/common";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { saveAs } from "file-saver";
 import { Subscription } from "rxjs";
 import { StatsService } from "../../services/stats.service";
+import { StructureListForStats } from "./StructureListForStats.type";
 
 @Component({
   selector: "app-national-stats",
@@ -30,7 +30,7 @@ export class NationalStatsComponent {
   public readonly STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
   public readonly STRUCTURE_TYPE_MAP = STRUCTURE_TYPE_MAP;
 
-  public structures: Array<Partial<Structure>> = [];
+  public structures: Array<StructureListForStats> = [];
   public metabaseParams = new MetabaseParams();
   public iframeUrl: SafeResourceUrl | null = null;
   public loading = false;
@@ -80,7 +80,7 @@ export class NationalStatsComponent {
 
   public getStructures() {
     this.statsService.getStructures(this.metabaseParams).subscribe({
-      next: (response: Array<Partial<Structure>>) => {
+      next: (response: Array<StructureListForStats>) => {
         this.structures = response;
         this.toastService.success("La liste des structures a été mise à jour");
       },

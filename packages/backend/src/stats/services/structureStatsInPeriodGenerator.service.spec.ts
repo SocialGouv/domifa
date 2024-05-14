@@ -140,6 +140,7 @@ describe("structureStatsInPeriodGenerator", () => {
           hotel: 0,
           non_renseigne: 1,
           sans_abri: 0,
+          logement_sans_adresse: 0,
         },
         sexe: { f: 1, h: 2 },
         situationPro: {

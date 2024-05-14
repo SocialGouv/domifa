@@ -1,8 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { MetabaseParams, Structure } from "@domifa/common";
+import { MetabaseParams } from "@domifa/common";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
+import { StructureListForStats } from "../components/national-stats/StructureListForStats.type";
 
 const BASE_URL = environment.apiUrl + "admin/structures";
 
@@ -32,8 +33,8 @@ export class StatsService {
 
   public getStructures(
     params: MetabaseParams
-  ): Observable<Array<Partial<Structure>>> {
-    return this.http.post<Array<Partial<Structure>>>(
+  ): Observable<Array<StructureListForStats>> {
+    return this.http.post<Array<StructureListForStats>>(
       `${BASE_URL}/metabase-get-structures`,
       params
     );

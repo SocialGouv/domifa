@@ -24,8 +24,13 @@ import {
   CustomToastService,
   AuthService,
 } from "../../../shared/services";
-import { ENTRETIEN_SITUATION_PRO, StructureStatsFull } from "@domifa/common";
+import {
+  ENTRETIEN_RESIDENCE,
+  ENTRETIEN_SITUATION_PRO,
+  StructureStatsFull,
+} from "@domifa/common";
 import { formatDateToNgb } from "../../../../shared";
+import { ENTRETIEN_CAUSE_INSTABILITE } from "@domifa/common";
 
 @Component({
   providers: [
@@ -63,6 +68,9 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   public currentYear = new Date().getFullYear();
   public selectedYear = new Date().getFullYear() - 1;
   public lastYear = new Date().getFullYear() - 1;
+
+  public readonly ENTRETIEN_CAUSE_INSTABILITE = ENTRETIEN_CAUSE_INSTABILITE;
+  public readonly ENTRETIEN_RESIDENCE = ENTRETIEN_RESIDENCE;
 
   constructor(
     private readonly formatter: NgbDateCustomParserFormatter,
