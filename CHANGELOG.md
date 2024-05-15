@@ -1,3 +1,10 @@
+## [2.168.1](https://github.com/SocialGouv/domifa/compare/v2.168.0...v2.168.1) (2024-05-15)
+
+
+### Bug Fixes
+
+* **admin:** fix unit test ([425b1d3](https://github.com/SocialGouv/domifa/commit/425b1d3031efff0cae100cd65127c020e26a3564))
+
 # [2.168.0](https://github.com/SocialGouv/domifa/compare/v2.167.8...v2.168.0) (2024-05-14)
 
 
