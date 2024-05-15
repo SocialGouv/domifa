@@ -9,10 +9,7 @@ import { FA_ICONS } from "./constants/FA_ICONS.const";
 
 import { AdminNomCompletPipe } from "./pipes/admin-nom-complet.pipe";
 
-import {
-  AdminStructuresApiClient,
-  AdminStructuresExportApiClient,
-} from "./services";
+import { AdminStructuresApiClient } from "./services";
 import { AdminStructuresExportComponent } from "./components/admin-structures-export";
 import {
   FormatPhoneNumberPipe,
@@ -39,7 +36,7 @@ import {
     CustomToastrComponent,
   ],
   imports: [CommonModule, FontAwesomeModule],
-  providers: [AdminStructuresExportApiClient, AdminStructuresApiClient],
+  providers: [AdminStructuresApiClient],
 })
 export class SharedModule {
   constructor(private readonly library: FaIconLibrary) {
