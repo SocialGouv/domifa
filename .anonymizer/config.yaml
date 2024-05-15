@@ -74,21 +74,33 @@ dump:
               - operation: set
                 path: uuid
                 value_template: "{{ quote fakerUUID }}"
-
+        - name: "TemplateRecord"
+          params:
+            columns:
+              - "historique"
+            template: >
+              {{ $val := .GetColumnValue "historique" }}
+              {{ $new := list }}
+              {{ if isNotNull $val }}
+                {{ range $val }}
+                  {{ $modified := mergeOverwrite . (dict "motifDetails" nil "orientationDetails" nil "userName" fakerName "userId" (randomInt 0 1000000000) "uuid" fakerUUID) }}
+                  {{ $new = append $new $modified }}
+                {{ end }}
+                {{ .SetColumnValue "historique" (toJson $new) }}
+              {{ end }}
         - name: "TemplateRecord"
           params:
             columns:
               - "ayantsDroits"
             template: >
               {{ $val := .GetColumnValue "ayantsDroits" }}
-              {{ $newPeople := list }}
+              {{ $new := list }}
               {{ if isNotNull $val }}
                 {{ range $val }}
-                  {{ $modifiedPerson := dict "lien" .lien "prenom" fakerFirstName "nom" fakerFirstLastName "dateNaissance" .dateNaissance }}
-                  {{ $newPeople = append $newPeople $modifiedPerson }}
+                  {{ $modified := dict "lien" .lien "prenom" fakerFirstName "nom" fakerFirstLastName "dateNaissance" (truncateDate "month" (mustToDate "2006-01-02" (split "T" .dateNaissance)._0) }} 
+                  {{ $new = append $new $modified }
                 {{ end }}
-                {{ $updatedValue := toJson $newPeople }}
-                {{ .SetColumnValue "ayantsDroits" $updatedValue }}
+                {{ .SetColumnValue "ayantsDroits" (toJson $new) }}
               {{ end }}
         - name: "Replace"
           params:
