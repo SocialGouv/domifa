@@ -8,16 +8,19 @@ import {
   ViewChild,
 } from "@angular/core";
 
-import {
-  DEFAULT_MODAL_OPTIONS,
-  UserStructure,
-} from "../../../../../../_common/model";
+import { DEFAULT_MODAL_OPTIONS } from "../../../../../../_common/model";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "../../../../shared/services";
 import { fadeIn } from "../../../../../shared";
-import { Interaction, PageOptions, Order, PageResults } from "@domifa/common";
+import {
+  UserStructure,
+  Interaction,
+  PageOptions,
+  Order,
+  PageResults,
+} from "@domifa/common";
 
 @Component({
   selector: "app-profil-historique-courriers",

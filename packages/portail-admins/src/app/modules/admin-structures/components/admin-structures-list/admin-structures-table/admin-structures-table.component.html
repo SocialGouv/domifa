@@ -55,28 +55,15 @@
           (click)="sortDashboard('usagersAllCount', 'desc')"
           class="whitespace-nowrap col-font-xs"
         >
-          Domiciliés
+          Dossiers enregistrés
           <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
-        </th>
-        <th
-          (click)="sortDashboard('usagersAyantsDroitsCount', 'desc')"
-          class="col-font-xs"
-        >
-          Ayants<br />droits
-          <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
-        </th>
-        <th
-          (click)="sortDashboard('usagersValidCount', 'desc')"
-          class="whitespace-nowrap col-font-xs"
-        >
-          Actifs <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
         </th>
         <th
           scope="col"
           (click)="sortDashboard('lastLogin', 'desc')"
           class="col-font-xs"
         >
-          Dernière<br />connexion
+          Dernière connexion
           <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
         </th>
         <th
@@ -128,8 +115,6 @@
         </td>
         <td class="col-font-xs">{{ structure.usersCount }}</td>
         <td class="col-font-xs">{{ structure.usagersAllCount }}</td>
-        <td class="col-font-xs">{{ structure.usagersAyantsDroitsCount }}</td>
-        <td class="col-font-xs">{{ structure.usagersValidCount }}</td>
         <td class="col-font-xs">
           {{ structure.lastLogin | date : "dd/MM/yyyy" || "Info manquante" }}
         </td>
@@ -169,60 +154,6 @@
 
                 Ajouter un admin</a
               >
-
-              <a
-                class="cursor-pointer"
-                ngbDropdownItem
-                (click)="exportYearStats(structure.id, 2021)"
-              >
-                <fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'download']"
-                ></fa-icon>
-                Exporter Stats 2021
-              </a>
-              <a
-                class="cursor-pointer"
-                ngbDropdownItem
-                (click)="enableSms(structure)"
-              >
-                <fa-icon
-                  class="text-success"
-                  *ngIf="structure.sms.enabledByDomifa"
-                  [icon]="['fas', 'check']"
-                  aria-hidden="true"
-                ></fa-icon>
-                <fa-icon
-                  *ngIf="!structure.sms.enabledByDomifa"
-                  [icon]="['fas', 'times']"
-                  aria-hidden="true"
-                ></fa-icon>
-                {{ structure.sms.enabledByDomifa ? "Désactiver" : "Activer" }}
-                les SMS
-              </a>
-              <a
-                class="cursor-pointer"
-                ngbDropdownItem
-                (click)="enablePortailUsager(structure)"
-              >
-                <fa-icon
-                  class="text-success"
-                  *ngIf="structure.portailUsager.enabledByDomifa"
-                  [icon]="['fas', 'check']"
-                  aria-hidden="true"
-                ></fa-icon>
-                <fa-icon
-                  aria-hidden="true"
-                  *ngIf="!structure.portailUsager.enabledByDomifa"
-                  [icon]="['fas', 'times']"
-                ></fa-icon>
-                {{
-                  structure.portailUsager.enabledByDomifa
-                    ? "Désactiver"
-                    : "Activer"
-                }}
-                le Portail usager
-              </a>
               <a
                 class="cursor-pointer text-danger"
                 ngbDropdownItem

@@ -17,10 +17,7 @@ import {
 
 import { Subject, Subscription, of } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
-import {
-  FormEmailTakenValidator,
-  UserStructure,
-} from "../../../../../_common/model";
+import { FormEmailTakenValidator } from "../../../../../_common/model";
 import {
   EmailValidator,
   fadeInOut,
@@ -28,6 +25,7 @@ import {
 } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
 import { UsersService, userStructureBuilder } from "../../services";
+import { UserStructure } from "@domifa/common";
 
 @Component({
   animations: [fadeInOut],

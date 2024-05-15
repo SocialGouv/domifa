@@ -49,6 +49,7 @@ export class StructuresAuthService {
       acceptTerms: user.acceptTerms,
       structureId: user.structureId,
       isSuperAdminDomifa,
+      userRightStatus: isSuperAdminDomifa ? "super-admin-domifa" : "structure",
       domifaVersion: domifaConfig().version.toString(),
     };
     return {

@@ -1,5 +1,4 @@
-import { DEFAULT_MODAL_OPTIONS, UserStructure } from "src/_common/model";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
+import { DEFAULT_MODAL_OPTIONS } from "src/_common/model";
 import {
   Component,
   OnDestroy,
@@ -10,6 +9,8 @@ import {
 import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { UserIdleService } from "angular-user-idle";
 import { Subscription } from "rxjs";
+import { UserStructure } from "@domifa/common";
+import { AuthService } from "../../../../shared/services";
 
 @Component({
   selector: "app-idle-manager",

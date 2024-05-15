@@ -5,12 +5,12 @@ import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import {
   UsagerLight,
-  UserStructure,
   UserStructureEditProfile,
   UserStructureProfile,
 } from "../../../../_common/model";
 import { userStructureBuilder } from "./userStructureBuilder.service";
-import { ApiMessage, UserStructureRole } from "@domifa/common";
+
+import { UserStructure, ApiMessage, UserStructureRole } from "@domifa/common";
 
 @Injectable({
   providedIn: "root",

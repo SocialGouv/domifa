@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
-import { UserStructure } from "../../../../../../_common/model";
+import { UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-display-contact-details",

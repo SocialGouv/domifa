@@ -1,5 +1,4 @@
-import { Structure } from "@domifa/common";
-import { UserStructure } from "../../_common/model";
+import { Structure, UserStructure } from "@domifa/common";
 
 export type StatsExportUser = Pick<
   UserStructure,

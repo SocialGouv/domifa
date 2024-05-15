@@ -10,10 +10,7 @@ import { Title } from "@angular/platform-browser";
 
 import { Subject, Subscription, of } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
-import {
-  UserStructure,
-  FormEmailTakenValidator,
-} from "../../../../../_common/model";
+import { FormEmailTakenValidator } from "../../../../../_common/model";
 import {
   EmailValidator,
   fadeInOut,
@@ -29,7 +26,7 @@ import {
 import { StructureService } from "../../services";
 
 import isEmail from "validator/lib/isEmail";
-import { StructureCommon } from "@domifa/common";
+import { UserStructure, StructureCommon } from "@domifa/common";
 
 @Component({
   animations: [fadeInOut],

@@ -1,4 +1,4 @@
-import { UserStructure } from "../../_common/model/user-structure/UserStructure.type";
+import { UserStructure } from "@domifa/common";
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 
 export const CurrentChosenUserStructure = createParamDecorator(

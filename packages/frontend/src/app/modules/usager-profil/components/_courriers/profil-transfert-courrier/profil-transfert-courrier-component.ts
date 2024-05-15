@@ -19,10 +19,7 @@ import {
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
-import {
-  DEFAULT_MODAL_OPTIONS,
-  UserStructure,
-} from "../../../../../../_common/model";
+import { DEFAULT_MODAL_OPTIONS } from "../../../../../../_common/model";
 import {
   endDateAfterBeginDateValidator,
   formatDateToNgb,
@@ -35,6 +32,7 @@ import {
 } from "../../../../shared/services";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerOptionsService } from "../../../services/usager-options.service";
+import { UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-profil-transfert-courrier",

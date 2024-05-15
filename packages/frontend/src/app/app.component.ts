@@ -18,12 +18,13 @@ import { MatomoTracker } from "ngx-matomo-client";
 import { filter, Subscription } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 
-import { DEFAULT_MODAL_OPTIONS, UserStructure } from "../_common/model";
+import { DEFAULT_MODAL_OPTIONS } from "../_common/model";
 import { CustomToastService } from "./modules/shared/services";
 
 import { fadeInOut } from "./shared";
 import DOMIFA_NEWS from "../assets/files/news.json";
 import { LIENS_PARTENAIRES } from "./modules/general/components/plan-site/LIENS_PARTENAIRES.const";
+import { UserStructure } from "@domifa/common";
 
 @Component({
   animations: [fadeInOut],

@@ -1,4 +1,4 @@
-import { UserStructure } from "../../../../_common/model";
+import { UserStructure } from "@domifa/common";
 import { StructureCommonWeb } from "../../structures/classes/StructureCommonWeb.class";
 
 export const userStructureBuilder = {

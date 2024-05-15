@@ -8,12 +8,11 @@ import { environment } from "src/environments/environment";
 import {
   UsagerEtatCivilFormData,
   UsagerLight,
-  UserStructure,
 } from "../../../../_common/model";
 
 import { userStructureBuilder } from "../../users/services";
 import { Store } from "@ngrx/store";
-import { Usager } from "@domifa/common";
+import { UserStructure, Usager } from "@domifa/common";
 
 @Injectable({
   providedIn: "root",

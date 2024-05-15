@@ -15,7 +15,6 @@ import {
 
 import { saveAs } from "file-saver";
 
-import { UserStructure } from "../../../../../_common/model";
 import { StatsService } from "../../services/stats.service";
 import { buildExportStructureStatsFileName } from "./services";
 import {
@@ -29,6 +28,7 @@ import {
   ENTRETIEN_SITUATION_PRO,
   StructureStatsFull,
   ENTRETIEN_CAUSE_INSTABILITE,
+  UserStructure,
 } from "@domifa/common";
 import { formatDateToNgb } from "../../../../shared";
 

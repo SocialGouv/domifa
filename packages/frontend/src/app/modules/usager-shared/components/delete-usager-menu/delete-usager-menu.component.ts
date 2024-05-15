@@ -12,7 +12,6 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import {
   DEFAULT_MODAL_OPTIONS,
   UsagerLight,
-  UserStructure,
 } from "../../../../../_common/model";
 
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
@@ -22,6 +21,7 @@ import { Subscription } from "rxjs";
 import {
   USAGER_DECISION_STATUT_LABELS,
   UsagerDecisionStatut,
+  UserStructure,
 } from "@domifa/common";
 import { getUrlUsagerProfil } from "../../utils";
 import { AuthService } from "../../../shared/services";

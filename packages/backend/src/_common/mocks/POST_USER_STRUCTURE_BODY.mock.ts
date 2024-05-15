@@ -1,6 +1,10 @@
-import { UserStructureRole, StructureType } from "@domifa/common";
+import {
+  UserStructureRole,
+  StructureType,
+  UserStructure,
+} from "@domifa/common";
 
-export const USER_STRUCTURE_MOCK = {
+export const POST_USER_STRUCTURE_BODY: Partial<UserStructure> = {
   password: "xxx",
   email: "s1-admin@yopmail.com",
   id: 1,
@@ -44,7 +48,14 @@ export const USER_STRUCTURE_MOCK = {
     portailUsager: {
       enabledByDomifa: false,
       enabledByStructure: false,
+      usagerLoginUpdateLastInteraction: false,
     },
+    organismeType: null,
+    lastLogin: null,
+    timeZone: "Europe/Paris",
+    acceptTerms: new Date(),
+    telephone: { numero: "0602030405", countryCode: "fr" },
   },
   structureId: 100,
+  userRightStatus: "super-admin-domifa",
 };

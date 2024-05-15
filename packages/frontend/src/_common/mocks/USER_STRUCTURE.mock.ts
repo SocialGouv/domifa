@@ -1,12 +1,16 @@
 import { CountryISO } from "@khazii/ngx-intl-tel-input";
-import { UserStructure } from "../model";
-import { StructureType, UserStructureRole } from "@domifa/common";
+
+import {
+  StructureType,
+  UserStructure,
+  UserStructureRole,
+} from "@domifa/common";
 
 export const USER_STRUCTURE_MOCK: UserStructure = {
   password: "xxx",
   uuid: "xxx",
   email: "s1-admin@yopmail.com",
-  mail: {
+  mails: {
     guide: false,
     import: false,
   },
@@ -66,4 +70,5 @@ export const USER_STRUCTURE_MOCK: UserStructure = {
     },
   },
   structureId: 100,
+  userRightStatus: "structure",
 };

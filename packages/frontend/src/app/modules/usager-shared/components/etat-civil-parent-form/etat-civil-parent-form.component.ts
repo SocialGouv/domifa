@@ -33,7 +33,6 @@ import {
   PHONE_PLACEHOLDERS,
   UsagerEtatCivilFormData,
   UsagerFormAyantDroit,
-  UserStructure,
 } from "../../../../../_common/model";
 import {
   PREFERRED_COUNTRIES,
@@ -57,7 +56,11 @@ import {
   mobilePhoneValidator,
   setFormPhone,
 } from "../../../shared/phone";
-import { LIEN_PARENTE_LABELS, UsagerAyantDroit } from "@domifa/common";
+import {
+  LIEN_PARENTE_LABELS,
+  UsagerAyantDroit,
+  UserStructure,
+} from "@domifa/common";
 import { COUNTRIES } from "@domifa/common";
 
 @Component({

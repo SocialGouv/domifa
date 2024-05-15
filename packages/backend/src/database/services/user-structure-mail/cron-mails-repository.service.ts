@@ -1,6 +1,6 @@
-import { UserStructureRole } from "@domifa/common";
+import { UserStructureRole, UserStructure } from "@domifa/common";
 import { userStructureRepository } from "..";
-import { UserStructure } from "../../../_common/model";
+
 import {
   joinSelectFields,
   postgresQueryBuilder,

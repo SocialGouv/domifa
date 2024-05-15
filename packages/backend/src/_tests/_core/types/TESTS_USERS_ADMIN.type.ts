@@ -1,4 +1,4 @@
-import { UserStructure } from "../../../_common/model";
+import { UserStructure } from "@domifa/common";
 
 // NOTE: les profils de test sont aussi documentés dans le fichier "31_tests-users.md"
 

@@ -9,9 +9,13 @@ import {
 } from "typeorm";
 import { titleCase } from "typeorm/util/StringUtils";
 import { StructureTable } from "..";
-import { UserStructure } from "../../../_common/model";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
-import { UserStructureRole, UserStructureMails } from "@domifa/common";
+import {
+  UserStructureRole,
+  UserStructureMails,
+  UserRightStatus,
+  UserStructure,
+} from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "user_structure" })
@@ -65,6 +69,12 @@ export class UserStructureTable
 
   @Column({ type: "timestamptz", nullable: true })
   acceptTerms: Date;
+
+  @Column({ type: "simple-array", nullable: true })
+  territories: string[];
+
+  @Column({ type: "text", default: "structure" })
+  userRightStatus: UserRightStatus;
 
   @BeforeInsert()
   nameToUpperCase() {

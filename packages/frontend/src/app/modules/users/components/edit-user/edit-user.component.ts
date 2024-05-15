@@ -21,7 +21,6 @@ import { map, takeUntil } from "rxjs/operators";
 import {
   FormEmailTakenValidator,
   UsagerLight,
-  UserStructure,
 } from "../../../../../_common/model";
 import {
   PasswordValidator,
@@ -32,6 +31,7 @@ import { format } from "date-fns";
 import { PASSWORD_VALIDATOR } from "../../PASSWORD_VALIDATOR.const";
 import { EmailValidator, NoWhiteSpaceValidator } from "../../../../shared";
 import { AuthService, CustomToastService } from "../../../shared/services";
+import { UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-edit-user",

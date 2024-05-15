@@ -1,4 +1,3 @@
-import { UserStructure } from "../../../../../../_common/model/user-structure/UserStructure.type";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { saveAs } from "file-saver";
 import {
@@ -10,6 +9,7 @@ import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { DocumentService } from "../../../../usager-shared/services/document.service";
 import { CustomToastService } from "../../../../shared/services/custom-toast.service";
 import { Subscription } from "rxjs";
+import { UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-profil-structure-docs",

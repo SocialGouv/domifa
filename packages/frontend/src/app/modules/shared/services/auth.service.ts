@@ -7,11 +7,12 @@ import jwtDecode from "jwt-decode";
 import { BehaviorSubject, Observable, firstValueFrom, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
-import { UserStructure } from "../../../../_common/model";
+
 import { cacheManager } from "../../../shared";
 import { userStructureBuilder } from "../../users/services";
 import { CustomToastService } from "./custom-toast.service";
 import { getCurrentScope } from "@sentry/angular-ivy";
+import { UserStructure } from "@domifa/common";
 
 @Injectable({
   providedIn: "root",

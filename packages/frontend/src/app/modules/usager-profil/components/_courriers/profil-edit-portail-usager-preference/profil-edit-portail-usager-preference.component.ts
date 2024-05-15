@@ -7,13 +7,11 @@ import {
 import { saveAs } from "file-saver";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import {
-  StructureDocTypesAvailable,
-  UserStructure,
-} from "../../../../../../_common/model";
+import { StructureDocTypesAvailable } from "../../../../../../_common/model";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { DocumentService } from "../../../../usager-shared/services/document.service";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
+import { UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-profil-edit-portail-usager-preference",

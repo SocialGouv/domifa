@@ -1,8 +1,8 @@
 import { In } from "typeorm";
-import { UserStructure, UserStructureProfile } from "../../../_common/model";
+import { UserStructureProfile } from "../../../_common/model";
 import { UserStructureTable } from "../../entities";
 import { myDataSource } from "../_postgres";
-import { UserStructureRole } from "@domifa/common";
+import { UserStructureRole, UserStructure } from "@domifa/common";
 
 export type AppUserForAdminEmail = Pick<
   UserStructure,

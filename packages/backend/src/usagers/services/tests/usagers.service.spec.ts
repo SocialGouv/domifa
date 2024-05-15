@@ -8,8 +8,9 @@ import { UsersModule } from "../../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
 import { CreateUsagerDto } from "../../dto";
 import { UsagersService } from "../usagers.service";
-import { UserStructure } from "../../../_common/model";
+
 import { UsagerHistoryStateService } from "../usagerHistoryState.service";
+import { UserStructure } from "@domifa/common";
 
 describe("UsagersService", () => {
   let service: UsagersService;

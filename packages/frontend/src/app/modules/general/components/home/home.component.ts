@@ -3,11 +3,10 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { CountUpOptions } from "countup.js";
 import { MatomoTracker } from "ngx-matomo-client";
-import { UserStructure } from "../../../../../_common/model";
 
 import { GeneralService } from "../../services/general.service";
 import { AuthService } from "../../../shared/services";
-import { HomeStats } from "@domifa/common";
+import { HomeStats, UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-home",

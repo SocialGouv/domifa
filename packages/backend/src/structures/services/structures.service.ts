@@ -1,10 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 
 import { structureRepository } from "../../database";
-import { UserStructure } from "../../_common/model";
+
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 import { CodePostalDto } from "../dto";
-import { Structure } from "@domifa/common";
+import { Structure, UserStructure } from "@domifa/common";
 
 @Injectable()
 export class StructuresService {

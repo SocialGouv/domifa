@@ -26,6 +26,7 @@ export class UsagersAuthService {
       structureId: user.structureId,
       lastLogin: user.lastLogin,
       isSuperAdminDomifa: false,
+      userRightStatus: "structure",
     };
     return {
       access_token: this.jwtService.sign(payload),

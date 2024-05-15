@@ -1,4 +1,4 @@
-import { UserStructure } from "src/_common/model";
+import { UserStructure } from "@domifa/common";
 import { USER_STRUCTURE_MOCK } from "./USER_STRUCTURE.mock";
 import { BehaviorSubject } from "rxjs";
 

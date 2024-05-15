@@ -7,14 +7,11 @@ import {
 } from "@angular/core";
 import saveAs from "file-saver";
 import { Subscription } from "rxjs";
-import {
-  StructureDocTypesAvailable,
-  UserStructure,
-} from "../../../../../_common/model";
+import { StructureDocTypesAvailable } from "../../../../../_common/model";
 import { CustomToastService } from "../../../shared/services";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-import { CerfaDocType } from "@domifa/common";
+import { UserStructure, CerfaDocType } from "@domifa/common";
 
 @Component({
   selector: "app-manage-download-docs",

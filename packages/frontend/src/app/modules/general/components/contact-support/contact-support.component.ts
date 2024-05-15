@@ -1,5 +1,5 @@
 import { GeneralService } from "./../../services/general.service";
-import { UserStructure } from "./../../../../../_common/model/user-structure/UserStructure.type";
+import { UserStructure } from "@domifa/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,

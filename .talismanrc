@@ -6,9 +6,9 @@ fileignoreconfig:
 - filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
   checksum: 3cf66fd4a0f28be7ca275cf443dcf3079681cd56384a862eabbdc410618427a9
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: 4b6c819ff79fad173f8e8ee4bc22a46ef9f5fdc7eea91c5563375a59b079d696
+  checksum: 48f3688f4e839fed0f49e5da2542bbfab17790dfd79ef2b3eaf8c99efb2af2b8
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: 3c030be29d255b2fc88eeffc28129fa59c3153de1cc53eeb0327a17a5dbf254b
+  checksum: eba8219fc98d3c684385671d987c258497c6291325ed331a0d6f49c8d000c495
 - filename: packages/backend/.env.backend.dev.example.env
   checksum: a29c6ec603cf8002a018ef5b2a8855d59999e9fc5fbcc4f64c24acf7ae7d9a32
 - filename: packages/backend/.env.backend.test.local.example.env
@@ -19,4 +19,6 @@ fileignoreconfig:
   checksum: fb126c330739ab9529735b99088c9349f5c4803832e0765372d5b3f339199561
 - filename: packages/backend/.env.preset/local-test.preset.env
   checksum: 6ba6d367425758ea9dbdd4baf7e60aff79276fb2e0c3758b58d9f8d084ed6f6d
+- filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
+  checksum: 224c3360e764351b8097dd7b3a11abb3ae17d0e72bb56f7b76825f7aac898d27
 version: "1.0"

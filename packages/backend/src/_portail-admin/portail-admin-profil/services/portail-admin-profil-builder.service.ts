@@ -29,7 +29,6 @@ async function build({
   });
 
   const user: PortailAdminUser = {
-    uuid: userAdmin.uuid,
     id: userAdmin.id,
     nom: userAdmin.nom,
     prenom: userAdmin.prenom,
@@ -37,6 +36,8 @@ async function build({
     password: userAdmin.password,
     verified: userAdmin.verified,
     lastLogin: userAdmin.lastLogin,
+    userRightStatus: "super-admin-domifa",
+    territories: userAdmin?.territories,
   };
 
   const portailAdminProfile: PortailAdminProfile = {

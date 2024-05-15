@@ -13,14 +13,13 @@ import {
   DEFAULT_MODAL_OPTIONS,
   ETAPES_DEMANDE_URL,
   UsagerLight,
-  UserStructure,
 } from "../../../../../_common/model";
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
 import { Subscription } from "rxjs";
-import { CerfaDocType } from "@domifa/common";
+import { UserStructure, CerfaDocType } from "@domifa/common";
 
 @Component({
   selector: "app-profil-head",
