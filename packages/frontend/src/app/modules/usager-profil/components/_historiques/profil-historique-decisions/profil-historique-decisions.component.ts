@@ -3,8 +3,9 @@ import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import {
   USAGER_DECISION_STATUT_LABELS_PROFIL,
   UsagerDecision,
+  UserStructure,
 } from "@domifa/common";
-import { UserStructure } from "../../../../../../_common/model";
+
 import { UsagersFilterCriteriaSortValues } from "../../../../manage-usagers/components/usager-filter";
 
 @Component({

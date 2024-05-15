@@ -1,9 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
-import { UserStructure } from "../../../../../../_common/model";
+
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
-import { MessageSms, SMS_STATUS_LABELS } from "@domifa/common";
+import { MessageSms, SMS_STATUS_LABELS, UserStructure } from "@domifa/common";
 import { SMS_LABELS } from "../../../constants";
 
 @Component({

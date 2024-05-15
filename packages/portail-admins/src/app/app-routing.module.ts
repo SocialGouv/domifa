@@ -32,7 +32,7 @@ const routes: Routes = [
         "./modules/admin-structures-confirm/admin-structures-confirm.module"
       ).then((m) => m.AdminStructuresConfirmModule),
   },
-  { path: "", redirectTo: "/structures", pathMatch: "full" },
+  { path: "", redirectTo: "/structures/rapports", pathMatch: "full" },
   { path: "mentions-legales", component: MentionsLegalesComponent },
   { path: "plan-site", component: PlanSiteComponent },
   { path: "confidentialite", component: PolitiqueComponent },

@@ -1,6 +1,6 @@
 import { domifaConfig } from "../../../../config";
 import { MessageEmailContent } from "../../../../database";
-import { UserStructure } from "../../../../_common/model";
+import { UserStructure } from "@domifa/common";
 import {
   DOMIFA_DEFAULT_MAIL_CONFIG,
   mailRecipientsFilter,

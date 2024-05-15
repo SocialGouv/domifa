@@ -12,10 +12,10 @@ import {
   AppTestHelper,
   JEST_FAKE_TIMER,
 } from "../../util/test";
-import { UserStructure } from "../../_common/model";
+
 import { InteractionDto } from "../dto";
 import { InteractionsModule } from "../interactions.module";
-import { Usager, Structure } from "@domifa/common";
+import { Usager, Structure, UserStructure } from "@domifa/common";
 
 describe("InteractionsDeletor", () => {
   let context: AppTestContext;

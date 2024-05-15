@@ -1,5 +1,5 @@
 import { AppTestHelper } from "../../../util/test";
-import { UserStructure } from "../../../_common/model";
+import { UserStructure } from "@domifa/common";
 import { cronMailsRepository } from "./cron-mails-repository.service";
 
 describe("cronMailsRepository", () => {

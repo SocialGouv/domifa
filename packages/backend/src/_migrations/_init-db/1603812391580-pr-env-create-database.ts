@@ -14,14 +14,14 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
     ) {
       return;
     }
-    appLogger.warn("CREATION DB ....");
+    appLogger.warn("Lancement de la création de la DB");
 
     await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
     await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "postgis"`);
 
     await createTables(queryRunner);
 
-    appLogger.warn("CREATION DB : SUCCESS");
+    appLogger.warn("Création de la DB réussi");
   }
 
   public async down(): Promise<void> {
@@ -575,6 +575,8 @@ async function createTables(queryRunner: QueryRunner) {
       "passwordLastUpdate" timestamptz NULL,
       verified bool DEFAULT true NOT NULL,
       "acceptTerms" timestamptz NULL,
+      territories text NULL,
+      "isAdministrativeAdmin" bool DEFAULT false NOT NULL,
       CONSTRAINT "PK_a58dc229068f494a0360b170322" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_22a5c4a3d9b2fb8e4e73fc4ada1" UNIQUE (id),
       CONSTRAINT "UQ_3fa909d0e37c531ebc237703391" UNIQUE (email),

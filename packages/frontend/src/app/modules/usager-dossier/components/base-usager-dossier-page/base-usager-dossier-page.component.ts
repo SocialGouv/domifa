@@ -4,12 +4,12 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Observable, Subscription } from "rxjs";
 
 import { Store } from "@ngrx/store";
-import { UserStructure, UsagerLight } from "../../../../../_common/model";
+import { UsagerLight } from "../../../../../_common/model";
 import { selectUsagerByRef, getUsagerNomComplet } from "../../../../shared";
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
-import { Usager } from "@domifa/common";
+import { Usager, UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-base-usager-dossier-page",

@@ -27,10 +27,7 @@ import { MatomoTracker } from "ngx-matomo-client";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter.service";
-import {
-  UserStructure,
-  DEFAULT_MODAL_OPTIONS,
-} from "../../../../../../_common/model";
+import { DEFAULT_MODAL_OPTIONS } from "../../../../../../_common/model";
 import {
   endDateAfterBeginDateValidator,
   NoWhiteSpaceValidator,
@@ -44,7 +41,7 @@ import {
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerProcuration } from "../../../../usager-shared/interfaces/UsagerProcuration.interface";
 import { UsagerOptionsService } from "../../../services/usager-options.service";
-import { UsagerOptionsProcuration } from "@domifa/common";
+import { UserStructure, UsagerOptionsProcuration } from "@domifa/common";
 @Component({
   selector: "app-profil-procuration-courrier",
   templateUrl: "./profil-procuration-courrier.html",

@@ -10,11 +10,7 @@ import {
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 
-import {
-  UserStructure,
-  UsagerLight,
-  RdvForm,
-} from "../../../../../_common/model";
+import { UsagerLight, RdvForm } from "../../../../../_common/model";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 import {
@@ -40,7 +36,7 @@ import {
   AuthService,
   CustomToastService,
 } from "../../../shared/services";
-import { CerfaDocType, Usager } from "@domifa/common";
+import { UserStructure, CerfaDocType, Usager } from "@domifa/common";
 
 @Component({
   animations: [fadeInOut],

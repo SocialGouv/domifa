@@ -23,6 +23,8 @@ export class AdminsAuthService {
       userId: user.id,
       lastLogin: user.lastLogin,
       isSuperAdminDomifa: true,
+      userRightStatus: user?.userRightStatus,
+      territories: user?.territories ?? [],
     };
     return {
       access_token: this.jwtService.sign(payload),

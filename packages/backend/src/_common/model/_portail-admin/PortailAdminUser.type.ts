@@ -1,12 +1,14 @@
-import { AppEntity } from "../_core";
+import { UserStructure } from "@domifa/common";
 
-export type PortailAdminUser = AppEntity & {
-  // ETAT CIVIL
-  id: number;
-  nom: string;
-  prenom: string;
-  email?: string;
-  password?: string;
-  verified: boolean;
-  lastLogin?: Date;
-};
+export type PortailAdminUser = Pick<
+  UserStructure,
+  | "id"
+  | "nom"
+  | "prenom"
+  | "email"
+  | "password"
+  | "verified"
+  | "lastLogin"
+  | "territories"
+  | "userRightStatus"
+>;

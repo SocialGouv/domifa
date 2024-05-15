@@ -1,4 +1,4 @@
-import { UserStructureCreatedBy } from "../../user-structure";
+import { UserStructureCreatedBy } from "@domifa/common";
 import { AppEntity } from "../../_core";
 import { StructureCustomDocType } from "./StructureCustomDocType.type";
 

@@ -1,12 +1,13 @@
 import { Component, Input, OnDestroy } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription, concatMap, from, toArray } from "rxjs";
-import { UserStructure } from "../../../../../_common/model";
+
 import { CustomToastService } from "../../../shared/services";
 import { UsagerProfilService } from "../../../usager-profil/services/usager-profil.service";
 import { Store } from "@ngrx/store";
 import { cacheManager } from "../../../../shared";
 import { Router } from "@angular/router";
+import { UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-delete-usager",

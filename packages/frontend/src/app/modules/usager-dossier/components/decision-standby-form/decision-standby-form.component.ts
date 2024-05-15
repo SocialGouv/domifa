@@ -18,8 +18,9 @@ import { NoWhiteSpaceValidator } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerNotesService } from "../../../usager-notes/services/usager-notes.service";
 import { UsagerDecisionService } from "../../../usager-shared/services";
-import { UserStructure } from "../../../../../_common/model";
+
 import { format } from "date-fns";
+import { UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-decision-standby-form",

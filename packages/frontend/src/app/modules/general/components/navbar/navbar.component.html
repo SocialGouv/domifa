@@ -154,6 +154,20 @@
             <ng-container *ngIf="me">
               <div class="d-flex">
                 <a
+                  *ngIf="me.role === 'admin' && me.structureId === 1"
+                  ngbDropdownItem
+                  [href]="portailAdminUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  ariaCurrentWhenActive="page"
+                >
+                  <fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'user-shield']"
+                  ></fa-icon>
+                  Admin DomiFa
+                </a>
+                <a
                   class="btn btn-outline-primary"
                   [routerLink]="!me ? ['/'] : ['/manage']"
                   ariaCurrentWhenActive="page"
@@ -186,20 +200,6 @@
                     ngbDropdownMenu
                     aria-labelledby="dropdownAuthenticatedMenu"
                   >
-                    <a
-                      *ngIf="me.role === 'admin' && me.structureId === 1"
-                      ngbDropdownItem
-                      [href]="portailAdminUrl"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      ariaCurrentWhenActive="page"
-                    >
-                      <fa-icon
-                        aria-hidden="true"
-                        [icon]="['fas', 'user-shield']"
-                      ></fa-icon>
-                      Admin DomiFa
-                    </a>
                     <a
                       ngbDropdownItem
                       routerLink="/news"

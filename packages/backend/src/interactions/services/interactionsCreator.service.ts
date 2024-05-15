@@ -3,10 +3,10 @@ import {
   InteractionsTable,
   usagerRepository,
 } from "../../database";
-import { UserStructure } from "../../_common/model";
+
 import { InteractionDto } from "../dto";
 import { interactionsTypeManager } from "./interactionsTypeManager.service";
-import { Usager, CommonInteraction } from "@domifa/common";
+import { Usager, CommonInteraction, UserStructure } from "@domifa/common";
 
 export const interactionsCreator = {
   createInteraction,

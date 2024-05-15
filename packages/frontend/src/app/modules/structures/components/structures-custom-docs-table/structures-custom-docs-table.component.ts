@@ -9,9 +9,10 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 
 import { saveAs } from "file-saver";
 
-import { StructureDoc, UserStructure } from "../../../../../_common/model";
+import { StructureDoc } from "../../../../../_common/model";
 import { StructureDocService } from "../../services/structure-doc.service";
 import { Subscription } from "rxjs";
+import { UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-structures-custom-docs-table",

@@ -8,9 +8,9 @@ import {
   ManyToOne,
 } from "typeorm";
 import { StructureDoc } from "../../../_common/model/structure-doc";
-import { UserStructureCreatedBy } from "../../../_common/model/user-structure/UserStructureCreatedBy.type";
 import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
+import { UserStructureCreatedBy } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "structure_doc" })

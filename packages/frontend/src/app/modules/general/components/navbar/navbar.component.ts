@@ -2,8 +2,9 @@ import { Component, Input } from "@angular/core";
 
 import { MatomoTracker } from "ngx-matomo-client";
 import { environment } from "../../../../../environments/environment";
-import { UserStructure } from "../../../../../_common/model";
+
 import { AuthService } from "../../../shared/services/auth.service";
+import { UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-navbar",
@@ -14,14 +15,14 @@ export class NavbarComponent {
   public matomoInfo: boolean;
   public today = new Date();
 
-  public portailAdminUrl = environment.portailAdminUrl;
+  public readonly portailAdminUrl = environment.portailAdminUrl;
 
   @Input() public pendingNews!: boolean;
   @Input() public me!: UserStructure | null;
 
   constructor(
     private readonly authService: AuthService,
-    public matomoService: MatomoTracker
+    public readonly matomoService: MatomoTracker
   ) {
     this.matomoInfo = false;
     this.initMatomo();

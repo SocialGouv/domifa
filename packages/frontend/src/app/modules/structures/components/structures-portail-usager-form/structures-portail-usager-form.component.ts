@@ -5,8 +5,8 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { AuthService } from "../../../shared/services/auth.service";
 import { StructureService } from "../../services/structure.service";
 import { Title } from "@angular/platform-browser";
-import { UserStructure } from "../../../../../_common/model";
-import { StructureCommon } from "@domifa/common";
+
+import { UserStructure, StructureCommon } from "@domifa/common";
 
 @Component({
   selector: "app-structures-portail-usager-form",

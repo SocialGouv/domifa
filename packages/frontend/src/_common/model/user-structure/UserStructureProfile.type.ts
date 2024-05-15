@@ -1,4 +1,4 @@
-import { UserStructure } from "./UserStructure.type";
+import { UserStructure } from "@domifa/common";
 
 export type UserStructureProfile = Pick<
   UserStructure,

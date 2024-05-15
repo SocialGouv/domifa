@@ -2,7 +2,7 @@ import {
   MessageEmailContent,
   userStructureSecurityResetPasswordInitiator,
 } from "../../../../database";
-import { UserStructure } from "../../../../_common/model";
+import { UserStructure } from "@domifa/common";
 import {
   DOMIFA_DEFAULT_MAIL_CONFIG,
   mailRecipientsFilter,

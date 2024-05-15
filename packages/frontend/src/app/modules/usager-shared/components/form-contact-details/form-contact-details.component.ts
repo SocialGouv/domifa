@@ -16,7 +16,6 @@ import {
   PHONE_PLACEHOLDERS,
   Telephone,
   UsagerEtatCivilFormData,
-  UserStructure,
 } from "../../../../../_common/model";
 
 import {
@@ -35,6 +34,7 @@ import {
 
 import { Observable, Subscription } from "rxjs";
 import { PREFERRED_COUNTRIES, EmailValidator } from "../../../../shared";
+import { UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-form-contact-details",

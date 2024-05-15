@@ -23,7 +23,7 @@ import {
 } from "rxjs";
 import { debounceTime, filter, map, switchMap, tap } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { UsagerLight, UserStructure } from "../../../../../_common/model";
+import { UsagerLight } from "../../../../../_common/model";
 import {
   fadeInOut,
   selectSearchPageLoadedUsagersData,
@@ -42,6 +42,7 @@ import {
 } from "../usager-filter";
 import { select, Store } from "@ngrx/store";
 import { ManageUsagersService } from "../../services/manage-usagers.service";
+import { UserStructure } from "@domifa/common";
 
 const AUTO_REFRESH_PERIOD = 600000; // 10 minutes
 

@@ -17,7 +17,7 @@ import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 
 import { Subscription } from "rxjs";
-import { UserStructure, UsagersImportMode } from "../../../../../_common/model";
+import { UsagersImportMode } from "../../../../../_common/model";
 import { LoadingService } from "../../../shared/services";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { ImportUsagersService } from "../../import-usagers.service";
@@ -27,6 +27,7 @@ import {
   USAGERS_IMPORT_COLUMNS_AYANT_DROIT,
   ImportPreviewTable,
   ImportPreviewRow,
+  UserStructure,
 } from "@domifa/common";
 
 @Component({

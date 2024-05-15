@@ -7,14 +7,13 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 
 import {
   DEFAULT_MODAL_OPTIONS,
-  UserStructure,
   UserStructureProfile,
 } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsersService } from "../../services/users.service";
 import { UsagersFilterCriteriaSortValues } from "../../../manage-usagers/components/usager-filter";
 import { differenceInCalendarDays } from "date-fns";
-import { UserStructureRole } from "@domifa/common";
+import { UserStructure, UserStructureRole } from "@domifa/common";
 
 @Component({
   selector: "app-user-profil",

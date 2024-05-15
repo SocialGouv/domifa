@@ -11,13 +11,10 @@ import { saveAs } from "file-saver";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
-import {
-  DEFAULT_MODAL_OPTIONS,
-  UserStructure,
-} from "../../../../../_common/model";
+import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { StructureService } from "../../services/structure.service";
-import { StructureCommon } from "@domifa/common";
+import { UserStructure, StructureCommon } from "@domifa/common";
 
 @Component({
   selector: "app-structures-edit",

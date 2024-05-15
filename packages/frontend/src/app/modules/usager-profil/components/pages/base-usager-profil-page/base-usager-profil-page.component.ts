@@ -2,12 +2,13 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
-import { UsagerLight, UserStructure } from "../../../../../../_common/model";
+import { UsagerLight } from "../../../../../../_common/model";
 import { getUsagerNomComplet, selectUsagerByRef } from "../../../../../shared";
 import { AuthService, CustomToastService } from "../../../../shared/services";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { Store } from "@ngrx/store";
+import { UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-base-usager-profil-page",

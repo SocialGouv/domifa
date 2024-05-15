@@ -5,11 +5,8 @@ import {
   Post,
   Body,
   HttpStatus,
-  Param,
-  Put,
   Res,
   UseGuards,
-  ParseIntPipe,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -27,9 +24,7 @@ import {
 } from "../../../excel/export-stats-deploiement";
 import { StatsExportUser } from "../../../excel/export-stats-deploiement/StatsExportUser.type";
 import { userAccountActivatedEmailSender } from "../../../mails/services/templates-renderers";
-import { MessageSmsService } from "../../../sms/services/message-sms.service";
 
-import { StructuresService } from "../../../structures/services/structures.service";
 import { expressResponseExcelRenderer } from "../../../util";
 import { dataCompare } from "../../../util/dataCompare.service";
 import { ExpressResponse } from "../../../util/express";
@@ -40,7 +35,6 @@ import {
 } from "../../../_common/model";
 import { AdminStructuresService } from "../services";
 import { CurrentUser } from "../../../auth/decorators/current-user.decorator";
-import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 import { UsersController } from "../../../users/users.controller";
 import { RegisterUserAdminDto } from "../../../users/dto";
 import { format } from "date-fns";
@@ -62,10 +56,7 @@ import { FindOptionsWhere } from "typeorm";
 @ApiBearerAuth()
 export class AdminStructuresController {
   constructor(
-    private readonly adminStructuresService: AdminStructuresService,
-    private readonly structureService: StructuresService,
-    private readonly messageSmsService: MessageSmsService,
-    private readonly appLogsService: AppLogsService
+    private readonly adminStructuresService: AdminStructuresService
   ) {}
 
   @Get("export")
@@ -151,27 +142,6 @@ export class AdminStructuresController {
   }
 
   @AllowUserProfiles("super-admin-domifa")
-  @Put("portail-usager/toggle-enable-domifa/:structureId")
-  public async toggleEnablePortailUsagerByDomifa(
-    @Param("structureId", new ParseIntPipe()) structureId: number
-  ) {
-    const structure = await this.structureService.findOneFull(structureId);
-
-    structure.portailUsager.enabledByDomifa =
-      !structure.portailUsager.enabledByDomifa;
-
-    if (!structure.portailUsager.enabledByDomifa) {
-      structure.portailUsager.enabledByStructure = false;
-    }
-
-    await structureRepository.update(
-      { id: structureId },
-      { portailUsager: structure.portailUsager }
-    );
-    return structureRepository.findOneBy({ id: structureId });
-  }
-
-  @AllowUserProfiles("super-admin-domifa")
   @Post("confirm-structure-creation")
   public async confirmStructureCreation(
     @Body() structureConfirmationDto: StructureConfirmationDto,
@@ -208,38 +178,6 @@ export class AdminStructuresController {
     await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
 
     return res.status(HttpStatus.OK).json({ message: "OK" });
-  }
-
-  @AllowUserProfiles("super-admin-domifa")
-  @Put("sms/enable/:structureId")
-  public async smsEnableByDomifa(
-    @Param("structureId", new ParseIntPipe()) structureId: number,
-    @CurrentUser() user: UserStructureAuthenticated
-  ) {
-    const structure = await this.structureService.findOneFull(structureId);
-
-    structure.sms.enabledByDomifa = !structure.sms.enabledByDomifa;
-
-    if (!structure.sms.enabledByDomifa) {
-      structure.sms.enabledByStructure = false;
-    }
-
-    const action =
-      structure.sms.enabledByDomifa && structure.sms.enabledByStructure
-        ? "ENABLE_SMS_BY_DOMIFA"
-        : "DISABLE_SMS_BY_DOMIFA";
-
-    this.appLogsService.create({
-      userId: user._userId,
-      usagerRef: null,
-      structureId,
-      action,
-    });
-
-    return this.messageSmsService.changeStatutByDomifa(
-      structureId,
-      structure.sms
-    );
   }
 
   @AllowUserProfiles("super-admin-domifa")

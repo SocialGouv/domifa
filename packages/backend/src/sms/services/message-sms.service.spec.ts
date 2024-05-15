@@ -15,10 +15,10 @@ import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
-import { UserStructure } from "../../_common/model";
+
 import { MessageSmsService } from "./message-sms.service";
 import { HttpModule } from "@nestjs/axios";
-import { Usager } from "@domifa/common";
+import { Usager, UserStructure } from "@domifa/common";
 
 describe("MessageSmsService", () => {
   let context: AppTestContext;

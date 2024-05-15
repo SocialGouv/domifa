@@ -1,4 +1,4 @@
-import { UserStructure } from "./UserStructure.type";
+import { type UserStructure } from "../interfaces";
 
 // UserStructureCreatedBy: attributs utilisés pour le stocakge des docks
 export type UserStructureCreatedBy = Pick<

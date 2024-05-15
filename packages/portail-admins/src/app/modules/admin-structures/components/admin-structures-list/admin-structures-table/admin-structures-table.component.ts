@@ -18,10 +18,7 @@ import {
 import { of, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 
-import {
-  AdminStructuresApiClient,
-  AdminStructuresExportApiClient,
-} from "../../../../shared/services";
+import { AdminStructuresApiClient } from "../../../../shared/services";
 import { CustomToastService } from "../../../../shared/services/custom-toast.service";
 import {
   AdminStructuresListSortAttribute,
@@ -61,7 +58,6 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly adminStructuresApiClient: AdminStructuresApiClient,
-    private readonly adminStructuresExportApiClient: AdminStructuresExportApiClient,
     private readonly toastService: CustomToastService,
     private readonly modalService: NgbModal,
     private readonly formBuilder: UntypedFormBuilder
@@ -154,29 +150,6 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
             this.toastService.error(
               "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
             );
-          },
-        })
-    );
-  }
-
-  public exportYearStats(structureId: number, year: number): void {
-    this.exportLoading = true;
-    this.subscription.add(
-      this.adminStructuresExportApiClient
-        .exportYearStats({
-          structureId,
-          year,
-        })
-        .subscribe({
-          error: () => {
-            this.toastService.error(
-              "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
-            );
-            this.exportLoading = false;
-          },
-          complete: () => {
-            this.toastService.success("Téléchargement en cours");
-            this.exportLoading = false;
           },
         })
     );
