@@ -112,7 +112,21 @@ dump:
               - operation: set
                 path: userName
                 value_template: "{{ quote fakerName }}"
-        # v
+        - name: Json
+          params:
+            column: rdv
+            keep_null: true
+            operations: 
+              - operation: set
+                path: dateRdv
+                value_template: >
+                  {{ quote (truncateDate "month" (mustToDate "2006-01-02" (split "T" (.GetColumnValue "rdv").dateRdv)._0)) }}
+              - operation: set
+                path: userId
+                value_template: "{{ randomInt 0 1000000000 }}"
+              - operation: set
+                path: userName
+                value_template: "{{ quote fakerName }}"
         - name: Replace
           params:
             column: migrated
