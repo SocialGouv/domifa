@@ -1,9 +1,6 @@
-common:
-  tmp_dir: "/tmp"
-
 log:
-  level: "debug"
-  format: "text"
+  level: debug
+  format: text
 
 storage:
   type: "{{type}}"
@@ -21,46 +18,46 @@ storage:
 dump:
 
   transformation:
-    - schema: "public"
-      name: "usager"
+    - schema: public
+      name: usager
       transformers:
-        - name: "SetNull"
+        - name: SetNull
           params:
-            column: "email"
-        - name: "RandomFirstName"
+            column: email
+        - name: RandomFirstName
           params:
-            column: "prenom"
-        - name: "Json"
+            column: prenom
+        - name: Json
           params:
-            column: "telephone"
+            column: telephone
             operations:
-              - operation: "set"
-                path: "countryCode"
-                value: "fr"
-              - operation: "set"
-                path: "numero"
+              - operation: set
+                path: countryCode
+                value: fr
+              - operation: set
+                path: numero
                 value: ""
-        - name: "SetNull"
+        - name: SetNull
           params:
-            column: "pinnedNote"
-        - name: "RandomLastName"
+            column: pinnedNote
+        - name: RandomLastName
           params:
-            column: "nom"
-        - name: "RandomLastName"
+            column: nom
+        - name: RandomLastName
           params:
-            column: "surnom"
+            column: surnom
             keep_null: true
-        - name: "RealAddress"
+        - name: RealAddress
           params:
             columns:
-              - name: "villeNaissance"
+              - name: villeNaissance
                 template: "{{.City}}"
-        - name: "Json"
+        - name: Json
           params:
-            column: "decision"
+            column: decision
             operations: 
-              - operation: "set"
-                path: "motifDetails"
+              - operation: set
+                path: motifDetails
                 value: null
               - operation: set
                 path: orientationDetails
@@ -74,7 +71,7 @@ dump:
               - operation: set
                 path: uuid
                 value_template: "{{ quote fakerUUID }}"
-        - name: "TemplateRecord"
+        - name: TemplateRecord
           params:
             # historique
             template: >
@@ -87,7 +84,7 @@ dump:
                 {{ end }}
                 {{ .SetColumnValue "historique" (toJson $new) }}
               {{ end }}
-        - name: "TemplateRecord"
+        - name: TemplateRecord
           params:
             # ayantsDroits 
             template: >
@@ -100,9 +97,9 @@ dump:
                 {{ end }}
                 {{ .SetColumnValue "ayantsDroits" (toJson $new) }}
               {{ end }}
-        - name: "Json"
+        - name: Json
           params:
-            column: "import"
+            column: import
             keep_null: true
             operations: 
               - operation: set
@@ -116,8 +113,8 @@ dump:
                 path: userName
                 value_template: "{{ quote fakerName }}"
         # v
-        - name: "Replace"
+        - name: Replace
           params:
-            column: "migrated"
+            column: migrated
             value: true
             keep_null: false
