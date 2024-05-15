@@ -76,8 +76,7 @@ dump:
                 value_template: "{{ quote fakerUUID }}"
         - name: "TemplateRecord"
           params:
-            columns:
-              - "historique"
+            # historique
             template: >
               {{ $val := .GetColumnValue "historique" }}
               {{ $new := list }}
@@ -90,18 +89,33 @@ dump:
               {{ end }}
         - name: "TemplateRecord"
           params:
-            columns:
-              - "ayantsDroits"
+            # ayantsDroits 
             template: >
               {{ $val := .GetColumnValue "ayantsDroits" }}
               {{ $new := list }}
               {{ if isNotNull $val }}
                 {{ range $val }}
-                  {{ $modified := dict "lien" .lien "prenom" fakerFirstName "nom" fakerFirstLastName "dateNaissance" (truncateDate "month" (mustToDate "2006-01-02" (split "T" .dateNaissance)._0) }} 
-                  {{ $new = append $new $modified }
+                  {{ $modified := dict "lien" .lien "prenom" fakerFirstName "nom" fakerFirstLastName "dateNaissance" (truncateDate "month" (mustToDate "2006-01-02" (split "T" .dateNaissance)._0)) }} 
+                  {{ $new = append $new $modified }}
                 {{ end }}
                 {{ .SetColumnValue "ayantsDroits" (toJson $new) }}
               {{ end }}
+        - name: "Json"
+          params:
+            column: "import"
+            keep_null: true
+            operations: 
+              - operation: set
+                path: date
+                value_template: >
+                  {{ quote (truncateDate "month" (mustToDate "2006-01-02" (split "T" (.GetColumnValue "import").date)._0)) }}
+              - operation: set
+                path: userId
+                value_template: "{{ randomInt 0 1000000000 }}"
+              - operation: set
+                path: userName
+                value_template: "{{ quote fakerName }}"
+        # v
         - name: "Replace"
           params:
             column: "migrated"
