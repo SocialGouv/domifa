@@ -92,7 +92,11 @@ dump:
               {{ $new := list }}
               {{ if isNotNull $val }}
                 {{ range $val }}
-                  {{ $modified := dict "lien" .lien "prenom" fakerFirstName "nom" fakerFirstLastName "dateNaissance" (truncateDate "month" (mustToDate "2006-01-02" (split "T" .dateNaissance)._0)) }} 
+                  {{ $newDateNaissance := ""}}
+                  {{ if eq (kindOf .dateNaissance) "string" }}
+                    {{ $newDateNaissance := truncateDate "month" (mustToDate "2006-01-02" (split "T" .dateNaissance)._0) }}
+                  {{ end }}    
+                  {{ $modified := dict "lien" .lien "prenom" fakerFirstName "nom" fakerFirstLastName "dateNaissance" $newDateNaissance }} 
                   {{ $new = append $new $modified }}
                 {{ end }}
                 {{ .SetColumnValue "ayantsDroits" (toJson $new) }}
@@ -112,21 +116,28 @@ dump:
               - operation: set
                 path: userName
                 value_template: "{{ quote fakerName }}"
-        - name: Json
+        - name: TemplateRecord
           params:
-            column: rdv
-            keep_null: true
-            operations: 
-              - operation: set
-                path: dateRdv
-                value_template: >
-                  {{ quote (truncateDate "month" (mustToDate "2006-01-02" (split "T" (.GetColumnValue "rdv").dateRdv)._0)) }}
-              - operation: set
-                path: userId
-                value_template: "{{ randomInt 0 1000000000 }}"
-              - operation: set
-                path: userName
-                value_template: "{{ quote fakerName }}"
+            # rdv 
+            template: >
+               {{ $rdv := .GetColumnValue "rdv" }}
+
+               {{ if isNull $rdv }}
+                 {{ .SetColumnValue "rdv" null }}  
+
+               {{ else }}
+                 {{ $dateRdv := $rdv.undefined }}
+                 {{ if and (isNotNull $rdv) (eq (kindOf $rdv.dateRdv) "string") }}
+                   {{ $dateRdv = truncateDate "month" (mustToDate "2006-01-02" (split "T" $rdv.dateRdv)._0) }} 
+                 {{ end }}
+
+                 {{ $userId := randomInt 0 1000000000 }}
+                 {{ $userName := fakerName }}
+
+                 {{ .SetColumnValue "rdv" (toJson (dict "userId" $userId "userName" $userName "dateRdv" $dateRdv )) }}
+
+               {{ end }}
+
         - name: Replace
           params:
             column: migrated
