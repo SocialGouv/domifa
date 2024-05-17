@@ -84,7 +84,7 @@ else
   echo "# [INFO] START domifa containers: postgres (only)"
   echo "###########################################"
   # start postgres only (with initial dumps)
-  (set -x && APP_DIR=$(pwd) docker-compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml up --build --detach --force-recreate postgres minio)
+  (set -x && APP_DIR=$(pwd) docker-compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml up --build --detach --force-recreate postgres minio minio-console)
 fi
 
 (set -x && docker ps -a)
