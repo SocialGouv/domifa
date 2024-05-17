@@ -8,4 +8,4 @@ TODO
 
 - run `cp ./.anonymizer/.env.example ./.anonymizer/.env` 
 - edit `.env` with your values
-- run `./.anonymizer/anonymize.sh`  (the first time you run this script, it will give you the link to download the `greenmatch` executable, then you have to add it in your PATH).
+- run `./.anonymizer/anonymize.sh`  (the first time you run this script, it will give you the link to download the `greenmatch` executable, then you have to add it to your PATH).

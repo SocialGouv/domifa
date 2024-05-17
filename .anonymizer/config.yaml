@@ -55,7 +55,7 @@ dump:
         - name: Json
           params:
             column: decision
-            operations: 
+            operations:
               - operation: set
                 path: motifDetails
                 value: null
@@ -86,7 +86,7 @@ dump:
               {{ end }}
         - name: TemplateRecord
           params:
-            # ayantsDroits 
+            # ayantsDroits
             template: >
               {{ $val := .GetColumnValue "ayantsDroits" }}
               {{ $new := list }}
@@ -95,8 +95,8 @@ dump:
                   {{ $newDateNaissance := ""}}
                   {{ if eq (kindOf .dateNaissance) "string" }}
                     {{ $newDateNaissance := truncateDate "month" (mustToDate "2006-01-02" (split "T" .dateNaissance)._0) }}
-                  {{ end }}    
-                  {{ $modified := dict "lien" .lien "prenom" fakerFirstName "nom" fakerFirstLastName "dateNaissance" $newDateNaissance }} 
+                  {{ end }}
+                  {{ $modified := dict "lien" .lien "prenom" fakerFirstName "nom" fakerFirstLastName "dateNaissance" $newDateNaissance }}
                   {{ $new = append $new $modified }}
                 {{ end }}
                 {{ .SetColumnValue "ayantsDroits" (toJson $new) }}
@@ -105,7 +105,7 @@ dump:
           params:
             column: import
             keep_null: true
-            operations: 
+            operations:
               - operation: set
                 path: date
                 value_template: >
@@ -118,17 +118,17 @@ dump:
                 value_template: "{{ quote fakerName }}"
         - name: TemplateRecord
           params:
-            # rdv 
+            # rdv
             template: >
                {{ $rdv := .GetColumnValue "rdv" }}
 
                {{ if isNull $rdv }}
-                 {{ .SetColumnValue "rdv" null }}  
+                 {{ .SetColumnValue "rdv" null }}
 
                {{ else }}
                  {{ $dateRdv := $rdv.undefined }}
                  {{ if and (isNotNull $rdv) (eq (kindOf $rdv.dateRdv) "string") }}
-                   {{ $dateRdv = truncateDate "month" (mustToDate "2006-01-02" (split "T" $rdv.dateRdv)._0) }} 
+                   {{ $dateRdv = truncateDate "month" (mustToDate "2006-01-02" (split "T" $rdv.dateRdv)._0) }}
                  {{ end }}
 
                  {{ $userId := randomInt 0 1000000000 }}
@@ -143,3 +143,41 @@ dump:
             column: migrated
             value: true
             keep_null: false
+    - schema: public
+      name: structure
+      transformers:
+        - name: "Template"
+          params:
+            column: "email"
+            template: >
+              {{ printf "structure-%d@domifa-fake.fabrique.social.gouv.fr" (.GetColumnValue "id") }}
+        - name: SetNull
+          params:
+            column: token
+        - name: SetNull
+          params:
+            column: tokenDelete
+        - name: SetNull
+          params:
+            column: hardReset
+        - name: Json
+          params:
+            column: telephone
+            operations:
+              - operation: set
+                path: countryCode
+                value: "fr"
+              - operation: set
+                path: numero
+                value: "0600000000"
+        - name: Json
+          params:
+            column: responsable
+            operations:
+              - operation: set
+                path: nom
+                value_template: "{{ quote fakerFirstLastName }}"
+              - operation: set
+                path: prenom
+                value_template: "{{ quote fakerFirstName }}"
+
