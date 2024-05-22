@@ -71,22 +71,21 @@ dump:
               - operation: set
                 path: uuid
                 value_template: "{{ quote fakerUUID }}"
+        - name: "Cmd"
+          # --- historique
+          params:
+            driver:
+              name: "json"
+            skip_on_null_input: true
+            validate: true
+            timeout: 10s # 3600s
+            executable: "./ts-transformers/usager-historique.ts"
+            columns:
+              - name: "historique"
+                skip_on_null_input: true
         - name: TemplateRecord
           params:
-            # historique
-            template: >
-              {{ $val := .GetColumnValue "historique" }}
-              {{ $new := list }}
-              {{ if isNotNull $val }}
-                {{ range $val }}
-                  {{ $modified := mergeOverwrite . (dict "motifDetails" nil "orientationDetails" nil "userName" fakerName "userId" (randomInt 0 1000000000) "uuid" fakerUUID) }}
-                  {{ $new = append $new $modified }}
-                {{ end }}
-                {{ .SetColumnValue "historique" (toJson $new) }}
-              {{ end }}
-        - name: TemplateRecord
-          params:
-            # ayantsDroits
+            # --- ayantsDroits
             template: >
               {{ $val := .GetColumnValue "ayantsDroits" }}
               {{ $new := list }}
@@ -118,7 +117,7 @@ dump:
                 value_template: "{{ quote fakerName }}"
         - name: TemplateRecord
           params:
-            # rdv
+            # --- rdv
             template: >
                {{ $rdv := .GetColumnValue "rdv" }}
 
@@ -137,12 +136,34 @@ dump:
                  {{ .SetColumnValue "rdv" (toJson (dict "userId" $userId "userName" $userName "dateRdv" $dateRdv )) }}
 
                {{ end }}
-
         - name: Replace
           params:
             column: migrated
             value: true
             keep_null: false
+        # - name: TemplateRecord
+        #   params:
+        #     # --- options
+        #     template: >
+        #        {{ $options := .GetColumnValue "options" }}
+
+        #        {{ if isNull $options }}
+        #          {{ .SetColumnValue "options" null }}
+
+        #        {{ else }}
+        #          {{ $procurations := $options.procurations }}
+        #          {{ if isNotNull $procurations }}
+        #            {{ $dateRdv = truncateDate "month" (mustToDate "2006-01-02" (split "T" $rdv.dateRdv)._0) }}
+        #            {{ $options.procurations = }}
+        #          {{ end }}
+
+        #          {{ $userId := randomInt 0 1000000000 }}
+        #          {{ $userName := fakerName }}
+
+        #          {{ .SetColumnValue "rdv" (toJson (dict "userId" $userId "userName" $userName "dateRdv" $dateRdv )) }}
+
+        #        {{ end }}
+
     - schema: public
       name: structure
       transformers:
@@ -181,3 +202,5 @@ dump:
                 path: prenom
                 value_template: "{{ quote fakerFirstName }}"
 
+    - schema: public
+      name: structure
