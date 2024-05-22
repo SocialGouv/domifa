@@ -203,4 +203,22 @@ dump:
                 value_template: "{{ quote fakerFirstName }}"
 
     - schema: public
-      name: structure
+      name: user_structure
+      transformers:
+        - name: RandomFirstName
+          params:
+            column: prenom
+        - name: RandomLastName
+          params:
+            column: nom
+        - name: "Cmd"
+          params:
+            driver:
+              name: "json"
+            skip_on_null_input: true
+            validate: true
+            timeout: 10s # 3600s
+            executable: "./ts-transformers/user-structure-fonction.ts"
+            columns:
+              - name: "fonction"
+                skip_on_null_input: true
