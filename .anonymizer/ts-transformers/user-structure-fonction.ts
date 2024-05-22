@@ -8,7 +8,7 @@ const stderr = process.stderr
 
 function anonymize(line: Record<string, any>) {
 
-  const toto = fromList([
+  const new_fonction = fromList([
     "Agent administratif",
     "Agent d'accueil",
     "Educateur Spécialisé",
@@ -20,8 +20,14 @@ function anonymize(line: Record<string, any>) {
     null,
   ])
 
-  line.fonction.d = toto
-  stderr.write(JSON.stringify(line) + "\n");
+  if (new_fonction === null) {
+    line.fonction.d = ""
+    line.fonction.n = true
+  } else {
+    line.fonction.d = new_fonction
+    line.fonction.n = false
+  }
+  stderr.write("Output: " + JSON.stringify(line) + "\n");
   stdout.write(JSON.stringify(line) + "\n");
 }
 
