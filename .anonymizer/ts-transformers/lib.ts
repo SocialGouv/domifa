@@ -5,7 +5,7 @@ export function main(anonymize: (line: Record<string, any>) => void) {
 
     stdin.setEncoding('utf8');
 
-    stderr.write('Anonymizer started\n');
+    // stderr.write('Anonymizer started\n');
 
     process.once('SIGTERM', () => {
         stderr.write('SIGTERM received\n');

@@ -22,3 +22,5 @@ cat config.yaml \
 
 greenmask dump --config config.local.yaml -j 10
 
+export PGDATABASE=${PGDATABASE_RESTORE:-$PGDATABASE_anonymized}
+pg_restore --clean --if-exists --no-owner --no-acl --verbose -d $PGDATABASE $pg_dump_directory/$(ls $pg_dump_directory | tail -n 1)

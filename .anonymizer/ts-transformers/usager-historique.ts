@@ -15,7 +15,7 @@ function anonymize(line: Record<string, any>) {
         return;
     }
 
-    stderr.write(`Anonymizing historique for usager ${historique} length: ${historique.length}\n`);
+    // stderr.write(`Anonymizing historique for usager ${historique} length: ${historique.length}\n`);
     const anonymisedHistorique = historique.map((decision) => {
         return {
             ...decision,
@@ -30,7 +30,7 @@ function anonymize(line: Record<string, any>) {
     });
 
     line.historique.d = JSON.stringify(anonymisedHistorique);
-    stderr.write(JSON.stringify(line) + "\n");
+    // stderr.write(JSON.stringify(line) + "\n");
     stdout.write(JSON.stringify(line) + "\n");
 }
 

@@ -27,7 +27,7 @@ function anonymize(line: Record<string, any>) {
     line.fonction.d = new_fonction
     line.fonction.n = false
   }
-  stderr.write("Output: " + JSON.stringify(line) + "\n");
+  // stderr.write("Output: " + JSON.stringify(line) + "\n");
   stdout.write(JSON.stringify(line) + "\n");
 }
 
