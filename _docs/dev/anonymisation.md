@@ -18,6 +18,7 @@ Avant de lancer la partie anonymisation, il faut effectuer la partie DB du setup
 - copier le fichier `.anonymizer/.env.example` dans `.anonymizer/.env` 
 - éditer `.env` avec le mot de passe postgres utilisé dans le setup de domifa
 - lancer `yarn` dans le dossier `.anonymizer` 
+- lancer `yarn build` ou `yarn dev`
 - lancer `./.anonymizer/anonymize.sh`  (à la première exécution le script le lien pour télécharger la bonne release de `greenmask`, à copier quelque part dans votre `PATH`. 
 
 ## Outils utilisés
