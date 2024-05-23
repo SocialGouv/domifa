@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["esnext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "isolatedModules": true,
+    "incremental": true,
+    "outDir": "dist"
+  },
+  "include":["./ts-transformers/**/*.ts"],
+  "exclude": ["node_modules"]
+}

@@ -1,5 +1,3 @@
-#!/usr/bin/env -S ./node_modules/.bin/tsx
-
 import { main } from "./lib";
 import { fromList } from "./data-helpers";
 

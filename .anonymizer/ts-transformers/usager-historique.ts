@@ -1,5 +1,3 @@
-#!/usr/bin/env -S ./node_modules/.bin/tsx
-
 import { fakerFR as faker } from "@faker-js/faker";
 import { main } from "./lib";
 import { number, fullName, truncateDateToMonth as truncateDateToMonthFromString, uuid } from "./data-helpers";
@@ -16,7 +14,7 @@ function anonymize(line: Record<string, any>) {
     }
 
     // stderr.write(`Anonymizing historique for usager ${historique} length: ${historique.length}\n`);
-    const anonymisedHistorique = historique.map((decision) => {
+    const anonymisedHistorique = historique.map((decision: any) => {
         return {
             ...decision,
             motifDetails: null, // TODO: incorrect? rather anonymize `motif` field?

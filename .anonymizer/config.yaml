@@ -78,8 +78,10 @@ dump:
               name: "json"
             skip_on_null_input: true
             validate: true
-            timeout: 10s # 3600s
-            executable: "./ts-transformers/usager-historique.py"
+            timeout: 3s # 3600s
+            executable: "node"
+            arguments:
+              - "./dist/usager-historique.js"
             columns:
               - name: "historique"
                 skip_on_null_input: true
@@ -211,14 +213,16 @@ dump:
         - name: RandomLastName
           params:
             column: nom
-        - name: "Cmd"
-          params:
-            driver:
-              name: "json"
-            skip_on_null_input: true
-            validate: true
-            timeout: 100s # 3600s
-            executable: "./ts-transformers/user-structure-fonction.py"
-            columns:
-              - name: "fonction"
-                skip_on_null_input: true
+        # - name: "Cmd"
+        #   params:
+        #     driver:
+        #       name: "json"
+        #     skip_on_null_input: true
+        #     validate: true
+        #     timeout: 3s # 3600s
+        #     executable: "node"
+        #     arguments:
+        #       - "./dist/usager-structure-fonction.js"
+        #     columns:
+        #       - name: "fonction"
+        #         skip_on_null_input: true

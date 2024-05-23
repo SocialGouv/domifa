@@ -1,11 +1,15 @@
 {
   "name": ".anonymizer",
   "packageManager": "yarn@4.2.2",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
   "dependencies": {
-    "@faker-js/faker": "^8.4.1",
-    "tsx": "^4.10.5"
+    "@faker-js/faker": "^8.4.1"
   },
   "devDependencies": {
+    "typescript": "^5.4.5",
     "eslint": "^9.3.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",

@@ -16,7 +16,7 @@ export function main(anonymize: (line: Record<string, any>) => void) {
         try {
             const line = JSON.parse(lineBuffer.toString());
             anonymize(line);
-        } catch (error) {
+        } catch (error: any) {
             stderr.write(`Error: ${error.message}\n`);
             stderr.write(`Stack: ${error.stack}\n`);
             process.exit(1);
