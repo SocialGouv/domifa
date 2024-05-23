@@ -9,7 +9,7 @@ function anonymize(line: Record<string, any>) {
     const historique = JSON.parse(line.historique.d);
 
     if (!historique) {
-        stdout.write(JSON.stringify(line));
+        stdout.write(JSON.stringify(line) + "\n");
         return;
     }
 

@@ -5,12 +5,12 @@ export function main(anonymize: (line: Record<string, any>) => void) {
 
     // stdin.setEncoding('utf8');
 
-    // stderr.write('Anonymizer started\n');
+    stderr.write('Anonymizer started\n');
 
-    // process.once('SIGTERM', () => {
-    //     stderr.write('SIGTERM received\n');
-    //     process.exit(1);
-    // });
+    process.once('SIGTERM', () => {
+        stderr.write('SIGTERM received\n');
+        process.exit(0);
+    });
 
     stdin.on('data', function (lineBuffer) {
         try {
