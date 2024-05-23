@@ -1,11 +1,10 @@
-import { main } from "./lib";
-import { fromList } from "./data-helpers";
+import { main } from "./common/lib"
+import { fromList } from "./common/data-helpers"
 
 const stdout = process.stdout
 const stderr = process.stderr
 
 function anonymize(line: Record<string, any>) {
-
   const new_fonction = fromList([
     "Agent administratif",
     "Agent d'accueil",
@@ -26,7 +25,9 @@ function anonymize(line: Record<string, any>) {
     line.fonction.n = false
   }
   // stderr.write("Output: " + JSON.stringify(line) + "\n");
-  stdout.write(JSON.stringify(line) + "\n");
+    stdout.write(JSON.stringify(line) + "\n")
 }
+
+
 
 main(anonymize)
