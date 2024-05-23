@@ -1,12 +1,12 @@
-#!/usr/bin/env -S ./node_modules/.bin/tsx
+#!/usr/bin/env -S node
 
-import { main } from "./lib";
-import { fromList } from "./data-helpers";
+import { main } from "./lib.mjs";
+import { fromList } from "./data-helpers.mjs";
 
 const stdout = process.stdout
 const stderr = process.stderr
 
-function anonymize(line: Record<string, any>) {
+function anonymize(line) {
 
   const new_fonction = fromList([
     "Agent administratif",

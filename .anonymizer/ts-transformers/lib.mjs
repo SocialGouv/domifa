@@ -1,4 +1,4 @@
-export function main(anonymize: (line: Record<string, any>) => void) {
+export function main(anonymize) {
     const stdin = process.stdin;
     const stdout = process.stdout;
     const stderr = process.stderr;
@@ -7,10 +7,10 @@ export function main(anonymize: (line: Record<string, any>) => void) {
 
     // stderr.write('Anonymizer started\n');
 
-    // process.once('SIGTERM', () => {
-    //     stderr.write('SIGTERM received\n');
-    //     process.exit(1);
-    // });
+    process.once('SIGTERM', () => {
+        stderr.write('SIGTERM received\n');
+        process.exit(1);
+    });
 
     stdin.on('data', function (lineBuffer) {
         try {
@@ -25,5 +25,6 @@ export function main(anonymize: (line: Record<string, any>) => void) {
 
     stdin.on('end', function () {
        stderr.write('Anonymizer ended\n');
+       process.exit(0)
     })
 }

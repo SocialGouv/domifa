@@ -79,7 +79,7 @@ dump:
             skip_on_null_input: true
             validate: true
             timeout: 10s # 3600s
-            executable: "./ts-transformers/usager-historique.py"
+            executable: "./ts-transformers/usager-historique.mjs"
             columns:
               - name: "historique"
                 skip_on_null_input: true
@@ -218,7 +218,7 @@ dump:
             skip_on_null_input: true
             validate: true
             timeout: 100s # 3600s
-            executable: "./ts-transformers/user-structure-fonction.py"
+            executable: "./ts-transformers/user-structure-fonction.mjs"
             columns:
               - name: "fonction"
                 skip_on_null_input: true
