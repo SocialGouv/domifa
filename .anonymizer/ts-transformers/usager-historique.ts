@@ -1,16 +1,17 @@
 #!/usr/bin/env -S ./node_modules/.bin/tsx
 
-import { main } from "./lib.mjs";
-import { number, fullName, truncateDateToMonth as truncateDateToMonthFromString, uuid } from "./data-helpers.mjs";
+import { fakerFR as faker } from "@faker-js/faker";
+import { main } from "./lib";
+import { number, fullName, truncateDateToMonth as truncateDateToMonthFromString, uuid } from "./data-helpers";
 
 const stdout = process.stdout
 const stderr = process.stderr
 
-function anonymize(line) {
+function anonymize(line: Record<string, any>) {
     const historique = JSON.parse(line.historique.d);
 
     if (!historique) {
-        stdout.write(JSON.stringify(line) + "\n");
+        stdout.write(JSON.stringify(line));
         return;
     }
 

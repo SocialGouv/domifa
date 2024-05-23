@@ -42,7 +42,7 @@ function email() {
   return faker.internet.email();
 }
 
-function fromList(list) {
+function fromList<T>(list: T[]): T {
   const length = list.length;
   const randomIndex = faker.number.int({
     min: 0,
@@ -51,19 +51,19 @@ function fromList(list) {
   return list[randomIndex];
 }
 function number(
-  options = { min: 1, max: 10000000 }
-) {
+  options: { min?: number; max?: number } = { min: 1, max: 10000000 }
+): number {
   return faker.number.int(options);
 }
 
-function boolean(options)  {
+function boolean(options?: { percentageTrue?: number }): boolean {
   if (options?.percentageTrue) {
     return number({ min: 1, max: 100 }) <= options.percentageTrue;
   }
   return faker.datatype.boolean();
 }
 
-function truncateDateToMonth(date) {
+function truncateDateToMonth(date: string): Date {
   const parsedDate = new Date(date);
   return new Date(parsedDate.getFullYear(), parsedDate.getMonth(), 1);
 }
