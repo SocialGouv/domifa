@@ -1,9 +1,6 @@
-export function main(anonymize: (line: Record<string, any>) => void) {
+export function main<T>(anonymize: (line: Record<string, T>) => void) {
   const stdin = process.stdin
-  const stdout = process.stdout
   const stderr = process.stderr
-
-  // stdin.setEncoding('utf8');
 
   stderr.write("Anonymizer started\n")
 
@@ -16,9 +13,13 @@ export function main(anonymize: (line: Record<string, any>) => void) {
     try {
       const line = JSON.parse(lineBuffer.toString())
       anonymize(line)
-    } catch (error: any) {
-      stderr.write(`Error: ${error.message}\n`)
-      stderr.write(`Stack: ${error.stack}\n`)
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        stderr.write(`Error: ${error.message}\n`)
+        stderr.write(`Stack: ${error.stack}\n`)
+      } else {
+        stderr.write(`Error: ${error}\n`)
+      }
       process.exit(1)
     }
   })

@@ -7,7 +7,6 @@ import {
 } from "./common/data-helpers"
 
 const stdout = process.stdout
-const stderr = process.stderr
 
 function anonymize(line: Record<string, any>) {
   const historique = JSON.parse(line.historique.d)
@@ -17,7 +16,6 @@ function anonymize(line: Record<string, any>) {
     return
   }
 
-  // stderr.write(`Anonymizing historique for usager ${historique} length: ${historique.length}\n`);
   const anonymisedHistorique = historique.map((decision: any) => {
     return {
       ...decision,
@@ -34,7 +32,6 @@ function anonymize(line: Record<string, any>) {
   })
 
   line.historique.d = JSON.stringify(anonymisedHistorique)
-  // stderr.write(JSON.stringify(line) + "\n");
   stdout.write(JSON.stringify(line) + "\n")
 }
 

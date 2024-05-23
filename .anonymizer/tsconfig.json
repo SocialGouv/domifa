@@ -9,7 +9,7 @@
     "module": "commonjs",
     "isolatedModules": true,
     "incremental": true,
-    "outDir": "dist"
+    "outDir": "dist",
   },
   "include":["./ts-transformers/**/*.ts"],
   "exclude": ["node_modules"]
