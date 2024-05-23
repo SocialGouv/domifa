@@ -24,7 +24,7 @@ function anonymize(line: Record<string, any>) {
             userName: fullName(),
             userId: number(),
             uuid: uuid(),
-            dateDecision: truncateDateToMonthFromString(decision.dateDecision),
+            dateDecision: decision.dateDecision ?? truncateDateToMonthFromString(decision.dateDecision),
             // TODO anonymize other fields: dateDebut, dateFin, dateDecision
         }
     });

@@ -3,14 +3,14 @@ export function main(anonymize: (line: Record<string, any>) => void) {
     const stdout = process.stdout;
     const stderr = process.stderr;
 
-    stdin.setEncoding('utf8');
+    // stdin.setEncoding('utf8');
 
     // stderr.write('Anonymizer started\n');
 
-    process.once('SIGTERM', () => {
-        stderr.write('SIGTERM received\n');
-        process.exit(0);
-    });
+    // process.once('SIGTERM', () => {
+    //     stderr.write('SIGTERM received\n');
+    //     process.exit(1);
+    // });
 
     stdin.on('data', function (lineBuffer) {
         try {
@@ -22,4 +22,8 @@ export function main(anonymize: (line: Record<string, any>) => void) {
             process.exit(1);
         }
     });
+
+    stdin.on('end', function () {
+       stderr.write('Anonymizer ended\n');
+    })
 }
