@@ -83,19 +83,19 @@ dump:
             columns:
               - name: "historique"
                 skip_on_null_input: true
-        - name: "Cmd"
-          # --- ayantsDroits
-          params:
-            driver:
-              name: "json"
-            validate: true
-            timeout: 3600s
-            executable: "node"
-            args:
-              - "./dist/usager--ayants-droits.js"
-            columns:
-              - name: "ayantsDroits"
-                skip_on_null_input: true
+        # - name: "Cmd"
+        #   # --- ayantsDroits
+        #   params:
+        #     driver:
+        #       name: "json"
+        #     validate: true
+        #     timeout: 3600s
+        #     executable: "node"
+        #     args:
+        #       - "./dist/usager--ayants-droits.js"
+        #     columns:
+        #       - name: "ayantsDroits"
+        #         skip_on_null_input: true
         - name: Json
           params:
             column: import
@@ -224,3 +224,16 @@ dump:
             column: "email"
             template: >
               {{ printf "%s-%d-%d@domifa-fake.fabrique.social.gouv.fr" (.GetColumnValue "role") (.GetColumnValue "structureId") (.GetColumnValue "id") }}
+
+    - schema: public
+      name: interactions
+      transformers:
+        - name: Replace
+          params:
+            column: content
+            value: "Random content"
+        - name: "Template"
+          params:
+            column: "userName"
+            template: >
+              {{ printf "%s %s" fakerFirstName fakerFirstLastName }}
