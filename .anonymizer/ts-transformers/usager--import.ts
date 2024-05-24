@@ -8,11 +8,6 @@ import {
 function anonymize(line: Record<string, any>) {
   const usagerImport = JSON.parse(line.import.d)
 
-  if (!usagerImport) {
-    dumpLine(line)
-    return
-  }
-
   const anonymisedImport = {
     ...usagerImport,
     userId: randomInt(),

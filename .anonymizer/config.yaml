@@ -75,7 +75,6 @@ dump:
           params:
             driver:
               name: "json"
-            skip_on_null_input: true
             validate: true
             timeout: 3600s
             executable: "node"
@@ -83,12 +82,12 @@ dump:
               - "./dist/usager--historique.js"
             columns:
               - name: "historique"
+                skip_on_null_input: true
         - name: "Cmd"
           # --- ayantsDroits
           params:
             driver:
               name: "json"
-            skip_on_null_input: true
             validate: true
             timeout: 3600s
             executable: "node"
@@ -96,6 +95,7 @@ dump:
               - "./dist/usager--ayants-droits.js"
             columns:
               - name: "ayantsDroits"
+                skip_on_null_input: true
         - name: Json
           params:
             column: import
@@ -211,7 +211,6 @@ dump:
           params:
             driver:
               name: "json"
-            skip_on_null_input: true
             validate: true
             timeout: 3600s
             executable: "node"
@@ -219,6 +218,7 @@ dump:
               - "./dist/user-structure--fonction.js"
             columns:
               - name: "fonction"
+                skip_on_null_input: true
         - name: "Template"
           params:
             column: "email"
