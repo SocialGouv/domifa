@@ -1,12 +1,12 @@
-import { main, dumpLine } from "./common/lib"
+import { main } from "./common/lib"
 import {
   randomInt,
   fullName,
   truncateDateToMonthFromString,
 } from "./common/data-helpers"
 
-function anonymize(line: Record<string, any>) {
-  const usagerImport = JSON.parse(line.import.d)
+function anonymize(values: Record<string, any>) {
+  const usagerImport = JSON.parse(values.import)
 
   const anonymisedImport = {
     ...usagerImport,
@@ -15,8 +15,7 @@ function anonymize(line: Record<string, any>) {
     date: truncateDateToMonthFromString(usagerImport.date),
   }
 
-  line.import.d = JSON.stringify(anonymisedImport)
-  dumpLine(line)
+  values.import = JSON.stringify(anonymisedImport)
 }
 
-main(anonymize)
+main(["import"], anonymize)

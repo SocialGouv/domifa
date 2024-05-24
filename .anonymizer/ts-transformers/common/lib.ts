@@ -1,5 +1,6 @@
-export function main<T>(anonymize: (line: Record<string, T>) => void) {
+export function main<T extends { d: any }>(columnNames: string[], anonymize: (columns: Record<string, T[]>) => void) {
   const stdin = process.stdin
+  const stdout = process.stdout
   const stderr = process.stderr
 
   stderr.write("Anonymizer started\n")
@@ -11,8 +12,15 @@ export function main<T>(anonymize: (line: Record<string, T>) => void) {
 
   stdin.on("data", function (lineBuffer) {
     try {
-      const line = JSON.parse(lineBuffer.toString())
-      anonymize(line)
+      const line: Record<string, T> = JSON.parse(lineBuffer.toString())
+      const columns = Object.fromEntries(
+        Object.entries(line).map(([columnName, columnValue]) => [columnName, columnValue.d])
+      )
+      anonymize(columns)
+      const anonymizedLine = Object.fromEntries(
+        Object.entries(columns).map(([columnName, columnValue]) => [columnName, { d: columnValue }])
+      )
+      stdout.write(JSON.stringify(anonymizedLine) + "\n")
     } catch (error: unknown) {
       if (error instanceof Error) {
         stderr.write(`Error: ${error.message}\n`)
@@ -27,8 +35,4 @@ export function main<T>(anonymize: (line: Record<string, T>) => void) {
   stdin.on("end", function () {
     stderr.write("Anonymizer ended\n")
   })
-}
-
-export function dumpLine(line: Record<string, any>): void {
-  process.stdout.write(JSON.stringify(line) + "\n")
 }

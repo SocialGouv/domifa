@@ -6,15 +6,8 @@ import {
   uuid,
 } from "./common/data-helpers"
 
-const stdout = process.stdout
-
-function anonymize(line: Record<string, any>) {
-  const historique = JSON.parse(line.historique.d)
-
-  if (!historique) {
-    stdout.write(JSON.stringify(line) + "\n")
-    return
-  }
+function anonymize(values: Record<string, any>) {
+  const historique = JSON.parse(values.historique)
 
   const anonymisedHistorique = historique.map((decision: any) => {
     return {
@@ -30,8 +23,7 @@ function anonymize(line: Record<string, any>) {
     }
   })
 
-  line.historique.d = JSON.stringify(anonymisedHistorique)
-  stdout.write(JSON.stringify(line) + "\n")
+  values.historique = JSON.stringify(anonymisedHistorique)
 }
 
-main(anonymize)
+main(['historique'], anonymize)

@@ -1,4 +1,4 @@
-import { dumpLine, main } from "./common/lib"
+import { main } from "./common/lib"
 import {
   truncateDateToMonthFromString,
   firstName,
@@ -6,8 +6,8 @@ import {
 } from "./common/data-helpers"
 
 
-function anonymize(line: Record<string, any>) {
-  const ayantsDroits = JSON.parse(line.ayantsDroits.d)
+function anonymize(values: Record<string, any>) {
+  const ayantsDroits = JSON.parse(values.ayantsDroits)
 
   const anonymisedAyantsDroits = ayantsDroits.map((ayantDroit: any) => {
     return {
@@ -18,8 +18,7 @@ function anonymize(line: Record<string, any>) {
     }
   })
 
-  line.ayantsDroits.d = JSON.stringify(anonymisedAyantsDroits)
-  dumpLine(line)
+  values.ayantsDroits = JSON.stringify(anonymisedAyantsDroits)
 }
 
-main(anonymize)
+main(["ayantsDroits"], anonymize)
