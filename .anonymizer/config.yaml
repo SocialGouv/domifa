@@ -312,3 +312,18 @@ dump:
               - operation: set
                 path: userName
                 value: "Nom"
+
+    - schema: public
+      name: user_structure_security
+      transformers:
+        - name: SetNull
+          params:
+            column: temporaryTokens
+        - name: "TemplateRecord"
+          params:
+            columns:
+              - "eventsHistory"
+            template: >
+              {{ .SetColumnValue "eventsHistory" "[]" }}
+            validate: true
+
