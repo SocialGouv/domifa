@@ -9,7 +9,7 @@ import {
 function anonymize(values: Record<string, any>) {
   const historique = JSON.parse(values.historique)
 
-  const anonymisedHistorique = historique.map((decision: any) => {
+  const anonymised = historique.map((decision: any) => {
     return {
       ...decision,
       motifDetails: null, // TODO: incorrect? rather anonymize `motif` field?
@@ -23,7 +23,7 @@ function anonymize(values: Record<string, any>) {
     }
   })
 
-  values.historique = JSON.stringify(anonymisedHistorique)
+  values.historique = JSON.stringify(anonymised)
 }
 
 main(['historique'], anonymize)

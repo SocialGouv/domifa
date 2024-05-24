@@ -9,7 +9,7 @@ import {
 function anonymize(values: Record<string, any>) {
   const ayantsDroits = JSON.parse(values.ayantsDroits)
 
-  const anonymisedAyantsDroits = ayantsDroits.map((ayantDroit: any) => {
+  const anonymised = ayantsDroits.map((ayantDroit: any) => {
     return {
       ...ayantDroit,
       prenom: firstName(),
@@ -18,7 +18,7 @@ function anonymize(values: Record<string, any>) {
     }
   })
 
-  values.ayantsDroits = JSON.stringify(anonymisedAyantsDroits)
+  values.ayantsDroits = JSON.stringify(anonymised)
 }
 
 main(["ayantsDroits"], anonymize)

@@ -127,29 +127,19 @@ dump:
             column: migrated
             value: true
             keep_null: false
-        # # - name: TemplateRecord
-        # #   params:
-        # #     # --- options
-        # #     template: >
-        # #        {{ $options := .GetColumnValue "options" }}
-
-        # #        {{ if isNull $options }}
-        # #          {{ .SetColumnValue "options" null }}
-
-        # #        {{ else }}
-        # #          {{ $procurations := $options.procurations }}
-        # #          {{ if isNotNull $procurations }}
-        # #            {{ $dateRdv = truncateDate "month" (mustToDate "2006-01-02" (split "T" $rdv.dateRdv)._0) }}
-        # #            {{ $options.procurations = }}
-        # #          {{ end }}
-
-        # #          {{ $userId := randomInt 0 1000000000 }}
-        # #          {{ $userName := fakerName }}
-
-        # #          {{ .SetColumnValue "rdv" (toJson (dict "userId" $userId "userName" $userName "dateRdv" $dateRdv )) }}
-
-        # #        {{ end }}
-
+        - name: "Cmd"
+          # --- options
+          params:
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            executable: "node"
+            args:
+              - "./dist/usager--options.js"
+            columns:
+              - name: "options"
+                skip_on_null_input: true
     - schema: public
       name: structure
       transformers:

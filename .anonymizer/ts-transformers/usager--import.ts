@@ -8,14 +8,14 @@ import {
 function anonymize(values: Record<string, any>) {
   const usagerImport = JSON.parse(values.import)
 
-  const anonymisedImport = {
+  const anonymised = {
     ...usagerImport,
     userId: randomInt(),
     userName: fullName(),
     date: truncateDateToMonthFromString(usagerImport.date),
   }
 
-  values.import = JSON.stringify(anonymisedImport)
+  values.import = JSON.stringify(anonymised)
 }
 
 main(["import"], anonymize)
