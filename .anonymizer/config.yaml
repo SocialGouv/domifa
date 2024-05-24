@@ -96,21 +96,19 @@ dump:
             columns:
               - name: "ayantsDroits"
                 skip_on_null_input: true
-        - name: Json
+        - name: "Cmd"
+          # --- import
           params:
-            column: import
-            keep_null: true
-            operations:
-              - operation: set
-                path: date
-                value_template: >
-                  {{ quote (truncateDate "month" (mustToDate "2006-01-02" (split "T" (.GetColumnValue "import").date)._0)) }}
-              - operation: set
-                path: userId
-                value_template: "{{ randomInt 0 1000000000 }}"
-              - operation: set
-                path: userName
-                value_template: "{{ quote fakerName }}"
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            executable: "node"
+            args:
+              - "./dist/usager--import.js"
+            columns:
+              - name: "import"
+                skip_on_null_input: true
         - name: "Cmd"
           # --- rdv
           params:
