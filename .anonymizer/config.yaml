@@ -219,3 +219,9 @@ dump:
               - "./dist/user-structure--fonction.js"
             columns:
               - name: "fonction"
+                skip_on_null_input: true
+        - name: "Template"
+          params:
+            column: "email"
+            template: >
+              {{ printf "%s-%d-%d@domifa-fake.fabrique.social.gouv.fr" (.GetColumnValue "role") (.GetColumnValue "structureId") (.GetColumnValue "id") }}
