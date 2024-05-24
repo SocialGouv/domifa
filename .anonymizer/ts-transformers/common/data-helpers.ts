@@ -61,5 +61,6 @@ function truncateDateToMonthFromString(date: string): string | null {
   }
 
   const parsedDate = new Date(date)
-  return (new Date(parsedDate.getFullYear(), parsedDate.getMonth(), 1)).toISOString()
+  parsedDate.setDate(1)
+  return parsedDate.toISOString()
 }
