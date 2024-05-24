@@ -1,6 +1,6 @@
 import { main } from "./common/lib"
 import {
-  number,
+  randomInt,
   fullName,
   truncateDateToMonthFromString,
   uuid,
@@ -22,10 +22,9 @@ function anonymize(line: Record<string, any>) {
       motifDetails: null, // TODO: incorrect? rather anonymize `motif` field?
       orientationDetails: null,
       userName: fullName(),
-      userId: number(),
+      userId: randomInt(),
       uuid: uuid(),
       dateDecision:
-        decision.dateDecision ??
         truncateDateToMonthFromString(decision.dateDecision),
       // TODO anonymize other fields: dateDebut, dateFin, dateDecision
     }

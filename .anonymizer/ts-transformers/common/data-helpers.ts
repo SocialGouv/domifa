@@ -6,8 +6,7 @@ export {
   fullName,
   phoneNumber,
   fromList,
-  number,
-  boolean,
+  randomInt,
   email,
   city,
   truncateDateToMonthFromString,
@@ -50,20 +49,16 @@ function fromList<T>(list: T[]): T {
   })
   return list[randomIndex]
 }
-function number(
+function randomInt(
   options: { min?: number; max?: number } = { min: 1, max: 10000000 }
 ): number {
   return faker.number.int(options)
 }
 
-function boolean(options?: { percentageTrue?: number }): boolean {
-  if (options?.percentageTrue) {
-    return number({ min: 1, max: 100 }) <= options.percentageTrue
+function truncateDateToMonthFromString(date: string): string | null {
+  if (!date) {
+    return null
   }
-  return faker.datatype.boolean()
-}
-
-function truncateDateToMonthFromString(date: string): string {
 
   const parsedDate = new Date(date)
   return (new Date(parsedDate.getFullYear(), parsedDate.getMonth(), 1)).toISOString()

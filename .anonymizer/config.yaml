@@ -83,19 +83,19 @@ dump:
               - "./dist/usager--historique.js"
             columns:
               - name: "historique"
-        # - name: "Cmd"
-        #   # --- ayantsDroits
-        #   params:
-        #     driver:
-        #       name: "json"
-        #     skip_on_null_input: true
-        #     validate: true
-        #     timeout: 3600s
-        #     executable: "node"
-        #     args:
-        #       - "./dist/usager--ayants-droits.js"
-        #     columns:
-        #       - name: "ayantsDroits"
+        - name: "Cmd"
+          # --- ayantsDroits
+          params:
+            driver:
+              name: "json"
+            skip_on_null_input: true
+            validate: true
+            timeout: 3600s
+            executable: "node"
+            args:
+              - "./dist/usager--ayants-droits.js"
+            columns:
+              - name: "ayantsDroits"
         - name: Json
           params:
             column: import

@@ -28,3 +28,7 @@ export function main<T>(anonymize: (line: Record<string, T>) => void) {
     stderr.write("Anonymizer ended\n")
   })
 }
+
+export function dumpLine(line: Record<string, any>): void {
+  process.stdout.write(JSON.stringify(line) + "\n")
+}
