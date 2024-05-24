@@ -26,3 +26,5 @@ Thumbs.db
 .anonymizer/tmp 
 .anonymizer/config.local.yaml
 .anonymizer/greenmask
+
+*.psql.gz
