@@ -10,7 +10,7 @@ export {
   boolean,
   email,
   city,
-  truncateDateToMonth,
+  truncateDateToMonthFromString,
   uuid,
 }
 
@@ -63,7 +63,8 @@ function boolean(options?: { percentageTrue?: number }): boolean {
   return faker.datatype.boolean()
 }
 
-function truncateDateToMonth(date: string): Date {
+function truncateDateToMonthFromString(date: string): string {
+
   const parsedDate = new Date(date)
-  return new Date(parsedDate.getFullYear(), parsedDate.getMonth(), 1)
+  return (new Date(parsedDate.getFullYear(), parsedDate.getMonth(), 1)).toISOString()
 }

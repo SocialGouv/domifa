@@ -2,7 +2,7 @@ import { main } from "./common/lib"
 import {
   number,
   fullName,
-  truncateDateToMonth as truncateDateToMonthFromString,
+  truncateDateToMonthFromString,
   uuid,
 } from "./common/data-helpers"
 
