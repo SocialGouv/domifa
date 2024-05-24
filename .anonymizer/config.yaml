@@ -111,27 +111,19 @@ dump:
               - operation: set
                 path: userName
                 value_template: "{{ quote fakerName }}"
-        - name: TemplateRecord
+        - name: "Cmd"
+          # --- rdv
           params:
-            # --- rdv
-            template: >
-              {{ $rdv := .GetColumnValue "rdv" }}
-
-              {{ if isNull $rdv }}
-                {{ .SetColumnValue "rdv" null }}
-
-              {{ else }}
-                {{ $dateRdv := $rdv.undefined }}
-                {{ if and (isNotNull $rdv) (eq (kindOf $rdv.dateRdv) "string") }}
-                  {{ $dateRdv = truncateDate "month" (mustToDate "2006-01-02" (split "T" $rdv.dateRdv)._0) }}
-                {{ end }}
-
-                {{ $userId := randomInt 0 1000000000 }}
-                {{ $userName := fakerName }}
-
-                {{ .SetColumnValue "rdv" (toJson (dict "userId" $userId "userName" $userName "dateRdv" $dateRdv )) }}
-
-              {{ end }}
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            executable: "node"
+            args:
+              - "./dist/usager--rdv.js"
+            columns:
+              - name: "rdv"
+                skip_on_null_input: true
         - name: Replace
           params:
             column: migrated
