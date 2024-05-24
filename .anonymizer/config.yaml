@@ -286,3 +286,29 @@ dump:
         - name: SetNull
           params:
             column: accompagnementDetail
+
+    - schema: public
+      name: user_usager
+      transformers:
+        - name: "Cmd"
+          params:
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            executable: "node"
+            args:
+              - "./dist/user-usager--password.js"
+            columns:
+              - name: "password"
+                skip_on_null_input: true
+        - name: Json
+          params:
+            column: lastPasswordResetStructureUser
+            operations:
+              - operation: set
+                path: userId
+                value: "1"
+              - operation: set
+                path: userName
+                value: "Nom"
