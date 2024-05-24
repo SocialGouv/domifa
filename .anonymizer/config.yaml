@@ -255,3 +255,34 @@ dump:
         - name: RandomName
           params:
             column: createdBy
+
+    - schema: public
+      name: usager_entretien
+      transformers:
+        - name: SetNull
+          params:
+            column: commentaires
+        - name: SetNull
+          params:
+            column: revenusDetail
+        - name: SetNull
+          params:
+            column: orientationDetail
+        - name: SetNull
+          params:
+            column: liencommuneDetail
+        - name: SetNull
+          params:
+            column: residenceDetail
+        - name: SetNull
+          params:
+            column: causeDetail
+        - name: SetNull
+          params:
+            column: raisonDetail
+        - name: SetNull
+          params:
+            column: situationProDetail
+        - name: SetNull
+          params:
+            column: accompagnementDetail
