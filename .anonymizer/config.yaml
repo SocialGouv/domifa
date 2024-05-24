@@ -140,6 +140,7 @@ dump:
             columns:
               - name: "options"
                 skip_on_null_input: true
+
     - schema: public
       name: structure
       transformers:
@@ -237,3 +238,20 @@ dump:
             columns:
               - name: adresse
                 template: "{{.Address}}"
+
+    - schema: public
+      name: usager_docs
+      transformers:
+        - name: RandomSentence
+          params:
+            column: label
+            keep_null: true
+        - name: SetNull
+          params:
+            column: encryptionContext
+        - name: SetNull
+          params:
+            column: encryptionVersion
+        - name: RandomName
+          params:
+            column: createdBy
