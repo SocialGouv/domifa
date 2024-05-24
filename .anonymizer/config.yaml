@@ -228,4 +228,4 @@ dump:
           params:
             column: "userName"
             template: >
-              {{ printf "%s %s" fakerFirstName fakerFirstLastName }}
+              {{ quote fakerName }}
