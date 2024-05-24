@@ -217,3 +217,23 @@ dump:
             column: "userName"
             template: >
               {{ quote fakerName }}
+
+    - schema: public
+      name: usager_options_history
+      transformers:
+        - name: RandomFirstName
+          params:
+            column: prenom
+        - name: RandomLastName
+          params:
+            column: nom
+        - name: "Template"
+          params:
+            column: "userName"
+            template: >
+              {{ quote fakerName }}
+        - name: RealAddress
+          params:
+            columns:
+              - name: adresse
+                template: "{{.Address}}"
