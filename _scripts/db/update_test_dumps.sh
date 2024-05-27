@@ -2,11 +2,6 @@
 CURRENT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 DUMPS_DIR="${CURRENT_DIR}/dumps"
 
-set +e
-while ! ${CURRENT_DIR}/convert-postgres-tables-to-unlogged-docker.sh --db=test
-do # first run can fail due to unlogged table dependency
- echo "Try again"
-done
 # export new dump
 ${CURRENT_DIR}/make-dump-database-docker.sh --db=test
 # export new data dump

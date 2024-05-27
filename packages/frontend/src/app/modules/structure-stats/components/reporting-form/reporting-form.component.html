@@ -1,0 +1,252 @@
+<div class="row">
+  <div *ngFor="let report of reports" class="card p-2 col m-2">
+    <b>
+      Année {{ report.year }}
+      <span
+        class="badge"
+        [ngClass]="report.confirmationDate ? 'bg-success' : 'bg-dark'"
+        >{{ report.confirmationDate ? "Complété" : "A compléter" }}</span
+      >
+      <button
+        class="btn btn-outline-dark btn-sm mx-2"
+        type="button"
+        (click)="openModal(report)"
+      >
+        <fa-icon [icon]="['far', 'edit']" aria-hidden="true"></fa-icon>
+      </button>
+    </b>
+  </div>
+</div>
+
+<ng-template #completeReportModal let-modal>
+  <div class="modal-header">
+    <span id="modal-title">
+      Compléter le rapport de l'annnée {{ currentReport?.year }}
+    </span>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="structureStatsForm" (ngSubmit)="sendQuestionsForm()">
+      <div class="form-group required">
+        <fieldset>
+          <legend>
+            Existe-t-il une liste d’attente pour le traitement des demandes de
+            domiciliation dans votre structure ?
+          </legend>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="waitingList"
+              name="waitingList"
+              id="waitingListYes"
+              [value]="true"
+            />
+            <label class="form-check-label" for="waitingListYes">Oui</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              formControlName="waitingList"
+              name="waitingList"
+              id="waitingListNo"
+              [value]="false"
+            />
+            <label class="form-check-label" for="waitingListNo">Non</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="form-group">
+        <label for="waitingTime"
+          >Si oui, quel est le délai moyen d’attente sur l’année ?</label
+        >
+        <select
+          class="form-control"
+          id="waitingTime"
+          formControlName="waitingTime"
+          [ngClass]="{
+            'is-invalid':
+              (f.waitingTime.dirty || submitted) && f.waitingTime.errors
+          }"
+          [attr.aria-describedby]="
+            (f.waitingTime.dirty || submitted) && f.waitingTime.errors
+              ? 'volunteers-errors'
+              : null
+          "
+          [attr.aria-invalid]="
+            (f.waitingTime.dirty || submitted) && f.waitingTime.errors
+              ? true
+              : false
+          "
+        >
+          <option [value]="null"></option>
+          <option value="ONE_WEEK">1 à 7 jours</option>
+          <option value="TWO_WEEKS">7 à 15 jours</option>
+          <option value="ONE_MONTH">Entre 2 semaines et 1 mois</option>
+          <option value="ONE_TO_SIX_MONTHS">Entre 1 et 6 mois</option>
+          <option value="MORE_THAN_SIX_MONTHS">Plus de 6 moiss</option>
+        </select>
+      </div>
+
+      <div class="form-group required">
+        <label for="workers"
+          >Nombre d'ETP (emplois temps plein) salariés dédiés à l'activité de
+          domiciliation
+        </label>
+        <input
+          class="form-control"
+          type="number"
+          id="workers"
+          formControlName="workers"
+          [ngClass]="{
+            'is-invalid': (f.workers.dirty || submitted) && f.workers.errors
+          }"
+          [attr.aria-describedby]="
+            (f.workers.dirty || submitted) && f.workers.errors
+              ? 'volunteers-errors'
+              : null
+          "
+          [attr.aria-invalid]="
+            (f.workers.dirty || submitted) && f.workers.errors ? true : false
+          "
+        />
+        <p
+          *ngIf="(f.workers.dirty || submitted) && f.workers.errors"
+          id="totalCosts-errors"
+          class="invalid-feedback"
+        >
+          Champs obligatoire, veuillez le compléter. La valeure minimale est 0
+        </p>
+      </div>
+
+      <div class="form-group required">
+        <label for="volunteers">
+          Nombre de bénévoles dédiés à l'activité de domiciliation</label
+        >
+        <input
+          class="form-control"
+          type="number"
+          id="volunteers"
+          formControlName="volunteers"
+          [ngClass]="{
+            'is-invalid':
+              (f.volunteers.dirty || submitted) && f.volunteers.errors
+          }"
+          [attr.aria-describedby]="
+            (f.volunteers.dirty || submitted) && f.volunteers.errors
+              ? 'volunteers-errors'
+              : null
+          "
+          [attr.aria-invalid]="
+            (f.volunteers.dirty || submitted) && f.volunteers.errors
+              ? true
+              : false
+          "
+        />
+        <p
+          *ngIf="(f.volunteers.dirty || submitted) && f.volunteers.errors"
+          id="totalCosts-errors"
+          class="invalid-feedback"
+        >
+          Champs obligatoire, veuillez le compléter. La valeure minimale est 0
+        </p>
+      </div>
+
+      <div class="form-group required">
+        <label for="humanCosts">
+          Coût total des moyens humains (arrondi à l'euro)</label
+        >
+        <input
+          type="number"
+          class="form-control"
+          step="1"
+          id="humanCosts"
+          formControlName="humanCosts"
+          [ngClass]="{
+            'is-invalid':
+              (f.humanCosts.dirty || submitted) && f.humanCosts.errors
+          }"
+          [attr.aria-describedby]="
+            (f.humanCosts.dirty || submitted) && f.humanCosts.errors
+              ? 'humanCosts-errors'
+              : null
+          "
+          [attr.aria-invalid]="
+            (f.humanCosts.dirty || submitted) && f.humanCosts.errors
+              ? true
+              : false
+          "
+        />
+        <p
+          *ngIf="(f.humanCosts.dirty || submitted) && f.humanCosts.errors"
+          id="totalCosts-errors"
+          class="invalid-feedback"
+        >
+          Veuillez compléter ce champs par un chiffre
+        </p>
+      </div>
+
+      <div class="form-group required">
+        <label for="totalCosts"
+          >Coût total de l'activité de domiciliation
+        </label>
+        <input
+          type="number"
+          step="1"
+          class="form-control"
+          id="totalCosts"
+          formControlName="totalCosts"
+          [ngClass]="{
+            'is-invalid':
+              (f.totalCosts.dirty || submitted) && f.totalCosts.errors
+          }"
+          [attr.aria-describedby]="
+            (f.totalCosts.dirty || submitted) && f.totalCosts.errors
+              ? 'totalCosts-errors'
+              : null
+          "
+          [attr.aria-invalid]="
+            (f.totalCosts.dirty || submitted) && f.totalCosts.errors
+              ? true
+              : false
+          "
+        />
+        <p
+          *ngIf="(f.totalCosts.dirty || submitted) && f.totalCosts.errors"
+          id="totalCosts-errors"
+          class="invalid-feedback"
+        >
+          Veuillez compléter ce champs par un chiffre
+        </p>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      class="btn btn-lg btn-outline-primary"
+      type="button"
+      (click)="closeModal()"
+    >
+      Annuler
+    </button>
+    <button
+      class="btn btn-lg btn-primary"
+      [disabled]="loading"
+      [attr.aria-busy]="loading"
+      type="submit"
+      (click)="sendQuestionsForm()"
+    >
+      <span *ngIf="!loading">Envoyer le rapport</span>
+
+      <span *ngIf="loading"
+        ><fa-icon
+          [icon]="['fas', 'circle-notch']"
+          [spin]="true"
+          aria-hidden="true"
+        ></fa-icon>
+        Veuillez patienter...</span
+      >
+    </button>
+  </div>
+</ng-template>

@@ -1,4 +1,12 @@
-import { Body, Controller, Post, Res, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Post,
+  Res,
+  UseGuards,
+} from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
@@ -17,11 +25,70 @@ import { statsQuestionsCoreBuilder } from "../services/statsQuestionsCoreBuilder
 
 import { addDays, format } from "date-fns";
 import { StructureStatsFull } from "@domifa/common";
+import { StructureStatsReportingDto } from "../dto";
+import { structureStatsReportingQuestionsRepository } from "../../database";
 
 @Controller("stats")
 @ApiTags("stats")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class StatsPrivateController {
+  // Update reporting
+  @AllowUserStructureRoles("responsable", "admin")
+  @Patch("reporting-questions")
+  public async setReportingQuestions(
+    @CurrentUser() user: UserStructureAuthenticated,
+    @Body() reportingDto: StructureStatsReportingDto
+  ) {
+    const stats = await structureStatsReportingQuestionsRepository.findOne({
+      where: {
+        structureId: user.structureId,
+        year: reportingDto.year,
+      },
+    });
+
+    if (!stats) {
+      throw new Error("NO_STATS");
+    }
+
+    await structureStatsReportingQuestionsRepository.update(
+      {
+        structureId: user.structureId,
+        year: reportingDto.year,
+      },
+      {
+        waitingList: reportingDto.waitingList,
+        waitingTime: reportingDto.waitingTime,
+        workers: reportingDto.workers,
+        volunteers: reportingDto.volunteers,
+        humanCosts: reportingDto.humanCosts,
+        totalCosts: reportingDto.totalCosts,
+        completedBy: {
+          id: user.id,
+          nom: user.nom,
+          prenom: user.prenom,
+        },
+        confirmationDate: new Date(),
+      }
+    );
+    return;
+  }
+
+  // Get reporting
+  @AllowUserStructureRoles("responsable", "admin")
+  @Get("reporting-questions")
+  public async getReportingQuestions(
+    @CurrentUser() _user: UserStructureAuthenticated
+  ) {
+    return structureStatsReportingQuestionsRepository.find({
+      where: {
+        structureId: _user.structureId,
+      },
+      order: {
+        year: "ASC",
+      },
+    });
+  }
+
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post("")
   public async getByDate(

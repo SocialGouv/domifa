@@ -14,9 +14,7 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 
 import { saveAs } from "file-saver";
-
-import { StatsService } from "../../services/stats.service";
-import { buildExportStructureStatsFileName } from "./services";
+import { buildExportStructureStatsFileName } from "../../services";
 import {
   NgbDateCustomParserFormatter,
   CustomDatepickerI18n,
@@ -31,6 +29,7 @@ import {
   UserStructure,
 } from "@domifa/common";
 import { formatDateToNgb } from "../../../../shared";
+import { StructureStatsService } from "../../services/structure-stats.service";
 
 @Component({
   providers: [
@@ -38,11 +37,13 @@ import { formatDateToNgb } from "../../../../shared";
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
-  selector: "app-stats",
+  selector: "app-structure-stats",
   styleUrls: ["./structure-stats.component.scss"],
   templateUrl: "./structure-stats.component.html",
 })
-export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class StuctureStatsComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   public stats!: StructureStatsFull;
 
   public loading: boolean;
@@ -74,7 +75,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private readonly formatter: NgbDateCustomParserFormatter,
-    private readonly statsService: StatsService,
+    private readonly structureStatsService: StructureStatsService,
     private readonly titleService: Title,
     private readonly toastService: CustomToastService,
     private readonly cdRef: ChangeDetectorRef,
@@ -151,7 +152,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
     const structureId = this.me?.structureId as number;
 
     this.subscription.add(
-      this.statsService
+      this.structureStatsService
         .export(structureId, period.start, period.end)
         .subscribe({
           next: (x: Blob) => {
@@ -198,7 +199,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
         : null;
 
     this.subscription.add(
-      this.statsService
+      this.structureStatsService
         .getStats(this.me?.structureId as number, this.start, this.end)
         .subscribe({
           next: (statsResult: StructureStatsFull) => {

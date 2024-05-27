@@ -40,7 +40,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE public.app_log;
 
-    CREATE UNLOGGED TABLE public.app_log (
+    CREATE TABLE public.app_log (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -60,7 +60,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE public.contact_support;
 
-    CREATE UNLOGGED TABLE public.contact_support (
+    CREATE TABLE public.contact_support (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -82,34 +82,13 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_d92188af7573662f6be7199eda" ON public.contact_support USING btree (status);
 
 
-    -- public.expired_token definition
-
-    -- Drop table
-
-    -- DROP TABLE public.expired_token;
-
-    CREATE UNLOGGED TABLE public.expired_token (
-      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
-      "createdAt" timestamptz DEFAULT now() NOT NULL,
-      "updatedAt" timestamptz DEFAULT now() NOT NULL,
-      "version" int4 NOT NULL,
-      "userId" int4 NOT NULL,
-      "structureId" int4 NOT NULL,
-      "token" text NOT NULL,
-      "userProfile" text NOT NULL,
-      CONSTRAINT "PK_3086dda63f863ce61659708e8e7" PRIMARY KEY (uuid)
-    );
-    CREATE INDEX "IDX_4252acc4e242ad123a5d7b0625" ON public.expired_token USING btree ("structureId");
-    CREATE INDEX "IDX_728480a55bd9e5daa2a89d8de0" ON public.expired_token USING btree ("userId");
-
-
     -- public.message_email definition
 
     -- Drop table
 
     -- DROP TABLE public.message_email;
 
-    CREATE UNLOGGED TABLE public.message_email (
+    CREATE TABLE public.message_email (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -134,7 +113,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE public.monitor_batch_process;
 
-    CREATE UNLOGGED TABLE public.monitor_batch_process (
+    CREATE TABLE public.monitor_batch_process (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -151,48 +130,13 @@ async function createTables(queryRunner: QueryRunner) {
     );
 
 
-    -- public.open_data_places definition
-
-    -- Drop table
-
-    -- DROP TABLE public.open_data_places;
-
-    CREATE UNLOGGED TABLE public.open_data_places (
-      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
-      "createdAt" timestamptz DEFAULT now() NOT NULL,
-      "updatedAt" timestamptz DEFAULT now() NOT NULL,
-      "version" int4 NOT NULL,
-      nom text NOT NULL,
-      adresse text NOT NULL,
-      "complementAdresse" text NULL,
-      ville text NULL,
-      "codePostal" text NULL,
-      departement text NOT NULL,
-      region text NOT NULL,
-      latitude numeric(10, 7) NOT NULL,
-      longitude numeric(10, 7) NOT NULL,
-      "source" text NOT NULL,
-      "uniqueId" text NOT NULL,
-      software text NULL,
-      mail text NULL,
-      "structureType" text NULL,
-      "domifaStructureId" int4 NULL,
-      "soliguideStructureId" int4 NULL,
-      CONSTRAINT "PK_f80b64cfb42753deacd8bf6d78d" PRIMARY KEY (uuid)
-    );
-    CREATE INDEX "IDX_0408f9f2c0defbdc5e44f467a3" ON public.open_data_places USING btree (departement);
-    CREATE INDEX "IDX_6e030c1cdb3fa54d0d735cdc6b" ON public.open_data_places USING btree (region);
-    CREATE INDEX "IDX_7ee1e7a8d9441eb76ab7b4aa5a" ON public.open_data_places USING btree ("domifaStructureId");
-    CREATE INDEX "IDX_d85d3252e11effca2f6b652fde" ON public.open_data_places USING btree ("codePostal");
-
-
     -- public."structure" definition
 
     -- Drop table
 
     -- DROP TABLE public."structure";
 
-    CREATE UNLOGGED TABLE public."structure" (
+    CREATE TABLE public."structure" (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -214,7 +158,7 @@ async function createTables(queryRunner: QueryRunner) {
       "importDate" date NULL,
       "lastLogin" date NULL,
       nom text NOT NULL,
-      "options" jsonb NOT NULL,
+      "options" jsonb DEFAULT '{"surnom": false, "numeroBoite": true}'::jsonb NOT NULL,
       responsable jsonb NOT NULL,
       "structureType" text NOT NULL,
       "token" text NULL,
@@ -231,16 +175,19 @@ async function createTables(queryRunner: QueryRunner) {
       "organismeType" text NULL,
       "departmentName" text NULL,
       "regionName" text NULL,
+      CONSTRAINT " " UNIQUE (email),
       CONSTRAINT "PK_a92a6b3dd54efb4ab48b2d6e7c1" PRIMARY KEY (uuid),
-      CONSTRAINT "UQ_90ac7986e769d602d218075215c" UNIQUE (id),
-      CONSTRAINT "UQ_b36e92e49b2a68f8fea64ec8d5b" UNIQUE (email)
+      CONSTRAINT "UQ_90ac7986e769d602d218075215c" UNIQUE (id)
     );
+    CREATE INDEX "IDX_2877f8c3f6cbddc785bf938d0a" ON public.structure USING btree ("regionName");
     CREATE INDEX "IDX_30c4985e1148ec42ad6122f0ff" ON public.structure USING btree ("structureType");
     CREATE INDEX "IDX_62204f14a6d17cad41d419d150" ON public.structure USING btree ("codePostal");
     CREATE INDEX "IDX_90ac7986e769d602d218075215" ON public.structure USING btree (id);
     CREATE INDEX "IDX_b36e92e49b2a68f8fea64ec8d5" ON public.structure USING btree (email);
+    CREATE INDEX "IDX_bf49c177bbacd36423531ecc07" ON public.structure USING btree ("departmentName");
     CREATE INDEX "IDX_e848a2cfbd611ec5edc18074e2" ON public.structure USING btree (region);
     CREATE INDEX "IDX_fa4dea9a1ff8deb8fcf47c451e" ON public.structure USING btree (departement);
+    CREATE UNIQUE INDEX " " ON public.structure USING btree (email);
 
 
     -- public.usager_history_states definition
@@ -249,7 +196,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE public.usager_history_states;
 
-    CREATE UNLOGGED TABLE public.usager_history_states (
+    CREATE TABLE public.usager_history_states (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -268,9 +215,6 @@ async function createTables(queryRunner: QueryRunner) {
       migrated bool DEFAULT false NOT NULL,
       "typeDom" text DEFAULT 'PREMIERE_DOM'::text NULL,
       "etapeDemande" int4 DEFAULT 0 NOT NULL,
-      nationalite text NULL,
-      sexe text NULL,
-      "dateNaissance" timestamptz NULL,
       CONSTRAINT "PK_c1bd0d42891df5715d2ef8474d7" PRIMARY KEY (uuid)
     );
     CREATE INDEX "IDX_78061fee381f67924d9a659dc6" ON public.usager_history_states USING btree ("isActive");
@@ -282,31 +226,13 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_f11adaadacdb25438cf2f92f1f" ON public.usager_history_states USING btree ("typeDom");
 
 
-    -- public.user_usager_login definition
-
-    -- Drop table
-
-    -- DROP TABLE public.user_usager_login;
-
-    CREATE UNLOGGED TABLE public.user_usager_login (
-      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
-      "createdAt" timestamptz DEFAULT now() NOT NULL,
-      "updatedAt" timestamptz DEFAULT now() NOT NULL,
-      "version" int4 NOT NULL,
-      "usagerUUID" uuid NOT NULL,
-      "structureId" int4 NOT NULL,
-      CONSTRAINT "PK_cfb7dc4a81d1db054ab5b4d50bf" PRIMARY KEY (uuid)
-    );
-    CREATE INDEX idx_user_usager_login ON public.user_usager_login USING btree ("structureId", "usagerUUID");
-
-
     -- public.message_sms definition
 
     -- Drop table
 
     -- DROP TABLE public.message_sms;
 
-    CREATE UNLOGGED TABLE public.message_sms (
+    CREATE TABLE public.message_sms (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -335,13 +261,49 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_dae89d90feda082fad814da8a4" ON public.message_sms USING btree ("structureId");
 
 
+    -- public.open_data_places definition
+
+    -- Drop table
+
+    -- DROP TABLE public.open_data_places;
+
+    CREATE TABLE public.open_data_places (
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
+      "version" int4 NOT NULL,
+      nom text NOT NULL,
+      adresse text NOT NULL,
+      "complementAdresse" text NULL,
+      ville text NULL,
+      "codePostal" text NULL,
+      departement text NOT NULL,
+      region text NOT NULL,
+      latitude numeric(10, 7) NOT NULL,
+      longitude numeric(10, 7) NOT NULL,
+      "source" text NOT NULL,
+      "uniqueId" text NOT NULL,
+      software text NULL,
+      mail text NULL,
+      "structureType" text NULL,
+      "domifaStructureId" int4 NULL,
+      "soliguideStructureId" int4 NULL,
+      CONSTRAINT "PK_f80b64cfb42753deacd8bf6d78d" PRIMARY KEY (uuid),
+      CONSTRAINT "FK_7ee1e7a8d9441eb76ab7b4aa5a3" FOREIGN KEY ("domifaStructureId") REFERENCES public."structure"(id) ON DELETE CASCADE
+    );
+    CREATE INDEX "IDX_0408f9f2c0defbdc5e44f467a3" ON public.open_data_places USING btree (departement);
+    CREATE INDEX "IDX_6e030c1cdb3fa54d0d735cdc6b" ON public.open_data_places USING btree (region);
+    CREATE INDEX "IDX_7ee1e7a8d9441eb76ab7b4aa5a" ON public.open_data_places USING btree ("domifaStructureId");
+    CREATE INDEX "IDX_d85d3252e11effca2f6b652fde" ON public.open_data_places USING btree ("codePostal");
+
+
     -- public.structure_doc definition
 
     -- Drop table
 
     -- DROP TABLE public.structure_doc;
 
-    CREATE UNLOGGED TABLE public.structure_doc (
+    CREATE TABLE public.structure_doc (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -369,7 +331,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE public.usager;
 
-    CREATE UNLOGGED TABLE public.usager (
+    CREATE TABLE public.usager (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -396,11 +358,10 @@ async function createTables(queryRunner: QueryRunner) {
       "options" jsonb NOT NULL,
       "import" jsonb NULL,
       migrated bool DEFAULT false NOT NULL,
-      telephone jsonb NOT NULL,
+      telephone jsonb DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb NOT NULL,
       "contactByPhone" bool DEFAULT false NULL,
       "numeroDistribution" text NULL,
       "pinnedNote" jsonb NULL,
-      nationalite text NULL,
       CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_e76056fb098740de66d58a5055a" UNIQUE ("structureId", ref),
       CONSTRAINT "FK_a44d882d224e368efdee8eb8c80" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
@@ -421,7 +382,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE public.usager_docs;
 
-    CREATE UNLOGGED TABLE public.usager_docs (
+    CREATE TABLE public.usager_docs (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -449,7 +410,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE public.usager_entretien;
 
-    CREATE UNLOGGED TABLE public.usager_entretien (
+    CREATE TABLE public.usager_entretien (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -493,7 +454,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE public.usager_notes;
 
-    CREATE UNLOGGED TABLE public.usager_notes (
+    CREATE TABLE public.usager_notes (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -524,7 +485,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE public.usager_options_history;
 
-    CREATE UNLOGGED TABLE public.usager_options_history (
+    CREATE TABLE public.usager_options_history (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -557,7 +518,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE public.user_structure;
 
-    CREATE UNLOGGED TABLE public.user_structure (
+    CREATE TABLE public.user_structure (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -575,8 +536,6 @@ async function createTables(queryRunner: QueryRunner) {
       "passwordLastUpdate" timestamptz NULL,
       verified bool DEFAULT true NOT NULL,
       "acceptTerms" timestamptz NULL,
-      territories text NULL,
-      "isAdministrativeAdmin" bool DEFAULT false NOT NULL,
       CONSTRAINT "PK_a58dc229068f494a0360b170322" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_22a5c4a3d9b2fb8e4e73fc4ada1" UNIQUE (id),
       CONSTRAINT "UQ_3fa909d0e37c531ebc237703391" UNIQUE (email),
@@ -593,7 +552,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE public.user_structure_security;
 
-    CREATE UNLOGGED TABLE public.user_structure_security (
+    CREATE TABLE public.user_structure_security (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -616,7 +575,7 @@ async function createTables(queryRunner: QueryRunner) {
 
     -- DROP TABLE public.user_usager;
 
-    CREATE UNLOGGED TABLE public.user_usager (
+    CREATE TABLE public.user_usager (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -647,13 +606,33 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_7d7ff538b491444ce070065252" ON public.user_usager USING btree (login);
 
 
+    -- public.user_usager_login definition
+
+    -- Drop table
+
+    -- DROP TABLE public.user_usager_login;
+
+    CREATE TABLE public.user_usager_login (
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
+      "version" int4 NOT NULL,
+      "usagerUUID" uuid NOT NULL,
+      "structureId" int4 NOT NULL,
+      CONSTRAINT "PK_cfb7dc4a81d1db054ab5b4d50bf" PRIMARY KEY (uuid),
+      CONSTRAINT "FK_4bf76763fec5203f945338a0377" FOREIGN KEY ("usagerUUID") REFERENCES public.usager("uuid") ON DELETE CASCADE,
+      CONSTRAINT "FK_8722e56ff917692645abcd29e7c" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
+    );
+    CREATE INDEX idx_user_usager_login ON public.user_usager_login USING btree ("structureId", "usagerUUID");
+
+
     -- public.user_usager_security definition
 
     -- Drop table
 
     -- DROP TABLE public.user_usager_security;
 
-    CREATE UNLOGGED TABLE public.user_usager_security (
+    CREATE TABLE public.user_usager_security (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -670,13 +649,36 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_0b7885e1594c7af3a5b84a4bdb" ON public.user_usager_security USING btree ("userId");
 
 
+    -- public.expired_token definition
+
+    -- Drop table
+
+    -- DROP TABLE public.expired_token;
+
+    CREATE TABLE public.expired_token (
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
+      "version" int4 NOT NULL,
+      "userId" int4 NOT NULL,
+      "structureId" int4 NOT NULL,
+      "token" text NOT NULL,
+      "userProfile" text NOT NULL,
+      CONSTRAINT "PK_3086dda63f863ce61659708e8e7" PRIMARY KEY (uuid),
+      CONSTRAINT "FK_4252acc4e242ad123a5d7b06252" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE,
+      CONSTRAINT "FK_728480a55bd9e5daa2a89d8de0f" FOREIGN KEY ("userId") REFERENCES public.user_structure(id) ON DELETE CASCADE
+    );
+    CREATE INDEX "IDX_4252acc4e242ad123a5d7b0625" ON public.expired_token USING btree ("structureId");
+    CREATE INDEX "IDX_728480a55bd9e5daa2a89d8de0" ON public.expired_token USING btree ("userId");
+
+
     -- public.interactions definition
 
     -- Drop table
 
     -- DROP TABLE public.interactions;
 
-    CREATE UNLOGGED TABLE public.interactions (
+    CREATE TABLE public.interactions (
       "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
       "createdAt" timestamptz DEFAULT now() NOT NULL,
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
@@ -701,6 +703,7 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_1953f5ad67157bada8774f7e24" ON public.interactions USING btree ("structureId");
     CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON public.interactions USING btree ("interactionOutUUID");
     CREATE INDEX "IDX_4a2ef430c9c7a9b4a66db96ec7" ON public.interactions USING btree ("dateInteraction");
+    CREATE INDEX "IDX_b3d70227bb45dd8060e256ee33" ON public.interactions USING btree (procuration);
     CREATE INDEX "IDX_ef9fade8e5a6dac06ef5031986" ON public.interactions USING btree (type);
     CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
     CREATE INDEX idx_interactions_date ON public.interactions USING btree ("structureId", "usagerUUID", "dateInteraction");

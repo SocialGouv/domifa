@@ -155,7 +155,7 @@
               <div class="d-flex">
                 <a
                   *ngIf="me.role === 'admin' && me.structureId === 1"
-                  ngbDropdownItem
+                  class="btn btn-outline-primary"
                   [href]="portailAdminUrl"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -292,7 +292,7 @@
                         me.role === 'responsable' ||
                         me.role === 'simple'
                       "
-                      routerLink="/stats/rapport-activite"
+                      routerLink="/structure-stats"
                       ariaCurrentWhenActive="page"
                     >
                       <fa-icon [icon]="['far', 'chart-bar']" aria-hidden="true">
