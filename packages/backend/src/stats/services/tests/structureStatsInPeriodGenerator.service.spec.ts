@@ -1,5 +1,5 @@
-import { AppTestHelper } from "../../util/test";
-import { structureStatsInPeriodGenerator } from "./structureStatsInPeriodGenerator.service";
+import { AppTestHelper } from "../../../util/test";
+import { structureStatsInPeriodGenerator } from "../structureStatsInPeriodGenerator.service";
 
 describe("structureStatsInPeriodGenerator", () => {
   beforeAll(async () => {

@@ -55,6 +55,13 @@ export const routes: Routes = [
     path: "stats",
   },
   {
+    loadChildren: () =>
+      import("./modules/structure-stats/structure-stats.module").then(
+        (m) => m.StructureStatsModule
+      ),
+    path: "structure-stats",
+  },
+  {
     canActivate: [AuthGuard],
     loadChildren: () =>
       import("./modules/manage-usagers/manage-usagers.module").then(

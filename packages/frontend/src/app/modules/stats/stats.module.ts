@@ -12,7 +12,6 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { SharedModule } from "../shared/shared.module";
 
-import { StatsComponent } from "./components/structure-stats/structure-stats.component";
 import { PublicStatsComponent } from "./components/public-stats/public-stats.component";
 import { StatsRoutingModule } from "./stats-routing.module";
 import { StatsChartsComponent } from "./components/elements/stats-charts/stats-charts.component";
@@ -23,7 +22,6 @@ import { CountUpModule } from "ngx-countup";
 
 @NgModule({
   declarations: [
-    StatsComponent,
     PublicStatsComponent,
     StatsChartsComponent,
     StatsMapComponent,

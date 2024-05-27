@@ -40,7 +40,10 @@ export class PlanSiteComponent implements OnInit {
           label: "Gérer le portail domiciliés",
           path: "/structures/portail-usager",
         },
-        { label: "Rapport d'activité", path: "/stats/rapport-activite" },
+        {
+          label: "Rapport d'activité",
+          path: "/structure-stats",
+        },
       ],
     },
     {

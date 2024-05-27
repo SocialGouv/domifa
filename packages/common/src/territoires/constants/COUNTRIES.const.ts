@@ -130,6 +130,7 @@ export const COUNTRIES = {
   KE: "Kenya",
   KG: "Kirghizistan",
   KI: "Kiribati",
+  KO: "Kosovo",
   KW: "Koweït",
   LA: "Laos",
   LS: "Lesotho",
