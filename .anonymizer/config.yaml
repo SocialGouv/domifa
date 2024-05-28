@@ -327,3 +327,53 @@ dump:
               {{ .SetColumnValue "eventsHistory" "[]" }}
             validate: true
 
+    - schema: public
+      name: user_usager_security
+      transformers:
+        - name: "TemplateRecord"
+          params:
+            columns:
+              - "eventsHistory"
+            template: >
+              {{ .SetColumnValue "eventsHistory" "[]" }}
+            validate: true
+
+    - schema: public
+      name: message_sms
+      transformers:
+        - name: RegexpReplace
+          params:
+            column: status
+            replace: "DISABLED"
+            regexp: "TO_SEND"
+        - name: Replace
+          params:
+            column: phoneNumber
+            value: "+33606060606"
+            keep_null: true
+        - name: Replace
+          params:
+            column: responseId
+            value: ""
+            keep_null: true
+        - name: Replace
+          params:
+            column: content
+            value: ""
+            keep_null: true
+        - name: Replace
+          params:
+            column: senderName
+            value: ""
+            keep_null: true
+        - name: SetNull
+          params:
+            column: reminderMetas
+        - name: SetNull
+          params:
+            column: interactionMetas
+        - name: RandomInt
+          params:
+            column: "usagerRef"
+            min: 1
+            max: 100000
