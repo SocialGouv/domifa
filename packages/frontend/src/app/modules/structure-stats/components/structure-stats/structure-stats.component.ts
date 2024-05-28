@@ -27,9 +27,11 @@ import {
   StructureStatsFull,
   ENTRETIEN_CAUSE_INSTABILITE,
   UserStructure,
+  StructureStatsReportingQuestions,
 } from "@domifa/common";
 import { formatDateToNgb } from "../../../../shared";
 import { StructureStatsService } from "../../services/structure-stats.service";
+import { MatomoTracker } from "ngx-matomo-client";
 
 @Component({
   providers: [
@@ -73,13 +75,18 @@ export class StuctureStatsComponent
   public readonly ENTRETIEN_CAUSE_INSTABILITE = ENTRETIEN_CAUSE_INSTABILITE;
   public readonly ENTRETIEN_RESIDENCE = ENTRETIEN_RESIDENCE;
 
+  public reports: StructureStatsReportingQuestions[] = [];
+  public currentReport: StructureStatsReportingQuestions | null = null;
+  public isCustomDates = false;
+
   constructor(
     private readonly formatter: NgbDateCustomParserFormatter,
     private readonly structureStatsService: StructureStatsService,
     private readonly titleService: Title,
     private readonly toastService: CustomToastService,
     private readonly cdRef: ChangeDetectorRef,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly matomo: MatomoTracker
   ) {
     for (let year = 2021; year <= this.currentYear; year++) {
       this.years.push(year);
@@ -121,6 +128,7 @@ export class StuctureStatsComponent
   public ngOnInit(): void {
     this.titleService.setTitle("Rapport d'activité - DomiFa");
     this.me = this.authService.currentUserValue;
+    this.getReportings();
   }
 
   public ngAfterViewInit(): void {
@@ -181,6 +189,24 @@ export class StuctureStatsComponent
     );
   }
 
+  public getReportings() {
+    this.subscription.add(
+      this.structureStatsService.getReportingQuestions().subscribe({
+        next: (stats: StructureStatsReportingQuestions[]) => {
+          this.reports = stats;
+          this.currentReport = this.reports.find(
+            (report) => report.year === this.selectedYear
+          );
+        },
+        error: () => {
+          this.toastService.error(
+            "La récupération des rapports d'activité à échoué"
+          );
+        },
+      })
+    );
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public onYearChange(year: any): void {
     this.start = new Date(year as number, 0, 1);
@@ -188,15 +214,32 @@ export class StuctureStatsComponent
 
     this.fromDate = formatDateToNgb(this.start);
     this.toDate = formatDateToNgb(this.end);
+    this.isCustomDates = false;
+    this.currentReport = this.reports.find((report) => report.year === year);
+    this.compare();
+  }
+
+  public setCustomDates() {
+    this.currentReport = null;
+    this.isCustomDates = true;
+    this.stats = null;
   }
 
   public compare(): void {
     this.loading = true;
+    this.stats = null;
     this.start = new Date(this.formatter.formatEn(this.fromDate));
     this.end =
       this.toDate !== null
         ? new Date(this.formatter.formatEn(this.toDate))
         : null;
+
+    this.matomo.trackEvent(
+      "getStats",
+      this.isCustomDates ? "customDates" : "annualReport",
+      this.start.toString(),
+      1
+    );
 
     this.subscription.add(
       this.structureStatsService

@@ -1,22 +1,82 @@
-<div class="row">
-  <div *ngFor="let report of reports" class="card p-2 col m-2">
-    <b>
-      Année {{ report.year }}
-      <span
-        class="badge"
-        [ngClass]="report.confirmationDate ? 'bg-success' : 'bg-dark'"
-        >{{ report.confirmationDate ? "Complété" : "A compléter" }}</span
-      >
-      <button
-        class="btn btn-outline-dark btn-sm mx-2"
-        type="button"
-        (click)="openModal(report)"
-      >
-        <fa-icon [icon]="['far', 'edit']" aria-hidden="true"></fa-icon>
-      </button>
-    </b>
+<div class="my-4">
+  <div class="my-2 d-flex flex-wrap justify-content-between align-items-center">
+    <h2>
+      Axe 0: questions relatives au fonctionnement de votre structure en
+      {{ currentReport.year }}
+    </h2>
+
+    <button
+      class="btn btn-outline-dark d-print-none"
+      type="button"
+      (click)="openModal()"
+    >
+      <fa-icon
+        [icon]="['far', 'edit']"
+        aria-hidden="true"
+        class="me-2"
+      ></fa-icon>
+      Modifier le rapport
+    </button>
+  </div>
+  <div class="card p-2">
+    <table class="table table-hover m-0">
+      <caption class="visually-hidden">
+        Tableau des statistiques
+      </caption>
+      <tbody>
+        <tr>
+          <td scope="row">
+            {{ REPORTNG_QUESTIONS_LABELS.waitingList }}
+          </td>
+          <td class="stats-table-value">
+            {{ currentReport.waitingTime || "Non renseigné" }}
+          </td>
+        </tr>
+        <tr>
+          <td scope="row">
+            {{ REPORTNG_QUESTIONS_LABELS.waitingTime }}
+          </td>
+          <td class="stats-table-value">
+            {{ currentReport.waitingTime || "Non renseigné" }}
+          </td>
+        </tr>
+        <tr>
+          <td scope="row">
+            {{ REPORTNG_QUESTIONS_LABELS.humanCosts }}
+          </td>
+          <td class="stats-table-value">
+            {{ currentReport.humanCosts || "Non renseigné" }}
+          </td>
+        </tr>
+        <tr>
+          <td scope="row">
+            {{ REPORTNG_QUESTIONS_LABELS.totalCosts }}
+          </td>
+          <td class="stats-table-value">
+            {{ currentReport.totalCosts || "Non renseigné" }}
+          </td>
+        </tr>
+        <tr>
+          <td scope="row">
+            {{ REPORTNG_QUESTIONS_LABELS.workers }}
+          </td>
+          <td class="stats-table-value">
+            {{ currentReport.workers || "Non renseigné" }}
+          </td>
+        </tr>
+        <tr>
+          <td scope="row">
+            {{ REPORTNG_QUESTIONS_LABELS.volunteers }}
+          </td>
+          <td class="stats-table-value">
+            {{ currentReport.volunteers || "Non renseigné" }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
+<br />
 
 <ng-template #completeReportModal let-modal>
   <div class="modal-header">
@@ -58,9 +118,9 @@
       </div>
 
       <div class="form-group">
-        <label for="waitingTime"
-          >Si oui, quel est le délai moyen d’attente sur l’année ?</label
-        >
+        <label for="waitingTime">{{
+          REPORTNG_QUESTIONS_LABELS.waitingTime
+        }}</label>
         <select
           class="form-control"
           id="waitingTime"
@@ -189,7 +249,8 @@
 
       <div class="form-group required">
         <label for="totalCosts"
-          >Coût total de l'activité de domiciliation
+          >Coût total de l'activité de domiciliation (moyens humains, locaux,
+          fonctionnement, fournitures, etc)
         </label>
         <input
           type="number"

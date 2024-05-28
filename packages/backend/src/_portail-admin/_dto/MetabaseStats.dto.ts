@@ -1,6 +1,7 @@
 import {
   DEPARTEMENTS_LISTE,
   REGIONS_LISTE,
+  STRUCTURE_TYPE_MAP,
   StructureType,
 } from "@domifa/common";
 import {
@@ -17,7 +18,7 @@ import {
 export class MetabaseStatsDto {
   @IsNotEmpty()
   @IsNumber()
-  @Min(2021)
+  @Min(2020)
   @Max(2048)
   year: number;
 
@@ -36,6 +37,6 @@ export class MetabaseStatsDto {
   structureId?: number;
 
   @IsOptional()
-  @IsIn(["asso", "ccas", "cias", "other"])
+  @IsIn(STRUCTURE_TYPE_MAP)
   structureType?: StructureType;
 }
