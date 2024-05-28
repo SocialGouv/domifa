@@ -15,6 +15,14 @@ storage:
     prefix: "/anonymizer/pg_dumps"
     # force_path_style: true
 
+cmd_default_params: &cmd_default_params
+  driver:
+    name: "json"
+  validate: true
+  timeout: 3600s
+  expected_exit_code: -1
+  executable: "node"
+
 dump:
   transformation:
     - schema: public
@@ -73,11 +81,7 @@ dump:
         - name: "Cmd"
           # --- historique
           params:
-            driver:
-              name: "json"
-            validate: true
-            timeout: 3600s
-            executable: "node"
+            <<: *cmd_default_params
             args:
               - "./dist/usager--historique.js"
             columns:
@@ -86,11 +90,7 @@ dump:
         - name: "Cmd"
           # --- ayantsDroits
           params:
-            driver:
-              name: "json"
-            validate: true
-            timeout: 3600s
-            executable: "node"
+            <<: *cmd_default_params
             args:
               - "./dist/usager--ayants-droits.js"
             columns:
@@ -99,11 +99,7 @@ dump:
         - name: "Cmd"
           # --- import
           params:
-            driver:
-              name: "json"
-            validate: true
-            timeout: 3600s
-            executable: "node"
+            <<: *cmd_default_params
             args:
               - "./dist/usager--import.js"
             columns:
@@ -112,11 +108,7 @@ dump:
         - name: "Cmd"
           # --- rdv
           params:
-            driver:
-              name: "json"
-            validate: true
-            timeout: 3600s
-            executable: "node"
+            <<: *cmd_default_params
             args:
               - "./dist/usager--rdv.js"
             columns:
@@ -130,11 +122,7 @@ dump:
         - name: "Cmd"
           # --- options
           params:
-            driver:
-              name: "json"
-            validate: true
-            timeout: 3600s
-            executable: "node"
+            <<: *cmd_default_params
             args:
               - "./dist/usager--options.js"
             columns:
@@ -190,11 +178,7 @@ dump:
             column: nom
         - name: "Cmd"
           params:
-            driver:
-              name: "json"
-            validate: true
-            timeout: 3600s
-            executable: "node"
+            <<: *cmd_default_params
             args:
               - "./dist/user-structure--fonction.js"
             columns:
@@ -292,11 +276,7 @@ dump:
       transformers:
         - name: "Cmd"
           params:
-            driver:
-              name: "json"
-            validate: true
-            timeout: 3600s
-            executable: "node"
+            <<: *cmd_default_params
             args:
               - "./dist/user-usager--password.js"
             columns:
@@ -326,7 +306,6 @@ dump:
             template: >
               {{ .SetColumnValue "eventsHistory" "[]" }}
             validate: true
-
     - schema: public
       name: user_usager_security
       transformers:

@@ -7,7 +7,6 @@ export function main<T extends { d: any }>(columnNames: string[], anonymize: (co
 
   process.once("SIGTERM", () => {
     stderr.write("SIGTERM received\n")
-    process.exit(0)
   })
 
   stdin.on("data", function (lineBuffer) {
