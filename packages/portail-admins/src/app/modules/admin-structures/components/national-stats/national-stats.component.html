@@ -80,7 +80,7 @@
           >
             <option [value]="null"></option>
             <option *ngFor="let structure of structures" [value]="structure.id">
-              {{ structure.ville | ucFirst }} ({{ structure.codePostal }}) -
+              {{ structure.codePostal }} - {{ structure.ville | ucFirst }}
               {{ structure.nom | ucFirst }}
             </option>
           </select>

@@ -9,21 +9,28 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { StructuresModule } from "src/app/modules/structures/structures.module";
-import { StatsComponent } from "./structure-stats.component";
 
-describe("StatsComponent", () => {
-  let component: StatsComponent;
-  let fixture: ComponentFixture<StatsComponent>;
+import { MATOMO_INJECTORS } from "../../../../shared";
+import { StuctureStatsComponent } from "./structure-stats.component";
+
+import { SharedModule } from "../../../shared/shared.module";
+
+describe("StuctureStatsComponent", () => {
+  let component: StuctureStatsComponent;
+  let fixture: ComponentFixture<StuctureStatsComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [StatsComponent],
+      declarations: [StuctureStatsComponent],
       imports: [
         StructuresModule,
         HttpClientTestingModule,
         NgbModule,
         FormsModule,
+        SharedModule,
         RouterTestingModule,
+
+        ...MATOMO_INJECTORS,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -31,7 +38,7 @@ describe("StatsComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StatsComponent);
+    fixture = TestBed.createComponent(StuctureStatsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,17 +1,27 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
 import {
   FormGroup,
   FormBuilder,
   Validators,
   AbstractControl,
 } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
-import { StructureStatsReportingQuestions } from "@domifa/common";
+
+import {
+  StructureStatsReportingQuestions,
+  REPORTNG_QUESTIONS_LABELS,
+} from "@domifa/common";
 import { StructureStatsService } from "../../services/structure-stats.service";
 import { CustomToastService } from "../../../shared/services";
 import { Subscription } from "rxjs";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
+import { MatomoTracker } from "ngx-matomo-client";
 
 @Component({
   selector: "app-reporting-form",
@@ -22,8 +32,9 @@ export class ReportingFormComponent implements OnInit {
   public structureStatsForm: FormGroup;
 
   private readonly subscription = new Subscription();
-  public reports: StructureStatsReportingQuestions[] = [];
-  public currentReport: StructureStatsReportingQuestions | null = null;
+  @Input() currentReport: StructureStatsReportingQuestions;
+
+  public readonly REPORTNG_QUESTIONS_LABELS = REPORTNG_QUESTIONS_LABELS;
   public submitted = false;
   public loading = false;
 
@@ -37,33 +48,17 @@ export class ReportingFormComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly structureStatsService: StructureStatsService,
-    private readonly titleService: Title,
     private readonly toastService: CustomToastService,
-    private readonly modalService: NgbModal
-  ) {
-    this.titleService.setTitle("Compléter les questions");
-  }
+    private readonly modalService: NgbModal,
+    private readonly matomo: MatomoTracker
+  ) {}
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.structureStatsService.getReportingQuestions().subscribe({
-        next: (stats: StructureStatsReportingQuestions[]) => {
-          console.log(stats);
-          this.reports = stats;
-          this.loading = false;
-        },
-        error: () => {
-          this.toastService.error(
-            "La récupération des rapports d'activité à échoué"
-          );
-          this.loading = false;
-        },
-      })
-    );
+    this.loading = false;
   }
 
-  public openModal(report: StructureStatsReportingQuestions): void {
-    this.currentReport = report;
+  public openModal(): void {
+    this.matomo.trackEvent("competeReport", "open-modal", null, 1);
 
     this.structureStatsForm = this.fb.group({
       waitingList: [this.currentReport.waitingList],
@@ -101,18 +96,20 @@ export class ReportingFormComponent implements OnInit {
 
   public closeModal(): void {
     this.modalService.dismissAll();
-    this.currentReport = null;
   }
 
   public sendQuestionsForm() {
     this.submitted = true;
-    console.log(this.structureStatsForm.value);
+
     if (!this.structureStatsForm.valid) {
       this.toastService.error(
         "Le formulaire contient des erreurs, veuillez vérifier les champs"
       );
       return;
     }
+
+    this.matomo.trackEvent("competeReport", "send-report", null, 1);
+
     this.loading = true;
     this.subscription.add(
       this.structureStatsService
@@ -121,6 +118,7 @@ export class ReportingFormComponent implements OnInit {
           next: () => {
             this.toastService.success("Rapport enregistré avec succès");
             this.loading = false;
+            this.closeModal();
           },
           error: () => {
             this.toastService.error(

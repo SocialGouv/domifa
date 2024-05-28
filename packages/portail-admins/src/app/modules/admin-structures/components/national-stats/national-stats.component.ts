@@ -22,9 +22,9 @@ export class NationalStatsComponent {
   public readonly REGIONS_LISTE = REGIONS_LISTE;
   public years: number[] = [];
   public departments: string[] = [];
-  public regions: string[] = Object.keys(REGIONS_LISTE).sort((a, b) =>
-    a.localeCompare(b)
-  );
+
+  public regions: string[] = Object.keys(REGIONS_LISTE);
+
   public readonly DEPARTEMENTS_MAP = { ...DEPARTEMENTS_MAP };
 
   public readonly STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
@@ -61,6 +61,7 @@ export class NationalStatsComponent {
 
     this.departments.sort((a, b) => a.localeCompare(b));
     this.metabaseParams.structureId = undefined;
+    this.metabaseParams.department = undefined;
   }
 
   public getMetabaseUrl() {
@@ -79,6 +80,18 @@ export class NationalStatsComponent {
   }
 
   public getStructures() {
+    this.metabaseParams.year = parseInt(
+      this.metabaseParams.year as unknown as string,
+      10
+    );
+
+    if (
+      this.metabaseParams?.structureType &&
+      !STRUCTURE_TYPE_MAP.includes(this.metabaseParams?.structureType)
+    ) {
+      delete this.metabaseParams.structureType;
+    }
+
     this.statsService.getStructures(this.metabaseParams).subscribe({
       next: (response: Array<StructureListForStats>) => {
         this.structures = response;

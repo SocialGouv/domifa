@@ -260,7 +260,9 @@ export class AdminStructuresController {
       where: params,
       select: ["id", "nom", "ville", "codePostal"],
       order: {
+        codePostal: "ASC",
         ville: "ASC",
+        nom: "ASC",
       },
     });
   }
