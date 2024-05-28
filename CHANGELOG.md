@@ -1,3 +1,15 @@
+# [2.169.0](https://github.com/SocialGouv/domifa/compare/v2.168.1...v2.169.0) (2024-05-28)
+
+
+### Bug Fixes
+
+* **backend:** add reporting table ([a9f4fe0](https://github.com/SocialGouv/domifa/commit/a9f4fe06b9a6f34469be2086d6af1f9cb1962083))
+
+
+### Features
+
+* **stats:** add manual report ([bc7df6c](https://github.com/SocialGouv/domifa/commit/bc7df6c57e7d4270643265682bd17d8c37799cca))
+
 ## [2.168.1](https://github.com/SocialGouv/domifa/compare/v2.168.0...v2.168.1) (2024-05-15)
 
 
