@@ -1,5 +1,9 @@
 import { Component } from "@angular/core";
-import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
+import {
+  DomSanitizer,
+  SafeResourceUrl,
+  Title,
+} from "@angular/platform-browser";
 import {
   DEPARTEMENTS_MAP,
   MetabaseParams,
@@ -36,11 +40,18 @@ export class NationalStatsComponent {
   public loading = false;
   private readonly subscription = new Subscription();
 
+  public currentStructure!: StructureListForStats | null;
+
   constructor(
     private sanitizer: DomSanitizer,
     private readonly statsService: StatsService,
-    private readonly toastService: CustomToastService
+    private readonly toastService: CustomToastService,
+    private readonly titleService: Title
   ) {
+    this.titleService.setTitle(
+      "Outil de pilotage de la domiciliation en France"
+    );
+
     for (let year = 2021; year <= new Date().getFullYear(); year++) {
       this.years.push(year);
     }
@@ -65,22 +76,43 @@ export class NationalStatsComponent {
     this.getStructures();
   }
 
+  public setCurrentStructure() {
+    this.currentStructure =
+      this.structures.find(
+        (structure) =>
+          structure.id ===
+          parseInt(this.metabaseParams.structureId as unknown as string, 10)
+      ) || null;
+  }
+
   public getMetabaseUrl() {
+    this.loading = true;
+
     this.statsService.getMetabaseUrl(this.metabaseParams).subscribe({
       next: (response: { url: string }) => {
         this.iframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
           response.url
         );
+        this.loading = false;
 
         this.toastService.success("Chargement des statistiques en cours");
       },
       error: () => {
+        this.loading = false;
+
         this.toastService.error("Le chargement des statistiques a échoué");
       },
     });
   }
 
+  public deleteFilter(key: keyof MetabaseParams) {
+    delete this.metabaseParams[key];
+    this.updateDepartments();
+  }
+
   public getStructures() {
+    this.loading = true;
+
     if (
       this.metabaseParams?.structureType &&
       !STRUCTURE_TYPE_MAP.includes(this.metabaseParams?.structureType)
@@ -88,12 +120,19 @@ export class NationalStatsComponent {
       delete this.metabaseParams.structureType;
     }
 
+    this.currentStructure = null;
+    delete this.metabaseParams.structureId;
+
     this.statsService.getStructures(this.metabaseParams).subscribe({
       next: (response: Array<StructureListForStats>) => {
         this.structures = response;
+        this.loading = false;
+
         this.toastService.success("La liste des structures a été mise à jour");
       },
       error: () => {
+        this.loading = false;
+
         this.toastService.error("Le chargement des structures a échoué");
       },
     });
