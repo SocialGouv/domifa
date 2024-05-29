@@ -62,6 +62,7 @@ export class NationalStatsComponent {
     this.departments.sort((a, b) => a.localeCompare(b));
     this.metabaseParams.structureId = undefined;
     this.metabaseParams.department = undefined;
+    this.getStructures();
   }
 
   public getMetabaseUrl() {
@@ -80,11 +81,6 @@ export class NationalStatsComponent {
   }
 
   public getStructures() {
-    this.metabaseParams.year = parseInt(
-      this.metabaseParams.year as unknown as string,
-      10
-    );
-
     if (
       this.metabaseParams?.structureType &&
       !STRUCTURE_TYPE_MAP.includes(this.metabaseParams?.structureType)

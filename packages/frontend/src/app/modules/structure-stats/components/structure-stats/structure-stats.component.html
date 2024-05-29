@@ -69,15 +69,15 @@
 <div class="content">
   <div class="container p-0">
     <div class="page-content p-3">
-      <p class="py-2">
+      <p class="py-3" *ngIf="!isCustomDates">
         Cet item vous permettra de remplir votre obligation légale et
         réglementaire (Article L 264-8 et Article D 264-8 du code de l'action
         sociale et des familles) de transmission annuelle au préfet de
         département de votre rapport d’activité de domiciliation.
       </p>
 
-      <div class="row align-items-center" *ngIf="isCustomDates">
-        <div class="col">
+      <div class="row" *ngIf="isCustomDates">
+        <div class="col-md-3">
           <div class="form-group">
             <label for="dateDebutValide">Date de début</label>
             <div class="input-group">
@@ -119,7 +119,7 @@
             Veuillez saisir une date de début valide. Par exemple : 01/01/2021
           </p>
         </div>
-        <div class="col">
+        <div class="col-md-3">
           <div class="form-group">
             <label for="dateFinValide">Date de fin</label>
             <div class="input-group required">
@@ -162,38 +162,42 @@
             Veuillez saisir une date de fin valide. Exemple : 01/01/2021
           </p>
         </div>
-        <div class="col">
-          <button
-            type="button"
-            class="btn btn-primary mx-1"
-            [disabled]="loading"
-            [attr.aria-busy]="loading"
-            (click)="compare()"
-          >
-            <span *ngIf="!loading">
-              <fa-icon
-                [icon]="['fas', 'sync']"
-                class="me-1"
-                aria-hidden="true"
-              ></fa-icon>
-              Actualiser les statistiques
-            </span>
-            <span *ngIf="loading">
-              <fa-icon
-                [icon]="['fas', 'circle-notch']"
-                [spin]="true"
-                aria-hidden="true"
-              >
-              </fa-icon>
-              Veuillez patienter...
-            </span>
-          </button>
+        <div class="col-md-3">
+          <div class="form-group">
+            <button
+              type="button"
+              id="start"
+              class="mt-3 btn btn-primary mx-1"
+              [disabled]="loading"
+              [attr.aria-busy]="loading"
+              (click)="compare()"
+            >
+              <span *ngIf="!loading">
+                <fa-icon
+                  [icon]="['fas', 'sync']"
+                  class="me-1"
+                  aria-hidden="true"
+                ></fa-icon>
+                Actualiser les statistiques
+              </span>
+              <span *ngIf="loading">
+                <fa-icon
+                  [icon]="['fas', 'circle-notch']"
+                  [spin]="true"
+                  aria-hidden="true"
+                >
+                </fa-icon>
+                Veuillez patienter...
+              </span>
+            </button>
+          </div>
         </div>
       </div>
 
       <ng-container *ngIf="!isCustomDates && currentReport" class="my-2">
         <app-reporting-form
           [currentReport]="currentReport"
+          (getReportings)="getReportings()"
         ></app-reporting-form>
       </ng-container>
 
@@ -217,7 +221,7 @@
 
       <div *ngIf="stats">
         <h3>
-          Axe 1. Connaissance du public domicilié au
+          Axe 1: connaissance du public domicilié au
           {{ stats.period.endDateUTC | date : "dd MMMM yyyy" : "UTC" }} (en
           nombre de personnes)
         </h3>
@@ -817,7 +821,7 @@
         <br />
 
         <h2>
-          Axe 2. Activité de domiciliation du
+          Axe 2: activité de domiciliation du
           {{ stats.period.startDateUTC | date : "dd MMMM yyyy" }} au
           {{ stats.period.endDateUTC | date : "dd MMMM yyyy" }} (en nombre
           d'actes)
@@ -997,7 +1001,7 @@
         </div>
 
         <h2>
-          Axe 3. Total des interactions du
+          Axe 3: total des interactions du
           {{ stats.period.startDateUTC | date : "dd MMMM yyyy" }} au
           {{ stats.period.endDateUTC | date : "dd MMMM yyyy" }}
         </h2>

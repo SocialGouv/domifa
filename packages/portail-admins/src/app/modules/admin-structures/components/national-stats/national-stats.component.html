@@ -70,8 +70,11 @@
             </option>
           </select>
         </div>
-        <div class="col-2 form-group">
-          <label for="structure">Recherche une structure</label>
+        <div class="col-4 form-group">
+          <label for="structure"
+            >Choisir une structure ({{ structures.length }} structures
+            trouvés)</label
+          >
           <select
             id="structure"
             class="form-select"
@@ -91,7 +94,7 @@
             [disabled]="loading"
             (click)="getMetabaseUrl()"
           >
-            Afficher le rapport
+            Consuler les données statistiques
           </button>
 
           <button

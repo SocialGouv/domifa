@@ -4,6 +4,7 @@ import {
   STRUCTURE_TYPE_MAP,
   StructureType,
 } from "@domifa/common";
+import { Transform } from "class-transformer";
 import {
   IsIn,
   IsNotEmpty,
@@ -18,6 +19,7 @@ import {
 export class MetabaseStatsDto {
   @IsNotEmpty()
   @IsNumber()
+  @Transform(({ value }) => parseInt(value, 10), { toClassOnly: true })
   @Min(2020)
   @Max(2048)
   year: number;
