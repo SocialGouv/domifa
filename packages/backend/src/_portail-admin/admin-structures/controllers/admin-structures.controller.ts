@@ -256,6 +256,7 @@ export class AdminStructuresController {
       structureType: metabaseDto?.structureType ?? undefined,
       verified: true,
     };
+
     return structureRepository.find({
       where: params,
       select: ["id", "nom", "ville", "codePostal"],

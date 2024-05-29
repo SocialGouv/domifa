@@ -32,6 +32,7 @@ import {
 import { formatDateToNgb } from "../../../../shared";
 import { StructureStatsService } from "../../services/structure-stats.service";
 import { MatomoTracker } from "ngx-matomo-client";
+import { startOfMonth } from "date-fns";
 
 @Component({
   providers: [
@@ -209,17 +210,26 @@ export class StuctureStatsComponent
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public onYearChange(year: any): void {
+    console.log(year);
     this.start = new Date(year as number, 0, 1);
     this.end = new Date(year as number, 11, 31);
 
     this.fromDate = formatDateToNgb(this.start);
     this.toDate = formatDateToNgb(this.end);
     this.isCustomDates = false;
+    this.selectedYear = year;
     this.currentReport = this.reports.find((report) => report.year === year);
+
+    console.log(this.currentReport);
     this.compare();
   }
 
   public setCustomDates() {
+    this.start = startOfMonth(new Date());
+    this.end = new Date();
+    this.fromDate = formatDateToNgb(this.start);
+    this.toDate = formatDateToNgb(this.end);
+
     this.currentReport = null;
     this.isCustomDates = true;
     this.stats = null;

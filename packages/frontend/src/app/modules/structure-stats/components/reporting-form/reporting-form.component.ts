@@ -1,7 +1,9 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   TemplateRef,
   ViewChild,
 } from "@angular/core";
@@ -15,6 +17,7 @@ import {
 import {
   StructureStatsReportingQuestions,
   REPORTNG_QUESTIONS_LABELS,
+  WAITING_TIME_LABELS,
 } from "@domifa/common";
 import { StructureStatsService } from "../../services/structure-stats.service";
 import { CustomToastService } from "../../../shared/services";
@@ -22,6 +25,7 @@ import { Subscription } from "rxjs";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import { MatomoTracker } from "ngx-matomo-client";
+import { valueInArrayValidator } from "../../../../shared";
 
 @Component({
   selector: "app-reporting-form",
@@ -33,8 +37,10 @@ export class ReportingFormComponent implements OnInit {
 
   private readonly subscription = new Subscription();
   @Input() currentReport: StructureStatsReportingQuestions;
+  @Output() getReportings = new EventEmitter<void>();
 
   public readonly REPORTNG_QUESTIONS_LABELS = REPORTNG_QUESTIONS_LABELS;
+  public readonly WAITING_TIME_LABELS = WAITING_TIME_LABELS;
   public submitted = false;
   public loading = false;
 
@@ -61,8 +67,14 @@ export class ReportingFormComponent implements OnInit {
     this.matomo.trackEvent("competeReport", "open-modal", null, 1);
 
     this.structureStatsForm = this.fb.group({
-      waitingList: [this.currentReport.waitingList],
-      waitingTime: [this.currentReport.waitingTime, Validators.required],
+      waitingList: [this.currentReport.waitingList, Validators.required],
+      waitingTime: [
+        this.currentReport.waitingTime,
+        [
+          Validators.required,
+          valueInArrayValidator(Object.keys(WAITING_TIME_LABELS)),
+        ],
+      ],
       workers: [
         this.currentReport.workers,
         [Validators.required, Validators.min(0)],
@@ -118,7 +130,9 @@ export class ReportingFormComponent implements OnInit {
           next: () => {
             this.toastService.success("Rapport enregistré avec succès");
             this.loading = false;
+            this.submitted = false;
             this.closeModal();
+            this.getReportings.emit();
           },
           error: () => {
             this.toastService.error(

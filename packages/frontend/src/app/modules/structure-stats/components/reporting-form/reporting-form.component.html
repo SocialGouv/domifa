@@ -1,7 +1,7 @@
 <div class="my-4">
   <div class="my-2 d-flex flex-wrap justify-content-between align-items-center">
     <h2>
-      Axe 0: questions relatives au fonctionnement de votre structure en
+      Préambule: questions relatives au fonctionnement de votre structure en
       {{ currentReport.year }}
     </h2>
 
@@ -25,51 +25,55 @@
       </caption>
       <tbody>
         <tr>
-          <td scope="row">
+          <th scope="row">
             {{ REPORTNG_QUESTIONS_LABELS.waitingList }}
-          </td>
+          </th>
           <td class="stats-table-value">
-            {{ currentReport.waitingTime || "Non renseigné" }}
+            {{ currentReport.waitingList ? "Oui" : "Non" }}
           </td>
         </tr>
         <tr>
-          <td scope="row">
+          <th scope="row">
             {{ REPORTNG_QUESTIONS_LABELS.waitingTime }}
-          </td>
+          </th>
           <td class="stats-table-value">
-            {{ currentReport.waitingTime || "Non renseigné" }}
+            {{
+              currentReport.waitingTime
+                ? WAITING_TIME_LABELS[currentReport.waitingTime]
+                : "Non renseigné"
+            }}
           </td>
         </tr>
         <tr>
-          <td scope="row">
-            {{ REPORTNG_QUESTIONS_LABELS.humanCosts }}
-          </td>
-          <td class="stats-table-value">
-            {{ currentReport.humanCosts || "Non renseigné" }}
-          </td>
-        </tr>
-        <tr>
-          <td scope="row">
-            {{ REPORTNG_QUESTIONS_LABELS.totalCosts }}
-          </td>
-          <td class="stats-table-value">
-            {{ currentReport.totalCosts || "Non renseigné" }}
-          </td>
-        </tr>
-        <tr>
-          <td scope="row">
+          <th scope="row">
             {{ REPORTNG_QUESTIONS_LABELS.workers }}
-          </td>
+          </th>
           <td class="stats-table-value">
-            {{ currentReport.workers || "Non renseigné" }}
+            {{ currentReport.workers || "Non renseigné" }} ETP
           </td>
         </tr>
         <tr>
-          <td scope="row">
+          <th scope="row">
             {{ REPORTNG_QUESTIONS_LABELS.volunteers }}
-          </td>
+          </th>
           <td class="stats-table-value">
-            {{ currentReport.volunteers || "Non renseigné" }}
+            {{ currentReport.volunteers || "Non renseigné" }} bénévoles
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">
+            {{ REPORTNG_QUESTIONS_LABELS.humanCosts }}
+          </th>
+          <td class="stats-table-value">
+            {{ currentReport.humanCosts || "Non renseigné" }} euros
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">
+            {{ REPORTNG_QUESTIONS_LABELS.totalCosts }}
+          </th>
+          <td class="stats-table-value">
+            {{ currentReport.totalCosts || "Non renseigné" }} euros
           </td>
         </tr>
       </tbody>
@@ -114,31 +118,32 @@
             />
             <label class="form-check-label" for="waitingListNo">Non</label>
           </div>
+          <p
+            *ngIf="submitted && f.waitingList.errors"
+            id="waitingList-errors"
+            class="invalid-feedback"
+          >
+            Veuillez sélectionner une réponse
+          </p>
         </fieldset>
       </div>
 
-      <div class="form-group">
+      <div class="form-group required">
         <label for="waitingTime">{{
           REPORTNG_QUESTIONS_LABELS.waitingTime
         }}</label>
         <select
-          class="form-control"
+          class="form-select"
+          required
           id="waitingTime"
           formControlName="waitingTime"
           [ngClass]="{
-            'is-invalid':
-              (f.waitingTime.dirty || submitted) && f.waitingTime.errors
+            'is-invalid': submitted && f.waitingTime.errors
           }"
           [attr.aria-describedby]="
-            (f.waitingTime.dirty || submitted) && f.waitingTime.errors
-              ? 'volunteers-errors'
-              : null
+            submitted && f.waitingTime.errors ? 'volunteers-errors' : null
           "
-          [attr.aria-invalid]="
-            (f.waitingTime.dirty || submitted) && f.waitingTime.errors
-              ? true
-              : false
-          "
+          [attr.aria-invalid]="submitted && f.waitingTime.errors ? true : false"
         >
           <option [value]="null"></option>
           <option value="ONE_WEEK">1 à 7 jours</option>
@@ -147,6 +152,13 @@
           <option value="ONE_TO_SIX_MONTHS">Entre 1 et 6 mois</option>
           <option value="MORE_THAN_SIX_MONTHS">Plus de 6 moiss</option>
         </select>
+        <p
+          *ngIf="(f.waitingTime.dirty || submitted) && f.waitingTime.errors"
+          id="waitingTime-errors"
+          class="invalid-feedback"
+        >
+          Veuillez sélectionner une valeure dans la liste
+        </p>
       </div>
 
       <div class="form-group required">
@@ -173,7 +185,7 @@
         />
         <p
           *ngIf="(f.workers.dirty || submitted) && f.workers.errors"
-          id="totalCosts-errors"
+          id="workers-errors"
           class="invalid-feedback"
         >
           Champs obligatoire, veuillez le compléter. La valeure minimale est 0
@@ -206,7 +218,7 @@
         />
         <p
           *ngIf="(f.volunteers.dirty || submitted) && f.volunteers.errors"
-          id="totalCosts-errors"
+          id="volunteers-errors"
           class="invalid-feedback"
         >
           Champs obligatoire, veuillez le compléter. La valeure minimale est 0
@@ -240,7 +252,7 @@
         />
         <p
           *ngIf="(f.humanCosts.dirty || submitted) && f.humanCosts.errors"
-          id="totalCosts-errors"
+          id="humanCosts-errors"
           class="invalid-feedback"
         >
           Veuillez compléter ce champs par un chiffre
