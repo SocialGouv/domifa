@@ -55,8 +55,8 @@ function randomInt(
   return faker.number.int(options)
 }
 
-function truncateDateToMonthFromString(date: string): string | null {
-  if (!date) {
+function truncateDateToMonthFromString(date: string | null): string | null {
+  if (!date || date === "null") {
     return null
   }
 
