@@ -306,6 +306,7 @@ dump:
             template: >
               {{ .SetColumnValue "eventsHistory" "[]" }}
             validate: true
+
     - schema: public
       name: user_usager_security
       transformers:
@@ -356,3 +357,22 @@ dump:
             column: "usagerRef"
             min: 1
             max: 100000
+
+    - schema: public
+      name: usager_notes
+      transformers:
+        - name: "Cmd"
+          params:
+            <<: *cmd_default_params
+            args:
+              - "./dist/usager-notes--all-columns.js"
+            columns:
+              - name: archived
+                not_affected: true
+                skip_on_null_input: true
+              - name: message
+                skip_on_null_input: true
+              - name: createdBy
+                skip_on_null_input: true
+              - name: archivedBy
+                skip_on_null_input: true

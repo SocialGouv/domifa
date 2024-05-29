@@ -2,6 +2,8 @@
 
 set -e
 
+exclude_tables="contact_support,contact_support_message,expired_token,message_email,monitor_batch_process,user_usager_login"
+
 cd "$(dirname "$0")"
 
 source .env
@@ -20,7 +22,7 @@ cat config.yaml \
     | sed "s%{{type}}%directory%" \
     > config.local.yaml
 
-greenmask dump --config config.local.yaml --log-level debug -j 1
+greenmask dump --config config.local.yaml --log-level debug -j 10 --exclude-table-data $exclude_tables
 
 export PGDATABASE=${PGDATABASE_RESTORE:-$PGDATABASE_anonymized}
 pg_restore --clean --if-exists --no-owner --no-acl --verbose -d $PGDATABASE $pg_dump_directory/$(ls $pg_dump_directory | tail -n 1)
