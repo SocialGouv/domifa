@@ -26,7 +26,7 @@
             "assets": ["src/assets"],
             "styles": [
               "src/assets/css/fonts.css",
-              "src/assets/css/main.css",
+              "src/assets/css/main.scss",
               "src/styles.scss",
               "src/assets/css/bootstrap-custom.css",
               "src/assets/css/print.css",

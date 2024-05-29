@@ -1,0 +1,13 @@
+.cross:hover {
+  background-color: white;
+  color: var(--bs-primary);
+}
+
+.cross {
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.85rem;
+  line-height: 100%;
+  background-color: var(--bs-primary);
+  color: white;
+}

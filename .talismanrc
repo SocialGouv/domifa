@@ -29,4 +29,8 @@ fileignoreconfig:
   checksum: 8570ed88e0e872bc32eac27d37abc1bf8198816dcb27427efb7b6f8e751582b0
 - filename: packages/frontend/src/app/shared/validators/in-array.validator.ts
   checksum: b3d3a95b9a2ca57d9df1ab96111cbd70b0bd1d2890337a3af411a40c89bc7a9a
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/national-stats/national-stats.component.html
+  checksum: 167ef6c54bdf99b3fd75ff1c383dbf6e547983c87896905950ee4a4157872600
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/national-stats/national-stats.component.ts
+  checksum: f5aeeca551e8331ca3375f0a5567676c9fee154369e0506909c6ab69bc931e91
 version: "1.0"

@@ -1,109 +1,232 @@
-<div class="head-page py-4">
+<div class="head-page pt-4">
   <div class="container">
-    <h1 class="title">Rapports d'activité Domifa</h1>
+    <div class="row">
+      <div class="col-md-7 col-12">
+        <h1 class="title">Outil de pilotage de la domiciliation en France</h1>
+      </div>
+      <div class="text-start text-md-end col-12 col-md-5">
+        <a
+          href="https://fabnummas.notion.site/Prise-en-main-du-tableau-de-bord-de-pilotage-de-la-domiciliation-1730729b6cc04d81a5eabf0ba36b5c0d?pvs=4"
+          target="_blank"
+          class="btn btn-white-primary"
+          rel="noopener noreferrer"
+          download
+        >
+          ❓ Guide et foire aux questions
+        </a>
+      </div>
+    </div>
+
+    <nav id="statut-selector" class="mt-4 row d-print-none">
+      <button
+        type="button"
+        *ngFor="let year of years"
+        [ngClass]="
+          metabaseParams.year === year ? 'selected-section col' : 'col'
+        "
+        (click)="metabaseParams.year = year; iframeUrl = null"
+      >
+        Année {{ year }}
+      </button>
+    </nav>
   </div>
 </div>
 <div class="content">
   <div class="page-content p-4">
     <div class="container">
       <div class="row">
-        <div class="col-2 form-group required">
-          <label for="yearSelect">Année du rapport</label>
-          <select
-            id="yearSelect"
-            class="form-select"
-            [(ngModel)]="metabaseParams.year"
-            name="year"
-          >
-            <option *ngFor="let year of years" [value]="year">
-              {{ year }}
-            </option>
-          </select>
+        <div class="col form-group">
+          <label for="region">Région concernée</label>
+
+          <div class="card p-2" *ngIf="metabaseParams.region">
+            <div
+              class="d-flex align-items-center justify-content-between fw-bold"
+            >
+              <span>
+                {{ REGIONS_LISTE[metabaseParams.region] }}
+              </span>
+
+              <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                (click)="deleteFilter('region')"
+              >
+                <fa-icon aria-hidden="true" [icon]="['fas', 'times']"></fa-icon>
+              </button>
+            </div>
+          </div>
+          <ng-container *ngIf="!metabaseParams.region">
+            <select
+              id="region"
+              class="form-select"
+              [(ngModel)]="metabaseParams.region"
+              (ngModelChange)="updateDepartments(); getStructures()"
+              name="region"
+            >
+              <option [value]="null"></option>
+              <option *ngFor="let region of regions" [value]="region">
+                {{ REGIONS_LISTE[region] }}
+              </option>
+            </select>
+          </ng-container>
+        </div>
+        <div class="col form-group">
+          <label for="department">Département concerné</label>
+          <div class="card p-2" *ngIf="metabaseParams.department">
+            <div
+              class="d-flex align-items-center justify-content-between fw-bold"
+            >
+              <span>
+                {{ metabaseParams.department }} -
+                {{
+                  DEPARTEMENTS_MAP[metabaseParams.department].departmentName
+                }}</span
+              >
+              <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                (click)="deleteFilter('department')"
+              >
+                <fa-icon aria-hidden="true" [icon]="['fas', 'times']"></fa-icon>
+              </button>
+            </div>
+          </div>
+          <ng-container *ngIf="!metabaseParams.department">
+            <select
+              id="department"
+              class="form-select"
+              [(ngModel)]="metabaseParams.department"
+              (ngModelChange)="getStructures()"
+              name="departement"
+            >
+              <option [value]="null"></option>
+              <option
+                *ngFor="let department of departments"
+                [value]="department"
+              >
+                {{ department }} -
+                {{ DEPARTEMENTS_MAP[department].departmentName }}
+              </option>
+            </select>
+          </ng-container>
+        </div>
+        <div class="col form-group">
+          <label for="structureType">Type de structure</label>
+          <div class="card p-2" *ngIf="metabaseParams.structureType">
+            <div
+              class="d-flex align-items-center justify-content-between fw-bold"
+            >
+              <span>
+                {{ STRUCTURE_TYPE_LABELS[metabaseParams.structureType] }}
+              </span>
+              <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                (click)="deleteFilter('structureType')"
+              >
+                <fa-icon aria-hidden="true" [icon]="['fas', 'times']"></fa-icon>
+              </button>
+            </div>
+          </div>
+          <ng-container *ngIf="!metabaseParams.structureType">
+            <select
+              id="structureType"
+              class="form-select"
+              [(ngModel)]="metabaseParams.structureType"
+              name="structureType"
+              (ngModelChange)="getStructures()"
+            >
+              <option [value]="undefined"></option>
+              <option
+                *ngFor="let structureType of STRUCTURE_TYPE_MAP"
+                [value]="structureType"
+              >
+                {{ STRUCTURE_TYPE_LABELS[structureType] }}
+              </option>
+            </select>
+          </ng-container>
+        </div>
+        <div class="col form-group">
+          <label for="structure">
+            Choisir une structure ({{ structures.length }} structures trouvés)
+          </label>
+          <div class="card p-2" *ngIf="metabaseParams.structureId">
+            <div
+              class="d-flex align-items-center justify-content-between fw-bold"
+            >
+              <span *ngIf="currentStructure">
+                {{ currentStructure.nom | ucFirst }} -
+                {{ currentStructure.codePostal }},
+                {{ currentStructure.ville | ucFirst }}
+              </span>
+              <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                (click)="deleteFilter('structureId'); setCurrentStructure()"
+              >
+                <fa-icon aria-hidden="true" [icon]="['fas', 'times']"></fa-icon>
+              </button>
+            </div>
+          </div>
+          <ng-container *ngIf="!metabaseParams.structureId">
+            <select
+              id="structure"
+              class="form-select"
+              [(ngModel)]="metabaseParams.structureId"
+              (ngModelChange)="setCurrentStructure()"
+              name="structure"
+            >
+              <option [value]="null"></option>
+              <option
+                *ngFor="let structure of structures"
+                [value]="structure.id"
+              >
+                {{ structure.codePostal }} - {{ structure.ville | ucFirst }}
+                {{ structure.nom | ucFirst }}
+              </option>
+            </select>
+          </ng-container>
         </div>
 
-        <div class="col-2 form-group">
-          <label for="region">Région concernée</label>
-          <select
-            id="region"
-            class="form-select"
-            [(ngModel)]="metabaseParams.region"
-            (ngModelChange)="updateDepartments(); getStructures()"
-            name="region"
-          >
-            <option [value]="null"></option>
-            <option *ngFor="let region of regions" [value]="region">
-              {{ REGIONS_LISTE[region] }}
-            </option>
-          </select>
-        </div>
-        <div class="col-2 form-group">
-          <label for="department">Département concerné</label>
-          <select
-            id="departement"
-            class="form-select"
-            [(ngModel)]="metabaseParams.department"
-            (ngModelChange)="getStructures()"
-            name="departement"
-          >
-            <option [value]="null"></option>
-            <option *ngFor="let department of departments" [value]="department">
-              {{ department }} -
-              {{ DEPARTEMENTS_MAP[department].departmentName }}
-            </option>
-          </select>
-        </div>
-        <div class="col-2 form-group">
-          <label for="structureType">Type de structure</label>
-          <select
-            id="structureType"
-            class="form-select"
-            [(ngModel)]="metabaseParams.structureType"
-            name="structureType"
-            (ngModelChange)="getStructures()"
-          >
-            <option [value]="undefined"></option>
-            <option
-              *ngFor="let structureType of STRUCTURE_TYPE_MAP"
-              [value]="structureType"
-            >
-              {{ STRUCTURE_TYPE_LABELS[structureType] }}
-            </option>
-          </select>
-        </div>
-        <div class="col-4 form-group">
-          <label for="structure"
-            >Choisir une structure ({{ structures.length }} structures
-            trouvés)</label
-          >
-          <select
-            id="structure"
-            class="form-select"
-            [(ngModel)]="metabaseParams.structureId"
-            name="structure"
-          >
-            <option [value]="null"></option>
-            <option *ngFor="let structure of structures" [value]="structure.id">
-              {{ structure.codePostal }} - {{ structure.ville | ucFirst }}
-              {{ structure.nom | ucFirst }}
-            </option>
-          </select>
-        </div>
         <div class="col-12 text-center py-3">
           <button
             class="me-2 btn btn-primary"
-            [disabled]="loading"
             (click)="getMetabaseUrl()"
+            [disabled]="loading"
+            [attr.aria-busy]="loading"
           >
-            Consuler les données statistiques
+            <span *ngIf="loading">
+              <fa-icon
+                [icon]="['fas', 'circle-notch']"
+                aria-hidden="true"
+                [spin]="true"
+              >
+              </fa-icon>
+              Veuillez patienter...
+            </span>
+            <span *ngIf="!loading">🔄 Consulter les données statistiques </span>
           </button>
 
           <button
             class="me-2 btn btn-primary"
-            [disabled]="loading"
             (click)="export()"
             *ngIf="metabaseParams.structureId && iframeUrl"
+            [disabled]="loading"
+            [attr.aria-busy]="loading"
           >
-            Télécharger le rapport de la structure (Excel)
+            <span *ngIf="loading">
+              <fa-icon
+                [icon]="['fas', 'circle-notch']"
+                aria-hidden="true"
+                [spin]="true"
+              >
+              </fa-icon>
+              Veuillez patienter...
+            </span>
+
+            <span *ngIf="!loading">
+              💾 Télécharger le rapport de la structure (Excel)</span
+            >
           </button>
         </div>
       </div>
