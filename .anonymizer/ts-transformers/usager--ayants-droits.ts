@@ -5,7 +5,6 @@ import {
   lastName,
 } from "./common/data-helpers"
 
-
 function anonymize(values: Record<string, any>) {
   const ayantsDroits = JSON.parse(values.ayantsDroits)
 

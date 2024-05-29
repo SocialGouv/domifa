@@ -4,7 +4,6 @@ import {
   fullName,
   truncateDateToMonthFromString,
   uuid,
-
 } from "./common/data-helpers"
 import { fakerFR as faker } from "@faker-js/faker"
 
@@ -25,4 +24,4 @@ function anonymize(values: Record<string, any>) {
   }
 }
 
-main(['archived', "message", "createdBy", "archivedBy"], anonymize)
+main(["archived", "message", "createdBy", "archivedBy"], anonymize)

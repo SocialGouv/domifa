@@ -17,8 +17,7 @@ function anonymize(values: Record<string, any>) {
       userName: fullName(),
       userId: randomInt(),
       uuid: uuid(),
-      dateDecision:
-        truncateDateToMonthFromString(decision.dateDecision),
+      dateDecision: truncateDateToMonthFromString(decision.dateDecision),
       // TODO anonymize other fields: dateDebut, dateFin, dateDecision
     }
   })
@@ -26,4 +25,4 @@ function anonymize(values: Record<string, any>) {
   values.historique = JSON.stringify(anonymised)
 }
 
-main(['historique'], anonymize)
+main(["historique"], anonymize)

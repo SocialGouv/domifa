@@ -5,7 +5,6 @@ import {
   fullName,
 } from "./common/data-helpers"
 
-
 function anonymize(values: Record<string, any>) {
   const rdv = JSON.parse(values.rdv)
 
