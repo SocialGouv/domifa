@@ -1,3 +1,10 @@
+## [2.169.2](https://github.com/SocialGouv/domifa/compare/v2.169.1...v2.169.2) (2024-05-29)
+
+
+### Bug Fixes
+
+* **stats:** fix form for stats, and custom dates ([a821b06](https://github.com/SocialGouv/domifa/commit/a821b0679b2bd2c4f44628177b4d1d3e90ff9ee2))
+
 ## [2.169.1](https://github.com/SocialGouv/domifa/compare/v2.169.0...v2.169.1) (2024-05-29)
 
 
