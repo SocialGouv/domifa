@@ -376,3 +376,24 @@ dump:
                 skip_on_null_input: true
               - name: archivedBy
                 skip_on_null_input: true
+
+    - schema: public
+      name: structure_doc
+      transformers:
+        - name: RandomSentence
+          params:
+            column: label
+            keep_null: true
+        - name: Json
+          params:
+            column: createdBy
+            operations:
+              - operation: set
+                path: id
+                value_template: "{{ randomInt 0 1000000000}}"
+              - operation: set
+                path: nom
+                value_template: "{{ quote fakerFirstLastName }}"
+              - operation: set
+                path: prenom
+                value_template: "{{ quote fakerFirstName }}"
