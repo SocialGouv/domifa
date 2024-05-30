@@ -28,13 +28,13 @@ jobs:
 
 backend-cron:
   replicas: 1
-  resources:
-    requests:
-      cpu: 1
-      memory: 1Gi
-    limits: # exports need a lot of CPU/RAM ATM
-      cpu: 3
-      memory: 3Gi
+  # resources:
+  #   requests:
+  #     cpu: 1
+  #     memory: 1Gi
+  #   limits: # exports need a lot of CPU/RAM ATM
+  #     cpu: 3
+  #     memory: 3Gi
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"
@@ -85,13 +85,6 @@ backend:
     minReplicas: 3
     maxReplicas: 8
     enabled: true
-  resources:
-    requests:
-      cpu: 1
-      memory: 1Gi
-    limits: # exports need a lot of CPU/RAM ATM
-      cpu: 3
-      memory: 3Gi
   certSecretName: backend-crt
   envFrom:
     - secretRef:

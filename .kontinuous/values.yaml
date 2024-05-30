@@ -8,13 +8,6 @@ backend:
   host: "api-{{ .Values.global.host }}"
   probesPath: /healthz
   containerPort: 3000
-  resources:
-    requests:
-      cpu: 0.2
-      memory: 256Mi
-    limits: # exports need a lot of CPU/RAM ATM
-      cpu: 3
-      memory: 3Gi
   startupProbe:
     initialDelaySeconds: 30
     failureThreshold: 50
@@ -62,13 +55,13 @@ backend-cron:
   .ingress.enabled: false
   probesPath: /healthz
   containerPort: 3000
-  resources:
-    requests:
-      cpu: 0.2
-      memory: 256Mi
-    limits:
-      cpu: 1.5
-      memory: 2Gi
+  # resources:
+  #   requests:
+  #     cpu: 0.2
+  #     memory: 256Mi
+  #   limits:
+  #     cpu: 1.5
+  #     memory: 2Gi
   startupProbe:
     initialDelaySeconds: 30
     failureThreshold: 100
@@ -102,14 +95,6 @@ frontend:
         more_set_headers "X-Frame-Options: deny";
         more_set_headers "X-Content-Type-Options: nosniff";
         more_set_headers "Cache-Control: no-store";
-  resources:
-    requests:
-      cpu: 0.2
-      memory: 256Mi
-    limits:
-      cpu: 1
-      memory: 1Gi
-
   securityContext:
     fsGroup: 101
     runAsUser: 101
