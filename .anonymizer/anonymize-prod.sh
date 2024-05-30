@@ -4,7 +4,7 @@ set -e
 
 exclude_tables="contact_support,contact_support_message,expired_token,message_email,monitor_batch_process,user_usager_login"
 
-mkdir /tmp/pg_dump
+mkdir -p /tmp/pg_dump
 
 cd /workspace/.anonymizer
 
