@@ -2,8 +2,6 @@ import { main } from "./common/lib"
 import {
   randomInt,
   fullName,
-  truncateDateToMonthFromString,
-  uuid,
 } from "./common/data-helpers"
 import { fakerFR as faker } from "@faker-js/faker"
 
