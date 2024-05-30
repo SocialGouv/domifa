@@ -1,3 +1,10 @@
+## [2.169.3](https://github.com/SocialGouv/domifa/compare/v2.169.2...v2.169.3) (2024-05-30)
+
+
+### Bug Fixes
+
+* **stats:** add new design to stats's pages ([a0a43e5](https://github.com/SocialGouv/domifa/commit/a0a43e54a073d02f9142541272f21c8c6bfaff29))
+
 ## [2.169.2](https://github.com/SocialGouv/domifa/compare/v2.169.1...v2.169.2) (2024-05-29)
 
 
