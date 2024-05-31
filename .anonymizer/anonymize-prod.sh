@@ -21,4 +21,4 @@ cat config.yaml \
 yarn
 yarn build
 
-./greenmask dump --config config.local.yaml -j 1 --exclude-table-data $exclude_tables
+greenmask dump --config config.local.yaml -j 1 --exclude-table-data $exclude_tables
