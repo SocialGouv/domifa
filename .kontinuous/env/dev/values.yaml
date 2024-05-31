@@ -20,6 +20,15 @@ jobs:
       with:
         seedPath: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
 
+jobs-restore-anonymization:
+  ~chart: jobs
+  enabled: false
+  runs:
+    restore-anonymization:
+      use:
+      with:
+        seedPath: _scripts/db/dumps/toto.sql
+
 backend:
   ~needs: [build-backend, pg]
   env: &backendEnv

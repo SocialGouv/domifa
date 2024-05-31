@@ -1,0 +1,18 @@
+name: Reload Anonymized Preprod
+on:
+  push:
+    branches:
+      - "feat-**"
+      - "fix-**"
+      - "sre/**"
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.ref }}
+
+jobs:
+  kontinuous:
+    name: "restore data on preprod"
+    uses: socialgouv/workflows/.github/workflows/use-ks-gh-custom.yaml@v1
+    secrets: inherit
+    chart: jobs-restore-anonymization
