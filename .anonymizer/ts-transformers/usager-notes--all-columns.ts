@@ -1,8 +1,5 @@
 import { main } from "./common/lib"
-import {
-  randomInt,
-  fullName,
-} from "./common/data-helpers"
+import { randomInt, fullName } from "./common/data-helpers"
 import { fakerFR as faker } from "@faker-js/faker"
 
 function anonymize(values: Record<string, any>) {
