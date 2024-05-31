@@ -5,6 +5,7 @@ on:
       - "feat-**"
       - "fix-**"
       - "sre/**"
+      - "chore/**"
 
 concurrency:
   cancel-in-progress: true
