@@ -25,9 +25,18 @@ jobs-restore-anonymization:
   enabled: false
   runs:
     restore-anonymization:
-      use:
-      with:
-        seedPath: _scripts/db/dumps/toto.sql
+      checkout: true
+      image: ghcr.io/socialgouv/docker/s3-client:sha-d43374e
+      envFrom:
+        - secretRef:
+            name: domifa-dev-backups-access-key
+        - secretRef:
+            name: pg-app
+      run: |
+        root_path=domifa-dev-backups/anonymizer/pg_dumps
+        last_dir=aws s3 ls s3://$root_path | tail -n 1
+        aws s3 cp --recursive s3://$root_path/$last_dir /tmp/dump/$last_dir
+        pg_restore --clean --if-exists --no-owner --no-acl --verbose /tmp/dump/$last_dir
 
 backend:
   ~needs: [build-backend, pg]
