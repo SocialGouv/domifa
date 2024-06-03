@@ -90,10 +90,10 @@ backend: &backendProd
   resources:
     requests:
       cpu: 1
-      memory: 1Gi
+      memory: 5Gi
     limits: # exports need a lot of CPU/RAM ATM
       cpu: 3
-      memory: 3Gi
+      memory: 5Gi
   certSecretName: backend-crt
   envFrom:
     - secretRef:
