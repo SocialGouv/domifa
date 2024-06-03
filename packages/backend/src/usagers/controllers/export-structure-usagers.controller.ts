@@ -1,5 +1,3 @@
-import { interactionRepository } from "./../../database/services/interaction/interactionRepository.service";
-
 import { Controller, Get, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -17,11 +15,6 @@ import { expressResponseExcelRenderer } from "../../util";
 import { UsagersService } from "../services/usagers.service";
 
 import { format } from "date-fns";
-import { userUsagerLoginRepository } from "../../database";
-import {
-  StructureStatsQuestionsInPeriodInteractions,
-  Usager,
-} from "@domifa/common";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("export")
@@ -58,59 +51,9 @@ export class ExportStructureUsagersController {
   private async buildExportModel(user: Pick<UserStructure, "structureId">) {
     const usagers = await this.usagersService.export(user.structureId);
 
-    const usagersInteractionsCountByType: {
-      [usagerRef: number]: StructureStatsQuestionsInPeriodInteractions;
-    } = {};
-
-    const interactionsByUsagerMap =
-      await interactionRepository.totalInteractionAllUsagersStructure({
-        structureId: user.structureId,
-      });
-
-    const userUsagerLoginByUsagerMap =
-      await userUsagerLoginRepository.totalLoginAllUsagersStructure(
-        user.structureId
-      );
-
-    for (const element of usagers) {
-      const usager: Usager = element;
-      const data = interactionsByUsagerMap.find(
-        (x: StructureStatsQuestionsInPeriodInteractions) =>
-          x.usagerRef === usager.ref
-      );
-
-      const userUsagerLogin = userUsagerLoginByUsagerMap.find(
-        (x: { usagerUUID: string; total: string }) =>
-          x.usagerUUID === usager.uuid
-      );
-
-      const loginPortail = userUsagerLogin
-        ? parseInt(userUsagerLogin.total, 10)
-        : 0;
-
-      usagersInteractionsCountByType[usager.ref] = {
-        courrierIn: data?.courrierIn ?? 0,
-        courrierOut: data?.courrierOut ?? 0,
-        courrierOutForwarded: data?.courrierOutForwarded ?? 0,
-        recommandeIn: data?.recommandeIn ?? 0,
-        recommandeOut: data?.recommandeOut ?? 0,
-        recommandeOutForwarded: data?.recommandeOutForwarded ?? 0,
-        colisIn: data?.colisIn ?? 0,
-        colisOut: data?.colisOut ?? 0,
-        colisOutForwarded: data?.colisOutForwarded ?? 0,
-        appel: data?.appel ?? 0,
-        loginPortail,
-        visite: 0,
-        usagerRef: usager.ref,
-        allVisites: 0,
-        visiteOut: 0,
-      };
-    }
-
     const model: StructureUsagersExportModel = {
       exportDate: new Date(),
       usagers,
-      usagersInteractionsCountByType,
     };
     return model;
   }

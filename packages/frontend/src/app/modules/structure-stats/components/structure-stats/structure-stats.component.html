@@ -46,7 +46,7 @@
         (click)="onYearChange(report.year)"
       >
         Année {{ report.year }}
-        <span
+        <!-- <span
           class="badge badge-pill"
           [ngClass]="{
             'bg-primary': report.confirmationDate,
@@ -54,7 +54,7 @@
           }"
         >
           {{ report?.confirmationDate ? "Complété" : "A compléter" }}
-        </span>
+        </span> -->
       </button>
       <button
         type="button"
@@ -194,13 +194,13 @@
           </div>
         </div>
       </div>
-
+      <!--
       <ng-container *ngIf="!isCustomDates && currentReport" class="my-2">
         <app-reporting-form
           [currentReport]="currentReport"
           (getReportings)="getReportings()"
         ></app-reporting-form>
-      </ng-container>
+      </ng-container> -->
 
       <ng-container *ngIf="loading">
         <div class="text-center">
