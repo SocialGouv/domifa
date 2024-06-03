@@ -4,7 +4,6 @@ import { join } from "path";
 import { appLogger } from "../../util";
 import { StructureUsagersExportModel } from "./StructureUsagersExportModel.type";
 import {
-  exportListeCourriersWorksheetRenderer,
   exportListeEntretiensWorksheetRenderer,
   exportListeParticipantsWorksheetRenderer,
 } from "./worksheet-renderer";
@@ -45,6 +44,7 @@ async function generateExcelDocument(
 async function renderWorkbook(model: StructureUsagersExportModel) {
   const workbook = new Workbook();
   await workbook.xlsx.readFile(EXCEL_TEMPLATE_FILE_PATH);
+
   exportListeParticipantsWorksheetRenderer.renderWorksheet({
     model,
     workbook,
@@ -55,12 +55,6 @@ async function renderWorkbook(model: StructureUsagersExportModel) {
     model,
     workbook,
     worksheetIndex: 1,
-  });
-
-  exportListeCourriersWorksheetRenderer.renderWorksheet({
-    model,
-    workbook,
-    worksheetIndex: 2,
   });
 
   // set focus to first tab
