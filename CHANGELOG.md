@@ -1,3 +1,11 @@
+## [2.169.4](https://github.com/SocialGouv/domifa/compare/v2.169.3...v2.169.4) (2024-06-03)
+
+
+### Bug Fixes
+
+* **backend:** delete logs ([53f3e0b](https://github.com/SocialGouv/domifa/commit/53f3e0b6774c5e1b9e4c0e3e9f337fb5b043aab0))
+* **backend:** hide stats ([0244bb2](https://github.com/SocialGouv/domifa/commit/0244bb222a4a8031440dc12e7303af8bee14b77c))
+
 ## [2.169.3](https://github.com/SocialGouv/domifa/compare/v2.169.2...v2.169.3) (2024-05-30)
 
 
