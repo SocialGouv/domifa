@@ -18,4 +18,6 @@ jobs:
     with:
       chart: rancher-namespace,jobs-restore-anonymization
       environment: dev
+      inlineSet: |
+        global.rancherNamespaceEnabled: true
     secrets: inherit
