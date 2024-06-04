@@ -1,5 +1,13 @@
 pg:
   ~chart: pg
+  cnpg-cluster:
+    resources:
+      requests:
+        memory: "4Gi"
+        cpu: "500m"
+      limits:
+        memory: "4Gi"
+        cpu: "2"
 # this force ce PG cluster to be destroyed on redeploys
 # ~preDeploy.cleaner:
 #   match:
