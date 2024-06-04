@@ -15,7 +15,7 @@ cat config.yaml \
     | sed "s%{{bucket_endpoint}}%$bucket_endpoint%" \
     | sed "s%{{bucket_name}}%$bucket_name%" \
     | sed "s%{{bucket_region}}%$bucket_region%" \
-    | sed "s%{{type}}%s3%" \
+    | sed "s%{{type}}%directory%" \
     > config.local.yaml
 
 yarn
