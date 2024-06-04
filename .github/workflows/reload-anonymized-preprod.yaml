@@ -16,7 +16,7 @@ jobs:
     name: "restore data on preprod"
     uses: socialgouv/workflows/.github/workflows/use-ks-gh-custom.yaml@v1
     with:
-      chart: rancher-namespace,jobs-restore-anonymization
+      chart: rancher-namespace,jobs-restore-anonymization,pg
       environment: dev
       inlineSet: |
         global.rancherNamespaceEnabled: true
