@@ -22,6 +22,7 @@ jobs:
 
 jobs-restore-anonymization:
   ~chart: jobs
+  ~needs: [pg]
   enabled: false
   runs:
     restore-anonymization:
@@ -33,8 +34,9 @@ jobs-restore-anonymization:
         - secretRef:
             name: pg-app
       run: |
+        set -e
         root_path=domifa-dev-backups/anonymizer/pg_dumps
-        last_dir=aws s3 ls s3://$root_path | tail -n 1
+        last_dir=$(aws s3 ls s3://$root_path | tail -n 1)
         echo "Restoring $last_dir"
         aws s3 cp --recursive s3://$root_path/$last_dir /tmp/dump/$last_dir
         pg_restore --clean --if-exists --no-owner --no-acl --verbose /tmp/dump/$last_dir
