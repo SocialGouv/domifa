@@ -1,9 +1,10 @@
 pg:
-  # this force ce PG cluster to be destroyed on redeploys
-  ~preDeploy.cleaner:
-    match:
-      kind: Cluster
-    value: true
+  ~chart: pg
+# this force ce PG cluster to be destroyed on redeploys
+# ~preDeploy.cleaner:
+#   match:
+#     kind: Cluster
+#   value: true
 
 jobs:
   runs:
@@ -24,6 +25,7 @@ jobs-restore-anonymization:
   ~chart: jobs
   ~needs: [pg]
   enabled: false
+  retry: 0
   runs:
     restore-anonymization:
       checkout: true
@@ -54,13 +56,24 @@ jobs-restore-anonymization:
             secretKeyRef:
               name: domifa-dev-backups-access-key
               key: bucket_endpoint
+        - name: PGUSER
+          valueFrom:
+            secretKeyRef:
+              name: pg-superuser
+              key: username
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pg-superuser
+              key: password
       run: |
         set -e
         root_path=domifa-dev-backups/anonymizer/pg_dumps
-        last_dir=$(aws s3 ls s3://$root_path | awk '{print $4}' | cut -d "/" -f3 | tail -n 1)
+        last_dir=$(aws s3 ls s3://$root_path --recursive | awk '{print $4}' | cut -d "/" -f3 | tail -n 1)
         echo "Restoring $last_dir"
         aws s3 cp --recursive s3://$root_path/$last_dir /tmp/dump/$last_dir
-        pg_restore --clean --if-exists --no-owner --no-acl --verbose /tmp/dump/$last_dir
+        export PGSSLMODE=disable
+        pg_restore --clean --if-exists --no-owner --no-acl --verbose /tmp/dump/$last_dir --dbname $PGDATABASE
 
 backend:
   ~needs: [build-backend, pg]
