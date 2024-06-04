@@ -36,6 +36,10 @@ jobs-restore-anonymization:
   retry: 0
   runs:
     restore-anonymization:
+      memoryLimit: 4Gi
+      cpuLimit: "4"
+      memoryRequest: 4Gi
+      cpuRequest: "2"
       checkout: true
       image: ghcr.io/socialgouv/docker/s3-client:sha-d43374e
       envFrom:
