@@ -4,15 +4,15 @@ pg:
     resources:
       requests:
         memory: "4Gi"
-        cpu: "500m"
+        cpu: "2"
       limits:
         memory: "4Gi"
         cpu: "2"
-# this force ce PG cluster to be destroyed on redeploys
-# ~preDeploy.cleaner:
-#   match:
-#     kind: Cluster
-#   value: true
+  # this force ce PG cluster to be destroyed on redeploys
+  ~preDeploy.cleaner:
+    match:
+      kind: Cluster
+    value: true
 
 jobs:
   runs:
