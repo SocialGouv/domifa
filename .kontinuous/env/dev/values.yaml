@@ -33,6 +33,27 @@ jobs-restore-anonymization:
             name: domifa-dev-backups-access-key
         - secretRef:
             name: pg-app
+      env:
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: domifa-dev-backups-access-key
+              key: bucket_access_key
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: domifa-dev-backups-access-key
+              key: bucket_secret_key
+        - name: AWS_DEFAULT_REGION
+          valueFrom:
+            secretKeyRef:
+              name: domifa-dev-backups-access-key
+              key: bucket_region
+        - name: AWS_ENDPOINT_URL
+          valueFrom:
+            secretKeyRef:
+              name: domifa-dev-backups-access-key
+              key: bucket_endpoint
       run: |
         set -e
         root_path=domifa-dev-backups/anonymizer/pg_dumps
