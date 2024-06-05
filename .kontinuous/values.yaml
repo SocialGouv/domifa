@@ -57,6 +57,8 @@ backend: &backend
 
 backend-export:
   <<: *backend
+  ~needs: [build-backend]
+  ~chart: app
   ingress:
     paths:
       - /export

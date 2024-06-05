@@ -41,6 +41,7 @@ backend: &backendPreprod
 
 backend-export:
   <<: *backendPreprod
+  ~needs: [build-backend]
   ingress:
     paths:
       - /export

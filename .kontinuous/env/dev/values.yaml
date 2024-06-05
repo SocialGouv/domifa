@@ -53,6 +53,7 @@ backend: &backendDev
 
 backend-export:
   <<: *backendDev
+  ~needs: [build-backend, pg]
   ingress:
     paths:
       - /export
