@@ -1,7 +1,7 @@
 global:
   pgSecretName: pg-app
 
-backend:
+backend: &backend
   ~chart: app
   ~needs: [build-backend]
   imagePackage: backend
@@ -54,6 +54,13 @@ backend:
     fsGroup: 1000
     runAsUser: 1000
     runAsGroup: 1000
+
+backend-export:
+  <<: *backend
+  ingress:
+    paths:
+      - /export
+      - /admin/structures/export
 
 backend-cron:
   ~chart: app

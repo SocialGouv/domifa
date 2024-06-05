@@ -1,4 +1,4 @@
-backend:
+backend: &backend
   host: "api-{{ .Values.global.host }}"
   ~needs: [build-backend]
   envFrom:
@@ -38,6 +38,13 @@ backend:
           key: bucket_secret_key
     - name: S3_BUCKET_ROOT_DIR
       value: preprod/files
+
+backend-export:
+  <<: *backend
+  ingress:
+    paths:
+      - /export
+      - /admin/structures/export
 
 backend-cron:
   ~needs: [backend]
