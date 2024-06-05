@@ -80,6 +80,7 @@ jobs-restore-anonymization:
               key: password
       run: |
         set -e
+        tail -f
         root_path=domifa-dev-backups/anonymizer/pg_dumps
         last_dir=$(aws s3 ls s3://$root_path --recursive | awk '{print $4}' | cut -d "/" -f3 | tail -n 1)
         echo "Restoring $last_dir"
