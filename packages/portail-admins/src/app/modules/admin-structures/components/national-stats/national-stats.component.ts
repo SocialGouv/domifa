@@ -72,6 +72,7 @@ export class NationalStatsComponent {
 
     this.departments.sort((a, b) => a.localeCompare(b));
     this.metabaseParams.structureId = undefined;
+
     this.metabaseParams.department = undefined;
     this.getStructures();
   }

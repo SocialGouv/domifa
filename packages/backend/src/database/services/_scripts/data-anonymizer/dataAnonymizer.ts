@@ -22,7 +22,6 @@ async function anonymize() {
     await dataMessageSmsAnonymizer.anonymizeSms();
     await dataMessageEmailAnonymizer.anonymizeEmail();
     await dataMonitoringAnonymizer.anonymizeMonitoring();
-    await dataMonitoringAnonymizer.anonymizeLogs();
     await dataUsagerAnonymizer.anonymizeUsagers();
     await dataMonitoringAnonymizer.anonymizeTokens();
     await dataStructureAnonymizer.anonymizeStructureDocs();
