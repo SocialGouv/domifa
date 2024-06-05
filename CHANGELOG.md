@@ -1,3 +1,11 @@
+## [2.169.6](https://github.com/SocialGouv/domifa/compare/v2.169.5...v2.169.6) (2024-06-05)
+
+
+### Bug Fixes
+
+* **backend:** delete enum ([366eef2](https://github.com/SocialGouv/domifa/commit/366eef26318372895c69c61ad2a01c596df74853))
+* **backend:** fix anon functions ([de77951](https://github.com/SocialGouv/domifa/commit/de7795136a01d56c06387f0b4cd0dba4a18d3b37))
+
 ## [2.169.5](https://github.com/SocialGouv/domifa/compare/v2.169.4...v2.169.5) (2024-06-05)
 
 
