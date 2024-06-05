@@ -1,3 +1,10 @@
+## [2.169.5](https://github.com/SocialGouv/domifa/compare/v2.169.4...v2.169.5) (2024-06-05)
+
+
+### Bug Fixes
+
+* **frontend:** fix redirect ([7a55881](https://github.com/SocialGouv/domifa/commit/7a558813b824aa3bcdb354ef4316c25adcd83674))
+
 ## [2.169.4](https://github.com/SocialGouv/domifa/compare/v2.169.3...v2.169.4) (2024-06-03)
 
 
