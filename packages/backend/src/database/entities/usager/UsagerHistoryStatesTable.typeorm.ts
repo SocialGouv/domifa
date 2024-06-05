@@ -16,6 +16,7 @@ import {
 } from "@domifa/common";
 
 @Entity({ name: "usager_history_states" })
+@Index("idx_stats_range", ["historyBeginDate", "historyEndDate", "isActive"])
 export class UsagerHistoryStatesTable
   extends AppTypeormTable<UsagerHistoryStatesTable>
   implements UsagerHistoryStates

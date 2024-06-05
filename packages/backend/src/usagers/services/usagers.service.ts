@@ -25,6 +25,7 @@ import {
   Usager,
 } from "@domifa/common";
 import { UsagerHistoryStateService } from "./usagerHistoryState.service";
+import { StructureUsagerExport } from "../../excel/export-structure-usagers/StructureUsagerExport.type";
 
 @Injectable()
 export class UsagersService {
@@ -226,12 +227,34 @@ export class UsagersService {
     });
   }
 
-  public async export(structureId: number): Promise<Usager[]> {
+  public async export(structureId: number): Promise<StructureUsagerExport[]> {
     return usagerRepository.find({
       where: { structureId },
       relations: {
         entretien: true,
       },
+      select: [
+        "customRef",
+        "nom",
+        "prenom",
+        "surnom",
+        "sexe",
+        "dateNaissance",
+        "villeNaissance",
+        "langue",
+        "nationalite",
+        "email",
+        "telephone",
+        "ayantsDroits",
+        "typeDom",
+        "datePremiereDom",
+        "decision",
+        "historique",
+        "lastInteraction",
+        "options",
+        "numeroDistribution",
+        "entretien",
+      ],
     });
   }
 }

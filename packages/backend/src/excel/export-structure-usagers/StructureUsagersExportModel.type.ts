@@ -1,6 +1,6 @@
-import { Usager } from "@domifa/common";
+import { StructureUsagerExport } from "./StructureUsagerExport.type";
 
 export type StructureUsagersExportModel = {
   exportDate: Date;
-  usagers: Usager[];
+  usagers: Array<StructureUsagerExport>;
 };

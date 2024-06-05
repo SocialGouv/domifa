@@ -6,7 +6,6 @@ import {
   ENTRETIEN_RESIDENCE,
   ENTRETIEN_TYPE_MENAGE,
   ENTRETIEN_SITUATION_PRO,
-  Usager,
 } from "@domifa/common";
 
 import {
@@ -16,6 +15,7 @@ import {
   XlRowModel,
 } from "../../xlLib";
 import { StructureUsagersExportModel } from "../StructureUsagersExportModel.type";
+import { StructureUsagerExport } from "../StructureUsagerExport.type";
 
 export const exportListeEntretiensWorksheetRenderer = {
   renderWorksheet,
@@ -80,7 +80,7 @@ function renderWorksheet({
   }
 
   function buildRows(model: StructureUsagersExportModel): XlRowModel[] {
-    return model.usagers.map((usager: Usager) => {
+    return model.usagers.map((usager: StructureUsagerExport) => {
       const row: XlRowModel = {
         values: {
           customRef: usager.customRef,

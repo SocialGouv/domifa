@@ -13,20 +13,20 @@ async function sendExcelWorkbook({
   fileName: string;
   workbook: Workbook;
 }) {
-  res.header(
-    "Content-Type",
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-  );
-  res.header("Content-Disposition", `attachment; filename="${fileName}"`);
+  try {
+    const buffer = await workbook.xlsx.writeBuffer();
 
-  await workbook.xlsx
-    .write(res)
-    .then(() => {
-      return res.end();
-    })
-    .catch((err) => {
-      appLogger.error("Unexpected export error", err);
-      res.sendStatus(500);
-      res.end();
-    });
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
+
+    res.send(buffer);
+    res.end();
+  } catch (err) {
+    appLogger.error("Unexpected export error", err);
+    res.sendStatus(500);
+    res.end();
+  }
 }

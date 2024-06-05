@@ -46,28 +46,27 @@ textarea.form-control {
   width: 100%;
 }
 
-.indications div {
-  padding-top: 5px;
-}
-
 .indications {
   padding: 5px;
   text-align: left;
+  div {
+    padding-top: 5px;
+  }
+  .ng-fa-icon {
+    margin-right: 5px;
+  }
 }
 
-.indications .ng-fa-icon {
-  margin-right: 5px;
-}
-
-.modal-body .form-check {
-  padding: 0 0 0 1.75rem;
-  cursor: pointer;
-  width: 100%;
-}
-
-.modal-body .form-check-input {
-  font-weight: 300;
-  margin-top: 4px;
+.modal-body {
+  .form-check {
+    padding: 0 0 0 1.75rem;
+    cursor: pointer;
+    width: 100%;
+  }
+  .form-check-input {
+    font-weight: 300;
+    margin-top: 4px;
+  }
 }
 
 .btn-group * {
@@ -86,8 +85,14 @@ textarea.form-control {
 
 .btn-white-primary:hover {
   background-color: #e7e7e7;
-  color: #2444c5;
+  color: var(--bs-primary);
   border: 1px solid rgba(65, 100, 245, 0.6);
+}
+
+.btn-white-primary:disabled {
+  background-color: var(--bs-gray-800);
+  color: white;
+  opacity: 1;
 }
 
 .btn-close:focus-visible,
