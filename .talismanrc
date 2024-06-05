@@ -26,7 +26,7 @@ fileignoreconfig:
 - filename: packages/backend/src/_migrations/1716973897487-auto-migration.ts
   checksum: 0cf0ba702414cbbb1b58b625467ec9c405bd3856a0fe952b85d442c67a8f644c
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
-  checksum: a003b5c6ec90f8e778d1a3ac63bd99ab03105141c15497addea306242d80bff5
+  checksum: ea489e2f1ec290e8b185975d5b358e7f8546b6ec25edac81fb9725fdc48ca02f
 - filename: packages/backend/src/util/expressResponseExcelRenderer.service.ts
   checksum: 74fc4a9067af6f823ddcbbed150444cc1db78402ae265082a2114e64c0f459cb
 - filename: packages/frontend/src/app/modules/structure-stats/components/reporting-form/reporting-form.component.ts

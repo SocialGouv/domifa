@@ -375,7 +375,7 @@ async function createTables(queryRunner: QueryRunner) {
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       "waitingList" bool NULL,
-      "waitingTime" public.structure_stats_reporting_waitingtime_enum NULL,
+      "waitingTime" text NULL,
       workers int4 NULL,
       volunteers int4 NULL,
       "humanCosts" int4 NULL,

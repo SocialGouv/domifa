@@ -17,8 +17,7 @@ export class StructureStatsReportingQuestionsTable
   waitingList: boolean;
 
   @Column({
-    type: "enum",
-    enum: Object.values(StructureWaitingTime),
+    type: "text",
     nullable: true,
   })
   waitingTime: StructureWaitingTime | null;
