@@ -14,7 +14,6 @@ import { CustomToastService } from "../../../shared/services/custom-toast.servic
 import { Subscription } from "rxjs";
 import { environment } from "../../../../../environments/environment";
 import { EmailValidator } from "../../../../shared";
-import { UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-login",
@@ -76,13 +75,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authService
         .login(this.f.email.value, this.f.password.value)
         .subscribe({
-          next: (user: UserStructure) => {
+          next: () => {
             this.loading = false;
-
-            if (user.userRightStatus !== "structure") {
-              window.location.href = environment.portailAdminUrl;
-              return;
-            }
 
             this.returnUrl !== "/"
               ? this.router.navigateByUrl(this.returnUrl)
