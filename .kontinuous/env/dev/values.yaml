@@ -15,13 +15,13 @@ jobs:
           DOMIFA_PORTAIL_USAGERS_URL: https://mon-{{ .Values.global.host }}/
           DOMIFA_FRONTEND_URL: https://{{ .Values.global.host }}/
     seed:
-      ~needs: [backend] # need backend to run migrations
+      ~needs: [backend-cron] # need backend to run migrations
       use: seed-db
       with:
         seedPath: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
 
 backend: &backendDev
-  ~needs: [build-backend, pg]
+  ~needs: [backend-cron]
   env: &backendEnv
     - name: S3_BUCKET_ENDPOINT
       valueFrom:
@@ -53,12 +53,12 @@ backend: &backendDev
 
 backend-export:
   <<: *backendDev
-  ~needs: [build-backend, pg, seed]
+  ~needs: [backend-cron]
   ingress:
     paths:
       - /export
       - /admin/structures/export
 
 backend-cron:
-  ~needs: [backend]
+  ~needs: [build-backend, pg]
   env: *backendEnv
