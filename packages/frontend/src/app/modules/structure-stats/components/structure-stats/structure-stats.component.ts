@@ -210,6 +210,9 @@ export class StuctureStatsComponent
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public onYearChange(year: any): void {
+    if (year === this.selectedYear && this.stats) {
+      return;
+    }
     this.start = new Date(year as number, 0, 1);
     this.end = new Date(year as number, 11, 31);
 

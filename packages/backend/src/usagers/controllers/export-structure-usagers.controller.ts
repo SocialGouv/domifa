@@ -29,13 +29,19 @@ export class ExportStructureUsagersController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
+    console.log("\nexport - " + new Date());
+    formatMemoryUsage();
     const model: StructureUsagersExportModel = await this.buildExportModel(
       user
     );
+    console.log("\nbuildExportModel - " + new Date());
+    formatMemoryUsage();
 
     const workbook = await structureUsagersExporter.generateExcelDocument(
       model
     );
+    console.log("\ngenerateExcelDocument - " + new Date());
+    formatMemoryUsage();
 
     const fileName = `${format(
       model.exportDate,
@@ -46,6 +52,9 @@ export class ExportStructureUsagersController {
       fileName,
       workbook,
     });
+
+    console.log("sendExcelWorkbook - " + new Date());
+    formatMemoryUsage();
   }
 
   private async buildExportModel(user: Pick<UserStructure, "structureId">) {
@@ -57,4 +66,15 @@ export class ExportStructureUsagersController {
     };
     return model;
   }
+}
+
+export function formatMemoryUsage() {
+  const memoryUsage = process.memoryUsage();
+
+  const formatted = {};
+  for (const key in memoryUsage) {
+    formatted[key] = (memoryUsage[key] / 1024 / 1024).toFixed(2) + " MB";
+  }
+  console.log();
+  console.log(formatted);
 }

@@ -4,12 +4,7 @@ import { UserStructureAuthenticated } from "../../../_common/model";
 import { INTERACTION_OK_LIST } from "../../../_common/model/interaction";
 import { InteractionsTable } from "../../entities";
 import { myDataSource } from "../_postgres";
-import {
-  CommonInteraction,
-  InteractionType,
-  StructureStatsQuestionsInPeriodInteractions,
-  Usager,
-} from "@domifa/common";
+import { CommonInteraction, InteractionType, Usager } from "@domifa/common";
 
 export const interactionRepository = myDataSource
   .getRepository<CommonInteraction>(InteractionsTable)
@@ -20,7 +15,6 @@ export const interactionRepository = myDataSource
     countPendingInteractionsIn,
     countVisiteOut,
     updateInteractionAfterDistribution,
-    totalInteractionAllUsagersStructure,
     findLastInteractionOut,
     totalInteractionsInPeriod,
   });
@@ -109,20 +103,22 @@ async function countPendingInteractionsIn({
   } = await interactionRepository
     .createQueryBuilder("interactions")
     .select(
-      `coalesce (SUM(CASE WHEN type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn"`
+      `SUM(CASE WHEN type = 'courrierIn' THEN "nbCourrier" END) AS "courrierIn"`
     )
     .addSelect(
-      `coalesce (SUM(CASE WHEN type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn"`
+      `SUM(CASE WHEN type = 'recommandeIn' THEN "nbCourrier" END) AS "recommandeIn"`
     )
     .addSelect(
-      `coalesce (SUM(CASE WHEN type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn"`
+      `SUM(CASE WHEN type = 'colisIn' THEN "nbCourrier" END) AS "colisIn"`
     )
     .where({ usagerUUID: usager.uuid, interactionOutUUID: IsNull() })
     .getRawOne();
   return {
-    courrierIn: parseInt(results.courrierIn, 10),
-    recommandeIn: parseInt(results.recommandeIn, 10),
-    colisIn: parseInt(results.colisIn, 10),
+    courrierIn: results?.courrierIn ? parseInt(results.courrierIn, 10) : 0,
+    recommandeIn: results?.recommandeIn
+      ? parseInt(results.recommandeIn, 10)
+      : 0,
+    colisIn: results?.colisIn ? parseInt(results.colisIn, 10) : 0,
   };
 }
 
@@ -186,63 +182,6 @@ async function countVisiteOut({
   return 0;
 }
 
-async function totalInteractionAllUsagersStructure({
-  structureId,
-}: {
-  structureId: number;
-}): Promise<StructureStatsQuestionsInPeriodInteractions[]> {
-  // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
-  const query = `SELECT
-      i."usagerRef",
-      coalesce (COUNT(CASE WHEN i.type = 'appel' THEN 1 END), 0) AS "appel",
-      coalesce (COUNT(CASE WHEN i.type = 'visite' THEN 1 END), 0) AS "visite",
-      coalesce (SUM(CASE WHEN i.type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn",
-      coalesce (SUM(CASE WHEN i."returnToSender" is false and i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOut",
-      coalesce (SUM(CASE WHEN i."returnToSender" is true AND i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOutForwarded",
-      coalesce (SUM(CASE WHEN i.type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn",
-      coalesce (SUM(CASE WHEN i."returnToSender" is false and i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOut",
-      coalesce (SUM(CASE WHEN i."returnToSender" is true AND i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOutForwarded",
-      coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn",
-      coalesce (SUM(CASE WHEN i."returnToSender" is false and i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOut",
-      coalesce (SUM(CASE WHEN i."returnToSender" is true AND i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOutForwarded"
-    FROM interactions i
-    WHERE i."structureId" = $1
-    GROUP BY i."usagerRef"`;
-
-  const results = await interactionRepository.query(query, [structureId]);
-
-  return results.map(
-    (x: {
-      usagerRef: string;
-      appel: string;
-      visite: string;
-      courrierIn: string;
-      courrierOut: string;
-      courrierOutForwarded: string;
-      recommandeIn: string;
-      recommandeOut: string;
-      recommandeOutForwarded: string;
-      colisIn: string;
-      colisOut: string;
-      colisOutForwarded: string;
-    }) => ({
-      usagerRef: parseInt(x.usagerRef, 10),
-      courrierIn: parseInt(x.courrierIn, 10),
-      courrierOut: parseInt(x.courrierOut, 10),
-      courrierOutForwarded: parseInt(x.courrierOutForwarded, 10),
-      recommandeIn: parseInt(x.recommandeIn, 10),
-      recommandeOut: parseInt(x.recommandeOut, 10),
-      recommandeOutForwarded: parseInt(x.recommandeOutForwarded, 10),
-      colisIn: parseInt(x.colisIn, 10),
-      colisOut: parseInt(x.colisOut, 10),
-      colisOutForwarded: parseInt(x.colisOutForwarded, 10),
-      appel: parseInt(x.appel, 10),
-      visite: parseInt(x.visite, 10),
-      loginPortai: 0,
-    })
-  );
-}
-
 async function totalInteractionsInPeriod({
   structureId,
   dateInteractionBefore,
@@ -264,19 +203,21 @@ async function totalInteractionsInPeriod({
   colisOut: number;
   colisOutForwarded: number;
 }> {
+  console.time("queryTime");
+
   // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
   const query = `SELECT
-  coalesce (COUNT(CASE WHEN i.type = 'appel' THEN 1 END), 0) AS "appel",
-  coalesce (COUNT(CASE WHEN i.type = 'visite' THEN 1 END), 0) AS "visite",
-  coalesce (SUM(CASE WHEN i.type = 'courrierIn' THEN "nbCourrier" END), 0) AS "courrierIn",
-  coalesce (SUM(CASE WHEN i."returnToSender" is false AND i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOut",
-  coalesce (SUM(CASE WHEN  i."returnToSender" is true AND i.type = 'courrierOut' THEN "nbCourrier" END), 0) AS "courrierOutForwarded",
-  coalesce (SUM(CASE WHEN i.type = 'recommandeIn' THEN "nbCourrier" END), 0) AS "recommandeIn",
-  coalesce (SUM(CASE WHEN i."returnToSender" is false AND i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOut",
-  coalesce (SUM(CASE WHEN  i."returnToSender" is true AND i.type = 'recommandeOut' THEN "nbCourrier" END), 0) AS "recommandeOutForwarded",
-  coalesce (SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END), 0) AS "colisIn",
-  coalesce (SUM(CASE WHEN i."returnToSender" is false AND i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOut",
-  coalesce (SUM(CASE WHEN  i."returnToSender" is true AND i.type = 'colisOut' THEN "nbCourrier" END), 0) AS "colisOutForwarded"
+    COUNT(CASE WHEN i.type = 'appel' THEN 1 END) AS "appel",
+    COUNT(CASE WHEN i.type = 'visite' THEN 1 END) AS "visite",
+    SUM(CASE WHEN i.type = 'courrierIn' THEN "nbCourrier" END) AS "courrierIn",
+    SUM(CASE WHEN i."returnToSender" is false AND i.type = 'courrierOut' THEN "nbCourrier" END) AS "courrierOut",
+    SUM(CASE WHEN  i."returnToSender" is true AND i.type = 'courrierOut' THEN "nbCourrier" END) AS "courrierOutForwarded",
+    SUM(CASE WHEN i.type = 'recommandeIn' THEN "nbCourrier" END) AS "recommandeIn",
+    SUM(CASE WHEN i."returnToSender" is false AND i.type = 'recommandeOut' THEN "nbCourrier" END) AS "recommandeOut",
+    SUM(CASE WHEN  i."returnToSender" is true AND i.type = 'recommandeOut' THEN "nbCourrier" END) AS "recommandeOutForwarded",
+    SUM(CASE WHEN i.type = 'colisIn' THEN "nbCourrier" END) AS "colisIn",
+    SUM(CASE WHEN i."returnToSender" is false AND i.type = 'colisOut' THEN "nbCourrier" END) AS "colisOut",
+    SUM(CASE WHEN  i."returnToSender" is true AND i.type = 'colisOut' THEN "nbCourrier" END) AS "colisOutForwarded"
     FROM interactions i
     WHERE i."structureId" = $1
     AND i."dateInteraction" >= $2
@@ -288,21 +229,33 @@ async function totalInteractionsInPeriod({
     dateInteractionBefore,
   ]);
 
+  console.timeEnd("queryTime");
+  console.log({ rawResults });
   if (rawResults.length === 1) {
     const results = rawResults[0];
 
     return {
-      courrierIn: parseInt(results.courrierIn, 10),
-      courrierOut: parseInt(results.courrierOut, 10),
-      courrierOutForwarded: parseInt(results.courrierOutForwarded, 10),
-      recommandeIn: parseInt(results.recommandeIn, 10),
-      recommandeOut: parseInt(results.recommandeOut, 10),
-      recommandeOutForwarded: parseInt(results.recommandeOutForwarded, 10),
-      colisIn: parseInt(results.colisIn, 10),
-      colisOut: parseInt(results.colisOut, 10),
-      colisOutForwarded: parseInt(results.colisOutForwarded, 10),
-      appel: parseInt(results.appel, 10),
-      visite: parseInt(results.visite, 10),
+      courrierIn: results?.courrierIn ? parseInt(results.courrierIn, 10) : 0,
+      courrierOut: results?.courrierOut ? parseInt(results.courrierOut, 10) : 0,
+      courrierOutForwarded: results?.courrierOutForwarded
+        ? parseInt(results.courrierOutForwarded, 10)
+        : 0,
+      recommandeIn: results?.recommandeIn
+        ? parseInt(results.recommandeIn, 10)
+        : 0,
+      recommandeOut: results?.recommandeOut
+        ? parseInt(results.recommandeOut, 10)
+        : 0,
+      recommandeOutForwarded: results?.recommandeOutForwarded
+        ? parseInt(results.recommandeOutForwarded, 10)
+        : 0,
+      colisIn: results?.colisIn ? parseInt(results.colisIn, 10) : 0,
+      colisOut: results?.colisOut ? parseInt(results.colisOut, 10) : 0,
+      colisOutForwarded: results?.colisOutForwarded
+        ? parseInt(results.colisOutForwarded, 10)
+        : 0,
+      appel: results?.appel ? parseInt(results.appel, 10) : 0,
+      visite: results?.visite ? parseInt(results.visite, 10) : 0,
     };
   }
   return {
