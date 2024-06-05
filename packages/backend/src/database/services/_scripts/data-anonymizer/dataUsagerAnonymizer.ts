@@ -87,11 +87,11 @@ async function _anonymizeUsager(usager: Usager) {
   const options = anonymizeOptions(usager);
 
   const attributesToUpdate: Partial<Usager> = {
-    email: null,
+    email: usager.email ? dataGenerator.email() : null,
     prenom: dataGenerator.firstName(),
     telephone: {
       countryCode: "fr",
-      numero: "",
+      numero: usager.telephone?.numero ? dataGenerator.phoneNumber() : null,
     },
     pinnedNote: null,
     nom: dataGenerator.lastName(),

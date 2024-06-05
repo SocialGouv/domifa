@@ -148,7 +148,7 @@
         </div>
         <div class="col form-group">
           <label for="structure">
-            Choisir une structure ({{ structures.length }} structures trouvés)
+            Choisir une structure: {{ structures.length }} résultats
           </label>
           <div class="card p-2" *ngIf="metabaseParams.structureId">
             <div
@@ -181,7 +181,7 @@
                 *ngFor="let structure of structures"
                 [value]="structure.id"
               >
-                {{ structure.codePostal }} - {{ structure.ville | ucFirst }}
+                {{ structure.codePostal }} - {{ structure.ville | ucFirst }} -
                 {{ structure.nom | ucFirst }}
               </option>
             </select>

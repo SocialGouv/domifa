@@ -34,7 +34,7 @@ case $i in
 esac
 done
 
-if [ -z "${TARGET_DB_ENV}" ] 
+if [ -z "${TARGET_DB_ENV}" ]
 then
   echo ""
   echo "----------------------------------------------------------------------------------------------"
@@ -43,7 +43,7 @@ then
   exit 1
 fi
 
-if [ -z "${DUMP_ENV}" ] 
+if [ -z "${DUMP_ENV}" ]
 then
   DUMP_ENV="${TARGET_DB_ENV}"
 fi
