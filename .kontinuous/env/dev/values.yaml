@@ -20,7 +20,7 @@ jobs:
       with:
         seedPath: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
 
-backend: &backend
+backend: &backendDev
   ~needs: [build-backend, pg]
   env: &backendEnv
     - name: S3_BUCKET_ENDPOINT
@@ -52,7 +52,7 @@ backend: &backend
       value: review-branch/{{ .Values.global.branchSlug32  }}/files
 
 backend-export:
-  <<: *backend
+  <<: *backendDev
   ingress:
     paths:
       - /export

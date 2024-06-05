@@ -79,7 +79,7 @@ backend-cron:
     - name: S3_BUCKET_ROOT_DIR
       value: backup/files
 
-backend: &backend
+backend: &backendProd
   host: "domifa-api.{{ .Values.global.domain }}"
   autoscale:
     minReplicas: 3
@@ -107,7 +107,7 @@ backend: &backend
   env: *backendEnv
 
 backend-export:
-  <<: *backend
+  <<: *backendProd
   ingress:
     paths:
       - /export

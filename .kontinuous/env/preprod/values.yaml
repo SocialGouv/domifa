@@ -1,4 +1,4 @@
-backend: &backend
+backend: &backendPreprod
   host: "api-{{ .Values.global.host }}"
   ~needs: [build-backend]
   envFrom:
@@ -40,7 +40,7 @@ backend: &backend
       value: preprod/files
 
 backend-export:
-  <<: *backend
+  <<: *backendPreprod
   ingress:
     paths:
       - /export
