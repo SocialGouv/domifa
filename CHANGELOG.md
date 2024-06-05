@@ -1,3 +1,10 @@
+## [2.169.7](https://github.com/SocialGouv/domifa/compare/v2.169.6...v2.169.7) (2024-06-05)
+
+
+### Bug Fixes
+
+* **backend:** optimize excel ([9cb300b](https://github.com/SocialGouv/domifa/commit/9cb300b90bb3ffc59036d953193e5f6ea8e59eaa))
+
 ## [2.169.6](https://github.com/SocialGouv/domifa/compare/v2.169.5...v2.169.6) (2024-06-05)
 
 
