@@ -1,3 +1,16 @@
+## [2.169.8](https://github.com/SocialGouv/domifa/compare/v2.169.7...v2.169.8) (2024-06-06)
+
+
+### Bug Fixes
+
+* dependencies ([3a17389](https://github.com/SocialGouv/domifa/commit/3a1738926f90325a7ba2483417c2dc03daf20f1c))
+* export export routes to a dedicated backend ([59e3b8c](https://github.com/SocialGouv/domifa/commit/59e3b8c674dd4d8e84545cd516f988da0aacae35))
+* no truncate as pg is always recreated ([2fda3a5](https://github.com/SocialGouv/domifa/commit/2fda3a5e3a1f5ca9884642bbdcb6b27543aa2975))
+* try new names ([5e8cb84](https://github.com/SocialGouv/domifa/commit/5e8cb84ea63e291dacc5b6011447c96a6d2ff5bc))
+* try waiting for seed ([efb12fc](https://github.com/SocialGouv/domifa/commit/efb12fc9618b72e1bc7cbf3749b6e250cab6e88a))
+* use original script without truncates ([43b163a](https://github.com/SocialGouv/domifa/commit/43b163a3fb85e3f5a1a5a7698dd0341065af21f7))
+* workflow ([bb40146](https://github.com/SocialGouv/domifa/commit/bb40146ba58534a620e8978609b0a283e78ddad2))
+
 ## [2.169.7](https://github.com/SocialGouv/domifa/compare/v2.169.6...v2.169.7) (2024-06-05)
 
 
