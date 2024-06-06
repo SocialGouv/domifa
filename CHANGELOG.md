@@ -1,3 +1,12 @@
+## [2.169.9](https://github.com/SocialGouv/domifa/compare/v2.169.8...v2.169.9) (2024-06-06)
+
+
+### Bug Fixes
+
+* move resources to export backend ([e9f09f0](https://github.com/SocialGouv/domifa/commit/e9f09f0e4b3b8151532dbf4651cc5d58ef8bafed))
+* normal backend resources ([cccf86b](https://github.com/SocialGouv/domifa/commit/cccf86bf65a9b3b572afdfba3d154cfe9cfebb39))
+* reduce minimum replicas for export backend ([ed60bfb](https://github.com/SocialGouv/domifa/commit/ed60bfb023e9eb7ee3c8476d1cef1792ea7e4239))
+
 ## [2.169.8](https://github.com/SocialGouv/domifa/compare/v2.169.7...v2.169.8) (2024-06-06)
 
 
