@@ -122,6 +122,8 @@ backend-export:
     limits: # exports need a lot of CPU/RAM ATM
       cpu: 3
       memory: 5Gi
+  autoscale:
+    minReplicas: 2
 
 frontend:
   replicas: 1
