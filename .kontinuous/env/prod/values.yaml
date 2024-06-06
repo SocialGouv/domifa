@@ -27,6 +27,7 @@ jobs:
           DOMIFA_FRONTEND_META_ROBOTS: index,follow
 
 backend-cron:
+  ~needs: [build-backend]
   replicas: 1
   resources:
     requests:
@@ -79,7 +80,8 @@ backend-cron:
     - name: S3_BUCKET_ROOT_DIR
       value: backup/files
 
-backend:
+backend: &backendProd
+  ~needs: [backend-cron]
   host: "domifa-api.{{ .Values.global.domain }}"
   autoscale:
     minReplicas: 3
@@ -105,6 +107,14 @@ backend:
   vars:
     <<: *backendVars
   env: *backendEnv
+
+backend-export:
+  <<: *backendProd
+  ~needs: [backend-cron]
+  ingress:
+    paths:
+      - /export
+      - /admin/structures/export
 
 frontend:
   replicas: 1

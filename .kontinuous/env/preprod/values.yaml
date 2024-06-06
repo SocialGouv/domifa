@@ -1,6 +1,6 @@
-backend:
+backend: &backendPreprod
   host: "api-{{ .Values.global.host }}"
-  ~needs: [build-backend]
+  ~needs: [backend-cron]
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"
@@ -39,8 +39,16 @@ backend:
     - name: S3_BUCKET_ROOT_DIR
       value: preprod/files
 
+backend-export:
+  <<: *backendPreprod
+  ~needs: [backend-cron]
+  ingress:
+    paths:
+      - /export
+      - /admin/structures/export
+
 backend-cron:
-  ~needs: [backend]
+  ~needs: [build-backend]
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"
