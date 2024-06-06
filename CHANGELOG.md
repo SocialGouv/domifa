@@ -1,3 +1,10 @@
+## [2.169.10](https://github.com/SocialGouv/domifa/compare/v2.169.9...v2.169.10) (2024-06-06)
+
+
+### Bug Fixes
+
+* backend-export prod config ([f4ecf95](https://github.com/SocialGouv/domifa/commit/f4ecf957bd5f4024f7d88e064de048eb0ae96b97))
+
 ## [2.169.9](https://github.com/SocialGouv/domifa/compare/v2.169.8...v2.169.9) (2024-06-06)
 
 
