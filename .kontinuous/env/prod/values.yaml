@@ -109,12 +109,12 @@ backend: &backendProd
   env: *backendEnv
 
 backend-export:
-  <<: *backendProd
   ~needs: [backend-cron]
-  ingress:
-    paths:
-      - /export
-      - /admin/structures/export
+  host: "domifa-api.{{ .Values.global.domain }}"
+  autoscale:
+    minReplicas: 2
+    maxReplicas: 8
+    enabled: true
   resources:
     requests:
       cpu: 1
@@ -122,8 +122,23 @@ backend-export:
     limits: # exports need a lot of CPU/RAM ATM
       cpu: 3
       memory: 5Gi
-  autoscale:
-    minReplicas: 2
+  certSecretName: backend-crt
+  envFrom:
+    - secretRef:
+        name: "{{ .Values.global.pgSecretName }}"
+    - secretRef:
+        name: backend-sealed-secret
+    - configMapRef:
+        name: backend-configmap
+    - secretRef:
+        name: domifa-encryption-key
+  vars:
+    <<: *backendVars
+  env: *backendEnv
+  ingress:
+    paths:
+      - /export
+      - /admin/structures/export
 
 frontend:
   replicas: 1
