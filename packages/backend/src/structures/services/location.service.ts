@@ -12,7 +12,7 @@ export interface BanAddress {
   citycode: string;
   x: number;
   y: number;
-  city: "Paris";
+  city: string;
   district: string;
   context: string;
   type: string;
