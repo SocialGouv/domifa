@@ -1,11 +1,6 @@
 name: Reload Anonymized Preprod
 on:
-  push:
-    branches:
-      - "feat-**"
-      - "fix-**"
-      - "sre/**"
-      - "chore/**"
+  workflow_dispatch:
 
 concurrency:
   cancel-in-progress: true
@@ -16,7 +11,7 @@ jobs:
     name: "restore data on preprod"
     uses: socialgouv/workflows/.github/workflows/use-ks-gh-custom.yaml@v1
     with:
-      chart: rancher-namespace,jobs-restore-anonymization,pg
+      chart: jobs-restore-anonymization
       environment: dev
       inlineSet: |
         global.rancherNamespaceEnabled: true

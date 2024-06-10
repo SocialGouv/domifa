@@ -31,7 +31,6 @@ jobs:
 
 jobs-restore-anonymization:
   ~chart: jobs
-  ~needs: [pg]
   enabled: false
   retry: 0
   runs:
