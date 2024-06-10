@@ -1,3 +1,11 @@
+## [2.169.11](https://github.com/SocialGouv/domifa/compare/v2.169.10...v2.169.11) (2024-06-10)
+
+
+### Bug Fixes
+
+* **backend:** fix multiple imports ([cf88379](https://github.com/SocialGouv/domifa/commit/cf883799809bb2a2baf66f03174398e6231621f1))
+* **open-data:** add open data from MSS ([c98f203](https://github.com/SocialGouv/domifa/commit/c98f203a7eb9d8d106f4242ba9e16018b144caf0))
+
 ## [2.169.10](https://github.com/SocialGouv/domifa/compare/v2.169.9...v2.169.10) (2024-06-06)
 
 
