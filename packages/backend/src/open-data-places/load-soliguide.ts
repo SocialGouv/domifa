@@ -13,7 +13,8 @@ import {
 
 let page = 1;
 let nbResults = 0;
-
+let newPlaces = 0;
+let updatedPlaces = 0;
 export const loadSoliguideData = async () => {
   if (
     !domifaConfig().openDataApps.soliguideUrl ||
@@ -60,27 +61,43 @@ const getFromSoliguide = async () => {
         uniqueId: place.lieu_id.toString(),
       });
 
-      if (!soliguidePlace) {
-        const departement = getDepartementFromCodePostal(
-          place.position.codePostal
-        );
+      const departement = getDepartementFromCodePostal(
+        place.position.codePostal
+      );
 
+      const openDataPlace: Partial<OpenDataPlace> = {
+        nom: place.name,
+        adresse: cleanAddress(place?.position?.adresse),
+        codePostal: place.position.codePostal,
+        ville: cleanCity(place?.position?.ville),
+        departement,
+        region: getRegionCodeFromDepartement(departement),
+        latitude: place.position.location.coordinates[1],
+        longitude: place.position.location.coordinates[0],
+        source: "soliguide",
+        mail: place?.entity?.mail?.toString(),
+      };
+
+      if (!soliguidePlace) {
+        newPlaces++;
         soliguidePlace = await openDataPlaceRepository.save(
           new OpenDataPlaceTable({
-            nom: place.name,
-            adresse: cleanAddress(place?.position?.adresse),
-            codePostal: place.position.codePostal,
-            ville: cleanCity(place?.position?.ville),
-            departement,
-            region: getRegionCodeFromDepartement(departement),
+            ...openDataPlace,
+            uniqueId: place.lieu_id.toString(),
+            soliguideStructureId: parseInt(place.lieu_id as any, 10),
             software: "other",
-            latitude: place.position.location.coordinates[1],
-            longitude: place.position.location.coordinates[0],
+          })
+        );
+      } else {
+        updatedPlaces++;
+        await openDataPlaceRepository.update(
+          {
             source: "soliguide",
             uniqueId: place.lieu_id.toString(),
-            mail: place?.entity?.mail?.toString(),
-            soliguideStructureId: parseInt(place.lieu_id as any, 10),
-          })
+          },
+          {
+            ...openDataPlace,
+          }
         );
       }
 
@@ -93,7 +110,10 @@ const getFromSoliguide = async () => {
       if (placeExist) {
         await openDataPlaceRepository.update(
           { uuid: soliguidePlace.uuid },
-          { domifaStructureId: placeExist.domifaStructureId }
+          {
+            domifaStructureId: placeExist.domifaStructureId,
+            software: "domifa",
+          }
         );
 
         await openDataPlaceRepository.update(
@@ -103,7 +123,7 @@ const getFromSoliguide = async () => {
       }
     }
 
-    if (soliguideData.length >= 50) {
+    if (soliguideData.length * page < nbResults) {
       appLogger.warn(
         "Import 'soliguide' data page N°" +
           page +
@@ -116,6 +136,9 @@ const getFromSoliguide = async () => {
       await getFromSoliguide();
     } else {
       appLogger.info("Import 'soliguide' data done ✅");
+      appLogger.info(
+        `${updatedPlaces} places updated / ${newPlaces} places imported`
+      );
     }
   } catch (e) {
     console.log(e);

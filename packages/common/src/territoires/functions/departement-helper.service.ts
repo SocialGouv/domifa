@@ -23,23 +23,25 @@ export function getDepartementFromCodePostal(codePostal: string): string {
     // certaines communes n'ont pas un code postal correspondant à leur département
     return EXCEPTIONS_CODE_POSTAL[codePostal];
   }
+
   if (codePostal.startsWith("20")) {
-    // corse https://fr.wikipedia.org/wiki/Code_postal_en_France#Corse_(20)
+    // Corsica https://fr.wikipedia.org/wiki/Code_postal_en_France#Corse_(20)
     if (codePostal.startsWith("200") || codePostal.startsWith("201")) {
-      // Corse du Sud
+      // South Corsica
       return "2A";
     }
+
     if (codePostal.startsWith("202") || codePostal.startsWith("206")) {
-      // Haute Corse
+      // North Corsica
       return "2B";
     }
-    const errorMessage = `Invalid postal code ${codePostal} for "Corse"`;
-    // eslint-disable-next-line no-console
-    console.error(errorMessage);
+
+    const errorMessage = `Invalid postal code ${codePostal} for Corsica in France`;
     throw new Error(errorMessage);
   }
+
   // outre-mer: https://fr.wikipedia.org/wiki/Code_postal_en_France#France_d'outre-mer
-  if (codePostal.startsWith("97")) {
+  if (codePostal.startsWith("97") || codePostal.startsWith("98")) {
     // note: les exceptions "Saint-Barthélemy" et "Saint-Martin" sont gérés via la constante EXCEPTIONS_CODE_POSTAL plus haut
     return codePostal.substring(0, 3);
   }

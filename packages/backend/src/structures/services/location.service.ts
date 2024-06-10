@@ -1,11 +1,29 @@
 import axios from "axios";
-import { FeatureCollection } from "geojson";
+import { FeatureCollection, Point } from "geojson";
 import { formatAddressForURL } from "../../util";
+
+export interface BanAddress {
+  label: string;
+  score: number;
+  housenumber: string;
+  id: string;
+  name: string;
+  postcode: string;
+  citycode: string;
+  x: number;
+  y: number;
+  city: "Paris";
+  district: string;
+  context: string;
+  type: string;
+  importance: number;
+  street: string;
+}
 
 export const getLocation = async (
   address: string,
   postCode?: string
-): Promise<any> => {
+): Promise<Point | null> => {
   try {
     const apiUrl = "https://api-adresse.data.gouv.fr/search/";
     let params: {
@@ -18,16 +36,20 @@ export const getLocation = async (
       params = { ...params, postcode: postCode };
     }
 
-    const response: FeatureCollection = (await axios.get(apiUrl, { params }))
-      .data;
+    const response = await axios.get<FeatureCollection<Point, BanAddress>>(
+      apiUrl,
+      {
+        params,
+      }
+    );
 
-    if (!response.features.length) {
+    if (!response.data.features.length) {
       console.log(
         "[GET LOCATION] Cannot get location from this address " + address
       );
       return null;
     }
-    return response.features[0].geometry;
+    return response.data.features[0].geometry;
   } catch (error) {
     console.log(
       "[GET LOCATION] Cannot get location from this address " + address

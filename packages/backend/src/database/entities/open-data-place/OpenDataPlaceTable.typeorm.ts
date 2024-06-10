@@ -36,13 +36,13 @@ export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlaceTable> {
   longitude: number;
 
   @Column({ type: "text", nullable: false })
-  source: "soliguide" | "domifa" | "data-inclusion";
+  source: "soliguide" | "domifa" | "data-inclusion" | "mss";
 
   @Column({ type: "text", nullable: false })
   uniqueId: string; // ID from soliguide | data-inclusion
 
   @Column({ type: "text", nullable: true })
-  software: "domifa" | "millesime" | "other";
+  software: "domifa" | "millesime" | "other" | "mss";
 
   @Index()
   @Column({ type: "integer", nullable: true })
@@ -54,6 +54,9 @@ export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlaceTable> {
 
   @Column({ type: "integer", nullable: true })
   soliguideStructureId: number;
+
+  @Column({ type: "text", nullable: true })
+  mssId: string;
 
   @Column({ type: "text", nullable: true })
   mail: string;

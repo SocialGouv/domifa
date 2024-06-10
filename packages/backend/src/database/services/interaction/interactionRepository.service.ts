@@ -229,8 +229,6 @@ async function totalInteractionsInPeriod({
     dateInteractionBefore,
   ]);
 
-  console.timeEnd("queryTime");
-  console.log({ rawResults });
   if (rawResults.length === 1) {
     const results = rawResults[0];
 

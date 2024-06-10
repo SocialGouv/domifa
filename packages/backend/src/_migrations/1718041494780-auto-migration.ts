@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { domifaConfig } from "../config";
 
-export class AutoMigration1717628040988 implements MigrationInterface {
-  name = "AutoMigration1717628040988";
+export class AutoMigration1718041494780 implements MigrationInterface {
+  name = "AutoMigration1718041494780";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     if (
@@ -11,12 +11,20 @@ export class AutoMigration1717628040988 implements MigrationInterface {
       domifaConfig().envId === "local"
     ) {
       await queryRunner.query(
-        `CREATE INDEX "idx_stats_range" ON "usager_history_states" ("historyBeginDate", "historyEndDate", "isActive") `
+        `ALTER TABLE "open_data_places" ADD "mssId" text`
       );
     }
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DROP INDEX "public"."idx_stats_range"`);
+    if (
+      domifaConfig().envId === "prod" ||
+      domifaConfig().envId === "preprod" ||
+      domifaConfig().envId === "local"
+    ) {
+      await queryRunner.query(
+        `ALTER TABLE "open_data_places" DROP COLUMN "mssId"`
+      );
+    }
   }
 }
