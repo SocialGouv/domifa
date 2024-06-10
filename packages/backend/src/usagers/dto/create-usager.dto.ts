@@ -22,9 +22,13 @@ import {
   StripTagsTransform,
   TrimOrNullTransform,
 } from "../../_common/decorators";
-import { Telephone, UsagerAyantDroit, UsagerSexe } from "@domifa/common";
+import {
+  Telephone,
+  UsagerAyantDroit,
+  UsagerSexe,
+  COUNTRIES,
+} from "@domifa/common";
 import { IsValidPhone } from "../../_common/decorators/IsValidPhoneDecorator";
-import { COUNTRIES } from "@domifa/common";
 
 export class CreateUsagerDto {
   @ApiProperty({
