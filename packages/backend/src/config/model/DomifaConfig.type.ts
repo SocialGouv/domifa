@@ -86,6 +86,8 @@ export type DomifaConfig = {
     soliguideToken: string;
     dataInclusionUrl: string;
     dataInclusionToken: string;
+    mssUrl: string; // MSS = Mon suivi social
+    mssToken: string; // MSS = Mon suivi social
   };
   metabaseToken: string;
 };

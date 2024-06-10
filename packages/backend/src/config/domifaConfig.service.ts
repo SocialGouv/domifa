@@ -334,6 +334,12 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       soliguideToken: configParser.parseString(x, "SOLIGUIDE_TOKEN", {
         required: false,
       }),
+      mssUrl: configParser.parseString(x, "MSS_URL", {
+        required: false,
+      }),
+      mssToken: configParser.parseString(x, "MSS_TOKEN", {
+        required: false,
+      }),
       dataInclusionUrl: configParser.parseString(x, "DATA_INCLUSION_URL", {
         required: false,
       }),
