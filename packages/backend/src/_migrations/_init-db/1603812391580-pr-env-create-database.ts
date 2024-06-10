@@ -178,6 +178,7 @@ async function createTables(queryRunner: QueryRunner) {
       "structureType" text NULL,
       "domifaStructureId" int4 NULL,
       "soliguideStructureId" int4 NULL,
+      "mssId" text NULL,
       CONSTRAINT "PK_f80b64cfb42753deacd8bf6d78d" PRIMARY KEY (uuid)
     );
     CREATE INDEX "IDX_0408f9f2c0defbdc5e44f467a3" ON public.open_data_places USING btree (departement);
@@ -280,6 +281,7 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_b86af851802a2a2f3a2ab549e8" ON public.usager_history_states USING btree ("createdEvent");
     CREATE INDEX "IDX_e819c8b113a23a4a0c13a741da" ON public.usager_history_states USING btree ("usagerUUID");
     CREATE INDEX "IDX_f11adaadacdb25438cf2f92f1f" ON public.usager_history_states USING btree ("typeDom");
+    CREATE INDEX idx_stats_range ON public.usager_history_states USING btree ("historyBeginDate", "historyEndDate", "isActive");
 
 
     -- public.user_usager_login definition
