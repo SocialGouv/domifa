@@ -1,3 +1,10 @@
+## [2.169.12](https://github.com/SocialGouv/domifa/compare/v2.169.11...v2.169.12) (2024-06-11)
+
+
+### Bug Fixes
+
+* **open-data:** disable loading opendata in dev mode ([c7584fc](https://github.com/SocialGouv/domifa/commit/c7584fc95d10dff311822e3f689395aac521b513))
+
 ## [2.169.11](https://github.com/SocialGouv/domifa/compare/v2.169.10...v2.169.11) (2024-06-10)
 
 
