@@ -27,7 +27,7 @@ jobs:
           DOMIFA_FRONTEND_META_ROBOTS: index,follow
 
 backend-cron:
-  ~needs: [build-backend]
+  ~needs: [build-backend, pg]
   replicas: 1
   resources:
     requests:
@@ -81,7 +81,7 @@ backend-cron:
       value: backup/files
 
 backend: &backendProd
-  ~needs: [backend-cron]
+  ~needs: [build-backend, pg]
   host: "domifa-api.{{ .Values.global.domain }}"
   autoscale:
     minReplicas: 3
@@ -109,7 +109,7 @@ backend: &backendProd
   env: *backendEnv
 
 backend-export:
-  ~needs: [backend-cron]
+  ~needs: [build-backend, pg]
   host: "domifa-api.{{ .Values.global.domain }}"
   autoscale:
     minReplicas: 2

@@ -1,6 +1,6 @@
 backend: &backendPreprod
   host: "api-{{ .Values.global.host }}"
-  ~needs: [backend-cron]
+  ~needs: [build-backend, pg]
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"
@@ -41,14 +41,14 @@ backend: &backendPreprod
 
 backend-export:
   <<: *backendPreprod
-  ~needs: [backend-cron]
+  ~needs: [build-backend, pg]
   ingress:
     paths:
       - /export
       - /admin/structures/export
 
 backend-cron:
-  ~needs: [build-backend]
+  ~needs: [build-backend, pg]
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"
