@@ -1,3 +1,10 @@
+## [2.169.13](https://github.com/SocialGouv/domifa/compare/v2.169.12...v2.169.13) (2024-06-11)
+
+
+### Bug Fixes
+
+* update kontinuous needs ([5d08fe0](https://github.com/SocialGouv/domifa/commit/5d08fe01510e792ae039b5bb93a4a1c6fbf15c9d))
+
 ## [2.169.12](https://github.com/SocialGouv/domifa/compare/v2.169.11...v2.169.12) (2024-06-11)
 
 
