@@ -18,12 +18,15 @@ import { domifaConfig } from "./config";
       server.setTimeout(1000 * 60 * 5);
       appLogger.warn(`[${__filename}] Application listening on port 3010`);
 
-      if (domifaConfig().cron.enable) {
+      if (
+        (domifaConfig().envId === "prod" ||
+          domifaConfig().envId === "preprod" ||
+          domifaConfig().envId === "local") &&
+        domifaConfig().cron.enable
+      ) {
         await loadDomifaData();
         await loadMssData();
         await loadSoliguideData();
-        // await loadDataInclusionData("CCAS");
-        // await loadDataInclusionData("CIAS");
       }
     } catch (error) {
       const err = error as Error;
