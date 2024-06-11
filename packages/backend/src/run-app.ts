@@ -14,9 +14,9 @@ import { domifaConfig } from "./config";
     const { app, postgresTypeormConnection } = await bootstrapApplication();
     try {
       // in local env, run cron on app startup (non blocking)
-      const server = await app.listen(3010);
+      const server = await app.listen(3000);
       server.setTimeout(1000 * 60 * 5);
-      appLogger.warn(`[${__filename}] Application listening on port 3010`);
+      appLogger.warn(`[${__filename}] Application listening on port 3000`);
 
       if (
         (domifaConfig().envId === "prod" ||
