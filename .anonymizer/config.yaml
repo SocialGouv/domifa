@@ -1,0 +1,399 @@
+log:
+  level: debug
+  format: text
+
+storage:
+  type: "{{type}}"
+  directory:
+    path: "{{tmp}}"
+  s3:
+    endpoint: "{{bucket_endpoint}}"
+    bucket: "{{bucket_name}}"
+    region: "{{bucket_region}}"
+    access_key_id: "{{bucket_access_key}}"
+    secret_access_key: "{{bucket_secret_key}}"
+    prefix: "/anonymizer/pg_dumps"
+    # force_path_style: true
+
+cmd_default_params: &cmd_default_params
+  driver:
+    name: "json"
+  validate: true
+  timeout: 3600s
+  expected_exit_code: -1
+  executable: "node"
+
+dump:
+  transformation:
+    - schema: public
+      name: usager
+      transformers:
+        - name: SetNull
+          params:
+            column: email
+        - name: RandomFirstName
+          params:
+            column: prenom
+        - name: Json
+          params:
+            column: telephone
+            operations:
+              - operation: set
+                path: countryCode
+                value: fr
+              - operation: set
+                path: numero
+                value: ""
+        - name: SetNull
+          params:
+            column: pinnedNote
+        - name: RandomLastName
+          params:
+            column: nom
+        - name: RandomLastName
+          params:
+            column: surnom
+            keep_null: true
+        - name: RealAddress
+          params:
+            columns:
+              - name: villeNaissance
+                template: "{{.City}}"
+        - name: Json
+          params:
+            column: decision
+            operations:
+              - operation: set
+                path: motifDetails
+                value: null
+              - operation: set
+                path: orientationDetails
+                value: null
+              - operation: set
+                path: userName
+                value_template: "{{ quote fakerName }}"
+              - operation: set
+                path: userId
+                value_template: "{{ randomInt 0 1000000000}}"
+              - operation: set
+                path: uuid
+                value_template: "{{ quote fakerUUID }}"
+        - name: "Cmd"
+          # --- historique
+          params:
+            <<: *cmd_default_params
+            args:
+              - "./dist/usager--historique.js"
+            columns:
+              - name: "historique"
+                skip_on_null_input: true
+        - name: "Cmd"
+          # --- ayantsDroits
+          params:
+            <<: *cmd_default_params
+            args:
+              - "./dist/usager--ayants-droits.js"
+            columns:
+              - name: "ayantsDroits"
+                skip_on_null_input: true
+        - name: "Cmd"
+          # --- import
+          params:
+            <<: *cmd_default_params
+            args:
+              - "./dist/usager--import.js"
+            columns:
+              - name: "import"
+                skip_on_null_input: true
+        - name: "Cmd"
+          # --- rdv
+          params:
+            <<: *cmd_default_params
+            args:
+              - "./dist/usager--rdv.js"
+            columns:
+              - name: "rdv"
+                skip_on_null_input: true
+        - name: Replace
+          params:
+            column: migrated
+            value: true
+            keep_null: false
+        - name: "Cmd"
+          # --- options
+          params:
+            <<: *cmd_default_params
+            args:
+              - "./dist/usager--options.js"
+            columns:
+              - name: "options"
+                skip_on_null_input: true
+
+    - schema: public
+      name: structure
+      transformers:
+        - name: "Template"
+          params:
+            column: "email"
+            template: >
+              {{ printf "structure-%d@domifa-fake.fabrique.social.gouv.fr" (.GetColumnValue "id") }}
+        - name: SetNull
+          params:
+            column: token
+        - name: SetNull
+          params:
+            column: tokenDelete
+        - name: SetNull
+          params:
+            column: hardReset
+        - name: Json
+          params:
+            column: telephone
+            operations:
+              - operation: set
+                path: countryCode
+                value: "fr"
+              - operation: set
+                path: numero
+                value: "0600000000"
+        - name: Json
+          params:
+            column: responsable
+            operations:
+              - operation: set
+                path: nom
+                value_template: "{{ quote fakerFirstLastName }}"
+              - operation: set
+                path: prenom
+                value_template: "{{ quote fakerFirstName }}"
+
+    - schema: public
+      name: user_structure
+      transformers:
+        - name: RandomFirstName
+          params:
+            column: prenom
+        - name: RandomLastName
+          params:
+            column: nom
+        - name: "Cmd"
+          params:
+            <<: *cmd_default_params
+            args:
+              - "./dist/user-structure--fonction.js"
+            columns:
+              - name: "fonction"
+                skip_on_null_input: true
+        - name: "Template"
+          params:
+            column: "email"
+            template: >
+              {{ printf "%s-%d-%d@domifa-fake.fabrique.social.gouv.fr" (.GetColumnValue "role") (.GetColumnValue "structureId") (.GetColumnValue "id") }}
+
+    - schema: public
+      name: interactions
+      transformers:
+        - name: Replace
+          params:
+            column: content
+            value: "Random content"
+        - name: "Template"
+          params:
+            column: "userName"
+            template: >
+              {{ quote fakerName }}
+
+    - schema: public
+      name: usager_options_history
+      transformers:
+        - name: RandomFirstName
+          params:
+            column: prenom
+        - name: RandomLastName
+          params:
+            column: nom
+        - name: "Template"
+          params:
+            column: "userName"
+            template: >
+              {{ quote fakerName }}
+        - name: RealAddress
+          params:
+            columns:
+              - name: adresse
+                template: "{{.Address}}"
+
+    - schema: public
+      name: usager_docs
+      transformers:
+        - name: RandomSentence
+          params:
+            column: label
+            keep_null: true
+        - name: SetNull
+          params:
+            column: encryptionContext
+        - name: SetNull
+          params:
+            column: encryptionVersion
+        - name: RandomName
+          params:
+            column: createdBy
+
+    - schema: public
+      name: usager_entretien
+      transformers:
+        - name: SetNull
+          params:
+            column: commentaires
+        - name: SetNull
+          params:
+            column: revenusDetail
+        - name: SetNull
+          params:
+            column: orientationDetail
+        - name: SetNull
+          params:
+            column: liencommuneDetail
+        - name: SetNull
+          params:
+            column: residenceDetail
+        - name: SetNull
+          params:
+            column: causeDetail
+        - name: SetNull
+          params:
+            column: raisonDetail
+        - name: SetNull
+          params:
+            column: situationProDetail
+        - name: SetNull
+          params:
+            column: accompagnementDetail
+
+    - schema: public
+      name: user_usager
+      transformers:
+        - name: "Cmd"
+          params:
+            <<: *cmd_default_params
+            args:
+              - "./dist/user-usager--password.js"
+            columns:
+              - name: "password"
+                skip_on_null_input: true
+        - name: Json
+          params:
+            column: lastPasswordResetStructureUser
+            operations:
+              - operation: set
+                path: userId
+                value: "1"
+              - operation: set
+                path: userName
+                value: "Nom"
+
+    - schema: public
+      name: user_structure_security
+      transformers:
+        - name: SetNull
+          params:
+            column: temporaryTokens
+        - name: "TemplateRecord"
+          params:
+            columns:
+              - "eventsHistory"
+            template: >
+              {{ .SetColumnValue "eventsHistory" "[]" }}
+            validate: true
+
+    - schema: public
+      name: user_usager_security
+      transformers:
+        - name: "TemplateRecord"
+          params:
+            columns:
+              - "eventsHistory"
+            template: >
+              {{ .SetColumnValue "eventsHistory" "[]" }}
+            validate: true
+
+    - schema: public
+      name: message_sms
+      transformers:
+        - name: RegexpReplace
+          params:
+            column: status
+            replace: "DISABLED"
+            regexp: "TO_SEND"
+        - name: Replace
+          params:
+            column: phoneNumber
+            value: "+33606060606"
+            keep_null: true
+        - name: Replace
+          params:
+            column: responseId
+            value: ""
+            keep_null: true
+        - name: Replace
+          params:
+            column: content
+            value: ""
+            keep_null: true
+        - name: Replace
+          params:
+            column: senderName
+            value: ""
+            keep_null: true
+        - name: SetNull
+          params:
+            column: reminderMetas
+        - name: SetNull
+          params:
+            column: interactionMetas
+        - name: RandomInt
+          params:
+            column: "usagerRef"
+            min: 1
+            max: 100000
+
+    - schema: public
+      name: usager_notes
+      transformers:
+        - name: "Cmd"
+          params:
+            <<: *cmd_default_params
+            args:
+              - "./dist/usager-notes--all-columns.js"
+            columns:
+              - name: archived
+                not_affected: true
+                skip_on_null_input: true
+              - name: message
+                skip_on_null_input: true
+              - name: createdBy
+                skip_on_null_input: true
+              - name: archivedBy
+                skip_on_null_input: true
+
+    - schema: public
+      name: structure_doc
+      transformers:
+        - name: RandomSentence
+          params:
+            column: label
+            keep_null: true
+        - name: Json
+          params:
+            column: createdBy
+            operations:
+              - operation: set
+                path: id
+                value_template: "{{ randomInt 0 1000000000}}"
+              - operation: set
+                path: nom
+                value_template: "{{ quote fakerFirstLastName }}"
+              - operation: set
+                path: prenom
+                value_template: "{{ quote fakerFirstName }}"

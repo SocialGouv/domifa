@@ -160,6 +160,35 @@ jobs:
           name: portail-admins-coverage
           path: packages/portail-admins/coverage
 
+  anonymization:
+    name: Anonymization quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Set up Node.js lts
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - name: Set up Yarn cache
+        uses: c-hive/gha-yarn-cache@v2
+
+      - name: Install dependencies
+        working-directory: ./.anonymizer
+        run: yarn
+
+      - name: Lint
+        working-directory: ./.anonymizer
+        run: yarn lint
+
+      - name: Build
+        working-directory: ./.anonymizer
+        run: yarn build
+
   codecov:
     name: Publish code coverage
     runs-on: ubuntu-22.04
