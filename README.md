@@ -11,6 +11,10 @@
 
 Voir [./\_docs/dev](./_docs/dev).
 
+## Anonymisation / pseudonymisation
+
+Voir [docs/anonymisation](./_docs/anonymisation/anonymisation.md). 
+
 ## OPS
 
 Voir [./\_docs/ops.md](./_docs/ops.md).
