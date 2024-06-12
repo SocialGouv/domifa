@@ -5,16 +5,12 @@ import { Response } from "express";
 import { AllowUserStructureRoles } from "../../auth/decorators";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
-import {
-  StructureUsagersExportModel,
-  structureUsagersExporter,
-} from "../../excel/export-structure-usagers";
-
-import { UserStructure, UserStructureAuthenticated } from "../../_common/model";
-import { expressResponseExcelRenderer } from "../../util";
+import { UserStructureAuthenticated } from "../../_common/model";
+import { appLogger } from "../../util";
 import { UsagersService } from "../services/usagers.service";
 
 import { format } from "date-fns";
+import { renderStructureUsagersExcel } from "../services/xlsx-structure-usagers-renderer";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("export")
@@ -31,40 +27,34 @@ export class ExportStructureUsagersController {
   ) {
     console.log("\nexport - " + new Date());
     formatMemoryUsage();
-    const model: StructureUsagersExportModel = await this.buildExportModel(
-      user
-    );
-    console.log("\nbuildExportModel - " + new Date());
-    formatMemoryUsage();
-
-    const workbook = await structureUsagersExporter.generateExcelDocument(
-      model
-    );
-    console.log("\ngenerateExcelDocument - " + new Date());
-    formatMemoryUsage();
-
-    const fileName = `${format(
-      model.exportDate,
-      "dd-MM-yyyy_HH-mm"
-    )}_export-structure-${user.structureId}-usagers.xlsx`;
-    await expressResponseExcelRenderer.sendExcelWorkbook({
-      res,
-      fileName,
-      workbook,
-    });
-
-    console.log("sendExcelWorkbook - " + new Date());
-    formatMemoryUsage();
-  }
-
-  private async buildExportModel(user: Pick<UserStructure, "structureId">) {
     const usagers = await this.usagersService.export(user.structureId);
 
-    const model: StructureUsagersExportModel = {
-      exportDate: new Date(),
-      usagers,
-    };
-    return model;
+    console.log("\nrenderStructureUsagersExcel - " + new Date());
+    formatMemoryUsage();
+
+    const workbook = renderStructureUsagersExcel(usagers, user.structure);
+    console.log("\nsetHeader - " + new Date());
+    formatMemoryUsage();
+    try {
+      res.setHeader(
+        "Content-Type",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      );
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename="Export DomiFa ${format(
+          new Date(),
+          "dd-MM-yyyy"
+        )}"`
+      );
+
+      res.send(workbook);
+      res.end();
+    } catch (err) {
+      appLogger.error("Unexpected export error", err);
+      res.sendStatus(500);
+      res.end();
+    }
   }
 }
 

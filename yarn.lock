@@ -3094,6 +3094,7 @@ __metadata:
     "@types/geojson": ^7946.0.13
     "@types/jest": ^29.5.12
     "@types/lodash.isequal": ^4.5.8
+    "@types/lodash.set": ^4.3.9
     "@types/multer": ^1.4.6
     "@types/node": ^20.11.19
     "@types/node-pdftk": ^2.1.6
@@ -3138,6 +3139,7 @@ __metadata:
     jest: ^29.7.0
     lint-staged: ^15.2.2
     lodash.isequal: ^4.5.0
+    lodash.set: ^4.3.2
     mammoth: ^1.4.17
     moment: ^2.29.4
     multer: ^1.4.2
@@ -8016,6 +8018,15 @@ __metadata:
   dependencies:
     "@types/lodash": "*"
   checksum: f3180c2d2925514fff1908a1303c11468c9f39b47fd7b053416aad3f1447f8e4a9894dd0460187ac9ac19387e25aec8dd8214d13a50a0967e0dc9cca8e4c5353
+  languageName: node
+  linkType: hard
+
+"@types/lodash.set@npm:^4.3.9":
+  version: 4.3.9
+  resolution: "@types/lodash.set@npm:4.3.9"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 63fd9321c18347f275c962591042b63519a33263d37973b460605978f6ad5853d1027da7026433661a142f14490216ac5f3fbf7f5d5934048f92c6b2a31d81b7
   languageName: node
   linkType: hard
 
@@ -18226,6 +18237,13 @@ __metadata:
   version: 4.2.0
   resolution: "lodash.pullall@npm:4.2.0"
   checksum: 7a5fbaedf186ec197ce1e0b9ba1d88a89773ebaf6a8291c7d273838cac59cb3b339cf36ef00e94172862ee84d2304c38face161846f08f5581d0553dcbdcd090
+  languageName: node
+  linkType: hard
+
+"lodash.set@npm:^4.3.2":
+  version: 4.3.2
+  resolution: "lodash.set@npm:4.3.2"
+  checksum: a9122f49eef9f2d0fc9061a33d87f8e5b8c6b23d46e8b9e9ce1529d3588d79741bd1145a3abdfa3b13082703e65af27ff18d8a07bfc22b9be32f3fc36f763f70
   languageName: node
   linkType: hard
 

@@ -2,6 +2,7 @@ import { Usager } from "@domifa/common";
 
 export type StructureUsagerExport = Pick<
   Usager,
+  | "ref"
   | "customRef"
   | "nom"
   | "prenom"
