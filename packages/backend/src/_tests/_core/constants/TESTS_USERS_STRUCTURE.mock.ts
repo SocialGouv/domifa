@@ -6,7 +6,7 @@ const ALL: TestUserStructure[] = [
     uuid: "da01f451-9c4f-4f6c-98bb-c635277e33e7",
     id: 1,
     structureId: 1,
-    email: "s1-admin@yopmail.com",
+    email: "preprod.domifa@fabrique.social.gouv.fr",
     password: "Azerty012345!",
     role: "admin",
   },

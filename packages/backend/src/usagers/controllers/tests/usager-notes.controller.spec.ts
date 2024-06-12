@@ -22,7 +22,8 @@ describe("UsagerNote Controller", () => {
       { initApp: true }
     );
 
-    const authInfo = TESTS_USERS_STRUCTURE.BY_EMAIL["s1-admin@yopmail.com"];
+    const authInfo =
+      TESTS_USERS_STRUCTURE.BY_EMAIL["preprod.domifa@fabrique.social.gouv.fr"];
     await AppTestHelper.authenticateStructure(authInfo, { context });
   });
 

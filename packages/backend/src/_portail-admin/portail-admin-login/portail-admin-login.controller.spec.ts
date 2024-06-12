@@ -33,7 +33,7 @@ describe("Admins Login Controller", () => {
     const response = await supertest(context.app.getHttpServer())
       .post("/portail-admins/auth/login")
       .send({
-        email: "s1-admin@yopmail.com",
+        email: "preprod.domifa@fabrique.social.gouv.fr",
         password: "Azerty012345!",
       });
     expect(response.status).toBe(HttpStatus.OK);
@@ -43,7 +43,7 @@ describe("Admins Login Controller", () => {
     const response = await supertest(context.app.getHttpServer())
       .post("/portail-admins/auth/login")
       .send({
-        email: "s1-admin@yopmail.com",
+        email: "preprod.domifa@fabrique.social.gouv.fr",
         password: "INVALID_PASS",
       });
     expect(response.status).toBe(HttpStatus.BAD_REQUEST);
@@ -53,7 +53,7 @@ describe("Admins Login Controller", () => {
     const response = await supertest(context.app.getHttpServer())
       .post("/portail-admins/auth/login")
       .send({
-        email: "s1-admin@yopmail.com",
+        email: "preprod.domifa@fabrique.social.gouv.fr",
         password: "Azerty012345678",
       });
     expect(response.status).toBe(HttpStatus.UNAUTHORIZED);

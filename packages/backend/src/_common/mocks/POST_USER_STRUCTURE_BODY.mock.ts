@@ -6,7 +6,7 @@ import {
 
 export const POST_USER_STRUCTURE_BODY: Partial<UserStructure> = {
   password: "xxx",
-  email: "s1-admin@yopmail.com",
+  email: "preprod.domifa@fabrique.social.gouv.fr",
   id: 1,
   nom: "TEST",
   prenom: "TEST",
@@ -26,7 +26,7 @@ export const POST_USER_STRUCTURE_BODY: Partial<UserStructure> = {
     complementAdresse: "BP 48000",
     departement: "95",
     region: "11",
-    email: "s1-admin@yopmail.com",
+    email: "preprod.domifa@fabrique.social.gouv.fr",
     nom: "DomiFa Compte Test",
     options: { numeroBoite: false, surnom: false },
     responsable: { nom: "Pompei", prenom: "Roma", fonction: "Directrice" },

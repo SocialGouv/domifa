@@ -6,11 +6,11 @@ fileignoreconfig:
 - filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
   checksum: a2c17d6712a53d254ed583bdae603e1e6fe20e7d7705ad29f05659fc233bb398
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: a5cbbdfdf5de5d44beee7a9afe5ad8dc58cfd46a6a16d0130b9f6ad3709f68bb
+  checksum: d7f515450c792b453f6fd0282b858af033d4fa704654470f582c6474c2d94abc
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-data.sql
   checksum: 0a9b780387e8c40344bd52f033a201da019c8b3e9e5d501ee6cb85040b6e168c
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: 5e5ad113787204ab7a477d5a1be201190f9c4df021fe7ca4de1878a66d1b8768
+  checksum: 4b5750996063adba3ddff7ca5ba451466bdbbf48a39c6ee24d694b01c2fe2396
 - filename: packages/backend/.env.backend.dev.example.env
   checksum: 0a5c739d323189c5a1dd8dc960f9a4e3b293ec98276c6bf5bfb893ecc1d177c5
 - filename: packages/backend/.env.backend.test.local.example.env
