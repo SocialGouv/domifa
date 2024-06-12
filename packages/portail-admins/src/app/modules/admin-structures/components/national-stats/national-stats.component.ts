@@ -16,6 +16,7 @@ import { saveAs } from "file-saver";
 import { Subscription } from "rxjs";
 import { StatsService } from "../../services/stats.service";
 import { StructureListForStats } from "./StructureListForStats.type";
+import { MatomoTracker } from "ngx-matomo-client";
 
 @Component({
   selector: "app-national-stats",
@@ -26,9 +27,7 @@ export class NationalStatsComponent {
   public readonly REGIONS_LISTE = REGIONS_LISTE;
   public years: number[] = [];
   public departments: string[] = [];
-
   public regions: string[] = Object.keys(REGIONS_LISTE);
-
   public readonly DEPARTEMENTS_MAP = { ...DEPARTEMENTS_MAP };
 
   public readonly STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
@@ -46,7 +45,8 @@ export class NationalStatsComponent {
     private sanitizer: DomSanitizer,
     private readonly statsService: StatsService,
     private readonly toastService: CustomToastService,
-    private readonly titleService: Title
+    private readonly titleService: Title,
+    private readonly matomo: MatomoTracker
   ) {
     this.titleService.setTitle(
       "Outil de pilotage de la domiciliation en France"
@@ -72,7 +72,6 @@ export class NationalStatsComponent {
 
     this.departments.sort((a, b) => a.localeCompare(b));
     this.metabaseParams.structureId = undefined;
-
     this.metabaseParams.department = undefined;
     this.getStructures();
   }
@@ -91,16 +90,23 @@ export class NationalStatsComponent {
 
     this.statsService.getMetabaseUrl(this.metabaseParams).subscribe({
       next: (response: { url: string }) => {
+        this.matomo.trackEvent(
+          "stats",
+          "view",
+          JSON.stringify(this.metabaseParams),
+          1
+        );
+
         this.iframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
           response.url
         );
-        this.loading = false;
-
-        this.toastService.success("Chargement des statistiques en cours");
+        setTimeout(() => {
+          this.loading = false;
+          this.toastService.success("Chargement des statistiques en cours");
+        }, 2000);
       },
       error: () => {
         this.loading = false;
-
         this.toastService.error("Le chargement des statistiques a échoué");
       },
     });

@@ -4,22 +4,15 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import { CustomToast } from "../../types/CustomToast.type";
 
-import { transition, style, animate, trigger } from "@angular/animations";
 import { CustomToastClass } from "../../types";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
+import { fadeInOut } from "../../../../shared/animations";
 
 @Component({
   selector: "app-custom-toastr",
   templateUrl: "./custom-toastr.component.html",
   styleUrls: ["./custom-toastr.component.css"],
-  animations: [
-    trigger("fadeIn", [
-      transition(":enter", [
-        style({ opacity: 0 }),
-        animate("0.3s ease-in", style({ opacity: 1 })),
-      ]),
-    ]),
-  ],
+  animations: [fadeInOut],
 })
 export class CustomToastrComponent implements OnInit, OnDestroy {
   public toast: CustomToast;

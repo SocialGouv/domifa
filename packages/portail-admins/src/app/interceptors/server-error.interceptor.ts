@@ -6,7 +6,7 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, Injector } from "@angular/core";
 
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
@@ -16,21 +16,21 @@ import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.serv
   providedIn: "root",
 })
 export class ServerErrorInterceptor implements HttpInterceptor {
-  constructor(
-    private toastr: CustomToastService,
-    public authService: AdminAuthService
-  ) {}
+  constructor(private readonly injector: Injector) {}
 
   public intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    const authService = this.injector.get(AdminAuthService);
+    const toastr = this.injector.get(CustomToastService);
+
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         // Erreur côté navigateur
         if (error.error instanceof ErrorEvent) {
           if (!navigator.onLine) {
-            this.toastr.error(
+            toastr.error(
               "Vous êtes actuellement hors-ligne. Veuillez vérifier votre connexion internet"
             );
             return throwError(() => "NAVIGATOR_OFFLINE");
@@ -43,13 +43,10 @@ export class ServerErrorInterceptor implements HttpInterceptor {
         if (error instanceof HttpErrorResponse) {
           switch (error.status) {
             case 401:
-              this.toastr.warning(
-                "Votre session a expiré, merci de vous reconnecter"
-              );
-              this.authService.logoutAndRedirect();
+              authService.logoutAndRedirect();
               break;
             case 403:
-              this.authService.notAuthorized();
+              authService.notAuthorized();
               break;
             default:
               break;

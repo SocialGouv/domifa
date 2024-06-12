@@ -1,4 +1,3 @@
-import { StructureLoginDto } from "./../../users/dto/structure-login.dto";
 import {
   Body,
   Controller,
@@ -17,6 +16,7 @@ import {
 } from "../../_common/model";
 import { portailAdminProfilBuilder } from "../portail-admin-profil/services/portail-admin-profil-builder.service";
 import { AdminsAuthService } from "./services";
+import { StructureAdminLoginDto } from "../../users/dto/structure-admin-login.dto";
 
 @Controller("portail-admins/auth")
 @ApiTags("auth")
@@ -27,7 +27,7 @@ export class PortailAdminLoginController {
   @HttpCode(HttpStatus.OK)
   public async loginUser(
     @Res() res: ExpressResponse,
-    @Body() loginDto: StructureLoginDto
+    @Body() loginDto: StructureAdminLoginDto
   ) {
     try {
       const user = await userAdminSecurityPasswordChecker.checkPassword({

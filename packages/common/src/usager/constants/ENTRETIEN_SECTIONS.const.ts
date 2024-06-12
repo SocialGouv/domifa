@@ -73,7 +73,7 @@ export const ENTRETIEN_RESIDENCE: {
   AUTRE: "Autre résidence",
   DOMICILE_MOBILE:
     "Domicile mobile (ex: Caravane) / Aire des gens du voyages / habitat itinérant",
-  HEBERGEMENT_SOCIAL: "Hébergement social stable",
+  HEBERGEMENT_SOCIAL: "Hébergement social",
   HEBERGEMENT_TIERS: "Hébergé chez un tiers",
   HOTEL: "Hôtel",
   SANS_ABRI: "Sans abri / Squat / Bidonville",
