@@ -1,3 +1,16 @@
+# [2.170.0](https://github.com/SocialGouv/domifa/compare/v2.169.15...v2.170.0) (2024-06-12)
+
+
+### Bug Fixes
+
+* **admin:** fix unit test ([52ff7a9](https://github.com/SocialGouv/domifa/commit/52ff7a93bf308fd2e2540b8ba58b27e324e14174))
+* **backend:** update test account for admin ([f59b933](https://github.com/SocialGouv/domifa/commit/f59b9337b33e55e3ea76f9caf5aa47ed449c2e87))
+
+
+### Features
+
+* **admin:** add matomo ([4e9c554](https://github.com/SocialGouv/domifa/commit/4e9c55469f69f0273e50f5d84a36416600367717))
+
 ## [2.169.15](https://github.com/SocialGouv/domifa/compare/v2.169.14...v2.169.15) (2024-06-11)
 
 
