@@ -15,8 +15,10 @@ import {
   AdminStructureStatsData,
   REGIONS_LISTE,
 } from "@domifa/common";
+import { fadeInOut } from "../../../../shared/animations";
 
 @Component({
+  animations: [fadeInOut],
   selector: "app-admin-structures-stats",
   templateUrl: "./admin-structures-stats.component.html",
   styleUrls: ["./admin-structures-stats.component.css"],

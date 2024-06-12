@@ -27,7 +27,7 @@ export class AdminStructuresExportComponent {
         saveAs(newBlob, "export_stats_domifa" + ".xlsx");
         setTimeout(() => {
           this.exportLoading = false;
-        }, 500);
+        }, 2000);
       },
       error: () => {
         this.notifService.error(

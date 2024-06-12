@@ -71,8 +71,10 @@ export class AdminLoginComponent implements OnInit {
     this.loading = true;
 
     this.authService.login(loginForm).subscribe({
-      error: () => {
+      error: (e) => {
+        console.log(e);
         this.loading = false;
+        console.log("opkpo");
         this.toastr.error("Login et / ou mot de passe incorrect");
       },
       next: (apiAuthResponse: PortailAdminAuthApiResponse) => {

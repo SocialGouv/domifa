@@ -203,8 +203,6 @@ async function totalInteractionsInPeriod({
   colisOut: number;
   colisOutForwarded: number;
 }> {
-  console.time("queryTime");
-
   // NOTE: cette requête ne renvoit pas de résultats pour les usagers de cette structure qui n'ont pas d'interaction
   const query = `SELECT
     COUNT(CASE WHEN i.type = 'appel' THEN 1 END) AS "appel",

@@ -41,6 +41,7 @@
     "class-validator": "^0.14.1",
     "date-fns": "^2.30.0",
     "file-saver": "^2.0.5",
+    "ngx-matomo-client": "^5.0.4",
     "redux": "^4.1.0",
     "rimraf": "^5.0.5",
     "rxjs": "^7.6.0",

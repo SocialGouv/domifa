@@ -123,7 +123,7 @@ export class StuctureStatsComponent
 
     this.maxDateFin = new NgbDate(yesterday.getFullYear() + 1, 1, 1);
 
-    this.onYearChange(this.selectedYear);
+    this.setCustomDates();
   }
 
   public ngOnInit(): void {

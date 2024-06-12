@@ -26,6 +26,7 @@ import {
   faUserPlus,
   faExclamationTriangle,
   faSpinner,
+  faArrowUpRightFromSquare,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const FA_ICONS: IconDefinition[] = [
@@ -41,6 +42,7 @@ export const FA_ICONS: IconDefinition[] = [
   faInfoCircle,
   faUserPlus,
   faCircleNotch,
+  faArrowUpRightFromSquare,
   faComment,
   faSignInAlt,
   faCheck,
