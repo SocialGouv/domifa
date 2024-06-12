@@ -60,7 +60,7 @@ describe("Users Public Controller", () => {
 
       await controller.validateEmail(
         {
-          email: "s1-admin@yopmail.com",
+          email: "preprod.domifa@fabrique.social.gouv.fr",
         },
         res
       );
@@ -91,12 +91,12 @@ describe("Users Public Controller", () => {
       const responseFail = await supertest(context.app.getHttpServer())
         .post("/users/get-password-token")
         .send({
-          email: "s1-admin@yopmail.com",
+          email: "preprod.domifa@fabrique.social.gouv.fr",
         });
 
       expect(responseFail.status).toBe(HttpStatus.OK);
 
-      // s1-admin@yopmail.com  = userId 1
+      // preprod.domifa@fabrique.social.gouv.fr  = userId 1
       userSecurityDatas = await userStructureSecurityRepository.findOneBy({
         userId: 1,
       });

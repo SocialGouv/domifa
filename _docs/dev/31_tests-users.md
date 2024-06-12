@@ -4,7 +4,7 @@
 
 **Structure 1**
 
-- login: `s1-admin@yopmail.com`
+- login: `preprod.domifa@fabrique.social.gouv.fr`
 - password: `Azerty012345`
 
 - login: `s1-instructeur@yopmail.com`
@@ -48,5 +48,5 @@ Voir définition complète dans le fichier [TESTS_USERS_USAGER.type.ts](../../pa
 
 **Administrateur**
 
-- login: `s1-admin@yopmail.com`
+- login: `preprod.domifa@fabrique.social.gouv.fr`
 - password: `Azerty012345`

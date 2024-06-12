@@ -9,7 +9,7 @@ import {
 export const USER_STRUCTURE_MOCK: UserStructure = {
   password: "xxx",
   uuid: "xxx",
-  email: "s1-admin@yopmail.com",
+  email: "preprod.domifa@fabrique.social.gouv.fr",
   mails: {
     guide: false,
     import: false,
@@ -40,7 +40,7 @@ export const USER_STRUCTURE_MOCK: UserStructure = {
     complementAdresse: "BP 48000",
     departement: "95",
     region: "11",
-    email: "s1-admin@yopmail.com",
+    email: "preprod.domifa@fabrique.social.gouv.fr",
     nom: "DomiFa Compte Test",
     lastLogin: null,
     options: { numeroBoite: false, surnom: false },

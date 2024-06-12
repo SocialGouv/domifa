@@ -17,7 +17,7 @@ describe(`App controllers security - ${TEST_BASENAME}`, () => {
       initApp: true,
     });
 
-    // NOTE: ne pas utiliser "s1-admin@yopmail.com" car il est aussi admin domifa (car il est sur la structure 1: c'est un hack)
+    // NOTE: ne pas utiliser "preprod.domifa@fabrique.social.gouv.fr" car il est aussi admin domifa (car il est sur la structure 1: c'est un hack)
     const authInfo = TESTS_USERS_STRUCTURE.BY_EMAIL["s3-admin@yopmail.com"];
     await AppTestHelper.authenticateStructure(authInfo, { context });
   });
