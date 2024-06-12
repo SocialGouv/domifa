@@ -29,6 +29,8 @@ fileignoreconfig:
   checksum: e498c391ceb59414636f2cc17c0bdd731e13509c78abe0e0a3903615c21e0fef
 - filename: packages/backend/src/usagers/controllers/export-structure-usagers.controller.ts
   checksum: 0a10c492e64567f0309c24e270d7f5a18835acb26e72650337e8a18476cf271e
+- filename: packages/backend/src/usagers/services/xlsx-structure-usagers-renderer/renderStructureUsagersRows.ts
+  checksum: 7d123141536acb8ec5b0bee34c0c8e2690e31743c4a8842f1e6a4bdc5dd6464e
 - filename: packages/backend/src/util/expressResponseExcelRenderer.service.ts
   checksum: 74fc4a9067af6f823ddcbbed150444cc1db78402ae265082a2114e64c0f459cb
 - filename: packages/frontend/src/app/modules/structure-stats/components/reporting-form/reporting-form.component.ts
@@ -43,4 +45,6 @@ fileignoreconfig:
   checksum: bbfcfb75d39eca4a0aad7c615231a30e454680e660dd5a37befed61b0e54be46
 - filename: packages/portail-admins/src/environments/environment.ts
   checksum: 65d0b914b6baa33b2e8ec95786ef0c9d9960787295f1f02450d0262f71fd3d0e
+- filename: yarn.lock
+  checksum: 40f6285ed1245ac7c06334ae6c44f3cb909bffda094126a7467bd60ecd299434
 version: "1.0"

@@ -9,10 +9,11 @@ export const getPhoneString = (
   if (!telephone) {
     return "";
   }
-  if (telephone.numero === null || telephone.numero === "") {
+  if (!telephone?.numero || telephone?.numero === "") {
     return "";
   }
 
+  telephone.numero = telephone.numero.replace(/\D/g, "");
   const numero = phoneUtil.parse(
     telephone.numero,
     telephone?.countryCode?.toLowerCase()

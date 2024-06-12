@@ -48,10 +48,6 @@ export function buildCustomDoc({
       adresseStructure + ", " + ucFirst(structure.complementAdresse);
   }
 
-  const { dateDebutDom, dateFinDom } = getDateDecision(usager);
-
-  // Motif de refus
-  const motif = generateMotifLabel(usager.decision);
   // Procu & transfert
   const transfert = usager.options.transfert;
   const procuration = usager.options.procurations[0] ?? {
@@ -61,16 +57,6 @@ export function buildCustomDoc({
     dateFin: null,
     dateNaissance: null,
   };
-  const orientation = usager.entretien.orientation
-    ? usager.entretien.orientationDetail
-      ? "Oui: " + usager.entretien.orientationDetail
-      : "OUI"
-    : "NON";
-  const revenus = usager.entretien.revenus
-    ? usager.entretien.revenusDetail
-      ? "Oui: " + usager.entretien.revenusDetail
-      : "OUI"
-    : "NON";
 
   return {
     AYANTS_DROITS_LISTE: getAyantsDroitsText(usager),
@@ -136,86 +122,8 @@ export function buildCustomDoc({
     USAGER_PHONE: getPhoneString(usager.telephone),
     USAGER_EMAIL: usager.email || "",
 
-    // STATUT ET TYPE DE DOM
-    STATUT_DOM: USAGER_DECISION_STATUT_LABELS[usager.decision.statut],
-    TYPE_DOM:
-      usager.typeDom === "PREMIERE_DOM"
-        ? "Première domiciliation"
-        : "Renouvellement",
-
-    // REFUS / RADIATION
-    MOTIF_RADIATION: motif,
-    DATE_RADIATION:
-      usager.decision.statut === "RADIE"
-        ? dateFormat(
-            usager.decision.dateDebut,
-            structure.timeZone,
-            DATE_FORMAT.JOUR_LONG
-          )
-        : "",
-
-    // DATES DOMICILIATION
-    DATE_DEBUT_DOM: dateFormat(
-      dateDebutDom,
-      structure.timeZone,
-      DATE_FORMAT.JOUR_LONG
-    ),
-    DATE_FIN_DOM: dateFormat(
-      dateFinDom,
-      structure.timeZone,
-      DATE_FORMAT.JOUR_LONG
-    ),
-    DATE_PREMIERE_DOM: dateFormat(
-      usager.datePremiereDom,
-      structure.timeZone,
-      DATE_FORMAT.JOUR_LONG
-    ),
-
-    DATE_DERNIER_PASSAGE: dateFormat(
-      usager.lastInteraction.dateInteraction,
-      structure.timeZone,
-      DATE_FORMAT.JOUR_LONG
-    ),
-
-    // ENTRETIEN
-    ENTRETIEN_CAUSE_INSTABILITE: usager.entretien.cause
-      ? ENTRETIEN_CAUSE_INSTABILITE[usager.entretien.cause]
-      : "",
-    ENTRETIEN_RAISON_DEMANDE: usager.entretien.raison
-      ? ENTRETIEN_RAISON_DEMANDE[usager.entretien.raison]
-      : "",
-
-    ENTRETIEN_ACCOMPAGNEMENT: usager.entretien.accompagnement ? "OUI" : "NON",
-    ENTRETIEN_SITUATION_PROFESSIONNELLE:
-      usager.entretien.situationPro === "AUTRE"
-        ? " Autre : " + usager.entretien.situationProDetail
-        : usager.entretien.situationPro
-        ? ENTRETIEN_SITUATION_PRO[usager.entretien.situationPro]
-        : "",
-
-    ENTRETIEN_ORIENTE_PAR: orientation,
-    ENTRETIEN_RATTACHEMENT: usager.entretien.rattachement
-      ? usager.entretien.rattachement
-      : "",
-
-    ENTRETIEN_DOMICILIATION_EXISTANTE: usager.entretien.domiciliation
-      ? "OUI"
-      : "NON",
-
-    ENTRETIEN_REVENUS: revenus,
-
-    ENTRETIEN_LIEN_COMMUNE: usager.entretien.liencommune || "",
-
-    ENTRETIEN_COMPOSITION_MENAGE: usager.entretien.typeMenage
-      ? ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage]
-      : "",
-
-    ENTRETIEN_SITUATION_RESIDENTIELLE:
-      usager.entretien.residence === "AUTRE"
-        ? " Autre : " + usager.entretien.residenceDetail
-        : usager.entretien.residence
-        ? ENTRETIEN_RESIDENCE[usager.entretien.residence]
-        : "",
+    ...buildEntretien(usager),
+    ...buildDecision(usager, structure, DATE_FORMAT.JOUR_LONG),
 
     // Transferts
     TRANSFERT_ACTIF: transfert.actif ? "OUI" : "NON",
@@ -230,7 +138,7 @@ export function buildCustomDoc({
         ? dateFormat(transfert.dateFin, structure.timeZone, DATE_FORMAT.JOUR)
         : "",
 
-    PROCURATIONS_LISTE: getProcurationsListe(usager.options.procurations),
+    PROCURATIONS_LISTE: getProcurationsList(usager.options.procurations),
     PROCURATION_ACTIF: usager.options.procurations.length > 0 ? "OUI" : "NON",
     PROCURATION_NOM: procuration.nom ?? "",
     PROCURATION_PRENOM: procuration.prenom ?? "",
@@ -251,6 +159,113 @@ export function buildCustomDoc({
     ...extraParameters,
   };
 }
+
+export const buildDecision = (
+  usager: Pick<
+    Usager,
+    | "typeDom"
+    | "decision"
+    | "datePremiereDom"
+    | "historique"
+    | "lastInteraction"
+  >,
+  structure: StructureCommon,
+  format = DATE_FORMAT.JOUR
+) => {
+  const motif = generateMotifLabel(usager.decision);
+  const { dateDebutDom, dateFinDom } = getDateDecision(usager);
+
+  return {
+    STATUT_DOM: USAGER_DECISION_STATUT_LABELS[usager.decision.statut],
+    TYPE_DOM:
+      usager.typeDom === "PREMIERE_DOM"
+        ? "Première domiciliation"
+        : "Renouvellement",
+
+    // REFUS / RADIATION
+    MOTIF_RADIATION: motif,
+    DATE_RADIATION:
+      usager.decision.statut === "RADIE"
+        ? dateFormat(usager.decision.dateDebut, structure.timeZone, format)
+        : "",
+
+    // DATES DOMICILIATION
+    DATE_DEBUT_DOM: dateFormat(dateDebutDom, structure.timeZone, format),
+    DATE_FIN_DOM: dateFormat(dateFinDom, structure.timeZone, format),
+    DATE_PREMIERE_DOM: dateFormat(
+      usager.datePremiereDom,
+      structure.timeZone,
+      format
+    ),
+
+    DATE_DERNIER_PASSAGE: dateFormat(
+      usager.lastInteraction.dateInteraction,
+      structure.timeZone,
+      format
+    ),
+  };
+};
+
+export const buildEntretien = (
+  usager: Usager
+): {
+  ENTRETIEN_CAUSE_INSTABILITE: string;
+  ENTRETIEN_RAISON_DEMANDE: string;
+  ENTRETIEN_ACCOMPAGNEMENT: string;
+  ENTRETIEN_SITUATION_PROFESSIONNELLE: string;
+  ENTRETIEN_ORIENTE_PAR: string;
+  ENTRETIEN_RATTACHEMENT: string;
+  ENTRETIEN_DOMICILIATION_EXISTANTE: string;
+  ENTRETIEN_REVENUS: string;
+  ENTRETIEN_LIEN_COMMUNE: string;
+  ENTRETIEN_COMPOSITION_MENAGE: string;
+  ENTRETIEN_SITUATION_RESIDENTIELLE: string;
+} => {
+  const orientation = usager.entretien.orientation
+    ? usager.entretien.orientationDetail
+      ? "Oui: " + usager.entretien.orientationDetail
+      : "OUI"
+    : "NON";
+  const revenus = usager.entretien.revenus
+    ? usager.entretien.revenusDetail
+      ? "Oui: " + usager.entretien.revenusDetail
+      : "OUI"
+    : "NON";
+
+  return {
+    ENTRETIEN_CAUSE_INSTABILITE: usager.entretien.cause
+      ? ENTRETIEN_CAUSE_INSTABILITE[usager.entretien.cause]
+      : "",
+    ENTRETIEN_RAISON_DEMANDE: usager.entretien.raison
+      ? ENTRETIEN_RAISON_DEMANDE[usager.entretien.raison]
+      : "",
+    ENTRETIEN_ACCOMPAGNEMENT: usager.entretien.accompagnement ? "OUI" : "NON",
+    ENTRETIEN_SITUATION_PROFESSIONNELLE:
+      usager.entretien.situationPro === "AUTRE"
+        ? " Autre : " + usager.entretien.situationProDetail
+        : usager.entretien.situationPro
+        ? ENTRETIEN_SITUATION_PRO[usager.entretien.situationPro]
+        : "",
+    ENTRETIEN_ORIENTE_PAR: orientation,
+    ENTRETIEN_RATTACHEMENT: usager.entretien.rattachement
+      ? usager.entretien.rattachement
+      : "",
+    ENTRETIEN_DOMICILIATION_EXISTANTE: usager.entretien.domiciliation
+      ? "OUI"
+      : "NON",
+    ENTRETIEN_REVENUS: revenus,
+    ENTRETIEN_LIEN_COMMUNE: usager.entretien.liencommune || "",
+    ENTRETIEN_COMPOSITION_MENAGE: usager.entretien.typeMenage
+      ? ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage]
+      : "",
+    ENTRETIEN_SITUATION_RESIDENTIELLE:
+      usager.entretien.residence === "AUTRE"
+        ? " Autre : " + usager.entretien.residenceDetail
+        : usager.entretien.residence
+        ? ENTRETIEN_RESIDENCE[usager.entretien.residence]
+        : "",
+  };
+};
 
 export const ucFirst = (value: string) => {
   return !value || value === ""
@@ -285,7 +300,7 @@ export const dateFormat = (
 };
 
 export const getDateDecision = (
-  usager: Usager
+  usager: Pick<Usager, "decision" | "historique" | "datePremiereDom">
 ): {
   dateDebutDom: Date;
   dateFinDom: Date;
@@ -322,7 +337,7 @@ export const getDateDecision = (
   };
 };
 
-export function getProcurationsListe(procurations: UsagerOptionsProcuration[]) {
+export function getProcurationsList(procurations: UsagerOptionsProcuration[]) {
   let procurationString = "";
   if (procurations.length > 0) {
     procurationString = procurations.reduce(

@@ -25,7 +25,7 @@ import {
   Usager,
 } from "@domifa/common";
 import { UsagerHistoryStateService } from "./usagerHistoryState.service";
-import { StructureUsagerExport } from "../../excel/export-structure-usagers/StructureUsagerExport.type";
+import { StructureUsagerExport } from "./xlsx-structure-usagers-renderer";
 
 @Injectable()
 export class UsagersService {
@@ -235,6 +235,7 @@ export class UsagersService {
       },
       select: [
         "customRef",
+        "ref",
         "nom",
         "prenom",
         "surnom",

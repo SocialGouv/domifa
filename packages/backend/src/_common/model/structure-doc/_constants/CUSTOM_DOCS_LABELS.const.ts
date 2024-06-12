@@ -35,6 +35,7 @@ export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
   USAGER_PRENOM: "Prénom de l'usager",
   USAGER_SURNOM: "Nom d'usage / Surnom",
   USAGER_DATE_NAISSANCE: "Date naissance",
+  NATIONALITE: "Nationalité",
   USAGER_LIEU_NAISSANCE: "Lieu naissance",
   AYANTS_DROITS_LISTE:
     "La liste des ayants droits avec nom prénom et date de naissance",
