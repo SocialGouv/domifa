@@ -1,3 +1,10 @@
+## [2.170.1](https://github.com/SocialGouv/domifa/compare/v2.170.0...v2.170.1) (2024-06-13)
+
+
+### Bug Fixes
+
+* **backend:** delete exceljs for exports ([9daa140](https://github.com/SocialGouv/domifa/commit/9daa14050401a469befda122c5999572cf41baef))
+
 # [2.170.0](https://github.com/SocialGouv/domifa/compare/v2.169.15...v2.170.0) (2024-06-12)
 
 
