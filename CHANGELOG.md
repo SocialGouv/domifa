@@ -1,3 +1,10 @@
+## [2.170.2](https://github.com/SocialGouv/domifa/compare/v2.170.1...v2.170.2) (2024-06-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependency uuid to v10 ([1dfd7fa](https://github.com/SocialGouv/domifa/commit/1dfd7fa6ea4bd43b468e0969eadef2e44856765e))
+
 ## [2.170.1](https://github.com/SocialGouv/domifa/compare/v2.170.0...v2.170.1) (2024-06-13)
 
 
