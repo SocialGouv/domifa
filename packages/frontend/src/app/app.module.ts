@@ -28,7 +28,12 @@ import { SharedModule } from "./modules/shared/shared.module";
 
 import pkg from "../../package.json";
 
-import { createErrorHandler, init } from "@sentry/angular-ivy";
+import {
+  browserProfilingIntegration,
+  browserTracingIntegration,
+  createErrorHandler,
+  init,
+} from "@sentry/angular";
 import { MATOMO_INJECTORS } from "./shared";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "./shared/store/ngRxAppStore.service";
@@ -46,6 +51,7 @@ if (environment.production) {
     dsn: environment.sentryDsnFrontend,
     environment: environment.env,
     tracesSampleRate: 1.0,
+    integrations: [browserProfilingIntegration(), browserTracingIntegration()],
   });
 }
 

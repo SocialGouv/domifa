@@ -122,6 +122,13 @@ export class UsagerDocsController {
         .json({ message: "CANNOT_ENCRYPT_FILE" });
     }
 
+    await this.appLogsService.create({
+      userId: user.id,
+      usagerRef,
+      structureId: user.structureId,
+      action: "USAGERS_DOCS_UPLOAD",
+    });
+
     await usagerDocsRepository.save(newDoc);
 
     const docs = await usagerDocsRepository.getUsagerDocs(
@@ -157,14 +164,12 @@ export class UsagerDocsController {
     await usagerDocsRepository.delete({
       uuid: doc.uuid,
     });
-
     await this.appLogsService.create({
       userId: user.id,
       usagerRef,
       structureId: user.structureId,
-      action: "SUPPRIMER_PIECE_JOINTE",
+      action: "USAGERS_DOCS_DELETE",
     });
-
     const docs = await usagerDocsRepository.getUsagerDocs(
       usagerRef,
       currentUsager.structureId
@@ -177,8 +182,16 @@ export class UsagerDocsController {
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getUsagerDocuments(
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
-    @CurrentUsager() currentUsager: Usager
+    @CurrentUsager() currentUsager: Usager,
+    @CurrentUser() user: UserStructureAuthenticated
   ): Promise<UsagerDoc[]> {
+    await this.appLogsService.create({
+      userId: user.id,
+      usagerRef,
+      structureId: user.structureId,
+      action: "USAGERS_DOCS_DOWNLOAD",
+    });
+
     return usagerDocsRepository.getUsagerDocs(
       usagerRef,
       currentUsager.structureId
