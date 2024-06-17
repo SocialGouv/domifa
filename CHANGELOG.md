@@ -1,3 +1,10 @@
+## [2.170.3](https://github.com/SocialGouv/domifa/compare/v2.170.2...v2.170.3) (2024-06-17)
+
+
+### Bug Fixes
+
+* **frontend:** add new sentry package ([dc3979b](https://github.com/SocialGouv/domifa/commit/dc3979bedf19b40386a44ff1128889c4c95c813a))
+
 ## [2.170.2](https://github.com/SocialGouv/domifa/compare/v2.170.1...v2.170.2) (2024-06-13)
 
 
