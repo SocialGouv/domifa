@@ -11,7 +11,7 @@ import { environment } from "../../../../environments/environment";
 import { cacheManager } from "../../../shared";
 import { userStructureBuilder } from "../../users/services";
 import { CustomToastService } from "./custom-toast.service";
-import { getCurrentScope } from "@sentry/angular-ivy";
+import { getCurrentScope } from "@sentry/angular";
 import { UserStructure } from "@domifa/common";
 
 @Injectable({

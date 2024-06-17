@@ -43,6 +43,7 @@ import {
 import { select, Store } from "@ngrx/store";
 import { ManageUsagersService } from "../../services/manage-usagers.service";
 import { UserStructure } from "@domifa/common";
+import { MatomoTracker } from "ngx-matomo-client";
 
 const AUTO_REFRESH_PERIOD = 600000; // 10 minutes
 
@@ -117,7 +118,8 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     private readonly usagerService: ManageUsagersService,
     private readonly authService: AuthService,
     private readonly titleService: Title,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly matomo: MatomoTracker
   ) {
     this.selectedRefs = [];
     this.displayCheckboxes = false;
@@ -244,6 +246,13 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   }
 
   public chargerTousRadies(): void {
+    this.matomo.trackEvent(
+      "MANAGE",
+      "CHARGER_RADIES",
+      this.me.structure.nom + " - " + this.me.structure.nom,
+      1
+    );
+
     this.scrollTop();
     this.chargerTousRadies$.next(true);
   }
