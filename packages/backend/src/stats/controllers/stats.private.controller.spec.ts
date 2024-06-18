@@ -6,6 +6,7 @@ import { UsersModule } from "../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { AdminStructuresModule } from "../../_portail-admin/admin-structures";
 import { StatsPrivateController } from "./stats.private.controller";
+import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
 describe("Stats Private Controller", () => {
   let controller: StatsPrivateController;
@@ -21,7 +22,7 @@ describe("Stats Private Controller", () => {
         forwardRef(() => UsagersModule),
         forwardRef(() => InteractionsModule),
       ],
-      providers: [],
+      providers: [AppLogsService],
     });
     controller = context.module.get<StatsPrivateController>(
       StatsPrivateController
