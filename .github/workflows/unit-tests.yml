@@ -25,7 +25,7 @@ jobs:
           node-version: "lts/*"
 
       - name: Change TimeZone
-        uses: szenius/set-timezone@v1.2
+        uses: szenius/set-timezone@v2.0
         with:
           timezoneLinux: "Europe/Paris"
 
@@ -69,7 +69,7 @@ jobs:
           node-version: "lts/*"
 
       - name: Change TimeZone
-        uses: szenius/set-timezone@v1.2
+        uses: szenius/set-timezone@v2.0
         with:
           timezoneLinux: "Europe/Paris"
 
@@ -138,7 +138,7 @@ jobs:
           node-version: "lts/*"
 
       - name: Change TimeZone
-        uses: szenius/set-timezone@v1.2
+        uses: szenius/set-timezone@v2.0
         with:
           timezoneLinux: "Europe/Paris"
 
