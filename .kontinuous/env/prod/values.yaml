@@ -113,7 +113,7 @@ backend-export:
   host: "domifa-api.{{ .Values.global.domain }}"
   autoscale:
     minReplicas: 2
-    maxReplicas: 8
+    maxReplicas: 4
     enabled: true
   resources:
     requests:

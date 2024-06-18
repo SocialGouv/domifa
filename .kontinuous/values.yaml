@@ -10,8 +10,8 @@ backend: &backend
   containerPort: 3000
   resources:
     requests:
-      cpu: 0.2
-      memory: 256Mi
+      cpu: 0.3
+      memory: 512Mi
     limits: # exports need a lot of CPU/RAM ATM
       cpu: 3
       memory: 3Gi
@@ -62,6 +62,8 @@ backend-export:
   ingress:
     paths:
       - /export
+      - /stats
+      - /home
       - /admin/structures/export
 
 backend-cron:
