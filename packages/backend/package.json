@@ -94,7 +94,7 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.7.1",
-    "pino": "^8.7.0",
+    "pino": "^9.0.0",
     "pino-pretty": "^11.0.0",
     "pino-std-serializers": "^6.1.0",
     "pizzip": "^3.0.6",
