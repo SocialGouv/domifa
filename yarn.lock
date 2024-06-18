@@ -3239,7 +3239,7 @@ __metadata:
     "@fortawesome/free-regular-svg-icons": ^6.5.2
     "@fortawesome/free-solid-svg-icons": ^6.5.2
     "@khazii/ngx-intl-tel-input": ^17.0.1
-    "@ng-bootstrap/ng-bootstrap": ^15.1.2
+    "@ng-bootstrap/ng-bootstrap": ^17.0.0
     "@ngrx/effects": ^16.3.0
     "@ngrx/entity": ^16.3.0
     "@ngrx/store": ^16.3.0
@@ -3248,7 +3248,6 @@ __metadata:
     "@schematics/angular": ^15.2.10
     "@schematics/update": ^0.1102.18
     "@sentry/angular": ^8.9.2
-    "@sentry/angular-ivy": ^7.102.0
     "@swimlane/ngx-charts": ^20.5.0
     "@types/file-saver": ^2.0.7
     "@types/google-libphonenumber": ^7.4.30
@@ -3320,7 +3319,7 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": ^6.5.2
     "@fortawesome/free-regular-svg-icons": ^6.5.2
     "@fortawesome/free-solid-svg-icons": ^6.5.2
-    "@ng-bootstrap/ng-bootstrap": ^14.2.0
+    "@ng-bootstrap/ng-bootstrap": ^17.0.0
     "@popperjs/core": ^2.11.8
     "@schematics/update": ^0.1102.18
     "@sentry/angular-ivy": ^7.102.0
@@ -3389,7 +3388,7 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": ^6.5.2
     "@fortawesome/free-regular-svg-icons": ^6.5.2
     "@fortawesome/free-solid-svg-icons": ^6.5.2
-    "@ng-bootstrap/ng-bootstrap": ^14.2.0
+    "@ng-bootstrap/ng-bootstrap": ^17.0.0
     "@popperjs/core": ^2.11.8
     "@sentry/angular-ivy": ^7.102.0
     "@types/google-libphonenumber": ^7.4.30
@@ -5252,35 +5251,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ng-bootstrap/ng-bootstrap@npm:^14.2.0":
-  version: 14.2.0
-  resolution: "@ng-bootstrap/ng-bootstrap@npm:14.2.0"
+"@ng-bootstrap/ng-bootstrap@npm:^17.0.0":
+  version: 17.0.0
+  resolution: "@ng-bootstrap/ng-bootstrap@npm:17.0.0"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
-    "@angular/common": ^15.0.0
-    "@angular/core": ^15.0.0
-    "@angular/forms": ^15.0.0
-    "@angular/localize": ^15.0.0
-    "@popperjs/core": ^2.11.6
+    "@angular/common": ^18.0.0
+    "@angular/core": ^18.0.0
+    "@angular/forms": ^18.0.0
+    "@angular/localize": ^18.0.0
+    "@popperjs/core": ^2.11.8
     rxjs: ^6.5.3 || ^7.4.0
-  checksum: f42f6fd4acd63b462374eb7191c9aa8d4bc00af24e5feffe09d44924fb489a4b4dcef32243f514be3a2e7c2a5ccf6338ee5ee363bc9db9d5490ed40af63179c5
-  languageName: node
-  linkType: hard
-
-"@ng-bootstrap/ng-bootstrap@npm:^15.1.2":
-  version: 15.1.2
-  resolution: "@ng-bootstrap/ng-bootstrap@npm:15.1.2"
-  dependencies:
-    tslib: ^2.3.0
-  peerDependencies:
-    "@angular/common": ^16.0.0
-    "@angular/core": ^16.0.0
-    "@angular/forms": ^16.0.0
-    "@angular/localize": ^16.0.0
-    "@popperjs/core": ^2.11.6
-    rxjs: ^6.5.3 || ^7.4.0
-  checksum: e0a5fa2054f85e467e524e641f252230ba14ce341255e6666309a305c13a9bf908c04afa4ae334270c61c425f10d8c36c738b29d4dce055fde9b347afa123815
+  checksum: 2f2f29bb928d61762525ee14c688ae4667c185351600a1ae4ab1b0c095a9fa1d3714437848167e672cb25d2d4174a6c43904112d3425f6889127f7c44a2cf58f
   languageName: node
   linkType: hard
 
