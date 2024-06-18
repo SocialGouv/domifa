@@ -122,7 +122,7 @@ export function buildCustomDoc({
     USAGER_PHONE: getPhoneString(usager.telephone),
     USAGER_EMAIL: usager.email || "",
 
-    ...buildEntretien(usager),
+    ...buildEntretienForDocs(usager),
     ...buildDecision(usager, structure, DATE_FORMAT.JOUR_LONG),
 
     // Transferts
@@ -206,7 +206,7 @@ export const buildDecision = (
   };
 };
 
-export const buildEntretien = (
+export const buildEntretienForDocs = (
   usager: Usager
 ): {
   ENTRETIEN_CAUSE_INSTABILITE: string;

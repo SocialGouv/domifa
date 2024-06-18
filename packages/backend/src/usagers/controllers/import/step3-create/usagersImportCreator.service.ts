@@ -36,17 +36,15 @@ export class ImportCreatorService {
 
     let nextRef = await usagersCreator.findNextUsagerRef(user.structureId);
     const usagersToPersist = usagers.map((data) => {
+      usagersCreator.setUsagerDefaultAttributes(data);
+      data.ref = nextRef++;
+      data.customRef = data?.customRef ? data.customRef.trim() : `${data.ref}`;
+
       const usager = new UsagerTable({
         ...data,
-        entretien: undefined,
         uuid: uuidv4(), // generate manually to use reference in history table
       });
-      usager.ref = nextRef++;
-      usagersCreator.setUsagerDefaultAttributes(usager);
 
-      usager.customRef = data?.customRef
-        ? data.customRef.trim()
-        : `${usager.ref}`;
       return usager;
     });
 
@@ -69,6 +67,7 @@ export class ImportCreatorService {
           structureId: usager.structureId,
         });
       });
+
       await usagerRepository.save(nextUsagersToCreate);
       await usagerEntretienRepository.save(nextEntretienToSave);
 

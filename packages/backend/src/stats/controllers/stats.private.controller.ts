@@ -38,7 +38,7 @@ export class StatsPrivateController {
   public async setReportingQuestions(
     @CurrentUser() user: UserStructureAuthenticated,
     @Body() reportingDto: StructureStatsReportingDto
-  ) {
+  ): Promise<void> {
     const stats = await structureStatsReportingQuestionsRepository.findOne({
       where: {
         structureId: user.structureId,
@@ -47,7 +47,7 @@ export class StatsPrivateController {
     });
 
     if (!stats) {
-      throw new Error("NO_STATS");
+      throw new Error("CANNOT_UPDATE_REPORT");
     }
 
     await structureStatsReportingQuestionsRepository.update(
@@ -70,7 +70,6 @@ export class StatsPrivateController {
         confirmationDate: new Date(),
       }
     );
-    return;
   }
 
   // Get reporting
@@ -79,7 +78,7 @@ export class StatsPrivateController {
   public async getReportingQuestions(
     @CurrentUser() _user: UserStructureAuthenticated
   ) {
-    return structureStatsReportingQuestionsRepository.find({
+    const stats = await structureStatsReportingQuestionsRepository.find({
       where: {
         structureId: _user.structureId,
       },
@@ -87,6 +86,7 @@ export class StatsPrivateController {
         year: "ASC",
       },
     });
+    return stats;
   }
 
   @AllowUserStructureRoles("simple", "responsable", "admin")

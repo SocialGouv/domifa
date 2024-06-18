@@ -94,7 +94,6 @@ export class UsagerTable
   @Column({ type: "timestamptz", nullable: true })
   public datePremiereDom!: Date | null;
 
-  @Index()
   @Column({ type: "text", nullable: true, default: "PREMIERE_DOM" })
   public typeDom!: UsagerTypeDom;
 
