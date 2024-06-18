@@ -282,7 +282,7 @@ export const dateFormat = (
   timeZone: TimeZone,
   displayFormat: string
 ): string => {
-  if (date === "" || date === null) {
+  if (!date || date === "") {
     return "";
   }
 

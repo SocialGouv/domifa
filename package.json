@@ -15,8 +15,8 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7.24.4",
-    "@commitlint/cli": "^19.0.0",
-    "@commitlint/config-conventional": "^19.0.0",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
     "@socialgouv/sre-secrets": "^1.14.5",
     "husky": "^9.0.0",
     "is-ci": "^3.0.1",
