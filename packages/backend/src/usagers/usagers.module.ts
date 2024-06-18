@@ -22,6 +22,7 @@ import { AppLogsModule } from "../modules/app-logs/app-logs.module";
 import { UsagerHistoryStateService } from "./services/usagerHistoryState.service";
 import { ImportCreatorService } from "./controllers/import/step3-create";
 import { FileManagerService } from "../util/file-manager/file-manager.service";
+import { AppLogsService } from "../modules/app-logs/app-logs.service";
 
 @Module({
   controllers: [
@@ -51,6 +52,7 @@ import { FileManagerService } from "../util/file-manager/file-manager.service";
     UsagerHistoryStateService,
     ImportCreatorService,
     FileManagerService,
+    AppLogsService,
   ],
 })
 export class UsagersModule {}

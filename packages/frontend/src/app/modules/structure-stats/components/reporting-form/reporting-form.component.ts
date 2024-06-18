@@ -108,7 +108,6 @@ export class ReportingFormComponent implements OnInit {
 
   public closeModal(): void {
     this.submitted = false;
-
     this.modalService.dismissAll();
   }
 

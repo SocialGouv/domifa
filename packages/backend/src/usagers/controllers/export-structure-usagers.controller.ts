@@ -11,13 +11,17 @@ import { UsagersService } from "../services/usagers.service";
 
 import { format } from "date-fns";
 import { renderStructureUsagersExcel } from "../services/xlsx-structure-usagers-renderer";
+import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("export")
 @ApiBearerAuth()
 @Controller("export")
 export class ExportStructureUsagersController {
-  constructor(private readonly usagersService: UsagersService) {}
+  constructor(
+    private readonly usagersService: UsagersService,
+    private readonly appLogsService: AppLogsService
+  ) {}
 
   @Get("")
   @AllowUserStructureRoles("responsable", "admin")
@@ -25,6 +29,12 @@ export class ExportStructureUsagersController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
+    await this.appLogsService.create({
+      userId: user.id,
+      structureId: user.structureId,
+      action: "EXPORT_USAGERS",
+    });
+
     console.log("\nexport - " + new Date());
     formatMemoryUsage();
     const usagers = await this.usagersService.export(user.structureId);

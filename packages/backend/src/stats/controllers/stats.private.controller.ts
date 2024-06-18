@@ -27,11 +27,14 @@ import { addDays, format } from "date-fns";
 import { StructureStatsFull } from "@domifa/common";
 import { StructureStatsReportingDto } from "../dto";
 import { structureStatsReportingQuestionsRepository } from "../../database";
+import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
 @Controller("stats")
 @ApiTags("stats")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class StatsPrivateController {
+  constructor(private readonly appLogsService: AppLogsService) {}
+
   // Update reporting
   @AllowUserStructureRoles("responsable", "admin")
   @Patch("reporting-questions")
@@ -73,7 +76,7 @@ export class StatsPrivateController {
   }
 
   // Get reporting
-  @AllowUserStructureRoles("responsable", "admin")
+  @AllowUserStructureRoles("responsable", "admin", "simple")
   @Get("reporting-questions")
   public async getReportingQuestions(
     @CurrentUser() _user: UserStructureAuthenticated
@@ -95,6 +98,11 @@ export class StatsPrivateController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Body() statsDto: StatsDto
   ) {
+    await this.appLogsService.create({
+      userId: user.id,
+      structureId: user.structureId,
+      action: "GET_STATS",
+    });
     return this.buildStatsInPeriod({
       ...statsDto,
       structureId: user.structureId,
@@ -109,6 +117,12 @@ export class StatsPrivateController {
     @Body() statsDto: StatsDto,
     @Res() res: Response
   ) {
+    await this.appLogsService.create({
+      userId: user.id,
+      structureId: user.structureId,
+      action: "EXPORT_STATS",
+    });
+
     const structureId =
       user._userProfile === "super-admin-domifa"
         ? statsDto.structureId
