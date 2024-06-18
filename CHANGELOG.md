@@ -1,3 +1,12 @@
+## [2.170.6](https://github.com/SocialGouv/domifa/compare/v2.170.5...v2.170.6) (2024-06-18)
+
+
+### Bug Fixes
+
+* **backend:** add new rights for reporting ([7a51b07](https://github.com/SocialGouv/domifa/commit/7a51b0722d0c51aa5f7461f2cbb2b611bfecb1b4))
+* **backend:** fix unit tests for backend ([892284c](https://github.com/SocialGouv/domifa/commit/892284cf1349f6650ea8ab1dc480c3863c08c861))
+* **backend:** upgrade packages ([2eb3200](https://github.com/SocialGouv/domifa/commit/2eb3200206bd1d60201cc4cd00e57b17fbaebbe9))
+
 ## [2.170.5](https://github.com/SocialGouv/domifa/compare/v2.170.4...v2.170.5) (2024-06-18)
 
 
