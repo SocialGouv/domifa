@@ -285,13 +285,6 @@
             class="row"
             *ngIf="!isAdmin && usager.decision.statut === 'INSTRUCTION'"
           >
-            <div class="col-md-12 text-center">
-              <h2 class="form-title">
-                Le dossier de
-                {{ usager.nom }} {{ usager.prenom }}
-                est complet
-              </h2>
-            </div>
             <div class="col-md-6 offset-3">
               <button
                 type="button"
@@ -299,7 +292,7 @@
                 class="btn btn-primary"
               >
                 <fa-icon aria-hidden="true" [icon]="['far', 'clock']"></fa-icon>
-                SOUMETTRE LA DEMANDE
+                Soumettre la demande
               </button>
             </div>
           </div>

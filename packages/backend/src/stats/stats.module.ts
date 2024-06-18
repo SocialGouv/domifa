@@ -8,6 +8,7 @@ import { StatsPrivateController } from "./controllers/stats.private.controller";
 import { StatsPublicController } from "./controllers/stats.public.controller";
 import { CacheModule } from "@nestjs/cache-manager";
 import { PublicStatsService } from "./services/publicStats.service";
+import { AppLogsService } from "../modules/app-logs/app-logs.service";
 
 @Module({
   controllers: [StatsPublicController, StatsPrivateController],
@@ -20,6 +21,6 @@ import { PublicStatsService } from "./services/publicStats.service";
     forwardRef(() => UsagersModule),
     forwardRef(() => InteractionsModule),
   ],
-  providers: [PublicStatsService],
+  providers: [PublicStatsService, AppLogsService],
 })
 export class StatsModule {}
