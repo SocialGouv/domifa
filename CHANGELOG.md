@@ -1,3 +1,11 @@
+## [2.170.4](https://github.com/SocialGouv/domifa/compare/v2.170.3...v2.170.4) (2024-06-18)
+
+
+### Bug Fixes
+
+* **backend:** delete useless migration ([c05ee09](https://github.com/SocialGouv/domifa/commit/c05ee09b1960e5b670e0e7f805bb610a857f3aa2))
+* **backend:** fix type of stats ([41ba2f1](https://github.com/SocialGouv/domifa/commit/41ba2f1aa3d708f4b20b0988cee489e818522ad9))
+
 ## [2.170.3](https://github.com/SocialGouv/domifa/compare/v2.170.2...v2.170.3) (2024-06-17)
 
 
