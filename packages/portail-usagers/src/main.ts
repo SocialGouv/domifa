@@ -5,7 +5,11 @@ import { AppModule } from "./app/app.module";
 import { environment } from "./environments/environment";
 
 import pkg from "../package.json";
-import { init } from "@sentry/angular-ivy";
+import {
+  browserProfilingIntegration,
+  browserTracingIntegration,
+  init,
+} from "@sentry/angular";
 
 if (environment.production) {
   init({
@@ -13,6 +17,7 @@ if (environment.production) {
     dsn: environment.sentryDsnPortail,
     environment: environment.env,
     tracesSampleRate: 1.0,
+    integrations: [browserProfilingIntegration(), browserTracingIntegration()],
   });
 
   enableProdMode();

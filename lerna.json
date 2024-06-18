@@ -7,12 +7,6 @@
     }
   },
   "npmClient": "yarn",
-  "useWorkspaces": true,
-  "version": "0.3.0",
-  "packages": [
-    "@domifa/frontend",
-    "@domifa/backend",
-    "@domifa/portail-usagers",
-    "@domifa/portail-admins"
-  ]
+  "version": "independent",
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json"
 }

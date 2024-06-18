@@ -16,11 +16,13 @@ beforeAll(() => {
 describe("Création des rendez-vous", () => {
   it("Rendez-vous dans le futur : affichage warning", () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const usager = { ...USAGER_ACTIF_MOCK } as any;
-    usager.rdv = {
-      dateRdv: new Date(2021, 2, 20, 19, 20),
-      userId: 1,
-      userName: "name",
+    const usager = {
+      etapeDemande: 4,
+      rdv: {
+        dateRdv: new Date(2021, 2, 20, 19, 20),
+        userId: 1,
+        userName: "name",
+      },
     };
 
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
@@ -39,11 +41,15 @@ describe("Création des rendez-vous", () => {
   });
 
   it("Rendez-vous dans le passé", () => {
-    const usager = USAGER_ACTIF_MOCK as any;
-    usager.rdv = {
-      dateRdv: new Date(2020, 6, 20, 19, 20),
-      userId: 1,
-      userName: "name",
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+    const usager = {
+      rdv: {
+        dateRdv: new Date(2020, 6, 20, 19, 20),
+        userId: 1,
+        userName: "name",
+      },
+      etapeDemande: 1,
     };
 
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
@@ -77,6 +83,7 @@ describe("Création des rendez-vous", () => {
       display: false,
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     usager.rdv = null as any;
     expect(getRdvInfos(usager)).toEqual({
       class: "",

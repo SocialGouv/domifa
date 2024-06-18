@@ -26,9 +26,6 @@ if (domifaConfig().dev.sentry.enabled) {
     dsn: domifaConfig().dev.sentry.sentryDsn,
     environment: domifaConfig().envId,
     tracesSampleRate: 1.0,
-    release: "domifa@" + domifaConfig().version, // default
-    // set the instrumenter to use OpenTelemetry instead of Sentry because of NestJS not being compatible with sentry instrumentation
-    instrumenter: "otel",
     // logLevels: domifaConfig().dev.sentry.debugModeEnabled
     //   ? ["log", "error", "warn", "debug", "verbose"] // Verbose,
     //   : ["log", "error", "warn", "debug"],

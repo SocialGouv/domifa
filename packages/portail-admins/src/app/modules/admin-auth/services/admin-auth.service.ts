@@ -11,7 +11,7 @@ import {
 import { CustomToastService } from "../../shared/services/custom-toast.service";
 import { appStore } from "../../shared/store/appStore.service";
 import { PortailAdminAuthLoginForm } from "../model";
-import { getCurrentScope } from "@sentry/angular-ivy";
+import { getCurrentScope } from "@sentry/angular";
 
 const END_POINT_AUTH = environment.apiUrl + "portail-admins/auth";
 const END_POINT_PROFILE = environment.apiUrl + "portail-admins/profile";
