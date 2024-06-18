@@ -1,3 +1,10 @@
+## [2.170.5](https://github.com/SocialGouv/domifa/compare/v2.170.4...v2.170.5) (2024-06-18)
+
+
+### Bug Fixes
+
+* **backend:** edit replicas & add urls for export ([50f8125](https://github.com/SocialGouv/domifa/commit/50f81250631b7fa66502789c0f4830d6ffbc6249))
+
 ## [2.170.4](https://github.com/SocialGouv/domifa/compare/v2.170.3...v2.170.4) (2024-06-18)
 
 
