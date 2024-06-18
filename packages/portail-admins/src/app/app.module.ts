@@ -17,7 +17,7 @@ import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "./interceptors/server-error.interceptor";
 import { CustomToastService } from "./modules/shared/services/custom-toast.service";
 import { GeneralModule } from "./modules/general/general.module";
-import { createErrorHandler, init } from "@sentry/angular-ivy";
+import { createErrorHandler, init } from "@sentry/angular";
 import { environment } from "../environments/environment";
 import pkg from "../../package.json";
 import { MATOMO_INJECTORS } from "./shared/MATOMO_INJECTORS.const";

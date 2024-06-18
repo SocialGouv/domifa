@@ -1,6 +1,5 @@
 import {
   CUSTOM_ELEMENTS_SCHEMA,
-  ErrorHandler,
   LOCALE_ID,
   NgModule,
   NO_ERRORS_SCHEMA,
@@ -16,8 +15,6 @@ import { AppComponent } from "./app.component";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { JwtInterceptor } from "./interceptors/jwt.interceptor";
-
-import { SentryErrorHandler } from "./interceptors/sentry.interceptor";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { UsagerAuthService } from "./modules/usager-auth/services/usager-auth.service";
@@ -53,7 +50,6 @@ registerLocaleData(localeFr, "fr");
     CustomToastService,
     { provide: LOCALE_ID, useValue: "fr" },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: ErrorHandler, useClass: SentryErrorHandler },
     provideUserIdleConfig({ idle: 3600, timeout: 60, ping: 20 }),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

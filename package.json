@@ -3,58 +3,30 @@
   "private": true,
   "version": "2.170.6",
   "scripts": {
-    "build": "lerna run build --stream",
-    "dev": "lerna run dev --parallel --stream",
-    "lint": "lerna run lint --parallel",
-    "format": "lerna run format --parallel",
-    "format:fix": "lerna run format:fix --parallel",
-    "start": "lerna run start --parallel --stream",
-    "test": "lerna run test --parallel --stream",
+    "build": "lerna run build  ",
+    "dev": "lerna run dev  ",
+    "lint": "lerna run lint",
+    "format": "lerna run format",
+    "format:fix": "lerna run format:fix",
+    "start": "lerna run start",
+    "test": "lerna run test ",
     "seal-secrets": "sre-secrets --from=./.secrets.yaml --to=./.k8s",
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@babel/runtime": "^7.24.4",
+    "@babel/runtime": "^7.24.7",
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@socialgouv/sre-secrets": "^1.14.5",
-    "husky": "^9.0.0",
+    "husky": "^9.0.11",
     "is-ci": "^3.0.1",
     "lerna": "^8.0.1",
     "lint-staged": "^15.2.2",
-    "node-talisman": "^1.29.10"
+    "node-talisman": "^1.29.11"
   },
   "workspaces": {
     "packages": [
       "packages/*"
-    ],
-    "nohoist": [
-      "**/@babel/runtime",
-      "**/typeorm",
-      "**/bootstrap",
-      "**/@angular/*",
-      "**/@angular/*/**",
-      "**/@angular/compiler-cli/*",
-      "**/@angular/compiler-cli/**",
-      "**/@ngrx/*",
-      "**/@ngrx/*/**",
-      "**/@nrwl/*",
-      "**/@nrwl/*/**",
-      "**/@socialgouv/*/**",
-      "**/eslint*/*/**",
-      "**/@angular-builders/*",
-      "**/@angular-builders/*/**",
-      "**/@angular-devkit/*",
-      "**/@angular-devkit/*/**",
-      "**/@angular-eslint/*",
-      "**/@angular-eslint/*/**",
-      "**/intl-tel-input",
-      "**/intl-tel-input/*",
-      "**/intl-tel-input/*/**",
-      "**/ngx-bootstrap",
-      "**/ngx-intl-tel-input",
-      "**/ngx-intl-tel-input/*",
-      "**/ngx-intl-tel-input/*/**"
     ]
   },
   "packageManager": "yarn@3.8.0"

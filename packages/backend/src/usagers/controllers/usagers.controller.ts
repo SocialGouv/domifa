@@ -354,8 +354,11 @@ export class UsagersController {
         cleanPath(usager.uuid)
       ) + "/";
 
-    await this.fileManagerService.deleteAllUnderStructure(key);
-
+    try {
+      await this.fileManagerService.deleteAllUnderStructure(key);
+    } catch (e) {
+      console.warn(e);
+    }
     return res.status(HttpStatus.OK).json({ message: "DELETE_SUCCESS" });
   }
 

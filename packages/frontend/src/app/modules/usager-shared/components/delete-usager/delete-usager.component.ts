@@ -51,14 +51,14 @@ export class DeleteUsagerComponent implements OnDestroy {
                 : "Domicilié supprimé avec succès";
             this.toastService.success(message);
             this.loading = false;
-            this.store.dispatch(
-              cacheManager.deleteUsagers({ usagerRefs: this.selectedRefs })
-            );
 
             if (this.context === "PROFIL") {
               this.router.navigate(["/manage"]);
             }
             this.modalService.dismissAll();
+            this.store.dispatch(
+              cacheManager.deleteUsagers({ usagerRefs: this.selectedRefs })
+            );
           },
           error: () => {
             this.loading = false;

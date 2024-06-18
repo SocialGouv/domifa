@@ -11,7 +11,7 @@ import {
   PortailUsagerProfile,
   PortailUsagerAuthApiResponse,
 } from "@domifa/common";
-import { getCurrentScope } from "@sentry/angular-ivy";
+import { getCurrentScope } from "@sentry/angular";
 
 const END_POINT_AUTH = environment.apiUrl + "portail-usagers/auth";
 const END_POINT_PROFILE = environment.apiUrl + "portail-usagers/profile";
@@ -112,8 +112,6 @@ export class UsagerAuthService {
     // Enregistrement de l'utilisateur
     localStorage.removeItem(USER_KEY);
     localStorage.setItem(USER_KEY, JSON.stringify(authUsagerProfile));
-
-    // Sentry
 
     getCurrentScope().setUser({
       username:
