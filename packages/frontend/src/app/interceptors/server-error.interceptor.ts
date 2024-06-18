@@ -40,6 +40,10 @@ export class ServerErrorInterceptor implements HttpInterceptor {
           }
           return throwError(() => error.error);
         } else if (error instanceof HttpErrorResponse) {
+          if (error.status === 0) {
+            console.warn("Unknown Error:", error.message);
+            return throwError(() => error);
+          }
           if (error.status === 401 || error.status === 403) {
             authService.logoutAndRedirect(undefined, true);
           } else if (error.status === 404) {

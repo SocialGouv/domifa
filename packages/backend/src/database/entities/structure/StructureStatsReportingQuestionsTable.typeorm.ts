@@ -7,6 +7,18 @@ import { Entity, Column, Index, JoinColumn, ManyToOne, Unique } from "typeorm";
 import { AppTypeormTable } from "../_core";
 import { StructureTable } from "./StructureTable.typeorm";
 
+import { ValueTransformer } from "typeorm";
+
+class NumericTransformer implements ValueTransformer {
+  to(value: number): number {
+    return value;
+  }
+
+  from(value: string): number {
+    return parseFloat(value);
+  }
+}
+
 @Entity({ name: "structure_stats_reporting" })
 @Unique(["structureId", "year"])
 export class StructureStatsReportingQuestionsTable
@@ -22,16 +34,40 @@ export class StructureStatsReportingQuestionsTable
   })
   waitingTime: StructureWaitingTime | null;
 
-  @Column({ nullable: true, type: "integer" })
+  @Column({
+    nullable: true,
+    type: "numeric",
+    precision: 10,
+    scale: 2,
+    transformer: new NumericTransformer(),
+  })
   workers: number | null;
 
-  @Column({ nullable: true, type: "integer" })
+  @Column({
+    nullable: true,
+    type: "numeric",
+    precision: 10,
+    scale: 2,
+    transformer: new NumericTransformer(),
+  })
   volunteers: number | null;
 
-  @Column({ nullable: true, type: "integer" })
+  @Column({
+    nullable: true,
+    type: "numeric",
+    precision: 10,
+    scale: 2,
+    transformer: new NumericTransformer(),
+  })
   humanCosts: number;
 
-  @Column({ nullable: true, type: "integer" })
+  @Column({
+    nullable: true,
+    type: "numeric",
+    precision: 10,
+    scale: 2,
+    transformer: new NumericTransformer(),
+  })
   totalCosts: number | null;
 
   @Index()

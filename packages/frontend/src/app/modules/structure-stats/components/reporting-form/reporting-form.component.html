@@ -83,13 +83,13 @@
 <br />
 
 <ng-template #completeReportModal let-modal>
-  <div class="modal-header">
-    <span id="modal-title">
-      Compléter le rapport de l'annnée {{ currentReport?.year }}
-    </span>
-  </div>
-  <div class="modal-body">
-    <form [formGroup]="structureStatsForm" (ngSubmit)="sendQuestionsForm()">
+  <form [formGroup]="structureStatsForm" (ngSubmit)="sendQuestionsForm()">
+    <div class="modal-header">
+      <span id="modal-title">
+        Compléter le rapport de l'annnée {{ currentReport?.year }}
+      </span>
+    </div>
+    <div class="modal-body">
       <div class="form-group required">
         <fieldset>
           <legend>
@@ -169,6 +169,8 @@
         <input
           class="form-control"
           type="number"
+          step="0.1"
+          min="0"
           id="workers"
           formControlName="workers"
           [ngClass]="{
@@ -199,6 +201,8 @@
         <input
           class="form-control"
           type="number"
+          step="0.1"
+          min="0"
           id="volunteers"
           formControlName="volunteers"
           [ngClass]="{
@@ -232,7 +236,8 @@
         <input
           type="number"
           class="form-control"
-          step="1"
+          step="0.1"
+          min="0"
           id="humanCosts"
           formControlName="humanCosts"
           [ngClass]="{
@@ -266,7 +271,8 @@
         </label>
         <input
           type="number"
-          step="1"
+          step="0.1"
+          min="0"
           class="form-control"
           id="totalCosts"
           formControlName="totalCosts"
@@ -293,33 +299,33 @@
           Veuillez compléter ce champs par un chiffre
         </p>
       </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button
-      class="btn btn-lg btn-outline-primary"
-      type="button"
-      (click)="closeModal()"
-    >
-      Annuler
-    </button>
-    <button
-      class="btn btn-lg btn-primary"
-      [disabled]="loading"
-      [attr.aria-busy]="loading"
-      type="submit"
-      (click)="sendQuestionsForm()"
-    >
-      <span *ngIf="!loading">Envoyer le rapport</span>
-
-      <span *ngIf="loading"
-        ><fa-icon
-          [icon]="['fas', 'circle-notch']"
-          [spin]="true"
-          aria-hidden="true"
-        ></fa-icon>
-        Veuillez patienter...</span
+    </div>
+    <div class="modal-footer">
+      <button
+        class="btn btn-lg btn-outline-primary"
+        type="button"
+        (click)="closeModal()"
       >
-    </button>
-  </div>
+        Annuler
+      </button>
+      <button
+        class="btn btn-lg btn-primary"
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
+        type="submit"
+        (click)="sendQuestionsForm()"
+      >
+        <span *ngIf="!loading">Envoyer le rapport</span>
+
+        <span *ngIf="loading"
+          ><fa-icon
+            [icon]="['fas', 'circle-notch']"
+            [spin]="true"
+            aria-hidden="true"
+          ></fa-icon>
+          Veuillez patienter...</span
+        >
+      </button>
+    </div>
+  </form>
 </ng-template>

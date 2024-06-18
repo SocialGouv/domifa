@@ -42,8 +42,8 @@ TRUNCATE TABLE public.usager_options_history RESTART IDENTITY CASCADE;--
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.9 (Debian 14.9-1.pgdg110+1)
--- Dumped by pg_dump version 14.9 (Debian 14.9-1.pgdg110+1)
+-- Dumped from database version 14.12
+-- Dumped by pg_dump version 14.12
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -76,14 +76,6 @@ COPY public.contact_support (uuid, "createdAt", "updatedAt", version, "userId", 
 
 
 --
--- Data for Name: expired_token; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY public.expired_token (uuid, "createdAt", "updatedAt", version, "userId", "structureId", token, "userProfile") FROM stdin;
-\.
-
-
---
 -- Data for Name: structure; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -93,6 +85,32 @@ e159011b-6648-426d-a772-b3ca4f27a6d5	2021-01-26 08:51:53.846157+01	2024-02-05 13
 1d1ed6f0-7674-474a-908b-d0bd8c6389cb	2021-01-26 08:51:53.846157+01	2024-02-05 13:16:50.088388+01	7	3	1 rue du test de l'organise agréé	\N	1234	80	44000	\N	44	52	structure@yopmail.com	{"token": "6V0XR2S", "userId": 3}		t	2020-11-17 14:34:35.821+01	\N	2021-12-06	Organisme agréé de Test	{"numeroBoite": false}	{"nom": "Calvez", "prenom": "Simon", "fonction": "Directeur"}	asso	b8e2e05b767ac984f0f4b8a222062b07268f46265525f98d83e4b518b343	f	Nantes	{"schedule": {"friday": false, "monday": false, "tuesday": true, "thursday": true, "wednesday": false}, "senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0506070809", "countryCode": "fr"}	\N	f	47.218193	-1.561368	\N	Loire-Atlantique	Pays de la Loire
 412f6962-fc6e-4e48-b0a6-a37d6eebbc67	2021-01-26 08:51:53.846157+01	2024-02-05 13:16:50.114981+01	370	1	1 rue de l'océan	\N	\N	\N	92600	\N	92	11	ccas.test@yopmail.com	\N		f	2020-11-17 14:30:23.692+01	\N	2023-12-18	CCAS de Test	{"numeroBoite": false}	{"nom": "Jean", "prenom": "Thomson", "fonction": "PDG"}	ccas	adfbfe24ff6de1f4e7c0011ad05028f5a129ced7f120079d20c4adf21d89	t	Asnieres-sur-seine	{"schedule": {"friday": false, "monday": false, "tuesday": true, "thursday": true, "wednesday": false}, "senderName": "CCAS DE TES", "senderDetails": "CCAS DE TES", "enabledByDomifa": true, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": true, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0602030405", "countryCode": "fr"}	2023-02-14 18:33:51.265+01	f	48.903759	2.283746	\N	Hauts-de-Seine	Île-de-France
 943d3acc-2f9c-4bb4-9419-4194bbdfd624	2022-03-17 17:25:53.666507+01	2024-02-05 13:16:50.117779+01	38	5	24, avenue Louis PASTEUR	{"actif": false, "ville": null, "adresse": null, "codePostal": ""}		\N	97300	\N	973	03	ccas-cayenne@yopmail.com	\N	\N	f	2022-03-17 17:25:53.646+01	\N	2022-03-23	CCAS de Cayenne	{"numeroBoite": false}	{"nom": "Pali", "prenom": "Mauricette", "fonction": "Directrice"}	cias		t	Cayenne	{"schedule": {"friday": false, "monday": false, "tuesday": true, "thursday": true, "wednesday": false}, "senderName": "CCAS DE CAY", "senderDetails": "CCAS DE CAY", "enabledByDomifa": true, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}	America/Cayenne	{"numero": "0101010101", "countryCode": "gf"}	\N	f	4.943454	-52.324458	\N	Guyane	Guyane
+\.
+
+
+--
+-- Data for Name: user_structure; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.user_structure (uuid, "createdAt", "updatedAt", version, email, fonction, id, "lastLogin", nom, password, prenom, role, "structureId", mails, "passwordLastUpdate", verified, "acceptTerms", territories, "userRightStatus") FROM stdin;
+663b9baa-2880-406c-a93a-32fe65528037	2020-11-17 14:18:47.658346+01	2020-11-17 14:18:47.658346+01	1	s1-instructeur@yopmail.com	\N	2	\N	Juste	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Isabelle	simple	1	{"guide": false, "import": false}	\N	t	\N	\N	structure
+59c846d8-0592-4790-a5e2-1daae9b8776e	2020-11-14 14:18:27.658736+01	2020-11-14 14:18:27.658736+01	1	s1-facteur@yopmail.com	\N	6	2021-06-28 15:27:26.095+02	Dupuis	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Facteur 1	facteur	1	{"guide": true, "import": true}	\N	t	\N	\N	structure
+4e049e3d-bb65-48e5-8661-b1ccdc9db985	2021-09-21 00:03:26.186917+02	2021-09-21 00:03:26.186917+02	2	s3-instructeur@yopmail.com	Simple testeur	8	\N	Jacquet	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Aimé	simple	3	{"guide": false, "import": false}	\N	t	\N	\N	structure
+44f1cfe8-eae9-49d5-aedb-76dda856c413	2021-02-01 17:12:30.90825+01	2021-02-01 17:13:04.64034+01	2	s4-admin@yopmail.com	Testeur admin	7	\N	Test	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Import	admin	4	{"guide": false, "import": false}	\N	t	\N	\N	structure
+d81c5566-94f9-4ee4-ab57-a604a654f79b	2020-11-17 14:32:22.193933+01	2020-11-17 14:39:14.015103+01	17	s3-admin@yopmail.com	\N	5	2020-11-17 14:39:13.796+01	Roseline	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Parmentier	admin	3	{"guide": false, "import": false}	2020-11-17 14:39:14.013+01	t	\N	\N	structure
+f6b20e00-77e7-46e6-b48d-8cca69161042	2020-11-17 14:32:22.193+01	2021-12-06 16:26:01.366576+01	4	s3-gestionnaire@yopmail.com	Responsable structure	10	2021-12-06 16:26:01.365+01	Etchebest	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Philippe	responsable	3	{"guide": false, "import": false}	\N	t	\N	\N	structure
+d19ece1f-d32b-498c-9427-eb12b1251163	2020-11-17 14:26:29.482634+01	2020-11-17 14:26:29.490297+01	2	s3-facteur@yopmail.com	\N	4	\N	Test	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Facteur	facteur	3	{"guide": false, "import": false}	\N	t	\N	\N	structure
+b0140303-79e3-436c-9c41-1eaefeeaed6e	2020-11-17 14:23:20.248011+01	2022-03-09 00:20:21.36073+01	9	s1-gestionnaire@yopmail.com	\N	3	2022-03-09 00:20:21.356+01	Smith	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Peter	responsable	1	{"guide": false, "import": false}	\N	t	\N	\N	structure
+343b62db-6c85-4896-b994-18c8c89b710f	2022-03-17 17:25:53.798318+01	2022-03-23 22:08:39.505536+01	36	s5-admin@yopmail.com	\N	11	2022-03-23 22:08:39.502+01	Pali	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Mauricette	admin	5	{"guide": false, "import": false}	2022-03-17 17:25:53.78+01	t	\N	\N	structure
+da01f451-9c4f-4f6c-98bb-c635277e33e7	2020-11-17 14:18:47.658346+01	2023-12-18 17:52:44.098203+01	391	preprod.domifa@fabrique.social.gouv.fr	\N	1	2023-12-18 17:52:44.097+01	Roméro	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Patrick	admin	1	{"guide": false, "import": false}	\N	t	2023-02-14 18:33:51.261+01	\N	structure
+\.
+
+
+--
+-- Data for Name: expired_token; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.expired_token (uuid, "createdAt", "updatedAt", version, "userId", "structureId", token, "userProfile") FROM stdin;
 \.
 
 
@@ -215,27 +233,27 @@ COPY public.structure_doc (uuid, "createdAt", "updatedAt", version, id, label, "
 -- Data for Name: structure_stats_reporting; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.structure_stats_reporting (uuid, "createdAt", "updatedAt", version, "waitingList", "waitingTime", workers, volunteers, "humanCosts", "totalCosts", year, "structureId", "completedBy", "confirmationDate") FROM stdin;
-1015fc4f-9174-45a0-a49b-72475b6c5536	2024-05-28 21:03:55.065767+02	2024-05-28 21:03:55.065767+02	1	\N	\N	\N	\N	\N	\N	2020	2	\N	\N
-6c8fdfdd-696a-4343-bb2d-13281fb0e134	2024-05-28 21:03:55.065767+02	2024-05-28 21:03:55.065767+02	1	\N	\N	\N	\N	\N	\N	2021	2	\N	\N
-86684796-f41f-40ab-8f24-3e8d9bbf294d	2024-05-28 21:03:55.065767+02	2024-05-28 21:03:55.065767+02	1	\N	\N	\N	\N	\N	\N	2022	2	\N	\N
-34e879e0-8f36-420f-8fb6-8e237c46d852	2024-05-28 21:03:55.065767+02	2024-05-28 21:03:55.065767+02	1	\N	\N	\N	\N	\N	\N	2023	2	\N	\N
-e0f057c9-5410-4306-9b22-7c2fdc0097bf	2024-05-28 21:03:55.089489+02	2024-05-28 21:03:55.089489+02	1	\N	\N	\N	\N	\N	\N	2020	4	\N	\N
-8729c6b1-fd10-423e-8234-30bf8d1f0b6c	2024-05-28 21:03:55.089489+02	2024-05-28 21:03:55.089489+02	1	\N	\N	\N	\N	\N	\N	2021	4	\N	\N
-91b72976-cfaf-4ca0-90a4-8e38af55bf41	2024-05-28 21:03:55.089489+02	2024-05-28 21:03:55.089489+02	1	\N	\N	\N	\N	\N	\N	2022	4	\N	\N
-b9f54526-f4fa-42dc-8455-f4350e19d96b	2024-05-28 21:03:55.089489+02	2024-05-28 21:03:55.089489+02	1	\N	\N	\N	\N	\N	\N	2023	4	\N	\N
-1b4da46e-36e4-4982-8916-43ec1ce84485	2024-05-28 21:03:55.092072+02	2024-05-28 21:03:55.092072+02	1	\N	\N	\N	\N	\N	\N	2020	3	\N	\N
-5b306d2f-3006-4526-836f-7a4cdc640381	2024-05-28 21:03:55.092072+02	2024-05-28 21:03:55.092072+02	1	\N	\N	\N	\N	\N	\N	2021	3	\N	\N
-8daee87d-9fa2-4632-ab5e-9fea015a87f7	2024-05-28 21:03:55.092072+02	2024-05-28 21:03:55.092072+02	1	\N	\N	\N	\N	\N	\N	2022	3	\N	\N
-964710fb-6322-4f49-a5b2-b4c20f488f28	2024-05-28 21:03:55.092072+02	2024-05-28 21:03:55.092072+02	1	\N	\N	\N	\N	\N	\N	2023	3	\N	\N
-3e1dc458-eb09-441b-9474-b3da12c8bb27	2024-05-28 21:03:55.09392+02	2024-05-28 21:03:55.09392+02	1	\N	\N	\N	\N	\N	\N	2020	1	\N	\N
-5d755854-70f0-49b4-8758-f15cb4be520b	2024-05-28 21:03:55.09392+02	2024-05-28 21:03:55.09392+02	1	\N	\N	\N	\N	\N	\N	2021	1	\N	\N
-d887dd71-6b09-4eef-bfc8-3a3d28cd9ab4	2024-05-28 21:03:55.09392+02	2024-05-28 21:03:55.09392+02	1	\N	\N	\N	\N	\N	\N	2022	1	\N	\N
-58ed32d3-d73f-4a07-a9bf-232c1fb4ad05	2024-05-28 21:03:55.09392+02	2024-05-28 21:03:55.09392+02	1	\N	\N	\N	\N	\N	\N	2023	1	\N	\N
-9d5a9911-74ba-486c-9b12-fa044276de2f	2024-05-28 21:03:55.095505+02	2024-05-28 21:03:55.095505+02	1	\N	\N	\N	\N	\N	\N	2020	5	\N	\N
-29bc3dff-f665-4876-8bbb-499d47b3f499	2024-05-28 21:03:55.095505+02	2024-05-28 21:03:55.095505+02	1	\N	\N	\N	\N	\N	\N	2021	5	\N	\N
-988908a2-e347-4326-a17d-cdad1591b152	2024-05-28 21:03:55.095505+02	2024-05-28 21:03:55.095505+02	1	\N	\N	\N	\N	\N	\N	2022	5	\N	\N
-4ad20ed4-df7d-45b0-8e0e-31973d8ebead	2024-05-28 21:03:55.095505+02	2024-05-28 21:03:55.095505+02	1	\N	\N	\N	\N	\N	\N	2023	5	\N	\N
+COPY public.structure_stats_reporting (uuid, "createdAt", "updatedAt", version, "waitingList", workers, volunteers, "humanCosts", "totalCosts", year, "structureId", "completedBy", "confirmationDate", "waitingTime") FROM stdin;
+1015fc4f-9174-45a0-a49b-72475b6c5536	2024-05-28 21:03:55.065767+02	2024-05-28 21:03:55.065767+02	1	\N	\N	\N	\N	\N	2020	2	\N	\N	\N
+6c8fdfdd-696a-4343-bb2d-13281fb0e134	2024-05-28 21:03:55.065767+02	2024-05-28 21:03:55.065767+02	1	\N	\N	\N	\N	\N	2021	2	\N	\N	\N
+86684796-f41f-40ab-8f24-3e8d9bbf294d	2024-05-28 21:03:55.065767+02	2024-05-28 21:03:55.065767+02	1	\N	\N	\N	\N	\N	2022	2	\N	\N	\N
+34e879e0-8f36-420f-8fb6-8e237c46d852	2024-05-28 21:03:55.065767+02	2024-05-28 21:03:55.065767+02	1	\N	\N	\N	\N	\N	2023	2	\N	\N	\N
+e0f057c9-5410-4306-9b22-7c2fdc0097bf	2024-05-28 21:03:55.089489+02	2024-05-28 21:03:55.089489+02	1	\N	\N	\N	\N	\N	2020	4	\N	\N	\N
+8729c6b1-fd10-423e-8234-30bf8d1f0b6c	2024-05-28 21:03:55.089489+02	2024-05-28 21:03:55.089489+02	1	\N	\N	\N	\N	\N	2021	4	\N	\N	\N
+91b72976-cfaf-4ca0-90a4-8e38af55bf41	2024-05-28 21:03:55.089489+02	2024-05-28 21:03:55.089489+02	1	\N	\N	\N	\N	\N	2022	4	\N	\N	\N
+b9f54526-f4fa-42dc-8455-f4350e19d96b	2024-05-28 21:03:55.089489+02	2024-05-28 21:03:55.089489+02	1	\N	\N	\N	\N	\N	2023	4	\N	\N	\N
+1b4da46e-36e4-4982-8916-43ec1ce84485	2024-05-28 21:03:55.092072+02	2024-05-28 21:03:55.092072+02	1	\N	\N	\N	\N	\N	2020	3	\N	\N	\N
+5b306d2f-3006-4526-836f-7a4cdc640381	2024-05-28 21:03:55.092072+02	2024-05-28 21:03:55.092072+02	1	\N	\N	\N	\N	\N	2021	3	\N	\N	\N
+8daee87d-9fa2-4632-ab5e-9fea015a87f7	2024-05-28 21:03:55.092072+02	2024-05-28 21:03:55.092072+02	1	\N	\N	\N	\N	\N	2022	3	\N	\N	\N
+964710fb-6322-4f49-a5b2-b4c20f488f28	2024-05-28 21:03:55.092072+02	2024-05-28 21:03:55.092072+02	1	\N	\N	\N	\N	\N	2023	3	\N	\N	\N
+3e1dc458-eb09-441b-9474-b3da12c8bb27	2024-05-28 21:03:55.09392+02	2024-05-28 21:03:55.09392+02	1	\N	\N	\N	\N	\N	2020	1	\N	\N	\N
+5d755854-70f0-49b4-8758-f15cb4be520b	2024-05-28 21:03:55.09392+02	2024-05-28 21:03:55.09392+02	1	\N	\N	\N	\N	\N	2021	1	\N	\N	\N
+d887dd71-6b09-4eef-bfc8-3a3d28cd9ab4	2024-05-28 21:03:55.09392+02	2024-05-28 21:03:55.09392+02	1	\N	\N	\N	\N	\N	2022	1	\N	\N	\N
+58ed32d3-d73f-4a07-a9bf-232c1fb4ad05	2024-05-28 21:03:55.09392+02	2024-05-28 21:03:55.09392+02	1	\N	\N	\N	\N	\N	2023	1	\N	\N	\N
+9d5a9911-74ba-486c-9b12-fa044276de2f	2024-05-28 21:03:55.095505+02	2024-05-28 21:03:55.095505+02	1	\N	\N	\N	\N	\N	2020	5	\N	\N	\N
+29bc3dff-f665-4876-8bbb-499d47b3f499	2024-05-28 21:03:55.095505+02	2024-05-28 21:03:55.095505+02	1	\N	\N	\N	\N	\N	2021	5	\N	\N	\N
+988908a2-e347-4326-a17d-cdad1591b152	2024-05-28 21:03:55.095505+02	2024-05-28 21:03:55.095505+02	1	\N	\N	\N	\N	\N	2022	5	\N	\N	\N
+4ad20ed4-df7d-45b0-8e0e-31973d8ebead	2024-05-28 21:03:55.095505+02	2024-05-28 21:03:55.095505+02	1	\N	\N	\N	\N	\N	2023	5	\N	\N	\N
 \.
 
 
@@ -326,24 +344,6 @@ c9192746-debf-48de-bd13-6fb5b2ee866b	2022-03-08 23:22:50.29536+01	2022-03-08 23:
 315a308a-f0d0-4aff-9dbd-deb604f37213	2022-03-08 23:24:17.740348+01	2022-03-08 23:24:17.740348+01	1	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	Patrick Roméro	1	DELETE	transfert	Hôpital saint-antoine	\N	10 rue d'amsterdam, paris 10	t	2022-03-17	2022-03-31	\N
 83b3a23f-2085-4f41-808b-409ab05d68d3	2022-03-08 23:26:18.597459+01	2022-03-08 23:26:18.597459+01	1	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	Patrick Roméro	1	CREATION	procuration	Marzouki	Moncef	\N	t	2021-09-12	2022-05-31	2000-03-12
 6b2d709e-5bbb-4d0e-9af2-0aecb41ded85	2022-03-08 23:26:37.754744+01	2022-03-08 23:26:37.754744+01	1	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	Patrick Roméro	1	EDIT	procuration	Marzouki	Moncef	\N	t	2021-09-12	2022-05-31	2000-03-12
-\.
-
-
---
--- Data for Name: user_structure; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY public.user_structure (uuid, "createdAt", "updatedAt", version, email, fonction, id, "lastLogin", nom, password, prenom, role, "structureId", mails, "passwordLastUpdate", verified, "acceptTerms", territories, "userRightStatus") FROM stdin;
-663b9baa-2880-406c-a93a-32fe65528037	2020-11-17 14:18:47.658346+01	2020-11-17 14:18:47.658346+01	1	s1-instructeur@yopmail.com	\N	2	\N	Juste	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Isabelle	simple	1	{"guide": false, "import": false}	\N	t	\N	\N	structure
-59c846d8-0592-4790-a5e2-1daae9b8776e	2020-11-14 14:18:27.658736+01	2020-11-14 14:18:27.658736+01	1	s1-facteur@yopmail.com	\N	6	2021-06-28 15:27:26.095+02	Dupuis	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Facteur 1	facteur	1	{"guide": true, "import": true}	\N	t	\N	\N	structure
-4e049e3d-bb65-48e5-8661-b1ccdc9db985	2021-09-21 00:03:26.186917+02	2021-09-21 00:03:26.186917+02	2	s3-instructeur@yopmail.com	Simple testeur	8	\N	Jacquet	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Aimé	simple	3	{"guide": false, "import": false}	\N	t	\N	\N	structure
-44f1cfe8-eae9-49d5-aedb-76dda856c413	2021-02-01 17:12:30.90825+01	2021-02-01 17:13:04.64034+01	2	s4-admin@yopmail.com	Testeur admin	7	\N	Test	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Import	admin	4	{"guide": false, "import": false}	\N	t	\N	\N	structure
-d81c5566-94f9-4ee4-ab57-a604a654f79b	2020-11-17 14:32:22.193933+01	2020-11-17 14:39:14.015103+01	17	s3-admin@yopmail.com	\N	5	2020-11-17 14:39:13.796+01	Roseline	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Parmentier	admin	3	{"guide": false, "import": false}	2020-11-17 14:39:14.013+01	t	\N	\N	structure
-f6b20e00-77e7-46e6-b48d-8cca69161042	2020-11-17 14:32:22.193+01	2021-12-06 16:26:01.366576+01	4	s3-gestionnaire@yopmail.com	Responsable structure	10	2021-12-06 16:26:01.365+01	Etchebest	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Philippe	responsable	3	{"guide": false, "import": false}	\N	t	\N	\N	structure
-d19ece1f-d32b-498c-9427-eb12b1251163	2020-11-17 14:26:29.482634+01	2020-11-17 14:26:29.490297+01	2	s3-facteur@yopmail.com	\N	4	\N	Test	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Facteur	facteur	3	{"guide": false, "import": false}	\N	t	\N	\N	structure
-b0140303-79e3-436c-9c41-1eaefeeaed6e	2020-11-17 14:23:20.248011+01	2022-03-09 00:20:21.36073+01	9	s1-gestionnaire@yopmail.com	\N	3	2022-03-09 00:20:21.356+01	Smith	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Peter	responsable	1	{"guide": false, "import": false}	\N	t	\N	\N	structure
-343b62db-6c85-4896-b994-18c8c89b710f	2022-03-17 17:25:53.798318+01	2022-03-23 22:08:39.505536+01	36	s5-admin@yopmail.com	\N	11	2022-03-23 22:08:39.502+01	Pali	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Mauricette	admin	5	{"guide": false, "import": false}	2022-03-17 17:25:53.78+01	t	\N	\N	structure
-da01f451-9c4f-4f6c-98bb-c635277e33e7	2020-11-17 14:18:47.658346+01	2023-12-18 17:52:44.098203+01	391	preprod.domifa@fabrique.social.gouv.fr	\N	1	2023-12-18 17:52:44.097+01	Roméro	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Patrick	admin	1	{"guide": false, "import": false}	\N	t	2023-02-14 18:33:51.261+01	\N	structure
 \.
 
 

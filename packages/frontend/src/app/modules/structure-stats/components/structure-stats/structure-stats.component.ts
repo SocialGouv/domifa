@@ -1,4 +1,4 @@
-import { Subscription } from "rxjs";
+import { Subject, Subscription, takeUntil } from "rxjs";
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -32,7 +32,7 @@ import {
 import { formatDateToNgb } from "../../../../shared";
 import { StructureStatsService } from "../../services/structure-stats.service";
 import { MatomoTracker } from "ngx-matomo-client";
-import { startOfMonth } from "date-fns";
+import { format, startOfMonth } from "date-fns";
 
 @Component({
   providers: [
@@ -79,6 +79,7 @@ export class StuctureStatsComponent
   public reports: StructureStatsReportingQuestions[] = [];
   public currentReport: StructureStatsReportingQuestions | null = null;
   public isCustomDates = false;
+  private unsubscribe$ = new Subject<void>();
 
   constructor(
     private readonly formatter: NgbDateCustomParserFormatter,
@@ -245,16 +246,25 @@ export class StuctureStatsComponent
         ? new Date(this.formatter.formatEn(this.toDate))
         : null;
 
+    const startFormatted = format(this.start, "dd/MM/yyyy");
+    const endFormatted = format(this.start, "dd/MM/yyyy");
+    const requestedInterval = `${startFormatted}${
+      this.end ? endFormatted : ""
+    }`;
+
     this.matomo.trackEvent(
-      "getStats",
-      this.isCustomDates ? "customDates" : "annualReport",
-      this.start.toString(),
+      "STATS",
+      this.isCustomDates ? "CUSTOM_DATES" : "ANNUAL_REPORT",
+      requestedInterval,
       1
     );
+
+    this.unsubscribe$.next();
 
     this.subscription.add(
       this.structureStatsService
         .getStats(this.me?.structureId as number, this.start, this.end)
+        .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (statsResult: StructureStatsFull) => {
             this.stats = statsResult;
@@ -272,5 +282,7 @@ export class StuctureStatsComponent
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

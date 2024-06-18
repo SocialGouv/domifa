@@ -64,7 +64,7 @@ export class ReportingFormComponent implements OnInit {
   }
 
   public openModal(): void {
-    this.matomo.trackEvent("competeReport", "open-modal", null, 1);
+    this.matomo.trackEvent("STATS", "ANNUAL_REPORT_FORM", "START", 1);
 
     this.structureStatsForm = this.fb.group({
       waitingList: [this.currentReport.waitingList, Validators.required],
@@ -107,6 +107,8 @@ export class ReportingFormComponent implements OnInit {
   }
 
   public closeModal(): void {
+    this.submitted = false;
+
     this.modalService.dismissAll();
   }
 
@@ -120,14 +122,19 @@ export class ReportingFormComponent implements OnInit {
       return;
     }
 
-    this.matomo.trackEvent("competeReport", "send-report", null, 1);
-
     this.loading = true;
     this.subscription.add(
       this.structureStatsService
         .setReportingQuestions(this.structureStatsForm.value)
         .subscribe({
           next: () => {
+            this.matomo.trackEvent(
+              "STATS",
+              "ANNUAL_REPORT_FORM",
+              "COMPLETE",
+              1
+            );
+
             this.toastService.success("Rapport enregistré avec succès");
             this.loading = false;
             this.submitted = false;
@@ -136,7 +143,7 @@ export class ReportingFormComponent implements OnInit {
           },
           error: () => {
             this.toastService.error(
-              "La récupération des rapports d'activité à échoué"
+              "L'enregistrement du rapport d'activité a échoué"
             );
             this.loading = false;
           },
