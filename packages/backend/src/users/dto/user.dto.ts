@@ -7,7 +7,7 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
-import { IsValidPassword } from "../../_common/decorators";
+import { IsValidPassword, Trim } from "../../_common/decorators";
 import { StructureCommon } from "@domifa/common";
 
 export class UserDto {
@@ -24,16 +24,12 @@ export class UserDto {
   @MaxLength(100)
   @IsNotEmpty()
   @IsString()
-  @Transform(({ value }: TransformFnParams) => {
-    return value.toString().trim();
-  })
+  @Trim()
   public readonly nom!: string;
 
   @IsNotEmpty()
   @IsEmail()
-  @Transform(({ value }: TransformFnParams) => {
-    return value.toString().trim();
-  })
+  @Trim()
   public readonly email!: string;
 
   @IsNotEmpty()

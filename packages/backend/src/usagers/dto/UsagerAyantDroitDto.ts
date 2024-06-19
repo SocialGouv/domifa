@@ -8,6 +8,7 @@ import {
 } from "class-validator";
 
 import { LIEN_PARENTE_LABELS, AyantDroiLienParent } from "@domifa/common";
+import { Trim } from "../../_common/decorators";
 
 export class UsagerAyantDroitDto {
   @ApiProperty({
@@ -18,6 +19,7 @@ export class UsagerAyantDroitDto {
   @IsNotEmpty()
   @MaxLength(200)
   @IsString()
+  @Trim()
   public nom!: string;
 
   @ApiProperty({
@@ -28,6 +30,7 @@ export class UsagerAyantDroitDto {
   @IsNotEmpty()
   @MaxLength(200)
   @IsString()
+  @Trim()
   public prenom!: string;
 
   @ApiProperty({
@@ -37,6 +40,7 @@ export class UsagerAyantDroitDto {
   })
   @IsNotEmpty()
   @IsString()
+  @Trim()
   @IsIn(Object.keys(LIEN_PARENTE_LABELS))
   public lien!: AyantDroiLienParent;
 

@@ -8,5 +8,6 @@ export * from "./ParseRegion.pipe";
 export * from "./ParseString.pipe";
 export * from "./PhoneTransformDecorator";
 export * from "./StripTagsDecorator";
+export * from "./TrimDecorator";
 export * from "./TrimOrNullDecorator";
 export * from "./UpperCaseDecorator";

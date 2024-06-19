@@ -1,6 +1,6 @@
 import { StructureOptionsDto } from "./structure-options.dto";
 import { ApiProperty } from "@nestjs/swagger";
-import { Transform, TransformFnParams, Type } from "class-transformer";
+import { Type } from "class-transformer";
 import {
   Equals,
   IsBoolean,
@@ -21,7 +21,11 @@ import {
   ValidateNested,
 } from "class-validator";
 import { StructureAdresseCourrierDto, StructureResponsableDto } from ".";
-import { IsValidPhone, TrimOrNullTransform } from "../../_common/decorators";
+import {
+  IsValidPhone,
+  Trim,
+  TrimOrNullTransform,
+} from "../../_common/decorators";
 import { ValidationRegexp } from "../../usagers/controllers/import/step2-validate-row";
 import {
   StructureType,
@@ -49,9 +53,7 @@ export class StructureDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(1000)
-  @Transform(({ value }: TransformFnParams) => {
-    return value.trim();
-  })
+  @Trim()
   public adresse!: string;
 
   @ApiProperty({
@@ -62,6 +64,7 @@ export class StructureDto {
   @IsNotEmpty()
   @TrimOrNullTransform()
   @MaxLength(400)
+  @Trim()
   public nom!: string;
 
   @ApiProperty({
@@ -99,7 +102,7 @@ export class StructureDto {
   })
   @IsNotEmpty()
   @IsString()
-  @TrimOrNullTransform()
+  @Trim()
   @MaxLength(100)
   public ville!: string;
 
@@ -126,9 +129,7 @@ export class StructureDto {
   })
   @IsNotEmpty()
   @IsEmail()
-  @Transform(({ value }: TransformFnParams) => {
-    return value.trim();
-  })
+  @Trim()
   public email!: string;
 
   @ApiProperty({
