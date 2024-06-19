@@ -28,23 +28,16 @@ export class ExportStructureUsagersController {
   public async export(
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
-  ) {
+  ): Promise<void> {
     await this.appLogsService.create({
       userId: user.id,
       structureId: user.structureId,
       action: "EXPORT_USAGERS",
     });
 
-    console.log("\nexport - " + new Date());
-    formatMemoryUsage();
     const usagers = await this.usagersService.export(user.structureId);
-
-    console.log("\nrenderStructureUsagersExcel - " + new Date());
-    formatMemoryUsage();
-
     const workbook = renderStructureUsagersExcel(usagers, user.structure);
-    console.log("\nsetHeader - " + new Date());
-    formatMemoryUsage();
+
     try {
       res.setHeader(
         "Content-Type",
@@ -59,6 +52,7 @@ export class ExportStructureUsagersController {
       );
 
       res.send(workbook);
+      res.status(200);
       res.end();
     } catch (err) {
       appLogger.error("Unexpected export error", err);
@@ -66,15 +60,4 @@ export class ExportStructureUsagersController {
       res.end();
     }
   }
-}
-
-export function formatMemoryUsage() {
-  const memoryUsage = process.memoryUsage();
-
-  const formatted = {};
-  for (const key in memoryUsage) {
-    formatted[key] = (memoryUsage[key] / 1024 / 1024).toFixed(2) + " MB";
-  }
-  console.log();
-  console.log(formatted);
 }
