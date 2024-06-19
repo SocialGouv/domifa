@@ -79,11 +79,11 @@ export class StatsPrivateController {
   @AllowUserStructureRoles("responsable", "admin", "simple")
   @Get("reporting-questions")
   public async getReportingQuestions(
-    @CurrentUser() _user: UserStructureAuthenticated
+    @CurrentUser() user: UserStructureAuthenticated
   ) {
     const stats = await structureStatsReportingQuestionsRepository.find({
       where: {
-        structureId: _user.structureId,
+        structureId: user.structureId,
       },
       order: {
         year: "ASC",
@@ -116,7 +116,7 @@ export class StatsPrivateController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Body() statsDto: StatsDto,
     @Res() res: Response
-  ) {
+  ): Promise<void> {
     await this.appLogsService.create({
       userId: user.id,
       structureId: user.structureId,
@@ -142,6 +142,7 @@ export class StatsPrivateController {
       endDateUTCExclusive: stats.period.endDateUTCExclusive,
       structureId: user.structureId,
     });
+
     await expressResponseExcelRenderer.sendExcelWorkbook({
       res,
       fileName,

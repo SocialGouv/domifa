@@ -28,6 +28,7 @@ export const renderStructureUsagersExcel = (
 
   XLSX.utils.book_append_sheet(wb, wsUsagers, "Liste des domiciliés");
   XLSX.utils.book_append_sheet(wb, wsEntretiens, "Entretiens");
+
   return XLSX.writeXLSX(wb, {
     bookType: "xlsx",
     compression: true,

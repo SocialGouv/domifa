@@ -160,9 +160,9 @@ export class StructureTable
   @BeforeInsert()
   lowerAndTrim() {
     this.email = this.email.toLowerCase().trim();
-    this.adresse = this.adresse.toLowerCase().trim();
-    this.nom = this.nom.toLowerCase().trim();
-    this.ville = this.ville.toLowerCase().trim();
+    this.adresse = this.adresse.trim();
+    this.nom = this.nom.trim();
+    this.ville = this.ville.trim();
   }
 
   public constructor(entity?: Partial<StructureTable>) {
