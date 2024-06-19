@@ -15,6 +15,7 @@ import {
   faLink,
   faSignInAlt,
   faTimesCircle,
+  faExternalLinkAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const FA_ICONS: IconDefinition[] = [
@@ -31,4 +32,5 @@ export const FA_ICONS: IconDefinition[] = [
   faTimesCircle,
   faCheckCircle,
   faArrowUpRightFromSquare,
+  faExternalLinkAlt,
 ];

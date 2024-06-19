@@ -2,10 +2,6 @@ footer {
   width: 100%;
   border-top: 1px solid #e6e6e6;
 
-  img.ministere-logo {
-    max-height: 110px;
-    width: auto;
-  }
   ul {
     margin: 0;
     padding: 0;
@@ -46,4 +42,21 @@ footer {
   border: 1px solid #b1b1b1;
   border-radius: 5px;
   margin: 1rem auto;
+}
+
+#logo-footer img {
+  height: 200px;
+  width: auto;
+}
+.content-list {
+  .ng-fa-icon {
+    margin-left: 0.3rem;
+  }
+
+  li {
+    display: inline-block;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+  }
 }

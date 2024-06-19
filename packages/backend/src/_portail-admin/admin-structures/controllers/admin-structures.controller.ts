@@ -49,6 +49,7 @@ import { MetabaseStatsDto } from "../../_dto/MetabaseStats.dto";
 import { domifaConfig } from "../../../config";
 import jwt from "jsonwebtoken";
 import { FindOptionsWhere } from "typeorm";
+import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
@@ -56,12 +57,22 @@ import { FindOptionsWhere } from "typeorm";
 @ApiBearerAuth()
 export class AdminStructuresController {
   constructor(
-    private readonly adminStructuresService: AdminStructuresService
+    private readonly adminStructuresService: AdminStructuresService,
+    private readonly appLogsService: AppLogsService
   ) {}
 
   @Get("export")
   @AllowUserProfiles("super-admin-domifa")
-  public async export(@Res() response: ExpressResponse) {
+  public async export(
+    @CurrentUser() user: UserStructureAuthenticated,
+    @Res() response: ExpressResponse
+  ) {
+    await this.appLogsService.create({
+      userId: user.id,
+      structureId: user.structureId,
+      action: "EXPORT_DOMIFA",
+    });
+
     const {
       structures,
       stats,
@@ -194,9 +205,15 @@ export class AdminStructuresController {
   @AllowUserProfiles("super-admin-domifa")
   @Post("metabase-stats")
   public async getMetabaseStats(
-    @CurrentUser() _user: UserStructureAuthenticated,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Body() metabaseDto: MetabaseStatsDto
   ): Promise<{ url: string }> {
+    await this.appLogsService.create({
+      userId: user.id,
+      structureId: user.structureId,
+      action: "GET_STATS_PORTAIL_ADMIN",
+    });
+
     const METABASE_SITE_URL =
       "https://metabase-domifa.ovh.fabrique.social.gouv.fr";
 

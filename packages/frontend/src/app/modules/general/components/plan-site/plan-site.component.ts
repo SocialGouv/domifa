@@ -14,7 +14,7 @@ export class PlanSiteComponent implements OnInit {
   public readonly REGIONS_LISTE = REGIONS_LISTE;
   public readonly REGIONS_ID_SEO = REGIONS_ID_SEO;
 
-  public faExternalLinkAlt = faExternalLinkAlt;
+  public readonly faExternalLinkAlt = faExternalLinkAlt;
   public siteMapLinksLogged: {
     section: string;
     links: {

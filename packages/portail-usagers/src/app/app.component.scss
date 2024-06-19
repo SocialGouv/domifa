@@ -70,3 +70,20 @@ footer {
   width: auto;
   margin: 0.8rem;
 }
+
+#logo-footer img {
+  height: 200px;
+  width: auto;
+}
+.content-list {
+  .ng-fa-icon {
+    margin-left: 0.3rem;
+  }
+
+  li {
+    display: inline-block;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+}
