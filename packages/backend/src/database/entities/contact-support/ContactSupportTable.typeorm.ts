@@ -1,4 +1,4 @@
-import { Column, Entity, Index } from "typeorm";
+import { BeforeInsert, Column, Entity, Index } from "typeorm";
 import {
   ContactCategorie,
   ContactStatus,
@@ -49,6 +49,10 @@ export class ContactSupportTable
   @Column({ type: "text", nullable: true })
   public comments: string;
 
+  @BeforeInsert()
+  nameToUpperCase() {
+    this.email = this.email.toLowerCase().trim();
+  }
   public constructor(entity?: Partial<ContactSupportTable>) {
     super(entity);
     Object.assign(this, entity);

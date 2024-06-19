@@ -158,8 +158,11 @@ export class StructureTable
   organismeType: StructureOrganismeType;
 
   @BeforeInsert()
-  nameToUpperCase() {
+  lowerAndTrim() {
     this.email = this.email.toLowerCase().trim();
+    this.adresse = this.adresse.toLowerCase().trim();
+    this.nom = this.nom.toLowerCase().trim();
+    this.ville = this.ville.toLowerCase().trim();
   }
 
   public constructor(entity?: Partial<StructureTable>) {

@@ -7,7 +7,7 @@ import {
   ValidateIf,
 } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
-import { Transform, TransformFnParams } from "class-transformer";
+import { Trim } from "../../_common/decorators";
 
 export class StructureAdresseCourrierDto {
   @ApiProperty({
@@ -26,9 +26,7 @@ export class StructureAdresseCourrierDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(200)
-  @Transform(({ value }: TransformFnParams) => {
-    return value ? value.toString().trim() : null;
-  })
+  @Trim()
   public readonly adresse: string;
 
   @ApiProperty({
@@ -38,6 +36,7 @@ export class StructureAdresseCourrierDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(200)
+  @Trim()
   @ValidateIf((o) => o.actif === true)
   public readonly ville: string;
 

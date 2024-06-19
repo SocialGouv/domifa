@@ -67,7 +67,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @StripTagsTransform()
   @MaxLength(1000)
   @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
-    obj.liencommune === "AUTRE" ? value : null
+    obj.liencommune === "AUTRE" && value ? value.toString().trim() : null
   )
   public liencommuneDetail!: string;
 
@@ -84,7 +84,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsString()
   @StripTagsTransform()
   @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
-    obj.residence === "AUTRE" ? value : null
+    obj.residence === "AUTRE" && value ? value.toString().trim() : null
   )
   public residenceDetail!: string;
 
@@ -119,7 +119,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @MaxLength(1000)
   @StripTagsTransform()
   @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
-    obj.cause === "AUTRE" ? value : null
+    obj.cause === "AUTRE" && value ? value.toString().trim() : null
   )
   public causeDetail!: string;
 
@@ -141,7 +141,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @MaxLength(1000)
   @StripTagsTransform()
   @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
-    obj.raison === "AUTRE" ? value : null
+    obj.raison === "AUTRE" && value ? value.toString().trim() : null
   )
   public raisonDetail!: string;
 
@@ -161,7 +161,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @MaxLength(1000)
   @StripTagsTransform()
   @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
-    obj.accompagnement ? value : null
+    obj.accompagnement && value ? value.toString().trim() : null
   )
   public accompagnementDetail!: string;
 

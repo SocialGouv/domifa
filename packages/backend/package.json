@@ -136,6 +136,7 @@
     "@types/pdfkit": "^0.13.4",
     "@types/pino": "^7.0.5",
     "@types/pizzip": "^3.0.5",
+    "@types/prettier": "^3.0.0",
     "@types/rimraf": "^4.0.5",
     "@types/sanitize-html": "^2.11.0",
     "@types/supertest": "^6.0.2",

@@ -3105,6 +3105,7 @@ __metadata:
     "@types/pdfkit": ^0.13.4
     "@types/pino": ^7.0.5
     "@types/pizzip": ^3.0.5
+    "@types/prettier": ^3.0.0
     "@types/rimraf": ^4.0.5
     "@types/sanitize-html": ^2.11.0
     "@types/source-map-support": ^0.5.10
@@ -8617,6 +8618,15 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: b578a7671f619dfb2be1e8839ab6cf2e3cc2e0dd28d0d47d01399cd728d7710f5a73b1d544d5d51b2f834116f8b7914bd19e7cefa1f56e9a41f6758de132f979
+  languageName: node
+  linkType: hard
+
+"@types/prettier@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@types/prettier@npm:3.0.0"
+  dependencies:
+    prettier: "*"
+  checksum: a2a512d304e5bcf78f38089dc88ad19215e6ab871d435a17aef3ce538a63b07c0e359c18db23989dc1ed9fff96d99eee1f680416080184df5c7e0e3bf767e165
   languageName: node
   linkType: hard
 
@@ -21791,6 +21801,15 @@ __metadata:
   dependencies:
     fast-diff: ^1.1.2
   checksum: 00ce8011cf6430158d27f9c92cfea0a7699405633f7f1d4a45f07e21bf78e99895911cbcdc3853db3a824201a7c745bd49bfea8abd5fb9883e765a90f74f8392
+  languageName: node
+  linkType: hard
+
+"prettier@npm:*":
+  version: 3.3.2
+  resolution: "prettier@npm:3.3.2"
+  bin:
+    prettier: bin/prettier.cjs
+  checksum: 5557d8caed0b182f68123c2e1e370ef105251d1dd75800fadaece3d061daf96b1389141634febf776050f9d732c7ae8fd444ff0b4a61b20535e7610552f32c69
   languageName: node
   linkType: hard
 

@@ -20,6 +20,7 @@ import { UsagerAyantDroitDto } from "./UsagerAyantDroitDto";
 import {
   LowerCaseTransform,
   StripTagsTransform,
+  Trim,
   TrimOrNullTransform,
 } from "../../_common/decorators";
 import {
@@ -48,6 +49,7 @@ export class CreateUsagerDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(200)
+  @Trim()
   @StripTagsTransform()
   public nom: string;
 
@@ -59,6 +61,7 @@ export class CreateUsagerDto {
   @IsNotEmpty()
   @MaxLength(200)
   @IsString()
+  @Trim()
   @StripTagsTransform()
   public prenom!: string;
 
@@ -90,6 +93,7 @@ export class CreateUsagerDto {
   @MaxLength(100)
   @IsString()
   @StripTagsTransform()
+  @Trim()
   public villeNaissance!: string;
 
   @ApiProperty({
@@ -168,5 +172,6 @@ export class CreateUsagerDto {
   @MaxLength(50)
   @IsString()
   @StripTagsTransform()
+  @TrimOrNullTransform()
   public numeroDistribution!: string;
 }

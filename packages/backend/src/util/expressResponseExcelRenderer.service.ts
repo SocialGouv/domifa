@@ -21,7 +21,7 @@ async function sendExcelWorkbook({
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     );
     res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
-
+    res.status(200);
     res.send(buffer);
     res.end();
   } catch (err) {

@@ -56,7 +56,7 @@ export const StatsPrivateControllerSecurityTests: AppTestHttpClientSecurityTestD
             context.user,
             {
               roles: ["simple", "responsable", "admin"],
-              validExpectedResponseStatus: HttpStatus.CREATED,
+              validExpectedResponseStatus: HttpStatus.OK,
               allowSuperAdminDomifa: true,
             }
           ),

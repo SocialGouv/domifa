@@ -1,5 +1,6 @@
 import { UsagerEntretienTable } from "./UsagerEntretienTable.typeorm";
 import {
+  BeforeInsert,
   Column,
   Entity,
   Index,
@@ -149,6 +150,11 @@ export class UsagerTable
     "usagerRef" | "createdAt" | "createdBy" | "message"
   > | null;
 
+  @BeforeInsert()
+  nameToUpperCase() {
+    this.nom = this.nom.trim();
+    this.prenom = this.prenom.trim();
+  }
   public constructor(entity?: Partial<UsagerTable>) {
     super(entity);
     Object.assign(this, entity);
