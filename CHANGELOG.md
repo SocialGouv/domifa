@@ -1,3 +1,12 @@
+## [2.170.7](https://github.com/SocialGouv/domifa/compare/v2.170.6...v2.170.7) (2024-06-19)
+
+
+### Bug Fixes
+
+* **backend:** add cleaners in tables ([1e8af7e](https://github.com/SocialGouv/domifa/commit/1e8af7e9457ea34c8fc6097631ab1671af1d6eb3))
+* **backend:** fix lowercase of structure's elements ([81eadf3](https://github.com/SocialGouv/domifa/commit/81eadf3d5b4c71a6544501c0e959993eea8c2c23))
+* **frontend:** add maxlength to all inputs ([14a15a6](https://github.com/SocialGouv/domifa/commit/14a15a6ba3a6f3fa1886ed9fc09bb2114faeaddd))
+
 ## [2.170.6](https://github.com/SocialGouv/domifa/compare/v2.170.5...v2.170.6) (2024-06-18)
 
 
