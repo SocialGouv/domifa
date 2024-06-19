@@ -1,3 +1,10 @@
+# [2.171.0](https://github.com/SocialGouv/domifa/compare/v2.170.7...v2.171.0) (2024-06-19)
+
+
+### Features
+
+* **frontend:** add new links in footer ([7d47f9d](https://github.com/SocialGouv/domifa/commit/7d47f9d7decd716cc00d6a5616133ea164995e78))
+
 ## [2.170.7](https://github.com/SocialGouv/domifa/compare/v2.170.6...v2.170.7) (2024-06-19)
 
 
