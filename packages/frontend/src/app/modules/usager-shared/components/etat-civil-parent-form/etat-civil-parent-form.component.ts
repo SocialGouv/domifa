@@ -142,11 +142,17 @@ export class EtatCivilParentFormComponent implements OnDestroy {
           : null,
         [Validators.required],
       ],
-      customRef: [this.usager.customRef, []],
+      customRef: [this.usager.customRef, [Validators.maxLength(50)]],
       nationalite: [this.usager.nationalite, [this.countryValidator]],
       email: [this.usager.email, [EmailValidator]],
-      nom: [this.usager.nom, [Validators.required, NoWhiteSpaceValidator]],
-      numeroDistribution: [this.usager.numeroDistribution],
+      nom: [
+        this.usager.nom,
+        [Validators.required, NoWhiteSpaceValidator, Validators.maxLength(200)],
+      ],
+      numeroDistribution: [
+        this.usager.numeroDistribution,
+        [Validators.maxLength(50)],
+      ],
       contactByPhone: [this.usager.contactByPhone, [Validators.required]],
       telephone: new UntypedFormControl(
         setFormPhone(this.usager.telephone),
@@ -156,13 +162,13 @@ export class EtatCivilParentFormComponent implements OnDestroy {
       ),
       prenom: [
         this.usager.prenom,
-        [Validators.required, NoWhiteSpaceValidator],
+        [Validators.required, NoWhiteSpaceValidator, Validators.maxLength(200)],
       ],
       sexe: [this.usager.sexe, Validators.required],
-      surnom: [this.usager.surnom],
+      surnom: [this.usager.surnom, [Validators.maxLength(100)]],
       villeNaissance: [
         this.usager.villeNaissance,
-        [Validators.required, NoWhiteSpaceValidator],
+        [Validators.required, NoWhiteSpaceValidator, Validators.maxLength(100)],
       ],
     });
 
@@ -309,7 +315,8 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     const value = control?.value.toString().trim();
     const isWhitespace = value.length === 0;
     const isValid = !isWhitespace;
-    return isValid && Object.values(COUNTRIES).includes(value)
+
+    return value && isValid && Object.values(COUNTRIES).includes(value)
       ? null
       : { wrongCountry: true };
   };

@@ -25,7 +25,7 @@
     class="form-select"
     required
   >
-    <option [value]="null"></option>
+    <option [ngValue]="null">Non renseigné</option>
     <option *ngFor="let country of COUNTRIES" [ngValue]="country">
       {{ country }}
     </option>

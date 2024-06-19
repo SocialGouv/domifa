@@ -13,6 +13,7 @@ import {
   UntypedFormGroup,
   UntypedFormBuilder,
   AbstractControl,
+  Validators,
 } from "@angular/forms";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
@@ -80,43 +81,49 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
       accompagnement: [this.usager.entretien.accompagnement],
       accompagnementDetail: [
         this.usager.entretien.accompagnementDetail,
-        [NoWhiteSpaceValidator],
+        [NoWhiteSpaceValidator, Validators.maxLength(1000)],
       ],
       cause: [this.usager.entretien.cause, []],
       causeDetail: [this.usager.entretien.causeDetail, [NoWhiteSpaceValidator]],
-      commentaires: [this.usager.entretien.commentaires, []],
+      commentaires: [
+        this.usager.entretien.commentaires,
+        [Validators.maxLength(2000)],
+      ],
       domiciliation: [this.usager.entretien.domiciliation, []],
-      liencommune: [this.usager.entretien.liencommune, []],
+      liencommune: [
+        this.usager.entretien.liencommune,
+        [Validators.maxLength(1000)],
+      ],
       liencommuneDetail: [
         this.usager.entretien.liencommuneDetail,
-        [NoWhiteSpaceValidator],
+        [NoWhiteSpaceValidator, Validators.maxLength(1000)],
       ],
       orientation: [this.usager.entretien.orientation, []],
       orientationDetail: [
         this.usager.entretien.orientationDetail,
-        [NoWhiteSpaceValidator],
+        [NoWhiteSpaceValidator, Validators.maxLength(1000)],
       ],
       rattachement: [this.usager.entretien.rattachement, []],
       raison: [this.usager.entretien.raison, []],
       raisonDetail: [
         this.usager.entretien.raisonDetail,
-        [NoWhiteSpaceValidator],
+        [NoWhiteSpaceValidator, Validators.maxLength(1000)],
       ],
       residence: [this.usager.entretien.residence, []],
       residenceDetail: [
         this.usager.entretien.residenceDetail,
-        [NoWhiteSpaceValidator],
+        [NoWhiteSpaceValidator, Validators.maxLength(1000)],
       ],
       revenus: [this.usager.entretien.revenus, []],
       revenusDetail: [
         this.usager.entretien.revenusDetail,
-        [NoWhiteSpaceValidator],
+        [NoWhiteSpaceValidator, Validators.maxLength(1000)],
       ],
       typeMenage: [this.usager.entretien.typeMenage, []],
       situationPro: [this.usager.entretien.situationPro, []],
       situationProDetail: [
         this.usager.entretien.situationProDetail,
-        [NoWhiteSpaceValidator],
+        [NoWhiteSpaceValidator, Validators.maxLength(1000)],
       ],
     });
   }

@@ -7,6 +7,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  MaxLength,
   MinLength,
   ValidateIf,
 } from "class-validator";
@@ -78,6 +79,8 @@ export class DecisionDto implements UsagerDecision {
     type: String,
   })
   @IsOptional()
+  @IsString()
+  @MaxLength(1000)
   public motifDetails!: string;
 
   @ApiProperty({
@@ -94,6 +97,7 @@ export class DecisionDto implements UsagerDecision {
   @ValidateIf((o) => o.typeDom === "REFUS")
   @IsNotEmpty()
   @MinLength(10)
+  @MaxLength(1000)
   @IsString()
   @StripTagsTransform()
   public orientationDetails!: string;

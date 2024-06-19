@@ -561,7 +561,7 @@
                 class="form-select"
                 required
               >
-                <option [value]="null"></option>
+                <option [ngValue]="null"></option>
                 <option
                   *ngFor="let departement of DEPARTEMENTS_LISTE | keyvalue"
                   [ngValue]="departement.key"
@@ -676,7 +676,7 @@
                 class="form-select"
                 required
               >
-                <option [value]="null"></option>
+                <option [ngValue]="null"></option>
                 <option
                   *ngFor="
                     let organismeType of STRUCTURE_ORGANISME_TYPE_LABELS

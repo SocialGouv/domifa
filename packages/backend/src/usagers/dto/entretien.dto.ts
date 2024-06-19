@@ -1,5 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsIn, IsOptional, IsString } from "class-validator";
+import {
+  IsBoolean,
+  IsIn,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from "class-validator";
 import { StripTagsTransform } from "../../_common/decorators";
 import {
   ENTRETIEN_CAUSE_INSTABILITE,
@@ -28,6 +34,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   public revenus!: boolean;
 
   @IsOptional()
+  @MaxLength(1000)
   @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
     obj.revenus ? value : null
   )
@@ -58,6 +65,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsOptional()
   @IsString()
   @StripTagsTransform()
+  @MaxLength(1000)
   @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
     obj.liencommune === "AUTRE" ? value : null
   )
@@ -86,6 +94,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
 
   @IsOptional()
   @IsString()
+  @MaxLength(1000)
   @StripTagsTransform()
   @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
     obj.orientation ? value : null
@@ -107,6 +116,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   })
   @IsOptional()
   @IsString()
+  @MaxLength(1000)
   @StripTagsTransform()
   @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
     obj.cause === "AUTRE" ? value : null
@@ -128,6 +138,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   })
   @IsOptional()
   @IsString()
+  @MaxLength(1000)
   @StripTagsTransform()
   @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
     obj.raison === "AUTRE" ? value : null
@@ -147,6 +158,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   })
   @IsOptional()
   @IsString()
+  @MaxLength(1000)
   @StripTagsTransform()
   @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
     obj.accompagnement ? value : null
@@ -159,6 +171,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   })
   @IsOptional()
   @IsString()
+  @MaxLength(2000)
   @StripTagsTransform()
   public commentaires!: string;
 
@@ -178,6 +191,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsOptional()
   @IsString()
   @StripTagsTransform()
+  @MaxLength(1000)
   @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
     obj.situationPro === "AUTRE" ? value : null
   )

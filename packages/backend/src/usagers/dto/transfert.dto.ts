@@ -3,6 +3,7 @@ import {
   IsEmpty,
   IsNotEmpty,
   IsString,
+  MaxLength,
   MinLength,
 } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
@@ -24,6 +25,7 @@ export class TransfertDto implements UsagerOptionsTransfert {
   })
   @IsNotEmpty()
   @IsString()
+  @MaxLength(200)
   @TrimOrNullTransform()
   public nom!: string;
 
@@ -33,6 +35,7 @@ export class TransfertDto implements UsagerOptionsTransfert {
   })
   @IsNotEmpty()
   @IsString()
+  @MaxLength(400)
   @MinLength(10)
   @TrimOrNullTransform()
   public adresse!: string;

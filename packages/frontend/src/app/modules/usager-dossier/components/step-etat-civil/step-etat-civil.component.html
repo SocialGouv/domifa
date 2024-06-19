@@ -667,7 +667,7 @@
                   }"
                   required
                 >
-                  <option [value]="null"></option>
+                  <option [ngValue]="null">Non renseigné</option>
                   <option
                     *ngFor="let lien of LIEN_PARENTE_LABELS | keyvalue"
                     [ngValue]="lien.key"

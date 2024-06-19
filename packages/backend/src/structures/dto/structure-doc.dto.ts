@@ -3,11 +3,11 @@ import {
   IsIn,
   IsNotEmpty,
   IsString,
+  MaxLength,
   ValidateIf,
 } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { StructureCustomDocType } from "../../_common/model";
-import { Transform, TransformFnParams } from "class-transformer";
 
 export class StructureDocDto {
   @ApiProperty({
@@ -17,9 +17,7 @@ export class StructureDocDto {
   @ValidateIf((o) => o.custom === true)
   @IsNotEmpty()
   @IsString()
-  @Transform(({ value }: TransformFnParams) => {
-    return value ? value.toString().trim() : null;
-  })
+  @MaxLength(200)
   public label: string;
 
   @ApiProperty({

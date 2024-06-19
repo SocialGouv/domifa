@@ -167,6 +167,7 @@
           id="villeNaissance"
           formControlName="villeNaissance"
           name="villeNaissance"
+          maxlength="100"
           [attr.aria-describedby]="
             (submitted || f.villeNaissance.dirty) && f.villeNaissance.errors
               ? 'ville-errors'
@@ -245,10 +246,28 @@
         type="text"
         class="form-control"
         id="customRef"
-        maxlength="30"
+        maxlength="50"
+        [attr.aria-describedby]="
+          (f.customRef.dirty || submitted) && f.customRef.errors
+            ? 'customRef-errors'
+            : null
+        "
+        [attr.aria-invalid]="
+          (f.customRef.dirty || submitted) && f.customRef.errors ? true : false
+        "
+        [ngClass]="{
+          'is-invalid': (f.customRef.dirty || submitted) && f.customRef.errors
+        }"
         formControlName="customRef"
         name="customRef"
       />
+      <p
+        *ngIf="(submitted || f.customRef.dirty) && f.customRef.errors"
+        id="ville-errors"
+        class="invalid-feedback"
+      >
+        30 caractères maximum
+      </p>
     </div>
 
     <div class="col-md-4 col-12 form-group">
@@ -261,7 +280,7 @@
         id="numeroDistribution"
         formControlName="numeroDistribution"
         name="numeroDistribution"
-        maxlength="20"
+        maxlength="50"
       />
       <small id="numero-description">Exemple : BP 102, TSA 11000 </small>
     </div>
@@ -466,7 +485,7 @@
           }"
           required
         >
-          <option [value]="null"></option>
+          <option [ngValue]="null">Non renseigné</option>
           <option
             *ngFor="let lien of LIEN_PARENTE_LABELS | keyvalue"
             [ngValue]="lien.key"
