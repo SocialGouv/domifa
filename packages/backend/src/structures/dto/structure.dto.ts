@@ -48,6 +48,7 @@ export class StructureDto {
   })
   @IsNotEmpty()
   @IsString()
+  @MaxLength(1000)
   @Transform(({ value }: TransformFnParams) => {
     return value.trim();
   })
@@ -60,6 +61,7 @@ export class StructureDto {
   @IsString()
   @IsNotEmpty()
   @TrimOrNullTransform()
+  @MaxLength(400)
   public nom!: string;
 
   @ApiProperty({
@@ -68,6 +70,7 @@ export class StructureDto {
   })
   @IsOptional()
   @IsString()
+  @MaxLength(400)
   @TrimOrNullTransform()
   public complementAdresse!: string;
 
@@ -97,6 +100,7 @@ export class StructureDto {
   @IsNotEmpty()
   @IsString()
   @TrimOrNullTransform()
+  @MaxLength(100)
   public ville!: string;
 
   @ApiProperty({

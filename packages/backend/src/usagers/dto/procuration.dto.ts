@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty, IsString } from "class-validator";
+import { IsDate, IsNotEmpty, IsString, MaxLength } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 import { TrimOrNullTransform } from "../../_common/decorators";
@@ -10,6 +10,7 @@ export class ProcurationDto {
   })
   @IsNotEmpty()
   @IsString()
+  @MaxLength(200)
   @TrimOrNullTransform()
   public nom!: string;
 
@@ -19,6 +20,7 @@ export class ProcurationDto {
   })
   @IsNotEmpty()
   @IsString()
+  @MaxLength(200)
   @TrimOrNullTransform()
   public prenom!: string;
 

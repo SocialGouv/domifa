@@ -3,6 +3,7 @@ import {
   IsNotEmpty,
   IsPostalCode,
   IsString,
+  MaxLength,
   ValidateIf,
 } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
@@ -24,6 +25,7 @@ export class StructureAdresseCourrierDto {
   @ValidateIf((o) => o.actif === true)
   @IsString()
   @IsNotEmpty()
+  @MaxLength(200)
   @Transform(({ value }: TransformFnParams) => {
     return value ? value.toString().trim() : null;
   })
@@ -35,9 +37,7 @@ export class StructureAdresseCourrierDto {
   })
   @IsString()
   @IsNotEmpty()
-  @Transform(({ value }: TransformFnParams) => {
-    return value ? value.toString().trim() : null;
-  })
+  @MaxLength(200)
   @ValidateIf((o) => o.actif === true)
   public readonly ville: string;
 
@@ -47,6 +47,7 @@ export class StructureAdresseCourrierDto {
   })
   @IsString()
   @IsNotEmpty()
+  @MaxLength(5)
   @ValidateIf((o) => o.actif === true)
   @IsPostalCode("FR")
   public readonly codePostal: string;

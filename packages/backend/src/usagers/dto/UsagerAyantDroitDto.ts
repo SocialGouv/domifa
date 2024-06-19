@@ -1,7 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDateString, IsIn, IsNotEmpty } from "class-validator";
+import {
+  IsDateString,
+  IsIn,
+  IsNotEmpty,
+  IsString,
+  MaxLength,
+} from "class-validator";
 
-import { TrimOrNullTransform } from "../../_common/decorators";
 import { LIEN_PARENTE_LABELS, AyantDroiLienParent } from "@domifa/common";
 
 export class UsagerAyantDroitDto {
@@ -11,7 +16,8 @@ export class UsagerAyantDroitDto {
     required: true,
   })
   @IsNotEmpty()
-  @TrimOrNullTransform()
+  @MaxLength(200)
+  @IsString()
   public nom!: string;
 
   @ApiProperty({
@@ -20,7 +26,8 @@ export class UsagerAyantDroitDto {
     description: "Prénom",
   })
   @IsNotEmpty()
-  @TrimOrNullTransform()
+  @MaxLength(200)
+  @IsString()
   public prenom!: string;
 
   @ApiProperty({
@@ -29,8 +36,8 @@ export class UsagerAyantDroitDto {
     description: "Surnom",
   })
   @IsNotEmpty()
+  @IsString()
   @IsIn(Object.keys(LIEN_PARENTE_LABELS))
-  @TrimOrNullTransform()
   public lien!: AyantDroiLienParent;
 
   @ApiProperty({

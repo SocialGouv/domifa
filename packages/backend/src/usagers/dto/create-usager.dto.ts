@@ -47,7 +47,7 @@ export class CreateUsagerDto {
   })
   @IsString()
   @IsNotEmpty()
-  @MaxLength(400)
+  @MaxLength(200)
   @StripTagsTransform()
   public nom: string;
 
@@ -57,7 +57,7 @@ export class CreateUsagerDto {
     required: true,
   })
   @IsNotEmpty()
-  @MaxLength(400)
+  @MaxLength(200)
   @IsString()
   @StripTagsTransform()
   public prenom!: string;
@@ -87,7 +87,7 @@ export class CreateUsagerDto {
     required: true,
   })
   @IsNotEmpty()
-  @MaxLength(400)
+  @MaxLength(100)
   @IsString()
   @StripTagsTransform()
   public villeNaissance!: string;
@@ -121,6 +121,7 @@ export class CreateUsagerDto {
   @IsString()
   @StripTagsTransform()
   @TrimOrNullTransform()
+  @MaxLength(50)
   public customRef!: string;
 
   @ApiProperty({
@@ -164,7 +165,7 @@ export class CreateUsagerDto {
     required: false,
   })
   @IsOptional()
-  @MaxLength(100)
+  @MaxLength(50)
   @IsString()
   @StripTagsTransform()
   public numeroDistribution!: string;

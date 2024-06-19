@@ -24,16 +24,16 @@ import { email } from "./core/email.yup";
 // Note: les méthodes .notRequired() et .required() sont indispensable pour que `oneOfString` soit correctement typé
 export const UsagersImportUsagerSchema = yup
   .object({
-    customRef: yup.string(),
+    customRef: yup.string().max(50),
     civilite: oneOfString(["H", "F"]).required(),
-    nom: yup.string().required(),
-    prenom: yup.string().required(),
-    surnom: yup.string(),
+    nom: yup.string().max(200).required(),
+    prenom: yup.string().max(200).required(),
+    surnom: yup.string().max(100),
     dateNaissance: dateUtcSchema()
       .min(yup.ref("$minDate"))
       .max(yup.ref("$today"))
       .required(),
-    lieuNaissance: yup.string().required(),
+    lieuNaissance: yup.string().required().max(1000),
     telephone: phone(),
     email: email().notRequired(),
     statutDom: oneOfString(["VALIDE", "REFUS", "RADIE"]).required(),
@@ -68,30 +68,30 @@ export const UsagersImportUsagerSchema = yup
       .notRequired(),
     // ENTRETIEN
     orientation: booleanOuiNon().notRequired(),
-    orientationDetail: yup.string(),
+    orientationDetail: yup.string().max(1000),
     domiciliationExistante: booleanOuiNon().notRequired(),
     situationPro: oneOfString(
       Object.keys(ENTRETIEN_SITUATION_PRO)
     ).notRequired(),
-    situationProDetail: yup.string().notRequired(),
+    situationProDetail: yup.string().notRequired().max(1000),
     revenus: booleanOuiNon().notRequired(),
-    revenusDetail: yup.string(),
+    revenusDetail: yup.string().max(1000),
     liencommune: oneOfString(Object.keys(ENTRETIEN_LIEN_COMMUNE)).notRequired(),
-    liencommuneDetail: yup.string(),
+    liencommuneDetail: yup.string().max(1000),
     typeMenage: oneOfString(Object.keys(ENTRETIEN_TYPE_MENAGE)).notRequired(),
     residence: oneOfString(Object.keys(ENTRETIEN_RESIDENCE)).notRequired(),
-    residenceDetail: yup.string().notRequired(),
+    residenceDetail: yup.string().notRequired().max(1000),
     causeInstabilite: oneOfString(
       Object.keys(ENTRETIEN_CAUSE_INSTABILITE)
     ).notRequired(),
-    causeDetail: yup.string().notRequired(),
+    causeDetail: yup.string().notRequired().max(1000),
     raisonDemande: oneOfString(
       Object.keys(ENTRETIEN_RAISON_DEMANDE)
     ).notRequired(),
-    raisonDemandeDetail: yup.string(),
+    raisonDemandeDetail: yup.string().max(1000),
     accompagnement: booleanOuiNon().notRequired(),
-    accompagnementDetail: yup.string(),
-    commentaires: yup.string(),
+    accompagnementDetail: yup.string().max(1000),
+    commentaires: yup.string().max(2000),
     ayantsDroits: yup
       .array(
         yup.object({

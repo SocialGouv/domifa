@@ -71,6 +71,7 @@
         type="text"
         class="form-control"
         id="nom"
+        maxlength="200"
         autocomplete="organization"
         formControlName="nom"
         name="nom"
@@ -122,6 +123,7 @@
           class="form-control"
           formControlName="adresse"
           name="adresse"
+          maxlength="400"
           autcomplete="street-address"
           [ngClass]="{
             'is-invalid': (f.adresse.dirty || submitted) && f.adresse.errors
@@ -512,7 +514,7 @@
           class="form-select"
           required
         >
-          <option [value]="null"></option>
+          <option [ngValue]="null"></option>
           <option
             *ngFor="let departement of DEPARTEMENTS_LISTE | keyvalue"
             [ngValue]="departement.key"
@@ -613,7 +615,7 @@
           class="form-select"
           required
         >
-          <option [value]="null"></option>
+          <option [ngValue]="null"></option>
           <option
             *ngFor="
               let organismeType of STRUCTURE_ORGANISME_TYPE_LABELS | keyvalue
