@@ -56,13 +56,8 @@ ul.check-list li::before {
   font-size: 1.05rem;
 }
 
-.ministere-logo-home {
-  height: 120px;
-  width: auto;
-}
-
 .partenaires img {
-  height: 82px;
+  height: 80px;
   width: auto;
   margin: 1rem;
 }
