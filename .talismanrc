@@ -22,7 +22,7 @@ fileignoreconfig:
 - filename: packages/backend/.env.preset/local-test.preset.env
   checksum: 6ba6d367425758ea9dbdd4baf7e60aff79276fb2e0c3758b58d9f8d084ed6f6d
 - filename: packages/backend/package.json
-  checksum: 0973d6e415950a07205d0ea13c2fd09b8bf464e5120ab04721bb22b17386d792
+  checksum: 15861b5f33dbc2782ae24580e135582721889487eb22f5247ab5a3f2bda20c94
 - filename: packages/backend/src/_migrations/1716819355558-auto-migration.ts
   checksum: 4832f461590f30696e1a2f9179ce3e182e400ec581bc9b8b76bca4304cbcb254
 - filename: packages/backend/src/_migrations/1716973897487-auto-migration.ts
@@ -52,5 +52,5 @@ fileignoreconfig:
 - filename: packages/portail-admins/src/environments/environment.ts
   checksum: 65d0b914b6baa33b2e8ec95786ef0c9d9960787295f1f02450d0262f71fd3d0e
 - filename: yarn.lock
-  checksum: d030a2363d642ffac1bb193905cfec9fa2f617e021da086ac844271b3bd2c124
+  checksum: 6ccdcdf062a4474044688ccf9d04def8bc8f06081f2887ebfe20b068bd0a657d
 version: "1.0"
