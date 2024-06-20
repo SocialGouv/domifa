@@ -28,9 +28,11 @@ dump:
     - schema: public
       name: usager
       transformers:
-        - name: SetNull
+        - name: "Template"
           params:
-            column: email
+            column: "email"
+            template: >
+              {{ printf "user-%d@domifa-fake.fabrique.social.gouv.fr" (.GetColumnValue "uuid") }}
         - name: RandomFirstName
           params:
             column: prenom
