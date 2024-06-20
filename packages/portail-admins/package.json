@@ -36,7 +36,7 @@
     "@popperjs/core": "^2.11.8",
     "@sentry/angular": "^8.10.0",
     "@sentry/browser": "^8.10.0",
-    "@sentry/tracing": "^7.114.0",
+    "@sentry/tracing": "^7.117.0",
     "bootstrap": "^5.3.3",
     "class-validator": "^0.14.1",
     "date-fns": "^2.30.0",
@@ -48,7 +48,7 @@
     "zone.js": "~0.14.7"
   },
   "devDependencies": {
-    "@angular-devkit/architect": "^0.1702.3",
+    "@angular-devkit/architect": "^0.1800.5",
     "@angular-devkit/build-angular": "^16.2.14",
     "@angular-devkit/core": "^16.2.14",
     "@angular-devkit/schematics": "^16.2.14",
@@ -60,7 +60,7 @@
     "@angular/cli": "16.2.14",
     "@angular/compiler-cli": "^16.2.12",
     "@angular/language-service": "^16.2.12",
-    "@schematics/update": "^0.1102.18",
+    "@schematics/update": "^0.1102.19",
     "@types/d3": "^7.4.3",
     "@types/file-saver": "^2.0.7",
     "@types/jest": "^29.5.12",
