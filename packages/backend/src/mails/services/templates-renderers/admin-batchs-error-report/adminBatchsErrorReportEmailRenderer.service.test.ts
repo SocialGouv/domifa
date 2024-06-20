@@ -5,6 +5,7 @@ import { join } from "path";
 import { format } from "prettier";
 import { domifaConfig } from "../../../../config";
 import { adminBatchsErrorReportEmailRenderer } from "./adminBatchsErrorReportEmailRenderer.service";
+
 describe("adminBatchsErrorReportEmailRenderer", () => {
   it("adminBatchsErrorReportEmailRenderer render ", async () => {
     const errorsCount = 5;
