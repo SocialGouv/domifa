@@ -1,3 +1,10 @@
+## [2.171.1](https://github.com/SocialGouv/domifa/compare/v2.171.0...v2.171.1) (2024-06-20)
+
+
+### Bug Fixes
+
+* **backend:** fix prettier version ([c54221d](https://github.com/SocialGouv/domifa/commit/c54221d185a54e62e7ea098c207e8bf7188905af))
+
 # [2.171.0](https://github.com/SocialGouv/domifa/compare/v2.170.7...v2.171.0) (2024-06-19)
 
 
