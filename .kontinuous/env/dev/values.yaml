@@ -79,6 +79,11 @@ jobs-restore-anonymization:
             secretKeyRef:
               name: pg-superuser
               key: password
+        - name: PGUSERAPP
+          valueFrom:
+            secretKeyRef:
+              name: pg-app
+              key: PGUSER
       run: |
         set -e
         root_path=domifa-dev-backups/anonymizer/pg_dumps
@@ -86,7 +91,7 @@ jobs-restore-anonymization:
         echo "Restoring $last_dir"
         aws s3 cp --recursive s3://$root_path/$last_dir /tmp/dump/$last_dir
         export PGSSLMODE=disable
-        pg_restore --clean --if-exists --no-owner --no-acl --verbose /tmp/dump/$last_dir --dbname $PGDATABASE
+        pg_restore --clean --if-exists --no-owner --role=$PGUSERAPP --no-acl --verbose /tmp/dump/$last_dir --dbname $PGDATABASE
 
 backend: &backendDev
   ~needs: [build-backend, pg]
