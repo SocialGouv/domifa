@@ -25,6 +25,7 @@ async function build({
       "prenom",
       "nom",
       "email",
+      "structureId",
     ],
   });
 
@@ -38,6 +39,7 @@ async function build({
     lastLogin: userAdmin.lastLogin,
     userRightStatus: "super-admin-domifa",
     territories: userAdmin?.territories,
+    structureId: userAdmin?.structureId,
   };
 
   const portailAdminProfile: PortailAdminProfile = {

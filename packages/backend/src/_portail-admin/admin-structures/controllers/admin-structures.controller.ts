@@ -31,6 +31,7 @@ import { ExpressResponse } from "../../../util/express";
 import {
   AdminStructureListData,
   StructureAdmin,
+  UserAdminAuthenticated,
   UserStructureAuthenticated,
 } from "../../../_common/model";
 import { AdminStructuresService } from "../services";
@@ -64,7 +65,7 @@ export class AdminStructuresController {
   @Get("export")
   @AllowUserProfiles("super-admin-domifa")
   public async export(
-    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentUser() { user }: UserAdminAuthenticated,
     @Res() response: ExpressResponse
   ) {
     await this.appLogsService.create({
@@ -205,7 +206,7 @@ export class AdminStructuresController {
   @AllowUserProfiles("super-admin-domifa")
   @Post("metabase-stats")
   public async getMetabaseStats(
-    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentUser() { user }: UserAdminAuthenticated,
     @Body() metabaseDto: MetabaseStatsDto
   ): Promise<{ url: string }> {
     await this.appLogsService.create({
@@ -264,7 +265,6 @@ export class AdminStructuresController {
   @AllowUserProfiles("super-admin-domifa")
   @Post("metabase-get-structures")
   public async getStructures(
-    @CurrentUser() _user: UserStructureAuthenticated,
     @Body() metabaseDto: MetabaseStatsDto
   ): Promise<Array<Partial<Structure>>> {
     const params: FindOptionsWhere<Structure> = {
