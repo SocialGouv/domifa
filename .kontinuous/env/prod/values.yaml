@@ -141,16 +141,22 @@ backend-export:
       - /admin/structures/export
 
 frontend:
-  replicas: 1
+  autoscale:
+    minReplicas: 2
+    maxReplicas: 4
   host: "{{ .Values.global.host }}"
   certSecretName: frontend-crt
 
 portail-admins:
-  replicas: 1
+  autoscale:
+    minReplicas: 2
+    maxReplicas: 4
   host: "admin-{{ .Values.global.host }}"
   certSecretName: portail-admins-crt
 
 portail-usagers:
-  replicas: 1
+  autoscale:
+    minReplicas: 2
+    maxReplicas: 4
   host: "mon-{{ .Values.global.host }}"
   certSecretName: portail-usagers-crt
