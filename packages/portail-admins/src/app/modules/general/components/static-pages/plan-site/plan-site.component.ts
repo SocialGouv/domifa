@@ -26,7 +26,6 @@ export class PlanSiteComponent implements OnInit, OnDestroy {
         { label: "Rapports d'activité", path: "/structures/rapports" },
         { label: "Statistiques", path: "/structures/stats" },
         { label: "Liste des structures", path: "/structures" },
-        { label: "Documents des structures", path: "/structures/custom-docs" },
       ],
     },
   ];

@@ -18,7 +18,10 @@ import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { structureStatsExporter } from "../../excel/export-structure-stats";
 import { expressResponseExcelRenderer } from "../../util";
-import { UserStructureAuthenticated } from "../../_common/model";
+import {
+  UserAdminAuthenticated,
+  UserStructureAuthenticated,
+} from "../../_common/model";
 import { StatsDto } from "../dto/stats.dto";
 import { structureStatsInPeriodGenerator } from "../services";
 import { statsQuestionsCoreBuilder } from "../services/statsQuestionsCoreBuilder.service";
@@ -113,10 +116,15 @@ export class StatsPrivateController {
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post("export")
   public async exportByDate(
-    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentUser() _user: UserStructureAuthenticated | UserAdminAuthenticated,
     @Body() statsDto: StatsDto,
     @Res() res: Response
   ): Promise<void> {
+    const user =
+      _user._userProfile === "super-admin-domifa"
+        ? (_user as UserAdminAuthenticated).user
+        : (_user as UserStructureAuthenticated);
+
     await this.appLogsService.create({
       userId: user.id,
       structureId: user.structureId,
@@ -124,7 +132,7 @@ export class StatsPrivateController {
     });
 
     const structureId =
-      user._userProfile === "super-admin-domifa"
+      _user._userProfile === "super-admin-domifa"
         ? statsDto.structureId
         : user.structureId;
 

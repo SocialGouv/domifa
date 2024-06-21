@@ -10,5 +10,6 @@ export type PortailAdminUser = Pick<
   | "verified"
   | "lastLogin"
   | "territories"
+  | "structureId"
   | "userRightStatus"
 >;
