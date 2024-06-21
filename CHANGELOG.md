@@ -1,3 +1,10 @@
+## [2.171.3](https://github.com/SocialGouv/domifa/compare/v2.171.2...v2.171.3) (2024-06-21)
+
+
+### Bug Fixes
+
+* add replicas to front-end containers ([8fe7032](https://github.com/SocialGouv/domifa/commit/8fe7032c300c58607be52995c218a90786460188))
+
 ## [2.171.2](https://github.com/SocialGouv/domifa/compare/v2.171.1...v2.171.2) (2024-06-21)
 
 
