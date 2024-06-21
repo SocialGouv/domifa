@@ -1,3 +1,10 @@
+## [2.171.2](https://github.com/SocialGouv/domifa/compare/v2.171.1...v2.171.2) (2024-06-21)
+
+
+### Bug Fixes
+
+* **backend:** fix logs for admin ([0b14656](https://github.com/SocialGouv/domifa/commit/0b14656727a24faa4b091fa0598746f92c2de23e))
+
 ## [2.171.1](https://github.com/SocialGouv/domifa/compare/v2.171.0...v2.171.1) (2024-06-20)
 
 
