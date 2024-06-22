@@ -32,7 +32,7 @@ dump:
           params:
             column: "email"
             template: >
-              {{ printf "user-%s@domifa-fake.fabrique.social.gouv.fr" (.GetColumnValue "uuid") }}
+              {{ printf "user-%s@domifa-fake.fabrique.social.gouv.fr" (quote fakerUUID) }}
         - name: RandomFirstName
           params:
             column: prenom
