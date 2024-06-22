@@ -191,6 +191,14 @@ dump:
             column: "email"
             template: >
               {{ printf "%s-%d-%d@domifa-fake.fabrique.social.gouv.fr" (.GetColumnValue "role") (.GetColumnValue "structureId") (.GetColumnValue "id") }}
+        - name: "Cmd"
+          params:
+            <<: *cmd_default_params
+            args:
+              - "./dist/user-usager--password.js"
+            columns:
+              - name: "password"
+                skip_on_null_input: true
 
     - schema: public
       name: interactions
