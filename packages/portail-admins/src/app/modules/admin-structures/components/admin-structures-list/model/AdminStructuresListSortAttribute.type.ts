@@ -11,6 +11,4 @@ export type AdminStructuresListSortAttribute =
   | "usagersValidCount"
   | "lastLogin"
   | "regionLabel"
-  | "departementLabel"
-  | "smsEnabled"
-  | "portailUsagerEnabled";
+  | "departementLabel";

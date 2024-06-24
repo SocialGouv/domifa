@@ -78,8 +78,6 @@ export class AdminLoginComponent implements OnInit {
       },
       next: (apiAuthResponse: PortailAdminAuthApiResponse) => {
         this.toastr.success("Connexion réussie");
-
-        // SAVE USER & Tokenn
         this.authService.saveToken(apiAuthResponse);
 
         this.loading = false;
