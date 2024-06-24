@@ -137,7 +137,7 @@
     "@types/rimraf": "^4.0.5",
     "@types/sanitize-html": "^2.11.0",
     "@types/supertest": "^6.0.2",
-    "@types/uuid": "^9.0.8",
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.13.1",
     "aws-sdk-client-mock": "^4.0.1",
