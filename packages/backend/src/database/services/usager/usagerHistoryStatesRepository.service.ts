@@ -37,7 +37,7 @@ async function getStructureStatsQuestionsAtDateValidUsagers({
       WHERE
         "isActive" IS TRUE
         AND "structureId"= $1
-        AND ("historyBeginDate") :: timestamptz < $2
+        AND ("historyBeginDate") :: timestamptz <= $2
         AND (
           "historyEndDate" is null
           OR ("historyEndDate") :: timestamptz >=  $2

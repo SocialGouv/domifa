@@ -108,53 +108,6 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
     );
   }
 
-  public enableSms(structure: AdminStructuresListStructureModel): void {
-    this.subscription.add(
-      this.adminStructuresApiClient.enableSms(structure.id).subscribe({
-        next: () => {
-          structure.sms.enabledByDomifa = !structure.sms.enabledByDomifa;
-
-          let message = structure.portailUsager.enabledByDomifa
-            ? "SMS activés"
-            : "SMS désactivés";
-          message = message + " pour la structure : " + structure.nom;
-          this.toastService.success(message);
-        },
-        error: () => {
-          this.toastService.error(
-            "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
-          );
-        },
-      })
-    );
-  }
-
-  public enablePortailUsager(
-    structure: AdminStructuresListStructureModel
-  ): void {
-    this.subscription.add(
-      this.adminStructuresApiClient
-        .enablePortailUsager(structure.id)
-        .subscribe({
-          next: () => {
-            structure.portailUsager.enabledByDomifa =
-              !structure.portailUsager.enabledByDomifa;
-
-            let message = structure.sms.enabledByDomifa
-              ? "Portail usager activé"
-              : "Portail usager désactivé";
-            message = message + " pour la structure : " + structure.nom;
-            this.toastService.success(message);
-          },
-          error: () => {
-            this.toastService.error(
-              "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
-            );
-          },
-        })
-    );
-  }
-
   public openModal(structure: AdminStructuresListStructureModel): void {
     this.currentStructure = structure;
     this.modalService.open(this.addAdminModal, { size: "lg" });

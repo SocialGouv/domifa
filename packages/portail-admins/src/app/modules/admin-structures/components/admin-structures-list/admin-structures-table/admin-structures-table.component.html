@@ -52,10 +52,10 @@
           <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
         </th>
         <th
-          (click)="sortDashboard('usagersAllCount', 'desc')"
+          (click)="sortDashboard('usagersValidCount', 'desc')"
           class="whitespace-nowrap col-font-xs"
         >
-          Dossiers enregistrés
+          Domiciliés
           <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
         </th>
         <th
@@ -114,7 +114,7 @@
           {{ structure.importDate | date : "dd/MM/yyyy" || "Info manquante" }}
         </td>
         <td class="col-font-xs">{{ structure.usersCount }}</td>
-        <td class="col-font-xs">{{ structure.usagersAllCount }}</td>
+        <td class="col-font-xs">{{ structure.usagersValidCount }}</td>
         <td class="col-font-xs">
           {{ structure.lastLogin | date : "dd/MM/yyyy" || "Info manquante" }}
         </td>

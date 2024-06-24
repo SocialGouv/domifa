@@ -1,5 +1,39 @@
 [
   {
+    "date": "2024-06-24",
+    "description": "Des nouveautés dans les statistiques et l'export",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Rapport d'activité",
+        "message": [
+          "Il est désormais possible compléter les informations liées au fonctionnement de votre structure directement dans DomiFa. Dans la rubrique 'statistiques', un formulaire vous permettra de répondre aux questions déclaratives demandées dans le rapport d'activité annuel (nombre d'ETP, budget, etc.)"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Statistiques",
+        "message": [
+          "Un nouvel agencement de la page permet d'accéder directement aux rapports annuels"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Export de dossiers",
+        "message": [
+          "L'export des dossiers a été retravailler pour être plus rapide à télécharger."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Edition de dossier",
+        "message": [
+          "Les indications du formulaire sont désormais plus précises pour vous indiquer quel champs corriger en cas d'erreur"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-04-29",
     "description": "Des nouveautés dans les dossiers et les SMS",
     "content": [

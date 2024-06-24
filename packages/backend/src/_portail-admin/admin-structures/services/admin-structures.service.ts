@@ -15,7 +15,11 @@ import {
 import { usagerDocsRepository } from "../../../database/services/usager/usagerDocsRepository.service";
 import { StatsDeploiementExportModel } from "../../../excel/export-stats-deploiement";
 import { StatsDeploiementStructureExportModel } from "../../../excel/export-stats-deploiement/StatsDeploiementStructureExportModel.type";
-import { AdminStructureListData, StructureAdmin } from "../../../_common/model";
+import {
+  AdminStructureListData,
+  STRUCTURE_LIGHT_ATTRIBUTES,
+  StructureAdmin,
+} from "../../../_common/model";
 import {
   StatsByLocality,
   StatsByMonth,
@@ -71,7 +75,18 @@ export class AdminStructuresService {
     return stats;
   }
   public async getAdminStructuresListData(): Promise<AdminStructureListData> {
-    const structures = await structureRepository.find();
+    const structures = await structureRepository.find({
+      select: [
+        "uuid",
+        "registrationDate",
+        "email",
+        "createdAt",
+        "import",
+        "importDate",
+        "lastLogin",
+        ...STRUCTURE_LIGHT_ATTRIBUTES,
+      ],
+    });
 
     const structuresIds = structures.map((s) => s.id);
 

@@ -32,10 +32,6 @@ function sortBy(
         ].includes(sortAttribute.name)
       ) {
         sortKey = dataCompare.cleanString(defaultSortKey);
-      } else if (sortAttribute.name === "smsEnabled") {
-        sortKey = ts.sms.enabledByDomifa;
-      } else if (sortAttribute.name === "portailUsagerEnabled") {
-        sortKey = ts.portailUsager.enabledByDomifa;
       } else {
         sortKey = defaultSortKey;
       }

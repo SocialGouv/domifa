@@ -146,7 +146,7 @@ async function countTotalActifs(): Promise<{
       "usager_history_states"
     WHERE
       "isActive" IS TRUE
-      AND ("historyBeginDate") ::timestamptz <  CURRENT_DATE + INTERVAL '1 day'
+      AND ("historyBeginDate") ::timestamptz <=  CURRENT_DATE + INTERVAL '1 day'
       AND (
         "historyEndDate" is null
         OR ("historyEndDate")::timestamptz >=  CURRENT_DATE + INTERVAL '1 day'

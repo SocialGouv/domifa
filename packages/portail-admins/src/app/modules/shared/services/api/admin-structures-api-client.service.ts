@@ -93,17 +93,6 @@ export class AdminStructuresApiClient {
     });
   }
 
-  public enableSms(structureId: number) {
-    return this.http.put(`${BASE_URL}/sms/enable/${structureId}`, {});
-  }
-
-  public enablePortailUsager(structureId: number) {
-    return this.http.put(
-      `${BASE_URL}/portail-usager/toggle-enable-domifa/${structureId}`,
-      {}
-    );
-  }
-
   public postNewAdmin(newAdmin: UserNewAdmin): Observable<ApiMessage> {
     return this.http.post<ApiMessage>(
       `${BASE_URL}/register-new-admin`,
