@@ -92,9 +92,11 @@ export class PortailUsagersLoginController {
 
       return res.status(HttpStatus.OK).json(response);
     } catch (err) {
-      return res
-        .status(HttpStatus.UNAUTHORIZED)
-        .json({ message: err?.message });
+      const message =
+        err?.message === "TOO_MANY_ATTEMPTS"
+          ? "TOO_MANY_ATTEMPTS"
+          : "USAGER_LOGIN_FAIL";
+      return res.status(HttpStatus.UNAUTHORIZED).json({ message });
     }
   }
 
@@ -104,7 +106,7 @@ export class PortailUsagersLoginController {
   @Get("accept-terms")
   public async acceptTerms(
     @CurrentUser() currentUser: UserUsagerAuthenticated
-  ) {
+  ): Promise<boolean> {
     await userUsagerRepository.update(
       { uuid: currentUser.user.uuid },
       { acceptTerms: new Date() }
