@@ -1,3 +1,10 @@
+## [2.171.4](https://github.com/SocialGouv/domifa/compare/v2.171.3...v2.171.4) (2024-06-24)
+
+
+### Bug Fixes
+
+* **backend:** fix login error ([ef886a4](https://github.com/SocialGouv/domifa/commit/ef886a484cb08c36eeff34217671f9e4797e7d5c))
+
 ## [2.171.3](https://github.com/SocialGouv/domifa/compare/v2.171.2...v2.171.3) (2024-06-21)
 
 
