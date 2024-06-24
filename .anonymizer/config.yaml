@@ -31,7 +31,7 @@ dump:
         - name: "Template"
           params:
             column: "email"
-            template: >
+            template: |
               {{ printf "user-%s@domifa-fake.fabrique.social.gouv.fr" (fakerUUID) }}
         - name: RandomFirstName
           params:
@@ -137,7 +137,7 @@ dump:
         - name: "Template"
           params:
             column: "email"
-            template: >
+            template: |
               {{ printf "structure-%d@domifa-fake.fabrique.social.gouv.fr" (.GetColumnValue "id") }}
         - name: SetNull
           params:
@@ -189,7 +189,7 @@ dump:
         - name: "Template"
           params:
             column: "email"
-            template: >
+            template: |
               {{ printf "%s-%d-%d@domifa-fake.fabrique.social.gouv.fr" (.GetColumnValue "role") (.GetColumnValue "structureId") (.GetColumnValue "id") }}
         - name: "Cmd"
           params:
@@ -210,7 +210,7 @@ dump:
         - name: "Template"
           params:
             column: "userName"
-            template: >
+            template: |
               {{ quote fakerName }}
 
     - schema: public
@@ -225,7 +225,7 @@ dump:
         - name: "Template"
           params:
             column: "userName"
-            template: >
+            template: |
               {{ quote fakerName }}
         - name: RealAddress
           params:
@@ -313,7 +313,7 @@ dump:
           params:
             columns:
               - "eventsHistory"
-            template: >
+            template: |
               {{ .SetColumnValue "eventsHistory" "[]" }}
             validate: true
 
@@ -324,7 +324,7 @@ dump:
           params:
             columns:
               - "eventsHistory"
-            template: >
+            template: |
               {{ .SetColumnValue "eventsHistory" "[]" }}
             validate: true
 
