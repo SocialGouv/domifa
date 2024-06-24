@@ -1,3 +1,10 @@
+## [2.171.5](https://github.com/SocialGouv/domifa/compare/v2.171.4...v2.171.5) (2024-06-24)
+
+
+### Bug Fixes
+
+* **frontend:** fix footer links ([025a463](https://github.com/SocialGouv/domifa/commit/025a4633def5cb11b5309c75e46c5f59b4c6a0f8))
+
 ## [2.171.4](https://github.com/SocialGouv/domifa/compare/v2.171.3...v2.171.4) (2024-06-24)
 
 
