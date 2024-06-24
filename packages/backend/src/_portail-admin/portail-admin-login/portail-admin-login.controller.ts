@@ -49,7 +49,7 @@ export class PortailAdminLoginController {
     } catch (err) {
       return res
         .status(HttpStatus.UNAUTHORIZED)
-        .json({ message: "WRONG_CREDENTIALS" });
+        .json({ err });
     }
   }
 }
