@@ -11,10 +11,10 @@ pg:
     persistence:
       size: 20Gi
   # this force ce PG cluster to be destroyed on redeploys
-  ~preDeploy.cleaner:
-    match:
-      kind: Cluster
-    value: true
+  # ~preDeploy.cleaner:
+  #   match:
+  #     kind: Cluster
+  #   value: true
 
 jobs:
   runs:
