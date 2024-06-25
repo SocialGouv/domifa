@@ -194,6 +194,15 @@ dump:
             columns:
               - name: "email"
                 skip_on_null_input: true
+              - name: "role"
+                not_affected: true
+                skip_on_null_input: true
+              - name: "structureId"
+                not_affected: true
+                skip_on_null_input: true
+              - name: "id"
+                not_affected: true
+                skip_on_null_input: true
         - name: "Cmd"
           params:
             <<: *cmd_default_params
