@@ -186,11 +186,14 @@ dump:
             columns:
               - name: "fonction"
                 skip_on_null_input: true
-        - name: "Template"
+        - name: "Cmd"
           params:
-            column: "email"
-            template: |
-              {{ printf "%s-%d-%d@domifa-fake.fabrique.social.gouv.fr" (.GetColumnValue "role") (.GetColumnValue "structureId") (.GetColumnValue "id") }}
+            <<: *cmd_default_params
+            args:
+              - "./dist/user-structure--email.js"
+            columns:
+              - name: "email"
+                skip_on_null_input: true
         - name: "Cmd"
           params:
             <<: *cmd_default_params
