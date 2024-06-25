@@ -1,6 +1,9 @@
 pg:
   ~chart: pg
   cnpg-cluster:
+    annotations:
+      oblik.socialgouv.io/enabled: "false"
+      ressource.socialgouv.io/mode: "enforced"
     resources:
       requests:
         memory: "4Gi"
