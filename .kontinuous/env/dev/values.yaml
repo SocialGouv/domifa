@@ -3,7 +3,7 @@ pg:
   cnpg-cluster:
     annotations:
       oblik.socialgouv.io/enabled: "false"
-      ressource.socialgouv.io/mode: "enforced"
+      ressource.socialgouv.io/enforced: "true"
     resources:
       requests:
         memory: "4Gi"
