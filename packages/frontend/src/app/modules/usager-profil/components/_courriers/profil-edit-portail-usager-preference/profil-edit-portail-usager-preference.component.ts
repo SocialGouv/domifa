@@ -1,17 +1,26 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from "@angular/forms";
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
 import { saveAs } from "file-saver";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { StructureDocTypesAvailable } from "../../../../../../_common/model";
+import {
+  DEFAULT_MODAL_OPTIONS,
+  StructureDocTypesAvailable,
+} from "../../../../../../_common/model";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { DocumentService } from "../../../../usager-shared/services/document.service";
-import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { UserStructure } from "@domifa/common";
+import {
+  PortailUsagersInformations,
+  PortailUsagersService,
+} from "../../../services/portail-usagers.service";
+import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-profil-edit-portail-usager-preference",
@@ -24,11 +33,6 @@ export class ProfilEditPortailUsagerPreferenceComponent
   @Input() public me!: UserStructure;
 
   public loading: boolean;
-  public submitted: boolean;
-  public form: UntypedFormGroup = new UntypedFormGroup({});
-
-  public editionInProgress: boolean;
-  public loadings: string[] = [];
 
   public isLoginToDisplay: boolean;
   public loginToDisplay: {
@@ -36,47 +40,61 @@ export class ProfilEditPortailUsagerPreferenceComponent
     temporaryPassword: string;
   };
 
+  @ViewChild("confirmationModal", { static: true })
+  public confirmationModal!: TemplateRef<NgbModalRef>;
+
   private subscription = new Subscription();
+  public portailUsagersInformations: PortailUsagersInformations | null;
 
   constructor(
-    private readonly formBuilder: UntypedFormBuilder,
     private readonly toastService: CustomToastService,
-    private readonly usagerProfilService: UsagerProfilService,
-    private readonly documentService: DocumentService
+    private readonly documentService: DocumentService,
+    private readonly portailUsagersService: PortailUsagersService,
+    private readonly modalService: NgbModal
   ) {
     this.isLoginToDisplay = false;
     this.loginToDisplay = {
       login: "",
       temporaryPassword: "",
     };
-    this.submitted = false;
 
     this.loading = false;
-    this.loadings = [];
 
-    this.editionInProgress = false;
+    this.portailUsagersInformations = null;
   }
 
   public ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      portailUsagerEnabled: [
-        this.usager.options?.portailUsagerEnabled,
-        [Validators.required],
-      ],
-      generateNewPassword: [!this.usager.options?.portailUsagerEnabled, []],
-    });
+    this.getPortaiUsagersInformations();
   }
 
-  private stopLoading(loadingRef: string): void {
-    const index = this.loadings.indexOf(loadingRef);
-    if (index !== -1) {
-      this.loadings.splice(index, 1);
-    }
+  public openConfirmationModal(): void {
+    this.modalService.open(this.confirmationModal, DEFAULT_MODAL_OPTIONS);
+  }
+
+  public closeModals(): void {
+    this.modalService.dismissAll();
+  }
+
+  public getPortaiUsagersInformations(): void {
+    this.subscription.add(
+      this.portailUsagersService
+        .getPortailUsagersInformations(this.usager.ref)
+        .subscribe({
+          next: (
+            portailUsagersInformations: PortailUsagersInformations | null
+          ) => {
+            this.portailUsagersInformations = portailUsagersInformations;
+          },
+          error: () => {
+            this.toastService.error("Le dossier recherché n'existe pas");
+          },
+        })
+    );
   }
 
   public getDomifaCustomDoc(): void {
     const docType: StructureDocTypesAvailable = "acces_espace_domicilie";
-    this.loadings.push(docType);
+    this.loading = true;
     this.subscription.add(
       this.documentService
         .getDomifaCustomDoc({
@@ -93,59 +111,42 @@ export class ProfilEditPortailUsagerPreferenceComponent
               type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             });
             saveAs(newBlob, docType + ".docx");
-
-            this.stopLoading(docType);
+            this.loading = false;
           },
           error: () => {
-            this.stopLoading(docType);
+            this.loading = false;
           },
         })
     );
   }
 
-  public submit(): void {
-    this.submitted = true;
-    if (this.form.invalid) {
-      this.toastService.error(
-        "Un des champs du formulaire n'est pas rempli ou contient une erreur"
-      );
-      return;
-    }
+  public resetPassword(): void {
     this.loading = true;
     this.subscription.add(
-      this.usagerProfilService
+      this.portailUsagersService
         .updatePortailUsagerOptions({
           usagerRef: this.usager.ref,
           options: {
-            portailUsagerEnabled: this.form.value.portailUsagerEnabled,
-            generateNewPassword:
-              this.form.value.portailUsagerEnabled &&
-              this.form.value.generateNewPassword,
+            portailUsagerEnabled: true,
+            generateNewPassword: true,
           },
         })
         .subscribe({
           next: ({ login, temporaryPassword }) => {
-            if (login && temporaryPassword) {
-              this.isLoginToDisplay = true;
-              this.loginToDisplay = {
-                login,
-                temporaryPassword,
-              };
-            } else {
-              this.isLoginToDisplay = false;
-              this.loginToDisplay = {
-                login: "",
-                temporaryPassword: "",
-              };
-            }
-            this.submitted = false;
+            this.isLoginToDisplay = true;
+            this.loginToDisplay = {
+              login,
+              temporaryPassword,
+            };
+
             this.loading = false;
-            this.editionInProgress = false;
             this.toastService.success("Enregistrement des préférences réussi");
+            this.getDomifaCustomDoc();
+            this.getPortaiUsagersInformations();
+            this.closeModals();
           },
           error: () => {
             this.loading = false;
-            this.editionInProgress = false;
             this.toastService.error(
               "Veuillez vérifier les champs du formulaire"
             );

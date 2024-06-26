@@ -1,4 +1,4 @@
-import { structureRepository } from "./../../database/services/structure/structureRepository.service";
+import { structureRepository } from "../../../../database/services/structure/structureRepository.service";
 import {
   Body,
   Controller,
@@ -16,19 +16,19 @@ import {
   userUsagerLoginRepository,
   userUsagerRepository,
   userUsagerSecurityPasswordChecker,
-} from "../../database";
-import { UsagerLoginDto } from "../../users/dto";
-import { ExpressResponse } from "../../util/express";
+} from "../../../../database";
+import { UsagerLoginDto } from "../../../../users/dto";
+import { ExpressResponse } from "../../../../util/express";
 
-import { UsagersAuthService } from "./services/usagers-auth.service";
+import { UsagersAuthService } from "../../services/usagers-auth.service";
 import {
   PortailUsagerProfile,
   PortailUsagerAuthApiResponse,
 } from "@domifa/common";
-import { UserUsagerAuthenticated } from "../../_common/model";
-import { AllowUserProfiles, CurrentUser } from "../../auth/decorators";
+import { UserUsagerAuthenticated } from "../../../../_common/model";
+import { AllowUserProfiles, CurrentUser } from "../../../../auth/decorators";
 import { AuthGuard } from "@nestjs/passport";
-import { AppUserGuard } from "../../auth/guards";
+import { AppUserGuard } from "../../../../auth/guards";
 
 @Controller("portail-usagers/auth")
 @ApiTags("auth")

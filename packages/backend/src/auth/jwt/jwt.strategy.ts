@@ -12,7 +12,7 @@ import {
   UserUsagerJwtPayload,
 } from "../../_common/model";
 import { AdminsAuthService } from "../../_portail-admin/portail-admin-login/services";
-import { UsagersAuthService } from "../../_portail-usager/portail-usager-login/services";
+import { UsagersAuthService } from "../../modules/portail-usagers/services";
 import { StructuresAuthService } from "../services/structures-auth.service";
 
 @Injectable()

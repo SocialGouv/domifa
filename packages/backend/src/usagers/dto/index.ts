@@ -11,6 +11,6 @@ export * from "./procuration.dto";
 export * from "./rdv.dto";
 export * from "./search-usager.dto";
 export * from "./transfert.dto";
-export * from "./update-portail-usager-options.dto";
+export * from "../../modules/portail-usagers/dto/update-portail-usager-options.dto";
 export * from "./UploadUsagerDoc.dto";
 export * from "./UsagerAyantDroitDto";

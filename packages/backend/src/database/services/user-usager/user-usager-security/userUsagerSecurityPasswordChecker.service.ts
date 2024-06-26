@@ -1,7 +1,7 @@
+import { UserUsager } from "@domifa/common";
 import { userUsagerSecurityPasswordUpdater } from ".";
 import { userUsagerRepository, userUsagerSecurityRepository } from "..";
 import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
-import { UserUsager } from "../../../../_common/model";
 import { userUsagerSecurityEventHistoryManager } from "./userUsagerSecurityEventHistoryManager.service";
 
 export const userUsagerSecurityPasswordChecker = {

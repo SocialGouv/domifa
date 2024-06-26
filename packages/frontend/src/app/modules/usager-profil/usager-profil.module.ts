@@ -42,6 +42,7 @@ import { SetNpaiComponent } from "./components/_general-section/set-npai/set-npa
 import { DisplayContactDetailsComponent } from "./components/_general-section/display-contact-details/display-contact-details.component";
 import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 import { FormatInternationalPhoneNumberPipe } from "../usager-shared/formatInternationalPhoneNumber.pipe";
+import { ProfilSmsPortailComponent } from "./components/pages/profil-sms-portail/profil-sms-portail.component";
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { FormatInternationalPhoneNumberPipe } from "../usager-shared/formatInter
     ProfilHistoriqueLoginPortailComponent,
     SetNpaiComponent,
     DisplayContactDetailsComponent,
+    ProfilSmsPortailComponent,
   ],
   imports: [
     CommonModule,

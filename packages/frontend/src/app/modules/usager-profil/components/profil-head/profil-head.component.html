@@ -126,20 +126,19 @@
       </a>
 
       <a
-        [ngClass]="section === 'courrier' ? 'selected-section col' : 'col'"
-        [routerLink]="['/profil/courriers/' + usager.ref]"
-        ><span class="statut-label">Courriers</span>
-        <span class="visually-hidden" *ngIf="section === 'courrier'"
-          >, onglet actif</span
-        >
-      </a>
-
-      <a
         [ngClass]="section === 'dossier' ? 'selected-section col' : 'col'"
         [routerLink]="['/profil/dossier/' + usager.ref]"
         ariaCurrentWhenActive="page"
         ><span class="statut-label"> Dossier</span>
         <span class="visually-hidden" *ngIf="section === 'dossier'"
+          >, onglet actif</span
+        >
+      </a>
+      <a
+        [ngClass]="section === 'courrier' ? 'selected-section col' : 'col'"
+        [routerLink]="['/profil/courriers/' + usager.ref]"
+        ><span class="statut-label">Procurations et transferts</span>
+        <span class="visually-hidden" *ngIf="section === 'courrier'"
           >, onglet actif</span
         >
       </a>
@@ -163,8 +162,17 @@
       </a>
 
       <a
+        [ngClass]="section === 'sms' ? 'selected-section col' : 'col'"
+        [routerLink]="['/profil/sms/' + usager.ref]"
+        ariaCurrentWhenActive="page"
+        ><span class="statut-label">SMS et Mon DomiFa</span>
+        <span class="visually-hidden" *ngIf="section === 'sms'"
+          >, onglet actif</span
+        >
+      </a>
+      <a
         [ngClass]="section === 'historique' ? 'selected-section col' : 'col'"
-        [routerLink]="['/profil/historique/' + usager.ref]"
+        [routerLink]="['/profil/historique/' + usager.ref + '/interactions']"
         ariaCurrentWhenActive="page"
         ><span class="statut-label"> Historique</span>
         <span class="visually-hidden" *ngIf="section === 'historique'"

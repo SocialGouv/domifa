@@ -6,11 +6,13 @@ import { ProfilHistoriqueComponent } from "./components/pages/profil-historique/
 import { ProfilGeneralSectionComponent } from "./components/pages/profil-general-section/profil-general-section.component";
 import { ProfilDocumentsSectionComponent } from "./components/pages/profil-documents-section/profil-documents-section.component";
 import { FacteurGuard } from "../../guards";
+import { ProfilSmsPortailComponent } from "./components/pages/profil-sms-portail/profil-sms-portail.component";
 
 const routes: Routes = [
   { path: "dossier/:id", component: ProfilDossierComponent },
-  { path: "historique/:id", component: ProfilHistoriqueComponent },
+  { path: "historique/:id/:section", component: ProfilHistoriqueComponent },
   { path: "courriers/:id", component: ProfilCourriersComponent },
+  { path: "sms/:id", component: ProfilSmsPortailComponent },
   { path: "general/:id", component: ProfilGeneralSectionComponent },
   {
     path: "documents/:id",

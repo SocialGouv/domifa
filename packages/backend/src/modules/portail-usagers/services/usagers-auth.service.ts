@@ -7,10 +7,10 @@ import { userUsagerRepository } from "../../../database/services/user-usager/use
 import { appLogger } from "../../../util";
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
-  UserUsager,
   UserUsagerAuthenticated,
   UserUsagerJwtPayload,
 } from "../../../_common/model";
+import { UserUsager } from "@domifa/common";
 
 @Injectable()
 export class UsagersAuthService {

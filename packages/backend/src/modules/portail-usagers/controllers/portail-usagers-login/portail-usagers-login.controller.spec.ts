@@ -1,10 +1,10 @@
 import { HttpStatus } from "@nestjs/common";
 import supertest from "supertest";
 
-import { AuthModule } from "../../auth/auth.module";
-import { AppTestContext, AppTestHelper } from "../../util/test";
-import { TESTS_USERS_USAGER } from "../../_tests";
-import { PortailUsagerModule } from "../portail-usager.module";
+import { AuthModule } from "../../../../auth/auth.module";
+import { AppTestContext, AppTestHelper } from "../../../../util/test";
+import { TESTS_USERS_USAGER } from "../../../../_tests";
+import { PortailUsagersModule } from "../../portail-usagers.module";
 import { PortailUsagersLoginController } from "./portail-usagers-login.controller";
 
 const TEMPORARY_PASS_USER = TESTS_USERS_USAGER.ALL.find(
@@ -20,7 +20,7 @@ describe("Usagers Login Controller", () => {
     context = await AppTestHelper.bootstrapTestApp(
       {
         controllers: [],
-        imports: [PortailUsagerModule, AuthModule],
+        imports: [PortailUsagersModule, AuthModule],
         providers: [],
       },
       { initApp: true }

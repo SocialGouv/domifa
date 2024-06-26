@@ -10,13 +10,13 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
-import { AllowUserProfiles, CurrentUser } from "../../auth/decorators";
-import { AppUserGuard } from "../../auth/guards";
-import { ExpressResponse } from "../../util/express";
-import { UserUsagerAuthenticated } from "../../_common/model";
-import { usagerRepository } from "../../database";
-import { InteractionsService } from "../../interactions/services";
-import { PageOptionsDto } from "../../usagers/dto";
+import { AllowUserProfiles, CurrentUser } from "../../../auth/decorators";
+import { AppUserGuard } from "../../../auth/guards";
+import { ExpressResponse } from "../../../util/express";
+import { UserUsagerAuthenticated } from "../../../_common/model";
+import { usagerRepository } from "../../../database";
+import { InteractionsService } from "../../../interactions/services";
+import { PageOptionsDto } from "../../../usagers/dto";
 
 @Controller("portail-usagers/profile")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)

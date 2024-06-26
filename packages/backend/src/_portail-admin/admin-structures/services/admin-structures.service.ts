@@ -84,6 +84,7 @@ export class AdminStructuresService {
         "import",
         "importDate",
         "lastLogin",
+        "verified",
         ...STRUCTURE_LIGHT_ATTRIBUTES,
       ],
     });

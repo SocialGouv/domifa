@@ -8,8 +8,7 @@ import {
   OneToOne,
 } from "typeorm";
 import { StructureTable, UsagerTable } from "..";
-import { UserStructureResume } from "@domifa/common";
-import { UserUsager } from "../../../_common/model";
+import { UserUsager, UserStructureResume } from "@domifa/common";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
 // https://typeorm.io/#/entities/column-types-for-postgres

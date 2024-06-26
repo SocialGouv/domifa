@@ -1,13 +1,13 @@
 <div class="row">
-  <p
-    class="col-md-4 reponses"
-    *ngIf="
-      me.structure.sms.enabledByDomifa && me.structure.sms.enabledByStructure
-    "
-  >
+  <p class="col-md-4 reponses" *ngIf="me.structure.sms.enabledByStructure">
     <span class="question"> Notifications par SMS activés</span>
     <span class="valeur">
-      {{ usager.contactByPhone ? "OUI" : "NON" }}
+      <span class="label-info green-status" *ngIf="usager.contactByPhone">
+        Oui
+      </span>
+      <span class="label-info red-status" *ngIf="!usager.contactByPhone">
+        Non
+      </span>
     </span>
   </p>
   <p class="col-md-4 reponses">
@@ -20,5 +20,15 @@
   <p class="col-md-4 reponses">
     <span class="question">Adresse email</span>
     <span class="valeur">{{ usager.email || "Non renseigné" }}</span>
+  </p>
+
+  <p class="col-12" *ngIf="me.structure.sms.enabledByStructure">
+    <a
+      class="text-link my-4 d-block fw-bold"
+      [routerLink]="['/profil/historique/' + usager.ref + '/sms']"
+      ariaCurrentWhenActive="page"
+    >
+      Voir l'historique des SMS reçus
+    </a>
   </p>
 </div>

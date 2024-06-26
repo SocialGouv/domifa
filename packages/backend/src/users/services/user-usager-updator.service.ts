@@ -1,8 +1,9 @@
+import { UserUsager } from "@domifa/common";
 import {
   userUsagerRepository,
   userUsagerSecurityRepository,
 } from "../../database";
-import { UserUsager } from "../../_common/model";
+
 import { userUsagerLoginPasswordGenerator } from "./user-usager-login-password-generator.service";
 
 export const userUsagerUpdator = {

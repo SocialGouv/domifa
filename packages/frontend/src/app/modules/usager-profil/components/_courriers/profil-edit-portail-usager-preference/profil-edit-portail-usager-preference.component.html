@@ -1,63 +1,16 @@
-<div class="my-2 d-flex flex-wrap justify-content-between align-items-center">
-  <h2>Accès au portail usager</h2>
-
-  <ng-container
-    *ngIf="usager?.echeanceInfos?.isActif && me.role !== 'facteur'"
-    class="d-print-none"
-  >
+<div
+  class="my-2 d-flex flex-wrap justify-content-between align-items-center"
+  *ngIf="me.role !== 'facteur'"
+>
+  <h2>Accès au portail "Mon DomiFa"</h2>
+  <ng-container>
     <button
-      type="submit"
-      class="btn btn-outline-dark"
-      *ngIf="!editionInProgress"
-      (click)="editionInProgress = true"
-    >
-      <fa-icon
-        [icon]="['far', 'edit']"
-        aria-hidden="true"
-        class="me-2"
-      ></fa-icon>
-      Modifier les préférences
-    </button>
-    <button
-      class="btn btn-outline-dark"
-      *ngIf="editionInProgress"
-      (click)="editionInProgress = false"
-      type="button"
-    >
-      <fa-icon
-        [icon]="['far', 'edit']"
-        aria-hidden="true"
-        class="me-2"
-      ></fa-icon>
-      Annuler les modifications
-    </button>
-  </ng-container>
-</div>
-
-<div class="row" *ngIf="!editionInProgress">
-  <p class="col-12 col-md-6 reponses">
-    <span class="question"
-      >Le demandeur souhaite-t-il avoir accès au portail usager ?</span
-    >
-    <span class="valeur">
-      {{ usager.options?.portailUsagerEnabled ? "OUI" : "NON" }}
-    </span>
-  </p>
-  <div *ngIf="isLoginToDisplay" class="col-12 col-md-6 reponses">
-    <span class="question">Identifants générés</span>
-
-    <p class="mx-1 my-1">
-      <strong>IMPORTANT</strong> Veuillez télécharger immédiatement le courrier
-      d'accès au portail "Mon DomiFa".
-    </p>
-
-    <button
-      (click)="getDomifaCustomDoc()"
+      (click)="openConfirmationModal()"
       class="mx-1 my-1 btn btn-primary"
       type="button"
-      [disabled]="loadings.indexOf('acces_espace_domicilie') !== -1"
+      [disabled]="loading"
     >
-      <span *ngIf="loadings.indexOf('acces_espace_domicilie') !== -1"
+      <span *ngIf="loading"
         ><fa-icon
           [icon]="['fas', 'circle-notch']"
           [spin]="true"
@@ -65,81 +18,119 @@
         ></fa-icon>
         Patientez...</span
       >
-      <span *ngIf="loadings.indexOf('acces_espace_domicilie') === -1"
+      <span *ngIf="!loading"
         ><fa-icon [icon]="['fas', 'download']" aria-hidden="true"></fa-icon>
-        Télécharger le courrier d'accès au portail "Mon DomiFa"</span
-      >
+        <ng-container *ngIf="!usager.options.portailUsagerEnabled">
+          Activer le portail et télécharger les identifiants
+        </ng-container>
+        <ng-container *ngIf="usager.options.portailUsagerEnabled">
+          Réinitialiser les identifiants
+        </ng-container>
+      </span>
     </button>
-
-    <p class="mx-1 my-1">
-      Une fois cette page quittée, il ne sera plus possible de le télécharger
-      sans ré-initialiser le mot de passe.
-    </p>
-  </div>
+  </ng-container>
 </div>
 
-<form
-  class="d-print-none"
-  *ngIf="editionInProgress"
-  [formGroup]="form"
-  (ngSubmit)="submit()"
->
-  <div class="row">
-    <div class="col-md-6">
-      <fieldset>
-        <legend>
-          Le demandeur souhaite-t-il avoir accès au portail usager ?
-        </legend>
+<div class="row my-3">
+  <p class="col-12 col-md-4 reponses">
+    <span class="question">Accès au portail créés</span>
+    <span class="valeur">
+      <ng-container *ngIf="!usager.options.portailUsagerEnabled">
+        <span class="label-info red-status">Non</span>
+      </ng-container>
+      <ng-container *ngIf="usager.options.portailUsagerEnabled">
+        <span class="label-info green-status">Oui</span>
+      </ng-container>
+    </span>
+  </p>
 
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="portailUsagerEnabled"
-            name="portailUsagerEnabled"
-            id="portail_oui"
-            [value]="true"
-          />
-          <label class="form-check-label" for="portail_oui"> Oui </label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="portailUsagerEnabled"
-            name="portailUsagerEnabled"
-            id="portail_non"
-            [value]="false"
-          />
-          <label class="form-check-label" for="portail_non"> Non </label>
-        </div>
-      </fieldset>
-    </div>
-  </div>
-  <div class="row" *ngIf="form.value['portailUsagerEnabled'] === true">
-    <div class="col-md-12">
-      <div class="form-check form-group">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          formControlName="generateNewPassword"
-          name="generateNewPassword"
-          value="true"
-          id="generateNewPassword"
-        />
-        <label class="form-check-label" for="generateNewPassword">
-          Ré-initialiser le mot de passe temporaire du domicilié
-        </label>
-      </div>
-    </div>
-  </div>
+  <ng-container *ngIf="usager.options.portailUsagerEnabled">
+    <p class="col-12 col-md-4 reponses">
+      <span class="question">Compte activé par le domicilié</span>
+      <span class="valeur">
+        <span
+          class="label-info red-status"
+          *ngIf="portailUsagersInformations?.isTemporaryPassword"
+        >
+          Non
+        </span>
+        <span
+          class="label-info green-status"
+          *ngIf="!portailUsagersInformations?.isTemporaryPassword"
+        >
+          Compte actif
+        </span>
+      </span>
+    </p>
 
-  <div class="col-md-4 offset-md-4 text-center">
-    <button
-      type="submit"
-      [disabled]="form.invalid || loading"
-      class="btn btn-primary btn-block"
+    <p class="col-12 col-md-4 reponses">
+      <span class="question">Identifiant du domicilié</span>
+      <span class="valeur">
+        {{
+          portailUsagersInformations
+            ? portailUsagersInformations.login
+            : "Aucune identifiant enregistré"
+        }}
+      </span>
+    </p>
+
+    <p class="col-12 col-md-4 reponses">
+      <span class="question">Date de dernière connexion </span>
+      <span class="valeur">
+        {{
+          portailUsagersInformations?.lastLogin
+            ? (portailUsagersInformations.lastLogin
+              | date : "dd MMMM yyyy à HH:mm")
+            : "Aucune connexion enregistrée"
+        }}
+      </span>
+    </p>
+  </ng-container>
+</div>
+<div>
+  <p class="col-12" *ngIf="usager.options.portailUsagerEnabled">
+    <a
+      class="text-link my-4 d-block fw-bold"
+      [routerLink]="['/profil/historique/' + usager.ref + '/login-portail']"
+      ariaCurrentWhenActive="page"
     >
+      Voir l'historique des connexions au Portail
+    </a>
+  </p>
+</div>
+
+<ng-template #confirmationModal let-modal>
+  <div class="modal-header bg-primary text-white">
+    <span id="modal-title">
+      Vous êtes sur le point de réinitialiser le mot de passe de
+      {{ usager | usagerNomComplet }}
+    </span>
+  </div>
+
+  <div class="modal-body text-center py-2">
+    <p>
+      Le précédent mot de passe ne pourra plus être utilisé.
+      <br />
+      Vous devrez à nouveau transmettre le document avec le mot de passe
+      temporaire au domicilié
+    </p>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-outline-dark d-print-none"
+      (click)="closeModals()"
+      type="button"
+    >
+      Revenir au dossier
+    </button>
+    <button
+      class="btn btn-primary"
+      [disabled]="loading"
+      (click)="resetPassword()"
+      type="submit"
+    >
+      <span *ngIf="!loading">Confirmer la réinitialisation</span>
       <span *ngIf="loading"
         ><fa-icon
           [icon]="['fas', 'circle-notch']"
@@ -149,7 +140,6 @@
         </fa-icon>
         Veuillez patienter...</span
       >
-      <span *ngIf="!loading"> Enregistrer les préférences</span>
     </button>
   </div>
-</form>
+</ng-template>

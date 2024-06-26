@@ -4,7 +4,7 @@ import { AuthModule } from "../../../auth/auth.module";
 import { StructuresModule } from "../../../structures/structure.module";
 import { UsersModule } from "../../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
-import { PortailUsagerModule } from "../../portail-usager.module";
+import { PortailUsagersModule } from "../portail-usagers.module";
 import { UsagersAuthService } from "./usagers-auth.service";
 
 describe("UsagersAuthService", () => {
@@ -22,7 +22,7 @@ describe("UsagersAuthService", () => {
         }),
         UsersModule,
         StructuresModule,
-        PortailUsagerModule,
+        PortailUsagersModule,
         AuthModule,
       ],
       providers: [UsagersAuthService],

@@ -27,6 +27,16 @@ export class ProfilHistoriqueComponent
 {
   public currentSection: HistorySections;
 
+  public sectionsIds: HistorySections[] = [
+    "decisions",
+    "interactions",
+    "procurations",
+    "transferts",
+    "sms",
+    "notes",
+    "login-portail",
+  ];
+
   public sections: { id: HistorySections; name: string }[] = [
     {
       id: "decisions",
@@ -78,19 +88,22 @@ export class ProfilHistoriqueComponent
   }
 
   ngAfterViewInit() {
-    if (
-      this.me.structure.sms.enabledByDomifa &&
-      this.me.structure.sms.enabledByStructure
-    ) {
+    const section = this.route.snapshot.params?.section;
+
+    if (!section || !this.sectionsIds.includes(section)) {
+      this.toastService.error("Le dossier recherché n'existe pas");
+      this.router.navigate(["404"]);
+      return;
+    }
+
+    this.currentSection = section;
+    if (this.me.structure.sms.enabledByStructure) {
       this.sections.push({
         id: "sms",
         name: "SMS envoyés",
       });
     }
-    if (
-      this.me.structure.portailUsager.enabledByDomifa &&
-      this.me.structure.portailUsager.enabledByStructure
-    ) {
+    if (this.me.structure.portailUsager.enabledByStructure) {
       this.sections.push({
         id: "login-portail",
         name: "Connexions à Mon DomiFa",

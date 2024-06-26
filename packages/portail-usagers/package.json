@@ -43,7 +43,7 @@
     "zone.js": "~0.14.7"
   },
   "devDependencies": {
-    "@angular-devkit/architect": "^0.1800.5",
+    "@angular-devkit/architect": "^0.1800.6",
     "@angular-devkit/build-angular": "^16.2.14",
     "@angular-devkit/core": "^16.2.14",
     "@angular-devkit/schematics": "^16.2.14",
@@ -57,11 +57,11 @@
     "@angular/language-service": "^16.2.12",
     "@types/google-libphonenumber": "^7.4.30",
     "@types/jest": "^29.5.12",
-    "@typescript-eslint/eslint-plugin": "7.13.1",
-    "@typescript-eslint/parser": "7.13.1",
+    "@typescript-eslint/eslint-plugin": "7.14.1",
+    "@typescript-eslint/parser": "7.14.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-config-standard-with-typescript": "^42.0.0",
+    "eslint-config-standard-with-typescript": "^43.0.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^17.9.0",
     "eslint-plugin-no-lookahead-lookbehind-regexp": "^0.3.0",

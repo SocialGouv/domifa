@@ -51,7 +51,7 @@
 
 <div
   class="justify-content-center d-flex p-3 d-print-none"
-  *ngIf="interactions.length > 0"
+  *ngIf="interactions.length > 0 && searchResults.meta.itemCount >= params.take"
 >
   <div
     class="results-selector justify-content-start align-items-center d-flex me-auto"

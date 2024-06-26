@@ -29,11 +29,9 @@ import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import {
   usagerRepository,
   USAGER_LIGHT_ATTRIBUTES,
-  userUsagerRepository,
   joinSelectFields,
 } from "../../database";
 
-import { userUsagerCreator, userUsagerUpdator } from "../../users/services";
 import { appLogger, cleanPath } from "../../util";
 import { dataCompare } from "../../util/dataCompare.service";
 import {
@@ -45,7 +43,6 @@ import {
   CreateUsagerDto,
   EntretienDto,
   ContactDetailsDto,
-  UpdatePortailUsagerOptionsDto,
 } from "../dto";
 import { SearchUsagerDto } from "../dto/search-usager.dto";
 import { UsagersService } from "../services";
@@ -360,79 +357,6 @@ export class UsagersController {
       console.warn(e);
     }
     return res.status(HttpStatus.OK).json({ message: "DELETE_SUCCESS" });
-  }
-
-  @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
-  @Post("portail-usager/options/:usagerRef")
-  public async editPreupdatePortailUsagerOptionsference(
-    @Res() res: Response,
-    @Body() dto: UpdatePortailUsagerOptionsDto,
-    @CurrentUsager() usager: Usager,
-    @CurrentUser() user: UserStructureAuthenticated
-  ) {
-    try {
-      usager.options.portailUsagerEnabled = dto.portailUsagerEnabled;
-      const updatedUsager = await usagerRepository.updateOneAndReturn(
-        usager.uuid,
-        {
-          options: usager.options,
-        }
-      );
-
-      if (usager.options.portailUsagerEnabled) {
-        const userUsager = await userUsagerRepository.findOneBy({
-          usagerUUID: usager.uuid,
-        });
-
-        if (!userUsager) {
-          const { login, temporaryPassword } =
-            await userUsagerCreator.createUserWithTmpPassword(
-              {
-                usagerUUID: usager.uuid,
-                structureId: usager.structureId,
-              },
-              { creator: user }
-            );
-          return res
-            .status(HttpStatus.CREATED)
-            .json({ usager: updatedUsager, login, temporaryPassword });
-        } else {
-          const generateNewPassword =
-            dto.portailUsagerEnabled && dto.generateNewPassword;
-
-          const { userUsager, temporaryPassword } =
-            await userUsagerUpdator.enableUser({
-              usagerUUID: usager.uuid,
-              generateNewPassword,
-            });
-
-          await this.appLogsService.create({
-            userId: user.id,
-            usagerRef: usager.ref,
-            structureId: user.structureId,
-            action: "RESET_PASSWORD_PORTAIL",
-          });
-          return res.status(HttpStatus.CREATED).json({
-            usager: updatedUsager,
-            login: generateNewPassword ? userUsager.login : undefined,
-            temporaryPassword,
-          });
-        }
-      } else {
-        // disable login
-        await userUsagerUpdator.disableUser({ usagerUUID: usager.uuid });
-      }
-      return res.status(HttpStatus.OK).json({ usager: updatedUsager });
-    } catch (error) {
-      appLogger.error("Error updating usager options", {
-        error,
-        sentry: true,
-      });
-      return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "ERROR_UPDATING_OPTIONS" });
-    }
   }
 
   @UseGuards(UsagerAccessGuard)

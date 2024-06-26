@@ -32,35 +32,6 @@ export class UsagerProfilService {
     return this.http.delete<ApiMessage>(`${this.endPointUsagers}/${usagerRef}`);
   }
 
-  public updatePortailUsagerOptions({
-    usagerRef,
-    options,
-  }: {
-    usagerRef: number;
-    options: {
-      portailUsagerEnabled: boolean;
-      generateNewPassword: boolean;
-    };
-  }): Observable<{
-    usager: UsagerLight;
-    login?: string;
-    temporaryPassword?: string;
-  }> {
-    return this.http
-      .post<{
-        usager: UsagerLight;
-        login?: string;
-        temporaryPassword?: string;
-      }>(`${this.endPointUsagers}/portail-usager/options/${usagerRef}`, options)
-      .pipe(
-        tap((result: { usager: UsagerLight }) => {
-          this.store.dispatch(
-            cacheManager.updateUsager({ usager: result.usager })
-          );
-        })
-      );
-  }
-
   public stopCourrier(usagerRef: number): Observable<UsagerLight> {
     return this.http
       .get<UsagerLight>(`${this.endPointUsagers}/stop-courrier/${usagerRef}`)
