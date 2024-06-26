@@ -3,7 +3,7 @@ import { ScheduleModule } from "@nestjs/schedule";
 import { TerminusModule } from "@nestjs/terminus";
 
 import { PortailAdminModule } from "./_portail-admin";
-import { PortailUsagerModule } from "./_portail-usager";
+import { PortailUsagersModule } from "./modules/portail-usagers";
 import { AuthModule } from "./auth/auth.module";
 import { MonitoringModule } from "./database/services/monitoring/monitoring.module";
 import { HealthController } from "./health/health.controller";
@@ -33,7 +33,7 @@ import { InteractionsService } from "./interactions/services";
     StructuresModule,
     UsagersModule,
     UsersModule,
-    PortailUsagerModule,
+    PortailUsagersModule,
     PortailAdminModule,
     AppLogsModule,
     ContactSupportModule,

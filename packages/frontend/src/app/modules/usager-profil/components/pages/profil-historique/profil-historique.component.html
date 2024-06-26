@@ -28,24 +28,21 @@
       </div>
 
       <div role="tablist" aria-labelledby="tablist-1" class="my-2 d-print-none">
-        <button
+        <a
           *ngFor="let section of sections"
           [id]="'tab-' + section.id"
-          type="button"
-          role="tab"
-          [attr.aria-controls]="'tab-' + section.id"
-          [attr.tabindex]="currentSection === section.id ? null : -1"
+          [routerLink]="['/profil/historique/' + usager.ref + '/' + section.id]"
+          ariaCurrentWhenActive="page"
           class="btn me-1 my-1"
           [ngClass]="
             currentSection === section.id
               ? 'btn-primary'
               : 'btn-outline-primary'
           "
-          [attr.aria-selected]="currentSection === section.id"
           (click)="currentSection = section.id"
         >
           <span class="focus">{{ section.name }}</span>
-        </button>
+        </a>
       </div>
 
       <div class="row">

@@ -4,7 +4,7 @@ import { StatsModule } from "../stats/stats.module";
 import { StructuresModule } from "../structures/structure.module";
 import { UsersModule } from "../users/users.module";
 import { PortailAdminModule } from "../_portail-admin";
-import { PortailUsagerModule } from "../_portail-usager";
+import { PortailUsagersModule } from "../modules/portail-usagers";
 
 export const SECURITY_TESTS_NEST_MODULE: ModuleMetadata = {
   controllers: [],
@@ -13,7 +13,7 @@ export const SECURITY_TESTS_NEST_MODULE: ModuleMetadata = {
     UsersModule,
     StructuresModule,
     StatsModule,
-    PortailUsagerModule,
+    PortailUsagersModule,
     PortailAdminModule,
   ],
   providers: [],

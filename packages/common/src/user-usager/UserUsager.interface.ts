@@ -1,4 +1,5 @@
-import { AppEntity, UserStructureResume } from "@domifa/common";
+import { type AppEntity } from "../_core";
+import { type UserStructureResume } from "../user-structure";
 
 export interface UserUsager extends AppEntity {
   id: number;
