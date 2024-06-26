@@ -5,6 +5,10 @@
   justify-content: left;
 }
 
+.alert p {
+  margin: 0 0;
+}
+
 .alert .svg-icon {
   display: table-cell;
   margin-right: 10px;
