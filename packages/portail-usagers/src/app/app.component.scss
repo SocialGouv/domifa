@@ -1,13 +1,17 @@
 .nav-brand {
   font-weight: 600;
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   text-align: center;
   color: #000000;
 }
 
 .navbar {
-  border-top: 4px solid var(--bs-primary);
+  border-top: 5px solid var(--bs-primary);
+  .navbar-brand {
+    padding: 0.5rem;
+  }
 }
+
 footer {
   width: 100%;
   border-top: 1px solid #e6e6e6;

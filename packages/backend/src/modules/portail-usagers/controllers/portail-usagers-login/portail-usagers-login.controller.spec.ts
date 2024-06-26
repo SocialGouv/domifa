@@ -88,6 +88,6 @@ describe("Usagers Login Controller", () => {
         password: TEMPORARY_PASS_USER.password + "INVALID-PASS",
       });
     expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
-    expect(response.text).toBe(`{"message":"WRONG_CREDENTIALS"}`);
+    expect(response.text).toBe(`{"message":"USAGER_LOGIN_FAIL"}`);
   });
 });

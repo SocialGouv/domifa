@@ -12,3 +12,7 @@
   font-weight: 900;
   font-size: 1.3rem;
 }
+
+li {
+  list-style-type: circle;
+}

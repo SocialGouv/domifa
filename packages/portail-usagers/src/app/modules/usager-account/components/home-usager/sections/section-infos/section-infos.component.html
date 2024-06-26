@@ -4,6 +4,18 @@
     <div class="py-2">
       <div
         class="alert alert-info"
+        *ngIf="usager.decision.statut === 'INSTRUCTION' && rdvInfos.display"
+      >
+        <div aria-hidden="true" class="svg-icon icon-calendar"></div>
+        <p>
+          <b>Rappel de rendez-vous</b>
+          <br />
+          Vous avez rendez vous le {{ rdvInfos.content }}
+        </p>
+      </div>
+
+      <div
+        class="alert alert-info"
         *ngIf="
           usager.decision.statut === 'ATTENTE_DECISION' &&
           usager.typeDom === 'RENOUVELLEMENT'
@@ -114,7 +126,7 @@
         <fa-icon [icon]="['fas', 'link']" aria-hidden="true"></fa-icon>
       </div>
       <div>
-        <p class="py-1 fw-bold">
+        <p class="py-1 my-0 fw-bold">
           <a
             target="_blank"
             rel="noopener noreferrer"

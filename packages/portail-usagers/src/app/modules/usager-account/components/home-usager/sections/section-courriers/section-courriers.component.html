@@ -42,7 +42,9 @@
     <h2 class="content section-title">Vous avez du courrier !</h2>
 
     <div class="content section-content">
-      <p>Vous pouvez le récupérer dans votre centre de domiciliation</p>
+      <p class="my-2">
+        Vous pouvez le récupérer dans votre centre de domiciliation
+      </p>
       <div class="d-flex align-items-top">
         <div>
           <ng-container *ngIf="usager.lastInteraction.courrierIn > 0">
@@ -58,9 +60,7 @@
             <ul *ngIf="pendingInteractions.courrierIn?.length">
               <li *ngFor="let interaction of pendingInteractions.courrierIn">
                 <b class="interaction-date">
-                  {{
-                    interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm"
-                  }}
+                  {{ interaction.dateInteraction | date : "dd MMMM yyyy" }}
                 </b>
                 <ng-container *ngIf="interaction.content"
                   >:
@@ -81,9 +81,7 @@
             <ul *ngIf="pendingInteractions.colisIn?.length">
               <li *ngFor="let interaction of pendingInteractions.colisIn">
                 <b class="interaction-date">
-                  {{
-                    interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm"
-                  }}
+                  {{ interaction.dateInteraction | date : "dd MMMM yyyy" }}
                 </b>
                 <ng-container *ngIf="interaction.content"
                   >:
@@ -107,9 +105,7 @@
             <ul *ngIf="pendingInteractions.recommandeIn?.length">
               <li *ngFor="let interaction of pendingInteractions.recommandeIn">
                 <b class="interaction-date">
-                  {{
-                    interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm"
-                  }}
+                  {{ interaction.dateInteraction | date : "dd MMMM yyyy" }}
                 </b>
                 <ng-container *ngIf="interaction.content"
                   >:
@@ -120,13 +116,20 @@
           </ng-container>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="text-center">
-    <a routerLink="/account/historique" class="btn btn-outline-primary">
-      <fa-icon aria-hidden="true" [icon]="faClockRotateLeft"></fa-icon>
-      Consulter l'historique des courriers
-    </a>
+      <div class="text-center">
+        <a
+          routerLink="/account/historique"
+          class="mt-4 mb-2 btn btn-outline-primary"
+        >
+          <fa-icon
+            aria-hidden="true"
+            class="me-2"
+            [icon]="faClockRotateLeft"
+          ></fa-icon>
+          Consulter l'historique des courriers
+        </a>
+      </div>
+    </div>
   </div>
 </div>
