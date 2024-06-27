@@ -80,6 +80,10 @@ export class PlanSiteComponent implements OnInit {
         { label: "Nouveautés", path: "/news" },
         { label: "Consulter les statistiques de DomiFa", path: "/stats" },
         { label: "Notre impact", path: "/stats/impact" },
+        {
+          label: "Portail Mon DomiFa pour les domiciliés",
+          path: "/portail-mon-domifa",
+        },
         { label: "Créer une structure", path: "/structures/inscription" },
         {
           label: "Réinitialiser mon mot de passe",

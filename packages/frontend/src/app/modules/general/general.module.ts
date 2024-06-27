@@ -32,6 +32,7 @@ import { PlanSiteComponent } from "./components/plan-site/plan-site.component";
 import { CguResponsableComponent } from "./components/static-pages/cgu-responsable/cgu-responsable.component";
 import { HelpModalComponent } from "./components/static-modals/help-modal/help-modal.component";
 import { RgaaComponent } from "./components/static-pages/rgaa/rgaa.component";
+import { LandingPagePortailComponent } from "./components/static-pages/landing-page-portail/landing-page-portail.component";
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { RgaaComponent } from "./components/static-pages/rgaa/rgaa.component";
     HelpModalComponent,
     IdleManagerComponent,
     RgaaComponent,
+    LandingPagePortailComponent,
   ],
   exports: [
     LoadingComponent,
@@ -60,6 +62,7 @@ import { RgaaComponent } from "./components/static-pages/rgaa/rgaa.component";
     CguResponsableComponent,
     HelpModalComponent,
     IdleManagerComponent,
+    LandingPagePortailComponent,
   ],
   imports: [
     CommonModule,

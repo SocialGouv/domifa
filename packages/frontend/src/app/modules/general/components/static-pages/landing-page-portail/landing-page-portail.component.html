@@ -1,0 +1,117 @@
+<div class="container py-3 landing">
+  <div class="row my-4 align-items-center" @fadeIn>
+    <div class="col-12 col-md-6 px-5">
+      <h2>Vérifier son courrier sans se déplacer !</h2>
+      <p>
+        Le portail “Mon DomiFa” permet aux domiciliés de savoir s’ils ont des
+        courriers en attente à tout moment de la journée depuis un ordinateur ou
+        un smartphone
+      </p>
+      <br />
+      <button
+        *ngIf="isLandingPage"
+        class="btn btn-lg btn-primary my-2"
+        type="button"
+        (click)="activatePortail.emit()"
+      >
+        Activer le portail "Mon DomiFa"
+      </button>
+      <br />
+      <a
+        title="Télécharger le guide du portail usager"
+        href="/assets/files/guide_portail_usagers.pdf"
+        target="_blank"
+        class="btn btn-lg btn-outline-primary my-2"
+        rel="noopener noreferrer"
+        download
+      >
+        <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
+        Télécharger le guide
+      </a>
+    </div>
+    <div class="col-12 col-md-6">
+      <img
+        src="/assets/images/portail/no-courrier.png"
+        class="img-fluid"
+        alt="Courrier"
+      />
+    </div>
+  </div>
+  <div class="row my-4 align-items-center" @fadeIn>
+    <div class="col-12 col-md-6">
+      <img
+        src="/assets/images/portail/courrier.png"
+        class="img-fluid"
+        alt="Courrier"
+      />
+    </div>
+    <div class="col-12 col-md-6 px-5">
+      <p>
+        En donnant des accès au portail Mon DomiFa à vos domiciliés, vous
+        <b>pourrez diminuer drastiquement les visites inutiles </b>des personnes
+        n’ayant aucun courrier en attente. <br /><br />
+        Moins de déplacements <b>couteux et fatiguant </b>pour les domiciliés,
+        moins de flux à gérer pour votre structure <br /><br />Aussi, toutes les
+        personnes qui travaillent, qui n’ont pas ou peu de moyens pour se
+        déplacer ne viendront que lorsque ce la est nécessaire
+      </p>
+    </div>
+  </div>
+  <div class="row my-4 align-items-center" @fadeIn>
+    <div class="col-12 col-md-6 px-5">
+      <h2>Favoriser l’autonomie des domiciliés et réduire les radiations</h2>
+      <p>
+        Grâce à “Mon DomiFa”, les domiciliés pourront consulter leur dossier à
+        tout moment: état de leur domiciliation, date de dernier passage,
+        prochaine échéance, etc.
+        <br /><br />
+        Des alertes visuelles leur permettront d’être averti de la fin prochaine
+        de leur domiciliation
+
+        <br /><br />
+        La consultation du portail par un domicilié
+        <b>peut-être enregistrée comme un passage</b>. Cela permet d’éviter une
+        perte de droit pour non-présentation d’un domicilié
+      </p>
+    </div>
+    <div class="col-12 col-md-6">
+      <img
+        src="/assets/images/portail/notif.png"
+        class="img-fluid"
+        alt="Courrier"
+      />
+    </div>
+  </div>
+
+  <div class="text-center py-5 my-2" @fadeIn>
+    <button
+      class="btn btn-lg btn-primary my-2 mx-2"
+      *ngIf="isLandingPage"
+      type="button"
+      (click)="activatePortail.emit()"
+    >
+      Activer le portail "Mon DomiFa"
+    </button>
+
+    <a
+      title="Télécharger le guide du portail usager"
+      href="/assets/files/guide_portail_usagers.pdf"
+      target="_blank"
+      class="btn btn-lg btn-outline-primary my-2 mx-2"
+      rel="noopener noreferrer"
+      download
+    >
+      <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
+      Télécharger le guide
+    </a>
+
+    <a
+      href="/contact"
+      class="btn btn-lg btn-outline-primary my-2 mx-2"
+      download
+    >
+      <fa-icon aria-hidden="true" [icon]="['far', 'envelope']"></fa-icon>
+      Contactez l'équipe
+    </a>
+  </div>
+</div>

@@ -10,6 +10,7 @@ import {
   faFileImage,
   faFilePdf,
   faFileWord,
+  faEnvelope,
 } from "@fortawesome/free-regular-svg-icons";
 import {
   faAngleLeft,
@@ -88,6 +89,7 @@ export const FA_ICONS: IconDefinition[] = [
   faFileExcel,
   faFileImage,
   faFilePdf,
+  faEnvelope,
   faFileWord,
   faFolderOpen,
   faHome,
