@@ -11,6 +11,7 @@ import { UserStructure, StructureCommon } from "@domifa/common";
 @Component({
   selector: "app-structures-portail-usager-form",
   templateUrl: "./structures-portail-usager-form.component.html",
+  styleUrls: ["./structures-portail-usager-form.component.scss"],
 })
 export class StructuresPortailUsagerFormComponent implements OnInit, OnDestroy {
   public me!: UserStructure | null;
@@ -36,7 +37,28 @@ export class StructuresPortailUsagerFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  public submitStructureSmsForm() {
+  public activatePortail() {
+    this.subscription.add(
+      this.structureService
+        .patchPortailUsagerParams({
+          enabledByStructure: true,
+          usagerLoginUpdateLastInteraction: true,
+        })
+        .subscribe({
+          next: () => {
+            this.loading = false;
+            this.toastService.success("Portail Mon DomiFa activé avec succès");
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error(
+              "Impossible de mettre à jour les paramètres"
+            );
+          },
+        })
+    );
+  }
+  public submitStructurePortailForm() {
     this.loading = true;
     if (this.structure.portailUsager.enabledByStructure === false) {
       this.structure.portailUsager.usagerLoginUpdateLastInteraction = false;

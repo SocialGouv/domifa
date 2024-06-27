@@ -16,6 +16,7 @@ import { PlanSiteComponent } from "./modules/general/components/plan-site/plan-s
 import { CguResponsableComponent } from "./modules/general/components/static-pages/cgu-responsable/cgu-responsable.component";
 import { RgaaComponent } from "./modules/general/components/static-pages/rgaa/rgaa.component";
 import { AuthGuard, FacteurGuard } from "./guards";
+import { LandingPagePortailComponent } from "./modules/general/components/static-pages/landing-page-portail/landing-page-portail.component";
 
 export const routes: Routes = [
   {
@@ -44,6 +45,7 @@ export const routes: Routes = [
   { component: CguComponent, path: "cgu" },
   { component: CguResponsableComponent, path: "cgu-responsable" },
   { component: PlanSiteComponent, path: "plan-site" },
+  { component: LandingPagePortailComponent, path: "portail-mon-domifa" },
   {
     canActivate: [LoggedGuard],
     component: LoginComponent,

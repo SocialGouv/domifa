@@ -21,7 +21,7 @@ export class CanEditPortailUsagerGuard {
         return true;
       } else {
         this.toastService.error(
-          "L'accès au portail usager n'est pas encore ouvert à votre structure"
+          "L'accès au portail 'Mon DomiFa' n'est pas encore ouvert à votre structure"
         );
         this.router.navigate(["/manage"]);
         return false;

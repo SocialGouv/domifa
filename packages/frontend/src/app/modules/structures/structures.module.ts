@@ -19,6 +19,7 @@ import { StructuresSmsFormComponent } from "./components/structures-sms-form/str
 import { StructuresUploadDocsComponent } from "./components/structures-upload-docs/structures-upload-docs.component";
 
 import { StructuresRoutingModule } from "./structures-routing.module";
+import { GeneralModule } from "../general/general.module";
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { StructuresRoutingModule } from "./structures-routing.module";
     UsersModule,
     NgxIntlTelInputModule,
     SharedModule,
+    GeneralModule,
     StructuresRoutingModule,
   ],
   providers: [],
