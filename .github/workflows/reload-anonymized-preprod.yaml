@@ -15,4 +15,6 @@ jobs:
       environment: dev
       inlineSet: |
         global.rancherNamespaceEnabled: true
+        global.namespaceLabels:
+          cert: wildcard
     secrets: inherit

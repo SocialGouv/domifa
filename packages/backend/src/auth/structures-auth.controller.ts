@@ -44,9 +44,7 @@ export class StructuresAuthController {
 
       return res.status(HttpStatus.OK).json(accessToken);
     } catch (err) {
-      return res
-        .status(HttpStatus.UNAUTHORIZED)
-        .json({ message: "WRONG_CREDENTIALS" });
+      return res.status(HttpStatus.UNAUTHORIZED).json({ err });
     }
   }
 
@@ -80,7 +78,7 @@ export class StructuresAuthController {
     if (!user) {
       return res
         .status(HttpStatus.UNAUTHORIZED)
-        .json({ message: "WRONG_CREDENTIALS" });
+        .json({ message: "USER_NOT_FOUND" });
     }
 
     return res.status(HttpStatus.OK).json({

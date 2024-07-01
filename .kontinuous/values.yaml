@@ -3,7 +3,7 @@ global:
 
 backend: &backend
   ~chart: app
-  ~needs: [build-backend]
+  ~needs: [backend-cron]
   imagePackage: backend
   host: "api-{{ .Values.global.host }}"
   probesPath: /healthz

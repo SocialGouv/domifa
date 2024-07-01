@@ -30,7 +30,7 @@ async function checkPassword({
   });
 
   if (!user) {
-    throw new Error("WRONG_CREDENTIALS"); // don't give the real cause
+    throw new Error("WRONG_CREDENTIALS 8"); // don't give the real cause
   }
 
   const userSecurity = await userUsagerSecurityRepository.findOneOrFail({
@@ -57,7 +57,7 @@ async function checkPassword({
       userSecurity,
       eventType: "login-error",
     });
-    throw new Error("WRONG_CREDENTIALS"); // don't give the real cause
+    throw new Error("WRONG_CREDENTIALS 9"); // don't give the real cause
   }
 
   if (!user.enabled) {
