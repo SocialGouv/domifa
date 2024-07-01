@@ -19,4 +19,4 @@ function anonymize(values: Record<string, any>) {
   }
 }
 
-main(["archived", "message", "createdBy", "archivedBy"], anonymize)
+main(anonymize)

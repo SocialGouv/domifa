@@ -7,4 +7,4 @@ function anonymize(values: Record<string, any>) {
   values.password = __HASHED__PASSWORD__
 }
 
-main(["password"], anonymize)
+main(anonymize)

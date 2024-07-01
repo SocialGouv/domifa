@@ -20,4 +20,4 @@ function anonymize(values: Record<string, any>) {
   values.ayantsDroits = JSON.stringify(anonymised)
 }
 
-main(["ayantsDroits"], anonymize)
+main(anonymize)
