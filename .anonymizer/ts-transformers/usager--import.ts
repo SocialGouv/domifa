@@ -18,4 +18,4 @@ function anonymize(values: Record<string, any>) {
   values.import = JSON.stringify(anonymised)
 }
 
-main(["import"], anonymize)
+main(anonymize)

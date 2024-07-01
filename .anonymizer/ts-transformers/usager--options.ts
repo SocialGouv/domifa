@@ -43,4 +43,4 @@ function anonymize(values: Record<string, any>) {
   values.options = JSON.stringify(anonymised)
 }
 
-main(["options"], anonymize)
+main(anonymize)

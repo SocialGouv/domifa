@@ -14,4 +14,4 @@ function anonymize(values: Record<string, any>) {
   values.fonction = new_fonction
 }
 
-main(["fonction"], anonymize)
+main(anonymize)

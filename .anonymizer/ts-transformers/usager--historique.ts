@@ -25,4 +25,4 @@ function anonymize(values: Record<string, any>) {
   values.historique = JSON.stringify(anonymised)
 }
 
-main(["historique"], anonymize)
+main(anonymize)

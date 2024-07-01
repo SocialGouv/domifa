@@ -1,5 +1,4 @@
 export function main<T extends { d: any }>(
-  columnNames: string[],
   anonymize: (columns: Record<string, T[]>) => void
 ) {
   const stdin = process.stdin
