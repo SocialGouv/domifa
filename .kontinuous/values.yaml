@@ -63,7 +63,7 @@ backend-export:
     paths:
       - /export
       - /stats
-      - /home
+      - /stats/home
       - /admin/structures/export
 
 backend-cron:

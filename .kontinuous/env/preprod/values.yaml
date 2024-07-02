@@ -46,6 +46,8 @@ backend-export:
     paths:
       - /export
       - /admin/structures/export
+      - /stats
+      - /stats/home
 
 backend-cron:
   ~needs: [build-backend]
