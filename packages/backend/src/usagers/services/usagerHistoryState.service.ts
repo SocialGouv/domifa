@@ -121,7 +121,6 @@ export class UsagerHistoryStateService {
     }
 
     return new UsagerHistoryStatesTable({
-      usagerRef: usager.ref,
       usagerUUID: usager.uuid,
       structureId: usager.structureId,
       createdAt,
@@ -134,11 +133,9 @@ export class UsagerHistoryStateService {
       historyEndDate: undefined,
       decision,
       typeDom,
-      etapeDemande: usager.etapeDemande,
       entretien,
       ayantsDroits,
       rdv: { dateRdv: usager?.rdv?.dateRdv },
-      migrated: false,
     });
   }
 
