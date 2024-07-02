@@ -59,6 +59,7 @@ export function buildCustomDoc({
   };
 
   return {
+    AYANTS_DROITS_NOMBRE: usager.ayantsDroits?.length?.toString() ?? "0",
     AYANTS_DROITS_LISTE: getAyantsDroitsText(usager),
     // DATES UTILES
     DATE_JOUR: dateFormat(date, structure.timeZone, DATE_FORMAT.JOUR),
@@ -116,7 +117,9 @@ export function buildCustomDoc({
     ),
 
     USAGER_LIEU_NAISSANCE: ucFirst(usager.villeNaissance),
-    NATIONALITE: ucFirst(usager?.nationalite),
+    USAGER_LANGUE: usager.langue ? ucFirst(usager?.langue) : "",
+    USAGER_NATIONALITE: ucFirst(usager?.nationalite),
+    DECISION_USERNAME: ucFirst(usager?.decision?.userName),
 
     // CONTACT USAGER
     USAGER_PHONE: getPhoneString(usager.telephone),
@@ -184,8 +187,13 @@ export const buildDecision = (
 
     // REFUS / RADIATION
     MOTIF_RADIATION: motif,
+    MOTIF_REFUS: motif,
     DATE_RADIATION:
       usager.decision.statut === "RADIE"
+        ? dateFormat(usager.decision.dateDebut, structure.timeZone, format)
+        : "",
+    DATE_REFUS:
+      usager.decision.statut === "REFUS"
         ? dateFormat(usager.decision.dateDebut, structure.timeZone, format)
         : "",
 

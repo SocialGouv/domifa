@@ -34,9 +34,11 @@ export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
   USAGER_NOM: "Nom de l'usager",
   USAGER_PRENOM: "Prénom de l'usager",
   USAGER_SURNOM: "Nom d'usage / Surnom",
+  USAGER_LANGUE: "Langue parlée",
+  USAGER_NATIONALITE: "Nationalité",
   USAGER_DATE_NAISSANCE: "Date naissance",
-  NATIONALITE: "Nationalité",
   USAGER_LIEU_NAISSANCE: "Lieu naissance",
+  AYANTS_DROITS_NOMBRE: "Nombre d'ayants-droit",
   AYANTS_DROITS_LISTE:
     "La liste des ayants droits avec nom prénom et date de naissance",
 
@@ -45,12 +47,16 @@ export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
   USAGER_EMAIL: "Adresse email",
 
   // STATUT ET TYPE DE DOM
-  STATUT_DOM: "Statut de la domiciliation: actif, radié, refusé, en attente",
-  TYPE_DOM: "Type de domiciliation : première domiciliation ou renouvellement",
+  STATUT_DOM: "Statut de la domiciliation",
+  TYPE_DOM: "Type de domiciliation",
 
   // REFUS / RADIATION
+  MOTIF_REFUS: "Motif du refus",
   MOTIF_RADIATION: "Motif de la radiation",
   DATE_RADIATION: "Date de la radiation",
+  DATE_REFUS: "Date du refus",
+  DECISION_USERNAME: "Utilisateur ayant prit la décision",
+
   // DATES DOMICILIATION
   DATE_DEBUT_DOM: "Date de Début de la domiciliation (ex: 12/10/2020)",
   DATE_FIN_DOM: "Date de fin de la domiciliation (ex: 12/10/2020)",
@@ -58,6 +64,7 @@ export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
   DATE_DERNIER_PASSAGE: "Date de dernier passage (ex: 01/09/2020 à 10h45)",
 
   // ENTRETIEN
+  ENTRETIEN_ORIENTATION: "Orientation: oui ou non",
   ENTRETIEN_ORIENTE_PAR: "Orienté par xxxx",
   ENTRETIEN_DOMICILIATION_EXISTANTE: "Domiciliation existante : Oui / Non",
   ENTRETIEN_REVENUS: "Revenus : Oui / Non",
@@ -69,6 +76,7 @@ export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
   ENTRETIEN_RATTACHEMENT: "Rattachement à une ville ou un arrondissement",
   ENTRETIEN_ACCOMPAGNEMENT: "Accompagnement social",
   ENTRETIEN_SITUATION_PROFESSIONNELLE: "Situation professionnelle",
+  ENTRETIEN_COMMENTAIRE: "Commentaire de l'entretien",
   // Transferts
   TRANSFERT_ACTIF: "Transfert actif ou non : (oui / non)",
   TRANSFERT_NOM: "Nom de l'établissement",
