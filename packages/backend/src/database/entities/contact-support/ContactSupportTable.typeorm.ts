@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, Index } from "typeorm";
+import { BeforeInsert, Column, Entity } from "typeorm";
 import {
   ContactCategorie,
   ContactStatus,
@@ -14,13 +14,10 @@ export class ContactSupportTable
   extends AppTypeormTable<ContactSupportTable>
   implements ContactSupport
 {
-  // Infos user
   @Column({ type: "integer", nullable: true })
-  @Index()
   public userId: number;
 
   @Column({ type: "integer", nullable: true })
-  @Index()
   public structureId: number;
 
   // Contenu du message
@@ -28,7 +25,6 @@ export class ContactSupportTable
   public content: string;
 
   @Column({ type: "text", default: "ON_HOLD" })
-  @Index()
   public status: ContactStatus;
 
   @Column({ type: "jsonb", nullable: true })

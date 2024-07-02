@@ -29,9 +29,6 @@ export class UsagerHistoryStatesTable
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
   public usagerUUID: string;
 
-  @Column({ type: "integer", update: false })
-  public usagerRef: number;
-
   @Index()
   @ManyToOne(() => StructureTable, (structure) => structure.id, {
     onDelete: "CASCADE",
@@ -48,6 +45,7 @@ export class UsagerHistoryStatesTable
 
   @Column({ type: "text", nullable: true })
   sexe: UsagerSexe;
+
   @Column({ type: "text", nullable: true })
   nationalite: string;
 
@@ -60,7 +58,6 @@ export class UsagerHistoryStatesTable
   @Column({ type: "jsonb", nullable: true })
   rdv: Partial<UsagerRdv>;
 
-  @Index()
   @Column({ type: "text", nullable: false })
   createdEvent: UsagerHistoryStateCreationEvent;
 
@@ -71,19 +68,11 @@ export class UsagerHistoryStatesTable
   @Column({ type: "timestamptz", nullable: true })
   historyEndDate?: Date; // fin de la période historisée, correspond à l'attribut "historyBeginDate" du UsagerHistoryState suivant
 
-  @Index()
   @Column({ type: "boolean", nullable: true, default: false })
   isActive: boolean; // usager actif si VALIDE ou en cours de renouvellement
 
-  @Column({ type: "boolean", default: false })
-  migrated: boolean;
-
-  @Index()
   @Column({ type: "text", nullable: true, default: "PREMIERE_DOM" })
-  public typeDom!: UsagerTypeDom;
-
-  @Column({ type: "integer", default: 0 })
-  public etapeDemande!: number;
+  typeDom!: UsagerTypeDom;
 
   public constructor(entity?: Partial<UsagerHistoryStatesTable>) {
     super(entity);
