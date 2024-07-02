@@ -84,16 +84,16 @@ backend: &backendProd
   ~needs: [build-backend]
   host: "domifa-api.{{ .Values.global.domain }}"
   autoscale:
-    minReplicas: 3
+    minReplicas: 4
     maxReplicas: 8
     enabled: true
   resources:
     requests:
-      cpu: 1
-      memory: 1Gi
-    limits: # exports need a lot of CPU/RAM ATM
       cpu: 2
       memory: 2Gi
+    limits: # exports need a lot of CPU/RAM ATM
+      cpu: 3
+      memory: 3Gi
   certSecretName: backend-crt
   envFrom:
     - secretRef:
@@ -113,7 +113,7 @@ backend-export:
   host: "domifa-api.{{ .Values.global.domain }}"
   autoscale:
     minReplicas: 2
-    maxReplicas: 4
+    maxReplicas: 5
     enabled: true
   resources:
     requests:
@@ -139,6 +139,8 @@ backend-export:
     paths:
       - /export
       - /admin/structures/export
+      - /stats
+      - /stats/home
 
 frontend:
   autoscale:
