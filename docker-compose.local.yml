@@ -146,17 +146,17 @@ services:
   #   environment:
   #     TZ: Europe/Paris
 
-  # metabase-app:
-  #   container_name: domifa-metabase
-  #   image: metabase/metabase:latest
-  #   restart: always
-  #   ports:
-  #     - 3002:3000
-  #   volumes:
-  #     # declare your mount volume /host/dir:/container/dir
-  #     - metabase-data:/metabase-data
-  #   environment:
-  #     MB_DB_FILE: /metabase-data/metabase.db
-  #     MB_SITE_LOCALE: fr
-  #   depends_on:
-  #     - postgres
+  metabase-app:
+    container_name: domifa-metabase
+    image: metabase/metabase:latest
+    restart: always
+    ports:
+      - 3002:3000
+    volumes:
+      # declare your mount volume /host/dir:/container/dir
+      - metabase-data:/metabase-data
+    environment:
+      MB_DB_FILE: /metabase-data/metabase.db
+      MB_SITE_LOCALE: fr
+    depends_on:
+      - postgres

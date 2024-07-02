@@ -2,6 +2,7 @@ import { StructureCustomDocTags } from "../../../../_common/model/structure-doc/
 
 export const CUSTOM_DOC_ATTESTATION_POSTALE: StructureCustomDocTags = {
   AYANTS_DROITS_LISTE: "",
+  AYANTS_DROITS_NOMBRE: "0",
   DATE_JOUR: "15/12/2020",
   DATE_JOUR_HEURE: "15/12/2020 à 14:30",
   DATE_JOUR_LONG: "15 décembre 2020",
@@ -32,6 +33,11 @@ export const CUSTOM_DOC_ATTESTATION_POSTALE: StructureCustomDocTags = {
   STATUT_DOM: "Actif",
   TYPE_DOM: "Première domiciliation",
   MOTIF_RADIATION: "",
+  DECISION_USERNAME: "Patrick Roméro",
+  USAGER_LANGUE: "",
+  USAGER_NATIONALITE: "",
+  MOTIF_REFUS: "",
+  DATE_REFUS: "",
   DATE_RADIATION: "",
 
   DATE_DEBUT_DOM: "1 novembre 2020",
@@ -45,7 +51,6 @@ export const CUSTOM_DOC_ATTESTATION_POSTALE: StructureCustomDocTags = {
   ENTRETIEN_LIEN_COMMUNE: "",
   ENTRETIEN_COMPOSITION_MENAGE: "Femme isolée avec enfant(s)",
   ENTRETIEN_SITUATION_RESIDENTIELLE: "Hébergé chez un tiers",
-  NATIONALITE: "",
   ENTRETIEN_ACCOMPAGNEMENT: "NON",
   ENTRETIEN_CAUSE_INSTABILITE: "Violence familiale et/ou conjugale",
   ENTRETIEN_RAISON_DEMANDE: "Exercice des droits civils ou civiques",

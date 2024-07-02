@@ -186,8 +186,8 @@ export const buildDecision = (
         : "Renouvellement",
 
     // REFUS / RADIATION
-    MOTIF_RADIATION: motif,
-    MOTIF_REFUS: motif,
+    MOTIF_RADIATION: usager.decision.statut === "RADIE" ? motif : "",
+    MOTIF_REFUS: usager.decision.statut === "REFUS" ? motif : "",
     DATE_RADIATION:
       usager.decision.statut === "RADIE"
         ? dateFormat(usager.decision.dateDebut, structure.timeZone, format)
