@@ -1,3 +1,11 @@
+## [2.172.2](https://github.com/SocialGouv/domifa/compare/v2.172.1...v2.172.2) (2024-07-02)
+
+
+### Bug Fixes
+
+* **backend:** delete useless indexes ([c2489b1](https://github.com/SocialGouv/domifa/commit/c2489b1c1e336d68618ccae2bc709ec4e44cedcb))
+* **frontend:** add link for new guide ([d8786fc](https://github.com/SocialGouv/domifa/commit/d8786fc0123f75e66a7a43cc798859fa4f152b9f))
+
 ## [2.172.1](https://github.com/SocialGouv/domifa/compare/v2.172.0...v2.172.1) (2024-07-02)
 
 
