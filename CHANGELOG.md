@@ -1,3 +1,17 @@
+# [2.172.0](https://github.com/SocialGouv/domifa/compare/v2.171.5...v2.172.0) (2024-07-02)
+
+
+### Bug Fixes
+
+* **frontend:** fix landing page for mon domifa ([c017729](https://github.com/SocialGouv/domifa/commit/c017729f779a055d96b0156361b5fc049d18a258))
+* **portail:** add informations, fix design and tests ([836a4e2](https://github.com/SocialGouv/domifa/commit/836a4e225b0439e69ad794d58fdcb037284977e4))
+
+
+### Features
+
+* **frontend:** add landing page for mon domifa ([b9fcf78](https://github.com/SocialGouv/domifa/commit/b9fcf787c8898172ce903e86361315fbde706f68))
+* **frontend:** redesign portail page ([a53b4bc](https://github.com/SocialGouv/domifa/commit/a53b4bcf8c1a50b33c5e9ac442d57dfd3956af2e))
+
 ## [2.171.5](https://github.com/SocialGouv/domifa/compare/v2.171.4...v2.171.5) (2024-06-24)
 
 
