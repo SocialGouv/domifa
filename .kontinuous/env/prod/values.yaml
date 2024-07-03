@@ -83,17 +83,15 @@ backend-cron:
 backend: &backendProd
   ~needs: [build-backend]
   host: "domifa-api.{{ .Values.global.domain }}"
-  autoscale:
-    minReplicas: 4
-    maxReplicas: 8
-    enabled: true
   resources:
     requests:
-      cpu: 2
-      memory: 2Gi
+      cpu: 1
+      memory: 1.5Gi
     limits: # exports need a lot of CPU/RAM ATM
-      cpu: 3
-      memory: 3Gi
+      cpu: 1.5
+      memory: 2Gi
+  autoscale:
+    enabled: true
   certSecretName: backend-crt
   envFrom:
     - secretRef:
@@ -111,17 +109,15 @@ backend: &backendProd
 backend-export:
   ~needs: [build-backend]
   host: "domifa-api.{{ .Values.global.domain }}"
-  autoscale:
-    minReplicas: 2
-    maxReplicas: 5
-    enabled: true
   resources:
     requests:
       cpu: 1
-      memory: 5Gi
+      memory: 768i
     limits: # exports need a lot of CPU/RAM ATM
-      cpu: 3
-      memory: 5Gi
+      cpu: 1
+      memory: 1Gi
+    autoscale:
+    enabled: true
   certSecretName: backend-crt
   envFrom:
     - secretRef:
@@ -143,22 +139,40 @@ backend-export:
       - /stats/home
 
 frontend:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
   autoscale:
-    minReplicas: 2
-    maxReplicas: 4
+    enabled: true
   host: "{{ .Values.global.host }}"
   certSecretName: frontend-crt
 
 portail-admins:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
   autoscale:
-    minReplicas: 2
-    maxReplicas: 4
+    enabled: true
   host: "admin-{{ .Values.global.host }}"
   certSecretName: portail-admins-crt
 
 portail-usagers:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
   autoscale:
-    minReplicas: 2
-    maxReplicas: 4
+    enabled: true
   host: "mon-{{ .Values.global.host }}"
   certSecretName: portail-usagers-crt
