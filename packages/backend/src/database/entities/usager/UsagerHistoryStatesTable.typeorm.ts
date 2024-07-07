@@ -64,6 +64,7 @@ export class UsagerHistoryStatesTable
   @Index()
   @Column({ type: "timestamptz", nullable: false })
   historyBeginDate: Date; // début de la période historisée, correspond à l'attribut "historyEndDate" du UsagerHistoryState précédent si il existe (sans rapport avec decision.dateDebut)
+
   @Index()
   @Column({ type: "timestamptz", nullable: true })
   historyEndDate?: Date; // fin de la période historisée, correspond à l'attribut "historyBeginDate" du UsagerHistoryState suivant

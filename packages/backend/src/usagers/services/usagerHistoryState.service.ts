@@ -74,7 +74,7 @@ export class UsagerHistoryStateService {
         isActive ||
         ((usager.decision.statut === "ATTENTE_DECISION" ||
           usager.decision.statut === "INSTRUCTION") &&
-          isActive);
+          previousState?.isActive);
     }
 
     const state = this.createState({

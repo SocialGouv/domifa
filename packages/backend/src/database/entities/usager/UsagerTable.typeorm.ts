@@ -32,14 +32,10 @@ import {
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "usager" })
 @Unique(["structureId", "ref"])
-@Index("idx_usagers", ["structureId", "ref"])
-@Index("idx_structure_statut", ["structureId", "decision"])
-@Index("idx_decision_gin", { synchronize: false })
 export class UsagerTable
   extends AppTypeormTable<UsagerTable>
   implements Usager
 {
-  @Index()
   @Column({ type: "integer" })
   public ref!: number;
 
@@ -63,11 +59,9 @@ export class UsagerTable
   @Column({ type: "text", nullable: true })
   public surnom!: string;
 
-  @Index()
   @Column({ type: "text", nullable: false })
   public sexe!: UsagerSexe;
 
-  @Index()
   @Column({ type: "timestamptz", nullable: false })
   public dateNaissance!: Date;
 
@@ -130,8 +124,6 @@ export class UsagerTable
   )
   public entretien!: UsagerEntretien;
 
-  //
-  // TRANSFERTS / NPAI / PROCURATION
   @Column({
     type: "jsonb",
   })

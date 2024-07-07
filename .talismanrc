@@ -31,6 +31,8 @@ fileignoreconfig:
   checksum: d3f39a30fcb5bb27cc41d23f847ea1c77373267b56204dd899a0aebd0e273381
 - filename: packages/backend/src/_migrations/1719958123799-auto-migration.ts
   checksum: edd7d315c2703c49b899c2a0f93580ef043a9d0c8291284dbdaa1f511bc63adc
+- filename: packages/backend/src/_migrations/1720361569954-auto-migration.ts
+  checksum: 546b639a5c7d68fab63a939c12d177567b36866eebd396a37682f3d7c37d198b
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
   checksum: 8a055b3a41c834dfb48a0260111717706b3b8e411c30e001d35e0362ba05deed
 - filename: packages/backend/src/modules/portail-usagers/controllers/portail-usagers-manager/portail-usagers-manager.controller.ts
