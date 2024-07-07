@@ -357,13 +357,8 @@ async function createTables(queryRunner: QueryRunner) {
       CONSTRAINT "UQ_e76056fb098740de66d58a5055a" UNIQUE ("structureId", ref),
       CONSTRAINT "FK_a44d882d224e368efdee8eb8c80" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
     );
-    CREATE INDEX "IDX_8198a25ae40584a38bce1dd4d2" ON public.usager USING btree (ref);
     CREATE INDEX "IDX_a44d882d224e368efdee8eb8c8" ON public.usager USING btree ("structureId");
     CREATE INDEX "IDX_b4d09870ec6cad2d2d98b7cc3a" ON public.usager USING btree (migrated);
-    CREATE INDEX "IDX_d7abcf8875e8a94abf2dcf041e" ON public.usager USING btree ("dateNaissance");
-    CREATE INDEX "IDX_fef5654bcc6595d885e57d1474" ON public.usager USING btree (sexe);
-    CREATE INDEX idx_structure_statut ON public.usager USING btree ("structureId", decision);
-    CREATE INDEX idx_usagers ON public.usager USING btree ("structureId", ref);
 
 
     -- public.usager_docs definition
