@@ -41,6 +41,8 @@ fileignoreconfig:
   checksum: 0a10c492e64567f0309c24e270d7f5a18835acb26e72650337e8a18476cf271e
 - filename: packages/backend/src/usagers/services/xlsx-structure-usagers-renderer/renderStructureUsagersRows.ts
   checksum: 7d123141536acb8ec5b0bee34c0c8e2690e31743c4a8842f1e6a4bdc5dd6464e
+- filename: packages/backend/src/usagers/services/xlsx-structure-usagers-renderer/tests/FIRST_SHEET_USAGERS.mock.ts
+  checksum: 80fb82d1004aba92a2c611267df10ee10a488d934a5f45ea10eee63064cb8295
 - filename: packages/backend/src/users/dto/user.dto.ts
   checksum: fab1dab2ad003174730bbdc703d59af49e65db3297415c0a1ac98a95e9f64280
 - filename: packages/backend/src/util/expressResponseExcelRenderer.service.ts

@@ -329,7 +329,7 @@ export class UsagersController {
       structureId: user.structureId,
     });
 
-    // Suppression de l'usager
+    // Suppression du domicilié
     await usagerRepository.delete({
       ref: usager.ref,
       structureId: user.structureId,

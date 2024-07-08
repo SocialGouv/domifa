@@ -30,9 +30,9 @@ export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
   USAGER_REF: "Référence dossier",
   USAGER_CUSTOM_REF: "Identifiant personnalisé",
   USAGER_NUMERO_DISTRIBUTION_SPECIALE: "Numéro de distribution (TSA, BP, etc)",
-  USAGER_CIVILITE: "Civilité de l'usager",
-  USAGER_NOM: "Nom de l'usager",
-  USAGER_PRENOM: "Prénom de l'usager",
+  USAGER_CIVILITE: "Civilité",
+  USAGER_NOM: "Nom",
+  USAGER_PRENOM: "Prénom",
   USAGER_SURNOM: "Nom d'usage / Surnom",
   USAGER_LANGUE: "Langue parlée",
   USAGER_NATIONALITE: "Nationalité",
@@ -55,7 +55,8 @@ export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
   MOTIF_RADIATION: "Motif de la radiation",
   DATE_RADIATION: "Date de la radiation",
   DATE_REFUS: "Date du refus",
-  DECISION_USERNAME: "Utilisateur ayant prit la décision",
+  DECISION_NOM_AGENT: "Utilisateur ayant prit la décision",
+  PREMIERE_DOM_NOM_AGENT: "Utilisateur ayant validé la 1ere dom",
 
   // DATES DOMICILIATION
   DATE_DEBUT_DOM: "Date de Début de la domiciliation (ex: 12/10/2020)",

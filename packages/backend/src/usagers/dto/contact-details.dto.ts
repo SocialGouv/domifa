@@ -16,7 +16,7 @@ import {
 export class ContactDetailsDto {
   @ApiProperty({
     example: "test@test.fr",
-    description: "Email de l'usager",
+    description: "Email du domicilié",
   })
   @IsOptional()
   @IsEmail()
