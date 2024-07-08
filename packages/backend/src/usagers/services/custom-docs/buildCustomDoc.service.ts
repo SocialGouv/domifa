@@ -119,7 +119,7 @@ export function buildCustomDoc({
     USAGER_LIEU_NAISSANCE: ucFirst(usager.villeNaissance),
     USAGER_LANGUE: usager.langue ? ucFirst(usager?.langue) : "",
     USAGER_NATIONALITE: ucFirst(usager?.nationalite),
-    DECISION_USERNAME: ucFirst(usager?.decision?.userName),
+    DECISION_NOM_AGENT: ucFirst(usager?.decision?.userName),
 
     // CONTACT USAGER
     USAGER_PHONE: getPhoneString(usager.telephone),
@@ -176,7 +176,8 @@ export const buildDecision = (
   format = DATE_FORMAT.JOUR
 ) => {
   const motif = generateMotifLabel(usager.decision);
-  const { dateDebutDom, dateFinDom } = getDateDecision(usager);
+  const { dateDebutDom, dateFinDom, decisionUserPremierDom } =
+    getDateDecision(usager);
 
   return {
     STATUT_DOM: USAGER_DECISION_STATUT_LABELS[usager.decision.statut],
@@ -200,6 +201,7 @@ export const buildDecision = (
     // DATES DOMICILIATION
     DATE_DEBUT_DOM: dateFormat(dateDebutDom, structure.timeZone, format),
     DATE_FIN_DOM: dateFormat(dateFinDom, structure.timeZone, format),
+    PREMIERE_DOM_NOM_AGENT: decisionUserPremierDom ?? "",
     DATE_PREMIERE_DOM: dateFormat(
       usager.datePremiereDom,
       structure.timeZone,
@@ -310,38 +312,40 @@ export const dateFormat = (
 export const getDateDecision = (
   usager: Pick<Usager, "decision" | "historique" | "datePremiereDom">
 ): {
-  dateDebutDom: Date;
-  dateFinDom: Date;
+  dateDebutDom: Date | null;
+  dateFinDom: Date | null;
+  decisionUserPremierDom: string;
 } => {
-  if (usager.decision.statut !== "RADIE") {
-    return {
-      dateDebutDom: usager.decision.dateDebut,
-      dateFinDom: usager.decision.dateFin,
-    };
-  }
+  let decisionUserPremierDom = "";
 
   const valideDecisions = usager.historique.filter(
     (decision: UsagerDecision) => decision.statut === "VALIDE"
   );
 
-  if (valideDecisions.length >= 1) {
-    const valideDecision = valideDecisions[valideDecisions.length - 1];
+  decisionUserPremierDom = valideDecisions[0]?.userName ?? "";
+
+  if (usager.decision.statut === "VALIDE") {
     return {
-      dateDebutDom: valideDecision.dateDebut,
-      dateFinDom: valideDecision.dateFin,
+      dateDebutDom: usager.decision.dateDebut,
+      dateFinDom: usager.decision.dateFin,
+      decisionUserPremierDom,
     };
   }
 
-  if (usager.datePremiereDom) {
+  if (valideDecisions.length >= 1) {
+    const valideDecision = valideDecisions[valideDecisions.length - 1];
+
     return {
-      dateDebutDom: usager.datePremiereDom,
-      dateFinDom: usager.datePremiereDom,
+      dateDebutDom: valideDecision.dateDebut,
+      dateFinDom: valideDecision.dateFin,
+      decisionUserPremierDom,
     };
   }
 
   return {
-    dateDebutDom: usager.decision.dateDebut,
-    dateFinDom: usager.decision.dateFin,
+    dateDebutDom: null,
+    dateFinDom: null,
+    decisionUserPremierDom: null,
   };
 };
 

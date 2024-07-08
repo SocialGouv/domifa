@@ -35,7 +35,7 @@ export class CreateUsagerDto {
   @ApiProperty({
     example: "homme",
     required: true,
-    description: "Sexe de l'usager",
+    description: "Sexe du domicilié",
   })
   @IsIn(["homme", "femme"])
   @IsNotEmpty()
@@ -130,7 +130,7 @@ export class CreateUsagerDto {
 
   @ApiProperty({
     example: "test@test.fr",
-    description: "Email de l'usager",
+    description: "Email du domicilié",
   })
   @IsOptional()
   @IsEmail()

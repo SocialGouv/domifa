@@ -1,23 +1,3 @@
-/*
- * Soliguide: Useful information for those who need it
- *
- * SPDX-FileCopyrightText: © 2024 Solinum
- *
- * SPDX-License-Identifier: AGPL-3.0-only
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published
- * by the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
 import { StructureCommon, UsagerAyantDroit } from "@domifa/common";
 
 import set from "lodash.set";
@@ -38,6 +18,7 @@ export const renderStructureUsagersRows = (
 } => {
   const usagersListHeader: StructureCustomDocTags = {
     USAGER_REF: CUSTOM_DOCS_LABELS.USAGER_REF,
+    USAGER_CUSTOM_REF: CUSTOM_DOCS_LABELS.USAGER_CUSTOM_REF,
     USAGER_CIVILITE: CUSTOM_DOCS_LABELS.USAGER_CIVILITE,
     USAGER_NOM: CUSTOM_DOCS_LABELS.USAGER_NOM,
     USAGER_PRENOM: CUSTOM_DOCS_LABELS.USAGER_PRENOM,
@@ -53,9 +34,10 @@ export const renderStructureUsagersRows = (
     STATUT_DOM: CUSTOM_DOCS_LABELS.STATUT_DOM,
     DATE_RADIATION: CUSTOM_DOCS_LABELS.DATE_RADIATION,
     MOTIF_RADIATION: CUSTOM_DOCS_LABELS.MOTIF_RADIATION,
-    DATE_REFUS: CUSTOM_DOCS_LABELS.DATE_RADIATION,
+    DATE_REFUS: CUSTOM_DOCS_LABELS.DATE_REFUS,
     MOTIF_REFUS: CUSTOM_DOCS_LABELS.MOTIF_REFUS,
-    DECISION_USERNAME: CUSTOM_DOCS_LABELS.DECISION_USERNAME,
+    DECISION_NOM_AGENT: CUSTOM_DOCS_LABELS.DECISION_NOM_AGENT,
+    PREMIERE_DOM_NOM_AGENT: CUSTOM_DOCS_LABELS.PREMIERE_DOM_NOM_AGENT,
     TYPE_DOM: CUSTOM_DOCS_LABELS.TYPE_DOM,
     DATE_DEBUT_DOM: CUSTOM_DOCS_LABELS.DATE_DEBUT_DOM,
     DATE_FIN_DOM: CUSTOM_DOCS_LABELS.DATE_FIN_DOM,
@@ -66,6 +48,7 @@ export const renderStructureUsagersRows = (
 
   const entretiensHeader: StructureCustomDocTags = {
     USAGER_REF: CUSTOM_DOCS_LABELS.USAGER_REF,
+    USAGER_CUSTOM_REF: CUSTOM_DOCS_LABELS.USAGER_CUSTOM_REF,
     USAGER_CIVILITE: CUSTOM_DOCS_LABELS.USAGER_CIVILITE,
     USAGER_NOM: CUSTOM_DOCS_LABELS.USAGER_NOM,
     USAGER_PRENOM: CUSTOM_DOCS_LABELS.USAGER_PRENOM,
@@ -175,9 +158,10 @@ export const renderFirstSheetData = (
     STATUT_DOM: usager.STATUT_DOM,
     DATE_RADIATION: usager.DATE_RADIATION,
     MOTIF_RADIATION: usager.MOTIF_RADIATION,
-    DATE_REFUS: usager.DATE_RADIATION,
+    DATE_REFUS: usager.DATE_REFUS,
     MOTIF_REFUS: usager.MOTIF_REFUS,
-    DECISION_USERNAME: usager.DECISION_USERNAME,
+    DECISION_NOM_AGENT: usager.DECISION_NOM_AGENT,
+    PREMIERE_DOM_NOM_AGENT: usager.PREMIERE_DOM_NOM_AGENT,
     TYPE_DOM: usager.TYPE_DOM,
     DATE_DEBUT_DOM: usager.DATE_DEBUT_DOM,
     DATE_FIN_DOM: usager.DATE_FIN_DOM,
@@ -191,7 +175,7 @@ export const renderSecondSheetData = (
   usager: StructureCustomDocTags
 ): StructureCustomDocTags => {
   return {
-    USAGER_REF: usager.USAGER_REF,
+    USAGER_REF: usager.USAGER_CUSTOM_REF,
     USAGER_CIVILITE: usager.USAGER_CIVILITE,
     USAGER_NOM: usager.USAGER_NOM,
     USAGER_PRENOM: usager.USAGER_PRENOM,
