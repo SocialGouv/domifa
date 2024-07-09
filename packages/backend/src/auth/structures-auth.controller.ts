@@ -13,7 +13,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { domifaConfig } from "../config";
-import { userStructureSecurityPasswordChecker } from "../database/services/app-logs/user-structure-security/userStructureSecurityPasswordChecker.service";
+import { userStructureSecurityPasswordChecker } from "../database/services/app-log/user-structure-security/userStructureSecurityPasswordChecker.service";
 import { StructureLoginDto } from "../users/dto";
 import { ExpressRequest, ExpressResponse } from "../util/express";
 import { UserStructureAuthenticated } from "../_common/model";

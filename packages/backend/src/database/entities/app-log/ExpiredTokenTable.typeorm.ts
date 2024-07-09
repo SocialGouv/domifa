@@ -21,6 +21,7 @@ export class ExpiredTokenTable extends AppTypeormTable<ExpiredTokenTable> {
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   public structureId: number;
 
+  @Index()
   @Column({ type: "text", nullable: false })
   public token: string;
 

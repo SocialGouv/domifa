@@ -61,10 +61,12 @@ async function getUsager(uuid: string): Promise<Usager> {
   });
 }
 
+//@deprecated
 async function countAyantsDroits(structuresId?: number[]): Promise<number> {
   return _advancedCount({ countType: "ayant-droit", structuresId });
 }
 
+//@deprecated
 async function countUsagers(structuresId?: number[]): Promise<number> {
   return _advancedCount({ countType: "domicilie", structuresId });
 }
@@ -74,7 +76,7 @@ async function countUsagersByMonth(regionId?: string) {
 
   const where = [startDate, endDate];
 
-  let query = `select date_trunc('month', "createdAt") as date, COUNT(uuid) AS count, sum(jsonb_array_length("ayantsDroits")) as ayantsDroits FROM usager u WHERE "createdAt" BETWEEN $1 and $2 `;
+  let query = `select date_trunc('month', "createdAt") as date, COUNT(uuid) AS count, sum(jsonb_array_length("ayantsDroits")) as ayantsDroits FROM usager u WHERE "createdAt" BETWEEN $1 and $2`;
 
   if (regionId) {
     query += ` and "structureId" in (select id from "structure" s where "region"=$3)`;
@@ -176,6 +178,7 @@ async function countMigratedUsagers(structureId: number): Promise<number> {
     .getRepository<Usager>(UsagerTable)
     .countBy({ migrated: false, structureId });
 }
+
 async function countUsagersToAnonymize(): Promise<number> {
   return myDataSource
     .getRepository<Usager>(UsagerTable)
@@ -230,7 +233,7 @@ async function findNextMeetings({
     .createQueryBuilder("usager")
     .select(joinSelectFields(["nom", "prenom", "uuid", "ref", "rdv"]))
     .where(
-      `rdv->>'userId' = :userId and (rdv->>'dateRdv')::timestamptz > :dateRefNow`,
+      `rdv->>'userId' = :userId and (rdv->>'dateRdv')::timestamptz >= :dateRefNow`,
       {
         userId,
         dateRefNow,

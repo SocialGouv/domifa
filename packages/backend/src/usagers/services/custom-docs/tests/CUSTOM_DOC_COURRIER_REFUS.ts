@@ -40,7 +40,13 @@ export const CUSTOM_DOC_COURRIER_REFUS: StructureCustomDocTags = {
   DATE_PREMIERE_DOM: "11 janvier 2018",
   DATE_RADIATION: "",
   PREMIERE_DOM_NOM_AGENT: "",
-  ENTRETIEN_ORIENTE_PAR: "Oui: Test orientation",
+
+  ENTRETIEN_ACCOMPAGNEMENT: "NON",
+  ENTRETIEN_ACCOMPAGNEMENT_DETAIL: "",
+  ENTRETIEN_ORIENTATION: "OUI",
+  ENTRETIEN_ORIENTATION_DETAIL: "Test orientation",
+  ENTRETIEN_REVENUS_DETAIL: "",
+
   USAGER_LANGUE: "",
   USAGER_NATIONALITE: "",
   MOTIF_REFUS: "Absence de lien avec la commune",
@@ -52,7 +58,6 @@ export const CUSTOM_DOC_COURRIER_REFUS: StructureCustomDocTags = {
   ENTRETIEN_COMPOSITION_MENAGE: "Couple avec enfant(s)",
   ENTRETIEN_SITUATION_RESIDENTIELLE:
     "Domicile mobile (ex: Caravane) / Aire des gens du voyages / habitat itinérant",
-  ENTRETIEN_ACCOMPAGNEMENT: "NON",
   ENTRETIEN_CAUSE_INSTABILITE: "Expulsion",
   ENTRETIEN_RAISON_DEMANDE: "Accès aux prestations sociales",
   ENTRETIEN_RATTACHEMENT: "",
