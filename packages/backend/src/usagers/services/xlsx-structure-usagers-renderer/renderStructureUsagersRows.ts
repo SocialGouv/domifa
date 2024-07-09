@@ -28,7 +28,6 @@ export const renderStructureUsagersRows = (
   );
 
   const usagersListHeader: StructureCustomDocTags = {
-    USAGER_REF: CUSTOM_DOCS_LABELS.USAGER_REF,
     USAGER_CUSTOM_REF: CUSTOM_DOCS_LABELS.USAGER_CUSTOM_REF,
     USAGER_CIVILITE: CUSTOM_DOCS_LABELS.USAGER_CIVILITE,
     USAGER_NOM: CUSTOM_DOCS_LABELS.USAGER_NOM,
@@ -58,7 +57,6 @@ export const renderStructureUsagersRows = (
   };
 
   const entretiensHeader: StructureCustomDocTags = {
-    USAGER_REF: CUSTOM_DOCS_LABELS.USAGER_REF,
     USAGER_CUSTOM_REF: CUSTOM_DOCS_LABELS.USAGER_CUSTOM_REF,
     USAGER_CIVILITE: CUSTOM_DOCS_LABELS.USAGER_CIVILITE,
     USAGER_NOM: CUSTOM_DOCS_LABELS.USAGER_NOM,
@@ -157,7 +155,7 @@ export const renderFirstSheetData = (
   usager: StructureCustomDocTags
 ): StructureCustomDocTags => {
   return {
-    USAGER_REF: usager.USAGER_REF,
+    USAGER_REF: usager.USAGER_CUSTOM_REF,
     USAGER_CIVILITE: usager.USAGER_CIVILITE,
     USAGER_NOM: usager.USAGER_NOM,
     USAGER_PRENOM: usager.USAGER_PRENOM,

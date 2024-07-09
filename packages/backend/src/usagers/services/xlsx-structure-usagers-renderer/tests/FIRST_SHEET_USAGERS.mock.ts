@@ -57,7 +57,6 @@ export const FIRST_SHEET_USAGERS = [
     USAGER_PHONE: "Numéro de téléphone",
     USAGER_PRENOM: "Prénom",
     USAGER_NOM: "Nom",
-    USAGER_REF: "Référence dossier",
     USAGER_SURNOM: "Nom d'usage / Surnom",
   },
   {

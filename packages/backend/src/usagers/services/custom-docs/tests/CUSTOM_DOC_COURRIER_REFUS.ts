@@ -54,7 +54,7 @@ export const CUSTOM_DOC_COURRIER_REFUS: StructureCustomDocTags = {
   DECISION_NOM_AGENT: "Testeur Robin",
   ENTRETIEN_DOMICILIATION_EXISTANTE: "NON",
   ENTRETIEN_REVENUS: "NON",
-  ENTRETIEN_LIEN_COMMUNE: "SOCIAL",
+  ENTRETIEN_LIEN_COMMUNE: "Social",
   ENTRETIEN_COMPOSITION_MENAGE: "Couple avec enfant(s)",
   ENTRETIEN_SITUATION_RESIDENTIELLE:
     "Domicile mobile (ex: Caravane) / Aire des gens du voyages / habitat itinérant",

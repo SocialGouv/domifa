@@ -1,8 +1,9 @@
 import { ParseRegionPipe } from "./../../_common/decorators/ParseRegion.pipe";
-import { Controller, Get, Param } from "@nestjs/common";
+import { Controller, Get, Param, UseInterceptors } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { PublicStats } from "@domifa/common";
 import { PublicStatsService } from "../services/publicStats.service";
+import { CacheInterceptor, CacheTTL } from "@nestjs/cache-manager";
 
 @Controller("stats")
 @ApiTags("stats")
@@ -10,6 +11,8 @@ export class StatsPublicController {
   constructor(private readonly publicStatsService: PublicStatsService) {}
 
   @Get("public-stats/:regionId?")
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(43200) // Cache duration of 12 hours
   public async getPublicStats(
     @Param("regionId", new ParseRegionPipe()) regionId: string
   ): Promise<PublicStats> {

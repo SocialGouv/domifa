@@ -24,9 +24,8 @@ export class PublicStatsService implements OnModuleInit {
 
   onModuleInit() {
     if (
-      //domifaConfig().envId !== "local" &&
-      domifaConfig().envId !== "test" &&
-      isCronEnabled()
+      domifaConfig().envId === "local" ||
+      (domifaConfig().envId !== "test" && isCronEnabled())
     ) {
       this.updateAllStatsCache();
     }
@@ -107,6 +106,8 @@ export class PublicStatsService implements OnModuleInit {
     publicStats.usagersCount = await usagerRepository.countTotalUsagers(
       structures
     );
+
+    publicStats.actifs = (await usagerRepository.countTotalActifs()).actifs;
 
     publicStats.courrierInCount =
       await this.adminStructuresService.totalInteractions(
