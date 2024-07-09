@@ -19,7 +19,6 @@ import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { StatsMapComponent } from "./components/elements/stats-map/stats-map.component";
 import { ImpactLineComponent } from "./components/elements/impact-line/impact-line.component";
 import { CountUpModule } from "ngx-countup";
-import { HomeStatsComponent } from "./components/home-stats/home-stats.component";
 
 @NgModule({
   declarations: [
@@ -28,7 +27,6 @@ import { HomeStatsComponent } from "./components/home-stats/home-stats.component
     StatsMapComponent,
     ImpactLineComponent,
     ImpactComponent,
-    HomeStatsComponent,
   ],
   imports: [
     CommonModule,
@@ -41,7 +39,6 @@ import { HomeStatsComponent } from "./components/home-stats/home-stats.component
     ReactiveFormsModule,
     StatsRoutingModule,
   ],
-  exports: [HomeStatsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class StatsModule {}

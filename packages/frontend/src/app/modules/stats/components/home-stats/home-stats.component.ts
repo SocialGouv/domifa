@@ -3,10 +3,16 @@ import { PublicStats } from "@domifa/common";
 import { CountUpOptions } from "countup.js";
 import { StatsService } from "../../services/stats.service";
 import { Subscription } from "rxjs";
+import { HttpClientModule } from "@angular/common/http";
+import { CountUpModule } from "ngx-countup";
+import { NgIf } from "@angular/common";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-home-stats",
   templateUrl: "./home-stats.component.html",
+  standalone: true,
+  imports: [NgIf, CountUpModule, HttpClientModule, RouterLink],
   styleUrls: ["./home-stats.component.css"],
 })
 export class HomeStatsComponent implements OnInit {
@@ -14,6 +20,7 @@ export class HomeStatsComponent implements OnInit {
 
   public stats: PublicStats;
   public countOptions: CountUpOptions;
+
   constructor(private readonly statsService: StatsService) {
     this.countOptions = {
       duration: 2,
