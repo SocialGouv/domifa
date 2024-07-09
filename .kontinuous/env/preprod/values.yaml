@@ -68,3 +68,65 @@ portail-admins:
 
 portail-usagers:
   host: "mon-{{ .Values.global.host }}"
+
+jobs-restore-anonymous-prod:
+  ~chart: jobs
+  enabled: false
+  retry: 0
+  runs:
+    restore-anonymization:
+      memoryLimit: 4Gi
+      cpuLimit: "4"
+      memoryRequest: 4Gi
+      cpuRequest: "2"
+      checkout: true
+      image: ghcr.io/socialgouv/docker/s3-client:sha-d43374e
+      envFrom:
+        - secretRef:
+            name: domifa-dev-backups-access-key
+        - secretRef:
+            name: anonymous-db-sealed-secret
+      env:
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: domifa-dev-backups-access-key
+              key: bucket_access_key
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: domifa-dev-backups-access-key
+              key: bucket_secret_key
+        - name: AWS_DEFAULT_REGION
+          valueFrom:
+            secretKeyRef:
+              name: domifa-dev-backups-access-key
+              key: bucket_region
+        - name: AWS_ENDPOINT_URL
+          valueFrom:
+            secretKeyRef:
+              name: domifa-dev-backups-access-key
+              key: bucket_endpoint
+        - name: PGUSER
+          valueFrom:
+            secretKeyRef:
+              name: anonymous-db-sealed-secret
+              key: ADMIN_PG_USER
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: anonymous-db-sealed-secret
+              key: ADMIN_PG_PASSWORD
+        - name: PGUSERAPP
+          valueFrom:
+            secretKeyRef:
+              name: anonymous-db-sealed-secret
+              key: PGUSER
+      run: |
+        set -e
+        root_path=domifa-dev-backups/anonymizer/pg_dumps
+        last_dir=$(aws s3 ls s3://$root_path --recursive | awk '{print $4}' | cut -d "/" -f3 | tail -n 1)
+        echo "Restoring $last_dir"
+        aws s3 cp --recursive s3://$root_path/$last_dir /tmp/dump/$last_dir
+        export PGSSLMODE=disable
+        pg_restore --clean --if-exists --no-owner --role=$PGUSERAPP --no-acl --verbose /tmp/dump/$last_dir --dbname $PGDATABASE

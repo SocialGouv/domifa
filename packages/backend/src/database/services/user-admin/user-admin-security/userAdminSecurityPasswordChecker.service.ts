@@ -23,7 +23,7 @@ async function checkPassword({
     ...USER_ADMIN_WHERE,
   });
   if (!user) {
-    throw new Error("WRONG_CREDENTIALS"); // don't give the real cause
+    throw new Error("WRONG_CREDENTIALS 4"); // don't give the real cause
   }
 
   const userSecurity = await userStructureSecurityRepository.findOneBy({
@@ -31,7 +31,7 @@ async function checkPassword({
   });
 
   if (!userSecurity) {
-    throw new Error("WRONG_CREDENTIALS"); // don't give the real cause
+    throw new Error("WRONG_CREDENTIALS 5"); // don't give the real cause
   }
 
   if (
@@ -40,7 +40,7 @@ async function checkPassword({
       ...userSecurity,
     })
   ) {
-    throw new Error("WRONG_CREDENTIALS"); // don't give the real cause
+    throw new Error("WRONG_CREDENTIALS 6"); // don't give the real cause
   }
 
   const isValidPass: boolean = await passwordGenerator.checkPassword({
@@ -54,7 +54,7 @@ async function checkPassword({
       userSecurity,
       eventType: "login-error",
     });
-    throw new Error("WRONG_CREDENTIALS"); // don't give the real cause
+    throw new Error("WRONG_CREDENTIALS 7"); // don't give the real cause
   }
 
   if (!user.verified) {

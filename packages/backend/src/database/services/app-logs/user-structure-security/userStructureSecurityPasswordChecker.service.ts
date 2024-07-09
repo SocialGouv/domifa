@@ -24,7 +24,7 @@ async function checkPassword({
   });
 
   if (!user || !userSecurity) {
-    throw new Error("WRONG_CREDENTIALS"); // don't give the real cause
+    throw new Error("WRONG_CREDENTIALS 1"); // don't give the real cause
   }
 
   if (
@@ -33,7 +33,7 @@ async function checkPassword({
       ...userSecurity,
     })
   ) {
-    throw new Error("WRONG_CREDENTIALS"); // don't give the real cause
+    throw new Error("WRONG_CREDENTIALS 2"); // don't give the real cause
   }
 
   const isValidPass: boolean = await passwordGenerator.checkPassword({
@@ -47,7 +47,7 @@ async function checkPassword({
       userSecurity,
       eventType: "login-error",
     });
-    throw new Error("WRONG_CREDENTIALS"); // don't give the real cause
+    throw new Error("WRONG_CREDENTIALS 3"); // don't give the real cause
   }
 
   if (!user.verified) {

@@ -1,4 +1,4 @@
-name: Reload Anonymized Preprod
+name: Reload Anonymized Prod
 on:
   workflow_dispatch:
 
@@ -8,10 +8,10 @@ concurrency:
 
 jobs:
   kontinuous:
-    name: "restore data on preprod"
+    name: "restore data on prod"
     uses: socialgouv/workflows/.github/workflows/use-ks-gh-custom.yaml@v1
     with:
-      chart: jobs-restore-anonymization
+      chart: jobs-restore-anonymous-prod
       environment: dev
       inlineSet: |
         global.rancherNamespaceEnabled: true

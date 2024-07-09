@@ -14,6 +14,15 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
     ) {
       return;
     }
+
+    const tableExists = await queryRunner.hasTable("migrations");
+    if (tableExists) {
+      appLogger.warn(
+        "La table 'migrations' existe déjà, la création de la DB est annulée."
+      );
+      return;
+    }
+
     appLogger.warn("Lancement de la création de la DB");
 
     await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
