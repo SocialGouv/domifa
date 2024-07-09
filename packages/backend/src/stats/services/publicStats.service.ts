@@ -23,11 +23,10 @@ export class PublicStatsService implements OnModuleInit {
   ) {}
 
   onModuleInit() {
-    // Inutile de rafraichir le cache sur le pod des tâches CRON
     if (
       //domifaConfig().envId !== "local" &&
       domifaConfig().envId !== "test" &&
-      !isCronEnabled()
+      isCronEnabled()
     ) {
       this.updateAllStatsCache();
     }
@@ -35,7 +34,7 @@ export class PublicStatsService implements OnModuleInit {
 
   @Cron(CronExpression.EVERY_DAY_AT_2AM, {
     timeZone: "Europe/Paris",
-    disabled: !isCronEnabled(),
+    disabled: isCronEnabled(),
   })
   public async updateAllStatsCache(): Promise<void> {
     for (const regionId of Object.keys(REGIONS_LISTE)) {

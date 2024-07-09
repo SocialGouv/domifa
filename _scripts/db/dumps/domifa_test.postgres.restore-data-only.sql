@@ -182,6 +182,14 @@ cc452c79-3669-4dc6-85fa-564631a3d48b	2024-06-10 23:41:59.530897+02	2024-06-10 23
 
 
 --
+-- Data for Name: public_stats_cache; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.public_stats_cache (uuid, "createdAt", "updatedAt", version, key, stats) FROM stdin;
+\.
+
+
+--
 -- Data for Name: structure_doc; Type: TABLE DATA; Schema: public; Owner: -
 --
 
