@@ -1,3 +1,16 @@
+# [2.173.0](https://github.com/SocialGouv/domifa/compare/v2.172.6...v2.173.0) (2024-07-09)
+
+
+### Bug Fixes
+
+* **backend:** update test dump ([399d2e8](https://github.com/SocialGouv/domifa/commit/399d2e8885d465c4abaf2bfab30ce46f8b1b87eb))
+* **frontend:** add standalone component for stats ([a0ec76f](https://github.com/SocialGouv/domifa/commit/a0ec76f975e986243a7bd8322b7130330e9c2c71))
+
+
+### Features
+
+* **backend:** add new cache system ([3edbee0](https://github.com/SocialGouv/domifa/commit/3edbee0b41005b1e132a72a1e3e27a36b58e67d4))
+
 ## [2.172.6](https://github.com/SocialGouv/domifa/compare/v2.172.5...v2.172.6) (2024-07-09)
 
 
