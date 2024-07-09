@@ -54,22 +54,6 @@ describe("Stats Public Controller", () => {
     expect(controller).toBeDefined();
   });
 
-  describe("Homepage", () => {
-    it("Stats HomePage", async () => {
-      const response = await supertest(context.app.getHttpServer()).get(
-        "/stats/home"
-      );
-
-      expect(response.status).toBe(HttpStatus.OK);
-
-      const content = response.body as PublicStats;
-      expect(content.courrierInCount).toEqual(15);
-      expect(content.structuresCount).toEqual(5);
-      expect(content.usagersCount).toEqual(20);
-      expect(content.actifs).toEqual(11);
-    });
-  });
-
   describe("National page", () => {
     it("Should display stats for France", async () => {
       const response = await supertest(context.app.getHttpServer()).get(

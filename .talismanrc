@@ -6,11 +6,11 @@ fileignoreconfig:
 - filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
   checksum: a2c17d6712a53d254ed583bdae603e1e6fe20e7d7705ad29f05659fc233bb398
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: 45777e4e16e6d085ff17da9a1e1a1b9ea54b6b0cc7e2f24733e7878af9d9d1b3
+  checksum: d3a65a3aba4100bf883d4511b60c57b66fbfb524deda81e1b77cd848d9a3d99a
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-data.sql
   checksum: 0a9b780387e8c40344bd52f033a201da019c8b3e9e5d501ee6cb85040b6e168c
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: 5de2ecd3e5f0f26ca366d697e5414acc9132128659ec5656366e3036fbf27ad1
+  checksum: 44eff533b91a2781462ca7e0b3c153b9875a62f501b76e5ac502a872fb0e344b
 - filename: packages/backend/.env.backend.dev.example.env
   checksum: 0a5c739d323189c5a1dd8dc960f9a4e3b293ec98276c6bf5bfb893ecc1d177c5
 - filename: packages/backend/.env.backend.test.local.example.env
@@ -38,7 +38,7 @@ fileignoreconfig:
 - filename: packages/backend/src/_migrations/1720558050667-auto-migration.ts
   checksum: 3b2a7e24e6e69fb3b81f473ceb43a00a2191c0358f2cbc314f5eb3b0e2a95672
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
-  checksum: 8a055b3a41c834dfb48a0260111717706b3b8e411c30e001d35e0362ba05deed
+  checksum: 5553ca8dba633766fa9ccd9af6e4101659b0a674aa2c7126fea5dd1258f14ce8
 - filename: packages/backend/src/modules/portail-usagers/controllers/portail-usagers-manager/portail-usagers-manager.controller.ts
   checksum: 6cb66d899577621ac9f796b2fde88a68263b7422c3f369854d94236c15c0807f
 - filename: packages/backend/src/stats/services/publicStats.service.ts

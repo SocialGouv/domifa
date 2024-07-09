@@ -136,6 +136,23 @@ async function createTables(queryRunner: QueryRunner) {
     );
 
 
+    -- public.public_stats_cache definition
+
+    -- Drop table
+
+    -- DROP TABLE public.public_stats_cache;
+
+    CREATE TABLE public.public_stats_cache (
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
+      "version" int4 NOT NULL,
+      "key" varchar(200) NOT NULL,
+      stats jsonb NOT NULL,
+      CONSTRAINT "PK_891fa81e1045157d39573fb1a64" PRIMARY KEY (uuid)
+    );
+
+
     -- public."structure" definition
 
     -- Drop table
@@ -702,6 +719,7 @@ async function createTables(queryRunner: QueryRunner) {
     );
     CREATE INDEX "IDX_4252acc4e242ad123a5d7b0625" ON public.expired_token USING btree ("structureId");
     CREATE INDEX "IDX_728480a55bd9e5daa2a89d8de0" ON public.expired_token USING btree ("userId");
+    CREATE INDEX "IDX_c72d39c3d5bf0192fa5a2470d9" ON public.expired_token USING btree (token);
 
 
     -- public.interactions definition

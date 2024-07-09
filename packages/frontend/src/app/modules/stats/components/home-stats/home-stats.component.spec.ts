@@ -4,6 +4,7 @@ import { HomeStatsComponent } from "./home-stats.component";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CountUpModule } from "ngx-countup";
 import { NgIf } from "@angular/common";
+import { RouterModule } from "@angular/router";
 
 describe("HomeStatsComponent", () => {
   let component: HomeStatsComponent;
@@ -16,6 +17,7 @@ describe("HomeStatsComponent", () => {
         HomeStatsComponent,
         CountUpModule,
         HttpClientTestingModule,
+        RouterModule.forRoot([]),
       ],
     }).compileComponents();
 
