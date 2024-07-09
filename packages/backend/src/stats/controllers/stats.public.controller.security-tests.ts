@@ -15,15 +15,6 @@ const CONTROLLER = "StatsPublicController";
 export const StatsPublicControllerSecurityTests: AppTestHttpClientSecurityTestDef[] =
   [
     {
-      label: `${CONTROLLER}.home`,
-      query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.get("/stats/home", {
-          context,
-        }),
-        expectedStatus: expectedResponseStatusBuilder.allowAnonymous(),
-      }),
-    },
-    {
       label: `${CONTROLLER}.getPublicStats`,
       query: async (context: AppTestContext) => ({
         response: await AppTestHttpClient.get("/stats/public-stats/52", {

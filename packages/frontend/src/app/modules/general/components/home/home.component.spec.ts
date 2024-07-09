@@ -6,8 +6,6 @@ import { CommonModule, APP_BASE_HREF } from "@angular/common";
 
 import { SharedModule } from "../../../../modules/shared/shared.module";
 
-import { CountUpModule } from "ngx-countup";
-
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MATOMO_INJECTORS } from "../../../../shared";
@@ -23,7 +21,6 @@ describe("HomeComponent", () => {
         CommonModule,
         SharedModule,
         RouterTestingModule,
-        CountUpModule,
         HttpClientTestingModule,
         ...MATOMO_INJECTORS,
       ],

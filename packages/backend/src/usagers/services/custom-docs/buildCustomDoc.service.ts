@@ -245,7 +245,7 @@ export const buildEntretienForDocs = (
       : "",
     ENTRETIEN_ACCOMPAGNEMENT: formatBoolean(usager.entretien.accompagnement),
     ENTRETIEN_ACCOMPAGNEMENT_DETAIL: usager.entretien.accompagnement
-      ? usager.entretien.accompagnementDetail
+      ? ucFirst(usager.entretien.accompagnementDetail)
       : "",
     ENTRETIEN_SITUATION_PROFESSIONNELLE:
       usager.entretien.situationPro === "AUTRE"
@@ -255,17 +255,17 @@ export const buildEntretienForDocs = (
         : "",
     ENTRETIEN_ORIENTATION: formatBoolean(usager.entretien.orientation),
     ENTRETIEN_ORIENTATION_DETAIL: usager.entretien.orientation
-      ? usager.entretien.accompagnementDetail
+      ? ucFirst(usager.entretien.accompagnementDetail)
       : "",
     ENTRETIEN_RATTACHEMENT: usager.entretien.rattachement
-      ? usager.entretien.rattachement
+      ? ucFirst(usager.entretien.rattachement)
       : "",
     ENTRETIEN_DOMICILIATION_EXISTANTE: formatBoolean(
       usager.entretien.domiciliation
     ),
     ENTRETIEN_REVENUS: formatBoolean(usager.entretien.revenus),
     ENTRETIEN_REVENUS_DETAIL: usager.entretien.revenus
-      ? usager.entretien.revenusDetail
+      ? ucFirst(usager.entretien.revenusDetail)
       : "",
     ENTRETIEN_LIEN_COMMUNE: usager.entretien.liencommune || "",
     ENTRETIEN_COMPOSITION_MENAGE: usager.entretien.typeMenage

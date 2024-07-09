@@ -32,7 +32,7 @@ import { CguResponsableComponent } from "./components/static-pages/cgu-responsab
 import { HelpModalComponent } from "./components/static-modals/help-modal/help-modal.component";
 import { RgaaComponent } from "./components/static-pages/rgaa/rgaa.component";
 import { LandingPagePortailComponent } from "./components/static-pages/landing-page-portail/landing-page-portail.component";
-import { StatsModule } from "../stats/stats.module";
+import { HomeStatsComponent } from "../stats/components/home-stats/home-stats.component";
 
 @NgModule({
   declarations: [
@@ -52,7 +52,6 @@ import { StatsModule } from "../stats/stats.module";
     HelpModalComponent,
     IdleManagerComponent,
     RgaaComponent,
-
     LandingPagePortailComponent,
   ],
   exports: [
@@ -72,9 +71,9 @@ import { StatsModule } from "../stats/stats.module";
     ReactiveFormsModule,
     NgbModule,
     SharedModule,
-    StatsModule,
     RouterModule.forChild([]),
     NgbModule,
+    HomeStatsComponent,
   ],
   providers: [GeneralService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
