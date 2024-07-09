@@ -35,8 +35,10 @@ import { Response } from "express";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
-import { StructureEditPortailUsagerDto } from "../../dto";
-import { UpdatePortailUsagerOptionsDto } from "../../dto/update-portail-usagers-options.dto";
+import {
+  StructureEditPortailUsagerDto,
+  UpdatePortailUsagerOptionsDto,
+} from "../../dto";
 
 @Controller("portail-usagers-manager")
 @ApiTags("portail-usagers-manager")
