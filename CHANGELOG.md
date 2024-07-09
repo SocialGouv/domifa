@@ -1,3 +1,11 @@
+## [2.173.1](https://github.com/SocialGouv/domifa/compare/v2.173.0...v2.173.1) (2024-07-09)
+
+
+### Bug Fixes
+
+* **backend:** add cache-manager ([33222b6](https://github.com/SocialGouv/domifa/commit/33222b6a482ecd2832ac85e300a2d11af5416459))
+* **backend:** fix cache of stats ([f117c22](https://github.com/SocialGouv/domifa/commit/f117c226dad0b20a5f8870d46c4098693fd0ac1b))
+
 # [2.173.0](https://github.com/SocialGouv/domifa/compare/v2.172.6...v2.173.0) (2024-07-09)
 
 
