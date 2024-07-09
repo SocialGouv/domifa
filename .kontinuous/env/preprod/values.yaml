@@ -129,4 +129,4 @@ jobs-restore-anonymous-prod:
         echo "Restoring $last_dir"
         aws s3 cp --recursive s3://$root_path/$last_dir /tmp/dump/$last_dir
         export PGSSLMODE=disable
-        pg_restore --clean --if-exists --no-owner --role=$PGUSERAPP --no-acl --verbose /tmp/dump/$last_dir --dbname $PGDATABASE
+        pg_restore --clean --if-exists --no-owner --role=$PGUSERAPP --no-acl --verbose /tmp/dump/$last_dir --dbname defaultdb
