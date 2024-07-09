@@ -13,7 +13,6 @@ import { StructuresCustomDocsTableComponent } from "./components/structures-cust
 import { StructuresCustomDocsComponent } from "./components/structures-custom-docs/structures-custom-docs.component";
 import { StructuresEditComponent } from "./components/structures-edit/structures-edit.component";
 import { StructuresFormComponent } from "./components/structures-form/structures-form.component";
-import { StructuresPortailUsagerFormComponent } from "./components/structures-portail-usager-form/structures-portail-usager-form.component";
 import { StructuresSearchComponent } from "./components/structures-search/structures-search.component";
 import { StructuresSmsFormComponent } from "./components/structures-sms-form/structures-sms-form.component";
 import { StructuresUploadDocsComponent } from "./components/structures-upload-docs/structures-upload-docs.component";
@@ -29,7 +28,6 @@ import { GeneralModule } from "../general/general.module";
     StructureEditFormComponent,
     StructuresUploadDocsComponent,
     StructuresSmsFormComponent,
-    StructuresPortailUsagerFormComponent,
     RegisterUserComponent,
     StructuresCustomDocsComponent,
     StructuresCustomDocsTableComponent,

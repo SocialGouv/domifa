@@ -1,6 +1,6 @@
-import { PortailUsagerUsager } from "../../../../_common/model";
+import { PortailUsagerUsager } from "../types";
 
-export const USAGER_PORTAIL_ATTRIBUTES: (keyof PortailUsagerUsager)[] = [
+export const USER_USAGER_ATTRIBUTES: (keyof PortailUsagerUsager)[] = [
   "uuid",
   "ref",
   "customRef",

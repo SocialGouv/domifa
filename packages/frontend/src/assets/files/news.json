@@ -1,5 +1,40 @@
 [
   {
+    "date": "2024-07-08",
+    "description": "Nouveautés et améliorations diverses sur DomiFa",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Activation du portail domicilié Mon DomiFa au niveau de la structure",
+        "message": [
+          "Une nouvelle page d'activation du portail domicilié est disponible sur le lien suivant et vous donne davantage d'informations sur le contenu du portal : https://domifa.fabrique.social.gouv.fr/structures/portail-usager"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Activation du portail domicilié Mon DomiFa dans le dossiers domiciliés",
+        "message": [
+          "Un nouvel onglet 'SMS et Mon DomiFa' a été créé dans les dossiers domiciliés afin d'apporter plus d'informations sur ces deux fonctionnalités (activation du compte par le domicilié, identifiant de connexion au portail, date de dernière connexion)"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Export global des données",
+        "message": [
+          "À la demande des structures, certaines informations ont été de nouveau ajoutées dans l'export global des domiciliés (ID personnalisés, usagers ayant réalisés une décision sur un dossier, commentaires, etc.)"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Documents personnalisés",
+        "message": [
+          "Une nouvelle version du guide pour l'ajout des documents personnalisés est disponible afin de vous accompagner dans l'utilisation de cette fonctionnalité.",
+          "L'identifiant de connexion au portail domicilié a été ajouté à la liste des champs paramétrables et peut être ajouté dans vos documents personnalisés tel que des cartes domiciliés."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-06-24",
     "description": "Des nouveautés dans les statistiques et l'export",
     "content": [
