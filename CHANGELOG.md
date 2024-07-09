@@ -1,3 +1,10 @@
+## [2.172.5](https://github.com/SocialGouv/domifa/compare/v2.172.4...v2.172.5) (2024-07-09)
+
+
+### Bug Fixes
+
+* **backend:** fix imports paths ([398cf92](https://github.com/SocialGouv/domifa/commit/398cf924e23079a3cd70b3b9fda66f89619dfbb3))
+
 ## [2.172.4](https://github.com/SocialGouv/domifa/compare/v2.172.3...v2.172.4) (2024-07-09)
 
 
