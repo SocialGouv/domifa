@@ -30,13 +30,19 @@ fileignoreconfig:
 - filename: packages/backend/src/_migrations/1718711481881-auto-migration.ts
   checksum: d3f39a30fcb5bb27cc41d23f847ea1c77373267b56204dd899a0aebd0e273381
 - filename: packages/backend/src/_migrations/1719958123799-auto-migration.ts
-  checksum: edd7d315c2703c49b899c2a0f93580ef043a9d0c8291284dbdaa1f511bc63adc
+  checksum: f99657767dfb8eee817c48c4cc7640fe37b2735709535a993ca6a8f8dcddf760
 - filename: packages/backend/src/_migrations/1720361569954-auto-migration.ts
-  checksum: 546b639a5c7d68fab63a939c12d177567b36866eebd396a37682f3d7c37d198b
+  checksum: 649c86698daf847447b265b2e3d50297b1c659936be151d56eb7be12ccc8747c
+- filename: packages/backend/src/_migrations/1720529266223-auto-migration.ts
+  checksum: 2c8af8c1e2a41dd8ffdec224601f6c61a7ca4ce89f39e0f91072bb3f6736232c
+- filename: packages/backend/src/_migrations/1720558050667-auto-migration.ts
+  checksum: 3b2a7e24e6e69fb3b81f473ceb43a00a2191c0358f2cbc314f5eb3b0e2a95672
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
   checksum: 8a055b3a41c834dfb48a0260111717706b3b8e411c30e001d35e0362ba05deed
 - filename: packages/backend/src/modules/portail-usagers/controllers/portail-usagers-manager/portail-usagers-manager.controller.ts
   checksum: 6cb66d899577621ac9f796b2fde88a68263b7422c3f369854d94236c15c0807f
+- filename: packages/backend/src/stats/services/publicStats.service.ts
+  checksum: 157a960c629659937e57bb878abf8f14a91e361c599e630a6b0b80d28df81658
 - filename: packages/backend/src/usagers/controllers/export-structure-usagers.controller.ts
   checksum: 0a10c492e64567f0309c24e270d7f5a18835acb26e72650337e8a18476cf271e
 - filename: packages/backend/src/usagers/services/xlsx-structure-usagers-renderer/renderStructureUsagersRows.ts

@@ -66,16 +66,18 @@ export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
 
   // ENTRETIEN
   ENTRETIEN_ORIENTATION: "Orientation: oui ou non",
-  ENTRETIEN_ORIENTE_PAR: "Orienté par xxxx",
+  ENTRETIEN_ORIENTATION_DETAIL: "Orienté par xxxx",
   ENTRETIEN_DOMICILIATION_EXISTANTE: "Domiciliation existante : Oui / Non",
   ENTRETIEN_REVENUS: "Revenus : Oui / Non",
+  ENTRETIEN_REVENUS_DETAIL: "Détail des revenus",
   ENTRETIEN_LIEN_COMMUNE: "Lien avec la commune",
   ENTRETIEN_COMPOSITION_MENAGE: "Composition du ménage",
   ENTRETIEN_SITUATION_RESIDENTIELLE: "Situation résidentielle",
   ENTRETIEN_CAUSE_INSTABILITE: "Cause instabilité logement",
   ENTRETIEN_RAISON_DEMANDE: "Motif principal de la demande",
   ENTRETIEN_RATTACHEMENT: "Rattachement à une ville ou un arrondissement",
-  ENTRETIEN_ACCOMPAGNEMENT: "Accompagnement social",
+  ENTRETIEN_ACCOMPAGNEMENT: "Accompagnement social: oui ou non",
+  ENTRETIEN_ACCOMPAGNEMENT_DETAIL: "Détail de l'accompagnement social",
   ENTRETIEN_SITUATION_PROFESSIONNELLE: "Situation professionnelle",
   ENTRETIEN_COMMENTAIRE: "Commentaire de l'entretien",
   // Transferts

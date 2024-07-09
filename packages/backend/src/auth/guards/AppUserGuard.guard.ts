@@ -46,6 +46,7 @@ export class AppUserGuard implements CanActivate {
         user,
         ...allowUserProfiles
       );
+
       if (isValidProfile) {
         if (
           user._userProfile === "structure" &&

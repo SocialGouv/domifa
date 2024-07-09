@@ -24,7 +24,6 @@ import { GeneralService } from "./services/general.service";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { RouterModule } from "@angular/router";
 
-import { CountUpModule } from "ngx-countup";
 import { SharedModule } from "../shared/shared.module";
 import { ContactSupportComponent } from "./components/contact-support/contact-support.component";
 import { LoginComponent } from "./components/login/login.component";
@@ -33,6 +32,7 @@ import { CguResponsableComponent } from "./components/static-pages/cgu-responsab
 import { HelpModalComponent } from "./components/static-modals/help-modal/help-modal.component";
 import { RgaaComponent } from "./components/static-pages/rgaa/rgaa.component";
 import { LandingPagePortailComponent } from "./components/static-pages/landing-page-portail/landing-page-portail.component";
+import { StatsModule } from "../stats/stats.module";
 
 @NgModule({
   declarations: [
@@ -52,6 +52,7 @@ import { LandingPagePortailComponent } from "./components/static-pages/landing-p
     HelpModalComponent,
     IdleManagerComponent,
     RgaaComponent,
+
     LandingPagePortailComponent,
   ],
   exports: [
@@ -71,7 +72,7 @@ import { LandingPagePortailComponent } from "./components/static-pages/landing-p
     ReactiveFormsModule,
     NgbModule,
     SharedModule,
-    CountUpModule,
+    StatsModule,
     RouterModule.forChild([]),
     NgbModule,
   ],

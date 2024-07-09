@@ -1,9 +1,10 @@
-import { HomeStats, PublicStats, REGIONS_LISTE } from "@domifa/common";
-import { CACHE_MANAGER } from "@nestjs/cache-manager";
-import { Cache } from "cache-manager";
-import { Injectable, Inject, OnModuleInit } from "@nestjs/common";
+import { PublicStats, REGIONS_LISTE } from "@domifa/common";
+
+import { Injectable, OnModuleInit } from "@nestjs/common";
 import { AdminStructuresService } from "../../_portail-admin/admin-structures/services";
 import {
+  PublicStatsCache,
+  publicStatsCacheRepository,
   structureRepository,
   usagerRepository,
   userStructureRepository,
@@ -18,14 +19,13 @@ import { domifaConfig } from "../../config";
 export class PublicStatsService implements OnModuleInit {
   constructor(
     private readonly adminStructuresService: AdminStructuresService,
-    private readonly structuresService: StructuresService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache
+    private readonly structuresService: StructuresService
   ) {}
 
   onModuleInit() {
     // Inutile de rafraichir le cache sur le pod des tâches CRON
     if (
-      domifaConfig().envId !== "local" &&
+      //domifaConfig().envId !== "local" &&
       domifaConfig().envId !== "test" &&
       !isCronEnabled()
     ) {
@@ -35,48 +35,18 @@ export class PublicStatsService implements OnModuleInit {
 
   @Cron(CronExpression.EVERY_DAY_AT_2AM, {
     timeZone: "Europe/Paris",
-    disabled: isCronEnabled(),
+    disabled: !isCronEnabled(),
   })
   public async updateAllStatsCache(): Promise<void> {
-    appLogger.info("[CACHE] Update home stats");
-    await this.generateHomeStats({ updateCache: true });
-
-    appLogger.info("[CACHE] Update public stats");
-    await this.generatePublicStats({ updateCache: true });
-
     for (const regionId of Object.keys(REGIONS_LISTE)) {
       appLogger.info("[CACHE] Update public stats for region " + regionId);
       await this.generatePublicStats({ updateCache: true, regionId });
     }
 
+    appLogger.info("[CACHE] Update public stats");
+    await this.generatePublicStats({ updateCache: true });
+
     appLogger.info("[CACHE] End of cache update");
-  }
-
-  public async generateHomeStats({
-    updateCache,
-  }: {
-    updateCache: boolean;
-  }): Promise<HomeStats> {
-    const value: HomeStats | undefined = await this.cacheManager.get(
-      "home-stats"
-    );
-
-    if (value && !updateCache) {
-      return value;
-    }
-
-    const homeStats = {
-      structures: await structureRepository.count(),
-      interactions: await this.adminStructuresService.totalInteractions(
-        "courrierIn"
-      ),
-      usagers: await usagerRepository.countTotalUsagers(),
-      actifs: (await usagerRepository.countTotalActifs()).actifs,
-    };
-
-    await this.cacheManager.set("home-stats", homeStats);
-
-    return homeStats;
   }
 
   public async generatePublicStats({
@@ -87,14 +57,22 @@ export class PublicStatsService implements OnModuleInit {
     regionId?: string;
   }): Promise<PublicStats> {
     const key = regionId ? "publics-stats-" + regionId : "public-stats";
-    const value: PublicStats | undefined = await this.cacheManager.get(key);
+
+    const value = await publicStatsCacheRepository
+      .createQueryBuilder()
+      .select(["stats", "key", "uuid"])
+      .where(
+        `to_date(to_char("createdAt", 'YYYY-MM-DD'), 'YYYY-MM-DD') = to_date(:date, 'YYYY-MM-DD')`,
+        { date: new Date() }
+      )
+      .where("key= :key", { key })
+      .getOne();
 
     if (value && !updateCache) {
-      return value;
+      return value as unknown as PublicStats;
     }
 
     const publicStats = new PublicStats();
-    // Si aucune region
     let structures: number[] = null;
 
     if (regionId) {
@@ -104,7 +82,7 @@ export class PublicStatsService implements OnModuleInit {
 
       // Si aucune structure dans la région, tous les indicateurs sont à zero
       if (!structures.length) {
-        return publicStats;
+        return this.saveStats(key, publicStats, value);
       }
 
       publicStats.structuresCountByRegion =
@@ -127,7 +105,6 @@ export class PublicStatsService implements OnModuleInit {
       publicStats.usersCount = await userStructureRepository.count();
     }
 
-    // Usagers
     publicStats.usagersCount = await usagerRepository.countTotalUsagers(
       structures
     );
@@ -153,7 +130,30 @@ export class PublicStatsService implements OnModuleInit {
     publicStats.usagersCountByMonth =
       await this.adminStructuresService.countUsagersByMonth(regionId);
 
-    await this.cacheManager.set(key, publicStats);
+    return this.saveStats(key, publicStats, value);
+  }
+
+  private async saveStats(
+    key: string,
+    publicStats: PublicStats,
+    previousValue?: PublicStatsCache
+  ) {
+    if (previousValue?.uuid) {
+      await publicStatsCacheRepository.update(
+        {
+          uuid: previousValue?.uuid,
+        },
+        {
+          key,
+          stats: publicStats,
+        }
+      );
+    } else {
+      await publicStatsCacheRepository.save({
+        key,
+        stats: publicStats,
+      });
+    }
 
     return publicStats;
   }

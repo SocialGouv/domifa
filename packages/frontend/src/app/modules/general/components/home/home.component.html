@@ -237,66 +237,13 @@
       </div>
     </div>
   </div>
-  <div class="text-center section py-3 bg-primary-light" *ngIf="stats">
-    <div class="container p-2">
-      <div class="row text-center">
-        <div class="my-2 col-12 col-md-3">
-          <div
-            [countUp]="stats.structures"
-            [options]="countOptions"
-            class="display-4 fw-bold text-primary"
-          ></div>
-          <div class="counter-title">structures inscrites</div>
-        </div>
-        <div class="my-2 col-12 col-md-3">
-          <div
-            [countUp]="stats.actifs"
-            [options]="countOptions"
-            class="display-4 fw-bold text-primary"
-          ></div>
-          <div class="counter-title">domiciliés actifs</div>
-        </div>
-        <div class="my-2 col-12 col-md-3">
-          <div
-            [countUp]="stats.usagers"
-            [options]="countOptions"
-            class="display-4 fw-bold text-primary"
-          ></div>
-          <div class="counter-title">dossiers enregistrés</div>
-        </div>
-        <div class="my-2 col-12 col-md-3">
-          <div
-            [countUp]="stats.interactions"
-            [options]="countOptions"
-            class="display-4 fw-bold text-primary"
-          ></div>
-          <div class="counter-title">courriers enregistrés</div>
-        </div>
-      </div>
-    </div>
-    <div class="my-3 my-lg-3">
-      <a
-        routerLink="/stats"
-        class="btn btn-primary mx-2 my-1"
-        (click)="matomo.trackEvent('HOME', 'HP_Statistiques', 'null', 1)"
-      >
-        Voir nos statistiques
-      </a>
-      <a
-        routerLink="/stats/impact"
-        class="btn btn-primary mx-2 my-1"
-        (click)="matomo.trackEvent('HOME', 'HP_Impact', 'null', 1)"
-      >
-        Découvrir notre impact
-      </a>
-    </div>
-  </div>
+  <app-home-stats></app-home-stats>
   <div class="my-5 container px-2">
     <h2 class="fw-bold">
       <img
-        src="../../../assets/icones/icon-heart.png"
+        src="/assets/icones/icon-heart.png"
         aria-hidden="true"
-        alt="Image d'illustration coeur"
+        alt=""
         class="me-1"
       />
       Ces structures nous font confiance

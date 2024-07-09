@@ -1,5 +1,5 @@
 import { appLogger } from "../../../../util";
-import { expiredTokenRepositiory } from "../../app-logs";
+import { expiredTokenRepositiory } from "../../app-log";
 import { monitoringBatchProcessRepository } from "../../monitoring";
 
 export const dataMonitoringAnonymizer = {

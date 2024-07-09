@@ -12,7 +12,7 @@ import {
 } from "../../util/test";
 import { AdminStructuresModule } from "../../_portail-admin/admin-structures/admin-structures.module";
 import { domifaConfig } from "../../config";
-import { HomeStats, PublicStats } from "@domifa/common";
+import { PublicStats } from "@domifa/common";
 import { StatsPublicController } from "./stats.public.controller";
 import { CacheModule } from "@nestjs/cache-manager";
 import { PublicStatsService } from "../services/publicStats.service";
@@ -62,10 +62,10 @@ describe("Stats Public Controller", () => {
 
       expect(response.status).toBe(HttpStatus.OK);
 
-      const content = response.body as HomeStats;
-      expect(content.interactions).toEqual(15);
-      expect(content.structures).toEqual(5);
-      expect(content.usagers).toEqual(20);
+      const content = response.body as PublicStats;
+      expect(content.courrierInCount).toEqual(15);
+      expect(content.structuresCount).toEqual(5);
+      expect(content.usagersCount).toEqual(20);
       expect(content.actifs).toEqual(11);
     });
   });
@@ -77,6 +77,7 @@ describe("Stats Public Controller", () => {
       );
 
       const retour: PublicStats = {
+        actifs: 0,
         usagersCount: 20,
         usersCount: 10,
         structuresCount: 5,
@@ -129,6 +130,7 @@ describe("Stats Public Controller", () => {
       );
 
       const retour: PublicStats = {
+        actifs: 0,
         usagersCount: 0,
         usersCount: 5,
         structuresCount: 2,

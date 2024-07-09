@@ -222,59 +222,66 @@ export const buildEntretienForDocs = (
   ENTRETIEN_CAUSE_INSTABILITE: string;
   ENTRETIEN_RAISON_DEMANDE: string;
   ENTRETIEN_ACCOMPAGNEMENT: string;
+  ENTRETIEN_ACCOMPAGNEMENT_DETAIL: string;
   ENTRETIEN_SITUATION_PROFESSIONNELLE: string;
-  ENTRETIEN_ORIENTE_PAR: string;
+  ENTRETIEN_ORIENTATION: string;
+  ENTRETIEN_ORIENTATION_DETAIL: string;
   ENTRETIEN_RATTACHEMENT: string;
   ENTRETIEN_DOMICILIATION_EXISTANTE: string;
   ENTRETIEN_REVENUS: string;
+  ENTRETIEN_REVENUS_DETAIL: string;
   ENTRETIEN_LIEN_COMMUNE: string;
   ENTRETIEN_COMPOSITION_MENAGE: string;
   ENTRETIEN_SITUATION_RESIDENTIELLE: string;
 } => {
-  const orientation = usager.entretien.orientation
-    ? usager.entretien.orientationDetail
-      ? "Oui: " + usager.entretien.orientationDetail
-      : "OUI"
-    : "NON";
-  const revenus = usager.entretien.revenus
-    ? usager.entretien.revenusDetail
-      ? "Oui: " + usager.entretien.revenusDetail
-      : "OUI"
-    : "NON";
-
   return {
     ENTRETIEN_CAUSE_INSTABILITE: usager.entretien.cause
       ? ENTRETIEN_CAUSE_INSTABILITE[usager.entretien.cause]
       : "",
     ENTRETIEN_RAISON_DEMANDE: usager.entretien.raison
-      ? ENTRETIEN_RAISON_DEMANDE[usager.entretien.raison]
+      ? usager.entretien.raison === "AUTRE"
+        ? "Autre: " + usager.entretien.raisonDetail
+        : ENTRETIEN_RAISON_DEMANDE[usager.entretien.raison]
       : "",
-    ENTRETIEN_ACCOMPAGNEMENT: usager.entretien.accompagnement ? "OUI" : "NON",
+    ENTRETIEN_ACCOMPAGNEMENT: formatBoolean(usager.entretien.accompagnement),
+    ENTRETIEN_ACCOMPAGNEMENT_DETAIL: usager.entretien.accompagnement
+      ? usager.entretien.accompagnementDetail
+      : "",
     ENTRETIEN_SITUATION_PROFESSIONNELLE:
       usager.entretien.situationPro === "AUTRE"
         ? " Autre : " + usager.entretien.situationProDetail
         : usager.entretien.situationPro
         ? ENTRETIEN_SITUATION_PRO[usager.entretien.situationPro]
         : "",
-    ENTRETIEN_ORIENTE_PAR: orientation,
+    ENTRETIEN_ORIENTATION: formatBoolean(usager.entretien.orientation),
+    ENTRETIEN_ORIENTATION_DETAIL: usager.entretien.orientation
+      ? usager.entretien.accompagnementDetail
+      : "",
     ENTRETIEN_RATTACHEMENT: usager.entretien.rattachement
       ? usager.entretien.rattachement
       : "",
-    ENTRETIEN_DOMICILIATION_EXISTANTE: usager.entretien.domiciliation
-      ? "OUI"
-      : "NON",
-    ENTRETIEN_REVENUS: revenus,
+    ENTRETIEN_DOMICILIATION_EXISTANTE: formatBoolean(
+      usager.entretien.domiciliation
+    ),
+    ENTRETIEN_REVENUS: formatBoolean(usager.entretien.revenus),
+    ENTRETIEN_REVENUS_DETAIL: usager.entretien.revenus
+      ? usager.entretien.revenusDetail
+      : "",
     ENTRETIEN_LIEN_COMMUNE: usager.entretien.liencommune || "",
     ENTRETIEN_COMPOSITION_MENAGE: usager.entretien.typeMenage
       ? ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage]
       : "",
     ENTRETIEN_SITUATION_RESIDENTIELLE:
       usager.entretien.residence === "AUTRE"
-        ? " Autre : " + usager.entretien.residenceDetail
+        ? " Autre: " + usager.entretien.residenceDetail
         : usager.entretien.residence
         ? ENTRETIEN_RESIDENCE[usager.entretien.residence]
         : "",
   };
+};
+
+export const formatBoolean = (element: boolean): string => {
+  return element ? "OUI" : "NON";
 };
 
 export const ucFirst = (value: string) => {
