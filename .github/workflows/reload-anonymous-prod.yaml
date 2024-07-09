@@ -1,0 +1,20 @@
+name: Reload Anonymized Prod
+on:
+  workflow_dispatch:
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.ref }}
+
+jobs:
+  kontinuous:
+    name: "restore data on prod"
+    uses: socialgouv/workflows/.github/workflows/use-ks-gh-custom.yaml@v1
+    with:
+      chart: jobs-restore-anonymous-prod
+      environment: dev
+      inlineSet: |
+        global.rancherNamespaceEnabled: true
+        global.namespaceLabels:
+          cert: wildcard
+    secrets: inherit
