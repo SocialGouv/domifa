@@ -19,6 +19,7 @@ import {
   UsagerOptionsProcuration,
   TimeZone,
   Usager,
+  ENTRETIEN_LIEN_COMMUNE,
 } from "@domifa/common";
 
 export const DATE_FORMAT = {
@@ -240,7 +241,7 @@ export const buildEntretienForDocs = (
       : "",
     ENTRETIEN_RAISON_DEMANDE: usager.entretien.raison
       ? usager.entretien.raison === "AUTRE"
-        ? "Autre: " + usager.entretien.raisonDetail
+        ? "Autre: " + ucFirst(usager.entretien.raisonDetail)
         : ENTRETIEN_RAISON_DEMANDE[usager.entretien.raison]
       : "",
     ENTRETIEN_ACCOMPAGNEMENT: formatBoolean(usager.entretien.accompagnement),
@@ -249,31 +250,33 @@ export const buildEntretienForDocs = (
       : "",
     ENTRETIEN_SITUATION_PROFESSIONNELLE:
       usager.entretien.situationPro === "AUTRE"
-        ? " Autre : " + usager.entretien.situationProDetail
+        ? "Autre : " + ucFirst(usager.entretien.situationProDetail)
         : usager.entretien.situationPro
         ? ENTRETIEN_SITUATION_PRO[usager.entretien.situationPro]
         : "",
     ENTRETIEN_ORIENTATION: formatBoolean(usager.entretien.orientation),
-    ENTRETIEN_ORIENTATION_DETAIL: usager.entretien.orientation
-      ? ucFirst(usager.entretien.accompagnementDetail)
-      : "",
-    ENTRETIEN_RATTACHEMENT: usager.entretien.rattachement
-      ? ucFirst(usager.entretien.rattachement)
-      : "",
+    ENTRETIEN_ORIENTATION_DETAIL: ucFirst(
+      usager.entretien.accompagnementDetail
+    ),
+    ENTRETIEN_RATTACHEMENT: ucFirst(usager.entretien.rattachement),
+
     ENTRETIEN_DOMICILIATION_EXISTANTE: formatBoolean(
       usager.entretien.domiciliation
     ),
     ENTRETIEN_REVENUS: formatBoolean(usager.entretien.revenus),
-    ENTRETIEN_REVENUS_DETAIL: usager.entretien.revenus
-      ? ucFirst(usager.entretien.revenusDetail)
-      : "",
-    ENTRETIEN_LIEN_COMMUNE: usager.entretien.liencommune || "",
+    ENTRETIEN_REVENUS_DETAIL: ucFirst(usager.entretien.revenusDetail),
+    ENTRETIEN_LIEN_COMMUNE:
+      usager.entretien.liencommune === "AUTRE"
+        ? "Autre: " + ucFirst(usager.entretien.liencommune)
+        : usager.entretien.liencommuneDetail
+        ? ENTRETIEN_LIEN_COMMUNE[usager.entretien.liencommune]
+        : "",
     ENTRETIEN_COMPOSITION_MENAGE: usager.entretien.typeMenage
       ? ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage]
       : "",
     ENTRETIEN_SITUATION_RESIDENTIELLE:
       usager.entretien.residence === "AUTRE"
-        ? " Autre: " + usager.entretien.residenceDetail
+        ? "Autre: " + ucFirst(usager.entretien.residenceDetail)
         : usager.entretien.residence
         ? ENTRETIEN_RESIDENCE[usager.entretien.residence]
         : "",
