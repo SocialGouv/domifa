@@ -42,7 +42,7 @@ fileignoreconfig:
 - filename: packages/backend/src/modules/portail-usagers/controllers/portail-usagers-manager/portail-usagers-manager.controller.ts
   checksum: 6cb66d899577621ac9f796b2fde88a68263b7422c3f369854d94236c15c0807f
 - filename: packages/backend/src/stats/services/publicStats.service.ts
-  checksum: 157a960c629659937e57bb878abf8f14a91e361c599e630a6b0b80d28df81658
+  checksum: cdacf3bc7647bc137155700d9da75cd607dc9a868aa01f7209d22ef2c3472ff9
 - filename: packages/backend/src/usagers/controllers/export-structure-usagers.controller.ts
   checksum: 0a10c492e64567f0309c24e270d7f5a18835acb26e72650337e8a18476cf271e
 - filename: packages/backend/src/usagers/services/xlsx-structure-usagers-renderer/renderStructureUsagersRows.ts

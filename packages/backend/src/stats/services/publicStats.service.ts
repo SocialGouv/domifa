@@ -54,20 +54,19 @@ export class PublicStatsService implements OnModuleInit {
     updateCache?: boolean;
     regionId?: string;
   }): Promise<PublicStats> {
-    const key = regionId ? "publics-stats-" + regionId : "public-stats";
+    const key = regionId ? "public-stats-" + regionId : "public-stats";
 
     const value = await publicStatsCacheRepository
-      .createQueryBuilder()
-      .select(["stats", "key", "uuid"])
+      .createQueryBuilder("public_stats_cache")
       .where(
-        `to_date(to_char("createdAt", 'YYYY-MM-DD'), 'YYYY-MM-DD') = to_date(:date, 'YYYY-MM-DD')`,
-        { date: new Date() }
+        `"createdAt" > now() - interval '1 day' and "createdAt" <= now() and key = :key`,
+        { key }
       )
-      .where("key= :key", { key })
+      .orderBy(`"createdAt"`, "DESC")
       .getOne();
 
     if (value && !updateCache) {
-      return value as unknown as PublicStats;
+      return value.stats;
     }
 
     const publicStats = new PublicStats();
@@ -140,13 +139,8 @@ export class PublicStatsService implements OnModuleInit {
   ) {
     if (previousValue?.uuid) {
       await publicStatsCacheRepository.update(
-        {
-          uuid: previousValue?.uuid,
-        },
-        {
-          key,
-          stats: publicStats,
-        }
+        { uuid: previousValue?.uuid },
+        { stats: publicStats }
       );
     } else {
       await publicStatsCacheRepository.save({
