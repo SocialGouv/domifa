@@ -1,4 +1,3 @@
-import { appLogger } from "./../../util/AppLogger.service";
 import {
   Body,
   Controller,
@@ -19,7 +18,7 @@ import {
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
 } from "../../_common/model";
-import { StructureDto, StructureEditPortailUsagerDto } from "../dto";
+import { StructureDto } from "../dto";
 import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
 
 import { resetUsagers } from "../services/structure-deletor.service";
@@ -51,46 +50,6 @@ export class StructuresController {
     private readonly appLogsService: AppLogsService,
     private readonly fileManagerService: FileManagerService
   ) {}
-
-  @ApiBearerAuth()
-  @AllowUserStructureRoles("admin")
-  @Patch("portail-usager/configure-structure")
-  public async toggleEnablePortailUsagerByStructure(
-    @CurrentUser() user: UserStructureAuthenticated,
-    @Body() structurePortailUsagerDto: StructureEditPortailUsagerDto,
-    @Res() res: ExpressResponse
-  ) {
-    const portailUsager = user.structure.portailUsager;
-
-    if (!portailUsager.enabledByDomifa) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "PORTAIL_NOT_ENABLED_BY_DOMIFA" });
-    }
-
-    try {
-      await structureRepository.update(
-        { id: user.structureId },
-        {
-          portailUsager: {
-            enabledByDomifa: true,
-            enabledByStructure: structurePortailUsagerDto.enabledByStructure,
-            usagerLoginUpdateLastInteraction:
-              structurePortailUsagerDto.usagerLoginUpdateLastInteraction,
-          },
-        }
-      );
-      const retour = await structureRepository.findOneBy({
-        id: user.structureId,
-      });
-      return res.status(HttpStatus.OK).json(retour);
-    } catch (e) {
-      appLogger.error("PORTAIL_UPDATE_FAIL", { error: e, sentry: true });
-      return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "PORTAIL_UPDATE_FAIL" });
-    }
-  }
 
   @ApiBearerAuth()
   @AllowUserStructureRoles("admin")

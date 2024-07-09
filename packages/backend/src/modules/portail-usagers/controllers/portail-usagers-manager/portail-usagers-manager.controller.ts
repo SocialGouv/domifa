@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Res,
   UseGuards,
@@ -20,17 +21,22 @@ import {
   CurrentUser,
 } from "../../../../auth/decorators";
 import { AppUserGuard, UsagerAccessGuard } from "../../../../auth/guards";
-import { usagerRepository, userUsagerRepository } from "../../../../database";
+import {
+  structureRepository,
+  usagerRepository,
+  userUsagerRepository,
+} from "../../../../database";
 import {
   userUsagerCreator,
   userUsagerUpdator,
 } from "../../../../users/services";
-import { appLogger } from "../../../../util";
-import { UpdatePortailUsagerOptionsDto } from "../../dto";
+import { appLogger, ExpressResponse } from "../../../../util";
 import { Response } from "express";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
+import { StructureEditPortailUsagerDto } from "../../dto";
+import { UpdatePortailUsagerOptionsDto } from "../../dto/update-portail-usagers-options.dto";
 
 @Controller("portail-usagers-manager")
 @ApiTags("portail-usagers-manager")
@@ -38,6 +44,64 @@ import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 @ApiBearerAuth()
 export class PortailUsagersManagerController {
   constructor(private readonly appLogsService: AppLogsService) {}
+
+  @ApiBearerAuth()
+  @AllowUserStructureRoles("admin")
+  @Patch("configure-structure")
+  public async toggleEnablePortailUsagerByStructure(
+    @CurrentUser() user: UserStructureAuthenticated,
+    @Body() structurePortailUsagerDto: StructureEditPortailUsagerDto,
+    @Res() res: ExpressResponse
+  ) {
+    const portailUsager = user.structure.portailUsager;
+
+    if (!portailUsager.enabledByDomifa) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "PORTAIL_NOT_ENABLED_BY_DOMIFA" });
+    }
+
+    try {
+      await structureRepository.update(
+        { id: user.structureId },
+        {
+          portailUsager: {
+            enabledByDomifa: true,
+            enabledByStructure: structurePortailUsagerDto.enabledByStructure,
+            usagerLoginUpdateLastInteraction:
+              structurePortailUsagerDto.usagerLoginUpdateLastInteraction,
+          },
+        }
+      );
+
+      if (
+        user.structure.sms.enabledByStructure !==
+        structurePortailUsagerDto.enabledByStructure
+      ) {
+        const action =
+          structurePortailUsagerDto.enabledByStructure === true
+            ? "ENABLE_PORTAIL_BY_STRUCTURE"
+            : "DISABLE_PORTAIL_BY_STRUCTURE";
+
+        await this.appLogsService.create({
+          userId: user._userId,
+          usagerRef: null,
+          structureId: user.structureId,
+          action,
+        });
+      }
+
+      const structure = await structureRepository.findOneBy({
+        id: user.structureId,
+      });
+      return res.status(HttpStatus.OK).json(structure);
+    } catch (e) {
+      appLogger.error("PORTAIL_UPDATE_FAIL", { error: e, sentry: true });
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "PORTAIL_UPDATE_FAIL" });
+    }
+  }
 
   @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)

@@ -38,7 +38,7 @@ export class PlanSiteComponent implements OnInit {
         { label: "Gérer l'envoi des SMS", path: "/structures/sms" },
         {
           label: "Gérer le portail domiciliés",
-          path: "/structures/portail-usager",
+          path: "/structures/portail-usagers",
         },
         {
           label: "Rapport d'activité",

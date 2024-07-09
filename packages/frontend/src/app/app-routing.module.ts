@@ -15,7 +15,7 @@ import { NewsComponent } from "./modules/general/components/news/news.component"
 import { PlanSiteComponent } from "./modules/general/components/plan-site/plan-site.component";
 import { CguResponsableComponent } from "./modules/general/components/static-pages/cgu-responsable/cgu-responsable.component";
 import { RgaaComponent } from "./modules/general/components/static-pages/rgaa/rgaa.component";
-import { AuthGuard, FacteurGuard } from "./guards";
+import { AdminGuard, AuthGuard, FacteurGuard } from "./guards";
 import { LandingPagePortailComponent } from "./modules/general/components/static-pages/landing-page-portail/landing-page-portail.component";
 
 export const routes: Routes = [
@@ -78,6 +78,14 @@ export const routes: Routes = [
         (m) => m.ImportUsagersModule
       ),
     path: "import",
+  },
+  {
+    canActivate: [AuthGuard, AdminGuard],
+    loadChildren: () =>
+      import(
+        "./modules/admin-portail-usagers/admin-portail-usagers.module"
+      ).then((m) => m.AdminPortailUsagersModule),
+    path: "portail-usagers",
   },
   {
     loadChildren: () =>

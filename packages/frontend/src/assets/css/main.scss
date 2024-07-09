@@ -230,12 +230,14 @@ legend {
 #statut-selector {
   box-shadow: 0 1px 3px rgba(50, 66, 124, 0.1);
 
-  .col:first-child {
-    border-radius: 5px 0 0 0;
+  .col:first-child,
+  [class*="col-"]:first-child {
+    border-radius: 5px 0 0 0 !important;
   }
 
-  .col:last-child {
-    border-radius: 0 5px 0 0;
+  .col:last-child,
+  [class*="col-"]:last-child {
+    border-radius: 0 5px 0 0 !important;
   }
 
   button,

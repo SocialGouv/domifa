@@ -91,18 +91,7 @@
                 >
                   En savoir plus
                 </a>
-                <a
-                  routerLink="/connexion"
-                  (click)="
-                    matomoService.trackEvent(
-                      'HEADER',
-                      'Header_Connection',
-                      'null',
-                      1
-                    )
-                  "
-                  class="btn btn-outline-primary"
-                >
+                <a routerLink="/connexion" class="btn btn-outline-primary">
                   Me connecter
                   <fa-icon
                     [icon]="['fas', 'arrow-right']"
@@ -171,14 +160,6 @@
                   class="btn btn-outline-primary"
                   [routerLink]="!me ? ['/'] : ['/manage']"
                   ariaCurrentWhenActive="page"
-                  (click)="
-                    matomoService.trackEvent(
-                      'NAVBAR',
-                      'click',
-                      'Liste_Domiciliés',
-                      1
-                    )
-                  "
                 >
                   Domiciliés
                 </a>
@@ -272,6 +253,11 @@
                         [icon]="['fas', 'sms']"
                       ></fa-icon>
                       Gérer l'envoi des SMS
+                      <span
+                        class="bg-warning badge ms-2 text-dark"
+                        *ngIf="!me.structure?.sms?.enabledByStructure"
+                        >À activer</span
+                      >
                     </a>
                     <a
                       ngbDropdownItem
@@ -283,7 +269,12 @@
                       ariaCurrentWhenActive="page"
                     >
                       <fa-icon aria-hidden="true" icon="user-secret"></fa-icon>
-                      Gérer le portail domiciliés
+                      Gérer le portail domicilié
+                      <span
+                        class="bg-warning badge ms-2 text-dark"
+                        *ngIf="!me.structure?.portailUsager?.enabledByStructure"
+                        >À activer</span
+                      >
                     </a>
                     <a
                       ngbDropdownItem

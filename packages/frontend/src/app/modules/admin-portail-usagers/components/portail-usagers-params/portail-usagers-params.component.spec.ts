@@ -1,22 +1,23 @@
-import { MockAuthService } from "./../../../../../_common/mocks/AuthServiceMock";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
+import { PortailUsagersParamsComponent } from "./portail-usagers-params.component";
 import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { USER_STRUCTURE_MOCK } from "../../../../../_common/mocks";
+import {
+  MockAuthService,
+  USER_STRUCTURE_MOCK,
+} from "../../../../../_common/mocks";
+import { AuthService } from "../../../shared/services";
 
-import { StructuresPortailUsagerFormComponent } from "./structures-portail-usager-form.component";
-import { AuthService } from "../../../shared/services/auth.service";
+describe("PortailUsagersParamsComponent", () => {
+  let component: PortailUsagersParamsComponent;
+  let fixture: ComponentFixture<PortailUsagersParamsComponent>;
 
-describe("StructuresPortailUsagerFormComponent", () => {
-  let component: StructuresPortailUsagerFormComponent;
-  let fixture: ComponentFixture<StructuresPortailUsagerFormComponent>;
-
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         NgbModule,
@@ -30,12 +31,17 @@ describe("StructuresPortailUsagerFormComponent", () => {
         { provide: AuthService, useClass: MockAuthService },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [StructuresPortailUsagerFormComponent],
+
+      declarations: [PortailUsagersParamsComponent],
     }).compileComponents();
-  }));
+
+    fixture = TestBed.createComponent(PortailUsagersParamsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StructuresPortailUsagerFormComponent);
+    fixture = TestBed.createComponent(PortailUsagersParamsComponent);
     component = fixture.componentInstance;
     component.me = USER_STRUCTURE_MOCK;
     component.me.structure = USER_STRUCTURE_MOCK.structure;

@@ -47,8 +47,12 @@ fileignoreconfig:
   checksum: fab1dab2ad003174730bbdc703d59af49e65db3297415c0a1ac98a95e9f64280
 - filename: packages/backend/src/util/expressResponseExcelRenderer.service.ts
   checksum: 74fc4a9067af6f823ddcbbed150444cc1db78402ae265082a2114e64c0f459cb
+- filename: packages/frontend/src/app/modules/admin-portail-usagers/components/admin-portail-usagers-menu/admin-portail-usagers-menu.component.html
+  checksum: 6c8166fdecdf0d9ab56fb12390ca2ed5bd98c8ba91b6c6bc976cdf659dde9263
+- filename: packages/frontend/src/app/modules/admin-portail-usagers/components/manage-temp-messages/manage-temp-messages.component.html
+  checksum: f5bc2bd3820b5f982b8d3c36360ed20764e408b4f59d65f470e503e66d1b3282
 - filename: packages/frontend/src/app/modules/general/components/static-pages/landing-page-portail/landing-page-portail.component.html
-  checksum: 3d322a43adaf91648b9f7d42071e3e17d833648c9ac1f0579515a071ebf3fd2e
+  checksum: 8040e47846a6f36cbd66e06d7c92172f38fb854187dd61cdd08560ac7c1f3a81
 - filename: packages/frontend/src/app/modules/structure-stats/components/reporting-form/reporting-form.component.ts
   checksum: 8570ed88e0e872bc32eac27d37abc1bf8198816dcb27427efb7b6f8e751582b0
 - filename: packages/frontend/src/app/modules/structures/components/structures-custom-docs/structures-custom-docs.component.html

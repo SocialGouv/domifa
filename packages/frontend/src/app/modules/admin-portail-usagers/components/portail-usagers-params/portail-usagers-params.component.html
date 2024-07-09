@@ -1,35 +1,16 @@
-<div *ngIf="me" class="head-page py-4">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-9 col-12">
-        <h1 class="title my-1">
-          Paramètres d'accès au portail usager pour votre structure
-        </h1>
-      </div>
-      <div class="text-start text-md-end col-12 col-md-3">
-        <a
-          title="Télécharger le guide du portail usager"
-          href="/assets/files/guide_portail_usagers.pdf"
-          target="_blank"
-          class="btn btn-white-primary my-1"
-          rel="noopener noreferrer"
-          download
-        >
-          <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
-          Télécharger le guide
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
+<app-admin-portail-usagers-menu
+  [section]="section"
+  [me]="me"
+></app-admin-portail-usagers-menu>
 
 <app-landing-page-portail
-  *ngIf="!structure.portailUsager.enabledByStructure"
+  *ngIf="section === ''"
   (activatePortail)="activatePortail()"
-  [isLandingPage]="true"
+  [isLandingPage]="structure.portailUsager.enabledByStructure"
+  [displayMenu]="false"
 ></app-landing-page-portail>
 
-<div class="content py-3" *ngIf="structure.portailUsager.enabledByStructure">
+<div class="content py-3" *ngIf="section === 'parametres'">
   <div class="container py-3">
     <div class="page-content p-3">
       <p class="py-2">
@@ -39,6 +20,54 @@
       </p>
 
       <form>
+        <fieldset>
+          <div class="row align-items-center">
+            <div class="col-12 col-md-8">
+              <legend class="label">
+                Activer l'accès au portail usager pour les domiciliés
+              </legend>
+            </div>
+            <div class="col-md-4 col-12 text-center text-md-end">
+              <div class="btn-group btn-group-toggle" role="group">
+                <label
+                  [ngClass]="
+                    structure.portailUsager.enabledByStructure === true
+                      ? 'btn btn-primary'
+                      : 'btn btn-outline-primary'
+                  "
+                  for="enabledByStructure1"
+                >
+                  <input
+                    type="radio"
+                    [(ngModel)]="structure.portailUsager.enabledByStructure"
+                    [value]="true"
+                    name="enabledByStructure"
+                    id="enabledByStructure1"
+                    class="me-2"
+                  /><span>Oui</span></label
+                >
+
+                <label
+                  [ngClass]="
+                    structure.portailUsager.enabledByStructure === false
+                      ? 'btn btn-danger'
+                      : 'btn btn-outline-danger'
+                  "
+                  for="enabledByStructure2"
+                >
+                  <input
+                    type="radio"
+                    [(ngModel)]="structure.portailUsager.enabledByStructure"
+                    [value]="false"
+                    name="enabledByStructure"
+                    id="enabledByStructure2"
+                    class="me-2"
+                  /><span>Non</span></label
+                >
+              </div>
+            </div>
+          </div>
+        </fieldset>
         <fieldset>
           <div class="row align-items-center">
             <div class="col-md-8 col-12">

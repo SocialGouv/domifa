@@ -1,6 +1,29 @@
-<div class="head-page py-4" *ngIf="!isLandingPage">
+<div class="head-page py-4" *ngIf="displayMenu">
   <div class="container">
-    <h1>Le portail Mon DomiFa, consulter son courrier en ligne</h1>
+    <div class="row">
+      <div class="col-md-7 col-12">
+        <h1>Le portail Mon DomiFa, consulter son courrier en ligne</h1>
+      </div>
+      <div class="text-start text-md-end col-12 col-md-5">
+        <a
+          href="https://fabnummas.notion.site/Activer-le-portail-domicili-856ef0d4354244d1a1cebd0bf3806396?pvs=25"
+          target="_blank"
+          class="btn btn-white-primary"
+          (click)="
+            matomo.trackEvent(
+              'PORTAIL_MON_DOMIFA',
+              'LIEN_GUIDE_HEADER',
+              'null',
+              1
+            )
+          "
+          rel="noopener noreferrer"
+        >
+          <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
+          Consulter le guide
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 <div class="container py-3 landing">
@@ -14,7 +37,7 @@
       </p>
       <br />
       <button
-        *ngIf="isLandingPage"
+        *ngIf="!isLandingPage"
         class="btn btn-lg btn-primary my-2"
         type="button"
         (click)="activatePortail.emit()"
@@ -23,15 +46,13 @@
       </button>
       <br />
       <a
-        title="Télécharger le guide du portail usager"
-        href="/assets/files/guide_portail_usagers.pdf"
+        href="https://fabnummas.notion.site/Activer-le-portail-domicili-856ef0d4354244d1a1cebd0bf3806396?pvs=25"
         target="_blank"
         class="btn btn-lg btn-outline-primary my-2"
         rel="noopener noreferrer"
-        download
       >
         <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
-        Télécharger le guide
+        Consulter le guide
       </a>
     </div>
     <div class="col-12 col-md-6">
@@ -91,7 +112,7 @@
   <div class="text-center py-5 my-2" @fadeIn>
     <button
       class="btn btn-lg btn-primary my-2 mx-2"
-      *ngIf="isLandingPage"
+      *ngIf="!isLandingPage"
       type="button"
       (click)="activatePortail.emit()"
     >
@@ -99,15 +120,21 @@
     </button>
 
     <a
-      title="Télécharger le guide du portail usager"
-      href="/assets/files/guide_portail_usagers.pdf"
+      href="https://fabnummas.notion.site/Activer-le-portail-domicili-856ef0d4354244d1a1cebd0bf3806396?pvs=25"
       target="_blank"
-      class="btn btn-lg btn-outline-primary my-2 mx-2"
+      (click)="
+        matomo.trackEvent(
+          'PORTAIL_MON_DOMIFA',
+          'LIEN_GUIDE_BAS_PAGE',
+          'null',
+          1
+        )
+      "
+      class="btn btn-lg btn-outline-primary my-2"
       rel="noopener noreferrer"
-      download
     >
       <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
-      Télécharger le guide
+      Consulter le guide
     </a>
 
     <a href="/contact" class="btn btn-lg btn-outline-primary my-2 mx-2">

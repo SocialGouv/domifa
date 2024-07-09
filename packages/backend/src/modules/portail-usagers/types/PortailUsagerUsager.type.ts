@@ -2,7 +2,7 @@ import { Usager } from "@domifa/common";
 
 // PortailUsagerStructure: attributs publics (retournés au Portail Usager via UserStructureAuthenticated)
 export type PortailUsagerUsager = Pick<
-  Usager, // @see USAGER_PORTAIL_ATTRIBUTES
+  Usager, // @see USER_USAGER_ATTRIBUTES
   | "uuid"
   | "ref"
   | "customRef"

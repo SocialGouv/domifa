@@ -86,22 +86,6 @@ export class StructureService {
     );
   }
 
-  public patchPortailUsagerParams(formData: {
-    enabledByStructure: boolean;
-    usagerLoginUpdateLastInteraction: boolean;
-  }): Observable<StructureCommon> {
-    return this.http
-      .patch(
-        environment.apiUrl + "structures/portail-usager/configure-structure",
-        formData
-      )
-      .pipe(
-        map((response) => {
-          return new StructureCommonWeb(response);
-        })
-      );
-  }
-
   public validateEmail(email: string): Observable<boolean> {
     return this.http.post<boolean>(`${this.endPoint}/validate-email`, {
       email,

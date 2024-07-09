@@ -1,2 +1,3 @@
 // @index('./*', f => `export * from '${f.path}'`)
-export * from "./update-portail-usager-options.dto";
+export * from "./structure-edit-portail-usager.dto";
+export * from "./update-portail-usagers-options.dto";

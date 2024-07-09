@@ -1,0 +1,64 @@
+<div class="head-page pt-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7 col-12">
+        <h1>Le portail Mon DomiFa, consulter son courrier en ligne</h1>
+      </div>
+      <div class="text-start text-md-end col-12 col-md-5">
+        <a
+          href="https://fabnummas.notion.site/Activer-le-portail-domicili-856ef0d4354244d1a1cebd0bf3806396?pvs=25"
+          target="_blank"
+          class="btn btn-white-primary"
+          rel="noopener noreferrer"
+        >
+          <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
+          Consulter le guide
+        </a>
+      </div>
+    </div>
+
+    <nav id="statut-selector" class="mt-4 row d-print-none">
+      <a
+        class="col"
+        [ngClass]="section === '' ? 'selected-section col' : 'col'"
+        routerLink="/portail-usagers/"
+        ariaCurrentWhenActive="page"
+      >
+        <span class="statut-label">Présentation du portail</span>
+        <span class="visually-hidden" *ngIf="section === ''"
+          >, onglet actif</span
+        >
+      </a>
+      <a
+        class="col"
+        [ngClass]="section === 'parametres' ? 'selected-section col' : 'col'"
+        routerLink="/portail-usagers/parametres"
+        ariaCurrentWhenActive="page"
+      >
+        <span class="statut-label">Paramètres du portail</span>
+        <span class="visually-hidden" *ngIf="section === 'parametres'"
+          >, onglet actif</span
+        >
+      </a>
+      <a
+        class="col"
+        [ngClass]="
+          section === 'informations-temporaires'
+            ? 'selected-section col'
+            : 'col'
+        "
+        disabled
+      >
+        <span class="statut-label"
+          >Diffuser des informations (bientôt disponible)</span
+        >
+        <span
+          class="visually-hidden"
+          *ngIf="section === 'informations-temporaires'"
+          >, onglet actif</span
+        >
+      </a>
+      <div class="col"></div>
+    </nav>
+  </div>
+</div>
