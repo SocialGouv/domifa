@@ -1,3 +1,10 @@
+## [2.172.6](https://github.com/SocialGouv/domifa/compare/v2.172.5...v2.172.6) (2024-07-09)
+
+
+### Bug Fixes
+
+* anonymisation pipeline ([#3348](https://github.com/SocialGouv/domifa/issues/3348)) ([72960f1](https://github.com/SocialGouv/domifa/commit/72960f1dfb9dfc4556d3c7fe4f0b9040baad807b))
+
 ## [2.172.5](https://github.com/SocialGouv/domifa/compare/v2.172.4...v2.172.5) (2024-07-09)
 
 
