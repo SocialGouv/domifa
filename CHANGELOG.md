@@ -1,3 +1,10 @@
+## [2.172.4](https://github.com/SocialGouv/domifa/compare/v2.172.3...v2.172.4) (2024-07-09)
+
+
+### Bug Fixes
+
+* **backend:** fix exports columns ([2198310](https://github.com/SocialGouv/domifa/commit/21983102c26eeb16b5a049511e75552957133965))
+
 ## [2.172.3](https://github.com/SocialGouv/domifa/compare/v2.172.2...v2.172.3) (2024-07-07)
 
 
