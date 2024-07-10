@@ -86,8 +86,14 @@ export const renderStructureUsagersRows = (
     ENTRETIEN_COMMENTAIRE: CUSTOM_DOCS_LABELS.ENTRETIEN_COMMENTAIRE,
   };
 
-  const firstSheetUsagers = [{ USAGER_REF: dateHeader }, usagersListHeader];
-  const secondSheetEntretiens = [{ USAGER_REF: dateHeader }, entretiensHeader];
+  const firstSheetUsagers = [
+    { USAGER_CUSTOM_REF: dateHeader },
+    usagersListHeader,
+  ];
+  const secondSheetEntretiens = [
+    { USAGER_CUSTOM_REF: dateHeader },
+    entretiensHeader,
+  ];
 
   for (let index = 0; index < 8; index++) {
     set(usagersListHeader, "AD_NOM_" + index, `Nom ayant-droit ${index + 1}`);
