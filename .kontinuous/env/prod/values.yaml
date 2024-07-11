@@ -216,13 +216,11 @@ jobs-restore-anonymous-prod:
             secretKeyRef:
               name: managed-db-admin-anonymous
               key: PGUSER
-        - name: PGSSLMODE
-          value: require
       run: |
         set -e
         root_path=domifa-prod-backups/anonymizer/pg_dumps
         last_dir=$(aws s3 ls s3://$root_path --recursive | awk '{print $4}' | cut -d "/" -f3 | tail -n 1)
         echo "Restoring $last_dir"
         aws s3 cp --recursive s3://$root_path/$last_dir /tmp/dump/$last_dir
-        export PGSSLMODE=disable
+        export PGSSLMODE=require
         pg_restore -h postgresql-77eca822-od41f3361.database.cloud.ovh.net -p 20184 --clean --if-exists --no-owner --role=$PGUSERAPP --no-acl --verbose /tmp/dump/$last_dir --dbname defaultdb
