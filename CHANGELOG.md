@@ -1,3 +1,10 @@
+## [2.173.3](https://github.com/SocialGouv/domifa/compare/v2.173.2...v2.173.3) (2024-07-11)
+
+
+### Bug Fixes
+
+* **anonymizer:** use prod secrets ([22b1b5d](https://github.com/SocialGouv/domifa/commit/22b1b5dbcd4c79988def5f690ffd03c41d77b98e))
+
 ## [2.173.2](https://github.com/SocialGouv/domifa/compare/v2.173.1...v2.173.2) (2024-07-11)
 
 
