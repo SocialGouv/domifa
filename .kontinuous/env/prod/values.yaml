@@ -169,6 +169,8 @@ jobs-restore-anonymous-prod:
   retry: 0
   runs:
     restore-anonymization:
+      user: 1001
+      group: 1001
       memoryLimit: 4Gi
       cpuLimit: "4"
       memoryRequest: 4Gi
