@@ -1,7 +1,7 @@
 global:
   pgSecretName: pg-app
 
-backend: &backend
+backend:
   ~chart: app
   ~needs: [backend-cron]
   imagePackage: backend
@@ -56,9 +56,61 @@ backend: &backend
     runAsGroup: 1000
 
 backend-export:
-  <<: *backend
-  ~needs: [build-backend]
+  # duplicate keys
   ~chart: app
+  imagePackage: backend
+  host: "api-{{ .Values.global.host }}"
+  probesPath: /healthz
+  containerPort: 3000
+  resources:
+    requests:
+      cpu: 0.3
+      memory: 512Mi
+    limits: # exports need a lot of CPU/RAM ATM
+      cpu: 3
+      memory: 3Gi
+  startupProbe:
+    initialDelaySeconds: 30
+    failureThreshold: 50
+    periodSeconds: 10
+  livenessProbe:
+    failureThreshold: 20
+    httpGet:
+      path: /healthz
+      port: http
+      scheme: HTTP
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 10
+  envFrom:
+    - secretRef:
+        name: "{{ .Values.global.pgSecretName }}"
+    - secretRef:
+        name: backend-sealed-secret
+    - configMapRef:
+        name: backend-configmap
+    - secretRef:
+        name: domifa-encryption-key
+  vars: &backendVars
+    TZ: Europe/Paris
+    POSTGRES_HOST: "$(PGHOST)"
+    POSTGRES_USERNAME: "$(PGUSER)"
+    POSTGRES_PASSWORD: "$(PGPASSWORD)"
+    POSTGRES_DATABASE: "$(PGDATABASE)"
+    POSTGRES_PORT: "$(PGPORT)"
+    DOMIFA_BACKEND_URL: "https://api-{{ .Values.global.host }}/"
+    DOMIFA_FRONTEND_URL: "https://{{ .Values.global.host }}/"
+    DOMIFA_PORTAIL_USAGERS_URL: "https://mon-{{ .Values.global.host }}/"
+    DOMIFA_PORTAIL_ADMINS_URL: "https://admin-{{ .Values.global.host }}/"
+    DOMIFA_CRON_ENABLED: "false"
+  securityContext:
+    fsGroup: 1000
+    runAsUser: 1000
+    runAsGroup: 1000
+
+  # new keys
+  ~needs: [build-backend]
   ingress:
     paths:
       - /export
