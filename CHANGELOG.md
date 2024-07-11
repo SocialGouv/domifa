@@ -1,3 +1,10 @@
+## [2.173.2](https://github.com/SocialGouv/domifa/compare/v2.173.1...v2.173.2) (2024-07-11)
+
+
+### Bug Fixes
+
+* **anonymizer:** move restore job to prod ([74e12d7](https://github.com/SocialGouv/domifa/commit/74e12d70b9a8deaef3a931734eca61b6deb4773e))
+
 ## [2.173.1](https://github.com/SocialGouv/domifa/compare/v2.173.0...v2.173.1) (2024-07-09)
 
 
