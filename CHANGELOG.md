@@ -1,3 +1,10 @@
+## [2.173.4](https://github.com/SocialGouv/domifa/compare/v2.173.3...v2.173.4) (2024-07-11)
+
+
+### Bug Fixes
+
+* **anonymizer:** use custom production workflow ([2bed125](https://github.com/SocialGouv/domifa/commit/2bed125301b963099c264dd8c8b23adaa9b6e033))
+
 ## [2.173.3](https://github.com/SocialGouv/domifa/compare/v2.173.2...v2.173.3) (2024-07-11)
 
 
