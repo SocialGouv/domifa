@@ -1,3 +1,10 @@
+## [2.173.6](https://github.com/SocialGouv/domifa/compare/v2.173.5...v2.173.6) (2024-07-11)
+
+
+### Bug Fixes
+
+* **anonymizer:** use PGDATABASE ([73bbfb0](https://github.com/SocialGouv/domifa/commit/73bbfb0b41299a31e182841dd180df4e7ac85966))
+
 ## [2.173.5](https://github.com/SocialGouv/domifa/compare/v2.173.4...v2.173.5) (2024-07-11)
 
 
