@@ -223,4 +223,4 @@ jobs-restore-anonymous-prod:
         echo "Restoring $last_dir"
         aws s3 cp --recursive s3://$root_path/$last_dir /tmp/dump/$last_dir
         export PGSSLMODE=disable
-        pg_restore -h postgresql-77eca822-od41f3361.database.cloud.ovh.net -p 20184 --clean --if-exists --no-owner --role=$PGUSERAPP --no-acl --verbose /tmp/dump/$last_dir --dbname defaultdb
+        pg_restore -h postgresql-77eca822-od41f3361.database.cloud.ovh.net -p 20184 --clean --if-exists --no-owner --role=$PGUSERAPP --no-acl --verbose /tmp/dump/$last_dir --dbname defaultdb --sslmode=require
