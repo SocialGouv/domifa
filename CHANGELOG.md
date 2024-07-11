@@ -1,3 +1,10 @@
+## [2.173.5](https://github.com/SocialGouv/domifa/compare/v2.173.4...v2.173.5) (2024-07-11)
+
+
+### Bug Fixes
+
+* **anonymizer:** use s3 prod backups ([41089ca](https://github.com/SocialGouv/domifa/commit/41089ca16e803fcfc969f1073d7fe90a0aea1e24))
+
 ## [2.173.4](https://github.com/SocialGouv/domifa/compare/v2.173.3...v2.173.4) (2024-07-11)
 
 
