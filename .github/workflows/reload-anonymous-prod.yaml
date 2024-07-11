@@ -12,7 +12,7 @@ jobs:
     uses: socialgouv/workflows/.github/workflows/use-ks-gh-custom.yaml@v1
     with:
       chart: jobs-restore-anonymous-prod
-      environment: preprod
+      environment: prod
       inlineSet: |
         global.rancherNamespaceEnabled: true
         global.namespaceLabels:
