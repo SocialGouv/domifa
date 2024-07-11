@@ -177,44 +177,44 @@ jobs-restore-anonymous-prod:
       image: ghcr.io/socialgouv/docker/s3-client:sha-d43374e
       envFrom:
         - secretRef:
-            name: domifa-dev-backups-access-key
+            name: domifa-prod-backups-access-key
         - secretRef:
-            name: anonymous-db-sealed-secret
+            name: managed-db-admin-anonymous
       env:
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
-              name: domifa-dev-backups-access-key
+              name: domifa-prod-backups-access-key
               key: bucket_access_key
         - name: AWS_SECRET_ACCESS_KEY
           valueFrom:
             secretKeyRef:
-              name: domifa-dev-backups-access-key
+              name: domifa-prod-backups-access-key
               key: bucket_secret_key
         - name: AWS_DEFAULT_REGION
           valueFrom:
             secretKeyRef:
-              name: domifa-dev-backups-access-key
+              name: domifa-prod-backups-access-key
               key: bucket_region
         - name: AWS_ENDPOINT_URL
           valueFrom:
             secretKeyRef:
-              name: domifa-dev-backups-access-key
+              name: domifa-prod-backups-access-key
               key: bucket_endpoint
         - name: PGUSER
           valueFrom:
             secretKeyRef:
-              name: anonymous-db-sealed-secret
+              name: managed-db-admin-anonymous
               key: ADMIN_PG_USER
         - name: PGPASSWORD
           valueFrom:
             secretKeyRef:
-              name: anonymous-db-sealed-secret
+              name: managed-db-admin-anonymous
               key: ADMIN_PG_PASSWORD
         - name: PGUSERAPP
           valueFrom:
             secretKeyRef:
-              name: anonymous-db-sealed-secret
+              name: managed-db-admin-anonymous
               key: PGUSER
       run: |
         set -e
