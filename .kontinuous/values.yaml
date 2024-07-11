@@ -58,6 +58,7 @@ backend:
 backend-export:
   # duplicate keys
   ~chart: app
+  ~needs: [backend-cron]
   imagePackage: backend
   host: "api-{{ .Values.global.host }}"
   probesPath: /healthz
@@ -110,7 +111,6 @@ backend-export:
     runAsGroup: 1000
 
   # new keys
-  ~needs: [build-backend]
   ingress:
     paths:
       - /export
