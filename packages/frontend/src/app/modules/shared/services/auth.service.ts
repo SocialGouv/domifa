@@ -13,6 +13,7 @@ import { userStructureBuilder } from "../../users/services";
 import { CustomToastService } from "./custom-toast.service";
 import { getCurrentScope } from "@sentry/angular";
 import { UserStructure } from "@domifa/common";
+import { Store } from "@ngrx/store";
 
 @Injectable({
   providedIn: "root",
@@ -25,7 +26,8 @@ export class AuthService {
   constructor(
     private readonly http: HttpClient,
     private readonly toastr: CustomToastService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly store: Store
   ) {
     const dataStorage = localStorage.getItem("currentUser");
     this.currentUserSubject = new BehaviorSubject<UserStructure | null>(
@@ -56,6 +58,7 @@ export class AuthService {
           );
 
           user.access_token = token.access_token;
+          this.store.dispatch(cacheManager.clearCache());
           this.setUser(user);
           return user;
         })
@@ -90,7 +93,7 @@ export class AuthService {
 
   public async logout(): Promise<void> {
     this.currentUserSubject.next(null);
-    cacheManager.clearCache();
+    this.store.dispatch(cacheManager.clearCache());
     localStorage.removeItem("currentUser");
     localStorage.removeItem("MANAGE_USAGERS");
 

@@ -34,12 +34,11 @@ services:
       - minio
 
   postgres:
-    image: postgis/postgis:14-3.4-alpine
+    image: postgis/postgis:15-3.4-alpine
     container_name: domifa-postgres
-    shm_size: 1g
+    shm_size: 2g
     volumes:
-      - postgres-data:/var/lib/postgresql/data
-        # NOTE: /docker-entrypoint-initdb.d/*.(sh|js) are automatically run on startup
+      - postgres-data:/var/lib/postgresql/data/pgdata
       - ./_scripts/docker/postgres-restore-dump.docker-entrypoint.sh:/docker-entrypoint-initdb.d/postgres-restore-dump.docker-entrypoint.sh
       - ./_scripts:/app/_scripts
     ports:

@@ -18,7 +18,8 @@ import {
 
 export const _usagerReducer = createReducer(
   INITIAL_STATE,
-  on(cacheManager.clearCache, () => INITIAL_STATE),
+  on(cacheManager.clearCache, () => ({ ...INITIAL_STATE })),
+
   on(cacheManager.setSearchPageLoadedUsagersData, (state, action) => {
     return {
       ...state,
@@ -32,18 +33,17 @@ export const _usagerReducer = createReducer(
         }, {} as { [ref: string]: UsagerLight }),
     };
   }),
-  on(cacheManager.updateUsagerNotes, (state, action) => {
-    return {
-      ...state,
-      usagersByRefMap: {
-        ...state.usagersByRefMap,
-        [action.ref]: {
-          ...state.usagersByRefMap[action.ref],
-          nbNotes: action.nbNotes,
-        },
+
+  on(cacheManager.updateUsagerNotes, (state, { ref, nbNotes }) => ({
+    ...state,
+    usagersByRefMap: {
+      ...state.usagersByRefMap,
+      [ref]: {
+        ...state.usagersByRefMap[ref],
+        nbNotes,
       },
-    };
-  }),
+    },
+  })),
   on(cacheManager.updateUsager, (state, action) => {
     const usager = new UsagerFormModel(action.usager) as unknown as UsagerLight;
 
@@ -110,24 +110,19 @@ export const _usagerReducer = createReducer(
       searchPageLoadedUsagersData,
     };
   }),
+
   on(cacheManager.deleteUsagers, (state, action) => {
-    const usagersByRefMap = {
-      ...state.usagersByRefMap,
-    };
-
+    const { usagerRefs } = action;
+    const usagersByRefMap = { ...state.usagersByRefMap };
     let searchPageLoadedUsagersData = state.searchPageLoadedUsagersData;
-    for (const usagerRef of action.usagerRefs) {
-      if (usagersByRefMap) {
-        delete usagersByRefMap[usagerRef];
-      }
 
-      if (state.searchPageLoadedUsagersData) {
-        searchPageLoadedUsagersData = deleteSearchPageLoadedUsagersDataUsager({
-          initialData: searchPageLoadedUsagersData,
-          usagerRef: usagerRef,
-        });
-      }
-    }
+    usagerRefs.forEach((ref) => {
+      delete usagersByRefMap[ref];
+      searchPageLoadedUsagersData = deleteSearchPageLoadedUsagersDataUsager({
+        initialData: searchPageLoadedUsagersData,
+        usagerRef: ref,
+      });
+    });
 
     return {
       ...state,
@@ -135,19 +130,19 @@ export const _usagerReducer = createReducer(
       searchPageLoadedUsagersData,
     };
   }),
+
   on(cacheManager.addUsager, (state, action) => {
     const usager = { ...action.usager };
     const usagersByRefMap = {
       ...state.usagersByRefMap,
+      [usager.ref]: setUsagerInformations(usager),
     };
 
-    usagersByRefMap[usager.ref] = setUsagerInformations(usager);
-
-    // list data loaded
     const searchPageLoadedUsagersData = addUsagerToStore({
       initialData: state.searchPageLoadedUsagersData,
       usager,
     });
+
     return {
       ...state,
       usagersByRefMap,
