@@ -110,17 +110,17 @@ jobs-restore-anonymous-prod:
         - name: PGUSER
           valueFrom:
             secretKeyRef:
-              name: anonymous-db-sealed-secret
-              key: ADMIN_PG_USER
+              name: pg-superuser
+              key: username
         - name: PGPASSWORD
           valueFrom:
             secretKeyRef:
-              name: anonymous-db-sealed-secret
-              key: ADMIN_PG_PASSWORD
+              name: pg-superuser
+              key: password
         - name: PGUSERAPP
           valueFrom:
             secretKeyRef:
-              name: anonymous-db-sealed-secret
+              name: pg-app
               key: PGUSER
       run: |
         set -e
@@ -129,4 +129,4 @@ jobs-restore-anonymous-prod:
         echo "Restoring $last_dir"
         aws s3 cp --recursive s3://$root_path/$last_dir /tmp/dump/$last_dir
         export PGSSLMODE=disable
-        pg_restore --clean --if-exists --no-owner --role=$PGUSERAPP --no-acl --verbose /tmp/dump/$last_dir --dbname defaultdb
+        pg_restore --clean --if-exists --no-owner --role=$PGUSERAPP --no-acl --verbose /tmp/dump/$last_dir --dbname $PGDATABASE
