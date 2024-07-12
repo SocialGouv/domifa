@@ -153,43 +153,23 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
 
     this.searchInput.nativeElement.value = this.filters.searchString;
 
-    // 1. We load data from API
-    this.subscription.add(
-      timer(0, AUTO_REFRESH_PERIOD)
-        .pipe(
-          tap(() => {
-            this.searching = true;
-          }),
-          switchMap(() => this.chargerTousRadies$),
-          switchMap((chargerTousRadies) => {
-            this.searching = true;
-
-            return this.usagerService.getSearchPageUsagerData({
-              chargerTousRadies,
-            });
-          })
-        )
-        .subscribe()
-    );
-
     // 2. Subscribe to ngRx store
     this.subscription.add(
       this.store
         .pipe(
           select(selectSearchPageLoadedUsagersData()),
+          tap((state: SearchPageLoadedUsagersData) => {
+            if (!state.dataLoaded) {
+              this.loadDataFromAPI();
+            } else {
+              this.updateComponentState(state);
+            }
+          }),
           filter((state: SearchPageLoadedUsagersData) => state.dataLoaded)
         )
         .subscribe(
           (searchPageLoadedUsagersData: SearchPageLoadedUsagersData) => {
-            this.usagersRadiesTotalCount =
-              searchPageLoadedUsagersData.usagersRadiesTotalCount;
-            this.usagersTotalCount =
-              searchPageLoadedUsagersData.usagersRadiesTotalCount +
-              searchPageLoadedUsagersData.usagersNonRadies.length;
-            this.usagersRadiesLoadedCount =
-              searchPageLoadedUsagersData.usagersRadiesFirsts.length;
-            this.searchPageLoadedUsagersData$.next(searchPageLoadedUsagersData);
-            this.filters$.next(this.filters);
+            this.updateComponentState(searchPageLoadedUsagersData);
           }
         )
     );
@@ -243,6 +223,47 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
         }
       )
     );
+  }
+
+  private loadDataFromAPI() {
+    this.subscription.add(
+      timer(0, AUTO_REFRESH_PERIOD)
+        .pipe(
+          tap(() => {
+            this.searching = true;
+          }),
+          switchMap(() => this.chargerTousRadies$),
+          switchMap((chargerTousRadies) => {
+            this.searching = true;
+            return this.usagerService.getSearchPageUsagerData({
+              chargerTousRadies,
+            });
+          })
+        )
+        .subscribe({
+          next: () => {
+            this.searching = false;
+          },
+          error: () => {
+            console.log("ERREUR");
+            this.searching = false;
+          },
+        })
+    );
+  }
+
+  private updateComponentState(
+    searchPageLoadedUsagersData: SearchPageLoadedUsagersData
+  ) {
+    this.usagersRadiesTotalCount =
+      searchPageLoadedUsagersData.usagersRadiesTotalCount;
+    this.usagersTotalCount =
+      searchPageLoadedUsagersData.usagersRadiesTotalCount +
+      searchPageLoadedUsagersData.usagersNonRadies.length;
+    this.usagersRadiesLoadedCount =
+      searchPageLoadedUsagersData.usagersRadiesFirsts.length;
+    this.searchPageLoadedUsagersData$.next(searchPageLoadedUsagersData);
+    this.filters$.next(this.filters);
   }
 
   public chargerTousRadies(): void {

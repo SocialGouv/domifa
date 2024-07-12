@@ -118,10 +118,10 @@ backend-export:
   resources:
     requests:
       cpu: 1
-      memory: 5Gi
+      memory: 3Gi
     limits: # exports need a lot of CPU/RAM ATM
-      cpu: 3
-      memory: 5Gi
+      cpu: 2
+      memory: 3Gi
   certSecretName: backend-crt
   envFrom:
     - secretRef:
@@ -141,6 +141,7 @@ backend-export:
       - /admin/structures/export
       - /stats
       - /stats/home
+      - /stats/export
 
 frontend:
   autoscale:

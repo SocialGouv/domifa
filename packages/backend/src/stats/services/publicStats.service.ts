@@ -24,7 +24,7 @@ export class PublicStatsService implements OnModuleInit {
 
   onModuleInit() {
     if (
-      domifaConfig().envId === "local" ||
+      domifaConfig().envId !== "local" ||
       (domifaConfig().envId !== "test" && isCronEnabled())
     ) {
       this.updateAllStatsCache();

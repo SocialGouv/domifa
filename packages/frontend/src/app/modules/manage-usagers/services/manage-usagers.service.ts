@@ -25,15 +25,6 @@ export class ManageUsagersService {
   }: {
     chargerTousRadies: boolean;
   }): Observable<SearchPageLoadedUsagersData> {
-    // cacheManager.setSearchPageLoadedUsagersData({
-    //   searchPageLoadedUsagersData: {
-    //     usagersNonRadies: [],
-    //     usagersRadiesFirsts: [],
-    //     usagersRadiesTotalCount: 0,
-    //     dataLoaded: false,
-    //   },
-    // });
-
     return this.http
       .get<SearchPageLoadedUsagersData>(
         `${environment.apiUrl}usagers/?chargerTousRadies=${chargerTousRadies}`
