@@ -1,3 +1,11 @@
+## [2.173.7](https://github.com/SocialGouv/domifa/compare/v2.173.6...v2.173.7) (2024-07-12)
+
+
+### Bug Fixes
+
+* export ingress ([680c912](https://github.com/SocialGouv/domifa/commit/680c912500c938f859eb4ad2cf00ba98710c053c))
+* needs ([610cff7](https://github.com/SocialGouv/domifa/commit/610cff7c1f51df898baa9452ecd40b9bd851726d))
+
 ## [2.173.6](https://github.com/SocialGouv/domifa/compare/v2.173.5...v2.173.6) (2024-07-11)
 
 
