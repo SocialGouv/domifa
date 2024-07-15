@@ -7,6 +7,8 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ContactSupportComponent } from "./contact-support.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("ContactSupportComponent", () => {
   let component: ContactSupportComponent;
@@ -19,6 +21,8 @@ describe("ContactSupportComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
+
         HttpClientTestingModule,
         RouterTestingModule,
       ],

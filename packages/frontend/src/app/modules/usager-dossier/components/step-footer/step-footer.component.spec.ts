@@ -9,6 +9,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { SharedModule } from "../../../shared/shared.module";
 
 import { StepFooterComponent } from "./step-footer.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("StepFooterComponent", () => {
   let component: StepFooterComponent;
@@ -25,6 +27,7 @@ describe("StepFooterComponent", () => {
         SharedModule,
         HttpClientTestingModule,
         RouterTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

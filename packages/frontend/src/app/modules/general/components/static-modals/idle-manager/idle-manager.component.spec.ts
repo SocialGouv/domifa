@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { IdleManagerComponent } from "./idle-manager.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../../shared";
 
 describe("IdleManagerComponent", () => {
   let component: IdleManagerComponent;
@@ -11,7 +13,11 @@ describe("IdleManagerComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [IdleManagerComponent],
-      imports: [NgbModule, HttpClientTestingModule],
+      imports: [
+        NgbModule,
+        HttpClientTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
+      ],
     }).compileComponents();
   });
 
