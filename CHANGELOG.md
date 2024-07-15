@@ -1,3 +1,14 @@
+## [2.173.8](https://github.com/SocialGouv/domifa/compare/v2.173.7...v2.173.8) (2024-07-15)
+
+
+### Bug Fixes
+
+* **backend:** fix common lib ([4cbe977](https://github.com/SocialGouv/domifa/commit/4cbe97701d74169f7e08dc0a55980b090690a3ad))
+* **backend:** fix common lib ([e56d4fb](https://github.com/SocialGouv/domifa/commit/e56d4fbec359fe78406f1be1ac8e6e11a11db65b))
+* **backend:** fix export column ([5704262](https://github.com/SocialGouv/domifa/commit/57042620e17fba80fa848b050df062532f32b991))
+* **frontend:** delete useless api calls ([2defa1a](https://github.com/SocialGouv/domifa/commit/2defa1a0e7284993fab15ca6d4abc30b9ffa5479))
+* **frontend:** fix unit tests and add clear cache after import ([ed66f88](https://github.com/SocialGouv/domifa/commit/ed66f88a9ce5449768217ad901ae203b3f350671))
+
 ## [2.173.7](https://github.com/SocialGouv/domifa/compare/v2.173.6...v2.173.7) (2024-07-12)
 
 
