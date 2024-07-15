@@ -6,6 +6,8 @@ import { TestBed, waitForAsync } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
 import { AppComponent } from "./app.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "./shared";
 
 describe("AppComponent", () => {
   beforeEach(waitForAsync(() => {
@@ -16,6 +18,7 @@ describe("AppComponent", () => {
         RouterTestingModule,
         ReactiveFormsModule,
         ...MATOMO_INJECTORS,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();

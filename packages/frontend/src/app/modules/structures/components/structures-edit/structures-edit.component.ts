@@ -15,6 +15,8 @@ import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { StructureService } from "../../services/structure.service";
 import { UserStructure, StructureCommon } from "@domifa/common";
+import { Store } from "@ngrx/store";
+import { cacheManager } from "../../../../shared";
 
 @Component({
   selector: "app-structures-edit",
@@ -38,7 +40,8 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
     private readonly toastService: CustomToastService,
     private readonly authService: AuthService,
     private readonly modalService: NgbModal,
-    private readonly titleService: Title
+    private readonly titleService: Title,
+    private readonly store: Store
   ) {
     this.showHardReset = false;
     this.exportLoading = false;
@@ -102,6 +105,7 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
             this.toastService.success(
               "La remise à zéro a été effectuée avec succès !"
             );
+            this.store.dispatch(cacheManager.clearCache());
 
             setTimeout(() => {
               this.closeModals();

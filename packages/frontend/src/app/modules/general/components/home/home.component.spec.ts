@@ -8,7 +8,8 @@ import { SharedModule } from "../../../../modules/shared/shared.module";
 
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MATOMO_INJECTORS } from "../../../../shared";
+import { _usagerReducer, MATOMO_INJECTORS } from "../../../../shared";
+import { StoreModule } from "@ngrx/store";
 
 describe("HomeComponent", () => {
   let component: HomeComponent;
@@ -23,9 +24,9 @@ describe("HomeComponent", () => {
         RouterTestingModule,
         HttpClientTestingModule,
         ...MATOMO_INJECTORS,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));

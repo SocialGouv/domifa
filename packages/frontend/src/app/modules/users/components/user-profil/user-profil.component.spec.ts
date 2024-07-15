@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 
 import { UserProfilComponent } from "./user-profil.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("UserProfilComponent", () => {
   let component: UserProfilComponent;
@@ -16,6 +18,7 @@ describe("UserProfilComponent", () => {
       declarations: [UserProfilComponent],
       imports: [
         RouterTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
         HttpClientTestingModule,
         ReactiveFormsModule,
         FormsModule,

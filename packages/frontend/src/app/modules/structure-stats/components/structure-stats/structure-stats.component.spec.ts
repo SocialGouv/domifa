@@ -10,10 +10,11 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { StructuresModule } from "src/app/modules/structures/structures.module";
 
-import { MATOMO_INJECTORS } from "../../../../shared";
+import { _usagerReducer, MATOMO_INJECTORS } from "../../../../shared";
 import { StuctureStatsComponent } from "./structure-stats.component";
 
 import { SharedModule } from "../../../shared/shared.module";
+import { StoreModule } from "@ngrx/store";
 
 describe("StuctureStatsComponent", () => {
   let component: StuctureStatsComponent;
@@ -29,7 +30,7 @@ describe("StuctureStatsComponent", () => {
         FormsModule,
         SharedModule,
         RouterTestingModule,
-
+        StoreModule.forRoot({ app: _usagerReducer }),
         ...MATOMO_INJECTORS,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

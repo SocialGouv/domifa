@@ -10,6 +10,8 @@ import {
 
 import { AuthService } from "../modules/shared/services/auth.service";
 import { AuthGuard } from "./auth.guard";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../shared";
 
 describe("AuthGuard", () => {
   let authGuard: AuthGuard;
@@ -18,7 +20,11 @@ describe("AuthGuard", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterModule.forRoot([])],
+      imports: [
+        HttpClientTestingModule,
+        RouterModule.forRoot([]),
+        StoreModule.forRoot({ app: _usagerReducer }),
+      ],
       providers: [
         AuthGuard,
         {

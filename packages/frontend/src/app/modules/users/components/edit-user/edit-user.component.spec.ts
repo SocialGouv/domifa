@@ -9,6 +9,8 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("EditUserComponent", () => {
   let component: EditUserComponent;
@@ -23,6 +25,7 @@ describe("EditUserComponent", () => {
         FormsModule,
         HttpClientTestingModule,
         RouterTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

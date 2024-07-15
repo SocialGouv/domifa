@@ -8,6 +8,8 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 
 import { StructuresEditComponent } from "./structures-edit.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("StructuresEditComponent", () => {
   let component: StructuresEditComponent;
@@ -21,7 +23,7 @@ describe("StructuresEditComponent", () => {
         ReactiveFormsModule,
         FormsModule,
         HttpClientTestingModule,
-
+        StoreModule.forRoot({ app: _usagerReducer }),
         NgxIntlTelInputModule,
         RouterTestingModule,
       ],

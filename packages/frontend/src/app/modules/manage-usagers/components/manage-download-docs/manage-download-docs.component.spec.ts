@@ -8,6 +8,8 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 import { ManageDownloadDocsComponent } from "./manage-download-docs.component";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { _usagerReducer } from "../../../../shared";
+import { StoreModule } from "@ngrx/store";
 
 describe("ManageDownloadDocsComponent", () => {
   let component: ManageDownloadDocsComponent;
@@ -15,7 +17,10 @@ describe("ManageDownloadDocsComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [
+        HttpClientTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
+      ],
       declarations: [ManageDownloadDocsComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

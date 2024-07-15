@@ -7,6 +7,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { SharedModule } from "../../../shared/shared.module";
 
 import { StructuresCustomDocsComponent } from "./structures-custom-docs.component";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("StructuresCustomDocsComponent", () => {
   let component: StructuresCustomDocsComponent;
@@ -18,6 +20,7 @@ describe("StructuresCustomDocsComponent", () => {
       imports: [
         NgbModule,
         HttpClientTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
 
         RouterTestingModule,
         SharedModule,

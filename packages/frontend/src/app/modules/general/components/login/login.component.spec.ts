@@ -9,7 +9,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { LoginComponent } from "./login.component";
 
 import { RouterTestingModule } from "@angular/router/testing";
-import { MATOMO_INJECTORS } from "../../../../shared";
+import { _usagerReducer, MATOMO_INJECTORS } from "../../../../shared";
+import { StoreModule } from "@ngrx/store";
 
 describe("LoginComponent", () => {
   let component: LoginComponent;
@@ -25,6 +26,7 @@ describe("LoginComponent", () => {
         HttpClientTestingModule,
         ...MATOMO_INJECTORS,
         RouterTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

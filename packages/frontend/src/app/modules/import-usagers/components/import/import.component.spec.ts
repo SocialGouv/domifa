@@ -12,6 +12,8 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { SharedModule } from "../../../shared/shared.module";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("ImportComponent", () => {
   let fixture: ComponentFixture<ImportComponent>;
@@ -24,7 +26,7 @@ describe("ImportComponent", () => {
         NgbModule,
         HttpClientTestingModule,
         RouterTestingModule,
-
+        StoreModule.forRoot({ app: _usagerReducer }),
         SharedModule,
         ReactiveFormsModule,
         FormsModule,
