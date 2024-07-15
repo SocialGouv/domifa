@@ -20,9 +20,6 @@
     "sourceMap": true,
     "strictFunctionTypes": true,
     "target": "esnext",
-    // "noImplicitAny": true,
-    // "strict": true,
-    "lib": ["es2018.promise"],
     "typeRoots": ["node_modules/@types", "../../node_modules/@types"]
   },
   "exclude": ["node_modules", "dist"]
