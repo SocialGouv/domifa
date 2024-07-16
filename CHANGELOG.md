@@ -1,3 +1,10 @@
+## [2.173.9](https://github.com/SocialGouv/domifa/compare/v2.173.8...v2.173.9) (2024-07-16)
+
+
+### Bug Fixes
+
+* **metabase:** add new metabase url ([1a88827](https://github.com/SocialGouv/domifa/commit/1a888277b255890c0d257bffcf2f24c95f6d029b))
+
 ## [2.173.8](https://github.com/SocialGouv/domifa/compare/v2.173.7...v2.173.8) (2024-07-15)
 
 
