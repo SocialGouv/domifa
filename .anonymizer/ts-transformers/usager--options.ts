@@ -4,7 +4,7 @@ import {
   lastName,
   firstName,
 } from "./common/data-helpers"
-import { faker } from "@faker-js/faker"
+import { fakerFR as faker } from "@faker-js/faker"
 
 function anonymize(values: Record<string, any>) {
   const options = JSON.parse(values.options)

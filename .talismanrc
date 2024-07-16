@@ -1,10 +1,10 @@
 fileignoreconfig:
 - filename: .kontinuous/env/dev/templates/backend.sealed-secret.yaml
-  checksum: 1004dba97da28abd48690f0b251ba880c33e3835dd1f6cfd790f94530bdfc698
+  checksum: d76fa05f7587f094d19959816a03c4589ae0c8675436f11fa8bf454cfd917741
 - filename: .kontinuous/env/preprod/templates/backend.sealed-secret.yaml
-  checksum: 18f384d1b1db3b94bdb6c7365c3c0f8877776fd89b18e7c9ec14e403cc1e7d8e
+  checksum: 291f7f330aca385888f414aa9a7f4ebfe0c03bd4d154e0ed0f6ee4895ea139c0
 - filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
-  checksum: a2c17d6712a53d254ed583bdae603e1e6fe20e7d7705ad29f05659fc233bb398
+  checksum: a066a32a383b37f3e2195d41a309628e64d66e70611aa8ee05159205c0fdcd7c
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
   checksum: d3a65a3aba4100bf883d4511b60c57b66fbfb524deda81e1b77cd848d9a3d99a
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-data.sql
@@ -12,15 +12,15 @@ fileignoreconfig:
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
   checksum: 44eff533b91a2781462ca7e0b3c153b9875a62f501b76e5ac502a872fb0e344b
 - filename: packages/backend/.env.backend.dev.example.env
-  checksum: 0a5c739d323189c5a1dd8dc960f9a4e3b293ec98276c6bf5bfb893ecc1d177c5
+  checksum: d52c7fbfae21884e63f84a7aa0759c5296f0ecb483e71866541b2b44d7880758
 - filename: packages/backend/.env.backend.test.local.example.env
   checksum: 1540bbfa2a80d38a05d5d1628db89f7f0ae1ed1e0f054b54a2589e6fe5ca24e0
 - filename: packages/backend/.env.preset/local-dev.preset.env
-  checksum: 5ab8fef1d3b8cd95756a8b14243a310a4149c13ee29265545cd8bccc2607f0c7
+  checksum: af5962c1b288218cb9a43c9bff6ddd5d16c086088b7c990278af030261a7f500
 - filename: packages/backend/.env.preset/local-test-docker.preset.env
-  checksum: fb126c330739ab9529735b99088c9349f5c4803832e0765372d5b3f339199561
+  checksum: 2a459a7689ff1c0add9bbea1ff00eb44118cf3f3f0e6f6197830d28016a3272a
 - filename: packages/backend/.env.preset/local-test.preset.env
-  checksum: 6ba6d367425758ea9dbdd4baf7e60aff79276fb2e0c3758b58d9f8d084ed6f6d
+  checksum: 1df51337cfa7a04ef16465366f30772353fc4fd09a575fa365fd7784fb2e8631
 - filename: packages/backend/package.json
   checksum: 15861b5f33dbc2782ae24580e135582721889487eb22f5247ab5a3f2bda20c94
 - filename: packages/backend/src/_migrations/1716819355558-auto-migration.ts
@@ -59,6 +59,8 @@ fileignoreconfig:
   checksum: f5bc2bd3820b5f982b8d3c36360ed20764e408b4f59d65f470e503e66d1b3282
 - filename: packages/frontend/src/app/modules/general/components/static-pages/landing-page-portail/landing-page-portail.component.html
   checksum: 8040e47846a6f36cbd66e06d7c92172f38fb854187dd61cdd08560ac7c1f3a81
+- filename: packages/frontend/src/app/modules/manage-usagers/components/usager-filter/services/usagersSorter.service.ts
+  checksum: e94c65884c6649a69aa3f397371fd4a6a54e0fb2baabc4f216f753a795dd5dc9
 - filename: packages/frontend/src/app/modules/structure-stats/components/reporting-form/reporting-form.component.ts
   checksum: 8570ed88e0e872bc32eac27d37abc1bf8198816dcb27427efb7b6f8e751582b0
 - filename: packages/frontend/src/app/modules/structures/components/structures-custom-docs/structures-custom-docs.component.html

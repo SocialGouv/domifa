@@ -18,69 +18,66 @@ function sortBy(
 
   if (sortKey === "ID") {
     return sortUsagersByCustomRef(usagers, asc);
-  } else {
-    return dataSorter.sortMultiple(usagers, {
-      getSortAttributes: (usager) => {
-        const sortAttributes: SortableAttribute[] = [];
+  }
+  return dataSorter.sortMultiple(usagers, {
+    getSortAttributes: (usager) => {
+      const sortAttributes: SortableAttribute[] = [];
 
-        if (sortKey === "RADIE" || sortKey === "REFUS") {
-          sortAttributes.push({
-            value: usager.decision?.dateFin as Date,
-            asc,
-          });
-        } else if (
-          sortKey === "INSTRUCTION" ||
-          sortKey === "ATTENTE_DECISION"
-        ) {
-          sortAttributes.push({
-            value: usager.decision?.dateDecision,
-            asc,
-          });
-        } else if (sortKey === "VALIDE" || sortKey === "TOUS") {
-          sortAttributes.push(
-            {
-              value: usager.decision?.dateFin,
-              asc,
-            },
-            {
-              value: usager.nom?.toLowerCase(),
-            },
-            {
-              value: usager.prenom?.toLowerCase(),
-            }
-          );
-        } else if (sortKey === "ECHEANCE") {
-          sortAttributes.push({
-            value: usager?.echeanceInfos?.dateToDisplay ?? null,
-            asc,
-          });
-        } else if (sortKey === "PASSAGE") {
-          sortAttributes.push({
-            value: usager?.lastInteraction?.dateInteraction,
-            asc,
-          });
-        }
+      if (sortKey === "RADIE" || sortKey === "REFUS") {
+        sortAttributes.push({
+          value: usager.decision?.dateFin as Date,
+          asc,
+        });
+      } else if (sortKey === "INSTRUCTION" || sortKey === "ATTENTE_DECISION") {
+        sortAttributes.push({
+          value: usager.decision?.dateDecision,
+          asc,
+        });
+      } else if (sortKey === "VALIDE" || sortKey === "TOUS") {
         sortAttributes.push(
           {
-            value: usager.nom?.toLowerCase(),
+            value: usager.decision?.dateFin,
             asc,
+          },
+          {
+            value: usager.nom?.toLowerCase(),
           },
           {
             value: usager.prenom?.toLowerCase(),
-          },
-          {
-            value: usager.surnom?.toLowerCase() ?? "",
-          },
-          {
-            value: usager.ref,
-            asc,
           }
         );
-        return sortAttributes;
-      },
-    });
-  }
+      } else if (sortKey === "ECHEANCE") {
+        sortAttributes.push({
+          value: usager?.echeanceInfos?.dateToDisplay ?? null,
+          asc,
+        });
+      } else if (sortKey === "PASSAGE") {
+        sortAttributes.push({
+          value: usager?.lastInteraction?.dateInteraction,
+          asc,
+        });
+      }
+      sortAttributes.push(
+        {
+          value: usager.nom?.toLowerCase(),
+          asc,
+        },
+        {
+          value: usager.prenom?.toLowerCase(),
+        },
+        {
+          value: usager.surnom?.toLowerCase() ?? "",
+        },
+        {
+          value: usager.ref,
+          asc,
+        }
+      );
+      return sortAttributes;
+    },
+  });
 }
+
 function sortUsagersByCustomRef(
   usagers: UsagerLight[],
   asc: boolean

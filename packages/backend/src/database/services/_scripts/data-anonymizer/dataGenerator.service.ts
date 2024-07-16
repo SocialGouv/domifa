@@ -8,6 +8,7 @@ export const dataGenerator = {
   number,
   boolean,
   email,
+  fullName,
   city,
 };
 
@@ -21,6 +22,9 @@ function city() {
 
 function lastName() {
   return faker.person.lastName();
+}
+function fullName() {
+  return faker.person.fullName();
 }
 
 function phoneNumber() {
