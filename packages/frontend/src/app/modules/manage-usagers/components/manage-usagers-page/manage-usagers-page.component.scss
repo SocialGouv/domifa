@@ -41,7 +41,7 @@
   background-size: 100% 200%;
   display: block;
   width: 100%;
-  min-height: 80vh;
+  min-height: 70vh;
   background-image: linear-gradient(to bottom, #f2f2f2, transparent);
   z-index: 50;
 }
@@ -118,16 +118,16 @@
   label {
     color: white;
   }
-}
 
-#search-bar span,
-#search-bar button {
-  display: block;
-  position: absolute;
-  top: 0;
-  padding: 0.5rem;
-  background: transparent !important;
-  font-size: 1.3rem;
+  span,
+  button {
+    display: block;
+    position: absolute;
+    top: 0;
+    padding: 0.5rem;
+    background: transparent !important;
+    font-size: 1.3rem;
+  }
 }
 
 #searchIcon {

@@ -215,8 +215,7 @@ export class AdminStructuresController {
       action: "GET_STATS_PORTAIL_ADMIN",
     });
 
-    const METABASE_SITE_URL =
-      "https://metabase-domifa.ovh.fabrique.social.gouv.fr";
+    const METABASE_URL = domifaConfig().metabase.url;
 
     const year = metabaseDto.year ? [metabaseDto.year] : null;
     let region = metabaseDto.region
@@ -248,16 +247,11 @@ export class AdminStructuresController {
         type_de_structure: structureType,
         structureid: structureId,
       },
-      exp: Math.round(Date.now() / 1000) + 10 * 60, // 10 minute expiration
+      exp: Math.round(Date.now() / 1000) + 100 * 60, // 10 minute expiration
     };
 
-    const token = jwt.sign(payload, domifaConfig().metabaseToken);
-
-    const url =
-      METABASE_SITE_URL +
-      "/embed/dashboard/" +
-      token +
-      "#bordered=false&titled=false";
+    const token = jwt.sign(payload, domifaConfig().metabase.token);
+    const url = `${METABASE_URL}embed/dashboard/${token}#bordered=false&titled=false`;
 
     return { url };
   }

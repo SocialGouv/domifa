@@ -72,4 +72,5 @@ export type DomifaEnv = {
   DATA_INCLUSION_URL: string;
   DATA_INCLUSION_TOKEN: string;
   METABASE_TOKEN: string;
+  METABASE_URL: string;
 };

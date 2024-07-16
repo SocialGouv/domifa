@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta, Title } from "@angular/platform-browser";
-import { saveAs } from "file-saver";
 import { MatomoTracker } from "ngx-matomo-client";
-import { CustomToastService } from "../../../shared/services/custom-toast.service";
 
 @Component({
   selector: "app-faq",
@@ -13,8 +11,7 @@ export class FaqComponent implements OnInit {
   constructor(
     private readonly titleService: Title,
     private readonly meta: Meta,
-    private readonly matomo: MatomoTracker,
-    private readonly toastService: CustomToastService
+    private readonly matomo: MatomoTracker
   ) {}
 
   public ngOnInit(): void {
@@ -25,13 +22,6 @@ export class FaqComponent implements OnInit {
       content:
         "Foire aux questions de DomiFa : RGPD, conditions d'utilisations, réglement, toutes vos questions trouveront leur réponse ici !",
     });
-  }
-
-  public download(url: string, nom: string): void {
-    saveAs(url, nom + ".mp4");
-    setTimeout(() => {
-      this.toastService.success("Le téléchargement vient de débuter");
-    }, 500);
   }
 
   public scrollTo(el: HTMLElement): void {

@@ -89,5 +89,8 @@ export type DomifaConfig = {
     mssUrl: string; // MSS = Mon suivi social
     mssToken: string; // MSS = Mon suivi social
   };
-  metabaseToken: string;
+  metabase: {
+    url: string;
+    token: string;
+  };
 };

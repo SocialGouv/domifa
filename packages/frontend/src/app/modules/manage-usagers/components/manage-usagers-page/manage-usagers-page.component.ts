@@ -12,7 +12,6 @@ import { Title } from "@angular/platform-browser";
 
 import {
   BehaviorSubject,
-  combineLatest,
   fromEvent,
   Observable,
   of,
@@ -23,7 +22,6 @@ import {
 } from "rxjs";
 import { debounceTime, filter, map, switchMap, tap } from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { UsagerLight } from "../../../../../_common/model";
 import {
   fadeInOut,
   selectSearchPageLoadedUsagersData,
@@ -40,7 +38,7 @@ import {
   UsagersFilterCriteriaSortKey,
   UsagersFilterCriteriaSortValues,
 } from "../usager-filter";
-import { select, Store } from "@ngrx/store";
+import { Store } from "@ngrx/store";
 import { ManageUsagersService } from "../../services/manage-usagers.service";
 import { UserStructure } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
@@ -55,13 +53,6 @@ const AUTO_REFRESH_PERIOD = 600000; // 10 minutes
 })
 export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   public searching: boolean;
-  public searchPageLoadedUsagersData$ =
-    new BehaviorSubject<SearchPageLoadedUsagersData>({
-      usagersNonRadies: [],
-      usagersRadiesFirsts: [],
-      usagersRadiesTotalCount: 0,
-      dataLoaded: false,
-    });
 
   public usagersTotalCount = 0;
   public usagersRadiesLoadedCount = 0;
@@ -70,16 +61,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   public displayCheckboxes: boolean;
   public chargerTousRadies$ = new BehaviorSubject(false);
 
-  public allUsagers$ = this.searchPageLoadedUsagersData$.pipe(
-    map((data: SearchPageLoadedUsagersData): UsagerLight[] => {
-      if (!data) {
-        return [];
-      }
-      return data.usagersNonRadies.concat(data.usagersRadiesFirsts);
-    })
-  );
-
-  public allUsagersByStatus$ = new ReplaySubject<UsagersByStatus>(1);
   public allUsagersByStatus: UsagersByStatus;
   public usagers: UsagerFormModel[] = [];
   public me!: UserStructure | null;
@@ -141,7 +122,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.usagers = [];
     this.filters = new UsagersFilterCriteria(this.getFilters());
 
-    this.pageSize = 50;
+    this.pageSize = 200;
     this.filters.page = 0;
     this.titleService.setTitle("Gestion des domiciliés - DomiFa");
   }
@@ -156,29 +137,16 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     // 2. Subscribe to ngRx store
     this.subscription.add(
       this.store
-        .pipe(
-          select(selectSearchPageLoadedUsagersData()),
-          tap((state: SearchPageLoadedUsagersData) => {
-            if (!state.dataLoaded) {
-              this.loadDataFromAPI();
-            } else {
-              this.updateComponentState(state);
-            }
-          }),
-          filter((state: SearchPageLoadedUsagersData) => state.dataLoaded)
-        )
+        .select(selectSearchPageLoadedUsagersData())
         .subscribe(
           (searchPageLoadedUsagersData: SearchPageLoadedUsagersData) => {
-            this.updateComponentState(searchPageLoadedUsagersData);
+            if (!searchPageLoadedUsagersData.dataLoaded) {
+              this.loadDataFromAPI();
+            } else {
+              this.updateComponentState(searchPageLoadedUsagersData);
+            }
           }
         )
-    );
-
-    this.subscription.add(
-      this.allUsagers$.subscribe((allUsagers: UsagerLight[]) => {
-        this.allUsagersByStatus = usagersByStatusBuilder.build(allUsagers);
-        this.allUsagersByStatus$.next(this.allUsagersByStatus);
-      })
     );
 
     const onSearchInputKeyUp$: Observable<string> = fromEvent<InputEvent>(
@@ -217,11 +185,12 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      combineLatest([this.filters$, this.allUsagersByStatus$]).subscribe(
-        ([filters, allUsagersByStatus]) => {
-          this.applyFilters({ filters, allUsagersByStatus });
-        }
-      )
+      this.filters$.subscribe((filters) => {
+        this.applyFilters({
+          filters,
+          allUsagersByStatus: this.allUsagersByStatus,
+        });
+      })
     );
   }
 
@@ -240,15 +209,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
             });
           })
         )
-        .subscribe({
-          next: () => {
-            this.searching = false;
-          },
-          error: () => {
-            console.log("ERREUR");
-            this.searching = false;
-          },
-        })
+        .subscribe()
     );
   }
 
@@ -262,7 +223,12 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       searchPageLoadedUsagersData.usagersNonRadies.length;
     this.usagersRadiesLoadedCount =
       searchPageLoadedUsagersData.usagersRadiesFirsts.length;
-    this.searchPageLoadedUsagersData$.next(searchPageLoadedUsagersData);
+
+    const allUsagers = searchPageLoadedUsagersData.usagersNonRadies.concat(
+      searchPageLoadedUsagersData.usagersRadiesFirsts
+    );
+
+    this.allUsagersByStatus = usagersByStatusBuilder.build(allUsagers);
     this.filters$.next(this.filters);
   }
 
@@ -450,7 +416,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     const max = document.documentElement.scrollHeight;
     const pourcent = (pos / max) * 100;
 
-    if (pourcent >= 80 && this.usagers.length < this.nbResults) {
+    if (pourcent >= 85 && this.usagers.length < this.nbResults) {
       this.filters.page = this.filters.page + 1;
       this.filters$.next(this.filters);
     }

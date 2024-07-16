@@ -12,7 +12,7 @@ function anonymize(values: Record<string, any>) {
   const anonymised = historique.map((decision: any) => {
     return {
       ...decision,
-      motifDetails: null, // TODO: incorrect? rather anonymize `motif` field?
+      motifDetails: null,
       orientationDetails: null,
       userName: fullName(),
       userId: randomInt(),
