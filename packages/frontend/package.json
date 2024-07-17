@@ -40,7 +40,7 @@
     "@ngrx/store-devtools": "^16.3.0",
     "@popperjs/core": "^2.11.8",
     "@schematics/angular": "^15.2.11",
-    "@sentry/angular": "^8.10.0",
+    "@sentry/angular": "^8.18.0",
     "@swimlane/ngx-charts": "^20.5.0",
     "angular-user-idle": "^4.0.0",
     "bootstrap": "^5.3.3",
@@ -50,7 +50,7 @@
     "intl-tel-input": "17.0.13",
     "jwt-decode": "^3.1.2",
     "ngx-bootstrap": "^12.0.0",
-    "ngx-countup": "^13.1.0",
+    "ngx-countup": "^13.2.0",
     "ngx-matomo-client": "^5.0.4",
     "rxjs": "^7.8.1",
     "tslib": "^2.6.3",
@@ -58,7 +58,7 @@
     "zone.js": "~0.14.7"
   },
   "devDependencies": {
-    "@angular-devkit/architect": "^0.1800.6",
+    "@angular-devkit/architect": "^0.1800.7",
     "@angular-devkit/build-angular": "^16.2.14",
     "@angular-devkit/core": "^16.2.14",
     "@angular-devkit/schematics": "^16.2.14",

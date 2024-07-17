@@ -31,11 +31,11 @@ backend-cron:
   replicas: 1
   resources:
     requests:
-      cpu: 1
+      cpu: 0.5
       memory: 1Gi
     limits: # exports need a lot of CPU/RAM ATM
-      cpu: 3
-      memory: 3Gi
+      cpu: 2
+      memory: 2Gi
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"
@@ -118,7 +118,7 @@ backend-export:
   resources:
     requests:
       cpu: 1
-      memory: 3Gi
+      memory: 2Gi
     limits: # exports need a lot of CPU/RAM ATM
       cpu: 2
       memory: 3Gi
