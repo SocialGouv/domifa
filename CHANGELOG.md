@@ -1,3 +1,11 @@
+## [2.173.11](https://github.com/SocialGouv/domifa/compare/v2.173.10...v2.173.11) (2024-07-17)
+
+
+### Bug Fixes
+
+* **backend:** fix excel columns ([e10c1ca](https://github.com/SocialGouv/domifa/commit/e10c1caacea977147b4142200af3f185179835d4))
+* **backend:** fix unit test for custom docs ([13f9e40](https://github.com/SocialGouv/domifa/commit/13f9e408b9bf4e2077aacba06c903e1ab2f63dd7))
+
 ## [2.173.10](https://github.com/SocialGouv/domifa/compare/v2.173.9...v2.173.10) (2024-07-17)
 
 
