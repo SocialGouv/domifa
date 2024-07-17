@@ -1,6 +1,16 @@
 backend: &backendPreprod
   host: "api-{{ .Values.global.host }}"
   ~needs: [build-backend]
+  autoscale:
+    minReplicas: 1
+    maxReplicas: 3
+  resources:
+    requests:
+      cpu: 1
+      memory: 1Gi
+    limits: # exports need a lot of CPU/RAM ATM
+      cpu: 3
+      memory: 3Gi
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"
