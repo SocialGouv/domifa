@@ -13,7 +13,7 @@ describe("renderStructureUsagersRows", () => {
     { ...USAGER_REFUS_MOCK },
   ];
 
-  it("Test", async () => {
+  it("Generate sheets", async () => {
     const chips = renderStructureUsagersRows(usagers, STRUCTURE_MOCK);
     expect(chips.firstSheetUsagers.length).toEqual(4);
     expect(chips.firstSheetUsagers[1]).toEqual(FIRST_SHEET_USAGERS[0]);
