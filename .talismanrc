@@ -23,6 +23,8 @@ fileignoreconfig:
   checksum: 1df51337cfa7a04ef16465366f30772353fc4fd09a575fa365fd7784fb2e8631
 - filename: packages/backend/package.json
   checksum: 15861b5f33dbc2782ae24580e135582721889487eb22f5247ab5a3f2bda20c94
+- filename: packages/backend/src/_common/model/structure-doc/StructureCustomDocTags.type.ts
+  checksum: 586381dab8e67991213c2935536ba76e8dc45d446492ca52e13af6ca70ea8f81
 - filename: packages/backend/src/_migrations/1716819355558-auto-migration.ts
   checksum: 4832f461590f30696e1a2f9179ce3e182e400ec581bc9b8b76bca4304cbcb254
 - filename: packages/backend/src/_migrations/1716973897487-auto-migration.ts

@@ -112,7 +112,6 @@ export class PortailUsagersManagerController {
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUsager() currentUsager: Usager
   ): Promise<UserUsager | null> {
-    console.log();
     return userUsagerRepository.findOne({
       where: {
         usagerUUID: currentUsager.uuid,
