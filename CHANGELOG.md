@@ -1,3 +1,10 @@
+## [2.173.10](https://github.com/SocialGouv/domifa/compare/v2.173.9...v2.173.10) (2024-07-17)
+
+
+### Bug Fixes
+
+* **kontinous:** add replica to preprod ([67eecdd](https://github.com/SocialGouv/domifa/commit/67eecddcae86b17e3d90c051f76a79a18ccfce33))
+
 ## [2.173.9](https://github.com/SocialGouv/domifa/compare/v2.173.8...v2.173.9) (2024-07-16)
 
 
