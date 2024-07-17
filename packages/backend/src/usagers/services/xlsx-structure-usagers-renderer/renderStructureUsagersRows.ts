@@ -90,6 +90,7 @@ export const renderStructureUsagersRows = (
     { USAGER_CUSTOM_REF: dateHeader },
     usagersListHeader,
   ];
+
   const secondSheetEntretiens = [
     { USAGER_CUSTOM_REF: dateHeader },
     entretiensHeader,
@@ -127,6 +128,7 @@ export const renderStructureUsagersRows = (
         }),
         ...buildDecision(usagerToExport, structure, DATE_FORMAT.JOUR),
       };
+
       const usager = renderFirstSheetData(customData);
       const entretien = renderSecondSheetData(customData);
 
@@ -161,7 +163,7 @@ export const renderFirstSheetData = (
   usager: StructureCustomDocTags
 ): StructureCustomDocTags => {
   return {
-    USAGER_REF: usager.USAGER_CUSTOM_REF,
+    USAGER_CUSTOM_REF: usager.USAGER_CUSTOM_REF ?? usager.USAGER_REF,
     USAGER_CIVILITE: usager.USAGER_CIVILITE,
     USAGER_NOM: usager.USAGER_NOM,
     USAGER_PRENOM: usager.USAGER_PRENOM,
@@ -194,7 +196,7 @@ export const renderSecondSheetData = (
   usager: StructureCustomDocTags
 ): StructureCustomDocTags => {
   return {
-    USAGER_REF: usager.USAGER_CUSTOM_REF,
+    USAGER_CUSTOM_REF: usager.USAGER_CUSTOM_REF,
     USAGER_CIVILITE: usager.USAGER_CIVILITE,
     USAGER_NOM: usager.USAGER_NOM,
     USAGER_PRENOM: usager.USAGER_PRENOM,

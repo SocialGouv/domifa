@@ -103,7 +103,7 @@ export function buildCustomDoc({
 
     // INFOS USAGER
     USAGER_REF: usager.ref.toString(),
-    USAGER_CUSTOM_REF: usager.customRef,
+    USAGER_CUSTOM_REF: usager?.customRef ?? usager.ref.toString(),
     USAGER_CIVILITE: usager.sexe === "femme" ? "Madame" : "Monsieur",
     USAGER_NOM: ucFirst(usager.nom),
     USAGER_PRENOM: ucFirst(usager.prenom),
