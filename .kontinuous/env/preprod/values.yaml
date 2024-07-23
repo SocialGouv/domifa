@@ -1,4 +1,6 @@
 backend: &backendPreprod
+  annotations:
+    oblik.socialgouv.io/min-request-cpu: 500m
   host: "api-{{ .Values.global.host }}"
   ~needs: [build-backend]
   autoscale:
