@@ -6,6 +6,7 @@ import {
   type UsagerSexe,
   type UsagerTypeDom,
   type UsagerImport,
+  UsagerDecisionStatut,
 } from "../types";
 import { type UsagerAyantDroit } from "./UsagerAyantDroit.interface";
 import { type UsagerDecision } from "./UsagerDecision.interface";
@@ -40,6 +41,8 @@ export interface Usager extends AppEntity {
   entretien: UsagerEntretien;
 
   typeDom: UsagerTypeDom;
+  statut: UsagerDecisionStatut;
+
   datePremiereDom: Date;
   import?: UsagerImport;
 

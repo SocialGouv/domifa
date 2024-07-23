@@ -43,6 +43,7 @@ export class UsagersService {
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     usager.ref = await usagersCreator.findNextUsagerRef(user.structureId);
     usager.customRef = `${usager.ref}`;
+    usager.statut = "INSTRUCTION";
 
     usager.decision = {
       uuid: uuidv4(),
@@ -96,6 +97,7 @@ export class UsagersService {
         ? new Date(usager.decision.dateFin)
         : new Date();
     }
+    usager.statut = "INSTRUCTION";
 
     usager.decision = {
       uuid: uuidv4(),
@@ -179,7 +181,7 @@ export class UsagersService {
         usager.datePremiereDom = newDecision.dateDebut;
       }
     }
-
+    usager.statut = newDecision.statut;
     usager.decision = newDecision as UsagerDecision;
     usager.decision.uuid = uuidv4();
 

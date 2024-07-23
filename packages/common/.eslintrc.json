@@ -1,21 +1,23 @@
 {
   "env": {
+    "commonjs": true,
     "es2021": true,
     "node": true,
     "jest": true
   },
-  "extends": [
-    "standard-with-typescript",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "prettier"
-  ],
   "parser": "@typescript-eslint/parser",
-  "ignorePatterns": ["jest.config.ts", "*.json", "./dist"],
   "parserOptions": {
-    "ecmaVersion": "latest",
+    "project": "tsconfig.json",
     "sourceType": "module",
-    "project": "./tsconfig.json"
+    "ecmaVersion": "latest"
   },
+  "plugins": ["@typescript-eslint/eslint-plugin"],
+  "extends": [
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:promise/recommended"
+  ],
+  "root": true,
   "rules": {
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/no-explicit-any": "warn",

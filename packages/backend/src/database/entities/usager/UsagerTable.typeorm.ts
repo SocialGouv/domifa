@@ -27,11 +27,13 @@ import {
   Telephone,
   UsagerNote,
   Usager,
+  UsagerDecisionStatut,
 } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "usager" })
 @Unique(["structureId", "ref"])
+@Index("idx_usager_statut", ["structureId", "statut"])
 export class UsagerTable
   extends AppTypeormTable<UsagerTable>
   implements Usager
@@ -91,6 +93,9 @@ export class UsagerTable
 
   @Column({ type: "text", nullable: true, default: "PREMIERE_DOM" })
   public typeDom!: UsagerTypeDom;
+
+  @Column({ type: "text", nullable: false, default: "INSTRUCTION" })
+  public statut!: UsagerDecisionStatut;
 
   @Column({ type: "jsonb", nullable: true, default: null })
   public import!: UsagerImport;

@@ -20,6 +20,7 @@ export const USAGER_VALIDE_MOCK: Usager = {
   telephone: { countryCode: "fr", numero: "0606060606" },
   contactByPhone: false,
   typeDom: "PREMIERE_DOM",
+  statut: "VALIDE",
   decision: {
     uuid: "2X",
     statut: "VALIDE",

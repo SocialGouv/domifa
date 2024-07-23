@@ -18,6 +18,7 @@ export const USAGER_REFUS_MOCK: Usager = {
     userName: "Testeur Robin",
     orientation: null,
   },
+  statut: "REFUS",
   pinnedNote: null,
   lastInteraction: {
     colisIn: 0,

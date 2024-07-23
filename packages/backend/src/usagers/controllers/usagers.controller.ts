@@ -81,25 +81,19 @@ export class UsagersController {
     const usagersNonRadies = await usagerRepository
       .createQueryBuilder()
       .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
-      .where(
-        `"structureId" = :structureId and "decision"->>'statut' != :statut`,
-        {
-          statut: "RADIE",
-          structureId: user.structureId,
-        }
-      )
+      .where(`"structureId" = :structureId and statut != :statut`, {
+        statut: "RADIE",
+        structureId: user.structureId,
+      })
       .getRawMany();
 
     const usagersRadiesFirsts = await usagerRepository
       .createQueryBuilder()
       .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
-      .where(
-        `"structureId" = :structureId and "decision"->>'statut' = :statut`,
-        {
-          statut: "RADIE",
-          structureId: user.structureId,
-        }
-      )
+      .where(`"structureId" = :structureId and statut = :statut`, {
+        statut: "RADIE",
+        structureId: user.structureId,
+      })
       .limit(chargerTousRadies ? undefined : 60)
       .orderBy({ "decision->>'dateFin'": "DESC" })
       .getRawMany();
@@ -108,13 +102,10 @@ export class UsagersController {
       ? usagersRadiesFirsts.length
       : await usagerRepository
           .createQueryBuilder()
-          .where(
-            `"structureId" = :structureId and "decision"->>'statut' = :statut`,
-            {
-              statut: "RADIE",
-              structureId: user.structureId,
-            }
-          )
+          .where(`"structureId" = :structureId and statut = :statut`, {
+            statut: "RADIE",
+            structureId: user.structureId,
+          })
           .getCount();
 
     return {
@@ -140,7 +131,7 @@ export class UsagersController {
       .createQueryBuilder()
       .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
       .where(
-        `"structureId" = :structureId and "decision"->>'statut' = :statut and LOWER(coalesce("nom", '') || ' ' || coalesce("prenom", '')) LIKE :search`,
+        `"structureId" = :structureId and  statut  = :statut and LOWER(coalesce("nom", '') || ' ' || coalesce("prenom", '')) LIKE :search`,
         {
           statut: "RADIE",
           structureId: user.structureId,
