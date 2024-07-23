@@ -1,3 +1,11 @@
+## [2.173.13](https://github.com/SocialGouv/domifa/compare/v2.173.12...v2.173.13) (2024-07-23)
+
+
+### Bug Fixes
+
+* **backend:** add last update date for stats ([074cbf8](https://github.com/SocialGouv/domifa/commit/074cbf823171bb1527c9652f6b862b9542fc1075))
+* **backend:** fix linter ([6fbc06f](https://github.com/SocialGouv/domifa/commit/6fbc06ff9246cc8e68d74d3009d8716d3d96d7e4))
+
 ## [2.173.12](https://github.com/SocialGouv/domifa/compare/v2.173.11...v2.173.12) (2024-07-23)
 
 
