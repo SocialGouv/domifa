@@ -1,3 +1,10 @@
+## [2.173.12](https://github.com/SocialGouv/domifa/compare/v2.173.11...v2.173.12) (2024-07-23)
+
+
+### Bug Fixes
+
+* preprod cpu ([dcdd5d6](https://github.com/SocialGouv/domifa/commit/dcdd5d6b2d96a39a33f264670f39d8691d3acbb4))
+
 ## [2.173.11](https://github.com/SocialGouv/domifa/compare/v2.173.10...v2.173.11) (2024-07-17)
 
 
