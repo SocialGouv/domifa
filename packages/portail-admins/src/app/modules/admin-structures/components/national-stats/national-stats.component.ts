@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {
   DomSanitizer,
   SafeResourceUrl,
@@ -13,7 +13,7 @@ import {
 } from "@domifa/common";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { saveAs } from "file-saver";
-import { Subscription } from "rxjs";
+import { Subscription, take, tap } from "rxjs";
 import { StatsService } from "../../services/stats.service";
 import { StructureListForStats } from "./StructureListForStats.type";
 import { MatomoTracker } from "ngx-matomo-client";
@@ -23,7 +23,7 @@ import { MatomoTracker } from "ngx-matomo-client";
   templateUrl: "./national-stats.component.html",
   styleUrls: ["./national-stats.component.css"],
 })
-export class NationalStatsComponent {
+export class NationalStatsComponent implements OnInit {
   public readonly REGIONS_LISTE = REGIONS_LISTE;
   public years: number[] = [];
   public departments: string[] = [];
@@ -40,6 +40,7 @@ export class NationalStatsComponent {
   private readonly subscription = new Subscription();
 
   public currentStructure!: StructureListForStats | null;
+  public lastUpdate: Date | null = null;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -57,6 +58,20 @@ export class NationalStatsComponent {
     }
 
     this.updateDepartments();
+  }
+
+  ngOnInit(): void {
+    this.subscription.add(
+      this.statsService
+        .getLastUpdateOfStats()
+        .pipe(
+          take(1),
+          tap((lastUpdate: Date) => {
+            this.lastUpdate = lastUpdate;
+          })
+        )
+        .subscribe()
+    );
   }
 
   public updateDepartments() {
@@ -87,29 +102,30 @@ export class NationalStatsComponent {
 
   public getMetabaseUrl() {
     this.loading = true;
+    this.subscription.add(
+      this.statsService.getMetabaseUrl(this.metabaseParams).subscribe({
+        next: (response: { url: string }) => {
+          this.matomo.trackEvent(
+            "stats",
+            "view",
+            JSON.stringify(this.metabaseParams),
+            1
+          );
 
-    this.statsService.getMetabaseUrl(this.metabaseParams).subscribe({
-      next: (response: { url: string }) => {
-        this.matomo.trackEvent(
-          "stats",
-          "view",
-          JSON.stringify(this.metabaseParams),
-          1
-        );
-
-        this.iframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-          response.url
-        );
-        setTimeout(() => {
+          this.iframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+            response.url
+          );
+          setTimeout(() => {
+            this.loading = false;
+            this.toastService.success("Chargement des statistiques en cours");
+          }, 2000);
+        },
+        error: () => {
           this.loading = false;
-          this.toastService.success("Chargement des statistiques en cours");
-        }, 2000);
-      },
-      error: () => {
-        this.loading = false;
-        this.toastService.error("Le chargement des statistiques a échoué");
-      },
-    });
+          this.toastService.error("Le chargement des statistiques a échoué");
+        },
+      })
+    );
   }
 
   public deleteFilter(key: keyof MetabaseParams) {
@@ -130,19 +146,23 @@ export class NationalStatsComponent {
     this.currentStructure = null;
     delete this.metabaseParams.structureId;
 
-    this.statsService.getStructures(this.metabaseParams).subscribe({
-      next: (response: Array<StructureListForStats>) => {
-        this.structures = response;
-        this.loading = false;
+    this.subscription.add(
+      this.statsService.getStructures(this.metabaseParams).subscribe({
+        next: (response: Array<StructureListForStats>) => {
+          this.structures = response;
+          this.loading = false;
 
-        this.toastService.success("La liste des structures a été mise à jour");
-      },
-      error: () => {
-        this.loading = false;
+          this.toastService.success(
+            "La liste des structures a été mise à jour"
+          );
+        },
+        error: () => {
+          this.loading = false;
 
-        this.toastService.error("Le chargement des structures a échoué");
-      },
-    });
+          this.toastService.error("Le chargement des structures a échoué");
+        },
+      })
+    );
   }
 
   public export(): void {

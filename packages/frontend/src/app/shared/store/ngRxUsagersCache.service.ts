@@ -23,7 +23,6 @@ export const cacheManager = {
     "update-usager",
     props<{ usager: Usager | UsagerLight }>()
   ),
-  updateUsagers: createAction("update-usagers", props<{ usagers: Usager[] }>()),
   deleteUsagers: createAction(
     "delete-usagers",
     props<{ usagerRefs: number[] }>()

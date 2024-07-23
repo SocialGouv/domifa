@@ -106,9 +106,6 @@ export class FileManagerService {
 
       return readObjectResult.Body.pipe(res);
     } catch (err) {
-      if (err.Code && err.Code === "NoSuchKey") {
-        return res.status(404);
-      }
       appLogger.error(err);
       return res.status(500).json({ message: "GET_FILE_ERROR" });
     }

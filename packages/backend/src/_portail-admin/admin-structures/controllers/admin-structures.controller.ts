@@ -145,6 +145,16 @@ export class AdminStructuresController {
     return this.adminStructuresService.getStatsDomifaAdminDashboard();
   }
 
+  @Get("last-update")
+  @AllowUserProfiles("super-admin-domifa")
+  public async getLastUpdate(): Promise<Date> {
+    const lastUsager = await structureRepository.findOne({
+      where: {},
+      order: { createdAt: "DESC" },
+    });
+    return lastUsager.createdAt;
+  }
+
   @Get("")
   @AllowUserProfiles("super-admin-domifa")
   public async list(): Promise<AdminStructureListData> {

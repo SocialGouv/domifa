@@ -63,12 +63,8 @@ export class ManageUsagersService {
       })
       .pipe(
         tap((usagers: UsagerLight[]) => {
-          this.store.dispatch(
-            cacheManager.updateUsagers({
-              usagers: usagers.map((usager: UsagerLight) =>
-                setUsagerInformations(usager)
-              ),
-            })
+          usagers.forEach((usager) =>
+            this.store.dispatch(cacheManager.updateUsager({ usager }))
           );
         }),
         map(() => {
