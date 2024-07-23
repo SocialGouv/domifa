@@ -16,6 +16,7 @@ import {
   UsagerRdvInfos,
   UsagerNote,
   Usager,
+  UsagerDecisionStatut,
 } from "@domifa/common";
 
 export class UsagerFormModel implements Usager {
@@ -69,6 +70,7 @@ export class UsagerFormModel implements Usager {
   > | null;
 
   public email: string;
+  public statut: UsagerDecisionStatut;
   public telephone: Telephone;
   public contactByPhone: boolean;
   public entretien: Entretien;
@@ -132,6 +134,7 @@ export class UsagerFormModel implements Usager {
     this.entretien = new Entretien(usager?.entretien);
     this.options = new Options(usager?.options);
     this.decision = new Decision(usager?.decision);
+    this.statut = this.decision.statut;
 
     this.statusInfos = {
       text: USAGER_DECISION_STATUT_LABELS[this.decision.statut],

@@ -4,6 +4,7 @@ import { ETAPE_DOSSIER_COMPLET } from "@domifa/common";
 
 export const USAGER_REFUS_MOCK: UsagerLight = {
   numeroDistribution: null,
+  statut: "REFUS",
   decision: {
     uuid: "x",
     orientationDetails: null,

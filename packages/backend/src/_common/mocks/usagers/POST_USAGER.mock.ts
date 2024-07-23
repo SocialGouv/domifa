@@ -61,6 +61,7 @@ export const POST_USAGER: {
     structureId: 1,
     datePremiereDom: null,
     typeDom: "PREMIERE_DOM",
+    statut: "INSTRUCTION",
     import: null,
     decision: {
       uuid: null,

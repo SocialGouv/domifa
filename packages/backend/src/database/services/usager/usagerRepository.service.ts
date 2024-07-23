@@ -209,14 +209,11 @@ async function findLastFiveCustomRef({
         "structureId",
       ])
     )
-    .where(
-      `decision->>'statut' = :statut and "structureId" = :structureId and ref != :usagerRef`,
-      {
-        statut: "VALIDE",
-        structureId,
-        usagerRef,
-      }
-    )
+    .where(`statut = :statut and "structureId" = :structureId`, {
+      statut: "VALIDE",
+      structureId,
+      usagerRef,
+    })
     .orderBy({ "(decision->>'dateDecision')::timestamptz": "DESC" })
     .limit(5)
     .getRawMany();

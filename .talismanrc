@@ -6,11 +6,11 @@ fileignoreconfig:
 - filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
   checksum: a066a32a383b37f3e2195d41a309628e64d66e70611aa8ee05159205c0fdcd7c
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: d3a65a3aba4100bf883d4511b60c57b66fbfb524deda81e1b77cd848d9a3d99a
+  checksum: d61470228208094ecc7a14b8ccb30aa49c363009104aaa4d983fe54baba10c08
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-data.sql
   checksum: 0a9b780387e8c40344bd52f033a201da019c8b3e9e5d501ee6cb85040b6e168c
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: 44eff533b91a2781462ca7e0b3c153b9875a62f501b76e5ac502a872fb0e344b
+  checksum: 82670bbe12e21c9cf5af9a3e75f1c06c4a97d1bf5a8825cfab2553bc075e171e
 - filename: packages/backend/.env.backend.dev.example.env
   checksum: d52c7fbfae21884e63f84a7aa0759c5296f0ecb483e71866541b2b44d7880758
 - filename: packages/backend/.env.backend.test.local.example.env
@@ -40,7 +40,7 @@ fileignoreconfig:
 - filename: packages/backend/src/_migrations/1720558050667-auto-migration.ts
   checksum: 3b2a7e24e6e69fb3b81f473ceb43a00a2191c0358f2cbc314f5eb3b0e2a95672
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
-  checksum: 5553ca8dba633766fa9ccd9af6e4101659b0a674aa2c7126fea5dd1258f14ce8
+  checksum: a2625bd65f7e0ffc0e0d69b98266295231c1a5f6ff6938f89258cf7d7773ff49
 - filename: packages/backend/src/modules/portail-usagers/controllers/portail-usagers-manager/portail-usagers-manager.controller.ts
   checksum: 6cb66d899577621ac9f796b2fde88a68263b7422c3f369854d94236c15c0807f
 - filename: packages/backend/src/stats/services/publicStats.service.ts
@@ -80,5 +80,5 @@ fileignoreconfig:
 - filename: packages/portail-admins/src/environments/environment.ts
   checksum: 65d0b914b6baa33b2e8ec95786ef0c9d9960787295f1f02450d0262f71fd3d0e
 - filename: yarn.lock
-  checksum: c17987788ab5f19cd4f86f715f26ca6a3bdba3cfa96052029444ade02fc194f1
+  checksum: 475dccf18d63d458543b0dd98a1ee54e6743cf2b011b1e8be8e14957b929f99f
 version: "1.0"

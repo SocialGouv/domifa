@@ -120,6 +120,7 @@ export const renderStructureUsagersRows = (
             structureId: structure.id,
             contactByPhone: null,
             etapeDemande: null,
+            statut: usagerToExport.decision.statut,
             rdv: null,
             pinnedNote: null,
           },

@@ -4,6 +4,7 @@ import { ETAPE_DOSSIER_COMPLET } from "@domifa/common";
 
 export const USAGER_ACTIF_MOCK: UsagerLight = {
   numeroDistribution: null,
+  statut: "VALIDE",
   decision: {
     uuid: "x",
     statut: "VALIDE",
