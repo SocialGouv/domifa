@@ -5,12 +5,6 @@ export class CreateStatutMigration1721725635589 implements MigrationInterface {
   name = "CreateStatutMigration1721725635589";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    console.log("kopkpo");
-    console.log("kopkpo");
-    console.log("kopkpo");
-    console.log("kopkpo");
-    console.log("kopkpo");
-    console.log("kopkpo");
     if (
       domifaConfig().envId === "prod" ||
       domifaConfig().envId === "preprod" ||

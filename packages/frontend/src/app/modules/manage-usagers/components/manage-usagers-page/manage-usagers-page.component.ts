@@ -20,7 +20,14 @@ import {
   Subscription,
   timer,
 } from "rxjs";
-import { debounceTime, filter, map, switchMap, tap } from "rxjs/operators";
+import {
+  debounceTime,
+  filter,
+  map,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from "rxjs/operators";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import {
   fadeInOut,
@@ -157,10 +164,13 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       debounceTime(200),
       map((value: string) => value.trim()),
       filter((value: string) => value !== this.filters.searchString),
-      switchMap((searchString: string) => {
+      withLatestFrom(this.chargerTousRadies$),
+      switchMap(([searchString, chargerTousRadies]) => {
+        console.log({ chargerTousRadies });
         if (
           searchString.length > 3 &&
-          (this.filters.statut === "TOUS" || this.filters.statut === "RADIE")
+          (this.filters.statut === "TOUS" || this.filters.statut === "RADIE") &&
+          !chargerTousRadies
         ) {
           this.searching = true;
           return this.usagerService.getSearchPageRemoteSearchRadies({

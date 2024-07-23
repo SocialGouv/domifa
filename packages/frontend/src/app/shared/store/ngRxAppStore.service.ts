@@ -78,39 +78,6 @@ export const _usagerReducer = createReducer(
       searchPageLoadedUsagersData,
     };
   }),
-  on(cacheManager.updateUsagers, (state, action) => {
-    const usagers = action.usagers;
-
-    // always update map
-    const usagersByRefMap = {
-      ...state.usagersByRefMap,
-    };
-
-    usagers.forEach((usager) => {
-      usagersByRefMap[usager.ref] = new UsagerFormModel(
-        usager
-      ) as unknown as UsagerLight;
-    });
-
-    let searchPageLoadedUsagersData = state.searchPageLoadedUsagersData;
-
-    usagers.forEach((usager) => {
-      searchPageLoadedUsagersData = addUsagerToStore({
-        initialData: deleteSearchPageLoadedUsagersDataUsager({
-          initialData: searchPageLoadedUsagersData,
-          usagerRef: usager.ref,
-        }),
-        usager,
-      });
-    });
-
-    return {
-      ...state,
-      usagersByRefMap,
-      searchPageLoadedUsagersData,
-    };
-  }),
-
   on(cacheManager.deleteUsagers, (state, action) => {
     const { usagerRefs } = action;
     const usagersByRefMap = { ...state.usagersByRefMap };

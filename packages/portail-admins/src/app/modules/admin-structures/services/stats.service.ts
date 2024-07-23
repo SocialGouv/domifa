@@ -39,6 +39,9 @@ export class StatsService {
       params
     );
   }
+  public getLastUpdateOfStats(): Observable<Date> {
+    return this.http.get<Date>(`${BASE_URL}/last-update`);
+  }
 
   public getMetabaseUrl(params: MetabaseParams): Observable<{ url: string }> {
     return this.http.post<{ url: string }>(

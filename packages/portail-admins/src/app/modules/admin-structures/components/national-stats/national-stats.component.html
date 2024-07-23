@@ -1,10 +1,15 @@
 <div class="head-page pt-4">
   <div class="container">
     <div class="row">
-      <div class="col-md-7 col-12">
-        <h1 class="title">Outil de pilotage de la domiciliation en France</h1>
+      <div class="col-md-9 col-12">
+        <h1 class="title">
+          Outil de pilotage de la domiciliation en France
+          <span *ngIf="lastUpdate">
+            (mise à jour le {{ lastUpdate | date : "dd/MM/yyyy" }})</span
+          >
+        </h1>
       </div>
-      <div class="text-start text-md-end col-12 col-md-5">
+      <div class="text-start text-md-end col-12 col-md-3">
         <a
           href="https://fabnummas.notion.site/Prise-en-main-du-tableau-de-bord-de-pilotage-de-la-domiciliation-1730729b6cc04d81a5eabf0ba36b5c0d?pvs=4"
           target="_blank"
@@ -35,7 +40,7 @@
   <div class="page-content p-4">
     <div class="container">
       <div class="row">
-        <div class="col-md-4 col-12 form-group">
+        <div class="col-md-3 col-12 form-group">
           <label for="region">Région</label>
 
           <div class="card p-2" *ngIf="metabaseParams.region">
@@ -70,7 +75,7 @@
             </select>
           </ng-container>
         </div>
-        <div class="col-md-4 col-12 form-group">
+        <div class="col-md-3 col-12 form-group">
           <label for="department">Département</label>
           <div class="card p-2" *ngIf="metabaseParams.department">
             <div
@@ -110,7 +115,7 @@
             </select>
           </ng-container>
         </div>
-        <div class="col-md-4 col-12 form-group">
+        <div class="col-md-3 col-12 form-group">
           <label for="structureType">Type de structure</label>
           <div class="card p-2" *ngIf="metabaseParams.structureType">
             <div
@@ -146,7 +151,7 @@
             </select>
           </ng-container>
         </div>
-        <div class="col-md-4 col-12 form-group">
+        <div class="col-md-3 col-12 form-group">
           <label for="structure">
             Choisir une structure: {{ structures.length }} résultats
           </label>
