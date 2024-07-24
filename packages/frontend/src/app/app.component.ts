@@ -115,11 +115,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.currentUrl = this.router.url;
 
-    this.authService.isAuth().subscribe({
-      next: () => {
-        console.log("");
-      },
-    });
+    this.authService.isAuth().subscribe();
 
     this.authService.currentUserSubject.subscribe({
       next: (user: UserStructure | null) => {

@@ -201,7 +201,7 @@
         class="col-md-2 col-6"
         [ngClass]="{ 'selected-section': filters.statut === 'REFUS' }"
         [attr.aria-label]="
-          'Afficher les ' + allUsagersByStatus.REFUS.length + ' dossiers '
+          'Afficher les ' + allUsagersByStatus?.REFUS?.length + ' dossiers '
         "
         [attr.aria-selected]="filters.statut === 'REFUS'"
         (click)="updateFilters({ element: 'statut', value: 'REFUS' })"
@@ -216,7 +216,7 @@
         class="col-md-2 col-6"
         [ngClass]="{ 'selected-section': filters.statut === 'RADIE' }"
         [attr.aria-label]="
-          'Afficher les ' + allUsagersByStatus.RADIE.length + ' dossiers '
+          'Afficher les ' + allUsagersByStatus?.RADIE?.length + ' dossiers '
         "
         [attr.aria-selected]="filters.statut === 'RADIE'"
         (click)="updateFilters({ element: 'statut', value: 'RADIE' })"

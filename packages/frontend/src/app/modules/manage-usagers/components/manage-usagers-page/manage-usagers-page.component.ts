@@ -129,7 +129,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.usagers = [];
     this.filters = new UsagersFilterCriteria(this.getFilters());
 
-    this.pageSize = 200;
+    this.pageSize = 50;
     this.filters.page = 0;
     this.titleService.setTitle("Gestion des domiciliés - DomiFa");
   }
@@ -226,6 +226,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   private updateComponentState(
     searchPageLoadedUsagersData: SearchPageLoadedUsagersData
   ) {
+    console.log(searchPageLoadedUsagersData.usagersRadiesTotalCount);
     this.usagersRadiesTotalCount =
       searchPageLoadedUsagersData.usagersRadiesTotalCount;
     this.usagersTotalCount =

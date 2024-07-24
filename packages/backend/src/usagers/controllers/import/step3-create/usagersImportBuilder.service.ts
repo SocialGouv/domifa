@@ -127,6 +127,7 @@ function buildUsager({
       userId: user.id,
       userName: agent,
     },
+    statut: decision.statut,
     decision,
     lastInteraction: {
       dateInteraction: dernierPassage,

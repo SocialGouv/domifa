@@ -54,7 +54,12 @@ import pdftk = require("node-pdftk");
 import { join, resolve } from "path";
 import { readFile } from "fs-extra";
 import { ExpressResponse } from "../../util/express";
-import { Usager, ETAPE_DOCUMENTS, CerfaDocType } from "@domifa/common";
+import {
+  Usager,
+  ETAPE_DOCUMENTS,
+  CerfaDocType,
+  UsagerDecision,
+} from "@domifa/common";
 import { UsagerHistoryStateService } from "../services/usagerHistoryState.service";
 import { domifaConfig } from "../../config";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
@@ -105,9 +110,26 @@ export class UsagersController {
           },
         });
 
+    const filterHistorique = (usager: Usager) => {
+      if (usager.historique && Array.isArray(usager.historique)) {
+        usager.historique = usager.historique.map((item: UsagerDecision) => ({
+          statut: item.statut,
+          dateDecision: item.dateDecision,
+          dateDebut: item.dateDebut,
+          dateFin: item.dateFin,
+        })) as UsagerDecision[];
+      }
+      return usager;
+    };
+
+    // Appliquer le filtre sur les deux ensembles d'usagers
+    const filteredUsagersNonRadies = usagersNonRadies.map(filterHistorique);
+    const filteredUsagersRadiesFirsts =
+      usagersRadiesFirsts.map(filterHistorique);
+
     return {
-      usagersNonRadies,
-      usagersRadiesFirsts,
+      usagersNonRadies: filteredUsagersNonRadies,
+      usagersRadiesFirsts: filteredUsagersRadiesFirsts,
       usagersRadiesTotalCount,
     };
   }
