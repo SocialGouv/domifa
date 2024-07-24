@@ -22,7 +22,6 @@ export class UsagerOptionsHistoryTable
   @JoinColumn({ name: "usagerUUID", referencedColumnName: "uuid" })
   public usagerUUID: string;
 
-  @Index()
   @Column({ type: "integer", nullable: true })
   public userId: number;
 

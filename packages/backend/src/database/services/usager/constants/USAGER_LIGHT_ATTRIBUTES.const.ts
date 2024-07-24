@@ -1,6 +1,6 @@
-import { UsagerTable } from "../../../entities";
+import { Usager } from "@domifa/common";
 
-export const USAGER_LIGHT_ATTRIBUTES: (keyof UsagerTable)[] = [
+export const USAGER_LIGHT_ATTRIBUTES: (keyof Usager)[] = [
   "uuid",
   "ref",
   "customRef",

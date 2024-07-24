@@ -39,8 +39,10 @@ fileignoreconfig:
   checksum: 2c8af8c1e2a41dd8ffdec224601f6c61a7ca4ce89f39e0f91072bb3f6736232c
 - filename: packages/backend/src/_migrations/1720558050667-auto-migration.ts
   checksum: 3b2a7e24e6e69fb3b81f473ceb43a00a2191c0358f2cbc314f5eb3b0e2a95672
+- filename: packages/backend/src/_migrations/1721817064651-auto-migration.ts
+  checksum: 4c1f4f912bebc23465a8ed8bf0729091774483f2c15025b60f7cbe7a4cbd0d12
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
-  checksum: a2625bd65f7e0ffc0e0d69b98266295231c1a5f6ff6938f89258cf7d7773ff49
+  checksum: 99133de99ba8a6760310d62b686e25ec978fdbb0d658b5e18d06f387f366ed7e
 - filename: packages/backend/src/modules/portail-usagers/controllers/portail-usagers-manager/portail-usagers-manager.controller.ts
   checksum: 6cb66d899577621ac9f796b2fde88a68263b7422c3f369854d94236c15c0807f
 - filename: packages/backend/src/stats/services/publicStats.service.ts

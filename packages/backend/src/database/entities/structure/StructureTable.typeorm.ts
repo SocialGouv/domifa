@@ -54,11 +54,9 @@ export class StructureTable
   @Column({ type: "text", nullable: false })
   region: string;
 
-  @Index()
   @Column({ type: "text", nullable: true })
   departmentName: string;
 
-  @Index()
   @Column({ type: "text", nullable: true })
   regionName: string;
 

@@ -1,4 +1,4 @@
-import { Column, Entity, Index } from "typeorm";
+import { Column, Entity } from "typeorm";
 import { AppLog, LogAction } from "../../../_common/model";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
@@ -7,7 +7,6 @@ export class AppLogTable
   extends AppTypeormTable<AppLogTable>
   implements AppLog
 {
-  @Index()
   @Column({ type: "integer" })
   public userId: number;
 

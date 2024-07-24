@@ -58,6 +58,7 @@ import { Usager, ETAPE_DOCUMENTS, CerfaDocType } from "@domifa/common";
 import { UsagerHistoryStateService } from "../services/usagerHistoryState.service";
 import { domifaConfig } from "../../config";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
+import { Not } from "typeorm";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -78,35 +79,31 @@ export class UsagersController {
     chargerTousRadies: boolean,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    const usagersNonRadies = await usagerRepository
-      .createQueryBuilder()
-      .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
-      .where(`"structureId" = :structureId and statut != :statut`, {
-        statut: "RADIE",
+    const usagersNonRadies = await usagerRepository.find({
+      where: {
+        statut: Not("RADIE"),
         structureId: user.structureId,
-      })
-      .getRawMany();
+      },
+      select: USAGER_LIGHT_ATTRIBUTES,
+    });
 
-    const usagersRadiesFirsts = await usagerRepository
-      .createQueryBuilder()
-      .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
-      .where(`"structureId" = :structureId and statut = :statut`, {
+    const usagersRadiesFirsts = await usagerRepository.find({
+      where: {
         statut: "RADIE",
         structureId: user.structureId,
-      })
-      .limit(chargerTousRadies ? undefined : 60)
-      .orderBy({ "decision->>'dateFin'": "DESC" })
-      .getRawMany();
+      },
+      select: USAGER_LIGHT_ATTRIBUTES,
+      take: chargerTousRadies ? undefined : 60,
+    });
 
     const usagersRadiesTotalCount = chargerTousRadies
       ? usagersRadiesFirsts.length
-      : await usagerRepository
-          .createQueryBuilder()
-          .where(`"structureId" = :structureId and statut = :statut`, {
+      : await usagerRepository.count({
+          where: {
             statut: "RADIE",
             structureId: user.structureId,
-          })
-          .getCount();
+          },
+        });
 
     return {
       usagersNonRadies,
@@ -131,7 +128,7 @@ export class UsagersController {
       .createQueryBuilder()
       .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
       .where(
-        `"structureId" = :structureId and  statut  = :statut and LOWER(coalesce("nom", '') || ' ' || coalesce("prenom", '')) LIKE :search`,
+        `"structureId" = :structureId and  statut  = :statut and LOWER("nom"|| ' ' || "prenom") LIKE :search`,
         {
           statut: "RADIE",
           structureId: user.structureId,
