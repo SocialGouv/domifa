@@ -60,7 +60,6 @@ async function createTables(queryRunner: QueryRunner) {
       "action" text NOT NULL,
       CONSTRAINT "PK_69f8faf72fa4038748e4e3f3fbe" PRIMARY KEY (uuid)
     );
-    CREATE INDEX "IDX_9643302335674f651c0e867235" ON public.app_log USING btree ("userId");
 
 
     -- public.contact_support definition
@@ -202,12 +201,10 @@ async function createTables(queryRunner: QueryRunner) {
       CONSTRAINT "UQ_90ac7986e769d602d218075215c" UNIQUE (id),
       CONSTRAINT "UQ_b36e92e49b2a68f8fea64ec8d5b" UNIQUE (email)
     );
-    CREATE INDEX "IDX_2877f8c3f6cbddc785bf938d0a" ON public.structure USING btree ("regionName");
     CREATE INDEX "IDX_30c4985e1148ec42ad6122f0ff" ON public.structure USING btree ("structureType");
     CREATE INDEX "IDX_62204f14a6d17cad41d419d150" ON public.structure USING btree ("codePostal");
     CREATE INDEX "IDX_90ac7986e769d602d218075215" ON public.structure USING btree (id);
     CREATE INDEX "IDX_b36e92e49b2a68f8fea64ec8d5" ON public.structure USING btree (email);
-    CREATE INDEX "IDX_bf49c177bbacd36423531ecc07" ON public.structure USING btree ("departmentName");
     CREATE INDEX "IDX_e848a2cfbd611ec5edc18074e2" ON public.structure USING btree (region);
     CREATE INDEX "IDX_fa4dea9a1ff8deb8fcf47c451e" ON public.structure USING btree (departement);
 
@@ -386,7 +383,7 @@ async function createTables(queryRunner: QueryRunner) {
     );
     CREATE INDEX "IDX_a44d882d224e368efdee8eb8c8" ON public.usager USING btree ("structureId");
     CREATE INDEX "IDX_b4d09870ec6cad2d2d98b7cc3a" ON public.usager USING btree (migrated);
-    CREATE INDEX idx_usager_statut ON public.usager USING btree ("structureId", "statut");
+    CREATE INDEX idx_usager_statut ON public.usager USING btree ("structureId", statut);
 
 
     -- public.usager_docs definition
@@ -558,7 +555,6 @@ async function createTables(queryRunner: QueryRunner) {
     );
     CREATE INDEX "IDX_3cb5af09bf7cd68d7070dbc896" ON public.usager_options_history USING btree ("usagerUUID");
     CREATE INDEX "IDX_b509fe905bf502e510cda57080" ON public.usager_options_history USING btree ("structureId");
-    CREATE INDEX "IDX_c2fa002e6f45fe1ca6c7f23496" ON public.usager_options_history USING btree ("userId");
 
 
     -- public.user_structure definition
