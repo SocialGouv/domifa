@@ -1,3 +1,10 @@
+## [2.173.15](https://github.com/SocialGouv/domifa/compare/v2.173.14...v2.173.15) (2024-07-24)
+
+
+### Bug Fixes
+
+* **backend:** fix statut in import ([aa5a80e](https://github.com/SocialGouv/domifa/commit/aa5a80e04c696e5ba35a2699c79efe7609d3cbe4))
+
 ## [2.173.14](https://github.com/SocialGouv/domifa/compare/v2.173.13...v2.173.14) (2024-07-24)
 
 
