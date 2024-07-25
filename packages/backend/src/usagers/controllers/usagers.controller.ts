@@ -279,13 +279,14 @@ export class UsagersController {
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUsager() currentUsager: Usager
   ): Promise<Usager> {
+    currentUsager.etapeDemande = etapeDemande;
     await usagerRepository.update(
       { uuid: currentUsager.uuid },
       {
         etapeDemande,
       }
     );
-    return { ...currentUsager, etapeDemande };
+    return currentUsager;
   }
 
   @UseGuards(UsagerAccessGuard)

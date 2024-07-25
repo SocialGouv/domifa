@@ -67,14 +67,19 @@ describe("interactionsCreator", () => {
       structureId: 1,
     });
 
-    // Reset les courriers
-    usager.lastInteraction = {
-      dateInteraction: new Date(MOCKED_LAST_INTERACTION_DATE),
-      enAttente: false,
-      courrierIn: 0,
-      recommandeIn: 0,
-      colisIn: 0,
-    };
+    await usagerRepository.update(
+      { uuid: usager.uuid },
+      {
+        lastInteraction: {
+          dateInteraction: new Date(MOCKED_LAST_INTERACTION_DATE),
+          enAttente: false,
+          courrierIn: 0,
+          recommandeIn: 0,
+          colisIn: 0,
+        },
+      }
+    );
+    usager = await usagerRepository.findOneBy({ uuid: usager.uuid });
 
     // Usager pour tester le "npai"
     await usagerRepository.update(
