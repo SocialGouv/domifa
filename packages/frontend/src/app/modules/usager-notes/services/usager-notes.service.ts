@@ -27,11 +27,7 @@ export class UsagerNotesService {
     note: Pick<UsagerNote, "message">;
     usagerRef: number;
   }): Observable<Usager> {
-    return this.http.post<Usager>(`${this.endPoint}/${usagerRef}`, note).pipe(
-      tap((newUsager: Usager) => {
-        this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
-      })
-    );
+    return this.http.post<Usager>(`${this.endPoint}/${usagerRef}`, note);
   }
 
   public getNotes(

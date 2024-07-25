@@ -49,6 +49,7 @@ async function createInteraction({
         oppositeType,
       });
 
+    // TODO: Optimize & check if this request is really needed
     const pendingInteractionsCount =
       await interactionRepository.countPendingInteraction({
         structureId: user.structureId,
@@ -121,24 +122,18 @@ async function createInteraction({
   }
 
   // Mise à jour des infos de dernier passage pour l'usager
-  const usagerUpdated = await updateUsagerAfterCreation({
-    usager,
-  });
+  const usagerUpdated = await updateUsagerAfterCreation(usager);
 
   return { usager: usagerUpdated, interaction: interactionCreated };
 }
 
-async function updateUsagerAfterCreation({
-  usager,
-}: {
-  usager: Pick<Usager, "uuid" | "lastInteraction" | "decision" | "options">;
-}): Promise<Usager> {
+async function updateUsagerAfterCreation(usager: Usager): Promise<Usager> {
   const pendingInteractionsIn =
     await interactionRepository.countPendingInteractionsIn({
       usager,
     });
 
-  return usagerRepository.updateOneAndReturn(usager.uuid, {
+  const partToUpdate = {
     updatedAt: new Date(),
     lastInteraction: {
       ...usager.lastInteraction,
@@ -150,5 +145,8 @@ async function updateUsagerAfterCreation({
         pendingInteractionsIn.colisIn > 0 ||
         pendingInteractionsIn.recommandeIn > 0,
     },
-  });
+  };
+
+  await usagerRepository.update(usager.uuid, partToUpdate);
+  return { ...usager, ...partToUpdate };
 }

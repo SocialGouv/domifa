@@ -226,7 +226,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   private updateComponentState(
     searchPageLoadedUsagersData: SearchPageLoadedUsagersData
   ) {
-    console.log(searchPageLoadedUsagersData.usagersRadiesTotalCount);
     this.usagersRadiesTotalCount =
       searchPageLoadedUsagersData.usagersRadiesTotalCount;
     this.usagersTotalCount =

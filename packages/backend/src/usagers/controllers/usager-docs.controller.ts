@@ -163,12 +163,14 @@ export class UsagerDocsController {
     await usagerDocsRepository.delete({
       uuid: doc.uuid,
     });
+
     await this.appLogsService.create({
       userId: user.id,
       usagerRef,
       structureId: user.structureId,
       action: "USAGERS_DOCS_DELETE",
     });
+
     const docs = await usagerDocsRepository.getUsagerDocs(
       usagerRef,
       currentUsager.structureId

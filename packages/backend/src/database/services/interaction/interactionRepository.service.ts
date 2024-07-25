@@ -10,12 +10,13 @@ export const interactionRepository = myDataSource
   .getRepository<CommonInteraction>(InteractionsTable)
   .extend({
     findLastInteractionInWithContent,
+    updateInteractionAfterDistribution,
+    findLastInteractionOut,
+    // Dedicated for Stats
     countInteractionsByMonth,
     countPendingInteraction,
     countPendingInteractionsIn,
     countVisiteOut,
-    updateInteractionAfterDistribution,
-    findLastInteractionOut,
     totalInteractionsInPeriod,
   });
 

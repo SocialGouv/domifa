@@ -1,7 +1,6 @@
 import { Injectable, Inject, forwardRef } from "@nestjs/common";
 import { interactionRepository } from "../../database";
 import { MessageSmsService } from "../../sms/services/message-sms.service";
-import { UsagerLight } from "../../_common/model";
 import { interactionsCreator } from "./interactionsCreator.service";
 import { interactionsTypeManager } from "./interactionsTypeManager.service";
 import { getLastInteractionOut } from "./getLastInteractionDate.service";
@@ -22,7 +21,7 @@ export class InteractionsDeletor {
     interaction: CommonInteraction;
     usager: Usager;
     structure: Pick<Structure, "id" | "sms" | "telephone" | "portailUsager">;
-  }): Promise<UsagerLight> {
+  }): Promise<Usager> {
     const direction = interactionsTypeManager.getDirection(interaction);
 
     await interactionRepository.delete({
@@ -55,8 +54,6 @@ export class InteractionsDeletor {
       structure
     );
 
-    return await interactionsCreator.updateUsagerAfterCreation({
-      usager,
-    });
+    return interactionsCreator.updateUsagerAfterCreation(usager);
   }
 }

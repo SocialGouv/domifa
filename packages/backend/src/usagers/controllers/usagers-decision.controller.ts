@@ -162,14 +162,18 @@ export class UsagersDecisionController {
 
     await usagerNotesRepository.save(newNote);
 
-    const result = await usagerRepository.updateOneAndReturn(usager.uuid, {
-      lastInteraction: usager.lastInteraction,
-      historique: usager.historique,
-      etapeDemande: usager.etapeDemande,
-      decision: usager.decision,
-    });
+    await usagerRepository.update(
+      { uuid: usager.uuid },
+      {
+        updatedAt: new Date(),
+        lastInteraction: usager.lastInteraction,
+        historique: usager.historique,
+        etapeDemande: usager.etapeDemande,
+        decision: usager.decision,
+      }
+    );
 
-    return res.status(HttpStatus.OK).json(result);
+    return res.status(HttpStatus.OK).json(usager);
   }
 
   private generateNoteForDecision = (decision: UsagerDecision): string => {

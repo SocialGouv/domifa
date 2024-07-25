@@ -190,17 +190,16 @@ export class UsagersController {
       usagerDto.customRef = currentUsager.ref.toString();
     }
 
-    currentUsager = await usagerRepository.updateOneAndReturn(
-      currentUsager.uuid,
+    await usagerRepository.update(
+      { uuid: currentUsager.uuid },
       { ...usagerDto }
     );
 
-    const usager = await usagerRepository.getUsager(currentUsager.uuid);
     const createdAt = new Date();
     const historyBeginDate = createdAt;
 
     await this.usagerHistoryStateService.buildState({
-      usager,
+      usager: currentUsager,
       createdAt,
       createdEvent: "update-usager",
       historyBeginDate,
@@ -217,15 +216,22 @@ export class UsagersController {
     @CurrentUser() _user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager
   ) {
+    const elementsToUpdate = {
+      telephone: contactDetails.telephone,
+      contactByPhone: contactDetails.contactByPhone,
+      email: contactDetails.email,
+    };
     await usagerRepository.update(
       { uuid: currentUsager.uuid },
       {
-        telephone: contactDetails.telephone,
-        contactByPhone: contactDetails.contactByPhone,
-        email: contactDetails.email,
+        ...elementsToUpdate,
       }
     );
-    return await usagerRepository.getUsager(currentUsager.uuid);
+
+    return {
+      ...currentUsager,
+      ...elementsToUpdate,
+    };
   }
 
   @UseGuards(UsagerAccessGuard)
@@ -250,6 +256,7 @@ export class UsagersController {
       );
     }
 
+    // TODO: optimize
     const usager = await usagerRepository.getUsager(currentUsager.uuid);
     const createdAt = new Date();
     const historyBeginDate = createdAt;
@@ -272,9 +279,13 @@ export class UsagersController {
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUsager() currentUsager: Usager
   ): Promise<Usager> {
-    return usagerRepository.updateOneAndReturn(currentUsager.uuid, {
-      etapeDemande,
-    });
+    await usagerRepository.update(
+      { uuid: currentUsager.uuid },
+      {
+        etapeDemande,
+      }
+    );
+    return { ...currentUsager, etapeDemande };
   }
 
   @UseGuards(UsagerAccessGuard)
@@ -293,9 +304,13 @@ export class UsagersController {
       currentUsager.options.npai.dateDebut = new Date();
     }
 
-    return usagerRepository.updateOneAndReturn(currentUsager.uuid, {
-      options: currentUsager.options,
-    });
+    await usagerRepository.update(
+      { uuid: currentUsager.uuid },
+      {
+        options: currentUsager.options,
+      }
+    );
+    return currentUsager;
   }
 
   @AllowUserStructureRoles("simple", "responsable", "admin")
@@ -316,6 +331,8 @@ export class UsagersController {
       query = query + `  and "ref" != $4`;
       params.push(duplicateUsagerDto.usagerRef);
     }
+
+    console.log(query);
     return usagerRepository.query(query, params);
   }
 

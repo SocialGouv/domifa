@@ -7,12 +7,12 @@ import {
   type UsagerTypeDom,
   type UsagerImport,
   UsagerDecisionStatut,
+  UsagerPinnedNote,
 } from "../types";
 import { type UsagerAyantDroit } from "./UsagerAyantDroit.interface";
 import { type UsagerDecision } from "./UsagerDecision.interface";
 import { type UsagerEntretien } from "./UsagerEntretien.interface";
 import { type UsagerLastInteraction } from "./UsagerLastInteraction.interface";
-import { type UsagerNote } from "./UsagerNote.interface";
 import { type UsagerRdv } from "./UsagerRdv.interface";
 
 export interface Usager extends AppEntity {
@@ -53,10 +53,7 @@ export interface Usager extends AppEntity {
   options: UsagerOptions;
   numeroDistribution: string | null;
 
-  pinnedNote: Pick<
-    UsagerNote,
-    "createdAt" | "usagerRef" | "message" | "createdBy"
-  > | null;
+  pinnedNote: UsagerPinnedNote;
 
   nbNotes?: number;
   statusInfos?: any;

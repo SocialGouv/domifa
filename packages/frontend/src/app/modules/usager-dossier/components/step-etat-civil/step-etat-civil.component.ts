@@ -21,6 +21,7 @@ import {
 } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { Usager } from "@domifa/common";
+import { merge, debounceTime, distinctUntilChanged } from "rxjs";
 
 @Component({
   animations: [fadeInOut],
@@ -73,6 +74,17 @@ export class StepEtatCivilComponent
       this.usager = new UsagerFormModel();
       this.initForm();
     }
+
+    const lastNameChanges = this.usagerForm.get("nom")!.valueChanges;
+    const firstNameChanges = this.usagerForm.get("prenom")!.valueChanges;
+
+    this.subscription.add(
+      merge(lastNameChanges, firstNameChanges)
+        .pipe(debounceTime(300), distinctUntilChanged())
+        .subscribe(() => {
+          this.isDuplicateName();
+        })
+    );
   }
 
   public isDuplicateName(): void {
