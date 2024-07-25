@@ -138,8 +138,8 @@ export class PortailUsagersManagerController {
   ) {
     try {
       usager.options.portailUsagerEnabled = dto.portailUsagerEnabled;
-      const updatedUsager = await usagerRepository.updateOneAndReturn(
-        usager.uuid,
+      await usagerRepository.update(
+        { uuid: usager.uuid },
         {
           options: usager.options,
         }
@@ -161,7 +161,7 @@ export class PortailUsagersManagerController {
             );
           return res
             .status(HttpStatus.CREATED)
-            .json({ usager: updatedUsager, login, temporaryPassword });
+            .json({ usager, login, temporaryPassword });
         } else {
           const generateNewPassword =
             dto.portailUsagerEnabled && dto.generateNewPassword;
@@ -179,7 +179,7 @@ export class PortailUsagersManagerController {
             action: "RESET_PASSWORD_PORTAIL",
           });
           return res.status(HttpStatus.CREATED).json({
-            usager: updatedUsager,
+            usager,
             login: generateNewPassword ? userUsager.login : undefined,
             temporaryPassword,
           });
@@ -188,7 +188,7 @@ export class PortailUsagersManagerController {
         // disable login
         await userUsagerUpdator.disableUser({ usagerUUID: usager.uuid });
       }
-      return res.status(HttpStatus.OK).json({ usager: updatedUsager });
+      return res.status(HttpStatus.OK).json({ usager });
     } catch (error) {
       appLogger.error("Error updating usager options", {
         error,

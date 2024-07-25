@@ -131,15 +131,20 @@ export class UsagersService {
 
     usager.lastInteraction.dateInteraction = now;
 
-    return usagerRepository.updateOneAndReturn(usager.uuid, {
-      lastInteraction: usager.lastInteraction,
-      decision: usager.decision,
-      options: usager.options,
-      historique: usager.historique,
-      etapeDemande: usager.etapeDemande,
-      typeDom,
-      rdv: usager.rdv,
-    });
+    await usagerRepository.update(
+      { uuid: usager.uuid },
+      {
+        lastInteraction: usager.lastInteraction,
+        decision: usager.decision,
+        options: usager.options,
+        historique: usager.historique,
+        etapeDemande: usager.etapeDemande,
+        typeDom,
+        rdv: usager.rdv,
+      }
+    );
+
+    return usager;
   }
 
   public async setDecision(
@@ -194,15 +199,19 @@ export class UsagersService {
       historyBeginDate: usager.decision.dateDebut,
     });
 
-    return usagerRepository.updateOneAndReturn(usager.uuid, {
-      lastInteraction: usager.lastInteraction,
-      customRef: usager.customRef,
-      decision: usager.decision,
-      historique: usager.historique,
-      etapeDemande: usager.etapeDemande,
-      typeDom: usager.typeDom,
-      datePremiereDom: usager.datePremiereDom,
-    });
+    await usagerRepository.update(
+      { uuid: usager.uuid },
+      {
+        lastInteraction: usager.lastInteraction,
+        customRef: usager.customRef,
+        decision: usager.decision,
+        historique: usager.historique,
+        etapeDemande: usager.etapeDemande,
+        typeDom: usager.typeDom,
+        datePremiereDom: usager.datePremiereDom,
+      }
+    );
+    return usager;
   }
 
   public async setRdv(
@@ -223,10 +232,14 @@ export class UsagersService {
       usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     }
 
-    return usagerRepository.updateOneAndReturn(usager.uuid, {
-      rdv: usager.rdv,
-      etapeDemande: usager.etapeDemande,
-    });
+    await usagerRepository.update(
+      { uuid: usager.uuid },
+      {
+        rdv: usager.rdv,
+        etapeDemande: usager.etapeDemande,
+      }
+    );
+    return usager;
   }
 
   public async export(structureId: number): Promise<StructureUsagerExport[]> {

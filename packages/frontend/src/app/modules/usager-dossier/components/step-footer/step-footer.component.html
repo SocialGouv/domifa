@@ -1,4 +1,4 @@
-<div class="step-form d-print-none" id="notes" *ngIf="usager">
+<div class="step-form d-print-none" id="notes" *ngIf="usager?.uuid">
   <h2 class="form-title">Commentaires privés</h2>
   <div class="py-3">
     <app-profil-general-notes [usager]="usager"></app-profil-general-notes>

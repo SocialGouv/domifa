@@ -84,9 +84,15 @@ export class UsagerOptionsController {
       dateFin: null,
     };
 
-    return usagerRepository.updateOneAndReturn(usager.uuid, {
-      options: usager.options,
-    });
+    await usagerRepository.update(
+      { uuid: usager.uuid },
+      {
+        updatedAt: new Date(),
+        options: usager.options,
+      }
+    );
+
+    return usager;
   }
 
   @UseGuards(UsagerAccessGuard)
@@ -95,24 +101,22 @@ export class UsagerOptionsController {
   public async editTransfert(
     @Body() transfertDto: TransfertDto,
     @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() currentUsager: Usager
+    @CurrentUsager() usager: Usager
   ) {
-    const action = currentUsager.options.transfert.actif ? "EDIT" : "CREATION";
+    const action = usager.options.transfert.actif ? "EDIT" : "CREATION";
 
-    if (currentUsager.options.transfert.actif) {
-      currentUsager.options.transfert.dateDebut = new Date(
-        currentUsager.options.transfert.dateDebut
+    if (usager.options.transfert.actif) {
+      usager.options.transfert.dateDebut = new Date(
+        usager.options.transfert.dateDebut
       );
-      currentUsager.options.transfert.dateFin = new Date(
-        currentUsager.options.transfert.dateFin
+      usager.options.transfert.dateFin = new Date(
+        usager.options.transfert.dateFin
       );
     }
 
-    if (
-      !isEqual(sortObj(currentUsager.options.transfert), sortObj(transfertDto))
-    ) {
+    if (!isEqual(sortObj(usager.options.transfert), sortObj(transfertDto))) {
       await this.usagerOptionsHistoryService.createOptionHistory(
-        currentUsager,
+        usager,
         user,
         action,
         "transfert",
@@ -120,11 +124,17 @@ export class UsagerOptionsController {
       );
     }
 
-    currentUsager.options.transfert = transfertDto;
+    usager.options.transfert = transfertDto;
 
-    return usagerRepository.updateOneAndReturn(currentUsager.uuid, {
-      options: currentUsager.options,
-    });
+    await usagerRepository.update(
+      { uuid: usager.uuid },
+      {
+        updatedAt: new Date(),
+        options: usager.options,
+      }
+    );
+
+    return usager;
   }
 
   @UseGuards(UsagerAccessGuard)
@@ -187,9 +197,15 @@ export class UsagerOptionsController {
 
     usager.options.procurations = procurationsDto;
 
-    return usagerRepository.updateOneAndReturn(usager.uuid, {
-      options: usager.options,
-    });
+    await usagerRepository.update(
+      { uuid: usager.uuid },
+      {
+        updatedAt: new Date(),
+        options: usager.options,
+      }
+    );
+
+    return usager;
   }
 
   @UseGuards(UsagerAccessGuard)
@@ -218,13 +234,14 @@ export class UsagerOptionsController {
 
     usager.options.procurations.splice(index, 1);
 
-    const updatedUsager = await usagerRepository.updateOneAndReturn(
-      usager.uuid,
+    await usagerRepository.update(
+      { uuid: usager.uuid },
       {
+        updatedAt: new Date(),
         options: usager.options,
       }
     );
 
-    return res.status(HttpStatus.OK).json(updatedUsager);
+    return res.status(HttpStatus.OK).json(usager);
   }
 }

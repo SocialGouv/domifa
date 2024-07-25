@@ -19,7 +19,12 @@ import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 
 import { UserStructureAuthenticated } from "../../_common/model";
-import { UserStructureResume, UsagerNote, Usager } from "@domifa/common";
+import {
+  UserStructureResume,
+  UsagerNote,
+  Usager,
+  UsagerPinnedNote,
+} from "@domifa/common";
 import { CreateNoteDto } from "../dto/create-note.dto";
 import {
   AppLogTable,
@@ -88,7 +93,7 @@ export class UsagerNotesController {
       structureId: currentUsager.structureId,
       createdBy,
     });
-    return usagerRepository.getUsager(currentUsager.uuid);
+    return currentUsager;
   }
 
   @Delete(":usagerRef/:noteUUID")
@@ -105,6 +110,7 @@ export class UsagerNotesController {
         { uuid: currentUsager.uuid },
         { pinnedNote: null }
       );
+      currentUsager.pinnedNote = null;
     }
 
     await usagerNotesRepository.delete({
@@ -120,7 +126,7 @@ export class UsagerNotesController {
       })
     );
 
-    return usagerRepository.getUsager(currentUsager.uuid);
+    return currentUsager;
   }
 
   @Put(":usagerRef/pin/:noteUUID")
@@ -137,13 +143,12 @@ export class UsagerNotesController {
       { usagerUUID: currentUsager.uuid },
       { pinned: false }
     );
-
     await usagerNotesRepository.update(
       { uuid: currentUsagerNote.uuid },
       { pinned: newPinnedStatus }
     );
 
-    const pinnedNote: Partial<UsagerNote> | null = newPinnedStatus
+    const pinnedNote: UsagerPinnedNote = newPinnedStatus
       ? {
           message: currentUsagerNote.message,
           usagerRef: currentUsagerNote.usagerRef,
@@ -152,9 +157,9 @@ export class UsagerNotesController {
         }
       : null;
 
+    currentUsager.pinnedNote = pinnedNote;
     await usagerRepository.update({ uuid: currentUsager.uuid }, { pinnedNote });
-
-    return usagerRepository.getUsager(currentUsager.uuid);
+    return currentUsager;
   }
 
   @Get("count/:usagerRef")
@@ -183,6 +188,7 @@ export class UsagerNotesController {
         { uuid: currentUsager.uuid },
         { pinnedNote: null }
       );
+      currentUsager.pinnedNote = null;
     }
 
     const updateData: Partial<UsagerNote> = !currentUsagerNote.archived
@@ -209,6 +215,6 @@ export class UsagerNotesController {
       updateData
     );
 
-    return usagerRepository.getUsager(currentUsager.uuid);
+    return currentUsager;
   }
 }

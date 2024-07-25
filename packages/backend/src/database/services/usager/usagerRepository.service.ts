@@ -16,7 +16,7 @@ export const usagerRepository = myDataSource
     _parseCounts: baseRepository._parseCounts,
     countBy: baseRepository.countBy,
     getUsager,
-    updateOneAndReturn,
+
     customCountBy: baseRepository.countBy,
     countAyantsDroits,
     countUsagersByMonth,
@@ -40,14 +40,6 @@ export async function getUserUsagerData({
     },
     select: USER_USAGER_ATTRIBUTES,
   });
-}
-
-export async function updateOneAndReturn(
-  uuid: string,
-  partialUpdate: Partial<Usager>
-): Promise<Usager> {
-  await usagerRepository.update({ uuid }, partialUpdate);
-  return getUsager(uuid);
 }
 
 async function getUsager(uuid: string): Promise<Usager> {

@@ -56,13 +56,8 @@ export class UsagerDossierService {
     return this.http
       .post<UsagerLight>(`${environment.apiUrl}agenda/${usagerRef}`, rdv)
       .pipe(
-        tap({
-          next: (newUsager: UsagerLight) => {
-            this.store.dispatch(
-              cacheManager.updateUsager({ usager: newUsager })
-            );
-            return newUsager;
-          },
+        tap((newUsager: UsagerLight) => {
+          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
         })
       );
   }
