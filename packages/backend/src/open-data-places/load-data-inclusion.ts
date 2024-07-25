@@ -118,7 +118,6 @@ const getFromDataInclusion = async (structureType: "CCAS" | "CIAS") => {
       appLogger.info("Import of data-inclusion done ✅");
     }
   } catch (e) {
-    console.log(e);
-    console.error("[IMPORT] Something happen");
+    appLogger.error("[IMPORT] Something happen", e);
   }
 };

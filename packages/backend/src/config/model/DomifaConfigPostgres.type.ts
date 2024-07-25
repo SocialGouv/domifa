@@ -1,5 +1,3 @@
-import { LoggerOptions } from "typeorm/logger/LoggerOptions";
-
 export type DomifaConfigPostgres = {
   host: string; // POSTGRES_HOST
   port: number; // POSTGRES_PORT
@@ -7,6 +5,5 @@ export type DomifaConfigPostgres = {
   password: string; // POSTGRES_PASSWORD
   database: string; // POSTGRES_DATABASE
   ssl: boolean; // POSTGRES_SSL
-  logging: LoggerOptions; // POSTGRES_LOGGING
   poolMaxConnections: number; // POSTGRES_POOL_MAX_CONNEXIONS
 };

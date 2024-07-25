@@ -10,7 +10,6 @@ import {
   DOMIFA_ENV_IDS,
 } from "./model";
 import { configParser } from "./services/configParser.service";
-import { configTypeOrmLoggerParser } from "./services/configTypeOrmLoggerParser.service";
 import SMTPTransport = require("nodemailer/lib/smtp-transport");
 import { join } from "path";
 
@@ -137,10 +136,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         required: false,
         defaultValue: false,
       }),
-      logging: configTypeOrmLoggerParser.getTypeormLoggerOptions(
-        x,
-        "POSTGRES_LOGGING"
-      ),
+
       poolMaxConnections: configParser.parseInteger(
         x,
         "POSTGRES_POOL_MAX_CONNEXIONS",
