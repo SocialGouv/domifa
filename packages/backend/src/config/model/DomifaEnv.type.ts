@@ -42,7 +42,6 @@ export type DomifaEnv = {
   POSTGRES_PASSWORD: string;
   POSTGRES_DATABASE: string;
   POSTGRES_SSL: boolean;
-  POSTGRES_LOGGING: string;
   POSTGRES_POOL_MAX_CONNEXIONS: string;
   DOMIFA_TYPEORM_RUN_ON_STARTUP: string;
   DOMIFA_MAIL_SMTP_ID: string;

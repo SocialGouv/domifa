@@ -60,7 +60,6 @@ export const loadDomifaData = async () => {
     }
     appLogger.info("Import domifa complete ✅");
   } catch (e) {
-    console.log(e);
-    console.error("[IMPORT] Something happen");
+    console.error("[IMPORT] Something happen", e);
   }
 };

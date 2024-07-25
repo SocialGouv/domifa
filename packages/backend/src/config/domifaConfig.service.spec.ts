@@ -25,7 +25,6 @@ describe("loadConfig", () => {
 
     expect(config.postgres.host).toBeDefined();
     expect(config.postgres.port).toBeDefined();
-    expect(config.postgres.logging).toEqual(["warn"]);
     expect(config.postgres.username).toEqual(env.POSTGRES_USERNAME);
     expect(config.postgres.password).toEqual(env.POSTGRES_PASSWORD);
     expect(config.postgres.database).toEqual(env.POSTGRES_DATABASE);
@@ -58,7 +57,6 @@ describe("loadConfig", () => {
 
     expect(config.postgres.host).toBeDefined();
     expect(config.postgres.port).toBeDefined();
-    expect(config.postgres.logging).toEqual(["warn", "migration"]);
     expect(config.postgres.username).toEqual(env.POSTGRES_USERNAME);
     expect(config.postgres.password).toEqual(env.POSTGRES_PASSWORD);
     expect(config.postgres.database).toEqual(env.POSTGRES_DATABASE);
@@ -105,7 +103,6 @@ describe("loadConfig", () => {
 
     expect(config.postgres.host).toBeDefined();
     expect(config.postgres.port).toBeDefined();
-    expect(config.postgres.logging).toEqual(false);
     expect(config.postgres.username).toEqual(env.POSTGRES_USERNAME);
     expect(config.postgres.password).toEqual(env.POSTGRES_PASSWORD);
     expect(config.postgres.database).toEqual(env.POSTGRES_DATABASE);
