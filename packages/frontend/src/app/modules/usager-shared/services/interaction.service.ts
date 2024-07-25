@@ -38,7 +38,6 @@ export class InteractionService {
       .pipe(
         tap((newUsager: UsagerLight) => {
           this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
-          return newUsager;
         })
       );
   }

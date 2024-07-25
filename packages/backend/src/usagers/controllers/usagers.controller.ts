@@ -205,7 +205,7 @@ export class UsagersController {
       historyBeginDate,
     });
 
-    return currentUsager;
+    return { ...currentUsager, ...usagerDto };
   }
 
   @UseGuards(UsagerAccessGuard)
@@ -256,7 +256,7 @@ export class UsagersController {
       );
     }
 
-    // TODO: optimize
+    // TODO: optimize this "get". Maybe we can do this better
     const usager = await usagerRepository.getUsager(currentUsager.uuid);
     const createdAt = new Date();
     const historyBeginDate = createdAt;
@@ -332,7 +332,6 @@ export class UsagersController {
       params.push(duplicateUsagerDto.usagerRef);
     }
 
-    console.log(query);
     return usagerRepository.query(query, params);
   }
 

@@ -33,6 +33,7 @@ export class UsagerAccessGuard implements CanActivate {
     const structureId = parseInt(r.user.structureId, 10);
 
     try {
+      // Todo: optimize this request, generate one request with a join
       const usager = await usagerRepository.findOneOrFail({
         where: {
           structureId,
