@@ -1,3 +1,13 @@
+## [2.173.16](https://github.com/SocialGouv/domifa/compare/v2.173.15...v2.173.16) (2024-07-26)
+
+
+### Bug Fixes
+
+* **backend:** delete useless db calls ([5553926](https://github.com/SocialGouv/domifa/commit/5553926a1f0bb2debc1410d9fe59bd19a1a439c1))
+* **backend:** delete useless logging options ([88f2905](https://github.com/SocialGouv/domifa/commit/88f2905e9430bc048bdc79d9536cb399babc9fa3))
+* **backend:** fix patch of profile ([5d513e8](https://github.com/SocialGouv/domifa/commit/5d513e8438d1e3e782b881ac9b4fceae40be4b90))
+* **backend:** fix unit test for interactions ([d56c9aa](https://github.com/SocialGouv/domifa/commit/d56c9aadf2270efb86b88450b0b6dd5b1abe1325))
+
 ## [2.173.15](https://github.com/SocialGouv/domifa/compare/v2.173.14...v2.173.15) (2024-07-24)
 
 
