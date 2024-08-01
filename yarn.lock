@@ -3075,6 +3075,7 @@ __metadata:
     "@opentelemetry/semantic-conventions": ^1.25.0
     "@sentry/node": ^8.18.0
     "@sentry/opentelemetry-node": ^7.117.0
+    "@sentry/profiling-node": ^8.22.0
     "@socialgouv/eslint-config-typescript": ^1.131.0
     "@socialgouv/streaming-file-encryption": ^1.1.0
     "@types/bcryptjs": ^2.4.6
@@ -5936,16 +5937,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/instrumentation-express@npm:0.41.0":
-  version: 0.41.0
-  resolution: "@opentelemetry/instrumentation-express@npm:0.41.0"
+"@opentelemetry/instrumentation-express@npm:0.41.1":
+  version: 0.41.1
+  resolution: "@opentelemetry/instrumentation-express@npm:0.41.1"
   dependencies:
     "@opentelemetry/core": ^1.8.0
     "@opentelemetry/instrumentation": ^0.52.0
     "@opentelemetry/semantic-conventions": ^1.22.0
   peerDependencies:
     "@opentelemetry/api": ^1.3.0
-  checksum: e5b574b8757d65cafc45f3e71965ff6025b58ad59d076f4b3a0546a673837e702a35e54aded6740f81efec2e879f80d6d4fa36509d8c3a694056a78c2aaf8f0e
+  checksum: fe2939ab377cc4b1c6dfe77cae6d23156ccd227cc9984bf03eb5f108fa048815d6dd0be9a8240bb3bd053a271789c9928a9e544725e2e099709e9b2c60d456f0
   languageName: node
   linkType: hard
 
@@ -6409,14 +6410,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/instrumentation@npm:5.16.1":
-  version: 5.16.1
-  resolution: "@prisma/instrumentation@npm:5.16.1"
+"@prisma/instrumentation@npm:5.17.0":
+  version: 5.17.0
+  resolution: "@prisma/instrumentation@npm:5.17.0"
   dependencies:
     "@opentelemetry/api": ^1.8
     "@opentelemetry/instrumentation": ^0.49 || ^0.50 || ^0.51 || ^0.52.0
     "@opentelemetry/sdk-trace-base": ^1.22
-  checksum: b1e03dbf1f0c9180cf4ff9eac41797e183e3bffd5b769da903643f7f069fd1c972525fa82e7060016baad82e0442ed642973a414745af0003854a4beb1aa46e2
+  checksum: 708002d8ea8403609eed48ae07ba6e3adf1a6701a03bd82ac6baad1eb9d067d58bc7710a49ba4aaccdafeebcc58a5bd4ed89c4661d71680f030dc4246966e59d
   languageName: node
   linkType: hard
 
@@ -6661,16 +6662,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/node@npm:^8.18.0":
-  version: 8.18.0
-  resolution: "@sentry/node@npm:8.18.0"
+"@sentry/core@npm:8.22.0":
+  version: 8.22.0
+  resolution: "@sentry/core@npm:8.22.0"
+  dependencies:
+    "@sentry/types": 8.22.0
+    "@sentry/utils": 8.22.0
+  checksum: 4947c09af8451915dbf845b6eb76841df6d5c956a5be7041c7c64fb618e68dde41780959e4cce5d34e9ffa42b6ddf07e4a15d705878490dedca57a929c6ae7da
+  languageName: node
+  linkType: hard
+
+"@sentry/node@npm:8.22.0, @sentry/node@npm:^8.18.0":
+  version: 8.22.0
+  resolution: "@sentry/node@npm:8.22.0"
   dependencies:
     "@opentelemetry/api": ^1.9.0
     "@opentelemetry/context-async-hooks": ^1.25.1
     "@opentelemetry/core": ^1.25.1
     "@opentelemetry/instrumentation": ^0.52.1
     "@opentelemetry/instrumentation-connect": 0.38.0
-    "@opentelemetry/instrumentation-express": 0.41.0
+    "@opentelemetry/instrumentation-express": 0.41.1
     "@opentelemetry/instrumentation-fastify": 0.38.0
     "@opentelemetry/instrumentation-graphql": 0.42.0
     "@opentelemetry/instrumentation-hapi": 0.40.0
@@ -6687,16 +6698,17 @@ __metadata:
     "@opentelemetry/resources": ^1.25.1
     "@opentelemetry/sdk-trace-base": ^1.25.1
     "@opentelemetry/semantic-conventions": ^1.25.1
-    "@prisma/instrumentation": 5.16.1
-    "@sentry/core": 8.18.0
-    "@sentry/opentelemetry": 8.18.0
-    "@sentry/types": 8.18.0
-    "@sentry/utils": 8.18.0
+    "@prisma/instrumentation": 5.17.0
+    "@sentry/core": 8.22.0
+    "@sentry/opentelemetry": 8.22.0
+    "@sentry/types": 8.22.0
+    "@sentry/utils": 8.22.0
+    import-in-the-middle: ^1.11.0
     opentelemetry-instrumentation-fetch-node: 1.2.3
   dependenciesMeta:
     opentelemetry-instrumentation-fetch-node:
       optional: true
-  checksum: 3c7a0175ac7090508fe1801cdab36a1c9e518fd5f4846e0b17244b8b8f96ee514ad8916978af49d0cd19648c8ce2e2af3430fbf2815e92ce2811ba4d9b2c8072
+  checksum: c81cda4122ec19237db22d933fe5ecfa019e13e9c1baf21f54330f3a1b2f6275673e68c521963f3d558f7c7f0fc7fcb555160839760273c433135350ade504c6
   languageName: node
   linkType: hard
 
@@ -6716,20 +6728,37 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/opentelemetry@npm:8.18.0":
-  version: 8.18.0
-  resolution: "@sentry/opentelemetry@npm:8.18.0"
+"@sentry/opentelemetry@npm:8.22.0":
+  version: 8.22.0
+  resolution: "@sentry/opentelemetry@npm:8.22.0"
   dependencies:
-    "@sentry/core": 8.18.0
-    "@sentry/types": 8.18.0
-    "@sentry/utils": 8.18.0
+    "@sentry/core": 8.22.0
+    "@sentry/types": 8.22.0
+    "@sentry/utils": 8.22.0
   peerDependencies:
     "@opentelemetry/api": ^1.9.0
     "@opentelemetry/core": ^1.25.1
     "@opentelemetry/instrumentation": ^0.52.1
     "@opentelemetry/sdk-trace-base": ^1.25.1
     "@opentelemetry/semantic-conventions": ^1.25.1
-  checksum: dfa3c92db21990ae7250bccbf2bd8e48acb8fe2c4a78944694a50ccb826182d110eec34ce89d5c248bd37affdf1936c63f9f11bf7e5b7cd6c10523e6d0b4c9f1
+  checksum: 37f3854dd2dfe9db9e3b9c078811dafdcd597b4bd9ec16d0b240e9e8dc23c2c4d3ed5c8bf63b56190d6cbc9867747208521da81ef0c0c110b036f41625af81e6
+  languageName: node
+  linkType: hard
+
+"@sentry/profiling-node@npm:^8.22.0":
+  version: 8.22.0
+  resolution: "@sentry/profiling-node@npm:8.22.0"
+  dependencies:
+    "@sentry/core": 8.22.0
+    "@sentry/node": 8.22.0
+    "@sentry/types": 8.22.0
+    "@sentry/utils": 8.22.0
+    detect-libc: ^2.0.2
+    node-abi: ^3.61.0
+    node-gyp: latest
+  bin:
+    sentry-prune-profiler-binaries: scripts/prune-profiler-binaries.js
+  checksum: 53aa46e834db4811458f0cc74023d060e90d4204c2d93e4aac8341eb773eeb00e23b94d03dba53c957be2cffc3cd59bfd0ade3323edc2d93d797465f3f5c3139
   languageName: node
   linkType: hard
 
@@ -6756,6 +6785,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/types@npm:8.22.0":
+  version: 8.22.0
+  resolution: "@sentry/types@npm:8.22.0"
+  checksum: b946f53d0c8c3b3e76fe47794579e205800a5527724728afb6f86cfc7014c4869c9351c8a4cce741fd289b85e0e27c4be2b454635299d5357f2e71f53d73aea5
+  languageName: node
+  linkType: hard
+
 "@sentry/utils@npm:7.117.0":
   version: 7.117.0
   resolution: "@sentry/utils@npm:7.117.0"
@@ -6771,6 +6807,15 @@ __metadata:
   dependencies:
     "@sentry/types": 8.18.0
   checksum: f71fbcf59511b36362766be17265f4877fc1b79eb6664b2fbda56ff9136dd30c2867c5cbc39ce26b108ed47be230cf4bdf5fe4afdadce034dfe4f3ce572cfe44
+  languageName: node
+  linkType: hard
+
+"@sentry/utils@npm:8.22.0":
+  version: 8.22.0
+  resolution: "@sentry/utils@npm:8.22.0"
+  dependencies:
+    "@sentry/types": 8.22.0
+  checksum: 3b9cb5a628958e0072f95faf50f3bd262dd65158d8ffde689edd0a9457861e4a992d705611b6ca1ab5ccb6f4464e2125bd7ab4669d419b95bf12109ea7909bcc
   languageName: node
   linkType: hard
 
@@ -12578,7 +12623,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"detect-libc@npm:^2.0.3":
+"detect-libc@npm:^2.0.2, detect-libc@npm:^2.0.3":
   version: 2.0.3
   resolution: "detect-libc@npm:2.0.3"
   checksum: 2ba6a939ae55f189aea996ac67afceb650413c7a34726ee92c40fb0deb2400d57ef94631a8a3f052055eea7efb0f99a9b5e6ce923415daa3e68221f963cfc27d
@@ -16035,15 +16080,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"import-in-the-middle@npm:^1.8.1":
-  version: 1.8.1
-  resolution: "import-in-the-middle@npm:1.8.1"
+"import-in-the-middle@npm:^1.11.0, import-in-the-middle@npm:^1.8.1":
+  version: 1.11.0
+  resolution: "import-in-the-middle@npm:1.11.0"
   dependencies:
     acorn: ^8.8.2
     acorn-import-attributes: ^1.9.5
     cjs-module-lexer: ^1.2.2
     module-details-from-path: ^1.0.3
-  checksum: daae77ee73f92d6e078b903d4f54eb85d47ef56d4741c585cbc0a6223d137e05e67ae124363670299ba3c09dd76250d716c241d51e02ad6165ebbca596646f76
+  checksum: 7e7c47e363be9579a4269e1df803be29cd3feb1df2c490b7cdef7c3a7c20f1f5cfa62d7f8de934b73e5c0e98ff07e1f0147b9fc11789a0f160d2893ddcc035ab
   languageName: node
   linkType: hard
 
@@ -19503,6 +19548,15 @@ __metadata:
     just-extend: ^6.2.0
     path-to-regexp: ^6.2.1
   checksum: ab9fd6eabc98170f18aef6c9567983145c1dc62c7aef46eda0fea754083316c1f0f9b2c32e9b4bfdd25122276d670293596ed672b54dd1ffa8eb58b56a30ea95
+  languageName: node
+  linkType: hard
+
+"node-abi@npm:^3.61.0":
+  version: 3.65.0
+  resolution: "node-abi@npm:3.65.0"
+  dependencies:
+    semver: ^7.3.5
+  checksum: 5a60f2b0c73fe0a1123e581bd99e43729f4aa3f4b9b19f1915567128d52540e8f812474410a446cd77d708a3a1139e0b2abf1d0823ba6b5f5d47aa4345931706
   languageName: node
   linkType: hard
 

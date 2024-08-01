@@ -52,6 +52,14 @@ export class UsagerTable
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   public structureId!: number;
 
+  @Column({
+    nullable: false,
+    name: "nom_prenom",
+    select: false,
+  })
+  @Index()
+  public nom_prenom: string;
+
   @Column({ type: "text", nullable: false })
   public nom!: string;
 
@@ -152,6 +160,7 @@ export class UsagerTable
     this.nom = this.nom.trim();
     this.prenom = this.prenom.trim();
   }
+
   public constructor(entity?: Partial<UsagerTable>) {
     super(entity);
     Object.assign(this, entity);

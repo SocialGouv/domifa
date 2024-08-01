@@ -140,24 +140,20 @@ export class UsagersController {
     @Body() { searchString }: SearchUsagerDto,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    if (!searchString || searchString.trim().length < 3) {
-      return [];
-    }
-
     const search = dataCompare.cleanString(searchString);
 
     return usagerRepository
       .createQueryBuilder()
       .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
       .where(
-        `"structureId" = :structureId and  statut  = :statut and LOWER("nom"|| ' ' || "prenom") LIKE :search`,
+        `"structureId" = :structureId and  statut  = :statut AND nom_prenom ILIKE :search`,
         {
           statut: "RADIE",
           structureId: user.structureId,
           search: `%${search}%`,
         }
       )
-      .limit(10)
+      .limit(20)
       .orderBy({ "decision->>'dateFin'": "DESC" })
       .getRawMany();
   }

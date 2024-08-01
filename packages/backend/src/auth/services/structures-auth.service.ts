@@ -3,7 +3,6 @@ import { JwtService } from "@nestjs/jwt";
 import { differenceInCalendarDays } from "date-fns";
 import { domifaConfig } from "../../config";
 import { userStructureRepository, structureRepository } from "../../database";
-import { appLogger } from "../../util";
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
   UserStructure,
@@ -106,10 +105,6 @@ export class StructuresAuthService {
       where: { id: payload._userId },
       select: APP_USER_PUBLIC_ATTRIBUTES,
     });
-
-    if (typeof user.structureId === "undefined") {
-      appLogger.debug("[TRACK BUG] " + JSON.stringify(user));
-    }
 
     const structure: StructureCommon = await structureRepository.findOne({
       where: { id: user.structureId },

@@ -44,7 +44,6 @@ export class ServerErrorInterceptor implements HttpInterceptor {
           return throwError(() => error);
         },
       }),
-
       catchError((error: HttpErrorResponse) => {
         if (error.error instanceof ErrorEvent) {
           if (!navigator.onLine) {
@@ -71,14 +70,9 @@ export class ServerErrorInterceptor implements HttpInterceptor {
               "Une erreur serveur est survenue. Nos équipes ont été notifiées."
             );
             captureException(error);
-          } else if (
-            error.statusText !== "Unknown Error" &&
-            error.status !== 0
-          ) {
-            captureException(error);
           }
         }
-        this.logError(error);
+        this.logError(request, error);
         return throwError(() => error);
       })
     );
@@ -88,13 +82,15 @@ export class ServerErrorInterceptor implements HttpInterceptor {
     return !error.status || ERROR_STATUS_CODES_TO_RETRY.includes(error.status);
   }
 
-  private logError(error: HttpErrorResponse): void {
+  private logError(request: HttpRequest<any>, error: HttpErrorResponse): void {
+    captureException(error, { data: request });
     console.error("HTTP Error", {
       status: error.status,
       statusText: error.statusText,
       url: error.url,
       message: error.message,
       error: error.error,
+      request,
     });
   }
 }
