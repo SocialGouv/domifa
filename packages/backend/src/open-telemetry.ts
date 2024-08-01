@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/node";
 import {
   SentrySpanProcessor,
   SentryPropagator,
@@ -19,16 +18,16 @@ import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-grpc";
 import { domifaConfig } from "./config";
 import { appLogger } from "./util";
 import { format } from "date-fns";
+import { captureMessage, init, sessionTimingIntegration } from "@sentry/node";
 
 if (domifaConfig().dev.sentry.enabled) {
-  Sentry.init({
+  init({
     debug: domifaConfig().dev.sentry.debugModeEnabled,
     dsn: domifaConfig().dev.sentry.sentryDsn,
     environment: domifaConfig().envId,
     tracesSampleRate: 1.0,
-    // logLevels: domifaConfig().dev.sentry.debugModeEnabled
-    //   ? ["log", "error", "warn", "debug", "verbose"] // Verbose,
-    //   : ["log", "error", "warn", "debug"],
+    profilesSampleRate: 1,
+    integrations: [sessionTimingIntegration()],
   });
 
   const sdk = new opentelemetry.NodeSDK({
@@ -53,7 +52,7 @@ if (domifaConfig().dev.sentry.enabled) {
   appLogger.warn(`SENTRY DNS enabled: ${domifaConfig().dev.sentry.sentryDsn}`);
 
   if (domifaConfig().envId === "prod") {
-    Sentry.captureMessage(
+    captureMessage(
       `[API START] [${domifaConfig().envId}] ${format(
         new Date(),
         "dd/MM/yyyy - HH:mm"

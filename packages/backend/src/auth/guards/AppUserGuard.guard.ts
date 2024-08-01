@@ -1,14 +1,11 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { addLogContext } from "../../util";
-import {
-  UserAuthenticated,
-  UserProfile,
-  UserStructureAuthenticated,
-} from "../../_common/model";
+import { UserProfile, UserStructureAuthenticated } from "../../_common/model";
 import { authChecker } from "../services";
 import { expiredTokenRepositiory } from "../../database";
 import { UserStructureRole } from "@domifa/common";
+import { getCurrentScope } from "@sentry/node";
 
 @Injectable()
 export class AppUserGuard implements CanActivate {
@@ -16,7 +13,7 @@ export class AppUserGuard implements CanActivate {
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const user = request.user as UserAuthenticated;
+    const user = request.user as UserStructureAuthenticated;
 
     addLogContext({
       auth: {
@@ -24,6 +21,15 @@ export class AppUserGuard implements CanActivate {
         profile: user._userProfile,
         isSuperAdmin: user.isSuperAdminDomifa,
       },
+    });
+
+    getCurrentScope().setUser({
+      email: user.email,
+      username:
+        "STRUCTURE " + user.structureId?.toString() + " : " + user.prenom,
+      id: user._userId,
+      role: user.role,
+      structureId: user.structureId,
     });
 
     let allowUserProfiles = this.reflector.get<UserProfile[]>(

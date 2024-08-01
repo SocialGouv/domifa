@@ -16,7 +16,6 @@ export const usagerRepository = myDataSource
     _parseCounts: baseRepository._parseCounts,
     countBy: baseRepository.countBy,
     getUsager,
-
     customCountBy: baseRepository.countBy,
     countAyantsDroits,
     countUsagersByMonth,

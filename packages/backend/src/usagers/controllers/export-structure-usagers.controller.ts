@@ -12,9 +12,8 @@ import { UsagersService } from "../services/usagers.service";
 import { format } from "date-fns";
 import { renderStructureUsagersExcel } from "../services/xlsx-structure-usagers-renderer";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
-import { captureMessage } from "@sentry/node";
 import { domifaConfig } from "../../config";
-import { isCronEnabled } from "../../config/services/isCronEnabled.service";
+import { captureMessage } from "@sentry/node";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("export")
@@ -41,12 +40,11 @@ export class ExportStructureUsagersController {
     const usagers = await this.usagersService.export(user.structureId);
     const workbook = renderStructureUsagersExcel(usagers, user.structure);
 
-    const message = `[EXPORT] [${domifaConfig().envId}] [CRON ${
-      isCronEnabled() ? "ON" : "OFF"
-    } Export start at ${format(new Date(), "dd/MM/yyyy - HH:mm")}`;
-
+    const message = `[EXPORT] [${domifaConfig().envId}] start at ${format(
+      new Date(),
+      "dd/MM/yyyy - HH:mm"
+    )}`;
     captureMessage(message);
-    appLogger.warn(message);
 
     try {
       res.setHeader(

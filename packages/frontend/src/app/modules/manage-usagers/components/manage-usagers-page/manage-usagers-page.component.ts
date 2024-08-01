@@ -50,7 +50,7 @@ import { ManageUsagersService } from "../../services/manage-usagers.service";
 import { UserStructure } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 
-const AUTO_REFRESH_PERIOD = 600000; // 10 minutes
+const AUTO_REFRESH_PERIOD = 300000; // 10 minutes
 
 @Component({
   animations: [fadeInOut],
@@ -161,14 +161,13 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       "input"
     ).pipe(
       map((event: InputEvent) => (event.target as HTMLInputElement).value),
-      debounceTime(200),
+      debounceTime(300),
       map((value: string) => value.trim()),
       filter((value: string) => value !== this.filters.searchString),
       withLatestFrom(this.chargerTousRadies$),
       switchMap(([searchString, chargerTousRadies]) => {
-        console.log({ chargerTousRadies });
         if (
-          searchString.length > 3 &&
+          searchString.length >= 3 &&
           (this.filters.statut === "TOUS" || this.filters.statut === "RADIE") &&
           !chargerTousRadies
         ) {
