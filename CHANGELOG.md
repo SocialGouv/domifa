@@ -1,3 +1,10 @@
+## [2.173.21](https://github.com/SocialGouv/domifa/compare/v2.173.20...v2.173.21) (2024-08-06)
+
+
+### Bug Fixes
+
+* **backend:** fix update of status ([1c7874e](https://github.com/SocialGouv/domifa/commit/1c7874eb002d92f00400955bfc5dc1fead79c0ee))
+
 ## [2.173.20](https://github.com/SocialGouv/domifa/compare/v2.173.19...v2.173.20) (2024-08-06)
 
 
