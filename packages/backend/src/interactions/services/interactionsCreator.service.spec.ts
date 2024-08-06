@@ -255,7 +255,7 @@ describe("interactionsCreator", () => {
       });
 
       expect(resultat.usager.lastInteraction.dateInteraction).toEqual(
-        MOCKED_NEW_DATE
+        new Date(MOCKED_NEW_DATE)
       );
       expect(resultat.interaction.nbCourrier).toEqual(0);
     });
@@ -273,7 +273,7 @@ describe("interactionsCreator", () => {
       });
 
       expect(resultat.usager.lastInteraction.dateInteraction).toEqual(
-        MOCKED_NEW_DATE
+        new Date(MOCKED_NEW_DATE)
       );
 
       expect(resultat.interaction.nbCourrier).toEqual(0);
@@ -514,7 +514,7 @@ describe("interactionsCreator", () => {
         interaction,
       });
       expect(resultat.usager.lastInteraction.dateInteraction).toEqual(
-        MOCKED_NEW_DATE
+        new Date(MOCKED_NEW_DATE)
       );
 
       expect(resultat.interaction.nbCourrier).toEqual(0);

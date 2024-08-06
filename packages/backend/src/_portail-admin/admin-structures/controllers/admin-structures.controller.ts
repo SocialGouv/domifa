@@ -147,12 +147,12 @@ export class AdminStructuresController {
 
   @Get("last-update")
   @AllowUserProfiles("super-admin-domifa")
-  public async getLastUpdate(): Promise<Date> {
+  public async getLastUpdate(): Promise<Date | null> {
     const lastUsager = await structureRepository.findOne({
       where: {},
       order: { createdAt: "DESC" },
     });
-    return lastUsager.createdAt;
+    return lastUsager?.createdAt ?? null;
   }
 
   @Get("")

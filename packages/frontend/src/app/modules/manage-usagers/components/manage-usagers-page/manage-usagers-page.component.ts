@@ -21,6 +21,7 @@ import {
   timer,
 } from "rxjs";
 import {
+  catchError,
   debounceTime,
   filter,
   map,
@@ -49,8 +50,9 @@ import { Store } from "@ngrx/store";
 import { ManageUsagersService } from "../../services/manage-usagers.service";
 import { UserStructure } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
+import { CustomToastService } from "../../../shared/services";
 
-const AUTO_REFRESH_PERIOD = 300000; // 10 minutes
+const AUTO_REFRESH_PERIOD = 300000; // 5 minutes
 
 @Component({
   animations: [fadeInOut],
@@ -107,7 +109,8 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     private readonly authService: AuthService,
     private readonly titleService: Title,
     private readonly store: Store,
-    private readonly matomo: MatomoTracker
+    private readonly matomo: MatomoTracker,
+    private readonly toastr: CustomToastService
   ) {
     this.selectedRefs = [];
     this.displayCheckboxes = false;
@@ -167,23 +170,31 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       withLatestFrom(this.chargerTousRadies$),
       switchMap(([searchString, chargerTousRadies]) => {
         if (
+          !chargerTousRadies &&
           searchString.length >= 3 &&
-          (this.filters.statut === "TOUS" || this.filters.statut === "RADIE") &&
-          !chargerTousRadies
+          (this.filters.statut === "TOUS" || this.filters.statut === "RADIE")
         ) {
           this.searching = true;
-          return this.usagerService.getSearchPageRemoteSearchRadies({
-            searchString,
-          });
+          return this.usagerService
+            .getSearchPageRemoteSearchRadies({
+              searchString,
+            })
+            .pipe(
+              catchError(() => {
+                this.searching = false;
+                this.toastr.error(
+                  "La recherche n'a pas abouti, merci de réessayer dans quelques instants"
+                );
+                return searchString;
+              })
+            );
         }
         return of(searchString);
       }),
       tap((searchString: string) => {
-        if (searchString !== null) {
-          this.filters.searchString = searchString;
-          this.filters.page = 0;
-          this.filters$.next(this.filters);
-        }
+        this.filters.searchString = searchString ?? null;
+        this.filters.page = 0;
+        this.filters$.next(this.filters);
       })
     );
 

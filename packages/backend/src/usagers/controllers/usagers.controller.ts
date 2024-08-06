@@ -146,7 +146,7 @@ export class UsagersController {
       .createQueryBuilder()
       .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
       .where(
-        `"structureId" = :structureId and  statut  = :statut AND nom_prenom ILIKE :search`,
+        `"structureId" = :structureId and statut = :statut AND nom_prenom ILIKE :search`,
         {
           statut: "RADIE",
           structureId: user.structureId,

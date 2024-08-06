@@ -1,4 +1,4 @@
-import { pino, Logger, SerializedRequest } from "pino";
+import { pino, Logger, SerializedRequest, LoggerOptions } from "pino";
 import * as pinoSerializers from "pino-std-serializers";
 import traceCaller from "./traceCaller";
 import { randomUUID } from "crypto";
@@ -19,8 +19,30 @@ class Store {
 }
 
 const requestContextStorage = new AsyncLocalStorage<Store>();
+const pinoOptions: LoggerOptions = {
+  redact: {
+    paths: [
+      "password",
+      "token",
+      "secret",
+      "ssn",
+      "body.password",
+      "body.token",
+      "body.secret",
+    ],
+    censor: "[REDACTED]",
+  },
+  serializers: {
+    req: (request: IncomingMessage) =>
+      redactAuthorizationHeader(pinoSerializers.req(request)),
+    res: pinoSerializers.res,
+    body: (body) => {
+      return body;
+    },
+  },
+};
 
-const rootLogger = traceCaller(pino());
+const rootLogger: Logger = traceCaller(pino(pinoOptions));
 
 function log(
   logger: Logger,
@@ -60,7 +82,7 @@ function getLogger(_target: any, name: string) {
 }
 
 // Main app logger, using either rootLogger if not inside a request, or a child logger stored in requestContextStorage
-export const appLogger = new Proxy(rootLogger, { get: getLogger });
+export const appLogger: Logger = new Proxy(rootLogger, { get: getLogger });
 
 export function addLogContext(fields: pino.Bindings) {
   const store = requestContextStorage.getStore();
@@ -79,6 +101,7 @@ function redactAuthorizationHeader(req: SerializedRequest): SerializedRequest {
       authorization: `${authorization.slice(0, 10)}-REDACTED`,
     };
   }
+
   return req;
 }
 
@@ -86,18 +109,10 @@ function httpLogger(req: RequestWithId, res: Response, next: NextFunction) {
   req.id = req.headers["X-Request-Id"] || randomUUID();
   const startTime = Date.now();
 
-  const requestLogger = rootLogger.child(
-    {
-      req,
-    },
-    {
-      serializers: {
-        req: (request: IncomingMessage) =>
-          redactAuthorizationHeader(pinoSerializers.req(request)),
-        res: pinoSerializers.res,
-      },
-    }
-  );
+  const requestLogger = rootLogger.child({
+    req,
+    body: req.body,
+  });
 
   function onResFinished() {
     res.removeListener("close", onResFinished);
@@ -109,9 +124,12 @@ function httpLogger(req: RequestWithId, res: Response, next: NextFunction) {
     const store = requestContextStorage.getStore();
 
     if (store) {
-      store.logger.info({ res, responseTime }, "http_request");
+      store.logger.info({ res, responseTime, body: req.body }, "http_request");
     } else {
-      rootLogger.warn({ responseTime }, "http_request NO CONTEXT");
+      rootLogger.warn(
+        { responseTime, body: req.body },
+        "http_request NO CONTEXT"
+      );
     }
   }
 

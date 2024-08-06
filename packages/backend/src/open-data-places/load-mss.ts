@@ -18,7 +18,7 @@ export const loadMssData = async () => {
     !domifaConfig().openDataApps.mssUrl ||
     !domifaConfig().openDataApps.mssToken
   ) {
-    appLogger.log("[IMPORT DATA MSS] Fail, token or url is not in env");
+    appLogger.info("[IMPORT DATA MSS] Fail, token or url is not in env");
     return;
   }
   appLogger.info("Import MSS start 🏃‍♂️... ");
@@ -44,7 +44,7 @@ const getFromMss = async () => {
       const position = await getLocation(address);
 
       if (!position) {
-        appLogger.log("Adresse not found " + address);
+        appLogger.warn("Adresse not found " + address);
         continue;
       }
 

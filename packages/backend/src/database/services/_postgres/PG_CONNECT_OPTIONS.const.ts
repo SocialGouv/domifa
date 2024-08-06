@@ -42,7 +42,7 @@ export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
   username: domifaConfig().postgres.username,
   password: domifaConfig().postgres.password,
   database: domifaConfig().postgres.database,
-  poolSize: 100,
+  poolSize: domifaConfig().envId === "test" ? 1 : 100,
   ssl: domifaConfig().postgres.ssl
     ? {
         rejectUnauthorized: false,

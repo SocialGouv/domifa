@@ -23,6 +23,12 @@ export class AppUserGuard implements CanActivate {
       },
     });
 
+    if (request?.body) {
+      addLogContext({
+        body: request?.body,
+      });
+    }
+
     getCurrentScope().setUser({
       email: user.email,
       username:

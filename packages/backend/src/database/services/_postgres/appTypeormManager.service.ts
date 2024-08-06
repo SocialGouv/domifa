@@ -68,7 +68,7 @@ async function connect(
 
   if (domifaConfig().envId !== "test") {
     appLogger.warn(
-      `[appTypeormManager] Connecting to postgres database "${pgConfig.database}" at ${pgConfig.host}:${pgConfig.port} (max poolMaxConnections=${pgConfig.poolMaxConnections}")`
+      `[appTypeormManager] Connecting to postgres database "${pgConfig.database}" at ${pgConfig.host}:${pgConfig.port}`
     );
   }
 
