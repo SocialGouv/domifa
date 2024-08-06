@@ -54,11 +54,11 @@ export class UsagerTable
 
   @Column({
     nullable: false,
-    name: "nom_prenom",
+    name: "nom_prenom_ref",
     select: false,
   })
   @Index()
-  public nom_prenom: string;
+  public nom_prenom_ref: string;
 
   @Column({ type: "text", nullable: false })
   public nom!: string;

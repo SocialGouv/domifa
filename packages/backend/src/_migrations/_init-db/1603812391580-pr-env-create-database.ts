@@ -377,12 +377,12 @@ async function createTables(queryRunner: QueryRunner) {
       "pinnedNote" jsonb NULL,
       nationalite text NULL,
       statut text DEFAULT 'INSTRUCTION'::text NOT NULL,
-      nom_prenom varchar GENERATED ALWAYS AS (lower((nom || ' '::text) || prenom)) STORED NOT NULL,
+      nom_prenom_ref varchar GENERATED ALWAYS AS (lower((((nom || ' '::text) || prenom) || ' '::text) || COALESCE("customRef", ''::text))) STORED NOT NULL,
       CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_e76056fb098740de66d58a5055a" UNIQUE ("structureId", ref),
       CONSTRAINT "FK_a44d882d224e368efdee8eb8c80" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
     );
-    CREATE INDEX "IDX_3af7a33a589c062bb6151d0969" ON public.usager USING btree (nom_prenom);
+    CREATE INDEX "IDX_3af7a33a589c062bb6151d0969" ON public.usager USING btree (nom_prenom_ref);
     CREATE INDEX "IDX_a44d882d224e368efdee8eb8c8" ON public.usager USING btree ("structureId");
     CREATE INDEX "IDX_b4d09870ec6cad2d2d98b7cc3a" ON public.usager USING btree (migrated);
     CREATE INDEX idx_usager_statut ON public.usager USING btree ("structureId", statut);
@@ -755,7 +755,6 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_ef9fade8e5a6dac06ef5031986" ON public.interactions USING btree (type);
     CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
     CREATE INDEX idx_interactions_date ON public.interactions USING btree ("structureId", "usagerUUID", "dateInteraction");
-    CREATE INDEX idx_interactions_type ON public.interactions USING btree ("structureId", "usagerUUID", type);
-    `
+    CREATE INDEX idx_interactions_type ON public.interactions USING btree ("structureId", "usagerUUID", type);  `
   );
 }

@@ -11,18 +11,20 @@ export class AutoMigration1722521444554 implements MigrationInterface {
       domifaConfig().envId === "local"
     ) {
       await queryRunner.query(
-        `ALTER TABLE "usager" ADD "nom_prenom" character varying GENERATED ALWAYS AS (LOWER(nom || ' ' || prenom)) STORED NOT NULL`
+        `ALTER TABLE "usager" ADD "nom_prenom_ref" character varying GENERATED ALWAYS AS (LOWER(nom || ' ' || prenom || ' ' || COALESCE("customRef", ''))) STORED NOT NULL;`
       );
       await queryRunner.query(
-        `CREATE INDEX "IDX_3af7a33a589c062bb6151d0969" ON "usager" ("nom_prenom") `
+        `CREATE INDEX "IDX_3af7a33a589c062bb6151d0969" ON "usager" ("nom_prenom_ref") `
       );
     }
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`ALTER TABLE "usager" DROP COLUMN "nom_prenom"`);
     await queryRunner.query(
-      `ALTER TABLE "usager" ADD "nom_prenom" character varying NOT NULL`
+      `ALTER TABLE "usager" DROP COLUMN "nom_prenom_ref"`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "usager" ADD "nom_prenom_ref" character varying NOT NULL`
     );
   }
 }
