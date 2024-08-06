@@ -42,7 +42,7 @@ jobs:
         run: yarn workspace @domifa/common build
 
       - name: Create Postgres service
-        run: docker-compose -f ./docker-compose.tests.yml up --build --detach
+        run: docker compose -f ./docker-compose.tests.yml up --build --detach
 
       - name: Run backend tests
         # run: yarn workspace @domifa/backend jest --coverage --detectOpenHandles --forceExit --runInBand
