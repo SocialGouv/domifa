@@ -1,3 +1,10 @@
+## [2.173.20](https://github.com/SocialGouv/domifa/compare/v2.173.19...v2.173.20) (2024-08-06)
+
+
+### Bug Fixes
+
+* **ci:** fix unit test with docker compose ([5631b83](https://github.com/SocialGouv/domifa/commit/5631b8376fac61608ba980be1313ad4106dc947b))
+
 ## [2.173.19](https://github.com/SocialGouv/domifa/compare/v2.173.18...v2.173.19) (2024-08-06)
 
 
