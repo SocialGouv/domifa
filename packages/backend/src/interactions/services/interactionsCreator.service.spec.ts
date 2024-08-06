@@ -318,7 +318,7 @@ describe("interactionsCreator", () => {
 
       // La date de dernier passage est mise à jour
       expect(new Date(resultat.usager.lastInteraction.dateInteraction)).toEqual(
-        interaction.dateInteraction
+        new Date(interaction.dateInteraction)
       );
 
       // Suppression de l'interaction sortante
@@ -332,7 +332,7 @@ describe("interactionsCreator", () => {
     });
 
     it("Distribution d'un courrier avec procuration : la date de dernier passage ne doit PAS être mise à jour ", async () => {
-      const lastInteractionDateBefore = "2018-02-01T10:00:00.980Z";
+      const lastInteractionDateBefore = new Date("2018-02-01T10:00:00.980Z");
       usager.lastInteraction.dateInteraction = new Date(
         lastInteractionDateBefore
       );
