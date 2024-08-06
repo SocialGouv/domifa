@@ -63,6 +63,7 @@ export class StepEtatCivilComponent
           next: (usager: Usager) => {
             this.usager = new UsagerFormModel(usager);
             this.initForm();
+            this.listenNameChanges();
           },
           error: () => {
             this.toastService.error("Le dossier recherché n'existe pas");
@@ -73,8 +74,11 @@ export class StepEtatCivilComponent
     } else {
       this.usager = new UsagerFormModel();
       this.initForm();
+      this.listenNameChanges();
     }
+  }
 
+  public listenNameChanges() {
     const lastNameChanges = this.usagerForm.get("nom")!.valueChanges;
     const firstNameChanges = this.usagerForm.get("prenom")!.valueChanges;
 
@@ -86,7 +90,6 @@ export class StepEtatCivilComponent
         })
     );
   }
-
   public isDuplicateName(): void {
     if (
       this.usagerForm.controls.nom.value &&
