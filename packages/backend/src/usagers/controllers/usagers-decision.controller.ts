@@ -140,6 +140,7 @@ export class UsagersDecisionController {
 
     // On récupère la dernière décision
     usager.decision = usager.historique[usager.historique.length - 1];
+    usager.statut = usager.decision.statut;
 
     usager.lastInteraction.dateInteraction = await getLastInteractionOut(
       usager,

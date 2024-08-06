@@ -29,7 +29,6 @@ import {
   tap,
   withLatestFrom,
 } from "rxjs/operators";
-import { AuthService } from "src/app/modules/shared/services/auth.service";
 import {
   fadeInOut,
   selectSearchPageLoadedUsagersData,
@@ -50,7 +49,7 @@ import { Store } from "@ngrx/store";
 import { ManageUsagersService } from "../../services/manage-usagers.service";
 import { UserStructure } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
-import { CustomToastService } from "../../../shared/services";
+import { AuthService, CustomToastService } from "../../../shared/services";
 
 const AUTO_REFRESH_PERIOD = 300000; // 5 minutes
 
@@ -381,7 +380,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
 
     const filterCriteria: UsagersFilterCriteria = {
       ...filters,
-      statut: null,
     };
 
     const filteredUsagers = usagersFilter.filter(

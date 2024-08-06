@@ -43,7 +43,6 @@ export class UsagersService {
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     usager.ref = await usagersCreator.findNextUsagerRef(user.structureId);
     usager.customRef = `${usager.ref}`;
-    usager.statut = "INSTRUCTION";
 
     usager.decision = {
       uuid: uuidv4(),
@@ -55,6 +54,7 @@ export class UsagersService {
       dateDebut: now,
       typeDom: "PREMIERE_DOM",
     };
+    usager.statut = usager.decision.statut;
 
     usager.historique.push(usager.decision);
     usager.structureId = user.structureId;
@@ -97,7 +97,6 @@ export class UsagersService {
         ? new Date(usager.decision.dateFin)
         : new Date();
     }
-    usager.statut = "INSTRUCTION";
 
     usager.decision = {
       uuid: uuidv4(),
@@ -110,7 +109,7 @@ export class UsagersService {
       typeDom,
       motif: null,
     };
-
+    usager.statut = usager.decision.statut;
     // Ajout du précédent état dans l'historique
     usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
 
@@ -136,6 +135,7 @@ export class UsagersService {
       {
         lastInteraction: usager.lastInteraction,
         decision: usager.decision,
+        statut: usager.decision.statut,
         options: usager.options,
         historique: usager.historique,
         etapeDemande: usager.etapeDemande,
@@ -186,8 +186,9 @@ export class UsagersService {
         usager.datePremiereDom = newDecision.dateDebut;
       }
     }
-    usager.statut = newDecision.statut;
+
     usager.decision = newDecision as UsagerDecision;
+    usager.statut = usager.decision.statut;
     usager.decision.uuid = uuidv4();
 
     usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
@@ -205,6 +206,7 @@ export class UsagersService {
         lastInteraction: usager.lastInteraction,
         customRef: usager.customRef,
         decision: usager.decision,
+        statut: usager.statut,
         historique: usager.historique,
         etapeDemande: usager.etapeDemande,
         typeDom: usager.typeDom,

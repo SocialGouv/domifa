@@ -13,6 +13,7 @@ export const USAGER_LIGHT_ATTRIBUTES: (keyof Usager)[] = [
   // "email",
   "decision",
   // "datePremiereDom",
+  "statut",
   "typeDom",
   "pinnedNote",
   // "entretien",
