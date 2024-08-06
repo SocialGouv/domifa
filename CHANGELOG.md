@@ -1,3 +1,10 @@
+## [2.173.19](https://github.com/SocialGouv/domifa/compare/v2.173.18...v2.173.19) (2024-08-06)
+
+
+### Bug Fixes
+
+* **backend:** fix unit test for interactions ([f1bd979](https://github.com/SocialGouv/domifa/commit/f1bd9790b047041c15b08be4ebd2cebcd60b0341))
+
 ## [2.173.18](https://github.com/SocialGouv/domifa/compare/v2.173.17...v2.173.18) (2024-08-06)
 
 
