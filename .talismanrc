@@ -63,6 +63,8 @@ fileignoreconfig:
   checksum: 6c8166fdecdf0d9ab56fb12390ca2ed5bd98c8ba91b6c6bc976cdf659dde9263
 - filename: packages/frontend/src/app/modules/admin-portail-usagers/components/manage-temp-messages/manage-temp-messages.component.html
   checksum: f5bc2bd3820b5f982b8d3c36360ed20764e408b4f59d65f470e503e66d1b3282
+- filename: packages/frontend/src/app/modules/general/components/static-pages/cgu-responsable/cgu-responsable.component.html
+  checksum: 9d6cfdeb651d4b63c956af48b211189a2936bb4ad669b8f3171ce9b97ef3242b
 - filename: packages/frontend/src/app/modules/general/components/static-pages/landing-page-portail/landing-page-portail.component.html
   checksum: 8040e47846a6f36cbd66e06d7c92172f38fb854187dd61cdd08560ac7c1f3a81
 - filename: packages/frontend/src/app/modules/manage-usagers/components/usager-filter/services/usagersSorter.service.ts
