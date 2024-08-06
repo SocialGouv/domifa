@@ -1,3 +1,10 @@
+## [2.173.18](https://github.com/SocialGouv/domifa/compare/v2.173.17...v2.173.18) (2024-08-06)
+
+
+### Bug Fixes
+
+* **frontend:** add new cgu ([7c5d77d](https://github.com/SocialGouv/domifa/commit/7c5d77d6d1f91a300d86f4ceb05a7bbc8abeb400))
+
 ## [2.173.17](https://github.com/SocialGouv/domifa/compare/v2.173.16...v2.173.17) (2024-08-06)
 
 
