@@ -136,14 +136,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         required: false,
         defaultValue: false,
       }),
-
-      poolMaxConnections: configParser.parseInteger(
-        x,
-        "POSTGRES_POOL_MAX_CONNEXIONS",
-        {
-          defaultValue: 10, // 10 is also driver default: https://node-postgres.com/api/pool#constructor
-        }
-      ),
     },
     typeorm: {
       runOnStartup: configParser.parseBoolean(
@@ -272,7 +264,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             defaultValue: CronExpression.EVERY_DAY_AT_11PM,
           }
         ),
-
         delay: configParser.parseDelay(
           x,
           "DOMIFA_CRON_MONITORING_CLEANER_DELAY",

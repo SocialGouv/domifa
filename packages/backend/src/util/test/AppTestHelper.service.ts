@@ -116,9 +116,6 @@ async function tearDownTestApp({ module }: AppTestContext): Promise<void> {
 async function bootstrapTestConnection(): Promise<DataSource> {
   return await appTypeormManager.connect({
     reuseConnexion: true,
-    overrideConfig: {
-      poolMaxConnections: 1,
-    },
   });
 }
 

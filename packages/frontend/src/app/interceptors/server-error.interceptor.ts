@@ -15,8 +15,8 @@ import { captureException } from "@sentry/angular";
 import { CustomToastService } from "../modules/shared/services";
 import { Router } from "@angular/router";
 
-const MAX_RETRIES = 2;
-const RETRY_DELAY = 1000;
+const MAX_RETRIES = 1;
+const RETRY_DELAY = 800;
 const ERROR_STATUS_CODES_TO_RETRY = [0, 408, 500, 502, 503, 504];
 
 @Injectable({
@@ -38,6 +38,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
         count: MAX_RETRIES,
         delay: (error, retryCount) => {
           if (this.isRetryable(error)) {
+            console.log(error);
             console.log(`Tentative de nouvelle requête ${retryCount}`);
             return timer(RETRY_DELAY);
           }

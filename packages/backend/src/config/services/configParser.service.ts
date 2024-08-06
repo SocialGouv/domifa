@@ -3,6 +3,7 @@ import {
   DomifaEnv,
   DomifaEnvKey,
   DOMIFA_CONFIG_DELAY_UNITS,
+  DomifaConfigDelay,
 } from "../model";
 
 export const configParser = {
@@ -153,7 +154,7 @@ function parseDelay<T extends string>(
   } = {
     required: true,
   }
-) {
+): DomifaConfigDelay {
   const value = parseString(envConfig, key, {
     defaultValue,
     required,
@@ -178,7 +179,7 @@ function parseDelay<T extends string>(
     }
     return { amount, unit };
   }
-  return undefined;
+  return defaultValue as unknown as DomifaConfigDelay;
 }
 
 function parseIntegerFromString(value: string): number | undefined {

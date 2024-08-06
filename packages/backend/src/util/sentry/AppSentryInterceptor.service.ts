@@ -5,12 +5,13 @@ import {
   InternalServerErrorException,
   NestInterceptor,
 } from "@nestjs/common";
-import { addRequestDataToEvent } from "@sentry/node";
+import { addRequestDataToEvent, Request as SentryRequest } from "@sentry/node";
 
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { UserStructureAuthenticated } from "../../_common/model";
 import { appLogger } from "../AppLogger.service";
+import { Request } from "express";
 
 @Injectable()
 export class AppSentryInterceptor implements NestInterceptor {
@@ -30,9 +31,6 @@ export class AppSentryInterceptor implements NestInterceptor {
             }
             if (user) {
               logContext.user = logSentryUser(user);
-            }
-            if (req?.body) {
-              logContext.payload = req.body;
             }
           } else {
             prefix = "[core]";
@@ -57,12 +55,11 @@ export class AppSentryInterceptor implements NestInterceptor {
 }
 
 function parseRequest(context: ExecutionContext): {
-  req: any;
+  req: SentryRequest;
   user: UserStructureAuthenticated;
-  body: any;
 } {
   const httpContext = context.switchToHttp();
-  const expressRequest: any = httpContext.getRequest();
+  const expressRequest: Request = httpContext.getRequest();
 
   if (!expressRequest) {
     return null;
@@ -71,26 +68,24 @@ function parseRequest(context: ExecutionContext): {
     include: {
       request: true,
       user: false,
+      transaction: true,
     },
   });
-
   const req = data.request;
   const user = expressRequest.user as UserStructureAuthenticated;
-  const body = expressRequest.body;
 
   return {
     req,
     user,
-    body,
   };
 }
 
 function logSentryRequest(req: any): Record<string, any> {
   const headers = req.headers ?? {};
-
   return {
     method: req.method,
     url: req.url,
+    data: req?.data,
     headers: {
       host: headers.host,
       origin: headers.origin,
