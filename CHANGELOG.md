@@ -1,3 +1,12 @@
+## [2.173.17](https://github.com/SocialGouv/domifa/compare/v2.173.16...v2.173.17) (2024-08-06)
+
+
+### Bug Fixes
+
+* **backend:** add a specific colum for text search ([a00e4a1](https://github.com/SocialGouv/domifa/commit/a00e4a1056fbb988b36ff3c25bcb2d14bb9fec33))
+* **backend:** add customRef to search column ([8c74a89](https://github.com/SocialGouv/domifa/commit/8c74a8934f2fdb2a1c178750200fcf2a76f05e51))
+* **backend:** fix search of some users ([03dad5f](https://github.com/SocialGouv/domifa/commit/03dad5f2c3e0a8b20195efe0babca7acc47e9938))
+
 ## [2.173.16](https://github.com/SocialGouv/domifa/compare/v2.173.15...v2.173.16) (2024-07-26)
 
 
