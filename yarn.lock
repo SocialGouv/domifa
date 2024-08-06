@@ -3066,11 +3066,11 @@ __metadata:
     "@nestjs/testing": ^10.3.10
     "@opentelemetry/api": ^1.9.0
     "@opentelemetry/core": ^1.25.1
-    "@opentelemetry/instrumentation-express": ^0.40.1
+    "@opentelemetry/instrumentation-express": ^0.41.0
     "@opentelemetry/instrumentation-http": ^0.52.0
-    "@opentelemetry/instrumentation-nestjs-core": ^0.38.0
-    "@opentelemetry/instrumentation-net": ^0.37.0
-    "@opentelemetry/instrumentation-pg": ^0.42.0
+    "@opentelemetry/instrumentation-nestjs-core": ^0.39.0
+    "@opentelemetry/instrumentation-net": ^0.38.0
+    "@opentelemetry/instrumentation-pg": ^0.43.0
     "@opentelemetry/sdk-node": ^0.52.0
     "@opentelemetry/semantic-conventions": ^1.25.0
     "@sentry/node": ^8.18.0
@@ -5937,7 +5937,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/instrumentation-express@npm:0.41.1":
+"@opentelemetry/instrumentation-express@npm:0.41.1, @opentelemetry/instrumentation-express@npm:^0.41.0":
   version: 0.41.1
   resolution: "@opentelemetry/instrumentation-express@npm:0.41.1"
   dependencies:
@@ -5947,19 +5947,6 @@ __metadata:
   peerDependencies:
     "@opentelemetry/api": ^1.3.0
   checksum: fe2939ab377cc4b1c6dfe77cae6d23156ccd227cc9984bf03eb5f108fa048815d6dd0be9a8240bb3bd053a271789c9928a9e544725e2e099709e9b2c60d456f0
-  languageName: node
-  linkType: hard
-
-"@opentelemetry/instrumentation-express@npm:^0.40.1":
-  version: 0.40.1
-  resolution: "@opentelemetry/instrumentation-express@npm:0.40.1"
-  dependencies:
-    "@opentelemetry/core": ^1.8.0
-    "@opentelemetry/instrumentation": ^0.52.0
-    "@opentelemetry/semantic-conventions": ^1.22.0
-  peerDependencies:
-    "@opentelemetry/api": ^1.3.0
-  checksum: 6634182e7d02c3afa73bb01277a1bbaf6dace104cda74b29dad5515d624b6bdb1846b8bf038fa4cf6009091bee6f4b3dbb01bb8b01d022d0c9e158b4440ae586
   languageName: node
   linkType: hard
 
@@ -6092,7 +6079,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/instrumentation-nestjs-core@npm:0.39.0":
+"@opentelemetry/instrumentation-nestjs-core@npm:0.39.0, @opentelemetry/instrumentation-nestjs-core@npm:^0.39.0":
   version: 0.39.0
   resolution: "@opentelemetry/instrumentation-nestjs-core@npm:0.39.0"
   dependencies:
@@ -6104,31 +6091,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/instrumentation-nestjs-core@npm:^0.38.0":
+"@opentelemetry/instrumentation-net@npm:^0.38.0":
   version: 0.38.0
-  resolution: "@opentelemetry/instrumentation-nestjs-core@npm:0.38.0"
+  resolution: "@opentelemetry/instrumentation-net@npm:0.38.0"
   dependencies:
     "@opentelemetry/instrumentation": ^0.52.0
     "@opentelemetry/semantic-conventions": ^1.23.0
   peerDependencies:
     "@opentelemetry/api": ^1.3.0
-  checksum: 9e48ce113846dec1a00aeb0f95c24a8e769deb5878b1ae19b00d3bde0dde8ad05781b9c5f6ad7c56dc3fdefcfeb51dbb3810fbec33026d21348ce40d808c08db
+  checksum: 13b4e12272ec3c7c2930a4dfd5eabf843d9e008a651c6a5f778236676526a76c563af7d313bf0edb390377d62112c07382b176f64beeffd534ed4f2c04923ccb
   languageName: node
   linkType: hard
 
-"@opentelemetry/instrumentation-net@npm:^0.37.0":
-  version: 0.37.0
-  resolution: "@opentelemetry/instrumentation-net@npm:0.37.0"
-  dependencies:
-    "@opentelemetry/instrumentation": ^0.52.0
-    "@opentelemetry/semantic-conventions": ^1.23.0
-  peerDependencies:
-    "@opentelemetry/api": ^1.3.0
-  checksum: 2c5b561a2c8827120f4a40883c4c00268a5decfa35fe16183a486a6935eb55600ca6a14a0d24ded9a5985f5eed7339cca3e09acc5bb3a37b7d1dd159a355a33a
-  languageName: node
-  linkType: hard
-
-"@opentelemetry/instrumentation-pg@npm:0.43.0":
+"@opentelemetry/instrumentation-pg@npm:0.43.0, @opentelemetry/instrumentation-pg@npm:^0.43.0":
   version: 0.43.0
   resolution: "@opentelemetry/instrumentation-pg@npm:0.43.0"
   dependencies:
@@ -6140,21 +6115,6 @@ __metadata:
   peerDependencies:
     "@opentelemetry/api": ^1.3.0
   checksum: d255806b9e5ffd449b7ab3c7c072e919ad8a18118cdf5aec636d89a89d9ac63ef282f280d3b2dd7fa9c57e748fc0c9b38294911bf1aaff35e821079aaeacbd82
-  languageName: node
-  linkType: hard
-
-"@opentelemetry/instrumentation-pg@npm:^0.42.0":
-  version: 0.42.0
-  resolution: "@opentelemetry/instrumentation-pg@npm:0.42.0"
-  dependencies:
-    "@opentelemetry/instrumentation": ^0.52.0
-    "@opentelemetry/semantic-conventions": ^1.22.0
-    "@opentelemetry/sql-common": ^0.40.1
-    "@types/pg": 8.6.1
-    "@types/pg-pool": 2.0.4
-  peerDependencies:
-    "@opentelemetry/api": ^1.3.0
-  checksum: 3c579b26308021198bd12b01419dbb25c5c86f02e0549870bd2fa28749dbf493042c0ad427cf430c12ce2a71d955fcdc5c73e5849a09e0f375261aebdf5366b8
   languageName: node
   linkType: hard
 
