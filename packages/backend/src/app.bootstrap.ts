@@ -59,6 +59,7 @@ export async function bootstrapApplication(): Promise<{
     } else {
       app.enableCors({
         origin: whitelist,
+        maxAge: 600,
       });
     }
 
