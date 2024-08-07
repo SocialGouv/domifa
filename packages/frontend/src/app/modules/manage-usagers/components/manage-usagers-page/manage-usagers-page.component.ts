@@ -152,6 +152,12 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
             if (!searchPageLoadedUsagersData.dataLoaded) {
               this.loadDataFromAPI();
             } else {
+              if (
+                searchPageLoadedUsagersData.usagersRadiesFirsts.length >=
+                searchPageLoadedUsagersData.usagersRadiesTotalCount
+              ) {
+                this.chargerTousRadies$.next(true);
+              }
               this.updateComponentState(searchPageLoadedUsagersData);
             }
           }
@@ -167,29 +173,9 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       map((value: string) => value.trim()),
       filter((value: string) => value !== this.filters.searchString),
       withLatestFrom(this.chargerTousRadies$),
-      switchMap(([searchString, chargerTousRadies]) => {
-        if (
-          !chargerTousRadies &&
-          searchString.length >= 3 &&
-          (this.filters.statut === "TOUS" || this.filters.statut === "RADIE")
-        ) {
-          this.searching = true;
-          return this.usagerService
-            .getSearchPageRemoteSearchRadies({
-              searchString,
-            })
-            .pipe(
-              catchError(() => {
-                this.searching = false;
-                this.toastr.error(
-                  "La recherche n'a pas abouti, merci de réessayer dans quelques instants"
-                );
-                return searchString;
-              })
-            );
-        }
-        return of(searchString);
-      }),
+      switchMap(([searchString, chargerTousRadies]) =>
+        this.findRemoteUsagers(chargerTousRadies, searchString)
+      ),
       tap((searchString: string) => {
         this.filters.searchString = searchString ?? null;
         this.filters.page = 0;
@@ -226,10 +212,48 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
             return this.usagerService.getSearchPageUsagerData({
               chargerTousRadies,
             });
+          }),
+          switchMap(() => this.chargerTousRadies$),
+          switchMap((chargerTousRadies) => {
+            // Call remote usagers to update list
+            if (!chargerTousRadies) {
+              return this.findRemoteUsagers(
+                chargerTousRadies,
+                this.filters.searchString
+              );
+            }
+            return of(chargerTousRadies);
           })
         )
         .subscribe()
     );
+  }
+
+  private findRemoteUsagers(
+    chargerTousRadies: boolean,
+    searchString: string
+  ): Observable<string> {
+    if (
+      !chargerTousRadies &&
+      searchString.length >= 3 &&
+      (this.filters.statut === "TOUS" || this.filters.statut === "RADIE")
+    ) {
+      this.searching = true;
+      return this.usagerService
+        .getSearchPageRemoteSearchRadies({
+          searchString,
+        })
+        .pipe(
+          catchError(() => {
+            this.searching = false;
+            this.toastr.error(
+              "La recherche n'a pas abouti, merci de réessayer dans quelques instants"
+            );
+            return searchString;
+          })
+        );
+    }
+    return of(searchString);
   }
 
   private updateComponentState(

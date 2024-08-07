@@ -109,7 +109,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.valideForm.get("customRef")?.valueChanges.subscribe((value) => {
-        if (value) {
+        if (value?.trim()) {
           this.checkDuplicatesRef(value);
         } else {
           this.duplicates = [];
