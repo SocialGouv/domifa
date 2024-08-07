@@ -11,13 +11,13 @@ import { Injectable, Injector } from "@angular/core";
 import { Observable, throwError, timer } from "rxjs";
 import { catchError, retry } from "rxjs/operators";
 import { AuthService } from "../modules/shared/services/auth.service";
-import { captureException } from "@sentry/angular";
+import { captureException, getCurrentScope } from "@sentry/angular";
 import { CustomToastService } from "../modules/shared/services";
 import { Router } from "@angular/router";
 
-const MAX_RETRIES = 1;
-const RETRY_DELAY = 800;
-const ERROR_STATUS_CODES_TO_RETRY = [0, 408, 500, 502, 503, 504];
+const MAX_RETRIES = 2;
+const RETRY_DELAY = 1000;
+const ERROR_STATUS_CODES_TO_RETRY = [0, 408, 409, 444, 502, 503, 504, 520];
 
 @Injectable({
   providedIn: "root",
@@ -32,6 +32,16 @@ export class ServerErrorInterceptor implements HttpInterceptor {
     const authService = this.injector.get(AuthService);
     const toastr = this.injector.get(CustomToastService);
     const router = this.injector.get(Router);
+
+    if (authService?.currentUserValue) {
+      const user = authService.currentUserValue;
+      getCurrentScope().setTag("structure", user?.structureId?.toString());
+      getCurrentScope().setUser({
+        email: user.email,
+        username:
+          "STRUCTURE " + user?.structureId?.toString() + " : " + user?.prenom,
+      });
+    }
 
     return next.handle(request).pipe(
       retry({
@@ -66,11 +76,10 @@ export class ServerErrorInterceptor implements HttpInterceptor {
           } else if (error.status === 404) {
             toastr.error("La page que vous recherchez n'existe pas");
             router.navigate(["404"]);
-          } else if (error.status >= 500) {
+          } else {
             toastr.error(
               "Une erreur serveur est survenue. Nos équipes ont été notifiées."
             );
-            captureException(error);
           }
         }
         this.logError(request, error);
@@ -84,8 +93,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
   }
 
   private logError(request: HttpRequest<any>, error: HttpErrorResponse): void {
-    captureException(error, { data: request });
-    console.error("HTTP Error", {
+    console.error(error.message, {
       status: error.status,
       statusText: error.statusText,
       url: error.url,
@@ -93,5 +101,6 @@ export class ServerErrorInterceptor implements HttpInterceptor {
       error: error.error,
       request,
     });
+    captureException(error, { data: request });
   }
 }

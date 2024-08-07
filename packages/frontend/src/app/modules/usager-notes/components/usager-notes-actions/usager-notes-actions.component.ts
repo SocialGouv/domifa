@@ -73,8 +73,8 @@ export class UsagerNotesActionsComponent implements OnDestroy {
         })
         .subscribe({
           next: () => {
-            this.toastService.success("Note supprimée avec succès");
             this.closeModal();
+            this.toastService.success("Note supprimée avec succès");
           },
           error: () => {
             this.toastService.error("Impossible de supprimer la note");
@@ -90,6 +90,7 @@ export class UsagerNotesActionsComponent implements OnDestroy {
     const message = this.note.archived
       ? "Note désarchivée avec succès"
       : "Note archivée avec succès";
+
     this.subscription.add(
       this.usagerNotesService
         .archiveNote({
