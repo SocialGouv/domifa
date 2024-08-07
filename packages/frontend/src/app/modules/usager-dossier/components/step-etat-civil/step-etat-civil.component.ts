@@ -92,8 +92,8 @@ export class StepEtatCivilComponent
   }
   public isDuplicateName(): void {
     if (
-      this.usagerForm.controls.nom.value &&
-      this.usagerForm.controls.prenom.value
+      this.usagerForm.controls.nom?.value?.trim() &&
+      this.usagerForm.controls.prenom?.value?.trim()
     ) {
       const params: {
         nom: string;
@@ -102,7 +102,7 @@ export class StepEtatCivilComponent
       } = {
         nom: this.usagerForm.controls.nom.value,
         prenom: this.usagerForm.controls.prenom.value,
-        usagerRef: this.usager.ref || null,
+        usagerRef: this.usager.ref ?? null,
       };
 
       this.subscription.add(
