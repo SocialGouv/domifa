@@ -1,3 +1,11 @@
+## [2.173.22](https://github.com/SocialGouv/domifa/compare/v2.173.21...v2.173.22) (2024-08-14)
+
+
+### Bug Fixes
+
+* **frontend:** add update of list every Five minutes ([1270cb1](https://github.com/SocialGouv/domifa/commit/1270cb1753ee4dea7b27003b3f5bafdcc38afeef))
+* **frontend:** search remote usagers after a reload ([cb87fe6](https://github.com/SocialGouv/domifa/commit/cb87fe65b0a91758beb2b36b47f028ee67d52e75))
+
 ## [2.173.21](https://github.com/SocialGouv/domifa/compare/v2.173.20...v2.173.21) (2024-08-06)
 
 
