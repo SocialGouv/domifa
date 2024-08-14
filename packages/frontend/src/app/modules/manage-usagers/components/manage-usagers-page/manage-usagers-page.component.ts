@@ -51,7 +51,7 @@ import { UserStructure } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 import { AuthService, CustomToastService } from "../../../shared/services";
 
-const AUTO_REFRESH_PERIOD = 300000; // 5 minutes
+const FIVE_MINUTES = 5 * 60 * 1000;
 
 @Component({
   animations: [fadeInOut],
@@ -152,12 +152,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
             if (!searchPageLoadedUsagersData.dataLoaded) {
               this.loadDataFromAPI();
             } else {
-              if (
-                searchPageLoadedUsagersData.usagersRadiesFirsts.length >=
-                searchPageLoadedUsagersData.usagersRadiesTotalCount
-              ) {
-                this.chargerTousRadies$.next(true);
-              }
               this.updateComponentState(searchPageLoadedUsagersData);
             }
           }
@@ -173,9 +167,9 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       map((value: string) => value.trim()),
       filter((value: string) => value !== this.filters.searchString),
       withLatestFrom(this.chargerTousRadies$),
-      switchMap(([searchString, chargerTousRadies]) =>
-        this.findRemoteUsagers(chargerTousRadies, searchString)
-      ),
+      switchMap(([searchString, chargerTousRadies]) => {
+        return this.findRemoteUsagers(chargerTousRadies, searchString);
+      }),
       tap((searchString: string) => {
         this.filters.searchString = searchString ?? null;
         this.filters.page = 0;
@@ -190,6 +184,20 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
+      timer(FIVE_MINUTES, FIVE_MINUTES)
+        .pipe(
+          tap(() => {
+            this.searching = true;
+          }),
+          switchMap(() => this.usagerService.updateManage())
+        )
+        .subscribe(() => {
+          this.searching = false;
+          this.filters$.next(this.filters);
+        })
+    );
+
+    this.subscription.add(
       this.filters$.subscribe((filters) => {
         this.applyFilters({
           filters,
@@ -201,31 +209,22 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
 
   private loadDataFromAPI() {
     this.subscription.add(
-      timer(0, AUTO_REFRESH_PERIOD)
+      this.chargerTousRadies$
         .pipe(
           tap(() => {
             this.searching = true;
           }),
+          switchMap((chargerTousRadies) =>
+            this.usagerService.getSearchPageUsagerData({ chargerTousRadies })
+          ),
           switchMap(() => this.chargerTousRadies$),
-          switchMap((chargerTousRadies) => {
-            this.searching = true;
-            return this.usagerService.getSearchPageUsagerData({
-              chargerTousRadies,
-            });
-          }),
-          switchMap(() => this.chargerTousRadies$),
-          switchMap((chargerTousRadies) => {
-            // Call remote usagers to update list
-            if (!chargerTousRadies) {
-              return this.findRemoteUsagers(
-                chargerTousRadies,
-                this.filters.searchString
-              );
-            }
-            return of(chargerTousRadies);
-          })
+          switchMap((chargerTousRadies) =>
+            this.findRemoteUsagers(chargerTousRadies, this.filters.searchString)
+          )
         )
-        .subscribe()
+        .subscribe(() => {
+          this.searching = false;
+        })
     );
   }
 
@@ -235,7 +234,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   ): Observable<string> {
     if (
       !chargerTousRadies &&
-      searchString.length >= 3 &&
+      searchString?.length >= 3 &&
       (this.filters.statut === "TOUS" || this.filters.statut === "RADIE")
     ) {
       this.searching = true;
