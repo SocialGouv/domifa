@@ -72,4 +72,16 @@ export class ManageUsagersService {
         })
       );
   }
+
+  public updateManage(): Observable<UsagerLight[]> {
+    return this.http
+      .get<UsagerLight[]>(`${environment.apiUrl}usagers/update-manage`)
+      .pipe(
+        tap((usagers: UsagerLight[]) => {
+          usagers.forEach((usager) =>
+            this.store.dispatch(cacheManager.updateUsager({ usager }))
+          );
+        })
+      );
+  }
 }

@@ -134,6 +134,22 @@ export class UsagersController {
     };
   }
 
+  @Get("update-manage")
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+  public async updateManage(@CurrentUser() user: UserStructureAuthenticated) {
+    return usagerRepository
+      .createQueryBuilder()
+      .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
+      .where(
+        `"structureId" = :structureId AND "updatedAt" >= :fiveMinutesAgo`,
+        {
+          structureId: user.structureId,
+          fiveMinutesAgo: new Date(Date.now() - 5 * 60 * 1000),
+        }
+      )
+      .getRawMany();
+  }
+
   @Post("search-radies")
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   public async searchInRadies(
