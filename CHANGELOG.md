@@ -1,3 +1,10 @@
+## [2.173.24](https://github.com/SocialGouv/domifa/compare/v2.173.23...v2.173.24) (2024-08-22)
+
+
+### Bug Fixes
+
+* **backend:** fix statut when you delete an usager ([a18c27b](https://github.com/SocialGouv/domifa/commit/a18c27b8000e5cc4ff252426dc428952ce913bdb))
+
 ## [2.173.23](https://github.com/SocialGouv/domifa/compare/v2.173.22...v2.173.23) (2024-08-19)
 
 
