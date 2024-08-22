@@ -190,7 +190,9 @@ export class AdminStructuresService {
   > {
     return usagerRepository.customCountBy({
       countBy: "structureId",
-      where: typeOrmSearch<UsagerTable>(`decision->>'statut' = 'VALIDE'`),
+      where: {
+        statut: "VALIDE",
+      },
       order: {
         count: "DESC",
         countBy: "ASC",
@@ -236,7 +238,7 @@ export class AdminStructuresService {
     }[]
   > {
     return usagerRepository.countBy({
-      countBy: `decision->>'statut'` as any,
+      countBy: "statut",
       countByAlias: "statut",
       order: { count: "DESC", countBy: "ASC" },
       escapeAttributes: false,

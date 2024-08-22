@@ -171,6 +171,7 @@ export class UsagersDecisionController {
         historique: usager.historique,
         etapeDemande: usager.etapeDemande,
         decision: usager.decision,
+        statut: usager.decision.statut,
       }
     );
 
