@@ -162,15 +162,12 @@ export class UsagersController {
       .createQueryBuilder()
       .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
       .where(
-        `"structureId" = :structureId and statut = :statut AND nom_prenom_ref ILIKE :search`,
+        `"structureId" = :structureId and statut = 'RADIE' AND nom_prenom_ref ILIKE :search`,
         {
-          statut: "RADIE",
           structureId: user.structureId,
           search: `%${search}%`,
         }
       )
-      .limit(20)
-      .orderBy({ "decision->>'dateFin'": "DESC" })
       .getRawMany();
   }
 

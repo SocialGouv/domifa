@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { addLogContext } from "../../util";
+import { addLogContext, appLogger } from "../../util";
 import { UserProfile, UserStructureAuthenticated } from "../../_common/model";
 import { authChecker } from "../services";
 import { expiredTokenRepositiory } from "../../database";
@@ -67,6 +67,12 @@ export class AppUserGuard implements CanActivate {
           const isBlacklisted = await expiredTokenRepositiory.findOneBy({
             token: request.headers.authorization,
           });
+
+          if (isBlacklisted) {
+            appLogger.error(`[authChecker] expired token`, {
+              context: { userProfile: user, user: user?._userId },
+            });
+          }
 
           // check structure user roles
           return (

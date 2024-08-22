@@ -109,7 +109,7 @@ export class UsagersService {
       typeDom,
       motif: null,
     };
-    usager.statut = usager.decision.statut;
+    usager.statut = "INSTRUCTION";
     // Ajout du précédent état dans l'historique
     usagerVisibleHistoryManager.addDecisionToVisibleHistory({ usager });
 
