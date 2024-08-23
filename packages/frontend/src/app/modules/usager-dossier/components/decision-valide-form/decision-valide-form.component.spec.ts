@@ -11,7 +11,7 @@ import {
   NgbModule,
 } from "@ng-bootstrap/ng-bootstrap";
 
-import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
+import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks/USAGER_VALIDE.mock";
 import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter.service";
 import { CustomDatepickerI18n } from "../../../shared/services/date-french.service";
 import { SharedModule } from "../../../shared/shared.module";
@@ -54,7 +54,7 @@ describe("DecisionValideFormComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DecisionValideFormComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
     fixture.detectChanges();
   });
 

@@ -5,7 +5,7 @@ import { Subscription, concatMap, from, toArray } from "rxjs";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerProfilService } from "../../../usager-profil/services/usager-profil.service";
 import { Store } from "@ngrx/store";
-import { usagerActions } from "../../../../shared";
+import { usagerActions, UsagerState } from "../../../../shared";
 import { Router } from "@angular/router";
 import { UserStructure } from "@domifa/common";
 
@@ -27,7 +27,7 @@ export class DeleteUsagerComponent implements OnDestroy {
     private readonly modalService: NgbModal,
     private readonly usagerProfilService: UsagerProfilService,
     private readonly toastService: CustomToastService,
-    private readonly store: Store,
+    private readonly store: Store<UsagerState>,
     private readonly router: Router
   ) {
     this.loading = false;

@@ -2,7 +2,7 @@ import { UsagerFormModel } from "./../../../usager-shared/interfaces/UsagerFormM
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ColumnInformationsComponent } from "./column-informations.component";
-import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks";
+import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -22,7 +22,7 @@ describe("ColumnInformationsComponent", () => {
 
     fixture = TestBed.createComponent(ColumnInformationsComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
     fixture.detectChanges();
   });
 

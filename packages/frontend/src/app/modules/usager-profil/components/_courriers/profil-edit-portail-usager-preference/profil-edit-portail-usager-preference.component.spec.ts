@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks/USAGER_ACTIF.mock";
+import { USAGER_VALIDE_MOCK } from "../../../../../../_common/mocks/USAGER_VALIDE.mock";
 import { SharedModule } from "../../../../shared/shared.module";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 
@@ -38,7 +38,7 @@ describe("ProfilEditPortailUsagerPreferenceComponent", () => {
       ProfilEditPortailUsagerPreferenceComponent
     );
     component = fixture.debugElement.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
     component.ngOnInit();
   });
 

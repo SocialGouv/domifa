@@ -7,7 +7,11 @@ import { environment } from "src/environments/environment";
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
 
 import { Store } from "@ngrx/store";
-import { setUsagerInformation, usagerActions } from "../../../shared";
+import {
+  setUsagerInformation,
+  usagerActions,
+  UsagerState,
+} from "../../../shared";
 
 @Injectable({
   providedIn: "root",
@@ -17,7 +21,7 @@ export class ManageUsagersService {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly store: Store
+    private readonly store: Store<UsagerState>
   ) {}
 
   public fetchSearchPageUsagerData({
@@ -82,11 +86,13 @@ export class ManageUsagersService {
     return this.http
       .get<UsagerLight[]>(`${environment.apiUrl}usagers/update-manage`)
       .pipe(
-        tap((usagers: UsagerLight[]) =>
-          this.store.dispatch(
-            usagerActions.updateManyUsagersForManage({ usagers })
-          )
-        )
+        tap((usagers: UsagerLight[]) => {
+          if (usagers?.length) {
+            this.store.dispatch(
+              usagerActions.updateManyUsagersForManage({ usagers })
+            );
+          }
+        })
       );
   }
 }

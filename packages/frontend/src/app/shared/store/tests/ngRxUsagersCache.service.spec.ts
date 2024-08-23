@@ -1,19 +1,22 @@
-import { UsagerLight } from "../../../_common/model";
+import { UsagerLight } from "../../../../_common/model";
 import {
   _usagerReducer,
   initialUsagerState,
   selectAllUsagers,
   selectUsagerById,
   UsagerState,
-} from "./usager-actions-reducer.service";
-import { usagerActions } from "./usager-actions.service";
-import { USAGER_ACTIF_MOCK, USAGER_REFUS_MOCK } from "../../../_common/mocks";
+} from "../usager-actions-reducer.service";
+import { usagerActions } from "../usager-actions.service";
+import {
+  USAGER_VALIDE_MOCK,
+  USAGER_REFUS_MOCK,
+} from "../../../../_common/mocks";
 import { TestBed } from "@angular/core/testing";
 import { Store, StoreModule } from "@ngrx/store";
 import { firstValueFrom } from "rxjs";
 
 describe("UsagerReducer", () => {
-  const mockUsager: UsagerLight = { ...USAGER_ACTIF_MOCK };
+  const mockUsager: UsagerLight = { ...USAGER_VALIDE_MOCK };
   let store: Store<UsagerState>;
 
   afterEach(() => {
@@ -30,7 +33,7 @@ describe("UsagerReducer", () => {
   });
 
   it("should handle addUsager", () => {
-    const usager = USAGER_ACTIF_MOCK;
+    const usager = USAGER_VALIDE_MOCK;
     const action = usagerActions.addUsager({ usager });
     store.dispatch(action);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -57,7 +60,7 @@ describe("UsagerReducer", () => {
   });
 
   it("should add a usager", () => {
-    const action = usagerActions.addUsager({ usager: USAGER_ACTIF_MOCK });
+    const action = usagerActions.addUsager({ usager: USAGER_VALIDE_MOCK });
     const state = _usagerReducer(initialUsagerState, action);
 
     expect(state.ids).toContain(mockUsager.ref);
@@ -65,9 +68,9 @@ describe("UsagerReducer", () => {
   });
 
   it("should update a usager", () => {
-    usagerActions.addUsager({ usager: USAGER_ACTIF_MOCK });
+    usagerActions.addUsager({ usager: USAGER_VALIDE_MOCK });
     const updatedUsager = {
-      ...USAGER_ACTIF_MOCK,
+      ...USAGER_VALIDE_MOCK,
       nom: "Smith",
       prenom: "Will",
     };
@@ -75,8 +78,8 @@ describe("UsagerReducer", () => {
 
     const previousState = {
       ...initialUsagerState,
-      ids: [USAGER_ACTIF_MOCK.ref],
-      entities: { [USAGER_ACTIF_MOCK.ref]: USAGER_ACTIF_MOCK },
+      ids: [USAGER_VALIDE_MOCK.ref],
+      entities: { [USAGER_VALIDE_MOCK.ref]: USAGER_VALIDE_MOCK },
     };
 
     const state = _usagerReducer(previousState, action);
@@ -86,7 +89,7 @@ describe("UsagerReducer", () => {
   });
 
   it("should update a usager for manage", () => {
-    usagerActions.addUsager({ usager: USAGER_ACTIF_MOCK });
+    usagerActions.addUsager({ usager: USAGER_VALIDE_MOCK });
 
     const updatedUsager = { ...mockUsager, nom: "Smith" };
     const action = usagerActions.updateUsagerForManage({
@@ -105,11 +108,11 @@ describe("UsagerReducer", () => {
   });
 
   it("should update many usagers for manage", async () => {
-    store.dispatch(usagerActions.addUsager({ usager: USAGER_ACTIF_MOCK }));
+    store.dispatch(usagerActions.addUsager({ usager: USAGER_VALIDE_MOCK }));
     store.dispatch(usagerActions.addUsager({ usager: USAGER_REFUS_MOCK }));
 
     const updatedUsagerRefus = { ...USAGER_REFUS_MOCK, nom: "Nom refusé" };
-    const updatedUsagerActif = { ...USAGER_ACTIF_MOCK, nom: "Nom validé" };
+    const updatedUsagerActif = { ...USAGER_VALIDE_MOCK, nom: "Nom validé" };
 
     store.dispatch(
       usagerActions.updateManyUsagersForManage({
@@ -121,7 +124,7 @@ describe("UsagerReducer", () => {
       store.select(selectUsagerById(USAGER_REFUS_MOCK.ref))
     );
     const usagerValide = await firstValueFrom(
-      store.select(selectUsagerById(USAGER_ACTIF_MOCK.ref))
+      store.select(selectUsagerById(USAGER_VALIDE_MOCK.ref))
     );
 
     expect(usagerRefus.nom).toEqual("Nom refusé");
@@ -131,16 +134,16 @@ describe("UsagerReducer", () => {
   });
 
   it("should update usager notes", async () => {
-    store.dispatch(usagerActions.addUsager({ usager: USAGER_ACTIF_MOCK }));
+    store.dispatch(usagerActions.addUsager({ usager: USAGER_VALIDE_MOCK }));
     store.dispatch(
       usagerActions.updateUsagerNotes({
-        ref: USAGER_ACTIF_MOCK.ref,
+        ref: USAGER_VALIDE_MOCK.ref,
         nbNotes: 3,
       })
     );
 
     const usager = await firstValueFrom(
-      store.select(selectUsagerById(USAGER_ACTIF_MOCK.ref))
+      store.select(selectUsagerById(USAGER_VALIDE_MOCK.ref))
     );
 
     expect(usager.nbNotes).toBe(3);

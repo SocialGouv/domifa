@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { filter, Observable, Subscription } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 
 import { Store } from "@ngrx/store";
 import { UsagerLight } from "../../../../../_common/model";
@@ -45,17 +45,14 @@ export class BaseUsagerDossierPageComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     const id = this.route.snapshot.params.id;
     this.subscription.add(
-      this.store
-        .select(selectUsagerById(id))
-        .pipe(filter((usager): usager is UsagerLight => !!usager))
-        .subscribe({
-          next: (usager: UsagerLight) => {
-            this.usager = new UsagerFormModel(usager);
-          },
-          error: (error) => {
-            console.error("Erreur lors de la récupération du dossier:", error);
-          },
-        })
+      this.store.select(selectUsagerById(id)).subscribe({
+        next: (usager: UsagerLight) => {
+          this.usager = new UsagerFormModel(usager);
+        },
+        error: (error) => {
+          console.error("Erreur lors de la récupération du dossier:", error);
+        },
+      })
     );
 
     this.subscription.add(

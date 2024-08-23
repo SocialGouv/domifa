@@ -8,7 +8,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { UsagerFormModel } from "../../../interfaces";
 import { SetInteractionInFormComponent } from "./set-interaction-in-form.component";
 import { SharedModule } from "../../../../shared/shared.module";
-import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks";
+import { USAGER_VALIDE_MOCK } from "../../../../../../_common/mocks";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../../shared";
 
@@ -34,7 +34,7 @@ describe("SetInteractionInFormComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SetInteractionInFormComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
     fixture.detectChanges();
   });
 

@@ -4,7 +4,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks";
+import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks";
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
@@ -34,7 +34,7 @@ describe("ProfilAddNoteFormComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfilAddNoteFormComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
     fixture.detectChanges();
   });
 

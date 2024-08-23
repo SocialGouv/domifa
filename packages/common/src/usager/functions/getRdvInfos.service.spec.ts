@@ -1,4 +1,4 @@
-import { USAGER_ACTIF_MOCK } from "../../mocks";
+import { USAGER_VALIDE_MOCK } from "../../mocks";
 import {
   ETAPE_RENDEZ_VOUS,
   ETAPE_DOSSIER_COMPLET,
@@ -68,7 +68,7 @@ describe("Création des rendez-vous", () => {
   });
 
   it("Rendez-vous de base", () => {
-    const usager = USAGER_ACTIF_MOCK;
+    const usager = USAGER_VALIDE_MOCK;
     usager.rdv = { dateRdv: null, userId: 0, userName: "" };
     expect(getRdvInfos(usager)).toEqual({
       class: "",

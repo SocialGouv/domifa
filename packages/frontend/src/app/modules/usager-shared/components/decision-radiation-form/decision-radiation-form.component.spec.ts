@@ -10,7 +10,7 @@ import { DecisionRadiationFormComponent } from "./decision-radiation-form.compon
 
 import { RouterTestingModule } from "@angular/router/testing";
 
-import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
+import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks/USAGER_VALIDE.mock";
 import { UsagerFormModel } from "../../interfaces";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
@@ -41,7 +41,7 @@ describe("RadiationFormComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DecisionRadiationFormComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
     fixture.detectChanges();
   });
 

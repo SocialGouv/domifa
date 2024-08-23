@@ -10,7 +10,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ProfilDossierComponent } from "./profil-dossier.component";
 import { _usagerReducer } from "../../../../../shared";
 import { StoreModule } from "@ngrx/store";
-import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks";
+import { USAGER_VALIDE_MOCK } from "../../../../../../_common/mocks";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 
 describe("ProfilDossierComponent", () => {
@@ -35,7 +35,7 @@ describe("ProfilDossierComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfilDossierComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
     fixture.detectChanges();
   });
 

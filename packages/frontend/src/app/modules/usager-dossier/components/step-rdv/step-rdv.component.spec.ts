@@ -7,7 +7,7 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
+import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks/USAGER_VALIDE.mock";
 import { SharedModule } from "../../../shared/shared.module";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { StepRdvComponent } from "./step-rdv.component";
@@ -40,7 +40,7 @@ describe("StepRdvComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StepRdvComponent);
     component = fixture.debugElement.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
   });
 
   it("should create", () => {

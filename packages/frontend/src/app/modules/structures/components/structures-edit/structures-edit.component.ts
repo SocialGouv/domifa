@@ -16,7 +16,7 @@ import { AuthService } from "../../../shared/services/auth.service";
 import { StructureService } from "../../services/structure.service";
 import { UserStructure, StructureCommon } from "@domifa/common";
 import { Store } from "@ngrx/store";
-import { usagerActions } from "../../../../shared";
+import { usagerActions, UsagerState } from "../../../../shared";
 
 @Component({
   selector: "app-structures-edit",
@@ -41,7 +41,7 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
     private readonly authService: AuthService,
     private readonly modalService: NgbModal,
     private readonly titleService: Title,
-    private readonly store: Store
+    private readonly store: Store<UsagerState>
   ) {
     this.showHardReset = false;
     this.exportLoading = false;

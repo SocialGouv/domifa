@@ -5,6 +5,7 @@ import { Store } from "@ngrx/store";
 import { AuthService, CustomToastService } from "../../../../shared/services";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
+import { UsagerState } from "../../../../../shared";
 
 @Component({
   selector: "app-profil-sms-portail",
@@ -20,7 +21,7 @@ export class ProfilSmsPortailComponent extends BaseUsagerProfilPageComponent {
     protected readonly toastService: CustomToastService,
     protected readonly route: ActivatedRoute,
     protected readonly router: Router,
-    protected readonly store: Store
+    protected readonly store: Store<UsagerState>
   ) {
     super(
       authService,

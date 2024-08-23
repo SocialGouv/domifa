@@ -1,6 +1,6 @@
 import { ETAPE_DOSSIER_COMPLET } from "../usager";
 
-export const USAGER_ACTIF_MOCK = {
+export const USAGER_VALIDE_MOCK = {
   numeroDistribution: null,
   decision: {
     statut: "VALIDE",

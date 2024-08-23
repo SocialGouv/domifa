@@ -5,7 +5,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import {
-  USAGER_ACTIF_MOCK,
+  USAGER_VALIDE_MOCK,
   USER_STRUCTURE_MOCK,
 } from "../../../../../_common/mocks";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -29,7 +29,7 @@ describe("BaseUsagerNotesComponent", () => {
 
     fixture = TestBed.createComponent(BaseUsagerNotesComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
     component.me = USER_STRUCTURE_MOCK;
 
     fixture.detectChanges();

@@ -5,7 +5,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, waitForAsync, TestBed } from "@angular/core/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks/USAGER_ACTIF.mock";
+import { USAGER_VALIDE_MOCK } from "../../../../../../_common/mocks/USAGER_VALIDE.mock";
 import { UsagerFormModel } from "../../../interfaces";
 
 import { SetInteractionOutFormComponent } from "./set-interaction-out-form.component";
@@ -35,7 +35,7 @@ describe("SetInteractionOutFormComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SetInteractionOutFormComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
 
     fixture.detectChanges();
   });

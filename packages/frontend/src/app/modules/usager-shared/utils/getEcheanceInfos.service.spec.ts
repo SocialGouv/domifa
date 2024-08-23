@@ -1,4 +1,4 @@
-import { USAGER_ACTIF_MOCK } from "../../../../_common/mocks/USAGER_ACTIF.mock";
+import { USAGER_VALIDE_MOCK } from "../../../../_common/mocks/USAGER_VALIDE.mock";
 import { getEcheanceInfos } from "./getEcheanceInfos.service";
 import { addDays, subDays } from "date-fns";
 
@@ -11,7 +11,7 @@ describe("[getEcheanceInfos] Affichage des infos de l'échéance ", () => {
   });
 
   it("Domicilié Actif", () => {
-    const usager = USAGER_ACTIF_MOCK;
+    const usager = USAGER_VALIDE_MOCK;
 
     // On part d'aujourd'hui, on réduit les jours pour vérifier l'affichage
     // dateFin: new Date("2020-04-30"),
@@ -56,7 +56,7 @@ describe("[getEcheanceInfos] Affichage des infos de l'échéance ", () => {
   });
 
   it("Renouvellements", () => {
-    const usager = USAGER_ACTIF_MOCK;
+    const usager = USAGER_VALIDE_MOCK;
 
     usager.decision.statut = "ATTENTE_DECISION";
     expect(getEcheanceInfos(usager).isActif).toEqual(true);
@@ -66,7 +66,7 @@ describe("[getEcheanceInfos] Affichage des infos de l'échéance ", () => {
   });
 
   it("Instruction & Decision", () => {
-    const usager = USAGER_ACTIF_MOCK;
+    const usager = USAGER_VALIDE_MOCK;
     usager.typeDom = "PREMIERE_DOM";
     usager.decision.statut = "ATTENTE_DECISION";
     expect(getEcheanceInfos(usager).isActif).toEqual(false);
@@ -78,7 +78,7 @@ describe("[getEcheanceInfos] Affichage des infos de l'échéance ", () => {
   });
 
   it("Autres status : refus radiés", () => {
-    const usager = USAGER_ACTIF_MOCK;
+    const usager = USAGER_VALIDE_MOCK;
     usager.decision.dateFin = new Date();
 
     usager.decision.statut = "REFUS";

@@ -10,6 +10,7 @@ import { DocumentService } from "../../../../usager-shared/services/document.ser
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
 import { Store } from "@ngrx/store";
 import { CerfaDocType } from "@domifa/common";
+import { UsagerState } from "../../../../../shared";
 
 @Component({
   selector: "app-profil-documents-section",
@@ -23,7 +24,7 @@ export class ProfilDocumentsSectionComponent extends BaseUsagerProfilPageCompone
     protected readonly toastService: CustomToastService,
     protected readonly route: ActivatedRoute,
     protected readonly router: Router,
-    protected readonly store: Store,
+    protected readonly store: Store<UsagerState>,
     protected readonly documentService: DocumentService
   ) {
     super(

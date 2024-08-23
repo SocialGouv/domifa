@@ -58,7 +58,7 @@ export class UsagerFormModel implements Usager {
   public echeanceInfos: UsagerEcheanceInfos;
   public rdvInfos: UsagerRdvInfos;
 
-  public statusInfos: {
+  public statusInfo: {
     text: string;
     color: string;
   };
@@ -136,7 +136,7 @@ export class UsagerFormModel implements Usager {
     this.decision = new Decision(usager?.decision);
     this.statut = this.decision.statut;
 
-    this.statusInfos = {
+    this.statusInfo = {
       text: USAGER_DECISION_STATUT_LABELS[this.decision.statut],
       color: USAGER_DECISION_STATUT_COLORS[this.decision.statut],
     };
