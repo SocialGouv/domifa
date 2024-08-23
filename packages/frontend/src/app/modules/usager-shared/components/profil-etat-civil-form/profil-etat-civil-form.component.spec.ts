@@ -8,7 +8,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 
-import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
+import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks/USAGER_VALIDE.mock";
 import { UsagerFormModel } from "../../interfaces";
 
 import { ProfilEtatCivilFormComponent } from "./profil-etat-civil-form.component";
@@ -40,7 +40,7 @@ describe("ProfilEtatCivilFormComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfilEtatCivilFormComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
     fixture.detectChanges();
   });
 

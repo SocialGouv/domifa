@@ -19,7 +19,7 @@ export const setUsagerInformation = (usager: Usager): any => {
 
   return {
     ...usager,
-    statusInfos: {
+    statusInfo: {
       text: USAGER_DECISION_STATUT_LABELS[usager?.decision?.statut],
       color: USAGER_DECISION_STATUT_COLORS[usager?.decision?.statut],
     },

@@ -6,6 +6,7 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { AuthService } from "../../../../shared/services/auth.service";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { Store } from "@ngrx/store";
+import { UsagerState } from "../../../../../shared";
 
 @Component({
   selector: "app-profil-courriers",
@@ -19,7 +20,7 @@ export class ProfilCourriersComponent extends BaseUsagerProfilPageComponent {
     protected readonly toastService: CustomToastService,
     protected readonly route: ActivatedRoute,
     protected readonly router: Router,
-    protected readonly store: Store
+    protected readonly store: Store<UsagerState>
   ) {
     super(
       authService,

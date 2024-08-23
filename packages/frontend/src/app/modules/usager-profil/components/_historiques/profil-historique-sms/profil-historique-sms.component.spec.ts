@@ -6,7 +6,7 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ProfilHistoriqueSmsComponent } from "./profil-historique-sms.component";
-import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks";
+import { USAGER_VALIDE_MOCK } from "../../../../../../_common/mocks";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../../shared";
@@ -34,7 +34,7 @@ describe("ProfilHistoriqueSmsComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfilHistoriqueSmsComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
 
     fixture.detectChanges();
   });

@@ -3,7 +3,7 @@ import { NO_ERRORS_SCHEMA } from "@angular/core";
 
 import { DisplayEtatCivilDecisionComponent } from "./display-etat-civil-decision.component";
 import { FormatInternationalPhoneNumberPipe } from "../../../usager-shared/formatInternationalPhoneNumber.pipe";
-import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks";
+import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 describe("DisplayEtatCivilDecisionComponent", () => {
@@ -18,7 +18,7 @@ describe("DisplayEtatCivilDecisionComponent", () => {
     });
     fixture = TestBed.createComponent(DisplayEtatCivilDecisionComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
   });
 
   it("can load instance", () => {

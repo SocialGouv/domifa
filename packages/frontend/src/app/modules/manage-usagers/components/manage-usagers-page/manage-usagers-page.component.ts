@@ -259,9 +259,11 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     usagers: UsagerLight[],
     usagersRadiesTotalCount: number
   ) {
-    this.usagersCountByStatus = calculateUsagersCountByStatus(usagers);
-    this.usagersCountByStatus.RADIE = usagersRadiesTotalCount;
-    this.usagersCountByStatus.TOUS = usagers.length;
+    this.usagersCountByStatus = calculateUsagersCountByStatus(
+      usagers,
+      usagersRadiesTotalCount
+    );
+
     this.usagersRadiesLoadedCount = usagers.filter(
       (usager) => usager.statut === "RADIE"
     ).length;

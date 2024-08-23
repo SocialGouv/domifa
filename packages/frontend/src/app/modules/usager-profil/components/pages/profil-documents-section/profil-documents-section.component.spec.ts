@@ -9,7 +9,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ProfilDocumentsSectionComponent } from "./profil-documents-section.component";
 
-import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks/USAGER_ACTIF.mock";
+import { USAGER_VALIDE_MOCK } from "../../../../../../_common/mocks/USAGER_VALIDE.mock";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../../shared";
@@ -39,7 +39,7 @@ describe("ProfilDocumentsSectionComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfilDocumentsSectionComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
     fixture.detectChanges();
   });
 

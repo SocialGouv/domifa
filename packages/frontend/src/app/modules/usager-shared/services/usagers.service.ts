@@ -8,7 +8,7 @@ import {
   UsagerEtatCivilFormData,
   UsagerLight,
 } from "../../../../_common/model";
-import { usagerActions } from "../../../shared/store";
+import { usagerActions, UsagerState } from "../../../shared/store";
 import { Entretien } from "../interfaces";
 import { Store } from "@ngrx/store";
 
@@ -20,7 +20,7 @@ export class UsagerService {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly store: Store
+    private readonly store: Store<UsagerState>
   ) {}
 
   public findOne(usagerRef: number): Observable<UsagerLight> {

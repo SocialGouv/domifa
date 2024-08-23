@@ -6,6 +6,7 @@ import { BaseUsagerNotesComponent } from "../base-usager-notes/base-usager-notes
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AuthService } from "../../../shared/services";
 import { Store } from "@ngrx/store";
+import { UsagerState } from "../../../../shared";
 
 @Component({
   selector: "app-profil-general-notes",
@@ -18,7 +19,7 @@ export class ProfilGeneralNotesComponent extends BaseUsagerNotesComponent {
     protected readonly modalService: NgbModal,
     protected readonly toastService: CustomToastService,
     protected readonly authService: AuthService,
-    protected readonly store: Store
+    protected readonly store: Store<UsagerState>
   ) {
     super(usagerNotesService, modalService, toastService, authService, store);
   }

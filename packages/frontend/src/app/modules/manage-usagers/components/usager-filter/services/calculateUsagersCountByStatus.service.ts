@@ -2,13 +2,15 @@ import { UsagersCountByStatus } from "..";
 import { UsagerLight } from "../../../../../../_common/model";
 
 export function calculateUsagersCountByStatus(
-  usagers: UsagerLight[]
+  usagers: UsagerLight[],
+  usagersRadiesTotalCount: number
 ): UsagersCountByStatus {
-  return usagers.reduce(
+  const counters = usagers.reduce(
     (count, usager) => {
       // We skip "RADIE" already count by backend
       if (usager.statut !== "RADIE") {
         count[usager.statut]++;
+        count.TOUS++;
       }
       return count;
     },
@@ -21,4 +23,7 @@ export function calculateUsagersCountByStatus(
       TOUS: 0,
     }
   );
+  counters.TOUS = counters.TOUS + usagersRadiesTotalCount;
+  counters.RADIE = usagersRadiesTotalCount;
+  return counters;
 }

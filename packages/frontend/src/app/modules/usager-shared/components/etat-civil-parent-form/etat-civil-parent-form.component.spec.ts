@@ -7,7 +7,7 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
-import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks";
+import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks";
 import { UsagerFormModel } from "../../interfaces";
 
 import { EtatCivilParentFormComponent } from "./etat-civil-parent-form.component";
@@ -39,7 +39,7 @@ describe("EtatCivilParentFormComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EtatCivilParentFormComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
     fixture.detectChanges();
   });
 

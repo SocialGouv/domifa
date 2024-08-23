@@ -12,7 +12,7 @@ import {
 import { userStructureBuilder } from "../../users/services";
 import { Store } from "@ngrx/store";
 import { UserStructure, Usager } from "@domifa/common";
-import { usagerActions } from "../../../shared";
+import { usagerActions, UsagerState } from "../../../shared";
 
 @Injectable({
   providedIn: "root",
@@ -20,7 +20,10 @@ import { usagerActions } from "../../../shared";
 export class UsagerDossierService {
   public endPointUsagers = environment.apiUrl + "usagers";
 
-  constructor(private readonly http: HttpClient, private store: Store) {}
+  constructor(
+    private readonly http: HttpClient,
+    private store: Store<UsagerState>
+  ) {}
 
   public editStepEtatCivil(
     usager: UsagerEtatCivilFormData,

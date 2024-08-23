@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks/USAGER_ACTIF.mock";
+import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks/USAGER_VALIDE.mock";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { ProfilGeneralNotesComponent } from "./profil-general-notes.component";
 import { StoreModule } from "@ngrx/store";
@@ -35,7 +35,7 @@ describe("ProfilGeneralNotesComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfilGeneralNotesComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
     fixture.detectChanges();
   });
 

@@ -4,7 +4,7 @@ import { Observable, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { UsagerLight } from "../../../../_common/model";
 import { Store } from "@ngrx/store";
-import { usagerActions } from "../../../shared";
+import { usagerActions, UsagerState } from "../../../shared";
 import { ApiMessage, MessageSms } from "@domifa/common";
 
 @Injectable({
@@ -15,7 +15,7 @@ export class UsagerProfilService {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly store: Store
+    private readonly store: Store<UsagerState>
   ) {}
 
   public findOne(usagerRef: number): Observable<UsagerLight> {

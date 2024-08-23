@@ -8,6 +8,7 @@ import { Store } from "@ngrx/store";
 import { UsagersFilterCriteriaSortValues } from "../../../../manage-usagers/components/usager-filter";
 
 import { Order, UsagerNote } from "@domifa/common";
+import { UsagerState } from "../../../../../shared";
 
 @Component({
   selector: "app-profil-historique-notes",
@@ -25,7 +26,7 @@ export class ProfilHistoriqueNotesComponent extends BaseUsagerNotesComponent {
     protected readonly modalService: NgbModal,
     protected readonly toastService: CustomToastService,
     protected readonly authService: AuthService,
-    protected readonly store: Store
+    protected readonly store: Store<UsagerState>
   ) {
     super(usagerNotesService, modalService, toastService, authService, store);
     this.params = {

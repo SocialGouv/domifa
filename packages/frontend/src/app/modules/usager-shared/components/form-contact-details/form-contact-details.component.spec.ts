@@ -9,7 +9,7 @@ import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
 import { NGRX_PROVIDERS_TESTING } from "../../../../shared/store/tests";
 import { UsagerFormModel } from "../../interfaces";
-import { USAGER_ACTIF_MOCK } from "../../../../../_common/mocks";
+import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks";
 
 describe("FormContactDetailsComponent", () => {
   let component: FormContactDetailsComponent;
@@ -34,7 +34,7 @@ describe("FormContactDetailsComponent", () => {
 
     fixture = TestBed.createComponent(FormContactDetailsComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
 
     fixture.detectChanges();
   });

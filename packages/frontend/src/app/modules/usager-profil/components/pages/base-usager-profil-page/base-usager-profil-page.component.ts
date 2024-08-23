@@ -3,7 +3,11 @@ import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { UsagerLight } from "../../../../../../_common/model";
-import { getUsagerNomComplet, selectUsagerById } from "../../../../../shared";
+import {
+  getUsagerNomComplet,
+  selectUsagerById,
+  UsagerState,
+} from "../../../../../shared";
 import { AuthService, CustomToastService } from "../../../../shared/services";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
@@ -27,7 +31,7 @@ export class BaseUsagerProfilPageComponent implements OnInit, OnDestroy {
     protected readonly toastService: CustomToastService,
     protected readonly route: ActivatedRoute,
     protected readonly router: Router,
-    protected readonly store: Store
+    protected readonly store: Store<UsagerState>
   ) {
     this.me = this.authService.currentUserValue;
     this.titlePrefix = "";

@@ -2,7 +2,7 @@ import { CountryISO } from "@khazii/ngx-intl-tel-input";
 import { UsagerLight } from "../model";
 import { ETAPE_DOSSIER_COMPLET } from "@domifa/common";
 
-export const USAGER_ACTIF_MOCK: UsagerLight = {
+export const USAGER_VALIDE_MOCK: UsagerLight = {
   numeroDistribution: null,
   statut: "VALIDE",
   decision: {
@@ -20,7 +20,7 @@ export const USAGER_ACTIF_MOCK: UsagerLight = {
     userName: "Testeur Robin",
   },
   lastInteraction: {
-    colisIn: 0,
+    colisIn: 10,
     courrierIn: 0,
     enAttente: false,
     recommandeIn: 0,

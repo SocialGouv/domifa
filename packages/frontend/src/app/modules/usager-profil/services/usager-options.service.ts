@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { UsagerLight } from "../../../../_common/model";
-import { usagerActions } from "../../../shared";
+import { usagerActions, UsagerState } from "../../../shared";
 import { Store } from "@ngrx/store";
 import {
   UsagerOptionsTransfert,
@@ -20,7 +20,7 @@ export class UsagerOptionsService {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly store: Store
+    private readonly store: Store<UsagerState>
   ) {}
 
   public findHistory(

@@ -10,7 +10,7 @@ import {
 } from "../../../../_common/model";
 
 import { Store } from "@ngrx/store";
-import { usagerActions } from "../../../shared";
+import { usagerActions, UsagerState } from "../../../shared";
 import {
   Interaction,
   PageOptions,
@@ -26,7 +26,7 @@ export class InteractionService {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly store: Store
+    private readonly store: Store<UsagerState>
   ) {}
 
   public setInteraction(

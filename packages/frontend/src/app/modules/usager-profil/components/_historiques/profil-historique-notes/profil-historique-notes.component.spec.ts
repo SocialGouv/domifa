@@ -7,7 +7,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 
-import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks/USAGER_ACTIF.mock";
+import { USAGER_VALIDE_MOCK } from "../../../../../../_common/mocks/USAGER_VALIDE.mock";
 import { ProfilHistoriqueNotesComponent } from "./profil-historique-notes.component";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../../shared";
@@ -33,7 +33,7 @@ describe("ProfilHistoriqueNotesComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfilHistoriqueNotesComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
     fixture.detectChanges();
   });
 

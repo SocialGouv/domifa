@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbDatepickerI18n, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { USAGER_ACTIF_MOCK } from "../../../../../../_common/mocks/USAGER_ACTIF.mock";
+import { USAGER_VALIDE_MOCK } from "../../../../../../_common/mocks/USAGER_VALIDE.mock";
 import { MATOMO_INJECTORS, _usagerReducer } from "../../../../../shared";
 import { NotFoundComponent } from "../../../../general/components/errors/not-found/not-found.component";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
@@ -51,7 +51,7 @@ describe("UsagersProfilProcurationCourrierComponent", () => {
       UsagersProfilProcurationCourrierComponent
     );
     component = fixture.debugElement.componentInstance;
-    component.usager = new UsagerFormModel(USAGER_ACTIF_MOCK);
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
     component.ngOnInit();
   });
 
