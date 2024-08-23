@@ -2,15 +2,11 @@ import { UsagerLight } from "../../../../../../../_common/model";
 import { usagerStatutChecker } from "./usagerStatutChecker.service";
 
 const usager1 = {
-  decision: {
-    statut: "INSTRUCTION",
-  },
+  statut: "INSTRUCTION",
 } as UsagerLight;
 
 const usager2 = {
-  decision: {
-    statut: "ATTENTE_DECISION",
-  },
+  statut: "ATTENTE_DECISION",
   typeDom: "RENOUVELLEMENT",
 } as UsagerLight;
 

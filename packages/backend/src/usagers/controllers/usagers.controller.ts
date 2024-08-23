@@ -122,15 +122,13 @@ export class UsagersController {
       return usager;
     };
 
-    // Appliquer le filtre sur les deux ensembles d'usagers
-    const filteredUsagersNonRadies = usagersNonRadies.map(filterHistorique);
-    const filteredUsagersRadiesFirsts =
-      usagersRadiesFirsts.map(filterHistorique);
+    const usagersMerges = [...usagersNonRadies, ...usagersRadiesFirsts].map(
+      filterHistorique
+    );
 
     return {
-      usagersNonRadies: filteredUsagersNonRadies,
-      usagersRadiesFirsts: filteredUsagersRadiesFirsts,
       usagersRadiesTotalCount,
+      usagers: usagersMerges,
     };
   }
 

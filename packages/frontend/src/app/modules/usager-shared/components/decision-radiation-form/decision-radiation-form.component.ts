@@ -19,7 +19,7 @@ import {
   UsagerDecisionRadiationForm,
   UsagerLight,
 } from "../../../../../_common/model";
-import { cacheManager, minDateToday } from "../../../../shared";
+import { usagerActions, minDateToday } from "../../../../shared";
 import {
   NgbDateCustomParserFormatter,
   CustomToastService,
@@ -150,8 +150,13 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
             this.toastService.success(message);
             this.loading = false;
 
-            usagers.forEach((usager) =>
-              this.store.dispatch(cacheManager.updateUsager({ usager }))
+            this.store.dispatch(
+              usagerActions.updateManyUsagersForManage({ usagers })
+            );
+            this.store.dispatch(
+              usagerActions.updateUsagersRadiesTotalCount({
+                usagersRefsToDelete: this.selectedRefs.length,
+              })
             );
 
             this.modalService.dismissAll();

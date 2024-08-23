@@ -22,6 +22,7 @@ const usagers: UsagerLight[] = [
     decision: {
       statut: "VALIDE",
     },
+    statut: "VALIDE",
 
     options: {
       procurations: [
@@ -42,6 +43,8 @@ const usagers: UsagerLight[] = [
         nom: "Smith",
       },
     ],
+
+    statut: "RADIE",
     decision: {
       statut: "RADIE",
     },
@@ -57,9 +60,11 @@ const usagers: UsagerLight[] = [
     email: "claire.meunier@vprovider2.org",
     customRef: "003",
     children: [],
+    statut: "VALIDE",
     decision: {
       statut: "VALIDE",
     },
+
     ayantsDroits: [],
     options: {
       procurations: [

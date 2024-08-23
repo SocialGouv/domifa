@@ -66,7 +66,7 @@ export const USAGER_REFUS_MOCK: UsagerLight = {
   entretien: {
     structureId: 1,
     usagerUUID: "",
-    usagerRef: 5,
+    usagerRef: 6,
     situationPro: null,
     typeMenage: "COUPLE_AVEC_ENFANT",
     domiciliation: false,
@@ -120,7 +120,7 @@ export const USAGER_REFUS_MOCK: UsagerLight = {
   sexe: "femme",
   structureId: 1,
   villeNaissance: "Bouaké, Côte d'Ivoire",
-  ref: 5,
+  ref: 6,
   createdAt: new Date("2020-12-01T10:00:24.984Z"),
   updatedAt: new Date("2020-12-21T17:07:12.911Z"),
 };

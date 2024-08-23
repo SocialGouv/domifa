@@ -13,7 +13,7 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerNotesService } from "../../services/usager-notes.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Store, select } from "@ngrx/store";
-import { selectUsagerByRef } from "../../../../shared";
+import { selectUsagerById } from "../../../../shared";
 
 @Component({
   selector: "app-base-usager-notes",
@@ -57,7 +57,7 @@ export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
     this.loading = true;
 
     this.store
-      .pipe(select(selectUsagerByRef(this.usager.ref.toString())), take(1))
+      .pipe(select(selectUsagerById(this.usager.ref)), take(1))
       .subscribe((usager: UsagerLight) => {
         if (usager) {
           this.subscription.add(

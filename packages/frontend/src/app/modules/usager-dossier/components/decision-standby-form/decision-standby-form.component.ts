@@ -107,7 +107,7 @@ export class DecisionStandbyFormComponent implements OnInit, OnDestroy {
   public setDecisionAttente() {
     this.subscription.add(
       this.usagerDecisionService
-        .setDecision(this.usager.ref, { statut: "INSTRUCTION" }, true)
+        .setDecision(this.usager.ref, { statut: "INSTRUCTION" })
         .subscribe({
           next: () => {
             this.closeModals.emit();

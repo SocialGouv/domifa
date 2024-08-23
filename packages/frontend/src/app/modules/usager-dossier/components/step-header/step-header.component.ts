@@ -8,7 +8,11 @@ import {
   ETAPES_FORM_DOM_TITRES,
   UsagerLight,
 } from "../../../../../_common/model";
-import { getUsagerNomComplet, selectUsagerByRef } from "../../../../shared";
+import {
+  getUsagerNomComplet,
+  selectUsagerById,
+  UsagerState,
+} from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { Store } from "@ngrx/store";
@@ -37,7 +41,7 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly titleService: Title,
     private readonly toastService: CustomToastService,
-    private readonly store: Store
+    private readonly store: Store<UsagerState>
   ) {
     this.isMobile = this.checkIfIsMobile();
   }
@@ -84,7 +88,7 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.store
-        .select(selectUsagerByRef(this.usager.ref.toString()))
+        .select(selectUsagerById(this.usager.ref))
         .subscribe((usager: UsagerLight) => {
           this.nbNotes = usager?.nbNotes ?? 0;
         })

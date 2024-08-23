@@ -12,6 +12,7 @@ import { Title } from "@angular/platform-browser";
 
 import {
   BehaviorSubject,
+  combineLatest,
   fromEvent,
   Observable,
   of,
@@ -26,30 +27,34 @@ import {
   filter,
   map,
   switchMap,
+  takeUntil,
   tap,
   withLatestFrom,
 } from "rxjs/operators";
-import {
-  fadeInOut,
-  selectSearchPageLoadedUsagersData,
-} from "../../../../shared";
-import { SearchPageLoadedUsagersData } from "../../../../shared/store/AppStoreModel.type";
+import { fadeInOut } from "../../../../shared";
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 import {
-  UsagersByStatus,
-  usagersByStatusBuilder,
+  UsagersCountByStatus,
   usagersFilter,
   UsagersFilterCriteria,
   UsagersFilterCriteriaSortKey,
   UsagersFilterCriteriaSortValues,
 } from "../usager-filter";
-import { Store } from "@ngrx/store";
+import { select, Store } from "@ngrx/store";
 import { ManageUsagersService } from "../../services/manage-usagers.service";
 import { UserStructure } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 import { AuthService, CustomToastService } from "../../../shared/services";
+import {} from "../../../../shared/store/usager-actions.service";
+import {
+  selectAllUsagers,
+  selectUsagerStateData,
+  UsagerState,
+} from "../../../../shared/store/usager-actions-reducer.service";
+import { UsagerLight } from "../../../../../_common/model";
+import { calculateUsagersCountByStatus } from "../usager-filter/services";
 
 const FIVE_MINUTES = 5 * 60 * 1000;
 
@@ -64,12 +69,21 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
 
   public usagersTotalCount = 0;
   public usagersRadiesLoadedCount = 0;
-  public usagersRadiesTotalCount = 0;
 
   public displayCheckboxes: boolean;
   public chargerTousRadies$ = new BehaviorSubject(false);
 
-  public allUsagersByStatus: UsagersByStatus;
+  public usagersCountByStatus: UsagersCountByStatus = {
+    INSTRUCTION: 0,
+    VALIDE: 0,
+    ATTENTE_DECISION: 0,
+    REFUS: 0,
+    RADIE: 0,
+    TOUS: 0,
+  };
+
+  private destroy$ = new Subject<void>();
+
   public usagers: UsagerFormModel[] = [];
   public me!: UserStructure | null;
 
@@ -107,21 +121,12 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     private readonly usagerService: ManageUsagersService,
     private readonly authService: AuthService,
     private readonly titleService: Title,
-    private readonly store: Store,
+    private readonly store: Store<UsagerState>,
     private readonly matomo: MatomoTracker,
     private readonly toastr: CustomToastService
   ) {
     this.selectedRefs = [];
     this.displayCheckboxes = false;
-
-    this.allUsagersByStatus = {
-      INSTRUCTION: [],
-      VALIDE: [],
-      ATTENTE_DECISION: [],
-      REFUS: [],
-      RADIE: [],
-      TOUS: [],
-    };
 
     this.me = this.authService.currentUserValue;
 
@@ -141,29 +146,16 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.searchInput.nativeElement.value = this.filters.searchString;
+    const allUsagers$ = this.store.pipe(select(selectAllUsagers));
 
-    // 2. Subscribe to ngRx store
-    this.subscription.add(
-      this.store
-        .select(selectSearchPageLoadedUsagersData())
-        .subscribe(
-          (searchPageLoadedUsagersData: SearchPageLoadedUsagersData) => {
-            if (!searchPageLoadedUsagersData.dataLoaded) {
-              this.loadDataFromAPI();
-            } else {
-              this.updateComponentState(searchPageLoadedUsagersData);
-            }
-          }
-        )
-    );
+    this.searchInput.nativeElement.value = this.filters.searchString;
 
     const onSearchInputKeyUp$: Observable<string> = fromEvent<InputEvent>(
       this.searchInput.nativeElement,
       "input"
     ).pipe(
       map((event: InputEvent) => (event.target as HTMLInputElement).value),
-      debounceTime(300),
+      debounceTime(200),
       map((value: string) => value.trim()),
       filter((value: string) => value !== this.filters.searchString),
       withLatestFrom(this.chargerTousRadies$),
@@ -171,17 +163,14 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
         return this.findRemoteUsagers(chargerTousRadies, searchString);
       }),
       tap((searchString: string) => {
+        this.searching = true;
         this.filters.searchString = searchString ?? null;
         this.filters.page = 0;
         this.filters$.next(this.filters);
       })
     );
 
-    this.subscription.add(
-      onSearchInputKeyUp$.subscribe(() => {
-        // Nothing to do, just subscribe
-      })
-    );
+    this.subscription.add(onSearchInputKeyUp$.subscribe());
 
     this.subscription.add(
       timer(FIVE_MINUTES, FIVE_MINUTES)
@@ -198,11 +187,23 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      this.filters$.subscribe((filters) => {
-        this.applyFilters({
-          filters,
-          allUsagersByStatus: this.allUsagersByStatus,
-        });
+      combineLatest([this.filters$, allUsagers$])
+        .pipe(debounceTime(200), takeUntil(this.destroy$))
+        .subscribe(([filters, allUsagers]) => {
+          this.applyFilters({ filters, allUsagers });
+        })
+    );
+
+    this.subscription.add(
+      combineLatest([
+        this.store.select(selectUsagerStateData()),
+        this.store.select(selectAllUsagers),
+      ]).subscribe(([{ dataLoaded, usagersRadiesTotalCount }, usagers]) => {
+        if (!dataLoaded) {
+          this.loadDataFromAPI();
+        } else {
+          this.updateComponentState(usagers, usagersRadiesTotalCount);
+        }
       })
     );
   }
@@ -215,16 +216,16 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
             this.searching = true;
           }),
           switchMap((chargerTousRadies) =>
-            this.usagerService.getSearchPageUsagerData({ chargerTousRadies })
+            this.usagerService.fetchSearchPageUsagerData({
+              chargerTousRadies,
+            })
           ),
           switchMap(() => this.chargerTousRadies$),
           switchMap((chargerTousRadies) =>
             this.findRemoteUsagers(chargerTousRadies, this.filters.searchString)
           )
         )
-        .subscribe(() => {
-          this.searching = false;
-        })
+        .subscribe()
     );
   }
 
@@ -237,7 +238,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       searchString?.length >= 3 &&
       (this.filters.statut === "TOUS" || this.filters.statut === "RADIE")
     ) {
-      this.searching = true;
       return this.usagerService
         .getSearchPageRemoteSearchRadies({
           searchString,
@@ -256,32 +256,27 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   }
 
   private updateComponentState(
-    searchPageLoadedUsagersData: SearchPageLoadedUsagersData
+    usagers: UsagerLight[],
+    usagersRadiesTotalCount: number
   ) {
-    this.usagersRadiesTotalCount =
-      searchPageLoadedUsagersData.usagersRadiesTotalCount;
-    this.usagersTotalCount =
-      searchPageLoadedUsagersData.usagersRadiesTotalCount +
-      searchPageLoadedUsagersData.usagersNonRadies.length;
-    this.usagersRadiesLoadedCount =
-      searchPageLoadedUsagersData.usagersRadiesFirsts.length;
+    this.usagersCountByStatus = calculateUsagersCountByStatus(usagers);
+    this.usagersCountByStatus.RADIE = usagersRadiesTotalCount;
+    this.usagersCountByStatus.TOUS = usagers.length;
+    this.usagersRadiesLoadedCount = usagers.filter(
+      (usager) => usager.statut === "RADIE"
+    ).length;
 
-    const allUsagers = searchPageLoadedUsagersData.usagersNonRadies.concat(
-      searchPageLoadedUsagersData.usagersRadiesFirsts
-    );
-
-    this.allUsagersByStatus = usagersByStatusBuilder.build(allUsagers);
     this.filters$.next(this.filters);
   }
 
   public chargerTousRadies(): void {
+    this.searching = true;
     this.matomo.trackEvent(
       "MANAGE",
       "CHARGER_RADIES",
       this.me.structure.nom + " - " + this.me.structure.nom,
       1
     );
-
     this.scrollTop();
     this.chargerTousRadies$.next(true);
   }
@@ -302,6 +297,8 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.subscription.unsubscribe();
   }
 
@@ -386,10 +383,10 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
 
   public applyFilters({
     filters,
-    allUsagersByStatus,
+    allUsagers,
   }: {
     filters: UsagersFilterCriteria;
-    allUsagersByStatus: UsagersByStatus;
+    allUsagers: UsagerLight[];
   }): void {
     this.searching = true;
     this.selectedRefs = [];
@@ -406,13 +403,16 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     };
 
     const filteredUsagers = usagersFilter.filter(
-      allUsagersByStatus[filters.statut],
+      filters.statut !== "TOUS"
+        ? allUsagers.filter((usager) => usager.statut === filters.statut)
+        : allUsagers,
       {
         criteria: filterCriteria,
       }
     );
 
     this.nbResults = filteredUsagers.length;
+
     this.usagers = filteredUsagers.slice(
       0,
       filters.page === 0 ? this.pageSize : filters.page * this.pageSize

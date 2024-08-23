@@ -4,7 +4,7 @@ import { Store } from "@ngrx/store";
 import { Observable, tap } from "rxjs";
 import { UsagerLight } from "../../../../_common/model";
 import { environment } from "../../../../environments/environment";
-import { cacheManager } from "../../../shared";
+import { usagerActions, UsagerState } from "../../../shared";
 import { UserUsager } from "@domifa/common";
 
 export type PortailUsagersInformations = Pick<
@@ -24,7 +24,7 @@ export class PortailUsagersService {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly store: Store
+    private readonly store: Store<UsagerState>
   ) {}
 
   public getPortailUsagersInformations(
@@ -58,7 +58,7 @@ export class PortailUsagersService {
       .pipe(
         tap((result: { usager: UsagerLight }) => {
           this.store.dispatch(
-            cacheManager.updateUsager({ usager: result.usager })
+            usagerActions.updateUsager({ usager: result.usager })
           );
         })
       );

@@ -1,4 +1,3 @@
-import { cacheManager } from "./../../../shared/store/ngRxUsagersCache.service";
 import { RdvForm } from "./../../../../_common/model/usager/rdv/RdvForm.type";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
@@ -13,6 +12,7 @@ import {
 import { userStructureBuilder } from "../../users/services";
 import { Store } from "@ngrx/store";
 import { UserStructure, Usager } from "@domifa/common";
+import { usagerActions } from "../../../shared";
 
 @Injectable({
   providedIn: "root",
@@ -33,7 +33,7 @@ export class UsagerDossierService {
           tap({
             next: (newUsager: Usager) => {
               this.store.dispatch(
-                cacheManager.updateUsager({ usager: newUsager })
+                usagerActions.updateUsager({ usager: newUsager })
               );
               return newUsager;
             },
@@ -44,7 +44,7 @@ export class UsagerDossierService {
     return this.http.post<Usager>(`${this.endPointUsagers}`, usager).pipe(
       tap({
         next: (newUsager: Usager) => {
-          this.store.dispatch(cacheManager.addUsager({ usager: newUsager }));
+          this.store.dispatch(usagerActions.addUsager({ usager: newUsager }));
           return newUsager;
         },
       })
@@ -57,7 +57,9 @@ export class UsagerDossierService {
       .post<UsagerLight>(`${environment.apiUrl}agenda/${usagerRef}`, rdv)
       .pipe(
         tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
         })
       );
   }
@@ -72,7 +74,9 @@ export class UsagerDossierService {
       )
       .pipe(
         tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
           return newUsager;
         })
       );
@@ -92,7 +96,7 @@ export class UsagerDossierService {
   public findOne(usagerRef: number): Observable<Usager> {
     return this.http.get<Usager>(`${this.endPointUsagers}/${usagerRef}`).pipe(
       tap((newUsager: Usager) => {
-        this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+        this.store.dispatch(usagerActions.updateUsager({ usager: newUsager }));
       })
     );
   }
