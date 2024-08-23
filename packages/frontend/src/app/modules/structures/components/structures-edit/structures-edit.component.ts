@@ -16,7 +16,7 @@ import { AuthService } from "../../../shared/services/auth.service";
 import { StructureService } from "../../services/structure.service";
 import { UserStructure, StructureCommon } from "@domifa/common";
 import { Store } from "@ngrx/store";
-import { cacheManager } from "../../../../shared";
+import { usagerActions } from "../../../../shared";
 
 @Component({
   selector: "app-structures-edit",
@@ -105,7 +105,7 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
             this.toastService.success(
               "La remise à zéro a été effectuée avec succès !"
             );
-            this.store.dispatch(cacheManager.clearCache());
+            this.store.dispatch(usagerActions.clearCache());
 
             setTimeout(() => {
               this.closeModals();

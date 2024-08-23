@@ -10,7 +10,7 @@ import {
 } from "../../../../_common/model";
 
 import { Store } from "@ngrx/store";
-import { cacheManager } from "../../../shared";
+import { usagerActions } from "../../../shared";
 import {
   Interaction,
   PageOptions,
@@ -37,7 +37,9 @@ export class InteractionService {
       .post<UsagerLight>(`${this.endPoint}${usagerRef}`, interactions)
       .pipe(
         tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
         })
       );
   }
@@ -79,7 +81,9 @@ export class InteractionService {
       .delete<UsagerLight>(`${this.endPoint}${usagerRef}/${interactionUuid}`)
       .pipe(
         tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
           return newUsager;
         })
       );

@@ -10,7 +10,7 @@ import {
   UsagerLight,
 } from "../../../../_common/model";
 
-import { cacheManager } from "../../../shared/store";
+import { usagerActions } from "../../../shared/store";
 import { Store } from "@ngrx/store";
 
 @Injectable({
@@ -30,7 +30,9 @@ export class UsagerDecisionService {
       .get<UsagerLight>(`${this.endPointDecision}/renouvellement/${usagerRef}`)
       .pipe(
         tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
         })
       );
   }
@@ -40,7 +42,9 @@ export class UsagerDecisionService {
       .delete<UsagerLight>(`${this.endPointDecision}/${usagerRef}`)
       .pipe(
         tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
         })
       );
   }
@@ -71,7 +75,7 @@ export class UsagerDecisionService {
         tap((newUsager: UsagerLight) => {
           if (updateStore) {
             this.store.dispatch(
-              cacheManager.updateUsager({ usager: newUsager })
+              usagerActions.updateUsager({ usager: newUsager })
             );
           }
         })

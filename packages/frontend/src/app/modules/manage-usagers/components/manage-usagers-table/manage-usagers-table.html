@@ -157,8 +157,8 @@
         </label>
       </td>
       <td *ngIf="filters.statut === 'TOUS'" class="clickable text-start">
-        <span [class]="'label-info ' + usager.statusInfos.color">
-          {{ usager.statusInfos.text }}</span
+        <span [class]="'label-info ' + usager?.statusInfos?.color">
+          {{ usager?.statusInfos?.text }}</span
         >
       </td>
       <td
@@ -170,7 +170,7 @@
       </td>
       <td>
         <img
-          *ngIf="usager.pinnedNote"
+          *ngIf="usager?.pinnedNote"
           [ngbTooltip]="pinnedNote"
           triggers="hover focus"
           src="/assets/icones/pinned-note.svg"

@@ -5,7 +5,7 @@ import { Subscription, concatMap, from, toArray } from "rxjs";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerProfilService } from "../../../usager-profil/services/usager-profil.service";
 import { Store } from "@ngrx/store";
-import { cacheManager } from "../../../../shared";
+import { usagerActions } from "../../../../shared";
 import { Router } from "@angular/router";
 import { UserStructure } from "@domifa/common";
 
@@ -57,7 +57,7 @@ export class DeleteUsagerComponent implements OnDestroy {
             }
             this.modalService.dismissAll();
             this.store.dispatch(
-              cacheManager.deleteUsagers({ usagerRefs: this.selectedRefs })
+              usagerActions.deleteUsagers({ usagerRefs: this.selectedRefs })
             );
           },
           error: () => {

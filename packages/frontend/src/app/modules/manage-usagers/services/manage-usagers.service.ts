@@ -5,9 +5,9 @@ import { map, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 
 import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
-import { cacheManager, setUsagerInformations } from "../../../shared/store";
-import { SearchPageLoadedUsagersData } from "../../../shared/store/AppStoreModel.type";
+
 import { Store } from "@ngrx/store";
+import { setUsagerInformation, usagerActions } from "../../../shared";
 
 @Injectable({
   providedIn: "root",
@@ -20,35 +20,38 @@ export class ManageUsagersService {
     private readonly store: Store
   ) {}
 
-  public getSearchPageUsagerData({
+  public fetchSearchPageUsagerData({
     chargerTousRadies,
   }: {
     chargerTousRadies: boolean;
-  }): Observable<SearchPageLoadedUsagersData> {
+  }): Observable<void> {
     return this.http
-      .get<SearchPageLoadedUsagersData>(
+      .get<{ usagers: UsagerLight[]; usagersRadiesTotalCount: number }>(
         `${environment.apiUrl}usagers/?chargerTousRadies=${chargerTousRadies}`
       )
       .pipe(
-        map((searchPageLoadedUsagersData: SearchPageLoadedUsagersData) => {
-          searchPageLoadedUsagersData.dataLoaded = true;
-          searchPageLoadedUsagersData.usagersRadiesFirsts =
-            searchPageLoadedUsagersData.usagersRadiesFirsts.map(
-              (usager: UsagerLight) => setUsagerInformations(usager)
-            );
-          searchPageLoadedUsagersData.usagersNonRadies =
-            searchPageLoadedUsagersData.usagersNonRadies.map(
-              (usager: UsagerLight) => setUsagerInformations(usager)
-            );
-          return searchPageLoadedUsagersData;
-        }),
-        tap((searchPageLoadedUsagersData: SearchPageLoadedUsagersData) => {
+        map(
+          (data: {
+            usagers: UsagerLight[];
+            usagersRadiesTotalCount: number;
+          }) => {
+            return {
+              usagers: data.usagers.map((usager) =>
+                setUsagerInformation(usager)
+              ),
+              usagersRadiesTotalCount: data.usagersRadiesTotalCount,
+            };
+          }
+        ),
+        tap(({ usagers, usagersRadiesTotalCount }) => {
           this.store.dispatch(
-            cacheManager.setSearchPageLoadedUsagersData({
-              searchPageLoadedUsagersData,
+            usagerActions.loadUsagersSuccess({
+              usagers,
+              usagersRadiesTotalCount,
             })
           );
-        })
+        }),
+        map(() => void 0) // Return void as specified in the return type
       );
   }
 
@@ -63,9 +66,11 @@ export class ManageUsagersService {
       })
       .pipe(
         tap((usagers: UsagerLight[]) => {
-          usagers.forEach((usager) =>
-            this.store.dispatch(cacheManager.updateUsager({ usager }))
-          );
+          if (usagers?.length) {
+            this.store.dispatch(
+              usagerActions.updateManyUsagersForManage({ usagers })
+            );
+          }
         }),
         map(() => {
           return searchString;
@@ -77,11 +82,11 @@ export class ManageUsagersService {
     return this.http
       .get<UsagerLight[]>(`${environment.apiUrl}usagers/update-manage`)
       .pipe(
-        tap((usagers: UsagerLight[]) => {
-          usagers.forEach((usager) =>
-            this.store.dispatch(cacheManager.updateUsager({ usager }))
-          );
-        })
+        tap((usagers: UsagerLight[]) =>
+          this.store.dispatch(
+            usagerActions.updateManyUsagersForManage({ usagers })
+          )
+        )
       );
   }
 }

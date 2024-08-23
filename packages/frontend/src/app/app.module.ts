@@ -34,9 +34,8 @@ import {
   createErrorHandler,
   init,
 } from "@sentry/angular";
-import { MATOMO_INJECTORS } from "./shared";
+import { _usagerReducer, MATOMO_INJECTORS } from "./shared";
 import { StoreModule } from "@ngrx/store";
-import { _usagerReducer } from "./shared/store/ngRxAppStore.service";
 import { registerLocaleData } from "@angular/common";
 import localeFr from "@angular/common/locales/fr";
 import { provideUserIdleConfig } from "angular-user-idle";

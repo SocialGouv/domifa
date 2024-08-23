@@ -4,7 +4,7 @@ import { Observable, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { UsagerLight } from "../../../../_common/model";
 import { Store } from "@ngrx/store";
-import { cacheManager } from "../../../shared";
+import { usagerActions } from "../../../shared";
 import { ApiMessage, MessageSms } from "@domifa/common";
 
 @Injectable({
@@ -23,13 +23,23 @@ export class UsagerProfilService {
       .get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`)
       .pipe(
         tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
         })
       );
   }
 
   public delete(usagerRef: number): Observable<ApiMessage> {
-    return this.http.delete<ApiMessage>(`${this.endPointUsagers}/${usagerRef}`);
+    return this.http
+      .delete<ApiMessage>(`${this.endPointUsagers}/${usagerRef}`)
+      .pipe(
+        tap(() => {
+          this.store.dispatch(
+            usagerActions.deleteUsagers({ usagerRefs: [usagerRef] })
+          );
+        })
+      );
   }
 
   public stopCourrier(usagerRef: number): Observable<UsagerLight> {
@@ -37,7 +47,9 @@ export class UsagerProfilService {
       .get<UsagerLight>(`${this.endPointUsagers}/stop-courrier/${usagerRef}`)
       .pipe(
         tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
         })
       );
   }

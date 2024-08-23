@@ -8,7 +8,7 @@ import {
   UsagerEtatCivilFormData,
   UsagerLight,
 } from "../../../../_common/model";
-import { cacheManager } from "../../../shared/store";
+import { usagerActions } from "../../../shared/store";
 import { Entretien } from "../interfaces";
 import { Store } from "@ngrx/store";
 
@@ -28,7 +28,9 @@ export class UsagerService {
       .get<UsagerLight>(`${this.endPointUsagers}/${usagerRef}`)
       .pipe(
         tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
         })
       );
   }
@@ -44,7 +46,9 @@ export class UsagerService {
       )
       .pipe(
         tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
           return newUsager;
         })
       );
@@ -58,7 +62,9 @@ export class UsagerService {
       .patch<UsagerLight>(`${this.endPointUsagers}/${ref}`, usager)
       .pipe(
         tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
           return newUsager;
         })
       );
@@ -78,7 +84,9 @@ export class UsagerService {
       )
       .pipe(
         tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
           return newUsager;
         })
       );

@@ -4,7 +4,7 @@ import { Observable, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { UsagerLight } from "../../../../_common/model";
 
-import { cacheManager } from "../../../shared";
+import { usagerActions, UsagerState } from "../../../shared";
 import { Store } from "@ngrx/store";
 import { PageOptions, PageResults, UsagerNote, Usager } from "@domifa/common";
 
@@ -14,7 +14,10 @@ import { PageOptions, PageResults, UsagerNote, Usager } from "@domifa/common";
 export class UsagerNotesService {
   public endPoint = environment.apiUrl + "usagers-notes";
 
-  constructor(private readonly http: HttpClient, public store: Store) {}
+  constructor(
+    private readonly http: HttpClient,
+    public store: Store<UsagerState>
+  ) {}
 
   public getUsagerNotes(usagerRef: number): Observable<UsagerNote[]> {
     return this.http.get<UsagerNote[]>(`${this.endPoint}/${usagerRef}`);
@@ -43,8 +46,8 @@ export class UsagerNotesService {
       .pipe(
         tap((notes: PageResults<UsagerNote>) => {
           this.store.dispatch(
-            cacheManager.updateUsagerNotes({
-              ref: usager.ref.toString(),
+            usagerActions.updateUsagerNotes({
+              ref: usager.ref,
               nbNotes: notes.meta.itemCount,
             })
           );
@@ -64,7 +67,9 @@ export class UsagerNotesService {
       .put<Usager>(`${this.endPoint}/${usagerRef}/archive/${noteUUID}`, {})
       .pipe(
         tap((newUsager: Usager) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
           return newUsager;
         })
       );
@@ -81,7 +86,9 @@ export class UsagerNotesService {
       .put<Usager>(`${this.endPoint}/${usagerRef}/pin/${noteUUID}`, {})
       .pipe(
         tap((newUsager: Usager) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
           return newUsager;
         })
       );
@@ -98,7 +105,9 @@ export class UsagerNotesService {
       .delete<Usager>(`${this.endPoint}/${usagerRef}/${noteUUID}`, {})
       .pipe(
         tap((newUsager: Usager) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
           return newUsager;
         })
       );

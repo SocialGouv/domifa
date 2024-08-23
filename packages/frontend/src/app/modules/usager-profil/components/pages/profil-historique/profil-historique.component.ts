@@ -7,6 +7,7 @@ import { AuthService } from "../../../../shared/services/auth.service";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
 import { Store } from "@ngrx/store";
+import { UsagerState } from "../../../../../shared";
 
 type HistorySections =
   | "decisions"
@@ -68,7 +69,7 @@ export class ProfilHistoriqueComponent
     public toastService: CustomToastService,
     public route: ActivatedRoute,
     public router: Router,
-    public store: Store
+    public store: Store<UsagerState>
   ) {
     super(
       authService,

@@ -1,11 +1,15 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Observable, Subscription } from "rxjs";
+import { filter, Observable, Subscription } from "rxjs";
 
 import { Store } from "@ngrx/store";
 import { UsagerLight } from "../../../../../_common/model";
-import { selectUsagerByRef, getUsagerNomComplet } from "../../../../shared";
+import {
+  selectUsagerById,
+  getUsagerNomComplet,
+  UsagerState,
+} from "../../../../shared";
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
@@ -31,7 +35,7 @@ export class BaseUsagerDossierPageComponent implements OnInit, OnDestroy {
     protected readonly toastService: CustomToastService,
     protected readonly route: ActivatedRoute,
     protected readonly router: Router,
-    protected readonly store: Store
+    protected readonly store: Store<UsagerState>
   ) {
     this.me = this.authService.currentUserValue;
     this.currentUserSubject$ = this.authService.currentUserSubject;
@@ -42,11 +46,15 @@ export class BaseUsagerDossierPageComponent implements OnInit, OnDestroy {
     const id = this.route.snapshot.params.id;
     this.subscription.add(
       this.store
-        .select(selectUsagerByRef(id))
-        .subscribe((usager: UsagerLight) => {
-          if (usager) {
+        .select(selectUsagerById(id))
+        .pipe(filter((usager): usager is UsagerLight => !!usager))
+        .subscribe({
+          next: (usager: UsagerLight) => {
             this.usager = new UsagerFormModel(usager);
-          }
+          },
+          error: (error) => {
+            console.error("Erreur lors de la récupération du dossier:", error);
+          },
         })
     );
 

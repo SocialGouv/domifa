@@ -3,7 +3,7 @@ import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { UsagerLight } from "../../../../../../_common/model";
-import { getUsagerNomComplet, selectUsagerByRef } from "../../../../../shared";
+import { getUsagerNomComplet, selectUsagerById } from "../../../../../shared";
 import { AuthService, CustomToastService } from "../../../../shared/services";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
@@ -36,7 +36,7 @@ export class BaseUsagerProfilPageComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     const id = this.route.snapshot.params.id;
     this.subscription.add(
-      this.store.select(selectUsagerByRef(id)).subscribe({
+      this.store.select(selectUsagerById(id)).subscribe({
         next: (usager: UsagerLight) => {
           if (usager) {
             this.usager = new UsagerFormModel(usager);

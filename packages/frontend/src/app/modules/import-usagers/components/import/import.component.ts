@@ -30,7 +30,7 @@ import {
   UserStructure,
 } from "@domifa/common";
 import { Store } from "@ngrx/store";
-import { cacheManager } from "../../../../shared";
+import { usagerActions, UsagerState } from "../../../../shared";
 
 @Component({
   selector: "app-import",
@@ -64,7 +64,7 @@ export class ImportComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly toastService: CustomToastService,
     private readonly titleService: Title,
-    private readonly store: Store
+    private readonly store: Store<UsagerState>
   ) {
     this.visibleRows = [];
     this.showTable = false;
@@ -152,7 +152,7 @@ export class ImportComponent implements OnInit, OnDestroy {
               this.previewTable = previewTable;
               this.visibleRows = this.previewTable.rows.slice(0, 50); // show 50 rows max
             } else {
-              this.store.dispatch(cacheManager.clearCache());
+              this.store.dispatch(usagerActions.clearCache());
               this.toastService.success("L'import a eu lieu avec succès");
               this.router.navigate(["/manage"]);
             }

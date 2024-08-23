@@ -9,6 +9,7 @@ import { Subscription } from "rxjs";
 import { BaseUsagerDossierPageComponent } from "../base-usager-dossier-page/base-usager-dossier-page.component";
 import { Title } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
+import { UsagerState } from "../../../../shared";
 
 @Component({
   selector: "app-usager-dossier-step-entretien",
@@ -28,7 +29,7 @@ export class StepEntretienComponent
     public toastService: CustomToastService,
     public route: ActivatedRoute,
     public router: Router,
-    public store: Store
+    public store: Store<UsagerState>
   ) {
     super(
       authService,

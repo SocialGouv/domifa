@@ -24,7 +24,8 @@ import {
   fadeInOut,
   minDateToday,
   NoWhiteSpaceValidator,
-  selectUsagerByRef,
+  selectUsagerById,
+  UsagerState,
 } from "../../../../shared";
 
 import { Title } from "@angular/platform-browser";
@@ -64,7 +65,7 @@ export class StepRdvComponent
     public toastService: CustomToastService,
     public route: ActivatedRoute,
     public router: Router,
-    public store: Store,
+    public store: Store<UsagerState>,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly documentService: DocumentService,
     private readonly nbgDate: NgbDateCustomParserFormatter
@@ -95,7 +96,7 @@ export class StepRdvComponent
 
     this.subscription.add(
       this.store
-        .select(selectUsagerByRef(id))
+        .select(selectUsagerById(id))
         .subscribe((usager: UsagerLight) => {
           if (usager) {
             this.usager = new UsagerFormModel(usager);

@@ -14,7 +14,11 @@ import {
   InteractionInForApi,
   DEFAULT_MODAL_OPTIONS,
 } from "../../../../../../_common/model";
-import { minDateNaissance, formatDateToNgb } from "../../../../../shared";
+import {
+  minDateNaissance,
+  formatDateToNgb,
+  UsagerState,
+} from "../../../../../shared";
 import { AuthService, CustomToastService } from "../../../../shared/services";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
@@ -63,7 +67,7 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
     public toastService: CustomToastService,
     public route: ActivatedRoute,
     public router: Router,
-    public store: Store,
+    public store: Store<UsagerState>,
     private readonly modalService: NgbModal,
     private readonly interactionService: InteractionService
   ) {

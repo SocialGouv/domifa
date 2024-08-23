@@ -8,7 +8,7 @@ import { BehaviorSubject, Observable, firstValueFrom, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
 
-import { cacheManager } from "../../../shared";
+import { usagerActions, UsagerState } from "../../../shared";
 import { userStructureBuilder } from "../../users/services";
 import { CustomToastService } from "./custom-toast.service";
 import { getCurrentScope } from "@sentry/angular";
@@ -27,7 +27,7 @@ export class AuthService {
     private readonly http: HttpClient,
     private readonly toastr: CustomToastService,
     private readonly router: Router,
-    private readonly store: Store
+    private readonly store: Store<UsagerState>
   ) {
     const dataStorage = localStorage.getItem("currentUser");
     this.currentUserSubject = new BehaviorSubject<UserStructure | null>(
@@ -58,7 +58,7 @@ export class AuthService {
           );
 
           user.access_token = token.access_token;
-          this.store.dispatch(cacheManager.clearCache());
+          this.store.dispatch(usagerActions.clearCache());
           this.setUser(user);
           return user;
         })
@@ -93,7 +93,7 @@ export class AuthService {
 
   public async logout(): Promise<void> {
     this.currentUserSubject.next(null);
-    this.store.dispatch(cacheManager.clearCache());
+    this.store.dispatch(usagerActions.clearCache());
     localStorage.removeItem("currentUser");
     localStorage.removeItem("MANAGE_USAGERS");
 

@@ -7,6 +7,7 @@ import { UsagerDossierService } from "../../services/usager-dossier.service";
 import { Title } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
 import { BaseUsagerDossierPageComponent } from "../base-usager-dossier-page/base-usager-dossier-page.component";
+import { UsagerState } from "../../../../shared";
 
 @Component({
   selector: "app-usager-documents-form",
@@ -20,7 +21,7 @@ export class StepDocumentsComponent extends BaseUsagerDossierPageComponent {
     protected readonly toastService: CustomToastService,
     protected readonly route: ActivatedRoute,
     protected readonly router: Router,
-    protected readonly store: Store
+    protected readonly store: Store<UsagerState>
   ) {
     super(
       authService,

@@ -24,6 +24,7 @@ import {
   CustomToastService,
 } from "../../../shared/services";
 import { CerfaDocType } from "@domifa/common";
+import { UsagerState } from "../../../../shared";
 
 @Component({
   providers: [
@@ -50,7 +51,7 @@ export class StepDecisionComponent
     protected readonly toastService: CustomToastService,
     protected readonly route: ActivatedRoute,
     protected readonly router: Router,
-    protected readonly store: Store,
+    protected readonly store: Store<UsagerState>,
     private readonly usagerDecisionService: UsagerDecisionService,
     private readonly modalService: NgbModal,
     private readonly matomo: MatomoTracker,
@@ -77,7 +78,7 @@ export class StepDecisionComponent
   public setDecisionAttente() {
     this.subscription.add(
       this.usagerDecisionService
-        .setDecision(this.usager.ref, { statut: "ATTENTE_DECISION" }, true)
+        .setDecision(this.usager.ref, { statut: "ATTENTE_DECISION" })
         .subscribe({
           next: () => {
             this.toastService.success("Décision enregistrée avec succès !");

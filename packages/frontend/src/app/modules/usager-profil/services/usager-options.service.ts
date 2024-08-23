@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable, tap } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { UsagerLight } from "../../../../_common/model";
-import { cacheManager } from "../../../shared";
+import { usagerActions } from "../../../shared";
 import { Store } from "@ngrx/store";
 import {
   UsagerOptionsTransfert,
@@ -40,7 +40,9 @@ export class UsagerOptionsService {
       .post<UsagerLight>(`${this.endPoint}transfert/${usagerRef}`, transfert)
       .pipe(
         tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
         })
       );
   }
@@ -50,7 +52,9 @@ export class UsagerOptionsService {
       .delete<UsagerLight>(`${this.endPoint}transfert/${usagerRef}`)
       .pipe(
         tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
         })
       );
   }
@@ -66,7 +70,9 @@ export class UsagerOptionsService {
       )
       .pipe(
         tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
         })
       );
   }
@@ -81,7 +87,9 @@ export class UsagerOptionsService {
       )
       .pipe(
         tap((newUsager: UsagerLight) => {
-          this.store.dispatch(cacheManager.updateUsager({ usager: newUsager }));
+          this.store.dispatch(
+            usagerActions.updateUsager({ usager: newUsager })
+          );
         })
       );
   }

@@ -11,7 +11,7 @@ function check({
 }: {
   usager: UsagerLight;
 } & Pick<UsagersFilterCriteria, "statut">): boolean {
-  if (statut && statut !== "TOUS" && statut !== usager.decision?.statut) {
+  if (statut && statut !== "TOUS" && statut !== usager.statut) {
     return false;
   }
   return true;
