@@ -1,3 +1,11 @@
+## [2.173.25](https://github.com/SocialGouv/domifa/compare/v2.173.24...v2.173.25) (2024-08-23)
+
+
+### Bug Fixes
+
+* **frontend:** refactor of ngRx using to reduce memory usage ([38b1853](https://github.com/SocialGouv/domifa/commit/38b185335e538f6debcebd3cb4ef9a4948265eb3))
+* **frontend:** update unit test mocks ([e817092](https://github.com/SocialGouv/domifa/commit/e817092fbd574b72d2662ce05e4bdb131fe0578d))
+
 ## [2.173.24](https://github.com/SocialGouv/domifa/compare/v2.173.23...v2.173.24) (2024-08-22)
 
 
