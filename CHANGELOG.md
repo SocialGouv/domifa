@@ -1,3 +1,10 @@
+## [2.173.26](https://github.com/SocialGouv/domifa/compare/v2.173.25...v2.173.26) (2024-08-26)
+
+
+### Bug Fixes
+
+* **frontend:** delete disable when searching ([003679a](https://github.com/SocialGouv/domifa/commit/003679a7720d5a3f5916b168bb7cfe2523b36423))
+
 ## [2.173.25](https://github.com/SocialGouv/domifa/compare/v2.173.24...v2.173.25) (2024-08-23)
 
 
