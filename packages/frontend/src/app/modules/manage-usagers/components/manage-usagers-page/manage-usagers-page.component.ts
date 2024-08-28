@@ -29,6 +29,7 @@ import {
   switchMap,
   takeUntil,
   tap,
+  throttleTime,
   withLatestFrom,
 } from "rxjs/operators";
 import { fadeInOut } from "../../../../shared";
@@ -83,6 +84,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   };
 
   private destroy$ = new Subject<void>();
+  private scrollSubject = new Subject<void>();
 
   public usagers: UsagerFormModel[] = [];
   public me!: UserStructure | null;
@@ -139,6 +141,10 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.pageSize = 50;
     this.filters.page = 0;
     this.titleService.setTitle("Gestion des domiciliés - DomiFa");
+
+    this.scrollSubject.pipe(throttleTime(500)).subscribe(() => {
+      this.handleScroll();
+    });
   }
 
   public ngOnInit(): void {
@@ -155,7 +161,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       "input"
     ).pipe(
       map((event: InputEvent) => (event.target as HTMLInputElement).value),
-      debounceTime(200),
+      debounceTime(300),
       map((value: string) => value.trim()),
       filter((value: string) => value !== this.filters.searchString),
       withLatestFrom(this.chargerTousRadies$),
@@ -188,7 +194,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       combineLatest([this.filters$, allUsagers$])
-        .pipe(debounceTime(200), takeUntil(this.destroy$))
+        .pipe(debounceTime(300), takeUntil(this.destroy$))
         .subscribe(([filters, allUsagers]) => {
           this.applyFilters({ filters, allUsagers });
         })
@@ -453,13 +459,17 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
 
   @HostListener("window:scroll", ["$event"])
   public onScroll(): void {
+    this.scrollSubject.next();
+  }
+
+  private handleScroll(): void {
     const pos =
       (document.documentElement.scrollTop || document.body.scrollTop) +
       document.documentElement.offsetHeight;
     const max = document.documentElement.scrollHeight;
     const pourcent = (pos / max) * 100;
 
-    if (pourcent >= 85 && this.usagers.length < this.nbResults) {
+    if (pourcent >= 70 && this.usagers.length < this.nbResults) {
       this.filters.page = this.filters.page + 1;
       this.filters$.next(this.filters);
     }
