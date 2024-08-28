@@ -1,3 +1,10 @@
+## [2.173.28](https://github.com/SocialGouv/domifa/compare/v2.173.27...v2.173.28) (2024-08-28)
+
+
+### Bug Fixes
+
+* **frontend:** fix usager-docs download ([9e459ff](https://github.com/SocialGouv/domifa/commit/9e459ffb37a59a0092a1bdbd7d3c1a4e179b5fbf))
+
 ## [2.173.27](https://github.com/SocialGouv/domifa/compare/v2.173.26...v2.173.27) (2024-08-28)
 
 
