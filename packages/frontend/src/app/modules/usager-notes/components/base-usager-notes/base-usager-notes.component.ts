@@ -60,22 +60,26 @@ export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
       .pipe(select(selectUsagerById(this.usager.ref)), take(1))
       .subscribe((usager: UsagerLight) => {
         if (usager) {
-          this.subscription.add(
-            this.usagerNotesService
-              .getNotes(usager, this.params, this.getArchivedNotes)
-              .subscribe({
-                next: (notes: PageResults<UsagerNote>) => {
-                  this.notes = notes.data;
-                  this.loading = false;
-                },
-                error: () => {
-                  this.toastService.error("Impossible d'afficher les notes");
-                  this.loading = false;
-                },
-              })
-          );
+          this.getNotes(usager);
         }
       });
+  }
+
+  private getNotes(usager: UsagerLight) {
+    this.subscription.add(
+      this.usagerNotesService
+        .getNotes(usager, this.params, this.getArchivedNotes)
+        .subscribe({
+          next: (notes: PageResults<UsagerNote>) => {
+            this.notes = notes.data;
+            this.loading = false;
+          },
+          error: () => {
+            this.toastService.error("Impossible d'afficher les notes");
+            this.loading = false;
+          },
+        })
+    );
   }
 
   public closeModals() {
