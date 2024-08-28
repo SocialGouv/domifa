@@ -1,3 +1,10 @@
+## [2.173.27](https://github.com/SocialGouv/domifa/compare/v2.173.26...v2.173.27) (2024-08-28)
+
+
+### Bug Fixes
+
+* **frontend:** fix scroll manage ([ff8654b](https://github.com/SocialGouv/domifa/commit/ff8654baeaa16c4c05b88cf3b06a56a54dc872c0))
+
 ## [2.173.26](https://github.com/SocialGouv/domifa/compare/v2.173.25...v2.173.26) (2024-08-26)
 
 
