@@ -13,7 +13,6 @@ import { format } from "date-fns";
 import { renderStructureUsagersExcel } from "../services/xlsx-structure-usagers-renderer";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { domifaConfig } from "../../config";
-import { captureMessage } from "@sentry/node";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("export")
@@ -40,11 +39,12 @@ export class ExportStructureUsagersController {
     const usagers = await this.usagersService.export(user.structureId);
     const workbook = renderStructureUsagersExcel(usagers, user.structure);
 
-    const message = `[EXPORT] [${domifaConfig().envId}] start at ${format(
-      new Date(),
-      "dd/MM/yyyy - HH:mm"
-    )}`;
-    captureMessage(message);
+    appLogger.info(
+      `[EXPORT] [${domifaConfig().envId}] start at ${format(
+        new Date(),
+        "dd/MM/yyyy - HH:mm"
+      )}`
+    );
 
     try {
       res.setHeader(

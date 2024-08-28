@@ -47,7 +47,9 @@ export class BaseUsagerDossierPageComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store.select(selectUsagerById(id)).subscribe({
         next: (usager: UsagerLight) => {
-          this.usager = new UsagerFormModel(usager);
+          if (usager) {
+            this.usager = new UsagerFormModel(usager);
+          }
         },
         error: (error) => {
           console.error("Erreur lors de la récupération du dossier:", error);
