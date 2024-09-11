@@ -151,16 +151,25 @@ frontend:
   certSecretName: frontend-crt
 
 portail-admins:
-  autoscale:
-    minReplicas: 2
-    maxReplicas: 4
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
   host: "admin-{{ .Values.global.host }}"
   certSecretName: portail-admins-crt
 
 portail-usagers:
-  autoscale:
-    minReplicas: 2
-    maxReplicas: 4
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
   host: "mon-{{ .Values.global.host }}"
   certSecretName: portail-usagers-crt
 
