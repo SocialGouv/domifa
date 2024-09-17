@@ -1,3 +1,15 @@
+## [2.173.30](https://github.com/SocialGouv/domifa/compare/v2.173.29...v2.173.30) (2024-09-17)
+
+
+### Bug Fixes
+
+* **backend:** delete useless files for migration & anon ([7727354](https://github.com/SocialGouv/domifa/commit/7727354b16c0fdf5934577c4e9778eb17606170b))
+* **backend:** fix build & tests ([a90d1f3](https://github.com/SocialGouv/domifa/commit/a90d1f3786a9e29b527f4c8953589cd60812effe))
+* **backend:** move controllers of users ([4eced63](https://github.com/SocialGouv/domifa/commit/4eced634795033477778c0a234142377a040466f))
+* **backend:** reduce timing for sms of end of rights ([49661ac](https://github.com/SocialGouv/domifa/commit/49661acf962b373a973387b22bf28e654cc81cbb))
+* **backend:** update security rules ([13eb884](https://github.com/SocialGouv/domifa/commit/13eb8848caa1fe45dde9be27a2215bb5e8fd3b3a))
+* **frontend:** fix checking of duplicates & add edit of structure type ([123620b](https://github.com/SocialGouv/domifa/commit/123620b8f308217c83d7480e70c02a714114f1e7))
+
 ## [2.173.29](https://github.com/SocialGouv/domifa/compare/v2.173.28...v2.173.29) (2024-09-17)
 
 
