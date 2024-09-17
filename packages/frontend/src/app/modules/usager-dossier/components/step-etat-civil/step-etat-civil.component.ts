@@ -98,18 +98,21 @@ export class StepEtatCivilComponent
       const params: {
         nom: string;
         prenom: string;
-        usagerRef: number | null;
       } = {
         nom: this.usagerForm.controls.nom.value,
         prenom: this.usagerForm.controls.prenom.value,
-        usagerRef: this.usager.ref ?? null,
       };
 
       this.subscription.add(
         this.usagerDossierService
           .isDuplicateName(params)
           .subscribe((duplicates: UsagerLight[]) => {
-            this.duplicates = duplicates;
+            this.duplicates = duplicates ?? [];
+            if (this.usager?.ref && this.duplicates.length) {
+              this.duplicates.filter(
+                (usager) => this.usager.ref !== usager.ref
+              );
+            }
           })
       );
     }

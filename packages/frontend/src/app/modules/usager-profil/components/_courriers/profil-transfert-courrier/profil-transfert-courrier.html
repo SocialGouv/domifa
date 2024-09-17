@@ -79,7 +79,7 @@
   </div>
 
   <form
-    *ngIf="isFormVisible"
+    *ngIf="isFormVisible && transfertForm"
     [formGroup]="transfertForm"
     (ngSubmit)="editTransfert()"
     autocomplete="off"

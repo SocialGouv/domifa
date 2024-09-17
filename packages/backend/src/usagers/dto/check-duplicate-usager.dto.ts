@@ -1,11 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  MaxLength,
-  IsOptional,
-} from "class-validator";
+import { IsNotEmpty, IsString, MaxLength } from "class-validator";
 
 import {
   LowerCaseTransform,
@@ -36,11 +30,4 @@ export class CheckDuplicateUsagerDto {
   @StripTagsTransform()
   @LowerCaseTransform()
   public prenom!: string;
-
-  @ApiProperty({
-    required: false,
-  })
-  @IsOptional()
-  @IsNumber()
-  public usagerRef!: number;
 }
