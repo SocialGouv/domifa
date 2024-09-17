@@ -329,7 +329,9 @@ export class UsagersController {
   ): Promise<Usager[]> {
     return usagerRepository
       .createQueryBuilder()
-      .select(["nom", "prenom", "ref", "dateNaissance"])
+      .select(
+        joinSelectFields(["nom", "prenom", "ref", "customRef", "dateNaissance"])
+      )
       .where(
         `"structureId" = :structureId and LOWER("nom") = :nom and LOWER("prenom") = :prenom`,
         {

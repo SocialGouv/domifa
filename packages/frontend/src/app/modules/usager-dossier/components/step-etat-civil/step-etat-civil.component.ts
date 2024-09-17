@@ -109,7 +109,7 @@ export class StepEtatCivilComponent
           .subscribe((duplicates: UsagerLight[]) => {
             this.duplicates = duplicates ?? [];
             if (this.usager?.ref && this.duplicates.length) {
-              this.duplicates.filter(
+              this.duplicates = this.duplicates.filter(
                 (usager) => this.usager.ref !== usager.ref
               );
             }

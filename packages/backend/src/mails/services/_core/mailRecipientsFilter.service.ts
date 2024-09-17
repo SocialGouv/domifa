@@ -1,9 +1,5 @@
 import { domifaConfig } from "../../../config";
-import {
-  dataEmailAnonymizer,
-  MessageEmailId,
-  MessageEmailRecipient,
-} from "../../../database";
+import { MessageEmailId, MessageEmailRecipient } from "../../../database";
 import { appLogger } from "../../../util";
 
 export const mailRecipientsFilter = {
@@ -48,7 +44,7 @@ function filterRecipients(
     toSkip = toSkip.concat(recipients);
   } else {
     recipients.forEach((recipient) => {
-      if (isRecipientToSkip(recipient)) {
+      if (isRecipientToSkip()) {
         toSkip.push(recipient);
       } else {
         toSend.push(recipient);
@@ -72,10 +68,9 @@ function filterRecipients(
   return { toSend, toSkip, toSkipString };
 }
 
-function isRecipientToSkip(recipient: MessageEmailRecipient) {
+function isRecipientToSkip() {
   return (
     !domifaConfig().email.emailsEnabled ||
-    dataEmailAnonymizer.isAnonymizedEmail(recipient.address) ||
     domifaConfig().email.emailAddressRedirectAllTo
   );
 }

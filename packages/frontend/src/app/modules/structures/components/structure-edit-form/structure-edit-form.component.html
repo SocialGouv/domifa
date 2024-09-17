@@ -52,6 +52,24 @@
             />
             CCAS / Commune / Mairie
           </label>
+          <label
+            for="asso"
+            class="btn py-3 px-4"
+            [ngClass]="{
+              'btn-primary': f.structureType.value === 'asso',
+              'btn-outline-primary': f.structureType.value !== 'asso',
+              'btn-outline-danger': submitted && f.structureType.value === null
+            }"
+          >
+            <input
+              formControlName="structureType"
+              name="structureType"
+              type="radio"
+              value="asso"
+              id="asso"
+            />
+            Organisme agréé
+          </label>
         </div>
         <p
           *ngIf="submitted && f.structureType.value === null"
