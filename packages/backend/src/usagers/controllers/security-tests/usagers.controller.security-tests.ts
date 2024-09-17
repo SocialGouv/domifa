@@ -43,7 +43,6 @@ export const UsagersControllerSecurityTests: AppTestHttpClientSecurityTestDef[] 
             body: {
               nom: "nom",
               prenom: "prenom",
-              usagerRef: 4,
             },
           }
         ),
