@@ -26,7 +26,7 @@ import { StructuresAuthController } from "./structures-auth.controller";
       JwtModule.register({
         secret: domifaConfig().security.jwtSecret,
         signOptions: {
-          expiresIn: "12h",
+          expiresIn: "24h",
         },
       })
     ),

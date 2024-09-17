@@ -37,9 +37,6 @@ export type DomifaConfig = {
       sentryDsn: string; // DOMIFA_SENTRY_DSN_BACKEND
       debugModeEnabled: boolean; // DOMIFA_SENTRY_DEBUG_MODE_ENABLED
     };
-    anonymizer: {
-      password: string; // DOMIFA_ANONYMIZER_PASSWORD
-    };
   };
   logger: {
     logHttpRequests: boolean; // DOMIFA_LOG_HTTP_REQUESTS

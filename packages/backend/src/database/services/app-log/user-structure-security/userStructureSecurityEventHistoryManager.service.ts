@@ -1,4 +1,4 @@
-import { subDays, subWeeks } from "date-fns";
+import { subHours, subWeeks } from "date-fns";
 
 import { domifaConfig } from "../../../../config";
 import { appLogger } from "../../../../util";
@@ -52,9 +52,9 @@ function isAccountLockedForOperation({
   eventsHistory: UserStructureSecurityEvent[];
   userId: number;
 }) {
-  const oneDayAgo = subDays(new Date(), 1);
+  const oneHourAgo = subHours(new Date(), 1);
   const eventsRecentHistory = eventsHistory.filter(
-    (x) => new Date(x.date) > oneDayAgo
+    (x) => new Date(x.date) > oneHourAgo
   );
 
   if (eventsHistory.length) {

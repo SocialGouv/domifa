@@ -4,7 +4,6 @@ import { structureRepository } from "../../../database";
 
 import { usagerRepository } from "../../../database/services/usager/usagerRepository.service";
 import { userUsagerRepository } from "../../../database/services/user-usager/userUsagerRepository.service";
-import { appLogger } from "../../../util";
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
   UserUsagerAuthenticated,
@@ -25,8 +24,6 @@ export class UsagersAuthService {
       usagerUUID: user.usagerUUID,
       structureId: user.structureId,
       lastLogin: user.lastLogin,
-      isSuperAdminDomifa: false,
-      userRightStatus: "structure",
     };
     return {
       access_token: this.jwtService.sign(payload),
@@ -57,15 +54,15 @@ export class UsagersAuthService {
   public async findAuthUserUsager(
     payload: Pick<UserUsagerJwtPayload, "_userId">
   ): Promise<UserUsagerAuthenticated> {
-    const user = await userUsagerRepository.findOneBy({ id: payload._userId });
+    const user = await userUsagerRepository.findOneByOrFail({
+      id: payload._userId,
+    });
 
-    const usager = await usagerRepository.findOneBy({ uuid: user.usagerUUID });
+    const usager = await usagerRepository.findOneByOrFail({
+      uuid: user.usagerUUID,
+    });
 
-    if (typeof user.structureId === "undefined") {
-      appLogger.debug("[TRACK BUG] " + JSON.stringify(user));
-    }
-
-    const structure = await structureRepository.findOneBy({
+    const structure = await structureRepository.findOneByOrFail({
       id: user.structureId,
     });
 

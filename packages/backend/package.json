@@ -7,13 +7,11 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "db:dev:data-anonymize": "npx ts-node -r tsconfig-paths/register --transpile-only src/run-data-anonymization.ts | pino-pretty --singleLine",
     "db:dev:generate": "typeorm-ts-node-commonjs migration:generate ./src/_migrations/auto-migration -d ./src/database/services/_postgres/PG_MIGRATION_CONFIG.const.ts",
     "db:dev:migrate-down:last": "npx ts-node -r tsconfig-paths/register --transpile-only src/run-migrate-down-last.ts",
     "db:dev:migrate-redo": "npx ts-node -r tsconfig-paths/register --transpile-only src/run-migrate-up-redo.ts",
     "db:dev:migrate-up": "npx ts-node -r tsconfig-paths/register --transpile-only src/run-migrate-up.ts",
     "db:dev:create": "typeorm-ts-node-commonjs migration:create ./src/_migrations/manual-migration",
-    "db:prod:data-anonymize": "node dist/run-data-anonymization.js ",
     "db:prod:migrate-down:last": "node dist/run-migrate-down-last.js",
     "db:test:migrate-down:last": "ENV_FILE=tests-local npx ts-node -r tsconfig-paths/register --transpile-only src/run-migrate-down-last.ts",
     "db:test:migrate-redo": "ENV_FILE=tests-local npx ts-node -r tsconfig-paths/register --transpile-only src/run-migrate-up-redo.ts",

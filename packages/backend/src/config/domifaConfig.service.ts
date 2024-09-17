@@ -170,11 +170,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         ),
         sentryDsn,
       },
-      anonymizer: {
-        password: configParser.parseString(x, "DOMIFA_ANONYMIZER_PASSWORD", {
-          required: false,
-        }),
-      },
     },
     logger: {
       logHttpRequests: configParser.parseBoolean(
