@@ -5,7 +5,7 @@ import { MailsModule } from "../mails/mails.module";
 import { StatsModule } from "../stats/stats.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UserDto } from "../users/dto/user.dto";
-import { UsersController } from "../users/users.controller";
+import { UsersController } from "../users/controllers/users.controller";
 import { UsersModule } from "../users/users.module";
 import { ExpressResponse } from "../util/express";
 import { AppTestContext, AppTestHelper } from "../util/test";
