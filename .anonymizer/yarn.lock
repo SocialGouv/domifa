@@ -9,7 +9,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: ".anonymizer@workspace:."
   dependencies:
-    "@faker-js/faker": "npm:^8.4.1"
+    "@faker-js/faker": "npm:^9.0.0"
     "@types/bcryptjs": "npm:^2"
     "@types/node": "npm:^20.12.13"
     bcryptjs: "npm:^2.4.3"
@@ -62,10 +62,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@faker-js/faker@npm:^8.4.1":
-  version: 8.4.1
-  resolution: "@faker-js/faker@npm:8.4.1"
-  checksum: 10/5983c2ea64f26055ad6648de748878e11ebe2fb751e3c7435ae141cdffabc2dccfe4c4f49da69a3d2add71e21b415c683ac5fba196fab0d5ed6779fbec436c80
+"@faker-js/faker@npm:^9.0.0":
+  version: 9.0.1
+  resolution: "@faker-js/faker@npm:9.0.1"
+  checksum: 10/708629605392fdbe06887ca9b083d73801c64b47917f790870b240858ab65cada14b52dddf2cb7e471ad0f6ddf66ea30e7ffda741c5ba9bd5c27318b47262279
   languageName: node
   linkType: hard
 

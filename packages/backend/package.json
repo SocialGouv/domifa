@@ -35,7 +35,7 @@
     "@aws-sdk/client-s3": "^3.614.0",
     "@aws-sdk/lib-storage": "^3.614.0",
     "@domifa/common": "workspace:^",
-    "@faker-js/faker": "^8.4.1",
+    "@faker-js/faker": "^9.0.0",
     "@nestjs/axios": "^3.0.2",
     "@nestjs/cache-manager": "^2.2.2",
     "@nestjs/common": "^10.3.10",
