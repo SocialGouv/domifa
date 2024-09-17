@@ -36,7 +36,7 @@ import {
 } from "../../../_common/model";
 import { AdminStructuresService } from "../services";
 import { CurrentUser } from "../../../auth/decorators/current-user.decorator";
-import { UsersController } from "../../../users/users.controller";
+import { UsersController } from "../../../users/controllers/users.controller";
 import { RegisterUserAdminDto } from "../../../users/dto";
 import { format } from "date-fns";
 import { structureCreatorService } from "../../../structures/services";
