@@ -136,7 +136,7 @@ export class CronSmsFetchEndDomService {
         join structure s on s.id = u."structureId"
         WHERE decision->>'statut' = 'VALIDE'
         AND "contactByPhone" is true
-        AND to_char((decision->>'dateFin')::timestamptz, 'YYYY-MM-DD') = to_char(current_date + interval '1 month' * 2, 'YYYY-MM-DD')
+        AND to_char((decision->>'dateFin')::timestamptz, 'YYYY-MM-DD') = to_char(current_date + interval '1 month' , 'YYYY-MM-DD')
         and (s.sms->>'enabledByDomifa')::boolean is true and (s.sms->>'enabledByStructure')::boolean is true AND "timeZone" = $1`,
       [timeZone]
     );
