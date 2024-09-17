@@ -88,8 +88,7 @@ export class UsagerDossierService {
   public isDuplicateName(params: {
     nom: string;
     prenom: string;
-    usagerRef: number | null;
-  }) {
+  }): Observable<UsagerLight[]> {
     return this.http.post<UsagerLight[]>(
       `${this.endPointUsagers}/check-duplicates-name`,
       params

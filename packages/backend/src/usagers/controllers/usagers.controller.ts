@@ -32,7 +32,7 @@ import {
   joinSelectFields,
 } from "../../database";
 
-import { appLogger, cleanPath } from "../../util";
+import { cleanPath } from "../../util";
 import { dataCompare } from "../../util/dataCompare.service";
 import {
   UserStructureAuthenticated,
@@ -169,8 +169,8 @@ export class UsagersController {
       .getRawMany();
   }
 
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post()
+  @AllowUserStructureRoles("simple", "responsable", "admin")
   public createUsager(
     @Body() usagerDto: CreateUsagerDto,
     @CurrentUser() user: UserStructureAuthenticated
@@ -327,23 +327,21 @@ export class UsagersController {
     @Body() duplicateUsagerDto: CheckDuplicateUsagerDto,
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<Usager[]> {
-    let query = `SELECT nom, prenom, ref, "dateNaissance" FROM usager WHERE "structureId" = $1 and LOWER("nom") = $2 and LOWER("prenom") = $3`;
-
-    const params = [
-      user.structureId,
-      duplicateUsagerDto.nom,
-      duplicateUsagerDto.prenom,
-    ];
-
-    if (duplicateUsagerDto.usagerRef) {
-      query = query + `  and "ref" != $4`;
-      params.push(duplicateUsagerDto.usagerRef);
-    }
-
-    return usagerRepository.query(query, params);
+    return usagerRepository
+      .createQueryBuilder()
+      .select(["nom", "prenom", "ref", "dateNaissance"])
+      .where(
+        `"structureId" = :structureId and LOWER("nom") = :nom and LOWER("prenom") = :prenom`,
+        {
+          structureId: user.structureId,
+          nom: duplicateUsagerDto.nom,
+          prenom: duplicateUsagerDto.prenom,
+        }
+      )
+      .getRawMany();
   }
 
-  @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles("responsable", "admin")
   @Delete(":usagerRef")
   public async delete(
@@ -416,16 +414,6 @@ export class UsagersController {
       const buffer = await pdftk.input(filePath).fillForm(pdfInfos).output();
       return res.setHeader("content-type", "application/pdf").send(buffer);
     } catch (err) {
-      appLogger.error(
-        `CERFA ERROR structure : ${user.structureId} / usager :${currentUsager.ref} `,
-        {
-          sentry: true,
-          error: err,
-          context: {
-            ...pdfInfos,
-          },
-        }
-      );
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "CERFA_ERROR" });
