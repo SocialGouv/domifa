@@ -1,3 +1,10 @@
+## [2.173.29](https://github.com/SocialGouv/domifa/compare/v2.173.28...v2.173.29) (2024-09-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency express to v4.20.0 [security] ([df3e436](https://github.com/SocialGouv/domifa/commit/df3e43695637b1b9cc074b3260ee7e986277e74a))
+
 ## [2.173.28](https://github.com/SocialGouv/domifa/compare/v2.173.27...v2.173.28) (2024-08-28)
 
 
