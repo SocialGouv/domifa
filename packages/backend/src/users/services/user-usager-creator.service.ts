@@ -13,7 +13,8 @@ export const userUsagerCreator = {
 
 async function createUserWithTmpPassword(
   userUsager: Pick<UserUsager, "usagerUUID" | "structureId">,
-  { creator }: { creator: Pick<UserStructure, "id" | "nom" | "prenom"> }
+  { creator }: { creator: Pick<UserStructure, "id" | "nom" | "prenom"> },
+  suggestedPassword?: string
 ): Promise<{
   login: string;
   temporaryPassword: string;
@@ -24,7 +25,9 @@ async function createUserWithTmpPassword(
     await userUsagerLoginPasswordGenerator.generateUniqueLogin();
 
   const { salt, temporaryPassword, passwordHash } =
-    await userUsagerLoginPasswordGenerator.generateTemporyPassword();
+    await userUsagerLoginPasswordGenerator.generateTemporyPassword(
+      suggestedPassword
+    );
 
   const createdUser = new UserUsagerTable({
     ...userUsager,

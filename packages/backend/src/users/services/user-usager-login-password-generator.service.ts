@@ -46,17 +46,19 @@ async function generateUniqueLogin(
   return login;
 }
 
-async function generateTemporyPassword(): Promise<{
+async function generateTemporyPassword(temporaryPassword?: string): Promise<{
   salt: string;
   temporaryPassword: string;
   passwordHash: string;
 }> {
   const salt = await passwordGenerator.generateSalt({ length: 10 });
 
-  const temporaryPassword = tokenGenerator.generateString({
-    length: 8,
-    charsToInclude: CHARS_NUMBERS,
-  });
+  if (!temporaryPassword) {
+    temporaryPassword = tokenGenerator.generateString({
+      length: 8,
+      charsToInclude: CHARS_NUMBERS,
+    });
+  }
 
   const passwordHash = await passwordGenerator.generatePasswordHash({
     password: temporaryPassword,
