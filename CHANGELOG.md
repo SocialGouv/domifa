@@ -1,3 +1,10 @@
+## [2.173.31](https://github.com/SocialGouv/domifa/compare/v2.173.30...v2.173.31) (2024-09-23)
+
+
+### Bug Fixes
+
+* **backend:** fix update of options ([d84193a](https://github.com/SocialGouv/domifa/commit/d84193a80d231801c02351a109d17c9207096b5d))
+
 ## [2.173.30](https://github.com/SocialGouv/domifa/compare/v2.173.29...v2.173.30) (2024-09-17)
 
 
