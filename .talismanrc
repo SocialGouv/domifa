@@ -43,6 +43,8 @@ fileignoreconfig:
   checksum: 4c1f4f912bebc23465a8ed8bf0729091774483f2c15025b60f7cbe7a4cbd0d12
 - filename: packages/backend/src/_migrations/1722521444554-auto-migration.ts
   checksum: 4a28aeadfff8f388ef4a0ea9709fbb471f9ec931215ffcf28e71a95fc3171e73
+- filename: packages/backend/src/_migrations/1727093929792-manual-migration.ts
+  checksum: 3c9e8d54f169d01f7c1d237c196c5b71cc392b3d1bf18b8b2e08237b1b60a43c
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
   checksum: 9c4984cbb8b435b626b2b26fd1cba740542aed18aa568bd03af517651de1aacd
 - filename: packages/backend/src/modules/portail-usagers/controllers/portail-usagers-manager/portail-usagers-manager.controller.ts
@@ -63,6 +65,8 @@ fileignoreconfig:
   checksum: c18affa2f0d42b958068f8877c63f2877bb99651c85e6f8dbfda5bd436687d86
 - filename: packages/backend/src/users/dto/user.dto.ts
   checksum: fab1dab2ad003174730bbdc703d59af49e65db3297415c0a1ac98a95e9f64280
+- filename: packages/backend/src/users/services/user-usager-login-password-generator.service.ts
+  checksum: 22bb1a306cd355ac626a9c82e1760fe14d07b75ed83dd140b13480016ae5fc3d
 - filename: packages/backend/src/util/expressResponseExcelRenderer.service.ts
   checksum: 74fc4a9067af6f823ddcbbed150444cc1db78402ae265082a2114e64c0f459cb
 - filename: packages/frontend/src/app/modules/admin-portail-usagers/components/admin-portail-usagers-menu/admin-portail-usagers-menu.component.html
