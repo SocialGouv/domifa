@@ -176,6 +176,7 @@ export class UsagersDecisionController {
         etapeDemande: usager.etapeDemande,
         decision: usager.decision,
         statut: usager.decision.statut,
+        options: usager.options,
       }
     );
 
