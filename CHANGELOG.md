@@ -1,3 +1,10 @@
+# [2.174.0](https://github.com/SocialGouv/domifa/compare/v2.173.33...v2.174.0) (2024-09-24)
+
+
+### Features
+
+* **general:** add structure information management and messages for users ([232375a](https://github.com/SocialGouv/domifa/commit/232375a30f0053c332fd021cfe408bcbc930d10b))
+
 ## [2.173.33](https://github.com/SocialGouv/domifa/compare/v2.173.32...v2.173.33) (2024-09-24)
 
 
