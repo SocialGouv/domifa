@@ -60,7 +60,6 @@ export class ManualMigration1727093929792 implements MigrationInterface {
     await writeFile(outputPath, fullCsvContent);
 
     console.log(`Credentials exported to ${outputPath}`);
-    throw new Error("lll");
   }
 
   public async down(): Promise<void> {}

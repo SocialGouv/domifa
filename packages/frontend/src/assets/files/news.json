@@ -1,5 +1,25 @@
 [
   {
+    "date": "2024-09-24",
+    "description": "Nouveautés et améliorations diverses sur DomiFa",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "SMS",
+        "message": [
+          "SMS de renouvellement Suite aux demandes de plusieurs structures, le délai d'envoi du sms de renouvellement de la domiciliation est réduit à 1 mois avant la date d'échéance."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Pli non distribuable",
+        "message": [
+          "Retrait de la mention PND pour les dossiers radiés dont la radiation est annulée En cas de renouvellement d'un dossier radié, ou de la suppression de la décision d'une radiation dans un dossier radié, la mention pli non distribuable sera automatiquement supprimée."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-07-08",
     "description": "Nouveautés et améliorations diverses sur DomiFa",
     "content": [

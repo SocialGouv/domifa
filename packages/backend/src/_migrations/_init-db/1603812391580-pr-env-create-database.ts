@@ -152,6 +152,23 @@ async function createTables(queryRunner: QueryRunner) {
     );
 
 
+    -- public.spatial_ref_sys definition
+
+    -- Drop table
+
+    -- DROP TABLE public.spatial_ref_sys;
+
+    CREATE TABLE public.spatial_ref_sys (
+      srid int4 NOT NULL,
+      auth_name varchar(256) NULL,
+      auth_srid int4 NULL,
+      srtext varchar(2048) NULL,
+      proj4text varchar(2048) NULL,
+      CONSTRAINT spatial_ref_sys_pkey PRIMARY KEY (srid),
+      CONSTRAINT spatial_ref_sys_srid_check CHECK (((srid > 0) AND (srid <= 998999)))
+    );
+
+
     -- public."structure" definition
 
     -- Drop table
@@ -755,6 +772,7 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_ef9fade8e5a6dac06ef5031986" ON public.interactions USING btree (type);
     CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
     CREATE INDEX idx_interactions_date ON public.interactions USING btree ("structureId", "usagerUUID", "dateInteraction");
-    CREATE INDEX idx_interactions_type ON public.interactions USING btree ("structureId", "usagerUUID", type);  `
+    CREATE INDEX idx_interactions_type ON public.interactions USING btree ("structureId", "usagerUUID", type);
+    `
   );
 }
