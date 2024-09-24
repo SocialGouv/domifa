@@ -1,3 +1,12 @@
+## [2.173.32](https://github.com/SocialGouv/domifa/compare/v2.173.31...v2.173.32) (2024-09-24)
+
+
+### Bug Fixes
+
+* **backend:** add list export bordeaux ([c6ef35e](https://github.com/SocialGouv/domifa/commit/c6ef35e9ae531bf88fd268a3862ae4118a4f3323))
+* **backend:** clean npai ([beb79c1](https://github.com/SocialGouv/domifa/commit/beb79c16e7e42b74f9a99357693e890509d44496))
+* **ci:** fix clean db of feature branch ([32d1225](https://github.com/SocialGouv/domifa/commit/32d1225aa02d10b63527e29f262af27a42413499))
+
 ## [2.173.31](https://github.com/SocialGouv/domifa/compare/v2.173.30...v2.173.31) (2024-09-23)
 
 
