@@ -71,7 +71,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
               "Problème de connexion au serveur. Veuillez réessayer plus tard."
             );
           }
-          if (error.status === 401 || error.status === 403) {
+          if (error.status === 401) {
             authService.logoutAndRedirect(undefined, true);
           } else if (error.status === 404) {
             toastr.error("La page que vous recherchez n'existe pas");

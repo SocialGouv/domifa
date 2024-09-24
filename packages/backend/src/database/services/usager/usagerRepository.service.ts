@@ -4,7 +4,7 @@ import { myDataSource } from "..";
 import { UsagerTable } from "../../entities";
 import { joinSelectFields, pgRepository } from "../_postgres";
 import { getDateForMonthInterval } from "../../../stats/services";
-import { USER_USAGER_ATTRIBUTES } from "../../../modules/portail-usagers/const";
+import { USER_USAGER_ATTRIBUTES } from "../../../modules/portail-usagers/constants";
 
 const baseRepository = pgRepository.get<UsagerTable, Usager>(UsagerTable);
 

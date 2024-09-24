@@ -1,20 +1,33 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { AdminPortailUsagersRoutingModule } from "./admin-portail-usagers-routing.module";
-import { ManageTempMessagesComponent } from "./components/manage-temp-messages/manage-temp-messages.component";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbDateParserFormatter,
+  NgbDatepickerI18n,
+  NgbModule,
+} from "@ng-bootstrap/ng-bootstrap";
 import { GeneralModule } from "../general/general.module";
 import { SharedModule } from "../shared/shared.module";
 import { AdminPortailUsagersMenuComponent } from "./components/admin-portail-usagers-menu/admin-portail-usagers-menu.component";
 import { PortailUsagersParamsComponent } from "./components/portail-usagers-params/portail-usagers-params.component";
+import { ManageStructureInformationComponent } from "./components/manage-structure-information/manage-structure-information.component";
+import { ManageStructureInformationFormComponent } from "./components/manage-structure-information-form/manage-structure-information-form.component";
+import { StructureInformationService } from "./services/structure-information.service";
+import { ManagePortailUsagersService } from "./services/manage-portail-usagers.service";
+import {
+  NgbDateCustomParserFormatter,
+  CustomDatepickerI18n,
+} from "../shared/services";
+import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 
 @NgModule({
   declarations: [
-    ManageTempMessagesComponent,
     AdminPortailUsagersMenuComponent,
     PortailUsagersParamsComponent,
+    ManageStructureInformationComponent,
+    ManageStructureInformationFormComponent,
   ],
   imports: [
     CommonModule,
@@ -25,6 +38,14 @@ import { PortailUsagersParamsComponent } from "./components/portail-usagers-para
     ReactiveFormsModule,
     SharedModule,
     GeneralModule,
+    CKEditorModule,
+  ],
+  providers: [
+    StructureInformationService,
+    ManagePortailUsagersService,
+    NgbDateCustomParserFormatter,
+    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
+    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ],
 })
 export class AdminPortailUsagersModule {}

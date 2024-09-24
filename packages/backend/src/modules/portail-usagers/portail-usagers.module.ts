@@ -8,12 +8,14 @@ import { PortailUsagersLoginController } from "./controllers/portail-usagers-log
 import { PortailUsagersProfileController } from "./controllers/portail-usagers-profile.controller";
 import { PortailUsagersManagerController } from "./controllers/portail-usagers-manager/portail-usagers-manager.controller";
 import { AppLogsService } from "../app-logs/app-logs.service";
+import { StructureInformationController } from "./controllers/structure-information/structure-information.controller";
 
 @Module({
   controllers: [
     PortailUsagersProfileController,
     PortailUsagersLoginController,
     PortailUsagersManagerController,
+    StructureInformationController,
   ],
   providers: [InteractionsService, AppLogsService],
   imports: [

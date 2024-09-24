@@ -34,24 +34,4 @@ export const UsagersStructureDocsControllerSecurityTests: AppTestHttpClientSecur
         ),
       }),
     },
-    // {
-    //   label: `${CONTROLLER}.getDomifaCustomDoc`,
-    //   query: async (context: AppTestContext) => ({
-    //     response: await AppTestHttpClient.post(
-    //       "/usagers-structure-docs/domifa/7/attestation_postale",
-    //       {
-    //         context,
-    //       }
-    //     ),
-    //     expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
-    //       context.user,
-    //       {
-    //         roles: ["simple", "responsable", "admin"],
-    //         validExpectedResponseStatus: HttpStatus.CREATED,
-    //         validStructureIds: [1], // usager 1 only exists in structure 1, else UsagerAccessGuard returns BAD_REQUEST
-    //         invalidStructureIdExpectedResponseStatus: HttpStatus.BAD_REQUEST,
-    //       }
-    //     ),
-    //   }),
-    // },
   ];

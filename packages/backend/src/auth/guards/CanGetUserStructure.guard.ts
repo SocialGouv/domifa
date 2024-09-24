@@ -14,6 +14,7 @@ import { userStructureRepository } from "../../database";
 export class CanGetUserStructureGuard implements CanActivate {
   public async canActivate(context: ExecutionContext) {
     const r = context.switchToHttp().getRequest();
+
     const userUuid = r.params.userUuid;
     const structureId = r.user.structureId;
 

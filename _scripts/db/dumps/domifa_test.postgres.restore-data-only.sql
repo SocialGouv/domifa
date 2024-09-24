@@ -198,6 +198,14 @@ COPY public.structure_doc (uuid, "createdAt", "updatedAt", version, id, label, "
 
 
 --
+-- Data for Name: structure_information; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.structure_information (uuid, "createdAt", "updatedAt", version, title, description, "isTemporary", "startDate", "endDate", type, "createdBy", "structureId") FROM stdin;
+\.
+
+
+--
 -- Data for Name: structure_stats_reporting; Type: TABLE DATA; Schema: public; Owner: -
 --
 

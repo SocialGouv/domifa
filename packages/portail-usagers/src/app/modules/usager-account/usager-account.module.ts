@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HistoriqueCourriersComponent } from "./components/historique-courriers/historique-courriers.component";
 import { ReplaceLineBreaks } from "./pipes/nl2br.pipe";
 import { NgbPagination } from "@ng-bootstrap/ng-bootstrap";
+import { StructureInformationComponent } from "./components/structure-information/structure-information.component";
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { NgbPagination } from "@ng-bootstrap/ng-bootstrap";
     SectionOptionsComponent,
     UsagerAcceptCguComponent,
     HistoriqueCourriersComponent,
+    StructureInformationComponent,
   ],
   imports: [
     CommonModule,

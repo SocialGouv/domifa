@@ -14,7 +14,10 @@ import { AllowUserProfiles, CurrentUser } from "../../../auth/decorators";
 import { AppUserGuard } from "../../../auth/guards";
 import { ExpressResponse } from "../../../util/express";
 import { UserUsagerAuthenticated } from "../../../_common/model";
-import { usagerRepository } from "../../../database";
+import {
+  structureInformationRepository,
+  usagerRepository,
+} from "../../../database";
 import { InteractionsService } from "../../../interactions/services";
 import { PageOptionsDto } from "../../../usagers/dto";
 
@@ -67,6 +70,17 @@ export class PortailUsagersProfileController {
         pageOptionsDto,
       });
     }
+  }
+
+  @Get("structure-information")
+  @AllowUserProfiles("usager")
+  @HttpCode(HttpStatus.OK)
+  public async getStructureInformation(
+    @CurrentUser() currentUser: UserUsagerAuthenticated
+  ) {
+    return structureInformationRepository.findBy({
+      structureId: currentUser.structure.id,
+    });
   }
 
   @Get("pending-interactions")

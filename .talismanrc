@@ -1,21 +1,20 @@
 fileignoreconfig:
-- filename: .kontinuous/env/dev/templates/backend.sealed-secret.yaml
-  checksum: d76fa05f7587f094d19959816a03c4589ae0c8675436f11fa8bf454cfd917741
-- filename: .kontinuous/env/preprod/templates/backend.sealed-secret.yaml
-  checksum: 291f7f330aca385888f414aa9a7f4ebfe0c03bd4d154e0ed0f6ee4895ea139c0
-- filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
-  checksum: a066a32a383b37f3e2195d41a309628e64d66e70611aa8ee05159205c0fdcd7c
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: d61470228208094ecc7a14b8ccb30aa49c363009104aaa4d983fe54baba10c08
-- filename: _scripts/db/dumps/domifa_test.postgres.truncate-data.sql
-  checksum: 0a9b780387e8c40344bd52f033a201da019c8b3e9e5d501ee6cb85040b6e168c
+  checksum: 502a64b85ffe956adf47db779ed78a2f25bd8b5de188c571180ea7483f88370b
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: 82670bbe12e21c9cf5af9a3e75f1c06c4a97d1bf5a8825cfab2553bc075e171e
-- filename: packages/backend/.env.backend.dev.example.env
-  checksum: d52c7fbfae21884e63f84a7aa0759c5296f0ecb483e71866541b2b44d7880758
-- filename: packages/backend/.env.backend.test.local.example.env
-  checksum: 1540bbfa2a80d38a05d5d1628db89f7f0ae1ed1e0f054b54a2589e6fe5ca24e0
-- filename: packages/backend/.env.preset/local-dev.preset.env
+  checksum: 4b681f0cdd8f85ce6b2877c6c1f2b904b48965fb4a411f2caf56485687ddd020
+- filename: packages/backend/src/_migrations/1723547616571-create-structure-information-migration.ts
+  checksum: 1b96083efc358311f59512c87fffead4e00aa557ba70454e7f2e152add1e3089
+- filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
+  checksum: 9a0633f712677ab1f864b3003cb2c947a4d51ff10bf8488af174acef31b80f9c
+- filename: packages/frontend/src/app/modules/admin-portail-usagers/components/manage-structure-information-form/manage-structure-information-form.component.ts
+  checksum: 120db5b7bac6a61f84dae5a5e04b05774fbfb2a9e81b6df0fed56d38db151ee6
+- filename: packages/frontend/src/app/modules/admin-portail-usagers/components/manage-structure-information/manage-structure-information.component.html
+  checksum: 30d558a1c39242d78b869fe18c594fa82bdf1e173bec521aaf5d6e9768fce4ed
+- filename: yarn.lock
+  checksum: 838a3248dfbc076c42ce2a3e27ca862a0b02aae15a6a20d908bdfe968083577e
+version: ""
+v
   checksum: af5962c1b288218cb9a43c9bff6ddd5d16c086088b7c990278af030261a7f500
 - filename: packages/backend/.env.preset/local-test-docker.preset.env
   checksum: 2a459a7689ff1c0add9bbea1ff00eb44118cf3f3f0e6f6197830d28016a3272a
@@ -97,4 +96,8 @@ fileignoreconfig:
   checksum: 65d0b914b6baa33b2e8ec95786ef0c9d9960787295f1f02450d0262f71fd3d0e
 - filename: yarn.lock
   checksum: dce41db10fe65e26fb8b1ca281e9a4672e65131e94a881a5ad6fadbfbcfd9058
+version: "1.0"
+   checksum: 65d0b914b6baa33b2e8ec95786ef0c9d9960787295f1f02450d0262f71fd3d0e
+  - filename: yarn.lock
+    checksum: dce41db10fe65e26fb8b1ca281e9a4672e65131e94a881a5ad6fadbfbcfd9058
 version: "1.0"

@@ -18,7 +18,7 @@ export class PortailUsagersParamsComponent implements OnInit, OnDestroy {
 
   public loading: boolean;
   private subscription = new Subscription();
-  public section: "" | "parametres" | "informations-temporaires" = "";
+  public section: "" | "parametres" | "informations" = "";
 
   constructor(
     private readonly managePortailUsagersService: ManagePortailUsagersService,

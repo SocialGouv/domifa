@@ -1,0 +1,36 @@
+<div *ngIf="structureInformation?.length" class="my-2">
+  <h2 class="content section-title">Message de votre structure</h2>
+
+  <div class="content section-content">
+    <div>
+      <ng-container
+        *ngFor="let information of structureInformation; let i = index"
+      >
+        <div
+          class="alert"
+          [ngClass]="
+            ' alert-' + STRUCTURE_INFORMATION_TYPES[information.type].bg
+          "
+        >
+          <span>
+            <b class="d-block">
+              {{ STRUCTURE_INFORMATION_TYPES[information.type].label }} -
+              {{ information.title }}</b
+            >
+            <p
+              class="d-block fw-bold"
+              *ngIf="information?.startDate && information?.endDate"
+            >
+              Du {{ information.startDate | date : "dd MMMM yyyy" }} au
+              {{ information.endDate | date : "dd MMMM yyyy" }}
+            </p>
+            <p
+              *ngIf="information.description"
+              [innerHTML]="information.description | nl2br"
+            ></p>
+          </span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
