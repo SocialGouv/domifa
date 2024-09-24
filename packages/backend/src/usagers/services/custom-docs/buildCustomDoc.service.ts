@@ -142,6 +142,7 @@ export function buildCustomDoc({
         ? dateFormat(transfert.dateFin, structure.timeZone, DATE_FORMAT.JOUR)
         : "",
 
+    PROCURATIONS_NOMBRE: usager.options.procurations.length,
     PROCURATIONS_LISTE: getProcurationsList(usager.options.procurations),
     PROCURATION_ACTIF: usager.options.procurations.length > 0 ? "OUI" : "NON",
     PROCURATION_NOM: procuration.nom ?? "",

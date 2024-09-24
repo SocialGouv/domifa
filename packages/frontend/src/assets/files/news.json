@@ -4,10 +4,17 @@
     "description": "Nouveautés et améliorations diverses sur DomiFa",
     "content": [
       {
-        "type": "new",
+        "type": "bug",
         "categorie": "SMS",
         "message": [
           "SMS de renouvellement Suite aux demandes de plusieurs structures, le délai d'envoi du sms de renouvellement de la domiciliation est réduit à 1 mois avant la date d'échéance."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Ma structure",
+        "message": [
+          "Vous pouvez modifier votre type de structure (CIAS, CCAS, Mairies, Organismes agréés) en cas d'erreur de sélection lors de l'inscription de votre structure sur la page suivante : Information de la structure"
         ]
       },
       {

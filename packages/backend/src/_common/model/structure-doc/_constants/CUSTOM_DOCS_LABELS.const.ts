@@ -94,6 +94,7 @@ export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
   PROCURATION_DATE_FIN: "Date de fin de validité (jj/mm/aaaa)",
   PROCURATION_DATE_NAISSANCE: "Date de naissance (jj/mm/aaaa)",
   PROCURATIONS_LISTE: "Liste des procurations",
+  PROCURATIONS_NOMBRE: "Nombre de procurations",
 
   // Espace domicilié
   ESPACE_DOM_URL: "Url de l'espace domicilié",
