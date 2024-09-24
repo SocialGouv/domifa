@@ -189,7 +189,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
             );
           } else if (err?.error?.message === "TOO_MANY_ATTEMPTS") {
             this.toastr.error(
-              "Après plusieurs tentatives de connexion, votre compte est temporairement inaccessible. Tentez de vous reconnecter dans 24h.",
+              "Après plusieurs tentatives de connexion, votre compte est temporairement inaccessible. Veuillez réessayer dans une heure",
             );
           } else {
             this.toastr.error("Login et / ou mot de passe incorrect");
