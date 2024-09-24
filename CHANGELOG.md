@@ -1,3 +1,11 @@
+## [2.173.33](https://github.com/SocialGouv/domifa/compare/v2.173.32...v2.173.33) (2024-09-24)
+
+
+### Bug Fixes
+
+* **backend:** add column to export ([775e756](https://github.com/SocialGouv/domifa/commit/775e7560fb6e2308200eb6acecdd4bd1b5c8eb50))
+* **backend:** fix unit test, delete migrations ([1e445dd](https://github.com/SocialGouv/domifa/commit/1e445dd59c7482cdc15b2f6b12fb640d5cbaa602))
+
 ## [2.173.32](https://github.com/SocialGouv/domifa/compare/v2.173.31...v2.173.32) (2024-09-24)
 
 
