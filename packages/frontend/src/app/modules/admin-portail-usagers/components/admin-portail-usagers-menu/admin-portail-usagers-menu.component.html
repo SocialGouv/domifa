@@ -42,19 +42,12 @@
       </a>
       <a
         class="col"
-        [ngClass]="
-          section === 'informations-temporaires'
-            ? 'selected-section col'
-            : 'col'
-        "
-        disabled
+        ariaCurrentWhenActive="page"
+        routerLink="/portail-usagers/informations"
+        [ngClass]="section === 'informations' ? 'selected-section col' : 'col'"
       >
-        <span class="statut-label"
-          >Diffuser des informations (bientôt disponible)</span
-        >
-        <span
-          class="visually-hidden"
-          *ngIf="section === 'informations-temporaires'"
+        <span class="statut-label">Diffuser des informations</span>
+        <span class="visually-hidden" *ngIf="section === 'informations'"
           >, onglet actif</span
         >
       </a>

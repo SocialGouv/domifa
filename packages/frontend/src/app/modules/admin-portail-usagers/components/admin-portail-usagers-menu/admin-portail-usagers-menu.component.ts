@@ -8,6 +8,6 @@ import { UserStructure } from "@domifa/common";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminPortailUsagersMenuComponent {
-  @Input() public section: "" | "parametres" | "informations-temporaires";
+  @Input() public section: "" | "parametres" | "informations";
   @Input() public me!: UserStructure;
 }
