@@ -1,3 +1,10 @@
+## [2.174.1](https://github.com/SocialGouv/domifa/compare/v2.174.0...v2.174.1) (2024-09-26)
+
+
+### Bug Fixes
+
+* **deps:** update dependency ckeditor5 to v43.1.1 [security] ([a568901](https://github.com/SocialGouv/domifa/commit/a568901cd184fe8b1f7b62ec8dde97be9c6d3f4d))
+
 # [2.174.0](https://github.com/SocialGouv/domifa/compare/v2.173.33...v2.174.0) (2024-09-24)
 
 
