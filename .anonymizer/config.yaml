@@ -15,14 +15,6 @@ storage:
     prefix: "/anonymizer/pg_dumps"
     # force_path_style: true
 
-cmd_default_params: &cmd_default_params
-  driver:
-    name: "json"
-  validate: true
-  timeout: 3600s
-  expected_exit_code: -1
-  executable: "node"
-
 dump:
   transformation:
     - schema: public
@@ -33,9 +25,18 @@ dump:
             column: "email"
             template: |
               {{ printf "user-%s@domifa-fake.fabrique.social.gouv.fr" (fakerUUID) }}
-        - name: RandomFirstName
+        - name: RandomPerson
           params:
-            column: prenom
+            columns:
+              - name: prenom
+                template: "{{ .FirstName }}"
+              - name: nom
+                template: "{{ .LastName }}"
+        - name: RandomPerson
+          params:
+            columns:
+              - name: surnom
+                template: "{{ .LastName }}"
         - name: Json
           params:
             column: telephone
@@ -49,13 +50,6 @@ dump:
         - name: SetNull
           params:
             column: pinnedNote
-        - name: RandomLastName
-          params:
-            column: nom
-        - name: RandomLastName
-          params:
-            column: surnom
-            keep_null: true
         - name: RealAddress
           params:
             columns:
@@ -83,7 +77,13 @@ dump:
         - name: "Cmd"
           # --- historique
           params:
-            <<: *cmd_default_params
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
             args:
               - "./dist/usager--historique.js"
             columns:
@@ -92,7 +92,13 @@ dump:
         - name: "Cmd"
           # --- ayantsDroits
           params:
-            <<: *cmd_default_params
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
             args:
               - "./dist/usager--ayants-droits.js"
             columns:
@@ -101,7 +107,13 @@ dump:
         - name: "Cmd"
           # --- import
           params:
-            <<: *cmd_default_params
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
             args:
               - "./dist/usager--import.js"
             columns:
@@ -110,7 +122,13 @@ dump:
         - name: "Cmd"
           # --- rdv
           params:
-            <<: *cmd_default_params
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
             args:
               - "./dist/usager--rdv.js"
             columns:
@@ -124,7 +142,13 @@ dump:
         - name: "Cmd"
           # --- options
           params:
-            <<: *cmd_default_params
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
             args:
               - "./dist/usager--options.js"
             columns:
@@ -172,15 +196,22 @@ dump:
     - schema: public
       name: user_structure
       transformers:
-        - name: RandomFirstName
+        - name: RandomPerson
           params:
-            column: prenom
-        - name: RandomLastName
-          params:
-            column: nom
+            columns:
+              - name: prenom
+                template: "{{ .FirstName }}"
+              - name: nom
+                template: "{{ .LastName }}"
         - name: "Cmd"
           params:
-            <<: *cmd_default_params
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
             args:
               - "./dist/user-structure--fonction.js"
             columns:
@@ -188,7 +219,13 @@ dump:
                 skip_on_null_input: true
         - name: "Cmd"
           params:
-            <<: *cmd_default_params
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
             args:
               - "./dist/user-structure--email.js"
             columns:
@@ -205,7 +242,13 @@ dump:
                 skip_on_null_input: true
         - name: "Cmd"
           params:
-            <<: *cmd_default_params
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
             args:
               - "./dist/user-usager--password.js"
             columns:
@@ -228,12 +271,13 @@ dump:
     - schema: public
       name: usager_options_history
       transformers:
-        - name: RandomFirstName
+        - name: RandomPerson
           params:
-            column: prenom
-        - name: RandomLastName
-          params:
-            column: nom
+            columns:
+              - name: prenom
+                template: "{{ .FirstName }}"
+              - name: nom
+                template: "{{ .LastName }}"
         - name: "Template"
           params:
             column: "userName"
@@ -258,9 +302,11 @@ dump:
         - name: SetNull
           params:
             column: encryptionVersion
-        - name: RandomName
+        - name: RandomPerson
           params:
-            column: createdBy
+            columns:
+              - name: createdBy
+                template: "{{ .FirstName }} {{ .LastName }}"
 
     - schema: public
       name: usager_entretien
@@ -298,7 +344,13 @@ dump:
       transformers:
         - name: "Cmd"
           params:
-            <<: *cmd_default_params
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
             args:
               - "./dist/user-usager--password.js"
             columns:
@@ -385,7 +437,13 @@ dump:
       transformers:
         - name: "Cmd"
           params:
-            <<: *cmd_default_params
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
             args:
               - "./dist/usager-notes--all-columns.js"
             columns:
