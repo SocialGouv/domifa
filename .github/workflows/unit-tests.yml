@@ -191,7 +191,7 @@ jobs:
 
   codecov:
     name: Publish code coverage
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [backend, frontend, portail-usagers, portail-admins]
     steps:
       - name: Checkout
