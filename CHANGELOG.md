@@ -1,3 +1,11 @@
+## [2.174.3](https://github.com/SocialGouv/domifa/compare/v2.174.2...v2.174.3) (2024-10-01)
+
+
+### Bug Fixes
+
+* **export:** add column content ([daa50d8](https://github.com/SocialGouv/domifa/commit/daa50d8c22cb39d6995b78f5467e439d3c5827f5))
+* **mon-domifa:** update of temp message form ([7343854](https://github.com/SocialGouv/domifa/commit/734385441950940e8befe38a6fb0b3dcbcf0d1c5))
+
 ## [2.174.2](https://github.com/SocialGouv/domifa/compare/v2.174.1...v2.174.2) (2024-10-01)
 
 
