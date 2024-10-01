@@ -234,6 +234,7 @@ export const buildEntretienForDocs = (
   ENTRETIEN_REVENUS_DETAIL: string;
   ENTRETIEN_LIEN_COMMUNE: string;
   ENTRETIEN_COMPOSITION_MENAGE: string;
+  ENTRETIEN_COMMENTAIRE: string;
   ENTRETIEN_SITUATION_RESIDENTIELLE: string;
 } => {
   return {
@@ -275,6 +276,7 @@ export const buildEntretienForDocs = (
     ENTRETIEN_COMPOSITION_MENAGE: usager.entretien.typeMenage
       ? ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage]
       : "",
+    ENTRETIEN_COMMENTAIRE: usager.entretien.commentaires ?? "",
     ENTRETIEN_SITUATION_RESIDENTIELLE:
       usager.entretien.residence === "AUTRE"
         ? "Autre: " + ucFirst(usager.entretien.residenceDetail)

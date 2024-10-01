@@ -62,6 +62,7 @@ export const CUSTOM_DOC_ATTESTATION_POSTALE: StructureCustomDocTags = {
   ENTRETIEN_RAISON_DEMANDE: "Exercice des droits civils ou civiques",
   ENTRETIEN_RATTACHEMENT: "",
   ENTRETIEN_SITUATION_PROFESSIONNELLE: "",
+  ENTRETIEN_COMMENTAIRE: "",
 
   // Transferts
   TRANSFERT_ACTIF: "NON",

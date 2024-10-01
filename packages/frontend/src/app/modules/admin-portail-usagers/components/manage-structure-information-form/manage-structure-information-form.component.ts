@@ -169,6 +169,7 @@ export class ManageStructureInformationFormComponent
       return null;
     };
   }
+
   onSubmit(): void {
     this.submitted = true;
 

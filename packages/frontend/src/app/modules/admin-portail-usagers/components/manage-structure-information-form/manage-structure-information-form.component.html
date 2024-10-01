@@ -28,7 +28,7 @@
           class="invalid-feedback"
           id="invalid-title"
         >
-          Le type d'information est obligatoire
+          Le titre est obligatoire
         </p>
       </div>
 
@@ -77,7 +77,7 @@
           name="description"
           [required]="true"
         ></ckeditor>
-
+        {{ tempMessageForm.get("description")?.value }}
         <div
           *ngIf="
             tempMessageForm.get('description')?.invalid &&
