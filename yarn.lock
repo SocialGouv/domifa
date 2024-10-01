@@ -4635,7 +4635,7 @@ __metadata:
     aws-sdk-client-mock: ^4.0.1
     axios: ^1.7.2
     bcryptjs: ^2.4.3
-    cache-manager: ^5.7.3
+    cache-manager: ^6.0.0
     class-transformer: 0.5.1
     class-validator: ^0.14.1
     compression: ^1.7.4
@@ -6146,6 +6146,15 @@ __metadata:
   version: 4.4.2
   resolution: "@js-sdsl/ordered-map@npm:4.4.2"
   checksum: a927ae4ff8565ecb75355cc6886a4f8fadbf2af1268143c96c0cce3ba01261d241c3f4ba77f21f3f017a00f91dfe9e0673e95f830255945c80a0e96c6d30508a
+  languageName: node
+  linkType: hard
+
+"@keyv/serialize@npm:*":
+  version: 1.0.1
+  resolution: "@keyv/serialize@npm:1.0.1"
+  dependencies:
+    buffer: ^6.0.3
+  checksum: ff3dd9a6246b17fca3d1b0aba312dea931059fdecc36027f4d8133e59dbb3554a0a516b1f3dfc7fb2b3ca7a3d6fa307804f299566ab214febd3fb9d0502eebed
   languageName: node
   linkType: hard
 
@@ -12561,15 +12570,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cache-manager@npm:^5.7.3":
-  version: 5.7.3
-  resolution: "cache-manager@npm:5.7.3"
+"cache-manager@npm:^6.0.0":
+  version: 6.1.0
+  resolution: "cache-manager@npm:6.1.0"
   dependencies:
-    eventemitter3: ^5.0.1
-    lodash.clonedeep: ^4.5.0
-    lru-cache: ^10.2.2
-    promise-coalesce: ^1.1.2
-  checksum: 1c58c917df491c473a94426a912119eba563e307242926d169d462ef4ec67488e8f3bd49d2780a4e11476844d8f22d5382e832f16f4dad421b54bca294db9354
+    keyv: ^5.0.3
+  checksum: c4032ffe0e1b8254759790e8111f4462d7e78000cc5c89ad0b2f505e6a25b85fe4823808433ac2f41d94cac0260186324cc72c7853a25f2fcee6664282fc008f
   languageName: node
   linkType: hard
 
@@ -19750,6 +19756,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"keyv@npm:^5.0.3":
+  version: 5.0.3
+  resolution: "keyv@npm:5.0.3"
+  dependencies:
+    "@keyv/serialize": "*"
+  checksum: bb2cbce2bc3fe6723bc17443e0f6fd9b9a590bbb245b0e8fb030a8c20c6ab28c11e2ee4f727778a259449c18f5f4c76bc5b20dc80ea67d1c84018fc251fb8d89
+  languageName: node
+  linkType: hard
+
 "kind-of@npm:^6.0.2, kind-of@npm:^6.0.3":
   version: 6.0.3
   resolution: "kind-of@npm:6.0.3"
@@ -20248,13 +20263,6 @@ __metadata:
   version: 4.3.0
   resolution: "lodash.camelcase@npm:4.3.0"
   checksum: cb9227612f71b83e42de93eccf1232feeb25e705bdb19ba26c04f91e885bfd3dd5c517c4a97137658190581d3493ea3973072ca010aab7e301046d90740393d1
-  languageName: node
-  linkType: hard
-
-"lodash.clonedeep@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "lodash.clonedeep@npm:4.5.0"
-  checksum: 92c46f094b064e876a23c97f57f81fbffd5d760bf2d8a1c61d85db6d1e488c66b0384c943abee4f6af7debf5ad4e4282e74ff83177c9e63d8ff081a4837c3489
   languageName: node
   linkType: hard
 
@@ -23649,13 +23657,6 @@ __metadata:
   version: 3.0.1
   resolution: "promise-call-limit@npm:3.0.1"
   checksum: f1b3c4d3a9c5482ce27ec5f40311e1389adb9bb10c16166e61c96d29ab22c701691d5225bf6745a162858f45dfb46cc82275fd09e7aa57846fc446c7855c2f06
-  languageName: node
-  linkType: hard
-
-"promise-coalesce@npm:^1.1.2":
-  version: 1.1.2
-  resolution: "promise-coalesce@npm:1.1.2"
-  checksum: 6f951b5db40ca78d09ad0f72adea0a2e9c5bdb0fc5b3ef218c611e2191c6ce2e9f752f815630fd07875dd1c9f04cc7327d6bada04b662dce986ce86ab88c2d5e
   languageName: node
   linkType: hard
 
