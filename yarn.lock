@@ -2760,7 +2760,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.24.8, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.24.8, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
   version: 7.24.8
   resolution: "@babel/runtime@npm:7.24.8"
   dependencies:
@@ -4639,7 +4639,7 @@ __metadata:
     class-transformer: 0.5.1
     class-validator: ^0.14.1
     compression: ^1.7.4
-    date-fns: ^2.30.0
+    date-fns: ^4.0.0
     date-fns-tz: ^2.0.1
     docxtemplater: ^3.48.0
     dotenv: ^16.4.5
@@ -4707,7 +4707,7 @@ __metadata:
     "@types/rimraf": ^4.0.5
     "@typescript-eslint/eslint-plugin": ^7.14.1
     "@typescript-eslint/parser": ^7.14.1
-    date-fns: ^2.30.0
+    date-fns: ^4.0.0
     eslint: ^8.57.0
     eslint-config-love: ^57.0.0
     eslint-config-prettier: ^9.1.0
@@ -4778,7 +4778,7 @@ __metadata:
     angular-user-idle: ^4.0.0
     bootstrap: ^5.3.3
     ckeditor5: ^43.0.0
-    date-fns: ^2.30.0
+    date-fns: ^4.0.0
     eslint: ^8.57.0
     eslint-config-love: ^43.1.0
     eslint-config-prettier: ^9.1.0
@@ -4854,7 +4854,7 @@ __metadata:
     "@typescript-eslint/parser": 7.18.0
     bootstrap: ^5.3.3
     class-validator: ^0.14.1
-    date-fns: ^2.30.0
+    date-fns: ^4.0.0
     eslint: ^8.57.0
     eslint-config-prettier: ^9.1.0
     eslint-plugin-import: ^2.29.1
@@ -4917,7 +4917,7 @@ __metadata:
     "@typescript-eslint/parser": 7.18.0
     angular-user-idle: ^4.0.0
     bootstrap: ^5.3.3
-    date-fns: ^2.30.0
+    date-fns: ^4.0.0
     eslint: ^8.57.0
     eslint-config-love: ^43.1.0
     eslint-config-prettier: ^9.1.0
@@ -14191,12 +14191,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.30.0":
-  version: 2.30.0
-  resolution: "date-fns@npm:2.30.0"
-  dependencies:
-    "@babel/runtime": ^7.21.0
-  checksum: f7be01523282e9bb06c0cd2693d34f245247a29098527d4420628966a2d9aad154bd0e90a6b1cf66d37adcb769cd108cf8a7bd49d76db0fb119af5cdd13644f4
+"date-fns@npm:^4.0.0":
+  version: 4.1.0
+  resolution: "date-fns@npm:4.1.0"
+  checksum: fb681b242cccabed45494468f64282a7d375ea970e0adbcc5dcc92dcb7aba49b2081c2c9739d41bf71ce89ed68dd73bebfe06ca35129490704775d091895710b
   languageName: node
   linkType: hard
 

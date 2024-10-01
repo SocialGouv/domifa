@@ -68,7 +68,7 @@
     "class-transformer": "0.5.1",
     "class-validator": "^0.14.1",
     "compression": "^1.7.4",
-    "date-fns": "^2.30.0",
+    "date-fns": "^4.0.0",
     "date-fns-tz": "^2.0.1",
     "docxtemplater": "^3.48.0",
     "dotenv": "^16.4.5",
