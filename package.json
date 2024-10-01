@@ -21,13 +21,12 @@
     "husky": "^9.0.11",
     "is-ci": "^3.0.1",
     "lerna": "^8.1.6",
-    "lint-staged": "^15.2.7",
-    "node-talisman": "^1.29.11"
+    "lint-staged": "^15.2.7"
   },
   "workspaces": {
     "packages": [
       "packages/*"
     ]
   },
-  "packageManager": "yarn@3.8.0"
+  "packageManager": "yarn@4.5.0"
 }
