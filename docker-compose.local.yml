@@ -34,7 +34,7 @@ services:
       - minio
 
   postgres:
-    image: postgis/postgis:15-3.4-alpine
+    image: postgis/postgis:17-3.4-alpine
     container_name: domifa-postgres
     shm_size: 2g
     volumes:
