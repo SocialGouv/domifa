@@ -34,7 +34,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-regular-svg-icons": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
-    "@khazii/ngx-intl-tel-input": "^17.0.1",
+    "@khazii/ngx-intl-tel-input": "^18.0.0",
     "@ng-bootstrap/ng-bootstrap": "^15.1.2",
     "@ngrx/effects": "^16.3.0",
     "@ngrx/entity": "^16.3.0",
