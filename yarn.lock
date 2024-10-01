@@ -2873,18 +2873,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-angular@npm:^8.0.0":
-  version: 8.0.0
-  resolution: "@ckeditor/ckeditor5-angular@npm:8.0.0"
+"@ckeditor/ckeditor5-angular@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "@ckeditor/ckeditor5-angular@npm:9.0.0"
   dependencies:
+    "@ckeditor/ckeditor5-integrations-common": "npm:^2.0.0"
     tslib: "npm:^2.3.0"
   peerDependencies:
-    "@angular/common": ">=13.0.0"
-    "@angular/core": ">=13.0.0"
-    "@angular/forms": ">=13.0.0"
+    "@angular/common": ">=16.0.0"
+    "@angular/core": ">=16.0.0"
+    "@angular/forms": ">=16.0.0"
     ckeditor5: ">=42.0.0 || ^0.0.0-nightly"
     rxjs: ">=6.0.0"
-  checksum: 10/9ad77bcda263a7322e2c3ca487494c6ae3fa883b8bafe52b7ab1638383fbb2c2992e23faa3359f6c7683e09c5e0a04c400a968b770448910eeec3a8d377bee33
+  checksum: 10/66aca35297d4d7af2eac42c0ccc5ba33c5d3be8c0a479a77f8af93145aa6cec31e1e4de0af757c0065a0472b42368d534f224ad96488b6d0361277d1ad0fa27b
   languageName: node
   linkType: hard
 
@@ -3659,6 +3660,15 @@ __metadata:
     "@ckeditor/ckeditor5-utils": "npm:43.1.1"
     ckeditor5: "npm:43.1.1"
   checksum: 10/770b53e8973577cbaf7c9de9706e3525204c57affe0e7b78214e70d1869840031a14fa3ab50ff99cc49dcf254e3c89a1167be66e6db73a810d91d63b1027ffb3
+  languageName: node
+  linkType: hard
+
+"@ckeditor/ckeditor5-integrations-common@npm:^2.0.0":
+  version: 2.1.0
+  resolution: "@ckeditor/ckeditor5-integrations-common@npm:2.1.0"
+  peerDependencies:
+    ckeditor5: ">=42.0.0 || ^0.0.0-nightly"
+  checksum: 10/486597e70572c49a95ac0cd9abbf01310f04bade95d47f09885c0caa2161c3c48d1e854a1c9ed70e84468d574702c929cbfd91cec8795f7ec33c03565ba95492
   languageName: node
   linkType: hard
 
@@ -4752,7 +4762,7 @@ __metadata:
     "@angular/platform-browser": "npm:^16.2.12"
     "@angular/platform-browser-dynamic": "npm:^16.2.12"
     "@angular/router": "npm:^16.2.12"
-    "@ckeditor/ckeditor5-angular": "npm:^8.0.0"
+    "@ckeditor/ckeditor5-angular": "npm:^9.0.0"
     "@ckeditor/ckeditor5-build-classic": "npm:^43.1.0"
     "@domifa/common": "workspace:^"
     "@fortawesome/angular-fontawesome": "npm:0.12.1"
