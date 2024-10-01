@@ -40,7 +40,7 @@ import {
 @Component({
   selector: "app-manage-structure-information-form",
   templateUrl: "./manage-structure-information-form.component.html",
-  styleUrls: ["./manage-structure-information-form.component.css"],
+  styleUrls: ["./manage-structure-information-form.component.scss"],
 })
 export class ManageStructureInformationFormComponent
   implements OnInit, OnDestroy

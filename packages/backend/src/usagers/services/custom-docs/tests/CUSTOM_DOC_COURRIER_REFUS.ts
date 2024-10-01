@@ -46,8 +46,7 @@ export const CUSTOM_DOC_COURRIER_REFUS: StructureCustomDocTags = {
   ENTRETIEN_ORIENTATION: "OUI",
   ENTRETIEN_ORIENTATION_DETAIL: "",
   ENTRETIEN_REVENUS_DETAIL: "",
-  ENTRETIEN_COMMENTAIRE: "",
-
+  ENTRETIEN_COMMENTAIRE: "Ceci est un commentaire",
   USAGER_LANGUE: "",
   USAGER_NATIONALITE: "",
   MOTIF_REFUS: "Absence de lien avec la commune",

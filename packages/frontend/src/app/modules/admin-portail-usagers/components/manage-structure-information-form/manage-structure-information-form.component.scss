@@ -2,3 +2,7 @@
   min-height: 200px !important;
   border-radius: 0 0 4px 4px !important;
 }
+
+:host ::ng-deep #description.description-invalid .ck-editor__main {
+  border: 1px solid red !important;
+}
