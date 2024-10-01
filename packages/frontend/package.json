@@ -27,7 +27,7 @@
     "@angular/platform-browser": "^16.2.12",
     "@angular/platform-browser-dynamic": "^16.2.12",
     "@angular/router": "^16.2.12",
-    "@ckeditor/ckeditor5-angular": "^8.0.0",
+    "@ckeditor/ckeditor5-angular": "^9.0.0",
     "@ckeditor/ckeditor5-build-classic": "^43.1.0",
     "@domifa/common": "workspace:^",
     "@fortawesome/angular-fontawesome": "0.12.1",
