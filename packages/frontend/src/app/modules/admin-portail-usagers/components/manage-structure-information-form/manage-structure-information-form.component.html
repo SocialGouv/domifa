@@ -76,8 +76,15 @@
           id="description"
           name="description"
           [required]="true"
+          [ngClass]="{
+            'description-invalid':
+              (f.description.dirty || submitted) && f.description.errors,
+            'is-valid':
+              (f.description.dirty || f.description.value) &&
+              !f.description.errors
+          }"
         ></ckeditor>
-        {{ tempMessageForm.get("description")?.value }}
+
         <div
           *ngIf="
             tempMessageForm.get('description')?.invalid &&
