@@ -1,3 +1,10 @@
+## [2.174.2](https://github.com/SocialGouv/domifa/compare/v2.174.1...v2.174.2) (2024-10-01)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @ckeditor/ckeditor5-angular to v9 ([b205308](https://github.com/SocialGouv/domifa/commit/b205308a17713c708a2fe9e05bd764b4841dd522))
+
 ## [2.174.1](https://github.com/SocialGouv/domifa/compare/v2.174.0...v2.174.1) (2024-09-26)
 
 
