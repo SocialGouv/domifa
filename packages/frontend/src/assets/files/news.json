@@ -1,5 +1,32 @@
 [
   {
+    "date": "2024-10-02",
+    "description": "Nouveautés et améliorations diverses sur DomiFa",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Affichage de messages temporaires sur le portail domicilié ",
+        "message": [
+          "Vous pouvez désormais transmettre un ou plusieurs messages (ex: horaires d'ouvertures, fermetures exceptionnelles, déménagement, etc)  via la page d'activation du portail domicilié afin que ceux-ci s'affichent sur Mon DomiFa."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Ajout des transferts et procurations dans l'export global ",
+        "message": [
+          "L'export global des domiciliés permet de récupérer les informations sur les transferts actifs et les procurations des domiciliés."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Mot de passe erronés sur le portail domicilié ",
+        "message": [
+          "En cas de tentatives de connexion erronées les comptes domiciliés au portail Mon DomiFa étaient inaccessibles pendant 24h, ce délai est passé à 1h afin de faciliter la reconnexion des domiciliés. En cas d'oubli du mot de passe, la réinitialisation doit être effectuée auprès de la structure."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-09-24",
     "description": "Nouveautés et améliorations diverses sur DomiFa",
     "content": [
