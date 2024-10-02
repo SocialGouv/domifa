@@ -1,3 +1,10 @@
+## [2.174.4](https://github.com/SocialGouv/domifa/compare/v2.174.3...v2.174.4) (2024-10-02)
+
+
+### Bug Fixes
+
+* **news:** update of news ([57b4254](https://github.com/SocialGouv/domifa/commit/57b42541c71277ab33f5e3e98ec3a541ca84632d))
+
 ## [2.174.3](https://github.com/SocialGouv/domifa/compare/v2.174.2...v2.174.3) (2024-10-01)
 
 
