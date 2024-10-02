@@ -1,3 +1,10 @@
+## [2.174.5](https://github.com/SocialGouv/domifa/compare/v2.174.4...v2.174.5) (2024-10-02)
+
+
+### Bug Fixes
+
+* **portail:** fix budget for build ([e2a8795](https://github.com/SocialGouv/domifa/commit/e2a879545fb5251b090c3cdc5c485a91f9be8c1b))
+
 ## [2.174.4](https://github.com/SocialGouv/domifa/compare/v2.174.3...v2.174.4) (2024-10-02)
 
 
