@@ -1,3 +1,10 @@
+# [2.175.0](https://github.com/SocialGouv/domifa/compare/v2.174.5...v2.175.0) (2024-10-08)
+
+
+### Features
+
+* **docs:** add sort to docs ([8284f06](https://github.com/SocialGouv/domifa/commit/8284f06a2a54a1b7ddacce02e382a5347553d868))
+
 ## [2.174.5](https://github.com/SocialGouv/domifa/compare/v2.174.4...v2.174.5) (2024-10-02)
 
 
