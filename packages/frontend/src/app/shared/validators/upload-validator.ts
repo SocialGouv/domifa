@@ -1,5 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
-import { UsagerDoc } from "../../../_common/model";
+import { UsagerDoc } from "@domifa/common";
+
 export type UploadResponseType = {
   success?: boolean;
   status?: string;

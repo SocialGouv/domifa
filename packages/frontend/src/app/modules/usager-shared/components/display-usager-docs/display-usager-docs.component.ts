@@ -1,4 +1,4 @@
-import { STRUCTURE_DOC_EXTENSIONS, UsagerDoc } from "src/_common/model";
+import { STRUCTURE_DOC_EXTENSIONS } from "src/_common/model";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
@@ -6,7 +6,8 @@ import { UsagerFormModel } from "../../interfaces";
 import { DocumentService } from "../../services/document.service";
 import { saveAs } from "file-saver";
 import { Subscription } from "rxjs";
-import { UserStructure } from "@domifa/common";
+import { UsagerDoc, UserStructure } from "@domifa/common";
+import { UsagersFilterCriteriaSortValues } from "../../../manage-usagers/components/usager-filter";
 
 @Component({
   selector: "app-display-usager-docs",
@@ -24,6 +25,9 @@ export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
     download: number[];
     delete: number[];
   };
+
+  public sortValue: UsagersFilterCriteriaSortValues = "desc";
+  public currentKey: keyof UsagerDoc = "createdAt";
 
   constructor(
     private readonly documentService: DocumentService,

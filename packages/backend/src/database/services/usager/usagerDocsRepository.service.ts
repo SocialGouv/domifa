@@ -6,7 +6,7 @@ export const usagerDocsRepository = myDataSource
   .getRepository<UsagerDoc>(UsagerDocsTable)
   .extend({
     async getUsagerDocs(usagerRef: number, structureId: number) {
-      return this.find({
+      return await this.find({
         where: {
           usagerRef,
           structureId,
@@ -17,6 +17,9 @@ export const usagerDocsRepository = myDataSource
           uuid: true,
           createdAt: true,
           createdBy: true,
+        },
+        order: {
+          createdAt: "DESC",
         },
       });
     },

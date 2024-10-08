@@ -22,7 +22,7 @@ async function sendMail({
   const to = [
     {
       address: user.email,
-      personalName: user.prenom + " " + user.nom,
+      personalName: `${user.prenom} ${user.nom}`,
     },
   ];
 

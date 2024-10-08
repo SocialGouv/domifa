@@ -3,8 +3,8 @@ import {
   STRUCTURE_DOC_EXTENSIONS_LABELS,
   STRUCTURE_DOC_ICONS,
   StructureDoc,
-  UsagerDoc,
 } from "../../../../../_common/model";
+import { UsagerDoc } from "@domifa/common";
 
 @Component({
   selector: "app-display-table-image",

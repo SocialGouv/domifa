@@ -115,7 +115,7 @@ export class AgendaController {
       description: "Entretien demande de domiciliation",
       start: [annee, mois, jour, heure, minutes],
       organizer: {
-        name: user.prenom + " " + user.nom,
+        name: `${user.prenom} ${user.nom}`,
         email: user.email,
       },
       startInputType: "local",

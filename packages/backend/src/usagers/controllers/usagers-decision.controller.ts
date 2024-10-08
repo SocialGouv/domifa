@@ -58,7 +58,7 @@ export class UsagersDecisionController {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ): Promise<Usager> {
-    decision.userName = user.prenom + " " + user.nom;
+    decision.userName = `${user.prenom} ${user.nom}`;
     decision.userId = user.id;
     return this.usagersService.setDecision(usager, decision);
   }
@@ -153,7 +153,7 @@ export class UsagersDecisionController {
 
     const createdBy = {
       userId: user.id,
-      userName: user.prenom + " " + user.nom,
+      userName: `${user.prenom} ${user.nom}`,
     };
 
     const newNote: Partial<UsagerNote> = {

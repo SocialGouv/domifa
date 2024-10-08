@@ -5,26 +5,26 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
-import { UsagerDoc } from "../../../../_common/model";
 import {
   StructureDoc,
   StructureDocTypesAvailable,
 } from "../../../../_common/model/structure-doc";
 import { LoadingService } from "../../shared/services/loading.service";
+import { UsagerDoc } from "@domifa/common";
 
 @Injectable({
   providedIn: "root",
 })
 export class DocumentService {
   public endPoint: string;
-  public endPointUsagers = environment.apiUrl + "usagers";
+  public endPointUsagers = `${environment.apiUrl}usagers`;
 
   constructor(
     private readonly http: HttpClient,
     private readonly loadingService: LoadingService,
     private readonly toastService: CustomToastService
   ) {
-    this.endPoint = environment.apiUrl + "docs/";
+    this.endPoint = `${environment.apiUrl}docs/`;
   }
 
   public upload(data: FormData, usagerRef: number) {
@@ -131,7 +131,7 @@ export class DocumentService {
   // Liste des documents
   public getAllStructureDocs(): Observable<StructureDoc[]> {
     return this.http.get<StructureDoc[]>(
-      environment.apiUrl + "structure-docs/"
+      `${environment.apiUrl}structure-docs/`
     );
   }
 }

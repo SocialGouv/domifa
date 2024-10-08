@@ -24,14 +24,14 @@ export class TableHeadSortComponent {
   @Input() public columnName: string;
 
   @Input() public sortValue: UsagersFilterCriteriaSortValues;
-  @Output() public sortValueChange =
+  @Output() public readonly sortValueChange =
     new EventEmitter<UsagersFilterCriteriaSortValues>();
 
-  @Input() public currentKey: any;
-  @Output() public currentKeyChange = new EventEmitter<any>();
+  @Input() public currentKey: string;
+  @Output() public readonly currentKeyChange = new EventEmitter<string>();
 
   @Input() public sortKey: string;
-  @Output() public sortArray = new EventEmitter<any>();
+  @Output() public readonly sortArray = new EventEmitter<void>();
 
   public rotate() {
     const rotation: {

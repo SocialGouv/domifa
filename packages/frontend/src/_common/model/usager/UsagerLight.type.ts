@@ -1,5 +1,4 @@
-import { Usager } from "@domifa/common";
-import { AppEntity } from "../_core";
+import { AppEntity, Usager } from "@domifa/common";
 
 export type UsagerLight = AppEntity &
   Pick<

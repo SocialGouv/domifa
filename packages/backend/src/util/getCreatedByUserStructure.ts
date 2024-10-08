@@ -6,6 +6,6 @@ export function getCreatedByUserStructure(
 ): UserStructureResume {
   return {
     userId: user.id,
-    userName: user.prenom + " " + user.nom,
+    userName: `${user.prenom} ${user.nom}`,
   };
 }

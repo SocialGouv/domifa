@@ -32,6 +32,7 @@ import {
 import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits/display-ayants-droits.component";
 import { FormContactDetailsComponent } from "./components/form-contact-details/form-contact-details.component";
 import { InputNationalityComponent } from "./components/input-nationality/input-nationality.component";
+import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { InputNationalityComponent } from "./components/input-nationality/input-
     UsersModule,
     ReactiveFormsModule,
     NgxIntlTelInputModule,
+    TableHeadSortComponent,
   ],
   exports: [
     DisplayAyantsDroitsComponent,

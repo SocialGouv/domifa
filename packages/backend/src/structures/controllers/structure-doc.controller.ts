@@ -153,7 +153,10 @@ export class StructureDocController {
   public async getStructureDocs(
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    return structureDocRepository.findBy({ structureId: user.structureId });
+    return structureDocRepository.find({
+      where: { structureId: user.structureId },
+      order: { createdAt: "DESC" },
+    });
   }
 
   @Delete(":uuid")
