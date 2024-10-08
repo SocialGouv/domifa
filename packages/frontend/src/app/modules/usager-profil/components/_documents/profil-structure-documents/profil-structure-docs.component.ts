@@ -92,7 +92,7 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
             const newBlob = new Blob([blob], {
               type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             });
-            saveAs(newBlob, docType + ".docx");
+            saveAs(newBlob, `${docType}.docx`);
             this.stopLoading(docType);
           },
           error: () => {

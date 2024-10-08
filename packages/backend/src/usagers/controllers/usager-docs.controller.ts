@@ -89,7 +89,7 @@ export class UsagerDocsController {
     @Res() res: Response
   ) {
     const encryptionContext = crypto.randomUUID();
-    const userName = user.prenom + " " + user.nom;
+    const userName = `${user.prenom} ${user.nom}`;
 
     const path = randomName(file);
 
@@ -183,16 +183,8 @@ export class UsagerDocsController {
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getUsagerDocuments(
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
-    @CurrentUsager() currentUsager: Usager,
-    @CurrentUser() user: UserStructureAuthenticated
+    @CurrentUsager() currentUsager: Usager
   ): Promise<UsagerDoc[]> {
-    await this.appLogsService.create({
-      userId: user.id,
-      usagerRef,
-      structureId: user.structureId,
-      action: "USAGERS_DOCS_DOWNLOAD",
-    });
-
     return usagerDocsRepository.getUsagerDocs(
       usagerRef,
       currentUsager.structureId
@@ -208,6 +200,13 @@ export class UsagerDocsController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager
   ) {
+    await this.appLogsService.create({
+      userId: user.id,
+      usagerRef,
+      structureId: user.structureId,
+      action: "USAGERS_DOCS_DOWNLOAD",
+    });
+
     const doc = await usagerDocsRepository.findOneBy({
       uuid: docUuid,
       usagerRef,

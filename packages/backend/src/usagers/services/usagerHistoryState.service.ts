@@ -1,7 +1,9 @@
-import { UsagerHistoryStates } from "./../../_common/model/usager/history/UsagerHistoryStates.interface";
 import { Usager, UsagerDecision, UsagerEntretien } from "@domifa/common";
 import { Injectable } from "@nestjs/common";
-import { UsagerHistoryStateCreationEvent } from "../../_common/model";
+import {
+  UsagerHistoryStateCreationEvent,
+  UsagerHistoryStates,
+} from "../../_common/model";
 import {
   getDecisionForStats,
   getEntretienForStats,
@@ -140,7 +142,7 @@ export class UsagerHistoryStateService {
   }
 
   private async getLastHistoryState(usager: Pick<Usager, "uuid">) {
-    return usagerHistoryStatesRepository.findOne({
+    return await usagerHistoryStatesRepository.findOne({
       where: {
         usagerUUID: usager.uuid,
       },

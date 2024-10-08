@@ -1,7 +1,10 @@
-import { usagerEntretienRepository } from "./../../database/services/usager/usagerEntretienRepository.service";
 import { Injectable } from "@nestjs/common";
 import { v4 as uuidv4 } from "uuid";
-import { usagerRepository, UsagerTable } from "../../database";
+import {
+  usagerEntretienRepository,
+  usagerRepository,
+  UsagerTable,
+} from "../../database";
 import {
   UserStructure,
   UserStructureProfile,
@@ -48,7 +51,7 @@ export class UsagersService {
       uuid: uuidv4(),
       dateDecision: now,
       statut: "INSTRUCTION",
-      userName: user.prenom + " " + user.nom,
+      userName: `${user.prenom} ${user.nom}`,
       userId: user.id,
       dateFin: now,
       dateDebut: now,
@@ -105,7 +108,7 @@ export class UsagersService {
       dateFin: newDateFin,
       statut: "INSTRUCTION",
       userId: user.id,
-      userName: user.prenom + " " + user.nom,
+      userName: `${user.prenom} ${user.nom}`,
       typeDom,
       motif: null,
     };
@@ -223,7 +226,7 @@ export class UsagersService {
   ): Promise<Usager> {
     usager.rdv = {
       userId: rdv.userId,
-      userName: user.prenom + " " + user.nom,
+      userName: `${user.prenom} ${user.nom}`,
       dateRdv: rdv.dateRdv,
     };
 
@@ -245,7 +248,7 @@ export class UsagersService {
   }
 
   public async export(structureId: number): Promise<StructureUsagerExport[]> {
-    return usagerRepository.find({
+    return await usagerRepository.find({
       where: { structureId },
       relations: {
         entretien: true,
