@@ -48,7 +48,7 @@ import {
 } from "@domifa/common";
 import { MetabaseStatsDto } from "../../_dto/MetabaseStats.dto";
 import { domifaConfig } from "../../../config";
-import jwt from "jsonwebtoken";
+import { sign } from "jsonwebtoken";
 import { FindOptionsWhere } from "typeorm";
 import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 
@@ -142,7 +142,7 @@ export class AdminStructuresController {
   @Get("stats")
   @AllowUserProfiles("super-admin-domifa")
   public async stats(): Promise<AdminStructureStatsData> {
-    return this.adminStructuresService.getStatsDomifaAdminDashboard();
+    return await this.adminStructuresService.getStatsDomifaAdminDashboard();
   }
 
   @Get("last-update")
@@ -260,7 +260,7 @@ export class AdminStructuresController {
       exp: Math.round(Date.now() / 1000) + 100 * 60, // 10 minute expiration
     };
 
-    const token = jwt.sign(payload, domifaConfig().metabase.token);
+    const token = sign(payload, domifaConfig().metabase.token);
     const url = `${METABASE_URL}embed/dashboard/${token}#bordered=false&titled=false`;
 
     return { url };
@@ -278,7 +278,7 @@ export class AdminStructuresController {
       verified: true,
     };
 
-    return structureRepository.find({
+    return await structureRepository.find({
       where: params,
       select: ["id", "nom", "ville", "codePostal"],
       order: {
