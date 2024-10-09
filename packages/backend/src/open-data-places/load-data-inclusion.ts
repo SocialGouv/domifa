@@ -13,22 +13,10 @@ import {
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
 } from "@domifa/common";
+import { getStructureType } from "./functions";
 
 let page = 1;
 let nbResults = 0;
-
-export const loadDataInclusionData = async (structureType: "CCAS" | "CIAS") => {
-  if (
-    !domifaConfig().openDataApps.dataInclusionUrl ||
-    !domifaConfig().openDataApps.dataInclusionToken
-  ) {
-    console.log("[IMPORT DATA INCLUSION] Fail, token or url is not in env");
-    return;
-  }
-  appLogger.info("Import data-inclusion start 🏃‍♂️... ");
-
-  await getFromDataInclusion(structureType);
-};
 
 const getFromDataInclusion = async (structureType: "CCAS" | "CIAS") => {
   let datInclusionData: DataInclusionPlace[] = [];
@@ -80,6 +68,7 @@ const getFromDataInclusion = async (structureType: "CCAS" | "CIAS") => {
               departement,
               region: getRegionCodeFromDepartement(departement),
               software: "other",
+              structureType: getStructureType(place.nom),
               latitude: place?.latitude,
               longitude: place?.longitude,
               source: "data-inclusion",
@@ -120,4 +109,16 @@ const getFromDataInclusion = async (structureType: "CCAS" | "CIAS") => {
   } catch (e) {
     appLogger.error("[IMPORT] Something happen", e);
   }
+};
+export const loadDataInclusionData = async (structureType: "CCAS" | "CIAS") => {
+  if (
+    !domifaConfig().openDataApps.dataInclusionUrl ||
+    !domifaConfig().openDataApps.dataInclusionToken
+  ) {
+    console.log("[IMPORT DATA INCLUSION] Fail, token or url is not in env");
+    return;
+  }
+  appLogger.info("Import data-inclusion start 🏃‍♂️... ");
+
+  await getFromDataInclusion(structureType);
 };

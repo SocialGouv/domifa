@@ -1,4 +1,4 @@
-import { AppEntity } from "@domifa/common";
+import { AppEntity, StructureType } from "@domifa/common";
 
 export interface OpenDataPlace extends AppEntity {
   nom: string;
@@ -17,4 +17,5 @@ export interface OpenDataPlace extends AppEntity {
   mail: string | null;
   soliguideStructureId: number;
   mssId: string | null;
+  structureType: StructureType | null;
 }

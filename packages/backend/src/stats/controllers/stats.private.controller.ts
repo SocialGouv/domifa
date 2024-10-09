@@ -173,7 +173,7 @@ export class StatsPrivateController {
     const endDateUTCExclusive = statsQuestionsCoreBuilder.removeUTCHours(
       addDays(new Date(end), 1)
     );
-    return structureStatsInPeriodGenerator.buildStatsInPeriod({
+    return await structureStatsInPeriodGenerator.buildStatsInPeriod({
       structureId,
       startDateUTC,
       endDateUTCExclusive,

@@ -9,21 +9,10 @@ import { OpenDataPlace } from "./interfaces/OpenDataPlace.interface";
 import {
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
+  getStructureType,
 } from "@domifa/common";
 import { MssPlace } from "./interfaces";
 import { getLocation } from "../structures/services/location.service";
-
-export const loadMssData = async () => {
-  if (
-    !domifaConfig().openDataApps.mssUrl ||
-    !domifaConfig().openDataApps.mssToken
-  ) {
-    appLogger.info("[IMPORT DATA MSS] Fail, token or url is not in env");
-    return;
-  }
-  appLogger.info("Import MSS start 🏃‍♂️... ");
-  await getFromMss();
-};
 
 const getFromMss = async () => {
   let newPlaces = 0;
@@ -40,11 +29,11 @@ const getFromMss = async () => {
 
     for await (const place of response.data) {
       const postalCode = place.zipcode.replace(/\W/g, "");
-      const address = place.address + ", " + postalCode;
+      const address = `${place.address}, ${postalCode}`;
       const position = await getLocation(address);
 
       if (!position) {
-        appLogger.warn("Adresse not found " + address);
+        appLogger.warn(`Adresse not found ${address}`);
         continue;
       }
 
@@ -55,6 +44,7 @@ const getFromMss = async () => {
         codePostal: postalCode,
         ville: cleanCity(place?.city),
         departement,
+        structureType: getStructureType(place.name),
         region: getRegionCodeFromDepartement(departement),
         latitude: position.coordinates[1],
         longitude: position.coordinates[0],
@@ -122,4 +112,16 @@ const getFromMss = async () => {
       e
     );
   }
+};
+
+export const loadMssData = async () => {
+  if (
+    !domifaConfig().openDataApps.mssUrl ||
+    !domifaConfig().openDataApps.mssToken
+  ) {
+    appLogger.info("[IMPORT DATA MSS] Fail, token or url is not in env");
+    return;
+  }
+  appLogger.info("Import MSS start 🏃‍♂️... ");
+  await getFromMss();
 };

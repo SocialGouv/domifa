@@ -16,7 +16,7 @@ export class StatsPublicController {
   public async getPublicStats(
     @Param("regionId", new ParseRegionPipe()) regionId: string
   ): Promise<PublicStats> {
-    return this.publicStatsService.generatePublicStats({
+    return await this.publicStatsService.generatePublicStats({
       updateCache: false,
       regionId,
     });

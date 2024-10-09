@@ -4063,7 +4063,9 @@ __metadata:
     "@types/pizzip": "npm:^3.0.5"
     "@types/rimraf": "npm:^4.0.5"
     "@types/sanitize-html": "npm:^2.11.0"
+    "@types/slug": "npm:^5.0.9"
     "@types/source-map-support": "npm:^0.5.10"
+    "@types/striptags": "npm:^3.1.1"
     "@types/supertest": "npm:^6.0.2"
     "@types/uuid": "npm:^9.0.8"
     "@typescript-eslint/eslint-plugin": "npm:^7.14.1"
@@ -4116,6 +4118,7 @@ __metadata:
     sanitize-filename: "npm:^1.6.3"
     sanitize-html: "npm:^2.13.0"
     sharp: "npm:^0.33.5"
+    slug: "npm:^9.1.0"
     sort-object: "npm:^3.0.3"
     source-map-support: "npm:^0.5.21"
     striptags: "npm:^3.2.0"
@@ -4210,6 +4213,7 @@ __metadata:
     "@types/file-saver": "npm:^2.0.7"
     "@types/google-libphonenumber": "npm:^7.4.30"
     "@types/jest": "npm:^29.5.12"
+    "@types/slug": "npm:^5.0.9"
     "@typescript-eslint/eslint-plugin": "npm:^7.18.0"
     "@typescript-eslint/parser": "npm:7.18.0"
     angular-user-idle: "npm:^4.0.0"
@@ -4236,6 +4240,7 @@ __metadata:
     ngx-matomo-client: "npm:^5.0.4"
     prettier: "npm:2.8.8"
     rxjs: "npm:^7.8.1"
+    slug: "npm:^9.1.0"
     source-map-explorer: "npm:^2.5.3"
     ts-jest: "npm:^29.1.5"
     ts-node: "npm:~10.9.2"
@@ -9830,6 +9835,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/slug@npm:^5.0.9":
+  version: 5.0.9
+  resolution: "@types/slug@npm:5.0.9"
+  checksum: 10/dcb188c783eb3e494e842a102ffd97efc1df742bd95841287cbd4d900029da23546609b7450e29ea336924d79042cd225fcd39271d0053c3ca05a7f4af923c6b
+  languageName: node
+  linkType: hard
+
 "@types/sockjs@npm:^0.3.33":
   version: 0.3.33
   resolution: "@types/sockjs@npm:0.3.33"
@@ -9866,6 +9878,15 @@ __metadata:
   version: 0.0.30
   resolution: "@types/strip-json-comments@npm:0.0.30"
   checksum: 10/c1d6c941b79a091075640565aefd9c6234fb79412be4682146e3e64c723464e237abdc9b1211d0a0577156f3c1ffd0473937ef7872dab7efc62addfe8df4d7a5
+  languageName: node
+  linkType: hard
+
+"@types/striptags@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "@types/striptags@npm:3.1.1"
+  dependencies:
+    striptags: "npm:*"
+  checksum: 10/7badac89aa2b5f87772b2b03a277bc3941238cda23ed6ef38b7d15a651960de5298ac8597bba5f00890b25832c85e217b00c12a342cd78a4158fc04c5d03aeea
   languageName: node
   linkType: hard
 
@@ -25318,6 +25339,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"slug@npm:^9.1.0":
+  version: 9.1.0
+  resolution: "slug@npm:9.1.0"
+  bin:
+    slug: cli.js
+  checksum: 10/b386fe7363749251c27a08b1d566befaf943ac04c9da145086c537167cda586d3d6fd893f1394d017ec932a90c02b58e815d96fb94f34b9cb83f8acf15f33620
+  languageName: node
+  linkType: hard
+
 "smart-buffer@npm:^4.2.0":
   version: 4.2.0
   resolution: "smart-buffer@npm:4.2.0"
@@ -25997,7 +26027,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"striptags@npm:^3.2.0":
+"striptags@npm:*, striptags@npm:^3.2.0":
   version: 3.2.0
   resolution: "striptags@npm:3.2.0"
   checksum: 10/0d430af5c2d702cfe6e3591b5d353773811d912264b9112e11596ac4d1c6e4185a9f9d92125d324d93cfebeb8ee658ba397f1a5d7a4e44ad7cff98ce40afcfc9

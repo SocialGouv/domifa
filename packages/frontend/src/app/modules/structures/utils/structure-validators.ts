@@ -9,18 +9,31 @@ import {
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
 } from "@domifa/common";
+import slug from "slug";
 
 export function isInvalidStructureName(structureName: string): boolean {
   if (!structureName) {
     return false;
   }
-  const name = structureName.toLowerCase().trim();
-  return (
-    name === "ccas" ||
-    name === "c.c.a.s." ||
-    name === "centre communal d'action sociale" ||
-    name === "mairie"
-  );
+
+  const normalizedInput = slug(structureName, {
+    mode: "rfc3986" as const,
+    lower: true,
+    replacement: " ", // Utiliser des espaces au lieu des tirets
+    remove: /[^a-z0-9\s]/g, // Supprimer tous les caractères non alphanumériques sauf les espaces
+    locale: "fr", // Utiliser explicitement la locale française
+    trim: true,
+  });
+
+  return [
+    "ccas",
+    "commune",
+    "centre communal",
+    "centre communal daction sociale",
+    "centre daction sociale",
+    "mairie",
+    "hotel de ville",
+  ].includes(normalizedInput);
 }
 
 export const getPostalCodeValidator = (

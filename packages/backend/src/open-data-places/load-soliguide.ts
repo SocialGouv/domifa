@@ -9,23 +9,13 @@ import { OpenDataPlace } from "./interfaces/OpenDataPlace.interface";
 import {
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
+  getStructureType,
 } from "@domifa/common";
 
 let page = 1;
 let nbResults = 0;
 let newPlaces = 0;
 let updatedPlaces = 0;
-export const loadSoliguideData = async () => {
-  if (
-    !domifaConfig().openDataApps.soliguideUrl ||
-    !domifaConfig().openDataApps.soliguideToken
-  ) {
-    console.log("[IMPORT DATA] Fail, token or url is not in env");
-    return;
-  }
-  appLogger.info("Import Soliguide start 🏃‍♂️... ");
-  await getFromSoliguide();
-};
 
 const getFromSoliguide = async () => {
   let soliguideData: SoliguidePlace[] = [];
@@ -71,6 +61,7 @@ const getFromSoliguide = async () => {
         codePostal: place.position.codePostal,
         ville: cleanCity(place?.position?.ville),
         departement,
+        structureType: getStructureType(place.name),
         region: getRegionCodeFromDepartement(departement),
         latitude: place.position.location.coordinates[1],
         longitude: place.position.location.coordinates[0],
@@ -125,12 +116,9 @@ const getFromSoliguide = async () => {
 
     if (soliguideData.length * page < nbResults) {
       appLogger.warn(
-        "Import 'soliguide' data page N°" +
-          page +
-          " : " +
-          soliguideData.length * page +
-          "/" +
-          nbResults
+        `Import 'soliguide' data page N°${page} : ${
+          soliguideData.length * page
+        }/${nbResults}`
       );
       page++;
       await getFromSoliguide();
@@ -144,4 +132,16 @@ const getFromSoliguide = async () => {
     console.log(e);
     console.error("[IMPORT] Something happen during soliguide import");
   }
+};
+export const loadSoliguideData = async () => {
+  if (
+    !domifaConfig().openDataApps.soliguideUrl ||
+    !domifaConfig().openDataApps.soliguideToken
+  ) {
+    // skipcq: JS-0002
+    console.log("[IMPORT DATA] Fail, token or url is not in env");
+    return;
+  }
+  appLogger.info("Import Soliguide start 🏃‍♂️... ");
+  await getFromSoliguide();
 };
