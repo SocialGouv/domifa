@@ -9,8 +9,8 @@ import { OpenDataPlace } from "./interfaces/OpenDataPlace.interface";
 import {
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
-  getStructureType,
 } from "@domifa/common";
+import { getStructureType } from "./functions";
 
 let page = 1;
 let nbResults = 0;

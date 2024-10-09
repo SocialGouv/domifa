@@ -9,10 +9,10 @@ import { OpenDataPlace } from "./interfaces/OpenDataPlace.interface";
 import {
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
-  getStructureType,
 } from "@domifa/common";
 import { MssPlace } from "./interfaces";
 import { getLocation } from "../structures/services/location.service";
+import { getStructureType } from "./functions";
 
 const getFromMss = async () => {
   let newPlaces = 0;
