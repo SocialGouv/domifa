@@ -1,3 +1,15 @@
+# [2.176.0](https://github.com/SocialGouv/domifa/compare/v2.175.0...v2.176.0) (2024-10-09)
+
+
+### Bug Fixes
+
+* **backend:** delete useless function for structureType ([9303465](https://github.com/SocialGouv/domifa/commit/9303465125485d4607b45d992ed6612d9f1eddc3))
+
+
+### Features
+
+* **open-data:** add structureType ([88c1a2e](https://github.com/SocialGouv/domifa/commit/88c1a2e22b2fc4b5e649b6ba119554f0a797c200))
+
 # [2.175.0](https://github.com/SocialGouv/domifa/compare/v2.174.5...v2.175.0) (2024-10-08)
 
 
