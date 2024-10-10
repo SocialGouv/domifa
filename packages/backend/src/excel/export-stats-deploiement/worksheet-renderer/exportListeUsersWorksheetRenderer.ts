@@ -1,6 +1,6 @@
 import { Column, Workbook } from "exceljs";
 import { WorksheetRenderer, xlRenderer, XlRowModel } from "../../xlLib";
-import { StatsExportUser } from "../StatsExportUser.type";
+import { UsersForAdminList } from "../../../modules/portail-admin/types";
 
 export const exportListeUsersWorksheetRenderer = {
   renderWorksheet,
@@ -13,7 +13,7 @@ function renderWorksheet({
 }: {
   workbook: Workbook;
   worksheetIndex: number;
-  users: StatsExportUser[];
+  users: UsersForAdminList[];
 }) {
   const worksheetRendered: WorksheetRenderer = xlRenderer.selectWorksheet(
     workbook.worksheets[worksheetIndex]
@@ -39,7 +39,7 @@ function renderWorksheet({
   });
 }
 
-function buildRows(users: StatsExportUser[]): XlRowModel[] {
+function buildRows(users: UsersForAdminList[]): XlRowModel[] {
   return users.map((user) => {
     const row: XlRowModel = {
       values: {
@@ -53,8 +53,8 @@ function buildRows(users: StatsExportUser[]): XlRowModel[] {
             : user.role === "responsable"
             ? "gestionnaire"
             : user.role,
-        structureId: user.structure?.id,
-        structureName: user.structure?.nom,
+        structureId: user.structureId,
+        structureName: user.structureName,
         verified: user.verified ? "Vérifié" : "Non vérifié",
       },
     };

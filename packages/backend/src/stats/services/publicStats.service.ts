@@ -1,8 +1,16 @@
-import { PublicStats, REGIONS_LISTE } from "@domifa/common";
+import {
+  InteractionType,
+  PublicStats,
+  REGIONS_LISTE,
+  StatsByLocality,
+  StatsByMonth,
+  StructureType,
+} from "@domifa/common";
 
 import { Injectable, OnModuleInit } from "@nestjs/common";
-import { AdminStructuresService } from "../../_portail-admin/admin-structures/services";
 import {
+  interactionRepository,
+  InteractionsTable,
   PublicStatsCache,
   publicStatsCacheRepository,
   structureRepository,
@@ -14,13 +22,12 @@ import { appLogger } from "../../util";
 import { CronExpression, Cron } from "@nestjs/schedule";
 import { isCronEnabled } from "../../config/services/isCronEnabled.service";
 import { domifaConfig } from "../../config";
+import { startOfMonth, subYears, subMonths } from "date-fns";
+import { In } from "typeorm";
 
 @Injectable()
 export class PublicStatsService implements OnModuleInit {
-  constructor(
-    private readonly adminStructuresService: AdminStructuresService,
-    private readonly structuresService: StructuresService
-  ) {}
+  constructor(private readonly structuresService: StructuresService) {}
 
   onModuleInit() {
     if (domifaConfig().envId === "local" && isCronEnabled()) {
@@ -80,9 +87,7 @@ export class PublicStatsService implements OnModuleInit {
       }
 
       publicStats.structuresCountByRegion =
-        await this.adminStructuresService.getStructuresCountByDepartement(
-          regionId
-        );
+        await this.getStructuresCountByDepartement(regionId);
 
       publicStats.structuresCount = structures.length;
 
@@ -94,7 +99,7 @@ export class PublicStatsService implements OnModuleInit {
       publicStats.structuresCount = await structureRepository.count();
 
       publicStats.structuresCountByRegion =
-        await this.adminStructuresService.getStructuresCountByRegion();
+        await this.getStructuresCountByRegion();
 
       publicStats.usersCount = await userStructureRepository.count();
     }
@@ -105,26 +110,24 @@ export class PublicStatsService implements OnModuleInit {
 
     publicStats.actifs = (await usagerRepository.countTotalActifs()).actifs;
 
-    publicStats.courrierInCount =
-      await this.adminStructuresService.totalInteractions(
-        "courrierIn",
-        structures
-      );
+    publicStats.courrierInCount = await this.totalInteractions(
+      "courrierIn",
+      structures
+    );
 
-    publicStats.courrierOutCount =
-      await this.adminStructuresService.totalInteractions(
-        "courrierOut",
-        structures
-      );
+    publicStats.courrierOutCount = await this.totalInteractions(
+      "courrierOut",
+      structures
+    );
 
     publicStats.structuresCountByTypeMap =
-      await this.adminStructuresService.getStructuresCountByTypeMap(regionId);
+      await this.getStructuresCountByTypeMap(regionId);
 
-    publicStats.interactionsCountByMonth =
-      await this.adminStructuresService.countInteractionsByMonth(regionId);
+    publicStats.interactionsCountByMonth = await this.countInteractionsByMonth(
+      regionId
+    );
 
-    publicStats.usagersCountByMonth =
-      await this.adminStructuresService.countUsagersByMonth(regionId);
+    publicStats.usagersCountByMonth = await this.countUsagersByMonth(regionId);
 
     return this.saveStats(key, publicStats, value);
   }
@@ -147,5 +150,153 @@ export class PublicStatsService implements OnModuleInit {
     }
 
     return publicStats;
+  }
+
+  private async getStructuresCountByRegion(): Promise<
+    {
+      region: string;
+      count: number;
+    }[]
+  > {
+    return await structureRepository.countBy({
+      countBy: "region",
+      order: {
+        count: "DESC",
+        countBy: "ASC",
+      },
+    });
+  }
+  private async getStructuresCountByDepartement(
+    regionId: string
+  ): Promise<StatsByLocality> {
+    const structures = await structureRepository.countBy({
+      countBy: "departement",
+      countByAlias: "departement",
+      where: {
+        region: regionId,
+      },
+      order: {
+        count: "DESC",
+        countBy: "ASC",
+      },
+    });
+
+    return structures.reduce(
+      (acc: StatsByLocality, value: { departement: string; count: number }) => {
+        acc.push({ region: value.departement, count: value.count });
+        return acc;
+      },
+      []
+    );
+  }
+
+  private async getStructuresCountByTypeMap(region?: string): Promise<{
+    [key in StructureType]: number;
+  }> {
+    const query = structureRepository
+      .createQueryBuilder("structure")
+      .select("structure.structureType", "structureType")
+      .addSelect("COUNT(structure.id)", "count")
+      .groupBy("structure.structureType");
+
+    if (region) {
+      query.where("structure.region = :region", { region });
+    }
+
+    const result = await query.getRawMany();
+
+    const structures: { [key in StructureType]: number } = {
+      ccas: 0,
+      cias: 0,
+      asso: 0,
+    };
+
+    result.forEach((item: { structureType: StructureType; count: string }) => {
+      structures[item.structureType] = parseInt(item.count, 10);
+    });
+
+    return structures;
+  }
+
+  public async totalInteractions(
+    interactionType: InteractionType,
+    structuresId?: number[]
+  ): Promise<number> {
+    if (interactionType === "appel" || interactionType === "visite") {
+      return interactionRepository.count({
+        where: {
+          type: interactionType,
+        },
+      });
+    }
+
+    const whereCondition: Partial<InteractionsTable> = {
+      type: interactionType,
+    };
+
+    if (structuresId) {
+      whereCondition.structureId = In(structuresId) as any;
+    }
+
+    return (await interactionRepository.sum("nbCourrier", whereCondition)) ?? 0;
+  }
+
+  public async countUsagersByMonth(regionId?: string) {
+    const usagersByMonth = await usagerRepository.countUsagersByMonth(regionId);
+    return this.formatStatsByMonth(usagersByMonth, "domicilies");
+  }
+
+  public async countInteractionsByMonth(
+    regionId?: string,
+    interactionType: InteractionType = "courrierOut"
+  ) {
+    const interactionsByMonth =
+      await interactionRepository.countInteractionsByMonth(
+        regionId,
+        interactionType
+      );
+
+    return this.formatStatsByMonth(interactionsByMonth, "interactions");
+  }
+
+  private formatStatsByMonth(
+    rawResults: {
+      date: Date;
+      count: string;
+      ayantsdroits?: string;
+    }[],
+    elementToCount: "interactions" | "domicilies"
+  ): StatsByMonth {
+    // Initialisation des résultats pours les 12 derniers mois
+    // 0 par défaut pour les stats
+    const resultsObjects: { [key: string]: number } = {};
+    const startInterval = startOfMonth(subYears(new Date(), 1));
+
+    for (let i = 12; i > 0; i--) {
+      const monthToAdd = subMonths(startInterval, i).toLocaleString("fr-fr", {
+        month: "short",
+      });
+      resultsObjects[monthToAdd] = 0;
+    }
+
+    // Parcours des résulats, ajout du mois
+    for (const result of rawResults) {
+      const monthKey = new Date(result.date).toLocaleString("fr-fr", {
+        month: "short",
+      });
+
+      // Pour les domiciliés, on compte les ayant-droits
+      resultsObjects[monthKey] =
+        elementToCount === "domicilies"
+          ? parseInt(result.count, 10) + parseInt(result.ayantsdroits, 10)
+          : parseInt(result.count, 10);
+    }
+
+    // Mise au format pour l'outil de charts côté frontend
+    const statsByMonth: StatsByMonth = Object.entries(resultsObjects).map(
+      ([key, value]) => ({ name: key, value })
+    );
+
+    return statsByMonth;
   }
 }

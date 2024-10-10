@@ -2,13 +2,14 @@ import { Workbook } from "exceljs";
 import { join } from "path";
 
 import { appLogger } from "../../util";
-import { StatsDeploiementExportModel } from "./StatsDeploiementExportModel.type";
-import { StatsExportUser } from "./StatsExportUser.type";
 import {
   exportListeStructuresWorksheetRenderer,
   exportListeUsersWorksheetRenderer,
-  exportStatsGlobalesWorksheetRenderer,
 } from "./worksheet-renderer";
+import {
+  StructureAdminForList,
+  UsersForAdminList,
+} from "../../modules/portail-admin/types";
 
 export const statsDeploiementExporter = {
   generateExcelDocument,
@@ -19,24 +20,18 @@ const EXCEL_TEMPLATE_FILE_PATH = join(
 );
 
 async function generateExcelDocument({
-  stats,
+  structures,
   users,
 }: {
-  stats: StatsDeploiementExportModel;
-  users: StatsExportUser[];
+  structures: StructureAdminForList[];
+  users: UsersForAdminList[];
 }): Promise<Workbook> {
   try {
-    const beginDate = new Date();
-    const workbook = await renderWorkbook({ stats, users });
-    const endDate = new Date();
-    appLogger.debug(
-      `[statsDeploiementExporter] SUCCESS - Report created - duration: ${
-        endDate.getTime() - beginDate.getTime()
-      }ms`
-    );
+    const workbook = await renderWorkbook({ structures, users });
+
     return workbook;
   } catch (err) {
-    appLogger.error(`[statsDeploiementExporter] ERROR - Report NOT created`, {
+    appLogger.error("[statsDeploiementExporter] ERROR - Report NOT created", {
       sentry: true,
       error: err,
     });
@@ -45,28 +40,24 @@ async function generateExcelDocument({
 }
 
 async function renderWorkbook({
-  stats,
+  structures,
   users,
 }: {
-  stats: StatsDeploiementExportModel;
-  users: StatsExportUser[];
+  structures: StructureAdminForList[];
+  users: UsersForAdminList[];
 }) {
   const workbook = new Workbook();
   await workbook.xlsx.readFile(EXCEL_TEMPLATE_FILE_PATH);
-  exportStatsGlobalesWorksheetRenderer.renderWorksheet({
-    stats,
+
+  exportListeStructuresWorksheetRenderer.renderWorksheet({
+    structures,
     workbook,
     worksheetIndex: 0,
-  });
-  exportListeStructuresWorksheetRenderer.renderWorksheet({
-    stats,
-    workbook,
-    worksheetIndex: 1,
   });
   exportListeUsersWorksheetRenderer.renderWorksheet({
     users,
     workbook,
-    worksheetIndex: 2,
+    worksheetIndex: 1,
   });
 
   // set focus to first tab

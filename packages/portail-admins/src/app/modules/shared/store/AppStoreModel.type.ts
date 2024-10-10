@@ -1,7 +1,5 @@
-import { AdminStructureStatsData } from "@domifa/common";
-import { AdminStructureListData } from "../../../../_common";
+import { StructureAdmin } from "../../admin-structures/types";
 
 export type AppStoreModel = {
-  structureListData?: AdminStructureListData;
-  structureStatsData?: AdminStructureStatsData;
+  structureListData?: StructureAdmin[];
 };

@@ -4,7 +4,6 @@ import { AppStoreModel } from "./AppStoreModel.type";
 
 const INITIAL_STATE: AppStoreModel = {
   structureListData: undefined,
-  structureStatsData: undefined,
 };
 
 const appStoreReducer: Reducer<AppStoreModel | undefined, AppStoreAction> = (
@@ -16,12 +15,6 @@ const appStoreReducer: Reducer<AppStoreModel | undefined, AppStoreAction> = (
       return {
         ...state,
         structureListData: action.data,
-      };
-    }
-    case "set-structures-stats-data": {
-      return {
-        ...state,
-        structureStatsData: action.data,
       };
     }
 

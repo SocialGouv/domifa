@@ -10,7 +10,6 @@ import {
   AppTestHelper,
   JEST_FAKE_TIMER,
 } from "../../util/test";
-import { AdminStructuresModule } from "../../_portail-admin/admin-structures/admin-structures.module";
 import { domifaConfig } from "../../config";
 import { PublicStats } from "@domifa/common";
 import { StatsPublicController } from "./stats.public.controller";
@@ -37,7 +36,6 @@ describe("Stats Public Controller", () => {
       controllers: [StatsPublicController],
       imports: [
         CacheModule.register(),
-        forwardRef(() => AdminStructuresModule),
         forwardRef(() => UsersModule),
         forwardRef(() => StructuresModule),
         forwardRef(() => UsagersModule),

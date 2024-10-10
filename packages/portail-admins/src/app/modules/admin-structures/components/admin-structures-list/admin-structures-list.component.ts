@@ -7,15 +7,15 @@ import {
   ReplaySubject,
   Subscription,
 } from "rxjs";
-import { AdminStructureListData } from "../../../../../_common";
 import { AdminStructuresApiClient } from "../../../shared/services";
 import {
   AdminStructureSListFilterCriteria,
   AdminStructuresListSortAttribute,
   AdminStructuresListStructureModel,
-} from "./model";
+} from "../../model";
 import { structuresListModelBuilder } from "./services";
 import { structuresFilter } from "./services/structuresFilter.service";
+import { StructureAdmin } from "../../types";
 
 @Component({
   selector: "app-admin-structures-list",
@@ -53,11 +53,9 @@ export class AdminStructuresListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.adminStructuresApiClient
         .getAdminStructureListData()
-        .subscribe((data: AdminStructureListData) => {
+        .subscribe((structures: StructureAdmin[]) => {
           const structuresVM: AdminStructuresListStructureModel[] =
-            structuresListModelBuilder.buildStructuresViewModel(
-              data.structures
-            );
+            structuresListModelBuilder.buildStructuresViewModel(structures);
           this.allStructuresVM = structuresVM;
           this.allStructuresVM$.next(structuresVM);
         })

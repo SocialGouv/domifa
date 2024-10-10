@@ -2,7 +2,7 @@ import { dataCompare } from "../../../../shared/services";
 import {
   AdminStructuresListSortAttribute,
   AdminStructuresListStructureModel,
-} from "../model";
+} from "../../../model";
 
 export const structuresSorter = {
   sortBy,

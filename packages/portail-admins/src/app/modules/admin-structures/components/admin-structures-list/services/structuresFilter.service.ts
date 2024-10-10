@@ -1,7 +1,7 @@
 import {
   AdminStructureSListFilterCriteria,
   AdminStructuresListStructureModel,
-} from "../model";
+} from "../../../model";
 import { structuresSearchStringFilter } from "./structuresSearchStringFilter.service";
 import { structuresSorter } from "./structuresSorter.service";
 

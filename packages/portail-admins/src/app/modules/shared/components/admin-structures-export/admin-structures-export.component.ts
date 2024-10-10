@@ -24,7 +24,7 @@ export class AdminStructuresExportComponent {
         const newBlob = new Blob([x], {
           type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
-        saveAs(newBlob, "export_stats_domifa" + ".xlsx");
+        saveAs(newBlob, "export_stats_domifa.xlsx");
         setTimeout(() => {
           this.exportLoading = false;
         }, 2000);

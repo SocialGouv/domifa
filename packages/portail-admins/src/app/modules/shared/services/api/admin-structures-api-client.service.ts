@@ -3,16 +3,13 @@ import { Injectable } from "@angular/core";
 import { filter, Observable, startWith, tap } from "rxjs";
 
 import { environment } from "src/environments/environment";
-import {
-  AdminStructureListData,
-  StructureAdmin,
-  UserNewAdmin,
-} from "../../../../../_common";
+
 import { structuresCache } from "../../store/structuresCache.service";
 
-import { ApiMessage, AdminStructureStatsData } from "@domifa/common";
+import { ApiMessage } from "@domifa/common";
+import { StructureAdmin, UserNewAdmin } from "../../../admin-structures/types";
 
-const BASE_URL = environment.apiUrl + "admin/structures";
+const BASE_URL = `${environment.apiUrl}admin/structures`;
 @Injectable()
 export class AdminStructuresApiClient {
   public http: HttpClient;
@@ -63,26 +60,12 @@ export class AdminStructuresApiClient {
     );
   }
 
-  public getAdminStructureListData(): Observable<AdminStructureListData> {
-    return this.http.get<AdminStructureListData>(BASE_URL).pipe(
-      tap((data: AdminStructureListData) => {
+  public getAdminStructureListData(): Observable<StructureAdmin[]> {
+    return this.http.get<StructureAdmin[]>(BASE_URL).pipe(
+      tap((data: StructureAdmin[]) => {
         structuresCache.setStructureListData(data);
       }),
-      startWith(
-        structuresCache.getStructureListData() as AdminStructureListData
-      ),
-      filter((x) => !!x)
-    );
-  }
-
-  public getStatsDomifaAdminDashboard(): Observable<AdminStructureStatsData> {
-    return this.http.get<AdminStructureStatsData>(`${BASE_URL}/stats`).pipe(
-      tap((data: AdminStructureStatsData) => {
-        structuresCache.setStructureStatsData(data);
-      }),
-      startWith(
-        structuresCache.getStructureStatsData() as AdminStructureStatsData
-      ),
+      startWith(structuresCache.getStructureListData() as StructureAdmin[]),
       filter((x) => !!x)
     );
   }

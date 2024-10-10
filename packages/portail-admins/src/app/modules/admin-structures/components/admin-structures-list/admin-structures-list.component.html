@@ -1,7 +1,7 @@
 <div>
   <div class="home-message">
     <div class="row">
-      <div class="col-11">
+      <div class="col-10">
         <h1 class="text-primary font-weight-bold">
           Structures
           <span *ngIf="!!allStructuresVM && !!filteredStructuresVM"
@@ -13,46 +13,8 @@
           >
         </h1>
       </div>
-      <div class="col">
-        <div
-          ngbDropdown
-          id="dropdownAuthenticatedMenu"
-          display="dynamic"
-          placement="bottom-right"
-          class="ms-2 me-2 d-inline-block bg-white"
-        >
-          <button class="btn btn-outline-primary" ngbDropdownToggle>
-            Menu
-          </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownAuthenticatedMenu">
-            <a ngbDropdownItem [routerLink]="['/structures/rapports']">
-              <fa-icon
-                [icon]="['fas', 'list-alt']"
-                aria-hidden="true"
-                class="me-2"
-              ></fa-icon>
-              Rapports
-            </a>
-            <a ngbDropdownItem [routerLink]="['/structures']">
-              <fa-icon
-                [icon]="['fas', 'list-alt']"
-                aria-hidden="true"
-                class="me-2"
-              ></fa-icon>
-              Structures
-            </a>
-            <a ngbDropdownItem [routerLink]="['/structures/stats']">
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'chart-bar']"
-                class="me-2"
-              ></fa-icon>
-              Stats
-            </a>
-
-            <app-admin-structures-export></app-admin-structures-export>
-          </div>
-        </div>
+      <div class="col-2">
+        <app-admin-structures-export></app-admin-structures-export>
       </div>
     </div>
 
