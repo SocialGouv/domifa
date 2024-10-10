@@ -1,9 +1,9 @@
-import { ParseRegionPipe } from "./../../_common/decorators/ParseRegion.pipe";
 import { Controller, Get, Param, UseInterceptors } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { PublicStats } from "@domifa/common";
 import { PublicStatsService } from "../services/publicStats.service";
 import { CacheInterceptor, CacheTTL } from "@nestjs/cache-manager";
+import { ParseRegionPipe } from "../../_common/decorators";
 
 @Controller("stats")
 @ApiTags("stats")

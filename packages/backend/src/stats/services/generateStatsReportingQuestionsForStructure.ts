@@ -1,6 +1,6 @@
 import { Structure, StructureStatsReportingQuestions } from "@domifa/common";
 
-export const generateStatsReportingQuestionsForStructure = async (
+export const generateStatsReportingQuestionsForStructure = (
   structure: Pick<Structure, "id">
 ) => {
   const statsToImport = [];

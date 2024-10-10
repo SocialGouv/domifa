@@ -3,7 +3,7 @@ import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 import { StructuresModule } from "../../../structures/structure.module";
 import { UsersModule } from "../../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
-import { AdminStructuresService } from "../../../_portail-admin/admin-structures/services";
+import { AdminStructuresService } from "../../../modules/portail-admin/services";
 import { UsagersService } from "../../services";
 import { UsagerStructureDocsController } from "../usager-structure-docs.controller";
 import { UsagerHistoryStateService } from "../../services/usagerHistoryState.service";

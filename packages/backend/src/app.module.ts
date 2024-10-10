@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { ScheduleModule } from "@nestjs/schedule";
 import { TerminusModule } from "@nestjs/terminus";
 
-import { PortailAdminModule } from "./_portail-admin";
+import { PortailAdminModule } from "./modules/portail-admin";
 import { PortailUsagersModule } from "./modules/portail-usagers";
 import { AuthModule } from "./auth/auth.module";
 import { MonitoringModule } from "./database/services/monitoring/monitoring.module";

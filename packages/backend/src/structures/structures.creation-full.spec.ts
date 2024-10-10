@@ -10,10 +10,10 @@ import { UsersModule } from "../users/users.module";
 import { ExpressResponse } from "../util/express";
 import { AppTestContext, AppTestHelper } from "../util/test";
 
-import { AdminStructuresModule } from "../_portail-admin/admin-structures";
-import { AdminStructuresDeleteModule } from "../_portail-admin/admin-structures-delete";
-import { AdminStructuresDeleteController } from "../_portail-admin/admin-structures-delete/controllers/admin-structures-delete.controller";
-import { AdminStructuresController } from "../_portail-admin/admin-structures/controllers/admin-structures.controller";
+import { AdminStructuresModule } from "../modules/portail-admin/controllers/admin-structures";
+import { AdminStructuresDeleteModule } from "../modules/portail-admin/controllers/admin-structures-delete";
+import { AdminStructuresDeleteController } from "../modules/portail-admin/controllers/admin-structures-delete/admin-structures-delete.controller";
+import { AdminStructuresController } from "../modules/portail-admin/controllers/admin-structures/admin-structures.controller";
 import { StructuresController } from "./controllers/structures.controller";
 import { StructuresPublicController } from "./controllers/structures.public.controller";
 import { StructureWithUserDto } from "./dto/structure-with-user.dto";

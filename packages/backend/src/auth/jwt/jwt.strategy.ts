@@ -11,9 +11,9 @@ import {
   UserUsagerAuthenticated,
   UserUsagerJwtPayload,
 } from "../../_common/model";
-import { AdminsAuthService } from "../../_portail-admin/portail-admin-login/services";
 import { UsagersAuthService } from "../../modules/portail-usagers/services";
 import { StructuresAuthService } from "../services/structures-auth.service";
+import { AdminsAuthService } from "../../modules/portail-admin/services/admins-auth.service";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -45,15 +45,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     if (payload?._userProfile === "super-admin-domifa") {
-      return this.adminsAuthService.validateUserAdmin(
+      return await this.adminsAuthService.validateUserAdmin(
         payload as UserAdminJwtPayload
       );
     } else if (payload?._userProfile === "structure") {
-      return this.structureAuthService.validateUserStructure(
+      return await this.structureAuthService.validateUserStructure(
         payload as UserStructureJwtPayload
       );
     } else if (payload?._userProfile === "usager") {
-      return this.usagersAuthService.validateUserUsager(
+      return await this.usagersAuthService.validateUserUsager(
         payload as UserUsagerJwtPayload
       );
     }

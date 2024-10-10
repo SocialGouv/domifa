@@ -5,13 +5,13 @@ import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { StructureListForStats } from "../components/national-stats/StructureListForStats.type";
 
-const BASE_URL = environment.apiUrl + "admin/structures";
+const BASE_URL = `${environment.apiUrl}admin/structures`;
 
 @Injectable({
   providedIn: "root",
 })
 export class StatsService {
-  public baseUrl = environment.apiUrl + "stats/";
+  public baseUrl = `${environment.apiUrl}stats/`;
 
   constructor(private readonly http: HttpClient) {}
 

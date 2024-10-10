@@ -2,7 +2,7 @@ import { search } from "../../../../shared/services";
 import {
   AdminStructureSListFilterCriteria,
   AdminStructuresListStructureModel,
-} from "../model";
+} from "../../../model";
 
 export const structuresSearchStringFilter = {
   filter,

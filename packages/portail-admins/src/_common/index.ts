@@ -4,4 +4,3 @@ export * from "./stats";
 export * from "./structure";
 export * from "./usager";
 export * from "./user";
-export * from "./user-structure";

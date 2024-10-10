@@ -1,11 +1,11 @@
-import { CustomToastService } from "./../shared/services/custom-toast.service";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { StructureAdmin } from "../../../_common";
 import { AdminStructuresApiClient } from "../shared/services";
 import { Subscription } from "rxjs";
 import { isHexadecimal, isUUID } from "class-validator";
+import { StructureAdmin } from "../admin-structures/types";
+import { CustomToastService } from "../shared/services/custom-toast.service";
 
 @Component({
   selector: "app-structures-confirm",

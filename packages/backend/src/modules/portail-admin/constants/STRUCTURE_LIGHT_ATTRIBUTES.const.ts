@@ -1,0 +1,26 @@
+import { Structure } from "@domifa/common";
+
+export const STRUCTURE_LIGHT_ATTRIBUTES: (keyof Structure)[] = [
+  "adresse",
+  "adresseCourrier",
+  "agrement",
+  "capacite",
+  "codePostal",
+  "complementAdresse",
+  "createdAt",
+  "departement",
+  "email",
+  "id",
+  "import",
+  "importDate",
+  "lastLogin",
+  "nom",
+  "options",
+  "region",
+  "registrationDate",
+  "structureType",
+  "timeZone",
+  "uuid",
+  "verified",
+  "ville",
+];

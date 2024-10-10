@@ -4,17 +4,19 @@ import {
   DEPARTEMENTS_LISTE,
   REGIONS_LISTE,
 } from "@domifa/common";
-import { StructureAdminForList } from "../../../../../../_common";
+import { StructureAdmin } from "../../../types";
 
 export const structuresListModelBuilder = { buildStructuresViewModel };
 
-function buildStructuresViewModel(structures: StructureAdminForList[]) {
-  return structures.map((structure: StructureAdminForList) => {
+function buildStructuresViewModel(structures: StructureAdmin[]) {
+  return structures.map((structure: StructureAdmin) => {
     return {
       ...structure,
       structureTypeLabel: STRUCTURE_TYPE_LABELS[structure.structureType],
       regionLabel: getRegionLabel(structure),
       departementLabel: getDepartementLabel(structure),
+      users: parseInt(structure.users as unknown as string, 10),
+      usagers: parseInt(structure.usagers as unknown as string, 10),
     };
   });
 }
