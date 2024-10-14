@@ -5,6 +5,10 @@ import {
 } from "@domifa/common";
 import { v4 as uuidv4 } from "uuid";
 
+const getValue = (value: any): any => {
+  return typeof value === "undefined" || value === null ? null : value;
+};
+
 export const getDecisionForStats = (
   decision: UsagerDecision
 ): Partial<UsagerDecision> => {
@@ -56,8 +60,4 @@ export const getAyantsDroitForStats = (
     lien: x.lien,
     dateNaissance: x.dateNaissance,
   }));
-};
-
-const getValue = (value: any): any => {
-  return typeof value === "undefined" || value === null ? null : value;
 };

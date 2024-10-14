@@ -65,7 +65,6 @@ export class AdminStructuresController {
     const structures =
       await this.adminStructuresService.getAdminStructuresListData();
     const users = await this.adminStructuresService.getUsersForAdmin();
-    console.log(users);
     const workbook = await statsDeploiementExporter.generateExcelDocument({
       structures,
       users,
