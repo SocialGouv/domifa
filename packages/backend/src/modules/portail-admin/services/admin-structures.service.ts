@@ -34,12 +34,12 @@ export class AdminStructuresService {
         `user_structure."structureId" = structure.id`
       )
       .select([
-        "id",
-        "email",
-        "nom",
+        "user_structure.id AS id",
+        "user_structure.email AS email",
+        "user_structure.nom AS nom",
         "prenom",
         "role",
-        "verified",
+        "user_structure.verified as verified",
         `"structureId"`,
         `structure.nom AS "structureName"`,
       ])
