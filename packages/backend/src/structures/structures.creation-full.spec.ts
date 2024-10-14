@@ -10,8 +10,6 @@ import { UsersModule } from "../users/users.module";
 import { ExpressResponse } from "../util/express";
 import { AppTestContext, AppTestHelper } from "../util/test";
 
-import { AdminStructuresModule } from "../modules/portail-admin/controllers/admin-structures";
-import { AdminStructuresDeleteModule } from "../modules/portail-admin/controllers/admin-structures-delete";
 import { AdminStructuresDeleteController } from "../modules/portail-admin/controllers/admin-structures-delete/admin-structures-delete.controller";
 import { AdminStructuresController } from "../modules/portail-admin/controllers/admin-structures/admin-structures.controller";
 import { StructuresController } from "./controllers/structures.controller";
@@ -20,6 +18,7 @@ import { StructureWithUserDto } from "./dto/structure-with-user.dto";
 import { StructureDto } from "./dto/structure.dto";
 import { structureDeletorService } from "./services/structure-deletor.service";
 import { StructuresModule } from "./structure.module";
+import { PortailAdminModule } from "../modules/portail-admin";
 
 const structureDto: StructureDto = {
   adresse: "1 rue de Pessac",
@@ -79,8 +78,7 @@ describe("Stuctures creation full", () => {
         InteractionsModule,
         StatsModule,
         StructuresModule,
-        AdminStructuresModule,
-        AdminStructuresDeleteModule,
+        PortailAdminModule,
       ],
       providers: [],
     });

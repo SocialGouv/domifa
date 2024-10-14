@@ -1,8 +1,8 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
-import { AdminStructuresModule } from "../../../admin-structures.module";
 import { AdminStructuresTableComponent } from "./admin-structures-table.component";
+import { AdminStructuresModule } from "../../admin-structures.module";
+import { RouterModule } from "@angular/router";
 
 describe("AdminStructuresTableComponent", () => {
   let component: AdminStructuresTableComponent;
@@ -13,8 +13,7 @@ describe("AdminStructuresTableComponent", () => {
       declarations: [AdminStructuresTableComponent],
       imports: [
         AdminStructuresModule,
-        RouterTestingModule,
-
+        RouterModule.forRoot([]),
         HttpClientTestingModule,
       ],
     }).compileComponents();
