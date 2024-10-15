@@ -1,3 +1,10 @@
+# [2.178.0](https://github.com/SocialGouv/domifa/compare/v2.177.0...v2.178.0) (2024-10-15)
+
+
+### Features
+
+* **comomn:** move StructureDoc to common ([266fd1f](https://github.com/SocialGouv/domifa/commit/266fd1fb38af0670b10d5e7affbc93bc7cbb2fae))
+
 # [2.177.0](https://github.com/SocialGouv/domifa/compare/v2.176.0...v2.177.0) (2024-10-15)
 
 
