@@ -12,14 +12,8 @@ import {
   UsagerNomCompletPipe,
   FormatBigNumberPipe,
   ReplaceLineBreaks,
-  SortArrayPipe,
 } from "./pipes";
-import { DisplayTableImageComponent } from "./components/display-table-image/display-table-image.component";
-import {
-  DateFrDirective,
-  CleanStrDirective,
-  StrCapsAlphaDirective,
-} from "./directives";
+import { DateFrDirective, CleanStrDirective } from "./directives";
 
 @NgModule({
   declarations: [
@@ -29,10 +23,6 @@ import {
     FormatBigNumberPipe,
     CustomToastrComponent,
     ReplaceLineBreaks,
-    StrCapsAlphaDirective,
-    DisplayTableImageComponent,
-
-    SortArrayPipe,
   ],
   exports: [
     ReplaceLineBreaks,
@@ -40,12 +30,7 @@ import {
     CleanStrDirective,
     UsagerNomCompletPipe,
     FormatBigNumberPipe,
-    FontAwesomeModule,
     CustomToastrComponent,
-    StrCapsAlphaDirective,
-    DisplayTableImageComponent,
-
-    SortArrayPipe,
   ],
   imports: [CommonModule, FontAwesomeModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

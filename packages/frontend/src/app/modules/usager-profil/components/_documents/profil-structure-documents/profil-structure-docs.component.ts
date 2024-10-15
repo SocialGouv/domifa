@@ -1,15 +1,15 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { saveAs } from "file-saver";
-import {
-  StructureDoc,
-  StructureDocTypesAvailable,
-  STRUCTURE_DOC_EXTENSIONS,
-} from "../../../../../../_common/model/structure-doc";
+import { STRUCTURE_DOC_EXTENSIONS } from "../../../../../../_common/model/structure-doc";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { DocumentService } from "../../../../usager-shared/services/document.service";
 import { CustomToastService } from "../../../../shared/services/custom-toast.service";
 import { Subscription } from "rxjs";
-import { UserStructure } from "@domifa/common";
+import {
+  StructureDoc,
+  StructureDocTypesAvailable,
+  UserStructure,
+} from "@domifa/common";
 
 @Component({
   selector: "app-profil-structure-docs",

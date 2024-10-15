@@ -5,12 +5,12 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
+import { LoadingService } from "../../shared/services/loading.service";
 import {
   StructureDoc,
   StructureDocTypesAvailable,
-} from "../../../../_common/model/structure-doc";
-import { LoadingService } from "../../shared/services/loading.service";
-import { UsagerDoc } from "@domifa/common";
+  UsagerDoc,
+} from "@domifa/common";
 
 @Injectable({
   providedIn: "root",

@@ -7,11 +7,15 @@ import {
 } from "@angular/core";
 import saveAs from "file-saver";
 import { Subscription } from "rxjs";
-import { StructureDocTypesAvailable } from "../../../../../_common/model";
+
 import { CustomToastService } from "../../../shared/services";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-import { UserStructure, CerfaDocType } from "@domifa/common";
+import {
+  UserStructure,
+  CerfaDocType,
+  StructureDocTypesAvailable,
+} from "@domifa/common";
 
 @Component({
   selector: "app-manage-download-docs",
@@ -55,7 +59,7 @@ export class ManageDownloadDocsComponent implements OnDestroy {
             const newBlob = new Blob([blob], {
               type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             });
-            saveAs(newBlob, docType + ".docx");
+            saveAs(newBlob, `${docType}.docx`);
           },
           error: () => {
             this.toastService.error(

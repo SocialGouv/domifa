@@ -1,14 +1,19 @@
 import { Component, Input } from "@angular/core";
+
 import {
   STRUCTURE_DOC_EXTENSIONS_LABELS,
-  STRUCTURE_DOC_ICONS,
   StructureDoc,
-} from "../../../../../_common/model";
-import { UsagerDoc } from "@domifa/common";
+  UsagerDoc,
+} from "@domifa/common";
+import { STRUCTURE_DOC_ICONS } from "./STRUCTURE_DOC_ICONS.const";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { NgClass } from "@angular/common";
 
 @Component({
   selector: "app-display-table-image",
   templateUrl: "./display-table-image.component.html",
+  standalone: true,
+  imports: [FontAwesomeModule, NgClass],
 })
 export class DisplayTableImageComponent {
   @Input() public document!: UsagerDoc | StructureDoc;

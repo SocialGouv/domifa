@@ -36,7 +36,6 @@ import {
 } from "../../../../../_common/model";
 import {
   PREFERRED_COUNTRIES,
-  languagesAutocomplete,
   minDateToday,
   minDateNaissance,
   formatDateToNgb,
@@ -62,6 +61,7 @@ import {
   UserStructure,
 } from "@domifa/common";
 import { COUNTRIES } from "@domifa/common";
+import { languagesAutocomplete } from "../../utils/languages";
 
 @Component({
   selector: "app-etat-civil-parent-form",

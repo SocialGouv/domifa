@@ -20,7 +20,7 @@ export const UsagersStructureDocsControllerSecurityTests: AppTestHttpClientSecur
       label: `${CONTROLLER}.getStructureCustomDoc`,
       query: async (context: AppTestContext) => ({
         response: await AppTestHttpClient.get(
-          "/usagers-structure-docs/structure/1/" + FAKE_UUID,
+          `/usagers-structure-docs/structure/1/${FAKE_UUID}`,
           {
             context,
           }

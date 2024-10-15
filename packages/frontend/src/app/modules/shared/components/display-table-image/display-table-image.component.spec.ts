@@ -1,17 +1,19 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { DOMIFA_CUSTOM_DOCS } from "../../../../../_common/model";
 
 import { DisplayTableImageComponent } from "./display-table-image.component";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { NgClass } from "@angular/common";
 
 describe("DisplayTableImageComponent", () => {
   let component: DisplayTableImageComponent;
   let fixture: ComponentFixture<DisplayTableImageComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [DisplayTableImageComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [FontAwesomeModule, NgClass],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DisplayTableImageComponent);

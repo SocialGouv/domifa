@@ -15,7 +15,7 @@ import { UserUsager } from "@domifa/common";
 export class UsagersAuthService {
   constructor(private readonly jwtService: JwtService) {}
 
-  public async login(user: UserUsager) {
+  public login(user: UserUsager) {
     const payload: UserUsagerJwtPayload = {
       _jwtPayloadVersion: CURRENT_JWT_PAYLOAD_VERSION,
       _userId: user.id,

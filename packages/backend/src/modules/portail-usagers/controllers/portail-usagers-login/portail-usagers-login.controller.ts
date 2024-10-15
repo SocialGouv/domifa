@@ -54,7 +54,7 @@ export class PortailUsagersLoginController {
           .json({ message: "CHANGE_PASSWORD_REQUIRED" });
       }
 
-      const { access_token } = await this.usagersAuthService.login(user);
+      const { access_token } = this.usagersAuthService.login(user);
 
       const usager = await usagerRepository.getUserUsagerData({
         usagerUUID: user.usagerUUID,

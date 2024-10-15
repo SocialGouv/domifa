@@ -1,4 +1,3 @@
-import { CustomToastService } from "./../../shared/services/custom-toast.service";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router, RouterStateSnapshot } from "@angular/router";
@@ -12,9 +11,10 @@ import {
   PortailUsagerAuthApiResponse,
 } from "@domifa/common";
 import { getCurrentScope } from "@sentry/angular";
+import { CustomToastService } from "../../shared/services/custom-toast.service";
 
-const END_POINT_AUTH = environment.apiUrl + "portail-usagers/auth";
-const END_POINT_PROFILE = environment.apiUrl + "portail-usagers/profile";
+const END_POINT_AUTH = `${environment.apiUrl}portail-usagers/auth`;
+const END_POINT_PROFILE = `${environment.apiUrl}portail-usagers/profile`;
 
 const TOKEN_KEY = "usager-auth-token";
 const USER_KEY = "usager-auth-data";

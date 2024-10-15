@@ -16,7 +16,7 @@ describe("buildCustomDoc.service", () => {
   });
 
   describe("Générer les documents du portail-usager", () => {
-    it("Generate data for ACCESS ESPACE DOMICILIE", async () => {
+    it("Generate data for ACCESS ESPACE DOMICILIE", () => {
       const date = new Date("2020-12-15 14:30:00");
       const extraParameters = {
         ESPACE_DOM_URL: "https://mon-domifa",
@@ -38,7 +38,7 @@ describe("buildCustomDoc.service", () => {
   });
 
   describe("Générer le contenu des attestations et courriers", () => {
-    it("1. Générer une attestation postale complète", async () => {
+    it("1. Générer une attestation postale complète", () => {
       const date = new Date("2020-12-15 14:30:00");
       const docActif: StructureCustomDocTags = buildCustomDoc({
         usager: USAGER_VALIDE_MOCK,
@@ -49,7 +49,7 @@ describe("buildCustomDoc.service", () => {
       expect(docActif).toEqual(CUSTOM_DOC_ATTESTATION_POSTALE);
     });
 
-    it("2. Générer un document personnalisé pour une personne refusée", async () => {
+    it("2. Générer un document personnalisé pour une personne refusée", () => {
       const date = new Date("2020-12-15 14:30:00");
 
       const usager = USAGER_REFUS_MOCK;
@@ -76,7 +76,7 @@ describe("buildCustomDoc.service", () => {
       );
     });
 
-    it("4. CUSTOM DOC AVEC PROCURATION & TRANSFERT", async () => {
+    it("4. CUSTOM DOC AVEC PROCURATION & TRANSFERT", () => {
       const date = new Date("2020-12-15 14:30:00");
 
       USAGER_VALIDE_MOCK.options = {
@@ -144,7 +144,7 @@ describe("buildCustomDoc.service", () => {
   });
 
   describe("[TIMEZONE] Vérifier que l'heure s'affiche correctement selon la timeZone", () => {
-    it("America/Cayenne : Heure d'été à Paris -5h (heure d'été)", async () => {
+    it("America/Cayenne : Heure d'été à Paris -5h (heure d'été)", () => {
       // Même date que le précédent test
       const date = new Date("April 12, 2022 15:43:00");
 
@@ -162,7 +162,7 @@ describe("buildCustomDoc.service", () => {
       expect(testDoc.DATE_JOUR_HEURE).toEqual("12/04/2022 à 10:43");
     });
 
-    it("America/Cayenne : Heure d'hiver à Paris -4h", async () => {
+    it("America/Cayenne : Heure d'hiver à Paris -4h", () => {
       // Même date que le précédent test
       const date = new Date("March 23, 2022 09:32:00");
 
@@ -182,7 +182,7 @@ describe("buildCustomDoc.service", () => {
   });
 
   describe("dateFormat : doit retourner une date dans le format souhaité à la bonne timeZone", () => {
-    it("Dates au format string", async () => {
+    it("Dates au format string", () => {
       const dateForTest = "January 21, 2022 15:35:00";
 
       //  "dd/MM/yyyy",
@@ -199,7 +199,7 @@ describe("buildCustomDoc.service", () => {
       ).toEqual("21 janvier 2022");
     });
 
-    it("Dates au format Date", async () => {
+    it("Dates au format Date", () => {
       const dateForTest = new Date("October 12, 2019 15:05:00");
       //  "dd/MM/yyyy",
       expect(

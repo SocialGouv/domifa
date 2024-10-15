@@ -1,5 +1,3 @@
-import { StructureCustomDocTags } from "../../../_common/model";
-
 import { format } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import { fr } from "date-fns/locale";
@@ -21,6 +19,7 @@ import {
   Usager,
   ENTRETIEN_LIEN_COMMUNE,
 } from "@domifa/common";
+import { StructureCustomDocTags } from "../../../_common/model";
 
 export const DATE_FORMAT = {
   JOUR: "dd/MM/yyyy",

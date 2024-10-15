@@ -32,7 +32,7 @@ export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
 export class StructuresAuthService {
   constructor(private readonly jwtService: JwtService) {}
 
-  public async login(user: UserStructure) {
+  public login(user: UserStructure) {
     const isSuperAdminDomifa = isDomifaAdmin(user);
 
     const payload: UserStructureJwtPayload = {

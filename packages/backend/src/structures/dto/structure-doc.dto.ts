@@ -7,7 +7,7 @@ import {
   ValidateIf,
 } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
-import { StructureCustomDocType } from "../../_common/model";
+import { StructureCustomDocType } from "@domifa/common";
 
 export class StructureDocDto {
   @ApiProperty({

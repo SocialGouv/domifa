@@ -33,6 +33,8 @@ import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits
 import { FormContactDetailsComponent } from "./components/form-contact-details/form-contact-details.component";
 import { InputNationalityComponent } from "./components/input-nationality/input-nationality.component";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
+import { SortArrayPipe } from "../shared/pipes";
+import { DisplayTableImageComponent } from "../shared/components/display-table-image/display-table-image.component";
 
 @NgModule({
   declarations: [
@@ -64,6 +66,8 @@ import { TableHeadSortComponent } from "../shared/components/table-head-sort/tab
     ReactiveFormsModule,
     NgxIntlTelInputModule,
     TableHeadSortComponent,
+    SortArrayPipe,
+    DisplayTableImageComponent,
   ],
   exports: [
     DisplayAyantsDroitsComponent,

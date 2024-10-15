@@ -43,6 +43,8 @@ import { DisplayContactDetailsComponent } from "./components/_general-section/di
 import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 import { FormatInternationalPhoneNumberPipe } from "../usager-shared/formatInternationalPhoneNumber.pipe";
 import { ProfilSmsPortailComponent } from "./components/pages/profil-sms-portail/profil-sms-portail.component";
+import { SortArrayPipe } from "../shared/pipes";
+import { DisplayTableImageComponent } from "../shared/components/display-table-image/display-table-image.component";
 
 @NgModule({
   declarations: [
@@ -84,6 +86,8 @@ import { ProfilSmsPortailComponent } from "./components/pages/profil-sms-portail
     TableHeadSortComponent,
     NgxIntlTelInputModule,
     FormatInternationalPhoneNumberPipe,
+    SortArrayPipe,
+    DisplayTableImageComponent,
   ],
   providers: [
     NgbDateCustomParserFormatter,

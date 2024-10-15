@@ -14,6 +14,7 @@ import { SharedModule } from "../shared/shared.module";
 import { UsersRoutingModule } from "./users-routing.module";
 import { UserStructurePasswordFormComponent } from "./components/user-structure-password-form/user-structure-password-form.component";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
+import { SortArrayPipe } from "../shared/pipes";
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { TableHeadSortComponent } from "../shared/components/table-head-sort/tab
     SharedModule,
     CommonModule,
     UsersRoutingModule,
+    SortArrayPipe,
   ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

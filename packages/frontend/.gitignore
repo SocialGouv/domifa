@@ -49,3 +49,6 @@ dist
 node_modules
 .angular/
 .eslintcache
+
+.nx/cache
+.nx/workspace-data

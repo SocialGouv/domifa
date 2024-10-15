@@ -15,9 +15,34 @@
     <thead>
       <tr>
         <th scope="col">Type</th>
-        <th scope="col">Nom du document</th>
-        <th scope="col">Ajouté par</th>
-        <th scope="col">Ajouté le</th>
+        <th scope="col">
+          <app-table-head-sort
+            sortKey="label"
+            [(sortValue)]="sortValue"
+            [(currentKey)]="currentKey"
+            columnName="Nom du document"
+          >
+          </app-table-head-sort>
+        </th>
+        <th scope="col">
+          <app-table-head-sort
+            sortKey="createdBy"
+            [(sortValue)]="sortValue"
+            [(currentKey)]="currentKey"
+            columnName="Ajouté par"
+          >
+          </app-table-head-sort>
+        </th>
+
+        <th scope="col">
+          <app-table-head-sort
+            sortKey="createdAt"
+            [(sortValue)]="sortValue"
+            [(currentKey)]="currentKey"
+            columnName="Ajouté le"
+          >
+          </app-table-head-sort>
+        </th>
         <th scope="col" class="d-print-none text-end">Actions</th>
       </tr>
     </thead>
@@ -25,7 +50,10 @@
       <!-- Si Aucun doc personnalisé ne remplace l'attestation postale -->
       <tr
         [attr.aria-rowindex]="i + 1"
-        *ngFor="let document of structureDocs; let i = index"
+        *ngFor="
+          let document of structureDocs | sortArray : currentKey : sortValue;
+          let i = index
+        "
       >
         <td class="align-middle">
           <app-display-table-image

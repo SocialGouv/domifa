@@ -35,7 +35,7 @@ export class PortailAdminLoginController {
         password: loginDto.password,
       });
 
-      const { access_token } = await this.adminsAuthService.login(user);
+      const { access_token } = this.adminsAuthService.login(user);
 
       const portailAdminProfile: PortailAdminProfile =
         await portailAdminProfilBuilder.build({ userId: user.id });

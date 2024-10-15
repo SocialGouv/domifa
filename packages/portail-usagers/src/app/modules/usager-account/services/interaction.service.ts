@@ -10,7 +10,7 @@ import { Interaction, PageOptions, PageResults } from "@domifa/common";
   providedIn: "root",
 })
 export class InteractionService {
-  public endPoint = environment.apiUrl + "portail-usagers/profile/";
+  public endPoint = `${environment.apiUrl}portail-usagers/profile/`;
 
   constructor(private readonly http: HttpClient) {}
 

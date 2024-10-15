@@ -9,10 +9,10 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 
 import { saveAs } from "file-saver";
 
-import { StructureDoc } from "../../../../../_common/model";
 import { StructureDocService } from "../../services/structure-doc.service";
 import { Subscription } from "rxjs";
-import { UserStructure } from "@domifa/common";
+import { StructureDoc, UserStructure } from "@domifa/common";
+import { UsagersFilterCriteriaSortValues } from "../../../manage-usagers/components/usager-filter";
 
 @Component({
   selector: "app-structures-custom-docs-table",
@@ -24,7 +24,10 @@ export class StructuresCustomDocsTableComponent implements OnDestroy {
   @Input() public title!: string;
 
   @Output()
-  public getAllStructureDocs = new EventEmitter<void>();
+  public readonly getAllStructureDocs = new EventEmitter<void>();
+
+  public sortValue: UsagersFilterCriteriaSortValues = "desc";
+  public currentKey: keyof StructureDoc = "createdAt";
 
   private subscription = new Subscription();
   // Frontend variables
@@ -55,7 +58,7 @@ export class StructuresCustomDocsTableComponent implements OnDestroy {
         next: (blob: Blob) => {
           const extension = structureDoc.path.split(".")[1];
           const newBlob = new Blob([blob], { type: structureDoc.filetype });
-          saveAs(newBlob, structureDoc.label + "." + extension);
+          saveAs(newBlob, `${structureDoc.label}.${extension}`);
           this.stopLoading("download", structureDoc.uuid);
         },
         error: () => {
