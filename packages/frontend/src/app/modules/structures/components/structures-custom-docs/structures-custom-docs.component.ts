@@ -10,14 +10,13 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
-  StructureDoc,
   DOMIFA_CUSTOM_DOCS,
   DEFAULT_MODAL_OPTIONS,
 } from "../../../../../_common/model";
 
 import { AuthService } from "../../../shared/services/auth.service";
 import { StructureDocService } from "../../services/structure-doc.service";
-import { UserStructure } from "@domifa/common";
+import { StructureDoc, UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-structures-custom-docs",

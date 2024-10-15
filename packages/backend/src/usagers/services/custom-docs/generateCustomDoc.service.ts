@@ -2,7 +2,7 @@ import Docxtemplater from "docxtemplater";
 import PizZip from "pizzip";
 
 import { appLogger } from "../../../util";
-import { StructureCustomDocTags } from "../../../_common/model/structure-doc/StructureCustomDocTags.type";
+import { StructureCustomDocTags } from "../../../_common/model";
 
 export async function generateCustomDoc(
   content: string, // template file content
@@ -13,7 +13,7 @@ export async function generateCustomDoc(
     const zip = new PizZip(content);
     doc = new Docxtemplater(zip, { linebreaks: true });
   } catch (error) {
-    appLogger.error(`DocTemplater - Opening Doc impossible`, {
+    appLogger.error("DocTemplater - Opening Doc impossible", {
       sentry: true,
       error,
     });

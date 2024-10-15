@@ -3,10 +3,10 @@ import * as mammoth from "mammoth";
 import { readFile, writeFile } from "fs-extra";
 import { join } from "path";
 import { domifaConfig } from "../../../../config";
-import { StructureDocTypesAvailable } from "../../../../_common/model";
 import { customDocTemplateLoader } from "../customDocTemplateLoader.service";
 import { generateCustomDoc } from "../generateCustomDoc.service";
 import { CUSTOM_DOC_ATTESTATION_POSTALE } from "./CUSTOM_DOC_ATTESTATION_POSTALE.const";
+import { StructureDocTypesAvailable } from "@domifa/common";
 describe("generateCustomDoc", () => {
   it("1. ATTESTATION POSTALE : generateCustomDoc render attestation_postale", async () => {
     await runDocTypeTest({ docType: "attestation_postale" });

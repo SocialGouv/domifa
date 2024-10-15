@@ -1,4 +1,3 @@
-import { MessageSmsService } from "./../sms/services/message-sms.service";
 import {
   Body,
   Controller,
@@ -38,6 +37,7 @@ import {
   PageResultsDto,
 } from "../usagers/dto/pagination";
 import { CommonInteraction, Usager } from "@domifa/common";
+import { MessageSmsService } from "../sms/services/message-sms.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("interactions")
@@ -84,7 +84,7 @@ export class InteractionsController {
     @CurrentUsager() currentUsager: Usager,
     @Body() pageOptionsDto: PageOptionsDto
   ) {
-    return this.interactionsService.searchInteractions(
+    return await this.interactionsService.searchInteractions(
       user.structureId,
       currentUsager.uuid,
       pageOptionsDto
@@ -98,7 +98,7 @@ export class InteractionsController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager
   ) {
-    return this.interactionsService.searchPendingInteractionsWithContent(
+    return await this.interactionsService.searchPendingInteractionsWithContent(
       user.structureId,
       currentUsager.uuid
     );
@@ -139,7 +139,7 @@ export class InteractionsController {
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentInteraction() interaction: CommonInteraction
   ) {
-    return this.interactionDeletor.deleteInteraction({
+    return await this.interactionDeletor.deleteInteraction({
       interaction,
       usager,
       structure: user.structure,

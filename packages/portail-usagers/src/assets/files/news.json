@@ -1,5 +1,19 @@
 [
   {
+    "date": "2024-10-20",
+    "description": "📩 Votre structure vous informe",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Nouvelle section",
+        "message": [
+          "Le portail Mon DomiFa affiche désormais des messages diffusés par votre structure",
+          "Vous serez tenu au courant de fermetures éventuels, de changement dans l'accueil, et bien d'autres informations."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-03-13",
     "description": "📩 Du nouveau dans vos courriers",
     "content": [

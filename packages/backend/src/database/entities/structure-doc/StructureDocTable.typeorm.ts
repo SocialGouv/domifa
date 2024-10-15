@@ -1,4 +1,3 @@
-import { StructureCustomDocType } from "./../../../_common/model/structure-doc/StructureCustomDocType.type";
 import {
   Column,
   Entity,
@@ -7,16 +6,19 @@ import {
   JoinColumn,
   ManyToOne,
 } from "typeorm";
-import { StructureDoc } from "../../../_common/model/structure-doc";
 import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
-import { UserStructureCreatedBy } from "@domifa/common";
+import {
+  StructureCustomDocType,
+  StructureDoc,
+  UserStructureCreatedBy,
+} from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "structure_doc" })
 export class StructureDocTable
   extends AppTypeormTable<StructureDocTable>
-  implements StructureDoc
+  implements Omit<StructureDoc, "uuid">
 {
   @Index()
   @Column({ type: "integer", unique: true })

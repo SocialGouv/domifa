@@ -1,8 +1,8 @@
-import { UsagerFormModel } from "./../../../usager-shared/interfaces/UsagerFormModel";
 import { Component, Input, OnInit } from "@angular/core";
 
-import { languagesAutocomplete } from "../../../../shared";
 import { LIEN_PARENTE_LABELS } from "@domifa/common";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { languagesAutocomplete } from "../../../usager-shared/utils/languages";
 
 @Component({
   selector: "app-display-etat-civil-decision",

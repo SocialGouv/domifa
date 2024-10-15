@@ -1,4 +1,4 @@
-import { StructureDoc } from "../types";
+import { StructureDoc } from "@domifa/common";
 
 export const DOMIFA_CUSTOM_DOCS: StructureDoc[] = [
   {

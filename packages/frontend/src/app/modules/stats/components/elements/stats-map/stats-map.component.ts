@@ -1,5 +1,4 @@
 import { Component, Input } from "@angular/core";
-import { STATS_REGIONS_FOR_MAP } from "../../../../../../_common/model";
 
 import { fadeInOut } from "../../../../../shared";
 import {
@@ -11,6 +10,7 @@ import {
   REGIONS_OUTRE_MER,
   RegionsLabels,
 } from "@domifa/common";
+import { STATS_REGIONS_FOR_MAP } from "../../../constants";
 
 @Component({
   animations: [fadeInOut],

@@ -9,13 +9,10 @@ import {
 import { saveAs } from "file-saver";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import {
-  DEFAULT_MODAL_OPTIONS,
-  StructureDocTypesAvailable,
-} from "../../../../../../_common/model";
+import { DEFAULT_MODAL_OPTIONS } from "../../../../../../_common/model";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { DocumentService } from "../../../../usager-shared/services/document.service";
-import { UserStructure } from "@domifa/common";
+import { StructureDocTypesAvailable, UserStructure } from "@domifa/common";
 import {
   PortailUsagersInformations,
   PortailUsagersService,

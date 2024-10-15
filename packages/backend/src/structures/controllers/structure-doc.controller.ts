@@ -26,10 +26,9 @@ import {
   validateUpload,
 } from "../../util/file-manager/FileManager";
 import { UserStructureAuthenticated } from "../../_common/model";
-import { StructureDoc } from "../../_common/model/structure-doc";
 import { StructureDocDto } from "../dto/structure-doc.dto";
 
-import { structureDocRepository } from "../../database";
+import { structureDocRepository, StructureDocTable } from "../../database";
 import { ExpressRequest } from "../../util/express";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 import { join } from "path";
@@ -116,7 +115,7 @@ export class StructureDocController {
     );
     await this.fileManagerService.uploadFile(filePath, file.buffer);
 
-    const newDoc: StructureDoc = {
+    const newDoc = new StructureDocTable({
       createdAt: new Date(),
       createdBy: {
         id: user.id,
@@ -130,7 +129,7 @@ export class StructureDocController {
       custom: structureDocDto.custom,
       structureId: user.structureId,
       customDocType: structureDocDto.customDocType,
-    };
+    });
 
     // Ajout du document
     try {
@@ -153,7 +152,7 @@ export class StructureDocController {
   public async getStructureDocs(
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    return structureDocRepository.find({
+    return await structureDocRepository.find({
       where: { structureId: user.structureId },
       order: { createdAt: "DESC" },
     });

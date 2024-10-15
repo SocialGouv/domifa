@@ -40,7 +40,7 @@ export class StructuresAuthController {
         password: loginDto.password,
       });
 
-      const accessToken = await this.structuresAuthService.login(user);
+      const accessToken = this.structuresAuthService.login(user);
 
       return res.status(HttpStatus.OK).json(accessToken);
     } catch (err) {

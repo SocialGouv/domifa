@@ -20,11 +20,7 @@ import { AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
 import { structureDocRepository } from "../../database";
-import {
-  StructureDoc,
-  StructureDocTypesAvailable,
-  UserStructureAuthenticated,
-} from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 import {
   buildCustomDoc,
   customDocTemplateLoader,
@@ -35,7 +31,11 @@ import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { join } from "path";
 import { cleanPath } from "../../util";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
-import { Usager } from "@domifa/common";
+import {
+  StructureDoc,
+  StructureDocTypesAvailable,
+  Usager,
+} from "@domifa/common";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("usagers-structure-docs")

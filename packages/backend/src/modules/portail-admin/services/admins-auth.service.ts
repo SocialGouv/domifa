@@ -15,7 +15,7 @@ import { portailAdminProfilBuilder } from "./portail-admin-profil-builder.servic
 export class AdminsAuthService {
   constructor(private readonly jwtService: JwtService) {}
 
-  public async login(user: PortailAdminUser) {
+  public login(user: PortailAdminUser) {
     const payload: UserAdminJwtPayload = {
       _jwtPayloadVersion: CURRENT_JWT_PAYLOAD_VERSION,
       _userId: user.id,
