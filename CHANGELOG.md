@@ -1,3 +1,16 @@
+# [2.177.0](https://github.com/SocialGouv/domifa/compare/v2.176.0...v2.177.0) (2024-10-15)
+
+
+### Bug Fixes
+
+* **backend:** fix unit test for export ([d404519](https://github.com/SocialGouv/domifa/commit/d40451978b8557182f464f182bebfc3918dfbaf4))
+* **backend:** fix unit tests ([60c4cdf](https://github.com/SocialGouv/domifa/commit/60c4cdf853d6c2bb023416766a14942ec9f0b807))
+
+
+### Features
+
+* **admin:** delete useless pages ([2de084a](https://github.com/SocialGouv/domifa/commit/2de084ad802af584dacc85dabf094cafb59fccbe))
+
 # [2.176.0](https://github.com/SocialGouv/domifa/compare/v2.175.0...v2.176.0) (2024-10-09)
 
 
