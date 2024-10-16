@@ -1,2 +1,2 @@
 //@index('./*', f => `export * from '${f.path}'`)
-export * from "./RdvForm.type";
+export * from "./ETAPES_FORM_DOM.const";

@@ -2,18 +2,14 @@ import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
-import {
-  ETAPES_DEMANDE_URL,
-  ETAPES_FORM_DOM,
-  ETAPES_FORM_DOM_TITRES,
-  UsagerLight,
-} from "../../../../../_common/model";
+import { ETAPES_DEMANDE_URL, UsagerLight } from "../../../../../_common/model";
 import { selectUsagerById, UsagerState } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { Store } from "@ngrx/store";
 import { Subscription } from "rxjs";
 import { getUsagerNomComplet } from "../../../usager-shared/utils/getUsagerNomComplet";
+import { ETAPES_FORM_DOM_TITRES, ETAPES_FORM_DOM } from "../../constants";
 
 @Component({
   selector: "app-step-header",
@@ -51,7 +47,7 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
       this.toastService.warning(
         "Vous ne pouvez pas revenir sur une décision déjà prise"
       );
-      this.router.navigate(["/profil/general/" + this.usager.ref]);
+      this.router.navigate([`/profil/general/${this.usager.ref}`]);
       return;
     }
 

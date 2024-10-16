@@ -1,4 +1,3 @@
-import { SharedModule } from "./../../../../shared/shared.module";
 import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
@@ -12,6 +11,8 @@ import { SetInteractionOutFormComponent } from "./set-interaction-out-form.compo
 import { FormsModule } from "@angular/forms";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../../shared";
+import { UsagerNomCompletPipe } from "../../../pipes";
+import { SharedModule } from "../../../../shared/shared.module";
 
 describe("SetInteractionOutFormComponent", () => {
   let component: SetInteractionOutFormComponent;
@@ -25,6 +26,7 @@ describe("SetInteractionOutFormComponent", () => {
         HttpClientTestingModule,
         FormsModule,
         SharedModule,
+        UsagerNomCompletPipe,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -40,7 +40,7 @@ export class StepDocumentsComponent extends BaseUsagerDossierPageComponent {
     this.subscription.add(
       this.usagerDossierService.nextStep(this.usager.ref, step).subscribe({
         next: (usager: UsagerLight) => {
-          this.router.navigate(["usager/" + usager.ref + "/edit/decision"]);
+          this.router.navigate([`usager/${usager.ref}/edit/decision`]);
           this.toastService.success("Enregistrement réussi");
         },
         error: () => {

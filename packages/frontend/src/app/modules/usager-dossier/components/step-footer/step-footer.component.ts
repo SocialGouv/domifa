@@ -1,9 +1,8 @@
 import { Component, Input } from "@angular/core";
 
-import { UsagerFormModel } from "./../../../usager-shared/interfaces/UsagerFormModel";
-
 import { AuthService } from "../../../shared/services";
 import { UserStructure } from "@domifa/common";
+import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 @Component({
   selector: "app-step-footer",
