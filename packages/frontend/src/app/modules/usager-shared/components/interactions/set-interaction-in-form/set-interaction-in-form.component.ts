@@ -27,10 +27,10 @@ export class SetInteractionInFormComponent implements OnDestroy {
   @Input() public usager!: UsagerFormModel;
 
   @Output()
-  public cancelReception = new EventEmitter<void>();
+  public readonly cancelReception = new EventEmitter<void>();
 
   @Output()
-  public updateInteractions = new EventEmitter<void>();
+  public readonly updateInteractions = new EventEmitter<void>();
 
   private subscription = new Subscription();
 

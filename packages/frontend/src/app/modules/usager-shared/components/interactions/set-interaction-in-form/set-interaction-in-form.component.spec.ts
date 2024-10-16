@@ -11,6 +11,7 @@ import { SharedModule } from "../../../../shared/shared.module";
 import { USAGER_VALIDE_MOCK } from "../../../../../../_common/mocks";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../../shared";
+import { UsagerNomCompletPipe } from "../../../pipes";
 
 describe("SetInteractionInFormComponent", () => {
   let component: SetInteractionInFormComponent;
@@ -24,6 +25,7 @@ describe("SetInteractionInFormComponent", () => {
         HttpClientTestingModule,
         SharedModule,
         FormsModule,
+        UsagerNomCompletPipe,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

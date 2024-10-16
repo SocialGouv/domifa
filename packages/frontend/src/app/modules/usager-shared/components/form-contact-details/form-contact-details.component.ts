@@ -44,7 +44,8 @@ import { UserStructure } from "@domifa/common";
 })
 export class FormContactDetailsComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
-  @Output() public editContactDetailsChange = new EventEmitter<boolean>();
+  @Output() public readonly editContactDetailsChange =
+    new EventEmitter<boolean>();
 
   public contactDetailsForm!: FormGroup;
   // skipcq: JS-0331

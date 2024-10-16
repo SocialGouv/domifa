@@ -1,4 +1,3 @@
-import { RdvForm } from "./../../../../_common/model/usager/rdv/RdvForm.type";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -13,12 +12,13 @@ import { userStructureBuilder } from "../../users/services";
 import { Store } from "@ngrx/store";
 import { UserStructure, Usager } from "@domifa/common";
 import { usagerActions, UsagerState } from "../../../shared";
+import { RdvForm } from "../types";
 
 @Injectable({
   providedIn: "root",
 })
 export class UsagerDossierService {
-  public endPointUsagers = environment.apiUrl + "usagers";
+  public endPointUsagers = `${environment.apiUrl}usagers`;
 
   constructor(
     private readonly http: HttpClient,

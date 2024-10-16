@@ -1,4 +1,3 @@
-import { EtatCivilParentFormComponent } from "./../../../usager-shared/components/etat-civil-parent-form/etat-civil-parent-form.component";
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { UntypedFormBuilder } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -22,6 +21,7 @@ import {
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { Usager } from "@domifa/common";
 import { merge, debounceTime, distinctUntilChanged } from "rxjs";
+import { EtatCivilParentFormComponent } from "../../../usager-shared/components/etat-civil-parent-form/etat-civil-parent-form.component";
 
 @Component({
   animations: [fadeInOut],
@@ -139,9 +139,7 @@ export class StepEtatCivilComponent
         .subscribe({
           next: (usager: Usager) => {
             this.toastService.success("Enregistrement réussi");
-            this.router.navigate([
-              "usager/" + usager.ref + "/edit/rendez-vous",
-            ]);
+            this.router.navigate([`usager/${usager.ref}/edit/rendez-vous`]);
           },
           error: () => {
             this.loading = false;

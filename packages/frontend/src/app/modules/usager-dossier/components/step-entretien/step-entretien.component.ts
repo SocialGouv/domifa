@@ -46,7 +46,7 @@ export class StepEntretienComponent
     this.subscription.add(
       this.usagerDossierService.nextStep(this.usager.ref, step).subscribe({
         next: (usager: UsagerLight) => {
-          this.router.navigate(["usager/" + usager.ref + "/edit/documents"]);
+          this.router.navigate([`usager/${usager.ref}/edit/documents`]);
         },
         error: () => {
           this.toastService.error("Une erreure inattendue est survenue");
