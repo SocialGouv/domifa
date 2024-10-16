@@ -17,13 +17,16 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { Subject, Subscription, of } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 
-import { FormEmailTakenValidator } from "../../../../../_common/model";
+import {
+  FormEmailTakenValidator,
+  PREFERRED_COUNTRIES,
+} from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
 import { StructureCommonWeb } from "../../classes/StructureCommonWeb.class";
 
 import { anyPhoneValidator } from "../../../shared/phone/mobilePhone.validator";
 import { getFormPhone } from "../../../shared/phone";
-import { PREFERRED_COUNTRIES, EmailValidator } from "../../../../shared";
+import { EmailValidator } from "../../../../shared";
 import {
   StructureCommon,
   Structure,

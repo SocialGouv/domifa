@@ -22,6 +22,6 @@ export class ImportUsagersService {
     return this.http.post<{
       importMode: UsagersImportMode;
       previewTable: ImportPreviewTable;
-    }>(environment.apiUrl + "import/" + mode, data);
+    }>(`${environment.apiUrl}import/${mode}`, data);
   }
 }

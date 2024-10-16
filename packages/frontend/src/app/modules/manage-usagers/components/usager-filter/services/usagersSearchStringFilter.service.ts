@@ -1,9 +1,9 @@
 import { UsagersFilterCriteria } from "../UsagersFilterCriteria";
 import { format } from "date-fns";
 import { UsagerLight } from "../../../../../../_common/model";
-import { search } from "../../../../../shared";
 import { UsagerProcuration } from "../../../../usager-shared/interfaces/UsagerProcuration.interface";
 import { UsagerAyantDroit } from "@domifa/common";
+import { search } from "../../../utils/search";
 
 export const usagersSearchStringFilter = {
   filter,

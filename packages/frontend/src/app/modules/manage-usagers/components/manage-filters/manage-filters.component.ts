@@ -27,7 +27,7 @@ export class ManageFiltersComponent implements OnInit, OnDestroy {
   @Input() public usagersRadiesTotalCount: number;
   @Input() public nbResults: number;
 
-  @Output() public updateFilters = new EventEmitter();
+  @Output() public readonly updateFilters = new EventEmitter();
 
   private subscription = new Subscription();
 

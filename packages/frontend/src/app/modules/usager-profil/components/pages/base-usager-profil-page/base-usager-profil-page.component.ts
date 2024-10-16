@@ -3,16 +3,13 @@ import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { UsagerLight } from "../../../../../../_common/model";
-import {
-  getUsagerNomComplet,
-  selectUsagerById,
-  UsagerState,
-} from "../../../../../shared";
+import { selectUsagerById, UsagerState } from "../../../../../shared";
 import { AuthService, CustomToastService } from "../../../../shared/services";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { Store } from "@ngrx/store";
 import { UserStructure } from "@domifa/common";
+import { getUsagerNomComplet } from "../../../../usager-shared/utils/getUsagerNomComplet";
 
 @Component({
   selector: "app-base-usager-profil-page",
@@ -62,7 +59,7 @@ export class BaseUsagerProfilPageComponent implements OnInit, OnDestroy {
 
   public setTitle() {
     this.titleService.setTitle(
-      this.titlePrefix + " de " + getUsagerNomComplet(this.usager) + " - DomiFa"
+      `${this.titlePrefix} de ${getUsagerNomComplet(this.usager)} - DomiFa`
     );
   }
 

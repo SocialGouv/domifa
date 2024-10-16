@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
-@Pipe({ name: "formatBigNumber" })
+@Pipe({ name: "formatBigNumber", standalone: true })
 export class FormatBigNumberPipe implements PipeTransform {
   public transform(nb: number): string {
     let strNb = nb.toString();

@@ -52,10 +52,10 @@ export class ManageUsagersTableComponent implements OnDestroy {
   public deleteUsagersModal!: TemplateRef<NgbModalRef>;
 
   @Output()
-  public goToPrint = new EventEmitter<void>();
+  public readonly goToPrint = new EventEmitter<void>();
 
   @Output()
-  public updateFilters = new EventEmitter<{
+  public readonly updateFilters = new EventEmitter<{
     element: keyof UsagersFilterCriteria;
     value: UsagersFilterCriteria[keyof UsagersFilterCriteria] | null;
     sortValue?: UsagersFilterCriteriaSortValues;

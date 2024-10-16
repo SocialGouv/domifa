@@ -19,6 +19,8 @@ import { ColumnInformationsComponent } from "./components/column-informations/co
 import { ManageFiltersComponent } from "./components/manage-filters/manage-filters.component";
 import { ColumnInteractionsComponent } from "./components/column-interactions/column-interactions.component";
 import { FormatInternationalPhoneNumberPipe } from "../usager-shared/formatInternationalPhoneNumber.pipe";
+import {} from "../shared/pipes";
+import { UsagerNomCompletPipe } from "../usager-shared/pipes";
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { FormatInternationalPhoneNumberPipe } from "../usager-shared/formatInter
     UsersModule,
     ManageUsagersRoutingModule,
     FormatInternationalPhoneNumberPipe,
+    UsagerNomCompletPipe,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

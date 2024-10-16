@@ -33,9 +33,9 @@ import {
   PHONE_PLACEHOLDERS,
   UsagerEtatCivilFormData,
   UsagerFormAyantDroit,
+  PREFERRED_COUNTRIES,
 } from "../../../../../_common/model";
 import {
-  PREFERRED_COUNTRIES,
   minDateToday,
   minDateNaissance,
   formatDateToNgb,
