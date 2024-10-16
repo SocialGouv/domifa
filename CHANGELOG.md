@@ -1,3 +1,10 @@
+## [2.178.1](https://github.com/SocialGouv/domifa/compare/v2.178.0...v2.178.1) (2024-10-16)
+
+
+### Bug Fixes
+
+* **frontend:** fix types imports ([eba11fe](https://github.com/SocialGouv/domifa/commit/eba11fe7068442c2a32889638e1994dcf9ef885b))
+
 # [2.178.0](https://github.com/SocialGouv/domifa/compare/v2.177.0...v2.178.0) (2024-10-15)
 
 
