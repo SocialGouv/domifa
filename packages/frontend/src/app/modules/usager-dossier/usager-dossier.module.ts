@@ -30,6 +30,7 @@ import { BaseUsagerDossierPageComponent } from "./components/base-usager-dossier
 import { FormatInternationalPhoneNumberPipe } from "../usager-shared/formatInternationalPhoneNumber.pipe";
 import { DisplayContactDetailsDecisionComponent } from "./components/display-contact-details-decision/display-contact-details-decision.component";
 import { DecisionStandbyFormComponent } from "./components/decision-standby-form/decision-standby-form.component";
+import { UsagerNomCompletPipe } from "../usager-shared/pipes";
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { DecisionStandbyFormComponent } from "./components/decision-standby-form
     NgxIntlTelInputModule,
     UsagerNotesModule,
     FormatInternationalPhoneNumberPipe,
+    UsagerNomCompletPipe,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

@@ -21,6 +21,7 @@ import {
   CustomDatepickerI18n,
 } from "../shared/services";
 import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
     SharedModule,
     GeneralModule,
     CKEditorModule,
+    FontAwesomeModule,
   ],
   providers: [
     StructureInformationService,

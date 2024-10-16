@@ -1,5 +1,5 @@
 import { UsagerLight } from "../../../../../../_common/model";
-import { dataSorter, SortableAttribute } from "../../../../../shared";
+import { dataSorter, SortableAttribute } from "../../../utils/sorter";
 import { UsagersFilterCriteria } from "../UsagersFilterCriteria";
 
 export const usagersSorter = {

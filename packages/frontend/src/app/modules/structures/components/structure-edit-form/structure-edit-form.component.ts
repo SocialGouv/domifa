@@ -1,5 +1,3 @@
-import { FormEmailTakenValidator } from "./../../../../../_common/model/_general/FormEmailTakenValidator.type";
-import { COUNTRY_CODES_TIMEZONE } from "./../../../../../_common/model/telephone/COUNTRY_CODES";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
@@ -16,11 +14,7 @@ import {
   PhoneNumberFormat,
   SearchCountryField,
 } from "@khazii/ngx-intl-tel-input";
-import {
-  PREFERRED_COUNTRIES,
-  NoWhiteSpaceValidator,
-  EmailValidator,
-} from "../../../../shared";
+import { NoWhiteSpaceValidator, EmailValidator } from "../../../../shared";
 import {
   setFormPhone,
   anyPhoneValidator,
@@ -40,7 +34,12 @@ import {
   Structure,
   STRUCTURE_ORGANISME_TYPE_LABELS,
   DEPARTEMENTS_LISTE,
+  COUNTRY_CODES_TIMEZONE,
 } from "@domifa/common";
+import {
+  FormEmailTakenValidator,
+  PREFERRED_COUNTRIES,
+} from "../../../../../_common/model";
 
 @Component({
   selector: "app-structure-edit-form",
@@ -133,7 +132,9 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
       organismeType: [this.structure.organismeType, assoRequired],
     });
 
-    this.selectedCountryISO = COUNTRY_CODES_TIMEZONE[this.structure.timeZone];
+    this.selectedCountryISO = COUNTRY_CODES_TIMEZONE[
+      this.structure.timeZone
+    ] as CountryISO;
     this.subscription.add(
       this.structureForm
         .get("adresseCourrier")

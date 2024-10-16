@@ -1,4 +1,4 @@
-import { dataCompare } from "../../../../shared/sorter";
+import { dataCompare } from "../../../manage-usagers/utils/sorter";
 import { AppLanguage } from "./AppLanguage.type";
 import { ORIGINAL_LANGUAGES_MAP } from "./ORIGINAL_LANGUAGES_MAP.const";
 

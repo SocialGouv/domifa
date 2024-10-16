@@ -14,6 +14,7 @@ import {
 } from "@angular/forms";
 import {
   PHONE_PLACEHOLDERS,
+  PREFERRED_COUNTRIES,
   Telephone,
   UsagerEtatCivilFormData,
 } from "../../../../../_common/model";
@@ -33,7 +34,7 @@ import {
 } from "@khazii/ngx-intl-tel-input";
 
 import { Observable, Subscription } from "rxjs";
-import { PREFERRED_COUNTRIES, EmailValidator } from "../../../../shared";
+import { EmailValidator } from "../../../../shared";
 import { UserStructure } from "@domifa/common";
 
 @Component({
@@ -46,7 +47,8 @@ export class FormContactDetailsComponent implements OnInit, OnDestroy {
   @Output() public editContactDetailsChange = new EventEmitter<boolean>();
 
   public contactDetailsForm!: FormGroup;
-  public mobilePhonePlaceHolder: string = "";
+  // skipcq: JS-0331
+  public mobilePhonePlaceHolder = "";
   public currentUserSubject$: Observable<UserStructure | null>;
 
   public loading = false;

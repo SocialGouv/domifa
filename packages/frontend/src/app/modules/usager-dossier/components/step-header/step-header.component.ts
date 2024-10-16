@@ -8,15 +8,12 @@ import {
   ETAPES_FORM_DOM_TITRES,
   UsagerLight,
 } from "../../../../../_common/model";
-import {
-  getUsagerNomComplet,
-  selectUsagerById,
-  UsagerState,
-} from "../../../../shared";
+import { selectUsagerById, UsagerState } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { Store } from "@ngrx/store";
 import { Subscription } from "rxjs";
+import { getUsagerNomComplet } from "../../../usager-shared/utils/getUsagerNomComplet";
 
 @Component({
   selector: "app-step-header",
@@ -35,7 +32,7 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
   public currentUrl = "";
 
   private subscription = new Subscription();
-  public isMobile: boolean = false;
+  public isMobile = false;
 
   constructor(
     private readonly router: Router,
@@ -62,7 +59,7 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
       this.usager.decision.statut === "ATTENTE_DECISION" &&
       this.currentStep !== 4
     ) {
-      this.router.navigate(["usager/" + this.usager.ref + "/edit/decision"]);
+      this.router.navigate([`usager/${this.usager.ref}/edit/decision`]);
       return;
     }
 

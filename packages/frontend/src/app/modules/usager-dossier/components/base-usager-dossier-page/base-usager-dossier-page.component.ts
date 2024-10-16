@@ -5,15 +5,12 @@ import { Observable, Subscription } from "rxjs";
 
 import { Store } from "@ngrx/store";
 import { UsagerLight } from "../../../../../_common/model";
-import {
-  selectUsagerById,
-  getUsagerNomComplet,
-  UsagerState,
-} from "../../../../shared";
+import { selectUsagerById, UsagerState } from "../../../../shared";
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 import { Usager, UserStructure } from "@domifa/common";
+import { getUsagerNomComplet } from "../../../usager-shared/utils/getUsagerNomComplet";
 
 @Component({
   selector: "app-base-usager-dossier-page",
@@ -72,7 +69,7 @@ export class BaseUsagerDossierPageComponent implements OnInit, OnDestroy {
 
   public setTitle() {
     this.titleService.setTitle(
-      this.titlePrefix + " de " + getUsagerNomComplet(this.usager) + " - DomiFa"
+      `${this.titlePrefix} de ${getUsagerNomComplet(this.usager)} - DomiFa`
     );
   }
 
