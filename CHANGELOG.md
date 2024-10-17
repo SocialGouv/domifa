@@ -1,3 +1,10 @@
+## [2.178.2](https://github.com/SocialGouv/domifa/compare/v2.178.1...v2.178.2) (2024-10-17)
+
+
+### Bug Fixes
+
+* **backend:** strip tags from labels ([62c8f8a](https://github.com/SocialGouv/domifa/commit/62c8f8a17688e5f4a2ba6fc63518097038944366))
+
 ## [2.178.1](https://github.com/SocialGouv/domifa/compare/v2.178.0...v2.178.1) (2024-10-16)
 
 
