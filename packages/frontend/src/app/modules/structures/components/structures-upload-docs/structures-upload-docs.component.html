@@ -58,6 +58,7 @@
           formControlName="label"
           name="label"
           id="label"
+          appCleanStr
           [ngClass]="{ 'is-invalid': submitted && f.label.errors }"
           [attr.aria-describedby]="
             submitted && f.label.errors ? 'label-errors' : 'label-description'

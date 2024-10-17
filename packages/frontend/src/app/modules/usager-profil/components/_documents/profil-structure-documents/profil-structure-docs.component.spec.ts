@@ -11,6 +11,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { SharedModule } from "../../../../shared/shared.module";
+import { SortArrayPipe } from "../../../../shared/pipes";
 
 describe("ProfilStructureDocsComponent", () => {
   let component: ProfilStructureDocsComponent;
@@ -26,6 +27,7 @@ describe("ProfilStructureDocsComponent", () => {
         ReactiveFormsModule,
         RouterTestingModule,
         SharedModule,
+        SortArrayPipe,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -9,14 +9,12 @@ import { Title } from "@angular/platform-browser";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import {
-  DOMIFA_CUSTOM_DOCS,
-  DEFAULT_MODAL_OPTIONS,
-} from "../../../../../_common/model";
+import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 
 import { AuthService } from "../../../shared/services/auth.service";
 import { StructureDocService } from "../../services/structure-doc.service";
 import { StructureDoc, UserStructure } from "@domifa/common";
+import { DOMIFA_CUSTOM_DOCS } from "../../constants/DOMIFA_CUSTOM_DOCS.const";
 
 @Component({
   selector: "app-structures-custom-docs",

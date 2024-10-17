@@ -23,6 +23,7 @@ import { DateFrDirective, CleanStrDirective } from "./directives";
     DateFrDirective,
     CleanStrDirective,
     CustomToastrComponent,
+    FontAwesomeModule,
   ],
   imports: [CommonModule, FontAwesomeModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

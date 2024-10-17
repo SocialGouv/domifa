@@ -9,7 +9,7 @@ import {
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 
-import { Trim } from "../../_common/decorators";
+import { StripTagsTransform, Trim } from "../../_common/decorators";
 import { UsagerOptionsTransfert } from "@domifa/common";
 
 export class TransfertDto implements UsagerOptionsTransfert {
@@ -27,6 +27,7 @@ export class TransfertDto implements UsagerOptionsTransfert {
   @IsString()
   @MaxLength(200)
   @Trim()
+  @StripTagsTransform()
   public nom!: string;
 
   @ApiProperty({
@@ -37,6 +38,7 @@ export class TransfertDto implements UsagerOptionsTransfert {
   @IsString()
   @MaxLength(400)
   @MinLength(10)
+  @StripTagsTransform()
   @Trim()
   public adresse!: string;
 

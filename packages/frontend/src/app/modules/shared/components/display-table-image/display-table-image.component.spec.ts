@@ -1,10 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { DOMIFA_CUSTOM_DOCS } from "../../../../../_common/model";
 
 import { DisplayTableImageComponent } from "./display-table-image.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgClass } from "@angular/common";
+import { DOMIFA_CUSTOM_DOCS } from "../../../structures/constants/DOMIFA_CUSTOM_DOCS.const";
 
 describe("DisplayTableImageComponent", () => {
   let component: DisplayTableImageComponent;

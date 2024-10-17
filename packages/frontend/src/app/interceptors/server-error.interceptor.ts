@@ -38,8 +38,9 @@ export class ServerErrorInterceptor implements HttpInterceptor {
       getCurrentScope().setTag("structure", user?.structureId?.toString());
       getCurrentScope().setUser({
         email: user.email,
-        username:
-          "STRUCTURE " + user?.structureId?.toString() + " : " + user?.prenom,
+        username: `STRUCTURE ${user?.structureId?.toString()} : ${
+          user?.prenom
+        }`,
       });
     }
 
@@ -93,7 +94,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
   }
 
   private logError(request: HttpRequest<any>, error: HttpErrorResponse): void {
-    console.error(error.message, {
+    console.warn(error.message, {
       status: error.status,
       statusText: error.statusText,
       url: error.url,

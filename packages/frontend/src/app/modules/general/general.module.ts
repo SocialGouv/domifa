@@ -33,6 +33,7 @@ import { HelpModalComponent } from "./components/static-modals/help-modal/help-m
 import { RgaaComponent } from "./components/static-pages/rgaa/rgaa.component";
 import { LandingPagePortailComponent } from "./components/static-pages/landing-page-portail/landing-page-portail.component";
 import { HomeStatsComponent } from "../stats/components/home-stats/home-stats.component";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { HomeStatsComponent } from "../stats/components/home-stats/home-stats.co
     SharedModule,
     RouterModule.forChild([]),
     NgbModule,
+    FontAwesomeModule,
     HomeStatsComponent,
   ],
   providers: [GeneralService],

@@ -1,6 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString, MinLength } from "class-validator";
-import { LowerCaseTransform, Trim } from "../../_common/decorators";
+import {
+  LowerCaseTransform,
+  StripTagsTransform,
+  Trim,
+} from "../../_common/decorators";
 
 export class SearchUsagerDto {
   @ApiProperty({
@@ -11,6 +15,7 @@ export class SearchUsagerDto {
   @IsString()
   @Trim()
   @MinLength(3)
+  @StripTagsTransform()
   @LowerCaseTransform()
   public searchString!: string;
 }

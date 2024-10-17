@@ -6,9 +6,25 @@
     <thead>
       <tr>
         <th scope="col">Type</th>
-        <th scope="col">Nom du document</th>
+        <th scope="col">
+          <app-table-head-sort
+            sortKey="label"
+            [(sortValue)]="sortValue"
+            [(currentKey)]="currentKey"
+            columnName="Nom du document"
+          >
+          </app-table-head-sort>
+        </th>
         <th scope="col">Ajouté par</th>
-        <th scope="col">Ajouté le</th>
+        <th scope="col">
+          <app-table-head-sort
+            sortKey="createdAt"
+            [(sortValue)]="sortValue"
+            [(currentKey)]="currentKey"
+            columnName="Ajouté le"
+          >
+          </app-table-head-sort>
+        </th>
         <th scope="col" class="d-print-none text-end">Actions</th>
       </tr>
     </thead>
@@ -112,7 +128,11 @@
 
       <!-- Documents mis en ligne par les structures -->
       <tr
-        *ngFor="let document of customStructureDocs; let i = index"
+        *ngFor="
+          let document of customStructureDocs
+            | sortArray : currentKey : sortValue;
+          let i = index
+        "
         [attr.aria-rowindex]="i + 1"
       >
         <td>
