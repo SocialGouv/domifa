@@ -1,29 +1,30 @@
-import { Directive, ElementRef, HostListener } from "@angular/core";
+import { Directive, ElementRef, HostListener, Renderer2 } from "@angular/core";
 
 import { stringCleaner } from "../../../shared/string-cleaner.service";
+import { NgControl } from "@angular/forms";
 
 @Directive({
   selector: "[appCleanStr]",
 })
 export class CleanStrDirective {
-  constructor(private readonly el: ElementRef) {}
-
-  @HostListener("keypress", ["$event"])
-  public onKeyPress(event: KeyboardEvent) {
-    return this.validateFields(event);
-  }
+  constructor(
+    private readonly el: ElementRef,
+    private renderer: Renderer2,
+    private control: NgControl
+  ) {}
 
   @HostListener("paste", ["$event"])
-  public blockPaste(event: KeyboardEvent) {
-    this.validateFields(event);
-  }
-
-  public validateFields(event: KeyboardEvent) {
-    setTimeout(() => {
-      this.el.nativeElement.value = stringCleaner.cleanString(
-        this.el.nativeElement.value
-      );
-      event.preventDefault();
-    }, 10);
+  @HostListener("input", ["$event"])
+  @HostListener("keypress", ["$event"])
+  onInputChange(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const cleanedValue = stringCleaner.cleanString(inputElement.value);
+    this.renderer.setProperty(inputElement, "value", cleanedValue);
+    this.renderer.setProperty(this.el.nativeElement, "value", cleanedValue);
+    this.control.control.setValue(cleanedValue, { emitEvent: false });
+    this.control.control.updateValueAndValidity({
+      onlySelf: true,
+      emitEvent: false,
+    });
   }
 }

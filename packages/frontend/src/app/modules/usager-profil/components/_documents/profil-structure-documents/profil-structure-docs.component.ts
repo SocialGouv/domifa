@@ -10,6 +10,7 @@ import {
   StructureDocTypesAvailable,
   UserStructure,
 } from "@domifa/common";
+import { UsagersFilterCriteriaSortValues } from "../../../../manage-usagers/components/usager-filter";
 
 @Component({
   selector: "app-profil-structure-docs",
@@ -29,6 +30,9 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
 
   // Frontend variables
   public loadings: string[];
+
+  public sortValue: UsagersFilterCriteriaSortValues = "desc";
+  public currentKey: keyof StructureDoc = "createdAt";
 
   constructor(
     private readonly documentService: DocumentService,

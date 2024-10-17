@@ -1,14 +1,12 @@
 <span
-  class="doc-icon"
   aria-hidden="true"
-  [ngClass]="STRUCTURE_DOC_ICONS[document.filetype]"
+  [ngClass]="'doc-icon icon-' + STRUCTURE_DOC_ICONS[document.filetype].iconName"
 >
   <fa-icon
     aria-hidden="true"
     [icon]="STRUCTURE_DOC_ICONS[document.filetype]"
   ></fa-icon>
 </span>
-
 <span class="visually-hidden">
   {{ STRUCTURE_DOC_EXTENSIONS_LABELS[document.filetype] }}
 </span>

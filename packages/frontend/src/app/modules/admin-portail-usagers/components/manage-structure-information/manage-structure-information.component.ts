@@ -36,8 +36,6 @@ export class ManageStructureInformationComponent implements OnInit {
     this.loading = false;
     this.structureInformation = [];
     this.selectedStructureInformation = null;
-
-    console.log(STRUCTURE_INFORMATION_TYPES);
   }
 
   ngOnInit(): void {

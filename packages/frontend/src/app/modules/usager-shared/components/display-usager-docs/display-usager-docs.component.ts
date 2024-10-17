@@ -8,6 +8,7 @@ import { saveAs } from "file-saver";
 import { Subscription } from "rxjs";
 import { UsagerDoc, UserStructure } from "@domifa/common";
 import { UsagersFilterCriteriaSortValues } from "../../../manage-usagers/components/usager-filter";
+import slug from "slug";
 
 @Component({
   selector: "app-display-usager-docs",
@@ -68,13 +69,12 @@ export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
             const extension = STRUCTURE_DOC_EXTENSIONS[doc.filetype];
             const newBlob = new Blob([blob], { type: doc.filetype });
 
-            saveAs(
-              newBlob,
+            const name =
               this.slugLabel(doc.label) +
-                "_" +
-                this.slugLabel(this.usager.nom + " " + this.usager.prenom) +
-                extension
-            );
+              "_" +
+              this.slugLabel(this.usager.nom + " " + this.usager.prenom) +
+              extension;
+            saveAs(newBlob, name);
             this.stopLoading("download", docIndex);
           },
           error: () => {
@@ -105,15 +105,14 @@ export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
   }
 
   private slugLabel(docName: string): string {
-    docName = docName.trim().toLowerCase();
-    docName = docName.replace(/\W/g, "_");
-    docName = docName.replace(/-+/g, "_");
-    docName = docName.replace("_l_", "_");
-    docName = docName.replace("_d_", "_");
-    docName = docName.replace("_a_", "_");
-    docName = docName.replace("_n_", "_");
-    docName = docName.replace(/__/g, "_");
-    return docName;
+    return slug(docName, {
+      mode: "rfc3986" as const,
+      lower: true,
+      replacement: "-",
+      locale: "fr",
+      trim: true,
+      remove: /[.]/g, // Supprime tous les points
+    });
   }
 
   private startLoading(

@@ -15,7 +15,7 @@ import {
 import { Subscription } from "rxjs";
 
 import { StructureDocService } from "../../services/structure-doc.service";
-import { validateUpload } from "../../../../shared";
+import { NoWhiteSpaceValidator, validateUpload } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
 
 @Component({
@@ -31,10 +31,10 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   @Output()
-  public cancel = new EventEmitter<void>();
+  public readonly cancel = new EventEmitter<void>();
 
   @Output()
-  public getAllStructureDocs = new EventEmitter<void>();
+  public readonly getAllStructureDocs = new EventEmitter<void>();
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
@@ -44,7 +44,7 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.uploadForm = this.formBuilder.group({
-      label: ["", [Validators.required]],
+      label: ["", [Validators.required, NoWhiteSpaceValidator]],
       file: ["", [Validators.required]],
       fileSource: [
         "",

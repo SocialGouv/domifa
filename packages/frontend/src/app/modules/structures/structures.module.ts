@@ -20,6 +20,7 @@ import { StructuresUploadDocsComponent } from "./components/structures-upload-do
 import { StructuresRoutingModule } from "./structures-routing.module";
 import { GeneralModule } from "../general/general.module";
 import { SortArrayPipe } from "../shared/pipes";
+import { DisplayTableImageComponent } from "../shared/components/display-table-image/display-table-image.component";
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { SortArrayPipe } from "../shared/pipes";
     GeneralModule,
     StructuresRoutingModule,
     SortArrayPipe,
+    DisplayTableImageComponent,
   ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
