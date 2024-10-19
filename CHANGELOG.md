@@ -1,3 +1,10 @@
+## [2.178.3](https://github.com/SocialGouv/domifa/compare/v2.178.2...v2.178.3) (2024-10-19)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @sentry/browser to v8.33.0 [security] ([16a0b4e](https://github.com/SocialGouv/domifa/commit/16a0b4eed79c23059c310810ce34805dc752cf67))
+
 ## [2.178.2](https://github.com/SocialGouv/domifa/compare/v2.178.1...v2.178.2) (2024-10-17)
 
 
