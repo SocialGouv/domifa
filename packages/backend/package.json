@@ -98,7 +98,7 @@
     "sanitize-filename": "^1.6.3",
     "sanitize-html": "^2.13.0",
     "sharp": "^0.33.5",
-    "slug": "^9.1.0",
+    "slug": "^10.0.0",
     "sort-object": "^3.0.3",
     "source-map-support": "^0.5.21",
     "striptags": "^3.2.0",
