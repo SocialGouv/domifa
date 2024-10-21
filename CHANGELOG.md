@@ -1,3 +1,15 @@
+# [2.179.0](https://github.com/SocialGouv/domifa/compare/v2.178.3...v2.179.0) (2024-10-21)
+
+
+### Bug Fixes
+
+* **mon-domifa:** fix unit tests ([dbecb46](https://github.com/SocialGouv/domifa/commit/dbecb4635c5d1ad02e5a360b1dbc6a7eecfa81f7))
+
+
+### Features
+
+* **mon-domifa:** add new links of partners ([97c8a86](https://github.com/SocialGouv/domifa/commit/97c8a86d1b7a6e56a09c9ffb108213f10d30cedb))
+
 ## [2.178.3](https://github.com/SocialGouv/domifa/compare/v2.178.2...v2.178.3) (2024-10-19)
 
 
