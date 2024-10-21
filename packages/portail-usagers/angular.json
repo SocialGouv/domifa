@@ -26,7 +26,6 @@
             "assets": ["src/assets", "src/robots.txt"],
             "styles": [
               "src/styles.scss",
-              "src/assets/css/bootstrap-custom.css",
               "src/assets/css/print.css",
               "src/assets/css/icons.css",
               "src/assets/css/forms.css",
