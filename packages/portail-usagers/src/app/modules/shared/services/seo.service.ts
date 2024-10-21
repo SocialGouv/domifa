@@ -29,7 +29,7 @@ export class SeoService {
   public createLinkForCanonicalURL(): void {
     const link: HTMLLinkElement = this.doc.createElement("link");
     let element: HTMLLinkElement | null =
-      this.doc.querySelector(`link[rel='canonical']`) ?? null;
+      this.doc.querySelector("link[rel='canonical']") ?? null;
     if (!element) {
       element = this.doc.createElement("link") as HTMLLinkElement;
       this.doc.head.appendChild(link);
@@ -41,7 +41,7 @@ export class SeoService {
   public generateMetasTags(title: string, description: string): void {
     description =
       description.length > 155
-        ? description.substring(0, 155) + "..."
+        ? `${description.substring(0, 155)}...`
         : description;
 
     const tags: MetaDefinition[] = [

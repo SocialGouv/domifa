@@ -1,5 +1,5 @@
-<div *ngIf="usager" class="py-3">
-  <h2 class="content section-title">Votre domiciliation</h2>
+<div *ngIf="usager">
+  <h2 class="section-title">Votre domiciliation</h2>
   <div class="content section-content">
     <div class="py-2">
       <div
@@ -112,34 +112,4 @@
     </div>
   </div>
 </div>
-
-<div *ngIf="usager" class="py-3">
-  <h2 class="content section-title">Liens utiles</h2>
-
-  <div class="content section-content">
-    <p>
-      Découvrez les aides et prestations sociales auxquelles vous êtes éligibles
-      en vous rendant sur le site AidesJeunes
-    </p>
-    <div class="mt-2 d-flex align-items-center">
-      <div class="section-icon">
-        <fa-icon [icon]="['fas', 'link']" aria-hidden="true"></fa-icon>
-      </div>
-      <div>
-        <p class="py-1 my-0 fw-bold">
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://mes-aides.1jeune1solution.beta.gouv.fr/?utm_source=domifa"
-            >Aides 1 jeune 1 solution
-            <fa-icon
-              class="ms-2"
-              [icon]="['fas', 'arrow-up-right-from-square']"
-              aria-hidden="true"
-            ></fa-icon
-          ></a>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+<app-section-options [usager]="usager"></app-section-options>

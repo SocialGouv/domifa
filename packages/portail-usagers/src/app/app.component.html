@@ -73,9 +73,13 @@
 <main role="main" id="page">
   <router-outlet></router-outlet>
   <div *ngIf="usagerProfile" class="py-4 text-center">
-    <button (click)="logout()" class="btn btn-outline-primary" type="button">
-      <fa-icon aria-hidden="true" [icon]="['far', 'comment']"></fa-icon> Me
-      déconnecter
+    <button
+      (click)="logout()"
+      class="btn btn-outline-primary px-5"
+      type="button"
+    >
+      Me déconnecter
+      <fa-icon aria-hidden="true" [icon]="faRightFromBracket"></fa-icon>
     </button>
   </div>
 </main>
@@ -257,7 +261,7 @@
 <ng-template #newsModal let-modal>
   <div class="modal-header">
     <span id="modal-title">
-      🎉 Des nouveautés sont disponibles sur la plateforme
+      🎉 Des nouveautés sont disponibles sur la Mon DomiFa
     </span>
     <button
       class="btn-close"
