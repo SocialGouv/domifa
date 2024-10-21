@@ -8,6 +8,7 @@ import { PortailUsagerProfile } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 import DOMIFA_NEWS from "../assets/files/news.json";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-root",
@@ -20,6 +21,7 @@ export class AppComponent implements OnInit {
   public usagerProfile: PortailUsagerProfile | null;
   public currentUrl = "";
   public readonly partnerLinks = LIENS_PARTENAIRES;
+  public readonly faRightFromBracket = faRightFromBracket;
   public pendingNews = false;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public news: any;
@@ -113,26 +115,23 @@ export class AppComponent implements OnInit {
     this.router.events
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .pipe(filter((e: any) => e instanceof NavigationEnd))
-      .subscribe((ev: Event) => {
+      .subscribe((ev: NavigationEnd) => {
         const event = ev as unknown as NavigationEnd;
         const splitUrl = event?.url.split("#");
         this.currentUrl = splitUrl[0];
 
-        const sections = ["page", "footer"];
         if (typeof splitUrl[1] !== "undefined") {
-          if (sections.indexOf(splitUrl[1]) !== -1) {
-            const fragment = splitUrl[1];
-            const element = document.getElementById(fragment);
-            if (element) {
-              element.tabIndex = -1;
-              element.focus();
-            }
+          const fragment = splitUrl[1];
+          const element = document.getElementById(fragment);
+          if (element) {
+            element.tabIndex = -1;
+            element.focus();
           }
         } else {
-          this.currentUrl = event.url.split("#")[0];
-          // Retour au top du curseur
+          this.currentUrl = event.url;
           const mainHeader = document.getElementById("top-site");
           if (mainHeader) {
+            mainHeader.tabIndex = -1;
             mainHeader.focus();
           }
 

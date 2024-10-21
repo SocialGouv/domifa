@@ -21,7 +21,7 @@ import {
 
 @Component({
   selector: "app-usager-login",
-  styleUrls: ["./usager-login.component.css"],
+  styleUrls: ["./usager-login.component.scss"],
   templateUrl: "./usager-login.component.html",
 })
 export class UsagerLoginComponent implements OnInit, OnDestroy {

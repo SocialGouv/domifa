@@ -21,10 +21,6 @@ html {
   padding-left: 1rem !important;
 }
 
-.container {
-  max-width: 1350px;
-}
-
 .modal-backdrop.show {
   opacity: 0.75;
 }
@@ -74,7 +70,6 @@ html {
   font-style: normal;
   font-weight: bold;
   font-size: 1.35rem;
-  padding: 0 0.8rem;
   color: var(--bs-primary);
 }
 
@@ -109,4 +104,128 @@ html {
 .page-content {
   background-color: white;
   border-radius: 3px;
+}
+
+.alert {
+  position: relative;
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  word-break: break-word;
+  padding: 0.75rem;
+
+  div,
+  span {
+    padding-left: 5px;
+    flex-shrink: 1;
+    align-self: center;
+  }
+  p {
+    margin: auto 0 !important;
+  }
+
+  .svg-icon {
+    display: table-cell;
+    margin-right: 10px;
+    width: 35px;
+    height: 35px;
+    padding: 6px;
+    box-sizing: border-box;
+    -webkit-mask-size: 98%;
+    mask-size: 98%;
+  }
+}
+
+.close {
+  opacity: 1 !important;
+}
+
+.modal-title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.4rem;
+  margin-bottom: 0.2rem;
+  margin-top: 0.2rem;
+}
+
+.alert-warning .svg-icon {
+  background-color: #f0870c;
+}
+
+.alert-danger .svg-icon {
+  background-color: #f00c0c;
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.alert-success hr {
+  border-top-color: #b1dfbb;
+}
+
+.alert-success .alert-link {
+  color: #0b2e13;
+}
+
+.alert-info {
+  color: #000000;
+  background-color: #e1ecff;
+  border-color: #a4c7ff;
+}
+
+.alert-info hr {
+  border-color: #a4c7ff;
+}
+.alert-info .svg-icon {
+  background-color: var(--bs-primary);
+}
+
+.alert-info .alert-link {
+  color: #062c33;
+}
+
+.alert-warning {
+  color: black;
+  background-color: #fff9f4;
+  border-color: #ffe1c6;
+}
+
+.alert-warning hr {
+  border-top-color: #ffe1c6;
+}
+
+.alert-warning .alert-link {
+  color: #533f03;
+}
+
+.alert-danger {
+  color: black;
+  background-color: #fff4f5;
+  border-color: #ffcccf;
+}
+
+.alert-danger hr {
+  border-top-color: #f1b0b7;
+}
+
+.alert-danger .alert-link {
+  color: #491217;
+}
+
+#modal-title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.4rem;
+  margin-bottom: 0.2rem;
+  margin-top: 0.2rem;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 720px;
+    margin: 1.75rem auto;
+  }
 }

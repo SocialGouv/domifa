@@ -13,6 +13,8 @@ import {
 @Component({
   selector: "app-section-infos",
   templateUrl: "./section-infos.component.html",
+
+  styleUrl: "./section-infos.component.scss",
 })
 export class SectionInfosComponent implements OnInit {
   public readonly USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;

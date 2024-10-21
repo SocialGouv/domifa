@@ -1,10 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 
-import { UsagerNomCompletPipe } from "./pipes/usager-nom-complet.pipe";
-
-import { FormatInternationalPhoneNumberPipe } from "./pipes/formatInternationalPhoneNumber.pipe";
-
 import {
   FaIconLibrary,
   FontAwesomeModule,
@@ -12,21 +8,11 @@ import {
 import { FA_ICONS } from "./constants/FA_ICONS.const";
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 import { SeoService } from "./services/seo.service";
-import { ReplaceLineBreaks } from "./pipes";
+import { ReplaceLineBreaks } from "./pipes/nl2br.pipe";
 
 @NgModule({
-  declarations: [
-    UsagerNomCompletPipe,
-    FormatInternationalPhoneNumberPipe,
-    CustomToastrComponent,
-    ReplaceLineBreaks,
-  ],
-  exports: [
-    UsagerNomCompletPipe,
-    FormatInternationalPhoneNumberPipe,
-    CustomToastrComponent,
-    ReplaceLineBreaks,
-  ],
+  declarations: [CustomToastrComponent, ReplaceLineBreaks],
+  exports: [CustomToastrComponent, ReplaceLineBreaks],
   providers: [SeoService],
   imports: [CommonModule, FontAwesomeModule],
 })
