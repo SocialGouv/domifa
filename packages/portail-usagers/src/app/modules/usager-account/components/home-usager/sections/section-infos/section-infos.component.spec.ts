@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { SectionInfosComponent } from "./section-infos.component";
 import { SharedModule } from "../../../../../shared/shared.module";
+import { FormatInternationalPhoneNumberPipe } from "../../../../pipes";
 
 describe("SectionInfosComponent", () => {
   let component: SectionInfosComponent;
@@ -10,7 +11,7 @@ describe("SectionInfosComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SharedModule],
+      imports: [SharedModule, FormatInternationalPhoneNumberPipe],
       declarations: [SectionInfosComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
