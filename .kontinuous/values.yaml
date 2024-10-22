@@ -75,6 +75,10 @@ backend-export:
       cpu: 3
       memory: 3Gi
   startupProbe:
+    httpGet:
+      path: /healthz
+      port: http
+      scheme: HTTP
     initialDelaySeconds: 30
     failureThreshold: 50
     periodSeconds: 10
@@ -137,6 +141,10 @@ backend-cron:
       cpu: 1.5
       memory: 2Gi
   startupProbe:
+    httpGet:
+      path: /healthz
+      port: http
+      scheme: HTTP
     initialDelaySeconds: 30
     failureThreshold: 100
     periodSeconds: 60
