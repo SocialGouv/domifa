@@ -16,6 +16,10 @@ backend:
       cpu: 3
       memory: 3Gi
   startupProbe:
+    httpGet:
+      path: /healthz
+      port: http
+      scheme: HTTP
     initialDelaySeconds: 30
     failureThreshold: 50
     periodSeconds: 10
