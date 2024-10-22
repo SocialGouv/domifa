@@ -36,6 +36,7 @@ import { TableHeadSortComponent } from "../shared/components/table-head-sort/tab
 import { SortArrayPipe } from "../shared/pipes";
 import { DisplayTableImageComponent } from "../shared/components/display-table-image/display-table-image.component";
 import { UsagerNomCompletPipe } from "./pipes";
+import { EditUsagerDocComponent } from "./components/edit-usager-doc/edit-usager-doc.component";
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { UsagerNomCompletPipe } from "./pipes";
     SetInteractionInFormComponent,
     SetInteractionOutFormComponent,
     UploadComponent,
+    EditUsagerDocComponent,
   ],
   imports: [
     CommonModule,

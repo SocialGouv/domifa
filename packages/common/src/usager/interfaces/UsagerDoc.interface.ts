@@ -11,4 +11,5 @@ export interface UsagerDoc extends AppEntity {
   usagerRef: number;
   encryptionContext?: string;
   encryptionVersion?: number;
+  shared: boolean;
 }
