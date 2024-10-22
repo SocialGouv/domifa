@@ -13,39 +13,44 @@
           >
         </h1>
       </div>
-      <div class="col-2">
-        <app-admin-structures-export></app-admin-structures-export>
-      </div>
     </div>
 
     <label for="search"
       >Recherche par #ID, nom, région, département, email...</label
     >
-    <div id="searchbar" class="mt-4 d-flex">
-      <span
-        class="icon"
-        id="search_icon"
-        *ngIf="filters?.searchString?.trim() === ''"
-      >
-        <fa-icon aria-hidden="true" [icon]="['fas', 'search']"></fa-icon>
-      </span>
-      <span
-        class="icon"
-        id="times_icon"
-        *ngIf="filters?.searchString?.trim() !== ''"
-        (click)="updateSearch('')"
-      >
-        <fa-icon aria-hidden="true" [icon]="['fas', 'times']"></fa-icon>
-      </span>
+    <div class="row">
+      <div class="col-10">
+        <div id="searchbar" class="d-flex">
+          <span
+            class="icon"
+            id="search_icon"
+            *ngIf="filters?.searchString?.trim() === ''"
+          >
+            <fa-icon aria-hidden="true" [icon]="['fas', 'search']"></fa-icon>
+          </span>
+          <span
+            class="icon"
+            id="times_icon"
+            *ngIf="filters?.searchString?.trim() !== ''"
+            (click)="updateSearch('')"
+          >
+            <fa-icon aria-hidden="true" [icon]="['fas', 'times']"></fa-icon>
+          </span>
 
-      <input
-        class="flex-grow-1 form-control"
-        type="text"
-        autofocus
-        id="search"
-        [ngModel]="filters.searchString"
-        (input)="onSearchChange($event)"
-      />
+          <input
+            class="flex-grow-1 form-control"
+            type="text"
+            autofocus
+            id="search"
+            [ngModel]="filters.searchString"
+            (input)="onSearchChange($event)"
+          />
+        </div>
+      </div>
+
+      <app-admin-structures-export
+        class="d-grid col-2"
+      ></app-admin-structures-export>
     </div>
     <app-admin-structures-table
       *ngIf="this.filteredStructuresVM"

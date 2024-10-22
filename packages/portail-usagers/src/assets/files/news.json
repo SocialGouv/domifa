@@ -1,5 +1,18 @@
 [
   {
+    "date": "2024-10-22",
+    "description": "Plus d'informations sur votre portail",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Ajout des liens vers \"Mes droits sociaux\" et \"Soliguide\"",
+        "message": [
+          "Vous pouvez accéder aux plateformes \"Mes droits sociaux\" et \"Soliguide\" depuis les liens d'accès directs disponibles dans la partie lien utiles de votre portail."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-10-20",
     "description": "📩 Votre structure vous informe",
     "content": [

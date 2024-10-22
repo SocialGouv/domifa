@@ -1,5 +1,25 @@
 [
   {
+    "date": "2024-10-22",
+    "description": "Nouveautés et améliorations diverses sur DomiFa",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Affichage de liens utiles sur le portail domicilié",
+        "message": [
+          "Les domiciliés pourront consulter depuis leurs espaces les sites \"Mes droits sociaux\" et \"Soliguide\""
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Ajout de tri dans les informations des documents structures et pièces jointes domiciliés",
+        "message": [
+          "Vous pouvez désormais trier les documents par l'ordre alphabétique de leur intitulé ainsi que par leur date d'ajout"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-10-02",
     "description": "Nouveautés et améliorations diverses sur DomiFa",
     "content": [
