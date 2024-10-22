@@ -1,3 +1,10 @@
+# [2.180.0](https://github.com/SocialGouv/domifa/compare/v2.179.0...v2.180.0) (2024-10-22)
+
+
+### Features
+
+* **mon-domifa:** update links ([daec169](https://github.com/SocialGouv/domifa/commit/daec169c82cbcbd29a3cfb8d666ac5165109761f))
+
 # [2.179.0](https://github.com/SocialGouv/domifa/compare/v2.178.3...v2.179.0) (2024-10-21)
 
 
