@@ -1,3 +1,11 @@
+## [2.180.1](https://github.com/SocialGouv/domifa/compare/v2.180.0...v2.180.1) (2024-10-22)
+
+
+### Bug Fixes
+
+* add (more) startup probe handler to fix related error in Kontinuous ([103f550](https://github.com/SocialGouv/domifa/commit/103f55009ceb4ef7d23c18cccc96f433a76d9f67))
+* add startup probe handler to fix related error in Kontinuous ([f4f3819](https://github.com/SocialGouv/domifa/commit/f4f3819c2d0a0b31fcc3af49029dbcf13d9718cf))
+
 # [2.180.0](https://github.com/SocialGouv/domifa/compare/v2.179.0...v2.180.0) (2024-10-22)
 
 
