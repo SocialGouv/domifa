@@ -1,4 +1,3 @@
-import { UsagerFormModel } from "./../../interfaces/UsagerFormModel";
 import {
   Component,
   EventEmitter,
@@ -17,7 +16,12 @@ import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
 import { DocumentService } from "../../services/document.service";
-import { UploadResponseType, validateUpload } from "../../../../shared";
+import {
+  NoWhiteSpaceValidator,
+  UploadResponseType,
+  validateUpload,
+} from "../../../../shared";
+import { UsagerFormModel } from "../../interfaces";
 
 @Component({
   selector: "app-upload",
@@ -30,7 +34,7 @@ export class UploadComponent implements OnInit, OnDestroy {
   public uploadResponse: UploadResponseType;
   public uploadForm!: UntypedFormGroup;
 
-  @Output() public getUsagerDocs = new EventEmitter<void>();
+  @Output() public readonly getUsagerDocs = new EventEmitter<void>();
   @Input() public usager!: UsagerFormModel;
   @Input() public edit!: boolean;
 
@@ -52,7 +56,10 @@ export class UploadComponent implements OnInit, OnDestroy {
     this.uploadForm = this.formBuilder.group({
       fileSource: ["", [Validators.required, validateUpload("USAGER_DOC")]],
       file: ["", [Validators.required]],
-      label: ["", Validators.required],
+      label: [
+        "",
+        [Validators.required, NoWhiteSpaceValidator, Validators.minLength(2)],
+      ],
     });
   }
 
