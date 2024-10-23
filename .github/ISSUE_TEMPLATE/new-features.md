@@ -3,7 +3,7 @@
 ## 🖥️ Sites concernés
 - [ ] DomiFa - côté structures
 - [ ] Mon DomiFa - portail domiciliés
-- [ ] Admin DomiFa
+- [ ] Administation DomiFa
 - [ ] Metabase
 
 ## 🔍 Contexte de la demande: situation actuelle, besoin exprimé, rappel de l'irritant
@@ -12,16 +12,26 @@
 ## 🎯 Objectif et Spécifications
 [Expliquez l'objectif principal de cette fonctionnalité et détaillez les spécifications techniques ou fonctionnelles]
 
+## 📍 Impacts potentiels
+- [ ] Inscription / modification de la structure
+- [ ] Connexion / Inscription des utilisateurs
+- [ ] Import de domiciliés
+- [ ] Instruction et validation d'une demande / refus / radiation de domiciliation
+- [ ] Liste des domiciliés: recherche, ajout d'interaction, etc
+- [ ] Dossier des domiciliés: entretien, procurations, historiques, etc
+- [ ] Documents personnalisés: upload & téléchargement
+- [ ] Génération de Cerfa
+- [ ] Statistiques de la structure / stats publiques
+- [ ] Dashboard DGCS / Stats équipe
+- [ ] Export des domiciliés
+- [ ] Envoi de SMS
+- [ ] Mon DomiFa
+
 ## 💯 Tests à réaliser
 - [Premier test]
 - [Deuxième test]
 - [...]
 
-## 📍 Impacts potentiels
-- [ ] Documents personnalisés
-- [ ] Statistiques
-- [ ] Génération de PDF
-- [ ] Inscription
-- [ ] Dashboard Metabase
-- [ ] Import de domiciliés
-- [ ] Export
+## 📈 Indicateur / Mesure d'impact
+- [ ] 
+- [ ] 
