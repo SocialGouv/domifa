@@ -11,6 +11,7 @@ import {
   StructureDocTypesAvailable,
   UsagerDoc,
 } from "@domifa/common";
+import { DocumentPatchForm } from "../components/edit-usager-doc/edit-usager-doc.component";
 
 @Injectable({
   providedIn: "root",
@@ -128,10 +129,20 @@ export class DocumentService {
     );
   }
 
-  // Liste des documents
   public getAllStructureDocs(): Observable<StructureDoc[]> {
     return this.http.get<StructureDoc[]>(
       `${environment.apiUrl}structure-docs/`
+    );
+  }
+
+  public patchDocument(
+    doc: DocumentPatchForm,
+    usagerRef: number,
+    uuid: string
+  ): Observable<boolean> {
+    return this.http.patch<boolean>(
+      `${this.endPoint}/${usagerRef}/${uuid}`,
+      doc
     );
   }
 }
