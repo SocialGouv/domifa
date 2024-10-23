@@ -1,6 +1,9 @@
 name: 🐞 Ticket de Bug
 description: Signaler un bug sur l'une des applications DomiFa
+title: "🐞 Bug -  "
 labels: ["bug"]
+assignees:
+  - pYassine
 body:
   - type: markdown
     attributes:
@@ -17,6 +20,7 @@ body:
         - Mon DomiFa - portail domiciliés
         - Admin DomiFa
         - Metabase
+      default: 0
     validations:
       required: true
 
