@@ -9,29 +9,32 @@
 ## 🔍 Contexte de la demande: situation actuelle, besoin exprimé, rappel de l'irritant
 [Décrivez ici le problème que cette fonctionnalité vise à résoudre]
 
-## 🎯 Objectif et Spécifications
+## 🎯 Objectifs et spécifications
 [Expliquez l'objectif principal de cette fonctionnalité et détaillez les spécifications techniques ou fonctionnelles]
 
 ## 📍 Impacts potentiels
+### Structures & utilisateurs
 - [ ] Inscription / modification de la structure
 - [ ] Connexion / Inscription des utilisateurs
 - [ ] Import de domiciliés
+### Gestion des domiciliés
 - [ ] Instruction et validation d'une demande / refus / radiation de domiciliation
 - [ ] Liste des domiciliés: recherche, ajout d'interaction, etc
 - [ ] Dossier des domiciliés: entretien, procurations, historiques, etc
 - [ ] Documents personnalisés: upload & téléchargement
 - [ ] Génération de Cerfa
 - [ ] Statistiques de la structure / stats publiques
+### Autres aspects
 - [ ] Dashboard DGCS / Stats équipe
 - [ ] Export des domiciliés
 - [ ] Envoi de SMS
 - [ ] Mon DomiFa
 
-## 💯 Tests à réaliser
-- [Premier test]
-- [Deuxième test]
-- [...]
+## 💯 Critères d'acception / tests à réaliser
+- [ ] [Premier test]
+- [ ] [Deuxième test]
 
-## 📈 Indicateur / Mesure d'impact
+
+## 📈 Indicateurs / Mesures d'impact
 - [ ] 
 - [ ] 
