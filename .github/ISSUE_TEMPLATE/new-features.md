@@ -17,11 +17,11 @@
 - [Deuxième test]
 - [...]
 
-## 📍 zones concernés 
+## 📍 Impacts potentiels
 - [ ] Documents personnalisés
 - [ ] Statistiques
 - [ ] Génération de PDF
 - [ ] Inscription
-
-## 📸 Maquettes éventuelles
-[Si applicable, ajoutez des captures d'écran ou des images de référence]
+- [ ] Dashboard Metabase
+- [ ] Import de domiciliés
+- [ ] Export
