@@ -3,11 +3,8 @@ description: "Problème à corriger / anomalie bloquante pour les utilisateurs"
 title: "🐞 Bug - "
 labels: ["bug"]
 assignees: ["pYassine"]
+projects: ["SocialGouv/81"]
 body:
-  - type: markdown
-    attributes:
-      value: "# 🐞 Ticket de bug"
-
   - type: checkboxes
     id: sites
     attributes:
@@ -26,8 +23,8 @@ body:
     id: description
     attributes:
       label: "🚫 Description du problème"
-      description: "Précisez les étapes pour reproduire directement"
-      placeholder: "Décrivez ce qui se passe actuellement"
+      description: "Précisez les étapes pour reproduire directement. \nVous pouvez glisser des captures d'écran directement dans ce champs. \n🧨 **IMPORTANT** : Veillez à masquer toute information personnelle ou confidentielle 🧨 "
+      placeholder: "Ex: L'utilisateur n'arrive pas à charger les dossiers, le mail de renouvellement de mot de passe n'arrive jamais, etc"
     validations:
       required: true
 
@@ -37,25 +34,6 @@ body:
       label: "Structure concernée (optionnel)"
       description: "ID uniquement, pas de donnée nominative"
       placeholder: "ex: 123"
-    validations:
-      required: false
-
-  - type: dropdown
-    id: environment
-    attributes:
-      label: "Environnement"
-      options:
-        - Production
-        - Recette
-    validations:
-      required: true
-
-  - type: textarea
-    id: screenshots
-    attributes:
-      label: "📸 Captures d'écran"
-      description: "🧨 **IMPORTANT** : Veillez à masquer toute information personnelle ou confidentielle 🧨 \n Glissez-déposez vos captures d'écran ici ou joignez-les au commentaire (formats acceptés : PNG, JPEG, GIF)"
-      placeholder: "Vous pouvez glisser-déposer vos images ici"
     validations:
       required: false
 

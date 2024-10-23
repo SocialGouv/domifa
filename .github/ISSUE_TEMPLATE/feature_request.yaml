@@ -3,11 +3,8 @@ description: "Toutes les améliorations envisagées"
 title: "✨ Feat - "
 labels: ["feature"]
 assignees: ["pYassine"]
+projects: ["SocialGouv/81"]
 body:
-  - type: markdown
-    attributes:
-      value: "# ✨ Ticket de fonctionnalité"
-
   - type: checkboxes
     id: sites
     attributes:
