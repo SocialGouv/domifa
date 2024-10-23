@@ -1,0 +1,106 @@
+name: "Nouvelle fonctionnalité"
+description: "Toutes les améliorations envisagées"
+title: "✨ Feat - "
+labels: ["feature"]
+assignees: ["pYassine"]
+body:
+  - type: markdown
+    attributes:
+      value: "# ✨ Ticket de fonctionnalité"
+
+  - type: checkboxes
+    id: sites
+    attributes:
+      label: "🖥️ Site(s) concerné(s)"
+      options:
+        - label: "DomiFa - côté structures"
+          required: false
+        - label: "Mon DomiFa - portail domiciliés"
+          required: false
+        - label: "Administration DomiFa"
+          required: false
+        - label: "Metabase"
+          required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: "🔍 Contexte"
+      description: "Situation actuelle, besoin exprimé, rappel de l'irritant"
+      placeholder: "Décrivez ici le problème que cette fonctionnalité vise à résoudre"
+    validations:
+      required: true
+
+  - type: textarea
+    id: objectives
+    attributes:
+      label: "🎯 Objectifs et spécifications"
+      placeholder: "Expliquez l'objectif principal de cette fonctionnalité et détaillez les spécifications techniques ou fonctionnelles"
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## 📍 Parties de l'application concernées"
+
+  - type: checkboxes
+    id: structures_users
+    attributes:
+      label: "Structures & utilisateurs"
+      options:
+        - label: "Inscription / modification de la structure"
+          required: false
+        - label: "Connexion / Inscription des utilisateurs"
+          required: false
+        - label: "Import de domiciliés"
+          required: false
+
+  - type: checkboxes
+    id: domicilies
+    attributes:
+      label: "Gestion des domiciliés"
+      options:
+        - label: "Instruction et validation d'une demande / refus / radiation de domiciliation"
+          required: false
+        - label: "Liste des domiciliés: recherche, ajout d'interaction, etc"
+          required: false
+        - label: "Dossier des domiciliés: entretien, procurations, historiques, etc"
+          required: false
+        - label: "Documents personnalisés: upload & téléchargement"
+          required: false
+        - label: "Génération de Cerfa"
+          required: false
+        - label: "Statistiques de la structure / stats publiques"
+          required: false
+
+  - type: checkboxes
+    id: other_aspects
+    attributes:
+      label: "Autres aspects"
+      options:
+        - label: "Dashboard DGCS / Stats équipe"
+          required: false
+        - label: "Export des domiciliés"
+          required: false
+        - label: "Envoi de SMS"
+          required: false
+        - label: "Mon DomiFa"
+          required: false
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: "💯 Critères d'acceptation / tests à réaliser"
+      placeholder: "- [ ] Premier test\n- [ ] Deuxième test"
+      value: "- [ ] "
+    validations:
+      required: true
+
+  - type: textarea
+    id: metrics
+    attributes:
+      label: "📈 Indicateurs / Mesures d'impact éventuels"
+      placeholder: "- [ ] Premier indicateur\n- [ ] Deuxième indicateur"
+      value: "- [ ] "
+    validations:
+      required: false
