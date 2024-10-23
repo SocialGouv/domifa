@@ -1,3 +1,10 @@
+# [2.181.0](https://github.com/SocialGouv/domifa/compare/v2.180.2...v2.181.0) (2024-10-23)
+
+
+### Features
+
+* **github:** update templates for issues ([3451b97](https://github.com/SocialGouv/domifa/commit/3451b9721a69e549a03c38f14b1067bd61fbe61a))
+
 ## [2.180.2](https://github.com/SocialGouv/domifa/compare/v2.180.1...v2.180.2) (2024-10-23)
 
 
