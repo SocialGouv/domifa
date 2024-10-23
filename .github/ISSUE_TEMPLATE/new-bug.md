@@ -1,25 +1,19 @@
 # 🐞 Ticket de Bug
 
-## 🚫 Comportement actuel
-[Décrivez ce qui se passe actuellement]
-
-## 🔮 Comportement attendu
-[Décrivez ce qui devrait se passer normalement]
-
-## 🔍 Étapes pour reproduire
-1. [Première étape]
-2. [Deuxième étape]
-3. [...]
-
-## 🖥️ Sites concernés
+## 🖥️ Site(s) concerné(s) (Liste déroulante)
 - [ ] DomiFa - côté structures
 - [ ] Mon DomiFa - portail domiciliés
 - [ ] Admin DomiFa
 - [ ] Metabase
 
+## 🚫 Description du problème: précisez les étapes pour reproduire directement
+[Décrivez ce qui se passe actuellement]
+
+## Structure concernée (ID) 
+
 ## 📸 Captures d'écran: 
 🧨 _Attention à n'indiquer aucune information d'identification_ 🧨
 [Si applicable, ajoutez des captures d'écran ici]
 
-## 📋 Informations supplémentaires
-[Ajoutez ici toute information supplémentaire pertinente]
+## 🔮 Comportement attendu
+[Décrivez ce qui devrait se passer normalement]
