@@ -1,3 +1,10 @@
+## [2.180.2](https://github.com/SocialGouv/domifa/compare/v2.180.1...v2.180.2) (2024-10-23)
+
+
+### Bug Fixes
+
+* **github:** update issues form ([4c29749](https://github.com/SocialGouv/domifa/commit/4c297495bb2f6aedae91165416b72be20b8144f9))
+
 ## [2.180.1](https://github.com/SocialGouv/domifa/compare/v2.180.0...v2.180.1) (2024-10-22)
 
 
