@@ -1,7 +1,12 @@
 export type LogAction =
+  // Docs
   | "USAGERS_DOCS_UPLOAD"
   | "USAGERS_DOCS_DOWNLOAD"
   | "USAGERS_DOCS_DELETE"
+  | "USAGERS_DOCS_RENAME"
+  | "USAGERS_DOCS_SHARED"
+
+  ///
   | "EXPORT_USAGERS"
   | "GET_STATS"
   | "EXPORT_STATS"

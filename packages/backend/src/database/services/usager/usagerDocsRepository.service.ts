@@ -1,6 +1,15 @@
-import { myDataSource } from "./../_postgres/appTypeormManager.service";
-import { UsagerDoc } from "./../../../_common/model/usager/UsagerDoc.type";
-import { UsagerDocsTable } from "./../../entities/usager/UsagerDocsTable.typeorm";
+import { UsagerDoc } from "@domifa/common";
+import { UsagerDocsTable } from "../../entities";
+import { myDataSource } from "../_postgres";
+
+export const USAGER_DOCS_FIELDS_TO_SELECT = {
+  filetype: true,
+  label: true,
+  uuid: true,
+  createdAt: true,
+  createdBy: true,
+  shared: true,
+};
 
 export const usagerDocsRepository = myDataSource
   .getRepository<UsagerDoc>(UsagerDocsTable)
@@ -11,13 +20,7 @@ export const usagerDocsRepository = myDataSource
           usagerRef,
           structureId,
         },
-        select: {
-          filetype: true,
-          label: true,
-          uuid: true,
-          createdAt: true,
-          createdBy: true,
-        },
+        select: USAGER_DOCS_FIELDS_TO_SELECT,
         order: {
           createdAt: "DESC",
         },

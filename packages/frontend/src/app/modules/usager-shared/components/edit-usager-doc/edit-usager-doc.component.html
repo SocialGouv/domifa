@@ -1,12 +1,24 @@
-<form [formGroup]="documentForm" (ngSubmit)="patchDocument()">
-  <div class="row">
-    <div class="col-md-12 col-12">
+<app-button
+  (action)="openModal()"
+  [ariaLabel]="'Modifier le document ' + doc.label"
+  content="Modifier"
+  icon="pencil"
+  color="outline-primary"
+  [loading]="loading"
+>
+</app-button>
+
+<ng-template #editDocumentModal let-modal>
+  <div class="modal-header">
+    <span id="modal-title">Modifier le document: {{ doc.label }}</span>
+  </div>
+  <div class="modal-body py-4">
+    <form [formGroup]="documentForm" (ngSubmit)="patchDocument()">
       <p>
         Les champs suivis d'un
         <span class="fw-bold text-danger">*</span> sont obligatoires
       </p>
-    </div>
-    <div class="col-md-5 col-12">
+
       <div class="form-group required">
         <label for="label">Nom du document</label>
         <input
@@ -29,49 +41,58 @@
           Le nom du document est obligatoire
         </p>
       </div>
-    </div>
-    <fieldset *ngIf="">
-      <legend>Partager le document avec le domicilié sur "Mon DomiFa".</legend>
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          formControlName="shared"
-          name="shared"
-          id="yes"
-          [value]="true"
-        />
-        <label class="form-check-label" for="yes">Oui</label>
+
+      <fieldset *ngIf="usager.options.portailUsagerEnabled">
+        <legend>
+          Partager le document avec le domicilié sur "Mon DomiFa".
+        </legend>
+
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="shared"
+            name="shared"
+            id="yes"
+            [value]="true"
+          />
+          <label class="form-check-label" for="yes">Oui</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="shared"
+            name="shared"
+            id="no"
+            [value]="false"
+          />
+          <label class="form-check-label" for="no">Non</label>
+        </div>
+      </fieldset>
+
+      <div class="alert alert-info">
+        <b>Attention:</b> le domicilié pourra télécharger le document depuis un
+        ordinateur ou un téléphone
       </div>
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          formControlName="shared"
-          name="shared"
-          id="no"
-          [value]="false"
-        />
-        <label class="form-check-label" for="no">Non</label>
-      </div>
-    </fieldset>
-    <div class="col-md-2 col-12 my-2">
-      <button
-        type="submit"
-        class="btn btn-primary btn-block mt-4"
-        [disabled]="loading"
-        [attr.aria-busy]="loading"
-      >
-        <span *ngIf="!loading">Ajouter</span>
-        <span *ngIf="loading">
-          <fa-icon
-            [icon]="['fas', 'circle-notch']"
-            [spin]="true"
-            aria-hidden="true"
-          ></fa-icon>
-          Patientez...
-        </span>
-      </button>
-    </div>
+    </form>
   </div>
-</form>
+  <div class="text-end modal-footer">
+    <app-button
+      (action)="patchDocument()"
+      [ariaLabel]="'Valider la modification du document: ' + doc.label"
+      content="Valider"
+      color="primary mx-1 btn-lg"
+      [loading]="loading"
+    >
+    </app-button>
+
+    <button
+      type="button"
+      class="btn btn-outline-dark btn-lg me-2"
+      (click)="closeModals()"
+    >
+      Annuler
+    </button>
+  </div>
+</ng-template>

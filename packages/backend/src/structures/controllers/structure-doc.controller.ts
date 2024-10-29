@@ -131,10 +131,8 @@ export class StructureDocController {
       customDocType: structureDocDto.customDocType,
     });
 
-    // Ajout du document
     try {
       await structureDocRepository.insert(newDoc);
-
       const docs = await structureDocRepository.findBy({
         structureId: user.structureId,
       });

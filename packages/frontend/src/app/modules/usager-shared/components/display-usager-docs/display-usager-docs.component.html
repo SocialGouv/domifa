@@ -51,66 +51,50 @@
       <tr
         *ngFor="
           let document of docs | sortArray : currentKey : sortValue;
-          let indexDocs = index
+          let i = index
         "
-        [attr.aria-rowindex]="indexDocs + 1"
+        [attr.aria-rowindex]="i + 1"
       >
         <td class="align-middle">
           <app-display-table-image
             [document]="document"
           ></app-display-table-image>
         </td>
-        <td class="align-middle">{{ document.label }}</td>
+        <td class="align-middle">
+          {{ document.label }}
+          <span *ngIf="document.shared" class="label-info orange-status"
+            >⚠️ Document partagé sur Mon DomiFa</span
+          >
+        </td>
         <td class="align-middle">{{ document.createdBy }}</td>
         <td>
           {{ document.createdAt | date : "dd MMMM yyyy" }}
         </td>
         <td class="align-middle text-end d-print-none">
-          <button
-            type="button"
-            (click)="getDocument(indexDocs)"
-            class="m-1 btn btn-primary"
-            [disabled]="loadings.download.indexOf(indexDocs) !== -1"
+          <app-edit-usager-doc
+            [doc]="document"
+            (docChange)="updateDocument($event, i)"
+            [usager]="usager"
+          ></app-edit-usager-doc>
+          <app-button
+            (action)="getDocument(document)"
+            [ariaLabel]="'Télécharger le document ' + document.label"
+            content="Télécharger"
+            icon="download"
+            color="primary"
+            [loading]="document.loading"
           >
-            <span *ngIf="loadings.download.indexOf(indexDocs) !== -1"
-              ><fa-icon
-                [icon]="['fas', 'circle-notch']"
-                aria-hidden="true"
-                [spin]="true"
-              >
-              </fa-icon>
-              Patientez...</span
-            >
-            <span *ngIf="loadings.download.indexOf(indexDocs) === -1"
-              ><fa-icon
-                [icon]="['fas', 'download']"
-                aria-hidden="true"
-              ></fa-icon>
-              Télécharger</span
-            >
-          </button>
+          </app-button>
 
-          <button
-            type="button"
-            (click)="deleteDocument(indexDocs)"
-            class="m-1 btn btn-danger"
-            [disabled]="loadings.delete.indexOf(indexDocs) !== -1"
+          <app-button
+            (action)="deleteDocument(document)"
+            [ariaLabel]="'Supprimer le document ' + document.label"
+            content="Supprimer"
+            icon="trash"
+            color="danger"
+            [loading]="document.loading"
           >
-            <span *ngIf="loadings.delete.indexOf(indexDocs) !== -1"
-              ><fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'circle-notch']"
-                [spin]="true"
-              >
-              </fa-icon>
-
-              Patientez...</span
-            >
-            <span *ngIf="loadings.delete.indexOf(indexDocs) === -1">
-              <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
-              &nbsp; Supprimer</span
-            >
-          </button>
+          </app-button>
         </td>
       </tr>
     </tbody>

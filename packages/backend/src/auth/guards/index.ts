@@ -4,4 +4,5 @@ export * from "./CanGetUserStructure.guard";
 export * from "./interactions.guard";
 export * from "./structure-information-access.guard";
 export * from "./usager-access.guard";
+export * from "./usager-doc-access.guard";
 export * from "./usager-note-access.guard";

@@ -5,7 +5,7 @@ import { FILES_EXTENSIONS } from "./FILES_EXTENSIONS.const";
 import { randomBytes } from "crypto";
 import sanitizeFilename from "sanitize-filename";
 import sharp from "sharp";
-import { UsagerDoc } from "../../_common/model";
+import { UsagerDoc } from "@domifa/common";
 
 export const compressAndResizeImage = (
   usagerDoc: Pick<

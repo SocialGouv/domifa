@@ -14,19 +14,16 @@ import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { StructureDocService } from "../../services/structure-doc.service";
 import { StructureDoc, UserStructure } from "@domifa/common";
-import { DOMIFA_CUSTOM_DOCS } from "../../constants/DOMIFA_CUSTOM_DOCS.const";
+import { initializeLoadingState, WithLoading } from "../../../../shared";
 
 @Component({
   selector: "app-structures-custom-docs",
   templateUrl: "./structures-custom-docs.component.html",
 })
 export class StructuresCustomDocsComponent implements OnInit, OnDestroy {
-  // Documents simples
-  public structureDocs: StructureDoc[];
-  // Documents pré-remplis
-  public customStructureDocs: StructureDoc[];
+  public structureDocs: WithLoading<StructureDoc>[];
+  public customStructureDocs: WithLoading<StructureDoc>[];
 
-  public defaultStructureDocs: StructureDoc[];
   public me!: UserStructure | null;
 
   public isCustomDoc: boolean;
@@ -45,7 +42,6 @@ export class StructuresCustomDocsComponent implements OnInit, OnDestroy {
     this.structureDocs = [];
     this.customStructureDocs = [];
     this.isCustomDoc = false;
-    this.defaultStructureDocs = DOMIFA_CUSTOM_DOCS;
   }
 
   public ngOnInit(): void {
@@ -60,12 +56,12 @@ export class StructuresCustomDocsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.structureDocService.getAllStructureDocs().subscribe({
         next: (structureDocs: StructureDoc[]) => {
-          this.structureDocs = structureDocs.filter(
+          this.structureDocs = initializeLoadingState(structureDocs).filter(
             (structureDoc) => !structureDoc.custom
           );
-          this.customStructureDocs = structureDocs.filter(
-            (structureDoc) => structureDoc.custom
-          );
+          this.customStructureDocs = initializeLoadingState(
+            structureDocs
+          ).filter((structureDoc) => structureDoc.custom);
         },
         error: () => {
           this.toastService.error("Impossible d'afficher les documents");

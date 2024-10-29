@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString, MaxLength } from "class-validator";
-import { StripTagsTransform, Trim } from "../../_common/decorators";
+import { IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
+import { StripTagsTransform, Trim } from "../../../_common/decorators";
 
-export class UploadUsagerDocDto {
+export class PostUsagerDocDto {
   @ApiProperty({
     type: String,
     required: true,
@@ -10,6 +10,7 @@ export class UploadUsagerDocDto {
   })
   @IsNotEmpty()
   @MaxLength(100)
+  @MinLength(2)
   @IsString()
   @Trim()
   @StripTagsTransform()

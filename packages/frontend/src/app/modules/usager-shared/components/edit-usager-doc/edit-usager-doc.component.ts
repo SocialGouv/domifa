@@ -1,4 +1,13 @@
-import { Component, Input, OnInit } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
 import {
   UntypedFormGroup,
   AbstractControl,
@@ -9,28 +18,46 @@ import { Usager, UsagerDoc } from "@domifa/common";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "../../../shared/services";
 import { DocumentService } from "../../services";
-import { NoWhiteSpaceValidator } from "../../../../shared";
+import { NoWhiteSpaceValidator, WithLoading } from "../../../../shared";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 
 export type DocumentPatchForm = Pick<UsagerDoc, "label" | "shared">;
+
 @Component({
   selector: "app-edit-usager-doc",
   templateUrl: "./edit-usager-doc.component.html",
   styleUrls: ["./edit-usager-doc.component.css"],
 })
-export class EditUsagerDocComponent implements OnInit {
+export class EditUsagerDocComponent implements OnInit, OnDestroy {
   public submitted = false;
   public loading = false;
   public documentForm!: UntypedFormGroup;
   private subscription = new Subscription();
 
-  @Input() public document: UsagerDoc;
-  @Input() public usager: Pick<Usager, "ref">;
+  @Input() public usager: Pick<Usager, "ref" | "options">;
+  @Input() public doc: WithLoading<UsagerDoc>;
+  @Output() public readonly docChange = new EventEmitter<
+    WithLoading<UsagerDoc>
+  >();
+
+  @ViewChild("editDocumentModal", { static: true })
+  public editDocumentModal!: TemplateRef<NgbModalRef>;
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly documentService: DocumentService,
-    private readonly toastService: CustomToastService
+    private readonly toastService: CustomToastService,
+    private readonly modalService: NgbModal
   ) {}
+
+  public openModal(): void {
+    this.modalService.open(this.editDocumentModal, DEFAULT_MODAL_OPTIONS);
+  }
+
+  public closeModals(): void {
+    this.modalService.dismissAll();
+  }
 
   public get u(): { [key: string]: AbstractControl } {
     return this.documentForm.controls;
@@ -39,10 +66,15 @@ export class EditUsagerDocComponent implements OnInit {
   public ngOnInit(): void {
     this.documentForm = this.formBuilder.group({
       label: [
-        this.document.label,
-        [Validators.required, NoWhiteSpaceValidator, Validators.minLength(2)],
+        this.doc.label,
+        [
+          Validators.required,
+          NoWhiteSpaceValidator,
+          Validators.minLength(2),
+          Validators.maxLength(100),
+        ],
       ],
-      shared: [this.document.shared, Validators.required],
+      shared: [this.doc.shared, Validators.required],
     });
   }
 
@@ -52,16 +84,17 @@ export class EditUsagerDocComponent implements OnInit {
       return;
     }
 
+    this.loading = true;
+
     this.subscription.add(
       this.documentService
-        .patchDocument(
-          this.documentForm.value,
-          this.usager.ref,
-          this.document.uuid
-        )
+        .patchDocument(this.documentForm.value, this.usager.ref, this.doc.uuid)
         .subscribe({
-          next: () => {
+          next: (doc: UsagerDoc) => {
+            this.docChange.emit({ ...doc, loading: false });
             this.toastService.success("Fichier modifié avec succès");
+            this.loading = false;
+            this.closeModals();
           },
           error: () => {
             this.loading = false;
@@ -69,5 +102,9 @@ export class EditUsagerDocComponent implements OnInit {
           },
         })
     );
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

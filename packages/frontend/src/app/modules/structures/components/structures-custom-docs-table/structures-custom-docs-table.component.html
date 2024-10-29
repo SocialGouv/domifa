@@ -60,20 +60,8 @@
             [document]="document"
           ></app-display-table-image>
         </td>
-        <td *ngIf="!document.custom">
-          {{ document.label }}
-        </td>
-        <td *ngIf="document.custom">
-          <span *ngIf="document.customDocType === 'attestation_postale'"
-            >Attestation postale</span
-          >
-          <span *ngIf="document.customDocType === 'courrier_radiation'"
-            >Courrier de radiation</span
-          >
-          <span *ngIf="document.customDocType === 'autre'">{{
-            document.label
-          }}</span>
-        </td>
+        <td>{{ document.label }} --</td>
+
         <td class="align-middle">
           {{ document.createdBy.nom }} {{ document.createdBy.prenom }}
         </td>
@@ -81,54 +69,25 @@
           {{ document.createdAt | date : "dd MMMM yyyy" }}
         </td>
         <td class="align-middle text-end">
-          <button
-            type="button"
-            (click)="getStructureDoc(document)"
-            class="mx-1 my-1 btn btn-primary"
-            [disabled]="loadings.download.indexOf(document.uuid) !== -1"
-            aria-label="Télécharger la pièce jointe"
+          <app-button
+            (action)="getStructureDoc(document)"
+            [ariaLabel]="'Télécharger le document ' + document.label"
+            content="Télécharger"
+            icon="download"
+            color="primary"
+            [loading]="document.loading"
           >
-            <span *ngIf="loadings.download.indexOf(document.uuid) !== -1"
-              ><fa-icon
-                [icon]="['fas', 'circle-notch']"
-                [spin]="true"
-                aria-hidden="true"
-              >
-              </fa-icon>
-              Patientez...</span
-            >
-            <span *ngIf="loadings.download.indexOf(document.uuid) === -1"
-              ><fa-icon
-                [icon]="['fas', 'download']"
-                aria-hidden="true"
-              ></fa-icon>
-              Télécharger</span
-            >
-          </button>
+          </app-button>
 
-          <button
-            *ngIf="me.role === 'admin'"
-            type="button"
-            (click)="deleteStructureDoc(document)"
-            class="mx-1 my-1 btn btn-danger"
-            [disabled]="loadings.delete.indexOf(document.uuid) !== -1"
-            aria-label="Supprimer la pièce jointe"
+          <app-button
+            (action)="deleteStructureDoc(document)"
+            [ariaLabel]="'Supprimer le document ' + document.label"
+            content="Supprimer"
+            icon="trash"
+            color="danger"
+            [loading]="document.loading"
           >
-            <span *ngIf="loadings.delete.indexOf(document.uuid) !== -1"
-              ><fa-icon
-                [icon]="['fas', 'circle-notch']"
-                aria-hidden="true"
-                [spin]="true"
-              >
-              </fa-icon>
-              Patientez...</span
-            >
-
-            <span *ngIf="loadings.delete.indexOf(document.uuid) === -1"
-              ><fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
-              Supprimer</span
-            >
-          </button>
+          </app-button>
         </td>
       </tr>
     </tbody>

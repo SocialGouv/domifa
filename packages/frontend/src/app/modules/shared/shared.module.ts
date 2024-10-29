@@ -10,6 +10,7 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
 
 import { ReplaceLineBreaks } from "./pipes";
 import { DateFrDirective, CleanStrDirective } from "./directives";
+import { ButtonComponent } from "./components/button/button.component";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { DateFrDirective, CleanStrDirective } from "./directives";
     CleanStrDirective,
     CustomToastrComponent,
     ReplaceLineBreaks,
+    ButtonComponent,
   ],
   exports: [
     ReplaceLineBreaks,
@@ -24,6 +26,7 @@ import { DateFrDirective, CleanStrDirective } from "./directives";
     CleanStrDirective,
     CustomToastrComponent,
     FontAwesomeModule,
+    ButtonComponent,
   ],
   imports: [CommonModule, FontAwesomeModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

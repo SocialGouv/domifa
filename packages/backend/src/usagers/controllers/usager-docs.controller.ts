@@ -1,5 +1,3 @@
-import { UsagerDocsTable } from "./../../database/entities/usager/UsagerDocsTable.typeorm";
-import { usagerDocsRepository } from "./../../database/services/usager/usagerDocsRepository.service";
 import {
   Body,
   Controller,
@@ -9,6 +7,7 @@ import {
   Param,
   ParseIntPipe,
   ParseUUIDPipe,
+  Patch,
   Post,
   Res,
   UploadedFile,
@@ -20,10 +19,13 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 
-import { AllowUserStructureRoles } from "../../auth/decorators";
+import {
+  AllowUserStructureRoles,
+  CurrentUsagerDoc,
+} from "../../auth/decorators";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
-import { AppUserGuard } from "../../auth/guards";
+import { AppUserGuard, UsagerDocAccessGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
 
@@ -33,9 +35,9 @@ import {
   randomName,
   validateUpload,
 } from "../../util/file-manager/FileManager";
-import { UsagerDoc, UserStructureAuthenticated } from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
-import { UploadUsagerDocDto } from "../dto";
+import { PatchUsagerDocDto, PostUsagerDocDto } from "../dto";
 
 import crypto from "node:crypto";
 import { ExpressRequest } from "../../util/express";
@@ -48,7 +50,12 @@ import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 import { PassThrough, Readable } from "node:stream";
 import { join } from "node:path";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
-import { Usager } from "@domifa/common";
+import { Usager, UsagerDoc } from "@domifa/common";
+import {
+  USAGER_DOCS_FIELDS_TO_SELECT,
+  usagerDocsRepository,
+  UsagerDocsTable,
+} from "../../database";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("docs")
@@ -85,7 +92,7 @@ export class UsagerDocsController {
     @UploadedFile() file: Express.Multer.File,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager,
-    @Body() postData: UploadUsagerDocDto,
+    @Body() postData: PostUsagerDocDto,
     @Res() res: Response
   ) {
     const encryptionContext = crypto.randomUUID();
@@ -93,7 +100,7 @@ export class UsagerDocsController {
 
     const path = randomName(file);
 
-    const newDoc: UsagerDocsTable = {
+    const newDoc: UsagerDocsTable = new UsagerDocsTable({
       createdAt: new Date(),
       createdBy: userName,
       filetype: file.mimetype,
@@ -104,7 +111,7 @@ export class UsagerDocsController {
       usagerUUID: currentUsager.uuid,
       encryptionContext,
       encryptionVersion: 0,
-    };
+    });
 
     try {
       const filePath = join(
@@ -138,30 +145,72 @@ export class UsagerDocsController {
     return res.status(HttpStatus.OK).json(docs);
   }
 
-  @Delete(":usagerRef/:docUuid")
+  @Patch(":usagerRef/:docUuid")
+  @UseGuards(UsagerDocAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin")
-  public async deleteDocument(
-    @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
+  public async patchDocument(
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @Param("docUuid", new ParseUUIDPipe()) docUuid: string,
+    @Body() updatedDoc: PatchUsagerDocDto,
     @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentUsagerDoc() usagerDoc: UsagerDoc,
     @CurrentUsager() currentUsager: Usager,
     @Res() res: Response
   ) {
-    const doc = await usagerDocsRepository.findOneBy({
-      uuid: docUuid,
-      structureId: currentUsager.structureId,
-    });
-
-    if (!doc) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "DOC_NOT_FOUND" });
+    if (updatedDoc.shared && usagerDoc.shared !== updatedDoc.shared) {
+      await this.appLogsService.create({
+        userId: user.id,
+        usagerRef: currentUsager.ref,
+        structureId: user.structureId,
+        action: "USAGERS_DOCS_SHARED",
+      });
     }
 
-    await this.fileManagerService.deleteFile(doc.path);
+    if (usagerDoc.label !== updatedDoc.label) {
+      await this.appLogsService.create({
+        userId: user.id,
+        usagerRef: currentUsager.ref,
+        structureId: user.structureId,
+        action: "USAGERS_DOCS_RENAME",
+      });
+    }
+
+    await usagerDocsRepository.update(
+      {
+        uuid: docUuid,
+      },
+      {
+        label: updatedDoc.label,
+        shared: updatedDoc.shared,
+      }
+    );
+
+    const doc = await usagerDocsRepository.findOne({
+      where: {
+        uuid: docUuid,
+      },
+      select: USAGER_DOCS_FIELDS_TO_SELECT,
+    });
+
+    return res.status(HttpStatus.OK).json(doc);
+  }
+
+  @Delete(":usagerRef/:docUuid")
+  @UseGuards(UsagerDocAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin")
+  public async deleteDocument(
+    @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
+    @Param("docUuid", new ParseUUIDPipe()) _docUuid: string,
+    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentUsager() currentUsager: Usager,
+    @CurrentUsagerDoc() usagerDoc: UsagerDoc,
+
+    @Res() res: Response
+  ) {
+    await this.fileManagerService.deleteFile(usagerDoc.path);
 
     await usagerDocsRepository.delete({
-      uuid: doc.uuid,
+      uuid: usagerDoc.uuid,
     });
 
     await this.appLogsService.create({
@@ -185,7 +234,7 @@ export class UsagerDocsController {
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @CurrentUsager() currentUsager: Usager
   ): Promise<UsagerDoc[]> {
-    return usagerDocsRepository.getUsagerDocs(
+    return await usagerDocsRepository.getUsagerDocs(
       usagerRef,
       currentUsager.structureId
     );
@@ -200,13 +249,6 @@ export class UsagerDocsController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager
   ) {
-    await this.appLogsService.create({
-      userId: user.id,
-      usagerRef,
-      structureId: user.structureId,
-      action: "USAGERS_DOCS_DOWNLOAD",
-    });
-
     const doc = await usagerDocsRepository.findOneBy({
       uuid: docUuid,
       usagerRef,
@@ -228,6 +270,13 @@ export class UsagerDocsController {
 
     const mainSecret = domifaConfig().security.mainSecret;
     const body = await this.fileManagerService.getFileBody(filePath);
+
+    await this.appLogsService.create({
+      userId: user.id,
+      usagerRef,
+      structureId: user.structureId,
+      action: "USAGERS_DOCS_DOWNLOAD",
+    });
 
     try {
       return pipeline(

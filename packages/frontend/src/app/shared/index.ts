@@ -4,4 +4,5 @@ export * from "./bootstrap-util";
 export * from "./constants";
 export * from "./store";
 export * from "./string-cleaner.service";
+export * from "./utils";
 export * from "./validators";

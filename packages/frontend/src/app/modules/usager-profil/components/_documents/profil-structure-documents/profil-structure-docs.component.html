@@ -29,108 +29,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr
-        *ngIf="
-          usager?.echeanceInfos?.isActif &&
-          defaultStructureDocs?.attestation_postale
-        "
-      >
-        <td>
-          <app-display-table-image
-            [document]="defaultStructureDocs.attestation_postale"
-          ></app-display-table-image>
-        </td>
-        <td>Attestation postale</td>
-        <td>
-          {{ defaultStructureDocs.attestation_postale.createdBy.nom }}
-          {{ defaultStructureDocs.attestation_postale.createdBy.prenom }}
-        </td>
-        <td>
-          {{
-            defaultStructureDocs.attestation_postale.createdAt
-              | date : "dd MMMM yyyy"
-          }}
-        </td>
-        <td class="align-middle text-end">
-          <button
-            type="button"
-            (click)="getDomifaCustomDoc('attestation_postale')"
-            class="mx-1 my-1 btn btn-primary"
-            [disabled]="loadings.indexOf('attestation_postale') !== -1"
-          >
-            <span *ngIf="loadings.indexOf('attestation_postale') !== -1"
-              ><fa-icon
-                [icon]="['fas', 'circle-notch']"
-                [spin]="true"
-                aria-hidden="true"
-              ></fa-icon>
-              Patientez...</span
-            >
-            <span *ngIf="loadings.indexOf('attestation_postale') === -1"
-              ><fa-icon
-                [icon]="['fas', 'download']"
-                aria-hidden="true"
-              ></fa-icon>
-              Télécharger</span
-            >
-          </button>
-        </td>
-      </tr>
-      <tr
-        *ngIf="
-          usager.decision.statut === 'RADIE' &&
-          defaultStructureDocs?.courrier_radiation
-        "
-      >
-        <td>
-          <app-display-table-image
-            [document]="defaultStructureDocs.attestation_postale"
-          ></app-display-table-image>
-        </td>
-        <td>Courrier de radiation</td>
-        <td>
-          {{ defaultStructureDocs.courrier_radiation.createdBy.nom }}
-          {{ defaultStructureDocs.courrier_radiation.createdBy.prenom }}
-        </td>
-
-        <td>
-          {{
-            defaultStructureDocs.courrier_radiation.createdAt
-              | date : "dd MMMM yyyy"
-          }}
-        </td>
-
-        <td class="align-middle text-end d-print-none">
-          <button
-            type="button"
-            (click)="getDomifaCustomDoc('courrier_radiation')"
-            class="mx-1 my-1 btn btn-primary"
-            [disabled]="loadings.indexOf('courrier_radiation') !== -1"
-          >
-            <span *ngIf="loadings.indexOf('courrier_radiation') !== -1"
-              ><fa-icon
-                [icon]="['fas', 'circle-notch']"
-                [spin]="true"
-                aria-hidden="true"
-              ></fa-icon>
-              Patientez...</span
-            >
-            <span *ngIf="loadings.indexOf('courrier_radiation') === -1"
-              ><fa-icon
-                [icon]="['fas', 'download']"
-                aria-hidden="true"
-              ></fa-icon>
-              Télécharger</span
-            >
-          </button>
-        </td>
-      </tr>
-
       <!-- Documents mis en ligne par les structures -->
       <tr
         *ngFor="
-          let document of customStructureDocs
-            | sortArray : currentKey : sortValue;
+          let document of docs | sortArray : currentKey : sortValue;
           let i = index
         "
         [attr.aria-rowindex]="i + 1"
@@ -140,34 +42,23 @@
             [document]="document"
           ></app-display-table-image>
         </td>
-        <td>{{ document.label }}</td>
+        <td>
+          {{ document.label }}
+        </td>
         <td>{{ document.createdBy.nom }} {{ document.createdBy.prenom }}</td>
         <td>
           {{ document.createdAt | date : "dd MMMM yyyy" }}
         </td>
         <td class="align-middle text-end">
-          <button
-            type="button"
-            (click)="getStructureCustomDoc(document)"
-            class="mx-1 my-1 btn btn-primary"
-            [disabled]="loadings.indexOf(document.uuid) !== -1"
+          <app-button
+            (action)="getStructureCustomDoc(document)"
+            [ariaLabel]="'Télécharger le document ' + document.label"
+            content="Télécharger"
+            icon="download"
+            color="primary"
+            [loading]="document.loading"
           >
-            <span *ngIf="loadings.indexOf(document.uuid) !== -1"
-              ><fa-icon
-                [icon]="['fas', 'circle-notch']"
-                [spin]="true"
-                aria-hidden="true"
-              ></fa-icon>
-              Patientez...</span
-            >
-            <span *ngIf="loadings.indexOf(document.uuid) === -1"
-              ><fa-icon
-                [icon]="['fas', 'download']"
-                aria-hidden="true"
-              ></fa-icon>
-              Télécharger</span
-            >
-          </button>
+          </app-button>
         </td>
       </tr>
     </tbody>
