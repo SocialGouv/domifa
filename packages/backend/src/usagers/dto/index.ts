@@ -11,5 +11,5 @@ export * from "./procuration.dto";
 export * from "./rdv.dto";
 export * from "./search-usager.dto";
 export * from "./transfert.dto";
-export * from "./UploadUsagerDoc.dto";
+export * from "./usager-doc";
 export * from "./UsagerAyantDroitDto";

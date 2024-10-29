@@ -46,10 +46,7 @@
 
       <div
         class="col-md-12 form-group required"
-        *ngIf="
-          isCustomDoc === false ||
-          (isCustomDoc && f.customDocType.value === 'autre')
-        "
+        [ngClass]="{ 'd-none': f.customDocType.value !== 'autre' }"
       >
         <label for="label">Nom du document</label>
         <input

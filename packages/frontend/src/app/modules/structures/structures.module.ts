@@ -21,6 +21,7 @@ import { StructuresRoutingModule } from "./structures-routing.module";
 import { GeneralModule } from "../general/general.module";
 import { SortArrayPipe } from "../shared/pipes";
 import { DisplayTableImageComponent } from "../shared/components/display-table-image/display-table-image.component";
+import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { DisplayTableImageComponent } from "../shared/components/display-table-i
     StructuresRoutingModule,
     SortArrayPipe,
     DisplayTableImageComponent,
+    TableHeadSortComponent,
   ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

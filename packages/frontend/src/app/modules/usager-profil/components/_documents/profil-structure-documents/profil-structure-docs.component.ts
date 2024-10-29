@@ -6,11 +6,14 @@ import { DocumentService } from "../../../../usager-shared/services/document.ser
 import { CustomToastService } from "../../../../shared/services/custom-toast.service";
 import { Subscription } from "rxjs";
 import {
+  STRUCTURE_CUSTOM_DOC_LABELS,
+  StructureCustomDocType,
   StructureDoc,
   StructureDocTypesAvailable,
   UserStructure,
 } from "@domifa/common";
 import { UsagersFilterCriteriaSortValues } from "../../../../manage-usagers/components/usager-filter";
+import { initializeLoadingState, WithLoading } from "../../../../../shared";
 
 @Component({
   selector: "app-profil-structure-docs",
@@ -20,16 +23,8 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
 
-  public defaultStructureDocs: {
-    attestation_postale: StructureDoc;
-    courrier_radiation: StructureDoc;
-  };
-
   private subscription = new Subscription();
-  public customStructureDocs: StructureDoc[];
-
-  // Frontend variables
-  public loadings: string[];
+  public docs: WithLoading<StructureDoc>[] = [];
 
   public sortValue: UsagersFilterCriteriaSortValues = "desc";
   public currentKey: keyof StructureDoc = "createdAt";
@@ -37,80 +32,46 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
   constructor(
     private readonly documentService: DocumentService,
     private readonly toastService: CustomToastService
-  ) {
-    this.defaultStructureDocs = {
-      attestation_postale: {
-        id: 0,
-        createdBy: {
-          id: 0,
-          nom: "Domifa",
-          prenom: "",
-        },
-        filetype:
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        custom: true,
-        uuid: "xxx",
-        createdAt: this.me?.structure?.createdAt,
-        label: "Attestation postale",
-        customDocType: "attestation_postale",
-        path: "",
-      },
-      courrier_radiation: {
-        id: 1,
-        createdBy: {
-          id: 0,
-          nom: "Domifa",
-          prenom: "",
-        },
-        filetype:
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        custom: true,
-        uuid: "xxx",
-        createdAt: this.me?.structure?.createdAt,
-        label: "Courrier de radiation",
-        customDocType: "courrier_radiation",
-        path: "",
-      },
-    };
-
-    this.customStructureDocs = [];
-    this.loadings = [];
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.getAllStructureDocs();
   }
 
   // Documents définis par Domifa
-  public getDomifaCustomDoc(docType: StructureDocTypesAvailable): void {
-    this.loadings.push(docType);
-
+  public getDomifaCustomDoc(structureDoc: WithLoading<StructureDoc>): void {
     this.subscription.add(
       this.documentService
         .getDomifaCustomDoc({
           usagerId: this.usager.ref,
-          docType,
+          docType: structureDoc.customDocType as StructureDocTypesAvailable,
         })
         .subscribe({
           next: (blob: Blob) => {
             const newBlob = new Blob([blob], {
               type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             });
-            saveAs(newBlob, `${docType}.docx`);
-            this.stopLoading(docType);
+            saveAs(newBlob, `${structureDoc.customDocType}.docx`);
+            structureDoc.loading = false;
           },
           error: () => {
             this.toastService.error(
               "Impossible de télécharger le fichier pour l'instant"
             );
-            this.stopLoading(docType);
+            structureDoc.loading = false;
           },
         })
     );
   }
 
-  // Documents personnalisables de la structure
-  public getStructureCustomDoc(structureDoc: StructureDoc): void {
+  public getStructureCustomDoc(structureDoc: WithLoading<StructureDoc>): void {
+    structureDoc.loading = true;
+    // id= 0 => documents par défaut de DomiFa
+    if (structureDoc.id === 0) {
+      this.getDomifaCustomDoc(structureDoc);
+      return;
+    }
+
     this.subscription.add(
       this.documentService
         .getStructureCustomDoc(this.usager.ref, structureDoc.uuid)
@@ -120,13 +81,13 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
             const newBlob = new Blob([blob], { type: structureDoc.filetype });
 
             saveAs(newBlob, structureDoc.label + extension);
-            this.stopLoading(structureDoc.uuid);
+            structureDoc.loading = false;
           },
           error: () => {
             this.toastService.error(
               "Impossible de télécharger le fichier pour l'instant"
             );
-            this.stopLoading(structureDoc.uuid);
+            structureDoc.loading = false;
           },
         })
     );
@@ -136,31 +97,46 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.documentService.getAllStructureDocs().subscribe({
         next: (structureDocs: StructureDoc[]) => {
-          structureDocs.forEach((structureDoc: StructureDoc) => {
-            if (structureDoc.customDocType === "attestation_postale") {
-              this.defaultStructureDocs.attestation_postale.createdBy =
-                structureDoc.createdBy;
-              this.defaultStructureDocs.attestation_postale.createdAt =
-                structureDoc.createdAt;
-            } else if (structureDoc.customDocType === "courrier_radiation") {
-              this.defaultStructureDocs.courrier_radiation.createdBy =
-                structureDoc.createdBy;
-              this.defaultStructureDocs.courrier_radiation.createdAt =
-                structureDoc.createdAt;
-            } else {
-              this.customStructureDocs.push(structureDoc);
-            }
-          });
+          this.docs = initializeLoadingState(structureDocs);
+          if (
+            !this.docs.some(
+              (structure) => structure.customDocType === "attestation_postale"
+            )
+          ) {
+            this.docs.push(this.getDefaultCustomDoc("attestation_postale"));
+          }
+          if (
+            !this.docs.some(
+              (structure) => structure.customDocType === "courrier_radiation"
+            )
+          ) {
+            this.docs.push(this.getDefaultCustomDoc("courrier_radiation"));
+          }
         },
       })
     );
   }
 
-  private stopLoading(loadingRef: string): void {
-    const index = this.loadings.indexOf(loadingRef);
-    if (index !== -1) {
-      this.loadings.splice(index, 1);
-    }
+  private getDefaultCustomDoc(
+    customDocType: StructureCustomDocType
+  ): WithLoading<StructureDoc> {
+    return {
+      id: 0,
+      createdBy: {
+        id: 0,
+        nom: "Domifa",
+        prenom: "",
+      },
+      filetype:
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      custom: true,
+      uuid: "xxx",
+      createdAt: this.me?.structure?.createdAt,
+      label: STRUCTURE_CUSTOM_DOC_LABELS[customDocType],
+      customDocType,
+      path: "",
+      loading: false,
+    };
   }
 
   public ngOnDestroy(): void {

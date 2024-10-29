@@ -139,9 +139,9 @@ export class DocumentService {
     doc: DocumentPatchForm,
     usagerRef: number,
     uuid: string
-  ): Observable<boolean> {
-    return this.http.patch<boolean>(
-      `${this.endPoint}/${usagerRef}/${uuid}`,
+  ): Observable<UsagerDoc> {
+    return this.http.patch<UsagerDoc>(
+      `${this.endPoint}${usagerRef}/${uuid}`,
       doc
     );
   }

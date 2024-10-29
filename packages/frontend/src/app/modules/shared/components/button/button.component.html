@@ -1,0 +1,49 @@
+<button
+  type="button"
+  [ngClass]="'m-1 btn btn-' + color"
+  [disabled]="loading"
+  [attr.aria-busy]="loading"
+  [attr.aria-disabled]="loading"
+  [attr.aria-label]="ariaLabel"
+  (click)="action.emit()"
+  (keydown.enter)="action.emit()"
+  (keydown.space)="action.emit()"
+>
+  <span
+    *ngIf="loading"
+    [class.invisible]="loading"
+    [attr.aria-hidden]="loading"
+  >
+    <fa-icon
+      [icon]="['fas', 'circle-notch']"
+      aria-hidden="true"
+      [spin]="true"
+    ></fa-icon>
+    Patientez...
+  </span>
+  <span *ngIf="!loading">
+    <fa-icon
+      *ngIf="icon"
+      [icon]="['fas', icon]"
+      aria-hidden="true"
+      class="me-1"
+    ></fa-icon>
+    {{ content }}
+  </span>
+
+  <span
+    *ngIf="loading"
+    class="position-absolute top-50 start-50 translate-middle d-inline-flex align-items-center"
+    role="status"
+    [attr.aria-label]="loadingAriaLabel"
+  >
+    <fa-icon
+      [icon]="['fas', 'circle-notch']"
+      [spin]="true"
+      [fixedWidth]="true"
+      class="me-1"
+      aria-hidden="true"
+    ></fa-icon>
+    {{ loadingText }}
+  </span>
+</button>

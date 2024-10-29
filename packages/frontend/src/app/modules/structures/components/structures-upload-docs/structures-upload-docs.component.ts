@@ -17,6 +17,7 @@ import { Subscription } from "rxjs";
 import { StructureDocService } from "../../services/structure-doc.service";
 import { NoWhiteSpaceValidator, validateUpload } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
+import { STRUCTURE_CUSTOM_DOC_LABELS } from "@domifa/common";
 
 @Component({
   selector: "app-structures-upload-docs",
@@ -44,7 +45,15 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.uploadForm = this.formBuilder.group({
-      label: ["", [Validators.required, NoWhiteSpaceValidator]],
+      label: [
+        "",
+        [
+          Validators.required,
+          NoWhiteSpaceValidator,
+          Validators.minLength(1),
+          Validators.maxLength(100),
+        ],
+      ],
       file: ["", [Validators.required]],
       fileSource: [
         "",
@@ -61,7 +70,11 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.uploadForm.get("customDocType")?.valueChanges.subscribe((value) => {
-        this.uploadForm.get("label")?.setValue(value === "autre" ? "" : value);
+        this.uploadForm
+          .get("label")
+          ?.setValue(
+            value === "autre" ? "" : STRUCTURE_CUSTOM_DOC_LABELS[value]
+          );
         this.uploadForm.get("label")?.updateValueAndValidity();
       })
     );

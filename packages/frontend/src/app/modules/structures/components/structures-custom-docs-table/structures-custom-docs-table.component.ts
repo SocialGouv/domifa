@@ -13,13 +13,14 @@ import { StructureDocService } from "../../services/structure-doc.service";
 import { Subscription } from "rxjs";
 import { StructureDoc, UserStructure } from "@domifa/common";
 import { UsagersFilterCriteriaSortValues } from "../../../manage-usagers/components/usager-filter";
+import { WithLoading } from "../../../../shared";
 
 @Component({
   selector: "app-structures-custom-docs-table",
   templateUrl: "./structures-custom-docs-table.component.html",
 })
 export class StructuresCustomDocsTableComponent implements OnDestroy {
-  @Input() public structureDocs!: StructureDoc[];
+  @Input() public structureDocs!: WithLoading<StructureDoc>[];
   @Input() public me!: UserStructure;
   @Input() public title!: string;
 
@@ -30,70 +31,48 @@ export class StructuresCustomDocsTableComponent implements OnDestroy {
   public currentKey: keyof StructureDoc = "createdAt";
 
   private subscription = new Subscription();
-  // Frontend variables
-  public loadings: {
-    download: string[];
-    delete: string[];
-  };
 
   constructor(
     private readonly structureDocService: StructureDocService,
     private readonly toastService: CustomToastService
-  ) {
-    this.loadings = {
-      download: [],
-      delete: [],
-    };
-  }
+  ) {}
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  public getStructureDoc(structureDoc: StructureDoc): void {
-    this.loadings.download.push(structureDoc.uuid);
-
+  public getStructureDoc(structureDoc: WithLoading<StructureDoc>): void {
+    structureDoc.loading = true;
     this.subscription.add(
       this.structureDocService.getStructureDoc(structureDoc.uuid).subscribe({
         next: (blob: Blob) => {
           const extension = structureDoc.path.split(".")[1];
           const newBlob = new Blob([blob], { type: structureDoc.filetype });
           saveAs(newBlob, `${structureDoc.label}.${extension}`);
-          this.stopLoading("download", structureDoc.uuid);
+          structureDoc.loading = false;
         },
         error: () => {
           this.toastService.error("Impossible de télécharger le fichier");
-          this.stopLoading("download", structureDoc.uuid);
+          structureDoc.loading = false;
         },
       })
     );
   }
 
-  public deleteStructureDoc(structureDoc: StructureDoc): void {
-    this.loadings.delete.push(structureDoc.uuid);
-
+  public deleteStructureDoc(structureDoc: WithLoading<StructureDoc>): void {
+    structureDoc.loading = true;
     this.subscription.add(
       this.structureDocService.deleteStructureDoc(structureDoc.uuid).subscribe({
         next: () => {
-          this.stopLoading("delete", structureDoc.uuid);
-          this.toastService.success("Suppression réussie");
-
+          structureDoc.loading = false;
+          this.toastService.success("Suppression du document réussie");
           this.getAllStructureDocs.emit();
         },
         error: () => {
-          this.stopLoading("delete", structureDoc.uuid);
+          structureDoc.loading = false;
           this.toastService.error("Impossible de télécharger le fichier");
         },
       })
     );
-  }
-
-  private stopLoading(loadingType: "delete" | "download", loadingRef: string) {
-    setTimeout(() => {
-      const index = this.loadings[loadingType].indexOf(loadingRef);
-      if (index !== -1) {
-        this.loadings[loadingType].splice(index, 1);
-      }
-    }, 500);
   }
 }

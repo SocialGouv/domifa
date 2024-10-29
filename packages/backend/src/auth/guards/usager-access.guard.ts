@@ -1,4 +1,3 @@
-import { usagerRepository } from "./../../database/services/usager/usagerRepository.service";
 import {
   CanActivate,
   ExecutionContext,
@@ -8,6 +7,7 @@ import {
 } from "@nestjs/common";
 
 import { appLogger } from "../../util";
+import { usagerRepository } from "../../database";
 
 @Injectable()
 export class UsagerAccessGuard implements CanActivate {
@@ -18,7 +18,7 @@ export class UsagerAccessGuard implements CanActivate {
       typeof r.params.usagerRef === "undefined" ||
       typeof r.user.structureId === "undefined"
     ) {
-      appLogger.error(`[UsagerAccessGuard] invalid usagerRef or structureId`, {
+      appLogger.error("[UsagerAccessGuard] invalid usagerRef or structureId", {
         sentry: true,
         context: {
           usagerRef: r.params.usagerRef,

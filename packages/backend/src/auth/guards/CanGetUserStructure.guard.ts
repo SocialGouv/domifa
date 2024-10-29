@@ -24,7 +24,7 @@ export class CanGetUserStructureGuard implements CanActivate {
       !isUUID(userUuid)
     ) {
       appLogger.error(
-        `[CanGetUserStructureGuard] invalid user.Uuid or structureId`,
+        "[CanGetUserStructureGuard] invalid user.Uuid or structureId",
         {
           sentry: true,
           context: { "user.Uuid": userUuid, structureId, user: r.user._id },
@@ -39,7 +39,7 @@ export class CanGetUserStructureGuard implements CanActivate {
 
     if (!chosenUserStructure) {
       appLogger.error(
-        `[CanGetUserStructureGuard] chosenUserStructure not found`,
+        "[CanGetUserStructureGuard] chosenUserStructure not found",
         {
           sentry: true,
           context: {

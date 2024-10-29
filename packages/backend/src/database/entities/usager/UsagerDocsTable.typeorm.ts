@@ -1,11 +1,9 @@
-import { UsagerDoc } from "../../../_common/model/usager/UsagerDoc.type";
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
-
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import { StructureTable } from "../structure";
 import { UsagerTable } from "./UsagerTable.typeorm";
+import { UsagerDoc } from "@domifa/common";
 
-// https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "usager_docs" })
 export class UsagerDocsTable
   extends AppTypeormTable<UsagerDocsTable>
@@ -47,6 +45,9 @@ export class UsagerDocsTable
 
   @Column({ type: "integer", nullable: true })
   public encryptionVersion: number;
+
+  @Column({ type: "boolean", default: false })
+  public shared: boolean;
 
   public constructor(entity?: Partial<UsagerDocsTable>) {
     super(entity);

@@ -9,6 +9,7 @@ import { Subscription } from "rxjs";
 import { UsagerDoc, UserStructure } from "@domifa/common";
 import { UsagersFilterCriteriaSortValues } from "../../../manage-usagers/components/usager-filter";
 import slug from "slug";
+import { initializeLoadingState, WithLoading } from "../../../../shared";
 
 @Component({
   selector: "app-display-usager-docs",
@@ -20,12 +21,7 @@ export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
   @Input() public editPJ!: boolean;
 
   private subscription = new Subscription();
-  public docs: UsagerDoc[];
-
-  public loadings: {
-    download: number[];
-    delete: number[];
-  };
+  public docs: WithLoading<UsagerDoc>[];
 
   public sortValue: UsagersFilterCriteriaSortValues = "desc";
   public currentKey: keyof UsagerDoc = "createdAt";
@@ -34,10 +30,6 @@ export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
     private readonly documentService: DocumentService,
     private readonly toastService: CustomToastService
   ) {
-    this.loadings = {
-      download: [],
-      delete: [],
-    };
     this.docs = [];
   }
 
@@ -49,7 +41,7 @@ export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.documentService.getUsagerDocs(this.usager.ref).subscribe({
         next: (docs: UsagerDoc[]) => {
-          this.docs = docs;
+          this.docs = initializeLoadingState(docs);
         },
         error: () => {
           this.toastService.error("Impossible de d'afficher les documents");
@@ -58,49 +50,54 @@ export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
     );
   }
 
-  public getDocument(docIndex: number) {
-    this.startLoading("download", docIndex);
-    this.subscription.add(
-      this.documentService
-        .getDocument(this.usager.ref, this.docs[docIndex].uuid)
-        .subscribe({
-          next: (blob: Blob) => {
-            const doc = this.docs[docIndex];
-            const extension = STRUCTURE_DOC_EXTENSIONS[doc.filetype];
-            const newBlob = new Blob([blob], { type: doc.filetype });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  updateDocument(updatedDoc: any, index: number) {
+    this.docs = [
+      ...this.docs.slice(0, index),
+      updatedDoc,
+      ...this.docs.slice(index + 1),
+    ];
+  }
 
-            const name =
-              this.slugLabel(doc.label) +
-              "_" +
-              this.slugLabel(this.usager.nom + " " + this.usager.prenom) +
-              extension;
-            saveAs(newBlob, name);
-            this.stopLoading("download", docIndex);
-          },
-          error: () => {
-            this.toastService.error("Impossible de télécharger le fichier");
-            this.stopLoading("download", docIndex);
-          },
-        })
+  public getDocument(doc: WithLoading<UsagerDoc>) {
+    doc.loading = true;
+    this.subscription.add(
+      this.documentService.getDocument(this.usager.ref, doc.uuid).subscribe({
+        next: (blob: Blob) => {
+          const extension = STRUCTURE_DOC_EXTENSIONS[doc.filetype];
+          const newBlob = new Blob([blob], { type: doc.filetype });
+
+          const label = this.slugLabel(doc.label);
+          const slugName = this.slugLabel(
+            `${this.usager.nom} ${this.usager.prenom}`
+          );
+          const name = `${label}_${slugName}${extension}`;
+
+          saveAs(newBlob, name);
+          doc.loading = false;
+        },
+        error: () => {
+          this.toastService.error("Impossible de télécharger le fichier");
+          doc.loading = false;
+        },
+      })
     );
   }
 
-  public deleteDocument(docIndex: number): void {
-    this.startLoading("delete", docIndex);
+  public deleteDocument(doc: WithLoading<UsagerDoc>): void {
+    doc.loading = true;
     this.subscription.add(
-      this.documentService
-        .deleteDocument(this.usager.ref, this.docs[docIndex].uuid)
-        .subscribe({
-          next: (docs: UsagerDoc[]) => {
-            this.docs = docs;
-            this.stopLoading("delete", docIndex);
-            this.toastService.success("Document supprimé avec succès");
-          },
-          error: () => {
-            this.stopLoading("delete", docIndex);
-            this.toastService.error("Impossible de supprimer le document");
-          },
-        })
+      this.documentService.deleteDocument(this.usager.ref, doc.uuid).subscribe({
+        next: (docs: UsagerDoc[]) => {
+          this.docs = initializeLoadingState(docs);
+          this.toastService.success("Document supprimé avec succès");
+        },
+        error: () => {
+          doc.loading = true;
+
+          this.toastService.error("Impossible de supprimer le document");
+        },
+      })
     );
   }
 
@@ -113,25 +110,6 @@ export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
       trim: true,
       remove: /[.]/g, // Supprime tous les points
     });
-  }
-
-  private startLoading(
-    loadingType: "delete" | "download",
-    loadingRef: number
-  ): void {
-    this.loadings[loadingType].push(loadingRef);
-  }
-
-  private stopLoading(
-    loadingType: "delete" | "download",
-    loadingRef: number
-  ): void {
-    setTimeout(() => {
-      const index = this.loadings[loadingType].indexOf(loadingRef);
-      if (index !== -1) {
-        this.loadings[loadingType].splice(index, 1);
-      }
-    }, 500);
   }
 
   public ngOnDestroy(): void {
