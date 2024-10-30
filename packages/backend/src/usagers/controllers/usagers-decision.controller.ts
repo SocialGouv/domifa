@@ -60,7 +60,7 @@ export class UsagersDecisionController {
   ): Promise<Usager> {
     decision.userName = `${user.prenom} ${user.nom}`;
     decision.userId = user.id;
-    return this.usagersService.setDecision(usager, decision);
+    return await this.usagersService.setDecision(usager, decision);
   }
 
   @UseGuards(UsagerAccessGuard)
@@ -72,7 +72,7 @@ export class UsagersDecisionController {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ) {
-    return usagerRepository.findLastFiveCustomRef({
+    return await usagerRepository.findLastFiveCustomRef({
       structureId: user.structureId,
       usagerRef: usager.ref,
     });
@@ -100,7 +100,7 @@ export class UsagersDecisionController {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ): Promise<Usager[]> {
-    return usagerRepository.find({
+    return await usagerRepository.find({
       where: {
         structureId: user.structureId,
         ref: Not(usager.ref),
@@ -183,7 +183,9 @@ export class UsagersDecisionController {
     return res.status(HttpStatus.OK).json(usager);
   }
 
-  private generateNoteForDecision = (decision: UsagerDecision): string => {
+  private readonly generateNoteForDecision = (
+    decision: UsagerDecision
+  ): string => {
     let strDecision = `Suppression de la décision : \n ${
       USAGER_DECISION_STATUT_LABELS_PROFIL[decision.statut]
     }`;
