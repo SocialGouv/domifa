@@ -1,10 +1,6 @@
-type LoadingState = {
-  loading: boolean;
-};
+import { WithLoading } from "../types";
 
-export type WithLoading<T> = T & LoadingState;
-
-export function initializeLoadingState<T>(
+export function initLoadingState<T>(
   items: T[],
   initialState = false
 ): WithLoading<T>[] {

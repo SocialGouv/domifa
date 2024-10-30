@@ -1,2 +1,2 @@
 // @index('./*', f => `export * from '${f.path}'`)
-export * from "./init-loading-state";
+export * from "./init-loading";

@@ -16,6 +16,7 @@ import { StructureInformationComponent } from "./components/home-usager/sections
 import { SectionLinksComponent } from "./components/home-usager/sections/section-links/section-links.component";
 import { SectionInfosComponent } from "./components/home-usager/sections/section-infos/section-infos.component";
 import { FormatInternationalPhoneNumberPipe } from "./pipes";
+import { SectionDocsComponent } from "./components/home-usager/sections/section-docs/section-docs.component";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { FormatInternationalPhoneNumberPipe } from "./pipes";
     HistoriqueCourriersComponent,
     StructureInformationComponent,
     SectionInfosComponent,
+    SectionDocsComponent,
   ],
   imports: [
     CommonModule,

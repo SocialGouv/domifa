@@ -6,10 +6,14 @@ import { UsagerFormModel } from "../../interfaces";
 import { DocumentService } from "../../services/document.service";
 import { saveAs } from "file-saver";
 import { Subscription } from "rxjs";
-import { UsagerDoc, UserStructure } from "@domifa/common";
+import {
+  UsagerDoc,
+  UserStructure,
+  initLoadingState,
+  WithLoading,
+} from "@domifa/common";
 import { UsagersFilterCriteriaSortValues } from "../../../manage-usagers/components/usager-filter";
 import slug from "slug";
-import { initializeLoadingState, WithLoading } from "../../../../shared";
 
 @Component({
   selector: "app-display-usager-docs",
@@ -41,7 +45,7 @@ export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.documentService.getUsagerDocs(this.usager.ref).subscribe({
         next: (docs: UsagerDoc[]) => {
-          this.docs = initializeLoadingState(docs);
+          this.docs = initLoadingState(docs);
         },
         error: () => {
           this.toastService.error("Impossible de d'afficher les documents");
@@ -89,7 +93,7 @@ export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.documentService.deleteDocument(this.usager.ref, doc.uuid).subscribe({
         next: (docs: UsagerDoc[]) => {
-          this.docs = initializeLoadingState(docs);
+          this.docs = initLoadingState(docs);
           this.toastService.success("Document supprimé avec succès");
         },
         error: () => {

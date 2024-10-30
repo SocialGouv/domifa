@@ -9,11 +9,7 @@
   (keydown.enter)="action.emit()"
   (keydown.space)="action.emit()"
 >
-  <span
-    *ngIf="loading"
-    [class.invisible]="loading"
-    [attr.aria-hidden]="loading"
-  >
+  <span *ngIf="loading">
     <fa-icon
       [icon]="['fas', 'circle-notch']"
       aria-hidden="true"

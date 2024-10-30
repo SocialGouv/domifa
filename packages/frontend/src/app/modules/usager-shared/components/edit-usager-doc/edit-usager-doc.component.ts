@@ -14,11 +14,11 @@ import {
   Validators,
   UntypedFormBuilder,
 } from "@angular/forms";
-import { Usager, UsagerDoc } from "@domifa/common";
+import { Usager, UsagerDoc, WithLoading } from "@domifa/common";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "../../../shared/services";
 import { DocumentService } from "../../services";
-import { NoWhiteSpaceValidator, WithLoading } from "../../../../shared";
+import { NoWhiteSpaceValidator } from "../../../../shared";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 

@@ -7,6 +7,6 @@ import { AppLog } from "../../_common/model";
 @Injectable()
 export class AppLogsService {
   public async create(appLog: AppLog): Promise<AppLog> {
-    return appLogsRepository.save(new AppLogTable(appLog));
+    return await appLogsRepository.save(new AppLogTable(appLog));
   }
 }

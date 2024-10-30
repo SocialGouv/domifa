@@ -17,7 +17,6 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
-import { Response } from "express";
 
 import {
   AllowUserStructureRoles,
@@ -41,10 +40,7 @@ import { PatchUsagerDocDto, PostUsagerDocDto } from "../dto";
 
 import crypto from "node:crypto";
 import { ExpressRequest } from "../../util/express";
-import {
-  decryptFile,
-  encryptFile,
-} from "@socialgouv/streaming-file-encryption";
+import { encryptFile } from "@socialgouv/streaming-file-encryption";
 import { pipeline } from "node:stream/promises";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 import { PassThrough, Readable } from "node:stream";
@@ -56,6 +52,7 @@ import {
   usagerDocsRepository,
   UsagerDocsTable,
 } from "../../database";
+import { Response } from "express";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
 @ApiTags("docs")
@@ -261,16 +258,6 @@ export class UsagerDocsController {
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    const filePath = join(
-      "usager-documents",
-      cleanPath(user.structure.uuid),
-      cleanPath(currentUsager.uuid),
-      `${doc.path}.sfe`
-    );
-
-    const mainSecret = domifaConfig().security.mainSecret;
-    const body = await this.fileManagerService.getFileBody(filePath);
-
     await this.appLogsService.create({
       userId: user.id,
       usagerRef,
@@ -279,16 +266,17 @@ export class UsagerDocsController {
     });
 
     try {
-      return pipeline(
-        // note: encryptedFilePath should end with .sfe, not .encrypted, to prepare for phase 3.
-        body,
-        decryptFile(mainSecret, doc.encryptionContext),
-        res
+      return this.fileManagerService.dowloadEncryptedFile(
+        res,
+        user.structure.uuid,
+        currentUsager.uuid,
+        doc
       );
     } catch (e) {
+      console.log(e);
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "CANNOT_UPLOAD_FILE" });
+        .json({ message: "CANNOT_DOWNLOAD_FILE" });
     }
   }
 

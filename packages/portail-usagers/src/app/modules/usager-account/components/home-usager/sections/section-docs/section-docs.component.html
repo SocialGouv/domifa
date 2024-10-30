@@ -1,0 +1,60 @@
+<div class="my-2" *ngIf="docs?.length">
+  <h2 class="section-title">Documents disponibles 📂</h2>
+
+  <div class="content section-content">
+    <ul class="list-unstyled">
+      <li *ngFor="let doc of docs; let i = index" class="card p-2 my-3">
+        <div
+          class="d-flex flex-wrap justify-content-between align-items-center"
+        >
+          <div class="col">
+            <span
+              aria-hidden="true"
+              [ngClass]="
+                'doc-icon icon-' + STRUCTURE_DOC_ICONS[doc.filetype].iconName
+              "
+              [attr.aria-label]="STRUCTURE_DOC_EXTENSIONS_LABELS[doc.filetype]"
+            >
+              <fa-icon
+                aria-hidden="true"
+                [icon]="STRUCTURE_DOC_ICONS[doc.filetype]"
+              ></fa-icon>
+            </span>
+            <span class="visually-hidden">
+              {{ STRUCTURE_DOC_EXTENSIONS_LABELS[doc.filetype] }}
+            </span>
+          </div>
+
+          <div class="col-md-7 col-10 px-1">
+            <p class="m-0"><b>Nom:</b>{{ doc.label }}</p>
+            <p class="m-0">
+              <b>Date d'ajout:</b>{{ doc.createdAt | date : "short" }}
+            </p>
+          </div>
+
+          <div class="col-md-4 col-12 text-end">
+            <button
+              class="btn w-100 btn-primary w-md-auto mt-md-1 mt-3 mb-1"
+              type="button"
+              (click)="downloadDoc(doc)"
+              [disabled]="doc.loading"
+              [attr.aria-busy]="doc.loading"
+              [attr.aria-label]="'Télécharger le document ' + doc.label"
+            >
+              <fa-icon [icon]="faDownload" aria-hidden="true"></fa-icon>
+              <span *ngIf="!doc.loading">Télécharger</span>
+              <span *ngIf="doc.loading">
+                <fa-icon
+                  [icon]="['fas', 'circle-notch']"
+                  [spin]="true"
+                  aria-hidden="true"
+                ></fa-icon>
+                Patientez...
+              </span>
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

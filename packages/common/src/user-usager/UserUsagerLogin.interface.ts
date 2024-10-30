@@ -1,4 +1,4 @@
-import { type AppEntity } from "../_core/AppEntity.type";
+import { type AppEntity } from "../_core/types/AppEntity.type";
 
 export interface UserUsagerLogin extends AppEntity {
   usagerUUID: string;

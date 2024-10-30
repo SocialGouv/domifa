@@ -80,10 +80,9 @@ export class PortailUsagersManagerController {
         user.structure.sms.enabledByStructure !==
         structurePortailUsagerDto.enabledByStructure
       ) {
-        const action =
-          structurePortailUsagerDto.enabledByStructure === true
-            ? "ENABLE_PORTAIL_BY_STRUCTURE"
-            : "DISABLE_PORTAIL_BY_STRUCTURE";
+        const action = structurePortailUsagerDto.enabledByStructure
+          ? "ENABLE_PORTAIL_BY_STRUCTURE"
+          : "DISABLE_PORTAIL_BY_STRUCTURE";
 
         await this.appLogsService.create({
           userId: user._userId,
@@ -112,7 +111,7 @@ export class PortailUsagersManagerController {
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUsager() currentUsager: Usager
   ): Promise<UserUsager | null> {
-    return userUsagerRepository.findOne({
+    return await userUsagerRepository.findOne({
       where: {
         usagerUUID: currentUsager.uuid,
       },

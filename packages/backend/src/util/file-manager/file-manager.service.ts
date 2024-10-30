@@ -10,8 +10,12 @@ import { appLogger } from "../AppLogger.service";
 import { domifaConfig } from "../../config";
 import { Upload } from "@aws-sdk/lib-storage";
 import { PassThrough } from "node:stream";
-import { ExpressResponse } from "../express";
 import { Injectable } from "@nestjs/common";
+import { UsagerDoc } from "@domifa/common";
+import { decryptFile } from "@socialgouv/streaming-file-encryption";
+import { join } from "node:path";
+import { Response } from "express";
+import { cleanPath } from "./FileManager";
 
 @Injectable()
 export class FileManagerService {
@@ -62,7 +66,7 @@ export class FileManagerService {
   }
 
   // Return object in response
-  public async downloadObject(filePath: string, res: ExpressResponse) {
+  public async downloadObject(filePath: string, res: Response) {
     try {
       const readObjectResult = await this.getObject(
         `${domifaConfig().upload.bucketRootDir}/${filePath}`
@@ -116,7 +120,6 @@ export class FileManagerService {
     const { Body } = await this.getObject(
       `${domifaConfig().upload.bucketRootDir}/${path}`
     );
-
     if (Body instanceof Readable) {
       return Body;
     } else {
@@ -177,5 +180,24 @@ export class FileManagerService {
     if (listedObjects.IsTruncated) {
       await this.deleteAllUnderStructure(prefix);
     }
+  }
+
+  public async dowloadEncryptedFile(
+    res: Response,
+    structureUuid: string,
+    usagerUuid: string,
+    doc: UsagerDoc
+  ) {
+    const filePath = join(
+      "usager-documents",
+      cleanPath(structureUuid),
+      cleanPath(usagerUuid),
+      `${doc.path}.sfe`
+    );
+
+    const mainSecret = domifaConfig().security.mainSecret;
+    const body = await this.getFileBody(filePath);
+
+    return body.pipe(decryptFile(mainSecret, doc.encryptionContext)).pipe(res);
   }
 }

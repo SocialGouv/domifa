@@ -29,6 +29,8 @@ export class SortArrayPipe implements PipeTransform {
         comparison = valA === valB ? 0 : valA ? -1 : 1;
       } else if (valA instanceof Date) {
         comparison = valB instanceof Date ? valA.getTime() - valB.getTime() : 1;
+      } else if (sortKey === "createdBy" && typeof valA !== "string") {
+        comparison = valA?.nom.localeCompare(valB?.nom);
       }
 
       return sortValue === "asc" ? comparison : -comparison;

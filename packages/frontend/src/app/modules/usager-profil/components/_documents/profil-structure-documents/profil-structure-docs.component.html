@@ -1,5 +1,5 @@
 <div class="table-responsive">
-  <table class="table upload-table">
+  <table class="table table-docs">
     <caption class="visually-hidden">
       Documents pré-remplis automatiquement
     </caption>
@@ -15,7 +15,15 @@
           >
           </app-table-head-sort>
         </th>
-        <th scope="col">Ajouté par</th>
+        <th scope="col">
+          <app-table-head-sort
+            sortKey="createdBy"
+            [(sortValue)]="sortValue"
+            [(currentKey)]="currentKey"
+            columnName="Ajouté par"
+          >
+          </app-table-head-sort>
+        </th>
         <th scope="col">
           <app-table-head-sort
             sortKey="createdAt"

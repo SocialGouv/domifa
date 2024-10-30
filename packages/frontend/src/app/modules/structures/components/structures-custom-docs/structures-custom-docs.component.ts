@@ -13,8 +13,12 @@ import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 
 import { AuthService } from "../../../shared/services/auth.service";
 import { StructureDocService } from "../../services/structure-doc.service";
-import { StructureDoc, UserStructure } from "@domifa/common";
-import { initializeLoadingState, WithLoading } from "../../../../shared";
+import {
+  StructureDoc,
+  UserStructure,
+  initLoadingState,
+  WithLoading,
+} from "@domifa/common";
 
 @Component({
   selector: "app-structures-custom-docs",
@@ -56,12 +60,12 @@ export class StructuresCustomDocsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.structureDocService.getAllStructureDocs().subscribe({
         next: (structureDocs: StructureDoc[]) => {
-          this.structureDocs = initializeLoadingState(structureDocs).filter(
+          this.structureDocs = initLoadingState(structureDocs).filter(
             (structureDoc) => !structureDoc.custom
           );
-          this.customStructureDocs = initializeLoadingState(
-            structureDocs
-          ).filter((structureDoc) => structureDoc.custom);
+          this.customStructureDocs = initLoadingState(structureDocs).filter(
+            (structureDoc) => structureDoc.custom
+          );
         },
         error: () => {
           this.toastService.error("Impossible d'afficher les documents");
