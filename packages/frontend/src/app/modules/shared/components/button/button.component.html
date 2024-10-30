@@ -13,9 +13,10 @@
     <fa-icon
       [icon]="['fas', 'circle-notch']"
       aria-hidden="true"
+      [fixedWidth]="true"
       [spin]="true"
     ></fa-icon>
-    Patientez...
+    {{ loadingText }}
   </span>
   <span *ngIf="!loading">
     <fa-icon
@@ -25,21 +26,5 @@
       class="me-1"
     ></fa-icon>
     {{ content }}
-  </span>
-
-  <span
-    *ngIf="loading"
-    class="position-absolute top-50 start-50 translate-middle d-inline-flex align-items-center"
-    role="status"
-    [attr.aria-label]="loadingAriaLabel"
-  >
-    <fa-icon
-      [icon]="['fas', 'circle-notch']"
-      [spin]="true"
-      [fixedWidth]="true"
-      class="me-1"
-      aria-hidden="true"
-    ></fa-icon>
-    {{ loadingText }}
   </span>
 </button>

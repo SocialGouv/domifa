@@ -17,7 +17,7 @@ describe("AdminsAuthService", () => {
         JwtModule.register({
           secretOrPrivateKey: "secretKey",
           signOptions: {
-            expiresIn: 3600,
+            expiresIn: "12h",
           },
         }),
         UsersModule,
