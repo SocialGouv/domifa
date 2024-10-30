@@ -6,6 +6,9 @@ export type LogAction =
   | "USAGERS_DOCS_RENAME"
   | "USAGERS_DOCS_SHARED"
 
+  // Mon DomiFa
+  | "MON_DOMIFA_DOWNLOAD_DOC"
+  | "MON_DOMIFA_DOWNLOAD_DOC_TRY"
   ///
   | "EXPORT_USAGERS"
   | "GET_STATS"

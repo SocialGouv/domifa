@@ -11,9 +11,8 @@ import { saveAs } from "file-saver";
 
 import { StructureDocService } from "../../services/structure-doc.service";
 import { Subscription } from "rxjs";
-import { StructureDoc, UserStructure } from "@domifa/common";
+import { StructureDoc, UserStructure, WithLoading } from "@domifa/common";
 import { UsagersFilterCriteriaSortValues } from "../../../manage-usagers/components/usager-filter";
-import { WithLoading } from "../../../../shared";
 
 @Component({
   selector: "app-structures-custom-docs-table",

@@ -9,24 +9,30 @@
         >Bienvenue dans votre espace de suivi de courrier</span
       >
     </div>
-    <div class="row">
-      <app-structure-information
-        *ngIf="structureInformation?.length"
-        [structureInformation]="structureInformation"
-        class="col-md-6 col-12 py-3"
-      ></app-structure-information>
-      <app-section-courriers
-        class="col-md-6 col-12 py-3"
-        [usager]="usagerProfile.usager"
-      ></app-section-courriers>
-      <app-section-infos
-        class="col-md-6 col-12 py-3"
-        [usager]="usagerProfile.usager"
-      ></app-section-infos>
-      <app-section-links
-        class="col-md-6 col-12 py-3"
-        [usager]="usagerProfile.usager"
-      ></app-section-links>
+    <div class="row" data-masonry='{"percentPosition": true }'>
+      <div class="col-12 col-md-6 mb-4">
+        <app-structure-information
+          *ngIf="structureInformation?.length"
+          [structureInformation]="structureInformation"
+        ></app-structure-information>
+      </div>
+
+      <div class="col-12 col-md-6 mb-4">
+        <app-section-courriers
+          [usager]="usagerProfile.usager"
+        ></app-section-courriers>
+      </div>
+      <div class="col-12 col-md-6 mb-4">
+        <app-section-infos [usager]="usagerProfile.usager"></app-section-infos>
+      </div>
+
+      <div class="col-12 col-md-6 mb-4">
+        <app-section-docs [usager]="usagerProfile.usager"></app-section-docs>
+      </div>
+
+      <div class="col-12 mb-4">
+        <app-section-links [usager]="usagerProfile.usager"></app-section-links>
+      </div>
     </div>
   </ng-container>
 </div>

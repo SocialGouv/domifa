@@ -3,7 +3,7 @@
 </div>
 <div class="table-responsive" *ngIf="structureDocs?.length">
   <table
-    class="table upload-table"
+    class="table table-docs"
     *ngIf="structureDocs.length"
     [attr.aria-rowcount]="structureDocs.length"
   >
@@ -33,7 +33,6 @@
           >
           </app-table-head-sort>
         </th>
-
         <th scope="col">
           <app-table-head-sort
             sortKey="createdAt"
@@ -60,8 +59,7 @@
             [document]="document"
           ></app-display-table-image>
         </td>
-        <td>{{ document.label }} --</td>
-
+        <td>{{ document.label }}</td>
         <td class="align-middle">
           {{ document.createdBy.nom }} {{ document.createdBy.prenom }}
         </td>
@@ -78,7 +76,6 @@
             [loading]="document.loading"
           >
           </app-button>
-
           <app-button
             (action)="deleteStructureDoc(document)"
             [ariaLabel]="'Supprimer le document ' + document.label"

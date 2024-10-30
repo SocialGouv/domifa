@@ -11,9 +11,10 @@ import {
   StructureDoc,
   StructureDocTypesAvailable,
   UserStructure,
+  initLoadingState,
+  WithLoading,
 } from "@domifa/common";
 import { UsagersFilterCriteriaSortValues } from "../../../../manage-usagers/components/usager-filter";
-import { initializeLoadingState, WithLoading } from "../../../../../shared";
 
 @Component({
   selector: "app-profil-structure-docs",
@@ -97,7 +98,7 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.documentService.getAllStructureDocs().subscribe({
         next: (structureDocs: StructureDoc[]) => {
-          this.docs = initializeLoadingState(structureDocs);
+          this.docs = initLoadingState(structureDocs);
           if (
             !this.docs.some(
               (structure) => structure.customDocType === "attestation_postale"

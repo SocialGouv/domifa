@@ -1,3 +1,3 @@
 // @index('./*', f => `export * from '${f.path}'`)
-export * from "./ApiMessage.type";
-export * from "./AppEntity.type";
+export * from "./functions";
+export * from "./types";

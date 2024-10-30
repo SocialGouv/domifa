@@ -60,7 +60,7 @@ export class StructureInformationController {
   public async getStructureInformation(
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    return structureInformationRepository.findBy({
+    return await structureInformationRepository.findBy({
       structureId: user.structureId,
     });
   }

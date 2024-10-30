@@ -337,9 +337,19 @@ legend {
   color: black;
 }
 
-.upload-table td {
-  vertical-align: middle;
-  border-bottom: 1px solid #eceffe;
+.table-docs {
+  td:first-child {
+    width: 100px;
+  }
+
+  td:nth-child(2) {
+    min-width: 300px;
+  }
+  td {
+    vertical-align: middle;
+    border-bottom: 1px solid #eceffe;
+    min-width: 80px;
+  }
 }
 
 .spinner {
