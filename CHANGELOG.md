@@ -1,3 +1,18 @@
+# [2.182.0](https://github.com/SocialGouv/domifa/compare/v2.181.0...v2.182.0) (2024-10-30)
+
+
+### Bug Fixes
+
+* **backend:** fix role for doc download ([13ea0e6](https://github.com/SocialGouv/domifa/commit/13ea0e6696751e1add0a4bf91d8e92aed154d627))
+* **dumps:** update of dumps for test ([f3f7bb5](https://github.com/SocialGouv/domifa/commit/f3f7bb53b4572f675e43892c1b99ea429894477b))
+* **frontend:** add edit form for docs ([9655d6a](https://github.com/SocialGouv/domifa/commit/9655d6a73401f108e20135f3c8d8c6901a572cb6))
+
+
+### Features
+
+* **backend:** add patch of documents ([c6dcca4](https://github.com/SocialGouv/domifa/commit/c6dcca4a60d64bae0332fa1c6bbb2b7ed2ca80ae))
+* **mon-domifa:** add shared docs in frontend ([e43dc54](https://github.com/SocialGouv/domifa/commit/e43dc54b1073c23c047ad473feecf318f98d2db0))
+
 # [2.181.0](https://github.com/SocialGouv/domifa/compare/v2.180.2...v2.181.0) (2024-10-23)
 
 
