@@ -52,7 +52,7 @@ export class UsagerOptionsController {
     @Param("type", new ParseEnumPipe(UsagerOptionsHistoryTypeEnum))
     type: UsagerOptionsHistoryTypeEnum
   ) {
-    return usagerOptionsHistoryRepository.findBy({
+    return await usagerOptionsHistoryRepository.findBy({
       usagerUUID: currentUsager.uuid,
       type,
       structureId: currentUsager.structureId,

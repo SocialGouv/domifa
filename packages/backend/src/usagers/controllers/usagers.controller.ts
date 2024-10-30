@@ -327,7 +327,7 @@ export class UsagersController {
     @Body() duplicateUsagerDto: CheckDuplicateUsagerDto,
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<Usager[]> {
-    return usagerRepository
+    return await usagerRepository
       .createQueryBuilder()
       .select(
         joinSelectFields(["nom", "prenom", "ref", "customRef", "dateNaissance"])

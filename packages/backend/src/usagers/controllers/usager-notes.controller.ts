@@ -83,7 +83,7 @@ export class UsagerNotesController {
   ): Promise<Usager> {
     const createdBy: UserStructureResume = {
       userId: currentUser.id,
-      userName: currentUser.prenom + " " + currentUser.nom,
+      userName: `${currentUser.prenom} ${currentUser.nom}`,
     };
 
     await usagerNotesRepository.save({
@@ -168,7 +168,7 @@ export class UsagerNotesController {
     @CurrentUsager() currentUsager: Usager,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ): Promise<number> {
-    return usagerNotesRepository.countBy({
+    return await usagerNotesRepository.countBy({
       usagerUUID: currentUsager.uuid,
       archived: false,
     });
@@ -195,7 +195,7 @@ export class UsagerNotesController {
       ? {
           archivedBy: {
             userId: currentUser.id,
-            userName: currentUser.prenom + " " + currentUser.nom,
+            userName: `${currentUser.prenom} ${currentUser.nom}`,
           },
           archived: true,
           archivedAt: new Date(),
