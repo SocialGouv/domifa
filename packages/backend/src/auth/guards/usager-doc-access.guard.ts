@@ -18,7 +18,7 @@ export class UsagerDocAccessGuard implements CanActivate {
     const user = request?.user as UserStructureAuthenticated;
 
     if (
-      user?.role === "simple" ||
+      user?.role === "facteur" ||
       !isUUID(request.params.docUuid) ||
       !isNumber(user?.structureId)
     ) {

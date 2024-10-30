@@ -158,7 +158,7 @@ export class PortailUsagersProfileController {
     });
 
     try {
-      return this.fileManagerService.dowloadEncryptedFile(
+      return await this.fileManagerService.dowloadEncryptedFile(
         res,
         currentUser.structure.uuid,
         currentUser.usager.uuid,

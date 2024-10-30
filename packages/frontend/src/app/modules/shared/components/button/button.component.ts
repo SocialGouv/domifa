@@ -13,7 +13,6 @@ export class ButtonComponent {
   @Input() icon?: IconName;
   @Input() prefix: IconPrefix = "fas";
   @Input() loadingText = "Patientez...";
-  @Input() loadingAriaLabel = "Chargement en cours";
   @Input() content = "";
   @Input() ariaLabel = "";
 

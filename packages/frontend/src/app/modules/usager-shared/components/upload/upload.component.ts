@@ -58,7 +58,12 @@ export class UploadComponent implements OnInit, OnDestroy {
       file: ["", [Validators.required]],
       label: [
         "",
-        [Validators.required, NoWhiteSpaceValidator, Validators.minLength(2)],
+        [
+          Validators.required,
+          NoWhiteSpaceValidator,
+          Validators.minLength(2),
+          Validators.maxLength(100),
+        ],
       ],
     });
   }
