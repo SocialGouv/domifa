@@ -4,6 +4,9 @@
       class="px-0 py-2 mx-0 d-md-flex justify-content-between align-items-center"
     >
       <h1>Rapport d'activité et statistiques</h1>
+      <div class="d-print-block">
+        {{ me?.structure.nom }}
+      </div>
       <div class="px-0 mx-0 d-block d-md-flex align-items-center">
         <button
           (click)="export()"
