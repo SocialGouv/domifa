@@ -17,11 +17,7 @@ export class UsagerDocAccessGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request?.user as UserStructureAuthenticated;
 
-    if (
-      user?.role === "facteur" ||
-      !isUUID(request.params.docUuid) ||
-      !isNumber(user?.structureId)
-    ) {
+    if (!isUUID(request.params.docUuid) || !isNumber(user?.structureId)) {
       appLogger.error("[UsagerDocAccessGuard] invalid docUuid or structureId", {
         sentry: true,
         context: {
@@ -32,6 +28,10 @@ export class UsagerDocAccessGuard implements CanActivate {
         },
       });
       throw new HttpException("USAGER_DOC_NOT_FOUND", HttpStatus.BAD_REQUEST);
+    }
+
+    if (user?.role === "facteur") {
+      throw new HttpException("CANNOT_GET_DOC", HttpStatus.UNAUTHORIZED);
     }
 
     const docUuid = request.params.docUuid;

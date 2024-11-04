@@ -227,7 +227,6 @@ cc452c79-3669-4dc6-85fa-564631a3d48b	2024-06-10 23:41:59.530897+02	2024-10-29 23
 --
 
 COPY public.public_stats_cache (uuid, "createdAt", "updatedAt", version, key, stats) FROM stdin;
-127f1519-0037-4715-96b6-2c9e9235474e	2024-10-30 22:33:21.504391+01	2024-10-30 22:33:21.504391+01	1	public-stats	{"actifs": 11, "usersCount": 10, "usagersCount": 20, "courrierInCount": 5, "structuresCount": 5, "courrierOutCount": 2, "usagersCountByMonth": [{"name": "oct.", "value": 0}, {"name": "nov.", "value": 0}, {"name": "déc.", "value": 0}, {"name": "janv.", "value": 0}, {"name": "févr.", "value": 0}, {"name": "mars", "value": 0}, {"name": "avr.", "value": 0}, {"name": "mai", "value": 0}, {"name": "juin", "value": 0}, {"name": "juil.", "value": 0}, {"name": "août", "value": 0}, {"name": "sept.", "value": 0}], "structuresCountByRegion": [{"count": 2, "region": "52"}, {"count": 1, "region": "03"}, {"count": 1, "region": "11"}, {"count": 1, "region": "75"}], "interactionsCountByMonth": [{"name": "oct.", "value": 0}, {"name": "nov.", "value": 0}, {"name": "déc.", "value": 0}, {"name": "janv.", "value": 0}, {"name": "févr.", "value": 0}, {"name": "mars", "value": 0}, {"name": "avr.", "value": 0}, {"name": "mai", "value": 0}, {"name": "juin", "value": 0}, {"name": "juil.", "value": 0}, {"name": "août", "value": 0}, {"name": "sept.", "value": 0}], "structuresCountByTypeMap": {"asso": 2, "ccas": 1, "cias": 2}}
 \.
 
 

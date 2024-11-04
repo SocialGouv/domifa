@@ -1,5 +1,25 @@
 [
   {
+    "date": "2024-11-04",
+    "description": "Du nouveau dans les documents 📂",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Modification des noms de documents",
+        "message": [
+          "Vous pouvez modifier les titres des documents de la structure ainsi que les pièces jointes des domiciliés sans avoir besoin de télécharger de nouveau le document."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Partage des pièces jointes sur le portail domicilié",
+        "message": [
+          "Il est désormais possible de modifier le niveau de confidentialité de chacun des documents de les rendre accessible aux domiciliés depuis leur portail."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-10-22",
     "description": "Nouveautés et améliorations diverses sur DomiFa",
     "content": [

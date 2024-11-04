@@ -1,5 +1,18 @@
 [
   {
+    "date": "2024-11-04",
+    "description": "Une nouvelle section documents",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Ajout d'un espace de documents avec l'accès de vos pièces jointes partagées par votre structure de domiciliation",
+        "message": [
+          "Vous pouvez accéder aux documents partagés par votre structure. Il ne s'agit pas d'un espace de stockage, vous ne pouvez pas enregistrez de documents sur votre compte Mon DomiFa."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-10-22",
     "description": "Plus d'informations sur votre portail",
     "content": [

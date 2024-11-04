@@ -43,13 +43,14 @@ export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef
           context.user,
           {
             roles: ["simple", "responsable", "admin"],
+            validStructureIds: [1],
             validExpectedResponseStatus: HttpStatus.OK, // filesystem document does not exists in tests
           }
         ),
       }),
     },
     {
-      label: `${CONTROLLER}.patchDocument`,
+      label: `${CONTROLLER}.patchDocument (wrong payload)`,
       query: async (context: AppTestContext) => ({
         response: await AppTestHttpClient.patch(
           "/docs/7/542a0da1-ea1c-48ab-8026-67a4248b1c47",
@@ -66,12 +67,16 @@ export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef
           {
             roles: ["simple", "responsable", "admin"],
             validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+            invalidStructureIdExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+
+            allowSuperAdminDomifa: false,
+            validStructureIds: [1],
           }
         ),
       }),
     },
     {
-      label: `${CONTROLLER}.patchDocument`,
+      label: `${CONTROLLER}.patchDocument (Good payload)`,
       query: async (context: AppTestContext) => ({
         response: await AppTestHttpClient.patch(
           "/docs/7/542a0da1-ea1c-48ab-8026-67a4248b1c47",
@@ -87,16 +92,19 @@ export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef
           context.user,
           {
             roles: ["simple", "responsable", "admin"],
-            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+            validExpectedResponseStatus: HttpStatus.OK,
+            invalidStructureIdExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+            allowSuperAdminDomifa: false,
+            validStructureIds: [1],
           }
         ),
       }),
     },
     {
-      label: `${CONTROLLER}.patchDocument`,
+      label: `${CONTROLLER}.patchDocument (wrong id)`,
       query: async (context: AppTestContext) => ({
         response: await AppTestHttpClient.patch(
-          "/docs/7/542a0da1-ea1c-48ab-8026-67a4248b1c47",
+          "/docs/xxxxxxx/542a0da1-ea1c-48ab-8026-67a4248b1c47",
           {
             context,
             body: {
@@ -106,10 +114,13 @@ export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef
           }
         ),
         expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
-          { ...context.user, structureRole: "facteur" },
+          context.user,
           {
+            allowSuperAdminDomifa: false,
             roles: ["simple", "responsable", "admin"],
             validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+            invalidStructureIdExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+            validStructureIds: [1],
           }
         ),
       }),

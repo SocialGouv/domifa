@@ -63,7 +63,7 @@ export class StuctureStatsComponent
 
   public fromDate: NgbDate;
   public toDate: NgbDate | null = null;
-  private me!: UserStructure | null;
+  public me!: UserStructure | null;
 
   private readonly subscription = new Subscription();
   public readonly ENTRETIEN_SITUATION_PRO = ENTRETIEN_SITUATION_PRO;
