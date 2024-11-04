@@ -1,3 +1,11 @@
+## [2.182.1](https://github.com/SocialGouv/domifa/compare/v2.182.0...v2.182.1) (2024-11-04)
+
+
+### Bug Fixes
+
+* **backend:** add unit test for doc edition ([1e091fc](https://github.com/SocialGouv/domifa/commit/1e091fcae81d12fe704b23a5f16e67fe3a366553))
+* **backend:** fix unit test for security ([e3bcaa9](https://github.com/SocialGouv/domifa/commit/e3bcaa9ded029cc466efc0d82e2b3c86cb7f3d4e))
+
 # [2.182.0](https://github.com/SocialGouv/domifa/compare/v2.181.0...v2.182.0) (2024-10-30)
 
 
