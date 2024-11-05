@@ -68,7 +68,6 @@ export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef
             roles: ["simple", "responsable", "admin"],
             validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
             invalidStructureIdExpectedResponseStatus: HttpStatus.BAD_REQUEST,
-
             allowSuperAdminDomifa: false,
             validStructureIds: [1],
           }
