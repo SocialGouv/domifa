@@ -1,3 +1,10 @@
+## [2.182.2](https://github.com/SocialGouv/domifa/compare/v2.182.1...v2.182.2) (2024-11-05)
+
+
+### Bug Fixes
+
+* **frontend:** hide title for print ([36c7650](https://github.com/SocialGouv/domifa/commit/36c7650909aedb74cd78ef292fdd3f8b010d9404))
+
 ## [2.182.1](https://github.com/SocialGouv/domifa/compare/v2.182.0...v2.182.1) (2024-11-04)
 
 
