@@ -84,7 +84,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
           }
         }
         this.logError(request, error);
-        return throwError(() => error);
+        return;
       })
     );
   }
