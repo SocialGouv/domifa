@@ -1,3 +1,10 @@
+## [2.182.3](https://github.com/SocialGouv/domifa/compare/v2.182.2...v2.182.3) (2024-11-06)
+
+
+### Bug Fixes
+
+* **frontend:** fix build & double mention in sentry ([e79dcb3](https://github.com/SocialGouv/domifa/commit/e79dcb379064ac3580a3515b48153d10d677e663))
+
 ## [2.182.2](https://github.com/SocialGouv/domifa/compare/v2.182.1...v2.182.2) (2024-11-05)
 
 
