@@ -20,7 +20,7 @@
     "@socialgouv/sre-secrets": "^1.14.5",
     "husky": "^9.1.6",
     "is-ci": "^3.0.1",
-    "lerna": "^8.1.6",
+    "lerna": "^8.1.9",
     "lint-staged": "^15.2.10"
   },
   "workspaces": {
