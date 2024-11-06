@@ -1,3 +1,10 @@
+## [2.182.4](https://github.com/SocialGouv/domifa/compare/v2.182.3...v2.182.4) (2024-11-06)
+
+
+### Bug Fixes
+
+* **backend:** fix upgrade of packages ([afc6ae8](https://github.com/SocialGouv/domifa/commit/afc6ae81976719a581b0a8e2344e2845e8c82dfe))
+
 ## [2.182.3](https://github.com/SocialGouv/domifa/compare/v2.182.2...v2.182.3) (2024-11-06)
 
 
