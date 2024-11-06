@@ -11,9 +11,8 @@ import { Injectable, Injector } from "@angular/core";
 import { Observable, throwError, timer } from "rxjs";
 import { catchError, retry } from "rxjs/operators";
 import { AuthService } from "../modules/shared/services/auth.service";
-import { captureException, getCurrentScope } from "@sentry/angular";
+import { getCurrentScope } from "@sentry/angular";
 import { CustomToastService } from "../modules/shared/services";
-import { Router } from "@angular/router";
 
 const MAX_RETRIES = 2;
 const RETRY_DELAY = 1000;
@@ -31,7 +30,6 @@ export class ServerErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const authService = this.injector.get(AuthService);
     const toastr = this.injector.get(CustomToastService);
-    const router = this.injector.get(Router);
 
     if (authService?.currentUserValue) {
       const user = authService.currentUserValue;
@@ -74,17 +72,17 @@ export class ServerErrorInterceptor implements HttpInterceptor {
           }
           if (error.status === 401) {
             authService.logoutAndRedirect(undefined, true);
-          } else if (error.status === 404) {
-            toastr.error("La page que vous recherchez n'existe pas");
-            router.navigate(["404"]);
-          } else {
             toastr.error(
-              "Une erreur serveur est survenue. Nos équipes ont été notifiées."
+              "Votre session a expiré, merci de vous connecter à nouveau"
             );
           }
+        } else {
+          toastr.error(
+            "Une erreur serveur est survenue. Nos équipes ont été notifiées."
+          );
         }
         this.logError(request, error);
-        return;
+        return throwError(() => error);
       })
     );
   }
@@ -102,6 +100,5 @@ export class ServerErrorInterceptor implements HttpInterceptor {
       error: error.error,
       request,
     });
-    captureException(error, { data: request });
   }
 }
