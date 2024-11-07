@@ -1,3 +1,10 @@
+## [2.182.5](https://github.com/SocialGouv/domifa/compare/v2.182.4...v2.182.5) (2024-11-07)
+
+
+### Bug Fixes
+
+* **frontend:** filter docs for 'radie' ([77966b7](https://github.com/SocialGouv/domifa/commit/77966b767d932fdb9eaddce25b3e40c396fa30d1))
+
 ## [2.182.4](https://github.com/SocialGouv/domifa/compare/v2.182.3...v2.182.4) (2024-11-06)
 
 
