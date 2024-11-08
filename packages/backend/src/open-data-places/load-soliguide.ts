@@ -17,6 +17,8 @@ let nbResults = 0;
 let newPlaces = 0;
 let updatedPlaces = 0;
 
+const RESULTS_BY_PAGE = 50;
+
 const getFromSoliguide = async () => {
   let soliguideData: SoliguidePlace[] = [];
 
@@ -31,7 +33,7 @@ const getFromSoliguide = async () => {
           geoValue: "france",
         },
         options: {
-          limit: 50,
+          limit: RESULTS_BY_PAGE,
           page,
         },
       },
@@ -43,7 +45,10 @@ const getFromSoliguide = async () => {
     );
 
     soliguideData = response.data.places;
-    nbResults = response.data.nbResults;
+
+    if (!nbResults) {
+      nbResults = response.data.nbResults;
+    }
 
     for await (const place of soliguideData) {
       let soliguidePlace = await openDataPlaceRepository.findOneBy({
@@ -114,7 +119,7 @@ const getFromSoliguide = async () => {
       }
     }
 
-    if (soliguideData.length * page < nbResults) {
+    if (soliguideData?.length === RESULTS_BY_PAGE) {
       appLogger.warn(
         `Import 'soliguide' data page N°${page} : ${
           soliguideData.length * page
