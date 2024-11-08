@@ -1,3 +1,10 @@
+## [2.182.6](https://github.com/SocialGouv/domifa/compare/v2.182.5...v2.182.6) (2024-11-08)
+
+
+### Bug Fixes
+
+* **backend:** fix infinite loop in soliguide's import ([67106bd](https://github.com/SocialGouv/domifa/commit/67106bd8b7e4c7588f649b08c4ddacbf8637d352))
+
 ## [2.182.5](https://github.com/SocialGouv/domifa/compare/v2.182.4...v2.182.5) (2024-11-07)
 
 
