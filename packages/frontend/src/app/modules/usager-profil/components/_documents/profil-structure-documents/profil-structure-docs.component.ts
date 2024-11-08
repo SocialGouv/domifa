@@ -115,14 +115,14 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
           }
 
           if (this.usager.decision.statut !== "RADIE") {
-            this.docs.filter(
-              (doc) => doc.customDocType === "courrier_radiation"
+            this.docs = this.docs.filter(
+              (doc) => doc.customDocType !== "courrier_radiation"
             );
           }
 
           if (!this.usager.echeanceInfos.isActif) {
-            this.docs.filter(
-              (doc) => doc.customDocType === "attestation_postale"
+            this.docs = this.docs.filter(
+              (doc) => doc.customDocType !== "attestation_postale"
             );
           }
         },

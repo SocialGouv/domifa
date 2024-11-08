@@ -19,14 +19,12 @@ import { domifaConfig } from "./config";
       appLogger.warn(`[${__filename}] Application listening on port 3000`);
 
       if (
-        (domifaConfig().envId === "prod" ||
-          domifaConfig().envId === "preprod" ||
-          domifaConfig().envId === "local") &&
+        (domifaConfig().envId === "prod" || domifaConfig().envId === "local") &&
         domifaConfig().cron.enable
       ) {
         await loadDomifaData();
-        await loadMssData();
         await loadSoliguideData();
+        await loadMssData();
       }
     } catch (error) {
       const err = error as Error;
