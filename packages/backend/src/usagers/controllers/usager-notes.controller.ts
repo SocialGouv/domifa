@@ -33,17 +33,17 @@ import {
   usagerRepository,
 } from "../../database";
 import { CurrentUsagerNote } from "../../auth/decorators/current-usager-note.decorator";
-import { UsagerNoteAccessGuard } from "../../auth/guards";
+import { AppUserGuard, UsagerNoteAccessGuard } from "../../auth/guards";
 import { PageResultsDto, PageMetaDto, PageOptionsDto } from "../dto/pagination";
 import { ObjectLiteral } from "typeorm";
 
 @ApiTags("usagers-notes")
 @ApiBearerAuth()
 @Controller("usagers-notes")
-@UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class UsagerNotesController {
   @Post("search/:usagerRef/:archived")
-  @UseGuards()
+  @UseGuards(UsagerAccessGuard)
   public async getUsagerNotes(
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager,
@@ -76,6 +76,7 @@ export class UsagerNotesController {
   }
 
   @Post(":usagerRef")
+  @UseGuards(UsagerAccessGuard)
   public async createNote(
     @Body() createNoteDto: CreateNoteDto,
     @CurrentUser() currentUser: UserStructureAuthenticated,
@@ -97,7 +98,7 @@ export class UsagerNotesController {
   }
 
   @Delete(":usagerRef/:noteUUID")
-  @UseGuards(UsagerNoteAccessGuard)
+  @UseGuards(UsagerAccessGuard, UsagerNoteAccessGuard)
   public async deleteNote(
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsagerNote() currentUsagerNote: UsagerNote,
@@ -130,7 +131,7 @@ export class UsagerNotesController {
   }
 
   @Put(":usagerRef/pin/:noteUUID")
-  @UseGuards(UsagerNoteAccessGuard)
+  @UseGuards(UsagerAccessGuard, UsagerNoteAccessGuard)
   public async pinNote(
     @CurrentUser() _currentUser: UserStructureAuthenticated,
     @CurrentUsagerNote() currentUsagerNote: UsagerNote,
@@ -163,6 +164,7 @@ export class UsagerNotesController {
   }
 
   @Get("count/:usagerRef")
+  @UseGuards(UsagerAccessGuard)
   public async countNotes(
     @CurrentUser() _currentUser: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager,
@@ -175,7 +177,7 @@ export class UsagerNotesController {
   }
 
   @Put(":usagerRef/archive/:noteUUID")
-  @UseGuards(UsagerNoteAccessGuard)
+  @UseGuards(UsagerAccessGuard, UsagerNoteAccessGuard)
   public async archiveNote(
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsagerNote() currentUsagerNote: UsagerNote,
