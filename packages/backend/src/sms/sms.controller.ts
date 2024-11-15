@@ -12,11 +12,11 @@ import { Usager } from "@domifa/common";
 
 @Controller("sms")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
+@AllowUserProfiles("structure")
 @ApiTags("sms")
 export class SmsController {
   @ApiBearerAuth()
-  @AllowUserProfiles("structure")
-  @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
+  @UseGuards(UsagerAccessGuard)
   @Get("usager/:usagerRef")
   public async getUsagerSms(@CurrentUsager() currentUsager: Usager) {
     return messageSmsRepository.find({

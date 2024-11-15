@@ -49,7 +49,7 @@ export class UsagerStructureDocsController {
 
   @ApiOperation({ summary: "Télécharger un document pré-rempli" })
   @Get("structure/:usagerRef/:structureDocUuid")
-  @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
+  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getStructureCustomDoc(
     @CurrentUsager() usager: Usager,
@@ -117,7 +117,7 @@ export class UsagerStructureDocsController {
       "Télécharger un document pré-rempli fourni par Domifa (courrier radiation, identifiants, attestation postale)",
   })
   @Post("domifa/:usagerRef/:docType")
-  @UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
+  @UseGuards(AuthGuard("jwt"), UsagerAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getDomifaCustomDoc(
     @Param("docType") docType: StructureDocTypesAvailable,

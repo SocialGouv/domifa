@@ -54,7 +54,7 @@ import {
 } from "../../database";
 import { Response } from "express";
 
-@UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("docs")
 @ApiBearerAuth()
 @Controller("docs")
@@ -68,6 +68,7 @@ export class UsagerDocsController {
     summary: "Téléverser des pièces-jointes dans le dossier d'un usager",
   })
   @Post(":usagerRef")
+  @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @UseInterceptors(
     FileInterceptor("file", {
@@ -143,7 +144,7 @@ export class UsagerDocsController {
   }
 
   @Patch(":usagerRef/:docUuid")
-  @UseGuards(UsagerDocAccessGuard)
+  @UseGuards(UsagerAccessGuard, UsagerDocAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async patchDocument(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
@@ -193,7 +194,7 @@ export class UsagerDocsController {
   }
 
   @Delete(":usagerRef/:docUuid")
-  @UseGuards(UsagerDocAccessGuard)
+  @UseGuards(UsagerAccessGuard, UsagerDocAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async deleteDocument(
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
@@ -227,6 +228,7 @@ export class UsagerDocsController {
 
   @Get(":usagerRef")
   @AllowUserStructureRoles("simple", "responsable", "admin")
+  @UseGuards(UsagerAccessGuard, UsagerDocAccessGuard)
   public async getUsagerDocuments(
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @CurrentUsager() currentUsager: Usager
@@ -238,6 +240,7 @@ export class UsagerDocsController {
   }
 
   @Get(":usagerRef/:docUuid")
+  @UseGuards(UsagerAccessGuard, UsagerDocAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getDocument(
     @Param("docUuid", new ParseUUIDPipe()) docUuid: string,
