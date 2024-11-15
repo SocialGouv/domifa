@@ -33,11 +33,12 @@ import {
   UsagerOptionsHistoryAction,
   UsagerOptionsHistoryTypeEnum,
 } from "@domifa/common";
+import { AppUserGuard } from "../../auth/guards";
 
 @ApiTags("usagers-options")
 @ApiBearerAuth()
 @Controller("usagers-options")
-@UseGuards(AuthGuard("jwt"))
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class UsagerOptionsController {
   constructor(
     private readonly usagerOptionsHistoryService: UsagerOptionsHistoryService

@@ -4,6 +4,7 @@ import {
   AppTestHttpClientSecurityTestDef,
   expectedResponseStatusBuilder,
 } from "../_tests";
+import { HttpStatus } from "@nestjs/common";
 
 ////////////////// IMPORTANT //////////////////
 //
@@ -25,7 +26,8 @@ export const SmsControllerSecurityTests: AppTestHttpClientSecurityTestDef[] = [
           context.user,
           {
             roles: USER_STRUCTURE_ROLE_ALL,
-            validExpectedResponseStatus: 400, // car on utilise un faux id
+            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+            invalidStructureIdExpectedResponseStatus: HttpStatus.BAD_REQUEST,
           }
         ),
       };
