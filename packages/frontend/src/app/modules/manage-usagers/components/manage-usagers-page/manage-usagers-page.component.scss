@@ -156,6 +156,7 @@
   button:focus {
     box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.2);
   }
+
   button.dropdown-toggle {
     border-right: 1px solid #959595;
     border-radius: 5px 0 0 5px;
@@ -170,7 +171,6 @@
 @media all and (max-width: 520px) {
   #search-bar input,
   #dropdownSearchString button {
-    border-radius: 6px !important;
     width: 100% !important;
     border-radius: 5px !important;
   }

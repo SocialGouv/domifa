@@ -224,9 +224,7 @@ export class UsagersController {
       query.take(100);
     }
 
-    const results = await query.getRawMany();
-
-    return results;
+    return query.getRawMany();
   }
 
   @Post()

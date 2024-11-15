@@ -93,7 +93,7 @@ function filterByCriteria(
   }
 
   return usagers.filter((usager) =>
-    activeFilters.every((filter) => filter(usager))
+    activeFilters.every((activeFilter) => activeFilter(usager))
   );
 }
 
