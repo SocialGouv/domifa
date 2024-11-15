@@ -52,7 +52,7 @@ describe("ManageUsagersPageComponent", () => {
       searchInAyantDroits: true,
       searchString: null,
       searchStringField: "DEFAULT",
-      page: 0,
+      page: 1,
       lastInteractionDate: null,
       sortKey: "NAME",
       sortValue: "asc",
