@@ -226,6 +226,20 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_fa4dea9a1ff8deb8fcf47c451e" ON public.structure USING btree (departement);
 
 
+    -- public.typeorm_metadata definition
+
+    -- Drop table
+
+    -- DROP TABLE public.typeorm_metadata;
+
+    CREATE TABLE public.typeorm_metadata (
+      "type" varchar(255) NULL,
+      "schema" varchar(255) NULL,
+      "name" varchar(255) NULL,
+      value text NULL
+    );
+
+
     -- public.message_sms definition
 
     -- Drop table
@@ -419,12 +433,12 @@ async function createTables(queryRunner: QueryRunner) {
       "pinnedNote" jsonb NULL,
       nationalite text NULL,
       statut text DEFAULT 'INSTRUCTION'::text NOT NULL,
-      nom_prenom_ref varchar GENERATED ALWAYS AS (lower((((nom || ' '::text) || prenom) || ' '::text) || COALESCE("customRef", ''::text))) STORED NOT NULL,
+      nom_prenom_surnom_ref varchar NULL,
       CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_e76056fb098740de66d58a5055a" UNIQUE ("structureId", ref),
       CONSTRAINT "FK_a44d882d224e368efdee8eb8c80" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
     );
-    CREATE INDEX "IDX_3af7a33a589c062bb6151d0969" ON public.usager USING btree (nom_prenom_ref);
+    CREATE INDEX "IDX_57133463f2311234ecf27157fa" ON public.usager USING btree (nom_prenom_surnom_ref);
     CREATE INDEX "IDX_a44d882d224e368efdee8eb8c8" ON public.usager USING btree ("structureId");
     CREATE INDEX "IDX_b4d09870ec6cad2d2d98b7cc3a" ON public.usager USING btree (migrated);
     CREATE INDEX idx_usager_statut ON public.usager USING btree ("structureId", statut);

@@ -26,7 +26,7 @@ export class ManualMigration1731349672897 implements MigrationInterface {
         try {
           // Récupère un lot d'usagers
           const usagers = await queryRunner.query(
-            `SELECT uuid, ref, nom, prenom, surnom  FROM usager WHERE usager_nom_prenom_surnom_ref IS NULL OR usager_nom_prenom_surnom_ref = '' LIMIT ${batchSize}`
+            `SELECT uuid, ref, nom, prenom, surnom  FROM usager WHERE "nom_prenom_surnom_ref" IS NULL OR "nom_prenom_surnom_ref" = '' LIMIT ${batchSize}`
           );
 
           // Exécute les updates en une seule requête
