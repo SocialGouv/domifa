@@ -1,6 +1,7 @@
 import { UsagerEntretienTable } from "./UsagerEntretienTable.typeorm";
 import {
   BeforeInsert,
+  BeforeUpdate,
   Column,
   Entity,
   Index,
@@ -29,6 +30,7 @@ import {
   Usager,
   UsagerDecisionStatut,
 } from "@domifa/common";
+import { dataCompare } from "../../../util";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "usager" })
@@ -52,13 +54,12 @@ export class UsagerTable
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   public structureId!: number;
 
+  @Index()
   @Column({
     nullable: false,
-    name: "nom_prenom_ref",
     select: false,
   })
-  @Index()
-  public nom_prenom_ref: string;
+  public nom_prenom_surnom_ref: string;
 
   @Column({ type: "text", nullable: false })
   public nom!: string;
@@ -156,9 +157,16 @@ export class UsagerTable
   > | null;
 
   @BeforeInsert()
+  @BeforeUpdate()
   nameToUpperCase() {
     this.nom = this.nom.trim();
     this.prenom = this.prenom.trim();
+
+    const parts = [this.nom, this.prenom, this.surnom, this.ref]
+      .filter(Boolean)
+      .map((part) => dataCompare.cleanString(part.toString()));
+
+    this.nom_prenom_surnom_ref = parts.join(" ");
   }
 
   public constructor(entity?: Partial<UsagerTable>) {

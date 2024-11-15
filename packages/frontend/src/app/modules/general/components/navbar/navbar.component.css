@@ -1,11 +1,3 @@
-#navigation {
-  position: -webkit-sticky;
-  position: sticky;
-  display: block;
-  z-index: 1020;
-  top: 0;
-}
-
 .navbar {
   border: 1px solid #e0e0e0;
   background-color: white;

@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   TemplateRef,
   ViewChild,
@@ -35,7 +36,7 @@ import { UserStructure } from "@domifa/common";
 
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ManageUsagersTableComponent implements OnDestroy {
+export class ManageUsagersTableComponent implements OnDestroy, OnInit {
   @Input()
   public usagers!: UsagerFormModel[];
 
@@ -46,7 +47,7 @@ export class ManageUsagersTableComponent implements OnDestroy {
   public loading!: boolean;
 
   @Input() public selectedRefs: number[];
-  @Input() public displayCheckboxes: boolean;
+  public displayCheckboxes: boolean = false;
 
   @ViewChild("deleteUsagersModal")
   public deleteUsagersModal!: TemplateRef<NgbModalRef>;
@@ -60,6 +61,7 @@ export class ManageUsagersTableComponent implements OnDestroy {
     value: UsagersFilterCriteria[keyof UsagersFilterCriteria] | null;
     sortValue?: UsagersFilterCriteriaSortValues;
   }>();
+
   public me!: UserStructure | null;
   private subscription = new Subscription();
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
@@ -82,6 +84,13 @@ export class ManageUsagersTableComponent implements OnDestroy {
     } else {
       this.selectedRefs.splice(index, 1);
     }
+  }
+
+  ngOnInit() {
+    this.displayCheckboxes = !(
+      this.me?.role === "facteur" ||
+      (this.me?.role === "simple" && this.filters.statut !== "VALIDE")
+    );
   }
 
   public openDeleteUsagersModal(): void {

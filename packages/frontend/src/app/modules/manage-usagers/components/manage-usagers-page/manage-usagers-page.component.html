@@ -4,24 +4,8 @@
       <div
         class="row text-center justify-content-md-between justify-content-center align-items-center"
       >
-        <div class="col-md-2 col-12 order-2 order-md-3">
-          <a
-            *ngIf="me.role !== 'facteur'"
-            routerLink="/usager/nouveau"
-            class="btn btn-white-primary btn-block my-1"
-          >
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'plus']"
-              class="me-2"
-            ></fa-icon>
-            Créer une demande
-          </a>
-        </div>
-        <h1 class="col-md-2 col-12 title text-start order-1 order-md-1">
-          Domiciliés
-        </h1>
-        <div class="col-md-8 col-12 align-items-center order-3 order-md-2">
+        <h1 class="col-md-2 col-12 title text-start">Domiciliés</h1>
+        <div class="col-md-8 col-12 align-items-center">
           <div
             ngbDropdown
             id="dropdownSearchString"
@@ -118,6 +102,16 @@
               <fa-icon aria-hidden="true" [icon]="['fas', 'times']"></fa-icon>
             </button>
           </div>
+        </div>
+        <div class="col-md-2 col-12 text-end">
+          <button type="button" class="btn btn-white-primary" #refreshButton>
+            <fa-icon
+              [icon]="['fas', 'search']"
+              aria-hidden="true"
+              class="me-2"
+            ></fa-icon>
+            Lancer la recherche
+          </button>
         </div>
       </div>
     </div>
@@ -241,7 +235,8 @@
     >
       <p class="me-2">
         <strong>Information:</strong>
-        {{ usagersRadiesLoadedCount }} dossiers radiés sont actuellement
+        {{ usagersRadiesLoadedCount }} /
+        {{ usagersCountByStatus.RADIE }} dossiers radiés sont actuellement
         affichés. Le chargement de tous les dossiers peut prendre plusieurs
         minutes
       </p>
@@ -296,10 +291,11 @@
         [selectedRefs]="selectedRefs"
         [usagers]="usagers"
         [filters]="filters"
-        [displayCheckboxes]="displayCheckboxes"
         (updateFilters)="updateFilters($event)"
         (goToPrint)="goToPrint()"
       ></app-manage-manage-usagers-table>
+
+      <div #sentinel class="sentinel-preload"></div>
     </div>
   </div>
 </div>

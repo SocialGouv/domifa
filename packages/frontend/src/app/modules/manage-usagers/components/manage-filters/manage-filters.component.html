@@ -26,13 +26,18 @@
           class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
         >
           <button
-            *ngIf="filters.passage"
+            *ngIf="filters.lastInteractionDate"
             type="button"
             aria-label="Réinitialiser le filtre date de dernier passage"
             class="btn btn-outline-primary"
-            (click)="updateFilters.emit({ element: 'passage', value: null })"
+            (click)="
+              updateFilters.emit({
+                element: 'lastInteractionDate',
+                value: null
+              })
+            "
           >
-            {{ labelsDernierPassage[filters.passage] }}
+            {{ labelsDernierPassage[filters.lastInteractionDate].label }}
             <fa-icon
               aria-hidden="true"
               [icon]="['fas', 'times']"
@@ -42,7 +47,7 @@
 
           <div
             ngbDropdown
-            *ngIf="!filters.passage"
+            *ngIf="!filters.lastInteractionDate"
             id="dropdownDernierPassage"
             placement="bottom"
             #dropdownDernierPassage="ngbDropdown"
@@ -57,25 +62,17 @@
               class="dropdown-menu"
             >
               <button
-                type="button"
-                (click)="
-                  updateFilters.emit({ element: 'passage', value: 'DEUX_MOIS' })
-                "
-                ngbDropdownItem
-              >
-                Plus de 2 mois
-              </button>
-              <button
+                *ngFor="let p of labelsDernierPassage | keyvalue"
                 type="button"
                 (click)="
                   updateFilters.emit({
-                    element: 'passage',
-                    value: 'TROIS_MOIS'
+                    element: 'lastInteractionDate',
+                    value: p.key
                   })
                 "
                 ngbDropdownItem
               >
-                Plus de 3 mois
+                {{ labelsDernierPassage[p.key].label }}
               </button>
             </div>
           </div>
@@ -91,7 +88,7 @@
             class="btn btn-outline-primary"
             (click)="updateFilters.emit({ element: 'echeance', value: null })"
           >
-            {{ labelsEcheance[filters.echeance] }}
+            {{ labelsEcheance[filters.echeance].label }}
             <fa-icon
               aria-hidden="true"
               [icon]="['fas', 'times']"
@@ -117,42 +114,73 @@
               class="dropdown-menu dropdown-menu-end"
             >
               <button
+                *ngFor="let e of labelsEcheance | keyvalue"
                 type="button"
                 (click)="
                   updateFilters.emit({
                     element: 'echeance',
-                    value: 'DEUX_MOIS'
+                    value: e.key
                   })
                 "
                 ngbDropdownItem
               >
-                Moins de 2 mois
-              </button>
-              <button
-                type="button"
-                (click)="
-                  updateFilters.emit({
-                    element: 'echeance',
-                    value: 'DEUX_SEMAINES'
-                  })
-                "
-                ngbDropdownItem
-              >
-                Moins de 2 semaines
-              </button>
-              <button
-                type="button"
-                (click)="
-                  updateFilters.emit({ element: 'echeance', value: 'DEPASSEE' })
-                "
-                ngbDropdownItem
-              >
-                Dépassée
+                {{ e.value?.label }}
               </button>
             </div>
           </div>
         </div>
 
+        <div
+          *ngIf="filters.statut === 'RADIE'"
+          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
+        >
+          <button
+            type="button"
+            *ngIf="filters.echeance"
+            class="btn btn-outline-primary"
+            (click)="updateFilters.emit({ element: 'echeance', value: null })"
+          >
+            {{ labelsEcheance[filters.echeance].label }}
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="cross"
+            ></fa-icon>
+          </button>
+
+          <div
+            *ngIf="!filters.echeance"
+            ngbDropdown
+            id="dropdownEcheance"
+            placement="bottom"
+            class="d-inline-block my-1"
+            #dropdownEcheance="ngbDropdown"
+          >
+            <button type="button" ngbDropdownToggle>
+              <span>Radié depuis</span>
+            </button>
+
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropdownEcheance"
+              class="dropdown-menu dropdown-menu-end"
+            >
+              <button
+                *ngFor="let e of labelsEcheanceRadiation | keyvalue"
+                type="button"
+                (click)="
+                  updateFilters.emit({
+                    element: 'echeance',
+                    value: e.key
+                  })
+                "
+                ngbDropdownItem
+              >
+                {{ e.value?.label }}
+              </button>
+            </div>
+          </div>
+        </div>
         <div
           *ngIf="filters.statut !== 'REFUS'"
           class="d-md-inline-block d-block me-2 text-md-start text-center my-1"

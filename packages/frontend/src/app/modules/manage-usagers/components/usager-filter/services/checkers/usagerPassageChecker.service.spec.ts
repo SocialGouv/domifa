@@ -1,95 +1,87 @@
+import { subDays, subMonths, subWeeks } from "date-fns";
 import { UsagerLight } from "../../../../../../../_common/model";
 import { usagerPassageChecker } from "./usagerPassageChecker.service";
-const dayMs = 24 * 3600 * 1000;
-const weekMs = 7 * dayMs;
-const refDateNow = new Date(Date.UTC(2021, 1, 15));
 
-it("usagerPassageChecker DEUX_MOIS", () => {
-  expect(
-    usagerPassageChecker.check({
-      usager: {
-        decision: {
-          statut: "VALIDE",
-        },
-        lastInteraction: {
-          dateInteraction: new Date(refDateNow.getTime() - 10 * weekMs), // il y a 10 semaines
-        },
-      } as UsagerLight,
-      passage: "DEUX_MOIS",
-      refDateNow,
-    })
-  ).toBeTruthy();
-  expect(
-    usagerPassageChecker.check({
-      usager: {
-        decision: {
-          statut: "INSTRUCTION", // NON VALIDE
-        },
-        lastInteraction: {
-          dateInteraction: new Date(refDateNow.getTime() - 10 * weekMs), // il y a 10 semaines
-        },
-      } as UsagerLight,
-      passage: "DEUX_MOIS",
-      refDateNow,
-    })
-  ).toBeFalsy();
-  expect(
-    usagerPassageChecker.check({
-      usager: {
-        decision: {
-          statut: "VALIDE",
-        },
-        lastInteraction: {
-          dateInteraction: new Date(refDateNow.getTime() - 5 * weekMs), // il y a 5 semaines
-        },
-      } as UsagerLight,
-      passage: "DEUX_MOIS",
-      refDateNow,
-    })
-  ).toBeFalsy();
-});
+describe("usagerPassageChecker ", () => {
+  describe("TWO_MONTHS ", () => {
+    it("usagerPassageChecker: should return true, last interaction > TWO_MONTHS", () => {
+      expect(
+        usagerPassageChecker.check({
+          usager: {
+            decision: {
+              statut: "VALIDE",
+            },
+            lastInteraction: {
+              dateInteraction: subMonths(new Date(), 3),
+            },
+          } as UsagerLight,
+          lastInteractionDate: "PREVIOUS_TWO_MONTHS",
+        })
+      ).toBeTruthy();
+    });
+    it("usagerPassageChecker: should return false, last interaction < TWO_MONTHS", () => {
+      expect(
+        usagerPassageChecker.check({
+          usager: {
+            decision: {
+              statut: "INSTRUCTION",
+            },
+            lastInteraction: {
+              dateInteraction: subMonths(new Date(), 1),
+            },
+          } as UsagerLight,
+          lastInteractionDate: "PREVIOUS_TWO_MONTHS",
+        })
+      ).toBeFalsy();
+    });
+    it("usagerPassageChecker: should return false, last interaction < TWO_MONTHS", () => {
+      expect(
+        usagerPassageChecker.check({
+          usager: {
+            decision: {
+              statut: "VALIDE",
+            },
+            lastInteraction: {
+              dateInteraction: subDays(new Date(), 5),
+            },
+          } as UsagerLight,
+          lastInteractionDate: "PREVIOUS_TWO_MONTHS",
+        })
+      ).toBeFalsy();
+    });
+  });
 
-it("usagerPassageChecker TROIS_MOIS", () => {
-  expect(
-    usagerPassageChecker.check({
-      usager: {
-        decision: {
-          statut: "VALIDE",
-        },
-        lastInteraction: {
-          dateInteraction: new Date(refDateNow.getTime() - 16 * weekMs), // il y a 16 semaines
-        },
-      } as UsagerLight,
-      passage: "TROIS_MOIS",
-      refDateNow,
-    })
-  ).toBeTruthy();
-  expect(
-    usagerPassageChecker.check({
-      usager: {
-        decision: {
-          statut: "INSTRUCTION", // NON VALIDE
-        },
-        lastInteraction: {
-          dateInteraction: new Date(refDateNow.getTime() - 16 * weekMs), // il y a 16 semaines
-        },
-      } as UsagerLight,
-      passage: "TROIS_MOIS",
-      refDateNow,
-    })
-  ).toBeFalsy();
-  expect(
-    usagerPassageChecker.check({
-      usager: {
-        decision: {
-          statut: "VALIDE",
-        },
-        lastInteraction: {
-          dateInteraction: new Date(refDateNow.getTime() - 10 * weekMs), // il y a 10 semaines
-        },
-      } as UsagerLight,
-      passage: "TROIS_MOIS",
-      refDateNow,
-    })
-  ).toBeFalsy();
+  describe("usagerPassageChecker THREE_MONTHS", () => {
+    it("usagerPassageChecker: should return true, last interaction > 3 months", () => {
+      expect(
+        usagerPassageChecker.check({
+          usager: {
+            decision: {
+              statut: "VALIDE",
+            },
+            lastInteraction: {
+              dateInteraction: subMonths(new Date(), 6),
+            },
+          } as UsagerLight,
+          lastInteractionDate: "PREVIOUS_THREE_MONTHS",
+        })
+      ).toBeTruthy();
+    });
+
+    it("usagerPassageChecker: should return false, last interaction < 3 months", () => {
+      expect(
+        usagerPassageChecker.check({
+          usager: {
+            decision: {
+              statut: "INSTRUCTION",
+            },
+            lastInteraction: {
+              dateInteraction: subWeeks(new Date(), 1),
+            },
+          } as UsagerLight,
+          lastInteractionDate: "PREVIOUS_THREE_MONTHS",
+        })
+      ).toBeFalsy();
+    });
+  });
 });
