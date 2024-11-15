@@ -39,7 +39,7 @@ import {
 import { CommonInteraction, Usager } from "@domifa/common";
 import { MessageSmsService } from "../sms/services/message-sms.service";
 
-@UseGuards(AuthGuard("jwt"), AppUserGuard, UsagerAccessGuard)
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("interactions")
 @Controller("interactions")
 export class InteractionsController {
@@ -50,6 +50,7 @@ export class InteractionsController {
   ) {}
 
   @Post(":usagerRef")
+  @UseGuards(UsagerAccessGuard)
   @AllowUserProfiles("structure")
   public async postInteractions(
     @Body(new ParseArrayPipe({ items: InteractionDto }))
@@ -77,6 +78,7 @@ export class InteractionsController {
   }
 
   @Post("search/:usagerRef")
+  @UseGuards(UsagerAccessGuard)
   @AllowUserProfiles("structure")
   public async getInteractions(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
@@ -92,6 +94,7 @@ export class InteractionsController {
   }
 
   @Get("search-with-content/:usagerRef")
+  @UseGuards(UsagerAccessGuard)
   @AllowUserProfiles("structure")
   public async getInteractionsWithContent(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
@@ -105,6 +108,7 @@ export class InteractionsController {
   }
 
   @Post("search-login-portail/:usagerRef")
+  @UseGuards(UsagerAccessGuard)
   @AllowUserProfiles("structure")
   public async getLoginPortailHistory(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
@@ -129,7 +133,7 @@ export class InteractionsController {
     return new PageResultsDto(entities, pageMetaDto);
   }
 
-  @UseGuards(InteractionsGuard)
+  @UseGuards(UsagerAccessGuard, InteractionsGuard)
   @AllowUserProfiles("structure")
   @Delete(":usagerRef/:interactionUuid")
   public async deleteInteraction(
