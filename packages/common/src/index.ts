@@ -4,6 +4,7 @@ export * from "./import";
 export * from "./interactions";
 export * from "./message-sms";
 export * from "./pagination";
+export * from "./search";
 export * from "./stats";
 export * from "./structure";
 export * from "./structure-doc";

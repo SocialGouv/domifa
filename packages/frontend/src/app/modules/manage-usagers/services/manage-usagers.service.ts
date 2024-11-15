@@ -12,6 +12,7 @@ import {
   usagerActions,
   UsagerState,
 } from "../../../shared";
+import { UsagersFilterCriteria } from "../components/usager-filter";
 
 @Injectable({
   providedIn: "root",
@@ -59,15 +60,14 @@ export class ManageUsagersService {
       );
   }
 
-  public getSearchPageRemoteSearchRadies({
-    searchString,
-  }: {
-    searchString: string;
-  }): Observable<string> {
+  public getSearchPageRemoteSearchRadies(
+    filters: UsagersFilterCriteria
+  ): Observable<string> {
     return this.http
-      .post<UsagerLight[]>(`${environment.apiUrl}usagers/search-radies`, {
-        searchString,
-      })
+      .post<UsagerLight[]>(
+        `${environment.apiUrl}usagers/search-radies`,
+        filters
+      )
       .pipe(
         tap((usagers: UsagerLight[]) => {
           if (usagers?.length) {
@@ -77,7 +77,7 @@ export class ManageUsagersService {
           }
         }),
         map(() => {
-          return searchString;
+          return filters.searchString;
         })
       );
   }

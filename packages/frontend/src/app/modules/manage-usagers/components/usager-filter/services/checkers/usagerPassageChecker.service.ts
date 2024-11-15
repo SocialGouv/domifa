@@ -1,6 +1,5 @@
-import { startOfDay, subMonths } from "date-fns";
-
 import { UsagerLight } from "../../../../../../../_common/model";
+import { USAGER_DEADLINES } from "../../USAGER_DEADLINES.const";
 import { UsagersFilterCriteria } from "../../UsagersFilterCriteria";
 
 export const usagerPassageChecker = {
@@ -9,33 +8,21 @@ export const usagerPassageChecker = {
 
 function check({
   usager,
-  passage,
-  refDateNow,
+  lastInteractionDate,
 }: {
   usager: UsagerLight;
-  refDateNow: Date;
-} & Pick<UsagersFilterCriteria, "passage">): boolean {
-  if (passage) {
-    if (
-      usager.decision?.statut !== "VALIDE" ||
-      !usager.lastInteraction?.dateInteraction
-    ) {
-      return false;
-    }
-    let maxDateTime: number;
-    switch (passage) {
-      case "DEUX_MOIS":
-        maxDateTime = subMonths(startOfDay(refDateNow), 2).getTime();
-        break;
-      case "TROIS_MOIS":
-        maxDateTime = subMonths(startOfDay(refDateNow), 3).getTime();
-        break;
-      default:
-        return true;
-    }
-    return (
-      new Date(usager.lastInteraction.dateInteraction).getTime() <= maxDateTime
-    );
+} & Pick<UsagersFilterCriteria, "lastInteractionDate">): boolean {
+  if (!usager.lastInteraction?.dateInteraction) {
+    return false;
   }
+
+  if (lastInteractionDate && USAGER_DEADLINES[lastInteractionDate]) {
+    const deadlineTime = USAGER_DEADLINES[lastInteractionDate].value.getTime();
+    const interactionTime = new Date(
+      usager.lastInteraction.dateInteraction
+    ).getTime();
+    return deadlineTime > interactionTime;
+  }
+
   return true;
 }

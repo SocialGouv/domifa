@@ -1,3 +1,8 @@
+import {
+  UsagersFilterCriteriaDernierPassage,
+  UsagersFilterCriteriaEcheance,
+} from "@domifa/common";
+
 export type UsagersFilterCriteriaSortValues = "asc" | "desc";
 
 export type UsagersFilterCriteriaStatut =
@@ -20,14 +25,7 @@ export type UsagersFilterCriteriaSortKey =
   | "ECHEANCE"
   | "ID";
 
-export type UsagersFilterCriteriaEcheance =
-  | "DEPASSEE"
-  | "DEUX_MOIS"
-  | "DEUX_SEMAINES";
-
 export type UsagersFilterCriteriaEntretien = "COMING" | "OVERDUE";
-
-export type UsagersFilterCriteriaDernierPassage = "DEUX_MOIS" | "TROIS_MOIS";
 
 export type CriteriaSearchField = "DEFAULT" | "DATE_NAISSANCE";
 export class UsagersFilterCriteria {
@@ -39,7 +37,7 @@ export class UsagersFilterCriteria {
   public statut: UsagersFilterCriteriaStatut | null;
   public echeance: UsagersFilterCriteriaEcheance | null;
   public interactionType: "courrierIn" | null;
-  public passage: UsagersFilterCriteriaDernierPassage | null;
+  public lastInteractionDate: UsagersFilterCriteriaDernierPassage | null;
   public entretien: UsagersFilterCriteriaEntretien | null;
   // order by
   public sortKey: UsagersFilterCriteriaSortKey;
@@ -51,13 +49,13 @@ export class UsagersFilterCriteria {
 
   constructor(search?: Partial<UsagersFilterCriteria> | null) {
     this.interactionType = search?.interactionType || null;
-    this.passage = search?.passage || null;
+    this.lastInteractionDate = search?.lastInteractionDate || null;
     this.entretien = search?.entretien || null;
     this.echeance = search?.echeance || null;
     this.searchString = search?.searchString || null;
     this.searchStringField = search?.searchStringField || "DEFAULT";
     this.statut = search?.statut || "VALIDE";
-    this.page = search?.page || 0;
+    this.page = search?.page || 1;
 
     this.sortKey = search?.sortKey || "NAME";
     this.sortValue = search?.sortValue || "asc";

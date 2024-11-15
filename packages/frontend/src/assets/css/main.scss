@@ -1,6 +1,5 @@
 html,
 body {
-  height: 100%;
   font-family: "Marianne", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -31,7 +30,6 @@ caption {
 
 #page {
   min-height: calc(90vh - 78px);
-  overflow-x: hidden;
 }
 
 .container {
@@ -178,33 +176,6 @@ legend {
   line-height: 18px;
   color: #fff;
   font-weight: 700;
-}
-
-.ngb-dp-day.disabled,
-.ngb-dp-day.hidden {
-  color: #bbbbbb;
-}
-
-.custom-day {
-  text-align: center;
-  padding: 0.185rem 0.25rem;
-  display: inline-block;
-  height: 2rem;
-  width: 2rem;
-}
-
-.custom-day.focused {
-  background-color: #e6e6e6;
-}
-
-.custom-day.range,
-.custom-day:hover {
-  background-color: rgb(49, 139, 218);
-  color: white;
-}
-
-.custom-day.faded {
-  background-color: rgba(2, 117, 216, 0.5);
 }
 
 .head-page {

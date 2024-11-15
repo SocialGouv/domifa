@@ -88,7 +88,7 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
     return this.uploadForm.controls;
   }
 
-  public onFileChange(event: Event): void {
+  public async onFileChange(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
 
     if (!input.files?.length) {
@@ -96,7 +96,6 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
     }
 
     const file = input.files[0];
-
     this.uploadForm.patchValue({
       fileSource: file,
     });

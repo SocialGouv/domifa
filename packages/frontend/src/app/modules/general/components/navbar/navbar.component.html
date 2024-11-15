@@ -156,11 +156,30 @@
                   ></fa-icon>
                   Admin DomiFa
                 </a>
+
+                <a
+                  *ngIf="me.role !== 'facteur'"
+                  routerLink="/usager/nouveau"
+                  ariaCurrentWhenActive="page"
+                  class="btn btn-outline-primary"
+                >
+                  <fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'plus']"
+                    class="me-2"
+                  ></fa-icon>
+                  Créer une demande
+                </a>
                 <a
                   class="btn btn-outline-primary"
-                  [routerLink]="!me ? ['/'] : ['/manage']"
+                  routerLink="/manage"
                   ariaCurrentWhenActive="page"
                 >
+                  <fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'users']"
+                    class="me-2"
+                  ></fa-icon>
                   Domiciliés
                 </a>
                 <div

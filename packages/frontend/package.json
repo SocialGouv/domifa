@@ -57,6 +57,7 @@
     "ngx-matomo-client": "^5.0.4",
     "rxjs": "^7.8.1",
     "slug": "^9.1.0",
+    "strip-tags": "^0.1.1",
     "tslib": "^2.6.3",
     "validator": "^13.12.0",
     "zone.js": "~0.14.7"

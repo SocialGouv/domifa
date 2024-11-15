@@ -22,8 +22,7 @@ function filter(
     criteria: UsagersFilterCriteria;
   }
 ) {
-  const now = new Date();
-  const filteredUsagers = filterByCriteria(usagers, criteria, now);
+  const filteredUsagers = filterByCriteria(usagers, criteria);
 
   const filteredAndSearchUsagers = usagersSearchStringFilter.filter(
     filteredUsagers,
@@ -43,54 +42,72 @@ function filter(
 
 function filterByCriteria(
   usagers: UsagerLight[],
-  criteria: UsagersFilterCriteria,
-  now: Date
+  criteria: UsagersFilterCriteria
 ) {
-  if (
+  const now = new Date().toISOString().split("T")[0];
+
+  if (criteria.entretien) {
+    return filterByEntretien(usagers, criteria.entretien, now);
+  }
+
+  const hasFilters =
     criteria.statut ||
     criteria.interactionType ||
     criteria.echeance ||
-    criteria.passage
-  ) {
-    return usagers.filter((usager) => {
-      return (
-        usagerStatutChecker.check({
-          usager,
-          statut: criteria.statut,
-        }) &&
-        usagerInteractionTypeChecker.check({
-          usager,
-          interactionType: criteria.interactionType,
-        }) &&
-        usagerEcheanceChecker.check({
-          usager,
-          echeance: criteria.echeance,
-          refDateNow: now,
-        }) &&
-        usagerPassageChecker.check({
-          usager,
-          passage: criteria.passage,
-          refDateNow: now,
-        })
-      );
-    });
-  } else if (criteria.entretien === "COMING") {
-    return usagers.filter((usager) => {
-      return usager.rdv === null ||
-        usager.etapeDemande > ETAPE_ENTRETIEN ||
-        usager.rdv.dateRdv === null
-        ? false
-        : new Date() < new Date(usager.rdv.dateRdv);
-    });
-  } else if (criteria.entretien === "OVERDUE") {
-    return usagers.filter((usager) => {
-      return usager.rdv === null ||
-        usager.etapeDemande > ETAPE_ENTRETIEN ||
-        usager.rdv.dateRdv === null
-        ? false
-        : new Date() > new Date(usager.rdv.dateRdv);
-    });
+    criteria.lastInteractionDate;
+  if (!hasFilters) {
+    return usagers;
   }
 
-  return usagers;
+  // Créer un tableau de fonctions de filtrage actives
+  const activeFilters = [];
+
+  if (criteria.statut) {
+    activeFilters.push((usager: UsagerLight) =>
+      usagerStatutChecker.check({ usager, statut: criteria.statut })
+    );
+  }
+
+  if (criteria.interactionType) {
+    activeFilters.push((usager: UsagerLight) =>
+      usagerInteractionTypeChecker.check({
+        usager,
+        interactionType: criteria.interactionType,
+      })
+    );
+  }
+
+  if (criteria.echeance) {
+    activeFilters.push((usager: UsagerLight) =>
+      usagerEcheanceChecker.check({ usager, echeance: criteria.echeance })
+    );
+  }
+
+  if (criteria.lastInteractionDate) {
+    activeFilters.push((usager: UsagerLight) =>
+      usagerPassageChecker.check({
+        usager,
+        lastInteractionDate: criteria.lastInteractionDate,
+      })
+    );
+  }
+
+  return usagers.filter((usager) =>
+    activeFilters.every((filter) => filter(usager))
+  );
+}
+
+function filterByEntretien(
+  usagers: UsagerLight[],
+  entretien: string,
+  now: string
+): UsagerLight[] {
+  return usagers.filter((usager) => {
+    if (!usager.rdv?.dateRdv || usager.etapeDemande > ETAPE_ENTRETIEN) {
+      return false;
+    }
+
+    const dateRdv = new Date(usager.rdv.dateRdv).toISOString().split("T")[0];
+    return entretien === "COMING" ? dateRdv > now : dateRdv < now;
+  });
 }

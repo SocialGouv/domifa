@@ -6,12 +6,13 @@ import {
   OnInit,
   Output,
 } from "@angular/core";
+import { UsagersFilterCriteria } from "../usager-filter/UsagersFilterCriteria";
+import { Subject, ReplaySubject, Subscription } from "rxjs";
 import {
-  UsagersFilterCriteria,
+  extractDeadlines,
   UsagersFilterCriteriaDernierPassage,
   UsagersFilterCriteriaEcheance,
-} from "../usager-filter/UsagersFilterCriteria";
-import { Subject, ReplaySubject, Subscription } from "rxjs";
+} from "@domifa/common";
 
 @Component({
   selector: "app-manage-filters",
@@ -31,20 +32,26 @@ export class ManageFiltersComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  public readonly labelsDernierPassage: {
-    [key in UsagersFilterCriteriaDernierPassage]: string;
-  } = {
-    DEUX_MOIS: "Dernier passage 2 mois",
-    TROIS_MOIS: "Dernier passage 3 mois",
-  };
+  public readonly labelsEcheance =
+    extractDeadlines<UsagersFilterCriteriaEcheance>([
+      "EXCEEDED",
+      "NEXT_TWO_WEEKS",
+      "NEXT_TWO_MONTHS",
+      "PREVIOUS_YEAR",
+      "PREVIOUS_TWO_YEARS",
+    ]);
 
-  public readonly labelsEcheance: {
-    [key in UsagersFilterCriteriaEcheance]: string;
-  } = {
-    DEUX_MOIS: "Fin dans 2 mois",
-    DEUX_SEMAINES: "Fin dans 2 semaines",
-    DEPASSEE: "Domiciliation expirée",
-  };
+  public readonly labelsEcheanceRadiation =
+    extractDeadlines<UsagersFilterCriteriaEcheance>([
+      "PREVIOUS_YEAR",
+      "PREVIOUS_TWO_YEARS",
+    ]);
+
+  public readonly labelsDernierPassage =
+    extractDeadlines<UsagersFilterCriteriaDernierPassage>([
+      "PREVIOUS_TWO_MONTHS",
+      "PREVIOUS_THREE_MONTHS",
+    ]);
 
   public readonly labelsEntretien = {
     COMING: "à venir",

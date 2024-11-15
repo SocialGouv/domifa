@@ -3,6 +3,7 @@ import { usagerDocsRepository } from "./../../database/services/usager/usagerDoc
 
 import { messageSmsRepository } from "./../../database/services/message-sms/messageSmsRepository.service";
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -59,11 +60,13 @@ import {
   ETAPE_DOCUMENTS,
   CerfaDocType,
   UsagerDecision,
+  getUsagerDeadlines,
 } from "@domifa/common";
 import { UsagerHistoryStateService } from "../services/usagerHistoryState.service";
 import { domifaConfig } from "../../config";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
 import { Not } from "typeorm";
+import { isDateString } from "class-validator";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -151,22 +154,79 @@ export class UsagersController {
   @Post("search-radies")
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   public async searchInRadies(
-    @Body() { searchString }: SearchUsagerDto,
+    @Body() search: SearchUsagerDto,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    const search = dataCompare.cleanString(searchString);
-
-    return usagerRepository
-      .createQueryBuilder()
+    const query = usagerRepository
+      .createQueryBuilder("usager")
       .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
-      .where(
-        `"structureId" = :structureId and statut = 'RADIE' AND nom_prenom_ref ILIKE :search`,
+      .where(`"structureId" = :structureId and statut = 'RADIE'`, {
+        structureId: user.structureId,
+      });
+
+    if (search.searchString && search.searchStringField === "DEFAULT") {
+      query.andWhere(`nom_prenom_surnom_ref ILIKE :str`, {
+        str: `%${dataCompare.cleanString(search.searchString)}%`,
+      });
+    }
+
+    if (search.searchString && search.searchStringField === "DATE_NAISSANCE") {
+      if (!isDateString(search.searchString)) {
+        throw new BadRequestException("SEARCH_PARAMS_ERROR");
+      }
+      query.andWhere(`DATE("dateNaissance") = DATE(:date)`, {
+        date: new Date(search.searchString),
+      });
+    }
+
+    if (search?.lastInteractionDate) {
+      const deadlines = getUsagerDeadlines();
+      const date = deadlines[search.lastInteractionDate].value;
+      console.log({ date, deadlines });
+      query.andWhere(
+        `  ("lastInteraction"->>'dateInteraction')::timestamp >= :date`,
         {
-          structureId: user.structureId,
-          search: `%${search}%`,
+          date,
         }
-      )
-      .getRawMany();
+      );
+    }
+
+    if (search?.echeance) {
+      const deadlines = getUsagerDeadlines();
+      const now = new Date();
+      const deadline = deadlines[search.echeance];
+
+      if (search.echeance === "EXCEEDED") {
+        query.andWhere(`(decision->>'dateDecision')::timestamp <= :now`, {
+          now,
+        });
+      } else if (search.echeance.startsWith("NEXT_")) {
+        query.andWhere(
+          `(decision->>'dateDecision')::timestamp <= :deadline AND (decision->>'dateDecision')::timestamp >= :now`,
+          {
+            deadline: deadline.value,
+            now,
+          }
+        );
+      } else if (search?.echeance.startsWith("PREVIOUS_")) {
+        query.andWhere(`(decision->>'dateDecision')::timestamp <= :deadline`, {
+          deadline: deadline.value,
+          now,
+        });
+      }
+    }
+
+    if (
+      !search?.searchString &&
+      !search?.echeance &&
+      !search?.lastInteractionDate
+    ) {
+      query.take(100);
+    }
+
+    const results = await query.getRawMany();
+
+    return results;
   }
 
   @Post()

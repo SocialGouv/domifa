@@ -1,9 +1,9 @@
 import { CriteriaSearchField } from "../usager-filter/UsagersFilterCriteria";
 
 import {
+  AfterViewInit,
   Component,
   ElementRef,
-  HostListener,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -14,6 +14,7 @@ import {
   BehaviorSubject,
   combineLatest,
   fromEvent,
+  merge,
   Observable,
   of,
   ReplaySubject,
@@ -29,7 +30,6 @@ import {
   switchMap,
   takeUntil,
   tap,
-  throttleTime,
   withLatestFrom,
 } from "rxjs/operators";
 import { fadeInOut } from "../../../../shared";
@@ -43,7 +43,7 @@ import {
   UsagersFilterCriteriaSortKey,
   UsagersFilterCriteriaSortValues,
 } from "../usager-filter";
-import { select, Store } from "@ngrx/store";
+import { Store } from "@ngrx/store";
 import { ManageUsagersService } from "../../services/manage-usagers.service";
 import { UserStructure } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
@@ -56,6 +56,7 @@ import {
 } from "../../../../shared/store/usager-actions-reducer.service";
 import { UsagerLight } from "../../../../../_common/model";
 import { calculateUsagersCountByStatus } from "../usager-filter/services";
+import { isValid, parse } from "date-fns";
 
 const FIVE_MINUTES = 5 * 60 * 1000;
 
@@ -65,14 +66,19 @@ const FIVE_MINUTES = 5 * 60 * 1000;
   styleUrls: ["./manage-usagers-page.component.scss"],
   templateUrl: "./manage-usagers-page.component.html",
 })
-export class ManageUsagersPageComponent implements OnInit, OnDestroy {
+export class ManageUsagersPageComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   public searching: boolean;
 
   public usagersTotalCount = 0;
   public usagersRadiesLoadedCount = 0;
 
-  public displayCheckboxes: boolean;
   public chargerTousRadies$ = new BehaviorSubject(false);
+  public searchTrigger$ = new Subject<void>();
+
+  @ViewChild("sentinel") sentinel!: ElementRef;
+  private observer!: IntersectionObserver;
 
   public usagersCountByStatus: UsagersCountByStatus = {
     INSTRUCTION: 0,
@@ -84,7 +90,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   };
 
   private destroy$ = new Subject<void>();
-  private scrollSubject = new Subject<void>();
 
   public usagers: UsagerFormModel[] = [];
   public me!: UserStructure | null;
@@ -116,9 +121,12 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   @ViewChild("searchInput", { static: true })
   public searchInput!: ElementRef;
 
+  @ViewChild("refreshButton", { static: true })
+  refreshButton!: ElementRef;
+
   private subscription = new Subscription();
   public selectedRefs: number[];
-
+  public usagersRadiesTotalCount = 0;
   constructor(
     private readonly usagerService: ManageUsagersService,
     private readonly authService: AuthService,
@@ -128,7 +136,6 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     private readonly toastr: CustomToastService
   ) {
     this.selectedRefs = [];
-    this.displayCheckboxes = false;
 
     this.me = this.authService.currentUserValue;
 
@@ -137,46 +144,76 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.searching = true;
     this.usagers = [];
     this.filters = new UsagersFilterCriteria(this.getFilters());
-
     this.pageSize = 50;
-    this.filters.page = 0;
+    this.filters.page = 1;
     this.titleService.setTitle("Gestion des domiciliés - DomiFa");
+    this.filters$.next(this.filters);
+    this.usagersRadiesTotalCount = 0;
+  }
 
-    this.scrollSubject.pipe(throttleTime(500)).subscribe(() => {
-      this.handleScroll();
-    });
+  ngAfterViewInit() {
+    if (this.sentinel) {
+      this.observer.observe(this.sentinel.nativeElement);
+    }
   }
 
   public ngOnInit(): void {
     if (!this.me?.acceptTerms) {
       return;
     }
-
-    const allUsagers$ = this.store.pipe(select(selectAllUsagers));
+    this.setupIntersectionObserver();
 
     this.searchInput.nativeElement.value = this.filters.searchString;
 
-    const onSearchInputKeyUp$: Observable<string> = fromEvent<InputEvent>(
+    const inputChange$ = fromEvent<InputEvent>(
       this.searchInput.nativeElement,
       "input"
     ).pipe(
-      map((event: InputEvent) => (event.target as HTMLInputElement).value),
       debounceTime(300),
-      map((value: string) => value.trim()),
-      filter((value: string) => value !== this.filters.searchString),
+      map((event: InputEvent) => {
+        return (event.target as HTMLInputElement).value;
+      })
+    );
+
+    const enterPress$ = fromEvent<KeyboardEvent>(
+      this.searchInput.nativeElement,
+      "keyup"
+    ).pipe(
+      filter((event) => event.key === "Enter"),
+      map(() => this.searchInput.nativeElement.value)
+    );
+
+    const buttonClick$ = fromEvent(
+      this.refreshButton.nativeElement,
+      "click"
+    ).pipe(map(() => this.searchInput.nativeElement.value));
+
+    const manualSearchTrigger$ = this.searchTrigger$.pipe(
+      map(() => this.searchInput.nativeElement.value)
+    );
+
+    const searchEvents$ = merge(
+      inputChange$,
+      enterPress$,
+      buttonClick$,
+      manualSearchTrigger$
+    ).pipe(
       withLatestFrom(this.chargerTousRadies$),
       switchMap(([searchString, chargerTousRadies]) => {
-        return this.findRemoteUsagers(chargerTousRadies, searchString);
+        return this.findRemoteUsagers(chargerTousRadies, {
+          ...this.filters,
+          searchString,
+        });
       }),
       tap((searchString: string) => {
         this.searching = true;
         this.filters.searchString = searchString ?? null;
-        this.filters.page = 0;
+        this.filters.page = 1;
         this.filters$.next(this.filters);
       })
     );
 
-    this.subscription.add(onSearchInputKeyUp$.subscribe());
+    this.subscription.add(searchEvents$.subscribe());
 
     this.subscription.add(
       timer(FIVE_MINUTES, FIVE_MINUTES)
@@ -193,88 +230,121 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      combineLatest([this.filters$, allUsagers$])
-        .pipe(debounceTime(300), takeUntil(this.destroy$))
-        .subscribe(([filters, allUsagers]) => {
-          this.applyFilters({ filters, allUsagers });
-        })
-    );
+      this.store
+        .select(selectUsagerStateData())
+        .pipe(
+          switchMap(({ dataLoaded, usagersRadiesTotalCount }) => {
+            if (!dataLoaded) {
+              return this.loadDataFromAPI().pipe(
+                switchMap(() =>
+                  combineLatest([
+                    this.filters$,
+                    this.store.select(selectAllUsagers),
+                  ]).pipe(
+                    // On map pour garder usagersRadiesTotalCount
+                    map(([filters, usagers]) => ({
+                      filters,
+                      usagers,
+                      totalCount: usagersRadiesTotalCount,
+                    }))
+                  )
+                )
+              );
+            }
 
-    this.subscription.add(
-      combineLatest([
-        this.store.select(selectUsagerStateData()),
-        this.store.select(selectAllUsagers),
-      ]).subscribe(([{ dataLoaded, usagersRadiesTotalCount }, usagers]) => {
-        if (!dataLoaded) {
-          this.loadDataFromAPI();
-        } else {
-          this.updateComponentState(usagers, usagersRadiesTotalCount);
-        }
-      })
+            return combineLatest([
+              this.filters$,
+              this.store.select(selectAllUsagers),
+            ]).pipe(
+              map(([filters, usagers]) => {
+                return {
+                  filters,
+                  usagers,
+                  totalCount: usagersRadiesTotalCount,
+                };
+              })
+            );
+          }),
+
+          takeUntil(this.destroy$)
+        )
+        .subscribe(({ filters, usagers, totalCount }) => {
+          if (filters && usagers) {
+            this.usagersRadiesTotalCount = totalCount;
+            this.applyFilters({ filters, allUsagers: usagers });
+          }
+          this.searching = false;
+        })
     );
   }
 
+  private setupIntersectionObserver(): void {
+    const options = {
+      root: null,
+      rootMargin: "900px",
+      threshold: 0,
+    };
+
+    this.observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+
+      if (entry.isIntersecting && this.usagers.length < this.nbResults) {
+        this.filters.page = this.filters.page + 1;
+
+        this.filters$.next(this.filters);
+      }
+    }, options);
+  }
+
+  public launchSearch() {
+    this.filters$.next(this.filters);
+  }
+
   private loadDataFromAPI() {
-    this.subscription.add(
-      this.chargerTousRadies$
-        .pipe(
-          tap(() => {
-            this.searching = true;
-          }),
-          switchMap((chargerTousRadies) =>
-            this.usagerService.fetchSearchPageUsagerData({
-              chargerTousRadies,
-            })
-          ),
-          switchMap(() => this.chargerTousRadies$),
-          switchMap((chargerTousRadies) =>
-            this.findRemoteUsagers(chargerTousRadies, this.filters.searchString)
-          )
-        )
-        .subscribe()
+    return this.chargerTousRadies$.pipe(
+      tap(() => {
+        this.searching = true;
+      }),
+      switchMap((chargerTousRadies) => {
+        return this.usagerService.fetchSearchPageUsagerData({
+          chargerTousRadies,
+        });
+      }),
+      switchMap(() => this.chargerTousRadies$),
+      switchMap((chargerTousRadies) =>
+        this.findRemoteUsagers(chargerTousRadies, this.filters)
+      )
     );
   }
 
   private findRemoteUsagers(
     chargerTousRadies: boolean,
-    searchString: string
+    filters: UsagersFilterCriteria
   ): Observable<string> {
     if (
       !chargerTousRadies &&
-      searchString?.length >= 3 &&
       (this.filters.statut === "TOUS" || this.filters.statut === "RADIE")
     ) {
+      if (
+        this.filters.searchStringField === "DATE_NAISSANCE" &&
+        !this.validateDateSearchInput(filters?.searchString)
+      ) {
+        return of(filters.searchString);
+      }
+
       return this.usagerService
-        .getSearchPageRemoteSearchRadies({
-          searchString,
-        })
+        .getSearchPageRemoteSearchRadies(this.filters)
         .pipe(
           catchError(() => {
             this.searching = false;
             this.toastr.error(
               "La recherche n'a pas abouti, merci de réessayer dans quelques instants"
             );
-            return searchString;
+            return filters.searchString;
           })
         );
     }
-    return of(searchString);
-  }
-
-  private updateComponentState(
-    usagers: UsagerLight[],
-    usagersRadiesTotalCount: number
-  ) {
-    this.usagersCountByStatus = calculateUsagersCountByStatus(
-      usagers,
-      usagersRadiesTotalCount
-    );
-
-    this.usagersRadiesLoadedCount = usagers.filter(
-      (usager) => usager.statut === "RADIE"
-    ).length;
-
-    this.filters$.next(this.filters);
+    return of(filters.searchString);
   }
 
   public chargerTousRadies(): void {
@@ -289,6 +359,17 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.chargerTousRadies$.next(true);
   }
 
+  private validateDateSearchInput(text: string): Date | null {
+    const dateRegex = /\b(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])\/([12]\d{3})\b/;
+    const match = text.match(dateRegex);
+
+    if (!match) {
+      return null;
+    }
+    const parsedDate = parse(match[0], "dd/MM/yyyy", new Date());
+    return isValid(parsedDate) ? parsedDate : null;
+  }
+
   private scrollTop(): void {
     window.scroll({
       behavior: "smooth",
@@ -299,7 +380,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
 
   public goToPrint(): void {
     this.pageSize = 20000;
-    this.filters.page = 0;
+    this.filters.page = 1;
     this.needToPrint = true;
     this.filters$.next(this.filters);
   }
@@ -308,6 +389,9 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
     this.subscription.unsubscribe();
+    if (this.observer) {
+      this.observer.disconnect();
+    }
   }
 
   public resetSearchBar(): void {
@@ -335,30 +419,32 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (
-      element === "interactionType" ||
-      element === "passage" ||
-      element === "echeance"
-    ) {
-      const newValue = this.filters[element] === value ? null : value;
-      this.filters[element] = newValue;
+    const shouldTriggerRemoteSearch =
+      (element === "echeance" || element === "lastInteractionDate") &&
+      (this.filters.statut === "TOUS" || this.filters.statut === "RADIE");
+
+    const isInteractionFilter = [
+      "interactionType",
+      "lastInteractionDate",
+      "echeance",
+    ].includes(element);
+
+    if (isInteractionFilter) {
+      this.filters[element] = this.filters[element] === value ? null : value;
       this.setSortKeyAndValue("NAME", "asc");
-    } else if (element === "statut") {
-      if (this.filters[element] === value) {
-        return;
-      }
-
+      this.filters.page = 1;
+    } else if (element === "statut" && this.filters[element] !== value) {
       this.resetFiltersInStatus();
-
       this.filters[element] = value;
-      if (
-        (this.filters.sortKey !== "NAME" &&
-          this.filters.sortKey !== "ID" &&
-          this.filters.sortKey !== "PASSAGE") ||
-        (value !== "TOUS" && value !== "VALIDE")
-      ) {
+
+      const needsSortReset =
+        !["NAME", "ID", "PASSAGE"].includes(this.filters.sortKey) ||
+        (value !== "TOUS" && value !== "VALIDE");
+
+      if (needsSortReset) {
         this.setSortKeyAndValue("NAME", this.filters.sortValue);
       }
+      this.filters.page = 1;
     } else if (element === "sortKey") {
       if (
         this.filters.statut === "TOUS" &&
@@ -367,26 +453,28 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
         return;
       }
 
-      // Tri issu des en-tête de tableau
-      if (!sortValue) {
-        const isCurrentSortKey = value === this.filters.sortKey;
-        const isAscendingSort = this.filters.sortValue === "asc";
-
-        if (isCurrentSortKey) {
-          sortValue = isAscendingSort ? "desc" : "asc";
-        } else {
-          sortValue = "asc";
-        }
-      }
-
-      this.filters.sortValue = sortValue;
+      this.filters.sortValue = sortValue || this.getNextSortValue(value);
       this.filters.sortKey = value as UsagersFilterCriteriaSortKey;
+      this.filters.page = 1;
     } else {
       this.filters[element] = value;
+      this.filters.page = 1;
     }
 
-    this.filters.page = 0;
-    this.filters$.next(this.filters);
+    // Déclenche la mise à jour
+    if (shouldTriggerRemoteSearch) {
+      this.searchTrigger$.next();
+    } else {
+      this.filters$.next(this.filters);
+    }
+  }
+
+  private getNextSortValue(
+    value: UsagersFilterCriteria[keyof UsagersFilterCriteria]
+  ): UsagersFilterCriteriaSortValues {
+    const isCurrentSortKey = value === this.filters.sortKey;
+    const isAscendingSort = this.filters.sortValue === "asc";
+    return isCurrentSortKey && isAscendingSort ? "desc" : "asc";
   }
 
   public applyFilters({
@@ -399,36 +487,37 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
     this.searching = true;
     this.selectedRefs = [];
 
-    this.displayCheckboxes = !(
-      this.me?.role === "facteur" ||
-      (this.me?.role === "simple" && this.filters.statut !== "VALIDE")
+    let radiesCount = 0;
+    for (const usager of allUsagers) {
+      if (usager.statut === "RADIE") {
+        radiesCount++;
+      }
+    }
+
+    this.usagersRadiesLoadedCount = radiesCount;
+    this.usagersCountByStatus = calculateUsagersCountByStatus(
+      allUsagers,
+      this.usagersRadiesTotalCount
     );
 
     localStorage.setItem("MANAGE_USAGERS", JSON.stringify(filters));
-
-    const filterCriteria: UsagersFilterCriteria = {
-      ...filters,
-    };
 
     const filteredUsagers = usagersFilter.filter(
       filters.statut !== "TOUS"
         ? allUsagers.filter((usager) => usager.statut === filters.statut)
         : allUsagers,
-      {
-        criteria: filterCriteria,
-      }
+      { criteria: filters }
     );
 
     this.nbResults = filteredUsagers.length;
 
     this.usagers = filteredUsagers.slice(
       0,
-      filters.page === 0 ? this.pageSize : filters.page * this.pageSize
-    ) as unknown as UsagerFormModel[];
-
+      filters.page * this.pageSize
+    ) as UsagerFormModel[];
     this.searching = false;
 
-    // Impression: on attend la fin de la générationde la liste
+    // Impression: on attend la fin de la génération de la liste
     if (this.needToPrint) {
       setTimeout(() => {
         window.print();
@@ -438,7 +527,7 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   }
 
   private resetFiltersInStatus(): void {
-    this.filters.passage = null;
+    this.filters.lastInteractionDate = null;
     this.filters.entretien = null;
     this.filters.echeance = null;
     this.filters.interactionType = null;
@@ -455,23 +544,5 @@ export class ManageUsagersPageComponent implements OnInit, OnDestroy {
   private getFilters(): null | Partial<UsagersFilterCriteria> {
     const filters = localStorage.getItem("MANAGE_USAGERS");
     return filters === null ? {} : JSON.parse(filters);
-  }
-
-  @HostListener("window:scroll", ["$event"])
-  public onScroll(): void {
-    this.scrollSubject.next();
-  }
-
-  private handleScroll(): void {
-    const pos =
-      (document.documentElement.scrollTop || document.body.scrollTop) +
-      document.documentElement.offsetHeight;
-    const max = document.documentElement.scrollHeight;
-    const pourcent = (pos / max) * 100;
-
-    if (pourcent >= 70 && this.usagers.length < this.nbResults) {
-      this.filters.page = this.filters.page + 1;
-      this.filters$.next(this.filters);
-    }
   }
 }
