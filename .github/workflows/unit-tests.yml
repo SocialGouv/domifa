@@ -218,14 +218,14 @@ jobs:
       #     path: packages/portail-usagers/coverage
 
       - name: Publish backend code coverage
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: packages/backend/coverage
 
       - name: Publish front-end code coverage
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
