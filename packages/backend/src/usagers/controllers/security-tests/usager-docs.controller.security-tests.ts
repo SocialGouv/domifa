@@ -29,6 +29,7 @@ export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef
           {
             roles: ["simple", "responsable", "admin"],
             validExpectedResponseStatus: HttpStatus.BAD_REQUEST, // filesystem document does not exists in tests
+            invalidStructureIdExpectedResponseStatus: HttpStatus.BAD_REQUEST,
           }
         ),
       }),
@@ -45,6 +46,7 @@ export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef
             roles: ["simple", "responsable", "admin"],
             validStructureIds: [1],
             validExpectedResponseStatus: HttpStatus.OK, // filesystem document does not exists in tests
+            invalidStructureIdExpectedResponseStatus: HttpStatus.BAD_REQUEST,
           }
         ),
       }),
