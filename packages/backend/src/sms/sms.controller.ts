@@ -2,13 +2,14 @@ import { Controller, Get, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
-import { AllowUserProfiles } from "../auth/decorators";
+import { AllowUserProfiles, AllowUserStructureRoles } from "../auth/decorators";
 import { CurrentUsager } from "../auth/decorators/current-usager.decorator";
 
 import { AppUserGuard } from "../auth/guards";
 import { UsagerAccessGuard } from "../auth/guards/usager-access.guard";
 import { messageSmsRepository } from "../database";
 import { Usager } from "@domifa/common";
+import { USER_STRUCTURE_ROLE_ALL } from "../_common/model";
 
 @Controller("sms")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -16,6 +17,7 @@ import { Usager } from "@domifa/common";
 @ApiTags("sms")
 export class SmsController {
   @ApiBearerAuth()
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @UseGuards(UsagerAccessGuard)
   @Get("usager/:usagerRef")
   public async getUsagerSms(@CurrentUsager() currentUsager: Usager) {
