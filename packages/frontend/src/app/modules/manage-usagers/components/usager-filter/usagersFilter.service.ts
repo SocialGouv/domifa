@@ -7,7 +7,6 @@ import {
   usagersSearchStringFilter,
   usagerStatutChecker,
 } from "./services";
-import { usagersSorter } from "./services/usagersSorter.service";
 import { UsagersFilterCriteria } from "./UsagersFilterCriteria";
 
 export const usagersFilter = {
@@ -24,19 +23,11 @@ function filter(
 ) {
   const filteredUsagers = filterByCriteria(usagers, criteria);
 
-  const filteredAndSearchUsagers = usagersSearchStringFilter.filter(
-    filteredUsagers,
-    {
-      searchString: criteria.searchString,
-      searchStringField: criteria.searchStringField,
-      searchInAyantDroits: criteria.searchInAyantDroits,
-      searchInProcurations: criteria.searchInProcurations,
-    }
-  );
-
-  return usagersSorter.sortBy(filteredAndSearchUsagers, {
-    sortKey: criteria.sortKey,
-    sortValue: criteria.sortValue,
+  return usagersSearchStringFilter.filter(filteredUsagers, {
+    searchString: criteria.searchString,
+    searchStringField: criteria.searchStringField,
+    searchInAyantDroits: criteria.searchInAyantDroits,
+    searchInProcurations: criteria.searchInProcurations,
   });
 }
 

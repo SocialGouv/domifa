@@ -55,7 +55,10 @@ import {
   UsagerState,
 } from "../../../../shared/store/usager-actions-reducer.service";
 import { UsagerLight } from "../../../../../_common/model";
-import { calculateUsagersCountByStatus } from "../usager-filter/services";
+import {
+  calculateUsagersCountByStatus,
+  usagersSorter,
+} from "../usager-filter/services";
 import { isValid, parse } from "date-fns";
 
 const FIVE_MINUTES = 5 * 60 * 1000;
@@ -92,6 +95,8 @@ export class ManageUsagersPageComponent
   private destroy$ = new Subject<void>();
 
   public usagers: UsagerFormModel[] = [];
+  public filteredUsagers: UsagerFormModel[] = [];
+
   public me!: UserStructure | null;
 
   public readonly SEARCH_STRING_FIELD_LABELS: {
@@ -171,6 +176,8 @@ export class ManageUsagersPageComponent
     ).pipe(
       debounceTime(300),
       map((event: InputEvent) => {
+        console.log("searchInput");
+        console.log((event.target as HTMLInputElement).value);
         return (event.target as HTMLInputElement).value;
       })
     );
@@ -200,6 +207,7 @@ export class ManageUsagersPageComponent
     ).pipe(
       withLatestFrom(this.chargerTousRadies$),
       switchMap(([searchString, chargerTousRadies]) => {
+        this.filters.searchString = searchString ?? null;
         return this.findRemoteUsagers(chargerTousRadies, {
           ...this.filters,
           searchString,
@@ -241,7 +249,6 @@ export class ManageUsagersPageComponent
                     this.filters$,
                     this.store.select(selectAllUsagers),
                   ]).pipe(
-                    // On map pour garder usagersRadiesTotalCount
                     map(([filters, usagers]) => ({
                       filters,
                       usagers,
@@ -290,8 +297,7 @@ export class ManageUsagersPageComponent
 
       if (entry.isIntersecting && this.usagers.length < this.nbResults) {
         this.filters.page = this.filters.page + 1;
-
-        this.filters$.next(this.filters);
+        this.applyPagination();
       }
     }, options);
   }
@@ -419,49 +425,39 @@ export class ManageUsagersPageComponent
       return;
     }
 
+    if (element === "page") {
+      this.filters.page = parseInt(value as string, 10);
+      this.applyPagination();
+      return;
+    }
+
+    if (element === "sortKey") {
+      this.filters.sortValue = sortValue || this.getNextSortValue(value);
+      this.filters.sortKey = value as UsagersFilterCriteriaSortKey;
+      this.filters.page = 1;
+
+      console.log(this.filters.sortKey);
+      this.applySorting();
+      return;
+    }
+
+    if (element === "statut" && this.filters[element] !== value) {
+      this.resetFiltersInStatus();
+      this.filters[element] = value;
+      this.setSortKeyAndValue("NAME", this.filters.sortValue);
+    } else if (
+      ["interactionType", "lastInteractionDate", "echeance"].includes(element)
+    ) {
+      this.filters[element] = this.filters[element] === value ? null : value;
+      this.setSortKeyAndValue("NAME", "asc");
+    } else {
+      this.filters[element] = value;
+    }
+    this.filters.page = 1;
     const shouldTriggerRemoteSearch =
       (element === "echeance" || element === "lastInteractionDate") &&
       (this.filters.statut === "TOUS" || this.filters.statut === "RADIE");
 
-    const isInteractionFilter = [
-      "interactionType",
-      "lastInteractionDate",
-      "echeance",
-    ].includes(element);
-
-    if (isInteractionFilter) {
-      this.filters[element] = this.filters[element] === value ? null : value;
-      this.setSortKeyAndValue("NAME", "asc");
-      this.filters.page = 1;
-    } else if (element === "statut" && this.filters[element] !== value) {
-      this.resetFiltersInStatus();
-      this.filters[element] = value;
-
-      const needsSortReset =
-        !["NAME", "ID", "PASSAGE"].includes(this.filters.sortKey) ||
-        (value !== "TOUS" && value !== "VALIDE");
-
-      if (needsSortReset) {
-        this.setSortKeyAndValue("NAME", this.filters.sortValue);
-      }
-      this.filters.page = 1;
-    } else if (element === "sortKey") {
-      if (
-        this.filters.statut === "TOUS" &&
-        (value === "VALIDE" || value === "TOUS")
-      ) {
-        return;
-      }
-
-      this.filters.sortValue = sortValue || this.getNextSortValue(value);
-      this.filters.sortKey = value as UsagersFilterCriteriaSortKey;
-      this.filters.page = 1;
-    } else {
-      this.filters[element] = value;
-      this.filters.page = 1;
-    }
-
-    // Déclenche la mise à jour
     if (shouldTriggerRemoteSearch) {
       this.searchTrigger$.next();
     } else {
@@ -485,7 +481,6 @@ export class ManageUsagersPageComponent
     allUsagers: UsagerLight[];
   }): void {
     this.searching = true;
-    this.selectedRefs = [];
 
     let radiesCount = 0;
     for (const usager of allUsagers) {
@@ -502,20 +497,13 @@ export class ManageUsagersPageComponent
 
     localStorage.setItem("MANAGE_USAGERS", JSON.stringify(filters));
 
-    const filteredUsagers = usagersFilter.filter(
-      filters.statut !== "TOUS"
-        ? allUsagers.filter((usager) => usager.statut === filters.statut)
-        : allUsagers,
-      { criteria: filters }
-    );
+    this.filteredUsagers = usagersFilter.filter(allUsagers, {
+      criteria: filters,
+    }) as UsagerFormModel[];
 
-    this.nbResults = filteredUsagers.length;
+    this.nbResults = this.filteredUsagers.length;
 
-    this.usagers = filteredUsagers.slice(
-      0,
-      filters.page * this.pageSize
-    ) as UsagerFormModel[];
-    this.searching = false;
+    this.applySorting();
 
     // Impression: on attend la fin de la génération de la liste
     if (this.needToPrint) {
@@ -531,6 +519,55 @@ export class ManageUsagersPageComponent
     this.filters.entretien = null;
     this.filters.echeance = null;
     this.filters.interactionType = null;
+  }
+
+  private applySorting(): void {
+    this.selectedRefs = [];
+    if (!this.filteredUsagers.length) {
+      this.usagers = [];
+      return;
+    }
+
+    this.filteredUsagers = usagersSorter.sortBy(this.filteredUsagers, {
+      sortKey: this.filters.sortKey,
+      sortValue: this.filters.sortValue,
+    }) as UsagerFormModel[];
+
+    this.applyPaginationFromStore();
+  }
+
+  private applyPaginationFromStore(): void {
+    if (!this.filteredUsagers?.length) {
+      return;
+    }
+
+    const startIndex = 0;
+    const endIndex = this.filters.page * this.pageSize;
+
+    this.usagers = this.filteredUsagers.slice(
+      startIndex,
+      endIndex
+    ) as UsagerFormModel[];
+  }
+
+  private applyPagination(): void {
+    if (!this.filteredUsagers?.length) {
+      return;
+    }
+
+    const startIndex = (this.filters.page - 1) * this.pageSize;
+    const endIndex = this.filters.page * this.pageSize;
+
+    const newElements = this.filteredUsagers.slice(
+      startIndex,
+      endIndex
+    ) as UsagerFormModel[];
+
+    if (this.filters.page === 1) {
+      this.usagers = newElements;
+    } else {
+      this.usagers = [...this.usagers, ...newElements];
+    }
   }
 
   private setSortKeyAndValue(

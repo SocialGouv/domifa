@@ -112,5 +112,6 @@ export class ManageFiltersComponent implements OnInit, OnDestroy {
     };
 
     this.sortLabel = LABELS_SORT[this.filters.sortKey];
+    console.log(this.filters.sortKey);
   }
 }
