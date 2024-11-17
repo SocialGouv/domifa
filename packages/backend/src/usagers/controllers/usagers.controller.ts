@@ -182,7 +182,7 @@ export class UsagersController {
     if (search?.lastInteractionDate) {
       const deadlines = getUsagerDeadlines();
       const date = deadlines[search.lastInteractionDate].value;
-      console.log({ date, deadlines });
+
       query.andWhere(
         `  ("lastInteraction"->>'dateInteraction')::timestamp >= :date`,
         {
