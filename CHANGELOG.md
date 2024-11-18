@@ -1,3 +1,20 @@
+# [2.183.0](https://github.com/SocialGouv/domifa/compare/v2.182.7...v2.183.0) (2024-11-18)
+
+
+### Bug Fixes
+
+* **backend:** add new rules for search ([053a40d](https://github.com/SocialGouv/domifa/commit/053a40d766ee2d87288da817942eee502effe831))
+* **backend:** fix unit tests ([1373594](https://github.com/SocialGouv/domifa/commit/13735940973d5ad49f5d272949f572e4176c8148))
+* **backend:** fix unit tests & guards ([ba5fae5](https://github.com/SocialGouv/domifa/commit/ba5fae51b3dca510b68a9f9d2396be816c4f76da))
+* **backend:** update test dump ([4cf3667](https://github.com/SocialGouv/domifa/commit/4cf36673a796056ac6c01daee048aea671258fcb))
+* **frontend:** split sort & pagination ([562d1c7](https://github.com/SocialGouv/domifa/commit/562d1c7a38388dc13b2040d7e715ff40a796dc48))
+* **frontend:** update tests ([f3f8a7a](https://github.com/SocialGouv/domifa/commit/f3f8a7a47928a95d3909a71270d7e092bc719058))
+
+
+### Features
+
+* **backend:** enforce guards ([23c645d](https://github.com/SocialGouv/domifa/commit/23c645ddd8138f2f771b0ce5ea101fdb00948eb5))
+
 ## [2.182.7](https://github.com/SocialGouv/domifa/compare/v2.182.6...v2.182.7) (2024-11-17)
 
 
