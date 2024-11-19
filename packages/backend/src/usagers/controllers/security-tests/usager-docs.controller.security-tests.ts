@@ -44,7 +44,6 @@ export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef
           context.user,
           {
             roles: ["simple", "responsable", "admin"],
-            validStructureIds: [1],
             validExpectedResponseStatus: HttpStatus.OK, // filesystem document does not exists in tests
             invalidStructureIdExpectedResponseStatus: HttpStatus.BAD_REQUEST,
           }
