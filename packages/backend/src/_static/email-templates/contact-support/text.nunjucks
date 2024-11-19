@@ -4,6 +4,8 @@ Structure existante :  {% if structureId %} Oui: {{ structureId }} {% else %} No
 
 Nom : {{ name }}
 
+Sujet : {{ subject }}
+
 Nom de la structure : {{ structureName }}
 
 Email : {{ email }}

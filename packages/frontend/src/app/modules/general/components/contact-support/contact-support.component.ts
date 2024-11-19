@@ -86,6 +86,10 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
         name,
         [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
+      subject: [
+        "",
+        [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
+      ],
       structureId: [structureId, []],
       structureName: [
         structureName,
@@ -126,6 +130,7 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
     }
 
     formData.append("name", this.contactForm.controls.name.value);
+    formData.append("subject", this.contactForm.controls.subject.value);
     formData.append("userId", this.contactForm.controls.userId.value);
     formData.append("structureId", this.contactForm.controls.structureId.value);
     formData.append(
@@ -143,11 +148,13 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
           this.success = true;
           this.submitted = false;
           this.contactForm.reset();
-          this.toastService.success("Fichier uploadé avec succès");
+          this.toastService.success(
+            "Message envoyé avec succès, l'équipe vous recontactera très prochainnement"
+          );
         },
         error: () => {
           this.loading = false;
-          this.toastService.error("Impossible d'uploader le fichier");
+          this.toastService.error("Impossible d'envoyer le message");
         },
       })
     );

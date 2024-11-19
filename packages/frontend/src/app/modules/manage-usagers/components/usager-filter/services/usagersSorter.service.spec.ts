@@ -85,7 +85,7 @@ it("usagersSorter NAME (nom, prenom)", () => {
 
 it("usagersSorter RADIE (usager.decision.dateFin)", () => {
   const results = usagersSorter.sortBy(usagers, {
-    sortKey: "RADIE",
+    sortKey: "ECHEANCE",
     sortValue: "desc",
   });
   expect(results.length).toEqual(usagers.length);

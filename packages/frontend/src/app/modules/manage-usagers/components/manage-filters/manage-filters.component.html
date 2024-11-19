@@ -312,14 +312,7 @@
             aria-haspopup="listbox"
           >
             <span>
-              <ng-container *ngIf="filters.sortKey !== 'PASSAGE'">
-                Trier par
-                <strong class="text-primary">{{ sortLabel }}</strong>
-              </ng-container>
-              <ng-container *ngIf="filters.sortKey === 'PASSAGE'">
-                Trier par
-                <strong class="text-primary">dernier passage</strong>
-              </ng-container>
+              Trier par {{ filters.sortKey | sortLabel : filters.statut }}
               <fa-icon
                 *ngIf="filters.sortValue === 'asc'"
                 [icon]="['fas', 'sort-amount-up']"

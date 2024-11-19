@@ -162,11 +162,18 @@ export class UsagerTable
     this.nom = this.nom.trim();
     this.prenom = this.prenom.trim();
 
-    const parts = [this.nom, this.prenom, this.surnom, this.ref]
+    const parts = [
+      this.nom,
+      this.prenom,
+      this.surnom,
+      this?.customRef ?? this?.ref,
+    ]
       .filter(Boolean)
       .map((part) => dataCompare.cleanString(part.toString()));
 
     this.nom_prenom_surnom_ref = parts.join(" ");
+
+    console.table({ ta: this.nom_prenom_surnom_ref });
   }
 
   public constructor(entity?: Partial<UsagerTable>) {

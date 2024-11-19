@@ -76,13 +76,11 @@ async function createTables(queryRunner: QueryRunner) {
       "userId" int4 NULL,
       "structureId" int4 NULL,
       "content" text NOT NULL,
-      status text DEFAULT 'ON_HOLD'::text NOT NULL,
       attachment jsonb NULL,
       email text NOT NULL,
-      category text NULL,
       "name" text NOT NULL,
-      "comments" text NULL,
       "structureName" text NULL,
+      subject text NULL,
       CONSTRAINT "PK_8e4a4781a01061a482fa33e5f5a" PRIMARY KEY (uuid)
     );
 
