@@ -1,3 +1,16 @@
+# [2.184.0](https://github.com/SocialGouv/domifa/compare/v2.183.0...v2.184.0) (2024-11-19)
+
+
+### Bug Fixes
+
+* **backend:** fix unit tests ([7aee701](https://github.com/SocialGouv/domifa/commit/7aee701415506e75944353e79d60f694d8a9451f))
+
+
+### Features
+
+* **frontend:** add subject in contact form ([b19cf05](https://github.com/SocialGouv/domifa/commit/b19cf05ba1de0ce982760429a025066387a79378))
+* **frontend:** update list ([e7470b1](https://github.com/SocialGouv/domifa/commit/e7470b1baecad68ecda8d5e2929d5046b2a21398))
+
 # [2.183.0](https://github.com/SocialGouv/domifa/compare/v2.182.7...v2.183.0) (2024-11-18)
 
 
