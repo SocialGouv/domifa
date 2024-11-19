@@ -18,7 +18,7 @@ export class SearchUsagerDto {
   @IsOptional()
   @IsString()
   @Trim()
-  @MinLength(2)
+  @MinLength(1)
   @StripTagsTransform()
   @LowerCaseTransform()
   public searchString!: string;

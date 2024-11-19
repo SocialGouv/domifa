@@ -33,7 +33,7 @@ export const usagerActions = {
   ),
   updateUsagersRadiesTotalCount: createAction(
     "[Usager] updateUsagersRadiesTotalCount",
-    props<{ usagersRefsToDelete: number }>()
+    props<{ newRadies: number }>()
   ),
 };
 // Feature Selector

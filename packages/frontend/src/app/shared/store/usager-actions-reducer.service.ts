@@ -71,7 +71,6 @@ export const _usagerReducer = createReducer(
         usagersRadiesTotalCount: newState.usagersRadiesTotalCount - radiesCount,
       };
     }
-
     return newState;
   }),
   on(usagerActions.updateUsagerNotes, (state, { ref, nbNotes }) =>
@@ -86,16 +85,12 @@ export const _usagerReducer = createReducer(
         usagersRadiesTotalCount,
       })
   ),
-  on(
-    usagerActions.updateUsagersRadiesTotalCount,
-    (state, { usagersRefsToDelete }) => {
-      return {
-        ...state,
-        usagersRadiesTotalCount:
-          state.usagersRadiesTotalCount - usagersRefsToDelete,
-      };
-    }
-  )
+  on(usagerActions.updateUsagersRadiesTotalCount, (state, { newRadies }) => {
+    return {
+      ...state,
+      usagersRadiesTotalCount: state.usagersRadiesTotalCount + newRadies,
+    };
+  })
 );
 
 // get the selectors
