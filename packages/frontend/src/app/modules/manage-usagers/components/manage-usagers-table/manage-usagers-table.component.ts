@@ -5,7 +5,6 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  OnInit,
   Output,
   TemplateRef,
   ViewChild,
@@ -36,7 +35,7 @@ import { UserStructure } from "@domifa/common";
 
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ManageUsagersTableComponent implements OnDestroy, OnInit {
+export class ManageUsagersTableComponent implements OnDestroy {
   @Input()
   public usagers!: UsagerFormModel[];
 
@@ -46,8 +45,7 @@ export class ManageUsagersTableComponent implements OnDestroy, OnInit {
   @Input()
   public loading!: boolean;
 
-  @Input() public selectedRefs: number[];
-  public displayCheckboxes: boolean = false;
+  @Input() public selectedRefs: Set<number> = new Set();
 
   @ViewChild("deleteUsagersModal")
   public deleteUsagersModal!: TemplateRef<NgbModalRef>;
@@ -73,24 +71,15 @@ export class ManageUsagersTableComponent implements OnDestroy, OnInit {
   ) {
     this.me = this.authService.currentUserValue;
     this.usagers = [];
-    this.selectedRefs = [];
-    this.displayCheckboxes = false;
+    this.selectedRefs = new Set();
   }
 
   public toggleSelection(id: number) {
-    const index = this.selectedRefs.indexOf(id);
-    if (index === -1) {
-      this.selectedRefs.push(id);
+    if (this.selectedRefs.has(id)) {
+      this.selectedRefs.add(id);
     } else {
-      this.selectedRefs.splice(index, 1);
+      this.selectedRefs.delete(id);
     }
-  }
-
-  ngOnInit() {
-    this.displayCheckboxes = !(
-      this.me?.role === "facteur" ||
-      (this.me?.role === "simple" && this.filters.statut !== "VALIDE")
-    );
   }
 
   public openDeleteUsagersModal(): void {
@@ -112,5 +101,40 @@ export class ManageUsagersTableComponent implements OnDestroy, OnInit {
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  getVisibleCheckboxIds(): void {
+    const checkboxes = document.querySelectorAll(
+      'table input[type="checkbox"]'
+    );
+    const viewportHeight = window.innerHeight;
+    const visibleIds: number[] = [];
+    const selectIdPattern = /^select-/;
+
+    checkboxes.forEach((checkbox: Element) => {
+      if (
+        checkbox instanceof HTMLInputElement &&
+        selectIdPattern.test(checkbox.id)
+      ) {
+        const rect = checkbox.getBoundingClientRect();
+
+        // Vérifie si la checkbox est dans le viewport
+        if (rect.top >= 0 && rect.bottom <= viewportHeight) {
+          const id = checkbox.id?.replace("select-", "");
+          if (id) {
+            visibleIds.push(parseInt(id, 10));
+          }
+        }
+      }
+    });
+
+    visibleIds.forEach((id) => {
+      if (this.selectedRefs.has(id)) {
+        this.selectedRefs.delete(id); // Supprime si présent
+      } else {
+        this.selectedRefs.add(id); // Ajoute si absent
+      }
+    });
+    console.log(visibleIds);
   }
 }

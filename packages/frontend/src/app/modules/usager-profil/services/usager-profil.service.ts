@@ -36,7 +36,9 @@ export class UsagerProfilService {
       .pipe(
         tap(() => {
           this.store.dispatch(
-            usagerActions.deleteUsagers({ usagerRefs: [usagerRef] })
+            usagerActions.deleteUsagers({
+              usagerRefs: new Set<number>().add(usagerRef),
+            })
           );
         })
       );

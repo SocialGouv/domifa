@@ -41,6 +41,7 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public isAdmin: boolean;
   public me!: UserStructure | null;
+  public selectedRefs: Set<number> = new Set<number>();
 
   public readonly DECISION_LABELS: {
     [key in UsagerDecisionStatut]: string;
@@ -70,6 +71,7 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
     const user = this.authService.currentUserValue;
     this.isAdmin = user?.role === "admin" || user?.role === "responsable";
 
+    this.selectedRefs.add(this.usager.ref);
     if (this.usager.historique.length > 1) {
       this.getPreviousStatus();
     }

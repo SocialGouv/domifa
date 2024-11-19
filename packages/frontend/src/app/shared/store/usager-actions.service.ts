@@ -21,7 +21,7 @@ export const usagerActions = {
   ),
   deleteUsagers: createAction(
     "[Usager] Delete Usagers",
-    props<{ usagerRefs: number[] }>()
+    props<{ usagerRefs: Set<number> }>()
   ),
   updateUsagerNotes: createAction(
     "[Usager] Update Usager Notes",

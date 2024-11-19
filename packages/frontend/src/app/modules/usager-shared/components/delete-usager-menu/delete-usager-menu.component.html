@@ -1,12 +1,12 @@
 <ng-container *ngIf="me.role !== 'facteur'">
   <div
     class="container py-5 d-print-none"
-    *ngIf="context === 'PROFIL' || context === 'INSTRUCTION_FORM'"
+    *ngIf="
+      me.role !== 'simple' &&
+      (context === 'PROFIL' || context === 'INSTRUCTION_FORM')
+    "
   >
-    <div
-      class="col-md-12 text-center text-danger"
-      *ngIf="context === 'PROFIL' && me.role !== 'simple'"
-    >
+    <div class="col-md-12 text-center text-danger" *ngIf="context === 'PROFIL'">
       <button
         type="button"
         class="btn btn-danger"
@@ -106,7 +106,7 @@
 
   <ng-template #deleteConfirmation let-modal>
     <app-delete-usager
-      [selectedRefs]="[usager.ref]"
+      [selectedRefs]="selectedRefs"
       [context]="'PROFIL'"
     ></app-delete-usager>
   </ng-template>
