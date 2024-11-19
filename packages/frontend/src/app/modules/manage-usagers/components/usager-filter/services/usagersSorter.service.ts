@@ -19,6 +19,7 @@ function sortBy(
   if (sortKey === "ID") {
     return sortUsagersByCustomRef(usagers, asc);
   }
+
   return dataSorter.sortMultiple(usagers, {
     getSortAttributes: (usager) => {
       const sortAttributes: SortableAttribute[] = [];

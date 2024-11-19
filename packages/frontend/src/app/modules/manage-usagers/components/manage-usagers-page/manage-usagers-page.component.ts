@@ -252,7 +252,7 @@ export class ManageUsagersPageComponent
                     map(([filters, usagers]) => ({
                       filters,
                       usagers,
-                      totalCount: usagersRadiesTotalCount,
+                      usagersRadiesTotalCount,
                     }))
                   )
                 )
@@ -267,7 +267,7 @@ export class ManageUsagersPageComponent
                 return {
                   filters,
                   usagers,
-                  totalCount: usagersRadiesTotalCount,
+                  usagersRadiesTotalCount,
                 };
               })
             );
@@ -275,9 +275,13 @@ export class ManageUsagersPageComponent
 
           takeUntil(this.destroy$)
         )
-        .subscribe(({ filters, usagers, totalCount }) => {
+        .subscribe(({ filters, usagers, usagersRadiesTotalCount }) => {
           if (filters && usagers) {
-            this.usagersRadiesTotalCount = totalCount;
+            this.usagersRadiesTotalCount = usagersRadiesTotalCount;
+            this.usagersCountByStatus = calculateUsagersCountByStatus(
+              usagers,
+              this.usagersRadiesTotalCount
+            );
             this.applyFilters({ filters, allUsagers: usagers });
           }
           this.searching = false;
@@ -489,10 +493,6 @@ export class ManageUsagersPageComponent
     }
 
     this.usagersRadiesLoadedCount = radiesCount;
-    this.usagersCountByStatus = calculateUsagersCountByStatus(
-      allUsagers,
-      this.usagersRadiesTotalCount
-    );
 
     localStorage.setItem("MANAGE_USAGERS", JSON.stringify(filters));
 
