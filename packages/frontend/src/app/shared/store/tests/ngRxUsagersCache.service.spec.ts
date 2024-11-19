@@ -159,7 +159,9 @@ describe("UsagerReducer", () => {
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any;
-    const action = usagerActions.deleteUsagers({ usagerRefs: [1] });
+    const action = usagerActions.deleteUsagers({
+      usagerRefs: new Set<number>().add(1),
+    });
     const state = _usagerReducer(previousState, action);
 
     expect(state.ids).not.toContain(1);

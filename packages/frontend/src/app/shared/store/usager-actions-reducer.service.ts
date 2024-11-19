@@ -54,16 +54,16 @@ export const _usagerReducer = createReducer(
       : state;
   }),
   on(usagerActions.deleteUsagers, (state, { usagerRefs }) => {
-    if (!usagerRefs?.length) return state;
+    if (!usagerRefs?.size) return state;
 
-    const usagersToDelete = usagerRefs
+    const usagersToDelete = Array.from(usagerRefs)
       .map((ref) => state.entities[ref])
       .filter(Boolean);
     const radiesCount = usagersToDelete.filter(
       (usager) => usager.statut === "RADIE"
     ).length;
 
-    const newState = adapter.removeMany(usagerRefs, state);
+    const newState = adapter.removeMany(Array.from(usagerRefs), state);
 
     if (radiesCount > 0) {
       return {

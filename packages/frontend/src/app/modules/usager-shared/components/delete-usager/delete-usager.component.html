@@ -1,19 +1,19 @@
 <div class="modal-header bg-danger">
   <span class="text-white" id="modal-title"
-    >Vous êtes sur le point de supprimer {{ selectedRefs.length }}
-    {{ selectedRefs.length > 1 ? "domiciliés" : "domicilié" }} !</span
+    >Vous êtes sur le point de supprimer {{ selectedRefs.size }}
+    {{ selectedRefs.size > 1 ? "domiciliés" : "domicilié" }} !</span
   >
 </div>
 
 <div class="modal-body text-center">
-  <p *ngIf="selectedRefs.length === 1">
+  <p *ngIf="selectedRefs.size === 1">
     Si vous supprimez un domicilié, vous ne pourrez plus retrouver sa fiche !
     <br />
     Ce dossier n'apparaitra ni dans les rapports d'activité ni dans la liste des
     domiciliés.
   </p>
-  <p *ngIf="selectedRefs.length > 1">
-    Si vous supprimez ces {{ selectedRefs.length }} domiciliés, vous ne pourrez
+  <p *ngIf="selectedRefs.size > 1">
+    Si vous supprimez ces {{ selectedRefs.size }} domiciliés, vous ne pourrez
     plus retrouver leur fiche !
     <br />
     Ces dossier n'apparaitront ni dans les rapports d'activité ni dans la liste

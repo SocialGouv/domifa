@@ -15,7 +15,7 @@ import { UserStructure } from "@domifa/common";
   styleUrls: ["./delete-usager.component.css"],
 })
 export class DeleteUsagerComponent implements OnDestroy {
-  @Input() public selectedRefs: number[];
+  @Input() public selectedRefs: Set<number>;
   @Input() public context!: "MANAGE" | "PROFIL";
   @Input() public me!: UserStructure;
 
@@ -31,7 +31,7 @@ export class DeleteUsagerComponent implements OnDestroy {
     private readonly router: Router
   ) {
     this.loading = false;
-    this.selectedRefs = [];
+    this.selectedRefs = new Set();
   }
 
   public deleteUsager(): void {
@@ -46,7 +46,7 @@ export class DeleteUsagerComponent implements OnDestroy {
         .subscribe({
           next: () => {
             const message =
-              this.selectedRefs.length > 1
+              this.selectedRefs.size > 1
                 ? "Les dossiers sélectionnés ont été supprimé avec succès"
                 : "Domicilié supprimé avec succès";
             this.toastService.success(message);

@@ -2,10 +2,10 @@
   <div class="col-md-6 col-12">
     <div
       class="d-flex align-items-center flex-wrap justify-content-md-start justify-content-center"
-      *ngIf="selectedRefs.length > 0 && displayCheckboxes"
+      *ngIf="selectedRefs.size>0"
       appStickySelectionBar
     >
-      <div class="me-2">{{ selectedRefs.length }} selectionnés</div>
+      <div class="me-2">{{ selectedRefs.size }} selectionnés</div>
       <div data-toggle="buttons">
         <app-decision-radiation-form
           [selectedRefs]="selectedRefs"
@@ -23,10 +23,10 @@
             [icon]="['fas', 'trash']"
             class="me-2"
           ></fa-icon>
-          <ng-container *ngIf="selectedRefs.length === 1"
+          <ng-container *ngIf="selectedRefs.size === 1"
             >Supprimer le domicilié</ng-container
           >
-          <ng-container *ngIf="selectedRefs.length > 1"
+          <ng-container *ngIf="selectedRefs.size > 1"
             >Supprimer les domiciliés</ng-container
           >
         </button>
@@ -65,11 +65,25 @@
     Tableau des domiciliés
   </caption>
   <thead>
-    <th scope="col" *ngIf="displayCheckboxes">
+    <th
+      scope="col"
+      *ngIf='!(me?.role === "facteur" ||  (me?.role === "simple" && filters.statut === "VALIDE"))'
+    >
       <span class="visually-hidden"
         >Colonne de sélection des dossiers pour les supprimer ou les
         radier</span
       >
+
+      <label for="check-all">
+        <span class="visually-hidden">
+          Sélectionner tous les éléments visibles</span
+        >
+        <input
+          id="check-all"
+          type="checkbox"
+          (change)="getVisibleCheckboxIds() "
+        />
+      </label>
     </th>
     <th scope="col" *ngIf="filters.statut ==='TOUS'">STATUT</th>
 
@@ -142,7 +156,10 @@
   </thead>
   <tbody>
     <tr *ngFor="let usager of usagers; let i = index; trackBy: refTrackBy">
-      <td class="text-start p-0 m-0" *ngIf="displayCheckboxes">
+      <td
+        class="text-start p-0 m-0"
+        *ngIf='!(  me?.role === "facteur" ||  (me?.role === "simple" && filters.statut !== "VALIDE"))'
+      >
         <label
           for="select-{{ usager.ref }}"
           (change)="toggleSelection(usager.ref)"
@@ -153,7 +170,7 @@
           <input
             [id]="'select-' + usager.ref"
             type="checkbox"
-            [checked]="selectedRefs.indexOf(usager.ref) !== -1"
+            [checked]="selectedRefs.has(usager.ref)"
           />
         </label>
       </td>

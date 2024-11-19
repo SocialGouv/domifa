@@ -36,7 +36,7 @@ import { Store } from "@ngrx/store";
 })
 export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
-  @Input() public selectedRefs: number[];
+  @Input() public selectedRefs: Set<number>;
   @Input() public context!: "MANAGE" | "PROFIL";
 
   public submitted: boolean;
@@ -68,7 +68,7 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
   ) {
     this.submitted = false;
     this.loading = false;
-    this.selectedRefs = [];
+    this.selectedRefs = new Set();
   }
 
   public get r(): { [key: string]: AbstractControl } {
@@ -130,7 +130,7 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
   public setDecision(formDatas: UsagerDecisionRadiationForm): void {
     this.loading = true;
     if (this.usager) {
-      this.selectedRefs = [this.usager.ref];
+      this.selectedRefs = new Set<number>().add(this.usager.ref);
     }
 
     this.subscription.add(
@@ -144,7 +144,7 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (usagers: UsagerLight[]) => {
             const message =
-              this.selectedRefs.length > 1
+              this.selectedRefs.size > 1
                 ? "Les dossiers sélectionnés ont été radié"
                 : "Radiation enregistrée avec succès ! ";
             this.toastService.success(message);
@@ -155,7 +155,7 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
             );
             this.store.dispatch(
               usagerActions.updateUsagersRadiesTotalCount({
-                newRadies: this.selectedRefs.length,
+                newRadies: this.selectedRefs.size,
               })
             );
 

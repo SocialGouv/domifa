@@ -74,7 +74,6 @@ export class ManageUsagersPageComponent
 {
   public searching: boolean;
 
-  public usagersTotalCount = 0;
   public usagersRadiesLoadedCount = 0;
 
   public chargerTousRadies$ = new BehaviorSubject(false);
@@ -93,7 +92,7 @@ export class ManageUsagersPageComponent
   };
 
   private destroy$ = new Subject<void>();
-
+  public usagersRadiesTotalCount = 0;
   public usagers: UsagerFormModel[] = [];
   public filteredUsagers: UsagerFormModel[] = [];
 
@@ -130,8 +129,8 @@ export class ManageUsagersPageComponent
   refreshButton!: ElementRef;
 
   private subscription = new Subscription();
-  public selectedRefs: number[];
-  public usagersRadiesTotalCount = 0;
+  public selectedRefs: Set<number> = new Set();
+
   constructor(
     private readonly usagerService: ManageUsagersService,
     private readonly authService: AuthService,
@@ -140,7 +139,6 @@ export class ManageUsagersPageComponent
     private readonly matomo: MatomoTracker,
     private readonly toastr: CustomToastService
   ) {
-    this.selectedRefs = [];
     this.me = this.authService.currentUserValue;
     this.nbResults = 0;
     this.needToPrint = false;
@@ -345,6 +343,7 @@ export class ManageUsagersPageComponent
     filters: UsagersFilterCriteria
   ): Observable<string> {
     if (
+      this.usagersCountByStatus.RADIE !== this.usagersRadiesTotalCount &&
       !chargerTousRadies &&
       (this.filters.statut === "TOUS" || this.filters.statut === "RADIE")
     ) {
@@ -534,7 +533,7 @@ export class ManageUsagersPageComponent
   }
 
   private applySorting(): void {
-    this.selectedRefs = [];
+    this.selectedRefs = new Set();
     if (!this.filteredUsagers.length) {
       this.usagers = [];
       return;

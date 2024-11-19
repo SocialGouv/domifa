@@ -14,7 +14,7 @@
   (click)="openRadiationModal()"
   class="btn btn-sm btn-outline-dark me-2"
 >
-  Radier {{ selectedRefs.length === 1 ? "le domicilié" : "les domiciliés" }}
+  Radier {{ selectedRefs.size === 1 ? "le domicilié" : "les domiciliés" }}
 </button>
 <ng-template #decisionRadiationFormModal let-modal>
   <div class="modal-header bg-danger">
@@ -43,8 +43,8 @@
     <p *ngIf="context === 'MANAGE'">
       Vous souhaitez mettre fin à la domiciliation de
       <strong
-        >{{ selectedRefs.length }}
-        {{ selectedRefs.length > 1 ? "domiciliés" : "domicilié" }}</strong
+        >{{ selectedRefs.size }}
+        {{ selectedRefs.size > 1 ? "domiciliés" : "domicilié" }}</strong
       >
       <br />
       La radiation peut avoir de lourdes conséquences et laisser toutes les
