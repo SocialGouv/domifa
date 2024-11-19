@@ -4,7 +4,7 @@ import { IsNotEmpty, IsString, MaxLength } from "class-validator";
 import {
   LowerCaseTransform,
   StripTagsTransform,
-} from "../../_common/decorators";
+} from "../../../_common/decorators";
 
 export class CheckDuplicateUsagerDto {
   @ApiProperty({

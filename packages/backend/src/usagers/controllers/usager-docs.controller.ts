@@ -228,7 +228,7 @@ export class UsagerDocsController {
 
   @Get(":usagerRef")
   @AllowUserStructureRoles("simple", "responsable", "admin")
-  @UseGuards(UsagerAccessGuard, UsagerDocAccessGuard)
+  @UseGuards(UsagerAccessGuard)
   public async getUsagerDocuments(
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @CurrentUsager() currentUsager: Usager

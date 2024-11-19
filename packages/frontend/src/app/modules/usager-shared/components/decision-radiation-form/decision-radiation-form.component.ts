@@ -155,7 +155,7 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
             );
             this.store.dispatch(
               usagerActions.updateUsagersRadiesTotalCount({
-                usagersRefsToDelete: this.selectedRefs.length,
+                newRadies: this.selectedRefs.length,
               })
             );
 

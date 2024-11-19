@@ -101,7 +101,7 @@ export class UsagersController {
         structureId: user.structureId,
       },
       select: USAGER_LIGHT_ATTRIBUTES,
-      take: chargerTousRadies ? undefined : 60,
+      take: chargerTousRadies ? undefined : 1600,
     });
 
     const usagersRadiesTotalCount = chargerTousRadies

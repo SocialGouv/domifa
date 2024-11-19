@@ -99,7 +99,6 @@ it("usagersSorter RADIE (usager.decision.dateFin)", () => {
   expect(results.length).toEqual(usagers.length);
   expect(
     results.map((x) => {
-      console.log({ dateToDisplay: x.echeanceInfos.dateToDisplay, ref: x.ref });
       return x.ref;
     })
   ).toEqual([5, 4, 1, 2, 3]); // null last

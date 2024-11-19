@@ -28,7 +28,7 @@ import {
   UserStructureAuthenticated,
   UserStructureProfile,
 } from "../../_common/model";
-import { RdvDto } from "../dto/rdv.dto";
+import { RdvDto } from "../dto/decision-form/rdv.dto";
 import { UsagersService } from "../services/usagers.service";
 import { Usager } from "@domifa/common";
 

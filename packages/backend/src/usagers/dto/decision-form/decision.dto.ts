@@ -12,14 +12,13 @@ import {
   ValidateIf,
 } from "class-validator";
 
-import {} from "../../_common/model";
 import {
   UsagerDecisionStatut,
   UsagerDecisionMotif,
   UsagerDecisionOrientation,
   UsagerDecision,
 } from "@domifa/common";
-import { StripTagsTransform } from "../../_common/decorators";
+import { StripTagsTransform } from "../../../_common/decorators";
 
 export class DecisionDto implements UsagerDecision {
   @ApiProperty({

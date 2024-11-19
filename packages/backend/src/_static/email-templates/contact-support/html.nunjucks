@@ -11,7 +11,8 @@
   </p>
 
   <p>
-    <strong>Sujet : </strong> {{ subject }}
+    <strong>Sujet : </strong>
+     {{ subject }}
   </p>
 
   <p>

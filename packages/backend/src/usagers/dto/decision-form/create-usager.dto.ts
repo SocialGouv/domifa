@@ -1,35 +1,33 @@
+import {
+  UsagerSexe,
+  COUNTRIES,
+  Telephone,
+  UsagerAyantDroit,
+} from "@domifa/common";
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import {
-  IsArray,
-  IsBoolean,
-  IsDateString,
-  IsEmail,
   IsIn,
   IsNotEmpty,
-  IsObject,
-  IsOptional,
   IsString,
   MaxLength,
+  IsOptional,
+  IsDateString,
+  IsEmail,
+  IsObject,
+  IsBoolean,
+  IsArray,
   ValidateIf,
   ValidateNested,
 } from "class-validator";
-
-import { UsagerAyantDroitDto } from "./UsagerAyantDroitDto";
-
 import {
-  LowerCaseTransform,
-  StripTagsTransform,
   Trim,
+  StripTagsTransform,
   TrimOrNullTransform,
-} from "../../_common/decorators";
-import {
-  Telephone,
-  UsagerAyantDroit,
-  UsagerSexe,
-  COUNTRIES,
-} from "@domifa/common";
-import { IsValidPhone } from "../../_common/decorators/IsValidPhoneDecorator";
+  LowerCaseTransform,
+  IsValidPhone,
+} from "../../../_common/decorators";
+import { UsagerAyantDroitDto } from "../UsagerAyantDroitDto";
 
 export class CreateUsagerDto {
   @ApiProperty({

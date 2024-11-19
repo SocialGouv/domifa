@@ -141,9 +141,7 @@ export class ManageUsagersPageComponent
     private readonly toastr: CustomToastService
   ) {
     this.selectedRefs = [];
-
     this.me = this.authService.currentUserValue;
-
     this.nbResults = 0;
     this.needToPrint = false;
     this.searching = true;
@@ -176,8 +174,6 @@ export class ManageUsagersPageComponent
     ).pipe(
       debounceTime(300),
       map((event: InputEvent) => {
-        console.log("searchInput");
-        console.log((event.target as HTMLInputElement).value);
         return (event.target as HTMLInputElement).value;
       })
     );
@@ -238,6 +234,24 @@ export class ManageUsagersPageComponent
     );
 
     this.subscription.add(
+      this.chargerTousRadies$
+        .pipe(
+          filter((chargerTousRadies) => chargerTousRadies === true),
+          switchMap((chargerTousRadies) =>
+            this.usagerService
+              .fetchSearchPageUsagerData({ chargerTousRadies })
+              .pipe(
+                switchMap(() =>
+                  this.findRemoteUsagers(chargerTousRadies, this.filters)
+                )
+              )
+          ),
+          takeUntil(this.destroy$)
+        )
+        .subscribe()
+    );
+
+    this.subscription.add(
       this.store
         .select(selectUsagerStateData())
         .pipe(
@@ -272,7 +286,6 @@ export class ManageUsagersPageComponent
               })
             );
           }),
-
           takeUntil(this.destroy$)
         )
         .subscribe(({ filters, usagers, usagersRadiesTotalCount }) => {
