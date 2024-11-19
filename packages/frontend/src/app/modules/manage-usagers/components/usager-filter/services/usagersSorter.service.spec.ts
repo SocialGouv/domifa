@@ -1,4 +1,5 @@
 import { UsagerLight } from "../../../../../../_common/model";
+import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { usagersSorter } from "./usagersSorter.service";
 
 const usagers = [
@@ -18,6 +19,10 @@ const usagers = [
         nom: "Smith",
       },
     ],
+    decision: {
+      statut: "RADIE",
+      dateFin: new Date(Date.UTC(2022, 8, 15)),
+    },
   },
   {
     ref: 2,
@@ -33,6 +38,7 @@ const usagers = [
       },
     ],
     decision: {
+      statut: "RADIE",
       dateFin: new Date(Date.UTC(2022, 8, 15)),
     },
   },
@@ -45,7 +51,7 @@ const usagers = [
     email: "claire.meunier@vprovider2.org",
     ayantsDroits: [],
     decision: {
-      dateFin: new Date(Date.UTC(2022, 6, 15)),
+      dateFin: new Date(Date.UTC(2022, 6, 25)),
     },
   },
   {
@@ -57,7 +63,8 @@ const usagers = [
     email: undefined,
     ayantsDroits: [],
     decision: {
-      dateFin: new Date(Date.UTC(2021, 6, 15)),
+      statut: "RADIE",
+      dateFin: new Date(Date.UTC(2023, 6, 15)),
     },
   },
   {
@@ -69,10 +76,11 @@ const usagers = [
     email: undefined,
     ayantsDroits: [],
     decision: {
-      dateFin: new Date(Date.UTC(2021, 6, 16)),
+      statut: "RADIE",
+      dateFin: new Date(Date.UTC(2023, 6, 16)),
     },
   },
-] as UsagerLight[];
+].map((usager) => new UsagerFormModel(usager as UsagerLight));
 
 it("usagersSorter NAME (nom, prenom)", () => {
   const results = usagersSorter.sortBy(usagers, {
@@ -89,7 +97,12 @@ it("usagersSorter RADIE (usager.decision.dateFin)", () => {
     sortValue: "desc",
   });
   expect(results.length).toEqual(usagers.length);
-  expect(results.map((x) => x.ref)).toEqual([2, 3, 5, 4, 1]); // null last
+  expect(
+    results.map((x) => {
+      console.log({ dateToDisplay: x.echeanceInfos.dateToDisplay, ref: x.ref });
+      return x.ref;
+    })
+  ).toEqual([5, 4, 1, 2, 3]); // null last
 });
 
 it("usagersSorter customRef asc", () => {
