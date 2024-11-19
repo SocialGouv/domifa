@@ -1,3 +1,11 @@
+## [2.184.1](https://github.com/SocialGouv/domifa/compare/v2.184.0...v2.184.1) (2024-11-19)
+
+
+### Bug Fixes
+
+* **backend:** add search from 1 character ([f190508](https://github.com/SocialGouv/domifa/commit/f190508360643006c0942016672f0ccf94ac5033))
+* **backend:** fix unit test for getUsagerDocs ([4d75405](https://github.com/SocialGouv/domifa/commit/4d7540522122bcae9987b5da8a2591755d99aa66))
+
 # [2.184.0](https://github.com/SocialGouv/domifa/compare/v2.183.0...v2.184.0) (2024-11-19)
 
 
