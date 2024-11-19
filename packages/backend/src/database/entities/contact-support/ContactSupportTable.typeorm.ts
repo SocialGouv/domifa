@@ -1,9 +1,5 @@
 import { BeforeInsert, Column, Entity } from "typeorm";
-import {
-  ContactCategorie,
-  ContactStatus,
-  ContactSupport,
-} from "../../../_common/model";
+import { ContactSupport } from "../../../_common/model";
 import { MessageEmailAttachment } from "../message-email";
 
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
@@ -20,12 +16,11 @@ export class ContactSupportTable
   @Column({ type: "integer", nullable: true })
   public structureId: number;
 
-  // Contenu du message
   @Column({ type: "text" })
   public content: string;
 
-  @Column({ type: "text", default: "ON_HOLD" })
-  public status: ContactStatus;
+  @Column({ type: "text", nullable: true })
+  public subject: string;
 
   @Column({ type: "jsonb", nullable: true })
   public attachment?: MessageEmailAttachment;
@@ -33,17 +28,11 @@ export class ContactSupportTable
   @Column({ type: "text" })
   public email: string;
 
-  @Column({ type: "text", nullable: true })
-  public category: ContactCategorie;
-
   @Column({ type: "text" })
   public name: string;
 
   @Column({ type: "text", nullable: true })
   public structureName: string;
-
-  @Column({ type: "text", nullable: true })
-  public comments: string;
 
   @BeforeInsert()
   nameToUpperCase() {

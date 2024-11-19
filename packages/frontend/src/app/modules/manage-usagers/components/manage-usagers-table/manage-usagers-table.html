@@ -3,6 +3,7 @@
     <div
       class="d-flex align-items-center flex-wrap justify-content-md-start justify-content-center"
       *ngIf="selectedRefs.length > 0 && displayCheckboxes"
+      appStickySelectionBar
     >
       <div class="me-2">{{ selectedRefs.length }} selectionnés</div>
       <div data-toggle="buttons">
@@ -175,7 +176,7 @@
           triggers="hover focus"
           src="/assets/icones/pinned-note.svg"
           alt="Note épinglée"
-          aria-hidden="true"
+          tabindex="0"
         />
         <ng-template #pinnedNote>
           <b>Note épinglée : </b>{{ usager.pinnedNote?.message }}

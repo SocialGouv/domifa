@@ -18,7 +18,7 @@
               aria-haspopup="true"
               ngbDropdownToggle
             >
-              <span class="overflow-hidden">
+              <span>
                 <fa-icon
                   [icon]="['fas', 'list']"
                   aria-hidden="true"
@@ -216,7 +216,6 @@
 
 <app-manage-filters
   [filters]="filters"
-  [filters$]="filters$"
   (updateFilters)="updateFilters($event)"
   [nbResults]="nbResults"
   [usagersRadiesLoadedCount]="usagersRadiesLoadedCount"

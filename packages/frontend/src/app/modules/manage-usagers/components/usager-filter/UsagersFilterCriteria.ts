@@ -14,12 +14,6 @@ export type UsagersFilterCriteriaStatut =
   | "RADIE";
 
 export type UsagersFilterCriteriaSortKey =
-  | "TOUS" // from UsagersFilterCriteriaStatut
-  | "VALIDE" // from UsagersFilterCriteriaStatut
-  | "INSTRUCTION" // from UsagersFilterCriteriaStatut
-  | "ATTENTE_DECISION" // from UsagersFilterCriteriaStatut
-  | "REFUS" // from UsagersFilterCriteriaStatut
-  | "RADIE" // from UsagersFilterCriteriaStatut
   | "PASSAGE"
   | "NAME"
   | "ECHEANCE"
@@ -41,7 +35,7 @@ export class UsagersFilterCriteria {
   public entretien: UsagersFilterCriteriaEntretien | null;
   // order by
   public sortKey: UsagersFilterCriteriaSortKey;
-  public sortValue?: UsagersFilterCriteriaSortValues;
+  public sortValue: UsagersFilterCriteriaSortValues;
   // pagination
   public page: number;
   public searchInAyantDroits = true;

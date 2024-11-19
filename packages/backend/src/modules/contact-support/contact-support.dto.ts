@@ -7,7 +7,6 @@ import {
   IsString,
   MinLength,
 } from "class-validator";
-import { ContactStatus } from "../../_common/model";
 
 import { Transform, TransformFnParams } from "class-transformer";
 
@@ -88,12 +87,12 @@ export class ContactSupportDto {
     type: String,
     required: false,
   })
-  @IsEmpty()
-  public status!: ContactStatus;
-
-  @ApiProperty({
-    type: String,
+  @Transform(({ value }: TransformFnParams) => {
+    value = sanitizeHtml(value);
+    return value.toString().trim();
   })
+  public subject!: string;
+
   @IsEmpty()
   public attachment!: MessageEmailAttachment;
 }

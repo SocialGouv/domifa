@@ -11,6 +11,10 @@
   </p>
 
   <p>
+    <strong>Sujet : </strong> {{ subject }}
+  </p>
+
+  <p>
     <strong>Nom : </strong> {{ name }}
   </p>
 

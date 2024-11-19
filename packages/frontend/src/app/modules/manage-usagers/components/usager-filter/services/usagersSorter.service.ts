@@ -23,30 +23,7 @@ function sortBy(
     getSortAttributes: (usager) => {
       const sortAttributes: SortableAttribute[] = [];
 
-      if (sortKey === "RADIE" || sortKey === "REFUS") {
-        sortAttributes.push({
-          value: usager.decision?.dateFin as Date,
-          asc,
-        });
-      } else if (sortKey === "INSTRUCTION" || sortKey === "ATTENTE_DECISION") {
-        sortAttributes.push({
-          value: usager.decision?.dateDecision,
-          asc,
-        });
-      } else if (sortKey === "VALIDE" || sortKey === "TOUS") {
-        sortAttributes.push(
-          {
-            value: usager.decision?.dateFin,
-            asc,
-          },
-          {
-            value: usager.nom?.toLowerCase(),
-          },
-          {
-            value: usager.prenom?.toLowerCase(),
-          }
-        );
-      } else if (sortKey === "ECHEANCE") {
+      if (sortKey === "ECHEANCE") {
         sortAttributes.push({
           value: usager?.echeanceInfos?.dateToDisplay ?? null,
           asc,

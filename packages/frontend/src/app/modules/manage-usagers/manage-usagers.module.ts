@@ -21,6 +21,8 @@ import { ColumnInteractionsComponent } from "./components/column-interactions/co
 import { FormatInternationalPhoneNumberPipe } from "../usager-shared/formatInternationalPhoneNumber.pipe";
 import {} from "../shared/pipes";
 import { UsagerNomCompletPipe } from "../usager-shared/pipes";
+import { SortLabelPipe } from "./pipes/sort-label.pipe";
+import { StickySelectionBarDirective } from "./pipes/sticky.directive";
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { UsagerNomCompletPipe } from "../usager-shared/pipes";
     ColumnInformationsComponent,
     ManageFiltersComponent,
     ColumnInteractionsComponent,
+    SortLabelPipe,
+    StickySelectionBarDirective,
   ],
   imports: [
     CommonModule,

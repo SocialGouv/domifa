@@ -2,7 +2,7 @@ import { ContactSupport } from "../../../../_common/model/contact-support/Contac
 import { domifaConfig } from "../../../../config";
 import { MessageEmailContent } from "../../../../database";
 import { appLogger } from "../../../../util";
-import { DOMIFA_DEFAULT_MAIL_CONFIG, messageEmailSender } from "../../_core";
+import { messageEmailSender } from "../../_core";
 import { contactSupportEmailRenderer } from "./contactSupportEmailRenderer.service";
 import { MessageEmailAttachment } from "../../../../database/entities/message-email/MessageEmailAttachment.type";
 
@@ -17,9 +17,10 @@ async function sendMail(model: ContactSupport): Promise<void> {
   const to = [
     {
       address: domifaConfig().email.emailAddressAdmin,
-      personalName: "Domifa",
+      personalName: "DomiFa",
     },
   ];
+  const subject = "[SUPPORT] " + model.subject + " - " + model.name;
 
   const attachments: MessageEmailAttachment[] = model.attachment
     ? [model.attachment]
@@ -30,15 +31,23 @@ async function sendMail(model: ContactSupport): Promise<void> {
     content: model.content,
     email: model.email,
     name: model.name,
+    subject,
     structureName: model.structureName,
   });
 
   const messageContent: MessageEmailContent = {
-    ...DOMIFA_DEFAULT_MAIL_CONFIG,
+    from: {
+      personalName: model.name,
+      address: model.email,
+    },
+    subject,
+    replyTo: {
+      personalName: model.name,
+      address: model.email,
+    },
     ...renderedTemplate,
     to,
     attachments,
-    replyTo: { personalName: model.name, address: model.email },
   };
 
   await messageEmailSender.sendMessageLater(messageContent, {

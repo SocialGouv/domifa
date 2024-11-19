@@ -140,6 +140,45 @@
               </p>
             </div>
             <div class="form-group required">
+              <label for="subject"
+                >Objet de votre message: demande de support, partenariat,
+                formation, etc.</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="subject"
+                appCleanStr
+                autocomplete="subject"
+                formControlName="subject"
+                subject="subject"
+                [ngClass]="{
+                  'is-invalid': f.subject.dirty && f.subject.errors
+                }"
+                [attr.aria-invalid]="
+                  f.subject.dirty && f.subject.errors ? true : false
+                "
+                [attr.aria-describedby]="
+                  f.subject.dirty && f.subject.errors
+                    ? 'invalid-subject'
+                    : 'subject-help'
+                "
+                required
+              />
+              <small
+                *ngIf="!f.subject.dirty && !f.subject.errors"
+                id="subject-help"
+                >2 caractères minimum</small
+              >
+              <p
+                *ngIf="(submitted || f.subject.dirty) && f.subject.errors"
+                id="invalid-subject"
+                class="invalid-feedback"
+              >
+                Veuillez indiquer le sujet du message, 2 caractères minimum
+              </p>
+            </div>
+            <div class="form-group required">
               <label for="content">Votre message</label>
               <textarea
                 [attr.aria-describedby]="

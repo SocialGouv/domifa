@@ -436,7 +436,6 @@ export class ManageUsagersPageComponent
       this.filters.sortKey = value as UsagersFilterCriteriaSortKey;
       this.filters.page = 1;
 
-      console.log(this.filters.sortKey);
       this.applySorting();
       return;
     }

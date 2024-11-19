@@ -32,7 +32,7 @@ e8112a58-5cda-42ff-8bf6-6dd1ed92bcff	2023-12-18 17:54:10.818639+01	2023-12-18 17
 -- Data for Name: contact_support; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.contact_support (uuid, "createdAt", "updatedAt", version, "userId", "structureId", content, status, attachment, email, category, name, comments, "structureName") FROM stdin;
+COPY public.contact_support (uuid, "createdAt", "updatedAt", version, "userId", "structureId", content, attachment, email, name, "structureName", subject) FROM stdin;
 \.
 
 

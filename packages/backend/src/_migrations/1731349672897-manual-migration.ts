@@ -36,7 +36,7 @@ export class ManualMigration1731349672897 implements MigrationInterface {
                 usager.nom,
                 usager.prenom,
                 usager.surnom,
-                usager.ref,
+                usager?.customRef ?? usager?.ref,
               ]
                 .filter(Boolean)
                 .map((part) => dataCompare.cleanString(part.toString()));
