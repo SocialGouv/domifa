@@ -6,8 +6,8 @@ import { contactSupportEmailRenderer } from ".";
 import { domifaConfig } from "../../../../config";
 import { ContactSupport } from "../../../../_common/model";
 
-describe("guideUtilisateurEmailRenderer", () => {
-  it("guideUtilisateurEmailRenderer render ", async () => {
+describe("contactSupportEmailRender", () => {
+  it("contactSupportEmailRender render ", async () => {
     const model: ContactSupport = {
       userId: 12,
       structureId: 5,
