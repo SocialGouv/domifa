@@ -1,3 +1,15 @@
+# [2.185.0](https://github.com/SocialGouv/domifa/compare/v2.184.1...v2.185.0) (2024-11-21)
+
+
+### Bug Fixes
+
+* **frontend:** add search button ([ecf3352](https://github.com/SocialGouv/domifa/commit/ecf335209f3e9bf1b89aa3addd7ac3192fffd4a8))
+
+
+### Features
+
+* **frontend:** add multiple select ([beb4f70](https://github.com/SocialGouv/domifa/commit/beb4f7069b6fbaaf47d7d15c95d35017890539b2))
+
 ## [2.184.1](https://github.com/SocialGouv/domifa/compare/v2.184.0...v2.184.1) (2024-11-19)
 
 
