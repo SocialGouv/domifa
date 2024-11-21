@@ -28,7 +28,7 @@ describe("DeleteUsagerComponent", () => {
 
     fixture = TestBed.createComponent(DeleteUsagerComponent);
     component = fixture.componentInstance;
-    component.selectedRefs = [];
+    component.selectedRefs = new Set<number>();
     fixture.detectChanges();
   });
 
