@@ -87,67 +87,42 @@
 }
 
 #search-bar {
-  max-width: 450px;
   width: 100%;
-  font-size: 0.95rem;
-  display: inline-block;
-  position: relative;
-
+  max-width: 800px;
+  margin: 0 auto;
   input {
-    padding: 8px 8px 8px 40px;
+    padding: 0.3rem 0.8rem;
     height: 44px;
-    background: #f4f5f7;
-    border: none;
+    background: white;
+    border: none !important;
     outline: none;
-    vertical-align: top;
-    color: #1a191a;
-    letter-spacing: 0;
-    width: 100%;
-    border-radius: 0 5px 5px 0;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    margin-left: 1px;
   }
 
+  button:focus,
   input:focus {
-    box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 0 0.15rem rgba(0, 0, 0, 0.38);
   }
+}
 
-  input::placeholder {
-    color: #7e7e7e;
-    font-weight: 500;
-  }
-
-  label {
-    color: white;
-  }
-
-  span,
-  button {
-    display: block;
-    position: absolute;
-    top: 0;
-    padding: 0.5rem;
-    background: transparent !important;
-    font-size: 1.3rem;
-  }
+#deleteSearchIcon {
+  display: block;
+  position: absolute;
+  outline: none;
+  border: none;
+  right: 44px;
+  height: 44px;
+  color: black;
+  background-color: transparent;
+  font-size: 1.5rem;
+  z-index: 10;
 }
 
 #searchIcon {
   left: 0;
   color: #959595;
-}
-
-#deleteSearchIcon {
-  top: 0;
-  right: 2px;
-  color: black;
-  cursor: pointer;
-}
-
-#deleteSearchIcon:focus {
-  box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.5);
-}
-
-#dropdownSearch {
-  padding: 8px 8px 8px 40px;
 }
 
 #dropdownSearchString {
@@ -169,13 +144,22 @@
 }
 
 @media all and (max-width: 520px) {
-  #search-bar input,
-  #dropdownSearchString button {
+  #dropdownSearchString {
+    margin: 0.5rem 0;
     width: 100% !important;
-    border-radius: 5px !important;
+
+    button,
+    button.dropdown-toggle {
+      width: 100% !important;
+      border-radius: 6px !important;
+    }
   }
-  .dropdown-item {
-    font-size: 0.9rem;
-    padding: 0.6rem;
+
+  #search-bar input {
+    width: 80% !important;
+    border-radius: 6px 0px 0px 6px !important;
+  }
+  #deleteSearchIcon {
+    bottom: 0px !important;
   }
 }

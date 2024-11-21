@@ -92,7 +92,7 @@ export class ManageUsagersPageComponent
   };
 
   private destroy$ = new Subject<void>();
-  public usagersRadiesTotalCount = 0;
+
   public usagers: UsagerFormModel[] = [];
   public filteredUsagers: UsagerFormModel[] = [];
 
@@ -130,6 +130,7 @@ export class ManageUsagersPageComponent
 
   private subscription = new Subscription();
   public selectedRefs: Set<number> = new Set();
+  public selectAllCheckboxes = false;
 
   constructor(
     private readonly usagerService: ManageUsagersService,
@@ -149,7 +150,6 @@ export class ManageUsagersPageComponent
     this.filters.page = 1;
     this.titleService.setTitle("Gestion des domiciliés - DomiFa");
     this.filters$.next(this.filters);
-    this.usagersRadiesTotalCount = 0;
   }
 
   ngAfterViewInit() {
@@ -288,10 +288,10 @@ export class ManageUsagersPageComponent
         )
         .subscribe(({ filters, usagers, usagersRadiesTotalCount }) => {
           if (filters && usagers) {
-            this.usagersRadiesTotalCount = usagersRadiesTotalCount;
+            this.countRadiesLoaded(usagers);
             this.usagersCountByStatus = calculateUsagersCountByStatus(
               usagers,
-              this.usagersRadiesTotalCount
+              usagersRadiesTotalCount
             );
             this.applyFilters({ filters, allUsagers: usagers });
           }
@@ -343,7 +343,7 @@ export class ManageUsagersPageComponent
     filters: UsagersFilterCriteria
   ): Observable<string> {
     if (
-      this.usagersCountByStatus.RADIE !== this.usagersRadiesTotalCount &&
+      this.usagersCountByStatus.RADIE !== this.usagersRadiesLoadedCount &&
       !chargerTousRadies &&
       (this.filters.statut === "TOUS" || this.filters.statut === "RADIE")
     ) {
@@ -496,16 +496,7 @@ export class ManageUsagersPageComponent
     allUsagers: UsagerLight[];
   }): void {
     this.searching = true;
-
-    let radiesCount = 0;
-    for (const usager of allUsagers) {
-      if (usager.statut === "RADIE") {
-        radiesCount++;
-      }
-    }
-
-    this.usagersRadiesLoadedCount = radiesCount;
-
+    this.resetCheckboxes();
     localStorage.setItem("MANAGE_USAGERS", JSON.stringify(filters));
 
     this.filteredUsagers = usagersFilter.filter(allUsagers, {
@@ -532,8 +523,20 @@ export class ManageUsagersPageComponent
     this.filters.interactionType = null;
   }
 
+  public countRadiesLoaded = (
+    allUsagers: Pick<UsagerLight, "statut">[]
+  ): void => {
+    let radiesCount = 0;
+    for (const usager of allUsagers) {
+      if (usager.statut === "RADIE") {
+        radiesCount++;
+      }
+    }
+
+    this.usagersRadiesLoadedCount = radiesCount;
+  };
   private applySorting(): void {
-    this.selectedRefs = new Set();
+    this.resetCheckboxes();
     if (!this.filteredUsagers.length) {
       this.usagers = [];
       return;
@@ -592,5 +595,10 @@ export class ManageUsagersPageComponent
   private getFilters(): null | Partial<UsagersFilterCriteria> {
     const filters = localStorage.getItem("MANAGE_USAGERS");
     return filters === null ? {} : JSON.parse(filters);
+  }
+
+  private resetCheckboxes() {
+    this.selectAllCheckboxes = false;
+    this.selectedRefs.clear();
   }
 }

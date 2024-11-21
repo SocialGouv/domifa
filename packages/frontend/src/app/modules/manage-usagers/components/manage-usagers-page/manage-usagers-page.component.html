@@ -2,23 +2,40 @@
   <div class="container">
     <div class="py-2 px-0 mx-0">
       <div
-        class="row text-center justify-content-md-between justify-content-center align-items-center"
+        class="row text-center justify-content-md-between justify-content-center align-items-center py-2"
       >
-        <h1 class="col-md-2 col-12 title text-start">Domiciliés</h1>
-        <div class="col-md-8 col-12 align-items-center">
-          <div
-            ngbDropdown
-            id="dropdownSearchString"
-            class="d-block d-md-inline-block my-1"
-            #dropdownSearchString="ngbDropdown"
+        <div class="col-md-2 col-6 text-end order-2 order-md-3">
+          <a
+            *ngIf="me.role !== 'facteur'"
+            routerLink="/usager/nouveau"
+            ariaCurrentWhenActive="page"
+            class="btn btn-white-primary"
           >
-            <button
-              type="button"
-              aria-label="Type de donnée recherchée"
-              aria-haspopup="true"
-              ngbDropdownToggle
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'plus']"
+              class="me-2"
+            ></fa-icon>
+            Créer une demande
+          </a>
+        </div>
+        <h1 class="col-md-2 col-6 title text-start order-1 order-md-1">
+          Domiciliés
+        </h1>
+        <div class="col-md-8 col-12 order-3 order-md-2">
+          <div class="input-group" id="search-bar">
+            <div
+              ngbDropdown
+              id="dropdownSearchString"
+              #dropdownSearchString="ngbDropdown"
             >
-              <span>
+              <button
+                class="btn btn-light"
+                type="button"
+                aria-label="Type de donnée recherchée"
+                aria-haspopup="true"
+                ngbDropdownToggle
+              >
                 <fa-icon
                   [icon]="['fas', 'list']"
                   aria-hidden="true"
@@ -28,64 +45,56 @@
                   SEARCH_STRING_FIELD_LABELS[this.filters.searchStringField]
                     .label
                 }}
-              </span>
-            </button>
-            <div
-              ngbDropdownMenu
-              aria-labelledby="dropdownSearchString"
-              class="dropdown-menu"
-              role="listbox"
-            >
-              <button
-                type="button"
-                (click)="
-                  updateFilters({
-                    element: 'searchStringField',
-                    value: 'DATE_NAISSANCE'
-                  })
-                "
-                role="option"
-                [attr.aria-selected]="
-                  filters.searchStringField === 'DATE_NAISSANCE'
-                "
-                ngbDropdownItem
-              >
-                Date de naissance
               </button>
-              <button
-                type="button"
-                (click)="
-                  updateFilters({
-                    element: 'searchStringField',
-                    value: 'DEFAULT'
-                  })
-                "
-                role="option"
-                [attr.aria-selected]="filters.searchStringField === 'DEFAULT'"
-                ngbDropdownItem
+
+              <div
+                ngbDropdownMenu
+                aria-labelledby="dropdownSearchString"
+                class="dropdown-menu"
+                role="listbox"
               >
-                {{ SEARCH_STRING_FIELD_LABELS.DEFAULT.label }}
-              </button>
+                <button
+                  type="button"
+                  (click)="
+                    updateFilters({
+                      element: 'searchStringField',
+                      value: 'DATE_NAISSANCE'
+                    })
+                  "
+                  role="option"
+                  [attr.aria-selected]="
+                    filters.searchStringField === 'DATE_NAISSANCE'
+                  "
+                  ngbDropdownItem
+                >
+                  Date de naissance
+                </button>
+                <button
+                  type="button"
+                  (click)="
+                    updateFilters({
+                      element: 'searchStringField',
+                      value: 'DEFAULT'
+                    })
+                  "
+                  role="option"
+                  [attr.aria-selected]="filters.searchStringField === 'DEFAULT'"
+                  ngbDropdownItem
+                >
+                  {{ SEARCH_STRING_FIELD_LABELS.DEFAULT.label }}
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div
-            class="d-block d-md-inline-block my-1"
-            id="search-bar"
-            role="search"
-          >
-            <label for="searchInput" class="visually-hidden"
-              >Rechercher un domicilié</label
-            >
-            <span id="searchIcon">
-              <fa-icon [icon]="['fas', 'search']" aria-hidden="true"></fa-icon>
-            </span>
-
+            <label for="searchInput" class="visually-hidden">
+              Rechercher un domicilié
+            </label>
             <input
               id="searchInput"
               type="text"
               name="searchInput"
               #searchInput
+              class="form-control"
               [placeholder]="
                 SEARCH_STRING_FIELD_LABELS[this.filters.searchStringField]
                   .placeholder
@@ -96,22 +105,23 @@
               aria-label="Supprimer le texte saisie"
               *ngIf="searchInput?.value !== ''"
               (click)="resetSearchBar()"
-              class="btn"
               id="deleteSearchIcon"
             >
-              <fa-icon aria-hidden="true" [icon]="['fas', 'times']"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'circle-xmark']"
+              ></fa-icon>
+            </button>
+            <button
+              class="btn btn-light"
+              type="button"
+              #refreshButton
+              aria-label="Lancer la recherche"
+              id="search-btn"
+            >
+              <fa-icon [icon]="['fas', 'search']" aria-hidden="true"></fa-icon>
             </button>
           </div>
-        </div>
-        <div class="col-md-2 col-12 text-end">
-          <button type="button" class="btn btn-white-primary" #refreshButton>
-            <fa-icon
-              [icon]="['fas', 'search']"
-              aria-hidden="true"
-              class="me-2"
-            ></fa-icon>
-            Lancer la recherche
-          </button>
         </div>
       </div>
     </div>
@@ -289,6 +299,7 @@
       <app-manage-manage-usagers-table
         [selectedRefs]="selectedRefs"
         [usagers]="usagers"
+        [selectAllCheckboxes]="selectAllCheckboxes"
         [filters]="filters"
         (updateFilters)="updateFilters($event)"
         (goToPrint)="goToPrint()"
