@@ -35,7 +35,7 @@ import {
   Usager,
 } from "@domifa/common";
 import { format } from "date-fns";
-import { getLastInteractionOut } from "../../interactions/services/getLastInteractionDate.service";
+import { getLastInteractionOut } from "../../modules/interactions/services/getLastInteractionDate.service";
 import { UsagerHistoryStateService } from "../services/usagerHistoryState.service";
 
 @Controller("usagers-decision")

@@ -34,7 +34,7 @@ import {
 } from "../../database";
 
 import { cleanPath } from "../../util";
-import { dataCompare } from "../../util/dataCompare.service";
+import { dataCompare } from "../../util/search/dataCompare.service";
 import {
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,

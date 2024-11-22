@@ -1,5 +1,3 @@
-import { ContactSupportTable } from "./../../database/entities/contact-support/ContactSupportTable.typeorm";
-import { contactSupportRepository } from "./../../database/services/contact/contactSupportRepository.service";
 import { ContactSupportDto } from "./contact-support.dto";
 import {
   Body,
@@ -18,9 +16,10 @@ import {
   randomName,
 } from "../../util/file-manager/FileManager";
 
-import { contactSupportEmailSender } from "../../mails/services/templates-renderers/contact-support";
 import { ExpressRequest, ExpressResponse } from "../../util/express";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
+import { ContactSupportTable, contactSupportRepository } from "../../database";
+import { contactSupportEmailSender } from "../mails/services/templates-renderers/contact-support";
 
 @Controller("contact")
 export class ContactSupportController {

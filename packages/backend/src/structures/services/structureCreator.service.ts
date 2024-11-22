@@ -1,16 +1,12 @@
 import { HttpException, HttpStatus } from "@nestjs/common";
-import * as crypto from "crypto";
 import {
   userStructureRepository,
   structureRepository,
   StructureTable,
 } from "../../database";
-import { newStructureEmailSender } from "../../mails/services/templates-renderers";
 import { UserDto } from "../../users/dto/user.dto";
 import { userStructureCreator } from "../../users/services/user-structure-creator.service";
-import { appLogger } from "../../util/AppLogger.service";
 import { StructureDto } from "../dto/structure.dto";
-import { generateSender } from "../../sms/services/generators";
 import { getLocation } from "./location.service";
 import {
   DEPARTEMENTS_MAP,
@@ -19,6 +15,11 @@ import {
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
 } from "@domifa/common";
+import { appLogger } from "../../util";
+import { generateSender } from "../../modules/sms/services/generators";
+import { Point } from "geojson";
+import { newStructureEmailSender } from "../../modules/mails/services/templates-renderers";
+import { randomBytes } from "crypto";
 
 export const structureCreatorService = {
   checkStructureCreateArgs,
@@ -26,9 +27,7 @@ export const structureCreatorService = {
   checkCreationToken,
 };
 
-async function checkStructureCreateArgs(
-  structureDto: StructureDto
-): Promise<StructureDto> {
+function checkStructureCreateArgs(structureDto: StructureDto): StructureDto {
   try {
     const departement = getDepartementFromCodePostal(structureDto.codePostal);
     getRegionCodeFromDepartement(departement);
@@ -122,10 +121,13 @@ async function createStructure(structureDto: StructureDto) {
   };
 
   let address = createdStructure.adresse;
-  let position: any = await getLocation(address, createdStructure.codePostal);
+  let position: Point | null = await getLocation(
+    address,
+    createdStructure.codePostal
+  );
 
   if (!position) {
-    address = createdStructure.adresse + ", " + createdStructure.ville;
+    address = `${createdStructure.adresse}, ${createdStructure.ville}`;
     position = await getLocation(address);
   }
 
@@ -135,7 +137,7 @@ async function createStructure(structureDto: StructureDto) {
   }
 
   createdStructure.registrationDate = new Date();
-  createdStructure.token = crypto.randomBytes(30).toString("hex");
+  createdStructure.token = randomBytes(30).toString("hex");
 
   createdStructure.departement = getDepartementFromCodePostal(
     createdStructure.codePostal

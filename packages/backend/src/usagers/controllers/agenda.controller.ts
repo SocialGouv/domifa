@@ -22,7 +22,6 @@ import {
   userStructureRepository,
   usagerRepository,
 } from "../../database";
-import { usagerAppointmentCreatedEmailSender } from "../../mails/services/templates-renderers";
 import { ExpressResponse } from "../../util/express";
 import {
   UserStructureAuthenticated,
@@ -30,7 +29,8 @@ import {
 } from "../../_common/model";
 import { RdvDto } from "../dto/decision-form/rdv.dto";
 import { UsagersService } from "../services/usagers.service";
-import { Usager } from "@domifa/common";
+import { getUsagerNomComplet, Usager } from "@domifa/common";
+import { usagerAppointmentCreatedEmailSender } from "../../modules/mails/services/templates-renderers";
 
 @ApiTags("agenda")
 @ApiBearerAuth()
@@ -97,12 +97,7 @@ export class AgendaController {
         .json({ message: "USER_AGENDA_NOT_EXIST" });
     }
 
-    const title =
-      "Entretien avec " +
-      (usager.sexe === "homme" ? "M. " : "Mme. ") +
-      usager.nom +
-      " " +
-      usager.prenom;
+    const title = `Entretien avec ${getUsagerNomComplet(usager)}`;
 
     const annee = rdvDto.dateRdv.getFullYear();
     const mois = rdvDto.dateRdv.getMonth() + 1;
@@ -138,11 +133,7 @@ export class AgendaController {
 
     let message = "";
     if (currentUser.id !== user.id) {
-      message =
-        "Il vous a été assigné par " +
-        currentUser.prenom +
-        " " +
-        currentUser.nom;
+      message = `Il vous a été assigné par ${currentUser.prenom} ${currentUser.nom}`;
     }
 
     const updatedUsager = await this.usagersService.setRdv(

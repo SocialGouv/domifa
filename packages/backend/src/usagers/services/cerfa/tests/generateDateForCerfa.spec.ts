@@ -9,7 +9,7 @@ import {
 } from "../../../../util/test";
 
 import { UserStructureAuthenticated } from "../../../../_common/model";
-import { generateDateForCerfa } from "../generateDateForCerfa.service";
+import { generateDateForCerfa } from "../generate-date-for-cerfa.service";
 
 describe("generateDateForCerfa", () => {
   let context: AppTestContext;
@@ -41,7 +41,7 @@ describe("generateDateForCerfa", () => {
     jest.useRealTimers();
   });
 
-  it("Date nulle", async () => {
+  it("Date nulle", () => {
     expect(generateDateForCerfa(null)).toEqual({
       annee: "",
       heure: "",
@@ -51,7 +51,7 @@ describe("generateDateForCerfa", () => {
     });
   });
 
-  it("Date au format Europe/Paris, par défaut", async () => {
+  it("Date au format Europe/Paris, par défaut", () => {
     expect(generateDateForCerfa(new Date())).toEqual({
       annee: "2023",
       heure: "21",
@@ -61,7 +61,7 @@ describe("generateDateForCerfa", () => {
     });
   });
 
-  it("[TIMEZONE] Date au format America/Cayenne -4h (heure d'hiver)", async () => {
+  it("[TIMEZONE] Date au format America/Cayenne -4h (heure d'hiver)", () => {
     expect(generateDateForCerfa(new Date(), user)).toEqual({
       annee: "2023",
       heure: "17",
@@ -71,7 +71,7 @@ describe("generateDateForCerfa", () => {
     });
   });
 
-  it("[Timezone] Date in text format for in America/Cayenne -4h format (winter time)", async () => {
+  it("[Timezone] Date in text format for in America/Cayenne -4h format (winter time)", () => {
     expect(generateDateForCerfa("2023-03-22T20:45:47.433Z", user)).toEqual({
       annee: "2023",
       heure: "17",

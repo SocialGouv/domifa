@@ -1,7 +1,6 @@
 import { HttpStatus } from "@nestjs/common";
 import { userStructureRepository, structureRepository } from "../database";
-import { InteractionsModule } from "../interactions/interactions.module";
-import { MailsModule } from "../mails/mails.module";
+import { InteractionsModule } from "../modules/interactions/interactions.module";
 import { StatsModule } from "../stats/stats.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UserDto } from "../users/dto/user.dto";
@@ -19,6 +18,7 @@ import { StructureDto } from "./dto/structure.dto";
 import { structureDeletorService } from "./services/structure-deletor.service";
 import { StructuresModule } from "./structure.module";
 import { PortailAdminModule } from "../modules/portail-admin";
+import { MailsModule } from "../modules/mails/mails.module";
 
 const structureDto: StructureDto = {
   adresse: "1 rue de Pessac",

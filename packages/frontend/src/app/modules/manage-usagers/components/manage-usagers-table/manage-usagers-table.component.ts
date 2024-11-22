@@ -1,10 +1,11 @@
-import { Subscription } from "rxjs";
+import { Subject, Subscription } from "rxjs";
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   TemplateRef,
   ViewChild,
@@ -34,12 +35,15 @@ import { UserStructure } from "@domifa/common";
   styleUrls: ["./manage-usagers-table.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ManageUsagersTableComponent implements OnDestroy {
+export class ManageUsagersTableComponent implements OnDestroy, OnInit {
   @Input()
   public usagers!: UsagerFormModel[];
 
   @Input()
   public filters!: UsagersFilterCriteria;
+
+  @Input()
+  public filters$: Subject<UsagersFilterCriteria>;
 
   @Input()
   public selectAllCheckboxes = false;
@@ -73,10 +77,23 @@ export class ManageUsagersTableComponent implements OnDestroy {
   ) {
     this.me = this.authService.currentUserValue;
     this.usagers = [];
-    this.selectedRefs = new Set();
+    this.selectedRefs.clear();
+  }
+
+  public ngOnInit(): void {
+    this.subscription.add(
+      this.filters$.subscribe(() => {
+        this.selectAllCheckboxes = false;
+        this.selectedRefs.clear();
+      })
+    );
   }
 
   public toggleSelection(id: number) {
+    if (!this.selectedRefs.size) {
+      this.selectAllCheckboxes = false;
+    }
+
     if (!this.selectedRefs.has(id)) {
       this.selectedRefs.add(id);
     } else {

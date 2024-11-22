@@ -1,5 +1,5 @@
-import { removeAccents } from "../../../sms/services/generators";
-import { ucFirst } from "../../../usagers/services/custom-docs";
+import { ucFirst } from "../../functions";
+import { removeAccents } from "./remove-accents";
 
 export const cleanCity = (city: string): string => {
   if (!city) {

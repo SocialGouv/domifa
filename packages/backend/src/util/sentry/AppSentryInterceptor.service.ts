@@ -10,8 +10,8 @@ import { addRequestDataToEvent, Request as SentryRequest } from "@sentry/node";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { UserStructureAuthenticated } from "../../_common/model";
-import { appLogger } from "../AppLogger.service";
 import { Request } from "express";
+import { appLogger } from "../logs";
 
 @Injectable()
 export class AppSentryInterceptor implements NestInterceptor {

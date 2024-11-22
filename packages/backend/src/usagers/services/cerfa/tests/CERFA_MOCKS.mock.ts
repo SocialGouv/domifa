@@ -1,4 +1,4 @@
-import { UsagerCerfaFields } from "../../../../_common/model";
+import { UsagerCerfaFields } from "../../../constants/cerfa";
 
 export const CERFA_MOCK_USAGER_ACTIF: UsagerCerfaFields = {
   adresse: "CCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine",

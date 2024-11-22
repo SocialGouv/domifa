@@ -1,5 +1,5 @@
-import { removeAccents } from "../../../sms/services/generators";
 import { STREET_ABREVIATIONS } from "../constants";
+import { removeAccents } from "./remove-accents";
 
 export const cleanAddress = (address: string): string => {
   if (!address) {

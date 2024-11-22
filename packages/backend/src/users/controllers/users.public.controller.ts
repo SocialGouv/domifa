@@ -15,9 +15,9 @@ import {
   userStructureSecurityResetPasswordUpdater,
   userStructureSecurityResetPasswordInitiator,
 } from "../../database";
-import { userResetPasswordEmailSender } from "../../mails/services/templates-renderers";
 import { ExpressResponse } from "../../util";
 import { EmailDto, ResetPasswordDto } from "../dto";
+import { userResetPasswordEmailSender } from "../../modules/mails/services/templates-renderers";
 
 @Controller("users")
 @ApiTags("users")
@@ -48,7 +48,7 @@ export class UsersPublicController {
     try {
       await userStructureSecurityResetPasswordUpdater.checkResetPasswordToken({
         token,
-        userId: userId,
+        userId,
       });
       return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (err) {

@@ -1,4 +1,3 @@
-import { appLogger } from "./../../../../util/AppLogger.service";
 import { ValidationError } from "yup";
 import {
   USAGERS_IMPORT_COLUMNS,
@@ -15,6 +14,7 @@ import {
   UsagersImportUsagerSchema,
 } from "./schema/UsagersImportUsagerSchema.yup";
 import { usagersImportErrorBuilder } from "./usagersImportErrorBuilder.service";
+import { appLogger } from "../../../../util";
 
 export const usagersImportValidator = {
   parseAndValidate,

@@ -14,7 +14,6 @@ import {
 
 import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
-import { UsagerImport } from "./../../../_common/model/usager/UsagerImport.type";
 import { UsagerNotesTable } from "./UsagerNotesTable.typeorm";
 import {
   UsagerEntretien,
@@ -29,6 +28,7 @@ import {
   UsagerNote,
   Usager,
   UsagerDecisionStatut,
+  UsagerImport,
 } from "@domifa/common";
 import { dataCompare } from "../../../util";
 

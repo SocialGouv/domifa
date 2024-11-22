@@ -2,10 +2,11 @@ import "./open-telemetry";
 import { bootstrapApplication, tearDownApplication } from "./app.bootstrap";
 
 import { appLogger } from "./util";
-import { loadSoliguideData } from "./open-data-places/load-soliguide";
-import { loadDomifaData } from "./open-data-places/load-domifa";
-import { loadMssData } from "./open-data-places/load-mss";
+
 import { domifaConfig } from "./config";
+import { loadDomifaData } from "./modules/open-data-places/load-domifa";
+import { loadMssData } from "./modules/open-data-places/load-mss";
+import { loadSoliguideData } from "./modules/open-data-places/load-soliguide";
 
 (async () => {
   appLogger.warn(`[${__filename}] Starting app...`);

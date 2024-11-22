@@ -16,7 +16,7 @@ async function migrateUp(connection: DataSource): Promise<Migration[]> {
   if (!isCronEnabled()) {
     return [];
   }
-  appLogger.warn(`\nStart migrations ....`);
+  appLogger.warn("\nStart migrations ....");
 
   const migrations = await connection.runMigrations({
     transaction: "all",

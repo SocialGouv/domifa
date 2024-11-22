@@ -1,4 +1,4 @@
-import { InteractionsModule } from "../../../interactions/interactions.module";
+import { InteractionsModule } from "../../../modules/interactions/interactions.module";
 import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 import { StructuresModule } from "../../../structures/structure.module";
 import { UsersModule } from "../../../users/users.module";

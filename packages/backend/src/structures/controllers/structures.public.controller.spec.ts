@@ -1,5 +1,5 @@
 import { HttpStatus } from "@nestjs/common";
-import { InteractionsModule } from "../../interactions/interactions.module";
+import { InteractionsModule } from "../../modules/interactions/interactions.module";
 import { MailsModule } from "../../mails/mails.module";
 import { StatsModule } from "../../stats/stats.module";
 import { UsagersModule } from "../../usagers/usagers.module";

@@ -9,8 +9,7 @@ import { selectUsagerById, UsagerState } from "../../../../shared";
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
-import { Usager, UserStructure } from "@domifa/common";
-import { getUsagerNomComplet } from "../../../usager-shared/utils/getUsagerNomComplet";
+import { getUsagerNomComplet, Usager, UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-base-usager-dossier-page",
