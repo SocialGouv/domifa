@@ -1,3 +1,11 @@
+## [2.185.1](https://github.com/SocialGouv/domifa/compare/v2.185.0...v2.185.1) (2024-11-22)
+
+
+### Bug Fixes
+
+* **backend:** fix unit test ([dbe1c90](https://github.com/SocialGouv/domifa/commit/dbe1c90f0e35472db802a719ebb9b496f43fc256))
+* **backend:** fix unit test mail templating ([c3e53d3](https://github.com/SocialGouv/domifa/commit/c3e53d3184ff13175e9035d46f8d53a933225b85))
+
 # [2.185.0](https://github.com/SocialGouv/domifa/compare/v2.184.1...v2.185.0) (2024-11-21)
 
 
