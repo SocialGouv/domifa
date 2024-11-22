@@ -3,12 +3,12 @@ import { HttpStatus } from "@nestjs/common";
 import supertest from "supertest";
 import { UserStructureSecurity } from "../../_common/model";
 import { userStructureSecurityRepository } from "../../database";
-import { MailsModule } from "../../mails/mails.module";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
 import { ExpressResponse } from "../../util";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { UsersPublicController } from "./users.public.controller";
+import { MailsModule } from "../../modules/mails/mails.module";
 
 describe("Users Public Controller", () => {
   let controller: UsersPublicController;

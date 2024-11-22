@@ -5,7 +5,7 @@ import { join } from "path";
 import { DomifaMailTemplateRendering } from "../model";
 
 // @see https://github.com/niftylettuce/email-templates/blob/master/src/index.js
-const templateBasePath = join(__dirname, "../../_static/email-templates");
+const templateBasePath = join(__dirname, "../../../_static/email-templates");
 
 const emailConfig: EmailTemplate.EmailConfig<any> = {
   juice: true,
