@@ -2,8 +2,8 @@ import { readFile, writeFile } from "fs-extra";
 import { join } from "path";
 
 import { format } from "prettier";
-import { domifaConfig } from "../../../../config";
 import { usagerAppointmentCreatedEmailRenderer } from "./usagerAppointmentCreatedEmailRenderer.service";
+import { domifaConfig } from "../../../../../config";
 describe("usagerAppointmentCreatedEmailRenderer", () => {
   it("usagerAppointmentCreatedEmailRenderer render ", async () => {
     const { subject, text, html } =
@@ -15,7 +15,7 @@ describe("usagerAppointmentCreatedEmailRenderer", () => {
         message: "Petit commentaire concernant le RV.",
       });
     expect(subject).toEqual(
-      `[DOMIFA] Prise de rendez-vous entre le demandeur et un collaborateur`
+      "[DOMIFA] Prise de rendez-vous entre le demandeur et un collaborateur"
     );
     expect(text).toContain("Paul");
     expect(text).toContain("Smith");
