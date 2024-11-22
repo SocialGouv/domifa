@@ -1,5 +1,5 @@
 import { InteractionsModule } from "../../modules/interactions/interactions.module";
-import { MailsModule } from "../../mails/mails.module";
+import { MailsModule } from "../../modules/mails/mails.module";
 import { StatsModule } from "../../stats/stats.module";
 import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";

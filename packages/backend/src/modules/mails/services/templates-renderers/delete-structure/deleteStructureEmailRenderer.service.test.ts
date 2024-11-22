@@ -1,4 +1,3 @@
-import { domifaConfig } from "../../../../config";
 import {
   DeleteStructureEmailModel,
   deleteStructureEmailRenderer,
@@ -8,6 +7,7 @@ import { format } from "prettier";
 
 import { readFile, writeFile } from "fs-extra";
 import { join } from "path";
+import { domifaConfig } from "../../../../../config";
 
 describe("deleteStructureEmailRenderer", () => {
   it("deleteStructureEmailRenderer render ", async () => {
@@ -35,7 +35,7 @@ describe("deleteStructureEmailRenderer", () => {
     const { subject, text, html } =
       await deleteStructureEmailRenderer.renderTemplate(model);
 
-    expect(subject).toEqual(`[DOMIFA] Supprimer une structure`);
+    expect(subject).toEqual("[DOMIFA] Supprimer une structure");
     expect(text).toContain(model.structure.nom);
     expect(text).toContain(model.structure.responsable.fonction);
     expect(text).toContain(model.structure.ville);

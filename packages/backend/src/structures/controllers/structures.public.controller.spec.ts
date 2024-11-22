@@ -1,6 +1,5 @@
 import { HttpStatus } from "@nestjs/common";
 import { InteractionsModule } from "../../modules/interactions/interactions.module";
-import { MailsModule } from "../../mails/mails.module";
 import { StatsModule } from "../../stats/stats.module";
 import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../../users/users.module";
@@ -8,6 +7,7 @@ import { ExpressResponse } from "../../util/express";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { StructuresModule } from "../structure.module";
 import { StructuresPublicController } from "./structures.public.controller";
+import { MailsModule } from "../../modules/mails/mails.module";
 
 describe("Stuctures Public Controller", () => {
   let context: AppTestContext;
