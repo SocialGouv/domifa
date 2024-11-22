@@ -1,6 +1,6 @@
 import axios from "axios";
 import { FeatureCollection, Point } from "geojson";
-import { formatAddressForURL } from "../../util";
+import { appLogger, formatAddressForURL } from "../../util";
 
 export interface BanAddress {
   label: string;
@@ -44,15 +44,15 @@ export const getLocation = async (
     );
 
     if (!response.data.features.length) {
-      console.log(
-        "[GET LOCATION] Cannot get location from this address " + address
+      appLogger.warn(
+        `[GET LOCATION] Cannot get location from this address ${address}`
       );
       return null;
     }
     return response.data.features[0].geometry;
   } catch (error) {
-    console.log(
-      "[GET LOCATION] Cannot get location from this address " + address
+    appLogger.warn(
+      `[GET LOCATION] Cannot get location from this address ${address}`
     );
     return null;
   }

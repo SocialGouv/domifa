@@ -8,8 +8,7 @@ import { AuthService, CustomToastService } from "../../../../shared/services";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { Store } from "@ngrx/store";
-import { UserStructure } from "@domifa/common";
-import { getUsagerNomComplet } from "../../../../usager-shared/utils/getUsagerNomComplet";
+import { UserStructure, getUsagerNomComplet } from "@domifa/common";
 
 @Component({
   selector: "app-base-usager-profil-page",

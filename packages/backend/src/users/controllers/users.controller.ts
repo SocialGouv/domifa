@@ -25,7 +25,6 @@ import {
   userStructureSecurityPasswordUpdater,
 } from "../../database";
 
-import { userAccountCreatedByAdminEmailSender } from "../../mails/services/templates-renderers/user-account-created-by-admin";
 import { Response } from "express";
 
 import {
@@ -40,6 +39,7 @@ import { UpdateRoleDto } from "../dto/update-role.dto";
 import { UserEditDto } from "../dto/user-edit.dto";
 import { usersDeletor } from "../services";
 import { userStructureCreator } from "../services/user-structure-creator.service";
+import { userAccountCreatedByAdminEmailSender } from "../../modules/mails/services/templates-renderers/user-account-created-by-admin";
 
 @Controller("users")
 @ApiTags("users")

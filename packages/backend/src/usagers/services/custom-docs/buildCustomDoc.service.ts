@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import { fr } from "date-fns/locale";
 import { getPhoneString } from "../../../util/phone/phoneUtils.service";
+import { isNil } from "lodash";
 import { getAyantsDroitsText } from "../cerfa";
 import {
   USAGER_DECISION_STATUT_LABELS,
@@ -20,6 +21,7 @@ import {
   ENTRETIEN_LIEN_COMMUNE,
 } from "@domifa/common";
 import { StructureCustomDocTags } from "../../../_common/model";
+import { formatBoolean, ucFirst } from "../../../util";
 
 export const DATE_FORMAT = {
   JOUR: "dd/MM/yyyy",
@@ -43,7 +45,7 @@ export function buildCustomDoc({
   // Adresse
   let adresseStructure = ucFirst(structure.adresse);
 
-  if (notEmpty(structure.complementAdresse)) {
+  if (!isNil(structure.complementAdresse)) {
     adresseStructure =
       adresseStructure + ", " + ucFirst(structure.complementAdresse);
   }
@@ -278,25 +280,11 @@ export const buildEntretienForDocs = (
     ENTRETIEN_COMMENTAIRE: usager.entretien.commentaires ?? "",
     ENTRETIEN_SITUATION_RESIDENTIELLE:
       usager.entretien.residence === "AUTRE"
-        ? "Autre: " + ucFirst(usager.entretien.residenceDetail)
+        ? `Autre: ${ucFirst(usager.entretien.residenceDetail)}`
         : usager.entretien.residence
         ? ENTRETIEN_RESIDENCE[usager.entretien.residence]
         : "",
   };
-};
-
-export const formatBoolean = (element: boolean): string => {
-  return element ? "OUI" : "NON";
-};
-
-export const ucFirst = (value: string) => {
-  return !value || value === ""
-    ? ""
-    : value.charAt(0).toUpperCase() + value.slice(1);
-};
-
-export const notEmpty = (value: string): boolean => {
-  return typeof value !== "undefined" && value !== null && value.trim() !== "";
 };
 
 export const dateFormat = (

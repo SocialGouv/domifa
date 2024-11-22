@@ -1,7 +1,6 @@
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 import { domifaConfig } from "../../../config";
-import { appLogger } from "../../../util";
-import { CustomTypeOrmLogger } from "../../../util/CustomTypeOrmLogger";
+import { appLogger, CustomTypeOrmLogger } from "../../../util";
 
 const isTypescriptMode = __filename.split(".").pop() === "ts"; // if current file extension is "ts": use src/*.ts files, eles use dist/*.js files
 
@@ -11,13 +10,13 @@ let connectOptionsPaths: Pick<
 >;
 
 if (isTypescriptMode) {
-  appLogger.warn(`[appTypeormManager] Running in typescript DEV mode`);
+  appLogger.warn("[appTypeormManager] Running in typescript DEV mode");
   connectOptionsPaths = {
-    migrations: [`src/_migrations/**/*.ts`],
+    migrations: ["src/_migrations/**/*.ts"],
     entities: ["src/database/entities/**/*Table.typeorm.ts"],
   };
 } else {
-  appLogger.warn(`[appTypeormManager] Running in javascript DIST mode`);
+  appLogger.warn("[appTypeormManager] Running in javascript DIST mode");
   connectOptionsPaths = {
     migrations: ["/app/packages/backend/dist/_migrations/**/*.js"],
     entities: [

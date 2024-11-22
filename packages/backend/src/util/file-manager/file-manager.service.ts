@@ -6,7 +6,6 @@ import {
   S3Client,
 } from "@aws-sdk/client-s3";
 import { Readable } from "typeorm/platform/PlatformTools";
-import { appLogger } from "../AppLogger.service";
 import { domifaConfig } from "../../config";
 import { Upload } from "@aws-sdk/lib-storage";
 import { PassThrough } from "node:stream";
@@ -16,6 +15,7 @@ import { decryptFile } from "@socialgouv/streaming-file-encryption";
 import { join } from "node:path";
 import { Response } from "express";
 import { cleanPath } from "./FileManager";
+import { appLogger } from "../logs";
 
 @Injectable()
 export class FileManagerService {

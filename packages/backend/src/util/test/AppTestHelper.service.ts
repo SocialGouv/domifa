@@ -1,4 +1,4 @@
-import { myDataSource } from "./../../database/services/_postgres/appTypeormManager.service";
+import { myDataSource } from "../../database/services/_postgres/appTypeormManager.service";
 import {
   HttpStatus,
   INestApplication,

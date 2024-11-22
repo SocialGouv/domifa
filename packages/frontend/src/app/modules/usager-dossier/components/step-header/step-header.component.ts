@@ -8,8 +8,8 @@ import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { Store } from "@ngrx/store";
 import { Subscription } from "rxjs";
-import { getUsagerNomComplet } from "../../../usager-shared/utils/getUsagerNomComplet";
 import { ETAPES_FORM_DOM_TITRES, ETAPES_FORM_DOM } from "../../constants";
+import { getUsagerNomComplet } from "@domifa/common";
 
 @Component({
   selector: "app-step-header",

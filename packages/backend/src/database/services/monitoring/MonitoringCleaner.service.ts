@@ -4,7 +4,6 @@ import { LessThanOrEqual } from "typeorm";
 import { monitoringBatchProcessSimpleCountRunner } from ".";
 import { MonitoringBatchProcessTrigger } from "../..";
 import { domifaConfig } from "../../../config";
-import { adminBatchsErrorReportEmailSender } from "../../../mails/services/templates-renderers";
 import { appLogger } from "../../../util";
 import { MonitoringBatchProcessId } from "../../entities";
 import { messageEmailRepository } from "../message-email";
@@ -13,20 +12,21 @@ import { monitoringBatchProcessRepository } from "./monitoringBatchProcessReposi
 
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import { endOfDay, sub } from "date-fns";
+import { adminBatchsErrorReportEmailSender } from "../../../modules/mails/services/templates-renderers";
 
 @Injectable()
 export class MonitoringCleaner {
   @Cron(domifaConfig().cron.monitoringCleaner.crontime)
   public async purgeObsoleteDataCron() {
     if (!isCronEnabled()) {
-      appLogger.debug(`[CRON] [purgeObsoleteDataCron] Disabled by config`);
+      appLogger.debug("[CRON] [purgeObsoleteDataCron] Disabled by config");
       return;
     }
     await this.purgeObsoleteData("cron");
   }
 
   public async purgeObsoleteData(trigger: MonitoringBatchProcessTrigger) {
-    appLogger.warn(`[CRON] [purgeObsoleteDataCron] Start`);
+    appLogger.warn("[CRON] [purgeObsoleteDataCron] Start");
     const delay = domifaConfig().cron.monitoringCleaner.delay;
 
     const limitDate = endOfDay(

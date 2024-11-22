@@ -95,10 +95,7 @@
               name="searchInput"
               #searchInput
               class="form-control"
-              [placeholder]="
-                SEARCH_STRING_FIELD_LABELS[this.filters.searchStringField]
-                  .placeholder
-              "
+              placeholder="Recherche"
             />
             <button
               type="button"
@@ -301,6 +298,7 @@
         [usagers]="usagers"
         [selectAllCheckboxes]="selectAllCheckboxes"
         [filters]="filters"
+        [filters$]="filters$"
         (updateFilters)="updateFilters($event)"
         (goToPrint)="goToPrint()"
       ></app-manage-manage-usagers-table>

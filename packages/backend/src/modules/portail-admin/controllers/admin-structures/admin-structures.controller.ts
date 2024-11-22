@@ -17,7 +17,6 @@ import {
   structureRepository,
 } from "../../../../database";
 import { statsDeploiementExporter } from "../../../../excel/export-stats-deploiement";
-import { userAccountActivatedEmailSender } from "../../../../mails/services/templates-renderers";
 
 import { expressResponseExcelRenderer } from "../../../../util";
 import { ExpressResponse } from "../../../../util/express";
@@ -39,6 +38,7 @@ import { FindOptionsWhere } from "typeorm";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { StructureConfirmationDto } from "../../_dto";
 import { StructureAdminForList } from "../../types";
+import { userAccountActivatedEmailSender } from "../../../mails/services/templates-renderers";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")

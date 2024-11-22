@@ -1,8 +1,7 @@
 import { HttpModule } from "@nestjs/axios";
 import { forwardRef, Module } from "@nestjs/common";
 
-import { InteractionsModule } from "../interactions/interactions.module";
-import { MailsModule } from "../mails/mails.module";
+import { InteractionsModule } from "../modules/interactions/interactions.module";
 import { StatsModule } from "../stats/stats.module";
 import { UsagersModule } from "../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
@@ -14,6 +13,7 @@ import { StructureHardResetService } from "./services/structureHardReset.service
 import { StructuresService } from "./services/structures.service";
 import { AppLogsService } from "../modules/app-logs/app-logs.service";
 import { FileManagerService } from "../util/file-manager/file-manager.service";
+import { MailsModule } from "../modules/mails/mails.module";
 
 @Module({
   controllers: [

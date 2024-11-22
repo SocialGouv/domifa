@@ -12,7 +12,6 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AllowUserStructureRoles, CurrentUser } from "../../auth/decorators";
 import { structureRepository } from "../../database";
-import { hardResetEmailSender } from "../../mails/services/templates-renderers";
 import { ExpressResponse } from "../../util/express";
 import {
   UserStructureAuthenticated,
@@ -39,6 +38,7 @@ import { FileManagerService } from "../../util/file-manager/file-manager.service
 import { domifaConfig } from "../../config";
 import { cleanPath } from "../../util";
 import { join } from "path";
+import { hardResetEmailSender } from "../../modules/mails/services/templates-renderers";
 
 @Controller("structures")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -106,10 +106,9 @@ export class StructuresController {
       user.structure.sms.enabledByStructure !==
       structureSmsDto.enabledByStructure
     ) {
-      const action =
-        structureSmsDto.enabledByStructure === true
-          ? "ENABLE_SMS_BY_STRUCTURE"
-          : "DISABLE_SMS_BY_STRUCTURE";
+      const action = structureSmsDto.enabledByStructure
+        ? "ENABLE_SMS_BY_STRUCTURE"
+        : "DISABLE_SMS_BY_STRUCTURE";
 
       await this.appLogsService.create({
         userId: user._userId,
@@ -132,7 +131,7 @@ export class StructuresController {
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @ApiBearerAuth()
   @Get("ma-structure")
-  public async getMyStructure(@CurrentUser() user: UserStructureAuthenticated) {
+  public getMyStructure(@CurrentUser() user: UserStructureAuthenticated) {
     return user.structure;
   }
 
@@ -177,7 +176,7 @@ export class StructuresController {
   ) {
     const structure = await structureRepository.checkHardResetToken({
       userId: user.id,
-      token: token,
+      token,
     });
 
     if (!structure) {
@@ -196,12 +195,11 @@ export class StructuresController {
 
     await resetUsagers(structure);
 
-    const key =
-      join(
-        domifaConfig().upload.bucketRootDir,
-        "usager-documents",
-        cleanPath(user.structure.uuid)
-      ) + "/";
+    const key = `${join(
+      domifaConfig().upload.bucketRootDir,
+      "usager-documents",
+      cleanPath(user.structure.uuid)
+    )}/`;
 
     await this.fileManagerService.deleteAllUnderStructure(key);
 

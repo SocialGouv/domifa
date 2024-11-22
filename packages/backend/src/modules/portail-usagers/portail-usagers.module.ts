@@ -1,9 +1,9 @@
 import { forwardRef, Module } from "@nestjs/common";
 import { AuthModule } from "../../auth/auth.module";
 
-import { InteractionsModule } from "../../interactions/interactions.module";
+import { InteractionsModule } from "../interactions/interactions.module";
 import { HttpModule } from "@nestjs/axios";
-import { InteractionsService } from "../../interactions/services";
+import { InteractionsService } from "../interactions/services";
 import { PortailUsagersLoginController } from "./controllers/portail-usagers-login/portail-usagers-login.controller";
 import { PortailUsagersProfileController } from "./controllers/postail-usagers-profile/portail-usagers-profile.controller";
 import { PortailUsagersManagerController } from "./controllers/portail-usagers-manager/portail-usagers-manager.controller";

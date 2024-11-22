@@ -1,5 +1,5 @@
 import { forwardRef } from "@nestjs/common";
-import { InteractionsModule } from "../../../../interactions/interactions.module";
+import { InteractionsModule } from "../../../interactions/interactions.module";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { SmsModule } from "../../../../sms/sms.module";
 import { StructuresModule } from "../../../../structures/structure.module";

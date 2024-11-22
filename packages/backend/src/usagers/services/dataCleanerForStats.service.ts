@@ -4,10 +4,7 @@ import {
   UsagerEntretien,
 } from "@domifa/common";
 import { v4 as uuidv4 } from "uuid";
-
-const getValue = (value: any): any => {
-  return typeof value === "undefined" || value === null ? null : value;
-};
+import { getStringOrNull } from "../../util/functions";
 
 export const getDecisionForStats = (
   decision: UsagerDecision
@@ -40,16 +37,16 @@ export const getEntretienForStats = (
   | "situationPro"
 > => {
   return {
-    domiciliation: getValue(entretien?.domiciliation),
-    typeMenage: getValue(entretien?.typeMenage),
-    revenus: getValue(entretien?.revenus),
-    orientation: getValue(entretien?.orientation),
-    liencommune: getValue(entretien?.liencommune),
-    residence: getValue(entretien?.residence),
-    cause: getValue(entretien?.cause),
-    raison: getValue(entretien?.raison),
-    accompagnement: getValue(entretien?.accompagnement),
-    situationPro: getValue(entretien?.situationPro),
+    domiciliation: getStringOrNull(entretien?.domiciliation),
+    typeMenage: getStringOrNull(entretien?.typeMenage),
+    revenus: getStringOrNull(entretien?.revenus),
+    orientation: getStringOrNull(entretien?.orientation),
+    liencommune: getStringOrNull(entretien?.liencommune),
+    residence: getStringOrNull(entretien?.residence),
+    cause: getStringOrNull(entretien?.cause),
+    raison: getStringOrNull(entretien?.raison),
+    accompagnement: getStringOrNull(entretien?.accompagnement),
+    situationPro: getStringOrNull(entretien?.situationPro),
   };
 };
 

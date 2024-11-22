@@ -1,6 +1,6 @@
 import { compare, genSalt, hash } from "bcryptjs";
-import { appLogger } from "../AppLogger.service";
 import { tokenGenerator } from "./tokenGenerator.service";
+import { appLogger } from "../logs";
 
 export const passwordGenerator = {
   generateSalt,
@@ -22,7 +22,7 @@ async function generateRandomPasswordHash(
 ): Promise<string> {
   const password = tokenGenerator.generateToken({ length: 30 });
 
-  return generatePasswordHash({ password, salt });
+  return await generatePasswordHash({ password, salt });
 }
 
 async function generatePasswordHash({
@@ -33,7 +33,7 @@ async function generatePasswordHash({
   salt?: string | number;
 }): Promise<string> {
   try {
-    return hash(password, salt);
+    return await hash(password, salt);
   } catch (err) {
     appLogger.error("Unexpected error testing password", {
       error: err as Error,

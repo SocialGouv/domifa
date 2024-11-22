@@ -1,9 +1,9 @@
-import { addYears, format, subDays } from "date-fns";
+import { isNil } from "lodash";
+import { format } from "date-fns";
 import { generateDateForCerfa } from ".";
 
 import { getPhoneString } from "../../../util/phone/phoneUtils.service";
 import { UserStructureAuthenticated } from "../../../_common/model";
-import { DateCerfa, UsagerCerfaFields } from "../../../_common/model/usager";
 
 import {
   Usager,
@@ -11,7 +11,11 @@ import {
   UsagerAyantDroit,
   generateMotifLabel,
 } from "@domifa/common";
-import { isNil } from "lodash";
+
+import { getUsagerRef } from "./cerfa-utils";
+import { UsagerCerfaFields } from "../../constants/cerfa";
+import { getDecisionDate } from "./get-decision-date";
+import { getStringFromData } from "../../../util";
 
 export const generateCerfaData = (
   usager: Usager,
@@ -23,54 +27,28 @@ export const generateCerfaData = (
   if (isNil(usager.rdv)) {
     usager.rdv = { userId: null, dateRdv: null, userName: null };
   }
-  const entretienAvec = toString(usager.rdv.userName).toUpperCase();
+  const entretienAvec = getStringFromData(usager.rdv.userName).toUpperCase();
   const dateRdv = generateDateForCerfa(usager.rdv.dateRdv, user);
 
   const dateOfDocument = generateDateForCerfa(new Date());
 
-  let datePremiereDom = generateDateForCerfa(usager.datePremiereDom);
-  let dateDebut = generateDateForCerfa(usager.decision.dateDebut);
-  let dateFin = generateDateForCerfa(usager.decision.dateFin);
-
-  if (
-    typeCerfa === "attestation" &&
-    (usager.decision.statut === "INSTRUCTION" ||
-      usager.decision.statut === "ATTENTE_DECISION")
-  ) {
-    const index =
-      usager.decision.statut === "INSTRUCTION"
-        ? usager.historique.length - 2
-        : usager.historique.length - 3;
-
-    if (usager.typeDom === "PREMIERE_DOM") {
-      dateDebut = generateDateForCerfa(new Date());
-      dateFin = generateDateForCerfa(subDays(addYears(new Date(), 1), 1));
-
-      if (!usager?.datePremiereDom) {
-        datePremiereDom = generateDateForCerfa(new Date());
-      }
-    } else if (typeof usager.historique[index] !== "undefined") {
-      const lastDecision = usager.historique[usager.historique.length - 2];
-      dateDebut = generateDateForCerfa(lastDecision.dateDebut);
-      dateFin = generateDateForCerfa(lastDecision.dateFin);
-    } else {
-      dateDebut = resetDate();
-      dateFin = resetDate();
-    }
-  }
+  const { datePremiereDom, dateDebut, dateFin } = getDecisionDate(
+    typeCerfa,
+    usager
+  );
 
   usager.villeNaissance = usager.villeNaissance.toUpperCase();
   usager.prenom = usager.prenom.toUpperCase();
-
   usager.nom = usager.nom.toUpperCase();
+
   // Nom d'épouse à afficher sur le Cerfa
-  if (user.structure.options?.surnom === true && usager.surnom) {
+  if (user.structure.options?.surnom && usager.surnom) {
     usager.nom += ` (${usager.surnom})`;
   }
 
   const dateNaissance = generateDateForCerfa(usager.dateNaissance);
   const sexe = usager.sexe === "femme" ? "1" : "2";
-  const courriel = toString(usager.email);
+  const courriel = getStringFromData(usager.email);
   const responsable = `${user.structure.responsable.nom.toUpperCase()}, ${user.structure.responsable.prenom.toUpperCase()}, ${user.structure.responsable.fonction.toUpperCase()}`;
 
   const { adresseDomicilie, adresseStructure } = generateAdressForCerfa(
@@ -81,13 +59,16 @@ export const generateCerfaData = (
   const prefecture =
     user.structure.structureType === "asso" ? user.structure.departement : "";
 
-  const rattachement = toString(usager.entretien.rattachement).toUpperCase();
+  const rattachement = getStringFromData(
+    usager.entretien.rattachement
+  ).toUpperCase();
+
   const motif =
     usager.decision.statut === "REFUS"
       ? generateMotifLabel(usager.decision)
       : "";
 
-  const pdfInfos: UsagerCerfaFields = {
+  return {
     adresse: adresseDomicilie,
     adresseOrga1: adresseStructure,
     agrement: user.structure.agrement,
@@ -152,23 +133,6 @@ export const generateCerfaData = (
     telephoneOrga: getPhoneString(user.structure.telephone),
     typeDemande: usager.typeDom === "RENOUVELLEMENT" ? "2" : "1",
   };
-  return pdfInfos;
-};
-
-const toString = (value: any): string => {
-  return typeof value === "undefined" || value === null ? "" : value.toString();
-};
-
-const resetDate = (): DateCerfa => {
-  return { annee: "", heure: "", jour: "", minutes: "", mois: "" };
-};
-
-export const getUsagerRef = (usager: Usager): string => {
-  let usagerRef = toString(usager.ref);
-  if (!isNil(usagerRef)) {
-    usagerRef = toString(usager.customRef);
-  }
-  return usagerRef;
 };
 
 export function getAyantsDroitsText(usager: Usager): string {
@@ -204,7 +168,7 @@ export function generateAdressForCerfa(
   let adresseDomicilie = "";
 
   const numeroDistribution = !isNil(usager.numeroDistribution)
-    ? "\n" + usager.numeroDistribution + "\n"
+    ? `\n${usager.numeroDistribution}\n`
     : "\n";
 
   if (

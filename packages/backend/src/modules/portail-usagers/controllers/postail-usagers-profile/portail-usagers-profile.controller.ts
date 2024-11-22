@@ -21,7 +21,7 @@ import {
   usagerDocsRepository,
   usagerRepository,
 } from "../../../../database";
-import { InteractionsService } from "../../../../interactions/services";
+import { InteractionsService } from "../../../interactions/services";
 import { PageOptionsDto } from "../../../../usagers/dto";
 import { appLogger } from "../../../../util";
 import { FileManagerService } from "../../../../util/file-manager/file-manager.service";

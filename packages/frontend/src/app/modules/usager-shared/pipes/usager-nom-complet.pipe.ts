@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
-import { getUsagerNomComplet } from "../utils/getUsagerNomComplet";
-import { Usager } from "@domifa/common";
+import { Usager, getUsagerNomComplet } from "@domifa/common";
 
 @Pipe({ name: "usagerNomComplet", standalone: true })
 export class UsagerNomCompletPipe implements PipeTransform {
