@@ -32,18 +32,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/architect@npm:^0.1802.0":
-  version: 0.1802.0
-  resolution: "@angular-devkit/architect@npm:0.1802.0"
+"@angular-devkit/architect@npm:^0.1900.0":
+  version: 0.1900.1
+  resolution: "@angular-devkit/architect@npm:0.1900.1"
   dependencies:
-    "@angular-devkit/core": "npm:18.2.0"
+    "@angular-devkit/core": "npm:19.0.1"
     rxjs: "npm:7.8.1"
   dependenciesMeta:
     esbuild:
       built: true
     puppeteer:
       built: true
-  checksum: 10/9cc83e94a89969f1ec7b2577d828eeaf36987295824b200c4547fca5155585538ea8f61c61d0144309b83011643f8832140a1227fe72aeb01d43d2c4c130b846
+  checksum: 10/0c5ca08371bd8b132188668330c1c0effaaad5f8fb1e309ca615c14acee2bbd9ce82da81088bf43f1a7f9978dd564d3f911b66ec7d8e4f852436a072d11bc6b2
   languageName: node
   linkType: hard
 
@@ -241,9 +241,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/core@npm:18.2.0":
-  version: 18.2.0
-  resolution: "@angular-devkit/core@npm:18.2.0"
+"@angular-devkit/core@npm:19.0.1":
+  version: 19.0.1
+  resolution: "@angular-devkit/core@npm:19.0.1"
   dependencies:
     ajv: "npm:8.17.1"
     ajv-formats: "npm:3.0.1"
@@ -252,7 +252,7 @@ __metadata:
     rxjs: "npm:7.8.1"
     source-map: "npm:0.7.4"
   peerDependencies:
-    chokidar: ^3.5.2
+    chokidar: ^4.0.0
   dependenciesMeta:
     esbuild:
       built: true
@@ -261,7 +261,7 @@ __metadata:
   peerDependenciesMeta:
     chokidar:
       optional: true
-  checksum: 10/62f5165ff7e357e4122740b74187d94b0945dcc8d05988ad694e5039ee4b9b9882e1d093b1b19154ed2bf153ff0545de5f1395f8388b107bd5a50a0ac8c2c190
+  checksum: 10/0dbfc2bc35a4d1f227d24c2f90013a8ba285df63463166c89ab86f032af259b1fc65d4b941a49e8dbb930001c47064e49880e132741e6857f3fd45ae84f051a1
   languageName: node
   linkType: hard
 
@@ -3932,7 +3932,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/frontend@workspace:packages/frontend"
   dependencies:
-    "@angular-devkit/architect": "npm:^0.1802.0"
+    "@angular-devkit/architect": "npm:^0.1900.0"
     "@angular-devkit/build-angular": "npm:^17.3.11"
     "@angular-devkit/core": "npm:^17.3.11"
     "@angular-devkit/schematics": "npm:^17.3.11"
@@ -4018,7 +4018,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/portail-admins@workspace:packages/portail-admins"
   dependencies:
-    "@angular-devkit/architect": "npm:^0.1802.0"
+    "@angular-devkit/architect": "npm:^0.1900.0"
     "@angular-devkit/build-angular": "npm:^17.3.11"
     "@angular-devkit/core": "npm:^17.3.11"
     "@angular-devkit/schematics": "npm:^17.3.11"
@@ -4087,7 +4087,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/portail-usagers@workspace:packages/portail-usagers"
   dependencies:
-    "@angular-devkit/architect": "npm:^0.1802.0"
+    "@angular-devkit/architect": "npm:^0.1900.0"
     "@angular-devkit/build-angular": "npm:^17.3.11"
     "@angular-devkit/core": "npm:^17.3.11"
     "@angular-devkit/schematics": "npm:^17.3.11"
