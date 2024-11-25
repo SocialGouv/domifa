@@ -1,3 +1,10 @@
+## [2.185.2](https://github.com/SocialGouv/domifa/compare/v2.185.1...v2.185.2) (2024-11-25)
+
+
+### Bug Fixes
+
+* **backend:** update ressources backend ([6fa5103](https://github.com/SocialGouv/domifa/commit/6fa51031b5b6151c42a23980399cf106efed2c6e))
+
 ## [2.185.1](https://github.com/SocialGouv/domifa/compare/v2.185.0...v2.185.1) (2024-11-22)
 
 
