@@ -6,14 +6,6 @@
       <h1 class="title">Paramètres d'envoi de SMS pour votre structure</h1>
 
       <div class="text-start text-md-end col">
-        <button
-          (click)="openTutoModal()"
-          class="btn btn-white-primary me-1 my-1 my-md-0"
-          type="button"
-        >
-          <fa-icon [icon]="['fas', 'info-circle']" aria-hidden="true"></fa-icon>
-          Vidéo explicative
-        </button>
         <a
           href="https://fabnummas.notion.site/Activer-les-notifications-SMS-a045349c1edc423c8f228d24c0edc72c"
           target="_blank"
@@ -336,41 +328,3 @@
     </div>
   </div>
 </div>
-
-<ng-template #tutoModal let-modal>
-  <div class="modal-header">
-    <span id="modal-title"> Comment activer et utiliser les SMS </span>
-  </div>
-
-  <div class="modal-body text-center py-4">
-    <video
-      width="560"
-      preload="metadata"
-      poster="../../../../../assets/images/faq/faq-sms.jpg"
-      controls
-      (click)="trackVideo('fiche_domicilie')"
-    >
-      <source
-        src="https://domifaprod2.blob.core.windows.net/public/activation-sms.mp4"
-        type="video/mp4"
-      />
-    </video>
-  </div>
-  <div class="modal-footer">
-    <a
-      href="https://domifaprod2.blob.core.windows.net/public/activation-sms.mp4"
-      download
-      rel="noopener noreferrer"
-      target="_blank"
-      class="btn-primary btn me-1"
-      >Télécharger la vidéo</a
-    >
-    <button
-      type="button"
-      class="btn btn-outline-primary"
-      (click)="closeTutoModal()"
-    >
-      Fermer la fenêtre
-    </button>
-  </div>
-</ng-template>

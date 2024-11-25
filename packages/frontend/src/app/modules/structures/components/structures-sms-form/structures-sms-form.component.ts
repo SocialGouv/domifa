@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormControl,
@@ -14,10 +8,8 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo-client";
 import { Subscription } from "rxjs";
-import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import { CustomToastService } from "../../../shared/services";
 import { StructureService } from "../../services";
 import { StructureCommon } from "@domifa/common";
@@ -35,9 +27,6 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
   public submitted: boolean;
   public structureSmsForm!: UntypedFormGroup;
 
-  @ViewChild("tutoModal", { static: true })
-  public tutoModal!: TemplateRef<NgbModalRef>;
-
   private subscription = new Subscription();
 
   constructor(
@@ -45,8 +34,7 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
     private readonly structureService: StructureService,
     private readonly toastService: CustomToastService,
     private readonly titleService: Title,
-    private readonly matomo: MatomoTracker,
-    private readonly modalService: NgbModal
+    private readonly matomo: MatomoTracker
   ) {
     this.loading = false;
     this.submitted = false;
@@ -168,14 +156,6 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
 
   public trackVideo(name: string): void {
     this.matomo.trackEvent("vues_videos_faq", name, "null", 1);
-  }
-
-  public openTutoModal(): void {
-    this.modalService.open(this.tutoModal, DEFAULT_MODAL_OPTIONS);
-  }
-
-  public closeTutoModal(): void {
-    this.modalService.dismissAll();
   }
 
   public ngOnDestroy(): void {
