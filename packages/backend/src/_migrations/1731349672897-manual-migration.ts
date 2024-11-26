@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 import { domifaConfig } from "../config";
-import { dataCompare } from "../util";
+import { appLogger, normalizeString } from "../util";
 
 const batchSize = 5000;
 export class ManualMigration1731349672897 implements MigrationInterface {
@@ -39,12 +39,12 @@ export class ManualMigration1731349672897 implements MigrationInterface {
                 usager?.customRef ?? usager?.ref,
               ]
                 .filter(Boolean)
-                .map((part) => dataCompare.cleanString(part.toString()));
+                .map((part) => normalizeString(part.toString()));
 
               const nom_prenom_surnom_ref = parts.join(" ");
 
               await queryRunner.query(
-                `UPDATE usager set nom_prenom_surnom_ref = $1 where uuid=$2`,
+                "UPDATE usager set nom_prenom_surnom_ref = $1 where uuid=$2",
                 [nom_prenom_surnom_ref, usager.uuid]
               );
             }
@@ -54,7 +54,7 @@ export class ManualMigration1731349672897 implements MigrationInterface {
           await queryRunner.commitTransaction();
 
           processedRecords += usagers.length;
-          console.log(
+          appLogger.warn(
             `Progression: ${Math.min(
               processedRecords,
               totalRecords

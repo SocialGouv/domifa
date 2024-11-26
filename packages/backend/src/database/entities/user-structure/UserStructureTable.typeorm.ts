@@ -1,5 +1,4 @@
 import {
-  BeforeInsert,
   Column,
   Entity,
   Generated,
@@ -7,7 +6,6 @@ import {
   JoinColumn,
   ManyToOne,
 } from "typeorm";
-import { titleCase } from "typeorm/util/StringUtils";
 import { StructureTable } from "..";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import {
@@ -75,13 +73,6 @@ export class UserStructureTable
 
   @Column({ type: "text", default: "structure" })
   userRightStatus: UserRightStatus;
-
-  @BeforeInsert()
-  nameToUpperCase() {
-    this.email = this.email.toLowerCase().trim();
-    this.nom = titleCase(this.nom).trim();
-    this.prenom = titleCase(this.prenom).trim();
-  }
 
   public constructor(entity?: Partial<UserStructureTable>) {
     super(entity);

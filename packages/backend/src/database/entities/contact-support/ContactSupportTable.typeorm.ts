@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity } from "typeorm";
+import { Column, Entity } from "typeorm";
 import { ContactSupport } from "../../../_common/model";
 import { MessageEmailAttachment } from "../message-email";
 
@@ -34,10 +34,6 @@ export class ContactSupportTable
   @Column({ type: "text", nullable: true })
   public structureName: string;
 
-  @BeforeInsert()
-  nameToUpperCase() {
-    this.email = this.email.toLowerCase().trim();
-  }
   public constructor(entity?: Partial<ContactSupportTable>) {
     super(entity);
     Object.assign(this, entity);

@@ -1,7 +1,3 @@
-import { usagerEntretienRepository } from "./../../database/services/usager/usagerEntretienRepository.service";
-import { usagerDocsRepository } from "./../../database/services/usager/usagerDocsRepository.service";
-
-import { messageSmsRepository } from "./../../database/services/message-sms/messageSmsRepository.service";
 import {
   BadRequestException,
   Body,
@@ -31,10 +27,12 @@ import {
   usagerRepository,
   USAGER_LIGHT_ATTRIBUTES,
   joinSelectFields,
+  messageSmsRepository,
+  usagerDocsRepository,
+  usagerEntretienRepository,
 } from "../../database";
 
-import { cleanPath } from "../../util";
-import { dataCompare } from "../../util/search/dataCompare.service";
+import { cleanPath, normalizeString } from "../../util";
 import {
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
@@ -138,7 +136,7 @@ export class UsagersController {
   @Get("update-manage")
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   public async updateManage(@CurrentUser() user: UserStructureAuthenticated) {
-    return usagerRepository
+    return await usagerRepository
       .createQueryBuilder()
       .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
       .where(
@@ -157,6 +155,7 @@ export class UsagersController {
     @Body() search: SearchUsagerDto,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
+    console.log({ x: normalizeString(search.searchString) });
     const query = usagerRepository
       .createQueryBuilder("usager")
       .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
@@ -165,8 +164,8 @@ export class UsagersController {
       });
 
     if (search.searchString && search.searchStringField === "DEFAULT") {
-      query.andWhere(`nom_prenom_surnom_ref ILIKE :str`, {
-        str: `%${dataCompare.cleanString(search.searchString)}%`,
+      query.andWhere("nom_prenom_surnom_ref ILIKE :str", {
+        str: `%${normalizeString(search.searchString)}%`,
       });
     }
 
@@ -224,7 +223,7 @@ export class UsagersController {
       query.take(100);
     }
 
-    return query.getRawMany();
+    return await query.getRawMany();
   }
 
   @Post()
@@ -438,7 +437,7 @@ export class UsagersController {
     const key =
       join(
         domifaConfig().upload.bucketRootDir,
-        "usager-documents",
+        `usager-documents`,
         cleanPath(user.structure.uuid),
         cleanPath(usager.uuid)
       ) + "/";
@@ -483,10 +482,10 @@ export class UsagersController {
   @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Get(":usagerRef")
-  public async findOne(
+  public findOne(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUsager() currentUsager: Usager
-  ): Promise<Usager> {
+  ): Usager {
     return currentUsager;
   }
 }

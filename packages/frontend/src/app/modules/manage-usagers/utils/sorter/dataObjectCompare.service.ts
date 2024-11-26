@@ -169,5 +169,5 @@ function formatAttribute(attr: any, type?: SortableAttributeType) {
 }
 
 function formatTextAttribute(attr: string): string {
-  return attr && attr.trim() ? (attr as string).trim().toLowerCase() : attr;
+  return attr && attr.trim() ? (attr as string).toLowerCase() : attr;
 }

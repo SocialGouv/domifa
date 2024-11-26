@@ -22,12 +22,10 @@ function filter(
   }
 ) {
   const filteredUsagers = filterByCriteria(usagers, criteria);
-
+  console.log({ x: criteria.searchString });
   return usagersSearchStringFilter.filter(filteredUsagers, {
     searchString: criteria.searchString,
     searchStringField: criteria.searchStringField,
-    searchInAyantDroits: criteria.searchInAyantDroits,
-    searchInProcurations: criteria.searchInProcurations,
   });
 }
 

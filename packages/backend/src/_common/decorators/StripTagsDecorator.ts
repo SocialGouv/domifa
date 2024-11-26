@@ -15,15 +15,14 @@ export function StripTagsTransform(
       return null;
     }
 
-    const trimmedValue = sourceData.value.trim();
-    if (trimmedValue === "") {
+    if (sourceData.value.trim() === "") {
       return null;
     }
 
-    const sanitized = sanitizeHtml(trimmedValue);
+    const sanitized = sanitizeHtml(sourceData.value);
+
     return striptags(sanitized)
       .replace(/[\\$~*<>{}]/gi, "")
-      .replace(/\s+/g, " ")
-      .trim();
+      .replace(/\s+/g, " ");
   }, transformOptions);
 }

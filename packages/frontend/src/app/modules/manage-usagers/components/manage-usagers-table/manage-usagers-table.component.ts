@@ -48,6 +48,9 @@ export class ManageUsagersTableComponent implements OnDestroy, OnInit {
   @Input()
   public selectAllCheckboxes = false;
 
+  @Output()
+  public selectAllCheckboxesChange = new EventEmitter<boolean>();
+
   @Input()
   public loading!: boolean;
 
