@@ -3,7 +3,6 @@ import { IsIn, IsOptional, IsString, MinLength } from "class-validator";
 import {
   LowerCaseTransform,
   StripTagsTransform,
-  Trim,
 } from "../../_common/decorators";
 import {
   UsagersFilterCriteriaDernierPassage,
@@ -17,7 +16,6 @@ export class SearchUsagerDto {
   })
   @IsOptional()
   @IsString()
-  @Trim()
   @MinLength(1)
   @StripTagsTransform()
   @LowerCaseTransform()

@@ -14,15 +14,7 @@ function filter(
   {
     searchString,
     searchStringField,
-    searchInAyantDroits,
-    searchInProcurations,
-  }: Pick<
-    UsagersFilterCriteria,
-    | "searchString"
-    | "searchInAyantDroits"
-    | "searchInProcurations"
-    | "searchStringField"
-  >
+  }: Pick<UsagersFilterCriteria, "searchString" | "searchStringField">
 ) {
   return search.filter(usagers, {
     searchText: searchString,
@@ -36,35 +28,30 @@ function filter(
 
         attributes = dateNaissance ? [format(dateNaissance, "dd/MM/yyyy")] : [];
 
-        if (searchInAyantDroits) {
-          usager.ayantsDroits.forEach((ad: UsagerAyantDroit) => {
-            const dateNaissanceAd =
-              typeof ad.dateNaissance === "string"
-                ? new Date(ad.dateNaissance)
-                : null;
-            if (dateNaissanceAd) {
-              attributes.push(format(dateNaissanceAd, "dd/MM/yyyy"));
-            }
-          });
-        }
+        usager.ayantsDroits.forEach((ad: UsagerAyantDroit) => {
+          const dateNaissanceAd =
+            typeof ad.dateNaissance === "string"
+              ? new Date(ad.dateNaissance)
+              : null;
+          if (dateNaissanceAd) {
+            attributes.push(format(dateNaissanceAd, "dd/MM/yyyy"));
+          }
+        });
+
         return attributes;
       }
 
       attributes = [usager.nom, usager.prenom, usager.surnom, usager.customRef];
 
-      if (searchInProcurations) {
-        usager.options.procurations.forEach((procu: UsagerProcuration) => {
-          attributes.push(procu.nom);
-          attributes.push(procu.prenom);
-        });
-      }
+      usager.options.procurations.forEach((procu: UsagerProcuration) => {
+        attributes.push(procu.nom);
+        attributes.push(procu.prenom);
+      });
 
-      if (searchInAyantDroits) {
-        usager.ayantsDroits.forEach((ad: UsagerAyantDroit) => {
-          attributes.push(ad.nom);
-          attributes.push(ad.prenom);
-        });
-      }
+      usager.ayantsDroits.forEach((ad: UsagerAyantDroit) => {
+        attributes.push(ad.nom);
+        attributes.push(ad.prenom);
+      });
 
       return attributes;
     },

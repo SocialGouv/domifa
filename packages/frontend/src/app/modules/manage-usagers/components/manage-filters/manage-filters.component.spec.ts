@@ -23,8 +23,6 @@ describe("ManageFiltersComponent", () => {
       echeance: null,
       interactionType: null,
       entretien: null,
-      searchInProcurations: true,
-      searchInAyantDroits: true,
       searchString: null,
       searchStringField: "DEFAULT",
       page: 0,

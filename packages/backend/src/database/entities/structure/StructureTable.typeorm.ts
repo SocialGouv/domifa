@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, Generated, Index } from "typeorm";
+import { Column, Entity, Generated, Index } from "typeorm";
 
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import {
@@ -154,14 +154,6 @@ export class StructureTable
 
   @Column({ type: "text", nullable: true })
   organismeType: StructureOrganismeType;
-
-  @BeforeInsert()
-  lowerAndTrim() {
-    this.email = this.email.toLowerCase().trim();
-    this.adresse = this.adresse.trim();
-    this.nom = this.nom.trim();
-    this.ville = this.ville.trim();
-  }
 
   public constructor(entity?: Partial<StructureTable>) {
     super(entity);

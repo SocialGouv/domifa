@@ -288,6 +288,7 @@ export class ManageUsagersPageComponent
         )
         .subscribe(({ filters, usagers, usagersRadiesTotalCount }) => {
           if (filters && usagers) {
+            this.selectAllCheckboxes = false;
             this.countRadiesLoaded(usagers);
             this.usagersCountByStatus = calculateUsagersCountByStatus(
               usagers,
@@ -374,7 +375,7 @@ export class ManageUsagersPageComponent
     this.matomo.trackEvent(
       "MANAGE",
       "CHARGER_RADIES",
-      this.me.structure.nom + " - " + this.me.structure.nom,
+      this.me.structure.nom,
       1
     );
     this.scrollTop();

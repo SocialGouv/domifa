@@ -1,7 +1,5 @@
 import { UsagerEntretienTable } from "./UsagerEntretienTable.typeorm";
 import {
-  BeforeInsert,
-  BeforeUpdate,
   Column,
   Entity,
   Index,
@@ -30,7 +28,6 @@ import {
   UsagerDecisionStatut,
   UsagerImport,
 } from "@domifa/common";
-import { dataCompare } from "../../../util";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "usager" })
@@ -155,26 +152,6 @@ export class UsagerTable
     UsagerNote,
     "usagerRef" | "createdAt" | "createdBy" | "message"
   > | null;
-
-  @BeforeInsert()
-  @BeforeUpdate()
-  nameToUpperCase() {
-    this.nom = this.nom.trim();
-    this.prenom = this.prenom.trim();
-
-    const parts = [
-      this.nom,
-      this.prenom,
-      this.surnom,
-      this?.customRef ?? this?.ref,
-    ]
-      .filter(Boolean)
-      .map((part) => dataCompare.cleanString(part.toString()));
-
-    this.nom_prenom_surnom_ref = parts.join(" ");
-
-    console.table({ ta: this.nom_prenom_surnom_ref });
-  }
 
   public constructor(entity?: Partial<UsagerTable>) {
     super(entity);
