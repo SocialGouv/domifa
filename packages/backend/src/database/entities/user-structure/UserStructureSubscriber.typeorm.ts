@@ -14,9 +14,15 @@ export class StructureSubscriber
     return UserStructureTable;
   }
   public lowerAndTrim(entity: UserStructureTable) {
-    entity.email = entity.email.toLowerCase().trim();
-    entity.nom = entity.nom.trim();
-    entity.prenom = entity.prenom.trim();
+    if (entity?.email) {
+      entity.email = entity.email.toLowerCase().trim();
+    }
+    if (entity?.nom) {
+      entity.nom = entity.nom.trim();
+    }
+    if (entity?.prenom) {
+      entity.prenom = entity.prenom.trim();
+    }
   }
 
   beforeInsert(event: InsertEvent<UserStructureTable>) {
