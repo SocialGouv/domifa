@@ -14,10 +14,18 @@ export class StructureSubscriber
     return StructureTable;
   }
   public lowerAndTrim(entity: StructureTable) {
-    entity.email = entity.email.toLowerCase().trim();
-    entity.adresse = entity.adresse.trim();
-    entity.nom = entity.nom.trim();
-    entity.ville = entity.ville.trim();
+    if (entity?.email) {
+      entity.email = entity?.email.toLowerCase().trim();
+    }
+    if (entity?.adresse) {
+      entity.adresse = entity?.adresse.trim();
+    }
+    if (entity?.nom) {
+      entity.nom = entity?.nom.trim();
+    }
+    if (entity?.ville) {
+      entity.ville = entity?.ville.trim();
+    }
   }
 
   beforeInsert(event: InsertEvent<StructureTable>) {
