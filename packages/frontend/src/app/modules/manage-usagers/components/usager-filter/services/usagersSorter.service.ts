@@ -51,6 +51,8 @@ function sortBy(
           asc,
         }
       );
+
+      console.log({ sortAttributes });
       return sortAttributes;
     },
   });

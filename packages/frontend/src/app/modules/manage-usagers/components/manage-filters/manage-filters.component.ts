@@ -1,5 +1,8 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { UsagersFilterCriteria } from "../usager-filter/UsagersFilterCriteria";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  UsagersFilterCriteria,
+  UsagersFilterCriteriaSortKey,
+} from "../usager-filter/UsagersFilterCriteria";
 import {
   extractDeadlines,
   UsagersFilterCriteriaDernierPassage,
@@ -11,7 +14,7 @@ import {
   templateUrl: "./manage-filters.component.html",
   styleUrls: ["../manage-usagers-page/manage-usagers-page.component.scss"],
 })
-export class ManageFiltersComponent {
+export class ManageFiltersComponent implements OnInit {
   @Input() public filters: UsagersFilterCriteria;
   @Input() public usagersRadiesLoadedCount: number;
   @Input() public usagersRadiesTotalCount: number;
@@ -46,10 +49,22 @@ export class ManageFiltersComponent {
   };
 
   public sortLabel = "échéance";
-  public sortMenuItems = this.getSortKeys();
+  public sortMenuItems: Array<{
+    id: UsagersFilterCriteriaSortKey;
+    label: string;
+  }> = [];
 
-  public getSortKeys() {
-    const sortElements = [
+  ngOnInit(): void {
+    this.sortMenuItems = this.getSortKeys();
+  }
+  public getSortKeys(): Array<{
+    id: UsagersFilterCriteriaSortKey;
+    label: string;
+  }> {
+    const sortElements: Array<{
+      id: UsagersFilterCriteriaSortKey;
+      label: string;
+    }> = [
       { id: "ID", label: "ID" },
       { id: "NAME", label: "nom" },
       { id: "ECHEANCE", label: this.getEcheanceLabel() },

@@ -496,9 +496,9 @@ export class ManageUsagersPageComponent
     filters: UsagersFilterCriteria;
     allUsagers: UsagerLight[];
   }): void {
+    console.log("applyFilters");
     this.searching = true;
     this.resetCheckboxes();
-    localStorage.setItem("MANAGE_USAGERS", JSON.stringify(filters));
 
     this.filteredUsagers = usagersFilter.filter(allUsagers, {
       criteria: filters,
@@ -542,12 +542,16 @@ export class ManageUsagersPageComponent
       this.usagers = [];
       return;
     }
-
+    console.log({
+      sortKey: this.filters.sortKey,
+      sortValue: this.filters.sortValue,
+    });
     this.filteredUsagers = usagersSorter.sortBy(this.filteredUsagers, {
       sortKey: this.filters.sortKey,
       sortValue: this.filters.sortValue,
     }) as UsagerFormModel[];
 
+    this.setFilters();
     this.applyPaginationFromStore();
   }
 
@@ -593,6 +597,9 @@ export class ManageUsagersPageComponent
     this.filters.sortValue = sortValue;
   }
 
+  private setFilters() {
+    localStorage.setItem("MANAGE_USAGERS", JSON.stringify(this.filters));
+  }
   private getFilters(): null | Partial<UsagersFilterCriteria> {
     const filters = localStorage.getItem("MANAGE_USAGERS");
     return filters === null ? {} : JSON.parse(filters);

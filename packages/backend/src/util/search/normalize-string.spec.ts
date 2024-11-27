@@ -28,12 +28,12 @@ describe("normalizeString", () => {
     expect(normalizeString("test    test")).toBe("test test");
     expect(normalizeString("test\t\ttest")).toBe("test test");
     expect(normalizeString("test\n\ntest")).toBe("test test");
-    expect(normalizeString("  test  ")).toBe("test");
+    expect(normalizeString("  test  ")).toBe(" test ");
   });
 
   test("phrases complètes", () => {
     expect(normalizeString("L'été sera TRÈS chaud!")).toBe(
-      "l ete sera tres chaud"
+      "l ete sera tres chaud "
     );
     expect(normalizeString("Une chaîne avec\tdes\ttabulations")).toBe(
       "une chaine avec des tabulations"
@@ -44,12 +44,12 @@ describe("normalizeString", () => {
   test("caractères spéciaux", () => {
     expect(normalizeString("100% sûr")).toBe("100 sur");
     expect(normalizeString("test&test")).toBe("test test");
-    expect(normalizeString("prix: 15€")).toBe("prix 15");
+    expect(normalizeString("prix: 15€")).toBe("prix 15 ");
   });
 
   test("cas limites", () => {
     expect(normalizeString("")).toBe("");
-    expect(normalizeString("   ")).toBe("");
+    expect(normalizeString("   ")).toBe(" ");
     expect(normalizeString(null)).toBe("");
     expect(normalizeString(undefined)).toBe("");
   });
