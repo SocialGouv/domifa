@@ -40,6 +40,7 @@ export class UsagersFilterCriteria {
   public page: number;
 
   constructor(search?: Partial<UsagersFilterCriteria> | null) {
+    console.log({ search });
     this.interactionType = search?.interactionType || null;
     this.lastInteractionDate = search?.lastInteractionDate || null;
     this.entretien = search?.entretien || null;
@@ -51,12 +52,5 @@ export class UsagersFilterCriteria {
 
     this.sortKey = search?.sortKey || "NAME";
     this.sortValue = search?.sortValue || "asc";
-
-    // Ne pas trier par autre que les nom & ID si on est sur TOUS
-    if (this.statut === "TOUS") {
-      if (this.sortKey !== "ID" && this.sortKey !== "NAME") {
-        this.sortKey = "NAME";
-      }
-    }
   }
 }
