@@ -1,3 +1,12 @@
+## [2.185.3](https://github.com/SocialGouv/domifa/compare/v2.185.2...v2.185.3) (2024-11-27)
+
+
+### Bug Fixes
+
+* **backend:** fix subscribers ([d9b10fb](https://github.com/SocialGouv/domifa/commit/d9b10fbb30e0527f9cf186726ae83220acd66fbe))
+* **frontend:** fix filter saving ([b4d3de9](https://github.com/SocialGouv/domifa/commit/b4d3de97fbfb591322d3ba0083878b68d6b36d4b))
+* **frontend:** fix select boxes ([5e18746](https://github.com/SocialGouv/domifa/commit/5e18746acb5f6a7a9007e970c68968114f6dfe64))
+
 ## [2.185.2](https://github.com/SocialGouv/domifa/compare/v2.185.1...v2.185.2) (2024-11-25)
 
 
