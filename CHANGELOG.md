@@ -1,3 +1,10 @@
+## [2.187.1](https://github.com/SocialGouv/domifa/compare/v2.187.0...v2.187.1) (2024-11-28)
+
+
+### Bug Fixes
+
+* **backend:** update data from open data every week ([d65581c](https://github.com/SocialGouv/domifa/commit/d65581c4132fe65123be8342e4ace309432f603f))
+
 # [2.187.0](https://github.com/SocialGouv/domifa/compare/v2.186.0...v2.187.0) (2024-11-28)
 
 
