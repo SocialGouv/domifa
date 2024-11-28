@@ -93,12 +93,9 @@ const getFromDataInclusion = async (structureType: "CCAS" | "CIAS") => {
 
     if (datInclusionData?.length >= 500) {
       appLogger.warn(
-        "Import 'data-inclusion' data N°" +
-          page +
-          " : " +
-          datInclusionData.length * page +
-          "/" +
-          nbResults
+        `Import 'data-inclusion' data N°${page} : ${
+          datInclusionData.length * page
+        }/${nbResults}`
       );
       page++;
       await getFromDataInclusion(structureType);

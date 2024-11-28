@@ -141,7 +141,7 @@
     >
       <button
         type="button"
-        [ngClass]="filters.sortKey === 'ECHEANCE' ? 'fw-bold text-primary' : ''"
+        [ngClass]="filters.sortKey === 'PASSAGE' ? 'fw-bold text-primary' : ''"
         [attr.aria-sort]="filters.sortKey ==='PASSAGE' ? ARIA_SORT[filters.sortValue] : 'none'"
         (click)="updateFilters.emit({element: 'sortKey', value: 'PASSAGE'})"
       >

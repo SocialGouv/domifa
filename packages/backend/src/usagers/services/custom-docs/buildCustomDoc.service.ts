@@ -46,8 +46,9 @@ export function buildCustomDoc({
   let adresseStructure = ucFirst(structure.adresse);
 
   if (!isNil(structure.complementAdresse)) {
-    adresseStructure =
-      adresseStructure + ", " + ucFirst(structure.complementAdresse);
+    adresseStructure = `${adresseStructure}, ${ucFirst(
+      structure.complementAdresse
+    )}`;
   }
 
   // Procu & transfert

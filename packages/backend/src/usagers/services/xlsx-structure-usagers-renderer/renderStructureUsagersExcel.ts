@@ -6,6 +6,22 @@ import { StructureUsagerExport } from "./StructureUsagerExport.type";
 import { StructureCustomDocTags } from "../../../_common/model";
 import { isValid, parse } from "date-fns";
 
+const applyDateFormat = (
+  worksheet: StructureCustomDocTags[],
+  elements: Array<keyof StructureCustomDocTags>
+): void => {
+  worksheet.forEach((ws: StructureCustomDocTags) => {
+    elements.forEach((element: keyof StructureCustomDocTags) => {
+      if (ws[element]) {
+        const value = ws[element] as string;
+        ws[element] = isValid(parse(value, "dd/MM/yyyy", new Date()))
+          ? parse(value, "dd/MM/yyyy", new Date())
+          : value;
+      }
+    });
+  });
+};
+
 export const renderStructureUsagersExcel = (
   usagers: StructureUsagerExport[],
   structure: StructureCommon
@@ -50,21 +66,5 @@ export const renderStructureUsagersExcel = (
     bookType: "xlsx",
     compression: true,
     type: "buffer",
-  });
-};
-
-const applyDateFormat = (
-  worksheet: StructureCustomDocTags[],
-  elements: Array<keyof StructureCustomDocTags>
-): void => {
-  worksheet.forEach((ws: StructureCustomDocTags) => {
-    elements.forEach((element: keyof StructureCustomDocTags) => {
-      if (ws[element]) {
-        const value = ws[element] as string;
-        ws[element] = isValid(parse(value, "dd/MM/yyyy", new Date()))
-          ? parse(value, "dd/MM/yyyy", new Date())
-          : value;
-      }
-    });
   });
 };
