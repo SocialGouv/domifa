@@ -54,6 +54,43 @@ jobs:
           name: backend-coverage
           path: packages/backend/coverage
 
+  common:
+    name: Common package unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Set up Node.js lts
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - name: Change TimeZone
+        uses: szenius/set-timezone@v1.2
+        with:
+          timezoneLinux: "Europe/Paris"
+
+      - name: Set up Yarn cache
+        uses: c-hive/gha-yarn-cache@v2
+
+      - name: Install common dependencies
+        run: yarn workspaces focus @domifa/common
+
+      - name: Build common dependencies
+        run: yarn workspace @domifa/common build
+
+      - name: Run common tests
+        run: yarn workspace @domifa/common test --coverage --detectOpenHandles --forceExit
+
+      - name: Archive code coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: common-coverage
+          path: packages/common/coverage
+
   frontend:
     name: Front-end unit tests
     runs-on: ubuntu-latest
@@ -136,11 +173,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-
-      - name: Change TimeZone
-        uses: szenius/set-timezone@v1.2
-        with:
-          timezoneLinux: "Europe/Paris"
 
       - name: Set up Yarn cache
         uses: c-hive/gha-yarn-cache@v2
