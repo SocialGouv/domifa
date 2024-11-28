@@ -102,8 +102,8 @@
     <th scope="col">
       <button
         type="button"
-        [attr.aria-sort]="filters.sortKey ==='NAME' ? filters.sortValue : null"
-        (click)="updateFilters.emit({ element: 'sortKey',  value: 'NAME' })"
+        [attr.aria-sort]="filters.sortKey ==='NOM' ? filters.sortValue : null"
+        (click)="updateFilters.emit({ element: 'sortKey',  value: 'NOM' })"
       >
         <span class="visually-hidden">Trier par</span>
         Nom prénom

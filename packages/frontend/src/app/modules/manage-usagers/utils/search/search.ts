@@ -86,6 +86,7 @@ function match<T>(
       .filter((x) => x !== null && x !== undefined && x.trim().length !== 0)
       .map((x) => searchCore.buildWords(x))
   );
+
   if (!cleanAttributes?.length) {
     return {
       match: false,
@@ -132,45 +133,7 @@ function match<T>(
   }
 }
 
-function filter<T>(
-  items: T[],
-  {
-    getAttributes,
-    searchText,
-    maxResults,
-  }: {
-    getAttributes: (item: T, index?: number) => string[];
-    searchText: string | null;
-    maxResults?: number;
-  }
-): T[] {
-  if (!searchText?.length) {
-    return items.concat([]);
-  }
-
-  const words = searchCore.buildWords(searchText);
-  if (words.length === 0) {
-    return items.concat([]);
-  }
-
-  return items.reduce((acc, item, initialIndex) => {
-    if (!maxResults || acc.length < maxResults) {
-      const matchResult = match(item, {
-        index: initialIndex,
-        getAttributes,
-        words,
-        withScore: false,
-      });
-      if (matchResult.match) {
-        acc.push(item);
-      }
-    }
-    return acc;
-  }, [] as T[]);
-}
-
 export const search = {
-  filter,
   match,
   contentChunks: searchChunks.find,
   clean: searchCore.clean,

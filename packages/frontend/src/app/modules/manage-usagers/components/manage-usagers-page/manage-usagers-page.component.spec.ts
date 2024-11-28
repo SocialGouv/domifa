@@ -52,7 +52,7 @@ describe("ManageUsagersPageComponent", () => {
       searchStringField: "DEFAULT",
       page: 1,
       lastInteractionDate: null,
-      sortKey: "NAME",
+      sortKey: "NOM",
       sortValue: "asc",
       statut: "VALIDE",
     });

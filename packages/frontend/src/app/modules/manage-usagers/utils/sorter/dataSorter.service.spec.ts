@@ -1,83 +1,45 @@
 import { dataSorter } from "./dataSorter.service";
 
-it("dataSorter.sortMultiple", () => {
-  const I1 = {
+describe("dataSorter.sortMultiple", () => {
+  const obj1 = {
     cat: 1,
     score: 3,
     label: "A1",
   };
-  const I4 = {
+  const obj4 = {
     cat: 3,
     score: 30,
     label: "a4",
   };
-  const I3 = {
+  const obj3 = {
     cat: 2,
     score: 0,
     label: "A3",
   };
-  const I2 = {
+  const obj2 = {
     cat: 1,
     score: 5,
     label: "a2",
   };
-  const I5 = {
+  const obj5 = {
     cat: 1,
     score: 5,
     label: "A5",
   };
-  expect(
-    dataSorter.sortMultiple([I1, I4, I2, I5, I3], {
-      asc: true,
-      getSortAttributes: (item) => [
-        {
-          value: item.cat,
-        },
-        {
-          value: item.score,
-        },
-        {
-          value: item.label,
-          type: "full-text",
-        },
-      ],
-    })
-  ).toEqual([I1, I2, I5, I3, I4]);
 
-  expect(
-    dataSorter.sortMultiple([I1, I4, I2, I5, I3], {
-      asc: false,
-      getSortAttributes: (item) => [
-        {
-          value: item.cat,
-        },
-        {
-          value: item.score,
-        },
-        {
-          value: item.label,
-          type: "full-text",
-        },
-      ],
-    })
-  ).toEqual([I4, I3, I5, I2, I1]);
+  it("Should sort by cat ASC", () => {
+    expect(
+      dataSorter.sortMultiple([obj1, obj4, obj2, obj5, obj3], true, {
+        getSortAttributes: (item) => [item.cat, item.score, item.label],
+      })
+    ).toEqual([obj1, obj2, obj5, obj3, obj4]);
+  });
 
-  expect(
-    dataSorter.sortMultiple([I1, I4, I2, I5, I3], {
-      asc: true,
-      getSortAttributes: (item) => [
-        {
-          value: item.cat,
-        },
-        {
-          value: item.score,
-          asc: false,
-        },
-        {
-          value: item.label,
-          type: "full-text",
-        },
-      ],
-    })
-  ).toEqual([I2, I5, I1, I3, I4]);
+  it("Should sort by cat DESC", () => {
+    expect(
+      dataSorter.sortMultiple([obj1, obj4, obj2, obj5, obj3], false, {
+        getSortAttributes: (item) => [item.cat, item.score, item.label],
+      })
+    ).toEqual([obj4, obj3, obj5, obj2, obj1]);
+  });
 });

@@ -4,7 +4,7 @@ import {
   InsertEvent,
   UpdateEvent,
 } from "typeorm";
-import { normalizeString } from "../../../util";
+import { normalizeString } from "@domifa/common";
 import { UsagerTable } from "./UsagerTable.typeorm";
 
 @EventSubscriber()

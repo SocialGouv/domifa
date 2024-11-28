@@ -5,10 +5,10 @@ it("trim", () => {
 });
 
 it("clean", () => {
-  expect(searchCore.clean("à la C@mpagne éÂ!")).toEqual("a la c@mpagne ea!");
+  expect(searchCore.clean("à la Câmpagne éÂ!")).toEqual("a la campagne ea ");
 });
 
 it("buildWords", () => {
   expect(searchCore.buildWords("a few words")).toEqual(["a", "few", "words"]);
-  expect(searchCore.buildWords("one_word")).toEqual(["one_word"]);
+  expect(searchCore.buildWords("two_words    ")).toEqual(["two", "words"]);
 });

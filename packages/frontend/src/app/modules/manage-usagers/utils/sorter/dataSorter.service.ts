@@ -1,8 +1,4 @@
-import {
-  DataComparableObject,
-  dataObjectCompare,
-} from "./dataObjectCompare.service";
-import { SortableAttribute } from "./SortableAttribute.type";
+export type SortableValue = string | number | Date | null | undefined;
 
 export const dataSorter = {
   sortMultiple,
@@ -10,32 +6,70 @@ export const dataSorter = {
 
 function sortMultiple<T>(
   items: T[],
+  asc: boolean,
   {
-    asc,
-    nullFirst,
     getSortAttributes,
   }: {
-    getSortAttributes: (item: T) => SortableAttribute[];
-    asc?: boolean;
-    nullFirst?: boolean;
+    getSortAttributes: (item: T) => SortableValue[];
   }
 ): T[] {
-  const globalAsc = asc !== false;
+  return items.sort((a, b) => {
+    const attrsA = getSortAttributes(a);
+    const attrsB = getSortAttributes(b);
 
-  const sortableItems: DataComparableObject<T>[] = items.map((item) => ({
-    item,
-    attributes: dataObjectCompare.buildCompareAttributes(
-      item,
-      getSortAttributes
-    ),
-  }));
+    for (let i = 0; i < attrsA.length; i++) {
+      const attrA = attrsA[i];
+      const attrB = attrsB[i];
 
-  return sortableItems
-    .sort((a, b) =>
-      dataObjectCompare.compareComparableObjects(a, b, {
-        nullFirst: nullFirst ?? false,
-        globalAsc,
-      })
-    )
-    .map((x) => x.item);
+      const comparison = compareAttributes(attrA, attrB, asc !== false);
+      if (comparison !== 0) {
+        return comparison;
+      }
+    }
+
+    return 0;
+  });
+}
+
+function compareAttributes(
+  a: SortableValue,
+  b: SortableValue,
+  asc: boolean
+): number {
+  if (a === b) return 0;
+  if (asc) {
+    if (a === null || a === undefined) return -1;
+    if (b === null || b === undefined) return 1;
+  } else {
+    // En tri descendant, null/undefined descendent en bas
+    if (a === null || a === undefined) return 1;
+    if (b === null || b === undefined) return -1;
+  }
+
+  // Détecter si c'est une date valide
+  if (isValidDate(a) && isValidDate(b)) {
+    const dateA = new Date(a as string);
+    const dateB = new Date(b as string);
+    return asc
+      ? dateA.getTime() - dateB.getTime()
+      : dateB.getTime() - dateA.getTime();
+  }
+
+  // Détecter si c'est un nombre ou une chaîne numérique
+  const numA = typeof a === "string" ? parseFloat(a) : Number(a);
+  const numB = typeof b === "string" ? parseFloat(b) : Number(b);
+  if (!isNaN(numA) && !isNaN(numB)) {
+    return asc ? numA - numB : numB - numA;
+  }
+
+  // Par défaut, comparer comme du texte
+  const strA = String(a);
+  const strB = String(b);
+  return asc ? strA.localeCompare(strB) : strB.localeCompare(strA);
+}
+
+function isValidDate(value?: SortableValue): boolean {
+  if (!value) return false;
+  const date = new Date(value);
+  return date instanceof Date && !isNaN(date.getTime());
 }

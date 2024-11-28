@@ -460,12 +460,12 @@ export class ManageUsagersPageComponent
     if (element === "statut" && this.filters[element] !== value) {
       this.resetFiltersInStatus();
       this.filters[element] = value;
-      this.setSortKeyAndValue("NAME", this.filters.sortValue);
+      this.setSortKeyAndValue("NOM", this.filters.sortValue);
     } else if (
       ["interactionType", "lastInteractionDate", "echeance"].includes(element)
     ) {
       this.filters[element] = this.filters[element] === value ? null : value;
-      this.setSortKeyAndValue("NAME", "asc");
+      this.setSortKeyAndValue("NOM", "asc");
     } else {
       this.filters[element] = value;
     }
@@ -496,7 +496,6 @@ export class ManageUsagersPageComponent
     filters: UsagersFilterCriteria;
     allUsagers: UsagerLight[];
   }): void {
-    console.log("applyFilters");
     this.searching = true;
     this.resetCheckboxes();
 
@@ -542,10 +541,7 @@ export class ManageUsagersPageComponent
       this.usagers = [];
       return;
     }
-    console.log({
-      sortKey: this.filters.sortKey,
-      sortValue: this.filters.sortValue,
-    });
+
     this.filteredUsagers = usagersSorter.sortBy(this.filteredUsagers, {
       sortKey: this.filters.sortKey,
       sortValue: this.filters.sortValue,
@@ -598,10 +594,10 @@ export class ManageUsagersPageComponent
   }
 
   private setFilters() {
-    localStorage.setItem("MANAGE_USAGERS", JSON.stringify(this.filters));
+    localStorage.setItem("MANAGE", JSON.stringify(this.filters));
   }
   private getFilters(): null | Partial<UsagersFilterCriteria> {
-    const filters = localStorage.getItem("MANAGE_USAGERS");
+    const filters = localStorage.getItem("MANAGE");
     return filters === null ? {} : JSON.parse(filters);
   }
 

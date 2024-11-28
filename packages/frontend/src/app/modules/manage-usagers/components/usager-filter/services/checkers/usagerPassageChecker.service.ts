@@ -21,8 +21,8 @@ function check({
     const interactionTime = new Date(
       usager.lastInteraction.dateInteraction
     ).getTime();
-    console.log({ deadlineTime, interactionTime });
-    return deadlineTime > interactionTime;
+
+    return deadlineTime >= interactionTime;
   }
 
   return true;

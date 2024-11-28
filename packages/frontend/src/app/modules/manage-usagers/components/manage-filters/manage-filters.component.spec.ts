@@ -27,7 +27,7 @@ describe("ManageFiltersComponent", () => {
       searchStringField: "DEFAULT",
       page: 0,
       lastInteractionDate: null,
-      sortKey: "NAME",
+      sortKey: "NOM",
       sortValue: "asc",
       statut: "VALIDE",
     };
@@ -43,7 +43,7 @@ describe("ManageFiltersComponent", () => {
     it("devrait toujours retourner les éléments de tri de base", () => {
       const result = component.getSortKeys();
       expect(result).toContainEqual({ id: "ID", label: "ID" });
-      expect(result).toContainEqual({ id: "NAME", label: "nom" });
+      expect(result).toContainEqual({ id: "NOM", label: "nom" });
       expect(result).toContainEqual({
         id: "ECHEANCE",
         label: expect.any(String),
