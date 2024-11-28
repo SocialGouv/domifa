@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+} from "@angular/core";
 import {
   UsagersFilterCriteria,
   UsagersFilterCriteriaSortKey,
@@ -14,7 +21,7 @@ import {
   templateUrl: "./manage-filters.component.html",
   styleUrls: ["../manage-usagers-page/manage-usagers-page.component.scss"],
 })
-export class ManageFiltersComponent implements OnInit {
+export class ManageFiltersComponent implements OnInit, OnChanges {
   @Input() public filters: UsagersFilterCriteria;
   @Input() public usagersRadiesLoadedCount: number;
   @Input() public usagersRadiesTotalCount: number;
@@ -57,6 +64,11 @@ export class ManageFiltersComponent implements OnInit {
   ngOnInit(): void {
     this.sortMenuItems = this.getSortKeys();
   }
+
+  ngOnChanges() {
+    this.sortMenuItems = this.getSortKeys();
+  }
+
   public getSortKeys(): Array<{
     id: UsagersFilterCriteriaSortKey;
     label: string;
@@ -66,7 +78,7 @@ export class ManageFiltersComponent implements OnInit {
       label: string;
     }> = [
       { id: "ID", label: "ID" },
-      { id: "NAME", label: "nom" },
+      { id: "NOM", label: "nom" },
       { id: "ECHEANCE", label: this.getEcheanceLabel() },
     ];
 

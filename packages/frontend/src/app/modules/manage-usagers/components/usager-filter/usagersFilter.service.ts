@@ -1,13 +1,15 @@
 import { ETAPE_ENTRETIEN } from "@domifa/common";
 import { UsagerLight } from "../../../../../_common/model";
 import {
+  getAttributes,
   usagerEcheanceChecker,
   usagerInteractionTypeChecker,
   usagerPassageChecker,
-  usagersSearchStringFilter,
   usagerStatutChecker,
 } from "./services";
 import { UsagersFilterCriteria } from "./UsagersFilterCriteria";
+import { searchCore } from "../../utils/search/searchCore";
+import { search } from "../../utils/search";
 
 export const usagersFilter = {
   filter,
@@ -21,12 +23,7 @@ function filter(
     criteria: UsagersFilterCriteria;
   }
 ) {
-  const filteredUsagers = filterByCriteria(usagers, criteria);
-  console.log({ x: criteria.searchString });
-  return usagersSearchStringFilter.filter(filteredUsagers, {
-    searchString: criteria.searchString,
-    searchStringField: criteria.searchStringField,
-  });
+  return filterByCriteria(usagers, criteria);
 }
 
 function filterByCriteria(
@@ -39,15 +36,42 @@ function filterByCriteria(
     return filterByEntretien(usagers, criteria.entretien, now);
   }
 
-  const hasFilters =
-    criteria.statut ||
-    criteria.interactionType ||
-    criteria.echeance ||
-    criteria.lastInteractionDate;
-  if (!hasFilters) {
+  const words = criteria.searchString
+    ? searchCore.buildWords(criteria.searchString)
+    : [];
+  const needsTextSearch = words.length > 0;
+
+  // Si pas de filtres ni de recherche textuelle après le traitement entretien
+  if (!needsTextSearch && !hasAnyCriteria(criteria)) {
     return usagers;
   }
 
+  const activeFilters = buildActiveFilters(criteria);
+
+  return usagers.filter((usager) => {
+    if (
+      activeFilters.length &&
+      !activeFilters.every((filter) => filter(usager))
+    ) {
+      return false;
+    }
+
+    // Si pas de recherche textuelle, on a notre réponse
+    if (!needsTextSearch) {
+      return true;
+    }
+    const attributes = getAttributes(usager, criteria);
+
+    return search.match(usager, {
+      index: 0,
+      getAttributes: () => attributes,
+      words,
+      withScore: false,
+    }).match;
+  });
+}
+
+function buildActiveFilters(criteria: UsagersFilterCriteria) {
   // Créer un tableau de fonctions de filtrage actives
   const activeFilters = [];
 
@@ -80,9 +104,16 @@ function filterByCriteria(
       })
     );
   }
+  return activeFilters;
+}
 
-  return usagers.filter((usager) =>
-    activeFilters.every((activeFilter) => activeFilter(usager))
+function hasAnyCriteria(criteria: UsagersFilterCriteria): boolean {
+  return !!(
+    criteria.statut ||
+    criteria.interactionType ||
+    criteria.echeance ||
+    criteria.lastInteractionDate ||
+    criteria.entretien
   );
 }
 

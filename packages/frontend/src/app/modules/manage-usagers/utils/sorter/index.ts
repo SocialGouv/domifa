@@ -1,5 +1,2 @@
-export * from "./dataCompare.service";
-export * from "./dataObjectCompare.service";
+// @index('./*.service.ts', f => `export * from '${f.path}'`)
 export * from "./dataSorter.service";
-export * from "./SortableAttribute.type";
-export * from "./SortableAttributeType.type";

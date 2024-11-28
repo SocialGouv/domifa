@@ -1,4 +1,3 @@
-import { GeneralService } from "./../../services/general.service";
 import { UserStructure } from "@domifa/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
@@ -17,6 +16,7 @@ import {
   validateUpload,
 } from "../../../../shared";
 import { Subscription } from "rxjs";
+import { GeneralService } from "../../services/general.service";
 
 @Component({
   selector: "app-contact-support",
@@ -149,7 +149,7 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
           this.submitted = false;
           this.contactForm.reset();
           this.toastService.success(
-            "Message envoyé avec succès, l'équipe vous recontactera très prochainnement"
+            "Message envoyé avec succès, l'équipe vous recontactera très prochainement"
           );
         },
         error: () => {

@@ -1,7 +1,8 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 import { domifaConfig } from "../config";
-import { appLogger, normalizeString } from "../util";
+import { appLogger } from "../util";
+import { normalizeString } from "@domifa/common";
 
 const batchSize = 5000;
 export class ManualMigration1731349672897 implements MigrationInterface {

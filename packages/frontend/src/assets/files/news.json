@@ -1,5 +1,34 @@
 [
   {
+    "date": "2024-11-28",
+    "description": "La liste des domiciliés s'améliore pour plus de rapidité !",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "📂 Gestion des dossiers en masse",
+        "message": [
+          "La sélection multiple permet de sélectionner en un clic l'ensemble des dossiers affichés sur la page afin de radier et/ou supprimer en masse les dossiers filtrés qui apparaissent sur votre écran"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "Nouveaux filtres pour les radiés",
+        "message": [
+          "Vous pouvez désormais filtrer les dossiers radiés par date de radiation datant de plus d'un an ou deux ans afin de procéder plus facilement à la suppression en masse des dossiers radiés"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "🔎 Recherche et tri des domiciliés",
+        "message": [
+          "Amélioration des performances: vitesse de chargement et d'affichage des résultats réduite, amélioration de la pertinence du tri des domiciliés",
+          "Correction d'un bug qui modifiait l'ordre des dossiers lors de l'ajout d'un courrier",
+          "Correction d'un bug où le tri des domiciliés n'était pas conservé lors du passage de la liste des domiciliés à un dossier"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-11-04",
     "description": "Du nouveau dans les documents 📂",
     "content": [

@@ -95,7 +95,7 @@ export class AuthService {
     this.currentUserSubject.next(null);
     this.store.dispatch(usagerActions.clearCache());
     localStorage.removeItem("currentUser");
-    localStorage.removeItem("MANAGE_USAGERS");
+    localStorage.removeItem("MANAGE");
 
     getCurrentScope().setTag("structure", "none");
     getCurrentScope().setUser({});

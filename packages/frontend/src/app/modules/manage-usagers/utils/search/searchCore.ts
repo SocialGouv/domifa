@@ -1,17 +1,17 @@
-import { diacritics } from "./diacritics";
+import { normalizeString } from "@domifa/common";
 
-function trim(str: string): string {
+export function trim(str: string): string {
   return str.trim();
 }
 
-function clean(str: string): string {
+export function clean(str: string): string {
   if (!str) {
     return str;
   }
-  return diacritics.clean(trim(str).toLowerCase());
+  return normalizeString(trim(str).toLowerCase());
 }
 
-function buildWords(searchText: string): string[] {
+export function buildWords(searchText: string): string[] {
   const str = searchText ? clean(searchText) : undefined;
   if (!str?.length) {
     return [];

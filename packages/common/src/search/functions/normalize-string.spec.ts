@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { normalizeString } from "./normalize-string";
 
 // Tests de tous les cas possibles
@@ -50,7 +51,8 @@ describe("normalizeString", () => {
   test("cas limites", () => {
     expect(normalizeString("")).toBe("");
     expect(normalizeString("   ")).toBe(" ");
-    expect(normalizeString(null)).toBe("");
-    expect(normalizeString(undefined)).toBe("");
+    // skipcq: JS-0323
+    expect(normalizeString(null as any)).toBe("");
+    expect(normalizeString(undefined as any)).toBe("");
   });
 });

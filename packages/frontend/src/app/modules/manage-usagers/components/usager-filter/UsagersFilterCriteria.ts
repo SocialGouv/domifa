@@ -15,7 +15,7 @@ export type UsagersFilterCriteriaStatut =
 
 export type UsagersFilterCriteriaSortKey =
   | "PASSAGE"
-  | "NAME"
+  | "NOM"
   | "ECHEANCE"
   | "ID";
 
@@ -40,7 +40,6 @@ export class UsagersFilterCriteria {
   public page: number;
 
   constructor(search?: Partial<UsagersFilterCriteria> | null) {
-    console.log({ search });
     this.interactionType = search?.interactionType || null;
     this.lastInteractionDate = search?.lastInteractionDate || null;
     this.entretien = search?.entretien || null;
@@ -50,7 +49,7 @@ export class UsagersFilterCriteria {
     this.statut = search?.statut || "VALIDE";
     this.page = search?.page || 1;
 
-    this.sortKey = search?.sortKey || "NAME";
+    this.sortKey = search?.sortKey || "NOM";
     this.sortValue = search?.sortValue || "asc";
   }
 }

@@ -32,7 +32,7 @@ import {
   usagerEntretienRepository,
 } from "../../database";
 
-import { cleanPath, normalizeString } from "../../util";
+import { cleanPath } from "../../util";
 import {
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
@@ -59,6 +59,7 @@ import {
   CerfaDocType,
   UsagerDecision,
   getUsagerDeadlines,
+  normalizeString,
 } from "@domifa/common";
 import { UsagerHistoryStateService } from "../services/usagerHistoryState.service";
 import { domifaConfig } from "../../config";
