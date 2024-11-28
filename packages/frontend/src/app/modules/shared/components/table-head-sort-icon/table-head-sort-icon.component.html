@@ -1,0 +1,15 @@
+<fa-icon
+  *ngIf="sortKey === currentKey"
+  class="sort-selected ms-2"
+  aria-hidden="true"
+  [icon]="sortValue === 'desc' ? faArrowDown : faArrowUp"
+></fa-icon>
+<span *ngIf="sortKey === currentKey" class="visually-hidden">
+  Colonne triée actuellement {{ SORT_ORDER_LABEL[sortValue] }}
+</span>
+<fa-icon
+  class="ms-2"
+  aria-hidden="true"
+  *ngIf="sortKey !== currentKey"
+  [icon]="faSort"
+></fa-icon>

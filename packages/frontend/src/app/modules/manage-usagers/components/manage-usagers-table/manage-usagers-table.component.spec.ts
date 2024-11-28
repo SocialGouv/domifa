@@ -8,7 +8,6 @@ import { MATOMO_INJECTORS, _usagerReducer } from "../../../../shared";
 import { StoreModule } from "@ngrx/store";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ReplaySubject } from "rxjs";
 import { UsagersFilterCriteria } from "../usager-filter";
 
 describe("ManageUsagersTableComponent", () => {
@@ -34,7 +33,6 @@ describe("ManageUsagersTableComponent", () => {
     fixture = TestBed.createComponent(ManageUsagersTableComponent);
     component = fixture.componentInstance;
     component.filters = new UsagersFilterCriteria();
-    component.filters$ = new ReplaySubject(1);
     fixture.detectChanges();
   });
 

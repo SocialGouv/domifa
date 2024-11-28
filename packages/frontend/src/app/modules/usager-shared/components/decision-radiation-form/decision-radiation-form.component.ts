@@ -5,6 +5,8 @@ import {
   OnDestroy,
   TemplateRef,
   ViewChild,
+  EventEmitter,
+  Output,
 } from "@angular/core";
 import {
   UntypedFormGroup,
@@ -35,9 +37,16 @@ import { Store } from "@ngrx/store";
   templateUrl: "./decision-radiation-form.component.html",
 })
 export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public selectedRefs: Set<number>;
-  @Input() public context!: "MANAGE" | "PROFIL";
+  @Input()
+  public usager!: UsagerFormModel;
+
+  @Input()
+  public selectedRefs: Set<number>;
+
+  @Input({ required: true })
+  public context!: "MANAGE" | "PROFIL";
+
+  @Output() public actionAfterSuccess = new EventEmitter<void>();
 
   public submitted: boolean;
   public loading: boolean;
@@ -99,21 +108,20 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
 
   public setDecisionRadiation(): void {
     this.submitted = true;
-
     if (this.radiationForm.invalid) {
       this.toastService.error(
         "Le formulaire contient une erreur, veuillez vérifier les champs"
       );
-    } else {
-      const formDatas: UsagerDecisionRadiationForm = {
-        ...this.radiationForm.value,
-        dateFin: new Date(
-          this.nbgDate.formatEn(this.radiationForm.controls.dateFin.value)
-        ),
-      };
-
-      this.setDecision(formDatas);
+      return;
     }
+    const formDatas: UsagerDecisionRadiationForm = {
+      ...this.radiationForm.value,
+      dateFin: new Date(
+        this.nbgDate.formatEn(this.radiationForm.controls.dateFin.value)
+      ),
+    };
+
+    this.setDecision(formDatas);
   }
 
   public closeModals(): void {
@@ -129,6 +137,11 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
 
   public setDecision(formDatas: UsagerDecisionRadiationForm): void {
     this.loading = true;
+
+    if (!this.selectedRefs && !this.usager) {
+      throw new Error("Cannot update radiation");
+    }
+
     if (this.usager) {
       this.selectedRefs = new Set<number>().add(this.usager.ref);
     }
@@ -144,20 +157,27 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (usagers: UsagerLight[]) => {
             const message =
-              this.selectedRefs.size > 1
+              usagers.length > 1
                 ? "Les dossiers sélectionnés ont été radié"
                 : "Radiation enregistrée avec succès ! ";
-            this.toastService.success(message);
-            this.loading = false;
 
             this.store.dispatch(
               usagerActions.updateManyUsagersForManage({ usagers })
             );
+
             this.store.dispatch(
               usagerActions.updateUsagersRadiesTotalCount({
-                newRadies: this.selectedRefs.size,
+                action: "add",
+                numberOfChanges: usagers.length,
               })
             );
+
+            this.toastService.success(message);
+            this.loading = false;
+
+            if (this.actionAfterSuccess) {
+              this.actionAfterSuccess.emit();
+            }
 
             this.modalService.dismissAll();
           },

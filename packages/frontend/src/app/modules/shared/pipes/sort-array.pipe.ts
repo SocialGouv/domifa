@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
+import { compareAttributes } from "../../manage-usagers/utils/sorter";
 
 @Pipe({
   name: "sortArray",
@@ -6,7 +7,7 @@ import { Pipe, PipeTransform } from "@angular/core";
 })
 export class SortArrayPipe implements PipeTransform {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  transform(array: any[], sortKey: any, sortValue: "asc" | "desc"): any[] {
+  transform(array: any[], sortKey: string, sortValue: "asc" | "desc"): any[] {
     if (!array || array.length <= 1) {
       return array;
     }
@@ -16,24 +17,7 @@ export class SortArrayPipe implements PipeTransform {
       const valA = a[sortKey];
       const valB = b[sortKey];
 
-      if (valA === null) {
-        return -1;
-      }
-
-      let comparison = 0;
-      if (valA === valB) {
-        return 0;
-      } else if (typeof valA === "string") {
-        comparison = valA.localeCompare(valB);
-      } else if (typeof valA === "boolean") {
-        comparison = valA === valB ? 0 : valA ? -1 : 1;
-      } else if (valA instanceof Date) {
-        comparison = valB instanceof Date ? valA.getTime() - valB.getTime() : 1;
-      } else if (sortKey === "createdBy" && typeof valA !== "string") {
-        comparison = valA?.nom.localeCompare(valB?.nom);
-      }
-
-      return sortValue === "asc" ? comparison : -comparison;
+      return compareAttributes(valA, valB, sortValue === "asc");
     });
   }
 }

@@ -85,12 +85,28 @@ export const _usagerReducer = createReducer(
         usagersRadiesTotalCount,
       })
   ),
-  on(usagerActions.updateUsagersRadiesTotalCount, (state, { newRadies }) => {
-    return {
-      ...state,
-      usagersRadiesTotalCount: state.usagersRadiesTotalCount + newRadies,
-    };
-  })
+  on(
+    usagerActions.updateUsagersRadiesTotalCount,
+    (
+      state,
+      {
+        action,
+        numberOfChanges,
+      }: {
+        action: "add" | "delete";
+        numberOfChanges: number;
+      }
+    ) => {
+      const usagersRadiesTotalCount =
+        action === "add"
+          ? state.usagersRadiesTotalCount + numberOfChanges
+          : state.usagersRadiesTotalCount - numberOfChanges;
+      return {
+        ...state,
+        usagersRadiesTotalCount,
+      };
+    }
+  )
 );
 
 // get the selectors

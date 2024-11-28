@@ -1,4 +1,10 @@
-import { Component, Input, OnDestroy } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+} from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription, concatMap, from, toArray } from "rxjs";
 
@@ -16,7 +22,12 @@ import { UserStructure } from "@domifa/common";
 })
 export class DeleteUsagerComponent implements OnDestroy {
   @Input() public selectedRefs: Set<number>;
-  @Input() public context!: "MANAGE" | "PROFIL";
+
+  @Input({ required: true })
+  public context!: "MANAGE" | "PROFIL";
+
+  @Output() public actionAfterSuccess = new EventEmitter<void>();
+
   @Input() public me!: UserStructure;
 
   private subscription = new Subscription();
@@ -59,6 +70,10 @@ export class DeleteUsagerComponent implements OnDestroy {
             this.store.dispatch(
               usagerActions.deleteUsagers({ usagerRefs: this.selectedRefs })
             );
+
+            if (this.actionAfterSuccess) {
+              this.actionAfterSuccess.emit();
+            }
           },
           error: () => {
             this.loading = false;

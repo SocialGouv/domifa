@@ -31,7 +31,7 @@ function sortMultiple<T>(
   });
 }
 
-function compareAttributes(
+export function compareAttributes(
   a: SortableValue,
   b: SortableValue,
   asc: boolean

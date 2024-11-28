@@ -5,8 +5,7 @@ import {
   UsagerDecision,
   UserStructure,
 } from "@domifa/common";
-
-import { UsagersFilterCriteriaSortValues } from "../../../../manage-usagers/components/usager-filter";
+import { SortValues } from "../../../../../../_common/model";
 
 @Component({
   selector: "app-profil-historique-decisions",
@@ -16,9 +15,9 @@ import { UsagersFilterCriteriaSortValues } from "../../../../manage-usagers/comp
 export class ProfilHistoriqueDecisionsComponent {
   public readonly USAGER_DECISION_STATUT_LABELS_PROFIL =
     USAGER_DECISION_STATUT_LABELS_PROFIL;
-  @Input() public me!: UserStructure;
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure;
+  @Input({ required: true }) public usager!: UsagerFormModel;
 
-  public sortValue: UsagersFilterCriteriaSortValues = "desc";
+  public sortValue: SortValues = "desc";
   public currentKey: keyof UsagerDecision = "dateDecision";
 }

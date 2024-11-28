@@ -68,7 +68,7 @@ export class ProfilHeadComponent implements OnDestroy {
     this.loading = true;
 
     this.subscription.add(
-      this.usagerDecisionService.renouvellement(this.usager.ref).subscribe({
+      this.usagerDecisionService.renouvellement(this.usager).subscribe({
         next: (usager: UsagerLight) => {
           this.closeModals();
           this.toastService.success(

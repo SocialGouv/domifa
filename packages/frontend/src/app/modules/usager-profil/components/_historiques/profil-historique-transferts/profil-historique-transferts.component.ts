@@ -1,9 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
-import { HISTORY_ACTIONS } from "../../../../../../_common/model";
+import { HISTORY_ACTIONS, SortValues } from "../../../../../../_common/model";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerOptionsService } from "../../../services/usager-options.service";
-import { UsagersFilterCriteriaSortValues } from "../../../../manage-usagers/components/usager-filter";
 import { UserStructure, UsagerOptionsHistory } from "@domifa/common";
 
 @Component({
@@ -12,14 +11,14 @@ import { UserStructure, UsagerOptionsHistory } from "@domifa/common";
   styleUrls: ["../historique-table.scss"],
 })
 export class ProfilHistoriqueTransfertsComponent implements OnInit, OnDestroy {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public me!: UserStructure;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure;
   private subscription = new Subscription();
 
   public transfertHistory: UsagerOptionsHistory[];
   public readonly HISTORY_ACTIONS = HISTORY_ACTIONS;
 
-  public sortValue: UsagersFilterCriteriaSortValues = "desc";
+  public sortValue: SortValues = "desc";
   public currentKey: keyof UsagerOptionsHistory = "createdAt";
 
   constructor(private readonly usagerOptionsService: UsagerOptionsService) {

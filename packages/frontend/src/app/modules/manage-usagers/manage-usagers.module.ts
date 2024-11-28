@@ -23,6 +23,7 @@ import {} from "../shared/pipes";
 import { UsagerNomCompletPipe } from "../usager-shared/pipes";
 import { SortLabelPipe } from "./pipes/sort-label.pipe";
 import { StickySelectionBarDirective } from "./pipes/sticky.directive";
+import { TableHeadSortIconComponent } from "../shared/components/table-head-sort-icon/table-head-sort-icon.component";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { StickySelectionBarDirective } from "./pipes/sticky.directive";
     NgbModule,
     SharedModule,
     UsersModule,
+    TableHeadSortIconComponent,
     ManageUsagersRoutingModule,
     FormatInternationalPhoneNumberPipe,
     UsagerNomCompletPipe,

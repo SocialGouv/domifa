@@ -5,10 +5,10 @@ import { CustomToastService, AuthService } from "../../../../shared/services";
 import { UsagerNotesService } from "../../../../usager-notes/services/usager-notes.service";
 import { BaseUsagerNotesComponent } from "../../../../usager-notes/components/base-usager-notes/base-usager-notes.component";
 import { Store } from "@ngrx/store";
-import { UsagersFilterCriteriaSortValues } from "../../../../manage-usagers/components/usager-filter";
 
 import { Order, UsagerNote } from "@domifa/common";
 import { UsagerState } from "../../../../../shared";
+import { SortValues } from "../../../../../../_common/model";
 
 @Component({
   selector: "app-profil-historique-notes",
@@ -16,9 +16,9 @@ import { UsagerState } from "../../../../../shared";
   styleUrls: ["../historique-table.scss"],
 })
 export class ProfilHistoriqueNotesComponent extends BaseUsagerNotesComponent {
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public usager!: UsagerFormModel;
 
-  public sortValue: UsagersFilterCriteriaSortValues = "desc";
+  public sortValue: SortValues = "desc";
   public currentKey: keyof UsagerNote = "createdAt";
 
   constructor(

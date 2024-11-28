@@ -41,7 +41,6 @@ import {
   usagersFilter,
   UsagersFilterCriteria,
   UsagersFilterCriteriaSortKey,
-  UsagersFilterCriteriaSortValues,
 } from "../usager-filter";
 import { Store } from "@ngrx/store";
 import { ManageUsagersService } from "../../services/manage-usagers.service";
@@ -54,7 +53,7 @@ import {
   selectUsagerStateData,
   UsagerState,
 } from "../../../../shared/store/usager-actions-reducer.service";
-import { UsagerLight } from "../../../../../_common/model";
+import { SortValues, UsagerLight } from "../../../../../_common/model";
 import {
   calculateUsagersCountByStatus,
   usagersSorter,
@@ -288,7 +287,6 @@ export class ManageUsagersPageComponent
         )
         .subscribe(({ filters, usagers, usagersRadiesTotalCount }) => {
           if (filters && usagers) {
-            this.selectAllCheckboxes = false;
             this.countRadiesLoaded(usagers);
             this.usagersCountByStatus = calculateUsagersCountByStatus(
               usagers,
@@ -436,7 +434,7 @@ export class ManageUsagersPageComponent
   }: {
     element: T;
     value: UsagersFilterCriteria[T] | null;
-    sortValue?: UsagersFilterCriteriaSortValues;
+    sortValue?: SortValues;
   }): void {
     if (!element) {
       return;
@@ -452,7 +450,6 @@ export class ManageUsagersPageComponent
       this.filters.sortValue = sortValue || this.getNextSortValue(value);
       this.filters.sortKey = value as UsagersFilterCriteriaSortKey;
       this.filters.page = 1;
-
       this.applySorting();
       return;
     }
@@ -483,7 +480,7 @@ export class ManageUsagersPageComponent
 
   private getNextSortValue(
     value: UsagersFilterCriteria[keyof UsagersFilterCriteria]
-  ): UsagersFilterCriteriaSortValues {
+  ): SortValues {
     const isCurrentSortKey = value === this.filters.sortKey;
     const isAscendingSort = this.filters.sortValue === "asc";
     return isCurrentSortKey && isAscendingSort ? "desc" : "asc";
@@ -536,7 +533,6 @@ export class ManageUsagersPageComponent
     this.usagersRadiesLoadedCount = radiesCount;
   };
   private applySorting(): void {
-    this.resetCheckboxes();
     if (!this.filteredUsagers.length) {
       this.usagers = [];
       return;
@@ -587,7 +583,7 @@ export class ManageUsagersPageComponent
 
   private setSortKeyAndValue(
     sortKey: UsagersFilterCriteriaSortKey,
-    sortValue: UsagersFilterCriteriaSortValues
+    sortValue: SortValues
   ): void {
     this.filters.sortKey = sortKey;
     this.filters.sortValue = sortValue;
@@ -596,6 +592,7 @@ export class ManageUsagersPageComponent
   private setFilters() {
     localStorage.setItem("MANAGE", JSON.stringify(this.filters));
   }
+
   private getFilters(): null | Partial<UsagersFilterCriteria> {
     const filters = localStorage.getItem("MANAGE");
     return filters === null ? {} : JSON.parse(filters);

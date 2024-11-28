@@ -12,21 +12,21 @@ import { saveAs } from "file-saver";
 import { StructureDocService } from "../../services/structure-doc.service";
 import { Subscription } from "rxjs";
 import { StructureDoc, UserStructure, WithLoading } from "@domifa/common";
-import { UsagersFilterCriteriaSortValues } from "../../../manage-usagers/components/usager-filter";
+import { SortValues } from "../../../../../_common/model";
 
 @Component({
   selector: "app-structures-custom-docs-table",
   templateUrl: "./structures-custom-docs-table.component.html",
 })
 export class StructuresCustomDocsTableComponent implements OnDestroy {
-  @Input() public structureDocs!: WithLoading<StructureDoc>[];
-  @Input() public me!: UserStructure;
-  @Input() public title!: string;
+  @Input({ required: true }) public structureDocs!: WithLoading<StructureDoc>[];
+  @Input({ required: true }) public me!: UserStructure;
+  @Input({ required: true }) public title!: string;
 
   @Output()
   public readonly getAllStructureDocs = new EventEmitter<void>();
 
-  public sortValue: UsagersFilterCriteriaSortValues = "desc";
+  public sortValue: SortValues = "desc";
   public currentKey: keyof StructureDoc = "createdAt";
 
   private subscription = new Subscription();

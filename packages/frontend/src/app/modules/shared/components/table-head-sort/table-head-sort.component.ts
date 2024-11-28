@@ -1,41 +1,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { UsagersFilterCriteriaSortValues } from "../../../manage-usagers/components/usager-filter";
-import {
-  faArrowDown,
-  faArrowUp,
-  faSort,
-} from "@fortawesome/free-solid-svg-icons";
-import { NgClass, NgIf } from "@angular/common";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { UsagersFilterCriteriaSortKey } from "../../../manage-usagers/components/usager-filter";
+import { NgClass } from "@angular/common";
+import { TableHeadSortIconComponent } from "../table-head-sort-icon/table-head-sort-icon.component";
+import { SortValues } from "../../../../../_common/model";
 
 @Component({
   selector: "app-table-head-sort",
   templateUrl: "./table-head-sort.component.html",
   styleUrls: ["./table-head-sort.component.scss"],
   standalone: true,
-  imports: [NgIf, NgClass, FontAwesomeModule],
+  imports: [TableHeadSortIconComponent, NgClass],
 })
 export class TableHeadSortComponent {
-  public readonly faArrowDown = faArrowDown;
-  public readonly faArrowUp = faArrowUp;
-  public readonly faSort = faSort;
-
   @Input() public columnName: string;
 
-  @Input() public sortValue: UsagersFilterCriteriaSortValues;
-  @Output() public readonly sortValueChange =
-    new EventEmitter<UsagersFilterCriteriaSortValues>();
+  @Input() public sortValue: SortValues;
+  @Output() public readonly sortValueChange = new EventEmitter<SortValues>();
 
   @Input() public currentKey: string;
   @Output() public readonly currentKeyChange = new EventEmitter<string>();
 
-  @Input() public sortKey: string;
+  @Input() public sortKey: string | UsagersFilterCriteriaSortKey;
   @Output() public readonly sortArray = new EventEmitter<void>();
 
   public rotate() {
     const rotation: {
-      [key in UsagersFilterCriteriaSortValues]: UsagersFilterCriteriaSortValues;
+      [key in SortValues]: SortValues;
     } = {
       asc: "desc",
       desc: "asc",
