@@ -1,3 +1,10 @@
+# [2.186.0](https://github.com/SocialGouv/domifa/compare/v2.185.3...v2.186.0) (2024-11-28)
+
+
+### Features
+
+* **frontend:** add sort in head of tables ([f08928f](https://github.com/SocialGouv/domifa/commit/f08928fe8d9f3fd762de7b8e5e73bd9cc95be85f))
+
 ## [2.185.3](https://github.com/SocialGouv/domifa/compare/v2.185.2...v2.185.3) (2024-11-27)
 
 
