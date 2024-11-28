@@ -1,3 +1,10 @@
+# [2.187.0](https://github.com/SocialGouv/domifa/compare/v2.186.0...v2.187.0) (2024-11-28)
+
+
+### Features
+
+* **ci:** add common tests in ci ([ece927c](https://github.com/SocialGouv/domifa/commit/ece927cdc4bf71aacbdf344b1c6b907dee316e15))
+
 # [2.186.0](https://github.com/SocialGouv/domifa/compare/v2.185.3...v2.186.0) (2024-11-28)
 
 
