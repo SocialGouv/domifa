@@ -4,7 +4,7 @@ import { domifaConfig } from "../config";
 import { appLogger } from "../util";
 import { normalizeString } from "@domifa/common";
 
-const batchSize = 5000;
+const batchSize = 2000;
 export class ManualMigration1731349672897 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     if (
@@ -51,7 +51,6 @@ export class ManualMigration1731349672897 implements MigrationInterface {
             }
           }
 
-          // Valide la transaction
           await queryRunner.commitTransaction();
 
           processedRecords += usagers.length;
@@ -71,9 +70,6 @@ export class ManualMigration1731349672897 implements MigrationInterface {
           );
           throw error;
         }
-
-        // Petite pause entre les lots
-        await new Promise((resolve) => setTimeout(resolve, 100));
       }
     }
   }

@@ -29,19 +29,19 @@ import { In } from "typeorm";
 export class PublicStatsService implements OnModuleInit {
   constructor(private readonly structuresService: StructuresService) {}
 
-  onModuleInit() {
+  async onModuleInit() {
     if (domifaConfig().envId === "local" && isCronEnabled()) {
-      this.updateAllStatsCache();
+      await this.updateAllStatsCache();
     }
   }
 
   @Cron(CronExpression.EVERY_DAY_AT_2AM, {
     timeZone: "Europe/Paris",
-    disabled: isCronEnabled(),
+    disabled: !isCronEnabled(),
   })
   public async updateAllStatsCache(): Promise<void> {
     for (const regionId of Object.keys(REGIONS_LISTE)) {
-      appLogger.info("[CACHE] Update public stats for region " + regionId);
+      appLogger.info(`[CACHE] Update public stats for region ${regionId}`);
       await this.generatePublicStats({ updateCache: true, regionId });
     }
 
@@ -58,7 +58,7 @@ export class PublicStatsService implements OnModuleInit {
     updateCache?: boolean;
     regionId?: string;
   }): Promise<PublicStats> {
-    const key = regionId ? "public-stats-" + regionId : "public-stats";
+    const key = regionId ? `public-stats-${regionId}` : "public-stats";
 
     const value = await publicStatsCacheRepository
       .createQueryBuilder("public_stats_cache")

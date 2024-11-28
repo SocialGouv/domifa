@@ -104,18 +104,18 @@ export const renderStructureUsagersRows = (
   ];
 
   for (let index = 0; index < 8; index++) {
-    set(usagersListHeader, "AD_NOM_" + index, `Nom ayant-droit ${index + 1}`);
+    set(usagersListHeader, `AD_NOM_${index}`, `Nom ayant-droit ${index + 1}`);
     set(
       usagersListHeader,
-      "AD_PRENOM_" + index,
+      `AD_PRENOM_${index}`,
       `Prénom ayant-droit ${index + 1}`
     );
     set(
       usagersListHeader,
-      "AD_DATE_NAISSANCE_" + index,
+      `AD_DATE_NAISSANCE_${index}`,
       `Date naissance ayant-droit ${index + 1}`
     );
-    set(usagersListHeader, "AD_LIEN_" + index, `Lien de parenté ${index + 1}`);
+    set(usagersListHeader, `AD_LIEN_${index}`, `Lien de parenté ${index + 1}`);
   }
 
   for (const usagerToExport of usagers) {
@@ -143,14 +143,14 @@ export const renderStructureUsagersRows = (
       let index = 0;
 
       usagerToExport.ayantsDroits.forEach((ad: UsagerAyantDroit) => {
-        set(usager, "AD_NOM_" + index, ad.nom);
-        set(usager, "AD_PRENOM_" + index, ad.prenom);
+        set(usager, `AD_NOM_${index}`, ad.nom);
+        set(usager, `AD_PRENOM_${index}`, ad.prenom);
         set(
           usager,
-          "AD_DATE_NAISSANCE_" + index,
+          `AD_DATE_NAISSANCE_${index}`,
           format(new Date(ad.dateNaissance), DATE_FORMAT.JOUR)
         );
-        set(usager, "AD_LIEN_" + index, ad.lien);
+        set(usager, `AD_LIEN_${index}`, ad.lien);
         index++;
       });
 
@@ -221,6 +221,7 @@ export const renderSecondSheetData = (
     ENTRETIEN_ORIENTATION_DETAIL: usager.ENTRETIEN_ORIENTATION_DETAIL,
     ENTRETIEN_DOMICILIATION_EXISTANTE: usager.ENTRETIEN_DOMICILIATION_EXISTANTE,
     ENTRETIEN_REVENUS: usager.ENTRETIEN_REVENUS,
+    ENTRETIEN_REVENUS_DETAIL: usager.ENTRETIEN_REVENUS_DETAIL,
     ENTRETIEN_LIEN_COMMUNE: usager.ENTRETIEN_LIEN_COMMUNE,
     ENTRETIEN_COMPOSITION_MENAGE: usager.ENTRETIEN_COMPOSITION_MENAGE,
     ENTRETIEN_SITUATION_RESIDENTIELLE: usager.ENTRETIEN_SITUATION_RESIDENTIELLE,

@@ -87,7 +87,7 @@ export class UsagersDecisionController {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ): Promise<Usager> {
-    return this.usagersService.renouvellement(usager, user);
+    return await this.usagersService.renouvellement(usager, user);
   }
 
   @UseGuards(UsagerAccessGuard)

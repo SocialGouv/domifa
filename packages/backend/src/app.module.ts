@@ -18,6 +18,7 @@ import { ContactSupportModule } from "./modules/contact-support/contact-support.
 import { FileManagerService } from "./util/file-manager/file-manager.service";
 import { InteractionsService } from "./modules/interactions/services";
 import { SmsModule } from "./modules/sms/sms.module";
+import { OpenDataPlacesModule } from "./modules/open-data-places/open-data-places.module";
 
 @Module({
   controllers: [HealthController],
@@ -37,6 +38,7 @@ import { SmsModule } from "./modules/sms/sms.module";
     PortailAdminModule,
     AppLogsModule,
     ContactSupportModule,
+    OpenDataPlacesModule,
   ],
   providers: [PostgresHealthIndicator, FileManagerService, InteractionsService],
 })
