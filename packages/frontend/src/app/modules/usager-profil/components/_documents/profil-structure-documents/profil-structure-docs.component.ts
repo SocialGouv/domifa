@@ -14,7 +14,7 @@ import {
   initLoadingState,
   WithLoading,
 } from "@domifa/common";
-import { UsagersFilterCriteriaSortValues } from "../../../../manage-usagers/components/usager-filter";
+import { SortValues } from "../../../../../../_common/model";
 
 @Component({
   selector: "app-profil-structure-docs",
@@ -27,7 +27,7 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   public docs: WithLoading<StructureDoc>[] = [];
 
-  public sortValue: UsagersFilterCriteriaSortValues = "desc";
+  public sortValue: SortValues = "desc";
   public currentKey: keyof StructureDoc = "createdAt";
 
   constructor(

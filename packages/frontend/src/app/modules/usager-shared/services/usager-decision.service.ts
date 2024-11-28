@@ -12,6 +12,7 @@ import {
 
 import { usagerActions, UsagerState } from "../../../shared/store";
 import { Store } from "@ngrx/store";
+import { Usager } from "@domifa/common";
 
 @Injectable({
   providedIn: "root",
@@ -25,11 +26,22 @@ export class UsagerDecisionService {
     private readonly store: Store<UsagerState>
   ) {}
 
-  public renouvellement(usagerRef: number): Observable<UsagerLight> {
+  public renouvellement(
+    usager: Pick<Usager, "ref" | "statut">
+  ): Observable<UsagerLight> {
     return this.http
-      .get<UsagerLight>(`${this.endPointDecision}/renouvellement/${usagerRef}`)
+      .get<UsagerLight>(`${this.endPointDecision}/renouvellement/${usager.ref}`)
       .pipe(
         tap((newUsager: UsagerLight) => {
+          if (usager.statut === "RADIE") {
+            this.store.dispatch(
+              usagerActions.updateUsagersRadiesTotalCount({
+                action: "delete",
+                numberOfChanges: 1,
+              })
+            );
+          }
+
           this.store.dispatch(
             usagerActions.updateUsager({ usager: newUsager })
           );
@@ -37,11 +49,22 @@ export class UsagerDecisionService {
       );
   }
 
-  public deleteDecision(usagerRef: number): Observable<UsagerLight> {
+  public deleteDecision(
+    usager: Pick<Usager, "ref" | "statut">
+  ): Observable<UsagerLight> {
     return this.http
-      .delete<UsagerLight>(`${this.endPointDecision}/${usagerRef}`)
+      .delete<UsagerLight>(`${this.endPointDecision}/${usager.ref}`)
       .pipe(
         tap((newUsager: UsagerLight) => {
+          if (usager.statut === "RADIE") {
+            this.store.dispatch(
+              usagerActions.updateUsagersRadiesTotalCount({
+                action: "delete",
+                numberOfChanges: 1,
+              })
+            );
+          }
+
           this.store.dispatch(
             usagerActions.updateUsager({ usager: newUsager })
           );
@@ -74,6 +97,14 @@ export class UsagerDecisionService {
       .pipe(
         tap((newUsager: UsagerLight) => {
           if (updateStore) {
+            if (decision.statut === "RADIE") {
+              this.store.dispatch(
+                usagerActions.updateUsagersRadiesTotalCount({
+                  action: "add",
+                  numberOfChanges: 1,
+                })
+              );
+            }
             this.store.dispatch(
               usagerActions.updateUsager({ usager: newUsager })
             );

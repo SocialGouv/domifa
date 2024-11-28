@@ -1,4 +1,4 @@
-import { STRUCTURE_DOC_EXTENSIONS } from "src/_common/model";
+import { SortValues, STRUCTURE_DOC_EXTENSIONS } from "src/_common/model";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
@@ -12,7 +12,6 @@ import {
   initLoadingState,
   WithLoading,
 } from "@domifa/common";
-import { UsagersFilterCriteriaSortValues } from "../../../manage-usagers/components/usager-filter";
 import slug from "slug";
 
 @Component({
@@ -20,14 +19,14 @@ import slug from "slug";
   templateUrl: "./display-usager-docs.component.html",
 })
 export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public me!: UserStructure;
-  @Input() public editPJ!: boolean;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure;
+  @Input({ required: true }) public editPJ!: boolean;
 
   private subscription = new Subscription();
   public docs: WithLoading<UsagerDoc>[];
 
-  public sortValue: UsagersFilterCriteriaSortValues = "desc";
+  public sortValue: SortValues = "desc";
   public currentKey: keyof UsagerDoc = "createdAt";
 
   constructor(

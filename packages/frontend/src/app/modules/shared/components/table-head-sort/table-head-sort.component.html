@@ -7,19 +7,9 @@
 >
   <span class="visually-hidden">Trier par</span>
   <span>{{ columnName }}</span>
-  <fa-icon
-    *ngIf="sortKey === currentKey"
-    class="sort-selected ms-2"
-    aria-hidden="true"
-    [icon]="sortValue === 'desc' ? faArrowDown : faArrowUp"
-  ></fa-icon>
-  <span *ngIf="sortKey === currentKey" class="visually-hidden">
-    Colonne triée actuellement</span
-  >
-  <fa-icon
-    class="ms-2"
-    aria-hidden="true"
-    *ngIf="sortKey !== currentKey"
-    [icon]="faSort"
-  ></fa-icon>
+  <app-table-head-sort-icon
+    [sortKey]="sortKey"
+    [sortValue]="sortValue"
+    [currentKey]="currentKey"
+  ></app-table-head-sort-icon>
 </button>

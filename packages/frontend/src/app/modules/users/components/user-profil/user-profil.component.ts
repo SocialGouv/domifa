@@ -7,11 +7,11 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 
 import {
   DEFAULT_MODAL_OPTIONS,
+  SortValues,
   UserStructureProfile,
 } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { UsersService } from "../../services/users.service";
-import { UsagersFilterCriteriaSortValues } from "../../../manage-usagers/components/usager-filter";
 import { differenceInCalendarDays } from "date-fns";
 import { UserStructure, UserStructureRole } from "@domifa/common";
 
@@ -26,7 +26,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   public selectedUser: UserStructureProfile | null;
   public loading: boolean;
   public displayUserRightsHelper: boolean;
-  public sortValue: UsagersFilterCriteriaSortValues;
+  public sortValue: SortValues;
   public currentKey: keyof UserStructureProfile;
   private subscription = new Subscription();
 

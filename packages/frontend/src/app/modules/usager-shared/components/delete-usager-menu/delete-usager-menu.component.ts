@@ -33,7 +33,11 @@ import { AuthService } from "../../../shared/services";
 })
 export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
-  @Input() public context!: "HISTORY" | "PROFIL" | "INSTRUCTION_FORM";
+  @Input() public context!:
+    | "MANAGE"
+    | "HISTORY"
+    | "PROFIL"
+    | "INSTRUCTION_FORM";
 
   private subscription = new Subscription();
 
@@ -97,7 +101,7 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
   public deleteDecision(): void {
     this.loading = true;
     this.subscription.add(
-      this.usagerDecisionService.deleteDecision(this.usager.ref).subscribe({
+      this.usagerDecisionService.deleteDecision(this.usager).subscribe({
         next: (newUsager: UsagerLight) => {
           this.toastService.success("Décision supprimée avec succès");
           this.modalService.dismissAll();

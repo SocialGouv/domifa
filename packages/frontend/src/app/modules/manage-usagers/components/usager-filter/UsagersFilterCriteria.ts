@@ -2,8 +2,7 @@ import {
   UsagersFilterCriteriaDernierPassage,
   UsagersFilterCriteriaEcheance,
 } from "@domifa/common";
-
-export type UsagersFilterCriteriaSortValues = "asc" | "desc";
+import { SortValues } from "../../../../../_common/model";
 
 export type UsagersFilterCriteriaStatut =
   | "TOUS"
@@ -35,7 +34,7 @@ export class UsagersFilterCriteria {
   public entretien: UsagersFilterCriteriaEntretien | null;
   // order by
   public sortKey: UsagersFilterCriteriaSortKey;
-  public sortValue: UsagersFilterCriteriaSortValues;
+  public sortValue: SortValues;
   // pagination
   public page: number;
 

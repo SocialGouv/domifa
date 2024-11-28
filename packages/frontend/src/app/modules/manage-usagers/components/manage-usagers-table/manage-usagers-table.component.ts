@@ -1,11 +1,10 @@
-import { Subject, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
   OnDestroy,
-  OnInit,
   Output,
   TemplateRef,
   ViewChild,
@@ -15,18 +14,21 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import {
   DEFAULT_MODAL_OPTIONS,
   ETAPES_DEMANDE_URL,
+  SortValues,
 } from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
-import {
-  UsagersFilterCriteria,
-  UsagersFilterCriteriaSortValues,
-} from "../usager-filter";
+import { UsagersFilterCriteria } from "../usager-filter";
 import { Router } from "@angular/router";
 import { AuthService } from "../../../shared/services";
 import { getUrlUsagerProfil } from "../../../usager-shared/utils";
 import { UserStructure } from "@domifa/common";
+import {
+  faArrowDown,
+  faArrowUp,
+  faSort,
+} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   animations: [fadeInOut],
@@ -35,26 +37,18 @@ import { UserStructure } from "@domifa/common";
   styleUrls: ["./manage-usagers-table.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ManageUsagersTableComponent implements OnDestroy, OnInit {
-  @Input()
+export class ManageUsagersTableComponent implements OnDestroy {
+  @Input({ required: true })
   public usagers!: UsagerFormModel[];
 
-  @Input()
+  @Input({ required: true })
   public filters!: UsagersFilterCriteria;
 
-  @Input()
-  public filters$: Subject<UsagersFilterCriteria>;
-
-  @Input()
+  @Input({ required: true })
   public selectAllCheckboxes = false;
 
-  @Output()
-  public selectAllCheckboxesChange = new EventEmitter<boolean>();
-
-  @Input()
-  public loading!: boolean;
-
-  @Input() public selectedRefs: Set<number> = new Set();
+  @Input({ required: true })
+  public selectedRefs: Set<number> = new Set();
 
   @ViewChild("deleteUsagersModal")
   public deleteUsagersModal!: TemplateRef<NgbModalRef>;
@@ -66,13 +60,23 @@ export class ManageUsagersTableComponent implements OnDestroy, OnInit {
   public readonly updateFilters = new EventEmitter<{
     element: keyof UsagersFilterCriteria;
     value: UsagersFilterCriteria[keyof UsagersFilterCriteria] | null;
-    sortValue?: UsagersFilterCriteriaSortValues;
+    sortValue?: SortValues;
   }>();
 
   public me!: UserStructure | null;
   private subscription = new Subscription();
+  public loading = false;
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
 
+  public readonly faArrowDown = faArrowDown;
+  public readonly faArrowUp = faArrowUp;
+  public readonly faSort = faSort;
+  public readonly ARIA_SORT: {
+    [key in SortValues]: string;
+  } = {
+    asc: "ascending",
+    desc: "descending",
+  };
   constructor(
     private readonly modalService: NgbModal,
     private readonly router: Router,
@@ -81,15 +85,6 @@ export class ManageUsagersTableComponent implements OnDestroy, OnInit {
     this.me = this.authService.currentUserValue;
     this.usagers = [];
     this.selectedRefs.clear();
-  }
-
-  public ngOnInit(): void {
-    this.subscription.add(
-      this.filters$.subscribe(() => {
-        this.selectAllCheckboxes = false;
-        this.selectedRefs.clear();
-      })
-    );
   }
 
   public toggleSelection(id: number) {
@@ -158,5 +153,10 @@ export class ManageUsagersTableComponent implements OnDestroy, OnInit {
         }
       });
     }
+  }
+
+  public resetCheckboxes() {
+    this.selectAllCheckboxes = false;
+    this.selectedRefs.clear();
   }
 }
