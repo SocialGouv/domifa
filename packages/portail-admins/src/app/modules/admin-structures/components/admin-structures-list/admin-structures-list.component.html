@@ -1,61 +1,76 @@
-<div>
-  <div class="home-message">
+<div class="head-page py-4">
+  <div class="container">
     <div class="row">
-      <div class="col-10">
-        <h1 class="text-primary font-weight-bold">
+      <div class="col">
+        <h1 class="title">
           Structures
-          <span *ngIf="!!allStructuresVM && !!filteredStructuresVM"
-            >({{ filteredStructuresVM.length
-            }}<span
-              *ngIf="allStructuresVM.length !== filteredStructuresVM.length"
-              >/{{ allStructuresVM.length }}</span
+          <span *ngIf="!!structures && !!filteredStructures"
+            >({{ filteredStructures.length
+            }}<span *ngIf="totalStructures !== filteredStructures.length"
+              >/{{ totalStructures }}</span
             >)</span
           >
         </h1>
       </div>
-    </div>
-
-    <label for="search"
-      >Recherche par #ID, nom, région, département, email...</label
-    >
-    <div class="row">
-      <div class="col-10">
-        <div id="searchbar" class="d-flex">
-          <span
-            class="icon"
-            id="search_icon"
-            *ngIf="filters?.searchString?.trim() === ''"
-          >
-            <fa-icon aria-hidden="true" [icon]="['fas', 'search']"></fa-icon>
-          </span>
-          <span
-            class="icon"
-            id="times_icon"
-            *ngIf="filters?.searchString?.trim() !== ''"
-            (click)="updateSearch('')"
-          >
-            <fa-icon aria-hidden="true" [icon]="['fas', 'times']"></fa-icon>
-          </span>
-
+      <div class="col">
+        <div id="search-bar">
+          <label for="searchInput" class="visually-hidden">
+            Rechercher un domicilié
+          </label>
           <input
-            class="flex-grow-1 form-control"
+            id="searchInput"
             type="text"
-            autofocus
-            id="search"
-            [ngModel]="filters.searchString"
-            (input)="onSearchChange($event)"
+            name="searchInput"
+            #searchInput
+            class="form-control"
+            placeholder="Recherche"
           />
+          <button
+            type="button"
+            aria-label="Supprimer le texte saisie"
+            *ngIf="searchInput?.value !== ''"
+            (click)="resetSearchBar()"
+            id="deleteSearchIcon"
+          >
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'circle-xmark']"
+            ></fa-icon>
+          </button>
         </div>
       </div>
 
-      <app-admin-structures-export
-        class="d-grid col-2"
-      ></app-admin-structures-export>
+      <div class="col text-end">
+        <app-admin-structures-export></app-admin-structures-export>
+      </div>
     </div>
-    <app-admin-structures-table
-      *ngIf="this.filteredStructuresVM"
-      [structuresVM]="this.filteredStructuresVM"
-      (sort)="sortDashboard($event)"
-    ></app-admin-structures-table>
   </div>
 </div>
+
+<div
+  *ngIf="searching"
+  @fadeInOut
+  role="alert"
+  aria-busy="true"
+  aria-label="Chargement des données..."
+  class="text-center content-overlay d-print-none"
+>
+  <div>
+    <fa-icon
+      [icon]="['fas', 'spinner']"
+      class="spinner"
+      [spin]="true"
+      aria-hidden="true"
+    ></fa-icon>
+    <b>Chargement des données...</b>
+  </div>
+</div>
+
+<app-admin-structures-table
+  *ngIf="this.filteredStructures && !searching"
+  [structures]="this.structures"
+  [filters]="this.filters"
+  (sort)="sortDashboard($event)"
+></app-admin-structures-table>
+
+<div #sentinel class="sentinel-preload"></div>

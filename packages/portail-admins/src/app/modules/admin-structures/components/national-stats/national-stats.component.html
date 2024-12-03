@@ -195,6 +195,7 @@
 
         <div class="col-12 text-center py-3">
           <button
+            type="button"
             class="me-2 btn btn-primary"
             (click)="getMetabaseUrl()"
             [disabled]="loading"
@@ -213,6 +214,7 @@
           </button>
 
           <button
+            type="button"
             class="me-2 btn btn-primary"
             (click)="export()"
             *ngIf="metabaseParams.structureId && iframeUrl"

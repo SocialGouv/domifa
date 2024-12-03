@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { compareAttributes } from "../../manage-usagers/utils/sorter";
+import { compareAttributes } from "@domifa/common";
 
 @Pipe({
   name: "sortArray",

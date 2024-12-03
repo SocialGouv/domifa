@@ -1,0 +1,43 @@
+.home-message {
+  padding: 2rem 1rem;
+}
+
+#search-bar {
+  margin: 0 auto;
+  position: relative;
+
+  input {
+    padding: 0.3rem 0.8rem;
+    height: 44px;
+    background: white;
+  }
+
+  button:focus,
+  input:focus {
+    box-shadow: 0 0 0 0.15rem rgba(0, 0, 0, 0.38);
+  }
+}
+
+#deleteSearchIcon {
+  display: block;
+  position: absolute;
+  outline: none;
+  border: none;
+  right: 20px;
+  height: 44px;
+  top: 0;
+  color: rgb(73, 73, 73);
+  background-color: transparent;
+  font-size: 1rem;
+  z-index: 10;
+}
+
+#searchIcon {
+  left: 0;
+  color: #959595;
+}
+
+#search-btn {
+  box-shadow: 0 0 0 0.1rem rgba(0, 0, 0, 0.1);
+  background: rgb(192 196 209);
+}

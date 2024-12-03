@@ -20,31 +20,27 @@ import { map } from "rxjs/operators";
 import { regexp } from "../../../../shared/utils";
 import { AdminStructuresApiClient } from "../../../shared/services";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
-import {
-  AdminStructuresListStructureModel,
-  AdminStructuresListSortAttribute,
-} from "../../model";
+import { Search, SortValues } from "@domifa/common";
+import { StructureAdmin } from "../../types";
 
 @Component({
   selector: "app-admin-structures-table",
   templateUrl: "./admin-structures-table.component.html",
-  styleUrls: ["./admin-structures-table.component.css"],
+  styleUrls: ["./admin-structures-table.component.scss"],
 })
 export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   @Input()
-  public structuresVM?: AdminStructuresListStructureModel[] = [];
+  public structures?: StructureAdmin[] = [];
+  @Input()
+  public filters!: Search;
 
   @Output()
-  public readonly sort = new EventEmitter<{
-    name: AdminStructuresListSortAttribute;
-    defaultSort: "asc" | "desc";
-  }>();
+  public readonly sort = new EventEmitter<keyof StructureAdmin>();
 
   @ViewChild("addAdminModal", { static: true })
   public addAdminModal!: TemplateRef<NgbModalRef>;
 
-  public currentStructure: AdminStructuresListStructureModel | undefined =
-    undefined;
+  public currentStructure: StructureAdmin | undefined = undefined;
 
   public newAdminForm!: UntypedFormGroup;
 
@@ -54,6 +50,8 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   public exportLoading = false;
 
   private subscription = new Subscription();
+  public sortValue: SortValues = "desc";
+  public currentKey: keyof StructureAdmin = "id";
 
   constructor(
     private readonly adminStructuresApiClient: AdminStructuresApiClient,
@@ -78,14 +76,12 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
     });
   }
 
-  public sortDashboard(
-    name: AdminStructuresListSortAttribute,
-    defaultSort: "asc" | "desc" = "asc"
-  ): void {
-    this.sort.emit({
-      name,
-      defaultSort,
-    });
+  public idTrackBy(_index: number, item: StructureAdmin) {
+    return item.id;
+  }
+
+  public sortDashboard(name: keyof StructureAdmin): void {
+    this.sort.emit(name);
   }
 
   public deleteStructure(structureUuid: string): void {
@@ -107,7 +103,7 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
     );
   }
 
-  public openModal(structure: AdminStructuresListStructureModel): void {
+  public openModal(structure: StructureAdmin): void {
     this.currentStructure = structure;
     this.modalService.open(this.addAdminModal, { size: "lg" });
   }

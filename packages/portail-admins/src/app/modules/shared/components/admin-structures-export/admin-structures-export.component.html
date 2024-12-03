@@ -2,7 +2,7 @@
   (click)="exportDashboard()"
   [disabled]="exportLoading"
   type="button"
-  class="btn btn-primary btn-block"
+  class="btn btn-white-primary btn-block"
 >
   <span *ngIf="!exportLoading">
     <fa-icon
@@ -10,7 +10,7 @@
       aria-hidden="true"
       class="me-2"
     ></fa-icon>
-    Exporter
+    Exporter les structures
   </span>
   <span *ngIf="exportLoading">
     <fa-icon [icon]="['fas', 'circle-notch']" aria-hidden="true" [spin]="true">

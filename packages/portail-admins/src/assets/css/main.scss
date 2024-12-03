@@ -1,6 +1,5 @@
 html,
 body {
-  height: 100%;
   font-family: "Marianne", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -17,6 +16,7 @@ ul {
 caption {
   color: black !important;
 }
+
 .content {
   background-color: #f2f2f2;
   min-height: calc(90vh - 78px);
@@ -30,7 +30,6 @@ caption {
 
 #page {
   min-height: calc(90vh - 78px);
-  overflow-x: hidden;
 }
 
 .container {
@@ -179,33 +178,6 @@ legend {
   font-weight: 700;
 }
 
-.ngb-dp-day.disabled,
-.ngb-dp-day.hidden {
-  color: #bbbbbb;
-}
-
-.custom-day {
-  text-align: center;
-  padding: 0.185rem 0.25rem;
-  display: inline-block;
-  height: 2rem;
-  width: 2rem;
-}
-
-.custom-day.focused {
-  background-color: #e6e6e6;
-}
-
-.custom-day.range,
-.custom-day:hover {
-  background-color: rgb(49, 139, 218);
-  color: white;
-}
-
-.custom-day.faded {
-  background-color: rgba(2, 117, 216, 0.5);
-}
-
 .head-page {
   background-color: var(--bs-primary);
   width: 100%;
@@ -230,12 +202,14 @@ legend {
 #statut-selector {
   box-shadow: 0 1px 3px rgba(50, 66, 124, 0.1);
 
-  .col:first-child {
-    border-radius: 5px 0 0 0;
+  .col:first-child,
+  [class*="col-"]:first-child {
+    border-radius: 5px 0 0 0 !important;
   }
 
-  .col:last-child {
-    border-radius: 0 5px 0 0;
+  .col:last-child,
+  [class*="col-"]:last-child {
+    border-radius: 0 5px 0 0 !important;
   }
 
   button,
@@ -335,31 +309,19 @@ legend {
   color: black;
 }
 
-.doc-icon {
-  padding: 0.4rem 1.2rem;
-  font-size: 2rem;
-  text-align: center;
-  border-radius: 6px;
-  display: inline-block;
-  background-color: #ecefff;
-}
+.table-docs {
+  td:first-child {
+    width: 100px;
+  }
 
-.file-image {
-  color: #782f08;
-}
-.file-pdf {
-  color: #fe3b31;
-}
-.file-word {
-  color: #017aff;
-}
-.file-excel {
-  color: #33c75a;
-}
-
-.upload-table td {
-  vertical-align: middle;
-  border-bottom: 1px solid #eceffe;
+  td:nth-child(2) {
+    min-width: 300px;
+  }
+  td {
+    vertical-align: middle;
+    border-bottom: 1px solid #eceffe;
+    min-width: 80px;
+  }
 }
 
 .spinner {

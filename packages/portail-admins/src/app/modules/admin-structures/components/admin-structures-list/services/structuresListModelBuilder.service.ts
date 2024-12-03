@@ -4,12 +4,12 @@ import {
   DEPARTEMENTS_LISTE,
   REGIONS_LISTE,
 } from "@domifa/common";
-import { StructureAdmin } from "../../../types";
+import { ApiStructureAdmin } from "../../../types";
 
 export const structuresListModelBuilder = { buildStructuresViewModel };
 
-function buildStructuresViewModel(structures: StructureAdmin[]) {
-  return structures.map((structure: StructureAdmin) => {
+function buildStructuresViewModel(structures: ApiStructureAdmin[]) {
+  return structures.map((structure: ApiStructureAdmin) => {
     return {
       ...structure,
       structureTypeLabel: STRUCTURE_TYPE_LABELS[structure.structureType],
@@ -25,9 +25,7 @@ function getRegionLabel(structure: Pick<Structure, "region">): string {
   const regionLabel = REGIONS_LISTE[structure.region];
   if (!regionLabel && structure.region) {
     // eslint-disable-next-line no-console
-    console.warn(
-      `[AdminStructuresListStructureModel] region ${structure.region} not found.`
-    );
+    console.warn(`[StructureAdmin] region ${structure.region} not found.`);
   }
   return regionLabel;
 }
@@ -39,7 +37,7 @@ function getDepartementLabel(
   if (!departementLabel && structure.departement) {
     // eslint-disable-next-line no-console
     console.warn(
-      `[AdminStructuresListStructureModel] departement ${structure.departement} not found.`
+      `[StructureAdmin] departement ${structure.departement} not found.`
     );
   }
   return departementLabel;

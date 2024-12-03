@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router } from "@angular/router";
@@ -37,7 +38,7 @@ export class AppComponent implements OnInit {
 
     this.router.events
       .pipe(filter((e: any) => e instanceof NavigationEnd))
-      .subscribe((ev: Event) => {
+      .subscribe((ev: any) => {
         const event = ev as unknown as NavigationEnd;
         const splitUrl = event?.url.split("#");
         this.currentUrl = splitUrl[0];

@@ -7,7 +7,7 @@ import {
   faSort,
 } from "@fortawesome/free-solid-svg-icons";
 import { UsagersFilterCriteriaSortKey } from "../../../manage-usagers/components/usager-filter";
-import { SortValues } from "../../../../../_common/model";
+import { SortValues } from "@domifa/common";
 
 @Component({
   standalone: true,

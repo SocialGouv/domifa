@@ -44,7 +44,7 @@ import {
 } from "../usager-filter";
 import { Store } from "@ngrx/store";
 import { ManageUsagersService } from "../../services/manage-usagers.service";
-import { UserStructure } from "@domifa/common";
+import { SortValues, UserStructure } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 import { AuthService, CustomToastService } from "../../../shared/services";
 import {} from "../../../../shared/store/usager-actions.service";
@@ -53,7 +53,7 @@ import {
   selectUsagerStateData,
   UsagerState,
 } from "../../../../shared/store/usager-actions-reducer.service";
-import { SortValues, UsagerLight } from "../../../../../_common/model";
+import { UsagerLight } from "../../../../../_common/model";
 import {
   calculateUsagersCountByStatus,
   usagersSorter,
@@ -532,6 +532,7 @@ export class ManageUsagersPageComponent
 
     this.usagersRadiesLoadedCount = radiesCount;
   };
+
   private applySorting(): void {
     if (!this.filteredUsagers.length) {
       this.usagers = [];

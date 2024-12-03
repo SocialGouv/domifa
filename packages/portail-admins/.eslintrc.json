@@ -1,5 +1,13 @@
 {
   "root": true,
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es2021": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
   "overrides": [
     {
       "files": ["*.ts"],
@@ -35,18 +43,27 @@
             "prefix": "app",
             "style": "kebab-case"
           }
-        ],
-        "@typescript-eslint/no-explicit-any": "off"
+        ]
       }
     },
     {
       "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {
-        /**
-         * Any template/HTML related rules you wish to use/reconfigure over and above the
-         * recommended set provided by the @angular-eslint project would go here.
-         */
+        "@angular-eslint/template/no-call-expression": "warn",
+        "@angular-eslint/component-max-inline-declarations": "error",
+        "@angular-eslint/template/interactive-supports-focus": "error",
+        "@angular-eslint/template/eqeqeq": "error",
+        "@angular-eslint/template/no-duplicate-attributes": "error",
+        "@angular-eslint/template/banana-in-box": "error",
+        "@angular-eslint/template/alt-text": "error",
+        "@angular-eslint/template/elements-content": "error",
+        "@angular-eslint/template/label-has-associated-control": "error",
+        "@angular-eslint/template/role-has-required-aria": "error",
+        "@angular-eslint/template/table-scope": "error",
+        "@angular-eslint/template/valid-aria": "error",
+        "@angular-eslint/template/button-has-type": "error",
+        "@angular-eslint/template/no-distracting-elements": "error"
       }
     }
   ]

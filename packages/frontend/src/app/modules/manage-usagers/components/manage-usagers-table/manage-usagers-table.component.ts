@@ -14,7 +14,6 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import {
   DEFAULT_MODAL_OPTIONS,
   ETAPES_DEMANDE_URL,
-  SortValues,
 } from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -23,7 +22,7 @@ import { UsagersFilterCriteria } from "../usager-filter";
 import { Router } from "@angular/router";
 import { AuthService } from "../../../shared/services";
 import { getUrlUsagerProfil } from "../../../usager-shared/utils";
-import { UserStructure } from "@domifa/common";
+import { SortValues, UserStructure } from "@domifa/common";
 import {
   faArrowDown,
   faArrowUp,
