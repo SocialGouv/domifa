@@ -6,11 +6,11 @@ export const DOMIFA_DEFAULT_MAIL_CONFIG: {
   replyTo: MessageEmailRecipient;
 } = {
   from: {
-    personalName: "Domifa",
+    personalName: "DomiFa",
     address: domifaConfig().email.emailAddressFrom,
   },
   replyTo: {
-    personalName: "Domifa",
+    personalName: "DomiFa",
     address: domifaConfig().email.emailAddressAdmin,
   },
 };

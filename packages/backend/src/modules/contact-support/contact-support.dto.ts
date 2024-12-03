@@ -87,6 +87,7 @@ export class ContactSupportDto {
     type: String,
     required: false,
   })
+  @IsNotEmpty()
   @Transform(({ value }: TransformFnParams) => {
     value = sanitizeHtml(value);
     return value.toString().trim();
