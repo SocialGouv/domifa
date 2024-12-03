@@ -1,6 +1,6 @@
 <div class="table-responsive">
   <table
-    *ngIf="structuresVM"
+    *ngIf="structures"
     id="structures-table"
     class="table table-hover"
     style="overflow-x: visible"
@@ -12,81 +12,118 @@
       <tr>
         <th scope="col" (click)="sortDashboard('id')" class="col-w-50">#</th>
         <th scope="col" (click)="sortDashboard('nom')">
-          Nom
-          <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
+          <app-table-head-sort
+            sortKey="nom"
+            [sortValue]="filters.sortValue"
+            [currentKey]="filters.sortKey"
+            columnName="Nom"
+          >
+          </app-table-head-sort>
         </th>
         <th scope="col" (click)="sortDashboard('structureTypeLabel')">
-          Type
-          <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
+          <app-table-head-sort
+            sortKey="structureTypeLabel"
+            [sortValue]="filters.sortValue"
+            [currentKey]="filters.sortKey"
+            columnName="Type"
+          >
+          </app-table-head-sort>
         </th>
         <th
           scope="col"
-          (click)="sortDashboard('createdAt', 'desc')"
+          (click)="sortDashboard('createdAt')"
           class="whitespace-nowrap col-font-xs"
         >
-          Date<br />inscription
-          <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
+          <app-table-head-sort
+            sortKey="createdAt"
+            [sortValue]="filters.sortValue"
+            [currentKey]="filters.sortKey"
+            columnName="Inscrite le"
+          >
+          </app-table-head-sort>
+        </th>
+
+        <th scope="col" (click)="sortDashboard('importDate')">
+          <app-table-head-sort
+            sortKey="importDate"
+            [sortValue]="filters.sortValue"
+            [currentKey]="filters.sortKey"
+            columnName="Import le"
+          >
+          </app-table-head-sort>
         </th>
         <th
           scope="col"
-          (click)="sortDashboard('import', 'desc')"
-          class="whitespace-nowrap col-font-xs d-none d-lg-table-cell"
-        >
-          Import ?
-          <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
-        </th>
-        <th
-          scope="col"
-          (click)="sortDashboard('importDate', 'desc')"
-          class="whitespace-nowrap col-font-xs d-none d-lg-table-cell"
-        >
-          Date import
-          <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
-        </th>
-        <th
-          scope="col"
-          (click)="sortDashboard('users', 'desc')"
+          (click)="sortDashboard('users')"
           class="whitespace-nowrap col-font-xs"
         >
-          Comptes
-          <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
+          <app-table-head-sort
+            sortKey="users"
+            [sortValue]="filters.sortValue"
+            [currentKey]="filters.sortKey"
+            columnName="Comptes"
+          >
+          </app-table-head-sort>
         </th>
         <th
-          (click)="sortDashboard('usagers', 'desc')"
+          (click)="sortDashboard('usagers')"
           class="whitespace-nowrap col-font-xs"
         >
-          Domiciliés
-          <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
+          <app-table-head-sort
+            sortKey="usagers"
+            [sortValue]="filters.sortValue"
+            [currentKey]="filters.sortKey"
+            columnName="Dossiers"
+          >
+          </app-table-head-sort>
         </th>
         <th
           scope="col"
-          (click)="sortDashboard('lastLogin', 'desc')"
+          (click)="sortDashboard('lastLogin')"
           class="col-font-xs"
         >
-          Dernière connexion
-          <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
+          <app-table-head-sort
+            sortKey="lastLogin"
+            [sortValue]="filters.sortValue"
+            [currentKey]="filters.sortKey"
+            columnName="Dernière connexion"
+          >
+          </app-table-head-sort>
         </th>
         <th
           scope="col"
           (click)="sortDashboard('regionLabel')"
           class="col-font-xs"
         >
-          Région <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
+          <app-table-head-sort
+            sortKey="regionLabel"
+            [sortValue]="filters.sortValue"
+            [currentKey]="filters.sortKey"
+            columnName="Région"
+          >
+          </app-table-head-sort>
         </th>
         <th
           scope="col"
           (click)="sortDashboard('departementLabel')"
           class="col-font-xs"
         >
-          Département
-          <fa-icon aria-hidden="true" [icon]="['fas', 'sort']"></fa-icon>
+          <app-table-head-sort
+            sortKey="departementLabel"
+            [sortValue]="filters.sortValue"
+            [currentKey]="filters.sortKey"
+            columnName="Département"
+          >
+          </app-table-head-sort>
         </th>
-        <th scope="col" class="col-font-xs">Email</th>
+        <!-- <th scope="col" class="col-font-xs">Email</th> -->
         <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let structure of structuresVM; let i = index">
+      <tr
+        *ngFor="let structure of structures; let i = index; trackBy: idTrackBy"
+      >
         <td class="col-w-50">{{ structure.id }}</td>
         <td class="col-font-xs">
           {{ structure.nom }}
@@ -107,16 +144,24 @@
         <td class="col-font-xs">
           {{ structure.registrationDate | date : "dd/MM/yyyy" }}
         </td>
-        <td class="d-none d-lg-table-cell">
-          {{ structure.import ? "✅" : "❌" }}
-        </td>
+
         <td class="col-font-xs d-none d-lg-table-cell">
-          {{ structure.importDate | date : "dd/MM/yyyy" || "Info manquante" }}
+          {{
+            structure.importDate || structure.import
+              ? structure.importDate
+                ? (structure.importDate | date : "dd/MM/yyyy")
+                : "✅"
+              : "❌"
+          }}
         </td>
         <td class="col-font-xs">{{ structure.users }}</td>
         <td class="col-font-xs">{{ structure.usagers }}</td>
         <td class="col-font-xs">
-          {{ structure.lastLogin | date : "dd/MM/yyyy" || "Info manquante" }}
+          {{
+            structure?.lastLogin
+              ? (structure.lastLogin | date : "dd/MM/yyyy")
+              : "❌ Jamais connecté"
+          }}
         </td>
         <td class="col-font-xs">
           {{ structure.regionLabel }}
@@ -124,9 +169,9 @@
         <td class="col-font-xs">
           {{ structure.departementLabel }}
         </td>
-        <td class="col-font-xs">
+        <!-- <td class="col-font-xs">
           {{ structure.email }}
-        </td>
+        </td> -->
         <td>
           <div
             ngbDropdown
@@ -135,6 +180,7 @@
             placement="bottom-right"
           >
             <button
+              type="button"
               class="btn"
               ngbDropdownToggle
               [attr.aria-label]="'Administrer la structure ' + structure.id"
@@ -142,7 +188,8 @@
               <fa-icon aria-hidden="true" [icon]="['fas', 'bars']"></fa-icon>
             </button>
             <div ngbDropdownMenu>
-              <a
+              <button
+                type="button"
                 class="cursor-pointer"
                 ngbDropdownItem
                 (click)="openModal(structure)"
@@ -152,16 +199,17 @@
                   [icon]="['fas', 'user-plus']"
                 ></fa-icon>
 
-                Ajouter un admin</a
-              >
-              <a
+                Ajouter un admin
+              </button>
+              <button
+                type="button"
                 class="cursor-pointer text-danger"
                 ngbDropdownItem
                 (click)="deleteStructure(structure.uuid)"
               >
                 <fa-icon [icon]="['fas', 'trash']" aria-hidden="true"></fa-icon>
                 Supprimer la structure
-              </a>
+              </button>
             </div>
           </div>
         </td>
@@ -256,7 +304,9 @@
       </div>
 
       <div class="modal-footer">
-        <div class="btn btn-danger" (click)="cancelForm()">Annuler</div>
+        <button type="button" class="btn btn-danger" (click)="cancelForm()">
+          Annuler
+        </button>
         <button
           class="btn btn-primary"
           type="submit"

@@ -17,7 +17,7 @@ describe("ManageUsagersPageComponent", () => {
 
   let fixture: ComponentFixture<ManageUsagersPageComponent>;
 
-  beforeAll(async () => {
+  beforeAll(() => {
     TestBed.configureTestingModule({
       declarations: [ManageUsagersPageComponent],
       imports: [

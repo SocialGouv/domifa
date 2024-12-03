@@ -9,7 +9,7 @@
     class="toast-top-left toast-container"
     [attr.aria-label]="toast.message"
   >
-    <div class="ngx-toastr" [class]="'toast-' + toast.class">
+    <div [class]="'ngx-toastr toast-' + toast.class">
       <div class="row d-flex align-items-center">
         <div class="col-2">
           <fa-icon size="2x" [icon]="['fas', icon]" aria-hidden="true">

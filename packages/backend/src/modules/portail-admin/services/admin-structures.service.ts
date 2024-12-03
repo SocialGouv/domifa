@@ -11,17 +11,12 @@ export class AdminStructuresService {
   public async getAdminStructuresListData(): Promise<StructureAdminForList[]> {
     return await structureRepository
       .createQueryBuilder("structure")
-      .select("structure.*")
-      .leftJoin("usager", "usager", `usager."structureId" = structure.id`)
-      .leftJoin(
-        "user_structure",
-        "user_structure",
-        `user_structure."structureId" = structure.id`
-      )
-      .addSelect("COUNT(DISTINCT usager.uuid)", "usagers")
-      .addSelect("COUNT(DISTINCT user_structure.uuid)", "users")
-      .groupBy("structure.uuid")
-      .orderBy(`structure."createdAt"`, "DESC")
+      .select([
+        "structure.*",
+        `(SELECT COUNT(DISTINCT u.uuid) FROM usager u WHERE u."structureId" = structure.id) as usagers`,
+        `(SELECT COUNT(DISTINCT us.uuid) FROM user_structure us WHERE us."structureId" = structure.id) as users`,
+      ])
+      .orderBy("structure.createdAt", "DESC")
       .getRawMany();
   }
 

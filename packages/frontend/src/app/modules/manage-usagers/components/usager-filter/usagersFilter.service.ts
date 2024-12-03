@@ -1,4 +1,4 @@
-import { ETAPE_ENTRETIEN } from "@domifa/common";
+import { buildWords, ETAPE_ENTRETIEN, search } from "@domifa/common";
 import { UsagerLight } from "../../../../../_common/model";
 import {
   getAttributes,
@@ -8,8 +8,6 @@ import {
   usagerStatutChecker,
 } from "./services";
 import { UsagersFilterCriteria } from "./UsagersFilterCriteria";
-import { searchCore } from "../../utils/search/searchCore";
-import { search } from "../../utils/search";
 
 export const usagersFilter = {
   filter,
@@ -36,9 +34,7 @@ function filterByCriteria(
     return filterByEntretien(usagers, criteria.entretien, now);
   }
 
-  const words = criteria.searchString
-    ? searchCore.buildWords(criteria.searchString)
-    : [];
+  const words = criteria.searchString ? buildWords(criteria.searchString) : [];
   const needsTextSearch = words.length > 0;
 
   // Si pas de filtres ni de recherche textuelle après le traitement entretien

@@ -65,7 +65,7 @@ import { UsagerHistoryStateService } from "../services/usagerHistoryState.servic
 import { domifaConfig } from "../../config";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
 import { Not } from "typeorm";
-import { isDateString } from "class-validator";
+import { isValid, parse } from "date-fns";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -171,9 +171,13 @@ export class UsagersController {
     }
 
     if (search.searchString && search.searchStringField === "DATE_NAISSANCE") {
-      if (!isDateString(search.searchString)) {
-        throw new BadRequestException("SEARCH_PARAMS_ERROR");
+      const parsedDate = parse(search.searchString, "dd MM yyyy", new Date());
+      if (!isValid(parsedDate)) {
+        throw new BadRequestException(
+          'Format de date invalide. Utilisez le format "dd MM yyyy"'
+        );
       }
+
       query.andWhere(`DATE("dateNaissance") = DATE(:date)`, {
         date: new Date(search.searchString),
       });

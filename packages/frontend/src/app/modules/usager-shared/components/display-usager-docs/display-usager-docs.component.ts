@@ -1,4 +1,3 @@
-import { SortValues, STRUCTURE_DOC_EXTENSIONS } from "src/_common/model";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
@@ -11,6 +10,8 @@ import {
   UserStructure,
   initLoadingState,
   WithLoading,
+  SortValues,
+  STRUCTURE_DOC_EXTENSIONS,
 } from "@domifa/common";
 import slug from "slug";
 

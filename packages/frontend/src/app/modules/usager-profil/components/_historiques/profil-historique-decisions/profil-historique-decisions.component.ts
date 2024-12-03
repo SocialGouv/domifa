@@ -1,11 +1,11 @@
 import { Component, Input } from "@angular/core";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import {
+  SortValues,
   USAGER_DECISION_STATUT_LABELS_PROFIL,
   UsagerDecision,
   UserStructure,
 } from "@domifa/common";
-import { SortValues } from "../../../../../../_common/model";
 
 @Component({
   selector: "app-profil-historique-decisions",

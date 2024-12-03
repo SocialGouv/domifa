@@ -28,7 +28,7 @@ const disableAnimations =
 
 if (environment.production) {
   init({
-    release: "domifa@" + pkg.version,
+    release: `domifa@${pkg.version}`,
     dsn: environment.sentryDsnPortailAdmin,
     environment: environment.env,
     tracesSampleRate: 1.0,

@@ -11,6 +11,7 @@ import { AdminStructuresListComponent } from "./components/admin-structures-list
 import { NationalStatsComponent } from "./components/national-stats/national-stats.component";
 import { StatsService } from "./services/stats.service";
 import { AdminStructuresTableComponent } from "./components/admin-structures-table/admin-structures-table.component";
+import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { AdminStructuresTableComponent } from "./components/admin-structures-tab
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
+    TableHeadSortComponent,
   ],
   providers: [StatsService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

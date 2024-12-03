@@ -7,8 +7,6 @@ import {
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 import { FA_ICONS } from "./constants/FA_ICONS.const";
 
-import { AdminNomCompletPipe } from "./pipes/admin-nom-complet.pipe";
-
 import { AdminStructuresApiClient } from "./services";
 import { AdminStructuresExportComponent } from "./components/admin-structures-export";
 import {
@@ -19,7 +17,6 @@ import {
 
 @NgModule({
   declarations: [
-    AdminNomCompletPipe,
     FormatPhoneNumberPipe,
     UcFirstPipe,
     FormatBigNumberPipe,
@@ -27,7 +24,6 @@ import {
     AdminStructuresExportComponent,
   ],
   exports: [
-    AdminNomCompletPipe,
     UcFirstPipe,
     FormatPhoneNumberPipe,
     FormatBigNumberPipe,
@@ -39,7 +35,7 @@ import {
   providers: [AdminStructuresApiClient],
 })
 export class SharedModule {
-  constructor(private readonly library: FaIconLibrary) {
+  constructor(library: FaIconLibrary) {
     library.addIcons(...FA_ICONS);
   }
 }

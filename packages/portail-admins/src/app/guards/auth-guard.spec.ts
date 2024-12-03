@@ -2,7 +2,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { inject, TestBed } from "@angular/core/testing";
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
+import { RouterModule } from "@angular/router";
 import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.service";
 import { AuthGuard } from "./auth-guard";
 
@@ -13,7 +13,7 @@ describe("AuthGuard", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule],
+      imports: [HttpClientTestingModule, RouterModule],
       providers: [
         AuthGuard,
         {

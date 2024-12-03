@@ -1,52 +1,42 @@
-import { dataCompare } from "../../../../shared/services";
 import {
-  AdminStructuresListSortAttribute,
-  AdminStructuresListStructureModel,
-} from "../../../model";
+  normalizeString,
+  Search,
+  SortableValue,
+  sortMultiple,
+} from "@domifa/common";
+import { StructureAdmin } from "../../../types";
 
 export const structuresSorter = {
   sortBy,
 };
 
 function sortBy(
-  structuresVM: AdminStructuresListStructureModel[],
-  {
-    sortAttribute,
-  }: {
-    sortAttribute: {
-      name: AdminStructuresListSortAttribute;
-      asc: boolean;
-    };
-  }
+  structures: StructureAdmin[],
+  { sortKey, sortValue }: Pick<Search, "sortKey" | "sortValue">
 ) {
-  const structuresVMWithSortKey = structuresVM.map(
-    (ts: AdminStructuresListStructureModel) => {
-      let sortKey: any;
-      const defaultSortKey = (ts as any)[sortAttribute.name] as string;
-      if (
-        [
-          "nom",
-          "structureTypeLabel",
-          "regionLabel",
-          "departementLabel",
-        ].includes(sortAttribute.name)
-      ) {
-        sortKey = dataCompare.cleanString(defaultSortKey);
-      } else {
-        sortKey = defaultSortKey;
-      }
+  const asc = sortValue !== "desc";
 
-      return {
-        ...ts,
-        sortKey,
-      };
+  if (!sortKey) {
+    return structures;
+  }
+
+  return sortMultiple(structures, asc, (structure) => {
+    const sortAttributes: SortableValue[] = [];
+
+    let value = structure[sortKey as keyof StructureAdmin];
+
+    if (
+      ["nom", "structureTypeLabel", "regionLabel", "departementLabel"].includes(
+        sortKey
+      )
+    ) {
+      value = normalizeString(value as string);
     }
-  );
-  structuresVMWithSortKey.sort((a, b) => {
-    return dataCompare.compareAttributes(a.sortKey, b.sortKey, {
-      asc: sortAttribute.asc,
-      nullFirst: false,
-    });
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    sortAttributes.push(value as any);
+    sortAttributes.push(normalizeString(structure.nom));
+
+    return sortAttributes;
   });
-  return structuresVMWithSortKey;
 }

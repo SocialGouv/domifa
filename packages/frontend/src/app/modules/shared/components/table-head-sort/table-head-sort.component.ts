@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { UsagersFilterCriteriaSortKey } from "../../../manage-usagers/components/usager-filter";
 import { NgClass } from "@angular/common";
 import { TableHeadSortIconComponent } from "../table-head-sort-icon/table-head-sort-icon.component";
-import { SortValues } from "../../../../../_common/model";
+import { SortValues } from "@domifa/common";
 
 @Component({
   selector: "app-table-head-sort",

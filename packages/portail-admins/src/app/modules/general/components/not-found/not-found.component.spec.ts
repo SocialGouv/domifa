@@ -6,7 +6,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NotFoundComponent } from "./not-found.component";
-import { RouterTestingModule } from "@angular/router/testing";
+import { RouterModule } from "@angular/router";
 
 describe("NotFoundComponent", () => {
   let component: NotFoundComponent;
@@ -19,9 +19,8 @@ describe("NotFoundComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-
         HttpClientTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

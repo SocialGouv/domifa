@@ -1,5 +1,5 @@
-import { StructureAdmin } from "../../admin-structures/types";
+import { ApiStructureAdmin } from "../../admin-structures/types";
 
 export type AppStoreModel = {
-  structureListData?: StructureAdmin[];
+  structureListData?: ApiStructureAdmin[];
 };

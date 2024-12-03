@@ -4,7 +4,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
+import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { SharedModule } from "../shared/shared.module";
 import { StructuresConfirmComponent } from "./structures-confirm.component";
@@ -22,7 +22,7 @@ describe("StructuresConfirmComponent", () => {
         FormsModule,
         SharedModule,
         HttpClientTestingModule,
-        RouterTestingModule.withRoutes([]),
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: APP_BASE_HREF, useValue: "/" },

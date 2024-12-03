@@ -85,8 +85,7 @@
   "lint-staged": {
     "*!(.ts)": "prettier --ignore-unknown -w",
     "*.ts": [
-      "prettier --ignore-unknown -w",
-      "ng-lint-staged lint --fix --"
+      "prettier --ignore-unknown -w"
     ]
   }
 }

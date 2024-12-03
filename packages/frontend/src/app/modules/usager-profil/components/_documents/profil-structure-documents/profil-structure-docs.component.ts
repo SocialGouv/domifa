@@ -1,6 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { saveAs } from "file-saver";
-import { STRUCTURE_DOC_EXTENSIONS } from "../../../../../../_common/model/structure-doc";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { DocumentService } from "../../../../usager-shared/services/document.service";
 import { CustomToastService } from "../../../../shared/services/custom-toast.service";
@@ -13,8 +12,9 @@ import {
   UserStructure,
   initLoadingState,
   WithLoading,
+  SortValues,
+  STRUCTURE_DOC_EXTENSIONS,
 } from "@domifa/common";
-import { SortValues } from "../../../../../../_common/model";
 
 @Component({
   selector: "app-profil-structure-docs",

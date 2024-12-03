@@ -6,8 +6,11 @@ import { environment } from "src/environments/environment";
 
 import { structuresCache } from "../../store/structuresCache.service";
 
-import { ApiMessage } from "@domifa/common";
-import { StructureAdmin, UserNewAdmin } from "../../../admin-structures/types";
+import { ApiMessage, Structure } from "@domifa/common";
+import {
+  ApiStructureAdmin,
+  UserNewAdmin,
+} from "../../../admin-structures/types";
 
 const BASE_URL = `${environment.apiUrl}admin/structures`;
 @Injectable()
@@ -28,8 +31,8 @@ export class AdminStructuresApiClient {
   public deleteCheck(
     structureUuid: string,
     token: string
-  ): Observable<StructureAdmin> {
-    return this.http.put<StructureAdmin>(
+  ): Observable<Structure> {
+    return this.http.put<Structure>(
       `${environment.apiUrl}admin/structures-delete/check-token/${structureUuid}/${token}`,
       {}
     );
@@ -50,22 +53,19 @@ export class AdminStructuresApiClient {
   public confirmNewStructure(
     structureUuid: string,
     token: string
-  ): Observable<StructureAdmin> {
-    return this.http.post<StructureAdmin>(
-      `${BASE_URL}/confirm-structure-creation`,
-      {
-        uuid: structureUuid,
-        token,
-      }
-    );
+  ): Observable<Structure> {
+    return this.http.post<Structure>(`${BASE_URL}/confirm-structure-creation`, {
+      uuid: structureUuid,
+      token,
+    });
   }
 
-  public getAdminStructureListData(): Observable<StructureAdmin[]> {
-    return this.http.get<StructureAdmin[]>(BASE_URL).pipe(
-      tap((data: StructureAdmin[]) => {
+  public getAdminStructureListData(): Observable<ApiStructureAdmin[]> {
+    return this.http.get<ApiStructureAdmin[]>(BASE_URL).pipe(
+      tap((data: ApiStructureAdmin[]) => {
         structuresCache.setStructureListData(data);
       }),
-      startWith(structuresCache.getStructureListData() as StructureAdmin[]),
+      startWith(structuresCache.getStructureListData() as ApiStructureAdmin[]),
       filter((x) => !!x)
     );
   }

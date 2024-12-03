@@ -1,4 +1,3 @@
-import { CustomToastService } from "./../../services/custom-toast.service";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 
 import { Subscription } from "rxjs";
@@ -6,7 +5,8 @@ import { CustomToast } from "../../types/CustomToast.type";
 
 import { CustomToastClass } from "../../types";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { fadeInOut } from "../../../../shared/animations";
+import { fadeInOut } from "../../constants";
+import { CustomToastService } from "../../services";
 
 @Component({
   selector: "app-custom-toastr",
@@ -28,7 +28,7 @@ export class CustomToastrComponent implements OnInit, OnDestroy {
 
   public icon: IconName;
 
-  constructor(public customToastService: CustomToastService) {
+  constructor(public readonly customToastService: CustomToastService) {
     this.toast = {
       display: false,
       message: "",

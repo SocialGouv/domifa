@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
+import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AdminLoginComponent } from "./admin-login.component";
 
@@ -16,10 +16,9 @@ describe("AdminLoginComponent", () => {
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
-
         NgbModule,
         FormsModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();

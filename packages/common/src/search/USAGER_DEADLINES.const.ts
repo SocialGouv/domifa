@@ -1,5 +1,5 @@
 import { subMonths, addMonths, subYears, addWeeks } from "date-fns";
-import { TimingsConfig, Timings } from "./Timings.type";
+import { TimingsConfig, Timings } from "./types/Timings.type";
 
 export function getUsagerDeadlines(refDate: Date = new Date()): TimingsConfig {
   return {

@@ -4,8 +4,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { AdminStructuresApiClient } from "../shared/services";
 import { Subscription } from "rxjs";
 import { isHexadecimal, isUUID } from "class-validator";
-import { StructureAdmin } from "../admin-structures/types";
+import {} from "../admin-structures/types";
 import { CustomToastService } from "../shared/services/custom-toast.service";
+import { Structure } from "@domifa/common";
 
 @Component({
   selector: "app-structures-confirm",
@@ -22,7 +23,7 @@ export class StructuresConfirmComponent implements OnInit, OnDestroy {
   public loading: boolean;
 
   public structureName: string | null;
-  public structure?: StructureAdmin;
+  public structure?: Structure;
   private structureUuid!: string;
   private token!: string;
 
@@ -66,7 +67,7 @@ export class StructuresConfirmComponent implements OnInit, OnDestroy {
         this.adminStructuresApiClient
           .deleteCheck(this.structureUuid, this.token)
           .subscribe({
-            next: (structure: StructureAdmin) => {
+            next: (structure: Structure) => {
               this.structure = structure;
               this.confirmDelete = true;
             },
@@ -80,7 +81,7 @@ export class StructuresConfirmComponent implements OnInit, OnDestroy {
         this.adminStructuresApiClient
           .confirmNewStructure(this.structureUuid, this.token)
           .subscribe({
-            next: (structure: StructureAdmin) => {
+            next: (structure: Structure) => {
               this.structure = structure;
               this.successEnable = true;
             },

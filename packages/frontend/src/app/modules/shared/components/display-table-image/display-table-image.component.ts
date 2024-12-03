@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 
 import { StructureDoc, UsagerDoc } from "@domifa/common";
-import { JsonPipe, NgClass } from "@angular/common";
+import { NgClass } from "@angular/common";
 
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
@@ -16,7 +16,7 @@ import {
   selector: "app-display-table-image",
   templateUrl: "./display-table-image.component.html",
   standalone: true,
-  imports: [FontAwesomeModule, NgClass, JsonPipe],
+  imports: [FontAwesomeModule, NgClass],
   styleUrl: "./display-table-image.component.scss",
 })
 export class DisplayTableImageComponent {
