@@ -22,7 +22,7 @@ async function sendMail(model: ContactSupport): Promise<void> {
       personalName: "DomiFa",
     },
   ];
-  const subject = `[SUPPORT] ${model.subject} - ${model.name}`;
+  const subject = `${model.subject} - ${model.structureName}`;
 
   const attachments: MessageEmailAttachment[] = model.attachment
     ? [model.attachment]

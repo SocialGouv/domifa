@@ -99,8 +99,8 @@ async function sendEmail(
     appLogger.warn(`[smtpSender] Error sending smtp message: : ${err}`, {
       sentry: true,
     });
-    appLogger.error(`[smtpSender] Error sending smtp message`);
-    throw new HttpException(`SMTP_ERROR`, HttpStatus.INTERNAL_SERVER_ERROR);
+    appLogger.error("[smtpSender] Error sending smtp message");
+    throw new HttpException("SMTP_ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }
 function mapAddress(x: MessageEmailRecipient): Mail.Address {
