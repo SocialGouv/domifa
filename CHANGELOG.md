@@ -1,3 +1,10 @@
+## [2.187.2](https://github.com/SocialGouv/domifa/compare/v2.187.1...v2.187.2) (2024-12-03)
+
+
+### Bug Fixes
+
+* **backend:** fix support contact ([cc4295b](https://github.com/SocialGouv/domifa/commit/cc4295b0ebdb8d987a4ea5882971b95747e2c7da))
+
 ## [2.187.1](https://github.com/SocialGouv/domifa/compare/v2.187.0...v2.187.1) (2024-11-28)
 
 
