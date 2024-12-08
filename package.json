@@ -19,7 +19,7 @@
     "@commitlint/config-conventional": "^19.5.0",
     "@socialgouv/sre-secrets": "^1.14.5",
     "husky": "^9.1.6",
-    "is-ci": "^3.0.1",
+    "is-ci": "^4.0.0",
     "lerna": "^8.1.9",
     "lint-staged": "^15.2.10"
   },
