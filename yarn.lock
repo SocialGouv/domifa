@@ -11735,7 +11735,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bs-logger@npm:0.x, bs-logger@npm:^0.2.6":
+"bs-logger@npm:^0.2.6":
   version: 0.2.6
   resolution: "bs-logger@npm:0.2.6"
   dependencies:
@@ -12219,10 +12219,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ci-info@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "ci-info@npm:4.0.0"
-  checksum: 10/c983bb7ff1b06648f4a47432201abbd58291147d8ab5043dbb5c03e1a0e3fb2347f40d29b66a3044f28ffeb5dade01ac35aa6bd4e7464a44d9a49a3d7532415a
+"ci-info@npm:^4.0.0, ci-info@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "ci-info@npm:4.1.0"
+  checksum: 10/546628efd04e37da3182a58b6995a3313deb86ec7c8112e22ffb644317a61296b89bbfa128219e5bfcce43d9613a434ed89907ed8e752db947f7291e0405125f
   languageName: node
   linkType: hard
 
@@ -14039,7 +14039,7 @@ __metadata:
     "@commitlint/config-conventional": "npm:^19.5.0"
     "@socialgouv/sre-secrets": "npm:^1.14.5"
     husky: "npm:^9.1.6"
-    is-ci: "npm:^3.0.1"
+    is-ci: "npm:^4.0.0"
     lerna: "npm:^8.1.9"
     lint-staged: "npm:^15.2.10"
   languageName: unknown
@@ -15070,25 +15070,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-n@npm:^17.0.0":
-  version: 17.13.0
-  resolution: "eslint-plugin-n@npm:17.13.0"
-  dependencies:
-    "@eslint-community/eslint-utils": "npm:^4.4.1"
-    enhanced-resolve: "npm:^5.17.1"
-    eslint-plugin-es-x: "npm:^7.8.0"
-    get-tsconfig: "npm:^4.8.1"
-    globals: "npm:^15.11.0"
-    ignore: "npm:^5.3.2"
-    minimatch: "npm:^9.0.5"
-    semver: "npm:^7.6.3"
-  peerDependencies:
-    eslint: ">=8.23.0"
-  checksum: 10/5bb43a6337d583a3a855dc23e94070d93ef3e86df505661be1a21596262b84f9154c7e7086c8bedadf78ff02d8b39492b8bdc666b168b1648631252712668d70
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-n@npm:^17.14.0":
+"eslint-plugin-n@npm:^17.0.0, eslint-plugin-n@npm:^17.14.0":
   version: 17.14.0
   resolution: "eslint-plugin-n@npm:17.14.0"
   dependencies:
@@ -17619,7 +17601,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-ci@npm:3.0.1, is-ci@npm:^3.0.1":
+"is-ci@npm:3.0.1":
   version: 3.0.1
   resolution: "is-ci@npm:3.0.1"
   dependencies:
@@ -17627,6 +17609,17 @@ __metadata:
   bin:
     is-ci: bin.js
   checksum: 10/192c66dc7826d58f803ecae624860dccf1899fc1f3ac5505284c0a5cf5f889046ffeb958fa651e5725d5705c5bcb14f055b79150ea5fcad7456a9569de60260e
+  languageName: node
+  linkType: hard
+
+"is-ci@npm:^4.0.0":
+  version: 4.1.0
+  resolution: "is-ci@npm:4.1.0"
+  dependencies:
+    ci-info: "npm:^4.1.0"
+  bin:
+    is-ci: bin.js
+  checksum: 10/f63a9e951262b9f4ccea73f47743efb1bfe87de84b5352dc02966c90bf61c2a9e9426a43ef53fdd18bd5f33616015b97bb5ae89251fb0f573e6cf7a01d036295
   languageName: node
   linkType: hard
 
@@ -19669,7 +19662,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.memoize@npm:4.x, lodash.memoize@npm:^4.1.2":
+"lodash.memoize@npm:^4.1.2":
   version: 4.1.2
   resolution: "lodash.memoize@npm:4.1.2"
   checksum: 10/192b2168f310c86f303580b53acf81ab029761b9bd9caa9506a019ffea5f3363ea98d7e39e7e11e6b9917066c9d36a09a11f6fe16f812326390d8f3a54a1a6da
@@ -19907,7 +19900,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"make-error@npm:1.x, make-error@npm:^1.1.1, make-error@npm:^1.3.6":
+"make-error@npm:^1.1.1, make-error@npm:^1.3.6":
   version: 1.3.6
   resolution: "make-error@npm:1.3.6"
   checksum: 10/b86e5e0e25f7f777b77fabd8e2cbf15737972869d852a22b7e73c17623928fccb826d8e46b9951501d3f20e51ad74ba8c59ed584f610526a48f8ccf88aaec402
@@ -25902,43 +25895,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^29.0.0":
-  version: 29.1.5
-  resolution: "ts-jest@npm:29.1.5"
-  dependencies:
-    bs-logger: "npm:0.x"
-    fast-json-stable-stringify: "npm:2.x"
-    jest-util: "npm:^29.0.0"
-    json5: "npm:^2.2.3"
-    lodash.memoize: "npm:4.x"
-    make-error: "npm:1.x"
-    semver: "npm:^7.5.3"
-    yargs-parser: "npm:^21.0.1"
-  peerDependencies:
-    "@babel/core": ">=7.0.0-beta.0 <8"
-    "@jest/transform": ^29.0.0
-    "@jest/types": ^29.0.0
-    babel-jest: ^29.0.0
-    jest: ^29.0.0
-    typescript: ">=4.3 <6"
-  peerDependenciesMeta:
-    "@babel/core":
-      optional: true
-    "@jest/transform":
-      optional: true
-    "@jest/types":
-      optional: true
-    babel-jest:
-      optional: true
-    esbuild:
-      optional: true
-  bin:
-    ts-jest: cli.js
-  checksum: 10/11a29a49130f1c9bef5aebe8007f6be3e630af6c2dea6b00ff5a86d649321854a43966b4990a43960d77a3f98d7a753b9b7e19c20c42a2d38341d6e67a3e48d1
-  languageName: node
-  linkType: hard
-
-"ts-jest@npm:^29.2.5":
+"ts-jest@npm:^29.0.0, ts-jest@npm:^29.2.5":
   version: 29.2.5
   resolution: "ts-jest@npm:29.2.5"
   dependencies:
@@ -27693,7 +27650,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs-parser@npm:21.1.1, yargs-parser@npm:^21.0.1, yargs-parser@npm:^21.1.1":
+"yargs-parser@npm:21.1.1, yargs-parser@npm:^21.1.1":
   version: 21.1.1
   resolution: "yargs-parser@npm:21.1.1"
   checksum: 10/9dc2c217ea3bf8d858041252d43e074f7166b53f3d010a8c711275e09cd3d62a002969a39858b92bbda2a6a63a585c7127014534a560b9c69ed2d923d113406e
