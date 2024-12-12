@@ -68,11 +68,7 @@
     peuvent disposent de boutons pour trier les colonnes
   </caption>
   <thead>
-    <th
-      scope="col"
-      role="columnheader"
-      *ngIf='!(me?.role === "facteur" ||  (me?.role === "simple" && filters.statut === "VALIDE"))'
-    >
+    <th scope="col" role="columnheader" *ngIf="showCheckboxes">
       <span class="visually-hidden"
         >Colonne de sélection des dossiers les supprimer ou les radier</span
       >
@@ -96,6 +92,7 @@
     <th scope="col" role="columnheader">
       <button
         type="button"
+        [ngClass]="filters.sortKey === 'ID' ? 'fw-bold text-primary' : ''"
         [attr.aria-sort]="filters.sortKey ==='ID' ? ARIA_SORT[filters.sortValue] : 'none'"
         (click)="updateFilters.emit({  element: 'sortKey',  value: 'ID'})"
       >
@@ -112,6 +109,7 @@
     <th scope="col">
       <button
         type="button"
+        [ngClass]="filters.sortKey === 'NOM' ? 'fw-bold text-primary' : ''"
         [attr.aria-sort]="filters.sortKey ==='NOM' ? ARIA_SORT[filters.sortValue] : 'none'"
         (click)="updateFilters.emit({ element: 'sortKey',  value: 'NOM' })"
       >
@@ -147,7 +145,6 @@
       >
         <span class="visually-hidden">Trier par</span>
         <span>PASSAGE</span>
-
         <app-table-head-sort-icon
           [sortKey]="filters.sortKey"
           [sortValue]="filters.sortValue"
@@ -170,14 +167,18 @@
         (click)="updateFilters.emit({element: 'sortKey', value: 'ECHEANCE'})"
       >
         <span class="visually-hidden">Trier par</span>
-        <ng-container
-          *ngIf="filters.statut !== 'REFUS' && filters.statut !== 'RADIE'"
-          >ÉCHÉANCE</ng-container
-        >
-        <ng-container *ngIf="filters.statut === 'REFUS'"
-          >REFUSÉ LE</ng-container
-        >
-        <ng-container *ngIf="filters.statut === 'RADIE'">RADIÉ LE</ng-container>
+        <span>
+          <ng-container
+            *ngIf="filters.statut !== 'REFUS' && filters.statut !== 'RADIE'"
+            >ÉCHÉANCE</ng-container
+          >
+          <ng-container *ngIf="filters.statut === 'REFUS'"
+            >REFUSÉ LE</ng-container
+          >
+          <ng-container *ngIf="filters.statut === 'RADIE'"
+            >RADIÉ LE</ng-container
+          >
+        </span>
         <app-table-head-sort-icon
           [sortKey]="filters.sortKey"
           [sortValue]="filters.sortValue"
@@ -193,10 +194,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let usager of usagers; let i = index; trackBy: refTrackBy">
-      <td
-        class="text-start p-0 m-0"
-        *ngIf='!(  me?.role === "facteur" ||  (me?.role === "simple" && filters.statut !== "VALIDE"))'
-      >
+      <td class="text-start p-0 m-0" *ngIf="showCheckboxes">
         <label
           for="select-{{ usager.ref }}"
           (change)="toggleSelection(usager.ref)"
