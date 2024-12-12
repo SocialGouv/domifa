@@ -1,3 +1,11 @@
+## [2.187.3](https://github.com/SocialGouv/domifa/compare/v2.187.2...v2.187.3) (2024-12-12)
+
+
+### Bug Fixes
+
+* **frontend:** fix head of columns ([79408fc](https://github.com/SocialGouv/domifa/commit/79408fcbd5decae441e5f2ea2848e1e71d543452))
+* **frontend:** update unit tests ([5aac576](https://github.com/SocialGouv/domifa/commit/5aac576b1145d67c563d915bc586b553bc308e52))
+
 ## [2.187.2](https://github.com/SocialGouv/domifa/compare/v2.187.1...v2.187.2) (2024-12-03)
 
 
