@@ -9,6 +9,7 @@ import { StoreModule } from "@ngrx/store";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { UsagersFilterCriteria } from "../usager-filter";
+import { Subject } from "rxjs";
 
 describe("ManageUsagersTableComponent", () => {
   let component: ManageUsagersTableComponent;
@@ -33,6 +34,7 @@ describe("ManageUsagersTableComponent", () => {
     fixture = TestBed.createComponent(ManageUsagersTableComponent);
     component = fixture.componentInstance;
     component.filters = new UsagersFilterCriteria();
+    component.filters$ = new Subject();
     fixture.detectChanges();
   });
 
