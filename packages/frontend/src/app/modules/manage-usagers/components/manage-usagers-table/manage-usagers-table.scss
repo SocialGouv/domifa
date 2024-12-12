@@ -14,19 +14,26 @@
     padding: 0 0.2rem;
     height: 62px;
     font-size: 0.95rem;
-  }
 
-  tbody td span {
-    vertical-align: middle;
-  }
-
-  tbody td a {
-    width: 100%;
-    height: 100%;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    color: black;
+    label {
+      height: 100%;
+      width: 100%;
+      padding: 1.3rem 0.5rem;
+      margin: 0;
+      text-align: center;
+      background-color: transparent;
+    }
+    span {
+      vertical-align: middle;
+    }
+    a {
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      color: black;
+    }
   }
 
   tbody td a:hover,
@@ -57,6 +64,7 @@
   tbody td:first-child {
     border-radius: 2px 0 0 2px;
     padding: 0 0.5rem;
+    text-align: center;
   }
 
   tbody td:last-child {
@@ -80,31 +88,35 @@
     box-shadow: 2px 1px 4px rgba(179, 179, 179, 0.5);
   }
 
-  thead th .btn {
-    padding: 0.25rem 0.5rem;
-  }
-
-  thead th button:not(.btn) {
-    font-size: 0.95rem;
-    padding: 0;
-    color: #3150c0;
-    text-transform: uppercase;
-    border: none;
-    font-weight: 600;
-    vertical-align: middle;
-    background-color: transparent !important;
-  }
-
   thead th {
     font-style: normal;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: #3150c0;
-    padding: 0.2rem;
+    padding: 0.7rem 0;
     text-transform: uppercase;
     border: none;
     transition: all 0.2s ease;
-    vertical-align: middle;
+    vertical-align: bottom;
+    label {
+      padding: 0;
+      text-align: center;
+      width: 100%;
+      vertical-align: bottom;
+      margin: 0;
+      background-color: transparent;
+    }
+    button {
+      padding: 0;
+      color: #3150c0;
+      text-transform: uppercase;
+      border: none;
+      background-color: transparent !important;
+
+      * {
+        vertical-align: bottom;
+      }
+    }
   }
 
   .table-name img {
@@ -150,15 +162,6 @@
 
 .statut-signal .statut-date {
   font-weight: bold;
-}
-
-label {
-  height: 100%;
-  width: 100%;
-  padding: 1.3rem 0.5rem;
-  margin: 0;
-  text-align: center;
-  background-color: transparent;
 }
 
 .is-sticky {

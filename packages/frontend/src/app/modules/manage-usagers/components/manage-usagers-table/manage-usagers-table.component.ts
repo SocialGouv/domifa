@@ -1,10 +1,12 @@
-import { Subscription } from "rxjs";
+import { Subject, Subscription, takeUntil } from "rxjs";
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   TemplateRef,
   ViewChild,
@@ -36,12 +38,14 @@ import {
   styleUrls: ["./manage-usagers-table.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ManageUsagersTableComponent implements OnDestroy {
+export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   @Input({ required: true })
   public usagers!: UsagerFormModel[];
+  private destroy$ = new Subject<void>();
 
   @Input({ required: true })
   public filters!: UsagersFilterCriteria;
+  @Input({ required: true }) filters$!: Subject<UsagersFilterCriteria>;
 
   @Input({ required: true })
   public selectAllCheckboxes = false;
@@ -64,6 +68,9 @@ export class ManageUsagersTableComponent implements OnDestroy {
 
   public me!: UserStructure | null;
   private subscription = new Subscription();
+  public showCheckboxes = false;
+  public currentFilters!: UsagersFilterCriteria;
+
   public loading = false;
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
 
@@ -79,13 +86,42 @@ export class ManageUsagersTableComponent implements OnDestroy {
   constructor(
     private readonly modalService: NgbModal,
     private readonly router: Router,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly cd: ChangeDetectorRef
   ) {
     this.me = this.authService.currentUserValue;
     this.usagers = [];
     this.selectedRefs.clear();
   }
 
+  ngOnInit() {
+    this.filters$.pipe(takeUntil(this.destroy$)).subscribe((filters) => {
+      this.currentFilters = filters;
+      this.computeCheckboxVisibility();
+      this.cd.markForCheck();
+    });
+  }
+
+  private computeCheckboxVisibility() {
+    if (this.me.role === "admin" || this.me.role === "responsable") {
+      this.showCheckboxes = true;
+      return;
+    }
+
+    if (this.me.role === "facteur") {
+      this.showCheckboxes = false;
+      return;
+    }
+
+    if (this.me.role === "simple") {
+      this.showCheckboxes = this.currentFilters.statut === "VALIDE";
+      return;
+    }
+
+    this.showCheckboxes = false;
+
+    this.cd.markForCheck();
+  }
   public toggleSelection(id: number) {
     if (!this.selectedRefs.size) {
       this.selectAllCheckboxes = false;

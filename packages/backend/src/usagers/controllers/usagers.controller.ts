@@ -156,7 +156,6 @@ export class UsagersController {
     @Body() search: SearchUsagerDto,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    console.log({ x: normalizeString(search.searchString) });
     const query = usagerRepository
       .createQueryBuilder("usager")
       .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
@@ -164,22 +163,29 @@ export class UsagersController {
         structureId: user.structureId,
       });
 
-    if (search.searchString && search.searchStringField === "DEFAULT") {
-      query.andWhere("nom_prenom_surnom_ref ILIKE :str", {
-        str: `%${normalizeString(search.searchString)}%`,
-      });
-    }
+    const searchString = normalizeString(search?.searchString).trim();
 
-    if (search.searchString && search.searchStringField === "DATE_NAISSANCE") {
-      const parsedDate = parse(search.searchString, "dd MM yyyy", new Date());
+    if (searchString && search.searchStringField === "DEFAULT") {
+      query.andWhere("nom_prenom_surnom_ref ILIKE :str", {
+        str: `%${searchString}%`,
+      });
+    } else if (searchString && search.searchStringField === "DATE_NAISSANCE") {
+      const parsedDate = parse(
+        searchString.replace(/\D/g, ""),
+        "ddMMyyyy",
+        new Date()
+      );
+
       if (!isValid(parsedDate)) {
+        console.log({ searchString });
+
         throw new BadRequestException(
           'Format de date invalide. Utilisez le format "dd MM yyyy"'
         );
       }
 
       query.andWhere(`DATE("dateNaissance") = DATE(:date)`, {
-        date: new Date(search.searchString),
+        date: parsedDate,
       });
     }
 
@@ -220,11 +226,7 @@ export class UsagersController {
       }
     }
 
-    if (
-      !search?.searchString &&
-      !search?.echeance &&
-      !search?.lastInteractionDate
-    ) {
+    if (!searchString && !search?.echeance && !search?.lastInteractionDate) {
       query.take(100);
     }
 
