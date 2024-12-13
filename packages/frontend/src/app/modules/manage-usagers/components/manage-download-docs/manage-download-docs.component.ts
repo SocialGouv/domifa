@@ -39,9 +39,9 @@ export class ManageDownloadDocsComponent implements OnDestroy {
 
   public getCerfa(
     usagerRef: number,
-    typeCerfa: CerfaDocType = "attestation"
+    typeCerfa: CerfaDocType = CerfaDocType.attestation
   ): void {
-    return this.documentService.attestation(usagerRef, typeCerfa);
+    return this.documentService.getCerfa(usagerRef, typeCerfa);
   }
 
   public getDomifaCustomDoc(

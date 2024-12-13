@@ -17,7 +17,7 @@ import {
   CERFA_MOCK_USAGER_ACTIF,
   CERFA_MOCK_USAGER_REFUS,
 } from "./CERFA_MOCKS.mock";
-import { Structure, Usager } from "@domifa/common";
+import { CerfaDocType, Structure, Usager } from "@domifa/common";
 import { getUsagerRef } from "../cerfa-utils";
 
 describe("Générer les données des Cerfa", () => {
@@ -60,12 +60,20 @@ describe("Générer les données des Cerfa", () => {
 
   describe("Générer les données complètes du Cerfa", () => {
     it("CerfaData() Dossier valide", () => {
-      const data = generateCerfaData(usagerValide, user, "attestation");
+      const data = generateCerfaData(
+        usagerValide,
+        user,
+        CerfaDocType.attestation
+      );
       expect(data).toEqual(CERFA_MOCK_USAGER_ACTIF);
     });
 
     it("CerfaData() Dossier refusé", () => {
-      const data = generateCerfaData(usagerRefus, user, "attestation");
+      const data = generateCerfaData(
+        usagerRefus,
+        user,
+        CerfaDocType.attestation
+      );
       expect(data).toEqual(CERFA_MOCK_USAGER_REFUS);
     });
   });
@@ -76,7 +84,11 @@ describe("Générer les données des Cerfa", () => {
       usagerRefus.telephone = null;
       user.structure.telephone = { countryCode: "fr", numero: "" };
       usagerRefus.telephone = { countryCode: "fr", numero: "" };
-      const data = generateCerfaData(usagerRefus, user, "attestation");
+      const data = generateCerfaData(
+        usagerRefus,
+        user,
+        CerfaDocType.attestation
+      );
       expect(data.rattachement).toEqual("");
       expect(data.telephone).toEqual("");
       expect(data.telephoneOrga).toEqual("");
@@ -88,7 +100,11 @@ describe("Générer les données des Cerfa", () => {
       usagerValide.decision.statut = "INSTRUCTION";
       usagerValide.historique.push(usagerValide.decision);
 
-      const data = generateCerfaData(usagerValide, user, "attestation");
+      const data = generateCerfaData(
+        usagerValide,
+        user,
+        CerfaDocType.attestation
+      );
 
       expect(data.jourDebut).toEqual("12");
       expect(data.moisDebut).toEqual("02");
@@ -101,7 +117,11 @@ describe("Générer les données des Cerfa", () => {
     it("Dates de la précédente domiciliation pour un dossier en cours de renouvellement en attente de décision", () => {
       usagerValide.decision.statut = "ATTENTE_DECISION";
       usagerValide.historique.push(usagerValide.decision);
-      const data = generateCerfaData(usagerValide, user, "attestation");
+      const data = generateCerfaData(
+        usagerValide,
+        user,
+        CerfaDocType.attestation
+      );
 
       expect(data.jourDebut).toEqual("12");
       expect(data.moisDebut).toEqual("02");
@@ -115,7 +135,7 @@ describe("Générer les données des Cerfa", () => {
       const data = generateCerfaData(
         { ...usagerValide, historique: [] },
         user,
-        "attestation"
+        CerfaDocType.attestation
       );
 
       expect(data.jourDebut).toEqual("");
@@ -131,7 +151,7 @@ describe("Générer les données des Cerfa", () => {
       const data = generateCerfaData(
         { ...usagerValide, historique: [] },
         user,
-        "attestation"
+        CerfaDocType.attestation
       );
       expect(data.jourDebut).toEqual("");
       expect(data.moisDebut).toEqual("");
@@ -158,7 +178,11 @@ describe("Générer les données des Cerfa", () => {
   describe("Test des données liées à l'adresse ", () => {
     it("Affichage de la préfecture dans le Cerfa", () => {
       user.structure.structureType = "asso";
-      const data = generateCerfaData(usagerValide, user, "attestation");
+      const data = generateCerfaData(
+        usagerValide,
+        user,
+        CerfaDocType.attestation
+      );
       expect(data.prefecture2).toEqual("92");
       expect(data.prefecture1).toEqual("92");
     });
@@ -169,7 +193,11 @@ describe("Générer les données des Cerfa", () => {
       expect(adresseDomicilie).toEqual(
         "Boite toto\nCCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine"
       );
-      const cerfaDatas = generateCerfaData(usagerValide, user, "attestation");
+      const cerfaDatas = generateCerfaData(
+        usagerValide,
+        user,
+        CerfaDocType.attestation
+      );
       expect(cerfaDatas.adresse).toEqual(
         "Boite toto\nCCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine"
       );
@@ -204,7 +232,11 @@ describe("Générer les données des Cerfa", () => {
         usagerValide
       );
 
-      const cerfaDatas2 = generateCerfaData(usagerValide, user, "attestation");
+      const cerfaDatas2 = generateCerfaData(
+        usagerValide,
+        user,
+        CerfaDocType.attestation
+      );
 
       expect(adresseDomicilie).toEqual(
         "CCAS de Test\nAdresse de courrier\n75010 - Paris 10eme"
@@ -234,19 +266,31 @@ describe("Générer les données des Cerfa", () => {
       it("Ne pas afficher le surnom si la structure ne le souhaite pas", () => {
         user.structure.options.surnom = true;
         usagerValide.surnom = null;
-        const data = generateCerfaData(usagerValide, user, "attestation");
+        const data = generateCerfaData(
+          usagerValide,
+          user,
+          CerfaDocType.attestation
+        );
         expect(data.noms1).toEqual("KARAMOKO");
       });
       it("Nom dépouse activé: ne pas afficher le surnom s'il est vide", () => {
         user.structure.options.surnom = true;
         usagerValide.surnom = null;
-        const data = generateCerfaData(usagerValide, user, "attestation");
+        const data = generateCerfaData(
+          usagerValide,
+          user,
+          CerfaDocType.attestation
+        );
         expect(data.noms1).toEqual("KARAMOKO");
       });
       it("Nom dépouse activé: afficher le surnom ", () => {
         user.structure.options.surnom = true;
         usagerValide.surnom = "Marie-madeleine";
-        const data = generateCerfaData(usagerValide, user, "attestation");
+        const data = generateCerfaData(
+          usagerValide,
+          user,
+          CerfaDocType.attestation
+        );
         expect(data.noms1).toEqual("KARAMOKO (Marie-madeleine)");
       });
     });

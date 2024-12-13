@@ -101,6 +101,7 @@ export class CreateUsagerDto {
   })
   @IsOptional()
   @IsString()
+  @TrimOrNullTransform()
   @StripTagsTransform()
   public langue!: string | null;
 

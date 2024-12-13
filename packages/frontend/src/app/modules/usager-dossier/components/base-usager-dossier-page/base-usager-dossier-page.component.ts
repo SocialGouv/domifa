@@ -9,7 +9,12 @@ import { selectUsagerById, UsagerState } from "../../../../shared";
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
-import { getUsagerNomComplet, Usager, UserStructure } from "@domifa/common";
+import {
+  CerfaDocType,
+  getUsagerNomComplet,
+  Usager,
+  UserStructure,
+} from "@domifa/common";
 
 @Component({
   selector: "app-base-usager-dossier-page",
@@ -23,6 +28,7 @@ export class BaseUsagerDossierPageComponent implements OnInit, OnDestroy {
   public usager!: UsagerFormModel;
   public submitted = false;
   public loading = false;
+  public readonly CerfaDocType = CerfaDocType;
 
   constructor(
     protected readonly authService: AuthService,

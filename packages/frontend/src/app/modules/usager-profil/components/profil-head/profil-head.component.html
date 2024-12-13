@@ -66,7 +66,9 @@
             class="btn my-1 btn-white-primary ms-2"
             (click)="
               getCerfa(
-                usager.decision.statut === 'REFUS' ? 'demande' : 'attestation'
+                usager.decision.statut === 'REFUS'
+                  ? CerfaDocType.demande
+                  : CerfaDocType.attestation
               )
             "
           >

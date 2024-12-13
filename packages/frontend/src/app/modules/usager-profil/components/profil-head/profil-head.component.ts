@@ -40,6 +40,8 @@ export class ProfilHeadComponent implements OnDestroy {
   @ViewChild("renewModal", { static: true })
   public renewModal!: TemplateRef<NgbModalRef>;
 
+  public readonly CerfaDocType = CerfaDocType;
+
   constructor(
     private readonly modalService: NgbModal,
     private readonly toastService: CustomToastService,
@@ -90,7 +92,7 @@ export class ProfilHeadComponent implements OnDestroy {
   }
 
   public getCerfa(typeCerfa: CerfaDocType): void {
-    return this.documentService.attestation(this.usager.ref, typeCerfa);
+    return this.documentService.getCerfa(this.usager.ref, typeCerfa);
   }
 
   public ngOnDestroy() {

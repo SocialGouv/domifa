@@ -17,6 +17,7 @@ import { UsagerState } from "../../../../../shared";
   templateUrl: "./profil-documents-section.component.html",
 })
 export class ProfilDocumentsSectionComponent extends BaseUsagerProfilPageComponent {
+  public readonly CerfaDocType = CerfaDocType;
   constructor(
     protected readonly authService: AuthService,
     protected readonly usagerProfilService: UsagerProfilService,
@@ -39,7 +40,7 @@ export class ProfilDocumentsSectionComponent extends BaseUsagerProfilPageCompone
     this.titlePrefix = "Documents";
   }
 
-  public getCerfa(typeCerfa: CerfaDocType = "attestation"): void {
-    return this.documentService.attestation(this.usager.ref, typeCerfa);
+  public getCerfa(typeCerfa: CerfaDocType = CerfaDocType.attestation): void {
+    return this.documentService.getCerfa(this.usager.ref, typeCerfa);
   }
 }

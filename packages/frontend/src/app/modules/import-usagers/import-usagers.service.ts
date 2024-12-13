@@ -3,8 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
 import { environment } from "../../../environments/environment";
-import { UsagersImportMode } from "../../../_common/model";
-import { ImportPreviewTable } from "@domifa/common";
+import { ImportPreviewTable, UsagersImportMode } from "@domifa/common";
 
 @Injectable({
   providedIn: "root",

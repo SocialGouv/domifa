@@ -7,6 +7,7 @@ import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { LoadingService } from "../../shared/services/loading.service";
 import {
+  CerfaDocType,
   StructureDoc,
   StructureDocTypesAvailable,
   UsagerDoc,
@@ -55,11 +56,11 @@ export class DocumentService {
       );
   }
 
-  public attestation(usagerRef: number, typeCerfa: string): void {
+  public getCerfa(usagerRef: number, typeCerfa: CerfaDocType): void {
     this.loadingService.startLoading();
 
     this.http
-      .get(`${this.endPointUsagers}/attestation/${usagerRef}/${typeCerfa}`, {
+      .get(`${this.endPointUsagers}/cerfa/${usagerRef}/${typeCerfa}`, {
         responseType: "blob",
       })
       .subscribe({

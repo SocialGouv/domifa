@@ -215,51 +215,46 @@
             ></app-display-usager-docs>
           </div>
           <hr />
-          <div class="mb-3 d-grid gap-2 d-md-flex">
-            <button
-              type="button"
-              (click)="getCerfa('demande')"
-              class="btn btn-primary d-print-none btn-block me-0 me-md-3 my-1"
+          <div class="d-flex">
+            <app-button
+              (click)="getCerfa(CerfaDocType.demande)"
+              ariaLabel="Télécharger l'attestation de demande"
+              content="Télécharger l'attestation de demande"
+              icon="download"
+              color="primary"
+              class=""
             >
-              <fa-icon
-                [icon]="['fas', 'download']"
-                aria-hidden="true"
-                class="me-2"
-              ></fa-icon>
-              Télécharger l'attestation de demande
-            </button>
-            <button
-              type="button"
-              (click)="getCerfa('attestation')"
-              class="btn btn-primary d-print-none btn-block me-0 my-1"
-              *ngIf="
-                me.role !== 'facteur' &&
-                me.role !== 'simple' &&
-                usager.decision.statut !== 'REFUS' &&
-                usager.decision.statut !== 'RADIE'
-              "
-            >
-              <fa-icon
-                [icon]="['fas', 'download']"
-                aria-hidden="true"
-                class="me-2"
-              ></fa-icon>
-              Télécharger un CERFA provisoire
-            </button>
-          </div>
-          <div class="text-center">
-            <button
+            </app-button>
+
+            <ng-container *ngIf="me.role !== 'facteur' && me.role !== 'simple'">
+              <app-button
+                (action)="getCerfa(CerfaDocType.attestation_future)"
+                ariaLabel="Télécharger le cerfa provisoire"
+                content="Télécharger le cerfa provisoire"
+                icon="download"
+                color="primary"
+                class=" "
+              >
+              </app-button>
+              <app-button
+                (action)="getCerfa(CerfaDocType.attestation)"
+                ariaLabel="Télécharger le CERFA actuel"
+                content="Télécharger le CERFA actuel"
+                icon="download"
+                color="primary"
+                class=""
+              >
+              </app-button>
+            </ng-container>
+            <app-button
               (click)="printPage()"
-              class="d-print-none me-2 btn btn-primary"
-              type="button"
+              ariaLabel="Imprimer"
+              content="Imprimer"
+              icon="download"
+              color="primary"
+              class=""
             >
-              <fa-icon
-                [icon]="['fas', 'print']"
-                aria-hidden="true"
-                class="me-2"
-              ></fa-icon>
-              Imprimer le récapitulatif
-            </button>
+            </app-button>
           </div>
         </div>
 

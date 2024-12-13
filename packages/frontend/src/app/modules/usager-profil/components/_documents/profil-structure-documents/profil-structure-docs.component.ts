@@ -104,14 +104,22 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
               (structure) => structure.customDocType === "attestation_postale"
             )
           ) {
-            this.docs.push(this.getDefaultCustomDoc("attestation_postale"));
+            this.docs.push(
+              this.getDefaultCustomDoc(
+                StructureDocTypesAvailable.attestation_postale
+              )
+            );
           }
           if (
             !this.docs.some(
               (structure) => structure.customDocType === "courrier_radiation"
             )
           ) {
-            this.docs.push(this.getDefaultCustomDoc("courrier_radiation"));
+            this.docs.push(
+              this.getDefaultCustomDoc(
+                StructureDocTypesAvailable.courrier_radiation
+              )
+            );
           }
 
           if (this.usager.decision.statut !== "RADIE") {

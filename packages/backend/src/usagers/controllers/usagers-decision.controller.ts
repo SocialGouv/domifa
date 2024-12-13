@@ -120,7 +120,7 @@ export class UsagersDecisionController {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ) {
-    if (usager.historique.length <= 1) {
+    if (usager?.historique?.length <= 1) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "CANNOT_DELETE_DECISION" });
