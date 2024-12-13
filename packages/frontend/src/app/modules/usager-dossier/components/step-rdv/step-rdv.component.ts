@@ -123,8 +123,8 @@ export class StepRdvComponent
     return this.rdvForm.controls;
   }
 
-  public getCerfa(typeCerfa: CerfaDocType = "attestation"): void {
-    return this.documentService.attestation(this.usager.ref, typeCerfa);
+  public getCerfa(typeCerfa: CerfaDocType = CerfaDocType.attestation): void {
+    return this.documentService.getCerfa(this.usager.ref, typeCerfa);
   }
 
   public initForm(): void {

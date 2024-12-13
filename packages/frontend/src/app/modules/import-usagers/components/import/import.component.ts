@@ -17,7 +17,6 @@ import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 
 import { Subscription } from "rxjs";
-import { UsagersImportMode } from "../../../../../_common/model";
 import { LoadingService } from "../../../shared/services";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { ImportUsagersService } from "../../import-usagers.service";
@@ -28,6 +27,7 @@ import {
   ImportPreviewTable,
   ImportPreviewRow,
   UserStructure,
+  UsagersImportMode,
 } from "@domifa/common";
 import { Store } from "@ngrx/store";
 import { usagerActions, UsagerState } from "../../../../shared";
@@ -115,7 +115,7 @@ export class ImportComponent implements OnInit, OnDestroy {
       const file = input.files[0];
       this.uploadForm.controls.fileInput.setValue(file);
 
-      this.submitFile("preview");
+      this.submitFile(UsagersImportMode.preview);
     } catch (err) {
       console.error("Error while uploading file", err);
       this.toastService.error("Erreur inattendue, veuillez réessayer.");

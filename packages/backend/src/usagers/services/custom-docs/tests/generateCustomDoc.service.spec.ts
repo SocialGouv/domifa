@@ -9,11 +9,15 @@ import { CUSTOM_DOC_ATTESTATION_POSTALE } from "./CUSTOM_DOC_ATTESTATION_POSTALE
 import { StructureDocTypesAvailable } from "@domifa/common";
 describe("generateCustomDoc", () => {
   it("1. ATTESTATION POSTALE : generateCustomDoc render attestation_postale", async () => {
-    await runDocTypeTest({ docType: "attestation_postale" });
+    await runDocTypeTest({
+      docType: StructureDocTypesAvailable.attestation_postale,
+    });
   });
 
   it("2. COURRIER RADIATION : generateCustomDoc render courrier_radiation", async () => {
-    await runDocTypeTest({ docType: "courrier_radiation" });
+    await runDocTypeTest({
+      docType: StructureDocTypesAvailable.courrier_radiation,
+    });
   });
 });
 

@@ -4,6 +4,7 @@ import {
   Get,
   HttpStatus,
   Param,
+  ParseEnumPipe,
   ParseUUIDPipe,
   Post,
   Res,
@@ -120,23 +121,13 @@ export class UsagerStructureDocsController {
   @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getDomifaCustomDoc(
-    @Param("docType") docType: StructureDocTypesAvailable,
+    @Param("docType", new ParseEnumPipe(StructureDocTypesAvailable))
+    docType: StructureDocTypesAvailable,
     @Body() extraUrlParametersFromClient: { [name: string]: string },
     @CurrentUsager() usager: Usager,
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
-    const availableTypes: StructureDocTypesAvailable[] = [
-      "attestation_postale",
-      "courrier_radiation",
-      "acces_espace_domicilie",
-    ];
-    if (!availableTypes.includes(docType)) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "INVALID_PARAM_DOCS" });
-    }
-
     // La structure a-t-elle uploadé son propre modèle ?
     const doc = await structureDocRepository.findOneBy({
       structureId: user.structureId,

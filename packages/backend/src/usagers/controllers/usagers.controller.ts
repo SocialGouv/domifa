@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   ParseBoolPipe,
+  ParseEnumPipe,
   ParseIntPipe,
   Patch,
   Post,
@@ -194,7 +195,7 @@ export class UsagersController {
       const date = deadlines[search.lastInteractionDate].value;
 
       query.andWhere(
-        `  ("lastInteraction"->>'dateInteraction')::timestamp >= :date`,
+        `("lastInteraction"->>'dateInteraction')::timestamp >= :date`,
         {
           date,
         }
@@ -250,10 +251,6 @@ export class UsagersController {
     @CurrentUser() _user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager
   ) {
-    if (!usagerDto.langue || usagerDto.langue === "") {
-      usagerDto.langue = null;
-    }
-
     if (
       !currentUsager.customRef &&
       (!usagerDto.customRef || usagerDto.customRef === null)
@@ -441,13 +438,12 @@ export class UsagersController {
       action: "SUPPRIMER_DOMICILIE",
     });
 
-    const key =
-      join(
-        domifaConfig().upload.bucketRootDir,
-        `usager-documents`,
-        cleanPath(user.structure.uuid),
-        cleanPath(usager.uuid)
-      ) + "/";
+    const key = `${join(
+      domifaConfig().upload.bucketRootDir,
+      "usager-documents",
+      cleanPath(user.structure.uuid),
+      cleanPath(usager.uuid)
+    )}/`;
 
     try {
       await this.fileManagerService.deleteAllUnderStructure(key);
@@ -459,16 +455,18 @@ export class UsagersController {
 
   @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
-  @Get("attestation/:usagerRef/:typeCerfa")
+  @Get("cerfa/:usagerRef/:typeCerfa")
   public async getAttestation(
     @Res() res: Response,
-    @Param("typeCerfa") typeCerfa: CerfaDocType,
+    @Param("typeCerfa", new ParseEnumPipe(CerfaDocType))
+    typeCerfa: CerfaDocType,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager
   ) {
     const pdfForm =
-      typeCerfa === "attestation"
+      typeCerfa === CerfaDocType.attestation ||
+      typeCerfa === CerfaDocType.attestation_future
         ? "../../_static/static-docs/attestation.pdf"
         : "../../_static/static-docs/demande.pdf";
 

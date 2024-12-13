@@ -36,9 +36,9 @@ export class UsagerAyantDroitDto {
   public prenom!: string;
 
   @ApiProperty({
-    example: "Dudu",
+    example: "CONJOINT",
     required: true,
-    description: "Surnom",
+    description: "Lien de parenté",
   })
   @IsNotEmpty()
   @IsString()

@@ -21,7 +21,7 @@
             >
               <button
                 type="button"
-                (click)="getCerfa('demande')"
+                (click)="getCerfa(CerfaDocType.demande)"
                 *ngIf="usager.decision.statut !== 'REFUS'"
                 class="my-2 btn me-md-2 btn-primary my-md-1"
               >
@@ -39,8 +39,8 @@
                 (click)="
                   getCerfa(
                     usager.decision.statut === 'REFUS'
-                      ? 'demande'
-                      : 'attestation'
+                      ? CerfaDocType.demande
+                      : CerfaDocType.attestation
                   )
                 "
                 class="my-2 btn me-md-2 btn-primary my-md-1"

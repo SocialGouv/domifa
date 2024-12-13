@@ -90,7 +90,8 @@ export class ProfilEditPortailUsagerPreferenceComponent
   }
 
   public getDomifaCustomDoc(): void {
-    const docType: StructureDocTypesAvailable = "acces_espace_domicilie";
+    const docType: StructureDocTypesAvailable =
+      StructureDocTypesAvailable.acces_espace_domicilie;
     this.loading = true;
     this.subscription.add(
       this.documentService

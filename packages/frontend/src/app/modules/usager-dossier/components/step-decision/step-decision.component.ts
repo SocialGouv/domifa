@@ -99,7 +99,7 @@ export class StepDecisionComponent
   }
 
   public getCerfa(typeCerfa: CerfaDocType) {
-    return this.documentService.attestation(this.usager.ref, typeCerfa);
+    return this.documentService.getCerfa(this.usager.ref, typeCerfa);
   }
 
   public printPage() {

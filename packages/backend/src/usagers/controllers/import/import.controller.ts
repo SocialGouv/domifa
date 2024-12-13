@@ -3,6 +3,7 @@ import {
   Controller,
   HttpStatus,
   Param,
+  ParseEnumPipe,
   Post,
   Res,
   UploadedFile,
@@ -40,6 +41,7 @@ import {
   ImportPreviewRow,
   ImportPreviewColumn,
   COUNTRY_CODES_TIMEZONE,
+  UsagersImportMode,
 } from "@domifa/common";
 import { ImportCreatorService } from "./step3-create";
 
@@ -66,8 +68,6 @@ const UsagersImportFileInterceptor = FileInterceptor("file", {
   }),
 });
 
-type UsagersImportMode = "preview" | "confirm";
-
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("import")
 @ApiBearerAuth()
@@ -79,17 +79,12 @@ export class ImportController {
   @AllowUserStructureRoles("simple", "responsable", "admin")
   @UseInterceptors(UsagersImportFileInterceptor)
   public async importExcel(
-    @Param("mode") importMode: UsagersImportMode,
+    @Param("mode", new ParseEnumPipe(UsagersImportMode))
+    importMode: UsagersImportMode,
     @Res() res: ExpressResponse,
     @UploadedFile() file: Express.Multer.File,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    if (importMode !== "preview" && importMode !== "confirm") {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "IMPORT_MODE_FAIL" });
-    }
-
     const processTracker: ImportProcessTracker = {
       start: new Date(),
       read: {
