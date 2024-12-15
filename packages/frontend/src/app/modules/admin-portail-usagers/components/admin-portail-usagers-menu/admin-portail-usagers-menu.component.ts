@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-admin-portail-usagers-menu",
@@ -8,6 +7,6 @@ import { UserStructure } from "@domifa/common";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminPortailUsagersMenuComponent {
-  @Input() public section: "" | "parametres" | "informations";
-  @Input() public me!: UserStructure;
+  @Input({ required: true }) public section: "" | "parametres" | "informations";
+  @Input({ required: true }) public title!: string;
 }

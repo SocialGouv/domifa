@@ -19,7 +19,8 @@ export const getDecisionDate = (
   }
 
   if (
-    (typeCerfa === "attestation" || typeCerfa === "attestation_future") &&
+    (typeCerfa === CerfaDocType.attestation ||
+      typeCerfa === CerfaDocType.attestation_future) &&
     (usager.decision.statut === "INSTRUCTION" ||
       usager.decision.statut === "ATTENTE_DECISION")
   ) {
@@ -30,7 +31,7 @@ export const getDecisionDate = (
 
     if (
       usager.typeDom === "PREMIERE_DOM" ||
-      typeCerfa === "attestation_future"
+      typeCerfa === CerfaDocType.attestation_future
     ) {
       dateDebut = generateDateForCerfa(new Date());
       dateFin = generateDateForCerfa(subDays(addYears(new Date(), 1), 1));
