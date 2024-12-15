@@ -1,6 +1,10 @@
 <app-admin-portail-usagers-menu
   [section]="section"
-  [me]="me"
+  [title]="
+    section === ''
+      ? 'Présentation du portail Mon DomiFa'
+      : 'Paramètres du portail Mon DomiFa'
+  "
 ></app-admin-portail-usagers-menu>
 
 <app-landing-page-portail
