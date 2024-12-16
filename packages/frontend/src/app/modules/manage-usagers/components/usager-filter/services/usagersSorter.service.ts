@@ -43,21 +43,19 @@ function sortBy(
   });
 }
 
-function sortUsagersByCustomRef(
+export function sortUsagersByCustomRef(
   usagers: UsagerLight[],
   asc: boolean
 ): UsagerLight[] {
   return sortMultiple(usagers, asc, (usager) => {
-    const customRef = usager.customRef?.trim() || "";
+    const customRef = usager.customRef?.trim() || `${usager.ref}`;
     const isInteger = /^\d+$/.test(customRef);
 
     return [
       isInteger ? 0 : 1,
-      isInteger
-        ? parseInt(customRef, 10)
-        : (customRef || usager.ref.toString()).toLowerCase(),
-      (usager.nom || "").toLowerCase(),
-      (usager.prenom || "").toLowerCase(),
+      isInteger ? parseInt(customRef, 10) : customRef.toLowerCase(),
+      usager.nom.toLowerCase(),
+      usager.prenom.toLowerCase(),
     ];
   });
 }
