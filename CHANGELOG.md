@@ -1,3 +1,11 @@
+## [2.188.1](https://github.com/SocialGouv/domifa/compare/v2.188.0...v2.188.1) (2024-12-17)
+
+
+### Bug Fixes
+
+* **admin:** fix admin test & build ([0c1fc37](https://github.com/SocialGouv/domifa/commit/0c1fc372280d9f51b270867006cbc299ea87c93d))
+* **backend:** fix build & tests ([8fdc818](https://github.com/SocialGouv/domifa/commit/8fdc8187dd51e6cf58cd3d1da2a99861b2d5e7db))
+
 # [2.188.0](https://github.com/SocialGouv/domifa/compare/v2.187.3...v2.188.0) (2024-12-17)
 
 
