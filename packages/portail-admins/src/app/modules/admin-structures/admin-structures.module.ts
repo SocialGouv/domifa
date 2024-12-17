@@ -12,14 +12,13 @@ import { NationalStatsComponent } from "./components/national-stats/national-sta
 import { StatsService } from "./services/stats.service";
 import { AdminStructuresTableComponent } from "./components/admin-structures-table/admin-structures-table.component";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
-import { StructureComponent } from "./components/structure/structure.component";
+import { SortArrayPipe } from "../shared/pipes/sort-array.pipe";
 
 @NgModule({
   declarations: [
     AdminStructuresListComponent,
     AdminStructuresTableComponent,
     NationalStatsComponent,
-    StructureComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +29,7 @@ import { StructureComponent } from "./components/structure/structure.component";
     FormsModule,
     ReactiveFormsModule,
     TableHeadSortComponent,
+    SortArrayPipe,
   ],
   providers: [StatsService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
