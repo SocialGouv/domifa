@@ -120,16 +120,9 @@ async function createStructure(structureDto: StructureDto) {
     },
   };
 
-  let address = createdStructure.adresse;
-  let position: Point | null = await getLocation(
-    address,
-    createdStructure.codePostal
+  const position: Point | null = await getLocation(
+    `${createdStructure.adresse}, ${createdStructure.ville} ${createdStructure.codePostal}`
   );
-
-  if (!position) {
-    address = `${createdStructure.adresse}, ${createdStructure.ville}`;
-    position = await getLocation(address);
-  }
 
   if (position) {
     createdStructure.longitude = position.coordinates[0];

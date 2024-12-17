@@ -2,17 +2,17 @@ import {
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
 } from "@domifa/common";
-import { getStructureType } from "./functions";
+import { getStructureType } from "../../functions";
 import axios from "axios";
-import { domifaConfig } from "../../config";
-import { openDataPlaceRepository } from "../../database";
-import { OpenDataPlaceTable } from "../../database/entities/open-data-place";
-import { cleanAddress, cleanCity, appLogger } from "../../util";
+import { domifaConfig } from "../../../../config";
+import { openDataPlaceRepository } from "../../../../database";
+import { OpenDataPlaceTable } from "../../../../database/entities/open-data-place";
+import { cleanAddress, cleanCity, appLogger } from "../../../../util";
 import {
   DataInclusionPlace,
   DataInclusionResults,
   OpenDataPlace,
-} from "./interfaces";
+} from "../../interfaces";
 
 let page = 1;
 let nbResults = 0;

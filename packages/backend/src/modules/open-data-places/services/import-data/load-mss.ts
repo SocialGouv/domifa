@@ -3,13 +3,13 @@ import {
   getRegionCodeFromDepartement,
 } from "@domifa/common";
 import axios from "axios";
-import { domifaConfig } from "../../config";
-import { openDataPlaceRepository } from "../../database";
-import { OpenDataPlaceTable } from "../../database/entities/open-data-place";
-import { getLocation } from "../../structures/services/location.service";
-import { appLogger, cleanAddress, cleanCity } from "../../util";
-import { getStructureType } from "./functions";
-import { MssPlace, OpenDataPlace } from "./interfaces";
+import { domifaConfig } from "../../../../config";
+import { openDataPlaceRepository } from "../../../../database";
+import { OpenDataPlaceTable } from "../../../../database/entities/open-data-place";
+import { getLocation } from "../../../../structures/services/location.service";
+import { appLogger, cleanAddress, cleanCity } from "../../../../util";
+import { getStructureType } from "../../functions";
+import { MssPlace, OpenDataPlace } from "../../interfaces";
 
 const getFromMss = async () => {
   let newPlaces = 0;
@@ -24,17 +24,36 @@ const getFromMss = async () => {
       }
     );
 
-    for await (const place of response.data) {
-      const postalCode = place.zipcode.replace(/\W/g, "");
-      const address = `${place.address}, ${postalCode}`;
-      const position = await getLocation(address);
+    appLogger.info(`${response.data.length} places to import... `);
 
-      if (!position) {
-        appLogger.warn(`Adresse not found ${address}`);
+    for await (const place of response.data) {
+      if (!place.name) {
         continue;
       }
 
+      const postalCode = place.zipcode.replace(/\W/g, "");
+      const address = `${place.address}, ${place?.city} ${postalCode}`;
+      const position = await getLocation(address);
+
+      if (!position) {
+        appLogger.warn(`Address not found ${address}`);
+        continue;
+      }
+
+      try {
+        const departement = getDepartementFromCodePostal(postalCode);
+        getRegionCodeFromDepartement(departement);
+      } catch (err) {
+        appLogger.warn(
+          `[LoadMss] error validating postal code "${postalCode}"`
+        );
+        continue;
+      }
+
+      const mssId = place.id.toString();
+
       const departement = getDepartementFromCodePostal(postalCode);
+
       const openDataPlace: Partial<OpenDataPlace> = {
         nom: place.name,
         adresse: cleanAddress(place?.address),
@@ -47,63 +66,54 @@ const getFromMss = async () => {
         longitude: position.coordinates[0],
         source: "mss",
         mail: null,
+        uniqueId: mssId,
+        mssId,
       };
 
       let mssPlace = await openDataPlaceRepository.findOneBy({
         source: "mss",
-        uniqueId: place.id.toString(),
+        uniqueId: mssId,
       });
+
+      const placeExist: OpenDataPlace =
+        await openDataPlaceRepository.findExistingPlace(
+          openDataPlace.latitude,
+          openDataPlace.longitude
+        );
+
+      if (placeExist) {
+        openDataPlace.domifaStructureId = placeExist.domifaStructureId;
+        openDataPlace.software = "domifa";
+
+        await openDataPlaceRepository.update(
+          { domifaStructureId: placeExist.domifaStructureId, source: "domifa" },
+          { mssId: openDataPlace.mssId }
+        );
+      }
 
       if (!mssPlace) {
         newPlaces++;
-
         mssPlace = await openDataPlaceRepository.save(
           new OpenDataPlaceTable({
             ...openDataPlace,
-            uniqueId: place.id.toString(),
-            mssId: place.id,
-            software: "mss",
           })
         );
       } else {
         updatedPlaces++;
         await openDataPlaceRepository.update(
-          {
-            source: "mss",
-            uniqueId: mssPlace.mssId.toString(),
-          },
-          {
-            ...openDataPlace,
-          }
-        );
-      }
-
-      const placeExist: OpenDataPlace =
-        await openDataPlaceRepository.findExistingPlace(
-          mssPlace.latitude,
-          mssPlace.longitude
-        );
-
-      if (placeExist) {
-        await openDataPlaceRepository.update(
           { uuid: mssPlace.uuid },
-          {
-            domifaStructureId: placeExist.domifaStructureId,
-            software: "domifa",
-          }
-        );
-
-        await openDataPlaceRepository.update(
-          { domifaStructureId: placeExist.domifaStructureId },
-          { mssId: mssPlace.mssId }
+          { ...openDataPlace }
         );
       }
     }
+
+    appLogger.info("✅ Import 'Mon suivi social' data done");
+    appLogger.info(`🆕 ${newPlaces}/${response.data.length} places added`);
     appLogger.info(
-      `${updatedPlaces} places updated / ${newPlaces} places imported`
+      `🔁 ${updatedPlaces}/${response.data.length} places updated `
     );
-    appLogger.info("Import 'Mon suivi social' data done ✅");
   } catch (e) {
+    console.log(e);
     appLogger.error(
       "[IMPORT] Something happen during 'Mon suivi social' import",
       e

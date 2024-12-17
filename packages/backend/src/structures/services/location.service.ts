@@ -2,41 +2,67 @@ import axios from "axios";
 import { FeatureCollection, Point } from "geojson";
 import { appLogger, formatAddressForURL } from "../../util";
 
-export interface BanAddress {
-  label: string;
-  score: number;
-  housenumber: string;
+export interface FrenchAddress {
   id: string;
-  name: string;
+  score: number;
+  housenumber?: string;
+  name?: string;
   postcode: string;
   citycode: string;
+  city: string;
+  district?: string;
+  oldcitycode?: string;
+  oldcity?: string;
+  context: string;
+  label: string;
   x: number;
   y: number;
-  city: string;
-  district: string;
-  context: string;
-  type: string;
   importance: number;
-  street: string;
 }
 
-export const getLocation = async (
-  address: string,
-  postCode?: string
-): Promise<Point | null> => {
-  try {
-    const apiUrl = "https://api-adresse.data.gouv.fr/search/";
-    let params: {
-      q: string;
-      postcode?: string;
-      type: string;
-    } = { q: formatAddressForURL(address), type: "street" };
+export type FrenchApiAddressResponse = FeatureCollection<Point, FrenchAddress>;
 
-    if (postCode) {
-      params = { ...params, postcode: postCode };
+export interface FrenchPoi {
+  id: string;
+  score: number;
+  type?: string;
+  toponym: string;
+  name: string[];
+  postcode: string[];
+  citycode: string[];
+  city: string[];
+  extrafields?: {
+    population: string;
+    status?: string;
+    codes_insee_des_communes_membres: string[];
+  };
+}
+
+export type FrenchApiPoiResponse = FeatureCollection<
+  Point,
+  FrenchPoi & FrenchAddress
+>;
+
+export const getLocation = async (address: string): Promise<Point | null> => {
+  try {
+    const apiUrl = "https://data.geopf.fr/geocodage/search";
+
+    const params: {
+      q: string;
+      limit: number;
+      index: string;
+    } = {
+      q: formatAddressForURL(address),
+      limit: 1,
+      index: "poi,address",
+    };
+
+    if (params.q?.length < 3) {
+      // French api needs 3 characters
+      return null;
     }
 
-    const response = await axios.get<FeatureCollection<Point, BanAddress>>(
+    const response = await axios.get<FeatureCollection<Point, FrenchAddress>>(
       apiUrl,
       {
         params,
@@ -49,6 +75,7 @@ export const getLocation = async (
       );
       return null;
     }
+
     return response.data.features[0].geometry;
   } catch (error) {
     appLogger.warn(

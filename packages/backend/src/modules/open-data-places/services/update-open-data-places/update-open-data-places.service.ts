@@ -2,9 +2,9 @@ import { Injectable, OnModuleInit } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import { domifaConfig } from "../../../../config";
 import { isCronEnabled } from "../../../../config/services/isCronEnabled.service";
-import { loadDomifaData } from "../../load-domifa";
-import { loadMssData } from "../../load-mss";
-import { loadSoliguideData } from "../../load-soliguide";
+import { loadDomifaData } from "../import-data/load-domifa";
+import { loadMssData } from "../import-data/load-mss";
+import { loadSoliguideData } from "../import-data/load-soliguide";
 
 @Injectable()
 export class UpdateOpenDataPlacesService implements OnModuleInit {
@@ -14,7 +14,7 @@ export class UpdateOpenDataPlacesService implements OnModuleInit {
     }
   }
 
-  @Cron("0 06 * * 2", {
+  @Cron("0 6 * * *", {
     timeZone: "Europe/Paris",
     disabled: domifaConfig().envId !== "prod" && !isCronEnabled(),
   })
