@@ -206,7 +206,6 @@ async function createTables(queryRunner: QueryRunner) {
       "timeZone" text NULL,
       telephone jsonb DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb NOT NULL,
       "acceptTerms" timestamptz NULL,
-      "filesUpdated" bool DEFAULT false NOT NULL,
       latitude float8 NULL,
       longitude float8 NULL,
       "organismeType" text NULL,

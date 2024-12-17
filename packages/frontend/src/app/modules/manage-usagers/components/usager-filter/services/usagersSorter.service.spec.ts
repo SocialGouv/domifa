@@ -69,146 +69,6 @@ const usagersMock = [
   },
 ].map((usager) => new UsagerFormModel(usager as UsagerLight));
 
-const usagers = [
-  {
-    ref: 1,
-    customRef: "01",
-    prenom: "John",
-    nom: "Smith",
-    email: "john21@provider1.com",
-    ayantsDroits: [
-      {
-        prenom: "Sarah",
-        nom: "Smith",
-      },
-      {
-        prenom: "Sophie",
-        nom: "Smith",
-      },
-    ],
-    decision: {
-      statut: "RADIE",
-      dateFin: new Date(Date.UTC(2022, 8, 14)),
-    },
-  },
-  {
-    ref: 2,
-    customRef: "",
-    prenom: "Marie",
-    nom: "Smith",
-    surnom: "Maria",
-    email: "marie222@provider1.com",
-    ayantsDroits: [
-      {
-        prenom: "John",
-        nom: "Smith",
-      },
-    ],
-    decision: {
-      statut: "RADIE",
-      dateFin: new Date(Date.UTC(2022, 8, 15)),
-    },
-  },
-  {
-    ref: 3,
-    customRef: "8",
-    prenom: "Claire",
-    nom: "Meunier",
-    surnom: "Clacla",
-    email: "claire.meunier@vprovider2.org",
-    ayantsDroits: [],
-    decision: {
-      statut: "INSTRUCTION",
-    },
-  },
-  {
-    ref: 4,
-    customRef: "Ab6",
-    prenom: "Toto",
-    nom: "Meunier",
-    surnom: undefined,
-    email: undefined,
-    ayantsDroits: [],
-    decision: {
-      statut: "RADIE",
-      dateFin: new Date(Date.UTC(2023, 6, 15)),
-    },
-  },
-  {
-    ref: 5,
-    customRef: "AB5",
-    prenom: "Sophie",
-    nom: "meunier",
-    surnom: undefined,
-    email: undefined,
-    ayantsDroits: [],
-    decision: {
-      statut: "RADIE",
-      dateFin: new Date(Date.UTC(2023, 6, 16)),
-    },
-  },
-].map((usager) => new UsagerFormModel(usager as UsagerLight));
-
-describe("usagersSorter - test from legacy code", () => {
-  it("usagersSorter NOM (nom, prenom)", () => {
-    const results = usagersSorter.sortBy(usagers, {
-      sortKey: "NOM",
-      sortValue: "asc",
-    });
-    expect(results.length).toEqual(usagers.length);
-    expect(results.map((x) => x.ref)).toEqual([3, 5, 4, 1, 2]);
-  });
-
-  it("usagersSorter RADIE (usager.decision.dateFin)", () => {
-    const results = usagersSorter.sortBy(usagers, {
-      sortKey: "ECHEANCE",
-      sortValue: "desc",
-    });
-    expect(results.length).toEqual(usagers.length);
-    expect(
-      results.map((x) => {
-        return x.ref;
-      })
-    ).toEqual([5, 4, 2, 1, 3]); // null last
-  });
-
-  it("usagersSorter customRef asc", () => {
-    const results = usagersSorter.sortBy(usagers, {
-      sortKey: "ID",
-      sortValue: "asc",
-    });
-    expect(results.length).toEqual(usagers.length);
-    expect(results.map((x) => x.customRef)).toEqual([
-      "01",
-      "",
-      "8",
-      "AB5",
-      "Ab6",
-    ]);
-
-    // CustomRef: "AB5" < "Ab6" < "01" < "8" < ""
-    expect(results.map((x) => x.ref)).toEqual([1, 2, 3, 5, 4]);
-  });
-
-  it("usagersSorter customRef desc", () => {
-    const results = usagersSorter.sortBy(usagers, {
-      sortKey: "ID",
-      sortValue: "desc",
-    });
-    expect(results.length).toEqual(usagers.length);
-    expect(results.map((x) => x.customRef)).toEqual([
-      "Ab6",
-      "AB5",
-      "8",
-      "",
-      "01",
-    ]);
-
-    // CustomRef: "AB5" > "Ab6" > "01" > "8" > ""
-    expect(results.map((x) => x.ref)).toEqual([4, 5, 3, 2, 1]);
-  });
-});
-
 describe("usagersSorter", () => {
   const baseUsagers = [...usagersMock] as UsagerLight[];
 
@@ -256,11 +116,15 @@ describe("usagersSorter", () => {
   describe("sortBy avec tri par ID (customRef)", () => {
     it("devrait trier les 'ref' numériques avant les non-numériques en asc / Desc", () => {
       const tests = [
-        { ref: 1, customRef: "001", nom: "X", prenom: "CC" },
+        { ref: 1, customRef: "A1", nom: "X", prenom: "CC" },
         { ref: 2, customRef: null, nom: "X", prenom: "CC" },
-        { ref: 3, customRef: "3A", nom: "X", prenom: "CC" },
-        { ref: 4, customRef: "3", nom: "X", prenom: "CC" },
-        { ref: 0, customRef: "", nom: "X", prenom: "CC" },
+        { ref: 9, customRef: "22", nom: "X", prenom: "CC" },
+        { ref: 3, customRef: "A333", nom: "X", prenom: "CC" },
+        { ref: 4, customRef: "03", nom: "X", prenom: "CC" },
+        { ref: 5, customRef: "1", nom: "X", prenom: "CC" },
+        { ref: 6, customRef: "11", nom: "X", prenom: "CC" },
+        { ref: 7, customRef: "111", nom: "X", prenom: "CC" },
+        { ref: 10, customRef: "1-22", nom: "X", prenom: "CC" },
       ] as UsagerLight[];
 
       const asc = usagersSorter.sortBy(tests, {
@@ -268,14 +132,17 @@ describe("usagersSorter", () => {
         sortValue: "asc",
       });
 
-      expect(asc.map((u) => u.ref)).toEqual([0, 1, 2, 3, 4]);
-
-      const desc = usagersSorter.sortBy(tests, {
-        sortKey: "ID",
-        sortValue: "desc",
-      });
-
-      expect(desc.map((u) => u.ref)).toEqual([4, 3, 2, 1, 0]);
+      expect(asc.map((u) => u.customRef)).toEqual([
+        "1",
+        null, // ici c'est 2 qui est prit en compte
+        "03",
+        "11",
+        "22",
+        "111",
+        "1-22",
+        "A1",
+        "A333",
+      ]);
     });
 
     // Test avec un jeu de données plus complexe

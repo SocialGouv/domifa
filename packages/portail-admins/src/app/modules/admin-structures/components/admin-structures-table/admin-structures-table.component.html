@@ -122,7 +122,7 @@
         <td>{{ i + 1 }}</td>
         <td class="fw-bold">{{ structure.id }}</td>
         <td>
-          {{ structure.nom }}
+          <a [routerLink]="['/structure', structure.id]">{{ structure.nom }}</a>
           {{
             structure.structureType === "ccas" ? " - " + structure.ville : ""
           }}

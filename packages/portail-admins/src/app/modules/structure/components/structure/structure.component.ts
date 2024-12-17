@@ -1,10 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { AdminStructuresApiClient } from "../../../shared/services";
 import { Title } from "@angular/platform-browser";
-import { Structure } from "@domifa/common";
+import { StructureCommon } from "@domifa/common";
 import { Subscription } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
-import { isUUID } from "class-validator";
+import { StructureService } from "../../services/structure.service";
 
 @Component({
   selector: "app-structure",
@@ -15,31 +14,33 @@ import { isUUID } from "class-validator";
 export class StructureComponent implements OnInit {
   private subscription = new Subscription();
   public searching = true;
-  public structure: Structure;
-  public structureUuid: string;
+  public structure: StructureCommon;
+  public structureId: number;
+
+  public section: "structure" | "users" | "stats" = "structure";
+
   constructor(
-    private readonly adminStructuresApiClient: AdminStructuresApiClient,
+    private readonly structureService: StructureService,
     private readonly titleService: Title,
     private readonly route: ActivatedRoute,
     private readonly router: Router
   ) {
     this.titleService.setTitle("Administration de la structure");
-
-    if (isUUID(this.route.snapshot.params.structureUuid)) {
-      this.structureUuid = this.route.snapshot.params.structureUuid;
-    } else {
-      this.router.navigate(["404"]);
-    }
+    this.structureId = this.route.snapshot.params.structureId as number;
   }
 
   ngOnInit(): void {
     this.subscription.add(
-      this.adminStructuresApiClient
-        .getStructure(this.structureUuid)
-        .subscribe((structure) => {
+      this.structureService.getStructure(this.structureId).subscribe({
+        next: (structure) => {
           this.structure = structure;
           this.searching = false;
-        })
+        },
+        error: () => {
+          this.searching = false;
+          this.router.navigate(["/404"]);
+        },
+      })
     );
   }
 }

@@ -7,15 +7,20 @@ import {
   Res,
   UseGuards,
   Param,
+  ParseIntPipe,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
-import { AllowUserProfiles } from "../../../../auth/decorators";
-import { AppUserGuard } from "../../../../auth/guards";
+import {
+  AllowUserProfiles,
+  CurrentStructure,
+} from "../../../../auth/decorators";
+import { AppUserGuard, StructureAccessGuard } from "../../../../auth/guards";
 import {
   userStructureRepository,
   structureRepository,
+  userStructureSecurityRepository,
 } from "../../../../database";
 import { statsDeploiementExporter } from "../../../../excel/export-stats-deploiement";
 
@@ -111,39 +116,48 @@ export class AdminStructuresController {
   }
 
   @Get("structure/:structureId")
+  @UseGuards(StructureAccessGuard)
   @AllowUserProfiles("super-admin-domifa")
   public async getStructure(
     @CurrentUser() _user: UserAdminAuthenticated,
-    @Param("structureId") structureId: number
+    @CurrentStructure() structure: Structure,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @Param("structureId") _structureId: number
   ): Promise<Structure> {
     return await structureRepository.findOneOrFail({
-      where: { id: structureId },
+      where: { id: structure.id },
     });
   }
 
   @Get("structure/:structureId/users")
+  @UseGuards(StructureAccessGuard)
   @AllowUserProfiles("super-admin-domifa")
   public async getUsers(
     @CurrentUser() _user: UserAdminAuthenticated,
-    @Param("structureId") structureId: number
+    @CurrentStructure() structure: Structure,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @Param("structureId", new ParseIntPipe()) _structureId: number
   ): Promise<Array<UserStructureWithSecurity>> {
-    return (await userStructureRepository
-      .createQueryBuilder("u")
-      .leftJoinAndSelect("user_structure_security", "uss", "u.id = uss.user_id")
-      .select([
-        "u.nom",
-        "u.prenom",
-        "u.mail",
-        "u.role",
-        "u.lastLogin",
-        "u.id",
-        "u.uuid",
-        "u.createdAt",
-        "uss.temporaryTokens",
-        "uss.eventsHistory",
-      ])
-      .where({ structureId })
-      .getMany()) as unknown as UserStructureWithSecurity[];
+    return (await userStructureSecurityRepository.query(
+      `
+        SELECT
+        user_structure.nom,
+        user_structure.id,
+        user_structure.prenom,
+        user_structure.email,
+        user_structure.role,
+        user_structure."lastLogin",
+        user_structure."createdAt",
+        user_structure.uuid,
+        uss."temporaryTokens",
+        uss."eventsHistory"
+        FROM user_structure_security uss
+        INNER JOIN user_structure
+        ON user_structure.id = uss."userId"
+        WHERE uss."structureId" = $1
+`,
+      [structure.id]
+    )) as unknown as UserStructureWithSecurity[];
   }
 
   @AllowUserProfiles("super-admin-domifa")

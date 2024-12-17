@@ -47,21 +47,28 @@ export function sortUsagersByCustomRef(
   usagers: UsagerLight[],
   asc: boolean
 ): UsagerLight[] {
-  return sortMultiple(usagers, asc, (usager) => {
-    const customRef = usager.customRef?.trim() || String(usager.ref);
+  return usagers.sort((a, b) => {
+    const refA = a.customRef?.trim() || String(a.ref);
+    const refB = b.customRef?.trim() || String(b.ref);
 
-    const parts = customRef.split(/(\d+)/).filter(Boolean);
+    // Détecter si les références sont purement numériques
+    const isNumericA = /^\d+$/.test(refA);
+    const isNumericB = /^\d+$/.test(refB);
 
-    const sortValues = parts.map((part) => {
-      const isNum = /^\d+$/.test(part);
-      return isNum ? parseInt(part, 10) : String(part).toLowerCase().trim();
-    });
+    // Si les deux sont numériques, comparer comme des nombres
+    if (isNumericA && isNumericB) {
+      const numA = parseInt(refA);
+      const numB = parseInt(refB);
+      return asc ? numA - numB : numB - numA;
+    }
 
-    return [
-      !/^\d/.test(customRef) ? 1 : 0,
-      ...sortValues,
-      usager.nom.toLowerCase(),
-      usager.prenom.toLowerCase(),
-    ];
+    // Si un seul est numérique, le mettre en premier
+    if (isNumericA !== isNumericB) {
+      return asc ? (isNumericA ? -1 : 1) : isNumericA ? 1 : -1;
+    }
+
+    // Sinon, tri alphabétique standard
+    const comparison = refA.localeCompare(refB);
+    return asc ? comparison : -comparison;
   });
 }

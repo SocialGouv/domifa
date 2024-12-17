@@ -39,6 +39,7 @@ export class StatsService {
       params
     );
   }
+
   public getLastUpdateOfStats(): Observable<Date> {
     return this.http.get<Date>(`${BASE_URL}/last-update`);
   }

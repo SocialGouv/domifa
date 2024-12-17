@@ -79,9 +79,6 @@ export class StructureTable
   @Column({ type: "bool", default: false })
   import: boolean;
 
-  @Column({ type: "bool", default: false })
-  filesUpdated: boolean;
-
   @Column({ type: "timestamptz", nullable: false })
   registrationDate: Date;
 

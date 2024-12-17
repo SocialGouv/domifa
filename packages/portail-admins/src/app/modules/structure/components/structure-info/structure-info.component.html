@@ -1,0 +1,43 @@
+<div class="row pb-5">
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-12">
+        <h2>Informations</h2>
+      </div>
+
+      <div class="col-6 my-1 align-self-center">
+        <p class="my-1"><b>Nom : </b>{{ structure.nom }}</p>
+        <p class="my-1">
+          <b>Type de structure :</b> {{ structure.structureType }}
+        </p>
+        <p class="my-1"><b>Département :</b> {{ structure.departement }}</p>
+
+        <p class="my-1">
+          <b>Adresse : </b>
+        </p>
+        <ul>
+          <li>{{ structure.adresse }}</li>
+          <li>{{ structure.codePostal }}, {{ structure.ville }}</li>
+        </ul>
+        <p></p>
+        <p class="my-1">
+          <b> Coordonnées de la structure: </b>
+        </p>
+        <ul>
+          <li>{{ structure.email }}</li>
+          <li>{{ structure.telephone }}</li>
+        </ul>
+
+        <p class="my-1">
+          <b>Responsable de la structure: </b>
+        </p>
+        <ul>
+          <li>
+            {{ structure.responsable.nom }} {{ structure.responsable.prenom }}
+          </li>
+          <li>{{ structure.responsable.fonction }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
