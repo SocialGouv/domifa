@@ -1,3 +1,10 @@
+## [2.188.2](https://github.com/SocialGouv/domifa/compare/v2.188.1...v2.188.2) (2024-12-17)
+
+
+### Bug Fixes
+
+* **frontend:** fix sort of ids ([12ef250](https://github.com/SocialGouv/domifa/commit/12ef25054fefdadc5018647f786df7159e4265f6))
+
 ## [2.188.1](https://github.com/SocialGouv/domifa/compare/v2.188.0...v2.188.1) (2024-12-17)
 
 
