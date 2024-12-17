@@ -54,7 +54,7 @@ async function sendMail({
     meta: { "lien de ré-initialisation": lien },
   };
 
-  messageEmailSender.sendMessageLater(messageContent, {
+  await messageEmailSender.sendMessageLater(messageContent, {
     messageEmailId,
   });
 }

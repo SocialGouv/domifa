@@ -94,7 +94,11 @@
       </p>
     </div>
 
-    <form #form [formGroup]="uploadForm" (ngSubmit)="submitFile('confirm')">
+    <form
+      #form
+      [formGroup]="uploadForm"
+      (ngSubmit)="submitFile(UsagersImportMode.confirm)"
+    >
       <div>
         <input
           type="hidden"

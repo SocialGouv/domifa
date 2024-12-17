@@ -51,6 +51,7 @@ export class ImportComponent implements OnInit, OnDestroy {
 
   public previewTable?: ImportPreviewTable;
   public visibleRows: ImportPreviewRow[];
+  public readonly UsagersImportMode = UsagersImportMode;
   public readonly COL = USAGERS_IMPORT_COLUMNS;
   public readonly USAGERS_IMPORT_COLUMNS_AYANT_DROIT =
     USAGERS_IMPORT_COLUMNS_AYANT_DROIT;

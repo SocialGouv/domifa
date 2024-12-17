@@ -66,6 +66,7 @@ export const getLocation = async (address: string): Promise<Point | null> => {
       apiUrl,
       {
         params,
+        timeout: 4000,
       }
     );
 

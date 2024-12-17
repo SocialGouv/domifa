@@ -28,6 +28,8 @@ export class ManageDownloadDocsComponent implements OnDestroy {
 
   public me!: UserStructure | null;
   @Input() public usager!: UsagerFormModel;
+  public readonly CerfaDocType = CerfaDocType;
+  public readonly StructureDocTypesAvailable = StructureDocTypesAvailable;
 
   constructor(
     private readonly documentService: DocumentService,

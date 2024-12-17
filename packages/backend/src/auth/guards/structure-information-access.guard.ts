@@ -19,7 +19,7 @@ export class StructureInformationAccessGuard implements CanActivate {
       typeof r.user.structureId === "undefined"
     ) {
       appLogger.error(
-        `[StructureInformationAccessGuard] invalid uuid or structureId`,
+        "[StructureInformationAccessGuard] invalid uuid or structureId",
         {
           sentry: true,
           context: {
@@ -49,7 +49,7 @@ export class StructureInformationAccessGuard implements CanActivate {
       r.structureInformation = structureInformation;
       return r;
     } catch (e) {
-      appLogger.error(`[UsagerAccessGuard] structureInformation not found`, {
+      appLogger.error("[UsagerAccessGuard] structureInformation not found", {
         sentry: true,
         context: {
           uuid,

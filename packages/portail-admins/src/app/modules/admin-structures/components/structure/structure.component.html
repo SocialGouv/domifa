@@ -1,0 +1,28 @@
+<div class="head-page pt-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9 col-12">
+        <h1 class="title">
+          {{ structure.nom }}
+        </h1>
+      </div>
+    </div>
+
+    <nav id="statut-selector" class="mt-4 row d-print-none">
+      <a [routerLink]="['/structures', structure.id]" class="col">
+        Structure
+      </a>
+      <a [routerLink]="['/structures', structure.id, 'users']" class="col">
+        Utilisateurs
+      </a>
+      <a [routerLink]="['/structures', structure.id, 'activity']" class="col">
+        Activité
+      </a>
+    </nav>
+  </div>
+</div>
+<div class="content">
+  <div class="page-content p-4">
+    <div class="container"></div>
+  </div>
+</div>

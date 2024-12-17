@@ -20,14 +20,14 @@
     <button
       ngbDropdownItem
       type="button"
-      (click)="getCerfa(usager.ref, 'demande')"
+      (click)="getCerfa(usager.ref, CerfaDocType.demande)"
     >
       Télécharger le Cerfa d'attestation de demande
     </button>
     <button
       ngbDropdownItem
       type="button"
-      (click)="getCerfa(usager.ref, 'attestation')"
+      (click)="getCerfa(usager.ref, CerfaDocType.attestation)"
       *ngIf="
         usager.decision.statut !== 'REFUS' && usager.decision.statut !== 'RADIE'
       "
@@ -40,7 +40,12 @@
       "
       ngbDropdownItem
       type="button"
-      (click)="getDomifaCustomDoc(usager.ref, 'courrier_radiation')"
+      (click)="
+        getDomifaCustomDoc(
+          usager.ref,
+          StructureDocTypesAvailable.courrier_radiation
+        )
+      "
     >
       Télécharger le courrier de radiation
     </button>
@@ -48,7 +53,12 @@
       *ngIf="usager.decision.statut === 'VALIDE'"
       ngbDropdownItem
       type="button"
-      (click)="getDomifaCustomDoc(usager.ref, 'attestation_postale')"
+      (click)="
+        getDomifaCustomDoc(
+          usager.ref,
+          StructureDocTypesAvailable.attestation_postale
+        )
+      "
     >
       Télécharger l'attestation postale
     </button>
