@@ -93,6 +93,7 @@ function match<T>(
       score: 0,
     };
   }
+
   if (withScore) {
     return words.reduce(
       ({ match, score }, word) => {
@@ -103,7 +104,7 @@ function match<T>(
         });
         return {
           match: match && matchWordResult.match,
-          score: score + matchWordResult.score, // si un mot a matché, on calcul quand même un score, ça pourrait permettre de retourner des résultats même si aucun match
+          score: score + matchWordResult.score,
         };
       },
       { match: true, score: 0 } as MatchWithScoreResults
@@ -119,17 +120,10 @@ function match<T>(
     });
 
     const matchAllWords = firstNonMatchingWord === undefined;
-    if (matchAllWords) {
-      return {
-        match: true,
-        score: 1,
-      };
-    } else {
-      return {
-        match: false,
-        score: 0,
-      };
-    }
+    return {
+      match: matchAllWords,
+      score: matchAllWords ? 1 : 0,
+    };
   }
 }
 

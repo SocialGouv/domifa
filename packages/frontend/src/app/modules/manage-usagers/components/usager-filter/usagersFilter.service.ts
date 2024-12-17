@@ -8,6 +8,7 @@ import {
   usagerStatutChecker,
 } from "./services";
 import { UsagersFilterCriteria } from "./UsagersFilterCriteria";
+import { isValid, parse } from "date-fns";
 
 export const usagersFilter = {
   filter,
@@ -34,15 +35,28 @@ function filterByCriteria(
     return filterByEntretien(usagers, criteria.entretien, now);
   }
 
-  const words = criteria.searchString ? buildWords(criteria.searchString) : [];
-  const needsTextSearch = words.length > 0;
-
   // Si pas de filtres ni de recherche textuelle après le traitement entretien
-  if (!needsTextSearch && !hasAnyCriteria(criteria)) {
+  const activeFilters = buildActiveFilters(criteria);
+  if (!criteria.searchString && !activeFilters.length) {
     return usagers;
   }
 
-  const activeFilters = buildActiveFilters(criteria);
+  let words = [];
+
+  if (criteria.searchString) {
+    if (criteria.searchStringField === "DATE_NAISSANCE") {
+      const parsedDate = parse(
+        criteria.searchString.trim(),
+        "dd/MM/yyyy",
+        new Date()
+      );
+      if (isValid(parsedDate)) {
+        words.push(criteria.searchString);
+      }
+    } else {
+      words = buildWords(criteria.searchString);
+    }
+  }
 
   return usagers.filter((usager) => {
     if (
@@ -52,11 +66,15 @@ function filterByCriteria(
       return false;
     }
 
-    // Si pas de recherche textuelle, on a notre réponse
-    if (!needsTextSearch) {
+    if (words.length === 0) {
       return true;
     }
+
     const attributes = getAttributes(usager, criteria);
+
+    if (criteria.searchStringField === "DATE_NAISSANCE") {
+      return attributes.includes(criteria.searchString);
+    }
 
     return search.match(usager, {
       index: 0,
@@ -101,16 +119,6 @@ function buildActiveFilters(criteria: UsagersFilterCriteria) {
     );
   }
   return activeFilters;
-}
-
-function hasAnyCriteria(criteria: UsagersFilterCriteria): boolean {
-  return !!(
-    criteria.statut ||
-    criteria.interactionType ||
-    criteria.echeance ||
-    criteria.lastInteractionDate ||
-    criteria.entretien
-  );
 }
 
 function filterByEntretien(

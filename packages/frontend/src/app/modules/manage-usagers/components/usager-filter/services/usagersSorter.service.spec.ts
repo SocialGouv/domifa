@@ -55,7 +55,20 @@ const usagersMock = [
       procurations: [],
     },
   },
+  {
+    ref: 4,
+    prenom: "Toto",
+    nom: "Mariec",
+    surnom: "Clacla",
+    email: "",
+    customRef: "3A",
+    ayantsDroits: [],
+    options: {
+      procurations: [],
+    },
+  },
 ].map((usager) => new UsagerFormModel(usager as UsagerLight));
+
 const usagers = [
   {
     ref: 1,
@@ -80,7 +93,7 @@ const usagers = [
   },
   {
     ref: 2,
-    customRef: "50",
+    customRef: "",
     prenom: "Marie",
     nom: "Smith",
     surnom: "Maria",
@@ -167,11 +180,14 @@ describe("usagersSorter - test from legacy code", () => {
     expect(results.length).toEqual(usagers.length);
     expect(results.map((x) => x.customRef)).toEqual([
       "01",
+      "",
       "8",
-      "50",
       "AB5",
       "Ab6",
     ]);
+
+    // CustomRef: "AB5" < "Ab6" < "01" < "8" < ""
+    expect(results.map((x) => x.ref)).toEqual([1, 2, 3, 5, 4]);
   });
 
   it("usagersSorter customRef desc", () => {
@@ -183,10 +199,13 @@ describe("usagersSorter - test from legacy code", () => {
     expect(results.map((x) => x.customRef)).toEqual([
       "Ab6",
       "AB5",
-      "50",
       "8",
+      "",
       "01",
     ]);
+
+    // CustomRef: "AB5" > "Ab6" > "01" > "8" > ""
+    expect(results.map((x) => x.ref)).toEqual([4, 5, 3, 2, 1]);
   });
 });
 
@@ -200,7 +219,12 @@ describe("usagersSorter", () => {
         sortValue: "asc",
       });
 
-      expect(result.map((u) => u.nom)).toEqual(["Meunier", "Smith", "Smith"]);
+      expect(result.map((u) => u.nom)).toEqual([
+        "Mariec",
+        "Meunier",
+        "Smith",
+        "Smith",
+      ]);
     });
 
     it("devrait trier par nom en ordre descendant", () => {
@@ -209,7 +233,12 @@ describe("usagersSorter", () => {
         sortValue: "desc",
       });
 
-      expect(result.map((u) => u.nom)).toEqual(["Smith", "Smith", "Meunier"]);
+      expect(result.map((u) => u.nom)).toEqual([
+        "Smith",
+        "Smith",
+        "Meunier",
+        "Mariec",
+      ]);
     });
 
     it("devrait utiliser le prénom comme second critère de tri", () => {
@@ -225,22 +254,28 @@ describe("usagersSorter", () => {
   });
 
   describe("sortBy avec tri par ID (customRef)", () => {
-    it("devrait trier les 'ref' numériques avant les non-numériques en asc", () => {
-      const result = usagersSorter.sortBy(baseUsagers, {
+    it("devrait trier les 'ref' numériques avant les non-numériques en asc / Desc", () => {
+      const tests = [
+        { ref: 1, customRef: "001", nom: "X", prenom: "CC" },
+        { ref: 2, customRef: null, nom: "X", prenom: "CC" },
+        { ref: 3, customRef: "3A", nom: "X", prenom: "CC" },
+        { ref: 4, customRef: "3", nom: "X", prenom: "CC" },
+        { ref: 0, customRef: "", nom: "X", prenom: "CC" },
+      ] as UsagerLight[];
+
+      const asc = usagersSorter.sortBy(tests, {
         sortKey: "ID",
         sortValue: "asc",
       });
 
-      expect(result.map((u) => u.ref)).toEqual([1, 2, 3]);
-    });
+      expect(asc.map((u) => u.ref)).toEqual([0, 1, 2, 3, 4]);
 
-    it("devrait trier les 'ref' numériques après les non-numériques en desc", () => {
-      const result = usagersSorter.sortBy(baseUsagers, {
+      const desc = usagersSorter.sortBy(tests, {
         sortKey: "ID",
         sortValue: "desc",
       });
 
-      expect(result.map((u) => u.ref)).toEqual([3, 2, 1]);
+      expect(desc.map((u) => u.ref)).toEqual([4, 3, 2, 1, 0]);
     });
 
     // Test avec un jeu de données plus complexe
