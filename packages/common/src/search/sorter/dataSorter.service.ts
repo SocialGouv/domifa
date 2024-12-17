@@ -10,30 +10,24 @@ export const compareAttributes = (
     if (a === null || a === undefined) return -1;
     if (b === null || b === undefined) return 1;
   } else {
-    // En tri descendant, null/undefined descendent en bas
     if (a === null || a === undefined) return 1;
     if (b === null || b === undefined) return -1;
   }
 
-  // Détecter si c'est une date valide
+  // Conversion immédiate en string
+  const strA = a === null || a === undefined ? "" : String(a);
+  const strB = b === null || b === undefined ? "" : String(b);
+
+  // Pour les dates, garder le comportement spécial
   if (isValidDate(a) && isValidDate(b)) {
-    const dateA = new Date(a as string);
-    const dateB = new Date(b as string);
+    const dateA = new Date(strA);
+    const dateB = new Date(strB);
     return asc
       ? dateA.getTime() - dateB.getTime()
       : dateB.getTime() - dateA.getTime();
   }
 
-  // Détecter si c'est un nombre ou une chaîne numérique
-  const numA = typeof a === "string" ? parseFloat(a) : Number(a);
-  const numB = typeof b === "string" ? parseFloat(b) : Number(b);
-  if (!isNaN(numA) && !isNaN(numB)) {
-    return asc ? numA - numB : numB - numA;
-  }
-
-  // Par défaut, comparer comme du texte
-  const strA = String(a);
-  const strB = String(b);
+  // Comparaison simple en string
   return asc ? strA.localeCompare(strB) : strB.localeCompare(strA);
 };
 

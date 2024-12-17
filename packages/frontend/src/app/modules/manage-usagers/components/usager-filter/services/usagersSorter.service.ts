@@ -48,12 +48,15 @@ export function sortUsagersByCustomRef(
   asc: boolean
 ): UsagerLight[] {
   return sortMultiple(usagers, asc, (usager) => {
-    const customRef = usager.customRef?.trim() || `${usager.ref}`;
-    const isInteger = /^\d+$/.test(customRef);
+    const customRef = usager.customRef?.trim() || String(usager.ref);
+    const isNumeric = /^\d+$/.test(customRef);
 
     return [
-      isInteger ? 0 : 1,
-      isInteger ? parseInt(customRef, 10) : customRef.toLowerCase(),
+      isNumeric ? 0 : 1,
+      isNumeric ? customRef.replace(/^0+/, "").length : 0,
+
+      customRef.toLowerCase(),
+
       usager.nom.toLowerCase(),
       usager.prenom.toLowerCase(),
     ];

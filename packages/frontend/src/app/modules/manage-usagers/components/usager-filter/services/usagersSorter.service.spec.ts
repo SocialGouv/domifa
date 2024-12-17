@@ -225,22 +225,22 @@ describe("usagersSorter", () => {
   });
 
   describe("sortBy avec tri par ID (customRef)", () => {
-    it("devrait trier les références numériques avant les non-numériques en asc", () => {
+    it("devrait trier les 'ref' numériques avant les non-numériques en asc", () => {
       const result = usagersSorter.sortBy(baseUsagers, {
         sortKey: "ID",
         sortValue: "asc",
       });
 
-      expect(result.map((u) => u.customRef)).toEqual(["001", "003", ""]);
+      expect(result.map((u) => u.ref)).toEqual([1, 2, 3]);
     });
 
-    it("devrait trier les références numériques après les non-numériques en desc", () => {
+    it("devrait trier les 'ref' numériques après les non-numériques en desc", () => {
       const result = usagersSorter.sortBy(baseUsagers, {
         sortKey: "ID",
         sortValue: "desc",
       });
 
-      expect(result.map((u) => u.customRef)).toEqual(["", "003", "001"]);
+      expect(result.map((u) => u.ref)).toEqual([3, 2, 1]);
     });
 
     // Test avec un jeu de données plus complexe

@@ -31,6 +31,12 @@ describe("dataSorter.sortMultiple", () => {
     score: 5,
     label: "A5",
   };
+  const obj6 = {
+    cat: 1,
+    ref: "1A",
+    score: 5,
+    label: "A5",
+  };
 
   it("Should sort by cat ASC", () => {
     expect(
@@ -53,9 +59,9 @@ describe("dataSorter.sortMultiple", () => {
   });
 
   it("Should sort by ref number or string by ASC", () => {
-    const x = ["1", "1", "2", 3, "10"];
+    const x = ["1", "1", "1A", "2", 3, "10"];
     const expected = sortMultiple(
-      [obj1, obj4, obj2, obj5, obj3],
+      [obj1, obj4, obj2, obj5, obj3, obj6],
       true,
       (item) => [item.ref]
     ).map((item) => item.ref);
