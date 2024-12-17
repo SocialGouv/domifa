@@ -1,3 +1,18 @@
+# [2.188.0](https://github.com/SocialGouv/domifa/compare/v2.187.3...v2.188.0) (2024-12-17)
+
+
+### Bug Fixes
+
+* **backend:** fix update of places from soliguide & mss ([55b54c3](https://github.com/SocialGouv/domifa/commit/55b54c32821683d55251584287bc7ec6a851b620))
+* **frontend:** fix menu mon domifa ([5f3d5c2](https://github.com/SocialGouv/domifa/commit/5f3d5c25e984476c1602e3b9b88cad6b31e0bd50))
+* **frontend:** fix sort of ref ([2aa6fa0](https://github.com/SocialGouv/domifa/commit/2aa6fa0ee35dfcdeec791320302050879be4e3f9))
+* **frontend:** fix sorting of ids ([e1ef8fc](https://github.com/SocialGouv/domifa/commit/e1ef8fc77fe93eb6d7a12c889532b3c3230be71c))
+
+
+### Features
+
+* **frontend:** add cerfa with new dates ([ab76d76](https://github.com/SocialGouv/domifa/commit/ab76d765a5145fc58ba0950466c09f611606e0a2))
+
 ## [2.187.3](https://github.com/SocialGouv/domifa/compare/v2.187.2...v2.187.3) (2024-12-12)
 
 
