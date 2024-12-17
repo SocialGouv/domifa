@@ -9,20 +9,48 @@
     </div>
 
     <nav id="statut-selector" class="mt-4 row d-print-none">
-      <a [routerLink]="['/structures', structure.id]" class="col">
+      <button
+        type="button"
+        (click)="section = 'structure'"
+        [ngClass]="
+          section === 'structure' ? 'selected-section col-md-3' : 'col-md-3'
+        "
+      >
         Structure
-      </a>
-      <a [routerLink]="['/structures', structure.id, 'users']" class="col">
+      </button>
+      <button
+        type="button"
+        (click)="section = 'users'"
+        [ngClass]="
+          section === 'users' ? 'selected-section col-md-3' : 'col-md-3'
+        "
+      >
         Utilisateurs
-      </a>
-      <a [routerLink]="['/structures', structure.id, 'activity']" class="col">
-        Activité
-      </a>
+      </button>
+      <button
+        type="button"
+        (click)="section = 'stats'"
+        [ngClass]="
+          section === 'stats' ? 'selected-section col-md-3' : 'col-md-3'
+        "
+      >
+        Statistiques
+      </button>
     </nav>
   </div>
 </div>
 <div class="content">
   <div class="page-content p-4">
-    <div class="container"></div>
+    <div class="container">
+      <app-structure-info
+        *ngIf="section === 'structure'"
+        [structure]="structure"
+      ></app-structure-info>
+
+      <app-users
+        *ngIf="section === 'users'"
+        [structure]="structure"
+      ></app-users>
+    </div>
   </div>
 </div>

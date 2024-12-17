@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { UsersComponent } from "./users.component";
+import { StructureInfoComponent } from "./structure-info.component";
 import { CommonModule } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterModule } from "@angular/router";
@@ -9,13 +9,13 @@ import { SortArrayPipe } from "../../../shared/pipes/sort-array.pipe";
 import { StructureService } from "../../services/structure.service";
 import { STRUCTURE_MOCK } from "../../STRUCTURE_MOCK.const";
 
-describe("UsersComponent", () => {
-  let component: UsersComponent;
-  let fixture: ComponentFixture<UsersComponent>;
+describe("StructureInfoComponent", () => {
+  let component: StructureInfoComponent;
+  let fixture: ComponentFixture<StructureInfoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UsersComponent],
+      declarations: [StructureInfoComponent],
       imports: [
         CommonModule,
         TableHeadSortComponent,
@@ -26,10 +26,10 @@ describe("UsersComponent", () => {
       providers: [StructureService],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(UsersComponent);
+    fixture = TestBed.createComponent(StructureInfoComponent);
     component = fixture.componentInstance;
-    component.users = [];
     component.structure = STRUCTURE_MOCK;
+
     fixture.detectChanges();
   });
 

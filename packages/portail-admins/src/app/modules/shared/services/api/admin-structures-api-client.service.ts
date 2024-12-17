@@ -21,11 +21,6 @@ export class AdminStructuresApiClient {
     this.http = http;
   }
 
-  public getStructure(structureUuid: string): Observable<Structure> {
-    return this.http.get<Structure>(
-      `${environment.apiUrl}admin/structures/${structureUuid}`
-    );
-  }
   public deleteSendInitialMail(structureUuid: string) {
     return this.http.put(
       `${environment.apiUrl}admin/structures-delete/send-mail/${structureUuid}`,

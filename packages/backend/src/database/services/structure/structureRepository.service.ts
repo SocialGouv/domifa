@@ -20,7 +20,7 @@ export const structureRepository = myDataSource
     }): Promise<Pick<Structure, "hardReset" | "id" | "uuid">> {
       const select = ["hardReset", "id", "uuid"];
 
-      return this.createQueryBuilder()
+      return await this.createQueryBuilder()
         .select(joinSelectFields(select))
         .where(`"hardReset" @> :hardReset`, {
           hardReset: JSON.stringify({ token, userId }),

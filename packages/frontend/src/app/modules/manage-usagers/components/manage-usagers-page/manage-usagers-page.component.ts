@@ -108,7 +108,7 @@ export class ManageUsagersPageComponent
       placeholder: "Recherche par ID, nom, prénom, ayant-droit ou mandataire",
     },
     DATE_NAISSANCE: {
-      label: "Date de naissance",
+      label: "Date de naissance (format attendu:  JJ/MM/AAAA)",
       placeholder: "Recherche par date de naissance JJ/MM/AAAA",
     },
   };

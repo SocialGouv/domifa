@@ -52,8 +52,6 @@ export interface Structure extends AppEntity {
   verified: boolean;
 
   timeZone: TimeZone;
-  filesUpdated: boolean;
-
   sms: StructureSmsParams;
   portailUsager: StructurePortailUsagerParams;
 

@@ -5,7 +5,7 @@ import { UsersComponent } from "./components/users/users.component";
 
 const routes: Routes = [
   { path: ":structureId", component: StructureComponent },
-  { path: ":structureId/users0", component: UsersComponent },
+  { path: ":structureId/users", component: UsersComponent },
 ];
 
 @NgModule({

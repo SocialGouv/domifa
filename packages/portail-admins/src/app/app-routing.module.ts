@@ -23,7 +23,14 @@ const routes: Routes = [
         (m) => m.AdminStructuresModule
       ),
   },
-
+  {
+    path: "structure",
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import("./modules/structure/structure.module").then(
+        (m) => m.StructureModule
+      ),
+  },
   {
     path: "structures-confirm",
     canActivate: [AuthGuard],

@@ -11,7 +11,7 @@ export function IsSocialGouvEmail(validationOptions?: ValidationOptions) {
     registerDecorator({
       name: "isValidPassword",
       target: object.constructor,
-      propertyName: propertyName,
+      propertyName,
       options: validationOptions,
       constraints: [propertyName],
       validator: {

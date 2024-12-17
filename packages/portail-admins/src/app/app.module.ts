@@ -9,7 +9,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
+import { registerLocaleData } from "@angular/common";
+import localeFr from "@angular/common/locales/fr";
 import { SharedModule } from "src/app/modules/shared/shared.module";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -34,6 +35,9 @@ if (environment.production) {
     tracesSampleRate: 1.0,
   });
 }
+
+registerLocaleData(localeFr, "fr");
+
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [AppComponent],
