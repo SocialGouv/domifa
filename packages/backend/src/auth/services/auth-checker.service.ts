@@ -20,7 +20,7 @@ function checkRole(
   const isValidRole = user && expectedRoles.includes(user.role);
 
   if (user && !isValidRole) {
-    appLogger.error(`[authChecker] invalid role`, {
+    appLogger.error("[authChecker] invalid role", {
       sentry: true,
       context: { role: user.role, user: user.id, expectedRoles },
     });
@@ -37,7 +37,7 @@ function checkProfile(
   const isValidRole = user && expectedProfiles.includes(userProfile);
 
   if (user && !isValidRole) {
-    appLogger.error(`[authChecker] invalid profile`, {
+    appLogger.error("[authChecker] invalid profile", {
       context: { userProfile, user: user._userId, expectedProfiles },
     });
   }

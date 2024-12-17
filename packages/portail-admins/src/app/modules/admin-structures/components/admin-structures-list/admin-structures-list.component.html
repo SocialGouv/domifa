@@ -33,18 +33,6 @@
         <app-admin-structures-export></app-admin-structures-export>
       </div>
     </div>
-    <nav id="statut-selector" class="mt-4 row d-print-none">
-      <button type="button" class="col-md-2">
-        Structures
-        <span *ngIf="!!structures && !!filteredStructures"
-          >({{ filteredStructures.length
-          }}<span *ngIf="totalStructures !== filteredStructures.length"
-            >/{{ totalStructures }}</span
-          >)</span
-        >
-      </button>
-      <button type="button" class="col-md-2">Utilisateurs (à venir)</button>
-    </nav>
   </div>
 </div>
 

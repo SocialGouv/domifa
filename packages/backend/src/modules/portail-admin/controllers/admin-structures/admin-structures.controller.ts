@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Res,
   UseGuards,
+  Param,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -23,6 +24,8 @@ import { ExpressResponse } from "../../../../util/express";
 import {
   UserAdminAuthenticated,
   UserStructureAuthenticated,
+  UserStructureSecurityEvent,
+  UserStructureTokens,
 } from "../../../../_common/model";
 import { AdminStructuresService } from "../../services";
 import { CurrentUser } from "../../../../auth/decorators/current-user.decorator";
@@ -30,7 +33,12 @@ import { UsersController } from "../../../../users/controllers/users.controller"
 import { RegisterUserAdminDto } from "../../../../users/dto";
 import { format } from "date-fns";
 import { structureCreatorService } from "../../../../structures/services";
-import { DEPARTEMENTS_MAP, REGIONS_LISTE, Structure } from "@domifa/common";
+import {
+  DEPARTEMENTS_MAP,
+  REGIONS_LISTE,
+  Structure,
+  UserStructure,
+} from "@domifa/common";
 import { MetabaseStatsDto } from "../../_dto/MetabaseStats.dto";
 import { domifaConfig } from "../../../../config";
 import { sign } from "jsonwebtoken";
@@ -40,6 +48,10 @@ import { StructureConfirmationDto } from "../../_dto";
 import { StructureAdminForList } from "../../types";
 import { userAccountActivatedEmailSender } from "../../../mails/services/templates-renderers";
 
+export type UserStructureWithSecurity = UserStructure & {
+  temporaryTokens: UserStructureTokens;
+  events: UserStructureSecurityEvent;
+};
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
 @ApiTags("dashboard")
@@ -96,6 +108,42 @@ export class AdminStructuresController {
   @AllowUserProfiles("super-admin-domifa")
   public async list(): Promise<StructureAdminForList[]> {
     return await this.adminStructuresService.getAdminStructuresListData();
+  }
+
+  @Get("structure/:structureId")
+  @AllowUserProfiles("super-admin-domifa")
+  public async getStructure(
+    @CurrentUser() _user: UserAdminAuthenticated,
+    @Param("structureId") structureId: number
+  ): Promise<Structure> {
+    return await structureRepository.findOneOrFail({
+      where: { id: structureId },
+    });
+  }
+
+  @Get("structure/:structureId/users")
+  @AllowUserProfiles("super-admin-domifa")
+  public async getUsers(
+    @CurrentUser() _user: UserAdminAuthenticated,
+    @Param("structureId") structureId: number
+  ): Promise<Array<UserStructureWithSecurity>> {
+    return (await userStructureRepository
+      .createQueryBuilder("u")
+      .leftJoinAndSelect("user_structure_security", "uss", "u.id = uss.user_id")
+      .select([
+        "u.nom",
+        "u.prenom",
+        "u.mail",
+        "u.role",
+        "u.lastLogin",
+        "u.id",
+        "u.uuid",
+        "u.createdAt",
+        "uss.temporaryTokens",
+        "uss.eventsHistory",
+      ])
+      .where({ structureId })
+      .getMany()) as unknown as UserStructureWithSecurity[];
   }
 
   @AllowUserProfiles("super-admin-domifa")

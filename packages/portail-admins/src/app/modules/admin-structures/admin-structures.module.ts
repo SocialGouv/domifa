@@ -12,12 +12,14 @@ import { NationalStatsComponent } from "./components/national-stats/national-sta
 import { StatsService } from "./services/stats.service";
 import { AdminStructuresTableComponent } from "./components/admin-structures-table/admin-structures-table.component";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
+import { StructureComponent } from "./components/structure/structure.component";
 
 @NgModule({
   declarations: [
     AdminStructuresListComponent,
     AdminStructuresTableComponent,
     NationalStatsComponent,
+    StructureComponent,
   ],
   imports: [
     CommonModule,

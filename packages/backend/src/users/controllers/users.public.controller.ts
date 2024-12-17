@@ -15,7 +15,7 @@ import {
   userStructureSecurityResetPasswordUpdater,
   userStructureSecurityResetPasswordInitiator,
 } from "../../database";
-import { ExpressResponse } from "../../util";
+import { appLogger, ExpressResponse } from "../../util";
 import { EmailDto, ResetPasswordDto } from "../dto";
 import { userResetPasswordEmailSender } from "../../modules/mails/services/templates-renderers";
 
@@ -94,7 +94,9 @@ export class UsersPublicController {
         user,
         token: userSecurity.temporaryTokens.token,
       });
-    } catch (err) {}
+    } catch (err) {
+      appLogger.error("Cannot reset password");
+    }
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 }
