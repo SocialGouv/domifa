@@ -49,14 +49,17 @@ export function sortUsagersByCustomRef(
 ): UsagerLight[] {
   return sortMultiple(usagers, asc, (usager) => {
     const customRef = usager.customRef?.trim() || String(usager.ref);
-    const isNumeric = /^\d+$/.test(customRef);
+
+    const parts = customRef.split(/(\d+)/).filter(Boolean);
+
+    const sortValues = parts.map((part) => {
+      const isNum = /^\d+$/.test(part);
+      return isNum ? parseInt(part, 10) : String(part).toLowerCase().trim();
+    });
 
     return [
-      isNumeric ? 0 : 1,
-      isNumeric ? customRef.replace(/^0+/, "").length : 0,
-
-      customRef.toLowerCase(),
-
+      !/^\d/.test(customRef) ? 1 : 0,
+      ...sortValues,
       usager.nom.toLowerCase(),
       usager.prenom.toLowerCase(),
     ];

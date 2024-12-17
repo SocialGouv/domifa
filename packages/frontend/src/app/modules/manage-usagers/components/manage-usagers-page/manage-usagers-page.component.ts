@@ -381,13 +381,7 @@ export class ManageUsagersPageComponent
   }
 
   private validateDateSearchInput(text: string): Date | null {
-    const dateRegex = /\b(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])\/([12]\d{3})\b/;
-    const match = text.match(dateRegex);
-
-    if (!match) {
-      return null;
-    }
-    const parsedDate = parse(match[0], "dd/MM/yyyy", new Date());
+    const parsedDate = parse(text.trim(), "dd/MM/yyyy", new Date());
     return isValid(parsedDate) ? parsedDate : null;
   }
 
@@ -476,6 +470,7 @@ export class ManageUsagersPageComponent
     } else {
       this.filters$.next(this.filters);
     }
+    this.setFilters();
   }
 
   private getNextSortValue(
