@@ -22,7 +22,7 @@ export const cleanAddress = (address: string): string => {
 };
 
 export function formatAddressForURL(address: string): string {
-  return cleanAddress(address).replace(/ /g, "+");
+  return cleanAddress(address).replace(/ /g, "-");
 }
 
 export function replaceAbbreviations(str: string): string {

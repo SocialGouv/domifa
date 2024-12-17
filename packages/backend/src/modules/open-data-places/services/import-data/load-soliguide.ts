@@ -1,17 +1,17 @@
-import { OpenDataPlace } from "./interfaces/OpenDataPlace.interface";
+import { OpenDataPlace } from "../../interfaces/OpenDataPlace.interface";
 import {
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
 } from "@domifa/common";
-import { getStructureType } from "./functions";
+import { getStructureType } from "../../functions";
 
 let page = 1;
 import axios from "axios";
-import { domifaConfig } from "../../config";
-import { openDataPlaceRepository } from "../../database";
-import { OpenDataPlaceTable } from "../../database/entities/open-data-place";
-import { cleanAddress, cleanCity, appLogger } from "../../util";
-import { SoliguidePlace } from "./interfaces";
+import { domifaConfig } from "../../../../config";
+import { openDataPlaceRepository } from "../../../../database";
+import { OpenDataPlaceTable } from "../../../../database/entities/open-data-place";
+import { cleanAddress, cleanCity, appLogger } from "../../../../util";
+import { SoliguidePlace } from "../../interfaces";
 let nbResults = 0;
 let newPlaces = 0;
 let updatedPlaces = 0;
@@ -47,14 +47,10 @@ const getFromSoliguide = async () => {
 
     if (!nbResults) {
       nbResults = response.data.nbResults;
+      appLogger.info(`${nbResults} places to import... `);
     }
 
     for await (const place of soliguideData) {
-      let soliguidePlace = await openDataPlaceRepository.findOneBy({
-        source: "soliguide",
-        uniqueId: place.lieu_id.toString(),
-      });
-
       const departement = getDepartementFromCodePostal(
         place.position.codePostal
       );
@@ -71,49 +67,47 @@ const getFromSoliguide = async () => {
         longitude: place.position.location.coordinates[0],
         source: "soliguide",
         mail: place?.entity?.mail?.toString(),
+        uniqueId: place.lieu_id.toString(),
+        soliguideStructureId: parseInt(place.lieu_id as any, 10),
+        software: "other",
       };
+
+      let soliguidePlace = await openDataPlaceRepository.findOneBy({
+        source: "soliguide",
+        uniqueId: place.lieu_id.toString(),
+      });
+
+      const placeExist: OpenDataPlace =
+        await openDataPlaceRepository.findExistingPlace(
+          openDataPlace.latitude,
+          openDataPlace.longitude
+        );
+
+      if (placeExist) {
+        openDataPlace.domifaStructureId = placeExist.domifaStructureId;
+        openDataPlace.software = "domifa";
+
+        await openDataPlaceRepository.update(
+          { domifaStructureId: placeExist.domifaStructureId, source: "domifa" },
+          { soliguideStructureId: openDataPlace.soliguideStructureId }
+        );
+      }
 
       if (!soliguidePlace) {
         newPlaces++;
         soliguidePlace = await openDataPlaceRepository.save(
-          new OpenDataPlaceTable({
-            ...openDataPlace,
-            uniqueId: place.lieu_id.toString(),
-            soliguideStructureId: parseInt(place.lieu_id as any, 10),
-            software: "other",
-          })
+          new OpenDataPlaceTable(openDataPlace)
         );
       } else {
         updatedPlaces++;
         await openDataPlaceRepository.update(
           {
             source: "soliguide",
-            uniqueId: place.lieu_id.toString(),
+            soliguideStructureId: openDataPlace.soliguideStructureId,
           },
           {
             ...openDataPlace,
           }
-        );
-      }
-
-      const placeExist: OpenDataPlace =
-        await openDataPlaceRepository.findExistingPlace(
-          soliguidePlace.latitude,
-          soliguidePlace.longitude
-        );
-
-      if (placeExist) {
-        await openDataPlaceRepository.update(
-          { uuid: soliguidePlace.uuid },
-          {
-            domifaStructureId: placeExist.domifaStructureId,
-            software: "domifa",
-          }
-        );
-
-        await openDataPlaceRepository.update(
-          { domifaStructureId: placeExist.domifaStructureId },
-          { soliguideStructureId: soliguidePlace.soliguideStructureId }
         );
       }
     }
@@ -127,10 +121,9 @@ const getFromSoliguide = async () => {
       page++;
       await getFromSoliguide();
     } else {
-      appLogger.info("Import 'soliguide' data done ✅");
-      appLogger.info(
-        `${updatedPlaces} places updated / ${newPlaces} places imported`
-      );
+      appLogger.info("✅ Import 'soliguide' data done");
+      appLogger.info(`🆕 ${newPlaces} places added`);
+      appLogger.info(`🔁 ${updatedPlaces} places updated `);
     }
   } catch (e) {
     console.log(e);

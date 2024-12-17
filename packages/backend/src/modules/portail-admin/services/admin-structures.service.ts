@@ -15,6 +15,7 @@ export class AdminStructuresService {
         "structure.*",
         `(SELECT COUNT(DISTINCT u.uuid) FROM usager u WHERE u."structureId" = structure.id) as usagers`,
         `(SELECT COUNT(DISTINCT us.uuid) FROM user_structure us WHERE us."structureId" = structure.id) as users`,
+        `(SELECT COUNT(DISTINCT u.uuid) FROM usager u WHERE u."structureId" = structure.id AND u.statut = 'VALIDE') as actifs`,
       ])
       .orderBy("structure.createdAt", "DESC")
       .getRawMany();

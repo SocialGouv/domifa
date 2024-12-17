@@ -9,7 +9,7 @@ export const openDataPlaceRepository = myDataSource
       return await openDataPlaceRepository
         .createQueryBuilder("open_data_places")
         // skipcq: JS-R1004
-        .select(`nom, ville, "domifaStructureId"`)
+        .select(`*`)
         .where(
           // skipcq: JS-R1004
           `source='domifa' and ST_DWithin(ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::geography, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)::geography, 400);`,

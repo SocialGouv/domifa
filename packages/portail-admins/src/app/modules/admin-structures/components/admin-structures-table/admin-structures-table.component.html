@@ -10,7 +10,16 @@
     </caption>
     <thead>
       <tr>
-        <th scope="col" (click)="sortDashboard('id')" class="col-w-50">#</th>
+        <th scope="col">#</th>
+        <th scope="col" (click)="sortDashboard('id')" class="fw-bold">
+          <app-table-head-sort
+            sortKey="id"
+            [sortValue]="filters.sortValue"
+            [currentKey]="filters.sortKey"
+            columnName="ID"
+          >
+          </app-table-head-sort>
+        </th>
         <th scope="col" (click)="sortDashboard('nom')">
           <app-table-head-sort
             sortKey="nom"
@@ -29,11 +38,7 @@
           >
           </app-table-head-sort>
         </th>
-        <th
-          scope="col"
-          (click)="sortDashboard('createdAt')"
-          class="whitespace-nowrap col-font-xs"
-        >
+        <th scope="col" (click)="sortDashboard('createdAt')">
           <app-table-head-sort
             sortKey="createdAt"
             [sortValue]="filters.sortValue"
@@ -52,11 +57,7 @@
           >
           </app-table-head-sort>
         </th>
-        <th
-          scope="col"
-          (click)="sortDashboard('users')"
-          class="whitespace-nowrap col-font-xs"
-        >
+        <th scope="col" (click)="sortDashboard('users')">
           <app-table-head-sort
             sortKey="users"
             [sortValue]="filters.sortValue"
@@ -65,10 +66,7 @@
           >
           </app-table-head-sort>
         </th>
-        <th
-          (click)="sortDashboard('usagers')"
-          class="whitespace-nowrap col-font-xs"
-        >
+        <th (click)="sortDashboard('usagers')">
           <app-table-head-sort
             sortKey="usagers"
             [sortValue]="filters.sortValue"
@@ -77,11 +75,16 @@
           >
           </app-table-head-sort>
         </th>
-        <th
-          scope="col"
-          (click)="sortDashboard('lastLogin')"
-          class="col-font-xs"
-        >
+        <th (click)="sortDashboard('actifs')">
+          <app-table-head-sort
+            sortKey="actifs"
+            [sortValue]="filters.sortValue"
+            [currentKey]="filters.sortKey"
+            columnName="Actifs"
+          >
+          </app-table-head-sort>
+        </th>
+        <th scope="col" (click)="sortDashboard('lastLogin')">
           <app-table-head-sort
             sortKey="lastLogin"
             [sortValue]="filters.sortValue"
@@ -90,11 +93,7 @@
           >
           </app-table-head-sort>
         </th>
-        <th
-          scope="col"
-          (click)="sortDashboard('regionLabel')"
-          class="col-font-xs"
-        >
+        <th scope="col" (click)="sortDashboard('regionLabel')">
           <app-table-head-sort
             sortKey="regionLabel"
             [sortValue]="filters.sortValue"
@@ -103,11 +102,7 @@
           >
           </app-table-head-sort>
         </th>
-        <th
-          scope="col"
-          (click)="sortDashboard('departementLabel')"
-          class="col-font-xs"
-        >
+        <th scope="col" (click)="sortDashboard('departementLabel')">
           <app-table-head-sort
             sortKey="departementLabel"
             [sortValue]="filters.sortValue"
@@ -116,7 +111,7 @@
           >
           </app-table-head-sort>
         </th>
-        <!-- <th scope="col" class="col-font-xs">Email</th> -->
+        <!-- <th scope="col" >Email</th> -->
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -124,8 +119,9 @@
       <tr
         *ngFor="let structure of structures; let i = index; trackBy: idTrackBy"
       >
-        <td class="col-w-50">{{ structure.id }}</td>
-        <td class="col-font-xs">
+        <td>{{ i + 1 }}</td>
+        <td class="fw-bold">{{ structure.id }}</td>
+        <td>
           {{ structure.nom }}
           {{
             structure.structureType === "ccas" ? " - " + structure.ville : ""
@@ -137,15 +133,15 @@
             Non validée
           </span>
         </td>
-        <td class="col-font-xs">
+        <td>
           {{ structure.structureTypeLabel }}
         </td>
 
-        <td class="col-font-xs">
+        <td>
           {{ structure.registrationDate | date : "dd/MM/yyyy" }}
         </td>
 
-        <td class="col-font-xs d-none d-lg-table-cell">
+        <td class="d-none d-lg-table-cell">
           {{
             structure.importDate || structure.import
               ? structure.importDate
@@ -154,22 +150,23 @@
               : "❌"
           }}
         </td>
-        <td class="col-font-xs">{{ structure.users }}</td>
-        <td class="col-font-xs">{{ structure.usagers }}</td>
-        <td class="col-font-xs">
+        <td>{{ structure.users }}</td>
+        <td>{{ structure.usagers }}</td>
+        <td>{{ structure.actifs }}</td>
+        <td>
           {{
             structure?.lastLogin
               ? (structure.lastLogin | date : "dd/MM/yyyy")
               : "❌ Jamais connecté"
           }}
         </td>
-        <td class="col-font-xs">
+        <td>
           {{ structure.regionLabel }}
         </td>
-        <td class="col-font-xs">
+        <td>
           {{ structure.departementLabel }}
         </td>
-        <!-- <td class="col-font-xs">
+        <!-- <td >
           {{ structure.email }}
         </td> -->
         <td>

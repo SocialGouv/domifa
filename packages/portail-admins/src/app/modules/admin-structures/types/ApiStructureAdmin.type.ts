@@ -24,4 +24,5 @@ export type ApiStructureAdmin = Pick<
   Required<{ uuid: string }> & {
     users: number;
     usagers: number;
+    actifs: number;
   };

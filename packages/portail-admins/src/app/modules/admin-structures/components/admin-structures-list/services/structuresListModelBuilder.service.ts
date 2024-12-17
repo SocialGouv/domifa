@@ -17,6 +17,7 @@ function buildStructuresViewModel(structures: ApiStructureAdmin[]) {
       departementLabel: getDepartementLabel(structure),
       users: parseInt(structure.users as unknown as string, 10),
       usagers: parseInt(structure.usagers as unknown as string, 10),
+      actifs: parseInt(structure.actifs as unknown as string, 10),
     };
   });
 }
