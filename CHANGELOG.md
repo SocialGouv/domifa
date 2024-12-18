@@ -1,3 +1,10 @@
+## [2.188.3](https://github.com/SocialGouv/domifa/compare/v2.188.2...v2.188.3) (2024-12-18)
+
+
+### Bug Fixes
+
+* **backend:** add routes for admin ([8e8453c](https://github.com/SocialGouv/domifa/commit/8e8453ce45f8e52e2eeb914a3fc170dd0f79897f))
+
 ## [2.188.2](https://github.com/SocialGouv/domifa/compare/v2.188.1...v2.188.2) (2024-12-17)
 
 
