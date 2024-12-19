@@ -247,6 +247,7 @@ jobs:
           DOMIFA_BACKEND_URL: "https://api-{{ .Values.global.host }}/"
           DOMIFA_PORTAIL_ADMINS_URL: "https://admin-{{ .Values.global.host }}/"
           DOMIFA_PORTAIL_USAGERS_URL: "https://mon-{{ .Values.global.host }}/"
+          DOMIFA_FRONTEND_URL: "https://{{ .Values.global.host }}/"
           DOMIFA_FRONTEND_META_ROBOTS: noindex,nofollow
           DOMIFA_SENTRY_DSN_FRONTEND: "https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31"
 
@@ -258,6 +259,7 @@ jobs:
         buildArgs:
           DOMIFA_ENV_ID: "{{ .Values.global.env }}"
           DOMIFA_BACKEND_URL: "https://api-{{ .Values.global.host }}/"
+          DOMIFA_FRONTEND_URL: "https://{{ .Values.global.host }}/"
           DOMIFA_SENTRY_DSN_PORTAIL_ADMIN: "https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31"
 
     build-portail-usagers:
