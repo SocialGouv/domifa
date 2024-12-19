@@ -1,3 +1,10 @@
+## [2.188.4](https://github.com/SocialGouv/domifa/compare/v2.188.3...v2.188.4) (2024-12-19)
+
+
+### Bug Fixes
+
+* **backend:** fix date of cron ([39ccaea](https://github.com/SocialGouv/domifa/commit/39ccaea4c37b1976580f12b01ee697b82905781f))
+
 ## [2.188.3](https://github.com/SocialGouv/domifa/compare/v2.188.2...v2.188.3) (2024-12-18)
 
 
