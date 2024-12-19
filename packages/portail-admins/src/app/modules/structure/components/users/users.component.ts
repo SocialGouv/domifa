@@ -5,6 +5,7 @@ import {
   StructureService,
   UserStructureWithSecurity,
 } from "../../services/structure.service";
+import { environment } from "../../../../../environments/environment";
 
 @Component({
   selector: "app-users",
@@ -16,6 +17,7 @@ export class UsersComponent implements OnInit {
   public sortValue: SortValues = "asc";
   public currentKey = "id";
 
+  public readonly frontendUrl = environment.frontendUrl;
   public readonly USER_ROLES_LABELS: { [key in UserStructureRole]: string } = {
     admin: "Administrateur",
     responsable: "Gestionnaire",

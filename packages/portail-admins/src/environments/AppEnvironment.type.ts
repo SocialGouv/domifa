@@ -1,4 +1,5 @@
 export type AppEnvironment = {
+  frontendUrl: string;
   apiUrl: string;
   production: boolean;
   env: string;
