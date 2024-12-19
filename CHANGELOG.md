@@ -1,3 +1,10 @@
+## [2.188.7](https://github.com/SocialGouv/domifa/compare/v2.188.6...v2.188.7) (2024-12-19)
+
+
+### Bug Fixes
+
+* **frontend:** fix search of date birth ([62f1510](https://github.com/SocialGouv/domifa/commit/62f1510bc1b9b8f07c9eec4fe99ebdefbdd6edce))
+
 ## [2.188.6](https://github.com/SocialGouv/domifa/compare/v2.188.5...v2.188.6) (2024-12-19)
 
 
