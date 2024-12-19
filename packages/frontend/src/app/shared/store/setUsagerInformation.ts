@@ -32,6 +32,7 @@ export const setUsagerInformation = (usager: Usager): any => {
     historique: [],
     options: new Options(usager.options),
     rdv: null,
+    dateNaissance: new Date(usager?.dateNaissance),
     entretien: null,
   };
 };

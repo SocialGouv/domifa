@@ -41,6 +41,7 @@
     "class-validator": "^0.14.1",
     "date-fns": "^2.30.0",
     "file-saver": "^2.0.5",
+    "google-libphonenumber": "^3.2.40",
     "ngx-matomo-client": "^5.0.4",
     "redux": "^4.2.1",
     "rimraf": "^5.0.10",

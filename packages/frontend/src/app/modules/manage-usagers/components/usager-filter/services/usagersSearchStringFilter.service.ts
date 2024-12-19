@@ -1,8 +1,14 @@
 import { UsagersFilterCriteria } from "../UsagersFilterCriteria";
-import { format } from "date-fns";
+import { format, isValid, parseISO } from "date-fns";
 import { UsagerLight } from "../../../../../../_common/model";
 import { UsagerProcuration } from "../../../../usager-shared/interfaces/UsagerProcuration.interface";
 import { UsagerAyantDroit } from "@domifa/common";
+
+const validateBirthDate = (date?: Date | string): string | undefined => {
+  if (!date) return undefined;
+  const parsedDate = typeof date === "string" ? parseISO(date) : date;
+  return !isValid(parsedDate) ? undefined : format(parsedDate, "dd/MM/yyyy");
+};
 
 export const getAttributes = (
   usager: UsagerLight,
@@ -12,21 +18,16 @@ export const getAttributes = (
 ) => {
   let attributes = [];
   if (searchStringField === "DATE_NAISSANCE") {
-    const dateNaissance =
-      typeof usager.dateNaissance === "string"
-        ? new Date(usager.dateNaissance)
-        : null;
+    const attributes: string[] = [];
 
-    attributes = dateNaissance ? [format(dateNaissance, "dd/MM/yyyy")] : [];
+    if (usager.dateNaissance) {
+      const formattedDate = validateBirthDate(usager.dateNaissance);
+      if (formattedDate) attributes.push(formattedDate);
+    }
 
-    usager.ayantsDroits.forEach((ad: UsagerAyantDroit) => {
-      const dateNaissanceAd =
-        typeof ad.dateNaissance === "string"
-          ? new Date(ad.dateNaissance)
-          : null;
-      if (dateNaissanceAd) {
-        attributes.push(format(dateNaissanceAd, "dd/MM/yyyy"));
-      }
+    usager.ayantsDroits.forEach((ad) => {
+      const formattedDate = validateBirthDate(ad.dateNaissance);
+      if (formattedDate) attributes.push(formattedDate);
     });
 
     return attributes;

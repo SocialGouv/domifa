@@ -8,6 +8,7 @@ import { TableHeadSortComponent } from "../../../shared/components/table-head-so
 import { SortArrayPipe } from "../../../shared/pipes/sort-array.pipe";
 import { StructureService } from "../../services/structure.service";
 import { STRUCTURE_MOCK } from "../../STRUCTURE_MOCK.const";
+import { FormatInternationalPhoneNumberPipe } from "../../../../shared/utils/formatInternationalPhoneNumber.pipe";
 
 describe("StructureInfoComponent", () => {
   let component: StructureInfoComponent;
@@ -22,6 +23,7 @@ describe("StructureInfoComponent", () => {
         SortArrayPipe,
         HttpClientTestingModule,
         RouterModule.forRoot([]),
+        FormatInternationalPhoneNumberPipe,
       ],
       providers: [StructureService],
     }).compileComponents();

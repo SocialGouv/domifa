@@ -35,10 +35,19 @@
         </th>
         <th scope="col">
           <app-table-head-sort
-            sortKey="lastLogin"
+            sortKey="verified"
             [(sortValue)]="sortValue"
             [(currentKey)]="currentKey"
             columnName="Statut"
+          >
+          </app-table-head-sort>
+        </th>
+        <th scope="col">
+          <app-table-head-sort
+            sortKey="lastLogin"
+            [(sortValue)]="sortValue"
+            [(currentKey)]="currentKey"
+            columnName="Dernière connexion"
           >
           </app-table-head-sort>
         </th>
@@ -67,11 +76,18 @@
         <td>{{ user.createdAt | date : "d MMMM y" }}</td>
         <td>
           <p *ngIf="user.verified">✅ Compte actif</p>
-          <p *ngIf="!user.verified && user.lastLogin">
-            ❌ Inactif depuis plus de 2 mois<br />Dernière connexion le
-            {{ user.lastLogin | date : "d MMMM y" }}
-          </p>
-          <p class="fw-bold" *ngIf="!user.verified && !user.lastLogin">
+          <p *ngIf="!user.verified">❌ Compte non vérifié</p>
+        </td>
+        <td>
+          <ng-container *ngIf="user.lastLogin">
+            <p>
+              {{ user.lastLogin | date : "dd/MM/yyyy" }}
+              <b *ngIf="user.lastLogin < twoMonthsAgo">
+                <br />❌ Inactif depuis plus de 2 mois<br />
+              </b>
+            </p>
+          </ng-container>
+          <p class="fw-bold" *ngIf="!user.lastLogin">
             ❌ Compte jamais utilisé
           </p>
         </td>

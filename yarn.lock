@@ -4067,6 +4067,7 @@ __metadata:
     eslint-plugin-no-lookahead-lookbehind-regexp: "npm:^0.3.0"
     eslint-plugin-prettier: "npm:^5.2.1"
     file-saver: "npm:^2.0.5"
+    google-libphonenumber: "npm:^3.2.40"
     jest: "npm:^29.7.0"
     jest-preset-angular: "npm:^14.1.1"
     lint-staged: "npm:^15.2.10"
@@ -16649,6 +16650,13 @@ __metadata:
   version: 3.2.33
   resolution: "google-libphonenumber@npm:3.2.33"
   checksum: 10/5239eb197319555f395d964a237bb5eded9a1d0a6ecd21982991878fe80c951ff3dbad0b3a9e4088d3593140477bffb881f8e9ce013f093d90510d91b30112a7
+  languageName: node
+  linkType: hard
+
+"google-libphonenumber@npm:^3.2.40":
+  version: 3.2.40
+  resolution: "google-libphonenumber@npm:3.2.40"
+  checksum: 10/787627acb2fd3467dcf294e17184ece3b67aa3250e361e12fbbab9c0b6aaf0e5b75e97943ba152f2321581aadceb4180f41299ec56461543fd6f3021f54e6363
   languageName: node
   linkType: hard
 
