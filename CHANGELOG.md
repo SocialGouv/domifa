@@ -1,3 +1,10 @@
+## [2.188.6](https://github.com/SocialGouv/domifa/compare/v2.188.5...v2.188.6) (2024-12-19)
+
+
+### Bug Fixes
+
+* **frontend:** fix design of cerfa buttons ([1375145](https://github.com/SocialGouv/domifa/commit/13751456ef17c6d7110e3dd8bc8c6cd43d4e23a6))
+
 ## [2.188.5](https://github.com/SocialGouv/domifa/compare/v2.188.4...v2.188.5) (2024-12-19)
 
 
