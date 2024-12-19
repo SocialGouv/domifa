@@ -21,7 +21,7 @@ export class UsagerNoteAccessGuard implements CanActivate {
       typeof r.user.structureId === "undefined"
     ) {
       appLogger.error(
-        `[UsagerNotesAccessGuard] invalid usagerRef or structureId`,
+        "[UsagerNotesAccessGuard] invalid usagerRef or structureId",
         {
           sentry: true,
           context: {
@@ -50,7 +50,7 @@ export class UsagerNoteAccessGuard implements CanActivate {
       r.usagerNote = usagerNote;
       return r;
     } catch (e) {
-      appLogger.error(`[UsagerNoteAccessGuard] usager not found`, {
+      appLogger.error("[UsagerNoteAccessGuard] usager doc not found", {
         sentry: true,
         context: {
           usagerRef,

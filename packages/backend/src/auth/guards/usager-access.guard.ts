@@ -46,15 +46,18 @@ export class UsagerAccessGuard implements CanActivate {
       r.usager = usager;
       return r;
     } catch (e) {
-      appLogger.error(`[UsagerAccessGuard] usager not found`, {
-        sentry: true,
-        context: {
-          usagerRef,
-          structureId,
-          user: r.user._id,
-          role: r.user.role,
-        },
-      });
+      appLogger.error(
+        `[UsagerAccessGuard] usager not found ${usagerRef} ${structureId} ${r?.user?._id}`,
+        {
+          sentry: true,
+          context: {
+            usagerRef,
+            structureId,
+            user: r.user._id,
+            role: r.user.role,
+          },
+        }
+      );
       throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
   }

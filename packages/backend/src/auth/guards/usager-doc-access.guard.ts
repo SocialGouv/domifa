@@ -47,7 +47,7 @@ export class UsagerDocAccessGuard implements CanActivate {
       request.usagerDoc = usagerDoc;
       return request;
     } catch (e) {
-      appLogger.error("[UsagerDocAccessGuard] usager not found", {
+      appLogger.error("[UsagerDocAccessGuard] usager doc not found", {
         sentry: true,
         context: {
           docUuid: request.params.docUuid,
