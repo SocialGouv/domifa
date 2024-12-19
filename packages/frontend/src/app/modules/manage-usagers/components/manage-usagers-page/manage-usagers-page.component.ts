@@ -287,6 +287,7 @@ export class ManageUsagersPageComponent
         )
         .subscribe(({ filters, usagers, usagersRadiesTotalCount }) => {
           if (filters && usagers) {
+            this.setFilters();
             this.countRadiesLoaded(usagers);
             this.usagersCountByStatus = calculateUsagersCountByStatus(
               usagers,

@@ -1,5 +1,55 @@
 [
   {
+    "date": "2024-12-19",
+    "description": "🚀 Nombreuses améliorations et corrections",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "📄 Documents Cerfa",
+        "message": [
+          "Dans le cadre d'un renouvellement, vous pouvez désormais télécharger le Cerfa actuel (domiciliation actuelle) ainsi que le Cerfa provisoire (future domiciliation)"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "🔍 Recherche avancée",
+        "message": [
+          "Le problème identifié dans la recherche de dossier par date de naissance a été corrigé. \nPour retrouver le dossier d'un domicilié, vous pouvez désormais renseigner sa date de naissance sous la forme JJ/MM/YYYY  (12/12/2024 par exemple)",
+          "Le tri par 'ID' dans la recherche avancée des domiciliés a été corrigé",
+          "Un décalage des colonnes a été constaté pour les profils instructeur et facteur. Une mise à jour a corrigé l'affichage des informations des domiciliés sous les bonnes colonnes"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "🖥️ Interface utilisateur",
+        "message": [
+          "Le menu de gestion du portail est à nouveau visible en cliquant sur la rubrique « diffuser des informations »"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "📝 Documents personnalisés",
+        "message": [
+          "L'adresse d'un domicilié et l'adresse de l'élection de domicile étaient inversées dans le courrier de radiation. Ces informations sont désormais corrigées"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "📊 Exports de données",
+        "message": [
+          "La colonne « détails de revenus » dans l'onglet Entretien est de nouveau alimentée"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "📱 Communications",
+        "message": [
+          "Correction du message de rappel de renouvellement qui ne s'affichait pas correctement"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-11-28",
     "description": "La liste des domiciliés s'améliore pour plus de rapidité !",
     "content": [

@@ -29,7 +29,6 @@ export const loadDomifaData = async () => {
     });
 
     for await (const place of places) {
-      console.table(place);
       let domifaPlace = await openDataPlaceRepository.findOneBy({
         source: "domifa",
         uniqueId: place.id.toString(),
