@@ -1,4 +1,4 @@
-<div class="row pb-5">
+<div class="row pb-5" *ngIf="structure">
   <div class="col-md-6">
     <div class="row">
       <div class="col-12">
@@ -33,9 +33,10 @@
         </p>
         <ul>
           <li>
-            {{ structure.responsable.nom }} {{ structure.responsable.prenom }}
+            {{ structure?.responsable?.nom }}
+            {{ structure?.responsable?.prenom }}
           </li>
-          <li>{{ structure.responsable.fonction }}</li>
+          <li>{{ structure?.responsable?.fonction }}</li>
         </ul>
       </div>
     </div>

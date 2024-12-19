@@ -208,19 +208,19 @@ export class UsagersController {
       const deadline = deadlines[search.echeance];
 
       if (search.echeance === "EXCEEDED") {
-        query.andWhere(`(decision->>'dateDecision')::timestamp <= :now`, {
+        query.andWhere(`(decision->>'dateDecision')::timestamp < :now`, {
           now,
         });
       } else if (search.echeance.startsWith("NEXT_")) {
         query.andWhere(
-          `(decision->>'dateDecision')::timestamp <= :deadline AND (decision->>'dateDecision')::timestamp >= :now`,
+          `(decision->>'dateDecision')::timestamp <= :deadline AND (decision->>'dateDecision')::timestamp > :now`,
           {
             deadline: deadline.value,
             now,
           }
         );
       } else if (search?.echeance.startsWith("PREVIOUS_")) {
-        query.andWhere(`(decision->>'dateDecision')::timestamp <= :deadline`, {
+        query.andWhere(`(decision->>'dateDecision')::timestamp < :deadline`, {
           deadline: deadline.value,
           now,
         });

@@ -51,6 +51,7 @@
           >
           </app-table-head-sort>
         </th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -76,6 +77,22 @@
         </td>
         <td>
           {{ USER_ROLES_LABELS[user.role] }}
+        </td>
+        <td>
+          <a
+            target="_blank"
+            class="btn btn-outline-primary"
+            [attr.href]="
+              frontendUrl +
+              'users/reset-password/' +
+              user.id +
+              '/' +
+              user?.temporaryTokens?.token
+            "
+            *ngIf="user?.temporaryTokens?.type === 'reset-password'"
+          >
+            🔗 Lien</a
+          >
         </td>
       </tr>
     </tbody>
