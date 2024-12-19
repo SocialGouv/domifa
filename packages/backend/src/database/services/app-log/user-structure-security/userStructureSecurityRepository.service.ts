@@ -17,7 +17,7 @@ export const userStructureSecurityRepository = myDataSource
         "uuid" | "userId" | "temporaryTokens" | "eventsHistory"
       >
     > {
-      return this.createQueryBuilder("user_structure_security")
+      return await this.createQueryBuilder("user_structure_security")
         .where(`"temporaryTokens"->>'token' = :tokenValue`, {
           tokenValue,
         })
@@ -51,7 +51,7 @@ export const userStructureSecurityRepository = myDataSource
           clearAllEvents,
         });
 
-      return this.update(
+      return await this.update(
         { userId },
         attributes
           ? {

@@ -9,6 +9,7 @@ import { StructureRoutingModule } from "./structure-routing.module";
 import { UsersComponent } from "./components/users/users.component";
 import { SortArrayPipe } from "../shared/pipes/sort-array.pipe";
 import { StructureInfoComponent } from "./components/structure-info/structure-info.component";
+import { FormatInternationalPhoneNumberPipe } from "../../shared/utils/formatInternationalPhoneNumber.pipe";
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { StructureInfoComponent } from "./components/structure-info/structure-in
   imports: [
     CommonModule,
     NgbModule,
+    FormatInternationalPhoneNumberPipe,
     SharedModule,
     FontAwesomeModule,
     TableHeadSortComponent,

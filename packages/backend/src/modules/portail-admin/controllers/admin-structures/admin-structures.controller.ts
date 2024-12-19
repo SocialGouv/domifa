@@ -146,6 +146,7 @@ export class AdminStructuresController {
         user_structure.prenom,
         user_structure.email,
         user_structure.role,
+        user_structure.verified,
         user_structure."lastLogin",
         user_structure."createdAt",
         user_structure.uuid,

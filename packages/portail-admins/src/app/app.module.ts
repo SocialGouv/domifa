@@ -2,6 +2,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
   ErrorHandler,
+  LOCALE_ID,
   NgModule,
   NO_ERRORS_SCHEMA,
 } from "@angular/core";
@@ -54,6 +55,7 @@ registerLocaleData(localeFr, "fr");
     MATOMO_INJECTORS,
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: "fr" },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {
       multi: true,
