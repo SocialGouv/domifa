@@ -1,3 +1,10 @@
+## [2.188.5](https://github.com/SocialGouv/domifa/compare/v2.188.4...v2.188.5) (2024-12-19)
+
+
+### Bug Fixes
+
+* **ci:** fix frontend url in dockerfile ([cab9c9b](https://github.com/SocialGouv/domifa/commit/cab9c9bf23c335f0a9b9e1b02c7d130ecd0da01d))
+
 ## [2.188.4](https://github.com/SocialGouv/domifa/compare/v2.188.3...v2.188.4) (2024-12-19)
 
 
