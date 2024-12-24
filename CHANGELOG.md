@@ -1,3 +1,10 @@
+## [2.188.8](https://github.com/SocialGouv/domifa/compare/v2.188.7...v2.188.8) (2024-12-24)
+
+
+### Bug Fixes
+
+* **frontend:** fix small bugs ([afaa32f](https://github.com/SocialGouv/domifa/commit/afaa32f1557b582a320da081a089a9c066f82d0d))
+
 ## [2.188.7](https://github.com/SocialGouv/domifa/compare/v2.188.6...v2.188.7) (2024-12-19)
 
 
