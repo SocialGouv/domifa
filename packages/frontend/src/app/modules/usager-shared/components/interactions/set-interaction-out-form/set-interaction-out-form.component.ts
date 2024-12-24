@@ -150,6 +150,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
 
   public toggleProcurationIndex(value: number | null): void {
     this.procurationIndex = value;
+    this.returnToSender = false;
   }
 
   public setInteractionForm(): void {

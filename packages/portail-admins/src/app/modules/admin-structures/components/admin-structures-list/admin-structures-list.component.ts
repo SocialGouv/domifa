@@ -61,6 +61,8 @@ export class AdminStructuresListComponent
     private readonly titleService: Title
   ) {
     this.titleService.setTitle("Liste des structures");
+    this.filters = new Search(this.getFilters());
+    this.filters.sortKey = "id";
   }
 
   ngAfterViewInit() {
@@ -113,6 +115,7 @@ export class AdminStructuresListComponent
     this.subscription.add(
       combineLatest([this.allstructures$, this.filters$]).subscribe(
         ([allstructures, filters]) => {
+          this.setFilters();
           this.applyFilters({
             filters,
             structures: allstructures,
@@ -242,5 +245,14 @@ export class AdminStructuresListComponent
       startIndex,
       endIndex
     ) as StructureAdmin[];
+  }
+
+  private setFilters() {
+    localStorage.setItem("ADMIN", JSON.stringify(this.filters));
+  }
+
+  private getFilters(): null | Partial<Search> {
+    const filters = localStorage.getItem("ADMIN");
+    return filters === null ? {} : JSON.parse(filters);
   }
 }
