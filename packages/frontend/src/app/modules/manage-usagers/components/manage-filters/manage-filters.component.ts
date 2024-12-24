@@ -34,14 +34,12 @@ export class ManageFiltersComponent implements OnInit, OnChanges {
       "EXCEEDED",
       "NEXT_TWO_WEEKS",
       "NEXT_TWO_MONTHS",
-      "PREVIOUS_YEAR",
-      "PREVIOUS_TWO_YEARS",
     ]);
 
   public readonly labelsEcheanceRadiation =
     extractDeadlines<UsagersFilterCriteriaEcheance>([
-      "PREVIOUS_YEAR",
       "PREVIOUS_TWO_YEARS",
+      "PREVIOUS_YEAR",
     ]);
 
   public readonly labelsDernierPassage =
