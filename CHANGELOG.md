@@ -1,3 +1,10 @@
+## [2.188.9](https://github.com/SocialGouv/domifa/compare/v2.188.8...v2.188.9) (2024-12-30)
+
+
+### Bug Fixes
+
+* **general:** update ministery's logo ([ac61a99](https://github.com/SocialGouv/domifa/commit/ac61a998542313683919facc23bef517aba59729))
+
 ## [2.188.8](https://github.com/SocialGouv/domifa/compare/v2.188.7...v2.188.8) (2024-12-24)
 
 
