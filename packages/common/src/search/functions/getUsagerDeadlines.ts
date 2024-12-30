@@ -1,35 +1,42 @@
-import { subMonths, addMonths, subYears, addWeeks } from "date-fns";
-import { TimingsConfig, Timings } from "./types/Timings.type";
+import {
+  subMonths,
+  addMonths,
+  subYears,
+  addWeeks,
+  endOfDay,
+  subDays,
+} from "date-fns";
+import { TimingsConfig, Timings } from "../types/Timings.type";
 
 export function getUsagerDeadlines(refDate: Date = new Date()): TimingsConfig {
   return {
     PREVIOUS_TWO_MONTHS: {
       label: "Depuis plus de 2 mois",
-      value: subMonths(refDate, 2),
+      value: subDays(endOfDay(subMonths(refDate, 2)), 1),
     },
     PREVIOUS_THREE_MONTHS: {
       label: "Depuis plus de 3 mois",
-      value: subMonths(refDate, 3),
+      value: subDays(endOfDay(subMonths(refDate, 3)), 1),
     },
     PREVIOUS_TWO_YEARS: {
       label: "Depuis plus de 2 ans",
-      value: subYears(refDate, 2),
+      value: subDays(endOfDay(subYears(refDate, 2)), 1),
     },
     PREVIOUS_YEAR: {
       label: "Depuis plus d'un an",
-      value: subYears(refDate, 1),
+      value: subDays(endOfDay(subYears(refDate, 1)), 1),
     },
     NEXT_TWO_MONTHS: {
       label: "Dans moins de 2 mois",
-      value: addMonths(refDate, 2),
+      value: endOfDay(addMonths(refDate, 2)),
     },
     NEXT_TWO_WEEKS: {
       label: "Dans moins de 2 semaines",
-      value: addWeeks(refDate, 2),
+      value: endOfDay(addWeeks(refDate, 2)),
     },
     EXCEEDED: {
       label: "Échéance dépassée",
-      value: refDate,
+      value: endOfDay(refDate),
     },
   };
 }

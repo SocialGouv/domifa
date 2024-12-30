@@ -3,6 +3,15 @@ import { UsagerLight } from "../../../../../../../_common/model";
 import { usagerPassageChecker } from "./usagerPassageChecker.service";
 
 describe("usagerPassageChecker ", () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2024-12-30T12:00:00.000Z"));
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   describe("TWO_MONTHS ", () => {
     it("usagerPassageChecker: should return true, last interaction > TWO_MONTHS", () => {
       expect(
@@ -27,13 +36,28 @@ describe("usagerPassageChecker ", () => {
               statut: "INSTRUCTION",
             },
             lastInteraction: {
-              dateInteraction: subMonths(new Date(), 1),
+              dateInteraction: new Date("2024-10-30T12:00:00.000Z"),
             },
           } as UsagerLight,
           lastInteractionDate: "PREVIOUS_TWO_MONTHS",
         })
       ).toBeFalsy();
+
+      expect(
+        usagerPassageChecker.check({
+          usager: {
+            decision: {
+              statut: "INSTRUCTION",
+            },
+            lastInteraction: {
+              dateInteraction: new Date("2024-10-29T12:00:00.000Z"),
+            },
+          } as UsagerLight,
+          lastInteractionDate: "PREVIOUS_TWO_MONTHS",
+        })
+      ).toBeTruthy();
     });
+
     it("usagerPassageChecker: should return false, last interaction < TWO_MONTHS", () => {
       expect(
         usagerPassageChecker.check({

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { normalizeString } from "./normalize-string";
+import { normalizeString } from "../normalize-string";
 
 // Tests de tous les cas possibles
 describe("normalizeString", () => {

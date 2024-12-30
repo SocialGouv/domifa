@@ -17,12 +17,10 @@ function check({
   }
 
   if (lastInteractionDate && USAGER_DEADLINES[lastInteractionDate]) {
-    const deadlineTime = USAGER_DEADLINES[lastInteractionDate].value.getTime();
-    const interactionTime = new Date(
-      usager.lastInteraction.dateInteraction
-    ).getTime();
+    const deadlineTime = USAGER_DEADLINES[lastInteractionDate].value;
 
-    return deadlineTime >= interactionTime;
+    const interactionTime = new Date(usager.lastInteraction.dateInteraction);
+    return deadlineTime > interactionTime;
   }
 
   return true;
