@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { DisplayContactDetailsDecisionComponent } from "./display-contact-details-decision.component";
 import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-import { FormatInternationalPhoneNumberPipe } from "../../../usager-shared/formatInternationalPhoneNumber.pipe";
+import { FormatInternationalPhoneNumberPipe } from "../../../../shared/phone/formatInternationalPhoneNumber.pipe";
 
 describe("DisplayContactDetailsDecisionComponent", () => {
   let component: DisplayContactDetailsDecisionComponent;

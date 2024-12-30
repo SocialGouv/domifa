@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 
 import { DisplayEtatCivilDecisionComponent } from "./display-etat-civil-decision.component";
-import { FormatInternationalPhoneNumberPipe } from "../../../usager-shared/formatInternationalPhoneNumber.pipe";
+import { FormatInternationalPhoneNumberPipe } from "../../../../shared/phone/formatInternationalPhoneNumber.pipe";
 import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 

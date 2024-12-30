@@ -41,7 +41,7 @@ import { SetNpaiComponent } from "./components/_general-section/set-npai/set-npa
 
 import { DisplayContactDetailsComponent } from "./components/_general-section/display-contact-details/display-contact-details.component";
 import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
-import { FormatInternationalPhoneNumberPipe } from "../usager-shared/formatInternationalPhoneNumber.pipe";
+import { FormatInternationalPhoneNumberPipe } from "../../shared/phone/formatInternationalPhoneNumber.pipe";
 import { ProfilSmsPortailComponent } from "./components/pages/profil-sms-portail/profil-sms-portail.component";
 import { SortArrayPipe } from "../shared/pipes";
 import { DisplayTableImageComponent } from "../shared/components/display-table-image/display-table-image.component";

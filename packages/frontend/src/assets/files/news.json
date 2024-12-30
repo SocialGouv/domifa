@@ -1,5 +1,27 @@
 [
   {
+    "date": "2024-12-30",
+    "description": "🚀 Améliorations des filtres et corrections",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "🔍 Filtres et Recherche",
+        "message": [
+          "Une correction a été apportée sur le filtre de la date de dernier passage en structure. Désormais, les dossiers remontent à date +1 jour. \nPar exemple : l'utilisation du filtre « depuis plus de 3 mois » remonte les dossiers de plus de 3 mois, soit 3 mois + 1 jour. \nDésormais, les domiciliés dont le dernier passage est de 3 mois pile, ne remontent plus dans la recherche",
+          "Les filtres \"depuis plus de deux ans\" et \"depuis plus d'un an\" visibles dans \"échéance de domiciliation\" sont supprimés. \nPour plus de cohérence dans le parcours, ces durées sont disponibles dans les dossiers radiés en filtrant avec \"radiés depuis\"",
+          "Le champ saisi dans la barre de recherche est conservé même si la page est actualisée"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "📬 Distribution du courrier",
+        "message": [
+          "Une anomalie a été corrigée sur l'affichage du courrier des personnes radiées. Désormais, c'est la dernière action menée sur la fenêtre de distribution avant de valider qui est prise en compte"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-12-19",
     "description": "🚀 Nombreuses améliorations et corrections",
     "content": [

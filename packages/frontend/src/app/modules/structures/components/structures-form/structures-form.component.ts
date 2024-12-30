@@ -24,8 +24,8 @@ import {
 import { StructureService } from "../../services/structure.service";
 import { StructureCommonWeb } from "../../classes/StructureCommonWeb.class";
 
-import { anyPhoneValidator } from "../../../shared/phone/mobilePhone.validator";
-import { getFormPhone } from "../../../shared/phone";
+import { anyPhoneValidator } from "../../../../shared/phone/mobilePhone.validator";
+import { getFormPhone } from "../../../../shared/phone";
 import { EmailValidator } from "../../../../shared";
 import {
   StructureCommon,

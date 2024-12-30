@@ -2,6 +2,8 @@ import { UserStructure } from "@domifa/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
@@ -17,9 +19,34 @@ import {
 } from "../../../../shared";
 import { Subscription } from "rxjs";
 import { GeneralService } from "../../services/general.service";
+import {
+  CountryISO,
+  NgxIntlTelInputModule,
+  PhoneNumberFormat,
+  SearchCountryField,
+} from "@khazii/ngx-intl-tel-input";
+import { PREFERRED_COUNTRIES } from "../../../../../_common/model";
+import { anyPhoneValidator, getFormPhone } from "../../../../shared/phone";
+import { NgClass, NgIf } from "@angular/common";
+import { RouterModule } from "@angular/router";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { SharedModule } from "../../../shared/shared.module";
 
 @Component({
   selector: "app-contact-support",
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    NgClass,
+    NgbModule,
+    FontAwesomeModule,
+    SharedModule,
+    RouterModule,
+    NgxIntlTelInputModule,
+  ],
   templateUrl: "./contact-support.component.html",
 })
 export class ContactSupportComponent implements OnInit, OnDestroy {
@@ -31,6 +58,11 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
   public contactForm!: UntypedFormGroup;
 
   public me!: UserStructure | null;
+  public readonly PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
+  public selectedCountryISO: CountryISO = CountryISO.France;
+  public readonly PhoneNumberFormat = PhoneNumberFormat;
+  public readonly SearchCountryField = SearchCountryField;
+  public readonly CountryISO = CountryISO;
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
@@ -80,6 +112,10 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
         [Validators.required, Validators.minLength(10), NoWhiteSpaceValidator],
       ],
       email: [email, [Validators.required, EmailValidator]],
+      phone: [
+        { countryCode: "fr", number: "" },
+        [Validators.required, anyPhoneValidator],
+      ],
       file: [""],
       fileSource: ["", [validateUpload("STRUCTURE_DOC", false)]],
       name: [
@@ -132,6 +168,10 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
     formData.append("name", this.contactForm.controls.name.value);
     formData.append("subject", this.contactForm.controls.subject.value);
     formData.append("userId", this.contactForm.controls.userId.value);
+    formData.append(
+      "phone",
+      JSON.stringify(getFormPhone(this.contactForm.controls.phone.value))
+    );
     formData.append("structureId", this.contactForm.controls.structureId.value);
     formData.append(
       "structureName",

@@ -9,21 +9,21 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ContactSupportComponent } from "./contact-support.component";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
 describe("ContactSupportComponent", () => {
   let component: ContactSupportComponent;
   let fixture: ComponentFixture<ContactSupportComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ContactSupportComponent],
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       imports: [
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
         StoreModule.forRoot({ app: _usagerReducer }),
-
         HttpClientTestingModule,
+        NoopAnimationsModule,
         RouterTestingModule,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],

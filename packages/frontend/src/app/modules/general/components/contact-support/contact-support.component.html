@@ -108,36 +108,74 @@
                 minimum)
               </p>
             </div>
-            <div class="form-group required">
-              <label for="email">Adresse email de contact</label>
-              <input
-                type="email"
-                id="email"
-                formControlName="email"
-                name="email"
-                autocomplete="email"
-                class="form-control"
-                [ngClass]="{
-                  'is-invalid': (f.email.dirty || submitted) && f.email.errors
-                }"
-                [attr.aria-invalid]="
-                  (f.email.dirty || submitted) && f.email.errors ? true : false
-                "
-                [attr.aria-describedby]="
-                  (f.email.dirty || submitted) && f.email.errors
-                    ? 'email-errors'
-                    : null
-                "
-                required
-              />
-              <p
-                *ngIf="(f.email.dirty || submitted) && f.email.errors"
-                id="email-errors"
-                class="invalid-feedback"
-              >
-                Veuillez vérifier l'adresse email, format attendu :
-                nom&#64;domaine.fr
-              </p>
+            <div class="row">
+              <div class="form-group col-6 required">
+                <label for="email">Adresse email de contact</label>
+                <input
+                  type="email"
+                  id="email"
+                  formControlName="email"
+                  name="email"
+                  autocomplete="email"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': (f.email.dirty || submitted) && f.email.errors
+                  }"
+                  [attr.aria-invalid]="
+                    (f.email.dirty || submitted) && f.email.errors
+                      ? true
+                      : false
+                  "
+                  [attr.aria-describedby]="
+                    (f.email.dirty || submitted) && f.email.errors
+                      ? 'email-errors'
+                      : null
+                  "
+                  required
+                />
+                <p
+                  *ngIf="(f.email.dirty || submitted) && f.email.errors"
+                  id="email-errors"
+                  class="invalid-feedback"
+                >
+                  Veuillez vérifier l'adresse email, format attendu :
+                  nom&#64;domaine.fr
+                </p>
+              </div>
+              <div class="col-md-6 col-12 form-group required">
+                <label for="phone">Numéro de téléphone</label>
+                <ngx-intl-tel-input
+                  [cssClass]="
+                    submitted && (f.phone.errors || f.phone.invalid)
+                      ? 'form-control is-invalid'
+                      : 'form-control'
+                  "
+                  [enablePlaceholder]="true"
+                  [searchCountryFlag]="true"
+                  searchCountryPlaceholder="Choisissez votre pays"
+                  [searchCountryField]="[
+                    SearchCountryField.Iso2,
+                    SearchCountryField.Name
+                  ]"
+                  [selectedCountryISO]="CountryISO.France"
+                  [selectFirstCountry]="true"
+                  [maxLength]="15"
+                  [phoneValidation]="true"
+                  [separateDialCode]="true"
+                  [inputId]="'phone'"
+                  [enableAutoCountrySelect]="true"
+                  [onlyCountries]="PREFERRED_COUNTRIES"
+                  [numberFormat]="PhoneNumberFormat.International"
+                  formControlName="phone"
+                  name="phone"
+                ></ngx-intl-tel-input>
+                <p
+                  *ngIf="submitted && (f.phone.errors || f.phone.invalid)"
+                  class="invalid-feedback-custom"
+                >
+                  Numéro de téléphone incorrect (Ex: 0606060606)
+                </p>
+              </div>
             </div>
             <div class="form-group required">
               <label for="subject"
@@ -178,6 +216,7 @@
                 Veuillez indiquer le sujet du message, 2 caractères minimum
               </p>
             </div>
+
             <div class="form-group required">
               <label for="content">Votre message</label>
               <textarea

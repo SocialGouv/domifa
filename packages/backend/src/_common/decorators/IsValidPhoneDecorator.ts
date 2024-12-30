@@ -1,8 +1,4 @@
-import {
-  ValidationOptions,
-  registerDecorator,
-  ValidationArguments,
-} from "class-validator";
+import { ValidationOptions, registerDecorator } from "class-validator";
 import { isAnyValidPhone, isValidMobilePhone } from "../../util/phone";
 
 export function IsValidPhone(
@@ -20,23 +16,22 @@ export function IsValidPhone(
       options: validationOptions,
       constraints: [property],
       validator: {
-        validate(value: any, args: ValidationArguments) {
-          const [relatedPropertyName] = args.constraints;
-          const relatedValue = (args.object as any)[relatedPropertyName];
-
-          if (!value && !relatedValue) {
-            return false;
+        validate(value: any) {
+          if (typeof value === "string") {
+            try {
+              value = JSON.parse(value);
+            } catch (e) {
+              return false;
+            }
           }
 
-          if (!value?.numero && !required) {
-            return true;
+          if (!value?.numero && required) {
+            return false;
           }
 
           if (
             typeof value.numero !== "string" ||
-            typeof relatedValue.numero !== "string" ||
-            typeof value.countryCode !== "string" ||
-            typeof relatedValue.countryCode !== "string"
+            typeof value.countryCode !== "string"
           ) {
             return !required;
           }

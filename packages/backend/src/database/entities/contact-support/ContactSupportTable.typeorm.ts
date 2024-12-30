@@ -34,6 +34,9 @@ export class ContactSupportTable
   @Column({ type: "text", nullable: true })
   public structureName: string;
 
+  @Column({ type: "text", nullable: true })
+  public phone: string;
+
   public constructor(entity?: Partial<ContactSupportTable>) {
     super(entity);
     Object.assign(this, entity);
