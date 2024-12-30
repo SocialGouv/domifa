@@ -9,5 +9,6 @@ export type ContactSupport = AppEntity & {
   subject?: string;
   email: string;
   name: string; // Nom de l'interlocuteur
+  phone?: string;
   structureName: string; // Nom de la structure
 };

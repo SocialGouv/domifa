@@ -81,6 +81,7 @@ async function createTables(queryRunner: QueryRunner) {
       "name" text NOT NULL,
       "structureName" text NULL,
       subject text NULL,
+      phone text NULL,
       CONSTRAINT "PK_8e4a4781a01061a482fa33e5f5a" PRIMARY KEY (uuid)
     );
 
@@ -430,14 +431,14 @@ async function createTables(queryRunner: QueryRunner) {
       "pinnedNote" jsonb NULL,
       nationalite text NULL,
       statut text DEFAULT 'INSTRUCTION'::text NOT NULL,
-      nom_prenom_surnom_ref varchar NULL,
+      nom_prenom_surnom_ref varchar NOT NULL,
       CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_e76056fb098740de66d58a5055a" UNIQUE ("structureId", ref),
       CONSTRAINT "FK_a44d882d224e368efdee8eb8c80" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
     );
-    CREATE INDEX "IDX_57133463f2311234ecf27157fa" ON public.usager USING btree (nom_prenom_surnom_ref);
     CREATE INDEX "IDX_a44d882d224e368efdee8eb8c8" ON public.usager USING btree ("structureId");
     CREATE INDEX "IDX_b4d09870ec6cad2d2d98b7cc3a" ON public.usager USING btree (migrated);
+    CREATE INDEX "IDX_f072e2874bd87ecb6da2fbd66e" ON public.usager USING btree (nom_prenom_surnom_ref);
     CREATE INDEX idx_usager_statut ON public.usager USING btree ("structureId", statut);
 
 

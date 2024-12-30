@@ -11,8 +11,9 @@ import {
 import { Transform, TransformFnParams } from "class-transformer";
 
 import { MessageEmailAttachment } from "../../database/entities/message-email/MessageEmailAttachment.type";
-import { LowerCaseTransform } from "../../_common/decorators";
+import { IsValidPhone, LowerCaseTransform } from "../../_common/decorators";
 import sanitizeHtml from "sanitize-html";
+import { Telephone } from "@domifa/common";
 
 export class ContactSupportDto {
   @ApiProperty({
@@ -94,6 +95,20 @@ export class ContactSupportDto {
   })
   public subject!: string;
 
+  @IsValidPhone("phone", false, false)
+  public phone!: Telephone;
+
   @IsEmpty()
   public attachment!: MessageEmailAttachment;
+
+  @ApiProperty({
+    type: "string",
+    format: "binary",
+    required: false,
+  })
+  @IsOptional()
+  @Transform(({ value }: TransformFnParams) => {
+    return value instanceof File ? value : undefined;
+  })
+  file?: Express.Multer.File;
 }

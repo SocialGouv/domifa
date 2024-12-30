@@ -19,7 +19,7 @@ import {
   setFormPhone,
   anyPhoneValidator,
   getFormPhone,
-} from "../../../shared/phone";
+} from "../../../../shared/phone";
 import { CustomToastService } from "../../../shared/services";
 import { StructureService } from "../../services";
 

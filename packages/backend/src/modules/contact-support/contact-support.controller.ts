@@ -20,6 +20,7 @@ import { ExpressRequest, ExpressResponse } from "../../util/express";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 import { ContactSupportTable, contactSupportRepository } from "../../database";
 import { contactSupportEmailSender } from "../mails/services/templates-renderers/contact-support";
+import { getPhoneString } from "../../util";
 
 @Controller("contact")
 export class ContactSupportController {
@@ -56,7 +57,13 @@ export class ContactSupportController {
     @UploadedFile() file: Express.Multer.File,
     @Res() res: ExpressResponse
   ) {
-    const dataToSave = new ContactSupportTable(contactSupportDto);
+    const phone = contactSupportDto?.phone
+      ? getPhoneString(
+          JSON.parse(contactSupportDto?.phone as unknown as string)
+        )
+      : null;
+
+    const dataToSave = new ContactSupportTable({ ...contactSupportDto, phone });
 
     if (file) {
       dataToSave.attachment = {

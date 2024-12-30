@@ -6,9 +6,6 @@ export const getPhoneString = (
   telephone: Telephone,
   excpectedFormat: PhoneNumberFormat = PhoneNumberFormat.INTERNATIONAL
 ): string => {
-  if (!telephone) {
-    return "";
-  }
   if (!telephone?.numero || telephone?.numero === "") {
     return "";
   }
@@ -34,7 +31,6 @@ export const isValidMobilePhone = (value: Telephone): boolean | null => {
       const numberType = phoneUtil.getNumberType(parsedValue);
       return numberType === 1;
     }
-    // Numéro invalide
     return false;
   } catch (e) {
     return false;
@@ -42,10 +38,7 @@ export const isValidMobilePhone = (value: Telephone): boolean | null => {
 };
 
 export const isAnyValidPhone = (value: Telephone): boolean => {
-  if (!value) {
-    return false;
-  }
-  if (!value.numero || value.numero === "") {
+  if (!value?.numero || value?.numero === "") {
     return false;
   }
   try {

@@ -27,7 +27,7 @@ import { DecisionRefusFormComponent } from "./components/decision-refus-form/dec
 import { DecisionValideFormComponent } from "./components/decision-valide-form/decision-valide-form.component";
 import { UsagerNotesModule } from "../usager-notes/usager-notes.module";
 import { BaseUsagerDossierPageComponent } from "./components/base-usager-dossier-page/base-usager-dossier-page.component";
-import { FormatInternationalPhoneNumberPipe } from "../usager-shared/formatInternationalPhoneNumber.pipe";
+import { FormatInternationalPhoneNumberPipe } from "../../shared/phone/formatInternationalPhoneNumber.pipe";
 import { DisplayContactDetailsDecisionComponent } from "./components/display-contact-details-decision/display-contact-details-decision.component";
 import { DecisionStandbyFormComponent } from "./components/decision-standby-form/decision-standby-form.component";
 import { UsagerNomCompletPipe } from "../usager-shared/pipes";

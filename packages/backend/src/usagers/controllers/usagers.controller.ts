@@ -178,8 +178,6 @@ export class UsagersController {
       );
 
       if (!isValid(parsedDate)) {
-        console.log({ searchString });
-
         throw new BadRequestException(
           'Format de date invalide. Utilisez le format "dd MM yyyy"'
         );

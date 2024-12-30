@@ -10,4 +10,6 @@ Nom de la structure : {{ structureName }}
 
 Email : {{ email }}
 
+Téléphone : {% if phone %}{{ phone }}{% else %}non renseigné{% endif %}
+
 Contenu du message: {{ content }}

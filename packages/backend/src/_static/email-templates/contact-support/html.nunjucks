@@ -28,6 +28,10 @@
   </p>
 
   <p>
+    <strong>Téléphone : </strong> {% if phone %}{{ phone }}{% else %}non renseigné{% endif %}
+  </p>
+
+  <p>
     <strong>Contenu du message: </strong><br><br> {{ content }}
   </p>
 

@@ -25,7 +25,6 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
 import { RouterModule } from "@angular/router";
 
 import { SharedModule } from "../shared/shared.module";
-import { ContactSupportComponent } from "./components/contact-support/contact-support.component";
 import { LoginComponent } from "./components/login/login.component";
 import { PlanSiteComponent } from "./components/plan-site/plan-site.component";
 import { CguResponsableComponent } from "./components/static-pages/cgu-responsable/cgu-responsable.component";
@@ -46,7 +45,6 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     CguComponent,
     PolitiqueComponent,
     NavbarComponent,
-    ContactSupportComponent,
     LoginComponent,
     PlanSiteComponent,
     CguResponsableComponent,

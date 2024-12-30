@@ -30,6 +30,7 @@ async function sendMail(model: ContactSupport): Promise<void> {
 
   const renderedTemplate = await contactSupportEmailRenderer.renderTemplate({
     structureId: model.structureId,
+    phone: model?.phone,
     content: model.content,
     email: model.email,
     name: model.name,

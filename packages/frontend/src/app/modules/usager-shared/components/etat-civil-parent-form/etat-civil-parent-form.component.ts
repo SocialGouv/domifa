@@ -54,7 +54,7 @@ import {
   getFormPhone,
   mobilePhoneValidator,
   setFormPhone,
-} from "../../../shared/phone";
+} from "../../../../shared/phone";
 import {
   LIEN_PARENTE_LABELS,
   UsagerAyantDroit,

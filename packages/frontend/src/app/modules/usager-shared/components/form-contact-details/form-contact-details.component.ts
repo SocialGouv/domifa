@@ -23,7 +23,7 @@ import {
   setFormPhone,
   mobilePhoneValidator,
   getFormPhone,
-} from "../../../shared/phone";
+} from "../../../../shared/phone";
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../interfaces";
 import { UsagerService } from "../../services";

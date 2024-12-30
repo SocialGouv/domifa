@@ -18,7 +18,7 @@ import { ColumnInformationsComponent } from "./components/column-informations/co
 
 import { ManageFiltersComponent } from "./components/manage-filters/manage-filters.component";
 import { ColumnInteractionsComponent } from "./components/column-interactions/column-interactions.component";
-import { FormatInternationalPhoneNumberPipe } from "../usager-shared/formatInternationalPhoneNumber.pipe";
+import { FormatInternationalPhoneNumberPipe } from "../../shared/phone/formatInternationalPhoneNumber.pipe";
 import {} from "../shared/pipes";
 import { UsagerNomCompletPipe } from "../usager-shared/pipes";
 import { SortLabelPipe } from "./pipes/sort-label.pipe";
