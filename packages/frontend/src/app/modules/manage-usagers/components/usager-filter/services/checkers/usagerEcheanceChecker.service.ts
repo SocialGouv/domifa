@@ -19,17 +19,17 @@ function check({
     return false;
   }
 
-  // Convertit les dates en format YYYY-MM-DD
-  const today = new Date().toISOString().split("T")[0];
-  const dateFin = new Date(usager.decision.dateFin).toISOString().split("T")[0];
+  const today = new Date();
+  const dateFin = new Date(usager.decision.dateFin);
 
   if (echeance === "EXCEEDED") {
     return dateFin < today;
   }
-  const deadline = USAGER_DEADLINES[echeance].value.toISOString().split("T")[0];
+
+  const deadline = USAGER_DEADLINES[echeance].value;
 
   if (echeance.startsWith("NEXT_")) {
-    return dateFin >= today && dateFin <= deadline;
+    return dateFin >= today && dateFin < deadline;
   }
 
   if (echeance.startsWith("PREVIOUS_")) {

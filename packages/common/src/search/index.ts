@@ -4,4 +4,3 @@ export * from "./core";
 export * from "./functions";
 export * from "./sorter";
 export * from "./types";
-export * from "./USAGER_DEADLINES.const";
