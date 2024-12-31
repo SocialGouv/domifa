@@ -1,3 +1,15 @@
+# [2.189.0](https://github.com/SocialGouv/domifa/compare/v2.188.9...v2.189.0) (2024-12-31)
+
+
+### Bug Fixes
+
+* **frontend:** fix date of last interaction ([0659fbd](https://github.com/SocialGouv/domifa/commit/0659fbd628a74a67c31bf682b9a09097f1f38af0))
+
+
+### Features
+
+* **backend:** add phone in contact form ([01000fd](https://github.com/SocialGouv/domifa/commit/01000fd70623f607661789f72f036ae0f25c9e96))
+
 ## [2.188.9](https://github.com/SocialGouv/domifa/compare/v2.188.8...v2.188.9) (2024-12-30)
 
 
