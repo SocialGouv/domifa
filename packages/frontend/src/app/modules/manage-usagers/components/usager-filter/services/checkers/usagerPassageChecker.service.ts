@@ -18,7 +18,6 @@ function check({
 
   if (lastInteractionDate && USAGER_DEADLINES[lastInteractionDate]) {
     const deadlineTime = USAGER_DEADLINES[lastInteractionDate].value;
-
     const interactionTime = new Date(usager.lastInteraction.dateInteraction);
     return deadlineTime > interactionTime;
   }

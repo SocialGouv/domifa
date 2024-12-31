@@ -1,4 +1,4 @@
-import { subDays, subMonths, subWeeks } from "date-fns";
+import { subMonths, subWeeks } from "date-fns";
 import { UsagerLight } from "../../../../../../../_common/model";
 import { usagerPassageChecker } from "./usagerPassageChecker.service";
 
@@ -27,8 +27,6 @@ describe("usagerPassageChecker ", () => {
           lastInteractionDate: "PREVIOUS_TWO_MONTHS",
         })
       ).toBeTruthy();
-    });
-    it("usagerPassageChecker: should return false, last interaction < TWO_MONTHS", () => {
       expect(
         usagerPassageChecker.check({
           usager: {
@@ -37,6 +35,22 @@ describe("usagerPassageChecker ", () => {
             },
             lastInteraction: {
               dateInteraction: new Date("2024-10-30T12:00:00.000Z"),
+            },
+          } as UsagerLight,
+          lastInteractionDate: "PREVIOUS_TWO_MONTHS",
+        })
+      ).toBeTruthy();
+    });
+
+    it("usagerPassageChecker: should return false, last interaction < TWO_MONTHS", () => {
+      expect(
+        usagerPassageChecker.check({
+          usager: {
+            decision: {
+              statut: "INSTRUCTION",
+            },
+            lastInteraction: {
+              dateInteraction: new Date("2024-10-31T12:00:00.000Z"),
             },
           } as UsagerLight,
           lastInteractionDate: "PREVIOUS_TWO_MONTHS",
@@ -50,23 +64,7 @@ describe("usagerPassageChecker ", () => {
               statut: "INSTRUCTION",
             },
             lastInteraction: {
-              dateInteraction: new Date("2024-10-29T12:00:00.000Z"),
-            },
-          } as UsagerLight,
-          lastInteractionDate: "PREVIOUS_TWO_MONTHS",
-        })
-      ).toBeTruthy();
-    });
-
-    it("usagerPassageChecker: should return false, last interaction < TWO_MONTHS", () => {
-      expect(
-        usagerPassageChecker.check({
-          usager: {
-            decision: {
-              statut: "VALIDE",
-            },
-            lastInteraction: {
-              dateInteraction: subDays(new Date(), 5),
+              dateInteraction: new Date("2024-11-28T12:00:00.000Z"),
             },
           } as UsagerLight,
           lastInteractionDate: "PREVIOUS_TWO_MONTHS",
