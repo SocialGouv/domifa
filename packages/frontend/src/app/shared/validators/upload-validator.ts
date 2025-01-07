@@ -1,9 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
-import {
-  SUPPORTED_FILE_EXTENSIONS,
-  UploadType,
-  UsagerDoc,
-} from "@domifa/common";
+import { SUPPORTED_MIME_TYPES, UploadType, UsagerDoc } from "@domifa/common";
 
 export type UploadResponseType = {
   success?: boolean;
@@ -20,7 +16,7 @@ export function validateUpload(
   return (control: AbstractControl): ValidationErrors | null => {
     const file = control.value;
     if (file) {
-      const validFileExtensions = SUPPORTED_FILE_EXTENSIONS[uploadType];
+      const validFileExtensions = SUPPORTED_MIME_TYPES[uploadType];
 
       const hasGoodSize = file.size < 10000000;
       const hasGoodExtension = validFileExtensions.includes(file.type);

@@ -1,19 +1,10 @@
-import { subMonths, subWeeks } from "date-fns";
+import { subDays, subMonths, subWeeks, subYears } from "date-fns";
 import { UsagerLight } from "../../../../../../../_common/model";
 import { usagerPassageChecker } from "./usagerPassageChecker.service";
 
 describe("usagerPassageChecker ", () => {
-  beforeEach(() => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date("2024-12-30T12:00:00.000Z"));
-  });
-
-  afterEach(() => {
-    jest.useRealTimers();
-  });
-
-  describe("TWO_MONTHS ", () => {
-    it("usagerPassageChecker: should return true, last interaction > TWO_MONTHS", () => {
+  describe("Previous two months ", () => {
+    it("usagerPassageChecker: should return true, Last Interaction date < Two months ago", () => {
       expect(
         usagerPassageChecker.check({
           usager: {
@@ -21,12 +12,13 @@ describe("usagerPassageChecker ", () => {
               statut: "VALIDE",
             },
             lastInteraction: {
-              dateInteraction: subMonths(new Date(), 3),
+              dateInteraction: subMonths(new Date(), 5),
             },
           } as UsagerLight,
           lastInteractionDate: "PREVIOUS_TWO_MONTHS",
         })
       ).toBeTruthy();
+
       expect(
         usagerPassageChecker.check({
           usager: {
@@ -34,7 +26,7 @@ describe("usagerPassageChecker ", () => {
               statut: "INSTRUCTION",
             },
             lastInteraction: {
-              dateInteraction: new Date("2024-10-30T12:00:00.000Z"),
+              dateInteraction: subYears(new Date(), 1),
             },
           } as UsagerLight,
           lastInteractionDate: "PREVIOUS_TWO_MONTHS",
@@ -42,7 +34,7 @@ describe("usagerPassageChecker ", () => {
       ).toBeTruthy();
     });
 
-    it("usagerPassageChecker: should return false, last interaction < TWO_MONTHS", () => {
+    it("usagerPassageChecker: should return false, last interaction > two months ago", () => {
       expect(
         usagerPassageChecker.check({
           usager: {
@@ -50,7 +42,7 @@ describe("usagerPassageChecker ", () => {
               statut: "INSTRUCTION",
             },
             lastInteraction: {
-              dateInteraction: new Date("2024-10-31T12:00:00.000Z"),
+              dateInteraction: subDays(new Date(), 2),
             },
           } as UsagerLight,
           lastInteractionDate: "PREVIOUS_TWO_MONTHS",
@@ -61,10 +53,10 @@ describe("usagerPassageChecker ", () => {
         usagerPassageChecker.check({
           usager: {
             decision: {
-              statut: "INSTRUCTION",
+              statut: "VALIDE",
             },
             lastInteraction: {
-              dateInteraction: new Date("2024-11-28T12:00:00.000Z"),
+              dateInteraction: subMonths(new Date(), 2),
             },
           } as UsagerLight,
           lastInteractionDate: "PREVIOUS_TWO_MONTHS",
@@ -73,8 +65,8 @@ describe("usagerPassageChecker ", () => {
     });
   });
 
-  describe("usagerPassageChecker THREE_MONTHS", () => {
-    it("usagerPassageChecker: should return true, last interaction > 3 months", () => {
+  describe("Previous three months", () => {
+    it("usagerPassageChecker: should return true, last interaction < 3 months", () => {
       expect(
         usagerPassageChecker.check({
           usager: {
@@ -90,7 +82,7 @@ describe("usagerPassageChecker ", () => {
       ).toBeTruthy();
     });
 
-    it("usagerPassageChecker: should return false, last interaction < 3 months", () => {
+    it("usagerPassageChecker: should return false, last interaction > 3 months", () => {
       expect(
         usagerPassageChecker.check({
           usager: {

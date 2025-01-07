@@ -6,18 +6,6 @@
 
 <div class="modal-body">
   <div class="col">
-    <p>
-      Vous êtes sur le point de domicilier
-      <strong>{{ usager | usagerNomComplet }}.</strong>
-      <br />
-      Veuillez indiquer la date de début de la domiciliation.
-    </p>
-    <p *ngIf="lastDecision && usager.decision.typeDom === 'RENOUVELLEMENT'">
-      <b>Information:</b> la dernière domiciliation de
-      {{ usager | usagerNomComplet }} était valide du
-      {{ lastDecision.dateDebut | date : "dd/MM/yyyy" }} au
-      {{ lastDecision.dateFin | date : "dd/MM/yyyy" }}.
-    </p>
     <form
       [formGroup]="valideForm"
       class="my-1"
@@ -31,7 +19,7 @@
           </p>
         </div>
         <div class="form-group col-12 col-md-6 required">
-          <label for="dateDebutValide">Date de début</label>
+          <label for="dateDebutValide">Date de début de la domiciliation</label>
           <div class="input-group">
             <input
               class="form-control"
@@ -86,7 +74,7 @@
           </p>
         </div>
         <div class="form-group col-12 col-md-6 required">
-          <label for="dateFinValide">Date de fin</label>
+          <label for="dateFinValide">Date de fin de la domiciliation</label>
           <div class="input-group">
             <input
               class="form-control"
@@ -150,6 +138,20 @@
               La date de fin doit être supérieure à la date de début
             </p>
           </div>
+        </div>
+
+        <div
+          class="col-12"
+          *ngIf="lastDecision && usager.typeDom === 'RENOUVELLEMENT'"
+        >
+          <p class="alert alert-info">
+            La dernière domiciliation connue de
+            {{ usager | usagerNomComplet }} était valide du&nbsp;
+            <b>
+              {{ lastDecision.dateDebut | date : "dd/MM/yyyy" }} au
+              {{ lastDecision.dateFin | date : "dd/MM/yyyy" }}.</b
+            >
+          </p>
         </div>
       </div>
 

@@ -39,6 +39,7 @@ export class ContactSupportController {
         if (!validateUpload("STRUCTURE_DOC", req, file)) {
           callback(new Error("INCORRECT_FORMAT"), false);
         }
+
         callback(null, true);
       },
       storage: diskStorage({

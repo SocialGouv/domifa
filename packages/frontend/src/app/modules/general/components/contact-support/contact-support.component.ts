@@ -112,10 +112,7 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
         [Validators.required, Validators.minLength(10), NoWhiteSpaceValidator],
       ],
       email: [email, [Validators.required, EmailValidator]],
-      phone: [
-        { countryCode: "fr", number: "" },
-        [Validators.required, anyPhoneValidator],
-      ],
+      phone: [{ countryCode: "fr", number: "" }, [anyPhoneValidator]],
       file: [""],
       fileSource: ["", [validateUpload("STRUCTURE_DOC", false)]],
       name: [
