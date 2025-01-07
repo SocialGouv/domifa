@@ -266,6 +266,7 @@
                 accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .xlsx, .xls"
                 id="file"
                 formControlName="file"
+                multiple="false"
                 name="file"
                 [attr.aria-invalid]="
                   (f.fileSource.dirty || submitted) && f.fileSource.errors
@@ -284,7 +285,8 @@
                 (change)="onFileChange($event)"
               />
               <small id="file-description">
-                Formats autorisés .pdf, .docx, .odt, .jpg, ou .png (6mo maxi)
+                Formats autorisés .pdf, xlsx, .docx, .odt, .jpg, ou .png (6mo
+                maxi)
               </small>
 
               <div

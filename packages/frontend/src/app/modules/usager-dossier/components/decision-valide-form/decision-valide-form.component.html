@@ -12,7 +12,12 @@
       <br />
       Veuillez indiquer la date de début de la domiciliation.
     </p>
-
+    <p *ngIf="lastDecision && usager.decision.typeDom === 'RENOUVELLEMENT'">
+      <b>Information:</b> la dernière domiciliation de
+      {{ usager | usagerNomComplet }} était valide du
+      {{ lastDecision.dateDebut | date : "dd/MM/yyyy" }} au
+      {{ lastDecision.dateFin | date : "dd/MM/yyyy" }}.
+    </p>
     <form
       [formGroup]="valideForm"
       class="my-1"
