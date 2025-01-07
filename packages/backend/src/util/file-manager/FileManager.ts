@@ -1,11 +1,15 @@
 import { extname } from "path";
 import { ExpressRequest } from "../express";
-import { FILES_MIME_TYPES } from "./FILES_MIME_TYPES.const";
-import { FILES_EXTENSIONS } from "./FILES_EXTENSIONS.const";
+
 import { randomBytes } from "crypto";
 import sanitizeFilename from "sanitize-filename";
 import sharp from "sharp";
-import { UsagerDoc } from "@domifa/common";
+import {
+  SUPPORTED_FILE_EXTENSIONS,
+  SUPPORTED_MIME_TYPES,
+  UploadType,
+  UsagerDoc,
+} from "@domifa/common";
 
 export const compressAndResizeImage = (
   usagerDoc: Pick<
@@ -32,18 +36,14 @@ export function randomName(file: Express.Multer.File): string {
 
 // Vérification des mimetype
 export function validateUpload(
-  uploadType:
-    | "STRUCTURE_CUSTOM_DOC"
-    | "STRUCTURE_DOC"
-    | "USAGER_DOC"
-    | "IMPORT",
+  uploadType: UploadType,
   _req: ExpressRequest,
   file: Express.Multer.File
 ): boolean {
-  const validFileMimeType = FILES_MIME_TYPES[uploadType].includes(
+  const validFileMimeType = SUPPORTED_MIME_TYPES[uploadType].includes(
     file.mimetype
   );
-  const validFileExtension = FILES_EXTENSIONS[uploadType].includes(
+  const validFileExtension = SUPPORTED_FILE_EXTENSIONS[uploadType].includes(
     extname(file.originalname).toLowerCase()
   );
 

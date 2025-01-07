@@ -1,4 +1,6 @@
-export const FILES_EXTENSIONS = {
+import { UploadType } from "../types";
+
+export const SUPPORTED_FILE_EXTENSIONS: { [key in UploadType]: string[] } = {
   STRUCTURE_CUSTOM_DOC: [".docx"],
   STRUCTURE_DOC: [
     ".jpg",

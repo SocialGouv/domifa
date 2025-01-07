@@ -21,7 +21,7 @@ import {
   UsagerDecisionValideForm,
 } from "../../../../../_common/model";
 import { formatDateToNgb } from "../../../../shared";
-import { UsagerFormModel } from "../../../usager-shared/interfaces";
+import { Decision, UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
 import {
   NgbDateCustomParserFormatter,
@@ -44,6 +44,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
   public maxEndDate: NgbDateStruct;
   public showDurationWarning: boolean;
 
+  public lastDecision: Decision | null = null;
   public lastDomiciled: Pick<
     UsagerLight,
     "ref" | "customRef" | "nom" | "prenom" | "sexe" | "structureId"
@@ -80,6 +81,16 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
       month: parseInt(format(date, "M"), 10),
       year: parseInt(format(date, "y"), 10),
     };
+  }
+
+  public getLastDecision() {
+    const indexOfDate =
+      this.usager.decision.statut === "ATTENTE_DECISION" ? 2 : 1;
+
+    if (indexOfDate && this.usager.historique.length >= indexOfDate) {
+      this.lastDecision =
+        this.usager.historique[this.usager.historique.length - indexOfDate];
+    }
   }
 
   public ngOnInit(): void {
@@ -138,6 +149,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
       })
     );
     this.getLastDomiciled();
+    this.getLastDecision();
     this.checkDuplicatesRef(this.usager.customRef);
   }
 

@@ -114,9 +114,9 @@ export class UsagerFormModel implements Usager {
       : null;
 
     this.historique = usager?.historique
-      ? usager.historique.map((decision: UsagerDecision) => {
-          return new Decision(decision);
-        })
+      ? usager.historique.map(
+          (decision: UsagerDecision) => new Decision(decision)
+        )
       : [];
 
     this.lastInteraction = {
