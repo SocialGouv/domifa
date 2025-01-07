@@ -74,7 +74,6 @@ export const USAGER_VALIDE_MOCK: UsagerLight = {
     orientation: true,
     orientationDetail: "Test orientation",
     situationProDetail: null,
-
     raison: "PRESTATIONS_SOCIALES",
     liencommune: "SOCIAL",
     liencommuneDetail: "Suivi social",

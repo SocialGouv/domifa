@@ -5,7 +5,7 @@ import {
   USAGER_DECISION_STATUT_COLORS,
   getRdvInfos,
 } from "@domifa/common";
-import { Options } from "../../modules/usager-shared/interfaces";
+import { Decision, Options } from "../../modules/usager-shared/interfaces";
 import { getEcheanceInfos } from "../../modules/usager-shared/utils";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,6 +22,13 @@ export const setUsagerInformation = (usager: Usager): any => {
     statusInfo: {
       text: USAGER_DECISION_STATUT_LABELS[usager?.decision?.statut],
       color: USAGER_DECISION_STATUT_COLORS[usager?.decision?.statut],
+    },
+    decision: new Decision(usager.decision),
+    lastInteraction: {
+      ...usager.lastInteraction,
+      dateInteraction: usager?.lastInteraction?.dateInteraction
+        ? new Date(usager.lastInteraction.dateInteraction)
+        : null,
     },
     echeanceInfos: getEcheanceInfos(usager),
     rdvInfos: getRdvInfos({

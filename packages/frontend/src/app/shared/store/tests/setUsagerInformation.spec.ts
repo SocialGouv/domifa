@@ -11,6 +11,19 @@ describe("setUsagerInformation", () => {
     expect(result.entretien).toBeNull();
     expect(result.rdv).toBeNull();
   });
+
+  describe("Should create all information with good type", () => {
+    const result = setUsagerInformation(
+      JSON.parse(JSON.stringify(USAGER_VALIDE_MOCK))
+    );
+    expect(result.entretien).toBeNull();
+    expect(result.lastInteraction.dateInteraction).toBeInstanceOf(Date);
+    expect(result.dateNaissance).toBeInstanceOf(Date);
+    expect(result.decision.dateDebut).toBeInstanceOf(Date);
+    expect(result.decision.dateFin).toBeInstanceOf(Date);
+    expect(result.rdv).toBeNull();
+  });
+
   describe("Should complete 'statusInfo'", () => {
     it("Should complete 'statusInfo' for 'VALIDE'", () => {
       const result = setUsagerInformation({ ...USAGER_VALIDE_MOCK });

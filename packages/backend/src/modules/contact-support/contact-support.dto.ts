@@ -100,15 +100,4 @@ export class ContactSupportDto {
 
   @IsEmpty()
   public attachment!: MessageEmailAttachment;
-
-  @ApiProperty({
-    type: "string",
-    format: "binary",
-    required: false,
-  })
-  @IsOptional()
-  @Transform(({ value }: TransformFnParams) => {
-    return value instanceof File ? value : undefined;
-  })
-  file?: Express.Multer.File;
 }

@@ -142,11 +142,13 @@
                   nom&#64;domaine.fr
                 </p>
               </div>
-              <div class="col-md-6 col-12 form-group required">
+              <div class="col-md-6 col-12 form-group">
                 <label for="phone">Numéro de téléphone</label>
                 <ngx-intl-tel-input
                   [cssClass]="
-                    submitted && (f.phone.errors || f.phone.invalid)
+                    submitted &&
+                    f.phone.value &&
+                    (f.phone.errors || f.phone.invalid)
                       ? 'form-control is-invalid'
                       : 'form-control'
                   "
@@ -170,7 +172,11 @@
                   name="phone"
                 ></ngx-intl-tel-input>
                 <p
-                  *ngIf="submitted && (f.phone.errors || f.phone.invalid)"
+                  *ngIf="
+                    submitted &&
+                    f.phone.value &&
+                    (f.phone.errors || f.phone.invalid)
+                  "
                   class="invalid-feedback-custom"
                 >
                   Numéro de téléphone incorrect (Ex: 0606060606)
@@ -191,20 +197,23 @@
                 formControlName="subject"
                 subject="subject"
                 [ngClass]="{
-                  'is-invalid': f.subject.dirty && f.subject.errors
+                  'is-invalid':
+                    (f.subject.dirty || submitted) && f.subject.errors
                 }"
                 [attr.aria-invalid]="
-                  f.subject.dirty && f.subject.errors ? true : false
+                  (f.subject.dirty || submitted) && f.subject.errors
+                    ? true
+                    : false
                 "
                 [attr.aria-describedby]="
-                  f.subject.dirty && f.subject.errors
+                  (f.subject.dirty || submitted) && f.subject.errors
                     ? 'invalid-subject'
                     : 'subject-help'
                 "
                 required
               />
               <small
-                *ngIf="!f.subject.dirty && !f.subject.errors"
+                *ngIf="!(f.subject.dirty || submitted) && !f.subject.errors"
                 id="subject-help"
                 >2 caractères minimum</small
               >

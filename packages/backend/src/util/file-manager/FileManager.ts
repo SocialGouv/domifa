@@ -43,6 +43,7 @@ export function validateUpload(
   const validFileMimeType = SUPPORTED_MIME_TYPES[uploadType].includes(
     file.mimetype
   );
+
   const validFileExtension = SUPPORTED_FILE_EXTENSIONS[uploadType].includes(
     extname(file.originalname).toLowerCase()
   );
