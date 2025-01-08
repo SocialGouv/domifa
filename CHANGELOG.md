@@ -1,3 +1,11 @@
+## [2.189.1](https://github.com/SocialGouv/domifa/compare/v2.189.0...v2.189.1) (2025-01-08)
+
+
+### Bug Fixes
+
+* **frontend:** fix contact form phone ([e0d22aa](https://github.com/SocialGouv/domifa/commit/e0d22aad5a64088fa1059c1474b552dbb2cbe3d9))
+* **frontend:** fix small issues ([9c40a1f](https://github.com/SocialGouv/domifa/commit/9c40a1fe288249b0725695524905145587ca2e80))
+
 # [2.189.0](https://github.com/SocialGouv/domifa/compare/v2.188.9...v2.189.0) (2024-12-31)
 
 
