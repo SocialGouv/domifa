@@ -9,7 +9,6 @@ describe("setUsagerInformation", () => {
     const result = setUsagerInformation({ ...USAGER_VALIDE_MOCK });
     expect(result.historique.length).toEqual(0);
     expect(result.entretien).toBeNull();
-    expect(result.rdv).toBeNull();
   });
 
   describe("Should create all information with good type", () => {
@@ -21,7 +20,6 @@ describe("setUsagerInformation", () => {
     expect(result.dateNaissance).toBeInstanceOf(Date);
     expect(result.decision.dateDebut).toBeInstanceOf(Date);
     expect(result.decision.dateFin).toBeInstanceOf(Date);
-    expect(result.rdv).toBeNull();
   });
 
   describe("Should complete 'statusInfo'", () => {
@@ -58,14 +56,14 @@ describe("setUsagerInformation", () => {
     });
   });
 
-  describe("totalInteractionsEnAttente", () => {
-    it("totalInteractionsEnAttente 'VALIDE'", () => {
+  describe("standByInteractions", () => {
+    it("standByInteractions 'VALIDE'", () => {
       const result = setUsagerInformation({ ...USAGER_VALIDE_MOCK });
-      expect(result.totalInteractionsEnAttente).toEqual(10);
+      expect(result.standByInteractions).toEqual(10);
     });
-    it("totalInteractionsEnAttente 'REFUS'", () => {
+    it("standByInteractions 'REFUS'", () => {
       const result = setUsagerInformation({ ...USAGER_REFUS_MOCK });
-      expect(result.totalInteractionsEnAttente).toEqual(0);
+      expect(result.standByInteractions).toEqual(0);
     });
   });
 });

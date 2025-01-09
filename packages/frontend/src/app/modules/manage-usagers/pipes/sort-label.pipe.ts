@@ -12,6 +12,7 @@ export class SortLabelPipe implements PipeTransform {
       | ((statut?: string) => string);
   } = {
     NOM: "nom",
+    RDV: "date de rendez-vous",
     ECHEANCE: (statut?: string) => {
       if (statut === "RADIE") return "radiation";
       if (statut === "REFUS") return "refus";

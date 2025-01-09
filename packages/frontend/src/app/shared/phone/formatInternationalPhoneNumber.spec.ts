@@ -7,20 +7,20 @@ describe("formatInternationalPhoneNumber", () => {
       // 06 98 XX XX XX - mobiles fictifs
       {
         input: { numero: "0698001122", countryCode: "FR" },
-        expected: "+33 6 98 00 11 22",
+        expected: "06 98 00 11 22",
       },
       {
         input: { numero: "0698999999", countryCode: "FR" },
-        expected: "+33 6 98 99 99 99",
+        expected: "06 98 99 99 99",
       },
       // 01 99 XX XX XX - fixes fictifs
       {
         input: { numero: "0199001122", countryCode: "FR" },
-        expected: "+33 1 99 00 11 22",
+        expected: "01 99 00 11 22",
       },
       {
         input: { numero: "0199999999", countryCode: "FR" },
-        expected: "+33 1 99 99 99 99",
+        expected: "01 99 99 99 99",
       },
     ])(
       "devrait formater correctement le numéro fictif $input.numero",

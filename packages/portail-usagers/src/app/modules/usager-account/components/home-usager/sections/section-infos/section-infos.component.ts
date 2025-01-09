@@ -5,8 +5,8 @@ import { DEFAULT_USAGER_PROFILE } from "../../../../../../../_common/mocks/DEFAU
 import { getEcheanceInfos } from "../../../../interfaces/getEcheanceInfos.service";
 import {
   USAGER_DECISION_STATUT_LABELS,
-  getRdvInfos,
-  UsagerRdvInfos,
+  getRdvInfo,
+  UsagerRdvInfo,
   PortailUsagerPublic,
 } from "@domifa/common";
 
@@ -22,17 +22,17 @@ export class SectionInfosComponent implements OnInit {
   @Input() public usager: PortailUsagerPublic;
 
   public echeanceInfos: UsagerEcheanceInfos;
-  public rdvInfos: UsagerRdvInfos;
+  public rdvInfo: UsagerRdvInfo;
 
   constructor() {
     this.usager = DEFAULT_USAGER_PROFILE.usager;
     this.echeanceInfos = getEcheanceInfos(this.usager);
-    this.rdvInfos = getRdvInfos(this.usager);
+    this.rdvInfo = getRdvInfo(this.usager);
   }
 
   ngOnInit(): void {
     this.echeanceInfos = getEcheanceInfos(this.usager);
-    this.rdvInfos = getRdvInfos({
+    this.rdvInfo = getRdvInfo({
       etapeDemande: this.usager.etapeDemande,
       rdv: this.usager.rdv,
     });

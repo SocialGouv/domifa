@@ -4,8 +4,7 @@ import {
   ETAPE_DOSSIER_COMPLET,
   ETAPE_DECISION,
 } from "../../constants";
-
-import { getRdvInfos } from "../getRdvInfos.service";
+import { getRdvInfo } from "../getRdvInfo.service";
 
 beforeAll(() => {
   jest.useFakeTimers();
@@ -26,14 +25,14 @@ describe("Création des rendez-vous", () => {
     };
 
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
-    expect(getRdvInfos(usager)).toEqual({
+    expect(getRdvInfo(usager)).toEqual({
       class: "warning",
       content: "20 mars 2021 à 19:20",
       display: true,
     });
 
     usager.etapeDemande = ETAPE_DOSSIER_COMPLET;
-    expect(getRdvInfos(usager)).toEqual({
+    expect(getRdvInfo(usager)).toEqual({
       class: "",
       content: "",
       display: false,
@@ -53,14 +52,14 @@ describe("Création des rendez-vous", () => {
     };
 
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
-    expect(getRdvInfos(usager)).toEqual({
+    expect(getRdvInfo(usager)).toEqual({
       class: "danger",
       content: "20 juillet 2020 à 19:20",
       display: true,
     });
 
     usager.etapeDemande = ETAPE_DECISION;
-    expect(getRdvInfos(usager)).toEqual({
+    expect(getRdvInfo(usager)).toEqual({
       class: "",
       content: "",
       display: false,
@@ -70,14 +69,14 @@ describe("Création des rendez-vous", () => {
   it("Rendez-vous de base", () => {
     const usager = USAGER_VALIDE_MOCK;
     usager.rdv = { dateRdv: null, userId: 0, userName: "" };
-    expect(getRdvInfos(usager)).toEqual({
+    expect(getRdvInfo(usager)).toEqual({
       class: "",
       content: "",
       display: false,
     });
 
     usager.rdv.dateRdv = null;
-    expect(getRdvInfos(usager)).toEqual({
+    expect(getRdvInfo(usager)).toEqual({
       class: "",
       content: "",
       display: false,
@@ -85,13 +84,13 @@ describe("Création des rendez-vous", () => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     usager.rdv = null as any;
-    expect(getRdvInfos(usager)).toEqual({
+    expect(getRdvInfo(usager)).toEqual({
       class: "",
       content: "",
       display: false,
     });
 
-    expect(getRdvInfos()).toEqual({
+    expect(getRdvInfo()).toEqual({
       class: "",
       content: "",
       display: false,

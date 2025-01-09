@@ -156,8 +156,22 @@
       scope="col"
       role="columnheader"
       *ngIf="filters.statut === 'INSTRUCTION'"
+      class="clickable"
     >
-      Rendez-vous le
+      <button
+        type="button"
+        [ngClass]="filters.sortKey === 'RDV' ? 'fw-bold text-primary' : ''"
+        [attr.aria-sort]="filters.sortKey ==='RDV' ? ARIA_SORT[filters.sortValue] : 'none'"
+        (click)="updateFilters.emit({element: 'sortKey', value: 'RDV'})"
+      >
+        <span class="visually-hidden">Trier par</span>
+        Rendez-vous le
+        <app-table-head-sort-icon
+          [sortKey]="filters.sortKey"
+          [sortValue]="filters.sortValue"
+          currentKey="RDV"
+        ></app-table-head-sort-icon>
+      </button>
     </th>
     <th class="clickable" role="columnheader" scope="col">
       <button
@@ -283,7 +297,7 @@
         </p>
       </td>
       <td class="clickable" *ngIf="filters.statut === 'INSTRUCTION'">
-        {{ usager.rdvInfos.content }}
+        {{ usager.rdvInfo.content }}
       </td>
       <td
         *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS'"

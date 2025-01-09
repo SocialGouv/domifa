@@ -1,5 +1,4 @@
-export interface UsagerRdvInfos {
-  display: boolean;
+export interface UsagerRdvInfo {
   class: "danger" | "warning" | "";
   content: string;
 }

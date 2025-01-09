@@ -17,6 +17,7 @@ export type UsagersFilterCriteriaSortKey =
   | "PASSAGE"
   | "NOM"
   | "ECHEANCE"
+  | "RDV"
   | "ID";
 
 export type UsagersFilterCriteriaEntretien = "COMING" | "OVERDUE";

@@ -13,7 +13,8 @@ import { type UsagerAyantDroit } from "./UsagerAyantDroit.interface";
 import { type UsagerDecision } from "./UsagerDecision.interface";
 import { type UsagerEntretien } from "./UsagerEntretien.interface";
 import { type UsagerLastInteraction } from "./UsagerLastInteraction.interface";
-import { type UsagerRdv } from "./UsagerRdv.interface";
+import { UsagerRdvInfo } from "./rdv";
+import { type UsagerRdv } from "./rdv/UsagerRdv.interface";
 
 export interface Usager extends AppEntity {
   ref: number; // unique par structure
@@ -58,6 +59,6 @@ export interface Usager extends AppEntity {
   nbNotes?: number;
   statusInfos?: any;
   echeanceInfos?: any;
-  rdvInfos?: any;
+  rdvInfo?: UsagerRdvInfo;
   migrated?: boolean;
 }
