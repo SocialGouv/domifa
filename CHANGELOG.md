@@ -1,3 +1,10 @@
+## [2.190.1](https://github.com/SocialGouv/domifa/compare/v2.190.0...v2.190.1) (2025-01-09)
+
+
+### Bug Fixes
+
+* **admin:** fix export in admin ([90f5631](https://github.com/SocialGouv/domifa/commit/90f5631d6772e9720ca89770c1f94dea8f4c4663))
+
 # [2.190.0](https://github.com/SocialGouv/domifa/compare/v2.189.1...v2.190.0) (2025-01-09)
 
 
