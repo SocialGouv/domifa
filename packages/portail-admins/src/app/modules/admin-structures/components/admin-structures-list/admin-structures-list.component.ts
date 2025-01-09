@@ -125,6 +125,8 @@ export class AdminStructuresListComponent
     );
 
     this.setupIntersectionObserver();
+    this.filters$.next(this.filters);
+    this.searchInput.nativeElement.value = this.filters.searchString;
   }
 
   private setupIntersectionObserver(): void {
