@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -60,13 +59,12 @@ import {
   CerfaDocType,
   UsagerDecision,
   getUsagerDeadlines,
-  normalizeString,
+  CriteriaSearchField,
 } from "@domifa/common";
 import { UsagerHistoryStateService } from "../services/usagerHistoryState.service";
 import { domifaConfig } from "../../config";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
 import { Not } from "typeorm";
-import { isValid, parse } from "date-fns";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -164,28 +162,22 @@ export class UsagersController {
         structureId: user.structureId,
       });
 
-    const searchString = normalizeString(search?.searchString).trim();
-
-    if (searchString && search.searchStringField === "DEFAULT") {
-      query.andWhere("nom_prenom_surnom_ref ILIKE :str", {
-        str: `%${searchString}%`,
-      });
-    } else if (searchString && search.searchStringField === "DATE_NAISSANCE") {
-      const parsedDate = parse(
-        searchString.replace(/\D/g, ""),
-        "ddMMyyyy",
-        new Date()
-      );
-
-      if (!isValid(parsedDate)) {
-        throw new BadRequestException(
-          'Format de date invalide. Utilisez le format "dd MM yyyy"'
-        );
+    if (search.searchString) {
+      if (search.searchStringField === CriteriaSearchField.DEFAULT) {
+        query.andWhere("nom_prenom_surnom_ref ILIKE :str", {
+          str: `%${search.searchString}%`,
+        });
+      } else if (search.searchStringField === CriteriaSearchField.BIRTH_DATE) {
+        query.andWhere(`DATE("dateNaissance") = DATE(:date)`, {
+          date: search.searchString,
+        });
+      } else if (
+        search.searchStringField === CriteriaSearchField.PHONE_NUMBER
+      ) {
+        query.andWhere(`telephone->>'numero' ILIKE :phone`, {
+          phone: `%${search.searchString}%`,
+        });
       }
-
-      query.andWhere(`DATE("dateNaissance") = DATE(:date)`, {
-        date: parsedDate,
-      });
     }
 
     if (search?.lastInteractionDate) {
@@ -225,7 +217,11 @@ export class UsagersController {
       }
     }
 
-    if (!searchString && !search?.echeance && !search?.lastInteractionDate) {
+    if (
+      !search.searchString &&
+      !search?.echeance &&
+      !search?.lastInteractionDate
+    ) {
       query.take(100);
     }
 

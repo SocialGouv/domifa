@@ -1,5 +1,3 @@
-import { CriteriaSearchField } from "../usager-filter/UsagersFilterCriteria";
-
 import {
   AfterViewInit,
   Component,
@@ -32,7 +30,12 @@ import {
   tap,
   withLatestFrom,
 } from "rxjs/operators";
-import { fadeInOut } from "../../../../shared";
+import {
+  fadeInOut,
+  selectAllUsagers,
+  selectUsagerStateData,
+  UsagerState,
+} from "../../../../shared";
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
@@ -44,15 +47,9 @@ import {
 } from "../usager-filter";
 import { Store } from "@ngrx/store";
 import { ManageUsagersService } from "../../services/manage-usagers.service";
-import { SortValues, UserStructure } from "@domifa/common";
+import { CriteriaSearchField, SortValues, UserStructure } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 import { AuthService, CustomToastService } from "../../../shared/services";
-import {} from "../../../../shared/store/usager-actions.service";
-import {
-  selectAllUsagers,
-  selectUsagerStateData,
-  UsagerState,
-} from "../../../../shared/store/usager-actions-reducer.service";
 import { UsagerLight } from "../../../../../_common/model";
 import {
   calculateUsagersCountByStatus,
@@ -74,6 +71,7 @@ export class ManageUsagersPageComponent
   public searching: boolean;
 
   public usagersRadiesLoadedCount = 0;
+  public readonly CriteriaSearchField = CriteriaSearchField;
 
   public chargerTousRadies$ = new BehaviorSubject(false);
   public searchTrigger$ = new Subject<void>();
@@ -107,9 +105,13 @@ export class ManageUsagersPageComponent
       label: "ID, nom, prénom, ayant-droit ou mandataire",
       placeholder: "Recherche par ID, nom, prénom, ayant-droit ou mandataire",
     },
-    DATE_NAISSANCE: {
+    BIRTH_DATE: {
       label: "Date de naissance (format attendu:  JJ/MM/AAAA)",
       placeholder: "Recherche par date de naissance JJ/MM/AAAA",
+    },
+    PHONE_NUMBER: {
+      label: "Numéro de téléphone",
+      placeholder: "Recherche par numéro de téléphone",
     },
   };
 
@@ -348,7 +350,7 @@ export class ManageUsagersPageComponent
       (this.filters.statut === "TOUS" || this.filters.statut === "RADIE")
     ) {
       if (
-        this.filters.searchStringField === "DATE_NAISSANCE" &&
+        this.filters.searchStringField === "BIRTH_DATE" &&
         !this.validateDateSearchInput(filters?.searchString)
       ) {
         return of(filters.searchString);

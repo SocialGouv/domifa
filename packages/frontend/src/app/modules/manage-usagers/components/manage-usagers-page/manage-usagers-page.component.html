@@ -58,12 +58,12 @@
                   (click)="
                     updateFilters({
                       element: 'searchStringField',
-                      value: 'DATE_NAISSANCE'
+                      value: CriteriaSearchField.BIRTH_DATE
                     })
                   "
                   role="option"
                   [attr.aria-selected]="
-                    filters.searchStringField === 'DATE_NAISSANCE'
+                    filters.searchStringField === CriteriaSearchField.BIRTH_DATE
                   "
                   ngbDropdownItem
                 >
@@ -74,14 +74,33 @@
                   (click)="
                     updateFilters({
                       element: 'searchStringField',
-                      value: 'DEFAULT'
+                      value: CriteriaSearchField.DEFAULT
                     })
                   "
                   role="option"
-                  [attr.aria-selected]="filters.searchStringField === 'DEFAULT'"
+                  [attr.aria-selected]="
+                    filters.searchStringField === CriteriaSearchField.DEFAULT
+                  "
                   ngbDropdownItem
                 >
                   {{ SEARCH_STRING_FIELD_LABELS.DEFAULT.label }}
+                </button>
+                <button
+                  type="button"
+                  (click)="
+                    updateFilters({
+                      element: 'searchStringField',
+                      value: CriteriaSearchField.PHONE_NUMBER
+                    })
+                  "
+                  role="option"
+                  [attr.aria-selected]="
+                    filters.searchStringField ===
+                    CriteriaSearchField.PHONE_NUMBER
+                  "
+                  ngbDropdownItem
+                >
+                  {{ SEARCH_STRING_FIELD_LABELS.PHONE_NUMBER.label }}
                 </button>
               </div>
             </div>

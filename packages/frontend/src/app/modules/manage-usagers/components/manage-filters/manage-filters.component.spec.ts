@@ -5,6 +5,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 
 import { ManageUsagersModule } from "../../manage-usagers.module";
+import { CriteriaSearchField } from "@domifa/common";
 
 describe("ManageFiltersComponent", () => {
   let component: ManageFiltersComponent;
@@ -24,7 +25,7 @@ describe("ManageFiltersComponent", () => {
       interactionType: null,
       entretien: null,
       searchString: null,
-      searchStringField: "DEFAULT",
+      searchStringField: CriteriaSearchField.DEFAULT,
       page: 0,
       lastInteractionDate: null,
       sortKey: "NOM",

@@ -11,6 +11,7 @@ import { _usagerReducer, MATOMO_INJECTORS } from "../../../../shared";
 
 import { ManageUsagersPageComponent } from "./manage-usagers-page.component";
 import { StoreModule } from "@ngrx/store";
+import { CriteriaSearchField } from "@domifa/common";
 
 describe("ManageUsagersPageComponent", () => {
   let component: ManageUsagersPageComponent;
@@ -49,7 +50,7 @@ describe("ManageUsagersPageComponent", () => {
       interactionType: null,
       entretien: null,
       searchString: null,
-      searchStringField: "DEFAULT",
+      searchStringField: CriteriaSearchField.DEFAULT,
       page: 1,
       lastInteractionDate: null,
       sortKey: "NOM",

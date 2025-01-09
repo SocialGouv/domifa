@@ -34,4 +34,6 @@ export type UsagerLight = AppEntity &
     | "pinnedNote"
     | "datePremiereDom"
     | "nbNotes"
-  >;
+  > & {
+    phoneNumber?: string;
+  };

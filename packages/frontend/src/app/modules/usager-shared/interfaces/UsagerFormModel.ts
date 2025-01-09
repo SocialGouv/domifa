@@ -18,6 +18,7 @@ import {
   Usager,
   UsagerDecisionStatut,
 } from "@domifa/common";
+import { formatInternationalPhoneNumber } from "../../../shared/phone/formatInternationalPhoneNumber";
 
 export class UsagerFormModel implements Usager {
   public ref: number;
@@ -71,7 +72,10 @@ export class UsagerFormModel implements Usager {
 
   public email: string;
   public statut: UsagerDecisionStatut;
+
   public telephone: Telephone;
+  public phoneNumber?: string | null;
+
   public contactByPhone: boolean;
   public entretien: Entretien;
   public historique: Decision[];
@@ -100,10 +104,13 @@ export class UsagerFormModel implements Usager {
     this.villeNaissance = usager?.villeNaissance || "";
     this.nationalite = usager?.nationalite || "";
     this.email = usager?.email || "";
+
     this.telephone = (usager?.telephone as Telephone) || {
       countryCode: CountryISO.France,
       numero: "",
     };
+
+    this.phoneNumber = formatInternationalPhoneNumber(this.telephone);
 
     this.etapeDemande = usager?.etapeDemande || ETAPE_ETAT_CIVIL;
     this.ayantsDroits = usager?.ayantsDroits || [];
