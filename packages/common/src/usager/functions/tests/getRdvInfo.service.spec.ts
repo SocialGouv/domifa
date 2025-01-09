@@ -28,14 +28,12 @@ describe("Création des rendez-vous", () => {
     expect(getRdvInfo(usager)).toEqual({
       class: "warning",
       content: "20 mars 2021 à 19:20",
-      display: true,
     });
 
     usager.etapeDemande = ETAPE_DOSSIER_COMPLET;
     expect(getRdvInfo(usager)).toEqual({
       class: "",
       content: "",
-      display: false,
     });
   });
 
@@ -55,14 +53,12 @@ describe("Création des rendez-vous", () => {
     expect(getRdvInfo(usager)).toEqual({
       class: "danger",
       content: "20 juillet 2020 à 19:20",
-      display: true,
     });
 
     usager.etapeDemande = ETAPE_DECISION;
     expect(getRdvInfo(usager)).toEqual({
       class: "",
       content: "",
-      display: false,
     });
   });
 
@@ -72,14 +68,12 @@ describe("Création des rendez-vous", () => {
     expect(getRdvInfo(usager)).toEqual({
       class: "",
       content: "",
-      display: false,
     });
 
     usager.rdv.dateRdv = null;
     expect(getRdvInfo(usager)).toEqual({
       class: "",
       content: "",
-      display: false,
     });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -87,13 +81,11 @@ describe("Création des rendez-vous", () => {
     expect(getRdvInfo(usager)).toEqual({
       class: "",
       content: "",
-      display: false,
     });
 
     expect(getRdvInfo()).toEqual({
       class: "",
       content: "",
-      display: false,
     });
   });
 
