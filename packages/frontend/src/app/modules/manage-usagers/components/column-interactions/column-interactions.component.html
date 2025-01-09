@@ -102,7 +102,7 @@
       [id]="'distribution-' + usager.ref"
       [attr.aria-label]="
         'Distribuer ' +
-        usager.totalInteractionsEnAttente +
+        usager.standByInteractions +
         ' courriers de ' +
         (usager | usagerNomComplet)
       "
@@ -111,7 +111,7 @@
     >
       <span class="icon-distribution list-icon"></span>
       <strong class="notification">
-        {{ usager.totalInteractionsEnAttente }}
+        {{ usager.standByInteractions }}
       </strong>
     </button>
 

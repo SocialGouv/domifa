@@ -4,13 +4,13 @@
     <div class="py-2">
       <div
         class="alert alert-info"
-        *ngIf="usager.decision.statut === 'INSTRUCTION' && rdvInfos.display"
+        *ngIf="usager.decision.statut === 'INSTRUCTION' && rdvInfo.display"
       >
         <div aria-hidden="true" class="svg-icon icon-calendar"></div>
         <p>
           <b>Rappel de rendez-vous</b>
           <br />
-          Vous avez rendez vous le {{ rdvInfos.content }}
+          Vous avez rendez vous le {{ rdvInfo.content }}
         </p>
       </div>
 

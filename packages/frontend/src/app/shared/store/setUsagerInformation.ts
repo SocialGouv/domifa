@@ -1,24 +1,19 @@
 import {
   Usager,
-  INTERACTIONS_IN,
   USAGER_DECISION_STATUT_LABELS,
   USAGER_DECISION_STATUT_COLORS,
-  getRdvInfos,
+  getRdvInfo,
 } from "@domifa/common";
-import { Decision, Options } from "../../modules/usager-shared/interfaces";
-import { getEcheanceInfos } from "../../modules/usager-shared/utils";
+import { Decision, Options, Rdv } from "../../modules/usager-shared/interfaces";
+import {
+  countStandByInteractions,
+  getEcheanceInfos,
+} from "../../modules/usager-shared/utils";
 import { formatInternationalPhoneNumber } from "../phone";
 import { Telephone } from "../../../_common/model";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const setUsagerInformation = (usager: Usager): any => {
-  let totalInteractionsEnAttente = 0;
-  if (usager?.lastInteraction) {
-    INTERACTIONS_IN.forEach((interaction) => {
-      totalInteractionsEnAttente += usager.lastInteraction[interaction];
-    });
-  }
-
   return {
     ...usager,
     statusInfo: {
@@ -34,14 +29,14 @@ export const setUsagerInformation = (usager: Usager): any => {
     },
     phoneNumber: formatInternationalPhoneNumber(usager?.telephone as Telephone),
     echeanceInfos: getEcheanceInfos(usager),
-    rdvInfos: getRdvInfos({
+    rdvInfo: getRdvInfo({
       rdv: usager.rdv,
       etapeDemande: usager.etapeDemande,
     }),
-    totalInteractionsEnAttente,
+    standByInteractions: countStandByInteractions(usager.lastInteraction),
     historique: [],
     options: new Options(usager.options),
-    rdv: null,
+    rdv: new Rdv(usager.rdv),
     dateNaissance: new Date(usager?.dateNaissance),
     entretien: null,
   };

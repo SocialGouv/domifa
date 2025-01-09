@@ -2,7 +2,7 @@ import { CountryISO } from "@khazii/ngx-intl-tel-input";
 import { Entretien, Rdv, Decision, Options } from ".";
 import { UsagerEcheanceInfos, Telephone } from "../../../../_common/model";
 
-import { getEcheanceInfos } from "../utils";
+import { countStandByInteractions, getEcheanceInfos } from "../utils";
 import {
   ETAPE_ETAT_CIVIL,
   USAGER_DECISION_STATUT_COLORS,
@@ -10,10 +10,9 @@ import {
   UsagerSexe,
   UsagerTypeDom,
   UsagerAyantDroit,
-  INTERACTIONS_IN,
-  getRdvInfos,
+  getRdvInfo,
   UsagerDecision,
-  UsagerRdvInfos,
+  UsagerRdvInfo,
   UsagerNote,
   Usager,
   UsagerDecisionStatut,
@@ -52,12 +51,12 @@ export class UsagerFormModel implements Usager {
     recommandeIn: number;
     colisIn: number;
   };
-  public totalInteractionsEnAttente: number;
+  public standByInteractions: number;
 
   public options: Options;
 
   public echeanceInfos: UsagerEcheanceInfos;
-  public rdvInfos: UsagerRdvInfos;
+  public rdvInfo: UsagerRdvInfo;
 
   public statusInfo: {
     text: string;
@@ -148,14 +147,11 @@ export class UsagerFormModel implements Usager {
       color: USAGER_DECISION_STATUT_COLORS[this.decision.statut],
     };
     this.echeanceInfos = getEcheanceInfos(usager);
-    this.rdvInfos = getRdvInfos({
+    this.rdvInfo = getRdvInfo({
       rdv: this.rdv,
       etapeDemande: this.etapeDemande,
     });
 
-    this.totalInteractionsEnAttente = 0;
-    INTERACTIONS_IN.forEach((interaction) => {
-      this.totalInteractionsEnAttente += this.lastInteraction[interaction];
-    });
+    this.standByInteractions = countStandByInteractions(this.lastInteraction);
   }
 }

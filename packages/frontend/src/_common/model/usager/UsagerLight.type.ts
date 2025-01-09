@@ -30,7 +30,7 @@ export type UsagerLight = AppEntity &
     | "contactByPhone"
     | "import"
     | "echeanceInfos"
-    | "rdvInfos"
+    | "rdvInfo"
     | "pinnedNote"
     | "datePremiereDom"
     | "nbNotes"

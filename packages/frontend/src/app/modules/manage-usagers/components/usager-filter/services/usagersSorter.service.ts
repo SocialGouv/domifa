@@ -23,7 +23,9 @@ function sortBy(
   return sortMultiple(usagers, asc, (usager) => {
     const sortAttributes: SortableValue[] = [];
 
-    if (sortKey === "ECHEANCE") {
+    if (sortKey === "RDV" && usager?.rdv?.dateRdv) {
+      sortAttributes.push(new Date(usager?.rdv?.dateRdv));
+    } else if (sortKey === "ECHEANCE") {
       sortAttributes.push(usager?.echeanceInfos?.dateToDisplay ?? null);
     } else if (sortKey === "PASSAGE") {
       sortAttributes.push(usager?.lastInteraction?.dateInteraction);

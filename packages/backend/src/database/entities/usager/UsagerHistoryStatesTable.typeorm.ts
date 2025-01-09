@@ -6,11 +6,11 @@ import {
 import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import { UsagerTable } from "./UsagerTable.typeorm";
-import { UsagerRdv } from "@domifa/common/dist/usager/interfaces/UsagerRdv.interface";
 import {
   UsagerAyantDroit,
   UsagerDecision,
   UsagerEntretien,
+  UsagerRdv,
   UsagerSexe,
   UsagerTypeDom,
 } from "@domifa/common";
