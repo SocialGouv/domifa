@@ -1,3 +1,16 @@
+# [2.190.0](https://github.com/SocialGouv/domifa/compare/v2.189.1...v2.190.0) (2025-01-09)
+
+
+### Bug Fixes
+
+* **common:** fix common unit tests ([e272fd9](https://github.com/SocialGouv/domifa/commit/e272fd9d8648f5e5af850bc7bd2a0978f35d849e))
+
+
+### Features
+
+* **frontend:** add sort by rdv date ([05ad965](https://github.com/SocialGouv/domifa/commit/05ad9656a4d90042944eb84203dde6f9a65e0166))
+* **frontend:** search by phone ([dd24461](https://github.com/SocialGouv/domifa/commit/dd244617456323cc4f69fd51e61749d649321e5b))
+
 ## [2.189.1](https://github.com/SocialGouv/domifa/compare/v2.189.0...v2.189.1) (2025-01-08)
 
 
