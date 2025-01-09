@@ -2,7 +2,7 @@ import { UsagersFilterCriteria } from "../UsagersFilterCriteria";
 import { format, isValid, parseISO } from "date-fns";
 import { UsagerLight } from "../../../../../../_common/model";
 import { UsagerProcuration } from "../../../../usager-shared/interfaces/UsagerProcuration.interface";
-import { UsagerAyantDroit } from "@domifa/common";
+import { CriteriaSearchField, UsagerAyantDroit } from "@domifa/common";
 
 const validateBirthDate = (date?: Date | string): string | undefined => {
   if (!date) return undefined;
@@ -17,7 +17,14 @@ export const getAttributes = (
   }: Pick<UsagersFilterCriteria, "searchString" | "searchStringField">
 ) => {
   let attributes = [];
-  if (searchStringField === "DATE_NAISSANCE") {
+
+  if (searchStringField === CriteriaSearchField.PHONE_NUMBER) {
+    return usager?.phoneNumber
+      ? [usager.phoneNumber.replace(/[^0-9+]/g, "")]
+      : [];
+  }
+
+  if (searchStringField === CriteriaSearchField.BIRTH_DATE) {
     const attributes: string[] = [];
 
     if (usager.dateNaissance) {

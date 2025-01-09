@@ -7,6 +7,8 @@ import {
 } from "@domifa/common";
 import { Decision, Options } from "../../modules/usager-shared/interfaces";
 import { getEcheanceInfos } from "../../modules/usager-shared/utils";
+import { formatInternationalPhoneNumber } from "../phone";
+import { Telephone } from "../../../_common/model";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const setUsagerInformation = (usager: Usager): any => {
@@ -30,6 +32,7 @@ export const setUsagerInformation = (usager: Usager): any => {
         ? new Date(usager.lastInteraction.dateInteraction)
         : null,
     },
+    phoneNumber: formatInternationalPhoneNumber(usager?.telephone as Telephone),
     echeanceInfos: getEcheanceInfos(usager),
     rdvInfos: getRdvInfos({
       rdv: usager.rdv,

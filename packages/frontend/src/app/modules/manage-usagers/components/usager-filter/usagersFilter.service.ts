@@ -1,4 +1,9 @@
-import { buildWords, ETAPE_ENTRETIEN, search } from "@domifa/common";
+import {
+  buildWords,
+  CriteriaSearchField,
+  ETAPE_ENTRETIEN,
+  search,
+} from "@domifa/common";
 import { UsagerLight } from "../../../../../_common/model";
 import {
   getAttributes,
@@ -44,7 +49,7 @@ function filterByCriteria(
   let words = [];
 
   if (criteria.searchString) {
-    if (criteria.searchStringField === "DATE_NAISSANCE") {
+    if (criteria.searchStringField === CriteriaSearchField.BIRTH_DATE) {
       const parsedDate = parse(
         criteria.searchString.trim(),
         "dd/MM/yyyy",
@@ -72,7 +77,7 @@ function filterByCriteria(
 
     const attributes = getAttributes(usager, criteria);
 
-    if (criteria.searchStringField === "DATE_NAISSANCE") {
+    if (criteria.searchStringField === "BIRTH_DATE") {
       return attributes.includes(criteria.searchString);
     }
 

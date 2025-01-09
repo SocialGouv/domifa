@@ -1,4 +1,5 @@
 import {
+  CriteriaSearchField,
   Search,
   UsagersFilterCriteriaDernierPassage,
   UsagersFilterCriteriaEcheance,
@@ -20,7 +21,6 @@ export type UsagersFilterCriteriaSortKey =
 
 export type UsagersFilterCriteriaEntretien = "COMING" | "OVERDUE";
 
-export type CriteriaSearchField = "DEFAULT" | "DATE_NAISSANCE";
 export class UsagersFilterCriteria extends Search {
   // text search filter
   // DEFAULT = Nom, prénom du domicilié, nom, prénom d'un des ayant-droits
@@ -41,7 +41,8 @@ export class UsagersFilterCriteria extends Search {
     this.entretien = search?.entretien || null;
     this.echeance = search?.echeance || null;
     this.searchString = search?.searchString || null;
-    this.searchStringField = search?.searchStringField || "DEFAULT";
+    this.searchStringField =
+      search?.searchStringField || CriteriaSearchField.DEFAULT;
     this.statut = search?.statut || "VALIDE";
     this.page = search?.page || 1;
     this.sortKey = search?.sortKey || "NOM";

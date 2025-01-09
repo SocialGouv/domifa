@@ -257,7 +257,7 @@
         (click)="goToProfil(usager)"
       >
         <span *ngIf="usager.telephone?.numero">
-          {{ usager.telephone | formatInternationalPhoneNumber }}</span
+          {{ usager?.phoneNumber || "Non renseigné" }}</span
         >
         <span class="visually-hidden" *ngIf="!usager.telephone?.numero"
           >Téléphone non renseigné</span

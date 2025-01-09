@@ -5,9 +5,14 @@ import {
   StripTagsTransform,
 } from "../../_common/decorators";
 import {
+  CriteriaSearchField,
+  normalizeString,
   UsagersFilterCriteriaDernierPassage,
   UsagersFilterCriteriaEcheance,
 } from "@domifa/common";
+import { Transform } from "class-transformer";
+import { isValid, parse } from "date-fns";
+import { BadRequestException } from "@nestjs/common";
 
 export class SearchUsagerDto {
   @ApiProperty({
@@ -19,11 +24,35 @@ export class SearchUsagerDto {
   @MinLength(1)
   @StripTagsTransform()
   @LowerCaseTransform()
+  @Transform(({ value, obj }) => {
+    if (!value) {
+      return null;
+    }
+
+    switch (obj.searchStringField) {
+      case CriteriaSearchField.PHONE_NUMBER:
+        return value.replace(/\D/g, "");
+
+      case CriteriaSearchField.BIRTH_DATE:
+        const cleanDate = value.replace(/\D/g, "");
+        const parsedDate = parse(cleanDate, "ddMMyyyy", new Date());
+
+        if (!isValid(parsedDate)) {
+          throw new BadRequestException(
+            'Format de date invalide. Utilisez le format "dd/MM/yyyy"'
+          );
+        }
+        return cleanDate;
+
+      case CriteriaSearchField.DEFAULT:
+      default:
+        return normalizeString(value).trim();
+    }
+  })
   public searchString!: string;
 
-  @IsOptional()
-  @IsIn(["DEFAULT", "DATE_NAISSANCE"])
-  public readonly searchStringField: "DEFAULT" | "DATE_NAISSANCE";
+  @IsIn(Object.values(CriteriaSearchField))
+  public readonly searchStringField: CriteriaSearchField;
 
   @IsIn([
     "EXCEEDED",
