@@ -5,14 +5,10 @@ import {
   StructureCustomDocTags,
   CUSTOM_DOCS_LABELS,
 } from "../../../_common/model";
-import {
-  buildCustomDoc,
-  buildDecision,
-  DATE_FORMAT,
-  dateFormat,
-} from "../custom-docs";
+import { buildCustomDoc, buildDecision, DATE_FORMAT } from "../custom-docs";
 import { StructureUsagerExport } from "./StructureUsagerExport.type";
 import { format } from "date-fns";
+import { dateFormat } from "../../../util";
 
 export const renderStructureUsagersRows = (
   usagers: StructureUsagerExport[],
@@ -61,6 +57,8 @@ export const renderStructureUsagersRows = (
     TRANSFERT_DATE_FIN: CUSTOM_DOCS_LABELS.TRANSFERT_DATE_FIN,
     PROCURATION_ACTIF: CUSTOM_DOCS_LABELS.PROCURATION_ACTIF,
     PROCURATIONS_NOMBRE: CUSTOM_DOCS_LABELS.PROCURATIONS_NOMBRE,
+    MON_DOMIFA_ACTIVATION: CUSTOM_DOCS_LABELS.MON_DOMIFA_ACTIVATION,
+    SMS_ACTIVATION: CUSTOM_DOCS_LABELS.SMS_ACTIVATION,
   };
 
   const entretiensHeader: StructureCustomDocTags = {
@@ -133,6 +131,7 @@ export const renderStructureUsagersRows = (
           },
           structure,
           date: new Date(),
+          extraParameters: null,
         }),
         ...buildDecision(usagerToExport, structure, DATE_FORMAT.JOUR),
       };
@@ -204,6 +203,8 @@ export const renderFirstSheetData = (
     TRANSFERT_DATE_FIN: usager.TRANSFERT_DATE_FIN,
     PROCURATION_ACTIF: usager.PROCURATION_ACTIF,
     PROCURATIONS_NOMBRE: usager.PROCURATIONS_NOMBRE,
+    MON_DOMIFA_ACTIVATION: usager.MON_DOMIFA_ACTIVATION,
+    SMS_ACTIVATION: usager.SMS_ACTIVATION,
   };
 };
 

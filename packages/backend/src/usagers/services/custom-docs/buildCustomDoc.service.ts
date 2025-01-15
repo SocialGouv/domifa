@@ -1,6 +1,3 @@
-import { format } from "date-fns";
-import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
-import { fr } from "date-fns/locale";
 import { getPhoneString } from "../../../util/phone/phoneUtils.service";
 import { isNil } from "lodash";
 import { getAyantsDroitsText } from "../cerfa";
@@ -16,12 +13,21 @@ import {
   StructureCommon,
   ENTRETIEN_SITUATION_PRO,
   UsagerOptionsProcuration,
-  TimeZone,
   Usager,
   ENTRETIEN_LIEN_COMMUNE,
 } from "@domifa/common";
-import { StructureCustomDocTags } from "../../../_common/model";
-import { formatBoolean, ucFirst } from "../../../util";
+import {
+  StructureCustomDocKeys,
+  StructureCustomDocMonDomifa,
+} from "../../../_common/model";
+import {
+  dateFormat,
+  formatBoolean,
+  formatDetailField,
+  formatOtherField,
+  ucFirst,
+} from "../../../util";
+import { domifaConfig } from "../../../config";
 
 export const DATE_FORMAT = {
   JOUR: "dd/MM/yyyy",
@@ -33,23 +39,21 @@ export function buildCustomDoc({
   usager,
   structure,
   date,
-  extraParameters = {},
+  extraParameters = null,
 }: {
   usager: Usager;
   structure: StructureCommon;
   date: Date;
-  extraParameters?: { [name: string]: string };
-}): StructureCustomDocTags {
+  extraParameters: {
+    MON_DOMIFA_ID: string;
+    MON_DOMIFA_MDP: string;
+  } | null;
+}): {
+  [key in StructureCustomDocKeys]: string | Date | number;
+} {
   // Adresse courrier active
   const isDifferentAddress = structure.adresseCourrier?.actif;
-  // Adresse
-  let adresseStructure = ucFirst(structure.adresse);
-
-  if (!isNil(structure.complementAdresse)) {
-    adresseStructure = `${adresseStructure}, ${ucFirst(
-      structure.complementAdresse
-    )}`;
-  }
+  const adresseStructure = buildStructureAddress(structure);
 
   // Procu & transfert
   const transfert = usager.options.transfert;
@@ -112,7 +116,7 @@ export function buildCustomDoc({
     USAGER_NUMERO_DISTRIBUTION_SPECIALE: usager.numeroDistribution
       ? usager.numeroDistribution
       : "",
-    USAGER_SURNOM: usager?.surnom ? ucFirst(usager?.surnom) : "",
+    USAGER_SURNOM: ucFirst(usager?.surnom),
     USAGER_DATE_NAISSANCE: dateFormat(
       usager.dateNaissance,
       structure.timeZone,
@@ -120,7 +124,7 @@ export function buildCustomDoc({
     ),
 
     USAGER_LIEU_NAISSANCE: ucFirst(usager.villeNaissance),
-    USAGER_LANGUE: usager.langue ? ucFirst(usager?.langue) : "",
+    USAGER_LANGUE: ucFirst(usager?.langue),
     USAGER_NATIONALITE: ucFirst(usager?.nationalite),
     DECISION_NOM_AGENT: ucFirst(usager?.decision?.userName),
 
@@ -130,9 +134,11 @@ export function buildCustomDoc({
 
     ...buildEntretienForDocs(usager),
     ...buildDecision(usager, structure, DATE_FORMAT.JOUR_LONG),
+    ...buildMonDomifaForDocs(usager, extraParameters),
 
+    SMS_ACTIVATION: formatBoolean(usager.contactByPhone),
     // Transferts
-    TRANSFERT_ACTIF: transfert.actif ? "OUI" : "NON",
+    TRANSFERT_ACTIF: formatBoolean(transfert.actif),
     TRANSFERT_NOM: transfert.actif ? transfert.nom : "",
     TRANSFERT_ADRESSE: transfert.actif ? transfert.adresse : "",
     TRANSFERT_DATE_DEBUT:
@@ -162,8 +168,6 @@ export function buildCustomDoc({
           DATE_FORMAT.JOUR
         )
       : "",
-
-    ...extraParameters,
   };
 }
 
@@ -220,6 +224,21 @@ export const buildDecision = (
   };
 };
 
+export const buildMonDomifaForDocs = (
+  usager: Usager,
+  params?: {
+    MON_DOMIFA_ID: string;
+    MON_DOMIFA_MDP: string;
+  } | null
+): { [key in StructureCustomDocMonDomifa]: string } => {
+  return {
+    MON_DOMIFA_ID: params?.MON_DOMIFA_ID ?? "",
+    MON_DOMIFA_MDP: params?.MON_DOMIFA_MDP ?? "",
+    MON_DOMIFA_URL: domifaConfig().apps.portailUsagersUrl,
+    MON_DOMIFA_ACTIVATION: formatBoolean(usager.options.portailUsagerEnabled),
+  };
+};
+
 export const buildEntretienForDocs = (
   usager: Usager
 ): {
@@ -239,75 +258,67 @@ export const buildEntretienForDocs = (
   ENTRETIEN_COMMENTAIRE: string;
   ENTRETIEN_SITUATION_RESIDENTIELLE: string;
 } => {
+  const { entretien } = usager;
+  if (!entretien) {
+    throw new Error("Interview data is required");
+  }
+
   return {
-    ENTRETIEN_CAUSE_INSTABILITE: usager.entretien.cause
-      ? ENTRETIEN_CAUSE_INSTABILITE[usager.entretien.cause]
-      : "",
-    ENTRETIEN_RAISON_DEMANDE: usager.entretien.raison
-      ? usager.entretien.raison === "AUTRE"
-        ? "Autre: " + ucFirst(usager.entretien.raisonDetail)
-        : ENTRETIEN_RAISON_DEMANDE[usager.entretien.raison]
-      : "",
-    ENTRETIEN_ACCOMPAGNEMENT: formatBoolean(usager.entretien.accompagnement),
-    ENTRETIEN_ACCOMPAGNEMENT_DETAIL: usager.entretien.accompagnement
-      ? ucFirst(usager.entretien.accompagnementDetail)
-      : "",
-    ENTRETIEN_SITUATION_PROFESSIONNELLE:
-      usager.entretien.situationPro === "AUTRE"
-        ? "Autre : " + ucFirst(usager.entretien.situationProDetail)
-        : usager.entretien.situationPro
-        ? ENTRETIEN_SITUATION_PRO[usager.entretien.situationPro]
-        : "",
-    ENTRETIEN_ORIENTATION: formatBoolean(usager.entretien.orientation),
-    ENTRETIEN_ORIENTATION_DETAIL: ucFirst(
-      usager.entretien.accompagnementDetail
+    ENTRETIEN_CAUSE_INSTABILITE: formatOtherField(
+      entretien.cause,
+      entretien.causeDetail,
+      ENTRETIEN_CAUSE_INSTABILITE
     ),
-    ENTRETIEN_RATTACHEMENT: ucFirst(usager.entretien.rattachement),
 
-    ENTRETIEN_DOMICILIATION_EXISTANTE: formatBoolean(
-      usager.entretien.domiciliation
+    ENTRETIEN_RAISON_DEMANDE: formatOtherField(
+      entretien.raison,
+      entretien.raisonDetail,
+      ENTRETIEN_RAISON_DEMANDE
     ),
-    ENTRETIEN_REVENUS: formatBoolean(usager.entretien.revenus),
-    ENTRETIEN_REVENUS_DETAIL: ucFirst(usager.entretien.revenusDetail),
-    ENTRETIEN_LIEN_COMMUNE:
-      usager.entretien.liencommune === "AUTRE"
-        ? "Autre: " + ucFirst(usager.entretien.liencommune)
-        : usager.entretien.liencommuneDetail
-        ? ENTRETIEN_LIEN_COMMUNE[usager.entretien.liencommune]
-        : "",
-    ENTRETIEN_COMPOSITION_MENAGE: usager.entretien.typeMenage
-      ? ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage]
+
+    ENTRETIEN_ACCOMPAGNEMENT: formatBoolean(entretien.accompagnement),
+
+    ENTRETIEN_ACCOMPAGNEMENT_DETAIL: formatDetailField(
+      entretien.accompagnement,
+      entretien.accompagnementDetail
+    ),
+
+    ENTRETIEN_SITUATION_PROFESSIONNELLE: formatOtherField(
+      entretien.situationPro,
+      entretien.situationProDetail,
+      ENTRETIEN_SITUATION_PRO
+    ),
+
+    ENTRETIEN_ORIENTATION: formatBoolean(entretien.orientation),
+
+    ENTRETIEN_ORIENTATION_DETAIL: ucFirst(entretien.orientationDetail),
+
+    ENTRETIEN_RATTACHEMENT: ucFirst(entretien.rattachement),
+
+    ENTRETIEN_DOMICILIATION_EXISTANTE: formatBoolean(entretien.domiciliation),
+
+    ENTRETIEN_REVENUS: formatBoolean(entretien.revenus),
+
+    ENTRETIEN_REVENUS_DETAIL: ucFirst(entretien.revenusDetail),
+
+    ENTRETIEN_LIEN_COMMUNE: formatOtherField(
+      entretien.liencommune,
+      entretien.liencommuneDetail,
+      ENTRETIEN_LIEN_COMMUNE
+    ),
+
+    ENTRETIEN_COMPOSITION_MENAGE: entretien.typeMenage
+      ? ENTRETIEN_TYPE_MENAGE[entretien.typeMenage]
       : "",
-    ENTRETIEN_COMMENTAIRE: usager.entretien.commentaires ?? "",
-    ENTRETIEN_SITUATION_RESIDENTIELLE:
-      usager.entretien.residence === "AUTRE"
-        ? `Autre: ${ucFirst(usager.entretien.residenceDetail)}`
-        : usager.entretien.residence
-        ? ENTRETIEN_RESIDENCE[usager.entretien.residence]
-        : "",
+
+    ENTRETIEN_COMMENTAIRE: entretien.commentaires ?? "",
+
+    ENTRETIEN_SITUATION_RESIDENTIELLE: formatOtherField(
+      entretien.residence,
+      entretien.residenceDetail,
+      ENTRETIEN_RESIDENCE
+    ),
   };
-};
-
-export const dateFormat = (
-  date: Date | string,
-  timeZone: TimeZone,
-  displayFormat: string
-): string => {
-  if (!date || date === "") {
-    return "";
-  }
-
-  if (typeof date === "string") {
-    date = new Date(date);
-  }
-  // On Repasse en UTC pour convertir correctement
-  date = zonedTimeToUtc(date, "Europe/Paris");
-  // On repasse sur la bonne timezone
-  date = utcToZonedTime(date, timeZone);
-
-  return format(date, displayFormat, {
-    locale: fr,
-  });
 };
 
 export const getDateDecision = (
@@ -349,6 +360,16 @@ export const getDateDecision = (
     decisionUserPremierDom: null,
   };
 };
+
+function buildStructureAddress(structure: StructureCommon): string {
+  let address = ucFirst(structure.adresse);
+
+  if (!isNil(structure.complementAdresse)) {
+    address = `${address}, ${ucFirst(structure.complementAdresse)}`;
+  }
+
+  return address;
+}
 
 export function getProcurationsList(procurations: UsagerOptionsProcuration[]) {
   let procurationString = "";

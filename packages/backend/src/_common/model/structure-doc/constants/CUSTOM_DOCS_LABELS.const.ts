@@ -1,6 +1,8 @@
-import { StructureCustomDocTags } from "..";
+import { StructureCustomDocKeys } from "../types";
 
-export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
+export const CUSTOM_DOCS_LABELS: {
+  [key in StructureCustomDocKeys]: string;
+} = {
   // DATES UTILES
   DATE_JOUR: "Date du jour (ex: 20/12/2020)",
   DATE_JOUR_HEURE: "Date et heure du jour (ex: 20/12/2020 à 10h30)",
@@ -97,7 +99,9 @@ export const CUSTOM_DOCS_LABELS: StructureCustomDocTags = {
   PROCURATIONS_NOMBRE: "Nombre de procurations",
 
   // Espace domicilié
-  ESPACE_DOM_URL: "Url de l'espace domicilié",
-  ESPACE_DOM_ID: "Identifiant",
-  ESPACE_DOM_MDP: "Mot de passe de l'espace domicilié",
+  MON_DOMIFA_URL: "Url de l'espace domicilié",
+  MON_DOMIFA_ID: "Identifiant",
+  MON_DOMIFA_MDP: "Mot de passe de l'espace domicilié",
+  MON_DOMIFA_ACTIVATION: "Portail Mon DomiFa activé ?",
+  SMS_ACTIVATION: "SMS activés ?",
 };
