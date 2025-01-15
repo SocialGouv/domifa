@@ -7,8 +7,9 @@ import {
 } from "../../../../_common/mocks";
 
 import { StructureCustomDocTags } from "../../../../_common/model";
-import { dateFormat, DATE_FORMAT } from "../buildCustomDoc.service";
+import { DATE_FORMAT } from "../buildCustomDoc.service";
 import { CUSTOM_DOC_ATTESTATION_POSTALE, CUSTOM_DOC_COURRIER_REFUS } from ".";
+import { dateFormat } from "../../../../util";
 
 describe("buildCustomDoc.service", () => {
   beforeAll(async () => {
@@ -19,10 +20,10 @@ describe("buildCustomDoc.service", () => {
     it("Generate data for ACCESS ESPACE DOMICILIE", () => {
       const date = new Date("2020-12-15 14:30:00");
       const extraParameters = {
-        ESPACE_DOM_URL: "https://mon-domifa",
-        ESPACE_DOM_ID: "my-login",
-        ESPACE_DOM_MDP: "my-password",
+        MON_DOMIFA_ID: "my-login",
+        MON_DOMIFA_MDP: "my-password",
       };
+
       const docRadiation: StructureCustomDocTags = buildCustomDoc({
         usager: USAGER_VALIDE_MOCK,
         structure: STRUCTURE_MOCK,
@@ -44,6 +45,7 @@ describe("buildCustomDoc.service", () => {
         usager: USAGER_VALIDE_MOCK,
         structure: STRUCTURE_MOCK,
         date,
+        extraParameters: null,
       });
 
       expect(docActif).toEqual(CUSTOM_DOC_ATTESTATION_POSTALE);
@@ -60,6 +62,7 @@ describe("buildCustomDoc.service", () => {
         usager: USAGER_REFUS_MOCK,
         structure: STRUCTURE_MOCK,
         date,
+        extraParameters: null,
       });
 
       expect(docActif).toEqual(CUSTOM_DOC_COURRIER_REFUS);
@@ -69,6 +72,7 @@ describe("buildCustomDoc.service", () => {
         usager: { ...USAGER_REFUS_MOCK, numeroDistribution: "TSA 20000" },
         structure: STRUCTURE_MOCK,
         date,
+        extraParameters: null,
       });
 
       expect(docNumeroDistribution.USAGER_NUMERO_DISTRIBUTION_SPECIALE).toEqual(
@@ -113,6 +117,7 @@ describe("buildCustomDoc.service", () => {
         usager: USAGER_VALIDE_MOCK,
         structure: STRUCTURE_MOCK,
         date,
+        extraParameters: null,
       });
 
       expect(customDocGenerated.TRANSFERT_ACTIF).toEqual("OUI");
@@ -157,6 +162,7 @@ describe("buildCustomDoc.service", () => {
         usager: USAGER_REFUS_MOCK,
         structure: STRUCTURE_MOCK,
         date,
+        extraParameters: null,
       });
 
       expect(testDoc.DATE_JOUR_HEURE).toEqual("12/04/2022 à 10:43");
@@ -175,6 +181,7 @@ describe("buildCustomDoc.service", () => {
         usager: USAGER_REFUS_MOCK,
         structure: STRUCTURE_MOCK,
         date,
+        extraParameters: null,
       });
 
       expect(testDoc.DATE_JOUR_HEURE).toEqual("23/03/2022 à 05:32");

@@ -19,7 +19,6 @@ import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { domifaConfig } from "../../config";
 import { structureDocRepository } from "../../database";
 import { UserStructureAuthenticated } from "../../_common/model";
 import {
@@ -98,6 +97,7 @@ export class UsagerStructureDocsController {
       usager,
       structure: user.structure,
       date: new Date(),
+      extraParameters: null,
     });
 
     try {
@@ -156,14 +156,16 @@ export class UsagerStructureDocsController {
         .json({ message: "DOC_DOMIFA_NOT_FOUND" });
     }
 
-    const extraParameters =
+    const extraParameters: {
+      MON_DOMIFA_ID: string;
+      MON_DOMIFA_MDP: string;
+    } | null =
       docType === "acces_espace_domicilie"
         ? {
-            ESPACE_DOM_URL: domifaConfig().apps.portailUsagersUrl,
-            ESPACE_DOM_ID: extraUrlParametersFromClient?.ESPACE_DOM_ID,
-            ESPACE_DOM_MDP: extraUrlParametersFromClient?.ESPACE_DOM_MDP,
+            MON_DOMIFA_ID: extraUrlParametersFromClient?.MON_DOMIFA_ID,
+            MON_DOMIFA_MDP: extraUrlParametersFromClient?.MON_DOMIFA_MDP,
           }
-        : {};
+        : null;
 
     const docValues = buildCustomDoc({
       usager,

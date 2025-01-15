@@ -247,35 +247,80 @@ export class UsagersService {
     return usager;
   }
 
-  public async export(structureId: number): Promise<StructureUsagerExport[]> {
-    return await usagerRepository.find({
-      where: { structureId },
-      relations: {
-        entretien: true,
-      },
-      select: [
-        "customRef",
-        "ref",
-        "nom",
-        "prenom",
-        "surnom",
-        "sexe",
-        "dateNaissance",
-        "villeNaissance",
-        "langue",
-        "nationalite",
-        "email",
-        "telephone",
-        "ayantsDroits",
-        "typeDom",
-        "datePremiereDom",
-        "decision",
-        "historique",
-        "lastInteraction",
-        "options",
-        "numeroDistribution",
-        "entretien",
-      ],
-    });
+  public async exportByChunks(
+    structureId: number,
+    chunkSize: number = 5000,
+    processChunk: (chunk: StructureUsagerExport[]) => Promise<void>
+  ): Promise<void> {
+    let skip = 0;
+
+    const query = `
+      SELECT
+        u."customRef",
+        u.ref,
+        u.nom,
+        u.prenom,
+        u.surnom,
+        u.sexe,
+        u."dateNaissance",
+        u."villeNaissance",
+        u.langue,
+        u.nationalite,
+        u.email,
+        u.telephone,
+        u."ayantsDroits",
+        u."typeDom",
+        u."datePremiereDom",
+        u.decision,
+        u.historique,
+        u."lastInteraction",
+        u.options,
+        u."numeroDistribution",
+        JSON_BUILD_OBJECT(
+          'usagerUUID', e."usagerUUID",
+          'structureId', e."structureId",
+          'usagerRef', e."usagerRef",
+          'domiciliation', e.domiciliation,
+          'commentaires', e.commentaires,
+          'typeMenage', e."typeMenage",
+          'revenus', e.revenus,
+          'revenusDetail', e."revenusDetail",
+          'orientation', e.orientation,
+          'orientationDetail', e."orientationDetail",
+          'liencommune', e.liencommune,
+          'liencommuneDetail', e."liencommuneDetail",
+          'residence', e.residence,
+          'residenceDetail', e."residenceDetail",
+          'cause', e.cause,
+          'causeDetail', e."causeDetail",
+          'rattachement', e.rattachement,
+          'raison', e.raison,
+          'raisonDetail', e."raisonDetail",
+          'accompagnement', e.accompagnement,
+          'accompagnementDetail', e."accompagnementDetail",
+          'situationPro', e."situationPro",
+          'situationProDetail', e."situationProDetail"
+        ) as entretien
+      FROM usager u
+      LEFT JOIN usager_entretien e ON e."usagerUUID" = u.uuid
+      WHERE u."structureId" = $1
+      ORDER BY u.nom ASC
+      LIMIT $2 OFFSET $3
+    `;
+
+    while (true) {
+      const chunk = await usagerRepository.query(query, [
+        structureId,
+        chunkSize,
+        skip,
+      ]);
+
+      if (chunk.length === 0) {
+        break;
+      }
+
+      await processChunk(chunk);
+      skip += chunkSize;
+    }
   }
 }

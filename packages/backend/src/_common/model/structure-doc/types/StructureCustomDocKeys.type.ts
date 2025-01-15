@@ -1,3 +1,5 @@
+import { StructureCustomDocMonDomifa } from "./StructureCustomDocMonDomifa.type";
+
 export type StructureCustomDocKeys =
   // DATES UTILES
   | "DATE_JOUR"
@@ -82,7 +84,7 @@ export type StructureCustomDocKeys =
   | "PROCURATION_DATE_NAISSANCE"
   | "PROCURATIONS_LISTE"
   | "PROCURATIONS_NOMBRE"
+  // SMS
+  | "SMS_ACTIVATION"
   // et aussi, seulement pour le document d'accès à l'espace domicilié
-  | "ESPACE_DOM_URL"
-  | "ESPACE_DOM_ID"
-  | "ESPACE_DOM_MDP";
+  | StructureCustomDocMonDomifa;

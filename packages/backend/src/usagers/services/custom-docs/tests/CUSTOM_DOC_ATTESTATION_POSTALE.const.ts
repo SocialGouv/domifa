@@ -62,6 +62,15 @@ export const CUSTOM_DOC_ATTESTATION_POSTALE: StructureCustomDocTags = {
   ENTRETIEN_SITUATION_PROFESSIONNELLE: "",
   ENTRETIEN_COMMENTAIRE: "",
 
+  // Mon DomiFa
+  MON_DOMIFA_ACTIVATION: "NON",
+  MON_DOMIFA_ID: "",
+  MON_DOMIFA_MDP: "",
+  MON_DOMIFA_URL: "http://localhost:4201/",
+
+  // SMS
+  SMS_ACTIVATION: "NON",
+
   // Transferts
   TRANSFERT_ACTIF: "NON",
   TRANSFERT_NOM: "",
