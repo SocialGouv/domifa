@@ -64,6 +64,8 @@ export const FIRST_SHEET_USAGERS = [
     USAGER_PHONE: "Numéro de téléphone",
     USAGER_PRENOM: "Prénom",
     USAGER_NOM: "Nom",
+    MON_DOMIFA_ACTIVATION: "Portail Mon DomiFa activé ?",
+    SMS_ACTIVATION: "SMS activés ?",
     USAGER_SURNOM: "Nom d'usage / Surnom",
   },
   {
@@ -99,6 +101,8 @@ export const FIRST_SHEET_USAGERS = [
     TRANSFERT_DATE_DEBUT: "",
     TRANSFERT_DATE_FIN: "",
     TRANSFERT_NOM: "",
+    MON_DOMIFA_ACTIVATION: "NON",
+    SMS_ACTIVATION: "NON",
   },
   {
     AD_DATE_NAISSANCE_0: "20/12/1978",
@@ -137,5 +141,7 @@ export const FIRST_SHEET_USAGERS = [
     TRANSFERT_DATE_DEBUT: "",
     TRANSFERT_DATE_FIN: "",
     TRANSFERT_NOM: "",
+    MON_DOMIFA_ACTIVATION: "NON",
+    SMS_ACTIVATION: "NON",
   },
 ];
