@@ -1,5 +1,5 @@
 export type StructureCustomDocMonDomifa =
-  | "MON_DOMIFA_URL"
+  | "ESPACE_DOM_URL"
   | "MON_DOMIFA_ACTIVATION"
-  | "MON_DOMIFA_ID"
-  | "MON_DOMIFA_MDP";
+  | "ESPACE_DOM_ID"
+  | "ESPACE_DOM_MDP";

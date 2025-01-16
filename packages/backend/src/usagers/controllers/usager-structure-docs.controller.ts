@@ -157,13 +157,13 @@ export class UsagerStructureDocsController {
     }
 
     const extraParameters: {
-      MON_DOMIFA_ID: string;
-      MON_DOMIFA_MDP: string;
+      ESPACE_DOM_ID: string;
+      ESPACE_DOM_MDP: string;
     } | null =
       docType === "acces_espace_domicilie"
         ? {
-            MON_DOMIFA_ID: extraUrlParametersFromClient?.MON_DOMIFA_ID,
-            MON_DOMIFA_MDP: extraUrlParametersFromClient?.MON_DOMIFA_MDP,
+            ESPACE_DOM_ID: extraUrlParametersFromClient?.ESPACE_DOM_ID,
+            ESPACE_DOM_MDP: extraUrlParametersFromClient?.ESPACE_DOM_MDP,
           }
         : null;
 

@@ -45,8 +45,8 @@ export function buildCustomDoc({
   structure: StructureCommon;
   date: Date;
   extraParameters: {
-    MON_DOMIFA_ID: string;
-    MON_DOMIFA_MDP: string;
+    ESPACE_DOM_ID: string;
+    ESPACE_DOM_MDP: string;
   } | null;
 }): {
   [key in StructureCustomDocKeys]: string | Date | number;
@@ -227,14 +227,14 @@ export const buildDecision = (
 export const buildMonDomifaForDocs = (
   usager: Usager,
   params?: {
-    MON_DOMIFA_ID: string;
-    MON_DOMIFA_MDP: string;
+    ESPACE_DOM_ID: string;
+    ESPACE_DOM_MDP: string;
   } | null
 ): { [key in StructureCustomDocMonDomifa]: string } => {
   return {
-    MON_DOMIFA_ID: params?.MON_DOMIFA_ID ?? "",
-    MON_DOMIFA_MDP: params?.MON_DOMIFA_MDP ?? "",
-    MON_DOMIFA_URL: domifaConfig().apps.portailUsagersUrl,
+    ESPACE_DOM_ID: params?.ESPACE_DOM_ID ?? "",
+    ESPACE_DOM_MDP: params?.ESPACE_DOM_MDP ?? "",
+    ESPACE_DOM_URL: domifaConfig().apps.portailUsagersUrl,
     MON_DOMIFA_ACTIVATION: formatBoolean(usager.options.portailUsagerEnabled),
   };
 };
