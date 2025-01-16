@@ -1,3 +1,10 @@
+## [2.191.2](https://github.com/SocialGouv/domifa/compare/v2.191.1...v2.191.2) (2025-01-16)
+
+
+### Bug Fixes
+
+* **backend:** fix keys of doc for 'mon domifa' ([bac68ca](https://github.com/SocialGouv/domifa/commit/bac68caa9c877b108a58ea88d3a57d1203eb8888))
+
 ## [2.191.1](https://github.com/SocialGouv/domifa/compare/v2.191.0...v2.191.1) (2025-01-16)
 
 
