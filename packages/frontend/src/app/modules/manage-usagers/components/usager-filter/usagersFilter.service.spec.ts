@@ -1,4 +1,7 @@
-import { CriteriaSearchField } from "@domifa/common";
+import {
+  CriteriaSearchField,
+  UsagersFilterCriteriaStatut,
+} from "@domifa/common";
 import { UsagersFilterCriteria } from ".";
 import { UsagerLight } from "../../../../../_common/model";
 import { usagersFilter } from "./usagersFilter.service";
@@ -87,7 +90,7 @@ describe("usagersFilter", () => {
     const results = usagersFilter.filter(usagers, {
       criteria: new UsagersFilterCriteria({
         searchString: "mit",
-        statut: "VALIDE",
+        statut: UsagersFilterCriteriaStatut.VALIDE,
       }),
     });
     expect(results.length).toEqual(1);
@@ -113,7 +116,7 @@ describe("usagersFilter", () => {
         criteria: new UsagersFilterCriteria({
           searchString: "0612",
           searchStringField: CriteriaSearchField.PHONE_NUMBER,
-          statut: "VALIDE",
+          statut: UsagersFilterCriteriaStatut.VALIDE,
         }),
       });
       expect(results.length).toEqual(2);
@@ -170,7 +173,7 @@ describe("usagersFilter", () => {
       const results = usagersFilter.filter(usagers, {
         criteria: new UsagersFilterCriteria({
           searchString: "15",
-          statut: "TOUS",
+          statut: UsagersFilterCriteriaStatut.TOUS,
           searchStringField: CriteriaSearchField.BIRTH_DATE,
         }),
       });

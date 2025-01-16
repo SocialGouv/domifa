@@ -145,16 +145,28 @@
       <button
         type="button"
         class="col-md-2 col-6"
-        [ngClass]="{ 'selected-section': filters.statut === 'TOUS' }"
-        [attr.aria-selected]="filters.statut === 'TOUS'"
+        [ngClass]="{
+          'selected-section':
+            filters.statut === UsagersFilterCriteriaStatut.TOUS
+        }"
+        [attr.aria-selected]="
+          filters.statut === UsagersFilterCriteriaStatut.TOUS
+        "
         [attr.aria-label]="
           'Afficher les ' + usagersCountByStatus.TOUS + ' dossiers '
         "
-        (click)="updateFilters({ element: 'statut', value: 'TOUS' })"
+        (click)="
+          updateFilters({
+            element: 'statut',
+            value: UsagersFilterCriteriaStatut.TOUS
+          })
+        "
       >
         <span class="statut-cpt">{{ usagersCountByStatus.TOUS }}</span>
         <span class="statut-label"> Tous</span>
-        <span class="visually-hidden" *ngIf="filters.statut === 'TOUS'"
+        <span
+          class="visually-hidden"
+          *ngIf="filters.statut === UsagersFilterCriteriaStatut.TOUS"
           >{{ usagersCountByStatus.TOUS }} dossiers, statut actuellement
           sélectionné
         </span>
@@ -162,16 +174,28 @@
       <button
         type="button"
         class="col-md-2 col-6"
-        [ngClass]="{ 'selected-section': filters.statut === 'VALIDE' }"
-        [attr.aria-selected]="filters.statut === 'VALIDE'"
+        [ngClass]="{
+          'selected-section':
+            filters.statut === UsagersFilterCriteriaStatut.VALIDE
+        }"
+        [attr.aria-selected]="
+          filters.statut === UsagersFilterCriteriaStatut.VALIDE
+        "
         [attr.aria-label]="
           'Afficher les ' + usagersCountByStatus.VALIDE + ' dossiers actifs'
         "
-        (click)="updateFilters({ element: 'statut', value: 'VALIDE' })"
+        (click)="
+          updateFilters({
+            element: 'statut',
+            value: UsagersFilterCriteriaStatut.VALIDE
+          })
+        "
       >
         <span class="statut-cpt">{{ usagersCountByStatus?.VALIDE }} </span>
         <span class="statut-label"> Actifs</span>
-        <span class="visually-hidden" *ngIf="filters.statut === 'VALIDE'"
+        <span
+          class="visually-hidden"
+          *ngIf="filters.statut === UsagersFilterCriteriaStatut.VALIDE"
           >{{ usagersCountByStatus?.VALIDE }} dossiers, statut actuellement
           sélectionné
         </span>
@@ -179,12 +203,22 @@
       <button
         type="button"
         class="col-md-2 col-6"
-        [ngClass]="{ 'selected-section': filters.statut === 'INSTRUCTION' }"
-        [attr.aria-selected]="filters.statut === 'INSTRUCTION'"
+        [ngClass]="{
+          'selected-section':
+            filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION
+        }"
+        [attr.aria-selected]="
+          filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION
+        "
         [attr.aria-label]="
           'Afficher les ' + usagersCountByStatus.INSTRUCTION + ' dossiers '
         "
-        (click)="updateFilters({ element: 'statut', value: 'INSTRUCTION' })"
+        (click)="
+          updateFilters({
+            element: 'statut',
+            value: UsagersFilterCriteriaStatut.INSTRUCTION
+          })
+        "
       >
         <span class="statut-cpt">{{ usagersCountByStatus?.INSTRUCTION }} </span>
         <span class="statut-label">À compléter</span>
@@ -193,16 +227,22 @@
         type="button"
         class="col-md-2 col-6"
         [ngClass]="{
-          'selected-section': filters.statut === 'ATTENTE_DECISION'
+          'selected-section':
+            filters.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION
         }"
         [attr.aria-label]="
           'Afficher les ' +
           usagersCountByStatus.ATTENTE_DECISION +
           ' dossiers en attente de décision'
         "
-        [attr.aria-selected]="filters.statut === 'ATTENTE_DECISION'"
+        [attr.aria-selected]="
+          filters.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION
+        "
         (click)="
-          updateFilters({ element: 'statut', value: 'ATTENTE_DECISION' })
+          updateFilters({
+            element: 'statut',
+            value: UsagersFilterCriteriaStatut.ATTENTE_DECISION
+          })
         "
       >
         <span class="statut-cpt"
@@ -213,12 +253,22 @@
       <button
         type="button"
         class="col-md-2 col-6"
-        [ngClass]="{ 'selected-section': filters.statut === 'REFUS' }"
+        [ngClass]="{
+          'selected-section':
+            filters.statut === UsagersFilterCriteriaStatut.REFUS
+        }"
         [attr.aria-label]="
           'Afficher les ' + usagersCountByStatus?.REFUS + ' dossiers '
         "
-        [attr.aria-selected]="filters.statut === 'REFUS'"
-        (click)="updateFilters({ element: 'statut', value: 'REFUS' })"
+        [attr.aria-selected]="
+          filters.statut === UsagersFilterCriteriaStatut.REFUS
+        "
+        (click)="
+          updateFilters({
+            element: 'statut',
+            value: UsagersFilterCriteriaStatut.REFUS
+          })
+        "
       >
         <span class="statut-cpt">{{ usagersCountByStatus?.REFUS }} </span>
         <span class="statut-label">Refusés</span>
@@ -226,12 +276,22 @@
       <button
         type="button"
         class="col-md-2 col-6"
-        [ngClass]="{ 'selected-section': filters.statut === 'RADIE' }"
+        [ngClass]="{
+          'selected-section':
+            filters.statut === UsagersFilterCriteriaStatut.RADIE
+        }"
         [attr.aria-label]="
           'Afficher les ' + usagersCountByStatus?.RADIE + ' dossiers '
         "
-        [attr.aria-selected]="filters.statut === 'RADIE'"
-        (click)="updateFilters({ element: 'statut', value: 'RADIE' })"
+        [attr.aria-selected]="
+          filters.statut === UsagersFilterCriteriaStatut.RADIE
+        "
+        (click)="
+          updateFilters({
+            element: 'statut',
+            value: UsagersFilterCriteriaStatut.RADIE
+          })
+        "
       >
         <span class="statut-cpt">{{ usagersCountByStatus.RADIE }} </span>
         <span class="statut-label"> Radiés</span>
@@ -253,7 +313,8 @@
     <div
       class="my-4 alert alert-info flex-wrap text-center justify-content-md-between justify-content-center align-items-center"
       *ngIf="
-        (filters.statut === 'TOUS' || filters.statut === 'RADIE') &&
+        (filters.statut === UsagersFilterCriteriaStatut.TOUS ||
+          filters.statut === UsagersFilterCriteriaStatut.RADIE) &&
         usagersCountByStatus.RADIE !== usagersRadiesLoadedCount &&
         !this.chargerTousRadies$.value
       "

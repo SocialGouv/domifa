@@ -5,7 +5,10 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 
 import { ManageUsagersModule } from "../../manage-usagers.module";
-import { CriteriaSearchField } from "@domifa/common";
+import {
+  CriteriaSearchField,
+  UsagersFilterCriteriaStatut,
+} from "@domifa/common";
 
 describe("ManageFiltersComponent", () => {
   let component: ManageFiltersComponent;
@@ -30,7 +33,7 @@ describe("ManageFiltersComponent", () => {
       lastInteractionDate: null,
       sortKey: "NOM",
       sortValue: "asc",
-      statut: "VALIDE",
+      statut: UsagersFilterCriteriaStatut.VALIDE,
     };
 
     fixture.detectChanges();
@@ -52,7 +55,10 @@ describe("ManageFiltersComponent", () => {
     });
 
     it("devrait inclure PASSAGE quand statut est TOUS", () => {
-      component.filters = { ...component.filters, statut: "TOUS" };
+      component.filters = {
+        ...component.filters,
+        statut: UsagersFilterCriteriaStatut.TOUS,
+      };
       const result = component.getSortKeys();
       expect(result).toContainEqual({
         id: "PASSAGE",
@@ -62,7 +68,10 @@ describe("ManageFiltersComponent", () => {
     });
 
     it("devrait inclure PASSAGE quand statut est VALIDE", () => {
-      component.filters = { ...component.filters, statut: "VALIDE" };
+      component.filters = {
+        ...component.filters,
+        statut: UsagersFilterCriteriaStatut.VALIDE,
+      };
       const result = component.getSortKeys();
       expect(result).toContainEqual({
         id: "PASSAGE",
@@ -72,7 +81,10 @@ describe("ManageFiltersComponent", () => {
     });
 
     it("ne devrait pas inclure PASSAGE pour les autres statuts", () => {
-      component.filters = { ...component.filters, statut: "RADIE" };
+      component.filters = {
+        ...component.filters,
+        statut: UsagersFilterCriteriaStatut.RADIE,
+      };
       const result = component.getSortKeys();
       expect(result).not.toContainEqual({
         id: "PASSAGE",
@@ -84,20 +96,32 @@ describe("ManageFiltersComponent", () => {
 
   describe("getEcheanceLabel", () => {
     it('devrait retourner "radiation" quand statut est RADIE', () => {
-      component.filters = { ...component.filters, statut: "RADIE" };
+      component.filters = {
+        ...component.filters,
+        statut: UsagersFilterCriteriaStatut.RADIE,
+      };
       expect(component.getEcheanceLabel()).toBe("radiation");
     });
 
     it('devrait retourner "refus" quand statut est REFUS', () => {
-      component.filters = { ...component.filters, statut: "REFUS" };
+      component.filters = {
+        ...component.filters,
+        statut: UsagersFilterCriteriaStatut.REFUS,
+      };
       expect(component.getEcheanceLabel()).toBe("refus");
     });
 
     it('devrait retourner "échéance" pour tout autre statut', () => {
-      component.filters = { ...component.filters, statut: "VALIDE" };
+      component.filters = {
+        ...component.filters,
+        statut: UsagersFilterCriteriaStatut.VALIDE,
+      };
       expect(component.getEcheanceLabel()).toBe("échéance");
 
-      component.filters = { ...component.filters, statut: "TOUS" };
+      component.filters = {
+        ...component.filters,
+        statut: UsagersFilterCriteriaStatut.TOUS,
+      };
       expect(component.getEcheanceLabel()).toBe("échéance");
 
       component.filters = { ...component.filters, statut: undefined };

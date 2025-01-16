@@ -11,7 +11,32 @@
         <h2>Données de la structure</h2>
         <button
           type="button"
-          (click)="export()"
+          (click)="export(UsagersFilterCriteriaStatut.VALIDE)"
+          [disabled]="exportLoading"
+          class="btn btn-outline-primary my-1"
+        >
+          <span *ngIf="!exportLoading">
+            <fa-icon
+              [icon]="['fas', 'download']"
+              aria-hidden="true"
+              class="me-2"
+            ></fa-icon>
+            Exporter les domiciliés actifs
+          </span>
+          <span *ngIf="exportLoading">
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'circle-notch']"
+              [spin]="true"
+            >
+            </fa-icon>
+            Export en cours, veuillez patienter...
+          </span>
+        </button>
+        &nbsp;
+        <button
+          type="button"
+          (click)="export(UsagersFilterCriteriaStatut.TOUS)"
           [disabled]="exportLoading"
           class="btn btn-outline-primary my-1"
         >

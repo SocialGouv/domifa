@@ -24,7 +24,11 @@ import { UsagersFilterCriteria } from "../usager-filter";
 import { Router } from "@angular/router";
 import { AuthService } from "../../../shared/services";
 import { getUrlUsagerProfil } from "../../../usager-shared/utils";
-import { SortValues, UserStructure } from "@domifa/common";
+import {
+  SortValues,
+  UsagersFilterCriteriaStatut,
+  UserStructure,
+} from "@domifa/common";
 import {
   faArrowDown,
   faArrowUp,
@@ -73,6 +77,7 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
   public loading = false;
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
+  public readonly UsagersFilterCriteriaStatut = UsagersFilterCriteriaStatut;
 
   public readonly faArrowDown = faArrowDown;
   public readonly faArrowUp = faArrowUp;
@@ -114,7 +119,8 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     }
 
     if (this.me.role === "simple") {
-      this.showCheckboxes = this.currentFilters.statut === "VALIDE";
+      this.showCheckboxes =
+        this.currentFilters.statut === UsagersFilterCriteriaStatut.VALIDE;
       return;
     }
 

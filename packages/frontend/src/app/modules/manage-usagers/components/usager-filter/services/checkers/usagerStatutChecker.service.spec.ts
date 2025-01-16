@@ -1,3 +1,4 @@
+import { UsagersFilterCriteriaStatut } from "@domifa/common";
 import { UsagerLight } from "../../../../../../../_common/model";
 import { usagerStatutChecker } from "./usagerStatutChecker.service";
 
@@ -14,13 +15,13 @@ it("usagerStatutChecker INSTRUCTION", () => {
   expect(
     usagerStatutChecker.check({
       usager: usager1,
-      statut: "INSTRUCTION",
+      statut: UsagersFilterCriteriaStatut.INSTRUCTION,
     })
   ).toBeTruthy();
   expect(
     usagerStatutChecker.check({
       usager: usager2,
-      statut: "INSTRUCTION",
+      statut: UsagersFilterCriteriaStatut.INSTRUCTION,
     })
   ).toBeFalsy();
 });

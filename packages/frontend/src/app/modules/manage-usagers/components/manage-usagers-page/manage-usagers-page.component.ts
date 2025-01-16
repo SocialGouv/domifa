@@ -47,7 +47,12 @@ import {
 } from "../usager-filter";
 import { Store } from "@ngrx/store";
 import { ManageUsagersService } from "../../services/manage-usagers.service";
-import { CriteriaSearchField, SortValues, UserStructure } from "@domifa/common";
+import {
+  CriteriaSearchField,
+  SortValues,
+  UsagersFilterCriteriaStatut,
+  UserStructure,
+} from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { UsagerLight } from "../../../../../_common/model";
@@ -79,14 +84,8 @@ export class ManageUsagersPageComponent
   @ViewChild("sentinel") sentinel!: ElementRef;
   private observer!: IntersectionObserver;
 
-  public usagersCountByStatus: UsagersCountByStatus = {
-    INSTRUCTION: 0,
-    VALIDE: 0,
-    ATTENTE_DECISION: 0,
-    REFUS: 0,
-    RADIE: 0,
-    TOUS: 0,
-  };
+  public readonly UsagersFilterCriteriaStatut = UsagersFilterCriteriaStatut;
+  public usagersCountByStatus = new UsagersCountByStatus();
 
   private destroy$ = new Subject<void>();
 
@@ -347,7 +346,8 @@ export class ManageUsagersPageComponent
     if (
       this.usagersCountByStatus.RADIE !== this.usagersRadiesLoadedCount &&
       !chargerTousRadies &&
-      (this.filters.statut === "TOUS" || this.filters.statut === "RADIE")
+      (this.filters.statut === UsagersFilterCriteriaStatut.TOUS ||
+        this.filters.statut === UsagersFilterCriteriaStatut.RADIE)
     ) {
       if (
         this.filters.searchStringField === "BIRTH_DATE" &&
@@ -466,7 +466,8 @@ export class ManageUsagersPageComponent
     this.filters.page = 1;
     const shouldTriggerRemoteSearch =
       (element === "echeance" || element === "lastInteractionDate") &&
-      (this.filters.statut === "TOUS" || this.filters.statut === "RADIE");
+      (this.filters.statut === UsagersFilterCriteriaStatut.TOUS ||
+        this.filters.statut === UsagersFilterCriteriaStatut.RADIE);
 
     if (shouldTriggerRemoteSearch) {
       this.searchTrigger$.next();
