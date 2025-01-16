@@ -257,21 +257,23 @@ export class UsagersService {
     let skip = 0;
     let total = 0;
 
-    const params: any[] = [structureId];
-    let whereClause = 'u."structureId" = $1';
+    let whereClause = 'WHERE u."structureId" = $1';
+    let countWhereClause = `${whereClause}`;
+    const countParams: any[] = [structureId];
 
     if (statut !== UsagersFilterCriteriaStatut.TOUS) {
-      params.push(statut);
-      whereClause += ` AND u.statut = $${params.length}`;
+      countWhereClause += ` AND u.statut = $2`;
+      whereClause += ` AND u.statut = $4`;
+      countParams.push(statut);
     }
 
     const countQuery = `
     SELECT COUNT(*) as count
     FROM usager u
-    ${whereClause}
+    ${countWhereClause}
   `;
 
-    const [{ count }] = await usagerRepository.query(countQuery, params);
+    const [{ count }] = await usagerRepository.query(countQuery, countParams);
 
     const query = `
     SELECT
@@ -323,12 +325,16 @@ export class UsagersService {
     FROM usager u
     LEFT JOIN usager_entretien e ON e."usagerUUID" = u.uuid
     ${whereClause}
-    ORDER BY u.uuid ASC
-    LIMIT $${params.length + 1} OFFSET $${params.length + 2}
+    ORDER BY u.nom ASC
+    LIMIT $2 OFFSET $3
   `;
 
     while (true) {
-      const queryParams = [...params, chunkSize, skip];
+      const queryParams: any[] = [structureId, chunkSize, skip];
+      if (statut !== UsagersFilterCriteriaStatut.TOUS) {
+        queryParams.push(statut);
+      }
+
       const chunk = await usagerRepository.query(query, queryParams);
 
       if (chunk.length === 0) {

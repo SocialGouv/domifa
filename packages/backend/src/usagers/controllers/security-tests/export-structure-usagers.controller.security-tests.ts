@@ -17,7 +17,21 @@ export const ExportStructureUsagersControllerSecurityTests: AppTestHttpClientSec
     {
       label: `${CONTROLLER}.export`,
       query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.get("/export", {
+        response: await AppTestHttpClient.get("/export/TOUS", {
+          context,
+        }),
+        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+          context.user,
+          {
+            roles: ["responsable", "admin"],
+          }
+        ),
+      }),
+    },
+    {
+      label: `${CONTROLLER}.export`,
+      query: async (context: AppTestContext) => ({
+        response: await AppTestHttpClient.get("/export/VALIDE", {
           context,
         }),
         expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
