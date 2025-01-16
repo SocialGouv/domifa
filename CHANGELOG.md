@@ -1,3 +1,10 @@
+## [2.191.1](https://github.com/SocialGouv/domifa/compare/v2.191.0...v2.191.1) (2025-01-16)
+
+
+### Bug Fixes
+
+* **backend:** fix headers of exports ([79c3768](https://github.com/SocialGouv/domifa/commit/79c37684745e5674fde0c56107de5965dcbc551e))
+
 # [2.191.0](https://github.com/SocialGouv/domifa/compare/v2.190.1...v2.191.0) (2025-01-16)
 
 
