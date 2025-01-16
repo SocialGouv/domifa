@@ -3964,10 +3964,10 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": "npm:^6.6.0"
     "@khazii/ngx-intl-tel-input": "npm:^17.0.1"
     "@ng-bootstrap/ng-bootstrap": "npm:^15.1.2"
-    "@ngrx/effects": "npm:^17.2.0"
-    "@ngrx/entity": "npm:^17.2.0"
-    "@ngrx/store": "npm:^17.2.0"
-    "@ngrx/store-devtools": "npm:^17.2.0"
+    "@ngrx/effects": "npm:^19.0.0"
+    "@ngrx/entity": "npm:^19.0.0"
+    "@ngrx/store": "npm:^19.0.0"
+    "@ngrx/store-devtools": "npm:^19.0.0"
     "@popperjs/core": "npm:^2.11.8"
     "@schematics/angular": "npm:^15.2.11"
     "@schematics/update": "npm:^0.1102.19"
@@ -5958,65 +5958,54 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ngrx/effects@npm:^17.2.0":
-  version: 17.2.0
-  resolution: "@ngrx/effects@npm:17.2.0"
-  dependencies:
-    "@ngrx/operators": "npm:17.0.0-beta.0"
-    tslib: "npm:^2.0.0"
-  peerDependencies:
-    "@angular/core": ^17.0.0
-    "@ngrx/store": 17.2.0
-    rxjs: ^6.5.3 || ^7.5.0
-  checksum: 10/ec0d7ca12ae39d49b257b15431269ea90e90261f87d3e4458dd0ee2f84ebcd66a7f79a8c0c129d9ab394918d9c2b5d60865e25e6fa352d61317ea0f2babf4eba
-  languageName: node
-  linkType: hard
-
-"@ngrx/entity@npm:^17.2.0":
-  version: 17.2.0
-  resolution: "@ngrx/entity@npm:17.2.0"
+"@ngrx/effects@npm:^19.0.0":
+  version: 19.0.0
+  resolution: "@ngrx/effects@npm:19.0.0"
   dependencies:
     tslib: "npm:^2.0.0"
   peerDependencies:
-    "@angular/core": ^17.0.0
-    "@ngrx/store": 17.2.0
+    "@angular/core": ^19.0.0
+    "@ngrx/store": 19.0.0
     rxjs: ^6.5.3 || ^7.5.0
-  checksum: 10/3dfecad9a8d4708c088164b4b9013331747a548ceb95c8288e402e2725bb915c1b456b983c3e03196d2e908d3c43b1746ef925cc5ec646670db24de480f23535
+  checksum: 10/b221080ef68457ab9be498daff94027faaccc4e056e11e9bc5874fd2a2d9af53fa62cb841b352462e67babd7a6ea0b2093f5e19a984c10d70aeaf06147532398
   languageName: node
   linkType: hard
 
-"@ngrx/operators@npm:17.0.0-beta.0":
-  version: 17.0.0-beta.0
-  resolution: "@ngrx/operators@npm:17.0.0-beta.0"
-  dependencies:
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    rxjs: ^6.5.3 || ^7.4.0
-  checksum: 10/ca9ce33f827a1ceeb3569061cd54933763c497aee09c03ac84f92be84a3a8f3b9d2ea0c42518843288c557586e15af1d7bf442c3eca624ddae44f60907423930
-  languageName: node
-  linkType: hard
-
-"@ngrx/store-devtools@npm:^17.2.0":
-  version: 17.2.0
-  resolution: "@ngrx/store-devtools@npm:17.2.0"
+"@ngrx/entity@npm:^19.0.0":
+  version: 19.0.0
+  resolution: "@ngrx/entity@npm:19.0.0"
   dependencies:
     tslib: "npm:^2.0.0"
   peerDependencies:
-    "@ngrx/store": 17.2.0
+    "@angular/core": ^19.0.0
+    "@ngrx/store": 19.0.0
     rxjs: ^6.5.3 || ^7.5.0
-  checksum: 10/52bfa084fed420a460aa4767e0f14d5d8193beb5102e3420203226ef710b80cb7e9f21741d55a36b1c6df092accf489120cea76f701ef16de0b03dea84d644f6
+  checksum: 10/ce4c09547545507e300dc64f5700fe8087489eebbde000866014b5cb64de98a4078ecfedca68a4fb57c155ecd7bc01a9d4d1f08eabc30e8b9bccdba5e3a2e859
   languageName: node
   linkType: hard
 
-"@ngrx/store@npm:^17.2.0":
-  version: 17.2.0
-  resolution: "@ngrx/store@npm:17.2.0"
+"@ngrx/store-devtools@npm:^19.0.0":
+  version: 19.0.0
+  resolution: "@ngrx/store-devtools@npm:19.0.0"
   dependencies:
     tslib: "npm:^2.0.0"
   peerDependencies:
-    "@angular/core": ^17.0.0
+    "@angular/core": ^19.0.0
+    "@ngrx/store": 19.0.0
     rxjs: ^6.5.3 || ^7.5.0
-  checksum: 10/3eff90e71679b12be8c57a17816f624ad3d06f845815346566ba47f642ec7ca30797c45b2732b086e461765f6ff16975e757bcf6a6f0af397baef25e8ab08079
+  checksum: 10/8f0d2404264d119f01fa9a9764e08f4a741c1cc565d6d7e4326952806627fbe9ed9226f153ea65dd17afcfe54fd6cd5377f8f600701624c6c305aa2450a1bb85
+  languageName: node
+  linkType: hard
+
+"@ngrx/store@npm:^19.0.0":
+  version: 19.0.0
+  resolution: "@ngrx/store@npm:19.0.0"
+  dependencies:
+    tslib: "npm:^2.0.0"
+  peerDependencies:
+    "@angular/core": ^19.0.0
+    rxjs: ^6.5.3 || ^7.5.0
+  checksum: 10/4b87753da4bdac06764cef4614328601e225879d58d082361b8809fb4a6e06dd986cdcbe27a2494f6b9afa99d64258ea1e827e9082223f760c979a14c221ba6c
   languageName: node
   linkType: hard
 
