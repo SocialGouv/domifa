@@ -65,6 +65,7 @@ import { UsagerHistoryStateService } from "../services/usagerHistoryState.servic
 import { domifaConfig } from "../../config";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
 import { Not } from "typeorm";
+import { subMinutes } from "date-fns";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -143,7 +144,7 @@ export class UsagersController {
         `"structureId" = :structureId AND "updatedAt" >= :fiveMinutesAgo`,
         {
           structureId: user.structureId,
-          fiveMinutesAgo: new Date(Date.now() - 5 * 60 * 1000),
+          fiveMinutesAgo: subMinutes(new Date(), 5),
         }
       )
       .getRawMany();

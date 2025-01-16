@@ -10,12 +10,11 @@ import { StructureUsagerExport } from "./StructureUsagerExport.type";
 import { format } from "date-fns";
 import { dateFormat } from "../../../util";
 
-export const renderStructureUsagersRows = (
-  usagers: StructureUsagerExport[],
+export const renderStructureUsagersHeaders = (
   structure: StructureCommon
 ): {
-  firstSheetUsagers: StructureCustomDocTags[];
-  secondSheetEntretiens: StructureCustomDocTags[];
+  firstSheetHeaders: StructureCustomDocTags[];
+  secondSheetHeaders: StructureCustomDocTags[];
 } => {
   const dateHeader = dateFormat(
     new Date(),
@@ -91,12 +90,12 @@ export const renderStructureUsagersRows = (
     ENTRETIEN_COMMENTAIRE: CUSTOM_DOCS_LABELS.ENTRETIEN_COMMENTAIRE,
   };
 
-  const firstSheetUsagers = [
+  const firstSheetHeaders = [
     { USAGER_CUSTOM_REF: dateHeader },
     usagersListHeader,
   ];
 
-  const secondSheetEntretiens = [
+  const secondSheetHeaders = [
     { USAGER_CUSTOM_REF: dateHeader },
     entretiensHeader,
   ];
@@ -115,6 +114,22 @@ export const renderStructureUsagersRows = (
     );
     set(usagersListHeader, `AD_LIEN_${index}`, `Lien de parenté ${index + 1}`);
   }
+
+  return {
+    firstSheetHeaders,
+    secondSheetHeaders,
+  };
+};
+
+export const renderStructureUsagersRows = (
+  usagers: StructureUsagerExport[],
+  structure: StructureCommon
+): {
+  firstSheetUsagers: StructureCustomDocTags[];
+  secondSheetEntretiens: StructureCustomDocTags[];
+} => {
+  const firstSheetUsagers = [];
+  const secondSheetEntretiens = [];
 
   for (const usagerToExport of usagers) {
     try {

@@ -1,12 +1,12 @@
 import { readFile, writeFile } from "fs-extra";
 import { join } from "path";
-
 import { format } from "prettier";
 import {
   NewStructureEmailModel,
   newStructureEmailRenderer,
 } from "./newStructureEmailRenderer.service";
 import { domifaConfig } from "../../../../../config";
+
 describe("newStructureEmailRenderer", () => {
   it("newStructureEmailRenderer render ", async () => {
     const model: NewStructureEmailModel = {
