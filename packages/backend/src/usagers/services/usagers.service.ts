@@ -334,6 +334,7 @@ export class UsagersService {
         totalCount: count,
         chunkSize: chunk.length,
         skip,
+        structureId,
       });
     }
 

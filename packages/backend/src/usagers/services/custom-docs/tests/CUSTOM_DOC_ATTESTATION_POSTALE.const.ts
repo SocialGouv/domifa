@@ -64,9 +64,9 @@ export const CUSTOM_DOC_ATTESTATION_POSTALE: StructureCustomDocTags = {
 
   // Mon DomiFa
   MON_DOMIFA_ACTIVATION: "NON",
-  MON_DOMIFA_ID: "",
-  MON_DOMIFA_MDP: "",
-  MON_DOMIFA_URL: "http://localhost:4201/",
+  ESPACE_DOM_ID: "",
+  ESPACE_DOM_MDP: "",
+  ESPACE_DOM_URL: "http://localhost:4201/",
 
   // SMS
   SMS_ACTIVATION: "NON",

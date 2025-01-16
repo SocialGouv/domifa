@@ -20,8 +20,8 @@ describe("buildCustomDoc.service", () => {
     it("Generate data for ACCESS ESPACE DOMICILIE", () => {
       const date = new Date("2020-12-15 14:30:00");
       const extraParameters = {
-        MON_DOMIFA_ID: "my-login",
-        MON_DOMIFA_MDP: "my-password",
+        ESPACE_DOM_ID: "my-login",
+        ESPACE_DOM_MDP: "my-password",
       };
 
       const docRadiation: StructureCustomDocTags = buildCustomDoc({

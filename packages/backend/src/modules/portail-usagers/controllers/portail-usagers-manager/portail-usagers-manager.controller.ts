@@ -177,6 +177,7 @@ export class PortailUsagersManagerController {
             structureId: user.structureId,
             action: "RESET_PASSWORD_PORTAIL",
           });
+
           return res.status(HttpStatus.CREATED).json({
             usager,
             login: generateNewPassword ? userUsager.login : undefined,

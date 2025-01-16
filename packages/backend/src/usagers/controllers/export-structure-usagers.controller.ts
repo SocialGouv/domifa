@@ -108,7 +108,6 @@ export class ExportStructureUsagersController {
 
         applyDateFormat(secondSheetEntretiens, ["USAGER_DATE_NAISSANCE"]);
 
-        // Ajoute les lignes à la deuxième feuille
         XLSX.utils.sheet_add_json(wsEntretiens, secondSheetEntretiens, {
           skipHeader: true,
           origin: currentRowEntretiens,

@@ -99,9 +99,9 @@ export const CUSTOM_DOCS_LABELS: {
   PROCURATIONS_NOMBRE: "Nombre de procurations",
 
   // Espace domicilié
-  MON_DOMIFA_URL: "Url de l'espace domicilié",
-  MON_DOMIFA_ID: "Identifiant",
-  MON_DOMIFA_MDP: "Mot de passe de l'espace domicilié",
+  ESPACE_DOM_URL: "Url de l'espace domicilié",
+  ESPACE_DOM_ID: "Identifiant",
+  ESPACE_DOM_MDP: "Mot de passe de l'espace domicilié",
   MON_DOMIFA_ACTIVATION: "Portail Mon DomiFa activé ?",
   SMS_ACTIVATION: "SMS activés ?",
 };
