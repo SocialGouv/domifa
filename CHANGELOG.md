@@ -1,3 +1,15 @@
+# [2.191.0](https://github.com/SocialGouv/domifa/compare/v2.190.1...v2.191.0) (2025-01-16)
+
+
+### Bug Fixes
+
+* **backend:** fix unit test for export ([2721067](https://github.com/SocialGouv/domifa/commit/27210677455eb15ee3a2ce40af7b502445857936))
+
+
+### Features
+
+* **export:** export by chunks ([006f945](https://github.com/SocialGouv/domifa/commit/006f9453e77e7492ea07e4dfe7afb8dcc55c88e3))
+
 ## [2.190.1](https://github.com/SocialGouv/domifa/compare/v2.190.0...v2.190.1) (2025-01-09)
 
 
