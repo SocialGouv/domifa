@@ -1,4 +1,11 @@
-import { Controller, Get, Res, UseGuards } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Param,
+  ParseEnumPipe,
+  Res,
+  UseGuards,
+} from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
@@ -20,6 +27,8 @@ import * as XLSX from "xlsx";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { domifaConfig } from "../../config";
 
+import { UsagersFilterCriteriaStatut } from "@domifa/common";
+
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("export")
 @ApiBearerAuth()
@@ -30,11 +39,13 @@ export class ExportStructureUsagersController {
     private readonly appLogsService: AppLogsService
   ) {}
 
-  @Get("")
+  @Get(":statut")
   @AllowUserStructureRoles("responsable", "admin")
   public async export(
     @CurrentUser() user: UserStructureAuthenticated,
-    @Res() res: Response
+    @Res() res: Response,
+    @Param("statut", new ParseEnumPipe(UsagersFilterCriteriaStatut))
+    statut: UsagersFilterCriteriaStatut
   ): Promise<void> {
     const startTime = new Date();
 
@@ -121,6 +132,7 @@ export class ExportStructureUsagersController {
       await this.usagersService.exportByChunks(
         user.structureId,
         5000,
+        statut,
         processChunk
       );
 

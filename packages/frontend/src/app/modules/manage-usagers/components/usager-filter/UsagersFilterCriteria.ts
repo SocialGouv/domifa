@@ -3,15 +3,8 @@ import {
   Search,
   UsagersFilterCriteriaDernierPassage,
   UsagersFilterCriteriaEcheance,
+  UsagersFilterCriteriaStatut,
 } from "@domifa/common";
-
-export type UsagersFilterCriteriaStatut =
-  | "TOUS"
-  | "VALIDE"
-  | "INSTRUCTION"
-  | "ATTENTE_DECISION"
-  | "REFUS"
-  | "RADIE";
 
 export type UsagersFilterCriteriaSortKey =
   | "PASSAGE"
@@ -44,7 +37,7 @@ export class UsagersFilterCriteria extends Search {
     this.searchString = search?.searchString || null;
     this.searchStringField =
       search?.searchStringField || CriteriaSearchField.DEFAULT;
-    this.statut = search?.statut || "VALIDE";
+    this.statut = search?.statut || UsagersFilterCriteriaStatut.VALIDE;
     this.page = search?.page || 1;
     this.sortKey = search?.sortKey || "NOM";
     this.sortValue = search?.sortValue || "asc";

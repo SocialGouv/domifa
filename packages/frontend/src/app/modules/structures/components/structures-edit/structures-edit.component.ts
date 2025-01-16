@@ -14,7 +14,11 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { StructureService } from "../../services/structure.service";
-import { UserStructure, StructureCommon } from "@domifa/common";
+import {
+  UserStructure,
+  StructureCommon,
+  UsagersFilterCriteriaStatut,
+} from "@domifa/common";
 import { Store } from "@ngrx/store";
 import { usagerActions, UsagerState } from "../../../../shared";
 
@@ -33,6 +37,7 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
 
   public hardResetForm!: UntypedFormGroup;
   private subscription = new Subscription();
+  public readonly UsagersFilterCriteriaStatut = UsagersFilterCriteriaStatut;
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
@@ -124,10 +129,10 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
     );
   }
 
-  public export(): void {
+  public export(statut: UsagersFilterCriteriaStatut): void {
     this.exportLoading = true;
     this.subscription.add(
-      this.structureService.export().subscribe({
+      this.structureService.export(statut).subscribe({
         next: (x: Blob) => {
           const newBlob = new Blob([x], {
             type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",

@@ -4,7 +4,12 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { StructureCommonWeb } from "../classes";
-import { StructureCommon, Structure, UserStructure } from "@domifa/common";
+import {
+  StructureCommon,
+  Structure,
+  UserStructure,
+  UsagersFilterCriteriaStatut,
+} from "@domifa/common";
 
 @Injectable({
   providedIn: "root",
@@ -19,11 +24,9 @@ export class StructureService {
   }
 
   public findMyStructure(): Observable<StructureCommon> {
-    return this.http.get(`${this.endPoint}/ma-structure`).pipe(
-      map((response) => {
-        return new StructureCommonWeb(response);
-      })
-    );
+    return this.http
+      .get(`${this.endPoint}/ma-structure`)
+      .pipe(map((response) => new StructureCommonWeb(response)));
   }
 
   public find(codePostal: string): Observable<StructureCommon[]> {
@@ -79,11 +82,9 @@ export class StructureService {
   }
 
   public patchSmsParams(structure: Structure): Observable<StructureCommon> {
-    return this.http.patch(`${this.endPoint}/sms`, structure).pipe(
-      map((response) => {
-        return new StructureCommonWeb(response);
-      })
-    );
+    return this.http
+      .patch(`${this.endPoint}/sms`, structure)
+      .pipe(map((response) => new StructureCommonWeb(response)));
   }
 
   public validateEmail(email: string): Observable<boolean> {
@@ -100,8 +101,9 @@ export class StructureService {
     return this.http.get(`${this.endPoint}/hard-reset-confirm/${token}`);
   }
 
-  public export() {
-    return this.http.get(`${environment.apiUrl}export`, {
+  public export(statut: UsagersFilterCriteriaStatut): Observable<Blob> {
+    const url = `${environment.apiUrl}export/${statut}`;
+    return this.http.get(url, {
       responseType: "blob",
     });
   }

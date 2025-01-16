@@ -78,7 +78,6 @@ export class StatsPrivateController {
     );
   }
 
-  // Get reporting
   @AllowUserStructureRoles("responsable", "admin", "simple")
   @Get("reporting-questions")
   public async getReportingQuestions(

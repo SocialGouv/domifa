@@ -14,6 +14,7 @@ import {
   extractDeadlines,
   UsagersFilterCriteriaDernierPassage,
   UsagersFilterCriteriaEcheance,
+  UsagersFilterCriteriaStatut,
 } from "@domifa/common";
 
 @Component({
@@ -28,6 +29,7 @@ export class ManageFiltersComponent implements OnInit, OnChanges {
   @Input() public nbResults: number;
 
   @Output() public readonly updateFilters = new EventEmitter();
+  public readonly UsagersFilterCriteriaStatut = UsagersFilterCriteriaStatut;
 
   public readonly labelsEcheance =
     extractDeadlines<UsagersFilterCriteriaEcheance>([
@@ -80,7 +82,10 @@ export class ManageFiltersComponent implements OnInit, OnChanges {
       { id: "ECHEANCE", label: this.getEcheanceLabel() },
     ];
 
-    if (this.filters?.statut === "TOUS" || this.filters?.statut === "VALIDE") {
+    if (
+      this.filters?.statut === UsagersFilterCriteriaStatut.TOUS ||
+      this.filters?.statut === UsagersFilterCriteriaStatut.VALIDE
+    ) {
       sortElements.push({ id: "PASSAGE", label: "dernier passage" });
     }
 
@@ -88,9 +93,9 @@ export class ManageFiltersComponent implements OnInit, OnChanges {
   }
 
   public getEcheanceLabel(): "radiation" | "refus" | "échéance" {
-    if (this.filters?.statut === "RADIE") {
+    if (this.filters?.statut === UsagersFilterCriteriaStatut.RADIE) {
       return "radiation";
-    } else if (this.filters?.statut === "REFUS") {
+    } else if (this.filters?.statut === UsagersFilterCriteriaStatut.REFUS) {
       return "refus";
     }
     return "échéance";

@@ -10,7 +10,7 @@
             Filtrer les <span class="text-primary"> {{ nbResults }} </span>
             <ng-container
               *ngIf="
-                filters.statut === 'RADIE' &&
+                filters.statut === UsagersFilterCriteriaStatut.RADIE &&
                 usagersRadiesTotalCount !== usagersRadiesLoadedCount
               "
             >
@@ -22,7 +22,10 @@
         </p>
 
         <div
-          *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
+          *ngIf="
+            filters.statut === UsagersFilterCriteriaStatut.TOUS ||
+            filters.statut === UsagersFilterCriteriaStatut.VALIDE
+          "
           class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
         >
           <button
@@ -79,7 +82,10 @@
         </div>
 
         <div
-          *ngIf="filters.statut === 'TOUS' || filters.statut === 'VALIDE'"
+          *ngIf="
+            filters.statut === UsagersFilterCriteriaStatut.TOUS ||
+            filters.statut === UsagersFilterCriteriaStatut.VALIDE
+          "
           class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
         >
           <button
@@ -131,7 +137,7 @@
         </div>
 
         <div
-          *ngIf="filters.statut === 'RADIE'"
+          *ngIf="filters.statut === UsagersFilterCriteriaStatut.RADIE"
           class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
         >
           <button
@@ -182,7 +188,7 @@
           </div>
         </div>
         <div
-          *ngIf="filters.statut !== 'REFUS'"
+          *ngIf="filters.statut !== UsagersFilterCriteriaStatut.REFUS"
           class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
         >
           <button
@@ -235,7 +241,7 @@
         </div>
 
         <div
-          *ngIf="filters.statut === 'INSTRUCTION'"
+          *ngIf="filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION"
           class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
         >
           <button

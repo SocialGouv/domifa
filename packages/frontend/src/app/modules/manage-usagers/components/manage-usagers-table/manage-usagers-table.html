@@ -11,7 +11,7 @@
           [selectedRefs]="selectedRefs"
           (actionAfterSuccess)="resetCheckboxes()"
           context="MANAGE"
-          *ngIf="filters.statut === 'VALIDE'"
+          *ngIf="filters.statut === UsagersFilterCriteriaStatut.VALIDE"
         ></app-decision-radiation-form>
         <button
           type="button"
@@ -85,7 +85,11 @@
         />
       </label>
     </th>
-    <th scope="col" role="columnheader" *ngIf="filters.statut ==='TOUS'">
+    <th
+      scope="col"
+      role="columnheader"
+      *ngIf="filters.statut ===UsagersFilterCriteriaStatut.TOUS"
+    >
       STATUT
     </th>
 
@@ -127,7 +131,7 @@
     <th
       scope="col"
       role="columnheader"
-      *ngIf="filters.statut === 'ATTENTE_DECISION' || filters.statut === 'INSTRUCTION'"
+      *ngIf="filters.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION || filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION"
     >
       Type de demande
     </th>
@@ -135,7 +139,7 @@
       class="clickable"
       scope="col"
       role="columnheader"
-      *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS' "
+      *ngIf="filters.statut === UsagersFilterCriteriaStatut.VALIDE || filters.statut === UsagersFilterCriteriaStatut.TOUS "
     >
       <button
         type="button"
@@ -155,7 +159,7 @@
     <th
       scope="col"
       role="columnheader"
-      *ngIf="filters.statut === 'INSTRUCTION'"
+      *ngIf="filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION"
       class="clickable"
     >
       <button
@@ -223,7 +227,10 @@
           />
         </label>
       </td>
-      <td *ngIf="filters.statut === 'TOUS'" class="clickable text-start">
+      <td
+        *ngIf="filters.statut === UsagersFilterCriteriaStatut.TOUS"
+        class="clickable text-start"
+      >
         <span [class]="'label-info ' + usager?.statusInfo?.color">
           {{ usager?.statusInfo?.text }}</span
         >
@@ -253,7 +260,7 @@
       </td>
       <td class="clickable table-name td-name">
         <a
-          [routerLink]="(usager.decision.statut === 'INSTRUCTION' || usager.decision.statut === 'ATTENTE_DECISION') && me.role !== 'facteur'
+          [routerLink]="(usager.decision.statut === UsagersFilterCriteriaStatut.INSTRUCTION || usager.decision.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION) && me.role !== 'facteur'
            ? '/usager/'+usager.ref+'/edit/'+ETAPES_DEMANDE_URL[usager.etapeDemande]
            : '/profil/general/'+usager.ref"
           ariaCurrentWhenActive="page"
@@ -281,7 +288,7 @@
         <app-column-informations [usager]="usager"></app-column-informations>
       </td>
       <td
-        *ngIf="filters.statut === 'ATTENTE_DECISION' || filters.statut === 'INSTRUCTION'"
+        *ngIf="filters.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION || filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION"
       >
         <p
           *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
@@ -296,11 +303,14 @@
           Première demande
         </p>
       </td>
-      <td class="clickable" *ngIf="filters.statut === 'INSTRUCTION'">
+      <td
+        class="clickable"
+        *ngIf="filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION"
+      >
         {{ usager.rdvInfo.content }}
       </td>
       <td
-        *ngIf="filters.statut === 'VALIDE' || filters.statut === 'TOUS'"
+        *ngIf="filters.statut === UsagersFilterCriteriaStatut.VALIDE || filters.statut === UsagersFilterCriteriaStatut.TOUS"
         class="clickable"
         tabindex="0"
         (click)="goToProfil(usager)"

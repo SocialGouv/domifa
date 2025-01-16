@@ -26,6 +26,7 @@ import {
   UsagerTypeDom,
   UsagerDecision,
   Usager,
+  UsagersFilterCriteriaStatut,
 } from "@domifa/common";
 import { UsagerHistoryStateService } from "./usagerHistoryState.service";
 import { StructureUsagerExport } from "./xlsx-structure-usagers-renderer";
@@ -250,76 +251,85 @@ export class UsagersService {
   public async exportByChunks(
     structureId: number,
     chunkSize: number = 5000,
+    statut: UsagersFilterCriteriaStatut,
     processChunk: (chunk: StructureUsagerExport[]) => Promise<void>
   ): Promise<void> {
     let skip = 0;
     let total = 0;
 
-    const [{ count }] = await usagerRepository.query(
-      `SELECT COUNT(*) as count FROM usager WHERE "structureId" = $1`,
-      [structureId]
-    );
+    const params: any[] = [structureId];
+    let whereClause = 'u."structureId" = $1';
+
+    if (statut !== UsagersFilterCriteriaStatut.TOUS) {
+      params.push(statut);
+      whereClause += ` AND u.statut = $${params.length}`;
+    }
+
+    const countQuery = `
+    SELECT COUNT(*) as count
+    FROM usager u
+    ${whereClause}
+  `;
+
+    const [{ count }] = await usagerRepository.query(countQuery, params);
 
     const query = `
-      SELECT
-        u."customRef",
-        u.ref,
-        u.nom,
-        u.prenom,
-        u.surnom,
-        u.sexe,
-        u."dateNaissance",
-        u."villeNaissance",
-        u.langue,
-        u.nationalite,
-        u.email,
-        u.telephone,
-        u."ayantsDroits",
-        u."typeDom",
-        u."datePremiereDom",
-        u.decision,
-        u.historique,
-        u."lastInteraction",
-        u.options,
-        u."numeroDistribution",
-        JSON_BUILD_OBJECT(
-          'usagerUUID', e."usagerUUID",
-          'structureId', e."structureId",
-          'usagerRef', e."usagerRef",
-          'domiciliation', e.domiciliation,
-          'commentaires', e.commentaires,
-          'typeMenage', e."typeMenage",
-          'revenus', e.revenus,
-          'revenusDetail', e."revenusDetail",
-          'orientation', e.orientation,
-          'orientationDetail', e."orientationDetail",
-          'liencommune', e.liencommune,
-          'liencommuneDetail', e."liencommuneDetail",
-          'residence', e.residence,
-          'residenceDetail', e."residenceDetail",
-          'cause', e.cause,
-          'causeDetail', e."causeDetail",
-          'rattachement', e.rattachement,
-          'raison', e.raison,
-          'raisonDetail', e."raisonDetail",
-          'accompagnement', e.accompagnement,
-          'accompagnementDetail', e."accompagnementDetail",
-          'situationPro', e."situationPro",
-          'situationProDetail', e."situationProDetail"
-        ) as entretien
-      FROM usager u
-      LEFT JOIN usager_entretien e ON e."usagerUUID" = u.uuid
-      WHERE u."structureId" = $1
-      ORDER BY u.nom ASC
-      LIMIT $2 OFFSET $3
-    `;
+    SELECT
+      u."customRef",
+      u.ref,
+      u.nom,
+      u.prenom,
+      u.surnom,
+      u.sexe,
+      u."dateNaissance",
+      u."villeNaissance",
+      u.langue,
+      u.nationalite,
+      u.email,
+      u.telephone,
+      u."ayantsDroits",
+      u."typeDom",
+      u."datePremiereDom",
+      u.decision,
+      u.historique,
+      u."lastInteraction",
+      u.options,
+      u."numeroDistribution",
+      JSON_BUILD_OBJECT(
+        'usagerUUID', e."usagerUUID",
+        'structureId', e."structureId",
+        'usagerRef', e."usagerRef",
+        'domiciliation', e.domiciliation,
+        'commentaires', e.commentaires,
+        'typeMenage', e."typeMenage",
+        'revenus', e.revenus,
+        'revenusDetail', e."revenusDetail",
+        'orientation', e.orientation,
+        'orientationDetail', e."orientationDetail",
+        'liencommune', e.liencommune,
+        'liencommuneDetail', e."liencommuneDetail",
+        'residence', e.residence,
+        'residenceDetail', e."residenceDetail",
+        'cause', e.cause,
+        'causeDetail', e."causeDetail",
+        'rattachement', e.rattachement,
+        'raison', e.raison,
+        'raisonDetail', e."raisonDetail",
+        'accompagnement', e.accompagnement,
+        'accompagnementDetail', e."accompagnementDetail",
+        'situationPro', e."situationPro",
+        'situationProDetail', e."situationProDetail"
+      ) as entretien
+    FROM usager u
+    LEFT JOIN usager_entretien e ON e."usagerUUID" = u.uuid
+    ${whereClause}
+    ORDER BY u.uuid ASC
+    LIMIT $${params.length + 1} OFFSET $${params.length + 2}
+  `;
 
     while (true) {
-      const chunk = await usagerRepository.query(query, [
-        structureId,
-        chunkSize,
-        skip,
-      ]);
+      const queryParams = [...params, chunkSize, skip];
+      const chunk = await usagerRepository.query(query, queryParams);
 
       if (chunk.length === 0) {
         break;

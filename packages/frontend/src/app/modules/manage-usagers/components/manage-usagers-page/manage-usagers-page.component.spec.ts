@@ -11,7 +11,10 @@ import { _usagerReducer, MATOMO_INJECTORS } from "../../../../shared";
 
 import { ManageUsagersPageComponent } from "./manage-usagers-page.component";
 import { StoreModule } from "@ngrx/store";
-import { CriteriaSearchField } from "@domifa/common";
+import {
+  CriteriaSearchField,
+  UsagersFilterCriteriaStatut,
+} from "@domifa/common";
 
 describe("ManageUsagersPageComponent", () => {
   let component: ManageUsagersPageComponent;
@@ -55,7 +58,7 @@ describe("ManageUsagersPageComponent", () => {
       lastInteractionDate: null,
       sortKey: "NOM",
       sortValue: "asc",
-      statut: "VALIDE",
+      statut: UsagersFilterCriteriaStatut.VALIDE,
     });
   }));
 
