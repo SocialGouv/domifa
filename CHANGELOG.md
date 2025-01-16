@@ -1,3 +1,10 @@
+# [2.192.0](https://github.com/SocialGouv/domifa/compare/v2.191.2...v2.192.0) (2025-01-16)
+
+
+### Features
+
+* **admin:** add stats for each structure ([e409173](https://github.com/SocialGouv/domifa/commit/e40917313393e6deb15c8d9e83b908063e598bb9))
+
 ## [2.191.2](https://github.com/SocialGouv/domifa/compare/v2.191.1...v2.191.2) (2025-01-16)
 
 
