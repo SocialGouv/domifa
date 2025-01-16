@@ -49,6 +49,11 @@
         *ngIf="section === 'users'"
         [structure]="structure"
       ></app-users>
+
+      <app-structure-stats
+        *ngIf="section === 'stats'"
+        [structure]="structure"
+      ></app-structure-stats>
     </div>
   </div>
 </div>

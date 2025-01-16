@@ -255,7 +255,7 @@ export class AdminStructuresController {
         type_de_structure: structureType,
         structureid: structureId,
       },
-      exp: Math.round(Date.now() / 1000) + 100 * 60, // 10 minute expiration
+      exp: Math.round(Date.now() / 1000) + 100 * 60,
     };
 
     const token = sign(payload, domifaConfig().metabase.token);

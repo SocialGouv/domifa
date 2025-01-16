@@ -10,6 +10,8 @@ import { UsersComponent } from "./components/users/users.component";
 import { SortArrayPipe } from "../shared/pipes/sort-array.pipe";
 import { StructureInfoComponent } from "./components/structure-info/structure-info.component";
 import { FormatInternationalPhoneNumberPipe } from "../../shared/utils/formatInternationalPhoneNumber.pipe";
+import { StructureStatsComponent } from "./components/structure-stats/structure-stats.component";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -17,10 +19,12 @@ import { FormatInternationalPhoneNumberPipe } from "../../shared/utils/formatInt
     UsersComponent,
     StructureInfoComponent,
     UsersComponent,
+    StructureStatsComponent,
   ],
   imports: [
     CommonModule,
     NgbModule,
+    FormsModule,
     FormatInternationalPhoneNumberPipe,
     SharedModule,
     FontAwesomeModule,
