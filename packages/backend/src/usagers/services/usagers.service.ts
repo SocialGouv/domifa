@@ -253,6 +253,12 @@ export class UsagersService {
     processChunk: (chunk: StructureUsagerExport[]) => Promise<void>
   ): Promise<void> {
     let skip = 0;
+    let total = 0;
+
+    const [{ count }] = await usagerRepository.query(
+      `SELECT COUNT(*) as count FROM usager WHERE "structureId" = $1`,
+      [structureId]
+    );
 
     const query = `
       SELECT
@@ -320,7 +326,21 @@ export class UsagersService {
       }
 
       await processChunk(chunk);
-      skip += chunkSize;
+      total += chunk.length;
+      skip += chunk.length;
+
+      console.log({
+        processedCount: total,
+        totalCount: count,
+        chunkSize: chunk.length,
+        skip,
+      });
+    }
+
+    if (total !== parseInt(count)) {
+      console.warn(
+        `⚠️ Différence détectée - Exportés: ${total}, Total attendu: ${count}`
+      );
     }
   }
 }

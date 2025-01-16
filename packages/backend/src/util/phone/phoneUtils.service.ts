@@ -11,11 +11,15 @@ export const getPhoneString = (
   }
 
   telephone.numero = telephone.numero.replace(/\D/g, "");
+
   const numero = phoneUtil.parse(
     telephone.numero,
     telephone?.countryCode?.toLowerCase()
   );
-  return phoneUtil.format(numero, excpectedFormat);
+  if (phoneUtil.isValidNumber(numero)) {
+    return phoneUtil.format(numero, excpectedFormat);
+  }
+  return "";
 };
 
 export const isValidMobilePhone = (value: Telephone): boolean | null => {
