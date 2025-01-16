@@ -11,6 +11,8 @@ import { UsagersService } from "../services/usagers.service";
 
 import { format } from "date-fns";
 import {
+  applyDateFormat,
+  renderStructureUsagersHeaders,
   renderStructureUsagersRows,
   StructureUsagerExport,
 } from "../services/xlsx-structure-usagers-renderer";
@@ -45,35 +47,78 @@ export class ExportStructureUsagersController {
 
       const workbook = XLSX.utils.book_new();
 
-      const wsUsagers = XLSX.utils.json_to_sheet([], { skipHeader: true });
-      const wsEntretiens = XLSX.utils.json_to_sheet([], { skipHeader: true });
+      const { firstSheetHeaders, secondSheetHeaders } =
+        renderStructureUsagersHeaders(user.structure);
+
+      const usagersHeadersAoA = [
+        [firstSheetHeaders[0].USAGER_CUSTOM_REF],
+        Object.values(firstSheetHeaders[1]),
+      ];
+
+      const entretiensHeadersAoA = [
+        [secondSheetHeaders[0].USAGER_CUSTOM_REF],
+        Object.values(secondSheetHeaders[1]),
+      ];
+
+      // Créer les worksheets avec aoa_to_sheet
+      const wsUsagers = XLSX.utils.aoa_to_sheet(usagersHeadersAoA, {
+        cellDates: true,
+        dateNF: "DD/MM/YYYY",
+      });
+
+      const wsEntretiens = XLSX.utils.aoa_to_sheet(entretiensHeadersAoA, {
+        cellDates: true,
+        dateNF: "DD/MM/YYYY",
+      });
 
       XLSX.utils.book_append_sheet(workbook, wsUsagers, "Liste des domiciliés");
       XLSX.utils.book_append_sheet(workbook, wsEntretiens, "Entretiens");
 
-      let currentRowUsagers = 0;
-      let currentRowEntretiens = 0;
+      let currentRowUsagers = 2;
+      let currentRowEntretiens = 2;
 
       const processChunk = async (chunk: StructureUsagerExport[]) => {
+        console.log({
+          date: new Date(),
+          structureId: user.structureId,
+          currentRowUsagers,
+        });
         const { firstSheetUsagers, secondSheetEntretiens } =
           renderStructureUsagersRows(chunk, user.structure);
+
+        // Application du format des dates
+        applyDateFormat(firstSheetUsagers, [
+          "USAGER_DATE_NAISSANCE",
+          "DATE_RADIATION",
+          "DATE_REFUS",
+          "DATE_DEBUT_DOM",
+          "DATE_FIN_DOM",
+          "DATE_PREMIERE_DOM",
+          "DATE_DERNIER_PASSAGE",
+        ]);
 
         // Ajoute les lignes à la première feuille
         XLSX.utils.sheet_add_json(wsUsagers, firstSheetUsagers, {
           skipHeader: true,
           origin: currentRowUsagers,
+          cellDates: true,
+          dateNF: "DD/MM/YYYY",
         });
         currentRowUsagers += firstSheetUsagers.length;
+
+        applyDateFormat(secondSheetEntretiens, ["USAGER_DATE_NAISSANCE"]);
 
         // Ajoute les lignes à la deuxième feuille
         XLSX.utils.sheet_add_json(wsEntretiens, secondSheetEntretiens, {
           skipHeader: true,
           origin: currentRowEntretiens,
+          cellDates: true,
+          dateNF: "DD/MM/YYYY",
         });
+
         currentRowEntretiens += secondSheetEntretiens.length;
       };
 
-      // Lance l'export par chunks
       await this.usagersService.exportByChunks(
         user.structureId,
         5000,
@@ -108,6 +153,7 @@ export class ExportStructureUsagersController {
 
       res.send(buffer);
     } catch (err) {
+      console.log(err);
       appLogger.error("[EXPORT] Unexpected error", err);
       res.sendStatus(500);
     }
