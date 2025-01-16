@@ -105,10 +105,4 @@ export class StructureService {
       responseType: "blob",
     });
   }
-
-  public exportActifs() {
-    return this.http.get(`${environment.apiUrl}export-actifs`, {
-      responseType: "blob",
-    });
-  }
 }

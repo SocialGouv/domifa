@@ -1,0 +1,66 @@
+<div class="row pb-5" *ngIf="structure">
+  <select
+    id="year"
+    class="form-select"
+    [(ngModel)]="metabaseParams.year"
+    (ngModelChange)="getMetabaseUrl()"
+    name="region"
+  >
+    <option [value]="null"></option>
+    <option *ngFor="let year of years" [value]="year">
+      {{ year }}
+    </option>
+  </select>
+
+  <div class="col-12 text-center py-3">
+    <button
+      type="button"
+      class="me-2 btn btn-primary"
+      (click)="getMetabaseUrl()"
+      [disabled]="loading"
+      [attr.aria-busy]="loading"
+    >
+      <span *ngIf="loading">
+        <fa-icon
+          [icon]="['fas', 'circle-notch']"
+          aria-hidden="true"
+          [spin]="true"
+        >
+        </fa-icon>
+        Veuillez patienter...
+      </span>
+      <span *ngIf="!loading">🔄 Consulter les données statistiques </span>
+    </button>
+
+    <button
+      type="button"
+      class="me-2 btn btn-primary"
+      (click)="export()"
+      *ngIf="metabaseParams.structureId && iframeUrl"
+      [disabled]="loading"
+      [attr.aria-busy]="loading"
+    >
+      <span *ngIf="loading">
+        <fa-icon
+          [icon]="['fas', 'circle-notch']"
+          aria-hidden="true"
+          [spin]="true"
+        >
+        </fa-icon>
+        Veuillez patienter...
+      </span>
+
+      <span *ngIf="!loading">
+        💾 Télécharger le rapport de la structure (Excel)</span
+      >
+    </button>
+  </div>
+</div>
+<div *ngIf="iframeUrl">
+  <iframe
+    title="Rapports d'activité"
+    [src]="iframeUrl"
+    width="100%"
+    height="4000"
+  ></iframe>
+</div>
