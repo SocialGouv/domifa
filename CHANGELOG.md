@@ -1,3 +1,15 @@
+# [2.193.0](https://github.com/SocialGouv/domifa/compare/v2.192.0...v2.193.0) (2025-01-16)
+
+
+### Bug Fixes
+
+* **backend:** fix export request ([6e045b3](https://github.com/SocialGouv/domifa/commit/6e045b369d8a648744e76179b6bfcbd50477d7cf))
+
+
+### Features
+
+* **frontend:** export valid users ([5da265e](https://github.com/SocialGouv/domifa/commit/5da265e2d7332552316015e0813d3b8c2b2fbf64))
+
 # [2.192.0](https://github.com/SocialGouv/domifa/compare/v2.191.2...v2.192.0) (2025-01-16)
 
 
