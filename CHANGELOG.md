@@ -1,3 +1,10 @@
+## [2.193.2](https://github.com/SocialGouv/domifa/compare/v2.193.1...v2.193.2) (2025-01-20)
+
+
+### Bug Fixes
+
+* **backend:** export of large files ([a153342](https://github.com/SocialGouv/domifa/commit/a15334222e34c9c7e243bb31ff1f130d4855ded6))
+
 ## [2.193.1](https://github.com/SocialGouv/domifa/compare/v2.193.0...v2.193.1) (2025-01-20)
 
 
