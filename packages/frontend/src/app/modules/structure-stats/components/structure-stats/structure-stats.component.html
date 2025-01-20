@@ -40,15 +40,15 @@
     <nav id="statut-selector" class="mt-4 row d-print-none">
       <button
         type="button"
-        *ngFor="let report of reports"
+        *ngFor="let year of years"
         [ngClass]="
-          !isCustomDates && selectedYear === report.year
+          !isCustomDates && selectedYear === year
             ? 'selected-section col'
             : 'col'
         "
-        (click)="onYearChange(report.year)"
+        (click)="onYearChange(year)"
       >
-        Année {{ report.year }}
+        Année {{ year }}
       </button>
       <button
         type="button"
@@ -78,8 +78,8 @@
               <input
                 class="form-control"
                 placeholder="jj/mm/aaaa"
-                [minDate]="minDateDebut"
-                [maxDate]="maxDateDebut"
+                [minDate]="minStartDate"
+                [maxDate]="maxStartDate"
                 ngbDatepicker
                 id="dateDebutValide"
                 outsideDays="hidden"
@@ -120,8 +120,8 @@
               <input
                 class="form-control"
                 placeholder="jj/mm/aaaa"
-                [minDate]="minDateFin"
-                [maxDate]="maxDateFin"
+                [minDate]="minEndDate"
+                [maxDate]="maxEndDate"
                 ngbDatepicker
                 [(ngModel)]="toDate"
                 #dFin="ngbDatepicker"

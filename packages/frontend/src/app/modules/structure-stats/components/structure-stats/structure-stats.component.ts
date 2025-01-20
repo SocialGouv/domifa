@@ -4,7 +4,6 @@ import {
   ChangeDetectorRef,
   Component,
   OnDestroy,
-  OnInit,
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import {
@@ -32,7 +31,7 @@ import {
 import { formatDateToNgb } from "../../../../shared";
 import { StructureStatsService } from "../../services/structure-stats.service";
 import { MatomoTracker } from "ngx-matomo-client";
-import { format, startOfMonth } from "date-fns";
+import { format, startOfMonth, startOfYear, subYears } from "date-fns";
 
 @Component({
   providers: [
@@ -44,22 +43,20 @@ import { format, startOfMonth } from "date-fns";
   styleUrls: ["./structure-stats.component.scss"],
   templateUrl: "./structure-stats.component.html",
 })
-export class StuctureStatsComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
-  public stats!: StructureStatsFull;
+export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
+  public stats: StructureStatsFull | null = null;
 
-  public loading: boolean;
+  public loading: boolean = false;
 
   public start: Date = new Date();
   public end: Date | null = null;
 
   public hoveredDate: NgbDate | null = null;
 
-  public minDateDebut: NgbDate;
-  public minDateFin: NgbDate;
-  public maxDateDebut: NgbDate;
-  public maxDateFin: NgbDate;
+  public minStartDate: NgbDate;
+  public minEndDate: NgbDate;
+  public maxStartDate: NgbDate;
+  public maxEndDate: NgbDate;
 
   public fromDate: NgbDate;
   public toDate: NgbDate | null = null;
@@ -71,7 +68,7 @@ export class StuctureStatsComponent
   public years: number[] = [];
   public currentYear = new Date().getFullYear();
   public selectedYear = new Date().getFullYear() - 1;
-  public lastYear = new Date().getFullYear() - 1;
+  public firstReportsYear = new Date().getFullYear() - 4; // only last 4 years
 
   public readonly ENTRETIEN_CAUSE_INSTABILITE = ENTRETIEN_CAUSE_INSTABILITE;
   public readonly ENTRETIEN_RESIDENCE = ENTRETIEN_RESIDENCE;
@@ -86,59 +83,55 @@ export class StuctureStatsComponent
     private readonly structureStatsService: StructureStatsService,
     private readonly titleService: Title,
     private readonly toastService: CustomToastService,
-    private readonly cdRef: ChangeDetectorRef,
     private readonly authService: AuthService,
-    private readonly matomo: MatomoTracker
+    private readonly matomo: MatomoTracker,
+    private cd: ChangeDetectorRef
   ) {
-    for (let year = 2021; year <= this.currentYear; year++) {
+    for (let year = this.firstReportsYear; year < this.currentYear; year++) {
       this.years.push(year);
     }
 
-    this.loading = false;
-    const date = new Date("2020-01-01");
+    const refDate = startOfYear(subYears(new Date(), 4));
 
-    this.minDateDebut = new NgbDate(
-      date.getFullYear(),
-      date.getMonth() + 1,
-      date.getDate()
+    this.minStartDate = new NgbDate(
+      refDate.getFullYear(),
+      refDate.getMonth() + 1,
+      refDate.getDate()
     );
-    this.minDateFin = new NgbDate(
-      date.getFullYear(),
-      date.getMonth() + 1,
-      date.getDate()
+    this.minEndDate = new NgbDate(
+      refDate.getFullYear(),
+      refDate.getMonth() + 1,
+      refDate.getDate()
     );
     this.fromDate = new NgbDate(
-      date.getFullYear(),
-      date.getMonth() + 1,
-      date.getDate()
+      refDate.getFullYear(),
+      refDate.getMonth() + 1,
+      refDate.getDate()
     );
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
 
     // Dates du calendrier
-    this.maxDateDebut = new NgbDate(
+    this.maxStartDate = new NgbDate(
       yesterday.getFullYear(),
       yesterday.getMonth() + 1,
       yesterday.getDate() + 1
     );
 
-    this.maxDateFin = new NgbDate(yesterday.getFullYear() + 1, 1, 1);
+    this.maxEndDate = new NgbDate(yesterday.getFullYear() + 1, 1, 1);
 
+    this.titleService.setTitle("Rapport d'activité - DomiFa");
+    this.me = this.authService.currentUserValue;
     this.setCustomDates();
   }
 
-  public ngOnInit(): void {
-    this.titleService.setTitle("Rapport d'activité - DomiFa");
-    this.me = this.authService.currentUserValue;
-    this.getReportings();
-  }
-
   public ngAfterViewInit(): void {
-    this.cdRef.detectChanges();
+    this.getReportings();
+    this.cd.detectChanges();
   }
 
   public changeStart(newDate: NgbDate): void {
-    this.minDateFin = newDate;
+    this.minEndDate = newDate;
   }
 
   public export(year?: number): void {
@@ -191,20 +184,30 @@ export class StuctureStatsComponent
     );
   }
 
-  public getReportings() {
+  public getReportings(): void {
+    this.reports = [];
     this.subscription.add(
       this.structureStatsService.getReportingQuestions().subscribe({
         next: (stats: StructureStatsReportingQuestions[]) => {
-          this.reports = stats;
-          this.currentReport = this.reports.find(
-            (report) => report.year === this.selectedYear
-          );
+          for (
+            let year = this.firstReportsYear;
+            year <= this.currentYear;
+            year++
+          ) {
+            const report =
+              stats.find((r) => r.year === year) ||
+              new StructureStatsReportingQuestions({
+                year,
+              } as StructureStatsReportingQuestions);
+            this.reports.push(report);
+          }
+
+          this.currentReport = stats.find((r) => r.year === this.selectedYear);
         },
-        error: () => {
+        error: () =>
           this.toastService.error(
-            "La récupération des rapports d'activité à échoué"
-          );
-        },
+            "La récupération des rapports d'activité a échoué"
+          ),
       })
     );
   }
@@ -216,7 +219,6 @@ export class StuctureStatsComponent
     }
     this.start = new Date(year as number, 0, 1);
     this.end = new Date(year as number, 11, 31);
-
     this.fromDate = formatDateToNgb(this.start);
     this.toDate = formatDateToNgb(this.end);
     this.isCustomDates = false;

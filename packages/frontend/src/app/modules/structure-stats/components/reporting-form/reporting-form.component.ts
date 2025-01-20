@@ -36,7 +36,7 @@ export class ReportingFormComponent implements OnInit {
   public structureStatsForm: FormGroup;
 
   private readonly subscription = new Subscription();
-  @Input() currentReport: StructureStatsReportingQuestions;
+  @Input({ required: true }) currentReport: StructureStatsReportingQuestions;
   @Output() getReportings = new EventEmitter<void>();
 
   public readonly REPORTNG_QUESTIONS_LABELS = REPORTNG_QUESTIONS_LABELS;

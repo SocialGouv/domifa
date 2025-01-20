@@ -27,9 +27,15 @@ import { structureStatsInPeriodGenerator } from "../services";
 import { statsQuestionsCoreBuilder } from "../services/statsQuestionsCoreBuilder.service";
 
 import { addDays, format } from "date-fns";
-import { StructureStatsFull } from "@domifa/common";
+import {
+  StructureStatsFull,
+  StructureStatsReportingQuestions,
+} from "@domifa/common";
 import { StructureStatsReportingDto } from "../dto";
-import { structureStatsReportingQuestionsRepository } from "../../database";
+import {
+  structureStatsReportingQuestionsRepository,
+  StructureStatsReportingQuestionsTable,
+} from "../../database";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 
 @Controller("stats")
@@ -52,30 +58,31 @@ export class StatsPrivateController {
       },
     });
 
-    if (!stats) {
-      throw new Error("CANNOT_UPDATE_REPORT");
-    }
-
-    await structureStatsReportingQuestionsRepository.update(
-      {
-        structureId: user.structureId,
-        year: reportingDto.year,
+    const questionsToAdd: StructureStatsReportingQuestions = {
+      ...reportingDto,
+      completedBy: {
+        id: user.id,
+        nom: user.nom,
+        prenom: user.prenom,
       },
-      {
-        waitingList: reportingDto.waitingList,
-        waitingTime: reportingDto.waitingTime,
-        workers: reportingDto.workers,
-        volunteers: reportingDto.volunteers,
-        humanCosts: reportingDto.humanCosts,
-        totalCosts: reportingDto.totalCosts,
-        completedBy: {
-          id: user.id,
-          nom: user.nom,
-          prenom: user.prenom,
+      structureId: user.structureId,
+      confirmationDate: new Date(),
+    };
+
+    if (!stats) {
+      await structureStatsReportingQuestionsRepository.save(
+        new StructureStatsReportingQuestionsTable(questionsToAdd)
+      );
+    } else {
+      await structureStatsReportingQuestionsRepository.update(
+        {
+          structureId: user.structureId,
+          year: reportingDto.year,
         },
-        confirmationDate: new Date(),
-      }
-    );
+        questionsToAdd
+      );
+    }
+    return;
   }
 
   @AllowUserStructureRoles("responsable", "admin", "simple")

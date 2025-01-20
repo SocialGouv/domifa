@@ -249,7 +249,7 @@ export class UsagersService {
   }
 
   public async exportByChunks(
-    structureId: number,
+    user: Pick<UserStructureAuthenticated, "id" | "structureId" | "prenom">,
     chunkSize: number = 5000,
     statut: UsagersFilterCriteriaStatut,
     processChunk: (chunk: StructureUsagerExport[]) => Promise<void>
@@ -259,7 +259,7 @@ export class UsagersService {
 
     let whereClause = 'WHERE u."structureId" = $1';
     let countWhereClause = `${whereClause}`;
-    const countParams: any[] = [structureId];
+    const countParams: any[] = [user.structureId];
 
     if (statut !== UsagersFilterCriteriaStatut.TOUS) {
       countWhereClause += ` AND u.statut = $2`;
@@ -329,8 +329,8 @@ export class UsagersService {
     LIMIT $2 OFFSET $3
   `;
 
-    while (true) {
-      const queryParams: any[] = [structureId, chunkSize, skip];
+    while (total < count) {
+      const queryParams: any[] = [user.structureId, chunkSize, skip];
       if (statut !== UsagersFilterCriteriaStatut.TOUS) {
         queryParams.push(statut);
       }
@@ -345,17 +345,22 @@ export class UsagersService {
       total += chunk.length;
       skip += chunk.length;
 
-      console.log({
+      console.table({
+        timestamp: new Date().toISOString(),
         processedCount: total,
-        totalCount: count,
+        totalCount: parseInt(count, 10),
+        progression: `${Math.round((total / parseInt(count, 10)) * 100)}%`,
         chunkSize: chunk.length,
         skip,
-        structureId,
+        userId: user.id,
+        structureId: user.structureId,
       });
+
+      chunk.length = 0;
     }
 
     if (total !== parseInt(count)) {
-      console.warn(
+      console.log(
         `⚠️ Différence détectée - Exportés: ${total}, Total attendu: ${count}`
       );
     }

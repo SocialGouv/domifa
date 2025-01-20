@@ -1,5 +1,43 @@
 [
   {
+    "date": "2025-01-20",
+    "description": "🚀 Nouvelles fonctionnalités et améliorations",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "🔍 Recherche et tri",
+        "message": [
+          "Vous pouvez désormais rechercher le dossier d'un domicilié avec son numéro de téléphone. \nCe nouveau filtre s'ajoute aux filtres existants à savoir la date de naissance, le nom, prénom ou l'ID du domicilié",
+
+          "Vous pouvez désormais trier les dossiers domiciliés par date de rendez-vous dans l'onglet \"à compléter\". \nCe tri permet d'avoir un meilleur suivi des prochains rendez-vous avec les domiciliés"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "📊 Export des données",
+        "message": [
+          "Deux nouvelles colonnes ont été ajoutées dans l'export de la base de données de la structure : \n- une colonne indiquant l'activation du portail domicilié \"Mon DomiFa\" \n- une colonne indiquant l'activation des SMS",
+          "Vous pouvez désormais directement exporter la liste des actifs",
+          "Les colonnes 'Orienté par' et 'Cause de l'instabilité du logement' affichent désormais les bonnes valeurs"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "📅 Dates de domiciliation",
+        "message": [
+          "Pour aider les structures à connaître la date de domiciliation actuelle lors d'un renouvellement, \nles dates de domiciliation en cours figurent désormais dans la fenêtre de validation. \nCette information permettra de définir la date de la nouvelle domiciliation plus facilement"
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "💬 Formulaire de contact",
+        "message": [
+          "Correction d'un bug qui ne permettait pas de déposer une pièce jointe au format Excel dans le formulaire de contact"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2024-12-30",
     "description": "🚀 Améliorations des filtres et corrections",
     "content": [
