@@ -89,11 +89,6 @@ export class ExportStructureUsagersController {
       let currentRowEntretiens = 2;
 
       const processChunk = async (chunk: StructureUsagerExport[]) => {
-        console.log({
-          date: new Date(),
-          structureId: user.structureId,
-          currentRowUsagers,
-        });
         const { firstSheetUsagers, secondSheetEntretiens } =
           renderStructureUsagersRows(chunk, user.structure);
 
@@ -108,14 +103,15 @@ export class ExportStructureUsagersController {
           "DATE_DERNIER_PASSAGE",
         ]);
 
-        // Ajoute les lignes à la première feuille
         XLSX.utils.sheet_add_json(wsUsagers, firstSheetUsagers, {
           skipHeader: true,
           origin: currentRowUsagers,
           cellDates: true,
           dateNF: "DD/MM/YYYY",
         });
+
         currentRowUsagers += firstSheetUsagers.length;
+        firstSheetUsagers.length = 0;
 
         applyDateFormat(secondSheetEntretiens, ["USAGER_DATE_NAISSANCE"]);
 
@@ -125,13 +121,13 @@ export class ExportStructureUsagersController {
           cellDates: true,
           dateNF: "DD/MM/YYYY",
         });
-
         currentRowEntretiens += secondSheetEntretiens.length;
+        secondSheetEntretiens.length = 0;
       };
 
       await this.usagersService.exportByChunks(
-        user.structureId,
-        5000,
+        user,
+        2000,
         statut,
         processChunk
       );
