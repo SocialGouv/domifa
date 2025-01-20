@@ -252,7 +252,10 @@ export class UsagersService {
     user: Pick<UserStructureAuthenticated, "id" | "structureId" | "prenom">,
     chunkSize: number = 5000,
     statut: UsagersFilterCriteriaStatut,
-    processChunk: (chunk: StructureUsagerExport[]) => Promise<void>
+    processChunk: (
+      chunk: StructureUsagerExport[],
+      count: number
+    ) => Promise<void>
   ): Promise<void> {
     let skip = 0;
     let total = 0;
@@ -341,14 +344,12 @@ export class UsagersService {
         break;
       }
 
-      await processChunk(chunk);
+      await processChunk(chunk, total);
       total += chunk.length;
       skip += chunk.length;
 
       console.table({
-        timestamp: new Date().toISOString(),
-        processedCount: total,
-        totalCount: parseInt(count, 10),
+        totalCount: `${total}/${parseInt(count, 10)}`,
         progression: `${Math.round((total / parseInt(count, 10)) * 100)}%`,
         chunkSize: chunk.length,
         skip,

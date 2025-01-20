@@ -29,6 +29,38 @@ import { domifaConfig } from "../../config";
 
 import { UsagersFilterCriteriaStatut } from "@domifa/common";
 
+let lastCpuUsage = process.cpuUsage();
+let lastTime = Date.now();
+
+const logProcessState = (label: string) => {
+  const used = process.memoryUsage();
+  const currentCpu = process.cpuUsage();
+  const currentTime = Date.now();
+
+  // Calcul du temps écoulé en microseconds
+  const elapsedTime = (currentTime - lastTime) * 1000; // conversion en microsecondes
+
+  // Différence avec la mesure précédente
+  const userDiff = currentCpu.user - lastCpuUsage.user;
+  const systemDiff = currentCpu.system - lastCpuUsage.system;
+
+  // Calcul du pourcentage (temps CPU / temps écoulé)
+  const userPercent = Math.round((userDiff / elapsedTime) * 100);
+  const systemPercent = Math.round((systemDiff / elapsedTime) * 100);
+
+  const processInfo = {
+    État: label,
+    Heure: new Date().toISOString(),
+    Mémoire: `${Math.round(used.rss / 1024 / 1024)} Mo`,
+    "CPU User": `${userPercent}%`,
+    "CPU System": `${systemPercent}%`,
+  };
+
+  console.table(processInfo);
+  lastCpuUsage = currentCpu;
+  lastTime = currentTime;
+};
+
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("export")
 @ApiBearerAuth()
@@ -48,6 +80,7 @@ export class ExportStructureUsagersController {
     statut: UsagersFilterCriteriaStatut
   ): Promise<void> {
     const startTime = new Date();
+    logProcessState("Export started");
 
     try {
       await this.appLogsService.create({
@@ -88,7 +121,12 @@ export class ExportStructureUsagersController {
       let currentRowUsagers = 2;
       let currentRowEntretiens = 2;
 
-      const processChunk = async (chunk: StructureUsagerExport[]) => {
+      let processChunk = async (
+        chunk: StructureUsagerExport[],
+        count: number
+      ) => {
+        logProcessState(`Processing chunk (${currentRowUsagers}/${count})`);
+
         const { firstSheetUsagers, secondSheetEntretiens } =
           renderStructureUsagersRows(chunk, user.structure);
 
@@ -102,6 +140,8 @@ export class ExportStructureUsagersController {
           "DATE_PREMIERE_DOM",
           "DATE_DERNIER_PASSAGE",
         ]);
+
+        logProcessState(`Apply date format to first Sheet`);
 
         XLSX.utils.sheet_add_json(wsUsagers, firstSheetUsagers, {
           skipHeader: true,
@@ -121,9 +161,14 @@ export class ExportStructureUsagersController {
           cellDates: true,
           dateNF: "DD/MM/YYYY",
         });
+
         currentRowEntretiens += secondSheetEntretiens.length;
         secondSheetEntretiens.length = 0;
+
+        logProcessState(`XLSX.utils.sheet_add_json for second sheet done`);
       };
+
+      logProcessState(`Call to exportByChunks`);
 
       await this.usagersService.exportByChunks(
         user,
@@ -131,6 +176,16 @@ export class ExportStructureUsagersController {
         statut,
         processChunk
       );
+
+      // Clean some memory
+      wsUsagers.length = 0;
+      wsEntretiens.length = 0;
+      firstSheetHeaders.length = 0;
+      secondSheetHeaders.length = 0;
+      processChunk = null;
+
+      logProcessState(`✅ exportByChunks Done`);
+      logProcessState(`Start  XLSX.write`);
 
       const buffer = XLSX.write(workbook, {
         bookType: "xlsx",
@@ -140,11 +195,15 @@ export class ExportStructureUsagersController {
         WTF: false,
       });
 
+      logProcessState(`✅  XLSX.write DONE, buffer is ready`);
+
       appLogger.info(
         `[EXPORT] [${domifaConfig().envId}] completed in ${
           Date.now() - startTime.getTime()
         }ms`
       );
+
+      logProcessState(`Ready to send buffer`);
 
       res.setHeader(
         "Content-Type",
