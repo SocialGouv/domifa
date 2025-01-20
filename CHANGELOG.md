@@ -1,3 +1,10 @@
+## [2.193.1](https://github.com/SocialGouv/domifa/compare/v2.193.0...v2.193.1) (2025-01-20)
+
+
+### Bug Fixes
+
+* **backend:** free memory and useless data for stats & exports ([86d9238](https://github.com/SocialGouv/domifa/commit/86d923806de3e84f7c3a212a96158422b7c2c224))
+
 # [2.193.0](https://github.com/SocialGouv/domifa/compare/v2.192.0...v2.193.0) (2025-01-16)
 
 
