@@ -1,3 +1,13 @@
+## [2.193.3](https://github.com/SocialGouv/domifa/compare/v2.193.2...v2.193.3) (2025-01-21)
+
+
+### Bug Fixes
+
+* **ci-cd:** use token-bureau ([b7a1c36](https://github.com/SocialGouv/domifa/commit/b7a1c360329a8e42f9fa93da9aeff376d13926f8))
+* **ci-cd:** use token-bureau ([8a9ec87](https://github.com/SocialGouv/domifa/commit/8a9ec87a4025e7b426f74d279c2785585aedcef6))
+* **kontinuous:** add oblik to preprod, change limit for nginx ([a38f64e](https://github.com/SocialGouv/domifa/commit/a38f64e7f851fcb323ae7eddd8e0761cb2276ee2))
+* **kontinuous:** add oblik to preprod, change limit for nginx ([77471d1](https://github.com/SocialGouv/domifa/commit/77471d1edcf5039cd9bb6bef14ec8695c01642ec))
+
 ## [2.193.2](https://github.com/SocialGouv/domifa/compare/v2.193.1...v2.193.2) (2025-01-20)
 
 
