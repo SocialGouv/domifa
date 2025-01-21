@@ -1,3 +1,11 @@
+## [2.193.4](https://github.com/SocialGouv/domifa/compare/v2.193.3...v2.193.4) (2025-01-21)
+
+
+### Bug Fixes
+
+* **ci:** yaml typo ([9b28c57](https://github.com/SocialGouv/domifa/commit/9b28c57937fd7ee267b1485e9581f064fbbf033a))
+* **ci:** yaml typo ([0ed951c](https://github.com/SocialGouv/domifa/commit/0ed951c4ba31e34e71828b33a78d9cad215d0c97))
+
 ## [2.193.3](https://github.com/SocialGouv/domifa/compare/v2.193.2...v2.193.3) (2025-01-21)
 
 
