@@ -1,18 +1,13 @@
 backend: &backendPreprod
   annotations:
-    oblik.socialgouv.io/min-request-cpu: 500m
+    oblik.socialgouv.io/min-limit-cpu: "3"
+    oblik.socialgouv.io/min-request-cpu: "1"
+    oblik.socialgouv.io/min-request-memory: "3Gi"
   host: "api-{{ .Values.global.host }}"
   ~needs: [build-backend]
   autoscale:
     minReplicas: 1
     maxReplicas: 3
-  resources:
-    requests:
-      cpu: 1
-      memory: 1Gi
-    limits: # exports need a lot of CPU/RAM ATM
-      cpu: 3
-      memory: 3Gi
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"
@@ -54,6 +49,10 @@ backend: &backendPreprod
 backend-export:
   <<: *backendPreprod
   ~needs: [build-backend]
+  annotations:
+    oblik.socialgouv.io/min-request-cpu: "2"
+    oblik.socialgouv.io/min-request-memory: 3Gi
+    oblik.socialgouv.io/request-apply-target: peak
   ingress:
     paths:
       - /export

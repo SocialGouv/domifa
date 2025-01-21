@@ -67,6 +67,14 @@ backend-export:
   host: "api-{{ .Values.global.host }}"
   probesPath: /healthz
   containerPort: 3000
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-body-size: 64m
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
+      nginx.ingress.kubernetes.io/proxy-keepalive-requests: "100"
+      nginx.ingress.kubernetes.io/proxy-keepalive-timeout: "600"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
   resources:
     requests:
       cpu: 0.3

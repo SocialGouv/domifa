@@ -114,6 +114,10 @@ backend: &backendProd
 backend-export:
   ~needs: [build-backend]
   host: "domifa-api.{{ .Values.global.domain }}"
+  # annotations:
+  #   oblik.socialgouv.io/min-request-cpu: "2"
+  #   oblik.socialgouv.io/min-request-memory: 3Gi
+  #   oblik.socialgouv.io/request-apply-target: peak
   autoscale:
     minReplicas: 2
     maxReplicas: 5
