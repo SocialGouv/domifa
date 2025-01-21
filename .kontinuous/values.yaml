@@ -68,6 +68,11 @@ backend-export:
   probesPath: /healthz
   containerPort: 3000
   ingress:
+    paths:
+      - /export
+      - /stats
+      - /stats/home
+      - /admin/structures/export
     annotations:
       nginx.ingress.kubernetes.io/proxy-body-size: 64m
       nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
@@ -125,14 +130,7 @@ backend-export:
     fsGroup: 1000
     runAsUser: 1000
     runAsGroup: 1000
-
-  # new keys
-  ingress:
-    paths:
-      - /export
-      - /stats
-      - /stats/home
-      - /admin/structures/export
+    
 
 backend-cron:
   ~chart: app
