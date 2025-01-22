@@ -34,6 +34,7 @@ import {
   UsagerEtatCivilFormData,
   UsagerFormAyantDroit,
   PREFERRED_COUNTRIES,
+  UserStructureProfile,
 } from "../../../../../_common/model";
 import {
   minDateToday,
@@ -62,6 +63,7 @@ import {
 } from "@domifa/common";
 import { COUNTRIES } from "@domifa/common";
 import { languagesAutocomplete } from "../../utils/languages";
+import { ManageUsersService } from "../../../manage-users/services/manage-users.service";
 
 @Component({
   selector: "app-etat-civil-parent-form",
@@ -100,8 +102,8 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   });
 
   public subscription = new Subscription();
-
   public currentUserSubject$: Observable<UserStructure | null>;
+  public users: UserStructureProfile[] = [];
 
   @ViewChildren("adName")
   public firstInputs!: QueryList<ElementRef>;
@@ -117,7 +119,8 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   constructor(
     protected readonly formBuilder: UntypedFormBuilder,
     protected readonly authService: AuthService,
-    protected readonly changeDetectorRef: ChangeDetectorRef
+    protected readonly changeDetectorRef: ChangeDetectorRef,
+    protected readonly manageUsersService: ManageUsersService
   ) {
     this.submitted = false;
     this.loading = false;
@@ -125,7 +128,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
-
+    this.users = this.manageUsersService.users;
     this.currentUserSubject$ = this.authService.currentUserSubject;
   }
 
@@ -166,6 +169,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
       ],
       sexe: [this.usager.sexe, Validators.required],
       surnom: [this.usager.surnom, [Validators.maxLength(100)]],
+      referrerId: [this.usager.referrerId],
       villeNaissance: [
         this.usager.villeNaissance,
         [Validators.required, NoWhiteSpaceValidator, Validators.maxLength(100)],
@@ -195,7 +199,6 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     this.updatePlaceHolder(this.usagerForm.value?.telephone?.countryCode);
   }
 
-  // Gestion des ayant-droits
   public addAyantDroit(ayantDroit: AyantDroit = new AyantDroit()): void {
     (this.usagerForm.controls.ayantsDroits as UntypedFormArray).push(
       this.newAyantDroit(ayantDroit)
@@ -286,6 +289,9 @@ export class EtatCivilParentFormComponent implements OnDestroy {
       email: formValue?.email.toLowerCase().trim() || null,
       telephone,
       numeroDistribution: formValue?.numeroDistribution || null,
+      referrerId: formValue?.referrerId
+        ? parseInt(formValue?.referrerId)
+        : null,
       ayantsDroits,
       contactByPhone: formValue?.contactByPhone,
       dateNaissance: endOfDay(parseDateFromNgb(formValue.dateNaissance)),

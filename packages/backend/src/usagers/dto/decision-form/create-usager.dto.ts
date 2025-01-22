@@ -19,6 +19,7 @@ import {
   IsArray,
   ValidateIf,
   ValidateNested,
+  IsNumber,
 } from "class-validator";
 import {
   Trim,
@@ -128,6 +129,8 @@ export class CreateUsagerDto {
   public customRef!: string;
 
   @ApiProperty({
+    required: false,
+    type: "string",
     example: "test@test.fr",
     description: "Email du domicilié",
   })
@@ -136,6 +139,16 @@ export class CreateUsagerDto {
   @TrimOrNullTransform()
   @LowerCaseTransform()
   public email!: string;
+
+  @ApiProperty({
+    required: false,
+    example: 10,
+    type: Number,
+    description: "Id du référent",
+  })
+  @IsOptional()
+  @IsNumber()
+  public referrerId!: number;
 
   @ApiProperty({
     type: Object,

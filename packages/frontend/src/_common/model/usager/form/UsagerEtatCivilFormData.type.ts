@@ -16,5 +16,6 @@ export type UsagerEtatCivilFormData = {
   nationalite: string | null;
   telephone: Telephone;
   contactByPhone: boolean;
+  referrerId: number | null;
   ayantsDroits: UsagerAyantDroit[];
 };

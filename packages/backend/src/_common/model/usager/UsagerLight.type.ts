@@ -26,6 +26,7 @@ export type UsagerLight = AppEntity &
     | "options"
     | "historique"
     | "ayantsDroits"
+    | "referrerId"
     | "villeNaissance"
     | "telephone"
     | "import"

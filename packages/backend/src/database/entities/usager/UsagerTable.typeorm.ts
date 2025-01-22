@@ -123,6 +123,9 @@ export class UsagerTable
   @Column({ type: "integer", default: 0 })
   public etapeDemande!: number;
 
+  @Column({ type: "integer", default: null, nullable: true })
+  public referrerId!: number;
+
   @Column({ type: "jsonb", nullable: true })
   public rdv!: UsagerRdv | null;
 

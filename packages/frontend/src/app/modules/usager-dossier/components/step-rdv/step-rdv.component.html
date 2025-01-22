@@ -181,8 +181,8 @@
                   required
                 >
                   <option value=""></option>
-                  <option *ngFor="let agent of agents" [ngValue]="agent.id">
-                    {{ agent.nom }} {{ agent.prenom }}
+                  <option *ngFor="let user of users" [ngValue]="user.id">
+                    {{ user.nom }} {{ user.prenom }}
                   </option>
                 </select>
                 <p

@@ -18,20 +18,21 @@ import { Title } from "@angular/platform-browser";
 import { Observable, of, Subject, Subscription } from "rxjs";
 import { map, takeUntil } from "rxjs/operators";
 
-import {
-  FormEmailTakenValidator,
-  UsagerLight,
-} from "../../../../../_common/model";
-import {
-  PasswordValidator,
-  UsersService,
-  userStructureBuilder,
-} from "../../services";
-import { format } from "date-fns";
-import { PASSWORD_VALIDATOR } from "../../PASSWORD_VALIDATOR.const";
 import { EmailValidator, NoWhiteSpaceValidator } from "../../../../shared";
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { UserStructure } from "@domifa/common";
+import { format } from "date-fns";
+import {
+  UsagerLight,
+  FormEmailTakenValidator,
+} from "../../../../../_common/model";
+import { PASSWORD_VALIDATOR } from "../../../users/PASSWORD_VALIDATOR.const";
+import {
+  UsersService,
+  PasswordValidator,
+  userStructureBuilder,
+} from "../../../users/services";
+import { ManageUsersService } from "../../services/manage-users.service";
 
 @Component({
   selector: "app-edit-user",
@@ -72,7 +73,8 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly authService: AuthService,
-    private readonly userService: UsersService,
+    private readonly manageUsersService: ManageUsersService,
+    private readonly usersService: UsersService,
     private readonly toastService: CustomToastService,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly titleService: Title,
@@ -99,7 +101,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.getLastPasswordUpdate();
 
     if (this.me?.role !== "facteur") {
-      this.usagers$ = this.userService.agenda();
+      this.usagers$ = this.manageUsersService.agenda();
     }
   }
 
@@ -155,7 +157,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
   private getLastPasswordUpdate(): void {
     this.subscription.add(
-      this.userService.getLastPasswordUpdate().subscribe({
+      this.manageUsersService.getLastPasswordUpdate().subscribe({
         next: (lastPassword: Date | null) => {
           this.lastPasswordUpdate =
             lastPassword === null
@@ -177,7 +179,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
     }
     this.loading = true;
     this.subscription.add(
-      this.userService.patch(this.userForm.value).subscribe({
+      this.manageUsersService.patch(this.userForm.value).subscribe({
         next: (user: UserStructure) => {
           this.loading = false;
           this.me = userStructureBuilder.buildUserStructure(user);
@@ -208,23 +210,25 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.loading = true;
 
     this.subscription.add(
-      this.userService.updateMyPassword(this.passwordForm.value).subscribe({
-        next: () => {
-          this.loading = false;
-          this.editPassword = false;
-          this.submitted = false;
-          this.getLastPasswordUpdate();
-          this.toastService.success(
-            "Félicitations ! : votre mot de passe a été modifié avec succès"
-          );
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error(
-            "Une erreur est survenue, veuillez vérifier le formulaire"
-          );
-        },
-      })
+      this.manageUsersService
+        .updateMyPassword(this.passwordForm.value)
+        .subscribe({
+          next: () => {
+            this.loading = false;
+            this.editPassword = false;
+            this.submitted = false;
+            this.getLastPasswordUpdate();
+            this.toastService.success(
+              "Félicitations ! : votre mot de passe a été modifié avec succès"
+            );
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error(
+              "Une erreur est survenue, veuillez vérifier le formulaire"
+            );
+          },
+        })
     );
   }
 
@@ -240,7 +244,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
     }
 
     return isEmail(control.value)
-      ? this.userService.validateEmail(control.value).pipe(
+      ? this.usersService.validateEmail(control.value).pipe(
           takeUntil(this.unsubscribe),
           map((res: boolean) => {
             return res === false ? null : { emailTaken: true };

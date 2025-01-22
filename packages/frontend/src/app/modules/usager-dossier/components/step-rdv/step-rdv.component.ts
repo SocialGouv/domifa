@@ -10,7 +10,10 @@ import {
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 
-import { UsagerLight } from "../../../../../_common/model";
+import {
+  UsagerLight,
+  UserStructureProfile,
+} from "../../../../../_common/model";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 import {
@@ -37,8 +40,9 @@ import {
   AuthService,
   CustomToastService,
 } from "../../../shared/services";
-import { UserStructure, CerfaDocType, Usager } from "@domifa/common";
+import { CerfaDocType, Usager } from "@domifa/common";
 import { RdvForm } from "../../types";
+import { ManageUsersService } from "../../../manage-users/services/manage-users.service";
 
 @Component({
   animations: [fadeInOut],
@@ -53,7 +57,7 @@ export class StepRdvComponent
 {
   public rdvForm!: UntypedFormGroup;
   public editRdv: boolean;
-  public agents: UserStructure[] = [];
+  public users: UserStructureProfile[] = [];
   public rdvIsToday: boolean;
   public dToday = new Date();
   public minDateToday: NgbDateStruct;
@@ -69,7 +73,8 @@ export class StepRdvComponent
     public store: Store<UsagerState>,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly documentService: DocumentService,
-    private readonly nbgDate: NgbDateCustomParserFormatter
+    private readonly nbgDate: NgbDateCustomParserFormatter,
+    private readonly manageUsersService: ManageUsersService
   ) {
     super(
       authService,
@@ -166,20 +171,19 @@ export class StepRdvComponent
     );
 
     this.rdvForm.controls.jourRdv.setValue(this.usager.rdv.jourRdv);
-
     this.editRdv = this.usager.rdv.userId === null;
-    this.subscription.add(
-      this.usagerDossierService
-        .getAllUsersForAgenda()
-        .subscribe((users: UserStructure[]) => {
-          this.agents = users;
 
+    this.subscription.add(
+      this.manageUsersService.users$.subscribe(
+        (users: UserStructureProfile[]) => {
+          this.users = users.filter((user) => user.role !== "facteur");
           const userIdRdv = this.usager.rdv?.userId || this.me?.id;
 
           this.rdvForm.controls.userId.setValue(userIdRdv, {
             onlySelf: true,
           });
-        })
+        }
+      )
     );
   }
 
@@ -277,7 +281,6 @@ export class StepRdvComponent
       }
 
       const heureRdv = control.value.split(":");
-
       const dateRdv: Date = setMinutes(
         setHours(new Date(), heureRdv[0]),
         heureRdv[1]

@@ -19,6 +19,7 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 
 import { UsagerFormModel } from "../../interfaces";
 import { AuthService } from "../../../shared/services/auth.service";
+import { ManageUsersService } from "../../../manage-users/services/manage-users.service";
 
 @Component({
   selector: "app-profil-etat-civil-form",
@@ -38,10 +39,11 @@ export class ProfilEtatCivilFormComponent
     public authService: AuthService,
     public formBuilder: UntypedFormBuilder,
     public changeDetectorRef: ChangeDetectorRef,
+    public manageUsersService: ManageUsersService,
     private readonly toastService: CustomToastService,
     private readonly etatCivilService: UsagerService
   ) {
-    super(formBuilder, authService, changeDetectorRef);
+    super(formBuilder, authService, changeDetectorRef, manageUsersService);
     this.displayContactDetails = false;
   }
 

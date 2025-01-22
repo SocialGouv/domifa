@@ -82,6 +82,7 @@ export class UsagerFormModel implements Usager {
   public nationalite: string | null;
 
   public nbNotes?: number = 0;
+  public referrerId?: number | null;
 
   constructor(usager?: Usager) {
     this.pinnedNote = usager?.pinnedNote || null;
@@ -94,6 +95,7 @@ export class UsagerFormModel implements Usager {
     this.prenom = usager?.prenom || "";
     this.langue = usager?.langue || "";
     this.numeroDistribution = usager?.numeroDistribution || null;
+    this.referrerId = usager?.referrerId || null;
     this.surnom = usager?.surnom || "";
 
     this.dateNaissance = usager?.dateNaissance

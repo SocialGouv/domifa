@@ -55,6 +55,7 @@ export interface Usager extends AppEntity {
   numeroDistribution: string | null;
 
   pinnedNote: UsagerPinnedNote;
+  referrerId?: number | null;
 
   nbNotes?: number;
   statusInfos?: any;
