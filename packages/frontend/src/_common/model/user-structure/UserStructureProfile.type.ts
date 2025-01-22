@@ -6,6 +6,7 @@ export type UserStructureProfile = Pick<
   | "nom"
   | "prenom"
   | "role"
+  | "id"
   | "verified"
   | "uuid"
   | "createdAt"

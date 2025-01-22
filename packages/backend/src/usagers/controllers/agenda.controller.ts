@@ -23,10 +23,7 @@ import {
   usagerRepository,
 } from "../../database";
 import { ExpressResponse } from "../../util/express";
-import {
-  UserStructureAuthenticated,
-  UserStructureProfile,
-} from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 import { RdvDto } from "../dto/decision-form/rdv.dto";
 import { UsagersService } from "../services/usagers.service";
 import { getUsagerNomComplet, Usager } from "@domifa/common";
@@ -38,18 +35,6 @@ import { usagerAppointmentCreatedEmailSender } from "../../modules/mails/service
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class AgendaController {
   constructor(private readonly usagersService: UsagersService) {}
-
-  @Get("users")
-  @ApiOperation({ summary: "Liste des utilisateurs pour l'agenda" })
-  @AllowUserStructureRoles("simple", "responsable", "admin")
-  public getAllUsersForAgenda(
-    @CurrentUser() currentUser: UserStructureAuthenticated
-  ): Promise<UserStructureProfile[]> {
-    return userStructureRepository.findVerifiedStructureUsersByRoles({
-      structureId: currentUser.structureId,
-      roles: ["admin", "simple", "responsable"],
-    });
-  }
 
   @Get("")
   @ApiOperation({ summary: "Liste des rendez-vous à venir" })

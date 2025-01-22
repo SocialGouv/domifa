@@ -1,16 +1,15 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import {
   UsagerEtatCivilFormData,
   UsagerLight,
 } from "../../../../_common/model";
 
-import { userStructureBuilder } from "../../users/services";
 import { Store } from "@ngrx/store";
-import { UserStructure, Usager } from "@domifa/common";
+import { Usager } from "@domifa/common";
 import { usagerActions, UsagerState } from "../../../shared";
 import { RdvForm } from "../types";
 
@@ -99,18 +98,6 @@ export class UsagerDossierService {
     return this.http.get<Usager>(`${this.endPointUsagers}/${usagerRef}`).pipe(
       tap((newUsager: Usager) => {
         this.store.dispatch(usagerActions.updateUsager({ usager: newUsager }));
-      })
-    );
-  }
-
-  public getAllUsersForAgenda(): Observable<UserStructure[]> {
-    return this.http.get(environment.apiUrl + "agenda/users").pipe(
-      map((response) => {
-        return Array.isArray(response)
-          ? response.map((item) =>
-              userStructureBuilder.buildUserStructure(item)
-            )
-          : [userStructureBuilder.buildUserStructure(response)];
       })
     );
   }

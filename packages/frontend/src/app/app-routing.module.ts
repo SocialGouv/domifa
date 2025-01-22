@@ -72,6 +72,14 @@ export const routes: Routes = [
     path: "manage",
   },
   {
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import("./modules/manage-users/manage-users.module").then(
+        (m) => m.ManageUsersModule
+      ),
+    path: "manage-users",
+  },
+  {
     canActivate: [AuthGuard, FacteurGuard],
     loadChildren: () =>
       import("./modules/import-usagers/import-usagers.module").then(

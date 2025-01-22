@@ -1,22 +1,17 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
-import { AuthGuard, LoggedGuard, ResponsableGuard } from "../../guards";
-import { EditUserComponent } from "./components/edit-user/edit-user.component";
+import { LoggedGuard } from "../../guards";
 import { ResetPasswordComponent } from "./components/reset-password/reset-password.component";
-import { UserProfilComponent } from "./components/user-profil/user-profil.component";
 
 const routes: Routes = [
   {
-    canActivate: [AuthGuard],
     path: "mon-compte",
-    component: EditUserComponent,
+    redirectTo: "/manage-users/my-account",
   },
-
   {
-    canActivate: [AuthGuard, ResponsableGuard],
-    component: UserProfilComponent,
     path: "comptes",
+    redirectTo: "/manage-users/accounts",
   },
   {
     canActivate: [LoggedGuard],

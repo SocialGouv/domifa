@@ -51,6 +51,7 @@ export class UsagerAyantDroitDto {
     example: "20/12/2002",
     description: "Date de naissance de l'ayant-droit",
     type: Date,
+    required: true,
   })
   @IsNotEmpty()
   @IsDateString()

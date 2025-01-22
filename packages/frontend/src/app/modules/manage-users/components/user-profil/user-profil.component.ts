@@ -10,9 +10,10 @@ import {
   UserStructureProfile,
 } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
-import { UsersService } from "../../services/users.service";
+
 import { differenceInCalendarDays } from "date-fns";
 import { SortValues, UserStructure, UserStructureRole } from "@domifa/common";
+import { ManageUsersService } from "../../services/manage-users.service";
 
 @Component({
   selector: "app-user-profil",
@@ -37,7 +38,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   };
   constructor(
     private readonly authService: AuthService,
-    private readonly userService: UsersService,
+    private readonly userService: ManageUsersService,
     private readonly modalService: NgbModal,
     private readonly toastService: CustomToastService,
     private readonly titleService: Title

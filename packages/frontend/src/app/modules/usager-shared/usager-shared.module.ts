@@ -37,6 +37,7 @@ import { SortArrayPipe } from "../shared/pipes";
 import { DisplayTableImageComponent } from "../shared/components/display-table-image/display-table-image.component";
 import { UsagerNomCompletPipe } from "./pipes";
 import { EditUsagerDocComponent } from "./components/edit-usager-doc/edit-usager-doc.component";
+import { ReferrerNamePipe } from "./pipes/referrer-name.pipe";
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { EditUsagerDocComponent } from "./components/edit-usager-doc/edit-usager
     SetInteractionOutFormComponent,
     UploadComponent,
     EditUsagerDocComponent,
+    ReferrerNamePipe,
   ],
   imports: [
     CommonModule,
@@ -75,6 +77,7 @@ import { EditUsagerDocComponent } from "./components/edit-usager-doc/edit-usager
   ],
   exports: [
     DecisionRadiationFormComponent,
+    ReferrerNamePipe,
     DeleteUsagerComponent,
     DeleteUsagerMenuComponent,
     DisplayAyantsDroitsComponent,

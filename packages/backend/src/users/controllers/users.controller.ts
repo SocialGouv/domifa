@@ -58,6 +58,7 @@ export class UsersController {
       },
       select: {
         uuid: true,
+        id: true,
         role: true,
         nom: true,
         prenom: true,

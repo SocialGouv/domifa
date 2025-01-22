@@ -24,8 +24,9 @@ import {
   NoWhiteSpaceValidator,
 } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
-import { UsersService, userStructureBuilder } from "../../services";
+
 import { UserStructure } from "@domifa/common";
+import { UsersService, userStructureBuilder } from "../../../users/services";
 
 @Component({
   animations: [fadeInOut],
@@ -55,7 +56,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
-    private readonly userService: UsersService,
+    private readonly usersService: UsersService,
     private readonly toastService: CustomToastService
   ) {
     this.user = userStructureBuilder.buildUserStructure({});
@@ -92,7 +93,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
     } else {
       this.loading = true;
       this.subscription.add(
-        this.userService.registerUser(this.userForm.value).subscribe({
+        this.usersService.registerUser(this.userForm.value).subscribe({
           next: () => {
             this.loading = false;
             this.submitted = false;
@@ -117,7 +118,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
     control: AbstractControl
   ): FormEmailTakenValidator {
     return isEmail(control.value)
-      ? this.userService.validateEmail(control.value).pipe(
+      ? this.usersService.validateEmail(control.value).pipe(
           takeUntil(this.unsubscribe),
           map((res: boolean) => {
             return res === false ? null : { emailTaken: true };
