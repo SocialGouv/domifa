@@ -301,6 +301,85 @@
             </div>
           </div>
         </div>
+        <div
+          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
+        >
+          <button
+            type="button"
+            *ngIf="filters.referrerId !== undefined"
+            aria-label="Réinitialiser le filtre référents"
+            class="btn btn-outline-primary"
+            (click)="
+              updateFilters.emit({ element: 'referrerId', value: undefined })
+            "
+          >
+            {{
+              filters.referrerId === null
+                ? "Aucun référent"
+                : (filters.referrerId | referrerName)
+            }}
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="cross"
+            ></fa-icon>
+          </button>
+
+          <div
+            ngbDropdown
+            id="dropDownUsers"
+            placement="bottom"
+            *ngIf="filters.referrerId === undefined"
+            class="d-inline-block my-1"
+            #dropDownUsers="ngbDropdown"
+          >
+            <button
+              type="button"
+              ngbDropdownToggle
+              aria-label="Filtrer par référent"
+            >
+              <span>Référents</span>
+            </button>
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropDownUsers"
+              class="dropdown-menu"
+            >
+              <button
+                type="button"
+                ngbDropdownItem
+                aria-label="Filtrer les dossiers sans référent"
+                (click)="
+                  updateFilters.emit({
+                    element: 'referrerId',
+                    value: null
+                  })
+                "
+              >
+                Aucun référent
+              </button>
+              <button
+                *ngFor="let user of users"
+                type="button"
+                ngbDropdownItem
+                [attr.aria-label]="
+                  'Filtrer les dossiers suivis par ' +
+                  user.prenom +
+                  ' ' +
+                  user.nom
+                "
+                (click)="
+                  updateFilters.emit({
+                    element: 'referrerId',
+                    value: user.id
+                  })
+                "
+              >
+                {{ user.nom | uppercase }} {{ user.prenom }}
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col-12 col-md-3 text-md-end text-center my-1">
         <div

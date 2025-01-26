@@ -28,6 +28,7 @@ export const POST_USAGER: {
     surnom: "Surnom ",
     villeNaissance: "Monaco",
     nationalite: null,
+    referrerId: null,
   },
   response: {
     nationalite: null,

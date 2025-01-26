@@ -1,6 +1,6 @@
+import { UserStructure } from "@domifa/common";
+import { passwordGenerator } from "../../../../util";
 import { userStructureRepository } from "../../user-structure";
-import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
-import { UserStructure } from "../../../../_common/model";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";
 import { userStructureSecurityRepository } from "./userStructureSecurityRepository.service";
 

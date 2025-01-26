@@ -1,8 +1,11 @@
 import { In } from "typeorm";
-import { UserStructureProfile } from "../../../_common/model";
 import { UserStructureTable } from "../../entities";
 import { myDataSource } from "../_postgres";
-import { UserStructureRole, UserStructure } from "@domifa/common";
+import {
+  UserStructureRole,
+  UserStructure,
+  UserStructureProfile,
+} from "@domifa/common";
 
 export type AppUserForAdminEmail = Pick<
   UserStructure,
@@ -12,6 +15,29 @@ export type AppUserForAdminEmail = Pick<
 export const userStructureRepository = myDataSource
   .getRepository(UserStructureTable)
   .extend({
+    getVerifiedUsersByStructureId(
+      structureId: number
+    ): Promise<UserStructureProfile[]> {
+      return userStructureRepository.find({
+        where: {
+          structureId,
+        },
+        select: {
+          uuid: true,
+          id: true,
+          role: true,
+          nom: true,
+          prenom: true,
+          email: true,
+          createdAt: true,
+          lastLogin: true,
+          verified: true,
+        },
+        order: {
+          nom: "ASC",
+        },
+      });
+    },
     findVerifiedStructureUsersByRoles({
       structureId,
       roles,

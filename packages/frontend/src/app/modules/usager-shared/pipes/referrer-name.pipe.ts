@@ -11,6 +11,6 @@ export class ReferrerNamePipe implements PipeTransform {
     if (!referrerId) {
       return "Aucun référent";
     }
-    return this.manageUsersService.usersMap[referrerId] || "Aucun référent";
+    return this.manageUsersService.referrersMap[referrerId] || "Aucun référent";
   }
 }

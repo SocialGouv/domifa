@@ -1,11 +1,7 @@
 import { appLogger } from "../../util";
-import {
-  UserAuthenticated,
-  UserProfile,
-  UserStructure,
-} from "../../_common/model";
+import { UserAuthenticated, UserProfile } from "../../_common/model";
 import { DOMIFA_ADMIN_STRUCTURE_ID } from "./DOMIFA_ADMIN_STRUCTURE_ID.const";
-import { UserStructureRole } from "@domifa/common";
+import { UserStructure, UserStructureRole } from "@domifa/common";
 
 export const authChecker = {
   checkRole,

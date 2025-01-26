@@ -34,7 +34,6 @@ import {
   UsagerEtatCivilFormData,
   UsagerFormAyantDroit,
   PREFERRED_COUNTRIES,
-  UserStructureProfile,
 } from "../../../../../_common/model";
 import {
   minDateToday,
@@ -60,8 +59,10 @@ import {
   LIEN_PARENTE_LABELS,
   UsagerAyantDroit,
   UserStructure,
+  UserStructureProfile,
+  COUNTRIES,
 } from "@domifa/common";
-import { COUNTRIES } from "@domifa/common";
+
 import { languagesAutocomplete } from "../../utils/languages";
 import { ManageUsersService } from "../../../manage-users/services/manage-users.service";
 
@@ -128,7 +129,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
-    this.users = this.manageUsersService.users;
+    this.users = this.manageUsersService.referrers;
     this.currentUserSubject$ = this.authService.currentUserSubject;
   }
 

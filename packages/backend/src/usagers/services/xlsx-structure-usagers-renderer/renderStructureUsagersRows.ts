@@ -1,4 +1,8 @@
-import { StructureCommon, UsagerAyantDroit } from "@domifa/common";
+import {
+  StructureCommon,
+  UsagerAyantDroit,
+  UserStructureProfile,
+} from "@domifa/common";
 
 import set from "lodash.set";
 import {
@@ -72,6 +76,8 @@ export const renderStructureUsagersHeaders = (
       CUSTOM_DOCS_LABELS.ENTRETIEN_ORIENTATION_DETAIL,
     ENTRETIEN_DOMICILIATION_EXISTANTE:
       CUSTOM_DOCS_LABELS.ENTRETIEN_DOMICILIATION_EXISTANTE,
+    ENTRETIEN_SITUATION_PROFESSIONNELLE:
+      CUSTOM_DOCS_LABELS.ENTRETIEN_SITUATION_PROFESSIONNELLE,
     ENTRETIEN_REVENUS: CUSTOM_DOCS_LABELS.ENTRETIEN_REVENUS,
     ENTRETIEN_REVENUS_DETAIL: CUSTOM_DOCS_LABELS.ENTRETIEN_REVENUS_DETAIL,
     ENTRETIEN_LIEN_COMMUNE: CUSTOM_DOCS_LABELS.ENTRETIEN_LIEN_COMMUNE,
@@ -85,8 +91,7 @@ export const renderStructureUsagersHeaders = (
     ENTRETIEN_ACCOMPAGNEMENT_DETAIL:
       CUSTOM_DOCS_LABELS.ENTRETIEN_ACCOMPAGNEMENT_DETAIL,
     ENTRETIEN_RATTACHEMENT: CUSTOM_DOCS_LABELS.ENTRETIEN_RATTACHEMENT,
-    ENTRETIEN_SITUATION_PROFESSIONNELLE:
-      CUSTOM_DOCS_LABELS.ENTRETIEN_SITUATION_PROFESSIONNELLE,
+
     ENTRETIEN_COMMENTAIRE: CUSTOM_DOCS_LABELS.ENTRETIEN_COMMENTAIRE,
   };
 
@@ -123,7 +128,8 @@ export const renderStructureUsagersHeaders = (
 
 export const renderStructureUsagersRows = (
   usagers: StructureUsagerExport[],
-  structure: StructureCommon
+  structure: StructureCommon,
+  users: Pick<UserStructureProfile, "id" | "nom" | "prenom">[]
 ): {
   firstSheetUsagers: StructureCustomDocTags[];
   secondSheetEntretiens: StructureCustomDocTags[];
@@ -133,21 +139,23 @@ export const renderStructureUsagersRows = (
 
   for (const usagerToExport of usagers) {
     try {
+      const firstPartOfData = buildCustomDoc({
+        usager: {
+          ...usagerToExport,
+          structureId: structure.id,
+          contactByPhone: null,
+          etapeDemande: null,
+          statut: usagerToExport.decision.statut,
+          rdv: null,
+          pinnedNote: null,
+        },
+        structure,
+        date: new Date(),
+        extraParameters: null,
+        users,
+      });
       const customData = {
-        ...buildCustomDoc({
-          usager: {
-            ...usagerToExport,
-            structureId: structure.id,
-            contactByPhone: null,
-            etapeDemande: null,
-            statut: usagerToExport.decision.statut,
-            rdv: null,
-            pinnedNote: null,
-          },
-          structure,
-          date: new Date(),
-          extraParameters: null,
-        }),
+        ...firstPartOfData,
         ...buildDecision(usagerToExport, structure, DATE_FORMAT.JOUR),
       };
 
@@ -210,6 +218,7 @@ export const renderFirstSheetData = (
     DATE_FIN_DOM: usager.DATE_FIN_DOM,
     DATE_PREMIERE_DOM: usager.DATE_PREMIERE_DOM,
     DATE_DERNIER_PASSAGE: usager.DATE_DERNIER_PASSAGE,
+    REFERENT: usager.REFERENT,
     AYANTS_DROITS_NOMBRE: usager.AYANTS_DROITS_NOMBRE,
     TRANSFERT_ACTIF: usager.TRANSFERT_ACTIF,
     TRANSFERT_NOM: usager.TRANSFERT_NOM,
@@ -236,6 +245,8 @@ export const renderSecondSheetData = (
     ENTRETIEN_ORIENTATION: usager.ENTRETIEN_ORIENTATION,
     ENTRETIEN_ORIENTATION_DETAIL: usager.ENTRETIEN_ORIENTATION_DETAIL,
     ENTRETIEN_DOMICILIATION_EXISTANTE: usager.ENTRETIEN_DOMICILIATION_EXISTANTE,
+    ENTRETIEN_SITUATION_PROFESSIONNELLE:
+      usager.ENTRETIEN_SITUATION_PROFESSIONNELLE,
     ENTRETIEN_REVENUS: usager.ENTRETIEN_REVENUS,
     ENTRETIEN_REVENUS_DETAIL: usager.ENTRETIEN_REVENUS_DETAIL,
     ENTRETIEN_LIEN_COMMUNE: usager.ENTRETIEN_LIEN_COMMUNE,
@@ -246,8 +257,6 @@ export const renderSecondSheetData = (
     ENTRETIEN_ACCOMPAGNEMENT: usager.ENTRETIEN_ACCOMPAGNEMENT,
     ENTRETIEN_ACCOMPAGNEMENT_DETAIL: usager.ENTRETIEN_ACCOMPAGNEMENT_DETAIL,
     ENTRETIEN_RATTACHEMENT: usager.ENTRETIEN_RATTACHEMENT,
-    ENTRETIEN_SITUATION_PROFESSIONNELLE:
-      usager.ENTRETIEN_SITUATION_PROFESSIONNELLE,
     ENTRETIEN_COMMENTAIRE: usager.ENTRETIEN_COMMENTAIRE,
   };
 };

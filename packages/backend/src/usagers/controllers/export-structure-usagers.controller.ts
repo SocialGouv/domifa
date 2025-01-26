@@ -28,6 +28,7 @@ import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { domifaConfig } from "../../config";
 
 import { UsagersFilterCriteriaStatut } from "@domifa/common";
+import { userStructureRepository } from "../../database";
 
 let lastCpuUsage = process.cpuUsage();
 let lastTime = Date.now();
@@ -91,6 +92,9 @@ export class ExportStructureUsagersController {
 
       const workbook = XLSX.utils.book_new();
 
+      const users = await userStructureRepository.getVerifiedUsersByStructureId(
+        user.structureId
+      );
       const { firstSheetHeaders, secondSheetHeaders } =
         renderStructureUsagersHeaders(user.structure);
 
@@ -128,7 +132,7 @@ export class ExportStructureUsagersController {
         logProcessState(`Processing chunk (${currentRowUsagers}/${count})`);
 
         const { firstSheetUsagers, secondSheetEntretiens } =
-          renderStructureUsagersRows(chunk, user.structure);
+          renderStructureUsagersRows(chunk, user.structure, users);
 
         // Application du format des dates
         applyDateFormat(firstSheetUsagers, [

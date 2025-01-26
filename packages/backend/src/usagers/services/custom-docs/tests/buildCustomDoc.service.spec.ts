@@ -4,6 +4,7 @@ import {
   STRUCTURE_MOCK,
   USAGER_REFUS_MOCK,
   USAGER_VALIDE_MOCK,
+  VERIFIED_USERS_STRUCTURE,
 } from "../../../../_common/mocks";
 
 import { StructureCustomDocTags } from "../../../../_common/model";
@@ -29,6 +30,7 @@ describe("buildCustomDoc.service", () => {
         structure: STRUCTURE_MOCK,
         date,
         extraParameters,
+        users: [...VERIFIED_USERS_STRUCTURE],
       });
 
       expect(docRadiation).toEqual({
@@ -46,6 +48,7 @@ describe("buildCustomDoc.service", () => {
         structure: STRUCTURE_MOCK,
         date,
         extraParameters: null,
+        users: [...VERIFIED_USERS_STRUCTURE],
       });
 
       expect(docActif).toEqual(CUSTOM_DOC_ATTESTATION_POSTALE);
@@ -63,6 +66,7 @@ describe("buildCustomDoc.service", () => {
         structure: STRUCTURE_MOCK,
         date,
         extraParameters: null,
+        users: [...VERIFIED_USERS_STRUCTURE],
       });
 
       expect(docActif).toEqual(CUSTOM_DOC_COURRIER_REFUS);
@@ -73,6 +77,7 @@ describe("buildCustomDoc.service", () => {
         structure: STRUCTURE_MOCK,
         date,
         extraParameters: null,
+        users: [...VERIFIED_USERS_STRUCTURE],
       });
 
       expect(docNumeroDistribution.USAGER_NUMERO_DISTRIBUTION_SPECIALE).toEqual(
@@ -118,6 +123,7 @@ describe("buildCustomDoc.service", () => {
         structure: STRUCTURE_MOCK,
         date,
         extraParameters: null,
+        users: [...VERIFIED_USERS_STRUCTURE],
       });
 
       expect(customDocGenerated.TRANSFERT_ACTIF).toEqual("OUI");
@@ -163,6 +169,7 @@ describe("buildCustomDoc.service", () => {
         structure: STRUCTURE_MOCK,
         date,
         extraParameters: null,
+        users: [...VERIFIED_USERS_STRUCTURE],
       });
 
       expect(testDoc.DATE_JOUR_HEURE).toEqual("12/04/2022 à 10:43");
@@ -182,6 +189,7 @@ describe("buildCustomDoc.service", () => {
         structure: STRUCTURE_MOCK,
         date,
         extraParameters: null,
+        users: [...VERIFIED_USERS_STRUCTURE],
       });
 
       expect(testDoc.DATE_JOUR_HEURE).toEqual("23/03/2022 à 05:32");

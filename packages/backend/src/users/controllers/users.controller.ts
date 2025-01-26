@@ -14,11 +14,6 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 
-import { AllowUserStructureRoles } from "../../auth/decorators";
-import { CurrentChosenUserStructure } from "../../auth/decorators/current-chosen-user-structure.decorator";
-import { CurrentUser } from "../../auth/decorators/current-user.decorator";
-import { AppUserGuard } from "../../auth/guards";
-import { CanGetUserStructureGuard } from "../../auth/guards/CanGetUserStructure.guard";
 import {
   userStructureRepository,
   structureRepository,
@@ -28,19 +23,27 @@ import {
 import { Response } from "express";
 
 import {
-  UserStructure,
   UserStructureAuthenticated,
-  UserStructureProfile,
   USER_STRUCTURE_ROLE_ALL,
 } from "../../_common/model";
-import { EditMyPasswordDto } from "../dto/edit-my-password.dto";
-import { RegisterUserAdminDto } from "../dto/register-user-admin.dto";
-import { UpdateRoleDto } from "../dto/update-role.dto";
-import { UserEditDto } from "../dto/user-edit.dto";
+
 import { usersDeletor } from "../services";
 import { userStructureCreator } from "../services/user-structure-creator.service";
+import { UserStructureProfile, UserStructure } from "@domifa/common";
 import { userAccountCreatedByAdminEmailSender } from "../../modules/mails/services/templates-renderers/user-account-created-by-admin";
+import {
+  UpdateRoleDto,
+  UserEditDto,
+  RegisterUserAdminDto,
+  EditMyPasswordDto,
+} from "../dto";
 
+import {
+  AllowUserStructureRoles,
+  CurrentUser,
+  CurrentChosenUserStructure,
+} from "../../auth/decorators";
+import { AppUserGuard, CanGetUserStructureGuard } from "../../auth/guards";
 @Controller("users")
 @ApiTags("users")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -52,25 +55,9 @@ export class UsersController {
   public getUsers(
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<UserStructureProfile[]> {
-    return userStructureRepository.find({
-      where: {
-        structureId: user.structureId,
-      },
-      select: {
-        uuid: true,
-        id: true,
-        role: true,
-        nom: true,
-        prenom: true,
-        email: true,
-        createdAt: true,
-        lastLogin: true,
-        verified: true,
-      },
-      order: {
-        nom: "ASC",
-      },
-    });
+    return userStructureRepository.getVerifiedUsersByStructureId(
+      user.structureId
+    );
   }
 
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)

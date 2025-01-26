@@ -430,6 +430,7 @@ async function createTables(queryRunner: QueryRunner) {
       "numeroDistribution" text NULL,
       "pinnedNote" jsonb NULL,
       nationalite text NULL,
+      "referrerId" int4 NULL,
       statut text DEFAULT 'INSTRUCTION'::text NOT NULL,
       nom_prenom_surnom_ref varchar NOT NULL,
       CONSTRAINT "PK_1bb36e24229bec446a281573612" PRIMARY KEY (uuid),

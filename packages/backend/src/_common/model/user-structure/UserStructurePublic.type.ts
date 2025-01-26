@@ -1,4 +1,4 @@
-import { UserStructure } from "./UserStructure.type";
+import { UserStructure } from "@domifa/common";
 
 // UserStructure: attributs publics (retournés au frontend via UserStructureAuthenticated)
 export type UserStructurePublic = Pick<
