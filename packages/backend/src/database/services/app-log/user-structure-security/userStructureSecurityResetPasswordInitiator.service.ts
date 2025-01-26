@@ -3,7 +3,6 @@ import { addDays } from "date-fns";
 import { domifaConfig } from "../../../../config";
 import { tokenGenerator } from "../../../../util";
 import {
-  UserStructureProfile,
   UserStructureSecurity,
   UserStructureTokens,
   UserStructureTokenType,
@@ -11,6 +10,7 @@ import {
 import { userStructureRepository } from "../../user-structure";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";
 import { userStructureSecurityRepository } from "./userStructureSecurityRepository.service";
+import { UserStructureProfile } from "@domifa/common";
 
 export const userStructureSecurityResetPasswordInitiator = {
   buildResetPasswordLink,

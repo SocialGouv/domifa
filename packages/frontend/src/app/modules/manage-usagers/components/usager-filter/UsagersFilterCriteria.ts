@@ -25,6 +25,7 @@ export class UsagersFilterCriteria extends Search {
   public interactionType: "courrierIn" | null;
   public lastInteractionDate: UsagersFilterCriteriaDernierPassage | null;
   public entretien: UsagersFilterCriteriaEntretien | null;
+  public referrerId?: number | null;
   // order by
   public sortKey: UsagersFilterCriteriaSortKey;
 
@@ -41,5 +42,6 @@ export class UsagersFilterCriteria extends Search {
     this.page = search?.page || 1;
     this.sortKey = search?.sortKey || "NOM";
     this.sortValue = search?.sortValue || "asc";
+    this.referrerId = search?.referrerId || undefined;
   }
 }

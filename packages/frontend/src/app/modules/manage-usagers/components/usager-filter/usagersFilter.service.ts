@@ -26,22 +26,17 @@ function filter(
   }: {
     criteria: UsagersFilterCriteria;
   }
-) {
+): UsagerLight[] {
   return filterByCriteria(usagers, criteria);
 }
 
 function filterByCriteria(
   usagers: UsagerLight[],
   criteria: UsagersFilterCriteria
-) {
-  const now = new Date().toISOString().split("T")[0];
-
-  if (criteria.entretien) {
-    return filterByEntretien(usagers, criteria.entretien, now);
-  }
-
+): UsagerLight[] {
   // Si pas de filtres ni de recherche textuelle après le traitement entretien
   const activeFilters = buildActiveFilters(criteria);
+
   if (!criteria.searchString && !activeFilters.length) {
     return usagers;
   }
@@ -94,6 +89,18 @@ function buildActiveFilters(criteria: UsagersFilterCriteria) {
   // Créer un tableau de fonctions de filtrage actives
   const activeFilters = [];
 
+  if (criteria.entretien) {
+    activeFilters.push((usager: UsagerLight) =>
+      filterByEntretien(usager, criteria.entretien)
+    );
+  }
+
+  if (typeof criteria.referrerId !== "undefined") {
+    activeFilters.push(
+      (usager: UsagerLight) => usager.referrerId === criteria.referrerId
+    );
+  }
+
   if (criteria.statut) {
     activeFilters.push((usager: UsagerLight) =>
       usagerStatutChecker.check({ usager, statut: criteria.statut })
@@ -127,16 +134,15 @@ function buildActiveFilters(criteria: UsagersFilterCriteria) {
 }
 
 function filterByEntretien(
-  usagers: UsagerLight[],
-  entretien: string,
-  now: string
-): UsagerLight[] {
-  return usagers.filter((usager) => {
-    if (!usager.rdv?.dateRdv || usager.etapeDemande > ETAPE_ENTRETIEN) {
-      return false;
-    }
+  usager: UsagerLight,
+  entretien: "COMING" | "OVERDUE"
+): boolean {
+  const now = new Date().toISOString().split("T")[0];
 
-    const dateRdv = new Date(usager.rdv.dateRdv).toISOString().split("T")[0];
-    return entretien === "COMING" ? dateRdv > now : dateRdv < now;
-  });
+  if (!usager.rdv?.dateRdv || usager.etapeDemande > ETAPE_ENTRETIEN) {
+    return false;
+  }
+
+  const dateRdv = new Date(usager.rdv.dateRdv).toISOString().split("T")[0];
+  return entretien === "COMING" ? dateRdv > now : dateRdv < now;
 }

@@ -15,7 +15,10 @@ import {
   UsagersFilterCriteriaDernierPassage,
   UsagersFilterCriteriaEcheance,
   UsagersFilterCriteriaStatut,
+  UserStructureProfile,
 } from "@domifa/common";
+import { ManageUsersService } from "../../../manage-users/services/manage-users.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-manage-filters",
@@ -61,8 +64,14 @@ export class ManageFiltersComponent implements OnInit, OnChanges {
     label: string;
   }> = [];
 
+  public users: UserStructureProfile[] = [];
+  public subscription: Subscription = new Subscription();
+
+  constructor(private readonly manageUsersService: ManageUsersService) {}
+
   ngOnInit(): void {
     this.sortMenuItems = this.getSortKeys();
+    this.users = this.manageUsersService.referrers;
   }
 
   ngOnChanges() {

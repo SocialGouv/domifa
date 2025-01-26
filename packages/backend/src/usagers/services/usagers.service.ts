@@ -5,11 +5,7 @@ import {
   usagerRepository,
   UsagerTable,
 } from "../../database";
-import {
-  UserStructure,
-  UserStructureProfile,
-  UserStructureAuthenticated,
-} from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 
 import { usagersCreator } from "./usagersCreator.service";
 import { usagerVisibleHistoryManager } from "./usagerVisibleHistoryManager.service";
@@ -27,6 +23,8 @@ import {
   UsagerDecision,
   Usager,
   UsagersFilterCriteriaStatut,
+  UserStructure,
+  UserStructureProfile,
 } from "@domifa/common";
 import { UsagerHistoryStateService } from "./usagerHistoryState.service";
 import { StructureUsagerExport } from "./xlsx-structure-usagers-renderer";
@@ -38,7 +36,7 @@ export class UsagersService {
   ) {}
   public async create(
     usagerDto: CreateUsagerDto,
-    user: UserStructureProfile
+    user: Pick<UserStructureProfile, "id" | "structureId" | "prenom" | "nom">
   ): Promise<Usager> {
     const usager = new UsagerTable(usagerDto);
     usagersCreator.setUsagerDefaultAttributes(usager);

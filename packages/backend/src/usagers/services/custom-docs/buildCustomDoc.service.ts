@@ -15,6 +15,7 @@ import {
   UsagerOptionsProcuration,
   Usager,
   ENTRETIEN_LIEN_COMMUNE,
+  UserStructureProfile,
 } from "@domifa/common";
 import {
   StructureCustomDocKeys,
@@ -40,6 +41,7 @@ export function buildCustomDoc({
   structure,
   date,
   extraParameters = null,
+  users,
 }: {
   usager: Usager;
   structure: StructureCommon;
@@ -48,6 +50,7 @@ export function buildCustomDoc({
     ESPACE_DOM_ID: string;
     ESPACE_DOM_MDP: string;
   } | null;
+  users: Pick<UserStructureProfile, "id" | "nom" | "prenom">[];
 }): {
   [key in StructureCustomDocKeys]: string | Date | number;
 } {
@@ -135,6 +138,7 @@ export function buildCustomDoc({
     ...buildEntretienForDocs(usager),
     ...buildDecision(usager, structure, DATE_FORMAT.JOUR_LONG),
     ...buildMonDomifaForDocs(usager, extraParameters),
+    REFERENT: buildReferrer(usager, users),
 
     SMS_ACTIVATION: formatBoolean(usager.contactByPhone),
     // Transferts
@@ -170,6 +174,18 @@ export function buildCustomDoc({
       : "",
   };
 }
+
+export const buildReferrer = (
+  usager: Pick<Usager, "structureId" | "referrerId">,
+  users: Pick<UserStructureProfile, "id" | "nom" | "prenom">[]
+): string => {
+  if (!usager.referrerId) {
+    return "";
+  }
+
+  const referrer = users.find((user) => user.id === usager.referrerId);
+  return referrer ? `${referrer.nom} ${referrer.prenom}` : "Compte supprimé";
+};
 
 export const buildDecision = (
   usager: Pick<

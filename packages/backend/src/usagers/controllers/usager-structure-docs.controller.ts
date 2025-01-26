@@ -19,7 +19,10 @@ import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { structureDocRepository } from "../../database";
+import {
+  structureDocRepository,
+  userStructureRepository,
+} from "../../database";
 import { UserStructureAuthenticated } from "../../_common/model";
 import {
   buildCustomDoc,
@@ -62,6 +65,9 @@ export class UsagerStructureDocsController {
       uuid: structureDocUuid,
     });
 
+    const users = await userStructureRepository.getVerifiedUsersByStructureId(
+      user.structureId
+    );
     if (!doc) {
       return res
         .status(HttpStatus.BAD_REQUEST)
@@ -98,6 +104,7 @@ export class UsagerStructureDocsController {
       structure: user.structure,
       date: new Date(),
       extraParameters: null,
+      users,
     });
 
     try {
@@ -136,6 +143,9 @@ export class UsagerStructureDocsController {
 
     let content = "";
 
+    const users = await userStructureRepository.getVerifiedUsersByStructureId(
+      user.structureId
+    );
     if (doc) {
       const filePath = join(
         "structure-documents",
@@ -172,6 +182,7 @@ export class UsagerStructureDocsController {
       structure: user.structure,
       extraParameters,
       date: new Date(),
+      users,
     });
 
     if (docType === "acces_espace_domicilie") {

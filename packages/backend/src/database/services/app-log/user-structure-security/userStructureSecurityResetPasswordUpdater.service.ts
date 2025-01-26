@@ -1,11 +1,9 @@
 import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
-import {
-  UserStructureProfile,
-  UserStructureSecurity,
-} from "../../../../_common/model";
+import { UserStructureSecurity } from "../../../../_common/model";
 import { userStructureRepository } from "../../user-structure/userStructureRepository.service";
 import { userStructureSecurityEventHistoryManager } from "./userStructureSecurityEventHistoryManager.service";
 import { userStructureSecurityRepository } from "./userStructureSecurityRepository.service";
+import { UserStructureProfile } from "@domifa/common";
 
 export const userStructureSecurityResetPasswordUpdater = {
   checkResetPasswordToken,

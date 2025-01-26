@@ -5,14 +5,16 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
-import {
-  DEFAULT_MODAL_OPTIONS,
-  UserStructureProfile,
-} from "../../../../../_common/model";
+import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 
 import { differenceInCalendarDays } from "date-fns";
-import { SortValues, UserStructure, UserStructureRole } from "@domifa/common";
+import {
+  UserStructureProfile,
+  SortValues,
+  UserStructure,
+  UserStructureRole,
+} from "@domifa/common";
 import { ManageUsersService } from "../../services/manage-users.service";
 
 @Component({

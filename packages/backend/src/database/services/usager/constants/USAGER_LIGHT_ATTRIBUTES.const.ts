@@ -23,6 +23,7 @@ export const USAGER_LIGHT_ATTRIBUTES: (keyof Usager)[] = [
   "lastInteraction",
   "options",
   "historique",
+  "referrerId",
   "ayantsDroits",
   //"villeNaissance",
   "telephone",

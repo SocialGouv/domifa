@@ -5,13 +5,12 @@ import { domifaConfig } from "../../config";
 import { userStructureRepository, structureRepository } from "../../database";
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
-  UserStructure,
   UserStructureAuthenticated,
   UserStructureJwtPayload,
   UserStructurePublic,
 } from "../../_common/model";
 import { isDomifaAdmin } from "./auth-checker.service";
-import { StructureCommon } from "@domifa/common";
+import { UserStructure, StructureCommon } from "@domifa/common";
 
 export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "uuid",

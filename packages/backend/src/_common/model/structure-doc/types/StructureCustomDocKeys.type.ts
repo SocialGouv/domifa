@@ -39,6 +39,7 @@ export type StructureCustomDocKeys =
   | "USAGER_NUMERO_DISTRIBUTION_SPECIALE"
   | "AYANTS_DROITS_LISTE"
   | "AYANTS_DROITS_NOMBRE"
+  | "REFERENT"
   // DECISION
   | "STATUT_DOM"
   | "TYPE_DOM"

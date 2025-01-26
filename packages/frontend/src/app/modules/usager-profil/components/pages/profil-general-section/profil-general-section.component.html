@@ -249,9 +249,11 @@
             <div class="col-6 my-1 align-self-center">
               <span class="label">Référence dossier</span>
             </div>
+
             <div class="col-6 my-1 align-self-center">
               {{ usager.customRef }}
             </div>
+
             <div class="col-6 my-1 align-self-center">
               <span class="label">Statut</span>
             </div>
@@ -263,15 +265,24 @@
               </div>
             </div>
 
-            <div class="col-6 my-1 align-self-center">
-              <span class="label">Ayants-droits</span>
+            <div class="col-6 my-1">
+              <span class="label">Type de domiciliation</span>
             </div>
-            <div class="col-6 my-1 align-self-center">
-              <app-display-ayants-droits
-                [usager]="usager"
-              ></app-display-ayants-droits>
-            </div>
+            <div class="col-6 my-1">
+              <div
+                *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
+                class="label-info orange-status"
+              >
+                <span>Renouvellement</span>
+              </div>
 
+              <div
+                *ngIf="usager.typeDom === 'PREMIERE_DOM'"
+                class="label-info grey-status"
+              >
+                <span>Première demande</span>
+              </div>
+            </div>
             <div class="col-6 my-1"><span class="label">Échéance</span></div>
             <div class="col-6 my-1">
               {{ usager?.echeanceInfos?.dateToDisplay | date : "dd MMMM yyyy" }}
@@ -291,25 +302,21 @@
             <div class="col-6 my-1">
               {{ usager.datePremiereDom | date : "dd MMMM yyyy" }}
             </div>
-            <div class="col-6 my-1">
-              <span class="label">Type de domiciliation</span>
+
+            <div class="col-6 my-1 align-self-center">
+              <span class="label">Ayants-droits</span>
+            </div>
+            <div class="col-6 my-1 align-self-center">
+              <app-display-ayants-droits
+                [usager]="usager"
+              ></app-display-ayants-droits>
+            </div>
+            <div class="col-6 my-1 align-self-center">
+              <span class="label">Référent au sein de la structure</span>
             </div>
             <div class="col-6 my-1">
-              <div
-                *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
-                class="label-info orange-status"
-              >
-                <span>Renouvellement</span>
-              </div>
-
-              <div
-                *ngIf="usager.typeDom === 'PREMIERE_DOM'"
-                class="label-info grey-status"
-              >
-                <span>Première demande</span>
-              </div>
+              {{ usager.referrerId | referrerName }}
             </div>
-
             <div class="col-12 mt-4">
               <a
                 class="text-link"

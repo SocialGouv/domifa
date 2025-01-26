@@ -3,9 +3,9 @@ import {
   userUsagerSecurityRepository,
   UserUsagerTable,
 } from "../../database";
-import { UserStructure, UserUsagerSecurity } from "../../_common/model";
+import { UserUsagerSecurity } from "../../_common/model";
 import { userUsagerLoginPasswordGenerator } from "./user-usager-login-password-generator.service";
-import { UserUsager } from "@domifa/common";
+import { UserStructure, UserUsager } from "@domifa/common";
 
 export const userUsagerCreator = {
   createUserWithTmpPassword,

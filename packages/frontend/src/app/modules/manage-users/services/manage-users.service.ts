@@ -1,10 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { UserStructure, UserStructureRole, ApiMessage } from "@domifa/common";
+import {
+  UserStructure,
+  UserStructureRole,
+  ApiMessage,
+  UserStructureProfile,
+} from "@domifa/common";
 import { BehaviorSubject, Observable, map } from "rxjs";
 import {
   UserStructureEditProfile,
-  UserStructureProfile,
   UsagerLight,
 } from "../../../../_common/model";
 import { environment } from "../../../../environments/environment";
@@ -18,15 +22,20 @@ export class ManageUsersService {
   private usersSubject = new BehaviorSubject<UserStructureProfile[]>([]);
 
   readonly users$ = this.usersSubject.asObservable();
-  readonly usersMap: { [key: number]: string } = {};
+  readonly referrersMap: { [key: number]: string } = {};
+
   public users: UserStructureProfile[] = [];
+  public referrers: UserStructureProfile[] = [];
 
   constructor(private readonly http: HttpClient) {
     this.http.get<UserStructureProfile[]>(this.endPoint).subscribe((users) => {
       this.usersSubject.next(users);
       this.users = users;
       users.forEach((user) => {
-        this.usersMap[user.id] = `${user.nom} ${user.prenom}`;
+        if (user.role !== "facteur") {
+          this.referrers.push(user);
+          this.referrersMap[user.id] = `${user.nom} ${user.prenom}`;
+        }
       });
     });
   }

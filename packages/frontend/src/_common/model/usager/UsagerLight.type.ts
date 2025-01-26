@@ -33,6 +33,7 @@ export type UsagerLight = AppEntity &
     | "rdvInfo"
     | "pinnedNote"
     | "datePremiereDom"
+    | "referrerId"
     | "nbNotes"
   > & {
     phoneNumber?: string;

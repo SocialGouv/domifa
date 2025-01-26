@@ -1,4 +1,3 @@
-import { usagerHistoryStatesRepository } from "./../../../../database/services/usager/usagerHistoryStatesRepository.service";
 import { ImportProcessTracker } from "../ImportProcessTracker.type";
 import { UsagersImportUsager } from "../step2-validate-row";
 import { usagersImportBuilder } from "./usagersImportBuilder.service";
@@ -8,11 +7,13 @@ import {
   usagerRepository,
   usagerEntretienRepository,
   UsagerEntretienTable,
+  usagerHistoryStatesRepository,
 } from "../../../../database";
-import { UserStructure } from "../../../../_common/model";
-import { usagersCreator } from "../../../services";
-import { UsagerHistoryStateService } from "../../../services/usagerHistoryState.service";
+
+import { UsagerHistoryStateService, usagersCreator } from "../../../services";
+
 import { Injectable } from "@nestjs/common";
+import { UserStructure } from "@domifa/common";
 
 @Injectable()
 export class ImportCreatorService {
