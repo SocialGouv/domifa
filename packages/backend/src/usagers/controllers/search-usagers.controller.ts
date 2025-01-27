@@ -120,7 +120,8 @@ export class SearchUsagersController {
         structureId: user.structureId,
       });
 
-    if (search.searchString) {
+    console.log(search);
+    if (search.searchString?.length > 0) {
       if (search.searchStringField === CriteriaSearchField.DEFAULT) {
         query.andWhere("nom_prenom_surnom_ref ILIKE :str", {
           str: `%${search.searchString}%`,
@@ -136,6 +137,7 @@ export class SearchUsagersController {
       } else if (
         search.searchStringField === CriteriaSearchField.PHONE_NUMBER
       ) {
+        console.log(search.searchString);
         query.andWhere(`telephone->>'numero' ILIKE :phone`, {
           phone: `%${search.searchString}%`,
         });
@@ -197,11 +199,19 @@ export class SearchUsagersController {
       }
     }
 
+    console.log({
+      searchString: !search.searchString,
+      echeance: !search?.echeance,
+      entretien: !search?.entretien,
+      referrerId: typeof search?.referrerId === "undefined",
+      lastInteractionDate: !search?.lastInteractionDate,
+    });
+
     if (
       !search.searchString &&
       !search?.echeance &&
       !search?.entretien &&
-      typeof search?.referrerId !== "undefined" &&
+      typeof search?.referrerId === "undefined" &&
       !search?.lastInteractionDate
     ) {
       query.take(100);

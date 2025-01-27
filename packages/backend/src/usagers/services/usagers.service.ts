@@ -28,6 +28,7 @@ import {
 } from "@domifa/common";
 import { UsagerHistoryStateService } from "./usagerHistoryState.service";
 import { StructureUsagerExport } from "./xlsx-structure-usagers-renderer";
+import { getPhoneString } from "../../util";
 
 @Injectable()
 export class UsagersService {
@@ -45,6 +46,11 @@ export class UsagersService {
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
     usager.ref = await usagersCreator.findNextUsagerRef(user.structureId);
     usager.customRef = `${usager.ref}`;
+
+    usager.telephone = {
+      countryCode: usagerDto.telephone.countryCode,
+      numero: getPhoneString(usagerDto.telephone).replace(/\s+/g, ""),
+    };
 
     usager.decision = {
       uuid: uuidv4(),

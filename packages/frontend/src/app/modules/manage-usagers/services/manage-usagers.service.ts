@@ -16,7 +16,7 @@ import { UsagerLight } from "../../../../_common/model";
   providedIn: "root",
 })
 export class ManageUsagersService {
-  public endPoint = environment.apiUrl + "search-usagers";
+  public endPoint = environment.apiUrl + "search-usagers/";
 
   constructor(
     private readonly http: HttpClient,

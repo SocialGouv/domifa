@@ -4,7 +4,7 @@ export const phoneUtil = PhoneNumberUtil.getInstance();
 
 export const getPhoneString = (
   telephone: Telephone,
-  excpectedFormat: PhoneNumberFormat = PhoneNumberFormat.INTERNATIONAL
+  excpectedFormat: PhoneNumberFormat = PhoneNumberFormat.NATIONAL
 ): string => {
   if (!telephone?.numero || telephone?.numero === "") {
     return "";

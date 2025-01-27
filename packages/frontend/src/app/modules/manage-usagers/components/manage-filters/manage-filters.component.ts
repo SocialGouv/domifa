@@ -33,6 +33,7 @@ export class ManageFiltersComponent implements OnInit, OnChanges {
   @Input() public nbResults: number;
 
   @Output() public readonly updateFilters = new EventEmitter();
+
   public readonly UsagersFilterCriteriaStatut = UsagersFilterCriteriaStatut;
   public readonly UsagersFilterCriteriaEntretien =
     UsagersFilterCriteriaEntretien;

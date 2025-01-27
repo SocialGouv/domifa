@@ -1,4 +1,4 @@
-import { CriteriaSearchField, normalizeString } from "@domifa/common";
+import { CriteriaSearchField } from "@domifa/common";
 import { BadRequestException } from "@nestjs/common";
 import { isValid, parse } from "date-fns";
 
@@ -6,7 +6,7 @@ export function validateSearchField(
   value: string,
   searchField: CriteriaSearchField
 ): boolean {
-  if (!value || !searchField) {
+  if (!searchField) {
     return false;
   }
 
@@ -27,23 +27,7 @@ export function validateSearchField(
           );
         }
         return true;
-
-      case CriteriaSearchField.PHONE_NUMBER:
-        const cleanPhone = value.replace(/\D/g, "");
-        if (cleanPhone.length === 0) {
-          throw new BadRequestException(
-            "Le numéro de téléphone doit contenir au moins un chiffre"
-          );
-        }
-        return true;
-
       default:
-        const cleanText = normalizeString(value).trim();
-        if (cleanText.length === 0) {
-          throw new BadRequestException(
-            "Le texte de recherche doit contenir au moins un caractère"
-          );
-        }
         return true;
     }
   } catch (error) {

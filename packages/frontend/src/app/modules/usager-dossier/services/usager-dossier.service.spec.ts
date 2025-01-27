@@ -35,7 +35,7 @@ describe("UsagerDossierService", () => {
     expect(service).toBeTruthy();
   });
 
-  it("Interfaces", () => {
+  it("Classes construction", () => {
     const usager = new UsagerFormModel();
     const entretien = new Entretien({});
     const rdv = new Rdv();
