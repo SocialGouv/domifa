@@ -52,12 +52,22 @@ export class UsersController {
   @ApiBearerAuth()
   @ApiOperation({ summary: "Liste des utilisateurs" })
   @Get("")
-  public getUsers(
+  public async getUsers(
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<UserStructureProfile[]> {
-    return userStructureRepository.getVerifiedUsersByStructureId(
+    const users = await userStructureRepository.getVerifiedUsersByStructureId(
       user.structureId
     );
+    if (user.role === "facteur" || user.role === "simple") {
+      return users.map((user) => {
+        return {
+          id: user.id,
+          nom: user.nom,
+          prenom: user.prenom,
+        };
+      }) as UserStructureProfile[];
+    }
+    return users;
   }
 
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)

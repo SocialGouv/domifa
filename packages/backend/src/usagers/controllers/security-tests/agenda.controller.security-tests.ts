@@ -28,18 +28,4 @@ export const AgendaControllerSecurityTests: AppTestHttpClientSecurityTestDef[] =
         ),
       }),
     },
-    {
-      label: `${CONTROLLER}.getAllUsersForAgenda`,
-      query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.get("/agenda/users", {
-          context,
-        }),
-        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
-          context.user,
-          {
-            roles: ["simple", "responsable", "admin"],
-          }
-        ),
-      }),
-    },
   ];

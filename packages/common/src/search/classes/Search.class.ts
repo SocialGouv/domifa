@@ -4,7 +4,7 @@ export class Search {
   public searchString: string | null;
   public sortKey: string;
   public sortValue: SortValues;
-  public page: number;
+  public page = 1;
 
   constructor(search?: any) {
     this.searchString = search?.searchString ?? null;
