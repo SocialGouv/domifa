@@ -1,3 +1,18 @@
+# [2.194.0](https://github.com/SocialGouv/domifa/compare/v2.193.4...v2.194.0) (2025-01-27)
+
+
+### Bug Fixes
+
+* **backend:** add validators to search ([e0b0dd9](https://github.com/SocialGouv/domifa/commit/e0b0dd9f18e5164b3509d271975a34a31ec4644c))
+* **backend:** fix referrerId and unit tests ([85152d6](https://github.com/SocialGouv/domifa/commit/85152d6602bfb905751f8a497f86cdb6a11798af))
+* **front:** fix unit tests ([339d541](https://github.com/SocialGouv/domifa/commit/339d541b1e7dc33b6878c2a50feff5bd8c2cbb25))
+* **frontend:** add referrer ([68c54ae](https://github.com/SocialGouv/domifa/commit/68c54ae776296ba7bb7a6f3f17fb2d72364eb9b9))
+
+
+### Features
+
+* **frontend:** add referrer ([83ff892](https://github.com/SocialGouv/domifa/commit/83ff892846e7351fd5f33aa88599f646603d4cb9))
+
 ## [2.193.4](https://github.com/SocialGouv/domifa/compare/v2.193.3...v2.193.4) (2025-01-21)
 
 
