@@ -95,6 +95,7 @@ describe("EtatCivilParentFormComponent", () => {
           prenom: "AD PRENOM",
         },
       ],
+      referrerId: null,
       contactByPhone: true,
       customRef: null,
       dateNaissance: new Date("2022-08-03T21:59:59.999Z"),
