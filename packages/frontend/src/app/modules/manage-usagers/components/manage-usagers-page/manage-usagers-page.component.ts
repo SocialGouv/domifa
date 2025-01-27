@@ -63,7 +63,7 @@ import {
 import { isValid, parse } from "date-fns";
 
 const FIVE_MINUTES = 5 * 60 * 1000;
-
+const STORAGE_KEY = "SEARCH";
 @Component({
   animations: [fadeInOut],
   selector: "app-manage-usagers-page",
@@ -302,15 +302,17 @@ export class ManageUsagersPageComponent
   }
 
   private setupIntersectionObserver(): void {
+    const viewportHeight = window.innerHeight;
+    const rootMargin = Math.floor(viewportHeight * 0.5) + "px";
+
     const options = {
       root: null,
-      rootMargin: "900px",
+      rootMargin,
       threshold: 0,
     };
 
     this.observer = new IntersectionObserver((entries) => {
       const entry = entries[0];
-
       if (entry.isIntersecting && this.usagers.length < this.nbResults) {
         this.filters.page = this.filters.page + 1;
         this.applyPagination();
@@ -433,6 +435,12 @@ export class ManageUsagersPageComponent
     value: UsagersFilterCriteria[T] | null;
     sortValue?: SortValues;
   }): void {
+    const filtersToToggle = [
+      "echeance",
+      "interactionType",
+      "lastInteractionDate",
+      "entretien",
+    ];
     if (!element) {
       return;
     }
@@ -455,19 +463,33 @@ export class ManageUsagersPageComponent
       this.resetFiltersInStatus();
       this.filters[element] = value;
       this.setSortKeyAndValue("NOM", this.filters.sortValue);
-    } else if (
-      ["interactionType", "lastInteractionDate", "echeance"].includes(element)
-    ) {
+    } else if (filtersToToggle.includes(element)) {
       this.filters[element] = this.filters[element] === value ? null : value;
       this.setSortKeyAndValue("NOM", "asc");
+    }
+    // Undefined, because null can be a value for referrerId
+    else if (element === "referrerId") {
+      this.filters[element] =
+        this.filters[element] === value ? undefined : value;
     } else {
       this.filters[element] = value;
     }
     this.filters.page = 1;
+
+    const elementsForRemoteSearch = [
+      "echeance",
+      "lastInteractionDate",
+      "referrerId",
+    ];
+
+    const statusForRemoteSearch = [
+      UsagersFilterCriteriaStatut.TOUS,
+      UsagersFilterCriteriaStatut.RADIE,
+    ];
+
     const shouldTriggerRemoteSearch =
-      (element === "echeance" || element === "lastInteractionDate") &&
-      (this.filters.statut === UsagersFilterCriteriaStatut.TOUS ||
-        this.filters.statut === UsagersFilterCriteriaStatut.RADIE);
+      elementsForRemoteSearch.includes(element) &&
+      statusForRemoteSearch.includes(this.filters.statut);
 
     if (shouldTriggerRemoteSearch) {
       this.searchTrigger$.next();
@@ -590,11 +612,11 @@ export class ManageUsagersPageComponent
   }
 
   private setFilters() {
-    localStorage.setItem("MANAGE", JSON.stringify(this.filters));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.filters));
   }
 
   private getFilters(): null | Partial<UsagersFilterCriteria> {
-    const filters = localStorage.getItem("MANAGE");
+    const filters = localStorage.getItem(STORAGE_KEY);
     return filters === null ? {} : JSON.parse(filters);
   }
 

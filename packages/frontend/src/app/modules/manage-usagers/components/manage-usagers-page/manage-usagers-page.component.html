@@ -110,7 +110,11 @@
             </label>
             <input
               id="searchInput"
-              type="text"
+              [type]="
+                filters.searchStringField === CriteriaSearchField.PHONE_NUMBER
+                  ? 'tel'
+                  : 'text'
+              "
               name="searchInput"
               #searchInput
               class="form-control"

@@ -29,7 +29,7 @@ import {
   usagerEntretienRepository,
 } from "../../database";
 
-import { cleanPath } from "../../util";
+import { cleanPath, getPhoneString } from "../../util";
 import {
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
@@ -90,6 +90,11 @@ export class UsagersController {
       usagerDto.customRef = currentUsager.ref.toString();
     }
 
+    usagerDto.telephone = {
+      countryCode: usagerDto.telephone.countryCode,
+      numero: getPhoneString(usagerDto.telephone).replace(/\s+/g, ""),
+    };
+
     await usagerRepository.update(
       { uuid: currentUsager.uuid },
       { ...usagerDto }
@@ -116,11 +121,18 @@ export class UsagersController {
     @CurrentUser() _user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager
   ) {
-    const elementsToUpdate = {
-      telephone: contactDetails.telephone,
+    const elementsToUpdate: Pick<
+      Usager,
+      "telephone" | "email" | "contactByPhone"
+    > = {
+      telephone: {
+        countryCode: contactDetails.telephone.countryCode,
+        numero: getPhoneString(contactDetails.telephone).replace(/\s+/g, ""),
+      },
       contactByPhone: contactDetails.contactByPhone,
       email: contactDetails.email,
     };
+
     await usagerRepository.update(
       { uuid: currentUsager.uuid },
       {
