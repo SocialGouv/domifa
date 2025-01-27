@@ -1,5 +1,5 @@
-import { HttpStatus } from "@nestjs/common";
 import { AppTestContext, AppTestHttpClient } from "../../../util/test";
+import { USER_STRUCTURE_ROLE_ALL } from "../../../_common/model";
 import {
   AppTestHttpClientSecurityTestDef,
   expectedResponseStatusBuilder,
@@ -11,28 +11,23 @@ import {
 // - API_SECURITY_STRUCTURE_CONTROLLER_TEST_DEFS
 //
 
-const CONTROLLER = "UsagersController";
+const CONTROLLER = "SearchUsagersController";
 
 export const UsagersControllerSecurityTests: AppTestHttpClientSecurityTestDef[] =
   [
     {
-      label: `${CONTROLLER}.checkDuplicates`,
+      label: `${CONTROLLER}.findAllByStructure`,
       query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.post(
-          "/usagers/check-duplicates-name",
+        response: await AppTestHttpClient.get(
+          "/usagers?chargerTousRadies=false",
           {
             context,
-            body: {
-              nom: "nom",
-              prenom: "prenom",
-            },
           }
         ),
         expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
           context.user,
           {
-            validExpectedResponseStatus: HttpStatus.CREATED,
-            roles: ["simple", "responsable", "admin"],
+            roles: USER_STRUCTURE_ROLE_ALL,
           }
         ),
       }),

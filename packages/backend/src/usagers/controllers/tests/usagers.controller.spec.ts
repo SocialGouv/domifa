@@ -77,11 +77,9 @@ describe("Usagers Controller", () => {
       expect(new Date(usager.decision.dateDecision)).toEqual(new Date());
       expect(new Date(usager.historique[0].dateDecision)).toEqual(new Date());
 
-      // Type de dom
       expect(usager.typeDom).toEqual("PREMIERE_DOM");
       expect(usager.decision.typeDom).toEqual("PREMIERE_DOM");
       expect(usager.historique[0].typeDom).toEqual("PREMIERE_DOM");
-      // Trim et nettoyage des données
 
       expect(usager.nom).toEqual(exceptedResponse.nom);
       expect(usager.prenom).toEqual(exceptedResponse.prenom);

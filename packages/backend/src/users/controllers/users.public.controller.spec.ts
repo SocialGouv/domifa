@@ -18,7 +18,6 @@ describe("Users Public Controller", () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [UsersPublicController],
       imports: [MailsModule, StructuresModule, UsagersModule, HttpModule],
-      providers: [],
     });
     controller = context.module.get<UsersPublicController>(
       UsersPublicController

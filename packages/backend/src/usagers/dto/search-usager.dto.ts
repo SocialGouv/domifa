@@ -1,54 +1,47 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsIn, IsOptional, IsString, MinLength } from "class-validator";
 import {
-  LowerCaseTransform,
-  StripTagsTransform,
-} from "../../_common/decorators";
+  IsIn,
+  IsNumber,
+  IsOptional,
+  IsString,
+  MinLength,
+  ValidateIf,
+} from "class-validator";
 import {
   CriteriaSearchField,
   normalizeString,
   UsagersFilterCriteriaDernierPassage,
   UsagersFilterCriteriaEcheance,
+  UsagersFilterCriteriaEntretien,
 } from "@domifa/common";
 import { Transform } from "class-transformer";
-import { isValid, parse } from "date-fns";
-import { BadRequestException } from "@nestjs/common";
+import { ValidateSearchField } from "../utils";
 
 export class SearchUsagerDto {
   @ApiProperty({
     example: "dupuis",
     description: "Nom ou prénom",
   })
-  @IsOptional()
-  @IsString()
-  @MinLength(1)
-  @StripTagsTransform()
-  @LowerCaseTransform()
   @Transform(({ value, obj }) => {
     if (!value) {
       return null;
     }
 
-    switch (obj.searchStringField) {
-      case CriteriaSearchField.PHONE_NUMBER:
-        return value.replace(/\D/g, "");
-
-      case CriteriaSearchField.BIRTH_DATE:
-        const cleanDate = value.replace(/\D/g, "");
-        const parsedDate = parse(cleanDate, "ddMMyyyy", new Date());
-
-        if (!isValid(parsedDate)) {
-          throw new BadRequestException(
-            'Format de date invalide. Utilisez le format "dd/MM/yyyy"'
-          );
-        }
-        return cleanDate;
-
-      case CriteriaSearchField.DEFAULT:
-      default:
-        return normalizeString(value).trim();
+    if (
+      [
+        CriteriaSearchField.PHONE_NUMBER,
+        CriteriaSearchField.BIRTH_DATE,
+      ].includes(obj.searchStringField)
+    ) {
+      return value.replace(/\D/g, "");
     }
+
+    return normalizeString(value).trim();
   })
+  @ValidateIf((obj) => obj.searchStringField)
+  @IsString()
+  @MinLength(1)
+  @ValidateSearchField()
   public searchString!: string;
 
   @IsIn(Object.values(CriteriaSearchField))
@@ -67,4 +60,13 @@ export class SearchUsagerDto {
   @IsIn(["PREVIOUS_TWO_MONTHS", "PREVIOUS_THREE_MONTHS"])
   @IsOptional()
   public readonly lastInteractionDate: UsagersFilterCriteriaDernierPassage;
+
+  @IsIn(Object.values(UsagersFilterCriteriaEntretien))
+  @IsOptional()
+  public readonly entretien: UsagersFilterCriteriaEntretien;
+
+  @IsNumber()
+  @IsOptional()
+  @ValidateIf((_object, value) => value !== null)
+  public readonly referrerId: number | null;
 }

@@ -14,6 +14,7 @@ import {
   extractDeadlines,
   UsagersFilterCriteriaDernierPassage,
   UsagersFilterCriteriaEcheance,
+  UsagersFilterCriteriaEntretien,
   UsagersFilterCriteriaStatut,
   UserStructureProfile,
 } from "@domifa/common";
@@ -33,6 +34,8 @@ export class ManageFiltersComponent implements OnInit, OnChanges {
 
   @Output() public readonly updateFilters = new EventEmitter();
   public readonly UsagersFilterCriteriaStatut = UsagersFilterCriteriaStatut;
+  public readonly UsagersFilterCriteriaEntretien =
+    UsagersFilterCriteriaEntretien;
 
   public readonly labelsEcheance =
     extractDeadlines<UsagersFilterCriteriaEcheance>([
@@ -53,7 +56,9 @@ export class ManageFiltersComponent implements OnInit, OnChanges {
       "PREVIOUS_THREE_MONTHS",
     ]);
 
-  public readonly labelsEntretien = {
+  public readonly labelsEntretien: {
+    [key in UsagersFilterCriteriaEntretien]: string;
+  } = {
     COMING: "à venir",
     OVERDUE: "date dépassée",
   };

@@ -3,6 +3,7 @@ import {
   CriteriaSearchField,
   ETAPE_ENTRETIEN,
   search,
+  UsagersFilterCriteriaEntretien,
 } from "@domifa/common";
 import { UsagerLight } from "../../../../../_common/model";
 import {
@@ -135,7 +136,7 @@ function buildActiveFilters(criteria: UsagersFilterCriteria) {
 
 function filterByEntretien(
   usager: UsagerLight,
-  entretien: "COMING" | "OVERDUE"
+  entretien: UsagersFilterCriteriaEntretien
 ): boolean {
   const now = new Date().toISOString().split("T")[0];
 
@@ -144,5 +145,7 @@ function filterByEntretien(
   }
 
   const dateRdv = new Date(usager.rdv.dateRdv).toISOString().split("T")[0];
-  return entretien === "COMING" ? dateRdv > now : dateRdv < now;
+  return entretien === UsagersFilterCriteriaEntretien.COMING
+    ? dateRdv > now
+    : dateRdv < now;
 }

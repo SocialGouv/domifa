@@ -3,9 +3,6 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
-
-import { UsagerLight } from "../../../../_common/model/usager/UsagerLight.type";
-
 import { Store } from "@ngrx/store";
 import {
   setUsagerInformation,
@@ -13,12 +10,13 @@ import {
   UsagerState,
 } from "../../../shared";
 import { UsagersFilterCriteria } from "../components/usager-filter";
+import { UsagerLight } from "../../../../_common/model";
 
 @Injectable({
   providedIn: "root",
 })
 export class ManageUsagersService {
-  public endPointUsagers = environment.apiUrl + "usagers";
+  public endPoint = environment.apiUrl + "search-usagers";
 
   constructor(
     private readonly http: HttpClient,
@@ -32,7 +30,7 @@ export class ManageUsagersService {
   }): Observable<void> {
     return this.http
       .get<{ usagers: UsagerLight[]; usagersRadiesTotalCount: number }>(
-        `${environment.apiUrl}usagers/?chargerTousRadies=${chargerTousRadies}`
+        `${this.endPoint}?chargerTousRadies=${chargerTousRadies}`
       )
       .pipe(
         map(
@@ -64,10 +62,7 @@ export class ManageUsagersService {
     filters: UsagersFilterCriteria
   ): Observable<string> {
     return this.http
-      .post<UsagerLight[]>(
-        `${environment.apiUrl}usagers/search-radies`,
-        filters
-      )
+      .post<UsagerLight[]>(`${this.endPoint}search-radies`, filters)
       .pipe(
         tap((usagers: UsagerLight[]) => {
           if (usagers?.length) {
@@ -83,16 +78,14 @@ export class ManageUsagersService {
   }
 
   public updateManage(): Observable<UsagerLight[]> {
-    return this.http
-      .get<UsagerLight[]>(`${environment.apiUrl}usagers/update-manage`)
-      .pipe(
-        tap((usagers: UsagerLight[]) => {
-          if (usagers?.length) {
-            this.store.dispatch(
-              usagerActions.updateManyUsagersForManage({ usagers })
-            );
-          }
-        })
-      );
+    return this.http.get<UsagerLight[]>(`${this.endPoint}update-manage`).pipe(
+      tap((usagers: UsagerLight[]) => {
+        if (usagers?.length) {
+          this.store.dispatch(
+            usagerActions.updateManyUsagersForManage({ usagers })
+          );
+        }
+      })
+    );
   }
 }

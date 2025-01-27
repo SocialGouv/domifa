@@ -1,6 +1,6 @@
 import { BadRequestException } from "@nestjs/common";
 import { tokenGenerator } from "../../../util";
-import { ParseTokenPipe } from "../parse-token.pipe";
+import { ParseTokenPipe } from "../parse-pipes/parse-token.pipe";
 
 describe("ParseTokenPipe", () => {
   let pipe: ParseTokenPipe;

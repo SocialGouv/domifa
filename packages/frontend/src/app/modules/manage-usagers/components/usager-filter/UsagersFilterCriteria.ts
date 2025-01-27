@@ -3,6 +3,7 @@ import {
   Search,
   UsagersFilterCriteriaDernierPassage,
   UsagersFilterCriteriaEcheance,
+  UsagersFilterCriteriaEntretien,
   UsagersFilterCriteriaStatut,
 } from "@domifa/common";
 
@@ -12,8 +13,6 @@ export type UsagersFilterCriteriaSortKey =
   | "ECHEANCE"
   | "RDV"
   | "ID";
-
-export type UsagersFilterCriteriaEntretien = "COMING" | "OVERDUE";
 
 export class UsagersFilterCriteria extends Search {
   // text search filter
