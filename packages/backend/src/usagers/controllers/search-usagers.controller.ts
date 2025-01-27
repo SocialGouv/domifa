@@ -201,7 +201,7 @@ export class SearchUsagersController {
       !search.searchString &&
       !search?.echeance &&
       !search?.entretien &&
-      typeof search?.referrerId !== undefined &&
+      typeof search?.referrerId !== "undefined" &&
       !search?.lastInteractionDate
     ) {
       query.take(100);

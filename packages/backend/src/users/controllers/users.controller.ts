@@ -48,9 +48,9 @@ import { AppUserGuard, CanGetUserStructureGuard } from "../../auth/guards";
 @ApiTags("users")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class UsersController {
-  @AllowUserStructureRoles("responsable", "admin")
   @ApiBearerAuth()
   @ApiOperation({ summary: "Liste des utilisateurs" })
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Get("")
   public async getUsers(
     @CurrentUser() user: UserStructureAuthenticated
