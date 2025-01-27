@@ -74,6 +74,10 @@ export async function bootstrapApplication(): Promise<{
         stopAtFirstError: true,
         enableDebugMessages: true,
         disableErrorMessages: domifaConfig().envId !== "local",
+        transform: true,
+        transformOptions: {
+          enableImplicitConversion: false,
+        },
       })
     );
 

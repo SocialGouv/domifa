@@ -1,5 +1,5 @@
 import { BadRequestException } from "@nestjs/common";
-import { ParseHardResetTokenPipe } from "../parse-hard-reset-token.pipe";
+import { ParseHardResetTokenPipe } from "../parse-pipes/parse-hard-reset-token.pipe";
 
 describe("ParseHardResetTokenPipe", () => {
   let pipe: ParseHardResetTokenPipe;

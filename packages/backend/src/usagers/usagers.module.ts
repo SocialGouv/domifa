@@ -23,6 +23,7 @@ import { ImportCreatorService } from "./controllers/import/step3-create";
 import { FileManagerService } from "../util/file-manager/file-manager.service";
 import { AppLogsService } from "../modules/app-logs/app-logs.service";
 import { MailsModule } from "../modules/mails/mails.module";
+import { SearchUsagersController } from "./controllers/search-usagers.controller";
 
 @Module({
   controllers: [
@@ -35,6 +36,7 @@ import { MailsModule } from "../modules/mails/mails.module";
     UsagerDocsController,
     ExportStructureUsagersController,
     UsagerOptionsController,
+    SearchUsagersController,
   ],
   exports: [UsagersService, UsagerHistoryStateService, ImportCreatorService],
   imports: [
