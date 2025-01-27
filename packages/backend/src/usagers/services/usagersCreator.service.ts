@@ -31,6 +31,7 @@ function setUsagerDefaultAttributes(usager: Partial<Usager>): void {
   };
   usager.typeDom = usager?.typeDom ?? "PREMIERE_DOM";
   usager.pinnedNote = null;
+  usager.referrerId = null;
 
   if (!usager.ayantsDroits) {
     usager.ayantsDroits = [];

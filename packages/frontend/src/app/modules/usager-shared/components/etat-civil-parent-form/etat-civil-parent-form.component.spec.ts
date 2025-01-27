@@ -71,6 +71,7 @@ describe("EtatCivilParentFormComponent", () => {
       nom: "TEST",
       prenom: "TEST PRENOM ",
       sexe: "homme",
+      referrerId: null,
       surnom: "Chips",
       numeroDistribution: "TSA 1000",
       telephone: {

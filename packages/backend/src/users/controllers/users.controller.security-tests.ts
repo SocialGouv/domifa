@@ -11,6 +11,7 @@ import {
   expectedResponseStatusBuilder,
   securityTestDataBuilder,
 } from "../../_tests";
+import { USER_STRUCTURE_ROLE_ALL } from "../../_common/model";
 
 const CONTROLLER = "UserController";
 
@@ -24,7 +25,7 @@ export const UserControllerSecurityTests: AppTestHttpClientSecurityTestDef[] = [
       expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
         context.user,
         {
-          roles: ["responsable", "admin"],
+          roles: USER_STRUCTURE_ROLE_ALL,
         }
       ),
     }),
