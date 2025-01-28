@@ -48,7 +48,7 @@ export class UsagersService {
     usager.customRef = `${usager.ref}`;
 
     usager.telephone = {
-      countryCode: usagerDto.telephone.countryCode,
+      countryCode: usagerDto?.telephone?.countryCode ?? "fr",
       numero: getPhoneString(usagerDto.telephone).replace(/\s+/g, ""),
     };
 

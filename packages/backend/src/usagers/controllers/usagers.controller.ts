@@ -126,7 +126,7 @@ export class UsagersController {
       "telephone" | "email" | "contactByPhone"
     > = {
       telephone: {
-        countryCode: contactDetails.telephone.countryCode,
+        countryCode: contactDetails?.telephone?.countryCode ?? "fr",
         numero: getPhoneString(contactDetails.telephone).replace(/\s+/g, ""),
       },
       contactByPhone: contactDetails.contactByPhone,
