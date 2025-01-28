@@ -51,6 +51,7 @@ function filterByCriteria(
         "dd/MM/yyyy",
         new Date()
       );
+
       if (isValid(parsedDate)) {
         words.push(criteria.searchString);
       }

@@ -59,8 +59,8 @@ export const CERFA_MOCK_USAGER_ACTIF: UsagerCerfaFields = {
   signature1A: "ASNIERES-SUR-SEINE",
   signature1B: "ASNIERES-SUR-SEINE",
   signature2: "ASNIERES-SUR-SEINE",
-  telephone: "+33 6 06 06 06 06",
-  telephoneOrga: "+33 6 02 03 04 05",
+  telephone: "06 06 06 06 06",
+  telephoneOrga: "06 02 03 04 05",
   typeDemande: "2",
 };
 
@@ -124,6 +124,6 @@ export const CERFA_MOCK_USAGER_REFUS: UsagerCerfaFields = {
   signature1B: "ASNIERES-SUR-SEINE",
   signature2: "ASNIERES-SUR-SEINE",
   telephone: "",
-  telephoneOrga: "+33 6 02 03 04 05",
+  telephoneOrga: "06 02 03 04 05",
   typeDemande: "1",
 };

@@ -94,6 +94,11 @@ async function bootstrapTestApp(
     context.app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
+        stopAtFirstError: true,
+        transform: true,
+        transformOptions: {
+          enableImplicitConversion: false,
+        },
       })
     );
     await context.app.init();

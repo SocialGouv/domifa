@@ -8,7 +8,6 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 
-import { differenceInCalendarDays } from "date-fns";
 import {
   UserStructureProfile,
   SortValues,
@@ -58,6 +57,11 @@ export class UserProfilComponent implements OnInit, OnDestroy {
 
     this.me = this.authService.currentUserValue;
     this.getUsers();
+
+    this.userService.users$.subscribe((users) => {
+      this.loading = false;
+      this.users = users;
+    });
   }
 
   public updateRole(uuid: string, role: UserStructureRole): void {
@@ -112,22 +116,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   }
 
   public getUsers(): void {
-    this.subscription.add(
-      this.userService.getUsers().subscribe((users: UserStructureProfile[]) => {
-        this.users = users.map((user: UserStructureProfile) => {
-          const verified = user.lastLogin
-            ? differenceInCalendarDays(new Date(), new Date(user.lastLogin)) <
-              60
-            : false;
-          return {
-            ...user,
-            lastLogin: user.lastLogin ? new Date(user.lastLogin) : null,
-            verified,
-          };
-        });
-        this.loading = false;
-      })
-    );
+    this.userService.loadUsers();
   }
 
   public userIdTrackBy(_index: number, user: UserStructureProfile) {

@@ -22,9 +22,7 @@ export const getAttributes = (
     return usager?.phoneNumber
       ? [usager.phoneNumber.replace(/[^0-9+]/g, "")]
       : [];
-  }
-
-  if (searchStringField === CriteriaSearchField.BIRTH_DATE) {
+  } else if (searchStringField === CriteriaSearchField.BIRTH_DATE) {
     const attributes: string[] = [];
 
     if (usager.dateNaissance) {

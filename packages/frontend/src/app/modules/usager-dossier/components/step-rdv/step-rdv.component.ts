@@ -109,6 +109,12 @@ export class StepRdvComponent
     );
 
     this.subscription.add(
+      this.manageUsersService.referrers$.subscribe((referrers) => {
+        this.users = referrers;
+      })
+    );
+
+    this.subscription.add(
       this.usagerDossierService.findOne(id).subscribe({
         next: (usager: Usager) => {
           this.usager = new UsagerFormModel(usager);
@@ -175,7 +181,6 @@ export class StepRdvComponent
     this.rdvForm.controls.userId.setValue(userIdRdv, {
       onlySelf: true,
     });
-    this.users = this.manageUsersService.referrers;
   }
 
   public setValueRdv(value: boolean): void {

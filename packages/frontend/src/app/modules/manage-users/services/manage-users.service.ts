@@ -13,6 +13,7 @@ import {
 } from "../../../../_common/model";
 import { environment } from "../../../../environments/environment";
 import { userStructureBuilder } from "../../users/services";
+import { differenceInCalendarDays } from "date-fns";
 
 @Injectable({
   providedIn: "root",
@@ -21,22 +22,40 @@ export class ManageUsersService {
   private endPoint = environment.apiUrl + "users";
   private usersSubject = new BehaviorSubject<UserStructureProfile[]>([]);
 
-  readonly users$ = this.usersSubject.asObservable();
-  readonly referrersMap: { [key: number]: string } = {};
+  // Observables dérivés
+  readonly users$ = this.usersSubject.pipe(
+    map((users) =>
+      users.map((user) => ({
+        ...user,
+        lastLogin: user.lastLogin ? new Date(user.lastLogin) : null,
+        verified: user.lastLogin
+          ? differenceInCalendarDays(new Date(), new Date(user.lastLogin)) < 60
+          : false,
+      }))
+    )
+  );
 
-  public users: UserStructureProfile[] = [];
-  public referrers: UserStructureProfile[] = [];
+  readonly referrers$ = this.users$.pipe(
+    map((users) => users.filter((user) => user.role !== "facteur"))
+  );
+
+  readonly referrersMap$ = this.referrers$.pipe(
+    map((referrers) => {
+      const map: { [key: number]: string } = {};
+      referrers.forEach((user) => {
+        map[user.id] = `${user.nom} ${user.prenom}`;
+      });
+      return map;
+    })
+  );
 
   constructor(private readonly http: HttpClient) {
+    this.loadUsers();
+  }
+
+  public loadUsers(): void {
     this.http.get<UserStructureProfile[]>(this.endPoint).subscribe((users) => {
       this.usersSubject.next(users);
-      this.users = users;
-      users.forEach((user) => {
-        if (user.role !== "facteur") {
-          this.referrers.push(user);
-          this.referrersMap[user.id] = `${user.nom} ${user.prenom}`;
-        }
-      });
     });
   }
 
@@ -46,10 +65,6 @@ export class ManageUsersService {
         return userStructureBuilder.buildUserStructure(response);
       })
     );
-  }
-
-  public getUsers(): Observable<UserStructureProfile[]> {
-    return this.http.get<UserStructureProfile[]>(`${this.endPoint}`);
   }
 
   public updateRole(

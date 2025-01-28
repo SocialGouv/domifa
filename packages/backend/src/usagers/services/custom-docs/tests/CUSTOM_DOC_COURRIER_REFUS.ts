@@ -28,7 +28,7 @@ export const CUSTOM_DOC_COURRIER_REFUS: StructureCustomDocTags = {
   USAGER_SURNOM: "",
   USAGER_DATE_NAISSANCE: "07/08/1998",
   USAGER_LIEU_NAISSANCE: "Bouaké, Côte d'Ivoire",
-  USAGER_PHONE: "+33 6 06 06 06 06",
+  USAGER_PHONE: "06 06 06 06 06",
   USAGER_EMAIL: "domicilie2@yopmail.com",
   AYANTS_DROITS_LISTE: "Karamoko Mauricette né(e) le 20/12/1978",
   STATUT_DOM: "Refusé",

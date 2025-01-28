@@ -29,6 +29,7 @@
           class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
         >
           <button
+            [disabled]="searching"
             *ngIf="filters.lastInteractionDate"
             type="button"
             aria-label="Réinitialiser le filtre date de dernier passage"
@@ -56,7 +57,7 @@
             #dropdownDernierPassage="ngbDropdown"
             class="d-inline-block my-1"
           >
-            <button type="button" ngbDropdownToggle>
+            <button type="button" [disabled]="searching" ngbDropdownToggle>
               <span>Dernier passage</span>
             </button>
             <div
@@ -65,6 +66,7 @@
               class="dropdown-menu"
             >
               <button
+                [disabled]="searching"
                 *ngFor="let p of labelsDernierPassage | keyvalue"
                 type="button"
                 (click)="
@@ -91,6 +93,7 @@
           <button
             type="button"
             *ngIf="filters.echeance"
+            [disabled]="searching"
             class="btn btn-outline-primary"
             (click)="updateFilters.emit({ element: 'echeance', value: null })"
           >
@@ -110,7 +113,7 @@
             class="d-inline-block my-1"
             #dropdownEcheance="ngbDropdown"
           >
-            <button type="button" ngbDropdownToggle>
+            <button type="button" [disabled]="searching" ngbDropdownToggle>
               <span>Échéance de domiciliation</span>
             </button>
 
@@ -192,6 +195,7 @@
           class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
         >
           <button
+            [disabled]="searching"
             type="button"
             aria-label="Réinitialiser le filtre courrier à récupérer"
             class="btn btn-outline-primary"
@@ -245,6 +249,7 @@
           class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
         >
           <button
+            [disabled]="searching"
             type="button"
             *ngIf="filters.entretien"
             aria-label="Réinitialiser le filtre entretien"
@@ -267,13 +272,16 @@
             class="d-inline-block my-1"
             #dropDownEntretien="ngbDropdown"
           >
-            <button type="button" ngbDropdownToggle>Entretien</button>
+            <button type="button" [disabled]="searching" ngbDropdownToggle>
+              Entretien
+            </button>
             <div
               ngbDropdownMenu
               aria-labelledby="dropDownEntretien"
               class="dropdown-menu"
             >
               <button
+                [disabled]="searching"
                 type="button"
                 (click)="
                   updateFilters.emit({
@@ -287,6 +295,7 @@
               </button>
 
               <button
+                [disabled]="searching"
                 type="button"
                 (click)="
                   updateFilters.emit({
@@ -305,8 +314,9 @@
           class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
         >
           <button
+            [disabled]="searching"
             type="button"
-            *ngIf="filters.referrerId !== undefined"
+            *ngIf="filters?.referrerId !== undefined"
             aria-label="Réinitialiser le filtre référents"
             class="btn btn-outline-primary"
             (click)="
@@ -316,7 +326,7 @@
             {{
               filters.referrerId === null
                 ? "Aucun référent"
-                : (filters.referrerId | referrerName)
+                : (filters.referrerId | referrerName | async)
             }}
             <fa-icon
               aria-hidden="true"
@@ -329,11 +339,12 @@
             ngbDropdown
             id="dropDownUsers"
             placement="bottom"
-            *ngIf="filters.referrerId === undefined"
+            *ngIf="filters?.referrerId === undefined"
             class="d-inline-block my-1"
             #dropDownUsers="ngbDropdown"
           >
             <button
+              [disabled]="searching"
               type="button"
               ngbDropdownToggle
               aria-label="Filtrer par référent"
@@ -347,6 +358,7 @@
             >
               <button
                 type="button"
+                [disabled]="searching"
                 ngbDropdownItem
                 aria-label="Filtrer les dossiers sans référent"
                 (click)="
@@ -359,23 +371,24 @@
                 Aucun référent
               </button>
               <button
-                *ngFor="let user of users"
+                [disabled]="searching"
+                *ngFor="let referrer of referrers"
                 type="button"
                 ngbDropdownItem
                 [attr.aria-label]="
                   'Filtrer les dossiers suivis par ' +
-                  user.prenom +
+                  referrer.prenom +
                   ' ' +
-                  user.nom
+                  referrer.nom
                 "
                 (click)="
                   updateFilters.emit({
                     element: 'referrerId',
-                    value: user.id
+                    value: referrer.id
                   })
                 "
               >
-                {{ user.nom | uppercase }} {{ user.prenom }}
+                {{ referrer.nom | uppercase }} {{ referrer.prenom }}
               </button>
             </div>
           </div>
@@ -389,6 +402,7 @@
           #dropdownSort="ngbDropdown"
         >
           <button
+            [disabled]="searching"
             type="button"
             class="mx-auto ms-md-auto me-md-0"
             id="dropdownSortButton"
@@ -422,6 +436,7 @@
             <ng-container *ngFor="let option of sortMenuItems">
               <button
                 type="button"
+                [disabled]="searching"
                 (click)="
                   updateFilters.emit({
                     element: 'sortKey',
@@ -444,6 +459,7 @@
               </button>
 
               <button
+                [disabled]="searching"
                 type="button"
                 (click)="
                   updateFilters.emit({

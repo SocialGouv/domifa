@@ -49,6 +49,7 @@ import { Store } from "@ngrx/store";
 import { ManageUsagersService } from "../../services/manage-usagers.service";
 import {
   CriteriaSearchField,
+  parseBirthDate,
   SortValues,
   UsagersFilterCriteriaStatut,
   UserStructure,
@@ -60,7 +61,6 @@ import {
   calculateUsagersCountByStatus,
   usagersSorter,
 } from "../usager-filter/services";
-import { isValid, parse } from "date-fns";
 
 const FIVE_MINUTES = 5 * 60 * 1000;
 const STORAGE_KEY = "SEARCH";
@@ -153,6 +153,8 @@ export class ManageUsagersPageComponent
   }
 
   ngAfterViewInit() {
+    this.setupIntersectionObserver();
+
     if (this.sentinel) {
       this.observer.observe(this.sentinel.nativeElement);
     }
@@ -162,7 +164,6 @@ export class ManageUsagersPageComponent
     if (!this.me?.acceptTerms) {
       return;
     }
-    this.setupIntersectionObserver();
 
     this.searchInput.nativeElement.value = this.filters.searchString;
 
@@ -351,11 +352,14 @@ export class ManageUsagersPageComponent
       (this.filters.statut === UsagersFilterCriteriaStatut.TOUS ||
         this.filters.statut === UsagersFilterCriteriaStatut.RADIE)
     ) {
-      if (
-        this.filters.searchStringField === "BIRTH_DATE" &&
-        !this.validateDateSearchInput(filters?.searchString)
-      ) {
-        return of(filters.searchString);
+      const formattedDate = parseBirthDate(filters?.searchString);
+
+      if (this.filters.searchStringField === CriteriaSearchField.BIRTH_DATE) {
+        if (!formattedDate) {
+          return of(filters.searchString);
+        } else {
+          filters.searchString = formattedDate;
+        }
       }
 
       return this.usagerService
@@ -383,11 +387,6 @@ export class ManageUsagersPageComponent
     );
     this.scrollTop();
     this.chargerTousRadies$.next(true);
-  }
-
-  private validateDateSearchInput(text: string): Date | null {
-    const parsedDate = parse(text.trim(), "dd/MM/yyyy", new Date());
-    return isValid(parsedDate) ? parsedDate : null;
   }
 
   private scrollTop(): void {
