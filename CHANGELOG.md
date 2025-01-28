@@ -1,3 +1,12 @@
+## [2.194.1](https://github.com/SocialGouv/domifa/compare/v2.194.0...v2.194.1) (2025-01-28)
+
+
+### Bug Fixes
+
+* **backend:** fix search ([60955a3](https://github.com/SocialGouv/domifa/commit/60955a328767e283fb08f4a1f41342df8b86a8bb))
+* **backend:** fix search for birth date & phone ([e4b8b34](https://github.com/SocialGouv/domifa/commit/e4b8b3424ca09fc121e0a05cc9ff2ef79546af39))
+* **backend:** fix unit test ([23d4eb5](https://github.com/SocialGouv/domifa/commit/23d4eb5e27646a691394c7bc5c67edb82e0a2a7a))
+
 # [2.194.0](https://github.com/SocialGouv/domifa/compare/v2.193.4...v2.194.0) (2025-01-27)
 
 
