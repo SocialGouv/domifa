@@ -24,6 +24,10 @@ describe("UsagersService", () => {
   fakeUsagerDto.dateNaissance = new Date();
   fakeUsagerDto.villeNaissance = "Paris";
   fakeUsagerDto.email = "chips@gmail.com";
+  fakeUsagerDto.telephone = {
+    countryCode: "fr",
+    numero: null,
+  };
 
   let context: AppTestContext;
 
