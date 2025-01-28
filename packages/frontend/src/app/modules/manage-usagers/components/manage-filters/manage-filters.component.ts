@@ -27,10 +27,11 @@ import { Subscription } from "rxjs";
   styleUrls: ["../manage-usagers-page/manage-usagers-page.component.scss"],
 })
 export class ManageFiltersComponent implements OnInit, OnChanges {
-  @Input() public filters: UsagersFilterCriteria;
-  @Input() public usagersRadiesLoadedCount: number;
-  @Input() public usagersRadiesTotalCount: number;
-  @Input() public nbResults: number;
+  @Input({ required: true }) public filters: UsagersFilterCriteria;
+  @Input({ required: true }) public usagersRadiesLoadedCount: number;
+  @Input({ required: true }) public usagersRadiesTotalCount: number;
+  @Input({ required: true }) public searching: boolean;
+  @Input({ required: true }) public nbResults: number;
 
   @Output() public readonly updateFilters = new EventEmitter();
 
@@ -70,14 +71,16 @@ export class ManageFiltersComponent implements OnInit, OnChanges {
     label: string;
   }> = [];
 
-  public users: UserStructureProfile[] = [];
+  public referrers: UserStructureProfile[] = [];
   public subscription: Subscription = new Subscription();
 
   constructor(private readonly manageUsersService: ManageUsersService) {}
 
   ngOnInit(): void {
     this.sortMenuItems = this.getSortKeys();
-    this.users = this.manageUsersService.referrers;
+    this.manageUsersService.referrers$.subscribe((referrers) => {
+      this.referrers = referrers;
+    });
   }
 
   ngOnChanges() {

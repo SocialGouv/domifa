@@ -93,7 +93,7 @@ describe("usagersImportValidator parse invalid data", () => {
         rowNumber: 10,
         value: {
           countryCode: "fr",
-          numero: "0102030405 et des lettres",
+          numero: "0102030405",
         },
       },
 

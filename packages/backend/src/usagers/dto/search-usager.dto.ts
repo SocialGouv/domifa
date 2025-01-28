@@ -3,6 +3,7 @@ import { IsIn, IsNumber, IsOptional, ValidateIf } from "class-validator";
 import {
   CriteriaSearchField,
   normalizeString,
+  parseBirthDate,
   UsagersFilterCriteriaDernierPassage,
   UsagersFilterCriteriaEcheance,
   UsagersFilterCriteriaEntretien,
@@ -20,13 +21,10 @@ export class SearchUsagerDto {
       return null;
     }
 
-    if (
-      [
-        CriteriaSearchField.PHONE_NUMBER,
-        CriteriaSearchField.BIRTH_DATE,
-      ].includes(obj.searchStringField)
-    ) {
+    if (CriteriaSearchField.PHONE_NUMBER === obj.searchStringField) {
       return value.replace(/\D/g, "");
+    } else if (CriteriaSearchField.BIRTH_DATE === obj.searchStringField) {
+      return parseBirthDate(value);
     }
 
     return normalizeString(value).trim();

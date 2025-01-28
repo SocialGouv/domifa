@@ -315,7 +315,7 @@
               <span class="label">Référent au sein de la structure</span>
             </div>
             <div class="col-6 my-1">
-              {{ usager.referrerId | referrerName }}
+              {{ usager.referrerId | referrerName | async }}
             </div>
             <div class="col-12 mt-4">
               <a

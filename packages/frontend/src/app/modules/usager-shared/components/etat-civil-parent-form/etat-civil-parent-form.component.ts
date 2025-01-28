@@ -129,7 +129,13 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
-    this.users = this.manageUsersService.referrers;
+
+    this.subscription.add(
+      this.manageUsersService.referrers$.subscribe((referrers) => {
+        this.users = referrers;
+      })
+    );
+
     this.currentUserSubject$ = this.authService.currentUserSubject;
   }
 

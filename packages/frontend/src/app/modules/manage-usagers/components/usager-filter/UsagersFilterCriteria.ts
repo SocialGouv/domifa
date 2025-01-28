@@ -41,6 +41,9 @@ export class UsagersFilterCriteria extends Search {
     this.page = search?.page || 1;
     this.sortKey = search?.sortKey || "NOM";
     this.sortValue = search?.sortValue || "asc";
-    this.referrerId = search?.referrerId || undefined;
+    this.referrerId =
+      search?.referrerId || search?.referrerId === null
+        ? search?.referrerId
+        : undefined;
   }
 }

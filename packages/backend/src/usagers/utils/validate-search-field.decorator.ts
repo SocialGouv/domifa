@@ -14,7 +14,6 @@ export function ValidateSearchField(validationOptions?: ValidationOptions) {
       options: validationOptions,
       validator: {
         validate(value: string, args: ValidationArguments) {
-          console.log({ value });
           const searchStringField = args.object["searchStringField"];
           if (!searchStringField) {
             return false;
