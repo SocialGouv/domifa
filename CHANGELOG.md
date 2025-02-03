@@ -1,3 +1,10 @@
+## [2.194.3](https://github.com/SocialGouv/domifa/compare/v2.194.2...v2.194.3) (2025-02-03)
+
+
+### Bug Fixes
+
+* **frontend:** fix languages ([040f8d4](https://github.com/SocialGouv/domifa/commit/040f8d458d55b3e4a852097200e358805d0a64b7))
+
 ## [2.194.2](https://github.com/SocialGouv/domifa/compare/v2.194.1...v2.194.2) (2025-02-03)
 
 
