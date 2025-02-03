@@ -20,7 +20,8 @@ export function IsSocialGouvEmail(validationOptions?: ValidationOptions) {
           return (
             typeof value === "string" &&
             isEmail(value) &&
-            (value.endsWith("@social.gouv.fr") ||
+            (value.endsWith("@externes.social.gouv.fr") ||
+              value.endsWith("@social.gouv.fr") ||
               value.endsWith("@fabrique.social.gouv.fr"))
           );
         },

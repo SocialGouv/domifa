@@ -8,6 +8,15 @@
       <tr>
         <th scope="col">
           <app-table-head-sort
+            sortKey="id"
+            [(sortValue)]="sortValue"
+            [(currentKey)]="currentKey"
+            columnName="ID"
+          >
+          </app-table-head-sort>
+        </th>
+        <th scope="col">
+          <app-table-head-sort
             sortKey="nom"
             [(sortValue)]="sortValue"
             [(currentKey)]="currentKey"
@@ -71,6 +80,7 @@
         "
         [attr.aria-rowindex]="i + 1"
       >
+        <td class="fw-bold">{{ user.id }}</td>
         <td class="fw-bold">{{ user.nom }} {{ user.prenom }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.createdAt | date : "d MMMM y" }}</td>

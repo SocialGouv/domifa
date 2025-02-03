@@ -85,7 +85,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
 
   public getLastDecision() {
     const indexOfDate =
-      this.usager.decision.statut === "ATTENTE_DECISION" ? 2 : 1;
+      this.usager.decision.statut === "ATTENTE_DECISION" ? 3 : 2;
 
     if (indexOfDate && this.usager.historique.length >= indexOfDate) {
       this.lastDecision =

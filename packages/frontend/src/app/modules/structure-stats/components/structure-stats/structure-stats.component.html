@@ -409,26 +409,18 @@
               </tr>
               <tr>
                 <th scope="row" class="soustable">
+                  {{ ENTRETIEN_SITUATION_PRO.AAH }}
+                </th>
+                <td class="stats-table-value">
+                  {{ stats.data.validUsagers.situationPro.aah }}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" class="soustable">
                   {{ ENTRETIEN_SITUATION_PRO.ETUDIANT }}
                 </th>
                 <td class="stats-table-value">
                   {{ stats.data.validUsagers.situationPro.etudiant }}
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" class="soustable">
-                  {{ ENTRETIEN_SITUATION_PRO.SALARIE }}
-                </th>
-                <td class="stats-table-value">
-                  {{ stats.data.validUsagers.situationPro.salarie }}
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" class="soustable">
-                  {{ ENTRETIEN_SITUATION_PRO.INDEPENDANT }}
-                </th>
-                <td class="stats-table-value">
-                  {{ stats.data.validUsagers.situationPro.independant }}
                 </td>
               </tr>
               <tr>
@@ -441,18 +433,10 @@
               </tr>
               <tr>
                 <th scope="row" class="soustable">
-                  {{ ENTRETIEN_SITUATION_PRO.RSA }}
+                  {{ ENTRETIEN_SITUATION_PRO.INDEPENDANT }}
                 </th>
                 <td class="stats-table-value">
-                  {{ stats.data.validUsagers.situationPro.rsa }}
-                </td>
-              </tr>
-              <tr>
-                <th scope="row" class="soustable">
-                  {{ ENTRETIEN_SITUATION_PRO.AAH }}
-                </th>
-                <td class="stats-table-value">
-                  {{ stats.data.validUsagers.situationPro.aah }}
+                  {{ stats.data.validUsagers.situationPro.independant }}
                 </td>
               </tr>
               <tr>
@@ -461,6 +445,22 @@
                 </th>
                 <td class="stats-table-value">
                   {{ stats.data.validUsagers.situationPro.retraite }}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" class="soustable">
+                  {{ ENTRETIEN_SITUATION_PRO.RSA }}
+                </th>
+                <td class="stats-table-value">
+                  {{ stats.data.validUsagers.situationPro.rsa }}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" class="soustable">
+                  {{ ENTRETIEN_SITUATION_PRO.SALARIE }}
+                </th>
+                <td class="stats-table-value">
+                  {{ stats.data.validUsagers.situationPro.salarie }}
                 </td>
               </tr>
               <tr>
@@ -477,7 +477,6 @@
                   {{ stats.data.validUsagers.situationPro.non_renseigne }}
                 </td>
               </tr>
-
               <!-- Lien commune -->
               <tr>
                 <th class="fw-bold" colspan="2" scope="col">

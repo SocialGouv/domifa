@@ -26,15 +26,6 @@ function renderSection3Interactions(context: {
     value: data.appel,
   });
   worksheetRendered.renderCell(i++, "c", {
-    value: data.colisIn,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.colisOut,
-  });
-  worksheetRendered.renderCell(i++, "c", {
-    value: data.colisOutForwarded,
-  });
-  worksheetRendered.renderCell(i++, "c", {
     value: data.courrierIn,
   });
   worksheetRendered.renderCell(i++, "c", {
@@ -42,6 +33,15 @@ function renderSection3Interactions(context: {
   });
   worksheetRendered.renderCell(i++, "c", {
     value: data.courrierOutForwarded,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.colisIn,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.colisOut,
+  });
+  worksheetRendered.renderCell(i++, "c", {
+    value: data.colisOutForwarded,
   });
   worksheetRendered.renderCell(i++, "c", {
     value: data.recommandeIn,
