@@ -101,6 +101,7 @@ function renderSection1ValidUsagers(context: {
   });
   i++; // blank line
   i++; // title
+
   worksheetRendered.renderCell(i++, "c", {
     value: data.situationPro.aah,
   });
