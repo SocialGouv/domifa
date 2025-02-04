@@ -1,3 +1,10 @@
+## [2.194.4](https://github.com/SocialGouv/domifa/compare/v2.194.3...v2.194.4) (2025-02-04)
+
+
+### Bug Fixes
+
+* **frontend:** display referrers ([74026de](https://github.com/SocialGouv/domifa/commit/74026de22ede65fd46baebc84e9318fb695a4c09))
+
 ## [2.194.3](https://github.com/SocialGouv/domifa/compare/v2.194.2...v2.194.3) (2025-02-03)
 
 
