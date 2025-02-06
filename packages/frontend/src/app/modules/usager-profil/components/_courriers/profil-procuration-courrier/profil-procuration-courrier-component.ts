@@ -49,8 +49,8 @@ import { UserStructure, UsagerOptionsProcuration } from "@domifa/common";
 export class UsagersProfilProcurationCourrierComponent
   implements OnInit, OnDestroy
 {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public me!: UserStructure;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure;
 
   private readonly subscription = new Subscription();
 
