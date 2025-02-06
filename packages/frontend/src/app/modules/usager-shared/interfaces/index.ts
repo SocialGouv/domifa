@@ -5,4 +5,3 @@ export * from "./entretien";
 export * from "./options";
 export * from "./rdv";
 export * from "./UsagerFormModel";
-export * from "../classes/UsagerProcuration.class";

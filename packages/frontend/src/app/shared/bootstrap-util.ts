@@ -35,7 +35,3 @@ export const minDateToday = {
   month: new Date().getMonth() + 1,
   year: new Date().getFullYear(),
 };
-
-export const createDate = (date?: Date | string | null): Date | null => {
-  return date ? new Date(date) : null;
-};

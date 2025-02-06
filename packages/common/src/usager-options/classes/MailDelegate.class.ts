@@ -1,5 +1,5 @@
-import { IMailDelegate } from "@domifa/common";
-import { createDate } from "../../../shared";
+import { createDate } from "../../_core";
+import { IMailDelegate } from "../interfaces";
 
 export class MailDelegate implements IMailDelegate {
   public nom: string;

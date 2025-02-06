@@ -1,4 +1,4 @@
-import { IMailDelegate } from "./MailDelegate.interface";
+import { IMailDelegate } from "./IMailDelegate.interface";
 
 export interface UsagerOptionsProcuration extends IMailDelegate {
   prenom: string;

@@ -1,5 +1,5 @@
 export interface IMailDelegate {
-  nom: string;
+  nom: string | null;
   dateDebut: Date | null;
   dateFin: Date | null;
 }

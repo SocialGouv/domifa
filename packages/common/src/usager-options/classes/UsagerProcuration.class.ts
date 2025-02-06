@@ -1,6 +1,6 @@
-import { UsagerOptionsProcuration } from "@domifa/common";
 import { MailDelegate } from ".";
-import { createDate } from "../../../shared";
+import { createDate } from "../../_core";
+import { UsagerOptionsProcuration } from "../interfaces";
 
 export class UsagerProcuration
   extends MailDelegate

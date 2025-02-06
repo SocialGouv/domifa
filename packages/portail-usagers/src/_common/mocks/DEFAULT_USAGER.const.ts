@@ -48,9 +48,10 @@ export const DEFAULT_USAGER: PortailUsagerPublic = {
       actif: false,
       adresse: null,
       nom: null,
+      dateDebut: null,
+      dateFin: null,
     },
   },
-
   telephone: {
     countryCode: "fr",
     numero: "",
