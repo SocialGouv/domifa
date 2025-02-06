@@ -1,6 +1,6 @@
 import {
+  IsBoolean,
   IsDate,
-  IsEmpty,
   IsNotEmpty,
   IsString,
   MaxLength,
@@ -13,7 +13,7 @@ import { StripTagsTransform, Trim } from "../../_common/decorators";
 import { UsagerOptionsTransfert } from "@domifa/common";
 
 export class TransfertDto implements UsagerOptionsTransfert {
-  @IsEmpty()
+  @IsBoolean()
   @Transform(() => {
     return true;
   })

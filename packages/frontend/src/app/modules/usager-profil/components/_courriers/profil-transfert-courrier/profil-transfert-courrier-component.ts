@@ -13,17 +13,12 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import {
-  NgbDateStruct,
-  NgbModal,
-  NgbModalRef,
-} from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import { DEFAULT_MODAL_OPTIONS } from "../../../../../../_common/model";
 import {
   endDateAfterBeginDateValidator,
   formatDateToNgb,
-  minDateToday,
   NoWhiteSpaceValidator,
 } from "../../../../../shared";
 import {
@@ -39,15 +34,14 @@ import { UserStructure } from "@domifa/common";
   templateUrl: "./profil-transfert-courrier.html",
 })
 export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public me!: UserStructure;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure;
 
   public isFormVisible: boolean;
   public loading: boolean;
   public submitted: boolean;
 
   public transfertForm!: UntypedFormGroup;
-  public minDateToday: NgbDateStruct;
 
   @ViewChild("confirmDelete", { static: true })
   public confirmDelete!: TemplateRef<NgbModalRef>;
@@ -68,7 +62,6 @@ export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
     this.isFormVisible = false;
     this.loading = false;
     this.submitted = false;
-    this.minDateToday = minDateToday;
   }
 
   public ngOnDestroy(): void {
@@ -141,6 +134,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
     }
 
     const formValue = {
+      actif: true,
       ...this.transfertForm.value,
       dateFin: new Date(
         this.nbgDate.formatEn(this.transfertForm.controls.dateFin.value)

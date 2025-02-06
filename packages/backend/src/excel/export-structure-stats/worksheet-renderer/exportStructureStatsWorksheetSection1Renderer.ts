@@ -196,10 +196,10 @@ function renderSection1ValidUsagers(context: {
     value: data.cause.sortie_structure,
   });
   worksheetRendered.renderCell(i++, "c", {
-    value: data.cause.sortie_incarceration,
+    value: data.cause.sortie_hospitalisation,
   });
   worksheetRendered.renderCell(i++, "c", {
-    value: data.cause.sortie_hospitalisation,
+    value: data.cause.sortie_incarceration,
   });
   worksheetRendered.renderCell(i++, "c", {
     value: data.cause.violence,
