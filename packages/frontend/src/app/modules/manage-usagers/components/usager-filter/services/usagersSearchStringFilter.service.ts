@@ -1,7 +1,7 @@
 import { UsagersFilterCriteria } from "../UsagersFilterCriteria";
 import { format, isValid, parseISO } from "date-fns";
 import { UsagerLight } from "../../../../../../_common/model";
-import { UsagerProcuration } from "../../../../usager-shared/interfaces/UsagerProcuration.interface";
+import { UsagerProcuration } from "../../../../usager-shared/classes/UsagerProcuration.class";
 import { CriteriaSearchField, UsagerAyantDroit } from "@domifa/common";
 
 const validateBirthDate = (date?: Date | string): string | undefined => {

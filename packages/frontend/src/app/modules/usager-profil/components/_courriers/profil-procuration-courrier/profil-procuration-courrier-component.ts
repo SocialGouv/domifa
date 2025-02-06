@@ -39,7 +39,7 @@ import {
 } from "../../../../../shared/bootstrap-util";
 
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
-import { UsagerProcuration } from "../../../../usager-shared/interfaces/UsagerProcuration.interface";
+import { UsagerProcuration } from "../../../../usager-shared/classes/UsagerProcuration.class";
 import { UsagerOptionsService } from "../../../services/usager-options.service";
 import { UserStructure, UsagerOptionsProcuration } from "@domifa/common";
 @Component({

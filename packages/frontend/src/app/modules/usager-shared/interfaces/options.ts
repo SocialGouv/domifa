@@ -4,7 +4,8 @@ import {
   UsagerOptionsTransfert,
 } from "@domifa/common";
 
-import { UsagerProcuration } from "./UsagerProcuration.interface";
+import { OptionsTransfert } from "../classes/OptionsTransfert.class";
+import { UsagerProcuration } from "../classes";
 
 export class Options implements UsagerOptions {
   public transfert: UsagerOptionsTransfert;
@@ -30,22 +31,12 @@ export class Options implements UsagerOptions {
       dateDebut: null,
     };
 
-    if (options?.transfert) {
-      const { actif, nom, adresse, dateDebut, dateFin } = options.transfert;
-      this.transfert = {
-        actif: actif ?? false,
-        nom: nom ?? null,
-        adresse: adresse ?? null,
-        dateDebut: dateDebut ? new Date(dateDebut) : null,
-        dateFin: dateFin ? new Date(dateFin) : null,
-      };
-    }
+    this.transfert = new OptionsTransfert(options?.transfert);
 
-    if (options?.procurations) {
+    if (options?.procurations?.length) {
       this.procurations = options.procurations.map(
-        (apiProcuration: UsagerOptionsProcuration) => {
-          return new UsagerProcuration(apiProcuration);
-        }
+        (apiProcuration: UsagerOptionsProcuration) =>
+          new UsagerProcuration(apiProcuration)
       );
     }
 
