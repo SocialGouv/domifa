@@ -2,10 +2,9 @@ import {
   UsagerOptions,
   UsagerOptionsProcuration,
   UsagerOptionsTransfert,
+  OptionsTransfert,
+  UsagerProcuration,
 } from "@domifa/common";
-
-import { OptionsTransfert } from "../classes/OptionsTransfert.class";
-import { UsagerProcuration } from "../classes";
 
 export class Options implements UsagerOptions {
   public transfert: UsagerOptionsTransfert;

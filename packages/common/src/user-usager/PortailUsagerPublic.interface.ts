@@ -7,8 +7,8 @@ import {
   type UsagerTypeDom,
   type UsagerDecision,
   type UsagerLastInteraction,
-  type UsagerOptions,
 } from "../usager";
+import { UsagerOptions } from "../usager-options";
 
 export interface PortailUsagerPublic extends AppEntity {
   customRef: string; // valeur par défaut: 'ref'

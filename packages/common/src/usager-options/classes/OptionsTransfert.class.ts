@@ -1,5 +1,5 @@
-import { UsagerOptionsTransfert } from "@domifa/common";
 import { MailDelegate } from ".";
+import { UsagerOptionsTransfert } from "../interfaces";
 
 export class OptionsTransfert
   extends MailDelegate

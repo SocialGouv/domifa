@@ -11,16 +11,17 @@ it("languagesAutocomplete._filterLanguages", () => {
       maxResults: 1000,
     })
   ).toEqual([]);
+
   expect(
     languagesAutocomplete._filterLanguages("al", {
       maxResults: 5,
     })
   ).toEqual([
-    "sq", // albanais
-    "de", // allemand
     "bn", // bengali
     "ca", // catalan
-    "fy", // frison occidental
+    "cy", // Gallois,
+    "de", // allemand
+    "dv", // Maldivien
   ]);
 });
 

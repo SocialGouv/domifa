@@ -1,6 +1,6 @@
-import { type AppEntity } from "../../_core";
-import { type UsagerOptionsHistoryAction } from "./UsagerOptionsHistoryAction.type";
-import { type UsagerOptionsHistoryType } from "./UsagerOptionsHistoryType.type";
+import { AppEntity } from "../../_core";
+import { UsagerOptionsHistoryAction } from "./UsagerOptionsHistoryAction.type";
+import { UsagerOptionsHistoryType } from "./UsagerOptionsHistoryType.type";
 
 export interface UsagerOptionsHistory extends AppEntity {
   usagerUUID: string;

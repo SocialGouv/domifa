@@ -1,4 +1,4 @@
-import { IMailDelegate } from "./MailDelegate.interface";
+import { IMailDelegate } from "./IMailDelegate.interface";
 
 export interface UsagerOptionsTransfert extends IMailDelegate {
   adresse: string | null;

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { type AppEntity } from "../../_core";
 import { type Telephone } from "../../telephone";
-import { type UsagerOptions } from "../options";
+import { UsagerOptions } from "../../usager-options";
 import {
   type UsagerSexe,
   type UsagerTypeDom,
