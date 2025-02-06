@@ -1,3 +1,11 @@
+## [2.194.5](https://github.com/SocialGouv/domifa/compare/v2.194.4...v2.194.5) (2025-02-06)
+
+
+### Bug Fixes
+
+* **frontend:** fix transfer form ([fcfbf60](https://github.com/SocialGouv/domifa/commit/fcfbf6081954393b1501026c43b9e86348487c75))
+* **frontend:** refactor transfert ([e5a0c03](https://github.com/SocialGouv/domifa/commit/e5a0c035b4316920fcde39282be94f28d26406f6))
+
 ## [2.194.4](https://github.com/SocialGouv/domifa/compare/v2.194.3...v2.194.4) (2025-02-04)
 
 
