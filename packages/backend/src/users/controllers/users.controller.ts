@@ -1,3 +1,4 @@
+import { UserStructureProfile, UserStructure } from "@domifa/common";
 import {
   Body,
   Controller,
@@ -8,42 +9,39 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Query,
   Res,
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
-
-import {
-  userStructureRepository,
-  structureRepository,
-  userStructureSecurityPasswordUpdater,
-} from "../../database";
-
 import { Response } from "express";
-
 import {
-  UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
+  UserStructureAuthenticated,
 } from "../../_common/model";
-
-import { usersDeletor } from "../services";
-import { userStructureCreator } from "../services/user-structure-creator.service";
-import { UserStructureProfile, UserStructure } from "@domifa/common";
-import { userAccountCreatedByAdminEmailSender } from "../../modules/mails/services/templates-renderers/user-account-created-by-admin";
-import {
-  UpdateRoleDto,
-  UserEditDto,
-  RegisterUserAdminDto,
-  EditMyPasswordDto,
-} from "../dto";
-
 import {
   AllowUserStructureRoles,
   CurrentUser,
   CurrentChosenUserStructure,
 } from "../../auth/decorators";
 import { AppUserGuard, CanGetUserStructureGuard } from "../../auth/guards";
+import {
+  userStructureRepository,
+  structureRepository,
+  usagerRepository,
+  userStructureSecurityPasswordUpdater,
+} from "../../database";
+import { userAccountCreatedByAdminEmailSender } from "../../modules/mails/services/templates-renderers";
+import {
+  UpdateRoleDto,
+  UserEditDto,
+  RegisterUserAdminDto,
+  EditMyPasswordDto,
+  NewReferrerIdDto,
+} from "../dto";
+import { usersDeletor, userStructureCreator } from "../services";
+
 @Controller("users")
 @ApiTags("users")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -124,6 +122,65 @@ export class UsersController {
     return userStructureRepository.findOneBy({
       uuid: chosenUserStructure.uuid,
     });
+  }
+
+  @AllowUserStructureRoles("responsable", "admin", "simple")
+  @ApiOperation({
+    summary: "Assigner les dossiers d'un utilisateur à un autre",
+  })
+  @AllowUserStructureRoles("admin")
+  @ApiOperation({
+    summary:
+      "Réassigner les dossiers d'un utilisateur qu'on souhaite supprimer ou à qui on change les droits, à un autre utilisateur",
+  })
+  @UseGuards(CanGetUserStructureGuard)
+  @Get("reassign-referrers/:userUuid")
+  public async reAssignReferrersToAnotherUser(
+    @CurrentUser() userStructureAuth: UserStructureAuthenticated,
+    @Param("userUuid", new ParseUUIDPipe()) _userUuid: string,
+    @Query() query: NewReferrerIdDto,
+    @CurrentChosenUserStructure() chosenUserStructure: UserStructure,
+    @Res() res: Response
+  ) {
+    if (query?.newReferrerId) {
+      const user = await userStructureRepository.findOneBy({
+        id: query.newReferrerId,
+        structureId: userStructureAuth.structureId,
+      });
+
+      if (!user) {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "USER_NOT_FOUND" });
+      }
+    }
+
+    await usagerRepository.update(
+      { referrerId: chosenUserStructure.id },
+      { referrerId: query?.newReferrerId }
+    );
+
+    return res.status(HttpStatus.OK).json({ message: "OK" });
+  }
+
+  @AllowUserStructureRoles("admin")
+  @ApiBearerAuth("Administrateurs")
+  @ApiOperation({
+    summary: "Compter les dossiers associés à un utilisateur",
+  })
+  @UseGuards(CanGetUserStructureGuard)
+  @Get("count-referrers/:userUuid")
+  public async countReferrers(
+    @CurrentUser() _userStructureAuth: UserStructureAuthenticated,
+    @Param("userUuid", new ParseUUIDPipe()) _userUuid: string,
+    @CurrentChosenUserStructure() chosenUserStructure: UserStructure
+  ) {
+    return usagerRepository
+      .createQueryBuilder("usager")
+      .where(`usager."referrerId" = :id`, {
+        id: chosenUserStructure.id,
+      })
+      .getCount();
   }
 
   @AllowUserStructureRoles("admin")

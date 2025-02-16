@@ -1,0 +1,24 @@
+<ng-container>
+  <label for="referrerId" [class]="displayLabel ? '' : 'visually-hidden'">{{
+    label
+  }}</label>
+  <select
+    id="referrerId"
+    [(ngModel)]="referrerId"
+    (ngModelChange)="onModelChange($event)"
+    name="referrerId"
+    [ngClass]="{
+      'is-invalid':
+        parentFormGroup &&
+        (submitted || parentFormGroup?.controls?.referrerId?.dirty) &&
+        parentFormGroup?.controls?.referrerId.errors
+    }"
+    class="form-select"
+    [attr.required]="required"
+  >
+    <option [value]="null">Sans référent</option>
+    <option *ngFor="let user of users" [value]="user.id">
+      {{ user.nom | uppercase }} {{ user.prenom }}
+    </option>
+  </select>
+</ng-container>

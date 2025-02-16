@@ -24,6 +24,7 @@ import { UsagerNomCompletPipe } from "../usager-shared/pipes";
 import { SortLabelPipe } from "./pipes/sort-label.pipe";
 import { StickySelectionBarDirective } from "./pipes/sticky.directive";
 import { TableHeadSortIconComponent } from "../shared/components/table-head-sort-icon/table-head-sort-icon.component";
+import { AssignReferrersComponent } from "./components/assign-referrers/assign-referrers.component";
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { TableHeadSortIconComponent } from "../shared/components/table-head-sort
     ColumnInteractionsComponent,
     SortLabelPipe,
     StickySelectionBarDirective,
+    AssignReferrersComponent,
   ],
   imports: [
     CommonModule,

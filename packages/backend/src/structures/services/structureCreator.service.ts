@@ -4,8 +4,7 @@ import {
   structureRepository,
   StructureTable,
 } from "../../database";
-import { UserDto } from "../../users/dto/user.dto";
-import { userStructureCreator } from "../../users/services/user-structure-creator.service";
+
 import { StructureDto } from "../dto/structure.dto";
 import { getLocation } from "./location.service";
 import {
@@ -20,6 +19,8 @@ import { generateSender } from "../../modules/sms/services/generators";
 import { Point } from "geojson";
 import { newStructureEmailSender } from "../../modules/mails/services/templates-renderers";
 import { randomBytes } from "crypto";
+import { userStructureCreator } from "../../users/services";
+import { UserDto } from "../../users/dto";
 
 export const structureCreatorService = {
   checkStructureCreateArgs,

@@ -392,22 +392,14 @@
             />
             <small id="numero-description">Exemple : BP 102, TSA 11000</small>
           </div>
-          <!-- <div class="col-12 col-md-6 form-group">
+          <div class="col-12 col-md-6 form-group">
             <label for="referrerId">Référent.e dans la structure</label>
-            <select
-              formControlName="referrerId"
-              name="referrerId"
-              id="referrerId"
-              class="form-select"
-            >
-              <option value=""></option>
-              <ng-container *ngFor="let user of users">
-                <option [value]="user.id">
-                  {{ user.nom }} {{ user.prenom }}
-                </option>
-              </ng-container>
-            </select>
-          </div> -->
+            <app-input-referrer
+              [submitted]="submitted"
+              [parentFormGroup]="usagerForm"
+              [referrerId]="f.referrerId.value"
+            ></app-input-referrer>
+          </div>
         </div>
 
         <div

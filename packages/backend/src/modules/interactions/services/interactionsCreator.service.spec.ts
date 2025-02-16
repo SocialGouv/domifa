@@ -8,9 +8,7 @@ import {
   interactionRepository,
   userStructureRepository,
 } from "../../../database";
-import { StructuresModule } from "../../../structures/structure.module";
 import { UsagersModule } from "../../../usagers/usagers.module";
-import { UsersModule } from "../../../users/users.module";
 import {
   AppTestContext,
   AppTestHelper,
@@ -19,6 +17,8 @@ import {
 import { InteractionDto } from "../dto";
 import { InteractionsModule } from "../interactions.module";
 import { Usager, UserStructure } from "@domifa/common";
+import { UsersModule } from "../../../users/users.module";
+import { StructuresModule } from "../../../structures/structure.module";
 
 describe("interactionsCreator", () => {
   let context: AppTestContext;

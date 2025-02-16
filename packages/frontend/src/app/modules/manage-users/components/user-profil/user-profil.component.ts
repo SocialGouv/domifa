@@ -1,5 +1,11 @@
-import { Subscription } from "rxjs";
-import { Component, OnDestroy, OnInit, TemplateRef } from "@angular/core";
+import { concatMap, Subscription } from "rxjs";
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
@@ -24,12 +30,15 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   public users: UserStructureProfile[];
   public me!: UserStructure | null;
 
-  public selectedUser: UserStructureProfile | null;
   public loading: boolean;
   public displayUserRightsHelper: boolean;
   public sortValue: SortValues;
   public currentKey: keyof UserStructureProfile;
   private subscription = new Subscription();
+
+  public selectedUser: UserStructureProfile | null;
+  public newReferrerId: number | null = null;
+  public expectedRole: UserStructureRole | null = null;
 
   public readonly USER_ROLES_LABELS: { [key in UserStructureRole]: string } = {
     admin: "Administrateur",
@@ -37,9 +46,16 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     simple: "Instructeur",
     facteur: "Facteur",
   };
+
+  @ViewChild("deleteUserConfirmation", { static: true })
+  public deleteUserConfirmation!: TemplateRef<NgbModalRef>;
+
+  @ViewChild("assignReferrersModal")
+  public assignReferrersModal!: TemplateRef<NgbModalRef>;
+
   constructor(
     private readonly authService: AuthService,
-    private readonly userService: ManageUsersService,
+    private readonly manageUsersService: ManageUsersService,
     private readonly modalService: NgbModal,
     private readonly toastService: CustomToastService,
     private readonly titleService: Title
@@ -58,16 +74,37 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     this.me = this.authService.currentUserValue;
     this.getUsers();
 
-    this.userService.users$.subscribe((users) => {
+    this.manageUsersService.users$.subscribe((users) => {
       this.loading = false;
       this.users = users;
     });
   }
 
+  public openAssignReferrerModal(): void {
+    this.modalService.open(this.assignReferrersModal, DEFAULT_MODAL_OPTIONS);
+  }
+
+  public onRoleChange(user: UserStructure, newRole: UserStructureRole): void {
+    if (newRole === "facteur") {
+      this.selectedUser = user;
+      this.expectedRole = newRole;
+      this.openAssignReferrerModal();
+    } else {
+      this.updateRole(user.uuid, newRole);
+    }
+  }
+
+  public resetRoles() {
+    this.selectedUser = null;
+    this.expectedRole = null;
+    this.newReferrerId = null;
+    this.modalService.dismissAll();
+  }
+
   public updateRole(uuid: string, role: UserStructureRole): void {
     this.loading = true;
     this.subscription.add(
-      this.userService.updateRole(uuid, role).subscribe({
+      this.manageUsersService.updateRole(uuid, role).subscribe({
         next: (user: UserStructureProfile) => {
           this.getUsers();
           this.toastService.success(
@@ -77,6 +114,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
               user.prenom +
               " ont été mis à jour avec succès"
           );
+          this.resetRoles();
         },
         error: () => {
           this.loading = false;
@@ -88,27 +126,49 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     );
   }
 
-  public deleteUser(): void {
+  public updateRoleAndReassign(): void {
+    this.loading = true;
     if (this.selectedUser?.uuid) {
       this.loading = true;
       this.subscription.add(
-        this.userService.deleteUser(this.selectedUser.uuid).subscribe({
-          next: () => {
-            this.toastService.success("Utilisateur supprimé avec succès");
-            this.getUsers();
-            this.modalService.dismissAll();
-          },
-          error: () => {
-            this.loading = false;
-            this.toastService.error("Impossible de supprimer l'utilisateur");
-          },
-        })
+        this.manageUsersService
+          .reassignReferrers(this.selectedUser, this.newReferrerId)
+          .pipe(
+            concatMap(() =>
+              this.manageUsersService.updateRole(
+                this.selectedUser.uuid,
+                this.expectedRole
+              )
+            )
+          )
+          .subscribe({
+            next: () => {
+              this.getUsers();
+              this.toastService.success(
+                "Les droits de " +
+                  this.selectedUser.nom +
+                  " " +
+                  this.selectedUser.prenom +
+                  " ont été mis à jour avec succès"
+              );
+            },
+            error: () => {
+              this.loading = false;
+              this.toastService.error(
+                "Impossible de mettre à jour le rôle de l'utilisateur"
+              );
+            },
+            complete: () => {
+              this.loading = false;
+            },
+          })
       );
     }
   }
 
-  public open(content: TemplateRef<NgbModalRef>): void {
-    this.modalService.open(content, DEFAULT_MODAL_OPTIONS);
+  public openDeleteConfirmation(user: UserStructure): void {
+    this.selectedUser = user;
+    this.modalService.open(this.deleteUserConfirmation, DEFAULT_MODAL_OPTIONS);
   }
 
   public closeModal(): void {
@@ -116,7 +176,8 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   }
 
   public getUsers(): void {
-    this.userService.loadUsers();
+    this.modalService.dismissAll();
+    this.manageUsersService.loadUsers();
   }
 
   public userIdTrackBy(_index: number, user: UserStructureProfile) {

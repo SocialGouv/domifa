@@ -1,0 +1,52 @@
+<div class="modal-header bg-primary">
+  <span class="text-white" id="modal-title"
+    >Assigner un référents aux {{ selectedRefs.size }} dossiers
+  </span>
+</div>
+
+<div class="modal-body text-center">
+  <p>
+    Vous pouvez assigner un référent en choissant dans la liste ci-dessous.
+    <br />
+    Attention, si le dossier dispose déjà d'un référent, celui-ci sera remplacé
+  </p>
+  <div class="d-flex flex-wrap justify-content-center align-items-center">
+    <div class="w-50">
+      <app-input-referrer
+        [submitted]="submitted"
+        [displayLabel]="true"
+        label="À qui souhaitez-vous assigner ces dossiers ?"
+        [required]="true"
+        (outputFunction)="updateReferrers($event)"
+      ></app-input-referrer>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer text-center">
+  <button
+    class="btn btn-lg btn-outline-dark"
+    type="button"
+    (click)="actionAfterSuccess.emit()"
+  >
+    Annuler
+  </button>
+  <button
+    type="submit"
+    class="btn btn-lg btn-primary"
+    (click)="assignReferrers()"
+    [disabled]="loading"
+    [attr.aria-busy]="loading"
+  >
+    <span *ngIf="!loading">Confirmer l'assignation</span>
+    <span *ngIf="loading">
+      <fa-icon
+        [icon]="['fas', 'circle-notch']"
+        aria-hidden="true"
+        [spin]="true"
+      >
+      </fa-icon>
+      Veuillez patientez...
+    </span>
+  </button>
+</div>

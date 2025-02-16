@@ -15,6 +15,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import {
   AllowUserProfiles,
   CurrentStructure,
+  CurrentUser,
 } from "../../../../auth/decorators";
 import { AppUserGuard, StructureAccessGuard } from "../../../../auth/guards";
 import {
@@ -33,11 +34,7 @@ import {
   UserStructureTokens,
 } from "../../../../_common/model";
 import { AdminStructuresService } from "../../services";
-import { CurrentUser } from "../../../../auth/decorators/current-user.decorator";
-import { UsersController } from "../../../../users/controllers/users.controller";
-import { RegisterUserAdminDto } from "../../../../users/dto";
-import { format } from "date-fns";
-import { structureCreatorService } from "../../../../structures/services";
+
 import {
   DEPARTEMENTS_MAP,
   REGIONS_LISTE,
@@ -52,6 +49,10 @@ import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { StructureConfirmationDto } from "../../_dto";
 import { StructureAdminForList } from "../../types";
 import { userAccountActivatedEmailSender } from "../../../mails/services/templates-renderers";
+import { structureCreatorService } from "../../../../structures/services";
+import { format } from "date-fns";
+import { RegisterUserAdminDto } from "../../../../users/dto";
+import { UsersController } from "../../../../users/controllers/users.controller";
 
 export type UserStructureWithSecurity = UserStructure & {
   temporaryTokens: UserStructureTokens;
