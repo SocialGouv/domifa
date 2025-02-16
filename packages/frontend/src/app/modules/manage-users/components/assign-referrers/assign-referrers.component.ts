@@ -1,6 +1,5 @@
 import {
   Component,
-  inject,
   Input,
   OnInit,
   OnDestroy,
@@ -19,8 +18,6 @@ import { UserStructureProfile } from "@domifa/common";
 export class AssignReferrersComponent implements OnInit, OnDestroy {
   public nbReferrers: number = 0;
   public submitted: boolean = false;
-
-  private manageUsersService = inject(ManageUsersService);
   private subscription = new Subscription();
 
   @Input({ required: true }) @Input() public currentUser: UserStructureProfile;
@@ -29,6 +26,8 @@ export class AssignReferrersComponent implements OnInit, OnDestroy {
   @Output() public readonly newReferrerIdChange = new EventEmitter<
     number | null
   >();
+
+  constructor(private readonly manageUsersService: ManageUsersService) {}
 
   ngOnInit() {
     this.subscription.add(
