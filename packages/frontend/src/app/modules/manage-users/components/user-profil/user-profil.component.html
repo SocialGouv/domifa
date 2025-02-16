@@ -100,7 +100,7 @@
                     [attr.aria-busy]="loading"
                     id="role-{{ user.uuid }}"
                     [(ngModel)]="user.role"
-                    (ngModelChange)="updateRole(user.uuid, user.role)"
+                    (ngModelChange)="onRoleChange(user, user.role)"
                     class="form-select"
                   >
                     <option value="admin">Administrateur</option>
@@ -114,7 +114,7 @@
                 <button
                   type="button"
                   *ngIf="me.role === 'admin' && me.uuid !== user.uuid"
-                  (click)="open(deleteUserConfirmation); selectedUser = user"
+                  (click)="openDeleteConfirmation(user)"
                   class="btn btn-danger"
                   [attr.aria-label]="
                     'Supprimer ' + user.nom + ' ' + user.prenom
@@ -340,43 +340,45 @@
   </div>
 </div>
 
-<ng-template #deleteUserConfirmation let-modal>
-  <div class="modal-header bg-danger">
-    <span class="text-white" id="modal-title"> Confirmer la suppression </span>
+<ng-template #deleteUserConfirmation let-modal
+  ><app-delete-user
+    [selectedUser]="selectedUser"
+    (deleteComplete)="getUsers()"
+  ></app-delete-user>
+</ng-template>
+
+<ng-template #assignReferrersModal let-modal>
+  <div class="modal-header">
+    <span id="modal-title">
+      Souhaitez-vous ré-assigner les dossiers suivis par cet utilisateur ?
+    </span>
   </div>
 
-  <div class="modal-body text-center" *ngIf="selectedUser">
+  <div class="modal-body text-center py-3">
     <p>
-      Vous êtes sur le point de supprimer le compte de {{ selectedUser.nom }}
-      {{ selectedUser.prenom }}. Une fois supprimé, l'utilisateur ne pourra plus
-      se connecter.
+      Un utilisateur ayant pour rôle "facteur" ne peux pas être référent. Pour
+      continuer, veuillez choisir à quel utilisateur souhaitez-vous affecter les
+      dossiers suivis par {{ selectedUser.nom }}
     </p>
+    <app-assign-referrers
+      [currentUser]="selectedUser"
+      [(newReferrerId)]="newReferrerId"
+    ></app-assign-referrers>
   </div>
-  <div class="modal-footer text-center">
+  <div class="modal-footer">
     <button
-      class="btn btn-lg btn-outline-dark"
+      class="btn btn-lg btn-outline-primary"
       type="button"
-      (click)="closeModal()"
+      (click)="resetRoles()"
     >
       Annuler
     </button>
     <button
+      class="btn btn-lg btn-primary"
       type="submit"
-      class="btn btn-lg btn-danger"
-      (click)="deleteUser()"
-      [disabled]="loading"
-      [attr.aria-busy]="loading"
+      (click)="updateRoleAndReassign()"
     >
-      <span *ngIf="!loading">Confirmer la suppression</span>
-      <span *ngIf="loading">
-        <fa-icon
-          [icon]="['fas', 'circle-notch']"
-          aria-hidden="true"
-          [spin]="true"
-        >
-        </fa-icon>
-        Veuillez patientez...
-      </span>
+      Modifier le rôle
     </button>
   </div>
 </ng-template>

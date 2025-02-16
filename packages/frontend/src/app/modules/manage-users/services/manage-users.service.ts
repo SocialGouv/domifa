@@ -90,6 +90,30 @@ export class ManageUsersService {
   public agenda(): Observable<UsagerLight[]> {
     return this.http.get<UsagerLight[]>(`${environment.apiUrl}agenda`);
   }
+
+  // Assign referrers from another user
+  public reassignReferrers(
+    sourceUser: Pick<UserStructureProfile, "uuid">,
+    targetUserId: number | null
+  ): Observable<ApiMessage> {
+    return this.http.get<ApiMessage>(
+      `${this.endPoint}/reassign-referrers/${sourceUser.uuid}`,
+      {
+        params: {
+          newReferrerId: targetUserId,
+        },
+      }
+    );
+  }
+
+  public countReferrers(
+    user: Pick<UserStructureProfile, "uuid">
+  ): Observable<number> {
+    return this.http.get<number>(
+      `${this.endPoint}/count-referrers/${user.uuid}`
+    );
+  }
+
   public updateMyPassword(data: {
     passwordConfirmation: string;
     password: string;

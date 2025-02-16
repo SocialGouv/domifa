@@ -31,6 +31,19 @@
             >Supprimer les domiciliés</ng-container
           >
         </button>
+        <button
+          type="button"
+          *ngIf="me?.role !== 'facteur'"
+          (click)="openAssignReferrerModal()"
+          class="btn ms-2 btn-sm btn-outline-dark"
+        >
+          <fa-icon
+            aria-hidden="true"
+            [icon]="['fas', 'users']"
+            class="me-2"
+          ></fa-icon>
+          Assigner un référent
+        </button>
       </div>
     </div>
   </div>
@@ -56,6 +69,9 @@
     </button>
   </div>
 </section>
+<pre>
+  {{selectAllCheckboxes}}
+</pre>
 
 <table
   class="table"
@@ -368,4 +384,11 @@
     (actionAfterSuccess)="resetCheckboxes()"
     context="MANAGE"
   ></app-delete-usager>
+</ng-template>
+
+<ng-template #assignReferrersModal let-modal>
+  <app-assign-referrers
+    [selectedRefs]="selectedRefs"
+    (actionAfterSuccess)="resetCheckboxes()"
+  ></app-assign-referrers>
 </ng-template>

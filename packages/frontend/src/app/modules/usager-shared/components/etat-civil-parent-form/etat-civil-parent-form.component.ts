@@ -64,7 +64,6 @@ import {
 } from "@domifa/common";
 
 import { languagesAutocomplete } from "../../utils/languages";
-import { ManageUsersService } from "../../../manage-users/services/manage-users.service";
 
 @Component({
   selector: "app-etat-civil-parent-form",
@@ -120,8 +119,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   constructor(
     protected readonly formBuilder: UntypedFormBuilder,
     protected readonly authService: AuthService,
-    protected readonly changeDetectorRef: ChangeDetectorRef,
-    protected readonly manageUsersService: ManageUsersService
+    protected readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.submitted = false;
     this.loading = false;
@@ -129,12 +127,6 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
-
-    this.subscription.add(
-      this.manageUsersService.referrers$.subscribe((referrers) => {
-        this.users = referrers;
-      })
-    );
 
     this.currentUserSubject$ = this.authService.currentUserSubject;
   }

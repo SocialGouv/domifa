@@ -27,6 +27,8 @@ import {
   messageSmsRepository,
   usagerDocsRepository,
   usagerEntretienRepository,
+  userStructureRepository,
+  USAGER_LIGHT_ATTRIBUTES,
 } from "../../database";
 
 import { cleanPath, getPhoneString } from "../../util";
@@ -53,6 +55,8 @@ import { Usager, ETAPE_DOCUMENTS, CerfaDocType } from "@domifa/common";
 import { UsagerHistoryStateService } from "../services/usagerHistoryState.service";
 import { domifaConfig } from "../../config";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
+import { AssignReferrersDto } from "../dto/assign-referrers.dto";
+import { In } from "typeorm";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -336,5 +340,59 @@ export class UsagersController {
     @CurrentUsager() currentUsager: Usager
   ): Usager {
     return currentUsager;
+  }
+
+  @Post("assign-referrers")
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+  public async assignReferrersToAnotherUser(
+    @CurrentUser() userStructureAuth: UserStructureAuthenticated,
+    @Body() body: AssignReferrersDto,
+    @Res() res: Response
+  ) {
+    const count = await usagerRepository.count({
+      where: {
+        structureId: userStructureAuth.structureId,
+        ref: In(body.usagersRefs),
+      },
+    });
+
+    const allRefsValid = count === body.usagersRefs.length;
+
+    if (!allRefsValid) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "USER_NOT_FOUND" });
+    }
+
+    if (body?.newReferrerId) {
+      const user = await userStructureRepository.findOneBy({
+        id: body.newReferrerId,
+        structureId: userStructureAuth.structureId,
+      });
+
+      if (!user) {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "USER_NOT_FOUND" });
+      }
+    }
+
+    await usagerRepository.update(
+      {
+        structureId: userStructureAuth.structureId,
+        ref: In(body.usagersRefs),
+      },
+      { referrerId: body?.newReferrerId }
+    );
+
+    const updatedUsagers = await usagerRepository.find({
+      select: USAGER_LIGHT_ATTRIBUTES,
+      where: {
+        ref: In(body.usagersRefs),
+        structureId: userStructureAuth.structureId,
+      },
+    });
+
+    return res.status(200).json(updatedUsagers);
   }
 }

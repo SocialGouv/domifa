@@ -46,6 +46,7 @@ export class UsagerAccessGuard implements CanActivate {
       r.usager = usager;
       return r;
     } catch (e) {
+      appLogger.warn(`Requested url :${r.url}`);
       appLogger.error(
         `[UsagerAccessGuard] usager not found ${usagerRef} ${structureId}`,
         {

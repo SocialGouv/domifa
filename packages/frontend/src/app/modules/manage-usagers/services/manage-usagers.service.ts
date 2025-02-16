@@ -88,4 +88,25 @@ export class ManageUsagersService {
       })
     );
   }
+
+  // Assign new referrers
+  public assignReferrers(
+    usagersRefs: Set<number>,
+    targetUserId: number | null
+  ): Observable<UsagerLight[]> {
+    return this.http
+      .post<UsagerLight[]>(`${environment.apiUrl}usagers/assign-referrers`, {
+        newReferrerId: targetUserId,
+        usagersRefs: Array.from(usagersRefs),
+      })
+      .pipe(
+        tap((usagers: UsagerLight[]) => {
+          if (usagers?.length) {
+            this.store.dispatch(
+              usagerActions.updateManyUsagersForManage({ usagers })
+            );
+          }
+        })
+      );
+  }
 }

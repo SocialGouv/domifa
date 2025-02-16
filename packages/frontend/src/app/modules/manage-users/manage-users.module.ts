@@ -11,12 +11,16 @@ import { UserProfilComponent } from "./components/user-profil/user-profil.compon
 import { UsersModule } from "../users/users.module";
 import { RegisterUserAdminComponent } from "./components/register-user-admin/register-user-admin.component";
 import { ManageUsersRoutingModule } from "./manage-users-routing.module";
+import { AssignReferrersComponent } from "./components/assign-referrers/assign-referrers.component";
+import { DeleteUserComponent } from "./components/delete-user/delete-user.component";
 
 @NgModule({
   declarations: [
     UserProfilComponent,
     EditUserComponent,
     RegisterUserAdminComponent,
+    AssignReferrersComponent,
+    DeleteUserComponent,
   ],
   imports: [
     TableHeadSortComponent,

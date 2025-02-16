@@ -11,6 +11,8 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
 import { ReplaceLineBreaks } from "./pipes";
 import { DateFrDirective, CleanStrDirective } from "./directives";
 import { ButtonComponent } from "./components/button/button.component";
+import { InputReferrerComponent } from "./components/input-referrer/input-referrer.component";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -19,16 +21,18 @@ import { ButtonComponent } from "./components/button/button.component";
     CustomToastrComponent,
     ReplaceLineBreaks,
     ButtonComponent,
+    InputReferrerComponent,
   ],
   exports: [
     ReplaceLineBreaks,
+    InputReferrerComponent,
     DateFrDirective,
     CleanStrDirective,
     CustomToastrComponent,
     FontAwesomeModule,
     ButtonComponent,
   ],
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, FormsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SharedModule {

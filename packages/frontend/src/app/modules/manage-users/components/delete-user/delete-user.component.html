@@ -1,0 +1,46 @@
+<div class="modal-header bg-danger">
+  <span class="text-white" id="modal-title"
+    >Vous êtes sur le point de supprimer le compte de {{ selectedUser.nom }}
+    {{ selectedUser.prenom }}</span
+  >
+</div>
+
+<div class="modal-body text-center" *ngIf="selectedUser">
+  <p class="fw-bold">
+    Attention, cette action est irreversible. Une fois supprimé, l'utilisateur
+    ne pourra plus se connecter et accéder à DomiFa.
+  </p>
+
+  <app-assign-referrers
+    [(newReferrerId)]="newReferrerId"
+    [currentUser]="selectedUser"
+  ></app-assign-referrers>
+</div>
+
+<div class="modal-footer text-center">
+  <button
+    class="btn btn-lg btn-outline-dark"
+    type="button"
+    (click)="deleteComplete.emit()"
+  >
+    Annuler
+  </button>
+  <button
+    type="submit"
+    class="btn btn-lg btn-danger"
+    (click)="deleteUser()"
+    [disabled]="loading"
+    [attr.aria-busy]="loading"
+  >
+    <span *ngIf="!loading">Confirmer la suppression</span>
+    <span *ngIf="loading">
+      <fa-icon
+        [icon]="['fas', 'circle-notch']"
+        aria-hidden="true"
+        [spin]="true"
+      >
+      </fa-icon>
+      Veuillez patientez...
+    </span>
+  </button>
+</div>

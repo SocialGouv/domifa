@@ -2,6 +2,7 @@ import {
   appLogsRepository,
   structureRepository,
   usagerDocsRepository,
+  usagerHistoryStatesRepository,
   usagerRepository,
 } from "../../database";
 import { messageSmsRepository } from "../../database/services/message-sms";
@@ -31,7 +32,6 @@ async function deleteStructure(
 export async function resetUsagers(
   structure: Pick<Structure, "id">
 ): Promise<void> {
-  // Suppression des Documents
   await usagerDocsRepository.delete({
     structureId: structure.id,
   });
@@ -45,6 +45,10 @@ export async function resetUsagers(
   });
 
   await messageSmsRepository.delete({
+    structureId: structure.id,
+  });
+
+  await usagerHistoryStatesRepository.delete({
     structureId: structure.id,
   });
 }

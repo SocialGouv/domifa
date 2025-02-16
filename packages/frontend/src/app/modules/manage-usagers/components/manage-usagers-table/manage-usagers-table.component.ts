@@ -49,16 +49,23 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
   @Input({ required: true })
   public filters!: UsagersFilterCriteria;
+
   @Input({ required: true }) filters$!: Subject<UsagersFilterCriteria>;
 
   @Input({ required: true })
   public selectAllCheckboxes = false;
+
+  @Output()
+  public readonly selectAllCheckboxesChange = new EventEmitter<boolean>();
 
   @Input({ required: true })
   public selectedRefs: Set<number> = new Set();
 
   @ViewChild("deleteUsagersModal")
   public deleteUsagersModal!: TemplateRef<NgbModalRef>;
+
+  @ViewChild("assignReferrersModal")
+  public assignReferrersModal!: TemplateRef<NgbModalRef>;
 
   @Output()
   public readonly goToPrint = new EventEmitter<void>();
@@ -103,6 +110,8 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     this.filters$.pipe(takeUntil(this.destroy$)).subscribe((filters) => {
       this.currentFilters = filters;
       this.computeCheckboxVisibility();
+      this.selectAllCheckboxes = false;
+      this.selectedRefs.clear();
       this.cd.markForCheck();
     });
   }
@@ -128,9 +137,10 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
     this.cd.markForCheck();
   }
+
   public toggleSelection(id: number) {
     if (!this.selectedRefs.size) {
-      this.selectAllCheckboxes = false;
+      this.selectAllCheckboxesChange.emit(false);
     }
 
     if (!this.selectedRefs.has(id)) {
@@ -142,6 +152,10 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
   public openDeleteUsagersModal(): void {
     this.modalService.open(this.deleteUsagersModal, DEFAULT_MODAL_OPTIONS);
+  }
+
+  public openAssignReferrerModal(): void {
+    this.modalService.open(this.assignReferrersModal, DEFAULT_MODAL_OPTIONS);
   }
 
   public goToProfil(usager: UsagerFormModel): void {
@@ -197,7 +211,9 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   }
 
   public resetCheckboxes() {
+    this.selectAllCheckboxesChange.emit(false);
     this.selectAllCheckboxes = false;
     this.selectedRefs.clear();
+    this.modalService.dismissAll();
   }
 }

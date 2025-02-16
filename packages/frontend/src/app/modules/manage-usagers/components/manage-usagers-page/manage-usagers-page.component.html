@@ -381,7 +381,7 @@
       <app-manage-manage-usagers-table
         [selectedRefs]="selectedRefs"
         [usagers]="usagers"
-        [selectAllCheckboxes]="selectAllCheckboxes"
+        [(selectAllCheckboxes)]="selectAllCheckboxes"
         [filters]="filters"
         [filters$]="filters$"
         (updateFilters)="updateFilters($event)"

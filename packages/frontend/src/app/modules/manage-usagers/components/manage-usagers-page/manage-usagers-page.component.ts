@@ -514,6 +514,7 @@ export class ManageUsagersPageComponent
     allUsagers: UsagerLight[];
   }): void {
     this.searching = true;
+
     this.resetCheckboxes();
 
     this.filteredUsagers = usagersFilter.filter(allUsagers, {

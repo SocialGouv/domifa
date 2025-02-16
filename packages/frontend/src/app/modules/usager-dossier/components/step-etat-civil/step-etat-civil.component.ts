@@ -22,7 +22,6 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { Usager } from "@domifa/common";
 import { merge, debounceTime, distinctUntilChanged } from "rxjs";
 import { EtatCivilParentFormComponent } from "../../../usager-shared/components/etat-civil-parent-form/etat-civil-parent-form.component";
-import { ManageUsersService } from "../../../manage-users/services/manage-users.service";
 
 @Component({
   animations: [fadeInOut],
@@ -44,13 +43,12 @@ export class StepEtatCivilComponent
     public authService: AuthService,
     public formBuilder: UntypedFormBuilder,
     public changeDetectorRef: ChangeDetectorRef,
-    public manageUsersService: ManageUsersService,
     private readonly usagerDossierService: UsagerDossierService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly toastService: CustomToastService
   ) {
-    super(formBuilder, authService, changeDetectorRef, manageUsersService);
+    super(formBuilder, authService, changeDetectorRef);
     this.duplicates = [];
   }
 
