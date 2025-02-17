@@ -7,6 +7,7 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
+import { FullNamePipe } from "../../../shared/pipes";
 
 describe("AssignReferrersComponent", () => {
   let component: AssignReferrersComponent;
@@ -21,6 +22,7 @@ describe("AssignReferrersComponent", () => {
         FormsModule,
         HttpClientTestingModule,
         StoreModule.forRoot({ app: _usagerReducer }),
+        FullNamePipe,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
     }).compileComponents();
