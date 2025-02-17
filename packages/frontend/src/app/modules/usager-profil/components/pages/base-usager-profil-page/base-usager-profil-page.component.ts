@@ -8,7 +8,7 @@ import { AuthService, CustomToastService } from "../../../../shared/services";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { Store } from "@ngrx/store";
-import { UserStructure, getUsagerNomComplet } from "@domifa/common";
+import { UserStructure, getPersonFullName } from "@domifa/common";
 
 @Component({
   selector: "app-base-usager-profil-page",
@@ -58,7 +58,7 @@ export class BaseUsagerProfilPageComponent implements OnInit, OnDestroy {
 
   public setTitle() {
     this.titleService.setTitle(
-      `${this.titlePrefix} de ${getUsagerNomComplet(this.usager)} - DomiFa`
+      `${this.titlePrefix} de ${getPersonFullName(this.usager)} - DomiFa`
     );
   }
 

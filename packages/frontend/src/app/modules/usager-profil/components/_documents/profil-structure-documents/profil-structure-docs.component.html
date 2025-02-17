@@ -53,7 +53,7 @@
         <td>
           {{ document.label }}
         </td>
-        <td>{{ document.createdBy.nom }} {{ document.createdBy.prenom }}</td>
+        <td>{{ document.createdBy | fullName }}</td>
         <td>
           {{ document.createdAt | date : "dd MMMM yyyy" }}
         </td>

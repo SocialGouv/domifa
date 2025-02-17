@@ -18,7 +18,7 @@
   >
     <option [value]="null">Sans référent</option>
     <option *ngFor="let user of users" [value]="user.id">
-      {{ user.nom | uppercase }} {{ user.prenom }}
+      {{ user | fullName }}
     </option>
   </select>
 </ng-container>

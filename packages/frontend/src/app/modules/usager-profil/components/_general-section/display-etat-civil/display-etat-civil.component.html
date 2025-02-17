@@ -66,9 +66,7 @@
     </div>
   </div>
   <p class="col-md-4 reponses" *ngFor="let ayantDroit of usager.ayantsDroits">
-    <span class="question"
-      >{{ ayantDroit.nom | uppercase }} {{ ayantDroit.prenom }}</span
-    >
+    <span class="question">{{ ayantDroit | fullName }}</span>
     <span class="valeur" *ngIf="ayantDroit.lien">
       {{ ayantDroit.dateNaissance | date : "dd MMMM yyyy" }},
       {{ LIEN_PARENTE_LABELS[ayantDroit.lien] }}

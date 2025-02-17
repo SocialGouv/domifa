@@ -5,7 +5,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
-import { SortArrayPipe } from "../shared/pipes";
+import { FullNamePipe, SortArrayPipe } from "../shared/pipes";
 import { SharedModule } from "../shared/shared.module";
 import { UserProfilComponent } from "./components/user-profil/user-profil.component";
 import { UsersModule } from "../users/users.module";
@@ -32,6 +32,7 @@ import { DeleteUserComponent } from "./components/delete-user/delete-user.compon
     SharedModule,
     CommonModule,
     ManageUsersRoutingModule,
+    FullNamePipe,
     SortArrayPipe,
   ],
 })

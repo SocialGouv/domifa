@@ -11,7 +11,7 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 import {
   CerfaDocType,
-  getUsagerNomComplet,
+  getPersonFullName,
   Usager,
   UserStructure,
 } from "@domifa/common";
@@ -74,7 +74,7 @@ export class BaseUsagerDossierPageComponent implements OnInit, OnDestroy {
 
   public setTitle() {
     this.titleService.setTitle(
-      `${this.titlePrefix} de ${getUsagerNomComplet(this.usager)} - DomiFa`
+      `${this.titlePrefix} de ${getPersonFullName(this.usager)} - DomiFa`
     );
   }
 

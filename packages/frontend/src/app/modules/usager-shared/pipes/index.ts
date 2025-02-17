@@ -1,2 +1,3 @@
 // @index('./*.ts', f => `export * from '${f.path}'`)
-export * from "./usager-nom-complet.pipe";
+export * from "../../shared/pipes/full-name.pipe";
+export * from "./referrer-name.pipe";

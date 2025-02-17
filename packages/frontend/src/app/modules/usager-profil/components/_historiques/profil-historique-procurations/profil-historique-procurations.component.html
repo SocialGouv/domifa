@@ -50,8 +50,8 @@
             {{ HISTORY_ACTIONS[procuration.action].label }}
           </span>
         </td>
-        <td>{{ procuration.nom }} {{ procuration.prenom }}</td>
-        <td>{{ procuration.dateNaissance | date : "dd/MM/yyyy" || "" }}</td>
+        <td>{{ procuration | fullName }}</td>
+        <td>{{ procuration.dateNaissance | date : "dd/MM/yyyy" }}</td>
         <td>
           <span *ngIf="procuration.dateDebut === null">
             {{ procuration.dateFin | date : "dd/MM/yyyy" }}
