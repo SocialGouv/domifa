@@ -37,4 +37,27 @@ export const UsagersControllerSecurityTests: AppTestHttpClientSecurityTestDef[] 
         ),
       }),
     },
+    {
+      label: `${CONTROLLER}.assignReferrersToAnotherUser`,
+      query: async (context: AppTestContext) => ({
+        response: await AppTestHttpClient.post(
+          "/usagers/check-duplicates-name",
+          {
+            context,
+            body: {
+              newReferrerId: 1,
+              usagersRefs: [1, 2],
+            },
+          }
+        ),
+        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+          context.user,
+          {
+            validExpectedResponseStatus: HttpStatus.CREATED,
+            roles: ["simple", "responsable", "admin"],
+            validStructureIds: [1],
+          }
+        ),
+      }),
+    },
   ];

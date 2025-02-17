@@ -23,22 +23,22 @@ import { SmsControllerSecurityTests } from "../modules/sms/sms.controller.securi
 
 export const API_SECURITY_STRUCTURE_CONTROLLER_TEST_DEFS: AppTestHttpClientSecurityTestDef[] =
   [
-    ...AgendaControllerSecurityTests,
     ...AdminStructuresControllerSecurityTests,
     ...AdminStructuresDeleteControllerSecurityTests,
-    ...UsagerDocsControllerSecurityTests,
-    ...UsagersDecisionControllerSecurityTests,
+    ...AgendaControllerSecurityTests,
     ...ExportStructureUsagersControllerSecurityTests,
     ...ImportControllerSecurityTests,
+    ...InteractionsControllerSecurityTests,
     ...SmsControllerSecurityTests,
     ...StatsPrivateControllerSecurityTests,
     ...StatsPublicControllerSecurityTests,
     ...StructureDocControllerSecurityTests,
+    ...StructuresAuthControllerSecurityTests,
     ...StructuresControllerSecurityTests,
+    ...UsagerDocsControllerSecurityTests,
     ...UsagersControllerSecurityTests,
+    ...UsagersDecisionControllerSecurityTests,
+    ...UsagersStructureDocsControllerSecurityTests,
     ...UserControllerSecurityTests,
     ...UserPublicControllerSecurityTests,
-    ...UsagersStructureDocsControllerSecurityTests,
-    ...InteractionsControllerSecurityTests,
-    ...StructuresAuthControllerSecurityTests,
   ];

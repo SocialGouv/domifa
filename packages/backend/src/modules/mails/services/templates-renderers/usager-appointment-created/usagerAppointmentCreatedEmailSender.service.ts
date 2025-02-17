@@ -11,7 +11,7 @@ import {
   messageEmailSender,
 } from "../../_core";
 import { usagerAppointmentCreatedEmailRenderer } from "./usagerAppointmentCreatedEmailRenderer.service";
-import { getUsagerNomComplet, Usager } from "@domifa/common";
+import { getPersonFullName, Usager } from "@domifa/common";
 const messageEmailId = "usager-appointment-created";
 export const usagerAppointmentCreatedEmailSender = { sendMail };
 
@@ -39,7 +39,7 @@ async function sendMail({
   });
   const model = {
     prenom: user.prenom,
-    usager: getUsagerNomComplet(usager),
+    usager: getPersonFullName(usager),
     date,
     heure,
     message,

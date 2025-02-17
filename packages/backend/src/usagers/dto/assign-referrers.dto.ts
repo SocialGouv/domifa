@@ -5,7 +5,7 @@ export class AssignReferrersDto {
   @Transform(({ value }) => (value ? parseInt(value, 10) : null))
   @IsOptional()
   @IsInt()
-  newReferrerId?: number | null;
+  newReferrerId: number | null;
 
   @IsArray()
   @ArrayMinSize(1)
