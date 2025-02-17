@@ -9,6 +9,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
 import { USER_STRUCTURE_MOCK } from "../../../../../_common/mocks";
+import { FullNamePipe } from "../../../shared/pipes";
 
 describe("AssignReferrersComponent", () => {
   let component: AssignReferrersComponent;
@@ -23,6 +24,7 @@ describe("AssignReferrersComponent", () => {
         FormsModule,
         HttpClientTestingModule,
         StoreModule.forRoot({ app: _usagerReducer }),
+        FullNamePipe,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
