@@ -26,7 +26,7 @@ import { ExpressResponse } from "../../util/express";
 import { UserStructureAuthenticated } from "../../_common/model";
 import { RdvDto } from "../dto/decision-form/rdv.dto";
 import { UsagersService } from "../services/usagers.service";
-import { getUsagerNomComplet, Usager } from "@domifa/common";
+import { getPersonFullName, Usager } from "@domifa/common";
 import { usagerAppointmentCreatedEmailSender } from "../../modules/mails/services/templates-renderers";
 
 @ApiTags("agenda")
@@ -82,7 +82,7 @@ export class AgendaController {
         .json({ message: "USER_AGENDA_NOT_EXIST" });
     }
 
-    const title = `Entretien avec ${getUsagerNomComplet(usager)}`;
+    const title = `Entretien avec ${getPersonFullName(usager)}`;
 
     const annee = rdvDto.dateRdv.getFullYear();
     const mois = rdvDto.dateRdv.getMonth() + 1;
