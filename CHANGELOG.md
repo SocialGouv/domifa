@@ -1,3 +1,10 @@
+## [2.194.8](https://github.com/SocialGouv/domifa/compare/v2.194.7...v2.194.8) (2025-02-17)
+
+
+### Bug Fixes
+
+* **frontend:** fix unit tests for referrers ([045150f](https://github.com/SocialGouv/domifa/commit/045150fa625dafcb7ba6fc7bee2cb42d6a10ece5))
+
 ## [2.194.7](https://github.com/SocialGouv/domifa/compare/v2.194.6...v2.194.7) (2025-02-17)
 
 
