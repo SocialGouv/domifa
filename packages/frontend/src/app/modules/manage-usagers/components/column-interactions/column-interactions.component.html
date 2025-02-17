@@ -5,10 +5,8 @@
       [id]="'visite-' + usager.ref"
       [disabled]="isInteractionLoading.visite"
       [attr.aria-busy]="isInteractionLoading.visite"
-      [attr.aria-label]="
-        'Ajout d\'un passage pour ' + (usager | usagerNomComplet)
-      "
-      [ngbTooltip]="'Ajout d\'un passage pour ' + (usager | usagerNomComplet)"
+      [attr.aria-label]="'Ajout d\'un passage pour ' + (usager | fullName)"
+      [ngbTooltip]="'Ajout d\'un passage pour ' + (usager | fullName)"
       class="interaction-btn btn-light"
       (click)="setSingleInteraction(usager, 'visite')"
     >
@@ -26,10 +24,10 @@
       [disabled]="isInteractionLoading.appel"
       [attr.aria-busy]="isInteractionLoading.appel"
       [attr.aria-label]="
-        'Ajout d\'un appel téléphonique pour ' + (usager | usagerNomComplet)
+        'Ajout d\'un appel téléphonique pour ' + (usager | fullName)
       "
       [ngbTooltip]="
-        'Ajout d\'un appel téléphonique pour ' + (usager | usagerNomComplet)
+        'Ajout d\'un appel téléphonique pour ' + (usager | fullName)
       "
       class="interaction-btn btn-light"
       (click)="setSingleInteraction(usager, 'appel')"
@@ -57,9 +55,7 @@
       [id]="'courrierIn-' + usager.ref"
       [disabled]="isInteractionLoading.courrierIn"
       [attr.aria-busy]="isInteractionLoading.courrierIn"
-      [attr.aria-label]="
-        'Ajout d\'un courrier pour ' + (usager | usagerNomComplet)
-      "
+      [attr.aria-label]="'Ajout d\'un courrier pour ' + (usager | fullName)"
       class="interaction-btn btn-light"
       (click)="setSingleInteraction(usager, 'courrierIn')"
       [ngbTooltip]="courrierTooltip"
@@ -73,13 +69,13 @@
       <span aria-hidden="true" class="icon-courrier list-icon"></span>
     </button>
     <ng-template #courrierTooltip>
-      <p>Ajout d'un courrier pour {{ usager | usagerNomComplet }}</p>
+      <p>Ajout d'un courrier pour {{ usager | fullName }}</p>
     </ng-template>
     <button
       type="button"
       [attr.aria-label]="
         'Réception de courriers, colis ou recommandés pour ' +
-        (usager | usagerNomComplet)
+        (usager | fullName)
       "
       [id]="'reception-' + usager.ref"
       class="interaction-btn btn-light"
@@ -91,7 +87,7 @@
     <ng-template #receptionBox>
       <p>
         Réception de courriers, colis ou recommandés pour
-        {{ usager | usagerNomComplet }}
+        {{ usager | fullName }}
       </p>
     </ng-template>
 
@@ -104,7 +100,7 @@
         'Distribuer ' +
         usager.standByInteractions +
         ' courriers de ' +
-        (usager | usagerNomComplet)
+        (usager | fullName)
       "
       [ngbTooltip]="distributionBox"
       (click)="openInteractionOutModal()"

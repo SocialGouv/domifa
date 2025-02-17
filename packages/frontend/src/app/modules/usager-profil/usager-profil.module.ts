@@ -46,7 +46,7 @@ import { ProfilSmsPortailComponent } from "./components/pages/profil-sms-portail
 import { SortArrayPipe } from "../shared/pipes";
 import { DisplayTableImageComponent } from "../shared/components/display-table-image/display-table-image.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { UsagerNomCompletPipe } from "../usager-shared/pipes";
+import { FullNamePipe } from "../usager-shared/pipes";
 
 @NgModule({
   declarations: [
@@ -87,7 +87,7 @@ import { UsagerNomCompletPipe } from "../usager-shared/pipes";
     SharedModule,
     SortArrayPipe,
     TableHeadSortComponent,
-    UsagerNomCompletPipe,
+    FullNamePipe,
     UsagerNotesModule,
     UsagerProfilRoutingModule,
     UsagerSharedModule,

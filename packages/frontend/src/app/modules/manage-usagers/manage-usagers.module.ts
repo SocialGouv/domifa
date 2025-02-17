@@ -20,7 +20,7 @@ import { ManageFiltersComponent } from "./components/manage-filters/manage-filte
 import { ColumnInteractionsComponent } from "./components/column-interactions/column-interactions.component";
 import { FormatInternationalPhoneNumberPipe } from "../../shared/phone/formatInternationalPhoneNumber.pipe";
 import {} from "../shared/pipes";
-import { UsagerNomCompletPipe } from "../usager-shared/pipes";
+import { FullNamePipe } from "../usager-shared/pipes";
 import { SortLabelPipe } from "./pipes/sort-label.pipe";
 import { StickySelectionBarDirective } from "./pipes/sticky.directive";
 import { TableHeadSortIconComponent } from "../shared/components/table-head-sort-icon/table-head-sort-icon.component";
@@ -49,7 +49,7 @@ import { AssignReferrersComponent } from "./components/assign-referrers/assign-r
     TableHeadSortIconComponent,
     ManageUsagersRoutingModule,
     FormatInternationalPhoneNumberPipe,
-    UsagerNomCompletPipe,
+    FullNamePipe,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

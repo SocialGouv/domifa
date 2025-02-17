@@ -51,10 +51,10 @@
       id="modal-title"
       *ngIf="choosenAction === 'ARCHIVE' && !note.archived"
     >
-      Archiver une note du dossier de {{ usager.nom }} {{ usager.prenom }}
+      Archiver une note du dossier de {{ usager | fullName }}
     </span>
     <span id="modal-title" *ngIf="choosenAction === 'ARCHIVE' && note.archived">
-      Désarchiver une note du dossier de {{ usager.nom }} {{ usager.prenom }}
+      Désarchiver une note du dossier de {{ usager | fullName }}
     </span>
   </div>
 

@@ -25,10 +25,8 @@
     <p *ngIf="usager && context === 'PROFIL'">
       Vous souhaitez mettre fin à la domiciliation de
       <strong>
-        {{ usager | usagerNomComplet }} né{{
-          usager.sexe === "homme" ? "" : "e"
-        }}
-        le {{ usager.dateNaissance | date : "dd MMMM yyyy" }}.
+        {{ usager | fullName }} né{{ usager.sexe === "homme" ? "" : "e" }} le
+        {{ usager.dateNaissance | date : "dd MMMM yyyy" }}.
       </strong>
       <br />
       <br />

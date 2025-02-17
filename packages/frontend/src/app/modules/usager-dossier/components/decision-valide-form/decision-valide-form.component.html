@@ -1,6 +1,6 @@
 <div class="modal-header bg-success">
   <span class="text-white" id="modal-title"
-    >Confirmer la domiciliation de {{ usager | usagerNomComplet }}</span
+    >Confirmer la domiciliation de {{ usager | fullName }}</span
   >
 </div>
 
@@ -146,7 +146,7 @@
         >
           <p class="alert alert-info">
             La dernière domiciliation connue de
-            {{ usager | usagerNomComplet }} était valide du&nbsp;
+            {{ usager | fullName }} était valide du&nbsp;
             <b>
               {{ lastDecision.dateDebut | date : "dd/MM/yyyy" }} au
               {{ lastDecision.dateFin | date : "dd/MM/yyyy" }}.</b
@@ -183,7 +183,7 @@
           <ul>
             <li *ngFor="let duplicateUsager of lastDomiciled">
               <strong>
-                {{ duplicateUsager | usagerNomComplet }}
+                {{ duplicateUsager | fullName }}
               </strong>
               - {{ duplicateUsager.customRef }}
             </li>

@@ -234,7 +234,7 @@
           (change)="toggleSelection(usager.ref)"
         >
           <span class="visually-hidden">
-            Sélectionner {{ usager | usagerNomComplet }}</span
+            Sélectionner {{ usager | fullName }}</span
           >
           <input
             [id]="'select-' + usager.ref"
@@ -282,7 +282,7 @@
           ariaCurrentWhenActive="page"
         >
           <span class="visually-hidden">Consulter la fiche de </span>
-          <span>{{ usager.nom | uppercase }} {{ usager.prenom }}</span>
+          <span>{{ usager | fullName}}</span>
           <span class="ms-2" *ngIf="usager?.surnom">
             ({{ usager.surnom }})
           </span>

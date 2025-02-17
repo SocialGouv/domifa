@@ -12,7 +12,7 @@
       <li *ngFor="let duplicate of duplicates">
         <a target="_blank" [routerLink]="'/profil/general/' + duplicate.ref">
           <strong
-            >{{ duplicate.customRef }} - {{ duplicate.nom | uppercase }}</strong
+            >{{ duplicate.customRef }} - {{ duplicate | fullName }}</strong
           >
           {{ duplicate.prenom }}</a
         >, né(e) le {{ duplicate.dateNaissance | date : "dd MMMM yyyy" }}

@@ -2,7 +2,7 @@
   <span id="modal-title">
     Distribuer les courriers de
     <span class="text-primary">
-      {{ usager | usagerNomComplet }} -
+      {{ usager | fullName }} -
       {{ usager.customRef ? usager.customRef : usager.ref }}
     </span>
   </span>
@@ -124,7 +124,7 @@
         <div class="interaction-icon-box">
           <label for="distribution-domicilie">
             <span class="d-block fw-bold">Domicilié</span>
-            {{ usager.nom | uppercase }} {{ usager.prenom }}
+            {{ usager | fullName }}
           </label>
         </div>
         <div class="interaction-actions checkbox">
@@ -146,8 +146,7 @@
             <div class="fw-bold">Mandataire</div>
             <div class="mb-1">
               <label for="distribution-mandataire-{{ i }}">
-                {{ procuration.nom | uppercase }}
-                {{ procuration.prenom }}
+                {{ procuration | fullName }}
               </label>
             </div>
           </div>

@@ -72,7 +72,7 @@
               "
               [attr.aria-rowindex]="i + 1"
             >
-              <td class="fw-bold">{{ user.nom }} {{ user.prenom }}</td>
+              <td class="fw-bold">{{ user.nom | fullName }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.createdAt | date : "d MMMM y" }}</td>
               <td>
@@ -93,7 +93,7 @@
                   *ngIf="me.role === 'admin' && me.uuid !== user.uuid"
                 >
                   <label class="visually-hidden" for="role-{{ user.uuid }}"
-                    >Rôle de {{ user.nom }} {{ user.prenom }}</label
+                    >Rôle de {{ user | fullName }}</label
                   >
                   <select
                     [disabled]="loading"
@@ -350,15 +350,15 @@
 <ng-template #assignReferrersModal let-modal>
   <div class="modal-header">
     <span id="modal-title">
-      Souhaitez-vous ré-assigner les dossiers suivis par cet utilisateur ?
+      Souhaitez-vous réassigner les dossiers suivis par cet utilisateur ?
     </span>
   </div>
 
   <div class="modal-body text-center py-3">
     <p>
-      Un utilisateur ayant pour rôle "facteur" ne peux pas être référent. Pour
-      continuer, veuillez choisir à quel utilisateur souhaitez-vous affecter les
-      dossiers suivis par {{ selectedUser.nom }}
+      Un utilisateur ayant pour rôle "facteur" ne peut pas être référent. Pour
+      continuer, veuillez choisir à quel utilisateur vous souhaitez affecter les
+      dossiers suivis par {{ selectedUser | fullName }}
     </p>
     <app-assign-referrers
       [currentUser]="selectedUser"

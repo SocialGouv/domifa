@@ -2,8 +2,8 @@
   <div class="row">
     <div class="col-12 col-md-6">
       <b>
-        {{ currentUser.nom | uppercase }} {{ currentUser.prenom }} est référent
-        de {{ nbReferrers }} domiciliés.</b
+        {{ currentUser | fullName }} est référent de
+        {{ nbReferrers }} domiciliés.</b
       >
       <br />À qui souhaitez-vous assigner ces dossiers ?
     </div>

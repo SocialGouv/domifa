@@ -35,7 +35,7 @@ import { InputNationalityComponent } from "./components/input-nationality/input-
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 import { SortArrayPipe } from "../shared/pipes";
 import { DisplayTableImageComponent } from "../shared/components/display-table-image/display-table-image.component";
-import { UsagerNomCompletPipe } from "./pipes";
+import { FullNamePipe } from "./pipes";
 import { EditUsagerDocComponent } from "./components/edit-usager-doc/edit-usager-doc.component";
 import { ReferrerNamePipe } from "./pipes/referrer-name.pipe";
 
@@ -72,7 +72,7 @@ import { ReferrerNamePipe } from "./pipes/referrer-name.pipe";
     SharedModule,
     SortArrayPipe,
     TableHeadSortComponent,
-    UsagerNomCompletPipe,
+    FullNamePipe,
     UsersModule,
   ],
   exports: [
