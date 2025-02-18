@@ -1,3 +1,10 @@
+## [2.194.9](https://github.com/SocialGouv/domifa/compare/v2.194.8...v2.194.9) (2025-02-18)
+
+
+### Bug Fixes
+
+* **frontend:** update popup ([4df02aa](https://github.com/SocialGouv/domifa/commit/4df02aaee3d3cd425e5428575e76c0d0cfe4f402))
+
 ## [2.194.8](https://github.com/SocialGouv/domifa/compare/v2.194.7...v2.194.8) (2025-02-17)
 
 
