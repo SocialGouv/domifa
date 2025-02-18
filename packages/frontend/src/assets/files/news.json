@@ -1,5 +1,22 @@
 [
   {
+    "date": "2025-02-18",
+    "description": "🚀 Une nouvelle fonction de suivi des dossiers",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "👥 Gestion des référents",
+        "message": [
+          "Vous pouvez désormais assigner une personne référente au sein de la structure pour chaque domicilié",
+
+          "Depuis le dossier et depuis le formulaire de domiciliation, vous pouvez sélectionner un référent pour un domicilié",
+
+          "Depuis la liste des domiciliés, vous pouvez assigner un référent à plusieurs dossiers grâce à la sélection multiple"
+        ]
+      }
+    ]
+  },
+  {
     "date": "2025-01-20",
     "description": "🚀 Nouvelles fonctionnalités et améliorations",
     "content": [
