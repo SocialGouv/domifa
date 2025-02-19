@@ -10,6 +10,7 @@ import {
   UsagerOptionsTransfert,
   UsagerOptionsHistory,
   Usager,
+  getPersonFullName,
 } from "@domifa/common";
 
 @Injectable()
@@ -24,7 +25,7 @@ export class UsagerOptionsHistoryService {
     const newUsagerOptionsHistory: UsagerOptionsHistory = {
       usagerUUID: usager.uuid,
       userId: user.id,
-      userName: `${user.prenom} ${user.nom}`,
+      userName: getPersonFullName(usager),
       structureId: usager.structureId,
       action,
       type,

@@ -16,6 +16,7 @@ import {
   Usager,
   ENTRETIEN_LIEN_COMMUNE,
   UserStructureProfile,
+  getPersonFullName,
 } from "@domifa/common";
 import {
   StructureCustomDocKeys,
@@ -179,12 +180,13 @@ export const buildReferrer = (
   usager: Pick<Usager, "structureId" | "referrerId">,
   users: Pick<UserStructureProfile, "id" | "nom" | "prenom">[]
 ): string => {
-  if (!usager.referrerId) {
+  if (!usager?.referrerId) {
     return "";
   }
+  console.log(usager.referrerId);
 
   const referrer = users.find((user) => user.id === usager.referrerId);
-  return referrer ? `${referrer.nom} ${referrer.prenom}` : "Compte supprimé";
+  return referrer ? getPersonFullName(referrer) : "Compte supprimé";
 };
 
 export const buildDecision = (

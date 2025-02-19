@@ -46,7 +46,7 @@ import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 import { PassThrough, Readable } from "node:stream";
 import { join } from "node:path";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
-import { Usager, UsagerDoc } from "@domifa/common";
+import { getPersonFullName, Usager, UsagerDoc } from "@domifa/common";
 import {
   USAGER_DOCS_FIELDS_TO_SELECT,
   usagerDocsRepository,
@@ -94,7 +94,7 @@ export class UsagerDocsController {
     @Res() res: Response
   ) {
     const encryptionContext = crypto.randomUUID();
-    const userName = `${user.prenom} ${user.nom}`;
+    const userName = getPersonFullName(user);
 
     const path = randomName(file);
 

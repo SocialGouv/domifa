@@ -303,6 +303,7 @@ export class UsagersService {
       u.historique,
       u."lastInteraction",
       u.options,
+      u."referrerId",
       u."numeroDistribution",
       JSON_BUILD_OBJECT(
         'usagerUUID', e."usagerUUID",

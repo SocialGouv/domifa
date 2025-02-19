@@ -10,6 +10,7 @@ import {
   UsagerDecision,
   Usager,
   UserStructure,
+  getPersonFullName,
 } from "@domifa/common";
 
 export const usagersImportBuilder = {
@@ -24,7 +25,7 @@ function buildUsagers({
   user: Pick<UserStructure, "id" | "structureId" | "prenom" | "nom">;
 }): Partial<Usager>[] {
   const now = new Date();
-  const agent = `${user.prenom} ${user.nom}`;
+  const agent = getPersonFullName(user);
 
   return usagersRows.map((usagerRow) =>
     buildUsager({

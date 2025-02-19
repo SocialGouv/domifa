@@ -23,4 +23,5 @@ export type StructureUsagerExport = Pick<
   | "options"
   | "numeroDistribution"
   | "entretien"
+  | "referrerId"
 >;

@@ -27,6 +27,7 @@ import {
   UsagerNote,
   Usager,
   UsagerPinnedNote,
+  getPersonFullName,
 } from "@domifa/common";
 import { CreateNoteDto } from "../dto/create-note.dto";
 import {
@@ -90,7 +91,7 @@ export class UsagerNotesController {
   ): Promise<Usager> {
     const createdBy: UserStructureResume = {
       userId: currentUser.id,
-      userName: `${currentUser.prenom} ${currentUser.nom}`,
+      userName: getPersonFullName(currentUser),
     };
 
     await usagerNotesRepository.save({
@@ -207,7 +208,7 @@ export class UsagerNotesController {
       ? {
           archivedBy: {
             userId: currentUser.id,
-            userName: `${currentUser.prenom} ${currentUser.nom}`,
+            userName: getPersonFullName(currentUser),
           },
           archived: true,
           archivedAt: new Date(),
