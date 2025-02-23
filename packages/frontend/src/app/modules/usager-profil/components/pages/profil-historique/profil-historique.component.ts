@@ -58,7 +58,7 @@ export class ProfilHistoriqueComponent
     },
     {
       id: "transferts",
-      name: "Tranferts",
+      name: "Transferts",
     },
   ];
 
