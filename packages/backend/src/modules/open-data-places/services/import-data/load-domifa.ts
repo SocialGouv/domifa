@@ -1,9 +1,15 @@
 import {
   structureRepository,
   openDataPlaceRepository,
+  usagerRepository,
 } from "../../../../database";
 import { OpenDataPlaceTable } from "../../../../database/entities/open-data-place";
-import { appLogger, cleanAddress, cleanCity } from "../../../../util";
+import {
+  appLogger,
+  cleanAddress,
+  cleanCity,
+  cleanSpaces,
+} from "../../../../util";
 import { getLocation } from "../../../../structures/services/location.service";
 import { Point } from "geojson";
 import { OpenDataPlace } from "../../interfaces";
@@ -29,19 +35,23 @@ export const loadDomifaData = async () => {
     });
 
     for await (const place of places) {
-      let domifaPlace = await openDataPlaceRepository.findOneBy({
+      const domifaPlace = await openDataPlaceRepository.findOneBy({
         source: "domifa",
         uniqueId: place.id.toString(),
       });
 
+      const nbDomiciliesDomifa = await usagerRepository.count({
+        where: { statut: "VALIDE", structureId: place.id },
+      });
+
       const placeData: OpenDataPlace = {
-        nom: place.nom.trim(),
+        nom: cleanSpaces(place.nom),
         adresse: cleanAddress(place.adresse),
         codePostal: place.codePostal,
         ville: cleanCity(place.ville),
         departement: place.departement,
         region: place.region,
-        complementAdresse: place.complementAdresse,
+        complementAdresse: cleanSpaces(place.complementAdresse),
         software: "domifa",
         latitude: place.latitude,
         longitude: place.longitude,
@@ -50,8 +60,7 @@ export const loadDomifaData = async () => {
         mail: place.email,
         structureType: place.structureType,
         uniqueId: place.id.toString(),
-        soliguideStructureId: null,
-        mssId: null,
+        nbDomiciliesDomifa,
       };
 
       if (!place?.latitude || !place?.longitude) {
@@ -64,9 +73,7 @@ export const loadDomifaData = async () => {
       }
 
       if (!domifaPlace) {
-        domifaPlace = await openDataPlaceRepository.save(
-          new OpenDataPlaceTable(placeData)
-        );
+        await openDataPlaceRepository.save(new OpenDataPlaceTable(placeData));
       } else {
         await openDataPlaceRepository.update(
           { uuid: domifaPlace.uuid },

@@ -301,6 +301,12 @@ async function createTables(queryRunner: QueryRunner) {
       "domifaStructureId" int4 NULL,
       "soliguideStructureId" int4 NULL,
       "mssId" text NULL,
+      "nbDomicilies" int4 NULL,
+      "nbDomiciliesDomifa" int4 NULL,
+      "nbAttestations" int4 NULL,
+      "nbAttestationsDomifa" int4 NULL,
+      "saturation" text NULL,
+      "saturationDetails" text NULL,
       CONSTRAINT "PK_f80b64cfb42753deacd8bf6d78d" PRIMARY KEY (uuid),
       CONSTRAINT "FK_7ee1e7a8d9441eb76ab7b4aa5a3" FOREIGN KEY ("domifaStructureId") REFERENCES public."structure"(id) ON DELETE CASCADE
     );

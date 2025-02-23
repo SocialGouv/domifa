@@ -7,13 +7,20 @@ import { domifaConfig } from "../../../../config";
 import { openDataPlaceRepository } from "../../../../database";
 import { OpenDataPlaceTable } from "../../../../database/entities/open-data-place";
 import { getLocation } from "../../../../structures/services/location.service";
-import { appLogger, cleanAddress, cleanCity } from "../../../../util";
+import {
+  appLogger,
+  cleanAddress,
+  cleanCity,
+  cleanSpaces,
+  padPostalCode,
+} from "../../../../util";
 import { getStructureType } from "../../functions";
 import { MssPlace, OpenDataPlace } from "../../interfaces";
 
 const getFromMss = async () => {
   let newPlaces = 0;
   let updatedPlaces = 0;
+
   try {
     const response = await axios.get<MssPlace[]>(
       domifaConfig().openDataApps.mssUrl,
@@ -31,7 +38,7 @@ const getFromMss = async () => {
         continue;
       }
 
-      const postalCode = place.zipcode.replace(/\W/g, "");
+      const postalCode = padPostalCode(place.zipcode.replace(/\W/g, ""));
       const address = `${place.address}, ${place?.city} ${postalCode}`;
       const position = await getLocation(address);
 
@@ -55,7 +62,7 @@ const getFromMss = async () => {
       const departement = getDepartementFromCodePostal(postalCode);
 
       const openDataPlace: Partial<OpenDataPlace> = {
-        nom: place.name,
+        nom: cleanSpaces(place.name),
         adresse: cleanAddress(place?.address),
         codePostal: postalCode,
         ville: cleanCity(place?.city),
@@ -70,30 +77,35 @@ const getFromMss = async () => {
         mssId,
       };
 
-      let mssPlace = await openDataPlaceRepository.findOneBy({
+      const mssPlace = await openDataPlaceRepository.findOneBy({
         source: "mss",
         uniqueId: mssId,
       });
 
-      const placeExist: OpenDataPlace =
-        await openDataPlaceRepository.findExistingPlace(
+      const domifaPlaceExist: OpenDataPlace =
+        await openDataPlaceRepository.findExistingPlaceFromDomiFa(
           openDataPlace.latitude,
           openDataPlace.longitude
         );
 
-      if (placeExist) {
-        openDataPlace.domifaStructureId = placeExist.domifaStructureId;
+      if (domifaPlaceExist) {
+        openDataPlace.domifaStructureId = domifaPlaceExist.domifaStructureId;
         openDataPlace.software = "domifa";
+        openDataPlace.nbDomiciliesDomifa = openDataPlace.nbDomiciliesDomifa;
 
         await openDataPlaceRepository.update(
-          { domifaStructureId: placeExist.domifaStructureId, source: "domifa" },
-          { mssId: openDataPlace.mssId }
+          { domifaStructureId: domifaPlaceExist.domifaStructureId },
+          {
+            mssId: openDataPlace.mssId,
+            software: "domifa",
+            nbDomiciliesDomifa: openDataPlace.nbDomiciliesDomifa,
+          }
         );
       }
 
       if (!mssPlace) {
         newPlaces++;
-        mssPlace = await openDataPlaceRepository.save(
+        await openDataPlaceRepository.save(
           new OpenDataPlaceTable({
             ...openDataPlace,
           })

@@ -76,16 +76,16 @@ const getFromDataInclusion = async (structureType: "CCAS" | "CIAS") => {
           );
         }
 
-        const placeExist: OpenDataPlace =
-          await openDataPlaceRepository.findExistingPlace(
+        const domifaPlaceExist: OpenDataPlace =
+          await openDataPlaceRepository.findExistingPlaceFromDomiFa(
             dataInclusionPlace?.latitude,
             dataInclusionPlace?.longitude
           );
 
-        if (placeExist) {
+        if (domifaPlaceExist) {
           await openDataPlaceRepository.update(
             { uuid: dataInclusionPlace.uuid },
-            { domifaStructureId: placeExist.domifaStructureId }
+            { domifaStructureId: domifaPlaceExist.domifaStructureId }
           );
         }
       }

@@ -10,8 +10,14 @@ import axios from "axios";
 import { domifaConfig } from "../../../../config";
 import { openDataPlaceRepository } from "../../../../database";
 import { OpenDataPlaceTable } from "../../../../database/entities/open-data-place";
-import { cleanAddress, cleanCity, appLogger } from "../../../../util";
+import {
+  cleanAddress,
+  cleanCity,
+  appLogger,
+  cleanSpaces,
+} from "../../../../util";
 import { SoliguidePlace } from "../../interfaces";
+
 let nbResults = 0;
 let newPlaces = 0;
 let updatedPlaces = 0;
@@ -25,7 +31,7 @@ const getFromSoliguide = async () => {
     const response = await axios.post(
       domifaConfig().openDataApps.soliguideUrl,
       {
-        categorie: 402,
+        category: "domiciliation",
         placeType: "LIEU",
         location: {
           geoType: "pays",
@@ -55,8 +61,14 @@ const getFromSoliguide = async () => {
         place.position.codePostal
       );
 
+      const services = place.services_all.filter(
+        (service) => service.category === "domiciliation"
+      );
+
+      const service = services[0];
+
       const openDataPlace: Partial<OpenDataPlace> = {
-        nom: place.name,
+        nom: cleanSpaces(place.name),
         adresse: cleanAddress(place?.position?.adresse),
         codePostal: place.position.codePostal,
         ville: cleanCity(place?.position?.ville),
@@ -70,6 +82,8 @@ const getFromSoliguide = async () => {
         uniqueId: place.lieu_id.toString(),
         soliguideStructureId: parseInt(place.lieu_id as any, 10),
         software: "other",
+        saturation: service?.saturated?.status,
+        saturationDetails: service?.saturated?.precision,
       };
 
       let soliguidePlace = await openDataPlaceRepository.findOneBy({
@@ -77,19 +91,28 @@ const getFromSoliguide = async () => {
         uniqueId: place.lieu_id.toString(),
       });
 
-      const placeExist: OpenDataPlace =
-        await openDataPlaceRepository.findExistingPlace(
+      const domifaPlaceExist: OpenDataPlace =
+        await openDataPlaceRepository.findExistingPlaceFromDomiFa(
           openDataPlace.latitude,
           openDataPlace.longitude
         );
 
-      if (placeExist) {
-        openDataPlace.domifaStructureId = placeExist.domifaStructureId;
+      if (domifaPlaceExist) {
+        openDataPlace.domifaStructureId = domifaPlaceExist.domifaStructureId;
         openDataPlace.software = "domifa";
+        openDataPlace.nbDomiciliesDomifa = openDataPlace.nbDomiciliesDomifa;
 
         await openDataPlaceRepository.update(
-          { domifaStructureId: placeExist.domifaStructureId, source: "domifa" },
-          { soliguideStructureId: openDataPlace.soliguideStructureId }
+          {
+            domifaStructureId: domifaPlaceExist.domifaStructureId,
+          },
+          {
+            soliguideStructureId: openDataPlace.soliguideStructureId,
+            saturation: service.saturated.status,
+            saturationDetails: service.saturated.precision,
+            software: "domifa",
+            nbDomiciliesDomifa: openDataPlace.nbDomiciliesDomifa,
+          }
         );
       }
 
@@ -130,6 +153,7 @@ const getFromSoliguide = async () => {
     console.error("[IMPORT] Something happen during soliguide import");
   }
 };
+
 export const loadSoliguideData = async () => {
   if (
     !domifaConfig().openDataApps.soliguideUrl ||
