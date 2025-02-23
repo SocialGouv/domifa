@@ -1,3 +1,14 @@
+import { Saturation } from "./Saturation.type";
+export interface ServiceSaturation {
+  precision: string;
+  status: Saturation;
+}
+
+export interface SoliguideService {
+  category: string;
+  description: string;
+  saturated: ServiceSaturation;
+}
 export interface SoliguidePlace {
   position: {
     codePostal: string;
@@ -14,6 +25,7 @@ export interface SoliguidePlace {
   };
   name: string;
   lieu_id: number;
+  services_all: SoliguideService[];
   entity: {
     mail: string | null;
     phones: [

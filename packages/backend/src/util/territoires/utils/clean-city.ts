@@ -17,3 +17,16 @@ export const cleanCity = (city: string): string => {
 
   return ucFirst(city.trim());
 };
+
+export const padPostalCode = (codePostal: string | number): string => {
+  const cleanCode = codePostal
+    ?.toString()
+    .replace(/[^a-zA-Z0-9]/g, "")
+    .trim();
+
+  if (!cleanCode) {
+    return null;
+  }
+
+  return cleanCode.padStart(5, "0");
+};

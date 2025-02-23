@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FeatureCollection, Point } from "geojson";
+import { Feature, FeatureCollection, Point } from "geojson";
 import { appLogger, formatAddressForURL } from "../../util";
 
 export interface FrenchAddress {
@@ -43,7 +43,9 @@ export type FrenchApiPoiResponse = FeatureCollection<
   FrenchPoi & FrenchAddress
 >;
 
-export const getLocation = async (address: string): Promise<Point | null> => {
+export const getAddress = async (
+  address: string
+): Promise<Feature<Point, FrenchAddress>> => {
   try {
     const apiUrl = "https://data.geopf.fr/geocodage/search";
 
@@ -54,7 +56,7 @@ export const getLocation = async (address: string): Promise<Point | null> => {
     } = {
       q: formatAddressForURL(address),
       limit: 1,
-      index: "poi,address",
+      index: "address",
     };
 
     if (params.q?.length < 3) {
@@ -77,7 +79,19 @@ export const getLocation = async (address: string): Promise<Point | null> => {
       return null;
     }
 
-    return response.data.features[0].geometry;
+    return response.data.features[0];
+  } catch (error) {
+    appLogger.warn(
+      `[GET LOCATION] Cannot get location from this address ${address}`
+    );
+    return null;
+  }
+};
+
+export const getLocation = async (address: string): Promise<Point | null> => {
+  try {
+    const place = await getAddress(address);
+    return place.geometry;
   } catch (error) {
     appLogger.warn(
       `[GET LOCATION] Cannot get location from this address ${address}`

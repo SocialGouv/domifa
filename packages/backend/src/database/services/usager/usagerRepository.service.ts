@@ -25,7 +25,6 @@ export const usagerRepository = myDataSource
     findLastFiveCustomRef,
     getUserUsagerData,
     countTotalActifs,
-    countUsagersToAnonymize,
   });
 
 export async function getUserUsagerData({
@@ -168,12 +167,6 @@ async function countMigratedUsagers(structureId: number): Promise<number> {
   return myDataSource
     .getRepository<Usager>(UsagerTable)
     .countBy({ migrated: false, structureId });
-}
-
-async function countUsagersToAnonymize(): Promise<number> {
-  return myDataSource
-    .getRepository<Usager>(UsagerTable)
-    .countBy({ migrated: false });
 }
 
 async function findLastFiveCustomRef({

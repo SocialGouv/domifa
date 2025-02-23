@@ -5,7 +5,10 @@ import { myDataSource } from "../_postgres";
 export const openDataPlaceRepository = myDataSource
   .getRepository<OpenDataPlace>(OpenDataPlaceTable)
   .extend({
-    findExistingPlace: async (latitude: number, longitude: number) => {
+    findExistingPlaceFromDomiFa: async (
+      latitude: number,
+      longitude: number
+    ) => {
       return await openDataPlaceRepository
         .createQueryBuilder("open_data_places")
         // skipcq: JS-R1004

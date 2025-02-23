@@ -2,6 +2,10 @@ import { Entity, Column, ManyToOne, JoinColumn, Index } from "typeorm";
 import { StructureTable } from "../structure";
 import { AppTypeormTable } from "../_core";
 import { StructureType } from "@domifa/common";
+import {
+  OpenDataSource,
+  Saturation,
+} from "../../../modules/open-data-places/interfaces";
 
 @Entity("open_data_places")
 export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlaceTable> {
@@ -36,7 +40,7 @@ export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlaceTable> {
   longitude: number;
 
   @Column({ type: "text", nullable: false })
-  source: "soliguide" | "domifa" | "data-inclusion" | "mss";
+  source: OpenDataSource;
 
   @Column({ type: "text", nullable: false })
   uniqueId: string; // ID from soliguide | data-inclusion
@@ -63,6 +67,24 @@ export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlaceTable> {
 
   @Column({ type: "text", nullable: true })
   structureType: StructureType;
+
+  @Column({ type: "integer", nullable: true })
+  nbDomicilies?: number | null;
+
+  @Column({ type: "integer", nullable: true })
+  nbAttestations?: number | null;
+
+  @Column({ type: "integer", nullable: true })
+  nbAttestationsDomifa?: number | null;
+
+  @Column({ type: "integer", nullable: true })
+  nbDomiciliesDomifa?: number | null;
+
+  @Column({ type: "text", nullable: true })
+  saturation?: Saturation;
+
+  @Column({ type: "text", nullable: true })
+  saturationDetails?: string | null;
 
   public constructor(entity?: Partial<OpenDataPlaceTable>) {
     super(entity);
