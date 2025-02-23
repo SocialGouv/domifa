@@ -1,3 +1,10 @@
+# [2.195.0](https://github.com/SocialGouv/domifa/compare/v2.194.9...v2.195.0) (2025-02-23)
+
+
+### Features
+
+* **backend:** import excel file with new source ([a168f96](https://github.com/SocialGouv/domifa/commit/a168f963b113f966a8217811c5a4aa7427f73e7b))
+
 ## [2.194.9](https://github.com/SocialGouv/domifa/compare/v2.194.8...v2.194.9) (2025-02-18)
 
 
