@@ -1,3 +1,10 @@
+## [2.195.2](https://github.com/SocialGouv/domifa/compare/v2.195.1...v2.195.2) (2025-02-24)
+
+
+### Bug Fixes
+
+* **backend:** fix unit test for clean addresses ([157cae7](https://github.com/SocialGouv/domifa/commit/157cae7f1c19d3e1ae79d0e034f594e54140e842))
+
 ## [2.195.1](https://github.com/SocialGouv/domifa/compare/v2.195.0...v2.195.1) (2025-02-24)
 
 
