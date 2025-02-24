@@ -1,3 +1,11 @@
+## [2.195.1](https://github.com/SocialGouv/domifa/compare/v2.195.0...v2.195.1) (2025-02-24)
+
+
+### Bug Fixes
+
+* **backend:** hide referrers ([cd01312](https://github.com/SocialGouv/domifa/commit/cd013120189e1f59440883d08719767912a3d8c2))
+* **frontend:** fix small labels ([6215653](https://github.com/SocialGouv/domifa/commit/6215653351412814aab4680b0a525ea9195ccd96))
+
 # [2.195.0](https://github.com/SocialGouv/domifa/compare/v2.194.9...v2.195.0) (2025-02-23)
 
 
