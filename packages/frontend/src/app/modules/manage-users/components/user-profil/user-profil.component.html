@@ -100,7 +100,7 @@
                     [attr.aria-busy]="loading"
                     id="role-{{ user.uuid }}"
                     [(ngModel)]="user.role"
-                    (ngModelChange)="onRoleChange(user, user.role)"
+                    (ngModelChange)="updateRole(user, user.role)"
                     class="form-select"
                   >
                     <option value="admin">Administrateur</option>
