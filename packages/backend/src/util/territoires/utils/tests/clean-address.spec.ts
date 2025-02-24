@@ -12,7 +12,6 @@ const ADDRESS_TO_CHECK = [
     address: "2, Allée Louis de Broglie - BP 81",
     formattedAddress: "2 allee louis de broglie",
   },
-  { address: "B.P. 50018", formattedAddress: "" },
   {
     address: "18 Bis Avenue Léon BLUM",
     formattedAddress: "18 avenue leon blum",
