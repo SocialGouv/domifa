@@ -15,7 +15,7 @@ export class InputReferrerComponent implements OnInit {
   @Input() public parentFormGroup!: UntypedFormGroup;
   @Input() public referrerId: number | null = null;
   @Input() public required = false;
-  @Input() public label = "Référent dossier";
+  @Input() public label = "Référent du dossier";
   @Input() public displayLabel = true;
 
   @Output() outputFunction = new EventEmitter<number | null>();
