@@ -164,13 +164,7 @@
     </div>
   </fieldset>
 
-  <div
-    *ngIf="
-      usager.options.transfert.dateFin &&
-      usager.options.transfert.dateFin > today
-    "
-    class="alert alert-warning"
-  >
+  <div *ngIf="usager.options.transfert.isExpired" class="alert alert-warning">
     <div class="svg-icon icon-distribution"></div>
     <p>
       Un transfert est actif sur le dossier. Le courrier doit être transféré à

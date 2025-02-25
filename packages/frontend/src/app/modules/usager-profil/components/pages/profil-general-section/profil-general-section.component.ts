@@ -38,8 +38,6 @@ import {
 export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent {
   public interactions: Interaction[];
 
-  public today: Date;
-
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
@@ -86,7 +84,6 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());
 
-    this.today = new Date();
     this.titlePrefix = "Dossier";
   }
 

@@ -34,7 +34,6 @@ export class ProfilHeadComponent implements OnDestroy {
   private subscription = new Subscription();
 
   public loading: boolean;
-  public today: Date;
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
 
   @ViewChild("renewModal", { static: true })
@@ -50,7 +49,6 @@ export class ProfilHeadComponent implements OnDestroy {
     private readonly documentService: DocumentService
   ) {
     this.loading = false;
-    this.today = new Date();
   }
 
   public closeModals(): void {

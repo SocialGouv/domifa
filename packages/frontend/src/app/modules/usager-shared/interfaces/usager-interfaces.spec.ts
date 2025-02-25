@@ -8,10 +8,6 @@ describe("Usager Interfaces testing", () => {
     const entretien = new Entretien();
     const rdv = new Rdv();
 
-    const today = new Date();
-    today.setSeconds(0);
-    today.setMilliseconds(0);
-
     expect(usager).toBeDefined();
     expect(entretien).toBeDefined();
     expect(rdv).toBeDefined();

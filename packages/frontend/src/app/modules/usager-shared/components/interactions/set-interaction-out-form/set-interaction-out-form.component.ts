@@ -51,7 +51,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   public loading = false;
 
   private subscription = new Subscription();
-  public today = new Date();
+
   constructor(
     private readonly interactionService: InteractionService,
     private readonly toastService: CustomToastService

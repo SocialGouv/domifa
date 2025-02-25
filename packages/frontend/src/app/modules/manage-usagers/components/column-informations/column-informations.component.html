@@ -22,10 +22,10 @@
           class="text-start"
           *ngFor="let procuration of usager.options.procurations"
         >
-          <ng-container *ngIf="procuration.dateFin > today">
+          <ng-container *ngIf="!procuration.isExpired">
             Active: {{ procuration.nom }} {{ procuration.prenom }}
           </ng-container>
-          <ng-container *ngIf="procuration.dateFin <= today">
+          <ng-container *ngIf="procuration.isExpired">
             <fa-icon
               aria-hidden="true"
               [icon]="['fas', 'times']"
@@ -51,12 +51,12 @@
   <span>Transfert</span>
   <ng-template #transfertActif>
     <div class="distribution-tooltip" tabindex="0">
-      <p class="m-0" *ngIf="usager.options.transfert.dateFin > today">
+      <p class="m-0" *ngIf="!usager.options.transfert.isExpired">
         Courrier à transférer : {{ usager.options.transfert.nom | titlecase }}
         {{ usager.options.transfert.adresse | titlecase }}
       </p>
 
-      <p class="m-0" *ngIf="usager.options.transfert.dateFin <= today">
+      <p class="m-0" *ngIf="usager.options.transfert.isExpired">
         Transfert expiré le
         {{ usager.options.transfert.dateFin | date : "dd MMMM yyyy" }}
       </p>
