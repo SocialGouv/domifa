@@ -35,7 +35,7 @@ export class UploadComponent implements OnInit, OnDestroy {
   public uploadForm!: UntypedFormGroup;
 
   @Output() public readonly getUsagerDocs = new EventEmitter<void>();
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public usager!: UsagerFormModel;
   @Input() public edit!: boolean;
 
   private subscription = new Subscription();

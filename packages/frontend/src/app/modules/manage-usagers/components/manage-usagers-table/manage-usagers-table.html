@@ -278,7 +278,7 @@
           ariaCurrentWhenActive="page"
         >
           <span class="visually-hidden">Consulter la fiche de </span>
-          <span>{{ usager | fullName}}</span>
+          <span>{{ usager.nom | uppercase}} {{ usager.prenom }}</span>
           <span class="ms-2" *ngIf="usager?.surnom">
             ({{ usager.surnom }})
           </span>

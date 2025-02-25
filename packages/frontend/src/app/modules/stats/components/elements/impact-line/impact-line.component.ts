@@ -8,5 +8,5 @@ import { fadeIn, fadeInOut } from "../../../../../shared";
   styleUrls: ["./impact-line.component.scss"],
 })
 export class ImpactLineComponent {
-  @Input() public direction!: "horizontal" | "vertical";
+  @Input({ required: true }) public direction!: "horizontal" | "vertical";
 }

@@ -1,3 +1,4 @@
+import { UsagerOptionsProcuration } from "@domifa/common";
 import { UsagerLight } from "../../../../../../_common/model";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { usagersSorter } from "./usagersSorter.service";
@@ -20,7 +21,9 @@ const usagersMock = [
       },
     ],
     options: {
-      procurations: [{ nom: "Mamadou", prenom: "Sacko" }],
+      procurations: [
+        new UsagerOptionsProcuration({ nom: "Mamadou", prenom: "Sacko" }),
+      ],
     },
   },
   {

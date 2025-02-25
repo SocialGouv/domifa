@@ -1,12 +1,7 @@
-import {
-  UsagerOptions,
-  UsagerOptionsProcuration,
-  UsagerOptionsTransfert,
-  OptionsTransfert,
-  UsagerProcuration,
-} from "@domifa/common";
+import { UsagerOptionsProcuration } from "./UsagerOptionsProcuration.class";
+import { UsagerOptionsTransfert } from "./UsagerOptionsTransfert.class";
 
-export class Options implements UsagerOptions {
+export class UsagerOptions {
   public transfert: UsagerOptionsTransfert;
   public procurations: UsagerOptionsProcuration[] = [];
   public portailUsagerEnabled = false;
@@ -17,25 +12,17 @@ export class Options implements UsagerOptions {
   };
 
   constructor(options?: UsagerOptions) {
-    this.transfert = {
-      actif: false,
-      adresse: null,
-      dateDebut: null,
-      dateFin: null,
-      nom: null,
-    };
-
     this.npai = {
       actif: false,
       dateDebut: null,
     };
 
-    this.transfert = new OptionsTransfert(options?.transfert);
+    this.transfert = new UsagerOptionsTransfert(options?.transfert);
 
     if (options?.procurations?.length) {
       this.procurations = options.procurations.map(
         (apiProcuration: UsagerOptionsProcuration) =>
-          new UsagerProcuration(apiProcuration)
+          new UsagerOptionsProcuration(apiProcuration)
       );
     }
 
