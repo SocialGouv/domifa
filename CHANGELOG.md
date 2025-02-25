@@ -1,3 +1,10 @@
+## [2.195.4](https://github.com/SocialGouv/domifa/compare/v2.195.3...v2.195.4) (2025-02-25)
+
+
+### Bug Fixes
+
+* **frontned:** fix build of procurations ([dbb4fa6](https://github.com/SocialGouv/domifa/commit/dbb4fa6aafe312f45d45ac2a188ed36f7ecbe87f))
+
 ## [2.195.3](https://github.com/SocialGouv/domifa/compare/v2.195.2...v2.195.3) (2025-02-25)
 
 
