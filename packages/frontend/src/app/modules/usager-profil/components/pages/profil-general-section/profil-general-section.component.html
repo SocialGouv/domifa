@@ -170,36 +170,36 @@
               N'habite plus à l'adresse indiquée, pli non distribuable
             </span>
           </div>
+          <ng-container *ngIf="usager.options.transfert.actif">
+            <!-- TRANSFERT -->
+            <div
+              *ngIf="usager.options.transfert.isExpired"
+              class="alert alert-danger"
+            >
+              <div class="svg-icon icon-distribution"></div>
+              <p>
+                <strong>Attention : </strong> le transfert de courrier était
+                valable jusqu'au
+                {{ usager.options.transfert.dateFin | date : "dd MMMM yyyy" }}
+              </p>
+            </div>
 
-          <!-- TRANSFERT -->
-          <div
-            *ngIf="
-              usager.options.transfert.actif &&
-              usager.options.transfert.isExpired
-            "
-            class="alert alert-danger"
-          >
-            <div class="svg-icon icon-distribution"></div>
-            <p>
-              <strong>Attention : </strong> le transfert de courrier était
-              valable jusqu'au
-              {{ usager.options.transfert.dateFin | date : "dd MMMM yyyy" }}
-            </p>
-          </div>
-
-          <div
-            *ngIf="usager.options.transfert.isExpired"
-            class="alert alert-warning"
-          >
-            <div class="svg-icon icon-distribution"></div>
-            <p>
-              Votre courrier est transféré à l'adresse suivante :
-              {{ usager.options.transfert.nom | titlecase }}
-              {{ usager.options.transfert.adresse | titlecase }}
-            </p>
-          </div>
-          <ng-container *ngFor="let procuration of usager.options.procurations">
-            <ng-container *ngIf="procuration.dateFin">
+            <div
+              *ngIf="!usager.options.transfert.isExpired"
+              class="alert alert-warning"
+            >
+              <div class="svg-icon icon-distribution"></div>
+              <p>
+                Votre courrier est transféré à l'adresse suivante :
+                {{ usager.options.transfert.nom | titlecase }}
+                {{ usager.options.transfert.adresse | titlecase }}
+              </p>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="usager.options.procurations.length > 0">
+            <ng-container
+              *ngFor="let procuration of usager.options.procurations"
+            >
               <div class="alert alert-warning" *ngIf="!procuration.isExpired">
                 <div class="svg-icon icon-distribution"></div>
 
@@ -210,7 +210,6 @@
                   {{ procuration.dateFin | date : "dd MMMM yyyy" }}
                 </p>
               </div>
-
               <div *ngIf="procuration.isExpired" class="alert alert-danger">
                 <span class="svg-icon icon-calendar" aria-hidden="true"></span>
                 <p>

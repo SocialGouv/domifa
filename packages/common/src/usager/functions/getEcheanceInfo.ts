@@ -1,8 +1,9 @@
-import { Usager } from "@domifa/common";
-import { UsagerEcheanceInfos } from "../../../../_common/model";
+import { Usager, UsagerEcheanceInfo } from "../interfaces";
 
-export const getEcheanceInfos = (usager?: Usager): UsagerEcheanceInfos => {
-  const usagerInfos: UsagerEcheanceInfos = {
+export const getEcheanceInfo = (
+  usager?: Pick<Usager, "decision" | "historique" | "typeDom">
+): UsagerEcheanceInfo => {
+  const usagerInfos: UsagerEcheanceInfo = {
     isActif: false,
     dateToDisplay: null,
     dayBeforeEnd: 365,
@@ -27,7 +28,7 @@ export const getEcheanceInfos = (usager?: Usager): UsagerEcheanceInfos => {
   ) {
     usagerInfos.dateToDisplay = usager.decision.dateDebut
       ? new Date(usager.decision.dateDebut)
-      : new Date(usager.decision.dateFin);
+      : new Date(usager.decision.dateFin as Date);
   } else if (usager.typeDom === "RENOUVELLEMENT") {
     usagerInfos.isActif = true;
     const indexOfDate = usager.decision.statut === "ATTENTE_DECISION" ? 2 : 1;

@@ -1,4 +1,3 @@
 // @index('./*service.ts', f => `export * from '${f.path}'`)
-export * from "./getEcheanceInfos.service";
-export * from "./countStanbyInteractions";
+export * from "./countStanbyInteractions.service";
 export * from "./getUrlUsagerProfil.service";

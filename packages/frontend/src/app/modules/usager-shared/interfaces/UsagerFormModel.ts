@@ -1,8 +1,8 @@
 import { CountryISO } from "@khazii/ngx-intl-tel-input";
-import { Entretien, Rdv, Decision, Options } from ".";
+import { Entretien, Rdv, Decision } from ".";
 import { UsagerEcheanceInfos, Telephone } from "../../../../_common/model";
 
-import { countStandByInteractions, getEcheanceInfos } from "../utils";
+import { countStandByInteractions } from "../utils";
 import {
   ETAPE_ETAT_CIVIL,
   USAGER_DECISION_STATUT_COLORS,
@@ -16,6 +16,8 @@ import {
   UsagerNote,
   Usager,
   UsagerDecisionStatut,
+  UsagerOptions,
+  getEcheanceInfo,
 } from "@domifa/common";
 import { formatInternationalPhoneNumber } from "../../../shared/phone/formatInternationalPhoneNumber";
 
@@ -53,7 +55,7 @@ export class UsagerFormModel implements Usager {
   };
   public standByInteractions: number;
 
-  public options: Options;
+  public options: UsagerOptions;
 
   public echeanceInfos: UsagerEcheanceInfos;
   public rdvInfo: UsagerRdvInfo;
@@ -140,7 +142,7 @@ export class UsagerFormModel implements Usager {
     this.contactByPhone = usager?.contactByPhone || false;
     this.rdv = new Rdv(usager?.rdv || null);
     this.entretien = new Entretien(usager?.entretien);
-    this.options = new Options(usager?.options);
+    this.options = new UsagerOptions(usager?.options);
     this.decision = new Decision(usager?.decision);
     this.statut = this.decision.statut;
 
@@ -148,7 +150,8 @@ export class UsagerFormModel implements Usager {
       text: USAGER_DECISION_STATUT_LABELS[this.decision.statut],
       color: USAGER_DECISION_STATUT_COLORS[this.decision.statut],
     };
-    this.echeanceInfos = getEcheanceInfos(usager);
+
+    this.echeanceInfos = getEcheanceInfo(usager);
     this.rdvInfo = getRdvInfo({
       rdv: this.rdv,
       etapeDemande: this.etapeDemande,

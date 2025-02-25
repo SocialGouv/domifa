@@ -5,7 +5,7 @@ export class MailDelegate implements IMailDelegate {
   public nom: string;
   public dateDebut: Date | null;
   public dateFin: Date | null;
-  public isExpired: boolean;
+  public isExpired?: boolean;
 
   constructor(options?: Partial<IMailDelegate>) {
     this.nom = options?.nom || "";
