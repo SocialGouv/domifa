@@ -1,3 +1,10 @@
+## [2.195.3](https://github.com/SocialGouv/domifa/compare/v2.195.2...v2.195.3) (2025-02-25)
+
+
+### Bug Fixes
+
+* **frontend:** add isExpired to options ([52d89be](https://github.com/SocialGouv/domifa/commit/52d89bef12537520c7dcec56294961f727a7f396))
+
 ## [2.195.2](https://github.com/SocialGouv/domifa/compare/v2.195.1...v2.195.2) (2025-02-24)
 
 
