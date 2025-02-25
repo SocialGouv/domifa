@@ -147,11 +147,13 @@
             <div class="mb-1">
               <label for="distribution-mandataire-{{ i }}">
                 {{ procuration | fullName }}
+                <span *ngIf="procuration.isExpired"></span>
               </label>
             </div>
           </div>
           <div class="interaction-actions checkbox">
             <input
+              [disabled]="procuration.isExpired"
               name="procuration"
               id="distribution-mandataire-{{ i }}"
               type="radio"

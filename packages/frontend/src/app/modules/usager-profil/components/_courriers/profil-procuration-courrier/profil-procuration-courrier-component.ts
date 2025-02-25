@@ -137,7 +137,7 @@ export class UsagersProfilProcurationCourrierComponent
   public initForm(): void {
     if (this.usager.options.procurations.length > 0) {
       for (const procuration of this.usager.options.procurations) {
-        this.addProcuration(procuration);
+        this.addProcuration(procuration as UsagerProcuration);
       }
     } else {
       this.addProcuration();
