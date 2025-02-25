@@ -175,8 +175,7 @@
           <div
             *ngIf="
               usager.options.transfert.actif &&
-              usager.options.transfert.dateFin &&
-              usager.options.transfert.dateFin <= today
+              usager.options.transfert.isExpired
             "
             class="alert alert-danger"
           >
@@ -189,10 +188,7 @@
           </div>
 
           <div
-            *ngIf="
-              usager.options.transfert.dateFin &&
-              usager.options.transfert.dateFin > today
-            "
+            *ngIf="usager.options.transfert.isExpired"
             class="alert alert-warning"
           >
             <div class="svg-icon icon-distribution"></div>
@@ -204,10 +200,7 @@
           </div>
           <ng-container *ngFor="let procuration of usager.options.procurations">
             <ng-container *ngIf="procuration.dateFin">
-              <div
-                class="alert alert-warning"
-                *ngIf="procuration.dateFin > today"
-              >
+              <div class="alert alert-warning" *ngIf="!procuration.isExpired">
                 <div class="svg-icon icon-distribution"></div>
 
                 <p>
@@ -218,10 +211,7 @@
                 </p>
               </div>
 
-              <div
-                *ngIf="procuration.dateFin <= today"
-                class="alert alert-danger"
-              >
+              <div *ngIf="procuration.isExpired" class="alert alert-danger">
                 <span class="svg-icon icon-calendar" aria-hidden="true"></span>
                 <p>
                   La procuration au nom de
@@ -307,12 +297,12 @@
                 [usager]="usager"
               ></app-display-ayants-droits>
             </div>
-            <!-- <div class="col-6 my-1 align-self-center">
+            <div class="col-6 my-1 align-self-center">
               <span class="label">Référent du dossier</span>
             </div>
             <div class="col-6 my-1">
               {{ usager.referrerId | referrerName | async }}
-            </div> -->
+            </div>
             <div class="col-12 mt-4">
               <a
                 class="text-link"

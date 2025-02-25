@@ -13,7 +13,6 @@ import { UserStructure } from "@domifa/common";
 })
 export class NavbarComponent {
   public matomoInfo: boolean;
-  public today = new Date();
 
   public readonly portailAdminUrl = environment.portailAdminUrl;
 

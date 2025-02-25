@@ -7,6 +7,5 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ColumnInformationsComponent {
-  @Input() public usager!: UsagerFormModel;
-  public readonly today = new Date();
+  @Input({ required: true }) public usager!: UsagerFormModel;
 }
