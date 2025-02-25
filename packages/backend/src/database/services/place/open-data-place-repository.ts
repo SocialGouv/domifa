@@ -15,7 +15,7 @@ export const openDataPlaceRepository = myDataSource
         .select(`*`)
         .where(
           // skipcq: JS-R1004
-          `source='domifa' and ST_DWithin(ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::geography, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)::geography, 400);`,
+          `source='domifa' and ST_DWithin(ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::geography, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)::geography, 300);`,
           {
             longitude,
             latitude,

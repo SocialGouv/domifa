@@ -1,8 +1,14 @@
-import { ETAPE_DOSSIER_COMPLET } from "../usager";
+import { ETAPE_DOSSIER_COMPLET, Usager } from "../usager";
+import {
+  UsagerOptionsProcuration,
+  UsagerOptionsTransfert,
+} from "../usager-options";
 
-export const USAGER_VALIDE_MOCK = {
+export const USAGER_VALIDE_MOCK: Usager = {
   numeroDistribution: null,
+  statut: "VALIDE",
   decision: {
+    uuid: "",
     statut: "VALIDE",
     dateDebut: new Date("2020-02-12T00:00:00.000Z"),
     dateDecision: new Date("2020-02-12T00:00:00.000Z"),
@@ -24,22 +30,8 @@ export const USAGER_VALIDE_MOCK = {
   },
   pinnedNote: null,
   options: {
-    transfert: {
-      actif: false,
-      nom: null,
-      adresse: null,
-      dateDebut: null,
-      dateFin: null,
-    },
-    procurations: [
-      {
-        nom: null,
-        prenom: null,
-        dateFin: null,
-        dateDebut: null,
-        dateNaissance: null,
-      },
-    ],
+    transfert: new UsagerOptionsTransfert(),
+    procurations: [new UsagerOptionsProcuration()],
     npai: {
       actif: false,
       dateDebut: null,
@@ -78,6 +70,11 @@ export const USAGER_VALIDE_MOCK = {
     raisonDetail: null,
     accompagnement: null,
     accompagnementDetail: null,
+    usagerUUID: "",
+    structureId: 1,
+    usagerRef: 1,
+    situationPro: null,
+    situationProDetail: null,
   },
   etapeDemande: ETAPE_DOSSIER_COMPLET,
   historique: [
@@ -88,21 +85,19 @@ export const USAGER_VALIDE_MOCK = {
       dateFin: new Date("2021-02-12T00:00:00.000Z"),
       motif: null,
       typeDom: "PREMIERE_DOM",
-      orientation: null,
-      orientationDetails: null,
       motifDetails: "",
       userId: 30,
       userName: "Testeur Robin",
+      uuid: "",
     },
     {
+      uuid: "",
       dateDebut: new Date("2020-12-01T10:00:24.980Z"),
       dateDecision: new Date("2020-12-01T10:00:24.980Z"),
       dateFin: new Date("2020-12-01T10:00:24.980Z"),
       motif: null,
-      motifDetails: null,
+      motifDetails: "",
       statut: "INSTRUCTION",
-      orientation: null,
-      orientationDetails: null,
       userId: 30,
       userName: "Testeur Robin",
       typeDom: "PREMIERE_DOM",

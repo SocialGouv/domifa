@@ -9,6 +9,7 @@ import { PortailUsagerAuthLoginForm } from "../../../../_common";
 import {
   PortailUsagerProfile,
   PortailUsagerAuthApiResponse,
+  UsagerOptions,
 } from "@domifa/common";
 import { getCurrentScope } from "@sentry/angular";
 import { CustomToastService } from "../../shared/services/custom-toast.service";
@@ -109,6 +110,10 @@ export class UsagerAuthService {
   }
 
   public saveAuthUsager(authUsagerProfile: PortailUsagerProfile): void {
+    authUsagerProfile.usager = {
+      ...authUsagerProfile.usager,
+      options: new UsagerOptions(authUsagerProfile.usager.options),
+    };
     // Enregistrement de l'utilisateur
     localStorage.removeItem(USER_KEY);
     localStorage.setItem(USER_KEY, JSON.stringify(authUsagerProfile));

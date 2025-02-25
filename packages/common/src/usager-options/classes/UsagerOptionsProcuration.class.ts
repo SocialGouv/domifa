@@ -1,11 +1,7 @@
 import { MailDelegate } from ".";
 import { createDate } from "../../_core";
-import { UsagerOptionsProcuration } from "../interfaces";
 
-export class UsagerProcuration
-  extends MailDelegate
-  implements UsagerOptionsProcuration
-{
+export class UsagerOptionsProcuration extends MailDelegate {
   public prenom: string;
   public dateNaissance: Date | null;
 

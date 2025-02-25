@@ -3,12 +3,11 @@ import {
   USAGER_DECISION_STATUT_LABELS,
   USAGER_DECISION_STATUT_COLORS,
   getRdvInfo,
+  UsagerOptions,
+  getEcheanceInfo,
 } from "@domifa/common";
-import { Decision, Options, Rdv } from "../../modules/usager-shared/interfaces";
-import {
-  countStandByInteractions,
-  getEcheanceInfos,
-} from "../../modules/usager-shared/utils";
+import { Decision, Rdv } from "../../modules/usager-shared/interfaces";
+import { countStandByInteractions } from "../../modules/usager-shared/utils";
 import { formatInternationalPhoneNumber } from "../phone";
 import { Telephone } from "../../../_common/model";
 
@@ -28,14 +27,14 @@ export const setUsagerInformation = (usager: Usager): any => {
         : null,
     },
     phoneNumber: formatInternationalPhoneNumber(usager?.telephone as Telephone),
-    echeanceInfos: getEcheanceInfos(usager),
+    echeanceInfos: getEcheanceInfo(usager),
     rdvInfo: getRdvInfo({
       rdv: usager.rdv,
       etapeDemande: usager.etapeDemande,
     }),
     standByInteractions: countStandByInteractions(usager.lastInteraction),
     historique: [],
-    options: new Options(usager.options),
+    options: new UsagerOptions(usager.options),
     rdv: new Rdv(usager.rdv),
     dateNaissance: new Date(usager?.dateNaissance),
     entretien: null,

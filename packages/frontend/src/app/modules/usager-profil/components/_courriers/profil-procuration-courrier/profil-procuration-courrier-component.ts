@@ -41,11 +41,7 @@ import {
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 
 import { UsagerOptionsService } from "../../../services/usager-options.service";
-import {
-  UsagerProcuration,
-  UserStructure,
-  UsagerOptionsProcuration,
-} from "@domifa/common";
+import { UserStructure, UsagerOptionsProcuration } from "@domifa/common";
 
 @Component({
   selector: "app-profil-procuration-courrier",
@@ -119,7 +115,7 @@ export class UsagersProfilProcurationCourrierComponent
   }
 
   public addProcuration(
-    procuration: UsagerProcuration = new UsagerProcuration()
+    procuration: UsagerOptionsProcuration = new UsagerOptionsProcuration()
   ): void {
     this.submitted = false;
     this.form.push(this.newProcuration(procuration));
@@ -137,7 +133,7 @@ export class UsagersProfilProcurationCourrierComponent
   public initForm(): void {
     if (this.usager.options.procurations.length > 0) {
       for (const procuration of this.usager.options.procurations) {
-        this.addProcuration(procuration as UsagerProcuration);
+        this.addProcuration(procuration as UsagerOptionsProcuration);
       }
     } else {
       this.addProcuration();

@@ -143,11 +143,19 @@
       >
         <div class="col-md-6 my-2">
           <div class="interaction-icon-box">
-            <div class="fw-bold">Mandataire</div>
-            <div class="mb-1">
+            <div
+              class="fw-bold"
+              [ngClass]="procuration.isExpired ? 'text-danger' : ''"
+            >
+              Mandataire
+              <span *ngIf="procuration.isExpired">(Procuration expirée !)</span>
+            </div>
+            <div
+              class="mb-1"
+              [ngClass]="procuration.isExpired ? 'text-danger' : ''"
+            >
               <label for="distribution-mandataire-{{ i }}">
                 {{ procuration | fullName }}
-                <span *ngIf="procuration.isExpired"></span>
               </label>
             </div>
           </div>

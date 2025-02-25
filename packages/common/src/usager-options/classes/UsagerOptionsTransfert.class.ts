@@ -1,10 +1,6 @@
 import { MailDelegate } from ".";
-import { UsagerOptionsTransfert } from "../interfaces";
 
-export class OptionsTransfert
-  extends MailDelegate
-  implements UsagerOptionsTransfert
-{
+export class UsagerOptionsTransfert extends MailDelegate {
   public adresse: string | null;
   public actif: boolean;
 

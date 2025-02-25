@@ -1,6 +1,10 @@
 import { CountryISO } from "@khazii/ngx-intl-tel-input";
 import { UsagerLight } from "../model";
-import { ETAPE_DOSSIER_COMPLET } from "@domifa/common";
+import {
+  ETAPE_DOSSIER_COMPLET,
+  UsagerOptionsProcuration,
+  UsagerOptionsTransfert,
+} from "@domifa/common";
 
 export const USAGER_REFUS_MOCK: UsagerLight = {
   numeroDistribution: null,
@@ -27,22 +31,8 @@ export const USAGER_REFUS_MOCK: UsagerLight = {
     dateInteraction: new Date("2020-12-01T14:11:28.167Z"),
   },
   options: {
-    transfert: {
-      actif: false,
-      nom: null,
-      adresse: null,
-      dateDebut: null,
-      dateFin: null,
-    },
-    procurations: [
-      {
-        nom: null,
-        prenom: null,
-        dateFin: null,
-        dateDebut: null,
-        dateNaissance: null,
-      },
-    ],
+    transfert: new UsagerOptionsTransfert(),
+    procurations: [new UsagerOptionsProcuration()],
     npai: {
       actif: false,
       dateDebut: null,

@@ -2,10 +2,10 @@ import { Component, Input, OnInit } from "@angular/core";
 import { UsagerEcheanceInfos } from "../../../../../../../_common";
 import { DEFAULT_USAGER_PROFILE } from "../../../../../../../_common/mocks/DEFAULT_USAGER.const";
 
-import { getEcheanceInfos } from "../../../../interfaces/getEcheanceInfos.service";
 import {
   USAGER_DECISION_STATUT_LABELS,
   getRdvInfo,
+  getEcheanceInfo,
   UsagerRdvInfo,
   PortailUsagerPublic,
 } from "@domifa/common";
@@ -21,17 +21,17 @@ export class SectionInfosComponent implements OnInit {
 
   @Input() public usager: PortailUsagerPublic;
 
-  public echeanceInfos: UsagerEcheanceInfos;
+  public echeanceInfo: UsagerEcheanceInfos;
   public rdvInfo: UsagerRdvInfo;
 
   constructor() {
     this.usager = DEFAULT_USAGER_PROFILE.usager;
-    this.echeanceInfos = getEcheanceInfos(this.usager);
+    this.echeanceInfo = getEcheanceInfo(this.usager);
     this.rdvInfo = getRdvInfo(this.usager);
   }
 
   ngOnInit(): void {
-    this.echeanceInfos = getEcheanceInfos(this.usager);
+    this.echeanceInfo = getEcheanceInfo(this.usager);
     this.rdvInfo = getRdvInfo({
       etapeDemande: this.usager.etapeDemande,
       rdv: this.usager.rdv,
