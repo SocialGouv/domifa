@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { SectionInfosComponent } from "./section-infos.component";
 import { SharedModule } from "../../../../../shared/shared.module";
 import { FormatInternationalPhoneNumberPipe } from "../../../../pipes";
+import { DEFAULT_USAGER } from "../../../../../../../_common";
 
 describe("SectionInfosComponent", () => {
   let component: SectionInfosComponent;
@@ -20,6 +21,7 @@ describe("SectionInfosComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SectionInfosComponent);
     component = fixture.componentInstance;
+    component.usager = DEFAULT_USAGER;
     fixture.detectChanges();
   });
 
