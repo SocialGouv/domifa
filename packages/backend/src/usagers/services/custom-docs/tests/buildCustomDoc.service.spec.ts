@@ -114,6 +114,7 @@ describe("buildCustomDoc.service", () => {
         ],
         npai: {
           actif: false,
+          dateDebut: null,
         },
         portailUsagerEnabled: false,
       };

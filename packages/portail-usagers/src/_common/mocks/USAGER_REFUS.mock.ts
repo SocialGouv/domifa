@@ -1,4 +1,4 @@
-import { PortailUsagerPublic } from "@domifa/common";
+import { PortailUsagerPublic, UsagerOptions } from "@domifa/common";
 
 export const USAGER_REFUS_MOCK: PortailUsagerPublic = {
   ref: 1,
@@ -22,20 +22,7 @@ export const USAGER_REFUS_MOCK: PortailUsagerPublic = {
     recommandeIn: 0,
     dateInteraction: new Date("2020-12-01T14:11:28.167Z"),
   },
-  options: {
-    portailUsagerEnabled: true,
-    npai: {
-      actif: false,
-    },
-    procurations: [],
-    transfert: {
-      actif: false,
-      adresse: null,
-      nom: null,
-      dateDebut: null,
-      dateFin: null,
-    },
-  },
+  options: new UsagerOptions(),
   contactByPhone: false,
   rdv: null,
   ayantsDroits: [

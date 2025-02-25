@@ -1,4 +1,8 @@
-import { PortailUsagerPublic, PortailUsagerProfile } from "@domifa/common";
+import {
+  PortailUsagerPublic,
+  PortailUsagerProfile,
+  UsagerOptionsTransfert,
+} from "@domifa/common";
 
 export const DEFAULT_USAGER: PortailUsagerPublic = {
   ref: 1,
@@ -42,15 +46,10 @@ export const DEFAULT_USAGER: PortailUsagerPublic = {
     portailUsagerEnabled: true,
     npai: {
       actif: false,
+      dateDebut: null,
     },
     procurations: [],
-    transfert: {
-      actif: false,
-      adresse: null,
-      nom: null,
-      dateDebut: null,
-      dateFin: null,
-    },
+    transfert: new UsagerOptionsTransfert(),
   },
   telephone: {
     countryCode: "fr",

@@ -30,20 +30,20 @@
       <div
         class="alert"
         [ngClass]="{
-          'alert-danger': echeanceInfos.dayBeforeEnd <= 15,
-          'alert-warning': echeanceInfos.dayBeforeEnd > 15
+          'alert-danger': echeanceInfo.dayBeforeEnd <= 15,
+          'alert-warning': echeanceInfo.dayBeforeEnd > 15
         }"
         *ngIf="
           usager.decision.statut !== 'ATTENTE_DECISION' &&
-          echeanceInfos.dayBeforeEnd > 0 &&
-          echeanceInfos.dayBeforeEnd < 60
+          echeanceInfo.dayBeforeEnd > 0 &&
+          echeanceInfo.dayBeforeEnd < 60
         "
       >
         <div class="svg-icon icon-danger"></div>
         <span>
           Attention, votre domiciliation expire le
           <strong>
-            {{ echeanceInfos.dateToDisplay | date : "fullDate" }}
+            {{ echeanceInfo.dateToDisplay | date : "fullDate" }}
           </strong>
         </span>
       </div>
@@ -51,14 +51,14 @@
         class="alert alert-danger"
         *ngIf="
           usager.decision.statut !== 'ATTENTE_DECISION' &&
-          echeanceInfos.dayBeforeEnd < 0
+          echeanceInfo.dayBeforeEnd < 0
         "
       >
         <div aria-hidden="true" class="svg-icon icon-danger"></div>
         <p>
           Domiciliation expirée depuis le
-          {{ echeanceInfos.dateToDisplay | date : "fullDate" }}, il y a
-          {{ echeanceInfos.dayBeforeEnd * -1 }} jours
+          {{ echeanceInfo.dateToDisplay | date : "fullDate" }}, il y a
+          {{ echeanceInfo.dayBeforeEnd * -1 }} jours
         </p>
       </div>
     </div>
@@ -82,7 +82,7 @@
         </p>
         <p class="my-2">
           <b>Échéance: </b>
-          {{ echeanceInfos.dateToDisplay | date : "fullDate" }}
+          {{ echeanceInfo.dateToDisplay | date : "fullDate" }}
         </p>
         <p class="my-2">
           <b>Dernier passage: </b>
