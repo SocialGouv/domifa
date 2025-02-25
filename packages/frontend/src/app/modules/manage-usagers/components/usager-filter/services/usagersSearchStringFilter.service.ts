@@ -5,7 +5,7 @@ import { UsagerLight } from "../../../../../../_common/model";
 import {
   CriteriaSearchField,
   UsagerAyantDroit,
-  UsagerProcuration,
+  UsagerOptionsProcuration,
 } from "@domifa/common";
 
 const validateBirthDate = (date?: Date | string): string | undefined => {
@@ -44,7 +44,7 @@ export const getAttributes = (
 
   attributes = [usager.nom, usager.prenom, usager.surnom, usager.customRef];
 
-  usager.options.procurations.forEach((procu: UsagerProcuration) => {
+  usager.options.procurations.forEach((procu: UsagerOptionsProcuration) => {
     attributes.push(procu.nom);
     attributes.push(procu.prenom);
   });
