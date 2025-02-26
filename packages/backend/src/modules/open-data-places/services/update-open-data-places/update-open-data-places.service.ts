@@ -10,7 +10,7 @@ import { loadSoliguideData } from "../import-data/load-soliguide";
 export class UpdateOpenDataPlacesService {
   @Cron("0 6 * * *", {
     timeZone: "Europe/Paris",
-    disabled: domifaConfig().envId !== "prod" && !isCronEnabled(),
+    disabled: domifaConfig().envId !== "prod" && isCronEnabled(),
   })
   protected async loadOpenDataPlaces() {
     await loadDomifaData();

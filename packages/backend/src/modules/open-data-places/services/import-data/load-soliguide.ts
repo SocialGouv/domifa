@@ -1,5 +1,6 @@
 import { OpenDataPlace } from "../../interfaces/OpenDataPlace.interface";
 import {
+  findNetwork,
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
 } from "@domifa/common";
@@ -10,12 +11,7 @@ import axios from "axios";
 import { domifaConfig } from "../../../../config";
 import { openDataPlaceRepository } from "../../../../database";
 import { OpenDataPlaceTable } from "../../../../database/entities/open-data-place";
-import {
-  cleanAddress,
-  cleanCity,
-  appLogger,
-  cleanSpaces,
-} from "../../../../util";
+import { cleanCity, appLogger, cleanSpaces } from "../../../../util";
 import { SoliguidePlace } from "../../interfaces";
 
 let nbResults = 0;
@@ -68,8 +64,10 @@ const getFromSoliguide = async () => {
       const service = services[0];
 
       const openDataPlace: Partial<OpenDataPlace> = {
+        createdAt: place.createdAt,
+        updatedAt: place.updatedAt,
         nom: cleanSpaces(place.name),
-        adresse: cleanAddress(place?.position?.adresse),
+        adresse: place?.position?.adresse,
         codePostal: place.position.codePostal,
         ville: cleanCity(place?.position?.ville),
         departement,
@@ -84,6 +82,7 @@ const getFromSoliguide = async () => {
         software: "other",
         saturation: service?.saturated?.status,
         saturationDetails: service?.saturated?.precision,
+        reseau: findNetwork(cleanSpaces(place.name)),
       };
 
       let soliguidePlace = await openDataPlaceRepository.findOneBy({
@@ -92,9 +91,13 @@ const getFromSoliguide = async () => {
       });
 
       const domifaPlaceExist: OpenDataPlace =
-        await openDataPlaceRepository.findExistingPlaceFromDomiFa(
+        await openDataPlaceRepository.findNearbyPlaces(
           openDataPlace.latitude,
-          openDataPlace.longitude
+          openDataPlace.longitude,
+          {
+            source: "domifa",
+            maxDistance: 300,
+          }
         );
 
       if (domifaPlaceExist) {

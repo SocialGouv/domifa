@@ -10,6 +10,8 @@ export interface SoliguideService {
   saturated: ServiceSaturation;
 }
 export interface SoliguidePlace {
+  createdAt: Date;
+  updatedAt: Date;
   position: {
     codePostal: string;
     departement: string;

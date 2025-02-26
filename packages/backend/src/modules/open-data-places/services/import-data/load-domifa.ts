@@ -13,6 +13,7 @@ import {
 import { getLocation } from "../../../../structures/services/location.service";
 import { Point } from "geojson";
 import { OpenDataPlace } from "../../interfaces";
+import { findNetwork } from "@domifa/common";
 
 export const loadDomifaData = async () => {
   appLogger.info("Import DomiFa start 🏃‍♂️... ");
@@ -30,6 +31,7 @@ export const loadDomifaData = async () => {
         "longitude",
         "email",
         "structureType",
+        "adresseCourrier",
         "id",
       ],
     });
@@ -44,28 +46,55 @@ export const loadDomifaData = async () => {
         where: { statut: "VALIDE", structureId: place.id },
       });
 
+      const adresse = place?.adresseCourrier?.actif
+        ? cleanAddress(place?.adresseCourrier.adresse)
+        : cleanAddress(place.adresse);
+      const codePostal = place?.adresseCourrier?.actif
+        ? place?.adresseCourrier.codePostal
+        : place.codePostal;
+      const ville = place?.adresseCourrier?.actif
+        ? cleanCity(place?.adresseCourrier.ville)
+        : cleanCity(place.ville);
+
+      const addressToSearch = `${adresse}, ${ville} ${codePostal}`;
+      const position = await getLocation(addressToSearch);
+
+      let latitude = null;
+      let longitude = null;
+
+      if (!position) {
+        latitude = place.latitude;
+        longitude = place.longitude;
+      } else {
+        latitude = position.coordinates[1];
+        longitude = position.coordinates[0];
+      }
+
       const placeData: OpenDataPlace = {
+        createdAt: place.createdAt,
+        updatedAt: place.updatedAt,
         nom: cleanSpaces(place.nom),
-        adresse: cleanAddress(place.adresse),
-        codePostal: place.codePostal,
-        ville: cleanCity(place.ville),
+        adresse,
+        codePostal,
+        ville,
         departement: place.departement,
         region: place.region,
         complementAdresse: cleanSpaces(place.complementAdresse),
         software: "domifa",
-        latitude: place.latitude,
-        longitude: place.longitude,
+        latitude,
+        longitude,
         source: "domifa",
         domifaStructureId: place.id,
         mail: place.email,
         structureType: place.structureType,
         uniqueId: place.id.toString(),
         nbDomiciliesDomifa,
+        reseau: findNetwork(cleanSpaces(place.nom)),
       };
 
       if (!place?.latitude || !place?.longitude) {
         const position: Point | null = await getLocation(
-          `${placeData.adresse}, ${placeData.ville} ${placeData.codePostal}`
+          `${adresse}, ${ville} ${codePostal}`
         );
 
         placeData.latitude = position.coordinates[1];
@@ -81,6 +110,7 @@ export const loadDomifaData = async () => {
             ...placeData,
             soliguideStructureId: domifaPlace.soliguideStructureId,
             mssId: domifaPlace.mssId,
+            dgcsId: domifaPlace.dgcsId,
           }
         );
       }

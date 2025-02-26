@@ -1,11 +1,10 @@
-/* INTERACTIONS */
 .interaction-zone {
   width: 130px;
   position: relative;
 }
 
 .interaction-icon-box {
-  background: #eceffe;
+  background: #e3e6fd;
   border-radius: 6px;
   padding: 10px 5px;
   text-align: center;

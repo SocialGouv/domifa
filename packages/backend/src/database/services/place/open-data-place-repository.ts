@@ -1,26 +1,58 @@
-import { OpenDataPlace } from "../../../modules/open-data-places/interfaces";
+import { StructureType } from "@domifa/common";
+import {
+  OpenDataPlace,
+  OpenDataSource,
+} from "../../../modules/open-data-places/interfaces";
 import { OpenDataPlaceTable } from "../../entities/open-data-place";
 import { myDataSource } from "../_postgres";
 
 export const openDataPlaceRepository = myDataSource
   .getRepository<OpenDataPlace>(OpenDataPlaceTable)
   .extend({
-    findExistingPlaceFromDomiFa: async (
+    findNearbyPlaces: async (
       latitude: number,
-      longitude: number
+      longitude: number,
+      options?: {
+        structureType?: StructureType;
+        source?: OpenDataSource;
+        maxDistance?: number;
+      }
     ) => {
-      return await openDataPlaceRepository
+      const maxDistance = options?.maxDistance || 300;
+
+      const query = openDataPlaceRepository
         .createQueryBuilder("open_data_places")
-        // skipcq: JS-R1004
-        .select(`*`)
+        .select(
+          `*, ST_Distance(
+          ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::geography,
+          ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)::geography
+        ) as distance`
+        )
         .where(
-          // skipcq: JS-R1004
-          `source='domifa' and ST_DWithin(ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::geography, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)::geography, 300);`,
+          `ST_DWithin(
+            ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::geography,
+            ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)::geography,
+            :maxDistance
+          )`,
           {
             longitude,
             latitude,
+            maxDistance,
           }
-        )
-        .getRawOne();
+        );
+
+      if (options?.source) {
+        query.andWhere("open_data_places.source = :source", {
+          source: options.source,
+        });
+      }
+
+      if (options?.structureType) {
+        query.andWhere('open_data_places."structureType" = :structureType', {
+          structureType: options.structureType,
+        });
+      }
+
+      return await query.orderBy("distance", "ASC").getRawOne();
     },
   });
