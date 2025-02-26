@@ -34,7 +34,7 @@ export const FIRST_SHEET_USAGERS = [
     TRANSFERT_NOM: "",
     MON_DOMIFA_ACTIVATION: "NON",
     SMS_ACTIVATION: "NON",
-    REFERENT: "",
+    // REFERENT: "",
   },
   {
     AD_DATE_NAISSANCE_0: "20/12/1978",
@@ -75,6 +75,6 @@ export const FIRST_SHEET_USAGERS = [
     TRANSFERT_NOM: "",
     MON_DOMIFA_ACTIVATION: "NON",
     SMS_ACTIVATION: "NON",
-    REFERENT: "",
+    // REFERENT: "",
   },
 ];

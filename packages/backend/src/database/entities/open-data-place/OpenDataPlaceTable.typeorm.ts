@@ -63,6 +63,9 @@ export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlaceTable> {
   mssId: string;
 
   @Column({ type: "text", nullable: true })
+  dgcsId: string;
+
+  @Column({ type: "text", nullable: true })
   mail: string;
 
   @Column({ type: "text", nullable: true })
@@ -85,6 +88,9 @@ export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlaceTable> {
 
   @Column({ type: "text", nullable: true })
   saturationDetails?: string | null;
+
+  @Column({ type: "text", nullable: true })
+  reseau?: string | null;
 
   public constructor(entity?: Partial<OpenDataPlaceTable>) {
     super(entity);

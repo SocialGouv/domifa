@@ -1,4 +1,5 @@
 import { ucFirst } from "../../functions";
+import { cleanSpaces } from "./clean-address";
 import { removeAccents } from "./remove-accents";
 
 export const cleanCity = (city: string): string => {
@@ -15,7 +16,7 @@ export const cleanCity = (city: string): string => {
     .replace(/\beme arrondissement\b/g, "")
     .replace(/\s+/g, " ");
 
-  return ucFirst(city.trim());
+  return ucFirst(cleanSpaces(city));
 };
 
 export const padPostalCode = (codePostal: string | number): string => {

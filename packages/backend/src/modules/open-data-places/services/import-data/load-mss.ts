@@ -1,4 +1,5 @@
 import {
+  findNetwork,
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
 } from "@domifa/common";
@@ -75,6 +76,7 @@ const getFromMss = async () => {
         mail: null,
         uniqueId: mssId,
         mssId,
+        reseau: findNetwork(cleanSpaces(place.name)),
       };
 
       const mssPlace = await openDataPlaceRepository.findOneBy({
@@ -83,9 +85,13 @@ const getFromMss = async () => {
       });
 
       const domifaPlaceExist: OpenDataPlace =
-        await openDataPlaceRepository.findExistingPlaceFromDomiFa(
+        await openDataPlaceRepository.findNearbyPlaces(
           openDataPlace.latitude,
-          openDataPlace.longitude
+          openDataPlace.longitude,
+          {
+            source: "domifa",
+            maxDistance: 300,
+          }
         );
 
       if (domifaPlaceExist) {

@@ -1,4 +1,5 @@
 import {
+  findNetwork,
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
 } from "@domifa/common";
@@ -7,7 +8,12 @@ import axios from "axios";
 import { domifaConfig } from "../../../../config";
 import { openDataPlaceRepository } from "../../../../database";
 import { OpenDataPlaceTable } from "../../../../database/entities/open-data-place";
-import { cleanAddress, cleanCity, appLogger } from "../../../../util";
+import {
+  cleanAddress,
+  cleanCity,
+  appLogger,
+  cleanSpaces,
+} from "../../../../util";
 import {
   DataInclusionPlace,
   DataInclusionResults,
@@ -72,14 +78,19 @@ const getFromDataInclusion = async (structureType: "CCAS" | "CIAS") => {
               longitude: place?.longitude,
               source: "data-inclusion",
               uniqueId: place.id,
+              reseau: findNetwork(cleanSpaces(place.nom)),
             })
           );
         }
 
         const domifaPlaceExist: OpenDataPlace =
-          await openDataPlaceRepository.findExistingPlaceFromDomiFa(
+          await openDataPlaceRepository.findNearbyPlaces(
             dataInclusionPlace?.latitude,
-            dataInclusionPlace?.longitude
+            dataInclusionPlace?.longitude,
+            {
+              source: "domifa",
+              maxDistance: 300,
+            }
           );
 
         if (domifaPlaceExist) {
