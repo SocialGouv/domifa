@@ -143,11 +143,17 @@
       >
         <div class="col-md-6 my-2">
           <div class="interaction-icon-box">
-            <div class="fw-bold">
+            <div
+              class="fw-bold"
+              [ngClass]="procuration.isExpired ? 'text-danger' : ''"
+            >
               Mandataire
-              <!-- <span *ngIf="procuration.isExpired">(Procuration expirée !)</span> -->
+              <span *ngIf="procuration.isExpired">(Procuration expirée !)</span>
             </div>
-            <div class="mb-1">
+            <div
+              class="mb-1"
+              [ngClass]="procuration.isExpired ? 'text-danger' : ''"
+            >
               <label for="distribution-mandataire-{{ i }}">
                 {{ procuration | fullName }}
               </label>
@@ -155,6 +161,7 @@
           </div>
           <div class="interaction-actions checkbox">
             <input
+              [disabled]="procuration.isExpired"
               name="procuration"
               id="distribution-mandataire-{{ i }}"
               type="radio"

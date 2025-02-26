@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { StructureCommon } from "@domifa/common";
+import { STRUCTURE_TYPE_LABELS, StructureCommon } from "@domifa/common";
 
 @Component({
   selector: "app-structure-info",
@@ -8,4 +8,5 @@ import { StructureCommon } from "@domifa/common";
 })
 export class StructureInfoComponent {
   @Input({ required: true }) public structure: StructureCommon;
+  public readonly STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
 }

@@ -226,26 +226,24 @@ export class AdminStructuresController {
 
     const METABASE_URL = domifaConfig().metabase.url;
 
-    const year = metabaseDto.year ? [metabaseDto.year] : null;
-    let region = metabaseDto.region
-      ? [REGIONS_LISTE[metabaseDto.region]]
-      : null;
+    const year = metabaseDto.year ? [metabaseDto.year] : [];
+    let region = metabaseDto.region ? [REGIONS_LISTE[metabaseDto.region]] : [];
     let department = metabaseDto.department
       ? [DEPARTEMENTS_MAP[metabaseDto.department].departmentName]
-      : null;
+      : [];
     const structureId = metabaseDto.structureId
       ? [metabaseDto.structureId]
-      : null;
+      : [];
     const structureType = metabaseDto.structureType
       ? [metabaseDto.structureType]
-      : null;
+      : [];
 
     if (region) {
-      department = null;
+      department = [];
     }
 
     if (department) {
-      region = null;
+      region = [];
     }
     const payload = {
       resource: { dashboard: 6 },
@@ -260,6 +258,7 @@ export class AdminStructuresController {
     };
 
     const token = sign(payload, domifaConfig().metabase.token);
+    console.log(token);
     const url = `${METABASE_URL}embed/dashboard/${token}#bordered=false&titled=false`;
 
     return { url };
