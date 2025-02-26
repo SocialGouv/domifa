@@ -224,7 +224,6 @@ export class AdminStructuresListComponent
   private applySorting(): void {
     if (!this.filteredStructures.length) {
       this.filteredStructures = [];
-      return;
     }
 
     this.filteredStructures = structuresSorter.sortBy(this.filteredStructures, {
@@ -237,6 +236,7 @@ export class AdminStructuresListComponent
 
   private applyPaginationFromStore(): void {
     if (!this.filteredStructures?.length) {
+      this.structures = [];
       return;
     }
 
