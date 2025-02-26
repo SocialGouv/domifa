@@ -72,7 +72,7 @@
               "
               [attr.aria-rowindex]="i + 1"
             >
-              <td class="fw-bold">{{ user.nom | fullName }}</td>
+              <td class="fw-bold">{{ user | fullName }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.createdAt | date : "d MMMM y" }}</td>
               <td>
