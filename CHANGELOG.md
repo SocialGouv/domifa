@@ -1,3 +1,16 @@
+# [2.196.0](https://github.com/SocialGouv/domifa/compare/v2.195.4...v2.196.0) (2025-02-26)
+
+
+### Bug Fixes
+
+* **backend:** fix unit test for options ([aa2cbbc](https://github.com/SocialGouv/domifa/commit/aa2cbbcf8b056df5418b13753e04a47b719c0da2))
+* **db:** update dump test gz ([02690dc](https://github.com/SocialGouv/domifa/commit/02690dc3f2e95f0f26ee4be81e02975481b4ccc9))
+
+
+### Features
+
+* **frontend:** add disclaimer when procuration is expired ([c8cfff8](https://github.com/SocialGouv/domifa/commit/c8cfff89c17764aef638c3cbd288f7003899e29f))
+
 ## [2.195.4](https://github.com/SocialGouv/domifa/compare/v2.195.3...v2.195.4) (2025-02-25)
 
 
