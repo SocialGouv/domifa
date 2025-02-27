@@ -1,42 +1,42 @@
 [
   {
     "date": "2025-02-24",
-    "description": "🚀 Amélioration de la gestion des référents et corrections diverses",
+    "description": "🚀 Amélioration de la gestion des référents et corrections diverses.",
     "content": [
       {
         "type": "new",
         "categorie": "👥 Gestion des référents",
         "message": [
-          "Vous pouvez désormais assigner une personne référente au sein de la structure pour chaque domicilié",
+          "Vous pouvez désormais assigner une personne référente au sein de la structure pour chaque domicilié.",
 
-          "Vous pouvez renseigner un référent pour un dossier existant",
+          "Vous pouvez renseigner un référent pour un dossier existant.",
 
-          "Vous pouvez également renseigner un référent pour les nouveaux dossiers via le formulaire d'inscription",
+          "Vous pouvez également renseigner un référent pour les nouveaux dossiers via le formulaire d'inscription.",
 
-          "Depuis la liste des domiciliés, vous pouvez assigner un référent à plusieurs dossiers grâce à la sélection multiple",
+          "Depuis la liste des domiciliés, vous pouvez assigner un référent à plusieurs dossiers grâce à la sélection multiple.",
 
-          "Vous pouvez également filtrer par référent dans l'export de la base de données"
+          "Vous pouvez également filtrer par référent dans l'export de la base de données."
         ]
       },
       {
         "type": "bug",
         "categorie": "📬 Transfert de courrier",
         "message": [
-          "L'adresse de transfert est de nouveau visible sur la page d'accueil de tous les domiciliés. \nLes informations de transferts sont à nouveau visibles dans l'onglet \"Transferts et Procuration\""
+          "L'adresse de transfert est de nouveau visible sur la page d'accueil de tous les domiciliés. \nLes informations de transferts sont à nouveau visibles dans l'onglet \"Transferts et Procuration\"."
         ]
       },
       {
         "type": "bug",
         "categorie": "📊 Rapport d'activité",
         "message": [
-          "Les indicateurs \"couple avec enfant/couple sans enfant\" et \"sortie d'incarcération/sortie d'hospitalisation\" sont désormais dans le bon ordre dans le rapport d'activité et dans l'export de la base de données"
+          "Les indicateurs \"couple avec enfant/couple sans enfant\" et \"sortie d'incarcération/sortie d'hospitalisation\" sont désormais dans le bon ordre dans le rapport d'activité et dans l'export de la base de données."
         ]
       },
       {
         "type": "bug",
         "categorie": "📋 Affichage des listes",
         "message": [
-          "Le nom des domiciliés affiché sur la liste est de nouveau sous le format \"NOM Prénom\""
+          "Le nom des domiciliés affiché sur la liste est de nouveau sous le format \"NOM Prénom\"."
         ]
       }
     ]

@@ -7,7 +7,7 @@ type PersonBase = {
 };
 
 export const getPersonFullName = <T extends PersonBase>(person: T): string => {
-  const hasSexe = "sexe" in person && person?.sexe;
+  const hasSexe = Boolean(person?.sexe);
   const prefix = hasSexe ? (person.sexe === "homme" ? "M. " : "Mme ") : "";
 
   return person ? `${prefix}${person.nom.toUpperCase()} ${person.prenom}` : "";
