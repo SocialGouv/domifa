@@ -304,6 +304,7 @@ export class UsagersService {
       u."lastInteraction",
       u.options,
       u."numeroDistribution",
+      u."referrerId",
       JSON_BUILD_OBJECT(
         'usagerUUID', e."usagerUUID",
         'structureId', e."structureId",
