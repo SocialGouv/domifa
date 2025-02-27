@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
-    "bcryptjs": "^2.4.3"
+    "bcryptjs": "^3.0.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2",
