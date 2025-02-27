@@ -1,3 +1,11 @@
+## [2.196.2](https://github.com/SocialGouv/domifa/compare/v2.196.1...v2.196.2) (2025-02-27)
+
+
+### Bug Fixes
+
+* **backend:** display of referrerId ([a695c00](https://github.com/SocialGouv/domifa/commit/a695c001f91cdcd0cd80f4e66bcc90437ac6ae69))
+* **frontend:** fix typo ([1e067f8](https://github.com/SocialGouv/domifa/commit/1e067f871190755e253cfeea497988a8c269db53))
+
 ## [2.196.1](https://github.com/SocialGouv/domifa/compare/v2.196.0...v2.196.1) (2025-02-27)
 
 
