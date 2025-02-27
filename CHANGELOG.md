@@ -1,3 +1,12 @@
+## [2.196.1](https://github.com/SocialGouv/domifa/compare/v2.196.0...v2.196.1) (2025-02-27)
+
+
+### Bug Fixes
+
+* **admin:** add id & address, fix metabase token ([1d2d694](https://github.com/SocialGouv/domifa/commit/1d2d694a2a7859fb9519495ef3689204e294e8de))
+* **backend:** add networks to open data places ([4d4466a](https://github.com/SocialGouv/domifa/commit/4d4466ae0452c2fcb16620737d3fc4ebce85f48e))
+* **frontend:** disable 'mandataire' warning ([2d0317a](https://github.com/SocialGouv/domifa/commit/2d0317ab2e55aa32a4f56fb843cdfea174cee3eb))
+
 # [2.196.0](https://github.com/SocialGouv/domifa/compare/v2.195.4...v2.196.0) (2025-02-26)
 
 
