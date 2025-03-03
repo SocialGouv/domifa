@@ -10,7 +10,7 @@ import { ParseRegionPipe } from "../../_common/decorators";
 export class StatsPublicController {
   constructor(private readonly publicStatsService: PublicStatsService) {}
 
-  @Get("public-stats/:regionId?")
+  @Get("public-stats/{:regionId}")
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(43200) // Cache duration of 12 hours
   public async getPublicStats(

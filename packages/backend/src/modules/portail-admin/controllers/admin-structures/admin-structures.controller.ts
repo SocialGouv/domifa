@@ -238,11 +238,11 @@ export class AdminStructuresController {
       ? [metabaseDto.structureType]
       : [];
 
-    if (region) {
+    if (region.length > 0) {
       department = [];
     }
 
-    if (department) {
+    if (department.length > 0) {
       region = [];
     }
     const payload = {
