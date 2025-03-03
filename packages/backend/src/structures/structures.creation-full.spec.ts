@@ -53,6 +53,7 @@ const structureDto: StructureDto = {
   timeZone: "Europe/Paris",
   departmentName: "",
   regionName: "",
+  reseau: null,
 };
 
 const res = {
@@ -190,7 +191,6 @@ describe("Stuctures creation full", () => {
   });
 
   it("delete structure", async () => {
-    // DELETE
     const structure = await structureDeletorService.generateDeleteToken(
       localCache.uuid
     );
@@ -203,7 +203,7 @@ describe("Stuctures creation full", () => {
 
   async function testPreCreateStructure() {
     const prePostStructure: StructureDto =
-      await structurePublicController.prePostStructure(structureDto);
+      structurePublicController.prePostStructure(structureDto);
     expect(prePostStructure).toBeDefined();
     expect(prePostStructure.email).toEqual(structureDto.email);
     expect(prePostStructure.adresseCourrier.adresse).toEqual(

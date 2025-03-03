@@ -68,6 +68,7 @@ export class StructureCommonWeb implements StructureCommon {
   };
   public acceptTerms: Date | null = null;
   public lastLogin: Date | null = null;
+  public reseau: string | null = null;
 
   constructor(structure?: Partial<StructureCommon>) {
     if (structure) {
@@ -96,6 +97,7 @@ export class StructureCommonWeb implements StructureCommon {
       this.portailUsager = structure.portailUsager ?? this.portailUsager;
       this.acceptTerms = structure.acceptTerms ?? this.acceptTerms;
       this.lastLogin = structure.lastLogin ?? this.lastLogin;
+      this.reseau = structure.reseau ?? this.reseau;
     }
   }
 }

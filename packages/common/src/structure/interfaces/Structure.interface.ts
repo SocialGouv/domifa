@@ -57,4 +57,5 @@ export interface Structure extends AppEntity {
 
   latitude: number;
   longitude: number;
+  reseau?: string | null;
 }

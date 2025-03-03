@@ -29,6 +29,7 @@ export const loadDomifaData = async () => {
         "region",
         "latitude",
         "longitude",
+        "reseau",
         "email",
         "structureType",
         "adresseCourrier",
@@ -89,7 +90,7 @@ export const loadDomifaData = async () => {
         structureType: place.structureType,
         uniqueId: place.id.toString(),
         nbDomiciliesDomifa,
-        reseau: findNetwork(cleanSpaces(place.nom)),
+        reseau: place?.reseau ?? findNetwork(cleanSpaces(place.nom)),
       };
 
       if (!place?.latitude || !place?.longitude) {
