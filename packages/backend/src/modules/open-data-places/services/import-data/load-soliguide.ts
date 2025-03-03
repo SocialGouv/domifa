@@ -85,7 +85,7 @@ const getFromSoliguide = async () => {
         reseau: findNetwork(cleanSpaces(place.name)),
       };
 
-      let soliguidePlace = await openDataPlaceRepository.findOneBy({
+      const soliguidePlace = await openDataPlaceRepository.findOneBy({
         source: "soliguide",
         uniqueId: place.lieu_id.toString(),
       });
@@ -121,7 +121,7 @@ const getFromSoliguide = async () => {
 
       if (!soliguidePlace) {
         newPlaces++;
-        soliguidePlace = await openDataPlaceRepository.save(
+        await openDataPlaceRepository.save(
           new OpenDataPlaceTable(openDataPlace)
         );
       } else {

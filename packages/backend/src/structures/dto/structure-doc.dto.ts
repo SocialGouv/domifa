@@ -33,7 +33,7 @@ export class StructureDocDto {
   public custom: boolean;
 
   @ApiProperty({
-    type: "ENUM",
+    type: "string",
   })
   @ValidateIf((o) => o.custom === true)
   @IsIn(["attestation_postale", "courrier_radiation", "autre"])

@@ -1,4 +1,4 @@
-import { forwardRef, Module } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { domifaConfig } from "../config";
@@ -22,14 +22,13 @@ import { StructuresAuthController } from "./structures-auth.controller";
       session: false,
       passReqToCallback: true,
     }),
-    forwardRef(() =>
-      JwtModule.register({
-        secret: domifaConfig().security.jwtSecret,
-        signOptions: {
-          expiresIn: "12h",
-        },
-      })
-    ),
+
+    JwtModule.register({
+      secret: domifaConfig().security.jwtSecret,
+      signOptions: {
+        expiresIn: "12h",
+      },
+    }),
   ],
   providers: [
     JwtStrategy,
