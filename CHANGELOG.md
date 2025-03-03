@@ -1,3 +1,11 @@
+## [2.196.3](https://github.com/SocialGouv/domifa/compare/v2.196.2...v2.196.3) (2025-03-03)
+
+
+### Bug Fixes
+
+* **backend:** add networks ([739dcaa](https://github.com/SocialGouv/domifa/commit/739dcaa8bda0d6bc72bc709b256cb51523378f21))
+* **backend:** update dump test ([e509ad9](https://github.com/SocialGouv/domifa/commit/e509ad999d85eb6743ff98edf76b4ce67c03442b))
+
 ## [2.196.2](https://github.com/SocialGouv/domifa/compare/v2.196.1...v2.196.2) (2025-02-27)
 
 
