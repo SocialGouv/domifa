@@ -133,6 +133,7 @@ export class StructuresAuthService {
         "portailUsager",
         "acceptTerms",
         "timeZone",
+        "reseau",
       ],
     });
 

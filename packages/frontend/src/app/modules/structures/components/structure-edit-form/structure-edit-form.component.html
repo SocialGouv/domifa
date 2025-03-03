@@ -656,6 +656,43 @@
           Veuillez sélectionner un type d'organisme
         </p>
       </div>
+      <div class="col-12 col-md-6 form-group required">
+        <label for="reseau"> À quel réseau appartenez-vous ?</label>
+        <select
+          id="reseau"
+          formControlName="reseau"
+          name="reseau"
+          required
+          [ngClass]="{
+            'is-invalid': (submitted || f.reseau?.dirty) && f.reseau.errors
+          }"
+          [attr.aria-describedby]="
+            (submitted || f.reseau?.dirty) && f.reseau.errors
+              ? 'reseau-type-errors'
+              : null
+          "
+          [attr.aria-invalid]="
+            (submitted || f.reseau?.dirty) && f.reseau.errors ? true : false
+          "
+          class="form-select"
+        >
+          <option [ngValue]="null">Non renseigné</option>
+          <option value="Autre réseau">Autre réseau</option>
+          <option
+            *ngFor="let reseau of NETWORKS"
+            [ngValue]="reseau.canonicalName"
+          >
+            {{ reseau.canonicalName }}
+          </option>
+        </select>
+        <p
+          *ngIf="(submitted || f.reseau?.dirty) && f.reseau.errors"
+          id="organisme-type-errors"
+          class="invalid-feedback"
+        >
+          Veuillez sélectionner un type d'organisme
+        </p>
+      </div>
     </div>
   </fieldset>
 

@@ -27,4 +27,5 @@ export type StructureCommon = Pick<
   | "timeZone"
   | "acceptTerms"
   | "portailUsager"
+  | "reseau"
 >;

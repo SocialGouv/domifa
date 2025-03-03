@@ -35,6 +35,7 @@ import {
   STRUCTURE_ORGANISME_TYPE_LABELS,
   DEPARTEMENTS_LISTE,
   COUNTRY_CODES_TIMEZONE,
+  NETWORKS,
 } from "@domifa/common";
 import {
   FormEmailTakenValidator,
@@ -64,6 +65,8 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
 
   private readonly subscription = new Subscription();
   private readonly unsubscribe: Subject<void> = new Subject();
+
+  public readonly NETWORKS = NETWORKS;
 
   constructor(
     private readonly structureService: StructureService,
@@ -130,8 +133,10 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
       }),
       ville: [this.structure.ville, [Validators.required]],
       organismeType: [this.structure.organismeType, assoRequired],
+      reseau: [this.structure.reseau, null],
     });
 
+    console.log(this.structure.reseau);
     this.selectedCountryISO = COUNTRY_CODES_TIMEZONE[
       this.structure.timeZone
     ] as CountryISO;
@@ -159,6 +164,8 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
     const structureFormValue: Structure = {
       ...this.structureForm.value,
     };
+
+    console.log(structureFormValue);
 
     structureFormValue.telephone = getFormPhone(
       this.structureForm.value.telephone

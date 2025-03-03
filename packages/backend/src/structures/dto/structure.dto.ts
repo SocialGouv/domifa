@@ -195,4 +195,14 @@ export class StructureDto {
   @IsBoolean()
   @Equals(true)
   acceptCgu: boolean;
+
+  @ApiProperty({
+    type: String,
+    required: true,
+  })
+  @IsOptional()
+  @IsString()
+  @Trim()
+  @MaxLength(100)
+  public reseau!: string;
 }

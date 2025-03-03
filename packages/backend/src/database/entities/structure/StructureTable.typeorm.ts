@@ -39,8 +39,7 @@ export class StructureTable
   @Column({ type: "integer", nullable: true })
   capacite: number;
 
-  @Index()
-  @Column({ type: "text", nullable: true })
+  @Column({ type: "text", nullable: false })
   codePostal: string;
 
   @Column({ type: "text", nullable: true })
@@ -120,7 +119,7 @@ export class StructureTable
   @Column({ type: "bool", default: false })
   verified: boolean;
 
-  @Column({ type: "text", nullable: true })
+  @Column({ type: "text", nullable: false })
   ville: string;
 
   @Column({
@@ -130,7 +129,7 @@ export class StructureTable
   })
   public sms: StructureSmsParams;
 
-  @Column({ type: "text", nullable: true })
+  @Column({ type: "text", nullable: false })
   timeZone: TimeZone;
 
   @Column({
@@ -151,6 +150,9 @@ export class StructureTable
 
   @Column({ type: "text", nullable: true })
   organismeType: StructureOrganismeType;
+
+  @Column({ type: "text", nullable: true })
+  reseau: string;
 
   public constructor(entity?: Partial<StructureTable>) {
     super(entity);

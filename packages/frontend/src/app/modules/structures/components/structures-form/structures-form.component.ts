@@ -33,6 +33,7 @@ import {
   STRUCTURE_ORGANISME_TYPE_LABELS,
   getDepartementFromCodePostal,
   DEPARTEMENTS_LISTE,
+  NETWORKS,
 } from "@domifa/common";
 
 import {
@@ -70,6 +71,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
 
   private unsubscribe: Subject<void> = new Subject();
   private subscription = new Subscription();
+  public readonly NETWORKS = NETWORKS;
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
@@ -127,6 +129,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
       ville: [this.structure.ville, [Validators.required]],
       readCgu: [null, [Validators.requiredTrue]],
       acceptCgu: [null, [Validators.requiredTrue]],
+      reseau: [this.structure.reseau, null],
     });
 
     this.subscription.add(
