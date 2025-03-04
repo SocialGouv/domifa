@@ -44,7 +44,7 @@
     "google-libphonenumber": "^3.2.40",
     "ngx-matomo-client": "^5.0.4",
     "redux": "^4.2.1",
-    "rimraf": "^5.0.10",
+    "rimraf": "^6.0.1",
     "rxjs": "^7.8.2",
     "zone.js": "~0.14.7"
   },
