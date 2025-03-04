@@ -4,8 +4,7 @@ import {
   HealthCheckService,
   HealthIndicatorResult,
 } from "@nestjs/terminus";
-import { domifaConfig } from "../config";
-
+import { domifaConfig } from "../../config";
 import { PostgresHealthIndicator } from "./postgres-health-indicator.service";
 
 @Controller("/healthz")
@@ -26,7 +25,7 @@ export class HealthController {
   @HealthCheck()
   healthCheckBackendAndDb() {
     return this.health.check([
-      async () => this.postgresIndicator.pingCheck("postgres"),
+      async () => this.postgresIndicator.isHealthy("postgres"),
       async () => this.version,
     ]);
   }
