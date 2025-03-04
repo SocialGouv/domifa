@@ -1,7 +1,7 @@
 import { normalizeString } from "../../search";
 import { NORMALIZED_NETWORKS } from "../constants";
 
-export function findNetwork(input: string): string {
+export function findNetwork(input: string): string | null {
   if (!input) return "Autre réseau";
 
   const normalizedInput = normalizeString(input);
@@ -21,5 +21,5 @@ export function findNetwork(input: string): string {
     }
   }
 
-  return "Autre réseau";
+  return null;
 }
