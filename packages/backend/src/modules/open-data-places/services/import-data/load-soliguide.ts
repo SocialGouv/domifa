@@ -103,6 +103,7 @@ const getFromSoliguide = async () => {
       if (domifaPlaceExist) {
         openDataPlace.domifaStructureId = domifaPlaceExist.domifaStructureId;
         openDataPlace.software = "domifa";
+        openDataPlace.reseau = openDataPlace.reseau;
         openDataPlace.nbDomiciliesDomifa = openDataPlace.nbDomiciliesDomifa;
 
         await openDataPlaceRepository.update(
@@ -114,7 +115,6 @@ const getFromSoliguide = async () => {
             saturation: service.saturated.status,
             saturationDetails: service.saturated.precision,
             software: "domifa",
-            nbDomiciliesDomifa: openDataPlace.nbDomiciliesDomifa,
           }
         );
       }
@@ -133,6 +133,7 @@ const getFromSoliguide = async () => {
           },
           {
             ...openDataPlace,
+            reseau: openDataPlace.reseau,
           }
         );
       }
