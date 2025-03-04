@@ -98,6 +98,7 @@ const getFromMss = async () => {
         openDataPlace.domifaStructureId = domifaPlaceExist.domifaStructureId;
         openDataPlace.software = "domifa";
         openDataPlace.nbDomiciliesDomifa = openDataPlace.nbDomiciliesDomifa;
+        openDataPlace.reseau = openDataPlace.reseau;
 
         await openDataPlaceRepository.update(
           { domifaStructureId: domifaPlaceExist.domifaStructureId },
