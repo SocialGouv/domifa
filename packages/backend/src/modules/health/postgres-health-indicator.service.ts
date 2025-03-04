@@ -1,16 +1,16 @@
-import { myDataSource } from "./../database/services/_postgres/appTypeormManager.service";
 import { Injectable } from "@nestjs/common";
 import {
-  HealthIndicatorResult,
   HealthIndicatorService,
+  HealthIndicatorResult,
 } from "@nestjs/terminus";
+import { myDataSource } from "../../database";
 
 @Injectable()
 export class PostgresHealthIndicator {
   constructor(
     private readonly healthIndicatorService: HealthIndicatorService
   ) {}
-  async pingCheck(key: string): Promise<HealthIndicatorResult> {
+  async isHealthy(key: string): Promise<HealthIndicatorResult> {
     const connection = myDataSource;
     const indicator = this.healthIndicatorService.check(key);
 

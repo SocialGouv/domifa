@@ -1,13 +1,10 @@
 import { Module } from "@nestjs/common";
 import { ScheduleModule } from "@nestjs/schedule";
-import { TerminusModule } from "@nestjs/terminus";
 
 import { PortailAdminModule } from "./modules/portail-admin";
 import { PortailUsagersModule } from "./modules/portail-usagers";
 import { AuthModule } from "./auth/auth.module";
 import { MonitoringModule } from "./database/services/monitoring/monitoring.module";
-import { HealthController } from "./health/health.controller";
-import { PostgresHealthIndicator } from "./health/postgres-health-indicator.service";
 import { InteractionsModule } from "./modules/interactions/interactions.module";
 import { StatsModule } from "./stats/stats.module";
 import { StructuresModule } from "./structures/structure.module";
@@ -19,14 +16,14 @@ import { InteractionsService } from "./modules/interactions/services";
 import { SmsModule } from "./modules/sms/sms.module";
 import { OpenDataPlacesModule } from "./modules/open-data-places/open-data-places.module";
 import { UsersModule } from "./users/users.module";
+import { HealthModule } from "./modules/health/health.module";
 
 @Module({
-  controllers: [HealthController],
   exports: [FileManagerService],
   imports: [
     AuthModule,
     ScheduleModule.forRoot(),
-    TerminusModule,
+    HealthModule,
     InteractionsModule,
     MonitoringModule,
     SmsModule,
@@ -40,6 +37,6 @@ import { UsersModule } from "./users/users.module";
     ContactSupportModule,
     OpenDataPlacesModule,
   ],
-  providers: [PostgresHealthIndicator, FileManagerService, InteractionsService],
+  providers: [FileManagerService, InteractionsService],
 })
 export class AppModule {}
