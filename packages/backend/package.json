@@ -58,7 +58,7 @@
     "@opentelemetry/semantic-conventions": "^1.25.0",
     "@sentry/node": "^8.18.0",
     "@sentry/opentelemetry-node": "^7.117.0",
-    "@sentry/profiling-node": "^8.22.0",
+    "@sentry/profiling-node": "^9.0.0",
     "@socialgouv/streaming-file-encryption": "^1.1.0",
     "aws-sdk": "^2.1691.0",
     "axios": "^1.7.7",
