@@ -18,7 +18,7 @@ import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-grpc";
 import { domifaConfig } from "./config";
 import { appLogger } from "./util";
 import { format } from "date-fns";
-import { captureMessage, init, sessionTimingIntegration } from "@sentry/node";
+import { captureMessage, init } from "@sentry/node";
 
 if (domifaConfig().dev.sentry.enabled) {
   init({
@@ -27,13 +27,10 @@ if (domifaConfig().dev.sentry.enabled) {
     environment: domifaConfig().envId,
     tracesSampleRate: 1.0,
     profilesSampleRate: 1,
-    integrations: [sessionTimingIntegration()],
   });
 
   const sdk = new opentelemetry.NodeSDK({
-    // Existing config
     traceExporter: new OTLPTraceExporter(),
-    // instrumentations: [getNodeAutoInstrumentations()],
     instrumentations: [
       new HttpInstrumentation(),
       new ExpressInstrumentation(),

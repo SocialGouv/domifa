@@ -16,7 +16,7 @@ import {
   randomName,
 } from "../../util/file-manager/FileManager";
 
-import { ExpressRequest, ExpressResponse } from "../../util/express";
+import { ExpressResponse } from "../../util/express";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 import { ContactSupportTable, contactSupportRepository } from "../../database";
 import { contactSupportEmailSender } from "../mails/services/templates-renderers/contact-support";
@@ -29,7 +29,7 @@ export class ContactSupportController {
     FileInterceptor("file", {
       limits: FILES_SIZE_LIMIT,
       fileFilter: (
-        req: ExpressRequest,
+        req,
         file: Express.Multer.File,
         callback: (error: Error | null, acceptFile: boolean) => void
       ) => {
@@ -44,7 +44,7 @@ export class ContactSupportController {
       },
       storage: diskStorage({
         filename: (
-          _req: ExpressRequest,
+          _req,
           file: Express.Multer.File,
           callback: (error: Error | null, destination: string) => void
         ) => {
