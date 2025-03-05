@@ -59,7 +59,7 @@ const UsagersImportFileInterceptor = FileInterceptor("file", {
   },
   storage: diskStorage({
     filename: (
-      _req: ExpressRequest,
+      _req,
       file: Express.Multer.File,
       callback: (error: Error | null, destination: string) => void
     ) => {

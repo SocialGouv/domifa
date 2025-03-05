@@ -20,12 +20,13 @@
     "sourceMap": true,
     "strictFunctionTypes": true,
     "target": "ES2022",
-    "typeRoots": ["node_modules/@types", "../../node_modules/@types"],
+    "typeRoots": ["./node_modules/@types", "../../node_modules/@types"],
     "resolveJsonModule": true,
     "declaration": true,
     "declarationMap": true,
     "allowImportingTsExtensions": false,
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+    "rootDir": "./src"
   },
   "exclude": ["node_modules", "dist"]
 }

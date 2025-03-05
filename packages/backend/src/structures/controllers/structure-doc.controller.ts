@@ -29,7 +29,6 @@ import { UserStructureAuthenticated } from "../../_common/model";
 import { StructureDocDto } from "../dto/structure-doc.dto";
 
 import { structureDocRepository, StructureDocTable } from "../../database";
-import { ExpressRequest } from "../../util/express";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 import { join } from "path";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
@@ -74,7 +73,7 @@ export class StructureDocController {
     FileInterceptor("file", {
       limits: FILES_SIZE_LIMIT,
       fileFilter: (
-        req: ExpressRequest,
+        req,
         file: Express.Multer.File,
         callback: (error: Error | null, acceptFile: boolean) => void
       ) => {
