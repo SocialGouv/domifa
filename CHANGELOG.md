@@ -1,3 +1,12 @@
+## [2.196.5](https://github.com/SocialGouv/domifa/compare/v2.196.4...v2.196.5) (2025-03-05)
+
+
+### Bug Fixes
+
+* **backend:** fix tsconfig, delete useless [@types](https://github.com/types) ([5320f88](https://github.com/SocialGouv/domifa/commit/5320f88ec4111146be0fdfab24b6b48826020796))
+* **backend:** upgrade typescript ([1ca7395](https://github.com/SocialGouv/domifa/commit/1ca73957682900d87466018487a582270b9ecbc1))
+* **backend:** upgrade typescript ([d81eab6](https://github.com/SocialGouv/domifa/commit/d81eab639907dcc843a466a3c306807a9252973a))
+
 ## [2.196.4](https://github.com/SocialGouv/domifa/compare/v2.196.3...v2.196.4) (2025-03-04)
 
 
