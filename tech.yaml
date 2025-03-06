@@ -8,20 +8,16 @@ repositories:
 # List all docs links
 documentation:
   Documentation technique: https://github.com/SocialGouv/domifa/tree/master/_docs
-  Documents: https://nextcloud.fabrique.social.gouv.fr/
   Carnets: https://carnets.fabrique.social.gouv.fr/team/domifa
 
 # List all the tools used by the team
 tools:
-  kanban dashboard: https://github.com/SocialGouv/domifa/projects/1
-  ticketing: https://github.com/SocialGouv/domifa/issues
   sentry (backend): https://sentry.fabrique.social.gouv.fr/incubateur/domifa-backend
   sentry (frontend): https://sentry.fabrique.social.gouv.fr/incubateur/domifa-frontend
   sentry (portail-usager): https://sentry.fabrique.social.gouv.fr/incubateur/domifa-portail-usagers
   matomo: https://matomo.fabrique.social.gouv.fr
   mails (prod+dev): https://app.tipimail.com/
   mails (dev): https://mailtrap.io/
-  sms (dev): https://www.spot-hit.fr/
 
 # Overall technical stack
 stack:
@@ -37,7 +33,7 @@ stack:
     - Angular 15
     - Typescript
   backend:
-    - NestJS
+    - NestJS V11
     - PostgreSQL
     - Typescript
   tests:

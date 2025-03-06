@@ -7,7 +7,7 @@ import {
 import { domifaConfig } from "../../config";
 import { PostgresHealthIndicator } from "./postgres-health-indicator.service";
 
-@Controller("/healthz")
+@Controller("healthz")
 export class HealthController {
   public version: HealthIndicatorResult = {
     version: {
@@ -21,7 +21,7 @@ export class HealthController {
     private readonly postgresIndicator: PostgresHealthIndicator
   ) {}
 
-  @Get()
+  @Get("")
   @HealthCheck()
   healthCheckBackendAndDb() {
     return this.health.check([

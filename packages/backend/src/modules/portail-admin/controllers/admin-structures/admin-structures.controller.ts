@@ -258,7 +258,6 @@ export class AdminStructuresController {
     };
 
     const token = sign(payload, domifaConfig().metabase.token);
-    console.log(token);
     const url = `${METABASE_URL}embed/dashboard/${token}#bordered=false&titled=false`;
 
     return { url };
