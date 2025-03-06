@@ -136,7 +136,6 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
       reseau: [this.structure.reseau, null],
     });
 
-    console.log(this.structure.reseau);
     this.selectedCountryISO = COUNTRY_CODES_TIMEZONE[
       this.structure.timeZone
     ] as CountryISO;
@@ -164,8 +163,6 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
     const structureFormValue: Structure = {
       ...this.structureForm.value,
     };
-
-    console.log(structureFormValue);
 
     structureFormValue.telephone = getFormPhone(
       this.structureForm.value.telephone
