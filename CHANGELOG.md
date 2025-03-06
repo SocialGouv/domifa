@@ -1,3 +1,10 @@
+## [2.196.6](https://github.com/SocialGouv/domifa/compare/v2.196.5...v2.196.6) (2025-03-06)
+
+
+### Bug Fixes
+
+* **backend:** update healthz routing ([7209e78](https://github.com/SocialGouv/domifa/commit/7209e78966e968f344323ada451a462c83f1e404))
+
 ## [2.196.5](https://github.com/SocialGouv/domifa/compare/v2.196.4...v2.196.5) (2025-03-05)
 
 
