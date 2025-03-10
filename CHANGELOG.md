@@ -1,3 +1,10 @@
+# [2.197.0](https://github.com/SocialGouv/domifa/compare/v2.196.8...v2.197.0) (2025-03-10)
+
+
+### Features
+
+* **backend:** add cerfa to custom docs ([b796cb6](https://github.com/SocialGouv/domifa/commit/b796cb6cfdc49c53332ef31bfcc7456ab1fc0647))
+
 ## [2.196.8](https://github.com/SocialGouv/domifa/compare/v2.196.7...v2.196.8) (2025-03-10)
 
 
