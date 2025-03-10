@@ -656,13 +656,12 @@
           Veuillez sélectionner un type d'organisme
         </p>
       </div>
-      <div class="col-12 col-md-6 form-group required">
+      <div class="col-12 col-md-6 form-group">
         <label for="reseau"> À quel réseau appartenez-vous ?</label>
         <select
           id="reseau"
           formControlName="reseau"
           name="reseau"
-          required
           [ngClass]="{
             'is-invalid': (submitted || f.reseau?.dirty) && f.reseau.errors
           }"

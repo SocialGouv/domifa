@@ -97,15 +97,14 @@ const getFromMss = async () => {
       if (domifaPlaceExist) {
         openDataPlace.domifaStructureId = domifaPlaceExist.domifaStructureId;
         openDataPlace.software = "domifa";
-        openDataPlace.nbDomiciliesDomifa = openDataPlace.nbDomiciliesDomifa;
-        openDataPlace.reseau = openDataPlace.reseau;
+        openDataPlace.nbDomiciliesDomifa = domifaPlaceExist.nbDomiciliesDomifa;
+        openDataPlace.reseau = domifaPlaceExist.reseau;
 
         await openDataPlaceRepository.update(
           { domifaStructureId: domifaPlaceExist.domifaStructureId },
           {
             mssId: openDataPlace.mssId,
             software: "domifa",
-            nbDomiciliesDomifa: openDataPlace.nbDomiciliesDomifa,
           }
         );
       }

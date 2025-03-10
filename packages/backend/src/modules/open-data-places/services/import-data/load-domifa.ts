@@ -115,7 +115,16 @@ export const loadDomifaData = async () => {
           }
         );
       }
+
+      await openDataPlaceRepository.update(
+        { domifaStructureId: place.id },
+        {
+          nbDomiciliesDomifa,
+          reseau: placeData.reseau,
+        }
+      );
     }
+
     appLogger.info("Import domifa complete ✅");
   } catch (e) {
     console.error("[IMPORT] Something happen", e);
