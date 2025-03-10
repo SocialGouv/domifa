@@ -54,10 +54,6 @@ export function buildCustomDoc({
 }): {
   [key in StructureCustomDocKeys]: string | Date | number;
 } {
-  // Adresse courrier active
-  const isDifferentAddress = structure.adresseCourrier?.actif;
-  const adresseStructure = buildStructureAddress(structure);
-
   // Procu & transfert
   const transfert = usager.options.transfert;
   const procuration = usager.options.procurations[0] ?? {
@@ -79,36 +75,6 @@ export function buildCustomDoc({
       DATE_FORMAT.JOUR_HEURE
     ),
     DATE_JOUR_LONG: dateFormat(date, structure.timeZone, DATE_FORMAT.JOUR_LONG),
-
-    // INFOS RESPONSABLE
-    RESPONSABLE_NOM: ucFirst(structure.responsable.nom),
-    RESPONSABLE_PRENOM: ucFirst(structure.responsable.prenom),
-    RESPONSABLE_FONCTION: structure.responsable.fonction,
-
-    // INFOS STRUCTURE
-    STRUCTURE_NOM: ucFirst(structure.nom),
-    STRUCTURE_TYPE: STRUCTURE_TYPE_LABELS[structure.structureType],
-    STRUCTURE_ADRESSE: adresseStructure,
-    STRUCTURE_ADRESSE_EMAIL: structure.email,
-
-    STRUCTURE_VILLE: ucFirst(structure.ville),
-    STRUCTURE_CODE_POSTAL: structure.codePostal,
-
-    // ADRESSE COURRIER
-    STRUCTURE_COURRIER_ADRESSE: isDifferentAddress
-      ? ucFirst(structure.adresseCourrier.adresse)
-      : adresseStructure,
-    STRUCTURE_COMPLEMENT_ADRESSE: isDifferentAddress
-      ? ""
-      : ucFirst(structure.complementAdresse),
-
-    STRUCTURE_COURRIER_VILLE: isDifferentAddress
-      ? ucFirst(structure.adresseCourrier.ville)
-      : ucFirst(structure.ville),
-
-    STRUCTURE_COURRIER_CODE_POSTAL: isDifferentAddress
-      ? structure.adresseCourrier.codePostal
-      : structure.codePostal,
 
     // INFOS USAGER
     USAGER_REF: usager.ref.toString(),
@@ -134,7 +100,7 @@ export function buildCustomDoc({
     // CONTACT USAGER
     USAGER_PHONE: getPhoneString(usager.telephone),
     USAGER_EMAIL: usager.email || "",
-
+    ...buildStructure(structure),
     ...buildEntretienForDocs(usager),
     ...buildDecision(usager, structure, DATE_FORMAT.JOUR_LONG),
     ...buildMonDomifaForDocs(usager, extraParameters),
@@ -285,55 +251,98 @@ export const buildEntretienForDocs = (
       entretien.causeDetail,
       ENTRETIEN_CAUSE_INSTABILITE
     ),
-
     ENTRETIEN_RAISON_DEMANDE: formatOtherField(
       entretien.raison,
       entretien.raisonDetail,
       ENTRETIEN_RAISON_DEMANDE
     ),
-
     ENTRETIEN_ACCOMPAGNEMENT: formatBoolean(entretien.accompagnement),
-
     ENTRETIEN_ACCOMPAGNEMENT_DETAIL: formatDetailField(
       entretien.accompagnement,
       entretien.accompagnementDetail
     ),
-
     ENTRETIEN_SITUATION_PROFESSIONNELLE: formatOtherField(
       entretien.situationPro,
       entretien.situationProDetail,
       ENTRETIEN_SITUATION_PRO
     ),
-
     ENTRETIEN_ORIENTATION: formatBoolean(entretien.orientation),
-
     ENTRETIEN_ORIENTATION_DETAIL: ucFirst(entretien.orientationDetail),
-
     ENTRETIEN_RATTACHEMENT: ucFirst(entretien.rattachement),
-
     ENTRETIEN_DOMICILIATION_EXISTANTE: formatBoolean(entretien.domiciliation),
-
     ENTRETIEN_REVENUS: formatBoolean(entretien.revenus),
-
     ENTRETIEN_REVENUS_DETAIL: ucFirst(entretien.revenusDetail),
-
     ENTRETIEN_LIEN_COMMUNE: formatOtherField(
       entretien.liencommune,
       entretien.liencommuneDetail,
       ENTRETIEN_LIEN_COMMUNE
     ),
-
     ENTRETIEN_COMPOSITION_MENAGE: entretien.typeMenage
       ? ENTRETIEN_TYPE_MENAGE[entretien.typeMenage]
       : "",
-
     ENTRETIEN_COMMENTAIRE: entretien.commentaires ?? "",
-
     ENTRETIEN_SITUATION_RESIDENTIELLE: formatOtherField(
       entretien.residence,
       entretien.residenceDetail,
       ENTRETIEN_RESIDENCE
     ),
+  };
+};
+
+export const buildStructure = (
+  structure: StructureCommon
+): {
+  RESPONSABLE_NOM: string;
+  RESPONSABLE_PRENOM: string;
+  RESPONSABLE_FONCTION: string;
+  STRUCTURE_NOM: string;
+  STRUCTURE_TYPE: string;
+  STRUCTURE_ADRESSE: string;
+  STRUCTURE_ADRESSE_EMAIL: string;
+  STRUCTURE_VILLE: string;
+  STRUCTURE_CODE_POSTAL: string;
+  STRUCTURE_COURRIER_ADRESSE: string;
+  STRUCTURE_COMPLEMENT_ADRESSE: string;
+  STRUCTURE_COURRIER_VILLE: string;
+  STRUCTURE_PREFECTURE: string;
+  STRUCTURE_AGREMENT: string;
+  STRUCTURE_COURRIER_CODE_POSTAL: string;
+} => {
+  // Adresse courrier active
+  const isDifferentAddress = structure.adresseCourrier?.actif;
+  const adresseStructure = buildStructureAddress(structure);
+  return {
+    // INFOS RESPONSABLE
+    RESPONSABLE_NOM: ucFirst(structure.responsable.nom),
+    RESPONSABLE_PRENOM: ucFirst(structure.responsable.prenom),
+    RESPONSABLE_FONCTION: structure.responsable.fonction,
+
+    // INFOS STRUCTURE
+    STRUCTURE_NOM: ucFirst(structure.nom),
+    STRUCTURE_TYPE: STRUCTURE_TYPE_LABELS[structure.structureType],
+    STRUCTURE_ADRESSE: adresseStructure,
+    STRUCTURE_ADRESSE_EMAIL: structure.email,
+
+    STRUCTURE_VILLE: ucFirst(structure.ville),
+    STRUCTURE_CODE_POSTAL: structure.codePostal,
+
+    // ADRESSE COURRIER
+    STRUCTURE_COURRIER_ADRESSE: isDifferentAddress
+      ? ucFirst(structure.adresseCourrier.adresse)
+      : adresseStructure,
+    STRUCTURE_AGREMENT: structure?.agrement ?? "",
+    STRUCTURE_PREFECTURE: structure.departement,
+    STRUCTURE_COMPLEMENT_ADRESSE: isDifferentAddress
+      ? ""
+      : ucFirst(structure.complementAdresse),
+
+    STRUCTURE_COURRIER_VILLE: isDifferentAddress
+      ? ucFirst(structure.adresseCourrier.ville)
+      : ucFirst(structure.ville),
+
+    STRUCTURE_COURRIER_CODE_POSTAL: isDifferentAddress
+      ? structure.adresseCourrier.codePostal
+      : structure.codePostal,
   };
 };
 

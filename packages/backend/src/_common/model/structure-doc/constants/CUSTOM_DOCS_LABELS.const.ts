@@ -24,6 +24,8 @@ export const CUSTOM_DOCS_LABELS: {
   // Si courrier différent
   STRUCTURE_COURRIER_ADRESSE: "Adresse de réception du courrier",
   STRUCTURE_COMPLEMENT_ADRESSE: "Complément de l'adresse de la structure",
+  STRUCTURE_AGREMENT: "Numéro d’agrément",
+  STRUCTURE_PREFECTURE: "Préfecture ayant délivré l’agrément",
 
   STRUCTURE_COURRIER_VILLE: "Ville de réception courrier",
   STRUCTURE_COURRIER_CODE_POSTAL: "Code postal de réception courrier",

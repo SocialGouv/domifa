@@ -8,7 +8,10 @@ import {
   ValidateIf,
 } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
-import { StructureCustomDocType } from "@domifa/common";
+import {
+  STRUCTURE_CUSTOM_DOC_AVAILABLE,
+  StructureCustomDocType,
+} from "@domifa/common";
 import { StripTagsTransform } from "../../_common/decorators";
 
 export class StructureDocDto {
@@ -36,6 +39,6 @@ export class StructureDocDto {
     type: "string",
   })
   @ValidateIf((o) => o.custom === true)
-  @IsIn(["attestation_postale", "courrier_radiation", "autre"])
+  @IsIn(STRUCTURE_CUSTOM_DOC_AVAILABLE)
   public customDocType?: StructureCustomDocType;
 }
