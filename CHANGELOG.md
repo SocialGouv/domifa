@@ -1,3 +1,10 @@
+## [2.196.7](https://github.com/SocialGouv/domifa/compare/v2.196.6...v2.196.7) (2025-03-10)
+
+
+### Bug Fixes
+
+* **frontend:** fix network required in form ([a63bd2c](https://github.com/SocialGouv/domifa/commit/a63bd2c7d8babf453316e2640609a38e13fae8c3))
+
 ## [2.196.6](https://github.com/SocialGouv/domifa/compare/v2.196.5...v2.196.6) (2025-03-06)
 
 
