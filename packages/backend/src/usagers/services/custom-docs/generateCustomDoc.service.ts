@@ -21,5 +21,5 @@ export async function generateCustomDoc(
   }
 
   await doc.renderAsync(docValues);
-  return doc.getZip().generate({ type: "nodebuffer" });
+  return doc.getZip().generate({ type: "nodebuffer", compression: "DEFLATE" });
 }

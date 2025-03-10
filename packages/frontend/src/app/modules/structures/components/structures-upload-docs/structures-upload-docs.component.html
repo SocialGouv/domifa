@@ -118,6 +118,19 @@
             La taille du fichier est trop grande
           </p>
         </div>
+
+        <div class="alert alert-warning mt-2" *ngIf="templateError">
+          <p>
+            Veuillez vérifiez les balises de votre fichier, un tag n'est pas
+            bien fermé
+            <br />
+            <b
+              >Chaque tag doit être en majuscule avec les acolades fermés.
+              Exemple: &#123;USAGER_NOM&#124;, &#123;STRUCTURE_NOM&#124;,
+              etc.</b
+            >
+          </p>
+        </div>
       </div>
     </div>
   </form>

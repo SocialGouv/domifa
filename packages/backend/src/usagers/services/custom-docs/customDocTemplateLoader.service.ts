@@ -8,6 +8,7 @@ export const customDocTemplateLoader = {
 
 const TEMPLATES_NAMES: { [attr in StructureDocTypesAvailable]: string } = {
   attestation_postale: "attestation_postale.template.docx",
+  cerfa_attestation: "cerfa_attestation.template.docx",
   courrier_radiation: "courrier_radiation.template.docx",
   acces_espace_domicilie: "acces_espace_domicilie.template.docx",
 };

@@ -62,5 +62,18 @@
     >
       Télécharger l'attestation postale
     </button>
+    <button
+      *ngIf="usager.decision.statut === 'VALIDE'"
+      ngbDropdownItem
+      type="button"
+      (click)="
+        getDomifaCustomDoc(
+          usager.ref,
+          StructureDocTypesAvailable.cerfa_attestation
+        )
+      "
+    >
+      Télécharger le Cerfa d'attestation de domicile
+    </button>
   </div>
 </div>
