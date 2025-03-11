@@ -1,3 +1,15 @@
+# [2.198.0](https://github.com/SocialGouv/domifa/compare/v2.197.1...v2.198.0) (2025-03-11)
+
+
+### Bug Fixes
+
+* **backend:** fix unit test for doc generation ([b68ea20](https://github.com/SocialGouv/domifa/commit/b68ea20596618fa03102d746b26674aee47bb059))
+
+
+### Features
+
+* **backend:** add new Cerfa doc ([d414e84](https://github.com/SocialGouv/domifa/commit/d414e84da003da214693552c12fa5beba451d269))
+
 ## [2.197.1](https://github.com/SocialGouv/domifa/compare/v2.197.0...v2.197.1) (2025-03-11)
 
 
