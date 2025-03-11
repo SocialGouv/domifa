@@ -14,6 +14,7 @@ import {
   WithLoading,
   SortValues,
   STRUCTURE_DOC_EXTENSIONS,
+  DEFAULT_STRUCTURE_CUSTOM_DOC_AVAILABLE,
 } from "@domifa/common";
 
 @Component({
@@ -99,38 +100,33 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
       this.documentService.getAllStructureDocs().subscribe({
         next: (structureDocs: StructureDoc[]) => {
           this.docs = initLoadingState(structureDocs);
-          if (
-            !this.docs.some(
-              (structure) => structure.customDocType === "attestation_postale"
-            )
-          ) {
-            this.docs.push(
-              this.getDefaultCustomDoc(
-                StructureDocTypesAvailable.attestation_postale
-              )
-            );
-          }
-          if (
-            !this.docs.some(
-              (structure) => structure.customDocType === "courrier_radiation"
-            )
-          ) {
-            this.docs.push(
-              this.getDefaultCustomDoc(
-                StructureDocTypesAvailable.courrier_radiation
-              )
-            );
-          }
+          console.log(DEFAULT_STRUCTURE_CUSTOM_DOC_AVAILABLE);
+          console.log(structureDocs);
+          DEFAULT_STRUCTURE_CUSTOM_DOC_AVAILABLE.forEach((doc) => {
+            if (
+              !this.docs.some((structure) => structure.customDocType === doc)
+            ) {
+              this.docs.push(
+                this.getDefaultCustomDoc(StructureDocTypesAvailable[doc])
+              );
+            }
+          });
 
           if (this.usager.decision.statut !== "RADIE") {
             this.docs = this.docs.filter(
-              (doc) => doc.customDocType !== "courrier_radiation"
+              (doc) =>
+                doc.customDocType !==
+                StructureDocTypesAvailable.courrier_radiation
             );
           }
 
           if (!this.usager.echeanceInfos.isActif) {
             this.docs = this.docs.filter(
-              (doc) => doc.customDocType !== "attestation_postale"
+              (doc) =>
+                doc.customDocType !==
+                  StructureDocTypesAvailable.attestation_postale &&
+                doc.customDocType !==
+                  StructureDocTypesAvailable.cerfa_attestation
             );
           }
         },

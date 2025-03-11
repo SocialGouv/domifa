@@ -20,6 +20,7 @@ export const CUSTOM_DOCS_LABELS: {
 
   STRUCTURE_VILLE: "Ville de la structure",
   STRUCTURE_CODE_POSTAL: "Code postal de la structure",
+  STRUCTURE_TELEPHONE: "Téléphone de la structure",
 
   // Si courrier différent
   STRUCTURE_COURRIER_ADRESSE: "Adresse de réception du courrier",
@@ -59,14 +60,21 @@ export const CUSTOM_DOCS_LABELS: {
   MOTIF_REFUS: "Motif du refus",
   MOTIF_RADIATION: "Motif de la radiation",
   DATE_RADIATION: "Date de la radiation",
+  DATE_RADIATION_FORMAT_COURT: "Date de la radiation au format (dd/mm/yyyy)",
   DATE_REFUS: "Date du refus",
+  DATE_REFUS_FORMAT_COURT: "Date du refus au format (dd/mm/yyyy)",
   DECISION_NOM_AGENT: "Utilisateur ayant prit la décision",
   PREMIERE_DOM_NOM_AGENT: "Utilisateur ayant validé la 1ere dom",
 
   // DATES DOMICILIATION
-  DATE_DEBUT_DOM: "Date de Début de la domiciliation (ex: 12/10/2020)",
-  DATE_FIN_DOM: "Date de fin de la domiciliation (ex: 12/10/2020)",
-  DATE_PREMIERE_DOM: "Date de la 1ere domiciliation (ex: 12/10/2020)",
+  DATE_DEBUT_DOM: "Date de Début de la domiciliation: 12 octobre 2020",
+  DATE_DEBUT_DOM_FORMAT_COURT:
+    "Date de Début de la domiciliation (ex: 12/10/2020)",
+  DATE_FIN_DOM: "Date de fin de la domiciliation: 12 octobre 2020",
+  DATE_FIN_DOM_FORMAT_COURT: "Date de fin de la domiciliation (ex: 12/10/2020)",
+  DATE_PREMIERE_DOM: "Date de la 1ere domiciliation: 12 octobre 2020",
+  DATE_PREMIERE_DOM_FORMAT_COURT:
+    "Date de la 1ere domiciliation (ex: 12/10/2020)",
   DATE_DERNIER_PASSAGE: "Date de dernier passage (ex: 01/09/2020 à 10h45)",
 
   // ENTRETIEN
