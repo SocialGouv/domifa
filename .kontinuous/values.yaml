@@ -130,7 +130,7 @@ backend-export:
     fsGroup: 1000
     runAsUser: 1000
     runAsGroup: 1000
-    
+
 
 backend-cron:
   ~chart: app
@@ -177,12 +177,11 @@ frontend:
   host: "{{ .Values.global.host }}"
   containerPort: 8080
   ingress:
-    annotations:
-      nginx.ingress.kubernetes.io/configuration-snippet: |
-        more_set_headers "Content-Security-Policy: default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr ; media-src 'self' https://domifaprod2.blob.core.windows.net/ https://tally.so/; font-src 'self'; img-src 'self' https://tally.so/ data:; script-src 'self' 'unsafe-inline' https://*.gouv.fr https://tally.so/ https://tally.so/widgets/embed.js ; frame-src 'self' https://*.gouv.fr  https://tally.so/ ; style-src 'self' 'unsafe-inline'";
-        more_set_headers "X-Frame-Options: deny";
-        more_set_headers "X-Content-Type-Options: nosniff";
-        more_set_headers "Cache-Control: no-store";
+    customHeaders:
+      "Content-Security-Policy": "default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr ; media-src 'self' https://domifaprod2.blob.core.windows.net/ https://tally.so/; font-src 'self'; img-src 'self' https://tally.so/ data:; script-src 'self' 'unsafe-inline' https://*.gouv.fr https://tally.so/ https://tally.so/widgets/embed.js ; frame-src 'self' https://*.gouv.fr  https://tally.so/ ; style-src 'self' 'unsafe-inline'"
+      "X-Frame-Options": "deny"
+      "X-Content-Type-Options": "nosniff"
+      "Cache-Control": "no-store"
   resources:
     requests:
       cpu: 0.2
@@ -202,13 +201,12 @@ portail-admins:
   imagePackage: portail-admins
   host: "admin-{{ .Values.global.host }}"
   ingress:
-    annotations:
-      nginx.ingress.kubernetes.io/configuration-snippet: |
-        more_set_headers "Content-Security-Policy: default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr; font-src 'self'; img-src 'self' data:; script-src 'self' https://*.gouv.fr 'unsafe-inline'; frame-src 'self' https://*.gouv.fr; style-src 'self' 'unsafe-inline'";
-        more_set_headers "X-Frame-Options: deny";
-        more_set_headers "X-Robots-Tag: noindex, nofollow, nosnippet, noarchive";
-        more_set_headers "X-Content-Type-Options: nosniff";
-        more_set_headers "Cache-Control: no-store";
+    customHeaders:
+      "Content-Security-Policy": "default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr; font-src 'self'; img-src 'self' data:; script-src 'self' https://*.gouv.fr 'unsafe-inline'; frame-src 'self' https://*.gouv.fr; style-src 'self' 'unsafe-inline'"
+      "X-Frame-Options": "deny"
+      "X-Robots-Tag": "noindex, nofollow, nosnippet, noarchive"
+      "X-Content-Type-Options": "nosniff"
+      "Cache-Control": "no-store"
   containerPort: 8080
   securityContext:
     fsGroup: 101
@@ -221,12 +219,11 @@ portail-usagers:
   imagePackage: portail-usagers
   host: "mon-{{ .Values.global.host }}"
   ingress:
-    annotations:
-      nginx.ingress.kubernetes.io/configuration-snippet: |
-        more_set_headers "Content-Security-Policy: default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr ; media-src 'self' https://domifaprod2.blob.core.windows.net/ https://tally.so/; font-src 'self'; img-src 'self' https://tally.so/ data:; script-src 'self' 'unsafe-inline' https://*.gouv.fr https://tally.so/ https://tally.so/widgets/embed.js ; frame-src 'self' https://*.gouv.fr  https://tally.so/ ; style-src 'self' 'unsafe-inline'";
-        more_set_headers "X-Frame-Options: deny";
-        more_set_headers "X-Content-Type-Options: nosniff";
-        more_set_headers "Cache-Control: no-store";
+    customHeaders:
+      "Content-Security-Policy": "default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr ; media-src 'self' https://domifaprod2.blob.core.windows.net/ https://tally.so/; font-src 'self'; img-src 'self' https://tally.so/ data:; script-src 'self' 'unsafe-inline' https://*.gouv.fr https://tally.so/ https://tally.so/widgets/embed.js ; frame-src 'self' https://*.gouv.fr  https://tally.so/ ; style-src 'self' 'unsafe-inline'"
+      "X-Frame-Options": "deny"
+      "X-Content-Type-Options": "nosniff"
+      "Cache-Control": "no-store"
   containerPort: 8080
   securityContext:
     fsGroup: 101
