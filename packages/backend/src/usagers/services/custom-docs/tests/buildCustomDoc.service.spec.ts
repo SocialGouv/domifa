@@ -40,8 +40,8 @@ describe("buildCustomDoc.service", () => {
     });
   });
 
-  describe("Générer le contenu des attestations et courriers", () => {
-    it("1. Générer une attestation postale complète", () => {
+  describe("Générer le contenu de tout autre document personnalisé", () => {
+    it("Générer une attestation postale complète", () => {
       const date = new Date("2020-12-15 14:30:00");
       const docActif: StructureCustomDocTags = buildCustomDoc({
         usager: USAGER_VALIDE_MOCK,
@@ -54,7 +54,7 @@ describe("buildCustomDoc.service", () => {
       expect(docActif).toEqual(CUSTOM_DOC_ATTESTATION_POSTALE);
     });
 
-    it("2. Générer un document personnalisé pour une personne refusée", () => {
+    it("Générer un document personnalisé pour une personne refusée", () => {
       const date = new Date("2020-12-15 14:30:00");
 
       const usager = USAGER_REFUS_MOCK;
@@ -85,7 +85,7 @@ describe("buildCustomDoc.service", () => {
       );
     });
 
-    it("4. CUSTOM DOC AVEC PROCURATION & TRANSFERT", () => {
+    it("Générer le contenu des transferts & procurations", () => {
       const date = new Date("2020-12-15 14:30:00");
 
       USAGER_VALIDE_MOCK.options = {
