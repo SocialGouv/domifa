@@ -1,3 +1,10 @@
+## [2.197.1](https://github.com/SocialGouv/domifa/compare/v2.197.0...v2.197.1) (2025-03-11)
+
+
+### Bug Fixes
+
+* ingress customHeaders ([7611785](https://github.com/SocialGouv/domifa/commit/761178506ecef1aa0eb813d63863b643ab29e61c))
+
 # [2.197.0](https://github.com/SocialGouv/domifa/compare/v2.196.8...v2.197.0) (2025-03-10)
 
 
