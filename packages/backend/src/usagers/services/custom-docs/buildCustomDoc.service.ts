@@ -183,19 +183,50 @@ export const buildDecision = (
       usager.decision.statut === "RADIE"
         ? dateFormat(usager.decision.dateDebut, structure.timeZone, format)
         : "",
+    DATE_RADIATION_FORMAT_COURT:
+      usager.decision.statut === "RADIE"
+        ? dateFormat(
+            usager.decision.dateDebut,
+            structure.timeZone,
+            DATE_FORMAT.JOUR
+          )
+        : "",
     DATE_REFUS:
       usager.decision.statut === "REFUS"
         ? dateFormat(usager.decision.dateDebut, structure.timeZone, format)
         : "",
+    DATE_REFUS_FORMAT_COURT:
+      usager.decision.statut === "REFUS"
+        ? dateFormat(
+            usager.decision.dateDebut,
+            structure.timeZone,
+            DATE_FORMAT.JOUR
+          )
+        : "",
 
     // DATES DOMICILIATION
     DATE_DEBUT_DOM: dateFormat(dateDebutDom, structure.timeZone, format),
+    DATE_DEBUT_DOM_FORMAT_COURT: dateFormat(
+      dateDebutDom,
+      structure.timeZone,
+      DATE_FORMAT.JOUR
+    ),
     DATE_FIN_DOM: dateFormat(dateFinDom, structure.timeZone, format),
+    DATE_FIN_DOM_FORMAT_COURT: dateFormat(
+      dateFinDom,
+      structure.timeZone,
+      DATE_FORMAT.JOUR
+    ),
     PREMIERE_DOM_NOM_AGENT: decisionUserPremierDom ?? "",
     DATE_PREMIERE_DOM: dateFormat(
       usager.datePremiereDom,
       structure.timeZone,
       format
+    ),
+    DATE_PREMIERE_DOM_FORMAT_COURT: dateFormat(
+      usager.datePremiereDom,
+      structure.timeZone,
+      DATE_FORMAT.JOUR
     ),
 
     DATE_DERNIER_PASSAGE: dateFormat(
@@ -307,6 +338,7 @@ export const buildStructure = (
   STRUCTURE_PREFECTURE: string;
   STRUCTURE_AGREMENT: string;
   STRUCTURE_COURRIER_CODE_POSTAL: string;
+  STRUCTURE_TELEPHONE: string;
 } => {
   // Adresse courrier active
   const isDifferentAddress = structure.adresseCourrier?.actif;
@@ -322,6 +354,7 @@ export const buildStructure = (
     STRUCTURE_TYPE: STRUCTURE_TYPE_LABELS[structure.structureType],
     STRUCTURE_ADRESSE: adresseStructure,
     STRUCTURE_ADRESSE_EMAIL: structure.email,
+    STRUCTURE_TELEPHONE: getPhoneString(structure.telephone),
 
     STRUCTURE_VILLE: ucFirst(structure.ville),
     STRUCTURE_CODE_POSTAL: structure.codePostal,

@@ -3,6 +3,20 @@ import { StructureDoc } from "@domifa/common";
 export const DOMIFA_CUSTOM_DOCS: StructureDoc[] = [
   {
     uuid: "xx",
+    id: 1000,
+    label: "Cerfa d'attestation d'élection de domicile",
+    createdBy: {
+      id: 0,
+      nom: "DomiFa",
+      prenom: "DomiFa",
+    },
+    custom: true,
+    filetype: "application/msword",
+    structureId: 0,
+    path: "",
+  },
+  {
+    uuid: "xx",
     id: 10,
     label: "Attestation postale",
     createdBy: {
@@ -15,6 +29,7 @@ export const DOMIFA_CUSTOM_DOCS: StructureDoc[] = [
     structureId: 0,
     path: "",
   },
+
   {
     id: 100,
     uuid: "xx",
