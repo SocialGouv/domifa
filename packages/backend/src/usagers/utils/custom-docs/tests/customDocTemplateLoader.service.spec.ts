@@ -1,5 +1,5 @@
 import { StructureDocTypesAvailable } from "@domifa/common";
-import { customDocTemplateLoader } from "../customDocTemplateLoader.service";
+import { customDocTemplateLoader } from "../customDocTemplateLoader";
 
 describe("customDocTemplateLoader", () => {
   it("customDocTemplateLoader render ", async () => {

@@ -122,8 +122,11 @@
           </p>
         </div>
 
-        <div class="alert alert-warning mt-2" *ngIf="templateError">
-          <p>
+        <div
+          class="alert alert-warning mt-2"
+          *ngIf="isCustomDoc && templateError"
+        >
+          <p *ngIf="templateError === 'TEMPLATE_ERROR'">
             Veuillez vérifiez les balises de votre fichier, un tag n'est pas
             bien fermé
             <br />
@@ -132,6 +135,10 @@
               Exemple: &#123;USAGER_NOM&#124;, &#123;STRUCTURE_NOM&#124;,
               etc.</b
             >
+          </p>
+          <p *ngIf="templateError === 'UNKNOWN_TAG'">
+            Un tag non repertorié semble être utilisé dans le document. Veuillez
+            n'utiliser que des tags indiqués dans la documentation
           </p>
         </div>
       </div>

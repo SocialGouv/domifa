@@ -1,4 +1,4 @@
-import { StructureCustomDocTags } from "../../../../_common/model";
+import { StructureCustomDocTags } from "../../../../../_common/model";
 
 // Courrier pour les personnes radiées
 export const CUSTOM_DOC_COURRIER_REFUS: StructureCustomDocTags = {

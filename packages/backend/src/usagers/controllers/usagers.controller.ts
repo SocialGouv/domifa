@@ -44,7 +44,7 @@ import {
 } from "../dto";
 import { UsagersService } from "../services";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
-import { generateCerfaData } from "../services/cerfa";
+import { generateCerfaData } from "../utils/cerfa";
 
 import pdftk = require("node-pdftk");
 

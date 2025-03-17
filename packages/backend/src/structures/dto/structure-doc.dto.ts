@@ -1,5 +1,5 @@
 import {
-  IsBooleanString,
+  IsBoolean,
   IsIn,
   IsNotEmpty,
   IsString,
@@ -13,6 +13,7 @@ import {
   StructureCustomDocType,
 } from "@domifa/common";
 import { StripTagsTransform } from "../../_common/decorators";
+import { Transform } from "class-transformer";
 
 export class StructureDocDto {
   @ApiProperty({
@@ -32,7 +33,8 @@ export class StructureDocDto {
     required: true,
   })
   @IsNotEmpty()
-  @IsBooleanString()
+  @IsBoolean()
+  @Transform(({ value }) => value === "true" || value === true)
   public custom: boolean;
 
   @ApiProperty({

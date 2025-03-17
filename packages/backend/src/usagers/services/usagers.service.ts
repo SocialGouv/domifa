@@ -27,7 +27,7 @@ import {
   UserStructureProfile,
 } from "@domifa/common";
 import { UsagerHistoryStateService } from "./usagerHistoryState.service";
-import { StructureUsagerExport } from "./xlsx-structure-usagers-renderer";
+import { StructureUsagerExport } from "../utils/xlsx-structure-usagers-renderer";
 import { getPhoneString } from "../../util";
 
 @Injectable()
