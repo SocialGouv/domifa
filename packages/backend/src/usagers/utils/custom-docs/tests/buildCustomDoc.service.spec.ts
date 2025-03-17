@@ -8,7 +8,7 @@ import {
 } from "../../../../_common/mocks";
 
 import { StructureCustomDocTags } from "../../../../_common/model";
-import { DATE_FORMAT } from "../buildCustomDoc.service";
+import { DATE_FORMAT } from "../buildCustomDoc";
 import { CUSTOM_DOC_ATTESTATION_POSTALE, CUSTOM_DOC_COURRIER_REFUS } from ".";
 import { dateFormat } from "../../../../util";
 

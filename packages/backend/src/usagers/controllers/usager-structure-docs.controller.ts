@@ -28,7 +28,7 @@ import {
   buildCustomDoc,
   customDocTemplateLoader,
   generateCustomDoc,
-} from "../services/custom-docs";
+} from "../utils/custom-docs";
 
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { join } from "path";

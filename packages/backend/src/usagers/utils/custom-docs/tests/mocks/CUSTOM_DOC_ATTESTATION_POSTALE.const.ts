@@ -1,4 +1,4 @@
-import { StructureCustomDocTags } from "../../../../_common/model";
+import { StructureCustomDocTags } from "../../../../../_common/model";
 
 export const CUSTOM_DOC_ATTESTATION_POSTALE: StructureCustomDocTags = {
   AYANTS_DROITS_LISTE: "",

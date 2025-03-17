@@ -27,7 +27,7 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
   public loading = false;
   public submitted = false;
   public uploadForm!: UntypedFormGroup;
-  public templateError = false;
+  public templateError: "TEMPLATE_ERROR" | "UNKNOWN_TAG" | null = null;
   @Input() public isCustomDoc!: boolean;
   private subscription = new Subscription();
 
@@ -122,7 +122,7 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
     }
 
     this.loading = true;
-    this.templateError = false;
+    this.templateError = null;
     this.subscription.add(
       this.structureDocService.upload(formData).subscribe({
         next: () => {
@@ -130,6 +130,7 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
           setTimeout(() => {
             this.loading = false;
             this.submitted = false;
+            this.templateError = null;
             this.uploadForm.reset();
             this.cancel.emit();
             this.getAllStructureDocs.emit();
@@ -137,10 +138,7 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         error: (error: any) => {
-          console.log(error?.message);
-          if (error?.error?.message === "TEMPLATE_ERROR") {
-            this.templateError = true;
-          }
+          this.templateError = error?.error?.message ?? "TEMPLATE_ERROR";
           this.toastService.error("Impossible d'uploader le fichier");
           this.loading = false;
           this.submitted = false;

@@ -32,7 +32,7 @@ import { structureDocRepository, StructureDocTable } from "../../database";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 import { join } from "path";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
-import { validateDocTemplate } from "../../usagers/services/custom-docs";
+import { validateDocTemplate } from "../../usagers/utils/custom-docs";
 import { StructureDocTypesAvailable } from "@domifa/common";
 
 @ApiTags("structure-docs")
@@ -92,12 +92,12 @@ export class StructureDocController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response
   ) {
-    if (structureDocDto.custom) {
+    if (structureDocDto.custom === true) {
       const templateValidation = await validateDocTemplate(file.buffer);
 
       if (!templateValidation.isValid) {
         return res.status(HttpStatus.BAD_REQUEST).json({
-          message: "TEMPLATE_ERROR",
+          message: templateValidation.error,
         });
       }
     }

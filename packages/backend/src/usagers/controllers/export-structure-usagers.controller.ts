@@ -22,7 +22,7 @@ import {
   renderStructureUsagersHeaders,
   renderStructureUsagersRows,
   StructureUsagerExport,
-} from "../services/xlsx-structure-usagers-renderer";
+} from "../utils/xlsx-structure-usagers-renderer";
 import * as XLSX from "xlsx";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { domifaConfig } from "../../config";

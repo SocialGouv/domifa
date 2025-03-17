@@ -8,7 +8,7 @@ import {
   getDecisionForStats,
   getEntretienForStats,
   getAyantsDroitForStats,
-} from "./dataCleanerForStats.service";
+} from "../utils/dataCleanerForStats.service";
 import { UsagerHistoryStatesTable } from "../../database/entities/usager/UsagerHistoryStatesTable.typeorm";
 
 import { usagerHistoryStatesRepository } from "../../database";
