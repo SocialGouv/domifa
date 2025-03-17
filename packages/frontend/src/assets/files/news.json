@@ -1,5 +1,18 @@
 [
   {
+    "date": "2025-03-19",
+    "description": "🚀 Un nouveau Cerfa éditable disponible",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "📄 Documents personnalisés",
+        "message": [
+          "Le Cerfa est maintenant disponible en format Word personnalisable. Ce nouveau format vous permet de modifier librement le contenu du document selon vos besoins. Vous pourrez y ajouter facilement le tampon de votre structure ou la signature du responsable. Une fois personnalisé, ce document sera automatiquement accessible dans le dossier de chaque domicilié."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2025-02-24",
     "description": "🚀 Amélioration de la gestion des référents et corrections diverses.",
     "content": [
