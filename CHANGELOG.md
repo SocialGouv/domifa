@@ -1,3 +1,12 @@
+## [2.198.1](https://github.com/SocialGouv/domifa/compare/v2.198.0...v2.198.1) (2025-03-17)
+
+
+### Bug Fixes
+
+* **backend:** add unit test to check custom docs ([46edd44](https://github.com/SocialGouv/domifa/commit/46edd4442c3fa270a10f9b05c1423f5438d7ba0b))
+* **frontend:** add news ([160c683](https://github.com/SocialGouv/domifa/commit/160c683c9823a36b161ba49cbacb79e2f18bff89))
+* **frontend:** add news ([dcc750a](https://github.com/SocialGouv/domifa/commit/dcc750a5641799ad7f8f7420a6596a4c18542a06))
+
 # [2.198.0](https://github.com/SocialGouv/domifa/compare/v2.197.1...v2.198.0) (2025-03-11)
 
 
