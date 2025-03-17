@@ -22,7 +22,8 @@
       type="button"
       (click)="getCerfa(usager.ref, CerfaDocType.demande)"
     >
-      Télécharger le Cerfa d'attestation de demande
+      <fa-icon aria-hidden="true" [icon]="faFilePdf"></fa-icon>
+      Télécharger le Cerfa d'attestation de demande (.pdf)
     </button>
     <button
       ngbDropdownItem
@@ -32,7 +33,8 @@
         usager.decision.statut !== 'REFUS' && usager.decision.statut !== 'RADIE'
       "
     >
-      Télécharger le Cerfa d'élection de domicile
+      <fa-icon aria-hidden="true" [icon]="faFilePdf"></fa-icon>
+      Télécharger le Cerfa d'élection de domicile (.pdf)
     </button>
     <button
       *ngIf="
@@ -47,7 +49,7 @@
         )
       "
     >
-      Télécharger le courrier de radiation
+      Télécharger le courrier de radiation (.docx)
     </button>
     <button
       *ngIf="usager.decision.statut === 'VALIDE'"
@@ -60,7 +62,8 @@
         )
       "
     >
-      Télécharger l'attestation postale
+      <fa-icon aria-hidden="true" [icon]="faFileWord"></fa-icon>
+      Télécharger l'attestation postale (.docx)
     </button>
     <button
       *ngIf="usager.decision.statut === 'VALIDE'"
@@ -73,7 +76,9 @@
         )
       "
     >
-      Télécharger le Cerfa d'attestation de domicile
+      <fa-icon aria-hidden="true" [icon]="faFileWord"></fa-icon>
+
+      Télécharger le Cerfa d'attestation de domicile (.docx)
     </button>
   </div>
 </div>
