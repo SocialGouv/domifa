@@ -27,7 +27,8 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
   public loading = false;
   public submitted = false;
   public uploadForm!: UntypedFormGroup;
-  public templateError: "TEMPLATE_ERROR" | "UNKNOWN_TAG" | null = null;
+  public templateError: "TEMPLATE_ERROR" | "UNKNOWN_KEY" | null = null;
+
   @Input() public isCustomDoc!: boolean;
   private subscription = new Subscription();
 
