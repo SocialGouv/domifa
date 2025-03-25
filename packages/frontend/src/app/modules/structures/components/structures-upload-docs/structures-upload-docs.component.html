@@ -102,7 +102,7 @@
         />
 
         <small *ngIf="isCustomDoc" id="file-description">
-          Seul les fichiers Word au format .docx sont autorisés
+          Seuls les fichiers Word au format .docx sont autorisés
         </small>
         <small *ngIf="!isCustomDoc" id="file-description">
           Formats autorisés pdf, docx, xlsx, odt, jpg ou png (6mo maxi)
@@ -131,12 +131,12 @@
             bien fermé.
             <br />
             <b
-              >Chaque tag doit être en majuscule avec les accolades fermés.
+              >Chaque tag doit être en majuscule avec les accolades fermées.
               Exemple: &#123;USAGER_NOM&#124;, &#123;STRUCTURE_NOM&#124;,
               etc.</b
             >
           </p>
-          <p *ngIf="templateError === 'UNKNOWN_TAG'">
+          <p *ngIf="templateError === 'UNKNOWN_KEY'">
             Un tag non repertorié semble être utilisé dans le document. Veuillez
             n'utiliser que des tags indiqués dans la documentation.
           </p>

@@ -94,7 +94,7 @@ export class ImportComponent implements OnInit, OnDestroy {
       const input = event.target as HTMLInputElement;
 
       if (!input.files) {
-        this.toastService.error("Seul les fichiers Excel sont autorisés");
+        this.toastService.error("Seuls les fichiers Excel sont autorisés");
         return;
       }
 
@@ -106,7 +106,7 @@ export class ImportComponent implements OnInit, OnDestroy {
           input.files[0].type !==
             "application/vnd.oasis.opendocument.spreadsheet")
       ) {
-        this.toastService.error("Seul les fichiers Excel sont autorisés");
+        this.toastService.error("Seuls les fichiers Excel sont autorisés");
         return;
       }
 
