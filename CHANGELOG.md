@@ -1,3 +1,10 @@
+## [2.198.2](https://github.com/SocialGouv/domifa/compare/v2.198.1...v2.198.2) (2025-03-26)
+
+
+### Bug Fixes
+
+* **cerfa:** fix typo ([c1e98e3](https://github.com/SocialGouv/domifa/commit/c1e98e307829441701f9e6ac571410a9842f2697))
+
 ## [2.198.1](https://github.com/SocialGouv/domifa/compare/v2.198.0...v2.198.1) (2025-03-17)
 
 
