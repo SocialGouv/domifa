@@ -14,6 +14,7 @@ import { MessageEmailAttachment } from "../../database/entities/message-email/Me
 import { IsValidPhone, LowerCaseTransform } from "../../_common/decorators";
 import sanitizeHtml from "sanitize-html";
 import { Telephone } from "@domifa/common";
+import { cleanFormDataValue } from "../../util";
 
 export class ContactSupportDto {
   @ApiProperty({
@@ -70,7 +71,7 @@ export class ContactSupportDto {
   })
   @IsOptional()
   @Transform(({ value }: TransformFnParams) => {
-    return !value ? null : parseInt(value, 10);
+    return cleanFormDataValue(value, "number");
   })
   public readonly structureId!: number;
 
@@ -80,7 +81,7 @@ export class ContactSupportDto {
   })
   @IsOptional()
   @Transform(({ value }: TransformFnParams) => {
-    return !value ? null : parseInt(value, 10);
+    return cleanFormDataValue(value, "number");
   })
   public readonly userId!: number;
 

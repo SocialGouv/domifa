@@ -295,7 +295,6 @@ async function createTables(queryRunner: QueryRunner) {
       latitude numeric(10, 7) NOT NULL,
       longitude numeric(10, 7) NOT NULL,
       "source" text NOT NULL,
-      "uniqueId" text NOT NULL,
       software text NULL,
       mail text NULL,
       "structureType" text NULL,

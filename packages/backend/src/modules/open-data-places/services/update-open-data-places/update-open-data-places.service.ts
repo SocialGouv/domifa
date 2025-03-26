@@ -8,7 +8,7 @@ import { loadSoliguideData } from "../import-data/load-soliguide";
 
 @Injectable()
 export class UpdateOpenDataPlacesService {
-  @Cron("0 6 * * *", {
+  @Cron("0 22 * * *", {
     timeZone: "Europe/Paris",
     disabled: domifaConfig().envId !== "prod" && isCronEnabled(),
   })

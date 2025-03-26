@@ -13,7 +13,6 @@ export interface OpenDataPlace extends AppEntity {
   latitude: number;
   longitude: number;
   source: OpenDataSource;
-  uniqueId: string; // ID from soliguide | data-inclusion
   software: "domifa" | "millesime" | "other" | "mss";
   domifaStructureId: number;
   dgcsId?: string | null;
