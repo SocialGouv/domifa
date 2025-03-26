@@ -40,7 +40,7 @@ export const loadDomifaData = async () => {
     for await (const place of places) {
       const domifaPlace = await openDataPlaceRepository.findOneBy({
         source: "domifa",
-        uniqueId: place.id.toString(),
+        domifaStructureId: place.id,
       });
 
       const nbDomiciliesDomifa = await usagerRepository.count({
@@ -88,7 +88,6 @@ export const loadDomifaData = async () => {
         domifaStructureId: place.id,
         mail: place.email,
         structureType: place.structureType,
-        uniqueId: place.id.toString(),
         nbDomiciliesDomifa,
         reseau: place?.reseau ?? findNetwork(cleanSpaces(place.nom)),
       };

@@ -42,9 +42,6 @@ export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlaceTable> {
   @Column({ type: "text", nullable: false })
   source: OpenDataSource;
 
-  @Column({ type: "text", nullable: false })
-  uniqueId: string; // ID from soliguide | data-inclusion
-
   @Column({ type: "text", nullable: true })
   software: "domifa" | "millesime" | "other" | "mss";
 

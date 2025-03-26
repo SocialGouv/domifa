@@ -77,7 +77,6 @@ const getFromSoliguide = async () => {
         longitude: place.position.location.coordinates[0],
         source: "soliguide",
         mail: place?.entity?.mail?.toString(),
-        uniqueId: place.lieu_id.toString(),
         soliguideStructureId: parseInt(place.lieu_id as any, 10),
         software: "other",
         saturation: service?.saturated?.status,
@@ -87,7 +86,7 @@ const getFromSoliguide = async () => {
 
       const soliguidePlace = await openDataPlaceRepository.findOneBy({
         source: "soliguide",
-        uniqueId: place.lieu_id.toString(),
+        soliguideStructureId: place.lieu_id,
       });
 
       const domifaPlaceExist: OpenDataPlace =

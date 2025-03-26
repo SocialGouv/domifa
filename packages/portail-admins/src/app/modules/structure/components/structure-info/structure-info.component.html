@@ -40,9 +40,9 @@
       <span class="valeur">{{ structure.adresse }} </span>
     </p>
     <!-- Adresse -->
-    <p class="col-md-4 reponses" *ngIf="structure.adresseCourrier.actif">
+    <p class="col-md-4 reponses" *ngIf="structure?.adresseCourrier?.actif">
       <span class="question">Adresse de réception du courrier</span>
-      <span class="valeur"> {{ structure.adresseCourrier.adresse }} </span>
+      <span class="valeur"> {{ structure?.adresseCourrier?.adresse }} </span>
     </p>
     <p class="col-md-4 reponses">
       <span class="question">Ville</span>

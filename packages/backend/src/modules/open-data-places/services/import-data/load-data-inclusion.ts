@@ -52,7 +52,7 @@ const getFromDataInclusion = async (structureType: "CCAS" | "CIAS") => {
         let dataInclusionPlace: OpenDataPlace = await openDataPlaceRepository
           .createQueryBuilder("open_data_places")
           .where(
-            `("uniqueId" = :id and source='data-inclusion') OR (source='data-inclusion' and adresse = :adresse and ville = :ville)`,
+            `("dataInclusionId" = :id and source='data-inclusion') OR (source='data-inclusion' and adresse = :adresse and ville = :ville)`,
             {
               adresse: cleanAddress(place?.adresse),
               ville: cleanCity(place?.commune),
@@ -77,7 +77,6 @@ const getFromDataInclusion = async (structureType: "CCAS" | "CIAS") => {
               latitude: place?.latitude,
               longitude: place?.longitude,
               source: "data-inclusion",
-              uniqueId: place.id,
               reseau: findNetwork(cleanSpaces(place.nom)),
             })
           );
@@ -104,7 +103,7 @@ const getFromDataInclusion = async (structureType: "CCAS" | "CIAS") => {
 
     if (datInclusionData?.length >= 500) {
       appLogger.warn(
-        `Import 'data-inclusion' data N°${page} : ${
+        `Import 'data-inclusion' data N°${page} : $
           datInclusionData.length * page
         }/${nbResults}`
       );

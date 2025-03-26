@@ -35,7 +35,7 @@ const getFromMss = async () => {
     appLogger.info(`${response.data.length} places to import... `);
 
     for await (const place of response.data) {
-      if (!place.name) {
+      if (!place?.name) {
         continue;
       }
 
@@ -59,7 +59,6 @@ const getFromMss = async () => {
       }
 
       const mssId = place.id.toString();
-
       const departement = getDepartementFromCodePostal(postalCode);
 
       const openDataPlace: Partial<OpenDataPlace> = {
@@ -74,14 +73,13 @@ const getFromMss = async () => {
         longitude: position.coordinates[0],
         source: "mss",
         mail: null,
-        uniqueId: mssId,
         mssId,
         reseau: findNetwork(cleanSpaces(place.name)),
       };
 
       const mssPlace = await openDataPlaceRepository.findOneBy({
         source: "mss",
-        uniqueId: mssId,
+        mssId,
       });
 
       const domifaPlaceExist: OpenDataPlace =
