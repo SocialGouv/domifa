@@ -44,7 +44,9 @@ export class StructuresAuthController {
 
       return res.status(HttpStatus.OK).json(accessToken);
     } catch (err) {
-      return res.status(HttpStatus.UNAUTHORIZED).json({ err });
+      return res
+        .status(HttpStatus.UNAUTHORIZED)
+        .json({ message: "LOGIN_FAILED" });
     }
   }
 
