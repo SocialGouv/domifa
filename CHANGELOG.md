@@ -1,3 +1,10 @@
+## [2.198.4](https://github.com/SocialGouv/domifa/compare/v2.198.3...v2.198.4) (2025-03-31)
+
+
+### Bug Fixes
+
+* **backend:** fix message when login is failed ([d6ea96b](https://github.com/SocialGouv/domifa/commit/d6ea96bb72f7a3a670865c41228f87c04b2327de))
+
 ## [2.198.3](https://github.com/SocialGouv/domifa/compare/v2.198.2...v2.198.3) (2025-03-26)
 
 
