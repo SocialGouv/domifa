@@ -1,3 +1,10 @@
+## [2.198.9](https://github.com/SocialGouv/domifa/compare/v2.198.8...v2.198.9) (2025-04-07)
+
+
+### Bug Fixes
+
+* **frontend:** fix typo ([93d113b](https://github.com/SocialGouv/domifa/commit/93d113b1023ea378ddf465195ee1c83e5def48ba))
+
 ## [2.198.8](https://github.com/SocialGouv/domifa/compare/v2.198.7...v2.198.8) (2025-04-07)
 
 
