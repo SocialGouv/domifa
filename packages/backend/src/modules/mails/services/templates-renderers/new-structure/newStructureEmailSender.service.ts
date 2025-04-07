@@ -1,15 +1,13 @@
 import { Structure } from "@domifa/common";
 import { domifaConfig } from "../../../../../config";
-import {
-  AppUserForAdminEmail,
-  MessageEmailContent,
-} from "../../../../../database";
+import { MessageEmailContent } from "../../../../../database";
 import {
   DOMIFA_DEFAULT_MAIL_CONFIG,
   mailRecipientsFilter,
   messageEmailSender,
 } from "../../_core";
 import { newStructureEmailRenderer } from "./newStructureEmailRenderer.service";
+import { UserForEmail } from "../../../../../_common/model";
 const messageEmailId = "new-structure";
 export const newStructureEmailSender = { sendMail };
 
@@ -18,7 +16,7 @@ async function sendMail({
   user,
 }: {
   structure: Structure;
-  user: AppUserForAdminEmail;
+  user: UserForEmail;
 }): Promise<void> {
   const parameters = `${structure.uuid}/${structure.token}`;
   const portailAdminUrl = domifaConfig().apps.portailAdminUrl;

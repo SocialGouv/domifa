@@ -3,7 +3,7 @@ import { subHours, subWeeks } from "date-fns";
 import { domifaConfig } from "../../../../config";
 import { appLogger } from "../../../../util";
 import { UserUsagerSecurityEventType } from "../../../../_common/model";
-import { UserUsagerSecurityEvent } from "../../../../_common/model/user-usager/UserUsagerSecurityEvent.type";
+import { UserUsagerSecurityEvent } from "../../../../_common/model/users/user-usager/UserUsagerSecurityEvent.type";
 
 export const USAGER_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT = 5;
 

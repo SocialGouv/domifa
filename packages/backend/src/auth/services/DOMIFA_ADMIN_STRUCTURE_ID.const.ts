@@ -1,1 +1,0 @@
-export const DOMIFA_ADMIN_STRUCTURE_ID = 1;

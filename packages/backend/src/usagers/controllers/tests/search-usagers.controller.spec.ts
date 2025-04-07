@@ -1,6 +1,6 @@
 import { SearchUsagersController } from "../search-usagers.controller";
 import { TESTS_USERS_STRUCTURE } from "../../../_tests";
-import { UsersModule } from "../../../users/users.module";
+import { UsersModule } from "../../../modules/users/users.module";
 import {
   AppTestContext,
   AppTestHelper,

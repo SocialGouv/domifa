@@ -70,5 +70,4 @@ export const USER_STRUCTURE_MOCK: UserStructure = {
     },
   },
   structureId: 100,
-  userRightStatus: "structure",
 };

@@ -1,6 +1,6 @@
 import { InteractionsModule } from "../../../modules/interactions/interactions.module";
 import { StructuresModule } from "../../../structures/structure.module";
-import { UsersModule } from "../../../users/users.module";
+import { UsersModule } from "../../../modules/users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
 import { UsagerHistoryStateService } from "../../services/usagerHistoryState.service";
 

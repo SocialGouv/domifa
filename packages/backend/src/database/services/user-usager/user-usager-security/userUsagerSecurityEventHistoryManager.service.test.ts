@@ -1,4 +1,4 @@
-import { UserUsagerSecurityEvent } from "../../../../_common/model/user-usager/UserUsagerSecurityEvent.type";
+import { UserUsagerSecurityEvent } from "../../../../_common/model/users/user-usager/UserUsagerSecurityEvent.type";
 import {
   USAGER_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT,
   userUsagerSecurityEventHistoryManager,

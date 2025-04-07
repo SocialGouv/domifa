@@ -22,7 +22,6 @@ import { StructuresAuthController } from "./structures-auth.controller";
       session: false,
       passReqToCallback: true,
     }),
-
     JwtModule.register({
       secret: domifaConfig().security.jwtSecret,
       signOptions: {

@@ -53,6 +53,7 @@ import {
   UsagerDocsTable,
 } from "../../database";
 import { Response } from "express";
+import { appLogger } from "../../util";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("docs")
@@ -276,7 +277,7 @@ export class UsagerDocsController {
         doc
       );
     } catch (e) {
-      console.log(e);
+      appLogger.error(e);
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "CANNOT_DOWNLOAD_FILE" });

@@ -8,6 +8,4 @@ export * from "./jwt";
 export * from "./message-sms";
 export * from "./structure-doc";
 export * from "./usager";
-export * from "./user";
-export * from "./user-structure";
-export * from "./user-usager";
+export * from "./users";

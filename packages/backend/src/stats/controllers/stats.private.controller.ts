@@ -118,29 +118,20 @@ export class StatsPrivateController {
     });
   }
 
-  @AllowUserProfiles("super-admin-domifa", "structure")
-  @AllowUserStructureRoles("simple", "responsable", "admin")
-  @Post("export")
-  public async exportByDate(
-    @CurrentUser() _user: UserStructureAuthenticated | UserAdminAuthenticated,
+  @AllowUserProfiles("supervisor")
+  @Post("export-from-admin")
+  public async exportFromAdminByDate(
+    @CurrentUser() userLogged: UserAdminAuthenticated,
     @Body() statsDto: StatsDto,
     @Res() res: Response
   ): Promise<void> {
-    const user =
-      _user._userProfile === "super-admin-domifa"
-        ? (_user as UserAdminAuthenticated).user
-        : (_user as UserStructureAuthenticated);
-
     await this.appLogsService.create({
-      userId: user.id,
-      structureId: user.structureId,
-      action: "EXPORT_STATS",
+      userId: userLogged.id,
+      structureId: 1,
+      action: "EXPORT_STATS_FROM_ADMIN",
     });
 
-    const structureId =
-      _user._userProfile === "super-admin-domifa"
-        ? statsDto.structureId
-        : user.structureId;
+    const structureId = statsDto.structureId;
 
     const stats = await this.buildStatsInPeriod({
       structureId,
@@ -151,10 +142,46 @@ export class StatsPrivateController {
       exportDate: new Date(),
       stats,
     });
+
     const fileName = buildExportStructureStatsFileName({
       startDateUTC: stats.period.startDateUTC,
       endDateUTCExclusive: stats.period.endDateUTCExclusive,
+    });
+
+    await expressResponseExcelRenderer.sendExcelWorkbook({
+      res,
+      fileName,
+      workbook,
+    });
+  }
+
+  @AllowUserProfiles("structure")
+  @AllowUserStructureRoles("simple", "responsable", "admin")
+  @Post("export")
+  public async exportByDate(
+    @CurrentUser() user: UserStructureAuthenticated,
+    @Body() statsDto: StatsDto,
+    @Res() res: Response
+  ): Promise<void> {
+    await this.appLogsService.create({
+      userId: user.id,
+      structureId: user?.structureId ?? 1,
+      action: "EXPORT_STATS",
+    });
+
+    const stats = await this.buildStatsInPeriod({
       structureId: user.structureId,
+      ...statsDto,
+    });
+
+    const workbook = await structureStatsExporter.generateExcelDocument({
+      exportDate: new Date(),
+      stats,
+    });
+
+    const fileName = buildExportStructureStatsFileName({
+      startDateUTC: stats.period.startDateUTC,
+      endDateUTCExclusive: stats.period.endDateUTCExclusive,
     });
 
     await expressResponseExcelRenderer.sendExcelWorkbook({
@@ -190,14 +217,12 @@ export class StatsPrivateController {
 export function buildExportStructureStatsFileName({
   startDateUTC,
   endDateUTCExclusive,
-  structureId,
 }: {
   startDateUTC: Date;
   endDateUTCExclusive: Date;
-  structureId: number;
 }) {
   return `${format(startDateUTC, "yyyy-MM-dd")}_${format(
     endDateUTCExclusive,
     "yyyy-MM-dd"
-  )}_export-structure-${structureId}-stats.xlsx`;
+  )}_export-structure_stats.xlsx`;
 }
