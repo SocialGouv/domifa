@@ -1,3 +1,10 @@
+## [2.198.6](https://github.com/SocialGouv/domifa/compare/v2.198.5...v2.198.6) (2025-04-07)
+
+
+### Bug Fixes
+
+* **frontend:** fix error message ([2d36c85](https://github.com/SocialGouv/domifa/commit/2d36c859ed910a273c396e1f35388d7375840b37))
+
 ## [2.198.5](https://github.com/SocialGouv/domifa/compare/v2.198.4...v2.198.5) (2025-04-07)
 
 
