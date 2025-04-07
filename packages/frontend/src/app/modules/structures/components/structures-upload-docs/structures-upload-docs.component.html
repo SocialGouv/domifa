@@ -126,28 +126,30 @@
           class="alert alert-warning mt-2"
           *ngIf="isCustomDoc && templateError"
         >
-          <p *ngIf="templateError === 'TEMPLATE_ERROR'">
-            Veuillez vérifier les balises de votre fichier, un tag n'est pas
-            bien fermé.
-            <br />
-            <b
-              >Chaque tag doit être en majuscule avec les accolades fermées.
-              Exemple: &#123;USAGER_NOM&#124;, &#123;STRUCTURE_NOM&#124;,
-              etc.</b
-            >
-          </p>
-          <p *ngIf="templateError === 'UNKNOWN_KEY'">
-            Un tag non repertorié semble être utilisé dans le document. Veuillez
-            n'utiliser que des tags indiqués dans la documentation.
-          </p>
           <p>
-            N'hésitez pas à consulter
-            <a
-              href="https://fabnummas.notion.site/Cr-er-des-documents-personnalis-s-0d350a7849b4413d91c6926d79f8e6bc"
-              target="_blank"
-            >
-              guide pour créer des documents personnalisés.</a
-            >
+            <ng-container *ngIf="templateError === 'TEMPLATE_ERROR'">
+              Veuillez vérifier les balises de votre fichier, un tag n'est pas
+              bien fermé.
+              <br />
+              <b
+                >Chaque tag doit être en majuscule avec les accolades fermées.
+                Exemple: &#123;USAGER_NOM&#124;, &#123;STRUCTURE_NOM&#124;,
+                etc.</b
+              >
+            </ng-container>
+            <ng-container *ngIf="templateError === 'UNKNOWN_KEY'">
+              Un tag non repertorié semble être utilisé dans le document.
+              Veuillez n'utiliser que des tags indiqués dans la documentation.
+            </ng-container>
+            <span>
+              N'hésitez pas à consulter
+              <a
+                href="https://fabnummas.notion.site/Cr-er-des-documents-personnalis-s-0d350a7849b4413d91c6926d79f8e6bc"
+                target="_blank"
+              >
+                guide pour créer des documents personnalisés.</a
+              >
+            </span>
           </p>
         </div>
       </div>

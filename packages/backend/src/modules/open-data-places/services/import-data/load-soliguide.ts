@@ -163,8 +163,7 @@ const getFromSoliguide = async () => {
       appLogger.info(`🔁 ${updatedPlaces} places updated `);
     }
   } catch (e) {
-    console.log(e);
-    console.error("[IMPORT] Something happen during soliguide import");
+    appLogger.error(e);
   }
 };
 
