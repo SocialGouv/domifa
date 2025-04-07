@@ -1,16 +1,7 @@
 import { In } from "typeorm";
 import { UserStructureTable } from "../../entities";
 import { myDataSource } from "../_postgres";
-import {
-  UserStructureRole,
-  UserStructure,
-  UserStructureProfile,
-} from "@domifa/common";
-
-export type AppUserForAdminEmail = Pick<
-  UserStructure,
-  "email" | "nom" | "prenom"
->;
+import { UserStructureRole, UserStructureProfile } from "@domifa/common";
 
 export const userStructureRepository = myDataSource
   .getRepository(UserStructureTable)

@@ -1,6 +1,6 @@
 import { Body, Controller, HttpStatus, Post, Res } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { EmailDto } from "../../users/dto/email.dto";
+import { EmailDto } from "../../modules/users/dto/email.dto";
 import { ExpressResponse } from "../../util/express";
 import { StructureWithUserDto } from "../dto/structure-with-user.dto";
 import { StructureDto } from "../dto/structure.dto";

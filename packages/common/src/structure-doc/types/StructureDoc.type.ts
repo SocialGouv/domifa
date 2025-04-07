@@ -1,5 +1,5 @@
 import { AppEntity } from "../../_core";
-import { UserStructureCreatedBy } from "../../user-structure";
+import { UserStructureCreatedBy } from "../../users/user-structure";
 import { StructureCustomDocType } from "./StructureCustomDocType.type";
 
 export type StructureDoc = AppEntity & {

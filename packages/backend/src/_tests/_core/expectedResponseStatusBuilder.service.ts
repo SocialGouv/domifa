@@ -15,10 +15,12 @@ function allowSuperAdminDomifaOnly(
 ): HttpStatus {
   return !user
     ? HttpStatus.UNAUTHORIZED
-    : user?.profile === "super-admin-domifa"
+    : user?.profile === "supervisor"
     ? validExpectedResponseStatus
     : HttpStatus.FORBIDDEN;
 }
+
+// TODO: update after migration of roles
 function allowStructureOnly(
   user: AppTestAuthProfile,
   {
@@ -38,7 +40,7 @@ function allowStructureOnly(
   if (!user) {
     return HttpStatus.UNAUTHORIZED;
   }
-  if (allowSuperAdminDomifa && user?.profile === "super-admin-domifa") {
+  if (allowSuperAdminDomifa && user?.profile === "supervisor") {
     return validExpectedResponseStatus;
   }
   if (user?.profile === "structure" && roles.includes(user?.structureRole)) {

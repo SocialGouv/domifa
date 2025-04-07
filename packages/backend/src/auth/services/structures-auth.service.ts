@@ -9,7 +9,7 @@ import {
   UserStructureJwtPayload,
   UserStructurePublic,
 } from "../../_common/model";
-import { isDomifaAdmin } from "./auth-checker.service";
+
 import { UserStructure, StructureCommon } from "@domifa/common";
 
 export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
@@ -32,8 +32,6 @@ export class StructuresAuthService {
   constructor(private readonly jwtService: JwtService) {}
 
   public login(user: UserStructure) {
-    const isSuperAdminDomifa = isDomifaAdmin(user);
-
     const payload: UserStructureJwtPayload = {
       _jwtPayloadVersion: CURRENT_JWT_PAYLOAD_VERSION,
       _userId: user.id,
@@ -46,8 +44,6 @@ export class StructuresAuthService {
       role: user.role,
       acceptTerms: user.acceptTerms,
       structureId: user.structureId,
-      isSuperAdminDomifa,
-      userRightStatus: isSuperAdminDomifa ? "super-admin-domifa" : "structure",
       domifaVersion: domifaConfig().version.toString(),
     };
     return {
@@ -94,11 +90,9 @@ export class StructuresAuthService {
 
     return authUser;
   }
+
   public async findAuthUser(
-    payload: Pick<
-      UserStructureJwtPayload,
-      "_userId" | "_userProfile" | "isSuperAdminDomifa"
-    >
+    payload: Pick<UserStructureJwtPayload, "_userId" | "_userProfile">
   ): Promise<UserStructureAuthenticated> {
     const user = await userStructureRepository.findOne({
       where: { id: payload._userId },
@@ -142,7 +136,6 @@ export class StructuresAuthService {
       _userProfile: payload._userProfile,
       ...user,
       structure,
-      isSuperAdminDomifa: payload.isSuperAdminDomifa,
     };
   }
 }

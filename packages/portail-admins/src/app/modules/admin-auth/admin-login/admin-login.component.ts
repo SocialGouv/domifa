@@ -73,13 +73,11 @@ export class AdminLoginComponent implements OnInit {
     this.authService.login(loginForm).subscribe({
       error: () => {
         this.loading = false;
-
         this.toastr.error("Login et / ou mot de passe incorrect");
       },
       next: (apiAuthResponse: PortailAdminAuthApiResponse) => {
         this.toastr.success("Connexion réussie");
         this.authService.saveToken(apiAuthResponse);
-
         this.loading = false;
         if (this.redirectToAfterLogin) {
           this.router.navigateByUrl(this.redirectToAfterLogin);

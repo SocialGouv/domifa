@@ -7,17 +7,19 @@ import {
   Res,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { userAdminSecurityPasswordChecker } from "../../../../database/services/user-admin";
 
 import { ExpressResponse } from "../../../../util/express";
 import {
   PortailAdminAuthApiResponse,
   PortailAdminProfile,
+  UserProfile,
 } from "../../../../_common/model";
-import { portailAdminProfilBuilder } from "../../services/portail-admin-profil-builder.service";
-import { StructureAdminLoginDto } from "../../../../users/dto/structure-admin-login.dto";
+import { StructureAdminLoginDto } from "../../../users/dto/structure-admin-login.dto";
 import { AdminsAuthService } from "../../services/admins-auth.service";
+import { userSecurityPasswordChecker } from "../../../users/services";
+import { UserSupervisor } from "@domifa/common";
 
+const userProfile: UserProfile = "supervisor";
 @Controller("portail-admins/auth")
 @ApiTags("auth")
 export class PortailAdminLoginController {
@@ -30,15 +32,28 @@ export class PortailAdminLoginController {
     @Body() loginDto: StructureAdminLoginDto
   ) {
     try {
-      const user = await userAdminSecurityPasswordChecker.checkPassword({
-        email: loginDto.email,
-        password: loginDto.password,
-      });
+      const user =
+        await userSecurityPasswordChecker.checkPassword<UserSupervisor>({
+          email: loginDto.email,
+          password: loginDto.password,
+          userProfile,
+        });
 
       const { access_token } = this.adminsAuthService.login(user);
 
-      const portailAdminProfile: PortailAdminProfile =
-        await portailAdminProfilBuilder.build({ userId: user.id });
+      const portailAdminProfile: PortailAdminProfile = {
+        user: {
+          id: user.id,
+          nom: user.nom,
+          prenom: user.prenom,
+          email: user.email,
+          password: user.password,
+          verified: user.verified,
+          lastLogin: user.lastLogin,
+          territories: user.territories,
+          role: user.role,
+        },
+      };
 
       const response: PortailAdminAuthApiResponse = {
         token: access_token,

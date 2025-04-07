@@ -32,7 +32,6 @@ describe("Auth Controller", () => {
         {
           _userId: 1,
           _userProfile: "structure",
-          isSuperAdminDomifa: true,
         },
         "structure"
       )
@@ -41,10 +40,9 @@ describe("Auth Controller", () => {
       authChecker.checkProfile(
         {
           _userId: 1,
-          _userProfile: "super-admin-domifa",
-          isSuperAdminDomifa: true,
+          _userProfile: "supervisor",
         },
-        "super-admin-domifa"
+        "supervisor"
       )
     ).toBeTruthy();
   });
@@ -55,9 +53,8 @@ describe("Auth Controller", () => {
         {
           _userId: 1,
           _userProfile: "structure",
-          isSuperAdminDomifa: true,
         },
-        "super-admin-domifa"
+        "supervisor"
       )
     ).toBeFalsy();
   });

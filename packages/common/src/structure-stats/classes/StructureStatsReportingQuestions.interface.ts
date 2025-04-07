@@ -1,4 +1,4 @@
-import { type UserStructureCreatedBy } from "../../user-structure";
+import { type UserStructureCreatedBy } from "../../users/user-structure";
 import { type StructureWaitingTime } from "../enums";
 
 export class StructureStatsReportingQuestions {

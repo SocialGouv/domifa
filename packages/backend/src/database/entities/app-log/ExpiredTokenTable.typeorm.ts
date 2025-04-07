@@ -2,6 +2,7 @@ import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { StructureTable } from "../structure/StructureTable.typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import { UserStructureTable } from "../user-structure/UserStructureTable.typeorm";
+import { UserProfile } from "../../../_common/model";
 
 @Entity({ name: "expired_token" })
 export class ExpiredTokenTable extends AppTypeormTable<ExpiredTokenTable> {
@@ -26,7 +27,7 @@ export class ExpiredTokenTable extends AppTypeormTable<ExpiredTokenTable> {
   public token: string;
 
   @Column({ type: "text", nullable: false })
-  public userProfile: "super-admin-domifa" | "structure" | "usager";
+  public userProfile: UserProfile;
 
   public constructor(entity?: Partial<ExpiredTokenTable>) {
     super(entity);
