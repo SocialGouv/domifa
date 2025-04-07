@@ -73,7 +73,7 @@
     "dotenv": "^16.4.7",
     "email-templates": "^10.0.1",
     "exceljs": "^4.4.0",
-    "express": "^4.21.2",
+    "express": "^5.0.0",
     "fs-extra": "^11.3.0",
     "google-libphonenumber": "^3.2.33",
     "ics": "^2.44.0",
