@@ -3,10 +3,11 @@ import {
   STRUCTURE_TYPE_LABELS,
   Structure,
 } from "@domifa/common";
-import { AppUserForAdminEmail } from "../../../../../database";
+
 import { getPhoneString } from "../../../../../util";
 import { DomifaMailTemplateRendering } from "../../../model";
 import { domifaMailTemplateRenderer } from "../../domifaMailTemplateRenderer.service";
+import { UserForEmail } from "../../../../../_common/model";
 
 export type NewStructureEmailModel = {
   structure: Pick<
@@ -21,7 +22,7 @@ export type NewStructureEmailModel = {
     | "structureType"
     | "departement"
   >;
-  user: AppUserForAdminEmail;
+  user: UserForEmail;
   lienConfirmation: string;
   lienSuppression: string;
   toSkipString?: string;

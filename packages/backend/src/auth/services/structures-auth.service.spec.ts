@@ -1,7 +1,7 @@
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { StructuresModule } from "../../structures/structure.module";
-import { UsersModule } from "../../users/users.module";
+import { UsersModule } from "../../modules/users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { StructuresAuthService } from "./structures-auth.service";
 

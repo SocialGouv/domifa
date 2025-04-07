@@ -1,4 +1,4 @@
-import { type UserStructureResume } from "../../user-structure";
+import { type UserStructureResume } from "../../users/user-structure";
 
 export interface UsagerNote {
   id: number;

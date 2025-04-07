@@ -72,7 +72,6 @@ export class UsagersAuthService {
       structure,
       user,
       usager,
-      isSuperAdminDomifa: false,
     };
 
     return auth;

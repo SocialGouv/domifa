@@ -1,5 +1,5 @@
 import { AppEntity } from "../../_core";
-import { UserStructureResume } from "../../user-structure";
+import { UserStructureResume } from "../../users/user-structure";
 
 export interface StructureInformation extends AppEntity {
   title: string;

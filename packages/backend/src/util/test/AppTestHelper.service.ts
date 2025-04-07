@@ -183,7 +183,7 @@ async function authenticateSuperAdmin(
   expect(response.status).toBe(HttpStatus.OK);
   context.authToken = response.body.token;
   context.user = {
-    profile: "super-admin-domifa",
+    profile: "supervisor",
     userUUID: authInfo.uuid,
   };
 }

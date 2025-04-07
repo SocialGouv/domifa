@@ -1,7 +1,7 @@
-import { UserStructure } from "@domifa/common";
+import { UserSupervisor } from "@domifa/common";
 
 export type PortailAdminUser = Pick<
-  UserStructure,
+  UserSupervisor,
   | "id"
   | "nom"
   | "prenom"
@@ -10,6 +10,5 @@ export type PortailAdminUser = Pick<
   | "verified"
   | "lastLogin"
   | "territories"
-  | "structureId"
-  | "userRightStatus"
+  | "role"
 >;
