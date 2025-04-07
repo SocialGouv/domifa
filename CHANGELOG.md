@@ -1,3 +1,10 @@
+## [2.198.5](https://github.com/SocialGouv/domifa/compare/v2.198.4...v2.198.5) (2025-04-07)
+
+
+### Bug Fixes
+
+* **frontend:** hide cerfa ([95e63c7](https://github.com/SocialGouv/domifa/commit/95e63c70629475551d214d0ee386de0c0f9550ff))
+
 ## [2.198.4](https://github.com/SocialGouv/domifa/compare/v2.198.3...v2.198.4) (2025-03-31)
 
 
