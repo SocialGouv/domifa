@@ -19,8 +19,8 @@ import { generateSender } from "../../modules/sms/services/generators";
 import { Point } from "geojson";
 import { newStructureEmailSender } from "../../modules/mails/services/templates-renderers";
 import { randomBytes } from "crypto";
-import { userStructureCreator } from "../../users/services";
-import { UserDto } from "../../users/dto";
+import { userStructureCreator } from "../../modules/users/services";
+import { UserDto } from "../../modules/users/dto";
 
 export const structureCreatorService = {
   checkStructureCreateArgs,

@@ -1,5 +1,5 @@
 import { UsagersModule } from "./../../usagers.module";
-import { UsersModule } from "../../../users/users.module";
+import { UsersModule } from "../../../modules/users/users.module";
 import {
   AppTestContext,
   AppTestHelper,

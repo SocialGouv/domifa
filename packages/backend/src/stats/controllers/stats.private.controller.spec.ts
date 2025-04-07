@@ -2,7 +2,7 @@ import { forwardRef } from "@nestjs/common";
 import { InteractionsModule } from "../../modules/interactions/interactions.module";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
-import { UsersModule } from "../../users/users.module";
+import { UsersModule } from "../../modules/users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { StatsPrivateController } from "./stats.private.controller";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";

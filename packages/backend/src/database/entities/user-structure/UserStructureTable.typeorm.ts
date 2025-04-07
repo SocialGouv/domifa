@@ -11,7 +11,6 @@ import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import {
   UserStructureRole,
   UserStructureMails,
-  UserRightStatus,
   UserStructure,
 } from "@domifa/common";
 
@@ -67,12 +66,6 @@ export class UserStructureTable
 
   @Column({ type: "timestamptz", nullable: true })
   acceptTerms: Date;
-
-  @Column({ type: "simple-array", nullable: true })
-  territories: string[];
-
-  @Column({ type: "text", default: "structure" })
-  userRightStatus: UserRightStatus;
 
   public constructor(entity?: Partial<UserStructureTable>) {
     super(entity);

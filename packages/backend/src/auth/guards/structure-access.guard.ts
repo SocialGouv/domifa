@@ -14,7 +14,7 @@ export class StructureAccessGuard implements CanActivate {
   public async canActivate(context: ExecutionContext) {
     const r = context.switchToHttp().getRequest();
 
-    if (!r?.params?.structureId || !r?.user?.isSuperAdminDomifa) {
+    if (!r?.params?.structureId) {
       appLogger.error("[StructureAccessGuard] invalid structureId for admin", {
         sentry: true,
         context: {

@@ -3,9 +3,9 @@ import { userStructureRepository, structureRepository } from "../database";
 import { InteractionsModule } from "../modules/interactions/interactions.module";
 import { StatsModule } from "../stats/stats.module";
 import { UsagersModule } from "../usagers/usagers.module";
-import { UserDto } from "../users/dto/user.dto";
-import { UsersController } from "../users/controllers/users.controller";
-import { UsersModule } from "../users/users.module";
+import { UserDto } from "../modules/users/dto/user.dto";
+import { UsersController } from "../modules/users/controllers/users.controller";
+import { UsersModule } from "../modules/users/users.module";
 import { ExpressResponse } from "../util/express";
 import { AppTestContext, AppTestHelper } from "../util/test";
 

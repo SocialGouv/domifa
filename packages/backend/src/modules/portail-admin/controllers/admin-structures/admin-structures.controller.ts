@@ -14,6 +14,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 import {
   AllowUserProfiles,
+  AllowUserSupervisorRoles,
   CurrentStructure,
   CurrentUser,
 } from "../../../../auth/decorators";
@@ -30,8 +31,8 @@ import { ExpressResponse } from "../../../../util/express";
 import {
   UserAdminAuthenticated,
   UserStructureAuthenticated,
-  UserStructureSecurityEvent,
-  UserStructureTokens,
+  UserSecurityEvent,
+  UserTokens,
 } from "../../../../_common/model";
 import { AdminStructuresService } from "../../services";
 
@@ -51,12 +52,12 @@ import { StructureAdminForList } from "../../types";
 import { userAccountActivatedEmailSender } from "../../../mails/services/templates-renderers";
 import { structureCreatorService } from "../../../../structures/services";
 import { format } from "date-fns";
-import { RegisterUserAdminDto } from "../../../../users/dto";
-import { UsersController } from "../../../../users/controllers/users.controller";
+import { RegisterUserAdminDto } from "../../../users/dto";
+import { UsersController } from "../../../users/controllers/users.controller";
 
 export type UserStructureWithSecurity = UserStructure & {
-  temporaryTokens: UserStructureTokens;
-  events: UserStructureSecurityEvent;
+  temporaryTokens: UserTokens;
+  events: UserSecurityEvent;
 };
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
@@ -69,14 +70,14 @@ export class AdminStructuresController {
   ) {}
 
   @Get("export")
-  @AllowUserProfiles("super-admin-domifa")
+  @AllowUserProfiles("supervisor")
   public async export(
-    @CurrentUser() { user }: UserAdminAuthenticated,
+    @CurrentUser() user: UserAdminAuthenticated,
     @Res() response: ExpressResponse
   ) {
     await this.appLogsService.create({
       userId: user.id,
-      structureId: user.structureId,
+      structureId: 1, // TODO: update this with new user system
       action: "EXPORT_DOMIFA",
     });
 
@@ -101,7 +102,8 @@ export class AdminStructuresController {
   }
 
   @Get("last-update")
-  @AllowUserProfiles("super-admin-domifa")
+  @AllowUserProfiles("supervisor")
+  @AllowUserSupervisorRoles("super-admin-domifa", "national")
   public async getLastUpdate(): Promise<Date | null> {
     const lastUsager = await structureRepository.findOne({
       where: {},
@@ -111,14 +113,16 @@ export class AdminStructuresController {
   }
 
   @Get("")
-  @AllowUserProfiles("super-admin-domifa")
+  @AllowUserProfiles("supervisor")
+  @AllowUserSupervisorRoles("super-admin-domifa")
   public async list(): Promise<StructureAdminForList[]> {
     return await this.adminStructuresService.getAdminStructuresListData();
   }
 
   @Get("structure/:structureId")
   @UseGuards(StructureAccessGuard)
-  @AllowUserProfiles("super-admin-domifa")
+  @AllowUserProfiles("supervisor")
+  @AllowUserSupervisorRoles("super-admin-domifa")
   public async getStructure(
     @CurrentUser() _user: UserAdminAuthenticated,
     @CurrentStructure() structure: Structure,
@@ -132,7 +136,8 @@ export class AdminStructuresController {
 
   @Get("structure/:structureId/users")
   @UseGuards(StructureAccessGuard)
-  @AllowUserProfiles("super-admin-domifa")
+  @AllowUserProfiles("supervisor")
+  @AllowUserSupervisorRoles("super-admin-domifa")
   public async getUsers(
     @CurrentUser() _user: UserAdminAuthenticated,
     @CurrentStructure() structure: Structure,
@@ -162,7 +167,8 @@ export class AdminStructuresController {
     )) as unknown as UserStructureWithSecurity[];
   }
 
-  @AllowUserProfiles("super-admin-domifa")
+  @AllowUserProfiles("supervisor")
+  @AllowUserSupervisorRoles("super-admin-domifa")
   @Post("confirm-structure-creation")
   public async confirmStructureCreation(
     @Body() structureConfirmationDto: StructureConfirmationDto,
@@ -201,7 +207,7 @@ export class AdminStructuresController {
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
-  @AllowUserProfiles("super-admin-domifa")
+  @AllowUserProfiles("supervisor")
   @Post("register-new-admin")
   public async registerNewAdmin(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -212,15 +218,16 @@ export class AdminStructuresController {
     return await userController.registerUser(user, res, registerUserDto);
   }
 
-  @AllowUserProfiles("super-admin-domifa")
+  @AllowUserProfiles("supervisor")
+  @AllowUserSupervisorRoles("super-admin-domifa", "national")
   @Post("metabase-stats")
   public async getMetabaseStats(
-    @CurrentUser() { user }: UserAdminAuthenticated,
+    @CurrentUser() user: UserAdminAuthenticated,
     @Body() metabaseDto: MetabaseStatsDto
   ): Promise<{ url: string }> {
     await this.appLogsService.create({
       userId: user.id,
-      structureId: user.structureId,
+      structureId: 1, // TODO: update this with new user system
       action: "GET_STATS_PORTAIL_ADMIN",
     });
 
@@ -263,7 +270,7 @@ export class AdminStructuresController {
     return { url };
   }
 
-  @AllowUserProfiles("super-admin-domifa")
+  @AllowUserProfiles("supervisor")
   @Post("metabase-get-structures")
   public async getStructures(
     @Body() metabaseDto: MetabaseStatsDto

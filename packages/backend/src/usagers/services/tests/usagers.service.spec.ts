@@ -4,7 +4,7 @@ import {
   usagerRepository,
   userStructureRepository,
 } from "../../../database";
-import { UsersModule } from "../../../users/users.module";
+import { UsersModule } from "../../../modules/users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
 import { CreateUsagerDto } from "../../dto";
 import { UsagersService } from "../usagers.service";

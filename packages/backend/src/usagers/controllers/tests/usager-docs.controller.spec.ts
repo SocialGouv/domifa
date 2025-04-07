@@ -1,7 +1,7 @@
 import { InteractionsModule } from "../../../modules/interactions/interactions.module";
 import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 import { StructuresModule } from "../../../structures/structure.module";
-import { UsersModule } from "../../../users/users.module";
+import { UsersModule } from "../../../modules/users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
 import { UsagerDocsController } from "../usager-docs.controller";
 import { TESTS_USERS_STRUCTURE } from "../../../_tests";

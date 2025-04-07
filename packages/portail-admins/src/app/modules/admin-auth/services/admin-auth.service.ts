@@ -108,6 +108,7 @@ export class AdminAuthService {
   }
 
   public saveAuthAdmin(authAdminProfile: PortailAdminProfile): void {
+    console.log({ authAdminProfile });
     // Enregistrement de l'utilisateur
     window.sessionStorage.removeItem(USER_KEY);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(authAdminProfile));

@@ -1,7 +1,6 @@
 import { format } from "date-fns";
 
 import {
-  AppUserForAdminEmail,
   MessageEmailContent,
   MessageEmailIcalEvent,
 } from "../../../../../database";
@@ -12,6 +11,7 @@ import {
 } from "../../_core";
 import { usagerAppointmentCreatedEmailRenderer } from "./usagerAppointmentCreatedEmailRenderer.service";
 import { getPersonFullName, Usager } from "@domifa/common";
+import { UserForEmail } from "../../../../../_common/model";
 const messageEmailId = "usager-appointment-created";
 export const usagerAppointmentCreatedEmailSender = { sendMail };
 
@@ -21,7 +21,7 @@ async function sendMail({
   icalEvent,
   message,
 }: {
-  user: AppUserForAdminEmail;
+  user: UserForEmail;
   usager: Usager;
   icalEvent: MessageEmailIcalEvent;
   message: string;

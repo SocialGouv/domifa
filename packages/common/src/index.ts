@@ -14,5 +14,4 @@ export * from "./telephone";
 export * from "./territoires";
 export * from "./usager";
 export * from "./usager-options";
-export * from "./user-structure";
-export * from "./user-usager";
+export * from "./users";

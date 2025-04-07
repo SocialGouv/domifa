@@ -12,16 +12,25 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import { domifaConfig } from "../config";
-import { userStructureSecurityPasswordChecker } from "../database/services/app-log/user-structure-security/userStructureSecurityPasswordChecker.service";
-import { StructureLoginDto } from "../users/dto";
+
+import { StructureLoginDto } from "../modules/users/dto";
 import { ExpressRequest, ExpressResponse } from "../util/express";
-import { UserStructureAuthenticated } from "../_common/model";
+import {
+  USER_STRUCTURE_ROLE_ALL,
+  UserProfile,
+  UserStructureAuthenticated,
+} from "../_common/model";
 import { AllowUserProfiles } from "./decorators/AllowUserProfiles.decorator";
 import { CurrentUser } from "./decorators/current-user.decorator";
 import { AppUserGuard } from "./guards/AppUserGuard.guard";
 import { StructuresAuthService } from "./services/structures-auth.service";
 import { ExpiredTokenTable, expiredTokenRepositiory } from "../database";
+import { domifaConfig } from "../config";
+import { userSecurityPasswordChecker } from "../modules/users/services";
+import { AllowUserStructureRoles } from "./decorators";
+import { UserStructure } from "@domifa/common";
+
+const userProfile: UserProfile = "structure";
 
 @Controller("structures/auth")
 @ApiTags("auth")
@@ -35,10 +44,12 @@ export class StructuresAuthController {
     @Body() loginDto: StructureLoginDto
   ) {
     try {
-      const user = await userStructureSecurityPasswordChecker.checkPassword({
-        email: loginDto.email,
-        password: loginDto.password,
-      });
+      const user =
+        await userSecurityPasswordChecker.checkPassword<UserStructure>({
+          email: loginDto.email,
+          password: loginDto.password,
+          userProfile,
+        });
 
       const accessToken = this.structuresAuthService.login(user);
 
@@ -53,6 +64,7 @@ export class StructuresAuthController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("structure")
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @ApiOperation({ summary: "Déconnexion" })
   @Get("logout")
   public async logout(
@@ -63,7 +75,7 @@ export class StructuresAuthController {
       token: req.headers.authorization,
       userId: user.id,
       structureId: user.structure.id,
-      userProfile: user.isSuperAdminDomifa ? "super-admin-domifa" : "structure",
+      userProfile: user._userProfile,
     });
     await expiredTokenRepositiory.save(tokenToBlacklist);
     return true;
@@ -72,6 +84,7 @@ export class StructuresAuthController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("structure")
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Get("me")
   public me(
     @Res() res: Response,

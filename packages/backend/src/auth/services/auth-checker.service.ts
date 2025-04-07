@@ -1,19 +1,30 @@
 import { appLogger } from "../../util";
-import { UserAuthenticated, UserProfile } from "../../_common/model";
-import { DOMIFA_ADMIN_STRUCTURE_ID } from "./DOMIFA_ADMIN_STRUCTURE_ID.const";
-import { UserStructure, UserStructureRole } from "@domifa/common";
+import {
+  UserAuthenticated,
+  UserProfile,
+  UserStructureAuthenticated,
+} from "../../_common/model";
+import { UserStructureRole, UserSupervisorRole } from "@domifa/common";
+import { UserSupervisorAuthenticated } from "../../_common/model/users/user-supervisor";
+
+export type AnyRole = UserStructureRole | UserSupervisorRole;
 
 export const authChecker = {
   checkRole,
   checkProfile,
-  isDomifaAdmin,
 };
 
 function checkRole(
-  user: Pick<UserStructure, "id" | "role">,
-  ...expectedRoles: UserStructureRole[]
+  userAuthanticated: UserSupervisorAuthenticated | UserStructureAuthenticated,
+  ...expectedRoles: AnyRole[]
 ) {
-  const isValidRole = user && expectedRoles.includes(user.role);
+  const user = userAuthanticated;
+
+  if (!user || !user?.role) {
+    return false;
+  }
+
+  const isValidRole = user && expectedRoles.includes(user.role as AnyRole);
 
   if (user && !isValidRole) {
     appLogger.error("[authChecker] invalid role", {
@@ -39,14 +50,4 @@ function checkProfile(
   }
 
   return isValidRole;
-}
-
-export function isDomifaAdmin(
-  user: Pick<UserStructure, "structureId" | "role">
-) {
-  return (
-    !!user &&
-    user.role === "admin" &&
-    user.structureId === DOMIFA_ADMIN_STRUCTURE_ID
-  );
 }

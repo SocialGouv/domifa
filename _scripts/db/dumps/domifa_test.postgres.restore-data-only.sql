@@ -53,17 +53,17 @@ e159011b-6648-426d-a772-b3ca4f27a6d5	2021-01-26 08:51:53.846157+01	2024-02-05 13
 -- Data for Name: user_structure; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.user_structure (uuid, "createdAt", "updatedAt", version, email, fonction, id, "lastLogin", nom, password, prenom, role, "structureId", mails, "passwordLastUpdate", verified, "acceptTerms", territories, "userRightStatus") FROM stdin;
-663b9baa-2880-406c-a93a-32fe65528037	2020-11-17 14:18:47.658346+01	2020-11-17 14:18:47.658346+01	1	s1-instructeur@yopmail.com	\N	2	\N	Juste	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Isabelle	simple	1	{"guide": false, "import": false}	\N	t	\N	\N	structure
-59c846d8-0592-4790-a5e2-1daae9b8776e	2020-11-14 14:18:27.658736+01	2020-11-14 14:18:27.658736+01	1	s1-facteur@yopmail.com	\N	6	2021-06-28 15:27:26.095+02	Dupuis	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Facteur 1	facteur	1	{"guide": true, "import": true}	\N	t	\N	\N	structure
-4e049e3d-bb65-48e5-8661-b1ccdc9db985	2021-09-21 00:03:26.186917+02	2021-09-21 00:03:26.186917+02	2	s3-instructeur@yopmail.com	Simple testeur	8	\N	Jacquet	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Aimé	simple	3	{"guide": false, "import": false}	\N	t	\N	\N	structure
-44f1cfe8-eae9-49d5-aedb-76dda856c413	2021-02-01 17:12:30.90825+01	2021-02-01 17:13:04.64034+01	2	s4-admin@yopmail.com	Testeur admin	7	\N	Test	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Import	admin	4	{"guide": false, "import": false}	\N	t	\N	\N	structure
-d81c5566-94f9-4ee4-ab57-a604a654f79b	2020-11-17 14:32:22.193933+01	2020-11-17 14:39:14.015103+01	17	s3-admin@yopmail.com	\N	5	2020-11-17 14:39:13.796+01	Roseline	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Parmentier	admin	3	{"guide": false, "import": false}	2020-11-17 14:39:14.013+01	t	\N	\N	structure
-f6b20e00-77e7-46e6-b48d-8cca69161042	2020-11-17 14:32:22.193+01	2021-12-06 16:26:01.366576+01	4	s3-gestionnaire@yopmail.com	Responsable structure	10	2021-12-06 16:26:01.365+01	Etchebest	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Philippe	responsable	3	{"guide": false, "import": false}	\N	t	\N	\N	structure
-d19ece1f-d32b-498c-9427-eb12b1251163	2020-11-17 14:26:29.482634+01	2020-11-17 14:26:29.490297+01	2	s3-facteur@yopmail.com	\N	4	\N	Test	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Facteur	facteur	3	{"guide": false, "import": false}	\N	t	\N	\N	structure
-b0140303-79e3-436c-9c41-1eaefeeaed6e	2020-11-17 14:23:20.248011+01	2022-03-09 00:20:21.36073+01	9	s1-gestionnaire@yopmail.com	\N	3	2022-03-09 00:20:21.356+01	Smith	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Peter	responsable	1	{"guide": false, "import": false}	\N	t	\N	\N	structure
-343b62db-6c85-4896-b994-18c8c89b710f	2022-03-17 17:25:53.798318+01	2022-03-23 22:08:39.505536+01	36	s5-admin@yopmail.com	\N	11	2022-03-23 22:08:39.502+01	Pali	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Mauricette	admin	5	{"guide": false, "import": false}	2022-03-17 17:25:53.78+01	t	\N	\N	structure
-da01f451-9c4f-4f6c-98bb-c635277e33e7	2020-11-17 14:18:47.658346+01	2024-10-30 22:34:43.742052+01	392	preprod.domifa@fabrique.social.gouv.fr	\N	1	2024-10-30 22:34:43.742+01	Roméro	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Patrick	admin	1	{"guide": false, "import": false}	\N	t	2023-02-14 18:33:51.261+01	\N	structure
+COPY public.user_structure (uuid, "createdAt", "updatedAt", version, email, fonction, id, "lastLogin", nom, password, prenom, role, "structureId", mails, "passwordLastUpdate", verified, "acceptTerms") FROM stdin;
+663b9baa-2880-406c-a93a-32fe65528037	2020-11-17 14:18:47.658346+01	2020-11-17 14:18:47.658346+01	1	s1-instructeur@yopmail.com	\N	2	\N	Juste	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Isabelle	simple	1	{"guide": false, "import": false}	\N	t	\N
+59c846d8-0592-4790-a5e2-1daae9b8776e	2020-11-14 14:18:27.658736+01	2020-11-14 14:18:27.658736+01	1	s1-facteur@yopmail.com	\N	6	2021-06-28 15:27:26.095+02	Dupuis	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Facteur 1	facteur	1	{"guide": true, "import": true}	\N	t	\N
+4e049e3d-bb65-48e5-8661-b1ccdc9db985	2021-09-21 00:03:26.186917+02	2021-09-21 00:03:26.186917+02	2	s3-instructeur@yopmail.com	Simple testeur	8	\N	Jacquet	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Aimé	simple	3	{"guide": false, "import": false}	\N	t	\N
+44f1cfe8-eae9-49d5-aedb-76dda856c413	2021-02-01 17:12:30.90825+01	2021-02-01 17:13:04.64034+01	2	s4-admin@yopmail.com	Testeur admin	7	\N	Test	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Import	admin	4	{"guide": false, "import": false}	\N	t	\N
+d81c5566-94f9-4ee4-ab57-a604a654f79b	2020-11-17 14:32:22.193933+01	2020-11-17 14:39:14.015103+01	17	s3-admin@yopmail.com	\N	5	2020-11-17 14:39:13.796+01	Roseline	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Parmentier	admin	3	{"guide": false, "import": false}	2020-11-17 14:39:14.013+01	t	\N
+f6b20e00-77e7-46e6-b48d-8cca69161042	2020-11-17 14:32:22.193+01	2021-12-06 16:26:01.366576+01	4	s3-gestionnaire@yopmail.com	Responsable structure	10	2021-12-06 16:26:01.365+01	Etchebest	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Philippe	responsable	3	{"guide": false, "import": false}	\N	t	\N
+d19ece1f-d32b-498c-9427-eb12b1251163	2020-11-17 14:26:29.482634+01	2020-11-17 14:26:29.490297+01	2	s3-facteur@yopmail.com	\N	4	\N	Test	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Facteur	facteur	3	{"guide": false, "import": false}	\N	t	\N
+b0140303-79e3-436c-9c41-1eaefeeaed6e	2020-11-17 14:23:20.248011+01	2022-03-09 00:20:21.36073+01	9	s1-gestionnaire@yopmail.com	\N	3	2022-03-09 00:20:21.356+01	Smith	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Peter	responsable	1	{"guide": false, "import": false}	\N	t	\N
+343b62db-6c85-4896-b994-18c8c89b710f	2022-03-17 17:25:53.798318+01	2022-03-23 22:08:39.505536+01	36	s5-admin@yopmail.com	\N	11	2022-03-23 22:08:39.502+01	Pali	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Mauricette	admin	5	{"guide": false, "import": false}	2022-03-17 17:25:53.78+01	t	\N
+da01f451-9c4f-4f6c-98bb-c635277e33e7	2020-11-17 14:18:47.658346+01	2024-10-30 22:34:43.742052+01	392	preprod.domifa@fabrique.social.gouv.fr	\N	1	2024-10-30 22:34:43.742+01	Roméro	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Patrick	admin	1	{"guide": false, "import": false}	\N	t	2023-02-14 18:33:51.261+01
 \.
 
 
@@ -292,17 +292,35 @@ c9192746-debf-48de-bd13-6fb5b2ee866b	2022-03-08 23:22:50.29536+01	2022-03-08 23:
 -- Data for Name: user_structure_security; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.user_structure_security (uuid, "createdAt", "updatedAt", version, "userId", "structureId", "temporaryTokens", "eventsHistory") FROM stdin;
-7aef1d02-3021-4988-937c-f18fa6244b14	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	2	1	\N	[]
-0068d982-390a-4c42-9b63-55f5c78c6cfd	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	5	3	\N	[]
-e931e0d8-ecbb-478a-97a3-a01eac88e24f	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	4	1	\N	[]
-3e2118c1-1e0b-4ce7-bc85-22001eebc8ee	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	7	4	\N	[]
-8dddd469-7b63-44f3-8166-15830e80ee7b	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	6	1	\N	[]
-759bdc26-be9d-4ffb-95c9-8c2d7a06a63b	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	8	3	\N	[]
-d84e9cc2-5c52-4a02-880e-bcfb27180594	2021-03-15 16:53:55.74+01	2021-12-06 16:26:00.681872+01	2	10	3	\N	[{"date": "2021-12-06T15:26:00.672Z", "type": "login-success"}]
-9fe998b5-7178-44b5-9c40-2e18ba233f1d	2021-03-15 16:53:55.740856+01	2022-03-09 00:20:17.365808+01	3	3	1	\N	[{"date": "2022-03-08T23:20:17.329Z", "type": "login-success"}]
-80e97a87-9d11-4487-a3c3-411bbdf42a2c	2022-03-17 17:25:53.809705+01	2022-03-23 22:07:14.867562+01	3	11	5	\N	[{"date": "2022-03-17T16:33:43.464Z", "type": "login-success"}, {"date": "2022-03-23T21:07:14.852Z", "type": "login-success"}]
-e0bcefc6-f1be-4c83-ac9d-6ea47335a9c3	2021-03-15 16:53:55.740856+01	2025-03-06 00:34:34.261953+01	10	1	1	\N	[{"date": "2025-03-05T23:34:34.260Z", "type": "login-error"}]
+COPY public.user_structure_security (uuid, "createdAt", "updatedAt", version, "userId", "temporaryTokens", "eventsHistory") FROM stdin;
+7aef1d02-3021-4988-937c-f18fa6244b14	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	2	\N	[]
+0068d982-390a-4c42-9b63-55f5c78c6cfd	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	5	\N	[]
+e931e0d8-ecbb-478a-97a3-a01eac88e24f	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	4	\N	[]
+3e2118c1-1e0b-4ce7-bc85-22001eebc8ee	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	7	\N	[]
+8dddd469-7b63-44f3-8166-15830e80ee7b	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	6	\N	[]
+759bdc26-be9d-4ffb-95c9-8c2d7a06a63b	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	8	\N	[]
+d84e9cc2-5c52-4a02-880e-bcfb27180594	2021-03-15 16:53:55.74+01	2021-12-06 16:26:00.681872+01	2	10	\N	[{"date": "2021-12-06T15:26:00.672Z", "type": "login-success"}]
+9fe998b5-7178-44b5-9c40-2e18ba233f1d	2021-03-15 16:53:55.740856+01	2022-03-09 00:20:17.365808+01	3	3	\N	[{"date": "2022-03-08T23:20:17.329Z", "type": "login-success"}]
+80e97a87-9d11-4487-a3c3-411bbdf42a2c	2022-03-17 17:25:53.809705+01	2022-03-23 22:07:14.867562+01	3	11	\N	[{"date": "2022-03-17T16:33:43.464Z", "type": "login-success"}, {"date": "2022-03-23T21:07:14.852Z", "type": "login-success"}]
+e0bcefc6-f1be-4c83-ac9d-6ea47335a9c3	2021-03-15 16:53:55.740856+01	2025-03-06 00:34:34.261953+01	10	1	\N	[{"date": "2025-03-05T23:34:34.260Z", "type": "login-error"}]
+\.
+
+
+--
+-- Data for Name: user_supervisor; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.user_supervisor (uuid, "createdAt", "updatedAt", version, email, fonction, id, "lastLogin", nom, password, prenom, "passwordLastUpdate", verified, "acceptTerms", territories, role) FROM stdin;
+da01f451-9c4f-4f6c-98bb-c635277e33e7	2020-11-17 14:18:47.658+01	2024-10-30 22:34:43.742+01	392	preprod.domifa@fabrique.social.gouv.fr	\N	1	2024-10-30 22:34:43.742+01	Roméro	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Patrick	\N	t	2023-02-14 18:33:51.261+01	[]	super-admin-domifa
+\.
+
+
+--
+-- Data for Name: user_supervisor_security; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.user_supervisor_security (uuid, "createdAt", "updatedAt", version, "userId", "temporaryTokens", "eventsHistory") FROM stdin;
+f2e4d361-62c0-443f-be3d-a15d623185bf	2025-04-07 01:25:18.165956+02	2025-04-07 01:25:18.165956+02	1	1	\N	[]
 \.
 
 
@@ -362,6 +380,13 @@ SELECT pg_catalog.setval('public.usager_notes_id_seq', 2, true);
 --
 
 SELECT pg_catalog.setval('public.user_structure_id_seq', 11, true);
+
+
+--
+-- Name: user_supervisor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.user_supervisor_id_seq', 1, true);
 
 
 --

@@ -1,14 +1,13 @@
-import {
-  MessageEmailContent,
-  userStructureSecurityResetPasswordInitiator,
-} from "../../../../../database";
-import { UserStructure } from "@domifa/common";
+import { MessageEmailContent } from "../../../../../database";
+import { CommonUser } from "@domifa/common";
 import {
   DOMIFA_DEFAULT_MAIL_CONFIG,
   mailRecipientsFilter,
   messageEmailSender,
 } from "../../_core";
 import { userResetPasswordEmailRenderer } from "./userResetPasswordEmailRenderer.service";
+import { UserProfile } from "../../../../../_common/model";
+import { userSecurityResetPasswordInitiator } from "../../../../users/services";
 
 export const userResetPasswordEmailSender = { sendMail };
 
@@ -17,15 +16,17 @@ const messageEmailId = "user-reset-password";
 async function sendMail({
   user,
   token,
+  userProfile,
 }: {
-  user: Pick<UserStructure, "id" | "email" | "prenom" | "nom">;
+  user: Pick<CommonUser, "id" | "email" | "prenom" | "nom">;
   token: string;
+  userProfile: UserProfile;
 }): Promise<void> {
-  const lien =
-    userStructureSecurityResetPasswordInitiator.buildResetPasswordLink({
-      token,
-      userId: user.id,
-    });
+  const lien = userSecurityResetPasswordInitiator.buildResetPasswordLink({
+    token,
+    userId: user.id,
+    userProfile,
+  });
   const to = [
     {
       address: user.email,

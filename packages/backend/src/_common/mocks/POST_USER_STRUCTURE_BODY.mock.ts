@@ -57,5 +57,4 @@ export const POST_USER_STRUCTURE_BODY: Partial<UserStructure> = {
     telephone: { numero: "0602030405", countryCode: "fr" },
   },
   structureId: 100,
-  userRightStatus: "super-admin-domifa",
 };

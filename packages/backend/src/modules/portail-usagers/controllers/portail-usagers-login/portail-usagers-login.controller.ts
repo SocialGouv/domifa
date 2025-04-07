@@ -17,7 +17,7 @@ import {
   userUsagerRepository,
   userUsagerSecurityPasswordChecker,
 } from "../../../../database";
-import { UsagerLoginDto } from "../../../../users/dto";
+import { UsagerLoginDto } from "../../../users/dto";
 import { ExpressResponse } from "../../../../util/express";
 
 import { UsagersAuthService } from "../../services/usagers-auth.service";

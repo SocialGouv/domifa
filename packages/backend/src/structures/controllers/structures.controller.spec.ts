@@ -2,7 +2,7 @@ import { InteractionsModule } from "../../modules/interactions/interactions.modu
 import { MailsModule } from "../../modules/mails/mails.module";
 import { StatsModule } from "../../stats/stats.module";
 import { UsagersModule } from "../../usagers/usagers.module";
-import { UsersModule } from "../../users/users.module";
+import { UsersModule } from "../../modules/users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { StructuresModule } from "../structure.module";
 import { StructuresController } from "./structures.controller";

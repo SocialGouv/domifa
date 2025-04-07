@@ -4,7 +4,7 @@ import { forwardRef, Module } from "@nestjs/common";
 import { InteractionsModule } from "../modules/interactions/interactions.module";
 import { StatsModule } from "../stats/stats.module";
 import { UsagersModule } from "../usagers/usagers.module";
-import { UsersModule } from "../users/users.module";
+import { UsersModule } from "../modules/users/users.module";
 import { StructureDocController } from "./controllers/structure-doc.controller";
 import { StructuresController } from "./controllers/structures.controller";
 import { StructuresPublicController } from "./controllers/structures.public.controller";
