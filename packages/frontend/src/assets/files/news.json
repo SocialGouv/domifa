@@ -1,20 +1,5 @@
 [
   {
-    "date": "2025-04-08",
-    "description": "⚙️ Amélioration de l'expérience des documents personnalisés",
-    "content": [
-      {
-        "type": "new",
-        "categorie": "📄 Documents personnalisés",
-        "message": [
-          "Des messages d'erreur plus explicites sont désormais affichés lorsque vous ajoutez un document personnalisé contenant des erreurs",
-          "Ajout de tags dans les documents personnalisés: vous pouvez désormais ajouter toutes les informations concernant votre structure et les domiciliés dans les documents personnalisés",
-          "Mise à jour de la documentation"
-        ]
-      }
-    ]
-  },
-  {
     "date": "2025-02-24",
     "description": "🚀 Amélioration de la gestion des référents et corrections diverses.",
     "content": [
