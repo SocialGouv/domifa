@@ -9,7 +9,7 @@ import {
 import { MessageEmailConsummer } from "./services/_core";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
-import { UsersModule } from "../../users/users.module";
+import { UsersModule } from "../users/users.module";
 
 @Module({
   controllers: [],

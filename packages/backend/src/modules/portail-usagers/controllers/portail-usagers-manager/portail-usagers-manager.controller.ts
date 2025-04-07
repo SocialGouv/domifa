@@ -26,10 +26,7 @@ import {
   usagerRepository,
   userUsagerRepository,
 } from "../../../../database";
-import {
-  userUsagerCreator,
-  userUsagerUpdator,
-} from "../../../../users/services";
+import { userUsagerCreator, userUsagerUpdator } from "../../../users/services";
 import { appLogger, ExpressResponse } from "../../../../util";
 import { Response } from "express";
 import { AppLogsService } from "../../../app-logs/app-logs.service";

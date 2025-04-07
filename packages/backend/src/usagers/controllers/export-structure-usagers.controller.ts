@@ -223,7 +223,6 @@ export class ExportStructureUsagersController {
 
       res.send(buffer);
     } catch (err) {
-      console.log(err);
       appLogger.error("[EXPORT] Unexpected error", err);
       res.sendStatus(500);
     }

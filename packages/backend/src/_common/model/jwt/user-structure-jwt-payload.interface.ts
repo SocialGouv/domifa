@@ -1,9 +1,7 @@
 import { UserStructureRole } from "@domifa/common";
 import { UseBaseJwtPayload } from "./user-base-jwt-payload.type";
 
-export type UserStructureJwtPayload = UseBaseJwtPayload<
-  "structure" | "super-admin-domifa"
-> & {
+export type UserStructureJwtPayload = UseBaseJwtPayload<"structure"> & {
   email: string;
   id: number;
   nom: string;

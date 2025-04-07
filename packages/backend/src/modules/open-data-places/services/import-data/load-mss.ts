@@ -129,7 +129,8 @@ const getFromMss = async () => {
       `🔁 ${updatedPlaces}/${response.data.length} places updated `
     );
   } catch (e) {
-    console.log(e);
+    appLogger.error(e);
+
     appLogger.error(
       "[IMPORT] Something happen during 'Mon suivi social' import",
       e
