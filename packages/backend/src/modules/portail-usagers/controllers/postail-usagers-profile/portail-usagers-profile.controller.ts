@@ -165,7 +165,7 @@ export class PortailUsagersProfileController {
         doc
       );
     } catch (e) {
-      console.log(e);
+      appLogger.error(e);
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "CANNOT_DOWNLOAD_DOC_PORTAIL" });

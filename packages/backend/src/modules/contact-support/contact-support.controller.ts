@@ -58,7 +58,6 @@ export class ContactSupportController {
     @UploadedFile() file: Express.Multer.File,
     @Res() res: ExpressResponse
   ) {
-    console.log(contactSupportDto);
     const phone = contactSupportDto?.phone
       ? getPhoneString(
           JSON.parse(contactSupportDto?.phone as unknown as string)

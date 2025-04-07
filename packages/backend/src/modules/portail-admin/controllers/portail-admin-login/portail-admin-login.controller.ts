@@ -47,7 +47,9 @@ export class PortailAdminLoginController {
 
       return res.status(HttpStatus.OK).json(response);
     } catch (err) {
-      return res.status(HttpStatus.UNAUTHORIZED).json({ err });
+      return res
+        .status(HttpStatus.UNAUTHORIZED)
+        .json({ message: "LOGIN_FAILED" });
     }
   }
 }
