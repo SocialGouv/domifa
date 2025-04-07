@@ -1,3 +1,10 @@
+## [2.198.8](https://github.com/SocialGouv/domifa/compare/v2.198.7...v2.198.8) (2025-04-07)
+
+
+### Bug Fixes
+
+* **backend:** delete useless console.log ([e5dd198](https://github.com/SocialGouv/domifa/commit/e5dd19809bb205fa5ca74541831fbc121f70df06))
+
 ## [2.198.7](https://github.com/SocialGouv/domifa/compare/v2.198.6...v2.198.7) (2025-04-07)
 
 
