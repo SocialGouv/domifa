@@ -1,3 +1,10 @@
+## [2.198.7](https://github.com/SocialGouv/domifa/compare/v2.198.6...v2.198.7) (2025-04-07)
+
+
+### Bug Fixes
+
+* **deps:** update dependency express to v5 ([5549da3](https://github.com/SocialGouv/domifa/commit/5549da31cb699e6dd954a4c285ba14dbe23b8e4e))
+
 ## [2.198.6](https://github.com/SocialGouv/domifa/compare/v2.198.5...v2.198.6) (2025-04-07)
 
 
