@@ -1,10 +1,11 @@
 import { In, IsNull } from "typeorm";
-import { getDateForMonthInterval } from "../../../stats/services";
+
 import { UserStructureAuthenticated } from "../../../_common/model";
 import { INTERACTION_OK_LIST } from "../../../_common/model/interaction";
 import { InteractionsTable } from "../../entities";
 import { myDataSource } from "../_postgres";
 import { CommonInteraction, InteractionType, Usager } from "@domifa/common";
+import { getDateForMonthInterval } from "../../../modules/stats/services";
 
 export const interactionRepository = myDataSource
   .getRepository<CommonInteraction>(InteractionsTable)

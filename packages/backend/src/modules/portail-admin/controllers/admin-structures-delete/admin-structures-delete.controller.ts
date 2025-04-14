@@ -17,7 +17,7 @@ import {
 } from "../../../../auth/decorators";
 import { AppUserGuard } from "../../../../auth/guards";
 import { structureRepository } from "../../../../database";
-import { structureDeletorService } from "../../../../structures/services/structure-deletor.service";
+import { structureDeletorService } from "../../../structures/services/structure-deletor.service";
 import { ExpressResponse } from "../../../../util/express";
 import { ParseTokenPipe } from "../../../../_common/decorators";
 import { StructureConfirmationDto } from "../../_dto";

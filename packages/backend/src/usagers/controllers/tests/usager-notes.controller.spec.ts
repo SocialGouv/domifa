@@ -24,6 +24,7 @@ describe("UsagerNote Controller", () => {
 
     const authInfo =
       TESTS_USERS_STRUCTURE.BY_EMAIL["preprod.domifa@fabrique.social.gouv.fr"];
+
     await AppTestHelper.authenticateStructure(authInfo, { context });
   });
 
@@ -38,7 +39,6 @@ describe("UsagerNote Controller", () => {
         message: "Test message <br>",
       },
     });
-
     expect(response.body.ref).toEqual(3);
     expect(response.status).toEqual(201);
   });

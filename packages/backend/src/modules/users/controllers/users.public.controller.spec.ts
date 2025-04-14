@@ -3,7 +3,7 @@ import { HttpStatus } from "@nestjs/common";
 import supertest from "supertest";
 import { UserSecurity } from "../../../_common/model";
 import { userStructureSecurityRepository } from "../../../database";
-import { StructuresModule } from "../../../structures/structure.module";
+import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../../usagers/usagers.module";
 import { ExpressResponse } from "../../../util";
 import { AppTestContext, AppTestHelper } from "../../../util/test";

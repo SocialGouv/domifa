@@ -39,15 +39,19 @@ import { CurrentUsagerNote } from "../../auth/decorators/current-usager-note.dec
 import { AppUserGuard, UsagerNoteAccessGuard } from "../../auth/guards";
 import { PageResultsDto, PageMetaDto, PageOptionsDto } from "../dto/pagination";
 import { ObjectLiteral } from "typeorm";
-import { AllowUserStructureRoles } from "../../auth/decorators";
+import {
+  AllowUserProfiles,
+  AllowUserStructureRoles,
+} from "../../auth/decorators";
 
 @ApiTags("usagers-notes")
 @ApiBearerAuth()
 @Controller("usagers-notes")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
+@AllowUserProfiles("structure")
+@AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
 export class UsagerNotesController {
   @Post("search/:usagerRef/:archived")
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @UseGuards(UsagerAccessGuard)
   public async getUsagerNotes(
     @CurrentUser() currentUser: UserStructureAuthenticated,
@@ -81,7 +85,6 @@ export class UsagerNotesController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Post(":usagerRef")
   public async createNote(
     @Body() createNoteDto: CreateNoteDto,
@@ -104,7 +107,6 @@ export class UsagerNotesController {
   }
 
   @Delete(":usagerRef/:noteUUID")
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @UseGuards(UsagerAccessGuard, UsagerNoteAccessGuard)
   public async deleteNote(
     @CurrentUser() currentUser: UserStructureAuthenticated,
@@ -138,7 +140,6 @@ export class UsagerNotesController {
   }
 
   @Put(":usagerRef/pin/:noteUUID")
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @UseGuards(UsagerAccessGuard, UsagerNoteAccessGuard)
   public async pinNote(
     @CurrentUser() _currentUser: UserStructureAuthenticated,
@@ -172,7 +173,6 @@ export class UsagerNotesController {
   }
 
   @Get("count/:usagerRef")
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @UseGuards(UsagerAccessGuard)
   public async countNotes(
     @CurrentUser() _currentUser: UserStructureAuthenticated,
@@ -186,7 +186,6 @@ export class UsagerNotesController {
   }
 
   @Put(":usagerRef/archive/:noteUUID")
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @UseGuards(UsagerAccessGuard, UsagerNoteAccessGuard)
   public async archiveNote(
     @CurrentUser() currentUser: UserStructureAuthenticated,

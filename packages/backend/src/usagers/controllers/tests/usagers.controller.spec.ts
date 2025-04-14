@@ -51,6 +51,7 @@ describe("Usagers Controller", () => {
 
     const authInfo =
       TESTS_USERS_STRUCTURE.BY_EMAIL["preprod.domifa@fabrique.social.gouv.fr"];
+
     await AppTestHelper.authenticateStructure(authInfo, { context });
 
     controller = context.module.get<UsagersController>(UsagersController);

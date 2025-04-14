@@ -1,6 +1,6 @@
 import { HttpModule } from "@nestjs/axios";
 
-import { StructuresModule } from "../../../structures/structure.module";
+import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../../usagers/usagers.module";
 import {
   AppTestContext,

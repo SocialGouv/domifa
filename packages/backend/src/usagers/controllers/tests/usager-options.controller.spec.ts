@@ -1,5 +1,5 @@
 import { AuthModule } from "../../../auth/auth.module";
-import { StructuresModule } from "../../../structures/structure.module";
+import { StructuresModule } from "../../../modules/structures/structure.module";
 import { UsersModule } from "../../../modules/users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
 import { UsagersService, UsagerOptionsHistoryService } from "../../services";
