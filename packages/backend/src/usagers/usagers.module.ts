@@ -2,8 +2,8 @@ import { HttpModule } from "@nestjs/axios";
 import { forwardRef, Module } from "@nestjs/common";
 
 import { InteractionsModule } from "../modules/interactions/interactions.module";
-import { StatsModule } from "../stats/stats.module";
-import { StructuresModule } from "../structures/structure.module";
+import { StatsModule } from "../modules/stats/stats.module";
+import { StructuresModule } from "../modules/structures/structure.module";
 import { UsersModule } from "../modules/users/users.module";
 import { AgendaController } from "./controllers/agenda.controller";
 import { UsagerDocsController } from "./controllers/usager-docs.controller";

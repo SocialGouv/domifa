@@ -7,7 +7,7 @@ import { HttpModule } from "@nestjs/axios";
 import { forwardRef, Module } from "@nestjs/common";
 
 import { InteractionsModule } from "../interactions/interactions.module";
-import { StructuresModule } from "../../structures/structure.module";
+import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
 
 @Module({

@@ -1,7 +1,7 @@
 import { ModuleMetadata } from "@nestjs/common";
 import { AuthModule } from "../auth/auth.module";
-import { StatsModule } from "../stats/stats.module";
-import { StructuresModule } from "../structures/structure.module";
+import { StatsModule } from "../modules/stats/stats.module";
+import { StructuresModule } from "../modules/structures/structure.module";
 import { UsersModule } from "../modules/users/users.module";
 import { PortailAdminModule } from "../modules/portail-admin";
 import { PortailUsagersModule } from "../modules/portail-usagers";

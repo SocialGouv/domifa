@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Delete,
-  Get,
   Param,
   ParseArrayPipe,
   ParseIntPipe,
@@ -17,6 +16,7 @@ import {
   CurrentUser,
   CurrentUsager,
   CurrentInteraction,
+  AllowUserStructureRoles,
 } from "../../auth/decorators";
 import {
   AppUserGuard,
@@ -24,7 +24,10 @@ import {
   InteractionsGuard,
 } from "../../auth/guards";
 import { userUsagerLoginRepository } from "../../database";
-import { UserStructureAuthenticated } from "../../_common/model";
+import {
+  USER_STRUCTURE_ROLE_ALL,
+  UserStructureAuthenticated,
+} from "../../_common/model";
 import { InteractionDto } from "./dto";
 import {
   InteractionsDeletor,
@@ -41,6 +44,8 @@ import { MessageSmsService } from "../sms/services/message-sms.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("interactions")
+@AllowUserProfiles("structure")
+@AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
 @Controller("interactions")
 export class InteractionsController {
   constructor(
@@ -51,7 +56,6 @@ export class InteractionsController {
 
   @Post(":usagerRef")
   @UseGuards(UsagerAccessGuard)
-  @AllowUserProfiles("structure")
   public async postInteractions(
     @Body(new ParseArrayPipe({ items: InteractionDto }))
     interactions: InteractionDto[],
@@ -79,7 +83,6 @@ export class InteractionsController {
 
   @Post("search/:usagerRef")
   @UseGuards(UsagerAccessGuard)
-  @AllowUserProfiles("structure")
   public async getInteractions(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated,
@@ -93,23 +96,8 @@ export class InteractionsController {
     );
   }
 
-  @Get("search-with-content/:usagerRef")
-  @UseGuards(UsagerAccessGuard)
-  @AllowUserProfiles("structure")
-  public async getInteractionsWithContent(
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
-    @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() currentUsager: Usager
-  ) {
-    return await this.interactionsService.searchPendingInteractionsWithContent(
-      user.structureId,
-      currentUsager.uuid
-    );
-  }
-
   @Post("search-login-portail/:usagerRef")
   @UseGuards(UsagerAccessGuard)
-  @AllowUserProfiles("structure")
   public async getLoginPortailHistory(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated,
@@ -134,7 +122,6 @@ export class InteractionsController {
   }
 
   @UseGuards(UsagerAccessGuard, InteractionsGuard)
-  @AllowUserProfiles("structure")
   @Delete(":usagerRef/:interactionUuid")
   public async deleteInteraction(
     @CurrentUser() user: UserStructureAuthenticated,

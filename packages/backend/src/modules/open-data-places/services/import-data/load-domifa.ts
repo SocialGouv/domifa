@@ -10,7 +10,7 @@ import {
   cleanCity,
   cleanSpaces,
 } from "../../../../util";
-import { getLocation } from "../../../../structures/services/location.service";
+import { getLocation } from "../../../structures/services/location.service";
 import { Point } from "geojson";
 import { OpenDataPlace } from "../../interfaces";
 import { findNetwork } from "@domifa/common";

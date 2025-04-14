@@ -14,7 +14,10 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 
-import { AllowUserStructureRoles } from "../../auth/decorators";
+import {
+  AllowUserProfiles,
+  AllowUserStructureRoles,
+} from "../../auth/decorators";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
@@ -44,6 +47,8 @@ import {
 @ApiTags("usagers-structure-docs")
 @ApiBearerAuth()
 @Controller("usagers-structure-docs")
+@AllowUserStructureRoles("simple", "responsable", "admin")
+@AllowUserProfiles("structure")
 export class UsagerStructureDocsController {
   constructor(
     private readonly appLogsService: AppLogsService,
@@ -53,7 +58,6 @@ export class UsagerStructureDocsController {
   @ApiOperation({ summary: "Télécharger un document pré-rempli" })
   @Get("structure/:usagerRef/:structureDocUuid")
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getStructureCustomDoc(
     @CurrentUsager() usager: Usager,
     @CurrentUser() user: UserStructureAuthenticated,
@@ -126,7 +130,6 @@ export class UsagerStructureDocsController {
   })
   @Post("domifa/:usagerRef/:docType")
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getDomifaCustomDoc(
     @Param("docType", new ParseEnumPipe(StructureDocTypesAvailable))
     docType: StructureDocTypesAvailable,

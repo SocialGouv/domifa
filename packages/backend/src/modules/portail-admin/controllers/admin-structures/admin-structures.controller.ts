@@ -50,7 +50,7 @@ import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { StructureConfirmationDto } from "../../_dto";
 import { StructureAdminForList } from "../../types";
 import { userAccountActivatedEmailSender } from "../../../mails/services/templates-renderers";
-import { structureCreatorService } from "../../../../structures/services";
+import { structureCreatorService } from "../../../structures/services";
 import { format } from "date-fns";
 import { RegisterUserAdminDto } from "../../../users/dto";
 import { UsersController } from "../../../users/controllers/users.controller";

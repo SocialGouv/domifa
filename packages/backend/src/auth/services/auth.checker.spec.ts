@@ -1,4 +1,5 @@
 import { authChecker } from "./auth-checker.service";
+import { UserStructureAuthenticated } from "../../_common/model";
 
 describe("Auth Controller", () => {
   it("authChecker.checkRole ok", async () => {
@@ -7,7 +8,9 @@ describe("Auth Controller", () => {
         {
           id: 1,
           role: "admin",
-        },
+          _userId: 1,
+          _userProfile: "structure",
+        } as UserStructureAuthenticated,
         "admin",
         "facteur"
       )
@@ -20,7 +23,9 @@ describe("Auth Controller", () => {
         {
           id: 1,
           role: "admin",
-        },
+          _userId: 1,
+          _userProfile: "structure",
+        } as UserStructureAuthenticated,
         "responsable",
         "facteur"
       )

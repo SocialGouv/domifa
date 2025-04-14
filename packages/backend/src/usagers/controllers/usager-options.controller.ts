@@ -18,9 +18,16 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { UserStructureAuthenticated } from "../../_common/model";
+import {
+  USER_STRUCTURE_ROLE_ALL,
+  UserStructureAuthenticated,
+} from "../../_common/model";
 import { usagerOptionsHistoryRepository } from "../../database/services/usager/usagerOptionsHistoryRepository.service";
-import { AllowUserStructureRoles, CurrentUser } from "../../auth/decorators";
+import {
+  AllowUserProfiles,
+  AllowUserStructureRoles,
+  CurrentUser,
+} from "../../auth/decorators";
 import { TransfertDto, ProcurationDto } from "../dto";
 import { UsagerOptionsHistoryService } from "../services";
 import { ExpressResponse } from "../../util/express";
@@ -39,13 +46,14 @@ import { AppUserGuard } from "../../auth/guards";
 @ApiBearerAuth()
 @Controller("usagers-options")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
+@AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+@AllowUserProfiles("structure")
 export class UsagerOptionsController {
   constructor(
     private readonly usagerOptionsHistoryService: UsagerOptionsHistoryService
   ) {}
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
   @Get("historique/:usagerRef/:type")
   public async createNote(
     @CurrentUsager() currentUsager: Usager,
@@ -61,7 +69,6 @@ export class UsagerOptionsController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
   @Delete("transfert/:usagerRef")
   public async deleteTransfert(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -97,7 +104,6 @@ export class UsagerOptionsController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
   @Post("transfert/:usagerRef")
   public async editTransfert(
     @Body() transfertDto: TransfertDto,
@@ -139,7 +145,6 @@ export class UsagerOptionsController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
   @Post("procuration/:usagerRef")
   public async editProcuration(
     @Body(new ParseArrayPipe({ items: ProcurationDto }))
@@ -210,7 +215,6 @@ export class UsagerOptionsController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
   @Delete("procuration/:usagerRef/:index")
   public async deleteProcuration(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,

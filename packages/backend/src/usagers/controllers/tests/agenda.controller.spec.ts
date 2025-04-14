@@ -1,5 +1,5 @@
 import { InteractionsModule } from "../../../modules/interactions/interactions.module";
-import { StructuresModule } from "../../../structures/structure.module";
+import { StructuresModule } from "../../../modules/structures/structure.module";
 import { UsersModule } from "../../../modules/users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
 import { UsagerHistoryStateService } from "../../services/usagerHistoryState.service";
