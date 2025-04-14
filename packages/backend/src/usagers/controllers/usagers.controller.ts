@@ -16,7 +16,10 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 
-import { AllowUserStructureRoles } from "../../auth/decorators";
+import {
+  AllowUserProfiles,
+  AllowUserStructureRoles,
+} from "../../auth/decorators";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
@@ -62,6 +65,8 @@ import { In } from "typeorm";
 @ApiTags("usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiBearerAuth()
+@AllowUserStructureRoles("simple", "responsable", "admin")
+@AllowUserProfiles("structure")
 export class UsagersController {
   constructor(
     private readonly usagersService: UsagersService,
@@ -71,7 +76,6 @@ export class UsagersController {
   ) {}
 
   @Post()
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   public createUsager(
     @Body() usagerDto: CreateUsagerDto,
     @CurrentUser() user: UserStructureAuthenticated
@@ -80,7 +84,6 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Patch(":usagerRef")
   public async patchUsager(
     @Body() usagerDto: CreateUsagerDto,
@@ -118,7 +121,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin", "facteur")
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Patch("contact-details/:usagerRef")
   public async patchMailAndPhone(
     @Body() contactDetails: ContactDetailsDto,
@@ -151,7 +154,6 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post("entretien/:usagerRef")
   public async setEntretien(
     @Body() entretien: EntretienDto,
@@ -188,7 +190,6 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Get("next-step/:usagerRef/:etapeDemande")
   public async nextStep(
     @Param("etapeDemande", new ParseIntPipe()) etapeDemande: number,
@@ -230,7 +231,6 @@ export class UsagersController {
     return currentUsager;
   }
 
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post("check-duplicates-name")
   public async checkDuplicates(
     @Body() duplicateUsagerDto: CheckDuplicateUsagerDto,

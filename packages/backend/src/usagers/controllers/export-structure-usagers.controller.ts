@@ -9,7 +9,10 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import { AllowUserStructureRoles } from "../../auth/decorators";
+import {
+  AllowUserProfiles,
+  AllowUserStructureRoles,
+} from "../../auth/decorators";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { UserStructureAuthenticated } from "../../_common/model";
@@ -63,6 +66,7 @@ const logProcessState = (label: string) => {
 };
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
+@AllowUserProfiles("structure")
 @ApiTags("export")
 @ApiBearerAuth()
 @Controller("export")

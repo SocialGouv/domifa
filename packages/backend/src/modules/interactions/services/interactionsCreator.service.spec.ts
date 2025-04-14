@@ -18,7 +18,7 @@ import { InteractionDto } from "../dto";
 import { InteractionsModule } from "../interactions.module";
 import { Usager, UserStructure } from "@domifa/common";
 import { UsersModule } from "../../users/users.module";
-import { StructuresModule } from "../../../structures/structure.module";
+import { StructuresModule } from "../../structures/structure.module";
 
 describe("interactionsCreator", () => {
   let context: AppTestContext;

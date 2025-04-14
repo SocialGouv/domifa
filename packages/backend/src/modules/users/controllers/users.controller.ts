@@ -52,11 +52,11 @@ const userProfile: UserProfile = "structure";
 @Controller("users")
 @ApiTags("users")
 @AllowUserProfiles("structure")
+@AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class UsersController {
   @ApiBearerAuth()
   @ApiOperation({ summary: "Liste des utilisateurs" })
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Get("")
   public async getUsers(
     @CurrentUser() user: UserStructureAuthenticated
@@ -76,7 +76,6 @@ export class UsersController {
     return users;
   }
 
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @ApiOperation({ summary: "Accepter les CGU" })
   @Get("accept-terms")
   public async acceptTerms(@CurrentUser() user: UserStructureAuthenticated) {
@@ -94,7 +93,6 @@ export class UsersController {
     return true;
   }
 
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   @Get("last-password-update")
   public async getLastPasswordUpdate(
@@ -110,6 +108,7 @@ export class UsersController {
   }
 
   @AllowUserStructureRoles("admin")
+  @AllowUserProfiles("structure")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Editer le rôle d'un utilisateur" })
   @UseGuards(CanGetUserStructureGuard)
@@ -133,6 +132,7 @@ export class UsersController {
   }
 
   @AllowUserStructureRoles("responsable", "admin", "simple")
+  @AllowUserProfiles("structure")
   @ApiOperation({
     summary: "Assigner les dossiers d'un utilisateur à un autre",
   })
@@ -172,6 +172,7 @@ export class UsersController {
   }
 
   @AllowUserStructureRoles("admin")
+  @AllowUserProfiles("structure")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({
     summary: "Compter les dossiers associés à un utilisateur",
@@ -192,6 +193,7 @@ export class UsersController {
   }
 
   @AllowUserStructureRoles("admin")
+  @AllowUserProfiles("structure")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Supprimer un utilisateur" })
   @UseGuards(CanGetUserStructureGuard)
@@ -210,7 +212,6 @@ export class UsersController {
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Patch()
   public async patch(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -236,6 +237,7 @@ export class UsersController {
   // Ajout d'utilisateur par un admin
   // TODO: update this to add users from admin
   @Post("register")
+  @AllowUserProfiles("structure")
   @AllowUserStructureRoles("admin")
   @ApiOperation({ summary: "Ajout d'un utilisateur par un admin" })
   public async registerUser(
@@ -285,7 +287,6 @@ export class UsersController {
 
   // Edition d'un mot de passe quand on est déjà connecté
   @Post("edit-my-password")
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   public async editPassword(
     @CurrentUser() user: UserStructureAuthenticated,

@@ -7,7 +7,7 @@ import axios from "axios";
 import { domifaConfig } from "../../../../config";
 import { openDataPlaceRepository } from "../../../../database";
 import { OpenDataPlaceTable } from "../../../../database/entities/open-data-place";
-import { getLocation } from "../../../../structures/services/location.service";
+import { getLocation } from "../../../structures/services/location.service";
 import {
   appLogger,
   cleanAddress,

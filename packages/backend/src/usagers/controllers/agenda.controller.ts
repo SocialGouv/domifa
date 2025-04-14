@@ -11,7 +11,10 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { createEvent, ReturnObject } from "ics";
 
-import { AllowUserStructureRoles } from "../../auth/decorators";
+import {
+  AllowUserProfiles,
+  AllowUserStructureRoles,
+} from "../../auth/decorators";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
@@ -33,19 +36,19 @@ import { usagerAppointmentCreatedEmailSender } from "../../modules/mails/service
 @ApiBearerAuth()
 @Controller("agenda")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
+@AllowUserProfiles("structure")
+@AllowUserStructureRoles("simple", "responsable", "admin")
 export class AgendaController {
   constructor(private readonly usagersService: UsagersService) {}
 
   @Get("")
   @ApiOperation({ summary: "Liste des rendez-vous à venir" })
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getAll(@CurrentUser() user: UserStructureAuthenticated) {
     return await usagerRepository.findNextMeetings({ userId: user.id });
   }
 
   @Post(":usagerRef")
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   public async postRdv(
     @Body() rdvDto: RdvDto,
     @CurrentUser() currentUser: UserStructureAuthenticated,
