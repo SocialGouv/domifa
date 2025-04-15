@@ -9,6 +9,7 @@ import { PortailAdminLoginController } from "./controllers/portail-admin-login/p
 import { PortailAdminProfileController } from "./controllers/portail-admin-profile.controller";
 import { AdminStructuresService } from "./services";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
+import { NationalStatsController } from "./controllers/national-stats/national-stats.controller";
 
 @Module({
   controllers: [
@@ -16,6 +17,7 @@ import { FileManagerService } from "../../util/file-manager/file-manager.service
     AdminStructuresDeleteController,
     PortailAdminLoginController,
     PortailAdminProfileController,
+    NationalStatsController,
   ],
   imports: [AuthModule],
   providers: [AppLogsService, AdminStructuresService, FileManagerService],

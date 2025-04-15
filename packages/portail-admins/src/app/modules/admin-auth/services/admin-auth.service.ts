@@ -4,14 +4,12 @@ import { Router } from "@angular/router";
 
 import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
-import {
-  PortailAdminAuthApiResponse,
-  PortailAdminProfile,
-} from "../../../../_common";
+
 import { CustomToastService } from "../../shared/services/custom-toast.service";
 import { appStore } from "../../shared/store/appStore.service";
 import { PortailAdminAuthLoginForm } from "../model";
 import { getCurrentScope } from "@sentry/angular";
+import { PortailAdminAuthApiResponse, PortailAdminUser } from "@domifa/common";
 
 const END_POINT_AUTH = environment.apiUrl + "portail-admins/auth";
 const END_POINT_PROFILE = environment.apiUrl + "portail-admins/profile";
@@ -23,14 +21,14 @@ const USER_KEY = "admin-auth-datas";
   providedIn: "root",
 })
 export class AdminAuthService {
-  public currentAdminSubject: BehaviorSubject<PortailAdminProfile | null>;
+  public currentAdminSubject: BehaviorSubject<PortailAdminUser | null>;
 
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router,
     private readonly toastr: CustomToastService
   ) {
-    this.currentAdminSubject = new BehaviorSubject<PortailAdminProfile | null>(
+    this.currentAdminSubject = new BehaviorSubject<PortailAdminUser | null>(
       null
     );
   }
@@ -49,8 +47,8 @@ export class AdminAuthService {
       return of(false);
     }
 
-    return this.http.get<PortailAdminProfile>(`${END_POINT_PROFILE}/me`).pipe(
-      map((portailAdminProfile: PortailAdminProfile) => {
+    return this.http.get<PortailAdminUser>(`${END_POINT_PROFILE}/me`).pipe(
+      map((portailAdminProfile: PortailAdminUser) => {
         this.saveAuthAdmin(portailAdminProfile);
         return true;
       }),
@@ -62,7 +60,7 @@ export class AdminAuthService {
     );
   }
 
-  public get currentUserValue(): PortailAdminProfile | null {
+  public get currentUserValue(): PortailAdminUser | null {
     return this.currentAdminSubject?.value ?? null;
   }
 
@@ -104,10 +102,10 @@ export class AdminAuthService {
     window.sessionStorage.setItem(TOKEN_KEY, apiAuthResponse.token);
 
     // Build admin
-    this.saveAuthAdmin(apiAuthResponse.profile);
+    this.saveAuthAdmin(apiAuthResponse.user);
   }
 
-  public saveAuthAdmin(authAdminProfile: PortailAdminProfile): void {
+  public saveAuthAdmin(authAdminProfile: PortailAdminUser): void {
     console.log({ authAdminProfile });
     // Enregistrement de l'utilisateur
     window.sessionStorage.removeItem(USER_KEY);
@@ -120,9 +118,9 @@ export class AdminAuthService {
     getCurrentScope().setUser({
       username:
         "AuthAdmin " +
-        authAdminProfile.user.id.toString() +
+        authAdminProfile.id.toString() +
         " : " +
-        authAdminProfile.user.prenom,
+        authAdminProfile.prenom,
     });
 
     // Mise à jour de l'observable
