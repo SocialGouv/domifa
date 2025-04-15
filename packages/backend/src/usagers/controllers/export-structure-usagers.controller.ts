@@ -67,6 +67,7 @@ const logProcessState = (label: string) => {
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("structure")
+@AllowUserStructureRoles("responsable", "admin")
 @ApiTags("export")
 @ApiBearerAuth()
 @Controller("export")
@@ -77,7 +78,6 @@ export class ExportStructureUsagersController {
   ) {}
 
   @Get(":statut")
-  @AllowUserStructureRoles("responsable", "admin")
   public async export(
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response,

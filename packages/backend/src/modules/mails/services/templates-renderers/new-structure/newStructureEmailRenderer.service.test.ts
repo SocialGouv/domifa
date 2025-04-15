@@ -34,6 +34,7 @@ describe("newStructureEmailRenderer", () => {
         nom: "Smith",
         prenom: "Paul",
         email: "smith.paul@mymail.com",
+        id: 1,
       },
     };
 

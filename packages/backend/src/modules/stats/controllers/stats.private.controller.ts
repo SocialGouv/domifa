@@ -121,7 +121,6 @@ export class StatsPrivateController {
     });
   }
 
-  @AllowUserProfiles("structure")
   @Post("export")
   public async exportByDate(
     @CurrentUser() user: UserStructureAuthenticated,
