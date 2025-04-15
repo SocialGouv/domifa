@@ -1,0 +1,152 @@
+<div *ngIf="me" class="head-page py-4">
+  <div class="container">
+    <h1 class="title">Gérer les utilisateurs</h1>
+  </div>
+</div>
+
+<div class="content py-3" *ngIf="me">
+  <div class="container py-3">
+    <div class="page-content p-3">
+      <h2>Utilisateurs enregistrés: {{ users.length }} utilisateurs</h2>
+      <div class="table-responsive">
+        <table class="table" [attr.aria-rowcount]="users.length">
+          <caption class="visually-hidden">
+            Liste des utilisateurs enregistrés
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="nom"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Nom prénom"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="email"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Email"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="createdAt"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Date d'inscription"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="lastLogin"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Statut"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="role"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Rôle"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col" *ngIf="me.role === 'super-admin-domifa'">
+                Supprimer
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let user of users | sortArray : currentKey : sortValue;
+                let i = index;
+                trackBy: userIdTrackBy
+              "
+              [attr.aria-rowindex]="i + 1"
+            >
+              <td class="fw-bold">{{ user | fullName }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.createdAt | date : "d MMMM y" }}</td>
+              <td>
+                <p *ngIf="user.verified">✅ Compte actif</p>
+                <p *ngIf="!user.verified && user.lastLogin">
+                  ❌ Inactif depuis plus de 2 mois<br />Dernière connexion le
+                  {{ user.lastLogin | date : "d MMMM y" }}
+                </p>
+                <p class="fw-bold" *ngIf="!user.verified && !user.lastLogin">
+                  ❌ Compte jamais utilisé
+                </p>
+              </td>
+              <td>
+                <ng-container *ngIf="me.role !== 'super-admin-domifa'">{{
+                  USER_ROLES_LABELS[user.role]
+                }}</ng-container>
+                <ng-container
+                  *ngIf="me.role === 'super-admin-domifa' && me.id !== user.id"
+                >
+                  <label class="visually-hidden" for="role-{{ user.uuid }}"
+                    >Rôle de {{ user | fullName }}</label
+                  >
+                  <select
+                    [disabled]="loading"
+                    [attr.aria-busy]="loading"
+                    id="role-{{ user.uuid }}"
+                    [(ngModel)]="user.role"
+                    (ngModelChange)="onRoleChange(user, user.role)"
+                    class="form-select"
+                  >
+                    <option value="admin">Administrateur</option>
+                    <option value="responsable">Gestionnaire</option>
+                    <option value="simple">Instructeur</option>
+                    <option value="facteur">Facteur</option>
+                  </select>
+                </ng-container>
+              </td>
+              <td *ngIf="me.role === 'super-admin-domifa'">
+                <button
+                  type="button"
+                  *ngIf="
+                    me.role === 'super-admin-domifa' && me.id !== user.uuid
+                  "
+                  (click)="openDeleteConfirmation(user)"
+                  class="btn btn-danger"
+                  [attr.aria-label]="
+                    'Supprimer ' + user.nom + ' ' + user.prenom
+                  "
+                >
+                  <fa-icon
+                    [icon]="['fas', 'trash']"
+                    aria-hidden="true"
+                  ></fa-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="me.role === 'super-admin-domifa'" class="my-3">
+        <app-register-user-admin
+          (getUsers)="getUsers()"
+        ></app-register-user-admin>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #deleteUserConfirmation let-modal
+  ><app-delete-user
+    [selectedUser]="selectedUser"
+    (deleteComplete)="getUsers()"
+  ></app-delete-user>
+</ng-template>

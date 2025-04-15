@@ -1,9 +1,10 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { NationalStatsComponent } from "./components/national-stats/national-stats.component";
 
-import { AdminStructuresListComponent } from "./components/admin-structures-list/admin-structures-list.component";
-
-const routes: Routes = [{ path: "", component: AdminStructuresListComponent }];
+const routes: Routes = [
+  { path: "rapports", component: NationalStatsComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

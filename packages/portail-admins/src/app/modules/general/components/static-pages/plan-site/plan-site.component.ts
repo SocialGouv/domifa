@@ -3,8 +3,8 @@ import { Title } from "@angular/platform-browser";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import { LIENS_PARTENAIRES } from "./LIENS_PARTENAIRES.const";
 import { AdminAuthService } from "../../../../admin-auth/services/admin-auth.service";
-import { PortailAdminProfile } from "../../../../../../_common";
 import { Subscription } from "rxjs";
+import { PortailAdminUser } from "@domifa/common";
 
 @Component({
   selector: "app-plan-site",
@@ -47,7 +47,7 @@ export class PlanSiteComponent implements OnInit, OnDestroy {
       ],
     },
   ];
-  public adminProfile!: PortailAdminProfile | null;
+  public adminProfile!: PortailAdminUser | null;
   private readonly subscription = new Subscription();
   public readonly partnerLinks = LIENS_PARTENAIRES;
 
@@ -61,7 +61,7 @@ export class PlanSiteComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.subscription.add(
       this.adminAuthService.currentAdminSubject.subscribe(
-        (apiResponse: PortailAdminProfile | null) => {
+        (apiResponse: PortailAdminUser | null) => {
           this.adminProfile = apiResponse;
         }
       )

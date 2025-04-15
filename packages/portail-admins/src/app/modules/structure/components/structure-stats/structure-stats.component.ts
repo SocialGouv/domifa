@@ -6,7 +6,7 @@ import {
 } from "@angular/platform-browser";
 import { MetabaseParams, StructureCommon } from "@domifa/common";
 import { Subscription } from "rxjs";
-import { StatsService } from "../../../admin-structures/services/stats.service";
+import { StatsService } from "../../../stats/services/stats.service";
 import { CustomToastService } from "../../../shared/services";
 import saveAs from "file-saver";
 

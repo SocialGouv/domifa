@@ -1,4 +1,4 @@
-import { PortailAdminUser } from "../../../_common/model";
+import { PortailAdminUser } from "@domifa/common";
 import { userSupervisorRepository } from "../../../database";
 
 export const portailAdminProfilBuilder = {

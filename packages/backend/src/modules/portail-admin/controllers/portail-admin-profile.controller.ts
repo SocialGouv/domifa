@@ -19,12 +19,12 @@ import { UserAdminAuthenticated } from "../../../_common/model";
 
 @Controller("portail-admins/profile")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
+@AllowUserProfiles("supervisor")
+@AllowUserSupervisorRoles(...USER_SUPERVISOR_ROLES)
 @ApiTags("portail-admins-profile")
 export class PortailAdminProfileController {
   @Get("me")
   @HttpCode(HttpStatus.OK)
-  @AllowUserProfiles("supervisor")
-  @AllowUserSupervisorRoles(...USER_SUPERVISOR_ROLES)
   public async meAdmin(@CurrentUser() currentUser: UserAdminAuthenticated) {
     return await portailAdminProfilBuilder.build({
       userId: currentUser._userId,

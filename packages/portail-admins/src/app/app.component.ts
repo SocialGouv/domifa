@@ -3,9 +3,9 @@ import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs";
-import { PortailAdminProfile } from "./../_common/_portail-admin/PortailAdminProfile.type";
 import { AdminAuthService } from "./modules/admin-auth/services/admin-auth.service";
 import { LIENS_PARTENAIRES } from "./modules/general/components/static-pages/plan-site/LIENS_PARTENAIRES.const";
+import { PortailAdminUser } from "@domifa/common";
 
 @Component({
   selector: "app-root",
@@ -13,7 +13,7 @@ import { LIENS_PARTENAIRES } from "./modules/general/components/static-pages/pla
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit {
-  public adminProfile: PortailAdminProfile | null;
+  public adminProfile: PortailAdminUser | null;
   public readonly partnerLinks = LIENS_PARTENAIRES;
   public currentUrl = "";
 
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     this.titleService.setTitle("Bienvenue sur le portail admin de DomiFa");
 
     this.adminAuthService.currentAdminSubject.subscribe(
-      (admin: PortailAdminProfile | null) => {
+      (admin: PortailAdminUser | null) => {
         this.adminProfile = admin;
       }
     );

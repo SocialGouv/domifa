@@ -22,7 +22,7 @@ import { GeneralModule } from "./modules/general/general.module";
 import { createErrorHandler, init } from "@sentry/angular";
 import { environment } from "../environments/environment";
 import pkg from "../../package.json";
-import { MATOMO_INJECTORS } from "./shared/MATOMO_INJECTORS.const";
+import { MATOMO_INJECTORS } from "./shared";
 
 const disableAnimations =
   !("animate" in document.documentElement) ||
