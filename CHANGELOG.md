@@ -1,3 +1,10 @@
+## [2.198.10](https://github.com/SocialGouv/domifa/compare/v2.198.9...v2.198.10) (2025-04-15)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/common to v11.0.16 [security] ([cf089e6](https://github.com/SocialGouv/domifa/commit/cf089e6a60e47312981c8c6ce7d4adcc76d80dfe))
+
 ## [2.198.9](https://github.com/SocialGouv/domifa/compare/v2.198.8...v2.198.9) (2025-04-07)
 
 
