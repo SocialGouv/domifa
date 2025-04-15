@@ -23,14 +23,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
+          cache: "yarn"
 
       - name: Change TimeZone
         uses: szenius/set-timezone@v1.2
         with:
           timezoneLinux: "Europe/Paris"
-
-      - name: Set up Yarn cache
-        uses: c-hive/gha-yarn-cache@v2
 
       - name: Create backend .env file
         run: cp ./packages/backend/.env.backend.test.local.example.env ./packages/backend/.env
@@ -67,14 +65,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
+          cache: "yarn"
 
       - name: Change TimeZone
         uses: szenius/set-timezone@v1.2
         with:
           timezoneLinux: "Europe/Paris"
-
-      - name: Set up Yarn cache
-        uses: c-hive/gha-yarn-cache@v2
 
       - name: Install common dependencies
         run: yarn workspaces focus @domifa/common
@@ -104,14 +100,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
+          cache: "yarn"
 
       - name: Change TimeZone
         uses: szenius/set-timezone@v1.2
         with:
           timezoneLinux: "Europe/Paris"
-
-      - name: Set up Yarn cache
-        uses: c-hive/gha-yarn-cache@v2
 
       - name: Install front-end dependencies
         run: yarn workspaces focus @domifa/frontend
@@ -141,9 +135,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-
-      - name: Set up Yarn cache
-        uses: c-hive/gha-yarn-cache@v2
+          cache: "yarn"
 
       - name: Install dependencies
         run: yarn workspaces focus @domifa/portail-usagers
@@ -173,9 +165,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-
-      - name: Set up Yarn cache
-        uses: c-hive/gha-yarn-cache@v2
+          cache: "yarn"
 
       - name: Install dependencies
         run: yarn workspaces focus @domifa/portail-admins
@@ -205,9 +195,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-
-      - name: Set up Yarn cache
-        uses: c-hive/gha-yarn-cache@v2
+          cache: "yarn"
 
       - name: Install dependencies
         working-directory: ./.anonymizer
