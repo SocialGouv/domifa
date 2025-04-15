@@ -7,6 +7,7 @@ import {
 import { UserStructureRole } from "@domifa/common";
 import { domifaConfig } from "../config";
 import { UserSupervisorSecurityTable } from "../database/entities/user-supervisor";
+import { appLogger } from "../util";
 
 export class ManualMigration1743546596814 implements MigrationInterface {
   public async up(): Promise<void> {
@@ -15,6 +16,7 @@ export class ManualMigration1743546596814 implements MigrationInterface {
       domifaConfig().envId === "preprod" ||
       domifaConfig().envId === "local"
     ) {
+      appLogger.info("MIGRATION - migrate admin users to user_supervisor");
       await userSupervisorSecurityRepository.delete({});
       await userSupervisorRepository.delete({});
 

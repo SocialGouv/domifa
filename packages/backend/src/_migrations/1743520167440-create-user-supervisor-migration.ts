@@ -11,12 +11,6 @@ export class AutoMigration1743520167440 implements MigrationInterface {
       domifaConfig().envId === "local"
     ) {
       await queryRunner.query(
-        `ALTER TABLE "user_structure_security" DROP CONSTRAINT "FK_57be1bdd772eb3fea1e201317e6"`
-      );
-      await queryRunner.query(
-        `ALTER TABLE "user_structure_security" DROP CONSTRAINT "FK_0389a8aa8e69b2d17210745d040"`
-      );
-      await queryRunner.query(
         `DROP INDEX "public"."IDX_57be1bdd772eb3fea1e201317e"`
       );
       await queryRunner.query(
@@ -45,6 +39,10 @@ export class AutoMigration1743520167440 implements MigrationInterface {
       );
       await queryRunner.query(
         `ALTER TABLE "user_structure" DROP COLUMN "userRightStatus"`
+      );
+
+      await queryRunner.query(
+        `ALTER TABLE "user_supervisor_security" ADD CONSTRAINT "FK_94c17da6c8fc82ac679eefd3ecb" FOREIGN KEY ("userId") REFERENCES "user_supervisor"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
       );
     }
   }

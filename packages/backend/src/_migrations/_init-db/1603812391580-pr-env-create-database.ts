@@ -56,8 +56,10 @@ async function createTables(queryRunner: QueryRunner) {
       "version" int4 NOT NULL,
       "userId" int4 NOT NULL,
       "usagerRef" int4 NULL,
-      "structureId" int4 NOT NULL,
+      "structureId" int4 NULL,
       "action" text NOT NULL,
+      "role" text NULL,
+      "createdBy" text NULL,
       CONSTRAINT "PK_69f8faf72fa4038748e4e3f3fbe" PRIMARY KEY (uuid)
     );
 
@@ -221,25 +223,6 @@ async function createTables(queryRunner: QueryRunner) {
     );
 
 
-    -- public.user_structure_security definition
-
-    -- Drop table
-
-    -- DROP TABLE public.user_structure_security;
-
-    CREATE TABLE public.user_structure_security (
-      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
-      "createdAt" timestamptz DEFAULT now() NOT NULL,
-      "updatedAt" timestamptz DEFAULT now() NOT NULL,
-      "version" int4 NOT NULL,
-      "userId" int4 NOT NULL,
-      "temporaryTokens" jsonb NULL,
-      "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
-      CONSTRAINT "PK_a617f0127221193d06271877ae0" PRIMARY KEY (uuid)
-    );
-    CREATE INDEX "IDX_0389a8aa8e69b2d17210745d04" ON public.user_structure_security USING btree ("userId");
-
-
     -- public.user_supervisor definition
 
     -- Drop table
@@ -269,25 +252,6 @@ async function createTables(queryRunner: QueryRunner) {
     );
     CREATE INDEX "IDX_c2d4b5706fc542d95a0bf13869" ON public.user_supervisor USING btree (email);
     CREATE INDEX "IDX_eba1b8ef0f72cb0dd499730714" ON public.user_supervisor USING btree (id);
-
-
-    -- public.user_supervisor_security definition
-
-    -- Drop table
-
-    -- DROP TABLE public.user_supervisor_security;
-
-    CREATE TABLE public.user_supervisor_security (
-      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
-      "createdAt" timestamptz DEFAULT now() NOT NULL,
-      "updatedAt" timestamptz DEFAULT now() NOT NULL,
-      "version" int4 NOT NULL,
-      "userId" int4 NOT NULL,
-      "temporaryTokens" jsonb NULL,
-      "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
-      CONSTRAINT "PK_afc34ab2b3531b41455a9e016b5" PRIMARY KEY (uuid)
-    );
-    CREATE INDEX "IDX_94c17da6c8fc82ac679eefd3ec" ON public.user_supervisor_security USING btree ("userId");
 
 
     -- public.message_sms definition
@@ -706,6 +670,46 @@ async function createTables(queryRunner: QueryRunner) {
     CREATE INDEX "IDX_74b1b39487db0e5d3471b370cf" ON public.user_structure USING btree (id);
     CREATE INDEX "IDX_a52dec7d55b4a81a0af0136148" ON public.user_structure USING btree ("structureId");
     CREATE INDEX "IDX_e2828c51dc4d023377f256c980" ON public.user_structure USING btree (email);
+
+
+    -- public.user_structure_security definition
+
+    -- Drop table
+
+    -- DROP TABLE public.user_structure_security;
+
+    CREATE TABLE public.user_structure_security (
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
+      "version" int4 NOT NULL,
+      "userId" int4 NOT NULL,
+      "temporaryTokens" jsonb NULL,
+      "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
+      CONSTRAINT "PK_a617f0127221193d06271877ae0" PRIMARY KEY (uuid),
+      CONSTRAINT "FK_0389a8aa8e69b2d17210745d040" FOREIGN KEY ("userId") REFERENCES public.user_structure(id) ON DELETE CASCADE
+    );
+    CREATE INDEX "IDX_0389a8aa8e69b2d17210745d04" ON public.user_structure_security USING btree ("userId");
+
+
+    -- public.user_supervisor_security definition
+
+    -- Drop table
+
+    -- DROP TABLE public.user_supervisor_security;
+
+    CREATE TABLE public.user_supervisor_security (
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
+      "version" int4 NOT NULL,
+      "userId" int4 NOT NULL,
+      "temporaryTokens" jsonb NULL,
+      "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
+      CONSTRAINT "PK_afc34ab2b3531b41455a9e016b5" PRIMARY KEY (uuid),
+      CONSTRAINT "FK_94c17da6c8fc82ac679eefd3ecb" FOREIGN KEY ("userId") REFERENCES public.user_supervisor(id) ON DELETE CASCADE
+    );
+    CREATE INDEX "IDX_94c17da6c8fc82ac679eefd3ec" ON public.user_supervisor_security USING btree ("userId");
 
 
     -- public.user_usager definition
