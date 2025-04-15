@@ -1,4 +1,4 @@
-import { AppTestHelper } from "../../../util/test";
+import { AppTestHelper } from "../../../../util/test";
 import { structureStatsInPeriodGenerator } from "../structureStatsInPeriodGenerator.service";
 
 describe("structureStatsInPeriodGenerator", () => {
