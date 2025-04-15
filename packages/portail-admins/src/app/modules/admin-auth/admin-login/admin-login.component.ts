@@ -7,11 +7,11 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import type { PortailAdminAuthApiResponse } from "../../../../_common";
 import { regexp } from "../../../shared/utils/validators";
 import { CustomToastService } from "../../shared/services/custom-toast.service";
 import { PortailAdminAuthLoginForm } from "../model";
 import { AdminAuthService } from "../services/admin-auth.service";
+import { PortailAdminAuthApiResponse } from "@domifa/common";
 
 @Component({
   selector: "app-admin-login",

@@ -4,12 +4,11 @@ import { userStructureRepository } from "../../../database";
 
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
-  PortailAdminUser,
   UserAdminAuthenticated,
   UserAdminJwtPayload,
 } from "../../../_common/model";
 import { portailAdminProfilBuilder } from "./portail-admin-profil-builder.service";
-import { CommonUser } from "@domifa/common";
+import { CommonUser, PortailAdminUser } from "@domifa/common";
 
 @Injectable()
 export class AdminsAuthService {

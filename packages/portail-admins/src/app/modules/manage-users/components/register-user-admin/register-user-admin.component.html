@@ -1,0 +1,149 @@
+<h2 class="title mt-3">Créer un utilisateur</h2>
+<p>
+  Les champs suivis d'un <span class="fw-bold text-danger">*</span> sont
+  obligatoires
+</p>
+<form #form [formGroup]="userForm" (ngSubmit)="submitUser()">
+  <div class="row">
+    <div class="col-md-3 form-group required">
+      <label for="nom">Nom</label>
+      <input
+        type="text"
+        class="form-control"
+        id="nom"
+        appCleanStr
+        formControlName="nom"
+        name="nom"
+        [ngClass]="{
+          'is-invalid': (f.nom.dirty || submitted) && f.nom.errors,
+          'is-valid': f.nom.dirty && !f.nom.errors
+        }"
+        [attr.aria-describedby]="
+          (f.nom.dirty || submitted) && f.nom.errors ? 'invalid-name' : null
+        "
+        [attr.aria-invalid]="
+          (f.nom.dirty || submitted) && f.nom.errors ? true : false
+        "
+        required
+      />
+      <p
+        *ngIf="submitted && f.nom.errors"
+        id="invalid-name"
+        class="invalid-feedback"
+      >
+        Veuillez vérifier le nom
+      </p>
+    </div>
+    <div class="col-md-3 form-group required">
+      <label for="prenom">Prénom</label>
+      <input
+        type="text"
+        class="form-control"
+        id="prenom"
+        appCleanStr
+        formControlName="prenom"
+        name="prenom"
+        [ngClass]="{
+          'is-invalid':(submitted || f.prenom.dirty) && f.prenom.errors,
+        }"
+        [attr.aria-describedby]="
+          (submitted || f.prenom.dirty) && f.prenom.errors
+            ? 'invalid-prenom'
+            : null
+        "
+        [attr.aria-invalid]="
+          (submitted || f.prenom.dirty) && f.prenom.errors ? true : false
+        "
+        required
+      />
+      <p
+        *ngIf="(submitted || f.prenom.dirty) && f.prenom.errors"
+        id="invalid-prenom"
+        class="invalid-feedback"
+      >
+        Veuillez vérifier le prénom
+      </p>
+    </div>
+    <div class="col-md-3 form-group required">
+      <label for="email">Adresse email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        formControlName="email"
+        name="email"
+        [attr.aria-invalid]="
+          (f.email.dirty || submitted) && f.email.errors ? true : false
+        "
+        [ngClass]="{
+          'is-invalid': (f.email.dirty || submitted) && f.email.errors
+        }"
+        [attr.aria-describedby]="
+          (f.email.dirty || submitted) && f.email.errors ? 'email-errors' : null
+        "
+        required
+      />
+      <div *ngIf="f.email.errors" class="invalid-feedback" id="email-errors">
+        <p *ngIf="f.email.errors?.emailTaken">
+          <fa-icon
+            aria-hidden="true"
+            [icon]="['fas', 'exclamation-triangle']"
+          ></fa-icon>
+          L'adresse email est déjà utilisée
+        </p>
+        <p *ngIf="!f.email.errors.emailTaken">
+          Veuillez vérifier l'adresse email, format attendu : nom&#64;domaine.fr
+        </p>
+      </div>
+    </div>
+    <div class="col-md-3 form-group required">
+      <label for="role">Accès</label>
+      <select
+        id="role"
+        formControlName="role"
+        name="role"
+        [ngClass]="{
+          'is-invalid': submitted && f.role.errors
+        }"
+        [attr.aria-invalid]="submitted && f.role.errors ? true : false"
+        [attr.aria-describedby]="
+          submitted && f.role.errors ? 'invalid-role' : null
+        "
+        class="form-select"
+        required
+      >
+        <option [ngValue]="null"></option>
+        <option value="admin">Administrateur</option>
+        <option value="responsable">Gestionnaire</option>
+        <option value="simple">Instructeur</option>
+        <option value="facteur">Facteur</option>
+      </select>
+      <p
+        *ngIf="submitted && f.role.errors"
+        class="invalid-feedback"
+        id="invalid-role"
+      >
+        Le rôle est obligatoire
+      </p>
+    </div>
+    <div class="col-12 text-center">
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
+      >
+        <span *ngIf="loading">
+          <fa-icon
+            [icon]="['fas', 'circle-notch']"
+            aria-hidden="true"
+            [spin]="true"
+          >
+          </fa-icon>
+          Veuillez patienter...
+        </span>
+        <span *ngIf="!loading">Ajouter cet utilisateur</span>
+      </button>
+    </div>
+  </div>
+</form>

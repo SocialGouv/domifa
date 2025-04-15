@@ -6,6 +6,7 @@ import { CguComponent } from "./modules/general/components/static-pages/cgu/cgu.
 import { MentionsLegalesComponent } from "./modules/general/components/static-pages/mentions-legales/mentions-legales.component";
 import { PolitiqueComponent } from "./modules/general/components/static-pages/politique/politique.component";
 import { PlanSiteComponent } from "./modules/general/components/static-pages/plan-site/plan-site.component";
+import { RolesGuard } from "./guards/roles-guards";
 
 const routes: Routes = [
   {
@@ -17,7 +18,10 @@ const routes: Routes = [
   },
   {
     path: "structures",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RolesGuard],
+    data: {
+      roles: ["super-admin-domifa"],
+    },
     loadChildren: () =>
       import("./modules/admin-structures/admin-structures.module").then(
         (m) => m.AdminStructuresModule
@@ -30,15 +34,29 @@ const routes: Routes = [
   },
   {
     path: "structure",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RolesGuard],
+    data: {
+      roles: ["super-admin-domifa"],
+    },
     loadChildren: () =>
       import("./modules/structure/structure.module").then(
         (m) => m.StructureModule
       ),
   },
   {
+    path: "manage-users",
+    canActivate: [AuthGuard, RolesGuard],
+    data: {
+      roles: ["super-admin-domifa"],
+    },
+    loadChildren: () =>
+      import("./modules/manage-users/manage-users.module").then(
+        (m) => m.ManageUsersModule
+      ),
+  },
+  {
     path: "structures-confirm",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RolesGuard],
     loadChildren: () =>
       import(
         "./modules/admin-structures-confirm/admin-structures-confirm.module"

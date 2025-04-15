@@ -36,16 +36,7 @@ import {
 } from "../../../../_common/model";
 import { AdminStructuresService } from "../../services";
 
-import {
-  DEPARTEMENTS_MAP,
-  REGIONS_LISTE,
-  Structure,
-  UserStructure,
-} from "@domifa/common";
-import { MetabaseStatsDto } from "../../_dto/MetabaseStats.dto";
-import { domifaConfig } from "../../../../config";
-import { sign } from "jsonwebtoken";
-import { FindOptionsWhere } from "typeorm";
+import { Structure, UserStructure } from "@domifa/common";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { StructureConfirmationDto } from "../../_dto";
 import { StructureAdminForList } from "../../types";
@@ -62,6 +53,8 @@ export type UserStructureWithSecurity = UserStructure & {
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
 @ApiTags("dashboard")
+@AllowUserProfiles("supervisor")
+@AllowUserSupervisorRoles("super-admin-domifa")
 @ApiBearerAuth()
 export class AdminStructuresController {
   constructor(
@@ -70,7 +63,6 @@ export class AdminStructuresController {
   ) {}
 
   @Get("export")
-  @AllowUserProfiles("supervisor")
   public async export(
     @CurrentUser() user: UserAdminAuthenticated,
     @Res() response: ExpressResponse
@@ -101,28 +93,13 @@ export class AdminStructuresController {
     });
   }
 
-  @Get("last-update")
-  @AllowUserProfiles("supervisor")
-  @AllowUserSupervisorRoles("super-admin-domifa", "national")
-  public async getLastUpdate(): Promise<Date | null> {
-    const lastUsager = await structureRepository.findOne({
-      where: {},
-      order: { createdAt: "DESC" },
-    });
-    return lastUsager?.createdAt ?? null;
-  }
-
   @Get("")
-  @AllowUserProfiles("supervisor")
-  @AllowUserSupervisorRoles("super-admin-domifa")
   public async list(): Promise<StructureAdminForList[]> {
     return await this.adminStructuresService.getAdminStructuresListData();
   }
 
   @Get("structure/:structureId")
   @UseGuards(StructureAccessGuard)
-  @AllowUserProfiles("supervisor")
-  @AllowUserSupervisorRoles("super-admin-domifa")
   public async getStructure(
     @CurrentUser() _user: UserAdminAuthenticated,
     @CurrentStructure() structure: Structure,
@@ -136,8 +113,6 @@ export class AdminStructuresController {
 
   @Get("structure/:structureId/users")
   @UseGuards(StructureAccessGuard)
-  @AllowUserProfiles("supervisor")
-  @AllowUserSupervisorRoles("super-admin-domifa")
   public async getUsers(
     @CurrentUser() _user: UserAdminAuthenticated,
     @CurrentStructure() structure: Structure,
@@ -167,8 +142,6 @@ export class AdminStructuresController {
     )) as unknown as UserStructureWithSecurity[];
   }
 
-  @AllowUserProfiles("supervisor")
-  @AllowUserSupervisorRoles("super-admin-domifa")
   @Post("confirm-structure-creation")
   public async confirmStructureCreation(
     @Body() structureConfirmationDto: StructureConfirmationDto,
@@ -207,7 +180,6 @@ export class AdminStructuresController {
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
-  @AllowUserProfiles("supervisor")
   @Post("register-new-admin")
   public async registerNewAdmin(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -216,80 +188,5 @@ export class AdminStructuresController {
   ): Promise<ExpressResponse> {
     const userController = new UsersController();
     return await userController.registerUser(user, res, registerUserDto);
-  }
-
-  @AllowUserProfiles("supervisor")
-  @AllowUserSupervisorRoles("super-admin-domifa", "national")
-  @Post("metabase-stats")
-  public async getMetabaseStats(
-    @CurrentUser() user: UserAdminAuthenticated,
-    @Body() metabaseDto: MetabaseStatsDto
-  ): Promise<{ url: string }> {
-    await this.appLogsService.create({
-      userId: user.id,
-      structureId: 1, // TODO: update this with new user system
-      action: "GET_STATS_PORTAIL_ADMIN",
-    });
-
-    const METABASE_URL = domifaConfig().metabase.url;
-
-    const year = metabaseDto.year ? [metabaseDto.year] : [];
-    let region = metabaseDto.region ? [REGIONS_LISTE[metabaseDto.region]] : [];
-    let department = metabaseDto.department
-      ? [DEPARTEMENTS_MAP[metabaseDto.department].departmentName]
-      : [];
-    const structureId = metabaseDto.structureId
-      ? [metabaseDto.structureId]
-      : [];
-    const structureType = metabaseDto.structureType
-      ? [metabaseDto.structureType]
-      : [];
-
-    if (region.length > 0) {
-      department = [];
-    }
-
-    if (department.length > 0) {
-      region = [];
-    }
-    const payload = {
-      resource: { dashboard: 6 },
-      params: {
-        "ann%C3%A9e_du_rapport": year,
-        "r%C3%A9gion": region,
-        "d%C3%A9partement": department,
-        type_de_structure: structureType,
-        structureid: structureId,
-      },
-      exp: Math.round(Date.now() / 1000) + 100 * 60,
-    };
-
-    const token = sign(payload, domifaConfig().metabase.token);
-    const url = `${METABASE_URL}embed/dashboard/${token}#bordered=false&titled=false`;
-
-    return { url };
-  }
-
-  @AllowUserProfiles("supervisor")
-  @Post("metabase-get-structures")
-  public async getStructures(
-    @Body() metabaseDto: MetabaseStatsDto
-  ): Promise<Array<Partial<Structure>>> {
-    const params: FindOptionsWhere<Structure> = {
-      region: metabaseDto?.region ?? undefined,
-      departement: metabaseDto?.department ?? undefined,
-      structureType: metabaseDto?.structureType ?? undefined,
-      verified: true,
-    };
-
-    return await structureRepository.find({
-      where: params,
-      select: ["id", "nom", "ville", "codePostal"],
-      order: {
-        codePostal: "ASC",
-        ville: "ASC",
-        nom: "ASC",
-      },
-    });
   }
 }

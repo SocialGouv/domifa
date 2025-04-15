@@ -8,18 +8,13 @@ import { SharedModule } from "src/app/modules/shared/shared.module";
 import { AdminStructuresRoutingModule } from "./admin-structures-routing.module";
 
 import { AdminStructuresListComponent } from "./components/admin-structures-list/admin-structures-list.component";
-import { NationalStatsComponent } from "./components/national-stats/national-stats.component";
-import { StatsService } from "./services/stats.service";
+import { StatsService } from "../stats/services/stats.service";
 import { AdminStructuresTableComponent } from "./components/admin-structures-table/admin-structures-table.component";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 import { SortArrayPipe } from "../shared/pipes/sort-array.pipe";
 
 @NgModule({
-  declarations: [
-    AdminStructuresListComponent,
-    AdminStructuresTableComponent,
-    NationalStatsComponent,
-  ],
+  declarations: [AdminStructuresListComponent, AdminStructuresTableComponent],
   imports: [
     CommonModule,
     NgbModule,

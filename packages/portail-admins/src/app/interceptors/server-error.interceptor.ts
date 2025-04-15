@@ -35,7 +35,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
       const user = authService.currentUserValue;
 
       getCurrentScope().setUser({
-        email: user.user.email,
+        email: user.email,
       });
     }
 
