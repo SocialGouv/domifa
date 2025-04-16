@@ -24,7 +24,7 @@ import {
 } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
 
-import { UserStructure } from "@domifa/common";
+import { UserSupervisor } from "@domifa/common";
 import { UsersService } from "../../../users/services";
 
 export type FormEmailTakenValidator = Observable<null | {
@@ -37,7 +37,7 @@ export type FormEmailTakenValidator = Observable<null | {
   templateUrl: "./register-user-admin.component.html",
 })
 export class RegisterUserAdminComponent implements OnInit, OnDestroy {
-  public user: UserStructure;
+  public user: UserSupervisor;
   public userForm!: UntypedFormGroup;
 
   public submitted: boolean;
@@ -70,7 +70,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.userForm = this.formBuilder.group({
       email: [
-        this.user.email,
+        this.user?.email,
         [Validators.required, EmailValidator],
         this.validateEmailNotTaken.bind(this),
       ],
