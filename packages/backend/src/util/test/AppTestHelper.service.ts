@@ -32,7 +32,7 @@ export const AppTestHelper = {
   tearDownTestConnection,
   authenticateUsager,
   authenticateStructure,
-  authenticateSuperAdmin,
+  authenticateSupervisor,
   filterSecurityTests,
 };
 
@@ -148,6 +148,7 @@ async function authenticateStructure(
     userUUID: authInfo.uuid,
   };
 }
+
 async function authenticateUsager(
   authInfo: TestUserUsager,
   { context }: { context: AppTestContext }
@@ -168,7 +169,8 @@ async function authenticateUsager(
     userUUID: authInfo.uuid,
   };
 }
-async function authenticateSuperAdmin(
+
+async function authenticateSupervisor(
   authInfo: TestUserAdmin,
   { context }: { context: AppTestContext }
 ) {
@@ -185,6 +187,7 @@ async function authenticateSuperAdmin(
   context.user = {
     profile: "supervisor",
     userUUID: authInfo.uuid,
+    userId: authInfo.id,
   };
 }
 

@@ -19,7 +19,7 @@ describe(`App controllers security - ${TEST_BASENAME}`, () => {
 
     const authInfo =
       TESTS_USERS_ADMIN.BY_EMAIL["preprod.domifa@fabrique.social.gouv.fr"];
-    await AppTestHelper.authenticateSuperAdmin(authInfo, { context });
+    await AppTestHelper.authenticateSupervisor(authInfo, { context });
   });
 
   afterAll(async () => {
