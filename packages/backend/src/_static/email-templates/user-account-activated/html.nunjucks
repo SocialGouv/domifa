@@ -18,13 +18,9 @@
      {{ helpers.button("primary", lien, "Se connecter", true) }}
 
      <p class="mt-8">
-          Pour vous accompagner au mieux dans votre utilisation de DomiFa, il vous est possible de vous inscrire à une session de présentation en ligne en nous envoyant un email à l'adresse
+          Pour vous accompagner au mieux dans votre utilisation de DomiFa, il vous est possible de vous inscrire à une session de présentation
      </p>
-     <p class="mb-12 text-center">
-          <a href="mailto:contact.domifa@fabrique.social.gouv.fr" target="_blank" rel="noopener noreferrer">
-            contact.domifa@fabrique.social.gouv.fr
-          </a>
-     </p>
+    {{ helpers.button("primary", "https://tally.so/r/3EaAVB", "S'inscrire à une présentation", true) }}
 
      <p>
           À bientôt,

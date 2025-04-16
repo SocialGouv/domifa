@@ -1,9 +1,11 @@
 #!/bin/bash
 
-CURRENT_DIR="$( cd "$( dirname "$0" )" && pwd )"
-PARENT_1_DIR="$( cd "$( dirname "${CURRENT_DIR}" )" && pwd )"
-PARENT_2_DIR="$( cd "$( dirname "${PARENT_1_DIR}" )" && pwd )"
-PROJECT_DIR="$( cd "$( dirname "${PARENT_2_DIR}" )" && pwd )"
+CURRENT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 find ${CURRENT_DIR} -type f -name "test.ref.html" -exec rm {} \;
-find ${CURRENT_DIR} -type f -name "test.tmp.html" -exec rename 's/tmp/ref/' {} \;
+
+find ${CURRENT_DIR} -type f -name "test.tmp.html" | while read file; do
+  new_file="${file/tmp/ref}"
+  cp "$file" "$new_file"
+  echo "Fichier copié: $file -> $new_file"
+done
