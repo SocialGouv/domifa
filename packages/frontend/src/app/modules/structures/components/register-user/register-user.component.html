@@ -1,47 +1,62 @@
 <div *ngIf="structureRegisterInfos">
   <div class="container text-center" *ngIf="success">
-    <h4 class="text-primary">
-      Félicitations, votre demande de création de nouvelle structure sur DomiFa
+    <div class="card p-4">
+      <h2 class="text-primary">
+        Félicitations, votre demande de création de nouvelle structure sur
+        DomiFa
+        <br />
+        a bien été prise en compte.
+      </h2>
+      <div class="d-inline-block">
+        <a
+          href="https://tally.so/r/3EaAVB"
+          class="btn btn-primary btn-large d-inline-block my-3"
+          target="_blank"
+        >
+          <fa-icon
+            aria-hidden="true"
+            class="me-2"
+            [icon]="['fas', 'calendar']"
+          ></fa-icon>
+          S'inscrire à une présentation</a
+        >
+      </div>
+
+      <p>
+        Un email de confirmation vous sera envoyé dès validation de celle-ci par
+        l'administrateur DomiFa.
+
+        <br />
+        Vous pourrez alors vous connecter à votre compte et :
+      </p>
       <br />
-      a bien été prise en compte.
-    </h4>
-    <p>
-      Un email de confirmation vous sera envoyé dès validation de celle-ci par
-      l'administrateur DomiFa.
+
+      <span>
+        <strong class="text-primary">
+          <fa-icon aria-hidden="true" [icon]="['fas', 'arrow-down']"></fa-icon>
+          &nbsp;
+        </strong>
+        importer vos domiciliations actuelles
+      </span>
       <br />
-      Vous pourrez alors vous connecter à votre compte et :
-    </p>
-    <br />
-    <br />
-    <span>
-      <strong class="text-primary">
-        <fa-icon aria-hidden="true" [icon]="['fas', 'arrow-down']"></fa-icon>
-        &nbsp;
-      </strong>
-      importer vos domiciliations actuelles
-    </span>
-    <br />
-    <br />
-    <span>
-      <strong class="text-primary">
-        <fa-icon aria-hidden="true" [icon]="['fas', 'plus']"></fa-icon>
-        &nbsp;
-      </strong>
-      domicilier de nouvelles personnes
-    </span>
-    <br />
-    <br />
-    <span>
-      <strong class="text-primary">
-        <fa-icon aria-hidden="true" [icon]="['fas', 'user-plus']"></fa-icon>
-        &nbsp;
-      </strong>
-      créer des comptes pour vos collaborateurs
-    </span>
-    <br />
-    <br />
-    <br />
-    A très vite !
+
+      <span>
+        <strong class="text-primary">
+          <fa-icon aria-hidden="true" [icon]="['fas', 'plus']"></fa-icon>
+          &nbsp;
+        </strong>
+        domicilier de nouvelles personnes
+      </span>
+      <br />
+
+      <span>
+        <strong class="text-primary">
+          <fa-icon aria-hidden="true" [icon]="['fas', 'user-plus']"></fa-icon>
+          &nbsp;
+        </strong>
+        créer des comptes pour vos collaborateurs
+      </span>
+    </div>
   </div>
 
   <div class="step-form" *ngIf="!success">
