@@ -1,3 +1,12 @@
+## [2.198.11](https://github.com/SocialGouv/domifa/compare/v2.198.10...v2.198.11) (2025-04-16)
+
+
+### Bug Fixes
+
+* **backend:** add tally form in mails ([0ab33cb](https://github.com/SocialGouv/domifa/commit/0ab33cbf2f33c44bb7635f36fe738b79c4081900))
+* **backend:** add tally form in mails ([df00697](https://github.com/SocialGouv/domifa/commit/df006978b725a12ab5b374e28d873c8791f22598))
+* **frontend:** add tally form ([9af1c1b](https://github.com/SocialGouv/domifa/commit/9af1c1b37657fec46734dfebd5c978badf29a99e))
+
 ## [2.198.10](https://github.com/SocialGouv/domifa/compare/v2.198.9...v2.198.10) (2025-04-15)
 
 
