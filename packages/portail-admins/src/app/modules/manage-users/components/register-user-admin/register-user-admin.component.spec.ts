@@ -9,6 +9,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
+import { USER_SUPERVISOR_MOCK } from "../../../../mocks/USER_SUPERVISOR.mock";
 
 describe("RegisterUserAdminComponent", () => {
   let component: RegisterUserAdminComponent;
@@ -32,6 +33,7 @@ describe("RegisterUserAdminComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterUserAdminComponent);
     component = fixture.componentInstance;
+    component.user = USER_SUPERVISOR_MOCK;
     fixture.detectChanges();
   });
 

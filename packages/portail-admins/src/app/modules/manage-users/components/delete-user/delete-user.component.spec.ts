@@ -7,7 +7,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { USER_STRUCTURE_MOCK } from "../../../../mocks/USER_SUPERVISOR.mock";
+import { USER_SUPERVISOR_MOCK } from "../../../../mocks/USER_SUPERVISOR.mock";
 
 describe("DeleteUserComponent", () => {
   let component: DeleteUserComponent;
@@ -29,7 +29,7 @@ describe("DeleteUserComponent", () => {
 
     fixture = TestBed.createComponent(DeleteUserComponent);
     component = fixture.componentInstance;
-    component.selectedUser = USER_STRUCTURE_MOCK;
+    component.selectedUser = USER_SUPERVISOR_MOCK;
     fixture.detectChanges();
   });
 

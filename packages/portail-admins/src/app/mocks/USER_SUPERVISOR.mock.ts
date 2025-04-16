@@ -1,6 +1,6 @@
 import { UserSupervisor } from "@domifa/common";
 
-export const USER_STRUCTURE_MOCK: UserSupervisor = {
+export const USER_SUPERVISOR_MOCK: UserSupervisor = {
   password: "xxx",
   uuid: "xxx",
   email: "preprod.domifa@fabrique.social.gouv.fr",
