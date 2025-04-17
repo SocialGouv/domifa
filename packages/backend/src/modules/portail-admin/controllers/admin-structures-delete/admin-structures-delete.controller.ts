@@ -20,7 +20,7 @@ import { structureRepository } from "../../../../database";
 import { structureDeletorService } from "../../../structures/services/structure-deletor.service";
 import { ExpressResponse } from "../../../../util/express";
 import { ParseTokenPipe } from "../../../../_common/decorators";
-import { StructureConfirmationDto } from "../../_dto";
+import { StructureConfirmationDto } from "../../dto";
 import { FileManagerService } from "../../../../util/file-manager/file-manager.service";
 import { join } from "path";
 import { domifaConfig } from "../../../../config";

@@ -68,7 +68,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
             );
           }
           if (error.status === 401) {
-            authService.logoutAndRedirect(undefined);
+            authService.logoutAndRedirect();
             toastr.error(
               "Votre session a expiré, merci de vous connecter à nouveau"
             );

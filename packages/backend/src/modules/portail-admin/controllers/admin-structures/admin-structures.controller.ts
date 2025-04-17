@@ -30,7 +30,6 @@ import { expressResponseExcelRenderer } from "../../../../util";
 import { ExpressResponse } from "../../../../util/express";
 import {
   UserAdminAuthenticated,
-  UserStructureAuthenticated,
   UserSecurityEvent,
   UserTokens,
 } from "../../../../_common/model";
@@ -38,13 +37,11 @@ import { AdminStructuresService } from "../../services";
 
 import { Structure, UserStructure } from "@domifa/common";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
-import { StructureConfirmationDto } from "../../_dto";
+import { StructureConfirmationDto } from "../../dto";
 import { StructureAdminForList } from "../../types";
 import { userAccountActivatedEmailSender } from "../../../mails/services/templates-renderers";
 import { structureCreatorService } from "../../../structures/services";
 import { format } from "date-fns";
-import { RegisterUserAdminDto } from "../../../users/dto";
-import { UsersController } from "../../../users/controllers/users.controller";
 
 export type UserStructureWithSecurity = UserStructure & {
   temporaryTokens: UserTokens;
@@ -178,15 +175,5 @@ export class AdminStructuresController {
     await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
 
     return res.status(HttpStatus.OK).json({ message: "OK" });
-  }
-
-  @Post("register-new-admin")
-  public async registerNewAdmin(
-    @CurrentUser() user: UserStructureAuthenticated,
-    @Res() res: ExpressResponse,
-    @Body() registerUserDto: RegisterUserAdminDto
-  ): Promise<ExpressResponse> {
-    const userController = new UsersController();
-    return await userController.registerUser(user, res, registerUserDto);
   }
 }

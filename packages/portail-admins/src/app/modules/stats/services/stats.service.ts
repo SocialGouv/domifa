@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { StructureListForStats } from "../types/StructureListForStats.type";
 
-const BASE_URL = `${environment.apiUrl}admin/structures`;
+const BASE_URL = `${environment.apiUrl}admin/national-stats`;
 
 @Injectable({
   providedIn: "root",
