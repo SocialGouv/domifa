@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from "@angular/core";
 import { isValid, differenceInDays } from "date-fns";
+import { AuthService } from "./auth.service";
+import {
+  DEPARTEMENTS_LISTE,
+  REGIONS_LISTE,
+  USER_STRUCTURE_ROLES_LABELS,
+} from "@domifa/common";
 
 export type TallyOptions = {
   key?: string; // This is used as a unique identifier used for the "Show only once" and "Don't show after submit" functionality
@@ -52,7 +58,7 @@ export class TallyService {
   private readonly DISPLAY_INTERVAL_DAYS = 5;
   private readonly SUBMITTED_KEY = `${this.FORM_ID}_submitted`;
 
-  constructor() {}
+  constructor(private readonly authService: AuthService) {}
 
   public openTally(): void {
     if (this.shouldDisplayTally()) {
@@ -94,8 +100,30 @@ export class TallyService {
     const currentDate = new Date().getTime().toString();
     localStorage.setItem(this.STORAGE_KEY, currentDate);
 
+    const user = this.authService.currentUserValue;
+
+    const departement = `${user.structure.departement} - ${
+      DEPARTEMENTS_LISTE[user.structure.region]
+    }`;
+
+    const hiddenFields = {
+      nom_structure: user.structure.nom,
+      type_structure: user.structure.structureType,
+      code_postal: user.structure.codePostal,
+      ville: user.structure.ville,
+      departement: departement,
+      logiciel_domiciliation: "domifa",
+      source: "domifa",
+      role: USER_STRUCTURE_ROLES_LABELS[user.role],
+      region: REGIONS_LISTE[user.structure.region],
+      nom_prenom_fonction: `${user.nom} ${user.prenom} (${
+        user?.fonction || "Non spécifié"
+      })`,
+      email: user.email,
+    };
+
     window.Tally.openPopup(this.FORM_ID, {
-      width: 800,
+      width: 900,
       overlay: true,
       emoji: {
         text: "👋",
@@ -108,6 +136,7 @@ export class TallyService {
       onSubmit: () => {
         localStorage.setItem(this.SUBMITTED_KEY, "true");
       },
+      hiddenFields,
     });
   }
 }
