@@ -6,6 +6,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 import { SortArrayPipe } from "../shared/pipes/sort-array.pipe";
 import { SharedModule } from "../shared/shared.module";
+import { StatsRoutingModule } from "./stats-routing.module";
 
 @NgModule({
   declarations: [NationalStatsComponent],
@@ -14,6 +15,7 @@ import { SharedModule } from "../shared/shared.module";
     SharedModule,
     FontAwesomeModule,
     FormsModule,
+    StatsRoutingModule,
     TableHeadSortComponent,
     SortArrayPipe,
   ],

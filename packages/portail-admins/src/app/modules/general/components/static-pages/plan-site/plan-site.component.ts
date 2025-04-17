@@ -23,7 +23,7 @@ export class PlanSiteComponent implements OnInit, OnDestroy {
     {
       section: "Gérer les structures",
       links: [
-        { label: "Rapports d'activité", path: "/structures/rapports" },
+        { label: "Rapports d'activité", path: "/stats" },
         { label: "Liste des structures", path: "/structures" },
       ],
     },

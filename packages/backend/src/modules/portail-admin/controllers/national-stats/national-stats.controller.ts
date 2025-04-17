@@ -10,10 +10,10 @@ import {
 import { domifaConfig } from "../../../../config";
 import { structureRepository } from "../../../../database";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
-import { MetabaseStatsDto } from "../../_dto/MetabaseStats.dto";
+import { MetabaseStatsDto } from "../../dto/MetabaseStats.dto";
 import { sign } from "jsonwebtoken";
 
-@Controller("national-stats")
+@Controller("admin/national-stats")
 export class NationalStatsController {
   constructor(private readonly appLogsService: AppLogsService) {}
 

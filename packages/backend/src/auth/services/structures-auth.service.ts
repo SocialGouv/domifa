@@ -38,6 +38,7 @@ export class StructuresAuthService {
       _userProfile: "structure",
       email: user.email,
       id: user.id,
+      userId: user.id,
       lastLogin: user.lastLogin,
       nom: user.nom,
       prenom: user.prenom,

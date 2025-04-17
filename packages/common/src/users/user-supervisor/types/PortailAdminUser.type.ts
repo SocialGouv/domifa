@@ -6,7 +6,6 @@ export type PortailAdminUser = Pick<
   | "nom"
   | "prenom"
   | "email"
-  | "password"
   | "verified"
   | "lastLogin"
   | "territories"

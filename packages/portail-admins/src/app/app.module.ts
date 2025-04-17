@@ -23,6 +23,7 @@ import { createErrorHandler, init } from "@sentry/angular";
 import { environment } from "../environments/environment";
 import pkg from "../../package.json";
 import { MATOMO_INJECTORS } from "./shared";
+import { AdminAuthService } from "./modules/admin-auth/services/admin-auth.service";
 
 const disableAnimations =
   !("animate" in document.documentElement) ||
@@ -68,6 +69,7 @@ registerLocaleData(localeFr, "fr");
         showDialog: !environment?.production,
       }),
     },
+    AdminAuthService,
     CustomToastService,
   ],
 

@@ -10,7 +10,7 @@ import { differenceInCalendarDays } from "date-fns";
   providedIn: "root",
 })
 export class ManageUsersService {
-  private endPoint = environment.apiUrl + "users";
+  private endPoint = environment.apiUrl + "admin/users";
   private usersSubject = new BehaviorSubject<UserSupervisor[]>([]);
 
   // Observables dérivés
@@ -54,6 +54,16 @@ export class ManageUsersService {
 
   public getLastPasswordUpdate(): Observable<Date | null> {
     return this.http.get<Date | null>(`${this.endPoint}/last-password-update`);
+  }
+
+  public registerUser(data: string): Observable<ApiMessage> {
+    return this.http.post<ApiMessage>(`${this.endPoint}/register`, data);
+  }
+
+  public validateEmail(email: string): Observable<boolean> {
+    return this.http.post<boolean>(`${this.endPoint}/validate-email`, {
+      email,
+    });
   }
 
   public updateMyPassword(data: {

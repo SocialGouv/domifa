@@ -5,7 +5,7 @@ import {
 } from "../../../database";
 import { passwordGenerator } from "../../../util/encoding/passwordGenerator.service";
 import { UserSecurity } from "../../../_common/model";
-import { RegisterUserAdminDto } from "../dto/register-user-admin.dto";
+import { RegisterUserStructureAdminDto } from "../../portail-admin/dto/register-user-structure-admin.dto";
 import { UserDto } from "../dto/user.dto";
 import { UserStructureRole } from "@domifa/common";
 import { userSecurityResetPasswordInitiator } from "./userSecurityResetPasswordInitiator.service";
@@ -51,7 +51,7 @@ async function createUserWithPassword(
 }
 
 async function createUserWithTmpToken(
-  userDto: RegisterUserAdminDto
+  userDto: RegisterUserStructureAdminDto
 ): Promise<{ user: UserStructureTable; userSecurity: UserSecurity }> {
   const createdUser = new UserStructureTable(userDto);
 

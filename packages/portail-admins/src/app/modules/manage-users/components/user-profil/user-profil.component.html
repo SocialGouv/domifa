@@ -7,7 +7,9 @@
 <div class="content py-3" *ngIf="me">
   <div class="container py-3">
     <div class="page-content p-3">
-      <h2>Utilisateurs enregistrés: {{ users.length }} utilisateurs</h2>
+      <h2 class="title">
+        Utilisateurs enregistrés: {{ users.length }} utilisateurs
+      </h2>
       <div class="table-responsive">
         <table class="table" [attr.aria-rowcount]="users.length">
           <caption class="visually-hidden">
@@ -88,9 +90,8 @@
                 </p>
               </td>
               <td>
-                <ng-container *ngIf="me.role !== 'super-admin-domifa'">{{
-                  USER_ROLES_LABELS[user.role]
-                }}</ng-container>
+                {{ USER_SUPERVISOR_ROLES_LABELS | json }}
+                {{ USER_SUPERVISOR_ROLES_LABELS[user.role] }}
                 <ng-container
                   *ngIf="me.role === 'super-admin-domifa' && me.id !== user.id"
                 >

@@ -14,6 +14,7 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import {
   PortailAdminUser,
   SortValues,
+  USER_SUPERVISOR_ROLES_LABELS,
   UserSupervisor,
   UserSupervisorRole,
 } from "@domifa/common";
@@ -39,12 +40,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   public newReferrerId: number | null = null;
   public expectedRole: UserSupervisorRole | null = null;
 
-  public readonly USER_ROLES_LABELS: { [key in UserSupervisorRole]: string } = {
-    "super-admin-domifa": "Administrateur",
-    national: "Gestionnaire",
-    department: "Instructeur",
-    region: "Facteur",
-  };
+  public readonly USER_SUPERVISOR_ROLES_LABELS = USER_SUPERVISOR_ROLES_LABELS;
 
   @ViewChild("deleteUserConfirmation", { static: true })
   public deleteUserConfirmation!: TemplateRef<NgbModalRef>;
@@ -56,6 +52,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     private readonly toastService: CustomToastService,
     private readonly titleService: Title
   ) {
+    console.log(USER_SUPERVISOR_ROLES_LABELS);
     this.users = [];
     this.sortValue = "asc";
     this.currentKey = "nom";

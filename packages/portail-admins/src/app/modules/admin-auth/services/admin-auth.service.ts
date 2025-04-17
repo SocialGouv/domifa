@@ -12,7 +12,6 @@ import { getCurrentScope } from "@sentry/angular";
 import { PortailAdminAuthApiResponse, PortailAdminUser } from "@domifa/common";
 
 const END_POINT_AUTH = environment.apiUrl + "portail-admins/auth";
-const END_POINT_PROFILE = environment.apiUrl + "portail-admins/profile";
 
 const TOKEN_KEY = "admin-auth-token";
 const USER_KEY = "admin-auth-datas";
@@ -28,8 +27,10 @@ export class AdminAuthService {
     private readonly router: Router,
     private readonly toastr: CustomToastService
   ) {
+    const storedUser = window.sessionStorage.getItem(USER_KEY);
+    const initialUser = storedUser ? JSON.parse(storedUser) : null;
     this.currentAdminSubject = new BehaviorSubject<PortailAdminUser | null>(
-      null
+      initialUser
     );
   }
 
@@ -47,7 +48,7 @@ export class AdminAuthService {
       return of(false);
     }
 
-    return this.http.get<PortailAdminUser>(`${END_POINT_PROFILE}/me`).pipe(
+    return this.http.get<PortailAdminUser>(`${END_POINT_AUTH}/me`).pipe(
       map((portailAdminProfile: PortailAdminUser) => {
         this.saveAuthAdmin(portailAdminProfile);
         return true;
@@ -74,17 +75,9 @@ export class AdminAuthService {
     getCurrentScope().setUser({});
   }
 
-  public logoutAndRedirect({
-    redirectToAfterLogin,
-  }: {
-    redirectToAfterLogin?: string;
-  } = {}): void {
+  public logoutAndRedirect(): void {
     this.logout();
-    this.router.navigate(["/auth/login"], {
-      queryParams: {
-        redirectToAfterLogin,
-      },
-    });
+    this.router.navigate(["/auth/login"]);
   }
 
   public notAuthorized(): void {
@@ -97,7 +90,6 @@ export class AdminAuthService {
   }
 
   public saveToken(apiAuthResponse: PortailAdminAuthApiResponse): void {
-    // Enregistrement du token
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.setItem(TOKEN_KEY, apiAuthResponse.token);
 
@@ -106,7 +98,6 @@ export class AdminAuthService {
   }
 
   public saveAuthAdmin(authAdminProfile: PortailAdminUser): void {
-    console.log({ authAdminProfile });
     // Enregistrement de l'utilisateur
     window.sessionStorage.removeItem(USER_KEY);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(authAdminProfile));

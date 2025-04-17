@@ -1,12 +1,12 @@
+import { UserStructureRole, UserSupervisorRole } from "@domifa/common";
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { addLogContext, appLogger } from "../../util";
-import { UserProfile, UserStructureAuthenticated } from "../../_common/model";
-import { authChecker } from "../services";
-import { expiredTokenRepositiory } from "../../database";
-import { UserStructureRole, UserSupervisorRole } from "@domifa/common";
 import { getCurrentScope } from "@sentry/node";
+import { UserProfile, UserStructureAuthenticated } from "../../_common/model";
 import { UserSupervisorAuthenticated } from "../../_common/model/users/user-supervisor";
+import { expiredTokenRepositiory } from "../../database";
+import { addLogContext, appLogger } from "../../util";
+import { authChecker } from "../services";
 
 @Injectable()
 export class AppUserGuard implements CanActivate {

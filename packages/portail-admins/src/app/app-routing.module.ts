@@ -6,7 +6,6 @@ import { CguComponent } from "./modules/general/components/static-pages/cgu/cgu.
 import { MentionsLegalesComponent } from "./modules/general/components/static-pages/mentions-legales/mentions-legales.component";
 import { PolitiqueComponent } from "./modules/general/components/static-pages/politique/politique.component";
 import { PlanSiteComponent } from "./modules/general/components/static-pages/plan-site/plan-site.component";
-import { RolesGuard } from "./guards/roles-guards";
 
 const routes: Routes = [
   {
@@ -18,7 +17,7 @@ const routes: Routes = [
   },
   {
     path: "structures",
-    canActivate: [AuthGuard, RolesGuard],
+    canActivate: [AuthGuard],
     data: {
       roles: ["super-admin-domifa"],
     },
@@ -28,13 +27,19 @@ const routes: Routes = [
       ),
   },
   {
+    path: "stats",
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import("./modules/stats/stats.module").then((m) => m.StatsModule),
+  },
+  {
     path: "users",
     loadChildren: () =>
       import("./modules/users/users.module").then((m) => m.UsersModule),
   },
   {
     path: "structure",
-    canActivate: [AuthGuard, RolesGuard],
+    canActivate: [AuthGuard],
     data: {
       roles: ["super-admin-domifa"],
     },
@@ -45,7 +50,7 @@ const routes: Routes = [
   },
   {
     path: "manage-users",
-    canActivate: [AuthGuard, RolesGuard],
+    canActivate: [AuthGuard],
     data: {
       roles: ["super-admin-domifa"],
     },
@@ -56,13 +61,13 @@ const routes: Routes = [
   },
   {
     path: "structures-confirm",
-    canActivate: [AuthGuard, RolesGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import(
         "./modules/admin-structures-confirm/admin-structures-confirm.module"
       ).then((m) => m.AdminStructuresConfirmModule),
   },
-  { path: "", redirectTo: "/structures/rapports", pathMatch: "full" },
+  { path: "", redirectTo: "/stats", pathMatch: "full" },
   { path: "mentions-legales", component: MentionsLegalesComponent },
   { path: "plan-site", component: PlanSiteComponent },
   { path: "confidentialite", component: PolitiqueComponent },
