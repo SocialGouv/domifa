@@ -1,3 +1,10 @@
+## [2.198.12](https://github.com/SocialGouv/domifa/compare/v2.198.11...v2.198.12) (2025-04-17)
+
+
+### Bug Fixes
+
+* **frontend:** add hidden fields in tally ([c7a2605](https://github.com/SocialGouv/domifa/commit/c7a260519c9abd4be7bc2cd8f47249f8fe0eb88e))
+
 ## [2.198.11](https://github.com/SocialGouv/domifa/compare/v2.198.10...v2.198.11) (2025-04-16)
 
 
