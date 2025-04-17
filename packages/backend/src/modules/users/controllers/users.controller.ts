@@ -36,7 +36,6 @@ import {
 import {
   UpdateRoleDto,
   UserEditDto,
-  RegisterUserAdminDto,
   EditMyPasswordDto,
   NewReferrerIdDto,
 } from "../dto";
@@ -46,6 +45,7 @@ import {
   userStructureSecurityPasswordUpdater,
 } from "../services";
 import { userAccountCreatedByAdminEmailSender } from "../../mails/services/templates-renderers";
+import { RegisterUserStructureAdminDto } from "../../portail-admin";
 
 const userProfile: UserProfile = "structure";
 
@@ -234,16 +234,13 @@ export class UsersController {
     return res.status(HttpStatus.OK).json(userToUpdate);
   }
 
-  // Ajout d'utilisateur par un admin
-  // TODO: update this to add users from admin
   @Post("register")
   @AllowUserProfiles("structure")
   @AllowUserStructureRoles("admin")
-  @ApiOperation({ summary: "Ajout d'un utilisateur par un admin" })
   public async registerUser(
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response,
-    @Body() registerUserDto: RegisterUserAdminDto
+    @Body() registerUserDto: RegisterUserStructureAdminDto
   ): Promise<any> {
     const userExist = await userStructureRepository.findOneBy({
       email: registerUserDto.email.toLowerCase(),

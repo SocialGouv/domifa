@@ -2,7 +2,7 @@ import { UserStructureRole } from "@domifa/common";
 import { userStructureSecurityRepository } from "../../../../database";
 import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
 import { AppTestHelper } from "../../../../util/test";
-import { RegisterUserAdminDto } from "../../dto/register-user-admin.dto";
+import { RegisterUserStructureAdminDto } from "../../../portail-admin/dto/register-user-structure-admin.dto";
 import { UserDto } from "../../dto/user.dto";
 import { userStructureCreator } from "../user-structure-creator.service";
 import { usersDeletor } from "../users-deletor.service";
@@ -55,7 +55,7 @@ describe("userStructureCreator", () => {
   it("createUserWithTmpToken", async () => {
     const structureId = 2;
     const role: UserStructureRole = "facteur";
-    const userAttributes: RegisterUserAdminDto = {
+    const userAttributes: RegisterUserStructureAdminDto = {
       email: "newUser2@test.com",
       nom: "Smith",
       prenom: "Tom",

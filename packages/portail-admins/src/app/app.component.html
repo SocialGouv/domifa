@@ -57,15 +57,59 @@
       />
       <span class="nav-brand">Administration de DomiFa</span>
     </a>
-    <button
-      type="button"
-      class="btn btn-outline-primary"
-      *ngIf="adminProfile"
-      (click)="logout()"
-    >
-      <fa-icon aria-hidden="true" [icon]="['fas', 'sign-out-alt']"> </fa-icon>
-      Déconnexion
-    </button>
+    <div>
+      <div
+        *ngIf="adminProfile?.role === 'super-admin-domifa'"
+        ngbDropdown
+        class="d-inline-block me-2"
+      >
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          id="dropdownBasic1"
+          ngbDropdownToggle
+        >
+          Menu
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <a
+            ngbDropdownItem
+            class="btn btn-outline-primary"
+            routerLink="/stats"
+          >
+            <fa-icon [icon]="faChartBar" aria-hidden="true"></fa-icon>
+            Statistiques
+          </a>
+          <a
+            ngbDropdownItem
+            class="btn btn-outline-primary"
+            routerLink="/structures"
+          >
+            <fa-icon [icon]="faChartBar" aria-hidden="true"></fa-icon>
+            Structures
+          </a>
+          <a
+            ngbDropdownItem
+            class="btn btn-outline-primary"
+            routerLink="/manage-users"
+          >
+            <fa-icon [icon]="faUsers" aria-hidden="true"></fa-icon>
+
+            Utilisateurs
+          </a>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        *ngIf="adminProfile"
+        (click)="logout()"
+      >
+        <fa-icon aria-hidden="true" [icon]="['fas', 'sign-out-alt']"> </fa-icon>
+        Déconnexion
+      </button>
+    </div>
   </nav>
 </header>
 <main role="main" id="page">

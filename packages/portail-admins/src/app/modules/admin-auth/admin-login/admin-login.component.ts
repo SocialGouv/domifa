@@ -6,7 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { regexp } from "../../../shared/utils/validators";
 import { CustomToastService } from "../../shared/services/custom-toast.service";
 import { PortailAdminAuthLoginForm } from "../model";
@@ -25,11 +25,8 @@ export class AdminLoginComponent implements OnInit {
   public hidePassword: boolean;
   public loading: boolean;
 
-  private redirectToAfterLogin?: string;
-
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
-    private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly titleService: Title,
     private readonly authService: AdminAuthService,
@@ -40,8 +37,6 @@ export class AdminLoginComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.redirectToAfterLogin =
-      this.route.snapshot.queryParams.redirectToAfterLogin;
     this.titleService.setTitle("Connexion à DomiFa");
     this.initForm();
   }
@@ -76,13 +71,15 @@ export class AdminLoginComponent implements OnInit {
         this.toastr.error("Login et / ou mot de passe incorrect");
       },
       next: (apiAuthResponse: PortailAdminAuthApiResponse) => {
+        console.log(apiAuthResponse.user);
         this.toastr.success("Connexion réussie");
         this.authService.saveToken(apiAuthResponse);
         this.loading = false;
-        if (this.redirectToAfterLogin) {
-          this.router.navigateByUrl(this.redirectToAfterLogin);
+
+        if (apiAuthResponse.user.role !== "super-admin-domifa") {
+          this.router.navigate(["/stats"]);
         } else {
-          this.router.navigate(["/structures/rapports"]);
+          this.router.navigate(["/structures"]);
         }
       },
     });

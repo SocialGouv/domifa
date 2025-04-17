@@ -25,7 +25,7 @@ import {
 import { CustomToastService } from "../../../shared/services";
 
 import { UserSupervisor } from "@domifa/common";
-import { UsersService } from "../../../users/services";
+import { ManageUsersService } from "../../services/manage-users.service";
 
 export type FormEmailTakenValidator = Observable<null | {
   emailTaken: boolean;
@@ -59,7 +59,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
-    private readonly usersService: UsersService,
+    private readonly manageUsersService: ManageUsersService,
     private readonly toastService: CustomToastService
   ) {
     this.user = null;
@@ -70,17 +70,17 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.userForm = this.formBuilder.group({
       email: [
-        this.user?.email,
+        null,
         [Validators.required, EmailValidator],
         this.validateEmailNotTaken.bind(this),
       ],
       nom: [
-        this.user.nom,
+        null,
         [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
-      role: [this.user.role, Validators.required],
+      role: ["national", Validators.required],
       prenom: [
-        this.user.prenom,
+        null,
         [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
     });
@@ -96,7 +96,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
     } else {
       this.loading = true;
       this.subscription.add(
-        this.usersService.registerUser(this.userForm.value).subscribe({
+        this.manageUsersService.registerUser(this.userForm.value).subscribe({
           next: () => {
             this.loading = false;
             this.submitted = false;
@@ -121,7 +121,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
     control: AbstractControl
   ): FormEmailTakenValidator {
     return isEmail(control.value)
-      ? this.usersService.validateEmail(control.value).pipe(
+      ? this.manageUsersService.validateEmail(control.value).pipe(
           takeUntil(this.unsubscribe),
           map((res: boolean) => {
             return res === false ? null : { emailTaken: true };

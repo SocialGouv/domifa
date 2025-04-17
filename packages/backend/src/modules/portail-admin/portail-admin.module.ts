@@ -6,20 +6,26 @@ import { AppLogsService } from "../app-logs/app-logs.service";
 import { AdminStructuresController } from "./controllers/admin-structures/admin-structures.controller";
 import { AdminStructuresDeleteController } from "./controllers/admin-structures-delete/admin-structures-delete.controller";
 import { PortailAdminLoginController } from "./controllers/portail-admin-login/portail-admin-login.controller";
-import { PortailAdminProfileController } from "./controllers/portail-admin-profile.controller";
 import { AdminStructuresService } from "./services";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
 import { NationalStatsController } from "./controllers/national-stats/national-stats.controller";
+import { AdminUsersController } from "./controllers/admin-users/admin-users.controller";
+import { AdminSuperivorUsersService } from "./services/admin-superivor-users/admin-superivor-users.service";
 
 @Module({
   controllers: [
     AdminStructuresController,
     AdminStructuresDeleteController,
     PortailAdminLoginController,
-    PortailAdminProfileController,
     NationalStatsController,
+    AdminUsersController,
   ],
   imports: [AuthModule],
-  providers: [AppLogsService, AdminStructuresService, FileManagerService],
+  providers: [
+    AppLogsService,
+    AdminStructuresService,
+    FileManagerService,
+    AdminSuperivorUsersService,
+  ],
 })
 export class PortailAdminModule {}

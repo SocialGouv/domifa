@@ -5,30 +5,46 @@ import { userStructureRepository } from "../../../database";
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
   UserAdminAuthenticated,
-  UserAdminJwtPayload,
+  UserSupervisorJwtPayload,
 } from "../../../_common/model";
 import { portailAdminProfilBuilder } from "./portail-admin-profil-builder.service";
-import { CommonUser, PortailAdminUser } from "@domifa/common";
+import {
+  PortailAdminAuthApiResponse,
+  PortailAdminUser,
+  UserSupervisor,
+} from "@domifa/common";
 
 @Injectable()
 export class AdminsAuthService {
   constructor(private readonly jwtService: JwtService) {}
 
-  public login(user: CommonUser) {
-    const payload: UserAdminJwtPayload = {
+  public login(user: UserSupervisor) {
+    const payload: UserSupervisorJwtPayload = {
       _jwtPayloadVersion: CURRENT_JWT_PAYLOAD_VERSION,
       _userId: user.id,
       _userProfile: "supervisor",
-      userId: user.id,
       lastLogin: user.lastLogin,
+      id: user.id,
+      userId: user.id,
     };
-    return {
-      access_token: this.jwtService.sign(payload),
+
+    const response: PortailAdminAuthApiResponse = {
+      token: this.jwtService.sign(payload),
+      user: {
+        id: user.id,
+        email: user.email,
+        nom: user.nom,
+        role: user.role,
+        prenom: user.prenom,
+        verified: user.verified,
+        lastLogin: user.lastLogin,
+      },
     };
+    return response;
   }
 
   public async validateUserAdmin(
-    payload: UserAdminJwtPayload
+    payload: UserSupervisorJwtPayload
   ): Promise<false | UserAdminAuthenticated> {
     if (payload._userProfile !== "supervisor") {
       return false;
@@ -49,7 +65,7 @@ export class AdminsAuthService {
   }
 
   public async findAuthUserAdmin(
-    payload: Pick<UserAdminJwtPayload, "_userId">
+    payload: Pick<UserSupervisorJwtPayload, "_userId">
   ): Promise<UserAdminAuthenticated> {
     const user: PortailAdminUser = await portailAdminProfilBuilder.build({
       userId: payload._userId,
