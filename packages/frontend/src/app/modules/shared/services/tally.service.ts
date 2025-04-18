@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from "@angular/core";
 import { isValid, differenceInDays } from "date-fns";
-import { AuthService } from "./auth.service";
 import {
   DEPARTEMENTS_LISTE,
   REGIONS_LISTE,
   USER_STRUCTURE_ROLES_LABELS,
+  UserStructure,
 } from "@domifa/common";
 
 export type TallyOptions = {
@@ -58,11 +58,11 @@ export class TallyService {
   private readonly DISPLAY_INTERVAL_DAYS = 5;
   private readonly SUBMITTED_KEY = `${this.FORM_ID}_submitted`;
 
-  constructor(private readonly authService: AuthService) {}
+  constructor() {}
 
-  public openTally(): void {
+  public openTally(user: UserStructure): void {
     if (this.shouldDisplayTally()) {
-      this.showTallyAndSaveDate();
+      this.showTallyAndSaveDate(user);
     }
   }
 
@@ -96,11 +96,9 @@ export class TallyService {
     }
   }
 
-  private showTallyAndSaveDate(): void {
+  private showTallyAndSaveDate(user: UserStructure): void {
     const currentDate = new Date().getTime().toString();
     localStorage.setItem(this.STORAGE_KEY, currentDate);
-
-    const user = this.authService.currentUserValue;
 
     const departement = `${user.structure.departement} - ${
       DEPARTEMENTS_LISTE[user.structure.region]
@@ -114,6 +112,7 @@ export class TallyService {
       departement: departement,
       logiciel_domiciliation: "domifa",
       source: "domifa",
+      structureId: user.structureId,
       role: USER_STRUCTURE_ROLES_LABELS[user.role],
       region: REGIONS_LISTE[user.structure.region],
       nom_prenom_fonction: `${user.nom} ${user.prenom} (${
