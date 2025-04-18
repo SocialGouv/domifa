@@ -61,6 +61,7 @@ import {
   calculateUsagersCountByStatus,
   usagersSorter,
 } from "../usager-filter/services";
+import { TallyService } from "../../../shared/services/tally.service";
 
 const FIVE_MINUTES = 5 * 60 * 1000;
 const STORAGE_KEY = "SEARCH";
@@ -138,7 +139,8 @@ export class ManageUsagersPageComponent
     private readonly titleService: Title,
     private readonly store: Store<UsagerState>,
     private readonly matomo: MatomoTracker,
-    private readonly toastr: CustomToastService
+    private readonly toastr: CustomToastService,
+    private readonly tallyService: TallyService
   ) {
     this.me = this.authService.currentUserValue;
     this.nbResults = 0;
@@ -164,6 +166,8 @@ export class ManageUsagersPageComponent
     if (!this.me?.acceptTerms) {
       return;
     }
+
+    this.tallyService.openTally(this.me);
 
     this.searchInput.nativeElement.value = this.filters.searchString;
 

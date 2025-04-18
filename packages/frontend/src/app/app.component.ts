@@ -25,7 +25,6 @@ import { fadeInOut } from "./shared";
 import DOMIFA_NEWS from "../assets/files/news.json";
 import { LIENS_PARTENAIRES } from "./modules/general/components/plan-site/LIENS_PARTENAIRES.const";
 import { UserStructure } from "@domifa/common";
-import { TallyService } from "./modules/shared/services/tally.service";
 
 @Component({
   animations: [fadeInOut],
@@ -67,7 +66,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly toastService: CustomToastService,
     private readonly formBuilder: FormBuilder,
     private readonly modalService: NgbModal,
-    private readonly tallyService: TallyService,
+
     public matomo: MatomoTracker
   ) {
     this.apiVersion = localStorage.getItem("version");
@@ -151,7 +150,6 @@ export class AppComponent implements OnInit, OnDestroy {
             this.initCguForm();
           } else {
             this.checkNews();
-            this.tallyService.openTally();
           }
         }
       },

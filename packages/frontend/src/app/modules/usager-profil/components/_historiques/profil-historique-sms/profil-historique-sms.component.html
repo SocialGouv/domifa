@@ -22,6 +22,7 @@
         <th scope="col">Date d'envoi</th>
         <th scope="col">Statut</th>
         <th scope="col">Type de SMS</th>
+        <th scope="col">Numéro de téléphone</th>
         <th scope="col">Contenu</th>
       </tr>
     </thead>
@@ -35,6 +36,7 @@
         </td>
         <td>{{ SMS_STATUS_LABELS[sms.status] }}</td>
         <td>{{ SMS_LABELS[sms.smsId] }}</td>
+        <td>{{ sms.phoneNumber }}</td>
         <td>{{ sms.content }}</td>
       </tr>
     </tbody>
