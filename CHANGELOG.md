@@ -1,3 +1,10 @@
+## [2.198.13](https://github.com/SocialGouv/domifa/compare/v2.198.12...v2.198.13) (2025-04-19)
+
+
+### Bug Fixes
+
+* **tally:** fix tally front data ([3983ae1](https://github.com/SocialGouv/domifa/commit/3983ae148314a106279a4ff9df4981a651c0c560))
+
 ## [2.198.12](https://github.com/SocialGouv/domifa/compare/v2.198.11...v2.198.12) (2025-04-17)
 
 
