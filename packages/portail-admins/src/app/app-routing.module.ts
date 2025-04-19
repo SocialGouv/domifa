@@ -18,17 +18,45 @@ const routes: Routes = [
   {
     path: "structures",
     canActivate: [AuthGuard],
+    data: {
+      roles: ["super-admin-domifa"],
+    },
     loadChildren: () =>
       import("./modules/admin-structures/admin-structures.module").then(
         (m) => m.AdminStructuresModule
       ),
   },
   {
+    path: "stats",
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import("./modules/stats/stats.module").then((m) => m.StatsModule),
+  },
+  {
+    path: "users",
+    loadChildren: () =>
+      import("./modules/users/users.module").then((m) => m.UsersModule),
+  },
+  {
     path: "structure",
     canActivate: [AuthGuard],
+    data: {
+      roles: ["super-admin-domifa"],
+    },
     loadChildren: () =>
       import("./modules/structure/structure.module").then(
         (m) => m.StructureModule
+      ),
+  },
+  {
+    path: "manage-users",
+    canActivate: [AuthGuard],
+    data: {
+      roles: ["super-admin-domifa"],
+    },
+    loadChildren: () =>
+      import("./modules/manage-users/manage-users.module").then(
+        (m) => m.ManageUsersModule
       ),
   },
   {
@@ -39,7 +67,7 @@ const routes: Routes = [
         "./modules/admin-structures-confirm/admin-structures-confirm.module"
       ).then((m) => m.AdminStructuresConfirmModule),
   },
-  { path: "", redirectTo: "/structures/rapports", pathMatch: "full" },
+  { path: "", redirectTo: "/stats", pathMatch: "full" },
   { path: "mentions-legales", component: MentionsLegalesComponent },
   { path: "plan-site", component: PlanSiteComponent },
   { path: "confidentialite", component: PolitiqueComponent },

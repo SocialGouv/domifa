@@ -56,8 +56,10 @@ async function createTables(queryRunner: QueryRunner) {
       "version" int4 NOT NULL,
       "userId" int4 NOT NULL,
       "usagerRef" int4 NULL,
-      "structureId" int4 NOT NULL,
+      "structureId" int4 NULL,
       "action" text NOT NULL,
+      "role" text NULL,
+      "createdBy" text NULL,
       CONSTRAINT "PK_69f8faf72fa4038748e4e3f3fbe" PRIMARY KEY (uuid)
     );
 
@@ -151,23 +153,6 @@ async function createTables(queryRunner: QueryRunner) {
     );
 
 
-    -- public.spatial_ref_sys definition
-
-    -- Drop table
-
-    -- DROP TABLE public.spatial_ref_sys;
-
-    CREATE TABLE public.spatial_ref_sys (
-      srid int4 NOT NULL,
-      auth_name varchar(256) NULL,
-      auth_srid int4 NULL,
-      srtext varchar(2048) NULL,
-      proj4text varchar(2048) NULL,
-      CONSTRAINT spatial_ref_sys_pkey PRIMARY KEY (srid),
-      CONSTRAINT spatial_ref_sys_srid_check CHECK (((srid > 0) AND (srid <= 998999)))
-    );
-
-
     -- public."structure" definition
 
     -- Drop table
@@ -218,7 +203,6 @@ async function createTables(queryRunner: QueryRunner) {
       CONSTRAINT "UQ_b36e92e49b2a68f8fea64ec8d5b" UNIQUE (email)
     );
     CREATE INDEX "IDX_30c4985e1148ec42ad6122f0ff" ON public.structure USING btree ("structureType");
-    CREATE INDEX "IDX_62204f14a6d17cad41d419d150" ON public.structure USING btree ("codePostal");
     CREATE INDEX "IDX_90ac7986e769d602d218075215" ON public.structure USING btree (id);
     CREATE INDEX "IDX_b36e92e49b2a68f8fea64ec8d5" ON public.structure USING btree (email);
     CREATE INDEX "IDX_e848a2cfbd611ec5edc18074e2" ON public.structure USING btree (region);
@@ -237,6 +221,37 @@ async function createTables(queryRunner: QueryRunner) {
       "name" varchar(255) NULL,
       value text NULL
     );
+
+
+    -- public.user_supervisor definition
+
+    -- Drop table
+
+    -- DROP TABLE public.user_supervisor;
+
+    CREATE TABLE public.user_supervisor (
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
+      "version" int4 NOT NULL,
+      email text NOT NULL,
+      fonction text NULL,
+      id serial4 NOT NULL,
+      "lastLogin" timestamptz NULL,
+      nom text NOT NULL,
+      "password" text NOT NULL,
+      prenom text NOT NULL,
+      "passwordLastUpdate" timestamptz NULL,
+      verified bool DEFAULT true NOT NULL,
+      "acceptTerms" timestamptz NULL,
+      territories jsonb DEFAULT '[]'::jsonb NOT NULL,
+      "role" text NOT NULL,
+      CONSTRAINT "PK_fd859b169ff3833fed4b4769aa4" PRIMARY KEY (uuid),
+      CONSTRAINT "UQ_c2d4b5706fc542d95a0bf13869b" UNIQUE (email),
+      CONSTRAINT "UQ_eba1b8ef0f72cb0dd4997307145" UNIQUE (id)
+    );
+    CREATE INDEX "IDX_c2d4b5706fc542d95a0bf13869" ON public.user_supervisor USING btree (email);
+    CREATE INDEX "IDX_eba1b8ef0f72cb0dd499730714" ON public.user_supervisor USING btree (id);
 
 
     -- public.message_sms definition
@@ -647,8 +662,6 @@ async function createTables(queryRunner: QueryRunner) {
       "passwordLastUpdate" timestamptz NULL,
       verified bool DEFAULT true NOT NULL,
       "acceptTerms" timestamptz NULL,
-      territories text NULL,
-      "userRightStatus" text DEFAULT 'structure'::text NOT NULL,
       CONSTRAINT "PK_a58dc229068f494a0360b170322" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_22a5c4a3d9b2fb8e4e73fc4ada1" UNIQUE (id),
       CONSTRAINT "UQ_3fa909d0e37c531ebc237703391" UNIQUE (email),
@@ -671,15 +684,32 @@ async function createTables(queryRunner: QueryRunner) {
       "updatedAt" timestamptz DEFAULT now() NOT NULL,
       "version" int4 NOT NULL,
       "userId" int4 NOT NULL,
-      "structureId" int4 NOT NULL,
       "temporaryTokens" jsonb NULL,
       "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
       CONSTRAINT "PK_a617f0127221193d06271877ae0" PRIMARY KEY (uuid),
-      CONSTRAINT "FK_0389a8aa8e69b2d17210745d040" FOREIGN KEY ("userId") REFERENCES public.user_structure(id) ON DELETE CASCADE,
-      CONSTRAINT "FK_57be1bdd772eb3fea1e201317e6" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
+      CONSTRAINT "FK_0389a8aa8e69b2d17210745d040" FOREIGN KEY ("userId") REFERENCES public.user_structure(id) ON DELETE CASCADE
     );
     CREATE INDEX "IDX_0389a8aa8e69b2d17210745d04" ON public.user_structure_security USING btree ("userId");
-    CREATE INDEX "IDX_57be1bdd772eb3fea1e201317e" ON public.user_structure_security USING btree ("structureId");
+
+
+    -- public.user_supervisor_security definition
+
+    -- Drop table
+
+    -- DROP TABLE public.user_supervisor_security;
+
+    CREATE TABLE public.user_supervisor_security (
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
+      "version" int4 NOT NULL,
+      "userId" int4 NOT NULL,
+      "temporaryTokens" jsonb NULL,
+      "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
+      CONSTRAINT "PK_afc34ab2b3531b41455a9e016b5" PRIMARY KEY (uuid),
+      CONSTRAINT "FK_94c17da6c8fc82ac679eefd3ecb" FOREIGN KEY ("userId") REFERENCES public.user_supervisor(id) ON DELETE CASCADE
+    );
+    CREATE INDEX "IDX_94c17da6c8fc82ac679eefd3ec" ON public.user_supervisor_security USING btree ("userId");
 
 
     -- public.user_usager definition

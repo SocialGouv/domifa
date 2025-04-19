@@ -14,10 +14,10 @@ import { messageSmsRepository } from "../../database";
 @Controller("sms")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("structure")
+@AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
 @ApiTags("sms")
 export class SmsController {
   @ApiBearerAuth()
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @UseGuards(UsagerAccessGuard)
   @Get("usager/:usagerRef")
   public async getUsagerSms(@CurrentUsager() currentUsager: Usager) {

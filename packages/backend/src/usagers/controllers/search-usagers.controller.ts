@@ -22,7 +22,11 @@ import {
   USER_STRUCTURE_ROLE_ALL,
   UserStructureAuthenticated,
 } from "../../_common/model";
-import { AllowUserStructureRoles, CurrentUser } from "../../auth/decorators";
+import {
+  AllowUserProfiles,
+  AllowUserStructureRoles,
+  CurrentUser,
+} from "../../auth/decorators";
 import { AppUserGuard } from "../../auth/guards";
 import {
   usagerRepository,
@@ -34,10 +38,11 @@ import { SearchUsagerDto } from "../dto";
 
 @Controller("search-usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
+@AllowUserProfiles("structure")
+@AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
 @ApiBearerAuth()
 export class SearchUsagersController {
   @Get()
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   public async findAllByStructure(
     @Query("chargerTousRadies", new ParseBoolPipe())
     chargerTousRadies: boolean,
@@ -92,7 +97,6 @@ export class SearchUsagersController {
   }
 
   @Get("update-manage")
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   public async updateManage(@CurrentUser() user: UserStructureAuthenticated) {
     return await usagerRepository
       .createQueryBuilder()
@@ -108,7 +112,6 @@ export class SearchUsagersController {
   }
 
   @Post("search-radies")
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   public async searchInRadies(
     @Body() search: SearchUsagerDto,
     @CurrentUser() user: UserStructureAuthenticated

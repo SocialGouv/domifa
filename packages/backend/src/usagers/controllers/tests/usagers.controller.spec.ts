@@ -1,5 +1,5 @@
 import { UsagersModule } from "./../../usagers.module";
-import { UsersModule } from "../../../users/users.module";
+import { UsersModule } from "../../../modules/users/users.module";
 import {
   AppTestContext,
   AppTestHelper,
@@ -51,6 +51,7 @@ describe("Usagers Controller", () => {
 
     const authInfo =
       TESTS_USERS_STRUCTURE.BY_EMAIL["preprod.domifa@fabrique.social.gouv.fr"];
+
     await AppTestHelper.authenticateStructure(authInfo, { context });
 
     controller = context.module.get<UsagersController>(UsagersController);
@@ -61,7 +62,7 @@ describe("Usagers Controller", () => {
   });
 
   describe("> Création d'un domicilié", () => {
-    it("✅ OK", async () => {
+    it("✅ Instruction du dossier", async () => {
       const response = await AppTestHttpClient.post(ENDPOINT, {
         context,
         body: POST_USAGER.payload,
@@ -108,7 +109,7 @@ describe("Usagers Controller", () => {
       expect(responseDelete.body).toBeDefined();
     });
 
-    it("✅ OK avec datas supplémentaires qu'il ne faut pas récupérer", async () => {
+    it("✅ Instruction avec des informations qu'il ne faut pas enregistrer", async () => {
       const OK_DATAS_SUPP: any = {
         ...POST_USAGER.payload,
         decision: {

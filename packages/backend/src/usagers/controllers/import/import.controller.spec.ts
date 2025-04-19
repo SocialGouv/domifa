@@ -3,8 +3,8 @@ import { HttpStatus } from "@nestjs/common";
 import { pathExists } from "fs-extra";
 import { resolve } from "path";
 
-import { StructuresModule } from "../../../structures/structure.module";
-import { UsersModule } from "../../../users/users.module";
+import { StructuresModule } from "../../../modules/structures/structure.module";
+import { UsersModule } from "../../../modules/users/users.module";
 import {
   AppTestContext,
   AppTestHelper,

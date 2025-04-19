@@ -11,13 +11,16 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { AllowUserProfiles } from "../../../../auth/decorators";
+import {
+  AllowUserProfiles,
+  AllowUserSupervisorRoles,
+} from "../../../../auth/decorators";
 import { AppUserGuard } from "../../../../auth/guards";
 import { structureRepository } from "../../../../database";
-import { structureDeletorService } from "../../../../structures/services/structure-deletor.service";
+import { structureDeletorService } from "../../../structures/services/structure-deletor.service";
 import { ExpressResponse } from "../../../../util/express";
 import { ParseTokenPipe } from "../../../../_common/decorators";
-import { StructureConfirmationDto } from "../../_dto";
+import { StructureConfirmationDto } from "../../dto";
 import { FileManagerService } from "../../../../util/file-manager/file-manager.service";
 import { join } from "path";
 import { domifaConfig } from "../../../../config";
@@ -31,7 +34,8 @@ import { deleteStructureEmailSender } from "../../../mails/services/templates-re
 @ApiBearerAuth()
 export class AdminStructuresDeleteController {
   constructor(private readonly fileManagerService: FileManagerService) {}
-  @AllowUserProfiles("super-admin-domifa")
+  @AllowUserProfiles("supervisor")
+  @AllowUserSupervisorRoles("super-admin-domifa")
   @ApiBearerAuth()
   @Put("send-mail/:uuid")
   public async deleteSendInitialMail(
@@ -58,8 +62,9 @@ export class AdminStructuresDeleteController {
     }
   }
 
-  @AllowUserProfiles("super-admin-domifa")
+  @AllowUserProfiles("supervisor")
   @ApiBearerAuth()
+  @AllowUserSupervisorRoles("super-admin-domifa")
   @Put("check-token/:uuid/:token")
   public async deleteStructureCheck(
     @Res() res: ExpressResponse,
@@ -83,8 +88,9 @@ export class AdminStructuresDeleteController {
     }
   }
 
-  @AllowUserProfiles("super-admin-domifa")
+  @AllowUserProfiles("supervisor")
   @ApiBearerAuth()
+  @AllowUserSupervisorRoles("super-admin-domifa")
   @Delete("confirm-delete-structure")
   public async deleteStructureConfirm(
     @Res() res: ExpressResponse,

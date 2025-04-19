@@ -1,6 +1,5 @@
-import { UserAuthenticated } from "../user/UserAuthenticated.type";
-import { PortailAdminUser } from "./PortailAdminUser.type";
+import { PortailAdminUser } from "@domifa/common";
+import { UserAuthenticated } from "../users";
 
-export type UserAdminAuthenticated = UserAuthenticated<"super-admin-domifa"> & {
-  user: PortailAdminUser;
-};
+export type UserAdminAuthenticated = UserAuthenticated<"supervisor"> &
+  PortailAdminUser;

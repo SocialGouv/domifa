@@ -5,7 +5,7 @@ import { domifaConfig } from "../../config";
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
   UserAdminAuthenticated,
-  UserAdminJwtPayload,
+  UserSupervisorJwtPayload,
   UserStructureAuthenticated,
   UserStructureJwtPayload,
   UserUsagerAuthenticated,
@@ -32,7 +32,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     payload:
       | UserStructureJwtPayload
       | UserUsagerJwtPayload
-      | UserAdminJwtPayload
+      | UserSupervisorJwtPayload
   ): Promise<
     | false
     | UserUsagerAuthenticated
@@ -44,9 +44,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       return false;
     }
 
-    if (payload?._userProfile === "super-admin-domifa") {
+    if (payload?._userProfile === "supervisor") {
       return await this.adminsAuthService.validateUserAdmin(
-        payload as UserAdminJwtPayload
+        payload as UserSupervisorJwtPayload
       );
     } else if (payload?._userProfile === "structure") {
       return await this.structureAuthService.validateUserStructure(

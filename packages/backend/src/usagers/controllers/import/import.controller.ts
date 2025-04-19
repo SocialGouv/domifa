@@ -31,7 +31,10 @@ import {
   usagersImportValidator,
 } from "./step2-validate-row";
 
-import { AllowUserStructureRoles } from "../../../auth/decorators";
+import {
+  AllowUserProfiles,
+  AllowUserStructureRoles,
+} from "../../../auth/decorators";
 import { addYears, endOfDay, startOfYear } from "date-fns";
 import { remove } from "fs-extra";
 
@@ -72,6 +75,7 @@ const UsagersImportFileInterceptor = FileInterceptor("file", {
 @ApiTags("import")
 @ApiBearerAuth()
 @Controller("import")
+@AllowUserProfiles("structure")
 export class ImportController {
   constructor(private readonly importCreatorService: ImportCreatorService) {}
 

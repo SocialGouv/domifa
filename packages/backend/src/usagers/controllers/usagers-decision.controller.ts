@@ -18,11 +18,12 @@ import { usagerNotesRepository, usagerRepository } from "../../database";
 
 import { UserStructureAuthenticated } from "../../_common/model";
 import { CheckDuplicateUsagerRefDto, DecisionDto } from "../dto";
-import { UsagersService } from "../services";
+import { UsagerHistoryStateService, UsagersService } from "../services";
 import {
   AllowUserStructureRoles,
   CurrentUser,
   CurrentUsager,
+  AllowUserProfiles,
 } from "../../auth/decorators";
 import { AppUserGuard, UsagerAccessGuard } from "../../auth/guards";
 import { Not } from "typeorm";
@@ -35,12 +36,13 @@ import {
   Usager,
 } from "@domifa/common";
 import { format } from "date-fns";
-import { getLastInteractionOut } from "../../modules/interactions/services/getLastInteractionDate.service";
-import { UsagerHistoryStateService } from "../services/usagerHistoryState.service";
+import { getLastInteractionOut } from "../../modules/interactions/services";
 
 @Controller("usagers-decision")
 @ApiTags("usagers-decision")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
+@AllowUserStructureRoles("simple", "responsable", "admin")
+@AllowUserProfiles("structure")
 @ApiBearerAuth()
 export class UsagersDecisionController {
   constructor(
@@ -49,7 +51,6 @@ export class UsagersDecisionController {
   ) {}
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Post(":usagerRef")
   public async setDecision(
     @Body() decision: DecisionDto,
@@ -64,7 +65,6 @@ export class UsagersDecisionController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Get("last-usagers-refs/:usagerRef")
   public async getLastUsagerIds(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -79,7 +79,6 @@ export class UsagersDecisionController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   @Get("renouvellement/:usagerRef")
   public async renouvellement(
     @CurrentUser() user: UserStructureAuthenticated,

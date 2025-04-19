@@ -3,9 +3,9 @@ import { AuthModule } from "../../auth/auth.module";
 import { StructuresAuthService } from "../../auth/services";
 import { usagerRepository } from "../../database";
 import { SmsModule } from "../sms/sms.module";
-import { StructuresModule } from "../../structures/structure.module";
+import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
-import { UsersModule } from "../../users/users.module";
+import { UsersModule } from "../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 import { UserStructureAuthenticated } from "../../_common/model";
 import { InteractionDto } from "./dto";
@@ -47,7 +47,6 @@ describe("Interactions Controller", () => {
     user = await structureAuthService.findAuthUser({
       _userId: 2,
       _userProfile: "structure",
-      isSuperAdminDomifa: false,
     });
 
     usager = await usagerRepository.findOneBy({

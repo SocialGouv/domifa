@@ -19,6 +19,7 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 
 import {
+  AllowUserProfiles,
   AllowUserStructureRoles,
   CurrentUsagerDoc,
 } from "../../auth/decorators";
@@ -59,6 +60,8 @@ import { appLogger } from "../../util";
 @ApiTags("docs")
 @ApiBearerAuth()
 @Controller("docs")
+@AllowUserProfiles("structure")
+@AllowUserStructureRoles("simple", "responsable", "admin")
 export class UsagerDocsController {
   constructor(
     private readonly appLogsService: AppLogsService,
@@ -70,7 +73,6 @@ export class UsagerDocsController {
   })
   @Post(":usagerRef")
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   @UseInterceptors(
     FileInterceptor("file", {
       limits: FILES_SIZE_LIMIT,
@@ -146,7 +148,6 @@ export class UsagerDocsController {
 
   @Patch(":usagerRef/:docUuid")
   @UseGuards(UsagerAccessGuard, UsagerDocAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   public async patchDocument(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @Param("docUuid", new ParseUUIDPipe()) docUuid: string,
@@ -196,7 +197,6 @@ export class UsagerDocsController {
 
   @Delete(":usagerRef/:docUuid")
   @UseGuards(UsagerAccessGuard, UsagerDocAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   public async deleteDocument(
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @Param("docUuid", new ParseUUIDPipe()) _docUuid: string,
@@ -228,7 +228,6 @@ export class UsagerDocsController {
   }
 
   @Get(":usagerRef")
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   @UseGuards(UsagerAccessGuard)
   public async getUsagerDocuments(
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
@@ -242,7 +241,6 @@ export class UsagerDocsController {
 
   @Get(":usagerRef/:docUuid")
   @UseGuards(UsagerAccessGuard, UsagerDocAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   public async getDocument(
     @Param("docUuid", new ParseUUIDPipe()) docUuid: string,
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
