@@ -8,10 +8,10 @@ import { PASSWORD_VALIDATOR } from "../../PASSWORD_VALIDATOR.const";
 import { PasswordValidator } from "../../services";
 
 @Component({
-  selector: "app-user-structure-password-form",
-  templateUrl: "./user-structure-password-form.component.html",
+  selector: "app-user-supervisor-password-form",
+  templateUrl: "./user-supervisor-password-form.component.html",
 })
-export class UserStructurePasswordFormComponent {
+export class UserSupervisorPasswordFormComponent {
   @Input() public submitted!: boolean;
   @Input() public parentFormGroup!: UntypedFormGroup;
 

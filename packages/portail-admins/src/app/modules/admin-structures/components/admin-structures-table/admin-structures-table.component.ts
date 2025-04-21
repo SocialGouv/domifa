@@ -120,7 +120,7 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.adminStructuresApiClient
-        .postNewAdmin({
+        .registerUserStructureAdmin({
           ...this.newAdminForm.value,
           structureId: this.currentStructure?.id,
           structure: this.currentStructure,

@@ -7,7 +7,7 @@ import { TableHeadSortComponent } from "../shared/components/table-head-sort/tab
 import { SharedModule } from "../shared/shared.module";
 import { UserProfilComponent } from "./components/user-profil/user-profil.component";
 import { UsersModule } from "../users/users.module";
-import { RegisterUserAdminComponent } from "./components/register-user-admin/register-user-admin.component";
+import { RegisterUserSupervisorComponent } from "./components/register-user-supervisor/register-user-supervisor.component";
 import { ManageUsersRoutingModule } from "./manage-users-routing.module";
 import { DeleteUserComponent } from "./components/delete-user/delete-user.component";
 import { FullNamePipe, SortArrayPipe } from "../shared/pipes";
@@ -15,7 +15,7 @@ import { FullNamePipe, SortArrayPipe } from "../shared/pipes";
 @NgModule({
   declarations: [
     UserProfilComponent,
-    RegisterUserAdminComponent,
+    RegisterUserSupervisorComponent,
     DeleteUserComponent,
   ],
   imports: [

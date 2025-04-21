@@ -76,9 +76,11 @@ export class AdminStructuresApiClient {
     });
   }
 
-  public postNewAdmin(newAdmin: UserNewAdmin): Observable<ApiMessage> {
+  public registerUserStructureAdmin(
+    newAdmin: UserNewAdmin
+  ): Observable<ApiMessage> {
     return this.http.post<ApiMessage>(
-      `${BASE_URL}/register-new-admin`,
+      `${BASE_URL}/register-user-structure`,
       newAdmin
     );
   }

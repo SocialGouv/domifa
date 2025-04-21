@@ -41,3 +41,28 @@
   box-shadow: 0 0 0 0.1rem rgba(0, 0, 0, 0.1);
   background: rgb(192 196 209);
 }
+
+.content-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-size: 100% 200%;
+  display: block;
+  width: 100%;
+  min-height: 70vh;
+  background-image: linear-gradient(to bottom, #f2f2f2, transparent);
+  z-index: 50;
+}
+
+.content-overlay div {
+  margin: 50px auto;
+  text-align: center;
+}
+
+.content-overlay span {
+  width: 300px;
+  line-height: 100%;
+  color: var(--bs-primary);
+  font-size: 1.3rem;
+  font-weight: 600;
+}

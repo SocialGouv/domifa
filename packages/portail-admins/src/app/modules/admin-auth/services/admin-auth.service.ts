@@ -7,7 +7,7 @@ import { environment } from "../../../../environments/environment";
 
 import { CustomToastService } from "../../shared/services/custom-toast.service";
 import { appStore } from "../../shared/store/appStore.service";
-import { PortailAdminAuthLoginForm } from "../model";
+import { PortailAdminAuthLoginForm } from "../types";
 import { getCurrentScope } from "@sentry/angular";
 import { PortailAdminAuthApiResponse, PortailAdminUser } from "@domifa/common";
 

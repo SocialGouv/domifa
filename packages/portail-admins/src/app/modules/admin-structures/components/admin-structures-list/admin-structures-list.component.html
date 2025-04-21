@@ -58,7 +58,7 @@
 >
   <div>
     <fa-icon
-      [icon]="['fas', 'spinner']"
+      [icon]="faSpinner"
       class="spinner"
       [spin]="true"
       aria-hidden="true"
@@ -71,6 +71,7 @@
   *ngIf="this.filteredStructures && !searching"
   [structures]="this.structures"
   [filters]="this.filters"
+  @fadeInOut
   (sort)="sortDashboard($event)"
 ></app-admin-structures-table>
 

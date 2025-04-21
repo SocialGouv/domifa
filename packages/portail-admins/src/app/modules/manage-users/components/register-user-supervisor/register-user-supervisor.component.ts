@@ -33,10 +33,10 @@ export type FormEmailTakenValidator = Observable<null | {
 
 @Component({
   animations: [fadeInOut],
-  selector: "app-register-user-admin",
-  templateUrl: "./register-user-admin.component.html",
+  selector: "app-register-user-supervisor",
+  templateUrl: "./register-user-supervisor.component.html",
 })
-export class RegisterUserAdminComponent implements OnInit, OnDestroy {
+export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
   public user: UserSupervisor;
   public userForm!: UntypedFormGroup;
 
@@ -96,23 +96,25 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
     } else {
       this.loading = true;
       this.subscription.add(
-        this.manageUsersService.registerUser(this.userForm.value).subscribe({
-          next: () => {
-            this.loading = false;
-            this.submitted = false;
-            this.getUsers.emit();
-            this.form.nativeElement.reset();
-            this.toastService.success(
-              "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."
-            );
-          },
-          error: () => {
-            this.loading = false;
-            this.toastService.error(
-              "veuillez vérifier les champs marqués en rouge dans le formulaire"
-            );
-          },
-        })
+        this.manageUsersService
+          .registerUserSupervisor(this.userForm.value)
+          .subscribe({
+            next: () => {
+              this.loading = false;
+              this.submitted = false;
+              this.getUsers.emit();
+              this.form.nativeElement.reset();
+              this.toastService.success(
+                "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."
+              );
+            },
+            error: () => {
+              this.loading = false;
+              this.toastService.error(
+                "veuillez vérifier les champs marqués en rouge dans le formulaire"
+              );
+            },
+          })
       );
     }
   }
@@ -121,7 +123,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
     control: AbstractControl
   ): FormEmailTakenValidator {
     return isEmail(control.value)
-      ? this.manageUsersService.validateEmail(control.value).pipe(
+      ? this.manageUsersService.validateUserSuperivorEmail(control.value).pipe(
           takeUntil(this.unsubscribe),
           map((res: boolean) => {
             return res === false ? null : { emailTaken: true };

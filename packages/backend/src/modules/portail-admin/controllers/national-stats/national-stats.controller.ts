@@ -1,9 +1,10 @@
 import { REGIONS_LISTE, DEPARTEMENTS_MAP, Structure } from "@domifa/common";
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import { FindOptionsWhere } from "typeorm";
 import { UserAdminAuthenticated } from "../../../../_common/model";
 import { USER_SUPERVISOR_ROLES } from "../../../../_common/model/users/user-supervisor";
 import {
+  AllowUserProfiles,
   AllowUserSupervisorRoles,
   CurrentUser,
 } from "../../../../auth/decorators";
@@ -12,8 +13,13 @@ import { structureRepository } from "../../../../database";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { MetabaseStatsDto } from "../../dto/MetabaseStats.dto";
 import { sign } from "jsonwebtoken";
+import { AuthGuard } from "@nestjs/passport";
+import { AppUserGuard } from "../../../../auth/guards";
 
 @Controller("admin/national-stats")
+@UseGuards(AuthGuard("jwt"), AppUserGuard)
+@AllowUserProfiles("supervisor")
+@AllowUserSupervisorRoles(...USER_SUPERVISOR_ROLES)
 export class NationalStatsController {
   constructor(private readonly appLogsService: AppLogsService) {}
 
@@ -24,11 +30,9 @@ export class NationalStatsController {
   ): Promise<{ url: string }> {
     await this.appLogsService.create({
       userId: user.id,
-      structureId: 1, // TODO: update this with new user system
       action: "GET_STATS_PORTAIL_ADMIN",
     });
 
-    // TODO: check rights
     const METABASE_URL = domifaConfig().metabase.url;
 
     const year = metabaseDto.year ? [metabaseDto.year] : [];
@@ -50,6 +54,9 @@ export class NationalStatsController {
     if (department.length > 0) {
       region = [];
     }
+
+    // TODO: check territories
+
     const payload = {
       resource: { dashboard: 6 },
       params: {
@@ -91,7 +98,6 @@ export class NationalStatsController {
   }
 
   @Get("last-update")
-  @AllowUserSupervisorRoles(...USER_SUPERVISOR_ROLES)
   public async getLastUpdate(): Promise<Date | null> {
     const lastUsager = await structureRepository.findOne({
       where: {},

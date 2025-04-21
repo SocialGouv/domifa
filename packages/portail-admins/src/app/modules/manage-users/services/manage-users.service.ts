@@ -56,11 +56,21 @@ export class ManageUsersService {
     return this.http.get<Date | null>(`${this.endPoint}/last-password-update`);
   }
 
-  public registerUser(data: string): Observable<ApiMessage> {
-    return this.http.post<ApiMessage>(`${this.endPoint}/register`, data);
+  public registerUserStructureAdmin(data: string): Observable<ApiMessage> {
+    return this.http.post<ApiMessage>(
+      `${this.endPoint}/register-user-structure`,
+      data
+    );
   }
 
-  public validateEmail(email: string): Observable<boolean> {
+  public registerUserSupervisor(data: string): Observable<ApiMessage> {
+    return this.http.post<ApiMessage>(
+      `${this.endPoint}/register-user-supervisor`,
+      data
+    );
+  }
+
+  public validateUserSuperivorEmail(email: string): Observable<boolean> {
     return this.http.post<boolean>(`${this.endPoint}/validate-email`, {
       email,
     });

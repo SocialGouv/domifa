@@ -7,7 +7,7 @@ import { AdminAuthService } from "./modules/admin-auth/services/admin-auth.servi
 import { LIENS_PARTENAIRES } from "./modules/general/components/static-pages/plan-site/LIENS_PARTENAIRES.const";
 import { PortailAdminUser } from "@domifa/common";
 import { faChartBar } from "@fortawesome/free-regular-svg-icons";
-import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faList, faUsers } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-root",
@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   public readonly partnerLinks = LIENS_PARTENAIRES;
   public faChartBar = faChartBar;
   public faUsers = faUsers;
+  public faList = faList;
   public currentUrl = "";
 
   constructor(
