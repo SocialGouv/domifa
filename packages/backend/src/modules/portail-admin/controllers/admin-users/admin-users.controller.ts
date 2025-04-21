@@ -30,6 +30,7 @@ import {
   RegisterUserSupervisorAdminDto,
 } from "../../dto";
 import { AdminSuperivorUsersService } from "../../services/admin-superivor-users/admin-superivor-users.service";
+import { EmailDto } from "../../../users/dto";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("dashboard")
@@ -43,8 +44,8 @@ export class AdminUsersController {
     private readonly adminSuperivorUsersService: AdminSuperivorUsersService
   ) {}
 
-  @Post("register")
-  public async registerNewAdmin(
+  @Post("register-user-structure")
+  public async registerUserStructureAdmin(
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse,
     @Body() registerUserDto: RegisterUserStructureAdminDto
@@ -57,7 +58,7 @@ export class AdminUsersController {
     return await userController.registerUser(user, res, registerUserDto);
   }
 
-  @Post("register-new-supervisor")
+  @Post("register-user-supervisor")
   public async registerNewSupervisor(
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse,
@@ -106,10 +107,27 @@ export class AdminUsersController {
       .json({ message: "REGISTER_ERROR" });
   }
 
+  @Post("validate-email")
+  public async validateEmail(
+    @Body() emailDto: EmailDto,
+    @Res() res: ExpressResponse
+  ) {
+    const existUser = await userSupervisorRepository.findOne({
+      where: {
+        email: emailDto.email.toLowerCase(),
+      },
+      select: {
+        email: true,
+      },
+    });
+
+    return res.status(HttpStatus.OK).json(!!existUser);
+  }
+
   @ApiBearerAuth()
   @ApiOperation({ summary: "Liste des utilisateurs superviseurs" })
   @Get("")
-  public async getUsers(): Promise<UserSupervisor[]> {
+  public async getUsersSupervisors(): Promise<UserSupervisor[]> {
     const users = await userSupervisorRepository.find({
       where: {},
       select: {

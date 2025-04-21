@@ -25,6 +25,7 @@ import { structuresFilter } from "./services/structuresFilter.service";
 import { ApiStructureAdmin, StructureAdmin } from "../../types";
 import { Search, SortValues } from "@domifa/common";
 import { fadeInOut } from "../../../shared/constants";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   animations: [fadeInOut],
@@ -47,7 +48,7 @@ export class AdminStructuresListComponent
   });
 
   public pageSize = 100;
-
+  public readonly faSpinner = faSpinner;
   public filters$: BehaviorSubject<Search> = new BehaviorSubject(this.filters);
 
   @ViewChild("searchInput", { static: true })

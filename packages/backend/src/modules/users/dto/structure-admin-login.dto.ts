@@ -2,7 +2,6 @@ import { ApiProperty } from "@nestjs/swagger";
 
 import { IsEmail, IsNotEmpty } from "class-validator";
 import { IsValidPassword } from "../../../_common/decorators";
-import { IsSocialGouvEmail } from "../../../auth/decorators";
 
 export class StructureAdminLoginDto {
   @ApiProperty({
@@ -11,7 +10,6 @@ export class StructureAdminLoginDto {
   })
   @IsNotEmpty()
   @IsEmail()
-  @IsSocialGouvEmail()
   public readonly email!: string;
 
   @ApiProperty({

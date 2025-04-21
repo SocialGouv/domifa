@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { UserStructurePasswordFormComponent } from "./user-structure-password-form.component";
+import { UserSupervisorPasswordFormComponent } from "./user-supervisor-password-form.component";
 
-describe("UserStructurePasswordFormComponent", () => {
-  let component: UserStructurePasswordFormComponent;
-  let fixture: ComponentFixture<UserStructurePasswordFormComponent>;
+describe("UserSupervisorPasswordFormComponent", () => {
+  let component: UserSupervisorPasswordFormComponent;
+  let fixture: ComponentFixture<UserSupervisorPasswordFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UserStructurePasswordFormComponent],
+      declarations: [UserSupervisorPasswordFormComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserStructurePasswordFormComponent);
+    fixture = TestBed.createComponent(UserSupervisorPasswordFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

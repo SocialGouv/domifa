@@ -5,12 +5,11 @@
   text-align: center;
 }
 
-.notfound h1 {
+h1 {
   font-size: 12rem;
   font-weight: 200;
   margin: 0;
-  background: linear-gradient(119deg, var(--primary), var(--secondary));
-  color: transparent;
+  color: var(--bs-primary);
   -webkit-background-clip: text;
   background-clip: text;
   text-transform: uppercase;

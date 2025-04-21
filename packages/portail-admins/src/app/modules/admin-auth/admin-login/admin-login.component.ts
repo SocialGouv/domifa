@@ -9,7 +9,7 @@ import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { regexp } from "../../../shared/utils/validators";
 import { CustomToastService } from "../../shared/services/custom-toast.service";
-import { PortailAdminAuthLoginForm } from "../model";
+import { PortailAdminAuthLoginForm } from "../types";
 import { AdminAuthService } from "../services/admin-auth.service";
 import { PortailAdminAuthApiResponse } from "@domifa/common";
 

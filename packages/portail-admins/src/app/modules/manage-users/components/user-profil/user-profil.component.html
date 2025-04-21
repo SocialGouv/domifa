@@ -90,8 +90,9 @@
                 </p>
               </td>
               <td>
-                {{ USER_SUPERVISOR_ROLES_LABELS | json }}
-                {{ USER_SUPERVISOR_ROLES_LABELS[user.role] }}
+                <ng-container *ngIf="me.id === user.id">
+                  {{ USER_SUPERVISOR_ROLES_LABELS[user.role] }}
+                </ng-container>
                 <ng-container
                   *ngIf="me.role === 'super-admin-domifa' && me.id !== user.id"
                 >
@@ -106,10 +107,10 @@
                     (ngModelChange)="onRoleChange(user, user.role)"
                     class="form-select"
                   >
-                    <option value="admin">Administrateur</option>
-                    <option value="responsable">Gestionnaire</option>
-                    <option value="simple">Instructeur</option>
-                    <option value="facteur">Facteur</option>
+                    <option value="super-admin-domifa">Administrateur</option>
+                    <option value="national">National</option>
+                    <option value="department">Département</option>
+                    <option value="region">Région</option>
                   </select>
                 </ng-container>
               </td>
@@ -137,9 +138,9 @@
       </div>
 
       <div *ngIf="me.role === 'super-admin-domifa'" class="my-3">
-        <app-register-user-admin
+        <app-register-user-supervisor
           (getUsers)="getUsers()"
-        ></app-register-user-admin>
+        ></app-register-user-supervisor>
       </div>
     </div>
   </div>
