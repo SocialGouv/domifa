@@ -69,7 +69,6 @@ export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef
             roles: ["simple", "responsable", "admin"],
             validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
             invalidStructureIdExpectedResponseStatus: HttpStatus.BAD_REQUEST,
-            allowSuperAdminDomifa: false,
             validStructureIds: [1],
           }
         ),
@@ -94,7 +93,6 @@ export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef
             roles: ["simple", "responsable", "admin"],
             validExpectedResponseStatus: HttpStatus.OK,
             invalidStructureIdExpectedResponseStatus: HttpStatus.BAD_REQUEST,
-            allowSuperAdminDomifa: false,
             validStructureIds: [1],
           }
         ),
@@ -116,7 +114,6 @@ export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef
         expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
           context.user,
           {
-            allowSuperAdminDomifa: false,
             roles: ["simple", "responsable", "admin"],
             validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
             invalidStructureIdExpectedResponseStatus: HttpStatus.BAD_REQUEST,

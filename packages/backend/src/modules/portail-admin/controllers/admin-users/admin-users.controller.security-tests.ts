@@ -65,7 +65,7 @@ export const AdminStructuresControllerSecurityTests: AppTestHttpClientSecurityTe
       label: `${CONTROLLER}.getUsersSupervisors`,
       query: async (context: AppTestContext) => {
         return {
-          response: await AppTestHttpClient.get("", {
+          response: await AppTestHttpClient.get("/admin/users/", {
             context,
           }),
           expectedStatus:
