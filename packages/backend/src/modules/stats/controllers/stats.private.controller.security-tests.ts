@@ -57,7 +57,6 @@ export const StatsPrivateControllerSecurityTests: AppTestHttpClientSecurityTestD
             {
               roles: ["simple", "responsable", "admin"],
               validExpectedResponseStatus: HttpStatus.OK,
-              allowSuperAdminDomifa: true,
             }
           ),
         };
