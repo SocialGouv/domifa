@@ -1,3 +1,20 @@
+# [2.199.0](https://github.com/SocialGouv/domifa/compare/v2.198.13...v2.199.0) (2025-04-22)
+
+
+### Bug Fixes
+
+* **backend:** fix app_log ([6839371](https://github.com/SocialGouv/domifa/commit/6839371c664f448d7f3b8ba9eb6aa369dc2576a4))
+* **backend:** fix import files ([244662f](https://github.com/SocialGouv/domifa/commit/244662f57bd665c6efaec584c56ab94b5368fce4))
+* **backend:** fix unit test backend ([9643404](https://github.com/SocialGouv/domifa/commit/964340431d85b723b8a076ff3896055e6a1a3776))
+* **backend:** fix unit tests ([275d4a4](https://github.com/SocialGouv/domifa/commit/275d4a4d58f7edad04c11df939af7812942f4183))
+* **backend:** update unit tests ([874c4ae](https://github.com/SocialGouv/domifa/commit/874c4aea7ee3dc317bb3c9dc9ccfde30a3b05b1b))
+
+
+### Features
+
+* **admin:** add form to register users ([21c1407](https://github.com/SocialGouv/domifa/commit/21c14072a75c4d26881d29ebbd7c467b3fbcea42))
+* **admin:** add register in admin ([dd43e3f](https://github.com/SocialGouv/domifa/commit/dd43e3f7980a5a4df265219f123ab41e909b57dc))
+
 ## [2.198.13](https://github.com/SocialGouv/domifa/compare/v2.198.12...v2.198.13) (2025-04-19)
 
 
