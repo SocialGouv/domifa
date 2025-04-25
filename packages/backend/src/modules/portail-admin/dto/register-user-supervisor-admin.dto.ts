@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import {
+  IsArray,
   IsEmail,
   IsIn,
   IsNotEmpty,
@@ -8,9 +9,10 @@ import {
   MinLength,
 } from "class-validator";
 import { Transform, TransformFnParams } from "class-transformer";
-import { LowerCaseTransform } from "../../../_common/decorators";
+import { IsValidGeographicRole } from "../../../_common/decorators";
 import { UserSupervisorRole } from "@domifa/common";
 import { USER_SUPERVISOR_ROLES } from "../../../_common/model/users/user-supervisor";
+import { LowerCaseTransform } from "../../../_common/decorators/transformers";
 
 export class RegisterUserSupervisorAdminDto {
   @ApiProperty({
@@ -57,5 +59,15 @@ export class RegisterUserSupervisorAdminDto {
   @IsIn(USER_SUPERVISOR_ROLES)
   public readonly role!: UserSupervisorRole;
 
-  // TODO: territories
+  @ApiProperty({
+    type: [String],
+    required: true,
+    description:
+      "Région ou département selon le rôle (tableau vide pour national ou super-admin-domifa)",
+  })
+  @IsArray()
+  @IsValidGeographicRole({
+    message: "La valeur géographique doit correspondre au rôle sélectionné",
+  })
+  public territories!: string[];
 }

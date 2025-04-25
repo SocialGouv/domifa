@@ -1,5 +1,6 @@
-//@index('./*.ts', f => `export * from '${f.path}'`)
+//@index('./*', f => `export * from '${f.path}'`, { ignore: ['**/tests/**'] })
+export * from "./isValidGeographicDecorator";
 export * from "./IsValidPasswordDecorator";
 export * from "./IsValidPhoneDecorator";
-export * from "./transformers";
 export * from "./parse-pipes";
+export * from "./transformers";

@@ -62,8 +62,10 @@
                 >
                 </app-table-head-sort>
               </th>
+              <th scope="col">Territoire d'action</th>
+
               <th scope="col" *ngIf="me.role === 'super-admin-domifa'">
-                Supprimer
+                Actions
               </th>
             </tr>
           </thead>
@@ -90,31 +92,38 @@
                 </p>
               </td>
               <td>
-                <ng-container *ngIf="me.id === user.id">
-                  {{ USER_SUPERVISOR_ROLES_LABELS[user.role] }}
-                </ng-container>
+                {{ USER_SUPERVISOR_ROLES_LABELS[user.role] }}
+              </td>
+              <td>
                 <ng-container
-                  *ngIf="me.role === 'super-admin-domifa' && me.id !== user.id"
+                  *ngIf="
+                    user.role === 'super-admin-domifa' ||
+                    user.role === 'national'
+                  "
                 >
-                  <label class="visually-hidden" for="role-{{ user.uuid }}"
-                    >Rôle de {{ user | fullName }}</label
-                  >
-                  <select
-                    [disabled]="loading"
-                    [attr.aria-busy]="loading"
-                    id="role-{{ user.uuid }}"
-                    [(ngModel)]="user.role"
-                    (ngModelChange)="onRoleChange(user, user.role)"
-                    class="form-select"
-                  >
-                    <option value="super-admin-domifa">Administrateur</option>
-                    <option value="national">National</option>
-                    <option value="department">Département</option>
-                    <option value="region">Région</option>
-                  </select>
+                  Toute la France</ng-container
+                >
+                <ng-container *ngIf="user.role === 'department'">
+                  <span *ngFor="let territory of user.territories">{{
+                    DEPARTEMENTS_LISTE[territory]
+                  }}</span>
+                </ng-container>
+                <ng-container *ngIf="user.role === 'region'">
+                  <span *ngFor="let territory of user.territories">{{
+                    REGIONS_LISTE[territory]
+                  }}</span>
                 </ng-container>
               </td>
               <td *ngIf="me.role === 'super-admin-domifa'">
+                <!-- <button
+                  type="button"
+                  *ngIf="me.id !== user.uuid"
+                  (click)="openDeleteConfirmation(user)"
+                  class="btn btn-primary me-2"
+                  [attr.aria-label]="'Editer ' + user.nom + ' ' + user.prenom"
+                >
+                  <fa-icon [icon]="faEdit" aria-hidden="true"></fa-icon>
+                </button> -->
                 <button
                   type="button"
                   *ngIf="
@@ -146,6 +155,31 @@
   </div>
 </div>
 
+<ng-template #deleteUserConfirmation let-modal>
+  <ng-container *ngIf="me.id === selectedUser.id">
+    {{ USER_SUPERVISOR_ROLES_LABELS[selectedUser.role] }}
+  </ng-container>
+  <ng-container
+    *ngIf="me.role === 'super-admin-domifa' && me.id !== selectedUser.id"
+  >
+    <label class="visually-hidden" for="role-{{ selectedUser.uuid }}"
+      >Rôle de {{ selectedUser | fullName }}</label
+    >
+    <select
+      [disabled]="loading"
+      [attr.aria-busy]="loading"
+      id="role-{{ selectedUser.uuid }}"
+      [(ngModel)]="selectedUser.role"
+      (ngModelChange)="onRoleChange(selectedUser, selectedUser.role)"
+      class="form-select"
+    >
+      <option value="super-admin-domifa">Administrateur</option>
+      <option value="national">National</option>
+      <option value="department">Département</option>
+      <option value="region">Région</option>
+    </select>
+  </ng-container></ng-template
+>
 <ng-template #deleteUserConfirmation let-modal
   ><app-delete-user
     [selectedUser]="selectedUser"

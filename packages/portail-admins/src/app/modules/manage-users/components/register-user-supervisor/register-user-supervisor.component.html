@@ -5,7 +5,7 @@
 </p>
 <form #form *ngIf="userForm" [formGroup]="userForm" (ngSubmit)="submitUser()">
   <div class="row">
-    <div class="col-md-3 form-group required">
+    <div class="col form-group required">
       <label for="nom">Nom</label>
       <input
         type="text"
@@ -34,7 +34,7 @@
         Veuillez vérifier le nom
       </p>
     </div>
-    <div class="col-md-3 form-group required">
+    <div class="col form-group required">
       <label for="prenom">Prénom</label>
       <input
         type="text"
@@ -64,7 +64,7 @@
         Veuillez vérifier le prénom
       </p>
     </div>
-    <div class="col-md-3 form-group required">
+    <div class="col form-group required">
       <label for="email">Adresse email</label>
       <input
         type="email"
@@ -96,12 +96,13 @@
         </p>
       </div>
     </div>
-    <div class="col-md-3 form-group required">
-      <label for="role">Accès</label>
+    <div class="col form-group required">
+      <label for="role">Rôle du superviseur {{ f.role.value }}</label>
       <select
         id="role"
         formControlName="role"
         name="role"
+        (change)="onRoleChange()"
         [ngClass]="{
           'is-invalid': submitted && f.role.errors
         }"
@@ -113,8 +114,12 @@
         required
       >
         <option [ngValue]="null"></option>
-        <option value="super-admin-domifa">Administrateur DomiFa</option>
-        <option value="national">DGCS</option>
+        <option
+          *ngFor="let item of USER_SUPERVISOR_ROLES_LABELS | keyvalue"
+          [value]="item.key"
+        >
+          {{ item.value }}
+        </option>
       </select>
       <p
         *ngIf="submitted && f.role.errors"
@@ -123,6 +128,48 @@
       >
         Le rôle est obligatoire
       </p>
+    </div>
+    <div *ngIf="showTerritories" class="col form-group required">
+      <label for="territories" class="form-label">
+        {{
+          selectedRole === "department"
+            ? "Département d'action"
+            : "Région d'action"
+        }}</label
+      >
+      <select
+        id="territories"
+        formControlName="territories"
+        name="territories"
+        [ngClass]="{
+          'is-invalid': submitted && f.territories.errors
+        }"
+        [attr.aria-invalid]="submitted && f.territories.errors ? true : false"
+        [attr.aria-describedby]="
+          submitted && f.territories.errors ? 'invalid-territories' : null
+        "
+        class="form-select"
+        required
+      >
+        <option
+          *ngFor="let item of territoriesList | keyvalue"
+          [value]="item.key"
+        >
+          {{
+            selectedRole === "department"
+              ? item.key + " - " + item.value
+              : item.value
+          }}
+        </option>
+      </select>
+
+      <div
+        *ngIf="submitted && f.territories.errors"
+        class="invalid-feedback"
+        id="invalid-territories"
+      >
+        Veuillez sélectionner au moins un territoire.
+      </div>
     </div>
     <div class="col-12 text-center">
       <button

@@ -1,5 +1,13 @@
 import { REGIONS_LISTE, DEPARTEMENTS_MAP, Structure } from "@domifa/common";
-import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Post,
+  Res,
+  UseGuards,
+} from "@nestjs/common";
 import { FindOptionsWhere } from "typeorm";
 import { UserAdminAuthenticated } from "../../../../_common/model";
 import { USER_SUPERVISOR_ROLES } from "../../../../_common/model/users/user-supervisor";
@@ -15,6 +23,8 @@ import { MetabaseStatsDto } from "../../dto/MetabaseStats.dto";
 import { sign } from "jsonwebtoken";
 import { AuthGuard } from "@nestjs/passport";
 import { AppUserGuard } from "../../../../auth/guards";
+import { checkTerritories } from "../../services";
+import { Response } from "express";
 
 @Controller("admin/national-stats")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -26,14 +36,21 @@ export class NationalStatsController {
   @Post("metabase-stats")
   public async getMetabaseStats(
     @CurrentUser() user: UserAdminAuthenticated,
-    @Body() metabaseDto: MetabaseStatsDto
-  ): Promise<{ url: string }> {
+    @Body() metabaseDto: MetabaseStatsDto,
+    @Res() res: Response
+  ) {
     await this.appLogsService.create({
       userId: user.id,
       action: "GET_STATS_PORTAIL_ADMIN",
     });
 
     const METABASE_URL = domifaConfig().metabase.url;
+
+    if (!checkTerritories(user, metabaseDto)) {
+      return res
+        .status(HttpStatus.UNAUTHORIZED)
+        .json({ message: "USER_NOT_FOUND" });
+    }
 
     const year = metabaseDto.year ? [metabaseDto.year] : [];
     let region = metabaseDto.region ? [REGIONS_LISTE[metabaseDto.region]] : [];
@@ -47,15 +64,13 @@ export class NationalStatsController {
       ? [metabaseDto.structureType]
       : [];
 
-    if (region.length > 0) {
-      department = [];
-    }
-
     if (department.length > 0) {
       region = [];
     }
 
-    // TODO: check territories
+    if (region.length > 0) {
+      department = [];
+    }
 
     const payload = {
       resource: { dashboard: 6 },
@@ -71,8 +86,7 @@ export class NationalStatsController {
 
     const token = sign(payload, domifaConfig().metabase.token);
     const url = `${METABASE_URL}embed/dashboard/${token}#bordered=false&titled=false`;
-
-    return { url };
+    return res.status(HttpStatus.OK).json({ url });
   }
 
   @Post("metabase-get-structures")
@@ -80,7 +94,10 @@ export class NationalStatsController {
     @Body() metabaseDto: MetabaseStatsDto
   ): Promise<Array<Partial<Structure>>> {
     const params: FindOptionsWhere<Structure> = {
-      region: metabaseDto?.region ?? undefined,
+      region:
+        !metabaseDto?.department && metabaseDto?.region
+          ? metabaseDto?.region
+          : undefined,
       departement: metabaseDto?.department ?? undefined,
       structureType: metabaseDto?.structureType ?? undefined,
       verified: true,

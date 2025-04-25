@@ -71,7 +71,6 @@ export class AdminLoginComponent implements OnInit {
         this.toastr.error("Login et / ou mot de passe incorrect");
       },
       next: (apiAuthResponse: PortailAdminAuthApiResponse) => {
-        console.log(apiAuthResponse.user);
         this.toastr.success("Connexion réussie");
         this.authService.saveToken(apiAuthResponse);
         this.loading = false;

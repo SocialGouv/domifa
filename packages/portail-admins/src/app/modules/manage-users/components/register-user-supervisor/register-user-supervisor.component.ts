@@ -24,8 +24,15 @@ import {
 } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
 
-import { UserSupervisor } from "@domifa/common";
+import {
+  DEPARTEMENTS_LISTE,
+  REGIONS_LISTE,
+  RegionsLabels,
+  USER_SUPERVISOR_ROLES_LABELS,
+  UserSupervisor,
+} from "@domifa/common";
 import { ManageUsersService } from "../../services/manage-users.service";
+import { UserSupervisorRole } from "@domifa/common";
 
 export type FormEmailTakenValidator = Observable<null | {
   emailTaken: boolean;
@@ -45,9 +52,13 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
 
   public emailExist = false;
 
+  public readonly USER_SUPERVISOR_ROLES_LABELS = USER_SUPERVISOR_ROLES_LABELS;
   private subscription = new Subscription();
   private unsubscribe: Subject<void> = new Subject();
 
+  public selectedRole: UserSupervisorRole = "national";
+  public showTerritories = false;
+  public territoriesList: RegionsLabels = DEPARTEMENTS_LISTE;
   @Output() public getUsers = new EventEmitter<void>();
 
   @ViewChild("form", { static: true })
@@ -67,6 +78,27 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
     this.submitted = false;
   }
 
+  public onRoleChange(): void {
+    this.selectedRole = this.f.role.value;
+
+    this.f.territories.setValue([]);
+
+    if (this.selectedRole === "department") {
+      this.showTerritories = true;
+      this.territoriesList = DEPARTEMENTS_LISTE;
+      this.f.territories.setValidators([Validators.required]);
+    } else if (this.selectedRole === "region") {
+      this.showTerritories = true;
+      this.territoriesList = REGIONS_LISTE;
+      this.f.territories.setValidators([Validators.required]);
+    } else {
+      this.showTerritories = false;
+      this.f.territories.clearValidators();
+    }
+
+    this.f.territories.updateValueAndValidity();
+  }
+
   public ngOnInit(): void {
     this.userForm = this.formBuilder.group({
       email: [
@@ -78,11 +110,12 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
         null,
         [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
-      role: ["national", Validators.required],
+      role: [this.selectedRole, Validators.required],
       prenom: [
         null,
         [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
+      territories: [[], []],
     });
   }
 
@@ -94,27 +127,35 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
       );
     } else {
+      let territories = this.userForm.value?.territories ?? [];
+      if (territories?.length) {
+        territories = [territories];
+      }
+
+      const formValue = {
+        ...this.userForm.value,
+        territories,
+      };
+
       this.loading = true;
       this.subscription.add(
-        this.manageUsersService
-          .registerUserSupervisor(this.userForm.value)
-          .subscribe({
-            next: () => {
-              this.loading = false;
-              this.submitted = false;
-              this.getUsers.emit();
-              this.form.nativeElement.reset();
-              this.toastService.success(
-                "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."
-              );
-            },
-            error: () => {
-              this.loading = false;
-              this.toastService.error(
-                "veuillez vérifier les champs marqués en rouge dans le formulaire"
-              );
-            },
-          })
+        this.manageUsersService.registerUserSupervisor(formValue).subscribe({
+          next: () => {
+            this.loading = false;
+            this.submitted = false;
+            this.getUsers.emit();
+            this.userForm.reset();
+            this.toastService.success(
+              "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."
+            );
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error(
+              "veuillez vérifier les champs marqués en rouge dans le formulaire"
+            );
+          },
+        })
       );
     }
   }
