@@ -5,9 +5,12 @@ import {
   Title,
 } from "@angular/platform-browser";
 import {
-  DEPARTEMENTS_MAP,
+  DEPARTEMENTS_LISTE,
   MetabaseParams,
+  PortailAdminUser,
+  REGIONS_DEF,
   REGIONS_LISTE,
+  RegionsLabels,
   STRUCTURE_TYPE_LABELS,
   STRUCTURE_TYPE_MAP,
 } from "@domifa/common";
@@ -17,6 +20,7 @@ import { Subscription, take, tap } from "rxjs";
 import { StatsService } from "../../services/stats.service";
 import { StructureListForStats } from "../../types/StructureListForStats.type";
 import { MatomoTracker } from "ngx-matomo-client";
+import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
 
 @Component({
   selector: "app-national-stats",
@@ -24,11 +28,12 @@ import { MatomoTracker } from "ngx-matomo-client";
   styleUrls: ["./national-stats.component.css"],
 })
 export class NationalStatsComponent implements OnInit {
-  public readonly REGIONS_LISTE = REGIONS_LISTE;
   public years: number[] = [];
-  public departments: string[] = [];
-  public regions: string[] = Object.keys(REGIONS_LISTE);
-  public readonly DEPARTEMENTS_MAP = { ...DEPARTEMENTS_MAP };
+
+  public regionTable: RegionsLabels = {};
+  public departmentTable: RegionsLabels = {};
+
+  public enableRegions = true;
 
   public readonly STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
   public readonly STRUCTURE_TYPE_MAP = STRUCTURE_TYPE_MAP;
@@ -41,12 +46,14 @@ export class NationalStatsComponent implements OnInit {
 
   public currentStructure!: StructureListForStats | null;
   public lastUpdate: Date | null = null;
+  public user: PortailAdminUser | null;
 
   constructor(
     private sanitizer: DomSanitizer,
     private readonly statsService: StatsService,
     private readonly toastService: CustomToastService,
     private readonly titleService: Title,
+    private readonly adminAuthService: AdminAuthService,
     private readonly matomo: MatomoTracker
   ) {
     this.titleService.setTitle(
@@ -56,8 +63,6 @@ export class NationalStatsComponent implements OnInit {
     for (let year = 2021; year <= new Date().getFullYear(); year++) {
       this.years.push(year);
     }
-
-    this.updateDepartments();
   }
 
   ngOnInit(): void {
@@ -72,23 +77,8 @@ export class NationalStatsComponent implements OnInit {
         )
         .subscribe()
     );
-  }
 
-  public updateDepartments() {
-    if (this.metabaseParams.region) {
-      this.departments = Object.values({ ...DEPARTEMENTS_MAP })
-        .filter(
-          (department) => department.regionCode === this.metabaseParams.region
-        )
-        .map((department) => department.departmentCode);
-    } else {
-      this.departments = Object.keys({ ...DEPARTEMENTS_MAP });
-    }
-
-    this.departments.sort((a, b) => a.localeCompare(b));
-    this.metabaseParams.structureId = undefined;
-    this.metabaseParams.department = undefined;
-    this.getStructures();
+    this.generateTablesByRole();
   }
 
   public setCurrentStructure() {
@@ -130,10 +120,11 @@ export class NationalStatsComponent implements OnInit {
 
   public deleteFilter(key: keyof MetabaseParams) {
     delete this.metabaseParams[key];
-    this.updateDepartments();
+    this.getStructures();
   }
 
   public getStructures() {
+    this.iframeUrl = null;
     this.loading = true;
 
     if (
@@ -158,7 +149,6 @@ export class NationalStatsComponent implements OnInit {
         },
         error: () => {
           this.loading = false;
-
           this.toastService.error("Le chargement des structures a échoué");
         },
       })
@@ -199,5 +189,72 @@ export class NationalStatsComponent implements OnInit {
           },
         })
     );
+  }
+
+  public generateTablesByRole(): void {
+    const user = this.adminAuthService.currentUserValue;
+    const regionTable: RegionsLabels = {};
+    const departmentTable: RegionsLabels = {};
+    this.enableRegions = true;
+
+    if (user.role === "national" || user.role === "super-admin-domifa") {
+      this.regionTable = REGIONS_LISTE;
+      this.departmentTable = DEPARTEMENTS_LISTE;
+
+      if (this.metabaseParams?.region) {
+        const filteredDepartments: RegionsLabels = {};
+        const selectedRegion = REGIONS_DEF.find(
+          (region) => region.regionCode === this.metabaseParams.region
+        );
+
+        if (selectedRegion) {
+          selectedRegion.departements.forEach((dept) => {
+            filteredDepartments[dept.departmentCode] = dept.departmentName;
+          });
+          this.departmentTable = filteredDepartments;
+        }
+      }
+
+      this.getStructures();
+      return;
+    }
+
+    if (!user?.territories[0].length) {
+      throw new Error("No territories");
+    }
+
+    const territory = user?.territories[0];
+
+    if (user.role === "region") {
+      const targetRegion = REGIONS_DEF.find(
+        (region) => region.regionCode === territory
+      );
+
+      if (targetRegion) {
+        regionTable[targetRegion.regionCode] = targetRegion.regionName;
+
+        targetRegion.departements.forEach((dept) => {
+          departmentTable[dept.departmentCode] = dept.departmentName;
+        });
+      }
+    } else if (user.role === "department") {
+      this.enableRegions = false;
+      this.regionTable = {};
+      for (const region of REGIONS_DEF) {
+        const targetDept = region.departements.find(
+          (dept) => dept.departmentCode === territory
+        );
+
+        if (targetDept) {
+          departmentTable[targetDept.departmentCode] =
+            targetDept.departmentName;
+
+          break;
+        }
+      }
+    }
+    this.regionTable = regionTable;
+    this.departmentTable = departmentTable;
+    this.getStructures();
   }
 }

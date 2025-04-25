@@ -40,7 +40,7 @@
   <div class="page-content p-4">
     <div class="container">
       <div class="row">
-        <div class="col-md-3 col-12 form-group">
+        <div class="col-md-3 col-12 form-group" *ngIf="enableRegions">
           <label for="region">Région</label>
 
           <div class="card p-2" *ngIf="metabaseParams.region">
@@ -48,7 +48,7 @@
               class="d-flex align-items-center justify-content-between fw-bold"
             >
               <span>
-                {{ REGIONS_LISTE[metabaseParams.region] }}
+                {{ regionTable[metabaseParams.region] }}
               </span>
 
               <button
@@ -64,13 +64,17 @@
             <select
               id="region"
               class="form-select"
+              [disabled]="loading"
               [(ngModel)]="metabaseParams.region"
-              (ngModelChange)="updateDepartments(); getStructures()"
+              (ngModelChange)="generateTablesByRole(); getStructures()"
               name="region"
             >
               <option [value]="null"></option>
-              <option *ngFor="let region of regions" [value]="region">
-                {{ REGIONS_LISTE[region] }}
+              <option
+                *ngFor="let region of regionTable | keyvalue"
+                [value]="region.key"
+              >
+                {{ region.value }}
               </option>
             </select>
           </ng-container>
@@ -83,9 +87,7 @@
             >
               <span>
                 {{ metabaseParams.department }} -
-                {{
-                  DEPARTEMENTS_MAP[metabaseParams.department].departmentName
-                }}</span
+                {{ departmentTable[metabaseParams.department] }}</span
               >
               <button
                 type="button"
@@ -106,11 +108,10 @@
             >
               <option [value]="null"></option>
               <option
-                *ngFor="let department of departments"
-                [value]="department"
+                *ngFor="let department of departmentTable | keyvalue"
+                [value]="department.key"
               >
-                {{ department }} -
-                {{ DEPARTEMENTS_MAP[department].departmentName }}
+                {{ department.key }} - =={{ department.value }}-
               </option>
             </select>
           </ng-container>
@@ -139,6 +140,7 @@
               class="form-select"
               [(ngModel)]="metabaseParams.structureType"
               name="structureType"
+              [disabled]="loading"
               (ngModelChange)="getStructures()"
             >
               <option [value]="undefined"></option>
@@ -179,6 +181,7 @@
               class="form-select"
               [(ngModel)]="metabaseParams.structureId"
               (ngModelChange)="setCurrentStructure()"
+              [disabled]="loading"
               name="structure"
             >
               <option [value]="null"></option>

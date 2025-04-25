@@ -71,7 +71,7 @@ export class AdminStructuresApiClient {
   }
 
   public exportDashboard() {
-    return this.http.get(`${BASE_URL}/export`, {
+    return this.http.get(`${environment.apiUrl}/stats/export-from-admin`, {
       responseType: "blob",
     });
   }
