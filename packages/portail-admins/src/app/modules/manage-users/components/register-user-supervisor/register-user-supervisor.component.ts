@@ -12,6 +12,8 @@ import {
   AbstractControl,
   UntypedFormBuilder,
   UntypedFormGroup,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from "@angular/forms";
 
@@ -103,7 +105,7 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
     this.userForm = this.formBuilder.group({
       email: [
         null,
-        [Validators.required, EmailValidator],
+        [Validators.required, EmailValidator, this.SuperAdminEmailValidator()],
         this.validateEmailNotTaken.bind(this),
       ],
       nom: [
@@ -117,6 +119,35 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
       ],
       territories: [[], []],
     });
+
+    this.userForm.get("role").valueChanges.subscribe(() => {
+      this.userForm.get("email").updateValueAndValidity();
+    });
+  }
+
+  public SuperAdminEmailValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.parent) {
+        return null;
+      }
+
+      const email = control.value;
+      const roleControl = control.parent.get("role");
+
+      if (!roleControl || !roleControl.value) {
+        return null;
+      }
+
+      const role = roleControl.value;
+
+      if (role === "super-admin-domifa" && email) {
+        if (!email.endsWith("@fabrique.social.gouv.fr")) {
+          return { invalidSuperAdminEmail: true };
+        }
+      }
+
+      return null;
+    };
   }
 
   public submitUser() {
