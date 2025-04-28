@@ -1,3 +1,16 @@
+# [2.200.0](https://github.com/SocialGouv/domifa/compare/v2.199.1...v2.200.0) (2025-04-28)
+
+
+### Bug Fixes
+
+* **admin:** add reset password link + fix labels in stats ([98c0429](https://github.com/SocialGouv/domifa/commit/98c04293ae2913bac43269e897200d9d942bf209))
+* **frontend:** change text after register ([4ef918a](https://github.com/SocialGouv/domifa/commit/4ef918a2e811bd9bab30b5c926c62bd7255a1eaf))
+
+
+### Features
+
+* **frontend:** add select by region & department ([5bf44ac](https://github.com/SocialGouv/domifa/commit/5bf44ac164031d151cedd201cbbd28a3d23e673f))
+
 ## [2.199.1](https://github.com/SocialGouv/domifa/compare/v2.199.0...v2.199.1) (2025-04-25)
 
 
