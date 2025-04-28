@@ -3,11 +3,11 @@
     <div class="row">
       <div class="col-md-9 col-12">
         <h1 class="title">
-          Outil de pilotage de la domiciliation en France
-          <span *ngIf="lastUpdate">
-            (mise à jour le {{ lastUpdate | date : "dd/MM/yyyy" }})</span
-          >
+          Outil de pilotage de la domiciliation {{ titleLabel }}
         </h1>
+        <span class="text-white" *ngIf="lastUpdate">
+          Données mise à jour le {{ lastUpdate | date : "dd/MM/yyyy" }}</span
+        >
       </div>
       <div class="text-start text-md-end col-12 col-md-3">
         <a
@@ -40,9 +40,11 @@
   <div class="page-content p-4">
     <div class="container">
       <div class="row">
-        <div class="col-md-3 col-12 form-group" *ngIf="enableRegions">
+        <div
+          class="col-md-3 col-12 form-group"
+          *ngIf="user.role === 'super-admin-domifa' || user.role === 'national'"
+        >
           <label for="region">Région</label>
-
           <div class="card p-2" *ngIf="metabaseParams.region">
             <div
               class="d-flex align-items-center justify-content-between fw-bold"
@@ -69,7 +71,7 @@
               (ngModelChange)="generateTablesByRole(); getStructures()"
               name="region"
             >
-              <option [value]="null"></option>
+              <option [ngValue]="undefined">Toutes les régions</option>
               <option
                 *ngFor="let region of regionTable | keyvalue"
                 [value]="region.key"
@@ -79,9 +81,12 @@
             </select>
           </ng-container>
         </div>
-        <div class="col-md-3 col-12 form-group">
+        <div
+          class="col-md-3 col-12 form-group"
+          *ngIf="user.role !== 'department'"
+        >
           <label for="department">Département</label>
-          <div class="card p-2" *ngIf="metabaseParams.department">
+          <div class="card p-2" *ngIf="metabaseParams?.department">
             <div
               class="d-flex align-items-center justify-content-between fw-bold"
             >
@@ -105,13 +110,14 @@
               [(ngModel)]="metabaseParams.department"
               (ngModelChange)="getStructures()"
               name="departement"
+              [disabled]="loading"
             >
-              <option [value]="null"></option>
+              <option [ngValue]="undefined">Tous les départements</option>
               <option
                 *ngFor="let department of departmentTable | keyvalue"
                 [value]="department.key"
               >
-                {{ department.key }} - =={{ department.value }}-
+                {{ department.key }} - {{ department.value }}
               </option>
             </select>
           </ng-container>
@@ -143,7 +149,7 @@
               [disabled]="loading"
               (ngModelChange)="getStructures()"
             >
-              <option [value]="undefined"></option>
+              <option [ngValue]="undefined">Tout type de structure</option>
               <option
                 *ngFor="let structureType of STRUCTURE_TYPE_MAP"
                 [value]="structureType"
@@ -184,7 +190,7 @@
               [disabled]="loading"
               name="structure"
             >
-              <option [value]="null"></option>
+              <option [ngValue]="undefined">Toutes les structures</option>
               <option
                 *ngFor="let structure of structures"
                 [value]="structure.id"
