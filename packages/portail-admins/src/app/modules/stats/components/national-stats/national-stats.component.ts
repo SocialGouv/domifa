@@ -42,6 +42,7 @@ export class NationalStatsComponent implements OnInit {
   public metabaseParams = new MetabaseParams();
   public iframeUrl: SafeResourceUrl | null = null;
   public loading = false;
+  public titleLabel = "";
   private readonly subscription = new Subscription();
 
   public currentStructure!: StructureListForStats | null;
@@ -78,7 +79,10 @@ export class NationalStatsComponent implements OnInit {
         .subscribe()
     );
 
+    this.user = this.adminAuthService.currentUserValue;
+
     this.generateTablesByRole();
+    this.titleLabel = this.getTitleLabel(this.user);
   }
 
   public setCurrentStructure() {
@@ -88,6 +92,23 @@ export class NationalStatsComponent implements OnInit {
           structure.id ===
           parseInt(this.metabaseParams.structureId as unknown as string, 10)
       ) || null;
+  }
+
+  public getTitleLabel(user: PortailAdminUser): string {
+    if (user.role === "national" || user.role === "super-admin-domifa") {
+      return "En France";
+    }
+    const territory: string | null =
+      user.territories?.length > 0 ? user.territories[0] : null;
+
+    if (territory) {
+      if (user.role === "department") {
+        return `dans le département: ${DEPARTEMENTS_LISTE[territory]}`;
+      } else if (user.role === "region") {
+        return `dans la région ${REGIONS_LISTE[territory]}`;
+      }
+    }
+    return "en France";
   }
 
   public getMetabaseUrl() {
@@ -192,12 +213,14 @@ export class NationalStatsComponent implements OnInit {
   }
 
   public generateTablesByRole(): void {
-    const user = this.adminAuthService.currentUserValue;
     const regionTable: RegionsLabels = {};
     const departmentTable: RegionsLabels = {};
     this.enableRegions = true;
 
-    if (user.role === "national" || user.role === "super-admin-domifa") {
+    if (
+      this.user?.role === "national" ||
+      this.user?.role === "super-admin-domifa"
+    ) {
       this.regionTable = REGIONS_LISTE;
       this.departmentTable = DEPARTEMENTS_LISTE;
 
@@ -219,13 +242,13 @@ export class NationalStatsComponent implements OnInit {
       return;
     }
 
-    if (!user?.territories[0].length) {
+    if (!this.user?.territories[0].length) {
       throw new Error("No territories");
     }
 
-    const territory = user?.territories[0];
+    const territory = this.user?.territories[0];
 
-    if (user.role === "region") {
+    if (this.user?.role === "region") {
       const targetRegion = REGIONS_DEF.find(
         (region) => region.regionCode === territory
       );
@@ -236,9 +259,12 @@ export class NationalStatsComponent implements OnInit {
         targetRegion.departements.forEach((dept) => {
           departmentTable[dept.departmentCode] = dept.departmentName;
         });
+
+        this.metabaseParams.region = territory;
       }
-    } else if (user.role === "department") {
+    } else if (this.user?.role === "department") {
       this.enableRegions = false;
+      this.metabaseParams.department = territory;
       this.regionTable = {};
       for (const region of REGIONS_DEF) {
         const targetDept = region.departements.find(
@@ -253,6 +279,7 @@ export class NationalStatsComponent implements OnInit {
         }
       }
     }
+
     this.regionTable = regionTable;
     this.departmentTable = departmentTable;
     this.getStructures();
