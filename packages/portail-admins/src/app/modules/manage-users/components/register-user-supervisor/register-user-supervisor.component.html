@@ -91,7 +91,18 @@
           ></fa-icon>
           L'adresse email est déjà utilisée
         </p>
-        <p *ngIf="!f.email.errors.emailTaken">
+        <p *ngIf="f.email.errors?.invalidSuperAdminEmail">
+          <fa-icon
+            aria-hidden="true"
+            [icon]="['fas', 'exclamation-triangle']"
+          ></fa-icon>
+          Les administrateurs doivent avoir un email "fabrique.social.gouv.fr"
+        </p>
+        <p
+          *ngIf="
+            !f.email.errors.emailTaken && !f.email.errors.invalidSuperAdminEmail
+          "
+        >
           Veuillez vérifier l'adresse email, format attendu : nom&#64;domaine.fr
         </p>
       </div>

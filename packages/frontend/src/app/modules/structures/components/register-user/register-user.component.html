@@ -2,12 +2,19 @@
   <div class="container text-center" *ngIf="success">
     <div class="card p-4">
       <h2 class="text-primary">
-        Félicitations, votre demande de création de nouvelle structure sur
-        DomiFa
-        <br />
-        a bien été prise en compte.
+        Votre demande de création de compte a été enregistrée avec succès.
       </h2>
-      <div class="d-inline-block">
+      <p>
+        Nous procédons actuellement à une vérification de votre dossier.
+        <br /><br />
+        Dès que votre compte sera activé, vous recevrez un e-mail de
+        confirmation.
+        <br /><br />
+        En attendant, n'hésitez pas à vous inscrire à l'une de nos présentations
+        pour découvrir la plateforme Domifa et poser toutes vos questions.
+      </p>
+      <br />
+      <div class="d-inline-block my-2">
         <a
           href="https://tally.so/r/3EaAVB"
           class="btn btn-primary btn-large d-inline-block my-3"
@@ -21,41 +28,6 @@
           S'inscrire à une présentation</a
         >
       </div>
-
-      <p>
-        Un email de confirmation vous sera envoyé dès validation de celle-ci par
-        l'administrateur DomiFa.
-
-        <br />
-        Vous pourrez alors vous connecter à votre compte et :
-      </p>
-      <br />
-
-      <span>
-        <strong class="text-primary">
-          <fa-icon aria-hidden="true" [icon]="['fas', 'arrow-down']"></fa-icon>
-          &nbsp;
-        </strong>
-        importer vos domiciliations actuelles
-      </span>
-      <br />
-
-      <span>
-        <strong class="text-primary">
-          <fa-icon aria-hidden="true" [icon]="['fas', 'plus']"></fa-icon>
-          &nbsp;
-        </strong>
-        domicilier de nouvelles personnes
-      </span>
-      <br />
-
-      <span>
-        <strong class="text-primary">
-          <fa-icon aria-hidden="true" [icon]="['fas', 'user-plus']"></fa-icon>
-          &nbsp;
-        </strong>
-        créer des comptes pour vos collaborateurs
-      </span>
     </div>
   </div>
 
