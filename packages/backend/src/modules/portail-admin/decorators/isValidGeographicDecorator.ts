@@ -16,7 +16,9 @@ export function IsValidGeographicRole(validationOptions?: ValidationOptions) {
         validate(value: any, args: ValidationArguments) {
           const obj = args.object as any;
           const role = obj.role;
-
+          if (role === "national" || role === "super-admin-domifa") {
+            return true;
+          }
           if (!value?.length) return false;
 
           const departmentOrRegion = value[0];
