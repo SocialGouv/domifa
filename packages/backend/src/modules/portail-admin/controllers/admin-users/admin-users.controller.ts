@@ -27,7 +27,7 @@ import { userAccountCreatedByAdminEmailSender } from "../../../mails/services/te
 
 import {
   RegisterUserStructureAdminDto,
-  RegisterUserSupervisorAdminDto,
+  RegisterUserSupervisorDto,
 } from "../../dto";
 import { AdminSuperivorUsersService } from "../../services/admin-superivor-users/admin-superivor-users.service";
 import { EmailDto } from "../../../users/dto";
@@ -62,7 +62,7 @@ export class AdminUsersController {
   public async registerNewSupervisor(
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse,
-    @Body() registerUserDto: RegisterUserSupervisorAdminDto
+    @Body() registerUserDto: RegisterUserSupervisorDto
   ): Promise<ExpressResponse> {
     await this.appLogsService.create({
       userId: user.id,
