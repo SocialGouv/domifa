@@ -1,3 +1,10 @@
+## [2.200.1](https://github.com/SocialGouv/domifa/compare/v2.200.0...v2.200.1) (2025-04-30)
+
+
+### Bug Fixes
+
+* **backend:** fix creation of admin ([aa07bc7](https://github.com/SocialGouv/domifa/commit/aa07bc701ad20c032cbe0732cf6d8aecb4ab8809))
+
 # [2.200.0](https://github.com/SocialGouv/domifa/compare/v2.199.1...v2.200.0) (2025-04-28)
 
 
