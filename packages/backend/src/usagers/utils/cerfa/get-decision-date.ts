@@ -1,6 +1,5 @@
 import { subDays, addYears } from "date-fns";
-import { resetDate } from "./cerfa-utils";
-import { generateDateForCerfa } from "./generate-date-for-cerfa.service";
+import { getDateForCerfa, resetDate } from "./get-date-for-cerfa";
 import { CerfaDocType, Usager } from "@domifa/common";
 
 export const getDecisionDate = (
@@ -10,12 +9,12 @@ export const getDecisionDate = (
     "datePremiereDom" | "decision" | "historique" | "typeDom"
   >
 ) => {
-  let datePremiereDom = generateDateForCerfa(usager.datePremiereDom);
-  let dateDebut = generateDateForCerfa(usager.decision.dateDebut);
-  let dateFin = generateDateForCerfa(usager.decision.dateFin);
+  let datePremiereDom = getDateForCerfa(usager.datePremiereDom);
+  let dateDebut = getDateForCerfa(usager.decision.dateDebut);
+  let dateFin = getDateForCerfa(usager.decision.dateFin);
 
   if (!usager?.datePremiereDom) {
-    datePremiereDom = generateDateForCerfa(new Date());
+    datePremiereDom = getDateForCerfa(new Date());
   }
 
   if (
@@ -33,12 +32,12 @@ export const getDecisionDate = (
       usager.typeDom === "PREMIERE_DOM" ||
       typeCerfa === CerfaDocType.attestation_future
     ) {
-      dateDebut = generateDateForCerfa(new Date());
-      dateFin = generateDateForCerfa(subDays(addYears(new Date(), 1), 1));
+      dateDebut = getDateForCerfa(new Date());
+      dateFin = getDateForCerfa(subDays(addYears(new Date(), 1), 1));
     } else if (typeof usager.historique[index] !== "undefined") {
       const lastDecision = usager.historique[index];
-      dateDebut = generateDateForCerfa(lastDecision.dateDebut);
-      dateFin = generateDateForCerfa(lastDecision.dateFin);
+      dateDebut = getDateForCerfa(lastDecision.dateDebut);
+      dateFin = getDateForCerfa(lastDecision.dateFin);
     } else {
       dateDebut = resetDate();
       dateFin = resetDate();

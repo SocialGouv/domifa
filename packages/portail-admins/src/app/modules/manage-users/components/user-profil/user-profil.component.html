@@ -1,6 +1,23 @@
 <div *ngIf="me" class="head-page py-4">
   <div class="container">
-    <h1 class="title">Gérer les utilisateurs</h1>
+    <div class="row">
+      <div class="col-md-9 col-12">
+        <h1 class="title">Gérer les utilisateurs</h1>
+      </div>
+      <div
+        class="text-start text-md-end col-12 col-md-3"
+        *ngIf="me.role === 'super-admin-domifa'"
+      >
+        <button
+          (click)="openAddUserModal()"
+          class="btn btn-white-primary"
+          type="button"
+        >
+          <fa-icon [icon]="faUserPlus" class="me-2"></fa-icon> Ajouter un
+          utilisateur
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -10,6 +27,7 @@
       <h2 class="title">
         Utilisateurs enregistrés: {{ users.length }} utilisateurs
       </h2>
+
       <div class="table-responsive">
         <table class="table" [attr.aria-rowcount]="users.length">
           <caption class="visually-hidden">
@@ -115,19 +133,18 @@
                 </ng-container>
               </td>
               <td *ngIf="me.role === 'super-admin-domifa'">
-                <!-- <button
+                <button
                   type="button"
-                  *ngIf="me.id !== user.uuid"
-                  (click)="openDeleteConfirmation(user)"
+                  (click)="openUpdateUserModal(user)"
                   class="btn btn-primary me-2"
-                  [attr.aria-label]="'Editer ' + user.nom + ' ' + user.prenom"
+                  [attr.aria-label]="'Modifier ' + user.nom + ' ' + user.prenom"
                 >
                   <fa-icon [icon]="faEdit" aria-hidden="true"></fa-icon>
-                </button> -->
+                </button>
                 <button
                   type="button"
                   *ngIf="
-                    me.role === 'super-admin-domifa' && me.id !== user.uuid
+                    me.role === 'super-admin-domifa' && me.uuid !== user.uuid
                   "
                   (click)="openDeleteConfirmation(user)"
                   class="btn btn-danger"
@@ -145,42 +162,26 @@
           </tbody>
         </table>
       </div>
-
-      <div *ngIf="me.role === 'super-admin-domifa'" class="my-3">
-        <app-register-user-supervisor
-          (getUsers)="getUsers()"
-        ></app-register-user-supervisor>
-      </div>
     </div>
   </div>
 </div>
 
-<ng-template #deleteUserConfirmation let-modal>
-  <ng-container *ngIf="me.id === selectedUser.id">
-    {{ USER_SUPERVISOR_ROLES_LABELS[selectedUser.role] }}
-  </ng-container>
-  <ng-container
-    *ngIf="me.role === 'super-admin-domifa' && me.id !== selectedUser.id"
-  >
-    <label class="visually-hidden" for="role-{{ selectedUser.uuid }}"
-      >Rôle de {{ selectedUser | fullName }}</label
-    >
-    <select
-      [disabled]="loading"
-      [attr.aria-busy]="loading"
-      id="role-{{ selectedUser.uuid }}"
-      [(ngModel)]="selectedUser.role"
-      (ngModelChange)="onRoleChange(selectedUser, selectedUser.role)"
-      class="form-select"
-    >
-      <option value="super-admin-domifa">Administrateur</option>
-      <option value="national">National</option>
-      <option value="department">Département</option>
-      <option value="region">Région</option>
-    </select>
-  </ng-container></ng-template
->
-<ng-template #deleteUserConfirmation let-modal
+<ng-template #addUserModal let-modal>
+  <app-register-user-supervisor
+    [isEditMode]="false"
+    (cancel)="closeModal(); getUsers()"
+  ></app-register-user-supervisor>
+</ng-template>
+
+<ng-template #updateUserModal let-modal>
+  <app-register-user-supervisor
+    [isEditMode]="true"
+    (cancel)="closeModal(); getUsers()"
+    [userToEdit]="selectedUser"
+  ></app-register-user-supervisor>
+</ng-template>
+
+<ng-template #deleteUserConfirmationModal let-modal
   ><app-delete-user
     [selectedUser]="selectedUser"
     (deleteComplete)="getUsers()"

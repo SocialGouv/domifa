@@ -103,6 +103,22 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
     );
   }
 
+  public confirmStructure(structure: StructureAdmin) {
+    this.subscription.add(
+      this.adminStructuresApiClient
+        .confirmNewStructure(structure.uuid, structure.token)
+        .subscribe({
+          next: () => {
+            structure.verified = true;
+            this.toastService.success("Structure vérifiée avec succès");
+          },
+          error: () => {
+            this.toastService.error("Impossible de valider la structure");
+          },
+        })
+    );
+  }
+
   public openModal(structure: StructureAdmin): void {
     this.currentStructure = structure;
     this.modalService.open(this.addAdminModal, { size: "lg" });
