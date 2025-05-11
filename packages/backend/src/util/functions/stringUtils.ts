@@ -1,6 +1,6 @@
 import { TimeZone } from "@domifa/common";
 import { format } from "date-fns";
-import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
+import { utcToZonedTime } from "date-fns-tz";
 import { fr } from "date-fns/locale";
 
 export const formatBoolean = (element: boolean): string => {
@@ -50,9 +50,6 @@ export const dateFormat = (
   if (typeof date === "string") {
     date = new Date(date);
   }
-  // On Repasse en UTC pour convertir correctement
-  date = zonedTimeToUtc(date, "Europe/Paris");
-  // On repasse sur la bonne timezone
   date = utcToZonedTime(date, timeZone);
 
   return format(date, displayFormat, {
