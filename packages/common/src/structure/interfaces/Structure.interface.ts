@@ -22,6 +22,7 @@ export interface Structure extends AppEntity {
   // Only for stats
   departmentName?: string;
   regionName?: string;
+  cityCode?: string;
 
   capacite: number;
   codePostal: string;

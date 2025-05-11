@@ -16,14 +16,11 @@ export function padNumber(value: number): string {
     return "";
   }
 }
-
-export function formatDateToNgb(date: Date | string): NgbDate {
-  const dateObj = typeof date === "string" ? new Date(date) : date;
-  const year = dateObj.getUTCFullYear();
-  const month = dateObj.getUTCMonth() + 1;
-  const day = dateObj.getUTCDate();
-
-  return new NgbDate(year, month, day);
+export function formatDateToNgb(date: Date): NgbDate {
+  if (!date.getDate) {
+    date = new Date(date);
+  }
+  return new NgbDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
 }
 
 export function parseDateFromNgb(ngbDate: NgbDate): Date {

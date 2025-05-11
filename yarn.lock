@@ -3808,6 +3808,7 @@ __metadata:
     class-transformer: "npm:0.5.1"
     class-validator: "npm:^0.14.1"
     compression: "npm:^1.8.0"
+    csv-parse: "npm:^5.6.0"
     date-fns: "npm:^2.30.0"
     date-fns-tz: "npm:^2.0.1"
     docxtemplater: "npm:^3.48.0"
@@ -13599,6 +13600,13 @@ __metadata:
   dependencies:
     cssom: "npm:~0.3.6"
   checksum: 10/46f7f05a153446c4018b0454ee1464b50f606cb1803c90d203524834b7438eb52f3b173ba0891c618f380ced34ee12020675dc0052a7f1be755fe4ebc27ee977
+  languageName: node
+  linkType: hard
+
+"csv-parse@npm:^5.6.0":
+  version: 5.6.0
+  resolution: "csv-parse@npm:5.6.0"
+  checksum: 10/4c82e11f50ae0ccbac2aed716ef2502d0468bf96552083561db789fc0258ee4bb0a30106fcfb2684f153cb4042f0413e0eac3645d5466874803b7ccdeba67ac8
   languageName: node
   linkType: hard
 
