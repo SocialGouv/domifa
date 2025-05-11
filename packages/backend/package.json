@@ -84,7 +84,6 @@
     "lodash.set": "^4.3.2",
     "luhn": "^2.4.1",
     "mammoth": "^1.4.17",
-    "moment": "^2.30.1",
     "multer": "^2.0.0",
     "node-pdftk": "^2.1.3",
     "nodemailer": "^6.10.0",

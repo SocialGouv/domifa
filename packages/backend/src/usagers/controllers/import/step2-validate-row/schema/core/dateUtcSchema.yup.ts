@@ -1,13 +1,10 @@
-import * as moment from "moment";
+import { parseISO, isValid } from "date-fns";
 import * as yup from "yup";
 import { appLogger } from "../../../../../../util";
 import { ValidationRegexp } from "./ValidationRegexp.data";
 
-const DEFAULT_PARSE_FORMATS = "DD/MM/YYYY";
-// @see https://github.com/jquense/yup/blob/master/docs/extending.md
 export const dateUtcSchema = () =>
   yup.date().transform((value, originalValue) => {
-    // Si c'est du texte, Original value sera vide, mais value non
     if (!originalValue && value) {
       originalValue = value;
     }
@@ -20,20 +17,43 @@ export const dateUtcSchema = () =>
         return yup.date.INVALID_DATE;
       }
 
-      const momentDate = moment
-        .utc(originalValue, DEFAULT_PARSE_FORMATS)
-        .startOf("day");
+      let parsedDate: Date;
 
-      if (!momentDate.isValid) {
-        appLogger.warn(`Invalid date (moment)`, {
+      try {
+        if (typeof originalValue === "string") {
+          parsedDate = parseISO(originalValue);
+        } else if (originalValue instanceof Date) {
+          parsedDate = originalValue;
+        } else {
+          parsedDate = new Date(originalValue);
+        }
+
+        if (!isValid(parsedDate)) {
+          appLogger.warn(`Invalid date (date-fns)`, {
+            sentry: true,
+            context: { originalValue },
+          });
+          return yup.date.INVALID_DATE;
+        }
+
+        return new Date(
+          Date.UTC(
+            parsedDate.getFullYear(),
+            parsedDate.getMonth(),
+            parsedDate.getDate(),
+            12,
+            0,
+            0,
+            0
+          )
+        );
+      } catch (error) {
+        appLogger.warn(`Error parsing date`, {
           sentry: true,
-          context: {
-            originalValue,
-          },
+          context: { originalValue },
         });
         return yup.date.INVALID_DATE;
       }
-      return momentDate.toDate();
     }
     return null;
   });
