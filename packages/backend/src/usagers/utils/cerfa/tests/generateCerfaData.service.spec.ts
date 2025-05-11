@@ -9,16 +9,14 @@ import {
   JEST_FAKE_TIMER,
 } from "../../../../util/test";
 import { UserStructureAuthenticated } from "../../../../_common/model";
-import {
-  generateCerfaData,
-  generateAdressForCerfa,
-} from "../generateCerfaData.service";
+import { generateCerfaData } from "../generate-cerfa-data";
 import {
   CERFA_MOCK_USAGER_ACTIF,
   CERFA_MOCK_USAGER_REFUS,
 } from "./CERFA_MOCKS.mock";
 import { CerfaDocType, Structure, Usager } from "@domifa/common";
-import { getUsagerRef } from "../cerfa-utils";
+import { getUsagerRef } from "../get-usager-ref";
+import { getAddress } from "../get-address";
 
 describe("Générer les données des Cerfa", () => {
   let user: UserStructureAuthenticated;
@@ -188,7 +186,7 @@ describe("Générer les données des Cerfa", () => {
     });
     it("Afficher l'ID du domicilié dans l'adresse", () => {
       user.structure.options.numeroBoite = true;
-      const { adresseDomicilie } = generateAdressForCerfa(user, usagerValide);
+      const { adresseDomicilie } = getAddress(user, usagerValide);
 
       expect(adresseDomicilie).toEqual(
         "Boite toto\nCCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine"
@@ -205,7 +203,7 @@ describe("Générer les données des Cerfa", () => {
 
     it("Structure sans adresse de réception de courrier", () => {
       user.structure.options.numeroBoite = false;
-      const { adresseDomicilie, adresseStructure } = generateAdressForCerfa(
+      const { adresseDomicilie, adresseStructure } = getAddress(
         user,
         usagerValide
       );
@@ -227,7 +225,7 @@ describe("Générer les données des Cerfa", () => {
         actif: true,
       };
 
-      const { adresseDomicilie, adresseStructure } = generateAdressForCerfa(
+      const { adresseDomicilie, adresseStructure } = getAddress(
         user,
         usagerValide
       );
@@ -255,7 +253,7 @@ describe("Générer les données des Cerfa", () => {
         ...usagerValide,
         numeroDistribution: "TSA 30110",
       };
-      const { adresseDomicilie } = generateAdressForCerfa(user, usagerTsa);
+      const { adresseDomicilie } = getAddress(user, usagerTsa);
 
       const newLocal =
         "CCAS de Test\n1 rue de l'océan\nTSA 30110\n92600 - Asnieres-sur-seine";

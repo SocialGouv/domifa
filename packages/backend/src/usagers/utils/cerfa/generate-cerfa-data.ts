@@ -1,18 +1,12 @@
 import { isNil } from "lodash";
-import { format } from "date-fns";
-import { generateDateForCerfa } from ".";
+import { getAddress, getAyantsDroit, getDateForCerfa } from ".";
 
 import { getPhoneString } from "../../../util/phone/phoneUtils.service";
 import { UserStructureAuthenticated } from "../../../_common/model";
 
-import {
-  Usager,
-  CerfaDocType,
-  UsagerAyantDroit,
-  generateMotifLabel,
-} from "@domifa/common";
+import { Usager, CerfaDocType, generateMotifLabel } from "@domifa/common";
 
-import { getUsagerRef } from "./cerfa-utils";
+import { getUsagerRef } from "./get-usager-ref";
 import { UsagerCerfaFields } from "../../constants/cerfa";
 import { getDecisionDate } from "./get-decision-date";
 import { getStringFromData } from "../../../util";
@@ -28,9 +22,9 @@ export const generateCerfaData = (
     usager.rdv = { userId: null, dateRdv: null, userName: null };
   }
   const entretienAvec = getStringFromData(usager.rdv.userName).toUpperCase();
-  const dateRdv = generateDateForCerfa(usager.rdv.dateRdv, user);
+  const dateRdv = getDateForCerfa(usager.rdv.dateRdv, user);
 
-  const dateOfDocument = generateDateForCerfa(new Date());
+  const dateOfDocument = getDateForCerfa(new Date());
 
   const { datePremiereDom, dateDebut, dateFin } = getDecisionDate(
     typeCerfa,
@@ -46,15 +40,12 @@ export const generateCerfaData = (
     usager.nom += ` (${usager.surnom})`;
   }
 
-  const dateNaissance = generateDateForCerfa(usager.dateNaissance);
+  const dateNaissance = getDateForCerfa(usager.dateNaissance);
   const sexe = usager.sexe === "femme" ? "1" : "2";
   const courriel = getStringFromData(usager.email);
   const responsable = `${user.structure.responsable.nom.toUpperCase()}, ${user.structure.responsable.prenom.toUpperCase()}, ${user.structure.responsable.fonction.toUpperCase()}`;
 
-  const { adresseDomicilie, adresseStructure } = generateAdressForCerfa(
-    user,
-    usager
-  );
+  const { adresseDomicilie, adresseStructure } = getAddress(user, usager);
 
   const prefecture =
     user.structure.structureType === "asso" ? user.structure.departement : "";
@@ -81,7 +72,7 @@ export const generateCerfaData = (
     anneeNaissance2: dateNaissance.annee,
     anneePremiereDom: datePremiereDom.annee,
     anneeRdv: dateRdv.annee,
-    ayantsDroits: getAyantsDroitsText(usager),
+    ayantsDroits: getAyantsDroit(usager),
     courriel,
     courrielOrga: user.structure.email,
     decision: usager.decision.statut === "REFUS" ? "2" : "",
@@ -134,66 +125,3 @@ export const generateCerfaData = (
     typeDemande: usager.typeDom === "RENOUVELLEMENT" ? "2" : "1",
   };
 };
-
-export function getAyantsDroitsText(usager: Usager): string {
-  let ayantsDroitsTexte = "";
-
-  if (usager.ayantsDroits.length > 0) {
-    ayantsDroitsTexte = usager.ayantsDroits.reduce(
-      (prev: string, current: UsagerAyantDroit) =>
-        `${prev}${current.nom} ${current.prenom} né(e) le ${format(
-          new Date(current.dateNaissance),
-          "dd/MM/yyyy"
-        )} - `,
-      ""
-    );
-
-    if (ayantsDroitsTexte) {
-      ayantsDroitsTexte = ayantsDroitsTexte
-        .substring(0, ayantsDroitsTexte.length - 2)
-        .trim();
-    }
-  }
-  return ayantsDroitsTexte;
-}
-
-export function generateAdressForCerfa(
-  user: UserStructureAuthenticated,
-  usager: Usager
-): {
-  adresseStructure: string;
-  adresseDomicilie: string;
-} {
-  // Adresse de la structure
-  let adresseDomicilie = "";
-
-  const numeroDistribution = !isNil(usager.numeroDistribution)
-    ? `\n${usager.numeroDistribution}\n`
-    : "\n";
-
-  if (
-    !isNil(user.structure.adresseCourrier) &&
-    user.structure.adresseCourrier.actif
-  ) {
-    adresseDomicilie = `${user.structure.nom}\n${user.structure.adresseCourrier.adresse}`;
-    adresseDomicilie += `${numeroDistribution}${user.structure.adresseCourrier.codePostal} - ${user.structure.adresseCourrier.ville}`;
-  } else {
-    adresseDomicilie = `${user.structure.nom}\n${user.structure.adresse}`;
-
-    // Complément d'adresse
-    if (!isNil(user.structure.complementAdresse)) {
-      adresseDomicilie += `\n${user.structure.complementAdresse}`;
-    }
-    // Numéro de distribution spéciale
-    adresseDomicilie += `${numeroDistribution}${user.structure.codePostal} - ${user.structure.ville}`;
-  }
-
-  const adresseStructure = `${user.structure.adresse}\n${user.structure.codePostal} - ${user.structure.ville}`;
-
-  // Numéro de boite au lettre
-  if (user.structure.options?.numeroBoite) {
-    adresseDomicilie = `Boite ${getUsagerRef(usager)}\n${adresseDomicilie}`;
-  }
-
-  return { adresseStructure, adresseDomicilie };
-}

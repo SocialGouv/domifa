@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
   OnDestroy,
   OnInit,
   Output,
@@ -61,7 +62,12 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
   public selectedRole: UserSupervisorRole = "national";
   public showTerritories = false;
   public territoriesList: RegionsLabels = DEPARTEMENTS_LISTE;
-  @Output() public getUsers = new EventEmitter<void>();
+
+  @Input() public userToEdit: UserSupervisor | null = null;
+  @Input() public isEditMode = false;
+
+  @Output() public readonly cancel = new EventEmitter<void>();
+  @Output() public readonly getUsers = new EventEmitter<void>();
 
   @ViewChild("form", { static: true })
   public form!: ElementRef<HTMLFormElement>;
@@ -83,8 +89,9 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
   public onRoleChange(): void {
     this.selectedRole = this.f.role.value;
 
-    this.f.territories.setValue([]);
-
+    if (!this.isEditMode) {
+      this.f.territories.setValue(null);
+    }
     if (this.selectedRole === "department") {
       this.showTerritories = true;
       this.territoriesList = DEPARTEMENTS_LISTE;
@@ -96,12 +103,47 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
     } else {
       this.showTerritories = false;
       this.f.territories.clearValidators();
+      this.f.territories.setValue(null);
     }
 
     this.f.territories.updateValueAndValidity();
   }
 
-  public ngOnInit(): void {
+  private patchFormWithUserData(): void {
+    if (!this.userToEdit) return;
+
+    const territory =
+      this.userToEdit?.territories?.length > 0
+        ? this.userToEdit.territories[0]
+        : null;
+
+    this.userForm.patchValue({
+      prenom: this.userToEdit.prenom,
+      nom: this.userToEdit.nom,
+      email: this.userToEdit.email,
+      role: this.userToEdit.role,
+      territories: territory,
+    });
+
+    if (this.isEditMode) {
+      this.f.email.disable();
+    }
+    console.log(this.userToEdit);
+
+    this.selectedRole = this.userToEdit.role;
+    this.onRoleChange();
+  }
+
+  ngOnInit(): void {
+    this.initForm();
+
+    if (this.isEditMode && this.userToEdit) {
+      this.onRoleChange();
+      this.patchFormWithUserData();
+    }
+  }
+
+  private initForm(): void {
     this.userForm = this.formBuilder.group({
       email: [
         null,
@@ -117,7 +159,7 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
         null,
         [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
-      territories: [[], []],
+      territories: [null, []],
     });
 
     this.userForm.get("role").valueChanges.subscribe(() => {
@@ -169,26 +211,62 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
       };
 
       this.loading = true;
-      this.subscription.add(
-        this.manageUsersService.registerUserSupervisor(formValue).subscribe({
-          next: () => {
-            this.loading = false;
-            this.submitted = false;
-            this.getUsers.emit();
-            this.userForm.reset();
-            this.toastService.success(
-              "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."
-            );
-          },
-          error: () => {
-            this.loading = false;
-            this.toastService.error(
-              "veuillez vérifier les champs marqués en rouge dans le formulaire"
-            );
-          },
-        })
-      );
+      if (this.isEditMode && this.userToEdit) {
+        this.subscription.add(
+          this.manageUsersService
+            .updateUser(this.userToEdit.uuid, formValue)
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe({
+              next: () => {
+                this.toastService.success("Utilisateur mis à jour avec succès");
+                this.resetForm();
+                this.getUsers.emit();
+                this.cancel.emit();
+              },
+              error: (error) => {
+                this.loading = false;
+                if (error.status === 409) {
+                  this.emailExist = true;
+                } else {
+                  this.toastService.error(
+                    "Erreur lors de la mise à jour de l'utilisateur"
+                  );
+                }
+              },
+            })
+        );
+      } else {
+        this.subscription.add(
+          this.manageUsersService.registerUserSupervisor(formValue).subscribe({
+            next: () => {
+              this.loading = false;
+              this.submitted = false;
+              this.getUsers.emit();
+              this.userForm.reset();
+              this.cancel.emit();
+              this.toastService.success(
+                "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."
+              );
+            },
+            error: () => {
+              this.loading = false;
+              this.toastService.error(
+                "veuillez vérifier les champs marqués en rouge dans le formulaire"
+              );
+            },
+          })
+        );
+      }
     }
+  }
+
+  private resetForm(): void {
+    this.submitted = false;
+    this.loading = false;
+    this.emailExist = false;
+    this.userForm.reset({ role: "national" });
+    this.selectedRole = "national";
+    this.onRoleChange();
   }
 
   public validateEmailNotTaken(

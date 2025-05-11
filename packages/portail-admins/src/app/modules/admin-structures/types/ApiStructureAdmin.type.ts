@@ -19,6 +19,7 @@ export type ApiStructureAdmin = Pick<
   | "verified"
   | "import"
   | "importDate"
+  | "token"
   | "lastLogin"
 > &
   Required<{ uuid: string }> & {
