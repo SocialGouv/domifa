@@ -1,205 +1,242 @@
-<h2 class="title mt-3">Créer un utilisateur</h2>
-<p>
-  Les champs suivis d'un <span class="fw-bold text-danger">*</span> sont
-  obligatoires
-</p>
-<form #form *ngIf="userForm" [formGroup]="userForm" (ngSubmit)="submitUser()">
-  <div class="row">
-    <div class="col form-group required">
-      <label for="nom">Nom</label>
-      <input
-        type="text"
-        class="form-control"
-        id="nom"
-        appCleanStr
-        formControlName="nom"
-        name="nom"
-        [ngClass]="{
-          'is-invalid': (f.nom.dirty || submitted) && f.nom.errors,
-          'is-valid': f.nom.dirty && !f.nom.errors
-        }"
-        [attr.aria-describedby]="
-          (f.nom.dirty || submitted) && f.nom.errors ? 'invalid-name' : null
-        "
-        [attr.aria-invalid]="
-          (f.nom.dirty || submitted) && f.nom.errors ? true : false
-        "
-        required
-      />
-      <p
-        *ngIf="submitted && f.nom.errors"
-        id="invalid-name"
-        class="invalid-feedback"
-      >
-        Veuillez vérifier le nom
-      </p>
-    </div>
-    <div class="col form-group required">
-      <label for="prenom">Prénom</label>
-      <input
-        type="text"
-        class="form-control"
-        id="prenom"
-        appCleanStr
-        formControlName="prenom"
-        name="prenom"
-        [ngClass]="{
-          'is-invalid':(submitted || f.prenom.dirty) && f.prenom.errors,
-        }"
-        [attr.aria-describedby]="
-          (submitted || f.prenom.dirty) && f.prenom.errors
-            ? 'invalid-prenom'
-            : null
-        "
-        [attr.aria-invalid]="
-          (submitted || f.prenom.dirty) && f.prenom.errors ? true : false
-        "
-        required
-      />
-      <p
-        *ngIf="(submitted || f.prenom.dirty) && f.prenom.errors"
-        id="invalid-prenom"
-        class="invalid-feedback"
-      >
-        Veuillez vérifier le prénom
-      </p>
-    </div>
-    <div class="col form-group required">
-      <label for="email">Adresse email</label>
-      <input
-        type="email"
-        class="form-control"
-        id="email"
-        formControlName="email"
-        name="email"
-        [attr.aria-invalid]="
-          (f.email.dirty || submitted) && f.email.errors ? true : false
-        "
-        [ngClass]="{
-          'is-invalid': (f.email.dirty || submitted) && f.email.errors
-        }"
-        [attr.aria-describedby]="
-          (f.email.dirty || submitted) && f.email.errors ? 'email-errors' : null
-        "
-        required
-      />
-      <div *ngIf="f.email.errors" class="invalid-feedback" id="email-errors">
-        <p *ngIf="f.email.errors?.emailTaken">
-          <fa-icon
-            aria-hidden="true"
-            [icon]="['fas', 'exclamation-triangle']"
-          ></fa-icon>
-          L'adresse email est déjà utilisée
-        </p>
-        <p *ngIf="f.email.errors?.invalidSuperAdminEmail">
-          <fa-icon
-            aria-hidden="true"
-            [icon]="['fas', 'exclamation-triangle']"
-          ></fa-icon>
-          Les administrateurs doivent avoir un email "fabrique.social.gouv.fr"
-        </p>
-        <p
-          *ngIf="
-            !f.email.errors.emailTaken && !f.email.errors.invalidSuperAdminEmail
+<div class="modal-header bg-primary">
+  <span class="text-white" id="modal-title">
+    {{
+      isEditMode
+        ? "Modifier l'utilisateur: " + userToEdit.nom + " " + userToEdit.prenom
+        : "Créer un utilisateur"
+    }}
+  </span>
+</div>
+
+<div class="modal-body">
+  <p *ngIf="!isEditMode">
+    Les champs suivis d'un <span class="fw-bold text-danger">*</span> sont
+    obligatoires
+  </p>
+
+  <form #form *ngIf="userForm" [formGroup]="userForm" (ngSubmit)="submitUser()">
+    <div class="row mb-3">
+      <div class="col-md-6 form-group required">
+        <label for="nom">Nom</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nom"
+          appCleanStr
+          formControlName="nom"
+          name="nom"
+          [ngClass]="{
+            'is-invalid': (f.nom.dirty || submitted) && f.nom.errors,
+            'is-valid': f.nom.dirty && !f.nom.errors
+          }"
+          [attr.aria-describedby]="
+            (f.nom.dirty || submitted) && f.nom.errors ? 'invalid-name' : null
           "
+          [attr.aria-invalid]="
+            (f.nom.dirty || submitted) && f.nom.errors ? true : false
+          "
+          required
+        />
+        <p
+          *ngIf="submitted && f.nom.errors"
+          id="invalid-name"
+          class="invalid-feedback"
         >
-          Veuillez vérifier l'adresse email, format attendu : nom&#64;domaine.fr
+          Veuillez vérifier le nom
         </p>
       </div>
-    </div>
-    <div class="col form-group required">
-      <label for="role">Rôle du superviseur {{ f.role.value }}</label>
-      <select
-        id="role"
-        formControlName="role"
-        name="role"
-        (change)="onRoleChange()"
-        [ngClass]="{
-          'is-invalid': submitted && f.role.errors
-        }"
-        [attr.aria-invalid]="submitted && f.role.errors ? true : false"
-        [attr.aria-describedby]="
-          submitted && f.role.errors ? 'invalid-role' : null
-        "
-        class="form-select"
-        required
-      >
-        <option [ngValue]="null"></option>
-        <option
-          *ngFor="let item of USER_SUPERVISOR_ROLES_LABELS | keyvalue"
-          [value]="item.key"
+
+      <div class="col-md-6 form-group required">
+        <label for="prenom">Prénom</label>
+        <input
+          type="text"
+          class="form-control"
+          id="prenom"
+          appCleanStr
+          formControlName="prenom"
+          name="prenom"
+          [ngClass]="{
+            'is-invalid': (submitted || f.prenom.dirty) && f.prenom.errors,
+            'is-valid': f.prenom.dirty && !f.prenom.errors
+          }"
+          [attr.aria-describedby]="
+            (submitted || f.prenom.dirty) && f.prenom.errors
+              ? 'invalid-prenom'
+              : null
+          "
+          [attr.aria-invalid]="
+            (submitted || f.prenom.dirty) && f.prenom.errors ? true : false
+          "
+          required
+        />
+        <p
+          *ngIf="(submitted || f.prenom.dirty) && f.prenom.errors"
+          id="invalid-prenom"
+          class="invalid-feedback"
         >
-          {{ item.value }}
-        </option>
-      </select>
-      <p
-        *ngIf="submitted && f.role.errors"
-        class="invalid-feedback"
-        id="invalid-role"
-      >
-        Le rôle est obligatoire
-      </p>
-    </div>
-    <div *ngIf="showTerritories" class="col form-group required">
-      <label for="territories" class="form-label">
-        {{
-          selectedRole === "department"
-            ? "Département d'action"
-            : "Région d'action"
-        }}</label
-      >
-      <select
-        id="territories"
-        formControlName="territories"
-        name="territories"
-        [ngClass]="{
-          'is-invalid': submitted && f.territories.errors
-        }"
-        [attr.aria-invalid]="submitted && f.territories.errors ? true : false"
-        [attr.aria-describedby]="
-          submitted && f.territories.errors ? 'invalid-territories' : null
-        "
-        class="form-select"
-        required
-      >
-        <option
-          *ngFor="let item of territoriesList | keyvalue"
-          [value]="item.key"
+          Veuillez vérifier le prénom
+        </p>
+      </div>
+
+      <div class="col-md-12 form-group required">
+        <label for="email">Adresse email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          formControlName="email"
+          name="email"
+          [attr.aria-invalid]="
+            (f.email.dirty || submitted) && f.email.errors ? true : false
+          "
+          [ngClass]="{
+            'is-invalid':
+              !isEditMode && (f.email.dirty || submitted) && f.email.errors,
+            'is-valid': f.email.dirty && !f.email.errors
+          }"
+          [attr.aria-describedby]="
+            (f.email.dirty || submitted) && f.email.errors
+              ? 'email-errors'
+              : null
+          "
+          required
+        />
+        <div
+          *ngIf="!isEditMode && f.email.errors && f.email.dirty"
+          class="invalid-feedback"
+          id="email-errors"
         >
+          <p *ngIf="f.email.errors?.emailTaken">
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'exclamation-triangle']"
+            ></fa-icon>
+            L'adresse email est déjà utilisée
+          </p>
+          <p *ngIf="f.email.errors?.invalidSuperAdminEmail">
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'exclamation-triangle']"
+            ></fa-icon>
+            Les administrateurs doivent avoir un email "fabrique.social.gouv.fr"
+          </p>
+          <p
+            *ngIf="
+              !f.email.errors.emailTaken &&
+              !f.email.errors.invalidSuperAdminEmail
+            "
+          >
+            Veuillez vérifier l'adresse email, format attendu :
+            nom&#64;domaine.fr
+          </p>
+        </div>
+      </div>
+      <div class="col-md-6 form-group required">
+        <label for="role">Rôle du superviseur</label>
+        <select
+          id="role"
+          formControlName="role"
+          name="role"
+          (change)="onRoleChange()"
+          [ngClass]="{
+            'is-invalid': submitted && f.role.errors
+          }"
+          [attr.aria-invalid]="submitted && f.role.errors ? true : false"
+          [attr.aria-describedby]="
+            submitted && f.role.errors ? 'invalid-role' : null
+          "
+          class="form-select"
+          required
+        >
+          <option [ngValue]="null"></option>
+          <option
+            *ngFor="let item of USER_SUPERVISOR_ROLES_LABELS | keyvalue"
+            [value]="item.key"
+          >
+            {{ item.value }}
+          </option>
+        </select>
+        <p
+          *ngIf="!isEditMode && submitted && f.role.errors"
+          class="invalid-feedback"
+          id="invalid-role"
+        >
+          Le rôle est obligatoire
+        </p>
+      </div>
+
+      <div class="col-md-6 form-group required" *ngIf="showTerritories">
+        <label for="territories" class="form-label">
           {{
             selectedRole === "department"
-              ? item.key + " - " + item.value
-              : item.value
+              ? "Département d'action"
+              : "Région d'action"
           }}
-        </option>
-      </select>
+        </label>
 
-      <div
-        *ngIf="submitted && f.territories.errors"
-        class="invalid-feedback"
-        id="invalid-territories"
-      >
-        Veuillez sélectionner au moins un territoire.
+        <select
+          id="territories"
+          formControlName="territories"
+          name="territories"
+          [ngClass]="{
+            'is-invalid': submitted && f.territories.errors
+          }"
+          [attr.aria-invalid]="submitted && f.territories.errors ? true : false"
+          [attr.aria-describedby]="
+            submitted && f.territories.errors ? 'invalid-territories' : null
+          "
+          class="form-select"
+          required
+        >
+          <option [value]="null"></option>
+          <option
+            *ngFor="let item of territoriesList | keyvalue"
+            [value]="item.key"
+          >
+            {{
+              selectedRole === "department"
+                ? item.key + " - " + item.value
+                : item.value
+            }}
+          </option>
+        </select>
+
+        <div
+          *ngIf="!isEditMode && submitted && f.territories.errors"
+          class="invalid-feedback"
+          id="invalid-territories"
+        >
+          Veuillez sélectionner au moins un territoire.
+        </div>
       </div>
     </div>
-    <div class="col-12 text-center">
-      <button
-        class="btn btn-primary"
-        type="submit"
-        [disabled]="loading"
-        [attr.aria-busy]="loading"
-      >
-        <span *ngIf="loading">
-          <fa-icon
-            [icon]="['fas', 'circle-notch']"
-            aria-hidden="true"
-            [spin]="true"
-          >
-          </fa-icon>
-          Veuillez patienter...
-        </span>
-        <span *ngIf="!loading">Ajouter cet utilisateur</span>
-      </button>
-    </div>
-  </div>
-</form>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-lg btn-outline-dark"
+    (click)="cancel.emit()"
+  >
+    Annuler
+  </button>
+  <button
+    class="btn btn-lg btn-primary"
+    type="button"
+    (click)="submitUser()"
+    [disabled]="loading"
+  >
+    <span *ngIf="loading">
+      <fa-icon
+        [icon]="['fas', 'circle-notch']"
+        aria-hidden="true"
+        [spin]="true"
+      ></fa-icon>
+      Veuillez patienter...
+    </span>
+    <span *ngIf="!loading">{{
+      isEditMode ? "Enregistrer les modifications" : "Ajouter cet utilisateur"
+    }}</span>
+  </button>
+</div>

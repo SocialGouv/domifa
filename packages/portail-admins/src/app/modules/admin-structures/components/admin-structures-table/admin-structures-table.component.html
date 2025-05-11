@@ -187,6 +187,17 @@
             <div ngbDropdownMenu>
               <button
                 type="button"
+                *ngIf="!structure.verified"
+                class="cursor-pointer"
+                ngbDropdownItem
+                (click)="confirmStructure(structure)"
+              >
+                <fa-icon aria-hidden="true" [icon]="['fas', 'check']"></fa-icon>
+
+                Valider la structure
+              </button>
+              <button
+                type="button"
                 class="cursor-pointer"
                 ngbDropdownItem
                 (click)="openModal(structure)"

@@ -28,3 +28,7 @@ Thumbs.db
 .anonymizer/greenmask
 
 *.psql.gz
+
+
+.nx/cache
+.nx/workspace-data

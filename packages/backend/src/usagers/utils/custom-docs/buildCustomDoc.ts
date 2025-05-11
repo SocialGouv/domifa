@@ -1,6 +1,5 @@
 import { getPhoneString } from "../../../util/phone/phoneUtils.service";
 import { isNil } from "lodash";
-import { getAyantsDroitsText } from "../cerfa";
 import {
   USAGER_DECISION_STATUT_LABELS,
   ENTRETIEN_CAUSE_INSTABILITE,
@@ -29,6 +28,7 @@ import {
   ucFirst,
 } from "../../../util";
 import { domifaConfig } from "../../../config";
+import { getAyantsDroit } from "../cerfa/get-ayants-droit";
 
 export const DATE_FORMAT = {
   JOUR: "dd/MM/yyyy",
@@ -66,7 +66,7 @@ export function buildCustomDoc({
 
   return {
     AYANTS_DROITS_NOMBRE: usager.ayantsDroits?.length?.toString() ?? "0",
-    AYANTS_DROITS_LISTE: getAyantsDroitsText(usager),
+    AYANTS_DROITS_LISTE: getAyantsDroit(usager),
     // DATES UTILES
     DATE_JOUR: dateFormat(date, structure.timeZone, DATE_FORMAT.JOUR),
     DATE_JOUR_HEURE: dateFormat(

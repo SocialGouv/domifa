@@ -7,12 +7,12 @@ import {
 } from "../../../../database";
 import { passwordGenerator } from "../../../../util";
 import { userSecurityResetPasswordInitiator } from "../../../users/services";
-import { RegisterUserSupervisorAdminDto } from "../../dto";
+import { RegisterUserSupervisorDto } from "../../dto";
 
 @Injectable()
 export class AdminSuperivorUsersService {
   public async createUserWithTmpToken(
-    userDto: RegisterUserSupervisorAdminDto
+    userDto: RegisterUserSupervisorDto
   ): Promise<{ user: UserSupervisorTable; userSecurity: UserSecurity }> {
     const createdUser = new UserSupervisorTable(userDto);
 

@@ -13,8 +13,9 @@ import { IsValidGeographicRole } from "../../../_common/decorators";
 import { UserSupervisorRole } from "@domifa/common";
 import { USER_SUPERVISOR_ROLES } from "../../../_common/model/users/user-supervisor";
 import { LowerCaseTransform } from "../../../_common/decorators/transformers";
+import { IsSocialGouvEmailIfSuperAdmin } from "../decorators";
 
-export class RegisterUserSupervisorAdminDto {
+export class RegisterUserSupervisorDto {
   @ApiProperty({
     type: String,
     required: true,
@@ -26,7 +27,7 @@ export class RegisterUserSupervisorAdminDto {
   @Transform(({ value }: TransformFnParams) => {
     return value.toString().trim();
   })
-  public readonly prenom!: string;
+  public prenom!: string;
 
   @ApiProperty({
     type: String,
@@ -39,7 +40,7 @@ export class RegisterUserSupervisorAdminDto {
   @Transform(({ value }: TransformFnParams) => {
     return value.toString().trim();
   })
-  public readonly nom!: string;
+  public nom!: string;
 
   @ApiProperty({
     type: String,
@@ -48,7 +49,11 @@ export class RegisterUserSupervisorAdminDto {
   @IsNotEmpty()
   @IsEmail()
   @LowerCaseTransform()
-  public readonly email!: string;
+  @IsSocialGouvEmailIfSuperAdmin({
+    message:
+      "Pour le rôle super-admin-domifa, l'email doit se terminer par @fabrique.social.gouv.fr ou @externes.social.gouv.fr",
+  })
+  public email!: string;
 
   @ApiProperty({
     type: String,
@@ -57,7 +62,7 @@ export class RegisterUserSupervisorAdminDto {
   })
   @IsNotEmpty()
   @IsIn(USER_SUPERVISOR_ROLES)
-  public readonly role!: UserSupervisorRole;
+  public role!: UserSupervisorRole;
 
   @ApiProperty({
     type: [String],

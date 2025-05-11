@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { UserSupervisorRole, ApiMessage, UserSupervisor } from "@domifa/common";
+import { ApiMessage, UserSupervisor } from "@domifa/common";
 import { BehaviorSubject, Observable, map } from "rxjs";
 
 import { environment } from "../../../../environments/environment";
@@ -36,16 +36,11 @@ export class ManageUsersService {
     });
   }
 
-  public updateRole(
+  public updateUser(
     uuid: string,
-    role: UserSupervisorRole
+    data: Partial<UserSupervisor>
   ): Observable<UserSupervisor> {
-    return this.http.patch<UserSupervisor>(
-      `${this.endPoint}/update-role/${uuid}`,
-      {
-        role,
-      }
-    );
+    return this.http.patch<UserSupervisor>(`${this.endPoint}/${uuid}`, data);
   }
 
   public deleteUser(uuid: string): Observable<ApiMessage> {

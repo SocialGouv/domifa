@@ -10,4 +10,4 @@ export * from "./current-usager-doc.decorator";
 export * from "./current-usager-note.decorator";
 export * from "./current-usager.decorator";
 export * from "./current-user.decorator";
-export * from "./is-social-gouv-email.decorator";
+export * from "../../modules/portail-admin/decorators/is-social-gouv-email.decorator";

@@ -1,8 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
+  Param,
+  ParseUUIDPipe,
+  Patch,
   Post,
   Res,
   UseGuards,
@@ -27,10 +31,11 @@ import { userAccountCreatedByAdminEmailSender } from "../../../mails/services/te
 
 import {
   RegisterUserStructureAdminDto,
-  RegisterUserSupervisorAdminDto,
+  RegisterUserSupervisorDto,
 } from "../../dto";
 import { AdminSuperivorUsersService } from "../../services/admin-superivor-users/admin-superivor-users.service";
 import { EmailDto } from "../../../users/dto";
+import { PatchUserSupervisorDto } from "../../dto/patch-user-supervisor.dto";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("dashboard")
@@ -62,7 +67,7 @@ export class AdminUsersController {
   public async registerNewSupervisor(
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse,
-    @Body() registerUserDto: RegisterUserSupervisorAdminDto
+    @Body() registerUserDto: RegisterUserSupervisorDto
   ): Promise<ExpressResponse> {
     await this.appLogsService.create({
       userId: user.id,
@@ -139,8 +144,58 @@ export class AdminUsersController {
         lastLogin: true,
         createdAt: true,
         territories: true,
+        uuid: true,
       },
     });
     return users;
+  }
+
+  @Patch(":uuid")
+  public async patchUserSupervisor(
+    @CurrentUser() user: UserStructureAuthenticated,
+    @Res() res: ExpressResponse,
+    @Body() patchUserDto: PatchUserSupervisorDto,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string
+  ): Promise<ExpressResponse> {
+    await this.appLogsService.create({
+      userId: user.id,
+      action: "ADMIN_PATCH_USER_SUPERVISOR",
+    });
+
+    const userExist = await userSupervisorRepository.findOneBy({
+      uuid,
+    });
+
+    if (!userExist) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "CANNOT_PATCH_USER_SUPERVISOR" });
+    }
+    await userSupervisorRepository.update({ uuid }, { ...patchUserDto });
+    return res.status(HttpStatus.OK).json({ message: "OK" });
+  }
+
+  @Delete(":uuid")
+  public async deleteUserSupervisor(
+    @CurrentUser() user: UserStructureAuthenticated,
+    @Res() res: ExpressResponse,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string
+  ): Promise<ExpressResponse> {
+    await this.appLogsService.create({
+      userId: user.id,
+      action: "ADMIN_DELETE_USER_SUPERVISOR",
+    });
+
+    const userExist = await userSupervisorRepository.findOneBy({
+      uuid,
+    });
+
+    if (!userExist || userExist?.uuid === user.uuid) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "CANNOT_PATCH_USER_SUPERVISOR" });
+    }
+    await userSupervisorRepository.delete({ uuid });
+    return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 }
