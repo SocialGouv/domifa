@@ -1,3 +1,10 @@
+## [2.200.2](https://github.com/SocialGouv/domifa/compare/v2.200.1...v2.200.2) (2025-05-11)
+
+
+### Bug Fixes
+
+* **admin:** add edit of profiles ([50a125d](https://github.com/SocialGouv/domifa/commit/50a125d0b933027c3faf182c2fb373a4f600f169))
+
 ## [2.200.1](https://github.com/SocialGouv/domifa/compare/v2.200.0...v2.200.1) (2025-04-30)
 
 
