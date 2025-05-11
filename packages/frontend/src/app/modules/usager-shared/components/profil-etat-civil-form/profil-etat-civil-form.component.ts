@@ -59,6 +59,7 @@ export class ProfilEtatCivilFormComponent
 
   public updateInfos(): void {
     this.submitted = true;
+    console.log(this.usagerForm);
 
     if (this.usagerForm.invalid) {
       this.toastService.error(

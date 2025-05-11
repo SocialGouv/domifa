@@ -133,7 +133,7 @@ export class AdminStructuresController {
         FROM user_structure_security uss
         INNER JOIN user_structure
         ON user_structure.id = uss."userId"
-        WHERE uss."structureId" = $1
+        WHERE user_structure."structureId" = $1
 `,
       [structure.id]
     )) as unknown as UserStructureWithSecurity[];

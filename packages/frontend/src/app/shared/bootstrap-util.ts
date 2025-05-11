@@ -16,7 +16,6 @@ export function padNumber(value: number): string {
     return "";
   }
 }
-
 export function formatDateToNgb(date: Date): NgbDate {
   if (!date.getDate) {
     date = new Date(date);
