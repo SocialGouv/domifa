@@ -20,7 +20,6 @@ import {
   NgbDatepickerI18n,
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
-import { endOfDay } from "date-fns";
 import {
   SearchCountryField,
   CountryISO,
@@ -266,7 +265,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
           lien: ayantDroit.lien,
           nom: ayantDroit.nom.trim(),
           prenom: ayantDroit.prenom.trim(),
-          dateNaissance: endOfDay(parseDateFromNgb(ayantDroit.dateNaissance)),
+          dateNaissance: parseDateFromNgb(ayantDroit.dateNaissance),
         };
       }
     );
@@ -293,7 +292,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
         : null,
       ayantsDroits,
       contactByPhone: formValue?.contactByPhone,
-      dateNaissance: endOfDay(parseDateFromNgb(formValue.dateNaissance)),
+      dateNaissance: parseDateFromNgb(formValue.dateNaissance),
     };
 
     return data;
