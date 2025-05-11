@@ -14,16 +14,15 @@ echo "# $0 --db=dev --dump=test" # dump 'dev' database to 'test' dump file
 echo "#"
 echo "##############################################################################################"
 
-for i in "$@"
-do
-case $i in
-    --db=*)
-      SOURCE_DB_ENV="${i#*=}"
+for i in "$@"; do
+  case $i in
+  --db=*)
+    SOURCE_DB_ENV="${i#*=}"
     ;;
-    --dump=*)
-      DUMP_ENV="${i#*=}"
+  --dump=*)
+    DUMP_ENV="${i#*=}"
     ;;
-    *)
+  *)
     # unknown option
     echo ""
     echo "----------------------------------------------------------------------------------------------"
@@ -31,11 +30,10 @@ case $i in
     echo "----------------------------------------------------------------------------------------------"
     echo ""
     ;;
-esac
+  esac
 done
 
-if [ -z "${SOURCE_DB_ENV}" ]
-then
+if [ -z "${SOURCE_DB_ENV}" ]; then
   echo ""
   echo "----------------------------------------------------------------------------------------------"
   echo "[ERROR] PARAMETER --db=dev|test IS MISSING!"
@@ -43,8 +41,7 @@ then
   exit 1
 fi
 
-if [ -z "${DUMP_ENV}" ]
-then
+if [ -z "${DUMP_ENV}" ]; then
   DUMP_ENV=${SOURCE_DB_ENV}
 fi
 

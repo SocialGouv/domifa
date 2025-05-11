@@ -10,12 +10,17 @@ export class AutoMigration1743520167440 implements MigrationInterface {
       domifaConfig().envId === "preprod" ||
       domifaConfig().envId === "local"
     ) {
-      await queryRunner.query(
-        `DROP INDEX "public"."IDX_57be1bdd772eb3fea1e201317e"`
-      );
-      await queryRunner.query(
-        `DROP INDEX "public"."IDX_62204f14a6d17cad41d419d150"`
-      );
+      try {
+        await queryRunner.query(
+          `DROP INDEX "public"."IDX_57be1bdd772eb3fea1e201317e"`
+        );
+        await queryRunner.query(
+          `DROP INDEX "public"."IDX_62204f14a6d17cad41d419d150"`
+        );
+      } catch (e) {
+        console.log(e);
+      }
+
       await queryRunner.query(
         `CREATE TABLE "user_supervisor" ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "version" integer NOT NULL, "email" text NOT NULL, "fonction" text, "id" SERIAL NOT NULL, "lastLogin" TIMESTAMP WITH TIME ZONE, "nom" text NOT NULL, "password" text NOT NULL, "prenom" text NOT NULL, "passwordLastUpdate" TIMESTAMP WITH TIME ZONE, "verified" boolean NOT NULL DEFAULT true, "acceptTerms" TIMESTAMP WITH TIME ZONE, "territories" jsonb NOT NULL DEFAULT '[]', "role" text NOT NULL, CONSTRAINT "UQ_c2d4b5706fc542d95a0bf13869b" UNIQUE ("email"), CONSTRAINT "UQ_eba1b8ef0f72cb0dd4997307145" UNIQUE ("id"), CONSTRAINT "PK_fd859b169ff3833fed4b4769aa4" PRIMARY KEY ("uuid"))`
       );

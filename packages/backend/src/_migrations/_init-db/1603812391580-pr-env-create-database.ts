@@ -136,6 +136,30 @@ async function createTables(queryRunner: QueryRunner) {
     );
 
 
+    -- public.open_data_cities definition
+
+    -- Drop table
+
+    -- DROP TABLE public.open_data_cities;
+
+    CREATE TABLE public.open_data_cities (
+      "uuid" uuid DEFAULT uuid_generate_v4() NOT NULL,
+      "createdAt" timestamptz DEFAULT now() NOT NULL,
+      "updatedAt" timestamptz DEFAULT now() NOT NULL,
+      "version" int4 NOT NULL,
+      "regionCode" text NULL,
+      region text NULL,
+      "departmentCode" text NULL,
+      department text NULL,
+      city text NOT NULL,
+      "cityCode" text NOT NULL,
+      "postalCode" text NULL,
+      population int4 DEFAULT 0 NULL,
+      areas jsonb NULL,
+      CONSTRAINT "PK_f20d1eb20573a7f2922c8a5f9a8" PRIMARY KEY (uuid)
+    );
+
+
     -- public.public_stats_cache definition
 
     -- Drop table
@@ -198,6 +222,7 @@ async function createTables(queryRunner: QueryRunner) {
       "departmentName" text NULL,
       "regionName" text NULL,
       reseau text NULL,
+      "cityCode" text NULL,
       CONSTRAINT "PK_a92a6b3dd54efb4ab48b2d6e7c1" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_90ac7986e769d602d218075215c" UNIQUE (id),
       CONSTRAINT "UQ_b36e92e49b2a68f8fea64ec8d5b" UNIQUE (email)

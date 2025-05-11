@@ -43,6 +43,9 @@ export class StructureTable
   codePostal: string;
 
   @Column({ type: "text", nullable: true })
+  cityCode: string; // INSEE code
+
+  @Column({ type: "text", nullable: true })
   complementAdresse: string;
 
   @Index()
