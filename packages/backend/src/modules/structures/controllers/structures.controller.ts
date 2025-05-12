@@ -63,7 +63,6 @@ export class StructuresController {
     @Body() structureDto: StructureDto,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    delete structureDto.readCgu;
     delete structureDto.acceptCgu;
 
     structureDto.departement = getDepartementFromCodePostal(

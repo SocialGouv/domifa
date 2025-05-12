@@ -96,7 +96,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private initCguForm() {
     this.acceptTermsForm = this.formBuilder.group({
-      readCgu: [null, [Validators.requiredTrue]],
       acceptCgu: [null, [Validators.requiredTrue]],
     });
   }

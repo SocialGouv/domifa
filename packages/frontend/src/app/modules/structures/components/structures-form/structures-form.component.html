@@ -882,33 +882,6 @@
             <div class="col-md-12 required">
               <input
                 type="checkbox"
-                formControlName="readCgu"
-                name="readCgu"
-                class="form-check-input me-2"
-                [ngClass]="{
-                  'is-invalid': submitted && f.readCgu?.errors
-                }"
-                [attr.aria-describedby]="
-                  submitted && f.readCgu.errors ? 'invalid-cgu-read' : null
-                "
-                id="readCgu"
-                required
-              />
-              <label class="form-check-label" for="readCgu"
-                >Je confirme que le responsable de la structure a lu les
-                <a routerLink="/cgu" target="_blank">CGU de structure</a></label
-              >
-              <p
-                *ngIf="submitted && f.readCgu?.errors"
-                class="invalid-feedback"
-                id="invalid-cgu-read"
-              >
-                La lecture des CGU est obligatoire
-              </p>
-            </div>
-            <div class="col-md-12 required">
-              <input
-                type="checkbox"
                 formControlName="acceptCgu"
                 name="acceptCgu"
                 class="form-check-input me-2"
@@ -916,21 +889,19 @@
                   'is-invalid': submitted && f.acceptCgu?.errors
                 }"
                 [attr.aria-describedby]="
-                  submitted && f.acceptCgu.errors ? 'invalid-cgu-choice' : null
+                  submitted && f.acceptCgu.errors ? 'invalid-cgu-read' : null
                 "
                 id="acceptCgu"
                 required
               />
               <label class="form-check-label" for="acceptCgu"
-                >Le responsable de la structure accepte les
-                <a routerLink="/cgu-responsable" target="_blank"
-                  >CGU du responsable de structure</a
-                ></label
+                >Je confirme que le responsable de la structure a lu et accepté
+                les <a routerLink="/cgu" target="_blank">CGU</a></label
               >
               <p
                 *ngIf="submitted && f.acceptCgu?.errors"
                 class="invalid-feedback"
-                id="invalid-cgu-choice"
+                id="invalid-cgu-read"
               >
                 Vous devez accepter les CGU afin de poursuivre l'inscription
               </p>

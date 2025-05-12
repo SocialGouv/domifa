@@ -127,7 +127,6 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
       structureType: [this.structure.structureType, [Validators.required]],
       organismeType: [this.structure.organismeType, []],
       ville: [this.structure.ville, [Validators.required]],
-      readCgu: [null, [Validators.requiredTrue]],
       acceptCgu: [null, [Validators.requiredTrue]],
       reseau: [this.structure.reseau, null],
     });

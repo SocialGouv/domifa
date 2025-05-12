@@ -47,7 +47,6 @@ export class StructureService {
       .post(`${this.endPoint}`, {
         structure: {
           ...dto.structure,
-          readCgu: true,
           acceptCgu: true,
         },
         user: dto.user,
@@ -71,7 +70,6 @@ export class StructureService {
     return this.http
       .patch(`${this.endPoint}`, {
         ...structure,
-        readCgu: true,
         acceptCgu: true,
       })
       .pipe(

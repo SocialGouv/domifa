@@ -300,32 +300,6 @@
         <div class="col-md-12 required">
           <input
             type="checkbox"
-            formControlName="readCgu"
-            name="readCgu"
-            class="form-check-input me-2"
-            [ngClass]="{
-              'is-invalid': submitted && f.readCgu.errors
-            }"
-            [attr.aria-describedby]="
-              submitted && f.readCgu.errors ? 'invalid-cgu-read' : null
-            "
-            id="readCgu"
-            required
-          />
-          <label class="form-check-label" for="readCgu"
-            >Je confirme avoir lu les conditions générales d’utilisation
-          </label>
-          <p
-            *ngIf="submitted && f.readCgu?.errors"
-            class="invalid-feedback"
-            id="invalid-cgu-read"
-          >
-            La lecture des CGU est obligatoire
-          </p>
-        </div>
-        <div class="col-md-12 required">
-          <input
-            type="checkbox"
             formControlName="acceptCgu"
             name="acceptCgu"
             class="form-check-input me-2"
@@ -339,7 +313,7 @@
             required
           />
           <label class="form-check-label" for="acceptCgu"
-            >J'accepte les conditions générales d’utilisation
+            >J'ai lu et j'accepte les conditions générales d’utilisation
           </label>
           <p
             *ngIf="submitted && f.acceptCgu?.errors"

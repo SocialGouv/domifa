@@ -67,7 +67,7 @@
                   sortKey="lastLogin"
                   [(sortValue)]="sortValue"
                   [(currentKey)]="currentKey"
-                  columnName="Statut"
+                  columnName="Dernière connexion"
                 >
                 </app-table-head-sort>
               </th>
@@ -99,13 +99,17 @@
               <td class="fw-bold">{{ user | fullName }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.createdAt | date : "d MMMM y" }}</td>
+
               <td>
-                <p *ngIf="user.verified">✅ Compte actif</p>
-                <p *ngIf="!user.verified && user.lastLogin">
-                  ❌ Inactif depuis plus de 2 mois<br />Dernière connexion le
-                  {{ user.lastLogin | date : "d MMMM y" }}
-                </p>
-                <p class="fw-bold" *ngIf="!user.verified && !user.lastLogin">
+                <ng-container *ngIf="user.lastLogin">
+                  <p>
+                    {{ user.lastLogin | date : "dd/MM/yyyy" }}
+                    <b *ngIf="user.lastLogin < twoMonthsAgo">
+                      <br />❌ Inactif depuis plus de 2 mois<br />
+                    </b>
+                  </p>
+                </ng-container>
+                <p class="fw-bold" *ngIf="!user.lastLogin">
                   ❌ Compte jamais utilisé
                 </p>
               </td>

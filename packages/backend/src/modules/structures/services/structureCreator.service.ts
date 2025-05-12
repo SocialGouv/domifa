@@ -6,7 +6,7 @@ import {
 } from "../../../database";
 
 import { StructureDto } from "../dto/structure.dto";
-import { getLocation } from "./location.service";
+import { getAddress } from "./location.service";
 import {
   DEPARTEMENTS_MAP,
   Structure,
@@ -16,7 +16,6 @@ import {
 } from "@domifa/common";
 import { appLogger } from "../../../util";
 import { generateSender } from "../../sms/services/generators";
-import { Point } from "geojson";
 import { newStructureEmailSender } from "../../mails/services/templates-renderers";
 import { randomBytes } from "crypto";
 import { userStructureCreator } from "../../users/services";
@@ -102,7 +101,6 @@ async function checkCreationToken({
 }
 
 async function createStructure(structureDto: StructureDto) {
-  delete structureDto.readCgu;
   delete structureDto.acceptCgu;
 
   const createdStructure: Structure = new StructureTable(structureDto);
@@ -121,13 +119,14 @@ async function createStructure(structureDto: StructureDto) {
     },
   };
 
-  const position: Point | null = await getLocation(
+  const place = await getAddress(
     `${createdStructure.adresse}, ${createdStructure.ville} ${createdStructure.codePostal}`
   );
 
-  if (position) {
-    createdStructure.longitude = position.coordinates[0];
-    createdStructure.latitude = position.coordinates[1];
+  if (place) {
+    createdStructure.cityCode = place.properties.citycode;
+    createdStructure.longitude = place.geometry.coordinates[0];
+    createdStructure.latitude = place.geometry.coordinates[1];
   }
 
   createdStructure.registrationDate = new Date();

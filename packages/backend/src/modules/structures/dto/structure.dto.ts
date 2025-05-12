@@ -190,10 +190,6 @@ export class StructureDto {
 
   @IsBoolean()
   @Equals(true)
-  readCgu: boolean;
-
-  @IsBoolean()
-  @Equals(true)
   acceptCgu: boolean;
 
   @ApiProperty({
