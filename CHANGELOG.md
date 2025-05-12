@@ -1,3 +1,15 @@
+# [2.201.0](https://github.com/SocialGouv/domifa/compare/v2.200.2...v2.201.0) (2025-05-12)
+
+
+### Bug Fixes
+
+* **backend:** add cities to db ([2184611](https://github.com/SocialGouv/domifa/commit/218461190b335ec208da12a7a52c94a5b8b65a06))
+
+
+### Features
+
+* **backend:** add cities to metabase ([222295c](https://github.com/SocialGouv/domifa/commit/222295c3b44eee6296c1db013eba9611ef5b008e))
+
 ## [2.200.2](https://github.com/SocialGouv/domifa/compare/v2.200.1...v2.200.2) (2025-05-11)
 
 
