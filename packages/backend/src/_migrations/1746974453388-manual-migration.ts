@@ -25,7 +25,6 @@ export class ManualMigration1746974453388 implements MigrationInterface {
       });
 
       for (const structure of structures) {
-        console.log(structure.ville);
         const apiUrl = "https://data.geopf.fr/geocodage/search";
 
         const params = {

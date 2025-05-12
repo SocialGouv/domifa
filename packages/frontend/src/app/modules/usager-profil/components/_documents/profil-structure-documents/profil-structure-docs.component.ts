@@ -100,8 +100,6 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
       this.documentService.getAllStructureDocs().subscribe({
         next: (structureDocs: StructureDoc[]) => {
           this.docs = initLoadingState(structureDocs);
-          console.log(DEFAULT_STRUCTURE_CUSTOM_DOC_AVAILABLE);
-          console.log(structureDocs);
           DEFAULT_STRUCTURE_CUSTOM_DOC_AVAILABLE.forEach((doc) => {
             if (
               !this.docs.some((structure) => structure.customDocType === doc)
