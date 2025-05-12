@@ -13,7 +13,6 @@ import { HomeComponent } from "./modules/general/components/home/home.component"
 import { LoginComponent } from "./modules/general/components/login/login.component";
 import { NewsComponent } from "./modules/general/components/news/news.component";
 import { PlanSiteComponent } from "./modules/general/components/plan-site/plan-site.component";
-import { CguResponsableComponent } from "./modules/general/components/static-pages/cgu-responsable/cgu-responsable.component";
 import { RgaaComponent } from "./modules/general/components/static-pages/rgaa/rgaa.component";
 import { AdminGuard, AuthGuard, FacteurGuard } from "./guards";
 import { LandingPagePortailComponent } from "./modules/general/components/static-pages/landing-page-portail/landing-page-portail.component";
@@ -43,7 +42,7 @@ export const routes: Routes = [
   { component: MentionsLegalesComponent, path: "mentions-legales" },
   { component: PolitiqueComponent, path: "confidentialite" },
   { component: CguComponent, path: "cgu" },
-  { component: CguResponsableComponent, path: "cgu-responsable" },
+
   { component: PlanSiteComponent, path: "plan-site" },
   { component: LandingPagePortailComponent, path: "portail-mon-domifa" },
   {

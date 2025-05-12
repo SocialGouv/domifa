@@ -137,29 +137,11 @@
                 >CGU utilisateur</a
               >
             </li>
-
-            <li>
-              <a
-                routerLink="/cgu-responsable"
-                ariaCurrentWhenActive="page"
-                (click)="
-                  matomo.trackEvent(
-                    'FOOTER',
-                    'Footer_CGU_responsable',
-                    'null',
-                    1
-                  )
-                "
-                >CGU du responsable de la structure</a
-              >
-            </li>
-
             <li>
               <a routerLink="/confidentialite" ariaCurrentWhenActive="page"
                 >Politique de confidentialité</a
               >
             </li>
-
             <li>
               <a
                 routerLink="/plan-site"
@@ -312,13 +294,7 @@
         CGU
       </p>
       <div id="cgu-modal" *ngIf="me">
-        <app-cgu-responsable
-          *ngIf="
-            me.role === 'admin' && !me.structure.acceptTerms;
-            else elseBlock
-          "
-        ></app-cgu-responsable>
-        <ng-template #elseBlock><app-cgu></app-cgu></ng-template>
+        <app-cgu></app-cgu>
       </div>
       <div class="row">
         <div class="col-md-12 required">
