@@ -27,7 +27,6 @@ import { RouterModule } from "@angular/router";
 import { SharedModule } from "../shared/shared.module";
 import { LoginComponent } from "./components/login/login.component";
 import { PlanSiteComponent } from "./components/plan-site/plan-site.component";
-import { CguResponsableComponent } from "./components/static-pages/cgu-responsable/cgu-responsable.component";
 import { HelpModalComponent } from "./components/static-modals/help-modal/help-modal.component";
 import { RgaaComponent } from "./components/static-pages/rgaa/rgaa.component";
 import { LandingPagePortailComponent } from "./components/static-pages/landing-page-portail/landing-page-portail.component";
@@ -47,7 +46,6 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     NavbarComponent,
     LoginComponent,
     PlanSiteComponent,
-    CguResponsableComponent,
     HelpModalComponent,
     IdleManagerComponent,
     RgaaComponent,
@@ -58,7 +56,6 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     NotFoundComponent,
     NavbarComponent,
     CguComponent,
-    CguResponsableComponent,
     HelpModalComponent,
     IdleManagerComponent,
     LandingPagePortailComponent,

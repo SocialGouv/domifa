@@ -72,11 +72,6 @@ export class PlanSiteComponent implements OnInit {
         { label: "Mentions légales de DomiFa", path: "/mentions-legales" },
         { label: "Déclaration d’accessibilité", path: "/accessibilite" },
         { label: "Conditions d’utilisation de DomiFa", path: "/cgu" },
-        {
-          label:
-            "Conditions d’utilisation de DomiFa du responsable de structure",
-          path: "/cgu-responsable",
-        },
         { label: "Nouveautés", path: "/news" },
         { label: "Consulter les statistiques de DomiFa", path: "/stats" },
         { label: "Notre impact", path: "/stats/impact" },
