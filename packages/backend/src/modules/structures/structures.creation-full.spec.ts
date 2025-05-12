@@ -49,7 +49,6 @@ const structureDto: StructureDto = {
     surnom: false,
   },
   acceptCgu: true,
-  readCgu: true,
   timeZone: "Europe/Paris",
   departmentName: "",
   regionName: "",

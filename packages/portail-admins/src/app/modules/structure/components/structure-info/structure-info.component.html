@@ -2,81 +2,102 @@
   <div class="col-12">
     <h2>Informations</h2>
   </div>
-  <div class="row">
-    <p class="col-md-4 reponses">
-      <span class="question">Nom</span>
-      <span class="valeur">{{ structure.nom }}</span>
-    </p>
-    <p class="col-md-4 reponses">
-      <span class="question">Type de structure</span>
-      <span class="valeur">{{
-        STRUCTURE_TYPE_LABELS[structure.structureType]
-      }}</span>
-    </p>
 
-    <p class="col-md-4 reponses">
-      <span class="question">Département</span>
-      <span class="valeur">{{ structure.departement }}</span>
-    </p>
-  </div>
-  <div class="row" *ngIf="structure.structureType === 'asso'">
-    <p class="col-md-4 reponses">
-      <span class="question">Type d'organisme</span>
-      <span class="valeur">{{
-        structure.organismeType
-          ? STRUCTURE_ORGANISME_TYPE_LABELS[structure.organismeType]
-          : "Non renseigné"
-      }}</span>
-    </p>
-    <p class="col-md-4 reponses">
-      <span class="question">Réseau</span>
-      <span class="valeur">{{ structure.reseau ?? "Non renseigné" }}</span>
-    </p>
-  </div>
-  <div class="row">
-    <!-- Adresse -->
-    <p class="col-md-4 reponses">
-      <span class="question">Adresse</span>
-      <span class="valeur">{{ structure.adresse }} </span>
-    </p>
-    <!-- Adresse -->
-    <p class="col-md-4 reponses" *ngIf="structure?.adresseCourrier?.actif">
-      <span class="question">Adresse de réception du courrier</span>
-      <span class="valeur"> {{ structure?.adresseCourrier?.adresse }} </span>
-    </p>
-    <p class="col-md-4 reponses">
-      <span class="question">Ville</span>
-      <span class="valeur"
-        >{{ structure.codePostal }}, {{ structure.ville }}</span
-      >
-    </p>
-  </div>
-  <div class="row">
-    <!-- Coordonnées -->
-    <p class="col-md-4 reponses">
-      <span class="question">Email</span>
-      <span class="valeur">{{ structure.email }}</span>
-    </p>
-    <p class="col-md-4 reponses">
-      <span class="question">Téléphone</span>
-      <span class="valeur">{{
-        structure.telephone | formatInternationalPhoneNumber
-      }}</span>
-    </p>
-  </div>
+  <p class="col-md-4 reponses">
+    <span class="question">Nom</span>
+    <span class="valeur">{{ structure.nom }}</span>
+  </p>
+  <p class="col-md-4 reponses">
+    <span class="question">Type de structure</span>
+    <span class="valeur">{{
+      STRUCTURE_TYPE_LABELS[structure.structureType]
+    }}</span>
+  </p>
 
-  <div class="row">
-    <!-- Responsable -->
-    <p class="col-md-4 reponses">
-      <span class="question">Nom du responsable</span>
-      <span class="valeur"
-        >{{ structure?.responsable?.nom }}
-        {{ structure?.responsable?.prenom }}</span
-      >
-    </p>
-    <p class="col-md-4 reponses">
-      <span class="question">Fonction du responsable</span>
-      <span class="valeur">{{ structure?.responsable?.fonction }}</span>
-    </p>
+  <p class="col-md-4 reponses">
+    <span class="question">Département</span>
+    <span class="valeur">{{ structure.departement }}</span>
+  </p>
+</div>
+<div class="row" *ngIf="structure.structureType === 'asso'">
+  <p class="col-md-4 reponses">
+    <span class="question">Type d'organisme</span>
+    <span class="valeur">{{
+      structure.organismeType
+        ? STRUCTURE_ORGANISME_TYPE_LABELS[structure.organismeType]
+        : "Non renseigné"
+    }}</span>
+  </p>
+  <p class="col-md-4 reponses">
+    <span class="question">Réseau</span>
+    <span class="valeur">{{ structure.reseau ?? "Non renseigné" }}</span>
+  </p>
+</div>
+<div class="row">
+  <!-- Adresse -->
+  <p class="col-md-4 reponses">
+    <span class="question">Adresse</span>
+    <span class="valeur">{{ structure.adresse }} </span>
+  </p>
+  <!-- Adresse -->
+  <p class="col-md-4 reponses" *ngIf="structure?.adresseCourrier?.actif">
+    <span class="question">Adresse de réception du courrier</span>
+    <span class="valeur"> {{ structure?.adresseCourrier?.adresse }} </span>
+  </p>
+  <p class="col-md-4 reponses">
+    <span class="question">Ville</span>
+    <span class="valeur"
+      >{{ structure.codePostal }}, {{ structure.ville }}</span
+    >
+  </p>
+</div>
+<div class="row">
+  <!-- Coordonnées -->
+  <p class="col-md-4 reponses">
+    <span class="question">Email</span>
+    <span class="valeur">{{ structure.email }}</span>
+  </p>
+  <p class="col-md-4 reponses">
+    <span class="question">Téléphone</span>
+    <span class="valeur">{{
+      structure.telephone | formatInternationalPhoneNumber
+    }}</span>
+  </p>
+</div>
+
+<div class="row">
+  <!-- Responsable -->
+  <p class="col-md-4 reponses">
+    <span class="question">Nom du responsable</span>
+    <span class="valeur"
+      >{{ structure?.responsable?.nom }}
+      {{ structure?.responsable?.prenom }}</span
+    >
+  </p>
+  <p class="col-md-4 reponses">
+    <span class="question">Fonction du responsable</span>
+    <span class="valeur">{{ structure?.responsable?.fonction }}</span>
+  </p>
+</div>
+<div class="row">
+  <div class="col-12">
+    <h2>Paramètres de la structure</h2>
+    <h3>SMS & Mon DomiFa</h3>
   </div>
+  <p class="col-md-4 reponses">
+    <span class="question">SMS activés</span>
+    <span class="valeur"
+      >{{ structure.sms.enabledByStructure ? "Oui" : "Non" }}
+    </span>
+  </p>
+  <p class="col-md-4 reponses">
+    <span class="question">Jours de réception des SMS</span>
+    <span class="valeur">{{ smsDays }} </span>
+  </p>
+  <p class="col-md-4 reponses">
+    <span class="question">Mon DomiFa activé</span>
+    <span class="valeur"
+      >{{ structure.portailUsager.enabledByStructure ? "Oui" : "Non" }}
+    </span>
+  </p>
 </div>

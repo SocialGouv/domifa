@@ -95,7 +95,6 @@ export class StructureCommonWeb implements StructureCommon {
       this.adresseCourrier = structure.adresseCourrier ?? this.adresseCourrier;
       this.sms = structure.sms ?? this.sms;
       this.portailUsager = structure.portailUsager ?? this.portailUsager;
-      this.acceptTerms = structure.acceptTerms ?? this.acceptTerms;
       this.lastLogin = structure.lastLogin ?? this.lastLogin;
       this.reseau = structure.reseau ?? this.reseau;
     }

@@ -23,6 +23,7 @@ import { AdminAuthService } from "../../../admin-auth/services/admin-auth.servic
 import { DEFAULT_MODAL_OPTIONS } from "../../../../shared";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { subMonths } from "date-fns";
 
 @Component({
   selector: "app-user-profil",
@@ -57,6 +58,8 @@ export class UserProfilComponent implements OnInit, OnDestroy {
 
   public readonly faEdit = faEdit;
   public readonly faUserPlus = faUserPlus;
+  public twoMonthsAgo = subMonths(new Date(), 2);
+
   constructor(
     private readonly authService: AdminAuthService,
     private readonly manageUsersService: ManageUsersService,
@@ -79,7 +82,12 @@ export class UserProfilComponent implements OnInit, OnDestroy {
 
     this.manageUsersService.users$.subscribe((users) => {
       this.loading = false;
-      this.users = users;
+      this.users = users.map((user) => {
+        return {
+          ...user,
+          lastLogin: user.lastLogin ? new Date(user.lastLogin) : null,
+        };
+      });
     });
   }
 
