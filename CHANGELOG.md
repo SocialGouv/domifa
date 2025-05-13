@@ -1,3 +1,12 @@
+## [2.201.2](https://github.com/SocialGouv/domifa/compare/v2.201.1...v2.201.2) (2025-05-13)
+
+
+### Bug Fixes
+
+* **backend:** fix export stats ([826067b](https://github.com/SocialGouv/domifa/commit/826067bcd53802a1e0e6e371d8c153a858fd2979))
+* **backend:** fix unit test ([89d906c](https://github.com/SocialGouv/domifa/commit/89d906c4bcf8e1abd0b5b417c7ae1dee7e81f06c))
+* **frontend:** fix cgu ([48f15b3](https://github.com/SocialGouv/domifa/commit/48f15b368790fc7e0d9f55d88c07f4259b960bf2))
+
 ## [2.201.1](https://github.com/SocialGouv/domifa/compare/v2.201.0...v2.201.1) (2025-05-13)
 
 
