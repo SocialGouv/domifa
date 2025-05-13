@@ -14,10 +14,13 @@ describe("structureStatsInPeriodGenerator", () => {
     const endDateUTC = new Date(Date.UTC(2021, 1, 1));
     const endDateUTCExclusive = new Date(Date.UTC(2021, 1, 2));
 
+    const startDate = "2019-11-15";
+    const endDate = "2021-02-01";
+
     const stats = await structureStatsInPeriodGenerator.buildStatsInPeriod({
       structureId: 1,
-      startDateUTC,
-      endDateUTCExclusive,
+      startDate,
+      endDate,
     });
 
     expect(stats.structure.id).toEqual(1);
