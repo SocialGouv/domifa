@@ -1,3 +1,12 @@
+## [2.201.1](https://github.com/SocialGouv/domifa/compare/v2.201.0...v2.201.1) (2025-05-13)
+
+
+### Bug Fixes
+
+* **admin:** add some information in admin for places ([949f619](https://github.com/SocialGouv/domifa/commit/949f619ff977a1d89792252b28442fa676c55fac))
+* **frontend:** fix cgu link ([4a3903f](https://github.com/SocialGouv/domifa/commit/4a3903f6f2e6d74d00be5843e85da4174063ea72))
+* **frontend:** update cgu ([5053416](https://github.com/SocialGouv/domifa/commit/5053416355ad460dc45758af7f11254101ae7704))
+
 # [2.201.0](https://github.com/SocialGouv/domifa/compare/v2.200.2...v2.201.0) (2025-05-12)
 
 
