@@ -15,7 +15,7 @@ import { Title } from "@angular/platform-browser";
 import { Event, NavigationEnd, Router } from "@angular/router";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo-client";
-import { filter, Subscription } from "rxjs";
+import { filter, firstValueFrom, Subscription } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 
 import { DEFAULT_MODAL_OPTIONS } from "../_common/model";
@@ -66,8 +66,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly toastService: CustomToastService,
     private readonly formBuilder: FormBuilder,
     private readonly modalService: NgbModal,
-
-    public matomo: MatomoTracker
+    private readonly matomo: MatomoTracker
   ) {
     this.apiVersion = localStorage.getItem("version");
 
@@ -120,36 +119,34 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authService.currentUserSubject.subscribe({
       next: (user: UserStructure | null) => {
         this.me = user;
-        if (this.me) {
-          if (this.modalService.hasOpenModals()) {
-            return;
-          }
+        if (!this.me || this.modalService.hasOpenModals()) {
+          return;
+        }
 
-          const newVersion = this.me.domifaVersion;
-          // Initialisation de la première version
-          if (this.apiVersion === null) {
-            this.apiVersion = newVersion;
-            localStorage.setItem("version", newVersion);
-          } else if (this.apiVersion !== newVersion) {
-            localStorage.setItem("version", newVersion);
-            this.modalService.dismissAll();
-            this.modalService.open(this.versionModal, DEFAULT_MODAL_OPTIONS);
-            setTimeout(() => {
-              window.location.reload();
-            }, 10000);
-            return;
-          }
+        const newVersion = this.me.domifaVersion;
+        // Initialisation de la première version
+        if (this.apiVersion === null) {
+          this.apiVersion = newVersion;
+          localStorage.setItem("version", newVersion);
+        } else if (this.apiVersion !== newVersion) {
+          localStorage.setItem("version", newVersion);
+          this.modalService.dismissAll();
+          this.modalService.open(this.versionModal, DEFAULT_MODAL_OPTIONS);
+          setTimeout(() => {
+            window.location.reload();
+          }, 10000);
+          return;
+        }
 
-          if (this.modalService.hasOpenModals()) {
-            return;
-          }
+        if (this.modalService.hasOpenModals()) {
+          return;
+        }
 
-          if (!this.me.acceptTerms) {
-            this.openAcceptTermsModal();
-            this.initCguForm();
-          } else {
-            this.checkNews();
-          }
+        if (!this.me.acceptTerms) {
+          this.openAcceptTermsModal();
+          this.initCguForm();
+        } else {
+          this.checkNews();
         }
       },
     });
@@ -227,6 +224,7 @@ export class AppComponent implements OnInit, OnDestroy {
             "Merci, vous pouvez continuer votre navigation"
           );
           this.closeModals();
+          firstValueFrom(this.authService.isAuth());
           this.refresh();
         },
         error: () => {
