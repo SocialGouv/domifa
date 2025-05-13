@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { openDataCitiesRepository } from "../database/services/open-data/open-data-cities-repository";
-import { resolve } from "path";
+import { join } from "path";
 import {
   DEPARTEMENTS_LISTE,
   getRegionCodeFromDepartement,
@@ -21,7 +21,9 @@ export class ManualMigration1746958058086 implements MigrationInterface {
       domifaConfig().envId === "local"
     ) {
       await openDataCitiesRepository.delete({});
-      const file = resolve(__dirname, "./cities-with-population.csv");
+
+      const file = join(__dirname, "../_static/cities-with-population.csv");
+
       const content = await readFile(file, "utf8");
       const data = new Map<string, any>();
 

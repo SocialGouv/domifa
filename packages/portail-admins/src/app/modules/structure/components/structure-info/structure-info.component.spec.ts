@@ -31,6 +31,7 @@ describe("StructureInfoComponent", () => {
     fixture = TestBed.createComponent(StructureInfoComponent);
     component = fixture.componentInstance;
     component.structure = STRUCTURE_MOCK;
+    component.ngAfterViewInit();
 
     fixture.detectChanges();
   });
