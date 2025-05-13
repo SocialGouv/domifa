@@ -69,12 +69,16 @@ export class StructureStatsComponent implements OnInit {
       this.toastService.error("Veuillez choisir une structure dans la liste");
       return;
     }
-    const start = new Date(this.metabaseParams.year.toString() + "-01-01");
-    const end = new Date(this.metabaseParams.year.toString() + "-12-31");
+    const startDate = new Date(this.metabaseParams.year.toString() + "-01-01");
+    const endDate = new Date(this.metabaseParams.year.toString() + "-12-31");
 
     this.subscription.add(
       this.statsService
-        .export(this.metabaseParams.structureId, start, end)
+        .exportStatsForStructure(
+          this.metabaseParams.structureId,
+          startDate,
+          endDate
+        )
         .subscribe({
           next: (x: Blob) => {
             const newBlob = new Blob([x], {

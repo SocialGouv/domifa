@@ -48,8 +48,8 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
 
   public loading: boolean = false;
 
-  public start: Date = new Date();
-  public end: Date | null = null;
+  public startDate: Date = new Date();
+  public endDate: Date | null = null;
 
   public hoveredDate: NgbDate | null = null;
 
@@ -138,15 +138,15 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
     this.loading = true;
 
     const period = {
-      start: this.start,
-      end: this.end,
+      startDate: this.startDate,
+      endDate: this.endDate,
     };
 
     if (year) {
-      period.start = new Date(year.toString() + "-01-01");
-      period.end = new Date(year.toString() + "-12-31");
+      period.startDate = new Date(year.toString() + "-01-01");
+      period.endDate = new Date(year.toString() + "-12-31");
     } else {
-      this.end =
+      this.endDate =
         this.toDate !== null
           ? new Date(this.formatter.formatEn(this.toDate))
           : null;
@@ -156,7 +156,7 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
 
     this.subscription.add(
       this.structureStatsService
-        .export(structureId, period.start, period.end)
+        .export(structureId, period.startDate, period.endDate)
         .subscribe({
           next: (x: Blob) => {
             const newBlob = new Blob([x], {
@@ -166,8 +166,8 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
             saveAs(
               newBlob,
               buildExportStructureStatsFileName({
-                startDateUTC: period.start,
-                endDateUTC: period.end,
+                startDateUTC: period.startDate,
+                endDateUTC: period.endDate,
                 structureId,
               })
             );
@@ -217,10 +217,10 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
     if (year === this.selectedYear && this.stats) {
       return;
     }
-    this.start = new Date(year as number, 0, 1);
-    this.end = new Date(year as number, 11, 31);
-    this.fromDate = formatDateToNgb(this.start);
-    this.toDate = formatDateToNgb(this.end);
+    this.startDate = new Date(year as number, 0, 1);
+    this.endDate = new Date(year as number, 11, 31);
+    this.fromDate = formatDateToNgb(this.startDate);
+    this.toDate = formatDateToNgb(this.endDate);
     this.isCustomDates = false;
     this.selectedYear = year;
     this.currentReport = this.reports.find((report) => report.year === year);
@@ -229,10 +229,10 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
   }
 
   public setCustomDates() {
-    this.start = startOfMonth(new Date());
-    this.end = new Date();
-    this.fromDate = formatDateToNgb(this.start);
-    this.toDate = formatDateToNgb(this.end);
+    this.startDate = startOfMonth(new Date());
+    this.endDate = new Date();
+    this.fromDate = formatDateToNgb(this.startDate);
+    this.toDate = formatDateToNgb(this.endDate);
 
     this.currentReport = null;
     this.isCustomDates = true;
@@ -242,16 +242,16 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
   public compare(): void {
     this.loading = true;
     this.stats = null;
-    this.start = new Date(this.formatter.formatEn(this.fromDate));
-    this.end =
+    this.startDate = new Date(this.formatter.formatEn(this.fromDate));
+    this.endDate =
       this.toDate !== null
         ? new Date(this.formatter.formatEn(this.toDate))
         : null;
 
-    const startFormatted = format(this.start, "dd/MM/yyyy");
-    const endFormatted = format(this.start, "dd/MM/yyyy");
+    const startFormatted = format(this.startDate, "dd/MM/yyyy");
+    const endFormatted = format(this.startDate, "dd/MM/yyyy");
     const requestedInterval = `${startFormatted}${
-      this.end ? endFormatted : ""
+      this.endDate ? endFormatted : ""
     }`;
 
     this.matomo.trackEvent(
@@ -265,7 +265,7 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
 
     this.subscription.add(
       this.structureStatsService
-        .getStats(this.me?.structureId as number, this.start, this.end)
+        .getStats(this.me?.structureId as number, this.startDate, this.endDate)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (statsResult: StructureStatsFull) => {

@@ -15,17 +15,17 @@ export class StatsService {
 
   constructor(private readonly http: HttpClient) {}
 
-  public export(
+  public exportStatsForStructure(
     structureId: number,
-    start: Date,
-    end: Date | null
+    startDate: Date,
+    endDate: Date | null
   ): Observable<Blob> {
     return this.http.post<Blob>(
-      `${this.baseUrl}export/`,
+      `${BASE_URL}/export-structure-stats/`,
       {
         structureId: parseInt(structureId as unknown as string, 10),
-        start,
-        end,
+        startDate,
+        endDate,
       },
       { responseType: "blob" as "json" }
     );

@@ -25,6 +25,11 @@ import { AuthGuard } from "@nestjs/passport";
 import { AppUserGuard } from "../../../../auth/guards";
 import { checkTerritories } from "../../services";
 import { Response } from "express";
+import { structureStatsInPeriodGenerator } from "../../../stats/services";
+import { structureStatsExporter } from "../../../../excel/export-structure-stats";
+import { expressResponseExcelRenderer } from "../../../../util";
+import { buildExportStructureStatsFileName } from "../../../stats/controllers/stats.private.controller";
+import { StatsDto } from "../../../stats/dto";
 
 @Controller("admin/national-stats")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -32,6 +37,39 @@ import { Response } from "express";
 @AllowUserSupervisorRoles(...USER_SUPERVISOR_ROLES)
 export class NationalStatsController {
   constructor(private readonly appLogsService: AppLogsService) {}
+
+  @Post("export-structure-stats")
+  public async exportFromAdminByDate(
+    @CurrentUser() userLogged: UserAdminAuthenticated,
+    @Body() statsDto: StatsDto,
+    @Res() res: Response
+  ): Promise<void> {
+    await this.appLogsService.create({
+      userId: userLogged.id,
+      structureId: 1,
+      action: "EXPORT_STATS_FROM_ADMIN",
+    });
+
+    const stats = await structureStatsInPeriodGenerator.buildStatsInPeriod(
+      statsDto
+    );
+
+    const workbook = await structureStatsExporter.generateExcelDocument({
+      exportDate: new Date(),
+      stats,
+    });
+
+    const fileName = buildExportStructureStatsFileName({
+      startDateUTC: stats.period.startDateUTC,
+      endDateUTCExclusive: stats.period.endDateUTCExclusive,
+    });
+
+    await expressResponseExcelRenderer.sendExcelWorkbook({
+      res,
+      fileName,
+      workbook,
+    });
+  }
 
   @Post("metabase-stats")
   public async getMetabaseStats(

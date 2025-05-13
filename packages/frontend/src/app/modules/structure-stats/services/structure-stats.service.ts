@@ -34,27 +34,27 @@ export class StructureStatsService {
 
   public getStats(
     structureId: number,
-    start: Date,
-    end: Date | null
+    startDate: Date,
+    endDate: Date | null
   ): Observable<StructureStatsFull> {
     return this.http.post<StructureStatsFull>(this.baseUrl, {
       structureId,
-      start,
-      end,
+      startDate,
+      endDate,
     });
   }
 
   public export(
     structureId: number,
-    start: Date,
-    end: Date | null
+    startDate: Date,
+    endDate: Date | null
   ): Observable<Blob> {
     return this.http.post<Blob>(
       `${this.baseUrl}export/`,
       {
         structureId,
-        start,
-        end,
+        startDate,
+        endDate,
       },
       { responseType: "blob" as "json" }
     );

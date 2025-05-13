@@ -32,7 +32,6 @@ describe("StructureInfoComponent", () => {
     component = fixture.componentInstance;
     component.structure = STRUCTURE_MOCK;
     component.ngAfterViewInit();
-
     fixture.detectChanges();
   });
 
