@@ -1,7 +1,4 @@
-import {
-  StructureStatsReportingQuestions,
-  StructureStatsFull,
-} from "@domifa/common";
+import { StructureStatsReportingQuestions } from "@domifa/common";
 import {
   Body,
   Controller,
@@ -13,19 +10,13 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
-import { addDays } from "date-fns";
 import { Response } from "express";
 import { format } from "date-fns";
-import {
-  UserStructureAuthenticated,
-  UserAdminAuthenticated,
-} from "../../../_common/model";
-import { USER_SUPERVISOR_ROLES } from "../../../_common/model/users/user-supervisor";
+import { UserStructureAuthenticated } from "../../../_common/model";
 import {
   AllowUserProfiles,
   AllowUserStructureRoles,
   CurrentUser,
-  AllowUserSupervisorRoles,
 } from "../../../auth/decorators";
 import { AppUserGuard } from "../../../auth/guards";
 import {
@@ -36,10 +27,7 @@ import { structureStatsExporter } from "../../../excel/export-structure-stats";
 import { expressResponseExcelRenderer } from "../../../util";
 import { AppLogsService } from "../../app-logs/app-logs.service";
 import { StructureStatsReportingDto, StatsDto } from "../dto";
-import {
-  statsQuestionsCoreBuilder,
-  structureStatsInPeriodGenerator,
-} from "../services";
+import { structureStatsInPeriodGenerator } from "../services";
 
 @Controller("stats")
 @ApiTags("stats")
@@ -115,10 +103,8 @@ export class StatsPrivateController {
       structureId: user.structureId,
       action: "GET_STATS",
     });
-    return this.buildStatsInPeriod({
-      ...statsDto,
-      structureId: user.structureId,
-    });
+
+    return await structureStatsInPeriodGenerator.buildStatsInPeriod(statsDto);
   }
 
   @Post("export")
@@ -133,10 +119,9 @@ export class StatsPrivateController {
       action: "EXPORT_STATS",
     });
 
-    const stats = await this.buildStatsInPeriod({
-      structureId: user.structureId,
-      ...statsDto,
-    });
+    const stats = await structureStatsInPeriodGenerator.buildStatsInPeriod(
+      statsDto
+    );
 
     const workbook = await structureStatsExporter.generateExcelDocument({
       exportDate: new Date(),
@@ -152,66 +137,6 @@ export class StatsPrivateController {
       res,
       fileName,
       workbook,
-    });
-  }
-
-  @AllowUserProfiles("supervisor")
-  @AllowUserSupervisorRoles(...USER_SUPERVISOR_ROLES)
-  @Post("export-from-admin")
-  public async exportFromAdminByDate(
-    @CurrentUser() userLogged: UserAdminAuthenticated,
-    @Body() statsDto: StatsDto,
-    @Res() res: Response
-  ): Promise<void> {
-    await this.appLogsService.create({
-      userId: userLogged.id,
-      structureId: 1,
-      action: "EXPORT_STATS_FROM_ADMIN",
-    });
-
-    const structureId = statsDto.structureId;
-
-    const stats = await this.buildStatsInPeriod({
-      structureId,
-      ...statsDto,
-    });
-
-    const workbook = await structureStatsExporter.generateExcelDocument({
-      exportDate: new Date(),
-      stats,
-    });
-
-    const fileName = buildExportStructureStatsFileName({
-      startDateUTC: stats.period.startDateUTC,
-      endDateUTCExclusive: stats.period.endDateUTCExclusive,
-    });
-
-    await expressResponseExcelRenderer.sendExcelWorkbook({
-      res,
-      fileName,
-      workbook,
-    });
-  }
-
-  private async buildStatsInPeriod({
-    structureId,
-    start,
-    end,
-  }: {
-    structureId: number;
-    start: string;
-    end: string;
-  }): Promise<StructureStatsFull> {
-    const startDateUTC = statsQuestionsCoreBuilder.removeUTCHours(
-      new Date(start)
-    );
-    const endDateUTCExclusive = statsQuestionsCoreBuilder.removeUTCHours(
-      addDays(new Date(end), 1)
-    );
-    return await structureStatsInPeriodGenerator.buildStatsInPeriod({
-      structureId,
-      startDateUTC,
-      endDateUTCExclusive,
     });
   }
 }

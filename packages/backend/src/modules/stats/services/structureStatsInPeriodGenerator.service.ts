@@ -1,4 +1,4 @@
-import { subDays } from "date-fns";
+import { addDays, subDays } from "date-fns";
 import {
   structureRepository,
   usagerHistoryStatesRepository,
@@ -12,13 +12,20 @@ export const structureStatsInPeriodGenerator = {
 };
 async function buildStatsInPeriod({
   structureId,
-  startDateUTC,
-  endDateUTCExclusive,
+  startDate,
+  endDate,
 }: {
   structureId: number;
-  startDateUTC: Date;
-  endDateUTCExclusive?: Date;
+  startDate: string;
+  endDate?: string;
 }): Promise<StructureStatsFull> {
+  const startDateUTC = statsQuestionsCoreBuilder.removeUTCHours(
+    new Date(startDate)
+  );
+  let endDateUTCExclusive = statsQuestionsCoreBuilder.removeUTCHours(
+    addDays(new Date(endDate), 1)
+  );
+
   const structure: Pick<
     Structure,
     "id" | "nom" | "importDate" | "registrationDate"
