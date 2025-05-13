@@ -24,8 +24,8 @@ export const StatsPrivateControllerSecurityTests: AppTestHttpClientSecurityTestD
           response: await AppTestHttpClient.post("/stats", {
             context,
             body: {
-              start: new Date("2021-03-31T14:32:22Z"),
-              end: new Date("2021-04-31T14:32:22Z"),
+              startDate: new Date("2021-03-31T14:32:22Z"),
+              endDate: new Date("2021-04-31T14:32:22Z"),
               structureId,
             },
           }),
@@ -47,8 +47,8 @@ export const StatsPrivateControllerSecurityTests: AppTestHttpClientSecurityTestD
           response: await AppTestHttpClient.post("/stats/export", {
             context,
             body: {
-              start: new Date("2021-03-31T14:32:22Z"),
-              end: new Date("2021-04-31T14:32:22Z"),
+              startDate: new Date("2021-03-31T14:32:22Z"),
+              endDate: new Date("2021-04-31T14:32:22Z"),
               structureId,
             },
           }),
