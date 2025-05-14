@@ -74,10 +74,14 @@ export class MessageSmsService {
 
   public async createSmsInteraction(
     usager: Usager,
-    structure: Pick<Structure, "id" | "sms" | "telephone">,
+    structure: Pick<Structure, "id" | "sms" | "telephone" | "timeZone">,
     interaction: CommonInteraction
   ) {
-    const scheduledDate = generateScheduleSendDate(structure, new Date());
+    const scheduledDate = generateScheduleSendDate(
+      structure,
+      new Date(),
+      structure.timeZone
+    );
 
     const smsReady: MessageSms = await messageSmsRepository.findSmsOnHold({
       usagerRef: usager.ref,
@@ -134,7 +138,7 @@ export class MessageSmsService {
     usager,
   }: {
     interaction: CommonInteraction;
-    structure: Pick<Structure, "id" | "sms" | "telephone">;
+    structure: Pick<Structure, "id" | "sms" | "telephone" | "timeZone">;
     usager: Usager;
   }): Promise<void> {
     // 1. Vérifier l'activation des SMS par la structure

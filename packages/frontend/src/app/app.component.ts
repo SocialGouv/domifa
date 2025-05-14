@@ -15,7 +15,7 @@ import { Title } from "@angular/platform-browser";
 import { Event, NavigationEnd, Router } from "@angular/router";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo-client";
-import { filter, firstValueFrom, Subscription } from "rxjs";
+import { filter, Subscription, switchMap } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 
 import { DEFAULT_MODAL_OPTIONS } from "../_common/model";
@@ -119,7 +119,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authService.currentUserSubject.subscribe({
       next: (user: UserStructure | null) => {
         this.me = user;
-        if (!this.me || this.modalService.hasOpenModals()) {
+        console.log(user?.acceptTerms);
+        if (!user || this.modalService.hasOpenModals()) {
           return;
         }
 
@@ -216,22 +217,24 @@ export class AppComponent implements OnInit, OnDestroy {
     this.loading = true;
 
     this.subscription.add(
-      this.authService.acceptTerms().subscribe({
-        next: () => {
-          this.submitted = false;
-          this.loading = false;
-          this.toastService.success(
-            "Merci, vous pouvez continuer votre navigation"
-          );
-          this.closeModals();
-          firstValueFrom(this.authService.isAuth());
-          this.refresh();
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error("Veuillez cocher les 2 cases pour continuer");
-        },
-      })
+      this.authService
+        .acceptTerms()
+        .pipe(switchMap(() => this.authService.isAuth()))
+        .subscribe({
+          next: () => {
+            this.submitted = false;
+            this.loading = false;
+            this.toastService.success(
+              "Merci, vous pouvez continuer votre navigation"
+            );
+            this.closeModals();
+            this.refresh();
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error("Veuillez accepter les CGU pour continuer");
+          },
+        })
     );
   }
 
