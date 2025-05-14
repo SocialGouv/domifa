@@ -15,6 +15,7 @@ import { interactionsTypeManager } from "../../interactions/services";
 import { getPhoneString } from "../../../util";
 import { generateSmsInteraction } from "./generators";
 import { generateScheduleSendDate } from "./generators/generateScheduleSendDate";
+import { parseISO } from "date-fns";
 
 @Injectable()
 export class MessageSmsService {
@@ -77,9 +78,13 @@ export class MessageSmsService {
     structure: Pick<Structure, "id" | "sms" | "telephone" | "timeZone">,
     interaction: CommonInteraction
   ) {
+    const now = new Date();
+    const nowISOString = now.toISOString();
+    const nowUTC = parseISO(nowISOString);
+
     const scheduledDate = generateScheduleSendDate(
       structure,
-      new Date(),
+      nowUTC,
       structure.timeZone
     );
 

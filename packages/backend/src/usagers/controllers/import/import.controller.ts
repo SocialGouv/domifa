@@ -75,12 +75,12 @@ const UsagersImportFileInterceptor = FileInterceptor("file", {
 @ApiTags("import")
 @ApiBearerAuth()
 @Controller("import")
+@AllowUserStructureRoles("simple", "responsable", "admin")
 @AllowUserProfiles("structure")
 export class ImportController {
   constructor(private readonly importCreatorService: ImportCreatorService) {}
 
   @Post(":mode")
-  @AllowUserStructureRoles("simple", "responsable", "admin")
   @UseInterceptors(UsagersImportFileInterceptor)
   public async importExcel(
     @Param("mode", new ParseEnumPipe(UsagersImportMode))

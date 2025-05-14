@@ -1,8 +1,8 @@
+import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
+import { nextDay, Day } from "date-fns";
 import { Structure, TimeZone } from "@domifa/common";
-import { Day, nextDay } from "date-fns";
-import { utcToZonedTime } from "date-fns-tz";
 
-const weekDays = [
+const dayNames = [
   "sunday",
   "monday",
   "tuesday",
@@ -11,6 +11,40 @@ const weekDays = [
   "friday",
   "saturday",
 ];
+
+export function getNextClosestDay(days: string[], dateReference: Date): Day {
+  const todayIndex = dateReference.getDay() as Day;
+  const currentHour = dateReference.getHours();
+
+  const dayIndices = days
+    .map((day) => dayNames.indexOf(day.toLowerCase()) as Day)
+    .filter((index) => index >= 1 && index <= 5) // Keep only working days (Monday to Friday)
+    .sort((a, b) => a - b);
+
+  if (dayIndices.length === 0) {
+    throw new Error("No working days enabled in schedule");
+  }
+
+  const isAfterHours = currentHour >= 19;
+  const isWeekend = todayIndex === 0 || todayIndex === 6;
+  const isFriday = todayIndex === 5;
+
+  if (isWeekend || (isFriday && isAfterHours)) {
+    return dayIndices[0];
+  }
+
+  const effectiveIndex = isAfterHours
+    ? (((todayIndex + 1) % 7) as Day)
+    : todayIndex;
+
+  for (const dayIndex of dayIndices) {
+    if (dayIndex >= effectiveIndex) {
+      return dayIndex;
+    }
+  }
+
+  return dayIndices[0];
+}
 
 export const generateScheduleSendDate = (
   structure: Pick<Structure, "sms">,
@@ -21,25 +55,19 @@ export const generateScheduleSendDate = (
     (day: string) => structure.sms.schedule[day]
   );
 
-  const nextDayId = getNextClosestDay(days, dateReference);
+  const userDateReference = utcToZonedTime(dateReference, timeZone);
+  const nextDayId = getNextClosestDay(days, userDateReference);
 
-  const nextDate =
-    nextDayId === dateReference.getDay() && dateReference.getUTCHours() < 19
-      ? dateReference
-      : nextDay(dateReference, nextDayId as Day);
+  let userBaseDate;
+  const today = userDateReference.getDay() as Day;
 
-  nextDate.setUTCHours(19, 0, 0);
-  return utcToZonedTime(nextDate, timeZone);
-};
-
-function getNextClosestDay(days: string[], dateReference: Date): number {
-  const todayIndex = dateReference.getDay();
-  const dayIndices = days.map((day) => weekDays.indexOf(day.toLowerCase()));
-
-  for (const dayIndex of dayIndices) {
-    if (dayIndex >= todayIndex) {
-      return dayIndex;
-    }
+  if (nextDayId === today) {
+    userBaseDate = new Date(userDateReference);
+  } else {
+    userBaseDate = nextDay(userDateReference, nextDayId);
   }
-  return dayIndices[0];
-}
+
+  userBaseDate.setHours(19, 0, 0, 0);
+
+  return zonedTimeToUtc(userBaseDate, timeZone);
+};

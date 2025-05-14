@@ -226,7 +226,7 @@
             type="button"
             class="me-2 btn btn-primary"
             (click)="export()"
-            *ngIf="metabaseParams.structureId && iframeUrl"
+            *ngIf="metabaseParams?.structureId"
             [disabled]="loading"
             [attr.aria-busy]="loading"
           >

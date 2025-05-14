@@ -16,6 +16,7 @@ import {
   UserStructureAuthenticated,
 } from "../../../../_common/model";
 import {
+  AllowUserProfiles,
   AllowUserStructureRoles,
   CurrentUsager,
   CurrentUser,
@@ -40,11 +41,12 @@ import {
 @Controller("portail-usagers-manager")
 @ApiTags("portail-usagers-manager")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
+@AllowUserProfiles("structure")
+@AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
 @ApiBearerAuth()
 export class PortailUsagersManagerController {
   constructor(private readonly appLogsService: AppLogsService) {}
 
-  @ApiBearerAuth()
   @AllowUserStructureRoles("admin")
   @Patch("configure-structure")
   public async toggleEnablePortailUsagerByStructure(

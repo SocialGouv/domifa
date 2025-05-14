@@ -108,7 +108,6 @@ export class UsersController {
   }
 
   @AllowUserStructureRoles("admin")
-  @AllowUserProfiles("structure")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Editer le rôle d'un utilisateur" })
   @UseGuards(CanGetUserStructureGuard)
@@ -131,11 +130,6 @@ export class UsersController {
     });
   }
 
-  @AllowUserStructureRoles("responsable", "admin", "simple")
-  @AllowUserProfiles("structure")
-  @ApiOperation({
-    summary: "Assigner les dossiers d'un utilisateur à un autre",
-  })
   @AllowUserStructureRoles("admin")
   @ApiOperation({
     summary:
@@ -172,7 +166,6 @@ export class UsersController {
   }
 
   @AllowUserStructureRoles("admin")
-  @AllowUserProfiles("structure")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({
     summary: "Compter les dossiers associés à un utilisateur",
@@ -193,7 +186,6 @@ export class UsersController {
   }
 
   @AllowUserStructureRoles("admin")
-  @AllowUserProfiles("structure")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Supprimer un utilisateur" })
   @UseGuards(CanGetUserStructureGuard)
@@ -235,7 +227,6 @@ export class UsersController {
   }
 
   @Post("register")
-  @AllowUserProfiles("structure")
   @AllowUserStructureRoles("admin")
   public async registerUser(
     @CurrentUser() user: UserStructureAuthenticated,
