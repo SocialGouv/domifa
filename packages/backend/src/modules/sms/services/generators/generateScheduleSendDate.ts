@@ -1,5 +1,6 @@
-import { Structure } from "@domifa/common";
+import { Structure, TimeZone } from "@domifa/common";
 import { Day, nextDay } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
 
 const weekDays = [
   "sunday",
@@ -13,7 +14,8 @@ const weekDays = [
 
 export const generateScheduleSendDate = (
   structure: Pick<Structure, "sms">,
-  dateReference: Date = new Date()
+  dateReference: Date = new Date(),
+  timeZone: TimeZone
 ): Date => {
   const days: string[] = Object.keys(structure.sms.schedule).filter(
     (day: string) => structure.sms.schedule[day]
@@ -27,7 +29,7 @@ export const generateScheduleSendDate = (
       : nextDay(dateReference, nextDayId as Day);
 
   nextDate.setUTCHours(19, 0, 0);
-  return nextDate;
+  return utcToZonedTime(nextDate, timeZone);
 };
 
 function getNextClosestDay(days: string[], dateReference: Date): number {

@@ -25,7 +25,7 @@ describe("Generate SMS Schedule Date", () => {
     structure.sms.schedule.tuesday = true;
 
     const expectedDate = utcToZonedTime(
-      generateScheduleSendDate(structure, monday),
+      generateScheduleSendDate(structure, monday, "Europe/Paris"),
       "Europe/Paris"
     );
 
@@ -38,7 +38,7 @@ describe("Generate SMS Schedule Date", () => {
     structure.sms.schedule.tuesday = false;
     structure.sms.schedule.friday = true;
     const expectedDate = utcToZonedTime(
-      generateScheduleSendDate(structure, friday),
+      generateScheduleSendDate(structure, friday, "Europe/Paris"),
       "Europe/Paris"
     );
 
@@ -46,14 +46,19 @@ describe("Generate SMS Schedule Date", () => {
   });
   it("Receive after 19:00, send next week", () => {
     const friday = new Date("2024-05-10T21:05:00.000Z");
-    const fridayRef = new Date("2024-05-17T19:00:00.000Z");
+    const expectedDate = utcToZonedTime(
+      new Date("2024-05-17T19:00:00.000Z"),
+      "America/Cayenne"
+    );
     structure.sms.schedule.tuesday = false;
     structure.sms.schedule.friday = true;
-    const expectedDate = utcToZonedTime(
-      generateScheduleSendDate(structure, friday),
-      "Europe/Paris"
+
+    const scheduledDate = generateScheduleSendDate(
+      structure,
+      friday,
+      "America/Cayenne"
     );
 
-    expect(expectedDate).toEqual(fridayRef);
+    expect(scheduledDate).toEqual(expectedDate);
   });
 });

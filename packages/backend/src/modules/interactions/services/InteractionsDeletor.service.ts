@@ -20,7 +20,10 @@ export class InteractionsDeletor {
   }: {
     interaction: CommonInteraction;
     usager: Usager;
-    structure: Pick<Structure, "id" | "sms" | "telephone" | "portailUsager">;
+    structure: Pick<
+      Structure,
+      "id" | "sms" | "telephone" | "portailUsager" | "timeZone"
+    >;
   }): Promise<Usager> {
     const direction = interactionsTypeManager.getDirection(interaction);
 
