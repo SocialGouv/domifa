@@ -37,7 +37,6 @@ import { structureStatsInPeriodGenerator } from "../services";
 export class StatsPrivateController {
   constructor(private readonly appLogsService: AppLogsService) {}
 
-  // Update reporting
   @AllowUserStructureRoles("responsable", "admin")
   @Patch("reporting-questions")
   public async setReportingQuestions(

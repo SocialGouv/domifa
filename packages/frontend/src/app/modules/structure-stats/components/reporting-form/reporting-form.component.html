@@ -49,7 +49,11 @@
             {{ REPORTNG_QUESTIONS_LABELS.workers }}
           </th>
           <td class="stats-table-value">
-            {{ currentReport.workers || "Non renseigné" }} ETP
+            {{
+              currentReport?.workers
+                ? currentReport.workers + " ETP"
+                : "Non renseigné"
+            }}
           </td>
         </tr>
         <tr>
@@ -57,7 +61,11 @@
             {{ REPORTNG_QUESTIONS_LABELS.volunteers }}
           </th>
           <td class="stats-table-value">
-            {{ currentReport.volunteers || "Non renseigné" }} bénévoles
+            {{
+              currentReport?.volunteers
+                ? currentReport.volunteers + " bénévoles"
+                : "Non renseigné"
+            }}
           </td>
         </tr>
         <tr>
@@ -65,7 +73,11 @@
             {{ REPORTNG_QUESTIONS_LABELS.humanCosts }}
           </th>
           <td class="stats-table-value">
-            {{ currentReport.humanCosts || "Non renseigné" }} euros
+            {{
+              currentReport?.humanCosts
+                ? currentReport?.humanCosts + " euros"
+                : "Non renseigné"
+            }}
           </td>
         </tr>
         <tr>
@@ -73,7 +85,11 @@
             {{ REPORTNG_QUESTIONS_LABELS.totalCosts }}
           </th>
           <td class="stats-table-value">
-            {{ currentReport.totalCosts || "Non renseigné" }} euros
+            {{
+              currentReport?.totalCosts
+                ? currentReport?.totalCosts + " euros"
+                : "Non renseigné"
+            }}
           </td>
         </tr>
       </tbody>

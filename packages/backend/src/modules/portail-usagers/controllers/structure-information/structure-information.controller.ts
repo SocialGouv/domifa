@@ -12,12 +12,13 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 import {
   AppUserGuard,
   StructureInformationAccessGuard,
 } from "../../../../auth/guards";
 import {
+  AllowUserProfiles,
   AllowUserStructureRoles,
   CurrentStructureInformation,
   CurrentUser,
@@ -31,10 +32,9 @@ import { StructureInformation } from "@domifa/common";
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("structure-information")
 @AllowUserStructureRoles("admin")
-@ApiBearerAuth()
+@AllowUserProfiles("structure")
 @Controller("structure-information")
 export class StructureInformationController {
-  @AllowUserStructureRoles("admin")
   @Post()
   public async addInformation(
     @Body() structureInformationDto: StructureInformationDto,
@@ -56,7 +56,6 @@ export class StructureInformationController {
   }
 
   @Get()
-  @AllowUserStructureRoles("admin")
   public async getStructureInformation(
     @CurrentUser() user: UserStructureAuthenticated
   ) {
@@ -66,7 +65,6 @@ export class StructureInformationController {
   }
 
   @Delete(":uuid")
-  @AllowUserStructureRoles("admin")
   @UseGuards(StructureInformationAccessGuard)
   public async deleteInformation(
     @Param("uuid", new ParseUUIDPipe()) _uuid: string,
@@ -80,7 +78,6 @@ export class StructureInformationController {
   }
 
   @Patch(":uuid")
-  @AllowUserStructureRoles("admin")
   @UseGuards(StructureInformationAccessGuard)
   public async patchInformation(
     @Param("uuid", new ParseUUIDPipe()) _uuid: string,
