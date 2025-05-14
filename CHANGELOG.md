@@ -1,3 +1,10 @@
+## [2.201.3](https://github.com/SocialGouv/domifa/compare/v2.201.2...v2.201.3) (2025-05-14)
+
+
+### Bug Fixes
+
+* **cgu:** update CGU once ([dd62ce8](https://github.com/SocialGouv/domifa/commit/dd62ce8960387f516e6b09730ee584b060b7e1b1))
+
 ## [2.201.2](https://github.com/SocialGouv/domifa/compare/v2.201.1...v2.201.2) (2025-05-13)
 
 
