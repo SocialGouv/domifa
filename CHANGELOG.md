@@ -1,3 +1,10 @@
+## [2.201.5](https://github.com/SocialGouv/domifa/compare/v2.201.4...v2.201.5) (2025-05-15)
+
+
+### Bug Fixes
+
+* **backend:** fix user creation ([406cef0](https://github.com/SocialGouv/domifa/commit/406cef078b7d909eb0fd96f44b45e05649da3e7f))
+
 ## [2.201.4](https://github.com/SocialGouv/domifa/compare/v2.201.3...v2.201.4) (2025-05-14)
 
 
