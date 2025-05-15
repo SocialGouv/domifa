@@ -7,8 +7,10 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 import { APP_BASE_HREF } from "@angular/common";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
+import { StoreModule } from "@ngrx/store";
+import { _usagerReducer } from "../../../../shared";
 
 describe("RegisterUserAdminComponent", () => {
   let component: RegisterUserAdminComponent;
@@ -23,15 +25,17 @@ describe("RegisterUserAdminComponent", () => {
         FormsModule,
         HttpClientTestingModule,
         RouterTestingModule,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterUserAdminComponent);
     component = fixture.componentInstance;
+
     fixture.detectChanges();
   });
 
