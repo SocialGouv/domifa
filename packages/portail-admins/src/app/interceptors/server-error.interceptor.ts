@@ -13,6 +13,7 @@ import { catchError, retry } from "rxjs/operators";
 import { getCurrentScope } from "@sentry/angular";
 import { CustomToastService } from "../modules/shared/services";
 import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.service";
+import { RouterStateSnapshot } from "@angular/router";
 
 const MAX_RETRIES = 2;
 const RETRY_DELAY = 1000;
@@ -30,6 +31,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const authService = this.injector.get(AdminAuthService);
     const toastr = this.injector.get(CustomToastService);
+    const state = this.injector.get(RouterStateSnapshot);
 
     if (authService?.currentUserValue) {
       const user = authService.currentUserValue;
@@ -68,7 +70,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
             );
           }
           if (error.status === 401) {
-            authService.logoutAndRedirect();
+            authService.logoutAndRedirect(state);
             toastr.error(
               "Votre session a expiré, merci de vous connecter à nouveau"
             );

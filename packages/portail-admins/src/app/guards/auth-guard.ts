@@ -2,7 +2,11 @@ import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.service";
-import { Router, ActivatedRouteSnapshot } from "@angular/router";
+import {
+  Router,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+} from "@angular/router";
 import { UserSupervisorRole } from "@domifa/common";
 import { CustomToastService } from "../modules/shared/services";
 @Injectable({ providedIn: "root" })
@@ -10,7 +14,8 @@ export class AuthGuard {
   constructor(
     private readonly authService: AdminAuthService,
     private readonly router: Router,
-    private readonly toastService: CustomToastService
+    private readonly toastService: CustomToastService,
+    private readonly state: RouterStateSnapshot
   ) {}
 
   public canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
@@ -19,7 +24,7 @@ export class AuthGuard {
     return this.authService.isAuth().pipe(
       map((isAuth: boolean) => {
         if (!isAuth) {
-          this.authService.logoutAndRedirect();
+          this.authService.logoutAndRedirect(this.state);
           return false;
         }
 
@@ -43,7 +48,7 @@ export class AuthGuard {
         return false;
       }),
       catchError(() => {
-        this.authService.logoutAndRedirect();
+        this.authService.logoutAndRedirect(this.state);
         return of(false);
       })
     );
