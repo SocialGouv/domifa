@@ -16,7 +16,6 @@ describe("AuthGuard", () => {
 
   let authService: AdminAuthService;
   let router: Router;
-  let routerService: RouterStateSnapshot;
   let toastService: CustomToastService;
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,7 +43,6 @@ describe("AuthGuard", () => {
     router = TestBed.inject(Router);
     toastService = TestBed.inject(CustomToastService);
     authGuard = TestBed.inject(AuthGuard);
-    routerService = TestBed.inject(RouterStateSnapshot);
   });
 
   it("should be created", inject([AuthGuard], (service: AuthGuard) => {
@@ -52,7 +50,7 @@ describe("AuthGuard", () => {
   }));
 
   it("CanActivate", () => {
-    authGuard = new AuthGuard(authService, router, toastService, routerService);
+    authGuard = new AuthGuard(authService, router, toastService);
     expect(authGuard).toBeTruthy();
   });
 });

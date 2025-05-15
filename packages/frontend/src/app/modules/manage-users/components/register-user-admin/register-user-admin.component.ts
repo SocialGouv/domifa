@@ -23,7 +23,7 @@ import {
   fadeInOut,
   NoWhiteSpaceValidator,
 } from "../../../../shared";
-import { CustomToastService } from "../../../shared/services";
+import { AuthService, CustomToastService } from "../../../shared/services";
 
 import { UserStructure } from "@domifa/common";
 import { UsersService, userStructureBuilder } from "../../../users/services";
@@ -57,7 +57,8 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly usersService: UsersService,
-    private readonly toastService: CustomToastService
+    private readonly toastService: CustomToastService,
+    private readonly authService: AuthService
   ) {
     this.user = userStructureBuilder.buildUserStructure({});
     this.loading = false;
@@ -65,6 +66,8 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    const user = this.authService.currentUserValue;
+
     this.userForm = this.formBuilder.group({
       email: [
         this.user.email,
@@ -80,7 +83,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
         this.user.prenom,
         [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
-      structureId: [this.user.structureId, []],
+      structureId: [user?.structureId, []],
     });
   }
 
