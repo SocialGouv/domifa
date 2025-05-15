@@ -8,13 +8,16 @@ import {
 import { Readable } from "typeorm/platform/PlatformTools";
 import { domifaConfig } from "../../config";
 import { Upload } from "@aws-sdk/lib-storage";
-import { PassThrough } from "node:stream";
+import { PassThrough, pipeline } from "node:stream";
 import { Injectable } from "@nestjs/common";
 import { UsagerDoc } from "@domifa/common";
-import { decryptFile } from "@socialgouv/streaming-file-encryption";
+import {
+  decryptFile,
+  encryptFile,
+} from "@socialgouv/streaming-file-encryption";
 import { join } from "node:path";
 import { Response } from "express";
-import { cleanPath } from "./FileManager";
+import { cleanPath, compressAndResizeImage } from "./FileManager";
 import { appLogger } from "../logs";
 
 @Injectable()
@@ -199,5 +202,35 @@ export class FileManagerService {
     const body = await this.getFileBody(filePath);
 
     return body.pipe(decryptFile(mainSecret, doc.encryptionContext)).pipe(res);
+  }
+
+  public async saveEncryptedFile(
+    filePath: string,
+    usagerDoc: Pick<UsagerDoc, "filetype" | "encryptionContext">,
+    file: Express.Multer.File
+  ): Promise<void> {
+    const passThrough = new PassThrough();
+
+    const mainSecret = domifaConfig().security.mainSecret;
+
+    if (
+      usagerDoc.filetype === "image/jpeg" ||
+      usagerDoc.filetype === "image/png"
+    ) {
+      pipeline(
+        Readable.from(file.buffer),
+        compressAndResizeImage(usagerDoc),
+        encryptFile(mainSecret, usagerDoc.encryptionContext),
+        passThrough
+      );
+    } else {
+      pipeline(
+        Readable.from(file.buffer),
+        encryptFile(mainSecret, usagerDoc.encryptionContext),
+        passThrough
+      );
+    }
+
+    await this.uploadFile(filePath, passThrough);
   }
 }

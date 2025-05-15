@@ -131,7 +131,6 @@ backend-export:
     runAsUser: 1000
     runAsGroup: 1000
 
-
 backend-cron:
   ~chart: app
   ~needs: [build-backend]
@@ -201,12 +200,12 @@ portail-admins:
   imagePackage: portail-admins
   host: "admin-{{ .Values.global.host }}"
   ingress:
-    customHeaders:
-      "Content-Security-Policy": "default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr; font-src 'self'; img-src 'self' data:; script-src 'self' https://*.gouv.fr 'unsafe-inline'; frame-src 'self' https://*.gouv.fr; style-src 'self' 'unsafe-inline'"
-      "X-Frame-Options": "deny"
-      "X-Robots-Tag": "noindex, nofollow, nosnippet, noarchive"
-      "X-Content-Type-Options": "nosniff"
-      "Cache-Control": "no-store"
+  customHeaders:
+    "Content-Security-Policy": "default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr; font-src 'self' https://*.gouv.fr data:; img-src 'self' https://*.gouv.fr data:; script-src 'self' https://*.gouv.fr 'unsafe-inline'; frame-src 'self' https://*.gouv.fr blob:https://*.gouv.fr; style-src 'self' https://*.gouv.fr 'unsafe-inline'; worker-src 'self' https://*.gouv.fr blob:https://*.gouv.fr;"
+    "X-Frame-Options": "sameorigin"
+    "X-Robots-Tag": "noindex, nofollow, nosnippet, noarchive"
+    "X-Content-Type-Options": "nosniff"
+    "Cache-Control": "no-store"
   containerPort: 8080
   securityContext:
     fsGroup: 101

@@ -7,6 +7,7 @@ import { customDocTemplateLoader } from "../customDocTemplateLoader";
 import { generateCustomDoc } from "../generateCustomDoc";
 import { CUSTOM_DOC_ATTESTATION_POSTALE } from "./mocks/CUSTOM_DOC_ATTESTATION_POSTALE.const";
 import { StructureDocTypesAvailable } from "@domifa/common";
+
 describe("generateCustomDoc", () => {
   it("1. ATTESTATION POSTALE : generateCustomDoc render attestation_postale", async () => {
     await runDocTypeTest({
