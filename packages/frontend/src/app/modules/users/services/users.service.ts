@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { ApiMessage } from "@domifa/common";
+import { ApiMessage, UserStructure } from "@domifa/common";
 
 @Injectable({
   providedIn: "root",
@@ -43,7 +43,12 @@ export class UsersService {
     return this.http.post(`${this.endPoint}/reset-password`, data);
   }
 
-  public registerUser(data: string): Observable<ApiMessage> {
+  public registerUser(
+    data: Pick<
+      UserStructure,
+      "email" | "nom" | "role" | "prenom" | "structureId"
+    >
+  ): Observable<ApiMessage> {
     return this.http.post<ApiMessage>(`${this.endPoint}/register`, data);
   }
 }
