@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, RouterStateSnapshot } from "@angular/router";
 
 import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
@@ -75,9 +75,22 @@ export class AdminAuthService {
     getCurrentScope().setUser({});
   }
 
-  public logoutAndRedirect(): void {
+  public logoutAndRedirect(
+    state?: RouterStateSnapshot,
+    sessionExpired?: true
+  ): void {
     this.logout();
-    this.router.navigate(["/auth/login"]);
+    if (sessionExpired) {
+      this.toastr.warning("Votre session a expiré, merci de vous reconnecter");
+    }
+    this.logout();
+    if (state) {
+      this.router.navigate(["/auth/login"], {
+        queryParams: { returnUrl: state.url },
+      });
+    } else {
+      this.router.navigate(["/auth/login"]);
+    }
   }
 
   public notAuthorized(): void {

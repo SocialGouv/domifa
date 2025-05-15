@@ -6,7 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { regexp } from "../../../shared/utils/validators";
 import { CustomToastService } from "../../shared/services/custom-toast.service";
 import { PortailAdminAuthLoginForm } from "../types";
@@ -24,20 +24,23 @@ export class AdminLoginComponent implements OnInit {
 
   public hidePassword: boolean;
   public loading: boolean;
-
+  public returnUrl: string;
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly router: Router,
+    private readonly route: ActivatedRoute,
     private readonly titleService: Title,
     private readonly authService: AdminAuthService,
     private readonly toastr: CustomToastService
   ) {
     this.hidePassword = true;
     this.loading = false;
+    this.returnUrl = "/";
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Connexion à DomiFa");
+    this.titleService.setTitle("Connexion à l'administration de DomiFa");
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || "/";
     this.initForm();
   }
 
