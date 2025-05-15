@@ -125,13 +125,7 @@ export class StructureDocController {
     }
 
     const path = randomName(file);
-
-    const filePath = join(
-      "structure-documents",
-      cleanPath(`${user.structureId}`),
-      path
-    );
-    await this.fileManagerService.uploadFile(filePath, file.buffer);
+    const encryptionContext = crypto.randomUUID();
 
     const newDoc = new StructureDocTable({
       createdAt: new Date(),
@@ -140,6 +134,7 @@ export class StructureDocController {
         nom: user.nom,
         prenom: user.prenom,
       },
+      encryptionContext,
       displayInPortailUsager: false,
       filetype: file.mimetype,
       path,
@@ -148,6 +143,20 @@ export class StructureDocController {
       structureId: user.structureId,
       customDocType: structureDocDto.customDocType,
     });
+
+    const filePath = join(
+      "structure-documents",
+      cleanPath(`${user.structureId}`),
+      `${path}.sfe`
+    );
+
+    try {
+      await this.fileManagerService.saveEncryptedFile(filePath, newDoc, file);
+    } catch (e) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "CANNOT_ENCRYPT_FILE" });
+    }
 
     try {
       await structureDocRepository.insert(newDoc);

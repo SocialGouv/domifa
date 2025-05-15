@@ -12,10 +12,7 @@ import {
 } from "@domifa/common";
 
 export const compressAndResizeImage = (
-  usagerDoc: Pick<
-    UsagerDoc,
-    "structureId" | "uuid" | "usagerRef" | "path" | "usagerUUID" | "filetype"
-  >
+  usagerDoc: Pick<UsagerDoc, "filetype">
 ) => {
   const format = usagerDoc.filetype === "image/png" ? "png" : "jpeg";
   return sharp()

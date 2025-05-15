@@ -80,6 +80,7 @@ export class UsagerStructureDocsController {
 
     // Document statique
     if (!doc.custom) {
+      // TODO: decipher here
       const filePath = join(
         "structure-documents",
         cleanPath(`${user.structureId}`),
@@ -94,7 +95,7 @@ export class UsagerStructureDocsController {
       cleanPath(`${doc.structureId}`),
       doc.path
     );
-
+    // TODO: decipher here
     const content = await this.fileManagerService.getObjectAndStream(filePath);
 
     if (!content) {
@@ -149,6 +150,7 @@ export class UsagerStructureDocsController {
     const users = await userStructureRepository.getVerifiedUsersByStructureId(
       user.structureId
     );
+
     if (doc) {
       const filePath = join(
         "structure-documents",
