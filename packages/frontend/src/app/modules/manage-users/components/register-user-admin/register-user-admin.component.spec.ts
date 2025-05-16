@@ -11,6 +11,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
+import { USER_STRUCTURE_MOCK } from "../../../../../_common/mocks";
 
 describe("RegisterUserAdminComponent", () => {
   let component: RegisterUserAdminComponent;
@@ -35,6 +36,7 @@ describe("RegisterUserAdminComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterUserAdminComponent);
     component = fixture.componentInstance;
+    component.me = USER_STRUCTURE_MOCK;
 
     fixture.detectChanges();
   });

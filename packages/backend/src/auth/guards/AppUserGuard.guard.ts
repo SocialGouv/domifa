@@ -2,7 +2,11 @@ import { UserStructureRole, UserSupervisorRole } from "@domifa/common";
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { getCurrentScope } from "@sentry/node";
-import { UserProfile, UserStructureAuthenticated } from "../../_common/model";
+import {
+  UserProfile,
+  UserStructureAuthenticated,
+  UserUsagerAuthenticated,
+} from "../../_common/model";
 import { UserSupervisorAuthenticated } from "../../_common/model/users/user-supervisor";
 import { expiredTokenRepositiory } from "../../database";
 import { addLogContext, appLogger } from "../../util";
@@ -15,6 +19,7 @@ export class AppUserGuard implements CanActivate {
   public async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const user = request.user as
+      | UserUsagerAuthenticated
       | UserStructureAuthenticated
       | UserSupervisorAuthenticated;
 
@@ -25,17 +30,28 @@ export class AppUserGuard implements CanActivate {
       },
     });
 
-    let userScope = {
-      email: user.email,
+    let userScope: {
+      id: number;
+      structureId?: number | null;
+      role?: UserSupervisorRole | UserStructureRole;
+      email?: string | null;
+    } = {
       id: user._userId,
-      role: user.role,
       structureId: null,
     };
 
     if (user._userProfile === "structure") {
       userScope = {
         ...userScope,
+        role: user?.role,
+        email: user?.email,
         structureId: user?.structureId,
+      };
+    } else if (user._userProfile === "supervisor") {
+      userScope = {
+        ...userScope,
+        role: user?.role,
+        email: user?.email,
       };
     }
 
@@ -103,6 +119,10 @@ export class AppUserGuard implements CanActivate {
     const isValidProfile = authChecker.checkProfile(user, ...allowUserProfiles);
 
     if (isValidProfile) {
+      if (user._userProfile === "usager") {
+        return true;
+      }
+
       if (
         user._userProfile === "structure" &&
         allowUserStructureRoles?.length
