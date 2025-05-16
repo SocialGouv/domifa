@@ -43,7 +43,7 @@
     "@popperjs/core": "^2.11.8",
     "@schematics/angular": "^15.2.11",
     "@sentry/angular": "^8.55.0",
-    "@swimlane/ngx-charts": "^20.5.0",
+    "@swimlane/ngx-charts": "^22.0.0",
     "angular-user-idle": "^4.0.0",
     "bootstrap": "^5.3.3",
     "ckeditor5": "^43.0.0",
