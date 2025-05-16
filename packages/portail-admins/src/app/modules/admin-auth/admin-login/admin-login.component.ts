@@ -78,10 +78,18 @@ export class AdminLoginComponent implements OnInit {
         this.authService.saveToken(apiAuthResponse);
         this.loading = false;
 
-        if (apiAuthResponse.user.role !== "super-admin-domifa") {
-          this.router.navigate(["/stats"]);
+        const redirectToAfterLogin = this.route.snapshot.queryParamMap.get(
+          "redirectToAfterLogin"
+        );
+
+        if (apiAuthResponse.user.role === "super-admin-domifa") {
+          if (redirectToAfterLogin) {
+            this.router.navigate([redirectToAfterLogin]);
+          } else {
+            this.router.navigate(["/structures"]);
+          }
         } else {
-          this.router.navigate(["/structures"]);
+          this.router.navigate(["/stats"]);
         }
       },
     });

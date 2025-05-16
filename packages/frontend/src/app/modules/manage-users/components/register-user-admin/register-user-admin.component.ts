@@ -44,6 +44,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
   private unsubscribe: Subject<void> = new Subject();
+  public me!: UserStructure | null;
 
   @Output() public getUsers = new EventEmitter<void>();
 
@@ -66,7 +67,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    const user = this.authService.currentUserValue;
+    this.me = this.authService.currentUserValue;
 
     this.userForm = this.formBuilder.group({
       email: [
@@ -83,7 +84,6 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
         this.user.prenom,
         [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
-      structureId: [user?.structureId, []],
     });
   }
 
@@ -97,23 +97,28 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
     } else {
       this.loading = true;
       this.subscription.add(
-        this.usersService.registerUser(this.userForm.value).subscribe({
-          next: () => {
-            this.loading = false;
-            this.submitted = false;
-            this.getUsers.emit();
-            this.form.nativeElement.reset();
-            this.toastService.success(
-              "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."
-            );
-          },
-          error: () => {
-            this.loading = false;
-            this.toastService.error(
-              "veuillez vérifier les champs marqués en rouge dans le formulaire"
-            );
-          },
-        })
+        this.usersService
+          .registerUser({
+            ...this.userForm.value,
+            structureId: this.me.structureId,
+          })
+          .subscribe({
+            next: () => {
+              this.loading = false;
+              this.submitted = false;
+              this.getUsers.emit();
+              this.form.nativeElement.reset();
+              this.toastService.success(
+                "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."
+              );
+            },
+            error: () => {
+              this.loading = false;
+              this.toastService.error(
+                "veuillez vérifier les champs marqués en rouge dans le formulaire"
+              );
+            },
+          })
       );
     }
   }

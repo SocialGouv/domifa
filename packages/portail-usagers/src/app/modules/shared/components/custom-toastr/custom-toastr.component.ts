@@ -6,8 +6,10 @@ import { CustomToast } from "../../types/CustomToast.type";
 
 import { CustomToastClass } from "../../types";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
+import { fadeIn } from "../../../../shared";
 
 @Component({
+  animations: [fadeIn],
   selector: "app-custom-toastr",
   templateUrl: "./custom-toastr.component.html",
   styleUrls: ["./custom-toastr.component.css"],
