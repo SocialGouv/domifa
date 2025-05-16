@@ -1,3 +1,10 @@
+## [2.201.7](https://github.com/SocialGouv/domifa/compare/v2.201.6...v2.201.7) (2025-05-16)
+
+
+### Bug Fixes
+
+* **admin:** fix redirect ([5d8a334](https://github.com/SocialGouv/domifa/commit/5d8a334827da4b7ed54568aa032b57f1c20b7805))
+
 ## [2.201.6](https://github.com/SocialGouv/domifa/compare/v2.201.5...v2.201.6) (2025-05-15)
 
 
