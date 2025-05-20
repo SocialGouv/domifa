@@ -1,3 +1,10 @@
+## [2.201.8](https://github.com/SocialGouv/domifa/compare/v2.201.7...v2.201.8) (2025-05-20)
+
+
+### Bug Fixes
+
+* **backend:** fix migration to get citycode ([7f97287](https://github.com/SocialGouv/domifa/commit/7f972876733e9c9fe1cbe788d340ee2fbfb1bf45))
+
 ## [2.201.7](https://github.com/SocialGouv/domifa/compare/v2.201.6...v2.201.7) (2025-05-16)
 
 
