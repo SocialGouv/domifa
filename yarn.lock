@@ -3803,6 +3803,7 @@ __metadata:
     aws-sdk: "npm:^2.1692.0"
     aws-sdk-client-mock: "npm:^4.1.0"
     axios: "npm:^1.8.1"
+    axios-retry: "npm:^4.5.0"
     bcryptjs: "npm:^2.4.3"
     cache-manager: "npm:^6.4.1"
     class-transformer: "npm:0.5.1"
@@ -11656,6 +11657,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios-retry@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "axios-retry@npm:4.5.0"
+  dependencies:
+    is-retry-allowed: "npm:^2.2.0"
+  peerDependencies:
+    axios: 0.x || 1.x
+  checksum: 10/39ed05248757387a44dde94255df8ad54088aece50574c6ce9a1cd02b9e40252f7390285cea54ded04e33a3a549e462d5bdacc8d3178221b7cd40e8aff09ba46
+  languageName: node
+  linkType: hard
+
 "axios@npm:^1.7.4, axios@npm:^1.8.1":
   version: 1.8.2
   resolution: "axios@npm:1.8.2"
@@ -18215,6 +18227,13 @@ __metadata:
     call-bind: "npm:^1.0.2"
     has-tostringtag: "npm:^1.0.0"
   checksum: 10/36d9174d16d520b489a5e9001d7d8d8624103b387be300c50f860d9414556d0485d74a612fdafc6ebbd5c89213d947dcc6b6bff6b2312093f71ea03cbb19e564
+  languageName: node
+  linkType: hard
+
+"is-retry-allowed@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "is-retry-allowed@npm:2.2.0"
+  checksum: 10/6d8685530871f0b040346cc72322d90122473e921149affa16de363d6c2a6e46bc76abdfaac3259b93994ec8e7f70fbe67bbb080190e440533ff728e6a64494d
   languageName: node
   linkType: hard
 
