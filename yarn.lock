@@ -3832,7 +3832,7 @@ __metadata:
     lodash.set: "npm:^4.3.2"
     mammoth: "npm:^1.4.17"
     moment: "npm:^2.30.1"
-    multer: "npm:^1.4.4"
+    multer: "npm:^2.0.0"
     node-pdftk: "npm:^2.1.3"
     nodemailer: "npm:^6.10.0"
     nodemon: "npm:^3.1.9"
@@ -12188,16 +12188,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"busboy@npm:^0.2.11":
-  version: 0.2.14
-  resolution: "busboy@npm:0.2.14"
-  dependencies:
-    dicer: "npm:0.2.5"
-    readable-stream: "npm:1.1.x"
-  checksum: 10/e0089b020d6c0f7f29864fd847b4d4a3acb30de76094b3312024666aae5f59592c2301092284423c9c51b4ec1a0dd6b39b24a80633b2a325dc3faa9cfca2c01a
-  languageName: node
-  linkType: hard
-
 "busboy@npm:^1.0.0":
   version: 1.6.0
   resolution: "busboy@npm:1.6.0"
@@ -14193,16 +14183,6 @@ __metadata:
     asap: "npm:^2.0.0"
     wrappy: "npm:1"
   checksum: 10/895389c6aead740d2ab5da4d3466d20fa30f738010a4d3f4dcccc9fc645ca31c9d10b7e1804ae489b1eb02c7986f9f1f34ba132d409b043082a86d9a4e745624
-  languageName: node
-  linkType: hard
-
-"dicer@npm:0.2.5":
-  version: 0.2.5
-  resolution: "dicer@npm:0.2.5"
-  dependencies:
-    readable-stream: "npm:1.1.x"
-    streamsearch: "npm:0.1.2"
-  checksum: 10/a2f60fd278243c7fe44088ec266b9c41a6a35769546fe77c3d927ff617668afecd663d2ec0ca7089989a1eadb97377a51c10b12cd6de19c7a0d6d79ffd02caee
   languageName: node
   linkType: hard
 
@@ -20957,19 +20937,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"multer@npm:^1.4.4":
-  version: 1.4.4
-  resolution: "multer@npm:1.4.4"
+"multer@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "multer@npm:2.0.0"
   dependencies:
     append-field: "npm:^1.0.0"
-    busboy: "npm:^0.2.11"
+    busboy: "npm:^1.0.0"
     concat-stream: "npm:^1.5.2"
     mkdirp: "npm:^0.5.4"
     object-assign: "npm:^4.1.1"
-    on-finished: "npm:^2.3.0"
     type-is: "npm:^1.6.4"
     xtend: "npm:^4.0.0"
-  checksum: 10/f1eb82acabaaa2d52fde9c29af1120d36e2dbc3536ff8d8fb66ce2104683969b7dc8303f8ec84fe17cc0a97a85516c010ff8ad5510affdb480ff15c20997c4f9
+  checksum: 10/e6aebea164666dff522a4d2aff235dbab12ac6d50c6e491c6b9ccafeddc229c5ccd34911374d223d597d602454951dd2e9b7d6e0a7b401053e47ef43e2838e2a
   languageName: node
   linkType: hard
 
@@ -21960,7 +21939,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"on-finished@npm:2.4.1, on-finished@npm:^2.3.0, on-finished@npm:^2.4.1":
+"on-finished@npm:2.4.1, on-finished@npm:^2.4.1":
   version: 2.4.1
   resolution: "on-finished@npm:2.4.1"
   dependencies:
@@ -23863,7 +23842,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"readable-stream@npm:1.1, readable-stream@npm:1.1.x":
+"readable-stream@npm:1.1":
   version: 1.1.14
   resolution: "readable-stream@npm:1.1.14"
   dependencies:
@@ -25616,13 +25595,6 @@ __metadata:
     inherits: "npm:~2.0.4"
     readable-stream: "npm:^3.5.0"
   checksum: 10/05a3cd0a0ce2d568dbdeb69914557c26a1b0a9d871839666b692eae42b96189756a3ed685affc90dab64ff588a8524c8aec6d85072c07905a1f0d941ea68f956
-  languageName: node
-  linkType: hard
-
-"streamsearch@npm:0.1.2":
-  version: 0.1.2
-  resolution: "streamsearch@npm:0.1.2"
-  checksum: 10/2c9407ee6682f100a9026b4b712d01ce3889fc818b928746eeb92fb4c0cf4ee79b74af27893fd766e4a36bbed08969a8e0bd0d0be5d30b2c9028859071f8f02b
   languageName: node
   linkType: hard
 
