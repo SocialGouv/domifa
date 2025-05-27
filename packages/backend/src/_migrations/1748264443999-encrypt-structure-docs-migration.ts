@@ -10,7 +10,7 @@ import { Readable } from "node:stream";
 type Docs = StructureDoc & {
   structureUuid: string;
 };
-export class EncryptStructureDocsMigration1748264445999
+export class EncryptStructureDocsMigration1748264443999
   implements MigrationInterface
 {
   public fileManagerService: FileManagerService;
@@ -26,7 +26,7 @@ export class EncryptStructureDocsMigration1748264445999
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async up(_queryRunner: QueryRunner): Promise<void> {
     appLogger.warn("[MIGRATION] Encrypt structure docs");
-    await structureDocRepository.update({}, { encryptionContext: null });
+
     const unencryptedDocs: Docs[] = await structureDocRepository
       .createQueryBuilder("structure_doc")
       .leftJoin(
@@ -50,7 +50,7 @@ export class EncryptStructureDocsMigration1748264445999
     );
     const pLimit = (await import("p-limit")).default;
 
-    const limit = pLimit(3);
+    const limit = pLimit(2);
 
     const promises = unencryptedDocs.map((doc) =>
       limit(() => this.processWithPause(doc))
@@ -85,18 +85,17 @@ export class EncryptStructureDocsMigration1748264445999
     } else {
       appLogger.warn("⚠️ Migration completed with errors");
     }
-    throw new Error("pokpo");
   }
 
   public processWithPause = async (doc: Docs) => {
     await this.processDoc(doc);
     this.processedSinceLastPause++;
 
-    if (this.processedSinceLastPause >= 6) {
+    if (this.processedSinceLastPause >= 4) {
       this.processedSinceLastPause = 0;
 
       appLogger.info("⏸️ Wait one second ");
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
     }
   };
 
