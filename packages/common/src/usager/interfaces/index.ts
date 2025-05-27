@@ -3,7 +3,6 @@ export * from "./rdv";
 export * from "./Usager.interface";
 export * from "./UsagerAyantDroit.interface";
 export * from "./UsagerDecision.interface";
-export * from "./UsagerDoc.interface";
 export * from "./UsagerEcheanceInfo.interface";
 export * from "./UsagerEntretien.interface";
 export * from "./UsagerLastInteraction.interface";

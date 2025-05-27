@@ -13,5 +13,6 @@ export * from "./structure-stats";
 export * from "./telephone";
 export * from "./territoires";
 export * from "./usager";
+export * from "./usager-doc";
 export * from "./usager-options";
 export * from "./users";

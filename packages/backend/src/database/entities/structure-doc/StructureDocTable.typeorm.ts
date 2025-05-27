@@ -54,6 +54,12 @@ export class StructureDocTable
   @Column({ type: "text", nullable: false })
   public path!: string;
 
+  @Column({ type: "text", nullable: true })
+  public encryptionContext: string;
+
+  @Column({ type: "integer", nullable: true })
+  public encryptionVersion: number;
+
   public constructor(entity?: Partial<StructureDocTable>) {
     super(entity);
     Object.assign(this, entity);

@@ -27,11 +27,9 @@ import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard, UsagerDocAccessGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import { domifaConfig } from "../../config";
 
 import {
   cleanPath,
-  compressAndResizeImage,
   randomName,
   validateUpload,
 } from "../../util/file-manager/FileManager";
@@ -41,10 +39,7 @@ import { PatchUsagerDocDto, PostUsagerDocDto } from "../dto";
 
 import crypto from "node:crypto";
 import { ExpressRequest } from "../../util/express";
-import { encryptFile } from "@socialgouv/streaming-file-encryption";
-import { pipeline } from "node:stream/promises";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
-import { PassThrough, Readable } from "node:stream";
 import { join } from "node:path";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
 import { Usager, UsagerDoc } from "@domifa/common";
@@ -122,7 +117,7 @@ export class UsagerDocsController {
         `${path}.sfe`
       );
 
-      await this.saveEncryptedFile(filePath, newDoc, file);
+      await this.fileManagerService.saveEncryptedFile(filePath, newDoc, file);
     } catch (e) {
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -268,10 +263,16 @@ export class UsagerDocsController {
     });
 
     try {
-      return this.fileManagerService.dowloadEncryptedFile(
+      const filePath = join(
+        "usager-documents",
+        cleanPath(user.structure.uuid),
+        cleanPath(doc.usagerUUID),
+        `${doc.path}.sfe`
+      );
+
+      return await this.fileManagerService.dowloadEncryptedFile(
         res,
-        user.structure.uuid,
-        currentUsager.uuid,
+        filePath,
         doc
       );
     } catch (e) {
@@ -280,36 +281,5 @@ export class UsagerDocsController {
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "CANNOT_DOWNLOAD_FILE" });
     }
-  }
-
-  // encrypt a cleartext file to sfe and delete original
-  private async saveEncryptedFile(
-    filePath: string,
-    usagerDoc: UsagerDoc,
-    file: Express.Multer.File
-  ): Promise<void> {
-    const passThrough = new PassThrough();
-
-    const mainSecret = domifaConfig().security.mainSecret;
-
-    if (
-      usagerDoc.filetype === "image/jpeg" ||
-      usagerDoc.filetype === "image/png"
-    ) {
-      pipeline(
-        Readable.from(file.buffer),
-        compressAndResizeImage(usagerDoc),
-        encryptFile(mainSecret, usagerDoc.encryptionContext),
-        passThrough
-      );
-    } else {
-      pipeline(
-        Readable.from(file.buffer),
-        encryptFile(mainSecret, usagerDoc.encryptionContext),
-        passThrough
-      );
-    }
-
-    await this.fileManagerService.uploadFile(filePath, passThrough);
   }
 }

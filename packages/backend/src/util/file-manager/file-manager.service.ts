@@ -2,6 +2,7 @@ import {
   DeleteObjectCommand,
   DeleteObjectsCommand,
   GetObjectCommand,
+  HeadObjectCommand,
   ListObjectsV2Command,
   S3Client,
 } from "@aws-sdk/client-s3";
@@ -9,12 +10,16 @@ import { Readable } from "typeorm/platform/PlatformTools";
 import { domifaConfig } from "../../config";
 import { Upload } from "@aws-sdk/lib-storage";
 import { PassThrough } from "node:stream";
+import { pipeline } from "node:stream/promises";
+
 import { Injectable } from "@nestjs/common";
-import { UsagerDoc } from "@domifa/common";
-import { decryptFile } from "@socialgouv/streaming-file-encryption";
-import { join } from "node:path";
+import { CommonDoc } from "@domifa/common";
+import {
+  decryptFile,
+  encryptFile,
+} from "@socialgouv/streaming-file-encryption";
 import { Response } from "express";
-import { cleanPath } from "./FileManager";
+import { compressAndResizeImage } from "./FileManager";
 import { appLogger } from "../logs";
 
 @Injectable()
@@ -182,22 +187,82 @@ export class FileManagerService {
     }
   }
 
-  public async dowloadEncryptedFile(
-    res: Response,
-    structureUuid: string,
-    usagerUuid: string,
-    doc: UsagerDoc
-  ) {
-    const filePath = join(
-      "usager-documents",
-      cleanPath(structureUuid),
-      cleanPath(usagerUuid),
-      `${doc.path}.sfe`
+  public async getDecryptedFileContent(
+    filePath: string,
+    doc: CommonDoc
+  ): Promise<string> {
+    const mainSecret = domifaConfig().security.mainSecret;
+    const readable = await this.getFileBody(filePath);
+
+    const decryptedStream = readable.pipe(
+      decryptFile(mainSecret, doc.encryptionContext)
     );
 
+    const chunks: Uint8Array[] = [];
+
+    for await (const chunk of decryptedStream) {
+      chunks.push(chunk);
+    }
+
+    const buffer = Buffer.concat(chunks);
+    return buffer.toString("binary");
+  }
+
+  public async dowloadEncryptedFile(
+    res: Response,
+    filePath: string,
+    doc: CommonDoc
+  ) {
     const mainSecret = domifaConfig().security.mainSecret;
     const body = await this.getFileBody(filePath);
 
     return body.pipe(decryptFile(mainSecret, doc.encryptionContext)).pipe(res);
+  }
+
+  public async saveEncryptedFile(
+    filePath: string,
+    doc: Pick<CommonDoc, "filetype" | "encryptionContext">,
+    source: Express.Multer.File | Readable
+  ): Promise<void> {
+    const passThrough = new PassThrough();
+    const mainSecret = domifaConfig().security.mainSecret;
+    const sourceStream =
+      source instanceof Readable ? source : Readable.from(source.buffer);
+
+    if (doc.filetype === "image/jpeg" || doc.filetype === "image/png") {
+      pipeline(
+        sourceStream,
+        compressAndResizeImage(doc),
+        encryptFile(mainSecret, doc.encryptionContext),
+        passThrough
+      );
+    } else {
+      pipeline(
+        sourceStream,
+        encryptFile(mainSecret, doc.encryptionContext),
+        passThrough
+      );
+    }
+    await this.uploadFile(filePath, passThrough);
+  }
+
+  public async fileExists(filePath: string): Promise<boolean> {
+    try {
+      await this.s3.send(
+        new HeadObjectCommand({
+          Bucket: domifaConfig().upload.bucketName,
+          Key: `${domifaConfig().upload.bucketRootDir}/${filePath}`,
+        })
+      );
+      return true;
+    } catch (error) {
+      if (
+        error.name === "NotFound" ||
+        error.$metadata?.httpStatusCode === 404
+      ) {
+        return false;
+      }
+      throw error;
+    }
   }
 }

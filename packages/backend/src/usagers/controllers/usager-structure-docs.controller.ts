@@ -72,30 +72,27 @@ export class UsagerStructureDocsController {
     const users = await userStructureRepository.getVerifiedUsersByStructureId(
       user.structureId
     );
+
     if (!doc) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "DOC_NOT_FOUND" });
     }
 
-    // Document statique
+    const filePath = join(
+      "structure-documents-encrypted",
+      cleanPath(`${user.structure.uuid}`),
+      `${doc.path}.sfe`
+    );
+
     if (!doc.custom) {
-      const filePath = join(
-        "structure-documents",
-        cleanPath(`${user.structureId}`),
-        doc.path
-      );
       return await this.fileManagerService.downloadObject(filePath, res);
     }
 
-    // Document à compléter
-    const filePath = join(
-      "structure-documents",
-      cleanPath(`${doc.structureId}`),
-      doc.path
+    const content = await this.fileManagerService.getDecryptedFileContent(
+      filePath,
+      doc
     );
-
-    const content = await this.fileManagerService.getObjectAndStream(filePath);
 
     if (!content) {
       return res
@@ -149,11 +146,12 @@ export class UsagerStructureDocsController {
     const users = await userStructureRepository.getVerifiedUsersByStructureId(
       user.structureId
     );
+
     if (doc) {
       const filePath = join(
-        "structure-documents",
-        cleanPath(`${doc.structureId}`),
-        doc.path
+        "structure-documents-encrypted",
+        cleanPath(`${user.structure.uuid}`),
+        `${doc.path}.sfe`
       );
 
       content = await this.fileManagerService.getObjectAndStream(filePath);
