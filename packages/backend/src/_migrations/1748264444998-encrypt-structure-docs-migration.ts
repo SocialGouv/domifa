@@ -5,7 +5,10 @@ import { join } from "node:path";
 import { FileManagerService } from "../util/file-manager/file-manager.service";
 import { StructureDoc } from "@domifa/common";
 
-export class EncryptStructureDocsMigration1748264444997
+type Docs = StructureDoc & {
+  structureUuid: string;
+};
+export class EncryptStructureDocsMigration1748264444998
   implements MigrationInterface
 {
   public fileManagerService: FileManagerService;
@@ -15,14 +18,9 @@ export class EncryptStructureDocsMigration1748264444997
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async up(_queryRunner: QueryRunner): Promise<void> {
-    appLogger.warn(
-      "[MIGRATION] Début du chiffrement des documents de structure"
-    );
+    appLogger.warn("[MIGRATION] Encrypt structure docs");
 
     await structureDocRepository.update({}, { encryptionContext: null });
-    type Docs = StructureDoc & {
-      structureUuid: string;
-    };
 
     const unencryptedDocs: Docs[] = await structureDocRepository
       .createQueryBuilder("structure_doc")
@@ -43,7 +41,7 @@ export class EncryptStructureDocsMigration1748264444997
       .getRawMany();
 
     appLogger.warn(
-      `[MIGRATION] ${unencryptedDocs.length} documents à chiffrer`
+      `[MIGRATION] ${unencryptedDocs.length} documents to encrypt`
     );
 
     let processedCount = 0;
@@ -51,6 +49,7 @@ export class EncryptStructureDocsMigration1748264444997
     let errorCount = 0;
 
     const errors: Array<{ filePath: string; error: string }> = [];
+
     for (const doc of unencryptedDocs) {
       const filePath = join(
         "structure-documents",
