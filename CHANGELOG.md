@@ -1,3 +1,15 @@
+# [2.202.0](https://github.com/SocialGouv/domifa/compare/v2.201.8...v2.202.0) (2025-05-27)
+
+
+### Bug Fixes
+
+* **backend:** update dump for tests ([27765e8](https://github.com/SocialGouv/domifa/commit/27765e85c05149212ea3f359bbfb187c33eb7ed1))
+
+
+### Features
+
+* **backend:** encrypt structure's files ([dbaa2e1](https://github.com/SocialGouv/domifa/commit/dbaa2e12888a0d9244c219aca5677d88cb2f765e))
+
 ## [2.201.8](https://github.com/SocialGouv/domifa/compare/v2.201.7...v2.201.8) (2025-05-20)
 
 
