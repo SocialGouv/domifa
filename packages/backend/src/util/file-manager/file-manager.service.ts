@@ -155,7 +155,7 @@ export class FileManagerService {
       return finalBuffer;
     } catch (error) {
       chunks.length = 0;
-      appLogger.error(`Erreur décryptage ${filePath}:`, error.message);
+      appLogger.error(`Decrypt fail ${filePath}:`, error.message);
       throw error;
     }
   }
