@@ -177,7 +177,7 @@ daee63de-0948-45bc-91c5-6ca1bcc1de5a	2025-03-04 14:17:42.44746+01	2025-03-04 14:
 -- Data for Name: structure_doc; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.structure_doc (uuid, "createdAt", "updatedAt", version, id, label, "createdBy", custom, filetype, "structureId", path, "customDocType", "displayInPortailUsager") FROM stdin;
+COPY public.structure_doc (uuid, "createdAt", "updatedAt", version, id, label, "createdBy", custom, filetype, "structureId", path, "customDocType", "displayInPortailUsager", "encryptionContext", "encryptionVersion") FROM stdin;
 \.
 
 
