@@ -3834,7 +3834,7 @@ __metadata:
     moment: "npm:^2.30.1"
     multer: "npm:^2.0.0"
     node-pdftk: "npm:^2.1.3"
-    nodemailer: "npm:^6.10.0"
+    nodemailer: "npm:^7.0.0"
     nodemon: "npm:^3.1.9"
     nunjucks: "npm:^3.2.4"
     p-limit: "npm:^6.2.0"
@@ -21345,10 +21345,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemailer@npm:^6.10.0, nodemailer@npm:^6.7.7, nodemailer@npm:^6.9.1":
+"nodemailer@npm:^6.7.7, nodemailer@npm:^6.9.1":
   version: 6.10.0
   resolution: "nodemailer@npm:6.10.0"
   checksum: 10/2e28961c264501e2621860d912e1ab59788825c5aea5ce71041c5b5b52c7470b63e7ab290003d755f647f25048552c6eec256f468292f454d4d6a68c93dd0659
+  languageName: node
+  linkType: hard
+
+"nodemailer@npm:^7.0.0":
+  version: 7.0.3
+  resolution: "nodemailer@npm:7.0.3"
+  checksum: 10/d51e9b30753c982c35cf77839f3b7c1f138eb3fb5607c34f724ddc32360e56c3d631ff5b4eba5491f1f8805b428b945850441b4bd893bd2283c55be615f020c5
   languageName: node
   linkType: hard
 
@@ -28248,14 +28255,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yocto-queue@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "yocto-queue@npm:1.0.0"
-  checksum: 10/2cac84540f65c64ccc1683c267edce396b26b1e931aa429660aefac8fbe0188167b7aee815a3c22fa59a28a58d898d1a2b1825048f834d8d629f4c2a5d443801
-  languageName: node
-  linkType: hard
-
-"yocto-queue@npm:^1.1.1":
+"yocto-queue@npm:^1.0.0, yocto-queue@npm:^1.1.1":
   version: 1.2.1
   resolution: "yocto-queue@npm:1.2.1"
   checksum: 10/0843d6c2c0558e5c06e98edf9c17942f25c769e21b519303a5c2adefd5b738c9b2054204dc856ac0cd9d134b1bc27d928ce84fd23c9e2423b7e013d5a6f50577
