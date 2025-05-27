@@ -80,7 +80,7 @@ export class AdminStructuresApiClient {
     newAdmin: UserNewAdmin
   ): Observable<ApiMessage> {
     return this.http.post<ApiMessage>(
-      `${BASE_URL}/register-user-structure`,
+      `${environment.apiUrl}admin/users/register-user-structure`,
       newAdmin
     );
   }

@@ -20,7 +20,6 @@ import {
 } from "@socialgouv/streaming-file-encryption";
 import { Response } from "express";
 import { compressAndResizeImage } from "./FileManager";
-import { appLogger } from "../logs";
 
 @Injectable()
 export class FileManagerService {
@@ -67,56 +66,6 @@ export class FileManagerService {
     } catch (e) {
       console.error(e);
       throw new Error(e);
-    }
-  }
-
-  // Return object in response
-  public async downloadObject(filePath: string, res: Response) {
-    try {
-      const readObjectResult = await this.getObject(
-        `${domifaConfig().upload.bucketRootDir}/${filePath}`
-      );
-
-      if (readObjectResult.CacheControl) {
-        res.setHeader("cache-control", readObjectResult.CacheControl);
-      }
-      if (readObjectResult.ContentDisposition) {
-        res.setHeader(
-          "content-disposition",
-          readObjectResult.ContentDisposition
-        );
-      }
-      if (readObjectResult.ContentEncoding) {
-        res.setHeader("content-encoding", readObjectResult.ContentEncoding);
-      }
-      if (readObjectResult.ContentLanguage) {
-        res.setHeader("content-encoding", readObjectResult.ContentLanguage);
-      }
-      if (readObjectResult.ContentLength) {
-        res.setHeader("content-length", readObjectResult.ContentLength);
-      }
-      if (readObjectResult.ContentRange) {
-        res.setHeader("content-range", readObjectResult.ContentRange);
-      }
-
-      res.setHeader(
-        "content-type",
-        readObjectResult.ContentType || "application/octet-stream"
-      );
-
-      if (!(readObjectResult.Body instanceof Readable)) {
-        appLogger.warn(`File ${filePath} is empty`);
-        return res.status(204);
-      }
-      if (!readObjectResult.Body) {
-        appLogger.error(`File ${filePath} is unreadable`);
-        return res.status(500);
-      }
-
-      return readObjectResult.Body.pipe(res);
-    } catch (err) {
-      appLogger.error(err);
-      return res.status(500).json({ message: "GET_FILE_ERROR" });
     }
   }
 
@@ -169,7 +118,8 @@ export class FileManagerService {
       new ListObjectsV2Command(listParams)
     );
 
-    if (listedObjects?.KeyCount === 0) {
+    if (!listedObjects?.Contents?.length || listedObjects.KeyCount === 0) {
+      console.log(`No documents for this structure: ${prefix}`);
       return;
     }
 
@@ -229,21 +179,25 @@ export class FileManagerService {
     const sourceStream =
       source instanceof Readable ? source : Readable.from(source.buffer);
 
+    const uploadPromise = this.uploadFile(filePath, passThrough);
+    let pipelinePromise: Promise<void>;
+
     if (doc.filetype === "image/jpeg" || doc.filetype === "image/png") {
-      pipeline(
+      pipelinePromise = pipeline(
         sourceStream,
         compressAndResizeImage(doc),
         encryptFile(mainSecret, doc.encryptionContext),
         passThrough
       );
     } else {
-      pipeline(
+      pipelinePromise = pipeline(
         sourceStream,
         encryptFile(mainSecret, doc.encryptionContext),
         passThrough
       );
     }
-    await this.uploadFile(filePath, passThrough);
+
+    await Promise.all([pipelinePromise, uploadPromise]);
   }
 
   public async fileExists(filePath: string): Promise<boolean> {

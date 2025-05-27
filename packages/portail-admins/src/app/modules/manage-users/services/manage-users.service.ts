@@ -51,13 +51,6 @@ export class ManageUsersService {
     return this.http.get<Date | null>(`${this.endPoint}/last-password-update`);
   }
 
-  public registerUserStructureAdmin(data: string): Observable<ApiMessage> {
-    return this.http.post<ApiMessage>(
-      `${this.endPoint}/register-user-structure`,
-      data
-    );
-  }
-
   public registerUserSupervisor(data: string): Observable<ApiMessage> {
     return this.http.post<ApiMessage>(
       `${this.endPoint}/register-user-supervisor`,

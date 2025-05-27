@@ -86,7 +86,11 @@ export class UsagerStructureDocsController {
     );
 
     if (!doc.custom) {
-      return await this.fileManagerService.downloadObject(filePath, res);
+      return await this.fileManagerService.dowloadEncryptedFile(
+        res,
+        filePath,
+        doc
+      );
     }
 
     const content = await this.fileManagerService.getDecryptedFileContent(
