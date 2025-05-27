@@ -245,4 +245,14 @@ export class FileManagerService {
       throw error;
     }
   }
+
+  public async getDecryptedFileStream(
+    filePath: string,
+    doc: Pick<CommonDoc, "encryptionContext">
+  ): Promise<Readable> {
+    const encryptedStream = await this.getFileBody(filePath);
+    const mainSecret = domifaConfig().security.mainSecret;
+
+    return encryptedStream.pipe(decryptFile(mainSecret, doc.encryptionContext));
+  }
 }
