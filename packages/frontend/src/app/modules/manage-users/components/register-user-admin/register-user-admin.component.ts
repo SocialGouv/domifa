@@ -84,6 +84,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
         this.user.prenom,
         [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
+      structureId: [this.user.structureId, []],
     });
   }
 

@@ -23,10 +23,11 @@ import {
 } from "../../../../database";
 import { InteractionsService } from "../../../interactions/services";
 import { PageOptionsDto } from "../../../../usagers/dto";
-import { appLogger } from "../../../../util";
+import { appLogger, cleanPath } from "../../../../util";
 import { FileManagerService } from "../../../../util/file-manager/file-manager.service";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { Response } from "express";
+import { join } from "node:path";
 
 @Controller("portail-usagers/profile")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -158,10 +159,16 @@ export class PortailUsagersProfileController {
     });
 
     try {
+      const filePath = join(
+        "usager-documents",
+        cleanPath(currentUser.structure.uuid),
+        cleanPath(doc.usagerUUID),
+        `${doc.path}.sfe`
+      );
+
       return await this.fileManagerService.dowloadEncryptedFile(
         res,
-        currentUser.structure.uuid,
-        currentUser.usager.uuid,
+        filePath,
         doc
       );
     } catch (e) {

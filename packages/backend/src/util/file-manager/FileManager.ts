@@ -8,16 +8,11 @@ import {
   SUPPORTED_FILE_EXTENSIONS,
   SUPPORTED_MIME_TYPES,
   UploadType,
-  UsagerDoc,
+  CommonDoc,
 } from "@domifa/common";
 
-export const compressAndResizeImage = (
-  usagerDoc: Pick<
-    UsagerDoc,
-    "structureId" | "uuid" | "usagerRef" | "path" | "usagerUUID" | "filetype"
-  >
-) => {
-  const format = usagerDoc.filetype === "image/png" ? "png" : "jpeg";
+export const compressAndResizeImage = (doc: Pick<CommonDoc, "filetype">) => {
+  const format = doc.filetype === "image/png" ? "png" : "jpeg";
   return sharp()
     .resize(3800, 3800, { fit: "inside" })
     .toFormat(format, {

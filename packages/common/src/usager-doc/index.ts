@@ -1,2 +1,2 @@
 // @index('./*', f => `export * from '${f.path}'`)
-export * from "./WithLoading.type";
+export * from "./UsagerDoc.interface";

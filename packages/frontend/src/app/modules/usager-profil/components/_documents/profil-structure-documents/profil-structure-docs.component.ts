@@ -142,6 +142,7 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
         nom: "Domifa",
         prenom: "",
       },
+      structureId: 0,
       filetype:
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       custom: true,
