@@ -113,6 +113,20 @@ async function createTables(queryRunner: QueryRunner) {
     );
 
 
+    -- public.migrations definition
+
+    -- Drop table
+
+    -- DROP TABLE public.migrations;
+
+    CREATE TABLE public.migrations (
+      id serial4 NOT NULL,
+      "timestamp" int8 NOT NULL,
+      "name" varchar NOT NULL,
+      CONSTRAINT "PK_8c82d7f526340ab734260ea46be" PRIMARY KEY (id)
+    );
+
+
     -- public.monitor_batch_process definition
 
     -- Drop table
@@ -378,6 +392,8 @@ async function createTables(queryRunner: QueryRunner) {
       "path" text NOT NULL,
       "customDocType" text NULL,
       "displayInPortailUsager" bool DEFAULT false NOT NULL,
+      "encryptionContext" text NULL,
+      "encryptionVersion" int4 NULL,
       CONSTRAINT "PK_6d6be27ca865c8ba30b9c862b70" PRIMARY KEY (uuid),
       CONSTRAINT "UQ_b1dfa7ef1934657b38072e749e3" UNIQUE (id),
       CONSTRAINT "FK_d79d466c870df0b58864836899d" FOREIGN KEY ("structureId") REFERENCES public."structure"(id) ON DELETE CASCADE
