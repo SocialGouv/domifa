@@ -1,3 +1,10 @@
+## [2.202.1](https://github.com/SocialGouv/domifa/compare/v2.202.0...v2.202.1) (2025-05-27)
+
+
+### Bug Fixes
+
+* **backend:** fix encrypt file & reset migration ([e0eb70f](https://github.com/SocialGouv/domifa/commit/e0eb70f1be4adf9f2f789751d3c9c82aea1ed444))
+
 # [2.202.0](https://github.com/SocialGouv/domifa/compare/v2.201.8...v2.202.0) (2025-05-27)
 
 
