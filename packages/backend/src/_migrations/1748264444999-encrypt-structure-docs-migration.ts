@@ -3,12 +3,13 @@ import { appLogger, cleanPath } from "../util";
 import { structureDocRepository } from "../database";
 import { join } from "node:path";
 import { FileManagerService } from "../util/file-manager/file-manager.service";
-import { StructureDoc } from "@domifa/common";
+import { CommonDoc, StructureDoc } from "@domifa/common";
+import { createHash } from "node:crypto";
 
 type Docs = StructureDoc & {
   structureUuid: string;
 };
-export class EncryptStructureDocsMigration1748264444998
+export class EncryptStructureDocsMigration1748264444999
   implements MigrationInterface
 {
   public fileManagerService: FileManagerService;
@@ -81,6 +82,15 @@ export class EncryptStructureDocsMigration1748264444998
           object
         );
 
+        const isIntact = await this.compareFileIntegrity(
+          filePath,
+          newFilePath,
+          { ...doc, encryptionContext }
+        );
+
+        if (!isIntact) {
+          errorCount++;
+        }
         await structureDocRepository.update(
           { uuid: doc.uuid },
           {
@@ -129,4 +139,66 @@ export class EncryptStructureDocsMigration1748264444998
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async down(_queryRunner: QueryRunner): Promise<void> {}
+
+  public calculateHash(data: string | Buffer): string {
+    const hash = createHash("sha256");
+    if (typeof data === "string") {
+      hash.update(data, "binary");
+    } else {
+      hash.update(data);
+    }
+    return hash.digest("hex");
+  }
+  private async compareFileIntegrity(
+    originalPath: string,
+    encryptedPath: string,
+    doc: CommonDoc
+  ): Promise<boolean> {
+    try {
+      const originalStream = await this.fileManagerService.getFileBody(
+        originalPath
+      );
+      const originalChunks: Buffer[] = [];
+      for await (const chunk of originalStream) {
+        originalChunks.push(
+          Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)
+        );
+      }
+      const originalBuffer = Buffer.concat(originalChunks);
+      const originalHash = this.calculateHash(originalBuffer);
+
+      const decryptedContent =
+        await this.fileManagerService.getDecryptedFileContent(
+          encryptedPath,
+          doc
+        );
+      const decryptedHash = this.calculateHash(decryptedContent);
+
+      const isIntact = originalHash === decryptedHash;
+
+      appLogger.info(`🔍 ${originalPath}`);
+      appLogger.info(
+        `   Original:  ${originalHash.substring(0, 16)}... (${
+          originalBuffer.length
+        } bytes)`
+      );
+      appLogger.info(
+        `   Decrypted: ${decryptedHash.substring(0, 16)}... (${
+          decryptedContent.length
+        } chars)`
+      );
+      appLogger.info(`   Status: ${isIntact ? "✅ OK" : "❌ CORRUPTED"}`);
+
+      if (!isIntact) {
+        appLogger.error(`🔴 CORRUPTION DETECTED: ${originalPath}`);
+      }
+
+      return isIntact;
+    } catch (error) {
+      appLogger.error(
+        `🔴 Comparison failed for ${originalPath}: ${error.message}`
+      );
+      return false;
+    }
+  }
 }

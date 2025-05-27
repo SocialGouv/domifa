@@ -27,9 +27,9 @@ async function loadDefaultDocTemplate({
   docType,
 }: {
   docType: StructureDocTypesAvailable;
-}) {
+}): Promise<Buffer> {
   const defaultTemplatePath = buildDefaultTemplatePath(docType);
-  return await readFile(resolve(defaultTemplatePath), "binary");
+  return await readFile(resolve(defaultTemplatePath));
 }
 
 function buildDefaultTemplatePath(docType: StructureDocTypesAvailable) {

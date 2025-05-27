@@ -20,6 +20,7 @@ import {
 } from "@socialgouv/streaming-file-encryption";
 import { Response } from "express";
 import { compressAndResizeImage } from "./FileManager";
+import { appLogger } from "../logs";
 
 @Injectable()
 export class FileManagerService {
@@ -33,7 +34,7 @@ export class FileManagerService {
         secretAccessKey: domifaConfig().upload.bucketSecretKey,
       },
       region: domifaConfig().upload.bucketRegion,
-      forcePathStyle: true,
+      forcePathStyle: domifaConfig().envId === "local" ? true : false,
     });
   }
 
@@ -69,7 +70,6 @@ export class FileManagerService {
     }
   }
 
-  // Return body for encrypted files
   public async getFileBody(path: string): Promise<Readable> {
     const { Body } = await this.getObject(
       `${domifaConfig().upload.bucketRootDir}/${path}`
@@ -93,19 +93,6 @@ export class FileManagerService {
       console.error(e);
       throw new Error("CANNOT_DELETE_FILE");
     }
-  }
-
-  public async getObjectAndStream(filePath: string): Promise<string> {
-    const readable = await this.getFileBody(filePath);
-
-    const chunks: Uint8Array[] = [];
-
-    for await (const chunk of readable) {
-      chunks.push(chunk);
-    }
-
-    const buffer = Buffer.concat(chunks);
-    return buffer.toString("binary");
   }
 
   public async deleteAllUnderStructure(prefix: string) {
@@ -140,22 +127,37 @@ export class FileManagerService {
   public async getDecryptedFileContent(
     filePath: string,
     doc: CommonDoc
-  ): Promise<string> {
+  ): Promise<Buffer> {
     const mainSecret = domifaConfig().security.mainSecret;
     const readable = await this.getFileBody(filePath);
-
     const decryptedStream = readable.pipe(
       decryptFile(mainSecret, doc.encryptionContext)
     );
 
-    const chunks: Uint8Array[] = [];
+    const chunks: Buffer[] = [];
+    let totalLength = 0;
+    const maxSize = 50 * 1024 * 1024;
 
-    for await (const chunk of decryptedStream) {
-      chunks.push(chunk);
+    try {
+      for await (const chunk of decryptedStream) {
+        const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+
+        if (totalLength + buffer.length > maxSize) {
+          chunks.length = 0;
+          throw new Error(`Max size ${maxSize} bytes`);
+        }
+
+        chunks.push(buffer);
+        totalLength += buffer.length;
+      }
+      const finalBuffer = Buffer.concat(chunks, totalLength);
+      chunks.length = 0;
+      return finalBuffer;
+    } catch (error) {
+      chunks.length = 0;
+      appLogger.error(`Erreur décryptage ${filePath}:`, error.message);
+      throw error;
     }
-
-    const buffer = Buffer.concat(chunks);
-    return buffer.toString("binary");
   }
 
   public async dowloadEncryptedFile(
@@ -164,9 +166,33 @@ export class FileManagerService {
     doc: CommonDoc
   ) {
     const mainSecret = domifaConfig().security.mainSecret;
-    const body = await this.getFileBody(filePath);
 
-    return body.pipe(decryptFile(mainSecret, doc.encryptionContext)).pipe(res);
+    try {
+      res.setHeader("Content-Type", doc.filetype || "application/octet-stream");
+      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      res.setHeader("Pragma", "no-cache");
+      res.setHeader("Expires", "0");
+
+      const body = await this.getFileBody(filePath);
+      const decryptStream = decryptFile(mainSecret, doc.encryptionContext);
+
+      await pipeline(body, decryptStream, res);
+
+      appLogger.debug(`📤 File downloaded successfully: ${filePath}`);
+    } catch (error) {
+      appLogger.error(`❌ Download failed for ${filePath}:`, error);
+
+      if (!res.headersSent) {
+        res.status(500).json({
+          message: "DOWNLOAD_FAILED",
+        });
+      } else {
+        // Si le stream a déjà commencé, on ne peut que fermer
+        res.destroy();
+      }
+
+      throw error;
+    }
   }
 
   public async saveEncryptedFile(

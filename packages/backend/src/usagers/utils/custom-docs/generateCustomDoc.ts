@@ -5,7 +5,7 @@ import { appLogger } from "../../../util";
 import { StructureCustomDocTags } from "../../../_common/model";
 
 export async function generateCustomDoc(
-  content: string, // template file content
+  content: Buffer,
   docValues: StructureCustomDocTags
 ): Promise<Buffer> {
   let doc: Docxtemplater;
