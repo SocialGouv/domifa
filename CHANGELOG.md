@@ -1,3 +1,10 @@
+## [2.202.2](https://github.com/SocialGouv/domifa/compare/v2.202.1...v2.202.2) (2025-05-27)
+
+
+### Bug Fixes
+
+* **backend:** optimize loading of files ([32baa40](https://github.com/SocialGouv/domifa/commit/32baa40ceb6cf6c8e18ad4dbd39bae4d2a07fb17))
+
 ## [2.202.1](https://github.com/SocialGouv/domifa/compare/v2.202.0...v2.202.1) (2025-05-27)
 
 
