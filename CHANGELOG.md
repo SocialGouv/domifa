@@ -1,3 +1,10 @@
+## [2.202.4](https://github.com/SocialGouv/domifa/compare/v2.202.3...v2.202.4) (2025-05-27)
+
+
+### Bug Fixes
+
+* **backend:** enforce encryption ([ca9178b](https://github.com/SocialGouv/domifa/commit/ca9178bacf337cdd7b689ee8a1d9245327e52d6d))
+
 ## [2.202.3](https://github.com/SocialGouv/domifa/compare/v2.202.2...v2.202.3) (2025-05-27)
 
 
