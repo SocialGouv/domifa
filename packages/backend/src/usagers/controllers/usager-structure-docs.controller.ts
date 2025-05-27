@@ -113,10 +113,7 @@ export class UsagerStructureDocsController {
     });
 
     try {
-      const docGenerated = await generateCustomDoc(
-        content.toString(),
-        docValues
-      );
+      const docGenerated = await generateCustomDoc(content, docValues);
       return res.end(docGenerated);
     } catch (e) {
       return res
@@ -145,7 +142,7 @@ export class UsagerStructureDocsController {
       customDocType: docType,
     });
 
-    let content = "";
+    let content: Buffer;
 
     const users = await userStructureRepository.getVerifiedUsersByStructureId(
       user.structureId
@@ -158,7 +155,10 @@ export class UsagerStructureDocsController {
         `${doc.path}.sfe`
       );
 
-      content = await this.fileManagerService.getObjectAndStream(filePath);
+      content = await this.fileManagerService.getDecryptedFileContent(
+        filePath,
+        doc
+      );
     } else {
       content = await customDocTemplateLoader.loadDefaultDocTemplate({
         docType,
