@@ -1,3 +1,11 @@
+## [2.202.10](https://github.com/SocialGouv/domifa/compare/v2.202.9...v2.202.10) (2025-06-02)
+
+
+### Bug Fixes
+
+* **backend:** add segments ([4fc6b90](https://github.com/SocialGouv/domifa/commit/4fc6b90921eefcc1e166b5e315bd5ee23e7dff7d))
+* **backend:** fix unit test for docx ([dab755f](https://github.com/SocialGouv/domifa/commit/dab755f66687e9cf6b2d977715fce1cbea9a5afb))
+
 ## [2.202.9](https://github.com/SocialGouv/domifa/compare/v2.202.8...v2.202.9) (2025-06-02)
 
 
