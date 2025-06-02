@@ -1,3 +1,10 @@
+## [2.202.7](https://github.com/SocialGouv/domifa/compare/v2.202.6...v2.202.7) (2025-06-02)
+
+
+### Bug Fixes
+
+* error logging ([5c49aab](https://github.com/SocialGouv/domifa/commit/5c49aab5b48de2f25860f145fd4d371f17ef3130))
+
 ## [2.202.6](https://github.com/SocialGouv/domifa/compare/v2.202.5...v2.202.6) (2025-06-02)
 
 
