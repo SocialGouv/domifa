@@ -463,20 +463,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cdk@npm:^17.3.10":
-  version: 17.3.10
-  resolution: "@angular/cdk@npm:17.3.10"
+"@angular/cdk@npm:^20.0.0":
+  version: 20.0.1
+  resolution: "@angular/cdk@npm:20.0.1"
   dependencies:
     parse5: "npm:^7.1.2"
     tslib: "npm:^2.3.0"
   peerDependencies:
-    "@angular/common": ^17.0.0 || ^18.0.0
-    "@angular/core": ^17.0.0 || ^18.0.0
+    "@angular/common": ^20.0.0 || ^21.0.0
+    "@angular/core": ^20.0.0 || ^21.0.0
     rxjs: ^6.5.3 || ^7.4.0
-  dependenciesMeta:
-    parse5:
-      optional: true
-  checksum: 10/2e83fc75783750ffa025d1dc31da303e6a5f7da617c33dd190e8294c7fba6c633f6e410f19b6f41382cd0c5c918a59f27fbb9af01a651d753c7e2429c6a2ab65
+  checksum: 10/cd53d9646bd37a6acafd149ccf802d8b88a1e0093d68e50e0cb927a700428a1fff492a244b10c06313a2d9a405f24d580f9ffff4786cb621d589d4e16ae700ee
   languageName: node
   linkType: hard
 
@@ -3915,7 +3912,7 @@ __metadata:
     "@angular-eslint/schematics": "npm:17.5.3"
     "@angular-eslint/template-parser": "npm:17.5.3"
     "@angular/animations": "npm:^17.3.12"
-    "@angular/cdk": "npm:^17.3.10"
+    "@angular/cdk": "npm:^20.0.0"
     "@angular/cli": "npm:^17.3.12"
     "@angular/common": "npm:^17.3.12"
     "@angular/compiler": "npm:^17.3.12"
@@ -4001,7 +3998,7 @@ __metadata:
     "@angular-eslint/schematics": "npm:^17.5.3"
     "@angular-eslint/template-parser": "npm:^17.5.3"
     "@angular/animations": "npm:^17.3.12"
-    "@angular/cdk": "npm:^17.3.10"
+    "@angular/cdk": "npm:^20.0.0"
     "@angular/cli": "npm:^17.3.12"
     "@angular/common": "npm:^17.3.12"
     "@angular/compiler": "npm:^17.3.12"
@@ -28248,14 +28245,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yocto-queue@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "yocto-queue@npm:1.0.0"
-  checksum: 10/2cac84540f65c64ccc1683c267edce396b26b1e931aa429660aefac8fbe0188167b7aee815a3c22fa59a28a58d898d1a2b1825048f834d8d629f4c2a5d443801
-  languageName: node
-  linkType: hard
-
-"yocto-queue@npm:^1.1.1":
+"yocto-queue@npm:^1.0.0, yocto-queue@npm:^1.1.1":
   version: 1.2.1
   resolution: "yocto-queue@npm:1.2.1"
   checksum: 10/0843d6c2c0558e5c06e98edf9c17942f25c769e21b519303a5c2adefd5b738c9b2054204dc856ac0cd9d134b1bc27d928ce84fd23c9e2423b7e013d5a6f50577
