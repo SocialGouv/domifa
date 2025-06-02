@@ -9,12 +9,16 @@ export class ManualMigration1748870856744 implements MigrationInterface {
       domifaConfig().envId === "preprod" ||
       domifaConfig().envId === "local"
     ) {
-      await queryRunner.query(
-        `ALTER TABLE "open_data_cities" ADD "populationSegment" text`
-      );
-      await queryRunner.query(
-        `ALTER TABLE "open_data_places" ADD "domicilieSegment" text`
-      );
+      try {
+        await queryRunner.query(
+          `ALTER TABLE "open_data_cities" ADD "populationSegment" text`
+        );
+        await queryRunner.query(
+          `ALTER TABLE "open_data_places" ADD "domicilieSegment" text`
+        );
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 
