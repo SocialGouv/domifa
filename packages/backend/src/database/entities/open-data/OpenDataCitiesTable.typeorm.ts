@@ -1,5 +1,6 @@
 import { Entity, Column } from "typeorm";
 import { AppTypeormTable } from "../_core";
+import { PopulationSegmentEnum } from "../../../modules/open-data/enums";
 
 @Entity("open_data_cities")
 export class OpenDataCitiesTable extends AppTypeormTable<OpenDataCitiesTable> {
@@ -26,6 +27,9 @@ export class OpenDataCitiesTable extends AppTypeormTable<OpenDataCitiesTable> {
 
   @Column({ type: "int", nullable: true, default: 0 })
   population: number;
+
+  @Column({ type: "text", nullable: true })
+  populationSegment: PopulationSegmentEnum | null;
 
   @Column({ type: "jsonb", nullable: true })
   areas: {

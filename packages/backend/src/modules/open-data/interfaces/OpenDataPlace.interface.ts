@@ -1,6 +1,7 @@
 import { AppEntity, StructureType } from "@domifa/common";
 import { Saturation } from "./providers/Saturation.type";
 import { OpenDataSource } from "./OpenDataSource.type";
+import { DomiciliesSegmentEnum } from "../enums";
 
 export interface OpenDataPlace extends AppEntity {
   nom: string;
@@ -23,6 +24,7 @@ export interface OpenDataPlace extends AppEntity {
   structureType: StructureType | null;
   nbDomicilies?: number | null;
   nbDomiciliesDomifa?: number | null;
+  domicilieSegment?: DomiciliesSegmentEnum;
   nbAttestations?: number | null;
   nbAttestationsDomifa?: number | null;
   saturation?: Saturation;

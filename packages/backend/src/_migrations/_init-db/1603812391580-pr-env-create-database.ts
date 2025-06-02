@@ -170,6 +170,7 @@ async function createTables(queryRunner: QueryRunner) {
       "postalCode" text NULL,
       population int4 DEFAULT 0 NULL,
       areas jsonb NULL,
+      "populationSegment" text NULL,
       CONSTRAINT "PK_f20d1eb20573a7f2922c8a5f9a8" PRIMARY KEY (uuid)
     );
 
@@ -363,6 +364,7 @@ async function createTables(queryRunner: QueryRunner) {
       "saturationDetails" text NULL,
       "dgcsId" text NULL,
       reseau text NULL,
+      "domicilieSegment" text NULL,
       CONSTRAINT "PK_f80b64cfb42753deacd8bf6d78d" PRIMARY KEY (uuid),
       CONSTRAINT "FK_7ee1e7a8d9441eb76ab7b4aa5a3" FOREIGN KEY ("domifaStructureId") REFERENCES public."structure"(id) ON DELETE CASCADE
     );
