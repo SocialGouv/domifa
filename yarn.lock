@@ -32,18 +32,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/architect@npm:^0.1802.14":
-  version: 0.1802.14
-  resolution: "@angular-devkit/architect@npm:0.1802.14"
+"@angular-devkit/architect@npm:^0.2000.0":
+  version: 0.2000.0
+  resolution: "@angular-devkit/architect@npm:0.2000.0"
   dependencies:
-    "@angular-devkit/core": "npm:18.2.14"
-    rxjs: "npm:7.8.1"
-  dependenciesMeta:
-    esbuild:
-      built: true
-    puppeteer:
-      built: true
-  checksum: 10/d57ee7f989770d04c96fcc21b4f816f0e5a0ad52fc405ba2fb27fb817516a3a351b6c11d05367816822717d643e623ba7bf5f89b797242bdec2953cce787f9a7
+    "@angular-devkit/core": "npm:20.0.0"
+    rxjs: "npm:7.8.2"
+  checksum: 10/0e94a4a2b9a19fd6d207334f6b5a873504e35e8de754d0005d529c4e690d36f4119542665dd595adaa83441b1962c154f11ac1299a77f8674b25f2b0401b7f66
   languageName: node
   linkType: hard
 
@@ -222,30 +217,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/core@npm:18.2.14":
-  version: 18.2.14
-  resolution: "@angular-devkit/core@npm:18.2.14"
-  dependencies:
-    ajv: "npm:8.17.1"
-    ajv-formats: "npm:3.0.1"
-    jsonc-parser: "npm:3.3.1"
-    picomatch: "npm:4.0.2"
-    rxjs: "npm:7.8.1"
-    source-map: "npm:0.7.4"
-  peerDependencies:
-    chokidar: ^3.5.2
-  dependenciesMeta:
-    esbuild:
-      built: true
-    puppeteer:
-      built: true
-  peerDependenciesMeta:
-    chokidar:
-      optional: true
-  checksum: 10/25f7ff2bdf07d986be83ce6483157888bc9741e0aea7e0c8232b155c3b507d8425b2a7caed91d9c96dcb28debfd2e0aab0e2cfc554357bc2b0677c7e52c9fb25
-  languageName: node
-  linkType: hard
-
 "@angular-devkit/core@npm:19.1.8":
   version: 19.1.8
   resolution: "@angular-devkit/core@npm:19.1.8"
@@ -281,6 +252,25 @@ __metadata:
     chokidar:
       optional: true
   checksum: 10/c0667952b806b69aaab39cf874b66bd8a4b53c89c0e449d81c47dd3083e1cf8325cb79dbbf5d24ad46b14c1e5a97ee28fbf0e6d4389d7403b40a009c74388ca0
+  languageName: node
+  linkType: hard
+
+"@angular-devkit/core@npm:20.0.0":
+  version: 20.0.0
+  resolution: "@angular-devkit/core@npm:20.0.0"
+  dependencies:
+    ajv: "npm:8.17.1"
+    ajv-formats: "npm:3.0.1"
+    jsonc-parser: "npm:3.3.1"
+    picomatch: "npm:4.0.2"
+    rxjs: "npm:7.8.2"
+    source-map: "npm:0.7.4"
+  peerDependencies:
+    chokidar: ^4.0.0
+  peerDependenciesMeta:
+    chokidar:
+      optional: true
+  checksum: 10/547051dfc15135730b76f08d36eaacf1d22fc14cb5f87d200549a87f72b3d02a9dd66d777dc5c33c8967df01f2f0352f392ba45510cfd08bd2bebb7375b22b28
   languageName: node
   linkType: hard
 
@@ -3905,7 +3895,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/frontend@workspace:packages/frontend"
   dependencies:
-    "@angular-devkit/architect": "npm:^0.1802.14"
+    "@angular-devkit/architect": "npm:^0.2000.0"
     "@angular-devkit/build-angular": "npm:^17.3.12"
     "@angular-devkit/core": "npm:^17.3.12"
     "@angular-devkit/schematics": "npm:^17.3.12"
@@ -3991,7 +3981,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/portail-admins@workspace:packages/portail-admins"
   dependencies:
-    "@angular-devkit/architect": "npm:^0.1802.14"
+    "@angular-devkit/architect": "npm:^0.2000.0"
     "@angular-devkit/build-angular": "npm:^17.3.12"
     "@angular-devkit/core": "npm:^17.3.12"
     "@angular-devkit/schematics": "npm:^17.3.12"
@@ -4061,7 +4051,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/portail-usagers@workspace:packages/portail-usagers"
   dependencies:
-    "@angular-devkit/architect": "npm:^0.1802.14"
+    "@angular-devkit/architect": "npm:^0.2000.0"
     "@angular-devkit/build-angular": "npm:^17.3.12"
     "@angular-devkit/core": "npm:^17.3.12"
     "@angular-devkit/schematics": "npm:^17.3.12"
@@ -24463,7 +24453,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.5.5, rxjs@npm:^7.8.1, rxjs@npm:^7.8.2":
+"rxjs@npm:7.8.2, rxjs@npm:^7.5.5, rxjs@npm:^7.8.1, rxjs@npm:^7.8.2":
   version: 7.8.2
   resolution: "rxjs@npm:7.8.2"
   dependencies:
@@ -28248,14 +28238,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yocto-queue@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "yocto-queue@npm:1.0.0"
-  checksum: 10/2cac84540f65c64ccc1683c267edce396b26b1e931aa429660aefac8fbe0188167b7aee815a3c22fa59a28a58d898d1a2b1825048f834d8d629f4c2a5d443801
-  languageName: node
-  linkType: hard
-
-"yocto-queue@npm:^1.1.1":
+"yocto-queue@npm:^1.0.0, yocto-queue@npm:^1.1.1":
   version: 1.2.1
   resolution: "yocto-queue@npm:1.2.1"
   checksum: 10/0843d6c2c0558e5c06e98edf9c17942f25c769e21b519303a5c2adefd5b738c9b2054204dc856ac0cd9d134b1bc27d928ce84fd23c9e2423b7e013d5a6f50577
