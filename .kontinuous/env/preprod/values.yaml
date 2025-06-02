@@ -15,8 +15,6 @@ backend: &backendPreprod
         name: backend-sealed-secret
     - configMapRef:
         name: backend-configmap
-    - secretRef:
-        name: domifa-encryption-key
   env: &backendEnv
     - name: S3_BUCKET_ENDPOINT
       valueFrom:

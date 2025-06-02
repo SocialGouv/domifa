@@ -40,8 +40,6 @@ backend:
         name: backend-sealed-secret
     - configMapRef:
         name: backend-configmap
-    - secretRef:
-        name: domifa-encryption-key
   vars: &backendVars
     TZ: Europe/Paris
     POSTGRES_HOST: "$(PGHOST)"
@@ -112,8 +110,6 @@ backend-export:
         name: backend-sealed-secret
     - configMapRef:
         name: backend-configmap
-    - secretRef:
-        name: domifa-encryption-key
   vars: &backendVars
     TZ: Europe/Paris
     POSTGRES_HOST: "$(PGHOST)"

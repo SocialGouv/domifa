@@ -46,8 +46,6 @@ backend-cron:
         name: backend-sealed-secret
     - configMapRef:
         name: backend-configmap
-    - secretRef:
-        name: domifa-encryption-key
   vars: &backendVars
     DOMIFA_ENV_ID: "prod"
     DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
@@ -105,8 +103,6 @@ backend: &backendProd
         name: backend-sealed-secret
     - configMapRef:
         name: backend-configmap
-    - secretRef:
-        name: domifa-encryption-key
   vars:
     <<: *backendVars
   env: *backendEnv
@@ -137,8 +133,6 @@ backend-export:
         name: backend-sealed-secret
     - configMapRef:
         name: backend-configmap
-    - secretRef:
-        name: domifa-encryption-key
   vars:
     <<: *backendVars
   env: *backendEnv
