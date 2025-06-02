@@ -1,3 +1,10 @@
+## [2.202.9](https://github.com/SocialGouv/domifa/compare/v2.202.8...v2.202.9) (2025-06-02)
+
+
+### Bug Fixes
+
+* yaml typo ([d0293b9](https://github.com/SocialGouv/domifa/commit/d0293b9b73eb50be51263b570ad72a2159908d11))
+
 ## [2.202.8](https://github.com/SocialGouv/domifa/compare/v2.202.7...v2.202.8) (2025-06-02)
 
 
