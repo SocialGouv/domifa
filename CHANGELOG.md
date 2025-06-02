@@ -1,3 +1,10 @@
+## [2.202.8](https://github.com/SocialGouv/domifa/compare/v2.202.7...v2.202.8) (2025-06-02)
+
+
+### Bug Fixes
+
+* domifa-encryption-key ([6422068](https://github.com/SocialGouv/domifa/commit/64220686690b61fc4729efb600ae3d1786ff74ee))
+
 ## [2.202.7](https://github.com/SocialGouv/domifa/compare/v2.202.6...v2.202.7) (2025-06-02)
 
 
