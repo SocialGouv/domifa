@@ -129,7 +129,6 @@ export class FileManagerService {
     doc: CommonDoc
   ): Promise<Buffer> {
     const mainSecret = domifaConfig().security.mainSecret;
-    console.log("mainSecret", mainSecret); // DEBUG IN PROGRESS
     const readable = await this.getFileBody(filePath);
     const decryptedStream = readable.pipe(
       decryptFile(mainSecret, doc.encryptionContext)
@@ -167,6 +166,7 @@ export class FileManagerService {
     doc: CommonDoc
   ) {
     const mainSecret = domifaConfig().security.mainSecret;
+    console.log("mainSecret", mainSecret); // DEBUG IN PROGRESS
 
     try {
       res.setHeader("Content-Type", doc.filetype || "application/octet-stream");
