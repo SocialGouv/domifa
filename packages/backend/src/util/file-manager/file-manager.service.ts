@@ -166,7 +166,6 @@ export class FileManagerService {
     doc: CommonDoc
   ) {
     const mainSecret = domifaConfig().security.mainSecret;
-    console.log("mainSecret", mainSecret); // DEBUG IN PROGRESS
 
     try {
       res.setHeader("Content-Type", doc.filetype || "application/octet-stream");
