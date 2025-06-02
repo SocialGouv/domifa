@@ -6,11 +6,12 @@ import { FileManagerService } from "../util/file-manager/file-manager.service";
 import { CommonDoc, StructureDoc } from "@domifa/common";
 import { createHash } from "node:crypto";
 import { Readable } from "node:stream";
+import { domifaConfig } from "../config";
 
 type Docs = StructureDoc & {
   structureUuid: string;
 };
-export class EncryptStructureDocsMigration1748264444999
+export class EncryptStructureDocsFixMigration1748860978116
   implements MigrationInterface
 {
   public fileManagerService: FileManagerService;
@@ -25,65 +26,70 @@ export class EncryptStructureDocsMigration1748264444999
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async up(_queryRunner: QueryRunner): Promise<void> {
-    appLogger.warn("[MIGRATION] Encrypt structure docs");
-    await structureDocRepository.update({}, { encryptionContext: null });
-    const unencryptedDocs: Docs[] = await structureDocRepository
-      .createQueryBuilder("structure_doc")
-      .leftJoin(
-        "structure",
-        "structure",
-        `structure."id" = structure_doc."structureId"`
-      )
-      .where(`structure_doc."encryptionContext" IS NULL`)
-      .select([
-        `structure_doc."uuid" as "uuid"`,
-        `structure_doc."structureId" as "structureId"`,
-        `structure_doc."path" as "path"`,
-        `structure_doc."filetype" as "filetype"`,
-        `structure_doc."encryptionContext" as "encryptionContext"`,
-        `structure."uuid" as "structureUuid"`,
-      ])
-      .getRawMany();
+    if (
+      domifaConfig().envId === "prod" ||
+      domifaConfig().envId === "preprod" ||
+      domifaConfig().envId === "local"
+    ) {
+      appLogger.warn("[MIGRATION] Encrypt structure docs");
+      const unencryptedDocs: Docs[] = await structureDocRepository
+        .createQueryBuilder("structure_doc")
+        .leftJoin(
+          "structure",
+          "structure",
+          `structure."id" = structure_doc."structureId"`
+        )
+        .where(`structure_doc."encryptionContext" IS NULL`)
+        .select([
+          `structure_doc."uuid" as "uuid"`,
+          `structure_doc."structureId" as "structureId"`,
+          `structure_doc."path" as "path"`,
+          `structure_doc."filetype" as "filetype"`,
+          `structure_doc."encryptionContext" as "encryptionContext"`,
+          `structure."uuid" as "structureUuid"`,
+        ])
+        .getRawMany();
 
-    appLogger.warn(
-      `[MIGRATION] ${unencryptedDocs.length} documents to encrypt`
-    );
-    const pLimit = (await import("p-limit")).default;
+      appLogger.warn(
+        `[MIGRATION] ${unencryptedDocs.length} documents to encrypt`
+      );
+      const pLimit = (await import("p-limit")).default;
 
-    const limit = pLimit(2);
+      const limit = pLimit(2);
 
-    const promises = unencryptedDocs.map((doc) =>
-      limit(() => this.processWithPause(doc))
-    );
+      const promises = unencryptedDocs.map((doc) =>
+        limit(() => this.processWithPause(doc))
+      );
 
-    await Promise.all(promises);
+      await Promise.all(promises);
 
-    const totalDocs = unencryptedDocs.length;
-    const successRate =
-      totalDocs > 0
-        ? ((this.processedCount / totalDocs) * 100).toFixed(1)
-        : "0";
+      const totalDocs = unencryptedDocs.length;
+      const successRate =
+        totalDocs > 0
+          ? ((this.processedCount / totalDocs) * 100).toFixed(1)
+          : "0";
 
-    const migrationSummary = {
-      "Total documents": totalDocs,
-      "✅ Success": this.processedCount,
-      "🔴 Files not found": this.notFoundCount,
-      "🟠 Processing errors": this.errorCount,
-      "📊 Success rate": `${successRate}%`,
-    };
+      const migrationSummary = {
+        "Total documents": totalDocs,
+        "✅ Success": this.processedCount,
+        "🔴 Files not found": this.notFoundCount,
+        "🟠 Processing errors": this.errorCount,
+        "📊 Success rate": `${successRate}%`,
+      };
 
-    appLogger.warn("MIGRATION SUMMARY");
-    console.table(migrationSummary);
+      appLogger.warn("MIGRATION SUMMARY");
+      console.table(migrationSummary);
 
-    if (this.errors.length > 0) {
-      appLogger.error("Error details:");
-      console.table(this.errors);
-    }
+      if (this.errors.length > 0) {
+        appLogger.error("Error details:");
+        console.table(this.errors);
+      }
 
-    if (this.processedCount === totalDocs) {
-      appLogger.info("🎉 Migration completed successfully!");
-    } else {
-      appLogger.warn("⚠️ Migration completed with errors");
+      if (this.processedCount === totalDocs) {
+        appLogger.info("🎉 Migration completed successfully!");
+      } else {
+        appLogger.warn("⚠️ Migration completed with errors");
+      }
     }
   }
 
@@ -117,7 +123,7 @@ export class EncryptStructureDocsMigration1748264444999
         const encryptionContext = crypto.randomUUID();
         const newFilePath = join(
           "structure-documents-encrypted",
-          cleanPath(`${doc.structureUuid}`),
+          cleanPath(`${doc.structureId}`),
           `${doc.path}.sfe`
         );
 
@@ -152,12 +158,12 @@ export class EncryptStructureDocsMigration1748264444999
           }
         );
 
-        appLogger.info(`✅ encypt done : ${doc.structureUuid} ${filePath}`);
+        appLogger.info(`✅ encypt done : ${doc.structureId} ${filePath}`);
         await this.incrementCounter("processedCount");
       }
     } catch (error) {
       appLogger.error(
-        `🟠 Error during encryption: ${doc.structureUuid}   ${filePath} - ${error.message}`
+        `🟠 Error during encryption: ${doc.structureId}   ${filePath} - ${error.message}`
       );
       this.errors.push({ filePath, error: error.message });
 

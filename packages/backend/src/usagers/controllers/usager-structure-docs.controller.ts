@@ -81,7 +81,7 @@ export class UsagerStructureDocsController {
 
     const filePath = join(
       "structure-documents-encrypted",
-      cleanPath(`${user.structure.uuid}`),
+      cleanPath(`${user.structureId}`),
       `${doc.path}.sfe`
     );
 
@@ -151,7 +151,7 @@ export class UsagerStructureDocsController {
     if (doc) {
       const filePath = join(
         "structure-documents-encrypted",
-        cleanPath(`${user.structure.uuid}`),
+        cleanPath(`${user.structureId}`),
         `${doc.path}.sfe`
       );
 
