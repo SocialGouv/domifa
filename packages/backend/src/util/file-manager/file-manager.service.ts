@@ -180,8 +180,8 @@ export class FileManagerService {
 
       appLogger.debug(`📤 File downloaded successfully: ${filePath}`);
     } catch (error) {
-      appLogger.error(`❌ Download failed for ${filePath}:`, error);
-
+      appLogger.error(`❌ Download failed for ${filePath}`);
+      appLogger.error(error);
       if (!res.headersSent) {
         res.status(500).json({
           message: "DOWNLOAD_FAILED",
