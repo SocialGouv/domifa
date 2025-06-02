@@ -29,7 +29,6 @@ export function randomName(file: Express.Multer.File): string {
   return randomValue + extension;
 }
 
-// Vérification des mimetype
 export function validateUpload(
   uploadType: UploadType,
   _req: ExpressRequest,

@@ -10,7 +10,7 @@ import { Readable } from "node:stream";
 type Docs = StructureDoc & {
   structureUuid: string;
 };
-export class EncryptStructureDocsMigration1748264443999
+export class EncryptStructureDocsMigration1748264444999
   implements MigrationInterface
 {
   public fileManagerService: FileManagerService;
@@ -26,7 +26,7 @@ export class EncryptStructureDocsMigration1748264443999
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async up(_queryRunner: QueryRunner): Promise<void> {
     appLogger.warn("[MIGRATION] Encrypt structure docs");
-
+    await structureDocRepository.update({}, { encryptionContext: null });
     const unencryptedDocs: Docs[] = await structureDocRepository
       .createQueryBuilder("structure_doc")
       .leftJoin(
@@ -122,10 +122,11 @@ export class EncryptStructureDocsMigration1748264443999
         );
 
         let object = await this.fileManagerService.getFileBody(filePath);
+        const stream = this.fileManagerService.toNodeReadable(object);
         await this.fileManagerService.saveEncryptedFile(
           newFilePath,
           { ...doc, encryptionContext },
-          object
+          stream
         );
 
         object = null;
@@ -184,6 +185,7 @@ export class EncryptStructureDocsMigration1748264443999
       const originalStream = await this.fileManagerService.getFileBody(
         originalPath
       );
+      const stream = this.fileManagerService.toNodeReadable(originalStream);
       const decryptedStream =
         await this.fileManagerService.getDecryptedFileStream(
           encryptedPath,
@@ -191,7 +193,7 @@ export class EncryptStructureDocsMigration1748264443999
         );
 
       const [originalHash, decryptedHash] = await Promise.all([
-        this.calculateStreamHash(originalStream),
+        this.calculateStreamHash(stream),
         this.calculateStreamHash(decryptedStream),
       ]);
 
