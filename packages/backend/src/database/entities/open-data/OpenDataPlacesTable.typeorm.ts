@@ -3,12 +3,14 @@ import { StructureTable } from "../structure";
 import { AppTypeormTable } from "../_core";
 import { StructureType } from "@domifa/common";
 import {
+  OpenDataPlace,
   OpenDataSource,
   Saturation,
 } from "../../../modules/open-data/interfaces";
+import { DomiciliesSegmentEnum } from "../../../modules/open-data/enums";
 
 @Entity("open_data_places")
-export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlaceTable> {
+export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlace> {
   @Column({ type: "text", nullable: false })
   nom: string;
 
@@ -88,6 +90,9 @@ export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlaceTable> {
 
   @Column({ type: "text", nullable: true })
   reseau?: string | null;
+
+  @Column({ type: "text", nullable: true })
+  domicilieSegment: DomiciliesSegmentEnum | null;
 
   public constructor(entity?: Partial<OpenDataPlaceTable>) {
     super(entity);

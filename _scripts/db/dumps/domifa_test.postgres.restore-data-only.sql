@@ -150,7 +150,7 @@ COPY public.monitor_batch_process (uuid, "createdAt", "updatedAt", version, "pro
 -- Data for Name: open_data_cities; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.open_data_cities (uuid, "createdAt", "updatedAt", version, "regionCode", region, "departmentCode", department, city, "cityCode", "postalCode", population, areas) FROM stdin;
+COPY public.open_data_cities (uuid, "createdAt", "updatedAt", version, "regionCode", region, "departmentCode", department, city, "cityCode", "postalCode", population, areas, "populationSegment") FROM stdin;
 \.
 
 
@@ -158,7 +158,7 @@ COPY public.open_data_cities (uuid, "createdAt", "updatedAt", version, "regionCo
 -- Data for Name: open_data_places; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.open_data_places (uuid, "createdAt", "updatedAt", version, nom, adresse, "complementAdresse", ville, "codePostal", departement, region, latitude, longitude, source, software, mail, "structureType", "domifaStructureId", "soliguideStructureId", "mssId", "nbDomicilies", "nbDomiciliesDomifa", "nbAttestations", "nbAttestationsDomifa", saturation, "saturationDetails", "dgcsId", reseau) FROM stdin;
+COPY public.open_data_places (uuid, "createdAt", "updatedAt", version, nom, adresse, "complementAdresse", ville, "codePostal", departement, region, latitude, longitude, source, software, mail, "structureType", "domifaStructureId", "soliguideStructureId", "mssId", "nbDomicilies", "nbDomiciliesDomifa", "nbAttestations", "nbAttestationsDomifa", saturation, "saturationDetails", "dgcsId", reseau, "domicilieSegment") FROM stdin;
 \.
 
 

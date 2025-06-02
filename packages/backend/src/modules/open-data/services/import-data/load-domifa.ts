@@ -14,7 +14,20 @@ import { getLocation } from "../../../structures/services/location.service";
 import { Point } from "geojson";
 import { OpenDataPlace } from "../../interfaces";
 import { findNetwork } from "@domifa/common";
+import { DomiciliesSegmentEnum } from "../../enums";
 
+export function getDomiciliesSegment(
+  nbDomicilies: number
+): DomiciliesSegmentEnum {
+  if (nbDomicilies < 10) {
+    return DomiciliesSegmentEnum.VERY_SMALL;
+  } else if (nbDomicilies >= 10 && nbDomicilies <= 499) {
+    return DomiciliesSegmentEnum.SMALL;
+  } else if (nbDomicilies >= 500 && nbDomicilies <= 1999) {
+    return DomiciliesSegmentEnum.MEDIUM;
+  }
+  return DomiciliesSegmentEnum.LARGE;
+}
 export const loadDomifaData = async () => {
   appLogger.info("Import DomiFa start 🏃‍♂️... ");
 
@@ -47,6 +60,7 @@ export const loadDomifaData = async () => {
         where: { statut: "VALIDE", structureId: place.id },
       });
 
+      const domicilieSegment = getDomiciliesSegment(nbDomiciliesDomifa);
       const adresse = place?.adresseCourrier?.actif
         ? cleanAddress(place?.adresseCourrier.adresse)
         : cleanAddress(place.adresse);
@@ -90,6 +104,7 @@ export const loadDomifaData = async () => {
         structureType: place.structureType,
         nbDomiciliesDomifa,
         reseau: place?.reseau ?? findNetwork(cleanSpaces(place.nom)),
+        domicilieSegment,
       };
 
       if (!place?.latitude || !place?.longitude) {
