@@ -6,7 +6,7 @@ import {
   ListObjectsV2Command,
   S3Client,
 } from "@aws-sdk/client-s3";
-import { Readable } from "typeorm/platform/PlatformTools";
+import { Readable } from "stream";
 import { domifaConfig } from "../../config";
 import { Upload } from "@aws-sdk/lib-storage";
 import { PassThrough } from "node:stream";
@@ -65,7 +65,7 @@ export class FileManagerService {
         })
       );
     } catch (e) {
-      console.error(e);
+      appLogger.error(e);
       throw new Error(e);
     }
   }
@@ -90,7 +90,7 @@ export class FileManagerService {
         })
       );
     } catch (e) {
-      console.error(e);
+      appLogger.error(e);
       throw new Error("CANNOT_DELETE_FILE");
     }
   }
@@ -187,7 +187,6 @@ export class FileManagerService {
           message: "DOWNLOAD_FAILED",
         });
       } else {
-        // Si le stream a déjà commencé, on ne peut que fermer
         res.destroy();
       }
 
@@ -254,5 +253,36 @@ export class FileManagerService {
     const mainSecret = domifaConfig().security.mainSecret;
 
     return encryptedStream.pipe(decryptFile(mainSecret, doc.encryptionContext));
+  }
+
+  public toNodeReadable(input: unknown): Readable {
+    if (input instanceof Readable) {
+      return input;
+    }
+
+    if (
+      typeof input === "object" &&
+      input !== null &&
+      typeof (input as any).getReader === "function"
+    ) {
+      // Web ReadableStream
+      return Readable.from(input as any);
+    }
+
+    if (Buffer.isBuffer(input)) {
+      return Readable.from([input]);
+    }
+
+    if (input instanceof Uint8Array || input instanceof ArrayBuffer) {
+      return Readable.from([Buffer.from(input as any)]);
+    }
+
+    if (typeof input === "string") {
+      return Readable.from([Buffer.from(input)]);
+    }
+
+    throw new TypeError(
+      `Unsupported input type for toNodeReadable: ${typeof input}`
+    );
   }
 }
