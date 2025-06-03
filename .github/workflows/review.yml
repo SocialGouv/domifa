@@ -43,6 +43,8 @@ jobs:
       - name: Env
         id: env
         uses: socialgouv/kontinuous/.github/actions/env@v1
+        with:
+          subdomain: api,admin,mon
 
       - name: 📦 Build and push Docker image for backend
         uses: socialgouv/workflows/actions/buildkit@v1
@@ -94,6 +96,8 @@ jobs:
       - name: Env
         id: env
         uses: socialgouv/kontinuous/.github/actions/env@v1
+        with:
+          subdomain: api,admin,mon
 
       - name: 📦 Build and push Docker image for frontend
         uses: socialgouv/workflows/actions/buildkit@v1
@@ -147,6 +151,8 @@ jobs:
       - name: Env
         id: env
         uses: socialgouv/kontinuous/.github/actions/env@v1
+        with:
+          subdomain: api
 
       - name: 📦 Build and push Docker image for portail-admins
         uses: socialgouv/workflows/actions/buildkit@v1
@@ -197,6 +203,8 @@ jobs:
       - name: Env
         id: env
         uses: socialgouv/kontinuous/.github/actions/env@v1
+        with:
+          subdomain: api
 
       - name: 📦 Build and push Docker image for portail-usagers
         uses: socialgouv/workflows/actions/buildkit@v1
