@@ -1,3 +1,10 @@
+## [2.202.13](https://github.com/SocialGouv/domifa/compare/v2.202.12...v2.202.13) (2025-06-04)
+
+
+### Bug Fixes
+
+* **backend:** add segments for structures ([200e65f](https://github.com/SocialGouv/domifa/commit/200e65f62ce1c82b5580b0b8b4fd6af500af0c5b))
+
 ## [2.202.12](https://github.com/SocialGouv/domifa/compare/v2.202.11...v2.202.12) (2025-06-04)
 
 
