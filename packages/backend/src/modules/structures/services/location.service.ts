@@ -1,6 +1,6 @@
-import axios from "axios";
 import { Feature, FeatureCollection, Point } from "geojson";
 import { appLogger, formatAddressForURL } from "../../../util";
+import { axios } from "../../../config";
 
 export interface FrenchAddress {
   id: string;
@@ -99,3 +99,52 @@ export const getLocation = async (address: string): Promise<Point | null> => {
     return null;
   }
 };
+
+export async function getCityCode(structure: {
+  nom: string;
+  ville: string;
+  codePostal: string;
+  latitude: number;
+  longitude: number;
+}): Promise<string | null> {
+  const city = structure.ville.toLowerCase().replace("cedex", " ").trim();
+  const apiUrl = "https://data.geopf.fr/geocodage/search";
+  const params = {
+    q: city,
+    limit: 1,
+    lat: structure.latitude,
+    lon: structure.longitude,
+    type: "municipality",
+    index: "address",
+  };
+
+  try {
+    const response = await axios.get<FeatureCollection<Point, FrenchAddress>>(
+      apiUrl,
+      {
+        params,
+        timeout: 10000,
+      }
+    );
+
+    if (!response.data.features.length) {
+      console.log(params);
+      appLogger.warn(
+        `[GET LOCATION] Cannot get location from this city ${city}`
+      );
+      return null;
+    } else {
+      const citycode = response.data.features[0].properties.citycode;
+      console.log(
+        `${structure.nom} - ${city} - ${structure.codePostal} = ${citycode}`
+      );
+      return citycode;
+    }
+  } catch (error) {
+    console.log(params);
+    appLogger.error(
+      `[GET LOCATION] Failed after retries for ${city}: ${error.message}`
+    );
+    return null;
+  }
+}

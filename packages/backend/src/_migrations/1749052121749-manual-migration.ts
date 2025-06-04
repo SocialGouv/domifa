@@ -2,7 +2,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { domifaConfig } from "../config";
 
-export class ManualMigration1748870856745 implements MigrationInterface {
+export class ManualMigration1749052121749 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     if (
       domifaConfig().envId === "prod" ||
@@ -20,6 +20,18 @@ export class ManualMigration1748870856745 implements MigrationInterface {
         END
         WHERE "population" IS NOT NULL
     `);
+
+      await queryRunner.query(`
+      UPDATE "open_data_cities"
+      SET "populationSegment" = CASE
+          WHEN "population" < 10000 THEN '< 10 000 habitants'
+          WHEN "population" >= 10000 AND "population" <= 49999 THEN 'Entre 10 000 et 49 999 habitants'
+          WHEN "population" >= 50000 AND "population" <= 99999 THEN 'Entre 50 000 et 99 999 habitants'
+          WHEN "population" >= 100000 THEN '≥ 100 000 habitants'
+          ELSE NULL
+      END
+      WHERE "population" IS NOT NULL
+  `);
 
       await queryRunner.query(`
         UPDATE "open_data_places"
