@@ -175,7 +175,6 @@ export class EtatCivilParentFormComponent implements OnDestroy {
       ],
     });
 
-    // Ajout des ayant-droit
     for (const ayantDroit of this.usager.ayantsDroits) {
       (this.usagerForm.controls.ayantsDroits as UntypedFormArray).push(
         this.newAyantDroit(ayantDroit)

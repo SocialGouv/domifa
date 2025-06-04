@@ -164,7 +164,7 @@ export class CreateUsagerDto {
   public contactByPhone!: boolean;
 
   @ApiProperty({
-    description: "Tableau des ayants-droit",
+    description: "Tableau des ayants droit",
   })
   @IsOptional()
   @IsArray()

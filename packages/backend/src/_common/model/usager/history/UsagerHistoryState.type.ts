@@ -7,7 +7,7 @@ import {
 } from "@domifa/common";
 import { UsagerHistoryStateCreationEvent } from "./UsagerHistoryStateCreationEvent.type";
 
-// état d'un usager pendant une période, change à chaque modification (décision, entretien, ayants droits)
+// état d'un usager pendant une période, change à chaque modification (décision, entretien, ayants droit)
 // les UsagerHistoryState ne se chevauchent pas, mais se succèdent
 export type UsagerHistoryState = Pick<Usager, "etapeDemande" | "typeDom"> & {
   ayantsDroits: Partial<UsagerAyantDroit>[];

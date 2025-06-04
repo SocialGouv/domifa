@@ -298,7 +298,7 @@
   <div class="row">
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
-        <h2>Ayants-droits</h2>
+        <h2>Ayants droit</h2>
         <button
           type="button"
           (click)="addAyantDroit()"
@@ -309,20 +309,20 @@
             class="me-2"
             aria-hidden="true"
           ></fa-icon>
-          Ajouter des ayants droits
+          Ajouter des ayants droit
         </button>
       </div>
     </div>
   </div>
 
   <div class="alert alert-info" *ngIf="ayantsDroits.length === 0">
-    <p>Aucun ayant-droit enregistré</p>
+    <p>Aucun ayant droit enregistré</p>
   </div>
   <fieldset
     formArrayName="ayantsDroits"
     *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
   >
-    <legend>Ayant-droit numéro {{ i + 1 }}</legend>
+    <legend>Ayant droit numéro {{ i + 1 }}</legend>
     <div [formGroupName]="i" class="row">
       <div class="col-12 col-md-3 form-group required">
         <label for="nom_{{ i }}">Nom</label>
@@ -350,7 +350,7 @@
               ? 'nom-ad-errors-' + i
               : null
           "
-          [attr.aria-label]="'Nom de naissance de l\'ayant-droit ' + (i + 1)"
+          [attr.aria-label]="'Nom de naissance de l\'ayant droit ' + (i + 1)"
           required
         />
         <p
@@ -390,7 +390,7 @@
               ? 'prenom-ad-errors-' + i
               : null
           "
-          [attr.aria-label]="'Prénom de l\'ayant-droit ' + (i + 1)"
+          [attr.aria-label]="'Prénom de l\'ayant droit ' + (i + 1)"
           required
         />
         <p
@@ -425,7 +425,7 @@
                   submitted) &&
                 ayantsDroits.controls[i].get('dateNaissance')?.errors
             }"
-            [attr.aria-label]="'Date de naissance de l\'ayant-droit ' + (i + 1)"
+            [attr.aria-label]="'Date de naissance de l\'ayant droit ' + (i + 1)"
             [attr.aria-invalid]="
               (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
                 submitted) &&
@@ -474,7 +474,7 @@
           name="lien"
           id="lien_{{ i }}"
           class="form-select"
-          [attr.aria-label]="'Lien de parenté de l\'ayant-droit ' + (i + 1)"
+          [attr.aria-label]="'Lien de parenté de l\'ayant droit ' + (i + 1)"
           [attr.aria-invalid]="
             (ayantsDroits.controls[i].get('lien')?.dirty || submitted) &&
             ayantsDroits.controls[i].get('lien')?.errors
@@ -520,7 +520,7 @@
           id="delete_ad_{{ i }}"
           (click)="deleteAyantDroit(i)"
           class="btn btn-block btn-danger"
-          [attr.aria-label]="'Supprimer l\'ayant-droit {{ (i+1) }}'"
+          [attr.aria-label]="'Supprimer l\'ayant droit {{ (i+1) }}'"
         >
           <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
           <span class="d-inline-block d-md-none"
