@@ -1,6 +1,5 @@
-import { AppEntity } from "@domifa/common";
+import { AppEntity, PopulationSegmentEnum } from "@domifa/common";
 import { Geometry } from "geojson";
-import { PopulationSegmentEnum } from "../enums";
 
 export interface OpenDataCity extends AppEntity {
   regionCode: string;
