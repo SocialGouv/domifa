@@ -444,7 +444,7 @@
         <div class="row">
           <div class="col-md-12 my-3">
             <fieldset>
-              <legend>Le demandeur a-t-il des ayant-droits ?</legend>
+              <legend>Le demandeur a-t-il des ayants droit ?</legend>
               <div class="form-check form-check-inline">
                 <input
                   class="form-check-input"
@@ -513,7 +513,7 @@
                       : null
                   "
                   [attr.aria-label]="
-                    'Nom de naissance de l\'ayant-droit ' + (i + 1)
+                    'Nom de naissance de l\'ayant droit ' + (i + 1)
                   "
                   required
                 />
@@ -557,7 +557,7 @@
                       ? 'prenom-ad-errors-' + i
                       : null
                   "
-                  [attr.aria-label]="'Prénom de l\'ayant-droit ' + (i + 1)"
+                  [attr.aria-label]="'Prénom de l\'ayant droit ' + (i + 1)"
                   required
                 />
                 <p
@@ -594,7 +594,7 @@
                         ayantsDroits.controls[i].get('dateNaissance')?.errors
                     }"
                     [attr.aria-label]="
-                      'Date de naissance de l\'ayant-droit ' + (i + 1)
+                      'Date de naissance de l\'ayant droit ' + (i + 1)
                     "
                     [attr.aria-invalid]="
                       (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
@@ -648,7 +648,7 @@
                   id="lien_{{ i }}"
                   class="form-select"
                   [attr.aria-label]="
-                    'Lien de parenté de l\'ayant-droit ' + (i + 1)
+                    'Lien de parenté de l\'ayant droit ' + (i + 1)
                   "
                   [attr.aria-invalid]="
                     (ayantsDroits.controls[i].get('lien')?.dirty ||
@@ -699,14 +699,14 @@
                   id="delete_ad_{{ i }}"
                   (click)="deleteAyantDroit(i)"
                   class="btn btn-block btn-danger"
-                  [attr.aria-label]="'Supprimer l\'ayant-droit {{ (i+1) }}'"
+                  [attr.aria-label]="'Supprimer l\'ayant droit {{ (i+1) }}'"
                 >
                   <fa-icon
                     aria-hidden="true"
                     [icon]="['fas', 'trash']"
                   ></fa-icon>
                   <span class="d-inline-block d-md-none"
-                    >Supprimer l'ayant-droit {{ i + 1 }}</span
+                    >Supprimer l'ayant droit {{ i + 1 }}</span
                   >
                 </button>
               </div>
@@ -719,7 +719,7 @@
               class="btn btn-outline-primary"
             >
               <fa-icon [icon]="['fas', 'plus']" aria-hidden="true"></fa-icon>
-              Ajouter des ayants droits
+              Ajouter des ayants droit
             </button>
           </div>
         </ng-container>

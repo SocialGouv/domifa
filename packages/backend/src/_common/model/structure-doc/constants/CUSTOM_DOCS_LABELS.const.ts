@@ -44,9 +44,9 @@ export const CUSTOM_DOCS_LABELS: {
   USAGER_DATE_NAISSANCE: "Date naissance",
   USAGER_LIEU_NAISSANCE: "Lieu naissance",
   REFERENT: "Référent du dossier",
-  AYANTS_DROITS_NOMBRE: "Nombre d'ayants-droit",
+  AYANTS_DROITS_NOMBRE: "Nombre d'ayants droit",
   AYANTS_DROITS_LISTE:
-    "La liste des ayants droits avec nom prénom et date de naissance",
+    "La liste des ayants droit avec nom prénom et date de naissance",
 
   // CONTACT USAGER
   USAGER_PHONE: "Numéro de téléphone",

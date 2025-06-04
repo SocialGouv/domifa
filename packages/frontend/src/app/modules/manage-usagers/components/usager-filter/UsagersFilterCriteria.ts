@@ -16,7 +16,7 @@ export type UsagersFilterCriteriaSortKey =
 
 export class UsagersFilterCriteria extends Search {
   // text search filter
-  // DEFAULT = Nom, prénom du domicilié, nom, prénom d'un des ayant-droits
+  // DEFAULT = Nom, prénom du domicilié, nom, prénom d'un des ayant-droit
   public searchStringField: CriteriaSearchField;
   // filters
   public statut: UsagersFilterCriteriaStatut | null;
