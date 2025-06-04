@@ -1,3 +1,10 @@
+## [2.202.12](https://github.com/SocialGouv/domifa/compare/v2.202.11...v2.202.12) (2025-06-04)
+
+
+### Bug Fixes
+
+* **frontend:** fix typo & update cerfa model ([29e4cc2](https://github.com/SocialGouv/domifa/commit/29e4cc250525502170229eb98d52833a90407483))
+
 ## [2.202.11](https://github.com/SocialGouv/domifa/compare/v2.202.10...v2.202.11) (2025-06-02)
 
 
