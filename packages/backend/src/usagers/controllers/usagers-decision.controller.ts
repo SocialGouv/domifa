@@ -165,7 +165,6 @@ export class UsagersDecisionController {
     };
 
     await usagerNotesRepository.save(newNote);
-
     await usagerRepository.update(
       { uuid: usager.uuid },
       {
@@ -188,7 +187,12 @@ export class UsagersDecisionController {
     let strDecision = `Suppression de la décision : \n ${
       USAGER_DECISION_STATUT_LABELS_PROFIL[decision.statut]
     }`;
-    const dateDebut = format(new Date(decision.dateDebut), "dd/MM/yyyy");
+
+    const dateRef = decision?.dateDebut
+      ? decision.dateDebut
+      : decision.dateDecision;
+
+    const dateDebut = format(new Date(dateRef), "dd/MM/yyyy");
 
     if (decision.statut === "VALIDE") {
       const dateFin = format(new Date(decision.dateFin), "dd/MM/yyyy");
