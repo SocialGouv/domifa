@@ -1,3 +1,10 @@
+## [2.202.15](https://github.com/SocialGouv/domifa/compare/v2.202.14...v2.202.15) (2025-06-09)
+
+
+### Bug Fixes
+
+* **backend:** fix delete of a decision ([37b44e9](https://github.com/SocialGouv/domifa/commit/37b44e9aba3d4fae9bb9130e6ff79c89a3369d43))
+
 ## [2.202.14](https://github.com/SocialGouv/domifa/compare/v2.202.13...v2.202.14) (2025-06-05)
 
 
