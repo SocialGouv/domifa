@@ -5,5 +5,6 @@ export * from "./StructureAddresseCourrier.interface";
 export * from "./StructureOptions.interface";
 export * from "./StructureOrganismeType.type";
 export * from "./StructurePortailUsagerParams.interface";
+export * from "./StructureRegistrationData.interface";
 export * from "./StructureResponsable.interface";
 export * from "./StructureSmsParams.interface";

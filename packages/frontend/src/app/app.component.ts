@@ -119,7 +119,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authService.currentUserSubject.subscribe({
       next: (user: UserStructure | null) => {
         this.me = user;
-        console.log(user?.acceptTerms);
+
         if (!user || this.modalService.hasOpenModals()) {
           return;
         }

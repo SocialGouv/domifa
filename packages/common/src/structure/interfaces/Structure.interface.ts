@@ -7,6 +7,7 @@ import { type StructureAddresseCourrier } from "./StructureAddresseCourrier.inte
 import { type StructureOptions } from "./StructureOptions.interface";
 import { type StructureOrganismeType } from "./StructureOrganismeType.type";
 import { type StructurePortailUsagerParams } from "./StructurePortailUsagerParams.interface";
+import { StructureRegistrationData } from "./StructureRegistrationData.interface";
 import { type StructureResponsable } from "./StructureResponsable.interface";
 import { type StructureSmsParams } from "./StructureSmsParams.interface";
 
@@ -62,4 +63,6 @@ export interface Structure extends AppEntity {
   reseau?: string | null;
   domicilieSegment?: DomiciliesSegmentEnum | null;
   populationSegment?: PopulationSegmentEnum | null;
+  registrationData?: StructureRegistrationData | null;
+  siret: string | null;
 }

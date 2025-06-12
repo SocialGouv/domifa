@@ -81,8 +81,7 @@
 </div>
 <div class="row">
   <div class="col-12">
-    <h2>Paramètres de la structure</h2>
-    <h3>SMS & Mon DomiFa</h3>
+    <h2>SMS & Mon DomiFa</h2>
   </div>
   <p class="col-md-4 reponses">
     <span class="question">SMS activés</span>
@@ -99,5 +98,45 @@
     <span class="valeur"
       >{{ structure.portailUsager.enabledByStructure ? "Oui" : "Non" }}
     </span>
+  </p>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <h2>Données d'enregistrement</h2>
+  </div>
+  <p class="col-md-4 reponses">
+    <span class="question">SIRET</span>
+    <span class="valeur">{{ structure?.siret ?? "SIRET non renseigné" }}</span>
+  </p>
+  <p class="col-md-4 reponses">
+    <span class="question">Source de découverte</span>
+    <span class="valeur">{{ sourceLabel }}</span>
+  </p>
+  <p class="col-md-4 reponses">
+    <span class="question">Nombre d'usagers actifs</span>
+    <span class="valeur">{{
+      structure?.registrationData?.activeUsersCount ?? "Non renseigné"
+    }}</span>
+  </p>
+  <p
+    class="col-md-4 reponses"
+    *ngIf="
+      structure?.registrationData?.dsp !== undefined &&
+      structure?.structureType === 'asso'
+    "
+  >
+    <span class="question">Délégation de service public</span>
+    <span class="valeur">{{
+      structure.registrationData.dsp ? "Oui" : "Non"
+    }}</span>
+  </p>
+  <p class="col-md-4 reponses">
+    <span class="question">Outil actuel</span>
+    <span class="valeur">{{ currentToolLabel }}</span>
+  </p>
+  <p class="col-md-4 reponses">
+    <span class="question">Outil du marché</span>
+    <span class="valeur">{{ marketToolLabel }}</span>
   </p>
 </div>

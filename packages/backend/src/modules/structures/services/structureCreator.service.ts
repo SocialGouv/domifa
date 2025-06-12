@@ -20,6 +20,7 @@ import { newStructureEmailSender } from "../../mails/services/templates-renderer
 import { randomBytes } from "crypto";
 import { userStructureCreator } from "../../users/services";
 import { UserDto } from "../../users/dto";
+import { openDataCitiesRepository } from "../../../database/services/open-data/open-data-cities-repository";
 
 export const structureCreatorService = {
   checkStructureCreateArgs,
@@ -104,7 +105,6 @@ async function createStructure(structureDto: StructureDto) {
   delete structureDto.acceptCgu;
 
   const createdStructure: Structure = new StructureTable(structureDto);
-
   createdStructure.sms = {
     senderName: generateSender(createdStructure.nom),
     senderDetails: generateSender(createdStructure.nom),
@@ -127,6 +127,16 @@ async function createStructure(structureDto: StructureDto) {
     createdStructure.cityCode = place.properties.citycode;
     createdStructure.longitude = place.geometry.coordinates[0];
     createdStructure.latitude = place.geometry.coordinates[1];
+  }
+
+  if (createdStructure?.cityCode) {
+    const city = await openDataCitiesRepository.findOneBy({
+      cityCode: createdStructure.cityCode,
+    });
+
+    if (city?.populationSegment) {
+      createdStructure.populationSegment = city?.populationSegment;
+    }
   }
 
   createdStructure.registrationDate = new Date();
