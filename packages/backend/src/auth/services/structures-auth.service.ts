@@ -129,9 +129,12 @@ export class StructuresAuthService {
         "acceptTerms",
         "timeZone",
         "reseau",
+        "registrationData",
+        "siret",
       ],
     });
 
+    console.log({ structure });
     return {
       _userId: payload._userId,
       _userProfile: payload._userProfile,

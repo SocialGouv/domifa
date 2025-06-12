@@ -3830,6 +3830,7 @@ __metadata:
     lint-staged: "npm:^15.4.3"
     lodash.isequal: "npm:^4.5.0"
     lodash.set: "npm:^4.3.2"
+    luhn: "npm:^2.4.1"
     mammoth: "npm:^1.4.17"
     moment: "npm:^2.30.1"
     multer: "npm:^2.0.0"
@@ -3893,6 +3894,7 @@ __metadata:
     jest: "npm:^29.7.0"
     license-check-and-add: "npm:^4.0.5"
     lint-staged: "npm:^15.4.3"
+    luhn: "npm:^2.4.1"
     prettier: "npm:2.8.8"
     rimraf: "npm:^6.0.1"
     ts-jest: "npm:^29.2.5"
@@ -20190,6 +20192,13 @@ __metadata:
   version: 7.18.3
   resolution: "lru-cache@npm:7.18.3"
   checksum: 10/6029ca5aba3aacb554e919d7ef804fffd4adfc4c83db00fac8248c7c78811fb6d4b6f70f7fd9d55032b3823446546a007edaa66ad1f2377ae833bd983fac5d98
+  languageName: node
+  linkType: hard
+
+"luhn@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "luhn@npm:2.4.1"
+  checksum: 10/5da967bbe72853d972ffe7044880b562fca7d7818cde4c5c42295d54cd658cb2c25a2ab12a00bf013e7e2cf905fdf7560ee4b1869cad8e7bb41927fc130b90c1
   languageName: node
   linkType: hard
 
