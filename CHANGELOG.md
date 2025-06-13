@@ -1,3 +1,15 @@
+# [2.203.0](https://github.com/SocialGouv/domifa/compare/v2.202.16...v2.203.0) (2025-06-13)
+
+
+### Bug Fixes
+
+* **backend:** fix unit tests ([8d919ea](https://github.com/SocialGouv/domifa/commit/8d919eadcbbc1b4143c3c047711fa2823a23c8c3))
+
+
+### Features
+
+* **frontend:** add registration data ([d98f6f8](https://github.com/SocialGouv/domifa/commit/d98f6f8e094b992db423d162f8b5a32a652e7fb7))
+
 ## [2.202.16](https://github.com/SocialGouv/domifa/compare/v2.202.15...v2.202.16) (2025-06-12)
 
 
