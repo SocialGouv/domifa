@@ -1,33 +1,3 @@
-jobs:
-  runs:
-    build-backend:
-      with:
-        buildArgs:
-          DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
-          DOMIFA_PORTAIL_ADMINS_URL: "https://admin-{{ .Values.global.host }}/"
-          DOMIFA_PORTAIL_USAGERS_URL: "https://mon-{{ .Values.global.host }}/"
-          DOMIFA_FRONTEND_URL: "https://{{ .Values.global.host }}/"
-
-    build-frontend:
-      with:
-        buildArgs:
-          DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
-          DOMIFA_FRONTEND_META_ROBOTS: index,follow
-          DOMIFA_FRONTEND_URL: "https://{{ .Values.global.host }}/"
-
-    build-portail-admins:
-      with:
-        buildArgs:
-          DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
-          PRODUCTION: "true"
-          DOMIFA_FRONTEND_URL: "https://{{ .Values.global.host }}/"
-
-    build-portail-usagers:
-      with:
-        buildArgs:
-          DOMIFA_BACKEND_URL: "https://domifa-api.{{ .Values.global.domain }}/"
-          PRODUCTION: "true"
-          DOMIFA_FRONTEND_META_ROBOTS: index,follow
 
 backend-cron:
   ~needs: [build-backend]
