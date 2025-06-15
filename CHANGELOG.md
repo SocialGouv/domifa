@@ -1,3 +1,10 @@
+## [2.203.1](https://github.com/SocialGouv/domifa/compare/v2.203.0...v2.203.1) (2025-06-15)
+
+
+### Bug Fixes
+
+* **frontend:** fix register ([468a817](https://github.com/SocialGouv/domifa/commit/468a817af4ac5e5f681ee7c7e49731a1c7264767))
+
 # [2.203.0](https://github.com/SocialGouv/domifa/compare/v2.202.16...v2.203.0) (2025-06-13)
 
 
