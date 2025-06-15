@@ -128,10 +128,10 @@ export function createform(
       source: [structure.registrationData?.source, [Validators.required]],
       sourceDetail: [structure.registrationData?.sourceDetail, []],
       activeUsersCount: [
-        structure.registrationData?.activeUsersCount,
+        structure.registrationData?.activeUsersCount ?? 0,
         [Validators.required, Validators.min(0)],
       ],
-      dsp: [structure.registrationData?.dsp, []],
+      dsp: [structure?.registrationData?.dsp ?? null, []],
       currentTool: [
         structure.registrationData?.currentTool,
         [Validators.required],
