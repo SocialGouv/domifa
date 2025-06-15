@@ -898,19 +898,15 @@
           formControlName="source"
           name="source"
           [ngClass]="{
-            'is-invalid':
-              (submitted || f.registrationData?.get('source')?.dirty) &&
-              f.registrationData?.get('source')?.errors
+            'is-invalid': (submitted || reg.source?.dirty) && reg.source?.errors
           }"
           [attr.aria-invalid]="
-            (submitted || f.registrationData?.get('source')?.dirty) &&
-            f.registrationData?.get('source')?.errors
+            (submitted || reg.source?.dirty) && reg.source?.errors
               ? true
               : false
           "
           [attr.aria-describedby]="
-            (submitted || f.registrationData?.get('source')?.dirty) &&
-            f.registrationData?.get('source')?.errors
+            (submitted || reg.source?.dirty) && reg.source?.errors
               ? 'source-errors'
               : null
           "
@@ -923,10 +919,7 @@
         </select>
 
         <p
-          *ngIf="
-            (submitted || f.registrationData?.get('source')?.dirty) &&
-            f.registrationData?.get('source')?.errors
-          "
+          *ngIf="(submitted || reg.source?.dirty) && reg.source?.errors"
           class="invalid-feedback"
           id="source-errors"
         >
@@ -942,14 +935,13 @@
           formControlName="sourceDetail"
           [ngClass]="{
             'is-invalid':
-              (submitted || f.registrationData?.get('sourceDetail')?.dirty) &&
-              f.registrationData?.get('sourceDetail')?.errors
+              (submitted || reg.sourceDetail?.dirty) && reg.sourceDetail?.errors
           }"
+          required
         />
         <div
           *ngIf="
-            (submitted || f.registrationData?.get('sourceDetail')?.dirty) &&
-            f.registrationData?.get('sourceDetail')?.errors
+            (submitted || reg.sourceDetail?.dirty) && reg.sourceDetail?.errors
           "
           class="invalid-feedback"
         >
@@ -957,11 +949,101 @@
         </div>
       </div>
     </div>
+    <div *ngIf="f.structureType.value === 'asso'" class="row">
+      <div
+        class="col-12 form-group"
+        [ngClass]="{
+          'is-invalid': (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+        }"
+      >
+        <fieldset
+          role="group"
+          [attr.aria-labelledby]="'dsp-legend'"
+          [attr.aria-describedby]="
+            (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+              ? 'dsp-errors'
+              : null
+          "
+          [attr.aria-invalid]="
+            (submitted || reg.dsp?.dirty) && reg.dsp?.errors ? true : false
+          "
+        >
+          <legend
+            id="dsp-legend"
+            class="required"
+            [ngClass]="{
+              'is-invalid': (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+            }"
+          >
+            Exercez-vous une délégation de Service Public
+          </legend>
+
+          <div class="form-check">
+            <input
+              type="radio"
+              class="form-check-input"
+              id="dsp-oui"
+              formControlName="dsp"
+              name="dsp"
+              [value]="true"
+              [ngClass]="{
+                'is-invalid': (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+              }"
+              [attr.aria-invalid]="
+                (submitted || reg.dsp?.dirty) && reg.dsp?.errors ? true : false
+              "
+              [attr.aria-describedby]="
+                (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+                  ? 'dsp-errors'
+                  : 'dsp-legend'
+              "
+              [attr.required]="reg.dsp?.errors ? true : null"
+            />
+            <label class="form-check-label" for="dsp-oui">Oui</label>
+          </div>
+
+          <div class="form-check">
+            <input
+              type="radio"
+              class="form-check-input"
+              id="dsp-non"
+              formControlName="dsp"
+              name="dsp"
+              [value]="false"
+              [ngClass]="{
+                'is-invalid': (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+              }"
+              [attr.aria-invalid]="
+                (submitted || reg.dsp?.dirty) && reg.dsp?.errors ? true : false
+              "
+              [attr.aria-describedby]="
+                (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+                  ? 'dsp-errors'
+                  : 'dsp-legend'
+              "
+              [attr.required]="reg.dsp?.errors ? true : null"
+            />
+            <label class="form-check-label" for="dsp-non">Non</label>
+          </div>
+
+          <p
+            *ngIf="(submitted || reg.dsp?.dirty) && reg.dsp?.errors"
+            class="invalid-feedback"
+            id="dsp-errors"
+            role="alert"
+            aria-live="polite"
+            [attr.aria-atomic]="true"
+          >
+            Ce champ est requis
+          </p>
+        </fieldset>
+      </div>
+    </div>
 
     <div class="row">
       <div class="col-6 form-group required">
         <label for="currentTool">
-          Comment gériez-vous la domiciliation avant d'utiliser DomiFa?
+          Comment gérez-vous actuellement la domiciliation ?
         </label>
         <select
           class="form-control form-select"
@@ -1010,7 +1092,7 @@
         class="col-6 form-group required"
         *ngIf="reg.currentTool?.value === 'OUTIL_MARCHE'"
       >
-        <label for="marketTool">Quel outil du marché utilisiez-vous ? </label>
+        <label for="marketTool"> Quel outil du marché utilisez-vous ? </label>
         <select
           class="form-control form-select"
           id="marketTool"
@@ -1052,7 +1134,13 @@
         </p>
       </div>
 
-      <div class="col-6 form-group" *ngIf="reg.marketTool?.value === 'AUTRE'">
+      <div
+        class="col-6 form-group required"
+        *ngIf="
+          reg.currentTool?.value === 'OUTIL_MARCHE' &&
+          reg.marketTool?.value === 'AUTRE'
+        "
+      >
         <label for="marketToolOther"> Précisez l'outil : </label>
         <input
           type="text"
@@ -1078,6 +1166,7 @@
               ? 'marketToolOther-errors'
               : null
           "
+          required
         />
 
         <p
@@ -1092,69 +1181,6 @@
         >
           Ce champ est requis
         </p>
-      </div>
-    </div>
-    <div *ngIf="f.structureType.value === 'asso'" class="row">
-      <div class="col-12 form-group">
-        <fieldset>
-          <legend>Exercez-vous une délégation de Service Public</legend>
-
-          <div class="form-check">
-            <input
-              type="radio"
-              class="form-check-input"
-              id="dsp-oui"
-              formControlName="dsp"
-              name="dsp"
-              [value]="true"
-              [ngClass]="{
-                'is-invalid': (submitted || f.dsp?.dirty) && f.dsp?.errors
-              }"
-              [attr.aria-invalid]="
-                (submitted || f.dsp?.dirty) && f.dsp?.errors ? true : false
-              "
-              [attr.aria-describedby]="
-                (submitted || f.dsp?.dirty) && f.dsp?.errors
-                  ? 'dsp-errors'
-                  : null
-              "
-            />
-            <label class="form-check-label" for="dsp-oui"> Oui </label>
-          </div>
-
-          <div class="form-check">
-            <input
-              type="radio"
-              class="form-check-input"
-              id="dsp-non"
-              formControlName="dsp"
-              name="dsp"
-              [value]="false"
-              [ngClass]="{
-                'is-invalid': (submitted || f.dsp?.dirty) && f.dsp?.errors
-              }"
-              [attr.aria-invalid]="
-                (submitted || f.dsp?.dirty) && f.dsp?.errors ? true : false
-              "
-              [attr.aria-describedby]="
-                (submitted || f.dsp?.dirty) && f.dsp?.errors
-                  ? 'dsp-errors'
-                  : null
-              "
-            />
-            <label class="form-check-label" for="dsp-non"> Non </label>
-          </div>
-
-          <p
-            *ngIf="(submitted || f.dsp?.dirty) && f.dsp?.errors"
-            class="invalid-feedback"
-            id="dsp-errors"
-            role="alert"
-            aria-live="polite"
-          >
-            Ce champ est requis
-          </p>
-        </fieldset>
       </div>
     </div>
   </fieldset>

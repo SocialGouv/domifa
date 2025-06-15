@@ -73,7 +73,6 @@ export function codePostalValidator(): ValidatorFn {
     return { codepostal: false };
   };
 }
-
 export const updateCurrentToolQuestion = (
   structureForm: FormGroup,
   value: CurrentTool

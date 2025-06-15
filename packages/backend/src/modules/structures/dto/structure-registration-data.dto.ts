@@ -17,13 +17,11 @@ import {
   MARKET_TOOL_VALUES,
   REGISTRATION_SOURCES_VALUES,
 } from "@domifa/common";
-
 export class StructureRegistrationDto {
   @ApiProperty({
     description: "Source d'inscription de la structure",
     example: "PROSPECTION_DIRECTE",
   })
-  @IsOptional()
   @IsIn(REGISTRATION_SOURCES_VALUES)
   source: RegistrationSources;
 
@@ -36,20 +34,20 @@ export class StructureRegistrationDto {
   @Transform(({ value }) => parseInt(value))
   activeUsersCount: number;
 
-  @IsOptional()
+  @ValidateIf((obj) => obj.structureType === "asso")
   @IsBoolean()
   dsp?: boolean;
 
   @IsIn(CURRENT_TOOL_VALUES)
   currentTool: CurrentTool;
 
-  @IsOptional()
   @ValidateIf((obj) => obj.currentTool === "OUTIL_MARCHE")
   @IsIn(MARKET_TOOL_VALUES)
   marketTool?: MarketTool;
 
-  @IsOptional()
-  @ValidateIf((obj) => obj.marketTool === "AUTRE")
+  @ValidateIf(
+    (obj) => obj.currentTool === "OUTIL_MARCHE" && obj.marketTool === "AUTRE"
+  )
   @IsString()
   marketToolOther?: string;
 }
