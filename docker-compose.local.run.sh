@@ -3,25 +3,24 @@
 DANGER_REMOVE_CONTAINERS="false"
 DANGER_DROP_VOLUMES="false"
 
-for i in "$@"
-do
-case $i in
-    --stop)
-      STOP_CONTAINERS="true"
+for i in "$@"; do
+  case $i in
+  --stop)
+    STOP_CONTAINERS="true"
     ;;
-    --remove-domifa-containers)
-      STOP_CONTAINERS="true"
-      REMOVE_CONTAINERS="true"
+  --remove-domifa-containers)
+    STOP_CONTAINERS="true"
+    REMOVE_CONTAINERS="true"
     ;;
-    --drop-domifa-volumes)
-      STOP_CONTAINERS="true"
-      REMOVE_CONTAINERS="true"
-      DANGER_DROP_VOLUMES="true"
+  --drop-domifa-volumes)
+    STOP_CONTAINERS="true"
+    REMOVE_CONTAINERS="true"
+    DANGER_DROP_VOLUMES="true"
     ;;
-    --with-dev-containers)
-      WITH_DEV_CONTAINERS="true"
+  --with-dev-containers)
+    WITH_DEV_CONTAINERS="true"
     ;;
-    *)
+  *)
     # unknown option
     echo ""
     echo "----------------------------------------------------------------------------------------------"
@@ -29,7 +28,7 @@ case $i in
     echo "----------------------------------------------------------------------------------------------"
     echo ""
     ;;
-esac
+  esac
 done
 
 echo "WITH_DEV_CONTAINERS: $WITH_DEV_CONTAINERS"
@@ -53,13 +52,13 @@ if [ "$STOP_CONTAINERS" == "true" ]; then
       echo "###########################################"
       read -r -p "All 'domifa' volumes data WILL BE LOST. Are you sure? [y/N] " response
       case "$response" in
-          [yY][eE][sS]|[yY])
-            # DANGER!!! purge all domifa volumes
-            (set -x && docker volume rm $(docker volume ls -f dangling=true -q | grep domifa))
-          ;;
-        *)
-              echo "# [SKIP]"
-              ;;
+      [yY][eE][sS] | [yY])
+        # DANGER!!! purge all domifa volumes
+        (set -x && docker volume rm $(docker volume ls -f dangling=true -q | grep domifa))
+        ;;
+      *)
+        echo "# [SKIP]"
+        ;;
       esac
     fi
 
@@ -84,7 +83,7 @@ else
   echo "# [INFO] START domifa containers: postgres (only)"
   echo "###########################################"
   # start postgres only (with initial dumps)
-  (set -x && APP_DIR=$(pwd) docker-compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml up --build --detach --force-recreate postgres minio minio-console)
+  (set -x && APP_DIR=$(pwd) docker-compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml up --build --detach --force-recreate postgres minio)
 fi
 
 (set -x && docker ps -a)

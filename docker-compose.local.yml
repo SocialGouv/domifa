@@ -45,91 +45,91 @@ services:
       timeout: 5s
       retries: 5
 
-  # backend:
-  #   container_name: domifa-backend
-  #   hostname: domifa-backend
-  #   build:
-  #     context: _scripts/dev
-  #     dockerfile: local-node.dockerfile
-  #   command: tail -f /dev/null
-  #   working_dir: /app/packages/backend
-  #   volumes:
-  #     - $APP_DIR:/app:delegated
-  #     - $HOME/.ssh:/home/node/.ssh:ro
-  #     - $HOME/.gitconfig:/home/node/.gitconfig:ro
-  #     - $HOME/.gitignore:/home/node/.gitignore:ro
-  #     - $HOME/.npm:/home/node/.npm:delegated
-  #   ports:
-  #     - 3000:3000
-  #   env_file:
-  #     - ./.env
-  #   environment:
-  #     TZ: Europe/Paris
-  #   depends_on:
-  #     - "postgres"
+  backend:
+    container_name: domifa-backend
+    hostname: domifa-backend
+    build:
+      context: _scripts/dev
+      dockerfile: local-node.dockerfile
+    command: tail -f /dev/null
+    working_dir: /app/packages/backend
+    volumes:
+      - $APP_DIR:/app:delegated
+      - $HOME/.ssh:/home/node/.ssh:ro
+      - $HOME/.gitconfig:/home/node/.gitconfig:ro
+      - $HOME/.gitignore:/home/node/.gitignore:ro
+      - $HOME/.npm:/home/node/.npm:delegated
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.env
+    environment:
+      TZ: Europe/Paris
+    depends_on:
+      - "postgres"
 
-  # frontend:
-  #   container_name: domifa-frontend
-  #   hostname: domifa-frontend
-  #   build:
-  #     context: _scripts/dev
-  #     dockerfile: local-node.dockerfile
-  #   command: tail -f /dev/null
-  #   working_dir: /app/packages/frontend
-  #   volumes:
-  #     - $APP_DIR:/app:delegated
-  #     - $HOME/.ssh:/home/node/.ssh:ro
-  #     - $HOME/.gitconfig:/home/node/.gitconfig:ro
-  #     - $HOME/.gitignore:/home/node/.gitignore:ro
-  #     - $HOME/.npm:/home/node/.npm:delegated
-  #   ports:
-  #     - 4200:4200
-  #   env_file:
-  #     - ./.env
-  #   environment:
-  #     TZ: Europe/Paris
+  frontend:
+    container_name: domifa-frontend
+    hostname: domifa-frontend
+    build:
+      context: _scripts/dev
+      dockerfile: local-node.dockerfile
+    command: tail -f /dev/null
+    working_dir: /app/packages/frontend
+    volumes:
+      - $APP_DIR:/app:delegated
+      - $HOME/.ssh:/home/node/.ssh:ro
+      - $HOME/.gitconfig:/home/node/.gitconfig:ro
+      - $HOME/.gitignore:/home/node/.gitignore:ro
+      - $HOME/.npm:/home/node/.npm:delegated
+    ports:
+      - 4200:4200
+    env_file:
+      - ./.env
+    environment:
+      TZ: Europe/Paris
 
-  # portail-usagers:
-  #   container_name: domifa-portail-usagers
-  #   hostname: domifa-portail-usagers
-  #   build:
-  #     context: _scripts/dev
-  #     dockerfile: local-node.dockerfile
-  #   command: tail -f /dev/null
-  #   working_dir: /app/packages/portail-usagers
-  #   volumes:
-  #     - $APP_DIR:/app:delegated
-  #     - $HOME/.ssh:/home/node/.ssh:ro
-  #     - $HOME/.gitconfig:/home/node/.gitconfig:ro
-  #     - $HOME/.gitignore:/home/node/.gitignore:ro
-  #     - $HOME/.npm:/home/node/.npm:delegated
-  #   ports:
-  #     - 4201:4201
-  #   env_file:
-  #     - ./.env
-  #   environment:
-  #     TZ: Europe/Paris
+  portail-usagers:
+    container_name: domifa-portail-usagers
+    hostname: domifa-portail-usagers
+    build:
+      context: _scripts/dev
+      dockerfile: local-node.dockerfile
+    command: tail -f /dev/null
+    working_dir: /app/packages/portail-usagers
+    volumes:
+      - $APP_DIR:/app:delegated
+      - $HOME/.ssh:/home/node/.ssh:ro
+      - $HOME/.gitconfig:/home/node/.gitconfig:ro
+      - $HOME/.gitignore:/home/node/.gitignore:ro
+      - $HOME/.npm:/home/node/.npm:delegated
+    ports:
+      - 4201:4201
+    env_file:
+      - ./.env
+    environment:
+      TZ: Europe/Paris
 
-  # portail-admins:
-  #   container_name: domifa-portail-admins
-  #   hostname: domifa-portail-admins
-  #   build:
-  #     context: _scripts/dev
-  #     dockerfile: local-node.dockerfile
-  #   command: tail -f /dev/null
-  #   working_dir: /app/packages/portail-admins
-  #   volumes:
-  #     - $APP_DIR:/app:delegated
-  #     - $HOME/.ssh:/home/node/.ssh:ro
-  #     - $HOME/.gitconfig:/home/node/.gitconfig:ro
-  #     - $HOME/.gitignore:/home/node/.gitignore:ro
-  #     - $HOME/.npm:/home/node/.npm:delegated
-  #   ports:
-  #     - 4202:4202
-  #   env_file:
-  #     - ./.env
-  #   environment:
-  #     TZ: Europe/Paris
+  portail-admins:
+    container_name: domifa-portail-admins
+    hostname: domifa-portail-admins
+    build:
+      context: _scripts/dev
+      dockerfile: local-node.dockerfile
+    command: tail -f /dev/null
+    working_dir: /app/packages/portail-admins
+    volumes:
+      - $APP_DIR:/app:delegated
+      - $HOME/.ssh:/home/node/.ssh:ro
+      - $HOME/.gitconfig:/home/node/.gitconfig:ro
+      - $HOME/.gitignore:/home/node/.gitignore:ro
+      - $HOME/.npm:/home/node/.npm:delegated
+    ports:
+      - 4202:4202
+    env_file:
+      - ./.env
+    environment:
+      TZ: Europe/Paris
 
   metabase-app:
     container_name: domifa-metabase
