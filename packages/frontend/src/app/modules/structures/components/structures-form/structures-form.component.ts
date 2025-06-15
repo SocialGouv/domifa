@@ -4,7 +4,6 @@ import {
   FormGroup,
   UntypedFormBuilder,
   UntypedFormGroup,
-  Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import {
@@ -114,32 +113,6 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
     );
 
     setupFormSubscriptions(this.structureForm, this.subscription);
-
-    this.subscription.add(
-      this.structureForm
-        .get("structureType")
-        ?.valueChanges.subscribe((value) => {
-          this.structureForm.get("agrement")?.setValidators(null);
-          this.structureForm.get("departement")?.setValidators(null);
-          this.structureForm.get("organismeType")?.setValidators(null);
-
-          if (value === "asso") {
-            this.structureForm
-              .get("agrement")
-              ?.setValidators(Validators.required);
-            this.structureForm
-              .get("departement")
-              ?.setValidators(Validators.required);
-            this.structureForm
-              .get("organismeType")
-              ?.setValidators(Validators.required);
-          }
-
-          this.structureForm.get("agrement")?.updateValueAndValidity();
-          this.structureForm.get("departement")?.updateValueAndValidity();
-          this.structureForm.get("organismeType")?.updateValueAndValidity();
-        })
-    );
 
     this.subscription.add(
       this.structureForm

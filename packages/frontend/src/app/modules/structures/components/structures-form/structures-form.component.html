@@ -1045,9 +1045,36 @@
             </div>
           </div>
           <div *ngIf="f.structureType.value === 'asso'" class="row">
-            <div class="col-12 form-group">
-              <fieldset>
-                <legend>Exercez-vous une délégation de Service Public</legend>
+            <div
+              class="col-12 form-group"
+              [ngClass]="{
+                'is-invalid': (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+              }"
+            >
+              <fieldset
+                role="group"
+                [attr.aria-labelledby]="'dsp-legend'"
+                [attr.aria-describedby]="
+                  (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+                    ? 'dsp-errors'
+                    : null
+                "
+                [attr.aria-invalid]="
+                  (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+                    ? true
+                    : false
+                "
+              >
+                <legend
+                  id="dsp-legend"
+                  class="required"
+                  [ngClass]="{
+                    'is-invalid':
+                      (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+                  }"
+                >
+                  Exercez-vous une délégation de Service Public
+                </legend>
 
                 <div class="form-check">
                   <input
@@ -1069,10 +1096,11 @@
                     [attr.aria-describedby]="
                       (submitted || reg.dsp?.dirty) && reg.dsp?.errors
                         ? 'dsp-errors'
-                        : null
+                        : 'dsp-legend'
                     "
+                    [attr.required]="reg.dsp?.errors ? true : null"
                   />
-                  <label class="form-check-label" for="dsp-oui"> Oui </label>
+                  <label class="form-check-label" for="dsp-oui">Oui</label>
                 </div>
 
                 <div class="form-check">
@@ -1095,10 +1123,11 @@
                     [attr.aria-describedby]="
                       (submitted || reg.dsp?.dirty) && reg.dsp?.errors
                         ? 'dsp-errors'
-                        : null
+                        : 'dsp-legend'
                     "
+                    [attr.required]="reg.dsp?.errors ? true : null"
                   />
-                  <label class="form-check-label" for="dsp-non"> Non </label>
+                  <label class="form-check-label" for="dsp-non">Non</label>
                 </div>
 
                 <p
@@ -1107,6 +1136,7 @@
                   id="dsp-errors"
                   role="alert"
                   aria-live="polite"
+                  [attr.aria-atomic]="true"
                 >
                   Ce champ est requis
                 </p>
@@ -1219,7 +1249,10 @@
 
             <div
               class="col-6 form-group required"
-              *ngIf="reg.marketTool?.value === 'AUTRE'"
+              *ngIf="
+                reg.currentTool?.value === 'OUTIL_MARCHE' &&
+                reg.marketTool?.value === 'AUTRE'
+              "
             >
               <label for="marketToolOther"> Précisez l'outil : </label>
               <input

@@ -25,7 +25,7 @@ enum FormContext {
   EDITION = "edition",
 }
 
-export function createStructureForm(
+export function createform(
   structure: StructureCommon,
   formBuilder: FormBuilder,
   context: FormContext,
@@ -155,7 +155,7 @@ export const initCreationForm = (
     control: AbstractControl
   ) => Observable<ValidationErrors | null>
 ): FormGroup => {
-  return createStructureForm(
+  return createform(
     structure,
     formBuilder,
     FormContext.CREATION,
@@ -170,7 +170,7 @@ export const initEditionForm = (
     control: AbstractControl
   ) => Observable<ValidationErrors | null>
 ): FormGroup => {
-  return createStructureForm(
+  return createform(
     structure,
     formBuilder,
     FormContext.EDITION,
@@ -180,9 +180,39 @@ export const initEditionForm = (
 
 export const setupFormSubscriptions = (
   form: FormGroup,
-
   subscription: Subscription
 ): void => {
+  subscription.add(
+    form.get("structureType")?.valueChanges.subscribe((value) => {
+      form.get("agrement")?.setValidators(null);
+      form.get("departement")?.setValidators(null);
+      form.get("organismeType")?.setValidators(null);
+
+      const dspControl = form.get("registrationData")?.get("dsp");
+      if (dspControl) {
+        dspControl.setValidators(null);
+      }
+
+      if (value === "asso") {
+        form.get("agrement")?.setValidators(Validators.required);
+        form.get("departement")?.setValidators(Validators.required);
+        form.get("organismeType")?.setValidators(Validators.required);
+
+        if (dspControl) {
+          dspControl.setValidators(Validators.required);
+        }
+      }
+
+      form.get("agrement")?.updateValueAndValidity();
+      form.get("departement")?.updateValueAndValidity();
+      form.get("organismeType")?.updateValueAndValidity();
+
+      if (dspControl) {
+        dspControl.updateValueAndValidity();
+      }
+    })
+  );
+
   subscription.add(
     form
       .get("adresseCourrier")
@@ -196,6 +226,15 @@ export const setupFormSubscriptions = (
     form
       .get("registrationData")
       ?.get("currentDomiciliationManagement")
+      ?.valueChanges.subscribe((value: CurrentTool) => {
+        updateCurrentToolQuestion(form, value);
+      })
+  );
+
+  subscription.add(
+    form
+      .get("registrationData")
+      ?.get("currentTool")
       ?.valueChanges.subscribe((value: CurrentTool) => {
         updateCurrentToolQuestion(form, value);
       })
