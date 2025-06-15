@@ -3805,7 +3805,7 @@ __metadata:
     axios: "npm:^1.8.1"
     axios-retry: "npm:^4.5.0"
     bcryptjs: "npm:^2.4.3"
-    cache-manager: "npm:^6.4.1"
+    cache-manager: "npm:^7.0.0"
     class-transformer: "npm:0.5.1"
     class-validator: "npm:^0.14.1"
     compression: "npm:^1.8.0"
@@ -12299,12 +12299,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cache-manager@npm:^6.4.1":
-  version: 6.4.1
-  resolution: "cache-manager@npm:6.4.1"
+"cache-manager@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "cache-manager@npm:7.0.0"
   dependencies:
-    keyv: "npm:^5.3.1"
-  checksum: 10/430e77aa1e5dd9f64c06cead05cf2ee5c9e9633401c1b57571a90d686a72b42d766d0ed867235fa5d2c7b0b03a993c955fa733d50e24c3ebdb9ac50f8f4cc795
+    keyv: "npm:^5.3.3"
+  checksum: 10/52adb11f58a02b9691f88b873ca645f77215eb8031e5375722380abddb8f439d9bb3c1642479a227d0f1ec14904191a8cc32fcf98953c9a21f6a073b698207bc
   languageName: node
   linkType: hard
 
@@ -19388,12 +19388,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"keyv@npm:^5.3.1":
-  version: 5.3.1
-  resolution: "keyv@npm:5.3.1"
+"keyv@npm:^5.3.1, keyv@npm:^5.3.3":
+  version: 5.3.4
+  resolution: "keyv@npm:5.3.4"
   dependencies:
     "@keyv/serialize": "npm:^1.0.3"
-  checksum: 10/f2a3226e98c2b677491f2c050c41b582badc7079bc383bc20f9fa28cae80fb3f15f09bbe7aca39100b7b19ed61fae5a79d5127268c49fdf892182d8b9fbbcd2c
+  checksum: 10/3e294eb1168af78ad3430d0cc47b6839fd3e70593238d35226a0a1e4094abe397ea378b7bce35cfcb314e55b5d1b4fcdae3c19bee5610e78d283b3cb5b279c8b
   languageName: node
   linkType: hard
 
