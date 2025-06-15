@@ -41,7 +41,7 @@
     "google-libphonenumber": "^3.2.33",
     "ngx-matomo-client": "^5.0.4",
     "rxjs": "^7.8.2",
-    "zone.js": "~0.14.10"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
     "@angular-devkit/architect": "^0.1802.14",
