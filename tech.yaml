@@ -24,13 +24,13 @@ stack:
   common:
     - Typescript
   frontend:
-    - Angular 15
+    - Angular 17
     - Typescript
   portail-admins:
-    - Angular 15
+    - Angular 17
     - Typescript
   portail-usagers:
-    - Angular 15
+    - Angular 17
     - Typescript
   backend:
     - NestJS V11
