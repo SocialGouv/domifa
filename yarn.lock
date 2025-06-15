@@ -32,18 +32,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/architect@npm:^0.1802.14":
-  version: 0.1802.14
-  resolution: "@angular-devkit/architect@npm:0.1802.14"
+"@angular-devkit/architect@npm:^0.2000.0":
+  version: 0.2000.2
+  resolution: "@angular-devkit/architect@npm:0.2000.2"
   dependencies:
-    "@angular-devkit/core": "npm:18.2.14"
-    rxjs: "npm:7.8.1"
-  dependenciesMeta:
-    esbuild:
-      built: true
-    puppeteer:
-      built: true
-  checksum: 10/d57ee7f989770d04c96fcc21b4f816f0e5a0ad52fc405ba2fb27fb817516a3a351b6c11d05367816822717d643e623ba7bf5f89b797242bdec2953cce787f9a7
+    "@angular-devkit/core": "npm:20.0.2"
+    rxjs: "npm:7.8.2"
+  checksum: 10/8140b9fa073702e3ccc1bb9465cecbf0eaa6470f098d08233ef9a5ae55d99faead611fa53765c9ff2008b955a775653b7f9159ae89c1472d3516accedda960a7
   languageName: node
   linkType: hard
 
@@ -222,30 +217,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/core@npm:18.2.14":
-  version: 18.2.14
-  resolution: "@angular-devkit/core@npm:18.2.14"
-  dependencies:
-    ajv: "npm:8.17.1"
-    ajv-formats: "npm:3.0.1"
-    jsonc-parser: "npm:3.3.1"
-    picomatch: "npm:4.0.2"
-    rxjs: "npm:7.8.1"
-    source-map: "npm:0.7.4"
-  peerDependencies:
-    chokidar: ^3.5.2
-  dependenciesMeta:
-    esbuild:
-      built: true
-    puppeteer:
-      built: true
-  peerDependenciesMeta:
-    chokidar:
-      optional: true
-  checksum: 10/25f7ff2bdf07d986be83ce6483157888bc9741e0aea7e0c8232b155c3b507d8425b2a7caed91d9c96dcb28debfd2e0aab0e2cfc554357bc2b0677c7e52c9fb25
-  languageName: node
-  linkType: hard
-
 "@angular-devkit/core@npm:19.1.8":
   version: 19.1.8
   resolution: "@angular-devkit/core@npm:19.1.8"
@@ -281,6 +252,25 @@ __metadata:
     chokidar:
       optional: true
   checksum: 10/c0667952b806b69aaab39cf874b66bd8a4b53c89c0e449d81c47dd3083e1cf8325cb79dbbf5d24ad46b14c1e5a97ee28fbf0e6d4389d7403b40a009c74388ca0
+  languageName: node
+  linkType: hard
+
+"@angular-devkit/core@npm:20.0.2":
+  version: 20.0.2
+  resolution: "@angular-devkit/core@npm:20.0.2"
+  dependencies:
+    ajv: "npm:8.17.1"
+    ajv-formats: "npm:3.0.1"
+    jsonc-parser: "npm:3.3.1"
+    picomatch: "npm:4.0.2"
+    rxjs: "npm:7.8.2"
+    source-map: "npm:0.7.4"
+  peerDependencies:
+    chokidar: ^4.0.0
+  peerDependenciesMeta:
+    chokidar:
+      optional: true
+  checksum: 10/cad2833b810eafe23b469a8539eb4c7ca391ea39e445ade67d44850090809584961fd9ce309e068ffcaf05b112cb248342cd80b800b6130b5aa3a72fe5279bbc
   languageName: node
   linkType: hard
 
@@ -3789,7 +3779,7 @@ __metadata:
     "@types/nodemailer": "npm:^6.4.17"
     "@types/nunjucks": "npm:^3.2.6"
     "@types/passport-jwt": "npm:^3.0.13"
-    "@types/pdfkit": "npm:^0.13.9"
+    "@types/pdfkit": "npm:^0.14.0"
     "@types/pino": "npm:^7.0.5"
     "@types/pizzip": "npm:^3.0.5"
     "@types/sanitize-html": "npm:^2.13.0"
@@ -3907,7 +3897,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/frontend@workspace:packages/frontend"
   dependencies:
-    "@angular-devkit/architect": "npm:^0.1802.14"
+    "@angular-devkit/architect": "npm:^0.2000.0"
     "@angular-devkit/build-angular": "npm:^17.3.12"
     "@angular-devkit/core": "npm:^17.3.12"
     "@angular-devkit/schematics": "npm:^17.3.12"
@@ -3993,7 +3983,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/portail-admins@workspace:packages/portail-admins"
   dependencies:
-    "@angular-devkit/architect": "npm:^0.1802.14"
+    "@angular-devkit/architect": "npm:^0.2000.0"
     "@angular-devkit/build-angular": "npm:^17.3.12"
     "@angular-devkit/core": "npm:^17.3.12"
     "@angular-devkit/schematics": "npm:^17.3.12"
@@ -4063,7 +4053,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/portail-usagers@workspace:packages/portail-usagers"
   dependencies:
-    "@angular-devkit/architect": "npm:^0.1802.14"
+    "@angular-devkit/architect": "npm:^0.2000.0"
     "@angular-devkit/build-angular": "npm:^17.3.12"
     "@angular-devkit/core": "npm:^17.3.12"
     "@angular-devkit/schematics": "npm:^17.3.12"
@@ -9731,12 +9721,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pdfkit@npm:^0.13.9":
-  version: 0.13.9
-  resolution: "@types/pdfkit@npm:0.13.9"
+"@types/pdfkit@npm:^0.14.0":
+  version: 0.14.0
+  resolution: "@types/pdfkit@npm:0.14.0"
   dependencies:
     "@types/node": "npm:*"
-  checksum: 10/273b6d6bf47dd6e16a1dcae8ae912ab6267dc7afe3072f68ac3eaf728899f77a826dc57cb35f826ae181a3d260bf54ac86edd8e875b451122b94a8d65ab1b2d8
+  checksum: 10/dfbbaaf36213d38aa3e5ab933a046881aca0a77eaca3bf374e1fcfb0adcea02b0f282bcaffa2b75b70dcd44c2731659fdf9359ee072cc77f6c73165c79a4949d
   languageName: node
   linkType: hard
 
@@ -24472,7 +24462,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.5.5, rxjs@npm:^7.8.1, rxjs@npm:^7.8.2":
+"rxjs@npm:7.8.2, rxjs@npm:^7.5.5, rxjs@npm:^7.8.1, rxjs@npm:^7.8.2":
   version: 7.8.2
   resolution: "rxjs@npm:7.8.2"
   dependencies:
