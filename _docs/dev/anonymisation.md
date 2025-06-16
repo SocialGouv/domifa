@@ -1,32 +1,61 @@
-# Anonymisation / pseudonymisation
+# Anonymisation / pseudonymisation 🎭
 
-## Traitements effectués 
+## Traitements effectués 🔄
 
-TODO
+Le processus d'anonymisation utilise Greenmask pour transformer les données sensibles tout en préservant la cohérence et l'utilisabilité des données. Les traitements incluent :
 
-## Lancer en local
+### 🔧 Transformations appliquées
 
-### Setup de Domifa
+- **Transformers de base** : Pour les colonnes simples (noms, emails, adresses, etc.)
+- **Scripts TypeScript personnalisés** : Pour les opérations complexes sur les données JSON et les cas métier spécifiques (voir `.anonymizer/ts-transformers`)
+- **Exclusion de tables sensibles** : Certaines tables contenant des données temporaires ou de logs sont complètement exclues
+
+Le fichier `config.yaml` définit précisément quelles colonnes subissent quelles transformations.
+
+## Lancer en local 🚀
+
+### 🏗️ Setup de Domifa
 
 Avant de lancer la partie anonymisation, il faut effectuer la partie DB du setup de domifa (voir doc plus complète) :
+
 - copier `.env` à partir du fichier `.env.dev.example.env` à la racine, et éditer pour ajouter un mot de passe postgres
 - lancer postgres via `docker-compose.local.run.sh` à la racine
 - insérer les données de test via `_scripts/db/restore-database-docker.sh --db=dev --dump=test` à la racine
 
-### Setup de la partie anonymisation
+### ⚙️ Setup de la partie anonymisation
 
-- copier le fichier `.anonymizer/.env.example` dans `.anonymizer/.env` 
+- copier le fichier `.anonymizer/.env.example` dans `.anonymizer/.env`
 - éditer `.env` avec le mot de passe postgres utilisé dans le setup de domifa
-- lancer `yarn` dans le dossier `.anonymizer` 
+- **Configurer la base de destination** : définir `PGDATABASE_anonymized` dans `.env` (ou utiliser `PGDATABASE_RESTORE`)
+- lancer `yarn` dans le dossier `.anonymizer`
 - lancer `yarn build` ou `yarn dev`
-- lancer `./.anonymizer/anonymize.sh`  (à la première exécution le script le lien pour télécharger la bonne release de `greenmask`, à copier quelque part dans votre `PATH`. 
+- **📥 Télécharger Greenmask** : récupérer la version v0.1.14 depuis [les releases GitHub](https://github.com/GreenmaskIO/greenmask/releases/tag/v0.1.14) et l'ajouter à votre `PATH`
+- lancer `./.anonymizer/anonymize.sh`
 
-## Outils utilisés
+### 🎯 Fonctionnement du script
+
+Le script `anonymize.sh` :
+
+1. **🔧 Génère** une configuration Greenmask dynamique à partir du template `config.yaml`
+2. **📦 Effectue** un dump anonymisé de la base source (avec 10 processus parallèles)
+3. **🔄 Restaure** automatiquement le dump dans la base de destination
+4. **🧹 Nettoie** la base de destination avant restauration (`--clean --if-exists`)
+
+## Outils utilisés 🛠️
 
 Le script d'anonymisation utilise [Greenmask](https://greenmask.io/).
 
 Toute la config est stockée dans le dossier `.anonymizer`.
 
-Dans la config d'anonymisation de greenmask, on utilise : 
-- les transformers de base pour les cas simples (notamment dans les colonnes qui ne contiennent pas de JSON, ou des colonnes JSON qui requièrent des opérations simples)
-- des petits scripts en ts pour les opérations plus compliquées, stockées dans `.anonymizer/ts-transformers`.
+Dans la config d'anonymisation de greenmask, on utilise :
+
+- les **transformers de base** pour les cas simples (notamment dans les colonnes qui ne contiennent pas de JSON, ou des colonnes JSON qui requièrent des opérations simples)
+- des **petits scripts en ts** pour les opérations plus compliquées, stockées dans `.anonymizer/ts-transformers`.
+
+### 📁 Architecture des fichiers
+
+- `config.yaml` : Configuration template avec placeholders
+- `config.local.yaml` : Configuration générée dynamiquement (ne pas versionner)
+- `anonymize.sh` : Script principal d'exécution
+- `ts-transformers/` : Scripts TypeScript personnalisés pour les transformations complexes
+- `tmp/pg_dump/` : Répertoire temporaire pour les dumps
