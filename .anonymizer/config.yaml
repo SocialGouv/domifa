@@ -213,20 +213,6 @@ dump:
             executable: "node"
 
             args:
-              - "./dist/user-structure--fonction.js"
-            columns:
-              - name: "fonction"
-                skip_on_null_input: true
-        - name: "Cmd"
-          params:
-            driver:
-              name: "json"
-            validate: true
-            timeout: 3600s
-            expected_exit_code: -1
-            executable: "node"
-
-            args:
               - "./dist/user-structure--email.js"
             columns:
               - name: "email"
