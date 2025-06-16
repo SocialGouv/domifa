@@ -38,13 +38,13 @@ if [ "$STOP_CONTAINERS" == "true" ]; then
   echo "# [WARN] STOP domifa containers"
   echo "###########################################"
   # stop all domifa containers
-  (set -x && APP_DIR=$(pwd) docker-compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml down)
+  (set -x && APP_DIR=$(pwd) docker compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml down)
   if [ "$REMOVE_CONTAINERS" == "true" ]; then
     echo "###########################################"
     echo "# [WARN] REMOVE domifa containers"
     echo "###########################################"
     # remove all domifa containers
-    (set -x && APP_DIR=$(pwd) docker-compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml rm)
+    (set -x && APP_DIR=$(pwd) docker compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml rm)
 
     if [ "$DANGER_DROP_VOLUMES" == "true" ]; then
       echo "###########################################"
