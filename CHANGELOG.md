@@ -1,3 +1,10 @@
+## [2.203.2](https://github.com/SocialGouv/domifa/compare/v2.203.1...v2.203.2) (2025-06-16)
+
+
+### Bug Fixes
+
+* **frontend:** fix register for in edit mode ([0d4450b](https://github.com/SocialGouv/domifa/commit/0d4450b357ca26cd47dd9fe5406d4b6101f399ac))
+
 ## [2.203.1](https://github.com/SocialGouv/domifa/compare/v2.203.0...v2.203.1) (2025-06-15)
 
 
