@@ -101,8 +101,10 @@ export const loadDomifaData = async () => {
           `${adresse}, ${ville} ${codePostal}`
         );
 
-        placeData.latitude = position.coordinates[1];
-        placeData.longitude = position.coordinates[0];
+        if (position) {
+          placeData.latitude = position?.coordinates[1];
+          placeData.longitude = position?.coordinates[0];
+        }
       }
 
       if (!domifaPlace) {

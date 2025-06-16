@@ -7,9 +7,10 @@ import { getCityCode } from "../modules/structures/services/location.service";
 import { appLogger } from "../util";
 import { openDataCitiesRepository } from "../database/services/open-data/open-data-cities-repository";
 
-export class AddCityCodeMigration1749052121750 implements MigrationInterface {
+export class AddCityCodeMigration1749052121754 implements MigrationInterface {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async up(_queryRunner: QueryRunner): Promise<void> {
+    appLogger.info("[MIGRATION] Add cityCode to structures");
     if (
       domifaConfig().envId === "prod" ||
       domifaConfig().envId === "preprod" ||
@@ -28,22 +29,24 @@ export class AddCityCodeMigration1749052121750 implements MigrationInterface {
         },
       });
 
-      const sleep = (ms: number) =>
-        new Promise((resolve) => setTimeout(resolve, ms));
-
       for (let i = 0; i < structures.length; i++) {
         const structure = structures[i];
-        const cityCode = await getCityCode(structure);
+        const cityCode = structure?.cityCode ?? (await getCityCode(structure));
 
         if (!cityCode) {
-          return;
+          appLogger.warn("CityCode Not found by address " + structure.ville);
+          continue;
         }
+
         const cityData = await openDataCitiesRepository.findOneBy({
           cityCode,
         });
 
         if (!cityData) {
-          return;
+          appLogger.warn(
+            "CityCode Not found in open data cities " + structure.ville
+          );
+          continue;
         }
         await structureRepository.update(
           { uuid: structure.uuid },
@@ -54,13 +57,6 @@ export class AddCityCodeMigration1749052121750 implements MigrationInterface {
           { codePostal: structure.codePostal },
           { cityCode, populationSegment: cityData.populationSegment }
         );
-
-        if ((i + 1) % 300 === 0 && i < structures.length - 1) {
-          appLogger.info(
-            `[GET LOCATION] Pausing for 3 seconds after ${i + 1} structures`
-          );
-          await sleep(1500);
-        }
       }
 
       appLogger.info(
