@@ -1,3 +1,12 @@
+## [2.203.3](https://github.com/SocialGouv/domifa/compare/v2.203.2...v2.203.3) (2025-06-16)
+
+
+### Bug Fixes
+
+* **backend:** fix import of citycode ([4dd81f6](https://github.com/SocialGouv/domifa/commit/4dd81f69657e8f7f50fa75ca1557e8a307dc57f4))
+* **docs:** update doc for db & anonymization ([2be2352](https://github.com/SocialGouv/domifa/commit/2be2352ced5219e4db8430226c82ce1d37264cff))
+* **frontend:** update news popup ([1957eb1](https://github.com/SocialGouv/domifa/commit/1957eb1966be4f5ff580beb5bef63d0f8e02fdad))
+
 ## [2.203.2](https://github.com/SocialGouv/domifa/compare/v2.203.1...v2.203.2) (2025-06-16)
 
 
