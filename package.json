@@ -15,12 +15,12 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7.24.8",
-    "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.5.0",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@socialgouv/sre-secrets": "^1.14.5",
     "husky": "^9.1.7",
     "is-ci": "^4.0.0",
-    "lerna": "^8.2.1",
+    "lerna": "^8.2.2",
     "lint-staged": "^15.4.3"
   },
   "workspaces": {
