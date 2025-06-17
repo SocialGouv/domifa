@@ -74,7 +74,6 @@ export class StatsPrivateController {
         questionsToAdd
       );
     }
-    return;
   }
 
   @Get("reporting-questions")
