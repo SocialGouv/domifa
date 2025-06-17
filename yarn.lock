@@ -4006,7 +4006,6 @@ __metadata:
     lodash.set: "npm:^4.3.2"
     luhn: "npm:^2.4.1"
     mammoth: "npm:^1.4.17"
-    moment: "npm:^2.30.1"
     multer: "npm:^2.0.1"
     node-pdftk: "npm:^2.1.3"
     nodemailer: "npm:^6.10.0"

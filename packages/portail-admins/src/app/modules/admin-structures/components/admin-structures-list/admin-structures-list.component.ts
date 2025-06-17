@@ -222,6 +222,7 @@ export class AdminStructuresListComponent
     const isAscendingSort = this.filters.sortValue === "asc";
     return isCurrentSortKey && isAscendingSort ? "desc" : "asc";
   }
+
   private applySorting(): void {
     if (!this.filteredStructures.length) {
       this.filteredStructures = [];
