@@ -32,9 +32,9 @@ ENV CORE_PACKAGES pdftk
 # sudo bash wget vim git bash-completion xsel rubygems build-essential ruby-dev pdftk
 
 RUN apt-get update && \
-    apt-get install -q -y -o Acquire::Retries=10 $CORE_PACKAGES && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  apt-get install -q -y -o Acquire::Retries=10 $CORE_PACKAGES && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 USER 1000
 
@@ -51,6 +51,7 @@ COPY --from=builder --chown=1000:1000 /app/packages/backend/.env.preset /app/pac
 COPY --from=builder --chown=1000:1000 /app/packages/backend/package.json /app/packages/backend/
 COPY --from=builder --chown=1000:1000 /app/packages/backend/src/excel/_templates /app/packages/backend/dist/excel/_templates/
 COPY --from=builder --chown=1000:1000 /app/packages/backend/src/_static /app/packages/backend/dist/_static/
+COPY --from=builder --chown=1000:1000 /app/packages/backend/src/_migrations/_init-db/domifa_test_schema.sql /app/packages/backend/dist/_migrations/_init-db/domifa_test_schema.sql
 
 ENV NODE_OPTIONS="--max-old-space-size=8192"
 
