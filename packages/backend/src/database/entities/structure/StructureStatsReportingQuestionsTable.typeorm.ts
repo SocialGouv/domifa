@@ -4,13 +4,13 @@ import {
 } from "@domifa/common";
 
 import {
+  ValueTransformer,
   Entity,
   Column,
   Index,
   JoinColumn,
   ManyToOne,
   Unique,
-  ValueTransformer,
 } from "typeorm";
 import { AppTypeormTable } from "../_core";
 import { StructureTable } from "./StructureTable.typeorm";

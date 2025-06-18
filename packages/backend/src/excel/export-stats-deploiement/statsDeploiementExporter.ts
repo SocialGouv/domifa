@@ -27,9 +27,7 @@ async function generateExcelDocument({
   users: UsersForAdminList[];
 }): Promise<Workbook> {
   try {
-    const workbook = await renderWorkbook({ structures, users });
-
-    return workbook;
+    return renderWorkbook({ structures, users });
   } catch (err) {
     appLogger.error("[statsDeploiementExporter] ERROR - Report NOT created", {
       sentry: true,
