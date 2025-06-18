@@ -89,7 +89,7 @@ describe("EtatCivilParentFormComponent", () => {
     expect(component.getEtatCivilForm(testForm)).toEqual({
       ayantsDroits: [
         {
-          dateNaissance: new Date("2022-08-01T21:59:59.999Z"),
+          dateNaissance: new Date("2022-08-01T12:00:00.000Z"),
           lien: "ENFANT",
           nom: "AD NOM",
           prenom: "AD PRENOM",
@@ -98,7 +98,7 @@ describe("EtatCivilParentFormComponent", () => {
       referrerId: null,
       contactByPhone: true,
       customRef: null,
-      dateNaissance: new Date("2022-08-03T21:59:59.999Z"),
+      dateNaissance: new Date("2022-08-03T12:00:00.000Z"),
       nationalite: null,
       email: null,
       langue: "ar",
