@@ -24,10 +24,11 @@
               "src/styles.scss",
               "src/assets/css/bootstrap-custom.css",
               "src/assets/css/forms.scss",
-              "src/assets/css/fonts.css",
               "src/assets/css/main.scss",
               "src/assets/css/print.css",
-              "src/assets/css/icons.css"
+              "src/assets/css/icons.css",
+              "./node_modules/@gouvfr/dsfr/dist/dsfr/dsfr.main.min.css",
+              "./node_modules/@gouvfr/dsfr/dist/utility/utility.main.min.css"
             ],
             "scripts": [],
             "aot": false,
