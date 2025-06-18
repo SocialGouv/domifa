@@ -16,15 +16,20 @@ export function padNumber(value: number): string {
     return "";
   }
 }
-export function formatDateToNgb(date: Date): NgbDate {
-  if (!date.getDate) {
-    date = new Date(date);
-  }
-  return new NgbDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
+
+export function formatDateToNgb(date: Date | string): NgbDate {
+  const dateObj = typeof date === "string" ? new Date(date) : date;
+  const year = dateObj.getUTCFullYear();
+  const month = dateObj.getUTCMonth() + 1;
+  const day = dateObj.getUTCDate();
+
+  return new NgbDate(year, month, day);
 }
 
 export function parseDateFromNgb(ngbDate: NgbDate): Date {
-  return new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
+  return new Date(
+    Date.UTC(ngbDate.year, ngbDate.month - 1, ngbDate.day, 12, 0, 0)
+  );
 }
 
 export const minDateNaissance = { day: 1, month: 1, year: 1900 };
