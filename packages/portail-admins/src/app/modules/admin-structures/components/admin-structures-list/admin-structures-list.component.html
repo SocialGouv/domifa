@@ -47,7 +47,12 @@
     </div>
   </div>
 </div>
-
+<app-structure-filters
+  [filters]="this.filters"
+  [nbResults]="filteredStructures.length"
+  [searching]="searching"
+  (updateFilters)="updateFilters($event)"
+></app-structure-filters>
 <div
   *ngIf="searching"
   @fadeInOut
@@ -69,7 +74,7 @@
 
 <app-admin-structures-table
   *ngIf="this.filteredStructures && !searching"
-  [structures]="this.structures"
+  [structures]="this.filteredStructures"
   [filters]="this.filters"
   @fadeInOut
   (sort)="sortDashboard($event)"

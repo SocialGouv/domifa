@@ -1,0 +1,137 @@
+<div id="filters" class="py-4 d-print-none">
+  <div class="container">
+    <div class="row d-flex align-items-center">
+      <div class="col-12 col-md-10">
+        <p
+          aria-live="polite"
+          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
+        >
+          <ng-container *ngIf="nbResults">
+            Filtrer les <span class="text-primary"> {{ nbResults }} </span>
+            résultats
+          </ng-container>
+          <ng-container *ngIf="!nbResults"> Aucun résultat </ng-container>
+        </p>
+        <div
+          class="d-md-inline-block d-block me-2 text-md-start text-center my-4"
+          >
+        <!-- Type structure -->
+          <button
+            type="button"
+            *ngIf="this.filters.type"
+            [disabled]="searching"
+            class="btn btn-outline-primary"
+            (click)="updateFilters.emit({ element: 'type', value: null })"
+          >
+            {{ structureTypeOptions[filters.type] }}
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="cross"
+            ></fa-icon>
+          </button>
+        <div
+            *ngIf="!filters.type"
+            ngbDropdown
+            id="dropDownTypeStructure"
+            placement="bottom"
+            class="d-inline-block my-1 me-2"
+            #dropDownTypeStructure="ngbDropdown"
+          >
+            <button type="button" [disabled]="searching" ngbDropdownToggle>
+              <span>Type de structures</span>
+            </button>
+
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropDownTypeStructure"
+              class="dropdown-menu dropdown-menu-end"
+            >
+            </div>
+
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropDownTypeStructure"
+              class="dropdown-menu dropdown-menu-end"
+            >
+              <button
+                *ngFor="let type of structureTypeOptions | keyvalue"
+                type="button"
+                (click)="
+                  updateFilters.emit({
+                    element: 'type',
+                    value: type.key,
+                    sortValue: filters.sortValue
+                  })
+                "
+                ngbDropdownItem
+                >
+                {{ type.value }}
+              </button>
+            </div>
+        </div>
+        <!-- Region -->
+        <div
+            *ngIf="!filters.region"
+            ngbDropdown
+            id="dropDownRegion"
+            placement="bottom"
+            class="d-inline-block my-1 me-2"
+            #dropdownRegion="ngbDropdown"
+          >
+            <button type="button" [disabled]="searching" ngbDropdownToggle>
+              <span>Region</span>
+            </button>
+
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropdownRegion"
+              class="dropdown-menu dropdown-menu-end"
+            >
+            </div>
+        </div>
+        <!-- Departement -->
+        <div
+            *ngIf="!filters.region"
+            ngbDropdown
+            id="dropDownDepartement"
+            placement="bottom"
+            class="d-inline-block my-1 me-2"
+            #dropDownDepartement="ngbDropdown"
+          >
+            <button type="button" [disabled]="searching" ngbDropdownToggle>
+              <span>Département</span>
+            </button>
+
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropdownDepartement"
+              class="dropdown-menu dropdown-menu-end"
+            >
+            </div>
+        </div>
+        <!-- Nombre de domiciliés -->
+         <div
+            *ngIf="!filters.usagersSegment"
+            ngbDropdown
+            id="dropDownUsagersSegment"
+            placement="bottom"
+            class="d-inline-block my-1 me-2"
+            #dropdownUsagersSegment="ngbDropdown"
+          >
+            <button type="button" [disabled]="searching" ngbDropdownToggle>
+              <span>Nombre de domiciliés</span>
+            </button>
+
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropDownUsagersSegment"
+              class="dropdown-menu dropdown-menu-end"
+            >
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
