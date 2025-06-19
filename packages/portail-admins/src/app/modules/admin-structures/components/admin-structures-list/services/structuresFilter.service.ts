@@ -1,6 +1,6 @@
-import { Search } from "@domifa/common";
-import { structuresSearchStringFilter } from "./structuresSearchStringFilter.service";
+import { structuresSearchFilter } from "./structuresSearchStringFilter.service";
 import { StructureAdmin } from "../../../types";
+import { StructureFilterCriteria } from '../../../utils/structure-filter-criteria'
 
 export const structuresFilter = {
   filter,
@@ -10,10 +10,14 @@ function filter(
   {
     criteria,
   }: {
-    criteria: Search;
+    criteria: StructureFilterCriteria;
   }
 ): StructureAdmin[] {
-  return structuresSearchStringFilter.filter(items, {
+  return structuresSearchFilter(items, {
     searchString: criteria.searchString,
+    departement: criteria.departement,
+    region: criteria.region,
+    type: criteria.type,
+    usagersSegment: criteria.usagersSegment
   });
 }

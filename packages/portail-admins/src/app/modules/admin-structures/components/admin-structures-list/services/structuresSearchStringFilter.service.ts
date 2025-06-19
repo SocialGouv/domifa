@@ -1,21 +1,17 @@
-import { buildWords, Search, search } from "@domifa/common";
+import { buildWords, search } from "@domifa/common";
 import { StructureAdmin } from "../../../types";
+import { StructureFilterCriteria } from '../../../utils/structure-filter-criteria'
 
-export const structuresSearchStringFilter = {
-  filter,
-};
+type StructureFilterParams = Pick<StructureFilterCriteria, 'searchString' | 'region' | 'departement' | 'type' | 'usagersSegment'>
 
-function filter(
-  structures: StructureAdmin[],
-  { searchString }: Pick<Search, "searchString">
-) {
+export const structuresSearchFilter = (
+    structures: StructureAdmin[],
+  { searchString, departement, region, type, usagersSegment  }: StructureFilterParams
+): StructureAdmin[] => {
   const words = searchString ? buildWords(searchString) : [];
   const needsTextSearch = words.length > 0;
-  if (!needsTextSearch) {
-    return structures;
-  }
-
-  return structures.filter((structure) => {
+  const textSearchFilteredStructures = needsTextSearch 
+    ? [...structures].filter((structure) => {
     const attributes = [
       `#${structure.id}`,
       structure.nom,
@@ -33,5 +29,30 @@ function filter(
       words,
       withScore: false,
     }).match;
-  });
-}
+  })
+  : structures
+  let filteredStructures = [...textSearchFilteredStructures]
+
+  if (type) {
+    filteredStructures = textSearchFilteredStructures.filter((structure) => {
+      return structure.structureType === type
+    })
+  }
+  if (departement) {
+    filteredStructures = textSearchFilteredStructures.filter((structure) => {
+      return structure.departement === departement
+    })
+  }
+
+  if (region) {
+    filteredStructures = textSearchFilteredStructures.filter((structure) => {
+      return structure.region === region
+    })
+  }
+
+  if (usagersSegment) {
+
+  }
+  
+  return filteredStructures
+} 
