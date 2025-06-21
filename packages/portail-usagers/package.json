@@ -39,7 +39,7 @@
     "date-fns": "^2.30.0",
     "file-saver": "^2.0.5",
     "google-libphonenumber": "^3.2.33",
-    "ngx-matomo-client": "^5.0.4",
+    "ngx-matomo-client": "^8.0.0",
     "rxjs": "^7.8.2",
     "zone.js": "~0.14.10"
   },
