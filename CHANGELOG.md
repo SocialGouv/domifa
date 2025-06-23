@@ -1,3 +1,10 @@
+## [2.203.6](https://github.com/SocialGouv/domifa/compare/v2.203.5...v2.203.6) (2025-06-23)
+
+
+### Bug Fixes
+
+* **chore:** update husky config ([faa98f4](https://github.com/SocialGouv/domifa/commit/faa98f49d63a0d556d63c76ad01aa5dd3845f639))
+
 ## [2.203.5](https://github.com/SocialGouv/domifa/compare/v2.203.4...v2.203.5) (2025-06-23)
 
 
