@@ -1,0 +1,6 @@
+fileignoreconfig:
+- filename: _docs/dev/0.run-local-env.md
+  checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
+- filename: yarn.lock
+  checksum: 08b8e5aa34abdbe885acc6d64dd693197644d94d976f0e1832760c3ed227c836
+version: "1.0"

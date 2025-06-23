@@ -1,6 +1,26 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npx lint-staged
+# Linting
+echo "🔍 Linting et formatting..."
+if ! npx lint-staged; then
+  echo "❌ Erreur de linting - commit annulé"
+  exit 1
+fi
 
-## if sh -c ': >/dev/tty' >/dev/null 2>/dev/null; then exec </dev/tty; yarn node-talisman --githook pre-commit -i; else yarn node-talisman --githook pre-commit; fi
+# Sécurité
+echo "🛡️ Vérification sécurité..."
+if sh -c ': >/dev/tty' >/dev/null 2>/dev/null; then
+  exec </dev/tty
+  if ! yarn node-talisman --githook pre-commit -i; then
+    echo "❌ Vérification sécurité échouée"
+    exit 1
+  fi
+else
+  if ! yarn node-talisman --githook pre-commit; then
+    echo "❌ Vérification sécurité échouée"
+    exit 1
+  fi
+fi
+
+echo "✅ Commit validé!"
