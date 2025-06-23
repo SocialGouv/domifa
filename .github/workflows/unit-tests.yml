@@ -10,6 +10,30 @@ concurrency:
   group: unit-tests-${{ github.ref }}
 
 jobs:
+  lint:
+    name: Lint code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Set up Node.js lts
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build common dependencies
+        run: yarn workspace @domifa/common build
+
+      - name: Lint all packages
+        run: yarn lint
+
   backend:
     name: Backend unit tests
     runs-on: ubuntu-latest
@@ -231,12 +255,6 @@ jobs:
           name: frontend-coverage
           path: packages/frontend/coverage
 
-      # - name: Download portail-usagers coverage
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: portail-usagers
-      #     path: packages/portail-usagers/coverage
-
       - name: Publish backend code coverage
         uses: codecov/codecov-action@v4
         with:
@@ -250,10 +268,3 @@ jobs:
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: packages/frontend/coverage
-
-      # - name: Publish portail-usagers code coverage
-      #   uses: codecov/codecov-action@v2
-      #   with:
-      #     fail_ci_if_error: true
-      #     token: ${{ secrets.CODECOV_TOKEN }}
-      #     directory: packages/portail-usagers/coverage
