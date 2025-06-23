@@ -28,9 +28,11 @@
               "src/assets/css/main.scss",
               "src/assets/css/print.css",
               "src/assets/css/icons.css",
-              "node_modules/intl-tel-input/build/css/intlTelInput.css"
+              "node_modules/intl-tel-input/build/css/intlTelInput.css",
+              "./node_modules/@gouvfr/dsfr/dist/dsfr/dsfr.main.min.css",
+              "./node_modules/@gouvfr/dsfr/dist/utility/utility.main.min.css"
             ],
-            "scripts": [],
+            "scripts": ["./node_modules/@gouvfr/dsfr/dist/dsfr/dsfr.module.js"],
             "aot": false,
             "vendorChunk": true,
             "extractLicenses": false,
