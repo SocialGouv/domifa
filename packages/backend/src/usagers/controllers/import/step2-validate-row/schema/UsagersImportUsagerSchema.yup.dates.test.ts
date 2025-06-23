@@ -26,8 +26,8 @@ describe("UsagersImportCiviliteSchema dates", () => {
     );
 
     expect(usager.statutDom).toEqual("REFUS");
-    expect(usager.dateDebutDom).toEqual(new Date(Date.UTC(2020, 2 - 1, 3)));
-    expect(usager.dateFinDom).toEqual(new Date(Date.UTC(2020, 10 - 1, 5)));
+    expect(usager.dateDebutDom).toEqual(new Date(Date.UTC(2020, 2 - 1, 3, 12)));
+    expect(usager.dateFinDom).toEqual(new Date(Date.UTC(2020, 10 - 1, 5, 12)));
   });
   it("statutDom=REFUS dateDebutDom missing", async () => {
     await expect(
@@ -105,7 +105,7 @@ describe("UsagersImportCiviliteSchema dates", () => {
         { context }
       )
     ).rejects.toThrowError(
-      "dateFinDom field must be later than 2022-02-03T00:00:00.000Z"
+      "dateFinDom field must be later than 2022-02-03T12:00:00.000Z"
     );
   });
 });

@@ -3,10 +3,10 @@ import { dateUtcSchema } from "./dateUtcSchema.yup";
 describe("dateUtcSchema schema", () => {
   it("valid date", async () => {
     expect(await dateUtcSchema().validate("15/03/2020")).toEqual(
-      new Date(Date.UTC(2020, 3 - 1, 15))
+      new Date(Date.UTC(2020, 3 - 1, 15, 12))
     );
     expect(await dateUtcSchema().validate("31/12/1920")).toEqual(
-      new Date(Date.UTC(1920, 12 - 1, 31))
+      new Date(Date.UTC(1920, 12 - 1, 31, 12))
     );
   });
 
@@ -29,10 +29,10 @@ describe("dateUtcSchema schema", () => {
   it("valid date with valid validation", async () => {
     expect(
       await dateUtcSchema()
-        .min(new Date(Date.UTC(2020, 3 - 1, 15)))
-        .max(new Date(Date.UTC(2020, 3 - 1, 15)))
+        .min(new Date(Date.UTC(2020, 3 - 1, 15, 12)))
+        .max(new Date(Date.UTC(2020, 3 - 1, 15, 12)))
         .validate("15/03/2020")
-    ).toEqual(new Date(Date.UTC(2020, 3 - 1, 15)));
+    ).toEqual(new Date(Date.UTC(2020, 3 - 1, 15, 12)));
   });
 
   it("valid date with invalid validation", async () => {
