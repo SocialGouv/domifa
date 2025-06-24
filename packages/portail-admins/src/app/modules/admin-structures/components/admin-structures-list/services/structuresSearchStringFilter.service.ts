@@ -1,21 +1,44 @@
-import { buildWords, Search, search } from "@domifa/common";
+import { buildWords, DomiciliesSegmentEnum, search } from "@domifa/common";
 import { StructureAdmin } from "../../../types";
+import { StructureFilterCriteria } from "../../../utils/structure-filter-criteria";
 
-export const structuresSearchStringFilter = {
-  filter,
-};
+type StructureFilterParams = Pick<
+  StructureFilterCriteria,
+  "searchString" | "region" | "departement" | "type" | "usagersSegment"
+>;
 
-function filter(
+export const structuresSearchFilter = (
   structures: StructureAdmin[],
-  { searchString }: Pick<Search, "searchString">
-) {
-  const words = searchString ? buildWords(searchString) : [];
-  const needsTextSearch = words.length > 0;
-  if (!needsTextSearch) {
-    return structures;
-  }
+  structureFilterCriteria: StructureFilterCriteria
+): StructureAdmin[] => {
+  const { searchString, type, region, departement, usagersSegment } =
+    structureFilterCriteria;
+  const words = structureFilterCriteria.searchString
+    ? buildWords(searchString)
+    : [];
+
+  const activeFilters = [
+    ...(type ? [getTypeFilter(structureFilterCriteria)] : []),
+    ...(region ? [getRegionFilter(structureFilterCriteria)] : []),
+    ...(departement ? [getDepartmentFilter(structureFilterCriteria)] : []),
+    ...(usagersSegment
+      ? [getUsagersSegmentFilter(structureFilterCriteria)]
+      : []),
+  ];
 
   return structures.filter((structure) => {
+    if (
+      activeFilters.length &&
+      !activeFilters.every((filter) => filter(structure))
+    ) {
+      return false;
+    }
+
+    const needsTextSearch = words.length > 0;
+    if (!needsTextSearch) {
+      return true;
+    }
+
     const attributes = [
       `#${structure.id}`,
       structure.nom,
@@ -34,4 +57,33 @@ function filter(
       withScore: false,
     }).match;
   });
-}
+};
+
+const getTypeFilter =
+  (structureFilterCriteria: StructureFilterParams) =>
+  (structure: StructureAdmin): boolean =>
+    structure.structureType === structureFilterCriteria.type;
+const getRegionFilter =
+  (structureFilterCriteria: StructureFilterParams) =>
+  (structure: StructureAdmin): boolean =>
+    structure.region === structureFilterCriteria.region;
+const getDepartmentFilter =
+  (structureFilterCriteria: StructureFilterParams) =>
+  (structure: StructureAdmin): boolean =>
+    structure.departement === structureFilterCriteria.departement;
+const getUsagersSegmentFilter =
+  (structureFilterCriteria: StructureFilterParams) =>
+  (structure: StructureAdmin): boolean => {
+    switch (DomiciliesSegmentEnum[structureFilterCriteria.usagersSegment]) {
+      case DomiciliesSegmentEnum.VERY_SMALL:
+        return structure.usagers < 10;
+      case DomiciliesSegmentEnum.SMALL:
+        return structure.usagers >= 10 && structure.usagers <= 499;
+      case DomiciliesSegmentEnum.MEDIUM:
+        return structure.usagers >= 500 && structure.usagers <= 1999;
+      case DomiciliesSegmentEnum.LARGE:
+        return structure.usagers >= 2000;
+      default:
+        return false;
+    }
+  };

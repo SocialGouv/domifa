@@ -66,3 +66,30 @@
   font-size: 1.3rem;
   font-weight: 600;
 }
+
+.dropdown-toggle {
+  &__reset_btn {
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+  }
+
+  &--selected {
+    min-width: 16rem;
+    padding-top: 0.4rem;
+  }
+
+  font-weight: 600;
+  box-sizing: border-box;
+  border-radius: 5px;
+  text-align: left;
+  min-width: 16rem;
+  background: #f9f9fc;
+  color: #4a4a4a;
+  border: 1px solid #cfcfd9;
+  padding: 0.4rem 0.6rem;
+  display: flex;
+  justify-content: space-between;
+  align-content: flex-start;
+  align-items: center;
+  word-break: break-word;
+}
