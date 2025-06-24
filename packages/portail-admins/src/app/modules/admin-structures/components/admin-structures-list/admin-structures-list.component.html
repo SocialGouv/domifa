@@ -77,7 +77,7 @@
   [structures]="this.structures"
   [filters]="this.filters"
   @fadeInOut
-  (sort)="sortDashboard($event)"
+  (sort)="updateFilters($event)"
 ></app-admin-structures-table>
 
 <div #sentinel class="sentinel-preload"></div>

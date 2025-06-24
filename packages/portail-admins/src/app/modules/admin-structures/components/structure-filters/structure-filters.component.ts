@@ -18,16 +18,9 @@ import {
   DEPARTEMENTS_LISTE,
   DomiciliesSegmentEnum,
   REGIONS_LISTE,
-  SortValues,
   STRUCTURE_TYPE_LABELS,
 } from "@domifa/common";
-
-// TODO : share this type
-export type FilterOutput = {
-  element: keyof StructureFilterCriteria;
-  value: string;
-  sortValue?: SortValues;
-};
+import { FilterOutput } from "../admin-structures-list/admin-structures-list.component";
 
 @Component({
   selector: "app-structure-filters",
