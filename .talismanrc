@@ -1,6 +1,12 @@
 fileignoreconfig:
 - filename: _docs/dev/0.run-local-env.md
   checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.ts
+  checksum: 3a36a01c7b82299c858d1606ab40e56b858c8724597eee5d326bce56dd82c29c
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/structure-filters/structure-filters.component.ts
+  checksum: e6d4d9afca6797fbf98f12db96ad37a21d61289539827390ba5b4aefeb92a6b2
+- filename: packages/portail-admins/src/app/modules/admin-structures/utils/structure-filter-criteria.ts
+  checksum: 39ba2d84ba82cf24fd0dfd2be2f79d3098d42ef9d5e4e75c288da54c248180a4
 - filename: yarn.lock
   checksum: 08b8e5aa34abdbe885acc6d64dd693197644d94d976f0e1832760c3ed227c836
 version: "1.0"

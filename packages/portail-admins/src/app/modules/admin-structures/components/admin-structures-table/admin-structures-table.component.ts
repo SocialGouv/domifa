@@ -20,8 +20,9 @@ import { map } from "rxjs/operators";
 import { regexp } from "../../../../shared/utils";
 import { AdminStructuresApiClient } from "../../../shared/services";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
-import { Search, SortValues } from "@domifa/common";
+import { SortValues } from "@domifa/common";
 import { StructureAdmin } from "../../types";
+import { StructureFilterCriteria } from "../../utils/structure-filter-criteria";
 
 @Component({
   selector: "app-admin-structures-table",
@@ -32,7 +33,7 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   @Input()
   public structures?: StructureAdmin[] = [];
   @Input()
-  public filters!: Search;
+  public filters!: StructureFilterCriteria;
 
   @Output()
   public readonly sort = new EventEmitter<keyof StructureAdmin>();
@@ -133,7 +134,6 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
     }
 
     this.loading = true;
-    console.log(this.currentStructure);
     this.subscription.add(
       this.adminStructuresApiClient
         .registerUserStructureAdmin({
