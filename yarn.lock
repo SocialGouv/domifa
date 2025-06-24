@@ -3733,7 +3733,7 @@ __metadata:
     axios: "npm:^1.8.1"
     axios-retry: "npm:^4.5.0"
     bcryptjs: "npm:^2.4.3"
-    cache-manager: "npm:^6.4.3"
+    cache-manager: "npm:^7.0.0"
     class-transformer: "npm:0.5.1"
     class-validator: "npm:^0.14.1"
     compression: "npm:^1.8.0"
@@ -12265,12 +12265,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cache-manager@npm:^6.4.3":
-  version: 6.4.3
-  resolution: "cache-manager@npm:6.4.3"
+"cache-manager@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "cache-manager@npm:7.0.0"
   dependencies:
     keyv: "npm:^5.3.3"
-  checksum: 10/446db8f936b3b07b8564f175d109715ef7664702bd636ac972ebd2f37ce25e4c583947529496b7a1a104fe6dba3a83498ec3bb441d33994a68fddfe67dc0bd95
+  checksum: 10/52adb11f58a02b9691f88b873ca645f77215eb8031e5375722380abddb8f439d9bb3c1642479a227d0f1ec14904191a8cc32fcf98953c9a21f6a073b698207bc
   languageName: node
   linkType: hard
 
@@ -13919,15 +13919,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:^4, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4, debug@npm:^4.3.5, debug@npm:^4.4.0":
-  version: 4.4.0
-  resolution: "debug@npm:4.4.0"
+"debug@npm:4, debug@npm:^4, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4, debug@npm:^4.3.5, debug@npm:^4.4.0, debug@npm:^4.4.1":
+  version: 4.4.1
+  resolution: "debug@npm:4.4.1"
   dependencies:
     ms: "npm:^2.1.3"
   peerDependenciesMeta:
     supports-color:
       optional: true
-  checksum: 10/1847944c2e3c2c732514b93d11886575625686056cd765336212dc15de2d2b29612b6cd80e1afba767bb8e1803b778caf9973e98169ef1a24a7a7009e1820367
+  checksum: 10/8e2709b2144f03c7950f8804d01ccb3786373df01e406a0f66928e47001cf2d336cbed9ee137261d4f90d68d8679468c755e3548ed83ddacdc82b194d2468afe
   languageName: node
   linkType: hard
 
@@ -13937,18 +13937,6 @@ __metadata:
   dependencies:
     ms: "npm:^2.1.1"
   checksum: 10/d86fd7be2b85462297ea16f1934dc219335e802f629ca9a69b63ed8ed041dda492389bb2ee039217c02e5b54792b1c51aa96ae954cf28634d363a2360c7a1639
-  languageName: node
-  linkType: hard
-
-"debug@npm:^4.4.1":
-  version: 4.4.1
-  resolution: "debug@npm:4.4.1"
-  dependencies:
-    ms: "npm:^2.1.3"
-  peerDependenciesMeta:
-    supports-color:
-      optional: true
-  checksum: 10/8e2709b2144f03c7950f8804d01ccb3786373df01e406a0f66928e47001cf2d336cbed9ee137261d4f90d68d8679468c755e3548ed83ddacdc82b194d2468afe
   languageName: node
   linkType: hard
 
