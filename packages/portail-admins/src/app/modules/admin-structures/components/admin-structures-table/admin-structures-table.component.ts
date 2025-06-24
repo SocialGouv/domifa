@@ -133,7 +133,6 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
     }
 
     this.loading = true;
-    console.log(this.currentStructure);
     this.subscription.add(
       this.adminStructuresApiClient
         .registerUserStructureAdmin({
