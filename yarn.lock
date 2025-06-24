@@ -3865,7 +3865,7 @@ __metadata:
     "@fortawesome/free-regular-svg-icons": "npm:^6.6.0"
     "@fortawesome/free-solid-svg-icons": "npm:^6.6.0"
     "@khazii/ngx-intl-tel-input": "npm:^17.0.1"
-    "@ng-bootstrap/ng-bootstrap": "npm:^15.1.2"
+    "@ng-bootstrap/ng-bootstrap": "npm:^19.0.0"
     "@ngrx/effects": "npm:^17.2.0"
     "@ngrx/entity": "npm:^17.2.0"
     "@ngrx/store": "npm:^17.2.0"
@@ -3948,7 +3948,7 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": "npm:^6.6.0"
     "@fortawesome/free-regular-svg-icons": "npm:^6.6.0"
     "@fortawesome/free-solid-svg-icons": "npm:^6.6.0"
-    "@ng-bootstrap/ng-bootstrap": "npm:^14.2.0"
+    "@ng-bootstrap/ng-bootstrap": "npm:^19.0.0"
     "@popperjs/core": "npm:^2.11.8"
     "@schematics/update": "npm:^0.1102.19"
     "@sentry/angular": "npm:^8.55.0"
@@ -4017,7 +4017,7 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": "npm:^6.6.0"
     "@fortawesome/free-regular-svg-icons": "npm:^6.6.0"
     "@fortawesome/free-solid-svg-icons": "npm:^6.6.0"
-    "@ng-bootstrap/ng-bootstrap": "npm:^16.0.0"
+    "@ng-bootstrap/ng-bootstrap": "npm:^19.0.0"
     "@popperjs/core": "npm:^2.11.8"
     "@sentry/angular": "npm:^8.55.0"
     "@types/file-saver": "npm:^2.0.7"
@@ -5909,51 +5909,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ng-bootstrap/ng-bootstrap@npm:^14.2.0":
-  version: 14.2.0
-  resolution: "@ng-bootstrap/ng-bootstrap@npm:14.2.0"
+"@ng-bootstrap/ng-bootstrap@npm:^19.0.0":
+  version: 19.0.0
+  resolution: "@ng-bootstrap/ng-bootstrap@npm:19.0.0"
   dependencies:
     tslib: "npm:^2.3.0"
   peerDependencies:
-    "@angular/common": ^15.0.0
-    "@angular/core": ^15.0.0
-    "@angular/forms": ^15.0.0
-    "@angular/localize": ^15.0.0
-    "@popperjs/core": ^2.11.6
-    rxjs: ^6.5.3 || ^7.4.0
-  checksum: 10/baa236b4079c76f5e03b319ada089e7437f584ca6efd62f5f73ae9649403d70b52dda5d5fc9b6a8a7a39502dc457c8a76d55719b9796da3b98248048b397b487
-  languageName: node
-  linkType: hard
-
-"@ng-bootstrap/ng-bootstrap@npm:^15.1.2":
-  version: 15.1.2
-  resolution: "@ng-bootstrap/ng-bootstrap@npm:15.1.2"
-  dependencies:
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    "@angular/common": ^16.0.0
-    "@angular/core": ^16.0.0
-    "@angular/forms": ^16.0.0
-    "@angular/localize": ^16.0.0
-    "@popperjs/core": ^2.11.6
-    rxjs: ^6.5.3 || ^7.4.0
-  checksum: 10/4638e289bf677f93c1ae30aa5af35a08053a18f35c43d283e76ba718e14d7861153f0aad6a76647c42b8f43617452ae8ecbc55507f851c92fffdd69cc9150cbe
-  languageName: node
-  linkType: hard
-
-"@ng-bootstrap/ng-bootstrap@npm:^16.0.0":
-  version: 16.0.0
-  resolution: "@ng-bootstrap/ng-bootstrap@npm:16.0.0"
-  dependencies:
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    "@angular/common": ^17.0.0
-    "@angular/core": ^17.0.0
-    "@angular/forms": ^17.0.0
-    "@angular/localize": ^17.0.0
+    "@angular/common": ^20.0.0
+    "@angular/core": ^20.0.0
+    "@angular/forms": ^20.0.0
+    "@angular/localize": ^20.0.0
     "@popperjs/core": ^2.11.8
     rxjs: ^6.5.3 || ^7.4.0
-  checksum: 10/ae747d9d04cbfdcdf84fa8ee75692ecbbc498e2c1af1299e9a18112cf313ad770a3c59b046f6fa2f52804ffc9eb86a445ea7a5a07e329f0c6e61db95b9dddf05
+  checksum: 10/ae1deba14724a0d8d1f94006e8d67a2a7156270f4410caa31598c255f121e72f2ba29edb10b1ebcfd2a6eacbd8c15555ebffe4dcf5bdc2e5afd5ba2e979720b1
   languageName: node
   linkType: hard
 
@@ -13919,15 +13887,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:^4, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4, debug@npm:^4.3.5, debug@npm:^4.4.0":
-  version: 4.4.0
-  resolution: "debug@npm:4.4.0"
+"debug@npm:4, debug@npm:^4, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4, debug@npm:^4.3.5, debug@npm:^4.4.0, debug@npm:^4.4.1":
+  version: 4.4.1
+  resolution: "debug@npm:4.4.1"
   dependencies:
     ms: "npm:^2.1.3"
   peerDependenciesMeta:
     supports-color:
       optional: true
-  checksum: 10/1847944c2e3c2c732514b93d11886575625686056cd765336212dc15de2d2b29612b6cd80e1afba767bb8e1803b778caf9973e98169ef1a24a7a7009e1820367
+  checksum: 10/8e2709b2144f03c7950f8804d01ccb3786373df01e406a0f66928e47001cf2d336cbed9ee137261d4f90d68d8679468c755e3548ed83ddacdc82b194d2468afe
   languageName: node
   linkType: hard
 
@@ -13937,18 +13905,6 @@ __metadata:
   dependencies:
     ms: "npm:^2.1.1"
   checksum: 10/d86fd7be2b85462297ea16f1934dc219335e802f629ca9a69b63ed8ed041dda492389bb2ee039217c02e5b54792b1c51aa96ae954cf28634d363a2360c7a1639
-  languageName: node
-  linkType: hard
-
-"debug@npm:^4.4.1":
-  version: 4.4.1
-  resolution: "debug@npm:4.4.1"
-  dependencies:
-    ms: "npm:^2.1.3"
-  peerDependenciesMeta:
-    supports-color:
-      optional: true
-  checksum: 10/8e2709b2144f03c7950f8804d01ccb3786373df01e406a0f66928e47001cf2d336cbed9ee137261d4f90d68d8679468c755e3548ed83ddacdc82b194d2468afe
   languageName: node
   linkType: hard
 
