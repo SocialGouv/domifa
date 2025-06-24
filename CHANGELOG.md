@@ -1,3 +1,10 @@
+## [2.203.7](https://github.com/SocialGouv/domifa/compare/v2.203.6...v2.203.7) (2025-06-24)
+
+
+### Bug Fixes
+
+* **chore:** add lint stage in ci ([dc35c66](https://github.com/SocialGouv/domifa/commit/dc35c66c2f9f644acf1b3566a0e7c72e50eda4de))
+
 ## [2.203.6](https://github.com/SocialGouv/domifa/compare/v2.203.5...v2.203.6) (2025-06-23)
 
 
