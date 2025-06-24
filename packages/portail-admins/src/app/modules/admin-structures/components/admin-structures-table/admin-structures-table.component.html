@@ -11,7 +11,14 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col" (click)="sortDashboard('id')" class="fw-bold">
+        <th
+          scope="col"
+          (click)="sort.emit({
+          element: 'sortKey',
+          value: 'id',            
+        })"
+          class="fw-bold"
+        >
           <app-table-head-sort
             sortKey="id"
             [sortValue]="filters.sortValue"
@@ -20,7 +27,13 @@
           >
           </app-table-head-sort>
         </th>
-        <th scope="col" (click)="sortDashboard('nom')">
+        <th
+          scope="col"
+          (click)="sort.emit({
+            element: 'sortKey',
+            value: 'nom',            
+          })"
+        >
           <app-table-head-sort
             sortKey="nom"
             [sortValue]="filters.sortValue"
@@ -29,7 +42,13 @@
           >
           </app-table-head-sort>
         </th>
-        <th scope="col" (click)="sortDashboard('structureTypeLabel')">
+        <th
+          scope="col"
+          (click)="sort.emit({
+          element: 'sortKey',
+          value: 'structureTypeLabel',            
+        })"
+        >
           <app-table-head-sort
             sortKey="structureTypeLabel"
             [sortValue]="filters.sortValue"
@@ -38,7 +57,13 @@
           >
           </app-table-head-sort>
         </th>
-        <th scope="col" (click)="sortDashboard('createdAt')">
+        <th
+          scope="col"
+          (click)="sort.emit({
+          element: 'sortKey',
+          value: 'createdAt',            
+        })"
+        >
           <app-table-head-sort
             sortKey="createdAt"
             [sortValue]="filters.sortValue"
@@ -48,7 +73,13 @@
           </app-table-head-sort>
         </th>
 
-        <th scope="col" (click)="sortDashboard('importDate')">
+        <th
+          scope="col"
+          (click)="sort.emit({
+          element: 'sortKey',
+          value: 'importDate',            
+        })"
+        >
           <app-table-head-sort
             sortKey="importDate"
             [sortValue]="filters.sortValue"
@@ -57,7 +88,13 @@
           >
           </app-table-head-sort>
         </th>
-        <th scope="col" (click)="sortDashboard('users')">
+        <th
+          scope="col"
+          (click)="sort.emit({
+          element: 'sortKey',
+          value: 'users',            
+        })"
+        >
           <app-table-head-sort
             sortKey="users"
             [sortValue]="filters.sortValue"
@@ -66,7 +103,12 @@
           >
           </app-table-head-sort>
         </th>
-        <th (click)="sortDashboard('usagers')">
+        <th
+          (click)="sort.emit({
+          element: 'sortKey',
+          value: 'usagers',            
+        })"
+        >
           <app-table-head-sort
             sortKey="usagers"
             [sortValue]="filters.sortValue"
@@ -75,7 +117,12 @@
           >
           </app-table-head-sort>
         </th>
-        <th (click)="sortDashboard('actifs')">
+        <th
+          (click)="sort.emit({
+          element: 'sortKey',
+          value: 'usagers',            
+        })"
+        >
           <app-table-head-sort
             sortKey="actifs"
             [sortValue]="filters.sortValue"
@@ -84,7 +131,13 @@
           >
           </app-table-head-sort>
         </th>
-        <th scope="col" (click)="sortDashboard('lastLogin')">
+        <th
+          scope="col"
+          (click)="sort.emit({
+          element: 'sortKey',
+          value: 'actifs',            
+        })"
+        >
           <app-table-head-sort
             sortKey="lastLogin"
             [sortValue]="filters.sortValue"
@@ -93,7 +146,13 @@
           >
           </app-table-head-sort>
         </th>
-        <th scope="col" (click)="sortDashboard('regionLabel')">
+        <th
+          scope="col"
+          (click)="sort.emit({
+          element: 'sortKey',
+          value: 'lastLogin',            
+        })"
+        >
           <app-table-head-sort
             sortKey="regionLabel"
             [sortValue]="filters.sortValue"
@@ -102,7 +161,13 @@
           >
           </app-table-head-sort>
         </th>
-        <th scope="col" (click)="sortDashboard('departementLabel')">
+        <th
+          scope="col"
+          (click)="sort.emit({
+          element: 'sortKey',
+          value: 'departementLabel',            
+        })"
+        >
           <app-table-head-sort
             sortKey="departementLabel"
             [sortValue]="filters.sortValue"

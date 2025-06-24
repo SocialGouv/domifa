@@ -35,6 +35,12 @@ import {
   StructureType,
 } from "@domifa/common";
 
+export type FilterOutput = {
+  element: keyof StructureFilterCriteria;
+  value: string;
+  sortValue?: SortValues;
+};
+
 @Component({
   animations: [fadeInOut],
   selector: "app-admin-structures-list",
@@ -47,7 +53,6 @@ export class AdminStructuresListComponent
   public allstructures$ = new ReplaySubject<StructureAdmin[]>(1);
   public structures: StructureAdmin[] = [];
   public filteredStructures: StructureAdmin[] = [];
-
   private subscription = new Subscription();
   public searching = true;
   public totalStructures = 0;
@@ -205,15 +210,8 @@ export class AdminStructuresListComponent
     return;
   }
 
-  public updateFilters<T extends keyof StructureFilterCriteria>({
-    element,
-    value,
-    sortValue,
-  }: {
-    element: T;
-    value: StructureFilterCriteria[T] | null;
-    sortValue?: SortValues;
-  }): void {
+  public updateFilters(filterOutput: FilterOutput): void {
+    const { element, value, sortValue } = filterOutput;
     if (!element) {
       return;
     }
@@ -226,6 +224,7 @@ export class AdminStructuresListComponent
 
     if (element === "page") {
       this.filters.page = parseInt(value as string, 10);
+      this.filters$.next(this.filters);
       this.applyPagination();
       return;
     }
@@ -233,6 +232,7 @@ export class AdminStructuresListComponent
       this.filters.sortValue = sortValue || this.getNextSortValue(value);
       this.filters.sortKey = value as StructureFilterCriteriaSortKey;
       this.filters.page = 1;
+      this.filters$.next(this.filters);
       this.applySorting();
       return;
     }
@@ -314,7 +314,7 @@ export class AdminStructuresListComponent
         const filters = JSON.parse(storedFilters) as StructureFilterCriteria;
         this.filters$.next(filters);
       }
-    } catch (error) {
+    } catch {
       this.filters = new StructureFilterCriteria();
     }
   }
