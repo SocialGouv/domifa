@@ -1,6 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 # Linting
 echo "🔍 Linting et formatting..."
 if ! npx lint-staged; then

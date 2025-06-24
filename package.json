@@ -11,7 +11,7 @@
     "start": "lerna run start",
     "test": "lerna run test ",
     "seal-secrets": "sre-secrets --from=./.secrets.yaml --to=./.k8s",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "devDependencies": {
     "@babel/runtime": "^7.24.8",
