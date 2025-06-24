@@ -32,18 +32,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/architect@npm:^0.1802.14":
-  version: 0.1802.14
-  resolution: "@angular-devkit/architect@npm:0.1802.14"
+"@angular-devkit/architect@npm:^0.2000.0":
+  version: 0.2000.3
+  resolution: "@angular-devkit/architect@npm:0.2000.3"
   dependencies:
-    "@angular-devkit/core": "npm:18.2.14"
-    rxjs: "npm:7.8.1"
-  dependenciesMeta:
-    esbuild:
-      built: true
-    puppeteer:
-      built: true
-  checksum: 10/d57ee7f989770d04c96fcc21b4f816f0e5a0ad52fc405ba2fb27fb817516a3a351b6c11d05367816822717d643e623ba7bf5f89b797242bdec2953cce787f9a7
+    "@angular-devkit/core": "npm:20.0.3"
+    rxjs: "npm:7.8.2"
+  checksum: 10/2c2bab79763e53b7bddf71e1cf63328da5ed09163409da7c4a9c4714269f04b85de2c74c803855d3c44601c2629788a4a644d9c2f62d9694b447bd00edeff970
   languageName: node
   linkType: hard
 
@@ -221,30 +216,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/core@npm:18.2.14":
-  version: 18.2.14
-  resolution: "@angular-devkit/core@npm:18.2.14"
-  dependencies:
-    ajv: "npm:8.17.1"
-    ajv-formats: "npm:3.0.1"
-    jsonc-parser: "npm:3.3.1"
-    picomatch: "npm:4.0.2"
-    rxjs: "npm:7.8.1"
-    source-map: "npm:0.7.4"
-  peerDependencies:
-    chokidar: ^3.5.2
-  dependenciesMeta:
-    esbuild:
-      built: true
-    puppeteer:
-      built: true
-  peerDependenciesMeta:
-    chokidar:
-      optional: true
-  checksum: 10/25f7ff2bdf07d986be83ce6483157888bc9741e0aea7e0c8232b155c3b507d8425b2a7caed91d9c96dcb28debfd2e0aab0e2cfc554357bc2b0677c7e52c9fb25
-  languageName: node
-  linkType: hard
-
 "@angular-devkit/core@npm:19.2.6":
   version: 19.2.6
   resolution: "@angular-devkit/core@npm:19.2.6"
@@ -280,6 +251,25 @@ __metadata:
     chokidar:
       optional: true
   checksum: 10/79cec8e5d422c5ffa081203d80cdc9f6a9e6d45faa1c25c66b8bcc7c2588d9777d176cef19b51f8b208f6094e741c4119dc543b8ea8e10d356095c14191c5302
+  languageName: node
+  linkType: hard
+
+"@angular-devkit/core@npm:20.0.3":
+  version: 20.0.3
+  resolution: "@angular-devkit/core@npm:20.0.3"
+  dependencies:
+    ajv: "npm:8.17.1"
+    ajv-formats: "npm:3.0.1"
+    jsonc-parser: "npm:3.3.1"
+    picomatch: "npm:4.0.2"
+    rxjs: "npm:7.8.2"
+    source-map: "npm:0.7.4"
+  peerDependencies:
+    chokidar: ^4.0.0
+  peerDependenciesMeta:
+    chokidar:
+      optional: true
+  checksum: 10/a2d95e55bbdb4f24138f9b04a6fb34f665745a3e649591aa9d7c9b6223373af212c6a00bb9b796edf8097819abe4b6251c741f52ccc059fb39e89a5fea8cfc02
   languageName: node
   linkType: hard
 
@@ -3717,7 +3707,7 @@ __metadata:
     "@types/nodemailer": "npm:^6.4.17"
     "@types/nunjucks": "npm:^3.2.6"
     "@types/passport-jwt": "npm:^3.0.13"
-    "@types/pdfkit": "npm:^0.13.9"
+    "@types/pdfkit": "npm:^0.14.0"
     "@types/pino": "npm:^7.0.5"
     "@types/pizzip": "npm:^3.0.5"
     "@types/sanitize-html": "npm:^2.13.0"
@@ -3835,7 +3825,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/frontend@workspace:packages/frontend"
   dependencies:
-    "@angular-devkit/architect": "npm:^0.1802.14"
+    "@angular-devkit/architect": "npm:^0.2000.0"
     "@angular-devkit/build-angular": "npm:^17.3.17"
     "@angular-devkit/core": "npm:^17.3.17"
     "@angular-devkit/schematics": "npm:^17.3.17"
@@ -3921,7 +3911,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/portail-admins@workspace:packages/portail-admins"
   dependencies:
-    "@angular-devkit/architect": "npm:^0.1802.14"
+    "@angular-devkit/architect": "npm:^0.2000.0"
     "@angular-devkit/build-angular": "npm:^17.3.17"
     "@angular-devkit/core": "npm:^17.3.17"
     "@angular-devkit/schematics": "npm:^17.3.17"
@@ -3991,7 +3981,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/portail-usagers@workspace:packages/portail-usagers"
   dependencies:
-    "@angular-devkit/architect": "npm:^0.1802.14"
+    "@angular-devkit/architect": "npm:^0.2000.0"
     "@angular-devkit/build-angular": "npm:^17.3.17"
     "@angular-devkit/core": "npm:^17.3.17"
     "@angular-devkit/schematics": "npm:^17.3.17"
@@ -9680,12 +9670,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pdfkit@npm:^0.13.9":
-  version: 0.13.9
-  resolution: "@types/pdfkit@npm:0.13.9"
+"@types/pdfkit@npm:^0.14.0":
+  version: 0.14.0
+  resolution: "@types/pdfkit@npm:0.14.0"
   dependencies:
     "@types/node": "npm:*"
-  checksum: 10/273b6d6bf47dd6e16a1dcae8ae912ab6267dc7afe3072f68ac3eaf728899f77a826dc57cb35f826ae181a3d260bf54ac86edd8e875b451122b94a8d65ab1b2d8
+  checksum: 10/dfbbaaf36213d38aa3e5ab933a046881aca0a77eaca3bf374e1fcfb0adcea02b0f282bcaffa2b75b70dcd44c2731659fdf9359ee072cc77f6c73165c79a4949d
   languageName: node
   linkType: hard
 
@@ -13919,15 +13909,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:^4, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4, debug@npm:^4.3.5, debug@npm:^4.4.0":
-  version: 4.4.0
-  resolution: "debug@npm:4.4.0"
+"debug@npm:4, debug@npm:^4, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4, debug@npm:^4.3.5, debug@npm:^4.4.0, debug@npm:^4.4.1":
+  version: 4.4.1
+  resolution: "debug@npm:4.4.1"
   dependencies:
     ms: "npm:^2.1.3"
   peerDependenciesMeta:
     supports-color:
       optional: true
-  checksum: 10/1847944c2e3c2c732514b93d11886575625686056cd765336212dc15de2d2b29612b6cd80e1afba767bb8e1803b778caf9973e98169ef1a24a7a7009e1820367
+  checksum: 10/8e2709b2144f03c7950f8804d01ccb3786373df01e406a0f66928e47001cf2d336cbed9ee137261d4f90d68d8679468c755e3548ed83ddacdc82b194d2468afe
   languageName: node
   linkType: hard
 
@@ -13937,18 +13927,6 @@ __metadata:
   dependencies:
     ms: "npm:^2.1.1"
   checksum: 10/d86fd7be2b85462297ea16f1934dc219335e802f629ca9a69b63ed8ed041dda492389bb2ee039217c02e5b54792b1c51aa96ae954cf28634d363a2360c7a1639
-  languageName: node
-  linkType: hard
-
-"debug@npm:^4.4.1":
-  version: 4.4.1
-  resolution: "debug@npm:4.4.1"
-  dependencies:
-    ms: "npm:^2.1.3"
-  peerDependenciesMeta:
-    supports-color:
-      optional: true
-  checksum: 10/8e2709b2144f03c7950f8804d01ccb3786373df01e406a0f66928e47001cf2d336cbed9ee137261d4f90d68d8679468c755e3548ed83ddacdc82b194d2468afe
   languageName: node
   linkType: hard
 
@@ -24370,7 +24348,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.5.5, rxjs@npm:^7.8.1, rxjs@npm:^7.8.2":
+"rxjs@npm:7.8.2, rxjs@npm:^7.5.5, rxjs@npm:^7.8.1, rxjs@npm:^7.8.2":
   version: 7.8.2
   resolution: "rxjs@npm:7.8.2"
   dependencies:
