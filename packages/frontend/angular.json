@@ -17,9 +17,15 @@
             "outputPath": "dist/domifa",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": ["zone.js", "@angular/localize/init"],
+            "polyfills": [
+              "zone.js",
+              "@angular/localize/init"
+            ],
             "tsConfig": "./tsconfig.app.json",
-            "assets": ["src/assets", "src/robots.txt"],
+            "assets": [
+              "src/assets",
+              "src/robots.txt"
+            ],
             "styles": [
               "src/styles.scss",
               "src/assets/css/bootstrap-custom.css",
@@ -32,7 +38,9 @@
               "./node_modules/@gouvfr/dsfr/dist/dsfr/dsfr.main.min.css",
               "./node_modules/@gouvfr/dsfr/dist/utility/utility.main.min.css"
             ],
-            "scripts": ["./node_modules/@gouvfr/dsfr/dist/dsfr/dsfr.module.js"],
+            "scripts": [
+              "./node_modules/@gouvfr/dsfr/dist/dsfr/dsfr.module.js"
+            ],
             "aot": false,
             "vendorChunk": true,
             "extractLicenses": false,
@@ -113,7 +121,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         }
       }
@@ -121,6 +132,8 @@
   },
   "cli": {
     "packageManager": "yarn",
-    "schematicCollections": ["@angular-eslint/schematics"]
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
