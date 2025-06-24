@@ -134,7 +134,6 @@ export class StructuresAuthService {
       ],
     });
 
-    console.log({ structure });
     return {
       _userId: payload._userId,
       _userProfile: payload._userProfile,
