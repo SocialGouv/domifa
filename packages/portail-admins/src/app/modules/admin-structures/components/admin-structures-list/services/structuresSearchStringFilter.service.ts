@@ -1,35 +1,37 @@
-import { buildWords, DomiciliesSegmentEnum, search } from "@domifa/common";
+import { buildWords, search, StructureType } from "@domifa/common";
 import { StructureAdmin } from "../../../types";
 import { StructureFilterCriteria } from "../../../utils/structure-filter-criteria";
-
-type StructureFilterParams = Pick<
-  StructureFilterCriteria,
-  "searchString" | "region" | "departement" | "type" | "usagersSegment"
->;
 
 export const structuresSearchFilter = (
   structures: StructureAdmin[],
   structureFilterCriteria: StructureFilterCriteria
 ): StructureAdmin[] => {
-  const { searchString, type, region, departement, usagersSegment } =
+  const { searchString, structureType, region, departement, domicilieSegment } =
     structureFilterCriteria;
+
+  const filterKeys = [];
+  if (structureType) filterKeys.push("structureType");
+  if (region) filterKeys.push("region");
+  if (departement) filterKeys.push("departement");
+  if (domicilieSegment) filterKeys.push("domicilieSegment");
   const words = structureFilterCriteria.searchString
     ? buildWords(searchString)
     : [];
 
-  const activeFilters = [
-    ...(type ? [getTypeFilter(structureFilterCriteria)] : []),
-    ...(region ? [getRegionFilter(structureFilterCriteria)] : []),
-    ...(departement ? [getDepartmentFilter(structureFilterCriteria)] : []),
-    ...(usagersSegment
-      ? [getUsagersSegmentFilter(structureFilterCriteria)]
-      : []),
-  ];
+  const filterByProperty = (
+    structure: StructureAdmin,
+    key: keyof StructureAdmin,
+    value: StructureType | string | number | null
+  ): boolean => {
+    return value === null || structure[key] === value;
+  };
 
   return structures.filter((structure) => {
     if (
-      activeFilters.length &&
-      !activeFilters.every((filter) => filter(structure))
+      filterKeys.length &&
+      !filterKeys.every((key) =>
+        filterByProperty(structure, key, structureFilterCriteria[key])
+      )
     ) {
       return false;
     }
@@ -58,32 +60,3 @@ export const structuresSearchFilter = (
     }).match;
   });
 };
-
-const getTypeFilter =
-  (structureFilterCriteria: StructureFilterParams) =>
-  (structure: StructureAdmin): boolean =>
-    structure.structureType === structureFilterCriteria.type;
-const getRegionFilter =
-  (structureFilterCriteria: StructureFilterParams) =>
-  (structure: StructureAdmin): boolean =>
-    structure.region === structureFilterCriteria.region;
-const getDepartmentFilter =
-  (structureFilterCriteria: StructureFilterParams) =>
-  (structure: StructureAdmin): boolean =>
-    structure.departement === structureFilterCriteria.departement;
-const getUsagersSegmentFilter =
-  (structureFilterCriteria: StructureFilterParams) =>
-  (structure: StructureAdmin): boolean => {
-    switch (DomiciliesSegmentEnum[structureFilterCriteria.usagersSegment]) {
-      case DomiciliesSegmentEnum.VERY_SMALL:
-        return structure.usagers < 10;
-      case DomiciliesSegmentEnum.SMALL:
-        return structure.usagers >= 10 && structure.usagers <= 499;
-      case DomiciliesSegmentEnum.MEDIUM:
-        return structure.usagers >= 500 && structure.usagers <= 1999;
-      case DomiciliesSegmentEnum.LARGE:
-        return structure.usagers >= 2000;
-      default:
-        return false;
-    }
-  };

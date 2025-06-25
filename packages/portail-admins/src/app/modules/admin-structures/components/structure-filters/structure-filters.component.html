@@ -17,17 +17,19 @@
         >
           <!-- Type structure -->
           <div
-            *ngIf="this.filters.type"
+            *ngIf="this.filters.structureType"
             class="d-inline-block my-1 me-2 dropdown-toggle--selected"
           >
             <button
               type="button"
-              *ngIf="this.filters.type"
+              *ngIf="this.filters.structureType"
               [disabled]="searching"
               class="btn btn-outline-primary dropdown-toggle__reset_btn w-100"
-              (click)="updateFilters.emit({ element: 'type', value: null })"
+              (click)="
+                updateFilters.emit({ element: 'structureType', value: null })
+              "
             >
-              {{ structureTypeOptions[filters.type] }}
+              {{ structureTypeOptions[filters.structureType] }}
               <fa-icon
                 aria-hidden="true"
                 [icon]="['fas', 'times']"
@@ -36,7 +38,7 @@
             </button>
           </div>
           <div
-            *ngIf="!filters.type"
+            *ngIf="!filters.structureType"
             ngbDropdown
             id="dropDownTypeStructure"
             placement="bottom"
@@ -63,7 +65,7 @@
                 type="button"
                 (click)="
                   updateFilters.emit({
-                    element: 'type',
+                    element: 'structureType',
                     value: type.key,
                     sortValue: filters.sortValue
                   })
@@ -86,7 +88,7 @@
               class="btn btn-outline-primary dropdown-toggle__reset_btn w-100"
               (click)="updateFilters.emit({ element: 'region', value: null })"
             >
-              {{ regionTable[filters.region] }}
+              {{ REGIONS_LISTE[filters.region] }}
               <fa-icon
                 aria-hidden="true"
                 [icon]="['fas', 'times']"
@@ -116,10 +118,11 @@
             <div
               ngbDropdownMenu
               aria-labelledby="dropDownRegion"
-              class="dropdown-menu dropdown-menu-end overflow-y-scroll m-vw-100"
+              style="max-height: 80vh; overflow-y: auto"
+              class="dropdown-menu dropdown-menu-end"
             >
               <button
-                *ngFor="let region of regionTable | keyvalue"
+                *ngFor="let region of REGIONS_LISTE | keyvalue"
                 type="button"
                 (click)="
                   updateFilters.emit({
@@ -147,7 +150,7 @@
                 updateFilters.emit({ element: 'departement', value: null })
               "
             >
-              {{ departmentTable[filters.departement] }}
+              {{ DEPARTEMENTS_LISTE[filters.departement] }}
               <fa-icon
                 aria-hidden="true"
                 [icon]="['fas', 'times']"
@@ -180,7 +183,7 @@
               class="dropdown-menu dropdown-menu-end"
             >
               <button
-                *ngFor="let departement of departmentTable | keyvalue"
+                *ngFor="let departement of DEPARTEMENTS_LISTE | keyvalue"
                 type="button"
                 (click)="
                   updateFilters.emit({
@@ -197,18 +200,18 @@
           </div>
           <!-- Nombre de domiciliés -->
           <div
-            *ngIf="this.filters.usagersSegment"
-            class="d-inline-block mt-1 mb-1 dropdown-toggle--selected"
+            *ngIf="this.filters.domicilieSegment"
+            class="d-inline-block mt-1 mb-1 me-2 dropdown-toggle--selected"
           >
             <button
               type="button"
               [disabled]="searching"
               class="btn btn-outline-primary dropdown-toggle__reset_btn w-100"
               (click)="
-                updateFilters.emit({ element: 'usagersSegment', value: null })
+                updateFilters.emit({ element: 'domicilieSegment', value: null })
               "
             >
-              {{ segmentUsagersOptions[filters.usagersSegment] }}
+              {{ filters.domicilieSegment }}
               <fa-icon
                 aria-hidden="true"
                 [icon]="['fas', 'times']"
@@ -217,7 +220,7 @@
             </button>
           </div>
           <div
-            *ngIf="!filters.usagersSegment"
+            *ngIf="!filters.domicilieSegment"
             ngbDropdown
             id="dropDownNombreDomicilies"
             placement="bottom"
@@ -244,8 +247,8 @@
                 type="button"
                 (click)="
                   updateFilters.emit({
-                    element: 'usagersSegment',
-                    value: segment.key,
+                    element: 'domicilieSegment',
+                    value: segment.value,
                     sortValue: filters.sortValue
                   })
                 "
