@@ -10,10 +10,19 @@ export const structuresSearchFilter = (
     structureFilterCriteria;
 
   const filterKeys = [];
-  if (structureType) filterKeys.push("structureType");
-  if (region) filterKeys.push("region");
-  if (departement) filterKeys.push("departement");
-  if (domicilieSegment) filterKeys.push("domicilieSegment");
+  if (structureType) {
+    filterKeys.push("structureType");
+  }
+  if (region) {
+    filterKeys.push("region");
+  }
+  if (departement) {
+    filterKeys.push("departement");
+  }
+  if (domicilieSegment) {
+    filterKeys.push("domicilieSegment");
+  }
+
   const words = structureFilterCriteria.searchString
     ? buildWords(searchString)
     : [];

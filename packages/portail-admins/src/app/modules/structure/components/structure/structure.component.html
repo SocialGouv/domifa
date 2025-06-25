@@ -1,20 +1,20 @@
 <div class="head-page pt-4" *ngIf="structure">
   <div class="container">
     <div class="row">
-      <div class="d-flex align-items-center" style="column-gap: 2rem">
-        <button
-          (click)="goToStructureList()"
+      <div class="d-flex align-items-center">
+        <a
+          routerLink="/structures"
           type="button"
           aria-label="Retourner à la liste des structures"
-          class="btn btn-lg btn-primary btn-outline-light"
+          class="btn btn-lg btn-primary btn-outline-light me-4"
         >
           <fa-icon
-            [icon]="['fas', 'arrow-left']"
+            [icon]="faArrowLeft"
             aria-hidden="true"
             class="me-2"
           ></fa-icon>
-          retour
-        </button>
+          Retour
+        </a>
         <h1 class="title">{{ structure.id }} - {{ structure.nom }}</h1>
       </div>
     </div>

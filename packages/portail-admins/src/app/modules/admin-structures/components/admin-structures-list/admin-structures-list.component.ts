@@ -242,29 +242,7 @@ export class AdminStructuresListComponent
         element
       )
     ) {
-      if (element === "structureType" && value !== this.filters.structureType) {
-        this.filters.structureType = value as StructureType;
-      }
-
-      if (element === "region" && value !== this.filters.region) {
-        // departments filter depend on it so we rewrite the filters to trigger change detection
-        this.filters = {
-          ...this.filters,
-          region: value,
-        };
-      }
-
-      if (element === "departement" && value !== this.filters.departement) {
-        this.filters.departement = value;
-      }
-
-      if (
-        element === "domicilieSegment" &&
-        value !== this.filters.domicilieSegment
-      ) {
-        this.filters.domicilieSegment = value as DomiciliesSegmentEnum;
-      }
-      this.filters$.next(this.filters);
+      this.updateAttributeFilters(element, value);
     }
   }
 
@@ -317,6 +295,37 @@ export class AdminStructuresListComponent
       startIndex,
       endIndex
     ) as StructureAdmin[];
+  }
+
+  private updateAttributeFilters(
+    element: keyof StructureFilterCriteria,
+    value
+  ): void {
+    if (element === "structureType" && value !== this.filters.structureType) {
+      this.filters.structureType = value as StructureType;
+    }
+
+    if (element === "region" && value !== this.filters.region) {
+      // departments filter depend on it so we rewrite the filters to trigger change detection
+      // we also need to reset the department filter
+      this.filters = {
+        ...this.filters,
+        region: value,
+        departement: null,
+      };
+    }
+
+    if (element === "departement" && value !== this.filters.departement) {
+      this.filters.departement = value;
+    }
+
+    if (
+      element === "domicilieSegment" &&
+      value !== this.filters.domicilieSegment
+    ) {
+      this.filters.domicilieSegment = value as DomiciliesSegmentEnum;
+    }
+    this.filters$.next(this.filters);
   }
 
   private initFiltersFromStorage() {

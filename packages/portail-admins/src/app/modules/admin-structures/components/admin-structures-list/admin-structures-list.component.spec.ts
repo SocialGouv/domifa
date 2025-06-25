@@ -1,7 +1,3 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { AdminStructuresModule } from "../../admin-structures.module";
-import { AdminStructuresListComponent } from "./admin-structures-list.component";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from "@angular/core";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
@@ -17,7 +13,11 @@ import {
   StructureFilterCriteriaSortEnum,
 } from "../../utils/structure-filter-criteria";
 import { DomiciliesSegmentEnum } from "@domifa/common";
-import { uneStructureAdminMock } from "src/app/mocks/STRUCTURE_MOCK.mock";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { uneStructureAdminMock } from "../../../../mocks/STRUCTURE_MOCK.mock";
+import { AdminStructuresModule } from "../../admin-structures.module";
+import { AdminStructuresListComponent } from "./admin-structures-list.component";
 
 describe("AdminStructuresListComponent", () => {
   let component: AdminStructuresListComponent;

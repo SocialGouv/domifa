@@ -4,10 +4,10 @@ import { StructureCommon } from "@domifa/common";
 import { Subscription } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
 import { StructureService } from "../../services/structure.service";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-structure",
-
   templateUrl: "./structure.component.html",
   styleUrl: "./structure.component.css",
 })
@@ -18,6 +18,7 @@ export class StructureComponent implements OnInit {
   public structureId: number;
 
   public section: "structure" | "users" | "stats" = "structure";
+  public readonly faArrowLeft = faArrowLeft;
 
   constructor(
     private readonly structureService: StructureService,
@@ -27,10 +28,6 @@ export class StructureComponent implements OnInit {
   ) {
     this.titleService.setTitle("Administration de la structure");
     this.structureId = this.route.snapshot.params.structureId as number;
-  }
-
-  public goToStructureList(): void {
-    this.router.navigate(["/structures"]);
   }
 
   ngOnInit(): void {

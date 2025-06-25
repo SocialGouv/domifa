@@ -1,17 +1,7 @@
-<div id="filters" class="py-4 d-print-none">
+<div id="filters" class="d-print-none">
   <div class="container">
     <div class="row d-flex align-items-center">
       <div class="col-12 col-md-10">
-        <p
-          aria-live="polite"
-          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
-        >
-          <ng-container *ngIf="nbResults">
-            Filtrer les <span class="text-primary"> {{ nbResults }} </span>
-            résultats
-          </ng-container>
-          <ng-container *ngIf="!nbResults"> Aucun résultat </ng-container>
-        </p>
         <div
           class="d-md-inline-block d-block me-2 text-md-start text-center my-4"
         >
@@ -29,6 +19,9 @@
                 updateFilters.emit({ element: 'structureType', value: null })
               "
             >
+              <span class="visually-hidden">
+                Désactiver le filtre du type structure
+              </span>
               {{ structureTypeOptions[filters.structureType] }}
               <fa-icon
                 aria-hidden="true"
@@ -48,12 +41,6 @@
             <button type="button" [disabled]="searching" ngbDropdownToggle>
               <span>Type de structures</span>
             </button>
-
-            <div
-              ngbDropdownMenu
-              aria-labelledby="dropDownTypeStructure"
-              class="dropdown-menu dropdown-menu-end"
-            ></div>
 
             <div
               ngbDropdownMenu
@@ -88,6 +75,9 @@
               class="btn btn-outline-primary dropdown-toggle__reset_btn w-100"
               (click)="updateFilters.emit({ element: 'region', value: null })"
             >
+              <span class="visually-hidden">
+                Désactiver le filtre de la région
+              </span>
               {{ REGIONS_LISTE[filters.region] }}
               <fa-icon
                 aria-hidden="true"
@@ -112,13 +102,6 @@
             <div
               ngbDropdownMenu
               aria-labelledby="dropDownRegion"
-              class="dropdown-menu dropdown-menu-end"
-            ></div>
-
-            <div
-              ngbDropdownMenu
-              aria-labelledby="dropDownRegion"
-              style="max-height: 80vh; overflow-y: auto"
               class="dropdown-menu dropdown-menu-end"
             >
               <button
@@ -151,6 +134,9 @@
               "
             >
               {{ DEPARTEMENTS_LISTE[filters.departement] }}
+              <span class="visually-hidden">
+                Désactiver le filtre du département
+              </span>
               <fa-icon
                 aria-hidden="true"
                 [icon]="['fas', 'times']"
@@ -170,12 +156,6 @@
             <button type="button" [disabled]="searching" ngbDropdownToggle>
               <span>Département</span>
             </button>
-
-            <div
-              ngbDropdownMenu
-              aria-labelledby="dropDownDepartement"
-              class="dropdown-menu dropdown-menu-end"
-            ></div>
 
             <div
               ngbDropdownMenu
@@ -211,6 +191,9 @@
                 updateFilters.emit({ element: 'domicilieSegment', value: null })
               "
             >
+              <span class="visually-hidden">
+                Désactiver le filtre du segment domiciliés
+              </span>
               {{ filters.domicilieSegment }}
               <fa-icon
                 aria-hidden="true"
@@ -230,12 +213,6 @@
             <button type="button" [disabled]="searching" ngbDropdownToggle>
               <span>Nombre de domiciliés</span>
             </button>
-
-            <div
-              ngbDropdownMenu
-              aria-labelledby="dropDownNombreDomicilies"
-              class="dropdown-menu dropdown-menu-end"
-            ></div>
 
             <div
               ngbDropdownMenu
