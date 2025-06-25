@@ -29,6 +29,10 @@ export class StructureComponent implements OnInit {
     this.structureId = this.route.snapshot.params.structureId as number;
   }
 
+  public goToStructureList(): void {
+    this.router.navigate(["/structures"]);
+  }
+
   ngOnInit(): void {
     this.subscription.add(
       this.structureService.getStructure(this.structureId).subscribe({

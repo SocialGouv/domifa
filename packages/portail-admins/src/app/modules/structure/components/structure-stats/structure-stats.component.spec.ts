@@ -6,7 +6,7 @@ import { RouterModule } from "@angular/router";
 import { TableHeadSortComponent } from "../../../shared/components/table-head-sort/table-head-sort.component";
 import { SortArrayPipe } from "../../../shared/pipes/sort-array.pipe";
 import { StructureService } from "../../services/structure.service";
-import { STRUCTURE_MOCK } from "../../STRUCTURE_MOCK.const";
+import { STRUCTURE_MOCK } from "../../../../mocks/STRUCTURE_MOCK.mock";
 import { SharedModule } from "../../../shared/shared.module";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 

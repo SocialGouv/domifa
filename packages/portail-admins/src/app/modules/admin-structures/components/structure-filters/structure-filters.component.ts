@@ -3,21 +3,21 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
 } from "@angular/core";
 import {
-  extractDepartmentsFilter,
   StructureFilterCriteria,
   StructureFilterCriteriaSortEnum,
-  StructureFilterCriteriaSortKey,
 } from "../../utils/structure-filter-criteria";
 import { Subscription } from "rxjs";
 import {
   DEPARTEMENTS_LISTE,
   DomiciliesSegmentEnum,
+  RegionDef,
+  REGIONS_DEF,
   REGIONS_LISTE,
+  RegionsLabels,
   STRUCTURE_TYPE_LABELS,
 } from "@domifa/common";
 import { FilterOutput } from "../admin-structures-list/admin-structures-list.component";
@@ -27,7 +27,7 @@ import { FilterOutput } from "../admin-structures-list/admin-structures-list.com
   templateUrl: "./structure-filters.component.html",
   styleUrls: ["../admin-structures-list/admin-structures-list.component.scss"],
 })
-export class StructureFiltersComponent implements OnInit, OnChanges {
+export class StructureFiltersComponent implements OnChanges {
   @Input({ required: true }) public filters: StructureFilterCriteria;
   @Input({ required: true }) public searching: boolean;
   @Input({ required: true }) public nbResults: number;
@@ -36,20 +36,14 @@ export class StructureFiltersComponent implements OnInit, OnChanges {
 
   public structureTypeOptions = STRUCTURE_TYPE_LABELS;
   public segmentUsagersOptions = DomiciliesSegmentEnum;
-  public regionTable = REGIONS_LISTE;
-  public departmentTable = DEPARTEMENTS_LISTE;
+  public readonly REGIONS_LISTE = REGIONS_LISTE;
+  public DEPARTEMENTS_LISTE = { ...DEPARTEMENTS_LISTE };
   public sortMenuItems: Array<{
-    id: StructureFilterCriteriaSortKey;
+    id: StructureFilterCriteriaSortEnum;
     label: string;
   }> = [];
 
   public subscription: Subscription = new Subscription();
-
-  constructor() {}
-
-  ngOnInit(): void {
-    this.sortMenuItems = this.getSortKeys();
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
@@ -57,37 +51,21 @@ export class StructureFiltersComponent implements OnInit, OnChanges {
       changes.filters.currentValue.region !==
         changes.filters.previousValue?.region
     ) {
-      this.departmentTable = extractDepartmentsFilter(
+      this.DEPARTEMENTS_LISTE = this.getDepartmentsWithFilter(
         changes.filters.currentValue.region
       );
     }
-    this.sortMenuItems = this.getSortKeys();
   }
 
-  public getSortKeys(): Array<{
-    id: StructureFilterCriteriaSortKey;
-    label: string;
-  }> {
-    const sortElements: Array<{
-      id: StructureFilterCriteriaSortKey;
-      label: string;
-    }> = [
-      { id: StructureFilterCriteriaSortEnum.ID, label: "ID" },
-      { id: StructureFilterCriteriaSortEnum.NOM, label: "Nom" },
-      { id: StructureFilterCriteriaSortEnum.TYPE, label: "Type" },
-      { id: StructureFilterCriteriaSortEnum.CREATED_AT, label: "Inscrite le" },
-      { id: StructureFilterCriteriaSortEnum.IMPORT_AT, label: "Import le" },
-      { id: StructureFilterCriteriaSortEnum.USERS, label: "Comptes" },
-      { id: StructureFilterCriteriaSortEnum.USAGERS, label: "Dossiers" },
-      { id: StructureFilterCriteriaSortEnum.ACTIFS, label: "Actifs" },
-      {
-        id: StructureFilterCriteriaSortEnum.LAST_LOGIN,
-        label: "Dernière connexion",
-      },
-      { id: StructureFilterCriteriaSortEnum.REGION, label: "Région" },
-      { id: StructureFilterCriteriaSortEnum.DEPARTEMENT, label: "Département" },
-    ];
-
-    return sortElements;
-  }
+  public getDepartmentsWithFilter = (region?: string): RegionsLabels => {
+    if (!region) {
+      return { ...DEPARTEMENTS_LISTE };
+    }
+    return REGIONS_DEF.find(
+      (r: RegionDef) => r.regionCode === region
+    )?.departements.reduce<RegionsLabels>((acc, dep) => {
+      acc[dep.departmentCode] = dep.departmentName;
+      return acc;
+    }, {});
+  };
 }

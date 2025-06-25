@@ -27,7 +27,7 @@ import { fadeInOut } from "../../../shared/constants";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import {
   StructureFilterCriteria,
-  StructureFilterCriteriaSortKey,
+  StructureFilterCriteriaSortEnum,
 } from "../../utils/structure-filter-criteria";
 import {
   DomiciliesSegmentEnum,
@@ -74,7 +74,7 @@ export class AdminStructuresListComponent
     private readonly titleService: Title
   ) {
     this.titleService.setTitle("Liste des structures");
-    this.filters.sortKey = "id";
+    this.filters.sortKey = StructureFilterCriteriaSortEnum.ID;
   }
 
   ngAfterViewInit() {
@@ -203,7 +203,7 @@ export class AdminStructuresListComponent
 
   public sortDashboard(name: keyof StructureAdmin): void {
     this.filters.sortValue = this.getNextSortValue(name);
-    this.filters.sortKey = name as StructureFilterCriteriaSortKey;
+    this.filters.sortKey = name as StructureFilterCriteriaSortEnum;
     this.filters.page = 1;
     this.applySorting();
 
@@ -223,37 +223,48 @@ export class AdminStructuresListComponent
     }
 
     if (element === "page") {
-      this.filters.page = parseInt(value as string, 10);
+      this.filters.page = parseInt(value, 10);
       this.filters$.next(this.filters);
       this.applyPagination();
       return;
     }
     if (element === "sortKey") {
       this.filters.sortValue = sortValue || this.getNextSortValue(value);
-      this.filters.sortKey = value as StructureFilterCriteriaSortKey;
+      this.filters.sortKey = value as StructureFilterCriteriaSortEnum;
       this.filters.page = 1;
       this.filters$.next(this.filters);
       this.applySorting();
       return;
     }
 
-    if (["type", "region", "departement", "usagersSegment"].includes(element)) {
-      const newFilter: StructureFilterCriteria = {
-        ...this.filters,
-        ...(element === "type" && this.filters[element] !== value
-          ? { type: value as StructureType }
-          : {}),
-        ...(element === "region" && this.filters[element] !== value
-          ? { region: value as string }
-          : {}),
-        ...(element === "departement" && this.filters[element] !== value
-          ? { departement: value as string }
-          : {}),
-        ...(element === "usagersSegment" && this.filters[element] !== value
-          ? { usagersSegment: value as DomiciliesSegmentEnum }
-          : {}),
-      };
-      this.filters$.next(newFilter);
+    if (
+      ["structureType", "region", "departement", "domicilieSegment"].includes(
+        element
+      )
+    ) {
+      if (element === "structureType" && value !== this.filters.structureType) {
+        this.filters.structureType = value as StructureType;
+      }
+
+      if (element === "region" && value !== this.filters.region) {
+        // departments filter depend on it so we rewrite the filters to trigger change detection
+        this.filters = {
+          ...this.filters,
+          region: value,
+        };
+      }
+
+      if (element === "departement" && value !== this.filters.departement) {
+        this.filters.departement = value;
+      }
+
+      if (
+        element === "domicilieSegment" &&
+        value !== this.filters.domicilieSegment
+      ) {
+        this.filters.domicilieSegment = value as DomiciliesSegmentEnum;
+      }
+      this.filters$.next(this.filters);
     }
   }
 
@@ -279,6 +290,7 @@ export class AdminStructuresListComponent
     const isAscendingSort = this.filters.sortValue === "asc";
     return isCurrentSortKey && isAscendingSort ? "desc" : "asc";
   }
+
   private applySorting(): void {
     if (!this.filteredStructures.length) {
       this.filteredStructures = [];
