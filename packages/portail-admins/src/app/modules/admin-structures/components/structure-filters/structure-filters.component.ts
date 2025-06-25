@@ -52,7 +52,7 @@ export class StructureFiltersComponent implements OnChanges {
         changes.filters.previousValue?.region
     ) {
       this.DEPARTEMENTS_LISTE = this.getDepartmentsWithFilter(
-        changes.filters.currentValue.region
+        changes.filters.currentValue?.region
       );
     }
   }

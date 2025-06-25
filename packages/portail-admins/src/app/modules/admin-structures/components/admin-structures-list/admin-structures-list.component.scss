@@ -67,6 +67,11 @@
   font-weight: 600;
 }
 
+.dropdown-menu {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
 .dropdown-toggle {
   &__reset_btn {
     padding-top: 0.4rem;
