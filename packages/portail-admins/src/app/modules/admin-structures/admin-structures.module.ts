@@ -12,9 +12,14 @@ import { StatsService } from "../stats/services/stats.service";
 import { AdminStructuresTableComponent } from "./components/admin-structures-table/admin-structures-table.component";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 import { SortArrayPipe } from "../shared/pipes/sort-array.pipe";
+import { StructureFiltersComponent } from "./components/structure-filters/structure-filters.component";
 
 @NgModule({
-  declarations: [AdminStructuresListComponent, AdminStructuresTableComponent],
+  declarations: [
+    AdminStructuresListComponent,
+    AdminStructuresTableComponent,
+    StructureFiltersComponent,
+  ],
   imports: [
     CommonModule,
     NgbModule,
