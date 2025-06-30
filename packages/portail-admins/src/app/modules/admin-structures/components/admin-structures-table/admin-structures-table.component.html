@@ -303,7 +303,7 @@
     >
       <div class="modal-body">
         <div class="row">
-          <div class="col-4 form-group required">
+          <div class="col-6 form-group required">
             <label for="nom">Nom </label>
             <input
               type="text"
@@ -322,7 +322,7 @@
             </p>
           </div>
 
-          <div class="col-4 form-group required">
+          <div class="col-6 form-group required">
             <label for="prenom">Prénom</label>
             <input
               type="text"
@@ -341,7 +341,7 @@
             </p>
           </div>
 
-          <div class="col-4 form-group required">
+          <div class="col-12 form-group required">
             <label for="email">Email :</label>
             <input
               type="text"
@@ -363,7 +363,13 @@
                 ></fa-icon>
                 <b>L'adresse email est déjà utilisée</b>
               </p>
-              <p *ngIf="!f.email.errors.emailTaken">
+              <p
+                *ngIf="
+                  (submitted || f.siret?.dirty) &&
+                  f.email.errors &&
+                  !f.email.errors.emailTaken
+                "
+              >
                 <fa-icon
                   aria-hidden="true"
                   [icon]="['fas', 'exclamation-triangle']"
@@ -371,6 +377,14 @@
                 <b>Vérifiez l'adresse email</b>
               </p>
             </div>
+          </div>
+          <div class="col-12 form-group required">
+            <app-fonction-selection
+              [parentFormGroup]="newAdminForm"
+              [fonctionFormControl]="fonctionFormControl"
+              [submitted]="submitted"
+              invalidFeedbackText="La fonction de l'administrateur est obligatoire"
+            ></app-fonction-selection>
           </div>
         </div>
       </div>

@@ -75,6 +75,7 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
         [Validators.required, Validators.pattern(regexp.email)],
         this.validateEmailNotTaken.bind(this),
       ],
+      fonction: [null, [Validators.required]],
     });
   }
 
