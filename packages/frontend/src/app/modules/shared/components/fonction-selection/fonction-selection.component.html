@@ -1,0 +1,41 @@
+<ng-container>
+  <label for="fonction" [class]="displayLabel ? '' : 'visually-hidden'">{{
+    label
+  }}</label>
+  <select
+    id="fonction"
+    [(ngModel)]="fonction"
+    (ngModelChange)="onModelChange($event)"
+    name="fonction"
+    [ngClass]="{
+      'is-invalid':
+        fonctionFormControl &&
+        (submitted || fonctionFormControl?.dirty) &&
+        fonctionFormControl.errors
+    }"
+    class="form-select"
+    [attr.required]="required"
+  >
+    <option [ngValue]="null">Sélectionnez une option</option>
+    <option
+      *ngFor="
+        let option of USER_FONCTION_LABELS | keyvalue : compareOriginalOrder
+      "
+      [value]="option.value"
+    >
+      {{ option.value }}
+    </option>
+  </select>
+  <p
+    *ngIf="
+      (submitted || fonctionFormControl?.dirty) && fonctionFormControl?.errors
+    "
+    class="invalid-feedback"
+    id="responsable-fonction-errors"
+  >
+    {{ invalidFeedbackText }}
+  </p>
+</ng-container>
+<small id="responsable-fonction-description"
+  >Président.e, Directrice, etc.</small
+>

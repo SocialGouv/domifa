@@ -81,6 +81,10 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
     return this.structureForm.controls;
   }
 
+  public get fonctionControl(): AbstractControl {
+    return this.structureForm.get("responsable").get("fonction");
+  }
+
   public get reg(): { [key: string]: AbstractControl } {
     return (this.structureForm.get("registrationData") as FormGroup).controls;
   }
