@@ -1,0 +1,17 @@
+export type UserFonction =
+  | "president"
+  | "directeur_responsable"
+  | "directeur_general_des_services"
+  | "maire"
+  | "chef_de_service"
+  | "adjoint_administratif"
+  | "secretaire_assistant_administratif"
+  | "travailleur_social_assistant_social"
+  | "agent_accueil"
+  | "charge_de_mission_action_sociale"
+  | "conseiller_economie_sociale_et_familiale"
+  | "mediation_sociale"
+  | "rsa_insertion"
+  | "domiciliation"
+  | "benevole"
+  | "autre";

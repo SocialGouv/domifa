@@ -43,6 +43,19 @@ export class RegisterUserStructureAdminDto {
     type: String,
     required: true,
   })
+  @MinLength(2)
+  @MaxLength(100)
+  @IsNotEmpty()
+  @IsString()
+  @Transform(({ value }: TransformFnParams) => {
+    return value.toString().trim();
+  })
+  public readonly fonction!: string;
+
+  @ApiProperty({
+    type: String,
+    required: true,
+  })
   @IsNotEmpty()
   @IsEmail()
   @LowerCaseTransform()

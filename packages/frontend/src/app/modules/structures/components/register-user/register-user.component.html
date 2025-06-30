@@ -117,30 +117,6 @@
       </div>
       <div class="row">
         <div class="col form-group required">
-          <label for="fonction">Fonction</label>
-          <input
-            type="text"
-            autocomplete="organization-title"
-            class="form-control"
-            id="fonction"
-            formControlName="fonction"
-            maxlength="200"
-            name="fonction"
-            [ngClass]="{
-              'is-invalid': (f.fonction.dirty || submitted) && f.fonction.errors
-            }"
-            [attr.aria-invalid]="
-              (f.fonction.dirty || submitted) && f.fonction.errors
-                ? true
-                : false
-            "
-            [attr.aria-describedby]="
-              (f.fonction.dirty || submitted) && f.fonction.errors
-                ? 'fonction-error'
-                : 'fonction-description'
-            "
-            required
-          />
           <small id="fonction-description"
             >Président.e, Directrice, Chef de service, etc.</small
           >
