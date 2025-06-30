@@ -4,7 +4,6 @@ backend: &backendPreprod
     oblik.socialgouv.io/min-request-cpu: "1"
     oblik.socialgouv.io/min-request-memory: "3Gi"
   host: "api-{{ .Values.global.host }}"
-  ~needs: [build-backend]
   autoscale:
     minReplicas: 1
     maxReplicas: 3
@@ -46,7 +45,6 @@ backend: &backendPreprod
 
 backend-export:
   <<: *backendPreprod
-  ~needs: [build-backend]
   annotations:
     oblik.socialgouv.io/min-request-cpu: "2"
     oblik.socialgouv.io/min-request-memory: 3Gi
@@ -59,7 +57,6 @@ backend-export:
       - /stats/home
 
 backend-cron:
-  ~needs: [build-backend]
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"
