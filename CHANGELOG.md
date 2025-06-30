@@ -1,3 +1,12 @@
+## [2.203.9](https://github.com/SocialGouv/domifa/compare/v2.203.8...v2.203.9) (2025-06-30)
+
+
+### Bug Fixes
+
+* buildkit in gh ([d43699d](https://github.com/SocialGouv/domifa/commit/d43699d823908a3292225de306728206e4c587fd))
+* buildkit in gh ([cc83c6d](https://github.com/SocialGouv/domifa/commit/cc83c6dac44c939cdfb3ffebdd78efa144625b7e))
+* persists ([7d2474c](https://github.com/SocialGouv/domifa/commit/7d2474c94b377e9f3e00f32b66ac4254741292de))
+
 ## [2.203.8](https://github.com/SocialGouv/domifa/compare/v2.203.7...v2.203.8) (2025-06-30)
 
 
