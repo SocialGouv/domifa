@@ -20,8 +20,10 @@ import { map } from "rxjs/operators";
 import { regexp } from "../../../../shared/utils";
 import { AdminStructuresApiClient } from "../../../shared/services";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
-import { Search, SortValues } from "@domifa/common";
+import { SortValues } from "@domifa/common";
 import { StructureAdmin } from "../../types";
+import { StructureFilterCriteria } from "../../utils/structure-filter-criteria";
+import { FilterOutput } from "../admin-structures-list/admin-structures-list.component";
 
 @Component({
   selector: "app-admin-structures-table",
@@ -32,10 +34,10 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   @Input()
   public structures?: StructureAdmin[] = [];
   @Input()
-  public filters!: Search;
+  public filters!: StructureFilterCriteria;
 
   @Output()
-  public readonly sort = new EventEmitter<keyof StructureAdmin>();
+  public readonly sort = new EventEmitter<FilterOutput>();
 
   @ViewChild("addAdminModal", { static: true })
   public addAdminModal!: TemplateRef<NgbModalRef>;
@@ -78,10 +80,6 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
 
   public idTrackBy(_index: number, item: StructureAdmin) {
     return item.id;
-  }
-
-  public sortDashboard(name: keyof StructureAdmin): void {
-    this.sort.emit(name);
   }
 
   public deleteStructure(structureUuid: string): void {

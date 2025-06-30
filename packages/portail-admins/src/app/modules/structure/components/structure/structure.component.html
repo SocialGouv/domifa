@@ -1,7 +1,20 @@
 <div class="head-page pt-4" *ngIf="structure">
   <div class="container">
     <div class="row">
-      <div class="col-md-9 col-12">
+      <div class="d-flex align-items-center">
+        <a
+          routerLink="/structures"
+          type="button"
+          aria-label="Retourner à la liste des structures"
+          class="btn btn-lg btn-primary btn-outline-light me-4"
+        >
+          <fa-icon
+            [icon]="faArrowLeft"
+            aria-hidden="true"
+            class="me-2"
+          ></fa-icon>
+          Retour
+        </a>
         <h1 class="title">{{ structure.id }} - {{ structure.nom }}</h1>
       </div>
     </div>

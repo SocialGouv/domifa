@@ -21,6 +21,7 @@ export type ApiStructureAdmin = Pick<
   | "importDate"
   | "token"
   | "lastLogin"
+  | "domicilieSegment"
 > &
   Required<{ uuid: string }> & {
     users: number;

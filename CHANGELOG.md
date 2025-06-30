@@ -1,3 +1,33 @@
+# [2.204.0](https://github.com/SocialGouv/domifa/compare/v2.203.9...v2.204.0) (2025-06-30)
+
+
+### Bug Fixes
+
+* **admin:** réducing code complexity for updateFilters method ([85638bd](https://github.com/SocialGouv/domifa/commit/85638bda1d16a33d5eb959cb7775015440d69adb))
+
+
+### Features
+
+* **admin:** ajout des filtres pour la liste des structures ([12ee658](https://github.com/SocialGouv/domifa/commit/12ee6586db8b812aeae73eb73c9b0d3d7d2d774d))
+* **admin:** fix des retours revue anà & TU ([46a4fef](https://github.com/SocialGouv/domifa/commit/46a4fef444d2654a3a23654642aaffbfb05968a3))
+* **admin:** persister l'ordre des structures ([d05e5dd](https://github.com/SocialGouv/domifa/commit/d05e5dd052840931d8e3982add64ef6470bd04cb))
+
+## [2.203.9](https://github.com/SocialGouv/domifa/compare/v2.203.8...v2.203.9) (2025-06-30)
+
+
+### Bug Fixes
+
+* buildkit in gh ([d43699d](https://github.com/SocialGouv/domifa/commit/d43699d823908a3292225de306728206e4c587fd))
+* buildkit in gh ([cc83c6d](https://github.com/SocialGouv/domifa/commit/cc83c6dac44c939cdfb3ffebdd78efa144625b7e))
+* persists ([7d2474c](https://github.com/SocialGouv/domifa/commit/7d2474c94b377e9f3e00f32b66ac4254741292de))
+
+## [2.203.8](https://github.com/SocialGouv/domifa/compare/v2.203.7...v2.203.8) (2025-06-30)
+
+
+### Bug Fixes
+
+* **deps:** update dependency dotenv to v17 ([49bb185](https://github.com/SocialGouv/domifa/commit/49bb185c5f50dacfb07587add86355a2a8bc7f81))
+
 ## [2.203.7](https://github.com/SocialGouv/domifa/compare/v2.203.6...v2.203.7) (2025-06-24)
 
 

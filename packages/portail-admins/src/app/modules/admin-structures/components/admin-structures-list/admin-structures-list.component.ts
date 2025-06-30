@@ -23,9 +23,23 @@ import { AdminStructuresApiClient } from "../../../shared/services";
 import { structuresListModelBuilder, structuresSorter } from "./services";
 import { structuresFilter } from "./services/structuresFilter.service";
 import { ApiStructureAdmin, StructureAdmin } from "../../types";
-import { Search, SortValues } from "@domifa/common";
 import { fadeInOut } from "../../../shared/constants";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import {
+  StructureFilterCriteria,
+  StructureFilterCriteriaSortEnum,
+} from "../../utils/structure-filter-criteria";
+import {
+  DomiciliesSegmentEnum,
+  SortValues,
+  StructureType,
+} from "@domifa/common";
+
+export type FilterOutput = {
+  element: keyof StructureFilterCriteria;
+  value: string;
+  sortValue?: SortValues;
+};
 
 @Component({
   animations: [fadeInOut],
@@ -39,17 +53,15 @@ export class AdminStructuresListComponent
   public allstructures$ = new ReplaySubject<StructureAdmin[]>(1);
   public structures: StructureAdmin[] = [];
   public filteredStructures: StructureAdmin[] = [];
-
   private subscription = new Subscription();
   public searching = true;
   public totalStructures = 0;
-  public filters = new Search({
-    sortKey: "id",
-  });
+  public filters = new StructureFilterCriteria();
 
   public pageSize = 100;
   public readonly faSpinner = faSpinner;
-  public filters$: BehaviorSubject<Search> = new BehaviorSubject(this.filters);
+  public filters$: BehaviorSubject<StructureFilterCriteria> =
+    new BehaviorSubject(this.filters);
 
   @ViewChild("searchInput", { static: true })
   public searchInput!: ElementRef;
@@ -62,8 +74,7 @@ export class AdminStructuresListComponent
     private readonly titleService: Title
   ) {
     this.titleService.setTitle("Liste des structures");
-    this.filters = new Search(this.getFilters());
-    this.filters.sortKey = "id";
+    this.filters.sortKey = StructureFilterCriteriaSortEnum.ID;
   }
 
   ngAfterViewInit() {
@@ -73,6 +84,7 @@ export class AdminStructuresListComponent
   }
 
   public ngOnInit(): void {
+    this.initFiltersFromStorage();
     const inputChange$ = fromEvent<InputEvent>(
       this.searchInput.nativeElement,
       "input"
@@ -101,7 +113,6 @@ export class AdminStructuresListComponent
     );
 
     this.subscription.add(searchEvents$.subscribe());
-
     this.subscription.add(
       this.adminStructuresApiClient
         .getAdminStructureListData()
@@ -116,6 +127,8 @@ export class AdminStructuresListComponent
     this.subscription.add(
       combineLatest([this.allstructures$, this.filters$]).subscribe(
         ([allstructures, filters]) => {
+          this.structures = allstructures;
+          this.filters = filters;
           this.setFilters();
           this.applyFilters({
             filters,
@@ -190,44 +203,78 @@ export class AdminStructuresListComponent
 
   public sortDashboard(name: keyof StructureAdmin): void {
     this.filters.sortValue = this.getNextSortValue(name);
-    this.filters.sortKey = name as keyof StructureAdmin;
+    this.filters.sortKey = name as StructureFilterCriteriaSortEnum;
     this.filters.page = 1;
     this.applySorting();
 
     return;
   }
 
+  public updateFilters(filterOutput: FilterOutput): void {
+    const { element, value, sortValue } = filterOutput;
+    if (!element) {
+      return;
+    }
+
+    if (element === "reset") {
+      this.resetSearchBar();
+      this.filters$.next(new StructureFilterCriteria());
+      return;
+    }
+
+    if (element === "page") {
+      this.filters.page = parseInt(value, 10);
+      this.filters$.next(this.filters);
+      this.applyPagination();
+      return;
+    }
+    if (element === "sortKey") {
+      this.filters.sortValue = sortValue || this.getNextSortValue(value);
+      this.filters.sortKey = value as StructureFilterCriteriaSortEnum;
+      this.filters.page = 1;
+      this.filters$.next(this.filters);
+      this.applySorting();
+      return;
+    }
+
+    if (
+      ["structureType", "region", "departement", "domicilieSegment"].includes(
+        element
+      )
+    ) {
+      this.updateAttributeFilters(element, value);
+    }
+  }
+
   public applyFilters({
     filters,
     structures,
   }: {
-    filters: Search;
+    filters: StructureFilterCriteria;
     structures: StructureAdmin[];
   }): void {
-    const filterCriteria: Search = {
-      ...filters,
-    };
-
     this.searching = false;
-
-    this.filteredStructures = structuresFilter.filter(structures, {
-      criteria: filterCriteria,
+    this.filteredStructures = structuresFilter.filter([...structures], {
+      criteria: filters,
     });
 
     this.applySorting();
   }
 
-  private getNextSortValue(value: keyof StructureAdmin): SortValues {
+  private getNextSortValue(
+    value: StructureFilterCriteria[keyof StructureFilterCriteria]
+  ): SortValues {
     const isCurrentSortKey = value === this.filters.sortKey;
     const isAscendingSort = this.filters.sortValue === "asc";
     return isCurrentSortKey && isAscendingSort ? "desc" : "asc";
   }
+
   private applySorting(): void {
     if (!this.filteredStructures.length) {
       this.filteredStructures = [];
     }
 
-    this.filteredStructures = structuresSorter.sortBy(this.filteredStructures, {
+    this.structures = structuresSorter.sortBy(this.filteredStructures, {
       sortKey: this.filters.sortKey,
       sortValue: this.filters.sortValue,
     }) as StructureAdmin[];
@@ -236,7 +283,7 @@ export class AdminStructuresListComponent
   }
 
   private applyPaginationFromStore(): void {
-    if (!this.filteredStructures?.length) {
+    if (!this.structures?.length) {
       this.structures = [];
       return;
     }
@@ -250,12 +297,50 @@ export class AdminStructuresListComponent
     ) as StructureAdmin[];
   }
 
-  private setFilters() {
-    localStorage.setItem("ADMIN", JSON.stringify(this.filters));
+  private updateAttributeFilters(
+    element: keyof StructureFilterCriteria,
+    value
+  ): void {
+    if (element === "structureType" && value !== this.filters.structureType) {
+      this.filters.structureType = value as StructureType;
+    }
+
+    if (element === "region" && value !== this.filters.region) {
+      // departments filter depend on it so we rewrite the filters to trigger change detection
+      // we also need to reset the department filter
+      this.filters = {
+        ...this.filters,
+        region: value,
+        departement: null,
+      };
+    }
+
+    if (element === "departement" && value !== this.filters.departement) {
+      this.filters.departement = value;
+    }
+
+    if (
+      element === "domicilieSegment" &&
+      value !== this.filters.domicilieSegment
+    ) {
+      this.filters.domicilieSegment = value as DomiciliesSegmentEnum;
+    }
+    this.filters$.next(this.filters);
   }
 
-  private getFilters(): null | Partial<Search> {
-    const filters = localStorage.getItem("ADMIN");
-    return filters === null ? {} : JSON.parse(filters);
+  private initFiltersFromStorage() {
+    try {
+      const storedFilters = localStorage.getItem("ADMIN");
+      if (storedFilters) {
+        const filters = JSON.parse(storedFilters) as StructureFilterCriteria;
+        this.filters$.next(filters);
+      }
+    } catch {
+      this.filters = new StructureFilterCriteria();
+    }
+  }
+
+  private setFilters() {
+    localStorage.setItem("ADMIN", JSON.stringify(this.filters));
   }
 }

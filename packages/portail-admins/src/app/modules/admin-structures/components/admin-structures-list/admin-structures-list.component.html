@@ -47,7 +47,12 @@
     </div>
   </div>
 </div>
-
+<app-structure-filters
+  [filters]="this.filters"
+  [nbResults]="filteredStructures.length"
+  [searching]="searching"
+  (updateFilters)="updateFilters($event)"
+></app-structure-filters>
 <div
   *ngIf="searching"
   @fadeInOut
@@ -68,11 +73,11 @@
 </div>
 
 <app-admin-structures-table
-  *ngIf="this.filteredStructures && !searching"
+  *ngIf="this.structures && !searching"
   [structures]="this.structures"
   [filters]="this.filters"
   @fadeInOut
-  (sort)="sortDashboard($event)"
+  (sort)="updateFilters($event)"
 ></app-admin-structures-table>
 
 <div #sentinel class="sentinel-preload"></div>

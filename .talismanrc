@@ -7,8 +7,20 @@ file_ignore_config:
   - "**/tests/**"
 
 fileignoreconfig:
-  - filename: _docs/dev/0.run-local-env.md
-    checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
-  - filename: yarn.lock
-    checksum: 08b8e5aa34abdbe885acc6d64dd693197644d94d976f0e1832760c3ed227c836
+- filename: _docs/dev/0.run-local-env.md
+  checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.spec.ts
+  checksum: 8f66091255109d0da277819584c6c69d4a7f720256842851a49b0dda16af6651
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.ts
+  checksum: a0fbc6fca054f17c58d411b55a45acfa2351309a270968298aafcede7b7ae31f
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/services/structuresSearchStringFilter.service.ts
+  checksum: fe3243c2d2adc23ed62431597b6ae7b3cb61fb25d876f1ada2de5387f0872b0b
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/structure-filters/structure-filters.component.spec.ts
+  checksum: d202296bc7f349c0dc6bf140be961d8c321f57d9188325a07c49a6ca10c55b3b
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/structure-filters/structure-filters.component.ts
+  checksum: e6d4d9afca6797fbf98f12db96ad37a21d61289539827390ba5b4aefeb92a6b2
+- filename: packages/portail-admins/src/app/modules/admin-structures/utils/structure-filter-criteria.ts
+  checksum: c54f1bf45a44280960869561243668e7a92713fb5265f008a95fc3fe66014bf1
+- filename: yarn.lock
+  checksum: 08b8e5aa34abdbe885acc6d64dd693197644d94d976f0e1832760c3ed227c836
 version: "1.0"

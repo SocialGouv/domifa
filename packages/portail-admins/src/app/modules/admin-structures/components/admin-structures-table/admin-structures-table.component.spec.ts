@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { AdminStructuresTableComponent } from "./admin-structures-table.component";
 import { AdminStructuresModule } from "../../admin-structures.module";
 import { RouterModule } from "@angular/router";
-import { Search } from "@domifa/common";
+import { StructureFilterCriteria } from "../../utils/structure-filter-criteria";
 
 describe("AdminStructuresTableComponent", () => {
   let component: AdminStructuresTableComponent;
@@ -24,7 +24,7 @@ describe("AdminStructuresTableComponent", () => {
     component = fixture.componentInstance;
 
     component.structures = [];
-    component.filters = new Search();
+    component.filters = new StructureFilterCriteria();
     fixture.detectChanges();
   });
 
