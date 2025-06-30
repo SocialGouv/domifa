@@ -30,7 +30,7 @@ jobs:
         with:
           images: ${{ vars.REGISTRY_URL }}/${{ vars.PROJECT_NAME }}/${{ github.event.repository.name }}/backend
           tags: |
-            type=raw,value=persist-{{sha}},enable=${{
+            type=sha,prefix=persist-,format=long,enable=${{
               github.ref_name == 'dev' ||
               github.ref_name == 'develop' ||
               github.ref_name == 'preprod' ||
@@ -83,7 +83,7 @@ jobs:
         with:
           images: ${{ vars.REGISTRY_URL }}/${{ vars.PROJECT_NAME }}/${{ github.event.repository.name }}/frontend
           tags: |
-            type=raw,value=persist-{{sha}},enable=${{
+            type=sha,prefix=persist-,format=long,enable=${{
               github.ref_name == 'dev' ||
               github.ref_name == 'develop' ||
               github.ref_name == 'preprod' ||
@@ -138,7 +138,7 @@ jobs:
         with:
           images: ${{ vars.REGISTRY_URL }}/${{ vars.PROJECT_NAME }}/${{ github.event.repository.name }}/portail-admins
           tags: |
-            type=raw,value=persist-{{sha}},enable=${{
+            type=sha,prefix=persist-,format=long,enable=${{
               github.ref_name == 'dev' ||
               github.ref_name == 'develop' ||
               github.ref_name == 'preprod' ||
@@ -190,7 +190,7 @@ jobs:
         with:
           images: ${{ vars.REGISTRY_URL }}/${{ vars.PROJECT_NAME }}/${{ github.event.repository.name }}/portail-usagers
           tags: |
-            type=raw,value=persist-{{sha}},enable=${{
+            type=sha,prefix=persist-,format=long,enable=${{
               github.ref_name == 'dev' ||
               github.ref_name == 'develop' ||
               github.ref_name == 'preprod' ||
