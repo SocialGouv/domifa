@@ -1,3 +1,10 @@
+## [2.203.8](https://github.com/SocialGouv/domifa/compare/v2.203.7...v2.203.8) (2025-06-30)
+
+
+### Bug Fixes
+
+* **deps:** update dependency dotenv to v17 ([49bb185](https://github.com/SocialGouv/domifa/commit/49bb185c5f50dacfb07587add86355a2a8bc7f81))
+
 ## [2.203.7](https://github.com/SocialGouv/domifa/compare/v2.203.6...v2.203.7) (2025-06-24)
 
 
