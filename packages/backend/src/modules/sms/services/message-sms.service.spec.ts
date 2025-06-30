@@ -58,7 +58,11 @@ describe("MessageSmsService", () => {
       { id: user.structureId },
       { sms: user.structure.sms }
     );
-    await usagerRepository.update({}, { contactByPhone: false });
+    await usagerRepository
+      .createQueryBuilder()
+      .update()
+      .set({ contactByPhone: false })
+      .execute();
     await messageSmsRepository.delete({ structureId: user.structureId });
     await AppTestHelper.tearDownTestApp(context);
   });
