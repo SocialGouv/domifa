@@ -1,7 +1,7 @@
 {
   "name": "domifa",
   "private": true,
-  "version": "2.202.11",
+  "version": "2.203.8",
   "scripts": {
     "build": "lerna run build  ",
     "dev": "lerna run dev  ",
@@ -15,18 +15,19 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7.24.8",
-    "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.5.0",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@socialgouv/sre-secrets": "^1.14.5",
     "husky": "^9.1.7",
-    "is-ci": "^4.0.0",
-    "lerna": "^8.2.1",
-    "lint-staged": "^15.4.3"
+    "is-ci": "^4.1.0",
+    "lerna": "^8.2.2",
+    "lint-staged": "^16.1.2",
+    "node-talisman": "^1.29.22"
   },
   "workspaces": {
     "packages": [
       "packages/*"
     ]
   },
-  "packageManager": "yarn@4.9.1"
+  "packageManager": "yarn@4.9.2"
 }

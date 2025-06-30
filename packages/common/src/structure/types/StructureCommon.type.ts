@@ -28,4 +28,6 @@ export type StructureCommon = Pick<
   | "acceptTerms"
   | "portailUsager"
   | "reseau"
+  | "registrationData"
+  | "siret"
 >;

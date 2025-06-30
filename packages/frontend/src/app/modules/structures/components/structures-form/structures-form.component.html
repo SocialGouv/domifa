@@ -874,6 +874,429 @@
             </div>
           </div>
         </fieldset>
+        <fieldset class="my-4">
+          <div class="text-center">
+            <h2 class="form-title">Informations administratives</h2>
+          </div>
+          <legend class="visually-hidden">
+            Informations administratives de la structure
+          </legend>
+
+          <div class="row">
+            <div class="col-12 col-md-6 form-group">
+              <label for="siret">Numéro SIRET</label>
+              <input
+                type="text"
+                class="form-control"
+                id="siret"
+                formControlName="siret"
+                name="siret"
+                placeholder="12345678901234"
+                maxlength="14"
+                pattern="[0-9]{14}"
+                appDigitOnly
+                [ngClass]="{
+                  'is-invalid': (submitted || f.siret?.dirty) && f.siret?.errors
+                }"
+                [attr.aria-invalid]="
+                  (submitted || f.siret?.dirty) && f.siret?.errors
+                    ? true
+                    : false
+                "
+                [attr.aria-describedby]="
+                  (submitted || f.siret?.dirty) && f.siret?.errors
+                    ? 'siret-errors'
+                    : 'siret-description'
+                "
+              />
+              <small id="siret-description" class="form-text text-muted">
+                14 chiffres (optionnel)
+              </small>
+              <p
+                *ngIf="(submitted || f.siret?.dirty) && f.siret?.errors"
+                class="invalid-feedback"
+                id="siret-errors"
+              >
+                <span *ngIf="f.siret?.errors?.['invalidSiret']">
+                  Le format du numéro de SIRET est incorrect</span
+                >
+              </p>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="my-4" formGroupName="registrationData">
+          <div class="text-center">
+            <h2 class="form-title">Informations sur votre activité</h2>
+            <p>Ces informations nous aident à mieux comprendre vos besoins.</p>
+          </div>
+          <legend class="visually-hidden">
+            Données d'inscription et informations sur l'activité
+          </legend>
+
+          <div class="row">
+            <div class="col-6 form-group required">
+              <label for="source">
+                Comment avez-vous entendu parler de DomiFa ?
+              </label>
+              <select
+                class="form-control form-select"
+                id="source"
+                formControlName="source"
+                name="source"
+                [ngClass]="{
+                  'is-invalid':
+                    (submitted || reg.source?.dirty) && reg.source?.errors
+                }"
+                [attr.aria-invalid]="
+                  (submitted || reg.source?.dirty) && reg.source?.errors
+                    ? true
+                    : false
+                "
+                [attr.aria-describedby]="
+                  (submitted || reg.source?.dirty) && reg.source?.errors
+                    ? 'source-errors'
+                    : null
+                "
+                required
+              >
+                <option [ngValue]="null">Sélectionnez une option</option>
+                <option
+                  *ngFor="let option of SOURCES_OPTIONS"
+                  [value]="option.value"
+                >
+                  {{ option.label }}
+                </option>
+              </select>
+
+              <p
+                *ngIf="(submitted || reg.source?.dirty) && reg.source?.errors"
+                class="invalid-feedback"
+                id="source-errors"
+              >
+                Veuillez sélectionner une option
+              </p>
+            </div>
+            <div *ngIf="showsourceDetail" class="col-6 form-group required">
+              <label for="sourceDetail"> Précisez : </label>
+              <input
+                type="text"
+                class="form-control"
+                id="sourceDetail"
+                formControlName="sourceDetail"
+                [ngClass]="{
+                  'is-invalid':
+                    (submitted || reg.sourceDetail?.dirty) &&
+                    reg.sourceDetail?.errors
+                }"
+                required
+              />
+              <div
+                *ngIf="
+                  (submitted || reg.sourceDetail?.dirty) &&
+                  reg.sourceDetail?.errors
+                "
+                class="invalid-feedback"
+              >
+                Ce champ est requis
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-6 form-group required">
+              <label for="activeUsersCount">Nombre de domiciliés à date</label>
+              <input
+                formControlName="activeUsersCount"
+                name="activeUsersCount"
+                class="form-control"
+                id="activeUsersCount"
+                min="0"
+                type="number"
+                required
+                [attr.aria-describedby]="
+                  (submitted || reg.activeUsersCount?.dirty) &&
+                  reg.activeUsersCount?.errors
+                    ? 'activeUsersCount-errors'
+                    : null
+                "
+                [attr.aria-invalid]="
+                  (submitted || reg.activeUsersCount?.dirty) &&
+                  reg.activeUsersCount?.errors
+                    ? true
+                    : false
+                "
+                [ngClass]="{
+                  'is-invalid':
+                    (submitted || reg.activeUsersCount?.dirty) &&
+                    reg.activeUsersCount?.errors
+                }"
+              />
+
+              <p
+                *ngIf="
+                  (submitted || reg.activeUsersCount.dirty) &&
+                  reg.activeUsersCount.errors
+                "
+                id="activeUsersCount-errors"
+                class="invalid-feedback"
+              >
+                Le nombre de domicilié est obligatoire
+              </p>
+            </div>
+          </div>
+          <div *ngIf="f.structureType.value === 'asso'" class="row">
+            <div
+              class="col-12 form-group"
+              [ngClass]="{
+                'is-invalid': (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+              }"
+            >
+              <fieldset
+                role="group"
+                [attr.aria-labelledby]="'dsp-legend'"
+                [attr.aria-describedby]="
+                  (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+                    ? 'dsp-errors'
+                    : null
+                "
+                [attr.aria-invalid]="
+                  (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+                    ? true
+                    : false
+                "
+              >
+                <legend
+                  id="dsp-legend"
+                  class="required"
+                  [ngClass]="{
+                    'is-invalid':
+                      (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+                  }"
+                >
+                  Exercez-vous une délégation de Service Public
+                </legend>
+
+                <div class="form-check">
+                  <input
+                    type="radio"
+                    class="form-check-input"
+                    id="dsp-oui"
+                    formControlName="dsp"
+                    name="dsp"
+                    [value]="true"
+                    [ngClass]="{
+                      'is-invalid':
+                        (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+                    }"
+                    [attr.aria-invalid]="
+                      (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+                        ? true
+                        : false
+                    "
+                    [attr.aria-describedby]="
+                      (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+                        ? 'dsp-errors'
+                        : 'dsp-legend'
+                    "
+                    [attr.required]="reg.dsp?.errors ? true : null"
+                  />
+                  <label class="form-check-label" for="dsp-oui">Oui</label>
+                </div>
+
+                <div class="form-check">
+                  <input
+                    type="radio"
+                    class="form-check-input"
+                    id="dsp-non"
+                    formControlName="dsp"
+                    name="dsp"
+                    [value]="false"
+                    [ngClass]="{
+                      'is-invalid':
+                        (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+                    }"
+                    [attr.aria-invalid]="
+                      (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+                        ? true
+                        : false
+                    "
+                    [attr.aria-describedby]="
+                      (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+                        ? 'dsp-errors'
+                        : 'dsp-legend'
+                    "
+                    [attr.required]="reg.dsp?.errors ? true : null"
+                  />
+                  <label class="form-check-label" for="dsp-non">Non</label>
+                </div>
+
+                <p
+                  *ngIf="(submitted || reg.dsp?.dirty) && reg.dsp?.errors"
+                  class="invalid-feedback"
+                  id="dsp-errors"
+                  role="alert"
+                  aria-live="polite"
+                  [attr.aria-atomic]="true"
+                >
+                  Ce champ est requis
+                </p>
+              </fieldset>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6 form-group required">
+              <label for="currentTool">
+                Comment gérez-vous actuellement la domiciliation ?
+              </label>
+              <select
+                class="form-control form-select"
+                id="currentTool"
+                formControlName="currentTool"
+                name="currentTool"
+                [ngClass]="{
+                  'is-invalid':
+                    (submitted || reg.currentTool?.dirty) &&
+                    reg.currentTool?.errors
+                }"
+                [attr.aria-invalid]="
+                  (submitted || reg.currentTool?.dirty) &&
+                  reg.currentTool?.errors
+                    ? true
+                    : false
+                "
+                [attr.aria-describedby]="
+                  (submitted || reg.currentTool?.dirty) &&
+                  reg.currentTool?.errors
+                    ? 'currentTool-errors'
+                    : null
+                "
+                required
+              >
+                <option [ngValue]="null">Sélectionnez une option</option>
+                <option
+                  *ngFor="let option of CURRENT_TOOL_OPTIONS"
+                  [value]="option.value"
+                >
+                  {{ option.label }}
+                </option>
+              </select>
+
+              <p
+                *ngIf="
+                  (submitted || reg.currentTool?.dirty) &&
+                  reg.currentTool?.errors
+                "
+                class="invalid-feedback"
+                id="currentTool-errors"
+                role="alert"
+                aria-live="polite"
+              >
+                Veuillez sélectionner une option
+              </p>
+            </div>
+
+            <div
+              class="col-6 form-group required"
+              *ngIf="reg.currentTool?.value === 'OUTIL_MARCHE'"
+            >
+              <label for="marketTool">
+                Quel outil du marché utilisez-vous ?
+              </label>
+              <select
+                class="form-control form-select"
+                id="marketTool"
+                formControlName="marketTool"
+                name="marketTool"
+                [ngClass]="{
+                  'is-invalid':
+                    (submitted || reg.marketTool?.dirty) &&
+                    reg.marketTool?.errors
+                }"
+                [attr.aria-invalid]="
+                  (submitted || reg.marketTool?.dirty) && reg.marketTool?.errors
+                    ? true
+                    : false
+                "
+                [attr.aria-describedby]="
+                  (submitted || reg.marketTool?.dirty) && reg.marketTool?.errors
+                    ? 'marketTool-errors'
+                    : null
+                "
+                required
+              >
+                <option [ngValue]="null">Sélectionnez une option</option>
+                <option
+                  *ngFor="let option of MARKET_TOOLS_OPTIONS"
+                  [value]="option.value"
+                >
+                  {{ option.label }}
+                </option>
+              </select>
+
+              <p
+                *ngIf="
+                  (submitted || reg.marketTool?.dirty) && reg.marketTool?.errors
+                "
+                class="invalid-feedback"
+                id="marketTool-errors"
+                role="alert"
+                aria-live="polite"
+              >
+                Veuillez sélectionner une option
+              </p>
+            </div>
+
+            <div
+              class="col-6 form-group required"
+              *ngIf="
+                reg.currentTool?.value === 'OUTIL_MARCHE' &&
+                reg.marketTool?.value === 'AUTRE'
+              "
+            >
+              <label for="marketToolOther"> Précisez l'outil : </label>
+              <input
+                type="text"
+                class="form-control"
+                id="marketToolOther"
+                formControlName="marketToolOther"
+                name="marketToolOther"
+                placeholder="Nom de l'outil"
+                [ngClass]="{
+                  'is-invalid':
+                    (submitted || reg.marketToolOther?.dirty) &&
+                    reg.marketToolOther?.errors
+                }"
+                [attr.aria-invalid]="
+                  (submitted || reg.marketToolOther?.dirty) &&
+                  reg.marketToolOther?.errors
+                    ? true
+                    : false
+                "
+                [attr.aria-describedby]="
+                  (submitted || reg.marketToolOther?.dirty) &&
+                  reg.marketToolOther?.errors
+                    ? 'marketToolOther-errors'
+                    : null
+                "
+                required
+              />
+
+              <p
+                *ngIf="
+                  (submitted || reg.marketToolOther?.dirty) &&
+                  reg.marketToolOther?.errors
+                "
+                class="invalid-feedback"
+                id="marketToolOther-errors"
+                role="alert"
+                aria-live="polite"
+              >
+                Ce champ est requis
+              </p>
+            </div>
+          </div>
+        </fieldset>
 
         <fieldset class="my-2">
           <legend>Conditions générales d'utilisation de DomiFa</legend>

@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
+  FormGroup,
   UntypedFormBuilder,
-  UntypedFormControl,
   UntypedFormGroup,
-  Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import {
@@ -24,9 +23,7 @@ import {
 import { StructureService } from "../../services/structure.service";
 import { StructureCommonWeb } from "../../classes/StructureCommonWeb.class";
 
-import { anyPhoneValidator } from "../../../../shared/phone/mobilePhone.validator";
 import { getFormPhone } from "../../../../shared/phone";
-import { EmailValidator } from "../../../../shared";
 import {
   StructureCommon,
   Structure,
@@ -34,14 +31,18 @@ import {
   getDepartementFromCodePostal,
   DEPARTEMENTS_LISTE,
   NETWORKS,
+  CURRENT_TOOL_OPTIONS,
+  MARKET_TOOLS_OPTIONS,
+  SOURCES_OPTIONS,
+  RegistrationSources,
 } from "@domifa/common";
 
 import {
-  getPostalCodeValidator,
-  updateComplementAdress,
   isInvalidStructureName,
+  updateSourceQuestion,
 } from "../../utils/structure-validators";
 import isEmail from "validator/lib/isEmail";
+import { initCreationForm, setupFormSubscriptions } from "../../utils";
 
 @Component({
   selector: "app-structures-form",
@@ -53,6 +54,9 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   public readonly SearchCountryField = SearchCountryField;
   public readonly CountryISO = CountryISO;
   public readonly PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
+  public readonly CURRENT_TOOL_OPTIONS = CURRENT_TOOL_OPTIONS;
+  public readonly SOURCES_OPTIONS = SOURCES_OPTIONS;
+  public readonly MARKET_TOOLS_OPTIONS = MARKET_TOOLS_OPTIONS;
   public success = false;
 
   public loading = false;
@@ -72,6 +76,8 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   private unsubscribe: Subject<void> = new Subject();
   private subscription = new Subscription();
   public readonly NETWORKS = NETWORKS;
+
+  public showsourceDetail = false;
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
@@ -93,76 +99,30 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
     return this.structureForm.controls;
   }
 
+  public get reg(): { [key: string]: AbstractControl } {
+    return (this.structureForm.get("registrationData") as FormGroup).controls;
+  }
+
   public ngOnInit(): void {
     this.titleService.setTitle("Inscription d'une structure sur DomiFa");
 
-    this.structureForm = this.formBuilder.group({
-      codePostal: [this.structure.codePostal, getPostalCodeValidator(true)],
-      adresse: [this.structure.adresse, [Validators.required]],
-      adresseCourrier: this.formBuilder.group({
-        actif: [this.structure.adresseCourrier.actif, []],
-        adresse: [this.structure.adresseCourrier.adresse, []],
-        ville: [this.structure.adresseCourrier.ville, []],
-        codePostal: [this.structure.adresseCourrier.codePostal, []],
-      }),
-      agrement: [this.structure.agrement, []],
-      capacite: [this.structure.capacite, []],
-      complementAdresse: [this.structure.complementAdresse, []],
-      departement: [this.structure.departement, []],
-      email: [
-        this.structure.email,
-        [Validators.required, EmailValidator],
-        this.validateEmailNotTaken.bind(this),
-      ],
-      nom: [this.structure.nom, [Validators.required]],
-      telephone: new UntypedFormControl(undefined, [
-        Validators.required,
-        anyPhoneValidator,
-      ]),
-      responsable: this.formBuilder.group({
-        fonction: [this.structure.responsable.fonction, [Validators.required]],
-        nom: [this.structure.responsable.nom, [Validators.required]],
-        prenom: [this.structure.responsable.prenom, [Validators.required]],
-      }),
-      structureType: [this.structure.structureType, [Validators.required]],
-      organismeType: [this.structure.organismeType, []],
-      ville: [this.structure.ville, [Validators.required]],
-      acceptCgu: [null, [Validators.requiredTrue]],
-      reseau: [this.structure.reseau, null],
-    });
-
-    this.subscription.add(
-      this.structureForm
-        .get("structureType")
-        ?.valueChanges.subscribe((value) => {
-          this.structureForm.get("agrement")?.setValidators(null);
-          this.structureForm.get("departement")?.setValidators(null);
-          this.structureForm.get("organismeType")?.setValidators(null);
-
-          if (value === "asso") {
-            this.structureForm
-              .get("agrement")
-              ?.setValidators(Validators.required);
-            this.structureForm
-              .get("departement")
-              ?.setValidators(Validators.required);
-            this.structureForm
-              .get("organismeType")
-              ?.setValidators(Validators.required);
-          }
-
-          this.structureForm.get("agrement")?.updateValueAndValidity();
-          this.structureForm.get("departement")?.updateValueAndValidity();
-          this.structureForm.get("organismeType")?.updateValueAndValidity();
-        })
+    this.structureForm = initCreationForm(
+      this.structure,
+      this.formBuilder,
+      this.validateEmailNotTaken.bind(this)
     );
 
+    setupFormSubscriptions(this.structureForm, this.subscription);
+
     this.subscription.add(
       this.structureForm
-        .get("adresseCourrier")
-        ?.get("actif")
-        ?.valueChanges.subscribe((value: boolean) => {
-          updateComplementAdress(this.structureForm, value);
+        .get("registrationData")
+        ?.get("source")
+        ?.valueChanges.subscribe((value: RegistrationSources) => {
+          this.showsourceDetail = updateSourceQuestion(
+            this.structureForm,
+            value
+          );
         })
     );
   }

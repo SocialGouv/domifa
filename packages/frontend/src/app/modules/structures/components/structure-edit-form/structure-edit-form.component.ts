@@ -1,10 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
+  FormGroup,
   UntypedFormBuilder,
-  UntypedFormControl,
   UntypedFormGroup,
-  Validators,
 } from "@angular/forms";
 
 import { Subject, Subscription, of } from "rxjs";
@@ -14,19 +13,13 @@ import {
   PhoneNumberFormat,
   SearchCountryField,
 } from "@khazii/ngx-intl-tel-input";
-import { NoWhiteSpaceValidator, EmailValidator } from "../../../../shared";
-import {
-  setFormPhone,
-  anyPhoneValidator,
-  getFormPhone,
-} from "../../../../shared/phone";
+import { getFormPhone } from "../../../../shared/phone";
 import { CustomToastService } from "../../../shared/services";
 import { StructureService } from "../../services";
 
 import {
-  getPostalCodeValidator,
-  updateComplementAdress,
   isInvalidStructureName,
+  updateSourceQuestion,
 } from "../../utils/structure-validators";
 import isEmail from "validator/lib/isEmail";
 import {
@@ -34,13 +27,18 @@ import {
   Structure,
   STRUCTURE_ORGANISME_TYPE_LABELS,
   DEPARTEMENTS_LISTE,
-  COUNTRY_CODES_TIMEZONE,
   NETWORKS,
+  CURRENT_TOOL_OPTIONS,
+  MARKET_TOOLS_OPTIONS,
+  SOURCES_OPTIONS,
+  RegistrationSources,
 } from "@domifa/common";
 import {
+  COUNTRY_CODES_TIMEZONE,
   FormEmailTakenValidator,
   PREFERRED_COUNTRIES,
 } from "../../../../../_common/model";
+import { initEditionForm, setupFormSubscriptions } from "../../utils";
 
 @Component({
   selector: "app-structure-edit-form",
@@ -67,7 +65,10 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
   private readonly unsubscribe: Subject<void> = new Subject();
 
   public readonly NETWORKS = NETWORKS;
-
+  public showsourceDetail = false;
+  public readonly CURRENT_TOOL_OPTIONS = CURRENT_TOOL_OPTIONS;
+  public readonly SOURCES_OPTIONS = SOURCES_OPTIONS;
+  public readonly MARKET_TOOLS_OPTIONS = MARKET_TOOLS_OPTIONS;
   constructor(
     private readonly structureService: StructureService,
     private readonly formBuilder: UntypedFormBuilder,
@@ -80,77 +81,44 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
     return this.structureForm.controls;
   }
 
+  public get reg(): { [key: string]: AbstractControl } {
+    return (this.structureForm.get("registrationData") as FormGroup).controls;
+  }
+
   public ngOnInit(): void {
-    const adresseRequired =
-      this.structure.adresseCourrier.actif === true
-        ? [Validators.required]
-        : null;
-
-    const assoRequired =
-      this.structure.structureType === "asso" ? [Validators.required] : null;
-
-    this.structureForm = this.formBuilder.group({
-      structureType: [this.structure.structureType, [Validators.required]],
-      adresse: [this.structure.adresse, [Validators.required]],
-      agrement: [this.structure.agrement, assoRequired],
-      capacite: [this.structure.capacite, []],
-      codePostal: [this.structure.codePostal, getPostalCodeValidator(true)],
-      complementAdresse: [this.structure.complementAdresse, []],
-      departement: [this.structure.departement, assoRequired],
-      email: [this.structure.email, [Validators.required, EmailValidator]],
-      nom: [this.structure.nom, [Validators.required]],
-      options: this.formBuilder.group({
-        numeroBoite: [this.structure.options.numeroBoite ?? false, []],
-        surnom: [this.structure.options.surnom ?? false, []],
-      }),
-      adresseCourrier: this.formBuilder.group({
-        actif: [this.structure.adresseCourrier.actif, []],
-        adresse: [this.structure.adresseCourrier.adresse, adresseRequired],
-        ville: [this.structure.adresseCourrier.ville, adresseRequired],
-        codePostal: [
-          this.structure.adresseCourrier.codePostal,
-          getPostalCodeValidator(this.structure.adresseCourrier.actif),
-        ],
-      }),
-      telephone: new UntypedFormControl(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setFormPhone(this.structure.telephone as any),
-        [Validators.required, anyPhoneValidator]
-      ),
-      responsable: this.formBuilder.group({
-        fonction: [
-          this.structure.responsable.fonction,
-          [Validators.required, NoWhiteSpaceValidator],
-        ],
-        nom: [
-          this.structure.responsable.nom,
-          [Validators.required, NoWhiteSpaceValidator],
-        ],
-        prenom: [
-          this.structure.responsable.prenom,
-          [Validators.required, NoWhiteSpaceValidator],
-        ],
-      }),
-      ville: [this.structure.ville, [Validators.required]],
-      organismeType: [this.structure.organismeType, assoRequired],
-      reseau: [this.structure.reseau, null],
-    });
+    this.structureForm = initEditionForm(
+      this.structure,
+      this.formBuilder,
+      this.validateEmailNotTaken.bind(this)
+    );
 
     this.selectedCountryISO = COUNTRY_CODES_TIMEZONE[
       this.structure.timeZone
     ] as CountryISO;
+
+    this.showsourceDetail = updateSourceQuestion(
+      this.structureForm,
+      this.structure.registrationData?.source
+    );
+
+    setupFormSubscriptions(this.structureForm, this.subscription);
+
     this.subscription.add(
       this.structureForm
-        .get("adresseCourrier")
-        ?.get("actif")
-        ?.valueChanges.subscribe((value: boolean) => {
-          updateComplementAdress(this.structureForm, value);
+        .get("registrationData")
+        ?.get("source")
+        ?.valueChanges.subscribe((value: RegistrationSources) => {
+          this.showsourceDetail = updateSourceQuestion(
+            this.structureForm,
+            value
+          );
         })
     );
   }
 
   public submitStrucutre() {
     this.submitted = true;
+
     if (this.structureForm.invalid) {
       this.toastService.error(
         "Veuillez vérifier les champs marqués en rouge dans le formulaire"
@@ -189,6 +157,10 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
   public validateEmailNotTaken(
     control: AbstractControl
   ): FormEmailTakenValidator {
+    if (control.value === this.structure.email) {
+      return of(null);
+    }
+
     return isEmail(control.value)
       ? this.structureService.validateEmail(control.value).pipe(
           takeUntil(this.unsubscribe),

@@ -158,7 +158,7 @@ describe("usagersFilter", () => {
       expect(results[0].ref).toEqual(1);
     });
 
-    it("should find birth date in ayants-droits", () => {
+    it("should find birth date in ayants droit", () => {
       const results = usagersFilter.filter(usagers, {
         criteria: new UsagersFilterCriteria({
           searchString: "20/03/2015",

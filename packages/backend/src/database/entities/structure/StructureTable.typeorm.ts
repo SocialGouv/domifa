@@ -11,6 +11,9 @@ import {
   Telephone,
   StructureOrganismeType,
   TimeZone,
+  PopulationSegmentEnum,
+  DomiciliesSegmentEnum,
+  StructureRegistrationData,
 } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
@@ -156,6 +159,21 @@ export class StructureTable
 
   @Column({ type: "text", nullable: true })
   reseau: string;
+
+  @Column({ type: "text", nullable: true })
+  siret: string;
+
+  @Column({ type: "text", nullable: true })
+  domicilieSegment: DomiciliesSegmentEnum | null;
+
+  @Column({ type: "text", nullable: true })
+  populationSegment: PopulationSegmentEnum | null;
+
+  @Column({
+    type: "jsonb",
+    nullable: true,
+  })
+  registrationData: StructureRegistrationData;
 
   public constructor(entity?: Partial<StructureTable>) {
     super(entity);

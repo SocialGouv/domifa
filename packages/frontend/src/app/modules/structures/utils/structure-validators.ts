@@ -6,8 +6,13 @@ import {
   Validators,
 } from "@angular/forms";
 import {
+  CurrentTool,
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
+  isSIRET,
+  MarketTool,
+  RegistrationSources,
+  SOURCES_OPTIONS,
 } from "@domifa/common";
 import slug from "slug";
 
@@ -68,6 +73,69 @@ export function codePostalValidator(): ValidatorFn {
     return { codepostal: false };
   };
 }
+export const updateCurrentToolQuestion = (
+  structureForm: FormGroup,
+  value: CurrentTool
+) => {
+  const marketToolField = structureForm
+    .get("registrationData")
+    ?.get("marketTool");
+  const marketToolOtherField = structureForm
+    .get("registrationData")
+    ?.get("marketToolOther");
+
+  if (value === "OUTIL_MARCHE") {
+    marketToolField?.setValidators([Validators.required]);
+  } else {
+    marketToolField?.clearValidators();
+    marketToolField?.setValue(null);
+    marketToolOtherField?.clearValidators();
+    marketToolOtherField?.setValue(null);
+  }
+  marketToolField?.updateValueAndValidity();
+  marketToolOtherField?.updateValueAndValidity();
+};
+
+export const updateMarketToolQuestion = (
+  structureForm: FormGroup,
+  value: MarketTool
+) => {
+  const marketToolOtherField = structureForm
+    .get("registrationData")
+    ?.get("marketToolOther");
+
+  if (value === "AUTRE") {
+    marketToolOtherField?.setValidators([Validators.required]);
+  } else {
+    marketToolOtherField?.clearValidators();
+    marketToolOtherField?.setValue(null);
+  }
+  marketToolOtherField?.updateValueAndValidity();
+};
+
+export const updateSourceQuestion = (
+  structureForm: FormGroup,
+  value: RegistrationSources
+) => {
+  let showSourceDetail = false;
+  const selectedOption = SOURCES_OPTIONS.find((opt) => opt.value === value);
+
+  const detailControl = structureForm
+    .get("registrationData")
+    ?.get("sourceDetail");
+
+  showSourceDetail = !!selectedOption?.requiresDetail;
+
+  if (showSourceDetail) {
+    detailControl?.setValidators([Validators.required]);
+  } else {
+    detailControl?.clearValidators();
+    detailControl?.setValue(null);
+  }
+
+  detailControl?.updateValueAndValidity();
+  return showSourceDetail;
+};
 
 export const updateComplementAdress = (
   structureForm: FormGroup,
@@ -95,3 +163,11 @@ export const updateComplementAdress = (
     ?.updateValueAndValidity();
   structureForm.get("adresseCourrier")?.get("ville")?.updateValueAndValidity();
 };
+
+export function siretValidator(
+  control: AbstractControl
+): ValidationErrors | null {
+  const value = control.value;
+  if (!value) return null;
+  return isSIRET(value) ? null : { invalidSiret: true };
+}

@@ -1,13 +1,16 @@
 import { Entity, Column, ManyToOne, JoinColumn, Index } from "typeorm";
 import { StructureTable } from "../structure";
 import { AppTypeormTable } from "../_core";
-import { StructureType } from "@domifa/common";
+import {
+  DomiciliesSegmentEnum,
+  PopulationSegmentEnum,
+  StructureType,
+} from "@domifa/common";
 import {
   OpenDataPlace,
   OpenDataSource,
   Saturation,
 } from "../../../modules/open-data/interfaces";
-import { DomiciliesSegmentEnum } from "../../../modules/open-data/enums";
 
 @Entity("open_data_places")
 export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlace> {
@@ -26,6 +29,10 @@ export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlace> {
   @Index()
   @Column({ type: "text", nullable: true })
   codePostal: string;
+
+  @Index()
+  @Column({ type: "text", nullable: true })
+  cityCode: string;
 
   @Index()
   @Column({ type: "text", nullable: false })
@@ -93,6 +100,9 @@ export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlace> {
 
   @Column({ type: "text", nullable: true })
   domicilieSegment: DomiciliesSegmentEnum | null;
+
+  @Column({ type: "text", nullable: true })
+  populationSegment: PopulationSegmentEnum | null;
 
   public constructor(entity?: Partial<OpenDataPlaceTable>) {
     super(entity);

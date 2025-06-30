@@ -19,7 +19,6 @@ import { structureDeletorService } from "./services/structure-deletor.service";
 import { StructuresModule } from "./structure.module";
 import { PortailAdminModule } from "../portail-admin";
 import { MailsModule } from "../mails/mails.module";
-
 const structureDto: StructureDto = {
   adresse: "1 rue de Pessac",
   adresseCourrier: {
@@ -53,6 +52,16 @@ const structureDto: StructureDto = {
   departmentName: "",
   regionName: "",
   reseau: null,
+  siret: "13000680200016",
+  registrationData: {
+    source: "PROSPECTION_DIRECTE",
+    currentTool: "PAPIER",
+    sourceDetail: null,
+    activeUsersCount: 150,
+    dsp: false,
+    marketTool: "ADILEOS",
+    marketToolOther: null,
+  },
 };
 
 const res = {

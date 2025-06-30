@@ -44,4 +44,5 @@ export const STRUCTURE_MOCK: StructureCommon = {
     enabledByDomifa: false,
     enabledByStructure: false,
   },
+  siret: "13000680200016",
 };

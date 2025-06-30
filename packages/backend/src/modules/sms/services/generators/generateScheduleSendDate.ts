@@ -12,7 +12,10 @@ const dayNames = [
   "saturday",
 ];
 
-export function getNextClosestDay(days: string[], dateReference: Date): Day {
+export function getNextClosestDay(
+  days: string[],
+  dateReference: Date
+): Day | null {
   const todayIndex = dateReference.getDay() as Day;
   const currentHour = dateReference.getHours();
 
@@ -22,7 +25,7 @@ export function getNextClosestDay(days: string[], dateReference: Date): Day {
     .sort((a, b) => a - b);
 
   if (dayIndices.length === 0) {
-    throw new Error("No working days enabled in schedule");
+    return null;
   }
 
   const isAfterHours = currentHour >= 19;

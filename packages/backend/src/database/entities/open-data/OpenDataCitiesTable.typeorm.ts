@@ -1,6 +1,6 @@
 import { Entity, Column } from "typeorm";
 import { AppTypeormTable } from "../_core";
-import { PopulationSegmentEnum } from "../../../modules/open-data/enums";
+import { PopulationSegmentEnum } from "@domifa/common";
 
 @Entity("open_data_cities")
 export class OpenDataCitiesTable extends AppTypeormTable<OpenDataCitiesTable> {

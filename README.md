@@ -1,11 +1,115 @@
 # DomiFa
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f15dba30a35f44c5a62cfdea9c1e3729)](https://app.codacy.com/app/pYassine/domifa?utm_source=github.com&utm_medium=referral&utm_content=SocialGouv/domifa&utm_campaign=Badge_Grade_Dashboard)
-[![codecov](https://codecov.io/gh/SocialGouv/domifa/branch/master/graph/badge.svg)](https://codecov.io/gh/SocialGouv/domifa)
-[![Build Status](https://gitlab.factory.social.gouv.fr/SocialGouv/domifa/badges/master/pipeline.svg)](https://gitlab.factory.social.gouv.fr/SocialGouv/domifa/-/commits/master)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSocialGouv%2Fdomifa.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FSocialGouv%2Fdomifa?ref=badge_shield)
+> DomiFa est une plateforme numérique qui facilite la gestion de la domiciliation pour les organismes agréés et permet aux personnes sans domicile stable d'accéder à leurs droits.
 
-> Faciliter l'accès aux droits pour les personnes sans domicile stable, en simplifiant la gestion de la domiciliation
+🌐 **Homepage** : https://domifa.fabrique.social.gouv.fr
+
+## 🚀 Démarrage rapide
+
+### Prérequis
+
+- Node.js (version LTS recommandée)
+- Yarn (gestionnaire de packages)
+- Docker et Docker Compose
+- PostgreSQL (ou via Docker)
+
+### Installation rapide
+
+```bash
+# 1. Cloner le projet
+git clone https://github.com/SocialGouv/domifa.git
+cd domifa
+
+# 2. Lancer l'environnement de développement
+docker-compose up -d
+
+# 3. Installer les dépendances
+yarn install
+
+# 4. Démarrer le projet en mode développement
+yarn dev
+```
+
+L'application sera accessible sur :
+
+- Frontend structures : http://localhost:4200
+- Portail domiciliés : http://localhost:4201
+- Interface admin : http://localhost:4202
+- Backend API : http://localhost:3000
+
+## 📁 Architecture du projet
+
+DomiFa utilise une architecture **monorepo** avec plusieurs packages :
+
+```
+domifa/
+├── packages/
+│   ├── backend/              # API NestJS + PostgreSQL
+│   ├── frontend/             # Interface structures (Angular)
+│   ├── portail-frontend/     # Portail domiciliés (Angular)
+│   ├── portail-admins/       # Interface admin (Angular)
+│   └── common/               # Types et interfaces partagés
+├── _docs/                   # Documentation technique et guides
+├── docker/                  # Configurations Docker
+└── scripts/                 # Scripts de gestion de la DB
+```
+
+## 🛠️ Développement
+
+### Commands principales
+
+```bash
+# Développement complet
+yarn dev
+
+# Services individuels
+yarn dev:backend          # Backend seul
+yarn dev:frontend         # Interface structures
+yarn dev:portail-frontend # Portail domiciliés
+yarn dev:portail-admins   # Interface admin
+
+# Tests et qualité
+yarn test
+yarn lint
+yarn build
+```
+
+### Base de données
+
+Le projet utilise PostgreSQL avec TypeORM pour les migrations :
+
+## 🔧 Stack technique
+
+### Technologies principales
+
+- **Langage** : TypeScript
+- **Frontend** : Angular 17
+- **Backend** : NestJS v11 + PostgreSQL
+- **Déploiement** : Docker Compose
+
+### Tests disponibles
+
+- **Frontend** : Tests unitaires
+- **Portail usagers** : Tests unitaires
+- **Backend** : Tests unitaires + tests d'intégration
+
+## 🔗 Liens utiles
+
+### Documentation
+
+- **Documentation technique** : [\_docs/](https://github.com/SocialGouv/domifa/tree/master/_docs)
+
+### Outils de monitoring
+
+- **Sentry Backend** : https://sentry.fabrique.social.gouv.fr/incubateur/domifa-backend
+- **Sentry Frontend** : https://sentry.fabrique.social.gouv.fr/incubateur/domifa-frontend
+- **Sentry Portail** : https://sentry.fabrique.social.gouv.fr/incubateur/domifa-portail-usagers
+- **Matomo** : https://matomo.fabrique.social.gouv.fr
+
+### Services
+
+- **Mails (prod+dev)** : https://app.tipimail.com/
+- **Mails (dev)** : https://mailtrap.io/
 
 ## Développement
 
@@ -14,7 +118,5 @@ Voir [./\_docs/dev](./_docs/dev).
 ## OPS
 
 Voir [./\_docs/ops.md](./_docs/ops.md).
-
-## License
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSocialGouv%2Fdomifa.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FSocialGouv%2Fdomifa?ref=badge_large)

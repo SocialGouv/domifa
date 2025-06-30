@@ -2,6 +2,7 @@
   margin-bottom: 1rem;
 }
 
+legend.required::after,
 .form-group.required .control-label:after {
   content: "*";
   color: var(--bs-danger);

@@ -1,4 +1,4 @@
-FROM node:18.20.0-bullseye
+FROM node:lts-bookworm-slim
 
 USER root
 
@@ -7,10 +7,10 @@ ENV CORE_PACKAGES sudo bash wget vim git bash-completion xsel rubygems build-ess
 
 # install via APT
 RUN apt-get update && \
-    apt-get install -q -y -o Acquire::Retries=10 $CORE_PACKAGES && \
-# immediately remove temporary files
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  apt-get install -q -y -o Acquire::Retries=10 $CORE_PACKAGES && \
+  # immediately remove temporary files
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # allow 'node' user to go sudo without password
 RUN adduser node sudo

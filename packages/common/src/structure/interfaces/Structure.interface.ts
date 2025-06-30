@@ -1,11 +1,13 @@
 import { type AppEntity } from "../../_core";
 import { type Telephone } from "../../telephone";
 import { type TimeZone } from "../../territoires/types";
+import { DomiciliesSegmentEnum, PopulationSegmentEnum } from "../enums";
 import { type StructureType } from "../types";
 import { type StructureAddresseCourrier } from "./StructureAddresseCourrier.interface";
 import { type StructureOptions } from "./StructureOptions.interface";
 import { type StructureOrganismeType } from "./StructureOrganismeType.type";
 import { type StructurePortailUsagerParams } from "./StructurePortailUsagerParams.interface";
+import { StructureRegistrationData } from "./StructureRegistrationData.interface";
 import { type StructureResponsable } from "./StructureResponsable.interface";
 import { type StructureSmsParams } from "./StructureSmsParams.interface";
 
@@ -59,4 +61,8 @@ export interface Structure extends AppEntity {
   latitude: number;
   longitude: number;
   reseau?: string | null;
+  domicilieSegment?: DomiciliesSegmentEnum | null;
+  populationSegment?: PopulationSegmentEnum | null;
+  registrationData?: StructureRegistrationData | null;
+  siret: string | null;
 }

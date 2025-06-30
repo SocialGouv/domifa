@@ -4,16 +4,12 @@ describe("getNextClosestDay", () => {
   describe("Input validation", () => {
     it("should throw error when no working days are provided", () => {
       const date = new Date("2024-03-15T10:00:00"); // Friday
-      expect(() => getNextClosestDay([], date)).toThrow(
-        "No working days enabled in schedule"
-      );
+      expect(getNextClosestDay([], date)).toEqual(null);
     });
 
     it("should throw error when only weekend days are provided", () => {
       const date = new Date("2024-03-15T10:00:00"); // Friday
-      expect(() => getNextClosestDay(["saturday", "sunday"], date)).toThrow(
-        "No working days enabled in schedule"
-      );
+      expect(getNextClosestDay(["saturday", "sunday"], date)).toEqual(null);
     });
 
     it("should handle case insensitive day names", () => {

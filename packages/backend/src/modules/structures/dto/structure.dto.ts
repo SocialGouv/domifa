@@ -1,6 +1,6 @@
 import { StructureOptionsDto } from "./structure-options.dto";
 import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
+import { Transform, Type } from "class-transformer";
 import {
   Equals,
   IsBoolean,
@@ -22,6 +22,7 @@ import {
 } from "class-validator";
 import { StructureAdresseCourrierDto, StructureResponsableDto } from ".";
 import {
+  IsSIRET,
   IsValidPhone,
   Trim,
   TrimOrNullTransform,
@@ -35,6 +36,7 @@ import {
   TimeZone,
   Telephone,
 } from "@domifa/common";
+import { StructureRegistrationDto } from "./structure-registration-data.dto";
 
 export class StructureDto {
   @ApiProperty({
@@ -201,4 +203,14 @@ export class StructureDto {
   @Trim()
   @MaxLength(100)
   public reseau!: string;
+
+  @Transform(({ value }) =>
+    typeof value === "string" ? value.replace(/\D/g, "") : value
+  )
+  @IsSIRET()
+  siret: string;
+
+  @ValidateNested()
+  @Type(() => StructureRegistrationDto)
+  registrationData: StructureRegistrationDto;
 }

@@ -1,5 +1,57 @@
 [
   {
+    "date": "2025-06-16",
+    "description": "📋 Nouveautés sur les documents, la structure et la sécurité des données",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "📝 Attestation d'élection de domicile",
+        "message": [
+          "Pour vous faire gagner du temps, vous pouvez intégrer une signature et un tampon de la structure directement sur le modèle d'attestation d'élection de domicile. Cela vous évite toute démarche supplémentaire lors de sa remise ou de son impression.",
+          "Retrouvez le modèle du document dans l'espace de la structure dans \"Documents de la structure\"."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "👥 Ajout des ayants droit sur l'attestation postale",
+        "message": [
+          "Désormais, les ayants droit rattachés au dossier du domicilié figureront explicitement sur l'attestation postale du domicilié. Cette évolution vise à faciliter les démarches administratives auprès des administrations.",
+          "Vous pouvez accéder à cette nouvelle attestation postale depuis l'espace de la structure dans \"Documents de la structure\"."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "🆕 Nouveaux champs à compléter à propos de votre structure",
+        "message": [
+          "Pour mieux répondre à vos attentes, nous avons ajouté quelques nouvelles informations à renseigner dans votre fiche structure. Cela nous aidera à améliorer le service et à l'adapter selon vos besoins spécifiques.",
+          "Prenez 2 minutes pour compléter ces informations dans votre espace dans \"Informations de la structure\"."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "🔒 Sécurisation des documents des structures",
+        "message": [
+          "Dans le cadre de notre engagement continu à renforcer la confidentialité de vos données, tous les documents de votre structure sont désormais protégés par un chiffrement renforcé. Cette mesure garantit que seules les personnes autorisées peuvent y accéder, même en cas de perte ou d'accès non autorisé.",
+          "Aucun changement n'est nécessaire de votre part. Vous continuez à accéder à vos documents comme d'habitude, en toute sécurité."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "📚 Mise à jour de la documentation juridique",
+        "message": [
+          "Pour mieux vous informer sur l'usage de vos données et le cadre légal de notre service, nous avons mis à jour nos mentions légales et notre politique de confidentialité."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "🗂️ Dossier d'un domicilié en cours d'instruction",
+        "message": [
+          "Une correction a été apportée pour que la suppression d'un dossier en cours d'instruction soit de nouveau possible."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2025-02-24",
     "description": "🚀 Amélioration de la gestion des référents et corrections diverses.",
     "content": [

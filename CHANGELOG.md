@@ -1,3 +1,108 @@
+## [2.203.8](https://github.com/SocialGouv/domifa/compare/v2.203.7...v2.203.8) (2025-06-30)
+
+
+### Bug Fixes
+
+* **deps:** update dependency dotenv to v17 ([49bb185](https://github.com/SocialGouv/domifa/commit/49bb185c5f50dacfb07587add86355a2a8bc7f81))
+
+## [2.203.7](https://github.com/SocialGouv/domifa/compare/v2.203.6...v2.203.7) (2025-06-24)
+
+
+### Bug Fixes
+
+* **chore:** add lint stage in ci ([dc35c66](https://github.com/SocialGouv/domifa/commit/dc35c66c2f9f644acf1b3566a0e7c72e50eda4de))
+
+## [2.203.6](https://github.com/SocialGouv/domifa/compare/v2.203.5...v2.203.6) (2025-06-23)
+
+
+### Bug Fixes
+
+* **chore:** update husky config ([faa98f4](https://github.com/SocialGouv/domifa/commit/faa98f49d63a0d556d63c76ad01aa5dd3845f639))
+
+## [2.203.5](https://github.com/SocialGouv/domifa/compare/v2.203.4...v2.203.5) (2025-06-23)
+
+
+### Bug Fixes
+
+* **deps:** update all dependencies ([1036d2b](https://github.com/SocialGouv/domifa/commit/1036d2b3323e94839124706e6f98020033cdf581))
+
+## [2.203.4](https://github.com/SocialGouv/domifa/compare/v2.203.3...v2.203.4) (2025-06-16)
+
+
+### Bug Fixes
+
+* **backend:** delete useless migrations ([015de5a](https://github.com/SocialGouv/domifa/commit/015de5a7c9c788937164a2090d4476faf781cdbf))
+
+## [2.203.3](https://github.com/SocialGouv/domifa/compare/v2.203.2...v2.203.3) (2025-06-16)
+
+
+### Bug Fixes
+
+* **backend:** fix import of citycode ([4dd81f6](https://github.com/SocialGouv/domifa/commit/4dd81f69657e8f7f50fa75ca1557e8a307dc57f4))
+* **docs:** update doc for db & anonymization ([2be2352](https://github.com/SocialGouv/domifa/commit/2be2352ced5219e4db8430226c82ce1d37264cff))
+* **frontend:** update news popup ([1957eb1](https://github.com/SocialGouv/domifa/commit/1957eb1966be4f5ff580beb5bef63d0f8e02fdad))
+
+## [2.203.2](https://github.com/SocialGouv/domifa/compare/v2.203.1...v2.203.2) (2025-06-16)
+
+
+### Bug Fixes
+
+* **frontend:** fix register for in edit mode ([0d4450b](https://github.com/SocialGouv/domifa/commit/0d4450b357ca26cd47dd9fe5406d4b6101f399ac))
+
+## [2.203.1](https://github.com/SocialGouv/domifa/compare/v2.203.0...v2.203.1) (2025-06-15)
+
+
+### Bug Fixes
+
+* **frontend:** fix register ([468a817](https://github.com/SocialGouv/domifa/commit/468a817af4ac5e5f681ee7c7e49731a1c7264767))
+
+# [2.203.0](https://github.com/SocialGouv/domifa/compare/v2.202.16...v2.203.0) (2025-06-13)
+
+
+### Bug Fixes
+
+* **backend:** fix unit tests ([8d919ea](https://github.com/SocialGouv/domifa/commit/8d919eadcbbc1b4143c3c047711fa2823a23c8c3))
+
+
+### Features
+
+* **frontend:** add registration data ([d98f6f8](https://github.com/SocialGouv/domifa/commit/d98f6f8e094b992db423d162f8b5a32a652e7fb7))
+
+## [2.202.16](https://github.com/SocialGouv/domifa/compare/v2.202.15...v2.202.16) (2025-06-12)
+
+
+### Bug Fixes
+
+* country codes timezone ([f7557ec](https://github.com/SocialGouv/domifa/commit/f7557eca820f658ee0b495860d5dc6f32e0a4c23))
+
+## [2.202.15](https://github.com/SocialGouv/domifa/compare/v2.202.14...v2.202.15) (2025-06-09)
+
+
+### Bug Fixes
+
+* **backend:** fix delete of a decision ([37b44e9](https://github.com/SocialGouv/domifa/commit/37b44e9aba3d4fae9bb9130e6ff79c89a3369d43))
+
+## [2.202.14](https://github.com/SocialGouv/domifa/compare/v2.202.13...v2.202.14) (2025-06-05)
+
+
+### Bug Fixes
+
+* **deps:** update dependency multer to v2.0.1 [security] ([ceec780](https://github.com/SocialGouv/domifa/commit/ceec7803c8b2493964d098a604d803b5e01412c1))
+
+## [2.202.13](https://github.com/SocialGouv/domifa/compare/v2.202.12...v2.202.13) (2025-06-04)
+
+
+### Bug Fixes
+
+* **backend:** add segments for structures ([200e65f](https://github.com/SocialGouv/domifa/commit/200e65f62ce1c82b5580b0b8b4fd6af500af0c5b))
+
+## [2.202.12](https://github.com/SocialGouv/domifa/compare/v2.202.11...v2.202.12) (2025-06-04)
+
+
+### Bug Fixes
+
+* **frontend:** fix typo & update cerfa model ([29e4cc2](https://github.com/SocialGouv/domifa/commit/29e4cc250525502170229eb98d52833a90407483))
+
 ## [2.202.11](https://github.com/SocialGouv/domifa/compare/v2.202.10...v2.202.11) (2025-06-02)
 
 

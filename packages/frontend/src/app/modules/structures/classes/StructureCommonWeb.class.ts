@@ -11,6 +11,7 @@ import {
   StructureCommon,
   StructureOrganismeType,
   TimeZone,
+  StructureRegistrationData,
 } from "@domifa/common";
 
 export class StructureCommonWeb implements StructureCommon {
@@ -69,6 +70,8 @@ export class StructureCommonWeb implements StructureCommon {
   public acceptTerms: Date | null = null;
   public lastLogin: Date | null = null;
   public reseau: string | null = null;
+  public siret: string | null = null;
+  public registrationData?: StructureRegistrationData;
 
   constructor(structure?: Partial<StructureCommon>) {
     if (structure) {
@@ -97,6 +100,9 @@ export class StructureCommonWeb implements StructureCommon {
       this.portailUsager = structure.portailUsager ?? this.portailUsager;
       this.lastLogin = structure.lastLogin ?? this.lastLogin;
       this.reseau = structure.reseau ?? this.reseau;
+      this.siret = structure?.siret ?? this.siret;
+      this.registrationData =
+        structure?.registrationData ?? this.registrationData;
     }
   }
 }
