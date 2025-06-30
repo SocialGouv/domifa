@@ -73,6 +73,7 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
         [Validators.required, Validators.pattern(regexp.email)],
         this.validateEmailNotTaken.bind(this),
       ],
+      fonction: [null, [Validators.required]],
     });
   }
 
@@ -82,6 +83,10 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
 
   public sortDashboard(name: keyof StructureAdmin): void {
     this.sort.emit(name);
+  }
+
+  public get fonctionFormControl(): AbstractControl {
+    return this.newAdminForm.get("fonction");
   }
 
   public deleteStructure(structureUuid: string): void {
@@ -133,7 +138,6 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
     }
 
     this.loading = true;
-    console.log(this.currentStructure);
     this.subscription.add(
       this.adminStructuresApiClient
         .registerUserStructureAdmin({

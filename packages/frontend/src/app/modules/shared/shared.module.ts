@@ -13,6 +13,7 @@ import { DateFrDirective, CleanStrDirective } from "./directives";
 import { ButtonComponent } from "./components/button/button.component";
 import { InputReferrerComponent } from "./components/input-referrer/input-referrer.component";
 import { FormsModule } from "@angular/forms";
+import { FonctionSelectionComponent } from "./components/fonction-selection/fonction-selection.component";
 
 @NgModule({
   declarations: [
@@ -22,10 +23,12 @@ import { FormsModule } from "@angular/forms";
     ReplaceLineBreaks,
     ButtonComponent,
     InputReferrerComponent,
+    FonctionSelectionComponent,
   ],
   exports: [
     ReplaceLineBreaks,
     InputReferrerComponent,
+    FonctionSelectionComponent,
     DateFrDirective,
     CleanStrDirective,
     CustomToastrComponent,

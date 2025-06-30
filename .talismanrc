@@ -1,6 +1,14 @@
 fileignoreconfig:
 - filename: _docs/dev/0.run-local-env.md
   checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
+- filename: packages/common/src/users/user-structure/constants/USER_FONCTION_LABELS.const.ts
+  checksum: 594c0940447a0ecf5ea1ad4a9695318ed3c76b604908b99d697f4438c293c57c
+- filename: packages/frontend/src/app/modules/shared/components/fonction-selection/fonction-selection.component.html
+  checksum: 1742b9447d8776968021087329eb114585ef0f7643f223b5fb0517f6b3778cc7
+- filename: packages/portail-admins/src/app/modules/shared/components/fonction-selection/fonction-selection.component.html
+  checksum: c4a9786662d86995688b4043e6ad9979d97d3b7cd729f5d22bd66a3ea03a4da7
+- filename: packages/portail-admins/src/app/modules/structure/components/users/users.component.html
+  checksum: 0daf325477c634ee72587c4ab1210fdc5fd8dea1aa67a905f8842b7b6d13c6ca
 - filename: yarn.lock
   checksum: 08b8e5aa34abdbe885acc6d64dd693197644d94d976f0e1832760c3ed227c836
 version: "1.0"

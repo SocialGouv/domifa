@@ -14,6 +14,8 @@ import {
   FormatBigNumberPipe,
   UcFirstPipe,
 } from "./pipes";
+import { FonctionSelectionComponent } from "./components/fonction-selection/fonction-selection.component";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import {
     FormatBigNumberPipe,
     CustomToastrComponent,
     AdminStructuresExportComponent,
+    FonctionSelectionComponent,
   ],
   exports: [
     UcFirstPipe,
@@ -30,8 +33,9 @@ import {
     FontAwesomeModule,
     AdminStructuresExportComponent,
     CustomToastrComponent,
+    FonctionSelectionComponent,
   ],
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, FormsModule],
   providers: [AdminStructuresApiClient],
 })
 export class SharedModule {

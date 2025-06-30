@@ -3,5 +3,6 @@ export type UserNewAdmin = {
   nom: string;
   email: string;
   structureId: number;
+  fonction: string;
   role: "admin";
 };
