@@ -14,13 +14,13 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@babel/runtime": "^7.24.8",
+    "@babel/runtime": "^7.27.6",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@socialgouv/sre-secrets": "^1.14.5",
     "husky": "^9.1.7",
     "is-ci": "^4.1.0",
-    "lerna": "^8.2.2",
+    "lerna": "^8.2.3",
     "lint-staged": "^16.1.2",
     "node-talisman": "^1.29.22"
   },
