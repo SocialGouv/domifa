@@ -82,14 +82,14 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "domifa-portail-usagers:build"
+            "buildTarget": "domifa-portail-usagers:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "domifa-portail-usagers:build:production"
+              "buildTarget": "domifa-portail-usagers:build:production"
             },
             "development": {
-              "browserTarget": "domifa-portail-usagers:build:development"
+              "buildTarget": "domifa-portail-usagers:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -97,7 +97,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "domifa-portail-usagers:build"
+            "buildTarget": "domifa-portail-usagers:build"
           }
         },
         "lint": {
