@@ -1,3 +1,10 @@
+## [2.204.1](https://github.com/SocialGouv/domifa/compare/v2.204.0...v2.204.1) (2025-06-30)
+
+
+### Bug Fixes
+
+* **backend:** fix typeorm query after upgrade ([7b5f414](https://github.com/SocialGouv/domifa/commit/7b5f414a0eb3a2e224f72f8ed274637527ce5c60))
+
 # [2.204.0](https://github.com/SocialGouv/domifa/compare/v2.203.9...v2.204.0) (2025-06-30)
 
 
