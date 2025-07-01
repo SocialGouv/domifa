@@ -65,12 +65,6 @@ jobs:
             type=sha,prefix=preprod-,format=long,priority=850
             type=sha,prefix=sha-,format=long,priority=890
 
-      - name: Env
-        id: env
-        uses: socialgouv/kontinuous/.github/actions/env@v1
-        with:
-          subdomain: api,admin,mon
-
       - name: 📦 Build and push Docker image for frontend
         uses: socialgouv/workflows/actions/buildkit@v1
         with:
@@ -88,10 +82,10 @@ jobs:
           buildkit-daemon-address: ${{ vars.BUILDKIT_DAEMON_ADDRESS }}
           build-args: |
             DOMIFA_ENV_ID=preprod
-            DOMIFA_BACKEND_URL=https://${{ steps.env.outputs.subdomain_api }}/
-            DOMIFA_PORTAIL_ADMINS_URL=https://${{ steps.env.outputs.subdomain_admin }}/
-            DOMIFA_PORTAIL_USAGERS_URL=https://${{ steps.env.outputs.subdomain_mon }}/
-            DOMIFA_FRONTEND_URL=https://${{ steps.env.outputs.subdomain }}/
+            DOMIFA_BACKEND_URL=https://api-domifa-preprod.ovh.fabrique.social.gouv.fr
+            DOMIFA_PORTAIL_ADMINS_URL=https://admin-domifa-preprod.ovh.fabrique.social.gouv.fr
+            DOMIFA_PORTAIL_USAGERS_URL=https://mon-domifa-preprod.ovh.fabrique.social.gouv.fr
+            DOMIFA_FRONTEND_URL=https://domifa-preprod.ovh.fabrique.social.gouv.fr
             DOMIFA_FRONTEND_META_ROBOTS=noindex,nofollow
             DOMIFA_SENTRY_DSN_FRONTEND=https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31
 
@@ -136,8 +130,8 @@ jobs:
           buildkit-daemon-address: ${{ vars.BUILDKIT_DAEMON_ADDRESS }}
           build-args: |
             DOMIFA_ENV_ID=preprod
-            DOMIFA_BACKEND_URL=https://${{ steps.env.outputs.subdomain_api }}/
-            DOMIFA_FRONTEND_URL=https://${{ steps.env.outputs.subdomain }}/
+            DOMIFA_BACKEND_URL=https://api-domifa-preprod.ovh.fabrique.social.gouv.fr
+            DOMIFA_FRONTEND_URL=https://domifa-preprod.ovh.fabrique.social.gouv.fr
             DOMIFA_SENTRY_DSN_PORTAIL_ADMIN=https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31
 
   build-portail-usagers:
@@ -181,7 +175,7 @@ jobs:
           buildkit-daemon-address: ${{ vars.BUILDKIT_DAEMON_ADDRESS }}
           build-args: |
             DOMIFA_ENV_ID=preprod
-            DOMIFA_BACKEND_URL=https://${{ steps.env.outputs.subdomain_api }}/
+            DOMIFA_BACKEND_URL=https://api-domifa-preprod.ovh.fabrique.social.gouv.fr
             DOMIFA_SENTRY_DSN_PORTAIL=https://904877ea9ec4454aa1be7b629a6ea340@sentry.fabrique.social.gouv.fr/58
             DOMIFA_FRONTEND_META_ROBOTS=noindex,nofollow
 
