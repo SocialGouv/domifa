@@ -128,7 +128,6 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
     if (this.isEditMode) {
       this.f.email.disable();
     }
-    console.log(this.userToEdit);
 
     this.selectedRole = this.userToEdit.role;
     this.onRoleChange();

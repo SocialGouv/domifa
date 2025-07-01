@@ -55,6 +55,14 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
     return this.userForm.controls;
   }
 
+  public get fonctionFormControl(): AbstractControl {
+    return this.userForm.get("fonction");
+  }
+
+  public get detailFonctionFormControl(): AbstractControl {
+    return this.userForm.get("detailFonction");
+  }
+
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly usersService: UsersService,
@@ -83,6 +91,14 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
       prenom: [
         this.user.prenom,
         [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
+      ],
+      fonction: [
+        this.user.fonction,
+        [Validators.required, Validators.minLength(2)],
+      ],
+      detailFonction: [
+        this.user.fonction,
+        [Validators.minLength(2), Validators.minLength(255)],
       ],
       structureId: [this.user.structureId, []],
     });

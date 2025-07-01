@@ -27,6 +27,9 @@ export class UserStructureTable
   @Column({ type: "text", nullable: true })
   fonction: string;
 
+  @Column({ type: "text", nullable: true })
+  detailFonction: string;
+
   @Index()
   @Column({ type: "integer", unique: true })
   @Generated("increment")

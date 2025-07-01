@@ -74,6 +74,10 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
         this.validateEmailNotTaken.bind(this),
       ],
       fonction: [null, [Validators.required]],
+      detailFonction: [
+        null,
+        [Validators.minLength(2), Validators.maxLength(255)],
+      ],
     });
   }
 
@@ -87,6 +91,10 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
 
   public get fonctionFormControl(): AbstractControl {
     return this.newAdminForm.get("fonction");
+  }
+
+  public get detailFonctionControl(): AbstractControl {
+    return this.newAdminForm.get("detailFonction");
   }
 
   public deleteStructure(structureUuid: string): void {

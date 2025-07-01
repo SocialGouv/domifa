@@ -3,6 +3,10 @@ fileignoreconfig:
   checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
 - filename: packages/common/src/users/user-structure/constants/USER_FONCTION_LABELS.const.ts
   checksum: 594c0940447a0ecf5ea1ad4a9695318ed3c76b604908b99d697f4438c293c57c
+- filename: packages/common/src/users/user-structure/types/UserFonction.type.ts
+  checksum: 98bb2e2d33670c46d3f2553214581d034f30306445678a82e936e0bb7c6a4747
+- filename: packages/frontend/src/app/modules/manage-users/components/user-profil/user-profil.component.html
+  checksum: ad445bc3ba551b415acb8da54e0365c02c9adae7059d49b342adb2d85ffde7a7
 - filename: packages/frontend/src/app/modules/shared/components/fonction-selection/fonction-selection.component.html
   checksum: 1742b9447d8776968021087329eb114585ef0f7643f223b5fb0517f6b3778cc7
 - filename: packages/portail-admins/src/app/modules/shared/components/fonction-selection/fonction-selection.component.html

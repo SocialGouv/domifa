@@ -109,6 +109,10 @@ export function createform(
         structure.responsable.fonction,
         [Validators.required, Validators.maxLength(255)],
       ],
+      detailFonction: [
+        structure.responsable.detailFonction,
+        [Validators.maxLength(255)],
+      ],
       nom: [
         structure.responsable.nom,
         [Validators.required, Validators.maxLength(255)],
