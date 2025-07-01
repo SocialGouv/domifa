@@ -20,7 +20,12 @@ export const STRUCTURE_MOCK: StructureCommon = {
   nom: "CCAS de Test",
   options: { numeroBoite: false, surnom: false },
   telephone: { numero: "0602030405", countryCode: "fr" },
-  responsable: { nom: "Jean", prenom: "Thomson", fonction: "PDG" },
+  responsable: {
+    nom: "Jean",
+    prenom: "Thomson",
+    fonction: "PDG",
+    detailFonction: null,
+  },
   structureType: "ccas",
   ville: "Asnieres-sur-seine",
   sms: {

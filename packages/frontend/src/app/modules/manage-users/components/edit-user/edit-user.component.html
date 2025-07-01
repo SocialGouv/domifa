@@ -74,22 +74,38 @@
       </div>
 
       <div *ngIf="!editUser" class="row">
-        <p class="col-md-4 reponses">
+        <p class="col-md-6 reponses">
           <span class="question">NOM</span>
           <span class="valeur">
             {{ me.nom }}
           </span>
         </p>
-        <p class="col-md-4 reponses">
+        <p class="col-md-6 reponses">
           <span class="question">PRÉNOM</span>
           <span class="valeur">
             {{ me.prenom }}
           </span>
         </p>
-        <p class="col-md-4 reponses">
+        <p class="col-md-12 reponses">
           <span class="question">EMAIL</span>
           <span class="valeur">
             {{ me.email }}
+          </span>
+        </p>
+        <p
+          class="reponses"
+          [class.col-md-12]="!me.detailFonction"
+          [class.col-md-6]="me.detailFonction"
+        >
+          <span class="question">Fonction</span>
+          <span class="valeur">
+            {{ me.fonction }}
+          </span>
+        </p>
+        <p *ngIf="me.detailFonction" class="col-md-6 reponses">
+          <span class="question">Detail fonction</span>
+          <span class="valeur">
+            {{ me.detailFonction }}
           </span>
         </p>
       </div>
@@ -107,7 +123,7 @@
           </p>
         </div>
 
-        <div class="col-12 col-md-4 form-group required">
+        <div class="col-12 col-md-6 form-group required">
           <label for="nom">Nom</label>
           <input
             #userName
@@ -139,7 +155,7 @@
             Veuillez vérifier le nom
           </p>
         </div>
-        <div class="col-12 col-md-4 form-group required">
+        <div class="col-12 col-md-6 form-group required">
           <label for="prenom">Prénom</label>
           <input
             type="text"
@@ -170,7 +186,7 @@
             Veuillez vérifier le prénom
           </p>
         </div>
-        <div class="col-12 col-md-4 form-group required">
+        <div class="col-12 col-md-12 form-group required">
           <label for="email">Votre adresse email</label>
           <input
             type="email"
@@ -209,6 +225,16 @@
               nom&#64;domaine.fr
             </p>
           </div>
+        </div>
+
+        <div class="col-12 col-md-12 form-group required">
+          <app-fonction-selection
+            [parentFormGroup]="userForm"
+            [fonctionFormControl]="fonctionFormControl"
+            [detailFonctionFormControl]="detailFonctionFormControl"
+            [submitted]="submitted"
+            invalidFeedbackText="Le champs fonction est obligatoire"
+          ></app-fonction-selection>
         </div>
 
         <div class="col-12 col-md-12 text-center">

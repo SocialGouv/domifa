@@ -5,7 +5,7 @@
 </p>
 <form #form [formGroup]="userForm" (ngSubmit)="submitUser()">
   <div class="row">
-    <div class="col-md-3 form-group required">
+    <div class="col-md-6 form-group required">
       <label for="nom">Nom</label>
       <input
         type="text"
@@ -34,7 +34,7 @@
         Veuillez vérifier le nom
       </p>
     </div>
-    <div class="col-md-3 form-group required">
+    <div class="col-md-6 form-group required">
       <label for="prenom">Prénom</label>
       <input
         type="text"
@@ -64,7 +64,7 @@
         Veuillez vérifier le prénom
       </p>
     </div>
-    <div class="col-md-3 form-group required">
+    <div class="col-md-6 form-group required">
       <label for="email">Adresse email</label>
       <input
         type="email"
@@ -96,7 +96,7 @@
         </p>
       </div>
     </div>
-    <div class="col-md-3 form-group required">
+    <div class="col-md-6 form-group required">
       <label for="role">Accès</label>
       <select
         id="role"
@@ -125,6 +125,15 @@
       >
         Le rôle est obligatoire
       </p>
+    </div>
+    <div class="col-md-12 form-group required">
+      <app-fonction-selection
+        [parentFormGroup]="userForm"
+        [fonctionFormControl]="fonctionFormControl"
+        [detailFonctionFormControl]="detailFonctionFormControl"
+        [submitted]="submitted"
+        invalidFeedbackText="Le champs fonction est obligatoire"
+      ></app-fonction-selection>
     </div>
     <div class="col-12 text-center">
       <button

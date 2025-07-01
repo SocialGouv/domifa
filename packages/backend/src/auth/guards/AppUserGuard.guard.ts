@@ -35,6 +35,8 @@ export class AppUserGuard implements CanActivate {
       structureId?: number | null;
       role?: UserSupervisorRole | UserStructureRole;
       email?: string | null;
+      fonction?: string | null;
+      detailFonction?: string | null;
     } = {
       id: user._userId,
       structureId: null,
@@ -44,6 +46,8 @@ export class AppUserGuard implements CanActivate {
       userScope = {
         ...userScope,
         role: user?.role,
+        fonction: user?.fonction,
+        detailFonction: user?.detailFonction,
         email: user?.email,
         structureId: user?.structureId,
       };
