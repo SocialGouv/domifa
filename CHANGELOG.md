@@ -1,3 +1,10 @@
+## [2.204.2](https://github.com/SocialGouv/domifa/compare/v2.204.1...v2.204.2) (2025-07-01)
+
+
+### Bug Fixes
+
+* **ci:** preprod typo ([86a3a37](https://github.com/SocialGouv/domifa/commit/86a3a37251efa18597fc253802bddf05c777d23d))
+
 ## [2.204.1](https://github.com/SocialGouv/domifa/compare/v2.204.0...v2.204.1) (2025-06-30)
 
 
