@@ -1,3 +1,10 @@
+## [2.204.4](https://github.com/SocialGouv/domifa/compare/v2.204.3...v2.204.4) (2025-07-01)
+
+
+### Bug Fixes
+
+* **ci:** subdomain typo ([2d3f0d3](https://github.com/SocialGouv/domifa/commit/2d3f0d339c95a1297f3467b026fa90f5c9aaba2a))
+
 ## [2.204.3](https://github.com/SocialGouv/domifa/compare/v2.204.2...v2.204.3) (2025-07-01)
 
 
