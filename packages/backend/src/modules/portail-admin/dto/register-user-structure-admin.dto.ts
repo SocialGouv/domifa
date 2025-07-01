@@ -4,6 +4,7 @@ import {
   IsIn,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   MaxLength,
   MinLength,
@@ -11,6 +12,7 @@ import {
 import { Transform, TransformFnParams } from "class-transformer";
 import { LowerCaseTransform } from "../../../_common/decorators";
 import { UserStructureRole } from "@domifa/common";
+import { USER_FONCTION_LABELS_LIST } from "@domifa/common/src/users/user-structure/constants/USER_FONCTION_LABELS.const";
 
 export class RegisterUserStructureAdminDto {
   @ApiProperty({
@@ -46,11 +48,23 @@ export class RegisterUserStructureAdminDto {
   @MinLength(2)
   @MaxLength(100)
   @IsNotEmpty()
-  @IsString()
-  @Transform(({ value }: TransformFnParams) => {
-    return value.toString().trim();
-  })
+  @IsIn(USER_FONCTION_LABELS_LIST)
   public readonly fonction!: string;
+
+  @ApiProperty({
+    type: String,
+  })
+  @MinLength(2)
+  @MaxLength(100)
+  @IsString()
+  @IsOptional()
+  @Transform(({ value }: TransformFnParams) => {
+    if (value) {
+      return value.toString().trim();
+    }
+    return null;
+  })
+  public readonly detailFonction: string | null;
 
   @ApiProperty({
     type: String,

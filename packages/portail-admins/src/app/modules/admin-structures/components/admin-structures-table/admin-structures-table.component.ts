@@ -76,6 +76,10 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
         this.validateEmailNotTaken.bind(this),
       ],
       fonction: [null, [Validators.required]],
+      detailFonction: [
+        null,
+        [Validators.minLength(2), Validators.maxLength(255)],
+      ],
     });
   }
 

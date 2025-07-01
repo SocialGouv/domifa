@@ -10,6 +10,7 @@ function buildUserStructure(item?: Partial<UserStructure>): UserStructure {
     uuid: item?.uuid ?? "",
     email: item?.email ?? "",
     fonction: item?.fonction ?? null,
+    detailFonction: item?.detailFonction ?? null,
     id: item?.id ?? null,
     nom: item?.nom ?? null,
     password: "",

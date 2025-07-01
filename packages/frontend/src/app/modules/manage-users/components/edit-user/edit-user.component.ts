@@ -68,6 +68,13 @@ export class EditUserComponent implements OnInit, OnDestroy {
     return this.passwordForm.controls;
   }
 
+  public get fonctionFormControl(): AbstractControl {
+    return this.userForm.get("fonction");
+  }
+  public get detailFonctionFormControl(): AbstractControl {
+    return this.userForm.get("detailFonction");
+  }
+
   @ViewChild("userName")
   public firstInput!: ElementRef;
 
@@ -97,7 +104,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.titleService.setTitle("Gérer mon compte - DomiFa");
 
     this.me = this.authService.currentUserValue;
-
     this.getLastPasswordUpdate();
 
     if (this.me?.role !== "facteur") {
@@ -121,6 +127,14 @@ export class EditUserComponent implements OnInit, OnDestroy {
       prenom: [
         this.me?.prenom,
         [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
+      ],
+      fonction: [
+        this.me?.fonction,
+        [Validators.required, Validators.minLength(2)],
+      ],
+      detailFonction: [
+        this.me?.detailFonction,
+        [Validators.minLength(2), Validators.maxLength(255)],
       ],
     });
 

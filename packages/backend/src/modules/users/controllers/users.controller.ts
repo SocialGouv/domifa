@@ -220,7 +220,15 @@ export class UsersController {
 
     const userToUpdate = await userStructureRepository.findOne({
       where: { id: user.id },
-      select: { uuid: true, role: true, nom: true, prenom: true, email: true },
+      select: {
+        uuid: true,
+        role: true,
+        nom: true,
+        prenom: true,
+        email: true,
+        fonction: true,
+        detailFonction: true,
+      },
     });
 
     return res.status(HttpStatus.OK).json(userToUpdate);
