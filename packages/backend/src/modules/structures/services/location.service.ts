@@ -128,7 +128,6 @@ export async function getCityCode(structure: {
     );
 
     if (!response.data.features.length) {
-      console.log(params);
       appLogger.warn(
         `[GET LOCATION] Cannot get location from this city ${city}`
       );
@@ -141,7 +140,6 @@ export async function getCityCode(structure: {
       return citycode;
     }
   } catch (error) {
-    console.log(params);
     appLogger.error(
       `[GET LOCATION] Failed after retries for ${city}: ${error.message}`
     );

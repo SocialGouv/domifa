@@ -129,6 +129,7 @@ export class AdminStructuresController {
         user_structure."createdAt",
         user_structure.uuid,
         user_structure.fonction,
+        user_structure.detailFonction,
         uss."temporaryTokens",
         uss."eventsHistory"
         FROM user_structure_security uss

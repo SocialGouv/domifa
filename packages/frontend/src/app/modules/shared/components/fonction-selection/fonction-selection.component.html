@@ -5,7 +5,7 @@
   <select
     id="fonction"
     [(ngModel)]="fonction"
-    (ngModelChange)="onModelChange($event)"
+    (ngModelChange)="onModelChange('fonction', $event)"
     name="fonction"
     [ngClass]="{
       'is-invalid':
@@ -39,3 +39,47 @@
 <small id="responsable-fonction-description"
   >Président.e, Directrice, etc.</small
 >
+<ng-container *ngIf="fonction === 'Autre' && fonctionFormControl">
+  <div class="col-12 mt-2 form-group required">
+    <label for="detailFonction" [class]="displayLabel ? '' : 'visually-hidden'"
+      >Préciser</label
+    >
+    <input
+      [(ngModel)]="detailFonction"
+      (ngModelChange)="onModelChange('detailFonction', $event)"
+      type="text"
+      class="form-control"
+      id="detailFonction"
+      maxlength="200"
+      name="detailFonction"
+      [ngClass]="{
+        'is-invalid':
+          (detailFonctionFormControl?.dirty || submitted) &&
+          detailFonctionFormControl?.errors
+      }"
+      [attr.aria-invalid]="
+        (detailFonctionFormControl?.dirty || submitted) &&
+        detailFonctionFormControl?.errors
+          ? true
+          : false
+      "
+      [attr.aria-describedby]="
+        (detailFonctionFormControl?.dirty || submitted) &&
+        detailFonctionFormControl?.errors
+          ? 'fonction-error'
+          : 'fonction-detail-description'
+      "
+      required
+    />
+    <p
+      *ngIf="
+        (submitted || detailFonctionFormControl?.dirty) &&
+        detailFonctionFormControl?.errors
+      "
+      class="invalid-feedback"
+      id="responsable-detail-fonction-errors"
+    >
+      Veuillez préciser la fonction
+    </p>
+  </div>
+</ng-container>

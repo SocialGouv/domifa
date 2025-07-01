@@ -1,17 +1,18 @@
-export type UserFonction =
-  | "president"
-  | "directeur_responsable"
-  | "directeur_general_des_services"
-  | "maire"
-  | "chef_de_service"
-  | "adjoint_administratif"
-  | "secretaire_assistant_administratif"
-  | "travailleur_social_assistant_social"
-  | "agent_accueil"
-  | "charge_de_mission_action_sociale"
-  | "conseiller_economie_sociale_et_familiale"
-  | "mediation_sociale"
-  | "rsa_insertion"
-  | "domiciliation"
-  | "benevole"
-  | "autre";
+export enum UserFonction {
+  PRESIDENT = "president",
+  DIRECTEUR_RESPONSABLE = "directeur_responsable",
+  DIRECTEUR_GENERAL_DES_SERVICES = "directeur_general_des_services",
+  MAIRE = "maire",
+  CHEF_DE_SERVICE = "chef_de_service",
+  ADJOINT_ADMINISTRATIF = "adjoint_administratif",
+  SECRETAIRE_ASSISTANT_ADMINISTRATIF = "secretaire_assistant_administratif",
+  TRAVAILLEUR_SOCIAL_ASSISTANT_SOCIAL = "travailleur_social_assistant_social",
+  AGENT_ACCUEIL = "agent_accueil",
+  CHARGE_DE_MISSION_ACTION_SOCIALE = "charge_de_mission_action_sociale",
+  CONSEILLER_ECONOMIE_SOCIALE_ET_FAMILIALE = "conseiller_economie_sociale_et_familiale",
+  MEDIATION_SOCIALE = "mediation_sociale",
+  RSA_INSERTION = "rsa_insertion",
+  DOMICILIATION = "domiciliation",
+  BENEVOLE = "benevole",
+  AUTRE = "autre",
+}

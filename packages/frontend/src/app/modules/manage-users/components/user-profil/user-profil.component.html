@@ -60,6 +60,15 @@
                 >
                 </app-table-head-sort>
               </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="fonction"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Fonction"
+                >
+                </app-table-head-sort>
+              </th>
               <th scope="col" *ngIf="me.role === 'admin'">Supprimer</th>
             </tr>
           </thead>
@@ -110,6 +119,7 @@
                   </select>
                 </ng-container>
               </td>
+              <td>{{ user.fonction }}</td>
               <td *ngIf="me.role === 'admin'">
                 <button
                   type="button"

@@ -15,7 +15,7 @@ import {
   UcFirstPipe,
 } from "./pipes";
 import { FonctionSelectionComponent } from "./components/fonction-selection/fonction-selection.component";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -35,7 +35,7 @@ import { FormsModule } from "@angular/forms";
     CustomToastrComponent,
     FonctionSelectionComponent,
   ],
-  imports: [CommonModule, FontAwesomeModule, FormsModule],
+  imports: [CommonModule, FontAwesomeModule, FormsModule, ReactiveFormsModule],
   providers: [AdminStructuresApiClient],
 })
 export class SharedModule {
