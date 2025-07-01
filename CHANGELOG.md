@@ -1,3 +1,10 @@
+## [2.204.3](https://github.com/SocialGouv/domifa/compare/v2.204.2...v2.204.3) (2025-07-01)
+
+
+### Bug Fixes
+
+* **ci:** preprod missing trailing slash ([1ac4aa1](https://github.com/SocialGouv/domifa/commit/1ac4aa1f9ec67add49ee8227061bd40577836897))
+
 ## [2.204.2](https://github.com/SocialGouv/domifa/compare/v2.204.1...v2.204.2) (2025-07-01)
 
 
