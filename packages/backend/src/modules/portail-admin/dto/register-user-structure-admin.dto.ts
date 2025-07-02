@@ -11,8 +11,7 @@ import {
 } from "class-validator";
 import { Transform, TransformFnParams } from "class-transformer";
 import { LowerCaseTransform } from "../../../_common/decorators";
-import { UserStructureRole } from "@domifa/common";
-import { USER_FONCTION_LABELS_LIST } from "@domifa/common/src/users/user-structure/constants/USER_FONCTION_LABELS.const";
+import { UserStructureRole, USER_FONCTION_LABELS_LIST } from "@domifa/common";
 
 export class RegisterUserStructureAdminDto {
   @ApiProperty({

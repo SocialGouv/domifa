@@ -8,7 +8,7 @@ import {
   Output,
 } from "@angular/core";
 import { AbstractControl, UntypedFormGroup, Validators } from "@angular/forms";
-import { USER_FONCTION_LABELS } from "@domifa/common/src/users/user-structure/constants/USER_FONCTION_LABELS.const";
+import { USER_FONCTION_LABELS } from "@domifa/common";
 
 @Component({
   selector: "app-fonction-selection",
@@ -49,6 +49,7 @@ export class FonctionSelectionComponent implements OnInit, OnDestroy {
 
   public onModelChange(attribute: string, event: string | null) {
     if (this.parentFormGroup) {
+      console.log(this.parentFormGroup);
       this.parentFormGroup.controls[attribute].setValue(event);
     } else {
       this.outputFunction.emit(event);

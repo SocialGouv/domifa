@@ -1,5 +1,4 @@
-import { normalizeString } from "@domifa/common";
-import { USER_FONCTION_LABELS } from "@domifa/common/src/users/user-structure/constants/USER_FONCTION_LABELS.const";
+import { normalizeString, USER_FONCTION_LABELS } from "@domifa/common";
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 // Define the function values using the actual labels from USER_FONCTION_LABELS
