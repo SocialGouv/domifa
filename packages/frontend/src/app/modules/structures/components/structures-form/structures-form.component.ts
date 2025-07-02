@@ -101,6 +101,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
     return this.structureForm.controls;
   }
 
+  // TODO: fix controls with 2 nested form groups
   public get fonctionControl(): AbstractControl {
     return this.structureForm.controls["responsable"].get("fonction");
   }

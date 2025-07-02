@@ -117,16 +117,13 @@
       </div>
       <div class="row">
         <div class="col form-group required">
-          <small id="fonction-description"
-            >Président.e, Directrice, Chef de service, etc.</small
-          >
-          <p
-            *ngIf="(f.fonction.dirty || submitted) && f.fonction.errors"
-            id="fonction-error"
-            class="invalid-feedback"
-          >
-            Votre fonction est obligatoire
-          </p>
+          <app-fonction-selection
+            [parentFormGroup]="userForm"
+            [fonctionFormControl]="fonctionControl"
+            [detaomFonctionControl]="detailFonctionControl"
+            [submitted]="submitted"
+            invalidFeedbackText="La fonction du responsable est obligatoire"
+          ></app-fonction-selection>
         </div>
       </div>
       <div class="row">

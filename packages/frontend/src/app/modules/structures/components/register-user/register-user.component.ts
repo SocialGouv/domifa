@@ -55,6 +55,16 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     return this.userForm.controls;
   }
 
+  public get fonctionControl(): AbstractControl {
+    console.log(this.userForm.get("fonction"));
+    return this.userForm.get("fonction");
+  }
+
+  public get detailFonctionControl(): AbstractControl {
+    console.log(this.userForm.get("detailFonction"));
+    return this.userForm.get("detailFonction");
+  }
+
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly userService: UsersService,
@@ -83,6 +93,11 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
           this.validateEmailNotTaken.bind(this),
         ],
         fonction: [this.user.fonction, Validators.required],
+        detailFonction: [
+          this.user.detailFonction,
+          Validators.minLength(2),
+          Validators.minLength(255),
+        ],
         nom: [
           this.user.nom,
           [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
