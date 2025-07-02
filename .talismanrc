@@ -1,6 +1,8 @@
 fileignoreconfig:
 - filename: _docs/dev/0.run-local-env.md
   checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
+- filename: packages/backend/src/_migrations/1751446039099-2025-08-02-recup eration-des-donnees-fonction.ts
+  checksum: 0e9471ee170c676f262198e8a75ff92f26cf94195ea58cfec2b261a68d748583
 - filename: packages/common/src/users/user-structure/constants/USER_FONCTION_LABELS.const.ts
   checksum: 594c0940447a0ecf5ea1ad4a9695318ed3c76b604908b99d697f4438c293c57c
 - filename: packages/common/src/users/user-structure/types/UserFonction.type.ts
