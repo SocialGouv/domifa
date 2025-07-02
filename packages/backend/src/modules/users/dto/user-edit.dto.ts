@@ -1,4 +1,7 @@
-import { USER_FONCTION_LABELS_LIST } from "@domifa/common/src/users/user-structure/constants/USER_FONCTION_LABELS.const";
+import {
+  USER_FONCTION_LABELS,
+  USER_FONCTION_LABELS_LIST,
+} from "@domifa/common";
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 import {
@@ -9,6 +12,7 @@ import {
   IsString,
   MaxLength,
   MinLength,
+  ValidateIf,
 } from "class-validator";
 
 export class UserEditDto {
@@ -55,6 +59,8 @@ export class UserEditDto {
   @MaxLength(255)
   @IsString()
   @IsOptional()
+  @ValidateIf((u) => u.fonction === USER_FONCTION_LABELS.autre)
+  @IsNotEmpty()
   public readonly detailFonction: string | null;
 
   @IsNotEmpty()

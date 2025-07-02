@@ -8,7 +8,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { USER_FONCTION_LABELS } from "@domifa/common/src/users/user-structure/constants/USER_FONCTION_LABELS.const";
+import { USER_FONCTION_LABELS } from "@domifa/common";
 import { By } from "@angular/platform-browser";
 import { Component, ViewChild } from "@angular/core";
 

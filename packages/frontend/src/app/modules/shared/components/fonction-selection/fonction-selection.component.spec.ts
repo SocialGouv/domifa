@@ -8,17 +8,18 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { USER_FONCTION_LABELS } from "@domifa/common/src/users/user-structure/constants/USER_FONCTION_LABELS.const";
+import { USER_FONCTION_LABELS } from "@domifa/common";
 import { By } from "@angular/platform-browser";
 import { Component, ViewChild } from "@angular/core";
 
-// Test host component to test the component with a parent form
+// Test host component to test the component with a parent form including detail fonction
 @Component({
   template: `
     <form [formGroup]="parentForm">
       <app-fonction-selection
         [parentFormGroup]="parentForm"
         [fonctionFormControl]="parentForm.controls.fonction"
+        [detailFonctionFormControl]="parentForm.controls.detailFonction"
         [submitted]="submitted"
         [invalidFeedbackText]="errorText"
         [required]="isRequired"
@@ -42,6 +43,7 @@ class TestHostComponent {
   constructor(private fb: UntypedFormBuilder) {
     this.parentForm = this.fb.group({
       fonction: [null, Validators.required],
+      detailFonction: [null],
     });
   }
 }
@@ -86,6 +88,19 @@ describe("FonctionSelectionComponent", () => {
       component = fixture.componentInstance;
       component.submitted = false;
       component.invalidFeedbackText = "Error message";
+
+      // Mock the required form controls to avoid errors
+      component.fonctionFormControl = {
+        value: null,
+        valueChanges: { subscribe: jest.fn() },
+        setValidators: jest.fn(),
+        clearValidators: jest.fn(),
+        updateValueAndValidity: jest.fn(),
+        setValue: jest.fn(),
+        errors: null,
+        dirty: false,
+      } as unknown as AbstractControl;
+
       fixture.detectChanges();
     });
 
@@ -95,6 +110,7 @@ describe("FonctionSelectionComponent", () => {
 
     it("should have default values", () => {
       expect(component.fonction).toBeNull();
+      expect(component.detailFonction).toBeNull();
       expect(component.required).toBeFalsy();
       expect(component.label).toBe("Fonction");
       expect(component.displayLabel).toBeTruthy();
@@ -126,6 +142,21 @@ describe("FonctionSelectionComponent", () => {
         expect(optionExists).toBeTruthy();
       });
     });
+
+    it("should render description text", () => {
+      const descriptionElement = fixture.debugElement.query(
+        By.css("#responsable-fonction-description")
+      );
+      expect(descriptionElement).toBeTruthy();
+      expect(descriptionElement.nativeElement.textContent.trim()).toBe(
+        "Président.e, Directrice, etc."
+      );
+    });
+
+    it("should handle compareOriginalOrder function", () => {
+      // The function should always return 0 to maintain original order
+      expect(component.compareOriginalOrder()).toBe(0);
+    });
   });
 
   describe("With parent form", () => {
@@ -143,18 +174,21 @@ describe("FonctionSelectionComponent", () => {
       hostFixture.detectChanges();
     });
 
+    it("should initialize with form control values", () => {
+      expect(hostComponent.fonctionComponent.fonction).toBeNull();
+      expect(hostComponent.fonctionComponent.detailFonction).toBeNull();
+    });
+
     it("should bind to parent form control", () => {
       const selectElement = hostFixture.debugElement.query(By.css("select"));
 
       // Select a value
-      selectElement.nativeElement.value =
-        Object.values(USER_FONCTION_LABELS)[0];
+      const testValue = USER_FONCTION_LABELS.president;
+      selectElement.nativeElement.value = testValue;
       selectElement.nativeElement.dispatchEvent(new Event("change"));
       hostFixture.detectChanges();
 
-      expect(hostComponent.parentForm.controls.fonction.value).toBe(
-        Object.values(USER_FONCTION_LABELS)[0]
-      );
+      expect(hostComponent.parentForm.controls.fonction.value).toBe(testValue);
     });
 
     it("should show validation error when submitted with invalid value", () => {
@@ -184,7 +218,7 @@ describe("FonctionSelectionComponent", () => {
     it("should not show error when form control is valid", () => {
       // Set a valid value
       hostComponent.parentForm.controls.fonction.setValue(
-        Object.values(USER_FONCTION_LABELS)[0]
+        USER_FONCTION_LABELS.president
       );
       hostComponent.submitted = true;
       hostFixture.detectChanges();
@@ -233,6 +267,166 @@ describe("FonctionSelectionComponent", () => {
       labelElement = hostFixture.debugElement.query(By.css("label"));
       expect(labelElement.nativeElement.classList).toContain("visually-hidden");
     });
+
+    describe("Detail fonction functionality", () => {
+      it("should show detail input when 'Autre' is selected", () => {
+        // Initially detail input should not be visible
+        let detailInput = hostFixture.debugElement.query(
+          By.css("#detailFonction")
+        );
+        expect(detailInput).toBeFalsy();
+
+        // Select 'Autre'
+        const selectElement = hostFixture.debugElement.query(By.css("select"));
+        selectElement.nativeElement.value = USER_FONCTION_LABELS.autre;
+        selectElement.nativeElement.dispatchEvent(new Event("change"));
+        hostFixture.detectChanges();
+
+        // Detail input should now be visible
+        detailInput = hostFixture.debugElement.query(By.css("#detailFonction"));
+        expect(detailInput).toBeTruthy();
+      });
+
+      it("should hide detail input when switching from 'Autre' to another option", () => {
+        // First select 'Autre'
+        const selectElement = hostFixture.debugElement.query(By.css("select"));
+        selectElement.nativeElement.value = USER_FONCTION_LABELS.autre;
+        selectElement.nativeElement.dispatchEvent(new Event("change"));
+        hostFixture.detectChanges();
+
+        // Verify detail input is visible
+        let detailInput = hostFixture.debugElement.query(
+          By.css("#detailFonction")
+        );
+        expect(detailInput).toBeTruthy();
+
+        // Switch to another option
+        selectElement.nativeElement.value = USER_FONCTION_LABELS.president;
+        selectElement.nativeElement.dispatchEvent(new Event("change"));
+        hostFixture.detectChanges();
+
+        // Detail input should be hidden
+        detailInput = hostFixture.debugElement.query(By.css("#detailFonction"));
+        expect(detailInput).toBeFalsy();
+      });
+
+      it("should set required validator on detail fonction when 'Autre' is selected", () => {
+        const detailFormControl =
+          hostComponent.parentForm.controls.detailFonction;
+        const setValidatorsSpy = jest.spyOn(detailFormControl, "setValidators");
+        const updateValueAndValiditySpy = jest.spyOn(
+          detailFormControl,
+          "updateValueAndValidity"
+        );
+
+        // Select 'Autre'
+        hostComponent.parentForm.controls.fonction.setValue(
+          USER_FONCTION_LABELS.autre
+        );
+        hostFixture.detectChanges();
+
+        expect(setValidatorsSpy).toHaveBeenCalledWith(Validators.required);
+        expect(updateValueAndValiditySpy).toHaveBeenCalled();
+      });
+
+      it("should clear validators on detail fonction when switching from 'Autre'", () => {
+        const detailFormControl =
+          hostComponent.parentForm.controls.detailFonction;
+        const clearValidatorsSpy = jest.spyOn(
+          detailFormControl,
+          "clearValidators"
+        );
+        const setValueSpy = jest.spyOn(detailFormControl, "setValue");
+        const updateValueAndValiditySpy = jest.spyOn(
+          detailFormControl,
+          "updateValueAndValidity"
+        );
+
+        // First select 'Autre'
+        hostComponent.parentForm.controls.fonction.setValue(
+          USER_FONCTION_LABELS.autre
+        );
+        hostFixture.detectChanges();
+
+        // Then switch to another option
+        hostComponent.parentForm.controls.fonction.setValue(
+          USER_FONCTION_LABELS.president
+        );
+        hostFixture.detectChanges();
+
+        expect(setValueSpy).toHaveBeenCalledWith(null);
+        expect(clearValidatorsSpy).toHaveBeenCalled();
+        expect(updateValueAndValiditySpy).toHaveBeenCalled();
+      });
+
+      it("should bind detail input to form control", () => {
+        // Select 'Autre' to show detail input
+        hostComponent.parentForm.controls.fonction.setValue(
+          USER_FONCTION_LABELS.autre
+        );
+        hostFixture.detectChanges();
+
+        const detailInput = hostFixture.debugElement.query(
+          By.css("#detailFonction")
+        );
+        expect(detailInput).toBeTruthy();
+
+        // Type in detail input
+        const testDetailValue = "Custom function description";
+        detailInput.nativeElement.value = testDetailValue;
+        detailInput.nativeElement.dispatchEvent(new Event("input"));
+        hostFixture.detectChanges();
+
+        expect(hostComponent.parentForm.controls.detailFonction.value).toBe(
+          testDetailValue
+        );
+      });
+
+      it("should show validation error for detail input when required and empty", () => {
+        // Select 'Autre' to show detail input
+        hostComponent.parentForm.controls.fonction.setValue(
+          USER_FONCTION_LABELS.autre
+        );
+        hostComponent.submitted = true;
+        hostFixture.detectChanges();
+
+        // Mark detail form control as invalid
+        hostComponent.parentForm.controls.detailFonction.setErrors({
+          required: true,
+        });
+        hostComponent.parentForm.controls.detailFonction.markAsDirty();
+        hostFixture.detectChanges();
+
+        const detailErrorElement = hostFixture.debugElement.query(
+          By.css("#responsable-detail-fonction-errors")
+        );
+        expect(detailErrorElement).toBeTruthy();
+        expect(detailErrorElement.nativeElement.textContent.trim()).toBe(
+          "Veuillez préciser la fonction"
+        );
+      });
+
+      it("should apply is-invalid class to detail input when invalid", () => {
+        // Select 'Autre' to show detail input
+        hostComponent.parentForm.controls.fonction.setValue(
+          USER_FONCTION_LABELS.autre
+        );
+        hostComponent.submitted = true;
+        hostFixture.detectChanges();
+
+        // Mark detail form control as invalid
+        hostComponent.parentForm.controls.detailFonction.setErrors({
+          required: true,
+        });
+        hostComponent.parentForm.controls.detailFonction.markAsDirty();
+        hostFixture.detectChanges();
+
+        const detailInput = hostFixture.debugElement.query(
+          By.css("#detailFonction")
+        );
+        expect(detailInput.nativeElement.classList).toContain("is-invalid");
+      });
+    });
   });
 
   describe("With output events", () => {
@@ -254,7 +448,7 @@ describe("FonctionSelectionComponent", () => {
       const selectElement = hostFixture.debugElement.query(By.css("select"));
 
       // Select a value
-      const testValue = Object.values(USER_FONCTION_LABELS)[0];
+      const testValue = USER_FONCTION_LABELS.president;
       selectElement.nativeElement.value = testValue;
       selectElement.nativeElement.dispatchEvent(new Event("change"));
       hostFixture.detectChanges();
@@ -264,12 +458,59 @@ describe("FonctionSelectionComponent", () => {
 
     it("should bind to the fonction input property", () => {
       // Set a value through the input property
-      const testValue = Object.values(USER_FONCTION_LABELS)[0];
+      const testValue = USER_FONCTION_LABELS.president;
       hostComponent.selectedFonction = testValue;
       hostFixture.detectChanges();
 
       const selectElement = hostFixture.debugElement.query(By.css("select"));
       expect(selectElement.nativeElement.value).toBe(testValue);
+    });
+  });
+
+  describe("Lifecycle management", () => {
+    let component: FonctionSelectionComponent;
+    let fixture: ComponentFixture<FonctionSelectionComponent>;
+
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        declarations: [FonctionSelectionComponent],
+        imports: [FormsModule],
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(FonctionSelectionComponent);
+      component = fixture.componentInstance;
+      component.submitted = false;
+      component.invalidFeedbackText = "Error message";
+    });
+
+    it("should initialize subscription in ngOnInit", () => {
+      const mockValueChanges = {
+        subscribe: jest.fn(),
+      };
+
+      component.fonctionFormControl = {
+        value: null,
+        valueChanges: mockValueChanges,
+        setValidators: jest.fn(),
+        clearValidators: jest.fn(),
+        updateValueAndValidity: jest.fn(),
+        setValue: jest.fn(),
+      } as unknown as AbstractControl;
+
+      component.ngOnInit();
+
+      expect(mockValueChanges.subscribe).toHaveBeenCalled();
+    });
+
+    it("should unsubscribe on destroy", () => {
+      const unsubscribeSpy = jest.spyOn(
+        component["subscription"],
+        "unsubscribe"
+      );
+
+      component.ngOnDestroy();
+
+      expect(unsubscribeSpy).toHaveBeenCalled();
     });
   });
 
@@ -287,6 +528,19 @@ describe("FonctionSelectionComponent", () => {
       component = fixture.componentInstance;
       component.submitted = false;
       component.invalidFeedbackText = "Error message";
+
+      // Mock the required form controls
+      component.fonctionFormControl = {
+        value: null,
+        valueChanges: { subscribe: jest.fn() },
+        setValidators: jest.fn(),
+        clearValidators: jest.fn(),
+        updateValueAndValidity: jest.fn(),
+        setValue: jest.fn(),
+        errors: null,
+        dirty: false,
+      } as unknown as AbstractControl;
+
       fixture.detectChanges();
     });
 
@@ -311,9 +565,42 @@ describe("FonctionSelectionComponent", () => {
       expect(errorElement).toBeFalsy();
     });
 
-    it("should handle compareOriginalOrder function", () => {
-      // The function should always return 0 to maintain original order
-      expect(component.compareOriginalOrder()).toBe(0);
+    it("should handle undefined detailFonctionFormControl", () => {
+      component.detailFonctionFormControl =
+        undefined as unknown as AbstractControl;
+
+      // This should not throw an error when initializing
+      expect(() => {
+        component.ngOnInit();
+      }).not.toThrow();
+
+      expect(component.detailFonction).toBeNull();
+    });
+
+    it("should handle onModelChange with parentFormGroup", () => {
+      const mockParentFormGroup = {
+        controls: {
+          fonction: { setValue: jest.fn() },
+          detailFonction: { setValue: jest.fn() },
+        },
+      } as unknown as UntypedFormGroup;
+
+      component.parentFormGroup = mockParentFormGroup;
+
+      component.onModelChange("fonction", "test-value");
+
+      expect(
+        mockParentFormGroup.controls.fonction.setValue
+      ).toHaveBeenCalledWith("test-value");
+    });
+
+    it("should handle onModelChange without parentFormGroup", () => {
+      const emitSpy = jest.spyOn(component.outputFunction, "emit");
+      component.parentFormGroup = undefined as unknown as UntypedFormGroup;
+
+      component.onModelChange("fonction", "test-value");
+
+      expect(emitSpy).toHaveBeenCalledWith("test-value");
     });
   });
 });
