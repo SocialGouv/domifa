@@ -20,7 +20,7 @@ import { map } from "rxjs/operators";
 import { regexp } from "../../../../shared/utils";
 import { AdminStructuresApiClient } from "../../../shared/services";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
-import { SortValues } from "@domifa/common";
+import { SortValues, USER_FONCTION_LABELS } from "@domifa/common";
 import { StructureAdmin } from "../../types";
 import { StructureFilterCriteria } from "../../utils/structure-filter-criteria";
 import { FilterOutput } from "../admin-structures-list/admin-structures-list.component";
@@ -50,11 +50,10 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
 
   public loading = false;
   public exportLoading = false;
-
   private subscription = new Subscription();
   public sortValue: SortValues = "desc";
   public currentKey: keyof StructureAdmin = "id";
-
+  public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
   constructor(
     private readonly adminStructuresApiClient: AdminStructuresApiClient,
     private readonly toastService: CustomToastService,
@@ -76,7 +75,7 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
         this.validateEmailNotTaken.bind(this),
       ],
       fonction: [null, [Validators.required]],
-      detailFonction: [
+      fonctionDetail: [
         null,
         [Validators.minLength(2), Validators.maxLength(255)],
       ],
@@ -85,6 +84,14 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
 
   public idTrackBy(_index: number, item: StructureAdmin) {
     return item.id;
+  }
+
+  public get fonctionFormControl(): AbstractControl {
+    return this.newAdminForm.get("fonction");
+  }
+
+  public get fonctionDetailControl(): AbstractControl {
+    return this.newAdminForm.get("fonctionDetail");
   }
 
   public deleteStructure(structureUuid: string): void {

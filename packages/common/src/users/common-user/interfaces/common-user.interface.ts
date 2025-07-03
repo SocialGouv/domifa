@@ -8,7 +8,7 @@ export interface CommonUser extends AppEntity {
   prenom: string;
   email: string;
   fonction?: string | null;
-  detailFonction?: string | null;
+  fonctionDetail?: string | null;
   password: string;
   lastLogin: Date | null;
   passwordLastUpdate: Date;

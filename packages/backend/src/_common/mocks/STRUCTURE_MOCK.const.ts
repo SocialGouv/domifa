@@ -24,7 +24,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
     nom: "Jean",
     prenom: "Thomson",
     fonction: "PDG",
-    detailFonction: null,
+    fonctionDetail: null,
   },
   structureType: "ccas",
   ville: "Asnieres-sur-seine",

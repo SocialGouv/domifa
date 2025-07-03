@@ -3,7 +3,7 @@
   <select
     id="fonction"
     [(ngModel)]="fonction"
-    (ngModelChange)="onModelChange('fonction', $event)"
+    (ngModelChange)="onModelChange(CONTROL_OPTIONS.FONCTION, $event)"
     name="fonction"
     [ngClass]="{
       'is-invalid':
@@ -17,7 +17,7 @@
     <option [ngValue]="null">Sélectionnez une option</option>
     <option
       *ngFor="
-        let option of USER_FONCTION_LABELS | keyvalue : compareOriginalOrder
+        let option of _USER_FONCTION_LABELS | keyvalue : compareOriginalOrder
       "
       [value]="option.value"
     >
@@ -39,31 +39,31 @@
 >
 <ng-container *ngIf="fonction === 'Autre'">
   <div class="col-12 mt-2 form-group required">
-    <label for="detailFonction" [class]="displayLabel ? '' : 'visually-hidden'"
+    <label for="fonctionDetail" [class]="displayLabel ? '' : 'visually-hidden'"
       >Préciser</label
     >
     <input
-      [(ngModel)]="detailFonction"
-      (ngModelChange)="onModelChange('detailFonction', $event)"
+      [(ngModel)]="fonctionDetail"
+      (ngModelChange)="onModelChange(CONTROL_OPTIONS.DETAIL_FONCTION, $event)"
       type="text"
       class="form-control"
-      id="detailFonction"
+      id="fonctionDetail"
       maxlength="200"
-      name="detailFonction"
+      name="fonctionDetail"
       [ngClass]="{
         'is-invalid':
-          (detailFonctionFormControl.dirty || submitted) &&
-          detailFonctionFormControl.errors
+          (fonctionDetailFormControl.dirty || submitted) &&
+          fonctionDetailFormControl.errors
       }"
       [attr.aria-invalid]="
-        (detailFonctionFormControl.dirty || submitted) &&
-        detailFonctionFormControl.errors
+        (fonctionDetailFormControl.dirty || submitted) &&
+        fonctionDetailFormControl.errors
           ? true
           : false
       "
       [attr.aria-describedby]="
-        (detailFonctionFormControl.dirty || submitted) &&
-        detailFonctionFormControl.errors
+        (fonctionDetailFormControl.dirty || submitted) &&
+        fonctionDetailFormControl.errors
           ? 'fonction-error'
           : 'fonction-detail-description'
       "
@@ -71,8 +71,8 @@
     />
     <p
       *ngIf="
-        (submitted || detailFonctionFormControl?.dirty) &&
-        detailFonctionFormControl?.errors
+        (submitted || fonctionDetailFormControl?.dirty) &&
+        fonctionDetailFormControl?.errors
       "
       class="invalid-feedback"
       id="responsable-detail-fonction-errors"

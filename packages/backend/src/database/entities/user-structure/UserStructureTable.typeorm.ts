@@ -28,7 +28,7 @@ export class UserStructureTable
   fonction: string;
 
   @Column({ type: "text", nullable: true })
-  detailFonction: string;
+  fonctionDetail: string;
 
   @Index()
   @Column({ type: "integer", unique: true })
