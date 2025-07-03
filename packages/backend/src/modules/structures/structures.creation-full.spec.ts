@@ -137,6 +137,8 @@ describe("Stuctures creation full", () => {
       password: "Y67xc6D7XBibZ6r",
       prenom: "Ben",
       structure: undefined,
+      fonction: "Autre",
+      fonctionDetail: "Président",
     };
     const structureWithUser: StructureWithUserDto = {
       user: userDto,
@@ -166,6 +168,8 @@ describe("Stuctures creation full", () => {
 
     expect(user.prenom).toEqual(userDto.prenom);
     expect(user.nom).toEqual(userDto.nom);
+    expect(user.fonction).toEqual(userDto.fonction);
+    expect(user.fonctionDetail).toEqual(userDto.fonctionDetail);
     expect(user.structureId).toEqual(structure.id);
     expect(user.email).toEqual(userDto.email);
     expect(user.verified).toBeFalsy();

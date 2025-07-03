@@ -59,8 +59,8 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
     return this.userForm.get("fonction");
   }
 
-  public get detailFonctionFormControl(): AbstractControl {
-    return this.userForm.get("detailFonction");
+  public get fonctionDetailFormControl(): AbstractControl {
+    return this.userForm.get("fonctionDetail");
   }
 
   constructor(
@@ -96,7 +96,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
         this.user.fonction,
         [Validators.required, Validators.minLength(2)],
       ],
-      detailFonction: [
+      fonctionDetail: [
         this.user.fonction,
         [Validators.minLength(2), Validators.minLength(255)],
       ],

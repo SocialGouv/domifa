@@ -26,6 +26,7 @@ export class StructuresPublicController {
       );
       return res.status(HttpStatus.OK).json("OK");
     } catch (e) {
+      console.log(e);
       return res.status(HttpStatus.BAD_REQUEST).json("CREATE_STRUCTURE_FAIL");
     }
   }

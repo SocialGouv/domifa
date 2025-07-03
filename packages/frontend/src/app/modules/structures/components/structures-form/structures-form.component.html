@@ -831,13 +831,46 @@
               </p>
             </div>
             <div class="col-12 col-md-12 form-group required">
-              <app-fonction-selection
-                [parentFormGroup]="structureForm"
-                [fonctionFormControl]="fonctionControl"
-                [detailFonctionFormControl]="detailFonctionControl"
-                [submitted]="submitted"
-                invalidFeedbackText="La fonction du responsable est obligatoire"
-              ></app-fonction-selection>
+              <label for="fonction">Fonction</label>
+              <input
+                type="text"
+                class="form-control"
+                id="fonction"
+                formControlName="fonction"
+                name="fonction"
+                autocomplete="organization-title"
+                [ngClass]="{
+                  'is-invalid':
+                    (submitted || f.responsable.get('fonction')?.dirty) &&
+                    f.responsable.get('fonction')?.errors
+                }"
+                [attr.aria-invalid]="
+                  (submitted || f.responsable.get('fonction')?.dirty) &&
+                  f.responsable.get('fonction')?.errors
+                    ? true
+                    : false
+                "
+                [attr.aria-describedby]="
+                  (submitted || f.responsable.get('fonction')?.dirty) &&
+                  f.responsable.get('fonction')?.errors
+                    ? 'responsable-fonction-errors'
+                    : 'responsable-fonction-description'
+                "
+                required
+              />
+              <small id="responsable-fonction-description"
+                >Président.e, Directrice, etc.</small
+              >
+              <p
+                *ngIf="
+                  (submitted || f.responsable.get('fonction')?.dirty) &&
+                  f.responsable.get('fonction')?.errors
+                "
+                class="invalid-feedback"
+                id="responsable-fonction-errors"
+              >
+                La fonction du responsable est obligatoire
+              </p>
             </div>
           </div>
         </fieldset>

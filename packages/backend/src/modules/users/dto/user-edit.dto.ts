@@ -8,7 +8,6 @@ import {
   IsEmail,
   IsIn,
   IsNotEmpty,
-  IsOptional,
   IsString,
   MaxLength,
   MinLength,
@@ -58,10 +57,9 @@ export class UserEditDto {
   @MinLength(2)
   @MaxLength(255)
   @IsString()
-  @IsOptional()
-  @ValidateIf((u) => u.fonction === USER_FONCTION_LABELS.autre)
+  @ValidateIf((u) => u.fonction === USER_FONCTION_LABELS.AUTRE)
   @IsNotEmpty()
-  public readonly detailFonction: string | null;
+  public readonly fonctionDetail: string | null;
 
   @IsNotEmpty()
   @IsEmail()

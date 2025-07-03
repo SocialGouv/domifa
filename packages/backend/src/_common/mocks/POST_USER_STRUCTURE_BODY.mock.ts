@@ -11,6 +11,8 @@ export const POST_USER_STRUCTURE_BODY: Partial<UserStructure> = {
   nom: "TEST",
   prenom: "TEST",
   role: "admin" as UserStructureRole,
+  fonction: "Président",
+  fonctionDetail: null,
   structure: {
     id: 100,
     adresse: "3 place olympe de gouges",

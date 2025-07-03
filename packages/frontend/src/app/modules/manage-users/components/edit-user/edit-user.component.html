@@ -94,18 +94,18 @@
         </p>
         <p
           class="reponses"
-          [class.col-md-12]="!me.detailFonction"
-          [class.col-md-6]="me.detailFonction"
+          [class.col-md-12]="!me.fonctionDetail"
+          [class.col-md-6]="me.fonctionDetail"
         >
           <span class="question">Fonction</span>
           <span class="valeur">
             {{ me.fonction }}
           </span>
         </p>
-        <p *ngIf="me.detailFonction" class="col-md-6 reponses">
+        <p *ngIf="me.fonctionDetail" class="col-md-6 reponses">
           <span class="question">Detail fonction</span>
           <span class="valeur">
-            {{ me.detailFonction }}
+            {{ me.fonctionDetail }}
           </span>
         </p>
       </div>
@@ -231,7 +231,7 @@
           <app-fonction-selection
             [parentFormGroup]="userForm"
             [fonctionFormControl]="fonctionFormControl"
-            [detailFonctionFormControl]="detailFonctionFormControl"
+            [fonctionDetailFormControl]="fonctionDetailFormControl"
             [submitted]="submitted"
             invalidFeedbackText="Le champs fonction est obligatoire"
           ></app-fonction-selection>
