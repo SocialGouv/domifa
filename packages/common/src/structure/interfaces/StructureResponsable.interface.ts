@@ -1,6 +1,6 @@
 export interface StructureResponsable {
   fonction: string;
-  detailFonction?: string;
+  fonctionDetail?: string;
   nom: string;
   prenom: string;
 }

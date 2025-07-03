@@ -52,17 +52,15 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   };
 
   public get f(): { [key: string]: AbstractControl } {
-    return this.userForm.controls;
+    return this.userForm?.controls;
   }
 
   public get fonctionControl(): AbstractControl {
-    console.log(this.userForm.get("fonction"));
-    return this.userForm.get("fonction");
+    return this.userForm?.get("fonction");
   }
 
-  public get detailFonctionControl(): AbstractControl {
-    console.log(this.userForm.get("detailFonction"));
-    return this.userForm.get("detailFonction");
+  public get fonctionDetailControl(): AbstractControl {
+    return this.userForm?.get("fonctionDetail");
   }
 
   constructor(
@@ -92,12 +90,8 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
           [Validators.required, EmailValidator],
           this.validateEmailNotTaken.bind(this),
         ],
-        fonction: [this.user.fonction, Validators.required],
-        detailFonction: [
-          this.user.detailFonction,
-          Validators.minLength(2),
-          Validators.minLength(255),
-        ],
+        fonction: [null, Validators.required],
+        fonctionDetail: [null],
         nom: [
           this.user.nom,
           [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],

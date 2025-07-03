@@ -1,15 +1,11 @@
 import { Subscription } from "rxjs";
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { AbstractControl, UntypedFormGroup, Validators } from "@angular/forms";
 import { USER_FONCTION_LABELS } from "@domifa/common";
-
+enum CONTROL_OPTIONS {
+  "FONCTION" = "FONCTION",
+  "DETAIL_FONCTION" = "DETAIL_FONCTION",
+}
 @Component({
   selector: "app-fonction-selection",
   templateUrl: "./fonction-selection.component.html",
@@ -19,40 +15,40 @@ export class FonctionSelectionComponent implements OnInit, OnDestroy {
 
   @Input() public parentFormGroup!: UntypedFormGroup;
   @Input() public fonctionFormControl!: AbstractControl;
-  @Input() public detailFonctionFormControl!: AbstractControl;
+  @Input() public fonctionDetailFormControl!: AbstractControl;
   @Input({ required: true }) public invalidFeedbackText: string;
   @Input() public required = false;
   @Input() public label = "Fonction";
   @Input() public displayLabel = true;
 
-  @Output() outputFunction = new EventEmitter<string | null>();
   public fonction: string | null = null;
-  public detailFonction: string | null = null;
+  public fonctionDetail: string | null = null;
   public compareOriginalOrder = () => 0;
   public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
-
+  public readonly CONTROL_OPTIONS = CONTROL_OPTIONS;
   private subscription = new Subscription();
 
   ngOnInit(): void {
     this.fonction = this.fonctionFormControl.value;
-    this.detailFonction = this.detailFonctionFormControl?.value ?? null;
+    this.fonctionDetail = this.fonctionDetailFormControl?.value ?? null;
     this.fonctionFormControl.valueChanges.subscribe((value) => {
       if (value === "Autre") {
-        this.detailFonctionFormControl?.setValidators(Validators.required);
+        this.fonctionDetailFormControl?.setValidators(Validators.required);
       } else {
-        this.detailFonctionFormControl.setValue(null);
-        this.detailFonctionFormControl?.clearValidators();
+        this.fonctionDetailFormControl.setValue(null);
+        this.fonctionDetailFormControl?.clearValidators();
       }
-      this.detailFonctionFormControl?.updateValueAndValidity();
+      this.fonctionDetailFormControl?.updateValueAndValidity();
     });
   }
 
   public onModelChange(attribute: string, event: string | null) {
-    if (this.parentFormGroup) {
-      console.log(this.parentFormGroup);
-      this.parentFormGroup.controls[attribute].setValue(event);
+    if (attribute === CONTROL_OPTIONS.FONCTION) {
+      this.fonctionFormControl?.setValue(event);
+    } else if (attribute === CONTROL_OPTIONS.DETAIL_FONCTION) {
+      this.fonctionDetailFormControl?.setValue(event);
     } else {
-      this.outputFunction.emit(event);
+      throw new Error("Attribute not supported for fonction component");
     }
   }
 

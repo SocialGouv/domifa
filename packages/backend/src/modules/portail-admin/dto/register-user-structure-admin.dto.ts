@@ -11,7 +11,11 @@ import {
 } from "class-validator";
 import { Transform, TransformFnParams } from "class-transformer";
 import { LowerCaseTransform } from "../../../_common/decorators";
-import { UserStructureRole, USER_FONCTION_LABELS_LIST } from "@domifa/common";
+import {
+  UserStructureRole,
+  USER_FONCTION_LABELS_LIST,
+  UserFonction,
+} from "@domifa/common";
 
 export class RegisterUserStructureAdminDto {
   @ApiProperty({
@@ -48,7 +52,7 @@ export class RegisterUserStructureAdminDto {
   @MaxLength(100)
   @IsNotEmpty()
   @IsIn(USER_FONCTION_LABELS_LIST)
-  public readonly fonction!: string;
+  public readonly fonction!: UserFonction;
 
   @ApiProperty({
     type: String,
@@ -63,7 +67,7 @@ export class RegisterUserStructureAdminDto {
     }
     return null;
   })
-  public readonly detailFonction: string | null;
+  public readonly fonctionDetail: string | null;
 
   @ApiProperty({
     type: String,

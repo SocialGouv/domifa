@@ -227,7 +227,7 @@ export class UsersController {
         prenom: true,
         email: true,
         fonction: true,
-        detailFonction: true,
+        fonctionDetail: true,
       },
     });
 

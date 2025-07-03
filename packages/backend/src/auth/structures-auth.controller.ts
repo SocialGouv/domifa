@@ -105,7 +105,7 @@ export class StructuresAuthController {
       prenom: user.prenom,
       role: user.role,
       fonction: user.fonction,
-      detailFonction: user.detailFonction,
+      fonctionDetail: user.fonctionDetail,
       acceptTerms: user.acceptTerms,
       structure: user.structure,
       structureId: user.structureId,

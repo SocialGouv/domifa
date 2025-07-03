@@ -24,7 +24,7 @@ export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "acceptTerms",
   "role",
   "fonction",
-  "detailFonction",
+  "fonctionDetail",
   "lastLogin",
   "createdAt",
 ];
@@ -45,7 +45,7 @@ export class StructuresAuthService {
       nom: user.nom,
       prenom: user.prenom,
       fonction: user.fonction,
-      detailFonction: user.detailFonction,
+      fonctionDetail: user.fonctionDetail,
       role: user.role,
       acceptTerms: user.acceptTerms,
       structureId: user.structureId,

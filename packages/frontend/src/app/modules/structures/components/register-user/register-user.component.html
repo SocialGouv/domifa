@@ -49,7 +49,11 @@
       <span class="fw-bold text-danger">*</span> sont obligatoires
     </p>
     <br />
-    <form *ngIf="user" [formGroup]="userForm" (ngSubmit)="submitUser()">
+    <form
+      *ngIf="user && userForm"
+      [formGroup]="userForm"
+      (ngSubmit)="submitUser()"
+    >
       <div class="row">
         <div class="col form-group required">
           <label for="nom">Nom</label>
@@ -120,7 +124,7 @@
           <app-fonction-selection
             [parentFormGroup]="userForm"
             [fonctionFormControl]="fonctionControl"
-            [detaomFonctionControl]="detailFonctionControl"
+            [fonctionDetailFormControl]="fonctionDetailControl"
             [submitted]="submitted"
             invalidFeedbackText="La fonction du responsable est obligatoire"
           ></app-fonction-selection>

@@ -1,4 +1,3 @@
-import { USER_FONCTION_LABELS } from "./../../../../../../../common/src/users/user-structure/constants/USER_FONCTION_LABELS.const";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
@@ -36,6 +35,7 @@ import {
   MARKET_TOOLS_OPTIONS,
   SOURCES_OPTIONS,
   RegistrationSources,
+  USER_FONCTION_LABELS,
 } from "@domifa/common";
 
 import {
@@ -104,10 +104,6 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   // TODO: fix controls with 2 nested form groups
   public get fonctionControl(): AbstractControl {
     return this.structureForm.controls["responsable"].get("fonction");
-  }
-
-  public get detailFonctionControl(): AbstractControl {
-    return this.structureForm.controls["responsable"].get("detailFonction");
   }
 
   public get reg(): { [key: string]: AbstractControl } {

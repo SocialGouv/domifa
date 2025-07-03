@@ -71,8 +71,8 @@ export class EditUserComponent implements OnInit, OnDestroy {
   public get fonctionFormControl(): AbstractControl {
     return this.userForm.get("fonction");
   }
-  public get detailFonctionFormControl(): AbstractControl {
-    return this.userForm.get("detailFonction");
+  public get fonctionDetailFormControl(): AbstractControl {
+    return this.userForm.get("fonctionDetail");
   }
 
   @ViewChild("userName")
@@ -132,8 +132,8 @@ export class EditUserComponent implements OnInit, OnDestroy {
         this.me?.fonction,
         [Validators.required, Validators.minLength(2)],
       ],
-      detailFonction: [
-        this.me?.detailFonction,
+      fonctionDetail: [
+        this.me?.fonctionDetail,
         [Validators.minLength(2), Validators.maxLength(255)],
       ],
     });
