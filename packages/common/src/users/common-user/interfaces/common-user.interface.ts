@@ -1,3 +1,4 @@
+import { UserFonction } from "../../../users/user-structure";
 import { AppEntity } from "../../../_core";
 
 export interface CommonUser extends AppEntity {
@@ -7,7 +8,7 @@ export interface CommonUser extends AppEntity {
   nom: string;
   prenom: string;
   email: string;
-  fonction?: string | null;
+  fonction?: UserFonction | null;
   fonctionDetail?: string | null;
   password: string;
   lastLogin: Date | null;

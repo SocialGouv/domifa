@@ -14,6 +14,7 @@ import {
   StructureCommon,
   USER_FONCTION_LABELS,
   USER_FONCTION_LABELS_LIST,
+  UserFonction,
 } from "@domifa/common";
 
 export class UserDto {
@@ -37,7 +38,7 @@ export class UserDto {
   @MaxLength(100)
   @IsIn(USER_FONCTION_LABELS_LIST)
   @IsString()
-  public readonly fonction!: string;
+  public readonly fonction!: UserFonction;
 
   @MinLength(2)
   @MaxLength(255)

@@ -1,8 +1,9 @@
 import { normalizeString } from "../../search";
+import { UserFonction } from "../../users";
 import { NORMALIZED_USER_FONCTIONS } from "../../users/user-structure/constants";
 
-export function matchFonctionUtilisateur(input: string): string | null {
-  if (!input) return "Autre";
+export function matchFonctionUtilisateur(input: string): UserFonction | null {
+  if (!input) return UserFonction.AUTRE;
 
   const normalizedInput = normalizeString(input);
 
@@ -13,13 +14,13 @@ export function matchFonctionUtilisateur(input: string): string | null {
 
     for (const synonym of fonction.normalizedSynonyms) {
       if (
-        normalizedInput.includes(synonym) ||
-        synonym.includes(normalizedInput)
+        normalizedInput.includes(synonym) &&
+        !fonction.normalizedExclude?.includes(normalizedInput)
       ) {
         return fonction.canonicalName;
       }
     }
   }
 
-  return null;
+  return UserFonction.AUTRE;
 }

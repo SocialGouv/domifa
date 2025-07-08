@@ -1,6 +1,10 @@
 import { Column, Entity, Generated, Index } from "typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
-import { UserSupervisor, UserSupervisorRole } from "@domifa/common";
+import {
+  UserFonction,
+  UserSupervisor,
+  UserSupervisorRole,
+} from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "user_supervisor" })
@@ -13,7 +17,7 @@ export class UserSupervisorTable
   email: string;
 
   @Column({ type: "text", nullable: true })
-  fonction: string;
+  fonction: UserFonction;
 
   @Index()
   @Column({ type: "integer", unique: true })

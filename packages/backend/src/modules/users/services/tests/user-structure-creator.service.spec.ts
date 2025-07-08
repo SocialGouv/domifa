@@ -1,4 +1,4 @@
-import { UserStructureRole } from "@domifa/common";
+import { UserFonction, UserStructureRole } from "@domifa/common";
 import { userStructureSecurityRepository } from "../../../../database";
 import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
 import { AppTestHelper } from "../../../../util/test";
@@ -25,6 +25,8 @@ describe("userStructureCreator", () => {
       prenom: "Tom",
       password,
       structureId,
+      fonction: UserFonction.PRESIDENT,
+      fonctionDetail: null,
     };
     const { user, userSecurity } =
       await userStructureCreator.createUserWithPassword(userAttributes, {
@@ -61,6 +63,8 @@ describe("userStructureCreator", () => {
       prenom: "Tom",
       role,
       structureId,
+      fonction: UserFonction.PRESIDENT,
+      fonctionDetail: null,
     };
     const { user, userSecurity } =
       await userStructureCreator.createUserWithTmpToken(userAttributes);
