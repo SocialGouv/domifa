@@ -4,6 +4,8 @@ export const USER_FONCTION_LABELS: {
   [key in UserFonction]: string;
 } = {
   PRESIDENT: "Président",
+  VICE_PRESIDENT: "Vice-président",
+  ELU: "Elu / Conseiller municipal",
   DIRECTEUR_RESPONSABLE: "Directeur / Responsable",
   DIRECTEUR_GENERAL_DES_SERVICES: "Directeur général des services (DGS)",
   MAIRE: "Maire",

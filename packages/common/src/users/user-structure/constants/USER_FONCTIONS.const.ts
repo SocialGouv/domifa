@@ -1,25 +1,46 @@
 import { normalizeString } from "../../../search";
 import { UserFonctionMapping } from "../interfaces";
+import { UserFonction } from "../types";
 
 export const USER_FONCTIONS: UserFonctionMapping[] = [
   {
-    canonicalName: "Président",
+    canonicalName: UserFonction.VICE_PRESIDENT,
+    synonyms: [
+      "vice-président",
+      "vice président du ca du ccas",
+      "vice président du c.c.a.s",
+      "vice-présidente",
+    ],
+    exclude: ["Adjointe aux Affaires Sociales - Vice-Présidente du CCAS"],
+  },
+  {
+    canonicalName: UserFonction.PRESIDENT,
     synonyms: [
       "président",
-      "presidente",
-      "présidente",
-      "president",
       "presidente",
       "presidence",
       "président ccas",
       "président du ccas",
       "président du c.c.a.s.",
       "président du ccas et maire de la commune",
-      "maire, président du ccas",
+      "président du ccas",
+    ],
+    exclude: [
+      "vice-président",
+      "Adjointe aux Affaires Sociales - Vice-Présidente du CCAS",
+      "Maire, Président du CCAS",
     ],
   },
   {
-    canonicalName: "Directeur / Responsable",
+    canonicalName: UserFonction.ELU,
+    synonyms: [
+      "Elue en charge du Social",
+      "conseillère municipale",
+      "conseillère municipale déléguée au social",
+    ],
+  },
+  {
+    canonicalName: UserFonction.DIRECTEUR_RESPONSABLE,
     synonyms: [
       "directeur",
       "directrice",
@@ -57,9 +78,10 @@ export const USER_FONCTIONS: UserFonctionMapping[] = [
       "responsable service administration générale",
       "responsable service logement",
     ],
+    exclude: ["Adjoint au directeur", "directrice generale des services"],
   },
   {
-    canonicalName: "Directeur général des services (DGS)",
+    canonicalName: UserFonction.DIRECTEUR_GENERAL_DES_SERVICES,
     synonyms: [
       "dgs",
       "directrice generale des services",
@@ -67,11 +89,12 @@ export const USER_FONCTIONS: UserFonctionMapping[] = [
     ],
   },
   {
-    canonicalName: "Maire",
-    synonyms: ["maire", "maire de montélier", "ajoint au maire ccas"],
+    canonicalName: UserFonction.MAIRE,
+    synonyms: ["maire", "maire de montélier"],
+    exclude: ["ajoint au maire ccas"],
   },
   {
-    canonicalName: "Chef de service",
+    canonicalName: UserFonction.CHEF_DE_SERVICE,
     synonyms: [
       "chef de service",
       "cheffe de service",
@@ -79,7 +102,7 @@ export const USER_FONCTIONS: UserFonctionMapping[] = [
     ],
   },
   {
-    canonicalName: "Adjoint administratif",
+    canonicalName: UserFonction.ADJOINT_ADMINISTRATIF,
     synonyms: [
       "adjoint administratif",
       "adjoint administratif 2ème classe",
@@ -90,10 +113,26 @@ export const USER_FONCTIONS: UserFonctionMapping[] = [
       "adjointe  administrative",
       "adjoint au directeur",
       "adjointe aux affaires sociales - vice-présidente du ccas",
+      "ajoint au maire ccas",
     ],
   },
   {
-    canonicalName: "Secrétaire / Assistant administratif",
+    canonicalName: UserFonction.TRAVAILLEUR_SOCIAL_ASSISTANT_SOCIAL,
+    synonyms: [
+      "travailleur social",
+      "travailleuse sociale",
+      "assistant social rr",
+      "assistante sociale",
+      "assistante de service social",
+      "assistante de service social lhss babinski",
+      "assistant de service social",
+      "conseillère sociale",
+      "conseillere sociale - chu romain rolland",
+      "educatrice",
+    ],
+  },
+  {
+    canonicalName: UserFonction.SECRETAIRE_ASSISTANT_ADMINISTRATIF,
     synonyms: [
       "secrétaire",
       "secretaire",
@@ -121,22 +160,7 @@ export const USER_FONCTIONS: UserFonctionMapping[] = [
     ],
   },
   {
-    canonicalName: "Travailleur social / Assistant social",
-    synonyms: [
-      "travailleur social",
-      "travailleuse sociale",
-      "assistant social rr",
-      "assistante sociale",
-      "assistante de service social",
-      "assistante de service social lhss babinski",
-      "assistant de service social",
-      "conseillère sociale",
-      "conseillere sociale - chu romain rolland",
-      "educatrice",
-    ],
-  },
-  {
-    canonicalName: "Agent d'accueil",
+    canonicalName: UserFonction.AGENT_ACCUEIL,
     synonyms: [
       "agent d'accueil",
       "agent d'accueil administratif",
@@ -154,7 +178,7 @@ export const USER_FONCTIONS: UserFonctionMapping[] = [
     ],
   },
   {
-    canonicalName: "Chargé de mission action sociale",
+    canonicalName: UserFonction.CHARGE_DE_MISSION_ACTION_SOCIALE,
     synonyms: [
       "charge de mission action sociale",
       "chargé de mission action sociale",
@@ -172,17 +196,15 @@ export const USER_FONCTIONS: UserFonctionMapping[] = [
     ],
   },
   {
-    canonicalName: "Conseiller en économie sociale et familiale (CESF)",
+    canonicalName: UserFonction.CONSEILLER_ECONOMIE_SOCIALE_ET_FAMILIALE,
     synonyms: [
       "cesf",
       "conseillère esf",
       "conseiller economie sociale et familiale",
-      "conseillère municipale",
-      "conseillère municipale déléguée au social",
     ],
   },
   {
-    canonicalName: "Personne en charge de la médiation sociale",
+    canonicalName: UserFonction.MEDIATION_SOCIALE,
     synonyms: [
       "mediation sociale",
       "personne en charge de la médiation sociale",
@@ -190,32 +212,27 @@ export const USER_FONCTIONS: UserFonctionMapping[] = [
     ],
   },
   {
-    canonicalName: "Personne en charge du RSA / Insertion",
+    canonicalName: UserFonction.RSA_INSERTION,
     synonyms: ["rsa insertion", "personne en charge du rsa / insertion"],
   },
   {
-    canonicalName: "Personne en charge de la domiciliation",
+    canonicalName: UserFonction.DOMICILIATION,
     synonyms: [
       "domiciliation",
       "chargée de domiciliation",
       "agent chargé des élections de domicile",
       "er accueil en charge des domiciliations",
     ],
+    exclude: ["Bénévole Domiciliation"],
   },
   {
-    canonicalName: "Bénévole",
+    canonicalName: UserFonction.BENEVOLE,
     synonyms: ["bénévole", "benevole", "bénévole domiciliation", "equipière"],
   },
   {
-    canonicalName: "Autre",
+    canonicalName: UserFonction.AUTRE,
     synonyms: [
       "autre",
-      "vice-président",
-      "vice président du ca du ccas",
-      "vice président du c.c.a.s",
-      "vice presidente",
-      "vice-présidente",
-      "vice présidente",
       "elue en charge du social",
       "cadre de santé",
       "ccas",
@@ -229,5 +246,6 @@ export const NORMALIZED_USER_FONCTIONS = USER_FONCTIONS.map((fonction) => {
   return {
     canonicalName: fonction.canonicalName,
     normalizedSynonyms: fonction.synonyms.map((syn) => normalizeString(syn)),
+    normalizedExclude: fonction.exclude?.map((excl) => normalizeString(excl)),
   };
 });

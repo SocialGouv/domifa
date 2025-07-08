@@ -12,6 +12,7 @@ import {
   UserStructureRole,
   UserStructureMails,
   UserStructure,
+  UserFonction,
 } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
@@ -25,7 +26,7 @@ export class UserStructureTable
   email: string;
 
   @Column({ type: "text", nullable: true })
-  fonction: string;
+  fonction: UserFonction;
 
   @Column({ type: "text", nullable: true })
   fonctionDetail: string;

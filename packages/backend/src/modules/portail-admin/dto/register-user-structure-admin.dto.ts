@@ -4,10 +4,10 @@ import {
   IsIn,
   IsNotEmpty,
   IsNumber,
-  IsOptional,
   IsString,
   MaxLength,
   MinLength,
+  ValidateIf,
 } from "class-validator";
 import { Transform, TransformFnParams } from "class-transformer";
 import { LowerCaseTransform } from "../../../_common/decorators";
@@ -15,6 +15,7 @@ import {
   UserStructureRole,
   USER_FONCTION_LABELS_LIST,
   UserFonction,
+  USER_FONCTION_LABELS,
 } from "@domifa/common";
 
 export class RegisterUserStructureAdminDto {
@@ -60,7 +61,8 @@ export class RegisterUserStructureAdminDto {
   @MinLength(2)
   @MaxLength(100)
   @IsString()
-  @IsOptional()
+  @ValidateIf((u) => u.fonction === USER_FONCTION_LABELS.AUTRE)
+  @IsNotEmpty()
   @Transform(({ value }: TransformFnParams) => {
     if (value) {
       return value.toString().trim();

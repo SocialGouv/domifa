@@ -2,6 +2,7 @@ import {
   UserStructureRole,
   StructureType,
   UserStructure,
+  UserFonction,
 } from "@domifa/common";
 
 export const POST_USER_STRUCTURE_BODY: Partial<UserStructure> = {
@@ -11,7 +12,7 @@ export const POST_USER_STRUCTURE_BODY: Partial<UserStructure> = {
   nom: "TEST",
   prenom: "TEST",
   role: "admin" as UserStructureRole,
-  fonction: "Président",
+  fonction: "Président" as UserFonction,
   fonctionDetail: null,
   structure: {
     id: 100,

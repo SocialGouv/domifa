@@ -1,4 +1,7 @@
+import { UserFonction } from "../types";
+
 export interface UserFonctionMapping {
-  canonicalName: string;
+  canonicalName: UserFonction;
   synonyms: string[];
+  exclude?: string[];
 }
