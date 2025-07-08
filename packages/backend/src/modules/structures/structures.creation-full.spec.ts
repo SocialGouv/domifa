@@ -19,6 +19,7 @@ import { structureDeletorService } from "./services/structure-deletor.service";
 import { StructuresModule } from "./structure.module";
 import { PortailAdminModule } from "../portail-admin";
 import { MailsModule } from "../mails/mails.module";
+import { UserFonction } from "@domifa/common";
 const structureDto: StructureDto = {
   adresse: "1 rue de Pessac",
   adresseCourrier: {
@@ -137,7 +138,7 @@ describe("Stuctures creation full", () => {
       password: "Y67xc6D7XBibZ6r",
       prenom: "Ben",
       structure: undefined,
-      fonction: "Autre",
+      fonction: UserFonction.PRESIDENT,
       fonctionDetail: "Président",
     };
     const structureWithUser: StructureWithUserDto = {
