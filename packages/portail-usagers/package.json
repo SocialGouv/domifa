@@ -35,7 +35,7 @@
     "@popperjs/core": "^2.11.8",
     "@sentry/angular": "^8.55.0",
     "angular-user-idle": "^4.0.0",
-    "bootstrap": "^5.3.3",
+    "bootstrap": "^5.3.7",
     "date-fns": "^2.30.0",
     "file-saver": "^2.0.5",
     "google-libphonenumber": "^3.2.42",
