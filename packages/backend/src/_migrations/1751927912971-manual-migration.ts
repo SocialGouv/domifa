@@ -2,7 +2,6 @@ import { IsNull, MigrationInterface, Not } from "typeorm";
 import { domifaConfig } from "../config";
 import { matchFonctionUtilisateur } from "@domifa/common/src/structure/functions/matchFonctionUtilisateur";
 import { userStructureRepository } from "../database";
-import { UserFonction } from "@domifa/common";
 
 export class ManualMigration1751927912971 implements MigrationInterface {
   name = "ManualMigration1751927912971";
@@ -37,8 +36,7 @@ export class ManualMigration1751927912971 implements MigrationInterface {
           },
           {
             fonction,
-            fonctionDetail:
-              currentFonction === UserFonction.AUTRE ? user.fonction : null,
+            fonctionDetail: user.fonction,
           }
         );
 

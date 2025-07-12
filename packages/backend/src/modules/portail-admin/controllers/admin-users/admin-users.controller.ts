@@ -30,12 +30,12 @@ import { userSupervisorRepository } from "../../../../database";
 import { userAccountCreatedByAdminEmailSender } from "../../../mails/services/templates-renderers";
 
 import {
+  PatchUserSupervisorDto,
   RegisterUserStructureAdminDto,
   RegisterUserSupervisorDto,
 } from "../../dto";
 import { AdminSuperivorUsersService } from "../../services/admin-superivor-users/admin-superivor-users.service";
 import { EmailDto } from "../../../users/dto";
-import { PatchUserSupervisorDto } from "../../dto/patch-user-supervisor.dto";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("dashboard")
@@ -144,6 +144,7 @@ export class AdminUsersController {
         lastLogin: true,
         createdAt: true,
         territories: true,
+        fonction: true,
         uuid: true,
       },
     });

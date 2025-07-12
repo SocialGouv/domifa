@@ -13,4 +13,5 @@ export const USER_SUPERVISOR_MOCK: UserSupervisor = {
   passwordLastUpdate: new Date(),
   verified: true,
   role: "super-admin-domifa",
+  fonction: "Chargé de déploiement",
 };

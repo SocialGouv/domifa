@@ -1,7 +1,3 @@
-import {
-  POST_USER_STRUCTURE_BODY_WITHOUT_FONCTION,
-  POST_USER_STRUCTURE_BODY_WITHOUT_FONCTION_AUTRE_WITHOUT_DETAIL,
-} from "../../../_common/mocks/POST_USER_STRUCTURE_BODY_WITH_MISSING_ATTRIBUTES.mock";
 import { HttpModule } from "@nestjs/axios";
 
 import { StructuresModule } from "../../structures/structure.module";
@@ -12,7 +8,11 @@ import {
   AppTestHttpClient,
 } from "../../../util/test";
 import { UsersController } from "./users.controller";
-import { POST_USER_STRUCTURE_BODY } from "../../../_common/mocks";
+import {
+  POST_USER_STRUCTURE_BODY,
+  POST_USER_STRUCTURE_BODY_WITHOUT_FONCTION,
+  POST_USER_STRUCTURE_BODY_WITHOUT_FONCTION_AUTRE_WITHOUT_DETAIL,
+} from "../../../_common/mocks";
 import { TESTS_USERS_STRUCTURE } from "../../../_tests";
 import { usersDeletor } from "../services/users-deletor.service";
 import { MailsModule } from "../../mails/mails.module";

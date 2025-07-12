@@ -73,6 +73,15 @@
               </th>
               <th scope="col">
                 <app-table-head-sort
+                  sortKey="Fonction"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Fonction"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
                   sortKey="role"
                   [(sortValue)]="sortValue"
                   [(currentKey)]="currentKey"
@@ -99,7 +108,6 @@
               <td class="fw-bold">{{ user | fullName }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.createdAt | date : "d MMMM y" }}</td>
-
               <td>
                 <ng-container *ngIf="user.lastLogin">
                   <p>
@@ -112,6 +120,9 @@
                 <p class="fw-bold" *ngIf="!user.lastLogin">
                   ❌ Compte jamais utilisé
                 </p>
+              </td>
+              <td>
+                {{ user.fonction }}
               </td>
               <td>
                 {{ USER_SUPERVISOR_ROLES_LABELS[user.role] }}

@@ -20,6 +20,7 @@ describe("IsSocialGouvEmailIfSuperAdmin", () => {
     dto.prenom = "test";
     dto.email = "test@externes.social.gouv.fr";
     dto.role = "super-admin-domifa";
+    dto.fonction = "Chargé de déploiement";
     dto.territories = [];
 
     const errors = await validate(dto);
@@ -32,6 +33,7 @@ describe("IsSocialGouvEmailIfSuperAdmin", () => {
     dto.prenom = "test";
     dto.email = "test@example.com";
     dto.role = "super-admin-domifa";
+    dto.fonction = "Chargé de déploiement";
     dto.territories = [];
 
     const errors = await validate(dto);
@@ -46,6 +48,7 @@ describe("IsSocialGouvEmailIfSuperAdmin", () => {
     dto.email = "test@example.com";
     dto.role = "national";
     dto.territories = [];
+    dto.fonction = "Sous-directrice";
 
     const errors = await validate(dto);
 

@@ -33,9 +33,9 @@ import {
   RegionsLabels,
   USER_SUPERVISOR_ROLES_LABELS,
   UserSupervisor,
+  UserSupervisorRole,
 } from "@domifa/common";
 import { ManageUsersService } from "../../services/manage-users.service";
-import { UserSupervisorRole } from "@domifa/common";
 
 export type FormEmailTakenValidator = Observable<null | {
   emailTaken: boolean;
@@ -56,8 +56,8 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
   public emailExist = false;
 
   public readonly USER_SUPERVISOR_ROLES_LABELS = USER_SUPERVISOR_ROLES_LABELS;
-  private subscription = new Subscription();
-  private unsubscribe: Subject<void> = new Subject();
+  private readonly subscription = new Subscription();
+  private readonly unsubscribe: Subject<void> = new Subject();
 
   public selectedRole: UserSupervisorRole = "national";
   public showTerritories = false;
@@ -122,6 +122,7 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
       nom: this.userToEdit.nom,
       email: this.userToEdit.email,
       role: this.userToEdit.role,
+      fonction: this.userToEdit.fonction,
       territories: territory,
     });
 
@@ -148,6 +149,10 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
         null,
         [Validators.required, EmailValidator, this.SuperAdminEmailValidator()],
         this.validateEmailNotTaken.bind(this),
+      ],
+      fonction: [
+        null,
+        [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
       nom: [
         null,

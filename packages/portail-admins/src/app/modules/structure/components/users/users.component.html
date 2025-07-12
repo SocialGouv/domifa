@@ -91,7 +91,13 @@
       >
         <td class="fw-bold">{{ user.id }}</td>
         <td class="fw-bold">{{ user.nom }} {{ user.prenom }}</td>
-        <td class="fw-bold">{{ user.fonction }}</td>
+        <td class="fw-bold">
+          {{
+            user.fonction === "AUTRE"
+              ? "Autre fonction: " + user.fonctionDetail
+              : USER_FONCTION_LABELS[user.fonction]
+          }}
+        </td>
         <td>{{ user.email }}</td>
         <td>{{ user.createdAt | date : "d MMMM y" }}</td>
         <td>

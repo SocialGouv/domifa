@@ -7,7 +7,7 @@ export type UserStructureJwtPayload = UseBaseJwtPayload<"structure"> & {
   nom: string;
   prenom: string;
   role: UserStructureRole;
-  fonction?: UserFonction | null;
+  fonction: UserFonction | null;
   fonctionDetail?: string;
   lastLogin: Date;
   acceptTerms: Date | null;

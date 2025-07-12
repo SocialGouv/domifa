@@ -10,6 +10,7 @@ describe("IsSocialGouvEmailIfSuperAdmin Validator", () => {
     dto.email = "test@example.com";
     dto.role = "national";
     dto.territories = [];
+    dto.fonction = "Chargé de déploiement";
     return dto;
   };
 
