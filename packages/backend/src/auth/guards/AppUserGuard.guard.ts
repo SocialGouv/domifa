@@ -1,4 +1,8 @@
-import { UserStructureRole, UserSupervisorRole } from "@domifa/common";
+import {
+  UserFonction,
+  UserStructureRole,
+  UserSupervisorRole,
+} from "@domifa/common";
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { getCurrentScope } from "@sentry/node";
@@ -35,6 +39,8 @@ export class AppUserGuard implements CanActivate {
       structureId?: number | null;
       role?: UserSupervisorRole | UserStructureRole;
       email?: string | null;
+      fonction?: UserFonction | null;
+      fonctionDetail?: string | null;
     } = {
       id: user._userId,
       structureId: null,
@@ -44,6 +50,8 @@ export class AppUserGuard implements CanActivate {
       userScope = {
         ...userScope,
         role: user?.role,
+        fonction: user?.fonction,
+        fonctionDetail: user?.fonctionDetail,
         email: user?.email,
         structureId: user?.structureId,
       };

@@ -35,6 +35,7 @@ import {
   MARKET_TOOLS_OPTIONS,
   SOURCES_OPTIONS,
   RegistrationSources,
+  USER_FONCTION_LABELS,
 } from "@domifa/common";
 
 import {
@@ -57,6 +58,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   public readonly CURRENT_TOOL_OPTIONS = CURRENT_TOOL_OPTIONS;
   public readonly SOURCES_OPTIONS = SOURCES_OPTIONS;
   public readonly MARKET_TOOLS_OPTIONS = MARKET_TOOLS_OPTIONS;
+  public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
   public success = false;
 
   public loading = false;
@@ -78,7 +80,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   public readonly NETWORKS = NETWORKS;
 
   public showsourceDetail = false;
-
+  public compareOriginalOrder = () => 0;
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly structureService: StructureService,
@@ -97,6 +99,11 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
 
   public get f(): { [key: string]: AbstractControl } {
     return this.structureForm.controls;
+  }
+
+  // TODO: fix controls with 2 nested form groups
+  public get fonctionControl(): AbstractControl {
+    return this.structureForm.controls["responsable"].get("fonction");
   }
 
   public get reg(): { [key: string]: AbstractControl } {

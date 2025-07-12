@@ -17,6 +17,8 @@ export const userStructureRepository = myDataSource
           uuid: true,
           id: true,
           role: true,
+          fonction: true,
+          fonctionDetail: true,
           nom: true,
           prenom: true,
           email: true,

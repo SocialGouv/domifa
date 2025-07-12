@@ -49,7 +49,11 @@
       <span class="fw-bold text-danger">*</span> sont obligatoires
     </p>
     <br />
-    <form *ngIf="user" [formGroup]="userForm" (ngSubmit)="submitUser()">
+    <form
+      *ngIf="user && userForm"
+      [formGroup]="userForm"
+      (ngSubmit)="submitUser()"
+    >
       <div class="row">
         <div class="col form-group required">
           <label for="nom">Nom</label>
@@ -117,40 +121,13 @@
       </div>
       <div class="row">
         <div class="col form-group required">
-          <label for="fonction">Fonction</label>
-          <input
-            type="text"
-            autocomplete="organization-title"
-            class="form-control"
-            id="fonction"
-            formControlName="fonction"
-            maxlength="200"
-            name="fonction"
-            [ngClass]="{
-              'is-invalid': (f.fonction.dirty || submitted) && f.fonction.errors
-            }"
-            [attr.aria-invalid]="
-              (f.fonction.dirty || submitted) && f.fonction.errors
-                ? true
-                : false
-            "
-            [attr.aria-describedby]="
-              (f.fonction.dirty || submitted) && f.fonction.errors
-                ? 'fonction-error'
-                : 'fonction-description'
-            "
-            required
-          />
-          <small id="fonction-description"
-            >Président.e, Directrice, Chef de service, etc.</small
-          >
-          <p
-            *ngIf="(f.fonction.dirty || submitted) && f.fonction.errors"
-            id="fonction-error"
-            class="invalid-feedback"
-          >
-            Votre fonction est obligatoire
-          </p>
+          <app-fonction-selection
+            [parentFormGroup]="userForm"
+            [fonctionFormControl]="fonctionControl"
+            [fonctionDetailFormControl]="fonctionDetailControl"
+            [submitted]="submitted"
+            invalidFeedbackText="La fonction du responsable est obligatoire"
+          ></app-fonction-selection>
         </div>
       </div>
       <div class="row">

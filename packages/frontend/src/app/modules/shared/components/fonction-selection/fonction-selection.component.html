@@ -1,0 +1,83 @@
+<ng-container>
+  <label for="fonction">{{ label }}</label>
+  <select
+    id="fonction"
+    [(ngModel)]="fonction"
+    (ngModelChange)="onModelChange(CONTROL_OPTIONS.FONCTION, $event)"
+    name="fonction"
+    [ngClass]="{
+      'is-invalid':
+        fonctionFormControl &&
+        (submitted || fonctionFormControl?.dirty) &&
+        fonctionFormControl.errors
+    }"
+    class="form-select"
+    [attr.required]="required"
+  >
+    <option [ngValue]="null">Sélectionnez une option</option>
+    <option
+      *ngFor="
+        let option of USER_FONCTION_LABELS | keyvalue : compareOriginalOrder
+      "
+      [value]="option.value"
+    >
+      {{ option.value }}
+    </option>
+  </select>
+  <p
+    *ngIf="
+      (submitted || fonctionFormControl?.dirty) && fonctionFormControl?.errors
+    "
+    class="invalid-feedback"
+    id="responsable-fonction-errors"
+  >
+    {{ invalidFeedbackText }}
+  </p>
+</ng-container>
+<small id="responsable-fonction-description"
+  >Président.e, Directrice, etc.</small
+>
+<ng-container *ngIf="fonction === 'Autre'">
+  <div class="col-12 mt-2 form-group required">
+    <label for="fonctionDetail" [class]="displayLabel ? '' : 'visually-hidden'"
+      >Préciser</label
+    >
+    <input
+      [(ngModel)]="fonctionDetail"
+      (ngModelChange)="onModelChange(CONTROL_OPTIONS.DETAIL_FONCTION, $event)"
+      type="text"
+      class="form-control"
+      id="fonctionDetail"
+      maxlength="200"
+      name="fonctionDetail"
+      [ngClass]="{
+        'is-invalid':
+          (fonctionDetailFormControl.dirty || submitted) &&
+          fonctionDetailFormControl.errors
+      }"
+      [attr.aria-invalid]="
+        (fonctionDetailFormControl.dirty || submitted) &&
+        fonctionDetailFormControl.errors
+          ? true
+          : false
+      "
+      [attr.aria-describedby]="
+        (fonctionDetailFormControl.dirty || submitted) &&
+        fonctionDetailFormControl.errors
+          ? 'fonction-error'
+          : 'fonction-detail-description'
+      "
+      required
+    />
+    <p
+      *ngIf="
+        (submitted || fonctionDetailFormControl?.dirty) &&
+        fonctionDetailFormControl?.errors
+      "
+      class="invalid-feedback"
+      id="responsable-detail-fonction-errors"
+    >
+      Veuillez préciser la fonction
+    </p>
+  </div>
+</ng-container>

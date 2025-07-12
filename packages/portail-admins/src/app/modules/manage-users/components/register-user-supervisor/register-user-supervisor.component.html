@@ -77,8 +77,38 @@
           Veuillez vérifier le prénom
         </p>
       </div>
-
-      <div class="col-md-12 form-group required">
+      <div class="col-md-6 form-group required">
+        <label for="fonction">Fonction</label>
+        <input
+          type="text"
+          class="form-control"
+          id="fonction"
+          appCleanStr
+          formControlName="fonction"
+          name="fonction"
+          [ngClass]="{
+            'is-invalid': (submitted || f.fonction.dirty) && f.fonction.errors,
+            'is-valid': f.fonction.dirty && !f.fonction.errors
+          }"
+          [attr.aria-describedby]="
+            (submitted || f.fonction.dirty) && f.fonction.errors
+              ? 'invalid-fonction'
+              : null
+          "
+          [attr.aria-invalid]="
+            (submitted || f.fonction.dirty) && f.fonction.errors ? true : false
+          "
+          required
+        />
+        <p
+          *ngIf="(submitted || f.fonction.dirty) && f.fonction.errors"
+          id="invalid-fonction"
+          class="invalid-feedback"
+        >
+          Veuillez vérifier la fonction
+        </p>
+      </div>
+      <div class="col-md-6 form-group required">
         <label for="email">Adresse email</label>
         <input
           type="email"

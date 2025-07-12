@@ -15,7 +15,8 @@ import { USER_SUPERVISOR_ROLES } from "../../../_common/model/users/user-supervi
 import { LowerCaseTransform } from "../../../_common/decorators/transformers";
 import { IsSocialGouvEmailIfSuperAdmin } from "../decorators";
 
-export class RegisterUserSupervisorDto {
+// Base DTO avec les propriétés communes
+export abstract class BaseUserSupervisorDto {
   @ApiProperty({
     type: String,
     required: true,
@@ -45,19 +46,6 @@ export class RegisterUserSupervisorDto {
   @ApiProperty({
     type: String,
     required: true,
-  })
-  @IsNotEmpty()
-  @IsEmail()
-  @LowerCaseTransform()
-  @IsSocialGouvEmailIfSuperAdmin({
-    message:
-      "Pour le rôle super-admin-domifa, l'email doit se terminer par @fabrique.social.gouv.fr ou @externes.social.gouv.fr",
-  })
-  public email!: string;
-
-  @ApiProperty({
-    type: String,
-    required: true,
     enum: USER_SUPERVISOR_ROLES,
   })
   @IsNotEmpty()
@@ -75,4 +63,31 @@ export class RegisterUserSupervisorDto {
     message: "La valeur géographique doit correspondre au rôle sélectionné",
   })
   public territories!: string[];
+
+  @ApiProperty({
+    type: String,
+    required: true,
+  })
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(200)
+  public fonction: string;
 }
+
+export class RegisterUserSupervisorDto extends BaseUserSupervisorDto {
+  @ApiProperty({
+    type: String,
+    required: true,
+  })
+  @IsNotEmpty()
+  @IsEmail()
+  @LowerCaseTransform()
+  @IsSocialGouvEmailIfSuperAdmin({
+    message:
+      "Pour le rôle super-admin-domifa, l'email doit se terminer par @fabrique.social.gouv.fr ou @externes.social.gouv.fr",
+  })
+  public email!: string;
+}
+
+// DTO pour la mise à jour (sans email)
+export class PatchUserSupervisorDto extends BaseUserSupervisorDto {}

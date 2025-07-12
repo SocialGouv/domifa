@@ -10,6 +10,8 @@ export type UserStructurePublic = Pick<
   | "nom"
   | "prenom"
   | "role"
+  | "fonction"
+  | "fonctionDetail"
   | "verified"
   | "structureId"
   | "acceptTerms"
