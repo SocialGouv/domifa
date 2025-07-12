@@ -32,6 +32,9 @@ dump:
                 template: "{{ .FirstName }}"
               - name: nom
                 template: "{{ .LastName }}"
+        - name: SetNull
+          params:
+            column: nom_prenom_surnom_ref
         - name: RandomPerson
           params:
             columns:
@@ -242,6 +245,54 @@ dump:
                 skip_on_null_input: true
 
     - schema: public
+      name: user_supervisor
+      transformers:
+        - name: RandomPerson
+          params:
+            columns:
+              - name: prenom
+                template: "{{ .FirstName }}"
+              - name: nom
+                template: "{{ .LastName }}"
+        - name: "Cmd"
+          params:
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
+            args:
+              - "./dist/user-structure--email.js"
+            columns:
+              - name: "email"
+                skip_on_null_input: true
+              - name: "role"
+                not_affected: true
+                skip_on_null_input: true
+              - name: "structureId"
+                not_affected: true
+                skip_on_null_input: true
+              - name: "id"
+                not_affected: true
+                skip_on_null_input: true
+        - name: "Cmd"
+          params:
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
+            args:
+              - "./dist/user-usager--password.js"
+            columns:
+              - name: "password"
+                skip_on_null_input: true
+
+    - schema: public
       name: interactions
       transformers:
         - name: Replace
@@ -368,6 +419,20 @@ dump:
             validate: true
 
     - schema: public
+      name: user_supervisor_security
+      transformers:
+        - name: SetNull
+          params:
+            column: temporaryTokens
+        - name: "TemplateRecord"
+          params:
+            columns:
+              - "eventsHistory"
+            template: |
+              {{ .SetColumnValue "eventsHistory" "[]" }}
+            validate: true
+
+    - schema: public
       name: user_usager_security
       transformers:
         - name: "TemplateRecord"
@@ -412,11 +477,6 @@ dump:
         - name: SetNull
           params:
             column: interactionMetas
-        - name: RandomInt
-          params:
-            column: "usagerRef"
-            min: 1
-            max: 100000
 
     - schema: public
       name: usager_notes
