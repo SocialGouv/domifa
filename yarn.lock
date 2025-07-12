@@ -2678,19 +2678,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-angular@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "@ckeditor/ckeditor5-angular@npm:9.0.0"
+"@ckeditor/ckeditor5-angular@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "@ckeditor/ckeditor5-angular@npm:10.0.0"
   dependencies:
-    "@ckeditor/ckeditor5-integrations-common": "npm:^2.0.0"
+    "@ckeditor/ckeditor5-integrations-common": "npm:^2.2.2"
     tslib: "npm:^2.3.0"
   peerDependencies:
     "@angular/common": ">=16.0.0"
     "@angular/core": ">=16.0.0"
     "@angular/forms": ">=16.0.0"
-    ckeditor5: ">=42.0.0 || ^0.0.0-nightly"
+    ckeditor5: ">=46.0.0-alpha.0 || ^0.0.0-nightly"
     rxjs: ">=6.0.0"
-  checksum: 10/66aca35297d4d7af2eac42c0ccc5ba33c5d3be8c0a479a77f8af93145aa6cec31e1e4de0af757c0065a0472b42368d534f224ad96488b6d0361277d1ad0fa27b
+  checksum: 10/5296a9ce4c58dbe243ff68038c3eee727e40a3e7f9b47a341a87bb9f4bca4d3ec5cedcbe664cdb794a4894936c552c3321aa7505581d336e2c50ee9d4892695c
   languageName: node
   linkType: hard
 
@@ -3095,12 +3095,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-integrations-common@npm:^2.0.0":
-  version: 2.1.0
-  resolution: "@ckeditor/ckeditor5-integrations-common@npm:2.1.0"
+"@ckeditor/ckeditor5-integrations-common@npm:^2.2.2":
+  version: 2.2.3
+  resolution: "@ckeditor/ckeditor5-integrations-common@npm:2.2.3"
   peerDependencies:
     ckeditor5: ">=42.0.0 || ^0.0.0-nightly"
-  checksum: 10/486597e70572c49a95ac0cd9abbf01310f04bade95d47f09885c0caa2161c3c48d1e854a1c9ed70e84468d574702c929cbfd91cec8795f7ec33c03565ba95492
+  checksum: 10/7e0caaf8ad43889b33372dbc503150818c636780c768e4b8c97adff0783a7565ffbdbc072fca983ed4889be840136a728e58b27979945855d67b11f128ea88a4
   languageName: node
   linkType: hard
 
@@ -3855,7 +3855,7 @@ __metadata:
     "@angular/platform-browser": "npm:^17.3.12"
     "@angular/platform-browser-dynamic": "npm:^17.3.12"
     "@angular/router": "npm:^17.3.12"
-    "@ckeditor/ckeditor5-angular": "npm:^9.0.0"
+    "@ckeditor/ckeditor5-angular": "npm:^10.0.0"
     "@ckeditor/ckeditor5-build-classic": "npm:^43.3.0"
     "@domifa/common": "workspace:^"
     "@fortawesome/angular-fontawesome": "npm:0.14.1"
