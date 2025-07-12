@@ -1,3 +1,10 @@
+## [2.204.5](https://github.com/SocialGouv/domifa/compare/v2.204.4...v2.204.5) (2025-07-12)
+
+
+### Bug Fixes
+
+* **backend:** add anon to some fields ([39a79c5](https://github.com/SocialGouv/domifa/commit/39a79c5db55204ccf9fa9ca4fa220d92af31d0ea))
+
 ## [2.204.4](https://github.com/SocialGouv/domifa/compare/v2.204.3...v2.204.4) (2025-07-01)
 
 
