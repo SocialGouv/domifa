@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
 
 const BASE_URL = `${environment.apiUrl}admin/structures`;
-
+const RESET_PASSWORD_URL = `${environment.apiUrl}users/get-password-token`;
 export type UserStructureWithSecurity = UserStructure & {
   temporaryTokens: {
     type?: string;
@@ -32,6 +32,12 @@ export class StructureService {
     return this.http.get<Array<UserStructureWithSecurity>>(
       `${BASE_URL}/structure/${id}/users`
     );
+  }
+
+  public resetStructureAdminPassword(email: string): Observable<void> {
+    return this.http.post<void>(`${RESET_PASSWORD_URL}`, {
+      email,
+    });
   }
 
   public getMetabaseUrl(params: MetabaseParams): Observable<{ url: string }> {
