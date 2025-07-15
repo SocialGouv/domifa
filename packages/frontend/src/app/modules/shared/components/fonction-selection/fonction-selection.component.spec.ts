@@ -8,7 +8,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { USER_FONCTION_LABELS } from "@domifa/common";
+import { USER_FONCTION_LABELS, UserFonction } from "@domifa/common";
 import { By } from "@angular/platform-browser";
 import { Component, ViewChild } from "@angular/core";
 
@@ -158,7 +158,7 @@ describe("FonctionSelectionComponent", () => {
       const selectElement = hostFixture.debugElement.query(By.css("select"));
 
       // Select a value
-      const testValue = USER_FONCTION_LABELS.PRESIDENT;
+      const testValue = UserFonction.PRESIDENT;
       selectElement.nativeElement.value = testValue;
       selectElement.nativeElement.dispatchEvent(new Event("change"));
       hostFixture.detectChanges();
@@ -234,7 +234,7 @@ describe("FonctionSelectionComponent", () => {
 
         // Select 'Autre'
         const selectElement = hostFixture.debugElement.query(By.css("select"));
-        selectElement.nativeElement.value = USER_FONCTION_LABELS.AUTRE;
+        selectElement.nativeElement.value = UserFonction.AUTRE;
         selectElement.nativeElement.dispatchEvent(new Event("change"));
         hostFixture.detectChanges();
 
@@ -246,7 +246,7 @@ describe("FonctionSelectionComponent", () => {
       it("should hide detail input when switching from 'Autre' to another option", () => {
         // First select 'Autre'
         const selectElement = hostFixture.debugElement.query(By.css("select"));
-        selectElement.nativeElement.value = USER_FONCTION_LABELS.AUTRE;
+        selectElement.nativeElement.value = UserFonction.AUTRE;
         selectElement.nativeElement.dispatchEvent(new Event("change"));
         hostFixture.detectChanges();
 
@@ -257,7 +257,7 @@ describe("FonctionSelectionComponent", () => {
         expect(detailInput).toBeTruthy();
 
         // Switch to another option
-        selectElement.nativeElement.value = USER_FONCTION_LABELS.PRESIDENT;
+        selectElement.nativeElement.value = UserFonction.PRESIDENT;
         selectElement.nativeElement.dispatchEvent(new Event("change"));
         hostFixture.detectChanges();
 
@@ -276,9 +276,7 @@ describe("FonctionSelectionComponent", () => {
         );
 
         // Select 'Autre'
-        hostComponent.parentForm.controls.fonction.setValue(
-          USER_FONCTION_LABELS.AUTRE
-        );
+        hostComponent.parentForm.controls.fonction.setValue(UserFonction.AUTRE);
         hostFixture.detectChanges();
 
         expect(setValidatorsSpy).toHaveBeenCalledWith(Validators.required);
@@ -299,14 +297,12 @@ describe("FonctionSelectionComponent", () => {
         );
 
         // First select 'Autre'
-        hostComponent.parentForm.controls.fonction.setValue(
-          USER_FONCTION_LABELS.AUTRE
-        );
+        hostComponent.parentForm.controls.fonction.setValue(UserFonction.AUTRE);
         hostFixture.detectChanges();
 
         // Then switch to another option
         hostComponent.parentForm.controls.fonction.setValue(
-          USER_FONCTION_LABELS.PRESIDENT
+          UserFonction.PRESIDENT
         );
         hostFixture.detectChanges();
 

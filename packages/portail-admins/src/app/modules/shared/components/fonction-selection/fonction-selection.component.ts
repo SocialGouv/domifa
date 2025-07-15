@@ -1,7 +1,7 @@
 import { Subscription } from "rxjs";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { AbstractControl, UntypedFormGroup, Validators } from "@angular/forms";
-import { USER_FONCTION_LABELS } from "@domifa/common";
+import { USER_FONCTION_LABELS, UserFonction } from "@domifa/common";
 
 enum CONTROL_OPTIONS {
   "FONCTION" = "FONCTION",
@@ -25,7 +25,8 @@ export class FonctionSelectionComponent implements OnInit, OnDestroy {
   public fonction: string | null = null;
   public fonctionDetail: string | null = null;
   public compareOriginalOrder = () => 0;
-  public _USER_FONCTION_LABELS = USER_FONCTION_LABELS;
+  public USER_FONCTION = UserFonction;
+  public USER_FONCTION_LABELS = USER_FONCTION_LABELS;
   public readonly CONTROL_OPTIONS = CONTROL_OPTIONS;
   private subscription = new Subscription();
 
@@ -34,7 +35,7 @@ export class FonctionSelectionComponent implements OnInit, OnDestroy {
     this.fonctionDetail = this.fonctionDetailFormControl?.value ?? null;
     this.subscription.add(
       this.fonctionFormControl.valueChanges.subscribe((value) => {
-        if (value === "Autre" || value === null) {
+        if (value === this.USER_FONCTION.AUTRE || value === null) {
           this.fonctionDetailFormControl?.setValidators(Validators.required);
         } else {
           this.fonctionDetailFormControl?.setValue(null);

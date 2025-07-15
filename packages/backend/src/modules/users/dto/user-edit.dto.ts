@@ -1,8 +1,4 @@
-import {
-  USER_FONCTION_LABELS,
-  USER_FONCTION_LABELS_LIST,
-  UserFonction,
-} from "@domifa/common";
+import { UserFonction } from "@domifa/common";
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 import {
@@ -48,7 +44,7 @@ export class UserEditDto {
   })
   @MinLength(2)
   @MaxLength(100)
-  @IsIn(USER_FONCTION_LABELS_LIST)
+  @IsIn(Object.keys(UserFonction))
   @IsString()
   public readonly fonction!: UserFonction;
 
@@ -58,7 +54,7 @@ export class UserEditDto {
   @MinLength(2)
   @MaxLength(255)
   @IsString()
-  @ValidateIf((u) => u.fonction === USER_FONCTION_LABELS.AUTRE)
+  @ValidateIf((u) => u.fonction === UserFonction.AUTRE)
   @IsNotEmpty()
   @Transform(({ value }: TransformFnParams) => {
     if (value) {

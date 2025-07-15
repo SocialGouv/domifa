@@ -20,6 +20,7 @@ import {
   UserStructure,
   UserStructureRole,
   USER_STRUCTURE_ROLES_LABELS,
+  USER_FONCTION_LABELS,
 } from "@domifa/common";
 import { ManageUsersService } from "../../services/manage-users.service";
 
@@ -42,6 +43,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   public expectedRole: UserStructureRole | null = null;
 
   public readonly USER_STRUCTURE_ROLES_LABELS = USER_STRUCTURE_ROLES_LABELS;
+  public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
 
   @ViewChild("deleteUserConfirmation", { static: true })
   public deleteUserConfirmation!: TemplateRef<NgbModalRef>;
