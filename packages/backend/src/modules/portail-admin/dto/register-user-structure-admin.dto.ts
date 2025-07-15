@@ -11,12 +11,7 @@ import {
 } from "class-validator";
 import { Transform, TransformFnParams } from "class-transformer";
 import { LowerCaseTransform } from "../../../_common/decorators";
-import {
-  UserStructureRole,
-  USER_FONCTION_LABELS_LIST,
-  UserFonction,
-  USER_FONCTION_LABELS,
-} from "@domifa/common";
+import { UserStructureRole, UserFonction } from "@domifa/common";
 
 export class RegisterUserStructureAdminDto {
   @ApiProperty({
@@ -52,7 +47,7 @@ export class RegisterUserStructureAdminDto {
   @MinLength(2)
   @MaxLength(100)
   @IsNotEmpty()
-  @IsIn(USER_FONCTION_LABELS_LIST)
+  @IsIn(Object.keys(UserFonction))
   public readonly fonction!: UserFonction;
 
   @ApiProperty({
@@ -61,7 +56,7 @@ export class RegisterUserStructureAdminDto {
   @MinLength(2)
   @MaxLength(100)
   @IsString()
-  @ValidateIf((u) => u.fonction === USER_FONCTION_LABELS.AUTRE)
+  @ValidateIf((u) => u.fonction === UserFonction.AUTRE)
   @IsNotEmpty()
   @Transform(({ value }: TransformFnParams) => {
     if (value) {

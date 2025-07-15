@@ -1,5 +1,11 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { SortValues, StructureCommon, UserStructureRole } from "@domifa/common";
+import {
+  SortValues,
+  StructureCommon,
+  USER_FONCTION_LABELS,
+  UserFonction,
+  UserStructureRole,
+} from "@domifa/common";
 import { Subscription } from "rxjs";
 import {
   StructureService,
@@ -20,6 +26,8 @@ export class UsersComponent implements OnInit {
   public twoMonthsAgo = subMonths(new Date(), 2);
 
   public readonly frontendUrl = environment.frontendUrl;
+  public readonly USER_FONCTION = UserFonction;
+  public readonly _USER_FONCTION_LABELS = USER_FONCTION_LABELS;
   public readonly USER_ROLES_LABELS: { [key in UserStructureRole]: string } = {
     admin: "Administrateur",
     responsable: "Gestionnaire",

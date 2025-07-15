@@ -10,12 +10,7 @@ import {
   ValidateIf,
 } from "class-validator";
 import { IsValidPassword, Trim } from "../../../_common/decorators";
-import {
-  StructureCommon,
-  USER_FONCTION_LABELS,
-  USER_FONCTION_LABELS_LIST,
-  UserFonction,
-} from "@domifa/common";
+import { StructureCommon, UserFonction } from "@domifa/common";
 
 export class UserDto {
   @MinLength(2)
@@ -36,14 +31,14 @@ export class UserDto {
 
   @MinLength(2)
   @MaxLength(100)
-  @IsIn(USER_FONCTION_LABELS_LIST)
+  @IsIn(Object.keys(UserFonction))
   @IsString()
   public readonly fonction!: UserFonction;
 
   @MinLength(2)
   @MaxLength(255)
   @IsString()
-  @ValidateIf((u) => u.fonction === USER_FONCTION_LABELS.AUTRE)
+  @ValidateIf((u) => u.fonction === UserFonction.AUTRE)
   @IsNotEmpty()
   public readonly fonctionDetail: string | null;
 

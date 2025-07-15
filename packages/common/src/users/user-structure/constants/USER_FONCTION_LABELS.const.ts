@@ -23,5 +23,3 @@ export const USER_FONCTION_LABELS: {
   BENEVOLE: "Bénévole",
   AUTRE: "Autre",
 };
-
-export const USER_FONCTION_LABELS_LIST = Object.values(USER_FONCTION_LABELS);

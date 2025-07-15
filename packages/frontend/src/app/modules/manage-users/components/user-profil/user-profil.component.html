@@ -119,7 +119,7 @@
                   </select>
                 </ng-container>
               </td>
-              <td>{{ user.fonction }}</td>
+              <td>{{ USER_FONCTION_LABELS[user.fonction] }}</td>
               <td *ngIf="me.role === 'admin'">
                 <button
                   type="button"

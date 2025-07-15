@@ -16,12 +16,10 @@
   >
     <option [ngValue]="null">Sélectionnez une option</option>
     <option
-      *ngFor="
-        let option of USER_FONCTION_LABELS | keyvalue : compareOriginalOrder
-      "
-      [value]="option.value"
+      *ngFor="let option of USER_FONCTION | keyvalue : compareOriginalOrder"
+      [value]="option.key"
     >
-      {{ option.value }}
+      {{ USER_FONCTION_LABELS[option.key] }}
     </option>
   </select>
   <p
@@ -37,7 +35,7 @@
 <small id="responsable-fonction-description"
   >Président.e, Directrice, etc.</small
 >
-<ng-container *ngIf="fonction === 'Autre'">
+<ng-container *ngIf="fonction === USER_FONCTION.AUTRE">
   <div class="col-12 mt-2 form-group required">
     <label for="fonctionDetail" [class]="displayLabel ? '' : 'visually-hidden'"
       >Préciser</label

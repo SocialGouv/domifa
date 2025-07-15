@@ -20,7 +20,7 @@ import { map, takeUntil } from "rxjs/operators";
 
 import { EmailValidator, NoWhiteSpaceValidator } from "../../../../shared";
 import { AuthService, CustomToastService } from "../../../shared/services";
-import { UserStructure } from "@domifa/common";
+import { USER_FONCTION_LABELS, UserStructure } from "@domifa/common";
 import { format } from "date-fns";
 import {
   UsagerLight,
@@ -59,7 +59,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
   private unsubscribe: Subject<void> = new Subject();
-
+  public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
   public get f(): { [key: string]: AbstractControl } {
     return this.userForm.controls;
   }
