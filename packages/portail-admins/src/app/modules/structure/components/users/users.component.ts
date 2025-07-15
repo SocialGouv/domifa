@@ -1,30 +1,39 @@
-import { Component, Input, OnInit } from "@angular/core";
 import {
-  SortValues,
-  StructureCommon,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
+import {
   USER_FONCTION_LABELS,
   UserFonction,
+  SortValues,
+  StructureCommon,
   UserStructureRole,
 } from "@domifa/common";
-import { Subscription } from "rxjs";
+
+import { Subject, Subscription } from "rxjs";
 import {
   StructureService,
   UserStructureWithSecurity,
 } from "../../services/structure.service";
 import { environment } from "../../../../../environments/environment";
 import { subMonths } from "date-fns";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-users",
   templateUrl: "./users.component.html",
   styleUrl: "./users.component.css",
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
   public users: UserStructureWithSecurity[] = [];
   public sortValue: SortValues = "asc";
   public currentKey = "id";
   public twoMonthsAgo = subMonths(new Date(), 2);
-
+  public reloadUsers = new Subject<void>();
   public readonly frontendUrl = environment.frontendUrl;
   public readonly USER_FONCTION = UserFonction;
   public readonly _USER_FONCTION_LABELS = USER_FONCTION_LABELS;
@@ -34,14 +43,31 @@ export class UsersComponent implements OnInit {
     simple: "Instructeur",
     facteur: "Facteur",
   };
-
   @Input({ required: true }) public structure: StructureCommon;
   private subscription = new Subscription();
   public searching = true;
+  @ViewChild("confirmPasswordReinit", { static: true })
+  public confirmPasswordReinit!: TemplateRef<NgbModalRef>;
 
-  constructor(private readonly structureService: StructureService) {}
+  public userForPasswordReinit?: UserStructureWithSecurity;
+  constructor(
+    private readonly structureService: StructureService,
+    private readonly modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
+    this.loadUsers();
+
+    // Subscribe to reloadUsers subject to reload the list when triggered
+    this.subscription.add(
+      this.reloadUsers.subscribe(() => {
+        this.loadUsers();
+      })
+    );
+  }
+
+  private loadUsers(): void {
+    this.searching = true;
     this.subscription.add(
       this.structureService.getUsers(this.structure.id).subscribe((users) => {
         this.users = users.map((user) => {
@@ -50,7 +76,31 @@ export class UsersComponent implements OnInit {
           }
           return user;
         });
+        this.searching = false;
       })
     );
+  }
+
+  public openConfirmationModdal(user: UserStructureWithSecurity): void {
+    this.userForPasswordReinit = user;
+    this.modalService.open(this.confirmPasswordReinit, {
+      size: "s",
+      centered: true,
+    });
+  }
+
+  public doResetPassword(email: string): void {
+    if (!email) return;
+    this.subscription.add(
+      this.structureService
+        .resetStructureAdminPassword(email)
+        .subscribe(() => this.reloadUsers.next())
+    );
+
+    this.modalService.dismissAll();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

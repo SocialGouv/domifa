@@ -121,7 +121,7 @@
         <td>
           {{ USER_ROLES_LABELS[user.role] }}
         </td>
-        <td>
+        <td class="d-flex gap-2">
           <a
             target="_blank"
             class="btn btn-outline-primary"
@@ -136,8 +136,52 @@
           >
             🔗 Lien</a
           >
+          <button
+            class="btn btn-outline-primary"
+            (click)="openConfirmationModdal(user)"
+            type="button"
+          >
+            Réinitialiser mot de passe
+          </button>
         </td>
       </tr>
     </tbody>
   </table>
+
+  <ng-template #confirmPasswordReinit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Confirmation</h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss()"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <p>
+        Êtes-vous sûr de vouloir réinitialiser le mot de passe de l'utilisateur:
+        <span class="fw-bold">
+          {{ userForPasswordReinit.email }}
+        </span>
+        ?
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-lg btn-outline-dark"
+        (click)="modal.dismiss()"
+      >
+        Annuler
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="doResetPassword(userForPasswordReinit.email)"
+      >
+        Confirmer
+      </button>
+    </div>
+  </ng-template>
 </div>
