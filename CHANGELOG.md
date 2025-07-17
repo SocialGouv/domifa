@@ -1,3 +1,17 @@
+# [2.205.0](https://github.com/SocialGouv/domifa/compare/v2.204.5...v2.205.0) (2025-07-17)
+
+
+### Bug Fixes
+
+* **portails:** utilisation clé fonction ([e6836d5](https://github.com/SocialGouv/domifa/commit/e6836d5b1e053cc84849749447a5040590e8bc69))
+
+
+### Features
+
+* **admin:** ajout du champs detail fonction ([4ea0147](https://github.com/SocialGouv/domifa/commit/4ea0147d07ed3c92da95e7784c8dbf31850b685e))
+* **admin:** migration récupération de données ([0b2bd84](https://github.com/SocialGouv/domifa/commit/0b2bd84d3f89bf7a12eef2ae9d175fd0b91bf5cc))
+* **usagers:** homogeneiser selection fonction ([accf13b](https://github.com/SocialGouv/domifa/commit/accf13ba8ea04dd09d0afe2366392516ddc3793d))
+
 ## [2.204.5](https://github.com/SocialGouv/domifa/compare/v2.204.4...v2.204.5) (2025-07-12)
 
 
