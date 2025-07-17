@@ -1,7 +1,7 @@
 import { userSupervisorRepository } from "../database";
 import { domifaConfig } from "../config";
 import { IsNull, MigrationInterface, Not } from "typeorm";
-import { matchFonctionUtilisateur } from "@domifa/common/src/structure/functions/matchFonctionUtilisateur";
+import { matchFonctionUtilisateur } from "@domifa/common";
 
 export class ManualMigration1751975605264 implements MigrationInterface {
   public async up(): Promise<void> {
