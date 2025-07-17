@@ -1,3 +1,10 @@
+# [2.206.0](https://github.com/SocialGouv/domifa/compare/v2.205.0...v2.206.0) (2025-07-17)
+
+
+### Features
+
+* **admins:** faciliter le process de réinitialisation de mot de passe ([9bdfc86](https://github.com/SocialGouv/domifa/commit/9bdfc8687c68065bb689f1ef908266488d1b6e30))
+
 # [2.205.0](https://github.com/SocialGouv/domifa/compare/v2.204.5...v2.205.0) (2025-07-17)
 
 
