@@ -1,8 +1,7 @@
 import { IsNull, MigrationInterface, Not } from "typeorm";
 import { domifaConfig } from "../config";
-import { matchFonctionUtilisateur } from "@domifa/common/src/structure/functions/matchFonctionUtilisateur";
+import { matchFonctionUtilisateur, UserFonction } from "@domifa/common";
 import { userStructureRepository } from "../database";
-import { UserFonction } from "@domifa/common";
 
 export class ManualMigration1751927912971 implements MigrationInterface {
   name = "ManualMigration1751927912971";
