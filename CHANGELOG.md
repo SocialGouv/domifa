@@ -1,3 +1,10 @@
+## [2.206.1](https://github.com/SocialGouv/domifa/compare/v2.206.0...v2.206.1) (2025-07-17)
+
+
+### Bug Fixes
+
+* **backend:** correction-import-module-commont ([d707ce1](https://github.com/SocialGouv/domifa/commit/d707ce11ea8813e981aab01aca27c0ed22a9697c))
+
 # [2.206.0](https://github.com/SocialGouv/domifa/compare/v2.205.0...v2.206.0) (2025-07-17)
 
 
