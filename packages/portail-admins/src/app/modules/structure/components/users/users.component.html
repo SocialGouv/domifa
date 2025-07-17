@@ -121,7 +121,7 @@
         <td>
           {{ USER_ROLES_LABELS[user.role] }}
         </td>
-        <td class="d-flex gap-2">
+        <td>
           <a
             target="_blank"
             class="btn btn-outline-primary"
@@ -137,11 +137,24 @@
             🔗 Lien</a
           >
           <button
-            class="btn btn-outline-primary"
+            class="btn btn-outline-primary m-1"
             (click)="openConfirmationModdal(user)"
             type="button"
           >
             Réinitialiser mot de passe
+          </button>
+          <button
+            *ngIf="user.role !== 'admin'"
+            (click)="doElevateRole(user)"
+            class="btn btn-outline-primary mr-2"
+            type="button"
+          >
+            <fa-icon
+              class="ms-2"
+              aria-hidden="true"
+              [icon]="personArrowUp"
+            ></fa-icon>
+            Promouvoir
           </button>
         </td>
       </tr>

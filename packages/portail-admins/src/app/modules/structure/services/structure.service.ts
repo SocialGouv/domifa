@@ -6,6 +6,8 @@ import { environment } from "../../../../environments/environment";
 
 const BASE_URL = `${environment.apiUrl}admin/structures`;
 const RESET_PASSWORD_URL = `${environment.apiUrl}users/get-password-token`;
+const USER_ADMIN_BASE_URL = `${environment.apiUrl}admin/users`;
+
 export type UserStructureWithSecurity = UserStructure & {
   temporaryTokens: {
     type?: string;
@@ -36,7 +38,13 @@ export class StructureService {
 
   public resetStructureAdminPassword(email: string): Observable<void> {
     return this.http.post<void>(`${RESET_PASSWORD_URL}`, {
-      email,
+      email
+    });
+  }
+
+    public elevateUserRole(uuid: string): Observable<void> {
+    return this.http.patch<void>(`${USER_ADMIN_BASE_URL}/elevate-user-role`, {
+      uuid
     });
   }
 

@@ -20,12 +20,15 @@ import {
   CurrentUser,
 } from "../../../../auth/decorators";
 import { AppUserGuard } from "../../../../auth/guards";
-import { ExpressResponse } from "../../../../util";
+import { appLogger, ExpressResponse } from "../../../../util";
 import { UsersController } from "../../../users/controllers/users.controller";
 
 import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { UserSupervisor } from "@domifa/common";
-import { userSupervisorRepository } from "../../../../database";
+import {
+  userStructureRepository,
+  userSupervisorRepository,
+} from "../../../../database";
 
 import { userAccountCreatedByAdminEmailSender } from "../../../mails/services/templates-renderers";
 
@@ -36,6 +39,7 @@ import {
 import { AdminSuperivorUsersService } from "../../services/admin-superivor-users/admin-superivor-users.service";
 import { EmailDto } from "../../../users/dto";
 import { PatchUserSupervisorDto } from "../../dto/patch-user-supervisor.dto";
+import { ElevateUserRoleDto } from "../../dto/elevate-user-role.dto";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("dashboard")
@@ -61,6 +65,42 @@ export class AdminUsersController {
       action: "ADMIN_CREATE_USER_STRUCTURE",
     });
     return await userController.registerUser(user, res, registerUserDto);
+  }
+
+  @Patch("elevate-user-role")
+  public async elevateUserRoleToAdmin(
+    @CurrentUser() user: UserStructureAuthenticated,
+    @Res() res: ExpressResponse,
+    @Body() elevateRoleDto: ElevateUserRoleDto
+  ): Promise<ExpressResponse> {
+    const { uuid } = elevateRoleDto;
+    try {
+      const userToElevate = await userStructureRepository.findOneByOrFail({
+        uuid,
+      });
+
+      await userStructureRepository.update(
+        {
+          uuid: userToElevate.uuid,
+        },
+        {
+          role: "admin",
+        }
+      );
+      await this.appLogsService.create({
+        userId: user.id,
+        action: "ADMIN_ELEVATE_ROLE_USER_SUPERVISOR", // TODO Ajouter du contexte à cette action pour savoir à qui on a fait l'action
+      });
+
+      return res.status(HttpStatus.OK).send({
+        message: "OK",
+      });
+    } catch (e) {
+      appLogger.error(e);
+      return res.status(HttpStatus.BAD_REQUEST).send({
+        message: "UNABLE_TO_ELEVATE_USER_ROLE",
+      });
+    }
   }
 
   @Post("register-user-supervisor")
