@@ -1,4 +1,11 @@
 import {
+  USER_FONCTION_LABELS,
+  UserFonction,
+  SortValues,
+  StructureCommon,
+  UserStructureRole,
+} from "@domifa/common";
+import {
   Component,
   Input,
   OnDestroy,
@@ -6,14 +13,6 @@ import {
   TemplateRef,
   ViewChild,
 } from "@angular/core";
-import {
-  USER_FONCTION_LABELS,
-  UserFonction,
-  SortValues,
-  StructureCommon,
-  UserStructureRole,
-} from "@domifa/common";
-
 import { Subject, Subscription } from "rxjs";
 import {
   StructureService,
@@ -22,6 +21,7 @@ import {
 import { environment } from "../../../../../environments/environment";
 import { subMonths } from "date-fns";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { faPersonArrowUpFromLine } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-users",
@@ -33,10 +33,11 @@ export class UsersComponent implements OnInit, OnDestroy {
   public sortValue: SortValues = "asc";
   public currentKey = "id";
   public twoMonthsAgo = subMonths(new Date(), 2);
-  public reloadUsers = new Subject<void>();
+  public readonly reloadUsersSubject$ = new Subject<void>();
   public readonly frontendUrl = environment.frontendUrl;
   public readonly USER_FONCTION = UserFonction;
   public readonly _USER_FONCTION_LABELS = USER_FONCTION_LABELS;
+  public readonly personArrowUp = faPersonArrowUpFromLine;
   public readonly USER_ROLES_LABELS: { [key in UserStructureRole]: string } = {
     admin: "Administrateur",
     responsable: "Gestionnaire",
@@ -60,7 +61,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
     // Subscribe to reloadUsers subject to reload the list when triggered
     this.subscription.add(
-      this.reloadUsers.subscribe(() => {
+      this.reloadUsersSubject$.subscribe(() => {
         this.loadUsers();
       })
     );
@@ -71,9 +72,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.structureService.getUsers(this.structure.id).subscribe((users) => {
         this.users = users.map((user) => {
-          if (user?.lastLogin) {
-            user.lastLogin = new Date(user.lastLogin);
-          }
+          user.lastLogin = new Date(user.lastLogin);
           return user;
         });
         this.searching = false;
@@ -94,10 +93,20 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.structureService
         .resetStructureAdminPassword(email)
-        .subscribe(() => this.reloadUsers.next())
+        .subscribe(() => this.reloadUsersSubject$.next())
     );
 
     this.modalService.dismissAll();
+  }
+
+  public doElevateRole(user: UserStructureWithSecurity) {
+    this.subscription.add(
+      this.structureService.elevateUserRole(user.uuid).subscribe({
+        next: () => {
+          this.reloadUsersSubject$.next();
+        },
+      })
+    );
   }
 
   ngOnDestroy(): void {
