@@ -3731,7 +3731,7 @@ __metadata:
     axios: "npm:^1.10.0"
     axios-retry: "npm:^4.5.0"
     bcryptjs: "npm:^2.4.3"
-    cache-manager: "npm:^6.4.3"
+    cache-manager: "npm:^7.0.0"
     class-transformer: "npm:0.5.1"
     class-validator: "npm:^0.14.2"
     compression: "npm:^1.8.0"
@@ -11649,7 +11649,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.10.0":
+"axios@npm:^1.10.0, axios@npm:^1.7.4":
   version: 1.10.0
   resolution: "axios@npm:1.10.0"
   dependencies:
@@ -11657,17 +11657,6 @@ __metadata:
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
   checksum: 10/d43c80316a45611fd395743e15d16ea69a95f2b7f7095f2bb12cb78f9ca0a905194a02e52a3bf4e0db9f85fd1186d6c690410644c10ecd8bb0a468e57c2040e4
-  languageName: node
-  linkType: hard
-
-"axios@npm:^1.7.4":
-  version: 1.8.2
-  resolution: "axios@npm:1.8.2"
-  dependencies:
-    follow-redirects: "npm:^1.15.6"
-    form-data: "npm:^4.0.0"
-    proxy-from-env: "npm:^1.1.0"
-  checksum: 10/d4328758128d0602cc809a8e7627622cb7839b379eae5e4d6b9d603dd4d5fb89159985630243ec107cf5c675cd8825dba737a319dff9499f3b7688d9a69ec9ed
   languageName: node
   linkType: hard
 
@@ -12288,12 +12277,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cache-manager@npm:^6.4.3":
-  version: 6.4.3
-  resolution: "cache-manager@npm:6.4.3"
+"cache-manager@npm:^7.0.0":
+  version: 7.0.1
+  resolution: "cache-manager@npm:7.0.1"
   dependencies:
-    keyv: "npm:^5.3.3"
-  checksum: 10/446db8f936b3b07b8564f175d109715ef7664702bd636ac972ebd2f37ce25e4c583947529496b7a1a104fe6dba3a83498ec3bb441d33994a68fddfe67dc0bd95
+    keyv: "npm:^5.3.4"
+  checksum: 10/f65b18ac9e9dfd95ef2342b72047b0f59696a4391ba57272b94746481fd386fb80ce530148460bd788aabc08af90512d7d8ba7292e6237712517bd5150940b73
   languageName: node
   linkType: hard
 
@@ -19440,7 +19429,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"keyv@npm:^5.3.3, keyv@npm:^5.3.4":
+"keyv@npm:^5.3.4":
   version: 5.3.4
   resolution: "keyv@npm:5.3.4"
   dependencies:
@@ -22777,14 +22766,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pg-protocol@npm:*":
-  version: 1.7.1
-  resolution: "pg-protocol@npm:1.7.1"
-  checksum: 10/5ccb6e01381261f2f4a995ccc9b135c6071ffe63c0b4bf0b6078dab2ab8567b1a5f64407a0a444ff3e4b689b9b91b2533b930f1a041afcdae8fca5345a18c30d
-  languageName: node
-  linkType: hard
-
-"pg-protocol@npm:^1.10.3":
+"pg-protocol@npm:*, pg-protocol@npm:^1.10.3":
   version: 1.10.3
   resolution: "pg-protocol@npm:1.10.3"
   checksum: 10/31da85319084c03f403efee7accce9786964df82a7feb60e6bd77b71f1e622c74a2a644a2bc434389d0ab92e5abdeedea69ebdb53b1897d9f01d2a1f51a8a2fe
