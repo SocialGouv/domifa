@@ -1,3 +1,13 @@
+## [2.206.2](https://github.com/SocialGouv/domifa/compare/v2.206.1...v2.206.2) (2025-07-18)
+
+
+### Bug Fixes
+
+* **backend:** fix script to export test's dump ([4a8a47e](https://github.com/SocialGouv/domifa/commit/4a8a47e79e5a5964c8cebf2765ec23a25312e363))
+* **backend:** fix script to generate DDL ([c5d64a9](https://github.com/SocialGouv/domifa/commit/c5d64a9fe78aab631beb6fb37d3dad8a7d3b5b5c))
+* **backend:** update script to update dump ([b1d0369](https://github.com/SocialGouv/domifa/commit/b1d0369ddd302d28b1e55f88ea95f794ed26f6fa))
+* **backend:** update talisman config ([c77bd3b](https://github.com/SocialGouv/domifa/commit/c77bd3b0b46da7207cc56175785ad8fd432f98fc))
+
 ## [2.206.1](https://github.com/SocialGouv/domifa/compare/v2.206.0...v2.206.1) (2025-07-17)
 
 
