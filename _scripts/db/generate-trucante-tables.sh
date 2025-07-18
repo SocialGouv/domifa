@@ -1,19 +1,5 @@
 #!/bin/bash
 
-echo "##############################################################################################"
-echo "#"
-echo "# USAGE:"
-echo "#"
-echo "# $0 [--db=test|dev]"
-echo "#"
-echo "# EXAMPLES:"
-echo "#"
-echo "# $0                # génère depuis domifa_test (par défaut)"
-echo "# $0 --db=test      # génère depuis domifa_test"
-echo "# $0 --db=dev       # génère depuis domifa_dev"
-echo "#"
-echo "##############################################################################################"
-
 # Valeurs par défaut
 SOURCE_DB_ENV="test"
 
