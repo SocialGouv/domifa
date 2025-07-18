@@ -8,6 +8,7 @@ import { TableHeadSortComponent } from "../../../shared/components/table-head-so
 import { SortArrayPipe } from "../../../shared/pipes/sort-array.pipe";
 import { StructureService } from "../../services/structure.service";
 import { STRUCTURE_MOCK } from "../../../../mocks/STRUCTURE_MOCK.mock";
+import { CustomToastService } from "../../../shared/services";
 
 describe("UsersComponent", () => {
   let component: UsersComponent;
@@ -23,7 +24,7 @@ describe("UsersComponent", () => {
         HttpClientTestingModule,
         RouterModule.forRoot([]),
       ],
-      providers: [StructureService],
+      providers: [StructureService, CustomToastService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UsersComponent);

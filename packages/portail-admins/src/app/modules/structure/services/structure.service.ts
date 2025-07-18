@@ -38,13 +38,13 @@ export class StructureService {
 
   public resetStructureAdminPassword(email: string): Observable<void> {
     return this.http.post<void>(`${RESET_PASSWORD_URL}`, {
-      email
+      email,
     });
   }
 
-    public elevateUserRole(uuid: string): Observable<void> {
+  public elevateUserRole(uuid: string): Observable<void> {
     return this.http.patch<void>(`${USER_ADMIN_BASE_URL}/elevate-user-role`, {
-      uuid
+      uuid,
     });
   }
 

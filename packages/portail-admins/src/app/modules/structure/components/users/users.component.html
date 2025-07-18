@@ -138,14 +138,16 @@
           >
           <button
             class="btn btn-outline-primary m-1"
-            (click)="openConfirmationModdal(user)"
+            (click)="
+              openConfirmationModal(user, MODAL_ACTION.REINIT_USER_PASSWORD)
+            "
             type="button"
           >
             Réinitialiser mot de passe
           </button>
           <button
             *ngIf="user.role !== 'admin'"
-            (click)="doElevateRole(user)"
+            (click)="openConfirmationModal(user, MODAL_ACTION.PROMOTE_USER)"
             class="btn btn-outline-primary mr-2"
             type="button"
           >
@@ -173,9 +175,9 @@
     </div>
     <div class="modal-body">
       <p>
-        Êtes-vous sûr de vouloir réinitialiser le mot de passe de l'utilisateur:
+        Êtes-vous sûr de vouloir {{ confirmModalContext.actionText }}:
         <span class="fw-bold">
-          {{ userForPasswordReinit.email }}
+          {{ userForConfirmModal.email }}
         </span>
         ?
       </p>
@@ -184,14 +186,14 @@
       <button
         type="button"
         class="btn btn-lg btn-outline-dark"
-        (click)="modal.dismiss()"
+        (click)="confirmModalContext = null; modal.dismiss()"
       >
         Annuler
       </button>
       <button
         type="button"
         class="btn btn-primary"
-        (click)="doResetPassword(userForPasswordReinit.email)"
+        (click)="confirmModalContext.action(userForConfirmModal)"
       >
         Confirmer
       </button>
