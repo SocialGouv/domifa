@@ -1,49 +1,27 @@
 #!/bin/bash
 
-echo "##############################################################################################"
-echo "#"
-echo "# USAGE:"
-echo "#"
-echo "# $0 --db=dev [--dump=test]"
-echo "#"
-echo "# EXAMPLES:"
-echo "#"
-echo "# $0 --db=dev"
-echo "# $0 --db=test"
-echo "# $0 --db=dev --dump=test" # dump 'dev' database to 'test' dump file
-echo "#"
-echo "##############################################################################################"
-
-for i in "$@"; do
-  case $i in
-  --db=*)
-    SOURCE_DB_ENV="${i#*=}"
-    ;;
-  --dump=*)
-    DUMP_ENV="${i#*=}"
-    ;;
-  *)
-    # unknown option
-    echo ""
-    echo "----------------------------------------------------------------------------------------------"
-    echo "[WARN] INVALID OPTION '$i': ignore"
-    echo "----------------------------------------------------------------------------------------------"
-    echo ""
-    ;;
-  esac
-done
-
-if [ -z "${SOURCE_DB_ENV}" ]; then
+# Vérifier qu'un paramètre est fourni
+if [ $# -eq 0 ]; then
   echo ""
   echo "----------------------------------------------------------------------------------------------"
-  echo "[ERROR] PARAMETER --db=dev|test IS MISSING!"
+  echo "[ERROR] PARAMETER 'test' IS MISSING!"
   echo "----------------------------------------------------------------------------------------------"
+  echo "Usage: $0 test"
   exit 1
 fi
 
-if [ -z "${DUMP_ENV}" ]; then
-  DUMP_ENV=${SOURCE_DB_ENV}
+# Vérifier que le paramètre est "test"
+if [ "$1" != "test" ]; then
+  echo ""
+  echo "----------------------------------------------------------------------------------------------"
+  echo "[ERROR] INVALID PARAMETER '$1'. Only 'test' is supported!"
+  echo "----------------------------------------------------------------------------------------------"
+  echo "Usage: $0 test"
+  exit 1
 fi
+
+SOURCE_DB_ENV="test"
+DUMP_ENV="test"
 
 POSTGRES_CONTAINER_NAME=domifa-postgres
 POSTGRES_DUMP_PATH="/app/_scripts/db/dumps/domifa_$DUMP_ENV.postgres.custom.gz"

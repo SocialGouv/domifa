@@ -1,28 +1,8 @@
 #!/bin/bash
 
-# Valeurs par défaut
-SOURCE_DB_ENV="test"
-
-# Parse des arguments
-for i in "$@"; do
-  case $i in
-  --db=*)
-    SOURCE_DB_ENV="${i#*=}"
-    ;;
-  *)
-    # unknown option
-    echo ""
-    echo "----------------------------------------------------------------------------------------------"
-    echo "[WARN] INVALID OPTION '$i': ignore"
-    echo "----------------------------------------------------------------------------------------------"
-    echo ""
-    ;;
-  esac
-done
-
 # Variables
 POSTGRES_CONTAINER_NAME=domifa-postgres
-SOURCE_DATABASE="domifa_${SOURCE_DB_ENV}"
+SOURCE_DATABASE="domifa_test"
 OUTPUT_FILE="packages/backend/src/_migrations/_init-db/domifa_test_schema.sql"
 
 echo ""
