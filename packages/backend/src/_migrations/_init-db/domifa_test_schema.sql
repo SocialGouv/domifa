@@ -438,7 +438,8 @@ CREATE TABLE public.user_structure (
     mails jsonb DEFAULT '{"guide": false, "import": false}'::jsonb NOT NULL,
     "passwordLastUpdate" timestamp with time zone,
     verified boolean DEFAULT true NOT NULL,
-    "acceptTerms" timestamp with time zone
+    "acceptTerms" timestamp with time zone,
+    "fonctionDetail" character varying(255)
 );
 CREATE SEQUENCE public.user_structure_id_seq
     START WITH 1

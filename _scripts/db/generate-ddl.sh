@@ -1,19 +1,5 @@
 #!/bin/bash
 
-echo "##############################################################################################"
-echo "#"
-echo "# USAGE:"
-echo "#"
-echo "# $0 [--db=test|dev]"
-echo "#"
-echo "# EXAMPLES:"
-echo "#"
-echo "# $0                # génère depuis domifa_test (par défaut)"
-echo "# $0 --db=test      # génère depuis domifa_test"
-echo "# $0 --db=dev       # génère depuis domifa_dev"
-echo "#"
-echo "##############################################################################################"
-
 # Valeurs par défaut
 SOURCE_DB_ENV="test"
 
@@ -46,7 +32,13 @@ echo "##########################################################################
 echo ""
 
 # Créer le répertoire de destination si nécessaire
-mkdir -p "_scripts/db/dumps"
+mkdir -p "$(dirname "${OUTPUT_FILE}")"
+
+# Supprimer le fichier existant s'il existe
+if [ -f "${OUTPUT_FILE}" ]; then
+    echo "🗑️  Suppression du fichier existant: ${OUTPUT_FILE}"
+    rm "${OUTPUT_FILE}"
+fi
 
 # Tables à exclure (mêmes que dans votre script truncate)
 EXCLUDE_TABLES="--exclude-table=migrations --exclude-table=spatial_ref_sys  --exclude-table=migrations_id_seq"
