@@ -79,6 +79,8 @@ export class AdminUsersController {
         uuid,
       });
 
+      if (user.role === "admin") throw new Error("User is already and admin");
+
       await userStructureRepository.update(
         {
           uuid: userToElevate.uuid,

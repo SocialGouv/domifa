@@ -7,7 +7,7 @@ export const USER_STRUCTURE_AUTH: UserStructureAuthenticated = {
   nom: "Admin",
   prenom: "Test",
   email: "admin@test.com",
-  role: "admin",
+  role: "simple",
   structureId: 1,
   verified: true,
   createdAt: new Date(),
