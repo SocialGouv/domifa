@@ -1,3 +1,11 @@
+# [2.207.0](https://github.com/SocialGouv/domifa/compare/v2.206.2...v2.207.0) (2025-07-18)
+
+
+### Features
+
+* **admin:** ajout d'un toast pour confirmer le bon déroulement de l'elevation de droit ([0d17f25](https://github.com/SocialGouv/domifa/commit/0d17f25bdf88be4604faf7ab312e35e38d2c1b23))
+* **admins:** elevation de role admin ([f3414d4](https://github.com/SocialGouv/domifa/commit/f3414d4ee30215f3ff31c8e4ef334b4d725d1d36))
+
 ## [2.206.2](https://github.com/SocialGouv/domifa/compare/v2.206.1...v2.206.2) (2025-07-18)
 
 
