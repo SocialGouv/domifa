@@ -3856,6 +3856,7 @@ __metadata:
     "@ckeditor/ckeditor5-angular": "npm:^9.0.0"
     "@ckeditor/ckeditor5-build-classic": "npm:^43.3.1"
     "@domifa/common": "workspace:^"
+    "@edugouvfr/ngx-dsfr": "npm:^1.14.3"
     "@fortawesome/angular-fontawesome": "npm:0.14.1"
     "@fortawesome/fontawesome-svg-core": "npm:^6.6.0"
     "@fortawesome/free-regular-svg-icons": "npm:^6.6.0"
@@ -3940,6 +3941,7 @@ __metadata:
     "@angular/platform-browser-dynamic": "npm:^17.3.12"
     "@angular/router": "npm:^17.3.12"
     "@domifa/common": "workspace:^"
+    "@edugouvfr/ngx-dsfr": "npm:^1.14.3"
     "@fortawesome/angular-fontawesome": "npm:0.14.1"
     "@fortawesome/fontawesome-svg-core": "npm:^6.6.0"
     "@fortawesome/free-regular-svg-icons": "npm:^6.6.0"
@@ -4009,6 +4011,7 @@ __metadata:
     "@angular/platform-browser-dynamic": "npm:^17.3.12"
     "@angular/router": "npm:^17.3.12"
     "@domifa/common": "workspace:^"
+    "@edugouvfr/ngx-dsfr": "npm:^1.14.3"
     "@fortawesome/angular-fontawesome": "npm:0.14.1"
     "@fortawesome/fontawesome-svg-core": "npm:^6.6.0"
     "@fortawesome/free-regular-svg-icons": "npm:^6.6.0"
@@ -4047,6 +4050,29 @@ __metadata:
     zone.js: "npm:~0.14.10"
   languageName: unknown
   linkType: soft
+
+"@edugouvfr/ngx-dsfr@npm:^1.14.3":
+  version: 1.14.3
+  resolution: "@edugouvfr/ngx-dsfr@npm:1.14.3"
+  dependencies:
+    "@gouvfr/dsfr": "npm:1.13.1"
+    tslib: "npm:^2.4.0"
+  peerDependencies:
+    "@angular/common": ">=17"
+    "@angular/core": ">=17"
+    "@angular/forms": ">=17"
+    "@playwright/test": ^1
+    args-parser: ">=1.3.0"
+    rxjs: ^6 || ^7
+    uuid: ">=8.3.0"
+  peerDependenciesMeta:
+    "@playwright/test":
+      optional: true
+  bin:
+    ngx-dsfr: index.js
+  checksum: 10/f943c22f4307fcb833e967c0b84566a8be874a70213a87f7a197eceac3e7f376a0b7c967cb7bfc9b680119ee61fbdd823f11a7293312e8f9a9b3f949d8541a94
+  languageName: node
+  linkType: hard
 
 "@emnapi/core@npm:^1.1.0":
   version: 1.3.1
@@ -4538,6 +4564,13 @@ __metadata:
   version: 1.1.3
   resolution: "@gar/promisify@npm:1.1.3"
   checksum: 10/052dd232140fa60e81588000cbe729a40146579b361f1070bce63e2a761388a22a16d00beeffc504bd3601cb8e055c57b21a185448b3ed550cf50716f4fd442e
+  languageName: node
+  linkType: hard
+
+"@gouvfr/dsfr@npm:1.13.1":
+  version: 1.13.1
+  resolution: "@gouvfr/dsfr@npm:1.13.1"
+  checksum: 10/e7593cb11ab2cafe7cf2a8929477d772802cf633cf8b9c35bc55cfc13d31e4a9c8005cdeb6099cafa58e16b167bdb67162abcefda661477fc4d69764dd7b2d30
   languageName: node
   linkType: hard
 
