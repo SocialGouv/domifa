@@ -26,7 +26,6 @@ import {
   faUserPlus,
   faExclamationTriangle,
   faSpinner,
-  faArrowUpRightFromSquare,
   faExternalLinkAlt,
   faKey,
   faLink,
@@ -46,7 +45,7 @@ export const FA_ICONS: IconDefinition[] = [
   faInfoCircle,
   faUserPlus,
   faCircleNotch,
-  faArrowUpRightFromSquare,
+
   faComment,
   faSignInAlt,
   faCheck,
