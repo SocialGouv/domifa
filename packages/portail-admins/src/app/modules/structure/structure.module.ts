@@ -12,6 +12,7 @@ import { StructureInfoComponent } from "./components/structure-info/structure-in
 import { FormatInternationalPhoneNumberPipe } from "../../shared/utils/formatInternationalPhoneNumber.pipe";
 import { StructureStatsComponent } from "./components/structure-stats/structure-stats.component";
 import { FormsModule } from "@angular/forms";
+import { ClipboardModule } from "@angular/cdk/clipboard";
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { FormsModule } from "@angular/forms";
     TableHeadSortComponent,
     StructureRoutingModule,
     SortArrayPipe,
+    ClipboardModule,
   ],
 })
 export class StructureModule {}

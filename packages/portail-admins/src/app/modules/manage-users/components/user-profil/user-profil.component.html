@@ -21,152 +21,138 @@
   </div>
 </div>
 
-<div class="content py-3" *ngIf="me">
-  <div class="container py-3">
-    <div class="page-content p-3">
-      <h2 class="title">
-        Utilisateurs enregistrés: {{ users.length }} utilisateurs
-      </h2>
+<div class="content p-3" *ngIf="me">
+  <h2 class="title">
+    Utilisateurs enregistrés: {{ users.length }} utilisateurs
+  </h2>
 
-      <div class="table-responsive">
-        <table class="table" [attr.aria-rowcount]="users.length">
-          <caption class="visually-hidden">
-            Liste des utilisateurs enregistrés
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">
-                <app-table-head-sort
-                  sortKey="nom"
-                  [(sortValue)]="sortValue"
-                  [(currentKey)]="currentKey"
-                  columnName="Nom prénom"
-                >
-                </app-table-head-sort>
-              </th>
-              <th scope="col">
-                <app-table-head-sort
-                  sortKey="email"
-                  [(sortValue)]="sortValue"
-                  [(currentKey)]="currentKey"
-                  columnName="Email"
-                >
-                </app-table-head-sort>
-              </th>
-              <th scope="col">
-                <app-table-head-sort
-                  sortKey="createdAt"
-                  [(sortValue)]="sortValue"
-                  [(currentKey)]="currentKey"
-                  columnName="Date d'inscription"
-                >
-                </app-table-head-sort>
-              </th>
-              <th scope="col">
-                <app-table-head-sort
-                  sortKey="lastLogin"
-                  [(sortValue)]="sortValue"
-                  [(currentKey)]="currentKey"
-                  columnName="Dernière connexion"
-                >
-                </app-table-head-sort>
-              </th>
-              <th scope="col">
-                <app-table-head-sort
-                  sortKey="role"
-                  [(sortValue)]="sortValue"
-                  [(currentKey)]="currentKey"
-                  columnName="Rôle"
-                >
-                </app-table-head-sort>
-              </th>
-              <th scope="col">Territoire d'action</th>
-
-              <th scope="col" *ngIf="me.role === 'super-admin-domifa'">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="
-                let user of users | sortArray : currentKey : sortValue;
-                let i = index;
-                trackBy: userIdTrackBy
-              "
-              [attr.aria-rowindex]="i + 1"
+  <div class="table-responsive">
+    <table class="table" [attr.aria-rowcount]="users.length">
+      <caption class="visually-hidden">
+        Liste des utilisateurs enregistrés
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">
+            <app-table-head-sort
+              sortKey="nom"
+              [(sortValue)]="sortValue"
+              [(currentKey)]="currentKey"
+              columnName="Nom prénom"
             >
-              <td class="fw-bold">{{ user | fullName }}</td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.createdAt | date : "d MMMM y" }}</td>
+            </app-table-head-sort>
+          </th>
+          <th scope="col">
+            <app-table-head-sort
+              sortKey="email"
+              [(sortValue)]="sortValue"
+              [(currentKey)]="currentKey"
+              columnName="Email"
+            >
+            </app-table-head-sort>
+          </th>
+          <th scope="col">
+            <app-table-head-sort
+              sortKey="createdAt"
+              [(sortValue)]="sortValue"
+              [(currentKey)]="currentKey"
+              columnName="Date d'inscription"
+            >
+            </app-table-head-sort>
+          </th>
+          <th scope="col">
+            <app-table-head-sort
+              sortKey="lastLogin"
+              [(sortValue)]="sortValue"
+              [(currentKey)]="currentKey"
+              columnName="Dernière connexion"
+            >
+            </app-table-head-sort>
+          </th>
+          <th scope="col">
+            <app-table-head-sort
+              sortKey="role"
+              [(sortValue)]="sortValue"
+              [(currentKey)]="currentKey"
+              columnName="Rôle"
+            >
+            </app-table-head-sort>
+          </th>
+          <th scope="col">Territoire d'action</th>
 
-              <td>
-                <ng-container *ngIf="user.lastLogin">
-                  <p>
-                    {{ user.lastLogin | date : "dd/MM/yyyy" }}
-                    <b *ngIf="user.lastLogin < twoMonthsAgo">
-                      <br />❌ Inactif depuis plus de 2 mois<br />
-                    </b>
-                  </p>
-                </ng-container>
-                <p class="fw-bold" *ngIf="!user.lastLogin">
-                  ❌ Compte jamais utilisé
-                </p>
-              </td>
-              <td>
-                {{ USER_SUPERVISOR_ROLES_LABELS[user.role] }}
-              </td>
-              <td>
-                <ng-container
-                  *ngIf="
-                    user.role === 'super-admin-domifa' ||
-                    user.role === 'national'
-                  "
-                >
-                  Toute la France</ng-container
-                >
-                <ng-container *ngIf="user.role === 'department'">
-                  <span *ngFor="let territory of user.territories">{{
-                    DEPARTEMENTS_LISTE[territory]
-                  }}</span>
-                </ng-container>
-                <ng-container *ngIf="user.role === 'region'">
-                  <span *ngFor="let territory of user.territories">{{
-                    REGIONS_LISTE[territory]
-                  }}</span>
-                </ng-container>
-              </td>
-              <td *ngIf="me.role === 'super-admin-domifa'">
-                <button
-                  type="button"
-                  (click)="openUpdateUserModal(user)"
-                  class="btn btn-primary me-2"
-                  [attr.aria-label]="'Modifier ' + user.nom + ' ' + user.prenom"
-                >
-                  <fa-icon [icon]="faEdit" aria-hidden="true"></fa-icon>
-                </button>
-                <button
-                  type="button"
-                  *ngIf="
-                    me.role === 'super-admin-domifa' && me.uuid !== user.uuid
-                  "
-                  (click)="openDeleteConfirmation(user)"
-                  class="btn btn-danger"
-                  [attr.aria-label]="
-                    'Supprimer ' + user.nom + ' ' + user.prenom
-                  "
-                >
-                  <fa-icon
-                    [icon]="['fas', 'trash']"
-                    aria-hidden="true"
-                  ></fa-icon>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+          <th scope="col" *ngIf="me.role === 'super-admin-domifa'">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let user of users | sortArray : currentKey : sortValue;
+            let i = index;
+            trackBy: userIdTrackBy
+          "
+          [attr.aria-rowindex]="i + 1"
+        >
+          <td class="fw-bold">{{ user | fullName }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.createdAt | date : "d MMMM y" }}</td>
+
+          <td>
+            <ng-container *ngIf="user.lastLogin">
+              <p>
+                {{ user.lastLogin | date : "dd/MM/yyyy" }}
+                <b *ngIf="user.lastLogin < twoMonthsAgo">
+                  <br />❌ Inactif depuis plus de 2 mois<br />
+                </b>
+              </p>
+            </ng-container>
+            <p class="fw-bold" *ngIf="!user.lastLogin">
+              ❌ Compte jamais utilisé
+            </p>
+          </td>
+          <td>
+            {{ USER_SUPERVISOR_ROLES_LABELS[user.role] }}
+          </td>
+          <td>
+            <ng-container
+              *ngIf="
+                user.role === 'super-admin-domifa' || user.role === 'national'
+              "
+            >
+              Toute la France</ng-container
+            >
+            <ng-container *ngIf="user.role === 'department'">
+              <span *ngFor="let territory of user.territories">{{
+                DEPARTEMENTS_LISTE[territory]
+              }}</span>
+            </ng-container>
+            <ng-container *ngIf="user.role === 'region'">
+              <span *ngFor="let territory of user.territories">{{
+                REGIONS_LISTE[territory]
+              }}</span>
+            </ng-container>
+          </td>
+          <td *ngIf="me.role === 'super-admin-domifa'">
+            <button
+              type="button"
+              (click)="openUpdateUserModal(user)"
+              class="btn btn-primary me-2"
+              [attr.aria-label]="'Modifier ' + user.nom + ' ' + user.prenom"
+            >
+              <fa-icon [icon]="faEdit" aria-hidden="true"></fa-icon>
+            </button>
+            <button
+              type="button"
+              *ngIf="me.role === 'super-admin-domifa' && me.uuid !== user.uuid"
+              (click)="openDeleteConfirmation(user)"
+              class="btn btn-danger"
+              [attr.aria-label]="'Supprimer ' + user.nom + ' ' + user.prenom"
+            >
+              <fa-icon [icon]="['fas', 'trash']" aria-hidden="true"></fa-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
