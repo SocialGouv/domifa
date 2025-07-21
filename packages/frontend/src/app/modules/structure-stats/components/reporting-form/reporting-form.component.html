@@ -9,6 +9,7 @@
       class="btn btn-outline-dark d-print-none"
       type="button"
       (click)="openModal()"
+      *ngIf="me?.role !== 'facteur' && me?.role !== 'simple'"
     >
       <fa-icon
         [icon]="['far', 'edit']"
