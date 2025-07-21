@@ -1,3 +1,10 @@
+## [2.208.2](https://github.com/SocialGouv/domifa/compare/v2.208.1...v2.208.2) (2025-07-21)
+
+
+### Bug Fixes
+
+* **frontend:** add access to 'facteur' for stats ([915f0c3](https://github.com/SocialGouv/domifa/commit/915f0c314878aa00d2b033ed77f9e4700b86ff6a))
+
 ## [2.208.1](https://github.com/SocialGouv/domifa/compare/v2.208.0...v2.208.1) (2025-07-21)
 
 
