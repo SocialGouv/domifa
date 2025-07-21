@@ -1,81 +1,88 @@
-<ng-container>
-  <label for="fonction">{{ label }}</label>
-  <select
-    id="fonction"
-    [(ngModel)]="fonction"
-    (ngModelChange)="onModelChange(CONTROL_OPTIONS.FONCTION, $event)"
-    name="fonction"
-    [ngClass]="{
-      'is-invalid':
-        fonctionFormControl &&
-        (submitted || fonctionFormControl?.dirty) &&
-        fonctionFormControl.errors
-    }"
-    class="form-select"
-    [attr.required]="required"
-  >
-    <option [ngValue]="null">Sélectionnez une option</option>
-    <option
-      *ngFor="let option of USER_FONCTION | keyvalue : compareOriginalOrder"
-      [value]="option.key"
-    >
-      {{ USER_FONCTION_LABELS[option.key] }}
-    </option>
-  </select>
-  <p
-    *ngIf="
-      (submitted || fonctionFormControl?.dirty) && fonctionFormControl?.errors
-    "
-    class="invalid-feedback"
-    id="responsable-fonction-errors"
-  >
-    {{ invalidFeedbackText }}
-  </p>
-</ng-container>
-<small id="responsable-fonction-description"
-  >Président.e, Directrice, etc.</small
->
-<ng-container *ngIf="fonction === USER_FONCTION.AUTRE">
-  <div class="col-12 mt-2 form-group required">
-    <label for="fonctionDetail" [class]="displayLabel ? '' : 'visually-hidden'"
-      >Préciser</label
-    >
-    <input
-      [(ngModel)]="fonctionDetail"
-      (ngModelChange)="onModelChange(CONTROL_OPTIONS.DETAIL_FONCTION, $event)"
-      type="text"
-      class="form-control"
-      id="fonctionDetail"
-      maxlength="200"
-      name="fonctionDetail"
-      [ngClass]="{
-        'is-invalid':
+<div class="row">
+  <div class="col-6 col-md-6">
+    <ng-container>
+      <label for="fonction">{{ label }}</label>
+      <select
+        id="fonction"
+        [(ngModel)]="fonction"
+        (ngModelChange)="onModelChange(CONTROL_OPTIONS.FONCTION, $event)"
+        name="fonction"
+        [ngClass]="{
+          'is-invalid':
+            fonctionFormControl &&
+            (submitted || fonctionFormControl?.dirty) &&
+            fonctionFormControl.errors
+        }"
+        class="form-select"
+        [attr.required]="required"
+      >
+        <option [ngValue]="null">Sélectionnez une option</option>
+        <option
+          *ngFor="let option of USER_FONCTION | keyvalue : compareOriginalOrder"
+          [value]="option.key"
+        >
+          {{ USER_FONCTION_LABELS[option.key] }}
+        </option>
+      </select>
+      <p
+        *ngIf="
+          (submitted || fonctionFormControl?.dirty) &&
+          fonctionFormControl?.errors
+        "
+        class="invalid-feedback"
+        id="responsable-fonction-errors"
+      >
+        {{ invalidFeedbackText }}
+      </p>
+      <small id="responsable-fonction-description"
+        >Président.e, Directrice, etc.</small
+      >
+    </ng-container>
+  </div>
+  <div class="col-6 col-md-6">
+    <ng-container *ngIf="fonction === USER_FONCTION.AUTRE">
+      <label
+        for="fonctionDetail"
+        [class]="displayLabel ? '' : 'visually-hidden'"
+        >Préciser la fonction occupée par l’utilisateur</label
+      >
+      <input
+        [(ngModel)]="fonctionDetail"
+        (ngModelChange)="onModelChange(CONTROL_OPTIONS.DETAIL_FONCTION, $event)"
+        type="text"
+        class="form-control"
+        id="fonctionDetail"
+        maxlength="200"
+        name="fonctionDetail"
+        [ngClass]="{
+          'is-invalid':
+            (fonctionDetailFormControl.dirty || submitted) &&
+            fonctionDetailFormControl.errors
+        }"
+        [attr.aria-invalid]="
           (fonctionDetailFormControl.dirty || submitted) &&
           fonctionDetailFormControl.errors
-      }"
-      [attr.aria-invalid]="
-        (fonctionDetailFormControl.dirty || submitted) &&
-        fonctionDetailFormControl.errors
-          ? true
-          : false
-      "
-      [attr.aria-describedby]="
-        (fonctionDetailFormControl.dirty || submitted) &&
-        fonctionDetailFormControl.errors
-          ? 'fonction-error'
-          : 'fonction-detail-description'
-      "
-      required
-    />
-    <p
-      *ngIf="
-        (submitted || fonctionDetailFormControl?.dirty) &&
-        fonctionDetailFormControl?.errors
-      "
-      class="invalid-feedback"
-      id="responsable-detail-fonction-errors"
-    >
-      Veuillez préciser la fonction
-    </p>
+            ? true
+            : false
+        "
+        [attr.aria-describedby]="
+          (fonctionDetailFormControl.dirty || submitted) &&
+          fonctionDetailFormControl.errors
+            ? 'fonction-error'
+            : 'fonction-detail-description'
+        "
+        required
+      />
+      <p
+        *ngIf="
+          (submitted || fonctionDetailFormControl?.dirty) &&
+          fonctionDetailFormControl?.errors
+        "
+        class="invalid-feedback"
+        id="responsable-detail-fonction-errors"
+      >
+        Veuillez préciser la fonction
+      </p>
+    </ng-container>
   </div>
-</ng-container>
+</div>

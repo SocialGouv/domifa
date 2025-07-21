@@ -92,20 +92,10 @@
             {{ me.email }}
           </span>
         </p>
-        <p
-          class="reponses"
-          [class.col-md-12]="!me.fonctionDetail"
-          [class.col-md-6]="me.fonctionDetail"
-        >
+        <p class="col-md-12 reponses">
           <span class="question">Fonction</span>
           <span class="valeur">
-            {{ USER_FONCTION_LABELS[me.fonction] }}
-          </span>
-        </p>
-        <p *ngIf="me.fonctionDetail" class="col-md-6 reponses">
-          <span class="question">Detail fonction</span>
-          <span class="valeur">
-            {{ me.fonctionDetail }}
+            {{ me | fonctionFormat }}
           </span>
         </p>
       </div>
@@ -227,7 +217,7 @@
           </div>
         </div>
 
-        <div class="col-12 col-md-12 form-group required">
+        <div class="col-12 form-group required">
           <app-fonction-selection
             [parentFormGroup]="userForm"
             [fonctionFormControl]="fonctionFormControl"
@@ -254,7 +244,7 @@
           <button
             class="my-1 btn btn-primary"
             type="submit"
-            [disabled]="!userForm.valid || loading"
+            [disabled]="loading"
           >
             <span *ngIf="loading">
               <fa-icon

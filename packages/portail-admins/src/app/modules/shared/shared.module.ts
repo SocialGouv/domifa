@@ -16,6 +16,7 @@ import {
 } from "./pipes";
 import { FonctionSelectionComponent } from "./components/fonction-selection/fonction-selection.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
 
 @NgModule({
   declarations: [
@@ -34,8 +35,15 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     AdminStructuresExportComponent,
     CustomToastrComponent,
     FonctionSelectionComponent,
+    FonctionFormatPipe,
   ],
-  imports: [CommonModule, FontAwesomeModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FonctionFormatPipe,
+  ],
   providers: [AdminStructuresApiClient],
 })
 export class SharedModule {

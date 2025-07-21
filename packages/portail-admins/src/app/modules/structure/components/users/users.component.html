@@ -92,12 +92,7 @@
         <td class="fw-bold">{{ user.id }}</td>
         <td class="fw-bold">{{ user.nom }} {{ user.prenom }}</td>
         <td class="fw-bold">
-          {{ _USER_FONCTION_LABELS[user.fonction] }}
-          <ng-container
-            *ngIf="user.fonction === USER_FONCTION.AUTRE && user.fonctionDetail"
-          >
-            : {{ user.fonctionDetail }}
-          </ng-container>
+          {{ user | fonctionFormat }}
         </td>
         <td>{{ user.email }}</td>
         <td>{{ user.createdAt | date : "d MMMM y" }}</td>
