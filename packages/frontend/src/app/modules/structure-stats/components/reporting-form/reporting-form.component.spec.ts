@@ -7,8 +7,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MATOMO_INJECTORS } from "../../../../shared";
+import { _usagerReducer, MATOMO_INJECTORS } from "../../../../shared";
 import { StructuresModule } from "../../../structures/structures.module";
+import { StoreModule } from "@ngrx/store";
 
 describe("ReportingFormComponent", () => {
   let component: ReportingFormComponent;
@@ -24,6 +25,7 @@ describe("ReportingFormComponent", () => {
         FormsModule,
         RouterTestingModule,
         ...MATOMO_INJECTORS,
+        StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

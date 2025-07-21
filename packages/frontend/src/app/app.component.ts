@@ -49,7 +49,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public submitted: boolean;
   public pendingNews: boolean;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public news: any;

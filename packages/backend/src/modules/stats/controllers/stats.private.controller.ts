@@ -12,7 +12,10 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { format } from "date-fns";
-import { UserStructureAuthenticated } from "../../../_common/model";
+import {
+  USER_STRUCTURE_ROLE_ALL,
+  UserStructureAuthenticated,
+} from "../../../_common/model";
 import {
   AllowUserProfiles,
   AllowUserStructureRoles,
@@ -32,7 +35,7 @@ import { structureStatsInPeriodGenerator } from "../services";
 @Controller("stats")
 @ApiTags("stats")
 @AllowUserProfiles("structure")
-@AllowUserStructureRoles("simple", "responsable", "admin")
+@AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class StatsPrivateController {
   constructor(private readonly appLogsService: AppLogsService) {}
@@ -74,7 +77,6 @@ export class StatsPrivateController {
         questionsToAdd
       );
     }
-    return;
   }
 
   @Get("reporting-questions")
