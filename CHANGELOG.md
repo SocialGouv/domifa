@@ -1,3 +1,11 @@
+## [2.208.1](https://github.com/SocialGouv/domifa/compare/v2.208.0...v2.208.1) (2025-07-21)
+
+
+### Bug Fixes
+
+* **front:** fix des retours recette ([276b15b](https://github.com/SocialGouv/domifa/commit/276b15bc1938408ffaacddcd81acf888fe2d4a5b))
+* **frontend:** add unit test for 'fonction' ([3d9833b](https://github.com/SocialGouv/domifa/commit/3d9833ba7a91856c577bba185461003f4af1f81d))
+
 # [2.208.0](https://github.com/SocialGouv/domifa/compare/v2.207.0...v2.208.0) (2025-07-21)
 
 
