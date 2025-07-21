@@ -13,7 +13,7 @@ import {
   TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { Subject, Subscription } from "rxjs";
+import { filter, map, Subject, Subscription, switchMap } from "rxjs";
 import {
   StructureService,
   UserStructureWithSecurity,
@@ -22,6 +22,7 @@ import { environment } from "../../../../../environments/environment";
 import { subMonths } from "date-fns";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { CustomToastService } from "../../../shared/services";
+import { Clipboard } from "@angular/cdk/clipboard";
 
 export enum MODAL_ACTION {
   PROMOTE_USER = "PROMOTE_USER",
@@ -55,7 +56,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     facteur: "Facteur",
   };
   @Input({ required: true }) public structure: StructureCommon;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public searching = true;
   @ViewChild("confirmModal", { static: true })
   public confirmModal!: TemplateRef<NgbModalRef>;
@@ -65,7 +66,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   constructor(
     private readonly structureService: StructureService,
     private readonly modalService: NgbModal,
-    private readonly toastService: CustomToastService
+    private readonly toastService: CustomToastService,
+    private readonly clipboard: Clipboard
   ) {}
 
   ngOnInit(): void {
@@ -115,24 +117,8 @@ export class UsersComponent implements OnInit, OnDestroy {
         : `réinitialiser le mot de passe de l'utilisateur`,
       action: isPromoteUser
         ? () => this.doElevateRole(user)
-        : () => this.doResetPassword(user),
+        : () => this.doResetPasswordAndCopyLink(user),
     };
-  }
-
-  public doResetPassword(user: UserStructureWithSecurity): void {
-    if (!user) return;
-    this.subscription.add(
-      this.structureService.resetStructureAdminPassword(user.email).subscribe({
-        next: () => {
-          this.reloadUsersSubject$.next();
-          this.toastService.success(
-            "Le lien de réinitialisation de mot de passe admin a été généré avec succès "
-          );
-        },
-      })
-    );
-
-    this.modalService.dismissAll();
   }
 
   public doElevateRole(user: UserStructureWithSecurity) {
@@ -150,6 +136,94 @@ export class UsersComponent implements OnInit, OnDestroy {
       })
     );
     this.modalService.dismissAll();
+  }
+
+  public generateResetPasswordLink(user: UserStructureWithSecurity): string {
+    if (
+      !user?.id ||
+      !user?.temporaryTokens?.token ||
+      user?.temporaryTokens?.type !== "reset-password" ||
+      !this.isTokenValid(user)
+    ) {
+      return "";
+    }
+
+    return `${this.frontendUrl}users/reset-password/${user.id}/${user.temporaryTokens.token}`;
+  }
+
+  public doResetPasswordAndCopyLink(user: UserStructureWithSecurity): void {
+    if (!user) return;
+
+    this.subscription.add(
+      this.structureService
+        .resetStructureAdminPassword(user.email)
+        .pipe(
+          switchMap(() => this.structureService.getUsers(this.structure.id)),
+          // Get user from users
+          map((users) => {
+            this.users = users.map((user) => {
+              user.lastLogin = new Date(user.lastLogin);
+              return user;
+            });
+
+            return users.find((u) => u.id === user.id);
+          }),
+          filter((updatedUser) => !!updatedUser)
+        )
+        .subscribe({
+          next: (updatedUser) => {
+            const resetLink = this.generateResetPasswordLink(updatedUser);
+            if (resetLink) {
+              this.clipboard.copy(resetLink);
+              this.toastService.success(
+                "Le lien de réinitialisation a été généré et copié dans le presse-papier"
+              );
+            } else {
+              this.toastService.error("Erreur lors de la génération du lien");
+            }
+          },
+          error: () => {
+            this.toastService.error(
+              "Erreur lors de la réinitialisation du mot de passe"
+            );
+          },
+        })
+    );
+
+    this.modalService.dismissAll();
+  }
+
+  public getLink(user: UserStructureWithSecurity): void {
+    if (!user) return;
+
+    // Check if link is not expired
+    if (!this.isTokenValid(user)) {
+      this.toastService.error("Le token de réinitialisation a expiré");
+      return;
+    }
+
+    const resetLink = this.generateResetPasswordLink(user);
+
+    if (resetLink) {
+      // Link is ok, we can copy in the clipbaoard !
+      this.clipboard.copy(resetLink);
+      this.toastService.success(
+        "Le lien de réinitialisation a été copié dans le presse-papier"
+      );
+    } else {
+      this.toastService.error("Aucun lien de réinitialisation disponible");
+    }
+  }
+
+  private isTokenValid(user: UserStructureWithSecurity): boolean {
+    if (!user?.temporaryTokens?.validity) {
+      return false;
+    }
+
+    const now = new Date();
+    const validity = new Date(user.temporaryTokens.validity);
+
+    return validity > now;
   }
 
   ngOnDestroy(): void {

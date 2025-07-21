@@ -206,8 +206,6 @@ export class AdminStructuresListComponent
     this.filters.sortKey = name as StructureFilterCriteriaSortEnum;
     this.filters.page = 1;
     this.applySorting();
-
-    return;
   }
 
   public updateFilters(filterOutput: FilterOutput): void {
