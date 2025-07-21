@@ -14,8 +14,16 @@ import { ButtonComponent } from "./components/button/button.component";
 import { InputReferrerComponent } from "./components/input-referrer/input-referrer.component";
 import { FormsModule } from "@angular/forms";
 import { FonctionSelectionComponent } from "./components/fonction-selection/fonction-selection.component";
+import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
 
 @NgModule({
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    FormsModule,
+    FullNamePipe,
+    FonctionFormatPipe,
+  ],
   declarations: [
     DateFrDirective,
     CleanStrDirective,
@@ -34,8 +42,8 @@ import { FonctionSelectionComponent } from "./components/fonction-selection/fonc
     CustomToastrComponent,
     FontAwesomeModule,
     ButtonComponent,
+    FonctionFormatPipe,
   ],
-  imports: [CommonModule, FontAwesomeModule, FormsModule, FullNamePipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SharedModule {

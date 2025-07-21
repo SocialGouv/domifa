@@ -36,12 +36,19 @@ export class FonctionSelectionComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.fonctionFormControl.valueChanges.subscribe((value) => {
         if (value === this.USER_FONCTION.AUTRE || value === null) {
+          this.fonction = value;
           this.fonctionDetailFormControl?.setValidators(Validators.required);
         } else {
           this.fonctionDetailFormControl?.setValue(null);
           this.fonctionDetailFormControl?.clearValidators();
         }
         this.fonctionDetailFormControl?.updateValueAndValidity();
+      })
+    );
+
+    this.subscription.add(
+      this.fonctionDetailFormControl?.valueChanges.subscribe((value) => {
+        this.fonctionDetail = value;
       })
     );
   }

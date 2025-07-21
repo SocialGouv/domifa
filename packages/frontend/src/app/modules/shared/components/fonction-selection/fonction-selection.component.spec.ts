@@ -12,7 +12,6 @@ import { USER_FONCTION_LABELS, UserFonction } from "@domifa/common";
 import { By } from "@angular/platform-browser";
 import { Component, ViewChild } from "@angular/core";
 
-// Test host component to test the component with a parent form including detail fonction
 @Component({
   template: `
     <form [formGroup]="parentForm">
