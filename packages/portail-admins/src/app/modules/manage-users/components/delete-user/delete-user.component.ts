@@ -14,7 +14,7 @@ export class DeleteUserComponent {
   @Output() deleteComplete = new EventEmitter<void>();
 
   public loading: boolean;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   public newReferrerId: number | null;
 

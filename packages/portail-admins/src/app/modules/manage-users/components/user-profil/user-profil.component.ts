@@ -37,7 +37,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   public displayUserRightsHelper: boolean;
   public sortValue: SortValues;
   public currentKey: keyof UserSupervisor;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   public selectedUser: UserSupervisor | null;
   public newReferrerId: number | null = null;

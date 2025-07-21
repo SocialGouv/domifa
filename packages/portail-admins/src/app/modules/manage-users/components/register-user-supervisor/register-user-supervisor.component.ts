@@ -56,8 +56,8 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
   public emailExist = false;
 
   public readonly USER_SUPERVISOR_ROLES_LABELS = USER_SUPERVISOR_ROLES_LABELS;
-  private subscription = new Subscription();
-  private unsubscribe: Subject<void> = new Subject();
+  private readonly subscription = new Subscription();
+  private readonly unsubscribe: Subject<void> = new Subject();
 
   public selectedRole: UserSupervisorRole = "national";
   public showTerritories = false;
@@ -175,7 +175,7 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
       const email = control.value;
       const roleControl = control.parent.get("role");
 
-      if (!roleControl || !roleControl.value) {
+      if (!roleControl?.value) {
         return null;
       }
 

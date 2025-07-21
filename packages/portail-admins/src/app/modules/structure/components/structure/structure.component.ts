@@ -12,7 +12,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
   styleUrl: "./structure.component.css",
 })
 export class StructureComponent implements OnInit {
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public searching = true;
   public structure: StructureCommon;
   public structureId: number;

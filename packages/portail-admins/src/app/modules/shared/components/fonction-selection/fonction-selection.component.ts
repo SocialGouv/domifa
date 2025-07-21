@@ -28,7 +28,7 @@ export class FonctionSelectionComponent implements OnInit, OnDestroy {
   public USER_FONCTION = UserFonction;
   public USER_FONCTION_LABELS = USER_FONCTION_LABELS;
   public readonly CONTROL_OPTIONS = CONTROL_OPTIONS;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   ngOnInit(): void {
     this.fonction = this.fonctionFormControl.value;

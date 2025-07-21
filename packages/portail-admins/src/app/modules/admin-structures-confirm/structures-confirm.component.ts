@@ -28,7 +28,7 @@ export class StructuresConfirmComponent implements OnInit, OnDestroy {
   private token!: string;
 
   public type?: "enable" | "delete";
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   constructor(
     private readonly adminStructuresApiClient: AdminStructuresApiClient,

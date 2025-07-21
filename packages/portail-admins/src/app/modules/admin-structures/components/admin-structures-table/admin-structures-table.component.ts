@@ -50,7 +50,7 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
 
   public loading = false;
   public exportLoading = false;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public sortValue: SortValues = "desc";
   public currentKey: keyof StructureAdmin = "id";
   public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
