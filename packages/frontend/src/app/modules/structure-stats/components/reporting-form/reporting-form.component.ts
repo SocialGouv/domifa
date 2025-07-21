@@ -18,9 +18,10 @@ import {
   StructureStatsReportingQuestions,
   REPORTNG_QUESTIONS_LABELS,
   WAITING_TIME_LABELS,
+  UserStructure,
 } from "@domifa/common";
 import { StructureStatsService } from "../../services/structure-stats.service";
-import { CustomToastService } from "../../../shared/services";
+import { AuthService, CustomToastService } from "../../../shared/services";
 import { Subscription } from "rxjs";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
@@ -43,7 +44,7 @@ export class ReportingFormComponent implements OnInit {
   public readonly WAITING_TIME_LABELS = WAITING_TIME_LABELS;
   public submitted = false;
   public loading = false;
-
+  public me: UserStructure | null;
   @ViewChild("completeReportModal", { static: true })
   public completeReportModal!: TemplateRef<NgbModalRef>;
 
@@ -56,8 +57,11 @@ export class ReportingFormComponent implements OnInit {
     private readonly structureStatsService: StructureStatsService,
     private readonly toastService: CustomToastService,
     private readonly modalService: NgbModal,
-    private readonly matomo: MatomoTracker
-  ) {}
+    private readonly matomo: MatomoTracker,
+    private readonly authService: AuthService
+  ) {
+    this.me = this.authService.currentUserValue;
+  }
 
   ngOnInit(): void {
     this.loading = false;

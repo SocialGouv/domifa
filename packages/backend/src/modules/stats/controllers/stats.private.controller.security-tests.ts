@@ -11,6 +11,7 @@ import {
   expectedResponseStatusBuilder,
 } from "../../../_tests";
 import { AppTestContext, AppTestHttpClient } from "../../../util/test";
+import { USER_STRUCTURE_ROLE_ALL } from "../../../_common/model";
 
 const CONTROLLER = "StatsPrivateController";
 
@@ -32,7 +33,7 @@ export const StatsPrivateControllerSecurityTests: AppTestHttpClientSecurityTestD
           expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
             context.user,
             {
-              roles: ["simple", "responsable", "admin"],
+              roles: USER_STRUCTURE_ROLE_ALL,
               validExpectedResponseStatus: HttpStatus.CREATED,
             }
           ),
@@ -55,7 +56,7 @@ export const StatsPrivateControllerSecurityTests: AppTestHttpClientSecurityTestD
           expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
             context.user,
             {
-              roles: ["simple", "responsable", "admin"],
+              roles: USER_STRUCTURE_ROLE_ALL,
               validExpectedResponseStatus: HttpStatus.OK,
             }
           ),
