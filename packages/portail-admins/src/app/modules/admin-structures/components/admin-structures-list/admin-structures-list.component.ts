@@ -53,7 +53,7 @@ export class AdminStructuresListComponent
   public allstructures$ = new ReplaySubject<StructureAdmin[]>(1);
   public structures: StructureAdmin[] = [];
   public filteredStructures: StructureAdmin[] = [];
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public searching = true;
   public totalStructures = 0;
   public filters = new StructureFilterCriteria();
@@ -275,7 +275,7 @@ export class AdminStructuresListComponent
     this.structures = structuresSorter.sortBy(this.filteredStructures, {
       sortKey: this.filters.sortKey,
       sortValue: this.filters.sortValue,
-    }) as StructureAdmin[];
+    });
 
     this.applyPaginationFromStore();
   }
@@ -289,10 +289,7 @@ export class AdminStructuresListComponent
     const startIndex = 0;
     const endIndex = this.filters.page * this.pageSize;
 
-    this.structures = this.filteredStructures.slice(
-      startIndex,
-      endIndex
-    ) as StructureAdmin[];
+    this.structures = this.filteredStructures.slice(startIndex, endIndex);
   }
 
   private updateAttributeFilters(
