@@ -1,3 +1,15 @@
+# [2.208.0](https://github.com/SocialGouv/domifa/compare/v2.207.0...v2.208.0) (2025-07-21)
+
+
+### Bug Fixes
+
+* **admin:** add copy with a button ([c62cf56](https://github.com/SocialGouv/domifa/commit/c62cf563480bc91b3482410fa06c327f4eb8b3f4))
+
+
+### Features
+
+* **admins:** creation liste deroulante pour administration user ([c6ef221](https://github.com/SocialGouv/domifa/commit/c6ef221ed2c6f1ed4458af4e403c84e59e675800))
+
 # [2.207.0](https://github.com/SocialGouv/domifa/compare/v2.206.2...v2.207.0) (2025-07-18)
 
 
