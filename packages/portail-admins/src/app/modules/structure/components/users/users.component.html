@@ -122,48 +122,71 @@
           {{ USER_ROLES_LABELS[user.role] }}
         </td>
         <td>
-          <a
-            target="_blank"
-            class="btn btn-outline-primary"
-            [attr.href]="
-              frontendUrl +
-              'users/reset-password/' +
-              user.id +
-              '/' +
-              user?.temporaryTokens?.token
-            "
-            *ngIf="user?.temporaryTokens?.type === 'reset-password'"
+          <div
+            ngbDropdown
+            container="body"
+            [id]="'dropdownActionsMenuDashboard_' + user.id"
+            placement="bottom-right"
           >
-            🔗 Lien</a
-          >
-          <button
-            class="btn btn-outline-primary m-1"
-            (click)="
-              openConfirmationModal(user, MODAL_ACTION.REINIT_USER_PASSWORD)
-            "
-            type="button"
-          >
-            Réinitialiser mot de passe
-          </button>
-          <button
-            *ngIf="user.role !== 'admin'"
-            (click)="openConfirmationModal(user, MODAL_ACTION.PROMOTE_USER)"
-            class="btn btn-outline-primary mr-2"
-            type="button"
-          >
-            <fa-icon
-              class="ms-2"
-              aria-hidden="true"
-              [icon]="personArrowUp"
-            ></fa-icon>
-            Promouvoir
-          </button>
+            <button
+              type="button"
+              class="btn"
+              ngbDropdownToggle
+              [attr.aria-label]="
+                'Administrer l\'utilisateur ' + user.nom + ' ' + user.prenom
+              "
+            >
+              <fa-icon aria-hidden="true" [icon]="['fas', 'bars']"></fa-icon>
+            </button>
+            <div ngbDropdownMenu>
+              <button
+                ngbDropdownItem
+                class="cursor-pointer"
+                (click)="
+                  openConfirmationModal(user, MODAL_ACTION.REINIT_USER_PASSWORD)
+                "
+                type="button"
+              >
+                <fa-icon aria-hidden="true" [icon]="['fas', 'key']"></fa-icon>
+                Réinitialiser mot de passe
+              </button>
+              <a
+                ngbDropdownItem
+                target="_blank"
+                class="cursor-pointer"
+                [attr.href]="
+                  frontendUrl +
+                  'users/reset-password/' +
+                  user.id +
+                  '/' +
+                  user?.temporaryTokens?.token
+                "
+                *ngIf="user?.temporaryTokens?.type === 'reset-password'"
+              >
+                <fa-icon aria-hidden="true" [icon]="['fas', 'link']"></fa-icon>
+                Lien</a
+              >
+              <button
+                ngbDropdownItem
+                *ngIf="user.role !== 'admin'"
+                (click)="openConfirmationModal(user, MODAL_ACTION.PROMOTE_USER)"
+                class="cursor-pointer"
+                type="button"
+              >
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'person-arrow-up-from-line']"
+                ></fa-icon>
+                Promouvoir
+              </button>
+            </div>
+          </div>
         </td>
       </tr>
     </tbody>
   </table>
 
-  <ng-template #confirmPasswordReinit let-modal>
+  <ng-template #confirmModal let-modal>
     <div class="modal-header">
       <h4 class="modal-title">Confirmation</h4>
       <button
@@ -175,7 +198,7 @@
     </div>
     <div class="modal-body">
       <p>
-        Êtes-vous sûr de vouloir {{ confirmModalContext.actionText }}:
+        Êtes-vous sûr de vouloir {{ confirmModalContext?.actionText ?? "" }}:
         <span class="fw-bold">
           {{ userForConfirmModal.email }}
         </span>
