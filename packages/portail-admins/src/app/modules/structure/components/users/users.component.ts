@@ -21,7 +21,6 @@ import {
 import { environment } from "../../../../../environments/environment";
 import { subMonths } from "date-fns";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { faPersonArrowUpFromLine } from "@fortawesome/free-solid-svg-icons";
 import { CustomToastService } from "../../../shared/services";
 
 export enum MODAL_ACTION {
@@ -49,7 +48,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   public readonly USER_FONCTION = UserFonction;
   public readonly _USER_FONCTION_LABELS = USER_FONCTION_LABELS;
   public readonly MODAL_ACTION = MODAL_ACTION;
-  public readonly personArrowUp = faPersonArrowUpFromLine;
   public readonly USER_ROLES_LABELS: { [key in UserStructureRole]: string } = {
     admin: "Administrateur",
     responsable: "Gestionnaire",
@@ -59,7 +57,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public structure: StructureCommon;
   private subscription = new Subscription();
   public searching = true;
-  @ViewChild("confirmPasswordReinit", { static: true })
+  @ViewChild("confirmModal", { static: true })
   public confirmModal!: TemplateRef<NgbModalRef>;
   public confirmModalContext?: ConfirmModalContext;
 

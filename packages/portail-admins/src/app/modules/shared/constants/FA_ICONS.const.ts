@@ -28,6 +28,9 @@ import {
   faSpinner,
   faArrowUpRightFromSquare,
   faExternalLinkAlt,
+  faKey,
+  faLink,
+  faPersonArrowUpFromLine,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const FA_ICONS: IconDefinition[] = [
@@ -58,4 +61,7 @@ export const FA_ICONS: IconDefinition[] = [
   faSearch,
   faExternalLinkAlt,
   faSpinner,
+  faKey,
+  faPersonArrowUpFromLine,
+  faLink,
 ];

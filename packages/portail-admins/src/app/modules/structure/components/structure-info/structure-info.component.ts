@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { AfterViewInit, Component, Input } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import {
   CURRENT_TOOL_OPTIONS,
   MARKET_TOOLS_OPTIONS,
@@ -14,7 +14,7 @@ import {
   templateUrl: "./structure-info.component.html",
   styleUrl: "./structure-info.component.css",
 })
-export class StructureInfoComponent implements AfterViewInit {
+export class StructureInfoComponent implements OnInit {
   @Input({ required: true }) public structure: StructureCommon;
   public readonly STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
   public readonly STRUCTURE_ORGANISME_TYPE_LABELS =
@@ -24,7 +24,7 @@ export class StructureInfoComponent implements AfterViewInit {
   public currentToolLabel: string = "";
   public marketToolLabel: string = "";
 
-  ngAfterViewInit() {
+  ngOnInit() {
     this.smsDays = this.getSelectedDaysForSms();
     this.initializeLabels();
   }
