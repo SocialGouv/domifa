@@ -1,6 +1,5 @@
 
 backend-cron:
-  ~needs: [build-backend]
   replicas: 1
   resources:
     requests:
@@ -52,7 +51,6 @@ backend-cron:
       value: backup/files
 
 backend: &backendProd
-  ~needs: [build-backend]
   host: "domifa-api.{{ .Values.global.domain }}"
   autoscale:
     minReplicas: 4
@@ -78,7 +76,6 @@ backend: &backendProd
   env: *backendEnv
 
 backend-export:
-  ~needs: [build-backend]
   host: "domifa-api.{{ .Values.global.domain }}"
   # annotations:
   #   oblik.socialgouv.io/min-request-cpu: "2"
