@@ -1,3 +1,10 @@
+## [2.208.3](https://github.com/SocialGouv/domifa/compare/v2.208.2...v2.208.3) (2025-07-22)
+
+
+### Bug Fixes
+
+* **ci:** needs typo ([6117e13](https://github.com/SocialGouv/domifa/commit/6117e134ac303771368f6f94d40409ff0dfed030))
+
 ## [2.208.2](https://github.com/SocialGouv/domifa/compare/v2.208.1...v2.208.2) (2025-07-21)
 
 
