@@ -175,7 +175,7 @@ export class AdminUsersController {
   @ApiOperation({ summary: "Liste des utilisateurs superviseurs" })
   @Get("")
   public async getUsersSupervisors(): Promise<UserSupervisor[]> {
-    const users = await userSupervisorRepository.find({
+    return userSupervisorRepository.find({
       where: {},
       select: {
         nom: true,
@@ -189,7 +189,6 @@ export class AdminUsersController {
         uuid: true,
       },
     });
-    return users;
   }
 
   @Patch(":uuid")

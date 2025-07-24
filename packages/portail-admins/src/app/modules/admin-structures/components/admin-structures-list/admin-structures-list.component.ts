@@ -170,10 +170,7 @@ export class AdminStructuresListComponent
     const startIndex = (this.filters.page - 1) * this.pageSize;
     const endIndex = this.filters.page * this.pageSize;
 
-    const newElements = this.filteredStructures.slice(
-      startIndex,
-      endIndex
-    ) as StructureAdmin[];
+    const newElements = this.filteredStructures.slice(startIndex, endIndex);
 
     if (this.filters.page === 1) {
       this.structures = newElements;

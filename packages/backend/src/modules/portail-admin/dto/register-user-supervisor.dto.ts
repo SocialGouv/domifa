@@ -9,11 +9,14 @@ import {
   MinLength,
 } from "class-validator";
 import { Transform, TransformFnParams } from "class-transformer";
-import { IsValidGeographicRole } from "../../../_common/decorators";
+
+import {
+  IsSocialGouvEmailIfSuperAdmin,
+  IsValidGeographicRole,
+} from "../decorators";
 import { UserSupervisorRole } from "@domifa/common";
+import { LowerCaseTransform } from "../../../_common/decorators";
 import { USER_SUPERVISOR_ROLES } from "../../../_common/model/users/user-supervisor";
-import { LowerCaseTransform } from "../../../_common/decorators/transformers";
-import { IsSocialGouvEmailIfSuperAdmin } from "../decorators";
 
 export class RegisterUserSupervisorDto {
   @ApiProperty({
