@@ -1,3 +1,11 @@
+## [2.208.5](https://github.com/SocialGouv/domifa/compare/v2.208.4...v2.208.5) (2025-07-24)
+
+
+### Bug Fixes
+
+* **admin:** fix order of select box ([3fc2507](https://github.com/SocialGouv/domifa/commit/3fc2507d784744e3fe81f993e6998d84b7cf30d7))
+* **backend:** fix sonar issues ([73c4513](https://github.com/SocialGouv/domifa/commit/73c45130dc0a976f06054c22b8d675ea3dc5cc96))
+
 ## [2.208.4](https://github.com/SocialGouv/domifa/compare/v2.208.3...v2.208.4) (2025-07-24)
 
 
