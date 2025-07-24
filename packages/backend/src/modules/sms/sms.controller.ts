@@ -30,7 +30,7 @@ export class SmsController {
         createdAt: "DESC",
       },
       skip: 0,
-      take: 10,
+      take: 50,
     });
   }
 }

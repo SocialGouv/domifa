@@ -24,7 +24,7 @@ export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public me!: UserStructure;
   @Input({ required: true }) public editPJ!: boolean;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public docs: WithLoading<UsagerDoc>[];
 
   public sortValue: SortValues = "desc";

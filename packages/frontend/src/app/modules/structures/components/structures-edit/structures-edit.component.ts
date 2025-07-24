@@ -36,7 +36,7 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
   public loading: boolean;
 
   public hardResetForm!: UntypedFormGroup;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public readonly UsagersFilterCriteriaStatut = UsagersFilterCriteriaStatut;
 
   constructor(

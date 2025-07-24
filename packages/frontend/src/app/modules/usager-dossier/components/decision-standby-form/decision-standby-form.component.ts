@@ -35,7 +35,7 @@ export class DecisionStandbyFormComponent implements OnInit, OnDestroy {
   public submitted: boolean;
   public loading: boolean;
   public addNoteForm!: UntypedFormGroup;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   constructor(
     private readonly usagerNotesService: UsagerNotesService,

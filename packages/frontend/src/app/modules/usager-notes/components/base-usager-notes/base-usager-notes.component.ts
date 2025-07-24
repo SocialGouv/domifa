@@ -28,7 +28,7 @@ export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public notes: UsagerNote[];
   public getArchivedNotes = false;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   public currentUserSubject$: Observable<UserStructure | null>;
 

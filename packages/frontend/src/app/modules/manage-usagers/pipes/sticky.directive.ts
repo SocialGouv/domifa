@@ -15,7 +15,7 @@ import { takeUntil, throttleTime } from "rxjs/operators";
 export class StickySelectionBarDirective implements OnInit, OnDestroy {
   private isSticky = false;
   private elementPosition: number | null = null;
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   constructor(
     private el: ElementRef,

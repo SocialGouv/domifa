@@ -19,7 +19,7 @@ export class ProfilHistoriqueProcurationsComponent
 {
   @Input({ required: true }) public usager!: UsagerFormModel;
   @Input({ required: true }) public me!: UserStructure;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public procurationHistory: UsagerOptionsHistory[];
   public readonly HISTORY_ACTIONS = HISTORY_ACTIONS;
 

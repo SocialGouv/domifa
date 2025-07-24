@@ -25,7 +25,7 @@ export class UsagerNotesActionsComponent implements OnDestroy {
 
   @Output()
   public getUsagerNotes = new EventEmitter();
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   public loading: boolean;
   public choosenAction: "DELETE" | "ARCHIVE" | null;

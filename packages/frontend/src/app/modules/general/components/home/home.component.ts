@@ -12,7 +12,7 @@ import { AuthService } from "../../../shared/services";
   templateUrl: "./home.component.html",
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public me!: UserStructure | null;
 
   constructor(

@@ -54,7 +54,7 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
   public success: boolean;
   public loading: boolean;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public contactForm!: UntypedFormGroup;
 
   public me!: UserStructure | null;

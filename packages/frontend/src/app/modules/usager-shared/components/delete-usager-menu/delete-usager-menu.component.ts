@@ -39,7 +39,7 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
     | "PROFIL"
     | "INSTRUCTION_FORM";
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   public previousStatus: string;
   public loading: boolean;

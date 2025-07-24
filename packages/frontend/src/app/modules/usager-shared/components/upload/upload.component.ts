@@ -38,7 +38,7 @@ export class UploadComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;
   @Input() public edit!: boolean;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,

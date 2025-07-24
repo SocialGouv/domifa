@@ -57,8 +57,8 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
   public emailExist: boolean;
 
-  private subscription = new Subscription();
-  private unsubscribe: Subject<void> = new Subject();
+  private readonly subscription = new Subscription();
+  private readonly unsubscribe: Subject<void> = new Subject();
   public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
   public get f(): { [key: string]: AbstractControl } {
     return this.userForm.controls;

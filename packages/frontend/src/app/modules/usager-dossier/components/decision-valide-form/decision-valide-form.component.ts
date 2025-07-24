@@ -51,7 +51,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
   >[];
 
   public duplicates: UsagerLight[];
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,

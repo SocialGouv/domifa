@@ -17,7 +17,7 @@ export class PortailUsagersParamsComponent implements OnInit, OnDestroy {
   public structure!: StructureCommon;
 
   public loading: boolean;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public section: "" | "parametres" | "informations" = "";
 
   constructor(

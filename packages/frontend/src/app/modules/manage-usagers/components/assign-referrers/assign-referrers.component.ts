@@ -9,7 +9,7 @@ import { ManageUsagersService } from "../../services/manage-usagers.service";
   styleUrls: ["./assign-referrers.component.css"],
 })
 export class AssignReferrersComponent {
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   @Input() public selectedRefs: Set<number>;
   @Input() public newReferrerId: number;
   @Output() public actionAfterSuccess = new EventEmitter<number | null>();

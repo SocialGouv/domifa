@@ -49,7 +49,7 @@ export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
   @ViewChild("transfertName")
   public firstInput!: ElementRef;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,

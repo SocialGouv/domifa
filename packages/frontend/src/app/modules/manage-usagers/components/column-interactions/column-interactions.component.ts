@@ -44,7 +44,7 @@ export class ColumnInteractionsComponent implements OnDestroy {
   @Input()
   public usager!: UsagerFormModel;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   constructor(
     private readonly interactionService: InteractionService,

@@ -26,7 +26,7 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public codePostalForm!: UntypedFormGroup;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   public portailUsagerUrl = environment.portailUsagersUrl;
 

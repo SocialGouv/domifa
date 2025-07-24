@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public returnUrl: string;
   public hidePassword: boolean;
   public loading: boolean;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public portailUsagerUrl = environment.portailUsagersUrl;
 
   constructor(

@@ -16,7 +16,7 @@ export class ProfilGeneralHistoriqueCourriersComponent
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public interactions: Interaction[];
 
   constructor(private readonly interactionService: InteractionService) {
