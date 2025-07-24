@@ -83,7 +83,7 @@ export class StatsPrivateController {
   public async getReportingQuestions(
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    const stats = await structureStatsReportingQuestionsRepository.find({
+    return structureStatsReportingQuestionsRepository.find({
       where: {
         structureId: user.structureId,
       },
@@ -91,7 +91,6 @@ export class StatsPrivateController {
         year: "ASC",
       },
     });
-    return stats;
   }
 
   @Post("")

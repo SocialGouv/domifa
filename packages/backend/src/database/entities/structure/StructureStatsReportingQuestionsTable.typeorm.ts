@@ -3,11 +3,17 @@ import {
   StructureStatsReportingQuestions,
 } from "@domifa/common";
 
-import { Entity, Column, Index, JoinColumn, ManyToOne, Unique } from "typeorm";
+import {
+  Entity,
+  Column,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  Unique,
+  ValueTransformer,
+} from "typeorm";
 import { AppTypeormTable } from "../_core";
 import { StructureTable } from "./StructureTable.typeorm";
-
-import { ValueTransformer } from "typeorm";
 
 class NumericTransformer implements ValueTransformer {
   to(value: number): number {

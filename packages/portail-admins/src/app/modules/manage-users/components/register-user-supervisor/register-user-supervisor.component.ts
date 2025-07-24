@@ -33,9 +33,9 @@ import {
   RegionsLabels,
   USER_SUPERVISOR_ROLES_LABELS,
   UserSupervisor,
+  UserSupervisorRole,
 } from "@domifa/common";
 import { ManageUsersService } from "../../services/manage-users.service";
-import { UserSupervisorRole } from "@domifa/common";
 
 export type FormEmailTakenValidator = Observable<null | {
   emailTaken: boolean;
