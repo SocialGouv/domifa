@@ -27,7 +27,7 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
   public nbNotes = 0;
   public currentUrl = "";
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public isMobile = false;
 
   constructor(

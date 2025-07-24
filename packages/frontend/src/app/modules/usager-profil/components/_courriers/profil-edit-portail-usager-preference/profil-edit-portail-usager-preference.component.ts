@@ -40,7 +40,7 @@ export class ProfilEditPortailUsagerPreferenceComponent
   @ViewChild("confirmationModal", { static: true })
   public confirmationModal!: TemplateRef<NgbModalRef>;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public portailUsagersInformations: PortailUsagersInformations | null;
 
   constructor(

@@ -32,7 +32,7 @@ export class SetInteractionInFormComponent implements OnDestroy {
   @Output()
   public readonly updateInteractions = new EventEmitter<void>();
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   public interactionFormData: InteractionInForm;
   public content: string | null;

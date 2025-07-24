@@ -34,7 +34,7 @@ export class ProfilHistoriqueCourriersComponent implements OnInit, OnDestroy {
 
   public interactions: Interaction[];
   public interactionToDelete: Interaction | null;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   @ViewChild("deleteInteractionModal", { static: true })
   public deleteInteractionModal!: TemplateRef<NgbModalRef>;

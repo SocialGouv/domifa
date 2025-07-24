@@ -45,7 +45,7 @@ import {
 export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   @Input({ required: true })
   public usagers!: UsagerFormModel[];
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   @Input({ required: true })
   public filters!: UsagersFilterCriteria;
@@ -78,7 +78,7 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   }>();
 
   public me!: UserStructure | null;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public showCheckboxes = false;
   public currentFilters!: UsagersFilterCriteria;
 

@@ -87,7 +87,7 @@ export class ManageUsagersPageComponent
   public readonly UsagersFilterCriteriaStatut = UsagersFilterCriteriaStatut;
   public usagersCountByStatus = new UsagersCountByStatus();
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   public usagers: UsagerFormModel[] = [];
   public filteredUsagers: UsagerFormModel[] = [];
@@ -128,7 +128,7 @@ export class ManageUsagersPageComponent
   @ViewChild("refreshButton", { static: true })
   refreshButton!: ElementRef;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public selectedRefs: Set<number> = new Set();
   public selectAllCheckboxes = false;
 

@@ -25,7 +25,7 @@ import { faFilePdf, faFileWord } from "@fortawesome/free-regular-svg-icons";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManageDownloadDocsComponent implements OnDestroy {
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   public me!: UserStructure | null;
   @Input() public usager!: UsagerFormModel;

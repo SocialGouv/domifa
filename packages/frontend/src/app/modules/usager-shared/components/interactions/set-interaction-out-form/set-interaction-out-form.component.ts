@@ -50,7 +50,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   public returnToSender: boolean = false;
   public loading = false;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   constructor(
     private readonly interactionService: InteractionService,

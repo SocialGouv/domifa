@@ -16,7 +16,7 @@ export class DeleteUserComponent {
   public loading: boolean;
   public followedUsagers: Pick<Usager, "ref">[] = [];
   public referrers: Pick<UserStructure, "id">[] = [];
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   public newReferrerId: number | null;
 

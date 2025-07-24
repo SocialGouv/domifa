@@ -30,7 +30,7 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
   public templateError: "TEMPLATE_ERROR" | "UNKNOWN_KEY" | null = null;
 
   @Input() public isCustomDoc!: boolean;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   @Output()
   public readonly cancel = new EventEmitter<void>();

@@ -1,16 +1,16 @@
 [
   {
-  "date": "2024-07-24",
-  "description": "📊 Nouvelle fonctionnalité pour les facteurs : accès aux statistiques",
-  "content": [
-    {
-      "type": "new",
-      "categorie": "Rôle facteur",
-      "message": [
-        "Les utilisateurs avec le rôle de facteur peuvent désormais accéder à la page Statistiques.",
-        "Vous avez ainsi la possibilité de consulter le rapport d'activité de votre structure directement depuis Domifa."
-      ]
-    }
+    "date": "2024-07-24",
+    "description": "📊 Nouvelle fonctionnalité pour les facteurs : accès aux statistiques",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Rôle du facteur",
+        "message": [
+          "Les utilisateurs avec le rôle de facteur peuvent désormais accéder à la page Statistiques.",
+          "Vous avez ainsi la possibilité de consulter le rapport d'activité de votre structure directement depuis Domifa."
+        ]
+      }
     ]
   },
   {

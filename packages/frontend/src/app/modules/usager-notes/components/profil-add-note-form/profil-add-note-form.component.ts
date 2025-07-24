@@ -43,7 +43,7 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
   public addNoteForm!: UntypedFormGroup;
   public submitted: boolean;
   public loading: boolean;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   constructor(
     private readonly usagerNotesService: UsagerNotesService,

@@ -34,7 +34,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   public userId?: string;
   public errorLabels: { [key: string]: string };
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   public get e() {
     return this.emailForm.controls;

@@ -21,7 +21,7 @@ export class IdleManagerComponent implements OnInit, OnDestroy {
   public idleModal!: TemplateRef<NgbModalRef>;
   public timerCount = 0;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   private timerStartSubscription!: Subscription;
   private timeoutSubscription!: Subscription;
 

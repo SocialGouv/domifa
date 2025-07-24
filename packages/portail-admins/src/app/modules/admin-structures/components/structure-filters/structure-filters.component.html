@@ -105,7 +105,11 @@
               class="dropdown-menu dropdown-menu-end"
             >
               <button
-                *ngFor="let region of REGIONS_LISTE | keyvalue"
+                *ngFor="
+                  let region of REGIONS_LISTE
+                    | keyvalue
+                    | sortArray : 'value' : 'asc'
+                "
                 type="button"
                 (click)="
                   updateFilters.emit({

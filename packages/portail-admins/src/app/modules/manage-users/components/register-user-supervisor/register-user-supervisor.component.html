@@ -190,7 +190,11 @@
         >
           <option [value]="null"></option>
           <option
-            *ngFor="let item of territoriesList | keyvalue"
+            *ngFor="
+              let item of territoriesList
+                | keyvalue
+                | sortArray : 'value' : 'asc'
+            "
             [value]="item.key"
           >
             {{

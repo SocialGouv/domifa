@@ -25,7 +25,7 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public docs: WithLoading<StructureDoc>[] = [];
 
   public sortValue: SortValues = "desc";

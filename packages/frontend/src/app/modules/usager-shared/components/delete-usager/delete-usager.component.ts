@@ -30,7 +30,7 @@ export class DeleteUsagerComponent implements OnDestroy {
 
   @Input() public me!: UserStructure;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   public loading: boolean;
 

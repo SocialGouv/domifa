@@ -25,7 +25,7 @@ export class ProfilHistoriqueLoginPortailComponent
   @Input() public me!: UserStructure;
 
   public interactions: UserUsagerLogin[];
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   public loading: boolean;
 

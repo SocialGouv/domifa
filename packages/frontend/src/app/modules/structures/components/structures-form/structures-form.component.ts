@@ -75,8 +75,8 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   };
   public accountExist: boolean;
 
-  private unsubscribe: Subject<void> = new Subject();
-  private subscription = new Subscription();
+  private readonly unsubscribe: Subject<void> = new Subject();
+  private readonly subscription = new Subscription();
   public readonly NETWORKS = NETWORKS;
 
   public showsourceDetail = false;

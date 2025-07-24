@@ -18,7 +18,7 @@ import { UserStructureProfile } from "@domifa/common";
 export class AssignReferrersComponent implements OnInit, OnDestroy {
   public nbReferrers: number = 0;
   public submitted: boolean = false;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   @Input({ required: true }) @Input() public currentUser: UserStructureProfile;
   @Input() public newReferrerId: number | null;

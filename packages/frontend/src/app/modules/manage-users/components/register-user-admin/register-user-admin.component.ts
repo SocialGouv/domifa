@@ -42,8 +42,8 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
 
   public emailExist = false;
 
-  private subscription = new Subscription();
-  private unsubscribe: Subject<void> = new Subject();
+  private readonly subscription = new Subscription();
+  private readonly unsubscribe: Subject<void> = new Subject();
   public me!: UserStructure | null;
 
   @Output() public getUsers = new EventEmitter<void>();

@@ -50,7 +50,7 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
   public maxDateRefus: NgbDateStruct;
   public minDate: NgbDateStruct;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,

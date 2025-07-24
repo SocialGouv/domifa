@@ -43,8 +43,8 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
 
   public emailExist = false;
 
-  private unsubscribe: Subject<void> = new Subject();
-  private subscription = new Subscription();
+  private readonly unsubscribe: Subject<void> = new Subject();
+  private readonly subscription = new Subscription();
 
   @Input() public structureRegisterInfos!: {
     etapeInscription: number;

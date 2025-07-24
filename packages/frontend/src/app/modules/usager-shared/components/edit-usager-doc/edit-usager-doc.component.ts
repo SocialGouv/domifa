@@ -33,7 +33,7 @@ export class EditUsagerDocComponent implements OnInit, OnDestroy {
   public submitted = false;
   public loading = false;
   public documentForm!: UntypedFormGroup;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   @Input() public usager: Pick<Usager, "ref" | "options">;
   @Input() public doc: WithLoading<UsagerDoc>;

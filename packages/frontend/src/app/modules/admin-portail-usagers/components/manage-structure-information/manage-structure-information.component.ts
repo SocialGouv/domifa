@@ -24,7 +24,7 @@ export class ManageStructureInformationComponent implements OnInit {
   public loading: boolean;
   public selectedStructureInformation: StructureInformation | null;
   public structureInformation: StructureInformation[];
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   public readonly STRUCTURE_INFORMATION_TYPES = STRUCTURE_INFORMATION_TYPES;
 

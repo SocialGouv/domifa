@@ -31,7 +31,7 @@ export class ProfilHeadComponent implements OnDestroy {
   @Input() public me!: UserStructure;
   @Input() public section!: string;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   public loading: boolean;
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;

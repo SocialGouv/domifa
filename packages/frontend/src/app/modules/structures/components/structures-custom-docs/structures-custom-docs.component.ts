@@ -31,7 +31,7 @@ export class StructuresCustomDocsComponent implements OnInit, OnDestroy {
   public me!: UserStructure | null;
 
   public isCustomDoc: boolean;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   @ViewChild("uploadCustomDocModal", { static: true })
   public uploadCustomDocModal!: TemplateRef<NgbModalRef>;

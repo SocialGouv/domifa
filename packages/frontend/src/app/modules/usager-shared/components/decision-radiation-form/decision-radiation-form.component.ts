@@ -62,7 +62,7 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
 
   public readonly maxDate = minDateToday;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   @ViewChild("decisionRadiationFormModal", { static: true })
   public decisionRadiationFormModal!: TemplateRef<NgbModalRef>;

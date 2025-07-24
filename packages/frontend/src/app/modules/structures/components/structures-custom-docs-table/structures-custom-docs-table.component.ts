@@ -33,7 +33,7 @@ export class StructuresCustomDocsTableComponent implements OnDestroy {
   public sortValue: SortValues = "desc";
   public currentKey: keyof StructureDoc = "createdAt";
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   constructor(
     private readonly structureDocService: StructureDocService,

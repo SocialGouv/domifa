@@ -27,7 +27,7 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
   public submitted: boolean;
   public structureSmsForm!: UntypedFormGroup;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
