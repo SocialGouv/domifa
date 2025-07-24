@@ -4,7 +4,9 @@ import {
   SortValues,
   StructureCommon,
   UserStructureRole,
+  UserStructure,
 } from "@domifa/common";
+
 import {
   Component,
   Input,
@@ -16,6 +18,7 @@ import {
 import { filter, map, Subject, Subscription, switchMap } from "rxjs";
 import {
   StructureService,
+  UserSecurityEventType,
   UserStructureWithSecurity,
 } from "../../services/structure.service";
 import { environment } from "../../../../../environments/environment";
@@ -23,16 +26,50 @@ import { subMonths } from "date-fns";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { CustomToastService } from "../../../shared/services";
 import { Clipboard } from "@angular/cdk/clipboard";
+import { UserStructureEventHistoryLabels } from "../../../admin-auth/types/event-history";
 
 export enum MODAL_ACTION {
   PROMOTE_USER = "PROMOTE_USER",
   REINIT_USER_PASSWORD = "REINIT_USER_PASSWORD",
 }
 
+const EVENT_CONFIG: {
+  [key in UserSecurityEventType]: {
+    class: "green" | "red";
+    label: "Succès" | "Erreur";
+  };
+} = {
+  "login-success": { class: "green", label: "Succès" },
+  "change-password-success": { class: "green", label: "Succès" },
+  "reset-password-success": { class: "green", label: "Succès" },
+  "reset-password-request": { class: "green", label: "Succès" },
+  "validate-account-success": { class: "green", label: "Succès" },
+  "validate-account-error": { class: "red", label: "Erreur" },
+  "login-error": { class: "red", label: "Erreur" },
+  "change-password-error": { class: "red", label: "Erreur" },
+  "reset-password-error": { class: "red", label: "Erreur" },
+} as const;
+
 export interface ConfirmModalContext {
   actionText: string;
-  action: (user: UserStructureWithSecurity) => void;
+  action: (user: UserWithSecurityViewModel) => void;
 }
+
+type UserWithSecurityViewModel = UserStructure & {
+  remainingBackoffMinutes?: number;
+} & {
+  temporaryTokens: {
+    type?: string;
+    token?: string;
+    validity?: Date;
+  };
+  eventsHistory: {
+    type: UserSecurityEventType;
+    date: Date;
+    eventLevel: string;
+    eventLabel: string;
+  }[];
+};
 
 @Component({
   selector: "app-users",
@@ -40,7 +77,7 @@ export interface ConfirmModalContext {
   styleUrl: "./users.component.css",
 })
 export class UsersComponent implements OnInit, OnDestroy {
-  public users: UserStructureWithSecurity[] = [];
+  public users: UserWithSecurityViewModel[] = [];
   public sortValue: SortValues = "asc";
   public currentKey = "id";
   public twoMonthsAgo = subMonths(new Date(), 2);
@@ -48,6 +85,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   public readonly frontendUrl = environment.frontendUrl;
   public readonly USER_FONCTION = UserFonction;
   public readonly _USER_FONCTION_LABELS = USER_FONCTION_LABELS;
+  public readonly USER_ACTIVITY_LABELS = UserStructureEventHistoryLabels;
   public readonly MODAL_ACTION = MODAL_ACTION;
   public readonly USER_ROLES_LABELS: { [key in UserStructureRole]: string } = {
     admin: "Administrateur",
@@ -60,9 +98,11 @@ export class UsersComponent implements OnInit, OnDestroy {
   public searching = true;
   @ViewChild("confirmModal", { static: true })
   public confirmModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("infoModal", { static: true })
+  public informationModal!: TemplateRef<NgbModalRef>;
   public confirmModalContext?: ConfirmModalContext;
 
-  public userForConfirmModal?: UserStructureWithSecurity;
+  public userForModal?: UserWithSecurityViewModel;
   constructor(
     private readonly structureService: StructureService,
     private readonly modalService: NgbModal,
@@ -85,31 +125,68 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.searching = true;
     this.subscription.add(
       this.structureService.getUsers(this.structure.id).subscribe((users) => {
-        this.users = users.map((user) => {
-          user.lastLogin = new Date(user.lastLogin);
-          return user;
-        });
+        this.users = users.map((user) => mapUserStructureToViewModel(user));
         this.searching = false;
       })
     );
   }
 
   public openConfirmationModal(
-    user: UserStructureWithSecurity,
+    user: UserWithSecurityViewModel,
     modalAction: MODAL_ACTION
   ): void {
     this.setConfirmModalContext(user, modalAction);
-    this.userForConfirmModal = user;
+    this.userForModal = user;
     this.modalService.open(this.confirmModal, {
       size: "s",
       centered: true,
     });
   }
 
+  public getHistoryEventLevel(eventType: UserSecurityEventType): string {
+    switch (eventType) {
+      case "login-success":
+      case "change-password-success":
+      case "reset-password-success":
+      case "reset-password-request":
+        return "green";
+      case "login-error":
+      case "change-password-error":
+      case "reset-password-error":
+        return "red";
+      default:
+        throw new Error("Unknown event type: " + eventType);
+    }
+  }
+
+  public getHistoryEventLabel(eventType: UserSecurityEventType): string {
+    switch (eventType) {
+      case "login-success":
+      case "change-password-success":
+      case "reset-password-success":
+      case "reset-password-request":
+        return "Succès";
+      case "login-error":
+      case "change-password-error":
+      case "reset-password-error":
+        return "Erreur";
+      default:
+        throw new Error("Unknown event type: " + eventType);
+    }
+  }
+
+  public openInformationModal(user: UserWithSecurityViewModel): void {
+    this.userForModal = user;
+    this.modalService.open(this.informationModal, {
+      size: "s",
+      centered: true,
+    });
+  }
+
   public setConfirmModalContext(
-    user: UserStructureWithSecurity,
+    user: UserWithSecurityViewModel,
     modalAction: MODAL_ACTION
-  ) {
+  ): void {
     const isPromoteUser = modalAction === MODAL_ACTION.PROMOTE_USER;
     this.confirmModalContext = {
       actionText: isPromoteUser
@@ -121,7 +198,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     };
   }
 
-  public doElevateRole(user: UserStructureWithSecurity) {
+  public doElevateRole(user: UserWithSecurityViewModel) {
     this.subscription.add(
       this.structureService.elevateUserRole(user.uuid).subscribe({
         next: () => {
@@ -129,9 +206,11 @@ export class UsersComponent implements OnInit, OnDestroy {
           this.toastService.success(
             "L'utilisateur a été promu au rôle admin avec succès"
           );
+          this.userForModal = null;
         },
         error: () => {
           this.toastService.error("Une erreur serveur est survenue");
+          this.userForModal = null;
         },
       })
     );
@@ -151,7 +230,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     return `${this.frontendUrl}users/reset-password/${user.id}/${user.temporaryTokens.token}`;
   }
 
-  public doResetPasswordAndCopyLink(user: UserStructureWithSecurity): void {
+  public doResetPasswordAndCopyLink(user: UserWithSecurityViewModel): void {
     if (!user) return;
 
     this.subscription.add(
@@ -161,11 +240,7 @@ export class UsersComponent implements OnInit, OnDestroy {
           switchMap(() => this.structureService.getUsers(this.structure.id)),
           // Get user from users
           map((users) => {
-            this.users = users.map((user) => {
-              user.lastLogin = new Date(user.lastLogin);
-              return user;
-            });
-
+            this.users = users.map((user) => mapUserStructureToViewModel(user));
             return users.find((u) => u.id === user.id);
           }),
           filter((updatedUser) => !!updatedUser)
@@ -178,8 +253,11 @@ export class UsersComponent implements OnInit, OnDestroy {
               this.toastService.success(
                 "Le lien de réinitialisation a été généré et copié dans le presse-papier"
               );
+              this.userForModal = null;
+              this.reloadUsersSubject$.next();
             } else {
               this.toastService.error("Erreur lors de la génération du lien");
+              this.userForModal = null;
             }
           },
           error: () => {
@@ -230,3 +308,27 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 }
+
+const mapUserStructureToViewModel = (
+  user: UserStructureWithSecurity
+): UserWithSecurityViewModel => ({
+  ...user,
+  remainingBackoffMinutes: user.remainingBackoffMinutes,
+  lastLogin: new Date(user.lastLogin),
+  temporaryTokens: {
+    token: user.temporaryTokens.token,
+    type: user.temporaryTokens.type,
+    validity: user.temporaryTokens.validity,
+  },
+  eventsHistory: user.eventsHistory
+    .map((eventHistory) => ({
+      ...eventHistory,
+      eventLevel: EVENT_CONFIG[eventHistory.type].class,
+      eventLabel: EVENT_CONFIG[eventHistory.type].label,
+    }))
+    .sort((a, b) => {
+      const aDate = new Date(a.date);
+      const bDate = new Date(b.date);
+      return bDate.getTime() - aDate.getTime();
+    }),
+});

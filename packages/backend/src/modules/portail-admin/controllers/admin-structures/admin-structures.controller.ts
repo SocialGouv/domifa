@@ -42,10 +42,12 @@ import { StructureAdminForList } from "../../types";
 import { userAccountActivatedEmailSender } from "../../../mails/services/templates-renderers";
 import { structureCreatorService } from "../../../structures/services";
 import { format } from "date-fns";
+import { getBackoffTime } from "../../../users/services";
 
 export type UserStructureWithSecurity = UserStructure & {
   temporaryTokens: UserTokens;
-  events: UserSecurityEvent;
+  eventsHistory: UserSecurityEvent[];
+  remainingBackoffMinutes?: number;
 };
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
@@ -115,7 +117,9 @@ export class AdminStructuresController {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("structureId", new ParseIntPipe()) _structureId: number
   ): Promise<Array<UserStructureWithSecurity>> {
-    return (await userStructureSecurityRepository.query(
+    const usersStructure = await userStructureSecurityRepository.query<
+      UserStructureWithSecurity[]
+    >(
       `
         SELECT
         user_structure.nom,
@@ -137,7 +141,11 @@ export class AdminStructuresController {
         WHERE user_structure."structureId" = $1
 `,
       [structure.id]
-    )) as unknown as UserStructureWithSecurity[];
+    );
+    return usersStructure.map((user) => ({
+      ...user,
+      remainingBackoffMinutes: getBackoffTime(user.eventsHistory),
+    }));
   }
 
   @Post("confirm-structure-creation")
