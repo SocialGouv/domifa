@@ -136,7 +136,6 @@
             <div ngbDropdownMenu>
               <button
                 ngbDropdownItem
-                class="cursor-pointer"
                 (click)="
                   openConfirmationModal(user, MODAL_ACTION.REINIT_USER_PASSWORD)
                 "
@@ -160,7 +159,6 @@
                 ngbDropdownItem
                 *ngIf="user.role !== 'admin'"
                 (click)="openConfirmationModal(user, MODAL_ACTION.PROMOTE_USER)"
-                class="cursor-pointer"
                 type="button"
               >
                 <fa-icon
@@ -168,6 +166,17 @@
                   [icon]="['fas', 'person-arrow-up-from-line']"
                 ></fa-icon>
                 Promouvoir en administrateur
+              </button>
+              <button
+                ngbDropdownItem
+                (click)="openInformationModal(user)"
+                type="button"
+              >
+                <fa-icon
+                  aria-hidden="true"
+                  [icon]="['fas', 'user-shield']"
+                ></fa-icon>
+                Afficher l'activité de l'utilisateur
               </button>
             </div>
           </div>
@@ -190,7 +199,7 @@
       <p>
         Êtes-vous sûr de vouloir {{ confirmModalContext?.actionText ?? "" }}:
         <span class="fw-bold">
-          {{ userForConfirmModal.email }}
+          {{ userForModal?.email }}
         </span>
         ?
       </p>
@@ -206,9 +215,65 @@
       <button
         type="button"
         class="btn btn-lg btn-primary"
-        (click)="confirmModalContext.action(userForConfirmModal)"
+        (click)="confirmModalContext.action(userForModal)"
       >
         Confirmer
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #infoModal let-modal>
+    <div class="modal-header bg-primary text-white">
+      <span id="modal-title">Historique activité utilisateur </span>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss()"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <div
+        *ngIf="userForModal.remainingBackoffMinutes"
+        class="alert alert-danger"
+        role="alert"
+      >
+        L'utilisateur est temporairement bloqué pendant encore
+        {{ userForModal.remainingBackoffMinutes }} minutes
+      </div>
+      <table class="table table-striped">
+        <caption class="visually-hidden">
+          Historique d'activité de l'utilisateur
+        </caption>
+        <thead>
+          <tr>
+            <th>Statut</th>
+            <th>Action</th>
+            <th>Date de l'action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let activity of userForModal?.eventsHistory">
+            <td>
+              <span class="label-info  {{ activity.eventLevel }}-status">
+                {{ activity.eventLabel }}
+              </span>
+            </td>
+            <td>
+              {{ USER_ACTIVITY_LABELS[activity.type] }}
+            </td>
+            <td>{{ activity.date | date : "dd/MM/yyyy hh:mm:ss" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-lg btn-outline-dark"
+        (click)="confirmModalContext = null; modal.dismiss()"
+      >
+        Fermer
       </button>
     </div>
   </ng-template>

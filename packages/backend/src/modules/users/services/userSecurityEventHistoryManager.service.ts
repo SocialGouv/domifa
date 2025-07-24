@@ -1,4 +1,4 @@
-import { subHours, subWeeks } from "date-fns";
+import { addHours, differenceInMinutes, subHours, subWeeks } from "date-fns";
 
 import { domifaConfig } from "../../../config";
 import { appLogger } from "../../../util";
@@ -40,7 +40,52 @@ function updateEventHistory({
   ];
 }
 
-function isAccountLockedForOperation({
+export function getBackoffTime(
+  eventsHistory: UserSecurityEvent[]
+): number | null {
+  const oneHourAgo = subHours(new Date(), 1);
+  const eventsRecentHistory = eventsHistory.filter(
+    (eh) => new Date(eh.date) > oneHourAgo
+  );
+
+  let lastEventDate: Date | null;
+  let lastEventType: UserSecurityEventType | null;
+  if (eventsHistory.length) {
+    lastEventDate = new Date(eventsHistory[eventsHistory.length - 1].date);
+    lastEventType = eventsHistory[eventsHistory.length - 1].type;
+    if (
+      lastEventType === "change-password-success" ||
+      lastEventType === "reset-password-success"
+    ) {
+      return null;
+    }
+  }
+
+  const eventHistoryMap = eventsRecentHistory.reduce((acc, event) => {
+    if (
+      !["change-password-success", "reset-password-success"].includes(
+        event.type
+      )
+    ) {
+      acc[event.type] = (acc[event.type] || 0) + 1;
+    }
+    return acc;
+  }, {});
+
+  if (
+    Object.keys(eventHistoryMap).some(
+      (key) =>
+        eventHistoryMap[key] >= STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT
+    )
+  ) {
+    const endBlockingDate = addHours(lastEventDate, 1);
+    if (endBlockingDate.toISOString() < new Date().toISOString()) return null;
+    return differenceInMinutes(endBlockingDate, new Date());
+  }
+  return null;
+}
+
+export function isAccountLockedForOperation({
   operation,
   eventsHistory,
   userId,
@@ -53,69 +98,15 @@ function isAccountLockedForOperation({
     | "change-password";
   eventsHistory: UserSecurityEvent[];
   userId: number;
-}) {
-  const oneHourAgo = subHours(new Date(), 1);
-  const eventsRecentHistory = eventsHistory.filter(
-    (x) => new Date(x.date) > oneHourAgo
-  );
-
-  if (eventsHistory.length) {
-    if (
-      eventsHistory[eventsHistory.length - 1].type ===
-        "change-password-success" ||
-      eventsHistory[eventsHistory.length - 1].type === "reset-password-success"
-    ) {
-      return false;
-    }
-  }
-
-  if (
-    eventsRecentHistory.length >= STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT
-  ) {
-    if (operation === "login") {
-      const count = eventsRecentHistory.filter(
-        (x) => x.type === "login-error"
-      ).length;
-      if (count >= STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT) {
-        logOperationError({ operation, userId });
-        return true;
-      }
-    } else if (operation === "change-password") {
-      const count = eventsRecentHistory.filter(
-        (x) => x.type === "change-password-error"
-      ).length;
-      if (count >= STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT) {
-        logOperationError({ operation, userId });
-        return true;
-      }
-    } else if (operation === "reset-password-request") {
-      const count = eventsRecentHistory.filter(
-        (x) => x.type === "reset-password-request"
-      ).length;
-      if (count >= STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT) {
-        logOperationError({ operation, userId });
-        return true;
-      }
-    } else if (operation === "reset-password-confirm") {
-      const count = eventsRecentHistory.filter(
-        (x) => x.type === "reset-password-error"
-      ).length;
-      if (count >= STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT) {
-        logOperationError({ operation, userId });
-        return true;
-      }
-    } else if (operation === "validate-account") {
-      const count = eventsRecentHistory.filter(
-        (x) => x.type === "validate-account-error"
-      ).length;
-      if (count >= STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT) {
-        logOperationError({ operation, userId });
-        return true;
-      }
-    }
+}): boolean {
+  const backoffTime = getBackoffTime(eventsHistory);
+  if (Boolean(backoffTime)) {
+    logOperationError({ operation, userId });
+    return Boolean(backoffTime);
   }
   return false;
 }
+
 function logOperationError({
   operation,
   userId,
