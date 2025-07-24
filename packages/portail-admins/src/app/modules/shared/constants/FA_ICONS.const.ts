@@ -31,6 +31,7 @@ import {
   faKey,
   faLink,
   faPersonArrowUpFromLine,
+  faUserShield,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const FA_ICONS: IconDefinition[] = [
@@ -64,4 +65,5 @@ export const FA_ICONS: IconDefinition[] = [
   faKey,
   faPersonArrowUpFromLine,
   faLink,
+  faUserShield,
 ];
