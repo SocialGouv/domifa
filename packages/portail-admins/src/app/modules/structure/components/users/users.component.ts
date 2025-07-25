@@ -315,11 +315,6 @@ const mapUserStructureToViewModel = (
   ...user,
   remainingBackoffMinutes: user.remainingBackoffMinutes,
   lastLogin: new Date(user.lastLogin),
-  temporaryTokens: {
-    token: user.temporaryTokens.token,
-    type: user.temporaryTokens.type,
-    validity: user.temporaryTokens.validity,
-  },
   eventsHistory: user.eventsHistory
     .map((eventHistory) => ({
       ...eventHistory,

@@ -234,14 +234,29 @@
     </div>
     <div class="modal-body">
       <div
-        *ngIf="userForModal.remainingBackoffMinutes"
+        *ngIf="userForModal?.remainingBackoffMinutes"
         class="alert alert-danger"
         role="alert"
       >
         L'utilisateur est temporairement bloqué pendant encore
         {{ userForModal.remainingBackoffMinutes }} minutes
       </div>
-      <table class="table table-striped">
+
+      <div
+        *ngIf="
+          !userForModal?.eventsHistory.length &&
+          !userForModal?.remainingBackoffMinutes
+        "
+        class="alert alert-danger"
+        role="alert"
+      >
+        Aucune activité récente.
+      </div>
+
+      <table
+        class="table table-striped"
+        *ngIf="userForModal?.eventsHistory.length"
+      >
         <caption class="visually-hidden">
           Historique d'activité de l'utilisateur
         </caption>

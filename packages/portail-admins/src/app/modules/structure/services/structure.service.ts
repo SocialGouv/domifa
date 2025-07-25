@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { MetabaseParams, UserStructure, StructureCommon } from "@domifa/common";
 import { Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
-import { UserStructureEventHistoryLabels } from "../../admin-auth/types/event-history";
 
 const BASE_URL = `${environment.apiUrl}admin/structures`;
 const RESET_PASSWORD_URL = `${environment.apiUrl}users/get-password-token`;
@@ -29,7 +28,7 @@ export type UserStructureWithSecurity = UserStructure & {
     validity?: Date;
   };
   eventsHistory: {
-    type: keyof typeof UserStructureEventHistoryLabels;
+    type: UserSecurityEventType;
     date: Date;
     eventLevel: string;
   }[];
