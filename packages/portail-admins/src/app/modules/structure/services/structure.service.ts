@@ -8,16 +8,30 @@ const BASE_URL = `${environment.apiUrl}admin/structures`;
 const RESET_PASSWORD_URL = `${environment.apiUrl}users/get-password-token`;
 const USER_ADMIN_BASE_URL = `${environment.apiUrl}admin/users`;
 
+export type UserSecurityEventType =
+  | "login-success"
+  | "login-error"
+  | "validate-account-success"
+  | "validate-account-error"
+  | "reset-password-request"
+  | "reset-password-error"
+  | "reset-password-success"
+  | "change-password-error"
+  | "change-password-success";
+
 export type UserStructureWithSecurity = UserStructure & {
+  remainingBackoffMinutes: number | null;
+} & {
   temporaryTokens: {
     type?: string;
     token?: string;
     validity?: Date;
   };
-  events: {
-    type: string;
+  eventsHistory: {
+    type: UserSecurityEventType;
     date: Date;
-  };
+    eventLevel: string;
+  }[];
 };
 
 @Injectable({
