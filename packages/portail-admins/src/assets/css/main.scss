@@ -1,22 +1,3 @@
-html,
-body {
-  font-family: "Marianne", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
-
-html {
-  font-size: 90%;
-}
-
-ul {
-  margin-bottom: 0;
-}
-
-caption {
-  color: black !important;
-}
-
 .content {
   background-color: #f2f2f2;
   min-height: calc(90vh - 78px);
@@ -30,10 +11,6 @@ caption {
 
 #page {
   min-height: calc(90vh - 78px);
-}
-
-.container {
-  max-width: 1500px;
 }
 
 .modal-backdrop.show {
@@ -187,7 +164,7 @@ legend {
     font-style: normal;
     font-weight: bold;
     font-size: 1.7rem;
-    color: #ffffff;
+    color: #ffffff !important;
   }
 }
 
