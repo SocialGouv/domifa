@@ -100,9 +100,9 @@ export function isAccountLockedForOperation({
   userId: number;
 }): boolean {
   const backoffTime = getBackoffTime(eventsHistory);
-  if (Boolean(backoffTime)) {
+  if (backoffTime !== null) {
     logOperationError({ operation, userId });
-    return Boolean(backoffTime);
+    return true;
   }
   return false;
 }

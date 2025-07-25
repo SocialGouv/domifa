@@ -143,38 +143,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     });
   }
 
-  public getHistoryEventLevel(eventType: UserSecurityEventType): string {
-    switch (eventType) {
-      case "login-success":
-      case "change-password-success":
-      case "reset-password-success":
-      case "reset-password-request":
-        return "green";
-      case "login-error":
-      case "change-password-error":
-      case "reset-password-error":
-        return "red";
-      default:
-        throw new Error("Unknown event type: " + eventType);
-    }
-  }
-
-  public getHistoryEventLabel(eventType: UserSecurityEventType): string {
-    switch (eventType) {
-      case "login-success":
-      case "change-password-success":
-      case "reset-password-success":
-      case "reset-password-request":
-        return "Succès";
-      case "login-error":
-      case "change-password-error":
-      case "reset-password-error":
-        return "Erreur";
-      default:
-        throw new Error("Unknown event type: " + eventType);
-    }
-  }
-
   public openInformationModal(user: UserWithSecurityViewModel): void {
     this.userForModal = user;
     this.modalService.open(this.informationModal, {
@@ -315,11 +283,6 @@ const mapUserStructureToViewModel = (
   ...user,
   remainingBackoffMinutes: user.remainingBackoffMinutes,
   lastLogin: new Date(user.lastLogin),
-  temporaryTokens: {
-    token: user.temporaryTokens.token,
-    type: user.temporaryTokens.type,
-    validity: user.temporaryTokens.validity,
-  },
   eventsHistory: user.eventsHistory
     .map((eventHistory) => ({
       ...eventHistory,
