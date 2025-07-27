@@ -38,8 +38,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 15.7
--- Dumped by pg_dump version 15.7
+-- Dumped from database version 15.8
+-- Dumped by pg_dump version 15.8
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;

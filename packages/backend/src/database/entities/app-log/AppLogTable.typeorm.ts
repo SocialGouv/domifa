@@ -8,8 +8,8 @@ export class AppLogTable
   extends AppTypeormTable<AppLogTable>
   implements AppLog
 {
-  @Column({ type: "integer" })
-  public userId: number;
+  @Column({ type: "integer", nullable: true })
+  public userId?: number;
 
   @Column({ type: "integer", nullable: true })
   public usagerRef: number;
@@ -19,6 +19,9 @@ export class AppLogTable
 
   @Column({ type: "text" })
   public action: LogAction;
+
+  @Column({ type: "json", nullable: true })
+  public context: any;
 
   @Column({ type: "text", nullable: true })
   public role?: UserStructureRole | UserSupervisorRole;
