@@ -31,6 +31,10 @@ import {
 } from "@domifa/common";
 import { Store } from "@ngrx/store";
 import { usagerActions, UsagerState } from "../../../../shared";
+import {
+  GeneralService,
+  TYPE_CONSULTATION_DOCUMENT,
+} from "../../../general/services/general.service";
 
 @Component({
   selector: "app-import",
@@ -45,6 +49,8 @@ export class ImportComponent implements OnInit, OnDestroy {
   public etapeImport: "preview-import" | "select-file";
 
   public me!: UserStructure | null;
+
+  public readonly TYPE_CONSULTATION_DOCUMENT = TYPE_CONSULTATION_DOCUMENT;
 
   @ViewChild("form", { static: true })
   public form!: ElementRef<HTMLFormElement>;
@@ -65,6 +71,7 @@ export class ImportComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly toastService: CustomToastService,
     private readonly titleService: Title,
+    private readonly generalService: GeneralService,
     private readonly store: Store<UsagerState>
   ) {
     this.visibleRows = [];
@@ -87,6 +94,12 @@ export class ImportComponent implements OnInit, OnDestroy {
     this.uploadForm = this.formBuilder.group({
       fileInput: ["", Validators.required],
     });
+  }
+
+  public doLogDownloadAction(
+    typeConsultation: TYPE_CONSULTATION_DOCUMENT
+  ): Promise<void> {
+    return this.generalService.logDownloadAction(typeConsultation);
   }
 
   public onFileChange(event: Event) {

@@ -6,6 +6,7 @@
       </div>
       <div class="text-start text-md-end col-12 col-md-5">
         <a
+          (click)="doLogDownloadAction(TYPE_CONSULTATION_DOCUMENT.MODELE)"
           href="/assets/files/modele_import_domifa.xlsx"
           target="_blank"
           rel="noopener noreferrer"
@@ -21,6 +22,7 @@
           Télécharger le modèle Excel
         </a>
         <a
+          (click)="doLogDownloadAction(TYPE_CONSULTATION_DOCUMENT.GUIDE)"
           href="/assets/files/tuto-import.pdf"
           target="_blank"
           rel="noopener noreferrer"

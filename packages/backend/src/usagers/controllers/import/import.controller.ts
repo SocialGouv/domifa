@@ -47,6 +47,11 @@ import {
   UsagersImportMode,
 } from "@domifa/common";
 import { ImportCreatorService } from "./step3-create";
+import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
+import {
+  FailedUsagerImportLogContext,
+  SuccessfulUsagerImportLogContext,
+} from "../../../modules/app-logs/app-log-context.types";
 
 const UsagersImportFileInterceptor = FileInterceptor("file", {
   limits: FILES_SIZE_LIMIT,
@@ -78,7 +83,10 @@ const UsagersImportFileInterceptor = FileInterceptor("file", {
 @AllowUserStructureRoles("simple", "responsable", "admin")
 @AllowUserProfiles("structure")
 export class ImportController {
-  constructor(private readonly importCreatorService: ImportCreatorService) {}
+  constructor(
+    private readonly importCreatorService: ImportCreatorService,
+    private readonly appLogsService: AppLogsService
+  ) {}
 
   @Post(":mode")
   @UseInterceptors(UsagersImportFileInterceptor)
@@ -210,7 +218,15 @@ export class ImportController {
         // keep only errors, limit to 50 results
         rows: importPreviewRows.filter(({ isValid }) => !isValid).slice(0, 50),
       };
-
+      await this.appLogsService.create<FailedUsagerImportLogContext>({
+        action: "IMPORT_USAGERS_FAILED",
+        userId: user.id,
+        context: {
+          nombreActifs: extractUsagersNumber(usagersRows),
+          nombreErreurs: importErrors.length,
+          nombreTotal: importPreviewRows.length,
+        },
+      });
       return res.status(HttpStatus.BAD_REQUEST).json({ previewTable });
     }
 
@@ -228,6 +244,16 @@ export class ImportController {
         errorsCount: importErrors.length,
         rows: importPreviewRows.slice(0, 50), // limit to 50 results
       };
+
+      await this.appLogsService.create<SuccessfulUsagerImportLogContext>({
+        action: "IMPORT_USAGERS_SUCCESS",
+        userId: user.id,
+        context: {
+          nombreActifs: extractUsagersNumber(usagersRows),
+          nombreTotal: importPreviewRows.length,
+        },
+      });
+
       return res.status(HttpStatus.OK).json({
         importMode,
         previewTable,
@@ -256,15 +282,29 @@ export class ImportController {
         2
       )}`
     );
+
     previewTable = {
       isValid: true,
       totalCount: importPreviewRows.length,
       errorsCount: importErrors.length,
       rows: [], // don't return rows
     };
+    await this.appLogsService.create<SuccessfulUsagerImportLogContext>({
+      action: "IMPORT_USAGERS_SUCCESS",
+      userId: user.id,
+      context: {
+        nombreActifs: extractUsagersNumber(usagersRows),
+        nombreTotal: importPreviewRows.length,
+      },
+    });
     return res.status(HttpStatus.OK).json({
       importMode,
       previewTable,
     });
   }
 }
+
+export const extractUsagersNumber = (
+  usagersImportRow: UsagersImportUsager[]
+): number =>
+  usagersImportRow.filter((row) => row.statutDom === "VALIDE").length;

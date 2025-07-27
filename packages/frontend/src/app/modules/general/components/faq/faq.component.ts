@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta, Title } from "@angular/platform-browser";
 import { MatomoTracker } from "ngx-matomo-client";
+import {
+  GeneralService,
+  TYPE_CONSULTATION_DOCUMENT,
+} from "../../services/general.service";
 
 @Component({
   selector: "app-faq",
@@ -11,7 +15,8 @@ export class FaqComponent implements OnInit {
   constructor(
     private readonly titleService: Title,
     private readonly meta: Meta,
-    private readonly matomo: MatomoTracker
+    private readonly matomo: MatomoTracker,
+    private readonly generalService: GeneralService
   ) {}
 
   public ngOnInit(): void {
@@ -29,6 +34,10 @@ export class FaqComponent implements OnInit {
       behavior: "smooth",
       block: "start",
     });
+  }
+
+  public doLogDownloadAction(): void {
+    this.generalService.logDownloadAction(TYPE_CONSULTATION_DOCUMENT.GUIDE);
   }
 
   public trackVideo(name: string): void {
