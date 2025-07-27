@@ -120,11 +120,6 @@
             <li *ngFor="let link of partnerLinks">
               <a [href]="link.path" target="_blank" rel="noopener noreferrer">
                 {{ link.label }}
-                <fa-icon
-                  class="ms-2"
-                  [icon]="['fas', 'up-right-from-square']"
-                  aria-hidden="true"
-                ></fa-icon>
               </a>
             </li>
           </ul>
@@ -214,12 +209,7 @@
           target="_blank"
           rel="noopener noreferrer"
           >licence etalab-2.0
-          <fa-icon
-            class="ms-2"
-            [icon]="['fas', 'up-right-from-square']"
-            aria-hidden="true"
-          ></fa-icon
-        ></a>
+        </a>
       </p>
     </div>
   </div>

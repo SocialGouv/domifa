@@ -30,7 +30,7 @@
               "src/assets/css/main.scss",
               "src/assets/css/print.css"
             ],
-            "scripts": [],
+            "scripts": ["./node_modules/@gouvfr/dsfr/dist/dsfr/dsfr.module.js"],
             "aot": false,
             "vendorChunk": true,
             "extractLicenses": false,
