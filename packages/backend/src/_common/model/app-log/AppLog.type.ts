@@ -7,7 +7,7 @@ export type AppLog<T = any> = AppEntity & {
   usagerRef?: number;
   structureId?: number;
   action: LogAction;
-  context?: Record<string, T>;
+  context?: T;
   scope?: string; // TODO: complete this (usager, users, etc.)
   actionLevel?: string; // TODO: complete this (delete, update, add)
   role?: UserStructureRole | UserSupervisorRole;

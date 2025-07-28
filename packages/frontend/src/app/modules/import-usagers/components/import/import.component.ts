@@ -28,13 +28,11 @@ import {
   ImportPreviewRow,
   UserStructure,
   UsagersImportMode,
+  TYPE_CONSULTATION_DOCUMENT,
 } from "@domifa/common";
 import { Store } from "@ngrx/store";
 import { usagerActions, UsagerState } from "../../../../shared";
-import {
-  GeneralService,
-  TYPE_CONSULTATION_DOCUMENT,
-} from "../../../general/services/general.service";
+import { GeneralService } from "../../../general/services/general.service";
 
 @Component({
   selector: "app-import",

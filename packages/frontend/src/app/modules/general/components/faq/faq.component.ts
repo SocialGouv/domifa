@@ -1,10 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta, Title } from "@angular/platform-browser";
 import { MatomoTracker } from "ngx-matomo-client";
-import {
-  GeneralService,
-  TYPE_CONSULTATION_DOCUMENT,
-} from "../../services/general.service";
+import { GeneralService } from "../../services/general.service";
+import { TYPE_CONSULTATION_DOCUMENT } from "@domifa/common";
 
 @Component({
   selector: "app-faq",
