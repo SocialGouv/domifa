@@ -222,11 +222,9 @@ export class ImportController {
         action: "IMPORT_USAGERS_FAILED",
         userId: user.id,
         context: {
-          statImport: {
-            nombreActifs: extractUsagersNumber(usagersRows),
-            nombreErreurs: importErrors.length,
-            nombreTotal: importPreviewRows.length,
-          },
+          nombreActifs: extractUsagersNumber(usagersRows),
+          nombreErreurs: importErrors.length,
+          nombreTotal: importPreviewRows.length,
         },
       });
       return res.status(HttpStatus.BAD_REQUEST).json({ previewTable });
@@ -251,10 +249,8 @@ export class ImportController {
         action: "IMPORT_USAGERS_SUCCESS",
         userId: user.id,
         context: {
-          statImport: {
-            nombreActifs: extractUsagersNumber(usagersRows),
-            nombreTotal: importPreviewRows.length,
-          },
+          nombreActifs: extractUsagersNumber(usagersRows),
+          nombreTotal: importPreviewRows.length,
         },
       });
 
@@ -297,10 +293,8 @@ export class ImportController {
       action: "IMPORT_USAGERS_SUCCESS",
       userId: user.id,
       context: {
-        statImport: {
-          nombreActifs: extractUsagersNumber(usagersRows),
-          nombreTotal: importPreviewRows.length,
-        },
+        nombreActifs: extractUsagersNumber(usagersRows),
+        nombreTotal: importPreviewRows.length,
       },
     });
     return res.status(HttpStatus.OK).json({

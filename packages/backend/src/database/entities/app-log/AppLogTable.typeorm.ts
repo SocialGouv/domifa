@@ -21,7 +21,7 @@ export class AppLogTable
   public action: LogAction;
 
   @Column({ type: "json", nullable: true })
-  public context: Record<string, any>;
+  public context: any;
 
   @Column({ type: "text", nullable: true })
   public role?: UserStructureRole | UserSupervisorRole;

@@ -3,3 +3,4 @@ export * from "./UserStructureCreatedBy.type";
 export * from "./UserStructureProfile.type";
 export * from "./UserStructureRole.type";
 export * from "./UserFonction.enum";
+export * from "./TypeConsultationDocument.enum";

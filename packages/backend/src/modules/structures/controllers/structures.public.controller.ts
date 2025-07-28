@@ -17,12 +17,7 @@ import { StructuresService } from "../services/structures.service";
 import { structureRepository } from "../../../database";
 import { CodePostalDto } from "../dto";
 import { AppLogsService } from "../../app-logs/app-logs.service";
-
-export enum TYPE_CONSULTATION_DOCUMENT {
-  GUIDE = "guide",
-  MODELE = "modele",
-}
-
+import { TYPE_CONSULTATION_DOCUMENT } from "@domifa/common";
 @Controller("structures")
 @ApiTags("structures")
 export class StructuresPublicController {

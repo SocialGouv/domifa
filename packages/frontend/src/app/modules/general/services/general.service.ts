@@ -1,11 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { TYPE_CONSULTATION_DOCUMENT } from "@domifa/common";
 import { lastValueFrom, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-export enum TYPE_CONSULTATION_DOCUMENT {
-  GUIDE = "guide",
-  MODELE = "modele",
-}
+
 @Injectable({
   providedIn: "root",
 })
