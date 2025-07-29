@@ -1,3 +1,10 @@
+## [2.208.6](https://github.com/SocialGouv/domifa/compare/v2.208.5...v2.208.6) (2025-07-29)
+
+
+### Bug Fixes
+
+* **backend:** fix export endpoint ([0011c34](https://github.com/SocialGouv/domifa/commit/0011c34394e471f59b020e5c0246e60a690add9d))
+
 ## [2.208.5](https://github.com/SocialGouv/domifa/compare/v2.208.4...v2.208.5) (2025-07-24)
 
 
