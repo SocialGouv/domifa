@@ -41,8 +41,9 @@ function updateEventHistory({
 }
 
 export function getBackoffTime(
-  eventsHistory: UserSecurityEvent[]
+  eventsHistory: UserSecurityEvent[] | null
 ): number | null {
+  if (eventsHistory === null) return null;
   const oneHourAgo = subHours(new Date(), 1);
   const eventsRecentHistory = eventsHistory.filter(
     (eh) => new Date(eh.date) > oneHourAgo
@@ -79,7 +80,9 @@ export function getBackoffTime(
     )
   ) {
     const endBlockingDate = addHours(lastEventDate, 1);
-    if (endBlockingDate.toISOString() < new Date().toISOString()) return null;
+    if (endBlockingDate < new Date()) {
+      return null;
+    }
     return differenceInMinutes(endBlockingDate, new Date());
   }
   return null;

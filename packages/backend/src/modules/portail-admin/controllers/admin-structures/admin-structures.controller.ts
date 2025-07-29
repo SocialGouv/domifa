@@ -28,27 +28,18 @@ import { statsDeploiementExporter } from "../../../../excel/export-stats-deploie
 
 import { expressResponseExcelRenderer } from "../../../../util";
 import { ExpressResponse } from "../../../../util/express";
-import {
-  UserAdminAuthenticated,
-  UserSecurityEvent,
-  UserTokens,
-} from "../../../../_common/model";
+import { UserAdminAuthenticated } from "../../../../_common/model";
 import { AdminStructuresService } from "../../services";
 
-import { Structure, UserStructure } from "@domifa/common";
+import { Structure } from "@domifa/common";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { StructureConfirmationDto } from "../../dto";
-import { StructureAdminForList } from "../../types";
+import { StructureAdminForList, UserStructureWithSecurity } from "../../types";
 import { userAccountActivatedEmailSender } from "../../../mails/services/templates-renderers";
 import { structureCreatorService } from "../../../structures/services";
 import { format } from "date-fns";
 import { getBackoffTime } from "../../../users/services";
 
-export type UserStructureWithSecurity = UserStructure & {
-  temporaryTokens: UserTokens;
-  eventsHistory: UserSecurityEvent[];
-  remainingBackoffMinutes?: number;
-};
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
 @ApiTags("dashboard")
@@ -143,8 +134,8 @@ export class AdminStructuresController {
       [structure.id]
     );
     return usersStructure.map((user) => ({
-      ...user,
       remainingBackoffMinutes: getBackoffTime(user.eventsHistory),
+      ...user,
     }));
   }
 
