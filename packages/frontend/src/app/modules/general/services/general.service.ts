@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { TYPE_CONSULTATION_DOCUMENT } from "@domifa/common";
+import { ImportDocumentType } from "@domifa/common";
 import { lastValueFrom, Observable } from "rxjs";
-import { environment } from "src/environments/environment";
+import { environment } from "../../../../environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -16,9 +16,9 @@ export class GeneralService {
   }
 
   public logDownloadAction(
-    typeConsultationDocument: TYPE_CONSULTATION_DOCUMENT
+    importDocumentType: ImportDocumentType
   ): Promise<void> {
-    const logActionUrl = `${environment.apiUrl}structures/consultation-document/${typeConsultationDocument}`;
+    const logActionUrl = `${environment.apiUrl}import/log-document-download/${importDocumentType}`;
     return lastValueFrom(this.http.get<void>(logActionUrl));
   }
 }

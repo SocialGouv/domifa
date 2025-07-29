@@ -28,7 +28,7 @@ import {
   ImportPreviewRow,
   UserStructure,
   UsagersImportMode,
-  TYPE_CONSULTATION_DOCUMENT,
+  ImportDocumentType,
 } from "@domifa/common";
 import { Store } from "@ngrx/store";
 import { usagerActions, UsagerState } from "../../../../shared";
@@ -48,7 +48,7 @@ export class ImportComponent implements OnInit, OnDestroy {
 
   public me!: UserStructure | null;
 
-  public readonly TYPE_CONSULTATION_DOCUMENT = TYPE_CONSULTATION_DOCUMENT;
+  public readonly ImportDocumentType = ImportDocumentType;
 
   @ViewChild("form", { static: true })
   public form!: ElementRef<HTMLFormElement>;
@@ -95,9 +95,9 @@ export class ImportComponent implements OnInit, OnDestroy {
   }
 
   public doLogDownloadAction(
-    typeConsultation: TYPE_CONSULTATION_DOCUMENT
+    importDocumentType: ImportDocumentType
   ): Promise<void> {
-    return this.generalService.logDownloadAction(typeConsultation);
+    return this.generalService.logDownloadAction(importDocumentType);
   }
 
   public onFileChange(event: Event) {

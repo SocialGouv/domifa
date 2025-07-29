@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpStatus,
-  Param,
-  Post,
-  Res,
-} from "@nestjs/common";
+import { Body, Controller, HttpStatus, Post, Res } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { EmailDto } from "../../users/dto/email.dto";
 import { ExpressResponse } from "../../../util/express";
@@ -16,15 +8,10 @@ import { structureCreatorService } from "../services/structureCreator.service";
 import { StructuresService } from "../services/structures.service";
 import { structureRepository } from "../../../database";
 import { CodePostalDto } from "../dto";
-import { AppLogsService } from "../../app-logs/app-logs.service";
-import { TYPE_CONSULTATION_DOCUMENT } from "@domifa/common";
 @Controller("structures")
 @ApiTags("structures")
 export class StructuresPublicController {
-  constructor(
-    private readonly structureService: StructuresService,
-    private readonly appLogService: AppLogsService
-  ) {}
+  constructor(private readonly structureService: StructuresService) {}
 
   @Post()
   public async postStructure(
@@ -62,20 +49,5 @@ export class StructuresPublicController {
   @Post("code-postal")
   public async getByCity(@Body() codePostalDto: CodePostalDto) {
     return await this.structureService.findAllLight(codePostalDto);
-  }
-
-  @Get("consultation-document/:typeDocument")
-  public async getConsultationModele(
-    @Param("typeDocument") typeDocument: TYPE_CONSULTATION_DOCUMENT
-  ) {
-    if (typeDocument === TYPE_CONSULTATION_DOCUMENT.GUIDE)
-      await this.appLogService.create({
-        action: "DOWNLOAD_IMPORT_GUIDE",
-      });
-
-    if (typeDocument === TYPE_CONSULTATION_DOCUMENT.MODELE)
-      await this.appLogService.create({
-        action: "DOWNLOAD_IMPORT_TEMPLATE",
-      });
   }
 }
