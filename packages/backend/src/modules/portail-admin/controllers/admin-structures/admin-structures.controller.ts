@@ -66,7 +66,6 @@ export class AdminStructuresController {
   ) {
     await this.appLogsService.create({
       userId: user.id,
-      structureId: 1, // TODO: update this with new user system
       action: "EXPORT_DOMIFA",
     });
 

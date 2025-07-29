@@ -65,13 +65,13 @@ export class AdminStructuresApiClient {
       tap((data: ApiStructureAdmin[]) => {
         structuresCache.setStructureListData(data);
       }),
-      startWith(structuresCache.getStructureListData() as ApiStructureAdmin[]),
+      startWith(structuresCache.getStructureListData()),
       filter((x) => !!x)
     );
   }
 
   public exportDashboard() {
-    return this.http.get(`${environment.apiUrl}/stats/export-from-admin`, {
+    return this.http.get(`${environment.apiUrl}admin/structures/export`, {
       responseType: "blob",
     });
   }
