@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Meta, Title } from "@angular/platform-browser";
 import { MatomoTracker } from "ngx-matomo-client";
 import { GeneralService } from "../../services/general.service";
-import { TYPE_CONSULTATION_DOCUMENT } from "@domifa/common";
+import { ImportDocumentType } from "@domifa/common";
 
 @Component({
   selector: "app-faq",
@@ -35,7 +35,7 @@ export class FaqComponent implements OnInit {
   }
 
   public doLogDownloadAction(): void {
-    this.generalService.logDownloadAction(TYPE_CONSULTATION_DOCUMENT.GUIDE);
+    this.generalService.logDownloadAction(ImportDocumentType.GUIDE);
   }
 
   public trackVideo(name: string): void {

@@ -1,4 +1,4 @@
-export enum TYPE_CONSULTATION_DOCUMENT {
+export enum ImportDocumentType {
   GUIDE = "guide",
   MODELE = "modele",
 }

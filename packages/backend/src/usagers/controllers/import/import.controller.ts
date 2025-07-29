@@ -1,6 +1,7 @@
 import { structureRepository } from "./../../../database/services/structure/structureRepository.service";
 import {
   Controller,
+  Get,
   HttpStatus,
   Param,
   ParseEnumPipe,
@@ -45,6 +46,7 @@ import {
   ImportPreviewColumn,
   COUNTRY_CODES_TIMEZONE,
   UsagersImportMode,
+  ImportDocumentType,
 } from "@domifa/common";
 import { ImportCreatorService } from "./step3-create";
 import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
@@ -301,6 +303,22 @@ export class ImportController {
       importMode,
       previewTable,
     });
+  }
+
+  @Get("log-document-download/:documentType")
+  public async logDocumentDownload(
+    @Param("documentType", new ParseEnumPipe(ImportDocumentType))
+    documentType: ImportDocumentType
+  ) {
+    if (documentType === ImportDocumentType.GUIDE)
+      await this.appLogsService.create({
+        action: "DOWNLOAD_IMPORT_GUIDE",
+      });
+
+    if (documentType === ImportDocumentType.MODELE)
+      await this.appLogsService.create({
+        action: "DOWNLOAD_IMPORT_TEMPLATE",
+      });
   }
 }
 
