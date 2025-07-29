@@ -281,7 +281,6 @@ const mapUserStructureToViewModel = (
   user: UserStructureWithSecurity
 ): UserWithSecurityViewModel => ({
   ...user,
-  remainingBackoffMinutes: user.remainingBackoffMinutes,
   lastLogin: new Date(user.lastLogin),
   eventsHistory: user.eventsHistory
     .map((eventHistory) => ({
