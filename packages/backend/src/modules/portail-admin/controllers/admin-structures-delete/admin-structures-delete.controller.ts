@@ -1,3 +1,4 @@
+import { AppLogsService } from "./../../../app-logs/app-logs.service";
 import {
   Body,
   Controller,
@@ -33,7 +34,10 @@ import { deleteStructureEmailSender } from "../../../mails/services/templates-re
 @ApiTags("admin")
 @ApiBearerAuth()
 export class AdminStructuresDeleteController {
-  constructor(private readonly fileManagerService: FileManagerService) {}
+  constructor(
+    private readonly fileManagerService: FileManagerService,
+    private readonly appLogsService: AppLogsService
+  ) {}
   @AllowUserProfiles("supervisor")
   @AllowUserSupervisorRoles("super-admin-domifa")
   @ApiBearerAuth()
@@ -46,7 +50,10 @@ export class AdminStructuresDeleteController {
 
     if (structure) {
       return deleteStructureEmailSender.sendMail({ structure }).then(
-        () => {
+        async () => {
+          await this.appLogsService.create({
+            action: "ADMIN_STRUCTURE_DELETE",
+          });
           return res.status(HttpStatus.OK).json({ message: "OK" });
         },
         () => {

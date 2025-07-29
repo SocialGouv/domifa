@@ -7,6 +7,7 @@ import { UsersController } from "./controllers/users.controller";
 import { UsersPublicController } from "./controllers/users.public.controller";
 import { MailsModule } from "../mails/mails.module";
 import { UsersSupervisorController } from "./controllers/users-supervisor.controller";
+import { AppLogsService } from "../app-logs/app-logs.service";
 
 @Module({
   controllers: [
@@ -21,6 +22,6 @@ import { UsersSupervisorController } from "./controllers/users-supervisor.contro
     forwardRef(() => MailsModule),
     forwardRef(() => StructuresModule),
   ],
-  providers: [],
+  providers: [AppLogsService],
 })
 export class UsersModule {}
