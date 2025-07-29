@@ -173,7 +173,9 @@ export class AdminStructuresController {
       structureId: structure.id,
     });
     await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
-
+    await this.appLogsService.create({
+      action: "ADMIN_STRUCTURE_VALIDATE",
+    });
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 }

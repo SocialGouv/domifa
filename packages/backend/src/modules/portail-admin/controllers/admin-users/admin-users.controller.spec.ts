@@ -24,7 +24,7 @@ jest.mock("../../../../database", () => ({
 describe("AdminUsersController", () => {
   let controller: AdminUsersController;
   let mockUserStructureRepository: jest.Mocked<typeof userStructureRepository>;
-
+  let appLogService: AppLogsService;
   const mockCurrentUser = USER_STRUCTURE_AUTH;
 
   const mockUserToElevate = {
@@ -47,7 +47,9 @@ describe("AdminUsersController", () => {
 
   beforeEach(async () => {
     jest.clearAllMocks();
-
+    appLogService = {
+      create: jest.fn(),
+    };
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AdminUsersController],
       imports: [
@@ -61,9 +63,7 @@ describe("AdminUsersController", () => {
         AdminStructuresService,
         {
           provide: AppLogsService,
-          useValue: {
-            create: jest.fn().mockResolvedValue({}),
-          },
+          useValue: appLogService,
         },
         AdminSuperivorUsersService,
       ],
