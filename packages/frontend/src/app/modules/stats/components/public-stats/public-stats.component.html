@@ -221,19 +221,20 @@
                 class="py-2"
                 *ngFor="let structure of stats?.structuresCountByRegion"
               >
-                <a
-                  [routerLink]="[
-                    '/stats/region/' + REGIONS_ID_SEO[structure.region]
-                  ]"
-                  class="region-name"
-                  ariaCurrentWhenActive="page"
+                <span class="region-name">
+                  <a
+                    [routerLink]="[
+                      '/stats/region/' + REGIONS_ID_SEO[structure.region]
+                    ]"
+                    ariaCurrentWhenActive="page"
+                  >
+                    {{
+                      regions[structure.region]
+                        ? regions[structure.region]
+                        : structure.region
+                    }}
+                  </a></span
                 >
-                  {{
-                    regions[structure.region]
-                      ? regions[structure.region]
-                      : structure.region
-                  }}
-                </a>
                 <span class="text-primary fw-bold">
                   {{ structure.count }}
                 </span>
@@ -252,15 +253,16 @@
                   class="py-2"
                   *ngFor="let departementCom of DEPARTEMENTS_COM | keyvalue"
                 >
-                  <a
-                    [routerLink]="[
-                      '/stats/region/' + departementCom.value.regionId
-                    ]"
-                    class="region-name"
-                    ariaCurrentWhenActive="page"
-                  >
-                    {{ departementCom.value.departmentName }}
-                  </a>
+                  <span class="region-name">
+                    <a
+                      [routerLink]="[
+                        '/stats/region/' + departementCom.value.regionId
+                      ]"
+                      ariaCurrentWhenActive="page"
+                    >
+                      {{ departementCom.value.departmentName }}
+                    </a>
+                  </span>
                   <span class="text-primary fw-bold">
                     {{ statsRegionsValues[departementCom.value.regionCode] }}
                   </span>

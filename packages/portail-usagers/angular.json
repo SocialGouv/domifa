@@ -26,13 +26,15 @@
             "assets": ["src/assets", "src/robots.txt"],
             "styles": [
               "src/styles.scss",
+              "./node_modules/@gouvfr/dsfr/dist/dsfr/dsfr.main.min.css",
+              "./node_modules/@gouvfr/dsfr/dist/utility/utility.main.min.css",
               "src/assets/css/print.css",
               "src/assets/css/icons.css",
               "src/assets/css/forms.css",
               "src/assets/css/main.scss",
               "src/assets/css/fonts.scss"
             ],
-            "scripts": []
+            "scripts": ["./node_modules/@gouvfr/dsfr/dist/dsfr/dsfr.module.js"]
           },
           "configurations": {
             "analyze": {
@@ -53,7 +55,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "4mb"
+                  "maximumError": "6mb"
                 },
                 {
                   "type": "anyComponentStyle",
