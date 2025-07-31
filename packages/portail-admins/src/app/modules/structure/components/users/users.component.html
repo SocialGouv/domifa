@@ -148,7 +148,6 @@
               <button
                 type="button"
                 ngbDropdownItem
-                class="cursor-not-allowed text-muted"
                 *ngIf="user?.temporaryTokens?.type === 'reset-password'"
                 (click)="getLink(user)"
               >
@@ -277,7 +276,7 @@
             <td>
               {{ USER_ACTIVITY_LABELS[activity.type] }}
             </td>
-            <td>{{ activity.date | date : "dd/MM/yyyy hh:mm:ss" }}</td>
+            <td>{{ activity.date | date : "dd MMMM yyyy à HH:mm" }}</td>
           </tr>
         </tbody>
       </table>
