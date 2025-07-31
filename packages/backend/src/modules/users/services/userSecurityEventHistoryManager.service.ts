@@ -43,35 +43,35 @@ function updateEventHistory({
 export function getBackoffTime(
   eventsHistory: UserSecurityEvent[] | null
 ): number | null {
-  if (eventsHistory === null) return null;
-  const oneHourAgo = subHours(new Date(), 1);
-  const eventsRecentHistory = eventsHistory.filter(
-    (eh) => new Date(eh.date) > oneHourAgo
-  );
-
-  let lastEventDate: Date | null;
-  let lastEventType: UserSecurityEventType | null;
-  if (eventsHistory.length) {
-    lastEventDate = new Date(eventsHistory[eventsHistory.length - 1].date);
-    lastEventType = eventsHistory[eventsHistory.length - 1].type;
-    if (
-      lastEventType === "change-password-success" ||
-      lastEventType === "reset-password-success"
-    ) {
-      return null;
-    }
+  if (!eventsHistory?.length) {
+    return null;
   }
 
+  const lastEventType: UserSecurityEventType | null =
+    eventsHistory[eventsHistory.length - 1].type;
+
+  if (
+    lastEventType === "change-password-success" ||
+    lastEventType === "reset-password-success"
+  ) {
+    return null;
+  }
+
+  const oneHourAgo = subHours(new Date(), 1);
+  const eventsRecentHistory = eventsHistory.filter(
+    (eh) =>
+      new Date(eh.date) > oneHourAgo &&
+      !["change-password-success", "reset-password-success"].includes(eh.type)
+  );
+
   const eventHistoryMap = eventsRecentHistory.reduce((acc, event) => {
-    if (
-      !["change-password-success", "reset-password-success"].includes(
-        event.type
-      )
-    ) {
-      acc[event.type] = (acc[event.type] || 0) + 1;
-    }
+    acc[event.type] = (acc[event.type] || 0) + 1;
     return acc;
-  }, {});
+  }, {} as Record<string, number>);
+
+  const lastEventDate: Date | null = new Date(
+    eventsHistory[eventsHistory.length - 1].date
+  );
 
   if (
     Object.keys(eventHistoryMap).some(
@@ -85,6 +85,7 @@ export function getBackoffTime(
     }
     return differenceInMinutes(endBlockingDate, new Date());
   }
+
   return null;
 }
 
