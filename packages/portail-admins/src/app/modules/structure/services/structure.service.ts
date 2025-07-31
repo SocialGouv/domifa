@@ -1,38 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { MetabaseParams, UserStructure, StructureCommon } from "@domifa/common";
+import { MetabaseParams, StructureCommon } from "@domifa/common";
 import { Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
+import { UserStructureWithSecurity } from "../../admin-auth/types/UserStructureWithSecurity.type";
 
 const BASE_URL = `${environment.apiUrl}admin/structures`;
 const RESET_PASSWORD_URL = `${environment.apiUrl}users/get-password-token`;
 const USER_ADMIN_BASE_URL = `${environment.apiUrl}admin/users`;
-
-export type UserSecurityEventType =
-  | "login-success"
-  | "login-error"
-  | "validate-account-success"
-  | "validate-account-error"
-  | "reset-password-request"
-  | "reset-password-error"
-  | "reset-password-success"
-  | "change-password-error"
-  | "change-password-success";
-
-export type UserStructureWithSecurity = UserStructure & {
-  remainingBackoffMinutes: number | null;
-} & {
-  temporaryTokens: {
-    type?: string;
-    token?: string;
-    validity?: Date;
-  };
-  eventsHistory: {
-    type: UserSecurityEventType;
-    date: Date;
-    eventLevel: string;
-  }[];
-};
 
 @Injectable({
   providedIn: "root",

@@ -16,17 +16,15 @@ import {
   ViewChild,
 } from "@angular/core";
 import { filter, map, Subject, Subscription, switchMap } from "rxjs";
-import {
-  StructureService,
-  UserSecurityEventType,
-  UserStructureWithSecurity,
-} from "../../services/structure.service";
+import { StructureService } from "../../services/structure.service";
 import { environment } from "../../../../../environments/environment";
 import { subMonths } from "date-fns";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { CustomToastService } from "../../../shared/services";
 import { Clipboard } from "@angular/cdk/clipboard";
 import { UserStructureEventHistoryLabels } from "../../../admin-auth/types/event-history";
+import { UserSecurityEventType } from "../../../shared/types/UserSecurityEvent.type";
+import { UserStructureWithSecurity } from "../../../admin-auth/types/UserStructureWithSecurity.type";
 
 export enum MODAL_ACTION {
   PROMOTE_USER = "PROMOTE_USER",

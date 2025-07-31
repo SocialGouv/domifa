@@ -1,4 +1,4 @@
-import { UserSecurityEventType } from "../../structure/services/structure.service";
+import { UserSecurityEventType } from "../../shared/types/UserSecurityEvent.type";
 
 export const UserStructureEventHistoryLabels: {
   [key in UserSecurityEventType]: string;
