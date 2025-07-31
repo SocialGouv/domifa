@@ -1,3 +1,17 @@
+# [2.210.0](https://github.com/SocialGouv/domifa/compare/v2.209.0...v2.210.0) (2025-07-31)
+
+
+### Bug Fixes
+
+* **back:** rédaptation type context column ([8a3769c](https://github.com/SocialGouv/domifa/commit/8a3769c436e2298ff4ffe1b6979de42527ddfd76))
+* **logs:** fixing review issues ([5bed7f4](https://github.com/SocialGouv/domifa/commit/5bed7f4f9670303ba04d601d6eabce212f770370))
+
+
+### Features
+
+* **admin:** log import success & failures + file download ([2f4c0a3](https://github.com/SocialGouv/domifa/commit/2f4c0a36ccd3d9ac788737201ce56651317ec338))
+* **portail-admins:** exporting types to common and updating tests ([2cc565a](https://github.com/SocialGouv/domifa/commit/2cc565a73139d17b9afc18a24df14e62ba4ad301))
+
 # [2.209.0](https://github.com/SocialGouv/domifa/compare/v2.208.6...v2.209.0) (2025-07-31)
 
 
