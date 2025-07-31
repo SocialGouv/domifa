@@ -1,3 +1,17 @@
+# [2.209.0](https://github.com/SocialGouv/domifa/compare/v2.208.6...v2.209.0) (2025-07-31)
+
+
+### Bug Fixes
+
+* **admin:** fix display of date ([00c3ca4](https://github.com/SocialGouv/domifa/commit/00c3ca49df3a6a09905714d09c7288dbd7bce4eb))
+* **admins:** correction mapping tokens ([088598d](https://github.com/SocialGouv/domifa/commit/088598d885aa4b255f97f4df961e34df444220f4))
+* **admins:** correction retour revue ([9ed3ad6](https://github.com/SocialGouv/domifa/commit/9ed3ad6c31aad3dfeb4b1dc3c6833cf466db2850))
+
+
+### Features
+
+* **admins:** add user activity infos ([0d2496a](https://github.com/SocialGouv/domifa/commit/0d2496a3b08691610a2e7073bdf46d2d3e468ef9))
+
 ## [2.208.6](https://github.com/SocialGouv/domifa/compare/v2.208.5...v2.208.6) (2025-07-29)
 
 
