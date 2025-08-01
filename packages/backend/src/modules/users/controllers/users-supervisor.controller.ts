@@ -18,12 +18,16 @@ import {
   userSecurityResetPasswordInitiator,
   userSecurityResetPasswordUpdater,
 } from "../services";
+import { AppLogsService } from "../../app-logs/app-logs.service";
+import { AdminUserCrudLogContext } from "../../app-logs/app-log-context.types";
+import { userSupervisorRepository } from "../../../database";
 
 const userProfile: UserProfile = "supervisor";
 
 @Controller("users-supervisor")
 @ApiTags("users-supervisor")
 export class UsersSupervisorController {
+  constructor(private readonly appLogservice: AppLogsService) {}
   @Get("check-password-token/:userId/:token")
   public async checkPasswordToken(
     @Param("userId", new ParseIntPipe()) userId: number,
@@ -71,19 +75,35 @@ export class UsersSupervisorController {
     @Res() res: ExpressResponse
   ) {
     try {
-      const { user, userSecurity } =
-        await userSecurityResetPasswordInitiator.generateResetPasswordToken({
+      const [userStuperviseur, { user, userSecurity }] = await Promise.all([
+        userSupervisorRepository.findOneByOrFail({
+          email: emailDto.email,
+        }),
+        userSecurityResetPasswordInitiator.generateResetPasswordToken({
           email: emailDto.email,
           userProfile,
-        });
-      await userResetPasswordEmailSender.sendMail({
-        user,
-        token: userSecurity.temporaryTokens.token,
-        userProfile,
-      });
+        }),
+      ]);
+      await Promise.all([
+        userResetPasswordEmailSender.sendMail({
+          user,
+          token: userSecurity.temporaryTokens.token,
+          userProfile,
+        }),
+        this.appLogservice.create<AdminUserCrudLogContext>({
+          action: "ADMIN_PASSWORD_RESET",
+          userId: userStuperviseur.id,
+          context: {
+            userId: userStuperviseur.id,
+            role: userStuperviseur.role,
+          },
+        }),
+      ]);
     } catch (err) {
       appLogger.error("Cannot reset password");
+      throw err;
     }
+
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 }

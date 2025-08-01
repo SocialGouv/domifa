@@ -40,6 +40,10 @@ import { AdminSuperivorUsersService } from "../../services/admin-superivor-users
 import { EmailDto } from "../../../users/dto";
 import { PatchUserSupervisorDto } from "../../dto/patch-user-supervisor.dto";
 import { ElevateUserRoleDto } from "../../dto/elevate-user-role.dto";
+import {
+  AdminUserCrudLogContext,
+  AdminUserRoleChangeLogContext,
+} from "../../../app-logs/app-log-context.types";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("dashboard")
@@ -59,7 +63,7 @@ export class AdminUsersController {
     @Res() res: ExpressResponse,
     @Body() registerUserDto: RegisterUserStructureAdminDto
   ): Promise<ExpressResponse> {
-    const userController = new UsersController();
+    const userController = new UsersController(this.appLogsService); // D'ou c'est un mauvaise idée de instancier directement le controleur ici
     await this.appLogsService.create({
       userId: user.id,
       action: "ADMIN_CREATE_USER_STRUCTURE",
@@ -79,7 +83,8 @@ export class AdminUsersController {
         uuid,
       });
 
-      if (user.role === "admin") throw new Error("User is already and admin");
+      if (userToElevate.role === "admin")
+        throw new Error("User is already and admin");
 
       await userStructureRepository.update(
         {
@@ -89,7 +94,7 @@ export class AdminUsersController {
           role: "admin",
         }
       );
-      await this.appLogsService.create({
+      await this.appLogsService.create<AdminUserRoleChangeLogContext>({
         userId: user.id,
         action: "ADMIN_ELEVATE_ROLE_USER_SUPERVISOR", // TODO Ajouter du contexte à cette action pour savoir à qui on a fait l'action
       });
@@ -107,11 +112,12 @@ export class AdminUsersController {
 
   @Post("register-user-supervisor")
   public async registerNewSupervisor(
-    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentSupervisor() user: UserSupervisorAuthenticated,
     @Res() res: ExpressResponse,
     @Body() registerUserDto: RegisterUserSupervisorDto
   ): Promise<ExpressResponse> {
     await this.appLogsService.create({
+      // supprimer ou pas ?
       userId: user.id,
       action: "ADMIN_CREATE_USER_SUPERVISOR",
     });
@@ -139,7 +145,15 @@ export class AdminUsersController {
           userProfile: "supervisor",
         })
         .then(
-          () => {
+          async () => {
+            await this.appLogsService.create<AdminUserCrudLogContext>({
+              action: "ADMIN_USER_CREATE",
+              userId: user.id,
+              context: {
+                userId: newUser.id,
+                role: registerUserDto.role,
+              },
+            });
             return res.status(HttpStatus.OK).json({ message: "OK" });
           },
           () => {
@@ -213,12 +227,24 @@ export class AdminUsersController {
         .json({ message: "CANNOT_PATCH_USER_SUPERVISOR" });
     }
     await userSupervisorRepository.update({ uuid }, { ...patchUserDto });
+
+    if (userExist.role !== patchUserDto.role) {
+      await this.appLogsService.create<AdminUserRoleChangeLogContext>({
+        action: "ADMIN_USER_ROLE_CHANGE",
+        userId: user.id,
+        context: {
+          userId: userExist.id,
+          newRole: patchUserDto.role,
+          oldRole: userExist.role,
+        },
+      });
+    }
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
   @Delete(":uuid")
   public async deleteUserSupervisor(
-    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentSupervisor() user: UserSupervisorAuthenticated,
     @Res() res: ExpressResponse,
     @Param("uuid", new ParseUUIDPipe()) uuid: string
   ): Promise<ExpressResponse> {
@@ -237,6 +263,14 @@ export class AdminUsersController {
         .json({ message: "CANNOT_PATCH_USER_SUPERVISOR" });
     }
     await userSupervisorRepository.delete({ uuid });
+    await this.appLogsService.create<AdminUserCrudLogContext>({
+      action: "ADMIN_USER_DELETE",
+      userId: user.id,
+      context: {
+        userId: userExist.id,
+        role: userExist.role,
+      },
+    });
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 }
