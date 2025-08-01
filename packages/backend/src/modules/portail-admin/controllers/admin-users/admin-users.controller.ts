@@ -44,8 +44,6 @@ import {
   AdminUserCrudLogContext,
   AdminUserRoleChangeLogContext,
 } from "../../../app-logs/app-log-context.types";
-import { CurrentSupervisor } from "../../decorators/current-supervisor.decorator";
-import { UserSupervisorAuthenticated } from "../../../../_common/model/users/user-supervisor";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("dashboard")
@@ -75,7 +73,7 @@ export class AdminUsersController {
 
   @Patch("elevate-user-role")
   public async elevateUserRoleToAdmin(
-    @CurrentSupervisor() user: UserSupervisorAuthenticated,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse,
     @Body() elevateRoleDto: ElevateUserRoleDto
   ): Promise<ExpressResponse> {
@@ -209,7 +207,7 @@ export class AdminUsersController {
 
   @Patch(":uuid")
   public async patchUserSupervisor(
-    @CurrentSupervisor() user: UserSupervisorAuthenticated,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse,
     @Body() patchUserDto: PatchUserSupervisorDto,
     @Param("uuid", new ParseUUIDPipe()) uuid: string
