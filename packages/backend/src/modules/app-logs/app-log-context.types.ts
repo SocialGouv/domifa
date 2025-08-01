@@ -31,3 +31,18 @@ export type AdminUserRoleChangeLogContext = {
   oldRole: UserSupervisorRole;
   newRole: UserSupervisorRole;
 };
+
+export type UserStructureRoleChangeLogContext = {
+  // USER_ROLE_CHANGE
+  userId: number;
+  structureId: number;
+  oldRole: UserStructureRole;
+  newRole: UserStructureRole;
+};
+
+export type UserStructureCreateLogContext = {
+  // USER_CREATE
+  userId: number;
+  structureId: number;
+  role: UserStructureRole;
+};

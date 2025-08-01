@@ -16,15 +16,25 @@ import { POST_USER_STRUCTURE_BODY } from "../../../_common/mocks";
 import { TESTS_USERS_STRUCTURE } from "../../../_tests";
 import { usersDeletor } from "../services/users-deletor.service";
 import { MailsModule } from "../../mails/mails.module";
+import { AppLogsService } from "../../app-logs/app-logs.service";
 
 describe("Users Controller", () => {
   let controller: UsersController;
   let context: AppTestContext;
-
+  let appLogService: AppLogsService;
   beforeAll(async () => {
+    appLogService = {
+      create: jest.fn(),
+    };
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [UsersController],
       imports: [MailsModule, StructuresModule, UsagersModule, HttpModule],
+      providers: [
+        {
+          provide: AppLogsService,
+          useValue: appLogService,
+        },
+      ],
     });
 
     const authInfo =
@@ -54,7 +64,14 @@ describe("Users Controller", () => {
             structure: { ...POST_USER_STRUCTURE_BODY.structure, id: 1 },
           },
         });
-
+        expect(appLogService.create).toHaveBeenCalledWith({
+          action: "USER_CREATE",
+          context: {
+            role: POST_USER_STRUCTURE_BODY.role,
+            structureId: 1,
+            userId: POST_USER_STRUCTURE_BODY.id,
+          },
+        });
         expect(response.status).toBe(200);
         expect(response.text).toBe('{"message":"OK"}');
       });
