@@ -63,7 +63,7 @@ export class AdminUsersController {
     @Res() res: ExpressResponse,
     @Body() registerUserDto: RegisterUserStructureAdminDto
   ): Promise<ExpressResponse> {
-    const userController = new UsersController();
+    const userController = new UsersController(this.appLogsService); // D'ou c'est un mauvaise idée de instancier directement le controleur ici
     await this.appLogsService.create({
       userId: user.id,
       action: "ADMIN_CREATE_USER_STRUCTURE",
@@ -113,7 +113,7 @@ export class AdminUsersController {
 
   @Post("register-user-supervisor")
   public async registerNewSupervisor(
-    @CurrentSupervisor() user: UserSupervisorAuthenticated,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse,
     @Body() registerUserDto: RegisterUserSupervisorDto
   ): Promise<ExpressResponse> {
@@ -239,7 +239,7 @@ export class AdminUsersController {
 
   @Delete(":uuid")
   public async deleteUserSupervisor(
-    @CurrentSupervisor() user: UserSupervisorAuthenticated,
+    @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: ExpressResponse,
     @Param("uuid", new ParseUUIDPipe()) uuid: string
   ): Promise<ExpressResponse> {
