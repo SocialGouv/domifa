@@ -46,6 +46,11 @@ import {
 } from "../services";
 import { userAccountCreatedByAdminEmailSender } from "../../mails/services/templates-renderers";
 import { RegisterUserStructureAdminDto } from "../../portail-admin";
+import { AppLogsService } from "../../app-logs/app-logs.service";
+import {
+  UserStructureCreateLogContext,
+  UserStructureRoleChangeLogContext,
+} from "../../app-logs/app-log-context.types";
 
 const userProfile: UserProfile = "structure";
 
@@ -55,6 +60,7 @@ const userProfile: UserProfile = "structure";
 @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class UsersController {
+  constructor(private readonly appLogService: AppLogsService) {}
   @ApiBearerAuth()
   @ApiOperation({ summary: "Liste des utilisateurs" })
   @Get("")
@@ -118,6 +124,9 @@ export class UsersController {
     @Param("userUuid", new ParseUUIDPipe()) _userUuid: string,
     @CurrentChosenUserStructure() chosenUserStructure: UserStructure
   ): Promise<UserStructureProfile> {
+    const userToUpdate = await userStructureRepository.findOneBy({
+      uuid: chosenUserStructure.uuid,
+    });
     await userStructureRepository.update(
       {
         uuid: chosenUserStructure.uuid,
@@ -125,6 +134,15 @@ export class UsersController {
       },
       { role: updateRoleDto.role }
     );
+    await this.appLogService.create<UserStructureRoleChangeLogContext>({
+      action: "USER_ROLE_CHANGE",
+      context: {
+        newRole: updateRoleDto.role,
+        oldRole: userToUpdate.role,
+        userId: userToUpdate.id,
+        structureId: userToUpdate.structureId,
+      },
+    });
     return userStructureRepository.findOneBy({
       uuid: chosenUserStructure.uuid,
     });
@@ -200,6 +218,14 @@ export class UsersController {
       userId: chosenUserStructure.id,
       structureId: userStructureAuth.structureId,
     });
+    await this.appLogService.create<UserStructureCreateLogContext>({
+      action: "USER_DELETE",
+      context: {
+        role: chosenUserStructure.role,
+        userId: chosenUserStructure.id,
+        structureId: userStructureAuth.structureId,
+      },
+    });
 
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
@@ -266,7 +292,15 @@ export class UsersController {
           userProfile,
         })
         .then(
-          () => {
+          async () => {
+            await this.appLogService.create<UserStructureCreateLogContext>({
+              action: "USER_CREATE",
+              context: {
+                role: user.role,
+                userId: user.id,
+                structureId: user.structureId,
+              },
+            });
             return res.status(HttpStatus.OK).json({ message: "OK" });
           },
           () => {

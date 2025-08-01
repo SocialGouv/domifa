@@ -29,6 +29,9 @@ export type LogAction =
   | "IMPORT_USAGERS_FAILED" // Import échoué
   | "DOWNLOAD_IMPORT_TEMPLATE" // Téléchargement modèle Excel
   | "DOWNLOAD_IMPORT_GUIDE" // Téléchargement guide PDF
+  | "USER_ROLE_CHANGE"
+  | "USER_CREATE"
+  | "USER_DELETE"
   // ADMIN
   | "ADMIN_STRUCTURE_VALIDATE"
   | "ADMIN_STRUCTURE_DELETE"
