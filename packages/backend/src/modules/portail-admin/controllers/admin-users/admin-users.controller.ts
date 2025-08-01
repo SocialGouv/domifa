@@ -112,7 +112,7 @@ export class AdminUsersController {
 
   @Post("register-user-supervisor")
   public async registerNewSupervisor(
-    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentSupervisor() user: UserSupervisorAuthenticated,
     @Res() res: ExpressResponse,
     @Body() registerUserDto: RegisterUserSupervisorDto
   ): Promise<ExpressResponse> {
@@ -244,7 +244,7 @@ export class AdminUsersController {
 
   @Delete(":uuid")
   public async deleteUserSupervisor(
-    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentSupervisor() user: UserSupervisorAuthenticated,
     @Res() res: ExpressResponse,
     @Param("uuid", new ParseUUIDPipe()) uuid: string
   ): Promise<ExpressResponse> {

@@ -12,7 +12,7 @@ import { AdminSuperivorUsersService } from "../../services/admin-superivor-users
 import { ElevateUserRoleDto } from "../../dto/elevate-user-role.dto";
 import { userStructureRepository } from "../../../../database";
 import { EntityNotFoundError } from "typeorm";
-import { USER_STRUCTURE_AUTH } from "../../../../_common/mocks/USER_STRUCTURE_AUTHENTIFICATED.mock";
+import { USER_SUPERVISOR_AUTH } from "../../../../_common/mocks/USER_SUPERVISOR_AUTHENTIFICATED.mock";
 // Mock the repository
 jest.mock("../../../../database", () => ({
   userStructureRepository: {
@@ -25,7 +25,7 @@ describe("AdminUsersController", () => {
   let controller: AdminUsersController;
   let mockUserStructureRepository: jest.Mocked<typeof userStructureRepository>;
   let appLogService: AppLogsService;
-  const mockCurrentUser = USER_STRUCTURE_AUTH;
+  const mockCurrentUser = USER_SUPERVISOR_AUTH;
 
   const mockUserToElevate = {
     id: 2,
