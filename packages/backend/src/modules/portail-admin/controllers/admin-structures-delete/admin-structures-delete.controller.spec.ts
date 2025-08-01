@@ -6,12 +6,16 @@ import { UsersModule } from "../../../users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../../util/test";
 import { AdminStructuresDeleteController } from "./admin-structures-delete.controller";
 import { FileManagerService } from "../../../../util/file-manager/file-manager.service";
+import { AppLogsService } from "../../../app-logs/app-logs.service";
 
 describe("Dashboard AdminStructuresDeleteController", () => {
   let controller: AdminStructuresDeleteController;
-
+  let appLogService: AppLogsService;
   let context: AppTestContext;
   beforeAll(async () => {
+    appLogService = {
+      create: jest.fn(),
+    };
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [AdminStructuresDeleteController],
       imports: [
@@ -20,7 +24,13 @@ describe("Dashboard AdminStructuresDeleteController", () => {
         forwardRef(() => UsagersModule),
         forwardRef(() => InteractionsModule),
       ],
-      providers: [FileManagerService],
+      providers: [
+        FileManagerService,
+        {
+          provide: AppLogsService,
+          useValue: appLogService,
+        },
+      ],
     });
     controller = context.module.get<AdminStructuresDeleteController>(
       AdminStructuresDeleteController
