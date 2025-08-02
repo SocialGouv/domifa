@@ -3896,7 +3896,7 @@ __metadata:
     jwt-decode: "npm:^3.1.2"
     lint-staged: "npm:^16.1.2"
     ng-lint-staged: "npm:^12.0.4"
-    ngx-bootstrap: "npm:^12.0.0"
+    ngx-bootstrap: "npm:^20.0.0"
     ngx-countup: "npm:^13.2.0"
     ngx-matomo-client: "npm:^5.0.4"
     prettier: "npm:2.8.8"
@@ -21150,18 +21150,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ngx-bootstrap@npm:^12.0.0":
-  version: 12.0.0
-  resolution: "ngx-bootstrap@npm:12.0.0"
+"ngx-bootstrap@npm:^20.0.0":
+  version: 20.0.0
+  resolution: "ngx-bootstrap@npm:20.0.0"
   dependencies:
     tslib: "npm:^2.3.0"
   peerDependencies:
-    "@angular/animations": ^17.0.0
-    "@angular/common": ^17.0.0
-    "@angular/core": ^17.0.0
-    "@angular/forms": ^17.0.0
+    "@angular/animations": ^20.0.2
+    "@angular/common": ^20.0.2
+    "@angular/core": ^20.0.2
+    "@angular/forms": ^20.0.2
     rxjs: ^6.5.3 || ^7.4.0
-  checksum: 10/3c5d616b864661cd5c860be499636ad08278ca50d8c6c29748b70cb5f943d78cdbd9e198257b0c603a49b38f38724601131488fc5c1b1423c377ec77b9efd89a
+  checksum: 10/ebdae5fab09a464f06e34f64d8757251acb4636a4a008c1a2d4b327f11f4a146ab862269ee1c5c330662ba85bd7b8ab4d0dbb6a65ea2c7b28b0eebc84990319d
   languageName: node
   linkType: hard
 
