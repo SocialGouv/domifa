@@ -83,8 +83,9 @@ export class AdminUsersController {
         uuid,
       });
 
-      if (userToElevate.role === "admin")
+      if (userToElevate.role === "admin") {
         throw new Error("User is already and admin");
+      }
 
       await userStructureRepository.update(
         {
@@ -96,7 +97,7 @@ export class AdminUsersController {
       );
       await this.appLogsService.create<AdminUserRoleChangeLogContext>({
         userId: user.id,
-        action: "ADMIN_ELEVATE_ROLE_USER_SUPERVISOR", // TODO Ajouter du contexte à cette action pour savoir à qui on a fait l'action
+        action: "ADMIN_ELEVATE_ROLE_USER_SUPERVISOR",
       });
 
       return res.status(HttpStatus.OK).send({
@@ -116,12 +117,6 @@ export class AdminUsersController {
     @Res() res: ExpressResponse,
     @Body() registerUserDto: RegisterUserSupervisorDto
   ): Promise<ExpressResponse> {
-    await this.appLogsService.create({
-      // supprimer ou pas ?
-      userId: user.id,
-      action: "ADMIN_CREATE_USER_SUPERVISOR",
-    });
-
     const userExist = await userSupervisorRepository.findOneBy({
       email: registerUserDto.email.toLowerCase(),
     });

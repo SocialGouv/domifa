@@ -17,9 +17,10 @@ import { StructureWithUserDto } from "./dto/structure-with-user.dto";
 import { StructureDto } from "./dto/structure.dto";
 import { structureDeletorService } from "./services/structure-deletor.service";
 import { StructuresModule } from "./structure.module";
-import { PortailAdminModule } from "../portail-admin";
+import { AdminsAuthService, PortailAdminModule } from "../portail-admin";
 import { MailsModule } from "../mails/mails.module";
 import { UserFonction } from "@domifa/common";
+import { UserAdminAuthenticated } from "../../_common/model";
 const structureDto: StructureDto = {
   adresse: "1 rue de Pessac",
   adresseCourrier: {
@@ -77,7 +78,8 @@ describe("Stuctures creation full", () => {
   let adminStructuresController: AdminStructuresController;
   let adminStructuresDeleteController: AdminStructuresDeleteController;
   let userController: UsersController;
-
+  let adminsAuthService: AdminsAuthService;
+  let userAuthentificated: UserAdminAuthenticated;
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [],
@@ -91,6 +93,11 @@ describe("Stuctures creation full", () => {
         PortailAdminModule,
       ],
       providers: [],
+    });
+    adminsAuthService =
+      context.module.get<AdminsAuthService>(AdminsAuthService);
+    userAuthentificated = await adminsAuthService.findAuthUserAdmin({
+      _userId: 1,
     });
     structureController =
       context.module.get<StructuresController>(StructuresController);
@@ -187,6 +194,7 @@ describe("Stuctures creation full", () => {
     });
 
     await adminStructuresController.confirmStructureCreation(
+      userAuthentificated,
       { token: structure.token, uuid: structure.uuid },
       res
     );
@@ -208,10 +216,14 @@ describe("Stuctures creation full", () => {
       localCache.uuid
     );
 
-    await adminStructuresDeleteController.deleteStructureConfirm(res, {
-      token: structure.token,
-      uuid: structure.uuid,
-    });
+    await adminStructuresDeleteController.deleteStructureConfirm(
+      userAuthentificated,
+      res,
+      {
+        token: structure.token,
+        uuid: structure.uuid,
+      }
+    );
   });
 
   async function testPreCreateStructure() {

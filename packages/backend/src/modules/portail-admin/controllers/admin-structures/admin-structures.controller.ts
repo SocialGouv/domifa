@@ -141,6 +141,7 @@ export class AdminStructuresController {
 
   @Post("confirm-structure-creation")
   public async confirmStructureCreation(
+    @CurrentUser() _user: UserAdminAuthenticated,
     @Body() structureConfirmationDto: StructureConfirmationDto,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
@@ -174,6 +175,7 @@ export class AdminStructuresController {
     });
     await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
     await this.appLogsService.create({
+      userId: _user.id,
       action: "ADMIN_STRUCTURE_VALIDATE",
     });
     return res.status(HttpStatus.OK).json({ message: "OK" });
