@@ -15,6 +15,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import {
   AllowUserProfiles,
   AllowUserSupervisorRoles,
+  CurrentUser,
 } from "../../../../auth/decorators";
 import { AppUserGuard } from "../../../../auth/guards";
 import { structureRepository } from "../../../../database";
@@ -28,6 +29,7 @@ import { domifaConfig } from "../../../../config";
 import { cleanPath } from "../../../../util";
 import { STRUCTURE_LIGHT_ATTRIBUTES } from "../../constants/STRUCTURE_LIGHT_ATTRIBUTES.const";
 import { deleteStructureEmailSender } from "../../../mails/services/templates-renderers";
+import { UserAdminAuthenticated } from "../../../../_common/model";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures-delete")
@@ -51,9 +53,6 @@ export class AdminStructuresDeleteController {
     if (structure) {
       return deleteStructureEmailSender.sendMail({ structure }).then(
         async () => {
-          await this.appLogsService.create({
-            action: "ADMIN_STRUCTURE_DELETE",
-          });
           return res.status(HttpStatus.OK).json({ message: "OK" });
         },
         () => {
@@ -100,6 +99,7 @@ export class AdminStructuresDeleteController {
   @AllowUserSupervisorRoles("super-admin-domifa")
   @Delete("confirm-delete-structure")
   public async deleteStructureConfirm(
+    @CurrentUser() user: UserAdminAuthenticated,
     @Res() res: ExpressResponse,
     @Body() structureConfirmationDto: StructureConfirmationDto
   ) {
@@ -124,7 +124,10 @@ export class AdminStructuresDeleteController {
 
       await this.fileManagerService.deleteAllUnderStructure(key);
       await structureDeletorService.deleteStructure(structure);
-
+      await this.appLogsService.create({
+        userId: user.id,
+        action: "ADMIN_STRUCTURE_DELETE",
+      });
       return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (e) {
       return res
