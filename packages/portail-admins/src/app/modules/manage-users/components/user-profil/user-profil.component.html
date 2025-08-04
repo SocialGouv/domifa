@@ -86,7 +86,7 @@
       <tbody>
         <tr
           *ngFor="
-            let user of users | sortArray : currentKey : sortValue;
+            let user of users | sortArray: currentKey : sortValue;
             let i = index;
             trackBy: userIdTrackBy
           "
@@ -94,12 +94,12 @@
         >
           <td class="fw-bold">{{ user | fullName }}</td>
           <td>{{ user.email }}</td>
-          <td>{{ user.createdAt | date : "d MMMM y" }}</td>
+          <td>{{ user.createdAt | date: "d MMMM y" }}</td>
 
           <td>
             <ng-container *ngIf="user.lastLogin">
               <p>
-                {{ user.lastLogin | date : "dd/MM/yyyy" }}
+                {{ user.lastLogin | date: "dd/MM/yyyy" }}
                 <b *ngIf="user.lastLogin < twoMonthsAgo">
                   <br />❌ Inactif depuis plus de 2 mois<br />
                 </b>
@@ -159,14 +159,14 @@
 <ng-template #addUserModal let-modal>
   <app-register-user-supervisor
     [isEditMode]="false"
-    (cancel)="closeModal(); getUsers()"
+    (cancelUpdate)="closeModal(); getUsers()"
   ></app-register-user-supervisor>
 </ng-template>
 
 <ng-template #updateUserModal let-modal>
   <app-register-user-supervisor
     [isEditMode]="true"
-    (cancel)="closeModal(); getUsers()"
+    (cancelUpdate)="closeModal(); getUsers()"
     [userToEdit]="selectedUser"
   ></app-register-user-supervisor>
 </ng-template>

@@ -13,10 +13,12 @@
         <th scope="col">#</th>
         <th
           scope="col"
-          (click)="sort.emit({
-            element: 'sortKey',
-            value: 'id',            
-          })"
+          (click)="
+            sort.emit({
+              element: 'sortKey',
+              value: 'id',
+            })
+          "
         >
           <app-table-head-sort
             sortKey="id"
@@ -28,10 +30,12 @@
         </th>
         <th
           scope="col"
-          (click)="sort.emit({
-            element: 'sortKey',
-            value: 'nom',            
-          })"
+          (click)="
+            sort.emit({
+              element: 'sortKey',
+              value: 'nom',
+            })
+          "
         >
           <app-table-head-sort
             sortKey="nom"
@@ -43,10 +47,12 @@
         </th>
         <th
           scope="col"
-          (click)="sort.emit({
-          element: 'sortKey',
-          value: 'structureTypeLabel',            
-        })"
+          (click)="
+            sort.emit({
+              element: 'sortKey',
+              value: 'structureTypeLabel',
+            })
+          "
         >
           <app-table-head-sort
             sortKey="structureTypeLabel"
@@ -58,10 +64,12 @@
         </th>
         <th
           scope="col"
-          (click)="sort.emit({
-          element: 'sortKey',
-          value: 'createdAt',            
-        })"
+          (click)="
+            sort.emit({
+              element: 'sortKey',
+              value: 'createdAt',
+            })
+          "
         >
           <app-table-head-sort
             sortKey="createdAt"
@@ -74,10 +82,12 @@
 
         <th
           scope="col"
-          (click)="sort.emit({
-          element: 'sortKey',
-          value: 'importDate',            
-        })"
+          (click)="
+            sort.emit({
+              element: 'sortKey',
+              value: 'importDate',
+            })
+          "
         >
           <app-table-head-sort
             sortKey="importDate"
@@ -89,10 +99,12 @@
         </th>
         <th
           scope="col"
-          (click)="sort.emit({
-          element: 'sortKey',
-          value: 'users',            
-        })"
+          (click)="
+            sort.emit({
+              element: 'sortKey',
+              value: 'users',
+            })
+          "
         >
           <app-table-head-sort
             sortKey="users"
@@ -103,10 +115,12 @@
           </app-table-head-sort>
         </th>
         <th
-          (click)="sort.emit({
-          element: 'sortKey',
-          value: 'usagers',            
-        })"
+          (click)="
+            sort.emit({
+              element: 'sortKey',
+              value: 'usagers',
+            })
+          "
         >
           <app-table-head-sort
             sortKey="usagers"
@@ -117,10 +131,12 @@
           </app-table-head-sort>
         </th>
         <th
-          (click)="sort.emit({
-          element: 'sortKey',
-          value: 'usagers',            
-        })"
+          (click)="
+            sort.emit({
+              element: 'sortKey',
+              value: 'usagers',
+            })
+          "
         >
           <app-table-head-sort
             sortKey="actifs"
@@ -132,10 +148,12 @@
         </th>
         <th
           scope="col"
-          (click)="sort.emit({
-          element: 'sortKey',
-          value: 'actifs',            
-        })"
+          (click)="
+            sort.emit({
+              element: 'sortKey',
+              value: 'actifs',
+            })
+          "
         >
           <app-table-head-sort
             sortKey="lastLogin"
@@ -147,10 +165,12 @@
         </th>
         <th
           scope="col"
-          (click)="sort.emit({
-          element: 'sortKey',
-          value: 'lastLogin',            
-        })"
+          (click)="
+            sort.emit({
+              element: 'sortKey',
+              value: 'lastLogin',
+            })
+          "
         >
           <app-table-head-sort
             sortKey="regionLabel"
@@ -162,10 +182,12 @@
         </th>
         <th
           scope="col"
-          (click)="sort.emit({
-          element: 'sortKey',
-          value: 'departementLabel',            
-        })"
+          (click)="
+            sort.emit({
+              element: 'sortKey',
+              value: 'departementLabel',
+            })
+          "
         >
           <app-table-head-sort
             sortKey="departementLabel"
@@ -202,14 +224,14 @@
         </td>
 
         <td>
-          {{ structure.registrationDate | date : "dd/MM/yyyy" }}
+          {{ structure.registrationDate | date: "dd/MM/yyyy" }}
         </td>
 
         <td class="d-none d-lg-table-cell">
           {{
             structure.importDate || structure.import
               ? structure.importDate
-                ? (structure.importDate | date : "dd/MM/yyyy")
+                ? (structure.importDate | date: "dd/MM/yyyy")
                 : "✅"
               : "❌"
           }}
@@ -220,7 +242,7 @@
         <td>
           {{
             structure?.lastLogin
-              ? (structure.lastLogin | date : "dd/MM/yyyy")
+              ? (structure.lastLogin | date: "dd/MM/yyyy")
               : "❌ Jamais connecté"
           }}
         </td>
@@ -313,7 +335,7 @@
               name="nom"
               placeholder="Nom"
               [ngClass]="{
-                'is-invalid': submitted && f.nom.errors
+                'is-invalid': submitted && f.nom.errors,
               }"
               required
             />
@@ -332,7 +354,7 @@
               name="prenom"
               placeholder="Prénom"
               [ngClass]="{
-                'is-invalid': submitted && f.prenom.errors
+                'is-invalid': submitted && f.prenom.errors,
               }"
               required
             />
@@ -351,7 +373,7 @@
               name="email"
               placeholder="Email"
               [ngClass]="{
-                'is-invalid': submitted && f.email.errors
+                'is-invalid': submitted && f.email.errors,
               }"
               required
             />
@@ -404,7 +426,7 @@
             <fa-icon
               [icon]="['fas', 'circle-notch']"
               aria-hidden="true"
-              [spin]="true"
+              animation="spin"
             >
             </fa-icon>
             Veuillez patienter...

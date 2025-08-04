@@ -31,7 +31,7 @@ export class AdminLoginComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly titleService: Title,
     private readonly authService: AdminAuthService,
-    private readonly toastr: CustomToastService
+    private readonly toastr: CustomToastService,
   ) {
     this.hidePassword = true;
     this.loading = false;
@@ -79,7 +79,7 @@ export class AdminLoginComponent implements OnInit {
         this.loading = false;
 
         const redirectToAfterLogin = this.route.snapshot.queryParamMap.get(
-          "redirectToAfterLogin"
+          "redirectToAfterLogin",
         );
 
         if (apiAuthResponse.user.role === "super-admin-domifa") {

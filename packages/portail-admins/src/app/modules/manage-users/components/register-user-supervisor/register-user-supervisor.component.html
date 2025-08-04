@@ -27,7 +27,7 @@
           name="nom"
           [ngClass]="{
             'is-invalid': (f.nom.dirty || submitted) && f.nom.errors,
-            'is-valid': f.nom.dirty && !f.nom.errors
+            'is-valid': f.nom.dirty && !f.nom.errors,
           }"
           [attr.aria-describedby]="
             (f.nom.dirty || submitted) && f.nom.errors ? 'invalid-name' : null
@@ -57,7 +57,7 @@
           name="prenom"
           [ngClass]="{
             'is-invalid': (submitted || f.prenom.dirty) && f.prenom.errors,
-            'is-valid': f.prenom.dirty && !f.prenom.errors
+            'is-valid': f.prenom.dirty && !f.prenom.errors,
           }"
           [attr.aria-describedby]="
             (submitted || f.prenom.dirty) && f.prenom.errors
@@ -92,7 +92,7 @@
           [ngClass]="{
             'is-invalid':
               !isEditMode && (f.email.dirty || submitted) && f.email.errors,
-            'is-valid': f.email.dirty && !f.email.errors
+            'is-valid': f.email.dirty && !f.email.errors,
           }"
           [attr.aria-describedby]="
             (f.email.dirty || submitted) && f.email.errors
@@ -139,7 +139,7 @@
           name="role"
           (change)="onRoleChange()"
           [ngClass]="{
-            'is-invalid': submitted && f.role.errors
+            'is-invalid': submitted && f.role.errors,
           }"
           [attr.aria-invalid]="submitted && f.role.errors ? true : false"
           [attr.aria-describedby]="
@@ -179,7 +179,7 @@
           formControlName="territories"
           name="territories"
           [ngClass]="{
-            'is-invalid': submitted && f.territories.errors
+            'is-invalid': submitted && f.territories.errors,
           }"
           [attr.aria-invalid]="submitted && f.territories.errors ? true : false"
           [attr.aria-describedby]="
@@ -193,7 +193,7 @@
             *ngFor="
               let item of territoriesList
                 | keyvalue
-                | sortArray : 'value' : 'asc'
+                | sortArray: 'value' : 'asc'
             "
             [value]="item.key"
           >
@@ -221,7 +221,7 @@
   <button
     type="button"
     class="btn btn-lg btn-outline-dark"
-    (click)="cancel.emit()"
+    (click)="cancelUpdate.emit()"
   >
     Annuler
   </button>
@@ -235,7 +235,7 @@
       <fa-icon
         [icon]="['fas', 'circle-notch']"
         aria-hidden="true"
-        [spin]="true"
+        animation="spin"
       ></fa-icon>
       Veuillez patienter...
     </span>

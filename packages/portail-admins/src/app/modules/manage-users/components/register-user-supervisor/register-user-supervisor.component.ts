@@ -66,7 +66,7 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
   @Input() public userToEdit: UserSupervisor | null = null;
   @Input() public isEditMode = false;
 
-  @Output() public readonly cancel = new EventEmitter<void>();
+  @Output() public readonly cancelUpdate = new EventEmitter<void>();
   @Output() public readonly getUsers = new EventEmitter<void>();
 
   @ViewChild("form", { static: true })
@@ -79,7 +79,7 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly manageUsersService: ManageUsersService,
-    private readonly toastService: CustomToastService
+    private readonly toastService: CustomToastService,
   ) {
     this.user = null;
     this.loading = false;
@@ -196,7 +196,7 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
 
     if (this.userForm.invalid) {
       this.toastService.error(
-        "Veuillez vérifier les champs marqués en rouge dans le formulaire"
+        "Veuillez vérifier les champs marqués en rouge dans le formulaire",
       );
     } else {
       let territories = this.userForm.value?.territories ?? [];
@@ -220,7 +220,7 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
                 this.toastService.success("Utilisateur mis à jour avec succès");
                 this.resetForm();
                 this.getUsers.emit();
-                this.cancel.emit();
+                this.cancelUpdate.emit();
               },
               error: (error) => {
                 this.loading = false;
@@ -228,11 +228,11 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
                   this.emailExist = true;
                 } else {
                   this.toastService.error(
-                    "Erreur lors de la mise à jour de l'utilisateur"
+                    "Erreur lors de la mise à jour de l'utilisateur",
                   );
                 }
               },
-            })
+            }),
         );
       } else {
         this.subscription.add(
@@ -242,18 +242,18 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
               this.submitted = false;
               this.getUsers.emit();
               this.userForm.reset();
-              this.cancel.emit();
+              this.cancelUpdate.emit();
               this.toastService.success(
-                "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."
+                "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe.",
               );
             },
             error: () => {
               this.loading = false;
               this.toastService.error(
-                "veuillez vérifier les champs marqués en rouge dans le formulaire"
+                "veuillez vérifier les champs marqués en rouge dans le formulaire",
               );
             },
-          })
+          }),
         );
       }
     }
@@ -269,14 +269,14 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
   }
 
   public validateEmailNotTaken(
-    control: AbstractControl
+    control: AbstractControl,
   ): FormEmailTakenValidator {
     return isEmail(control.value)
       ? this.manageUsersService.validateUserSuperivorEmail(control.value).pipe(
           takeUntil(this.unsubscribe),
           map((res: boolean) => {
             return res === false ? null : { emailTaken: true };
-          })
+          }),
         )
       : of(null);
   }

@@ -21,13 +21,13 @@ export class FormatInternationalPhoneNumberPipe implements PipeTransform {
     try {
       const numero = phoneUtil.parse(
         telephone.numero,
-        telephone.countryCode.toLowerCase()
+        telephone.countryCode.toLowerCase(),
       );
       if (!phoneUtil.isValidNumber(numero) || !numero) {
         return "Non renseigné";
       }
       return phoneUtil.format(numero, PhoneNumberFormat.INTERNATIONAL);
-    } catch (error) {
+    } catch {
       return "Numéro introuvable";
     }
   }

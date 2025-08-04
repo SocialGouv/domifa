@@ -21,7 +21,7 @@
             placeholder="Votre identifiant"
             class="form-control"
             [ngClass]="{
-              'is-invalid': f.email.dirty && f.email.errors
+              'is-invalid': f.email.dirty && f.email.errors,
             }"
           />
           <p *ngIf="f.email.dirty && f.email.errors" class="invalid-feedback">
@@ -42,7 +42,7 @@
               placeholder="Mot de passe"
               autocomplete="current-password"
               [ngClass]="{
-                'is-invalid': f.password.dirty && f.password.errors
+                'is-invalid': f.password.dirty && f.password.errors,
               }"
             />
             <div class="input-group-append">
@@ -83,7 +83,7 @@
             ><fa-icon
               aria-hidden="true"
               [icon]="['fas', 'circle-notch']"
-              [spin]="true"
+              animation="spin"
             >
             </fa-icon>
             Connexion en cours...</span
