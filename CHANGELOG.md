@@ -1,3 +1,10 @@
+## [2.210.1](https://github.com/SocialGouv/domifa/compare/v2.210.0...v2.210.1) (2025-08-05)
+
+
+### Bug Fixes
+
+* **frontend:** add slashes to search for date of birth ([7699ab9](https://github.com/SocialGouv/domifa/commit/7699ab969e0b04dbc05bc1d3445d880d4c2d34c8))
+
 # [2.210.0](https://github.com/SocialGouv/domifa/compare/v2.209.0...v2.210.0) (2025-07-31)
 
 
