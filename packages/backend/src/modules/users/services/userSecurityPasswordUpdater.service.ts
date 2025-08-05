@@ -4,6 +4,7 @@ import {
   getUserRepository,
   getUserSecurityRepository,
 } from "./get-user-repository.service";
+import { logUserSecurityEvent } from "./logUserSecurityEvent.service";
 import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManager.service";
 
 export const userStructureSecurityPasswordUpdater = {
@@ -46,7 +47,8 @@ async function updatePassword({
   });
 
   if (!isValidPass) {
-    await securityRepository.logEvent({
+    await logUserSecurityEvent({
+      userProfile,
       userId,
       userSecurity,
       eventType: "change-password-error",
@@ -69,7 +71,8 @@ async function updatePassword({
     }
   );
 
-  await securityRepository.logEvent({
+  await logUserSecurityEvent({
+    userProfile,
     userId,
     userSecurity,
     eventType: "change-password-success",

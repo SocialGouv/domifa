@@ -1,28 +1,17 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
-import {
-  UserUsagerSecurity,
-  UserUsagerSecurityEvent,
-} from "../../../_common/model";
-import { StructureTable } from "../structure/StructureTable.typeorm";
-import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne, Unique } from "typeorm";
+import { BaseUserSecurityTable } from "../_core/BaseUserSecurityTable.typeorm";
 import { UserUsagerTable } from "./UserUsagerTable.typeorm";
+import { StructureTable } from "../structure";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "user_usager_security" })
-export class UserUsagerSecurityTable
-  extends AppTypeormTable<UserUsagerSecurityTable>
-  implements UserUsagerSecurity
-{
+@Unique(["userId", "structureId"])
+export class UserUsagerSecurityTable extends BaseUserSecurityTable<UserUsagerTable> {
   @Index()
   @ManyToOne(() => UserUsagerTable, (user) => user.id, {
     onDelete: "CASCADE",
   })
-  @Column({
-    type: "integer",
-    nullable: false,
-    unique: true,
-    update: false,
-  })
+  @Column({ type: "integer", nullable: false })
   @JoinColumn({ name: "userId", referencedColumnName: "id" })
   public userId: number;
 
@@ -32,13 +21,9 @@ export class UserUsagerSecurityTable
   })
   @Column({ type: "integer", nullable: false })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
-  public structureId: number;
-
-  @Column({ type: "jsonb", default: () => "'[]'" })
-  eventsHistory: UserUsagerSecurityEvent[];
+  public structureId?: number;
 
   public constructor(entity?: Partial<UserUsagerSecurityTable>) {
     super(entity);
-    Object.assign(this, entity);
   }
 }

@@ -1,10 +1,10 @@
 export type UserSecurityEventType =
-  | "login-success"
-  | "login-error"
-  | "validate-account-success"
-  | "validate-account-error"
-  | "reset-password-request"
-  | "reset-password-error"
-  | "reset-password-success"
   | "change-password-error"
-  | "change-password-success";
+  | "change-password-success"
+  | "login-error"
+  | "login-success"
+  | "reset-password-error"
+  | "reset-password-request"
+  | "reset-password-success"
+  | "validate-account-error"
+  | "validate-account-success";

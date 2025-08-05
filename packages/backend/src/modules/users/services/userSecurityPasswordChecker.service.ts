@@ -7,6 +7,7 @@ import {
   getUserRepository,
   getUserSecurityRepository,
 } from "./get-user-repository.service";
+import { logUserSecurityEvent } from "./logUserSecurityEvent.service";
 
 export const userSecurityPasswordChecker = {
   checkPassword,
@@ -50,7 +51,8 @@ async function checkPassword<T extends UserStructure | UserSupervisor>({
   });
 
   if (!isValidPass) {
-    await securityRepository.logEvent({
+    await logUserSecurityEvent({
+      userProfile,
       userId: user.id,
       userSecurity,
       eventType: "login-error",
@@ -62,7 +64,8 @@ async function checkPassword<T extends UserStructure | UserSupervisor>({
     throw new Error("ACCOUNT_NOT_ACTIVATED");
   }
 
-  await securityRepository.logEvent({
+  await logUserSecurityEvent({
+    userProfile,
     userId: user.id,
     userSecurity,
     eventType: "login-success",

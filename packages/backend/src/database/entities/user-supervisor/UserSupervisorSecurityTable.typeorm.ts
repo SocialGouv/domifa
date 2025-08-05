@@ -1,34 +1,18 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
-import {
-  UserSecurity,
-  UserSecurityEvent,
-  UserTokens,
-} from "../../../_common/model";
-import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
+import { Entity, Index, ManyToOne, Column, JoinColumn } from "typeorm";
+import { BaseUserSecurityTable } from "../_core/BaseUserSecurityTable.typeorm";
 import { UserSupervisorTable } from "./UserSupervisorTable.typeorm";
 
-// https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "user_supervisor_security" })
-export class UserSupervisorSecurityTable
-  extends AppTypeormTable<UserSupervisorSecurityTable>
-  implements UserSecurity
-{
+export class UserSupervisorSecurityTable extends BaseUserSecurityTable<UserSupervisorTable> {
   @Index()
   @ManyToOne(() => UserSupervisorTable, (user) => user.id, {
     onDelete: "CASCADE",
   })
-  @Column({ type: "integer", nullable: false })
+  @Column({ type: "integer", nullable: false, unique: true })
   @JoinColumn({ name: "userId", referencedColumnName: "id" })
   public userId: number;
 
-  @Column({ type: "jsonb", nullable: true })
-  temporaryTokens: UserTokens;
-
-  @Column({ type: "jsonb", default: () => "'[]'" })
-  eventsHistory: UserSecurityEvent[];
-
   public constructor(entity?: Partial<UserSupervisorSecurityTable>) {
     super(entity);
-    Object.assign(this, entity);
   }
 }

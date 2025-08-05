@@ -3,15 +3,17 @@ import { addHours, differenceInMinutes, subHours, subWeeks } from "date-fns";
 import { domifaConfig } from "../../../config";
 import { appLogger } from "../../../util";
 import {
-  UserSecurityEvent,
   UserSecurityEventType,
+  UserSecurityEvent,
+  UserProfile,
 } from "../../../_common/model";
 
-export const STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT = 5;
+export const SECURITY_HISTORY_MAX_EVENTS_ATTEMPT = 5;
 
 export const userSecurityEventHistoryManager = {
   updateEventHistory,
   isAccountLockedForOperation,
+  getBackoffTime,
 };
 
 function updateEventHistory({
@@ -27,10 +29,12 @@ function updateEventHistory({
     type: eventType,
     date: new Date(),
   };
+
   if (clearAllEvents) {
     // clear all previous events
     return [event];
   }
+
   const oneWeekAgo = subWeeks(new Date(), 1);
   return [
     ...eventsHistory.filter((x) => {
@@ -47,8 +51,7 @@ export function getBackoffTime(
     return null;
   }
 
-  const lastEventType: UserSecurityEventType | null =
-    eventsHistory[eventsHistory.length - 1].type;
+  const lastEventType = eventsHistory[eventsHistory.length - 1].type;
 
   if (
     lastEventType === "change-password-success" ||
@@ -69,14 +72,11 @@ export function getBackoffTime(
     return acc;
   }, {} as Record<string, number>);
 
-  const lastEventDate: Date | null = new Date(
-    eventsHistory[eventsHistory.length - 1].date
-  );
+  const lastEventDate = new Date(eventsHistory[eventsHistory.length - 1].date);
 
   if (
     Object.keys(eventHistoryMap).some(
-      (key) =>
-        eventHistoryMap[key] >= STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT
+      (key) => eventHistoryMap[key] >= SECURITY_HISTORY_MAX_EVENTS_ATTEMPT
     )
   ) {
     const endBlockingDate = addHours(lastEventDate, 1);
@@ -93,19 +93,16 @@ export function isAccountLockedForOperation({
   operation,
   eventsHistory,
   userId,
+  userProfile = "structure", // Par défaut, pour la rétrocompatibilité
 }: {
-  operation:
-    | "login"
-    | "validate-account"
-    | "reset-password-request"
-    | "reset-password-confirm"
-    | "change-password";
+  operation: string;
   eventsHistory: UserSecurityEvent[];
   userId: number;
+  userProfile?: UserProfile;
 }): boolean {
   const backoffTime = getBackoffTime(eventsHistory);
   if (backoffTime !== null) {
-    logOperationError({ operation, userId });
+    logOperationError({ operation, userId, userProfile });
     return true;
   }
   return false;
@@ -114,29 +111,29 @@ export function isAccountLockedForOperation({
 function logOperationError({
   operation,
   userId,
+  userProfile,
 }: {
   operation: string;
   userId: number;
+  userProfile?: UserProfile;
 }) {
+  const context = {
+    operation,
+    userId,
+    userProfile,
+  };
+
   if (domifaConfig().envId === "dev" || domifaConfig().envId === "local") {
     appLogger.warn(
       "Operation forbidden due to excessive recent security events",
-      {
-        context: {
-          operation,
-          userId,
-        },
-      }
+      { context }
     );
   } else if (domifaConfig().envId !== "test") {
     appLogger.error(
       "Operation forbidden due to excessive recent security events",
       {
         sentry: true,
-        context: {
-          operation,
-          userId,
-        },
+        context,
       }
     );
   }

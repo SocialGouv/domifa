@@ -38,8 +38,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 15.8
--- Dumped by pg_dump version 15.8
+-- Dumped from database version 15.13
+-- Dumped by pg_dump version 15.13
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -56,11 +56,11 @@ SET row_security = off;
 -- Data for Name: app_log; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.app_log (uuid, "createdAt", "updatedAt", version, "userId", "usagerRef", "structureId", action, role, "createdBy") FROM stdin;
-0c8c6826-9da4-45f0-a726-9faf11b01eee	2023-09-05 23:50:23.616466+02	2023-09-05 23:50:23.616466+02	1	1	1	1	SUPPRIMER_PIECE_JOINTE	\N	\N
-e8112a58-5cda-42ff-8bf6-6dd1ed92bcff	2023-12-18 17:54:10.818639+01	2023-12-18 17:54:10.818639+01	1	1	7	1	RESET_PASSWORD_PORTAIL	\N	\N
-448257b5-f24e-4b59-9955-00590cd8d42f	2023-12-18 17:54:12.343842+01	2023-12-18 17:54:12.343842+01	1	1	7	1	DOWNLOAD_PASSWORD_PORTAIL	\N	\N
-66859af4-96c7-41e0-9a68-9c8994acd79a	2024-10-30 22:35:13.095317+01	2024-10-30 22:35:13.095317+01	1	1	7	1	USAGERS_DOCS_UPLOAD	\N	\N
+COPY public.app_log (uuid, "createdAt", "updatedAt", version, "userId", "usagerRef", "structureId", action, role, "createdBy", context) FROM stdin;
+0c8c6826-9da4-45f0-a726-9faf11b01eee	2023-09-05 23:50:23.616466+02	2023-09-05 23:50:23.616466+02	1	1	1	1	SUPPRIMER_PIECE_JOINTE	\N	\N	\N
+e8112a58-5cda-42ff-8bf6-6dd1ed92bcff	2023-12-18 17:54:10.818639+01	2023-12-18 17:54:10.818639+01	1	1	7	1	RESET_PASSWORD_PORTAIL	\N	\N	\N
+448257b5-f24e-4b59-9955-00590cd8d42f	2023-12-18 17:54:12.343842+01	2023-12-18 17:54:12.343842+01	1	1	7	1	DOWNLOAD_PASSWORD_PORTAIL	\N	\N	\N
+66859af4-96c7-41e0-9a68-9c8994acd79a	2024-10-30 22:35:13.095317+01	2024-10-30 22:35:13.095317+01	1	1	7	1	USAGERS_DOCS_UPLOAD	\N	\N	\N
 \.
 
 
@@ -336,17 +336,17 @@ c9192746-debf-48de-bd13-6fb5b2ee866b	2022-03-08 23:22:50.29536+01	2022-03-08 23:
 -- Data for Name: user_structure_security; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.user_structure_security (uuid, "createdAt", "updatedAt", version, "userId", "temporaryTokens", "eventsHistory") FROM stdin;
-7aef1d02-3021-4988-937c-f18fa6244b14	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	2	\N	[]
-0068d982-390a-4c42-9b63-55f5c78c6cfd	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	5	\N	[]
-e931e0d8-ecbb-478a-97a3-a01eac88e24f	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	4	\N	[]
-3e2118c1-1e0b-4ce7-bc85-22001eebc8ee	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	7	\N	[]
-8dddd469-7b63-44f3-8166-15830e80ee7b	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	6	\N	[]
-759bdc26-be9d-4ffb-95c9-8c2d7a06a63b	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	8	\N	[]
-d84e9cc2-5c52-4a02-880e-bcfb27180594	2021-03-15 16:53:55.74+01	2021-12-06 16:26:00.681872+01	2	10	\N	[{"date": "2021-12-06T15:26:00.672Z", "type": "login-success"}]
-9fe998b5-7178-44b5-9c40-2e18ba233f1d	2021-03-15 16:53:55.740856+01	2022-03-09 00:20:17.365808+01	3	3	\N	[{"date": "2022-03-08T23:20:17.329Z", "type": "login-success"}]
-80e97a87-9d11-4487-a3c3-411bbdf42a2c	2022-03-17 17:25:53.809705+01	2022-03-23 22:07:14.867562+01	3	11	\N	[{"date": "2022-03-17T16:33:43.464Z", "type": "login-success"}, {"date": "2022-03-23T21:07:14.852Z", "type": "login-success"}]
-e0bcefc6-f1be-4c83-ac9d-6ea47335a9c3	2021-03-15 16:53:55.740856+01	2025-03-06 00:34:34.261953+01	10	1	\N	[{"date": "2025-03-05T23:34:34.260Z", "type": "login-error"}]
+COPY public.user_structure_security (uuid, "createdAt", "updatedAt", version, "userId", "temporaryTokens", "eventsHistory", "structureId") FROM stdin;
+7aef1d02-3021-4988-937c-f18fa6244b14	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	2	\N	[]	\N
+0068d982-390a-4c42-9b63-55f5c78c6cfd	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	5	\N	[]	\N
+e931e0d8-ecbb-478a-97a3-a01eac88e24f	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	4	\N	[]	\N
+3e2118c1-1e0b-4ce7-bc85-22001eebc8ee	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	7	\N	[]	\N
+8dddd469-7b63-44f3-8166-15830e80ee7b	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	6	\N	[]	\N
+759bdc26-be9d-4ffb-95c9-8c2d7a06a63b	2021-03-15 16:53:55.740856+01	2021-03-15 16:53:55.740856+01	1	8	\N	[]	\N
+d84e9cc2-5c52-4a02-880e-bcfb27180594	2021-03-15 16:53:55.74+01	2021-12-06 16:26:00.681872+01	2	10	\N	[{"date": "2021-12-06T15:26:00.672Z", "type": "login-success"}]	\N
+9fe998b5-7178-44b5-9c40-2e18ba233f1d	2021-03-15 16:53:55.740856+01	2022-03-09 00:20:17.365808+01	3	3	\N	[{"date": "2022-03-08T23:20:17.329Z", "type": "login-success"}]	\N
+80e97a87-9d11-4487-a3c3-411bbdf42a2c	2022-03-17 17:25:53.809705+01	2022-03-23 22:07:14.867562+01	3	11	\N	[{"date": "2022-03-17T16:33:43.464Z", "type": "login-success"}, {"date": "2022-03-23T21:07:14.852Z", "type": "login-success"}]	\N
+e0bcefc6-f1be-4c83-ac9d-6ea47335a9c3	2021-03-15 16:53:55.740856+01	2025-03-06 00:34:34.261953+01	10	1	\N	[{"date": "2025-03-05T23:34:34.260Z", "type": "login-error"}]	\N
 \.
 
 
@@ -392,9 +392,9 @@ e80dafea-8fe4-4792-92b9-3608c723aa1b	2023-11-20 16:40:58.289642+01	2023-11-20 16
 -- Data for Name: user_usager_security; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.user_usager_security (uuid, "createdAt", "updatedAt", version, "userId", "structureId", "eventsHistory") FROM stdin;
-fadd55b6-ca41-48d4-bd56-238b1a3c6f7b	2021-11-30 14:50:26.290488+01	2023-11-20 16:40:58.2674+01	10	2	1	[{"date": "2023-11-20T15:40:44.378Z", "type": "login-success"}, {"date": "2023-11-20T15:40:58.265Z", "type": "login-success"}]
-9bc8decb-5f78-48de-8c1b-9f61ea5acfba	2021-10-05 11:34:41.388922+02	2023-12-18 17:54:10.816927+01	4	1	1	[{"date": "2023-12-18T16:54:10.810Z", "type": "reset-password-success"}]
+COPY public.user_usager_security (uuid, "createdAt", "updatedAt", version, "userId", "structureId", "eventsHistory", "temporaryTokens") FROM stdin;
+fadd55b6-ca41-48d4-bd56-238b1a3c6f7b	2021-11-30 14:50:26.290488+01	2023-11-20 16:40:58.2674+01	10	2	1	[{"date": "2023-11-20T15:40:44.378Z", "type": "login-success"}, {"date": "2023-11-20T15:40:58.265Z", "type": "login-success"}]	\N
+9bc8decb-5f78-48de-8c1b-9f61ea5acfba	2021-10-05 11:34:41.388922+02	2023-12-18 17:54:10.816927+01	4	1	1	[{"date": "2023-12-18T16:54:10.810Z", "type": "reset-password-success"}]	\N
 \.
 
 

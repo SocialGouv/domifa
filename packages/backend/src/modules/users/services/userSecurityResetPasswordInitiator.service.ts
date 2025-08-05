@@ -14,6 +14,7 @@ import {
   getUserSecurityRepository,
 } from "./get-user-repository.service";
 import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManager.service";
+import { logUserSecurityEvent } from "./logUserSecurityEvent.service";
 
 export const userSecurityResetPasswordInitiator = {
   buildResetPasswordLink,
@@ -63,6 +64,7 @@ async function generateResetPasswordToken({
     userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "reset-password-request",
       ...userSecurity,
+      userProfile,
     })
   ) {
     throw new Error("Error");
@@ -72,7 +74,8 @@ async function generateResetPasswordToken({
     type: "reset-password",
   });
 
-  await securityRepository.logEvent({
+  await logUserSecurityEvent({
+    userProfile,
     userId: user.id,
     userSecurity,
     eventType: "reset-password-request",
