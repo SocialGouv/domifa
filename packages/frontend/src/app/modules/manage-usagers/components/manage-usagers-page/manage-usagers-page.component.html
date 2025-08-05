@@ -115,15 +115,18 @@
                   ? 'tel'
                   : 'text'
               "
+              [appDateFrConditional]="
+                filters.searchStringField === CriteriaSearchField.BIRTH_DATE
+              "
               name="searchInput"
               #searchInput
               class="form-control"
-              placeholder="Recherche"
             />
+
             <button
               type="button"
               aria-label="Supprimer le texte saisie"
-              *ngIf="searchInput?.value !== ''"
+              *ngIf="filters?.searchString"
               (click)="resetSearchBar()"
               id="deleteSearchIcon"
             >

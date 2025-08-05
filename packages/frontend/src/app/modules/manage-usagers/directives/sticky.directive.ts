@@ -18,9 +18,9 @@ export class StickySelectionBarDirective implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
   constructor(
-    private el: ElementRef,
-    private renderer: Renderer2,
-    private ngZone: NgZone
+    private readonly el: ElementRef,
+    private readonly renderer: Renderer2,
+    private readonly ngZone: NgZone
   ) {}
 
   ngOnInit() {

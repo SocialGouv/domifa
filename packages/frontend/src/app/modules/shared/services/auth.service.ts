@@ -21,7 +21,7 @@ import { Store } from "@ngrx/store";
 export class AuthService {
   public currentUserSubject: BehaviorSubject<UserStructure | null>;
 
-  private endPoint = environment.apiUrl + "structures/auth";
+  private readonly endPoint = environment.apiUrl + "structures/auth";
 
   constructor(
     private readonly http: HttpClient,

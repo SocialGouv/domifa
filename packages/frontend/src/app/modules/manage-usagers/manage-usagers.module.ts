@@ -19,12 +19,14 @@ import { ColumnInformationsComponent } from "./components/column-informations/co
 import { ManageFiltersComponent } from "./components/manage-filters/manage-filters.component";
 import { ColumnInteractionsComponent } from "./components/column-interactions/column-interactions.component";
 import { FormatInternationalPhoneNumberPipe } from "../../shared/phone/formatInternationalPhoneNumber.pipe";
-import {} from "../shared/pipes";
 import { FullNamePipe } from "../usager-shared/pipes";
 import { SortLabelPipe } from "./pipes/sort-label.pipe";
-import { StickySelectionBarDirective } from "./pipes/sticky.directive";
 import { TableHeadSortIconComponent } from "../shared/components/table-head-sort-icon/table-head-sort-icon.component";
 import { AssignReferrersComponent } from "./components/assign-referrers/assign-referrers.component";
+import {
+  StickySelectionBarDirective,
+  DateFrConditionalDirective,
+} from "./directives";
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { AssignReferrersComponent } from "./components/assign-referrers/assign-r
     SortLabelPipe,
     StickySelectionBarDirective,
     AssignReferrersComponent,
+    DateFrConditionalDirective,
   ],
   imports: [
     CommonModule,
