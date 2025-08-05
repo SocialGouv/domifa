@@ -10,7 +10,6 @@ export abstract class BaseUserSecurityTable<TUserTable>
   implements UserSecurity
 {
   public abstract userId: number;
-  public abstractstructureId?: number;
 
   @Column({ type: "jsonb", default: () => "'[]'" })
   eventsHistory: UserSecurityEvent[];

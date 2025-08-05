@@ -6,7 +6,6 @@
     "test",
     "**/*security-tests.ts",
     "**/*spec.ts",
-    "**/*test.ts",
-    "./src/_archive_migrations"
+    "**/*test.ts"
   ]
 }

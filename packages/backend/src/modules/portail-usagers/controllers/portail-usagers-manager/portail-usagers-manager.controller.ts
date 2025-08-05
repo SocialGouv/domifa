@@ -151,13 +151,7 @@ export class PortailUsagersManagerController {
 
         if (!userUsager) {
           const { login, temporaryPassword } =
-            await userUsagerCreator.createUserWithTmpPassword(
-              {
-                usagerUUID: usager.uuid,
-                structureId: usager.structureId,
-              },
-              { creator: user }
-            );
+            await userUsagerCreator.createUserWithTmpPassword(usager, user);
           return res
             .status(HttpStatus.CREATED)
             .json({ usager, login, temporaryPassword });

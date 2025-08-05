@@ -2,7 +2,7 @@ import { subHours, subMinutes } from "date-fns";
 import { UserSecurityEvent } from "../../../../_common/model";
 import {
   userSecurityEventHistoryManager,
-  STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT,
+  SECURITY_HISTORY_MAX_EVENTS_ATTEMPT,
   getBackoffTime,
 } from "../userSecurityEventHistoryManager.service";
 
@@ -18,11 +18,7 @@ describe("userSecurityEventHistoryManager", () => {
       })
     ).toBeFalsy();
 
-    for (
-      let i = 0;
-      i < STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1;
-      i++
-    ) {
+    for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1; i++) {
       // log many login errors
       eventsHistory = userSecurityEventHistoryManager.updateEventHistory({
         eventType: "login-error",
@@ -118,11 +114,7 @@ describe("userSecurityEventHistoryManager", () => {
       const eventsHistory: UserSecurityEvent[] = [];
 
       // Add 4 login errors (less than max of 5)
-      for (
-        let i = 0;
-        i < STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1;
-        i++
-      ) {
+      for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1; i++) {
         eventsHistory.push({
           type: "login-error",
           date: subMinutes(now, i * 5),
@@ -139,11 +131,11 @@ describe("userSecurityEventHistoryManager", () => {
       const eventsHistory: UserSecurityEvent[] = [];
 
       // Add exactly max attempts for login errors
-      for (let i = 0; i < STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
+      for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
         eventsHistory.push({
           type: "login-error",
           date:
-            i === STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
+            i === SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
               ? lastEventDate
               : subMinutes(now, (i + 1) * 5),
         });
@@ -160,11 +152,11 @@ describe("userSecurityEventHistoryManager", () => {
       const eventsHistory: UserSecurityEvent[] = [];
 
       // Add exactly max attempts for validate account errors
-      for (let i = 0; i < STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
+      for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
         eventsHistory.push({
           type: "validate-account-error",
           date:
-            i === STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
+            i === SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
               ? lastEventDate
               : subMinutes(now, (i + 1) * 3),
         });
@@ -181,11 +173,11 @@ describe("userSecurityEventHistoryManager", () => {
       const eventsHistory: UserSecurityEvent[] = [];
 
       // Add exactly max attempts for reset password errors
-      for (let i = 0; i < STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
+      for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
         eventsHistory.push({
           type: "reset-password-error",
           date:
-            i === STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
+            i === SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
               ? lastEventDate
               : subMinutes(now, (i + 1) * 4),
         });
@@ -202,11 +194,11 @@ describe("userSecurityEventHistoryManager", () => {
       const eventsHistory: UserSecurityEvent[] = [];
 
       // Add exactly max attempts for change password errors
-      for (let i = 0; i < STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
+      for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
         eventsHistory.push({
           type: "change-password-error",
           date:
-            i === STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
+            i === SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
               ? lastEventDate
               : subMinutes(now, (i + 1) * 2),
         });
@@ -223,11 +215,11 @@ describe("userSecurityEventHistoryManager", () => {
       const eventsHistory: UserSecurityEvent[] = [];
 
       // Add max attempts but with last event more than 1 hour ago
-      for (let i = 0; i < STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
+      for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
         eventsHistory.push({
           type: "login-error",
           date:
-            i === STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
+            i === SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
               ? lastEventDate
               : subHours(now, 2 + i * 0.1),
         });
@@ -252,11 +244,7 @@ describe("userSecurityEventHistoryManager", () => {
       });
 
       // Add fewer than max error events
-      for (
-        let i = 0;
-        i < STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1;
-        i++
-      ) {
+      for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1; i++) {
         eventsHistory.push({
           type: "login-error",
           date: subMinutes(now, i * 5),
@@ -281,11 +269,11 @@ describe("userSecurityEventHistoryManager", () => {
       }
 
       // Add max attempts for validate-account-error
-      for (let i = 0; i < STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
+      for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
         eventsHistory.push({
           type: "validate-account-error",
           date:
-            i === STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
+            i === SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
               ? lastEventDate
               : subMinutes(now, (i + 1) * 3),
         });
@@ -302,11 +290,11 @@ describe("userSecurityEventHistoryManager", () => {
       const eventsHistory: UserSecurityEvent[] = [];
 
       // Add max attempts with last event 30 minutes ago
-      for (let i = 0; i < STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
+      for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
         eventsHistory.push({
           type: "login-error",
           date:
-            i === STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
+            i === SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
               ? lastEventDate
               : subMinutes(now, 35 + i),
         });
@@ -323,7 +311,7 @@ describe("userSecurityEventHistoryManager", () => {
       const eventsHistory: UserSecurityEvent[] = [];
 
       // Add old events (more than 1 hour ago) - should not count
-      for (let i = 0; i < STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
+      for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
         eventsHistory.push({
           type: "login-error",
           date: subHours(now, 2),
@@ -331,15 +319,11 @@ describe("userSecurityEventHistoryManager", () => {
       }
 
       // Add recent events (less than max)
-      for (
-        let i = 0;
-        i < STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1;
-        i++
-      ) {
+      for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1; i++) {
         eventsHistory.push({
           type: "login-error",
           date:
-            i === STRUCTURE_SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 2
+            i === SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 2
               ? lastEventDate
               : subMinutes(now, (i + 1) * 5),
         });
