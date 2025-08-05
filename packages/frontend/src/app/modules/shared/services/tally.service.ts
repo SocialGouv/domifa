@@ -101,7 +101,7 @@ export class TallyService {
     localStorage.setItem(this.STORAGE_KEY, currentDate);
 
     const departement = `${user.structure.departement} - ${
-      DEPARTEMENTS_LISTE[user.structure.region]
+      DEPARTEMENTS_LISTE[user.structure.departement]
     }`;
 
     const hiddenFields = {

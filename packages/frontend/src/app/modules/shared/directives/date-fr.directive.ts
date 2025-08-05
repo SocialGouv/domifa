@@ -6,7 +6,7 @@ import { Directive, ElementRef, HostListener } from "@angular/core";
 })
 export class DateFrDirective {
   public inputElement: HTMLElement;
-  private navigationKeys = [
+  private readonly navigationKeys = [
     "Backspace",
     "Delete",
     "Tab",

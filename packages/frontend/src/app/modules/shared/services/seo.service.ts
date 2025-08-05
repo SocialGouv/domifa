@@ -9,7 +9,7 @@ export class SeoService {
   constructor(
     private readonly metaService: Meta,
     private readonly titleService: Title,
-    @Inject(DOCUMENT) private doc: Document
+    @Inject(DOCUMENT) private readonly doc: Document
   ) {}
 
   public updateTitleAndTags(title: string, description: string): void {
