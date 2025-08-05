@@ -1,5 +1,3 @@
-version: "3.4"
-
 volumes:
   postgres-data:
   metabase-data:
@@ -20,8 +18,9 @@ services:
     command: server /data --console-address ":9001"
 
   postgres:
-    image: postgis/postgis:15-3.4-alpine
+    image: postgis/postgis:15-3.5-alpine
     container_name: domifa-postgres
+    platform: linux/amd64
     shm_size: 2g
     volumes:
       - postgres-data:/var/lib/postgresql/data/pgdata
