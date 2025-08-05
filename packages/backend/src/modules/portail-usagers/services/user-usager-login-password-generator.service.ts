@@ -11,17 +11,7 @@ export const userUsagerLoginPasswordGenerator = {
   generateTemporyPassword,
 };
 
-async function generateUniqueLogin(
-  {
-    checkAlreadyExists,
-    existingLogins,
-  }: {
-    checkAlreadyExists?: boolean;
-    existingLogins?: Set<string>;
-  } = {
-    checkAlreadyExists: true,
-  }
-) {
+async function generateUniqueLogin() {
   let newLoginAccepted = false;
   let login: string;
   let i = 0;
@@ -34,21 +24,13 @@ async function generateUniqueLogin(
       })
       .toUpperCase();
 
-    if (checkAlreadyExists) {
-      if (existingLogins) {
-        newLoginAccepted = !existingLogins.has(login);
-      } else {
-        const alreadyExists = await userUsagerRepository.findOneBy({
-          login,
-        });
-        newLoginAccepted = !alreadyExists;
-      }
-    } else {
-      newLoginAccepted = true;
-    }
+    const alreadyExists = await userUsagerRepository.findOneBy({
+      login,
+    });
+    newLoginAccepted = !alreadyExists;
 
     i++;
-    if (i > 1000) {
+    if (i > 100) {
       throw new Error("generateUniqueLogin: too much recursion");
     }
   }
@@ -56,25 +38,21 @@ async function generateUniqueLogin(
   return login;
 }
 
-async function generateTemporyPassword(
-  temporaryPassword?: string,
-  dateNaissance?: Date
-): Promise<{
+async function generateTemporyPassword(dateNaissance?: Date): Promise<{
   salt: string;
   temporaryPassword: string;
   passwordHash: string;
 }> {
   const salt = await passwordGenerator.generateSalt({ length: 10 });
 
-  if (!temporaryPassword) {
-    if (dateNaissance) {
-      temporaryPassword = format(dateNaissance, "ddMMyyyy");
-    } else {
-      temporaryPassword = tokenGenerator.generateString({
-        length: 8,
-        charsToInclude: CHARS_NUMBERS,
-      });
-    }
+  let temporaryPassword = "";
+  if (dateNaissance) {
+    temporaryPassword = format(dateNaissance, "ddMMyyyy");
+  } else {
+    temporaryPassword = tokenGenerator.generateString({
+      length: 8,
+      charsToInclude: CHARS_NUMBERS,
+    });
   }
 
   const passwordHash = await passwordGenerator.generatePasswordHash({

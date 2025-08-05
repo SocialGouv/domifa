@@ -5,16 +5,15 @@ import {
   UserUsagerTable,
 } from "../../../database";
 import { userUsagerLoginPasswordGenerator } from "./user-usager-login-password-generator.service";
-import { UserStructure, UserUsager } from "@domifa/common";
+import { Usager, UserStructure } from "@domifa/common";
 
 export const userUsagerCreator = {
   createUserWithTmpPassword,
 };
 
 async function createUserWithTmpPassword(
-  userUsager: Pick<UserUsager, "usagerUUID" | "structureId">,
-  { creator }: { creator: Pick<UserStructure, "id" | "nom" | "prenom"> },
-  suggestedPassword?: string
+  usager: Pick<Usager, "uuid" | "structureId" | "dateNaissance">,
+  creator: Pick<UserStructure, "id" | "nom" | "prenom">
 ): Promise<{
   login: string;
   temporaryPassword: string;
@@ -26,11 +25,12 @@ async function createUserWithTmpPassword(
 
   const { salt, temporaryPassword, passwordHash } =
     await userUsagerLoginPasswordGenerator.generateTemporyPassword(
-      suggestedPassword
+      usager.dateNaissance
     );
 
   const createdUser = new UserUsagerTable({
-    ...userUsager,
+    structureId: usager.structureId,
+    usagerUUID: usager.uuid,
     login,
     password: passwordHash,
     salt,

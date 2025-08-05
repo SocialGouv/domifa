@@ -53,7 +53,6 @@ import { DigitOnlyDirective } from "../shared/directives";
     TableHeadSortComponent,
     DigitOnlyDirective,
   ],
-  providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class StructuresModule {}
