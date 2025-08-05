@@ -1,8 +1,14 @@
 import { UserUsager } from "@domifa/common";
-import { userUsagerSecurityPasswordUpdater } from ".";
-import { userUsagerRepository, userUsagerSecurityRepository } from "..";
-import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
-import { userUsagerSecurityEventHistoryManager } from "./userUsagerSecurityEventHistoryManager.service";
+import {
+  userUsagerRepository,
+  userUsagerSecurityRepository,
+} from "../../../../database";
+import { passwordGenerator } from "../../../../util";
+import { userUsagerSecurityPasswordUpdater } from "./userUsagerSecurityPasswordUpdater.service";
+import {
+  logUserSecurityEvent,
+  userSecurityEventHistoryManager,
+} from "../../../users/services";
 
 export const userUsagerSecurityPasswordChecker = {
   checkPassword,
@@ -38,7 +44,7 @@ async function checkPassword({
   });
 
   if (
-    userUsagerSecurityEventHistoryManager.isAccountLockedForOperation({
+    userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "login",
       ...userSecurity,
     })
@@ -52,7 +58,8 @@ async function checkPassword({
   });
 
   if (!isValidPass) {
-    await userUsagerSecurityRepository.logEvent({
+    await logUserSecurityEvent({
+      userProfile: "usager",
       userId: user.id,
       userSecurity,
       eventType: "login-error",
@@ -64,7 +71,8 @@ async function checkPassword({
     throw new Error("ACCOUNT_NOT_ACTIVATED");
   }
 
-  await userUsagerSecurityRepository.logEvent({
+  await logUserSecurityEvent({
+    userProfile: "usager",
     userId: user.id,
     userSecurity,
     eventType: "login-success",

@@ -1,7 +1,7 @@
 import { UserTokenType } from "./UserTokenType.type";
 
-export type UserTokens = {
+export interface UserTokens {
   type?: UserTokenType;
   token?: string;
   validity?: Date;
-};
+}

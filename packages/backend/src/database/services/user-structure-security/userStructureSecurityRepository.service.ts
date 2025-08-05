@@ -1,5 +1,4 @@
-import { UserSecurity, UserSecurityEventType } from "../../../_common/model";
-import { userSecurityEventHistoryManager } from "../../../modules/users/services";
+import { UserSecurity } from "../../../_common/model";
 import { UserStructureSecurityTable } from "../../entities";
 import { joinSelectFields, myDataSource } from "../_postgres";
 
@@ -27,36 +26,5 @@ export const userStructureSecurityRepository = myDataSource
           ])
         )
         .getRawOne();
-    },
-    async logEvent({
-      userId,
-      userSecurity,
-      eventType,
-      attributes,
-      clearAllEvents,
-    }: {
-      userId: number;
-      userSecurity: UserSecurity;
-      eventType: UserSecurityEventType;
-      attributes?: Partial<UserSecurity>;
-      clearAllEvents?: boolean;
-    }) {
-      const eventsHistory = userSecurityEventHistoryManager.updateEventHistory({
-        eventType,
-        eventsHistory: userSecurity.eventsHistory,
-        clearAllEvents,
-      });
-
-      return await this.update(
-        { userId },
-        attributes
-          ? {
-              eventsHistory,
-              ...attributes,
-            }
-          : {
-              eventsHistory,
-            }
-      );
     },
   });

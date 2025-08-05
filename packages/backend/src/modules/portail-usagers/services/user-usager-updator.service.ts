@@ -5,6 +5,7 @@ import {
 } from "../../../database";
 
 import { userUsagerLoginPasswordGenerator } from "./user-usager-login-password-generator.service";
+import { logUserSecurityEvent } from "../../users/services";
 
 export const userUsagerUpdator = {
   disableUser,
@@ -52,7 +53,8 @@ async function enableUser({
     userId: updatedUser.id,
   });
 
-  await userUsagerSecurityRepository.logEvent({
+  await logUserSecurityEvent({
+    userProfile: "usager",
     userId: updatedUser.id,
     userSecurity,
     eventType: "reset-password-success",

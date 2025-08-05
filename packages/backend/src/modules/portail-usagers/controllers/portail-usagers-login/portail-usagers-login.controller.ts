@@ -15,7 +15,6 @@ import {
   usagerRepository,
   userUsagerLoginRepository,
   userUsagerRepository,
-  userUsagerSecurityPasswordChecker,
 } from "../../../../database";
 import { UsagerLoginDto } from "../../../users/dto";
 import { ExpressResponse } from "../../../../util/express";
@@ -29,6 +28,7 @@ import { UserUsagerAuthenticated } from "../../../../_common/model";
 import { AllowUserProfiles, CurrentUser } from "../../../../auth/decorators";
 import { AuthGuard } from "@nestjs/passport";
 import { AppUserGuard } from "../../../../auth/guards";
+import { userUsagerSecurityPasswordChecker } from "../../services/user-usager-security";
 
 @Controller("portail-usagers/auth")
 @ApiTags("auth")

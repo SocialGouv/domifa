@@ -1,4 +1,4 @@
-import { userUsagerLoginPasswordGenerator } from "../user-usager-login-password-generator.service";
+import { userUsagerLoginPasswordGenerator } from "../../../portail-usagers/services/user-usager-login-password-generator.service";
 
 describe("userUsagerLoginPasswordGenerator", () => {
   it("generateUniqueLogin", async () => {

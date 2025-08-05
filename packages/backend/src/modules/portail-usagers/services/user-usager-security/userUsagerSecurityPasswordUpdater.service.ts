@@ -1,7 +1,13 @@
 import { UserUsager } from "@domifa/common";
-import { userUsagerRepository, userUsagerSecurityRepository } from "..";
-import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
-import { userUsagerSecurityEventHistoryManager } from "./userUsagerSecurityEventHistoryManager.service";
+import {
+  userUsagerSecurityRepository,
+  userUsagerRepository,
+} from "../../../../database";
+import { passwordGenerator } from "../../../../util";
+import {
+  logUserSecurityEvent,
+  userSecurityEventHistoryManager,
+} from "../../../users/services";
 
 export const userUsagerSecurityPasswordUpdater = {
   updatePassword,
@@ -21,7 +27,7 @@ async function updatePassword({
   });
 
   if (
-    userUsagerSecurityEventHistoryManager.isAccountLockedForOperation({
+    userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "change-password",
       ...userSecurity,
     })
@@ -36,7 +42,8 @@ async function updatePassword({
     hash: user.password,
   });
   if (!isValidPass) {
-    await userUsagerSecurityRepository.logEvent({
+    await logUserSecurityEvent({
+      userProfile: "usager",
       userId,
       userSecurity,
       eventType: "change-password-error",
@@ -57,7 +64,8 @@ async function updatePassword({
     id: userId,
   });
 
-  await userUsagerSecurityRepository.logEvent({
+  await logUserSecurityEvent({
+    userProfile: "usager",
     userId,
     userSecurity,
     eventType: "change-password-success",

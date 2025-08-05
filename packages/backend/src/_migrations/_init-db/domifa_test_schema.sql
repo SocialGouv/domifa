@@ -5,12 +5,13 @@ CREATE TABLE public.app_log (
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
     "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
     version integer NOT NULL,
-    "userId" integer NOT NULL,
+    "userId" integer,
     "usagerRef" integer,
     "structureId" integer,
     action text NOT NULL,
     role text,
-    "createdBy" text
+    "createdBy" text,
+    context json
 );
 CREATE TABLE public.contact_support (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -455,7 +456,8 @@ CREATE TABLE public.user_structure_security (
     version integer NOT NULL,
     "userId" integer NOT NULL,
     "temporaryTokens" jsonb,
-    "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL
+    "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
+    "structureId" integer
 );
 CREATE TABLE public.user_supervisor (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -534,7 +536,8 @@ CREATE TABLE public.user_usager_security (
     version integer NOT NULL,
     "userId" integer NOT NULL,
     "structureId" integer NOT NULL,
-    "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL
+    "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
+    "temporaryTokens" jsonb
 );
 ALTER TABLE ONLY public.structure ALTER COLUMN id SET DEFAULT nextval('public.structure_id_seq'::regclass);
 ALTER TABLE ONLY public.structure_doc ALTER COLUMN id SET DEFAULT nextval('public.structure_doc_id_seq'::regclass);
@@ -598,8 +601,6 @@ ALTER TABLE ONLY public.user_supervisor
     ADD CONSTRAINT "PK_fd859b169ff3833fed4b4769aa4" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.user_usager
     ADD CONSTRAINT "UQ_07ddbb376616a6bf4ffdbb2b6d7" UNIQUE ("usagerUUID");
-ALTER TABLE ONLY public.user_usager_security
-    ADD CONSTRAINT "UQ_0b7885e1594c7af3a5b84a4bdb3" UNIQUE ("userId");
 ALTER TABLE ONLY public.user_structure
     ADD CONSTRAINT "UQ_22a5c4a3d9b2fb8e4e73fc4ada1" UNIQUE (id);
 ALTER TABLE ONLY public.user_structure
@@ -616,6 +617,10 @@ ALTER TABLE ONLY public.user_usager
     ADD CONSTRAINT "UQ_7d7ff538b491444ce070065252c" UNIQUE (login);
 ALTER TABLE ONLY public.structure
     ADD CONSTRAINT "UQ_90ac7986e769d602d218075215c" UNIQUE (id);
+ALTER TABLE ONLY public.user_supervisor_security
+    ADD CONSTRAINT "UQ_94c17da6c8fc82ac679eefd3ecb" UNIQUE ("userId");
+ALTER TABLE ONLY public.user_usager_security
+    ADD CONSTRAINT "UQ_a21e4892613030aa47755b46a75" UNIQUE ("userId", "structureId");
 ALTER TABLE ONLY public.usager_entretien
     ADD CONSTRAINT "UQ_aa19c17fc79f4e4a648643096f9" UNIQUE ("usagerUUID");
 ALTER TABLE ONLY public.structure_doc
@@ -645,6 +650,7 @@ CREATE INDEX "IDX_4252acc4e242ad123a5d7b0625" ON public.expired_token USING btre
 CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON public.interactions USING btree ("interactionOutUUID");
 CREATE INDEX "IDX_4a2ef430c9c7a9b4a66db96ec7" ON public.interactions USING btree ("dateInteraction");
 CREATE INDEX "IDX_547d83b925177cadc602bc7e22" ON public.user_usager USING btree (id);
+CREATE INDEX "IDX_57be1bdd772eb3fea1e201317e" ON public.user_structure_security USING btree ("structureId");
 CREATE INDEX "IDX_5d06e43196df8e4b02ceb16bc9" ON public.usager_notes USING btree (id);
 CREATE INDEX "IDX_6193a732dd00abc56e91e92fe4" ON public.usager_entretien USING btree ("structureId");
 CREATE INDEX "IDX_6ca23b363643ae281d2f1eddf2" ON public.usager_notes USING btree ("usagerUUID");
@@ -712,6 +718,8 @@ ALTER TABLE ONLY public.expired_token
     ADD CONSTRAINT "FK_4252acc4e242ad123a5d7b06252" FOREIGN KEY ("structureId") REFERENCES public.structure(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.user_usager_login
     ADD CONSTRAINT "FK_4bf76763fec5203f945338a0377" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE;
+ALTER TABLE ONLY public.user_structure_security
+    ADD CONSTRAINT "FK_57be1bdd772eb3fea1e201317e6" FOREIGN KEY ("structureId") REFERENCES public.structure(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.usager_entretien
     ADD CONSTRAINT "FK_6193a732dd00abc56e91e92fe48" FOREIGN KEY ("structureId") REFERENCES public.structure(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.usager_notes

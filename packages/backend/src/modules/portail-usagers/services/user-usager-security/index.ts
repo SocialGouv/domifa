@@ -1,4 +1,3 @@
-export * from "./userUsagerSecurityEventHistoryManager.service";
+// @index('./*.service.ts', f => `export * from '${f.path}'`)
 export * from "./userUsagerSecurityPasswordChecker.service";
 export * from "./userUsagerSecurityPasswordUpdater.service";
-export * from "./userUsagerSecurityRepository.service";

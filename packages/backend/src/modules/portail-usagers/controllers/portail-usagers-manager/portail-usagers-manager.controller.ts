@@ -27,16 +27,17 @@ import {
   usagerRepository,
   userUsagerRepository,
 } from "../../../../database";
-import { userUsagerCreator, userUsagerUpdator } from "../../../users/services";
 import { appLogger, ExpressResponse } from "../../../../util";
 import { Response } from "express";
-import { AppLogsService } from "../../../app-logs/app-logs.service";
+
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 import {
   StructureEditPortailUsagerDto,
   UpdatePortailUsagerOptionsDto,
 } from "../../dto";
+import { AppLogsService } from "../../../app-logs/app-logs.service";
+import { userUsagerCreator, userUsagerUpdator } from "../../services";
 
 @Controller("portail-usagers-manager")
 @ApiTags("portail-usagers-manager")

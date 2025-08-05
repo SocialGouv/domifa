@@ -1,9 +1,9 @@
+import { UserSecurity } from "../../../_common/model";
 import {
   userUsagerRepository,
   userUsagerSecurityRepository,
   UserUsagerTable,
 } from "../../../database";
-import { UserUsagerSecurity } from "../../../_common/model";
 import { userUsagerLoginPasswordGenerator } from "./user-usager-login-password-generator.service";
 import { UserStructure, UserUsager } from "@domifa/common";
 
@@ -19,7 +19,7 @@ async function createUserWithTmpPassword(
   login: string;
   temporaryPassword: string;
   user: UserUsagerTable;
-  userSecurity: UserUsagerSecurity;
+  userSecurity: UserSecurity;
 }> {
   const login: string =
     await userUsagerLoginPasswordGenerator.generateUniqueLogin();
@@ -47,10 +47,11 @@ async function createUserWithTmpPassword(
 
   const user = await userUsagerRepository.save(createdUser);
 
-  const userSecurityAttributes: UserUsagerSecurity = {
+  const userSecurityAttributes: UserSecurity = {
     userId: user.id,
     structureId: user.structureId,
     eventsHistory: [],
+    temporaryTokens: {},
   };
 
   const userSecurity = await userUsagerSecurityRepository.save(

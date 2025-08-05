@@ -4,6 +4,7 @@ import {
   getUserSecurityRepository,
   getUserRepository,
 } from "./get-user-repository.service";
+import { logUserSecurityEvent } from "./logUserSecurityEvent.service";
 import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManager.service";
 
 export const userSecurityResetPasswordUpdater = {
@@ -41,7 +42,8 @@ async function checkResetPasswordToken({
     new Date(userSecurity.temporaryTokens.validity) < new Date()
   ) {
     // update event history
-    await securityRepository.logEvent({
+    await logUserSecurityEvent({
+      userProfile,
       userId,
       userSecurity,
       eventType: "reset-password-error",
@@ -86,7 +88,8 @@ async function confirmResetPassword({
     new Date(userSecurity.temporaryTokens.validity) < new Date()
   ) {
     // update event history
-    await securityRepository.logEvent({
+    await logUserSecurityEvent({
+      userProfile,
       userId,
       userSecurity,
       eventType: "reset-password-error",
@@ -112,7 +115,8 @@ async function confirmResetPassword({
     id: userId,
   });
 
-  await securityRepository.logEvent({
+  await logUserSecurityEvent({
+    userProfile,
     userId,
     userSecurity,
     eventType: "reset-password-success",
