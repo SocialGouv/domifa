@@ -10,12 +10,12 @@ CURRENT_DIR="$(cd "$(dirname "$0")" && pwd)"
 DUMPS_DIR="${CURRENT_DIR}/dumps"
 
 echo "📋 Étape 1/6: Export du schéma (DDL uniquement)"
-${CURRENT_DIR}/make-dump-schema-docker.sh --db=test
+${CURRENT_DIR}/generate-ddl.sh test
 echo "✅ Schéma exporté"
 echo ""
 
 echo "🗄️ Étape 2/6: Export complet de la base"
-${CURRENT_DIR}/make-dump-database-docker.sh --db=test
+${CURRENT_DIR}/make-dump-database-docker.sh test
 echo "✅ Base exportée"
 echo ""
 
