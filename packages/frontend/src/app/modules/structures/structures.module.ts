@@ -19,9 +19,10 @@ import { StructuresUploadDocsComponent } from "./components/structures-upload-do
 
 import { StructuresRoutingModule } from "./structures-routing.module";
 import { GeneralModule } from "../general/general.module";
-import { DigitOnlyDirective, SortArrayPipe } from "../shared/pipes";
+import { SortArrayPipe } from "../shared/pipes";
 import { DisplayTableImageComponent } from "../shared/components/display-table-image/display-table-image.component";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
+import { DigitOnlyDirective } from "../shared/directives";
 
 @NgModule({
   declarations: [
