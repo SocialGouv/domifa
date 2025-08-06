@@ -98,8 +98,15 @@ describe("RoleRedirectGuard", () => {
     expect(router.navigate).toHaveBeenCalledWith(["auth/login"]);
   });
 
-  it("CanActivate", () => {
-    guard = new RoleRedirectGuard(authService, router);
-    expect(guard).toBeTruthy();
+  it("should redirect unknown role to auth/login", () => {
+    jest.spyOn(router, "navigate");
+    Object.defineProperty(authService, "currentUserValue", {
+      get: () => ({ role: "unknown-role" }),
+
+      configurable: true,
+    });
+    const result = guard.canActivate();
+    expect(result).toBe(false);
+    expect(router.navigate).toHaveBeenCalledWith(["auth/login"]);
   });
 });
