@@ -24,7 +24,7 @@ export class RoleRedirectGuard {
         this.router.navigate(["/structures"]);
         break;
       default:
-        this.router.navigate(["/login"]);
+        this.router.navigate(["auth/login"]);
         break;
     }
 

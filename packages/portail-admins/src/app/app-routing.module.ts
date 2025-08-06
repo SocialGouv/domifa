@@ -70,9 +70,9 @@ const routes: Routes = [
   },
   {
     path: "",
-    component: NotFoundComponent,
     canActivate: [RoleRedirectGuard],
     pathMatch: "full",
+    children: [],
   },
   { path: "mentions-legales", component: MentionsLegalesComponent },
   { path: "plan-site", component: PlanSiteComponent },
