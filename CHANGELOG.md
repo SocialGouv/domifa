@@ -1,3 +1,10 @@
+## [2.210.2](https://github.com/SocialGouv/domifa/compare/v2.210.1...v2.210.2) (2025-08-06)
+
+
+### Bug Fixes
+
+* **frontend:** fix app digit only ([10ad0a4](https://github.com/SocialGouv/domifa/commit/10ad0a40c8101795a01419325e0507d722d7a42a))
+
 ## [2.210.1](https://github.com/SocialGouv/domifa/compare/v2.210.0...v2.210.1) (2025-08-05)
 
 
