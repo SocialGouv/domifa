@@ -26,8 +26,7 @@
     "declarationMap": true,
     "allowImportingTsExtensions": false,
     "noUncheckedIndexedAccess": true,
-    "rootDir": "./src",
-    "isolatedModules": true
+    "rootDir": "./src"
   },
   "exclude": ["node_modules", "dist"]
 }
