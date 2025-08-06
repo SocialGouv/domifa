@@ -4412,36 +4412,36 @@ __metadata:
   resolution: "@domifa/frontend@workspace:packages/frontend"
   dependencies:
     "@angular-devkit/architect": "npm:^0.1802.20"
-    "@angular-devkit/build-angular": "npm:^17.3.17"
-    "@angular-devkit/core": "npm:^17.3.17"
-    "@angular-devkit/schematics": "npm:^17.3.17"
+    "@angular-devkit/build-angular": "npm:^18.2.13"
+    "@angular-devkit/core": "npm:^18.2.13"
+    "@angular-devkit/schematics": "npm:^18.1.1"
     "@angular-eslint/builder": "npm:17.5.3"
     "@angular-eslint/eslint-plugin": "npm:17.5.3"
     "@angular-eslint/eslint-plugin-template": "npm:17.5.3"
     "@angular-eslint/schematics": "npm:17.5.3"
     "@angular-eslint/template-parser": "npm:17.5.3"
-    "@angular/animations": "npm:^17.3.12"
-    "@angular/cdk": "npm:^17.3.10"
-    "@angular/cli": "npm:^17.3.17"
-    "@angular/common": "npm:^17.3.12"
-    "@angular/compiler": "npm:^17.3.12"
-    "@angular/compiler-cli": "npm:^17.3.12"
-    "@angular/core": "npm:^17.3.12"
-    "@angular/forms": "npm:^17.3.12"
-    "@angular/language-service": "npm:^17.3.12"
-    "@angular/localize": "npm:^17.3.12"
-    "@angular/platform-browser": "npm:^17.3.12"
-    "@angular/platform-browser-dynamic": "npm:^17.3.12"
-    "@angular/router": "npm:^17.3.12"
+    "@angular/animations": "npm:^18.2.13"
+    "@angular/cdk": "npm:^18.2.13"
+    "@angular/cli": "npm:^18.2.13"
+    "@angular/common": "npm:^18.2.13"
+    "@angular/compiler": "npm:^18.2.13"
+    "@angular/compiler-cli": "npm:^18.2.13"
+    "@angular/core": "npm:^18.2.13"
+    "@angular/forms": "npm:^18.2.13"
+    "@angular/language-service": "npm:^18.2.13"
+    "@angular/localize": "npm:^18.2.13"
+    "@angular/platform-browser": "npm:^18.2.13"
+    "@angular/platform-browser-dynamic": "npm:^18.2.13"
+    "@angular/router": "npm:^18.2.13"
     "@ckeditor/ckeditor5-angular": "npm:^9.0.0"
     "@ckeditor/ckeditor5-build-classic": "npm:^43.3.1"
     "@domifa/common": "workspace:^"
-    "@fortawesome/angular-fontawesome": "npm:0.14.1"
+    "@fortawesome/angular-fontawesome": "npm:0.15.0"
     "@fortawesome/fontawesome-svg-core": "npm:^6.6.0"
     "@fortawesome/free-regular-svg-icons": "npm:^6.6.0"
     "@fortawesome/free-solid-svg-icons": "npm:^6.6.0"
     "@khazii/ngx-intl-tel-input": "npm:^17.0.1"
-    "@ng-bootstrap/ng-bootstrap": "npm:^15.1.2"
+    "@ng-bootstrap/ng-bootstrap": "npm:^17.0.1"
     "@ngrx/effects": "npm:^17.2.0"
     "@ngrx/entity": "npm:^17.2.0"
     "@ngrx/store": "npm:^17.2.0"
@@ -4487,7 +4487,7 @@ __metadata:
     ts-jest: "npm:^29.4.1"
     ts-node: "npm:~10.9.2"
     tslib: "npm:^2.8.1"
-    typescript: "npm:5.4.5"
+    typescript: "npm:5.6.3"
     validator: "npm:^13.15.15"
     zone.js: "npm:~0.15.1"
   languageName: unknown
@@ -7085,6 +7085,22 @@ __metadata:
     "@popperjs/core": ^2.11.6
     rxjs: ^6.5.3 || ^7.4.0
   checksum: 10/4638e289bf677f93c1ae30aa5af35a08053a18f35c43d283e76ba718e14d7861153f0aad6a76647c42b8f43617452ae8ecbc55507f851c92fffdd69cc9150cbe
+  languageName: node
+  linkType: hard
+
+"@ng-bootstrap/ng-bootstrap@npm:^17.0.1":
+  version: 17.0.1
+  resolution: "@ng-bootstrap/ng-bootstrap@npm:17.0.1"
+  dependencies:
+    tslib: "npm:^2.3.0"
+  peerDependencies:
+    "@angular/common": ^18.0.0
+    "@angular/core": ^18.0.0
+    "@angular/forms": ^18.0.0
+    "@angular/localize": ^18.0.0
+    "@popperjs/core": ^2.11.8
+    rxjs: ^6.5.3 || ^7.4.0
+  checksum: 10/ef0c624a47fc7fa38d738df2876198c359958cd2568c176baf19df1e7cbf6e6789d3f7dde8d6a9cbfb09d85c46b7bc7b4a7e8395448f8f57ca04d24d5be67187
   languageName: node
   linkType: hard
 
@@ -29237,6 +29253,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:5.6.3":
+  version: 5.6.3
+  resolution: "typescript@npm:5.6.3"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10/c328e418e124b500908781d9f7b9b93cf08b66bf5936d94332b463822eea2f4e62973bfb3b8a745fdc038785cb66cf59d1092bac3ec2ac6a3e5854687f7833f1
+  languageName: node
+  linkType: hard
+
 "typescript@npm:5.8.2":
   version: 5.8.2
   resolution: "typescript@npm:5.8.2"
@@ -29274,6 +29300,16 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10/760f7d92fb383dbf7dee2443bf902f4365db2117f96f875cf809167f6103d55064de973db9f78fe8f31ec08fff52b2c969aee0d310939c0a3798ec75d0bca2e1
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>":
+  version: 5.6.3
+  resolution: "typescript@patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10/00504c01ee42d470c23495426af07512e25e6546bce7e24572e72a9ca2e6b2e9bea63de4286c3cfea644874da1467dcfca23f4f98f7caf20f8b03c0213bb6837
   languageName: node
   linkType: hard
 
@@ -30840,6 +30876,13 @@ __metadata:
   linkType: hard
 
 "zone.js@npm:~0.15.1":
+  version: 0.15.1
+  resolution: "zone.js@npm:0.15.1"
+  checksum: 10/10f8b8651694e7c9484b32da677d4051b8aaa7e2cb3a6baa1f608ff789e249fbccca33820b0590f9d80a7bbfc860a3ae3a6969b5c433f77b1b66e896f3d5b4d5
+  languageName: node
+  linkType: hard
+
+"zone.js@npm:~0.15.0":
   version: 0.15.1
   resolution: "zone.js@npm:0.15.1"
   checksum: 10/10f8b8651694e7c9484b32da677d4051b8aaa7e2cb3a6baa1f608ff789e249fbccca33820b0590f9d80a7bbfc860a3ae3a6969b5c433f77b1b66e896f3d5b4d5
