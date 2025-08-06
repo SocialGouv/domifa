@@ -1,5 +1,5 @@
 global:
-  pgSecretName: pg-app
+  pgSecretName: pg-app-import
 
 backend:
   ~chart: app
@@ -126,7 +126,6 @@ backend-export:
     fsGroup: 1000
     runAsUser: 1000
     runAsGroup: 1000
-
 
 backend-cron:
   ~chart: app
