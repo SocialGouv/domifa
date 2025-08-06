@@ -269,6 +269,7 @@
                 d'import anonymisé, autres informations etc.)
               </label>
               <input
+                (change)="onFileChange($event)"
                 class="form-control"
                 type="file"
                 accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .xlsx, .xls"
@@ -290,7 +291,6 @@
                   'is-invalid':
                     (f.fileSource.dirty || submitted) && f.fileSource.errors
                 }"
-                (change)="onFileChange($event)"
               />
               <small id="file-description">
                 Formats autorisés .pdf, xlsx, .docx, .odt, .jpg, ou .png (6mo
@@ -321,7 +321,7 @@
                 <fa-icon
                   [icon]="['fas', 'circle-notch']"
                   aria-hidden="true"
-                  [spin]="true"
+                  animation="spin"
                 >
                 </fa-icon>
                 Veuillez patienter...
