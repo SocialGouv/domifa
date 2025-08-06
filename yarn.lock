@@ -3161,6 +3161,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.9.2":
+  version: 7.28.2
+  resolution: "@babel/runtime@npm:7.28.2"
+  checksum: 10/a0965fbdd6aaa40709290923bbe05e1c4314021f0cef608eb1d69f04f717c41829e50a53d79c4a0f461512b4be9b3c0190dc19387b219bcdaacdd793b2fe1b8a
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.23.9, @babel/template@npm:^7.25.0, @babel/template@npm:^7.26.9, @babel/template@npm:^7.27.1, @babel/template@npm:^7.27.2, @babel/template@npm:^7.3.3":
   version: 7.27.2
   resolution: "@babel/template@npm:7.27.2"
@@ -4538,7 +4545,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:7.18.0"
     bootstrap: "npm:^5.3.7"
     class-validator: "npm:^0.14.2"
-    date-fns: "npm:^4.1.0"
+    date-fns: "npm:^2.30.0"
     eslint: "npm:^8.57.1"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-import: "npm:^2.32.0"
@@ -4550,9 +4557,9 @@ __metadata:
     jest-preset-angular: "npm:^14.6.1"
     lint-staged: "npm:^16.1.2"
     ng-lint-staged: "npm:^12.0.4"
-    ngx-matomo-client: "npm:^6.2.0"
+    ngx-matomo-client: "npm:^5.0.4"
     prettier: "npm:2.8.8"
-    redux: "npm:^5.0.1"
+    redux: "npm:^4.2.1"
     rimraf: "npm:^6.0.1"
     rxjs: "npm:^7.8.2"
     source-map-explorer: "npm:^2.5.3"
@@ -15374,13 +15381,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "date-fns@npm:4.1.0"
-  checksum: 10/d5f6e9de5bbc52310f786099e18609289ed5e30af60a71e0646784c8185ddd1d0eebcf7c96b7faaaefc4a8366f3a3a4244d099b6d0866ee2bec80d1361e64342
-  languageName: node
-  linkType: hard
-
 "dateformat@npm:^3.0.3":
   version: 3.0.3
   resolution: "dateformat@npm:3.0.3"
@@ -23123,18 +23123,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ngx-matomo-client@npm:^6.0.0":
-  version: 6.4.1
-  resolution: "ngx-matomo-client@npm:6.4.1"
-  dependencies:
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    "@angular/common": ^17.0.0 || ^18.0.0
-    "@angular/core": ^17.0.0 || ^18.0.0
-  checksum: 10/ba15c743d0cf9ccfc1ae44af7c911a051e73ff5803337899485edd7b9211a284ebdd1098058f50be45572b6eb6501a55ccd2ef2373fbaceafa973b04efbe9875
-  languageName: node
-  linkType: hard
-
 "nice-napi@npm:^1.0.2":
   version: 1.0.2
   resolution: "nice-napi@npm:1.0.2"
@@ -26038,10 +26026,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "redux@npm:5.0.1"
-  checksum: 10/a373f9ed65693ead58bea5ef61c1d6bef39da9f2706db3be6f84815f3a1283230ecd1184efb1b3daa7f807d8211b0181564ca8f336fc6ee0b1e2fa0ba06737c2
+"redux@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "redux@npm:4.2.1"
+  dependencies:
+    "@babel/runtime": "npm:^7.9.2"
+  checksum: 10/371e4833b671193303a7dea7803c8fdc8e0d566740c78f580e0a3b77b4161da25037626900a2205a5d616117fa6ad09a4232e5a110bd437186b5c6355a041750
   languageName: node
   linkType: hard
 
