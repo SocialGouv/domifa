@@ -47,6 +47,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@angular-devkit/architect@npm:^0.2001.5":
+  version: 0.2001.5
+  resolution: "@angular-devkit/architect@npm:0.2001.5"
+  dependencies:
+    "@angular-devkit/core": "npm:20.1.5"
+    rxjs: "npm:7.8.2"
+  checksum: 10/6f8a4973f7e1a536c888686f1c53125e64452f08e4fa806f746ffb16304f3aedb2a59c21af119ff724ca793e55fb0e8470005aebdafb94e74886d15bb7663833
+  languageName: node
+  linkType: hard
+
 "@angular-devkit/build-angular@npm:^17.3.17":
   version: 17.3.17
   resolution: "@angular-devkit/build-angular@npm:17.3.17"
@@ -410,6 +420,25 @@ __metadata:
     chokidar:
       optional: true
   checksum: 10/79cec8e5d422c5ffa081203d80cdc9f6a9e6d45faa1c25c66b8bcc7c2588d9777d176cef19b51f8b208f6094e741c4119dc543b8ea8e10d356095c14191c5302
+  languageName: node
+  linkType: hard
+
+"@angular-devkit/core@npm:20.1.5":
+  version: 20.1.5
+  resolution: "@angular-devkit/core@npm:20.1.5"
+  dependencies:
+    ajv: "npm:8.17.1"
+    ajv-formats: "npm:3.0.1"
+    jsonc-parser: "npm:3.3.1"
+    picomatch: "npm:4.0.2"
+    rxjs: "npm:7.8.2"
+    source-map: "npm:0.7.4"
+  peerDependencies:
+    chokidar: ^4.0.0
+  peerDependenciesMeta:
+    chokidar:
+      optional: true
+  checksum: 10/303ea8bca4fcc0103f6742d1e6b1066ff4d9ffcde819b8b0fb882173d2276ae27585e2f8b66c18a894b126e31e4bde70aa245ae448e781657c83d5ccabceef33
   languageName: node
   linkType: hard
 
@@ -4476,7 +4505,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/portail-admins@workspace:packages/portail-admins"
   dependencies:
-    "@angular-devkit/architect": "npm:^0.1802.20"
+    "@angular-devkit/architect": "npm:^0.2001.5"
     "@angular-devkit/build-angular": "npm:^18.2.13"
     "@angular-devkit/core": "npm:^18.2.13"
     "@angular-devkit/schematics": "npm:^18.1.1"
@@ -4536,7 +4565,7 @@ __metadata:
     rxjs: "npm:^7.8.2"
     source-map-explorer: "npm:^2.5.3"
     tslib: "npm:^2.8.1"
-    typescript: "npm:5.6.3"
+    typescript: "npm:5.4.5"
     webpack-bundle-analyzer: "npm:^4.10.2"
     zone.js: "npm:~0.15.0"
   languageName: unknown
@@ -26712,7 +26741,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.5.5, rxjs@npm:^7.8.1, rxjs@npm:^7.8.2":
+"rxjs@npm:7.8.2, rxjs@npm:^7.5.5, rxjs@npm:^7.8.1, rxjs@npm:^7.8.2":
   version: 7.8.2
   resolution: "rxjs@npm:7.8.2"
   dependencies:
@@ -29295,16 +29324,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.6.3":
-  version: 5.6.3
-  resolution: "typescript@npm:5.6.3"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10/c328e418e124b500908781d9f7b9b93cf08b66bf5936d94332b463822eea2f4e62973bfb3b8a745fdc038785cb66cf59d1092bac3ec2ac6a3e5854687f7833f1
-  languageName: node
-  linkType: hard
-
 "typescript@npm:5.8.2":
   version: 5.8.2
   resolution: "typescript@npm:5.8.2"
@@ -29342,16 +29361,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10/760f7d92fb383dbf7dee2443bf902f4365db2117f96f875cf809167f6103d55064de973db9f78fe8f31ec08fff52b2c969aee0d310939c0a3798ec75d0bca2e1
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>":
-  version: 5.6.3
-  resolution: "typescript@patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10/00504c01ee42d470c23495426af07512e25e6546bce7e24572e72a9ca2e6b2e9bea63de4286c3cfea644874da1467dcfca23f4f98f7caf20f8b03c0213bb6837
   languageName: node
   linkType: hard
 
