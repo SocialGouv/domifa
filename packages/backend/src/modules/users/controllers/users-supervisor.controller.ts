@@ -104,7 +104,6 @@ export class UsersSupervisorController {
         });
     } catch (err) {
       appLogger.error("Cannot reset password");
-      throw err;
     }
 
     return res.status(HttpStatus.OK).json({ message: "OK" });

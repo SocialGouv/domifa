@@ -1,6 +1,6 @@
 import { addDays } from "date-fns";
 
-import { CommonUser, UserStructure } from "@domifa/common";
+import { CommonUser } from "@domifa/common";
 import {
   UserProfile,
   UserSecurity,
@@ -51,7 +51,7 @@ async function generateResetPasswordToken({
   const repository = getUserRepository(userProfile);
   const securityRepository = getUserSecurityRepository(userProfile);
 
-  const user: Pick<UserStructure, "id" | "nom" | "prenom" | "email"> =
+  const user: Pick<CommonUser, "id" | "nom" | "prenom" | "email"> =
     await repository.findOneByOrFail({
       email,
     });
