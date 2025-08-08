@@ -12,7 +12,7 @@ import { AdminSuperivorUsersService } from "../../services/admin-superivor-users
 import { ElevateUserRoleDto } from "../../dto/elevate-user-role.dto";
 import { userStructureRepository } from "../../../../database";
 import { EntityNotFoundError } from "typeorm";
-import { USER_STRUCTURE_AUTH } from "../../../../_common/mocks/USER_STRUCTURE_AUTHENTIFICATED.mock";
+import { USER_SUPERVISOR_AUTH } from "../../../../_common/mocks/USER_SUPERVISOR_AUTHENTIFICATED.mock";
 // Mock the repository
 jest.mock("../../../../database", () => ({
   userStructureRepository: {
@@ -24,8 +24,8 @@ jest.mock("../../../../database", () => ({
 describe("AdminUsersController", () => {
   let controller: AdminUsersController;
   let mockUserStructureRepository: jest.Mocked<typeof userStructureRepository>;
-
-  const mockCurrentUser = USER_STRUCTURE_AUTH;
+  let appLogService: AppLogsService;
+  const mockCurrentUser = USER_SUPERVISOR_AUTH;
 
   const mockUserToElevate = {
     id: 2,
@@ -47,7 +47,9 @@ describe("AdminUsersController", () => {
 
   beforeEach(async () => {
     jest.clearAllMocks();
-
+    appLogService = {
+      create: jest.fn(),
+    };
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AdminUsersController],
       imports: [
@@ -61,9 +63,7 @@ describe("AdminUsersController", () => {
         AdminStructuresService,
         {
           provide: AppLogsService,
-          useValue: {
-            create: jest.fn().mockResolvedValue({}),
-          },
+          useValue: appLogService,
         },
         AdminSuperivorUsersService,
       ],
