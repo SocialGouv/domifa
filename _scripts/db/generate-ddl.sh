@@ -46,7 +46,7 @@ fi
 
 # Nettoyer le fichier généré (enlever les SET et commentaires restants)
 echo "🧹 Nettoyage du fichier DDL..."
-sed -i \
+sed -i '' \
   -E \
   -e '/^[[:space:]]*--/d' \
   -e '/^[[:space:]]*SET /d' \
