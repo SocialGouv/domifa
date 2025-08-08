@@ -1,4 +1,4 @@
-FROM node:18.16.1 AS deps
+FROM node:18.19.1 AS deps
 
 RUN apt-get update -y && apt-get install gettext-base && rm -rf /var/lib/apt/lists/*
 
