@@ -1,9 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router, RouterStateSnapshot } from "@angular/router";
-
 import jwtDecode from "jwt-decode";
-
 import { BehaviorSubject, Observable, firstValueFrom, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
