@@ -6,6 +6,7 @@ import {
   UserSecurityEventType,
   UserSecurityEvent,
   UserProfile,
+  UserSecurityLogError,
 } from "../../../_common/model";
 
 export const SECURITY_HISTORY_MAX_EVENTS_ATTEMPT = 5;
@@ -108,21 +109,7 @@ export function isAccountLockedForOperation({
   return false;
 }
 
-function logOperationError({
-  operation,
-  userId,
-  userProfile,
-}: {
-  operation: string;
-  userId: number;
-  userProfile?: UserProfile;
-}) {
-  const context = {
-    operation,
-    userId,
-    userProfile,
-  };
-
+function logOperationError(context: UserSecurityLogError) {
   if (domifaConfig().envId === "dev" || domifaConfig().envId === "local") {
     appLogger.warn(
       "Operation forbidden due to excessive recent security events",
