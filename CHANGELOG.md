@@ -1,3 +1,18 @@
+# [2.212.0](https://github.com/SocialGouv/domifa/compare/v2.211.0...v2.212.0) (2025-08-08)
+
+
+### Bug Fixes
+
+* **backend:** add 'structureId' by default ([28804b3](https://github.com/SocialGouv/domifa/commit/28804b3d8f7d3ae8c6f445766dad815a56243895))
+* **backend:** fix unit test, delete useless files, update tsconfig ([66af595](https://github.com/SocialGouv/domifa/commit/66af5952e4d2baf2a77fd9d91c2ca7ed47b09bf8))
+* **backend:** fix update of dumps ([44b399e](https://github.com/SocialGouv/domifa/commit/44b399e57cfe8b2ac877b19b4c101adbd9a35b97))
+* **backend:** revert 'isolatedModules' ([08c0cd8](https://github.com/SocialGouv/domifa/commit/08c0cd8741782d8857ca7bcc9d096ed8d902cc5a))
+
+
+### Features
+
+* **front:** node version update ([2bd315b](https://github.com/SocialGouv/domifa/commit/2bd315bd5ea06fc2c852090ef74f0700cd676525))
+
 # [2.211.0](https://github.com/SocialGouv/domifa/compare/v2.210.2...v2.211.0) (2025-08-08)
 
 
