@@ -16,7 +16,6 @@ import {
   AllowUserProfiles,
   AllowUserSupervisorRoles,
   CurrentStructure,
-  CurrentUser,
 } from "../../../../auth/decorators";
 import { AppUserGuard, StructureAccessGuard } from "../../../../auth/guards";
 import {
@@ -39,6 +38,7 @@ import { userAccountActivatedEmailSender } from "../../../mails/services/templat
 import { structureCreatorService } from "../../../structures/services";
 import { format } from "date-fns";
 import { getBackoffTime } from "../../../users/services";
+import { CurrentSupervisor } from "../../../../auth/decorators/current-supervisor.decorator";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
@@ -54,7 +54,7 @@ export class AdminStructuresController {
 
   @Get("export")
   public async export(
-    @CurrentUser() user: UserAdminAuthenticated,
+    @CurrentSupervisor() user: UserAdminAuthenticated,
     @Res() response: ExpressResponse
   ) {
     await this.appLogsService.create({
@@ -90,7 +90,7 @@ export class AdminStructuresController {
   @Get("structure/:structureId")
   @UseGuards(StructureAccessGuard)
   public async getStructure(
-    @CurrentUser() _user: UserAdminAuthenticated,
+    @CurrentSupervisor() _user: UserAdminAuthenticated,
     @CurrentStructure() structure: Structure,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("structureId") _structureId: number
@@ -103,7 +103,7 @@ export class AdminStructuresController {
   @Get("structure/:structureId/users")
   @UseGuards(StructureAccessGuard)
   public async getUsers(
-    @CurrentUser() _user: UserAdminAuthenticated,
+    @CurrentSupervisor() _user: UserAdminAuthenticated,
     @CurrentStructure() structure: Structure,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("structureId", new ParseIntPipe()) _structureId: number
@@ -141,7 +141,7 @@ export class AdminStructuresController {
 
   @Post("confirm-structure-creation")
   public async confirmStructureCreation(
-    @CurrentUser() _user: UserAdminAuthenticated,
+    @CurrentSupervisor() _user: UserAdminAuthenticated,
     @Body() structureConfirmationDto: StructureConfirmationDto,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {

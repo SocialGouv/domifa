@@ -11,12 +11,8 @@ import { SmsModule } from "../../../sms/sms.module";
 
 describe("Dashboard AdminStructuresController", () => {
   let controller: AdminStructuresController;
-  let appLogService: AppLogsService;
   let context: AppTestContext;
   beforeAll(async () => {
-    appLogService = {
-      create: jest.fn(),
-    };
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [AdminStructuresController],
       imports: [
@@ -26,13 +22,7 @@ describe("Dashboard AdminStructuresController", () => {
         forwardRef(() => InteractionsModule),
         forwardRef(() => SmsModule),
       ],
-      providers: [
-        AdminStructuresService,
-        {
-          provide: AppLogsService,
-          useValue: appLogService,
-        },
-      ],
+      providers: [AdminStructuresService, AppLogsService],
     });
     controller = context.module.get<AdminStructuresController>(
       AdminStructuresController
