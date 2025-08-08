@@ -1,4 +1,4 @@
-import { UserSupervisorRole } from "@domifa/common";
+import { UserStructureRole, UserSupervisorRole } from "@domifa/common";
 
 export type FailedUsagerImportLogContext = {
   // IMPORT_USAGERS_FAILED
@@ -14,9 +14,15 @@ export type SuccessfulUsagerImportLogContext = {
 };
 
 export type AdminUserCrudLogContext = {
-  // ADMIN_USER_CREATE | ADMIN_USER_DELETE | ADMIN_PASSWORD_RESET
+  // ADMIN_USER_CREATE | ADMIN_USER_DELETE
   userId: number; // identifiant utilisateur créé // supprimé // modifié
   role: UserSupervisorRole;
+};
+
+export type StructureUserCrudLogContext = {
+  // ADMIN_PASSWORD_RESET
+  userId: number; // identifiant utilisateur créé // supprimé // modifié
+  role: UserStructureRole;
 };
 
 export type AdminUserRoleChangeLogContext = {
