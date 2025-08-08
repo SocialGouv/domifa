@@ -1,3 +1,16 @@
+# [2.211.0](https://github.com/SocialGouv/domifa/compare/v2.210.2...v2.211.0) (2025-08-08)
+
+
+### Bug Fixes
+
+* **admins:** adding redirect guard to redirect each profile to the right destination ([72fd02c](https://github.com/SocialGouv/domifa/commit/72fd02c9cc4b3dfde8b6b47e13d1a9b4079e8a31))
+* **admins:** applying revu recommandations ([efee157](https://github.com/SocialGouv/domifa/commit/efee15799f9f93787101e68810a73893bcae58a7))
+
+
+### Features
+
+* **admins:** redirect user to structure list ([4e54297](https://github.com/SocialGouv/domifa/commit/4e542972a9a89ed487778858586cf8f4d0fb34b4))
+
 ## [2.210.2](https://github.com/SocialGouv/domifa/compare/v2.210.1...v2.210.2) (2025-08-06)
 
 
