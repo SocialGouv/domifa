@@ -19,8 +19,11 @@ import {
   userSecurityResetPasswordUpdater,
 } from "../services";
 import { AppLogsService } from "../../app-logs/app-logs.service";
-import { AdminUserCrudLogContext } from "../../app-logs/app-log-context.types";
-import { userSupervisorRepository } from "../../../database";
+import { StructureUserCrudLogContext } from "../../app-logs/app-log-context.types";
+import {
+  userStructureRepository,
+  userSupervisorRepository,
+} from "../../../database";
 
 const userProfile: UserProfile = "supervisor";
 
@@ -75,30 +78,30 @@ export class UsersSupervisorController {
     @Res() res: ExpressResponse
   ) {
     try {
-      const [userStuperviseur, { user, userSecurity }] = await Promise.all([
-        userSupervisorRepository.findOneByOrFail({
-          email: emailDto.email,
-        }),
-        userSecurityResetPasswordInitiator.generateResetPasswordToken({
+      const userSuperviseur = await userSupervisorRepository.findOneByOrFail({
+        email: emailDto.email,
+      });
+      const updateUser = await userStructureRepository.findOneByOrFail({
+        email: emailDto.email,
+      });
+      const { user, userSecurity } =
+        await userSecurityResetPasswordInitiator.generateResetPasswordToken({
           email: emailDto.email,
           userProfile,
-        }),
-      ]);
-      await Promise.all([
-        userResetPasswordEmailSender.sendMail({
-          user,
-          token: userSecurity.temporaryTokens.token,
-          userProfile,
-        }),
-        this.appLogservice.create<AdminUserCrudLogContext>({
+        });
+      await userResetPasswordEmailSender.sendMail({
+        user,
+        token: userSecurity.temporaryTokens.token,
+        userProfile,
+      }),
+        await this.appLogservice.create<StructureUserCrudLogContext>({
           action: "ADMIN_PASSWORD_RESET",
-          userId: userStuperviseur.id,
+          userId: userSuperviseur.id,
           context: {
-            userId: userStuperviseur.id,
-            role: userStuperviseur.role,
+            userId: updateUser.id,
+            role: updateUser.role,
           },
-        }),
-      ]);
+        });
     } catch (err) {
       appLogger.error("Cannot reset password");
       throw err;
