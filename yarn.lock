@@ -3870,7 +3870,7 @@ __metadata:
     "@schematics/angular": "npm:^15.2.11"
     "@schematics/update": "npm:^0.1102.19"
     "@sentry/angular": "npm:^8.55.0"
-    "@swimlane/ngx-charts": "npm:^20.5.0"
+    "@swimlane/ngx-charts": "npm:^23.0.0"
     "@types/file-saver": "npm:^2.0.7"
     "@types/google-libphonenumber": "npm:^7.4.30"
     "@types/jest": "npm:^29.5.14"
@@ -8775,35 +8775,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swimlane/ngx-charts@npm:^20.5.0":
-  version: 20.5.0
-  resolution: "@swimlane/ngx-charts@npm:20.5.0"
+"@swimlane/ngx-charts@npm:^23.0.0":
+  version: 23.0.0
+  resolution: "@swimlane/ngx-charts@npm:23.0.0"
   dependencies:
-    d3-array: "npm:^3.1.1"
+    d3-array: "npm:^3.2.0"
     d3-brush: "npm:^3.0.0"
     d3-color: "npm:^3.1.0"
     d3-ease: "npm:^3.0.1"
     d3-format: "npm:^3.1.0"
-    d3-hierarchy: "npm:^3.1.0"
+    d3-hierarchy: "npm:^3.1.2"
     d3-interpolate: "npm:^3.0.1"
     d3-sankey: "npm:^0.12.3"
     d3-scale: "npm:^4.0.2"
     d3-selection: "npm:^3.0.0"
     d3-shape: "npm:^3.2.0"
-    d3-time-format: "npm:^3.0.0"
+    d3-time-format: "npm:^4.1.0"
     d3-transition: "npm:^3.0.1"
-    rfdc: "npm:^1.3.0"
-    tslib: "npm:^2.0.0"
+    gradient-path: "npm:^2.3.0"
+    tslib: "npm:^2.3.1"
   peerDependencies:
-    "@angular/animations": ">=12.0.0"
-    "@angular/cdk": ">=12.0.0"
-    "@angular/common": ">=12.0.0"
-    "@angular/core": ">=12.0.0"
-    "@angular/forms": ">=12.0.0"
-    "@angular/platform-browser": ">=12.0.0"
-    "@angular/platform-browser-dynamic": ">=12.0.0"
-    rxjs: ^6.5.3 || ^7.4.0
-  checksum: 10/2cd73bcf6aead19fb24a7e6c8bc31bc691dfec42a7b0d799cf21bd4d4dbf9dbe539ca898d856de7b5c33488972d9d9dddfc264ebd1d69e3ed724e035fa648ab6
+    "@angular/animations": 18.x || 19.x || 20.x
+    "@angular/cdk": 18.x || 19.x || 20.x
+    "@angular/common": 18.x || 19.x || 20.x
+    "@angular/core": 18.x || 19.x || 20.x
+    "@angular/forms": 18.x || 19.x || 20.x
+    "@angular/platform-browser": 18.x || 19.x || 20.x
+    "@angular/platform-browser-dynamic": 18.x || 19.x || 20.x
+    rxjs: 7.x
+  checksum: 10/ba1d469fe92c4017a7b1ee2f50dedc7e81fc02a421cea5bfb3f1d8b290c635a3ea2c0e9f77433f66b59fe128b5d0462308865714b46fbd57ca289308a3061c03
   languageName: node
   linkType: hard
 
@@ -9922,6 +9922,13 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: 10/c8f6480cf68d95b5e9f64fa6210f50915e8ff124638965a2c5a4c87641cc7f762155b9a8e01e3e517d48f8931e2d3920a40c4e677398e8b93c9cf1c8a36d2fbb
+  languageName: node
+  linkType: hard
+
+"@types/tinycolor2@npm:^1.4.0":
+  version: 1.4.6
+  resolution: "@types/tinycolor2@npm:1.4.6"
+  checksum: 10/a662fd177135d27779b7ccba39881a85167f969787c71c7bf51903d288a519ad5b9526e0a4af7bde6444df6b7abe88bae893d569c6d804108c03dfec9509bdf6
   languageName: node
   linkType: hard
 
@@ -13596,7 +13603,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-array@npm:1 - 2, d3-array@npm:2":
+"d3-array@npm:1 - 2":
   version: 2.12.1
   resolution: "d3-array@npm:2.12.1"
   dependencies:
@@ -13605,7 +13612,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-array@npm:2 - 3, d3-array@npm:2.10.0 - 3, d3-array@npm:^3.1.1":
+"d3-array@npm:2 - 3, d3-array@npm:2.10.0 - 3, d3-array@npm:^3.2.0":
   version: 3.2.4
   resolution: "d3-array@npm:3.2.4"
   dependencies:
@@ -13665,7 +13672,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-hierarchy@npm:^3.1.0":
+"d3-hierarchy@npm:^3.1.2":
   version: 3.1.2
   resolution: "d3-hierarchy@npm:3.1.2"
   checksum: 10/497b79dc6c35e28b21e8a7b94db92876abd1d4ec082d9803a07ea8964e55b0e71c511a21489363a36f1456f069adb8ff7d33c633678730d6ae961ed350b27733
@@ -13743,30 +13750,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-time-format@npm:2 - 4":
+"d3-time-format@npm:2 - 4, d3-time-format@npm:^4.1.0":
   version: 4.1.0
   resolution: "d3-time-format@npm:4.1.0"
   dependencies:
     d3-time: "npm:1 - 3"
   checksum: 10/ffc0959258fbb90e3890bfb31b43b764f51502b575e87d0af2c85b85ac379120d246914d07fca9f533d1bcedc27b2841d308a00fd64848c3e2cad9eff5c9a0aa
-  languageName: node
-  linkType: hard
-
-"d3-time-format@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "d3-time-format@npm:3.0.0"
-  dependencies:
-    d3-time: "npm:1 - 2"
-  checksum: 10/2ae8d0d432a160030d22b678320dffe8599a8ed1fa36604374123d024f953a56c5b4829170b14e2a257fc36cafc9f1fe2cf7c295463a1f5ea0617ad96751f977
-  languageName: node
-  linkType: hard
-
-"d3-time@npm:1 - 2":
-  version: 2.1.1
-  resolution: "d3-time@npm:2.1.1"
-  dependencies:
-    d3-array: "npm:2"
-  checksum: 10/fe780d761e5a70e4afe5a13184a7011e25da4a0e56abef18ba414441cdc94fd67fdb992da72f12154efc3488da7cfde1c83b33ee60d836b5828cf75a38514afb
   languageName: node
   linkType: hard
 
@@ -17013,6 +17002,15 @@ __metadata:
   version: 4.2.11
   resolution: "graceful-fs@npm:4.2.11"
   checksum: 10/bf152d0ed1dc159239db1ba1f74fdbc40cb02f626770dcd5815c427ce0688c2635a06ed69af364396da4636d0408fcf7d4afdf7881724c3307e46aff30ca49e2
+  languageName: node
+  linkType: hard
+
+"gradient-path@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "gradient-path@npm:2.3.0"
+  dependencies:
+    tinygradient: "npm:^1.0.0"
+  checksum: 10/8e75214c5974416c542caefb4bbfb38a6a598dcfd9288a833439b7ee9ea101cb20526a795e561b39b277574fc74dece56a76fb58589e2bb7fbd25638000e48f9
   languageName: node
   linkType: hard
 
@@ -24318,7 +24316,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rfdc@npm:^1.3.0, rfdc@npm:^1.4.1":
+"rfdc@npm:^1.4.1":
   version: 1.4.1
   resolution: "rfdc@npm:1.4.1"
   checksum: 10/2f3d11d3d8929b4bfeefc9acb03aae90f971401de0add5ae6c5e38fec14f0405e6a4aad8fdb76344bfdd20c5193110e3750cbbd28ba86d73729d222b6cf4a729
@@ -26261,6 +26259,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tinycolor2@npm:^1.0.0":
+  version: 1.6.0
+  resolution: "tinycolor2@npm:1.6.0"
+  checksum: 10/066c3acf4f82b81c58a0d3ab85f49407efe95ba87afc3c7a16b1d77625193dfbe10dd46c26d0a263c1137361dd5a6a68bff2fb71def5fb9b9aec940fb030bcd4
+  languageName: node
+  linkType: hard
+
 "tinyexec@npm:^1.0.0":
   version: 1.0.1
   resolution: "tinyexec@npm:1.0.1"
@@ -26275,6 +26280,16 @@ __metadata:
     fdir: "npm:^6.4.3"
     picomatch: "npm:^4.0.2"
   checksum: 10/4ad28701fa9118b32ef0e27f409e0a6c5741e8b02286d50425c1f6f71e6d6c6ded9dd5bbbbb714784b08623c4ec4d150151f1d3d996cfabe0495f908ab4f7002
+  languageName: node
+  linkType: hard
+
+"tinygradient@npm:^1.0.0":
+  version: 1.1.5
+  resolution: "tinygradient@npm:1.1.5"
+  dependencies:
+    "@types/tinycolor2": "npm:^1.4.0"
+    tinycolor2: "npm:^1.0.0"
+  checksum: 10/ba33884240f96fffb91b68300bc984b63c2a57617c325063ccadea8b69b006fb341ff44af7b249451fa68fd01325aabde105fdfa28f179400749f5edea756a14
   languageName: node
   linkType: hard
 
@@ -26649,7 +26664,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:2.8.1, tslib@npm:^2.0.0, tslib@npm:^2.1.0, tslib@npm:^2.2.0, tslib@npm:^2.3.0, tslib@npm:^2.4.0, tslib@npm:^2.4.1, tslib@npm:^2.5.0, tslib@npm:^2.6.2, tslib@npm:^2.8.1":
+"tslib@npm:2.8.1, tslib@npm:^2.0.0, tslib@npm:^2.1.0, tslib@npm:^2.2.0, tslib@npm:^2.3.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.4.1, tslib@npm:^2.5.0, tslib@npm:^2.6.2, tslib@npm:^2.8.1":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10/3e2e043d5c2316461cb54e5c7fe02c30ef6dccb3384717ca22ae5c6b5bc95232a6241df19c622d9c73b809bea33b187f6dbc73030963e29950c2141bc32a79f7
