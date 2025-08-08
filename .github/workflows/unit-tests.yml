@@ -244,13 +244,13 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Download backend coverage
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: backend-coverage
           path: packages/backend/coverage
 
       - name: Download front-end coverage
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: frontend-coverage
           path: packages/frontend/coverage
