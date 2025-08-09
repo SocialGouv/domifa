@@ -74,7 +74,11 @@
             <span *ngIf="!loading">Confirmer la suppression</span>
 
             <span *ngIf="loading"
-              ><fa-icon [icon]="['fas', 'circle-notch']" [spin]="true">
+              ><fa-icon
+                [icon]="['fas', 'circle-notch']"
+                animation="spin"
+                aria-hidden="true"
+              >
               </fa-icon>
               Suppression en cours...</span
             >
