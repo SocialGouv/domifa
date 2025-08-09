@@ -8,11 +8,7 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
   name = "createDatabaseMigration1603812391580";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    if (
-      domifaConfig().envId === "prod" ||
-      domifaConfig().envId === "preprod" ||
-      domifaConfig().envId === "dev"
-    ) {
+    if (domifaConfig().envId === "prod" || domifaConfig().envId === "preprod") {
       return;
     }
 

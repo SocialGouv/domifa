@@ -1,23 +1,23 @@
-pg:
-  ~chart: pg
-  cnpg-cluster:
-    annotations:
-      oblik.socialgouv.io/enabled: "false"
-      ressource.socialgouv.io/enforced: "true"
-    resources:
-      requests:
-        memory: "4Gi"
-        cpu: "2"
-      limits:
-        memory: "4Gi"
-        cpu: "2"
-    persistence:
-      size: 20Gi
-  # this force ce PG cluster to be destroyed on redeploys
-  ~preDeploy.cleaner:
-    match:
-      kind: Cluster
-    value: true
+# pg:
+#   ~chart: pg
+#   cnpg-cluster:
+#     annotations:
+#       oblik.socialgouv.io/enabled: "false"
+#       ressource.socialgouv.io/enforced: "true"
+#     resources:
+#       requests:
+#         memory: "4Gi"
+#         cpu: "2"
+#       limits:
+#         memory: "4Gi"
+#         cpu: "2"
+#     persistence:
+#       size: 20Gi
+#   # this force ce PG cluster to be destroyed on redeploys
+#   ~preDeploy.cleaner:
+#     match:
+#       kind: Cluster
+#     value: true
 
 jobs:
   runs:
