@@ -1,3 +1,12 @@
+## [2.212.1](https://github.com/SocialGouv/domifa/compare/v2.212.0...v2.212.1) (2025-08-09)
+
+
+### Bug Fixes
+
+* **back:** add currentSupervisor decorator ([66753d2](https://github.com/SocialGouv/domifa/commit/66753d25987798f5ab37a6d54c5b829ef820b2a4))
+* **back:** traiter retour revue ([40de8eb](https://github.com/SocialGouv/domifa/commit/40de8eb5fe078a055a8a0cff9abc85a46e9f3378))
+* **backend:** fix unit tests ([21b9656](https://github.com/SocialGouv/domifa/commit/21b9656f5cec91b1ce94f5263608e9fbd7564837))
+
 # [2.212.0](https://github.com/SocialGouv/domifa/compare/v2.211.0...v2.212.0) (2025-08-08)
 
 
