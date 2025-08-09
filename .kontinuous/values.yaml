@@ -10,11 +10,11 @@ backend:
   containerPort: 3000
   resources:
     requests:
-      cpu: 1
-      memory: 1Gi
-    limits: # exports need a lot of CPU/RAM ATM
-      cpu: 3
+      cpu: 2
       memory: 3Gi
+    limits: # exports need a lot of CPU/RAM ATM
+      cpu: 4
+      memory: 4Gi
   startupProbe:
     httpGet:
       path: /healthz
@@ -80,11 +80,11 @@ backend-export:
       nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
   resources:
     requests:
-      cpu: 0.3
-      memory: 512Mi
-    limits: # exports need a lot of CPU/RAM ATM
-      cpu: 3
+      cpu: 2
       memory: 3Gi
+    limits: # exports need a lot of CPU/RAM ATM
+      cpu: 4
+      memory: 4Gi
   startupProbe:
     httpGet:
       path: /healthz
