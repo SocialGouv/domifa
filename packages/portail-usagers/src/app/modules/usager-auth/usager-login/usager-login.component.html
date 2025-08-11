@@ -371,7 +371,11 @@
           <button [disabled]="loading" type="submit" class="btn btn-primary">
             <span *ngIf="!loading">Connexion</span>
             <span *ngIf="loading">
-              <fa-icon [icon]="['fas', 'circle-notch']" [spin]="true"></fa-icon>
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'circle-notch']"
+                animation="spin"
+              ></fa-icon>
               Connexion en cours...
             </span>
           </button>

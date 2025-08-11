@@ -4574,33 +4574,33 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/portail-usagers@workspace:packages/portail-usagers"
   dependencies:
-    "@angular-devkit/architect": "npm:^0.1802.20"
-    "@angular-devkit/build-angular": "npm:^17.3.17"
-    "@angular-devkit/core": "npm:^17.3.17"
-    "@angular-devkit/schematics": "npm:^17.3.17"
+    "@angular-devkit/architect": "npm:^0.2001.5"
+    "@angular-devkit/build-angular": "npm:^18.2.13"
+    "@angular-devkit/core": "npm:^18.2.13"
+    "@angular-devkit/schematics": "npm:^18.1.1"
     "@angular-eslint/builder": "npm:^17.5.3"
     "@angular-eslint/eslint-plugin": "npm:^17.5.3"
     "@angular-eslint/eslint-plugin-template": "npm:^17.5.3"
     "@angular-eslint/schematics": "npm:^17.5.3"
     "@angular-eslint/template-parser": "npm:^17.5.3"
-    "@angular/animations": "npm:^17.3.12"
-    "@angular/cli": "npm:^17.3.17"
-    "@angular/common": "npm:^17.3.12"
-    "@angular/compiler": "npm:^17.3.12"
-    "@angular/compiler-cli": "npm:^17.3.12"
-    "@angular/core": "npm:^17.3.12"
-    "@angular/forms": "npm:^17.3.12"
-    "@angular/language-service": "npm:^17.3.12"
-    "@angular/localize": "npm:^17.3.12"
-    "@angular/platform-browser": "npm:^17.3.12"
-    "@angular/platform-browser-dynamic": "npm:^17.3.12"
-    "@angular/router": "npm:^17.3.12"
+    "@angular/animations": "npm:^18.2.13"
+    "@angular/cli": "npm:^18.2.13"
+    "@angular/common": "npm:^18.2.13"
+    "@angular/compiler": "npm:^18.2.13"
+    "@angular/compiler-cli": "npm:^18.2.13"
+    "@angular/core": "npm:^18.2.13"
+    "@angular/forms": "npm:^18.2.13"
+    "@angular/language-service": "npm:^18.2.13"
+    "@angular/localize": "npm:^18.2.13"
+    "@angular/platform-browser": "npm:^18.2.13"
+    "@angular/platform-browser-dynamic": "npm:^18.2.13"
+    "@angular/router": "npm:^18.2.13"
     "@domifa/common": "workspace:^"
-    "@fortawesome/angular-fontawesome": "npm:0.14.1"
+    "@fortawesome/angular-fontawesome": "npm:0.15.0"
     "@fortawesome/fontawesome-svg-core": "npm:^6.6.0"
     "@fortawesome/free-regular-svg-icons": "npm:^6.6.0"
     "@fortawesome/free-solid-svg-icons": "npm:^6.6.0"
-    "@ng-bootstrap/ng-bootstrap": "npm:^16.0.0"
+    "@ng-bootstrap/ng-bootstrap": "npm:^17.0.1"
     "@popperjs/core": "npm:^2.11.8"
     "@sentry/angular": "npm:^10.3.0"
     "@types/file-saver": "npm:^2.0.7"
@@ -7092,22 +7092,6 @@ __metadata:
     "@popperjs/core": ^2.11.6
     rxjs: ^6.5.3 || ^7.4.0
   checksum: 10/4638e289bf677f93c1ae30aa5af35a08053a18f35c43d283e76ba718e14d7861153f0aad6a76647c42b8f43617452ae8ecbc55507f851c92fffdd69cc9150cbe
-  languageName: node
-  linkType: hard
-
-"@ng-bootstrap/ng-bootstrap@npm:^16.0.0":
-  version: 16.0.0
-  resolution: "@ng-bootstrap/ng-bootstrap@npm:16.0.0"
-  dependencies:
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    "@angular/common": ^17.0.0
-    "@angular/core": ^17.0.0
-    "@angular/forms": ^17.0.0
-    "@angular/localize": ^17.0.0
-    "@popperjs/core": ^2.11.8
-    rxjs: ^6.5.3 || ^7.4.0
-  checksum: 10/ae747d9d04cbfdcdf84fa8ee75692ecbbc498e2c1af1299e9a18112cf313ad770a3c59b046f6fa2f52804ffc9eb86a445ea7a5a07e329f0c6e61db95b9dddf05
   languageName: node
   linkType: hard
 
