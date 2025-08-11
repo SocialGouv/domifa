@@ -1,3 +1,10 @@
+## [2.212.3](https://github.com/SocialGouv/domifa/compare/v2.212.2...v2.212.3) (2025-08-11)
+
+
+### Bug Fixes
+
+* **ci:** update sentry dsn ([640370a](https://github.com/SocialGouv/domifa/commit/640370ac29f44014c9a7352273c6fc9f7fecf766))
+
 ## [2.212.2](https://github.com/SocialGouv/domifa/compare/v2.212.1...v2.212.2) (2025-08-11)
 
 
