@@ -125,9 +125,6 @@ export class UsersController {
     @Param("userUuid", new ParseUUIDPipe()) _userUuid: string,
     @CurrentChosenUserStructure() chosenUserStructure: UserStructure
   ): Promise<UserStructureProfile> {
-    const userToUpdate = await userStructureRepository.findOneBy({
-      uuid: chosenUserStructure.uuid,
-    });
     await userStructureRepository.update(
       {
         uuid: chosenUserStructure.uuid,
@@ -141,9 +138,9 @@ export class UsersController {
       role: userStructureAuth.role,
       context: {
         newRole: updateRoleDto.role,
-        oldRole: userToUpdate.role,
-        userId: userToUpdate.id,
-        structureId: userToUpdate.structureId,
+        oldRole: chosenUserStructure.role,
+        userId: chosenUserStructure.id,
+        structureId: chosenUserStructure.structureId,
       },
     });
     return userStructureRepository.findOneBy({
