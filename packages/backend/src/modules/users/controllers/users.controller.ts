@@ -223,6 +223,9 @@ export class UsersController {
     });
     await this.appLogService.create<UserStructureCreateLogContext>({
       action: "USER_DELETE",
+      userId: userStructureAuth._userId,
+      role: userStructureAuth.role,
+      structureId: userStructureAuth.structureId,
       context: {
         role: chosenUserStructure.role,
         userId: chosenUserStructure.id,
