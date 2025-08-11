@@ -75,6 +75,8 @@ describe("Import Controller", () => {
 
     const expectedLog: AppLog = {
       userId: authInfo.id,
+      structureId: authInfo.structureId,
+      role: authInfo.role,
       context: expectedLogContextEntree,
       action: "IMPORT_USAGERS_FAILED",
     };
@@ -117,6 +119,8 @@ describe("Import Controller", () => {
         nombreTotal: 0,
       },
       userId: authInfo.id,
+      structureId: authInfo.structureId,
+      role: authInfo.role,
     });
     expect(response.status).toBe(HttpStatus.OK);
     expect(JSON.parse(response.text)).toEqual({
@@ -150,6 +154,8 @@ describe("Import Controller", () => {
         nombreTotal: 0,
       },
       userId: authInfo.id,
+      structureId: authInfo.structureId,
+      role: authInfo.role,
     });
     expect(response.status).toBe(HttpStatus.OK);
     expect(JSON.parse(response.text)).toEqual({
