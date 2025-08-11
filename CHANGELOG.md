@@ -1,3 +1,11 @@
+## [2.212.2](https://github.com/SocialGouv/domifa/compare/v2.212.1...v2.212.2) (2025-08-11)
+
+
+### Bug Fixes
+
+* **back:** ajout de la structureId et le role aux logs d'import ([b6d66a8](https://github.com/SocialGouv/domifa/commit/b6d66a80d9e3d0814b6203745618d92d73caa23e))
+* **tests:** clearing mocks after each test case ([7385194](https://github.com/SocialGouv/domifa/commit/73851944a4bebce595dcf5309d388061de5eaf9b))
+
 ## [2.212.1](https://github.com/SocialGouv/domifa/compare/v2.212.0...v2.212.1) (2025-08-09)
 
 
