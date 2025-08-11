@@ -18,6 +18,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import {
   USER_STRUCTURE_ROLE_ALL,
+  UserAdminAuthenticated,
   UserProfile,
   UserStructureAuthenticated,
 } from "../../../_common/model";
@@ -263,7 +264,7 @@ export class UsersController {
   @Post("register")
   @AllowUserStructureRoles("admin")
   public async registerUser(
-    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentUser() user: UserStructureAuthenticated | UserAdminAuthenticated, // workaround : this controller is called in another controller
     @Res() res: Response,
     @Body() registerUserDto: RegisterUserStructureAdminDto
   ): Promise<any> {
@@ -295,10 +296,11 @@ export class UsersController {
           async () => {
             await this.appLogService.create<UserStructureCreateLogContext>({
               action: "USER_CREATE",
+              userId: user.id,
               context: {
-                role: user.role,
-                userId: user.id,
-                structureId: user.structureId,
+                role: newUser.role,
+                userId: newUser.id,
+                structureId: newUser.structureId,
               },
             });
             return res.status(HttpStatus.OK).json({ message: "OK" });

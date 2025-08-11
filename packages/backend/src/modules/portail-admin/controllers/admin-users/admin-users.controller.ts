@@ -13,11 +13,10 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags, ApiBearerAuth, ApiOperation } from "@nestjs/swagger";
-import { UserStructureAuthenticated } from "../../../../_common/model";
+import { UserAdminAuthenticated } from "../../../../_common/model";
 import {
   AllowUserProfiles,
   AllowUserSupervisorRoles,
-  CurrentUser,
 } from "../../../../auth/decorators";
 import { AppUserGuard } from "../../../../auth/guards";
 import { appLogger, ExpressResponse } from "../../../../util";
@@ -44,6 +43,7 @@ import {
   AdminUserCrudLogContext,
   AdminUserRoleChangeLogContext,
 } from "../../../app-logs/app-log-context.types";
+import { CurrentSupervisor } from "../../../../auth/decorators/current-supervisor.decorator";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("dashboard")
@@ -59,11 +59,11 @@ export class AdminUsersController {
 
   @Post("register-user-structure")
   public async registerUserStructureAdmin(
-    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentSupervisor() user: UserAdminAuthenticated,
     @Res() res: ExpressResponse,
     @Body() registerUserDto: RegisterUserStructureAdminDto
   ): Promise<ExpressResponse> {
-    const userController = new UsersController(this.appLogsService); // D'ou c'est un mauvaise idée de instancier directement le controleur ici
+    const userController = new UsersController(this.appLogsService);
     await this.appLogsService.create({
       userId: user.id,
       action: "ADMIN_CREATE_USER_STRUCTURE",
@@ -73,7 +73,7 @@ export class AdminUsersController {
 
   @Patch("elevate-user-role")
   public async elevateUserRoleToAdmin(
-    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentSupervisor() user: UserAdminAuthenticated,
     @Res() res: ExpressResponse,
     @Body() elevateRoleDto: ElevateUserRoleDto
   ): Promise<ExpressResponse> {
@@ -113,7 +113,7 @@ export class AdminUsersController {
 
   @Post("register-user-supervisor")
   public async registerNewSupervisor(
-    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentSupervisor() user: UserAdminAuthenticated,
     @Res() res: ExpressResponse,
     @Body() registerUserDto: RegisterUserSupervisorDto
   ): Promise<ExpressResponse> {
@@ -202,7 +202,7 @@ export class AdminUsersController {
 
   @Patch(":uuid")
   public async patchUserSupervisor(
-    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentSupervisor() user: UserAdminAuthenticated,
     @Res() res: ExpressResponse,
     @Body() patchUserDto: PatchUserSupervisorDto,
     @Param("uuid", new ParseUUIDPipe()) uuid: string
@@ -239,7 +239,7 @@ export class AdminUsersController {
 
   @Delete(":uuid")
   public async deleteUserSupervisor(
-    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentSupervisor() user: UserAdminAuthenticated,
     @Res() res: ExpressResponse,
     @Param("uuid", new ParseUUIDPipe()) uuid: string
   ): Promise<ExpressResponse> {
