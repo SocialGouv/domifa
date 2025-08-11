@@ -137,6 +137,8 @@ export class UsersController {
     );
     await this.appLogService.create<UserStructureRoleChangeLogContext>({
       action: "USER_ROLE_CHANGE",
+      userId: userStructureAuth.id,
+      role: userStructureAuth.role,
       context: {
         newRole: updateRoleDto.role,
         oldRole: userToUpdate.role,
