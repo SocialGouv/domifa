@@ -58,6 +58,10 @@ describe("Import Controller", () => {
     controller = context.module.get<ImportController>(ImportController);
   });
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);
   });
