@@ -1,5 +1,8 @@
 import { CommonModule } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -37,9 +40,9 @@ import { DigitOnlyDirective } from "../shared/directives";
     StructuresCustomDocsTableComponent,
   ],
   exports: [StructuresFormComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     FormsModule,
-    HttpClientModule,
     NgbModule,
     ReactiveFormsModule,
     SharedModule,
@@ -53,6 +56,6 @@ import { DigitOnlyDirective } from "../shared/directives";
     TableHeadSortComponent,
     DigitOnlyDirective,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
 })
 export class StructuresModule {}

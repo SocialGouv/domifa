@@ -1,6 +1,9 @@
 import { ImpactComponent } from "./components/impact/impact.component";
 import { CommonModule } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
   NgModule,
@@ -29,18 +32,18 @@ import { FormatBigNumberPipe } from "./pipes";
     ImpactLineComponent,
     ImpactComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   imports: [
     CommonModule,
     NgbModule,
     NgxChartsModule,
     CountUpModule,
     SharedModule,
-    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     StatsRoutingModule,
     FormatBigNumberPipe,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
 })
 export class StatsModule {}

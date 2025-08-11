@@ -1,5 +1,8 @@
 import { CommonModule } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
@@ -60,21 +63,6 @@ import { ReferrerNamePipe } from "./pipes/referrer-name.pipe";
     EditUsagerDocComponent,
     ReferrerNamePipe,
   ],
-  imports: [
-    CommonModule,
-    DisplayTableImageComponent,
-    FormsModule,
-    HttpClientModule,
-    NgbModule,
-    NgxIntlTelInputModule,
-    ReactiveFormsModule,
-    RouterModule.forChild([]),
-    SharedModule,
-    SortArrayPipe,
-    TableHeadSortComponent,
-    FullNamePipe,
-    UsersModule,
-  ],
   exports: [
     DecisionRadiationFormComponent,
     ReferrerNamePipe,
@@ -94,10 +82,25 @@ import { ReferrerNamePipe } from "./pipes/referrer-name.pipe";
     UploadComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [
+    CommonModule,
+    DisplayTableImageComponent,
+    FormsModule,
+    NgbModule,
+    NgxIntlTelInputModule,
+    ReactiveFormsModule,
+    RouterModule.forChild([]),
+    SharedModule,
+    SortArrayPipe,
+    TableHeadSortComponent,
+    FullNamePipe,
+    UsersModule,
+  ],
   providers: [
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+    provideHttpClient(withInterceptorsFromDi()),
   ],
 })
 export class UsagerSharedModule {}

@@ -1,5 +1,8 @@
 import { CommonModule } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 
@@ -41,11 +44,11 @@ import {
     AssignReferrersComponent,
     DateFrConditionalDirective,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     CommonModule,
     FormsModule,
     UsagerSharedModule,
-    HttpClientModule,
     NgbModule,
     SharedModule,
     UsersModule,
@@ -54,6 +57,6 @@ import {
     FormatInternationalPhoneNumberPipe,
     FullNamePipe,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
 })
 export class ManageUsagersModule {}
