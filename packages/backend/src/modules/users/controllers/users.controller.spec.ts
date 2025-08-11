@@ -17,6 +17,7 @@ import { TESTS_USERS_STRUCTURE } from "../../../_tests";
 import { usersDeletor } from "../services/users-deletor.service";
 import { MailsModule } from "../../mails/mails.module";
 import { AppLogsService } from "../../app-logs/app-logs.service";
+import { userStructureRepository } from "../../../database";
 
 describe("Users Controller", () => {
   let controller: UsersController;
@@ -64,12 +65,17 @@ describe("Users Controller", () => {
             structure: { ...POST_USER_STRUCTURE_BODY.structure, id: 1 },
           },
         });
+
+        const user = await userStructureRepository.findOneByOrFail({
+          email: "test@test.com",
+        });
         expect(appLogService.create).toHaveBeenCalledWith({
           action: "USER_CREATE",
+          userId: context.user.userId,
           context: {
             role: POST_USER_STRUCTURE_BODY.role,
             structureId: 1,
-            userId: POST_USER_STRUCTURE_BODY.id,
+            userId: user.id,
           },
         });
         expect(response.status).toBe(200);
