@@ -12,9 +12,9 @@ documentation:
 
 # List all the tools used by the team
 tools:
-  sentry (backend): https://sentry.fabrique.social.gouv.fr/incubateur/domifa-backend
-  sentry (frontend): https://sentry.fabrique.social.gouv.fr/incubateur/domifa-frontend
-  sentry (portail-usager): https://sentry.fabrique.social.gouv.fr/incubateur/domifa-portail-usagers
+  sentry (backend): https://sentry2.fabrique.social.gouv.fr/incubateur/domifa-backend
+  sentry (frontend): https://sentry2.fabrique.social.gouv.fr/incubateur/domifa-frontend
+  sentry (portail-usager): https://sentry2.fabrique.social.gouv.fr/incubateur/domifa-portail-usagers
   matomo: https://matomo.fabrique.social.gouv.fr
   mails (prod+dev): https://app.tipimail.com/
   mails (dev): https://mailtrap.io/

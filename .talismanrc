@@ -1,4 +1,18 @@
 fileignoreconfig:
+- filename: .github/workflows/preproduction.yml
+  checksum: afc7a55dcadffe6e8d2d24c127e4987ab5466f72e58baec96e4f5ca7a1c0fec3
+- filename: .github/workflows/production.yml
+  checksum: 3f13bbe9b300af534e9daca72e94d9f87b08d4d853f36353d2c2e1618154d29a
+- filename: .github/workflows/review-auto.yaml
+  checksum: 238e200e9beebe0caf2ef716961248ee48bd1d3beb3e5753ba261a71b8665bc1
+- filename: .github/workflows/review.yml
+  checksum: 8f4ebff426155a29d4876ace46b055ad16bcba76ebef666f198db9dc01a591fc
+- filename: .kontinuous/env/dev/templates/backend.sealed-secret.yaml
+  checksum: 18ff2521f58f636cc2f32584ef7240d9abf9116d136e35dbd5d8d56fb1d7ecc0
+- filename: .kontinuous/env/preprod/templates/backend.sealed-secret.yaml
+  checksum: 0917aee283e9399d2dec53764d29039327b0c1cd2d360bc6ec9b41f1a431b606
+- filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
+  checksum: 8fde5b286c60c34cfa15985ca22a07d530aa2260c08d9d5c9e301cb86649af30
 - filename: _docs/dev/0.run-local-env.md
   checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
@@ -24,6 +38,6 @@ fileignoreconfig:
 - filename: packages/portail-admins/src/app/modules/admin-structures/utils/structure-filter-criteria.ts
   checksum: c54f1bf45a44280960869561243668e7a92713fb5265f008a95fc3fe66014bf1
 - filename: yarn.lock
-  checksum: 019fe82a4a9dab1293f6359f9098c6f197e6ec3848e5c38362414c45c59385c1
+  checksum: 682e883b8e5e7ba736244c6ee4988888c7a27da013addcbae10579d3bd8c50e9
 threshold: medium
 version: "1.0"
