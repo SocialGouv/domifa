@@ -17,6 +17,8 @@ import { OpenDataPlacesModule } from "./modules/open-data/open-data-places.modul
 import { UsersModule } from "./modules/users/users.module";
 import { HealthModule } from "./modules/health/health.module";
 import { StatsModule } from "./modules/stats/stats.module";
+import { APP_INTERCEPTOR } from "@nestjs/core";
+import { AppSentryInterceptor } from "./util";
 
 @Module({
   exports: [FileManagerService],
@@ -37,6 +39,13 @@ import { StatsModule } from "./modules/stats/stats.module";
     ContactSupportModule,
     OpenDataPlacesModule,
   ],
-  providers: [FileManagerService, InteractionsService],
+  providers: [
+    FileManagerService,
+    InteractionsService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: AppSentryInterceptor,
+    },
+  ],
 })
 export class AppModule {}

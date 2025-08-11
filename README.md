@@ -101,9 +101,9 @@ Le projet utilise PostgreSQL avec TypeORM pour les migrations :
 
 ### Outils de monitoring
 
-- **Sentry Backend** : https://sentry.fabrique.social.gouv.fr/incubateur/domifa-backend
-- **Sentry Frontend** : https://sentry.fabrique.social.gouv.fr/incubateur/domifa-frontend
-- **Sentry Portail** : https://sentry.fabrique.social.gouv.fr/incubateur/domifa-portail-usagers
+- **Sentry Backend** : https://sentry2.fabrique.social.gouv.fr/incubateur/domifa-backend
+- **Sentry Frontend** : https://sentry2.fabrique.social.gouv.fr/incubateur/domifa-frontend
+- **Sentry Portail** : https://sentry2.fabrique.social.gouv.fr/incubateur/domifa-portail-usagers
 - **Matomo** : https://matomo.fabrique.social.gouv.fr
 
 ### Services

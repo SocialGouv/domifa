@@ -92,7 +92,7 @@ jobs:
             DOMIFA_FRONTEND_URL=https://domifa.fabrique.social.gouv.fr/
             DOMIFA_PORTAIL_ADMINS_URL=https://admin-domifa.fabrique.social.gouv.fr/
             DOMIFA_PORTAIL_USAGERS_URL=https://mon-domifa.fabrique.social.gouv.fr/
-            DOMIFA_SENTRY_DSN_FRONTEND=https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31
+            DOMIFA_SENTRY_DSN_FRONTEND=https://f06e9e7c06ee8a2bae5318db1e60ffc7@sentry2.fabrique.social.gouv.fr/3
 
   build-portail-admins:
     environment: build-production
@@ -133,7 +133,7 @@ jobs:
             DOMIFA_BACKEND_URL=https://domifa-api.fabrique.social.gouv.fr/
             PRODUCTION=true
             DOMIFA_FRONTEND_URL=https://domifa.fabrique.social.gouv.fr/
-            DOMIFA_SENTRY_DSN_PORTAIL_ADMIN=https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31
+            DOMIFA_SENTRY_DSN_PORTAIL_ADMIN=https://dc9ede612eba2fcb6abf404bd44b9b3b@sentry2.fabrique.social.gouv.fr/11
 
   build-portail-usagers:
     environment: build-production
@@ -174,10 +174,16 @@ jobs:
             DOMIFA_BACKEND_URL=https://domifa-api.fabrique.social.gouv.fr/
             PRODUCTION=true
             DOMIFA_FRONTEND_META_ROBOTS=index,follow
-            DOMIFA_SENTRY_DSN_PORTAIL=https://904877ea9ec4454aa1be7b629a6ea340@sentry.fabrique.social.gouv.fr/58
+            DOMIFA_SENTRY_DSN_PORTAIL=https://69e6fc82a5ef491392aba6c58303af18@sentry2.fabrique.social.gouv.fr/5
 
   kontinuous:
-    needs: [build-backend, build-frontend, build-portail-admins, build-portail-usagers]
+    needs:
+      [
+        build-backend,
+        build-frontend,
+        build-portail-admins,
+        build-portail-usagers,
+      ]
     name: "Deploy on Kubernetes 🐳"
     uses: socialgouv/workflows/.github/workflows/use-ks-gh-production-atlas.yaml@v1
     secrets: inherit

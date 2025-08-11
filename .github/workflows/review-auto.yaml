@@ -118,7 +118,7 @@ jobs:
             DOMIFA_PORTAIL_USAGERS_URL=https://${{ steps.env.outputs.subdomain_mon }}.ovh.fabrique.social.gouv.fr/
             DOMIFA_FRONTEND_URL=https://${{ steps.env.outputs.subdomain }}.ovh.fabrique.social.gouv.fr/
             DOMIFA_FRONTEND_META_ROBOTS=noindex,nofollow
-            DOMIFA_SENTRY_DSN_FRONTEND=https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31
+            DOMIFA_SENTRY_DSN_FRONTEND=https://f06e9e7c06ee8a2bae5318db1e60ffc7@sentry2.fabrique.social.gouv.fr/3
 
   build-portail-admins:
     environment: build-review-auto
@@ -170,7 +170,7 @@ jobs:
             DOMIFA_ENV_ID=dev
             DOMIFA_BACKEND_URL=https://${{ steps.env.outputs.subdomain_api }}.ovh.fabrique.social.gouv.fr/
             DOMIFA_FRONTEND_URL=https://${{ steps.env.outputs.subdomain }}.ovh.fabrique.social.gouv.fr/
-            DOMIFA_SENTRY_DSN_PORTAIL_ADMIN=https://5dab749719e9488798341efad0947291@sentry.fabrique.social.gouv.fr/31
+            DOMIFA_SENTRY_DSN_PORTAIL_ADMIN=https://dc9ede612eba2fcb6abf404bd44b9b3b@sentry2.fabrique.social.gouv.fr/11
 
   build-portail-usagers:
     environment: build-review-auto
@@ -221,11 +221,17 @@ jobs:
           build-args: |
             DOMIFA_ENV_ID=dev
             DOMIFA_BACKEND_URL=https://${{ steps.env.outputs.subdomain_api }}.ovh.fabrique.social.gouv.fr/
-            DOMIFA_SENTRY_DSN_PORTAIL=https://904877ea9ec4454aa1be7b629a6ea340@sentry.fabrique.social.gouv.fr/58
+            DOMIFA_SENTRY_DSN_PORTAIL=https://69e6fc82a5ef491392aba6c58303af18@sentry2.fabrique.social.gouv.fr/5
             DOMIFA_FRONTEND_META_ROBOTS=noindex,nofollow
 
   kontinuous:
-    needs: [build-backend, build-frontend, build-portail-admins, build-portail-usagers]
+    needs:
+      [
+        build-backend,
+        build-frontend,
+        build-portail-admins,
+        build-portail-usagers,
+      ]
     name: "Deploy on Kubernetes 🐳"
     uses: socialgouv/workflows/.github/workflows/use-ks-gh-review-auto-atlas.yaml@v1
     secrets: inherit
