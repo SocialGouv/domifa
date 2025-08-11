@@ -1,7 +1,10 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { EditUserComponent } from "./components/edit-user/edit-user.component";
-import { HttpClientModule } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
@@ -25,7 +28,6 @@ import { DeleteUserComponent } from "./components/delete-user/delete-user.compon
   imports: [
     TableHeadSortComponent,
     FormsModule,
-    HttpClientModule,
     NgbModule,
     UsersModule,
     ReactiveFormsModule,
@@ -35,5 +37,6 @@ import { DeleteUserComponent } from "./components/delete-user/delete-user.compon
     FullNamePipe,
     SortArrayPipe,
   ],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
 })
 export class ManageUsersModule {}

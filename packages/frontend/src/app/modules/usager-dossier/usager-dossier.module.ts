@@ -1,5 +1,8 @@
 import { CommonModule } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
@@ -49,12 +52,12 @@ import { FullNamePipe } from "../usager-shared/pipes";
     DisplayContactDetailsDecisionComponent,
     DecisionStandbyFormComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     CommonModule,
     UsagerSharedModule,
     FormsModule,
     SharedModule,
-    HttpClientModule,
     NgbModule,
     ReactiveFormsModule,
     UsagerDossierRoutingModule,
@@ -64,11 +67,11 @@ import { FullNamePipe } from "../usager-shared/pipes";
     FormatInternationalPhoneNumberPipe,
     FullNamePipe,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+    provideHttpClient(withInterceptorsFromDi()),
   ],
 })
 export class UsagerDossierModule {}
