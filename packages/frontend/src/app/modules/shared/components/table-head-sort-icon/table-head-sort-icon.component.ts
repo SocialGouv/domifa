@@ -6,7 +6,6 @@ import {
   faArrowUp,
   faSort,
 } from "@fortawesome/free-solid-svg-icons";
-
 import { SortValues } from "@domifa/common";
 
 @Component({
