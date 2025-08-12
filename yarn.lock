@@ -4444,11 +4444,12 @@ __metadata:
     "@ng-bootstrap/ng-bootstrap": "npm:^17.0.1"
     "@ngrx/effects": "npm:^18.1.1"
     "@ngrx/entity": "npm:^18.1.1"
+    "@ngrx/operators": "npm:^18.0.0"
     "@ngrx/store": "npm:^18.1.1"
     "@ngrx/store-devtools": "npm:^18.1.1"
     "@popperjs/core": "npm:^2.11.8"
     "@schematics/angular": "npm:^15.2.11"
-    "@schematics/update": "npm:^0.1102.19"
+    "@schematics/update": "npm:^0.1102.18"
     "@sentry/angular": "npm:^10.3.0"
     "@swimlane/ngx-charts": "npm:^20.5.0"
     "@types/file-saver": "npm:^2.0.7"
@@ -7143,6 +7144,17 @@ __metadata:
     "@ngrx/store": 18.1.1
     rxjs: ^6.5.3 || ^7.5.0
   checksum: 10/1acb2ae4adaf2c7c317ef0a78c972da46cfe0b8b200918bbf358a925054ff024b46ee2cf7f515a920930abc3e27afe493cdbb0ce2aa2626b2ac436d30a68dc1d
+  languageName: node
+  linkType: hard
+
+"@ngrx/operators@npm:^18.0.0":
+  version: 18.1.1
+  resolution: "@ngrx/operators@npm:18.1.1"
+  dependencies:
+    tslib: "npm:^2.3.0"
+  peerDependencies:
+    rxjs: ^6.5.3 || ^7.4.0
+  checksum: 10/c246e774f37b5b5a87607086541f5df12847ae7450e9b2c523683f84834e5ebaea802fac200eb99478e15ddbd79c34c1c7a94538553467f66bd50ae27ce4cb43
   languageName: node
   linkType: hard
 
