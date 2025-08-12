@@ -98,6 +98,13 @@ export class StructuresController {
 
     const values = Object.values(structureSmsDto.schedule);
     const checkedDaysCount = values.filter((value) => value === true).length;
+
+    if (checkedDaysCount === 0) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "MUST_SET_AT_LEAST_1_DAY" });
+    }
+
     if (checkedDaysCount > 2) {
       return res
         .status(HttpStatus.BAD_REQUEST)

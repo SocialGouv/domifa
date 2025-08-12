@@ -181,7 +181,6 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
     if (count === 0) {
       return { atLeastOneDay: true };
     }
-    
     if (count > 2) {
       return { moreThanTwoDays: true };
     }

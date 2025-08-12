@@ -1,5 +1,4 @@
 import { IsBoolean } from "class-validator";
-
 export class ScheduleDto {
   @IsBoolean()
   monday: boolean;
