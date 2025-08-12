@@ -1,3 +1,19 @@
+# [2.213.0](https://github.com/SocialGouv/domifa/compare/v2.212.3...v2.213.0) (2025-08-12)
+
+
+### Bug Fixes
+
+* **backend:** fix unit tests ([88c60c9](https://github.com/SocialGouv/domifa/commit/88c60c991024e83da42e2c7f36895531a6c5fb48))
+* **backend:** fixing review ([be31de1](https://github.com/SocialGouv/domifa/commit/be31de10b4f372ab8c560f43108c1a0dfec7fb4b))
+* **backend:** fixing unit tests ([aedafc9](https://github.com/SocialGouv/domifa/commit/aedafc91e4037e7d0503a1499fa721ede3f774db))
+* **backend:** updating log logic ([2e7f8ff](https://github.com/SocialGouv/domifa/commit/2e7f8ffab843cbd51322b1c8ccc3544d7eb38f44))
+* **logs:** adding user Id to user delete ([125994a](https://github.com/SocialGouv/domifa/commit/125994aca00549ded562b0684d220aceea6fe6ee))
+
+
+### Features
+
+* **domifa:** log des action utilisateur structure ([b596057](https://github.com/SocialGouv/domifa/commit/b596057bc8f7c8bfb3d5381c8250f45188147b9c))
+
 ## [2.212.3](https://github.com/SocialGouv/domifa/compare/v2.212.2...v2.212.3) (2025-08-11)
 
 
