@@ -8,7 +8,7 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class StructureInformationService {
-  private endPoint = `${environment.apiUrl}structure-information`;
+  private readonly endPoint = `${environment.apiUrl}structure-information`;
 
   constructor(private readonly http: HttpClient) {}
 

@@ -510,8 +510,8 @@ CREATE TABLE public.user_usager (
     "passwordLastUpdate" timestamp with time zone,
     "lastPasswordResetDate" timestamp with time zone,
     "lastPasswordResetStructureUser" jsonb,
-    enabled boolean DEFAULT false NOT NULL,
-    "acceptTerms" timestamp with time zone
+    "acceptTerms" timestamp with time zone,
+    "isBirthDate" boolean DEFAULT false NOT NULL
 );
 CREATE SEQUENCE public.user_usager_id_seq
     AS integer

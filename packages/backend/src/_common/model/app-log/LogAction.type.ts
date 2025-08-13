@@ -15,6 +15,7 @@ export type LogAction =
   // Mon DomiFa
   | "MON_DOMIFA_DOWNLOAD_DOC"
   | "MON_DOMIFA_DOWNLOAD_DOC_TRY"
+  | "MON_DOMIFA_CREATE_PORTAIL_ACCOUNT_BULK"
   ///
   | "EXPORT_USAGERS"
   | "GET_STATS"

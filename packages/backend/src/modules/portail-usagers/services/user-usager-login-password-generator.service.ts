@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { userUsagerRepository } from "../../../database";
 import { tokenGenerator } from "../../../util";
 import { passwordGenerator } from "../../../util/encoding/passwordGenerator.service";
+import { Usager } from "@domifa/common";
 
 const CHARS_NUMBERS = "0123456789";
 const CHARS_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -38,16 +39,20 @@ async function generateUniqueLogin() {
   return login;
 }
 
-async function generateTemporyPassword(dateNaissance?: Date): Promise<{
+async function generateTemporyPassword(
+  usager?: Pick<Usager, "dateNaissance">
+): Promise<{
   salt: string;
   temporaryPassword: string;
+  isBirthDate: boolean;
   passwordHash: string;
 }> {
   const salt = await passwordGenerator.generateSalt({ length: 10 });
-
+  let isBirthDate = false;
   let temporaryPassword = "";
-  if (dateNaissance) {
-    temporaryPassword = format(dateNaissance, "ddMMyyyy");
+  if (usager?.dateNaissance) {
+    isBirthDate = true;
+    temporaryPassword = format(usager.dateNaissance, "ddMMyyyy");
   } else {
     temporaryPassword = tokenGenerator.generateString({
       length: 8,
@@ -60,5 +65,5 @@ async function generateTemporyPassword(dateNaissance?: Date): Promise<{
     salt,
   });
 
-  return { salt, temporaryPassword, passwordHash };
+  return { salt, temporaryPassword, passwordHash, isBirthDate };
 }

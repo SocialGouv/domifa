@@ -51,7 +51,17 @@
           >, onglet actif</span
         >
       </a>
-      <div class="col"></div>
+      <a
+        class="col"
+        ariaCurrentWhenActive="page"
+        routerLink="/portail-usagers/manage"
+        [ngClass]="section === 'manage' ? 'selected-section col' : 'col'"
+      >
+        <span class="statut-label">Liste des comptes</span>
+        <span class="visually-hidden" *ngIf="section === 'manage'"
+          >, onglet actif</span
+        >
+      </a>
     </nav>
   </div>
 </div>

@@ -2,4 +2,3 @@
 export * from "./usagers-auth.service";
 export * from "./user-usager-creator.service";
 export * from "./user-usager-login-password-generator.service";
-export * from "./user-usager-updator.service";

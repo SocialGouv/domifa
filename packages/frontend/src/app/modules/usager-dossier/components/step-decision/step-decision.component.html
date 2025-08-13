@@ -278,12 +278,11 @@
       <h3>Attestations et Cerfa</h3>
       <div class="d-flex justify-content-between align-items-center">
         <app-button
-          (click)="getCerfa(CerfaDocType.demande)"
+          (action)="getCerfa(CerfaDocType.demande)"
           ariaLabel="Télécharger l'attestation de demande"
           content="Télécharger l'attestation de demande"
           icon="download"
           color="primary"
-          class=""
         >
         </app-button>
         <ng-container *ngIf="me.role !== 'facteur' && me.role !== 'simple'">
