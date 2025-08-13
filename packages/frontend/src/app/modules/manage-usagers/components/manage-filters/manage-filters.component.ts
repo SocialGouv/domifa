@@ -9,7 +9,7 @@ import {
 import {
   UsagersFilterCriteria,
   UsagersFilterCriteriaSortKey,
-} from "../usager-filter/UsagersFilterCriteria";
+} from "../../classes/UsagersFilterCriteria";
 import {
   extractDeadlines,
   UsagersFilterCriteriaDernierPassage,

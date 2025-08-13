@@ -9,8 +9,8 @@ import {
   usagerActions,
   UsagerState,
 } from "../../../shared";
-import { UsagersFilterCriteria } from "../components/usager-filter";
 import { UsagerLight } from "../../../../_common/model";
+import { UsagersFilterCriteria } from "../classes";
 
 @Injectable({
   providedIn: "root",

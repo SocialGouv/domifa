@@ -6,7 +6,7 @@ import {
   faArrowUp,
   faSort,
 } from "@fortawesome/free-solid-svg-icons";
-import { UsagersFilterCriteriaSortKey } from "../../../manage-usagers/components/usager-filter";
+
 import { SortValues } from "@domifa/common";
 
 @Component({
@@ -26,7 +26,7 @@ export class TableHeadSortIconComponent {
   };
 
   @Input({ required: true })
-  public sortKey: UsagersFilterCriteriaSortKey | string;
+  public sortKey: string;
 
   @Input({ required: true }) public sortValue: SortValues;
   @Input({ required: true }) public currentKey: string;

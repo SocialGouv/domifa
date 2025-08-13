@@ -1,5 +1,5 @@
 import { UsagersFilterCriteriaStatut } from "@domifa/common";
-import { UsagerLight } from "../../../../../../../_common/model";
+import { UsagerLight } from "../../../../../../_common/model";
 import { usagerStatutChecker } from "./usagerStatutChecker.service";
 
 const usager1 = {

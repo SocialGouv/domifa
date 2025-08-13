@@ -1,6 +1,6 @@
-import { UsagerLight } from "../../../../../../../_common/model";
-import { USAGER_DEADLINES } from "../../USAGER_DEADLINES.const";
-import { UsagersFilterCriteria } from "../../UsagersFilterCriteria";
+import { UsagerLight } from "../../../../../../_common/model";
+import { USAGER_DEADLINES } from "../../../constants/USAGER_DEADLINES.const";
+import { UsagersFilterCriteria } from "../../../classes/UsagersFilterCriteria";
 
 export const usagerPassageChecker = {
   check,

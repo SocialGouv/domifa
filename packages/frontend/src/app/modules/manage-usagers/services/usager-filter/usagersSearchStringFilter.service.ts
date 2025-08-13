@@ -1,6 +1,6 @@
-import { UsagersFilterCriteria } from "../UsagersFilterCriteria";
+import { UsagersFilterCriteria } from "../../classes/UsagersFilterCriteria";
 import { format, isValid, parseISO } from "date-fns";
-import { UsagerLight } from "../../../../../../_common/model";
+import { UsagerLight } from "../../../../../_common/model";
 
 import {
   CriteriaSearchField,

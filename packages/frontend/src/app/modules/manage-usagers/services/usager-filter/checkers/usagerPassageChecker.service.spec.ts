@@ -1,5 +1,5 @@
 import { subDays, subMonths, subWeeks, subYears } from "date-fns";
-import { UsagerLight } from "../../../../../../../_common/model";
+import { UsagerLight } from "../../../../../../_common/model";
 import { usagerPassageChecker } from "./usagerPassageChecker.service";
 
 describe("usagerPassageChecker ", () => {

@@ -39,12 +39,6 @@ import {
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
-import {
-  UsagersCountByStatus,
-  usagersFilter,
-  UsagersFilterCriteria,
-  UsagersFilterCriteriaSortKey,
-} from "../usager-filter";
 import { Store } from "@ngrx/store";
 import { ManageUsagersService } from "../../services/manage-usagers.service";
 import {
@@ -53,14 +47,20 @@ import {
   SortValues,
   UsagersFilterCriteriaStatut,
   UserStructure,
+  UsagersCountByStatus,
 } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { UsagerLight } from "../../../../../_common/model";
 import {
+  UsagersFilterCriteria,
+  UsagersFilterCriteriaSortKey,
+} from "../../classes";
+import {
   calculateUsagersCountByStatus,
+  usagersFilter,
   usagersSorter,
-} from "../usager-filter/services";
+} from "../../services/usager-filter";
 
 const FIVE_MINUTES = 5 * 60 * 1000;
 const STORAGE_KEY = "SEARCH";

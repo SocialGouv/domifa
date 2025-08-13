@@ -1,5 +1,5 @@
-import { UsagersCountByStatus } from "..";
-import { UsagerLight } from "../../../../../../_common/model";
+import { UsagersCountByStatus } from "@domifa/common";
+import { UsagerLight } from "../../../../../_common/model";
 
 export function calculateUsagersCountByStatus(
   usagers: UsagerLight[],

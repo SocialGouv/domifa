@@ -1,20 +1,20 @@
 import {
-  buildWords,
   CriteriaSearchField,
-  ETAPE_ENTRETIEN,
+  buildWords,
   search,
   UsagersFilterCriteriaEntretien,
+  ETAPE_ENTRETIEN,
 } from "@domifa/common";
-import { UsagerLight } from "../../../../../_common/model";
+import { isValid, parse } from "date-fns";
+import { UsagerLight } from "../../../../../../_common/model";
+import { UsagersFilterCriteria } from "../../../classes/UsagersFilterCriteria";
 import {
   getAttributes,
-  usagerEcheanceChecker,
-  usagerInteractionTypeChecker,
-  usagerPassageChecker,
   usagerStatutChecker,
-} from "./services";
-import { UsagersFilterCriteria } from "./UsagersFilterCriteria";
-import { isValid, parse } from "date-fns";
+  usagerInteractionTypeChecker,
+  usagerEcheanceChecker,
+  usagerPassageChecker,
+} from "../../../services/usager-filter";
 
 export const usagersFilter = {
   filter,

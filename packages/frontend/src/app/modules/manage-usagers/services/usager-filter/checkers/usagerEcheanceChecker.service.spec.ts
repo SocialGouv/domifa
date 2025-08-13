@@ -1,5 +1,5 @@
 import { addMonths, addYears, subDays, subMonths, subYears } from "date-fns";
-import { UsagerLight } from "../../../../../../../_common/model";
+import { UsagerLight } from "../../../../../../_common/model";
 import { usagerEcheanceChecker } from "./usagerEcheanceChecker.service";
 
 describe("usagerEcheanceChecker EXCEEDED", () => {
