@@ -1,3 +1,10 @@
+## [2.214.1](https://github.com/SocialGouv/domifa/compare/v2.214.0...v2.214.1) (2025-08-13)
+
+
+### Bug Fixes
+
+* **frontend:** reorganize user-usager ([536511d](https://github.com/SocialGouv/domifa/commit/536511d9dc8a0f4d4731c7d3226192415a107ae4))
+
 # [2.214.0](https://github.com/SocialGouv/domifa/compare/v2.213.0...v2.214.0) (2025-08-13)
 
 
