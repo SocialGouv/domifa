@@ -1,3 +1,10 @@
+# [2.214.0](https://github.com/SocialGouv/domifa/compare/v2.213.0...v2.214.0) (2025-08-13)
+
+
+### Features
+
+* **front:** upgrade matomo packages ([853ffcf](https://github.com/SocialGouv/domifa/commit/853ffcf5429b76555df3e5a5e08c805e8510a71a))
+
 # [2.213.0](https://github.com/SocialGouv/domifa/compare/v2.212.3...v2.213.0) (2025-08-12)
 
 
