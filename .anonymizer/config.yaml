@@ -271,9 +271,6 @@ dump:
               - name: "role"
                 not_affected: true
                 skip_on_null_input: true
-              - name: "structureId"
-                not_affected: true
-                skip_on_null_input: true
               - name: "id"
                 not_affected: true
                 skip_on_null_input: true
@@ -406,20 +403,6 @@ dump:
 
     - schema: public
       name: user_structure_security
-      transformers:
-        - name: SetNull
-          params:
-            column: temporaryTokens
-        - name: "TemplateRecord"
-          params:
-            columns:
-              - "eventsHistory"
-            template: |
-              {{ .SetColumnValue "eventsHistory" "[]" }}
-            validate: true
-
-    - schema: public
-      name: user_supervisor_security
       transformers:
         - name: SetNull
           params:
