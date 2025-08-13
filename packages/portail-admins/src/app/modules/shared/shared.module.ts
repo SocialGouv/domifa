@@ -48,6 +48,13 @@ import { DsfrAlertModule, DsfrSkiplinksModule } from "@edugouvfr/ngx-dsfr";
     DsfrAlertModule,
     DsfrSkiplinksModule,
   ],
+  imports: [
+    DsfrAlertModule,
+    CommonModule,
+    FontAwesomeModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   providers: [AdminStructuresApiClient],
 })
 export class SharedModule {
