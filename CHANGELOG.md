@@ -1,3 +1,12 @@
+## [2.214.2](https://github.com/SocialGouv/domifa/compare/v2.214.1...v2.214.2) (2025-08-13)
+
+
+### Bug Fixes
+
+* **backend:** fix date cerfa ([a8ab577](https://github.com/SocialGouv/domifa/commit/a8ab5779883d28edcf9fe2e0e20d3f45c095e264))
+* **backend:** fix hours of dates for all dates ([d25d03c](https://github.com/SocialGouv/domifa/commit/d25d03cacecaf966942a79e48e06f196f3fad062))
+* **backend:** update tests with new hours in dates ([88a253c](https://github.com/SocialGouv/domifa/commit/88a253c8106b4194d3053512e7a0997d4ed7d736))
+
 ## [2.214.1](https://github.com/SocialGouv/domifa/compare/v2.214.0...v2.214.1) (2025-08-13)
 
 
