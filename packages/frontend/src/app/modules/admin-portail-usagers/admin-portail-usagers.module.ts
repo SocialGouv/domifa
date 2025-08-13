@@ -25,6 +25,8 @@ import {
 } from "../shared/services";
 import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { ExportUserUsagerAccountsComponent } from "./components/export-user-usager-accounts/export-user-usager-accounts.component";
+import { ManageUserUsagerComponent } from "./components/manage-user-usager/manage-user-usager.component";
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     PortailUsagersParamsComponent,
     ManageStructureInformationComponent,
     ManageStructureInformationFormComponent,
+    ExportUserUsagerAccountsComponent,
+    ManageUserUsagerComponent,
   ],
   imports: [
     CommonModule,

@@ -13,6 +13,6 @@ export interface UserUsager extends AppEntity {
   passwordLastUpdate: Date;
   lastPasswordResetDate: Date;
   lastPasswordResetStructureUser: UserStructureResume;
-  enabled: boolean;
   acceptTerms: Date | null;
+  isBirthDate: boolean;
 }

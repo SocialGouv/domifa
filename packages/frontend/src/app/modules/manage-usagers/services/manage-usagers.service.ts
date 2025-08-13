@@ -11,6 +11,7 @@ import {
 } from "../../../shared";
 import { UsagerLight } from "../../../../_common/model";
 import { UsagersFilterCriteria } from "../classes";
+import { UsagersCountByStatus } from "@domifa/common";
 
 @Injectable({
   providedIn: "root",
@@ -87,6 +88,10 @@ export class ManageUsagersService {
         }
       })
     );
+  }
+
+  public countUsagersByStatuts(): Observable<UsagersCountByStatus> {
+    return this.http.get<UsagersCountByStatus>(`${this.endPoint}count`);
   }
 
   // Assign new referrers

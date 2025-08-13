@@ -63,11 +63,11 @@ export class UserUsagerTable
   @Column({ type: "jsonb", nullable: true })
   lastPasswordResetStructureUser: UserStructureResume;
 
-  @Column({ type: "boolean", default: false })
-  enabled: boolean;
-
   @Column({ type: "timestamptz", nullable: true })
   acceptTerms: Date;
+
+  @Column({ type: "boolean", default: true })
+  isBirthDate: boolean;
 
   public constructor(entity?: Partial<UserUsagerTable>) {
     super(entity);

@@ -69,7 +69,7 @@ describe("userUsagerLoginPasswordGenerator", () => {
   });
 
   describe("generateTemporyPassword", () => {
-    it("should generate temporary password without birth date", async () => {
+    it("should generate temporary password without usager", async () => {
       const { passwordHash, salt, temporaryPassword } =
         await userUsagerLoginPasswordGenerator.generateTemporyPassword();
 
@@ -80,12 +80,10 @@ describe("userUsagerLoginPasswordGenerator", () => {
       expect(/^\d+$/.test(temporaryPassword)).toBeTruthy(); // only-numbers
     });
 
-    it("should generate password from birth date when provided", async () => {
-      const birthDate = new Date("1990-05-15");
+    it("should generate password from usager birth date when provided", async () => {
+      const usager = { dateNaissance: new Date("1990-05-15") } as any;
       const { passwordHash, salt, temporaryPassword } =
-        await userUsagerLoginPasswordGenerator.generateTemporyPassword(
-          birthDate
-        );
+        await userUsagerLoginPasswordGenerator.generateTemporyPassword(usager);
 
       expect(salt).toBeDefined();
       expect(temporaryPassword).toBeDefined();
@@ -95,18 +93,14 @@ describe("userUsagerLoginPasswordGenerator", () => {
       expect(/^\d+$/.test(temporaryPassword)).toBeTruthy();
     });
 
-    it("should generate different passwords for different birth dates", async () => {
-      const birthDate1 = new Date("1985-12-25");
-      const birthDate2 = new Date("1992-07-08");
+    it("should generate different passwords for different usagers with different birth dates", async () => {
+      const usager1 = { dateNaissance: new Date("1985-12-25") } as any;
+      const usager2 = { dateNaissance: new Date("1992-07-08") } as any;
 
       const result1 =
-        await userUsagerLoginPasswordGenerator.generateTemporyPassword(
-          birthDate1
-        );
+        await userUsagerLoginPasswordGenerator.generateTemporyPassword(usager1);
       const result2 =
-        await userUsagerLoginPasswordGenerator.generateTemporyPassword(
-          birthDate2
-        );
+        await userUsagerLoginPasswordGenerator.generateTemporyPassword(usager2);
 
       expect(result1.temporaryPassword).toEqual("25121985");
       expect(result2.temporaryPassword).toEqual("08071992");
@@ -127,22 +121,36 @@ describe("userUsagerLoginPasswordGenerator", () => {
     });
 
     it("should handle edge case birth dates correctly", async () => {
-      const leapYearDate = new Date("2000-02-29"); // année bissextile
-      const newYearDate = new Date("2021-01-01"); // début d'année
+      const usagerLeapYear = { dateNaissance: new Date("2000-02-29") } as any; // année bissextile
+      const usagerNewYear = { dateNaissance: new Date("2021-01-01") } as any; // début d'année
 
       const leapResult =
         await userUsagerLoginPasswordGenerator.generateTemporyPassword(
-          leapYearDate
+          usagerLeapYear
         );
       const newYearResult =
         await userUsagerLoginPasswordGenerator.generateTemporyPassword(
-          newYearDate
+          usagerNewYear
         );
 
       expect(leapResult.temporaryPassword).toEqual("29022000");
       expect(newYearResult.temporaryPassword).toEqual("01012021");
       expect(leapResult.temporaryPassword.length).toEqual(8);
       expect(newYearResult.temporaryPassword.length).toEqual(8);
+    });
+
+    it("should generate random password when usager has no birth date", async () => {
+      const usagerWithoutBirthDate = { dateNaissance: undefined } as any;
+      const { passwordHash, salt, temporaryPassword } =
+        await userUsagerLoginPasswordGenerator.generateTemporyPassword(
+          usagerWithoutBirthDate
+        );
+
+      expect(salt).toBeDefined();
+      expect(temporaryPassword).toBeDefined();
+      expect(passwordHash).toBeDefined();
+      expect(temporaryPassword.length).toEqual(8);
+      expect(/^\d+$/.test(temporaryPassword)).toBeTruthy(); // only-numbers
     });
   });
 });

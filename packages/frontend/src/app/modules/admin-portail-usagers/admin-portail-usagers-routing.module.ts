@@ -2,11 +2,16 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { PortailUsagersParamsComponent } from "./components/portail-usagers-params/portail-usagers-params.component";
 import { ManageStructureInformationComponent } from "./components/manage-structure-information/manage-structure-information.component";
+import { ManageUserUsagerComponent } from "./components/manage-user-usager/manage-user-usager.component";
 
 const routes: Routes = [
   {
     path: "",
     component: PortailUsagersParamsComponent,
+  },
+  {
+    path: "manage",
+    component: ManageUserUsagerComponent,
   },
   {
     path: "informations",

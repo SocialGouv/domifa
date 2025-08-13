@@ -14,7 +14,6 @@ export type PortailUsagersInformations = Pick<
   | "isTemporaryPassword"
   | "lastLogin"
   | "passwordLastUpdate"
-  | "enabled"
 >;
 @Injectable({
   providedIn: "root",

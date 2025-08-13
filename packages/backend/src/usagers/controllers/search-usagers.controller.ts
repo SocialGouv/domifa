@@ -111,6 +111,13 @@ export class SearchUsagersController {
       .getRawMany();
   }
 
+  @Get("count")
+  public async countUsagersByStatus(
+    @CurrentUser() user: UserStructureAuthenticated
+  ) {
+    return usagerRepository.countUsagersByStatus(user.structureId);
+  }
+
   @Post("search-radies")
   public async searchInRadies(
     @Body() search: SearchUsagerDto,
