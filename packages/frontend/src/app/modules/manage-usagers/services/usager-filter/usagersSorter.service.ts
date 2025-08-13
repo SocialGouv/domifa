@@ -1,6 +1,6 @@
 import { SortableValue, sortMultiple } from "@domifa/common";
-import { UsagerLight } from "../../../../../../_common/model";
-import { UsagersFilterCriteria } from "../UsagersFilterCriteria";
+import { UsagerLight } from "../../../../../_common/model";
+import { UsagersFilterCriteria } from "../../classes/UsagersFilterCriteria";
 
 export const usagersSorter = {
   sortBy,

@@ -2,9 +2,10 @@ import {
   CriteriaSearchField,
   UsagersFilterCriteriaStatut,
 } from "@domifa/common";
-import { UsagersFilterCriteria } from ".";
+
 import { UsagerLight } from "../../../../../_common/model";
 import { usagersFilter } from "./usagersFilter.service";
+import { UsagersFilterCriteria } from "../../classes";
 
 const usagers: UsagerLight[] = [
   {

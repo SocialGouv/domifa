@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { UsagersFilterCriteriaSortKey } from "../../../manage-usagers/components/usager-filter";
 import { NgClass } from "@angular/common";
 import { TableHeadSortIconComponent } from "../table-head-sort-icon/table-head-sort-icon.component";
 import { SortValues } from "@domifa/common";
@@ -21,7 +20,7 @@ export class TableHeadSortComponent {
   @Input() public currentKey: string;
   @Output() public readonly currentKeyChange = new EventEmitter<string>();
 
-  @Input() public sortKey: string | UsagersFilterCriteriaSortKey;
+  @Input() public sortKey: string;
   @Output() public readonly sortArray = new EventEmitter<void>();
 
   public rotate() {

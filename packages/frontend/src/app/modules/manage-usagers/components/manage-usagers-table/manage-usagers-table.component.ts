@@ -20,7 +20,6 @@ import {
 import { fadeInOut } from "../../../../shared";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
-import { UsagersFilterCriteria } from "../usager-filter";
 import { Router } from "@angular/router";
 import { AuthService } from "../../../shared/services";
 import { getUrlUsagerProfil } from "../../../usager-shared/utils";
@@ -34,6 +33,7 @@ import {
   faArrowUp,
   faSort,
 } from "@fortawesome/free-solid-svg-icons";
+import { UsagersFilterCriteria } from "../../classes";
 
 @Component({
   animations: [fadeInOut],

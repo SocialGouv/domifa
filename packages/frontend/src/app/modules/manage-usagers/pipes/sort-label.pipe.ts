@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { UsagersFilterCriteriaSortKey } from "../components/usager-filter";
+import { UsagersFilterCriteriaSortKey } from "../classes";
 
 @Pipe({
   name: "sortLabel",

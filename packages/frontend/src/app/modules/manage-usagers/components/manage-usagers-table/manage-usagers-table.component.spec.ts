@@ -8,8 +8,9 @@ import { MATOMO_INJECTORS, _usagerReducer } from "../../../../shared";
 import { StoreModule } from "@ngrx/store";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { UsagersFilterCriteria } from "../usager-filter";
+
 import { Subject } from "rxjs";
+import { UsagersFilterCriteria } from "../../classes";
 
 describe("ManageUsagersTableComponent", () => {
   let component: ManageUsagersTableComponent;
