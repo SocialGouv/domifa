@@ -1,3 +1,10 @@
+## [2.214.3](https://github.com/SocialGouv/domifa/compare/v2.214.2...v2.214.3) (2025-08-13)
+
+
+### Bug Fixes
+
+* **anon:** fix anon config ([4c03e49](https://github.com/SocialGouv/domifa/commit/4c03e4937bd5ab9fedccdfc8abeadba889263c4c))
+
 ## [2.214.2](https://github.com/SocialGouv/domifa/compare/v2.214.1...v2.214.2) (2025-08-13)
 
 
