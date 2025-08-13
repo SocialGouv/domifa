@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import { AuthService } from "../../../shared/services/auth.service";
 import { LIENS_PARTENAIRES } from "./LIENS_PARTENAIRES.const";
 import { REGIONS_LISTE, REGIONS_ID_SEO } from "@domifa/common";
@@ -14,7 +13,6 @@ export class PlanSiteComponent implements OnInit {
   public readonly REGIONS_LISTE = REGIONS_LISTE;
   public readonly REGIONS_ID_SEO = REGIONS_ID_SEO;
 
-  public readonly faExternalLinkAlt = faExternalLinkAlt;
   public siteMapLinksLogged: {
     section: string;
     links: {
