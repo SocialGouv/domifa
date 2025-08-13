@@ -7,7 +7,6 @@ import {
   faFileWord,
 } from "@fortawesome/free-regular-svg-icons";
 import {
-  faArrowUpRightFromSquare,
   faCheckCircle,
   faCircleNotch,
   faDownload,
@@ -31,6 +30,6 @@ export const FA_ICONS: IconDefinition[] = [
   faSignInAlt,
   faTimesCircle,
   faCheckCircle,
-  faArrowUpRightFromSquare,
+
   faExternalLinkAlt,
 ];
