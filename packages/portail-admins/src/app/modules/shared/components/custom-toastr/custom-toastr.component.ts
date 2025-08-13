@@ -11,7 +11,7 @@ import { CustomToastService } from "../../services";
 @Component({
   selector: "app-custom-toastr",
   templateUrl: "./custom-toastr.component.html",
-  styleUrls: ["./custom-toastr.component.css"],
+  styleUrls: ["./custom-toastr.component.scss"],
   animations: [fadeInOut],
 })
 export class CustomToastrComponent implements OnInit, OnDestroy {
