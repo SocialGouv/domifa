@@ -17,6 +17,7 @@ import {
 import { FonctionSelectionComponent } from "./components/fonction-selection/fonction-selection.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
+import { DsfrAlertModule } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,13 @@ import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
     FormsModule,
     ReactiveFormsModule,
     FonctionFormatPipe,
+  ],
+  imports: [
+    DsfrAlertModule,
+    CommonModule,
+    FontAwesomeModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [AdminStructuresApiClient],
 })
