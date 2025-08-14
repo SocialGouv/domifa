@@ -129,7 +129,7 @@
     "@types/nodemailer": "^6.4.17",
     "@types/nunjucks": "^3.2.6",
     "@types/passport-jwt": "^3.0.13",
-    "@types/pdfkit": "^0.13.9",
+    "@types/pdfkit": "^0.17.0",
     "@types/pino": "^7.0.5",
     "@types/pizzip": "^3.0.5",
     "@types/sanitize-html": "^2.16.0",
