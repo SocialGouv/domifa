@@ -1,3 +1,10 @@
+# [2.216.0](https://github.com/SocialGouv/domifa/compare/v2.215.0...v2.216.0) (2025-08-14)
+
+
+### Features
+
+* **mondomifa:** upgrading "Mon DomiFa" to angular v18 ([#3850](https://github.com/SocialGouv/domifa/issues/3850)) ([c1fc7c3](https://github.com/SocialGouv/domifa/commit/c1fc7c38bd813ba2b32e39b5233c42ff8bd6a25f))
+
 # [2.215.0](https://github.com/SocialGouv/domifa/compare/v2.214.4...v2.215.0) (2025-08-14)
 
 
