@@ -5,7 +5,7 @@ import { InteractionsModule } from "../interactions/interactions.module";
 import { HttpModule } from "@nestjs/axios";
 import { InteractionsService } from "../interactions/services";
 import { PortailUsagersLoginController } from "./controllers/portail-usagers-login/portail-usagers-login.controller";
-import { PortailUsagersProfileController } from "./controllers/postail-usagers-profile/portail-usagers-profile.controller";
+import { PortailUsagersProfileController } from "./controllers/portail-usagers-profile/portail-usagers-profile.controller";
 import { PortailUsagersManagerController } from "./controllers/portail-usagers-manager/portail-usagers-manager.controller";
 import { AppLogsService } from "../app-logs/app-logs.service";
 import { StructureInformationController } from "./controllers/structure-information/structure-information.controller";
