@@ -1,3 +1,15 @@
+# [2.215.0](https://github.com/SocialGouv/domifa/compare/v2.214.4...v2.215.0) (2025-08-14)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([#3845](https://github.com/SocialGouv/domifa/issues/3845)) ([ac674b7](https://github.com/SocialGouv/domifa/commit/ac674b77a821039701f4af07ce27c1c3373e003b))
+
+
+### Features
+
+* **structures:** making sms day mandatory ([#3852](https://github.com/SocialGouv/domifa/issues/3852)) ([a66b088](https://github.com/SocialGouv/domifa/commit/a66b088b3861568e55ac780c3dc5fccf72489d18))
+
 ## [2.214.4](https://github.com/SocialGouv/domifa/compare/v2.214.3...v2.214.4) (2025-08-14)
 
 
