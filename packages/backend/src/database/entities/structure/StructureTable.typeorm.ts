@@ -131,7 +131,7 @@ export class StructureTable
   @Column({
     type: "jsonb",
     default: () =>
-      `'{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false, "schedule" :{ "monday": false "tuesday": false "wednesday": false "thursday": false "friday": false } }'`,
+      `'{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false, "schedule" :{ "monday": false "tuesday": true "wednesday": false "thursday": true "friday": false } }'`,
   })
   public sms: StructureSmsParams;
 

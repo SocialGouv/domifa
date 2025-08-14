@@ -203,7 +203,7 @@
 
                 <div class="col-12 my-2">
                   <fieldset>
-                    <legend class=" ">
+                    <legend class="required">
                       Quel(s) jour(s) souhaitez-vous envoyer les SMS (2 jours
                       par semaine maximum)
                     </legend>
@@ -262,6 +262,16 @@
                         id="sender-details-errors"
                       >
                         Vous devez sélectionner entre 1 et 2 jours de la semaine
+                        pour l'envoi de SMS
+                      </p>
+                      <p
+                        *ngIf="
+                          submitted || structureSmsForm?.errors?.atLeastOneDay
+                        "
+                        class="invalid-feedback"
+                        id="sender-details-errors"
+                      >
+                        Vous devez sélectionner au moins 1 jour de la semaine
                         pour l'envoi de SMS
                       </p>
                     </div>

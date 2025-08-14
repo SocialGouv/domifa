@@ -112,9 +112,9 @@ async function createStructure(structureDto: StructureDto) {
     enabledByStructure: false,
     schedule: {
       monday: false,
-      tuesday: false,
+      tuesday: true,
       wednesday: false,
-      thursday: false,
+      thursday: true,
       friday: false,
     },
   };

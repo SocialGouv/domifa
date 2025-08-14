@@ -125,6 +125,11 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if (this.structureSmsForm.errors?.atLeastOneDay) {
+      this.toastService.error("Veuillez sélectionner au moins un jour");
+      return;
+    }
+
     if (this.structureSmsForm.invalid) {
       this.toastService.error("Veuillez vérifier le formulaire");
       return;
@@ -173,6 +178,13 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
         count++;
       }
     });
-    return count <= 2 ? null : { moreThanTwoDays: true };
+    if (count === 0) {
+      return { atLeastOneDay: true };
+    }
+    if (count > 2) {
+      return { moreThanTwoDays: true };
+    }
+
+    return null;
   };
 }
