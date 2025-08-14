@@ -50,12 +50,12 @@ registerLocaleData(localeFr, "fr");
     MATOMO_INJECTORS,
   ],
   providers: [
+    provideHttpClient(withInterceptorsFromDi()),
     UsagerAuthService,
     CustomToastService,
     { provide: LOCALE_ID, useValue: "fr" },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     provideUserIdleConfig({ idle: 3600, timeout: 60, ping: 20 }),
-    provideHttpClient(withInterceptorsFromDi()),
   ],
 })
 export class AppModule {}

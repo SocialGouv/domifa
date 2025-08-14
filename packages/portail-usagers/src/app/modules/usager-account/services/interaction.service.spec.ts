@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 import { InteractionService } from "./interaction.service";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("InteractionService", () => {
   let service: InteractionService;
@@ -9,8 +9,11 @@ describe("InteractionService", () => {
   beforeEach(() => {
     const loadingServiceStub = () => ({});
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [InteractionService, { useFactory: loadingServiceStub }],
+      providers: [
+        provideHttpClient(),
+        InteractionService,
+        { useFactory: loadingServiceStub },
+      ],
     });
     service = TestBed.inject(InteractionService);
   });

@@ -1,13 +1,15 @@
 import { TestBed } from "@angular/core/testing";
 
 import { StructureInformationService } from "./structure-information.service";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("StructureInformationService", () => {
   let service: StructureInformationService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [HttpClientTestingModule] });
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient()],
+    });
     service = TestBed.inject(StructureInformationService);
   });
 

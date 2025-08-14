@@ -1,9 +1,9 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { RouterTestingModule } from "@angular/router/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { HomeUsagerComponent } from "./home-usager.component";
 import { UsagerAccountModule } from "../../usager-account.module";
+import { RouterModule } from "@angular/router";
 
 describe("HomeUsagerComponent", () => {
   let component: HomeUsagerComponent;
@@ -12,11 +12,8 @@ describe("HomeUsagerComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [HomeUsagerComponent],
-      imports: [
-        UsagerAccountModule,
-        RouterTestingModule,
-        HttpClientTestingModule,
-      ],
+      imports: [UsagerAccountModule, RouterModule.forRoot([])],
+      providers: [provideHttpClientTesting()],
     }).compileComponents();
   });
 
