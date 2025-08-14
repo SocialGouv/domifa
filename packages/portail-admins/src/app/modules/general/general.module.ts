@@ -1,5 +1,4 @@
 import { CommonModule } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
   NgModule,
@@ -14,6 +13,10 @@ import { PlanSiteComponent } from "./components/static-pages/plan-site/plan-site
 import { CguComponent } from "./components/static-pages/cgu/cgu.component";
 import { PolitiqueComponent } from "./components/static-pages/politique/politique.component";
 import { MentionsLegalesComponent } from "./components/static-pages/mentions-legales/mentions-legales.component";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -26,14 +29,13 @@ import { MentionsLegalesComponent } from "./components/static-pages/mentions-leg
   exports: [NotFoundComponent],
   imports: [
     CommonModule,
-    HttpClientModule,
     FontAwesomeModule,
     NgbModule,
     RouterModule.forChild([]),
     NgbModule,
     SharedModule,
   ],
-  providers: [],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class GeneralModule {}

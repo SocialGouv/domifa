@@ -1,14 +1,15 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { TestBed, waitForAsync } from "@angular/core/testing";
 import { RouterModule } from "@angular/router";
 import { AppComponent } from "./app.component";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("AppComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
-      imports: [HttpClientTestingModule, RouterModule.forRoot([])],
+      imports: [RouterModule.forRoot([])],
+      providers: [provideHttpClient()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));

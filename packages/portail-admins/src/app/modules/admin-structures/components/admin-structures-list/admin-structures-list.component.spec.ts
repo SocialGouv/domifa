@@ -13,11 +13,11 @@ import {
   StructureFilterCriteriaSortEnum,
 } from "../../utils/structure-filter-criteria";
 import { DomiciliesSegmentEnum } from "@domifa/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { uneStructureAdminMock } from "../../../../mocks/STRUCTURE_MOCK.mock";
 import { AdminStructuresModule } from "../../admin-structures.module";
 import { AdminStructuresListComponent } from "./admin-structures-list.component";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("AdminStructuresListComponent", () => {
   let component: AdminStructuresListComponent;
@@ -52,10 +52,10 @@ describe("AdminStructuresListComponent", () => {
       imports: [
         AdminStructuresModule,
         RouterModule.forRoot([]),
-        HttpClientTestingModule,
         NoopAnimationsModule,
       ],
       providers: [
+        provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },
         {
           provide: AdminStructuresApiClient,
