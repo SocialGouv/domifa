@@ -1,7 +1,10 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ImportComponent } from "./components/import/import.component";
-import { HttpClientModule } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { SharedModule } from "../shared/shared.module";
@@ -16,7 +19,6 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     CommonModule,
     FormsModule,
     UsagerSharedModule,
-    HttpClientModule,
     NgbModule,
     ReactiveFormsModule,
     SharedModule,
@@ -24,5 +26,6 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     ImportUsagersRoutingModule,
     FontAwesomeModule,
   ],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
 })
 export class ImportUsagersModule {}

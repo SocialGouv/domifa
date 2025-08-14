@@ -1,10 +1,8 @@
 import { APP_BASE_HREF, CommonModule } from "@angular/common";
 
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbDatepickerI18n, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { USAGER_VALIDE_MOCK } from "../../../../../../_common/mocks/USAGER_VALIDE.mock";
@@ -18,6 +16,8 @@ import {
   NgbDateCustomParserFormatter,
   CustomDatepickerI18n,
 } from "../../../../shared/services";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("UsagersProfilProcurationCourrierComponent", () => {
   let fixture: ComponentFixture<UsagersProfilProcurationCourrierComponent>;
@@ -27,19 +27,17 @@ describe("UsagersProfilProcurationCourrierComponent", () => {
     TestBed.configureTestingModule({
       declarations: [UsagersProfilProcurationCourrierComponent],
       imports: [
-        RouterTestingModule.withRoutes([
-          { path: "404", component: NotFoundComponent },
-        ]),
+        RouterModule.forRoot([{ path: "404", component: NotFoundComponent }]),
         CommonModule,
         StoreModule.forRoot({ app: _usagerReducer }),
         NgbModule,
         FormsModule,
-        HttpClientTestingModule,
         SharedModule,
         ReactiveFormsModule,
         ...MATOMO_INJECTORS,
       ],
       providers: [
+        provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },
         NgbDateCustomParserFormatter,
         { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },

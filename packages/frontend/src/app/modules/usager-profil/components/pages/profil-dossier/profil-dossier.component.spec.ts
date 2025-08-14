@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ProfilDossierComponent } from "./profil-dossier.component";
@@ -12,6 +10,8 @@ import { _usagerReducer } from "../../../../../shared";
 import { StoreModule } from "@ngrx/store";
 import { USAGER_VALIDE_MOCK } from "../../../../../../_common/mocks";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("ProfilDossierComponent", () => {
   let component: ProfilDossierComponent;
@@ -21,13 +21,15 @@ describe("ProfilDossierComponent", () => {
     TestBed.configureTestingModule({
       declarations: [ProfilDossierComponent],
       imports: [
-        HttpClientTestingModule,
         NgbModule,
         ReactiveFormsModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

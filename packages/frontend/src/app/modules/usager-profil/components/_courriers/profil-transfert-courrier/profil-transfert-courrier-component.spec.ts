@@ -1,10 +1,8 @@
 import { APP_BASE_HREF } from "@angular/common";
 
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { USAGER_VALIDE_MOCK } from "../../../../../../_common/mocks";
 import { MATOMO_INJECTORS, _usagerReducer } from "../../../../../shared";
@@ -14,6 +12,8 @@ import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagersProfilTransfertCourrierComponent } from "./profil-transfert-courrier-component";
 import { StoreModule } from "@ngrx/store";
 import { UsagerProfilModule } from "../../../usager-profil.module";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("UsagersProfilTransfertCourrierComponent", () => {
   let fixture: ComponentFixture<UsagersProfilTransfertCourrierComponent>;
@@ -24,15 +24,17 @@ describe("UsagersProfilTransfertCourrierComponent", () => {
       declarations: [UsagersProfilTransfertCourrierComponent],
       imports: [
         FormsModule,
-        HttpClientTestingModule,
+        RouterModule.forRoot([]),
         NgbModule,
         ReactiveFormsModule,
         ...MATOMO_INJECTORS,
         StoreModule.forRoot({ app: _usagerReducer }),
-        RouterTestingModule,
         UsagerProfilModule,
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 

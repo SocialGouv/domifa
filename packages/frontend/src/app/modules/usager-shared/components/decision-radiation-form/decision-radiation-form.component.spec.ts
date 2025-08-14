@@ -2,19 +2,18 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from "../../../shared/shared.module";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { DecisionRadiationFormComponent } from "./decision-radiation-form.component";
-
-import { RouterTestingModule } from "@angular/router/testing";
 
 import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks/USAGER_VALIDE.mock";
 import { UsagerFormModel } from "../../interfaces";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
 import { UsagerDossierModule } from "../../../usager-dossier/usager-dossier.module";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("RadiationFormComponent", () => {
   let component: DecisionRadiationFormComponent;
@@ -25,15 +24,14 @@ describe("RadiationFormComponent", () => {
       declarations: [DecisionRadiationFormComponent],
       imports: [
         FormsModule,
-        HttpClientTestingModule,
+        RouterModule.forRoot([]),
         NgbModule,
         ReactiveFormsModule,
-        RouterTestingModule,
         SharedModule,
         StoreModule.forRoot({ app: _usagerReducer }),
         UsagerDossierModule,
       ],
-
+      providers: [provideHttpClient()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

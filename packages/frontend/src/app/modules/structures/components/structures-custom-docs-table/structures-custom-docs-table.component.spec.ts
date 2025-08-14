@@ -1,12 +1,12 @@
 import { USER_STRUCTURE_MOCK } from "../../../../../_common/mocks/USER_STRUCTURE.mock";
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { StructuresCustomDocsTableComponent } from "./structures-custom-docs-table.component";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("StructuresCustomDocsTableComponent", () => {
   let component: StructuresCustomDocsTableComponent;
@@ -15,8 +15,11 @@ describe("StructuresCustomDocsTableComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [StructuresCustomDocsTableComponent],
-      imports: [NgbModule, HttpClientTestingModule, RouterTestingModule],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      imports: [NgbModule, RouterModule.forRoot([])],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   });

@@ -1,5 +1,8 @@
 import { CommonModule } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
@@ -14,16 +17,15 @@ import { UsersRoutingModule } from "./users-routing.module";
 @NgModule({
   declarations: [ResetPasswordComponent, UserStructurePasswordFormComponent],
   exports: [UserStructurePasswordFormComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     FormsModule,
-    HttpClientModule,
     NgbModule,
     ReactiveFormsModule,
     SharedModule,
     CommonModule,
     UsersRoutingModule,
   ],
-  providers: [],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
 })
 export class UsersModule {}

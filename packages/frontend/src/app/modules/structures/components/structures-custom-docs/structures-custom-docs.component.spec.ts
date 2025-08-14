@@ -1,5 +1,3 @@
-import { RouterTestingModule } from "@angular/router/testing";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -9,6 +7,8 @@ import { SharedModule } from "../../../shared/shared.module";
 import { StructuresCustomDocsComponent } from "./structures-custom-docs.component";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("StructuresCustomDocsComponent", () => {
   let component: StructuresCustomDocsComponent;
@@ -19,12 +19,11 @@ describe("StructuresCustomDocsComponent", () => {
       schemas: [NO_ERRORS_SCHEMA],
       imports: [
         NgbModule,
-        HttpClientTestingModule,
+        RouterModule.forRoot([]),
         StoreModule.forRoot({ app: _usagerReducer }),
-
-        RouterTestingModule,
         SharedModule,
       ],
+      providers: [provideHttpClient()],
       declarations: [StructuresCustomDocsComponent],
     }).compileComponents();
   });

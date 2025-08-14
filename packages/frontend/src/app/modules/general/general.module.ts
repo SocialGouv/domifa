@@ -1,7 +1,10 @@
 import { IdleManagerComponent } from "./components/static-modals/idle-manager/idle-manager.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import {
   NgModule,
   CUSTOM_ELEMENTS_SCHEMA,
@@ -60,9 +63,9 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     IdleManagerComponent,
     LandingPagePortailComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   imports: [
     CommonModule,
-    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
@@ -72,7 +75,6 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     FontAwesomeModule,
     HomeStatsComponent,
   ],
-  providers: [GeneralService],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+  providers: [GeneralService, provideHttpClient(withInterceptorsFromDi())],
 })
 export class GeneralModule {}

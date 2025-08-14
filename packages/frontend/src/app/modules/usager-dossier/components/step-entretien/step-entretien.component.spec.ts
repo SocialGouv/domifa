@@ -1,16 +1,16 @@
 import { APP_BASE_HREF } from "@angular/common";
 
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { StepEntretienComponent } from "./step-entretien.component";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
 import { NGRX_PROVIDERS_TESTING } from "../../../../shared/store/tests";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("StepEntretienComponent", () => {
   let component: StepEntretienComponent;
@@ -20,13 +20,13 @@ describe("StepEntretienComponent", () => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       imports: [
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         NgbModule,
-        HttpClientTestingModule,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
       declarations: [StepEntretienComponent],
       providers: [
+        provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },
         ...NGRX_PROVIDERS_TESTING,
       ],

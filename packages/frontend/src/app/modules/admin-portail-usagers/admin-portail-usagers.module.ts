@@ -1,7 +1,10 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { AdminPortailUsagersRoutingModule } from "./admin-portail-usagers-routing.module";
-import { HttpClientModule } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
   NgbDateParserFormatter,
@@ -34,7 +37,6 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     CommonModule,
     AdminPortailUsagersRoutingModule,
     FormsModule,
-    HttpClientModule,
     NgbModule,
     ReactiveFormsModule,
     SharedModule,
@@ -48,6 +50,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     NgbDateCustomParserFormatter,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+    provideHttpClient(withInterceptorsFromDi()),
   ],
 })
 export class AdminPortailUsagersModule {}

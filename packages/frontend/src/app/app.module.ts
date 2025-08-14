@@ -1,6 +1,10 @@
 import { LoadingService } from "./modules/shared/services/loading.service";
 import { CustomToastService } from "./modules/shared/services/custom-toast.service";
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
   ErrorHandler,
@@ -58,12 +62,12 @@ registerLocaleData(localeFr, "fr");
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   imports: [
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule.withConfig({ disableAnimations }),
     FormsModule,
-    HttpClientModule,
     ReactiveFormsModule,
     FontAwesomeModule,
     GeneralModule,
@@ -90,7 +94,7 @@ registerLocaleData(localeFr, "fr");
         showDialog: !environment?.production,
       }),
     },
+    provideHttpClient(withInterceptorsFromDi()),
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class AppModule {}

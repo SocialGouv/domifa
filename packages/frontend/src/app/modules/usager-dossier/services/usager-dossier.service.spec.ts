@@ -1,9 +1,6 @@
 import { APP_BASE_HREF, CommonModule } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
-
-import { RouterTestingModule } from "@angular/router/testing";
 
 import {
   UsagerFormModel,
@@ -13,6 +10,8 @@ import {
 import { UsagerDossierService } from "./usager-dossier.service";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../shared";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("UsagerDossierService", () => {
   let service: UsagerDossierService;
@@ -20,12 +19,14 @@ describe("UsagerDossierService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
+        RouterModule.forRoot([]),
         CommonModule,
-        RouterTestingModule,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     service = TestBed.inject(UsagerDossierService);

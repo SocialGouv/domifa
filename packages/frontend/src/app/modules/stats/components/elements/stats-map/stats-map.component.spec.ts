@@ -1,12 +1,11 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { RouterTestingModule } from "@angular/router/testing";
-
 import { StatsMapComponent } from "./stats-map.component";
 import { PublicStats } from "@domifa/common";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("StatsMapComponent", () => {
   let component: StatsMapComponent;
@@ -15,8 +14,11 @@ describe("StatsMapComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StatsMapComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      imports: [RouterModule.forRoot([])],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
 
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
