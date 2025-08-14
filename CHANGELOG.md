@@ -1,3 +1,10 @@
+## [2.214.4](https://github.com/SocialGouv/domifa/compare/v2.214.3...v2.214.4) (2025-08-14)
+
+
+### Bug Fixes
+
+* **mon-domifa:** fix display of outdated information ([3d1dde1](https://github.com/SocialGouv/domifa/commit/3d1dde18fb754a0d455c9b00a9e61b95f3699147))
+
 ## [2.214.3](https://github.com/SocialGouv/domifa/compare/v2.214.2...v2.214.3) (2025-08-13)
 
 
