@@ -12,7 +12,11 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 
@@ -32,6 +36,7 @@ registerLocaleData(localeFr, "fr");
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -39,19 +44,18 @@ registerLocaleData(localeFr, "fr");
     GeneralModule,
     FontAwesomeModule,
     FormsModule,
-    HttpClientModule,
     NgbModule,
     SharedModule,
     ReactiveFormsModule,
     MATOMO_INJECTORS,
   ],
   providers: [
+    provideHttpClient(withInterceptorsFromDi()),
     UsagerAuthService,
     CustomToastService,
     { provide: LOCALE_ID, useValue: "fr" },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     provideUserIdleConfig({ idle: 3600, timeout: 60, ping: 20 }),
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class AppModule {}

@@ -1,12 +1,12 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MATOMO_INJECTORS } from "../../../shared";
 
 import { UsagerLoginComponent } from "./usager-login.component";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("UsagerLoginComponent", () => {
   let component: UsagerLoginComponent;
@@ -16,15 +16,14 @@ describe("UsagerLoginComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [UsagerLoginComponent],
       imports: [
-        HttpClientTestingModule,
         ReactiveFormsModule,
         MATOMO_INJECTORS,
         NgbModule,
         FormsModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
       ],
-      providers: [],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      providers: [provideHttpClient()],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   });
 

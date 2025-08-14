@@ -1,7 +1,10 @@
 import { SharedModule } from "src/app/modules/shared/shared.module";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { CommonModule } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import {
   NgModule,
   CUSTOM_ELEMENTS_SCHEMA,
@@ -39,9 +42,9 @@ import { NewsComponent } from "./components/_static/news/news.component";
     PlanSiteComponent,
     CguComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   imports: [
     CommonModule,
-    HttpClientModule,
     FontAwesomeModule,
     NgbModule,
     RouterModule.forChild([]),
@@ -49,7 +52,6 @@ import { NewsComponent } from "./components/_static/news/news.component";
     NgbModule,
     FormsModule,
   ],
-
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
 })
 export class GeneralModule {}

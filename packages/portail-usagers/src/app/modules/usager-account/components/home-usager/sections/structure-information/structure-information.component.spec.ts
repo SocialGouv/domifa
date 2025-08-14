@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { StructureInformationComponent } from "./structure-information.component";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("StructureInformationComponent", () => {
   let component: StructureInformationComponent;
@@ -10,7 +10,7 @@ describe("StructureInformationComponent", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [StructureInformationComponent],
-      imports: [HttpClientTestingModule],
+      providers: [provideHttpClient()],
     });
     fixture = TestBed.createComponent(StructureInformationComponent);
     component = fixture.componentInstance;

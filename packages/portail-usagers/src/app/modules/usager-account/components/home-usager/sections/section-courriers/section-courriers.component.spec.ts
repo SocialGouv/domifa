@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { SectionCourriersComponent } from "./section-courriers.component";
 import { SharedModule } from "../../../../../shared/shared.module";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("SectionCourriersComponent", () => {
   let component: SectionCourriersComponent;
@@ -12,7 +12,8 @@ describe("SectionCourriersComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SectionCourriersComponent],
-      imports: [SharedModule, HttpClientTestingModule],
+      imports: [SharedModule],
+      providers: [provideHttpClient()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   });

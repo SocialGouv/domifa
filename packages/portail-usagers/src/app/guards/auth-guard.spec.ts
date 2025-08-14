@@ -1,16 +1,16 @@
-import { RouterTestingModule } from "@angular/router/testing";
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { inject, TestBed } from "@angular/core/testing";
 import {
   ActivatedRouteSnapshot,
   Router,
+  RouterModule,
   RouterStateSnapshot,
 } from "@angular/router";
 
 import { UsagerAuthService } from "../modules/usager-auth/services/usager-auth.service";
 
 import { AuthGuard } from "./auth-guard";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("AuthGuard", () => {
   let authGuard: AuthGuard;
@@ -19,9 +19,10 @@ describe("AuthGuard", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule],
+      imports: [RouterModule.forRoot([])],
       providers: [
         AuthGuard,
+        provideHttpClient(),
         {
           provide: ActivatedRouteSnapshot,
           useValue: {

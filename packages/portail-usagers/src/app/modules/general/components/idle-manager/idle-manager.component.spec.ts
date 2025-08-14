@@ -1,8 +1,8 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { IdleManagerComponent } from "./idle-manager.component";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("IdleManagerComponent", () => {
   let component: IdleManagerComponent;
@@ -11,7 +11,8 @@ describe("IdleManagerComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [IdleManagerComponent],
-      imports: [NgbModule, HttpClientTestingModule],
+      imports: [NgbModule],
+      providers: [provideHttpClient()],
     }).compileComponents();
   });
 

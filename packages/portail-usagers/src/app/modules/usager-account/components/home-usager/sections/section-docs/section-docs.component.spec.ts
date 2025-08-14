@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { SectionDocsComponent } from "./section-docs.component";
 import { DEFAULT_USAGER } from "../../../../../../../_common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { SharedModule } from "../../../../../shared/shared.module";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("SectionDocsComponent", () => {
   let component: SectionDocsComponent;
@@ -13,7 +13,8 @@ describe("SectionDocsComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SectionDocsComponent],
-      imports: [SharedModule, HttpClientTestingModule],
+      imports: [SharedModule],
+      providers: [provideHttpClient()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
 
