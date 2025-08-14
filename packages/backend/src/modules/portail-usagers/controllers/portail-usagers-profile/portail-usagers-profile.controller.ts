@@ -91,9 +91,17 @@ export class PortailUsagersProfileController {
   public async getStructureInformation(
     @CurrentUser() currentUser: UserUsagerAuthenticated
   ) {
-    return await structureInformationRepository.findBy({
-      structureId: currentUser.structure.id,
-    });
+    const today = new Date();
+    return await structureInformationRepository
+      .createQueryBuilder("info")
+      .where("info.structureId = :structureId", {
+        structureId: currentUser.structure.id,
+      })
+      .andWhere(`(info.startDate IS NULL OR info.startDate <= :today)`, {
+        today,
+      })
+      .andWhere(`(info.endDate IS NULL OR info.endDate >= :today)`, { today })
+      .getMany();
   }
 
   @Get("pending-interactions")
