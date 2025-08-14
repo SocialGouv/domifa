@@ -1,56 +1,41 @@
-import { MigrationInterface } from "typeorm";
+import { MigrationInterface, QueryRunner } from "typeorm";
 import { domifaConfig } from "../config";
-import { structureRepository } from "../database";
-import { StructureSmsParams } from "@domifa/common";
 import { appLogger } from "../util";
 
 export class ManualMigration1755033531923 implements MigrationInterface {
   name: string = "ManualMigration1755033531923";
-  public async up(): Promise<void> {
-    const emailList = [];
+  public async up(queryRunner: QueryRunner): Promise<void> {
     if (
       domifaConfig().envId === "prod" ||
       domifaConfig().envId === "preprod" ||
       domifaConfig().envId === "local"
     ) {
       appLogger.info("Starting migration: Updating structures SMS schedules");
+      await queryRunner.query(`
+        UPDATE structure
+        SET sms = sms || '{"schedule": {"monday": false, "tuesday": true, "wednesday": false, "thursday": true, "friday": false}}'::jsonb
+        WHERE
+          (sms->>'enabledByStructure')::boolean = TRUE
+          AND (sms->'schedule'->>'friday')::boolean = FALSE
+          AND (sms->'schedule'->>'monday')::boolean = FALSE
+          AND (sms->'schedule'->>'thursday')::boolean = FALSE
+          AND (sms->'schedule'->>'tuesday')::boolean = FALSE
+          AND (sms->'schedule'->>'wednesday')::boolean = FALSE;
+      `);
 
-      const structures = await structureRepository.find({
-        select: {
-          id: true,
-          email: true,
-          sms: true,
-        },
-      });
+      const count = await queryRunner.query(`
+        SELECT COUNT(*) FROM structure
+        WHERE
+        (sms->>'enabledByStructure')::boolean = TRUE
+        AND (sms->'schedule'->>'friday')::boolean = FALSE
+        AND (sms->'schedule'->>'monday')::boolean = FALSE
+        AND (sms->'schedule'->>'thursday')::boolean = FALSE
+        AND (sms->'schedule'->>'tuesday')::boolean = FALSE
+        AND (sms->'schedule'->>'wednesday')::boolean = FALSE;
+      `);
 
-      const structuresWithoutSmsSchedule = structures.filter(
-        (s) => !Object.values(s.sms?.schedule).some((value) => value === true)
-      );
-
-      // Process each structure record
-      for (const structure of structuresWithoutSmsSchedule) {
-        const smsParams: StructureSmsParams = {
-          ...structure.sms,
-          schedule: {
-            ...structure.sms.schedule,
-            tuesday: true,
-            thursday: true,
-          },
-        };
-
-        await structureRepository.update(
-          {
-            id: structure.id,
-          },
-          {
-            sms: smsParams,
-          }
-        );
-
-        emailList.push(structure.email);
-      }
+      console.log(count);
       appLogger.info("Migration end");
-      appLogger.info("Liste des emails des structures à contacter:", emailList);
     }
   }
 

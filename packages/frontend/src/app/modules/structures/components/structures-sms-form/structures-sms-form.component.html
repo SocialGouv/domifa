@@ -264,6 +264,16 @@
                         Vous devez sélectionner entre 1 et 2 jours de la semaine
                         pour l'envoi de SMS
                       </p>
+                      <p
+                        *ngIf="
+                          submitted || structureSmsForm?.errors?.atLeastOneDay
+                        "
+                        class="invalid-feedback"
+                        id="sender-details-errors"
+                      >
+                        Vous devez sélectionner au moins 1 jour de la semaine
+                        pour l'envoi de SMS
+                      </p>
                     </div>
                   </fieldset>
                 </div>
