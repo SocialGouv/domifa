@@ -23111,6 +23111,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ngx-matomo-client@npm:^5.0.4":
+  version: 5.1.0
+  resolution: "ngx-matomo-client@npm:5.1.0"
+  dependencies:
+    tslib: "npm:^2.3.0"
+  peerDependencies:
+    "@angular/common": ^15.0.0 || ^16.0.0
+    "@angular/core": ^15.0.0 || ^16.0.0
+  checksum: 10/4fd99d094e296e25376a21f6d0d0f3687c5e7866b526d96ec3775698821d20963b84b9cb61c1aa0a76a773d5cca768468f35090db879de5c669e7cb686868e96
+  languageName: node
+  linkType: hard
+
 "ngx-matomo-client@npm:^6.2.0":
   version: 6.4.1
   resolution: "ngx-matomo-client@npm:6.4.1"
