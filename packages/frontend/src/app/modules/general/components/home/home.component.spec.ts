@@ -3,13 +3,11 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { HomeComponent } from "./home.component";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { CommonModule, APP_BASE_HREF } from "@angular/common";
-
 import { SharedModule } from "../../../../modules/shared/shared.module";
-
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { RouterTestingModule } from "@angular/router/testing";
 import { _usagerReducer, MATOMO_INJECTORS } from "../../../../shared";
 import { StoreModule } from "@ngrx/store";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("HomeComponent", () => {
   let component: HomeComponent;
@@ -21,12 +19,14 @@ describe("HomeComponent", () => {
       imports: [
         CommonModule,
         SharedModule,
-        RouterTestingModule,
-        HttpClientTestingModule,
+        RouterModule.forRoot([]),
         ...MATOMO_INJECTORS,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));

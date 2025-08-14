@@ -1,9 +1,7 @@
 import { APP_BASE_HREF, CommonModule } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { SharedModule } from "../../../shared/shared.module";
@@ -11,6 +9,8 @@ import { SharedModule } from "../../../shared/shared.module";
 import { ProfilHeadComponent } from "./profil-head.component";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("ProfilHeadComponent", () => {
   let component: ProfilHeadComponent;
@@ -22,14 +22,16 @@ describe("ProfilHeadComponent", () => {
       imports: [
         CommonModule,
         FormsModule,
-        HttpClientTestingModule,
+        RouterModule.forRoot([]),
         NgbModule,
         ReactiveFormsModule,
-        RouterTestingModule,
         SharedModule,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

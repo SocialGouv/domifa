@@ -1,22 +1,18 @@
 import { CommonModule } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
 import { SharedModule } from "../shared/shared.module";
 
 import { ImportUsagersService } from "./import-usagers.service";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("ImportUsagersService", () => {
   let service: ImportUsagersService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        CommonModule,
-        SharedModule,
-        RouterTestingModule,
-      ],
+      imports: [RouterModule.forRoot([]), CommonModule, SharedModule],
+      providers: [provideHttpClient()],
     });
     service = TestBed.inject(ImportUsagersService);
   });

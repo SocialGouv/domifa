@@ -1,9 +1,7 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
@@ -12,6 +10,8 @@ import { ProfilHistoriqueCourriersComponent } from "./profil-historique-courrier
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../../shared";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("ProfilHistoriqueCourriersComponent", () => {
   let component: ProfilHistoriqueCourriersComponent;
@@ -25,11 +25,13 @@ describe("ProfilHistoriqueCourriersComponent", () => {
         NgbModule,
         StoreModule.forRoot({ app: _usagerReducer }),
         FormsModule,
-        HttpClientTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         NoopAnimationsModule,
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   });

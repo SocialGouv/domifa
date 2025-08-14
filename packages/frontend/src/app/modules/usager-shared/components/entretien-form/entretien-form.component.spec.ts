@@ -1,16 +1,16 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { SharedModule } from "../../../shared/shared.module";
 import { EntretienFormComponent } from "./entretien-form.component";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("EntretienFormComponent", () => {
   let component: EntretienFormComponent;
@@ -21,14 +21,16 @@ describe("EntretienFormComponent", () => {
       declarations: [EntretienFormComponent],
       imports: [
         NgbModule,
-        HttpClientTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         SharedModule,
         ReactiveFormsModule,
         FormsModule,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

@@ -1,10 +1,8 @@
 import { CommonModule, APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks";
@@ -13,6 +11,8 @@ import { UsagerFormModel } from "../../interfaces";
 import { EtatCivilParentFormComponent } from "./etat-civil-parent-form.component";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("EtatCivilParentFormComponent", () => {
   let component: EtatCivilParentFormComponent;
@@ -26,12 +26,14 @@ describe("EtatCivilParentFormComponent", () => {
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientTestingModule,
         NgxIntlTelInputModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   });

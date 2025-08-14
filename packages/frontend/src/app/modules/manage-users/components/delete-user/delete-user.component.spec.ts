@@ -2,14 +2,14 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { DeleteUserComponent } from "./delete-user.component";
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
 import { USER_STRUCTURE_MOCK } from "../../../../../_common/mocks";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("DeleteUserComponent", () => {
   let component: DeleteUserComponent;
@@ -22,11 +22,13 @@ describe("DeleteUserComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 

@@ -1,9 +1,7 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
@@ -14,25 +12,32 @@ import { AuthService } from "../../../shared/services/auth.service";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
 import { NGRX_PROVIDERS_TESTING } from "../../../../shared/store/tests";
+import { RouterModule } from "@angular/router";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 
 describe("StepEtatCivilComponent", () => {
   let component: StepEtatCivilComponent;
   let fixture: ComponentFixture<StepEtatCivilComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [StepEtatCivilComponent],
       imports: [
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
         SharedModule,
-        HttpClientTestingModule,
         StoreModule.forRoot({ app: _usagerReducer }),
         NgxIntlTelInputModule,
       ],
       providers: [
+        provideHttpClientTesting(),
+        provideHttpClient(withInterceptorsFromDi()),
         AuthService,
         { provide: APP_BASE_HREF, useValue: "/" },
         { provide: APP_BASE_HREF, useValue: "/" },
@@ -44,7 +49,7 @@ describe("StepEtatCivilComponent", () => {
     fixture = TestBed.createComponent(StepEtatCivilComponent);
     component = fixture.debugElement.componentInstance;
     component.ngOnInit();
-  }));
+  });
 
   it("Should create component", () => {
     expect(component).toBeTruthy();
@@ -56,12 +61,12 @@ describe("StepEtatCivilComponent", () => {
     expect(component.f).toEqual(component.usagerForm.controls);
   });
 
-  it("Duplicates", waitForAsync(() => {
+  it("Duplicates", () => {
     component.usagerForm.controls.nom.setValue("Mamadou");
     component.usagerForm.controls.prenom.setValue("Diallo");
     component.isDuplicateName();
     expect(component.duplicates).toEqual([]);
-  }));
+  });
 
   it("Form validation", () => {
     component.usagerForm.controls.nom.setValue("Test nom");
