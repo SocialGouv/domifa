@@ -6,6 +6,7 @@ export class ManualMigration1754664216664 implements MigrationInterface {
     if (
       domifaConfig().envId === "prod" ||
       domifaConfig().envId === "preprod" ||
+      domifaConfig().envId === "dev" ||
       domifaConfig().envId === "local"
     ) {
       // Update user_structure_security table with structureId from user_structure
