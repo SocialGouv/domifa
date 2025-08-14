@@ -1,8 +1,4 @@
 import { CommonModule } from "@angular/common";
-import {
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
@@ -23,6 +19,6 @@ import { UsagerLoginComponent } from "./usager-login/usager-login.component";
     SharedModule,
     ReactiveFormsModule,
   ],
-  providers: [UsagerAuthService, provideHttpClient(withInterceptorsFromDi())],
+  providers: [UsagerAuthService],
 })
 export class UsagerAuthModule {}
