@@ -3,7 +3,6 @@ import { PublicStats } from "@domifa/common";
 import { CountUpOptions } from "countup.js";
 import { StatsService } from "../../services/stats.service";
 import { Subscription } from "rxjs";
-import {} from "@angular/common/http";
 import { CountUpModule } from "ngx-countup";
 import { NgIf } from "@angular/common";
 import { RouterLink } from "@angular/router";

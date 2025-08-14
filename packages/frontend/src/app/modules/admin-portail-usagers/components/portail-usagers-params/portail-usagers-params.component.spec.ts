@@ -1,17 +1,16 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
 import { PortailUsagersParamsComponent } from "./portail-usagers-params.component";
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import {
   MockAuthService,
   USER_STRUCTURE_MOCK,
 } from "../../../../../_common/mocks";
 import { AuthService } from "../../../shared/services";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("PortailUsagersParamsComponent", () => {
   let component: PortailUsagersParamsComponent;
@@ -23,10 +22,10 @@ describe("PortailUsagersParamsComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
+        provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },
         { provide: AuthService, useClass: MockAuthService },
       ],

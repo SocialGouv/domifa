@@ -1,11 +1,8 @@
 import { APP_BASE_HREF } from "@angular/common";
 
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { _usagerReducer, MATOMO_INJECTORS } from "../../../../shared";
 
@@ -15,6 +12,8 @@ import {
   CriteriaSearchField,
   UsagersFilterCriteriaStatut,
 } from "@domifa/common";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("ManageUsagersPageComponent", () => {
   let component: ManageUsagersPageComponent;
@@ -26,14 +25,16 @@ describe("ManageUsagersPageComponent", () => {
       declarations: [ManageUsagersPageComponent],
       imports: [
         FormsModule,
-        HttpClientTestingModule,
         NgbModule,
         ReactiveFormsModule,
-        RouterTestingModule,
+        RouterModule.forChild([]),
         StoreModule.forRoot({ app: _usagerReducer }),
         ...MATOMO_INJECTORS,
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
