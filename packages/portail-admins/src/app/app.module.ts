@@ -1,4 +1,8 @@
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
   ErrorHandler,
@@ -49,13 +53,13 @@ registerLocaleData(localeFr, "fr");
     GeneralModule,
     BrowserModule,
     FormsModule,
-    HttpClientModule,
     NgbModule,
     SharedModule,
     ReactiveFormsModule,
     MATOMO_INJECTORS,
   ],
   providers: [
+    provideHttpClient(withInterceptorsFromDi()),
     { provide: LOCALE_ID, useValue: "fr" },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {

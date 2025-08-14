@@ -2,13 +2,13 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { StructureInfoComponent } from "./structure-info.component";
 import { CommonModule } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterModule } from "@angular/router";
 import { TableHeadSortComponent } from "../../../shared/components/table-head-sort/table-head-sort.component";
 import { SortArrayPipe } from "../../../shared/pipes/sort-array.pipe";
 import { StructureService } from "../../services/structure.service";
 import { STRUCTURE_MOCK } from "../../../../mocks/STRUCTURE_MOCK.mock";
 import { FormatInternationalPhoneNumberPipe } from "../../../../shared/utils/formatInternationalPhoneNumber.pipe";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("StructureInfoComponent", () => {
   let component: StructureInfoComponent;
@@ -21,11 +21,10 @@ describe("StructureInfoComponent", () => {
         CommonModule,
         TableHeadSortComponent,
         SortArrayPipe,
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
         FormatInternationalPhoneNumberPipe,
       ],
-      providers: [StructureService],
+      providers: [provideHttpClient(), StructureService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(StructureInfoComponent);

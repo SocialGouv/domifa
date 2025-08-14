@@ -1,5 +1,4 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { inject, TestBed } from "@angular/core/testing";
 import {
   ActivatedRouteSnapshot,
@@ -10,6 +9,7 @@ import { RouterModule } from "@angular/router";
 import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.service";
 import { AuthGuard } from "./auth-guard";
 import { CustomToastService } from "../modules/shared/services";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("AuthGuard", () => {
   let authGuard: AuthGuard;
@@ -19,8 +19,9 @@ describe("AuthGuard", () => {
   let toastService: CustomToastService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterModule],
+      imports: [RouterModule],
       providers: [
+        provideHttpClient(),
         AuthGuard,
         {
           provide: ActivatedRouteSnapshot,

@@ -5,8 +5,8 @@ import { CommonModule } from "@angular/common";
 import { TableHeadSortComponent } from "../../../shared/components/table-head-sort/table-head-sort.component";
 import { SortArrayPipe } from "../../../shared/pipes/sort-array.pipe";
 import { AdminStructuresApiClient } from "../../../shared/services";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("StructureComponent", () => {
   let component: StructureComponent;
@@ -19,10 +19,9 @@ describe("StructureComponent", () => {
         CommonModule,
         TableHeadSortComponent,
         SortArrayPipe,
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
       ],
-      providers: [AdminStructuresApiClient],
+      providers: [provideHttpClient(), AdminStructuresApiClient],
     }).compileComponents();
 
     fixture = TestBed.createComponent(StructureComponent);

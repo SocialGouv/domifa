@@ -2,13 +2,13 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { UsersComponent } from "./users.component";
 import { CommonModule } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { RouterModule } from "@angular/router";
 import { TableHeadSortComponent } from "../../../shared/components/table-head-sort/table-head-sort.component";
 import { SortArrayPipe } from "../../../shared/pipes/sort-array.pipe";
 import { StructureService } from "../../services/structure.service";
 import { STRUCTURE_MOCK } from "../../../../mocks/STRUCTURE_MOCK.mock";
 import { CustomToastService } from "../../../shared/services";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("UsersComponent", () => {
   let component: UsersComponent;
@@ -21,10 +21,9 @@ describe("UsersComponent", () => {
         CommonModule,
         TableHeadSortComponent,
         SortArrayPipe,
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
       ],
-      providers: [StructureService, CustomToastService],
+      providers: [provideHttpClient(), StructureService, CustomToastService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UsersComponent);
