@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
@@ -11,6 +10,10 @@ import { RegisterUserSupervisorComponent } from "./components/register-user-supe
 import { ManageUsersRoutingModule } from "./manage-users-routing.module";
 import { DeleteUserComponent } from "./components/delete-user/delete-user.component";
 import { FullNamePipe, SortArrayPipe } from "../shared/pipes";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -21,7 +24,6 @@ import { FullNamePipe, SortArrayPipe } from "../shared/pipes";
   imports: [
     TableHeadSortComponent,
     FormsModule,
-    HttpClientModule,
     NgbModule,
     UsersModule,
     ReactiveFormsModule,
@@ -31,5 +33,6 @@ import { FullNamePipe, SortArrayPipe } from "../shared/pipes";
     FullNamePipe,
     SortArrayPipe,
   ],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
 })
 export class ManageUsersModule {}

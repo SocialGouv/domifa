@@ -1,5 +1,4 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -8,6 +7,7 @@ import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { SharedModule } from "../shared/shared.module";
 import { StructuresConfirmComponent } from "./structures-confirm.component";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("StructuresConfirmComponent", () => {
   let component: StructuresConfirmComponent;
@@ -21,12 +21,11 @@ describe("StructuresConfirmComponent", () => {
         ReactiveFormsModule,
         FormsModule,
         SharedModule,
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
       ],
       providers: [
+        provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },
-
         {
           provide: ActivatedRoute,
           useValue: {

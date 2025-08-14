@@ -1,10 +1,10 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { inject, TestBed } from "@angular/core/testing";
 import { Router } from "@angular/router";
 import { RouterModule } from "@angular/router";
 import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.service";
 import { RoleRedirectGuard } from "./redirect-guard";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("RoleRedirectGuard", () => {
   let guard: RoleRedirectGuard;
@@ -13,8 +13,9 @@ describe("RoleRedirectGuard", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterModule],
+      imports: [RouterModule],
       providers: [
+        provideHttpClient(),
         RoleRedirectGuard,
         AdminAuthService,
         { provide: APP_BASE_HREF, useValue: "/" },
