@@ -1,8 +1,10 @@
 import { Component } from "@angular/core";
 import { ManagePortailUsagersService } from "../../services/manage-portail-usagers.service";
 import saveAs from "file-saver";
+import { fadeIn } from "../../../../shared";
 
 @Component({
+  animations: [fadeIn],
   selector: "app-export-user-usager-accounts",
   templateUrl: "./export-user-usager-accounts.component.html",
   styleUrls: ["./export-user-usager-accounts.component.css"],

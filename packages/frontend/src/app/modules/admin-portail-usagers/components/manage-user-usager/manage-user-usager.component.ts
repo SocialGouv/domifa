@@ -11,9 +11,10 @@ import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { ManagePortailUsagersService } from "../../services/manage-portail-usagers.service";
 import { ManageUsagersService } from "../../../manage-usagers/services/manage-usagers.service";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { fadeIn } from "../../../../shared";
 
 @Component({
+  animations: [fadeIn],
   selector: "app-manage-user-usager",
   templateUrl: "./manage-user-usager.component.html",
   styleUrls: ["./manage-user-usager.component.css"],
@@ -22,7 +23,6 @@ export class ManageUserUsagerComponent implements OnInit {
   @ViewChild("activateAllAccountsModal", { static: true })
   public activateAllAccountsModal!: TemplateRef<NgbModalRef>;
 
-  public readonly faPlus = faPlus;
   public params: PageOptions = {
     order: Order.DESC,
     page: 1,
