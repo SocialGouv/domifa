@@ -1,6 +1,6 @@
 import { UsagersCountByStatus } from "@domifa/common";
 import { UsagerLight } from "../../../../../_common/model";
-
+// @Deprecated: relocate this in backend
 export function calculateUsagersCountByStatus(
   usagers: UsagerLight[],
   usagersRadiesTotalCount: number

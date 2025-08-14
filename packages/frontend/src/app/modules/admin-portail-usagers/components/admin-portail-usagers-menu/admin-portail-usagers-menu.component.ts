@@ -7,6 +7,10 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminPortailUsagersMenuComponent {
-  @Input({ required: true }) public section: "" | "parametres" | "informations";
+  @Input({ required: true }) public section:
+    | ""
+    | "parametres"
+    | "informations"
+    | "manage";
   @Input({ required: true }) public title!: string;
 }
