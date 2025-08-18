@@ -2,8 +2,7 @@ import { TestBed } from "@angular/core/testing";
 
 import { StructureService } from "./structure.service";
 import { APP_BASE_HREF } from "@angular/common";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { HTTP_INTERCEPTORS, provideHttpClient } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { JwtInterceptor, ServerErrorInterceptor } from "../../../interceptors";
@@ -13,8 +12,9 @@ describe("StructureService", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterModule],
+      imports: [RouterModule],
       providers: [
+        provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         {

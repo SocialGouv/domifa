@@ -168,7 +168,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/build-angular@npm:^18.2.13, @angular-devkit/build-angular@npm:^18.2.20":
+"@angular-devkit/build-angular@npm:^18.2.20":
   version: 18.2.20
   resolution: "@angular-devkit/build-angular@npm:18.2.20"
   dependencies:
@@ -361,7 +361,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/core@npm:18.2.20, @angular-devkit/core@npm:^18.2.13, @angular-devkit/core@npm:^18.2.20":
+"@angular-devkit/core@npm:18.2.20, @angular-devkit/core@npm:^18.2.20":
   version: 18.2.20
   resolution: "@angular-devkit/core@npm:18.2.20"
   dependencies:
@@ -495,7 +495,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/schematics@npm:18.2.20, @angular-devkit/schematics@npm:^18.1.1, @angular-devkit/schematics@npm:^18.2.20":
+"@angular-devkit/schematics@npm:18.2.20, @angular-devkit/schematics@npm:^18.2.20":
   version: 18.2.20
   resolution: "@angular-devkit/schematics@npm:18.2.20"
   dependencies:
@@ -727,7 +727,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cdk@npm:^18.2.13":
+"@angular/cdk@npm:^18.2.14":
   version: 18.2.14
   resolution: "@angular/cdk@npm:18.2.14"
   dependencies:
@@ -772,7 +772,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cli@npm:^18.2.13, @angular/cli@npm:^18.2.20":
+"@angular/cli@npm:^18.2.20":
   version: 18.2.20
   resolution: "@angular/cli@npm:18.2.20"
   dependencies:
@@ -4498,17 +4498,17 @@ __metadata:
   resolution: "@domifa/portail-admins@workspace:packages/portail-admins"
   dependencies:
     "@angular-devkit/architect": "npm:^0.2001.5"
-    "@angular-devkit/build-angular": "npm:^18.2.13"
-    "@angular-devkit/core": "npm:^18.2.13"
-    "@angular-devkit/schematics": "npm:^18.1.1"
+    "@angular-devkit/build-angular": "npm:^18.2.20"
+    "@angular-devkit/core": "npm:^18.2.20"
+    "@angular-devkit/schematics": "npm:^18.2.20"
     "@angular-eslint/builder": "npm:^17.5.3"
     "@angular-eslint/eslint-plugin": "npm:^17.5.3"
     "@angular-eslint/eslint-plugin-template": "npm:^17.5.3"
     "@angular-eslint/schematics": "npm:^17.5.3"
     "@angular-eslint/template-parser": "npm:^17.5.3"
     "@angular/animations": "npm:^18.2.13"
-    "@angular/cdk": "npm:^18.2.13"
-    "@angular/cli": "npm:^18.2.13"
+    "@angular/cdk": "npm:^18.2.14"
+    "@angular/cli": "npm:^18.2.20"
     "@angular/common": "npm:^18.2.13"
     "@angular/compiler": "npm:^18.2.13"
     "@angular/compiler-cli": "npm:^18.2.13"

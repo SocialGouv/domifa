@@ -1,15 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-
 import { RegisterUserSupervisorComponent } from "./register-user-supervisor.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { RouterTestingModule } from "@angular/router/testing";
 import { USER_SUPERVISOR_MOCK } from "../../../../mocks/USER_SUPERVISOR.mock";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("RegisterUserSupervisorComponent", () => {
   let component: RegisterUserSupervisorComponent;
@@ -22,10 +19,12 @@ describe("RegisterUserSupervisorComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

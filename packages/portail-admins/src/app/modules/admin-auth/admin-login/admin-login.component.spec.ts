@@ -1,10 +1,10 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AdminLoginComponent } from "./admin-login.component";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("AdminLoginComponent", () => {
   let component: AdminLoginComponent;
@@ -14,12 +14,12 @@ describe("AdminLoginComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [AdminLoginComponent],
       imports: [
-        HttpClientTestingModule,
         ReactiveFormsModule,
         NgbModule,
         FormsModule,
         RouterModule.forRoot([]),
       ],
+      providers: [provideHttpClient()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   });

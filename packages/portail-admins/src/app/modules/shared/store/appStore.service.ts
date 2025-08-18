@@ -31,4 +31,4 @@ export const appStore = createStore<
   AppStoreAction,
   unknown,
   unknown
->(appStoreReducer, INITIAL_STATE as AppStoreModel);
+>(appStoreReducer, INITIAL_STATE);
