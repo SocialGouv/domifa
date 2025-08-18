@@ -36,7 +36,6 @@ export class AutoMigration1755523274896 implements MigrationInterface {
             INNER JOIN usager u ON uu."usagerUUID" = u.uuid
             WHERE (u.options ->> 'portailUsagerEnabled')::boolean != true
                OR u.options ->> 'portailUsagerEnabled' IS NULL
-            ORDER BY u.nom, u.prenom
         `);
 
     let accountExistingButDisabledUpdatedCount = 0;
@@ -101,7 +100,6 @@ export class AutoMigration1755523274896 implements MigrationInterface {
             LEFT JOIN user_usager uu ON u.uuid = uu."usagerUUID"
             WHERE (u.options ->> 'portailUsagerEnabled')::boolean = true
               AND uu."usagerUUID" IS NULL
-            ORDER BY u.nom, u.prenom
         `);
 
     let enabledWithoutAccountCreatedCount = 0;
@@ -109,10 +107,6 @@ export class AutoMigration1755523274896 implements MigrationInterface {
 
     for (const user of enabledWithoutAccountUsers) {
       try {
-        console.log(
-          `🔄 enabledWithoutAccount: Creating account for UUID: ${user.uuid}...`
-        );
-
         await userUsagerCreator.createUserWithTmpPassword(
           {
             uuid: user.uuid,
@@ -122,9 +116,11 @@ export class AutoMigration1755523274896 implements MigrationInterface {
           { id: 1, nom: "Migration", prenom: "Migration" }
         );
 
-        console.log(
-          `✅ enabledWithoutAccount: Account created for UUID: ${user.uuid}`
-        );
+        if (enabledWithoutAccountCreatedCount % 200 === 0) {
+          console.log(
+            `#️⃣  ${enabledWithoutAccountCreatedCount} / ${enabledWithoutAccountUsers.length}`
+          );
+        }
         enabledWithoutAccountCreatedCount++;
       } catch (error) {
         console.error(
