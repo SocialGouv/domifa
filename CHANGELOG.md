@@ -1,3 +1,10 @@
+## [2.217.1](https://github.com/SocialGouv/domifa/compare/v2.217.0...v2.217.1) (2025-08-18)
+
+
+### Bug Fixes
+
+* **anon:** fix not null field ([#3861](https://github.com/SocialGouv/domifa/issues/3861)) ([1174249](https://github.com/SocialGouv/domifa/commit/1174249a106adb0b872c1f9a8cfd7ae68b2c9014))
+
 # [2.217.0](https://github.com/SocialGouv/domifa/compare/v2.216.0...v2.217.0) (2025-08-18)
 
 
