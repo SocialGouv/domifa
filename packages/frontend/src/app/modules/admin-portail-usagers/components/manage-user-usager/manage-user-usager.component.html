@@ -71,7 +71,7 @@
               >
                 <tr [attr.aria-rowindex]="i + 1">
                   <td class="fw-bold">
-                    @if (account.isTemporaryPassword) {
+                    @if (account.passwordType !== 'PERSONAL') {
                     <span class="label-info red-status">Non activé</span>
                     } @else {
                     <span class="label-info green-status">Activé</span>
@@ -93,13 +93,9 @@
                     {{ account.dateNaissance | date : "dd/MM/yyyy" }}
                   </td>
                   <td>
-                    <ng-container *ngIf="account.isTemporaryPassword">
-                      @if (account.isTemporaryPassword) {
-                      @if(account.isBirthDate) {
-                      <span>Date de naissance </span>
-                      } @else { <span>Mot de passe inconnu</span>}} @else {
-                      <span>-</span> }
-                    </ng-container>
+                    @if (account.passwordType === 'BIRTH_DATE') {
+                    <span>Date de naissance </span>
+                    } @else { <span>Mot de passe inconnu</span>}
                   </td>
                   <td>
                     <span *ngIf="account?.lastLogin">

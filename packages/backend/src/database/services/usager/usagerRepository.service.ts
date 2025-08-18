@@ -34,9 +34,9 @@ export const usagerRepository = myDataSource
 
 async function countUsagersByStatus(
   structureId: number,
-  includePortailUsagerEnabled: boolean = false
+  onlyActivatedAccounts: boolean = false
 ): Promise<UsagersCountByStatus> {
-  const portailCondition = includePortailUsagerEnabled
+  const portailCondition = onlyActivatedAccounts
     ? `AND options ->> 'portailUsagerEnabled' = 'true'`
     : "";
 

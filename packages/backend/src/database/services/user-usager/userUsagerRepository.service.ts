@@ -28,11 +28,9 @@ export const userUsagerRepository = myDataSource
           `user_usager.createdAt as "createdAt"`,
           `user_usager.updatedAt as "updatedAt"`,
           `user_usager.login as "login"`,
-          `user_usager.isTemporaryPassword as "isTemporaryPassword"`,
+          `user_usager.passwordType as "passwordType"`,
           `user_usager.lastLogin as "lastLogin"`,
           `user_usager.passwordLastUpdate as "passwordLastUpdate"`,
-          `user_usager.enabled as "enabled"`,
-          `user_usager.isBirthDate as "isBirthDate"`,
           `usager.nom as "nom"`,
           `usager.prenom as "prenom"`,
           `usager.telephone as "telephone"`,
@@ -41,10 +39,8 @@ export const userUsagerRepository = myDataSource
       const itemCount = await queryBuilder.getCount();
 
       if (isExport) {
-        // Pour l'export, on prend tout avec une limite haute et on ordonne par dateInteraction
         queryBuilder.orderBy(`user_usager."createdAt"`, "DESC").limit(100000);
       }
-      console.log({ options, isExport });
       if (options) {
         queryBuilder
           .orderBy("user_usager.createdAt", options.order)

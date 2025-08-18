@@ -85,7 +85,7 @@ async function checkPassword({
       },
       {
         lastLogin: new Date(),
-        isTemporaryPassword: false,
+        passwordType: "PERSONAL",
         passwordLastUpdate: new Date(),
       }
     );

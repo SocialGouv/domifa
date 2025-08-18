@@ -4,10 +4,5 @@ import { UserUsager } from "@domifa/common";
 
 export type TestUserUsager = Pick<
   UserUsager,
-  | "uuid"
-  | "usagerUUID"
-  | "structureId"
-  | "login"
-  | "password"
-  | "isTemporaryPassword"
+  "uuid" | "usagerUUID" | "structureId" | "login" | "password" | "passwordType"
 >;

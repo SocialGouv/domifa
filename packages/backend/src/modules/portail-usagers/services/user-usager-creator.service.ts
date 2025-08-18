@@ -25,7 +25,7 @@ async function createUserWithTmpPassword(
   const login: string =
     await userUsagerLoginPasswordGenerator.generateUniqueLogin();
 
-  const { salt, temporaryPassword, passwordHash, isBirthDate } =
+  const { salt, temporaryPassword, passwordHash, passwordType } =
     await userUsagerLoginPasswordGenerator.generateTemporyPassword(usager);
 
   const createdUser = new UserUsagerTable({
@@ -34,10 +34,9 @@ async function createUserWithTmpPassword(
     login,
     password: passwordHash,
     salt,
-    isTemporaryPassword: true,
+    passwordType,
     lastLogin: undefined,
     passwordLastUpdate: undefined,
-    isBirthDate,
     lastPasswordResetDate: new Date(),
     lastPasswordResetStructureUser: {
       userId: creator.id,
@@ -69,7 +68,7 @@ async function resetUserUsagerPassword(
     salt,
     temporaryPassword: tp,
     passwordHash,
-    isBirthDate,
+    passwordType,
   } = await userUsagerLoginPasswordGenerator.generateTemporyPassword(usager);
   temporaryPassword = tp;
 
@@ -78,8 +77,7 @@ async function resetUserUsagerPassword(
     {
       salt,
       password: passwordHash,
-      isTemporaryPassword: true,
-      isBirthDate,
+      passwordType,
     }
   );
 

@@ -9,11 +9,7 @@ import { UserUsager } from "@domifa/common";
 
 export type PortailUsagersInformations = Pick<
   UserUsager,
-  | "updatedAt"
-  | "login"
-  | "isTemporaryPassword"
-  | "lastLogin"
-  | "passwordLastUpdate"
+  "updatedAt" | "login" | "passwordType" | "lastLogin" | "passwordLastUpdate"
 >;
 @Injectable({
   providedIn: "root",
@@ -30,7 +26,7 @@ export class PortailUsagersService {
     usagerRef: number
   ): Observable<PortailUsagersInformations | null> {
     return this.http.get<PortailUsagersInformations | null>(
-      `${this.endPointUsagers}/${usagerRef}`
+      `${this.endPointUsagers}/profile/${usagerRef}`
     );
   }
 

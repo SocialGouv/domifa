@@ -372,9 +372,9 @@ f1d8975b-e429-41db-9246-bb2b388aece6	2025-04-15 20:14:04.704668+02	2025-04-15 20
 -- Data for Name: user_usager; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.user_usager (uuid, "createdAt", "updatedAt", version, id, "usagerUUID", "structureId", login, password, salt, "isTemporaryPassword", "lastLogin", "passwordLastUpdate", "lastPasswordResetDate", "lastPasswordResetStructureUser", "acceptTerms", "isBirthDate") FROM stdin;
-a03a9a49-ae31-4160-9879-bab02dc46361	2021-11-30 14:50:26.278073+01	2023-11-20 16:40:58.362384+01	17	2	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	LNQIFFBK	$2a$10$/MxpSdJoHG59JaksJx5eSe4U1tHGcVoHEvlDRoi.AsVW2LlybKNnG	$2a$10$zmuPXxUOuQJ7nE6ag4.x6e	f	2023-11-20 16:40:58.36+01	2021-11-30 15:01:39.675+01	2021-11-30 14:50:26.275+01	{"userId": 1, "userName": "Patrick Roméro"}	\N	f
-a657f4bd-e4d1-4c38-bdd0-ffd268b356df	2021-10-05 11:34:41.369505+02	2023-12-18 17:54:10.81286+01	19	1	b2c26e55-ab37-457d-b307-6fe161050a9b	1	WKYJBDXS	$2a$10$1rKKqmxsaIKyNkyZpm5QHufHZ8JfCSgEtaLOv07oy2QE.O8msCVPO	$2a$10$1rKKqmxsaIKyNkyZpm5QHu	t	2021-11-30 15:02:07.69+01	\N	2021-10-05 11:34:41.365+02	{"userId": 1, "userName": "Patrick Roméro"}	\N	f
+COPY public.user_usager (uuid, "createdAt", "updatedAt", version, id, "usagerUUID", "structureId", login, password, salt, "isTemporaryPassword", "lastLogin", "passwordLastUpdate", "lastPasswordResetDate", "lastPasswordResetStructureUser", "acceptTerms", "passwordType") FROM stdin;
+a657f4bd-e4d1-4c38-bdd0-ffd268b356df	2021-10-05 11:34:41.369505+02	2023-12-18 17:54:10.81286+01	19	1	b2c26e55-ab37-457d-b307-6fe161050a9b	1	WKYJBDXS	$2a$10$1rKKqmxsaIKyNkyZpm5QHufHZ8JfCSgEtaLOv07oy2QE.O8msCVPO	$2a$10$1rKKqmxsaIKyNkyZpm5QHu	t	2021-11-30 15:02:07.69+01	\N	2021-10-05 11:34:41.365+02	{"userId": 1, "userName": "Patrick Roméro"}	\N	BIRTH_DATE
+a03a9a49-ae31-4160-9879-bab02dc46361	2021-11-30 14:50:26.278073+01	2023-11-20 16:40:58.362384+01	17	2	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	LNQIFFBK	$2a$10$/MxpSdJoHG59JaksJx5eSe4U1tHGcVoHEvlDRoi.AsVW2LlybKNnG	$2a$10$zmuPXxUOuQJ7nE6ag4.x6e	f	2023-11-20 16:40:58.36+01	2021-11-30 15:01:39.675+01	2021-11-30 14:50:26.275+01	{"userId": 1, "userName": "Patrick Roméro"}	\N	PERSONAL
 \.
 
 

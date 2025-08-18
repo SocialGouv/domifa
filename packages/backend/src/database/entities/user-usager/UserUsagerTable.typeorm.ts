@@ -8,7 +8,7 @@ import {
   OneToOne,
 } from "typeorm";
 import { StructureTable, UsagerTable } from "..";
-import { UserUsager, UserStructureResume } from "@domifa/common";
+import { UserUsager, UserStructureResume, PasswordType } from "@domifa/common";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
@@ -48,9 +48,6 @@ export class UserUsagerTable
   @Column({ type: "text" })
   salt: string;
 
-  @Column({ type: "boolean", default: false })
-  isTemporaryPassword: boolean;
-
   @Column({ type: "timestamptz", nullable: true })
   lastLogin: Date;
 
@@ -66,8 +63,8 @@ export class UserUsagerTable
   @Column({ type: "timestamptz", nullable: true })
   acceptTerms: Date;
 
-  @Column({ type: "boolean", default: true })
-  isBirthDate: boolean;
+  @Column({ type: "text", default: true })
+  passwordType: PasswordType;
 
   public constructor(entity?: Partial<UserUsagerTable>) {
     super(entity);

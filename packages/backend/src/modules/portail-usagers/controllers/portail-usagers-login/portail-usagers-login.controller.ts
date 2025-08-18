@@ -48,7 +48,7 @@ export class PortailUsagersLoginController {
         newPassword: loginDto.newPassword,
       });
 
-      if (user.isTemporaryPassword) {
+      if (user.passwordType !== "PERSONAL") {
         return res
           .status(HttpStatus.UNAUTHORIZED)
           .json({ message: "CHANGE_PASSWORD_REQUIRED" });

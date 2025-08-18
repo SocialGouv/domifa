@@ -7,7 +7,7 @@ const ALL: TestUserUsager[] = [
     structureId: 1,
     login: "WKYJBDXS",
     password: "Azerty012345!",
-    isTemporaryPassword: true,
+    passwordType: "PERSONAL",
   },
   {
     uuid: "a03a9a49-ae31-4160-9879-bab02dc46361",
@@ -15,7 +15,7 @@ const ALL: TestUserUsager[] = [
     structureId: 1,
     login: "LNQIFFBK",
     password: "Azerty012345!",
-    isTemporaryPassword: false,
+    passwordType: "RANDOM",
   },
 ];
 

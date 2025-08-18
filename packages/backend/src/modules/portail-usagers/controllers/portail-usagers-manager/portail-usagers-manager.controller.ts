@@ -1,6 +1,5 @@
 import {
   Usager,
-  UsagerDecisionStatut,
   UsagersCountByStatus,
   UserUsager,
   UserUsagerWithUsagerInfo,
@@ -122,29 +121,7 @@ export class PortailUsagersManagerController {
   public async getUserUsagerStats(
     @CurrentUser() currentUser: UserStructureAuthenticated
   ): Promise<UsagersCountByStatus> {
-    const statsQuery = await userUsagerRepository
-      .createQueryBuilder("user_usager")
-      .leftJoin("usager", "usager", "user_usager.usagerUUID = usager.uuid")
-      .select(["usager.statut as statut", "COUNT(*) as count"])
-      .where("user_usager.structureId = :structureId", {
-        structureId: currentUser.structureId,
-      })
-      .groupBy("usager.statut")
-      .getRawMany();
-
-    const stats = new UsagersCountByStatus();
-
-    statsQuery.forEach((row) => {
-      const statut = row.statut as UsagerDecisionStatut;
-      const count = parseInt(row.count, 10);
-
-      if (statut && stats.hasOwnProperty(statut)) {
-        stats[statut] = count;
-        stats.TOUS += count;
-      }
-    });
-
-    return stats;
+    return usagerRepository.countUsagersByStatus(currentUser.structureId, true);
   }
 
   @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
@@ -164,9 +141,7 @@ export class PortailUsagersManagerController {
       "Prénom",
       "Login",
       "Téléphone",
-      "Date de naissance",
-      "Mot de passe",
-      "Mot de passe temporaire",
+      "Type de mot de passe",
       "Dernière connexion",
       "Dernière modification mot de passe",
       "Compte activé",
@@ -179,8 +154,11 @@ export class PortailUsagersManagerController {
       entity.login,
       getPhoneString(entity.telephone),
       entity.dateNaissance ? new Date(entity.dateNaissance) : "",
-      entity.isBirthDate ? "Oui" : "Non",
-      entity.isTemporaryPassword ? "Oui" : "Non",
+      entity.passwordType === "PERSONAL"
+        ? "Personnel"
+        : entity.passwordType === "BIRTH_DATE"
+        ? "Temporaire: date de naissance"
+        : "Temporaire: inconnu",
       entity.lastLogin
         ? format(new Date(entity.lastLogin), "dd/MM/yyyy HH:mm")
         : "",
@@ -282,7 +260,6 @@ export class PortailUsagersManagerController {
         message: "Génération des comptes terminée",
       });
     } catch (error) {
-      console.log(error);
       appLogger.error("Erreur lors de la génération de tous les comptes", {
         error,
         sentry: true,
@@ -364,7 +341,6 @@ export class PortailUsagersManagerController {
     @Body() pageOptionsDto: PageOptionsDto,
     @CurrentUser() currentUser: UserStructureAuthenticated
   ): Promise<PageResultsDto<UserUsagerWithUsagerInfo>> {
-    console.log({ pageOptionsDto });
     const { itemCount, entities } =
       await userUsagerRepository.getAccountsWithUsagerInfo(
         currentUser,
@@ -389,7 +365,7 @@ export class PortailUsagersManagerController {
       select: [
         "updatedAt",
         "login",
-        "isTemporaryPassword",
+        "passwordType",
         "lastLogin",
         "passwordLastUpdate",
       ],

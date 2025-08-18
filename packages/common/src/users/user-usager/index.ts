@@ -1,4 +1,5 @@
 // @index('./*', f => `export * from '${f.path}'`)
+export * from "./PasswordType.type";
 export * from "./PortailUsagerAuthApiResponse.interface";
 export * from "./PortailUsagerProfile.interface";
 export * from "./PortailUsagerPublic.interface";
