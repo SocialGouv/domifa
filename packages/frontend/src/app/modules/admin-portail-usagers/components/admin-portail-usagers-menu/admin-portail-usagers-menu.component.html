@@ -54,6 +54,7 @@
       <a
         class="col"
         ariaCurrentWhenActive="page"
+        *ngIf="me?.role === 'admin'"
         routerLink="/portail-usagers/manage"
         [ngClass]="section === 'manage' ? 'selected-section col' : 'col'"
       >

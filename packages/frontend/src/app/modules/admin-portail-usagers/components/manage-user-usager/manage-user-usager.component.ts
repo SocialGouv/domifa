@@ -12,6 +12,7 @@ import { CustomToastService } from "../../../shared/services/custom-toast.servic
 import { ManagePortailUsagersService } from "../../services/manage-portail-usagers.service";
 import { ManageUsagersService } from "../../../manage-usagers/services/manage-usagers.service";
 import { fadeIn } from "../../../../shared";
+import saveAs from "file-saver";
 
 @Component({
   animations: [fadeIn],
@@ -130,7 +131,25 @@ export class ManageUserUsagerComponent implements OnInit {
       },
     });
   }
+  public exportAccountsToExcel(): void {
+    this.loading = true;
 
+    this.managePortailUsagersService.exportAccountsToExcel().subscribe({
+      next: (blob: Blob) => {
+        const now = new Date();
+        const dateStr = now.toISOString().slice(0, 19).replace(/:/g, "-");
+        const fileName = `comptes_utilisateurs_${dateStr}.xlsx`;
+
+        saveAs(blob, fileName);
+
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error("Erreur lors de l'export Excel:", error);
+        this.loading = false;
+      },
+    });
+  }
   public closeModal(): void {
     this.modalService.dismissAll();
   }

@@ -29,9 +29,7 @@ export class AutoMigration1755523274896 implements MigrationInterface {
     const accountExistingButDisabledUsers = await queryRunner.query(`
             SELECT DISTINCT
                 u.uuid,
-                u.nom,
-                u.prenom,
-                u.email,
+                u."dateNaissance",
                 u."structureId",
                 u.options ->> 'portailUsagerEnabled' as currentPortalStatus
             FROM user_usager uu
@@ -47,19 +45,23 @@ export class AutoMigration1755523274896 implements MigrationInterface {
         await queryRunner.query(
           `
                     UPDATE usager
-                    SET options = COALESCE(options, '{}')::jsonb || '{"portailUsagerEnabled": "true"}'::jsonb
+                    SET options = jsonb_set(
+                        COALESCE(options, '{}'),
+                        '{portailUsagerEnabled}',
+                        'true'::jsonb
+                    )
                     WHERE uuid = $1
                 `,
           [user.uuid]
         );
 
         console.log(
-          `✅ accountExistingButDisabled: Portal enabled for ${user.nom} ${user.prenom} (${user.email})`
+          `✅ accountExistingButDisabled: Portal enabled for UUID: ${user.uuid}`
         );
         accountExistingButDisabledUpdatedCount++;
       } catch (error) {
         console.error(
-          `❌ accountExistingButDisabled: Error for ${user.nom} ${user.prenom}:`,
+          `❌ accountExistingButDisabled: Error for UUID: ${user.uuid}:`,
           error.message
         );
       }
@@ -92,9 +94,7 @@ export class AutoMigration1755523274896 implements MigrationInterface {
     const enabledWithoutAccountUsers = await queryRunner.query(`
             SELECT
                 u.uuid,
-                u.nom,
-                u.prenom,
-                u.email,
+                u."dateNaissance",
                 u."structureId",
                 u.options ->> 'portailUsagerEnabled' as portalStatus
             FROM usager u
@@ -109,15 +109,8 @@ export class AutoMigration1755523274896 implements MigrationInterface {
 
     for (const user of enabledWithoutAccountUsers) {
       try {
-        if (!user.email) {
-          console.warn(
-            `⚠️  enabledWithoutAccount: ${user.nom} ${user.prenom} (UUID: ${user.uuid}) has no email - SKIPPED`
-          );
-          continue;
-        }
-
         console.log(
-          `🔄 enabledWithoutAccount: Creating account for ${user.nom} ${user.prenom} (${user.email})...`
+          `🔄 enabledWithoutAccount: Creating account for UUID: ${user.uuid}...`
         );
 
         await userUsagerCreator.createUserWithTmpPassword(
@@ -130,12 +123,12 @@ export class AutoMigration1755523274896 implements MigrationInterface {
         );
 
         console.log(
-          `✅ enabledWithoutAccount: Account created for ${user.nom} ${user.prenom} (${user.email})`
+          `✅ enabledWithoutAccount: Account created for UUID: ${user.uuid}`
         );
         enabledWithoutAccountCreatedCount++;
       } catch (error) {
         console.error(
-          `❌ enabledWithoutAccount: Error creating account for ${user.nom} ${user.prenom} (${user.email}):`,
+          `❌ enabledWithoutAccount: Error creating account for UUID: ${user.uuid}:`,
           error.message
         );
         enabledWithoutAccountErrorCount++;
