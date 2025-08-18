@@ -17,7 +17,7 @@ pg:
   ~preDeploy.cleaner:
     match:
       kind: Cluster
-    value: false
+    value: true
 
 jobs:
   runs:
