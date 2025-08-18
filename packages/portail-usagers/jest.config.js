@@ -7,4 +7,7 @@ module.exports = {
     "^environments/(.*)$": "<rootDir>/src/environments/$1",
   },
   setupFilesAfterEnv: ["<rootDir>/setup-jest.ts"],
+  transformIgnorePatterns: [
+    "node_modules/(?!.*\\.mjs$|uuid|@edugouvfr/ngx-dsfr)",
+  ],
 };
