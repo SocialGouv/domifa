@@ -32,9 +32,11 @@ dump:
                 template: "{{ .FirstName }}"
               - name: nom
                 template: "{{ .LastName }}"
-        - name: SetNull
+        - name: RandomPerson
           params:
-            column: nom_prenom_surnom_ref
+            columns:
+              - name: nom_prenom_surnom_ref
+                template: "{{ .LastName }}"
         - name: RandomPerson
           params:
             columns:
