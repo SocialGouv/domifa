@@ -1,3 +1,10 @@
+# [2.218.0](https://github.com/SocialGouv/domifa/compare/v2.217.1...v2.218.0) (2025-08-18)
+
+
+### Features
+
+* **frontend:** ⬆️ Upgrade frontend to Angular v18 ([76a1743](https://github.com/SocialGouv/domifa/commit/76a17433a26cb4fabfbd9d7c7419cea60a5f14ed))
+
 ## [2.217.1](https://github.com/SocialGouv/domifa/compare/v2.217.0...v2.217.1) (2025-08-18)
 
 
