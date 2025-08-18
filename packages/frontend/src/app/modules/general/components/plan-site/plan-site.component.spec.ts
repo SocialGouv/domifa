@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { PlanSiteComponent } from "./plan-site.component";
-import { RouterTestingModule } from "@angular/router/testing";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("PlanSiteComponent", () => {
   let component: PlanSiteComponent;
@@ -16,10 +16,10 @@ describe("PlanSiteComponent", () => {
       declarations: [PlanSiteComponent],
       imports: [
         NgbModule,
-        RouterTestingModule,
-        HttpClientTestingModule,
+        RouterModule.forRoot([]),
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
+      providers: [provideHttpClient()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

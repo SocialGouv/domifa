@@ -1,12 +1,12 @@
 import { CommonModule } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
 
 import { ManageUsagersService } from "./manage-usagers.service";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../shared";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("ManageUsagersService", () => {
   let service: ManageUsagersService;
@@ -14,11 +14,11 @@ describe("ManageUsagersService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
+        RouterModule.forRoot([]),
         CommonModule,
-        RouterTestingModule,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
+      providers: [provideHttpClient()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     service = TestBed.inject(ManageUsagersService);

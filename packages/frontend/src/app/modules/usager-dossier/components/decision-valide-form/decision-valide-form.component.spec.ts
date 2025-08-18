@@ -1,10 +1,8 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { RouterTestingModule } from "@angular/router/testing";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
@@ -21,6 +19,8 @@ import { DecisionValideFormComponent } from "./decision-valide-form.component";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
 import { UsagerDossierModule } from "../../usager-dossier.module";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("DecisionValideFormComponent", () => {
   let component: DecisionValideFormComponent;
@@ -31,8 +31,7 @@ describe("DecisionValideFormComponent", () => {
       declarations: [DecisionValideFormComponent],
       imports: [
         NgbModule,
-        HttpClientTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         SharedModule,
         ReactiveFormsModule,
         FormsModule,
@@ -40,6 +39,7 @@ describe("DecisionValideFormComponent", () => {
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [
+        provideHttpClient(),
         { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
         {
           provide: NgbDateParserFormatter,

@@ -1,13 +1,13 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MATOMO_INJECTORS } from "../../../../shared";
 
 import { StructuresSmsFormComponent } from "./structures-sms-form.component";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("StructuresSmsFormComponent", () => {
   let component: StructuresSmsFormComponent;
@@ -19,11 +19,13 @@ describe("StructuresSmsFormComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         ...MATOMO_INJECTORS,
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [StructuresSmsFormComponent],
     }).compileComponents();

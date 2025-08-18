@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { EditUsagerDocComponent } from "./edit-usager-doc.component";
-import { HttpClientModule } from "@angular/common/http";
+import { provideHttpClient } from "@angular/common/http";
 import { SharedModule } from "../../../shared/shared.module";
 
 describe("EditUsagerDocComponent", () => {
@@ -11,7 +11,8 @@ describe("EditUsagerDocComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [EditUsagerDocComponent],
-      imports: [HttpClientModule, SharedModule],
+      imports: [SharedModule],
+      providers: [provideHttpClient()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(EditUsagerDocComponent);

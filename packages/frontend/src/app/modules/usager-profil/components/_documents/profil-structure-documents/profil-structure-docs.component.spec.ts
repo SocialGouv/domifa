@@ -4,14 +4,14 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 
 import { ProfilStructureDocsComponent } from "./profil-structure-docs.component";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { SharedModule } from "../../../../shared/shared.module";
 import { SortArrayPipe } from "../../../../shared/pipes";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("ProfilStructureDocsComponent", () => {
   let component: ProfilStructureDocsComponent;
@@ -22,14 +22,16 @@ describe("ProfilStructureDocsComponent", () => {
       declarations: [ProfilStructureDocsComponent],
       imports: [
         FormsModule,
-        HttpClientTestingModule,
+        RouterModule.forRoot([]),
         NgbModule,
         ReactiveFormsModule,
-        RouterTestingModule,
         SharedModule,
         SortArrayPipe,
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

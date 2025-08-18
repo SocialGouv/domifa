@@ -8,23 +8,28 @@ import { ReportingFormComponent } from "./components/reporting-form/reporting-fo
 import { StructureStatsService } from "./services/structure-stats.service";
 import { StructureStatsRoutingModule } from "./structure-stats-routing.module";
 import { StuctureStatsComponent } from "./components/structure-stats/structure-stats.component";
-import { HttpClientModule } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [ReportingFormComponent, StuctureStatsComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   imports: [
     CommonModule,
     StructureStatsRoutingModule,
     SharedModule,
-    HttpClientModule,
     FormsModule,
     NgbModule,
     ReactiveFormsModule,
   ],
-  providers: [StructureStatsService],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+  providers: [
+    StructureStatsService,
+    provideHttpClient(withInterceptorsFromDi()),
+  ],
 })
 export class StructureStatsModule {}

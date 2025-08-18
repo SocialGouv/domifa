@@ -1,25 +1,25 @@
 import { MATOMO_INJECTORS } from "./shared/constants/MATOMO_INJECTORS.const";
 import { ReactiveFormsModule } from "@angular/forms";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { TestBed, waitForAsync } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
 
 import { AppComponent } from "./app.component";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "./shared";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("AppComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         ReactiveFormsModule,
         ...MATOMO_INJECTORS,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
+      providers: [provideHttpClient()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));

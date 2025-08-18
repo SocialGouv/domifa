@@ -1,16 +1,15 @@
 import { CommonModule, APP_BASE_HREF } from "@angular/common";
-
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { RouterTestingModule } from "@angular/router/testing";
 import { _usagerReducer, MATOMO_INJECTORS } from "../../../../shared";
 
 import { SharedModule } from "../../../shared/shared.module";
 
 import { NavbarComponent } from "./navbar.component";
 import { StoreModule } from "@ngrx/store";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("NavbarComponent", () => {
   let component: NavbarComponent;
@@ -22,12 +21,14 @@ describe("NavbarComponent", () => {
       imports: [
         CommonModule,
         SharedModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         MATOMO_INJECTORS,
-        HttpClientTestingModule,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));

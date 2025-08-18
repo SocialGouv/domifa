@@ -1,15 +1,15 @@
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 
 import { StructureEditFormComponent } from "./structure-edit-form.component";
 import { StructureCommonWeb } from "../../classes";
+import { RouterModule } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 
 describe("StructureEditFormComponent", () => {
   let component: StructureEditFormComponent;
@@ -22,12 +22,14 @@ describe("StructureEditFormComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientTestingModule,
+        RouterModule.forRoot([]),
         NgxIntlTelInputModule,
         NoopAnimationsModule,
-        RouterTestingModule,
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 

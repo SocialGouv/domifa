@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { LoadingComponent } from "./loading.component";
 import { LoadingService } from "../../services/loading.service";
-import { RouterTestingModule } from "@angular/router/testing";
+import { RouterModule } from "@angular/router";
 
 describe("LoadingComponent", () => {
   let component: LoadingComponent;
@@ -14,7 +14,7 @@ describe("LoadingComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [LoadingComponent],
-      imports: [NgbModule, RouterTestingModule],
+      imports: [NgbModule, RouterModule.forRoot([])],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

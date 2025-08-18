@@ -14,14 +14,14 @@ import { StructureInformationService } from "../../services/structure-informatio
 })
 export class HomeUsagerComponent implements OnInit {
   public usagerProfile!: PortailUsagerProfile | null;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   public structureInformation: StructureInformation[] = [];
 
   constructor(
     private readonly usagerAuthService: UsagerAuthService,
     private readonly titleService: Title,
     private readonly router: Router,
-    private readonly structureInformationService: StructureInformationService
+    private readonly structureInformationService: StructureInformationService,
   ) {
     this.usagerProfile = null;
     this.titleService.setTitle("Mon DomiFa");
@@ -37,8 +37,8 @@ export class HomeUsagerComponent implements OnInit {
           }
 
           this.usagerProfile = apiResponse;
-        }
-      )
+        },
+      ),
     );
 
     if (this.usagerProfile) {
@@ -66,7 +66,7 @@ export class HomeUsagerComponent implements OnInit {
             return false;
           });
         },
-      })
+      }),
     );
   }
 }
