@@ -116,151 +116,40 @@
 <main role="main" id="page">
   <router-outlet></router-outlet>
 </main>
-<footer id="footer" role="contentinfo" class="d-print-none">
-  <div class="bg-light py-3 border-bottom-dark">
-    <div class="container my-2 py-3">
-      <div class="row">
-        <div class="col my-2">
-          <p class="fw-bold">Cadre juridique</p>
-          <ul>
-            <li>
-              <a href="https://domifa.fabrique.social.gouv.fr/accessibilite"
-                >Accessibilité: partiellement conforme
-              </a>
-            </li>
-
-            <li>
-              <a
-                ariaCurrentWhenActive="page"
-                routerLink="/mentions-legales"
-                routerLinkActive="router-link-active"
-                >Mentions légales</a
-              >
-            </li>
-            <li>
-              <a
-                routerLink="/cgu"
-                ariaCurrentWhenActive="page"
-                routerLinkActive="router-link-active"
-                >CGU</a
-              >
-            </li>
-            <li>
-              <a
-                routerLink="/confidentialite"
-                ariaCurrentWhenActive="page"
-                routerLinkActive="router-link-active"
-                >Politique de confidentialité</a
-              >
-            </li>
-            <li>
-              <a
-                routerLink="/plan-site"
-                ariaCurrentWhenActive="page"
-                routerLinkActive="router-link-active"
-                >Plan du site</a
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="col-12 col-md-4 my-2">
-          <p class="fw-bold">Nos partenaires</p>
-          <ul>
-            <li *ngFor="let link of partnerLinks">
-              <a [href]="link.path" target="_blank" rel="noopener noreferrer">
-                {{ link.label }}
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="container my-2 py-3">
-        <div class="row align-items-center">
-          <div class="col-12 col-md-4">
-            <a
-              id="logo-footer"
-              href="https://solidarites.gouv.fr/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Ministère du Travail, de la Santé, des Solidarités et des familles"
-            >
-              <img
-                rel="noopener noreferrer"
-                src="/assets/images/logo-ministere.jpg"
-                alt="Ministère du Travail, de la Santé, des Solidarités et des familles"
-              />
-            </a>
-          </div>
-          <div class="col-12 col-md-8">
-            <ul
-              data-component-id="footer"
-              class="content-list"
-              id="menu-footer-external"
-            >
-              <li class="content-item">
-                <a
-                  href="https://www.info.gouv.fr/"
-                  target="_blank"
-                  class="content-link"
-                  rel="noopener external"
-                  title="info.gouv.fr - nouvelle fenêtre"
-                  >info.gouv.fr
-                </a>
-              </li>
-              <li class="content-item">
-                <a
-                  href="https://www.service-public.fr/"
-                  target="_blank"
-                  class="content-link"
-                  rel="noopener external"
-                  title="service-public.fr - nouvelle fenêtre"
-                  >service-public.fr
-                </a>
-              </li>
-              <li class="content-item">
-                <a
-                  href="https://www.legifrance.gouv.fr/"
-                  target="_blank"
-                  class="content-link"
-                  rel="noopener external"
-                  title="legifrance.gouv.fr - nouvelle fenêtre"
-                  >legifrance.gouv.fr
-                </a>
-              </li>
-              <li class="content-item">
-                <a
-                  href="https://www.data.gouv.fr/fr/"
-                  target="_blank"
-                  class="content-link"
-                  rel="noopener external"
-                  title="data.gouv.fr - nouvelle fenêtre"
-                  >data.gouv.fr
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="bg-light border-top-dark">
-        <div class="container my-2 py-4">
-          <p>
-            DomiFa est une solution gratuite et complète de gestion des
-            domiciliations pour les structures domiciliataires (centres d'Action
-            Sociale, communes, organismes agréés).
-          </p>
-
-          <p>
-            Sauf mention contraire, tous les textes de ce site sont sous
-            <a
-              href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
-              target="_blank"
-              rel="noopener noreferrer"
-              >licence etalab-2.0
-            </a>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
+<dsfr-footer
+  [logo]="{
+    label: 'République<br>Française',
+    imageAlt: 'République française logo',
+    tooltipMessage: '',
+    navigation: { routerLink: '/' }
+  }"
+  [display]="true"
+  [mandatoryLinks]="[
+    {
+      label: 'Accessibilité : partiellement conforme',
+      link: 'https://domifa.fabrique.social.gouv.fr/accessibilite',
+      linkTarget: '_blank'
+    },
+    {
+      label: 'Mentions légales',
+      link: '/mentions-legales',
+      linkTarget: '_blank'
+    },
+    {
+      label: 'Conditions générales d’utilisation',
+      link: '/cgu',
+      linkTarget: '_blank'
+    },
+    {
+      label: 'Polotiques de confidentialité',
+      link: '/confidentialite',
+      linkTarget: '_blank'
+    },
+    {
+      label: 'Plan du site',
+      link: '/plan-site',
+      linkTarget: '_blank'
+    }
+  ]"
+  license="Sauf mention explicite de propriété intellectuelle détenue par des tiers, les contenus de ce site sont proposés sous <a href='https://github.com/etalab/licence-ouverte/blob/master/LO.md' _target='_blank'>licence etalab-2.0</a>"
+></dsfr-footer>
