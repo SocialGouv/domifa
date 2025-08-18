@@ -168,7 +168,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/build-angular@npm:^18.2.13, @angular-devkit/build-angular@npm:^18.2.20":
+"@angular-devkit/build-angular@npm:^18.2.20":
   version: 18.2.20
   resolution: "@angular-devkit/build-angular@npm:18.2.20"
   dependencies:
@@ -361,7 +361,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/core@npm:18.2.20, @angular-devkit/core@npm:^18.2.13, @angular-devkit/core@npm:^18.2.20":
+"@angular-devkit/core@npm:18.2.20, @angular-devkit/core@npm:^18.2.20":
   version: 18.2.20
   resolution: "@angular-devkit/core@npm:18.2.20"
   dependencies:
@@ -495,7 +495,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/schematics@npm:18.2.20, @angular-devkit/schematics@npm:^18.1.1, @angular-devkit/schematics@npm:^18.2.20":
+"@angular-devkit/schematics@npm:18.2.20, @angular-devkit/schematics@npm:^18.2.20":
   version: 18.2.20
   resolution: "@angular-devkit/schematics@npm:18.2.20"
   dependencies:
@@ -727,7 +727,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cdk@npm:^18.2.13":
+"@angular/cdk@npm:^18.2.14":
   version: 18.2.14
   resolution: "@angular/cdk@npm:18.2.14"
   dependencies:
@@ -772,7 +772,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cli@npm:^18.2.13, @angular/cli@npm:^18.2.20":
+"@angular/cli@npm:^18.2.20":
   version: 18.2.20
   resolution: "@angular/cli@npm:18.2.20"
   dependencies:
@@ -3161,13 +3161,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.9.2":
-  version: 7.28.2
-  resolution: "@babel/runtime@npm:7.28.2"
-  checksum: 10/a0965fbdd6aaa40709290923bbe05e1c4314021f0cef608eb1d69f04f717c41829e50a53d79c4a0f461512b4be9b3c0190dc19387b219bcdaacdd793b2fe1b8a
-  languageName: node
-  linkType: hard
-
 "@babel/template@npm:^7.23.9, @babel/template@npm:^7.25.0, @babel/template@npm:^7.26.9, @babel/template@npm:^7.27.1, @babel/template@npm:^7.27.2, @babel/template@npm:^7.3.3":
   version: 7.27.2
   resolution: "@babel/template@npm:7.27.2"
@@ -4505,17 +4498,17 @@ __metadata:
   resolution: "@domifa/portail-admins@workspace:packages/portail-admins"
   dependencies:
     "@angular-devkit/architect": "npm:^0.2001.5"
-    "@angular-devkit/build-angular": "npm:^18.2.13"
-    "@angular-devkit/core": "npm:^18.2.13"
-    "@angular-devkit/schematics": "npm:^18.1.1"
+    "@angular-devkit/build-angular": "npm:^18.2.20"
+    "@angular-devkit/core": "npm:^18.2.20"
+    "@angular-devkit/schematics": "npm:^18.2.20"
     "@angular-eslint/builder": "npm:^17.5.3"
     "@angular-eslint/eslint-plugin": "npm:^17.5.3"
     "@angular-eslint/eslint-plugin-template": "npm:^17.5.3"
     "@angular-eslint/schematics": "npm:^17.5.3"
     "@angular-eslint/template-parser": "npm:^17.5.3"
     "@angular/animations": "npm:^18.2.13"
-    "@angular/cdk": "npm:^18.2.13"
-    "@angular/cli": "npm:^18.2.13"
+    "@angular/cdk": "npm:^18.2.14"
+    "@angular/cli": "npm:^18.2.20"
     "@angular/common": "npm:^18.2.13"
     "@angular/compiler": "npm:^18.2.13"
     "@angular/compiler-cli": "npm:^18.2.13"
@@ -4557,9 +4550,9 @@ __metadata:
     jest-preset-angular: "npm:^14.6.1"
     lint-staged: "npm:^16.1.2"
     ng-lint-staged: "npm:^12.0.4"
-    ngx-matomo-client: "npm:^5.0.4"
+    ngx-matomo-client: "npm:^6.2.0"
     prettier: "npm:2.8.8"
-    redux: "npm:^4.2.1"
+    redux: "npm:^5.0.1"
     rimraf: "npm:^6.0.1"
     rxjs: "npm:^7.8.2"
     source-map-explorer: "npm:^2.5.3"
@@ -7092,22 +7085,6 @@ __metadata:
     "@popperjs/core": ^2.11.6
     rxjs: ^6.5.3 || ^7.4.0
   checksum: 10/4638e289bf677f93c1ae30aa5af35a08053a18f35c43d283e76ba718e14d7861153f0aad6a76647c42b8f43617452ae8ecbc55507f851c92fffdd69cc9150cbe
-  languageName: node
-  linkType: hard
-
-"@ng-bootstrap/ng-bootstrap@npm:^17.0.1":
-  version: 17.0.1
-  resolution: "@ng-bootstrap/ng-bootstrap@npm:17.0.1"
-  dependencies:
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    "@angular/common": ^18.0.0
-    "@angular/core": ^18.0.0
-    "@angular/forms": ^18.0.0
-    "@angular/localize": ^18.0.0
-    "@popperjs/core": ^2.11.8
-    rxjs: ^6.5.3 || ^7.4.0
-  checksum: 10/ef0c624a47fc7fa38d738df2876198c359958cd2568c176baf19df1e7cbf6e6789d3f7dde8d6a9cbfb09d85c46b7bc7b4a7e8395448f8f57ca04d24d5be67187
   languageName: node
   linkType: hard
 
@@ -23111,18 +23088,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ngx-matomo-client@npm:^5.0.4":
-  version: 5.1.0
-  resolution: "ngx-matomo-client@npm:5.1.0"
-  dependencies:
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    "@angular/common": ^15.0.0 || ^16.0.0
-    "@angular/core": ^15.0.0 || ^16.0.0
-  checksum: 10/4fd99d094e296e25376a21f6d0d0f3687c5e7866b526d96ec3775698821d20963b84b9cb61c1aa0a76a773d5cca768468f35090db879de5c669e7cb686868e96
-  languageName: node
-  linkType: hard
-
 "ngx-matomo-client@npm:^6.2.0":
   version: 6.4.1
   resolution: "ngx-matomo-client@npm:6.4.1"
@@ -26038,12 +26003,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux@npm:^4.2.1":
-  version: 4.2.1
-  resolution: "redux@npm:4.2.1"
-  dependencies:
-    "@babel/runtime": "npm:^7.9.2"
-  checksum: 10/371e4833b671193303a7dea7803c8fdc8e0d566740c78f580e0a3b77b4161da25037626900a2205a5d616117fa6ad09a4232e5a110bd437186b5c6355a041750
+"redux@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "redux@npm:5.0.1"
+  checksum: 10/a373f9ed65693ead58bea5ef61c1d6bef39da9f2706db3be6f84815f3a1283230ecd1184efb1b3daa7f807d8211b0181564ca8f336fc6ee0b1e2fa0ba06737c2
   languageName: node
   linkType: hard
 
@@ -30877,13 +30840,6 @@ __metadata:
   linkType: hard
 
 "zone.js@npm:~0.15.1":
-  version: 0.15.1
-  resolution: "zone.js@npm:0.15.1"
-  checksum: 10/10f8b8651694e7c9484b32da677d4051b8aaa7e2cb3a6baa1f608ff789e249fbccca33820b0590f9d80a7bbfc860a3ae3a6969b5c433f77b1b66e896f3d5b4d5
-  languageName: node
-  linkType: hard
-
-"zone.js@npm:~0.15.0":
   version: 0.15.1
   resolution: "zone.js@npm:0.15.1"
   checksum: 10/10f8b8651694e7c9484b32da677d4051b8aaa7e2cb3a6baa1f608ff789e249fbccca33820b0590f9d80a7bbfc860a3ae3a6969b5c433f77b1b66e896f3d5b4d5
