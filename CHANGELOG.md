@@ -1,3 +1,10 @@
+# [2.217.0](https://github.com/SocialGouv/domifa/compare/v2.216.0...v2.217.0) (2025-08-18)
+
+
+### Features
+
+* **admin:** ⬆️ update to Angular V18 ([5b6121e](https://github.com/SocialGouv/domifa/commit/5b6121ebc9d487c39fc345d10a0f0162ca5a0b5c))
+
 # [2.216.0](https://github.com/SocialGouv/domifa/compare/v2.215.0...v2.216.0) (2025-08-14)
 
 
