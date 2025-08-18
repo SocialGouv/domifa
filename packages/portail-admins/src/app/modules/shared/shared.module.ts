@@ -17,7 +17,7 @@ import {
 import { FonctionSelectionComponent } from "./components/fonction-selection/fonction-selection.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
-import { DsfrAlertModule } from "@edugouvfr/ngx-dsfr";
+import { DsfrAlertModule, DsfrFooterModule } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [
@@ -29,6 +29,8 @@ import { DsfrAlertModule } from "@edugouvfr/ngx-dsfr";
     FonctionSelectionComponent,
   ],
   exports: [
+    DsfrAlertModule,
+    DsfrFooterModule,
     UcFirstPipe,
     FormatPhoneNumberPipe,
     FormatBigNumberPipe,
