@@ -11,7 +11,6 @@ export class ManualMigration1751927912971 implements MigrationInterface {
     if (
       domifaConfig().envId === "prod" ||
       domifaConfig().envId === "preprod" ||
-      domifaConfig().envId === "dev" ||
       domifaConfig().envId === "local"
     ) {
       console.log("Application de la migration");

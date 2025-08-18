@@ -8,7 +8,6 @@ export class AutoMigration1753607421699 implements MigrationInterface {
     if (
       domifaConfig().envId === "prod" ||
       domifaConfig().envId === "preprod" ||
-      domifaConfig().envId === "dev" ||
       domifaConfig().envId === "local"
     ) {
       await queryRunner.query(`ALTER TABLE "app_log" ADD "context" json`);
