@@ -7,4 +7,7 @@ module.exports = {
     "^assets/(.*)$": "<rootDir>/src/assets/$1",
     "^environments/(.*)$": "<rootDir>/src/environments/$1",
   },
+  transformIgnorePatterns: [
+    "node_modules/(?!.*\\.mjs$|uuid|@edugouvfr/ngx-dsfr)",
+  ],
 };
