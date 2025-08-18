@@ -3856,7 +3856,6 @@ __metadata:
     "@ckeditor/ckeditor5-angular": "npm:^9.0.0"
     "@ckeditor/ckeditor5-build-classic": "npm:^43.3.1"
     "@domifa/common": "workspace:^"
-    "@edugouvfr/ngx-dsfr": "npm:^1.14.3"
     "@fortawesome/angular-fontawesome": "npm:0.14.1"
     "@fortawesome/fontawesome-svg-core": "npm:^6.6.0"
     "@fortawesome/free-regular-svg-icons": "npm:^6.6.0"
