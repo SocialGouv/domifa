@@ -1,3 +1,10 @@
+# [2.219.0](https://github.com/SocialGouv/domifa/compare/v2.218.0...v2.219.0) (2025-08-19)
+
+
+### Features
+
+* **mon-domifa:** create all accounts 'Mon-DomiFa' in one shot ([#3854](https://github.com/SocialGouv/domifa/issues/3854)) ([4179aee](https://github.com/SocialGouv/domifa/commit/4179aee79cd0fc1b2f6bac4cb4d093835be4cd46))
+
 # [2.218.0](https://github.com/SocialGouv/domifa/compare/v2.217.1...v2.218.0) (2025-08-18)
 
 
