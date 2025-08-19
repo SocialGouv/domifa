@@ -141,6 +141,10 @@ backend-cron:
   .ingress.enabled: false
   probesPath: /healthz
   containerPort: 3000
+  annotations:
+    oblik.socialgouv.io/min-limit-cpu: "3"
+    oblik.socialgouv.io/min-request-cpu: "1"
+    oblik.socialgouv.io/min-request-memory: "3Gi"
   resources:
     requests:
       cpu: 1
