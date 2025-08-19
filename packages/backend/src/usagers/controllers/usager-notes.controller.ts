@@ -27,6 +27,8 @@ import {
   UsagerNote,
   Usager,
   UsagerPinnedNote,
+  PageMeta,
+  PageResults,
 } from "@domifa/common";
 import { CreateNoteDto } from "../dto/create-note.dto";
 import {
@@ -37,12 +39,13 @@ import {
 } from "../../database";
 import { CurrentUsagerNote } from "../../auth/decorators/current-usager-note.decorator";
 import { AppUserGuard, UsagerNoteAccessGuard } from "../../auth/guards";
-import { PageResultsDto, PageMetaDto, PageOptionsDto } from "../dto/pagination";
+
 import { ObjectLiteral } from "typeorm";
 import {
   AllowUserProfiles,
   AllowUserStructureRoles,
 } from "../../auth/decorators";
+import { PageOptionsDto } from "../dto";
 
 @ApiTags("usagers-notes")
 @ApiBearerAuth()
@@ -80,8 +83,11 @@ export class UsagerNotesController {
 
     const itemCount = await queryBuilder.getCount();
     const { entities } = await queryBuilder.getRawAndEntities();
-    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-    return new PageResultsDto(entities, pageMetaDto);
+    const pageMetaDto = new PageMeta({
+      itemCount,
+      pageOptions: pageOptionsDto,
+    });
+    return new PageResults({ data: entities, meta: pageMetaDto });
   }
 
   @UseGuards(UsagerAccessGuard)

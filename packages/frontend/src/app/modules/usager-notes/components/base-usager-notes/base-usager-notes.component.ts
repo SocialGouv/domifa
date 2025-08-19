@@ -4,7 +4,6 @@ import { UsagerLight } from "../../../../../_common/model";
 import {
   PageOptions,
   PageResults,
-  Order,
   UsagerNote,
   UserStructure,
 } from "@domifa/common";
@@ -23,7 +22,7 @@ export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
   @Input() public me!: UserStructure;
   @Input() public usager!: UsagerFormModel;
 
-  public params!: PageOptions;
+  public params = new PageOptions();
 
   public loading: boolean;
   public notes: UsagerNote[];
@@ -41,11 +40,7 @@ export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
   ) {
     this.loading = false;
     this.notes = [];
-    this.params = {
-      order: Order.DESC,
-      page: 1,
-      take: 5,
-    };
+
     this.currentUserSubject$ = this.authService.currentUserSubject;
   }
 

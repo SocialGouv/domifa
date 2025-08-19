@@ -1,5 +1,5 @@
-import { Usager } from "@domifa/common";
-import { Controller, UseGuards, Get } from "@nestjs/common";
+import { PageMeta, PageResults, Usager } from "@domifa/common";
+import { Controller, UseGuards, Post, Body } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 import { USER_STRUCTURE_ROLE_ALL } from "../../_common/model";
@@ -10,6 +10,7 @@ import {
 } from "../../auth/decorators";
 import { AppUserGuard, UsagerAccessGuard } from "../../auth/guards";
 import { messageSmsRepository } from "../../database";
+import { PageOptionsDto } from "../../usagers/dto";
 
 @Controller("sms")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -19,18 +20,32 @@ import { messageSmsRepository } from "../../database";
 export class SmsController {
   @ApiBearerAuth()
   @UseGuards(UsagerAccessGuard)
-  @Get("usager/:usagerRef")
-  public async getUsagerSms(@CurrentUsager() currentUsager: Usager) {
-    return await messageSmsRepository.find({
-      where: {
-        usagerRef: currentUsager.ref,
+  @Post("usager/:usagerRef")
+  public async getUsagerSms(
+    @CurrentUsager() currentUsager: Usager,
+    @Body() pageOptionsDto: PageOptionsDto
+  ) {
+    const queryBuilder = messageSmsRepository
+      .createQueryBuilder("message_sms")
+      .where("message_sms.structureId = :structureId", {
         structureId: currentUsager.structureId,
-      },
-      order: {
-        createdAt: "DESC",
-      },
-      skip: 0,
-      take: 50,
+      })
+      .andWhere("message_sms.usagerRef = :usagerRef", {
+        usagerRef: currentUsager.ref,
+      })
+      .orderBy("createdAt", pageOptionsDto.order)
+      .skip(pageOptionsDto.skip)
+      .take(pageOptionsDto.take);
+
+    const [entities, itemCount] = await Promise.all([
+      queryBuilder.getMany(),
+      queryBuilder.getCount(),
+    ]);
+
+    const pageMetaDto = new PageMeta({
+      itemCount,
+      pageOptions: pageOptionsDto,
     });
+    return new PageResults({ data: entities, meta: pageMetaDto });
   }
 }

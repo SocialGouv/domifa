@@ -1,7 +1,7 @@
+import { Order } from "@domifa/common";
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsEnum, IsInt, IsNotEmpty, Max, Min } from "class-validator";
-import { Order } from "./results-order.enum";
 
 export class PageOptionsDto {
   @ApiPropertyOptional({ enum: Order, default: Order.ASC })
@@ -21,7 +21,7 @@ export class PageOptionsDto {
 
   @ApiPropertyOptional({
     minimum: 1,
-    maximum: 50,
+    maximum: 500,
     default: 10,
   })
   @Type(() => Number)
@@ -30,4 +30,8 @@ export class PageOptionsDto {
   @Max(500)
   @IsNotEmpty()
   readonly take: number = 10;
+
+  get skip(): number {
+    return (this.page - 1) * this.take;
+  }
 }

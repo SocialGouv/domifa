@@ -3,6 +3,8 @@ import {
   UsagersCountByStatus,
   UserUsager,
   UserUsagerWithUsagerInfo,
+  PageMeta,
+  PageResults,
 } from "@domifa/common";
 import {
   Body,
@@ -43,11 +45,7 @@ import {
 } from "../../dto";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { userUsagerCreator } from "../../services";
-import {
-  PageMetaDto,
-  PageOptionsDto,
-  PageResultsDto,
-} from "../../../../usagers/dto";
+import { PageOptionsDto } from "../../../../usagers/dto";
 import { format } from "date-fns";
 import * as XLSX from "xlsx";
 
@@ -340,15 +338,19 @@ export class PortailUsagersManagerController {
   public async getAllAccounts(
     @Body() pageOptionsDto: PageOptionsDto,
     @CurrentUser() currentUser: UserStructureAuthenticated
-  ): Promise<PageResultsDto<UserUsagerWithUsagerInfo>> {
+  ): Promise<PageResults<UserUsagerWithUsagerInfo>> {
     const { itemCount, entities } =
       await userUsagerRepository.getAccountsWithUsagerInfo(
         currentUser,
         pageOptionsDto,
         false
       );
-    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-    return new PageResultsDto(entities, pageMetaDto);
+
+    const pageMetaDto = new PageMeta({
+      itemCount,
+      pageOptions: pageOptionsDto,
+    });
+    return new PageResults({ data: entities, meta: pageMetaDto });
   }
 
   @UseGuards(UsagerAccessGuard)

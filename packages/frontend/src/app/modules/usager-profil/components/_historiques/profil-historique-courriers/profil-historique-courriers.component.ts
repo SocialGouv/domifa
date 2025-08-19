@@ -18,7 +18,6 @@ import {
   UserStructure,
   Interaction,
   PageOptions,
-  Order,
   PageResults,
 } from "@domifa/common";
 
@@ -40,25 +39,9 @@ export class ProfilHistoriqueCourriersComponent implements OnInit, OnDestroy {
   public deleteInteractionModal!: TemplateRef<NgbModalRef>;
 
   public loading: boolean;
+  public params = new PageOptions({ take: 50 });
 
-  public params: PageOptions = {
-    order: Order.DESC,
-    page: 1,
-    take: 50,
-  };
-
-  public searchResults: PageResults<Interaction> = {
-    data: [],
-    meta: {
-      page: 0,
-      take: 0,
-      itemCount: 0,
-      pageCount: 0,
-      hasPreviousPage: false,
-      hasNextPage: false,
-    },
-  };
-
+  public searchResults = new PageResults<Interaction>();
   constructor(
     private readonly toastService: CustomToastService,
     private readonly interactionService: InteractionService,

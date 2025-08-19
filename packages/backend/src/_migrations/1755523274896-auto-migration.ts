@@ -42,21 +42,14 @@ export class AutoMigration1755523274896 implements MigrationInterface {
     for (const user of accountExistingButDisabledUsers) {
       try {
         await queryRunner.query(
-          `
-                    UPDATE usager
-                    SET options = jsonb_set(
-                        COALESCE(options, '{}'),
-                        '{portailUsagerEnabled}',
-                        'true'::jsonb
-                    )
-                    WHERE uuid = $1
-                `,
+          ` UPDATE usager SET options = jsonb_set(     COALESCE(options, '{}'),     '{portailUsagerEnabled}',     'true'::jsonb ) WHERE uuid = $1`,
           [user.uuid]
         );
-
-        console.log(
-          `✅ accountExistingButDisabled: Portal enabled for UUID: ${user.uuid}`
-        );
+        if (accountExistingButDisabledUpdatedCount % 200 === 0) {
+          console.log(
+            `#️⃣  ${accountExistingButDisabledUpdatedCount} / ${accountExistingButDisabledUsers.length}`
+          );
+        }
         accountExistingButDisabledUpdatedCount++;
       } catch (error) {
         console.error(
