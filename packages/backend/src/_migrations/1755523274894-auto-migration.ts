@@ -8,6 +8,7 @@ export class AutoMigration1755523274894 implements MigrationInterface {
     if (
       domifaConfig().envId === "prod" ||
       domifaConfig().envId === "preprod" ||
+      domifaConfig().envId === "dev" ||
       domifaConfig().envId === "local"
     ) {
       await queryRunner.query(

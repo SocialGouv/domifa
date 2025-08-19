@@ -6,6 +6,10 @@ backend:
   ~needs: [backend-cron]
   imagePackage: backend
   host: "api-{{ .Values.global.host }}"
+  annotations:
+    oblik.socialgouv.io/min-limit-cpu: "3"
+    oblik.socialgouv.io/min-request-cpu: "1"
+    oblik.socialgouv.io/min-request-memory: "3Gi"
   probesPath: /healthz
   containerPort: 3000
   resources:
@@ -65,6 +69,10 @@ backend-export:
   host: "api-{{ .Values.global.host }}"
   probesPath: /healthz
   containerPort: 3000
+  annotations:
+    oblik.socialgouv.io/min-limit-cpu: "3"
+    oblik.socialgouv.io/min-request-cpu: "1"
+    oblik.socialgouv.io/min-request-memory: "3Gi"
   ingress:
     paths:
       - /export
@@ -135,11 +143,11 @@ backend-cron:
   containerPort: 3000
   resources:
     requests:
-      cpu: 0.2
-      memory: 256Mi
-    limits:
-      cpu: 1.5
+      cpu: 1
       memory: 2Gi
+    limits:
+      cpu: 2
+      memory: 3Gi
   startupProbe:
     httpGet:
       path: /healthz

@@ -8,6 +8,7 @@ export class AutoMigration1754405019897 implements MigrationInterface {
     if (
       domifaConfig().envId === "prod" ||
       domifaConfig().envId === "preprod" ||
+      domifaConfig().envId === "dev" ||
       domifaConfig().envId === "local"
     ) {
       // User Structure

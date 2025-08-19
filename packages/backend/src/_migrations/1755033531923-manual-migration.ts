@@ -8,6 +8,7 @@ export class ManualMigration1755033531923 implements MigrationInterface {
     if (
       domifaConfig().envId === "prod" ||
       domifaConfig().envId === "preprod" ||
+      domifaConfig().envId === "dev" ||
       domifaConfig().envId === "local"
     ) {
       appLogger.info("Starting migration: Updating structures SMS schedules");
