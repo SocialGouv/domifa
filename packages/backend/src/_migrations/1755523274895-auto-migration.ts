@@ -30,7 +30,7 @@ export class AutoMigration1755523274895 implements MigrationInterface {
             UPDATE user_usager
             SET "passwordType" = 'RANDOM'
             WHERE "isTemporaryPassword" = true
-            AND "createdAt" >= $1
+            AND "createdAt" < $1
         `,
       [cutoffDate]
     );
@@ -45,7 +45,7 @@ export class AutoMigration1755523274895 implements MigrationInterface {
             UPDATE user_usager
             SET "passwordType" = 'BIRTH_DATE'
             WHERE "isTemporaryPassword" = true
-            AND "createdAt" < $1
+            AND "createdAt" >= $1
         `,
       [cutoffDate]
     );

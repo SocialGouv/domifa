@@ -12,7 +12,7 @@
   </li>
 </ul>
 
-<div class="table-responsive" *ngIf="messagesList?.length > 0">
+<div class="table-responsive" *ngIf="searchResults.data?.length">
   <table class="table-history table">
     <caption class="visually-hidden">
       Historique des SMS envoyés
@@ -27,7 +27,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let sms of messagesList">
+      <tr *ngFor="let sms of searchResults.data">
         <td>
           {{
             (sms.sendDate ? sms.sendDate : sms.scheduledDate)
@@ -42,7 +42,41 @@
     </tbody>
   </table>
 </div>
+<div
+  class="justify-content-center d-flex p-3 d-print-none"
+  *ngIf="
+    searchResults.data.length > 0 && searchResults.meta.itemCount >= params.take
+  "
+>
+  <div
+    class="results-selector justify-content-start align-items-center d-flex me-auto"
+  >
+    <select
+      name="limit"
+      [(ngModel)]="params.take"
+      (ngModelChange)="getSms()"
+      id="limit"
+    >
+      <option [ngValue]="10">10</option>
+      <option [ngValue]="50">50</option>
+      <option [ngValue]="100">100</option>
+      <option [ngValue]="250">250</option>
+      <option [ngValue]="500">500</option>
+    </select>
+    <label for="limit" class="ms-3 fw-bold">résultats par page </label>
+  </div>
 
-<div *ngIf="messagesList?.length === 0" class="alert alert-info">
+  <ngb-pagination
+    [collectionSize]="searchResults.meta.itemCount"
+    [(page)]="params.page"
+    [boundaryLinks]="true"
+    [rotate]="true"
+    [maxSize]="5"
+    [pageSize]="params.take"
+    (pageChange)="getSms()"
+  ></ngb-pagination>
+</div>
+
+<div *ngIf="searchResults?.data?.length === 0" class="alert alert-info">
   <p>Aucun sms enregistré actuellement</p>
 </div>

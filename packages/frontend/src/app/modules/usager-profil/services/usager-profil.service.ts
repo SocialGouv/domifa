@@ -5,7 +5,12 @@ import { environment } from "../../../../environments/environment";
 import { UsagerLight } from "../../../../_common/model";
 import { Store } from "@ngrx/store";
 import { usagerActions, UsagerState } from "../../../shared";
-import { ApiMessage, MessageSms } from "@domifa/common";
+import {
+  ApiMessage,
+  MessageSms,
+  PageOptions,
+  PageResults,
+} from "@domifa/common";
 
 @Injectable({
   providedIn: "root",
@@ -56,9 +61,13 @@ export class UsagerProfilService {
       );
   }
 
-  public findMySms(ref: number): Observable<MessageSms[]> {
-    return this.http.get<MessageSms[]>(
-      environment.apiUrl + "sms/usager/" + ref.toString()
+  public findMySms(
+    ref: number,
+    pageOptions: PageOptions
+  ): Observable<PageResults<MessageSms>> {
+    return this.http.post<PageResults<MessageSms>>(
+      environment.apiUrl + "sms/usager/" + ref.toString(),
+      pageOptions
     );
   }
 }

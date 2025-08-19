@@ -5,6 +5,7 @@ import {
   expectedResponseStatusBuilder,
 } from "../../_tests";
 import { AppTestContext, AppTestHttpClient } from "../../util/test";
+import { PageOptions } from "@domifa/common";
 
 ////////////////// IMPORTANT //////////////////
 //
@@ -19,8 +20,9 @@ export const SmsControllerSecurityTests: AppTestHttpClientSecurityTestDef[] = [
     label: `${CONTROLLER}.getUsagerSms`,
     query: async (context: AppTestContext) => {
       return {
-        response: await AppTestHttpClient.get(`/sms/usager/4444444`, {
+        response: await AppTestHttpClient.post(`/sms/usager/4444444`, {
           context,
+          body: new PageOptions(),
         }),
         expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
           context.user,

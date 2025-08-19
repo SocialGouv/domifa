@@ -3,7 +3,13 @@ import { Subscription } from "rxjs";
 
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
-import { MessageSms, SMS_STATUS_LABELS, UserStructure } from "@domifa/common";
+import {
+  MessageSms,
+  PageOptions,
+  PageResults,
+  SMS_STATUS_LABELS,
+  UserStructure,
+} from "@domifa/common";
 import { SMS_LABELS } from "../../../constants";
 
 @Component({
@@ -18,21 +24,41 @@ export class ProfilHistoriqueSmsComponent implements OnInit, OnDestroy {
 
   public readonly SMS_LABELS = SMS_LABELS;
   public readonly SMS_STATUS_LABELS = SMS_STATUS_LABELS;
-  public messagesList: MessageSms[];
+
+  public loading: boolean;
+
+  public params = new PageOptions({
+    take: 10,
+  });
+
+  public searchResults = new PageResults<MessageSms>();
 
   constructor(private readonly usagerProfilService: UsagerProfilService) {
-    this.messagesList = [];
+    this.loading = true;
   }
 
   public ngOnInit(): void {
-    this.subscription.add(
-      this.usagerProfilService.findMySms(this.usager.ref).subscribe({
-        next: (messages: MessageSms[]) => (this.messagesList = messages),
-      })
-    );
+    this.getSms();
   }
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  public getSms() {
+    this.loading = true;
+    this.subscription.add(
+      this.usagerProfilService
+        .findMySms(this.usager.ref, this.params)
+        .subscribe((searchResults: PageResults<MessageSms>) => {
+          this.loading = false;
+          this.searchResults = searchResults;
+          window.scroll({
+            behavior: "smooth",
+            left: 0,
+            top: 0,
+          });
+        })
+    );
   }
 }

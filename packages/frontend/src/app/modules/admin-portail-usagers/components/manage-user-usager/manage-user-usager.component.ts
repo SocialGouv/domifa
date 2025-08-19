@@ -1,7 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import {
-  Order,
   PageOptions,
   PageResults,
   UsagersCountByStatus,
@@ -23,24 +22,9 @@ import saveAs from "file-saver";
 export class ManageUserUsagerComponent implements OnInit {
   @ViewChild("activateAllAccountsModal", { static: true })
   public activateAllAccountsModal!: TemplateRef<NgbModalRef>;
+  public params = new PageOptions({ take: 50 });
 
-  public params: PageOptions = {
-    order: Order.DESC,
-    page: 1,
-    take: 50,
-  };
-
-  public searchResults: PageResults<UserUsagerWithUsagerInfo> = {
-    data: [],
-    meta: {
-      page: 0,
-      take: 0,
-      itemCount: 0,
-      pageCount: 0,
-      hasPreviousPage: false,
-      hasNextPage: false,
-    },
-  };
+  public searchResults = new PageResults<UserUsagerWithUsagerInfo>();
   public loading = false;
   public activatingAccounts = false;
 

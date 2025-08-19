@@ -1,6 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import {
-  Order,
   PageOptions,
   PageResults,
   UserStructure,
@@ -29,23 +28,11 @@ export class ProfilHistoriqueLoginPortailComponent
 
   public loading: boolean;
 
-  public params: PageOptions = {
-    order: Order.DESC,
-    page: 1,
+  public params = new PageOptions({
     take: 10,
-  };
+  });
 
-  public searchResults: PageResults<UserUsagerLogin> = {
-    data: [],
-    meta: {
-      page: 0,
-      take: 0,
-      itemCount: 0,
-      pageCount: 0,
-      hasPreviousPage: false,
-      hasNextPage: false,
-    },
-  };
+  public searchResults = new PageResults<UserUsagerLogin>();
 
   constructor(private readonly interactionService: InteractionService) {
     this.loading = true;
