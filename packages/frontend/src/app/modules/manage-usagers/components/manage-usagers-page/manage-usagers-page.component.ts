@@ -579,10 +579,7 @@ export class ManageUsagersPageComponent
     const startIndex = 0;
     const endIndex = this.filters.page * this.pageSize;
 
-    this.usagers = this.filteredUsagers.slice(
-      startIndex,
-      endIndex
-    ) as UsagerFormModel[];
+    this.usagers = this.filteredUsagers.slice(startIndex, endIndex);
   }
 
   private applyPagination(): void {
@@ -593,10 +590,7 @@ export class ManageUsagersPageComponent
     const startIndex = (this.filters.page - 1) * this.pageSize;
     const endIndex = this.filters.page * this.pageSize;
 
-    const newElements = this.filteredUsagers.slice(
-      startIndex,
-      endIndex
-    ) as UsagerFormModel[];
+    const newElements = this.filteredUsagers.slice(startIndex, endIndex);
 
     if (this.filters.page === 1) {
       this.usagers = newElements;

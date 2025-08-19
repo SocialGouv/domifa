@@ -31,7 +31,6 @@ async function checkPassword({
       password: true,
       salt: true,
       id: true,
-      enabled: true,
     },
   });
 
@@ -67,10 +66,6 @@ async function checkPassword({
     throw new Error("WRONG_CREDENTIALS 9"); // don't give the real cause
   }
 
-  if (!user.enabled) {
-    throw new Error("ACCOUNT_NOT_ACTIVATED");
-  }
-
   await logUserSecurityEvent({
     userProfile: "usager",
     userId: user.id,
@@ -90,7 +85,7 @@ async function checkPassword({
       },
       {
         lastLogin: new Date(),
-        isTemporaryPassword: false,
+        passwordType: "PERSONAL",
         passwordLastUpdate: new Date(),
       }
     );

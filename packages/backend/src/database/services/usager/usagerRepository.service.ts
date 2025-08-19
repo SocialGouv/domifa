@@ -1,4 +1,8 @@
-import { PortailUsagerPublic, Usager } from "@domifa/common";
+import {
+  PortailUsagerPublic,
+  Usager,
+  UsagersCountByStatus,
+} from "@domifa/common";
 
 import { myDataSource } from "..";
 import { UsagerTable } from "../../entities";
@@ -25,7 +29,41 @@ export const usagerRepository = myDataSource
     findLastFiveCustomRef,
     getUserUsagerData,
     countTotalActifs,
+    countUsagersByStatus,
   });
+
+async function countUsagersByStatus(
+  structureId: number,
+  onlyActivatedAccounts: boolean = false
+): Promise<UsagersCountByStatus> {
+  const portailCondition = onlyActivatedAccounts
+    ? `AND options ->> 'portailUsagerEnabled' = 'true'`
+    : "";
+
+  const query = `
+    SELECT
+      COUNT(*) FILTER (WHERE statut = 'INSTRUCTION') AS instruction_count,
+      COUNT(*) FILTER (WHERE statut = 'VALIDE') AS valide_count,
+      COUNT(*) FILTER (WHERE statut = 'ATTENTE_DECISION') AS attente_count,
+      COUNT(*) FILTER (WHERE statut = 'REFUS') AS refus_count,
+      COUNT(*) FILTER (WHERE statut = 'RADIE') AS radie_count,
+      COUNT(*) AS tous_count
+    FROM usager
+    WHERE "structureId" = $1
+    ${portailCondition}
+  `;
+
+  const [result] = await myDataSource.query(query, [structureId]);
+
+  return {
+    INSTRUCTION: parseInt(result.instruction_count || "0", 10),
+    VALIDE: parseInt(result.valide_count || "0", 10),
+    ATTENTE_DECISION: parseInt(result.attente_count || "0", 10),
+    REFUS: parseInt(result.refus_count || "0", 10),
+    RADIE: parseInt(result.radie_count || "0", 10),
+    TOUS: parseInt(result.tous_count || "0", 10),
+  };
+}
 
 export async function getUserUsagerData({
   usagerUUID,

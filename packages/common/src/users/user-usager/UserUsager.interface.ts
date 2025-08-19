@@ -1,5 +1,6 @@
 import { type AppEntity } from "../../_core";
 import { type UserStructureResume } from "../user-structure";
+import { PasswordType } from "./PasswordType.type";
 
 export interface UserUsager extends AppEntity {
   id: number;
@@ -8,11 +9,10 @@ export interface UserUsager extends AppEntity {
   login: string;
   password: string;
   salt: string;
-  isTemporaryPassword: boolean;
   lastLogin: Date;
   passwordLastUpdate: Date;
   lastPasswordResetDate: Date;
   lastPasswordResetStructureUser: UserStructureResume;
-  enabled: boolean;
   acceptTerms: Date | null;
+  passwordType: PasswordType;
 }

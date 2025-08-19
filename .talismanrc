@@ -4,9 +4,9 @@ fileignoreconfig:
 - filename: _docs/dev/0.run-local-env.md
   checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: 6786973ce45c4e9f98501703bb28b21f487818ddbffcd30b35cb0499a659c9ef
+  checksum: 90f61b5faa4fd3da9b0722538c036ff58ca8f2d388091f22e8b348a3b09ef37b
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: c68a6bc52521795e41b2d5ecddb9fb907ada5fce5bb1fef7fef4709fac8e0677
+  checksum: c510b7ad49f07d80c5a4951ca86c62d55dab6a3fb5b2dcc6947f8022cb08eea7
 - filename: packages/backend/package.json
   checksum: 2f5813dbc35cdc3659516beabf9f93e2978eb62d1b5403cfbb2907f22bb25355
 - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.spec.ts
