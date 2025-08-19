@@ -1,3 +1,10 @@
+# [2.220.0](https://github.com/SocialGouv/domifa/compare/v2.219.0...v2.220.0) (2025-08-19)
+
+
+### Features
+
+* **backend:** add sms history and pagination ([#3864](https://github.com/SocialGouv/domifa/issues/3864)) ([5e19cea](https://github.com/SocialGouv/domifa/commit/5e19ceadd34029b7e17a4f8a5f08554252013a73))
+
 # [2.219.0](https://github.com/SocialGouv/domifa/compare/v2.218.0...v2.219.0) (2025-08-19)
 
 
