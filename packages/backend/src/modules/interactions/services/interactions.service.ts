@@ -1,12 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { interactionRepository } from "../../../database";
-import {
-  PageMetaDto,
-  PageOptionsDto,
-  PageResultsDto,
-} from "../../../usagers/dto";
+import { PageOptionsDto } from "../../../usagers/dto";
 import { In, IsNull, Not } from "typeorm";
-import { INTERACTIONS_IN } from "@domifa/common";
+import { INTERACTIONS_IN, PageMeta, PageResults } from "@domifa/common";
 
 @Injectable()
 export class InteractionsService {
@@ -36,8 +32,12 @@ export class InteractionsService {
 
     const itemCount = await queryBuilder.getCount();
     const entities = await queryBuilder.getRawMany();
-    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-    return new PageResultsDto(entities, pageMetaDto);
+
+    const pageMetaDto = new PageMeta({
+      itemCount,
+      pageOptions: pageOptionsDto,
+    });
+    return new PageResults({ data: entities, meta: pageMetaDto });
   }
 
   public async searchPendingInteractionsWithContent(

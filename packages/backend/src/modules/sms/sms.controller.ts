@@ -1,4 +1,4 @@
-import { Usager } from "@domifa/common";
+import { PageMeta, PageResults, Usager } from "@domifa/common";
 import { Controller, UseGuards, Post, Body } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
@@ -10,8 +10,7 @@ import {
 } from "../../auth/decorators";
 import { AppUserGuard, UsagerAccessGuard } from "../../auth/guards";
 import { messageSmsRepository } from "../../database";
-import { PageMetaDto, PageOptionsDto, PageResultsDto } from "../../usagers/dto";
-import { ObjectLiteral } from "typeorm";
+import { PageOptionsDto } from "../../usagers/dto";
 
 @Controller("sms")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -26,22 +25,27 @@ export class SmsController {
     @CurrentUsager() currentUsager: Usager,
     @Body() pageOptionsDto: PageOptionsDto
   ) {
-    const queryBuilder = messageSmsRepository.createQueryBuilder("message_sms");
-
-    const whereConditions: ObjectLiteral = {
-      structureId: currentUsager.structureId,
-      usagerRef: currentUsager.ref,
-    };
-
-    queryBuilder
-      .where(whereConditions)
-      .orderBy("id", pageOptionsDto.order)
-      .skip((pageOptionsDto.page - 1) * pageOptionsDto.take)
+    const queryBuilder = messageSmsRepository
+      .createQueryBuilder("message_sms")
+      .where("message_sms.structureId = :structureId", {
+        structureId: currentUsager.structureId,
+      })
+      .andWhere("message_sms.usagerRef = :usagerRef", {
+        usagerRef: currentUsager.ref,
+      })
+      .orderBy("createdAt", pageOptionsDto.order)
+      .skip(pageOptionsDto.skip)
       .take(pageOptionsDto.take);
 
-    const itemCount = await queryBuilder.getCount();
-    const { entities } = await queryBuilder.getRawAndEntities();
-    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-    return new PageResultsDto(entities, pageMetaDto);
+    const [entities, itemCount] = await Promise.all([
+      queryBuilder.getMany(),
+      queryBuilder.getCount(),
+    ]);
+
+    const pageMetaDto = new PageMeta({
+      itemCount,
+      pageOptions: pageOptionsDto,
+    });
+    return new PageResults({ data: entities, meta: pageMetaDto });
   }
 }

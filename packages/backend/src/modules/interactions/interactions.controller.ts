@@ -34,12 +34,13 @@ import {
   InteractionsService,
   interactionsCreator,
 } from "./services";
+import { PageOptionsDto } from "../../usagers/dto/pagination";
 import {
-  PageMetaDto,
-  PageOptionsDto,
-  PageResultsDto,
-} from "../../usagers/dto/pagination";
-import { CommonInteraction, Usager } from "@domifa/common";
+  CommonInteraction,
+  Usager,
+  PageMeta,
+  PageResults,
+} from "@domifa/common";
 import { MessageSmsService } from "../sms/services/message-sms.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -117,8 +118,11 @@ export class InteractionsController {
 
     const itemCount = await queryBuilder.getCount();
     const entities = await queryBuilder.getRawMany();
-    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-    return new PageResultsDto(entities, pageMetaDto);
+    const pageMetaDto = new PageMeta({
+      itemCount,
+      pageOptions: pageOptionsDto,
+    });
+    return new PageResults({ data: entities, meta: pageMetaDto });
   }
 
   @UseGuards(UsagerAccessGuard, InteractionsGuard)
