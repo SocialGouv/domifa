@@ -218,7 +218,9 @@ export class ImportController {
         totalCount: importPreviewRows.length,
         errorsCount: importErrors.length,
         // keep only errors, limit to 50 results
-        rows: importPreviewRows.filter(({ isValid }) => !isValid).slice(0, 50),
+        rows: [...importPreviewRows]
+          .filter(({ isValid }) => !isValid)
+          .slice(0, 50),
       };
       await this.appLogsService.create<FailedUsagerImportLogContext>({
         action: "IMPORT_USAGERS_FAILED",
@@ -302,7 +304,7 @@ export class ImportController {
       role: user.role,
       context: {
         nombreActifs: extractUsagersNumber(usagersRows),
-        nombreTotal: importPreviewRows.length,
+        nombreTotal: usagersRows.length,
       },
     });
     return res.status(HttpStatus.OK).json({
@@ -313,17 +315,25 @@ export class ImportController {
 
   @Get("log-document-download/:documentType")
   public async logDocumentDownload(
+    @CurrentUser()
+    user: UserStructureAuthenticated,
     @Param("documentType", new ParseEnumPipe(ImportDocumentType))
     documentType: ImportDocumentType
   ) {
     if (documentType === ImportDocumentType.GUIDE)
       await this.appLogsService.create({
-        action: "DOWNLOAD_IMPORT_GUIDE",
+        role: user.role,
+        structureId: user.structureId,
+        userId: user.id,
+        action: "IMPORT_DOWNLOAD_GUIDE",
       });
 
     if (documentType === ImportDocumentType.MODELE)
       await this.appLogsService.create({
-        action: "DOWNLOAD_IMPORT_TEMPLATE",
+        role: user.role,
+        structureId: user.structureId,
+        userId: user.id,
+        action: "IMPORT_TEMPLATE_DOWNLOAD",
       });
   }
 }

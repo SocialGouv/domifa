@@ -26,9 +26,10 @@ export type LogAction =
   | "GET_STATS_PORTAIL_ADMIN"
   | "EXPORT_STATS_PORTAIL_ADMIN"
   | "IMPORT_USAGERS_SUCCESS" // Import réussi
+  | "IMPORT_USAGERS_PREVIEW" // Import preview réussi
   | "IMPORT_USAGERS_FAILED" // Import échoué
-  | "DOWNLOAD_IMPORT_TEMPLATE" // Téléchargement modèle Excel
-  | "DOWNLOAD_IMPORT_GUIDE" // Téléchargement guide PDF
+  | "IMPORT_TEMPLATE_DOWNLOAD" // Téléchargement modèle Excel
+  | "IMPORT_DOWNLOAD_GUIDE" // Téléchargement guide PDF
   | "USER_ROLE_CHANGE"
   | "USER_CREATE"
   | "USER_DELETE"
