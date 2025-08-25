@@ -1,6 +1,6 @@
 {
   "name": ".anonymizer",
-  "packageManager": "yarn@4.9.2",
+  "packageManager": "yarn@4.9.3",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
