@@ -74,7 +74,12 @@ describe("Import Controller", () => {
 
     expect(response.status).toBe(HttpStatus.BAD_REQUEST);
 
-    const logs = await appLogsRepository.find({});
+    const logs = await appLogsRepository.find({
+      where: {
+        userId: authInfo.id,
+        structureId: authInfo.structureId,
+      },
+    });
     expect(logs.length).toBe(1);
     expect(logs[0].action).toBe("IMPORT_USAGERS_FAILED");
     expect(logs[0].context).toEqual({
@@ -108,7 +113,12 @@ describe("Import Controller", () => {
       },
     });
 
-    const logs = await appLogsRepository.find({});
+    const logs = await appLogsRepository.find({
+      where: {
+        userId: authInfo.id,
+        structureId: authInfo.structureId,
+      },
+    });
     expect(logs.length).toBe(1);
     expect(logs[0].action).toBe("IMPORT_USAGERS_SUCCESS");
     expect(logs[0].context).toEqual({
@@ -140,7 +150,12 @@ describe("Import Controller", () => {
       },
     });
 
-    const logs = await appLogsRepository.find({});
+    const logs = await appLogsRepository.find({
+      where: {
+        userId: authInfo.id,
+        structureId: authInfo.structureId,
+      },
+    });
     expect(logs.length).toBe(1);
     expect(logs[0].action).toBe("IMPORT_USAGERS_SUCCESS");
     expect(logs[0].context).toEqual({

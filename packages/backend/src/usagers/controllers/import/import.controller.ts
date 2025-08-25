@@ -320,21 +320,15 @@ export class ImportController {
     @Param("documentType", new ParseEnumPipe(ImportDocumentType))
     documentType: ImportDocumentType
   ) {
-    if (documentType === ImportDocumentType.GUIDE)
-      await this.appLogsService.create({
-        role: user.role,
-        structureId: user.structureId,
-        userId: user.id,
-        action: "IMPORT_DOWNLOAD_GUIDE",
-      });
-
-    if (documentType === ImportDocumentType.MODELE)
-      await this.appLogsService.create({
-        role: user.role,
-        structureId: user.structureId,
-        userId: user.id,
-        action: "IMPORT_TEMPLATE_DOWNLOAD",
-      });
+    await this.appLogsService.create({
+      role: user.role,
+      structureId: user.structureId,
+      userId: user.id,
+      action:
+        documentType === ImportDocumentType.GUIDE
+          ? "IMPORT_DOWNLOAD_GUIDE"
+          : "IMPORT_TEMPLATE_DOWNLOAD",
+    });
   }
 }
 
