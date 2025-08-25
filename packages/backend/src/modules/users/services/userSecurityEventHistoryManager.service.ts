@@ -55,6 +55,7 @@ export function getBackoffTime(
   const lastEventType = eventsHistory[eventsHistory.length - 1].type;
 
   if (
+    lastEventType === "login-success" ||
     lastEventType === "change-password-success" ||
     lastEventType === "reset-password-success"
   ) {
@@ -69,7 +70,18 @@ export function getBackoffTime(
   );
 
   const eventHistoryMap = eventsRecentHistory.reduce((acc, event) => {
-    acc[event.type] = (acc[event.type] || 0) + 1;
+    if (
+      [
+        "reset-password-request",
+        "reset-password-error",
+        "login-error",
+        "change-password-error",
+        "validate-account-error",
+      ].includes(event.type)
+    ) {
+      acc[event.type] = (acc[event.type] || 0) + 1;
+      return acc;
+    }
     return acc;
   }, {} as Record<string, number>);
 
