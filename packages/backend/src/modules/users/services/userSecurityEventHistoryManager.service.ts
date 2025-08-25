@@ -72,6 +72,7 @@ export function getBackoffTime(
   const eventHistoryMap = eventsRecentHistory.reduce((acc, event) => {
     if (
       [
+        "reset-password-request",
         "reset-password-error",
         "login-error",
         "change-password-error",
