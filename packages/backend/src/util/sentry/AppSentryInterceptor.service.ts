@@ -51,7 +51,8 @@ export class AppSentryInterceptor implements NestInterceptor {
 
         captureException(err);
 
-        appLogger.error(`[http] ${err.message}`, { error: err, sentry: true });
+        console.log(err);
+        appLogger.error(`[http] ${err.message}`, { error: err });
 
         return throwError(() => new InternalServerErrorException());
       })
