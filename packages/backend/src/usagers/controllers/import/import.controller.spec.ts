@@ -1,4 +1,3 @@
-import { FailedUsagerImportLogContext } from "./../../../modules/app-logs/app-log-context.types";
 import { HttpStatus } from "@nestjs/common";
 
 import { pathExists } from "fs-extra";
@@ -18,7 +17,7 @@ import { ImportController } from "./import.controller";
 import { UsagerHistoryStateService } from "../../services/usagerHistoryState.service";
 import { UsagersModule } from "../../usagers.module";
 import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
-import { AppLog } from "../../../_common/model";
+import { appLogsRepository } from "../../../database";
 
 const importFilesDir = resolve(
   __dirname,
@@ -27,26 +26,15 @@ const importFilesDir = resolve(
 
 describe("Import Controller", () => {
   let controller: ImportController;
-  let appLogService: AppLogsService;
 
   let context: AppTestContext;
   let authInfo: TestUserStructure;
   beforeAll(async () => {
-    appLogService = {
-      create: jest.fn(),
-    };
     context = await AppTestHelper.bootstrapTestApp(
       {
         controllers: [ImportController],
         imports: [UsersModule, StructuresModule, UsagersModule],
-        providers: [
-          UsagersService,
-          UsagerHistoryStateService,
-          {
-            provide: AppLogsService,
-            useValue: appLogService,
-          },
-        ],
+        providers: [UsagersService, UsagerHistoryStateService, AppLogsService],
       },
       { initApp: true }
     );
@@ -58,8 +46,8 @@ describe("Import Controller", () => {
     controller = context.module.get<ImportController>(ImportController);
   });
 
-  beforeEach(() => {
-    jest.clearAllMocks();
+  beforeEach(async () => {
+    await appLogsRepository.clear();
   });
 
   afterAll(async () => {
@@ -71,20 +59,6 @@ describe("Import Controller", () => {
   });
 
   it(`❌ Import d'un fichier Incorrect`, async () => {
-    const expectedLogContextEntree: FailedUsagerImportLogContext = {
-      nombreActifs: 0,
-      nombreErreurs: 5,
-      nombreTotal: 2,
-    };
-
-    const expectedLog: AppLog = {
-      userId: authInfo.id,
-      structureId: authInfo.structureId,
-      role: authInfo.role,
-      context: expectedLogContextEntree,
-      action: "IMPORT_USAGERS_FAILED",
-    };
-
     const importFilePath = resolve(importFilesDir, "import_ko_1.xlsx");
 
     expect(await pathExists(importFilePath)).toBeTruthy();
@@ -98,9 +72,21 @@ describe("Import Controller", () => {
       context,
     });
 
-    expect(appLogService.create).toHaveBeenCalledWith(expectedLog);
-
     expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+
+    const logs = await appLogsRepository.find({
+      where: {
+        userId: authInfo.id,
+        structureId: authInfo.structureId,
+      },
+    });
+    expect(logs.length).toBe(1);
+    expect(logs[0].action).toBe("IMPORT_USAGERS_FAILED");
+    expect(logs[0].context).toEqual({
+      nombreActifs: 0,
+      nombreErreurs: 5,
+      nombreTotal: 2,
+    });
   });
 
   it(`✅ Import d'un fichier Valide 1️⃣`, async () => {
@@ -116,16 +102,6 @@ describe("Import Controller", () => {
       attachments: { file: importFilePath },
       context,
     });
-    expect(appLogService.create).toHaveBeenCalledWith({
-      action: "IMPORT_USAGERS_SUCCESS",
-      context: {
-        nombreActifs: 19,
-        nombreTotal: 0,
-      },
-      userId: authInfo.id,
-      structureId: authInfo.structureId,
-      role: authInfo.role,
-    });
     expect(response.status).toBe(HttpStatus.OK);
     expect(JSON.parse(response.text)).toEqual({
       importMode: "confirm",
@@ -136,11 +112,23 @@ describe("Import Controller", () => {
         totalCount: 0,
       },
     });
+
+    const logs = await appLogsRepository.find({
+      where: {
+        userId: authInfo.id,
+        structureId: authInfo.structureId,
+      },
+    });
+    expect(logs.length).toBe(1);
+    expect(logs[0].action).toBe("IMPORT_USAGERS_SUCCESS");
+    expect(logs[0].context).toEqual({
+      nombreActifs: 19,
+      nombreTotal: 19,
+    });
   });
 
   it(`✅ Import d'un fichier Valide 2️⃣`, async () => {
     const importFilePath = resolve(importFilesDir, "import_ok_2.xlsx");
-
     expect(await pathExists(importFilePath)).toBeTruthy();
 
     const headers: { [name: string]: string } = {};
@@ -151,16 +139,6 @@ describe("Import Controller", () => {
       attachments: { file: importFilePath },
       context,
     });
-    expect(appLogService.create).toHaveBeenCalledWith({
-      action: "IMPORT_USAGERS_SUCCESS",
-      context: {
-        nombreActifs: 2,
-        nombreTotal: 0,
-      },
-      userId: authInfo.id,
-      structureId: authInfo.structureId,
-      role: authInfo.role,
-    });
     expect(response.status).toBe(HttpStatus.OK);
     expect(JSON.parse(response.text)).toEqual({
       importMode: "confirm",
@@ -170,6 +148,19 @@ describe("Import Controller", () => {
         rows: [],
         totalCount: 0,
       },
+    });
+
+    const logs = await appLogsRepository.find({
+      where: {
+        userId: authInfo.id,
+        structureId: authInfo.structureId,
+      },
+    });
+    expect(logs.length).toBe(1);
+    expect(logs[0].action).toBe("IMPORT_USAGERS_SUCCESS");
+    expect(logs[0].context).toEqual({
+      nombreActifs: 2,
+      nombreTotal: 4,
     });
   });
 });
