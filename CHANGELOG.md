@@ -1,3 +1,10 @@
+## [2.220.1](https://github.com/SocialGouv/domifa/compare/v2.220.0...v2.220.1) (2025-08-25)
+
+
+### Bug Fixes
+
+* **logs:** fixed total count for success and changed events names ([#3865](https://github.com/SocialGouv/domifa/issues/3865)) ([d49cb49](https://github.com/SocialGouv/domifa/commit/d49cb4908d2f893d9ee31e79b24552279b57f483))
+
 # [2.220.0](https://github.com/SocialGouv/domifa/compare/v2.219.0...v2.220.0) (2025-08-19)
 
 
