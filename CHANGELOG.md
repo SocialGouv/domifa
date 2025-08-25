@@ -1,3 +1,11 @@
+## [2.220.2](https://github.com/SocialGouv/domifa/compare/v2.220.1...v2.220.2) (2025-08-25)
+
+
+### Bug Fixes
+
+* **backend:** add login as deblocking event ([#3866](https://github.com/SocialGouv/domifa/issues/3866)) ([244c2d3](https://github.com/SocialGouv/domifa/commit/244c2d3824f24118b3c45e9f1609affd3e71dd6a))
+* **frontend:** fix typo ([5139ec3](https://github.com/SocialGouv/domifa/commit/5139ec396964a3af57066a97217b461a71553f23))
+
 ## [2.220.1](https://github.com/SocialGouv/domifa/compare/v2.220.0...v2.220.1) (2025-08-25)
 
 
