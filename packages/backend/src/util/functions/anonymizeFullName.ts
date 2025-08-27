@@ -1,7 +1,7 @@
 import { Usager } from "@domifa/common";
 
 export function anonymizeFullName(
-  person: Pick<Usager, "nom" | "prenom">
+  person: { nom?: string | null; prenom?: string | null }
 ): string {
   const anonymizeText = (text?: string | null): string => {
     if (!text || text.trim().length === 0) {
