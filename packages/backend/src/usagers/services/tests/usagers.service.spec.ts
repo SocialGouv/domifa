@@ -11,6 +11,8 @@ import { UsagersService } from "../usagers.service";
 
 import { UsagerHistoryStateService } from "../usagerHistoryState.service";
 import { UserStructure } from "@domifa/common";
+import { UsagersLogsService } from "../usagers-logs.service";
+import { AppLogsModule } from "../../../modules/app-logs/app-logs.module";
 
 describe("UsagersService", () => {
   let service: UsagersService;
@@ -33,8 +35,12 @@ describe("UsagersService", () => {
 
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
-      imports: [forwardRef(() => UsersModule)],
-      providers: [UsagersService, UsagerHistoryStateService],
+      imports: [forwardRef(() => UsersModule), AppLogsModule],
+      providers: [
+        UsagersService,
+        UsagerHistoryStateService,
+        UsagersLogsService,
+      ],
     });
     service = context.module.get<UsagersService>(UsagersService);
   });

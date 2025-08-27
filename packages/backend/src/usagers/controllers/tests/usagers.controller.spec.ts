@@ -17,6 +17,8 @@ import { UsagersService, UsagerOptionsHistoryService } from "../../services";
 import { UsagerHistoryStateService } from "../../services/usagerHistoryState.service";
 import { FileManagerService } from "../../../util/file-manager/file-manager.service";
 import { Usager } from "@domifa/common";
+import { UsagersLogsService } from "../../services/usagers-logs.service";
+import { AppLogsModule } from "../../../modules/app-logs/app-logs.module";
 
 const ENDPOINT = "/usagers";
 
@@ -37,13 +39,19 @@ describe("Usagers Controller", () => {
     context = await AppTestHelper.bootstrapTestApp(
       {
         controllers: [UsagersController],
-        imports: [UsagersModule, UsersModule, InteractionsModule],
+        imports: [
+          UsagersModule,
+          UsersModule,
+          InteractionsModule,
+          AppLogsModule,
+        ],
         providers: [
           UsagersService,
           UsagerOptionsHistoryService,
           AppLogsService,
           UsagerHistoryStateService,
           FileManagerService,
+          UsagersLogsService,
         ],
       },
       { initApp: true }
