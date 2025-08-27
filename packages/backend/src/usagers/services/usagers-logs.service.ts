@@ -3,6 +3,7 @@ import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { LogAction, UserStructureAuthenticated } from "../../_common/model";
 import { Telephone, Usager } from "@domifa/common";
 import isEqual from "lodash.isequal";
+import { anonymizeFullName, anonymizeText } from "../../util";
 
 export type UsagerForLogs = Pick<
   Usager,
@@ -28,7 +29,7 @@ export class UsagersLogsService {
       await this.createLog(
         "USAGERS_EMAIL_DELETE",
         {
-          oldEmail: this.anonymizeText(oldEmail),
+          oldEmail: anonymizeText(oldEmail),
           newEmail: null,
         },
         usager,
@@ -41,8 +42,8 @@ export class UsagersLogsService {
       await this.createLog(
         "USAGERS_EMAIL_UPDATE",
         {
-          oldEmail: oldEmail ? this.anonymizeText(oldEmail) : null,
-          newEmail: this.anonymizeText(newEmail),
+          oldEmail: oldEmail ? anonymizeText(oldEmail) : null,
+          newEmail: anonymizeText(newEmail),
         },
         usager,
         user
@@ -60,7 +61,7 @@ export class UsagersLogsService {
       await this.createLog(
         "USAGERS_PHONE_DELETE",
         {
-          oldPhone: this.anonymizeText(oldPhone.numero),
+          oldPhone: anonymizeText(oldPhone.numero),
           newPhone: null,
         },
         usager,
@@ -73,10 +74,8 @@ export class UsagersLogsService {
       await this.createLog(
         "USAGERS_PHONE_UPDATE",
         {
-          oldPhone: oldPhone?.numero
-            ? this.anonymizeText(oldPhone.numero)
-            : null,
-          newPhone: this.anonymizeText(newPhone.numero),
+          oldPhone: oldPhone?.numero ? anonymizeText(oldPhone.numero) : null,
+          newPhone: anonymizeText(newPhone.numero),
         },
         usager,
         user
@@ -97,12 +96,8 @@ export class UsagersLogsService {
       action,
       context: {
         ...context,
-        user: this.anonymizeText(user.nom + " " + user.prenom),
+        user: anonymizeFullName(user),
       },
     });
-  }
-
-  private anonymizeText(text: string): string {
-    return text;
   }
 }

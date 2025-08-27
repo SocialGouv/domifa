@@ -1,10 +1,8 @@
+import "@opentelemetry/api";
 import {
   SentrySpanProcessor,
   SentryPropagator,
 } from "@sentry/opentelemetry-node";
-
-import * as opentelemetry from "@opentelemetry/sdk-node";
-import "@opentelemetry/api";
 
 // Warning: don't use @opentelemetry/auto-instrumentations-node as it uses far too much memory at the start of the process
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
@@ -19,6 +17,7 @@ import { domifaConfig } from "./config";
 import { appLogger } from "./util";
 import { format } from "date-fns";
 import { captureMessage, init } from "@sentry/node";
+import { NodeSDK } from "@opentelemetry/sdk-node";
 
 if (domifaConfig().dev.sentry.enabled) {
   init({
@@ -29,7 +28,7 @@ if (domifaConfig().dev.sentry.enabled) {
     profilesSampleRate: 1,
   });
 
-  const sdk = new opentelemetry.NodeSDK({
+  const sdk = new NodeSDK({
     traceExporter: new OTLPTraceExporter(),
     instrumentations: [
       new HttpInstrumentation(),
