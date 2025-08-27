@@ -2,7 +2,7 @@ import { HttpException, HttpStatus } from "@nestjs/common";
 import { createTransport, SendMailOptions } from "nodemailer";
 
 import { mailRecipientsFilter } from "./mailRecipientsFilter.service";
-import Mail = require("nodemailer/lib/mailer");
+
 import { domifaConfig } from "../../../../config";
 import {
   MessageEmailContent,
@@ -12,6 +12,7 @@ import {
   MessageEmailRecipient,
 } from "../../../../database";
 import { appLogger } from "../../../../util";
+import Mail from "nodemailer/lib/mailer";
 
 // create reusable transporter object using SMTP transport
 
@@ -96,6 +97,7 @@ async function sendEmail(
     };
     return sendDetails;
   } catch (err) {
+    console.log({ err });
     appLogger.warn(`[smtpSender] Error sending smtp message: : ${err}`, {
       sentry: true,
     });

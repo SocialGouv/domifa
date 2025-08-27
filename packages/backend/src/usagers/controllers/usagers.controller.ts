@@ -49,8 +49,6 @@ import { UsagersService } from "../services";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { generateCerfaData } from "../utils/cerfa";
 
-import pdftk = require("node-pdftk");
-
 import { join, resolve } from "path";
 import { readFile } from "fs-extra";
 import { ExpressResponse } from "../../util/express";
@@ -61,6 +59,7 @@ import { FileManagerService } from "../../util/file-manager/file-manager.service
 import { AssignReferrersDto } from "../dto/assign-referrers.dto";
 import { In } from "typeorm";
 import { UsagersLogsService } from "../services/usagers-logs.service";
+import { input } from "node-pdftk";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -359,7 +358,7 @@ export class UsagersController {
     const filePath = await readFile(resolve(__dirname, pdfForm));
 
     try {
-      const buffer = await pdftk.input(filePath).fillForm(pdfInfos).output();
+      const buffer = await input(filePath).fillForm(pdfInfos).output();
       return res.setHeader("content-type", "application/pdf").send(buffer);
     } catch (err) {
       return res
