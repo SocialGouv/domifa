@@ -6,12 +6,6 @@ export class AutoMigration1755523274895 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     console.log("🚀 Starting password type migration");
 
-    // Ajout de la colonne passwordType
-    await queryRunner.query(`
-      ALTER TABLE "user_usager"
-      ADD COLUMN "passwordType" text
-    `);
-
     // Initial stats
     const initialStats = await queryRunner.query(`
       SELECT

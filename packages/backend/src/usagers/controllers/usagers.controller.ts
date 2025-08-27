@@ -60,6 +60,7 @@ import { domifaConfig } from "../../config";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
 import { AssignReferrersDto } from "../dto/assign-referrers.dto";
 import { In } from "typeorm";
+import { UsagersLogsService } from "../services/usagers-logs.service";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -72,7 +73,8 @@ export class UsagersController {
     private readonly usagersService: UsagersService,
     private readonly appLogsService: AppLogsService,
     private readonly usagerHistoryStateService: UsagerHistoryStateService,
-    private readonly fileManagerService: FileManagerService
+    private readonly fileManagerService: FileManagerService,
+    private readonly usagersLogsService: UsagersLogsService
   ) {}
 
   @Post()
@@ -107,6 +109,20 @@ export class UsagersController {
       { ...usagerDto }
     );
 
+    await this.usagersLogsService.checkAndLogEmailChanges(
+      currentUsager,
+      _user,
+      currentUsager?.email,
+      usagerDto?.email
+    );
+
+    await this.usagersLogsService.checkAndLogPhoneChanges(
+      currentUsager,
+      _user,
+      currentUsager?.telephone,
+      usagerDto?.telephone
+    );
+
     const createdAt = new Date();
     const historyBeginDate = createdAt;
 
@@ -139,6 +155,20 @@ export class UsagersController {
       contactByPhone: contactDetails.contactByPhone,
       email: contactDetails.email,
     };
+
+    await this.usagersLogsService.checkAndLogEmailChanges(
+      currentUsager,
+      _user,
+      currentUsager?.email,
+      contactDetails?.email
+    );
+
+    await this.usagersLogsService.checkAndLogPhoneChanges(
+      currentUsager,
+      _user,
+      currentUsager?.telephone,
+      contactDetails?.telephone
+    );
 
     await usagerRepository.update(
       { uuid: currentUsager.uuid },
@@ -283,7 +313,7 @@ export class UsagersController {
       userId: user.id,
       usagerRef: usager.ref,
       structureId: user.structureId,
-      action: "SUPPRIMER_DOMICILIE",
+      action: "USAGERS_DELETE",
       context: {
         user: anonymizeFullName(user),
         usagerNom: anonymizeFullName(usager),
