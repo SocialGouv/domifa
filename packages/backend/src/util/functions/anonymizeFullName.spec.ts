@@ -5,13 +5,13 @@ describe("anonymizeFullName", () => {
     it("should anonymize normal names correctly", () => {
       const person = { nom: "mamacc", prenom: "Yassine" };
       const result = anonymizeFullName(person);
-      expect(result).toBe("Ya**** Ma****");
+      expect(result).toBe("Ya****E Ma***C");
     });
 
     it("should handle mixed case names", () => {
       const person = { nom: "DUPONT", prenom: "jean" };
       const result = anonymizeFullName(person);
-      expect(result).toBe("Je** Du****");
+      expect(result).toBe("Je*N Du***T");
     });
 
     it("should handle names with 2 characters or less", () => {
@@ -26,16 +26,10 @@ describe("anonymizeFullName", () => {
       expect(result).toBe("Y X");
     });
 
-    it("should handle single character names with proper capitalization", () => {
-      const person = { nom: "x", prenom: "y" };
-      const result = anonymizeFullName(person);
-      expect(result).toBe("Y X");
-    });
-
     it("should handle long names", () => {
       const person = { nom: "VeryLongLastName", prenom: "VeryLongFirstName" };
       const result = anonymizeFullName(person);
-      expect(result).toBe("Ve**************** Ve**************");
+      expect(result).toBe("Ve**************E Ve*************E");
     });
   });
 
@@ -43,7 +37,7 @@ describe("anonymizeFullName", () => {
     it("should handle names with leading/trailing spaces", () => {
       const person = { nom: "  Dupont  ", prenom: "  Jean  " };
       const result = anonymizeFullName(person);
-      expect(result).toBe("Je** Du****");
+      expect(result).toBe("Je*N Du***T");
     });
 
     it("should handle names that are only spaces", () => {
@@ -69,13 +63,13 @@ describe("anonymizeFullName", () => {
     it("should handle mixed null and valid values", () => {
       const person = { nom: "Dupont", prenom: null };
       const result = anonymizeFullName(person);
-      expect(result).toBe("Du****");
+      expect(result).toBe("Du***T");
     });
 
     it("should handle mixed undefined and valid values", () => {
       const person = { nom: undefined, prenom: "Jean" };
       const result = anonymizeFullName(person);
-      expect(result).toBe("Je**");
+      expect(result).toBe("Je*N");
     });
   });
 
@@ -89,13 +83,13 @@ describe("anonymizeFullName", () => {
     it("should handle mixed empty and valid values", () => {
       const person = { nom: "Dupont", prenom: "" };
       const result = anonymizeFullName(person);
-      expect(result).toBe("Du****");
+      expect(result).toBe("Du***T");
     });
 
     it("should handle mixed valid and empty values", () => {
       const person = { nom: "", prenom: "Jean" };
       const result = anonymizeFullName(person);
-      expect(result).toBe("Je**");
+      expect(result).toBe("Je*N");
     });
   });
 
@@ -103,13 +97,13 @@ describe("anonymizeFullName", () => {
     it("should handle names with special characters", () => {
       const person = { nom: "O'Connor", prenom: "Jean-Luc" };
       const result = anonymizeFullName(person);
-      expect(result).toBe("Je****** O'*******");
+      expect(result).toBe("Je*****C O'*****R");
     });
 
     it("should handle names with accents", () => {
       const person = { nom: "Müller", prenom: "François" };
       const result = anonymizeFullName(person);
-      expect(result).toBe("Fr****** Mü****");
+      expect(result).toBe("Fr*****S Mü***R");
     });
   });
 });
