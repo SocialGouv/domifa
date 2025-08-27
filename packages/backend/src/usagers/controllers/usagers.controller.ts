@@ -34,7 +34,7 @@ import {
   USAGER_LIGHT_ATTRIBUTES,
 } from "../../database";
 
-import { cleanPath, getPhoneString } from "../../util";
+import { anonymizeFullName, cleanPath, getPhoneString } from "../../util";
 import {
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
@@ -284,6 +284,12 @@ export class UsagersController {
       usagerRef: usager.ref,
       structureId: user.structureId,
       action: "SUPPRIMER_DOMICILIE",
+      context: {
+        user: anonymizeFullName(user),
+        usagerNom: anonymizeFullName(usager),
+        usagerRef: usager.ref,
+        uuid: usager.uuid,
+      },
     });
 
     const key = `${join(
