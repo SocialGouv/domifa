@@ -63,7 +63,7 @@ export const CUSTOM_DOCS_LABELS: {
   DATE_RADIATION_FORMAT_COURT: "Date de la radiation au format (dd/mm/yyyy)",
   DATE_REFUS: "Date du refus",
   DATE_REFUS_FORMAT_COURT: "Date du refus au format (dd/mm/yyyy)",
-  DECISION_NOM_AGENT: "Utilisateur ayant prit la décision",
+  DECISION_NOM_AGENT: "Utilisateur ayant pris la décision",
   PREMIERE_DOM_NOM_AGENT: "Utilisateur ayant validé la 1ere dom",
 
   // DATES DOMICILIATION
