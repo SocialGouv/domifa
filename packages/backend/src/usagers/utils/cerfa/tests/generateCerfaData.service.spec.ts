@@ -271,7 +271,7 @@ describe("Générer les données des Cerfa", () => {
         );
         expect(data.noms1).toEqual("KARAMOKO");
       });
-      it("Nom dépouse activé: ne pas afficher le surnom s'il est vide", () => {
+      it("Nom d'épouse activé: ne pas afficher le surnom s'il est vide", () => {
         user.structure.options.surnom = true;
         usagerValide.surnom = null;
         const data = generateCerfaData(
@@ -281,7 +281,7 @@ describe("Générer les données des Cerfa", () => {
         );
         expect(data.noms1).toEqual("KARAMOKO");
       });
-      it("Nom dépouse activé: afficher le surnom ", () => {
+      it("Nom d'épouse activé: afficher le surnom ", () => {
         user.structure.options.surnom = true;
         usagerValide.surnom = "Marie-madeleine";
         const data = generateCerfaData(
