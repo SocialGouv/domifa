@@ -34,7 +34,7 @@ import {
   USAGER_LIGHT_ATTRIBUTES,
 } from "../../database";
 
-import { cleanPath, getPhoneString } from "../../util";
+import { anonymizeFullName, cleanPath, getPhoneString } from "../../util";
 import {
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
@@ -49,8 +49,6 @@ import { UsagersService } from "../services";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { generateCerfaData } from "../utils/cerfa";
 
-import pdftk = require("node-pdftk");
-
 import { join, resolve } from "path";
 import { readFile } from "fs-extra";
 import { ExpressResponse } from "../../util/express";
@@ -60,6 +58,8 @@ import { domifaConfig } from "../../config";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
 import { AssignReferrersDto } from "../dto/assign-referrers.dto";
 import { In } from "typeorm";
+import { UsagersLogsService } from "../services/usagers-logs.service";
+import { input } from "node-pdftk";
 
 @Controller("usagers")
 @ApiTags("usagers")
@@ -72,7 +72,8 @@ export class UsagersController {
     private readonly usagersService: UsagersService,
     private readonly appLogsService: AppLogsService,
     private readonly usagerHistoryStateService: UsagerHistoryStateService,
-    private readonly fileManagerService: FileManagerService
+    private readonly fileManagerService: FileManagerService,
+    private readonly usagersLogsService: UsagersLogsService
   ) {}
 
   @Post()
@@ -107,6 +108,20 @@ export class UsagersController {
       { ...usagerDto }
     );
 
+    await this.usagersLogsService.checkAndLogEmailChanges(
+      currentUsager,
+      _user,
+      currentUsager?.email,
+      usagerDto?.email
+    );
+
+    await this.usagersLogsService.checkAndLogPhoneChanges(
+      currentUsager,
+      _user,
+      currentUsager?.telephone,
+      usagerDto?.telephone
+    );
+
     const createdAt = new Date();
     const historyBeginDate = createdAt;
 
@@ -139,6 +154,20 @@ export class UsagersController {
       contactByPhone: contactDetails.contactByPhone,
       email: contactDetails.email,
     };
+
+    await this.usagersLogsService.checkAndLogEmailChanges(
+      currentUsager,
+      _user,
+      currentUsager?.email,
+      contactDetails?.email
+    );
+
+    await this.usagersLogsService.checkAndLogPhoneChanges(
+      currentUsager,
+      _user,
+      currentUsager?.telephone,
+      contactDetails?.telephone
+    );
 
     await usagerRepository.update(
       { uuid: currentUsager.uuid },
@@ -283,7 +312,13 @@ export class UsagersController {
       userId: user.id,
       usagerRef: usager.ref,
       structureId: user.structureId,
-      action: "SUPPRIMER_DOMICILIE",
+      action: "USAGERS_DELETE",
+      context: {
+        user: anonymizeFullName(user),
+        usagerNom: anonymizeFullName(usager),
+        usagerRef: usager.ref,
+        uuid: usager.uuid,
+      },
     });
 
     const key = `${join(
@@ -323,7 +358,7 @@ export class UsagersController {
     const filePath = await readFile(resolve(__dirname, pdfForm));
 
     try {
-      const buffer = await pdftk.input(filePath).fillForm(pdfInfos).output();
+      const buffer = await input(filePath).fillForm(pdfInfos).output();
       return res.setHeader("content-type", "application/pdf").send(buffer);
     } catch (err) {
       return res

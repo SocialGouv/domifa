@@ -10,8 +10,8 @@ import {
   DOMIFA_ENV_IDS,
 } from "./model";
 import { configParser } from "./services/configParser.service";
-import SMTPTransport = require("nodemailer/lib/smtp-transport");
 import { join } from "path";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 let _domifaConfig: DomifaConfig;
 

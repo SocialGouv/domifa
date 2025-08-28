@@ -24,6 +24,7 @@ import { FileManagerService } from "../util/file-manager/file-manager.service";
 import { AppLogsService } from "../modules/app-logs/app-logs.service";
 import { MailsModule } from "../modules/mails/mails.module";
 import { SearchUsagersController } from "./controllers/search-usagers.controller";
+import { UsagersLogsService } from "./services/usagers-logs.service";
 
 @Module({
   controllers: [
@@ -55,6 +56,7 @@ import { SearchUsagersController } from "./controllers/search-usagers.controller
     ImportCreatorService,
     FileManagerService,
     AppLogsService,
+    UsagersLogsService,
   ],
 })
 export class UsagersModule {}

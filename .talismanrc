@@ -2,7 +2,7 @@ fileignoreconfig:
 - filename: .anonymizer/yarn.lock
   checksum: adf574ab2b9fc5e21891b802504438b9f7738c8854047dbc7ca628cd3994ef5f
 - filename: .kontinuous/env/dev/templates/backend.sealed-secret.yaml
-  checksum: 029065f19d0c37b4e2de8dc5c29b7badc5823be28c63885470d2c363108eb5d2
+  checksum: eb02b7f4930980a6ad41118a3cae40e682d3322d1a3eba9b19b17da72e321136
 - filename: .kontinuous/env/preprod/templates/backend.sealed-secret.yaml
   checksum: 08602bd330f851a3a7a62707623f154cf4e33d43c96087b85531fee32dad342e
 - filename: _docs/dev/0.run-local-env.md

@@ -33,7 +33,7 @@ import { UsagerOptionsHistoryService } from "../services";
 import { ExpressResponse } from "../../util/express";
 import { isEqual } from "lodash";
 
-import sortObj = require("sort-object");
+import * as sortObj from "sort-object";
 import { usagerRepository } from "../../database";
 import {
   Usager,
