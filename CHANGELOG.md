@@ -1,3 +1,10 @@
+## [2.220.4](https://github.com/SocialGouv/domifa/compare/v2.220.3...v2.220.4) (2025-08-28)
+
+
+### Bug Fixes
+
+* **backend:** add anon data for logs ([#3875](https://github.com/SocialGouv/domifa/issues/3875)) ([af56bb5](https://github.com/SocialGouv/domifa/commit/af56bb51deb95e42eb6bb9dc4f75dcb20fe1b6e3))
+
 ## [2.220.3](https://github.com/SocialGouv/domifa/compare/v2.220.2...v2.220.3) (2025-08-27)
 
 
