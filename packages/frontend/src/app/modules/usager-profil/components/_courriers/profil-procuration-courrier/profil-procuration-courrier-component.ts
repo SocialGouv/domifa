@@ -25,8 +25,6 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo-client";
 import { Subscription } from "rxjs";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { NgbDateCustomParserFormatter } from "src/app/modules/shared/services/date-formatter.service";
 import { DEFAULT_MODAL_OPTIONS } from "../../../../../../_common/model";
 import {
   endDateAfterBeginDateValidator,
@@ -36,12 +34,14 @@ import {
   minDateToday,
   minDateNaissance,
   formatDateToNgb,
+  parseDateFromNgb,
 } from "../../../../../shared/bootstrap-util";
 
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 
 import { UsagerOptionsService } from "../../../services/usager-options.service";
 import { UserStructure, UsagerOptionsProcuration } from "@domifa/common";
+import { CustomToastService } from "../../../../shared/services";
 
 @Component({
   selector: "app-profil-procuration-courrier",
@@ -75,7 +75,6 @@ export class UsagersProfilProcurationCourrierComponent
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
-    private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly toastService: CustomToastService,
     private readonly usagerOptionsService: UsagerOptionsService,
     private readonly matomo: MatomoTracker,
@@ -188,9 +187,9 @@ export class UsagersProfilProcurationCourrierComponent
         return {
           nom: procuration.nom,
           prenom: procuration.prenom,
-          dateFin: this.nbgDate.formatEn(procuration.dateFin),
-          dateDebut: this.nbgDate.formatEn(procuration.dateDebut),
-          dateNaissance: this.nbgDate.formatEn(procuration.dateNaissance),
+          dateFin: parseDateFromNgb(procuration.dateFin),
+          dateDebut: parseDateFromNgb(procuration.dateDebut),
+          dateNaissance: parseDateFromNgb(procuration.dateNaissance),
         };
       }
     );

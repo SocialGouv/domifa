@@ -4133,6 +4133,7 @@ __metadata:
     sanitize-html: "npm:^2.17.0"
     sharp: "npm:^0.34.0"
     slug: "npm:^9.1.0"
+    sort-keys: "npm:^6.0.0"
     sort-object: "npm:^3.0.3"
     source-map-support: "npm:^0.5.21"
     striptags: "npm:^3.2.0"
@@ -19430,6 +19431,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-plain-obj@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "is-plain-obj@npm:4.1.0"
+  checksum: 10/6dc45da70d04a81f35c9310971e78a6a3c7a63547ef782e3a07ee3674695081b6ca4e977fbb8efc48dae3375e0b34558d2bcd722aec9bddfa2d7db5b041be8ce
+  languageName: node
+  linkType: hard
+
 "is-plain-object@npm:^2.0.3, is-plain-object@npm:^2.0.4":
   version: 2.0.4
   resolution: "is-plain-object@npm:2.0.4"
@@ -27086,6 +27094,15 @@ __metadata:
   dependencies:
     is-plain-obj: "npm:^1.0.0"
   checksum: 10/255f9fb393ef60a3db508e0cc5b18ef401127dbb2376b205ae27d168e245fc0d6b35267dde98fab6410dde684c9321f7fc8bf71f2b051761973231617753380d
+  languageName: node
+  linkType: hard
+
+"sort-keys@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "sort-keys@npm:6.0.0"
+  dependencies:
+    is-plain-obj: "npm:^4.1.0"
+  checksum: 10/8474c4b1e52bc55f5f6fe48de3bdfa1c15c3ae7c1260a955f268746f7122d99dcbc9e84b04e4f0316cde13a94052d59def4278563780e74940d682a028c8ab2b
   languageName: node
   linkType: hard
 

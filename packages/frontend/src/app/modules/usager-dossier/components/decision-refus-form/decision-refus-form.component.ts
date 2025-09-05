@@ -21,14 +21,12 @@ import {
 import {
   formatDateToNgb,
   minDateToday,
+  parseDateFromNgb,
 } from "../../../../shared/bootstrap-util";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
 import { Subscription } from "rxjs";
 import { NoWhiteSpaceValidator } from "../../../../shared";
-import {
-  NgbDateCustomParserFormatter,
-  CustomToastService,
-} from "../../../shared/services";
+import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { MOTIFS_REFUS_LABELS } from "@domifa/common";
 
@@ -56,7 +54,6 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
     private readonly formBuilder: UntypedFormBuilder,
     private readonly usagerDecisionService: UsagerDecisionService,
     private readonly router: Router,
-    private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly toastService: CustomToastService
   ) {
     this.loading = false;
@@ -108,9 +105,7 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
 
     const formDatas: UsagerDecisionRefusForm = {
       ...this.refusForm.value,
-      dateFin: new Date(
-        this.nbgDate.formatEn(this.refusForm.controls.dateFin.value)
-      ),
+      dateFin: parseDateFromNgb(this.refusForm.controls.dateFin.value),
     };
 
     this.setDecision(formDatas);
