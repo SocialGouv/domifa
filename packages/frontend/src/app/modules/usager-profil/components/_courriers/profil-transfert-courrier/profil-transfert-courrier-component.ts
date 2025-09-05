@@ -20,11 +20,9 @@ import {
   endDateAfterBeginDateValidator,
   formatDateToNgb,
   NoWhiteSpaceValidator,
+  parseDateFromNgb,
 } from "../../../../../shared";
-import {
-  NgbDateCustomParserFormatter,
-  CustomToastService,
-} from "../../../../shared/services";
+import { CustomToastService } from "../../../../shared/services";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerOptionsService } from "../../../services/usager-options.service";
 import { UserStructure } from "@domifa/common";
@@ -53,7 +51,6 @@ export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
-    private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly toastService: CustomToastService,
     private readonly usagerOptionsService: UsagerOptionsService,
     private readonly modalService: NgbModal,
@@ -136,12 +133,8 @@ export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
     const formValue = {
       actif: true,
       ...this.transfertForm.value,
-      dateFin: new Date(
-        this.nbgDate.formatEn(this.transfertForm.controls.dateFin.value)
-      ),
-      dateDebut: new Date(
-        this.nbgDate.formatEn(this.transfertForm.controls.dateDebut.value)
-      ),
+      dateFin: parseDateFromNgb(this.transfertForm.controls.dateFin.value),
+      dateDebut: parseDateFromNgb(this.transfertForm.controls.dateDebut.value),
     };
 
     this.loading = true;

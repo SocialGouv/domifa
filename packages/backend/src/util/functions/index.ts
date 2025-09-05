@@ -3,4 +3,5 @@ export * from "./anonymizeFullName";
 export * from "./cleanFormData";
 export * from "./getCreatedByUserStructure";
 export * from "./getStringFromData";
+export * from "./sortObjectByKeys";
 export * from "./stringUtils";

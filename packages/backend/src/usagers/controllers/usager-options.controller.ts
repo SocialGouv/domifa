@@ -33,7 +33,6 @@ import { UsagerOptionsHistoryService } from "../services";
 import { ExpressResponse } from "../../util/express";
 import { isEqual } from "lodash";
 
-import * as sortObj from "sort-object";
 import { usagerRepository } from "../../database";
 import {
   Usager,
@@ -41,6 +40,7 @@ import {
   UsagerOptionsHistoryTypeEnum,
 } from "@domifa/common";
 import { AppUserGuard } from "../../auth/guards";
+import { sortObjectByKeys } from "../../util";
 
 @ApiTags("usagers-options")
 @ApiBearerAuth()
@@ -120,8 +120,14 @@ export class UsagerOptionsController {
         usager.options.transfert.dateFin
       );
     }
-
-    if (!isEqual(sortObj(usager.options.transfert), sortObj(transfertDto))) {
+    console.log(usager.options.transfert);
+    console.log(transfertDto);
+    if (
+      !isEqual(
+        sortObjectByKeys(usager.options.transfert),
+        sortObjectByKeys(transfertDto)
+      )
+    ) {
       await this.usagerOptionsHistoryService.createOptionHistory(
         usager,
         user,
@@ -177,10 +183,13 @@ export class UsagerOptionsController {
             usager.options.procurations[i].dateFin
           );
 
+          console.log(usager.options.procurations[i]);
+          console.log(procurationsDto[i]);
+
           if (
             isEqual(
-              sortObj(usager.options.procurations[i]),
-              sortObj(procurationsDto[i])
+              sortObjectByKeys(usager.options.procurations[i]),
+              sortObjectByKeys(procurationsDto[i])
             )
           ) {
             needCreateHistory = false;
