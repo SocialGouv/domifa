@@ -244,7 +244,7 @@ export class ManageStructureInformationFormComponent
     );
   }
 
-  private endDateAfterBeginDateValidator = (
+  private readonly endDateAfterBeginDateValidator = (
     controls: AbstractControl
   ): ValidationErrors | null => {
     const beginDateControl: AbstractControl | null = controls.get("startDate");
