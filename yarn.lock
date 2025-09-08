@@ -201,13 +201,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/architect@npm:^0.2001.5":
-  version: 0.2001.5
-  resolution: "@angular-devkit/architect@npm:0.2001.5"
+"@angular-devkit/architect@npm:^0.2002.0":
+  version: 0.2002.2
+  resolution: "@angular-devkit/architect@npm:0.2002.2"
   dependencies:
-    "@angular-devkit/core": "npm:20.1.5"
+    "@angular-devkit/core": "npm:20.2.2"
     rxjs: "npm:7.8.2"
-  checksum: 10/6f8a4973f7e1a536c888686f1c53125e64452f08e4fa806f746ffb16304f3aedb2a59c21af119ff724ca793e55fb0e8470005aebdafb94e74886d15bb7663833
+  checksum: 10/ee24e4940d42b53011ccf55547802b1c43f8f6a3882d61e59cf84b54b0cbb63c06f0fc6e79dfecf9fa97d9f077e325ff5332f35a900aac366cbf0c9baa8f5d84
   languageName: node
   linkType: hard
 
@@ -434,25 +434,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/core@npm:20.1.5":
-  version: 20.1.5
-  resolution: "@angular-devkit/core@npm:20.1.5"
-  dependencies:
-    ajv: "npm:8.17.1"
-    ajv-formats: "npm:3.0.1"
-    jsonc-parser: "npm:3.3.1"
-    picomatch: "npm:4.0.2"
-    rxjs: "npm:7.8.2"
-    source-map: "npm:0.7.4"
-  peerDependencies:
-    chokidar: ^4.0.0
-  peerDependenciesMeta:
-    chokidar:
-      optional: true
-  checksum: 10/303ea8bca4fcc0103f6742d1e6b1066ff4d9ffcde819b8b0fb882173d2276ae27585e2f8b66c18a894b126e31e4bde70aa245ae448e781657c83d5ccabceef33
-  languageName: node
-  linkType: hard
-
 "@angular-devkit/core@npm:20.2.0":
   version: 20.2.0
   resolution: "@angular-devkit/core@npm:20.2.0"
@@ -469,6 +450,25 @@ __metadata:
     chokidar:
       optional: true
   checksum: 10/b681f07f86428bf319bdf619a3907223db1970e1dd5085c152c9cadef832a07a94848557144207663192a40c2728fd2a0115c2b0f70df0a7eea83b35acf4dce2
+  languageName: node
+  linkType: hard
+
+"@angular-devkit/core@npm:20.2.2":
+  version: 20.2.2
+  resolution: "@angular-devkit/core@npm:20.2.2"
+  dependencies:
+    ajv: "npm:8.17.1"
+    ajv-formats: "npm:3.0.1"
+    jsonc-parser: "npm:3.3.1"
+    picomatch: "npm:4.0.3"
+    rxjs: "npm:7.8.2"
+    source-map: "npm:0.7.6"
+  peerDependencies:
+    chokidar: ^4.0.0
+  peerDependenciesMeta:
+    chokidar:
+      optional: true
+  checksum: 10/b7a9a594482dd58aef45d0a6e5e9c0e3b8f5f9db9e739979159c79d2decd9bc6284925623b569b2cae1d4797dd5c53cd390a44602b5700277e9a438e115385a7
   languageName: node
   linkType: hard
 
@@ -4071,7 +4071,7 @@ __metadata:
     "@types/nodemailer": "npm:^6.4.17"
     "@types/nunjucks": "npm:^3.2.6"
     "@types/passport-jwt": "npm:^3.0.13"
-    "@types/pdfkit": "npm:^0.13.9"
+    "@types/pdfkit": "npm:^0.17.0"
     "@types/pino": "npm:^7.0.5"
     "@types/pizzip": "npm:^3.0.5"
     "@types/sanitize-html": "npm:^2.16.0"
@@ -4186,7 +4186,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/frontend@workspace:packages/frontend"
   dependencies:
-    "@angular-devkit/architect": "npm:^0.2001.5"
+    "@angular-devkit/architect": "npm:^0.2002.0"
     "@angular-devkit/build-angular": "npm:^18.2.20"
     "@angular-devkit/core": "npm:^18.2.20"
     "@angular-devkit/schematics": "npm:^18.2.20"
@@ -4242,7 +4242,7 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-import: "npm:^2.32.0"
     eslint-plugin-n: "npm:^17.20.0"
-    eslint-plugin-no-lookahead-lookbehind-regexp: "npm:^0.3.0"
+    eslint-plugin-no-lookahead-lookbehind-regexp: "npm:^0.4.0"
     eslint-plugin-prettier: "npm:^5.5.1"
     file-saver: "npm:^2.0.5"
     google-libphonenumber: "npm:^3.2.42"
@@ -4273,7 +4273,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/portail-admins@workspace:packages/portail-admins"
   dependencies:
-    "@angular-devkit/architect": "npm:^0.2001.5"
+    "@angular-devkit/architect": "npm:^0.2002.0"
     "@angular-devkit/build-angular": "npm:^18.2.20"
     "@angular-devkit/core": "npm:^18.2.20"
     "@angular-devkit/schematics": "npm:^18.2.20"
@@ -4318,7 +4318,7 @@ __metadata:
     eslint: "npm:^8.57.1"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-import: "npm:^2.32.0"
-    eslint-plugin-no-lookahead-lookbehind-regexp: "npm:^0.3.0"
+    eslint-plugin-no-lookahead-lookbehind-regexp: "npm:^0.4.0"
     eslint-plugin-prettier: "npm:^5.5.1"
     file-saver: "npm:^2.0.5"
     google-libphonenumber: "npm:^3.2.42"
@@ -4343,7 +4343,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@domifa/portail-usagers@workspace:packages/portail-usagers"
   dependencies:
-    "@angular-devkit/architect": "npm:^0.2001.5"
+    "@angular-devkit/architect": "npm:^0.2002.0"
     "@angular-devkit/build-angular": "npm:^18.2.20"
     "@angular-devkit/core": "npm:^18.2.20"
     "@angular-devkit/schematics": "npm:^18.2.20"
@@ -4385,7 +4385,7 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-import: "npm:^2.32.0"
     eslint-plugin-n: "npm:^17.20.0"
-    eslint-plugin-no-lookahead-lookbehind-regexp: "npm:^0.3.0"
+    eslint-plugin-no-lookahead-lookbehind-regexp: "npm:^0.4.0"
     eslint-plugin-prettier: "npm:^5.5.1"
     file-saver: "npm:^2.0.5"
     google-libphonenumber: "npm:^3.2.42"
@@ -10703,12 +10703,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pdfkit@npm:^0.13.9":
-  version: 0.13.9
-  resolution: "@types/pdfkit@npm:0.13.9"
+"@types/pdfkit@npm:^0.17.0":
+  version: 0.17.3
+  resolution: "@types/pdfkit@npm:0.17.3"
   dependencies:
     "@types/node": "npm:*"
-  checksum: 10/273b6d6bf47dd6e16a1dcae8ae912ab6267dc7afe3072f68ac3eaf728899f77a826dc57cb35f826ae181a3d260bf54ac86edd8e875b451122b94a8d65ab1b2d8
+  checksum: 10/58208a7969be6a1219f211d590b2315f3c50667c0c11c7e153df93fdfc178fd24a34356c6f496d3d9473087d1ac499e3b43df67c86098cc8bc77bb294d426b10
   languageName: node
   linkType: hard
 
@@ -13079,17 +13079,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browserslist@npm:^4.18.1, browserslist@npm:^4.21.10, browserslist@npm:^4.21.5, browserslist@npm:^4.23.0, browserslist@npm:^4.23.3, browserslist@npm:^4.24.0, browserslist@npm:^4.25.0":
-  version: 4.25.1
-  resolution: "browserslist@npm:4.25.1"
+"browserslist@npm:^4.21.10, browserslist@npm:^4.21.5, browserslist@npm:^4.23.0, browserslist@npm:^4.23.3, browserslist@npm:^4.24.0, browserslist@npm:^4.24.2, browserslist@npm:^4.25.0":
+  version: 4.25.4
+  resolution: "browserslist@npm:4.25.4"
   dependencies:
-    caniuse-lite: "npm:^1.0.30001726"
-    electron-to-chromium: "npm:^1.5.173"
+    caniuse-lite: "npm:^1.0.30001737"
+    electron-to-chromium: "npm:^1.5.211"
     node-releases: "npm:^2.0.19"
     update-browserslist-db: "npm:^1.1.3"
   bin:
     browserslist: cli.js
-  checksum: 10/bfb5511b425886279bbe2ea44d10e340c8aea85866c9d45083c13491d049b6362e254018c0afbf56d41ceeb64f994957ea8ae98dbba74ef1e54ef901c8732987
+  checksum: 10/6ee84526263204f66b4a19967d93f82f2a662c0cd951386e3859e29c6a4c10c32f2acf41940251f44a5daede56dbec91348d6153a1afab1fc052ecdb01d4adbc
   languageName: node
   linkType: hard
 
@@ -13413,10 +13413,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.30001283, caniuse-lite@npm:^1.0.30001646, caniuse-lite@npm:^1.0.30001726":
-  version: 1.0.30001731
-  resolution: "caniuse-lite@npm:1.0.30001731"
-  checksum: 10/ad6771127c0cca13a711ca363bb0165a687f9a5c76f057b2c8c9746608a6bae2f15c7b6955063eefcd4ca0e5733d429f25292cc093a40a189d662f3a8647a020
+"caniuse-lite@npm:^1.0.30001646, caniuse-lite@npm:^1.0.30001669, caniuse-lite@npm:^1.0.30001737":
+  version: 1.0.30001741
+  resolution: "caniuse-lite@npm:1.0.30001741"
+  checksum: 10/d2fbc09f0941653d40b591e5460c4eb0b6838790d4adac7890a453dfb3b5e6bb84a64de2aded96cb4c6636816ef613614e07d9efb5818adaba566321feb95ffd
   languageName: node
   linkType: hard
 
@@ -15647,10 +15647,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-to-chromium@npm:^1.5.173":
-  version: 1.5.197
-  resolution: "electron-to-chromium@npm:1.5.197"
-  checksum: 10/12d13959ea63e336576987fe2a870a867e89c55323cdf766944aa473f328f7d19d2b831e445c91ca6d9e84faf09ba6e53a2583960ffde2b145799ca6daa664c7
+"electron-to-chromium@npm:^1.5.211":
+  version: 1.5.214
+  resolution: "electron-to-chromium@npm:1.5.214"
+  checksum: 10/5553095d4e98a7396ada99641309e821dacc12f57482e9beb0c0b3d53329da23e7f86e4e0c3ca79b960fc6ebba8a0d0c79435616e431e4940653ef5d74f0755c
   languageName: node
   linkType: hard
 
@@ -16469,15 +16469,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-no-lookahead-lookbehind-regexp@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "eslint-plugin-no-lookahead-lookbehind-regexp@npm:0.3.0"
+"eslint-plugin-no-lookahead-lookbehind-regexp@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "eslint-plugin-no-lookahead-lookbehind-regexp@npm:0.4.0"
   dependencies:
-    browserslist: "npm:^4.18.1"
-    caniuse-lite: "npm:^1.0.30001283"
+    browserslist: "npm:^4.24.2"
+    caniuse-lite: "npm:^1.0.30001669"
   peerDependencies:
-    eslint: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
-  checksum: 10/96302e6caee8c1afdacc3ef8abf3da6fc8340e090d78b69b1f12b01d9fe74b1c2d6aded6b596c797d539a426ed4c63757fd9e042f4b9b34f53b1c9cf77e2a179
+    eslint: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
+  checksum: 10/b7c8a5d1072077b5ce46b264000d338d25360c8e286d1a902d62373db56025c4323b9cdcdfd10077a575043f43e159112ca48077cb86eacaf4e3ef6b77727be2
   languageName: node
   linkType: hard
 
