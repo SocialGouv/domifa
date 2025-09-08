@@ -2,7 +2,6 @@ import { APP_BASE_HREF } from "@angular/common";
 import { inject, TestBed } from "@angular/core/testing";
 import {
   ActivatedRouteSnapshot,
-  Router,
   RouterModule,
   RouterStateSnapshot,
 } from "@angular/router";
@@ -14,7 +13,6 @@ import { provideHttpClient } from "@angular/common/http";
 
 describe("AuthGuard", () => {
   let authGuard: AuthGuard;
-  let router: Router;
   let authService: UsagerAuthService;
 
   beforeEach(() => {
@@ -42,7 +40,6 @@ describe("AuthGuard", () => {
 
     authService = TestBed.inject(UsagerAuthService);
     authGuard = TestBed.inject(AuthGuard);
-    router = TestBed.inject(Router);
   });
 
   it("should be created", inject([AuthGuard], (service: AuthGuard) => {
@@ -50,7 +47,7 @@ describe("AuthGuard", () => {
   }));
 
   it("CanActivate", () => {
-    authGuard = new AuthGuard(router, authService);
+    authGuard = new AuthGuard(authService);
     expect(authGuard).toBeTruthy();
   });
 });
