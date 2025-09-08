@@ -103,19 +103,45 @@ export class AuthService {
 
   public logoutAndRedirect(
     state?: RouterStateSnapshot,
-    sessionExpired?: true
+    sessionExpired?: boolean
   ): void {
     if (sessionExpired) {
       this.toastr.warning("Votre session a expiré, merci de vous reconnecter");
     }
+
     this.logout();
-    if (state) {
-      this.router.navigate(["/connexion"], {
-        queryParams: { returnUrl: state.url },
-      });
-    } else {
-      this.router.navigate(["/connexion"]);
+
+    const cleanPath = this.getCleanPath(state);
+    const currentQueryParams = this.getCurrentQueryParams();
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const queryParams: { [key: string]: any } = {
+      ...currentQueryParams,
+    };
+
+    if (cleanPath && cleanPath !== "/") {
+      queryParams.returnUrl = cleanPath;
     }
+
+    this.router.navigate(["/connexion"], {
+      queryParams: queryParams,
+    });
+  }
+
+  private getCleanPath(state?: RouterStateSnapshot): string {
+    if (!state) {
+      return "/";
+    }
+
+    const urlTree = this.router.parseUrl(state.url);
+    const serializedUrl = this.router.serializeUrl(urlTree);
+    return serializedUrl.split("?")[0];
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private getCurrentQueryParams(): { [key: string]: any } {
+    const urlTree = this.router.parseUrl(this.router.url);
+    return urlTree.queryParams;
   }
 
   private setUser(user: UserStructure) {

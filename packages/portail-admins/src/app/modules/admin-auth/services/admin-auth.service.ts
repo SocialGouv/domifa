@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, RouterStateSnapshot } from "@angular/router";
 
 import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
@@ -75,25 +75,40 @@ export class AdminAuthService {
     getCurrentScope().setUser({});
   }
 
-  public logoutAndRedirect({
-    redirectToAfterLogin,
-  }: {
-    redirectToAfterLogin?: string;
-  } = {}): void {
+  public logoutAndRedirect(state?: RouterStateSnapshot): void {
     this.logout();
 
-    if (redirectToAfterLogin) {
-      const cleanPath = redirectToAfterLogin.split("?")[0];
+    const cleanPath = this.getCleanPath(state);
+    const currentQueryParams = this.getCurrentQueryParams();
 
-      if (cleanPath !== "/auth/login") {
-        this.router.navigate(["/auth/login"], {
-          queryParams: { redirectToAfterLogin: cleanPath },
-        });
-        return;
-      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const queryParams: { [key: string]: any } = {
+      ...currentQueryParams,
+    };
+
+    if (cleanPath && cleanPath !== "/" && cleanPath !== "/auth/login") {
+      queryParams.redirectToAfterLogin = cleanPath;
     }
 
-    this.router.navigate(["/auth/login"]);
+    this.router.navigate(["/auth/login"], {
+      queryParams: queryParams,
+    });
+  }
+
+  private getCleanPath(state?: RouterStateSnapshot): string {
+    if (!state) {
+      return "/";
+    }
+
+    const urlTree = this.router.parseUrl(state.url);
+    const serializedUrl = this.router.serializeUrl(urlTree);
+    return serializedUrl.split("?")[0];
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private getCurrentQueryParams(): { [key: string]: any } {
+    const urlTree = this.router.parseUrl(this.router.url);
+    return urlTree.queryParams;
   }
 
   public notAuthorized(): void {
