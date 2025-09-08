@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Router, RouterStateSnapshot } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
@@ -29,6 +29,7 @@ export class UsagerAuthService {
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
     private readonly toastr: CustomToastService,
   ) {
     this.currentUsagerSubject =
@@ -73,16 +74,14 @@ export class UsagerAuthService {
     getCurrentScope().setUser({});
   }
 
-  public logoutAndRedirect(state?: RouterStateSnapshot): void {
+  public logoutAndRedirect(): void {
     this.logout();
 
-    this.router
-      .navigate(["/auth/login"], {
-        queryParams: state ? { returnUrl: state.url } : {},
-      })
-      .then(() => {
-        window.location.reload();
-      });
+    const currentQueryParams = this.activatedRoute.snapshot.queryParams;
+
+    this.router.navigate(["/auth/login"], {
+      queryParams: currentQueryParams,
+    });
   }
 
   public notAuthorized(): void {
