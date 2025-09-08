@@ -1,5 +1,6 @@
 import { createDate } from "../../_core";
 import { IMailDelegate } from "../interfaces";
+import { endOfDay, isBefore } from "date-fns";
 
 export class MailDelegate implements IMailDelegate {
   public nom: string;
@@ -11,6 +12,11 @@ export class MailDelegate implements IMailDelegate {
     this.nom = options?.nom || "";
     this.dateDebut = createDate(options?.dateDebut);
     this.dateFin = createDate(options?.dateFin);
-    this.isExpired = this.dateFin ? new Date() > this.dateFin : false;
+
+    if (!this?.dateFin) {
+      this.isExpired = false;
+    } else {
+      this.isExpired = isBefore(this.dateFin, endOfDay(new Date()));
+    }
   }
 }

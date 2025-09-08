@@ -33,7 +33,6 @@ import { UsagerOptionsHistoryService } from "../services";
 import { ExpressResponse } from "../../util/express";
 import { isEqual } from "lodash";
 
-import * as sortObj from "sort-object";
 import { usagerRepository } from "../../database";
 import {
   Usager,
@@ -121,7 +120,7 @@ export class UsagerOptionsController {
       );
     }
 
-    if (!isEqual(sortObj(usager.options.transfert), sortObj(transfertDto))) {
+    if (!isEqual(usager.options.transfert, transfertDto)) {
       await this.usagerOptionsHistoryService.createOptionHistory(
         usager,
         user,
@@ -177,12 +176,7 @@ export class UsagerOptionsController {
             usager.options.procurations[i].dateFin
           );
 
-          if (
-            isEqual(
-              sortObj(usager.options.procurations[i]),
-              sortObj(procurationsDto[i])
-            )
-          ) {
+          if (isEqual(usager.options.procurations[i], procurationsDto[i])) {
             needCreateHistory = false;
           }
         } else {

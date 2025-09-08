@@ -20,7 +20,7 @@ import {
   UsagerLight,
   UsagerDecisionValideForm,
 } from "../../../../../_common/model";
-import { formatDateToNgb } from "../../../../shared";
+import { formatDateToNgb, parseDateFromNgb } from "../../../../shared";
 import { Decision, UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
 import {
@@ -130,17 +130,14 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.valideForm.get("dateFin")?.valueChanges.subscribe((value) => {
-        const dateDebut = new Date(
-          this.nbgDate.formatEn(this.valideForm.get("dateDebut")?.value)
+        const dateDebut = parseDateFromNgb(
+          this.valideForm.get("dateDebut")?.value
         );
 
         if (
           value !== null &&
           this.nbgDate.isValid(value) &&
-          isBefore(
-            new Date(this.nbgDate.formatEn(value)),
-            subDays(addYears(dateDebut, 1), 1)
-          )
+          isBefore(parseDateFromNgb(value), subDays(addYears(dateDebut, 1), 1))
         ) {
           this.showDurationWarning = true;
         } else {
