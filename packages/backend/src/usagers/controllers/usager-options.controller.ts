@@ -40,7 +40,6 @@ import {
   UsagerOptionsHistoryTypeEnum,
 } from "@domifa/common";
 import { AppUserGuard } from "../../auth/guards";
-import { sortObjectByKeys } from "../../util";
 
 @ApiTags("usagers-options")
 @ApiBearerAuth()
@@ -121,12 +120,7 @@ export class UsagerOptionsController {
       );
     }
 
-    if (
-      !isEqual(
-        sortObjectByKeys(usager.options.transfert),
-        sortObjectByKeys(transfertDto)
-      )
-    ) {
+    if (!isEqual(usager.options.transfert, transfertDto)) {
       await this.usagerOptionsHistoryService.createOptionHistory(
         usager,
         user,
@@ -182,12 +176,7 @@ export class UsagerOptionsController {
             usager.options.procurations[i].dateFin
           );
 
-          if (
-            isEqual(
-              sortObjectByKeys(usager.options.procurations[i]),
-              sortObjectByKeys(procurationsDto[i])
-            )
-          ) {
+          if (isEqual(usager.options.procurations[i], procurationsDto[i])) {
             needCreateHistory = false;
           }
         } else {
