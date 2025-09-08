@@ -12,11 +12,11 @@ export class MailDelegate implements IMailDelegate {
     this.nom = options?.nom || "";
     this.dateDebut = createDate(options?.dateDebut);
     this.dateFin = createDate(options?.dateFin);
-    this.isExpired = this.checkExpiration();
-  }
 
-  private checkExpiration(): boolean {
-    if (!this.dateFin) return false;
-    return isBefore(this.dateFin, endOfDay(new Date()));
+    if (!this?.dateFin) {
+      this.isExpired = false;
+    } else {
+      this.isExpired = isBefore(this.dateFin, endOfDay(new Date()));
+    }
   }
 }

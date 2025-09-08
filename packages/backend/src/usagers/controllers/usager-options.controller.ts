@@ -120,8 +120,7 @@ export class UsagerOptionsController {
         usager.options.transfert.dateFin
       );
     }
-    console.log(usager.options.transfert);
-    console.log(transfertDto);
+
     if (
       !isEqual(
         sortObjectByKeys(usager.options.transfert),
@@ -182,9 +181,6 @@ export class UsagerOptionsController {
           usager.options.procurations[i].dateFin = new Date(
             usager.options.procurations[i].dateFin
           );
-
-          console.log(usager.options.procurations[i]);
-          console.log(procurationsDto[i]);
 
           if (
             isEqual(
