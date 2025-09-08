@@ -1,3 +1,10 @@
+## [2.220.6](https://github.com/SocialGouv/domifa/compare/v2.220.5...v2.220.6) (2025-09-08)
+
+
+### Bug Fixes
+
+* **backend:** 📅 fix update date of procurations ([#3887](https://github.com/SocialGouv/domifa/issues/3887)) ([0a17ba1](https://github.com/SocialGouv/domifa/commit/0a17ba16d821bc39c55a1e251b2794d2e6518964))
+
 ## [2.220.5](https://github.com/SocialGouv/domifa/compare/v2.220.4...v2.220.5) (2025-09-08)
 
 
