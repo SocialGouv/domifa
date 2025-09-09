@@ -1,3 +1,10 @@
+## [2.220.10](https://github.com/SocialGouv/domifa/compare/v2.220.9...v2.220.10) (2025-09-09)
+
+
+### Bug Fixes
+
+* **backend:** fix sms service in module ([ff0c62a](https://github.com/SocialGouv/domifa/commit/ff0c62a4399b56f9accbe1c9249140f56b48d666))
+
 ## [2.220.9](https://github.com/SocialGouv/domifa/compare/v2.220.8...v2.220.9) (2025-09-09)
 
 
