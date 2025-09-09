@@ -14,7 +14,7 @@ export class CronSmsMonDomiFaService {
     private readonly messageSmsSenderService: MessageSmsSenderService
   ) {}
 
-  @Cron(CronExpression.EVERY_10_MINUTES, {
+  @Cron(CronExpression.EVERY_5_MINUTES, {
     timeZone: "Europe/Paris",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -25,7 +25,7 @@ export class CronSmsMonDomiFaService {
       const now = new Date();
       const currentHour = now.getHours();
 
-      if (currentHour >= 20) {
+      if (currentHour >= 23) {
         appLogger.info(
           `[SMS BATCH] Hors plage horaire (${currentHour}h) - Arrêt de l'envoi`
         );
