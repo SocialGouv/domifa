@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, RouterStateSnapshot } from "@angular/router";
 
 import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
@@ -9,7 +9,11 @@ import { CustomToastService } from "../../shared/services/custom-toast.service";
 import { appStore } from "../../shared/store/appStore.service";
 import { PortailAdminAuthLoginForm } from "../types";
 import { getCurrentScope } from "@sentry/angular";
-import { PortailAdminAuthApiResponse, PortailAdminUser } from "@domifa/common";
+import {
+  PortailAdminAuthApiResponse,
+  PortailAdminUser,
+  filterMatomoParams,
+} from "@domifa/common";
 
 const END_POINT_AUTH = environment.apiUrl + "portail-admins/auth";
 
@@ -54,7 +58,6 @@ export class AdminAuthService {
         return true;
       }),
       catchError(() => {
-        // DELETE USER
         this.logout();
         return of(false);
       })
@@ -75,25 +78,29 @@ export class AdminAuthService {
     getCurrentScope().setUser({});
   }
 
-  public logoutAndRedirect({
-    redirectToAfterLogin,
-  }: {
-    redirectToAfterLogin?: string;
-  } = {}): void {
+  public logoutAndRedirect(state?: RouterStateSnapshot): void {
     this.logout();
 
-    if (redirectToAfterLogin) {
-      const cleanPath = redirectToAfterLogin.split("?")[0];
+    const cleanPath = state?.url?.split("?")[0] || "/";
+    const matomoParams = this.getMatomoParams();
 
-      if (cleanPath !== "/auth/login") {
-        this.router.navigate(["/auth/login"], {
-          queryParams: { redirectToAfterLogin: cleanPath },
-        });
-        return;
-      }
+    const queryParams: Record<string, string> = { ...matomoParams };
+
+    if (cleanPath !== "/" && cleanPath !== "/auth/login") {
+      queryParams.redirectToAfterLogin = cleanPath;
     }
 
-    this.router.navigate(["/auth/login"]);
+    this.router.navigate(["/auth/login"], { queryParams });
+  }
+
+  private getMatomoParams(): Record<string, string> {
+    try {
+      const urlTree = this.router.parseUrl(this.router.url);
+      return filterMatomoParams(urlTree.queryParams);
+    } catch (error) {
+      console.warn('Failed to parse URL for Matomo params:', error);
+      return {};
+    }
   }
 
   public notAuthorized(): void {
@@ -109,12 +116,10 @@ export class AdminAuthService {
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.setItem(TOKEN_KEY, apiAuthResponse.token);
 
-    // Build admin
     this.saveAuthAdmin(apiAuthResponse.user);
   }
 
   public saveAuthAdmin(authAdminProfile: PortailAdminUser): void {
-    // Enregistrement de l'utilisateur
     window.sessionStorage.removeItem(USER_KEY);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(authAdminProfile));
 
@@ -130,7 +135,6 @@ export class AdminAuthService {
         authAdminProfile.prenom,
     });
 
-    // Mise à jour de l'observable
     this.currentAdminSubject.next(authAdminProfile);
   }
 }

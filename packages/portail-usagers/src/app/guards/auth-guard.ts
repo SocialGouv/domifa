@@ -1,9 +1,5 @@
 import { Injectable } from "@angular/core";
-import {
-  ActivatedRouteSnapshot,
-  Router,
-  RouterStateSnapshot,
-} from "@angular/router";
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 
 import { Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
@@ -11,13 +7,10 @@ import { UsagerAuthService } from "../modules/usager-auth/services/usager-auth.s
 
 @Injectable({ providedIn: "root" })
 export class AuthGuard {
-  constructor(
-    private readonly router: Router,
-    private readonly authService: UsagerAuthService,
-  ) {}
+  constructor(private readonly authService: UsagerAuthService) {}
 
   public canActivate(
-    _route: ActivatedRouteSnapshot,
+    route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ): Observable<boolean> {
     return this.authService.isAuth().pipe(

@@ -10,6 +10,7 @@ import {
   PortailUsagerProfile,
   PortailUsagerAuthApiResponse,
   UsagerOptions,
+  filterMatomoParams,
 } from "@domifa/common";
 import { getCurrentScope } from "@sentry/angular";
 import { CustomToastService } from "../../shared/services/custom-toast.service";
@@ -76,13 +77,26 @@ export class UsagerAuthService {
   public logoutAndRedirect(state?: RouterStateSnapshot): void {
     this.logout();
 
-    this.router
-      .navigate(["/auth/login"], {
-        queryParams: state ? { returnUrl: state.url } : {},
-      })
-      .then(() => {
-        window.location.reload();
-      });
+    const cleanPath = state?.url?.split("?")[0] || "/";
+    const matomoParams = this.getMatomoParams();
+
+    const queryParams: Record<string, string> = { ...matomoParams };
+
+    if (cleanPath !== "/") {
+      queryParams.returnUrl = cleanPath;
+    }
+
+    this.router.navigate(["/auth/login"], { queryParams });
+  }
+
+  private getMatomoParams(): Record<string, string> {
+    try {
+      const urlTree = this.router.parseUrl(this.router.url);
+      return filterMatomoParams(urlTree.queryParams);
+    } catch (error) {
+      console.warn('Failed to parse URL for Matomo params:', error);
+      return {};
+    }
   }
 
   public notAuthorized(): void {
@@ -114,7 +128,6 @@ export class UsagerAuthService {
       ...authUsagerProfile.usager,
       options: new UsagerOptions(authUsagerProfile.usager.options),
     };
-    // Enregistrement de l'utilisateur
     localStorage.removeItem(USER_KEY);
     localStorage.setItem(USER_KEY, JSON.stringify(authUsagerProfile));
 
@@ -126,7 +139,6 @@ export class UsagerAuthService {
         authUsagerProfile.usager.prenom,
     });
 
-    // Mise à jour de l'observable
     this.currentUsagerSubject.next(authUsagerProfile);
   }
 }

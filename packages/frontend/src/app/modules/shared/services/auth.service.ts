@@ -10,7 +10,7 @@ import { usagerActions, UsagerState } from "../../../shared";
 import { userStructureBuilder } from "../../users/services";
 import { CustomToastService } from "./custom-toast.service";
 import { getCurrentScope } from "@sentry/angular";
-import { UserStructure } from "@domifa/common";
+import { UserStructure, filterMatomoParams } from "@domifa/common";
 import { Store } from "@ngrx/store";
 
 @Injectable({
@@ -103,18 +103,33 @@ export class AuthService {
 
   public logoutAndRedirect(
     state?: RouterStateSnapshot,
-    sessionExpired?: true
+    sessionExpired?: boolean
   ): void {
     if (sessionExpired) {
       this.toastr.warning("Votre session a expiré, merci de vous reconnecter");
     }
+
     this.logout();
-    if (state) {
-      this.router.navigate(["/connexion"], {
-        queryParams: { returnUrl: state.url },
-      });
-    } else {
-      this.router.navigate(["/connexion"]);
+
+    const cleanPath = state?.url?.split("?")[0] || "/";
+    const matomoParams = this.getMatomoParams();
+
+    const queryParams: Record<string, string> = { ...matomoParams };
+
+    if (cleanPath !== "/") {
+      queryParams.returnUrl = cleanPath;
+    }
+
+    this.router.navigate(["/connexion"], { queryParams });
+  }
+
+  private getMatomoParams(): Record<string, string> {
+    try {
+      const urlTree = this.router.parseUrl(this.router.url);
+      return filterMatomoParams(urlTree.queryParams);
+    } catch (error) {
+      console.warn('Failed to parse URL for Matomo params:', error);
+      return {};
     }
   }
 
