@@ -10,7 +10,7 @@ import { usagerActions, UsagerState } from "../../../shared";
 import { userStructureBuilder } from "../../users/services";
 import { CustomToastService } from "./custom-toast.service";
 import { getCurrentScope } from "@sentry/angular";
-import { UserStructure } from "@domifa/common";
+import { UserStructure, filterMatomoParams } from "@domifa/common";
 import { Store } from "@ngrx/store";
 
 @Injectable({
@@ -111,37 +111,21 @@ export class AuthService {
 
     this.logout();
 
-    const cleanPath = this.getCleanPath(state);
-    const currentQueryParams = this.getCurrentQueryParams();
+    const cleanPath = state?.url?.split("?")[0] || "/";
+    const matomoParams = this.getMatomoParams();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const queryParams: { [key: string]: any } = {
-      ...currentQueryParams,
-    };
+    const queryParams: Record<string, string> = { ...matomoParams };
 
-    if (cleanPath && cleanPath !== "/") {
+    if (cleanPath !== "/") {
       queryParams.returnUrl = cleanPath;
     }
 
-    this.router.navigate(["/connexion"], {
-      queryParams: queryParams,
-    });
+    this.router.navigate(["/connexion"], { queryParams });
   }
 
-  private getCleanPath(state?: RouterStateSnapshot): string {
-    if (!state) {
-      return "/";
-    }
-
-    const urlTree = this.router.parseUrl(state.url);
-    const serializedUrl = this.router.serializeUrl(urlTree);
-    return serializedUrl.split("?")[0];
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private getCurrentQueryParams(): { [key: string]: any } {
+  private getMatomoParams(): Record<string, string> {
     const urlTree = this.router.parseUrl(this.router.url);
-    return urlTree.queryParams;
+    return filterMatomoParams(urlTree.queryParams);
   }
 
   private setUser(user: UserStructure) {

@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router, RouterStateSnapshot } from "@angular/router";
 
 import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
@@ -10,6 +10,7 @@ import {
   PortailUsagerProfile,
   PortailUsagerAuthApiResponse,
   UsagerOptions,
+  filterMatomoParams,
 } from "@domifa/common";
 import { getCurrentScope } from "@sentry/angular";
 import { CustomToastService } from "../../shared/services/custom-toast.service";
@@ -29,7 +30,6 @@ export class UsagerAuthService {
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute,
     private readonly toastr: CustomToastService,
   ) {
     this.currentUsagerSubject =
@@ -74,14 +74,24 @@ export class UsagerAuthService {
     getCurrentScope().setUser({});
   }
 
-  public logoutAndRedirect(): void {
+  public logoutAndRedirect(state?: RouterStateSnapshot): void {
     this.logout();
 
-    const currentQueryParams = this.activatedRoute.snapshot.queryParams;
+    const cleanPath = state?.url?.split("?")[0] || "/";
+    const matomoParams = this.getMatomoParams();
 
-    this.router.navigate(["/auth/login"], {
-      queryParams: currentQueryParams,
-    });
+    const queryParams: Record<string, string> = { ...matomoParams };
+
+    if (cleanPath !== "/") {
+      queryParams.returnUrl = cleanPath;
+    }
+
+    this.router.navigate(["/auth/login"], { queryParams });
+  }
+
+  private getMatomoParams(): Record<string, string> {
+    const urlTree = this.router.parseUrl(this.router.url);
+    return filterMatomoParams(urlTree.queryParams);
   }
 
   public notAuthorized(): void {
@@ -113,7 +123,6 @@ export class UsagerAuthService {
       ...authUsagerProfile.usager,
       options: new UsagerOptions(authUsagerProfile.usager.options),
     };
-    // Enregistrement de l'utilisateur
     localStorage.removeItem(USER_KEY);
     localStorage.setItem(USER_KEY, JSON.stringify(authUsagerProfile));
 
@@ -125,7 +134,6 @@ export class UsagerAuthService {
         authUsagerProfile.usager.prenom,
     });
 
-    // Mise à jour de l'observable
     this.currentUsagerSubject.next(authUsagerProfile);
   }
 }

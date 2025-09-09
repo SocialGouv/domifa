@@ -9,7 +9,11 @@ import { CustomToastService } from "../../shared/services/custom-toast.service";
 import { appStore } from "../../shared/store/appStore.service";
 import { PortailAdminAuthLoginForm } from "../types";
 import { getCurrentScope } from "@sentry/angular";
-import { PortailAdminAuthApiResponse, PortailAdminUser } from "@domifa/common";
+import {
+  PortailAdminAuthApiResponse,
+  PortailAdminUser,
+  filterMatomoParams,
+} from "@domifa/common";
 
 const END_POINT_AUTH = environment.apiUrl + "portail-admins/auth";
 
@@ -54,7 +58,6 @@ export class AdminAuthService {
         return true;
       }),
       catchError(() => {
-        // DELETE USER
         this.logout();
         return of(false);
       })
@@ -78,37 +81,21 @@ export class AdminAuthService {
   public logoutAndRedirect(state?: RouterStateSnapshot): void {
     this.logout();
 
-    const cleanPath = this.getCleanPath(state);
-    const currentQueryParams = this.getCurrentQueryParams();
+    const cleanPath = state?.url?.split("?")[0] || "/";
+    const matomoParams = this.getMatomoParams();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const queryParams: { [key: string]: any } = {
-      ...currentQueryParams,
-    };
+    const queryParams: Record<string, string> = { ...matomoParams };
 
-    if (cleanPath && cleanPath !== "/" && cleanPath !== "/auth/login") {
+    if (cleanPath !== "/" && cleanPath !== "/auth/login") {
       queryParams.redirectToAfterLogin = cleanPath;
     }
 
-    this.router.navigate(["/auth/login"], {
-      queryParams: queryParams,
-    });
+    this.router.navigate(["/auth/login"], { queryParams });
   }
 
-  private getCleanPath(state?: RouterStateSnapshot): string {
-    if (!state) {
-      return "/";
-    }
-
-    const urlTree = this.router.parseUrl(state.url);
-    const serializedUrl = this.router.serializeUrl(urlTree);
-    return serializedUrl.split("?")[0];
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private getCurrentQueryParams(): { [key: string]: any } {
+  private getMatomoParams(): Record<string, string> {
     const urlTree = this.router.parseUrl(this.router.url);
-    return urlTree.queryParams;
+    return filterMatomoParams(urlTree.queryParams);
   }
 
   public notAuthorized(): void {
@@ -124,12 +111,10 @@ export class AdminAuthService {
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.setItem(TOKEN_KEY, apiAuthResponse.token);
 
-    // Build admin
     this.saveAuthAdmin(apiAuthResponse.user);
   }
 
   public saveAuthAdmin(authAdminProfile: PortailAdminUser): void {
-    // Enregistrement de l'utilisateur
     window.sessionStorage.removeItem(USER_KEY);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(authAdminProfile));
 
@@ -145,7 +130,6 @@ export class AdminAuthService {
         authAdminProfile.prenom,
     });
 
-    // Mise à jour de l'observable
     this.currentAdminSubject.next(authAdminProfile);
   }
 }
