@@ -42,7 +42,10 @@ describe("Users Controller", () => {
   });
 
   beforeEach(async () => {
-    await appLogsRepository.clear();
+    await appLogsRepository.delete({
+      userId: authInfo.id,
+      action: "USER_CREATE",
+    });
   });
 
   describe("> Register user", () => {
@@ -74,6 +77,7 @@ describe("Users Controller", () => {
           },
         });
         expect(logs.length).toEqual(1);
+        // as the userId is generated, we check only other fields
         expect({
           userId: logs[0].userId,
           structureId: logs[0].structureId,
