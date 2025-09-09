@@ -1,3 +1,10 @@
+## [2.220.7](https://github.com/SocialGouv/domifa/compare/v2.220.6...v2.220.7) (2025-09-09)
+
+
+### Bug Fixes
+
+* **mon-domifa:** add queryparams to urls for matomo ([#3895](https://github.com/SocialGouv/domifa/issues/3895)) ([0f40b42](https://github.com/SocialGouv/domifa/commit/0f40b42bd33e29a4cd2eb6779bb6b56206085271))
+
 ## [2.220.6](https://github.com/SocialGouv/domifa/compare/v2.220.5...v2.220.6) (2025-09-08)
 
 
