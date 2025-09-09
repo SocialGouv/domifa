@@ -13,5 +13,6 @@ export const SMS_LABELS: {
   visite: "Passage enregistré",
   echeanceDeuxMois: "Sms rappel de renouvellement",
   dernierPassageTroisMois: "Avertissement dernier passage plus de 3 mois",
+  idMonDomiFa: "Envoi des identifiants Mon DomiFa",
   decision: "Nouvelle décision",
 };
