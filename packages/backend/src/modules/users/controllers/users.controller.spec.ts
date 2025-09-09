@@ -13,32 +13,24 @@ import {
 } from "../../../util/test";
 import { UsersController } from "./users.controller";
 import { POST_USER_STRUCTURE_BODY } from "../../../_common/mocks";
-import { TESTS_USERS_STRUCTURE } from "../../../_tests";
+import { TESTS_USERS_STRUCTURE, TestUserStructure } from "../../../_tests";
 import { usersDeletor } from "../services/users-deletor.service";
 import { MailsModule } from "../../mails/mails.module";
 import { AppLogsService } from "../../app-logs/app-logs.service";
-import { userStructureRepository } from "../../../database";
+import { appLogsRepository } from "../../../database";
 
 describe("Users Controller", () => {
   let controller: UsersController;
   let context: AppTestContext;
-  let appLogService: AppLogsService;
+  let authInfo: TestUserStructure;
   beforeAll(async () => {
-    appLogService = {
-      create: jest.fn(),
-    };
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [UsersController],
       imports: [MailsModule, StructuresModule, UsagersModule, HttpModule],
-      providers: [
-        {
-          provide: AppLogsService,
-          useValue: appLogService,
-        },
-      ],
+      providers: [AppLogsService],
     });
 
-    const authInfo =
+    authInfo =
       TESTS_USERS_STRUCTURE.BY_EMAIL["preprod.domifa@fabrique.social.gouv.fr"];
     await AppTestHelper.authenticateStructure(authInfo, { context });
     controller = context.module.get<UsersController>(UsersController);
@@ -49,6 +41,10 @@ describe("Users Controller", () => {
     await AppTestHelper.tearDownTestApp(context);
   });
 
+  beforeEach(async () => {
+    await appLogsRepository.clear();
+  });
+
   describe("> Register user", () => {
     describe("Nominal case", () => {
       it("should be defined", async () => {
@@ -56,26 +52,45 @@ describe("Users Controller", () => {
       });
 
       it("should be 200", async () => {
+        const structureAffectationId = 1;
         const response = await AppTestHttpClient.post("/users/register", {
           context,
           body: {
             ...POST_USER_STRUCTURE_BODY,
             email: "test@test.com",
             structureId: 1,
-            structure: { ...POST_USER_STRUCTURE_BODY.structure, id: 1 },
+            structure: {
+              ...POST_USER_STRUCTURE_BODY.structure,
+              id: structureAffectationId,
+            },
           },
         });
-
-        const user = await userStructureRepository.findOneByOrFail({
-          email: "test@test.com",
+        const logs = await appLogsRepository.find({
+          where: {
+            role: authInfo.role,
+            structureId: authInfo.structureId,
+            userId: authInfo.id,
+            action: "USER_CREATE",
+          },
         });
-        expect(appLogService.create).toHaveBeenCalledWith({
+        expect(logs.length).toEqual(1);
+        expect({
+          userId: logs[0].userId,
+          structureId: logs[0].structureId,
+          role: logs[0].role,
+          action: logs[0].action,
+          context: {
+            role: logs[0].context.role,
+            structureId: logs[0].context.structureId,
+          },
+        }).toEqual({
+          userId: authInfo.id,
+          structureId: authInfo.structureId,
+          role: authInfo.role,
           action: "USER_CREATE",
-          userId: context.user.userId,
           context: {
             role: POST_USER_STRUCTURE_BODY.role,
-            structureId: 1,
-            userId: user.id,
+            structureId: structureAffectationId,
           },
         });
         expect(response.status).toBe(200);
