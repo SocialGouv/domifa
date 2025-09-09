@@ -10,19 +10,13 @@ import {
 import { domifaConfig } from "../../../config";
 import { messageSmsRepository } from "../../../database";
 import { phoneUtil, appLogger } from "../../../util";
+import { SmsToSend } from "../types";
 
 @Injectable()
 export class MessageSmsSenderService {
   constructor(private readonly httpService: HttpService) {}
 
-  public async sendSms(message: {
-    content: string;
-    phoneNumber: string;
-    senderName: string;
-    structureId: number;
-    uuid: string;
-    errorCount: number;
-  }): Promise<void> {
+  public async sendSms(message: SmsToSend): Promise<void> {
     const parsedValue = phoneUtil.parse(message.phoneNumber);
 
     if (!phoneUtil.isValidNumber(parsedValue)) {
