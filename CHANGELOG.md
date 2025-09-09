@@ -1,3 +1,10 @@
+## [2.220.12](https://github.com/SocialGouv/domifa/compare/v2.220.11...v2.220.12) (2025-09-09)
+
+
+### Bug Fixes
+
+* **backend:** fix sms errors ([472665a](https://github.com/SocialGouv/domifa/commit/472665afac436f580a4967d8d8b2b2e4f2967167))
+
 ## [2.220.11](https://github.com/SocialGouv/domifa/compare/v2.220.10...v2.220.11) (2025-09-09)
 
 
