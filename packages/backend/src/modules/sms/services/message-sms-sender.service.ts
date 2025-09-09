@@ -19,6 +19,7 @@ export class MessageSmsSenderService {
   public async sendSms(message: SmsToSend): Promise<void> {
     const parsedValue = phoneUtil.parse(message.phoneNumber);
 
+    console.log({ parsedValue });
     if (!phoneUtil.isValidNumber(parsedValue)) {
       appLogger.warn(`[SMS] phone number is invalid ${message.phoneNumber}`);
       captureMessage(
@@ -87,6 +88,7 @@ export class MessageSmsSenderService {
           MESSAGE_SMS_RESPONSE_ERRORS[responseContent.responseCode];
       }
     } catch (err) {
+      console.log(err);
       updateSms.status = "FAILURE";
       updateSms.errorCount++;
       updateSms.errorMessage = (err as AxiosError)?.message;

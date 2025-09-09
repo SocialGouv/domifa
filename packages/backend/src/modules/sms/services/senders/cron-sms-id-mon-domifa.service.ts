@@ -32,17 +32,15 @@ export class CronSmsMonDomiFaService {
         return;
       }
 
-      const smsToSend = (await messageSmsRepository.find({
+      const smsToSend = await messageSmsRepository.find({
         where: {
           status: "TO_SEND",
           smsId: "idMonDomiFa",
         },
-        order: {
-          createdAt: "ASC",
-        },
         take: 500,
-      })) as SmsToSend[];
+      });
 
+      console.log({ smsToSend });
       if (smsToSend.length === 0) {
         appLogger.info(
           "[SMS BATCH] Aucun SMS d'identifiants Mon DomiFa à envoyer"
@@ -55,13 +53,14 @@ export class CronSmsMonDomiFaService {
       );
 
       for (const message of smsToSend) {
-        await this.messageSmsSenderService.sendSms(message);
+        await this.messageSmsSenderService.sendSms(message as SmsToSend);
       }
 
       appLogger.info(
         `[SMS BATCH] Batch terminé - ${smsToSend.length} SMS traités`
       );
     } catch (error) {
+      console.log(error);
       appLogger.error("[SMS BATCH] Erreur lors de l'envoi du batch:", error);
     }
   }
