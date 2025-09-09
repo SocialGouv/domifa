@@ -31,6 +31,7 @@ import { CronSmsMonDomiFaService } from "./services/senders/cron-sms-id-mon-domi
     MessageSmsService,
     CronSmsInteractionSenderService,
     CronSmsFetchEndDomService,
+    CronSmsMonDomiFaService,
   ],
 })
 export class SmsModule {}
