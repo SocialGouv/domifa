@@ -7,8 +7,9 @@ import { domifaConfig } from "../../../../config";
 import { isCronEnabled } from "../../../../config/services/isCronEnabled.service";
 import { MessageSmsSenderService } from "../message-sms-sender.service";
 import { SmsToSend } from "../../types";
+
 @Injectable()
-export class CronSmsInteractionSenderService {
+export class CronSmsMonDomiFaService {
   constructor(
     private readonly messageSmsSenderService: MessageSmsSenderService
   ) {}
