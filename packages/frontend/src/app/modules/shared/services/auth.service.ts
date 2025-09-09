@@ -124,8 +124,13 @@ export class AuthService {
   }
 
   private getMatomoParams(): Record<string, string> {
-    const urlTree = this.router.parseUrl(this.router.url);
-    return filterMatomoParams(urlTree.queryParams);
+    try {
+      const urlTree = this.router.parseUrl(this.router.url);
+      return filterMatomoParams(urlTree.queryParams);
+    } catch (error) {
+      console.warn('Failed to parse URL for Matomo params:', error);
+      return {};
+    }
   }
 
   private setUser(user: UserStructure) {
