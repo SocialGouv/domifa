@@ -1,3 +1,10 @@
+## [2.220.8](https://github.com/SocialGouv/domifa/compare/v2.220.7...v2.220.8) (2025-09-09)
+
+
+### Bug Fixes
+
+* **frontend:** fix privacy ([#3885](https://github.com/SocialGouv/domifa/issues/3885)) ([e3f0909](https://github.com/SocialGouv/domifa/commit/e3f0909fe5b0e5f752b065ccbd043a712e101145))
+
 ## [2.220.7](https://github.com/SocialGouv/domifa/compare/v2.220.6...v2.220.7) (2025-09-09)
 
 
