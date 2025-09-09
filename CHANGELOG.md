@@ -1,3 +1,10 @@
+## [2.220.9](https://github.com/SocialGouv/domifa/compare/v2.220.8...v2.220.9) (2025-09-09)
+
+
+### Bug Fixes
+
+* **backend:** start cron ([9a82128](https://github.com/SocialGouv/domifa/commit/9a8212804808541336b603d9363c438c4f789551))
+
 ## [2.220.8](https://github.com/SocialGouv/domifa/compare/v2.220.7...v2.220.8) (2025-09-09)
 
 
