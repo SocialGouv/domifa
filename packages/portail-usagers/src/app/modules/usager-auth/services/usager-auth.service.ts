@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Router, RouterStateSnapshot } from "@angular/router";
+import { Router } from "@angular/router";
 
 import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
@@ -74,17 +74,12 @@ export class UsagerAuthService {
     getCurrentScope().setUser({});
   }
 
-  public logoutAndRedirect(state?: RouterStateSnapshot): void {
+  public logoutAndRedirect(): void {
     this.logout();
 
-    const cleanPath = state?.url?.split("?")[0] || "/";
     const matomoParams = this.getMatomoParams();
-
+    console.log({ matomoParams });
     const queryParams: Record<string, string> = { ...matomoParams };
-
-    if (cleanPath !== "/") {
-      queryParams.returnUrl = cleanPath;
-    }
 
     this.router.navigate(["/auth/login"], { queryParams });
   }
@@ -94,7 +89,7 @@ export class UsagerAuthService {
       const urlTree = this.router.parseUrl(this.router.url);
       return filterMatomoParams(urlTree.queryParams);
     } catch (error) {
-      console.warn('Failed to parse URL for Matomo params:', error);
+      console.warn("Failed to parse URL for Matomo params:", error);
       return {};
     }
   }

@@ -207,15 +207,7 @@
               Doit contenir entre 12 et 150 caractères
             </p>
           </div>
-          <div
-            class="mt-3 form-group required"
-            *ngIf="
-              !f.newPassword.errors &&
-              !this.loginForm.hasError(
-                'new-password-same-as-temporary-password'
-              )
-            "
-          >
+          <div class="mt-3 form-group required">
             <label class="fw-bold" for="new-password-confirm"
               >Confirmation du mot de passe</label
             >

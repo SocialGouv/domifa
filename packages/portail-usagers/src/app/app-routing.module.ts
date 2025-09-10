@@ -10,9 +10,10 @@ import { MentionsLegalesComponent } from "./modules/general/components/_static/m
 import { PolitiqueComponent } from "./modules/general/components/_static/politique/politique.component";
 import { PlanSiteComponent } from "./modules/general/components/_static/plan-site/plan-site.component";
 import { NewsComponent } from "./modules/general/components/_static/news/news.component";
+import { RedirectComponent } from "./modules/general/components/redirect.component";
 
 const routes: Routes = [
-  { path: "", redirectTo: "/auth/login", pathMatch: "full" },
+  { path: "", component: RedirectComponent },
   {
     path: "auth",
     loadChildren: () =>
