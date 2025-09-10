@@ -8,11 +8,15 @@ fileignoreconfig:
 - filename: _docs/dev/0.run-local-env.md
   checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: 90f61b5faa4fd3da9b0722538c036ff58ca8f2d388091f22e8b348a3b09ef37b
+  checksum: f106304727d41ce64bb581f8772896ed8664df3a5e41489587be64afab48f453
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: c510b7ad49f07d80c5a4951ca86c62d55dab6a3fb5b2dcc6947f8022cb08eea7
+  checksum: 4d2f01ba7fbd8c1109994a0831576e6341dc7e925fb75b9f447e2b3e1c9ef1c6
 - filename: packages/backend/package.json
   checksum: 2f5813dbc35cdc3659516beabf9f93e2978eb62d1b5403cfbb2907f22bb25355
+- filename: packages/backend/src/_migrations/1757532174131-auto-migration.ts
+  checksum: 22a788509a5f08a8dbccbab49ed7b835df73ab56444b5c2a0e327fe51de2f748
+- filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
+  checksum: 8b421c413bab4f2419972dec548a5399879f497a8c75c9b240bbf8c123cfab06
 - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.spec.ts
   checksum: 8f66091255109d0da277819584c6c69d4a7f720256842851a49b0dda16af6651
 - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.ts

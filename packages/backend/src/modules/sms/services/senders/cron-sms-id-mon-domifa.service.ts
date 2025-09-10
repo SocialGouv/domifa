@@ -14,7 +14,7 @@ export class CronSmsMonDomiFaService {
     private readonly messageSmsSenderService: MessageSmsSenderService
   ) {}
 
-  @Cron(CronExpression.EVERY_10_MINUTES, {
+  @Cron(CronExpression.EVERY_30_MINUTES, {
     timeZone: "Europe/Paris",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -37,10 +37,9 @@ export class CronSmsMonDomiFaService {
           status: "TO_SEND",
           smsId: "idMonDomiFa",
         },
-        take: 500,
+        take: 200,
       });
 
-      console.log({ smsToSend });
       if (smsToSend.length === 0) {
         appLogger.info(
           "[SMS BATCH] Aucun SMS d'identifiants Mon DomiFa à envoyer"

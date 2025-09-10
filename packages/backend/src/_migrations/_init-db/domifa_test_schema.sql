@@ -505,7 +505,6 @@ CREATE TABLE public.user_usager (
     login text NOT NULL,
     password text NOT NULL,
     salt text NOT NULL,
-    "isTemporaryPassword" boolean DEFAULT false NOT NULL,
     "lastLogin" timestamp with time zone,
     "passwordLastUpdate" timestamp with time zone,
     "lastPasswordResetDate" timestamp with time zone,
@@ -670,6 +669,7 @@ CREATE INDEX "IDX_a52dec7d55b4a81a0af0136148" ON public.user_structure USING btr
 CREATE INDEX "IDX_aa19c17fc79f4e4a648643096f" ON public.usager_entretien USING btree ("usagerUUID");
 CREATE INDEX "IDX_b1db67565e53acec53d5f3aa92" ON public.usager_docs USING btree ("structureId");
 CREATE INDEX "IDX_b1dfa7ef1934657b38072e749e" ON public.structure_doc USING btree (id);
+CREATE INDEX "IDX_b2ad525cbadf911e833bf61597" ON public.open_data_places USING btree ("cityCode");
 CREATE INDEX "IDX_b36e92e49b2a68f8fea64ec8d5" ON public.structure USING btree (email);
 CREATE INDEX "IDX_b4d09870ec6cad2d2d98b7cc3a" ON public.usager USING btree (migrated);
 CREATE INDEX "IDX_b509fe905bf502e510cda57080" ON public.usager_options_history USING btree ("structureId");

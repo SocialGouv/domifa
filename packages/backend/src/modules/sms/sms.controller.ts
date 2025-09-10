@@ -27,13 +27,13 @@ export class SmsController {
   ) {
     const queryBuilder = messageSmsRepository
       .createQueryBuilder("message_sms")
-      .where("message_sms.structureId = :structureId", {
-        structureId: currentUsager.structureId,
+      .where(`"structureId" = :id`, {
+        id: currentUsager.structureId,
       })
-      .andWhere("message_sms.usagerRef = :usagerRef", {
-        usagerRef: currentUsager.ref,
+      .andWhere(`"usagerRef" = :ref`, {
+        ref: currentUsager.ref,
       })
-      .orderBy("createdAt", pageOptionsDto.order)
+      .orderBy(`"createdAt"`, pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
       .take(pageOptionsDto.take);
 

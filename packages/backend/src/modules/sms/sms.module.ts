@@ -9,7 +9,6 @@ import { forwardRef, Module } from "@nestjs/common";
 import { InteractionsModule } from "../interactions/interactions.module";
 import { StructuresModule } from "../structures/structure.module";
 import { UsagersModule } from "../../usagers/usagers.module";
-import { CronSmsMonDomiFaService } from "./services/senders/cron-sms-id-mon-domifa.service";
 
 @Module({
   controllers: [SmsController],
@@ -18,7 +17,7 @@ import { CronSmsMonDomiFaService } from "./services/senders/cron-sms-id-mon-domi
     MessageSmsService,
     CronSmsInteractionSenderService,
     CronSmsFetchEndDomService,
-    CronSmsMonDomiFaService,
+    //CronSmsMonDomiFaService,
   ],
   imports: [
     HttpModule,
@@ -31,7 +30,7 @@ import { CronSmsMonDomiFaService } from "./services/senders/cron-sms-id-mon-domi
     MessageSmsService,
     CronSmsInteractionSenderService,
     CronSmsFetchEndDomService,
-    CronSmsMonDomiFaService,
+    //CronSmsMonDomiFaService,
   ],
 })
 export class SmsModule {}
