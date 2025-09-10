@@ -12,6 +12,7 @@ import { UsagerAuthService } from "./services/usager-auth.service";
 
 import { UsagerAuthRoutingModule } from "./usager-auth-routing.module";
 import { UsagerLoginComponent } from "./usager-login/usager-login.component";
+import { UppercaseDirective } from "../shared/directives/uppercase.directive";
 
 @NgModule({
   declarations: [UsagerLoginComponent],
@@ -22,6 +23,7 @@ import { UsagerLoginComponent } from "./usager-login/usager-login.component";
     FontAwesomeModule,
     SharedModule,
     ReactiveFormsModule,
+    UppercaseDirective,
   ],
   providers: [UsagerAuthService, provideHttpClient(withInterceptorsFromDi())],
 })

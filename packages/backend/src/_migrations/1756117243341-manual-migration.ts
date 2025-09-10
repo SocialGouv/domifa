@@ -1,11 +1,12 @@
 import { MessageSms } from "@domifa/common";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { messageSmsRepository } from "../database";
-import { appLogger } from "../util";
+import { appLogger, getPhoneString } from "../util";
 import { domifaConfig } from "../config";
+import { PhoneNumberFormat } from "google-libphonenumber";
 
-export class ManualMigration1756117243339 implements MigrationInterface {
-  name = "CreateSmsForUserUsager1756117243339";
+export class ManualMigration1756117243341 implements MigrationInterface {
+  name = "CreateSmsForUserUsager1756117243341";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     if (domifaConfig().envId === "prod") {
@@ -49,21 +50,23 @@ export class ManualMigration1756117243339 implements MigrationInterface {
           continue;
         }
 
-        // Contenu du SMS
-        const smsContent = `Nouveau portail Inserasaf pour consulter votre courrier !
-Connexion: https://urlr.me/JCdwYs
+        const smsContent = `Nouveau site Inserasaf pour consulter votre courrier !
 ID: ${login}
-MDP: votre date de naissance
+Mot de passe: date de naissance (ex: 01011952)
+Lien: https://urlr.me/JCdwYs
 DomiFa`;
 
         smsToSave.push({
           usagerRef: usagerRef,
           structureId: structureId,
           content: smsContent,
-          senderName: "DomiFa",
+          senderName: "INSERASAF",
           status: "TO_SEND",
           smsId: "idMonDomiFa",
-          phoneNumber: phoneNumber,
+          phoneNumber: getPhoneString(
+            userUsager.telephone,
+            PhoneNumberFormat.E164
+          ),
           scheduledDate,
           errorCount: 0,
         });

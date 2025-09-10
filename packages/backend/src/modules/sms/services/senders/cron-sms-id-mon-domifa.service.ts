@@ -14,7 +14,7 @@ export class CronSmsMonDomiFaService {
     private readonly messageSmsSenderService: MessageSmsSenderService
   ) {}
 
-  @Cron(CronExpression.EVERY_5_MINUTES, {
+  @Cron(CronExpression.EVERY_10_MINUTES, {
     timeZone: "Europe/Paris",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
