@@ -9,7 +9,7 @@ export class ManualMigration1756117243341 implements MigrationInterface {
   name = "CreateSmsForUserUsager1756117243341";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    if (domifaConfig().envId === "prod") {
+    if (domifaConfig().envId === "local") {
       appLogger.warn(
         "Début de la migration : Création des SMS pour les comptes usagers"
       );
@@ -35,7 +35,7 @@ export class ManualMigration1756117243341 implements MigrationInterface {
 
       appLogger.warn(`Nombre d'utilisateurs trouvés : ${userUsagers.length}`);
 
-      const smsToSave: MessageSms[] = [];
+      let smsToSave: MessageSms[] = [];
       const scheduledDate = new Date();
 
       for (const userUsager of userUsagers) {
@@ -70,6 +70,12 @@ DomiFa`;
           scheduledDate,
           errorCount: 0,
         });
+
+        if (smsToSave?.length >= 200) {
+          console.log("200/" + userUsagers.length + " sms générés");
+          await messageSmsRepository.save(smsToSave);
+          smsToSave = [];
+        }
       }
 
       if (smsToSave?.length > 0) {
