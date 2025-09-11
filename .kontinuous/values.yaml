@@ -1,20 +1,24 @@
 global:
-  pgSecretName: pg-app
+  pgSecretName: pg-app-import
 
 backend:
   ~chart: app
   ~needs: [backend-cron]
   imagePackage: backend
   host: "api-{{ .Values.global.host }}"
+  annotations:
+    oblik.socialgouv.io/min-limit-cpu: "3"
+    oblik.socialgouv.io/min-request-cpu: "1"
+    oblik.socialgouv.io/min-request-memory: "3Gi"
   probesPath: /healthz
   containerPort: 3000
   resources:
     requests:
-      cpu: 1
-      memory: 1Gi
-    limits: # exports need a lot of CPU/RAM ATM
-      cpu: 3
+      cpu: 2
       memory: 3Gi
+    limits: # exports need a lot of CPU/RAM ATM
+      cpu: 4
+      memory: 4Gi
   startupProbe:
     httpGet:
       path: /healthz
@@ -65,6 +69,10 @@ backend-export:
   host: "api-{{ .Values.global.host }}"
   probesPath: /healthz
   containerPort: 3000
+  annotations:
+    oblik.socialgouv.io/min-limit-cpu: "3"
+    oblik.socialgouv.io/min-request-cpu: "1"
+    oblik.socialgouv.io/min-request-memory: "3Gi"
   ingress:
     paths:
       - /export
@@ -80,11 +88,11 @@ backend-export:
       nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
   resources:
     requests:
-      cpu: 0.3
-      memory: 512Mi
-    limits: # exports need a lot of CPU/RAM ATM
-      cpu: 3
+      cpu: 2
       memory: 3Gi
+    limits: # exports need a lot of CPU/RAM ATM
+      cpu: 4
+      memory: 4Gi
   startupProbe:
     httpGet:
       path: /healthz
@@ -127,20 +135,23 @@ backend-export:
     runAsUser: 1000
     runAsGroup: 1000
 
-
 backend-cron:
   ~chart: app
   imagePackage: backend
   .ingress.enabled: false
   probesPath: /healthz
   containerPort: 3000
+  annotations:
+    oblik.socialgouv.io/min-limit-cpu: "3"
+    oblik.socialgouv.io/min-request-cpu: "1"
+    oblik.socialgouv.io/min-request-memory: "3Gi"
   resources:
     requests:
-      cpu: 0.2
-      memory: 256Mi
-    limits:
-      cpu: 1.5
+      cpu: 1
       memory: 2Gi
+    limits:
+      cpu: 2
+      memory: 3Gi
   startupProbe:
     httpGet:
       path: /healthz
