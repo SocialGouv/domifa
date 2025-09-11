@@ -134,44 +134,22 @@
     </p>
     <dsfr-datatable
       [caption]="'Sous-traitants liés à la donnée'"
-      [data]="[
-        {
-          sousTraitant: 'OVH',
-          paysDestinataire: 'France',
-          traitementRealise: 'Hébergement',
-          garanties:
-            'https://storage.gra.cloud.ovh.net/v1/AUTH_325716a587c64897acbef9a4a4726e38/contracts/9e74492-OVH_Data_Protection_Agreement-FR-6.0.pdf'
-        },
-        {
-          sousTraitant: 'Tally',
-          paysDestinataire: 'Belgique',
-          traitementRealise: 'Mesure de satisfaction',
-          garanties: 'https://tally.so/help/privacy-policy'
-        }
-      ]"
-      [columns]="[
-        {
-          label: 'Sous-traitant',
-          field: 'sousTraitant',
-          sortable: false
-        },
-        {
-          label: 'Pays destinataire',
-          field: 'paysDestinataire',
-          sortable: false,
-        },
-        {
-          label: 'Traitement réalisé',
-          field: 'traitementRealise',
-          sortable: false,
-        },
-        {
-          label: 'Garanties',
-          field: 'garanties',
-          sortable: false,
-        }
-      ]"
-    ></dsfr-datatable>
+      [data]="data"
+      [columns]="columns"
+    >
+      <ng-template #tableBodyTemplate let-row>
+        <tr>
+          <td>{{ row.sousTraitant }}</td>
+          <td>{{ row.paysDestinataire }}</td>
+          <td>{{ row.traitementRealise }}</td>
+          <td>
+            <a href="{{ row.garanties }}" target="_blank">
+              {{ row.garanties }}
+            </a>
+          </td>
+        </tr>
+      </ng-template>
+    </dsfr-datatable>
 
     <h2>Cookies</h2>
     <p>
