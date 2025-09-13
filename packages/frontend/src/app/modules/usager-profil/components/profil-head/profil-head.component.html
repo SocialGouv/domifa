@@ -26,7 +26,7 @@
 
       <div
         class="px-0 mx-0 text-md-end text-center d-print-none"
-        *ngIf="me.role !== 'facteur'"
+        *ngIf="me.role !== 'facteur' && me.role !== 'agent'"
       >
         <ng-container *ngIf="usager.decision.statut === 'INSTRUCTION'">
           <a

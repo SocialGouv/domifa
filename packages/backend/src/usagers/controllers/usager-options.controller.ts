@@ -54,7 +54,7 @@ export class UsagerOptionsController {
 
   @UseGuards(UsagerAccessGuard)
   @Get("historique/:usagerRef/:type")
-  public async createNote(
+  public async getProcurationHistory(
     @CurrentUsager() currentUsager: Usager,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @Param("type", new ParseEnumPipe(UsagerOptionsHistoryTypeEnum))

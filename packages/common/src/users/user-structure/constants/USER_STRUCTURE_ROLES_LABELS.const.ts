@@ -7,4 +7,5 @@ export const USER_STRUCTURE_ROLES_LABELS: {
   responsable: "Gestionnaire",
   simple: "Instructeur",
   facteur: "Facteur",
+  agent: "Agent d'accueil",
 };

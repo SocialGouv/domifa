@@ -294,7 +294,7 @@
 
                     <a
                       ngbDropdownItem
-                      *ngIf="me.role !== 'facteur'"
+                      *ngIf="me.role !== 'facteur' && me.role !== 'agent'"
                       routerLink="/import"
                       ariaCurrentWhenActive="page"
                     >
