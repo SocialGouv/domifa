@@ -38,6 +38,7 @@ import { anonymizeFullName, cleanPath, getPhoneString } from "../../util";
 import {
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
+  USER_STRUCTURE_ROLES_NOT_FACTEUR,
 } from "../../_common/model";
 import {
   CheckDuplicateUsagerDto,
@@ -337,7 +338,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+  @AllowUserStructureRoles(...USER_STRUCTURE_ROLES_NOT_FACTEUR)
   @Get("cerfa/:usagerRef/:typeCerfa")
   public async getAttestation(
     @Res() res: Response,

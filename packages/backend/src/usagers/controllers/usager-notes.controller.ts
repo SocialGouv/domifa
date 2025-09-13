@@ -114,6 +114,7 @@ export class UsagerNotesController {
 
   @Delete(":usagerRef/:noteUUID")
   @UseGuards(UsagerAccessGuard, UsagerNoteAccessGuard)
+  @AllowUserStructureRoles("responsable", "simple", "admin")
   public async deleteNote(
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsagerNote() currentUsagerNote: UsagerNote,
@@ -193,6 +194,7 @@ export class UsagerNotesController {
 
   @Put(":usagerRef/archive/:noteUUID")
   @UseGuards(UsagerAccessGuard, UsagerNoteAccessGuard)
+  @AllowUserStructureRoles("responsable", "simple", "admin")
   public async archiveNote(
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsagerNote() currentUsagerNote: UsagerNote,

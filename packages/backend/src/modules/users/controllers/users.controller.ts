@@ -71,7 +71,11 @@ export class UsersController {
     const users = await userStructureRepository.getVerifiedUsersByStructureId(
       user.structureId
     );
-    if (user.role === "facteur" || user.role === "simple") {
+    if (
+      user.role === "facteur" ||
+      user.role === "agent" ||
+      user.role === "simple"
+    ) {
       return users.map((user) => {
         return {
           id: user.id,
