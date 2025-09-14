@@ -17,6 +17,8 @@ fileignoreconfig:
   checksum: e2d06e63d58935b349f2591b0a3c407c254be26c4e833456829e7c605fc7411b
 - filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
   checksum: 8b421c413bab4f2419972dec548a5399879f497a8c75c9b240bbf8c123cfab06
+- filename: packages/frontend/src/app/modules/general/components/static-pages/politique/politique.component.html
+  checksum: b4b98ac83a35a960edeb96d560203a9afbcc2d68d01c6289c2b316c36e5cdc80
 - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.spec.ts
   checksum: 8f66091255109d0da277819584c6c69d4a7f720256842851a49b0dda16af6651
 - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.ts
