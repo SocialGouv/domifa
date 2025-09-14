@@ -35,7 +35,7 @@ import { RgaaComponent } from "./components/static-pages/rgaa/rgaa.component";
 import { LandingPagePortailComponent } from "./components/static-pages/landing-page-portail/landing-page-portail.component";
 import { HomeStatsComponent } from "../stats/components/home-stats/home-stats.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-
+import { DsfrTableComponent } from "@edugouvfr/ngx-dsfr";
 @NgModule({
   declarations: [
     HomeComponent,
@@ -74,6 +74,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     NgbModule,
     FontAwesomeModule,
     HomeStatsComponent,
+    DsfrTableComponent,
   ],
   providers: [GeneralService, provideHttpClient(withInterceptorsFromDi())],
 })

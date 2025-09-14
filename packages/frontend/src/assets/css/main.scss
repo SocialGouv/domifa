@@ -17,6 +17,7 @@ caption {
   color: black !important;
 }
 
+/*
 h1 {
   line-height: 1.2 !important;
   margin-bottom: 0.5rem;
@@ -42,7 +43,7 @@ h4 {
   font-size: 1.2rem;
   margin: 1.1rem 0;
 }
-
+*/
 .content {
   background-color: #f2f2f2;
   min-height: calc(90vh - 78px);
@@ -59,6 +60,7 @@ h4 {
 }
 
 .container {
+  margin-top: 2rem;
   max-width: 1500px;
 }
 
