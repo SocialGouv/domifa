@@ -35,7 +35,6 @@ export class HomeUsagerComponent implements OnInit {
             this.router.navigate(["/account/accept-terms"]);
             return;
           }
-
           this.usagerProfile = apiResponse;
         }
       )
@@ -51,7 +50,6 @@ export class HomeUsagerComponent implements OnInit {
       this.structureInformationService.getAllStructureInformation().subscribe({
         next: (structureInformation: StructureInformation[]) => {
           const today = new Date();
-
           this.structureInformation = structureInformation.filter((info) => {
             if (!info.isTemporary) {
               return true;
