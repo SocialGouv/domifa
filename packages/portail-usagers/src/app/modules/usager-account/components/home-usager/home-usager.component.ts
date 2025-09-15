@@ -21,7 +21,7 @@ export class HomeUsagerComponent implements OnInit {
     private readonly usagerAuthService: UsagerAuthService,
     private readonly titleService: Title,
     private readonly router: Router,
-    private readonly structureInformationService: StructureInformationService,
+    private readonly structureInformationService: StructureInformationService
   ) {
     this.usagerProfile = null;
     this.titleService.setTitle("Mon DomiFa");
@@ -37,8 +37,8 @@ export class HomeUsagerComponent implements OnInit {
           }
 
           this.usagerProfile = apiResponse;
-        },
-      ),
+        }
+      )
     );
 
     if (this.usagerProfile) {
@@ -59,14 +59,14 @@ export class HomeUsagerComponent implements OnInit {
 
             if (info.endDate && info.startDate) {
               return isWithinInterval(today, {
-                start: info.startDate,
-                end: info.endDate,
+                start: new Date(info.startDate),
+                end: new Date(info.endDate),
               });
             }
             return false;
           });
         },
-      }),
+      })
     );
   }
 }
