@@ -13,7 +13,6 @@ export class NewsComponent implements OnInit {
   public readonly DOMIFA_NEWS: any = DOMIFA_NEWS;
 
   public constructor(private readonly seoService: SeoService) {}
-
   public ngOnInit(): void {
     this.seoService.updateTitleAndTags(
       "Les dernières nouveautés de DomiFa",

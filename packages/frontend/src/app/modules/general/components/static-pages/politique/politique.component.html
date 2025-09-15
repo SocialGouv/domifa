@@ -54,43 +54,35 @@
     </p>
 
     <h2>Pendant combien de temps conservons-nous ces données ?</h2>
-    <div class="table-responsive">
-      <table class="table">
-        <caption class="visually-hidden">
-          Pendant combien de temps conservons-nous ces données ?
-        </caption>
-        <thead>
-          <tr>
-            <th scope="col">Catégories de données</th>
-            <th scope="col">Durées de conservation</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              Durée de conservation sur les données relatives aux agents
-              utilisateurs
-            </td>
-            <td>2 ans à compter du dernier contact</td>
-          </tr>
-          <tr>
-            <td>
-              Durée de conservation sur les données relatives aux personnes
-              domiciliées
-            </td>
-            <td>2 ans à compter du dernier contact</td>
-          </tr>
-          <tr>
-            <td>
-              Durée de conservation sur les données relatives aux ayants droit
-              des personnes domiciliées
-            </td>
-            <td>2 ans à compter du dernier contact</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
+    <dsfr-datatable
+      [data]="[
+        {
+          catDonnees: 'Données relatives aux agents utilisateurs',
+          dureeConservation: '2 ans à compter du dernier contact'
+        },
+        {
+          catDonnees: 'Données relatives aux personnes domiciliées',
+          dureeConservation: '2 ans à compter du dernier contact'
+        },
+        {
+          catDonnees:
+            'Données relatives aux ayants droit des personnes domiciliées',
+          dureeConservation: '2 ans à compter du dernier contact'
+        }
+      ]"
+      [columns]="[
+        {
+          label: 'Catégories de données',
+          field: 'catDonnees',
+          sortable: false
+        },
+        {
+          label: 'Durées de conservation',
+          field: 'dureeConservation',
+          sortable: false,
+        }
+      ]"
+    ></dsfr-datatable>
     <h2>Quels sont vos droits ?</h2>
 
     <p>Vous disposez d’un :</p>
@@ -141,47 +133,24 @@
       sous-traitants de garanties adéquates et du respect de conditions strictes
       de confidentialité, d’usage et de protection des données.
     </p>
-    <div class="table-responsive">
-      <table class="table">
-        <caption class="visually-hidden">
-          Sous-traitants liés à la donnée
-        </caption>
-        <thead>
-          <tr>
-            <th scope="col">Sous-traitant</th>
-            <th scope="col">Pays destinataire</th>
-            <th scope="col">Traitement réalisé</th>
-            <th scope="col">Garanties</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>OVH</td>
-            <td>France</td>
-            <td>Hébergement</td>
-            <td>
-              <a
-                href="https://storage.gra.cloud.ovh.net/v1/AUTH_325716a587c64897acbef9a4a4726e38/contracts/9e74492-OVH_Data_Protection_Agreement-FR-6.0.pdf
-"
-                >https://storage.gra.cloud.ovh.net/v1/AUTH_325716a587c64897acbef9a4a4726e38/contracts/9e74492-OVH_Data_Protection_Agreement-FR-6.0.pdf
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td>Tally</td>
-            <td>Belgique</td>
-            <td>Mesure de satisfaction</td>
-            <td>
-              <a
-                href="https://tally.so/help/privacy-policy
-"
-                >https://tally.so/help/privacy-policy
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <dsfr-datatable
+      [caption]="'Sous-traitants liés à la donnée'"
+      [data]="data"
+      [columns]="columns"
+    >
+      <ng-template #tableBodyTemplate let-row>
+        <tr>
+          <td>{{ row.sousTraitant }}</td>
+          <td>{{ row.paysDestinataire }}</td>
+          <td>{{ row.traitementRealise }}</td>
+          <td>
+            <a href="{{ row.garanties }}" target="_blank">
+              {{ row.garanties }}</a
+            >
+          </td>
+        </tr>
+      </ng-template>
+    </dsfr-datatable>
     <h2>Cookies</h2>
     <p>
       Un cookie est un fichier déposé sur votre terminal lors de la visite d’un
