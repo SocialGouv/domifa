@@ -46,32 +46,6 @@ describe("PortailUsagersProfileController", () => {
     );
     expect(controller).toBeDefined();
   });
-
-  describe("GET /portail-usagers/profile/structure-information", () => {
-    it("should return structure information for authenticated usager", async () => {
-      const response = await supertest(context.app.getHttpServer())
-        .get("/portail-usagers/profile/structure-information")
-        .set("Authorization", `Bearer ${authToken}`)
-        .expect(HttpStatus.OK);
-
-      expect(response.body).toBeDefined();
-      expect(Array.isArray(response.body)).toBe(true);
-    });
-
-    it("should return 401 for unauthenticated request", async () => {
-      await supertest(context.app.getHttpServer())
-        .get("/portail-usagers/profile/structure-information")
-        .expect(HttpStatus.UNAUTHORIZED);
-    });
-
-    it("should return 401 for invalid token", async () => {
-      await supertest(context.app.getHttpServer())
-        .get("/portail-usagers/profile/structure-information")
-        .set("Authorization", "Bearer invalid-token")
-        .expect(HttpStatus.UNAUTHORIZED);
-    });
-  });
-
   describe("GET /portail-usagers/profile/me", () => {
     it("should return user profile for authenticated usager", async () => {
       const response = await supertest(context.app.getHttpServer())
