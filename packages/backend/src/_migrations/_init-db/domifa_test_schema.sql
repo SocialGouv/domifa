@@ -328,7 +328,8 @@ CREATE TABLE public.usager_docs (
     "createdBy" text NOT NULL,
     "encryptionContext" text,
     "encryptionVersion" integer,
-    shared boolean DEFAULT false NOT NULL
+    shared boolean DEFAULT false NOT NULL,
+    filesize integer
 );
 CREATE TABLE public.usager_entretien (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
