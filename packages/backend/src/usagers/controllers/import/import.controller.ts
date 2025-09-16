@@ -252,13 +252,13 @@ export class ImportController {
       };
 
       await this.appLogsService.create<SuccessfulUsagerImportLogContext>({
-        action: "IMPORT_USAGERS_SUCCESS",
+        action: "IMPORT_USAGERS_PREVIEW",
         userId: user.id,
         role: user.role,
         structureId: user.structureId,
         context: {
           nombreActifs: extractUsagersNumber(usagersRows),
-          nombreTotal: importPreviewRows.length,
+          nombreTotal: usagersRows.length,
         },
       });
 
