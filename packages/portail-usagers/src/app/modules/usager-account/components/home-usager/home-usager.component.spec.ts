@@ -13,8 +13,10 @@ import { StructureInformationService } from "../../services/structure-informatio
 import { BehaviorSubject, of } from "rxjs";
 import { PortailUsagerProfile, StructureInformation } from "@domifa/common";
 import {
+  unMessageAvecIsoDate,
   unMessageCourant,
   unMessageFutur,
+  unMessageFuturAvecIsoDate,
   unMessagePasse,
 } from "../../../../../_tests/mocks/STRUCTURE_INFORMATION.mock";
 import { unProfilUsager } from "../../../../../_tests/mocks/PORTAIL_USAGER_PROFILE.mock";
@@ -26,6 +28,8 @@ describe("HomeUsagerComponent", () => {
     unMessageCourant,
     unMessagePasse,
     unMessageFutur,
+    unMessageAvecIsoDate as unknown as StructureInformation, // un message avec date string
+    unMessageFuturAvecIsoDate as unknown as StructureInformation,
   ];
   const structureInformationService = {
     getAllStructureInformation: jest.fn(() => of(messagesStructures)),
@@ -69,9 +73,12 @@ describe("HomeUsagerComponent", () => {
 
   it("Filter out obsolete messages", fakeAsync(() => {
     tick();
-    expect(component.structureInformation.length).toEqual(1);
+    expect(component.structureInformation.length).toEqual(2);
     expect(component.structureInformation[0].title).toEqual(
       "Un message courant"
+    );
+    expect(component.structureInformation[1].title).toEqual(
+      "Un message courant avec text date"
     );
   }));
 });

@@ -44,3 +44,25 @@ export const unMessageFutur: StructureInformation = {
     days: 4,
   }),
 };
+
+export const unMessageFuturAvecIsoDate = {
+  ...unMessageCourant,
+  title: "Un message futur",
+  startDate: add(new Date(), {
+    days: 2,
+  }).toISOString(),
+  endDate: add(new Date(), {
+    days: 4,
+  }).toISOString(),
+};
+
+export const unMessageAvecIsoDate = {
+  ...unMessageCourant,
+  title: "Un message courant avec text date",
+  startDate: sub(new Date(), {
+    days: 4,
+  }).toISOString(),
+  endDate: add(new Date(), {
+    days: 1,
+  }).toISOString(),
+};

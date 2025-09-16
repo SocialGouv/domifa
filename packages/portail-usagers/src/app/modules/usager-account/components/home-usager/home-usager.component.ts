@@ -1,10 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { PortailUsagerProfile, StructureInformation } from "@domifa/common";
+import {
+  PortailUsagerProfile,
+  StructureInformation,
+  StructureInformationMessage,
+} from "@domifa/common";
 import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
-import { isWithinInterval } from "date-fns";
 import { StructureInformationService } from "../../services/structure-information.service";
 
 @Component({
@@ -49,20 +52,12 @@ export class HomeUsagerComponent implements OnInit {
     this.subscription.add(
       this.structureInformationService.getAllStructureInformation().subscribe({
         next: (structureInformation: StructureInformation[]) => {
-          const today = new Date();
-          this.structureInformation = structureInformation.filter((info) => {
-            if (!info.isTemporary) {
-              return true;
-            }
-
-            if (info.endDate && info.startDate) {
-              return isWithinInterval(today, {
-                start: new Date(info.startDate),
-                end: new Date(info.endDate),
-              });
-            }
-            return false;
-          });
+          this.structureInformation = structureInformation
+            .map(
+              (_structureInfo) =>
+                new StructureInformationMessage(_structureInfo)
+            )
+            .filter((info) => !info.isExpired);
         },
       })
     );
