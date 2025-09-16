@@ -61,7 +61,7 @@
         &nbsp;
         <button
           type="button"
-          *ngIf="me.role === 'admin'"
+          *ngIf="me?.role === 'admin'"
           (click)="open(hardResetConfirmation)"
           class="btn btn-outline-danger my-1"
         >
@@ -74,7 +74,7 @@
         </button>
       </section>
 
-      <section *ngIf="me.role === 'admin'">
+      <section *ngIf="me?.role === 'admin'">
         <app-structure-edit-form
           *ngIf="structure"
           [structure]="structure"

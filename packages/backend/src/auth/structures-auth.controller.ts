@@ -29,6 +29,7 @@ import { domifaConfig } from "../config";
 import { userSecurityPasswordChecker } from "../modules/users/services";
 import { AllowUserStructureRoles } from "./decorators";
 import { UserStructure } from "@domifa/common";
+import { appLogger } from "../util";
 
 const userProfile: UserProfile = "structure";
 
@@ -55,6 +56,7 @@ export class StructuresAuthController {
 
       return res.status(HttpStatus.OK).json(accessToken);
     } catch (err) {
+      appLogger.error(err);
       return res
         .status(HttpStatus.UNAUTHORIZED)
         .json({ message: "LOGIN_FAILED" });

@@ -30,7 +30,7 @@ export class UsagerDocAccessGuard implements CanActivate {
       throw new HttpException("USAGER_DOC_NOT_FOUND", HttpStatus.BAD_REQUEST);
     }
 
-    if (user?.role === "facteur") {
+    if (user?.role === "facteur" || user?.role === "agent") {
       throw new HttpException("CANNOT_GET_DOC", HttpStatus.UNAUTHORIZED);
     }
 

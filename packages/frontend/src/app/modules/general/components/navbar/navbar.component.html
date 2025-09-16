@@ -143,7 +143,7 @@
             <ng-container *ngIf="me">
               <div class="d-flex">
                 <a
-                  *ngIf="me.role === 'admin' && me.structureId === 1"
+                  *ngIf="me?.role === 'admin' && me.structureId === 1"
                   class="btn btn-outline-primary"
                   [href]="portailAdminUrl"
                   target="_blank"
@@ -218,7 +218,7 @@
                     </a>
                     <a
                       ngbDropdownItem
-                      *ngIf="me.role === 'admin' || me.role === 'responsable'"
+                      *ngIf="me?.role === 'admin' || me?.role === 'responsable'"
                       routerLink="/users/comptes"
                       ariaCurrentWhenActive="page"
                     >
@@ -228,7 +228,7 @@
                     </a>
                     <a
                       ngbDropdownItem
-                      *ngIf="me.role === 'admin' || me.role === 'responsable'"
+                      *ngIf="me?.role === 'admin' || me?.role === 'responsable'"
                       routerLink="/structures/edit"
                       ariaCurrentWhenActive="page"
                     >
@@ -238,7 +238,7 @@
                     </a>
                     <a
                       ngbDropdownItem
-                      *ngIf="me.role === 'admin' || me.role === 'responsable'"
+                      *ngIf="me?.role === 'admin' || me?.role === 'responsable'"
                       routerLink="/structures/documents"
                       ariaCurrentWhenActive="page"
                     >
@@ -249,7 +249,7 @@
                     <a
                       ngbDropdownItem
                       *ngIf="
-                        me.role === 'admin' &&
+                        me?.role === 'admin' &&
                         me.structure?.sms?.enabledByDomifa
                       "
                       routerLink="/structures/sms"
@@ -268,7 +268,7 @@
                     <a
                       ngbDropdownItem
                       *ngIf="
-                        me.role === 'admin' &&
+                        me?.role === 'admin' &&
                         me.structure?.portailUsager?.enabledByDomifa
                       "
                       routerLink="/structures/portail-usager"
@@ -294,7 +294,7 @@
 
                     <a
                       ngbDropdownItem
-                      *ngIf="me.role !== 'facteur'"
+                      *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
                       routerLink="/import"
                       ariaCurrentWhenActive="page"
                     >

@@ -19,8 +19,10 @@ import { differenceInCalendarDays } from "date-fns";
   providedIn: "root",
 })
 export class ManageUsersService {
-  private endPoint = environment.apiUrl + "users";
-  private usersSubject = new BehaviorSubject<UserStructureProfile[]>([]);
+  private readonly endPoint = environment.apiUrl + "users";
+  private readonly usersSubject = new BehaviorSubject<UserStructureProfile[]>(
+    []
+  );
 
   // Observables dérivés
   readonly users$ = this.usersSubject.pipe(
@@ -36,7 +38,9 @@ export class ManageUsersService {
   );
 
   readonly referrers$ = this.users$.pipe(
-    map((users) => users.filter((user) => user.role !== "facteur"))
+    map((users) =>
+      users.filter((user) => user.role !== "facteur" && user.role !== "agent")
+    )
   );
 
   readonly referrersMap$ = this.referrers$.pipe(

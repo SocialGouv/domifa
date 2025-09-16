@@ -16,7 +16,11 @@
           >
             <h2>État civil</h2>
             <ng-container
-              *ngIf="usager?.echeanceInfos?.isActif && me.role !== 'facteur'"
+              *ngIf="
+                usager?.echeanceInfos?.isActif &&
+                me?.role !== 'facteur' &&
+                me?.role !== 'agent'
+              "
               class="d-print-none"
             >
               <button
@@ -99,7 +103,10 @@
           ></app-display-contact-details>
         </div>
       </div>
-      <div class="row mb-3" *ngIf="me.role !== 'facteur'">
+      <div
+        class="row mb-3"
+        *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
+      >
         <div class="col-md-12">
           <div
             class="my-2 d-flex flex-wrap justify-content-between align-items-center"

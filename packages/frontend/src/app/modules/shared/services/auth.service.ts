@@ -127,7 +127,7 @@ export class AuthService {
       const urlTree = this.router.parseUrl(this.router.url);
       return filterMatomoParams(urlTree.queryParams);
     } catch (error) {
-      console.warn('Failed to parse URL for Matomo params:', error);
+      console.warn("Failed to parse URL for Matomo params:", error);
       return {};
     }
   }

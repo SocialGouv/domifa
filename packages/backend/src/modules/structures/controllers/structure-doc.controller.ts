@@ -37,6 +37,7 @@ import { join } from "path";
 import { FileManagerService } from "../../../util/file-manager/file-manager.service";
 import { validateDocTemplate } from "../../../usagers/utils/custom-docs";
 import { StructureDocTypesAvailable } from "@domifa/common";
+import { appLogger } from "../../../util";
 
 @ApiTags("structure-docs")
 @ApiBearerAuth()
@@ -171,7 +172,8 @@ export class StructureDocController {
       });
 
       return res.status(HttpStatus.OK).json(docs);
-    } catch (e) {
+    } catch (err) {
+      appLogger.error(err);
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "UPLOAD_FAIL" });
@@ -211,7 +213,8 @@ export class StructureDocController {
         structureId: user.structureId,
       });
       return res.status(HttpStatus.OK).json(docs);
-    } catch (e) {
+    } catch (err) {
+      appLogger.error(err);
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "DOC_NOT_FOUND" });

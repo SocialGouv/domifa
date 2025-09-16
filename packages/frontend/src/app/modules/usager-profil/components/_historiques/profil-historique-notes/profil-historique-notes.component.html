@@ -47,7 +47,7 @@
         <td>{{ note.createdBy.userName }}</td>
         <td class="text-end">
           <app-usager-notes-actions
-            *ngIf="me?.role !== 'facteur'"
+            *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
             class="ms-3"
             [usager]="usager"
             [note]="note"

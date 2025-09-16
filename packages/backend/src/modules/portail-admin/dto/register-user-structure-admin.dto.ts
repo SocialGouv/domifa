@@ -12,6 +12,7 @@ import {
 import { Transform, TransformFnParams } from "class-transformer";
 import { LowerCaseTransform } from "../../../_common/decorators";
 import { UserStructureRole, UserFonction } from "@domifa/common";
+import { USER_STRUCTURE_ROLE_ALL } from "../../../_common/model";
 
 export class RegisterUserStructureAdminDto {
   @ApiProperty({
@@ -78,10 +79,10 @@ export class RegisterUserStructureAdminDto {
   @ApiProperty({
     type: String,
     required: true,
-    enum: ["admin", "simple", "facteur", "responsable"],
+    enum: USER_STRUCTURE_ROLE_ALL,
   })
   @IsNotEmpty()
-  @IsIn(["admin", "simple", "facteur", "responsable"])
+  @IsIn(USER_STRUCTURE_ROLE_ALL)
   public readonly role!: UserStructureRole;
 
   @IsNotEmpty()

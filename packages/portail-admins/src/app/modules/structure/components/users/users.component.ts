@@ -3,8 +3,8 @@ import {
   UserFonction,
   SortValues,
   StructureCommon,
-  UserStructureRole,
   UserStructure,
+  USER_STRUCTURE_ROLES_LABELS,
 } from "@domifa/common";
 
 import {
@@ -85,12 +85,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   public readonly _USER_FONCTION_LABELS = USER_FONCTION_LABELS;
   public readonly USER_ACTIVITY_LABELS = UserStructureEventHistoryLabels;
   public readonly MODAL_ACTION = MODAL_ACTION;
-  public readonly USER_ROLES_LABELS: { [key in UserStructureRole]: string } = {
-    admin: "Administrateur",
-    responsable: "Gestionnaire",
-    simple: "Instructeur",
-    facteur: "Facteur",
-  };
+  public readonly USER_ROLES_LABELS = USER_STRUCTURE_ROLES_LABELS;
   @Input({ required: true }) public structure: StructureCommon;
   private readonly subscription = new Subscription();
   public searching = true;

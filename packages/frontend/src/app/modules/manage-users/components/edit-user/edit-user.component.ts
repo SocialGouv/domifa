@@ -106,7 +106,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.me = this.authService.currentUserValue;
     this.getLastPasswordUpdate();
 
-    if (this.me?.role !== "facteur") {
+    if (this.me?.role !== "facteur" && this.me?.role !== "agent") {
       this.usagers$ = this.manageUsersService.agenda();
     }
   }

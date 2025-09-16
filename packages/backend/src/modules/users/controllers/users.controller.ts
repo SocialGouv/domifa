@@ -52,6 +52,7 @@ import {
   UserStructureCreateLogContext,
   UserStructureRoleChangeLogContext,
 } from "../../app-logs/app-log-context.types";
+import { appLogger } from "../../../util";
 
 const userProfile: UserProfile = "structure";
 
@@ -62,8 +63,7 @@ const userProfile: UserProfile = "structure";
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class UsersController {
   constructor(private readonly appLogService: AppLogsService) {}
-  @ApiBearerAuth()
-  @ApiOperation({ summary: "Liste des utilisateurs" })
+
   @Get("")
   public async getUsers(
     @CurrentUser() user: UserStructureAuthenticated
@@ -71,7 +71,11 @@ export class UsersController {
     const users = await userStructureRepository.getVerifiedUsersByStructureId(
       user.structureId
     );
-    if (user.role === "facteur" || user.role === "simple") {
+    if (
+      user.role === "facteur" ||
+      user.role === "agent" ||
+      user.role === "simple"
+    ) {
       return users.map((user) => {
         return {
           id: user.id,
@@ -83,7 +87,6 @@ export class UsersController {
     return users;
   }
 
-  @ApiOperation({ summary: "Accepter les CGU" })
   @Get("accept-terms")
   public async acceptTerms(@CurrentUser() user: UserStructureAuthenticated) {
     await userStructureRepository.update(
@@ -100,7 +103,6 @@ export class UsersController {
     return true;
   }
 
-  @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   @Get("last-password-update")
   public async getLastPasswordUpdate(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -115,8 +117,6 @@ export class UsersController {
   }
 
   @AllowUserStructureRoles("admin")
-  @ApiBearerAuth("Administrateurs")
-  @ApiOperation({ summary: "Editer le rôle d'un utilisateur" })
   @UseGuards(CanGetUserStructureGuard)
   @Patch("update-role/:userUuid")
   public async updateRole(
@@ -234,6 +234,7 @@ export class UsersController {
   }
 
   @Patch()
+  @ApiOperation({ summary: "Modifier mes informations" })
   public async patch(
     @CurrentUser() user: UserStructureAuthenticated,
     @Body() userDto: UserEditDto,
@@ -338,6 +339,7 @@ export class UsersController {
       });
       return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (err) {
+      appLogger.error(err);
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "EDIT_PASSWORD_FAIL" });

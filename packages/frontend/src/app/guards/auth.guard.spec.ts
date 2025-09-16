@@ -12,11 +12,13 @@ import { AuthService } from "../modules/shared/services/auth.service";
 import { AuthGuard } from "./auth.guard";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../shared";
+import { CustomToastService } from "../modules/shared/services/custom-toast.service";
 
 describe("AuthGuard", () => {
   let authGuard: AuthGuard;
   let router: Router;
   let authService: AuthService;
+  let toastr: CustomToastService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,6 +48,7 @@ describe("AuthGuard", () => {
 
     authService = TestBed.inject(AuthService);
     authGuard = TestBed.inject(AuthGuard);
+    toastr = TestBed.inject(CustomToastService);
     router = TestBed.inject(Router);
   });
 
@@ -54,7 +57,7 @@ describe("AuthGuard", () => {
   }));
 
   it("CanActivate", () => {
-    authGuard = new AuthGuard(router, authService);
+    authGuard = new AuthGuard(authService, router, toastr);
     expect(authGuard).toBeTruthy();
   });
 });

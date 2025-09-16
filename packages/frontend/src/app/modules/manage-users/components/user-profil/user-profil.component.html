@@ -69,7 +69,7 @@
                 >
                 </app-table-head-sort>
               </th>
-              <th scope="col" *ngIf="me.role === 'admin'">Supprimer</th>
+              <th scope="col" *ngIf="me?.role === 'admin'">Supprimer</th>
             </tr>
           </thead>
           <tbody>
@@ -95,11 +95,11 @@
                 </p>
               </td>
               <td>
-                <ng-container *ngIf="me.role !== 'admin'">{{
+                <ng-container *ngIf="me?.role !== 'admin'">{{
                   USER_STRUCTURE_ROLES_LABELS[user.role]
                 }}</ng-container>
                 <ng-container
-                  *ngIf="me.role === 'admin' && me.uuid !== user.uuid"
+                  *ngIf="me?.role === 'admin' && me.uuid !== user.uuid"
                 >
                   <label class="visually-hidden" for="role-{{ user.uuid }}"
                     >Rôle de {{ user | fullName }}</label
@@ -116,14 +116,15 @@
                     <option value="responsable">Gestionnaire</option>
                     <option value="simple">Instructeur</option>
                     <option value="facteur">Facteur</option>
+                    <option value="agent">Agent d'accueil</option>
                   </select>
                 </ng-container>
               </td>
               <td>{{ user | fonctionFormat }}</td>
-              <td *ngIf="me.role === 'admin'">
+              <td *ngIf="me?.role === 'admin'">
                 <button
                   type="button"
-                  *ngIf="me.role === 'admin' && me.uuid !== user.uuid"
+                  *ngIf="me?.role === 'admin' && me.uuid !== user.uuid"
                   (click)="openDeleteConfirmation(user)"
                   class="btn btn-danger"
                   [attr.aria-label]="
@@ -150,7 +151,6 @@
         <fa-icon aria-hidden="true" [icon]="['fas', 'question']"></fa-icon>
         &nbsp; En savoir plus sur les rôles utilisateurs
       </button>
-
       <div
         class="my-2 table-responsive"
         id="user-infos"
@@ -162,37 +162,51 @@
           </caption>
           <thead>
             <tr>
-              <th scope="col">Fonctionnalit&eacute;</th>
+              <th scope="col">Fonctionnalité</th>
               <th scope="col">Facteur</th>
+              <th scope="col">Agent d'accueil</th>
               <th scope="col">Instructeur</th>
               <th scope="col">Gestionnaire</th>
               <th scope="col">Administrateur</th>
             </tr>
           </thead>
           <tbody>
+            <!-- GESTION DES UTILISATEURS -->
+            <tr class="table-secondary">
+              <td colspan="6"><strong>GESTION DES UTILISATEURS</strong></td>
+            </tr>
             <tr>
-              <td>Cr&eacute;ation et suppression d&rsquo;un utilisateur</td>
+              <td>Création et suppression d'un utilisateur</td>
+              <td>Non</td>
               <td>Non</td>
               <td>Non</td>
               <td>Non</td>
               <td class="bg-success text-white">Oui</td>
             </tr>
             <tr>
-              <td>Acc&egrave;s &agrave; la liste des membres actifs</td>
+              <td>Accès à la liste des membres actifs</td>
+              <td>Non</td>
               <td>Non</td>
               <td>Non</td>
               <td class="bg-success text-white">Oui</td>
               <td class="bg-success text-white">Oui</td>
             </tr>
             <tr>
-              <td>Changement de r&ocirc;le d&rsquo;un utilisateur</td>
+              <td>Changement de rôle d'un utilisateur</td>
+              <td>Non</td>
               <td>Non</td>
               <td>Non</td>
               <td>Non</td>
               <td class="bg-success text-white">Oui</td>
+            </tr>
+
+            <!-- GESTION DE LA STRUCTURE -->
+            <tr class="table-secondary">
+              <td colspan="6"><strong>GESTION DE LA STRUCTURE</strong></td>
             </tr>
             <tr>
               <td>Modification des informations de votre structure</td>
+              <td>Non</td>
               <td>Non</td>
               <td>Non</td>
               <td>Non</td>
@@ -202,11 +216,13 @@
               <td>Ajout documentation interne structure</td>
               <td>Non</td>
               <td>Non</td>
+              <td>Non</td>
               <td>* Téléchargement seulement</td>
               <td class="bg-success text-white">Oui</td>
             </tr>
             <tr>
-              <td>Param&egrave;tres (SMS, ID personnalis&eacute;s etc.)</td>
+              <td>Paramètres (SMS, ID personnalisés etc.)</td>
+              <td>Non</td>
               <td>Non</td>
               <td>Non</td>
               <td>Non</td>
@@ -217,10 +233,12 @@
               <td>Non</td>
               <td>Non</td>
               <td>Non</td>
+              <td>Non</td>
               <td class="bg-success text-white">Oui</td>
             </tr>
             <tr>
-              <td>Param&egrave;trage des courriers</td>
+              <td>Paramétrage des courriers</td>
+              <td>Non</td>
               <td>Non</td>
               <td>Non</td>
               <td>Non</td>
@@ -228,16 +246,17 @@
             </tr>
             <tr>
               <td>
-                Suppression de la liste des usagers li&eacute;e &agrave; votre
-                structure
+                Suppression de la liste des usagers liée à votre structure
               </td>
+              <td>Non</td>
               <td>Non</td>
               <td>Non</td>
               <td>Non</td>
               <td class="bg-success text-white">Oui</td>
             </tr>
             <tr>
-              <td>Export des donn&eacute;es</td>
+              <td>Export des données</td>
+              <td>Non</td>
               <td>Non</td>
               <td>Non</td>
               <td class="bg-success text-white">Oui</td>
@@ -246,9 +265,15 @@
             <tr>
               <td>Page statistiques de la structure</td>
               <td>Non</td>
+              <td>Non</td>
               <td class="bg-success text-white">Oui</td>
               <td class="bg-success text-white">Oui</td>
               <td class="bg-success text-white">Oui</td>
+            </tr>
+
+            <!-- GESTION DES DOSSIERS -->
+            <tr class="table-secondary">
+              <td colspan="6"><strong>GESTION DES DOSSIERS</strong></td>
             </tr>
             <tr>
               <td>
@@ -256,31 +281,32 @@
                 domiciliation
               </td>
               <td>Non</td>
+              <td>Non</td>
+              <td class="bg-success text-white">Oui</td>
+              <td class="bg-success text-white">Oui</td>
+              <td class="bg-success text-white">Oui</td>
+            </tr>
+            <tr>
+              <td>Validation ou refus d'une demande ou d'un renouvellement</td>
+              <td>Non</td>
+              <td>Non</td>
+              <td>Non</td>
+              <td class="bg-success text-white">Oui</td>
+              <td class="bg-success text-white">Oui</td>
+            </tr>
+            <tr>
+              <td>Radiation d'un dossier</td>
+              <td>Non</td>
+              <td>Non</td>
               <td class="bg-success text-white">Oui</td>
               <td class="bg-success text-white">Oui</td>
               <td class="bg-success text-white">Oui</td>
             </tr>
             <tr>
               <td>
-                Validation ou refus d&rsquo;une demande ou d'un renouvellement
-              </td>
-              <td>Non</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Radiation d&rsquo;un dossier</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>
-                Modification de la fiche d&rsquo;un domicili&eacute; :
-                <ul>
-                  <li>&eacute;tat civil*</li>
+                Modification de la fiche d'un domicilié :
+                <ul style="text-align: left; margin: 0; padding-left: 20px">
+                  <li>état civil*</li>
                   <li>Ayants droit*</li>
                   <li>Informations de contact**</li>
                   <li>Notifications SMS*</li>
@@ -288,8 +314,12 @@
                   <li>Transfert de courrier**</li>
                   <li>Procurations de courrier**</li>
                   <li>Entretien</li>
-                  <li>Pi&egrave;ces jointes</li>
+                  <li>Pièces jointes</li>
                 </ul>
+              </td>
+              <td>
+                <p>* Lecture des informations seulement</p>
+                <p>** Modification et suppression possible</p>
               </td>
               <td>
                 <p>* Lecture des informations seulement</p>
@@ -305,33 +335,51 @@
               <td class="bg-success text-white">Oui</td>
               <td class="bg-success text-white">Oui</td>
               <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Gestion de la r&eacute;ception des courriers/colis/avis</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
               <td class="bg-success text-white">Oui</td>
             </tr>
             <tr>
-              <td>D&eacute;claration d&rsquo;un passage/appel&nbsp;</td>
+              <td>Gestion de la réception des courriers/colis/avis</td>
+              <td class="bg-success text-white">Oui</td>
               <td class="bg-success text-white">Oui</td>
               <td class="bg-success text-white">Oui</td>
               <td class="bg-success text-white">Oui</td>
               <td class="bg-success text-white">Oui</td>
             </tr>
             <tr>
-              <td>
-                T&eacute;l&eacute;chargement des pi&egrave;ces jointes
-                li&eacute;es au dossier&nbsp;
-              </td>
+              <td>Déclaration d'un passage/appel</td>
+              <td class="bg-success text-white">Oui</td>
+              <td class="bg-success text-white">Oui</td>
+              <td class="bg-success text-white">Oui</td>
+              <td class="bg-success text-white">Oui</td>
+              <td class="bg-success text-white">Oui</td>
+            </tr>
+            <tr>
+              <td>Téléchargement des pièces jointes liées au dossier</td>
+              <td>Non</td>
               <td>Non</td>
               <td class="bg-success text-white">Oui</td>
               <td class="bg-success text-white">Oui</td>
               <td class="bg-success text-white">Oui</td>
             </tr>
             <tr>
-              <td>Suppression du dossier d&rsquo;un domicili&eacute;</td>
+              <td>Télécharger le Cerfa</td>
+              <td>Non</td>
+              <td class="bg-success text-white">Oui</td>
+              <td class="bg-success text-white">Oui</td>
+              <td class="bg-success text-white">Oui</td>
+              <td class="bg-success text-white">Oui</td>
+            </tr>
+            <tr>
+              <td>Réinitialiser les identifiants mon domifa d'un domicilié</td>
+              <td>Non</td>
+              <td class="bg-success text-white">Oui</td>
+              <td class="bg-success text-white">Oui</td>
+              <td class="bg-success text-white">Oui</td>
+              <td class="bg-success text-white">Oui</td>
+            </tr>
+            <tr>
+              <td>Suppression du dossier d'un domicilié</td>
+              <td>Non</td>
               <td>Non</td>
               <td>Non</td>
               <td class="bg-success text-white">Oui</td>
@@ -341,7 +389,7 @@
         </table>
       </div>
 
-      <div *ngIf="me.role === 'admin'" class="my-3">
+      <div *ngIf="me?.role === 'admin'" class="my-3">
         <app-register-user-admin
           (getUsers)="getUsers()"
         ></app-register-user-admin>
@@ -366,9 +414,9 @@
 
   <div class="modal-body text-center py-3">
     <p>
-      Un utilisateur ayant pour rôle "facteur" ne peut pas être référent. Pour
-      continuer, veuillez choisir à quel utilisateur vous souhaitez affecter les
-      dossiers suivis par {{ selectedUser | fullName }}
+      Un utilisateur ayant pour rôle "facteur" ou "agent" ne peut pas être
+      référent. Pour continuer, veuillez choisir à quel utilisateur vous
+      souhaitez affecter les dossiers suivis par {{ selectedUser | fullName }}
     </p>
     <app-assign-referrers
       [currentUser]="selectedUser"

@@ -44,7 +44,7 @@ export const ImportControllerSecurityTests: AppTestHttpClientSecurityTestDef[] =
           expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
             context.user,
             {
-              roles: ["simple", "responsable", "admin"],
+              roles: ["responsable", "admin"],
               validExpectedResponseStatus: HttpStatus.BAD_REQUEST, // this is an invalid xls file
             }
           ),

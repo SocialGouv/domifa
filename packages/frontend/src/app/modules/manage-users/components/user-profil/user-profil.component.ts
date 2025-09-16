@@ -83,7 +83,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   }
 
   public onRoleChange(user: UserStructure, newRole: UserStructureRole): void {
-    if (newRole === "facteur") {
+    if (newRole === "facteur" || newRole === "agent") {
       this.selectedUser = user;
       this.expectedRole = newRole;
       this.openAssignReferrerModal();

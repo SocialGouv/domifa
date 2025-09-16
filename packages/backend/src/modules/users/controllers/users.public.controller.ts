@@ -25,6 +25,7 @@ const userProfile: UserProfile = "structure";
 @Controller("users")
 @ApiTags("users")
 export class UsersPublicController {
+  // TODO: add a limit for this endpoint by ip
   @Post("validate-email")
   public async validateEmail(
     @Body() emailDto: EmailDto,
@@ -57,6 +58,7 @@ export class UsersPublicController {
       });
       return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (err) {
+      appLogger.error(err);
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "TOKEN_INVALID" });
@@ -77,6 +79,7 @@ export class UsersPublicController {
       });
       return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (err) {
+      appLogger.error(err);
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "TOKEN_INVALID" });
@@ -101,7 +104,7 @@ export class UsersPublicController {
         userProfile,
       });
     } catch (err) {
-      appLogger.error("Cannot reset password");
+      appLogger.error(err);
     }
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }

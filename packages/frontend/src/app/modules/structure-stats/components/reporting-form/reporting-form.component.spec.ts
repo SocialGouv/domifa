@@ -6,7 +6,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { _usagerReducer, MATOMO_INJECTORS } from "../../../../shared";
-import { StructuresModule } from "../../../structures/structures.module";
 import { StoreModule } from "@ngrx/store";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
@@ -19,7 +18,6 @@ describe("ReportingFormComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [ReportingFormComponent],
       imports: [
-        StructuresModule,
         RouterModule.forRoot([]),
         NgbModule,
         FormsModule,
