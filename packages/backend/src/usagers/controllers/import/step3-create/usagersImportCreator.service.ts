@@ -1,3 +1,4 @@
+import { AppLogsService } from "./../../../../modules/app-logs/app-logs.service";
 import { ImportProcessTracker } from "../ImportProcessTracker.type";
 import { UsagersImportUsager } from "../step2-validate-row";
 import { usagersImportBuilder } from "./usagersImportBuilder.service";
@@ -14,11 +15,13 @@ import { UsagerHistoryStateService, usagersCreator } from "../../../services";
 
 import { Injectable } from "@nestjs/common";
 import { UserStructure } from "@domifa/common";
+import { SuccessfulUsagerImportLogContext } from "../../../../modules/app-logs/app-log-context.types";
 
 @Injectable()
 export class ImportCreatorService {
   constructor(
-    private readonly usagerHistoryStateService: UsagerHistoryStateService
+    private readonly usagerHistoryStateService: UsagerHistoryStateService,
+    private readonly appLogsService: AppLogsService
   ) {}
 
   public async createFromImport({
@@ -27,12 +30,26 @@ export class ImportCreatorService {
     processTracker,
   }: {
     usagersRows: UsagersImportUsager[];
-    user: Pick<UserStructure, "id" | "structureId" | "prenom" | "nom">;
+    user: Pick<UserStructure, "id" | "structureId" | "prenom" | "nom" | "role">;
     processTracker: ImportProcessTracker;
   }) {
     const usagers = usagersImportBuilder.buildUsagers({
       usagersRows,
       user,
+    });
+    const nombreUsagersActifs = usagers.filter(
+      (usager) => usager.statut === "VALIDE"
+    ).length;
+
+    await this.appLogsService.create<SuccessfulUsagerImportLogContext>({
+      action: "IMPORT_USAGERS_SUCCESS",
+      userId: user.id,
+      structureId: user.structureId,
+      role: user.role,
+      context: {
+        nombreActifs: nombreUsagersActifs,
+        nombreTotal: usagers.length,
+      },
     });
 
     let nextRef = await usagersCreator.findNextUsagerRef(user.structureId);
