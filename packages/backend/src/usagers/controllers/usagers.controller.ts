@@ -34,7 +34,12 @@ import {
   USAGER_LIGHT_ATTRIBUTES,
 } from "../../database";
 
-import { anonymizeFullName, cleanPath, getPhoneString } from "../../util";
+import {
+  anonymizeFullName,
+  appLogger,
+  cleanPath,
+  getPhoneString,
+} from "../../util";
 import {
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
@@ -77,11 +82,35 @@ export class UsagersController {
   ) {}
 
   @Post()
-  public createUsager(
+  public async createUsager(
     @Body() usagerDto: CreateUsagerDto,
-    @CurrentUser() user: UserStructureAuthenticated
+    @CurrentUser() currentUser: UserStructureAuthenticated,
+    @Res() res: ExpressResponse
   ) {
-    return this.usagersService.create(usagerDto, user);
+    try {
+      // Check referrer
+      if (usagerDto?.referrerId) {
+        const user = await userStructureRepository.findOneBy({
+          id: usagerDto.referrerId,
+          structureId: currentUser.structureId,
+        });
+
+        if (!user) {
+          return res
+            .status(HttpStatus.BAD_REQUEST)
+            .json({ message: "CANNOT_FIND_REFERRER" });
+        }
+      }
+
+      const usager = await this.usagersService.create(usagerDto, currentUser);
+
+      return res.status(HttpStatus.OK).json(usager);
+    } catch (err) {
+      appLogger.error(err);
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "CANNOT_CREATE_USAGER" });
+    }
   }
 
   @UseGuards(UsagerAccessGuard)
@@ -361,6 +390,7 @@ export class UsagersController {
       const buffer = await input(filePath).fillForm(pdfInfos).output();
       return res.setHeader("content-type", "application/pdf").send(buffer);
     } catch (err) {
+      appLogger.error(err);
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "CERFA_ERROR" });
