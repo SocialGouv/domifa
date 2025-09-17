@@ -1,10 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import {
-  PortailUsagerProfile,
-  StructureInformation,
-  StructureInformationMessage,
-} from "@domifa/common";
+import { PortailUsagerProfile, StructureInformation } from "@domifa/common";
 import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
@@ -52,12 +48,9 @@ export class HomeUsagerComponent implements OnInit {
     this.subscription.add(
       this.structureInformationService.getAllStructureInformation().subscribe({
         next: (structureInformation: StructureInformation[]) => {
-          this.structureInformation = structureInformation
-            .map(
-              (_structureInfo) =>
-                new StructureInformationMessage(_structureInfo)
-            )
-            .filter((info) => !info.isExpired);
+          this.structureInformation = structureInformation.filter(
+            (info) => !info.isExpired
+          );
         },
       })
     );

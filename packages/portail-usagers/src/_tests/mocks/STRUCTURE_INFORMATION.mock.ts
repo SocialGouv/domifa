@@ -21,6 +21,7 @@ export const unMessageCourant: StructureInformation = {
     userName: "Patrick Roméro",
   },
   structureId: 1,
+  isExpired: false,
 };
 
 export const unMessagePasse: StructureInformation = {
@@ -32,6 +33,7 @@ export const unMessagePasse: StructureInformation = {
   endDate: sub(new Date(), {
     days: 1,
   }),
+  isExpired: true,
 };
 
 export const unMessageFutur: StructureInformation = {
@@ -43,6 +45,7 @@ export const unMessageFutur: StructureInformation = {
   endDate: add(new Date(), {
     days: 4,
   }),
+  isExpired: true,
 };
 
 export const unMessageFuturAvecIsoDate = {
@@ -54,6 +57,7 @@ export const unMessageFuturAvecIsoDate = {
   endDate: add(new Date(), {
     days: 4,
   }).toISOString(),
+  isExpired: true,
 };
 
 export const unMessageAvecIsoDate = {
@@ -65,4 +69,5 @@ export const unMessageAvecIsoDate = {
   endDate: add(new Date(), {
     days: 1,
   }).toISOString(),
+  isExpired: false,
 };
