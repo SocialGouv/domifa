@@ -1,3 +1,4 @@
+import { UsagerDecision } from "@domifa/common";
 import { UsagerCerfaFields } from "../../../constants/cerfa";
 
 export const CERFA_MOCK_USAGER_ACTIF: UsagerCerfaFields = {
@@ -127,3 +128,48 @@ export const CERFA_MOCK_USAGER_REFUS: UsagerCerfaFields = {
   telephoneOrga: "06 02 03 04 05",
   typeDemande: "1",
 };
+
+export const CERFA_MOCK_HISTORY: UsagerDecision[] = [
+  {
+    uuid: "bc9d2ecb-bd5b-4721-9e83-843877c009db",
+    statut: "VALIDE",
+    userId: 1,
+    dateFin: new Date("2023-07-25T00:00:00.000Z"),
+    typeDom: "PREMIERE_DOM",
+    userName: "Migration",
+    dateDebut: new Date("2022-07-26T00:00:00.000Z"),
+    dateDecision: new Date("2022-07-26T00:00:00.000Z"),
+  },
+  {
+    uuid: "aef2f6ba-0337-4f71-bd9b-1bdb1ee19311",
+    statut: "VALIDE",
+    userId: 1,
+    dateFin: new Date("2024-07-02T00:00:00.000Z"),
+    typeDom: "PREMIERE_DOM",
+    userName: "Migration",
+    dateDebut: new Date("2023-07-03T00:00:00.000Z"),
+    dateDecision: new Date("2023-07-03T00:00:00.000Z"),
+  },
+  {
+    uuid: "abc32300-f4b0-47ae-b9cd-a8269a41bf7e",
+    statut: "VALIDE",
+    userId: 1,
+    dateFin: new Date("2025-07-22T00:00:00.000Z"),
+    typeDom: "PREMIERE_DOM",
+    userName: "Migration",
+    dateDebut: new Date("2024-07-23T00:00:00.000Z"),
+    dateDecision: new Date("2024-07-23T00:00:00.000Z"),
+  },
+  {
+    uuid: "a3f9b4b5-490a-4420-bc1b-bc20f591e2f2",
+    motif: "AUTRE",
+    statut: "RADIE",
+    userId: 1,
+    dateFin: new Date("2025-09-10T00:20:42.292Z"),
+    typeDom: "PREMIERE_DOM",
+    userName: "Migration",
+    dateDebut: new Date("2025-09-10T00:20:42.292Z"),
+    dateDecision: new Date("2025-09-10T00:20:42.292Z"),
+    motifDetails: "Non renseigné",
+  },
+];
