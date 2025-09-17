@@ -8,4 +8,5 @@ export interface CommonDoc extends AppEntity {
   structureId: number;
   encryptionContext?: string;
   encryptionVersion?: number;
+  filesize?: number;
 }
