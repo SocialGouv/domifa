@@ -174,7 +174,7 @@ export class ImportController {
         });
       if (errors.length || importMode === "preview") {
         importErrors = importErrors.concat(errors);
-        if (usagerRow) {
+        if (usagerRow && usagerRow.statutDom === "VALIDE") {
           previewUsagersRow.push(usagerRow);
         }
         importPreviewRows.push({
@@ -231,7 +231,7 @@ export class ImportController {
         structureId: user.structureId,
         role: user.role,
         context: {
-          nombreActifs: extractUsagersNumber(previewUsagersRow),
+          nombreActifs: previewUsagersRow.length,
           nombreErreurs: importErrors.length,
           nombreTotal: importPreviewRows.length,
         },
@@ -260,7 +260,7 @@ export class ImportController {
         role: user.role,
         structureId: user.structureId,
         context: {
-          nombreActifs: extractUsagersNumber(previewUsagersRow),
+          nombreActifs: previewUsagersRow.length,
           nombreTotal: importPreviewRows.length,
         },
       });
@@ -324,8 +324,3 @@ export class ImportController {
     });
   }
 }
-
-export const extractUsagersNumber = (
-  usagersImportRow: UsagersImportUsager[]
-): number =>
-  usagersImportRow.filter((row) => row.statutDom === "VALIDE").length;
