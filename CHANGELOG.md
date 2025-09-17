@@ -1,3 +1,10 @@
+## [2.220.19](https://github.com/SocialGouv/domifa/compare/v2.220.18...v2.220.19) (2025-09-17)
+
+
+### Bug Fixes
+
+* **backend:** adding userId and structureId to user create log ([#3894](https://github.com/SocialGouv/domifa/issues/3894)) ([1af7892](https://github.com/SocialGouv/domifa/commit/1af78923e6f18bc80b42c1887e088d594cdb2946))
+
 ## [2.220.18](https://github.com/SocialGouv/domifa/compare/v2.220.17...v2.220.18) (2025-09-17)
 
 
