@@ -142,7 +142,7 @@ export class ImportController {
     const importPreviewRows: ImportPreviewRow[] = [];
 
     const usagersRows: UsagersImportUsager[] = [];
-
+    const previewUsagersRow: UsagersImportUsager[] = [];
     const maxErrors = 20;
 
     processTracker.read.end = new Date();
@@ -174,6 +174,9 @@ export class ImportController {
         });
       if (errors.length || importMode === "preview") {
         importErrors = importErrors.concat(errors);
+        if (usagerRow && usagerRow.statutDom === "VALIDE") {
+          previewUsagersRow.push(usagerRow);
+        }
         importPreviewRows.push({
           isValid: errors.length === 0,
           rowNumber,
@@ -228,7 +231,7 @@ export class ImportController {
         structureId: user.structureId,
         role: user.role,
         context: {
-          nombreActifs: extractUsagersNumber(usagersRows),
+          nombreActifs: previewUsagersRow.length,
           nombreErreurs: importErrors.length,
           nombreTotal: importPreviewRows.length,
         },
@@ -252,12 +255,12 @@ export class ImportController {
       };
 
       await this.appLogsService.create<SuccessfulUsagerImportLogContext>({
-        action: "IMPORT_USAGERS_SUCCESS",
+        action: "IMPORT_USAGERS_PREVIEW",
         userId: user.id,
         role: user.role,
         structureId: user.structureId,
         context: {
-          nombreActifs: extractUsagersNumber(usagersRows),
+          nombreActifs: previewUsagersRow.length,
           nombreTotal: importPreviewRows.length,
         },
       });
@@ -297,16 +300,6 @@ export class ImportController {
       errorsCount: importErrors.length,
       rows: [], // don't return rows
     };
-    await this.appLogsService.create<SuccessfulUsagerImportLogContext>({
-      action: "IMPORT_USAGERS_SUCCESS",
-      userId: user.id,
-      structureId: user.structureId,
-      role: user.role,
-      context: {
-        nombreActifs: extractUsagersNumber(usagersRows),
-        nombreTotal: usagersRows.length,
-      },
-    });
     return res.status(HttpStatus.OK).json({
       importMode,
       previewTable,
@@ -331,8 +324,3 @@ export class ImportController {
     });
   }
 }
-
-export const extractUsagersNumber = (
-  usagersImportRow: UsagersImportUsager[]
-): number =>
-  usagersImportRow.filter((row) => row.statutDom === "VALIDE").length;
