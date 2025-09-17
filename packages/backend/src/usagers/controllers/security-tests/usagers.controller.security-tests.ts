@@ -4,6 +4,7 @@ import {
   AppTestHttpClientSecurityTestDef,
   expectedResponseStatusBuilder,
 } from "../../../_tests";
+import CREATE_USAGER_DTO from "../../services/tests/CREATE_USAGER_DTO.const";
 
 ////////////////// IMPORTANT //////////////////
 //
@@ -32,6 +33,26 @@ export const UsagersControllerSecurityTests: AppTestHttpClientSecurityTestDef[] 
           context.user,
           {
             validExpectedResponseStatus: HttpStatus.CREATED,
+            roles: ["simple", "responsable", "admin"],
+          }
+        ),
+      }),
+    },
+    {
+      label: `${CONTROLLER}.createUsager`,
+      query: async (context: AppTestContext) => ({
+        response: await AppTestHttpClient.post("/usagers", {
+          context,
+          body: {
+            ...CREATE_USAGER_DTO,
+            referrerId: 10000, // Fake referrerId
+          },
+        }),
+        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+          context.user,
+          {
+            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+            invalidStructureIdExpectedResponseStatus: HttpStatus.BAD_REQUEST,
             roles: ["simple", "responsable", "admin"],
           }
         ),

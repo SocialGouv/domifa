@@ -75,10 +75,11 @@ describe("Usagers Controller", () => {
         context,
         body: POST_USAGER.payload,
       });
-      expect(response.status).toBe(201);
+      expect(response.status).toBe(200);
       expect(response.body).toBeDefined();
 
       const usager: Usager = response.body;
+
       const exceptedResponse: Usager = POST_USAGER.response;
       // Test des dates
       expect(new Date(usager.decision.dateDebut)).toEqual(new Date());
@@ -131,7 +132,7 @@ describe("Usagers Controller", () => {
         context,
         body: OK_DATAS_SUPP,
       });
-      expect(response.status).toBe(201);
+      expect(response.status).toBe(200);
       expect(response.body).toBeDefined();
 
       const usager: Usager = response.body;
@@ -151,6 +152,17 @@ describe("Usagers Controller", () => {
 
       expect(responseDelete.status).toBe(200);
       expect(responseDelete.body).toBeDefined();
+    });
+
+    it("❌ Référent qui n'existe pas", async () => {
+      const response = await AppTestHttpClient.post(ENDPOINT, {
+        context,
+        body: { ...POST_USAGER.payload, referrerId: 1000292 },
+      });
+
+      expect(response.status).toBe(400);
+      expect(response.body).toBeDefined();
+      expect(response.body?.message).toEqual("CANNOT_FIND_REFERRER");
     });
 
     it("❌ Données manquantes", async () => {
@@ -191,27 +203,29 @@ describe("Usagers Controller", () => {
     });
 
     it("✅ Patch Infos générales OK", async () => {
+      const editDto: any = {
+        ayantsDroits: [],
+        customRef: "265",
+        dateNaissance: "1995-06-01",
+        email: "",
+        langue: "",
+        nom: "Rami",
+        telephone: { countryCode: "fr", numero: "0600000001" },
+        prenom: "Phill",
+        sexe: "homme",
+        surnom: "",
+        contactByPhone: false,
+        villeNaissance: "Pakistan",
+        referrerId: null,
+        numeroDistribution: null,
+        nationalite: null,
+      };
+
       const response = await AppTestHttpClient.patch(
         ENDPOINT + "/" + usagerPatch.ref,
         {
           context,
-          body: {
-            ayantsDroits: [],
-            ayantsDroitsExist: false,
-            customRef: "265",
-            dateNaissance: "1995-06-01",
-            email: "",
-            ref: 265,
-            langue: "",
-            nom: "Rami",
-            telephone: { countryCode: "fr", numero: "0600000001" },
-            prenom: "Phill",
-            sexe: "homme",
-            surnom: "",
-            contactByPhone: false,
-            villeNaissance: "Pakistan",
-            etapeDemande: 3,
-          },
+          body: { ...editDto },
         }
       );
 
@@ -224,7 +238,7 @@ describe("Usagers Controller", () => {
       expect(updatedUsager.ayantsDroits.length).toEqual(0);
     });
 
-    it("✅ Patch Infos générales OK", async () => {
+    it("✅ Patch Infos générales OK: ajout d'ayants-droit", async () => {
       const response = await AppTestHttpClient.patch(
         ENDPOINT + "/" + usagerPatch.ref,
         {

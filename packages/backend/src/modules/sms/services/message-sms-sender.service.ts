@@ -18,8 +18,6 @@ export class MessageSmsSenderService {
 
   public async sendSms(message: SmsToSend): Promise<void> {
     const parsedValue = phoneUtil.parse(message.phoneNumber);
-
-    console.log({ parsedValue });
     if (!phoneUtil.isValidNumber(parsedValue)) {
       appLogger.warn(`[SMS] phone number is invalid ${message.phoneNumber}`);
       captureMessage(

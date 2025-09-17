@@ -31,13 +31,13 @@ function setUsagerDefaultAttributes(usager: Partial<Usager>): void {
   };
   usager.typeDom = usager?.typeDom ?? "PREMIERE_DOM";
   usager.pinnedNote = null;
-  usager.referrerId = null;
+  usager.referrerId = usager?.referrerId ?? null;
 
-  if (!usager.ayantsDroits) {
+  if (!usager?.ayantsDroits?.length) {
     usager.ayantsDroits = [];
   }
 
-  if (!usager.historique) {
+  if (!usager?.historique?.length) {
     usager.historique = [];
   }
 
@@ -52,10 +52,9 @@ function setUsagerDefaultAttributes(usager: Partial<Usager>): void {
     };
   }
 
-  if (!usager.langue || usager.langue === "") {
+  if (!usager?.langue || usager.langue === "") {
     usager.langue = null;
   }
-
   if (!usager.lastInteraction) {
     usager.lastInteraction = {
       dateInteraction: new Date(),

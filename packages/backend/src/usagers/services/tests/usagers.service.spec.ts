@@ -6,31 +6,16 @@ import {
 } from "../../../database";
 import { UsersModule } from "../../../modules/users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
-import { CreateUsagerDto } from "../../dto";
 import { UsagersService } from "../usagers.service";
 
 import { UsagerHistoryStateService } from "../usagerHistoryState.service";
 import { UserStructure } from "@domifa/common";
 import { UsagersLogsService } from "../usagers-logs.service";
 import { AppLogsModule } from "../../../modules/app-logs/app-logs.module";
+import CREATE_USAGER_DTO from "./CREATE_USAGER_DTO.const";
 
 describe("UsagersService", () => {
   let service: UsagersService;
-
-  const fakeUsagerDto = new CreateUsagerDto();
-
-  fakeUsagerDto.nom = "Usager";
-  fakeUsagerDto.prenom = "De test";
-  fakeUsagerDto.surnom = "Chips";
-  fakeUsagerDto.sexe = "homme";
-  fakeUsagerDto.dateNaissance = new Date();
-  fakeUsagerDto.villeNaissance = "Paris";
-  fakeUsagerDto.email = "chips@gmail.com";
-  fakeUsagerDto.telephone = {
-    countryCode: "fr",
-    numero: null,
-  };
-
   let context: AppTestContext;
 
   beforeAll(async () => {
@@ -58,7 +43,7 @@ describe("UsagersService", () => {
     })) as UserStructure;
     user.structure = await structureRepository.findOneBy({ id: 5 });
 
-    const usagerTest = await service.create(fakeUsagerDto, user);
+    const usagerTest = await service.create(CREATE_USAGER_DTO, user);
 
     expect(usagerTest).toBeDefined();
 
@@ -68,8 +53,8 @@ describe("UsagersService", () => {
       structureId: user.structureId,
     });
     expect(usager).toBeTruthy();
-    expect(usager.nom).toEqual(fakeUsagerDto.nom);
-    expect(usager.sexe).toEqual(fakeUsagerDto.sexe);
+    expect(usager.nom).toEqual(CREATE_USAGER_DTO.nom);
+    expect(usager.sexe).toEqual(CREATE_USAGER_DTO.sexe);
 
     await usagerRepository.delete({ uuid: usager.uuid });
 
