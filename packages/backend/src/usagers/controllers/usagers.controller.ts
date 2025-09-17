@@ -34,7 +34,12 @@ import {
   USAGER_LIGHT_ATTRIBUTES,
 } from "../../database";
 
-import { anonymizeFullName, cleanPath, getPhoneString } from "../../util";
+import {
+  anonymizeFullName,
+  appLogger,
+  cleanPath,
+  getPhoneString,
+} from "../../util";
 import {
   UserStructureAuthenticated,
   USER_STRUCTURE_ROLE_ALL,
@@ -361,6 +366,7 @@ export class UsagersController {
       const buffer = await input(filePath).fillForm(pdfInfos).output();
       return res.setHeader("content-type", "application/pdf").send(buffer);
     } catch (err) {
+      appLogger.error(err);
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "CERFA_ERROR" });
