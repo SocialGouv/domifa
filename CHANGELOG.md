@@ -1,3 +1,10 @@
+## [2.220.17](https://github.com/SocialGouv/domifa/compare/v2.220.16...v2.220.17) (2025-09-17)
+
+
+### Bug Fixes
+
+* **portail-usagers:** 🐛 fix display message in 'mon-domifa' ([#3911](https://github.com/SocialGouv/domifa/issues/3911))🐛 ([21a54d6](https://github.com/SocialGouv/domifa/commit/21a54d6262649b93594b0f94f30f7bfdcc23567d))
+
 ## [2.220.16](https://github.com/SocialGouv/domifa/compare/v2.220.15...v2.220.16) (2025-09-16)
 
 
