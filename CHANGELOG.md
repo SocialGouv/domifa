@@ -1,3 +1,10 @@
+## [2.220.18](https://github.com/SocialGouv/domifa/compare/v2.220.17...v2.220.18) (2025-09-17)
+
+
+### Bug Fixes
+
+* **logs:** 🐛 logs of import ([#3913](https://github.com/SocialGouv/domifa/issues/3913))🐛 ([41fd765](https://github.com/SocialGouv/domifa/commit/41fd76591d73de67c3efe243456dc23cb6691b00))
+
 ## [2.220.17](https://github.com/SocialGouv/domifa/compare/v2.220.16...v2.220.17) (2025-09-17)
 
 
