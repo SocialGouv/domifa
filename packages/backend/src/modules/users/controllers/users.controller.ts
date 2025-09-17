@@ -299,6 +299,8 @@ export class UsersController {
             await this.appLogService.create<UserStructureCreateLogContext>({
               action: "USER_CREATE",
               userId: user.id,
+              structureId: "structureId" in user ? user.structureId : null,
+              role: user.role,
               context: {
                 role: newUser.role,
                 userId: newUser.id,
