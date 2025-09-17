@@ -1,9 +1,8 @@
-import { UserStructureRole } from "@domifa/common";
+import { ALL_USER_STRUCTURE_ROLES, UserStructureRole } from "@domifa/common";
 import { IsIn, IsNotEmpty } from "class-validator";
-import { USER_STRUCTURE_ROLE_ALL } from "../../../_common/model";
 
 export class UpdateRoleDto {
-  @IsIn(USER_STRUCTURE_ROLE_ALL)
+  @IsIn(ALL_USER_STRUCTURE_ROLES)
   @IsNotEmpty()
   public readonly role!: UserStructureRole;
 }

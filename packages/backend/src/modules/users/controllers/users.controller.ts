@@ -1,4 +1,8 @@
-import { UserStructureProfile, UserStructure } from "@domifa/common";
+import {
+  UserStructureProfile,
+  UserStructure,
+  ALL_USER_STRUCTURE_ROLES,
+} from "@domifa/common";
 import {
   Body,
   Controller,
@@ -17,7 +21,6 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import {
-  USER_STRUCTURE_ROLE_ALL,
   UserAdminAuthenticated,
   UserProfile,
   UserStructureAuthenticated,
@@ -59,7 +62,7 @@ const userProfile: UserProfile = "structure";
 @Controller("users")
 @ApiTags("users")
 @AllowUserProfiles("structure")
-@AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+@AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class UsersController {
   constructor(private readonly appLogService: AppLogsService) {}

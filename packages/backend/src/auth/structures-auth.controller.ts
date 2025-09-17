@@ -15,11 +15,7 @@ import { Response } from "express";
 
 import { StructureLoginDto } from "../modules/users/dto";
 import { ExpressRequest, ExpressResponse } from "../util/express";
-import {
-  USER_STRUCTURE_ROLE_ALL,
-  UserProfile,
-  UserStructureAuthenticated,
-} from "../_common/model";
+import { UserProfile, UserStructureAuthenticated } from "../_common/model";
 import { AllowUserProfiles } from "./decorators/AllowUserProfiles.decorator";
 import { CurrentUser } from "./decorators/current-user.decorator";
 import { AppUserGuard } from "./guards/AppUserGuard.guard";
@@ -28,7 +24,7 @@ import { ExpiredTokenTable, expiredTokenRepositiory } from "../database";
 import { domifaConfig } from "../config";
 import { userSecurityPasswordChecker } from "../modules/users/services";
 import { AllowUserStructureRoles } from "./decorators";
-import { UserStructure } from "@domifa/common";
+import { ALL_USER_STRUCTURE_ROLES, UserStructure } from "@domifa/common";
 import { appLogger } from "../util";
 
 const userProfile: UserProfile = "structure";
@@ -66,7 +62,7 @@ export class StructuresAuthController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("structure")
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
   @ApiOperation({ summary: "Déconnexion" })
   @Get("logout")
   public async logout(
@@ -86,7 +82,7 @@ export class StructuresAuthController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("structure")
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
   @Get("me")
   public me(
     @Res() res: Response,

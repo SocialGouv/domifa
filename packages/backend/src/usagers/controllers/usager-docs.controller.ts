@@ -119,6 +119,7 @@ export class UsagerDocsController {
 
       await this.fileManagerService.saveEncryptedFile(filePath, newDoc, file);
     } catch (e) {
+      appLogger.error(e);
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "CANNOT_ENCRYPT_FILE" });

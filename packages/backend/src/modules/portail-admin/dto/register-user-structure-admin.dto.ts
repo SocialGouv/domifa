@@ -11,8 +11,11 @@ import {
 } from "class-validator";
 import { Transform, TransformFnParams } from "class-transformer";
 import { LowerCaseTransform } from "../../../_common/decorators";
-import { UserStructureRole, UserFonction } from "@domifa/common";
-import { USER_STRUCTURE_ROLE_ALL } from "../../../_common/model";
+import {
+  UserStructureRole,
+  UserFonction,
+  ALL_USER_STRUCTURE_ROLES,
+} from "@domifa/common";
 
 export class RegisterUserStructureAdminDto {
   @ApiProperty({
@@ -79,10 +82,10 @@ export class RegisterUserStructureAdminDto {
   @ApiProperty({
     type: String,
     required: true,
-    enum: USER_STRUCTURE_ROLE_ALL,
+    enum: ALL_USER_STRUCTURE_ROLES,
   })
   @IsNotEmpty()
-  @IsIn(USER_STRUCTURE_ROLE_ALL)
+  @IsIn(ALL_USER_STRUCTURE_ROLES)
   public readonly role!: UserStructureRole;
 
   @IsNotEmpty()

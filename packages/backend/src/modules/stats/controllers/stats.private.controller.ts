@@ -1,4 +1,7 @@
-import { StructureStatsReportingQuestions } from "@domifa/common";
+import {
+  ALL_USER_STRUCTURE_ROLES,
+  StructureStatsReportingQuestions,
+} from "@domifa/common";
 import {
   Body,
   Controller,
@@ -12,10 +15,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { format } from "date-fns";
-import {
-  USER_STRUCTURE_ROLE_ALL,
-  UserStructureAuthenticated,
-} from "../../../_common/model";
+import { UserStructureAuthenticated } from "../../../_common/model";
 import {
   AllowUserProfiles,
   AllowUserStructureRoles,
@@ -35,7 +35,7 @@ import { structureStatsInPeriodGenerator } from "../services";
 @Controller("stats")
 @ApiTags("stats")
 @AllowUserProfiles("structure")
-@AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+@AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class StatsPrivateController {
   constructor(private readonly appLogsService: AppLogsService) {}

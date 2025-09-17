@@ -17,12 +17,8 @@ import {
 } from "../../../auth/decorators";
 import { structureRepository } from "../../../database";
 import { ExpressResponse } from "../../../util/express";
-import {
-  UserStructureAuthenticated,
-  USER_STRUCTURE_ROLE_ALL,
-} from "../../../_common/model";
-import { StructureDto } from "../dto";
-import { StructureEditSmsDto } from "../dto/structure-edit-sms.dto";
+import { UserStructureAuthenticated } from "../../../_common/model";
+import { StructureDto, StructureEditSmsDto } from "../dto";
 
 import { resetUsagers } from "../services/structure-deletor.service";
 import { StructureHardResetService } from "../services/structureHardReset.service";
@@ -34,6 +30,7 @@ import { ParseHardResetTokenPipe } from "../../../_common/decorators";
 import { faker } from "@faker-js/faker";
 import { AppUserGuard } from "../../../auth/guards";
 import {
+  ALL_USER_STRUCTURE_ROLES,
   DEPARTEMENTS_MAP,
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
@@ -137,7 +134,7 @@ export class StructuresController {
     return res.status(HttpStatus.OK).json(retour);
   }
 
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
   @Get("ma-structure")
   public getMyStructure(@CurrentUser() user: UserStructureAuthenticated) {
     return user.structure;

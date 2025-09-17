@@ -11,7 +11,7 @@ import {
   expectedResponseStatusBuilder,
   securityTestDataBuilder,
 } from "../../../_tests";
-import { USER_STRUCTURE_ROLE_ALL } from "../../../_common/model";
+import { ALL_USER_STRUCTURE_ROLES } from "@domifa/common";
 
 const CONTROLLER = "UserController";
 
@@ -25,7 +25,7 @@ export const UserControllerSecurityTests: AppTestHttpClientSecurityTestDef[] = [
       expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
         context.user,
         {
-          roles: USER_STRUCTURE_ROLE_ALL,
+          roles: ALL_USER_STRUCTURE_ROLES,
         }
       ),
     }),

@@ -26,10 +26,7 @@ import {
   structureDocRepository,
   userStructureRepository,
 } from "../../database";
-import {
-  USER_STRUCTURE_ROLES_NOT_FACTEUR,
-  UserStructureAuthenticated,
-} from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 import {
   buildCustomDoc,
   customDocTemplateLoader,
@@ -50,7 +47,7 @@ import {
 @ApiTags("usagers-structure-docs")
 @ApiBearerAuth()
 @Controller("usagers-structure-docs")
-@AllowUserStructureRoles(...USER_STRUCTURE_ROLES_NOT_FACTEUR)
+@AllowUserStructureRoles("simple", "admin", "agent", "responsable")
 @AllowUserProfiles("structure")
 export class UsagerStructureDocsController {
   constructor(

@@ -1,8 +1,12 @@
-import { PageMeta, PageResults, Usager } from "@domifa/common";
+import {
+  ALL_USER_STRUCTURE_ROLES,
+  PageMeta,
+  PageResults,
+  Usager,
+} from "@domifa/common";
 import { Controller, UseGuards, Post, Body } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
-import { USER_STRUCTURE_ROLE_ALL } from "../../_common/model";
 import {
   AllowUserProfiles,
   AllowUserStructureRoles,
@@ -15,7 +19,7 @@ import { PageOptionsDto } from "../../usagers/dto";
 @Controller("sms")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("structure")
-@AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+@AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
 @ApiTags("sms")
 export class SmsController {
   @ApiBearerAuth()

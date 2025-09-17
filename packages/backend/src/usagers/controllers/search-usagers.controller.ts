@@ -4,6 +4,7 @@ import {
   CriteriaSearchField,
   getUsagerDeadlines,
   ETAPE_ENTRETIEN,
+  ALL_USER_STRUCTURE_ROLES,
 } from "@domifa/common";
 import {
   Body,
@@ -18,10 +19,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth } from "@nestjs/swagger";
 import { format, parse, subMinutes } from "date-fns";
 import { Not } from "typeorm";
-import {
-  USER_STRUCTURE_ROLE_ALL,
-  UserStructureAuthenticated,
-} from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 import {
   AllowUserProfiles,
   AllowUserStructureRoles,
@@ -39,7 +37,7 @@ import { SearchUsagerDto } from "../dto";
 @Controller("search-usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("structure")
-@AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+@AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
 @ApiBearerAuth()
 export class SearchUsagersController {
   @Get()

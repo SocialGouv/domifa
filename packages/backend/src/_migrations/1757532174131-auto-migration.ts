@@ -10,12 +10,16 @@ export class AutoMigration1757532174131 implements MigrationInterface {
       domifaConfig().envId === "preprod" ||
       domifaConfig().envId === "local"
     ) {
-      await queryRunner.query(
-        `ALTER TABLE "user_usager" DROP COLUMN "isTemporaryPassword"`
-      );
-      await queryRunner.query(
-        `CREATE INDEX "IDX_b2ad525cbadf911e833bf61597" ON "open_data_places" ("cityCode") `
-      );
+      try {
+        await queryRunner.query(
+          `ALTER TABLE "user_usager" DROP COLUMN "isTemporaryPassword"`
+        );
+        await queryRunner.query(
+          `CREATE INDEX "IDX_b2ad525cbadf911e833bf61597" ON "open_data_places" ("cityCode") `
+        );
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 

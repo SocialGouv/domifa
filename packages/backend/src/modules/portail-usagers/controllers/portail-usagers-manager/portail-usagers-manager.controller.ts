@@ -5,6 +5,7 @@ import {
   UserUsagerWithUsagerInfo,
   PageMeta,
   PageResults,
+  ALL_USER_STRUCTURE_ROLES,
 } from "@domifa/common";
 import {
   Body,
@@ -18,10 +19,7 @@ import {
   Res,
   UseGuards,
 } from "@nestjs/common";
-import {
-  USER_STRUCTURE_ROLE_ALL,
-  UserStructureAuthenticated,
-} from "../../../../_common/model";
+import { UserStructureAuthenticated } from "../../../../_common/model";
 import {
   AllowUserProfiles,
   AllowUserStructureRoles,
@@ -350,7 +348,7 @@ export class PortailUsagersManagerController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
   @Get("profile/:usagerRef")
   public async findOne(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
