@@ -86,7 +86,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
   }
 
   private logError(error: HttpErrorResponse): void {
-    console.error("HTTP Error:", {
+    console.warn("HTTP Error:", {
       status: error.status,
       statusText: error.statusText,
       url: error.url,
