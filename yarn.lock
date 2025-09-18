@@ -4296,9 +4296,9 @@ __metadata:
     "@domifa/common": "workspace:^"
     "@edugouvfr/ngx-dsfr": "npm:^1.14.3"
     "@fortawesome/angular-fontawesome": "npm:0.15.0"
-    "@fortawesome/fontawesome-svg-core": "npm:^6.6.0"
-    "@fortawesome/free-regular-svg-icons": "npm:^6.6.0"
-    "@fortawesome/free-solid-svg-icons": "npm:^6.6.0"
+    "@fortawesome/fontawesome-svg-core": "npm:^6.7.2"
+    "@fortawesome/free-regular-svg-icons": "npm:^6.7.2"
+    "@fortawesome/free-solid-svg-icons": "npm:^6.7.2"
     "@ng-bootstrap/ng-bootstrap": "npm:^17.0.1"
     "@popperjs/core": "npm:^2.11.8"
     "@schematics/update": "npm:^0.1102.18"
@@ -4893,7 +4893,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/fontawesome-svg-core@npm:^6.5.2, @fortawesome/fontawesome-svg-core@npm:^6.6.0, @fortawesome/fontawesome-svg-core@npm:^6.7.2":
+"@fortawesome/fontawesome-svg-core@npm:^6.5.2, @fortawesome/fontawesome-svg-core@npm:^6.7.2":
   version: 6.7.2
   resolution: "@fortawesome/fontawesome-svg-core@npm:6.7.2"
   dependencies:
@@ -4902,7 +4902,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/free-regular-svg-icons@npm:^6.6.0, @fortawesome/free-regular-svg-icons@npm:^6.7.2":
+"@fortawesome/free-regular-svg-icons@npm:^6.7.2":
   version: 6.7.2
   resolution: "@fortawesome/free-regular-svg-icons@npm:6.7.2"
   dependencies:
@@ -4911,7 +4911,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/free-solid-svg-icons@npm:^6.6.0, @fortawesome/free-solid-svg-icons@npm:^6.7.2":
+"@fortawesome/free-solid-svg-icons@npm:^6.7.2":
   version: 6.7.2
   resolution: "@fortawesome/free-solid-svg-icons@npm:6.7.2"
   dependencies:
