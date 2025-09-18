@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { PolitiqueComponent } from "./politique.component";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 
 describe("PolitiqueComponent", () => {
   let component: PolitiqueComponent;
@@ -8,6 +9,7 @@ describe("PolitiqueComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [PolitiqueComponent],
     }).compileComponents();
   }));
