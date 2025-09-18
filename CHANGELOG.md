@@ -1,3 +1,10 @@
+## [2.221.2](https://github.com/SocialGouv/domifa/compare/v2.221.1...v2.221.2) (2025-09-18)
+
+
+### Bug Fixes
+
+* **backend:** fix error handler ([#3917](https://github.com/SocialGouv/domifa/issues/3917)) ([fba4eb7](https://github.com/SocialGouv/domifa/commit/fba4eb76bdfe8f051fa823c470286afc8d9b64db))
+
 ## [2.221.1](https://github.com/SocialGouv/domifa/compare/v2.221.0...v2.221.1) (2025-09-18)
 
 
