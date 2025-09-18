@@ -39,18 +39,12 @@ import { DsfrAlertModule } from "@edugouvfr/ngx-dsfr";
     FonctionFormatPipe,
   ],
   imports: [
-    CommonModule,
-    FontAwesomeModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FonctionFormatPipe,
-  ],
-  imports: [
     DsfrAlertModule,
     CommonModule,
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
+    FonctionFormatPipe,
   ],
   providers: [AdminStructuresApiClient],
 })
