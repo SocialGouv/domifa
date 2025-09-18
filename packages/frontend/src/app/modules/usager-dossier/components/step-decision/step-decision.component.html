@@ -285,7 +285,13 @@
           color="primary"
         >
         </app-button>
-        <ng-container *ngIf="me.role !== 'facteur' && me.role !== 'simple'">
+        <ng-container
+          *ngIf="
+            me?.role !== 'facteur' &&
+            me?.role !== 'simple' &&
+            me?.role !== 'agent'
+          "
+        >
           <app-button
             (action)="getCerfa(CerfaDocType.attestation_future)"
             ariaLabel="Télécharger le Cerfa provisoire"

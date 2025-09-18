@@ -30,7 +30,7 @@
           <p class="fw-bold">{{ note.message }}</p>
         </div>
       </div>
-      <div *ngIf="me?.role !== 'facteur'" class="ms-3">
+      <div *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'" class="ms-3">
         <app-usager-notes-actions
           [usager]="usager"
           [note]="note"

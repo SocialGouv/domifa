@@ -40,10 +40,7 @@ import {
   cleanPath,
   getPhoneString,
 } from "../../util";
-import {
-  UserStructureAuthenticated,
-  USER_STRUCTURE_ROLE_ALL,
-} from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 import {
   CheckDuplicateUsagerDto,
   CreateUsagerDto,
@@ -57,7 +54,12 @@ import { generateCerfaData } from "../utils/cerfa";
 import { join, resolve } from "path";
 import { readFile } from "fs-extra";
 import { ExpressResponse } from "../../util/express";
-import { Usager, ETAPE_DOCUMENTS, CerfaDocType } from "@domifa/common";
+import {
+  Usager,
+  ETAPE_DOCUMENTS,
+  CerfaDocType,
+  ALL_USER_STRUCTURE_ROLES,
+} from "@domifa/common";
 import { UsagerHistoryStateService } from "../services/usagerHistoryState.service";
 import { domifaConfig } from "../../config";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
@@ -65,7 +67,6 @@ import { AssignReferrersDto } from "../dto/assign-referrers.dto";
 import { In } from "typeorm";
 import { UsagersLogsService } from "../services/usagers-logs.service";
 import { input } from "node-pdftk";
-
 @Controller("usagers")
 @ApiTags("usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -165,7 +166,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
   @Patch("contact-details/:usagerRef")
   public async patchMailAndPhone(
     @Body() contactDetails: ContactDetailsDto,
@@ -265,7 +266,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
   @Get("stop-courrier/:usagerRef")
   public async stopCourrier(
     @CurrentUsager() currentUsager: Usager,
@@ -366,7 +367,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+  @AllowUserStructureRoles("admin", "agent", "responsable", "simple")
   @Get("cerfa/:usagerRef/:typeCerfa")
   public async getAttestation(
     @Res() res: Response,
@@ -398,7 +399,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
   @Get(":usagerRef")
   public findOne(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
@@ -408,7 +409,7 @@ export class UsagersController {
   }
 
   @Post("assign-referrers")
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
   public async assignReferrersToAnotherUser(
     @CurrentUser() userStructureAuth: UserStructureAuthenticated,
     @Body() body: AssignReferrersDto,

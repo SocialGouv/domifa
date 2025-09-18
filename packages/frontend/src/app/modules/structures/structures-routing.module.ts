@@ -1,7 +1,6 @@
-import { ResponsableGuard } from "../../guards/responsable.guard";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AdminGuard, AuthGuard, LoggedGuard } from "../../guards";
+import { AuthGuard, LoggedGuard } from "../../guards";
 import { StructuresCustomDocsComponent } from "./components/structures-custom-docs/structures-custom-docs.component";
 import { StructuresEditComponent } from "./components/structures-edit/structures-edit.component";
 import { StructuresFormComponent } from "./components/structures-form/structures-form.component";
@@ -15,9 +14,12 @@ const routes: Routes = [
     component: StructuresFormComponent,
   },
   {
-    canActivate: [AuthGuard, ResponsableGuard],
+    canActivate: [AuthGuard],
     path: "documents",
     component: StructuresCustomDocsComponent,
+    data: {
+      roles: ["admin", "responsable"],
+    },
   },
   {
     canActivate: [LoggedGuard],
@@ -25,14 +27,20 @@ const routes: Routes = [
     component: StructuresSearchComponent,
   },
   {
-    canActivate: [AuthGuard, AdminGuard],
+    canActivate: [AuthGuard],
     path: "sms",
     component: StructuresSmsFormComponent,
+    data: {
+      roles: ["admin"],
+    },
   },
   {
-    canActivate: [AuthGuard, ResponsableGuard],
+    canActivate: [AuthGuard],
     path: "edit",
     component: StructuresEditComponent,
+    data: {
+      roles: ["admin", "responsable"],
+    },
   },
   {
     path: "portail-usager",

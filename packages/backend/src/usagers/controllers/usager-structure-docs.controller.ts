@@ -35,7 +35,7 @@ import {
 
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { join } from "path";
-import { cleanPath } from "../../util";
+import { appLogger, cleanPath } from "../../util";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
 import {
   StructureDoc,
@@ -47,7 +47,7 @@ import {
 @ApiTags("usagers-structure-docs")
 @ApiBearerAuth()
 @Controller("usagers-structure-docs")
-@AllowUserStructureRoles("simple", "responsable", "admin")
+@AllowUserStructureRoles("simple", "admin", "agent", "responsable")
 @AllowUserProfiles("structure")
 export class UsagerStructureDocsController {
   constructor(
@@ -115,7 +115,8 @@ export class UsagerStructureDocsController {
     try {
       const docGenerated = await generateCustomDoc(content, docValues);
       return res.end(docGenerated);
-    } catch (e) {
+    } catch (err) {
+      appLogger.error(err);
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "CANNOT_COMPLETE_DOC" });
@@ -202,7 +203,9 @@ export class UsagerStructureDocsController {
     try {
       const docGenerated = await generateCustomDoc(content, docValues);
       return res.end(docGenerated);
-    } catch (e) {
+    } catch (err) {
+      appLogger.error(err);
+
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "CANNOT_COMPLETE_DOMIFA_DOCS" });

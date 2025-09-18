@@ -18,10 +18,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-import {
-  USER_STRUCTURE_ROLE_ALL,
-  UserStructureAuthenticated,
-} from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 import { usagerOptionsHistoryRepository } from "../../database/services/usager/usagerOptionsHistoryRepository.service";
 import {
   AllowUserProfiles,
@@ -35,6 +32,7 @@ import { isEqual } from "lodash";
 
 import { usagerRepository } from "../../database";
 import {
+  ALL_USER_STRUCTURE_ROLES,
   Usager,
   UsagerOptionsHistoryAction,
   UsagerOptionsHistoryTypeEnum,
@@ -45,7 +43,7 @@ import { AppUserGuard } from "../../auth/guards";
 @ApiBearerAuth()
 @Controller("usagers-options")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
-@AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+@AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
 @AllowUserProfiles("structure")
 export class UsagerOptionsController {
   constructor(
@@ -54,7 +52,7 @@ export class UsagerOptionsController {
 
   @UseGuards(UsagerAccessGuard)
   @Get("historique/:usagerRef/:type")
-  public async createNote(
+  public async getProcurationHistory(
     @CurrentUsager() currentUsager: Usager,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @Param("type", new ParseEnumPipe(UsagerOptionsHistoryTypeEnum))

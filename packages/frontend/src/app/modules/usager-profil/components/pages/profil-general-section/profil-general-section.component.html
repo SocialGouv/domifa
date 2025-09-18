@@ -63,7 +63,9 @@
                 : 'alert-info'
             "
             *ngIf="
-              usager.decision.statut === 'INSTRUCTION' && me.role !== 'facteur'
+              usager.decision.statut === 'INSTRUCTION' &&
+              me?.role !== 'facteur' &&
+              me?.role !== 'agent'
             "
           >
             <div aria-hidden="true" class="svg-icon icon-calendar"></div>
@@ -453,6 +455,7 @@
     <app-delete-usager-menu
       context="PROFIL"
       [usager]="usager"
+      *ngIf="displayDeleteButton"
       [me]="me"
     ></app-delete-usager-menu>
   </div>

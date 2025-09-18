@@ -33,7 +33,7 @@
         </button>
         <button
           type="button"
-          *ngIf="me?.role !== 'facteur'"
+          *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
           (click)="openAssignReferrerModal()"
           class="btn ms-2 btn-sm btn-outline-dark"
         >
@@ -272,7 +272,7 @@
       </td>
       <td class="clickable table-name td-name">
         <a
-          [routerLink]="(usager.decision.statut === UsagersFilterCriteriaStatut.INSTRUCTION || usager.decision.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION) && me.role !== 'facteur'
+          [routerLink]="(usager.decision.statut === UsagersFilterCriteriaStatut.INSTRUCTION || usager.decision.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION) && me?.role !== 'facteur'&& me?.role !== 'agent'
            ? '/usager/'+usager.ref+'/edit/'+ETAPES_DEMANDE_URL[usager.etapeDemande]
            : '/profil/general/'+usager.ref"
           ariaCurrentWhenActive="page"

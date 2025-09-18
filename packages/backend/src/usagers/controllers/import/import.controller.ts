@@ -82,7 +82,7 @@ const UsagersImportFileInterceptor = FileInterceptor("file", {
 @ApiTags("import")
 @ApiBearerAuth()
 @Controller("import")
-@AllowUserStructureRoles("simple", "responsable", "admin")
+@AllowUserStructureRoles("responsable", "admin")
 @AllowUserProfiles("structure")
 export class ImportController {
   constructor(

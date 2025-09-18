@@ -1,8 +1,8 @@
-<ng-container *ngIf="me.role !== 'facteur'">
+<ng-container *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'">
   <div
     class="container py-5 d-print-none"
     *ngIf="
-      me.role !== 'simple' &&
+      me?.role !== 'simple' &&
       (context === 'PROFIL' || context === 'INSTRUCTION_FORM')
     "
   >

@@ -31,6 +31,7 @@ import { RdvDto } from "../dto/decision-form/rdv.dto";
 import { UsagersService } from "../services/usagers.service";
 import { getPersonFullName, Usager } from "@domifa/common";
 import { usagerAppointmentCreatedEmailSender } from "../../modules/mails/services/templates-renderers";
+import { appLogger } from "../../util";
 
 @ApiTags("agenda")
 @ApiBearerAuth()
@@ -148,7 +149,9 @@ export class AgendaController {
         message,
       });
       return res.status(HttpStatus.OK).json(updatedUsager);
-    } catch (e) {
+    } catch (err) {
+      appLogger.error(err);
+
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "REGISTER_ERROR" });

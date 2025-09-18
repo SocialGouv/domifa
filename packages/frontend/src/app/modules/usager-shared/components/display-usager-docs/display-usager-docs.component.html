@@ -1,6 +1,6 @@
 <div class="my-4">
   <app-upload
-    *ngIf="me?.role !== 'facteur' && editPJ"
+    *ngIf="me?.role !== 'facteur' && me?.role !== 'agent' && editPJ"
     (getUsagerDocs)="getUsagerDocs()"
     [usager]="usager"
   ></app-upload>

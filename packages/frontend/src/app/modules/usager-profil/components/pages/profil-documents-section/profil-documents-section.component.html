@@ -61,7 +61,7 @@
         </div>
       </div>
 
-      <div class="row mb-5">
+      <div class="row mb-5" *ngIf="displayDeleteButton">
         <div class="col-md-12">
           <h2>Documents de l'usager</h2>
           <app-display-usager-docs
@@ -76,6 +76,7 @@
       [usager]="usager"
       context="PROFIL"
       [me]="me"
+      *ngIf="displayDeleteButton"
     ></app-delete-usager-menu>
   </div>
 </div>

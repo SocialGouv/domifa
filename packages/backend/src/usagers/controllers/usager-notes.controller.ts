@@ -17,11 +17,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
-
-import {
-  USER_STRUCTURE_ROLE_ALL,
-  UserStructureAuthenticated,
-} from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 import {
   UserStructureResume,
   UsagerNote,
@@ -29,6 +25,7 @@ import {
   UsagerPinnedNote,
   PageMeta,
   PageResults,
+  ALL_USER_STRUCTURE_ROLES,
 } from "@domifa/common";
 import { CreateNoteDto } from "../dto/create-note.dto";
 import {
@@ -52,7 +49,7 @@ import { PageOptionsDto } from "../dto";
 @Controller("usagers-notes")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("structure")
-@AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+@AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
 export class UsagerNotesController {
   @Post("search/:usagerRef/:archived")
   @UseGuards(UsagerAccessGuard)
@@ -114,6 +111,7 @@ export class UsagerNotesController {
 
   @Delete(":usagerRef/:noteUUID")
   @UseGuards(UsagerAccessGuard, UsagerNoteAccessGuard)
+  @AllowUserStructureRoles("responsable", "simple", "admin")
   public async deleteNote(
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsagerNote() currentUsagerNote: UsagerNote,
@@ -146,6 +144,7 @@ export class UsagerNotesController {
   }
 
   @Put(":usagerRef/pin/:noteUUID")
+  @AllowUserStructureRoles("responsable", "simple", "admin")
   @UseGuards(UsagerAccessGuard, UsagerNoteAccessGuard)
   public async pinNote(
     @CurrentUser() _currentUser: UserStructureAuthenticated,
@@ -193,6 +192,7 @@ export class UsagerNotesController {
 
   @Put(":usagerRef/archive/:noteUUID")
   @UseGuards(UsagerAccessGuard, UsagerNoteAccessGuard)
+  @AllowUserStructureRoles("responsable", "simple", "admin")
   public async archiveNote(
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsagerNote() currentUsagerNote: UsagerNote,

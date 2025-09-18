@@ -26,7 +26,7 @@
 
       <div
         class="px-0 mx-0 text-md-end text-center d-print-none"
-        *ngIf="me.role !== 'facteur'"
+        *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
       >
         <ng-container *ngIf="usager.decision.statut === 'INSTRUCTION'">
           <a
@@ -148,16 +148,15 @@
         class="col"
         [ngClass]="section === 'documents' ? 'selected-section col' : 'col'"
         [routerLink]="
-          me.role !== 'facteur' ? ['/profil/documents/' + usager.ref] : null
+          me?.role !== 'facteur' ? ['/profil/documents/' + usager.ref] : null
         "
         (click)="goToDocuments()"
         ariaCurrentWhenActive="page"
         ><span class="statut-label"
-          >Documents<span *ngIf="me.role === 'facteur'"
+          >Documents<span *ngIf="me?.role === 'facteur'"
             >, accès restreint</span
           ></span
         >
-
         <span class="visually-hidden" *ngIf="section === 'documents'"
           >, onglet actif</span
         >

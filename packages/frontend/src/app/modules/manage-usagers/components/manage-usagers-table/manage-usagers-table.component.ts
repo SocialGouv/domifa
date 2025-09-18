@@ -117,17 +117,17 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   }
 
   private computeCheckboxVisibility() {
-    if (this.me.role === "admin" || this.me.role === "responsable") {
+    if (this.me?.role === "admin" || this.me?.role === "responsable") {
       this.showCheckboxes = true;
       return;
     }
 
-    if (this.me.role === "facteur") {
+    if (this.me?.role === "facteur" || this.me?.role === "agent") {
       this.showCheckboxes = false;
       return;
     }
 
-    if (this.me.role === "simple") {
+    if (this.me?.role === "simple") {
       this.showCheckboxes =
         this.currentFilters.statut === UsagersFilterCriteriaStatut.VALIDE;
       return;
@@ -160,7 +160,7 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
   public goToProfil(usager: UsagerFormModel): void {
     const url =
-      this.me.role === "facteur"
+      this.me?.role === "facteur" || this.me?.role === "agent"
         ? `/profil/general/${usager.ref}`
         : getUrlUsagerProfil(usager);
 

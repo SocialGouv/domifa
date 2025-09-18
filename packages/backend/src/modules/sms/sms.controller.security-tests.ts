@@ -1,11 +1,10 @@
 import { HttpStatus } from "@nestjs/common";
-import { USER_STRUCTURE_ROLE_ALL } from "../../_common/model";
 import {
   AppTestHttpClientSecurityTestDef,
   expectedResponseStatusBuilder,
 } from "../../_tests";
 import { AppTestContext, AppTestHttpClient } from "../../util/test";
-import { PageOptions } from "@domifa/common";
+import { ALL_USER_STRUCTURE_ROLES, PageOptions } from "@domifa/common";
 
 ////////////////// IMPORTANT //////////////////
 //
@@ -27,7 +26,7 @@ export const SmsControllerSecurityTests: AppTestHttpClientSecurityTestDef[] = [
         expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
           context.user,
           {
-            roles: USER_STRUCTURE_ROLE_ALL,
+            roles: ALL_USER_STRUCTURE_ROLES,
             validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
             invalidStructureIdExpectedResponseStatus: HttpStatus.BAD_REQUEST,
           }

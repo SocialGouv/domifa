@@ -93,7 +93,7 @@ export class IdleManagerComponent implements OnInit, OnDestroy {
 
   public logout(): void {
     this.closeModals();
-    this.authService.logoutAndRedirect();
+    this.authService.logout();
   }
 
   public openIdleModal(): void {

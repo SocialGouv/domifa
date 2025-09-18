@@ -5,6 +5,7 @@ import {
   UserUsagerWithUsagerInfo,
   PageMeta,
   PageResults,
+  ALL_USER_STRUCTURE_ROLES,
 } from "@domifa/common";
 import {
   Body,
@@ -18,10 +19,7 @@ import {
   Res,
   UseGuards,
 } from "@nestjs/common";
-import {
-  USER_STRUCTURE_ROLE_ALL,
-  UserStructureAuthenticated,
-} from "../../../../_common/model";
+import { UserStructureAuthenticated } from "../../../../_common/model";
 import {
   AllowUserProfiles,
   AllowUserStructureRoles,
@@ -53,7 +51,7 @@ import * as XLSX from "xlsx";
 @ApiTags("portail-usagers-manager")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("structure")
-@AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+@AllowUserStructureRoles("responsable", "admin")
 @ApiBearerAuth()
 export class PortailUsagersManagerController {
   constructor(private readonly appLogsService: AppLogsService) {}
@@ -114,7 +112,6 @@ export class PortailUsagersManagerController {
     }
   }
 
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Get("stats")
   public async getUserUsagerStats(
     @CurrentUser() currentUser: UserStructureAuthenticated
@@ -122,7 +119,6 @@ export class PortailUsagersManagerController {
     return usagerRepository.countUsagersByStatus(currentUser.structureId, true);
   }
 
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Get("export/all-accounts")
   public async exportAccountsToExcel(
     @Res() res: Response,
@@ -197,7 +193,6 @@ export class PortailUsagersManagerController {
     res.send(excelBuffer);
   }
 
-  @AllowUserStructureRoles("admin", "responsable")
   @Get("generate-all-accounts")
   public async generateAllAccounts(
     @Res() res: Response,
@@ -272,9 +267,9 @@ export class PortailUsagersManagerController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("simple", "responsable", "admin")
+  @AllowUserStructureRoles("simple", "responsable", "admin", "agent")
   @Post("enable-access/:usagerRef")
-  public async editPreupdatePortailUsagerOptionsference(
+  public async enablePortailForUsager(
     @Res() res: Response,
     @Body() dto: UpdatePortailUsagerOptionsDto,
     @CurrentUsager() usager: Usager,
@@ -333,7 +328,6 @@ export class PortailUsagersManagerController {
     }
   }
 
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
   @Post("all-accounts")
   public async getAllAccounts(
     @Body() pageOptionsDto: PageOptionsDto,
@@ -354,7 +348,7 @@ export class PortailUsagersManagerController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
   @Get("profile/:usagerRef")
   public async findOne(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,

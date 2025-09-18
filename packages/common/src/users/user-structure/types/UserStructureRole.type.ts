@@ -1,1 +1,6 @@
-export type UserStructureRole = "simple" | "admin" | "facteur" | "responsable";
+export type UserStructureRole =
+  | "simple"
+  | "admin"
+  | "facteur"
+  | "responsable"
+  | "agent";

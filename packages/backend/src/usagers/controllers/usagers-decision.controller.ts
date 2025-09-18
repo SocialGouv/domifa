@@ -59,12 +59,21 @@ export class UsagersDecisionController {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ): Promise<Usager> {
+    if (
+      !["ATTENTE_DECISION", "INSTRUCTION"].includes(decision.statut) &&
+      !["reposable", "admmin"].includes(user.role)
+    ) {
+      throw new Error("CANNOT_SET_DECISION");
+    }
+
     decision.userName = `${user.prenom} ${user.nom}`;
     decision.userId = user.id;
+
     return await this.usagersService.setDecision(usager, decision);
   }
 
   @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("responsable", "admin")
   @Get("last-usagers-refs/:usagerRef")
   public async getLastUsagerIds(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -80,6 +89,7 @@ export class UsagersDecisionController {
 
   @UseGuards(UsagerAccessGuard)
   @Get("renouvellement/:usagerRef")
+  @AllowUserStructureRoles("responsable", "admin", "simple")
   public async renouvellement(
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: Usager,

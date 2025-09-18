@@ -24,10 +24,7 @@ import {
   InteractionsGuard,
 } from "../../auth/guards";
 import { userUsagerLoginRepository } from "../../database";
-import {
-  USER_STRUCTURE_ROLE_ALL,
-  UserStructureAuthenticated,
-} from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 import { InteractionDto } from "./dto";
 import {
   InteractionsDeletor,
@@ -40,13 +37,14 @@ import {
   Usager,
   PageMeta,
   PageResults,
+  ALL_USER_STRUCTURE_ROLES,
 } from "@domifa/common";
 import { MessageSmsService } from "../sms/services/message-sms.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("interactions")
 @AllowUserProfiles("structure")
-@AllowUserStructureRoles(...USER_STRUCTURE_ROLE_ALL)
+@AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
 @Controller("interactions")
 export class InteractionsController {
   constructor(

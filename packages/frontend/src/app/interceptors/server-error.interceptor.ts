@@ -11,7 +11,6 @@ import { Injectable, Injector } from "@angular/core";
 import { Observable, throwError, timer } from "rxjs";
 import { catchError, retry } from "rxjs/operators";
 import { AuthService } from "../modules/shared/services/auth.service";
-import { getCurrentScope } from "@sentry/angular";
 import { CustomToastService } from "../modules/shared/services";
 
 const MAX_RETRIES = 2;
@@ -28,77 +27,70 @@ export class ServerErrorInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const authService = this.injector.get(AuthService);
-    const toastr = this.injector.get(CustomToastService);
-
-    if (authService?.currentUserValue) {
-      const user = authService.currentUserValue;
-      getCurrentScope().setTag("structure", user?.structureId?.toString());
-      getCurrentScope().setUser({
-        email: user.email,
-        username: `STRUCTURE ${user?.structureId?.toString()} : ${
-          user?.prenom
-        }`,
-      });
-    }
-
     return next.handle(request).pipe(
       retry({
         count: MAX_RETRIES,
-        delay: (error, retryCount) => {
-          if (this.isRetryable(error)) {
-            console.log(error);
-            console.log(`Tentative de nouvelle requête ${retryCount}`);
+        delay: (error: HttpErrorResponse, retryCount: number) => {
+          if (this.shouldRetry(error)) {
+            console.warn(
+              `Retry attempt ${retryCount} for ${request.url}`,
+              error
+            );
             return timer(RETRY_DELAY);
           }
-          return throwError(() => error);
+          throw error; // Pas de retry, on passe au catchError
         },
       }),
-      catchError((error: HttpErrorResponse) => {
-        if (error.error instanceof ErrorEvent) {
-          if (!navigator.onLine) {
-            toastr.error(
-              "Vous êtes actuellement hors-ligne. Veuillez vérifier votre connexion internet"
-            );
-            return throwError(() => "NAVIGATOR_OFFLINE");
-          }
-          return throwError(() => error.error);
-        } else if (error instanceof HttpErrorResponse) {
-          if (error.status === 0) {
-            console.warn("Erreur de connexion:", error.message);
-            toastr.error(
-              "Problème de connexion au serveur. Veuillez réessayer plus tard."
-            );
-          }
-          if (error.status === 401) {
-            authService.logoutAndRedirect(undefined, true);
-            toastr.error(
-              "Votre session a expiré, merci de vous connecter à nouveau"
-            );
-          }
-        } else {
-          toastr.error(
-            "Une erreur serveur est survenue. Nos équipes ont été notifiées."
-          );
-        }
-        this.logError(request, error);
-        return throwError(() => error);
-      })
+      catchError((error: HttpErrorResponse) => this.handleError(error))
     );
   }
 
-  private isRetryable(error: HttpErrorResponse): boolean {
-    return !error.status || ERROR_STATUS_CODES_TO_RETRY.includes(error.status);
+  private shouldRetry(error: HttpErrorResponse): boolean {
+    if (error.status >= 400 && error.status < 500) {
+      return false;
+    }
+    return ERROR_STATUS_CODES_TO_RETRY.includes(error.status);
   }
 
-  private logError(request: HttpRequest<any>, error: HttpErrorResponse): void {
-    console.warn(error.message, {
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    const authService = this.injector.get(AuthService);
+    const toastr = this.injector.get(CustomToastService);
+
+    if (error.error instanceof ErrorEvent) {
+      if (!navigator.onLine) {
+        toastr.error(
+          "Vous êtes actuellement hors-ligne. Veuillez vérifier votre connexion internet"
+        );
+        return throwError(() => new Error("NAVIGATOR_OFFLINE"));
+      }
+      toastr.error("Erreur de connexion réseau");
+      return throwError(() => error);
+    }
+
+    if (error.status === 0) {
+      toastr.error(
+        "Problème de connexion au serveur. Veuillez réessayer plus tard."
+      );
+    } else if (error.status === 401) {
+      authService.logout(undefined, true);
+    } else if (error.status === 403) {
+      toastr.error("Vous n'avez pas les droits pour effectuer cette action");
+    } else if (error.status >= 500 && error.status <= 504) {
+      toastr.error(
+        "Une erreur serveur est survenue. Nos équipes ont été notifiées."
+      );
+    }
+
+    this.logError(error);
+    return throwError(() => error);
+  }
+
+  private logError(error: HttpErrorResponse): void {
+    console.error("HTTP Error:", {
       status: error.status,
       statusText: error.statusText,
       url: error.url,
       message: error.message,
-      error: error.error,
-      request,
     });
   }
 }

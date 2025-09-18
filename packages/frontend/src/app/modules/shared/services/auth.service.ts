@@ -81,14 +81,20 @@ export class AuthService {
     );
   }
 
-  public logoutFromBackend = async () => {
+  public logoutFromBackend = async (
+    state?: RouterStateSnapshot,
+    sessionExpired?: boolean
+  ) => {
     if (this.currentUserValue?.access_token) {
       await firstValueFrom(this.http.get(`${this.endPoint}/logout`));
     }
-    this.logout();
+    await this.logout(state, sessionExpired);
   };
 
-  public async logout(): Promise<void> {
+  public async logout(
+    state?: RouterStateSnapshot,
+    sessionExpired?: boolean
+  ): Promise<void> {
     this.currentUserSubject.next(null);
     this.store.dispatch(usagerActions.clearCache());
     localStorage.removeItem("currentUser");
@@ -97,29 +103,24 @@ export class AuthService {
     getCurrentScope().setTag("structure", "none");
     getCurrentScope().setUser({});
 
-    this.router.navigate(["/connexion"]);
-  }
-
-  public logoutAndRedirect(
-    state?: RouterStateSnapshot,
-    sessionExpired?: boolean
-  ): void {
     if (sessionExpired) {
       this.toastr.warning("Votre session a expiré, merci de vous reconnecter");
     }
 
-    this.logout();
+    // Navigation avec query params si nécessaire
+    if (state?.url) {
+      const cleanPath = state.url.split("?")[0];
+      const matomoParams = this.getMatomoParams();
+      const queryParams: Record<string, string> = { ...matomoParams };
 
-    const cleanPath = state?.url?.split("?")[0] || "/";
-    const matomoParams = this.getMatomoParams();
+      if (cleanPath !== "/") {
+        queryParams.returnUrl = cleanPath;
+      }
 
-    const queryParams: Record<string, string> = { ...matomoParams };
-
-    if (cleanPath !== "/") {
-      queryParams.returnUrl = cleanPath;
+      this.router.navigate(["/connexion"], { queryParams });
+    } else {
+      this.router.navigate(["/connexion"]);
     }
-
-    this.router.navigate(["/connexion"], { queryParams });
   }
 
   private getMatomoParams(): Record<string, string> {
@@ -127,7 +128,7 @@ export class AuthService {
       const urlTree = this.router.parseUrl(this.router.url);
       return filterMatomoParams(urlTree.queryParams);
     } catch (error) {
-      console.warn('Failed to parse URL for Matomo params:', error);
+      console.warn("Failed to parse URL for Matomo params:", error);
       return {};
     }
   }
@@ -136,11 +137,11 @@ export class AuthService {
     localStorage.setItem("currentUser", JSON.stringify(user));
     this.currentUserSubject.next(user);
 
+    // Configuration Sentry centralisée ici
     getCurrentScope().setTag("structure", user.structureId?.toString());
     getCurrentScope().setUser({
       email: user.email,
-      username:
-        "STRUCTURE " + user.structureId?.toString() + " : " + user.prenom,
+      username: `STRUCTURE ${user.structureId?.toString()}`,
     });
   }
 }

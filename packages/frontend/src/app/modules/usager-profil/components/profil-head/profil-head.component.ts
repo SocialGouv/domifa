@@ -57,7 +57,7 @@ export class ProfilHeadComponent implements OnDestroy {
   }
 
   public goToDocuments(): void {
-    if (this.me.role === "facteur") {
+    if (this.me?.role === "facteur") {
       this.toastService.warning(
         "Vos droits ne vous permettent pas d'accéder à cette page"
       );

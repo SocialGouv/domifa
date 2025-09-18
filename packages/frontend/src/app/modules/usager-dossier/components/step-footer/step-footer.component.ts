@@ -9,11 +9,14 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
   templateUrl: "./step-footer.component.html",
 })
 export class StepFooterComponent {
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public usager!: UsagerFormModel;
 
   public me!: UserStructure | null;
+  public displayDeleteButton = false;
 
   constructor(private readonly authService: AuthService) {
     this.me = this.authService.currentUserValue;
+    this.displayDeleteButton =
+      this.me?.role !== "facteur" && this.me?.role !== "agent";
   }
 }
