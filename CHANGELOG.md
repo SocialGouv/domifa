@@ -1,3 +1,10 @@
+# [2.221.0](https://github.com/SocialGouv/domifa/compare/v2.220.20...v2.221.0) (2025-09-18)
+
+
+### Features
+
+* **backend:** add new role "agent d'accueil" ([#3904](https://github.com/SocialGouv/domifa/issues/3904)) ([83daed5](https://github.com/SocialGouv/domifa/commit/83daed5fd28980b906e8a3ba0e361d96c5a7ae92))
+
 ## [2.220.20](https://github.com/SocialGouv/domifa/compare/v2.220.19...v2.220.20) (2025-09-17)
 
 
