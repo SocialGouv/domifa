@@ -127,7 +127,6 @@ backend-export:
     runAsUser: 1000
     runAsGroup: 1000
 
-
 backend-cron:
   ~chart: app
   imagePackage: backend
@@ -172,9 +171,11 @@ frontend:
   containerPort: 8080
   ingress:
     customHeaders:
-      "Content-Security-Policy": "default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr ; media-src 'self' https://domifaprod2.blob.core.windows.net/ https://tally.so/; font-src 'self'; img-src 'self' https://tally.so/ data:; script-src 'self' 'unsafe-inline' https://*.gouv.fr https://tally.so/ https://tally.so/widgets/embed.js ; frame-src 'self' https://*.gouv.fr  https://tally.so/ ; style-src 'self' 'unsafe-inline'"
+      "Content-Security-Policy": "default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr https://api.tally.so https://*.tally.so; font-src 'self' https://fonts.gstatic.com https://tally.so https://*.tally.so; img-src 'self' https://tally.so https://*.tally.so data:; script-src 'self' https://*.gouv.fr https://tally.so https://*.tally.so; frame-src 'self' https://*.gouv.fr https://tally.so https://*.tally.so; style-src 'self' https://*.gouv.fr https://tally.so https://*.tally.so"
       "X-Frame-Options": "deny"
       "X-Content-Type-Options": "nosniff"
+      "X-XSS-Protection": "0"
+      "Referrer-Policy": "strict-origin-when-cross-origin"
       "Cache-Control": "no-store"
   resources:
     requests:
@@ -183,7 +184,6 @@ frontend:
     limits:
       cpu: 1
       memory: 1Gi
-
   securityContext:
     fsGroup: 101
     runAsUser: 101
@@ -195,10 +195,12 @@ portail-admins:
   host: "admin-{{ .Values.global.host }}"
   ingress:
     customHeaders:
-      "Content-Security-Policy": "default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr; font-src 'self'; img-src 'self' data:; script-src 'self' https://*.gouv.fr 'unsafe-inline'; frame-src 'self' https://*.gouv.fr; style-src 'self' 'unsafe-inline'"
+      "Content-Security-Policy": "default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr; font-src 'self'; img-src 'self' data:; script-src 'self' https://*.gouv.fr; frame-src 'self' https://*.gouv.fr; style-src 'self' https://*.gouv.fr"
       "X-Frame-Options": "deny"
       "X-Robots-Tag": "noindex, nofollow, nosnippet, noarchive"
       "X-Content-Type-Options": "nosniff"
+      "X-XSS-Protection": "0"
+      "Referrer-Policy": "strict-origin-when-cross-origin"
       "Cache-Control": "no-store"
   containerPort: 8080
   securityContext:
@@ -212,9 +214,11 @@ portail-usagers:
   host: "mon-{{ .Values.global.host }}"
   ingress:
     customHeaders:
-      "Content-Security-Policy": "default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr ; media-src 'self' https://domifaprod2.blob.core.windows.net/ https://tally.so/; font-src 'self'; img-src 'self' https://tally.so/ data:; script-src 'self' 'unsafe-inline' https://*.gouv.fr https://tally.so/ https://tally.so/widgets/embed.js ; frame-src 'self' https://*.gouv.fr  https://tally.so/ ; style-src 'self' 'unsafe-inline'"
+      "Content-Security-Policy": "default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr https://api.tally.so https://*.tally.so; font-src 'self' https://fonts.gstatic.com https://tally.so https://*.tally.so; img-src 'self' https://tally.so https://*.tally.so data:; script-src 'self' https://*.gouv.fr https://tally.so https://*.tally.so; frame-src 'self' https://*.gouv.fr https://tally.so https://*.tally.so; style-src 'self' https://*.gouv.fr https://tally.so https://*.tally.so"
       "X-Frame-Options": "deny"
       "X-Content-Type-Options": "nosniff"
+      "X-XSS-Protection": "0"
+      "Referrer-Policy": "strict-origin-when-cross-origin"
       "Cache-Control": "no-store"
   containerPort: 8080
   securityContext:
