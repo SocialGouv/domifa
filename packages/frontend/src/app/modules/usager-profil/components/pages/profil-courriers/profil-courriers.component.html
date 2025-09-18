@@ -25,7 +25,7 @@
     <app-delete-usager-menu
       [usager]="usager"
       context="PROFIL"
-      *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
+      *ngIf="displayDeleteButton"
     ></app-delete-usager-menu>
   </div>
 </div>

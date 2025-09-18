@@ -60,10 +60,8 @@ export class UsagersDecisionController {
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ): Promise<Usager> {
     if (
-      decision.statut !== "ATTENTE_DECISION" &&
-      decision.statut !== "INSTRUCTION" &&
-      user.role !== "responsable" &&
-      user.role !== "admin"
+      !["ATTENTE_DECISION", "INSTRUCTION"].includes(decision.statut) &&
+      !["reposable", "admmin"].includes(user.role)
     ) {
       throw new Error("CANNOT_SET_DECISION");
     }

@@ -24,9 +24,8 @@ export class AuthGuard {
 
     return this.authService.isAuth().pipe(
       map((isAuth: boolean) => {
-        console.log("XXXX");
         if (!isAuth) {
-          this.authService.logoutAndRedirect(state);
+          this.authService.logout(state);
           return false;
         }
 
@@ -35,7 +34,6 @@ export class AuthGuard {
         }
 
         if (this.authService.currentUserValue !== null) {
-          console.log(this.authService.currentUserValue);
           const userRole = this.authService.currentUserValue.role;
 
           if (allowedRoles.includes(userRole)) {
@@ -51,7 +49,7 @@ export class AuthGuard {
         return false;
       }),
       catchError(() => {
-        this.authService.logoutAndRedirect(state);
+        this.authService.logout(state);
         return of(false);
       })
     );

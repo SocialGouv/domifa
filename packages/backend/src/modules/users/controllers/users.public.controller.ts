@@ -25,7 +25,6 @@ const userProfile: UserProfile = "structure";
 @Controller("users")
 @ApiTags("users")
 export class UsersPublicController {
-  // TODO: add a limit for this endpoint by ip
   @Post("validate-email")
   public async validateEmail(
     @Body() emailDto: EmailDto,

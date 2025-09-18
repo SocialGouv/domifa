@@ -19,6 +19,7 @@ export class BaseUsagerProfilPageComponent implements OnInit, OnDestroy {
   public usager!: UsagerFormModel;
   public subscription = new Subscription();
   public titlePrefix: string;
+  public displayDeleteButton = false;
 
   constructor(
     protected readonly authService: AuthService,
@@ -54,6 +55,9 @@ export class BaseUsagerProfilPageComponent implements OnInit, OnDestroy {
         },
       })
     );
+
+    this.displayDeleteButton =
+      this.me?.role !== "facteur" && this.me?.role !== "agent";
   }
 
   public setTitle() {

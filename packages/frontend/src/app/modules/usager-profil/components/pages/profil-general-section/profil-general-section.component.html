@@ -455,6 +455,7 @@
     <app-delete-usager-menu
       context="PROFIL"
       [usager]="usager"
+      *ngIf="displayDeleteButton"
       [me]="me"
     ></app-delete-usager-menu>
   </div>

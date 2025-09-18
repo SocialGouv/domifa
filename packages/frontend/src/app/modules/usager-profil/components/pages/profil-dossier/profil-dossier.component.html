@@ -16,11 +16,7 @@
           >
             <h2>État civil</h2>
             <ng-container
-              *ngIf="
-                usager?.echeanceInfos?.isActif &&
-                me?.role !== 'facteur' &&
-                me?.role !== 'agent'
-              "
+              *ngIf="usager?.echeanceInfos?.isActif && displayDeleteButton"
               class="d-print-none"
             >
               <button
@@ -63,7 +59,9 @@
             class="my-2 d-flex flex-wrap justify-content-between align-items-center"
           >
             <h2>Informations de contact</h2>
-            <ng-container *ngIf="usager?.echeanceInfos?.isActif">
+            <ng-container
+              *ngIf="usager?.echeanceInfos?.isActif && displayDeleteButton"
+            >
               <button
                 type="submit"
                 class="btn btn-outline-dark"
@@ -114,7 +112,7 @@
             <h2>Entretien social</h2>
 
             <ng-container
-              *ngIf="usager?.echeanceInfos?.isActif"
+              *ngIf="usager?.echeanceInfos?.isActif && displayDeleteButton"
               class="d-print-none"
             >
               <button
@@ -158,6 +156,7 @@
     <app-delete-usager-menu
       context="PROFIL"
       [usager]="usager"
+      *ngIf="displayDeleteButton"
       [me]="me"
     ></app-delete-usager-menu>
   </div>
