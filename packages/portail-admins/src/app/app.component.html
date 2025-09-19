@@ -1,78 +1,15 @@
 <app-custom-toastr></app-custom-toastr>
 <dsfr-skiplinks [links]="skipLinks"></dsfr-skiplinks>
-<header id="page-header" role="banner">
-  <nav
-    class="navbar bg-white shadow-sm"
-    role="navigation"
-    aria-label="Navigation principale"
-    style="position: sticky; top: 0; z-index: 1000"
-  >
-    <a class="navbar-brand" routerLink="/">
-      <img
-        src="../assets/images/logo-mini.svg"
-        width="30"
-        height="30"
-        class="d-inline-block align-top"
-        alt=""
-      />
-      <span class="nav-brand">Administration de DomiFa</span>
-    </a>
-    <div>
-      <div
-        *ngIf="adminProfile?.role === 'super-admin-domifa'"
-        ngbDropdown
-        class="d-inline-block me-2"
-      >
-        <button
-          type="button"
-          class="btn btn-outline-primary"
-          id="dropdownBasic1"
-          ngbDropdownToggle
-        >
-          Menu
-        </button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <a
-            ngbDropdownItem
-            class="btn btn-outline-primary"
-            routerLink="/stats"
-          >
-            <fa-icon [icon]="faChartBar" aria-hidden="true"></fa-icon>
-            Statistiques de la domiciliation
-          </a>
-          <a
-            ngbDropdownItem
-            class="btn btn-outline-primary"
-            routerLink="/structures"
-          >
-            <fa-icon [icon]="faList" aria-hidden="true"></fa-icon>
-            Liste des structures
-          </a>
-          <a
-            ngbDropdownItem
-            class="btn btn-outline-primary"
-            routerLink="/manage-users"
-          >
-            <fa-icon [icon]="faUsers" aria-hidden="true"></fa-icon>
-
-            Utilisateurs de l'administration
-          </a>
-        </div>
-      </div>
-
-      <button
-        type="button"
-        class="btn btn-outline-primary"
-        *ngIf="adminProfile"
-        (click)="logout()"
-      >
-        <fa-icon aria-hidden="true" [icon]="['fas', 'sign-out-alt']"> </fa-icon>
-        Déconnexion
-      </button>
-    </div>
-  </nav>
-</header>
-
+<dsfr-header
+  [logoLabel]="'République<br/>Française'"
+  [operatorImageAlt]="'Espace d\'administration de DomiFa'"
+  [operatorImagePath]="'../assets/images/logo-dsfr.svg'"
+  [ariaLabel]="'Menu principal'"
+  [logoLink]="{ routerLink: '/' }"
+  [headerToolsLinks]="headerToolsLinks"
+  (linkSelect)="logout($event)"
+  [menu]="menuHeaderItems"
+></dsfr-header>
 <main role="main" id="page">
   <app-custom-toastr></app-custom-toastr>
   <router-outlet></router-outlet>
