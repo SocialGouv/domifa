@@ -1,27 +1,6 @@
 <app-custom-toastr></app-custom-toastr>
 <app-idle-manager></app-idle-manager>
-<nav class="fr-container" aria-label="Accès rapide">
-  <ul id="skip-links">
-    <li>
-      <a
-        ariaCurrentWhenActive="page"
-        routerLinkActive="router-link-active"
-        [routerLink]="currentUrl"
-        fragment="page"
-        >Aller au contenu</a
-      >
-    </li>
-    <li>
-      <a
-        ariaCurrentWhenActive="page"
-        routerLinkActive="router-link-active"
-        [routerLink]="currentUrl"
-        fragment="footer"
-        >Aller au pied de page</a
-      >
-    </li>
-  </ul>
-</nav>
+<dsfr-skiplinks [links]="skipLinks"></dsfr-skiplinks>
 <header id="page-header" role="banner">
   <div id="matomo-info" *ngIf="!matomoInfo">
     <div

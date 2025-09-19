@@ -9,10 +9,11 @@ import { FA_ICONS } from "./constants/FA_ICONS.const";
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 import { SeoService } from "./services/seo.service";
 import { ReplaceLineBreaks } from "./pipes/nl2br.pipe";
+import { DsfrSkiplinksModule } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [CustomToastrComponent, ReplaceLineBreaks],
-  exports: [CustomToastrComponent, ReplaceLineBreaks],
+  exports: [CustomToastrComponent, ReplaceLineBreaks, DsfrSkiplinksModule],
   providers: [SeoService],
   imports: [CommonModule, FontAwesomeModule],
 })
