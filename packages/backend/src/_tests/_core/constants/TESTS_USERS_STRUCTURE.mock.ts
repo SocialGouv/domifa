@@ -27,6 +27,14 @@ const ALL: TestUserStructure[] = [
     role: "responsable",
   },
   {
+    uuid: "132e6e51-1612-44cc-b277-eca0a6d11c16",
+    id: 12,
+    structureId: 1,
+    email: "s1-agent@yopmail.com",
+    password: "Azerty012345!",
+    role: "agent",
+  },
+  {
     uuid: "59c846d8-0592-4790-a5e2-1daae9b8776e",
     id: 6,
     structureId: 1,
@@ -66,7 +74,6 @@ const ALL: TestUserStructure[] = [
     password: "Azerty012345!",
     role: "facteur",
   },
-
   {
     uuid: "44f1cfe8-eae9-49d5-aedb-76dda856c413",
     id: 7,

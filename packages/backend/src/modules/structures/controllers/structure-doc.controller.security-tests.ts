@@ -23,7 +23,7 @@ export const StructureDocControllerSecurityTests: AppTestHttpClientSecurityTestD
         expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
           context.user,
           {
-            roles: ["simple", "responsable", "admin"],
+            roles: ["simple", "responsable", "admin", "agent"],
           }
         ),
       }),
