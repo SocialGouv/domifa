@@ -17,7 +17,7 @@ import {
 import { FonctionSelectionComponent } from "./components/fonction-selection/fonction-selection.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
-import { DsfrAlertModule } from "@edugouvfr/ngx-dsfr";
+import { DsfrAlertModule, DsfrHeaderModule } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [
@@ -37,6 +37,7 @@ import { DsfrAlertModule } from "@edugouvfr/ngx-dsfr";
     CustomToastrComponent,
     FonctionSelectionComponent,
     FonctionFormatPipe,
+    DsfrHeaderModule,
   ],
   imports: [
     CommonModule,
@@ -45,6 +46,7 @@ import { DsfrAlertModule } from "@edugouvfr/ngx-dsfr";
     ReactiveFormsModule,
     FonctionFormatPipe,
     DsfrAlertModule,
+    DsfrHeaderModule,
   ],
   providers: [AdminStructuresApiClient],
 })
