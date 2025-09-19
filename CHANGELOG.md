@@ -1,3 +1,10 @@
+## [2.221.3](https://github.com/SocialGouv/domifa/compare/v2.221.2...v2.221.3) (2025-09-19)
+
+
+### Bug Fixes
+
+* **backend:** fix unit tests, add tests for new role 'agent' ([#3918](https://github.com/SocialGouv/domifa/issues/3918)) ([cf25995](https://github.com/SocialGouv/domifa/commit/cf2599519d282bb9c15cf4d0272b724e50393196))
+
 ## [2.221.2](https://github.com/SocialGouv/domifa/compare/v2.221.1...v2.221.2) (2025-09-18)
 
 
