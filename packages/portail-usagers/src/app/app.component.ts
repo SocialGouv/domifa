@@ -9,6 +9,7 @@ import { MatomoTracker } from "ngx-matomo-client";
 import DOMIFA_NEWS from "../assets/files/news.json";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { DsfrLink } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-root",
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit {
   public readonly partnerLinks = LIENS_PARTENAIRES;
   public readonly faRightFromBracket = faRightFromBracket;
   public pendingNews = false;
+  public skipLinks: DsfrLink[] = [];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public news: any;
 
@@ -34,7 +36,7 @@ export class AppComponent implements OnInit {
     private readonly router: Router,
     private readonly usagerAuthService: UsagerAuthService,
     private readonly matomo: MatomoTracker,
-    private readonly modalService: NgbModal,
+    private readonly modalService: NgbModal
   ) {
     this.apiVersion = null;
     this.usagerProfile = null;
@@ -92,14 +94,14 @@ export class AppComponent implements OnInit {
     this.modalService.dismissAll();
     localStorage.setItem(
       "NEWS_MON_DOMIFA",
-      new Date(DOMIFA_NEWS[0].date).toISOString(),
+      new Date(DOMIFA_NEWS[0].date).toISOString()
     );
     this.pendingNews = false;
   }
 
   public ngOnInit(): void {
     this.titleService.setTitle(
-      "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices",
+      "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
 
     this.usagerAuthService.currentUsagerSubject.subscribe(
@@ -109,7 +111,7 @@ export class AppComponent implements OnInit {
         if (usager) {
           this.checkNews();
         }
-      },
+      }
     );
 
     this.router.events
@@ -119,7 +121,10 @@ export class AppComponent implements OnInit {
         const event = ev as unknown as NavigationEnd;
         const splitUrl = event?.url.split("#");
         this.currentUrl = splitUrl[0];
-
+        this.skipLinks = [
+          { label: "Aller au contenu", link: `${this.currentUrl}#page` },
+          { label: "Aller au pied de page", link: `${this.currentUrl}#footer` },
+        ];
         if (typeof splitUrl[1] !== "undefined") {
           const fragment = splitUrl[1];
           const element = document.getElementById(fragment);

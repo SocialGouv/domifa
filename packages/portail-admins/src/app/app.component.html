@@ -1,45 +1,5 @@
 <app-custom-toastr></app-custom-toastr>
-<nav id="skip-links" role="navigation" aria-label="Accès rapide">
-  <ul>
-    <li>
-      <a
-        ariaCurrentWhenActive="page"
-        routerLinkActive="router-link-active"
-        [routerLink]="currentUrl"
-        fragment="navigation"
-        >Aller à la navigation</a
-      >
-    </li>
-    <li>
-      <a
-        ariaCurrentWhenActive="page"
-        routerLinkActive="router-link-active"
-        [routerLink]="currentUrl"
-        fragment="page"
-        >Aller au contenu</a
-      >
-    </li>
-    <li *ngIf="currentUrl === '/manage'">
-      <a
-        ariaCurrentWhenActive="page"
-        routerLinkActive="router-link-active"
-        [routerLink]="currentUrl"
-        fragment="search-bar"
-        >Aller à la recherche</a
-      >
-    </li>
-    <li>
-      <a
-        ariaCurrentWhenActive="page"
-        routerLinkActive="router-link-active"
-        [routerLink]="currentUrl"
-        fragment="footer"
-        >Aller au pied de page</a
-      >
-    </li>
-  </ul>
-</nav>
-
+<dsfr-skiplinks [links]="skipLinks"></dsfr-skiplinks>
 <header id="page-header" role="banner">
   <nav
     class="navbar bg-white"
