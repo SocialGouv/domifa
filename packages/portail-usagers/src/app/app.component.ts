@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
   public skipLinks: DsfrLink[] = [];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public news: any;
-
+  public headerToolsLinks: DsfrLink[] = [];
   @ViewChild("newsModal", { static: true })
   public newsModal!: TemplateRef<NgbModalRef>;
 
@@ -109,6 +109,15 @@ export class AppComponent implements OnInit {
         this.usagerProfile = usager;
 
         if (usager) {
+          this.headerToolsLinks = [
+            {
+              ariaControls: "logoutModal",
+              linkId: "logout",
+              mode: "button",
+              label: "Se déconnecter",
+              icon: "fr-icon-logout-box-r-line",
+            },
+          ];
           this.checkNews();
         }
       }
@@ -150,6 +159,7 @@ export class AppComponent implements OnInit {
   }
 
   public logout(): void {
+    this.headerToolsLinks = [];
     this.usagerAuthService.logoutAndRedirect();
   }
 }
