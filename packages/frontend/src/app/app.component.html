@@ -41,6 +41,84 @@
 <main role="main" id="page">
   <router-outlet></router-outlet>
 </main>
+<dsfr-footer
+  [logo]="{ label: 'République<br>Française', link: '', tooltipMessage: '' }"
+  [institutionalLinks]="[
+    {
+      label: 'info.gouv.fr',
+      link: 'https://info.gouv.fr',
+      tooltipMessage: 'info.gouv.fr',
+      linkTarget: '_blank'
+    },
+    {
+      label: 'service-public.fr',
+      link: 'https://service-public.fr',
+      tooltipMessage: 'service-public.fr',
+      linkTarget: '_blank'
+    },
+    {
+      label: 'legifrance.gouv.fr',
+      link: 'https://legifrance.gouv.fr',
+      tooltipMessage: 'legifrance.gouv.fr',
+      linkTarget: '_blank'
+    },
+    {
+      label: 'data.gouv.fr',
+      link: 'https://data.gouv.fr',
+      tooltipMessage: 'data.gouv.fr',
+      linkTarget: '_blank'
+    }
+  ]"
+  [mandatoryLinks]="[
+    {
+      label: 'Accessibilité : partiellement conforme',
+      link: '/accessibilite',
+    },
+    { label: 'Mentions légales', link: '/mentions-legales' },
+    {
+      label: 'Conditions générales d’utilisation',
+      link: '/cgu',
+    },
+    {
+      label: 'Politique de confidentialité',
+      link: '/confidentialite',
+    },
+    {
+      label: 'Plan du site',
+      link: '/plan-site',
+    }
+  ]"
+  [partnersSub]="[]"
+  [reboundLinks]="[
+    {
+      title: 'En savoir plus',
+      links: [
+        { label: 'Accueil', link: '/' },
+        { label: 'Inscrire ma structure', link: '/structures/inscription' },
+        { label: 'Statistiques', link: '/stats' },
+        { label: 'Impact', link: '/stats/impact' },
+        { label: 'Nos partenaires', link: '#' }
+      ]
+    },
+    {
+      title: 'Ressources',
+      links: [
+        { label: 'FAQ', link: '/faq' },
+        { label: 'Nouveautés', link: '/news' },
+        { label: 'service-public.fr', link: 'https://service-public.fr' }
+      ]
+    },
+    {
+      title: 'Contact',
+      links: [{ label: 'Nous contacter', link: '/contact' }]
+    }
+  ]"
+  license="Sauf mention explicite de propriété intellectuelle détenue par des tiers, les contenus de ce site sont proposés sous  <a href='https://github.com/etalab/licence-ouverte/blob/master/LO.md' target='_blank'>licence etalab-2.0</a>"
+  [accessibility]="'none'"
+>
+</dsfr-footer>
+
+<!--
 <footer id="footer" role="contentinfo" class="d-print-none">
   <div class="bg-light py-3 border-bottom-dark">
     <div class="container my-2 py-3">
@@ -214,7 +292,7 @@
     </div>
   </div>
 </footer>
-
+-->
 <ng-template #acceptTermsModal let-modal>
   <div class="modal-header">
     <span id="modal-title">Veuillez lire et accepter les CGU</span>
