@@ -28,7 +28,7 @@ export const UsagersStructureDocsControllerSecurityTests: AppTestHttpClientSecur
         expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
           context.user,
           {
-            roles: ["simple", "responsable", "admin"],
+            roles: ["simple", "responsable", "admin", "agent"],
             validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
           }
         ),

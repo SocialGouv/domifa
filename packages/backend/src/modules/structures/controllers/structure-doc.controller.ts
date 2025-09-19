@@ -44,11 +44,11 @@ import { appLogger } from "../../../util";
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("structure-docs")
 @AllowUserProfiles("structure")
-@AllowUserStructureRoles("simple", "responsable", "admin")
 export class StructureDocController {
   constructor(private readonly fileManagerService: FileManagerService) {}
 
   @Get(":uuid")
+  @AllowUserStructureRoles("simple", "responsable", "admin", "agent")
   public async getStructureDoc(
     @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @CurrentUser() user: UserStructureAuthenticated,
@@ -72,6 +72,7 @@ export class StructureDocController {
         doc
       );
     } catch (e) {
+      appLogger.error(e);
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "DOC_NOT_FOUND" });
@@ -181,6 +182,7 @@ export class StructureDocController {
   }
 
   @Get("")
+  @AllowUserStructureRoles("simple", "responsable", "admin", "agent")
   public async getStructureDocs(
     @CurrentUser() user: UserStructureAuthenticated
   ) {
