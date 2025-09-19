@@ -15,7 +15,7 @@ import { InputReferrerComponent } from "./components/input-referrer/input-referr
 import { FormsModule } from "@angular/forms";
 import { FonctionSelectionComponent } from "./components/fonction-selection/fonction-selection.component";
 import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
-
+import { DsfrSkiplinksModule } from "@edugouvfr/ngx-dsfr";
 @NgModule({
   imports: [
     CommonModule,
@@ -43,6 +43,7 @@ import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
     FontAwesomeModule,
     ButtonComponent,
     FonctionFormatPipe,
+    DsfrSkiplinksModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

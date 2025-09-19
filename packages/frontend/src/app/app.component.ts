@@ -25,6 +25,7 @@ import { fadeInOut } from "./shared";
 import DOMIFA_NEWS from "../assets/files/news.json";
 import { LIENS_PARTENAIRES } from "./modules/general/components/plan-site/LIENS_PARTENAIRES.const";
 import { UserStructure } from "@domifa/common";
+import { DsfrLink } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   animations: [fadeInOut],
@@ -48,7 +49,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public submitted: boolean;
   public pendingNews: boolean;
-
+  public skipLinks: DsfrLink[] = [];
   private readonly subscription = new Subscription();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -158,6 +159,25 @@ export class AppComponent implements OnInit, OnDestroy {
         const event = ev as NavigationEnd;
         const splitUrl = event?.url.split("#");
         this.currentUrl = splitUrl[0];
+        this.skipLinks = [
+          {
+            label: "Aller à la navigation",
+            link: `${this.currentUrl}#navigation`,
+          },
+          ...(this.currentUrl === "/manage" // pour avoir le bon ordre des liens
+            ? [
+                {
+                  label: "Aller à la recherche",
+                  link: `${this.currentUrl}#search-bar`,
+                },
+              ]
+            : []),
+          { label: "Aller au contenu", link: `${this.currentUrl}#page` },
+          {
+            label: "Aller au pied de page",
+            link: `${this.currentUrl}#footer`,
+          },
+        ];
 
         if (typeof splitUrl[1] !== "undefined") {
           const fragment = splitUrl[1];
