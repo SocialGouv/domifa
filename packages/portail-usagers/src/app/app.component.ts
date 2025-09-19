@@ -99,10 +99,6 @@ export class AppComponent implements OnInit {
     this.pendingNews = false;
   }
 
-  public onSkiplinkSelect(event: string): void {
-    console.log("skiplink select", event);
-  }
-
   public ngOnInit(): void {
     this.titleService.setTitle(
       "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices"

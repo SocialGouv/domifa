@@ -15,7 +15,7 @@ import { DsfrSkiplinksModule } from "@edugouvfr/ngx-dsfr";
   declarations: [CustomToastrComponent, ReplaceLineBreaks],
   exports: [CustomToastrComponent, ReplaceLineBreaks, DsfrSkiplinksModule],
   providers: [SeoService],
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, DsfrSkiplinksModule],
 })
 export class SharedModule {
   constructor(private readonly library: FaIconLibrary) {

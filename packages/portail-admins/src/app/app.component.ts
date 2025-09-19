@@ -53,10 +53,14 @@ export class AppComponent implements OnInit {
             link: `${this.currentUrl}#navigation`,
           },
           { label: "Aller au contenu", link: `${this.currentUrl}#page` },
-          {
-            label: "Aller à la recherche",
-            link: `${this.currentUrl}#search-bar`,
-          },
+          ...(this.currentUrl === "/structures" // pour avoir le bon ordre des liens
+            ? [
+                {
+                  label: "Aller à la recherche",
+                  link: `${this.currentUrl}#search-bar`,
+                },
+              ]
+            : []),
           {
             label: "Aller au pied de page",
             link: `${this.currentUrl}#footer`,
