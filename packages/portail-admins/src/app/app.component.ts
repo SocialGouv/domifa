@@ -54,14 +54,17 @@ export class AppComponent implements OnInit {
           },
           { label: "Aller au contenu", link: `${this.currentUrl}#page` },
           {
-            label: "Aller à la recherche",
-            link: `${this.currentUrl}#search-bar`,
-          },
-          {
             label: "Aller au pied de page",
             link: `${this.currentUrl}#footer`,
           },
         ];
+
+        if (this.currentUrl !== "/auth/login") {
+          this.skipLinks.push({
+            label: "Aller à la recherche",
+            link: `${this.currentUrl}#search-bar`,
+          });
+        }
 
         if (typeof splitUrl[1] !== "undefined") {
           const fragment = splitUrl[1];
