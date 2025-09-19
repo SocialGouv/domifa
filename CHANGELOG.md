@@ -1,3 +1,10 @@
+## [2.221.4](https://github.com/SocialGouv/domifa/compare/v2.221.3...v2.221.4) (2025-09-19)
+
+
+### Bug Fixes
+
+* **security:** fix csp rules unsafe-inline ([#3919](https://github.com/SocialGouv/domifa/issues/3919)) ([9e0aa96](https://github.com/SocialGouv/domifa/commit/9e0aa96945241342fde3e288126afaf22d1ccdf6))
+
 ## [2.221.3](https://github.com/SocialGouv/domifa/compare/v2.221.2...v2.221.3) (2025-09-19)
 
 
