@@ -9,12 +9,13 @@ import { FA_ICONS } from "./constants/FA_ICONS.const";
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 import { SeoService } from "./services/seo.service";
 import { ReplaceLineBreaks } from "./pipes/nl2br.pipe";
+import { DsfrHeaderModule } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [CustomToastrComponent, ReplaceLineBreaks],
-  exports: [CustomToastrComponent, ReplaceLineBreaks],
+  exports: [CustomToastrComponent, ReplaceLineBreaks, DsfrHeaderModule],
   providers: [SeoService],
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, DsfrHeaderModule],
 })
 export class SharedModule {
   constructor(private readonly library: FaIconLibrary) {

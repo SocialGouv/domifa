@@ -23,52 +23,47 @@
   </ul>
 </nav>
 <header id="page-header" role="banner">
-  <div id="matomo-info" *ngIf="!matomoInfo">
-    <div
-      class="d-print-none d-flex justify-content-center align-items-center"
-      role="dialog"
-      aria-modal="true"
-    >
-      <p class="my-0 text-start">
-        <b>Avertissement sur la collecte de données</b><br />
-        Nous collectons des données anonymisées à des fins statistiques via
-        l'outil français Matomo. Pour tout savoir sur notre utilisation des
-        données, consultez notre
-        <a
-          [routerLink]="['/confidentialite']"
-          ariaCurrentWhenActive="page"
-          routerLinkActive="router-link-active"
-        >
-          politique de confidentialité.
-        </a>
-      </p>
-      <div class="mx-2">
+  <div id="matomo-info" *ngIf="!matomoInfo" class="fr-notice fr-notice--info">
+    <div class="fr-container">
+      <div class="fr-notice__body">
+        <p>
+          <span class="fr-notice__title"
+            >Avertissement sur la collecte de données</span
+          >
+          <span class="fr-notice__desc"
+            >Nous collectons des données anonymisées à des fins statistiques via
+            l'outil français Matomo. Pour tout savoir sur notre utilisation des
+            données, consultez notre</span
+          >
+          <a
+            rel="noopener external"
+            class="fr-notice__link"
+            [routerLink]="['/confidentialite']"
+            ariaCurrentWhenActive="page"
+            routerLinkActive="router-link-active"
+            >politique de confidentialité.
+          </a>
+        </p>
         <button
+          title="Masquer le message"
+          onclick="const notice = this.parentNode.parentNode.parentNode; notice.parentNode.removeChild(notice)"
           type="button"
-          class="btn btn-white-primary"
-          (click)="closeMatomo()"
+          class="fr-btn--close fr-btn"
         >
-          Fermer le message
-          <span aria-hidden="true">&times;</span>
+          Masquer le message
         </button>
       </div>
     </div>
   </div>
-  <div class="navbar bg-white">
-    <a
-      class="navbar-brand"
-      [routerLink]="usagerProfile ? '/account' : '/auth/login'"
-    >
-      <img
-        src="../assets/images/logo-mini.svg"
-        width="30"
-        height="30"
-        class="d-inline-block align-top me-2"
-        alt="Logo de Mon DomiFa"
-      />
-      <span class="nav-brand">Mon DomiFa facilite votre domiciliation</span>
-    </a>
-  </div>
+  <dsfr-header
+    [logoLabel]="'République<br/>Française'"
+    [operatorImageAlt]="'Espace d\'administration de DomiFa'"
+    [operatorImagePath]="'../assets/images/logo-dsfr.svg'"
+    [ariaLabel]="'Menu principal'"
+    [logoLink]="{ routerLink: '/' }"
+    [headerToolsLinks]="headerToolsLinks"
+    (linkSelect)="logout()"
+  ></dsfr-header>
 </header>
 <main role="main" id="page">
   <router-outlet></router-outlet>
