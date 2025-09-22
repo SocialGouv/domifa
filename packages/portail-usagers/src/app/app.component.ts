@@ -159,6 +159,7 @@ export class AppComponent implements OnInit {
   }
 
   public logout(): void {
+    // if more buttons are added to headerToolsLinks, change the logic to filter to only log when logout event is triggered
     this.headerToolsLinks = [];
     this.usagerAuthService.logoutAndRedirect();
   }
