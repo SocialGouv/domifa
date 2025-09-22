@@ -1,14 +1,7 @@
-<div class="container my-5" *ngIf="!usagerProfile">
-  <section class="content section-content">
-    <div class="text-center py-2">
-      <h1 class="title">Connexion à Mon DomiFa</h1>
-    </div>
-    <div class="row justify-content-center align-items-center">
-      <form
-        [formGroup]="loginForm"
-        class="col-md-6 col-lg-4 col-12"
-        (ngSubmit)="login()"
-      >
+<div class="my-5" *ngIf="!usagerProfile">
+  <section class="row">
+    <div class="col-12 col-md-6 col-sm-6">
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
         <div>
           <p>
             Les champs suivis d'un
@@ -402,6 +395,30 @@
           </p>
         </div>
       </form>
+    </div>
+    <div class="col-12 col-md-6 col-sm-6 bg-white">
+      <div class="row d-flex">
+        <div class="col-12 col-md-6 col-sm-6">
+          <img
+            class="img-fluid"
+            src="assets/images/logo-dsfr.svg"
+            alt="Logo Mon Domifa"
+          />
+        </div>
+        <h5>Mon DomiFa facilite votre domiciliation</h5>
+        <p>
+          Retrouvez toutes vos informations de domiciliation et vérifiez que
+          vous avez du courrier.
+        </p>
+        <div class="col-12 col-md-12 col-sm-12">
+          <img
+            class="w-25"
+            src="assets/images/login/main-container.svg"
+            alt="Illustration de
+        boîte aux lettres"
+          />
+        </div>
+      </div>
     </div>
   </section>
 </div>
