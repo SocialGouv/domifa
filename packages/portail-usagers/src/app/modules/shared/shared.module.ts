@@ -9,7 +9,11 @@ import { FA_ICONS } from "./constants/FA_ICONS.const";
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 import { SeoService } from "./services/seo.service";
 import { ReplaceLineBreaks } from "./pipes/nl2br.pipe";
-import { DsfrFooterModule, DsfrSkiplinksModule } from "@edugouvfr/ngx-dsfr";
+import {
+  DsfrFooterModule,
+  DsfrHeaderModule,
+  DsfrSkiplinksModule,
+} from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [CustomToastrComponent, ReplaceLineBreaks],
@@ -18,6 +22,7 @@ import { DsfrFooterModule, DsfrSkiplinksModule } from "@edugouvfr/ngx-dsfr";
     ReplaceLineBreaks,
     DsfrFooterModule,
     DsfrSkiplinksModule,
+    DsfrHeaderModule,
   ],
   providers: [SeoService],
   imports: [
@@ -25,6 +30,7 @@ import { DsfrFooterModule, DsfrSkiplinksModule } from "@edugouvfr/ngx-dsfr";
     FontAwesomeModule,
     DsfrFooterModule,
     DsfrSkiplinksModule,
+    DsfrHeaderModule,
   ],
 })
 export class SharedModule {
