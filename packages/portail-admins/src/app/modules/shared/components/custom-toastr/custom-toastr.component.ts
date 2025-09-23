@@ -31,6 +31,7 @@ export class CustomToastrComponent implements OnInit, OnDestroy {
   constructor(public readonly customToastService: CustomToastService) {
     this.toast = {
       display: false,
+      dissmissable: true,
       message: "",
       class: "",
     };
