@@ -9,13 +9,23 @@ import { FA_ICONS } from "./constants/FA_ICONS.const";
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 import { SeoService } from "./services/seo.service";
 import { ReplaceLineBreaks } from "./pipes/nl2br.pipe";
-import { DsfrSkiplinksModule } from "@edugouvfr/ngx-dsfr";
+import { DsfrFooterModule, DsfrSkiplinksModule } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [CustomToastrComponent, ReplaceLineBreaks],
-  exports: [CustomToastrComponent, ReplaceLineBreaks, DsfrSkiplinksModule],
+  exports: [
+    CustomToastrComponent,
+    ReplaceLineBreaks,
+    DsfrFooterModule,
+    DsfrSkiplinksModule,
+  ],
   providers: [SeoService],
-  imports: [CommonModule, FontAwesomeModule, DsfrSkiplinksModule],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    DsfrFooterModule,
+    DsfrSkiplinksModule,
+  ],
 })
 export class SharedModule {
   constructor(private readonly library: FaIconLibrary) {
