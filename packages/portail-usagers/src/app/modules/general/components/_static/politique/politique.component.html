@@ -1,292 +1,236 @@
-<div class="head-page py-4">
-  <div class="container">
-    <h1>Politique de confidentialité - Mon DomiFa</h1>
-  </div>
-</div>
 <div class="content py-3">
   <div class="container">
-    <div class="page-content p-3">
-      <h2>Qui est responsable de Mon DomiFa ?</h2>
+    <h1>Politique de confidentialité - Mon DomiFa</h1>
 
-      <p>
-        Mon DomiFa, développé au sein de la Fabrique numérique des ministères
-        sociaux, est sous la responsabilité de la Direction générale de la
-        cohésion sociale (DGCS).
-      </p>
+    <h2>Qui est responsable de Mon DomiFa ?</h2>
+    <p>
+      Mon DomiFa, développé au sein de la Fabrique numérique des ministères
+      sociaux, est sous la responsabilité de la Direction générale de la
+      cohésion sociale (DGCS).
+    </p>
 
-      <h2>Pourquoi traitons-nous des données à caractère personnel ?</h2>
-      <p>Mon DomiFa traite des données à caractère personnel pour :</p>
-      <ul>
-        <li>
-          Consulter les différents éléments du dossier relatifs au courrier et à
-          la domiciliation de la personne domiciliée.
-        </li>
-      </ul>
+    <h2>Pourquoi traitons-nous des données à caractère personnel ?</h2>
+    <p>Mon DomiFa traite des données à caractère personnel pour :</p>
+    <ul>
+      <li>
+        Consulter les différents éléments du dossier relatifs au courrier et à
+        la domiciliation de la personne domiciliée.
+      </li>
+    </ul>
 
-      <h2>Quelles sont les données que nous traitons ?</h2>
-      <p>Mon DomiFa traite les données suivantes :</p>
-      <ul>
-        <li>
-          <b>
-            Durée de conservation sur les données relatives aux personnes
-            domiciliées  </b
-          >: nom, prénom, adresse e-mail, numéro de téléphone.
-        </li>
-      </ul>
+    <h2>Quelles sont les données que nous traitons ?</h2>
+    <p>Mon DomiFa traite les données suivantes :</p>
+    <ul>
+      <li>
+        <b>
+          Durée de conservation sur les données relatives aux personnes
+          domiciliées  </b
+        >: nom, prénom, adresse e-mail, numéro de téléphone.
+      </li>
+    </ul>
 
-      <h2>Qu’est-ce qui nous autorise à traiter ces données ?</h2>
-      <p>
-        Mon DomiFa traite des données à caractère personnel en se basant sur :
-      </p>
-      <ul>
-        <li>
-          L’exécution d’une mission d’intérêt public au sens de l’article 6-1 e)
-          du RGPD.
-        </li>
-      </ul>
-      <p>
-        Cette mission d’intérêt public se traduit en pratique par l’article 4 de
-        l’arrêté du 25 janvier 2010 portant organisation de la direction
-        générale de la cohésion sociale en services, en sous-directions.
-      </p>
+    <h2>Qu’est-ce qui nous autorise à traiter ces données ?</h2>
+    <p>
+      Mon DomiFa traite des données à caractère personnel en se basant sur :
+    </p>
+    <ul>
+      <li>
+        L’exécution d’une mission d’intérêt public au sens de l’article 6-1 e)
+        du RGPD.
+      </li>
+    </ul>
+    <p>
+      Cette mission d’intérêt public se traduit en pratique par l’article 4 de
+      l’arrêté du 25 janvier 2010 portant organisation de la direction générale
+      de la cohésion sociale en services, en sous-directions.
+    </p>
 
-      <h2>Pendant combien de temps conservons-nous ces données ?</h2>
-      <div class="table-responsive">
-        <table class="table">
-          <caption class="visually-hidden">
-            Pendant combien de temps conservons-nous ces données ?
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Catégories de données</th>
-              <th scope="col">Durées de conservation</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                Durée de conservation sur les données relatives aux personnes
-                domiciliées
-              </td>
-              <td>2 ans à compter du dernier contact</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <h2>Pendant combien de temps conservons-nous ces données ?</h2>
+    <dsfr-datatable
+      [data]="[
+        {
+          catDonnees: 'Données relatives aux agents utilisateurs',
+          dureeConservation: '2 ans à compter du dernier contact'
+        },
+        {
+          catDonnees: 'Données relatives aux personnes domiciliées',
+          dureeConservation: '2 ans à compter du dernier contact'
+        },
+        {
+          catDonnees:
+            'Données relatives aux ayants droit des personnes domiciliées',
+          dureeConservation: '2 ans à compter du dernier contact'
+        }
+      ]"
+      [columns]="[
+        {
+          label: 'Catégories de données',
+          field: 'catDonnees',
+          sortable: false
+        },
+        {
+          label: 'Durées de conservation',
+          field: 'dureeConservation',
+          sortable: false,
+        }
+      ]"
+    ></dsfr-datatable>
 
-      <h2>Quels sont vos droits ?</h2>
+    <h2>Quels sont vos droits ?</h2>
 
-      <p>Vous disposez d’un :</p>
-      <ul>
-        <li>Droit d’information et droit d'accès</li>
-        <li>Droit de rectification</li>
-        <li>Droit d’opposition</li>
-        <li>Droit à la limitation du traitement.</li>
-      </ul>
+    <p>Vous disposez d’un :</p>
+    <ul>
+      <li>Droit d’information et droit d'accès</li>
+      <li>Droit de rectification</li>
+      <li>Droit d’opposition</li>
+      <li>Droit à la limitation du traitement.</li>
+    </ul>
 
-      <p>
-        Vous pouvez exercer ces droits en écrivant à
-        <strong>https://domifa.fabrique.social.gouv.fr/contact</strong>
-      </p>
-      <p>
-        Par voie postale :
-        <b
-          >Direction du Numérique du ministère du Travail, de la Santé, des
-          Solidarités et des Familles</b
-        ><br />
-        Ministère du Travail, de la Santé, des Solidarités et des Familles<br />
-        39-43 Quai André Citroën<br />
-        75015 Paris<br />
-      </p>
-      <p>
-        Puisque ce sont des droits personnels, nous ne traiterons votre demande
-        que si nous sommes en mesure de vous identifier. Dans le cas où nous ne
-        parvenons pas à vous identifier, nous pouvons être amenés à vous
-        demander une preuve de votre identité. Pour vous aider dans votre
-        démarche, vous trouverez un modèle de courrier élaboré par la CNIL ici :
+    <p>
+      Vous pouvez exercer ces droits en écrivant à
+      <strong>dpd-minsociaux [at] sg.social.gouv.fr</strong>
+    </p>
+    <p>
+      Par voie postale :
+      <b
+        >Direction du Numérique du ministère du Travail, de la Santé, des
+        Solidarités et des Familles</b
+      ><br />
+      Ministère du Travail, de la Santé, des Solidarités et des Familles<br />
+      39-43 Quai André Citroën<br />
+      75015 Paris<br />
+    </p>
+    <p>
+      Puisque ce sont des droits personnels, nous ne traiterons votre demande
+      que si nous sommes en mesure de vous identifier. Dans le cas où nous ne
+      parvenons pas à vous identifier, nous pouvons être amenés à vous demander
+      une preuve de votre identité. Pour vous aider dans votre démarche, vous
+      trouverez un modèle de courrier élaboré par la CNIL ici :
+      <a href="https://www.cnil.fr/fr/modele/courrier/exercer-son-droit-dacces"
+        >https://www.cnil.fr/fr/modele/courrier/exercer-son-droit-dacces</a
+      >
+    </p>
+    <p>
+      Nous nous engageons à vous répondre dans un délai raisonnable qui ne
+      saurait dépasser 1 mois à compter de la réception de votre demande.
+    </p>
+
+    <h2>Qui va avoir accès à ces données ?</h2>
+    <p>
+      Les accès aux données sont strictement encadrés et juridiquement
+      justifiés. Les personnes suivantes ont accès aux données :
+    </p>
+    <ul>
+      <li>La Fabrique numérique des ministères sociaux</li>
+      <li>Les agents autorisés des structures domiciliataires</li>
+    </ul>
+
+    <h2>Sous-traitants</h2>
+    <p>
+      Certaines des données sont envoyées à des sous-traitants pour réaliser
+      certaines missions. Mon DomiFa s’est assuré de la mise en œuvre par ses
+      sous-traitants de garanties adéquates et du respect de conditions strictes
+      de confidentialité, d’usage et de protection des données.
+    </p>
+    <dsfr-datatable
+      [caption]="'Sous-traitants liés à la donnée'"
+      [data]="data"
+      [columns]="columns"
+    >
+      <ng-template #tableBodyTemplate let-row>
+        <tr>
+          <td>{{ row.sousTraitant }}</td>
+          <td>{{ row.paysDestinataire }}</td>
+          <td>{{ row.traitementRealise }}</td>
+          <td>
+            <a href="{{ row.garanties }}" target="_blank">
+              {{ row.garanties }}
+            </a>
+          </td>
+        </tr>
+      </ng-template>
+    </dsfr-datatable>
+
+    <h2>Cookies</h2>
+    <p>
+      Un cookie est un fichier déposé sur votre terminal lors de la visite d’un
+      site. Il a pour but de collecter des informations relatives à votre
+      navigation et de vous adresser des services adaptés à votre terminal
+      (ordinateur, mobile ou tablette).
+    </p>
+    <p>
+      En application de l’article 5(3) de la directive 2002/58/CE modifiée
+      concernant le traitement des données à caractère personnel et la
+      protection de la vie privée dans le secteur des communications
+      électroniques, transposée à l’article 82 de la loi n° 78-17 du 6 janvier
+      1978 relative à l’informatique, aux fichiers et aux libertés, les traceurs
+      ou cookies suivent deux régimes distincts.
+    </p>
+    <p>
+      Les cookies strictement nécessaires au service ou ayant pour finalité
+      exclusive de faciliter la communication par voie électronique sont
+      dispensés de consentement préalable au titre de l’article 82 de la loi n°
+      78-17 du 6 janvier 1978.
+    </p>
+    <p>
+      Les cookies n’étant pas strictement nécessaires au service ou n’ayant pas
+      pour finalité exclusive de faciliter la communication par voie
+      électronique doivent être consenti par l’utilisateur.
+    </p>
+    <p>
+      Ce consentement de la personne concernée pour une ou plusieurs finalités
+      spécifiques constitue une base légale au sens du RGPD et doit être entendu
+      au sens de l'article 6-a du Règlement (UE) 2016/679 du Parlement européen
+      et du Conseil du 27 avril 2016 relatif à la protection des personnes
+      physiques à l'égard du traitement des données à caractère personnel et à
+      la libre circulation de ces données.
+    </p>
+
+    <p>
+      À tout moment, vous pouvez refuser l’utilisation des cookies et désactiver
+      le dépôt sur votre ordinateur en utilisant la fonction dédiée de votre
+      navigateur (fonction disponible notamment sur Microsoft Internet Explorer
+      11, Google Chrome, Mozilla Firefox, Apple Safari et Opera).
+    </p>
+    <p>
+      Pour aller plus loin, vous pouvez consulter les fiches proposées par la
+      Commission Nationale de l'Informatique et des Libertés (CNIL) :
+    </p>
+
+    <ul>
+      <li>
         <a
-          href="https://www.cnil.fr/fr/modele/courrier/exercer-son-droit-dacces"
-          >https://www.cnil.fr/fr/modele/courrier/exercer-son-droit-dacces</a
+          href="https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/cookies/que-dit-la-loi"
         >
-      </p>
-      <p>
-        Nous nous engageons à vous répondre dans un délai raisonnable qui ne
-        saurait dépasser 1 mois à compter de la réception de votre demande.
-      </p>
+          Cookies & traceurs : que dit la loi ?</a
+        >
+      </li>
 
-      <h2>Qui va avoir accès à ces données ?</h2>
-      <p>
-        Les accès aux données sont strictement encadrés et juridiquement
-        justifiés. Les personnes suivantes ont accès aux données :
-      </p>
-      <ul>
-        <li>La Fabrique numérique des ministères sociaux</li>
-        <li>Les agents autorisés des structures domiciliataires</li>
-      </ul>
-
-      <h2>Sous-traitants</h2>
-      <p>
-        Certaines des données sont envoyées à des sous-traitants pour réaliser
-        certaines missions. Mon DomiFa s’est assuré de la mise en œuvre par ses
-        sous-traitants de garanties adéquates et du respect de conditions
-        strictes de confidentialité, d’usage et de protection des données.
-      </p>
-      <div class="table-responsive">
-        <table class="table">
-          <caption class="visually-hidden">
-            Sous-traitants liés à la donnée
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Sous-traitant</th>
-              <th scope="col">Pays destinataire</th>
-              <th scope="col">Traitement réalisé</th>
-              <th scope="col">Garanties</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>OVH</td>
-              <td>France</td>
-              <td>Hébergement</td>
-              <td>
-                <a
-                  href="https://storage.gra.cloud.ovh.net/v1/AUTH_325716a587c64897acbef9a4a4726e38/contracts/9e74492-OVH_Data_Protection_Agreement-FR-6.0.pdf
-"
-                  >https://storage.gra.cloud.ovh.net/v1/AUTH_325716a587c64897acbef9a4a4726e38/contracts/9e74492-OVH_Data_Protection_Agreement-FR-6.0.pdf
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>Tally</td>
-              <td>Belgique</td>
-              <td>Mesure de satisfaction</td>
-              <td>
-                <a
-                  href="https://tally.so/help/privacy-policy
-"
-                  >https://tally.so/help/privacy-policy
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>Brevo</td>
-              <td>France</td>
-              <td>Envoi de courriels</td>
-              <td>
-                <a
-                  href="https://www.brevo.com/fr/legal/termsofuse/#accord-sur-le-traitement-des-donnees-a-caractere-personnel-dpa"
-                  >https://www.brevo.com/fr/legal/termsofuse/#accord-sur-le-traitement-des-donnees-a-caractere-personnel-dpa
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>Link Mobility</td>
-              <td>France</td>
-              <td>Envoi de sms</td>
-              <td>
-                <a
-                  href="https://www.linkmobility.com/resources/legal/terms-and-conditions/DPA_LINK_as_Processor_V1-43_2021.pdf"
-                  >https://www.linkmobility.com/resources/legal/terms-and-conditions/DPA_LINK_as_Processor_V1-43_2021.pdf
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>Sarbacane</td>
-              <td>Espagne</td>
-              <td>Envoi de notifications</td>
-              <td>
-                <a
-                  href="https://assets.sarbacane-cdn.com/legal/EN_DataProcessingAddendum.pdf"
-                  >https://assets.sarbacane-cdn.com/legal/EN_DataProcessingAddendum.pdf
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <h2>Cookies</h2>
-      <p>
-        Un cookie est un fichier déposé sur votre terminal lors de la visite
-        d’un site. Il a pour but de collecter des informations relatives à votre
-        navigation et de vous adresser des services adaptés à votre terminal
-        (ordinateur, mobile ou tablette).
-      </p>
-      <p>
-        En application de l’article 5(3) de la directive 2002/58/CE modifiée
-        concernant le traitement des données à caractère personnel et la
-        protection de la vie privée dans le secteur des communications
-        électroniques, transposée à l’article 82 de la loi n° 78-17 du 6 janvier
-        1978 relative à l’informatique, aux fichiers et aux libertés, les
-        traceurs ou cookies suivent deux régimes distincts.
-      </p>
-      <p>
-        Les cookies strictement nécessaires au service ou ayant pour finalité
-        exclusive de faciliter la communication par voie électronique sont
-        dispensés de consentement préalable au titre de l’article 82 de la loi
-        n° 78-17 du 6 janvier 1978.
-      </p>
-      <p>
-        Les cookies n’étant pas strictement nécessaires au service ou n’ayant
-        pas pour finalité exclusive de faciliter la communication par voie
-        électronique doivent être consenti par l’utilisateur.
-      </p>
-      <p>
-        Ce consentement de la personne concernée pour une ou plusieurs finalités
-        spécifiques constitue une base légale au sens du RGPD et doit être
-        entendu au sens de l'article 6-a du Règlement (UE) 2016/679 du Parlement
-        européen et du Conseil du 27 avril 2016 relatif à la protection des
-        personnes physiques à l'égard du traitement des données à caractère
-        personnel et à la libre circulation de ces données.
-      </p>
-
-      <p>
-        À tout moment, vous pouvez refuser l’utilisation des cookies et
-        désactiver le dépôt sur votre ordinateur en utilisant la fonction dédiée
-        de votre navigateur (fonction disponible notamment sur Microsoft
-        Internet Explorer 11, Google Chrome, Mozilla Firefox, Apple Safari et
-        Opera).
-      </p>
-      <p>
-        Pour aller plus loin, vous pouvez consulter les fiches proposées par la
-        Commission Nationale de l'Informatique et des Libertés (CNIL) :
-      </p>
-
-      <ul>
-        <li>
-          <a
-            href="https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/cookies/que-dit-la-loi"
-          >
-            Cookies & traceurs : que dit la loi ?</a
-          >
-        </li>
-
-        <li>
-          <a
-            href="https://www.cnil.fr/fr/cookies-et-autres-traceurs/comment-se-proteger/maitriser-votre-navigateur"
-          >
-            Cookies : les outils pour les maîtriser</a
-          >
-        </li>
-      </ul>
-
-      <p>
-        <label>
-          <input
-            type="checkbox"
-            [ngModel]="optedOut$ | async"
-            (ngModelChange)="handleChange($event)"
-          />
-          <ng-container *ngIf="optedOut$ | async; else optedIn">
-            Vous n'êtes plus suivis de manière anonyme. Décochez cette case pour
-            activer le suivi anonyme.
-          </ng-container>
-          <ng-template #optedIn>
-            Vous êtes suivis de manière anonyme. Cochez cette case pour ne plus
-            être suivi.</ng-template
-          >
-        </label>
-      </p>
-    </div>
+      <li>
+        <a
+          href="https://www.cnil.fr/fr/cookies-et-autres-traceurs/comment-se-proteger/maitriser-votre-navigateur"
+        >
+          Cookies : les outils pour les maîtriser</a
+        >
+      </li>
+    </ul>
+    <br />
+    <p>
+      <label>
+        <input
+          type="checkbox"
+          [ngModel]="optedOut$ | async"
+          (ngModelChange)="handleChange($event)"
+        />
+        <ng-container *ngIf="optedOut$ | async; else optedIn">
+          Vous n'êtes plus suivis de manière anonyme. Décochez cette case pour
+          activer le suivi anonyme.
+        </ng-container>
+        <ng-template #optedIn>
+          Vous êtes suivis de manière anonyme. Cochez cette case pour ne plus
+          être suivi.</ng-template
+        >
+      </label>
+    </p>
   </div>
 </div>

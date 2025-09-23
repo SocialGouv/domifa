@@ -17,6 +17,7 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from "@angular/common/http";
+import { DsfrDataTableModule } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {
     RouterModule.forChild([]),
     NgbModule,
     SharedModule,
+    DsfrDataTableModule,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

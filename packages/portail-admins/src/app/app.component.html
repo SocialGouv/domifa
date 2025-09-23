@@ -2,7 +2,7 @@
 <dsfr-skiplinks [links]="skipLinks"></dsfr-skiplinks>
 <header id="page-header" role="banner">
   <nav
-    class="navbar bg-white"
+    class="navbar bg-white shadow-sm p-3 mb-5 rounded"
     role="navigation"
     aria-label="Navigation principale"
     style="position: sticky; top: 0; z-index: 1000"
@@ -74,6 +74,7 @@
 </header>
 
 <main role="main" id="page">
+  <app-custom-toastr></app-custom-toastr>
   <router-outlet></router-outlet>
 </main>
 <footer id="footer" role="contentinfo" class="d-print-none">
