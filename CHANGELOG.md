@@ -1,3 +1,10 @@
+## [2.221.6](https://github.com/SocialGouv/domifa/compare/v2.221.5...v2.221.6) (2025-09-23)
+
+
+### Bug Fixes
+
+* **frontend:** update news.json, fix unit test in backend ([0df270f](https://github.com/SocialGouv/domifa/commit/0df270f310bb1c1decdbdf2015ca3e3e93d97a97))
+
 ## [2.221.5](https://github.com/SocialGouv/domifa/compare/v2.221.4...v2.221.5) (2025-09-23)
 
 
