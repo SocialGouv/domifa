@@ -1,13 +1,18 @@
-<div class="my-5" *ngIf="!usagerProfile">
-  <section class="row">
-    <div class="col-12 col-md-6 col-sm-6">
-      <form [formGroup]="loginForm" (ngSubmit)="login()">
-        <div>
-          <p>
-            Les champs suivis d'un
-            <span class="fw-bold text-danger">*</span> sont obligatoires
-          </p>
-        </div>
+<div class="login-page" *ngIf="!usagerProfile">
+  <section class="row login-page_form-section m-0">
+    <div class="col-12 col-md-6 col-sm-6 form-container">
+      <form
+        class="column d-flex form-container_form-element"
+        [formGroup]="loginForm"
+        (ngSubmit)="login()"
+      >
+        <h3>Connexion à Mon Domifa</h3>
+        <h5>Se connection avec son compte</h5>
+        <!-- Use utility class -->
+        <span style="color: red" class="col-12 col-md-12">
+          * champs obligatoires
+        </span>
+        <!--
         <div class="form-group required">
           <label class="fw-bold" for="login">Votre identifiant</label>
           <input
@@ -301,7 +306,7 @@
           </div>
         </ng-container>
 
-        <!-- IMPORTANT: le champ de mot de passe situé juste après le login sera utilisé pour la mise à jour du mot de passe, donc il faut que ça soit le nouveau mot de passe le cas échéant -->
+        IMPORTANT: le champ de mot de passe situé juste après le login sera utilisé pour la mise à jour du mot de passe, donc il faut que ça soit le nouveau mot de passe le cas échéant 
         <div
           class="form-group required"
           *ngIf="this.mode !== 'login-change-password'"
@@ -394,10 +399,48 @@
             >
           </p>
         </div>
+        -->
+        <dsfr-form-input
+          id="login"
+          type="email"
+          formControlName="login"
+          [hint]="'Format attendu : WKYJBDXS'"
+          [required]="true"
+          label="identifiant"
+        ></dsfr-form-input>
+        <dsfr-form-password
+          id="password"
+          formControlName="password"
+          [required]="true"
+          label="Mot de passe"
+        ></dsfr-form-password>
+        <div class="col-12 col-md-12 d-flex">
+          <dsfr-link
+            [disabled]="false"
+            [iconPosition]="'right'"
+            [label]="'Mot de passe oublié ?'"
+            [link]="'#'"
+          ></dsfr-link>
+        </div>
+        <dsfr-button
+          class="col-12 col-md-12 col-sm-12 w-100"
+          [label]="'Se connecter'"
+          [type]="'submit'"
+          [tooltipMessage]="''"
+          [variant]="'primary'"
+          [size]="'SM'"
+          [icon]="undefined"
+          [disabled]="false"
+          [ariaLabel]="''"
+          [invertedOutlineContrast]="false"
+          [buttonId]="''"
+          [ariaControls]="''"
+          [customClass]="''"
+        ></dsfr-button>
       </form>
     </div>
-    <div class="col-12 col-md-6 col-sm-6 bg-white">
-      <div class="row d-flex">
+    <div class="col-12 col-md-6 col-sm-6 content-container bg-white">
+      <div class="row d-flex gap-1 align-self-stretch align-content-center">
         <div class="col-12 col-md-6 col-sm-6">
           <img
             class="img-fluid"
@@ -406,19 +449,117 @@
           />
         </div>
         <h5>Mon DomiFa facilite votre domiciliation</h5>
-        <p>
+        <p class="content-container_text">
           Retrouvez toutes vos informations de domiciliation et vérifiez que
           vous avez du courrier.
         </p>
-        <div class="col-12 col-md-12 col-sm-12">
+        <div class="col-12 col-md-12 col-sm-12 justify-content-center d-flex">
           <img
-            class="w-25"
+            class="img-fluid"
             src="assets/images/login/main-container.svg"
             alt="Illustration de
         boîte aux lettres"
           />
         </div>
       </div>
+    </div>
+  </section>
+  <hr />
+  <section class="row d-flex login-page_faq-section">
+    <div class="d-flex flex-column">
+      <h2>Les questions fréquentes</h2>
+      <dsfr-accordion
+        *ngFor="
+          let item of [
+            'Qu’est-ce que Mon DomiFa ?',
+            'Est-ce un service payant ?',
+            'Comment me connecter à mon espace personnel ?',
+            'Que faire si j’ai perdu mes identifiants ?',
+            'Puis-je faire une demande en ligne (renouvellement, Cerfa, etc.) ?'
+          ]
+        "
+        [content]="'content'"
+        [expanded]="false"
+        [heading]="item"
+        [headingLevel]="'H2'"
+        [headingAriaLabel]="'headingAriaLabel'"
+      >
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing,
+          <a href="https://www.systeme-de-design.gouv.fr/" target="_blank"
+            >link test</a
+          >
+          incididunt, ut labore et dolore magna aliqua. Vitae sapien
+          pellentesque habitant morbi tristique senectus et. Diam maecenas sed
+          enim ut. Accumsan lacus vel facilisis volutpat est. Ut aliquam purus
+          sit amet luctus. Lorem ipsum dolor sit amet consectetur adipiscing
+          elit ut.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing,
+          <a href="https://www.systeme-de-design.gouv.fr/" target="_blank"
+            >link test</a
+          >
+          incididunt, ut labore et dolore magna aliqua. Vitae sapien
+          pellentesque habitant morbi tristique senectus et. Diam maecenas sed
+          enim ut. Accumsan lacus vel facilisis volutpat est. Ut aliquam purus
+          sit amet luctus. Lorem ipsum dolor sit amet consectetur adipiscing
+          elit ut.
+        </p>
+        <ul>
+          <li>list item</li>
+          <li>list item</li>
+          <li>list item</li>
+        </ul>
+      </dsfr-accordion>
+      <dsfr-button
+        class="mt-4 align-self-center"
+        [label]="'Consulter la FAQ'"
+        [type]="'button'"
+        [tooltipMessage]="''"
+        [variant]="'secondary'"
+        [size]="'LG'"
+        [icon]="undefined"
+        [disabled]="false"
+        [ariaLabel]="''"
+        [invertedOutlineContrast]="false"
+        [buttonId]="''"
+        [ariaControls]="''"
+        [customClass]="''"
+      ></dsfr-button>
+    </div>
+  </section>
+  <section class="login-page_contact-section">
+    <div
+      class="col-10 col-md-10 col-sm-10 mx-auto my-5 d-flex flex-column text-center"
+    >
+      <div class="row d-flex flex-row">
+        <h2>
+          Pour toute question complémentaire, vous pouvez écrire au support Mon
+          DomiFa
+        </h2>
+        <div class="col-2">
+          <img
+            src="/assets/images/login/contact.svg"
+            alt="Contacter l'équipe "
+          />
+        </div>
+      </div>
+      <dsfr-button
+        class="mt-4 align-self-center"
+        [label]="'Contacter mon centre de domiciliation'"
+        [type]="'button'"
+        [tooltipMessage]="''"
+        [size]="'LG'"
+        [variant]="'secondary'"
+        [icon]="undefined"
+        [disabled]="false"
+        [ariaLabel]="''"
+        [invertedOutlineContrast]="false"
+        [buttonId]="''"
+        [ariaControls]="''"
+        [customClass]="''"
+      ></dsfr-button>
     </div>
   </section>
 </div>

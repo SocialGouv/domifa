@@ -10,8 +10,13 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
 import { SeoService } from "./services/seo.service";
 import { ReplaceLineBreaks } from "./pipes/nl2br.pipe";
 import {
+  DsfrAccordionModule,
+  DsfrButtonModule,
   DsfrFooterModule,
-  DsfrHeaderModule,
+  DsfrFormFieldsetModule,
+  DsfrFormInputModule,
+  DsfrFormPasswordModule,
+  DsfrLinkModule,
   DsfrSkiplinksModule,
 } from "@edugouvfr/ngx-dsfr";
 
@@ -22,7 +27,18 @@ import {
     ReplaceLineBreaks,
     DsfrFooterModule,
     DsfrSkiplinksModule,
-    DsfrHeaderModule,
+    DsfrAccordionModule,
+    DsfrFormFieldsetModule,
+    DsfrFormInputModule,
+    DsfrFormPasswordModule,
+    DsfrButtonModule,
+    DsfrLinkModule,
+    DsfrAccordionModule,
+    DsfrFormFieldsetModule,
+    DsfrFormInputModule,
+    DsfrFormPasswordModule,
+    DsfrButtonModule,
+    DsfrLinkModule,
   ],
   providers: [SeoService],
   imports: [
@@ -30,7 +46,18 @@ import {
     FontAwesomeModule,
     DsfrFooterModule,
     DsfrSkiplinksModule,
-    DsfrHeaderModule,
+    DsfrAccordionModule,
+    DsfrFormFieldsetModule,
+    DsfrFormInputModule,
+    DsfrFormPasswordModule,
+    DsfrButtonModule,
+    DsfrLinkModule,
+    DsfrAccordionModule,
+    DsfrFormFieldsetModule,
+    DsfrFormInputModule,
+    DsfrFormPasswordModule,
+    DsfrButtonModule,
+    DsfrLinkModule,
   ],
 })
 export class SharedModule {
