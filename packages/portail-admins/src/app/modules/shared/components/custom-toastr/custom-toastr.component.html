@@ -1,14 +1,10 @@
-<ng-container *ngIf="toast">
-  <div id="toast-container">
-    <dsfr-alert
-      *ngIf="toast.display"
-      [headingLevel]="undefined"
-      [message]="toast.message"
-      [severity]="toast.class === 'success' ? 'success' : 'error'"
-      [ariaRoleValue]="'alert'"
-      [hasAriaRole]="false"
-      [closeable]="false"
-      @fadeInOut
-    ></dsfr-alert>
-  </div>
-</ng-container>
+<dsfr-alert
+  id="toast-container"
+  *ngIf="toast && toast.display"
+  [headingLevel]="undefined"
+  [message]="toast.message"
+  [severity]="toast.class === 'success' ? 'success' : 'error'"
+  [ariaRoleValue]="'alert'"
+  [hasAriaRole]="false"
+  [closeable]="toast.dissmissable"
+></dsfr-alert>
