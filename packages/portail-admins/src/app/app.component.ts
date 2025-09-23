@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
     this.adminAuthService.currentAdminSubject.subscribe(
       (admin: PortailAdminUser | null) => {
         this.adminProfile = admin;
-        if (admin && admin.role === "super-admin-domifa") {
+        if (admin?.role === "super-admin-domifa") {
           // left logout button
           this.headerToolsLinks = [
             {
