@@ -31,7 +31,7 @@ export class FaqComponent implements OnInit {
       maxShutdownTime: "30 minutes",
     },
     {
-      action: "Maintenance trimestrielle	",
+      action: "Maintenance trimestrielle",
       maxShutdownTime: "1 heure",
     },
     {
