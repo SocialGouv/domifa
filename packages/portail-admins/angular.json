@@ -27,7 +27,6 @@
               "src/assets/css/bootstrap-custom.scss",
               "src/assets/css/forms.scss",
               "src/assets/css/fonts.scss",
-              "src/assets/css/main.scss",
               "src/assets/css/print.css"
             ],
             "scripts": ["./node_modules/@gouvfr/dsfr/dist/dsfr/dsfr.module.js"],
