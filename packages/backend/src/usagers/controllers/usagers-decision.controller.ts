@@ -34,6 +34,8 @@ import {
   UsagerDecision,
   UsagerNote,
   Usager,
+  UsagerDecisionStatut,
+  UserStructureRole,
 } from "@domifa/common";
 import { format } from "date-fns";
 import { getLastInteractionOut } from "../../modules/interactions/services";
@@ -59,9 +61,14 @@ export class UsagersDecisionController {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ): Promise<Usager> {
+    const decisionsToCheck: UsagerDecisionStatut[] = [
+      "ATTENTE_DECISION",
+      "INSTRUCTION",
+    ];
+    const rightsToCheck: UserStructureRole[] = ["responsable", "admin"];
     if (
-      !["ATTENTE_DECISION", "INSTRUCTION"].includes(decision.statut) &&
-      !["reposable", "admmin"].includes(user.role)
+      !decisionsToCheck.includes(decision.statut) &&
+      !rightsToCheck.includes(user.role)
     ) {
       throw new Error("CANNOT_SET_DECISION");
     }
