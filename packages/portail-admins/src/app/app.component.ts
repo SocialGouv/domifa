@@ -8,6 +8,7 @@ import { LIENS_PARTENAIRES } from "./modules/general/components/static-pages/pla
 import { PortailAdminUser } from "@domifa/common";
 import { faChartBar } from "@fortawesome/free-regular-svg-icons";
 import { faList, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { DsfrHeaderMenuItem, DsfrLink } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-root",
@@ -21,7 +22,8 @@ export class AppComponent implements OnInit {
   public faUsers = faUsers;
   public faList = faList;
   public currentUrl = "";
-
+  public headerToolsLinks: DsfrLink[] = [];
+  public menuHeaderItems: DsfrHeaderMenuItem[] = [];
   constructor(
     private readonly router: Router,
     private readonly titleService: Title,
@@ -38,6 +40,36 @@ export class AppComponent implements OnInit {
     this.adminAuthService.currentAdminSubject.subscribe(
       (admin: PortailAdminUser | null) => {
         this.adminProfile = admin;
+        if (admin?.role === "super-admin-domifa") {
+          // left logout button
+          this.headerToolsLinks = [
+            {
+              ariaControls: "logoutModal",
+              linkId: "logout",
+              mode: "button",
+              label: "Se déconnecter",
+              icon: "fr-icon-logout-box-r-line",
+            },
+          ];
+          // subheader menun
+          this.menuHeaderItems = [
+            {
+              linkId: "stats",
+              label: "Statistiques de la domiciliation",
+              routerLink: "/stats",
+            },
+            {
+              linkId: "structures",
+              label: "Liste des structures",
+              routerLink: "/structures",
+            },
+            {
+              linkId: "manage-users",
+              label: "Utilisateurs de l'administration",
+              routerLink: "/manage-users",
+            },
+          ];
+        }
       }
     );
 
@@ -72,7 +104,11 @@ export class AppComponent implements OnInit {
       });
   }
 
-  public logout(): void {
-    this.adminAuthService.logoutAndRedirect();
+  public logout(event: DsfrLink): void {
+    if (event.linkId === "logout") {
+      this.headerToolsLinks = [];
+      this.menuHeaderItems = [];
+      this.adminAuthService.logoutAndRedirect();
+    }
   }
 }
