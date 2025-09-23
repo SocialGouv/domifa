@@ -1,4 +1,52 @@
-[
+{
+  "date": "2025-09-23",
+  "description": "Nouveau rôle Agent d’accueil et améliorations diverses",
+  "content": [
+    {
+      "type": "new",
+      "categorie": "Rôles et permissions",
+      "message": [
+        "Un nouveau rôle 'Agent d’accueil' est disponible sur DomiFa.",
+        "Ce rôle vient s’ajouter aux rôles déjà existants : administrateur, gestionnaire, instructeur et facteur.",
+        "L’agent d’accueil dispose des mêmes fonctionnalités que le facteur mais pourra en plus :",
+        "- Télécharger des Cerfas",
+        "- Télécharger les accès à Mon DomiFa",
+        "- Réinitialiser les accès Mon DomiFa",
+        "La procédure reste la même que pour les autres rôles : les administrateurs des structures peuvent attribuer le rôle d’agent d’accueil soit en modifiant le rôle d’un utilisateur existant soit en ajoutant un nouvel utilisateur en sélectionnant ce rôle."
+      ]
+    },
+    {
+      "type": "improvement",
+      "categorie": "Portail Mon DomiFa",
+      "message": [
+        "L’affichage des informations dont la date est dépassée sur Mon DomiFa a été corrigée.",
+        "Vous pouvez à nouveau partager des informations à jour avec les domiciliés."
+      ]
+    },
+    {
+      "type": "improvement",
+      "categorie": "Activation des SMS",
+      "message": [
+        "Si les SMS sont activés par la structure, le choix d’un jour d’envoi devient désormais obligatoire."
+      ]
+    },
+    {
+      "type": "improvement",
+      "categorie": "Cerfa - Date de naissance",
+      "message": [
+        "Corrections apportées sur l'affichage des dates de naissance à J+1 sur les cerfas.",
+        "À l'impression du cerfa, les dates de naissance des domiciliés s'affichent désormais correctement pour les structures en métropole et dans les départements et territoires d'outre-mer."
+      ]
+    },
+    {
+      "type": "improvement",
+      "categorie": "Ajout d'un référent sur un dossier domiciliation",
+      "message": [
+        "L’ajout d'un référent à la création d’une demande de domiciliation est de nouveau fonctionnel."
+      ]
+    }
+  ]
+},
   {
     "date": "2025-07-24",
     "description": "📊 Nouvelle fonctionnalité pour les facteurs : accès aux statistiques",
