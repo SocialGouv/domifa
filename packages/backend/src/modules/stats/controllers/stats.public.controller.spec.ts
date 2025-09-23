@@ -61,7 +61,7 @@ describe("Stats Public Controller", () => {
       const retour: PublicStats = {
         actifs: 11,
         usagersCount: 20,
-        usersCount: 10,
+        usersCount: 11,
         structuresCount: 5,
         courrierInCount: 15,
         courrierOutCount: 2,
