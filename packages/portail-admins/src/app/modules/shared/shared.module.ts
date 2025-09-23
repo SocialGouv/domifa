@@ -40,13 +40,12 @@ import { DsfrAlertModule, DsfrSkiplinksModule } from "@edugouvfr/ngx-dsfr";
     DsfrSkiplinksModule,
   ],
   imports: [
+    DsfrAlertModule,
     CommonModule,
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
     FonctionFormatPipe,
-    DsfrAlertModule,
-    DsfrSkiplinksModule,
   ],
   providers: [AdminStructuresApiClient],
 })

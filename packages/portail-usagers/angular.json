@@ -30,9 +30,7 @@
               "./node_modules/@gouvfr/dsfr/dist/utility/utility.main.min.css",
               "src/assets/css/print.css",
               "src/assets/css/icons.css",
-              "src/assets/css/forms.css",
-              "src/assets/css/main.scss",
-              "src/assets/css/fonts.scss"
+              "src/assets/css/forms.css"
             ],
             "scripts": ["./node_modules/@gouvfr/dsfr/dist/dsfr/dsfr.module.js"]
           },

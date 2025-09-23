@@ -29,6 +29,12 @@ fileignoreconfig:
   checksum: e6d4d9afca6797fbf98f12db96ad37a21d61289539827390ba5b4aefeb92a6b2
 - filename: packages/portail-admins/src/app/modules/admin-structures/utils/structure-filter-criteria.ts
   checksum: c54f1bf45a44280960869561243668e7a92713fb5265f008a95fc3fe66014bf1
+- filename: packages/portail-admins/src/app/modules/general/components/static-pages/politique/politique.component.ts
+  checksum: d1cc83582130541b0aff2b8b3984e907b889c057b21f8f251c9b55583e864703
+- filename: packages/portail-usagers/src/app/modules/general/components/_static/politique/politique.component.html
+  checksum: c569c439ae74865248ff9a0840b658903e31f2b64af367760de27155957c6ea9
+- filename: packages/portail-usagers/src/app/modules/general/components/_static/politique/politique.component.ts
+  checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
 - filename: yarn.lock
   checksum: 075be99c7d081e6dc58ad5b0a0382963b392355221e5f8cf7f18bdcab8dae794
 threshold: medium
