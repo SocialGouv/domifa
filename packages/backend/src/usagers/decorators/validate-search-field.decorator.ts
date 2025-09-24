@@ -3,7 +3,7 @@ import {
   registerDecorator,
   ValidationArguments,
 } from "class-validator";
-import { validateSearchField } from "./validate-search-field";
+import { validateSearchField } from "../utils/validate-search-field";
 
 export function ValidateSearchField(validationOptions?: ValidationOptions) {
   return function (object: object, propertyName: string) {

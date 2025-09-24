@@ -9,7 +9,7 @@ import {
   UsagersFilterCriteriaEntretien,
 } from "@domifa/common";
 import { Transform } from "class-transformer";
-import { ValidateSearchField } from "../utils";
+import { ValidateSearchField } from "../decorators";
 
 export class SearchUsagerDto {
   @ApiProperty({

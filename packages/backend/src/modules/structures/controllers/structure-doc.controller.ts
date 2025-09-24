@@ -81,6 +81,7 @@ export class StructureDocController {
 
   @ApiOperation({ summary: "Upload de documents personnalisables" })
   @Post("")
+  @AllowUserStructureRoles("responsable", "admin")
   @UseInterceptors(
     FileInterceptor("file", {
       limits: FILES_SIZE_LIMIT,
@@ -193,6 +194,7 @@ export class StructureDocController {
   }
 
   @Delete(":uuid")
+  @AllowUserStructureRoles("responsable", "admin")
   public async deleteDocument(
     @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @CurrentUser() user: UserStructureAuthenticated,

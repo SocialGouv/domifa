@@ -50,7 +50,8 @@ export class UsagerNoteAccessGuard implements CanActivate {
       r.usagerNote = usagerNote;
       return r;
     } catch (e) {
-      appLogger.error("[UsagerNoteAccessGuard] usager doc not found", {
+      appLogger.error(e);
+      appLogger.error("[UsagerNoteAccessGuard] usager note not found", {
         sentry: true,
         context: {
           usagerRef,
