@@ -9,12 +9,13 @@ import { Usager, CerfaDocType, generateMotifLabel } from "@domifa/common";
 import { getUsagerRef } from "./get-usager-ref";
 import { UsagerCerfaFields } from "../../constants/cerfa";
 import { getDecisionDate } from "./get-decision-date";
-import { getStringFromData } from "../../../util";
+import { appLogger, getStringFromData } from "../../../util";
 
 export const generateCerfaData = (
   usager: Usager,
   user: UserStructureAuthenticated,
-  typeCerfa: CerfaDocType
+  typeCerfa: CerfaDocType,
+  decisionUuid?: string
 ): UsagerCerfaFields => {
   const usagerRef = getUsagerRef(usager);
 
@@ -26,9 +27,25 @@ export const generateCerfaData = (
 
   const dateOfDocument = getDateForCerfa(new Date());
 
+  let decisionToUse = usager.decision;
+
+  if (decisionUuid) {
+    const decisionFromHistory = usager.historique.find(
+      (decision) => decision.uuid === decisionUuid
+    );
+
+    if (decisionFromHistory) {
+      decisionToUse = decisionFromHistory;
+    } else {
+      appLogger.warn(`Decision not found: ${decisionUuid}`);
+      throw new Error("CERFA_INDEX_UNDEFINED");
+    }
+  }
+
   const { datePremiereDom, dateDebut, dateFin } = getDecisionDate(
     typeCerfa,
-    usager
+    usager,
+    decisionToUse
   );
 
   usager.villeNaissance = usager.villeNaissance.toUpperCase();
@@ -55,9 +72,7 @@ export const generateCerfaData = (
   ).toUpperCase();
 
   const motif =
-    usager.decision.statut === "REFUS"
-      ? generateMotifLabel(usager.decision)
-      : "";
+    decisionToUse.statut === "REFUS" ? generateMotifLabel(decisionToUse) : "";
 
   return {
     adresse: adresseDomicilie,
@@ -75,7 +90,7 @@ export const generateCerfaData = (
     ayantsDroits: getAyantsDroit(usager),
     courriel,
     courrielOrga: user.structure.email,
-    decision: usager.decision.statut === "REFUS" ? "2" : "",
+    decision: decisionToUse.statut === "REFUS" ? "2" : "",
     entretienAdresse: adresseStructure,
     entretienAvec,
     heureRdv: dateRdv.heure,
@@ -106,9 +121,9 @@ export const generateCerfaData = (
     noms1: usager.nom,
     noms2: usager.nom,
     numeroUsager: usagerRef,
-    orientation: isNil(usager.decision.orientationDetails)
+    orientation: isNil(decisionToUse.orientationDetails)
       ? ""
-      : usager.decision.orientationDetails ?? "",
+      : decisionToUse.orientationDetails ?? "",
     prefecture1: prefecture,
     prefecture2: prefecture,
     prenoms1: usager.prenom,
@@ -122,6 +137,6 @@ export const generateCerfaData = (
     signature2: user.structure.ville.toUpperCase(),
     telephone: getPhoneString(usager.telephone),
     telephoneOrga: getPhoneString(user.structure.telephone),
-    typeDemande: usager.typeDom === "RENOUVELLEMENT" ? "2" : "1",
+    typeDemande: decisionToUse.typeDom === "RENOUVELLEMENT" ? "2" : "1",
   };
 };

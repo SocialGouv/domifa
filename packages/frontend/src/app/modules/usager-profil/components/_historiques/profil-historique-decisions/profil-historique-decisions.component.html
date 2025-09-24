@@ -26,34 +26,44 @@
     <tbody>
       <tr
         *ngFor="
-          let histo of usager.historique | sortArray : currentKey : sortValue;
+          let decision of usager.historique
+            | sortArray : currentKey : sortValue;
           let i = index
         "
         [attr.aria-rowindex]="i + 1"
       >
         <td>
-          {{ histo.dateDecision | date : "dd MMMM yyyy à HH:mm" }}
+          {{ decision.dateDecision | date : "dd MMMM yyyy à HH:mm" }}
         </td>
         <td>
-          {{ USAGER_DECISION_STATUT_LABELS_PROFIL[histo.statut] }}
-          <span *ngIf="histo.statut === 'REFUS' || histo.statut === 'RADIE'">
-            le {{ histo.dateDebut | date : "dd MMMM yyyy" }}
+          {{ USAGER_DECISION_STATUT_LABELS_PROFIL[decision.statut] }}
+          <span
+            *ngIf="decision.statut === 'REFUS' || decision.statut === 'RADIE'"
+          >
+            le {{ decision.dateDebut | date : "dd MMMM yyyy" }}
           </span>
 
-          <span *ngIf="histo.statut === 'VALIDE'">
+          <span *ngIf="decision.statut === 'VALIDE'">
             du
             <strong>
-              {{ histo.dateDebut | date : "dd MMMM yyyy" }}
+              {{ decision.dateDebut | date : "dd MMMM yyyy" }}
             </strong>
             au
-            <strong>{{ histo.dateFin | date : "dd MMMM yyyy" }}</strong>
+            <strong>{{ decision.dateFin | date : "dd MMMM yyyy" }}</strong>
           </span>
-          <div *ngIf="histo.statut === 'RADIE'">
-            {{ histo.motifString }}
+          <div *ngIf="decision.statut === 'RADIE'">
+            {{ decision.motifString }}
           </div>
         </td>
-        <td>{{ histo.userName }}</td>
+        <td>{{ decision.userName }}</td>
         <td class="text-end d-print-none">
+          <app-button
+            *ngIf="decision.statut === 'VALIDE'"
+            [content]="'Cerfa'"
+            icon="download"
+            class="me-2"
+            (action)="getCerfa(decision.uuid)"
+          ></app-button>
           <app-delete-usager-menu
             *ngIf="i === 0 && displayDeleteButton"
             [usager]="usager"

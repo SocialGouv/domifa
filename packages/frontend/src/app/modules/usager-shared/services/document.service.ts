@@ -1,4 +1,9 @@
-import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpEvent,
+  HttpEventType,
+  HttpParams,
+} from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { saveAs } from "file-saver";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
@@ -19,7 +24,6 @@ import { DocumentPatchForm } from "../components/edit-usager-doc/edit-usager-doc
 })
 export class DocumentService {
   public endPoint: string;
-  public endPointUsagers = `${environment.apiUrl}usagers`;
 
   constructor(
     private readonly http: HttpClient,
@@ -56,12 +60,24 @@ export class DocumentService {
       );
   }
 
-  public getCerfa(usagerRef: number, typeCerfa: CerfaDocType): void {
+  public getCerfa(
+    usagerRef: number,
+    typeCerfa: CerfaDocType,
+    decisionUuid?: string
+  ): void {
     this.loadingService.startLoading();
 
+    const url = `${this.endPoint}cerfa/${usagerRef}/${typeCerfa}`;
+
+    let params = new HttpParams();
+    if (decisionUuid) {
+      params = params.set("decisionUuid", decisionUuid);
+    }
+
     this.http
-      .get(`${this.endPointUsagers}/cerfa/${usagerRef}/${typeCerfa}`, {
+      .get(url, {
         responseType: "blob",
+        params: params,
       })
       .subscribe({
         next: (x: Blob) => {
@@ -82,7 +98,6 @@ export class DocumentService {
         },
       });
   }
-
   public getDocument(usagerRef: number, uuid: string): Observable<Blob> {
     return this.http.get(`${this.endPoint}${usagerRef}/${uuid}`, {
       responseType: "blob",

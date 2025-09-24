@@ -55,8 +55,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
   public passwordForm!: UntypedFormGroup;
   public userForm!: UntypedFormGroup;
 
-  public emailExist: boolean;
-
   private readonly subscription = new Subscription();
   private readonly unsubscribe: Subject<void> = new Subject();
   public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
@@ -92,8 +90,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.editUser = false;
 
     this.hideOldPassword = true;
-
-    this.emailExist = false;
     this.loading = false;
     this.usagers$ = of([]);
 

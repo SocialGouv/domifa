@@ -41,8 +41,6 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public success: boolean;
 
-  public emailExist = false;
-
   private readonly unsubscribe: Subject<void> = new Subject();
   private readonly subscription = new Subscription();
 
