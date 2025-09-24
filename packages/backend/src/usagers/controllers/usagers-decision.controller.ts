@@ -62,9 +62,7 @@ export class UsagersDecisionController {
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ): Promise<Usager> {
     if (!canAddDecision(user.role, decision.statut)) {
-      throw new ForbiddenException(
-        "Permissions insuffisantes pour cette action"
-      );
+      throw new ForbiddenException("INSUFFICIENT_PERMISSIONS_FOR_DECISION");
     }
     decision.userName = `${user.prenom} ${user.nom}`;
     decision.userId = user.id;

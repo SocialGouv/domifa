@@ -18,5 +18,5 @@ export const canAddDecision = (
     REFUS: canValidateOrRefuse,
   };
 
-  return permissions[decisionStatus] || false;
+  return permissions[decisionStatus];
 };

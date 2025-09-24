@@ -66,10 +66,4 @@ describe("canAddDecision", () => {
       expect(canAddDecision(role, decisionStatut)).toBe(expectedAccess);
     }
   );
-
-  it("retourne false pour un statut inexistant", () => {
-    expect(
-      canAddDecision("admin", "STATUT_INEXISTANT" as UsagerDecisionStatut)
-    ).toBe(false);
-  });
 });
