@@ -1,3 +1,10 @@
+## [2.221.7](https://github.com/SocialGouv/domifa/compare/v2.221.6...v2.221.7) (2025-09-24)
+
+
+### Bug Fixes
+
+* **backend:** fix rights to take a decision ([#3934](https://github.com/SocialGouv/domifa/issues/3934)) ([2813411](https://github.com/SocialGouv/domifa/commit/2813411a07551440368d485fe87a78412bf013be))
+
 ## [2.221.6](https://github.com/SocialGouv/domifa/compare/v2.221.5...v2.221.6) (2025-09-23)
 
 
