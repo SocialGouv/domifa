@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   HttpStatus,
   Param,
@@ -34,11 +35,10 @@ import {
   UsagerDecision,
   UsagerNote,
   Usager,
-  UsagerDecisionStatut,
-  UserStructureRole,
 } from "@domifa/common";
 import { format } from "date-fns";
 import { getLastInteractionOut } from "../../modules/interactions/services";
+import { canAddDecision } from "../guards";
 
 @Controller("usagers-decision")
 @ApiTags("usagers-decision")
@@ -61,18 +61,11 @@ export class UsagersDecisionController {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ): Promise<Usager> {
-    const decisionsToCheck: UsagerDecisionStatut[] = [
-      "ATTENTE_DECISION",
-      "INSTRUCTION",
-    ];
-    const rightsToCheck: UserStructureRole[] = ["responsable", "admin"];
-    if (
-      !decisionsToCheck.includes(decision.statut) &&
-      !rightsToCheck.includes(user.role)
-    ) {
-      throw new Error("CANNOT_SET_DECISION");
+    if (!canAddDecision(user.role, decision.statut)) {
+      throw new ForbiddenException(
+        "Permissions insuffisantes pour cette action"
+      );
     }
-
     decision.userName = `${user.prenom} ${user.nom}`;
     decision.userId = user.id;
 
