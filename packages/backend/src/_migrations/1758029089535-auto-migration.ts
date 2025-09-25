@@ -85,7 +85,9 @@ export class AutoMigration1758029089535 implements MigrationInterface {
               `[Migration] File not found for document ${doc.uuid} (${doc.label}), path: ${filePath}`
             );
           } else {
-            console.log(`🟥 ${filePath} - ${filesize} `);
+            appLogger.warn(
+              `[Migration] Unexpected filesize value ${filesize} for document ${doc.uuid} (${doc.label}), path: ${filePath}`
+            );
           }
         } catch (error) {
           appLogger.error(

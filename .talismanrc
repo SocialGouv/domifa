@@ -1,35 +1,35 @@
 fileignoreconfig:
-  - filename: .anonymizer/yarn.lock
-    checksum: adf574ab2b9fc5e21891b802504438b9f7738c8854047dbc7ca628cd3994ef5f
-  - filename: .kontinuous/env/dev/templates/backend.sealed-secret.yaml
-    checksum: eb02b7f4930980a6ad41118a3cae40e682d3322d1a3eba9b19b17da72e321136
-  - filename: .kontinuous/env/preprod/templates/backend.sealed-secret.yaml
-    checksum: 08602bd330f851a3a7a62707623f154cf4e33d43c96087b85531fee32dad342e
-  - filename: _docs/dev/0.run-local-env.md
-    checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
-  - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-    checksum: cd64c7d841dc5554b79d88f5fffa5f3021c893dd41371cf54e772b0b8ce8c85f
-  - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-    checksum: f2b858ed32143bd4fffebf6c68918beaac6658c11b80349b8f5e832a383e708b
-  - filename: packages/backend/package.json
-    checksum: 2f5813dbc35cdc3659516beabf9f93e2978eb62d1b5403cfbb2907f22bb25355
-  - filename: packages/backend/src/_migrations/1757532174131-auto-migration.ts
-    checksum: e2d06e63d58935b349f2591b0a3c407c254be26c4e833456829e7c605fc7411b
-  - filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
-    checksum: 8b421c413bab4f2419972dec548a5399879f497a8c75c9b240bbf8c123cfab06
-  - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.spec.ts
-    checksum: 8f66091255109d0da277819584c6c69d4a7f720256842851a49b0dda16af6651
-  - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.ts
-    checksum: a0fbc6fca054f17c58d411b55a45acfa2351309a270968298aafcede7b7ae31f
-  - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/services/structuresSearchStringFilter.service.ts
-    checksum: fe3243c2d2adc23ed62431597b6ae7b3cb61fb25d876f1ada2de5387f0872b0b
-  - filename: packages/portail-admins/src/app/modules/admin-structures/components/structure-filters/structure-filters.component.spec.ts
-    checksum: d202296bc7f349c0dc6bf140be961d8c321f57d9188325a07c49a6ca10c55b3b
-  - filename: packages/portail-admins/src/app/modules/admin-structures/components/structure-filters/structure-filters.component.ts
-    checksum: e6d4d9afca6797fbf98f12db96ad37a21d61289539827390ba5b4aefeb92a6b2
-  - filename: packages/portail-admins/src/app/modules/admin-structures/utils/structure-filter-criteria.ts
-    checksum: c54f1bf45a44280960869561243668e7a92713fb5265f008a95fc3fe66014bf1
-  - filename: yarn.lock
-    checksum: 075be99c7d081e6dc58ad5b0a0382963b392355221e5f8cf7f18bdcab8dae794
+- filename: .anonymizer/yarn.lock
+  checksum: adf574ab2b9fc5e21891b802504438b9f7738c8854047dbc7ca628cd3994ef5f
+- filename: .kontinuous/env/dev/templates/backend.sealed-secret.yaml
+  checksum: eb02b7f4930980a6ad41118a3cae40e682d3322d1a3eba9b19b17da72e321136
+- filename: .kontinuous/env/preprod/templates/backend.sealed-secret.yaml
+  checksum: 08602bd330f851a3a7a62707623f154cf4e33d43c96087b85531fee32dad342e
+- filename: _docs/dev/0.run-local-env.md
+  checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
+- filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
+  checksum: fc6ce54e46e696ecc5a94a967a8dea5d4b477bb837b4e84135f8f13733d9fe2c
+- filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
+  checksum: 0c3e2975b2239ca1efd5746a823b5f97059bfb8438137e8a6ae4af39b72d92a6
+- filename: packages/backend/package.json
+  checksum: 2f5813dbc35cdc3659516beabf9f93e2978eb62d1b5403cfbb2907f22bb25355
+- filename: packages/backend/src/_migrations/1757532174131-auto-migration.ts
+  checksum: e2d06e63d58935b349f2591b0a3c407c254be26c4e833456829e7c605fc7411b
+- filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
+  checksum: 8b421c413bab4f2419972dec548a5399879f497a8c75c9b240bbf8c123cfab06
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.spec.ts
+  checksum: 8f66091255109d0da277819584c6c69d4a7f720256842851a49b0dda16af6651
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.ts
+  checksum: a0fbc6fca054f17c58d411b55a45acfa2351309a270968298aafcede7b7ae31f
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/services/structuresSearchStringFilter.service.ts
+  checksum: fe3243c2d2adc23ed62431597b6ae7b3cb61fb25d876f1ada2de5387f0872b0b
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/structure-filters/structure-filters.component.spec.ts
+  checksum: d202296bc7f349c0dc6bf140be961d8c321f57d9188325a07c49a6ca10c55b3b
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/structure-filters/structure-filters.component.ts
+  checksum: e6d4d9afca6797fbf98f12db96ad37a21d61289539827390ba5b4aefeb92a6b2
+- filename: packages/portail-admins/src/app/modules/admin-structures/utils/structure-filter-criteria.ts
+  checksum: c54f1bf45a44280960869561243668e7a92713fb5265f008a95fc3fe66014bf1
+- filename: yarn.lock
+  checksum: 075be99c7d081e6dc58ad5b0a0382963b392355221e5f8cf7f18bdcab8dae794
 threshold: medium
 version: "1.0"

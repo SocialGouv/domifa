@@ -22,6 +22,11 @@ import { Response } from "express";
 import { compressAndResizeImage } from "./FileManager";
 import { appLogger } from "../logs";
 
+export enum FILE_SIZE_ERRORS {
+  NOT_FOUND = -1,
+  ERROR = -2,
+}
+
 @Injectable()
 export class FileManagerService {
   private readonly s3: S3Client;
@@ -300,12 +305,12 @@ export class FileManagerService {
         error.name === "NotFound" ||
         error.$metadata?.httpStatusCode === 404
       ) {
-        return -1;
+        return FILE_SIZE_ERRORS.NOT_FOUND;
       } else {
         appLogger.error(
           `Error getting file size for ${filePath}: ${error.message}`
         );
-        return -2;
+        return FILE_SIZE_ERRORS.ERROR;
       }
     }
   }
