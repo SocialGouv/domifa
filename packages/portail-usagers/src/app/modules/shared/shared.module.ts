@@ -16,6 +16,7 @@ import {
   DsfrFormFieldsetModule,
   DsfrFormInputModule,
   DsfrFormPasswordModule,
+  DsfrHeaderModule,
   DsfrLinkModule,
   DsfrSkiplinksModule,
 } from "@edugouvfr/ngx-dsfr";
@@ -39,6 +40,7 @@ import {
     DsfrFormPasswordModule,
     DsfrButtonModule,
     DsfrLinkModule,
+    DsfrHeaderModule,
   ],
   providers: [SeoService],
   imports: [
@@ -58,6 +60,7 @@ import {
     DsfrFormPasswordModule,
     DsfrButtonModule,
     DsfrLinkModule,
+    DsfrHeaderModule,
   ],
 })
 export class SharedModule {
