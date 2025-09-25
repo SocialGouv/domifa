@@ -32,7 +32,7 @@ export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef
           {
             roles: ["simple", "responsable", "admin", "agent"],
             validExpectedResponseStatus: HttpStatus.OK,
-            validStructureIds: [1],
+            validStructureIds: [1, 3],
           }
         ),
       }),

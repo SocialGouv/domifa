@@ -1,5 +1,5 @@
 import { isNil } from "lodash";
-import { getAddress, getAyantsDroit, getDateForCerfa } from ".";
+import { CerfaTypeDom, getAddress, getAyantsDroit, getDateForCerfa } from ".";
 
 import { getPhoneString } from "../../../util/phone/phoneUtils.service";
 import { UserStructureAuthenticated } from "../../../_common/model";
@@ -137,6 +137,9 @@ export const generateCerfaData = (
     signature2: user.structure.ville.toUpperCase(),
     telephone: getPhoneString(usager.telephone),
     telephoneOrga: getPhoneString(user.structure.telephone),
-    typeDemande: decisionToUse.typeDom === "RENOUVELLEMENT" ? "2" : "1",
+    typeDemande:
+      decisionToUse.typeDom === "RENOUVELLEMENT"
+        ? CerfaTypeDom.RENOUVELLEMENT
+        : CerfaTypeDom.PREMIERE_DEMANDE,
   };
 };
