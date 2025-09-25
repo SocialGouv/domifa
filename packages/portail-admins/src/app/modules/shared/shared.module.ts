@@ -17,6 +17,11 @@ import {
 import { FonctionSelectionComponent } from "./components/fonction-selection/fonction-selection.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
+import {
+  DsfrAlertModule,
+  DsfrSkiplinksModule,
+  DsfrFooterModule,
+} from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [
@@ -28,6 +33,8 @@ import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
     FonctionSelectionComponent,
   ],
   exports: [
+    DsfrAlertModule,
+    DsfrFooterModule,
     UcFirstPipe,
     FormatPhoneNumberPipe,
     FormatBigNumberPipe,
@@ -36,8 +43,10 @@ import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
     CustomToastrComponent,
     FonctionSelectionComponent,
     FonctionFormatPipe,
+    DsfrSkiplinksModule,
   ],
   imports: [
+    DsfrAlertModule,
     CommonModule,
     FontAwesomeModule,
     FormsModule,

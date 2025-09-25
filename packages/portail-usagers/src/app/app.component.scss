@@ -7,9 +7,6 @@
 
 .navbar {
   border-top: 5px solid var(--bs-primary);
-  .navbar-brand {
-    padding: 0.5rem;
-  }
 }
 
 footer {
@@ -28,30 +25,6 @@ footer {
   li {
     padding: 0.25rem 0;
   }
-}
-
-#skip-links {
-  width: 100%;
-  padding: 0.25rem 0;
-  background-color: white;
-  position: absolute;
-  top: 0;
-  transform: translateY(-100%);
-
-  li {
-    display: inline-block;
-    list-style-type: none;
-  }
-
-  a {
-    display: block;
-    padding: 1rem 2rem;
-  }
-}
-
-#skip-links:focus-within {
-  position: relative;
-  transform: translateY(0%);
 }
 
 #matomo-info a {
