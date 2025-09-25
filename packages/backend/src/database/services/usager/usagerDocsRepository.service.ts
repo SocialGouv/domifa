@@ -2,13 +2,16 @@ import { UsagerDoc } from "@domifa/common";
 import { UsagerDocsTable } from "../../entities";
 import { myDataSource } from "../_postgres";
 
-export const USAGER_DOCS_FIELDS_TO_SELECT = {
+export const USAGER_DOCS_FIELDS_TO_SELECT: {
+  [key in keyof UsagerDoc]?: boolean;
+} = {
   filetype: true,
   label: true,
   uuid: true,
   createdAt: true,
   createdBy: true,
   shared: true,
+  filesize: true,
 };
 
 export const usagerDocsRepository = myDataSource

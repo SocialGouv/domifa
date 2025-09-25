@@ -22,6 +22,11 @@ import { Response } from "express";
 import { compressAndResizeImage } from "./FileManager";
 import { appLogger } from "../logs";
 
+export enum FILE_SIZE_ERRORS {
+  NOT_FOUND = -1,
+  ERROR = -2,
+}
+
 @Injectable()
 export class FileManagerService {
   private readonly s3: S3Client;
@@ -283,5 +288,30 @@ export class FileManagerService {
     throw new TypeError(
       `Unsupported input type for toNodeReadable: ${typeof input}`
     );
+  }
+
+  public async getFileSize(filePath: string): Promise<number> {
+    try {
+      const headResult = await this.s3.send(
+        new HeadObjectCommand({
+          Bucket: domifaConfig().upload.bucketName,
+          Key: `${domifaConfig().upload.bucketRootDir}/${filePath}`,
+        })
+      );
+
+      return headResult.ContentLength || 0;
+    } catch (error) {
+      if (
+        error.name === "NotFound" ||
+        error.$metadata?.httpStatusCode === 404
+      ) {
+        return FILE_SIZE_ERRORS.NOT_FOUND;
+      } else {
+        appLogger.error(
+          `Error getting file size for ${filePath}: ${error.message}`
+        );
+        return FILE_SIZE_ERRORS.ERROR;
+      }
+    }
   }
 }

@@ -101,6 +101,7 @@ export class UsagerDocsController {
     const userName = `${user.prenom} ${user.nom}`;
 
     const path = randomName(file);
+    const filesize = file.buffer ? file.buffer.length : file.size;
 
     const newDoc: UsagerDocsTable = new UsagerDocsTable({
       createdAt: new Date(),
@@ -113,6 +114,7 @@ export class UsagerDocsController {
       usagerUUID: currentUsager.uuid,
       encryptionContext,
       encryptionVersion: 0,
+      filesize,
     });
 
     try {
