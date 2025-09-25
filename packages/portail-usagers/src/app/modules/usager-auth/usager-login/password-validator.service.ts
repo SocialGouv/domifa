@@ -3,7 +3,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 export class PasswordValidator {
   public static patternValidator(
     regex: RegExp,
-    error: ValidationErrors,
+    error: ValidationErrors
   ): ValidatorFn {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -13,6 +13,10 @@ export class PasswordValidator {
       const valid = regex.test(control.value);
       return valid ? null : error;
     };
+  }
+
+  public onClick(event: Event) {
+    console.log(event);
   }
 
   public static fieldsNotEqualsValidator({
