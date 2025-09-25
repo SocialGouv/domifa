@@ -1,3 +1,5 @@
+import { CerfaTypeDom } from "../../utils";
+
 // Liste des champs disponibles dans les Cerfa de demande et d'attestation
 export interface UsagerCerfaFields {
   adresse: string;
@@ -60,5 +62,5 @@ export interface UsagerCerfaFields {
   signature2: string;
   telephone: string;
   telephoneOrga: string;
-  typeDemande: string;
+  typeDemande: CerfaTypeDom;
 }

@@ -5,7 +5,6 @@ import {
   Get,
   HttpStatus,
   Param,
-  ParseEnumPipe,
   ParseIntPipe,
   Patch,
   Post,
@@ -49,15 +48,12 @@ import {
 } from "../dto";
 import { UsagersService } from "../services";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
-import { generateCerfaData } from "../utils/cerfa";
 
-import { join, resolve } from "path";
-import { readFile } from "fs-extra";
+import { join } from "path";
 import { ExpressResponse } from "../../util/express";
 import {
   Usager,
   ETAPE_DOCUMENTS,
-  CerfaDocType,
   ALL_USER_STRUCTURE_ROLES,
 } from "@domifa/common";
 import { UsagerHistoryStateService } from "../services/usagerHistoryState.service";
@@ -66,7 +62,6 @@ import { FileManagerService } from "../../util/file-manager/file-manager.service
 import { AssignReferrersDto } from "../dto/assign-referrers.dto";
 import { In } from "typeorm";
 import { UsagersLogsService } from "../services/usagers-logs.service";
-import { input } from "node-pdftk";
 @Controller("usagers")
 @ApiTags("usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -364,38 +359,6 @@ export class UsagersController {
       console.warn(e);
     }
     return res.status(HttpStatus.OK).json({ message: "DELETE_SUCCESS" });
-  }
-
-  @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("admin", "agent", "responsable", "simple")
-  @Get("cerfa/:usagerRef/:typeCerfa")
-  public async getAttestation(
-    @Res() res: Response,
-    @Param("typeCerfa", new ParseEnumPipe(CerfaDocType))
-    typeCerfa: CerfaDocType,
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
-    @CurrentUser() user: UserStructureAuthenticated,
-    @CurrentUsager() currentUsager: Usager
-  ) {
-    const pdfForm =
-      typeCerfa === CerfaDocType.attestation ||
-      typeCerfa === CerfaDocType.attestation_future
-        ? "../../_static/static-docs/attestation.pdf"
-        : "../../_static/static-docs/demande.pdf";
-
-    const pdfInfos = generateCerfaData(currentUsager, user, typeCerfa);
-
-    const filePath = await readFile(resolve(__dirname, pdfForm));
-
-    try {
-      const buffer = await input(filePath).fillForm(pdfInfos).output();
-      return res.setHeader("content-type", "application/pdf").send(buffer);
-    } catch (err) {
-      appLogger.error(err);
-      return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "CERFA_ERROR" });
-    }
   }
 
   @UseGuards(UsagerAccessGuard)

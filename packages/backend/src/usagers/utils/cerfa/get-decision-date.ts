@@ -1,17 +1,23 @@
 import { subDays, addYears } from "date-fns";
 import { getDateForCerfa, resetDate } from "./get-date-for-cerfa";
-import { CerfaDocType, Usager } from "@domifa/common";
+import { CerfaDocType, Usager, UsagerDecision } from "@domifa/common";
+import { DateCerfa } from "../../constants/cerfa";
 
 export const getDecisionDate = (
   typeCerfa: CerfaDocType,
   usager: Pick<
     Usager,
     "datePremiereDom" | "decision" | "historique" | "typeDom"
-  >
-) => {
+  >,
+  decision: UsagerDecision
+): {
+  datePremiereDom: DateCerfa;
+  dateDebut: DateCerfa;
+  dateFin: DateCerfa;
+} => {
   let datePremiereDom = getDateForCerfa(usager.datePremiereDom);
-  let dateDebut = getDateForCerfa(usager.decision.dateDebut);
-  let dateFin = getDateForCerfa(usager.decision.dateFin);
+  let dateDebut = getDateForCerfa(decision.dateDebut);
+  let dateFin = getDateForCerfa(decision.dateFin);
 
   if (!usager?.datePremiereDom) {
     datePremiereDom = getDateForCerfa(new Date());
@@ -20,11 +26,11 @@ export const getDecisionDate = (
   if (
     (typeCerfa === CerfaDocType.attestation ||
       typeCerfa === CerfaDocType.attestation_future) &&
-    (usager.decision.statut === "INSTRUCTION" ||
-      usager.decision.statut === "ATTENTE_DECISION")
+    (decision.statut === "INSTRUCTION" ||
+      decision.statut === "ATTENTE_DECISION")
   ) {
     const index =
-      usager.decision.statut === "INSTRUCTION"
+      decision.statut === "INSTRUCTION"
         ? usager.historique.length - 2
         : usager.historique.length - 3;
 

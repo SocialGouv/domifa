@@ -1,4 +1,5 @@
 import { UsagerCerfaFields } from "../../../constants/cerfa";
+import { CerfaTypeDom } from "../CerfaTypeDom.enum";
 
 export const CERFA_MOCK_USAGER_ACTIF: UsagerCerfaFields = {
   adresse: "CCAS de Test\n1 rue de l'océan\n92600 - Asnieres-sur-seine",
@@ -61,7 +62,7 @@ export const CERFA_MOCK_USAGER_ACTIF: UsagerCerfaFields = {
   signature2: "ASNIERES-SUR-SEINE",
   telephone: "06 06 06 06 06",
   telephoneOrga: "06 02 03 04 05",
-  typeDemande: "2",
+  typeDemande: CerfaTypeDom.RENOUVELLEMENT,
 };
 
 export const CERFA_MOCK_USAGER_REFUS: UsagerCerfaFields = {
@@ -125,5 +126,5 @@ export const CERFA_MOCK_USAGER_REFUS: UsagerCerfaFields = {
   signature2: "ASNIERES-SUR-SEINE",
   telephone: "",
   telephoneOrga: "06 02 03 04 05",
-  typeDemande: "1",
+  typeDemande: CerfaTypeDom.PREMIERE_DEMANDE,
 };

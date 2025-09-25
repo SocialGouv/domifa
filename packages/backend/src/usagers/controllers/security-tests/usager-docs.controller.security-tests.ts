@@ -13,8 +13,93 @@ import {
 
 const CONTROLLER = "UsagerDocsController";
 
+jest.mock("node-pdftk", () => ({
+  input: () => ({
+    fillForm: () => ({ output: () => Promise.resolve(Buffer.from("pdf")) }),
+  }),
+}));
+
 export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef[] =
   [
+    {
+      label: `${CONTROLLER}.getCerfa - without decisionUuid`,
+      query: async (context: AppTestContext) => ({
+        response: await AppTestHttpClient.get("/docs/cerfa/1/attestation", {
+          context,
+        }),
+        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+          context.user,
+          {
+            roles: ["simple", "responsable", "admin", "agent"],
+            validExpectedResponseStatus: HttpStatus.OK,
+            validStructureIds: [1, 3],
+          }
+        ),
+      }),
+    },
+    {
+      label: `${CONTROLLER}.getCerfa - with valid decisionUuid`,
+      query: async (context: AppTestContext) => ({
+        response: await AppTestHttpClient.get(
+          "/docs/cerfa/1/attestation?decisionUuid=52ba789e-eb21-4d84-9176-abe1e0d3c778",
+          {
+            context,
+          }
+        ),
+        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+          context.user,
+          {
+            roles: ["simple", "responsable", "admin", "agent"],
+            validExpectedResponseStatus: HttpStatus.OK,
+            invalidStructureIdExpectedResponseStatus:
+              HttpStatus.INTERNAL_SERVER_ERROR,
+            validStructureIds: [1],
+          }
+        ),
+      }),
+    },
+    {
+      label: `${CONTROLLER}.getCerfa - with invalid UUID format`,
+      query: async (context: AppTestContext) => ({
+        response: await AppTestHttpClient.get(
+          "/docs/cerfa/1/attestation?decisionUuid=invalid-uuid",
+          {
+            context,
+          }
+        ),
+        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+          context.user,
+          {
+            roles: ["simple", "responsable", "admin", "agent"],
+            validExpectedResponseStatus: HttpStatus.INTERNAL_SERVER_ERROR, // Invalid UUID format
+            invalidStructureIdExpectedResponseStatus:
+              HttpStatus.INTERNAL_SERVER_ERROR,
+            validStructureIds: [1],
+          }
+        ),
+      }),
+    },
+    {
+      label: `${CONTROLLER}.getCerfa - with non-existing decisionUuid`,
+      query: async (context: AppTestContext) => ({
+        response: await AppTestHttpClient.get(
+          "/docs/cerfa/1/attestation?decisionUuid=f47ac10b-58cc-4372-a567-0e02b2c3d479",
+          {
+            context,
+          }
+        ),
+        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+          context.user,
+          {
+            roles: ["simple", "responsable", "admin", "agent"],
+            validExpectedResponseStatus: HttpStatus.INTERNAL_SERVER_ERROR, // Non-existing decision
+            invalidStructureIdExpectedResponseStatus:
+              HttpStatus.INTERNAL_SERVER_ERROR,
+            validStructureIds: [1],
+          }
+        ),
+      }),
+    },
     {
       label: `${CONTROLLER}.getDocument`,
       query: async (context: AppTestContext) => ({

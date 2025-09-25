@@ -5,10 +5,12 @@ import {
   Get,
   HttpStatus,
   Param,
+  ParseEnumPipe,
   ParseIntPipe,
   ParseUUIDPipe,
   Patch,
   Post,
+  Query,
   Res,
   UploadedFile,
   UseGuards,
@@ -40,9 +42,9 @@ import { PatchUsagerDocDto, PostUsagerDocDto } from "../dto";
 import crypto from "node:crypto";
 import { ExpressRequest } from "../../util/express";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
-import { Usager, UsagerDoc } from "@domifa/common";
+import { CerfaDocType, Usager, UsagerDoc } from "@domifa/common";
 import {
   USAGER_DOCS_FIELDS_TO_SELECT,
   usagerDocsRepository,
@@ -50,6 +52,10 @@ import {
 } from "../../database";
 import { Response } from "express";
 import { appLogger } from "../../util";
+import { input } from "node-pdftk";
+import { generateCerfaData } from "../utils";
+import { readFile } from "fs-extra";
+import { isUUID } from "class-validator";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("docs")
@@ -221,6 +227,50 @@ export class UsagerDocsController {
     );
 
     return res.status(HttpStatus.OK).json(docs);
+  }
+
+  @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("admin", "agent", "responsable", "simple")
+  @Get("cerfa/:usagerRef/:typeCerfa")
+  public async getCerfa(
+    @Res() res: Response,
+    @Param("typeCerfa", new ParseEnumPipe(CerfaDocType))
+    typeCerfa: CerfaDocType,
+    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @CurrentUser() user: UserStructureAuthenticated,
+    @CurrentUsager() currentUsager: Usager,
+    @Query("decisionUuid") decisionUuid?: string
+  ) {
+    if (decisionUuid && !isUUID(decisionUuid)) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "DECISION_UUID_NOT_FOUND" });
+    }
+
+    const pdfForm =
+      typeCerfa === CerfaDocType.attestation ||
+      typeCerfa === CerfaDocType.attestation_future
+        ? "../../_static/static-docs/attestation.pdf"
+        : "../../_static/static-docs/demande.pdf";
+
+    try {
+      const pdfInfos = generateCerfaData(
+        currentUsager,
+        user,
+        typeCerfa,
+        decisionUuid
+      );
+
+      const filePath = await readFile(resolve(__dirname, pdfForm));
+
+      const buffer = await input(filePath).fillForm(pdfInfos).output();
+      return res.setHeader("content-type", "application/pdf").send(buffer);
+    } catch (err) {
+      appLogger.error(err);
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "CERFA_ERROR" });
+    }
   }
 
   @Get(":usagerRef")
