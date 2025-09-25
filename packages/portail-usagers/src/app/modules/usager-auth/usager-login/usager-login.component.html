@@ -1,441 +1,212 @@
 <div class="login-page" *ngIf="!usagerProfile">
-  <section class="row login-page_form-section m-0">
+  <section class="row fr-background-alt--grey login-page_form-section m-0">
     <div class="col-12 col-md-6 col-sm-6 form-container">
       <form
         class="column d-flex form-container_form-element"
         [formGroup]="loginForm"
         (ngSubmit)="login()"
       >
-        <h3>Connexion à Mon Domifa</h3>
-        <h5>Se connection avec son compte</h5>
-        <!-- Use utility class -->
-        <span style="color: red" class="col-12 col-md-12">
-          * champs obligatoires
-        </span>
-        <!--
-        <div class="form-group required">
-          <label class="fw-bold" for="login">Votre identifiant</label>
-          <input
-            type="text"
-            formControlName="login"
-            autocomplete="username"
-            appUppercase
-            id="login"
-            class="form-control"
-            [attr.aria-invalid]="f.login.dirty && f.login.errors ? true : false"
-            [attr.aria-describedby]="
-              f.login.dirty && f.login.errors ? 'invalid-login' : null
-            "
-            [readonly]="this.mode === 'login-change-password'"
-            [ngClass]="{
-              'is-invalid': f.login.dirty && f.login.errors
-            }"
-          />
-          <p
-            *ngIf="f.login.dirty && f.login.errors"
-            class="invalid-feedback-custom"
-            id="invalid-login"
-          >
-            Veuillez vérifier l'identifiant. Celui-ci se trouve sur le document
-            que vous à remit la structure.
-          </p>
-        </div>
+        <h3 class="align-self-start">Connexion à Mon Domifa</h3>
+        <h5 class="align-self-start">Se connecter avec son compte</h5>
+        <span class="col-12 col-md-12"> * champs obligatoires </span>
+        <dsfr-form-input
+          appUppercase
+          inputId="login"
+          type="email"
+          formControlName="login"
+          autocomplete="username"
+          [ariaInvalid]="f.login.dirty && f.login.errors ? 'true' : 'false'"
+          [ariaDescription]="
+            f.login.dirty && f.login.errors ? 'invalid-login' : null
+          "
+          [disabled]="this.mode === 'login-change-password'"
+          [message]="
+            f.login.dirty && f.login.errors
+              ? 'Veuillez vérifier l\'identifiant. Celui-ci se trouve sur le document que vous à remit la structure.'
+              : ''
+          "
+          [messageSeverity]="
+            f.login.dirty && f.login.errors ? 'error' : 'valid'
+          "
+          [required]="true"
+          [customClass]="'required'"
+          label="identifiant *"
+        ></dsfr-form-input>
         <ng-container *ngIf="this.mode === 'login-change-password'">
           <p>
             C'est votre première connexion, veuillez choisir un nouveau mot de
             passe:
           </p>
-          <div class="form-group required">
-            <label class="fw-bold" for="newPassword"
-              >Nouveau mot de passe</label
-            >
-            <div class="input-group">
-              <input
-                id="newPassword"
-                formControlName="newPassword"
-                [type]="!hidePasswordNew ? 'text' : 'password'"
-                class="form-control"
-                autocomplete="new-password"
-                [ngClass]="{
-                  'is-invalid': f.newPassword.dirty && f.newPassword.errors
-                }"
-                [attr.aria-invalid]="
-                  f.newPassword.dirty && f.newPassword.errors ? true : false
-                "
-                aria-describedby="invalid-password"
-              />
-              <div class="input-group-append">
-                <button
-                  type="button"
-                  role="switch"
-                  class="input-group-text"
-                  [attr.aria-label]="
-                    (hidePasswordNew ? 'Afficher' : 'Masquer') +
-                    ' le mot de passe'
-                  "
-                  [attr.aria-checked]="!hidePasswordNew"
-                  (click)="this.hidePasswordNew = !this.hidePasswordNew"
-                >
-                  <fa-icon
-                    aria-hidden="true"
-                    [icon]="
-                      hidePasswordNew ? ['far', 'eye'] : ['far', 'eye-slash']
-                    "
-                  ></fa-icon>
-                </button>
-              </div>
-            </div>
-            <div
-              *ngIf="f.newPassword?.dirty && f.newPassword?.errors"
-              class="invalid-feedback-custom"
-            >
-              <p *ngIf="f.newPassword.errors?.required">
-                Le mot de passe ne respecte pas les règles indiquées
-              </p>
-            </div>
-          </div>
-
-          <div class="row indications" id="invalid-password">
-            <p
-              class="my-1"
-              [ngClass]="
-                f.newPassword.errors?.required ||
-                f.newPassword.errors?.hasNumber
-                  ? 'text-danger'
-                  : 'text-success'
-              "
-            >
-              <fa-icon
-                aria-hidden="true"
-                [icon]="[
-                  'fas',
-                  f.newPassword.errors?.required ||
-                  f.newPassword.errors?.hasNumber
-                    ? 'times-circle'
-                    : 'check-circle'
-                ]"
-              ></fa-icon>
-              Au moins 1 chiffre
-            </p>
-            <p
-              class="my-1"
-              [ngClass]="
-                f.newPassword.errors?.required ||
-                f.newPassword.errors?.hasCapitalCase
-                  ? 'text-danger'
-                  : 'text-success'
-              "
-            >
-              <fa-icon
-                [icon]="[
-                  'fas',
-                  f.newPassword.errors?.required ||
-                  f.newPassword.errors?.hasCapitalCase
-                    ? 'times-circle'
-                    : 'check-circle'
-                ]"
-                aria-hidden="true"
-              ></fa-icon>
-              Au moins une lettre en majuscule
-            </p>
-            <p
-              class="my-1"
-              [ngClass]="
-                f.newPassword.errors?.required ||
-                f.newPassword.errors?.hasLowerCase
-                  ? 'text-danger'
-                  : 'text-success'
-              "
-            >
-              <fa-icon
-                aria-hidden="true"
-                [icon]="[
-                  'fas',
-                  f.newPassword.errors?.required ||
-                  f.newPassword.errors?.hasLowerCase
-                    ? 'times-circle'
-                    : 'check-circle'
-                ]"
-              ></fa-icon>
-              Au moins une lettre en minuscule
-            </p>
-            <p
-              class="my-1"
-              [ngClass]="
-                f.newPassword.errors?.required ||
-                f.newPassword.errors?.hasSpecialCharacter
-                  ? 'text-danger'
-                  : 'text-success'
-              "
-            >
-              <fa-icon
-                aria-hidden="true"
-                [icon]="[
-                  'fas',
-                  f.newPassword.errors?.required ||
-                  f.newPassword.errors?.hasSpecialCharacter
-                    ? 'times-circle'
-                    : 'check-circle'
-                ]"
-              ></fa-icon>
-              Au moins un caractère spécial:
-              &#64;[]^_!"#$%&amp;&apos;()*+,\-./:;&lbrace;&rbrace;&lt;&gt;=|~?
-            </p>
-            <p
-              class="my-1"
-              [ngClass]="
-                f.newPassword.errors?.required ||
-                f.newPassword.errors?.minlength ||
-                f.newPassword.errors?.maxlength
-                  ? 'text-danger'
-                  : 'text-success'
-              "
-            >
-              <fa-icon
-                aria-hidden="true"
-                [icon]="[
-                  'fas',
-                  f.newPassword.errors?.required ||
-                  f.newPassword.errors?.minlength ||
-                  f.newPassword.errors?.maxlength
-                    ? 'times-circle'
-                    : 'check-circle'
-                ]"
-              ></fa-icon>
-              Doit contenir entre 12 et 150 caractères
-            </p>
-          </div>
-          <div class="mt-3 form-group required">
-            <label class="fw-bold" for="new-password-confirm"
-              >Confirmation du mot de passe</label
-            >
-            <div class="input-group">
-              <input
-                id="new-password-confirm"
-                formControlName="newPasswordConfirm"
-                [type]="!hidePasswordNew ? 'text' : 'password'"
-                class="form-control"
-                autocomplete="new-password"
-                [attr.aria-invalid]="
-                  f.newPasswordConfirm.dirty &&
-                  (f.newPasswordConfirm.errors ||
-                    this.loginForm.hasError(
-                      'new-password-confim-does-not-match'
-                    ))
-                    ? true
-                    : false
-                "
-                aria-describedby="invalid-password"
-                [ngClass]="{
-                  'is-invalid':
-                    f.newPasswordConfirm.dirty &&
-                    (f.newPasswordConfirm.errors ||
-                      this.loginForm.hasError(
-                        'new-password-confim-does-not-match'
-                      ))
-                }"
-              />
-              <div class="input-group-append">
-                <button
-                  class="input-group-text"
-                  [attr.aria-label]="
-                    (hidePasswordNew ? 'Afficher' : 'Masquer') +
-                    ' le mot de passe'
-                  "
-                  [attr.aria-checked]="!hidePasswordNew"
-                  role="switch"
-                  type="button"
-                  (click)="this.hidePasswordNew = !this.hidePasswordNew"
-                >
-                  <fa-icon
-                    aria-hidden="true"
-                    [icon]="
-                      hidePasswordNew ? ['far', 'eye'] : ['far', 'eye-slash']
-                    "
-                  ></fa-icon>
-                </button>
-              </div>
-            </div>
-
-            <p
-              *ngIf="f.newPasswordConfirm.errors?.required"
-              class="invalid-feedback-custom"
-            >
-              Veuillez confirmer le mot de passe
-            </p>
-
-            <div *ngIf="!f.newPasswordConfirm.errors?.required">
-              <p
-                *ngIf="
-                  this.loginForm.hasError('new-password-confim-does-not-match')
-                "
-                class="invalid-feedback-custom"
-              >
-                La confirmation doit correspondre au nouveau mot de passe
-              </p>
-            </div>
-          </div>
-          <div class="col-md-12 required">
+          <dsfr-form-password
+            inputId="newPassword"
+            autocomplete="newPassword"
+            formControlName="newPassword"
+            label="Nouveau mot de passe *"
+            class="required"
+            [required]="true"
+            [ariaDescription]="
+              f.newPassword.dirty && f.newPassword.errors ? true : false
+            "
+            [validationRules]="
+              f.newPassword.dirty
+                ? [
+                    {
+                      message: 'Au moins 1 chiffre',
+                      onError:
+                        f.newPassword.errors?.hasNumber ||
+                        f.newPassword.errors?.required ||
+                        false
+                    },
+                    {
+                      message: ' Au moins une lettre en majuscule',
+                      onError:
+                        f.newPassword.errors?.hasCapitalCase ||
+                        f.newPassword.errors?.required ||
+                        false
+                    },
+                    {
+                      message: 'Au moins une lettre en minuscule',
+                      onError:
+                        f.newPassword.errors?.hasLowerCase ||
+                        f.newPassword.errors?.required ||
+                        false
+                    },
+                    {
+                      message:
+                        'Au moins un caractère spécial: @[]^_!#$%&\'()*+,\-./:;{}<>=|~?',
+                      onError:
+                        f.newPassword.errors?.hasSpecialCharacter ||
+                        f.newPassword.errors?.required ||
+                        false
+                    },
+                    {
+                      message: 'entre 12 et 150 caractères',
+                      onError:
+                        f.newPassword.errors?.required ||
+                        f.newPassword.errors?.minlength ||
+                        f.newPassword.errors?.maxlength ||
+                        false
+                    }
+                  ]
+                : []
+            "
+          ></dsfr-form-password>
+          <dsfr-form-password
+            class="required"
+            inputId="newPasswordConfirm"
+            autocomplete="newPasswordConfirm"
+            formControlName="newPasswordConfirm"
+            label="Confirmation du mot de passe *"
+            [required]="true"
+            [ariaDescription]="
+              f.newPasswordConfirm.dirty && f.newPasswordConfirm.errors
+                ? true
+                : false
+            "
+            [validationRules]="
+              f.newPasswordConfirm.dirty &&
+              this.loginForm.hasError('new-password-confim-does-not-match')
+                ? [
+                    {
+                      message:
+                        'La confirmation doit correspondre au nouveau mot de passe',
+                      onError:
+                        this.loginForm.hasError(
+                          'new-password-confim-does-not-match'
+                        ) || false
+                    }
+                  ]
+                : []
+            "
+          ></dsfr-form-password>
+          <div
+            [class.fr-checkbox-group--error]="f.acceptTerms.errors"
+            class="fr-checkbox-group"
+          >
             <input
               type="checkbox"
               formControlName="acceptTerms"
               name="acceptTerms"
-              class="form-check-input me-2"
-              [ngClass]="{
-                'is-invalid': f.acceptTerms.errors
-              }"
               [attr.aria-describedby]="
                 f.acceptTerms.errors ? 'invalid-cgu-choice' : null
               "
               id="acceptTerms"
               required
             />
-            <label class="form-check-label" for="acceptTerms"
+            <label class="fr-label" for="acceptTerms"
               >Je confirme avoir lu et accepter les
-              <a routerLink="/cgu" target="_blank"
+              <a class="dsfr-link" routerLink="/cgu" target="_blank"
                 >conditions générales d’utilisation</a
               ></label
             >
-            <p
-              *ngIf="f.acceptTerms.errors"
-              class="invalid-feedback"
-              id="invalid-cgu-choice"
-            >
-              Vous devez accepter les CGU afin de poursuivre l'inscription
-            </p>
-          </div>
-        </ng-container>
-
-        IMPORTANT: le champ de mot de passe situé juste après le login sera utilisé pour la mise à jour du mot de passe, donc il faut que ça soit le nouveau mot de passe le cas échéant 
-        <div
-          class="form-group required"
-          *ngIf="this.mode !== 'login-change-password'"
-        >
-          <label class="fw-bold" for="password">Mot de passe</label>
-          <div class="input-group">
-            <input
-              id="password"
-              formControlName="password"
-              [type]="!hidePassword ? 'text' : 'password'"
-              class="form-control"
-              autocomplete="current-password"
-              [ngClass]="{
-                'is-invalid': f.password.dirty && f.password.errors
-              }"
-            />
-            <div class="input-group-append">
-              <button
-                type="button"
-                class="input-group-text"
-                [attr.aria-label]="
-                  (hidePassword ? 'Afficher' : 'Masquer') + ' le mot de passe'
-                "
-                [attr.aria-checked]="!hidePassword"
-                role="switch"
-                (click)="this.hidePassword = !this.hidePassword"
+            <div aria-live="polite" class="fr-messages-group">
+              <p
+                [class.fr-message--error]="f.acceptTerms.errors"
+                class="fr-message"
               >
-                <fa-icon
-                  aria-hidden="true"
-                  [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
-                ></fa-icon>
-              </button>
+                Vous devez accepter les CGU afin de poursuivre l'inscription
+              </p>
             </div>
           </div>
-          <div
-            *ngIf="f.password.dirty && f.password.errors"
-            class="invalid-feedback-custom"
-          >
-            <p *ngIf="f.password.errors.required">
-              Le mot de passe est obligatoire
-            </p>
-          </div>
-        </div>
-        <div class="mt-5 form-group text-center">
-          <button
-            type="button"
-            *ngIf="this.mode === 'login-change-password'"
-            class="btn btn-outline-primary me-5"
-            (click)="this.switchToLoginOnly()"
-          >
-            Annuler
-          </button>
-          <button [disabled]="loading" type="submit" class="btn btn-primary">
-            <span *ngIf="!loading">Connexion</span>
-            <span *ngIf="loading">
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'circle-notch']"
-                animation="spin"
-              ></fa-icon>
-              Connexion en cours...
-            </span>
-          </button>
-          <br />
-          <br />
-
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            [attr.aria-expanded]="displayPasswordIndication"
-            aria-controls="pwd-infos"
-            (click)="displayPasswordIndication = !displayPasswordIndication"
-          >
-            Mot de passe oublié
-          </button>
-
-          <p class="my-4" id="pwd-infos" *ngIf="displayPasswordIndication">
-            Vous avez peut-être bloqué votre compte en faisant plus de 3
-            tentatives de connexion avec un mauvais mot de passe.
-            <br />
-            <b>Veuillez réessayer dans une heure.</b>
-
-            <br />
-            <br />
-            Vous souhaitez changer de mot de passe ?
-            <br />
-            <b
-              >Rendez-vous dans votre centre de domiciliation et demandez à un
-              agent un nouveau mot passe.</b
-            >
-          </p>
-        </div>
-        -->
-        <dsfr-form-input
-          id="login"
-          type="email"
-          formControlName="login"
-          [hint]="'Format attendu : WKYJBDXS'"
-          [required]="true"
-          label="identifiant"
-        ></dsfr-form-input>
-        <dsfr-form-password
-          id="password"
-          formControlName="password"
-          [required]="true"
-          label="Mot de passe"
-        ></dsfr-form-password>
-        <div class="col-12 col-md-12 d-flex">
-          <dsfr-link
+        </ng-container>
+        <div
+          *ngIf="this.mode !== 'login-change-password'"
+          class="flex flex-column gap-1"
+        >
+          <dsfr-form-password
+            inputId="password"
+            autocomplete="current-password"
+            formControlName="password"
             [disabled]="false"
-            [iconPosition]="'right'"
-            [label]="'Mot de passe oublié ?'"
-            [link]="'#'"
-          ></dsfr-link>
+            label="Mot de passe *"
+            [required]="true"
+            [validationRules]="
+              f.password.dirty &&
+              f.password.errors &&
+              f.password.errors.required
+                ? [
+                    {
+                      message: 'Le mot de passe est obligatoire',
+                      onError: true
+                    }
+                  ]
+                : []
+            "
+          ></dsfr-form-password>
+          <a
+            (click)="showHint($event)"
+            class="fr-link align-self-start"
+            href="#"
+          >
+            Mot de passe oublié ?</a
+          >
         </div>
+
+        <p class="my-2" id="pwd-infos" *ngIf="displayPasswordIndication">
+          Vous avez peut-être bloqué votre compte en faisant plus de 3
+          tentatives de connexion avec un mauvais mot de passe.
+          <br />
+          <b>Veuillez réessayer dans une heure.</b>
+
+          <br />
+          <br />
+          Vous souhaitez changer de mot de passe ?
+          <br />
+          <b
+            >Rendez-vous dans votre centre de domiciliation et demandez à un
+            agent un nouveau mot passe.</b
+          >
+        </p>
+
         <dsfr-button
-          class="col-12 col-md-12 col-sm-12 w-100"
           [label]="'Se connecter'"
           [type]="'submit'"
-          [tooltipMessage]="''"
           [variant]="'primary'"
-          [size]="'SM'"
+          [size]="'MD'"
           [icon]="undefined"
-          [disabled]="false"
-          [ariaLabel]="''"
-          [invertedOutlineContrast]="false"
+          [disabled]="loading"
           [buttonId]="''"
-          [ariaControls]="''"
-          [customClass]="''"
+          [customClass]="'d-flex flex-column w-100'"
         ></dsfr-button>
       </form>
     </div>
@@ -466,100 +237,107 @@
   </section>
   <hr />
   <section class="row d-flex login-page_faq-section">
+    <h2 class="fr-text-label--blue-ecume">Les questions fréquentes</h2>
     <div class="d-flex flex-column">
-      <h2>Les questions fréquentes</h2>
       <dsfr-accordion
-        *ngFor="
-          let item of [
-            'Qu’est-ce que Mon DomiFa ?',
-            'Est-ce un service payant ?',
-            'Comment me connecter à mon espace personnel ?',
-            'Que faire si j’ai perdu mes identifiants ?',
-            'Puis-je faire une demande en ligne (renouvellement, Cerfa, etc.) ?'
-          ]
-        "
-        [content]="'content'"
         [expanded]="false"
-        [heading]="item"
+        [heading]="'Qu’est-ce que Mon DomiFa ?'"
         [headingLevel]="'H2'"
-        [headingAriaLabel]="'headingAriaLabel'"
+        [headingAriaLabel]="'Qu’est-ce que Mon DomiFa ?'"
       >
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing,
-          <a href="https://www.systeme-de-design.gouv.fr/" target="_blank"
-            >link test</a
-          >
-          incididunt, ut labore et dolore magna aliqua. Vitae sapien
-          pellentesque habitant morbi tristique senectus et. Diam maecenas sed
-          enim ut. Accumsan lacus vel facilisis volutpat est. Ut aliquam purus
-          sit amet luctus. Lorem ipsum dolor sit amet consectetur adipiscing
-          elit ut.
+          Mon DomiFa est
+          <b>un portail en ligne dédié aux personnes domiciliées</b>. <br />
+          Il vous permet de savoir si vous avez du courrier dans la structure
+          qui vous domicilie, à condition que celle-ci utilise l’outil DomiFa.
         </p>
+      </dsfr-accordion>
+      <dsfr-accordion
+        [expanded]="false"
+        [heading]="'Est-ce un service payant ?'"
+        [headingLevel]="'H2'"
+        [headingAriaLabel]="'Est-ce un service payant ?'"
+      >
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing,
-          <a href="https://www.systeme-de-design.gouv.fr/" target="_blank"
-            >link test</a
+          Non. L’accès à votre espace Mon DomiFa est entièrement gratuit, à
+          condition que votre structure a activé votre compte.
+        </p>
+      </dsfr-accordion>
+      <dsfr-accordion
+        [expanded]="false"
+        [heading]="'Comment me connecter à mon espace personnel ?'"
+        [headingLevel]="'H2'"
+        [headingAriaLabel]="'Comment me connecter à mon espace personnel ?'"
+      >
+        <p>
+          Rendez-vous sur
+          <a class="fr-link" href="/auth/login" target="_blank">
+            mon-domifa.fabrique.social.gouv.fr/auth/login</a
           >
-          incididunt, ut labore et dolore magna aliqua. Vitae sapien
-          pellentesque habitant morbi tristique senectus et. Diam maecenas sed
-          enim ut. Accumsan lacus vel facilisis volutpat est. Ut aliquam purus
-          sit amet luctus. Lorem ipsum dolor sit amet consectetur adipiscing
-          elit ut.
         </p>
         <ul>
-          <li>list item</li>
-          <li>list item</li>
-          <li>list item</li>
+          <li>
+            Lors de votre <b>première connexion</b>, utilisez
+            <b
+              >l’identifiant et le mot de passe temporaire fourni par votre
+              structure</b
+            >.
+          </li>
+          <li>
+            À la première connexion, il vous sera demandé de
+            <b>créer un nouveau mot de passe personnel</b>, qui servira pour
+            toutes vos connexions suivantes.
+          </li>
         </ul>
       </dsfr-accordion>
-      <dsfr-button
-        class="mt-4 align-self-center"
-        [label]="'Consulter la FAQ'"
-        [type]="'button'"
-        [tooltipMessage]="''"
-        [variant]="'secondary'"
-        [size]="'LG'"
-        [icon]="undefined"
-        [disabled]="false"
-        [ariaLabel]="''"
-        [invertedOutlineContrast]="false"
-        [buttonId]="''"
-        [ariaControls]="''"
-        [customClass]="''"
-      ></dsfr-button>
-    </div>
-  </section>
-  <section class="login-page_contact-section">
-    <div
-      class="col-10 col-md-10 col-sm-10 mx-auto my-5 d-flex flex-column text-center"
-    >
-      <div class="row d-flex flex-row">
-        <h2>
-          Pour toute question complémentaire, vous pouvez écrire au support Mon
-          DomiFa
-        </h2>
-        <div class="col-2">
-          <img
-            src="/assets/images/login/contact.svg"
-            alt="Contacter l'équipe "
-          />
+      <dsfr-accordion
+        [expanded]="false"
+        [heading]="'Que faire si j’ai perdu mes identifiants ?'"
+        [headingLevel]="'H2'"
+        [headingAriaLabel]="'Que faire si j’ai perdu mes identifiants ?'"
+      >
+        <p>
+          En cas de perte d’identifiant ou de mot de passe,
+          <b>contactez directement votre structure de domiciliation</b>.
+        </p>
+        <div class="fr-notice fr-notice--warning">
+          <div class="fr-container">
+            <div class="fr-notice__body">
+              <p>
+                <span class="fr-notice__desc"
+                  >Aucun identifiant ou mot de passe ne peut être envoyé par
+                  internet.</span
+                >
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
-      <dsfr-button
-        class="mt-4 align-self-center"
-        [label]="'Contacter mon centre de domiciliation'"
-        [type]="'button'"
-        [tooltipMessage]="''"
-        [size]="'LG'"
-        [variant]="'secondary'"
-        [icon]="undefined"
-        [disabled]="false"
-        [ariaLabel]="''"
-        [invertedOutlineContrast]="false"
-        [buttonId]="''"
-        [ariaControls]="''"
-        [customClass]="''"
-      ></dsfr-button>
+      </dsfr-accordion>
+      <dsfr-accordion
+        [expanded]="false"
+        [heading]="
+          'Puis-je faire une demande en ligne (renouvellement, Cerfa, etc.) ?'
+        "
+        [headingLevel]="'H2'"
+        [headingAriaLabel]="
+          'Puis-je faire une demande en ligne (renouvellement, Cerfa, etc.) ?'
+        "
+      >
+        <p>
+          Non. Mon DomiFa est aujourd’hui un
+          <b>outil de consultation uniquement</b>. Pour toute demande
+          (renouvellement, justificatif, Cerfa, etc.), vous devez
+          <b>contacter directement votre structure de domiciliation</b>.
+        </p>
+      </dsfr-accordion>
     </div>
+    <dsfr-button
+      class="d-flex justify-content-center"
+      [label]="'Consulter l\'aide en ligne'"
+      [type]="'button'"
+      [tooltipMessage]="'Consulter l\'aide en ligne'"
+      [variant]="'secondary'"
+      [size]="'LG'"
+    ></dsfr-button>
   </section>
 </div>

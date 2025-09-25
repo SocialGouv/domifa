@@ -1,49 +1,29 @@
 .login-page {
+  --title-spacing: 0;
   &_form-section {
-    flex-direction: column-reverse;
     @media (min-width: 576px) {
-      flex-direction: row;
       min-height: 756px;
     }
-
-    @media (min-width: 768px) {
-      flex-direction: row;
-      min-height: 756px;
-    }
-    background: var(--light-decisions-background-background-alt-grey, #f6f6f6);
   }
 
   &_faq-section {
-    padding: var(--sds-size-space-1200) var(--sds-size-space-4000);
+    @media (min-width: 576px) {
+      padding: var(--sds-size-space-1200) var(--sds-size-space-4000);
+    }
+
+    padding: var(--sds-size-space-400) var(--sds-size-space-600);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: var(--sds-size-space-800);
     align-self: stretch;
   }
-
-  &_contact-section {
-    display: flex;
-    padding: var(--sds-size-space-1200) var(--sds-size-space-4000);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: var(--sds-size-space-800);
-    align-self: stretch;
-    background: var(
-      --light-options-illustration-color-950-default-blue-cumulus-950,
-      #e6eefe
-    );
-  }
 }
 
 .content-container {
   gap: 10rem;
   padding: var(--sds-size-space-300) var(--sds-size-space-600);
-
-  &_text {
-    display: none;
-  }
+  display: none;
 
   .img-fluid {
     height: auto;
@@ -51,9 +31,7 @@
   }
 
   @media (min-width: 576px) {
-    &_text {
-      display: block;
-    }
+    display: flex;
     .img-fluid {
       height: auto;
       max-width: 100%;
@@ -74,38 +52,36 @@
 }
 
 .form-container {
-  --title-spacing: 0;
+  dsfr-button {
+    width: 24rem;
+  }
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: var(--sds-size-space-600);
-  padding-bottom: var(--sds-size-space-600);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  @media (min-width: 576px) {
+    padding-top: var(--sds-size-space-600);
+    padding-bottom: var(--sds-size-space-600);
+  }
+
   &_form-element {
+    @media (min-width: 576px) {
+      padding: 3.5rem 0;
+    }
+
+    dsfr-link,
     dsfr-form-input,
-    dsfr-form-passowrd {
+    dsfr-form-password,
+    .fr-btn {
       width: 24rem;
     }
     display: flex;
     width: 24rem;
-    padding: 3.5rem 0;
+    padding: 1rem 0;
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
   }
-}
-
-.form-check-label {
-  width: 90%;
-}
-
-.indications div {
-  padding-top: 5px;
-}
-
-.indications {
-  padding: 5px;
-}
-
-.indications .ng-fa-icon {
-  margin-right: 5px;
 }
