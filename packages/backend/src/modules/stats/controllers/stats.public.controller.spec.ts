@@ -19,7 +19,6 @@ import { UsersModule } from "../../users/users.module";
 describe("Stats Public Controller", () => {
   let controller: StatsPublicController;
   let context: AppTestContext;
-
   afterAll(async () => {
     jest.useRealTimers();
     await AppTestHelper.tearDownTestApp(context);
