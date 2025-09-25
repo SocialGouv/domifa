@@ -284,4 +284,29 @@ export class FileManagerService {
       `Unsupported input type for toNodeReadable: ${typeof input}`
     );
   }
+
+  public async getFileSize(filePath: string): Promise<number> {
+    try {
+      const headResult = await this.s3.send(
+        new HeadObjectCommand({
+          Bucket: domifaConfig().upload.bucketName,
+          Key: `${domifaConfig().upload.bucketRootDir}/${filePath}`,
+        })
+      );
+
+      return headResult.ContentLength || 0;
+    } catch (error) {
+      if (
+        error.name === "NotFound" ||
+        error.$metadata?.httpStatusCode === 404
+      ) {
+        return -1;
+      } else {
+        appLogger.error(
+          `Error getting file size for ${filePath}: ${error.message}`
+        );
+        return -2;
+      }
+    }
+  }
 }

@@ -37,6 +37,9 @@ export class UsagerDocsTable
   @Column({ type: "text", nullable: false })
   public filetype: string;
 
+  @Column({ type: "integer", nullable: true })
+  public filesize: number;
+
   @Column({ type: "text", nullable: false })
   public createdBy: string;
 

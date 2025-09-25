@@ -210,10 +210,10 @@ COPY public.typeorm_metadata (type, schema, name, value) FROM stdin;
 -- Data for Name: usager_docs; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.usager_docs (uuid, "createdAt", "updatedAt", version, "usagerUUID", "structureId", "usagerRef", path, label, filetype, "createdBy", "encryptionContext", "encryptionVersion", shared) FROM stdin;
-2eb5e74d-4b25-4aa6-ad2a-7d963ae66072	2019-10-07 20:51:31.578+02	2022-06-28 22:52:59.282479+02	1	860ffa4c-88c4-4e1c-ad42-5a05cdf39830	1	1	373144a3d9d0b3f4c84bd527a5cff880.jpg	CNI	image/jpeg	Patrick Roméro	ffe17c48-7a1a-42c9-8494-0b72ca8b3686	0	f
-a77729a9-1b28-4090-bda8-760590bff982	2019-10-07 20:53:32.922+02	2022-06-28 22:52:59.28757+02	1	4dcdcddc-fad2-4827-aac5-0acf1df7b5bc	1	5	8242ba1bc7f3c3971f761b6a347fc1c4.jpg	Carte identité	image/jpeg	Patrick Roméro	ffe17c48-7a1a-42c9-8494-0b72ca8b3686	0	f
-542a0da1-ea1c-48ab-8026-67a4248b1c47	2024-10-30 22:35:12.346+01	2024-10-30 22:35:13.112661+01	1	b2c26e55-ab37-457d-b307-6fe161050a9b	1	7	ddda9bf211821bec99b90230bd0f52dc.jpg	Document à éditer par la suite	image/jpeg	Patrick Roméro	f36cb085-f3a5-4333-afbf-ba6c1c28c5d8	0	f
+COPY public.usager_docs (uuid, "createdAt", "updatedAt", version, "usagerUUID", "structureId", "usagerRef", path, label, filetype, "createdBy", "encryptionContext", "encryptionVersion", shared, filesize) FROM stdin;
+2eb5e74d-4b25-4aa6-ad2a-7d963ae66072	2019-10-07 20:51:31.578+02	2025-09-25 16:30:12.774187+02	2	860ffa4c-88c4-4e1c-ad42-5a05cdf39830	1	1	373144a3d9d0b3f4c84bd527a5cff880.jpg	CNI	image/jpeg	Patrick Roméro	ffe17c48-7a1a-42c9-8494-0b72ca8b3686	0	f	-1
+a77729a9-1b28-4090-bda8-760590bff982	2019-10-07 20:53:32.922+02	2025-09-25 16:30:12.839429+02	2	4dcdcddc-fad2-4827-aac5-0acf1df7b5bc	1	5	8242ba1bc7f3c3971f761b6a347fc1c4.jpg	Carte identité	image/jpeg	Patrick Roméro	ffe17c48-7a1a-42c9-8494-0b72ca8b3686	0	f	-1
+542a0da1-ea1c-48ab-8026-67a4248b1c47	2024-10-30 22:35:12.346+01	2025-09-25 16:30:12.9007+02	2	b2c26e55-ab37-457d-b307-6fe161050a9b	1	7	ddda9bf211821bec99b90230bd0f52dc.jpg	Document à éditer par la suite	image/jpeg	Patrick Roméro	f36cb085-f3a5-4333-afbf-ba6c1c28c5d8	0	f	-1
 \.
 
 
