@@ -5,10 +5,6 @@ body {
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-html {
-  font-size: 90%;
-}
-
 ul {
   margin-left: 1rem;
   margin-bottom: 0;
@@ -18,33 +14,6 @@ caption {
   color: black !important;
 }
 
-/*
-h1 {
-  line-height: 1.2 !important;
-  margin-bottom: 0.5rem;
-}
-
-h2 {
-  font-style: normal;
-  font-weight: 700;
-  font-size: 1.35rem;
-  margin: 1.2rem 0;
-}
-
-h3 {
-  font-style: normal;
-  font-weight: bold;
-  font-size: 1.3rem;
-  margin: 1.2rem 0;
-}
-
-h4 {
-  font-style: normal;
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin: 1.1rem 0;
-}
-*/
 .content {
   background-color: #f2f2f2;
   min-height: calc(90vh - 78px);
@@ -54,10 +23,6 @@ h4 {
 .page-content {
   background-color: white;
   border-radius: 3px;
-}
-
-#page {
-  min-height: calc(90vh - 78px);
 }
 
 .container {
