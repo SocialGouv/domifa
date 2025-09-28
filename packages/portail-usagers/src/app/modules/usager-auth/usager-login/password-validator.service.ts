@@ -15,10 +15,6 @@ export class PasswordValidator {
     };
   }
 
-  public onClick(event: Event) {
-    console.log(event);
-  }
-
   public static fieldsNotEqualsValidator({
     ctrl1Name,
     ctrl2Name,
