@@ -1,38 +1,69 @@
-<div class="head-page py-4">
-  <div class="container">
-    <h1 class="title">Les dernières nouveautés de Mon DomiFa</h1>
+<div class="w-100 fr-background-contrast--blue-ecume">
+  <div class="fr-container row d-flex flex-row justify-content-between">
+    <div class="col-12 col-md-8 col-sm-8 py-3 py-md-5 d-flex flex-column gap-1">
+      <h1 class="fr-text-title--blue-france">Nouveautés sur Mon DomiFa</h1>
+      <p class="fr-text--lead fr-text-title--blue-france">
+        Cette page recense toutes les nouveautés et améliorations de l’outil
+        DomiFa, mise à jour régulièrement afin de vous tenir informé des
+        dernières évolutions.
+      </p>
+    </div>
+    <div class="col-2 py-2 mobile-display-none">
+      <img
+        class="fr-responsive-img"
+        src="/assets/images/news.svg"
+        alt="Nouveautés sur DomiFa"
+      />
+    </div>
   </div>
 </div>
-
-<div class="content py-3" *ngIf="DOMIFA_NEWS">
-  <div class="container py-3">
-    <div class="card my-3 text-start" *ngFor="let news of DOMIFA_NEWS">
-      <h2 class="my-2">
-        Nouveautés du {{ news.date | date : "d MMMM y"
-        }}<span *ngIf="news.description"> - {{ news.description }}</span>
-      </h2>
-
-      <ng-container *ngFor="let content of news.content">
-        <p class="text-start my-1">
-          <span
-            class="badge badge-pill"
-            [ngClass]="{
-              'bg-primary': content.type === 'new',
-              'bg-warning text-dark': content.type === 'bug'
-            }"
+<div class="fr-background-alt--grey">
+  <div class="fr-container d-flex flex-column gap-4 py-3" *ngIf="DOMIFA_NEWS">
+    <div class="fr-card fr-enlarge-link pb-4" *ngFor="let news of DOMIFA_NEWS">
+      <div class="fr-card__header pt-3 ps-3">
+        <div class="row d-flex pb-2">
+          <div
+            class="d-flex flex-row gap-2 align-items-center fr-text-title--blue-france"
           >
-            {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
-          </span>
-          &nbsp;
-          <b>{{ content.categorie }}</b>
-        </p>
-        <ul class="mb-2">
-          <li
-            *ngFor="let message of content.message"
-            [innerHTML]="message | nl2br"
-          ></li>
-        </ul>
-      </ng-container>
+            <span class="fr-icon-calendar-event-fill" aria-hidden="true"></span>
+            <h3 class="fr-text-title--blue-france">
+              {{ news.date | date : "d MMMM y" }}
+            </h3>
+          </div>
+          <h5 class="fr-text-title--blue-france" *ngIf="news.description">
+            {{ news.description }}
+          </h5>
+        </div>
+      </div>
+      <div class="fr-card__body ps-0">
+        <div
+          class="fr-card__content p-0 ms-3 me-3"
+          *ngFor="let content of news.content"
+        >
+          <hr class="pb-2" />
+          <div class="d-flex">
+            <h6 class="fr-card__title">
+              <span
+                [class.fr-badge--info]="content.type === 'new'"
+                [class.fr-badge--new]="content.type !== 'new'"
+                class="fr-badge fr-badge--no-icon"
+              >
+                {{ content.type === "new" ? "Nouveauté" : "Améliorations" }}
+              </span>
+              <span class="fr-text-title--blue-france">
+                {{ content.categorie }}
+              </span>
+            </h6>
+          </div>
+
+          <ul class="fr-card__desc ps-4 fr-text-title--blue-france">
+            <li
+              [innerHTML]="message | nl2br"
+              *ngFor="let message of content.message"
+            ></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </div>
