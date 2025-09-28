@@ -1,8 +1,10 @@
 <div class="login-page" *ngIf="!usagerProfile">
-  <section class="row fr-background-alt--grey login-page_form-section m-0">
-    <div class="col-12 col-md-6 col-sm-6 form-container">
+  <section class="row m-0">
+    <div
+      class="col-12 col-md-6 col-sm-6 d-flex flex-column align-items-center fr-background-alt--grey"
+    >
       <form
-        class="column d-flex form-container_form-element"
+        class="column d-flex flex-column gap-4 pt-4 pt-md-5 pb-4 pb-md-5"
         [formGroup]="loginForm"
         (ngSubmit)="login()"
       >
@@ -12,7 +14,7 @@
         <dsfr-form-input
           appUppercase
           inputId="login"
-          type="email"
+          type="text"
           formControlName="login"
           autocomplete="username"
           [ariaInvalid]="f.login.dirty && f.login.errors ? 'true' : 'false'"
@@ -22,7 +24,7 @@
           [disabled]="this.mode === 'login-change-password'"
           [message]="
             f.login.dirty && f.login.errors
-              ? 'Veuillez vérifier l\'identifiant. Celui-ci se trouve sur le document que vous à remit la structure.'
+              ? 'Veuillez vérifier l\'identifiant. Celui-ci se trouve sur le document que vous à remis la structure.'
               : ''
           "
           [messageSeverity]="
@@ -30,7 +32,7 @@
           "
           [required]="true"
           [customClass]="'required'"
-          label="identifiant *"
+          label="identifiant"
         ></dsfr-form-input>
         <ng-container *ngIf="this.mode === 'login-change-password'">
           <p>
@@ -210,33 +212,35 @@
         ></dsfr-button>
       </form>
     </div>
-    <div class="col-12 col-md-6 col-sm-6 content-container bg-white">
-      <div class="row d-flex gap-1 align-self-stretch align-content-center">
-        <div class="col-12 col-md-6 col-sm-6">
-          <img
-            class="img-fluid"
-            src="assets/images/logo-dsfr.svg"
-            alt="Logo Mon Domifa"
-          />
-        </div>
-        <h5>Mon DomiFa facilite votre domiciliation</h5>
-        <p class="content-container_text">
-          Retrouvez toutes vos informations de domiciliation et vérifiez que
-          vous avez du courrier.
-        </p>
-        <div class="col-12 col-md-12 col-sm-12 justify-content-center d-flex">
-          <img
-            class="img-fluid"
-            src="assets/images/login/main-container.svg"
-            alt="Illustration de
+    <div class="col-12 col-md-6 col-sm-6 d-flex p-4">
+      <div class="content-container">
+        <div class="row d-flex gap-1 align-self-stretch align-content-center">
+          <div class="col-12 col-md-6 col-sm-6">
+            <img
+              class="img-fluid"
+              src="assets/images/logo-dsfr.svg"
+              alt="Logo Mon Domifa"
+            />
+          </div>
+          <h5>Mon DomiFa facilite votre domiciliation</h5>
+          <p class="content-container_text">
+            Retrouvez toutes vos informations de domiciliation et vérifiez que
+            vous avez du courrier.
+          </p>
+          <div class="col-12 col-md-12 col-sm-12 justify-content-center d-flex">
+            <img
+              class="img-fluid"
+              src="assets/images/login/main-container.svg"
+              alt="Illustration de
         boîte aux lettres"
-          />
+            />
+          </div>
         </div>
       </div>
     </div>
   </section>
   <hr />
-  <section class="row d-flex login-page_faq-section">
+  <section class="fr-container row d-flex gap-5 mb-4">
     <h2 class="fr-text-label--blue-ecume">Les questions fréquentes</h2>
     <div class="d-flex flex-column">
       <dsfr-accordion

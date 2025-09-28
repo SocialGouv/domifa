@@ -1,87 +1,10 @@
-.login-page {
+:host {
   --title-spacing: 0;
-  &_form-section {
-    @media (min-width: 576px) {
-      min-height: 756px;
-    }
-  }
-
-  &_faq-section {
-    @media (min-width: 576px) {
-      padding: var(--sds-size-space-1200) var(--sds-size-space-4000);
-    }
-
-    padding: var(--sds-size-space-400) var(--sds-size-space-600);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--sds-size-space-800);
-    align-self: stretch;
-  }
 }
 
 .content-container {
-  gap: 10rem;
-  padding: var(--sds-size-space-300) var(--sds-size-space-600);
   display: none;
-
-  .img-fluid {
-    height: auto;
-    max-width: 50%;
-  }
-
   @media (min-width: 576px) {
     display: flex;
-    .img-fluid {
-      height: auto;
-      max-width: 100%;
-    }
-    padding: var(--sds-size-space-1600);
-  }
-
-  @media (min-width: 768px) {
-    &_text {
-      display: block;
-    }
-    .img-fluid {
-      height: auto;
-      max-width: 100%;
-    }
-    padding: var(--sds-size-space-1600);
-  }
-}
-
-.form-container {
-  dsfr-button {
-    width: 24rem;
-  }
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  @media (min-width: 576px) {
-    padding-top: var(--sds-size-space-600);
-    padding-bottom: var(--sds-size-space-600);
-  }
-
-  &_form-element {
-    @media (min-width: 576px) {
-      padding: 3.5rem 0;
-    }
-
-    dsfr-link,
-    dsfr-form-input,
-    dsfr-form-password,
-    .fr-btn {
-      width: 24rem;
-    }
-    display: flex;
-    width: 24rem;
-    padding: 1rem 0;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
   }
 }
