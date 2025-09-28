@@ -7,6 +7,7 @@ import { MATOMO_INJECTORS } from "../../../shared";
 import { UsagerLoginComponent } from "./usager-login.component";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
+import { SharedModule } from "../../shared/shared.module";
 
 describe("UsagerLoginComponent", () => {
   let component: UsagerLoginComponent;
@@ -21,6 +22,7 @@ describe("UsagerLoginComponent", () => {
         NgbModule,
         FormsModule,
         RouterModule.forRoot([]),
+        SharedModule,
       ],
       providers: [provideHttpClient()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
