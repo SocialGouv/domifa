@@ -21,8 +21,7 @@
         </a>
       </p>
       <button
-        title="Masquer le message"
-        onclick="const notice = this.parentNode.parentNode.parentNode; notice.parentNode.removeChild(notice)"
+        (click)="dismissNotice()"
         type="button"
         class="fr-btn--close fr-btn"
       >
