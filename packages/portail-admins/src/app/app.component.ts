@@ -134,4 +134,8 @@ export class AppComponent implements OnInit {
   public dismissNotice() {
     this.noticeRef.nativeElement.remove();
   }
+
+  public dismissNotice() {
+    this.noticeRef.nativeElement.remove();
+  }
 }
