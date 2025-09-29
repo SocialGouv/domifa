@@ -1,243 +1,248 @@
 <div class="login-page" *ngIf="!usagerProfile">
-  <section class="row m-0">
-    <div
-      class="col-12 col-md-6 col-sm-6 d-flex flex-column align-items-center fr-background-alt--grey"
-    >
-      <form
-        class="column d-flex flex-column gap-4 pt-4 pt-md-5 pb-4 pb-md-5"
-        [formGroup]="loginForm"
-        (ngSubmit)="login()"
-      >
-        <h3 class="align-self-start">Connexion à Mon Domifa</h3>
-        <h5 class="align-self-start">Se connecter avec son compte</h5>
-        <span class="col-12 col-md-12"> * champs obligatoires </span>
-        <dsfr-form-input
-          appUppercase
-          inputId="login"
-          type="text"
-          formControlName="login"
-          autocomplete="username"
-          [ariaInvalid]="f.login.dirty && f.login.errors ? 'true' : 'false'"
-          [ariaDescription]="
-            f.login.dirty && f.login.errors ? 'invalid-login' : null
-          "
-          [disabled]="this.mode === 'login-change-password'"
-          [message]="
-            f.login.dirty && f.login.errors
-              ? 'Veuillez vérifier l\'identifiant. Celui-ci se trouve sur le document que vous à remis la structure.'
-              : ''
-          "
-          [messageSeverity]="
-            f.login.dirty && f.login.errors ? 'error' : 'valid'
-          "
-          [required]="true"
-          [customClass]="'required'"
-          label="identifiant"
-        ></dsfr-form-input>
-        <ng-container *ngIf="this.mode === 'login-change-password'">
-          <p>
-            C'est votre première connexion, veuillez choisir un nouveau mot de
-            passe:
-          </p>
-          <dsfr-form-password
-            inputId="newPassword"
-            autocomplete="newPassword"
-            formControlName="newPassword"
-            label="Nouveau mot de passe *"
-            class="required"
-            [required]="true"
-            [ariaDescription]="
-              f.newPassword.dirty && f.newPassword.errors ? true : false
-            "
-            [validationRules]="
-              f.newPassword.dirty
-                ? [
-                    {
-                      message: 'Au moins 1 chiffre',
-                      onError:
-                        f.newPassword.errors?.hasNumber ||
-                        f.newPassword.errors?.required ||
-                        false
-                    },
-                    {
-                      message: ' Au moins une lettre en majuscule',
-                      onError:
-                        f.newPassword.errors?.hasCapitalCase ||
-                        f.newPassword.errors?.required ||
-                        false
-                    },
-                    {
-                      message: 'Au moins une lettre en minuscule',
-                      onError:
-                        f.newPassword.errors?.hasLowerCase ||
-                        f.newPassword.errors?.required ||
-                        false
-                    },
-                    {
-                      message:
-                        'Au moins un caractère spécial: @[]^_!#$%&\'()*+,\-./:;{}<>=|~?',
-                      onError:
-                        f.newPassword.errors?.hasSpecialCharacter ||
-                        f.newPassword.errors?.required ||
-                        false
-                    },
-                    {
-                      message: 'entre 12 et 150 caractères',
-                      onError:
-                        f.newPassword.errors?.required ||
-                        f.newPassword.errors?.minlength ||
-                        f.newPassword.errors?.maxlength ||
-                        false
-                    }
-                  ]
-                : []
-            "
-          ></dsfr-form-password>
-          <dsfr-form-password
-            class="required"
-            inputId="newPasswordConfirm"
-            autocomplete="newPasswordConfirm"
-            formControlName="newPasswordConfirm"
-            label="Confirmation du mot de passe *"
-            [required]="true"
-            [ariaDescription]="
-              f.newPasswordConfirm.dirty && f.newPasswordConfirm.errors
-                ? true
-                : false
-            "
-            [validationRules]="
-              f.newPasswordConfirm.dirty &&
-              this.loginForm.hasError('new-password-confim-does-not-match')
-                ? [
-                    {
-                      message:
-                        'La confirmation doit correspondre au nouveau mot de passe',
-                      onError:
-                        this.loginForm.hasError(
-                          'new-password-confim-does-not-match'
-                        ) || false
-                    }
-                  ]
-                : []
-            "
-          ></dsfr-form-password>
-          <div
-            [class.fr-checkbox-group--error]="f.acceptTerms.errors"
-            class="fr-checkbox-group"
-          >
-            <input
-              type="checkbox"
-              formControlName="acceptTerms"
-              name="acceptTerms"
-              [attr.aria-describedby]="
-                f.acceptTerms.errors ? 'invalid-cgu-choice' : null
-              "
-              id="acceptTerms"
-              required
-            />
-            <label class="fr-label" for="acceptTerms"
-              >Je confirme avoir lu et accepter les
-              <a class="dsfr-link" routerLink="/cgu" target="_blank"
-                >conditions générales d’utilisation</a
-              ></label
-            >
-            <div aria-live="polite" class="fr-messages-group">
-              <p
-                [class.fr-message--error]="f.acceptTerms.errors"
-                class="fr-message"
-              >
-                Vous devez accepter les CGU afin de poursuivre l'inscription
-              </p>
-            </div>
-          </div>
-        </ng-container>
-        <div
-          *ngIf="this.mode !== 'login-change-password'"
-          class="flex flex-column gap-1"
-        >
-          <dsfr-form-password
-            inputId="password"
-            autocomplete="current-password"
-            formControlName="password"
-            [disabled]="false"
-            label="Mot de passe *"
-            [required]="true"
-            [validationRules]="
-              f.password.dirty &&
-              f.password.errors &&
-              f.password.errors.required
-                ? [
-                    {
-                      message: 'Le mot de passe est obligatoire',
-                      onError: true
-                    }
-                  ]
-                : []
-            "
-          ></dsfr-form-password>
-          <a
-            (click)="showHint($event)"
-            class="fr-link align-self-start"
-            href="#"
-          >
-            Mot de passe oublié ?</a
-          >
-        </div>
-
-        <p class="my-2" id="pwd-infos" *ngIf="displayPasswordIndication">
-          Vous avez peut-être bloqué votre compte en faisant plus de 3
-          tentatives de connexion avec un mauvais mot de passe.
-          <br />
-          <b>Veuillez réessayer dans une heure.</b>
-
-          <br />
-          <br />
-          Vous souhaitez changer de mot de passe ?
-          <br />
-          <b
-            >Rendez-vous dans votre centre de domiciliation et demandez à un
-            agent un nouveau mot passe.</b
-          >
-        </p>
-
-        <dsfr-button
-          [label]="'Se connecter'"
-          [type]="'submit'"
-          [variant]="'primary'"
-          [size]="'MD'"
-          [icon]="undefined"
-          [disabled]="loading"
-          [buttonId]="''"
-          [customClass]="'d-flex flex-column w-100'"
-        ></dsfr-button>
-      </form>
+  <section class="d-flex flex-row gap-0">
+    <div class="fr-background-alt--grey flex-grow-1">
+      <!-- clearfix -->
     </div>
-    <div class="col-12 col-md-6 col-sm-6 d-flex p-4">
-      <div class="content-container">
-        <div class="row d-flex gap-1 align-self-stretch align-content-center">
-          <div class="col-12 col-md-6 col-sm-6">
-            <img
-              class="img-fluid"
-              src="assets/images/logo-dsfr.svg"
-              alt="Logo Mon Domifa"
-            />
+    <div class="fr-container d-flex flex-row flex-shrink-0 p-0">
+      <div
+        class="col-12 col-md-6 col-sm-6 d-flex flex-column align-items-left ps-3 pe-3 fr-background-alt--grey"
+      >
+        <form
+          class="column d-flex flex-column gap-4 pt-4 pt-md-5 pb-4 pb-md-5"
+          [formGroup]="loginForm"
+          (ngSubmit)="login()"
+        >
+          <h3 class="align-self-start">Connexion à Mon Domifa</h3>
+          <h5 class="align-self-start">Se connecter avec son compte</h5>
+          <span class="col-12 col-md-12"> * champs obligatoires </span>
+          <dsfr-form-input
+            appUppercase
+            inputId="login"
+            type="text"
+            formControlName="login"
+            autocomplete="username"
+            [ariaInvalid]="f.login.dirty && f.login.errors ? 'true' : 'false'"
+            [ariaDescription]="
+              f.login.dirty && f.login.errors ? 'invalid-login' : null
+            "
+            [disabled]="this.mode === 'login-change-password'"
+            [message]="
+              f.login.dirty && f.login.errors
+                ? 'Veuillez vérifier l\'identifiant. Celui-ci se trouve sur le document que vous à remis la structure.'
+                : ''
+            "
+            [messageSeverity]="
+              f.login.dirty && f.login.errors ? 'error' : 'valid'
+            "
+            [required]="true"
+            [customClass]="'required'"
+            label="identifiant"
+          ></dsfr-form-input>
+          <ng-container *ngIf="this.mode === 'login-change-password'">
+            <p class="p-0 m-0">
+              C'est votre première connexion, veuillez choisir un nouveau mot de
+              passe:
+            </p>
+            <dsfr-form-password
+              inputId="newPassword"
+              autocomplete="newPassword"
+              formControlName="newPassword"
+              label="Nouveau mot de passe"
+              class="required"
+              [required]="true"
+              [ariaDescription]="
+                f.newPassword.dirty && f.newPassword.errors ? true : false
+              "
+              [validationRules]="
+                f.newPassword.dirty
+                  ? [
+                      {
+                        message: 'Au moins 1 chiffre',
+                        onError:
+                          f.newPassword.errors?.hasNumber ||
+                          f.newPassword.errors?.required ||
+                          false
+                      },
+                      {
+                        message: ' Au moins une lettre en majuscule',
+                        onError:
+                          f.newPassword.errors?.hasCapitalCase ||
+                          f.newPassword.errors?.required ||
+                          false
+                      },
+                      {
+                        message: 'Au moins une lettre en minuscule',
+                        onError:
+                          f.newPassword.errors?.hasLowerCase ||
+                          f.newPassword.errors?.required ||
+                          false
+                      },
+                      {
+                        message:
+                          'Au moins un caractère spécial: @[]^_!#$%&\'()*+,\-./:;{}<>=|~?',
+                        onError:
+                          f.newPassword.errors?.hasSpecialCharacter ||
+                          f.newPassword.errors?.required ||
+                          false
+                      },
+                      {
+                        message: 'entre 12 et 150 caractères',
+                        onError:
+                          f.newPassword.errors?.required ||
+                          f.newPassword.errors?.minlength ||
+                          f.newPassword.errors?.maxlength ||
+                          false
+                      }
+                    ]
+                  : dsfrPasswordHint
+              "
+            ></dsfr-form-password>
+            <dsfr-form-password
+              class="required"
+              inputId="newPasswordConfirm"
+              autocomplete="newPasswordConfirm"
+              formControlName="newPasswordConfirm"
+              label="Confirmation du mot de passe"
+              [required]="true"
+              [ariaDescription]="
+                f.newPasswordConfirm.dirty && f.newPasswordConfirm.errors
+                  ? true
+                  : false
+              "
+              [validationRules]="[
+                {
+                  message:
+                    'La confirmation doit correspondre au nouveau mot de passe',
+                  onError:
+                    !f.newPasswordConfirm.value ||
+                    this.loginForm.hasError(
+                      'new-password-confim-does-not-match'
+                    ) ||
+                    false
+                }
+              ]"
+            ></dsfr-form-password>
+            <div
+              [class.fr-checkbox-group--error]="f.acceptTerms.errors"
+              class="fr-checkbox-group"
+            >
+              <input
+                type="checkbox"
+                formControlName="acceptTerms"
+                name="acceptTerms"
+                [attr.aria-describedby]="
+                  f.acceptTerms.errors ? 'invalid-cgu-choice' : null
+                "
+                id="acceptTerms"
+                required
+              />
+              <label class="fr-label" for="acceptTerms"
+                >Je confirme avoir lu et accepter les
+                <a class="fr-ml-1v dsfr-link" routerLink="/cgu" target="_blank"
+                  >conditions générales d’utilisation</a
+                ></label
+              >
+              <div aria-live="polite" class="fr-messages-group">
+                <p
+                  [class.fr-message--error]="f.acceptTerms.errors"
+                  class="fr-message"
+                >
+                  Vous devez accepter les CGU afin de poursuivre l'inscription
+                </p>
+              </div>
+            </div>
+          </ng-container>
+          <div
+            *ngIf="this.mode !== 'login-change-password'"
+            class="flex flex-column gap-1"
+          >
+            <dsfr-form-password
+              inputId="password"
+              autocomplete="current-password"
+              formControlName="password"
+              [disabled]="false"
+              label="Mot de passe"
+              [required]="true"
+              [validationRules]="
+                f.password.dirty &&
+                f.password.errors &&
+                f.password.errors.required
+                  ? [
+                      {
+                        message: 'Le mot de passe est obligatoire',
+                        onError: true
+                      }
+                    ]
+                  : []
+              "
+            ></dsfr-form-password>
+            <a
+              (click)="showHint($event)"
+              class="fr-link align-self-start"
+              href="#"
+            >
+              Mot de passe oublié ?</a
+            >
           </div>
-          <h5>Mon DomiFa facilite votre domiciliation</h5>
-          <p class="content-container_text">
-            Retrouvez toutes vos informations de domiciliation et vérifiez que
-            vous avez du courrier.
+
+          <p class="my-2" id="pwd-infos" *ngIf="displayPasswordIndication">
+            Vous avez peut-être bloqué votre compte en faisant plus de 3
+            tentatives de connexion avec un mauvais mot de passe.
+            <br />
+            <b>Veuillez réessayer dans une heure.</b>
+
+            <br />
+            <br />
+            Vous souhaitez changer de mot de passe ?
+            <br />
+            <b
+              >Rendez-vous dans votre centre de domiciliation et demandez à un
+              agent un nouveau mot passe.</b
+            >
           </p>
-          <div class="col-12 col-md-12 col-sm-12 justify-content-center d-flex">
-            <img
-              class="img-fluid"
-              src="assets/images/login/main-container.svg"
-              alt="Illustration de
+
+          <dsfr-button
+            [label]="'Se connecter'"
+            [type]="'submit'"
+            [variant]="'primary'"
+            [size]="'MD'"
+            [icon]="undefined"
+            [disabled]="loading"
+            [buttonId]="''"
+            [customClass]="'d-flex flex-column w-100'"
+          ></dsfr-button>
+        </form>
+      </div>
+      <div class="col-12 col-md-6 col-sm-6 d-flex p-4">
+        <div class="content-container">
+          <div class="row d-flex gap-1 align-self-start align-content-center">
+            <div class="col-12 col-md-6 col-sm-6">
+              <img
+                class="img-fluid"
+                src="assets/images/logo-dsfr.svg"
+                alt="Logo Mon Domifa"
+              />
+            </div>
+            <h5>Mon DomiFa facilite votre domiciliation</h5>
+            <p class="content-container_text">
+              Retrouvez toutes vos informations de domiciliation et vérifiez que
+              vous avez du courrier.
+            </p>
+            <div
+              class="col-12 col-md-12 col-sm-12 justify-content-center d-flex"
+            >
+              <img
+                class="img-fluid"
+                src="assets/images/login/main-container.svg"
+                alt="Illustration de
         boîte aux lettres"
-            />
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="d-flex flex-grow-1"></div>
   </section>
   <hr />
   <section class="fr-container row d-flex gap-5 mb-4">
