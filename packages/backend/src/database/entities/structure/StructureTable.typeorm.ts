@@ -14,6 +14,9 @@ import {
   PopulationSegmentEnum,
   DomiciliesSegmentEnum,
   StructureRegistrationData,
+  StructureRefusMotif,
+  StructureStatut,
+  StructureSuppressionMotif,
 } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
@@ -122,9 +125,6 @@ export class StructureTable
   @Column({ type: "text", nullable: true })
   token: string;
 
-  @Column({ type: "bool", default: false })
-  verified: boolean;
-
   @Column({ type: "text", nullable: false })
   ville: string;
 
@@ -174,6 +174,12 @@ export class StructureTable
     nullable: true,
   })
   registrationData: StructureRegistrationData;
+
+  @Column({ type: "text", default: "EN_ATTENTE" })
+  statut: StructureStatut;
+
+  @Column({ type: "text", nullable: true })
+  statutDetail?: StructureRefusMotif | StructureSuppressionMotif | null;
 
   public constructor(entity?: Partial<StructureTable>) {
     super(entity);

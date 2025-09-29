@@ -8,6 +8,7 @@ import {
   UseGuards,
   Param,
   ParseIntPipe,
+  Patch,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -30,9 +31,13 @@ import { ExpressResponse } from "../../../../util/express";
 import { UserAdminAuthenticated } from "../../../../_common/model";
 import { AdminStructuresService } from "../../services";
 
-import { Structure } from "@domifa/common";
+import {
+  Structure,
+  StructureRefusMotif,
+  StructureSuppressionMotif,
+} from "@domifa/common";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
-import { StructureConfirmationDto } from "../../dto";
+import { StructureConfirmationDto, UpdateStructureStatutDto } from "../../dto";
 import { StructureAdminForList, UserStructureWithSecurity } from "../../types";
 import { userAccountActivatedEmailSender } from "../../../mails/services/templates-renderers";
 import { structureCreatorService } from "../../../structures/services";
@@ -179,5 +184,84 @@ export class AdminStructuresController {
       action: "ADMIN_STRUCTURE_VALIDATE",
     });
     return res.status(HttpStatus.OK).json({ message: "OK" });
+  }
+
+  @Patch("structure/:structureId/status")
+  public async updateStructureStatus(
+    @CurrentSupervisor() user: UserAdminAuthenticated,
+    @Param("structureId", new ParseIntPipe()) structureId: number,
+    @Body() updateStatusDto: UpdateStructureStatutDto,
+    @Res() res: ExpressResponse
+  ): Promise<ExpressResponse> {
+    try {
+      // Vérifier que la structure existe
+      const structure = await structureRepository.findOneBy({
+        id: structureId,
+      });
+      if (!structure) {
+        return res.status(HttpStatus.NOT_FOUND).json({
+          message: "Structure non trouvée",
+        });
+      }
+
+      if (
+        updateStatusDto.statut === "REFUS" &&
+        !Object.values(StructureRefusMotif).includes(
+          updateStatusDto.statutDetail as StructureRefusMotif
+        )
+      ) {
+        return res.status(HttpStatus.BAD_REQUEST).json({
+          message: "INVALID_STRUCTURE_STATUT",
+        });
+      }
+
+      if (
+        updateStatusDto.statut === "SUPPRIME" &&
+        !Object.values(StructureSuppressionMotif).includes(
+          updateStatusDto.statutDetail as StructureSuppressionMotif
+        )
+      ) {
+        return res.status(HttpStatus.BAD_REQUEST).json({
+          message: "INVALID_STRUCTURE_STATUT",
+        });
+      }
+
+      // Mise à jour de la structure
+      await structureRepository.update(
+        { id: structureId },
+        {
+          statut: updateStatusDto.statut,
+          statutDetail: updateStatusDto.statutDetail || null,
+        }
+      );
+
+      // Log de l'action admin
+      await this.appLogsService.create({
+        userId: user.id,
+        structureId,
+        action:
+          updateStatusDto.statut === "REFUS"
+            ? "ADMIN_STRUCTURE_REFUSAL"
+            : "ADMIN_STRUCTURE_DELETE",
+        context: {
+          statut: updateStatusDto.statut,
+          statutDetail: updateStatusDto.statutDetail,
+        },
+      });
+
+      return res.status(HttpStatus.OK).json({
+        structure: {
+          id: structure.id,
+          nom: structure.nom,
+          statut: updateStatusDto.statut,
+          statutDetail: updateStatusDto.statutDetail,
+        },
+      });
+    } catch (error) {
+      console.error("INTERNA_ERROR", error);
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        message: "INTERNAL_SERVER_ERROR",
+      });
+    }
   }
 }
