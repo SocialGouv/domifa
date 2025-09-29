@@ -16,6 +16,7 @@ import {
   DsfrPaginationModule,
   DsfrSkiplinksModule,
 } from "@edugouvfr/ngx-dsfr";
+import { FaqComponent } from "./components/faq/faq.component";
 
 @NgModule({
   declarations: [CustomToastrComponent, ReplaceLineBreaks],
