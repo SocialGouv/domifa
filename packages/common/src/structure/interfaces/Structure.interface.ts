@@ -1,8 +1,14 @@
 import { type AppEntity } from "../../_core";
 import { type Telephone } from "../../telephone";
 import { type TimeZone } from "../../territoires/types";
-import { DomiciliesSegmentEnum, PopulationSegmentEnum } from "../enums";
-import { type StructureType } from "../types";
+
+import {
+  DomiciliesSegmentEnum,
+  PopulationSegmentEnum,
+  StructureRefusMotif,
+  StructureSuppressionMotif,
+} from "../enums";
+import { StructureStatut, type StructureType } from "../types";
 import { type StructureAddresseCourrier } from "./StructureAddresseCourrier.interface";
 import { type StructureOptions } from "./StructureOptions.interface";
 import { type StructureOrganismeType } from "./StructureOrganismeType.type";
@@ -52,7 +58,7 @@ export interface Structure extends AppEntity {
   options: StructureOptions;
 
   token: string;
-  verified: boolean;
+  verified: boolean; // deprecated
 
   timeZone: TimeZone;
   sms: StructureSmsParams;
@@ -65,4 +71,6 @@ export interface Structure extends AppEntity {
   populationSegment?: PopulationSegmentEnum | null;
   registrationData?: StructureRegistrationData | null;
   siret: string | null;
+  statut: StructureStatut;
+  statutDetail?: StructureRefusMotif | StructureSuppressionMotif | null;
 }

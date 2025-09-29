@@ -15,7 +15,7 @@
           scope="col"
           (click)="sort.emit({
             element: 'sortKey',
-            value: 'id',            
+            value: 'id',
           })"
         >
           <app-table-head-sort
@@ -30,7 +30,7 @@
           scope="col"
           (click)="sort.emit({
             element: 'sortKey',
-            value: 'nom',            
+            value: 'nom',
           })"
         >
           <app-table-head-sort
@@ -45,7 +45,7 @@
           scope="col"
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'structureTypeLabel',            
+          value: 'structureTypeLabel',
         })"
         >
           <app-table-head-sort
@@ -60,7 +60,7 @@
           scope="col"
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'createdAt',            
+          value: 'createdAt',
         })"
         >
           <app-table-head-sort
@@ -76,7 +76,7 @@
           scope="col"
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'importDate',            
+          value: 'importDate',
         })"
         >
           <app-table-head-sort
@@ -91,7 +91,7 @@
           scope="col"
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'users',            
+          value: 'users',
         })"
         >
           <app-table-head-sort
@@ -105,7 +105,7 @@
         <th
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'usagers',            
+          value: 'usagers',
         })"
         >
           <app-table-head-sort
@@ -119,7 +119,7 @@
         <th
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'usagers',            
+          value: 'usagers',
         })"
         >
           <app-table-head-sort
@@ -134,7 +134,7 @@
           scope="col"
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'actifs',            
+          value: 'actifs',
         })"
         >
           <app-table-head-sort
@@ -149,7 +149,7 @@
           scope="col"
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'lastLogin',            
+          value: 'lastLogin',
         })"
         >
           <app-table-head-sort
@@ -164,7 +164,7 @@
           scope="col"
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'departementLabel',            
+          value: 'departementLabel',
         })"
         >
           <app-table-head-sort
@@ -175,7 +175,6 @@
           >
           </app-table-head-sort>
         </th>
-        <!-- <th scope="col" >Email</th> -->
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -191,7 +190,7 @@
             structure.structureType === "ccas" ? " - " + structure.ville : ""
           }}
           <span
-            *ngIf="structure.verified === false"
+            *ngIf="structure.statut === 'EN_ATTENTE'"
             class="badge bg-warning text-dark"
           >
             Non validée
@@ -251,7 +250,7 @@
             <div ngbDropdownMenu>
               <button
                 type="button"
-                *ngIf="!structure.verified"
+                *ngIf="structure.statut === 'EN_ATTENTE'"
                 class="cursor-pointer"
                 ngbDropdownItem
                 (click)="confirmStructure(structure)"
