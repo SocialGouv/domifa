@@ -202,14 +202,13 @@
           </p>
 
           <dsfr-button
-            [label]="'Se connecter'"
-            [type]="'submit'"
-            [variant]="'primary'"
-            [size]="'MD'"
-            [icon]="undefined"
+            label="Se connecter"
+            type="submit"
+            variant="primary"
+            size="MD"
             [disabled]="loading"
-            [buttonId]="''"
-            [customClass]="'d-flex flex-column w-100'"
+            buttonId="login"
+            customClass="d-flex flex-column w-100"
           ></dsfr-button>
         </form>
       </div>
@@ -245,108 +244,7 @@
     <div class="d-flex flex-grow-1"></div>
   </section>
   <hr />
-  <section class="fr-container row d-flex gap-5 mb-4">
-    <h2 class="fr-text-label--blue-ecume">Les questions fréquentes</h2>
-    <div class="d-flex flex-column">
-      <dsfr-accordion
-        [expanded]="false"
-        [heading]="'Qu’est-ce que Mon DomiFa ?'"
-        [headingLevel]="'H2'"
-        [headingAriaLabel]="'Qu’est-ce que Mon DomiFa ?'"
-      >
-        <p>
-          Mon DomiFa est
-          <b>un portail en ligne dédié aux personnes domiciliées</b>. <br />
-          Il vous permet de savoir si vous avez du courrier dans la structure
-          qui vous domicilie, à condition que celle-ci utilise l’outil DomiFa.
-        </p>
-      </dsfr-accordion>
-      <dsfr-accordion
-        [expanded]="false"
-        [heading]="'Est-ce un service payant ?'"
-        [headingLevel]="'H2'"
-        [headingAriaLabel]="'Est-ce un service payant ?'"
-      >
-        <p>
-          Non. L’accès à votre espace Mon DomiFa est entièrement gratuit, à
-          condition que votre structure a activé votre compte.
-        </p>
-      </dsfr-accordion>
-      <dsfr-accordion
-        [expanded]="false"
-        [heading]="'Comment me connecter à mon espace personnel ?'"
-        [headingLevel]="'H2'"
-        [headingAriaLabel]="'Comment me connecter à mon espace personnel ?'"
-      >
-        <p>
-          Rendez-vous sur
-          <a class="fr-link" href="/auth/login" target="_blank">
-            mon-domifa.fabrique.social.gouv.fr/auth/login</a
-          >
-        </p>
-        <ul>
-          <li>
-            Lors de votre <b>première connexion</b>, utilisez
-            <b
-              >l’identifiant et le mot de passe temporaire fourni par votre
-              structure</b
-            >.
-          </li>
-          <li>
-            À la première connexion, il vous sera demandé de
-            <b>créer un nouveau mot de passe personnel</b>, qui servira pour
-            toutes vos connexions suivantes.
-          </li>
-        </ul>
-      </dsfr-accordion>
-      <dsfr-accordion
-        [expanded]="false"
-        [heading]="'Que faire si j’ai perdu mes identifiants ?'"
-        [headingLevel]="'H2'"
-        [headingAriaLabel]="'Que faire si j’ai perdu mes identifiants ?'"
-      >
-        <p>
-          En cas de perte d’identifiant ou de mot de passe,
-          <b>contactez directement votre structure de domiciliation</b>.
-        </p>
-        <div class="fr-notice fr-notice--warning">
-          <div class="fr-container">
-            <div class="fr-notice__body">
-              <p>
-                <span class="fr-notice__desc"
-                  >Aucun identifiant ou mot de passe ne peut être envoyé par
-                  internet.</span
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-      </dsfr-accordion>
-      <dsfr-accordion
-        [expanded]="false"
-        [heading]="
-          'Puis-je faire une demande en ligne (renouvellement, Cerfa, etc.) ?'
-        "
-        [headingLevel]="'H2'"
-        [headingAriaLabel]="
-          'Puis-je faire une demande en ligne (renouvellement, Cerfa, etc.) ?'
-        "
-      >
-        <p>
-          Non. Mon DomiFa est aujourd’hui un
-          <b>outil de consultation uniquement</b>. Pour toute demande
-          (renouvellement, justificatif, Cerfa, etc.), vous devez
-          <b>contacter directement votre structure de domiciliation</b>.
-        </p>
-      </dsfr-accordion>
-    </div>
-    <dsfr-button
-      class="d-flex justify-content-center"
-      [label]="'Consulter l\'aide en ligne'"
-      [type]="'button'"
-      [tooltipMessage]="'Consulter l\'aide en ligne'"
-      [variant]="'secondary'"
-      [size]="'LG'"
-    ></dsfr-button>
+  <section class="fr-container">
+    <app-faq></app-faq>
   </section>
 </div>
