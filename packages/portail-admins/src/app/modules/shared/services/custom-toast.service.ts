@@ -10,7 +10,6 @@ export class CustomToastService {
   public toast$: Subject<CustomToast> = new Subject();
   public toast: CustomToast = {
     display: false,
-    dissmissable: true,
     message: "",
     class: "",
   };
@@ -34,7 +33,6 @@ export class CustomToastService {
   public launchToast(message: string, className: CustomToastClass): void {
     this.toast$.next({
       display: true,
-      dissmissable: true,
       message,
       class: className,
     });
