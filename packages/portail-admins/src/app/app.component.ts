@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs";
@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
   public skipLinks: DsfrLink[] = [];
   public headerToolsLinks: DsfrLink[] = [];
   public menuHeaderItems: DsfrHeaderMenuItem[] = [];
+  @ViewChild("notice") public noticeRef!: ElementRef;
   constructor(
     private readonly router: Router,
     private readonly titleService: Title,
@@ -126,5 +127,9 @@ export class AppComponent implements OnInit {
 
   public logout(): void {
     this.adminAuthService.logoutFromBackend();
+  }
+
+  public dismissNotice() {
+    this.noticeRef.nativeElement.remove();
   }
 }
