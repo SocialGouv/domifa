@@ -4364,7 +4364,7 @@ __metadata:
     "@angular/platform-browser-dynamic": "npm:^18.2.13"
     "@angular/router": "npm:^18.2.13"
     "@domifa/common": "workspace:^"
-    "@edugouvfr/ngx-dsfr": "npm:^1.14.3"
+    "@edugouvfr/ngx-dsfr": "npm:^1.15.3"
     "@fortawesome/angular-fontawesome": "npm:0.15.0"
     "@fortawesome/fontawesome-svg-core": "npm:^6.7.2"
     "@fortawesome/free-regular-svg-icons": "npm:^6.7.2"
@@ -4425,6 +4425,29 @@ __metadata:
   bin:
     ngx-dsfr: index.js
   checksum: 10/f943c22f4307fcb833e967c0b84566a8be874a70213a87f7a197eceac3e7f376a0b7c967cb7bfc9b680119ee61fbdd823f11a7293312e8f9a9b3f949d8541a94
+  languageName: node
+  linkType: hard
+
+"@edugouvfr/ngx-dsfr@npm:^1.15.3":
+  version: 1.15.3
+  resolution: "@edugouvfr/ngx-dsfr@npm:1.15.3"
+  dependencies:
+    "@gouvfr/dsfr": "npm:1.14.0"
+    tslib: "npm:^2.6.0"
+  peerDependencies:
+    "@angular/common": ">=18.2"
+    "@angular/core": ">=18.2"
+    "@angular/forms": ">=18.2"
+    "@playwright/test": ^1
+    args-parser: ">=1.3.0"
+    rxjs: ^6 || ^7
+    uuid: ">=8.3.0"
+  peerDependenciesMeta:
+    "@playwright/test":
+      optional: true
+  bin:
+    ngx-dsfr: index.js
+  checksum: 10/82b21becf34dc9cb91ce64744776e14c6846f3ed4c1e9c691b7c16f06a15eba31bb49d58e91b7cbf3732b69c2b08b96c750e640667cfd7a95d1635dab571373f
   languageName: node
   linkType: hard
 
@@ -28352,7 +28375,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:2.8.1, tslib@npm:^2.0.0, tslib@npm:^2.1.0, tslib@npm:^2.2.0, tslib@npm:^2.3.0, tslib@npm:^2.4.0, tslib@npm:^2.4.1, tslib@npm:^2.5.0, tslib@npm:^2.6.2, tslib@npm:^2.8.1":
+"tslib@npm:2.8.1, tslib@npm:^2.0.0, tslib@npm:^2.1.0, tslib@npm:^2.2.0, tslib@npm:^2.3.0, tslib@npm:^2.4.0, tslib@npm:^2.4.1, tslib@npm:^2.5.0, tslib@npm:^2.6.0, tslib@npm:^2.6.2, tslib@npm:^2.8.1":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10/3e2e043d5c2316461cb54e5c7fe02c30ef6dccb3384717ca22ae5c6b5bc95232a6241df19c622d9c73b809bea33b187f6dbc73030963e29950c2141bc32a79f7
