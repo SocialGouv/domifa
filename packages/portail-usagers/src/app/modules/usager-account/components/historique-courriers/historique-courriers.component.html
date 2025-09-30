@@ -1,12 +1,21 @@
-<div class="content">
-  <h1 class="mt-5 mb-2 section-title">Historique des interactions</h1>
+<div class="fr-container d-flex flex-column mt-5 gap-3">
+  <dsfr-button
+    [routerLink]="['/account']"
+    label="retour"
+    type="button"
+    variant="secondary"
+    buttonSize="MD"
+    icon="fr-icon-arrow-left-s-line"
+  ></dsfr-button>
 
-  <div class="content section-content">
-    <p>
-      Vous trouverez ci-dessous, l'ensemble des courriers, colis et avis de
-      passage reçus et déjà récupérés
-    </p>
-    <br />
+  <h3 class="fr-text-title--blue-france fr-mb-n3v">
+    Historique des interactions
+  </h3>
+  <p class="fr-text--sm mb-1">
+    Vous trouverez ci-dessous, l'ensemble des courriers, colis et avis de
+    passage reçus et déjà récupérés
+  </p>
+  <div class="d-flex flex-column gap-4 border-top border-1 border-grey pt-3">
     <div
       *ngIf="!interactions || interactions.length === 0"
       class="alert alert-info"
@@ -16,54 +25,46 @@
 
     <div
       *ngFor="let interaction of interactions; let i = index"
-      class="interaction-historique"
+      class="fr-text-title--blue-france"
     >
-      <div class="d-flex align-items-top">
-        <div>
-          <div class="number d-print-none">
-            <div
-              class="icon-courrier"
-              [ngClass]="'icon-' + interaction.type"
-            ></div>
-          </div>
-          <div
-            class="interaction-separator"
-            *ngIf="i < 4 && i < interactions.length - 1"
-          ></div>
-        </div>
-
-        <div class="ms-3">
-          <p class="interaction-date">
-            {{ interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm" }}
-          </p>
-          <p class="fw-bold">
-            {{ interaction.label }}
-          </p>
+      <ng-container>
+        <div class="d-flex gap-2">
           <span
-            [innerHTML]="interaction.content | nl2br"
-            *ngIf="interaction.content"
+            [class.fr-icon-mail-open-line]="interaction.type === 'courrierIn'"
+            [class.fr-icon-archive-line]="interaction.type === 'colisIn'"
+            [class.fr-icon-mail-star-line]="interaction.type === 'recommandeIn'"
+            [class.fr-icon-user-line]="interaction.type === 'visite'"
+            [class.fr-icon-phone-line]="interaction.type === 'appel'"
+            [class.fr-icon-mail-send-line]="interaction.type === 'courrierOut'"
+            [class.fr-icon-inbox-archive-line]="interaction.type === 'colisOut'"
+            [class.fr-icon-mail-download-line]="
+              interaction.type === 'recommandeOut'
+            "
+            class="align-self-start fr-mt-1-5v"
           ></span>
+          <div class="d-flex flex-column gap-1">
+            <span class="fr-text-title--blue-france">
+              {{ interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm" }}
+            </span>
+            <span>{{ interaction.label }}</span>
+            <div
+              *ngIf="interaction.content"
+              class="fr-text--sm mb-0 fr-text-title--grey"
+            >
+              <span [innerHTML]="interaction.content | nl2br"></span>
+            </div>
+          </div>
         </div>
-      </div>
+      </ng-container>
     </div>
-    <ngb-pagination
-      *ngIf="searchResults.meta.itemCount >= params.take"
+    <dsfr-pagination
       class="my-5 d-flex justify-content-center"
-      [collectionSize]="searchResults.meta.itemCount"
-      [(page)]="params.page"
-      [boundaryLinks]="true"
-      [rotate]="true"
-      [maxSize]="5"
-      [pageSize]="params.take"
-      (pageChange)="getInteractions()"
-    ></ngb-pagination>
-    <br />
-    <br />
-    <div class="text-center my-2">
-      <a routerLink="/account" class="btn btn-outline-primary">
-        <fa-icon aria-hidden="true" [icon]="faChevronLeft"></fa-icon>
-        Retourner sur mon profil
-      </a>
-    </div>
+      [pageCount]="searchResults.meta.pageCount"
+      [currentPage]="searchResults.meta.page"
+      [previousOnly]="!searchResults.meta.hasNextPage"
+      ariaLabel="'Pagination historique des interactions'"
+      (pageSelect)="getInteractionsByPage($event)"
+      (backSelect)="getPreviousPage()"
+    ></dsfr-pagination>
   </div>
 </div>
