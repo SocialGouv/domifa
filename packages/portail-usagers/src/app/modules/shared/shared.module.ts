@@ -10,8 +10,10 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
 import { SeoService } from "./services/seo.service";
 import { ReplaceLineBreaks } from "./pipes/nl2br.pipe";
 import {
+  DsfrButtonModule,
   DsfrFooterModule,
   DsfrHeaderModule,
+  DsfrPaginationModule,
   DsfrSkiplinksModule,
 } from "@edugouvfr/ngx-dsfr";
 
@@ -23,6 +25,8 @@ import {
     DsfrFooterModule,
     DsfrSkiplinksModule,
     DsfrHeaderModule,
+    DsfrButtonModule,
+    DsfrPaginationModule,
   ],
   providers: [SeoService],
   imports: [
@@ -31,6 +35,8 @@ import {
     DsfrFooterModule,
     DsfrSkiplinksModule,
     DsfrHeaderModule,
+    DsfrButtonModule,
+    DsfrPaginationModule,
   ],
 })
 export class SharedModule {
