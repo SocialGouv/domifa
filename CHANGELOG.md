@@ -1,3 +1,10 @@
+# [2.222.0](https://github.com/SocialGouv/domifa/compare/v2.221.8...v2.222.0) (2025-09-30)
+
+
+### Features
+
+* **backend:** add option to display name of your structure in cerfa ([#3942](https://github.com/SocialGouv/domifa/issues/3942)) ([61e2365](https://github.com/SocialGouv/domifa/commit/61e2365ae3cf19c3c38cf3024e971e8dd4c502b7))
+
 ## [2.221.8](https://github.com/SocialGouv/domifa/compare/v2.221.7...v2.221.8) (2025-09-25)
 
 
