@@ -54,7 +54,7 @@ export class SectionDocsComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly usagerDocService: UsagerDocService,
-    private readonly toastr: CustomToastService,
+    private readonly toastr: CustomToastService
   ) {}
 
   ngOnInit(): void {
@@ -67,11 +67,12 @@ export class SectionDocsComponent implements OnInit, OnDestroy {
         next: (docs: UsagerDoc[]) => {
           this.docs = initLoadingState(docs);
         },
-      }),
+      })
     );
   }
 
-  public downloadDoc(doc: WithLoading<UsagerDoc>) {
+  public downloadDoc(event: Event, doc: WithLoading<UsagerDoc>) {
+    event.preventDefault();
     doc.loading = true;
     this.subscription.add(
       this.usagerDocService.downloadDocument(doc.uuid as string).subscribe({
@@ -88,7 +89,7 @@ export class SectionDocsComponent implements OnInit, OnDestroy {
           this.toastr.error("Impossible de télécharger le fichier");
           doc.loading = false;
         },
-      }),
+      })
     );
   }
 
