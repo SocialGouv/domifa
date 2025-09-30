@@ -1,4 +1,4 @@
-<div class="container">
+<div class="fr-container">
   <ng-container *ngIf="usagerProfile">
     <div class="py-4">
       <h1 class="text-primary fw-bold">
@@ -11,16 +11,15 @@
     </div>
     <div class="row" data-masonry='{"percentPosition": true }'>
       <div class="col-12 col-md-6 mb-4">
+        <app-section-courriers
+          [usager]="usagerProfile.usager"
+        ></app-section-courriers>
+      </div>
+      <div class="col-12 col-md-6 mb-4">
         <app-structure-information
           *ngIf="structureInformation?.length"
           [structureInformation]="structureInformation"
         ></app-structure-information>
-      </div>
-
-      <div class="col-12 col-md-6 mb-4">
-        <app-section-courriers
-          [usager]="usagerProfile.usager"
-        ></app-section-courriers>
       </div>
       <div class="col-12 col-md-6 mb-4">
         <app-section-infos [usager]="usagerProfile.usager"></app-section-infos>
