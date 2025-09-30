@@ -24,7 +24,6 @@ export const generateCerfaData = (
   }
   const entretienAvec = getStringFromData(usager.rdv.userName).toUpperCase();
   const dateRdv = getDateForCerfa(usager.rdv.dateRdv, user);
-
   const dateOfDocument = getDateForCerfa(new Date());
 
   let decisionToUse = usager.decision;

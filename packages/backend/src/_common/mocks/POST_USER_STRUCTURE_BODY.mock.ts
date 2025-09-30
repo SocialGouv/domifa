@@ -31,7 +31,7 @@ export const POST_USER_STRUCTURE_BODY: Partial<UserStructure> = {
     region: "11",
     email: "preprod.domifa@fabrique.social.gouv.fr",
     nom: "DomiFa Compte Test",
-    options: { numeroBoite: false, surnom: false },
+    options: { numeroBoite: false, nomStructure: false, surnom: false },
     responsable: { nom: "Pompei", prenom: "Roma", fonction: "Directrice" },
     structureType: "asso" as StructureType,
     ville: "Cergy",

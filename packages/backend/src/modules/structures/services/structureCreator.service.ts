@@ -146,6 +146,12 @@ async function createStructure(structureDto: StructureDto) {
     createdStructure.codePostal
   );
 
+  createdStructure.options = {
+    numeroBoite: true,
+    nomStructure: true,
+    surnom: false,
+  };
+
   createdStructure.region = getRegionCodeFromDepartement(
     createdStructure.departement
   );

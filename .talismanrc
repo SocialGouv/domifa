@@ -8,9 +8,9 @@ fileignoreconfig:
 - filename: _docs/dev/0.run-local-env.md
   checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: fc6ce54e46e696ecc5a94a967a8dea5d4b477bb837b4e84135f8f13733d9fe2c
+  checksum: 1c470a390cd0eeb1164186725b649d80ea080a8bf0d8a19fbe4547b4b649d3d0
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: 0c3e2975b2239ca1efd5746a823b5f97059bfb8438137e8a6ae4af39b72d92a6
+  checksum: fd50f79cda7e2edf6944f9e30c1b30284b87bc6211fbb3aa9fad56eb8b9aff66
 - filename: packages/backend/package.json
   checksum: 2f5813dbc35cdc3659516beabf9f93e2978eb62d1b5403cfbb2907f22bb25355
 - filename: packages/backend/src/_migrations/1757532174131-auto-migration.ts

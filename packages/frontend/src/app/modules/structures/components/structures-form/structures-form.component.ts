@@ -151,8 +151,9 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
     const structureFormValue: Partial<Structure> = {
       ...this.structureForm.value,
       options: {
-        numeroBoite: false,
+        numeroBoite: true,
         surnom: false,
+        nomStructure: true,
       },
       departement,
       telephone: getFormPhone(this.structureForm.value.telephone),
