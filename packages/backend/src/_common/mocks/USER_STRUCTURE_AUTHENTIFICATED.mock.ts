@@ -36,6 +36,7 @@ export const USER_STRUCTURE_AUTH: UserStructureAuthenticated = {
     },
     options: {
       numeroBoite: false,
+      nomStructure: false,
       surnom: false,
     },
     sms: {

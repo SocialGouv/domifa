@@ -54,7 +54,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
   region: "11",
   email: "ccas.test@yopmail.com",
   nom: "CCAS de Test",
-  options: { numeroBoite: false, surnom: false },
+  options: { numeroBoite: true, nomStructure: true, surnom: false },
   telephone: {
     numero: "0602030405",
     countryCode: "fr",

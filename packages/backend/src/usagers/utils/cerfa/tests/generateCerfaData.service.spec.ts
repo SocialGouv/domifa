@@ -77,7 +77,7 @@ describe("Générer les données des Cerfa", () => {
   });
 
   describe("Générer des données par défaut si elles sont vides", () => {
-    it("", () => {
+    it("Téléphone, rattachement, etc", () => {
       usagerValide.entretien.rattachement = null;
       usagerRefus.telephone = null;
       user.structure.telephone = { countryCode: "fr", numero: "" };
@@ -259,38 +259,48 @@ describe("Générer les données des Cerfa", () => {
         "CCAS de Test\n1 rue de l'océan\nTSA 30110\n92600 - Asnieres-sur-seine";
       expect(adresseDomicilie).toEqual(newLocal);
     });
-
-    describe("Paramètres du Cerfa : afficher ou non le surnom (utilisé pour les noms d'épouse) ", () => {
-      it("Ne pas afficher le surnom si la structure ne le souhaite pas", () => {
-        user.structure.options.surnom = true;
-        usagerValide.surnom = null;
-        const data = generateCerfaData(
-          usagerValide,
-          user,
-          CerfaDocType.attestation
-        );
-        expect(data.noms1).toEqual("KARAMOKO");
-      });
-      it("Nom dépouse activé: ne pas afficher le surnom s'il est vide", () => {
-        user.structure.options.surnom = true;
-        usagerValide.surnom = null;
-        const data = generateCerfaData(
-          usagerValide,
-          user,
-          CerfaDocType.attestation
-        );
-        expect(data.noms1).toEqual("KARAMOKO");
-      });
-      it("Nom dépouse activé: afficher le surnom ", () => {
-        user.structure.options.surnom = true;
-        usagerValide.surnom = "Marie-madeleine";
-        const data = generateCerfaData(
-          usagerValide,
-          user,
-          CerfaDocType.attestation
-        );
-        expect(data.noms1).toEqual("KARAMOKO (Marie-madeleine)");
-      });
+  });
+  describe("Paramètres du Cerfa : afficher ou non le surnom (utilisé pour les noms d'épouse) ", () => {
+    it("Ne pas afficher le surnom si la structure ne le souhaite pas", () => {
+      user.structure.options.surnom = true;
+      usagerValide.surnom = null;
+      const data = generateCerfaData(
+        usagerValide,
+        user,
+        CerfaDocType.attestation
+      );
+      expect(data.noms1).toEqual("KARAMOKO");
+    });
+    it("Nom d'épouse activé: ne pas afficher le surnom s'il est vide", () => {
+      user.structure.options.surnom = true;
+      usagerValide.surnom = null;
+      const data = generateCerfaData(
+        usagerValide,
+        user,
+        CerfaDocType.attestation
+      );
+      expect(data.noms1).toEqual("KARAMOKO");
+    });
+    it("Nom d'épouse activé: afficher le surnom ", () => {
+      user.structure.options.surnom = true;
+      usagerValide.surnom = "Marie-madeleine";
+      const data = generateCerfaData(
+        usagerValide,
+        user,
+        CerfaDocType.attestation
+      );
+      expect(data.noms1).toEqual("KARAMOKO (Marie-madeleine)");
+    });
+    it("Nom de la structure désactivé: ne pas afficher l'adresse complète avec le nom de la structure", () => {
+      user.structure.options.nomStructure = false;
+      const data = generateCerfaData(
+        usagerValide,
+        user,
+        CerfaDocType.attestation
+      );
+      expect(data.adresseOrga1).toEqual(
+        "1 rue de l'océan\n92600 - Asnieres-sur-seine"
+      );
     });
   });
 });

@@ -14,6 +14,7 @@ import {
   PopulationSegmentEnum,
   DomiciliesSegmentEnum,
   StructureRegistrationData,
+  StructureOptions,
 } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
@@ -98,17 +99,12 @@ export class StructureTable
 
   @Column({
     type: "jsonb",
-    default: () => `'{"numeroBoite": true, "surnom": false}'`,
   })
-  options: {
-    numeroBoite: boolean;
-    surnom: boolean;
-  };
+  options: StructureOptions;
 
   @Column({
     type: "jsonb",
     nullable: false,
-    default: () => `'{"countryCode": "fr", "numero": ""}'`,
   })
   public telephone: Telephone;
 

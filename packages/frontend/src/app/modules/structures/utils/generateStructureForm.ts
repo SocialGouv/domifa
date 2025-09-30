@@ -96,7 +96,8 @@ export function createform(
       ],
     }),
     options: formBuilder.group({
-      numeroBoite: [structure.options?.numeroBoite ?? false, []],
+      numeroBoite: [structure.options?.numeroBoite ?? true, []],
+      nomStructure: [structure.options?.nomStructure ?? true, []],
       surnom: [structure.options?.surnom ?? false, []],
     }),
     telephone: new UntypedFormControl(

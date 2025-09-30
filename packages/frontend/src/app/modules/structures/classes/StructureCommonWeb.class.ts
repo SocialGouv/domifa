@@ -12,6 +12,7 @@ import {
   StructureOrganismeType,
   TimeZone,
   StructureRegistrationData,
+  StructureOptions,
 } from "@domifa/common";
 
 export class StructureCommonWeb implements StructureCommon {
@@ -39,10 +40,12 @@ export class StructureCommonWeb implements StructureCommon {
     nom: "",
     prenom: "",
   };
-  public options: { numeroBoite: boolean; surnom: boolean } = {
+  public options: StructureOptions = {
     numeroBoite: false,
     surnom: false,
+    nomStructure: false,
   };
+
   public adresseCourrier: StructureAddresseCourrier = {
     actif: false,
     adresse: "",

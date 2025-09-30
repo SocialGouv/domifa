@@ -17,4 +17,12 @@ export class StructureOptionsDto {
   @IsNotEmpty()
   @IsBoolean()
   public surnom: boolean;
+
+  @ApiProperty({
+    type: Boolean,
+    required: true,
+  })
+  @IsNotEmpty()
+  @IsBoolean()
+  public nomStructure: boolean;
 }

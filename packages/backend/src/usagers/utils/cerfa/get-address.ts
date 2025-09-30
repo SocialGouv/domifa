@@ -21,10 +21,20 @@ export function getAddress(
     !isNil(user.structure.adresseCourrier) &&
     user.structure.adresseCourrier.actif
   ) {
-    adresseDomicilie = `${user.structure.nom}\n${user.structure.adresseCourrier.adresse}`;
+    // Affiche le nom de la structure seulement si options.nomStructure est true
+    if (user.structure.options?.nomStructure === true) {
+      adresseDomicilie = `${user.structure.nom}\n${user.structure.adresseCourrier.adresse}`;
+    } else {
+      adresseDomicilie = user.structure.adresseCourrier.adresse;
+    }
     adresseDomicilie += `${numeroDistribution}${user.structure.adresseCourrier.codePostal} - ${user.structure.adresseCourrier.ville}`;
   } else {
-    adresseDomicilie = `${user.structure.nom}\n${user.structure.adresse}`;
+    // Affiche le nom de la structure seulement si options.nomStructure est true
+    if (user.structure.options?.nomStructure === true) {
+      adresseDomicilie = `${user.structure.nom}\n${user.structure.adresse}`;
+    } else {
+      adresseDomicilie = user.structure.adresse;
+    }
 
     // Complément d'adresse
     if (!isNil(user.structure.complementAdresse)) {

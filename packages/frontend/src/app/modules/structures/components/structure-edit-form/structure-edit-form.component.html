@@ -1190,6 +1190,34 @@
     <div formGroupName="options">
       <fieldset>
         <legend class="label">
+          Afficher le nom de la structure dans l'adresse indiquée sur le Cerfa
+        </legend>
+
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="nomStructure"
+            name="nomStructure"
+            id="nomStructureOui"
+            [value]="true"
+          />
+          <label class="form-check-label" for="nomStructureOui">Oui</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="nomStructure"
+            name="nomStructure"
+            id="nomStructureNon"
+            [value]="false"
+          />
+          <label class="form-check-label" for="nomStructureNon">Non</label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend class="label">
           Afficher l'ID des domiciliés dans la section "Adresse Postale" du
           cerfa d'attestation du domicilié
         </legend>
