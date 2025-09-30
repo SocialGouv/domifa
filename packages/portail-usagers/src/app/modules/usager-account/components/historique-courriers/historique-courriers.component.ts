@@ -39,14 +39,27 @@ export class HistoriqueCourriersComponent implements OnDestroy, OnInit {
   constructor(
     private readonly usagerAuthService: UsagerAuthService,
     private readonly interactionService: InteractionService,
-    private readonly toastr: CustomToastService,
+    private readonly toastr: CustomToastService
   ) {}
 
   ngOnInit() {
-    this.getInteractions();
+    this.loadInteractions();
   }
 
-  public getInteractions(): void {
+  public getInteractionsByPage(page: number): void {
+    this.params.page = page;
+    this.loadInteractions();
+  }
+
+  public getPreviousPage(): void {
+    if (this.params.page === 1) {
+      return;
+    }
+    this.params.page -= 1;
+    this.loadInteractions();
+  }
+
+  private loadInteractions(): void {
     this.loading = true;
     if (this.usagerAuthService.currentUserValue?.usager?.ref) {
       this.subscription.add(
@@ -59,10 +72,10 @@ export class HistoriqueCourriersComponent implements OnDestroy, OnInit {
           error: () => {
             this.loading = false;
             this.toastr.error(
-              "Le chargement de votre historique a échoué. Veuillez réessayer plus tard",
+              "Le chargement de votre historique a échoué. Veuillez réessayer plus tard"
             );
           },
-        }),
+        })
       );
     }
   }
