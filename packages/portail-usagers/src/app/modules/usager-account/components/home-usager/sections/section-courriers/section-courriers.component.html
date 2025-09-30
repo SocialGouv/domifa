@@ -38,81 +38,91 @@
     </div>
   </div>
 
-  <div *ngIf="usager.lastInteraction.enAttente" class="my-2">
-    <h2 class="section-title">Vous avez du courrier !</h2>
+  <div
+    *ngIf="usager.lastInteraction.enAttente"
+    class="fr-text-title--blue-france my-2"
+  >
+    <h3 class="fr-text-title--blue-france mb-2">Vous avez du courrier !</h3>
 
-    <div class="content section-content">
-      <p class="my-2">
-        Vous pouvez le récupérer dans votre centre de domiciliation
-      </p>
+    <div class="border-top border-1 border-grey pt-2 mb-2">
       <div class="d-flex align-items-top">
-        <div>
+        <div class="d-flex flex-column gap-4">
           <ng-container *ngIf="usager.lastInteraction.courrierIn > 0">
-            <div class="d-flex align-items-center my-3">
-              <div class="interaction-icon icon-courrier me-3"></div>
-              <div class="profil-interaction-label">
-                <b class="text-primary">{{
-                  usager.lastInteraction.courrierIn
-                }}</b>
-                courriers
+            <div class="d-flex gap-2">
+              <span
+                class="fr-icon-mail-open-line align-self-start fr-mt-1-5v"
+              ></span>
+              <div class="d-flex flex-column gap-1">
+                <div>
+                  <span class="fr-h3 fr-text-title--blue-france">{{
+                    usager.lastInteraction.courrierIn
+                  }}</span>
+                  courrier
+                </div>
+                <ng-container *ngIf="pendingInteractions.courrierIn?.length">
+                  <div
+                    *ngFor="let interaction of pendingInteractions.courrierIn"
+                  >
+                    {{ interaction.dateInteraction | date : "dd MMMM yyyy" }}
+                    <ng-container *ngIf="interaction.content"
+                      >:
+                      <span [innerHTML]="interaction.content | nl2br"></span>
+                    </ng-container>
+                  </div>
+                </ng-container>
               </div>
             </div>
-            <ul *ngIf="pendingInteractions.courrierIn?.length">
-              <li *ngFor="let interaction of pendingInteractions.courrierIn">
-                <b class="interaction-date">
-                  {{ interaction.dateInteraction | date : "dd MMMM yyyy" }}
-                </b>
-                <ng-container *ngIf="interaction.content"
-                  >:
-                  <span [innerHTML]="interaction.content | nl2br"></span>
-                </ng-container>
-              </li>
-            </ul>
           </ng-container>
           <ng-container *ngIf="usager.lastInteraction.colisIn > 0">
-            <div class="d-flex align-items-center my-3">
-              <div class="interaction-icon icon-colis me-3"></div>
-
-              <div class="profil-interaction-label">
-                <b class="text-primary">{{ usager.lastInteraction.colisIn }}</b>
-                colis
+            <div class="d-flex gap-2">
+              <span
+                class="fr-icon-archive-line align-self-start fr-mt-1-5v"
+              ></span>
+              <div class="d-flex flex-column gap-1">
+                <div>
+                  <span class="fr-h3 fr-text-title--blue-france">{{
+                    usager.lastInteraction.colisIn
+                  }}</span>
+                  Colis
+                </div>
+                <ng-container *ngIf="pendingInteractions.colisIn?.length">
+                  <div *ngFor="let interaction of pendingInteractions.colisIn">
+                    {{ interaction.dateInteraction | date : "dd MMMM yyyy" }}
+                    <ng-container *ngIf="interaction.content"
+                      >:
+                      <span [innerHTML]="interaction.content | nl2br"></span>
+                    </ng-container>
+                  </div>
+                </ng-container>
               </div>
             </div>
-            <ul *ngIf="pendingInteractions.colisIn?.length">
-              <li *ngFor="let interaction of pendingInteractions.colisIn">
-                <b class="interaction-date">
-                  {{ interaction.dateInteraction | date : "dd MMMM yyyy" }}
-                </b>
-                <ng-container *ngIf="interaction.content"
-                  >:
-                  <span [innerHTML]="interaction.content | nl2br"></span>
-                </ng-container>
-              </li>
-            </ul>
           </ng-container>
 
           <ng-container *ngIf="usager.lastInteraction.recommandeIn > 0">
-            <div class="d-flex align-items-center my-3">
-              <div class="interaction-icon icon-recommande me-3"></div>
-
-              <div class="profil-interaction-label">
-                <b class="text-primary">{{
-                  usager.lastInteraction.recommandeIn
-                }}</b>
-                avis de passage
+            <div class="d-flex gap-2">
+              <span
+                class="fr-icon-mail-star-line align-self-start fr-mt-1-5v"
+              ></span>
+              <div class="d-flex flex-column gap-1">
+                <div>
+                  <span class="fr-h3 fr-text-title--blue-france">{{
+                    usager.lastInteraction.recommandeIn
+                  }}</span>
+                  avis de passage
+                </div>
+                <ng-container *ngIf="pendingInteractions.recommandeIn?.length">
+                  <div
+                    *ngFor="let interaction of pendingInteractions.recommandeIn"
+                  >
+                    {{ interaction.dateInteraction | date : "dd MMMM yyyy" }}
+                    <ng-container *ngIf="interaction.content"
+                      >:
+                      <span [innerHTML]="interaction.content | nl2br"></span>
+                    </ng-container>
+                  </div>
+                </ng-container>
               </div>
             </div>
-            <ul *ngIf="pendingInteractions.recommandeIn?.length">
-              <li *ngFor="let interaction of pendingInteractions.recommandeIn">
-                <b class="interaction-date">
-                  {{ interaction.dateInteraction | date : "dd MMMM yyyy" }}
-                </b>
-                <ng-container *ngIf="interaction.content"
-                  >:
-                  <span [innerHTML]="interaction.content | nl2br"></span>
-                </ng-container>
-              </li>
-            </ul>
           </ng-container>
         </div>
       </div>
@@ -120,13 +130,9 @@
       <div class="text-center">
         <a
           routerLink="/account/historique"
-          class="mt-4 mb-2 btn btn-outline-primary"
+          class="fr-btn fr-btn--lg fr-btn--secondary gap-1 mt-4 mb-2"
         >
-          <fa-icon
-            aria-hidden="true"
-            class="me-2"
-            [icon]="faClockRotateLeft"
-          ></fa-icon>
+          <span aria-hidden="true" class="fr-icon-time-line"></span>
           Consulter l'historique des courriers
         </a>
       </div>
