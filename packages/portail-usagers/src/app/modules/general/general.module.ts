@@ -24,6 +24,7 @@ import { IdleManagerComponent } from "./components/idle-manager/idle-manager.com
 import { PlanSiteComponent } from "./components/_static/plan-site/plan-site.component";
 import { FormsModule } from "@angular/forms";
 import { NewsComponent } from "./components/_static/news/news.component";
+import { DsfrDataTableModule } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { NewsComponent } from "./components/_static/news/news.component";
     SharedModule,
     NgbModule,
     FormsModule,
+    DsfrDataTableModule,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

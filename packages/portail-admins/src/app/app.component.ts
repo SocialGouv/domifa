@@ -8,6 +8,7 @@ import { LIENS_PARTENAIRES } from "./modules/general/components/static-pages/pla
 import { PortailAdminUser } from "@domifa/common";
 import { faChartBar } from "@fortawesome/free-regular-svg-icons";
 import { faList, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { DsfrLink } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-root",
@@ -21,7 +22,7 @@ export class AppComponent implements OnInit {
   public faUsers = faUsers;
   public faList = faList;
   public currentUrl = "";
-
+  public skipLinks: DsfrLink[] = [];
   constructor(
     private readonly router: Router,
     private readonly titleService: Title,
@@ -32,7 +33,6 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     this.currentUrl = this.router.url;
-
     this.titleService.setTitle("Bienvenue sur le portail admin de DomiFa");
 
     this.adminAuthService.currentAdminSubject.subscribe(
@@ -47,6 +47,25 @@ export class AppComponent implements OnInit {
         const event = ev as unknown as NavigationEnd;
         const splitUrl = event?.url.split("#");
         this.currentUrl = splitUrl[0];
+        this.skipLinks = [
+          {
+            label: "Aller à la navigation",
+            link: `${this.currentUrl}#navigation`,
+          },
+          { label: "Aller au contenu", link: `${this.currentUrl}#page` },
+          ...(this.currentUrl === "/structures" // pour avoir le bon ordre des liens
+            ? [
+                {
+                  label: "Aller à la recherche",
+                  link: `${this.currentUrl}#search-bar`,
+                },
+              ]
+            : []),
+          {
+            label: "Aller au pied de page",
+            link: `${this.currentUrl}#footer`,
+          },
+        ];
 
         if (typeof splitUrl[1] !== "undefined") {
           const fragment = splitUrl[1];
