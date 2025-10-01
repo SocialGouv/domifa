@@ -12,8 +12,7 @@
           [formGroup]="loginForm"
           (ngSubmit)="login()"
         >
-          <h3 class="align-self-start">Connexion à Mon Domifa</h3>
-          <h5 class="align-self-start">Se connecter avec son compte</h5>
+          <h1 class="align-self-start">Connexion à Mon Domifa</h1>
           <span class="col-12 col-md-12"> * champs obligatoires </span>
           <dsfr-form-input
             appUppercase
@@ -25,7 +24,7 @@
             [ariaDescription]="
               f.login.dirty && f.login.errors ? 'invalid-login' : null
             "
-            [disabled]="this.mode === 'login-change-password'"
+            [disabled]="mode === 'login-change-password'"
             [message]="
               f.login.dirty && f.login.errors
                 ? 'Veuillez vérifier l\'identifiant. Celui-ci se trouve sur le document que vous à remis la structure.'
@@ -36,9 +35,9 @@
             "
             [required]="true"
             [customClass]="'required'"
-            label="identifiant"
+            label="Identifiant"
           ></dsfr-form-input>
-          <ng-container *ngIf="this.mode === 'login-change-password'">
+          <ng-container *ngIf="mode === 'login-change-password'">
             <p class="p-0 m-0">
               C'est votre première connexion, veuillez choisir un nouveau mot de
               passe:
@@ -53,49 +52,47 @@
               [ariaDescription]="
                 f.newPassword.dirty && f.newPassword.errors ? true : false
               "
-              [validationRules]="
-                f.newPassword.dirty
-                  ? [
-                      {
-                        message: 'Au moins 1 chiffre',
-                        onError:
-                          f.newPassword.errors?.hasNumber ||
-                          f.newPassword.errors?.required ||
-                          false
-                      },
-                      {
-                        message: ' Au moins une lettre en majuscule',
-                        onError:
-                          f.newPassword.errors?.hasCapitalCase ||
-                          f.newPassword.errors?.required ||
-                          false
-                      },
-                      {
-                        message: 'Au moins une lettre en minuscule',
-                        onError:
-                          f.newPassword.errors?.hasLowerCase ||
-                          f.newPassword.errors?.required ||
-                          false
-                      },
-                      {
-                        message:
-                          'Au moins un caractère spécial: @[]^_!#$%&\'()*+,\-./:;{}<>=|~?',
-                        onError:
-                          f.newPassword.errors?.hasSpecialCharacter ||
-                          f.newPassword.errors?.required ||
-                          false
-                      },
-                      {
-                        message: 'entre 12 et 150 caractères',
-                        onError:
-                          f.newPassword.errors?.required ||
+              [validationRules]="[
+                {
+                  message: 'Au moins 1 chiffre',
+                  onError:
+                    f.newPassword.errors?.required ?? !f.newPassword.dirty
+                      ? undefined
+                      : !!f.newPassword.errors?.hasNumber
+                },
+                {
+                  message: 'Au moins une lettre en majuscule',
+                  onError:
+                    f.newPassword.errors?.required ?? !f.newPassword.dirty
+                      ? undefined
+                      : !!f.newPassword.errors?.hasCapitalCase
+                },
+                {
+                  message: 'Au moins une lettre en minuscule',
+                  onError:
+                    f.newPassword.errors?.required ?? !f.newPassword.dirty
+                      ? undefined
+                      : !!f.newPassword.errors?.hasLowerCase
+                },
+                {
+                  message:
+                    'Au moins un caractère spécial: @[]^_!#$%&\'()*+,\-./:;{}<>=|~?',
+                  onError:
+                    f.newPassword.errors?.required ?? !f.newPassword.dirty
+                      ? undefined
+                      : !!f.newPassword.errors?.hasSpecialCharacter
+                },
+                {
+                  message: 'entre 12 et 150 caractères',
+                  onError:
+                    f.newPassword.errors?.required ?? !f.newPassword.dirty
+                      ? undefined
+                      : !!(
                           f.newPassword.errors?.minlength ||
-                          f.newPassword.errors?.maxlength ||
-                          false
-                      }
-                    ]
-                  : dsfrPasswordHint
-              "
+                          f.newPassword.errors?.maxlength
+                        )
+                }
+              ]"
             ></dsfr-form-password>
             <dsfr-form-password
               class="required"
@@ -113,12 +110,9 @@
                 {
                   message:
                     'La confirmation doit correspondre au nouveau mot de passe',
-                  onError:
-                    !f.newPasswordConfirm.value ||
-                    this.loginForm.hasError(
-                      'new-password-confim-does-not-match'
-                    ) ||
-                    false
+                  onError: !f.newPasswordConfirm.touched
+                    ? undefined
+                    : loginForm.hasError('new-password-confim-does-not-match')
                 }
               ]"
             ></dsfr-form-password>
@@ -153,14 +147,13 @@
             </div>
           </ng-container>
           <div
-            *ngIf="this.mode !== 'login-change-password'"
+            *ngIf="mode !== 'login-change-password'"
             class="flex flex-column gap-1"
           >
             <dsfr-form-password
               inputId="password"
               autocomplete="current-password"
               formControlName="password"
-              [disabled]="false"
               label="Mot de passe"
               [required]="true"
               [validationRules]="
@@ -176,38 +169,54 @@
                   : []
               "
             ></dsfr-form-password>
-            <a
-              (click)="showHint($event)"
+            <button
+              type="button"
               class="fr-link align-self-start"
-              href="#"
+              [attr.aria-expanded]="displayPasswordIndication"
+              aria-controls="pwd-infos"
+              (click)="displayPasswordIndication = !displayPasswordIndication"
             >
-              Mot de passe oublié ?</a
-            >
+              Mot de passe oublié ?
+            </button>
           </div>
 
-          <p class="my-2" id="pwd-infos" *ngIf="displayPasswordIndication">
-            Vous avez peut-être bloqué votre compte en faisant plus de 3
-            tentatives de connexion avec un mauvais mot de passe.
-            <br />
-            <b>Veuillez réessayer dans une heure.</b>
+          <div
+            class="fr-alert fr-alert--info"
+            *ngIf="displayPasswordIndication"
+          >
+            <h3 class="fr-alert__title">Mot de passe oublié</h3>
+            <p class="my-2" id="pwd-infos">
+              Vous avez peut-être bloqué votre compte en faisant plus de 3
+              tentatives de connexion avec un mauvais mot de passe.
+              <br />
+              <b>Veuillez réessayer dans une heure.</b>
 
-            <br />
-            <br />
-            Vous souhaitez changer de mot de passe ?
-            <br />
-            <b
-              >Rendez-vous dans votre centre de domiciliation et demandez à un
-              agent un nouveau mot passe.</b
+              <br />
+              <br />
+              Vous souhaitez changer de mot de passe ?
+              <br />
+              <b
+                >Rendez-vous dans votre centre de domiciliation et demandez à un
+                agent un nouveau mot passe.</b
+              >
+            </p>
+            <button
+              title="Masquer le message"
+              (click)="displayPasswordIndication = !displayPasswordIndication"
+              type="button"
+              class="fr-btn--close fr-btn"
             >
-          </p>
+              Masquer le message
+            </button>
+          </div>
 
           <dsfr-button
             label="Se connecter"
             type="submit"
             variant="primary"
-            size="MD"
+            buttonSize="MD"
             [disabled]="loading"
-            buttonId="login"
+            buttonId="loginBtn"
             customClass="d-flex flex-column w-100"
           ></dsfr-button>
         </form>
@@ -222,7 +231,7 @@
                 alt="Logo Mon Domifa"
               />
             </div>
-            <h5>Mon DomiFa facilite votre domiciliation</h5>
+            <h2>Mon DomiFa facilite votre domiciliation</h2>
             <p class="content-container_text">
               Retrouvez toutes vos informations de domiciliation et vérifiez que
               vous avez du courrier.
