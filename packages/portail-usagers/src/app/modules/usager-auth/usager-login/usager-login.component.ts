@@ -18,7 +18,6 @@ import {
   PortailUsagerProfile,
   PortailUsagerAuthApiResponse,
 } from "@domifa/common";
-import { DsfrFormPasswordValidationRule } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-usager-login",
@@ -36,23 +35,6 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   public usagerProfile: PortailUsagerProfile | null;
   public mode: "login-only" | "login-change-password" = "login-only";
   private subscription = new Subscription();
-  public dsfrPasswordHint: DsfrFormPasswordValidationRule[] = [
-    {
-      message: "Au moins 1 chiffre",
-    },
-    {
-      message: "Au moins une lettre en majuscule",
-    },
-    {
-      message: "Au moins une lettre en minuscule",
-    },
-    {
-      message: "Au moins un caractère spécial: @[]^_!#$%&'()*+,-./:;{}<>=|~?",
-    },
-    {
-      message: "entre 12 et 150 caractères",
-    },
-  ];
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly router: Router,
@@ -148,11 +130,6 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
     this.loginForm.controls.acceptTerms.enable();
     this.loginForm.controls.newPasswordConfirm.enable();
     this.loginForm.updateValueAndValidity();
-  }
-
-  public showHint(event: Event) {
-    event.preventDefault();
-    this.displayPasswordIndication = !this.displayPasswordIndication;
   }
 
   public switchToLoginOnly() {
