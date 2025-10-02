@@ -459,10 +459,3 @@ a:has(img) {
   text-decoration: none !important;
   background: none !important;
 }
-
-.mobile-display-none {
-  display: none !important;
-  @media (min-width: 576px) {
-    display: inherit !important;
-  }
-}
