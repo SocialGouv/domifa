@@ -10,16 +10,11 @@
         *ngFor="let information of structureInformation; let i = index"
       >
         <div
-          [class]="{
-            'fr-callout': true,
-            'fr-callout--yellow-tournesol':
-              information.type === 'opening-hours',
-            'fr-icon-notification-3-line': information.type === 'opening-hours',
-            'fr-callout--blue-ecume': information.type === 'general',
-            'fr-icon-info-line': information.type === 'general',
-            'fr-callout--pink-tuile': information.type === 'closing',
-            'fr-icon-flag-line': information.type === 'closing'
-          }"
+          class="fr-callout"
+          [ngClass]="[
+            STRUCTURE_INFORMATION_TYPES[information.type].variantClass,
+            STRUCTURE_INFORMATION_TYPES[information.type].iconClass
+          ]"
         >
           <span>
             <h4 class="d-block">
