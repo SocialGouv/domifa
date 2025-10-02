@@ -35,7 +35,6 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   public usagerProfile: PortailUsagerProfile | null;
   public mode: "login-only" | "login-change-password" = "login-only";
   private subscription = new Subscription();
-
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly router: Router,
@@ -43,7 +42,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
     private readonly authService: UsagerAuthService,
     private readonly toastr: CustomToastService,
     private readonly usagerAuthService: UsagerAuthService,
-    public matomo: MatomoTracker,
+    public matomo: MatomoTracker
   ) {
     this.hidePassword = true;
     this.hidePasswordNew = true;
@@ -68,8 +67,8 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
           } else {
             this.initForm();
           }
-        },
-      ),
+        }
+      )
     );
   }
 
@@ -96,7 +95,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
               /[@\[\]^_!"#$%&'()*+,\-./:;{}<>=|~?]/,
               {
                 hasSpecialCharacter: true,
-              },
+              }
             ),
             Validators.minLength(12),
             Validators.maxLength(150),
@@ -121,7 +120,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
             errName: "new-password-confim-does-not-match",
           }),
         ],
-      },
+      }
     );
   }
 
@@ -167,7 +166,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
             "login-portail-usagers",
             "login_success",
             "null",
-            1,
+            1
           );
           if (!apiAuthResponse.acceptTerms) {
             this.router.navigate(["/account/accept-terms"]);
@@ -185,11 +184,11 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
               "login-portail-usagers",
               "login_success_first_time",
               "null",
-              1,
+              1
             );
           } else if (err?.error?.message === "TOO_MANY_ATTEMPTS") {
             this.toastr.error(
-              "Après plusieurs tentatives de connexion, votre compte est temporairement inaccessible. Veuillez réessayer dans une heure",
+              "Après plusieurs tentatives de connexion, votre compte est temporairement inaccessible. Veuillez réessayer dans une heure"
             );
           } else {
             this.toastr.error("Login et / ou mot de passe incorrect");
@@ -197,11 +196,11 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
               "login-portail-usagers",
               "login_error",
               "null",
-              1,
+              1
             );
           }
         },
-      }),
+      })
     );
   }
 }

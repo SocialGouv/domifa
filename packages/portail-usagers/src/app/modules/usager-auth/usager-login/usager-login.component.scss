@@ -1,15 +1,10 @@
-.form-check-label {
-  width: 90%;
+:host {
+  --title-spacing: 0;
 }
 
-.indications div {
-  padding-top: 5px;
-}
-
-.indications {
-  padding: 5px;
-}
-
-.indications .ng-fa-icon {
-  margin-right: 5px;
+.content-container {
+  display: none;
+  @media (min-width: 576px) {
+    display: flex;
+  }
 }

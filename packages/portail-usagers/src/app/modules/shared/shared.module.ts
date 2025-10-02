@@ -10,10 +10,17 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
 import { SeoService } from "./services/seo.service";
 import { ReplaceLineBreaks } from "./pipes/nl2br.pipe";
 import {
+  DsfrAccordionModule,
+  DsfrButtonModule,
   DsfrFooterModule,
+  DsfrFormFieldsetModule,
+  DsfrFormInputModule,
+  DsfrFormPasswordModule,
   DsfrHeaderModule,
+  DsfrLinkModule,
   DsfrSkiplinksModule,
 } from "@edugouvfr/ngx-dsfr";
+import { FaqComponent } from "./components/faq/faq.component";
 
 @NgModule({
   declarations: [CustomToastrComponent, ReplaceLineBreaks],
@@ -22,6 +29,13 @@ import {
     ReplaceLineBreaks,
     DsfrFooterModule,
     DsfrSkiplinksModule,
+    DsfrFormFieldsetModule,
+    DsfrFormInputModule,
+    DsfrFormPasswordModule,
+    DsfrLinkModule,
+    DsfrAccordionModule,
+    DsfrButtonModule,
+    FaqComponent,
     DsfrHeaderModule,
   ],
   providers: [SeoService],
@@ -30,6 +44,11 @@ import {
     FontAwesomeModule,
     DsfrFooterModule,
     DsfrSkiplinksModule,
+    DsfrFormInputModule,
+    DsfrFormPasswordModule,
+    DsfrButtonModule,
+    DsfrLinkModule,
+    FaqComponent,
     DsfrHeaderModule,
   ],
 })
