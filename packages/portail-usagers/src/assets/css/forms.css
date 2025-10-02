@@ -1,3 +1,13 @@
+/* Important : as it removes asterisk for show password label */
+.fr-password__checkbox label:after {
+  display: none !important;
+}
+
+dsfr-form-input.required .fr-label::after,
+dsfr-form-password.required .fr-label::after {
+  content: " *";
+  color: var(--text-default-error);
+}
 /*
 .form-group {
   margin-bottom: 1rem;
