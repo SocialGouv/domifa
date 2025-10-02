@@ -1,90 +1,88 @@
 <div *ngIf="usager">
-  <h2 class="fr-text-title--blue-france">Votre domiciliation</h2>
+  <h2 class="fr-text-title--blue-france mb-2">Votre domiciliation</h2>
   <div class="border-top border-grey pt-3">
-    <div class="py-2">
-      <div
-        [ngClass]="{
-          'fr-icon-calendar-check-line': showRendezVousReminder,
-          'fr-icon-chat-history-line': showWaitingForDecision
-        }"
-        *ngIf="showRendezVousReminder || showWaitingForDecision"
-        class="fr-callout fr-callout--blue-cumulus"
-      >
-        <ng-container *ngIf="showRendezVousReminder">
-          <h3 class="fr-callout__title">Rappel de rendez-vous</h3>
-          <p class="fr-callout__text">
-            Vous avez rendez vous le {{ rdvInfo.content }}
-          </p>
-        </ng-container>
-        <ng-container *ngIf="showWaitingForDecision">
-          <p class="fr-callout__text">
-            Votre demande de renouvellement est actuellement en attente d'une
-            décision
-          </p>
-        </ng-container>
-      </div>
-      <div
-        *ngIf="showApproachingExpiry || showExpirationMessage"
-        class="fr-callout"
-        [ngClass]="{
-          'fr-icon-warning-line': showApproachingExpiry,
-          'fr-icon-error-line': showExpirationMessage,
-          'fr-callout--pink-tuile': echeanceInfo.dayBeforeEnd <= 15,
-          'fr-callout--yellow-tournesol': echeanceInfo.dayBeforeEnd > 15
-        }"
-      >
-        <ng-container *ngIf="showApproachingExpiry">
-          <p class="fr-callout__text">
-            <span>
-              Attention, votre domiciliation expire le
-              <strong>
-                {{ echeanceInfo.dateToDisplay | date : "fullDate" }}
-              </strong>
-            </span>
-          </p>
-        </ng-container>
-        <ng-container *ngIf="showExpirationMessage">
-          <p class="fr-callout__text">
-            Domiciliation expirée depuis le
-            {{ echeanceInfo.dateToDisplay | date : "fullDate" }}, il y a
-            {{ echeanceInfo.dayBeforeEnd * -1 }} jours
-          </p>
-        </ng-container>
-      </div>
-      <div
-        class="alert"
-        [ngClass]="{
-          'alert-danger': echeanceInfo.dayBeforeEnd <= 15,
-          'alert-warning': echeanceInfo.dayBeforeEnd > 15
-        }"
-        *ngIf="
-          usager.decision.statut !== 'ATTENTE_DECISION' &&
-          echeanceInfo.dayBeforeEnd > 0 &&
-          echeanceInfo.dayBeforeEnd < 60
-        "
-      >
-        <div class="svg-icon icon-danger"></div>
-        <span>
-          Attention, votre domiciliation expire le
-          <strong>
-            {{ echeanceInfo.dateToDisplay | date : "fullDate" }}
-          </strong>
-        </span>
-      </div>
-      <div
-        class="alert alert-danger"
-        *ngIf="
-          usager.decision.statut !== 'ATTENTE_DECISION' &&
-          echeanceInfo.dayBeforeEnd < 0
-        "
-      >
-        <div aria-hidden="true" class="svg-icon icon-danger"></div>
-        <p>
+    <div
+      [ngClass]="{
+        'fr-icon-calendar-check-line': showRendezVousReminder,
+        'fr-icon-chat-history-line': showWaitingForDecision
+      }"
+      *ngIf="showRendezVousReminder || showWaitingForDecision"
+      class="fr-callout fr-callout--blue-cumulus"
+    >
+      <ng-container *ngIf="showRendezVousReminder">
+        <h3 class="fr-callout__title">Rappel de rendez-vous</h3>
+        <p class="fr-callout__text">
+          Vous avez rendez vous le {{ rdvInfo.content }}
+        </p>
+      </ng-container>
+      <ng-container *ngIf="showWaitingForDecision">
+        <p class="fr-callout__text">
+          Votre demande de renouvellement est actuellement en attente d'une
+          décision
+        </p>
+      </ng-container>
+    </div>
+    <div
+      *ngIf="showApproachingExpiry || showExpirationMessage"
+      class="fr-callout"
+      [ngClass]="{
+        'fr-icon-warning-line': showApproachingExpiry,
+        'fr-icon-error-line': showExpirationMessage,
+        'fr-callout--pink-tuile': echeanceInfo.dayBeforeEnd <= 15,
+        'fr-callout--yellow-tournesol': echeanceInfo.dayBeforeEnd > 15
+      }"
+    >
+      <ng-container *ngIf="showApproachingExpiry">
+        <p class="fr-callout__text">
+          <span>
+            Attention, votre domiciliation expire le
+            <strong>
+              {{ echeanceInfo.dateToDisplay | date : "fullDate" }}
+            </strong>
+          </span>
+        </p>
+      </ng-container>
+      <ng-container *ngIf="showExpirationMessage">
+        <p class="fr-callout__text">
           Domiciliation expirée depuis le
           {{ echeanceInfo.dateToDisplay | date : "fullDate" }}, il y a
           {{ echeanceInfo.dayBeforeEnd * -1 }} jours
         </p>
-      </div>
+      </ng-container>
+    </div>
+    <div
+      class="alert"
+      [ngClass]="{
+        'alert-danger': echeanceInfo.dayBeforeEnd <= 15,
+        'alert-warning': echeanceInfo.dayBeforeEnd > 15
+      }"
+      *ngIf="
+        usager.decision.statut !== 'ATTENTE_DECISION' &&
+        echeanceInfo.dayBeforeEnd > 0 &&
+        echeanceInfo.dayBeforeEnd < 60
+      "
+    >
+      <div class="svg-icon icon-danger"></div>
+      <span>
+        Attention, votre domiciliation expire le
+        <strong>
+          {{ echeanceInfo.dateToDisplay | date : "fullDate" }}
+        </strong>
+      </span>
+    </div>
+    <div
+      class="alert alert-danger"
+      *ngIf="
+        usager.decision.statut !== 'ATTENTE_DECISION' &&
+        echeanceInfo.dayBeforeEnd < 0
+      "
+    >
+      <div aria-hidden="true" class="svg-icon icon-danger"></div>
+      <p>
+        Domiciliation expirée depuis le
+        {{ echeanceInfo.dateToDisplay | date : "fullDate" }}, il y a
+        {{ echeanceInfo.dayBeforeEnd * -1 }} jours
+      </p>
     </div>
 
     <div
