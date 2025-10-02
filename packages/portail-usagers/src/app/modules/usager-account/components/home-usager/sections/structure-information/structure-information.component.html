@@ -1,25 +1,25 @@
 <div class="my-2">
-  <h2 class="section-title">
+  <h3 class="fr-text-title--blue-france fr-mb-2v">
     {{ structureInformation.length > 1 ? "Messages" : "Message" }} de votre
-    structure 📩
-  </h2>
+    structure
+  </h3>
 
-  <div class="content section-content">
-    <div>
+  <div class="border-top border-grey pt-3">
+    <div class="py-1">
       <ng-container
         *ngFor="let information of structureInformation; let i = index"
       >
         <div
-          class="alert"
-          [ngClass]="
-            ' alert-' + STRUCTURE_INFORMATION_TYPES[information.type].bg
-          "
+          class="fr-callout"
+          [ngClass]="[
+            STRUCTURE_INFORMATION_TYPES[information.type].variantClass,
+            STRUCTURE_INFORMATION_TYPES[information.type].iconClass
+          ]"
         >
           <span>
-            <b class="d-block">
-              {{ STRUCTURE_INFORMATION_TYPES[information.type].label }} -
-              {{ information.title }}</b
-            >
+            <h4 class="d-block">
+              {{ information.title }}
+            </h4>
             <p
               class="d-block fw-bold"
               *ngIf="information?.startDate && information?.endDate"
