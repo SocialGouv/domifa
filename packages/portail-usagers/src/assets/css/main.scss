@@ -6,10 +6,6 @@ body {
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-html {
-  font-size: 90%;
-}
-
 #page {
   min-height: calc(80vh - 70px);
   overflow-x: hidden;
@@ -246,6 +242,20 @@ $bs-secondary: #50e3c2;
 // Variables RGB pour les box-shadow
 $primary-rgb: 65, 100, 245;
 $secondary-rgb: 80, 227, 194;
+
+hr {
+  background-image: linear-gradient(
+    0deg,
+    var(--border-default-grey),
+    var(--border-default-grey)
+  ) !important;
+  background-position: 0 0 !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 1px !important;
+  margin: 0 !important;
+  padding: var(--text-spacing) !important;
+  opacity: 1 !important;
+}
 
 .bg-primary {
   h1,
