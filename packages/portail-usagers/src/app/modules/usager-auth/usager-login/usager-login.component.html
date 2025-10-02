@@ -13,8 +13,11 @@
           (ngSubmit)="login()"
         >
           <h1 class="align-self-start">Connexion à Mon Domifa</h1>
-          <span class="col-12 col-md-12"> * champs obligatoires </span>
+          <span class="col-12 col-md-12 fr-text-default--error">
+            * champs obligatoires
+          </span>
           <dsfr-form-input
+            class="required"
             appUppercase
             inputId="login"
             type="text"
@@ -27,14 +30,13 @@
             [disabled]="mode === 'login-change-password'"
             [message]="
               f.login.dirty && f.login.errors
-                ? 'Veuillez vérifier l\'identifiant. Celui-ci se trouve sur le document que vous à remis la structure.'
+                ? 'Identifiant incorrect. Vous le trouverez sur le document qui vous a été remis par la structure.'
                 : ''
             "
             [messageSeverity]="
               f.login.dirty && f.login.errors ? 'error' : 'valid'
             "
             [required]="true"
-            [customClass]="'required'"
             label="Identifiant"
           ></dsfr-form-input>
           <ng-container *ngIf="mode === 'login-change-password'">
@@ -43,11 +45,11 @@
               passe:
             </p>
             <dsfr-form-password
+              class="required"
               inputId="newPassword"
               autocomplete="newPassword"
               formControlName="newPassword"
               label="Nouveau mot de passe"
-              class="required"
               [required]="true"
               [ariaDescription]="
                 f.newPassword.dirty && f.newPassword.errors ? true : false
@@ -151,6 +153,7 @@
             class="flex flex-column gap-1"
           >
             <dsfr-form-password
+              class="required"
               inputId="password"
               autocomplete="current-password"
               formControlName="password"
