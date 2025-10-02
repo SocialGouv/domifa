@@ -10,9 +10,13 @@ import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.
 import { SeoService } from "./services/seo.service";
 import { ReplaceLineBreaks } from "./pipes/nl2br.pipe";
 import {
+  DsfrAccordionModule,
   DsfrButtonModule,
   DsfrFooterModule,
+  DsfrFormInputModule,
+  DsfrFormPasswordModule,
   DsfrHeaderModule,
+  DsfrLinkModule,
   DsfrPaginationModule,
   DsfrSkiplinksModule,
 } from "@edugouvfr/ngx-dsfr";
@@ -25,8 +29,13 @@ import { FaqComponent } from "./components/faq/faq.component";
     ReplaceLineBreaks,
     DsfrFooterModule,
     DsfrSkiplinksModule,
-    DsfrHeaderModule,
+    DsfrFormInputModule,
+    DsfrFormPasswordModule,
+    DsfrLinkModule,
+    DsfrAccordionModule,
     DsfrButtonModule,
+    FaqComponent,
+    DsfrHeaderModule,
     DsfrPaginationModule,
   ],
   providers: [SeoService],
@@ -35,8 +44,12 @@ import { FaqComponent } from "./components/faq/faq.component";
     FontAwesomeModule,
     DsfrFooterModule,
     DsfrSkiplinksModule,
-    DsfrHeaderModule,
+    DsfrFormInputModule,
+    DsfrFormPasswordModule,
     DsfrButtonModule,
+    DsfrLinkModule,
+    FaqComponent,
+    DsfrHeaderModule,
     DsfrPaginationModule,
   ],
 })
