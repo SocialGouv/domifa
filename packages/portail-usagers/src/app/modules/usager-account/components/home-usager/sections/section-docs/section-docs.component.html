@@ -15,7 +15,7 @@
               [attr.aria-disabled]="doc.loading"
               [attr.aria-busy]="doc.loading ? 'true' : 'false'"
               [attr.aria-label]="'Télécharger le document ' + doc.label"
-              (click)="downloadDoc($event, doc)"
+              (click)="downloadDoc(doc)"
             >
               <span *ngIf="!doc.loading">{{ doc.label }}</span>
               <span *ngIf="doc.loading">
@@ -24,7 +24,7 @@
                   animation="spin"
                   aria-hidden="true"
                 ></fa-icon>
-                {{ doc.label }} - Téléchargement...
+                {{ doc.label }} - Téléchargement en cours
               </span>
             </button>
           </h3>

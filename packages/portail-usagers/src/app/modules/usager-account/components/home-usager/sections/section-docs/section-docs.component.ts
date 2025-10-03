@@ -71,8 +71,7 @@ export class SectionDocsComponent implements OnInit, OnDestroy {
     );
   }
 
-  public downloadDoc(event: Event, doc: WithLoading<UsagerDoc>) {
-    event.preventDefault();
+  public downloadDoc(doc: WithLoading<UsagerDoc>) {
     doc.loading = true;
     this.subscription.add(
       this.usagerDocService.downloadDocument(doc.uuid as string).subscribe({
