@@ -4114,7 +4114,7 @@ __metadata:
     mammoth: "npm:^1.4.17"
     multer: "npm:^2.0.1"
     node-pdftk: "npm:^2.1.3"
-    nodemailer: "npm:^6.10.0"
+    nodemailer: "npm:^7.0.7"
     nodemon: "npm:^3.1.10"
     nunjucks: "npm:^3.2.4"
     passport: "npm:^0.7.0"
@@ -22839,10 +22839,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemailer@npm:^6.10.0, nodemailer@npm:^6.7.7, nodemailer@npm:^6.9.1":
+"nodemailer@npm:^6.7.7, nodemailer@npm:^6.9.1":
   version: 6.10.0
   resolution: "nodemailer@npm:6.10.0"
   checksum: 10/2e28961c264501e2621860d912e1ab59788825c5aea5ce71041c5b5b52c7470b63e7ab290003d755f647f25048552c6eec256f468292f454d4d6a68c93dd0659
+  languageName: node
+  linkType: hard
+
+"nodemailer@npm:^7.0.7":
+  version: 7.0.9
+  resolution: "nodemailer@npm:7.0.9"
+  checksum: 10/88883c58afe356d2b4c24b1e976c04857e8a7a7145e1752dab69072900b0cc2e3daa0964a08c653e692fb64382453e1cfcee3d863828844c8d6f6239727b9023
   languageName: node
   linkType: hard
 
