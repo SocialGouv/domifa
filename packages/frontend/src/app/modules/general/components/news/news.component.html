@@ -26,9 +26,9 @@
             class="d-flex flex-row gap-2 align-items-center fr-text-title--blue-france"
           >
             <span class="fr-icon-calendar-event-fill" aria-hidden="true"></span>
-            <h3 class="fr-text-title--blue-france">
+            <h2 class="fr-text-title--blue-france">
               {{ news.date | date : "d MMMM y" }}
-            </h3>
+            </h2>
           </div>
           <h5 class="fr-text-title--blue-france" *ngIf="news.description">
             {{ news.description }}
