@@ -1,12 +1,10 @@
 import { Body, Controller, HttpStatus, Post, Res } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { EmailDto } from "../../users/dto/email.dto";
 import { ExpressResponse } from "../../../util/express";
 import { StructureWithUserDto } from "../dto/structure-with-user.dto";
 import { StructureDto } from "../dto/structure.dto";
 import { structureCreatorService } from "../services/structureCreator.service";
 import { StructuresService } from "../services/structures.service";
-import { structureRepository } from "../../../database";
 import { CodePostalDto } from "../dto";
 @Controller("structures")
 @ApiTags("structures")
@@ -32,18 +30,6 @@ export class StructuresPublicController {
   @Post("pre-post")
   public prePostStructure(@Body() structureDto: StructureDto) {
     return structureCreatorService.checkStructureCreateArgs(structureDto);
-  }
-
-  @Post("validate-email")
-  public async validateEmail(
-    @Body() emailDto: EmailDto,
-    @Res() res: ExpressResponse
-  ) {
-    const exist = await structureRepository.findOneBy({
-      email: emailDto.email.toLowerCase(),
-    });
-
-    return res.status(HttpStatus.OK).json(!!exist);
   }
 
   @Post("code-postal")

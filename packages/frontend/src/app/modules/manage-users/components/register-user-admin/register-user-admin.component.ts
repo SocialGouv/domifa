@@ -1,4 +1,3 @@
-import isEmail from "validator/lib/isEmail";
 import {
   Component,
   ElementRef,
@@ -15,9 +14,8 @@ import {
   Validators,
 } from "@angular/forms";
 
-import { Subject, Subscription, of } from "rxjs";
-import { map, takeUntil } from "rxjs/operators";
-import { FormEmailTakenValidator } from "../../../../../_common/model";
+import { Subject, Subscription } from "rxjs";
+
 import {
   EmailValidator,
   fadeInOut,
@@ -76,11 +74,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
     this.me = this.authService.currentUserValue;
 
     this.userForm = this.formBuilder.group({
-      email: [
-        this.user.email,
-        [Validators.required, EmailValidator],
-        this.validateEmailNotTaken.bind(this),
-      ],
+      email: [this.user.email, [Validators.required, EmailValidator]],
       nom: [
         this.user.nom,
         [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
@@ -136,19 +130,6 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
           })
       );
     }
-  }
-
-  public validateEmailNotTaken(
-    control: AbstractControl
-  ): FormEmailTakenValidator {
-    return isEmail(control.value)
-      ? this.usersService.validateEmail(control.value).pipe(
-          takeUntil(this.unsubscribe),
-          map((res: boolean) => {
-            return res === false ? null : { emailTaken: true };
-          })
-        )
-      : of(null);
   }
 
   public ngOnDestroy(): void {

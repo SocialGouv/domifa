@@ -281,7 +281,7 @@ export class UsersController {
     if (userExist) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "EMAIL_EXIST" });
+        .json({ message: "BAD_REQUEST" });
     }
 
     if (user._userProfile === "structure") {

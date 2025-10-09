@@ -1,4 +1,3 @@
-import isEmail from "validator/lib/isEmail";
 import {
   ChangeDetectorRef,
   Component,
@@ -16,16 +15,12 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Observable, of, Subject, Subscription } from "rxjs";
-import { map, takeUntil } from "rxjs/operators";
 
 import { EmailValidator, NoWhiteSpaceValidator } from "../../../../shared";
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { USER_FONCTION_LABELS, UserStructure } from "@domifa/common";
 import { format } from "date-fns";
-import {
-  UsagerLight,
-  FormEmailTakenValidator,
-} from "../../../../../_common/model";
+import { UsagerLight } from "../../../../../_common/model";
 import { PASSWORD_VALIDATOR } from "../../../users/PASSWORD_VALIDATOR.const";
 import {
   UsersService,
@@ -111,11 +106,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.editUser = true;
 
     this.userForm = this.formBuilder.group({
-      email: [
-        this.me?.email,
-        [Validators.required, EmailValidator],
-        this.validateEmailNotTaken.bind(this),
-      ],
+      email: [this.me?.email, [Validators.required, EmailValidator]],
       nom: [
         this.me?.nom,
         [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
@@ -244,23 +235,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
   public toggleOldPassword(): void {
     this.hideOldPassword = !this.hideOldPassword;
-  }
-
-  public validateEmailNotTaken(
-    control: AbstractControl
-  ): FormEmailTakenValidator {
-    if (control?.value === this.me?.email) {
-      return of(null);
-    }
-
-    return isEmail(control.value)
-      ? this.usersService.validateEmail(control.value).pipe(
-          takeUntil(this.unsubscribe),
-          map((res: boolean) => {
-            return res === false ? null : { emailTaken: true };
-          })
-        )
-      : of(null);
   }
 
   public ngOnDestroy(): void {

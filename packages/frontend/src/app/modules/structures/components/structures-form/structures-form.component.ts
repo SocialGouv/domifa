@@ -13,13 +13,9 @@ import {
 } from "@khazii/ngx-intl-tel-input";
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { Subject, Subscription, of } from "rxjs";
-import { map, takeUntil } from "rxjs/operators";
+import { Subject, Subscription } from "rxjs";
 
-import {
-  FormEmailTakenValidator,
-  PREFERRED_COUNTRIES,
-} from "../../../../../_common/model";
+import { PREFERRED_COUNTRIES } from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
 import { StructureCommonWeb } from "../../classes/StructureCommonWeb.class";
 
@@ -42,7 +38,6 @@ import {
   isInvalidStructureName,
   updateSourceQuestion,
 } from "../../utils/structure-validators";
-import isEmail from "validator/lib/isEmail";
 import { initCreationForm, setupFormSubscriptions } from "../../utils";
 
 @Component({
@@ -113,11 +108,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.titleService.setTitle("Inscription d'une structure sur DomiFa");
 
-    this.structureForm = initCreationForm(
-      this.structure,
-      this.formBuilder,
-      this.validateEmailNotTaken.bind(this)
-    );
+    this.structureForm = initCreationForm(this.structure, this.formBuilder);
 
     setupFormSubscriptions(this.structureForm, this.subscription);
 
@@ -175,19 +166,6 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
         },
       })
     );
-  }
-
-  public validateEmailNotTaken(
-    control: AbstractControl
-  ): FormEmailTakenValidator {
-    return isEmail(control.value)
-      ? this.structureService.validateEmail(control.value).pipe(
-          takeUntil(this.unsubscribe),
-          map((res: boolean) => {
-            return res === false ? null : { emailTaken: true };
-          })
-        )
-      : of(null);
   }
 
   public isInvalidStructureName(structureName: string): boolean {

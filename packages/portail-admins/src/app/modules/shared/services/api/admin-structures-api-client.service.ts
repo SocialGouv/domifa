@@ -84,11 +84,4 @@ export class AdminStructuresApiClient {
       newAdmin
     );
   }
-
-  public validateEmail(email: string): Observable<boolean> {
-    return this.http.post<boolean>(
-      `${environment.apiUrl}users/validate-email`,
-      { email }
-    );
-  }
 }

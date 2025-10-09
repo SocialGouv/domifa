@@ -15,7 +15,7 @@
           scope="col"
           (click)="sort.emit({
             element: 'sortKey',
-            value: 'id',            
+            value: 'id',
           })"
         >
           <app-table-head-sort
@@ -30,7 +30,7 @@
           scope="col"
           (click)="sort.emit({
             element: 'sortKey',
-            value: 'nom',            
+            value: 'nom',
           })"
         >
           <app-table-head-sort
@@ -45,7 +45,7 @@
           scope="col"
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'structureTypeLabel',            
+          value: 'structureTypeLabel',
         })"
         >
           <app-table-head-sort
@@ -60,7 +60,7 @@
           scope="col"
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'createdAt',            
+          value: 'createdAt',
         })"
         >
           <app-table-head-sort
@@ -76,7 +76,7 @@
           scope="col"
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'importDate',            
+          value: 'importDate',
         })"
         >
           <app-table-head-sort
@@ -91,7 +91,7 @@
           scope="col"
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'users',            
+          value: 'users',
         })"
         >
           <app-table-head-sort
@@ -105,7 +105,7 @@
         <th
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'usagers',            
+          value: 'usagers',
         })"
         >
           <app-table-head-sort
@@ -119,7 +119,7 @@
         <th
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'usagers',            
+          value: 'usagers',
         })"
         >
           <app-table-head-sort
@@ -134,7 +134,7 @@
           scope="col"
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'actifs',            
+          value: 'actifs',
         })"
         >
           <app-table-head-sort
@@ -149,7 +149,7 @@
           scope="col"
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'lastLogin',            
+          value: 'lastLogin',
         })"
         >
           <app-table-head-sort
@@ -164,7 +164,7 @@
           scope="col"
           (click)="sort.emit({
           element: 'sortKey',
-          value: 'departementLabel',            
+          value: 'departementLabel',
         })"
         >
           <app-table-head-sort
@@ -355,28 +355,13 @@
               }"
               required
             />
-            <div *ngIf="f.email.errors" class="invalid-feedback">
-              <p *ngIf="f.email.errors.emailTaken">
-                <fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'exclamation-triangle']"
-                ></fa-icon>
-                <b>L'adresse email est déjà utilisée</b>
-              </p>
-              <p
-                *ngIf="
-                  (submitted || f.siret?.dirty) &&
-                  f.email.errors &&
-                  !f.email.errors.emailTaken
-                "
-              >
-                <fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'exclamation-triangle']"
-                ></fa-icon>
-                <b>Vérifiez l'adresse email</b>
-              </p>
-            </div>
+            <p *ngIf="f.email.errors" class="invalid-feedback">
+              <fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'exclamation-triangle']"
+              ></fa-icon>
+              <b>Vérifiez l'adresse email</b>
+            </p>
           </div>
           <div class="col-12 form-group required">
             <app-fonction-selection

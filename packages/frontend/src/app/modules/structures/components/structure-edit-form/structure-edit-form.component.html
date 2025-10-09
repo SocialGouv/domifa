@@ -482,23 +482,13 @@
           "
           required
         />
-        <div
+        <p
           *ngIf="(submitted || f.email.dirty) && f.email.errors"
           id="email-errors"
           class="invalid-feedback"
         >
-          <p *ngIf="f.email.errors.emailTaken">
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'exclamation-triangle']"
-            ></fa-icon>
-            L'adresse email est déjà utilisée
-          </p>
-          <p *ngIf="!f.email.errors.emailTaken">
-            Veuillez vérifier l'adresse email, format attendu :
-            nom&#64;domaine.fr
-          </p>
-        </div>
+          Veuillez vérifier l'adresse email, format attendu : nom&#64;domaine.fr
+        </p>
       </div>
     </div>
   </fieldset>
