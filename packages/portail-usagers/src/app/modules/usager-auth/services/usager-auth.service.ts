@@ -1,8 +1,15 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, RouterStateSnapshot } from "@angular/router";
 
-import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
+import {
+  BehaviorSubject,
+  catchError,
+  firstValueFrom,
+  map,
+  Observable,
+  of,
+} from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { PortailUsagerAuthLoginForm } from "../../../../_common";
 
@@ -66,7 +73,10 @@ export class UsagerAuthService {
     return this.currentUsagerSubject.value ?? null;
   }
 
-  public logout(): void {
+  public logout(sessionExpired?: boolean): void {
+    if (sessionExpired) {
+      this.toastr.warning("Votre session a expiré, merci de vous reconnecter");
+    }
     this.currentUsagerSubject.next(null);
     localStorage.clear();
 
@@ -74,8 +84,11 @@ export class UsagerAuthService {
     getCurrentScope().setUser({});
   }
 
-  public logoutAndRedirect(): void {
-    this.logout();
+  public logoutAndRedirect(
+    state?: RouterStateSnapshot,
+    sessionExpired?: boolean,
+  ): void {
+    this.logout(sessionExpired);
 
     const matomoParams = this.getMatomoParams();
     console.log({ matomoParams });
@@ -136,4 +149,15 @@ export class UsagerAuthService {
 
     this.currentUsagerSubject.next(authUsagerProfile);
   }
+
+  public logoutFromBackend = async (
+    state?: RouterStateSnapshot,
+    sessionExpired?: boolean,
+  ) => {
+    const storedUser = this.getToken();
+    if (storedUser) {
+      await firstValueFrom(this.http.get(`${END_POINT_AUTH}/logout`));
+    }
+    this.logoutAndRedirect(state, sessionExpired);
+  };
 }

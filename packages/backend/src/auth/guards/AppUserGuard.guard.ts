@@ -127,6 +127,17 @@ export class AppUserGuard implements CanActivate {
     const isValidProfile = authChecker.checkProfile(user, ...allowUserProfiles);
 
     if (isValidProfile) {
+      const isBlacklisted = await expiredTokenRepositiory.findOneBy({
+        token: request.headers.authorization,
+      });
+
+      if (isBlacklisted) {
+        appLogger.error(`[authChecker] expired token`, {
+          context: { userProfile: user, user: user?._userId },
+        });
+        return false;
+      }
+
       if (user._userProfile === "usager") {
         return true;
       }
@@ -135,28 +146,13 @@ export class AppUserGuard implements CanActivate {
         user._userProfile === "structure" &&
         allowUserStructureRoles?.length
       ) {
-        const isBlacklisted = await expiredTokenRepositiory.findOneBy({
-          token: request.headers.authorization,
-        });
-
-        if (isBlacklisted) {
-          appLogger.error(`[authChecker] expired token`, {
-            context: { userProfile: user, user: user?._userId },
-          });
-        }
-
-        // check structure user roles
-        return (
-          !isBlacklisted &&
-          authChecker.checkRole(user, ...allowUserStructureRoles)
-        );
+        return authChecker.checkRole(user, ...allowUserStructureRoles);
       }
 
       if (
         user._userProfile === "supervisor" &&
         allowUserSupervisorRoles?.length
       ) {
-        // check structure user roles
         return authChecker.checkRole(user, ...allowUserSupervisorRoles);
       }
     }

@@ -18,7 +18,7 @@ export class ExpiredTokenTable extends AppTypeormTable<ExpiredTokenTable> {
   @ManyToOne(() => StructureTable, (structure) => structure.id, {
     onDelete: "CASCADE",
   })
-  @Column({ type: "integer", nullable: false })
+  @Column({ type: "integer", nullable: true })
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   public structureId: number;
 

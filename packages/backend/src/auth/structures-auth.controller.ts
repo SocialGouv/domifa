@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 
 import { StructureLoginDto } from "../modules/users/dto";
@@ -63,7 +63,6 @@ export class StructuresAuthController {
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("structure")
   @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
-  @ApiOperation({ summary: "Déconnexion" })
   @Get("logout")
   public async logout(
     @Req() req: ExpressRequest,

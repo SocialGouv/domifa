@@ -6,18 +6,21 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Req,
   Res,
   UseGuards,
 } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import {
+  ExpiredTokenTable,
   UserUsagerLoginTable,
+  expiredTokenRepositiory,
   usagerRepository,
   userUsagerLoginRepository,
   userUsagerRepository,
 } from "../../../../database";
 import { UsagerLoginDto } from "../../../users/dto";
-import { ExpressResponse } from "../../../../util/express";
+import { ExpressRequest, ExpressResponse } from "../../../../util/express";
 
 import { UsagersAuthService } from "../../services/usagers-auth.service";
 import {
@@ -98,6 +101,23 @@ export class PortailUsagersLoginController {
           : "USAGER_LOGIN_FAIL";
       return res.status(HttpStatus.UNAUTHORIZED).json({ message });
     }
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard("jwt"), AppUserGuard)
+  @AllowUserProfiles("usager")
+  @Get("logout")
+  public async logout(
+    @Req() req: ExpressRequest,
+    @CurrentUser() user: UserUsagerAuthenticated
+  ) {
+    const tokenToBlacklist = new ExpiredTokenTable({
+      token: req.headers.authorization,
+      userId: user.user.id,
+      userProfile: user._userProfile,
+    });
+    await expiredTokenRepositiory.save(tokenToBlacklist);
+    return true;
   }
 
   @AllowUserProfiles("usager")

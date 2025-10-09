@@ -5,12 +5,13 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Req,
   Res,
   UseGuards,
 } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
-import { ExpressResponse } from "../../../../util/express";
+import { ExpressRequest, ExpressResponse } from "../../../../util/express";
 import { UserAdminAuthenticated, UserProfile } from "../../../../_common/model";
 import { StructureAdminLoginDto } from "../../../users/dto/structure-admin-login.dto";
 import { AdminsAuthService } from "../../services/admins-auth.service";
@@ -25,6 +26,10 @@ import {
 } from "../../../../auth/decorators";
 import { AppUserGuard } from "../../../../auth/guards";
 import { portailAdminProfilBuilder } from "../../services/portail-admin-profil-builder.service";
+import {
+  ExpiredTokenTable,
+  expiredTokenRepositiory,
+} from "../../../../database";
 
 const userProfile: UserProfile = "supervisor";
 @Controller("portail-admins/auth")
@@ -53,6 +58,24 @@ export class PortailAdminLoginController {
         .status(HttpStatus.UNAUTHORIZED)
         .json({ message: "LOGIN_FAILED" });
     }
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard("jwt"), AppUserGuard)
+  @AllowUserProfiles("supervisor")
+  @AllowUserSupervisorRoles(...USER_SUPERVISOR_ROLES)
+  @Get("logout")
+  public async logout(
+    @Req() req: ExpressRequest,
+    @CurrentUser() user: UserAdminAuthenticated
+  ) {
+    const tokenToBlacklist = new ExpiredTokenTable({
+      token: req.headers.authorization,
+      userId: user.id,
+      userProfile: user._userProfile,
+    });
+    await expiredTokenRepositiory.save(tokenToBlacklist);
+    return true;
   }
 
   @Get("me")

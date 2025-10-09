@@ -15,6 +15,8 @@ fileignoreconfig:
   checksum: 2f5813dbc35cdc3659516beabf9f93e2978eb62d1b5403cfbb2907f22bb25355
 - filename: packages/backend/src/_migrations/1757532174131-auto-migration.ts
   checksum: e2d06e63d58935b349f2591b0a3c407c254be26c4e833456829e7c605fc7411b
+- filename: packages/backend/src/_migrations/1760044365787-auto-migration.ts
+  checksum: 05cafb91fb17905b562fe559181b2d2e9eed43a650b07025a15e58d9311d4411
 - filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
   checksum: 8b421c413bab4f2419972dec548a5399879f497a8c75c9b240bbf8c123cfab06
 - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.spec.ts
