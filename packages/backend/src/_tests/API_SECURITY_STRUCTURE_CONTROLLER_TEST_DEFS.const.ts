@@ -9,7 +9,6 @@ import { AgendaControllerSecurityTests } from "../usagers/controllers/security-t
 import { ImportControllerSecurityTests } from "../usagers/controllers/import/import.controller.security-tests";
 import { UsagersControllerSecurityTests } from "../usagers/controllers/security-tests/usagers.controller.security-tests";
 import { UserControllerSecurityTests } from "../modules/users/controllers/users.controller.security-tests";
-import { UserPublicControllerSecurityTests } from "../modules/users/controllers/users.public.controller.security-tests";
 import { AdminStructuresDeleteControllerSecurityTests } from "../modules/portail-admin/controllers/admin-structures-delete/admin-structures-delete.controller.security-tests";
 import { AdminStructuresControllerSecurityTests } from "../modules/portail-admin/controllers/admin-users/admin-users.controller.security-tests";
 import { AppTestHttpClientSecurityTestDef } from "./_core/types/AppTestHttpClientSecurityTestDef.type";
@@ -41,5 +40,4 @@ export const API_SECURITY_STRUCTURE_CONTROLLER_TEST_DEFS: AppTestHttpClientSecur
     ...UsagersDecisionControllerSecurityTests,
     ...UsagersStructureDocsControllerSecurityTests,
     ...UserControllerSecurityTests,
-    ...UserPublicControllerSecurityTests,
   ];

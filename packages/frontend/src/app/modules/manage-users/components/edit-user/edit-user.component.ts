@@ -23,7 +23,6 @@ import { format } from "date-fns";
 import { UsagerLight } from "../../../../../_common/model";
 import { PASSWORD_VALIDATOR } from "../../../users/PASSWORD_VALIDATOR.const";
 import {
-  UsersService,
   PasswordValidator,
   userStructureBuilder,
 } from "../../../users/services";
@@ -74,7 +73,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
   constructor(
     private readonly authService: AuthService,
     private readonly manageUsersService: ManageUsersService,
-    private readonly usersService: UsersService,
     private readonly toastService: CustomToastService,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly titleService: Title,
