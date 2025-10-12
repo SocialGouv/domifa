@@ -21,17 +21,31 @@ export class SectionInfosComponent implements OnInit {
 
   public echeanceInfo: UsagerEcheanceInfo;
   public rdvInfo: UsagerRdvInfo;
-
+  public showRendezVousReminder!: boolean;
+  public showWaitingForDecision!: boolean;
+  public showApproachingExpiry!: boolean;
+  public showExpirationMessage!: boolean;
   constructor() {
     this.echeanceInfo = getEcheanceInfo(this.usager);
     this.rdvInfo = getRdvInfo(this.usager);
   }
 
   ngOnInit(): void {
-    this.echeanceInfo = getEcheanceInfo(this.usager);
-    this.rdvInfo = getRdvInfo({
-      etapeDemande: this.usager.etapeDemande,
-      rdv: this.usager.rdv,
-    });
+    this.showRendezVousReminder =
+      this.usager.decision.statut === "INSTRUCTION" &&
+      Boolean(this.rdvInfo?.content);
+
+    this.showWaitingForDecision =
+      this.usager.decision.statut === "ATTENTE_DECISION" &&
+      this.usager.typeDom === "RENOUVELLEMENT";
+
+    this.showApproachingExpiry =
+      this.usager.decision.statut !== "ATTENTE_DECISION" &&
+      this.echeanceInfo.dayBeforeEnd > 0 &&
+      this.echeanceInfo.dayBeforeEnd < 60;
+
+    this.showExpirationMessage =
+      this.usager.decision.statut !== "ATTENTE_DECISION" &&
+      this.echeanceInfo.dayBeforeEnd < 0;
   }
 }

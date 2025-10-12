@@ -4369,6 +4369,7 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": "npm:^6.7.2"
     "@fortawesome/free-regular-svg-icons": "npm:^6.7.2"
     "@fortawesome/free-solid-svg-icons": "npm:^6.7.2"
+    "@gouvfr/dsfr": "npm:^1.14.2"
     "@ng-bootstrap/ng-bootstrap": "npm:^17.0.1"
     "@popperjs/core": "npm:^2.11.8"
     "@sentry/angular": "npm:^10.5.0"
@@ -4931,6 +4932,13 @@ __metadata:
   version: 1.13.1
   resolution: "@gouvfr/dsfr@npm:1.13.1"
   checksum: 10/e7593cb11ab2cafe7cf2a8929477d772802cf633cf8b9c35bc55cfc13d31e4a9c8005cdeb6099cafa58e16b167bdb67162abcefda661477fc4d69764dd7b2d30
+  languageName: node
+  linkType: hard
+
+"@gouvfr/dsfr@npm:^1.14.2":
+  version: 1.14.2
+  resolution: "@gouvfr/dsfr@npm:1.14.2"
+  checksum: 10/797d6d7794ab2511228c1322754fce41c2846e436d53e681854cb54e39c5e74cdcae2cf1a22bac399fa615f8e2b2669c5ca40febd879ac0e0062b73b3c8e2d8e
   languageName: node
   linkType: hard
 
