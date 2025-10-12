@@ -1,31 +1,55 @@
 <div *ngIf="usager">
-  <h2 class="section-title">Votre domiciliation</h2>
-  <div class="content section-content">
+  <h2 class="fr-text-title--blue-france">Votre domiciliation</h2>
+  <div class="border-top border-grey pt-3">
     <div class="py-2">
       <div
-        class="alert alert-info"
-        *ngIf="usager.decision.statut === 'INSTRUCTION' && rdvInfo.content"
+        [ngClass]="{
+          'fr-icon-calendar-check-line': showRendezVousReminder,
+          'fr-icon-chat-history-line': showWaitingForDecision
+        }"
+        *ngIf="showRendezVousReminder || showWaitingForDecision"
+        class="fr-callout fr-callout--blue-cumulus"
       >
-        <div aria-hidden="true" class="svg-icon icon-calendar"></div>
-        <p>
-          <b>Rappel de rendez-vous</b>
-          <br />
-          Vous avez rendez vous le {{ rdvInfo.content }}
-        </p>
+        <ng-container *ngIf="showRendezVousReminder">
+          <h3 class="fr-callout__title">Rappel de rendez-vous</h3>
+          <p class="fr-callout__text">
+            Vous avez rendez vous le {{ rdvInfo.content }}
+          </p>
+        </ng-container>
+        <ng-container *ngIf="showWaitingForDecision">
+          <p class="fr-callout__text">
+            Votre demande de renouvellement est actuellement en attente d'une
+            décision
+          </p>
+        </ng-container>
       </div>
-
       <div
-        class="alert alert-info"
-        *ngIf="
-          usager.decision.statut === 'ATTENTE_DECISION' &&
-          usager.typeDom === 'RENOUVELLEMENT'
-        "
+        *ngIf="showApproachingExpiry || showExpirationMessage"
+        class="fr-callout"
+        [ngClass]="{
+          'fr-icon-warning-line': showApproachingExpiry,
+          'fr-icon-error-line': showExpirationMessage,
+          'fr-callout--pink-tuile': echeanceInfo.dayBeforeEnd <= 15,
+          'fr-callout--yellow-tournesol': echeanceInfo.dayBeforeEnd > 15
+        }"
       >
-        <div aria-hidden="true" class="svg-icon icon-calendar"></div>
-        <p>
-          Votre demande de renouvellement est actuellement en attente d'une
-          décision
-        </p>
+        <ng-container *ngIf="showApproachingExpiry">
+          <p class="fr-callout__text">
+            <span>
+              Attention, votre domiciliation expire le
+              <strong>
+                {{ echeanceInfo.dateToDisplay | date : "fullDate" }}
+              </strong>
+            </span>
+          </p>
+        </ng-container>
+        <ng-container *ngIf="showExpirationMessage">
+          <p class="fr-callout__text">
+            Domiciliation expirée depuis le
+            {{ echeanceInfo.dateToDisplay | date : "fullDate" }}, il y a
+            {{ echeanceInfo.dayBeforeEnd * -1 }} jours
+          </p>
+        </ng-container>
       </div>
       <div
         class="alert"
@@ -63,49 +87,54 @@
       </div>
     </div>
 
-    <div class="d-flex align-items-top">
-      <div class="section-icon">
-        <img
-          src="/assets/icones/profil/dossier.svg"
-          aria-hidden="true"
-          alt="Informations sur votre dossier"
-        />
-      </div>
+    <div
+      class="d-flex fr-text-title--blue-france border-bottom border-grey pb-1 mb-2 align-items-top"
+    >
       <div>
-        <h3 class="section-subtitle">Votre dossier</h3>
+        <h3 class="fr-text-title--blue-france fr-icon-file-line">
+          Votre dossier
+        </h3>
 
         <p class="my-2">
-          <b>Statut</b>:
-          <span class="label-statut">
-            {{ USAGER_DECISION_STATUT_LABELS[usager.decision.statut] }}
-          </span>
+          <span class="font-medium"> Statut: </span>
+          <span
+            [ngClass]="{
+              'fr-badge--success': usager.decision.statut === 'VALIDE',
+              'fr-badge--error': usager.decision.statut === 'REFUS'
+            }"
+            class="fr-badge fr-badge--no-icon"
+            >{{ USAGER_DECISION_STATUT_LABELS[usager.decision.statut] }}</span
+          >
         </p>
         <p class="my-2">
-          <b>Échéance: </b>
+          Échéance:
           {{ echeanceInfo.dateToDisplay | date : "fullDate" }}
         </p>
         <p class="my-2">
-          <b>Dernier passage: </b>
+          Dernier passage:
           {{ usager.lastInteraction.dateInteraction | date : "fullDate" }}
         </p>
       </div>
     </div>
 
-    <div class="mt-2 d-flex align-items-top">
-      <div class="section-icon">
-        <img
-          src="/assets/icones/profil/informations.svg"
-          aria-hidden="true"
-          alt="Votre profil"
-        />
-      </div>
+    <div class="mt-2 d-flex align-items-top fr-text-title--blue-france">
       <div>
-        <h3 class="section-subtitle">Vos informations</h3>
-        <p class="my-2 fw-bold">{{ usager.prenom }} {{ usager.nom }}</p>
-        <p class="my-2 fw-bold">
+        <h3
+          class="fr-text-title--blue-france fr-icon-person-mail-icon"
+          aria-label="Vos informations"
+        >
+          Vos informations
+        </h3>
+        <p class="my-2">
+          Nom Prénom :
+          {{ usager.prenom }} {{ usager.nom }}
+        </p>
+        <p class="my-2">
+          Téléphone :
           {{ usager.telephone | formatInternationalPhoneNumber }}
         </p>
-        <p class="my-2 fw-bold">
+        <p class="my-2">
+          E-mail :
           {{ usager.email || "Email non renseigné" }}
         </p>
       </div>
