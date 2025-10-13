@@ -12,12 +12,6 @@ export class UsersService {
 
   constructor(private readonly http: HttpClient) {}
 
-  public validateEmail(email: string): Observable<boolean> {
-    return this.http.post<boolean>(`${this.endPoint}/validate-email`, {
-      email,
-    });
-  }
-
   public getPasswordToken(data: string) {
     return this.http.post(`${this.endPoint}/get-password-token`, data);
   }

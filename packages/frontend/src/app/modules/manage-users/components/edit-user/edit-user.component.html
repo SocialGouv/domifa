@@ -198,23 +198,9 @@
             "
             required
           />
-          <div
-            *ngIf="f.email.errors"
-            id="email-errors"
-            class="invalid-feedback"
-          >
-            <p *ngIf="f.email.errors.emailTaken">
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'exclamation-triangle']"
-              ></fa-icon>
-              L'adresse email est déjà utilisée
-            </p>
-            <p *ngIf="!f.email.errors.emailTaken">
-              L'adresse email est incorrecte, format attendu :
-              nom&#64;domaine.fr
-            </p>
-          </div>
+          <p *ngIf="f.email?.errors" id="email-errors" class="invalid-feedback">
+            L'adresse email est incorrecte, format attendu : nom&#64;domaine.fr
+          </p>
         </div>
 
         <div class="col-12 form-group required">

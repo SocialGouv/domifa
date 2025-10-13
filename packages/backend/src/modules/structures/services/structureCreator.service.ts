@@ -51,7 +51,7 @@ async function createStructureWithAdminUser(
   });
 
   if (existingUser) {
-    throw new HttpException("EMAIL_EXIST", HttpStatus.BAD_REQUEST);
+    throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
   }
 
   const structure = await createStructure(structureDto);

@@ -1,14 +1,12 @@
 import {
   FormBuilder,
-  AbstractControl,
-  ValidationErrors,
   FormGroup,
   Validators,
   UntypedFormControl,
   UntypedFormGroup,
 } from "@angular/forms";
 import { CurrentTool, MarketTool, StructureCommon } from "@domifa/common";
-import { Observable, of, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
 
 import { setFormPhone, anyPhoneValidator } from "../../../shared/phone";
 import {
@@ -28,26 +26,12 @@ enum FormContext {
 export function createform(
   structure: StructureCommon,
   formBuilder: FormBuilder,
-  context: FormContext,
-  validateEmailNotTaken: (
-    control: AbstractControl
-  ) => Observable<ValidationErrors | null>
+  context: FormContext
 ): UntypedFormGroup {
   const addressIsRequired = structure.adresseCourrier?.actif === true;
 
   const isCreation = context === FormContext.CREATION;
   const isEdition = context === FormContext.EDITION;
-
-  const emailAsyncValidators = validateEmailNotTaken
-    ? [
-        (control: AbstractControl) => {
-          if (isEdition && control.value === structure.email) {
-            return of(null);
-          }
-          return validateEmailNotTaken(control);
-        },
-      ]
-    : null;
 
   const baseForm = {
     codePostal: [structure.codePostal, getPostalCodeValidator(true)],
@@ -65,11 +49,7 @@ export function createform(
     ],
     complementAdresse: [structure.complementAdresse, []],
     departement: [structure.departement, []],
-    email: [
-      structure.email,
-      [Validators.required, Validators.email],
-      emailAsyncValidators,
-    ],
+    email: [structure.email, [Validators.required, Validators.email]],
     nom: [
       structure.nom,
       [NoWhiteSpaceValidator, Validators.required, Validators.maxLength(255)],
@@ -151,32 +131,16 @@ export function createform(
 
 export const initCreationForm = (
   structure: StructureCommon,
-  formBuilder: FormBuilder,
-  validateEmailNotTaken?: (
-    control: AbstractControl
-  ) => Observable<ValidationErrors | null>
+  formBuilder: FormBuilder
 ): FormGroup => {
-  return createform(
-    structure,
-    formBuilder,
-    FormContext.CREATION,
-    validateEmailNotTaken
-  );
+  return createform(structure, formBuilder, FormContext.CREATION);
 };
 
 export const initEditionForm = (
   structure: StructureCommon,
-  formBuilder: FormBuilder,
-  validateEmailNotTaken?: (
-    control: AbstractControl
-  ) => Observable<ValidationErrors | null>
+  formBuilder: FormBuilder
 ): FormGroup => {
-  return createform(
-    structure,
-    formBuilder,
-    FormContext.EDITION,
-    validateEmailNotTaken
-  );
+  return createform(structure, formBuilder, FormContext.EDITION);
 };
 
 export const setupFormSubscriptions = (

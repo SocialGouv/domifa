@@ -83,18 +83,10 @@
         "
         required
       />
-      <div *ngIf="f.email.errors" class="invalid-feedback" id="email-errors">
-        <p *ngIf="f.email.errors?.emailTaken">
-          <fa-icon
-            aria-hidden="true"
-            [icon]="['fas', 'exclamation-triangle']"
-          ></fa-icon>
-          L'adresse email est déjà utilisée
-        </p>
-        <p *ngIf="!f.email.errors.emailTaken">
-          Veuillez vérifier l'adresse email, format attendu : nom&#64;domaine.fr
-        </p>
-      </div>
+
+      <p *ngIf="f.email.errors" class="invalid-feedback" id="email-errors">
+        Veuillez vérifier l'adresse email, format attendu : nom&#64;domaine.fr
+      </p>
     </div>
     <div class="col-md-6 form-group required">
       <label for="role">Accès</label>

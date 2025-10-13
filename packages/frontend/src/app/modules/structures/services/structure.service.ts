@@ -85,12 +85,6 @@ export class StructureService {
       .pipe(map((response) => new StructureCommonWeb(response)));
   }
 
-  public validateEmail(email: string): Observable<boolean> {
-    return this.http.post<boolean>(`${this.endPoint}/validate-email`, {
-      email,
-    });
-  }
-
   public hardReset() {
     return this.http.get(`${this.endPoint}/hard-reset`);
   }

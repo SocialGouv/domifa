@@ -1,4 +1,3 @@
-import isEmail from "validator/lib/isEmail";
 import {
   Component,
   ElementRef,
@@ -18,8 +17,8 @@ import {
   Validators,
 } from "@angular/forms";
 
-import { Observable, Subject, Subscription, of } from "rxjs";
-import { map, takeUntil } from "rxjs/operators";
+import { Subject, Subscription } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 import {
   EmailValidator,
   fadeInOut,
@@ -36,10 +35,6 @@ import {
   UserSupervisorRole,
 } from "@domifa/common";
 import { ManageUsersService } from "../../services/manage-users.service";
-
-export type FormEmailTakenValidator = Observable<null | {
-  emailTaken: boolean;
-}>;
 
 @Component({
   animations: [fadeInOut],
@@ -146,7 +141,6 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
       email: [
         null,
         [Validators.required, EmailValidator, this.SuperAdminEmailValidator()],
-        this.validateEmailNotTaken.bind(this),
       ],
       nom: [
         null,
@@ -265,19 +259,6 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
     this.userForm.reset({ role: "national" });
     this.selectedRole = "national";
     this.onRoleChange();
-  }
-
-  public validateEmailNotTaken(
-    control: AbstractControl
-  ): FormEmailTakenValidator {
-    return isEmail(control.value)
-      ? this.manageUsersService.validateUserSuperivorEmail(control.value).pipe(
-          takeUntil(this.unsubscribe),
-          map((res: boolean) => {
-            return res === false ? null : { emailTaken: true };
-          })
-        )
-      : of(null);
   }
 
   public ngOnDestroy(): void {

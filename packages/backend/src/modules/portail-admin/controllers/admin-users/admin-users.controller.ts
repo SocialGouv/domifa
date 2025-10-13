@@ -36,7 +36,6 @@ import {
   RegisterUserSupervisorDto,
 } from "../../dto";
 import { AdminSuperivorUsersService } from "../../services/admin-superivor-users/admin-superivor-users.service";
-import { EmailDto } from "../../../users/dto";
 import { PatchUserSupervisorDto } from "../../dto/patch-user-supervisor.dto";
 import { ElevateUserRoleDto } from "../../dto/elevate-user-role.dto";
 import {
@@ -124,7 +123,7 @@ export class AdminUsersController {
     if (userExist) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "EMAIL_EXIST" });
+        .json({ message: "BAD_REQUEST" });
     }
 
     const { user: newUser, userSecurity } =
@@ -161,23 +160,6 @@ export class AdminUsersController {
     return res
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
       .json({ message: "REGISTER_ERROR" });
-  }
-
-  @Post("validate-email")
-  public async validateEmail(
-    @Body() emailDto: EmailDto,
-    @Res() res: ExpressResponse
-  ) {
-    const existUser = await userSupervisorRepository.findOne({
-      where: {
-        email: emailDto.email.toLowerCase(),
-      },
-      select: {
-        email: true,
-      },
-    });
-
-    return res.status(HttpStatus.OK).json(!!existUser);
   }
 
   @ApiBearerAuth()
