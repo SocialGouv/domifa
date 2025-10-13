@@ -26,8 +26,6 @@
             "assets": ["src/assets", "src/robots.txt"],
             "styles": [
               "src/styles.scss",
-              "./node_modules/@gouvfr/dsfr/dist/dsfr/dsfr.main.min.css",
-              "./node_modules/@gouvfr/dsfr/dist/utility/utility.main.min.css",
               "src/assets/css/print.css",
               "src/assets/css/icons.css",
               "src/assets/css/forms.css"
