@@ -198,15 +198,7 @@
             "
             required
           />
-
-          <p *ngIf="f.email.errors" id="email-errors" class="invalid-feedback">
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'exclamation-triangle']"
-            ></fa-icon>
-            L'adresse email est déjà utilisée
-          </p>
-          <p *ngIf="!f.email.errors.emailTaken">
+          <p *ngIf="f.email?.errors" id="email-errors" class="invalid-feedback">
             L'adresse email est incorrecte, format attendu : nom&#64;domaine.fr
           </p>
         </div>
