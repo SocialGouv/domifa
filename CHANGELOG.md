@@ -1,3 +1,10 @@
+# [2.223.0](https://github.com/SocialGouv/domifa/compare/v2.222.0...v2.223.0) (2025-10-13)
+
+
+### Features
+
+* **frontend:** Mise à jour politique de confidentialité  ([#3956](https://github.com/SocialGouv/domifa/issues/3956)) ([0228d07](https://github.com/SocialGouv/domifa/commit/0228d071f3a9031f515527092c230a5447fcaa02))
+
 # [2.222.0](https://github.com/SocialGouv/domifa/compare/v2.221.8...v2.222.0) (2025-09-30)
 
 
