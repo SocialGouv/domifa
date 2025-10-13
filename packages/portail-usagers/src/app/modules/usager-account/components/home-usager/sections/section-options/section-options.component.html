@@ -1,5 +1,10 @@
 <div *ngIf="usager" class="my-2">
   <h2 class="fr-text-title--blue-france pb-2">Transfert et procurations</h2>
+  <div *ngIf="!hasActiveTransfertOrProcur">
+    <div class="fr-callout fr-callout--empty">
+      Vous n’avez actuellement aucune procuration ni aucun transfert.
+    </div>
+  </div>
   <div
     *ngIf="
       usager.options.transfert?.actif || usager.options.procurations.length > 0
@@ -37,7 +42,7 @@
           'fr-callout--pink-tuile': procuration.isExpired
         }"
       >
-        <h3 class="fr-callout__title">Procurations</h3>
+        <h3 class="fr-callout__title">Procuration</h3>
         <span>
           <ng-container *ngIf="!procuration.isExpired">
             Une procuration au nom de
