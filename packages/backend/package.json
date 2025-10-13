@@ -125,7 +125,7 @@
     "@types/multer": "^2.0.0",
     "@types/node": "^20.19.2",
     "@types/node-pdftk": "^2.1.9",
-    "@types/nodemailer": "^6.4.17",
+    "@types/nodemailer": "^7.0.0",
     "@types/nunjucks": "^3.2.6",
     "@types/passport-jwt": "^3.0.13",
     "@types/pino": "^7.0.5",
