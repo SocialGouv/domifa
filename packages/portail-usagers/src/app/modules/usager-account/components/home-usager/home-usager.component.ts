@@ -20,7 +20,7 @@ export class HomeUsagerComponent implements OnInit {
     private readonly usagerAuthService: UsagerAuthService,
     private readonly titleService: Title,
     private readonly router: Router,
-    private readonly structureInformationService: StructureInformationService
+    private readonly structureInformationService: StructureInformationService,
   ) {
     this.usagerProfile = null;
     this.titleService.setTitle("Mon DomiFa");
@@ -35,8 +35,8 @@ export class HomeUsagerComponent implements OnInit {
             return;
           }
           this.usagerProfile = apiResponse;
-        }
-      )
+        },
+      ),
     );
 
     if (this.usagerProfile) {
@@ -49,10 +49,10 @@ export class HomeUsagerComponent implements OnInit {
       this.structureInformationService.getAllStructureInformation().subscribe({
         next: (structureInformation: StructureInformation[]) => {
           this.structureInformation = structureInformation.filter(
-            (info) => !info.isExpired
+            (info) => !info.isExpired,
           );
         },
-      })
+      }),
     );
   }
 }
