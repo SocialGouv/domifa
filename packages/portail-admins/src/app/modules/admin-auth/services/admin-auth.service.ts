@@ -2,7 +2,14 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router, RouterStateSnapshot } from "@angular/router";
 
-import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
+import {
+  BehaviorSubject,
+  catchError,
+  firstValueFrom,
+  map,
+  Observable,
+  of,
+} from "rxjs";
 import { environment } from "../../../../environments/environment";
 
 import { CustomToastService } from "../../shared/services/custom-toast.service";
@@ -68,7 +75,10 @@ export class AdminAuthService {
     return this.currentAdminSubject?.value ?? null;
   }
 
-  public logout(): void {
+  public logout(sessionExpired?: boolean): void {
+    if (sessionExpired) {
+      this.toastr.warning("Votre session a expiré, merci de vous reconnecter");
+    }
     appStore.dispatch({ type: "reset" });
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.removeItem(USER_KEY);
@@ -78,8 +88,11 @@ export class AdminAuthService {
     getCurrentScope().setUser({});
   }
 
-  public logoutAndRedirect(state?: RouterStateSnapshot): void {
-    this.logout();
+  public logoutAndRedirect(
+    state?: RouterStateSnapshot,
+    sessionExpired?: boolean
+  ): void {
+    this.logout(sessionExpired);
 
     const cleanPath = state?.url?.split("?")[0] || "/";
     const matomoParams = this.getMatomoParams();
@@ -137,4 +150,15 @@ export class AdminAuthService {
 
     this.currentAdminSubject.next(authAdminProfile);
   }
+
+  public logoutFromBackend = async (
+    state?: RouterStateSnapshot,
+    sessionExpired?: boolean
+  ) => {
+    const storedUser = window.sessionStorage.getItem(USER_KEY);
+    if (storedUser) {
+      await firstValueFrom(this.http.get(`${END_POINT_AUTH}/logout`));
+    }
+    this.logoutAndRedirect(state, sessionExpired);
+  };
 }

@@ -10,7 +10,6 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ParseTokenPipe } from "../../../_common/decorators";
-import { userStructureRepository } from "../../../database";
 import { appLogger, ExpressResponse } from "../../../util";
 import { EmailDto, ResetPasswordDto } from "../dto";
 import { userResetPasswordEmailSender } from "../../mails/services/templates-renderers";
@@ -25,23 +24,6 @@ const userProfile: UserProfile = "structure";
 @Controller("users")
 @ApiTags("users")
 export class UsersPublicController {
-  @Post("validate-email")
-  public async validateEmail(
-    @Body() emailDto: EmailDto,
-    @Res() res: ExpressResponse
-  ) {
-    const existUser = await userStructureRepository.findOne({
-      where: {
-        email: emailDto.email.toLowerCase(),
-      },
-      select: {
-        email: true,
-      },
-    });
-
-    return res.status(HttpStatus.OK).json(!!existUser);
-  }
-
   @Get("check-password-token/:userId/:token")
   public async checkPasswordToken(
     @Param("userId", new ParseIntPipe()) userId: number,

@@ -5,7 +5,6 @@ import { UserSecurity } from "../../../_common/model";
 import { userStructureSecurityRepository } from "../../../database";
 import { StructuresModule } from "../../structures/structure.module";
 import { UsagersModule } from "../../../usagers/usagers.module";
-import { ExpressResponse } from "../../../util";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
 import { UsersPublicController } from "./users.public.controller";
 import { MailsModule } from "../../mails/mails.module";
@@ -33,38 +32,6 @@ describe("Users Public Controller", () => {
   describe("Users Public Controller", () => {
     it("should be defined", async () => {
       expect(controller).toBeDefined();
-    });
-
-    it("validateEmail does not exists", async () => {
-      const res = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn().mockReturnThis(),
-      } as unknown as ExpressResponse;
-
-      await controller.validateEmail(
-        {
-          email: "test-mail-does-not-exists@yopmail.com",
-        },
-        res
-      );
-      expect(res.status).toHaveBeenCalledWith(HttpStatus.OK);
-      expect(res.json).toHaveBeenCalledWith(false);
-    });
-
-    it("validateEmail exists", async () => {
-      const res = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn().mockReturnThis(),
-      } as unknown as ExpressResponse;
-
-      await controller.validateEmail(
-        {
-          email: "preprod.domifa@fabrique.social.gouv.fr",
-        },
-        res
-      );
-      expect(res.status).toHaveBeenCalledWith(HttpStatus.OK);
-      expect(res.json).toHaveBeenCalledWith(true);
     });
   });
 

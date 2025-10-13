@@ -58,12 +58,6 @@ export class ManageUsersService {
     );
   }
 
-  public validateUserSuperivorEmail(email: string): Observable<boolean> {
-    return this.http.post<boolean>(`${this.endPoint}/validate-email`, {
-      email,
-    });
-  }
-
   public updateMyPassword(data: {
     passwordConfirmation: string;
     password: string;

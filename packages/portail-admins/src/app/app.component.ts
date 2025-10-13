@@ -73,6 +73,6 @@ export class AppComponent implements OnInit {
   }
 
   public logout(): void {
-    this.adminAuthService.logoutAndRedirect();
+    this.adminAuthService.logoutFromBackend();
   }
 }

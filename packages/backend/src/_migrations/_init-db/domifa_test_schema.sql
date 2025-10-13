@@ -34,7 +34,7 @@ CREATE TABLE public.expired_token (
     "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
     version integer NOT NULL,
     "userId" integer NOT NULL,
-    "structureId" integer NOT NULL,
+    "structureId" integer,
     token text NOT NULL,
     "userProfile" text NOT NULL
 );

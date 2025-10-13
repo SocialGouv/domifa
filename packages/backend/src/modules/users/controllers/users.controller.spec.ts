@@ -110,7 +110,7 @@ describe("Users Controller", () => {
         });
 
         expect(response.status).toBe(400);
-        expect(response.text).toBe('{"message":"EMAIL_EXIST"}');
+        expect(response.text).toBe('{"message":"BAD_REQUEST"}');
       });
 
       it("should shoud throw 401 when fonction is missing", async () => {

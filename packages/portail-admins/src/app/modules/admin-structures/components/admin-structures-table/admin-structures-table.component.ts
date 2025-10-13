@@ -15,8 +15,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { of, Subscription } from "rxjs";
-import { map } from "rxjs/operators";
+import { Subscription } from "rxjs";
 import { regexp } from "../../../../shared/utils";
 import { AdminStructuresApiClient } from "../../../shared/services";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
@@ -69,11 +68,7 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
     this.newAdminForm = this.formBuilder.group({
       nom: [null, [Validators.required]],
       prenom: [null, [Validators.required]],
-      email: [
-        null,
-        [Validators.required, Validators.pattern(regexp.email)],
-        this.validateEmailNotTaken.bind(this),
-      ],
+      email: [null, [Validators.required, Validators.pattern(regexp.email)]],
       fonction: [null, [Validators.required]],
       fonctionDetail: [
         null,
@@ -175,17 +170,6 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
     this.currentStructure = undefined;
     this.submitted = false;
     this.modalService.dismissAll();
-  }
-
-  public validateEmailNotTaken(control: AbstractControl) {
-    const testEmail = RegExp(regexp.email).test(control.value);
-    return testEmail
-      ? this.adminStructuresApiClient.validateEmail(control.value).pipe(
-          map((res: boolean) => {
-            return res === false ? null : { emailTaken: true };
-          })
-        )
-      : of(null);
   }
 
   public ngOnDestroy(): void {

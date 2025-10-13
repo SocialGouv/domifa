@@ -7,10 +7,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-
-import { Subject, Subscription, of } from "rxjs";
-import { map, takeUntil } from "rxjs/operators";
-import { FormEmailTakenValidator } from "../../../../../_common/model";
+import { Subject, Subscription } from "rxjs";
 import {
   EmailValidator,
   fadeInOut,
@@ -19,13 +16,10 @@ import {
 import { CustomToastService } from "../../../shared/services";
 import { PASSWORD_VALIDATOR } from "../../../users/PASSWORD_VALIDATOR.const";
 import {
-  UsersService,
   userStructureBuilder,
   PasswordValidator,
 } from "../../../users/services";
 import { StructureService } from "../../services";
-
-import isEmail from "validator/lib/isEmail";
 import { UserStructure, StructureCommon } from "@domifa/common";
 
 @Component({
@@ -63,7 +57,6 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
-    private readonly userService: UsersService,
     private readonly structureService: StructureService,
     private readonly toastService: CustomToastService,
     private readonly titleService: Title
@@ -83,11 +76,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
           null,
           Validators.compose(PASSWORD_VALIDATOR)
         ),
-        email: [
-          this.user.email,
-          [Validators.required, EmailValidator],
-          this.validateEmailNotTaken.bind(this),
-        ],
+        email: [this.user.email, [Validators.required, EmailValidator]],
         fonction: [null, Validators.required],
         fonctionDetail: [null],
         nom: [
@@ -151,19 +140,6 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
       left: 0,
       top: 0,
     });
-  }
-
-  public validateEmailNotTaken(
-    control: AbstractControl
-  ): FormEmailTakenValidator {
-    return isEmail(control.value)
-      ? this.userService.validateEmail(control.value).pipe(
-          takeUntil(this.unsubscribe),
-          map((res: boolean) => {
-            return res === false ? null : { emailTaken: true };
-          })
-        )
-      : of(null);
   }
 
   public ngOnDestroy(): void {

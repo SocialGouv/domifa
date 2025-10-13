@@ -6,8 +6,7 @@ import {
   UntypedFormGroup,
 } from "@angular/forms";
 
-import { Subject, Subscription, of } from "rxjs";
-import { map, takeUntil } from "rxjs/operators";
+import { Subject, Subscription } from "rxjs";
 import {
   CountryISO,
   PhoneNumberFormat,
@@ -21,7 +20,6 @@ import {
   isInvalidStructureName,
   updateSourceQuestion,
 } from "../../utils/structure-validators";
-import isEmail from "validator/lib/isEmail";
 import {
   StructureCommon,
   Structure,
@@ -35,7 +33,6 @@ import {
 } from "@domifa/common";
 import {
   COUNTRY_CODES_TIMEZONE,
-  FormEmailTakenValidator,
   PREFERRED_COUNTRIES,
 } from "../../../../../_common/model";
 import { initEditionForm, setupFormSubscriptions } from "../../utils";
@@ -94,11 +91,7 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.structureForm = initEditionForm(
-      this.structure,
-      this.formBuilder,
-      this.validateEmailNotTaken.bind(this)
-    );
+    this.structureForm = initEditionForm(this.structure, this.formBuilder);
 
     this.selectedCountryISO = COUNTRY_CODES_TIMEZONE[
       this.structure.timeZone
@@ -160,23 +153,6 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
         },
       })
     );
-  }
-
-  public validateEmailNotTaken(
-    control: AbstractControl
-  ): FormEmailTakenValidator {
-    if (control.value === this.structure.email) {
-      return of(null);
-    }
-
-    return isEmail(control.value)
-      ? this.structureService.validateEmail(control.value).pipe(
-          takeUntil(this.unsubscribe),
-          map((res: boolean) => {
-            return res === false ? null : { emailTaken: true };
-          })
-        )
-      : of(null);
   }
 
   public isInvalidStructureName(structureName: string): boolean {
