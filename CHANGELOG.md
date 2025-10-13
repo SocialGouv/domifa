@@ -1,3 +1,10 @@
+## [2.223.1](https://github.com/SocialGouv/domifa/compare/v2.223.0...v2.223.1) (2025-10-13)
+
+
+### Bug Fixes
+
+* **backend:** add expired token in mon-domifa & admin ([#3954](https://github.com/SocialGouv/domifa/issues/3954)) ([b111a69](https://github.com/SocialGouv/domifa/commit/b111a69be22a398cc870f537ef4a2d4df5d91489))
+
 # [2.223.0](https://github.com/SocialGouv/domifa/compare/v2.222.0...v2.223.0) (2025-10-13)
 
 
