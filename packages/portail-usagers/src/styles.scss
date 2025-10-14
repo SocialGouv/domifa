@@ -2,9 +2,9 @@
 
 @import "assets/css/main.scss" layer(app);
 
-@import "node_modules/bootstrap/dist/css/bootstrap.min.css" layer(bootstrap);
-@import "node_modules/@gouvfr/dsfr/dist/dsfr.min.css" layer(dsfr);
-@import "node_modules/@gouvfr/dsfr/dist/utility/utility.min.css" layer(dsfr);
+@import "node_modules/bootstrap/scss/bootstrap.scss" layer(bootstrap);
+@import "@gouvfr/dsfr/dist/dsfr.min.css" layer(dsfr);
+@import "@gouvfr/dsfr/dist/utility/utility.min.css" layer(dsfr);
 
 @layer dsfr-personnalization {
   .fr-callout--empty {
