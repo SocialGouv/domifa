@@ -4958,6 +4958,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@gouvfr/dsfr@npm:1.14.0":
+  version: 1.14.0
+  resolution: "@gouvfr/dsfr@npm:1.14.0"
+  checksum: 10/623f256921127d2d6fbc1a8525f0110a5275b5052f9eff680d1f894070f23ca14caa2f69f5d6e099de0699fdf5450ce9ef53943a495b2d6164620d9d125ae49d
+  languageName: node
+  linkType: hard
+
 "@gouvfr/dsfr@npm:^1.14.2":
   version: 1.14.2
   resolution: "@gouvfr/dsfr@npm:1.14.2"
