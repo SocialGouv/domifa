@@ -1,9 +1,9 @@
+import { InteractionType } from "./../types/InteractionType.type";
 import {
   INTERACTIONS_LABELS_PLURIEL,
   INTERACTIONS_LABELS_SINGULIER,
 } from "../constants";
 import { type CommonInteraction } from "../interfaces";
-import { type InteractionType } from "../types";
 
 export class Interaction implements CommonInteraction {
   public type: InteractionType;
@@ -19,7 +19,7 @@ export class Interaction implements CommonInteraction {
   public procuration: boolean;
   public returnToSender?: boolean;
   public interactionOutUUID = null;
-
+  public iconClass?: string;
   constructor(interaction: CommonInteraction) {
     this.uuid = interaction?.uuid;
     this.usagerRef = interaction?.usagerRef;
@@ -27,7 +27,7 @@ export class Interaction implements CommonInteraction {
     this.structureId = interaction?.structureId;
     this.userId = interaction?.userId;
     this.dateInteraction = new Date(interaction.dateInteraction);
-
+    this.iconClass = getIconClassByTypeInteraction(interaction.type);
     this.type = interaction?.type || null;
 
     this.content = interaction?.content ?? "";
@@ -47,3 +47,28 @@ export class Interaction implements CommonInteraction {
     }
   }
 }
+
+export const getIconClassByTypeInteraction = (
+  typeInteraction: InteractionType
+): string => {
+  switch (typeInteraction) {
+    case "courrierIn":
+      return "fr-icon-mail-open-line";
+    case "courrierOut":
+      return "fr-icon-mail-send-line";
+    case "recommandeIn":
+      return "fr-icon-mail-star-line";
+    case "recommandeOut":
+      return "fr-icon-mail-download-line";
+    case "visite":
+      return "fr-icon-user-line";
+    case "appel":
+      return "fr-icon-phone-line";
+    case "colisIn":
+      return "fr-icon-archive-line";
+    case "colisOut":
+      return "fr-icon-inbox-archive-line";
+    default:
+      return "";
+  }
+};

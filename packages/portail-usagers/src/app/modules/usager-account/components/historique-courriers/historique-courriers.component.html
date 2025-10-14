@@ -13,7 +13,7 @@
   </h3>
   <p class="fr-text--sm mb-1">
     Vous trouverez ci-dessous, l'ensemble des courriers, colis et avis de
-    passage reçus et déjà récupérés
+    passage reçus.
   </p>
   <div class="d-flex flex-column gap-4 border-top border-1 border-grey pt-3">
     <div
@@ -30,16 +30,7 @@
       <ng-container>
         <div class="d-flex gap-2">
           <span
-            [class.fr-icon-mail-open-line]="interaction.type === 'courrierIn'"
-            [class.fr-icon-archive-line]="interaction.type === 'colisIn'"
-            [class.fr-icon-mail-star-line]="interaction.type === 'recommandeIn'"
-            [class.fr-icon-user-line]="interaction.type === 'visite'"
-            [class.fr-icon-phone-line]="interaction.type === 'appel'"
-            [class.fr-icon-mail-send-line]="interaction.type === 'courrierOut'"
-            [class.fr-icon-inbox-archive-line]="interaction.type === 'colisOut'"
-            [class.fr-icon-mail-download-line]="
-              interaction.type === 'recommandeOut'
-            "
+            [ngClass]="interaction.iconClass"
             class="align-self-start fr-mt-1-5v"
           ></span>
           <div class="d-flex flex-column gap-1">
