@@ -24,7 +24,7 @@ import { IdleManagerComponent } from "./components/idle-manager/idle-manager.com
 import { PlanSiteComponent } from "./components/_static/plan-site/plan-site.component";
 import { FormsModule } from "@angular/forms";
 import { NewsComponent } from "./components/_static/news/news.component";
-import { DsfrDataTableModule } from "@edugouvfr/ngx-dsfr";
+import { DsfrSidemenuModule } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [
@@ -42,6 +42,7 @@ import { DsfrDataTableModule } from "@edugouvfr/ngx-dsfr";
     IdleManagerComponent,
     PlanSiteComponent,
     CguComponent,
+    DsfrSidemenuModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   imports: [
@@ -52,7 +53,7 @@ import { DsfrDataTableModule } from "@edugouvfr/ngx-dsfr";
     SharedModule,
     NgbModule,
     FormsModule,
-    DsfrDataTableModule,
+    DsfrSidemenuModule,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

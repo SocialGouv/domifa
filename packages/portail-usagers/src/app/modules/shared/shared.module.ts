@@ -12,6 +12,7 @@ import { ReplaceLineBreaks } from "./pipes/nl2br.pipe";
 import {
   DsfrAccordionModule,
   DsfrButtonModule,
+  DsfrDataTableModule,
   DsfrFooterModule,
   DsfrFormInputModule,
   DsfrFormPasswordModule,
@@ -37,6 +38,7 @@ import { FaqComponent } from "./components/faq/faq.component";
     FaqComponent,
     DsfrHeaderModule,
     DsfrPaginationModule,
+    DsfrDataTableModule,
   ],
   providers: [SeoService],
   imports: [
@@ -51,6 +53,7 @@ import { FaqComponent } from "./components/faq/faq.component";
     FaqComponent,
     DsfrHeaderModule,
     DsfrPaginationModule,
+    DsfrDataTableModule,
   ],
 })
 export class SharedModule {
