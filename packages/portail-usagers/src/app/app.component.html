@@ -42,22 +42,20 @@
     operatorImageAlt="'Retour à l'accueil de Mon DomiFa'"
     [operatorImagePath]="'/assets/images/logo-dsfr.svg'"
     [logoLink]="{ routerLink: '/' }"
-    [headerToolsLinks]="headerToolsLinks"
-    (linkSelect)="logout()"
-  ></dsfr-header>
+  >
+    <ng-template #headerTools>
+      <dsfr-button
+        *ngIf="usagerProfile"
+        buttonSize="SM"
+        icon="fr-icon-logout-box-r-line"
+        label="Se déconnecter"
+        (click)="logout()"
+      ></dsfr-button>
+    </ng-template>
+  </dsfr-header>
 </header>
 <main role="main" id="page">
   <router-outlet></router-outlet>
-  <div *ngIf="usagerProfile" class="py-4 text-center">
-    <button
-      (click)="logout()"
-      class="btn btn-outline-primary px-5"
-      type="button"
-    >
-      Me déconnecter
-      <fa-icon aria-hidden="true" [icon]="faRightFromBracket"></fa-icon>
-    </button>
-  </div>
 </main>
 <dsfr-footer
   [logo]="{
