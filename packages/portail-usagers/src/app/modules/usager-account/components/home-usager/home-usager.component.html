@@ -1,14 +1,25 @@
-<div class="fr-container">
-  <ng-container *ngIf="usagerProfile">
-    <div class="py-4">
-      <h1 class="text-primary fw-bold">
+<div *ngIf="usagerProfile" class="w-100 fr-background-contrast--blue-ecume">
+  <div class="fr-container row d-flex flex-row justify-content-between">
+    <div class="col-12 col-md-8 col-sm-8 py-3 py-md-5 d-flex flex-column gap-1">
+      <h1 class="fr-text-title--blue-france mb-1">
         Bonjour {{ usagerProfile.usager.prenom }}
-        <span class="text-uppercase">{{ usagerProfile.usager.nom }}.</span>
+        {{ usagerProfile.usager.nom | uppercase }}
       </h1>
-      <span class="subtitle"
-        >Bienvenue dans votre espace de suivi de courrier</span
-      >
+      <p class="fr-text--lead fr-text-title--blue-france">
+        Bienvenue dans votre espace de suivi de courrier
+      </p>
     </div>
+    <div class="col-2 py-2 d-none d-md-block d-sm-block">
+      <img
+        class="fr-responsive-img"
+        src="/assets/images/home.svg"
+        alt="Nouveautés sur DomiFa"
+      />
+    </div>
+  </div>
+</div>
+<div class="fr-container mt-4">
+  <ng-container *ngIf="usagerProfile">
     <div class="row" data-masonry='{"percentPosition": true }'>
       <div class="col-12 col-md-6 mb-4">
         <app-section-courriers
