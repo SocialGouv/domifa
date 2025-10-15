@@ -15,6 +15,13 @@
       var(--border-default-grey)
     );
   }
+
+  .fr-h1,
+  .fr-h2,
+  .fr-h3,
+  .fr-h4 {
+    color: var(--text-title-blue-france);
+  }
 }
 
 @layer bootstrap {

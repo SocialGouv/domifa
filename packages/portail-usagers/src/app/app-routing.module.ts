@@ -18,7 +18,7 @@ const routes: Routes = [
     path: "auth",
     loadChildren: () =>
       import("./modules/usager-auth/usager-auth.module").then(
-        (m) => m.UsagerAuthModule,
+        (m) => m.UsagerAuthModule
       ),
   },
   {
@@ -26,7 +26,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () =>
       import("./modules/usager-account/usager-account.module").then(
-        (m) => m.UsagerAccountModule,
+        (m) => m.UsagerAccountModule
       ),
   },
   { path: "news", component: NewsComponent },
@@ -35,6 +35,13 @@ const routes: Routes = [
   { path: "mentions-legales", component: MentionsLegalesComponent },
   { path: "confidentialite", component: PolitiqueComponent },
   { path: "cgu", component: CguComponent },
+  {
+    path: "faq",
+    loadChildren: () =>
+      import(
+        "./modules/general/components/_static/faq/faq-routing.module"
+      ).then((m) => m.FaqRoutingModule),
+  },
   { path: "404", component: NotFoundComponent },
   { path: "**", redirectTo: "404" },
 ];
