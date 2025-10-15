@@ -1,3 +1,55 @@
-<div class="fr-container">
-  <div class="row"></div>
+<div class="fr-container mt-4">
+  <div class="fr-grid-row">
+    <div class="fr-col-12">
+      <button
+        type="button"
+        class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-arrow-left-line fr-mb-4w"
+        routerLink="/"
+      >
+        Retour
+      </button>
+
+      <h1 class="fr-h1 fr-mb-4w">Les questions fréquentes</h1>
+    </div>
+  </div>
+
+  <div class="fr-grid-row fr-grid-row--gutters">
+    <!-- Sidebar Menu -->
+    <div class="fr-col-12 fr-col-md-4">
+      <dsfr-sidemenu
+        [controlId]="'default'"
+        [menu]="{
+          items: [
+            {
+              label: 'Généralités',
+              routerLink: 'generalites',
+            }, 
+            {
+              label: 'Accès et connexion',
+              routerLink: 'acces-connexion'
+            },
+            {
+              label: 'Fonctionnalités disponibles',
+              routerLink: 'fonctionnalites'
+            },
+            {
+              label: 'Sécurité et confidentialité',
+              routerLink: 'securite-confidentialite'
+            },
+            {
+              label: 'Assistance technique Mon DomiFa',
+              routerLink: 'assistance-technique'
+            },
+          ]
+        }"
+      ></dsfr-sidemenu>
+    </div>
+
+    <!-- Content Area -->
+    <div class="fr-col-12 fr-col-md-8">
+      <div class="faq-content">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
 </div>
