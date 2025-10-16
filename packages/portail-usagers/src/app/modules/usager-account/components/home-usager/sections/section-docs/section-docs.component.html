@@ -1,7 +1,12 @@
-<div class="my-2" *ngIf="docs?.length">
-  <h2 class="fr-text-title--blue-france mb-2">Documents disponibles</h2>
+<h2 class="fr-text-title--blue-france mb-2">Documents disponibles</h2>
 
-  <div class="border-top pt-3 border-1 border-grey d-flex flex-column gap-2">
+<div class="border-top pt-3 border-1 border-grey d-flex flex-column gap-2">
+  <div *ngIf="!docs?.length">
+    <div class="fr-callout fr-callout--empty">
+      Vous n'avez aucun document disponible
+    </div>
+  </div>
+  <ng-container *ngIf="docs?.length">
     <div
       *ngFor="let doc of docs"
       class="fr-card fr-card--download fr-enlarge-link fr-card--sm"
@@ -39,5 +44,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 </div>
