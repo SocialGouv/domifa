@@ -5,6 +5,11 @@
   </h2>
 
   <div class="border-top border-grey pt-3">
+    <div *ngIf="!structureInformation?.length">
+      <div class="fr-callout fr-callout--empty">
+        Vous n’avez aucun message de votre structure
+      </div>
+    </div>
     <div class="py-1">
       <ng-container
         *ngFor="let information of structureInformation; let i = index"

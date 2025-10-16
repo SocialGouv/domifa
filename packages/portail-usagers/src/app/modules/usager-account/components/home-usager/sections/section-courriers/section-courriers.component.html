@@ -14,25 +14,14 @@
     </div>
   </div>
 
-  <div *ngIf="!usager.lastInteraction.enAttente" class="my-2">
-    <h2 class="section-title">Votre courrier</h2>
-
-    <div class="section-content">
-      <div class="d-flex align-items-top">
-        <div class="py-1">
-          <img
-            src="/assets/icones/profil/boite-lettre.svg"
-            alt=""
-            aria-hidden="true"
-          />
-        </div>
-        <p class="py-1 ms-3">
-          <b>Vous n’avez pas de nouveau courrier</b>
-          <br />
-          <i
-            >Revenez régulièrement, nous mettons ces informations à jour
-            quotidiennement</i
-          >
+  <div class="my-2" *ngIf="!usager.lastInteraction.enAttente">
+    <h2 class="fr-text-title--blue-france mb-2">Votre courrier</h2>
+    <div class="border-top border-1 border-grey pt-3 mb-2">
+      <div class="fr-callout fr-callout--empty">
+        <h2 class="fr-callout__title">Vous n’avez pas de nouveau courrier</h2>
+        <p class="fr-callout__text">
+          Revenez régulièrement, nous mettons ces informations à jour
+          quotidiennement
         </p>
       </div>
     </div>
