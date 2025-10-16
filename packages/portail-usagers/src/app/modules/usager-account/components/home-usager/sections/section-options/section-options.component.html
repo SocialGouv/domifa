@@ -1,63 +1,66 @@
-<div *ngIf="usager" class="my-2">
+<div *ngIf="usager" class="border-top border-grey pt-3 my-2">
   <h2 class="fr-text-title--blue-france pb-2">Transfert et procurations</h2>
-  <div *ngIf="!hasActiveTransfertOrProcur">
-    <div class="fr-callout fr-callout--empty">
-      Vous n’avez actuellement aucune procuration ni aucun transfert.
+  <div class="border-top border-grey pt-3 my-2">
+    <div *ngIf="!hasActiveTransfertOrProcur">
+      <div class="fr-callout fr-callout--empty">
+        Vous n’avez actuellement aucune procuration ni aucun transfert.
+      </div>
     </div>
-  </div>
-  <div
-    *ngIf="
-      usager.options.transfert?.actif || usager.options.procurations.length > 0
-    "
-    class="border-top border-grey pt-3 my-2"
-  >
     <div
-      class="fr-callout"
-      *ngIf="usager.options.transfert?.actif"
-      [ngClass]="{
-        'fr-callout--yellow-tournesol': !usager.options.transfert.isExpired,
-        'fr-callout--pink-tuile': usager.options.transfert.isExpired
-      }"
+      *ngIf="
+        usager.options.transfert?.actif ||
+        usager.options.procurations.length > 0
+      "
+      class="border-top border-grey pt-3 my-2"
     >
-      <h3 class="fr-callout__title">Transfert</h3>
-      <span>
-        <ng-container *ngIf="usager.options.transfert.isExpired">
-          <strong>Attention : </strong> le transfert de courrier était valable
-          jusqu'au
-          {{ usager.options.transfert.dateFin | date : "fullDate" }}
-        </ng-container>
-        <ng-container *ngIf="!usager.options.transfert.isExpired">
-          Votre courrier est actuellement transféré à l'adresse suivante :
-          {{ usager.options.transfert.nom | titlecase }}
-          {{ usager.options.transfert.adresse | titlecase }}
-        </ng-container>
-      </span>
-    </div>
-    <ng-container *ngIf="usager.options.procurations.length > 0">
       <div
         class="fr-callout"
-        *ngFor="let procuration of usager.options.procurations"
+        *ngIf="usager.options.transfert?.actif"
         [ngClass]="{
-          'fr-callout--yellow-tournesol': !procuration.isExpired,
-          'fr-callout--pink-tuile': procuration.isExpired
+          'fr-callout--yellow-tournesol': !usager.options.transfert.isExpired,
+          'fr-callout--pink-tuile': usager.options.transfert.isExpired
         }"
       >
-        <h3 class="fr-callout__title">Procuration</h3>
+        <h3 class="fr-callout__title">Transfert</h3>
         <span>
-          <ng-container *ngIf="!procuration.isExpired">
-            Une procuration au nom de
-            <strong>{{ procuration.nom }} {{ procuration.prenom }}</strong>
-            est active et valable jusqu'au
-            {{ procuration.dateFin | date : "fullDate" }}
+          <ng-container *ngIf="usager.options.transfert.isExpired">
+            <strong>Attention : </strong> le transfert de courrier était valable
+            jusqu'au
+            {{ usager.options.transfert.dateFin | date : "fullDate" }}
           </ng-container>
-          <ng-container *ngIf="procuration.isExpired">
-            La procuration au nom de
-            <strong>{{ procuration.nom }} {{ procuration.prenom }}</strong>
-            a expiré le
-            {{ procuration.dateFin | date : "fullDate" }}
+          <ng-container *ngIf="!usager.options.transfert.isExpired">
+            Votre courrier est actuellement transféré à l'adresse suivante :
+            {{ usager.options.transfert.nom | titlecase }}
+            {{ usager.options.transfert.adresse | titlecase }}
           </ng-container>
         </span>
       </div>
-    </ng-container>
+      <ng-container *ngIf="usager.options.procurations.length > 0">
+        <div
+          class="fr-callout"
+          *ngFor="let procuration of usager.options.procurations"
+          [ngClass]="{
+            'fr-callout--yellow-tournesol': !procuration.isExpired,
+            'fr-callout--pink-tuile': procuration.isExpired
+          }"
+        >
+          <h3 class="fr-callout__title">Procuration</h3>
+          <span>
+            <ng-container *ngIf="!procuration.isExpired">
+              Une procuration au nom de
+              <strong>{{ procuration.nom }} {{ procuration.prenom }}</strong>
+              est active et valable jusqu'au
+              {{ procuration.dateFin | date : "fullDate" }}
+            </ng-container>
+            <ng-container *ngIf="procuration.isExpired">
+              La procuration au nom de
+              <strong>{{ procuration.nom }} {{ procuration.prenom }}</strong>
+              a expiré le
+              {{ procuration.dateFin | date : "fullDate" }}
+            </ng-container>
+          </span>
+        </div>
+      </ng-container>
+    </div>
   </div>
 </div>

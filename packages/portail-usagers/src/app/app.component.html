@@ -52,6 +52,15 @@
         (click)="logout()"
       ></dsfr-button>
     </ng-template>
+    <ng-template #headerToolsMobile>
+      <dsfr-button
+        *ngIf="usagerProfile"
+        buttonSize="SM"
+        icon="fr-icon-logout-box-r-line"
+        label="Se déconnecter"
+        (click)="logout()"
+      ></dsfr-button>
+    </ng-template>
   </dsfr-header>
 </header>
 <main role="main" id="page">

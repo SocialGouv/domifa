@@ -9,44 +9,52 @@
         Bienvenue dans votre espace de suivi de courrier
       </p>
     </div>
-    <div class="col-2 py-2 d-none d-md-block d-sm-block">
+    <div class="col-2 py-2 d-none d-sm-block">
       <img
         class="fr-responsive-img"
         src="/assets/images/home.svg"
-        alt="Nouveautés sur DomiFa"
+        alt="Espace suivi courrier"
       />
     </div>
   </div>
 </div>
-<div class="fr-container mt-4">
+<div class="mt-4">
   <ng-container *ngIf="usagerProfile">
-    <div class="row" data-masonry='{"percentPosition": true }'>
-      <div class="col-12 col-md-6 mb-4">
-        <app-section-courriers
-          [usager]="usagerProfile.usager"
-        ></app-section-courriers>
-      </div>
-      <div class="col-12 col-md-6 mb-4">
-        <app-structure-information
-          *ngIf="structureInformation?.length"
-          [structureInformation]="structureInformation"
-        ></app-structure-information>
-      </div>
-      <div class="col-12 col-md-6 mb-4">
-        <app-section-infos [usager]="usagerProfile.usager"></app-section-infos>
-      </div>
+    <div class="fr-container">
+      <div class="row" data-masonry='{"percentPosition": true }'>
+        <div class="col-12 col-md-6 mb-4">
+          <app-section-courriers
+            [usager]="usagerProfile.usager"
+          ></app-section-courriers>
+        </div>
+        <div class="col-12 col-md-6 mb-4">
+          <app-structure-information
+            [structureInformation]="structureInformation"
+          ></app-structure-information>
+        </div>
+        <div class="col-12 col-md-6 mb-4">
+          <app-section-infos
+            [usager]="usagerProfile.usager"
+          ></app-section-infos>
+        </div>
 
-      <div class="col-12 col-md-6 mb-4">
-        <app-section-docs [usager]="usagerProfile.usager"></app-section-docs>
+        <div class="col-12 col-md-6 mb-4">
+          <app-section-docs [usager]="usagerProfile.usager"></app-section-docs>
+        </div>
+        <div class="col-12 my-4">
+          <app-section-options
+            [usager]="usagerProfile.usager"
+          ></app-section-options>
+        </div>
       </div>
-      <div class="col-12">
-        <app-section-options
-          [usager]="usagerProfile.usager"
-        ></app-section-options>
-      </div>
-
-      <div class="col-12 mb-4">
-        <app-section-links [usager]="usagerProfile.usager"></app-section-links>
+    </div>
+    <div class="row">
+      <div class="col-12 py-4 fr-border-default--blue-france">
+        <div class="fr-container">
+          <app-section-links
+            [usager]="usagerProfile.usager"
+          ></app-section-links>
+        </div>
       </div>
     </div>
   </ng-container>
