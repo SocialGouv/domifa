@@ -21490,14 +21490,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lop@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "lop@npm:0.4.1"
+"lop@npm:^0.4.2":
+  version: 0.4.2
+  resolution: "lop@npm:0.4.2"
   dependencies:
     duck: "npm:^0.1.12"
     option: "npm:~0.2.1"
     underscore: "npm:^1.13.1"
-  checksum: 10/85a3d1634b95cea7baa2e3873af594e94dad9d24e209501f134e811a7fd5aa0008e706cc179cbd70666ef591803aa0e5c75a8656b474df22e5df66d61a33858e
+  checksum: 10/a8663c2a9341e2acdb06a42a2780b924657e45e27fb4af2542c22c27852bf4b08429bdccd5c285586b9672d81bc9ebe88468c4dcc06c22537742baf59175b0e8
   languageName: node
   linkType: hard
 
@@ -21746,8 +21746,8 @@ __metadata:
   linkType: hard
 
 "mammoth@npm:^1.4.17":
-  version: 1.6.0
-  resolution: "mammoth@npm:1.6.0"
+  version: 1.11.0
+  resolution: "mammoth@npm:1.11.0"
   dependencies:
     "@xmldom/xmldom": "npm:^0.8.6"
     argparse: "npm:~1.0.3"
@@ -21755,13 +21755,13 @@ __metadata:
     bluebird: "npm:~3.4.0"
     dingbat-to-unicode: "npm:^1.0.1"
     jszip: "npm:^3.7.1"
-    lop: "npm:^0.4.1"
+    lop: "npm:^0.4.2"
     path-is-absolute: "npm:^1.0.0"
     underscore: "npm:^1.13.1"
     xmlbuilder: "npm:^10.0.0"
   bin:
     mammoth: bin/mammoth
-  checksum: 10/180f83f837f0ed9ec04627d4f92733157fda08538224b51dcadb9848995695dfdea042ebcb3b534977400f3be2568ae65dd2f6137ab0f9e0f4a9ed1b5ab34cba
+  checksum: 10/87a84141f26be4dea617327417a66126676ec6316fe1ea7268bd4ea17005977e53f7ce63844a8faf8c2f0b67f0be89bf207619427fd573a4b85051464df42426
   languageName: node
   linkType: hard
 
