@@ -73,5 +73,6 @@ export const USER_STRUCTURE_AUTH: UserStructureAuthenticated = {
       codePostal: "",
     },
     complementAdresse: null,
+    statut: "VALIDE",
   },
 };

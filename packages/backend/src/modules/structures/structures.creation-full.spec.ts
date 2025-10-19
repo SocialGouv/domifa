@@ -167,7 +167,7 @@ describe("Stuctures creation full", () => {
     expect(structure).toBeDefined();
     expect(structure.nom).toEqual(structureDto.nom);
     expect(structure.lastLogin).toBeNull();
-    expect(structure.verified).toBeFalsy();
+    expect(structure.statut).toEqual("EN_ATTENTE");
 
     const user = await userStructureRepository.findOneBy({
       structureId: structure.id,

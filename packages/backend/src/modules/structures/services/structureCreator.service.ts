@@ -90,13 +90,14 @@ async function checkCreationToken({
 
     await structureRepository.update(
       { uuid, token },
-      { token: null, verified: true }
+      { token: null, statut: "VALIDE" }
     );
 
     return await structureRepository.findOneBy({
       uuid: structure.uuid,
     });
   } catch (e) {
+    appLogger.error(e);
     return null;
   }
 }
@@ -165,6 +166,7 @@ async function createStructure(structureDto: StructureDto) {
     DEPARTEMENTS_MAP[createdStructure.departement].timeZone;
 
   createdStructure.acceptTerms = new Date();
+  createdStructure.statut = "EN_ATTENTE";
 
   return structureRepository.save(createdStructure);
 }

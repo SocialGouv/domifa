@@ -4,7 +4,7 @@ import {
   SortableValue,
   sortMultiple,
 } from "@domifa/common";
-import { StructureAdmin } from "../../../types";
+import { StructureAdmin } from "../types";
 
 export const structuresSorter = {
   sortBy,
