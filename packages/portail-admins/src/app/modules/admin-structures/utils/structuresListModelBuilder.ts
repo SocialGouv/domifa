@@ -4,7 +4,7 @@ import {
   DEPARTEMENTS_LISTE,
   REGIONS_LISTE,
 } from "@domifa/common";
-import { ApiStructureAdmin } from "../../../types";
+import { ApiStructureAdmin } from "../types";
 
 export const structuresListModelBuilder = { buildStructuresViewModel };
 

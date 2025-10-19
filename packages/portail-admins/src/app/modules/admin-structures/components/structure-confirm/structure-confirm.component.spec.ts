@@ -5,17 +5,18 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { SharedModule } from "../shared/shared.module";
-import { StructuresConfirmComponent } from "./structures-confirm.component";
-import { provideHttpClient } from "@angular/common/http";
+import { SharedModule } from "../../../shared/shared.module";
 
-describe("StructuresConfirmComponent", () => {
-  let component: StructuresConfirmComponent;
-  let fixture: ComponentFixture<StructuresConfirmComponent>;
+import { provideHttpClient } from "@angular/common/http";
+import { StructureConfirmComponent } from "./structure-confirm.component";
+
+describe("StructureConfirmComponent", () => {
+  let component: StructureConfirmComponent;
+  let fixture: ComponentFixture<StructureConfirmComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [StructuresConfirmComponent],
+      declarations: [StructureConfirmComponent],
       imports: [
         NgbModule,
         ReactiveFormsModule,
@@ -46,7 +47,7 @@ describe("StructuresConfirmComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StructuresConfirmComponent);
+    fixture = TestBed.createComponent(StructureConfirmComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,18 +1,18 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { AdminStructuresApiClient } from "../shared/services";
+import { AdminStructuresApiClient } from "../../../shared/services";
 import { Subscription } from "rxjs";
 import { isHexadecimal, isUUID } from "class-validator";
-import {} from "../admin-structures/types";
-import { CustomToastService } from "../shared/services/custom-toast.service";
+import {} from "../../types";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { Structure } from "@domifa/common";
 
 @Component({
-  selector: "app-structures-confirm",
-  templateUrl: "./structures-confirm.component.html",
+  selector: "app-structure-confirm",
+  templateUrl: "./structure-confirm.component.html",
 })
-export class StructuresConfirmComponent implements OnInit, OnDestroy {
+export class StructureConfirmComponent implements OnInit, OnDestroy {
   public successDelete: boolean;
   public confirmDelete: boolean;
 

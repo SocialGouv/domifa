@@ -1,6 +1,6 @@
 import { buildWords, search, StructureType } from "@domifa/common";
-import { StructureAdmin } from "../../../types";
-import { StructureFilterCriteria } from "../../../utils/structure-filter-criteria";
+import { StructureAdmin } from "../types";
+import { StructureFilterCriteria } from "./structure-filter-criteria";
 
 export const structuresSearchFilter = (
   structures: StructureAdmin[],

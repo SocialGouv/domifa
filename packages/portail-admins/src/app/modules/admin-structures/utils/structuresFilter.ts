@@ -1,6 +1,5 @@
-import { structuresSearchFilter } from "./structuresSearchStringFilter.service";
-import { StructureAdmin } from "../../../types";
-import { StructureFilterCriteria } from "../../../utils/structure-filter-criteria";
+import { StructureFilterCriteria, structuresSearchFilter } from ".";
+import { StructureAdmin } from "../types";
 
 export const structuresFilter = {
   filter,

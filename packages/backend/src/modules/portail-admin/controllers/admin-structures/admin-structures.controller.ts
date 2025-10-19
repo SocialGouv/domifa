@@ -8,6 +8,7 @@ import {
   UseGuards,
   Param,
   ParseIntPipe,
+  Patch,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -25,14 +26,24 @@ import {
 } from "../../../../database";
 import { statsDeploiementExporter } from "../../../../excel/export-stats-deploiement";
 
-import { expressResponseExcelRenderer } from "../../../../util";
+import {
+  expressResponseExcelRenderer,
+  getCreatedByUserStructure,
+} from "../../../../util";
 import { ExpressResponse } from "../../../../util/express";
 import { UserAdminAuthenticated } from "../../../../_common/model";
 import { AdminStructuresService } from "../../services";
 
-import { Structure } from "@domifa/common";
+import {
+  Structure,
+  StructureDecisionRefusMotif,
+  StructureDecisionSuppressionMotif,
+} from "@domifa/common";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
-import { StructureConfirmationDto } from "../../dto";
+import {
+  StructureConfirmationDto,
+  UpdateStructureDecisionStatutDto,
+} from "../../dto";
 import { StructureAdminForList, UserStructureWithSecurity } from "../../types";
 import { userAccountActivatedEmailSender } from "../../../mails/services/templates-renderers";
 import { structureCreatorService } from "../../../structures/services";
@@ -179,5 +190,88 @@ export class AdminStructuresController {
       action: "ADMIN_STRUCTURE_VALIDATE",
     });
     return res.status(HttpStatus.OK).json({ message: "OK" });
+  }
+
+  @Patch("structure/:structureId/status")
+  public async updateStructureStatus(
+    @CurrentSupervisor() user: UserAdminAuthenticated,
+    @Param("structureId", new ParseIntPipe()) structureId: number,
+    @Body() updateStatusDto: UpdateStructureDecisionStatutDto,
+    @Res() res: ExpressResponse
+  ): Promise<ExpressResponse> {
+    try {
+      // Vérifier que la structure existe
+      const structure = await structureRepository.findOneBy({
+        id: structureId,
+      });
+      if (!structure) {
+        return res.status(HttpStatus.NOT_FOUND).json({
+          message: "Structure non trouvée",
+        });
+      }
+
+      if (
+        updateStatusDto.statut === "REFUS" &&
+        !Object.values(StructureDecisionRefusMotif).includes(
+          updateStatusDto.statutDetail as StructureDecisionRefusMotif
+        )
+      ) {
+        return res.status(HttpStatus.BAD_REQUEST).json({
+          message: "INVALID_STRUCTURE_STATUT",
+        });
+      }
+
+      if (
+        updateStatusDto.statut === "SUPPRIME" &&
+        !Object.values(StructureDecisionSuppressionMotif).includes(
+          updateStatusDto.statutDetail as StructureDecisionSuppressionMotif
+        )
+      ) {
+        return res.status(HttpStatus.BAD_REQUEST).json({
+          message: "INVALID_STRUCTURE_STATUT",
+        });
+      }
+
+      await structureRepository.update(
+        { id: structureId },
+        {
+          statut: updateStatusDto.statut,
+          decision: {
+            statut: updateStatusDto.statut,
+            dateDecision: new Date(),
+            motif: updateStatusDto?.statutDetail,
+            ...getCreatedByUserStructure(user),
+          },
+        }
+      );
+
+      // Log de l'action admin
+      await this.appLogsService.create({
+        userId: user.id,
+        structureId,
+        action:
+          updateStatusDto.statut === "REFUS"
+            ? "ADMIN_STRUCTURE_REFUSAL"
+            : "ADMIN_STRUCTURE_DELETE",
+        context: {
+          statut: updateStatusDto.statut,
+          statutDetail: updateStatusDto.statutDetail,
+        },
+      });
+
+      return res.status(HttpStatus.OK).json({
+        structure: {
+          id: structure.id,
+          nom: structure.nom,
+          statut: updateStatusDto.statut,
+          statutDetail: updateStatusDto.statutDetail,
+        },
+      });
+    } catch (error) {
+      console.error("INTERNAL_ERROR", error);
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        message: "INTERNAL_SERVER_ERROR",
+      });
+    }
   }
 }

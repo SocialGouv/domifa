@@ -175,7 +175,6 @@
           >
           </app-table-head-sort>
         </th>
-        <!-- <th scope="col" >Email</th> -->
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -191,7 +190,7 @@
             structure.structureType === "ccas" ? " - " + structure.ville : ""
           }}
           <span
-            *ngIf="structure.verified === false"
+            *ngIf="structure.statut === 'EN_ATTENTE'"
             class="badge bg-warning text-dark"
           >
             Non validée
@@ -251,7 +250,7 @@
             <div ngbDropdownMenu>
               <button
                 type="button"
-                *ngIf="!structure.verified"
+                *ngIf="structure.statut === 'EN_ATTENTE'"
                 class="cursor-pointer"
                 ngbDropdownItem
                 (click)="confirmStructure(structure)"

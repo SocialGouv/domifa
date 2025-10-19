@@ -114,7 +114,7 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
         .confirmNewStructure(structure.uuid, structure.token)
         .subscribe({
           next: () => {
-            structure.verified = true;
+            structure.statut = "VALIDE";
             this.toastService.success("Structure vérifiée avec succès");
           },
           error: () => {
