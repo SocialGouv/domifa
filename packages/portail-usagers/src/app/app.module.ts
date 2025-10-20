@@ -30,6 +30,7 @@ import { provideUserIdleConfig } from "angular-user-idle";
 
 import { registerLocaleData } from "@angular/common";
 import localeFr from "@angular/common/locales/fr";
+import { NewsContentComponent } from "./modules/shared/components/news-content/news-content.component";
 
 registerLocaleData(localeFr, "fr");
 
@@ -48,6 +49,7 @@ registerLocaleData(localeFr, "fr");
     SharedModule,
     ReactiveFormsModule,
     MATOMO_INJECTORS,
+    NewsContentComponent,
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),

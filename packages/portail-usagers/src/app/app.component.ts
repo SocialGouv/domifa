@@ -1,5 +1,5 @@
 import { UsagerAuthService } from "./modules/usager-auth/services/usager-auth.service";
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs";
@@ -7,9 +7,9 @@ import { LIENS_PARTENAIRES } from "./modules/general/components/_static/plan-sit
 import { PortailUsagerProfile } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 import DOMIFA_NEWS from "../assets/files/news.json";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import { DsfrLink } from "@edugouvfr/ngx-dsfr";
+import { DsfrLink, DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { NewsItem } from "./modules/shared/types/NewsItem.type";
 
 @Component({
   selector: "app-root",
@@ -25,17 +25,14 @@ export class AppComponent implements OnInit {
   public readonly faRightFromBracket = faRightFromBracket;
   public pendingNews = false;
   public skipLinks: DsfrLink[] = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public news: any;
-  @ViewChild("newsModal", { static: true })
-  public newsModal!: TemplateRef<NgbModalRef>;
+  public news: NewsItem[] = [];
 
+  @ViewChild(DsfrModalComponent) newsModal!: DsfrModalComponent;
   constructor(
     private readonly titleService: Title,
     private readonly router: Router,
     private readonly usagerAuthService: UsagerAuthService,
-    private readonly matomo: MatomoTracker,
-    private readonly modalService: NgbModal
+    private readonly matomo: MatomoTracker
   ) {
     this.apiVersion = null;
     this.usagerProfile = null;
@@ -80,17 +77,13 @@ export class AppComponent implements OnInit {
       : true;
 
     if (this.pendingNews) {
-      this.news = DOMIFA_NEWS[0];
-      this.modalService.open(this.newsModal, {
-        centered: true,
-        backdrop: "static",
-        ariaLabelledBy: "modal-title",
-      });
+      this.news = [DOMIFA_NEWS[0]];
+      this.newsModal.open();
     }
   }
 
   public hideNews(): void {
-    this.modalService.dismissAll();
+    this.newsModal.close();
     localStorage.setItem(
       "NEWS_MON_DOMIFA",
       new Date(DOMIFA_NEWS[0].date).toISOString()
