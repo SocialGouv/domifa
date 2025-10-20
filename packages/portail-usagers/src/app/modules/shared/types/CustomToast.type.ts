@@ -1,7 +1,5 @@
-import { CustomToastClass } from ".";
+import { DsfrToast } from "@edugouvfr/ngx-dsfr-ext";
 
-export type CustomToast = {
-  display: boolean;
-  message: string;
-  class: CustomToastClass;
-};
+export type ToastSeverity = DsfrToast["severity"];
+
+export type CustomToast = DsfrToast;
