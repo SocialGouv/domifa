@@ -1,18 +1,17 @@
-import { CustomToast } from "../types/CustomToast.type";
+import { CustomToast, ToastSeverity } from "../types/CustomToast.type";
 import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
-import { CustomToastClass } from "../types";
+import { DsfrToastService } from "@edugouvfr/ngx-dsfr-ext";
 
 @Injectable({
   providedIn: "root",
 })
 export class CustomToastService {
-  public toast$: Subject<CustomToast> = new Subject();
   public toast: CustomToast = {
-    display: false,
-    message: "",
-    class: "",
+    content: "",
+    severity: undefined,
   };
+
+  constructor(private toastService: DsfrToastService) {}
 
   public warning(message: string): void {
     this.launchToast(message, "warning");
@@ -30,16 +29,10 @@ export class CustomToastService {
     this.launchToast(message, "info");
   }
 
-  public launchToast(message: string, className: CustomToastClass): void {
-    this.toast$.next({
-      display: true,
-      message,
-      class: className,
+  public launchToast(content: string, severity: ToastSeverity): void {
+    this.toastService.show({
+      content,
+      severity,
     });
-
-    setTimeout(() => {
-      this.toast.display = false;
-      this.toast$.next(this.toast);
-    }, 6000);
   }
 }
