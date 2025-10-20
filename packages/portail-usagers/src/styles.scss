@@ -16,11 +16,8 @@
     );
   }
 
-  .fr-h1,
-  .fr-h2,
-  .fr-h3,
-  .fr-h4 {
-    color: var(--text-title-blue-france);
+  .fr-modal__title {
+    margin-bottom: 1rem;
   }
 }
 

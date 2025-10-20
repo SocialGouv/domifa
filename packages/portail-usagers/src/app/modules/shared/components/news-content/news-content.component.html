@@ -1,0 +1,57 @@
+<div class="d-flex flex-column gap-4" *ngIf="news">
+  <div
+    [ngClass]="{
+      'fr-card fr-enlarge-link': !isModal
+    }"
+    class="pb-4"
+    *ngFor="let news of news"
+  >
+    <div class="fr-card__header pt-3 ps-3">
+      <div class="row d-flex pb-2">
+        <div
+          class="d-flex flex-row gap-2 align-items-baseline fr-text-title--blue-france"
+        >
+          <span
+            class="fr-icon-calendar-event-fill"
+            aria-label="Date de publication"
+          ></span>
+          <h3 class="fr-text-title--blue-france mb-1">
+            {{ news.date | date : "d MMMM y" }}
+          </h3>
+        </div>
+        <h5 class="fr-text-title--blue-france mb-1" *ngIf="news.description">
+          {{ news.description }}
+        </h5>
+      </div>
+    </div>
+    <div class="fr-card__body ps-0">
+      <div
+        class="fr-card__content p-0 ms-3 me-3"
+        *ngFor="let content of news.content"
+      >
+        <hr class="pb-2" />
+        <div class="d-flex">
+          <h6 class="fr-card__title">
+            <span
+              [class.fr-badge--info]="content.type === 'new'"
+              [class.fr-badge--new]="content.type !== 'new'"
+              class="fr-badge fr-badge--no-icon"
+            >
+              {{ content.type === "new" ? "Nouveauté" : "Améliorations" }}
+            </span>
+            <span class="fr-text-title--blue-france">
+              {{ content.categorie }}
+            </span>
+          </h6>
+        </div>
+
+        <ul class="fr-card__desc ps-4 fr-text-title--blue-france">
+          <li
+            [innerHTML]="message | nl2br"
+            *ngFor="let message of content.message"
+          ></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
