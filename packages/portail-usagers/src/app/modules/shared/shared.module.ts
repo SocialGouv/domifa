@@ -6,7 +6,6 @@ import {
   FontAwesomeModule,
 } from "@fortawesome/angular-fontawesome";
 import { FA_ICONS } from "./constants/FA_ICONS.const";
-import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 import { SeoService } from "./services/seo.service";
 import { ReplaceLineBreaks } from "./pipes/nl2br.pipe";
 import {
@@ -24,11 +23,11 @@ import {
   DsfrSkiplinksModule,
 } from "@edugouvfr/ngx-dsfr";
 import { FaqComponent } from "./components/faq/faq.component";
+import { DsfrToastComponent, DsfrToastService } from "@edugouvfr/ngx-dsfr-ext";
 
 @NgModule({
-  declarations: [CustomToastrComponent, ReplaceLineBreaks],
+  declarations: [ReplaceLineBreaks],
   exports: [
-    CustomToastrComponent,
     ReplaceLineBreaks,
     DsfrFooterModule,
     DsfrSkiplinksModule,
@@ -43,8 +42,9 @@ import { FaqComponent } from "./components/faq/faq.component";
     DsfrDataTableModule,
     DsfrModalModule,
     DsfrButtonsGroupModule,
+    DsfrToastComponent,
   ],
-  providers: [SeoService],
+  providers: [SeoService, DsfrToastService],
   imports: [
     CommonModule,
     FontAwesomeModule,
@@ -60,6 +60,7 @@ import { FaqComponent } from "./components/faq/faq.component";
     DsfrDataTableModule,
     DsfrModalModule,
     DsfrButtonsGroupModule,
+    DsfrToastComponent,
   ],
 })
 export class SharedModule {

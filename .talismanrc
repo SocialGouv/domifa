@@ -36,6 +36,6 @@ fileignoreconfig:
 - filename: packages/portail-usagers/src/app/modules/general/components/_static/politique/politique.component.ts
   checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
 - filename: yarn.lock
-  checksum: fec892e38ce0451baa174e5e0f9f31506949157b74218ede0fb67eebb80ce538
+  checksum: 9a27f36165f5ea6fb6751b8bb4579d465175a06e63a2f2c3845e34e0175e954e
 threshold: medium
 version: "1.0"
