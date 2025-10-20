@@ -99,50 +99,24 @@
   license="Sauf mention explicite de propriété intellectuelle détenue par des tiers, les contenus de ce site sont proposés sous <a href='https://github.com/etalab/licence-ouverte/blob/master/LO.md' _target='_blank'>licence etalab-2.0</a>"
 ></dsfr-footer>
 
-<ng-template #newsModal let-modal>
-  <div class="modal-header">
-    <span id="modal-title">
-      🎉 Des nouveautés sont disponibles sur Mon DomiFa
-    </span>
-    <button
-      class="btn-close"
-      type="button"
-      aria-label="Fermer la boite de dialogue"
-      (click)="hideNews()"
-    ></button>
-  </div>
-  <div class="modal-body px-3 py-2">
-    <p class="my-2 fw-bold">
-      Nouveautés du {{ news.date | date : "d MMMM y"
-      }}<span *ngIf="news.description"> - {{ news.description }}</span>
-    </p>
-
-    <ng-container *ngFor="let content of news.content">
-      <p class="text-start my-1">
-        <span
-          class="badge badge-pill"
-          [ngClass]="{
-            'bg-primary': content.type === 'new',
-            'bg-warning text-dark': content.type === 'bug'
-          }"
-        >
-          {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
-        </span>
-        &nbsp;
-        <b>{{ content.categorie }}</b>
-      </p>
-      <ul class="mb-3">
-        <li
-          *ngFor="let message of content.message"
-          [innerHTML]="message | nl2br"
-        ></li>
-      </ul>
-    </ng-container>
-  </div>
-
-  <div class="modal-footer">
-    <button class="btn btn-primary btn-lg" (click)="hideNews()" type="submit">
-      Continuer sur DomiFa
-    </button>
-  </div>
-</ng-template>
+<dsfr-modal
+  size="LG"
+  icon="fr-icon-newspaper-line"
+  #newsModal
+  dialogId="newsModal"
+  titleModal="Des nouveautés sont disponibles sur Mon DomiFa"
+>
+  <app-news-content [isModal]="true" [news]="news"></app-news-content>
+  <ng-template
+    (conceal)="hideNews()"
+    class="justify-self-right"
+    #modalFooterTemplate
+  >
+    <dsfr-buttons-group inline="LG" alignment="reverse" groupMarkup="div">
+      <dsfr-button
+        (click)="hideNews()"
+        label="Continuer sur Mon Domifa"
+      ></dsfr-button>
+    </dsfr-buttons-group>
+  </ng-template>
+</dsfr-modal>

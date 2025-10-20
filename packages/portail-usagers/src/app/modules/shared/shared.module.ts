@@ -13,11 +13,13 @@ import {
   DsfrAccordionModule,
   DsfrButtonModule,
   DsfrDataTableModule,
+  DsfrButtonsGroupModule,
   DsfrFooterModule,
   DsfrFormInputModule,
   DsfrFormPasswordModule,
   DsfrHeaderModule,
   DsfrLinkModule,
+  DsfrModalModule,
   DsfrPaginationModule,
   DsfrSkiplinksModule,
 } from "@edugouvfr/ngx-dsfr";
@@ -39,6 +41,8 @@ import { FaqComponent } from "./components/faq/faq.component";
     DsfrHeaderModule,
     DsfrPaginationModule,
     DsfrDataTableModule,
+    DsfrModalModule,
+    DsfrButtonsGroupModule,
   ],
   providers: [SeoService],
   imports: [
@@ -54,6 +58,8 @@ import { FaqComponent } from "./components/faq/faq.component";
     DsfrHeaderModule,
     DsfrPaginationModule,
     DsfrDataTableModule,
+    DsfrModalModule,
+    DsfrButtonsGroupModule,
   ],
 })
 export class SharedModule {
