@@ -243,6 +243,18 @@ export class UsersController {
     @Body() userDto: UserEditDto,
     @Res() res: Response
   ) {
+    if (userDto.email !== user.email) {
+      const userExist = await userStructureRepository.findOneBy({
+        email: userDto.email.toLowerCase(),
+      });
+
+      if (userExist) {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "BAD_REQUEST" });
+      }
+    }
+
     await userStructureRepository.update(
       {
         id: user.id,

@@ -71,6 +71,7 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
           Validators.required,
           NoWhiteSpaceValidator,
           Validators.maxLength(1000),
+          Validators.minLength(1),
         ],
       ],
     });
