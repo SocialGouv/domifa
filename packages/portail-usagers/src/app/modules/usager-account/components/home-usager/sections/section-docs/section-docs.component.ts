@@ -12,14 +12,6 @@ import {
 import { Subscription } from "rxjs";
 import { CustomToastService } from "../../../../../shared/services/custom-toast.service";
 import { saveAs } from "file-saver";
-import {
-  faDownload,
-  faFileExcel,
-  faFilePdf,
-  faFileWord,
-  faImage,
-  IconDefinition,
-} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-section-docs",
@@ -31,26 +23,9 @@ export class SectionDocsComponent implements OnInit, OnDestroy {
   public docs: WithLoading<UsagerDoc>[] = [];
   private subscription = new Subscription();
 
-  public readonly faDownload = faDownload;
   public readonly STRUCTURE_INFORMATION_TYPES = STRUCTURE_INFORMATION_TYPES;
   public readonly STRUCTURE_DOC_EXTENSIONS_LABELS =
     STRUCTURE_DOC_EXTENSIONS_LABELS;
-
-  public readonly STRUCTURE_DOC_ICONS: {
-    [key: string]: IconDefinition;
-  } = {
-    "image/jpg": faImage,
-    "image/jpeg": faImage,
-    "image/png": faImage,
-    "application/pdf": faFilePdf,
-    "application/msword": faFileWord,
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-      faFileWord,
-    "application/vnd.oasis.opendocument.text": faFileWord,
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-      faFileExcel,
-    "application/vnd.ms-excel": faFileExcel,
-  };
 
   constructor(
     private readonly usagerDocService: UsagerDocService,

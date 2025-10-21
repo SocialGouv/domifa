@@ -24,11 +24,6 @@
             >
               <span *ngIf="!doc.loading">{{ doc.label }}</span>
               <span *ngIf="doc.loading">
-                <fa-icon
-                  [icon]="['fas', 'circle-notch']"
-                  animation="spin"
-                  aria-hidden="true"
-                ></fa-icon>
                 {{ doc.label }} - Téléchargement en cours
               </span>
             </button>

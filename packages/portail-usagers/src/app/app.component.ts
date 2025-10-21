@@ -7,7 +7,6 @@ import { LIENS_PARTENAIRES } from "./modules/general/components/_static/plan-sit
 import { PortailUsagerProfile } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 import DOMIFA_NEWS from "../assets/files/news.json";
-import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { DsfrLink, DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { NewsItem } from "./modules/shared/types/NewsItem.type";
 
@@ -22,7 +21,6 @@ export class AppComponent implements OnInit {
   public usagerProfile: PortailUsagerProfile | null;
   public currentUrl = "";
   public readonly partnerLinks = LIENS_PARTENAIRES;
-  public readonly faRightFromBracket = faRightFromBracket;
   public pendingNews = false;
   public skipLinks: DsfrLink[] = [];
   public news: NewsItem[] = [];

@@ -1,4 +1,3 @@
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
@@ -11,7 +10,6 @@ import { UsagerAcceptCguComponent } from "./components/usager-accept-cgu/usager-
 import { GeneralModule } from "../general/general.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HistoriqueCourriersComponent } from "./components/historique-courriers/historique-courriers.component";
-import { NgbPagination } from "@ng-bootstrap/ng-bootstrap";
 import { StructureInformationComponent } from "./components/home-usager/sections/structure-information/structure-information.component";
 import { SectionLinksComponent } from "./components/home-usager/sections/section-links/section-links.component";
 import { SectionInfosComponent } from "./components/home-usager/sections/section-infos/section-infos.component";
@@ -36,8 +34,6 @@ import { SectionDocsComponent } from "./components/home-usager/sections/section-
     GeneralModule,
     FormsModule,
     ReactiveFormsModule,
-    FontAwesomeModule,
-    NgbPagination,
     SectionLinksComponent,
     FormatInternationalPhoneNumberPipe,
   ],

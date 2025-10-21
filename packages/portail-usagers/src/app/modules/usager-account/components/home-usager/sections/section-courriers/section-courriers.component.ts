@@ -6,7 +6,6 @@ import {
   InteractionType,
   PortailUsagerPublic,
 } from "@domifa/common";
-import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { Subscription } from "rxjs";
 import { InteractionService } from "../../../../services/interaction.service";
 import { CustomToastService } from "../../../../../shared/services/custom-toast.service";
@@ -19,7 +18,6 @@ import { CustomToastService } from "../../../../../shared/services/custom-toast.
 export class SectionCourriersComponent implements OnInit {
   @Input() public usager!: PortailUsagerPublic;
 
-  public readonly faClockRotateLeft = faClockRotateLeft;
   public pendingInteractions: {
     [key in InteractionType]?: Interaction[];
   } = {
@@ -31,7 +29,7 @@ export class SectionCourriersComponent implements OnInit {
 
   constructor(
     private readonly interactionService: InteractionService,
-    private readonly toastr: CustomToastService,
+    private readonly toastr: CustomToastService
   ) {
     this.usager = DEFAULT_USAGER_PROFILE.usager;
   }
@@ -44,10 +42,10 @@ export class SectionCourriersComponent implements OnInit {
         },
         error: () => {
           this.toastr.error(
-            "Le chargement de votre historique a échoué. Veuillez réessayer plus tard",
+            "Le chargement de votre historique a échoué. Veuillez réessayer plus tard"
           );
         },
-      }),
+      })
     );
   }
 

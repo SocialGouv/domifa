@@ -1,11 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 
-import {
-  FaIconLibrary,
-  FontAwesomeModule,
-} from "@fortawesome/angular-fontawesome";
-import { FA_ICONS } from "./constants/FA_ICONS.const";
 import { SeoService } from "./services/seo.service";
 import { ReplaceLineBreaks } from "./pipes/nl2br.pipe";
 import {
@@ -47,7 +42,6 @@ import { DsfrToastComponent, DsfrToastService } from "@edugouvfr/ngx-dsfr-ext";
   providers: [SeoService, DsfrToastService],
   imports: [
     CommonModule,
-    FontAwesomeModule,
     DsfrFooterModule,
     DsfrSkiplinksModule,
     DsfrFormInputModule,
@@ -63,8 +57,4 @@ import { DsfrToastComponent, DsfrToastService } from "@edugouvfr/ngx-dsfr-ext";
     DsfrToastComponent,
   ],
 })
-export class SharedModule {
-  constructor(private readonly library: FaIconLibrary) {
-    library.addIcons(...FA_ICONS);
-  }
-}
+export class SharedModule {}

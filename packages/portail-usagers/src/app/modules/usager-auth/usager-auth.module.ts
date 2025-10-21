@@ -5,7 +5,6 @@ import {
 } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { SharedModule } from "../shared/shared.module";
 import { UsagerAuthService } from "./services/usager-auth.service";
@@ -20,7 +19,6 @@ import { UppercaseDirective } from "../shared/directives/uppercase.directive";
     CommonModule,
     UsagerAuthRoutingModule,
     FormsModule,
-    FontAwesomeModule,
     SharedModule,
     ReactiveFormsModule,
     UppercaseDirective,
