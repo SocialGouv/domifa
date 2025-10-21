@@ -4,9 +4,7 @@ import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { of } from "rxjs";
 import { AdminStructuresApiClient } from "../../../shared/services";
-import { structuresFilter } from "./services/structuresFilter.service";
-import { structuresSorter } from "./services/structuresSorter.service";
-import { structuresListModelBuilder } from "./services";
+
 import { ApiStructureAdmin } from "../../types";
 import {
   StructureFilterCriteria,
@@ -18,6 +16,11 @@ import { uneStructureAdminMock } from "../../../../mocks/STRUCTURE_MOCK.mock";
 import { AdminStructuresModule } from "../../admin-structures.module";
 import { AdminStructuresListComponent } from "./admin-structures-list.component";
 import { provideHttpClient } from "@angular/common/http";
+import {
+  structuresFilter,
+  structuresListModelBuilder,
+  structuresSorter,
+} from "../../utils";
 
 describe("AdminStructuresListComponent", () => {
   let component: AdminStructuresListComponent;

@@ -19,7 +19,11 @@ import { Subscription } from "rxjs";
 import { regexp } from "../../../../shared/utils";
 import { AdminStructuresApiClient } from "../../../shared/services";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
-import { SortValues, USER_FONCTION_LABELS } from "@domifa/common";
+import {
+  SortValues,
+  StructureDecisionStatut,
+  USER_FONCTION_LABELS,
+} from "@domifa/common";
 import { StructureAdmin } from "../../types";
 import { StructureFilterCriteria } from "../../utils/structure-filter-criteria";
 import { FilterOutput } from "../admin-structures-list/admin-structures-list.component";
@@ -41,6 +45,12 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   @ViewChild("addAdminModal", { static: true })
   public addAdminModal!: TemplateRef<NgbModalRef>;
 
+  @ViewChild("deleteStructureModal", { static: true })
+  public deleteStructureModal!: TemplateRef<NgbModalRef>;
+
+  @ViewChild("refuseStructureModal", { static: true })
+  public refuseStructureModal!: TemplateRef<NgbModalRef>;
+
   public currentStructure: StructureAdmin | undefined = undefined;
 
   public newAdminForm!: UntypedFormGroup;
@@ -49,10 +59,11 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
 
   public loading = false;
   public exportLoading = false;
-  private readonly subscription = new Subscription();
   public sortValue: SortValues = "desc";
   public currentKey: keyof StructureAdmin = "id";
+  private readonly subscription = new Subscription();
   public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
+
   constructor(
     private readonly adminStructuresApiClient: AdminStructuresApiClient,
     private readonly toastService: CustomToastService,
@@ -124,9 +135,25 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
     );
   }
 
-  public openModal(structure: StructureAdmin): void {
+  public openModal(
+    action: StructureDecisionStatut,
+    structure: StructureAdmin
+  ): void {
+    switch (action) {
+      case "SUPPRIME":
+        this.modalService.open(this.deleteStructureModal);
+        break;
+      case "REFUS":
+        this.modalService.open(this.refuseStructureModal);
+        break;
+    }
+    console.log("XPOKPOKOP");
     this.currentStructure = structure;
-    this.modalService.open(this.addAdminModal, { size: "lg" });
+  }
+
+  public openAddAdminModal(structure: StructureAdmin): void {
+    this.modalService.open(this.addAdminModal);
+    this.currentStructure = structure;
   }
 
   public submitNewAdmin(): void {

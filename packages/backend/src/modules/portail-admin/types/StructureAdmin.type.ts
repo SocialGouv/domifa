@@ -23,7 +23,6 @@ export type StructureAdmin = Pick<
   | "portailUsager"
   | "token"
   | "statut"
-  | "statutDetail"
   | "import"
   | "timeZone"
   | "importDate"

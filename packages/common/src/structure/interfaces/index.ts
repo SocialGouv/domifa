@@ -2,6 +2,7 @@
 export * from "./Networks.interface";
 export * from "./Structure.interface";
 export * from "./StructureAddresseCourrier.interface";
+export * from "./StructureDecision.interface";
 export * from "./StructureOptions.interface";
 export * from "./StructureOrganismeType.type";
 export * from "./StructurePortailUsagerParams.interface";
