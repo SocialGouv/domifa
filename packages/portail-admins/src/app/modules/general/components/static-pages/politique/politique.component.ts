@@ -45,6 +45,27 @@ export class PolitiqueComponent implements OnInit {
       traitementRealise: "Mesure de satisfaction",
       garanties: "https://tally.so/help/privacy-policy",
     },
+    {
+      sousTraitant: "Brevo",
+      paysDestinataire: "France",
+      traitementRealise: "Envoi de courriels",
+      garanties:
+        "https://www.brevo.com/fr/legal/termsofuse/#accord-sur-le-traitement-des-donnees-a-caractere-personnel-dpa",
+    },
+    {
+      sousTraitant: "Link Mobility",
+      paysDestinataire: "France",
+      traitementRealise: "Envoi de sms",
+      garanties:
+        "https://www.linkmobility.com/resources/legal/terms-and-conditions/DPA_LINK_as_Processor_V1-43_2021.pdf",
+    },
+    {
+      sousTraitant: "Sarbacane",
+      paysDestinataire: "Espagne",
+      traitementRealise: "Envoi de notifications",
+      garanties:
+        "https://assets.sarbacane-cdn.com/legal/EN_DataProcessingAddendum.pdf",
+    },
   ];
   public ngOnInit(): void {
     this.titleService.setTitle(
