@@ -4382,7 +4382,7 @@ __metadata:
     "@angular/platform-browser-dynamic": "npm:^18.2.13"
     "@angular/router": "npm:^18.2.13"
     "@domifa/common": "workspace:^"
-    "@edugouvfr/ngx-dsfr": "npm:^1.16.1"
+    "@edugouvfr/ngx-dsfr": "npm:^1.15.3"
     "@edugouvfr/ngx-dsfr-ext": "npm:^1.4.2"
     "@fortawesome/angular-fontawesome": "npm:0.15.0"
     "@fortawesome/fontawesome-svg-core": "npm:^6.7.2"
@@ -4472,7 +4472,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@edugouvfr/ngx-dsfr@npm:^1.16.1":
+"@edugouvfr/ngx-dsfr@npm:^1.15.3":
   version: 1.16.1
   resolution: "@edugouvfr/ngx-dsfr@npm:1.16.1"
   dependencies:
