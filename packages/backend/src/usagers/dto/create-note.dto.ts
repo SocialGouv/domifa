@@ -6,10 +6,11 @@ export class CreateNoteDto {
   @ApiProperty({
     type: String,
     required: true,
+    minLength: 1,
     maxLength: 1000,
   })
   @IsNotEmpty()
-  @MinLength(2)
+  @MinLength(1)
   @MaxLength(1000)
   @IsString()
   @StripTagsTransform()

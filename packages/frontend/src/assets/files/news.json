@@ -1,5 +1,33 @@
 [
   {
+    "date": "2025-10-21",
+    "description": "📋 Amélioration de l'accès aux Cerfas et protection contre la stigmatisation",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "📄 Gestion des Cerfas",
+        "message": [
+          "Tous les cerfas des domiciliations précédentes sont désormais accessibles dans le dossier d'un domicilié.",
+          "Pour y accéder, rendez-vous dans le dossier d'un domicilié.",
+          "Cliquez sur la page historique.",
+          "Cliquez sur la section 'Décisions'",
+          "Télécharger un Cerfa en cliquant sur le bouton 'Cerfa'"
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "🔒 Suivi des recommendations de la DGCS",
+        "message": [
+          "Conformément aux recommandations de la direction générale de la cohésion sociale (DGCS) dans le guide juridique de la domiciliation, les structures pourront masquer leurs noms sur le cerfa.",
+          "Cette fonctionnalité permet de lutter contre les stigmatisations dont peuvent être victimes les domiciliés.",
+          "Pour activer cette option : rendez-vous dans le menu principal.",
+          "Cliquez sur informations de la structure.",
+          "Décochez le nom de la structure dans les paramètres de la structure."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2025-09-23",
     "description": "🎉 Nouveau rôle Agent d'accueil et améliorations diverses",
     "content": [
