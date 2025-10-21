@@ -49,4 +49,12 @@ export const STRUCTURE_MOCK: StructureCommon = {
     enabledByStructure: false,
   },
   siret: "13000680200016",
+  statut: "VALIDE",
+  decision: {
+    statut: "VALIDE",
+    uuid: "XXX",
+    userId: 1,
+    userName: "XX",
+    dateDecision: new Date(),
+  },
 };

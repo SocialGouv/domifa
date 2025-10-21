@@ -1,0 +1,58 @@
+<div class="modal-header">
+  <h4 class="modal-title">Supprimer la structure</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="activeModal.dismiss()"
+  ></button>
+</div>
+
+<form [formGroup]="deleteForm" (ngSubmit)="setDecision()">
+  <div class="modal-body">
+    <p class="step_form text-center">
+      <b>{{ structure.nom }}</b
+      ><br />
+      {{ structure.adresse }}, {{ structure.codePostal }},
+      {{ structure.ville }}
+      <br />
+    </p>
+    <p class="font-weight-bold">
+      Attention, les données suivantes seront <u>DÉFINITIVEMENT</u> supprimées :
+      <br /><br />
+      - Tous les dossiers : demandes, domiciliés actifs, radiés, etc.<br />
+      - L'historique de toutes les décisions<br />
+      - Tous les fichiers uploadés<br />
+      - Tous les comptes utilisateurs<br />
+      - Toutes les interactions (courriers, appels, etc.)<br />
+    </p>
+    <div class="mb-3">
+      <label for="motif" class="required form-label">
+        Motif de suppression
+      </label>
+      <select id="motif" class="form-select" formControlName="motif">
+        <option value="">Sélectionnez un motif</option>
+        <option *ngFor="let motif of motifs" [value]="motif.key">
+          {{ motif.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="activeModal.dismiss()"
+    >
+      Annuler
+    </button>
+    <button
+      type="submit"
+      class="btn btn-danger"
+      [disabled]="deleteForm.invalid"
+    >
+      Confirmer la suppression
+    </button>
+  </div>
+</form>

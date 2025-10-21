@@ -192,7 +192,7 @@ export class AdminStructuresController {
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
-  @Patch("structure/:structureId/status")
+  @Patch("structure-decision/:structureId")
   public async updateStructureStatus(
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @Param("structureId", new ParseIntPipe()) structureId: number,
@@ -200,13 +200,12 @@ export class AdminStructuresController {
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
     try {
-      // Vérifier que la structure existe
       const structure = await structureRepository.findOneBy({
         id: structureId,
       });
       if (!structure) {
         return res.status(HttpStatus.NOT_FOUND).json({
-          message: "Structure non trouvée",
+          message: "BAD_REQUEST",
         });
       }
 
@@ -245,7 +244,6 @@ export class AdminStructuresController {
         }
       );
 
-      // Log de l'action admin
       await this.appLogsService.create({
         userId: user.id,
         structureId,

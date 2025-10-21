@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <h4 class="modal-title">Refuser la structure</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="activeModal.dismiss()"
+  ></button>
+</div>
+
+<form [formGroup]="refuseForm" (ngSubmit)="setDecision()">
+  <div class="modal-body">
+    <div class="mb-3">
+      <label for="motifRefus" class="form-label">
+        Motif de refus <span class="text-danger">*</span>
+      </label>
+      <select id="motifRefus" class="form-select" formControlName="motifRefus">
+        <option value="">Sélectionnez un motif</option>
+        <option *ngFor="let motif of motifsRefus" [value]="motif.key">
+          {{ motif.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="activeModal.dismiss()"
+    >
+      Annuler
+    </button>
+    <button
+      type="submit"
+      class="btn btn-danger"
+      [disabled]="refuseForm.invalid"
+    >
+      Confirmer le refus
+    </button>
+  </div>
+</form>
