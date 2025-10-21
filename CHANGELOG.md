@@ -1,3 +1,10 @@
+## [2.223.3](https://github.com/SocialGouv/domifa/compare/v2.223.2...v2.223.3) (2025-10-21)
+
+
+### Bug Fixes
+
+* **frontend:** add minimum for notes & update popup ([#3975](https://github.com/SocialGouv/domifa/issues/3975)) ([59ea067](https://github.com/SocialGouv/domifa/commit/59ea067829efbf5765cd030cd6fcc27cdedcab4b))
+
 ## [2.223.2](https://github.com/SocialGouv/domifa/compare/v2.223.1...v2.223.2) (2025-10-13)
 
 
