@@ -7,8 +7,6 @@ import {
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
@@ -20,7 +18,6 @@ import {
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { UsagerAuthService } from "./modules/usager-auth/services/usager-auth.service";
 import { SharedModule } from "./modules/shared/shared.module";
 import { CustomToastService } from "./modules/shared/services/custom-toast.service";
@@ -43,9 +40,7 @@ registerLocaleData(localeFr, "fr");
     BrowserAnimationsModule,
     BrowserModule,
     GeneralModule,
-    FontAwesomeModule,
     FormsModule,
-    NgbModule,
     SharedModule,
     ReactiveFormsModule,
     MATOMO_INJECTORS,

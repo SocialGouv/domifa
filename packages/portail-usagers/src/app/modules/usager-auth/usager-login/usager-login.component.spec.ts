@@ -1,7 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MATOMO_INJECTORS } from "../../../shared";
 
 import { UsagerLoginComponent } from "./usager-login.component";
@@ -19,7 +18,6 @@ describe("UsagerLoginComponent", () => {
       imports: [
         ReactiveFormsModule,
         MATOMO_INJECTORS,
-        NgbModule,
         FormsModule,
         RouterModule.forRoot([]),
         SharedModule,

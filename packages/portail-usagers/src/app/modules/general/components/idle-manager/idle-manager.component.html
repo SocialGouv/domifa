@@ -1,26 +1,28 @@
-<ng-template #idleModal let-modal>
-  <div class="modal-header">
-    <span class="modal-title" id="modal-title">
-      ⏳ Souhaitez-vous poursuivre votre navigation sur Mon DomiFa ?
-    </span>
-  </div>
-
-  <div class="modal-body text-center py-3">
+<dsfr-modal
+  size="LG"
+  icon="fr-icon-newspaper-line"
+  #idleModal
+  dialogId="idleModal"
+  titleModal="Souhaitez-vous poursuivre votre navigation sur Mon DomiFa ?"
+>
+  <ng-template
+    (conceal)="hideNews()"
+    class="justify-self-right"
+    #modalFooterTemplate
+  >
     <p>
       Aucune activité n'a été enregistrée depuis une heure, vous allez être
       automatiquement déconnecté dans 1 minute.
     </p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-lg btn-primary" type="submit" (click)="resetTimer()">
-      Oui, je reste connecté
-    </button>
-    <button
-      class="btn btn-lg btn-outline-primary"
-      type="button"
-      (click)="logout()"
-    >
-      Non, je me déconnecte
-    </button>
-  </div>
-</ng-template>
+    <dsfr-buttons-group inline="LG" alignment="reverse" groupMarkup="div">
+      <dsfr-button
+        (click)="resetTimer()"
+        label="Oui, je reste connecté"
+      ></dsfr-button>
+      <dsfr-button
+        (click)="logout()"
+        label="Non, je me déconnecte"
+      ></dsfr-button>
+    </dsfr-buttons-group>
+  </ng-template>
+</dsfr-modal>

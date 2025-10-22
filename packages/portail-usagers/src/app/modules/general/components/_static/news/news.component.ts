@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import DOMIFA_NEWS from "../../../../../../assets/files/news.json";
 import { SeoService } from "../../../../shared/services/seo.service";
-import { NewsItem } from "../../../../shared/types/NewsItem.type";
+import { NewsItem } from "@domifa/common";
 
 @Component({
   selector: "app-news",

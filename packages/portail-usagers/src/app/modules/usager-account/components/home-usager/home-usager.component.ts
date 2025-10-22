@@ -9,7 +9,6 @@ import { StructureInformationService } from "../../services/structure-informatio
 @Component({
   selector: "app-home-usager",
   templateUrl: "./home-usager.component.html",
-  styleUrls: ["./home-usager.component.css"],
 })
 export class HomeUsagerComponent implements OnInit {
   public usagerProfile!: PortailUsagerProfile | null;

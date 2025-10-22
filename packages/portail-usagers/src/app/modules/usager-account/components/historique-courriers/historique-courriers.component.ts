@@ -4,17 +4,14 @@ import { InteractionService } from "../../services/interaction.service";
 import { Subscription } from "rxjs";
 import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-historique-courriers",
   templateUrl: "./historique-courriers.component.html",
-  styleUrls: ["./historique-courriers.component.scss"],
 })
 export class HistoriqueCourriersComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();
   public interactions: Interaction[] = [];
-  public readonly faChevronLeft = faChevronLeft;
   public loading = false;
 
   public params: PageOptions = {
