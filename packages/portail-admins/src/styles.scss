@@ -1,5 +1,5 @@
 @layer bootstrap, dsfr, dsfr-personnalization;
-
+@import "node_modules/bootstrap/scss/bootstrap.scss" layer(bootstrap);
 @import "@gouvfr/dsfr/dist/dsfr.min.css" layer(dsfr);
 @import "@gouvfr/dsfr/dist/utility/utility.min.css" layer(dsfr);
 
@@ -37,8 +37,6 @@
     "Noto Color Emoji";
   $font-family-monospace: "Marianne", SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
-
-  @import "node_modules/bootstrap/scss/bootstrap.scss";
 }
 
 @layer dsfr-personnalization {
