@@ -32,8 +32,9 @@ const routes: Routes = [
   {
     path: "structure/:structureId",
     canActivate: [AuthGuard],
-    data: {
-      roles: ["super-admin-domifa"],
+    data: { roles: ["super-admin-domifa"] },
+    resolve: {
+      structureList: structuresListResolver,
     },
     loadChildren: () =>
       import("./modules/structure/structure.module").then(
