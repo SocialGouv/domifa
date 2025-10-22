@@ -5,7 +5,6 @@ import { LIENS_PARTENAIRES } from "./LIENS_PARTENAIRES.const";
 @Component({
   selector: "app-plan-site",
   templateUrl: "./plan-site.component.html",
-  styleUrls: ["./plan-site.component.css"],
 })
 export class PlanSiteComponent implements OnInit {
   public readonly sitemapLinks: {

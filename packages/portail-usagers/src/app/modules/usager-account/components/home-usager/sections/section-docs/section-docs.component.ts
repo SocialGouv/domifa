@@ -16,7 +16,6 @@ import { saveAs } from "file-saver";
 @Component({
   selector: "app-section-docs",
   templateUrl: "./section-docs.component.html",
-  styleUrl: "./section-docs.component.css",
 })
 export class SectionDocsComponent implements OnInit, OnDestroy {
   @Input() public usager!: PortailUsagerPublic;

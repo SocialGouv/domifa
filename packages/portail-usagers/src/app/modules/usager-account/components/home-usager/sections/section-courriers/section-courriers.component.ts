@@ -13,7 +13,6 @@ import { CustomToastService } from "../../../../../shared/services/custom-toast.
 @Component({
   selector: "app-section-courriers",
   templateUrl: "./section-courriers.component.html",
-  styleUrls: ["./section-courriers.component.css"],
 })
 export class SectionCourriersComponent implements OnInit {
   @Input() public usager!: PortailUsagerPublic;

@@ -8,7 +8,6 @@ import { CustomToastService } from "../../../shared/services/custom-toast.servic
 @Component({
   selector: "app-historique-courriers",
   templateUrl: "./historique-courriers.component.html",
-  styleUrls: ["./historique-courriers.component.scss"],
 })
 export class HistoriqueCourriersComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();

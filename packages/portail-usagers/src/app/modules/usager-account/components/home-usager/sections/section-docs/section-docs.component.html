@@ -23,8 +23,9 @@
               (click)="downloadDoc(doc)"
             >
               <span *ngIf="!doc.loading">{{ doc.label }}</span>
-              <span *ngIf="doc.loading">
+              <span class="d-flex gap-1" *ngIf="doc.loading">
                 {{ doc.label }} - Téléchargement en cours
+                <dsfr-ext-spinner typeLoader="quarter"></dsfr-ext-spinner>
               </span>
             </button>
           </h3>

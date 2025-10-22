@@ -18,7 +18,11 @@ import {
   DsfrSkiplinksModule,
 } from "@edugouvfr/ngx-dsfr";
 import { FaqComponent } from "./components/faq/faq.component";
-import { DsfrToastComponent, DsfrToastService } from "@edugouvfr/ngx-dsfr-ext";
+import {
+  DsfrSpinnerComponent,
+  DsfrToastComponent,
+  DsfrToastService,
+} from "@edugouvfr/ngx-dsfr-ext";
 
 @NgModule({
   declarations: [ReplaceLineBreaks],
@@ -38,6 +42,7 @@ import { DsfrToastComponent, DsfrToastService } from "@edugouvfr/ngx-dsfr-ext";
     DsfrModalModule,
     DsfrButtonsGroupModule,
     DsfrToastComponent,
+    DsfrSpinnerComponent,
   ],
   providers: [SeoService, DsfrToastService],
   imports: [
@@ -55,6 +60,7 @@ import { DsfrToastComponent, DsfrToastService } from "@edugouvfr/ngx-dsfr-ext";
     DsfrModalModule,
     DsfrButtonsGroupModule,
     DsfrToastComponent,
+    DsfrSpinnerComponent,
   ],
 })
 export class SharedModule {}
