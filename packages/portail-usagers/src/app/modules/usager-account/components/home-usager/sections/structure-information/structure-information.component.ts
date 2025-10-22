@@ -7,7 +7,6 @@ import {
 @Component({
   selector: "app-structure-information",
   templateUrl: "./structure-information.component.html",
-  styleUrls: ["./structure-information.component.css"],
 })
 export class StructureInformationComponent {
   public readonly STRUCTURE_INFORMATION_TYPES = STRUCTURE_INFORMATION_TYPES;

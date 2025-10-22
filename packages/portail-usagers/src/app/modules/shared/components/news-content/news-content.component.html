@@ -19,9 +19,9 @@
             {{ news.date | date : "d MMMM y" }}
           </h3>
         </div>
-        <h5 class="fr-text-title--blue-france mb-1" *ngIf="news.description">
+        <h4 class="fr-text-title--blue-france mb-1" *ngIf="news.description">
           {{ news.description }}
-        </h5>
+        </h4>
       </div>
     </div>
     <div class="fr-card__body ps-0">
@@ -31,7 +31,7 @@
       >
         <hr class="pb-2" />
         <div class="d-flex">
-          <h6 class="fr-card__title">
+          <h4 class="fr-card__title">
             <span
               [class.fr-badge--info]="content.type === 'new'"
               [class.fr-badge--new]="content.type !== 'new'"
@@ -42,7 +42,7 @@
             <span class="fr-text-title--blue-france">
               {{ content.categorie }}
             </span>
-          </h6>
+          </h4>
         </div>
 
         <ul class="fr-card__desc ps-4 fr-text-title--blue-france">

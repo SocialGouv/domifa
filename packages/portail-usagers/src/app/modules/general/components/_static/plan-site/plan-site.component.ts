@@ -1,16 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import { LIENS_PARTENAIRES } from "./LIENS_PARTENAIRES.const";
 
 @Component({
   selector: "app-plan-site",
   templateUrl: "./plan-site.component.html",
-  styleUrls: ["./plan-site.component.css"],
 })
 export class PlanSiteComponent implements OnInit {
-  public faExternalLinkAlt = faExternalLinkAlt;
-
   public readonly sitemapLinks: {
     section: string;
     links: {

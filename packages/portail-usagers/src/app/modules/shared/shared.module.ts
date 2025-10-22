@@ -1,11 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 
-import {
-  FaIconLibrary,
-  FontAwesomeModule,
-} from "@fortawesome/angular-fontawesome";
-import { FA_ICONS } from "./constants/FA_ICONS.const";
 import { SeoService } from "./services/seo.service";
 import { ReplaceLineBreaks } from "./pipes/nl2br.pipe";
 import {
@@ -23,7 +18,11 @@ import {
   DsfrSkiplinksModule,
 } from "@edugouvfr/ngx-dsfr";
 import { FaqComponent } from "./components/faq/faq.component";
-import { DsfrToastComponent, DsfrToastService } from "@edugouvfr/ngx-dsfr-ext";
+import {
+  DsfrSpinnerComponent,
+  DsfrToastComponent,
+  DsfrToastService,
+} from "@edugouvfr/ngx-dsfr-ext";
 
 @NgModule({
   declarations: [ReplaceLineBreaks],
@@ -43,11 +42,11 @@ import { DsfrToastComponent, DsfrToastService } from "@edugouvfr/ngx-dsfr-ext";
     DsfrModalModule,
     DsfrButtonsGroupModule,
     DsfrToastComponent,
+    DsfrSpinnerComponent,
   ],
   providers: [SeoService, DsfrToastService],
   imports: [
     CommonModule,
-    FontAwesomeModule,
     DsfrFooterModule,
     DsfrSkiplinksModule,
     DsfrFormInputModule,
@@ -61,10 +60,7 @@ import { DsfrToastComponent, DsfrToastService } from "@edugouvfr/ngx-dsfr-ext";
     DsfrModalModule,
     DsfrButtonsGroupModule,
     DsfrToastComponent,
+    DsfrSpinnerComponent,
   ],
 })
-export class SharedModule {
-  constructor(private readonly library: FaIconLibrary) {
-    library.addIcons(...FA_ICONS);
-  }
-}
+export class SharedModule {}
