@@ -1,7 +1,7 @@
-<div *ngIf="usager" class="border-top border-grey pt-3 my-2">
+<div *ngIf="usager" class="border-top border-grey pt-4 my-2">
   <h2 class="fr-text-title--blue-france pb-2">Transfert et procurations</h2>
-  <div class="border-top border-grey pt-3 my-2">
-    <div *ngIf="!hasActiveTransfertOrProcur">
+  <div class="border-top border-grey pt-1 my-2">
+    <div class="pt-4" *ngIf="!hasActiveTransfertOrProcur">
       <div class="fr-callout fr-callout--empty">
         Vous n’avez actuellement aucune procuration ni aucun transfert.
       </div>
@@ -11,7 +11,7 @@
         usager.options.transfert?.actif ||
         usager.options.procurations.length > 0
       "
-      class="border-top border-grey pt-3 my-2"
+      class="pt-1 mt-3"
     >
       <div
         class="fr-callout"
