@@ -8,24 +8,22 @@ import {
   TemplateRef,
   OnDestroy,
 } from "@angular/core";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import {
-  AbstractControl,
-  UntypedFormBuilder,
   UntypedFormGroup,
+  UntypedFormBuilder,
+  AbstractControl,
   Validators,
 } from "@angular/forms";
+import { SortValues, USER_FONCTION_LABELS } from "@domifa/common";
+import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
-import { regexp } from "../../../../shared/utils";
-import { AdminStructuresApiClient } from "../../../shared/services";
-import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { regexp } from "../../../../shared";
 import {
-  SortValues,
-  StructureDecisionStatut,
-  USER_FONCTION_LABELS,
-} from "@domifa/common";
+  AdminStructuresApiClient,
+  CustomToastService,
+} from "../../../shared/services";
 import { StructureAdmin } from "../../types";
-import { StructureFilterCriteria } from "../../utils/structure-filter-criteria";
+import { StructureFilterCriteria } from "../../utils";
 import { FilterOutput } from "../admin-structures-list/admin-structures-list.component";
 
 @Component({
@@ -45,8 +43,8 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   @ViewChild("addAdminModal", { static: true })
   public addAdminModal!: TemplateRef<NgbModalRef>;
 
-  @ViewChild("deleteStructureModal", { static: true })
-  public deleteStructureModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("deleteModal")
+  public deleteModal!: TemplateRef<NgbModalRef>;
 
   @ViewChild("refuseStructureModal", { static: true })
   public refuseStructureModal!: TemplateRef<NgbModalRef>;
@@ -122,7 +120,7 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   public confirmStructure(structure: StructureAdmin) {
     this.subscription.add(
       this.adminStructuresApiClient
-        .confirmNewStructure(structure.uuid, structure.token)
+        .setDecisionStructure(structure.id, "VALIDE")
         .subscribe({
           next: () => {
             structure.statut = "VALIDE";
@@ -135,19 +133,13 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
     );
   }
 
-  public openModal(
-    action: StructureDecisionStatut,
-    structure: StructureAdmin
-  ): void {
-    switch (action) {
-      case "SUPPRIME":
-        this.modalService.open(this.deleteStructureModal);
-        break;
-      case "REFUS":
-        this.modalService.open(this.refuseStructureModal);
-        break;
-    }
-    console.log("XPOKPOKOP");
+  public openDeleteStructureModal(structure: StructureAdmin): void {
+    this.currentStructure = structure;
+    this.modalService.open(this.deleteModal);
+  }
+
+  public openRefuseStructureModal(structure: StructureAdmin): void {
+    this.modalService.open(this.refuseStructureModal);
     this.currentStructure = structure;
   }
 

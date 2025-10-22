@@ -1,21 +1,22 @@
-<div class="modal-header">
-  <h4 class="modal-title">Supprimer la structure</h4>
+<div class="modal-header bg-danger text-white">
+  <span id="modal-title">Supprimer la structure {{ structure.nom }}</span>
   <button
     type="button"
     class="btn-close"
     aria-label="Close"
-    (click)="activeModal.dismiss()"
+    (click)="close()"
   ></button>
 </div>
 
 <form [formGroup]="deleteForm" (ngSubmit)="setDecision()">
   <div class="modal-body">
-    <p class="step_form text-center">
-      <b>{{ structure.nom }}</b
-      ><br />
-      {{ structure.adresse }}, {{ structure.codePostal }},
-      {{ structure.ville }}
-      <br />
+    <p class="">
+      Vous êtes sur le point de supprimer la structure suivante: <br /><br /><b
+        >{{ structure.nom }}<br />
+        {{ structure.adresse }}, {{ structure.codePostal }},
+        {{ structure.ville }}
+        <br
+      /></b>
     </p>
     <p class="font-weight-bold">
       Attention, les données suivantes seront <u>DÉFINITIVEMENT</u> supprimées :
@@ -26,32 +27,52 @@
       - Tous les comptes utilisateurs<br />
       - Toutes les interactions (courriers, appels, etc.)<br />
     </p>
+    <div class="form-group">
+      <label for="confirmationDelete"
+        >Afin de confirmer la suppression, saisissez le nom de la
+        structure</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        formControlName="structureName"
+        id="confirmationDelete"
+        [ngClass]="{
+          'is-invalid': submitted && f.structureName.errors
+        }"
+        required
+      />
+      <p *ngIf="submitted && f.structureName.errors" class="invalid-feedback">
+        Veuillez saisir le nom exact de la structure
+      </p>
+    </div>
+
     <div class="mb-3">
       <label for="motif" class="required form-label">
         Motif de suppression
       </label>
-      <select id="motif" class="form-select" formControlName="motif">
+      <select
+        id="motif"
+        required
+        class="required form-select"
+        formControlName="motif"
+      >
         <option value="">Sélectionnez un motif</option>
         <option *ngFor="let motif of motifs" [value]="motif.key">
           {{ motif.label }}
         </option>
       </select>
+      <p *ngIf="submitted && f.motif.errors" class="invalid-feedback">
+        Veuillez choisir un motif
+      </p>
     </div>
   </div>
 
   <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-secondary"
-      (click)="activeModal.dismiss()"
-    >
+    <button type="button" class="btn btn-outline-dark btn-lg" (click)="close()">
       Annuler
     </button>
-    <button
-      type="submit"
-      class="btn btn-danger"
-      [disabled]="deleteForm.invalid"
-    >
+    <button type="submit" class="btn btn-danger btn-lg">
       Confirmer la suppression
     </button>
   </div>

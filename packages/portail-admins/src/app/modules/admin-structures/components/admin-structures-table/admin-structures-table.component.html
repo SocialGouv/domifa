@@ -44,6 +44,21 @@
         <th
           scope="col"
           (click)="sort.emit({
+            element: 'sortKey',
+            value: 'statut',
+          })"
+        >
+          <app-table-head-sort
+            sortKey="statut"
+            [sortValue]="filters.sortValue"
+            [currentKey]="filters.sortKey"
+            columnName="Statut"
+          >
+          </app-table-head-sort>
+        </th>
+        <th
+          scope="col"
+          (click)="sort.emit({
           element: 'sortKey',
           value: 'structureTypeLabel',
         })"
@@ -189,11 +204,31 @@
           {{
             structure.structureType === "ccas" ? " - " + structure.ville : ""
           }}
+        </td>
+        <td>
+          <span
+            *ngIf="structure.statut === 'VALIDE'"
+            class="badge bg-success text-dark"
+          >
+            Active
+          </span>
           <span
             *ngIf="structure.statut === 'EN_ATTENTE'"
             class="badge bg-warning text-dark"
           >
             Non validée
+          </span>
+          <span
+            *ngIf="structure.statut === 'REFUS'"
+            class="badge bg-danger text-dark"
+          >
+            Refusée
+          </span>
+          <span
+            *ngIf="structure.statut === 'SUPPRIME'"
+            class="badge bg-danger text-dark"
+          >
+            Supprimée
           </span>
         </td>
         <td>
@@ -275,7 +310,7 @@
                 type="button"
                 class="cursor-pointer text-danger"
                 ngbDropdownItem
-                (click)="openModal('SUPPRIME', structure)"
+                (click)="openDeleteStructureModal(structure)"
               >
                 <fa-icon [icon]="['fas', 'trash']" aria-hidden="true"></fa-icon>
                 Supprimer la structure
@@ -284,9 +319,9 @@
                 type="button"
                 class="cursor-pointer text-danger"
                 ngbDropdownItem
-                (click)="openModal('REFUS', structure)"
+                (click)="openRefuseStructureModal(structure)"
               >
-                <fa-icon [icon]="['fas', 'trash']" aria-hidden="true"></fa-icon>
+                <fa-icon [icon]="['fas', 'times']" aria-hidden="true"></fa-icon>
                 Refuser la structure
               </button>
             </div>
@@ -296,6 +331,21 @@
     </tbody>
   </table>
 </div>
+
+<ng-template #deleteModal let-modal>
+  <app-structure-form-delete
+    (closeModals)="cancelForm()"
+    [structure]="currentStructure"
+  ></app-structure-form-delete>
+</ng-template>
+
+<ng-template #refuseStructureModal let-modal>
+  <app-structure-form-refuse
+    (closeModals)="cancelForm()"
+    [structure]="currentStructure"
+  ></app-structure-form-refuse
+></ng-template>
+
 <ng-template #addAdminModal let-modal>
   <div class="modal-header">
     <span class="modal-title" id="modal-title">
@@ -406,15 +456,3 @@
     </div>
   </form>
 </ng-template>
-
-<ng-template #deleteStructureModal let-modal>
-  <app-structure-form-delete
-    [structure]="currentStructure"
-  ></app-structure-form-delete>
-</ng-template>
-
-<ng-template #refuseStructureModal let-modal
-  ><app-structure-form-refuse
-    [structure]="currentStructure"
-  ></app-structure-form-refuse
-></ng-template>

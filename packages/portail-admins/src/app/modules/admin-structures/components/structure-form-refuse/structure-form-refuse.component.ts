@@ -5,13 +5,17 @@ import {
   Output,
   OnDestroy,
 } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  AbstractControl,
+} from "@angular/forms";
 import {
   MOTIFS_REFUS_STRUCTURE_LABELS,
   StructureDecision,
   StructureDecisionRefusMotif,
 } from "@domifa/common";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import { AdminStructuresApiClient } from "../../../shared/services";
 import { StructureAdmin } from "../../types";
@@ -25,10 +29,13 @@ export class StructureFormRefuseComponent implements OnDestroy {
   @Output() closeModals = new EventEmitter<void>();
   @Output() confirmRefus = new EventEmitter<StructureDecision>();
 
-  refuseForm: FormGroup;
-  submitted = false;
-  loading = false;
+  public refuseForm: FormGroup;
+  public submitted = false;
+  public loading = false;
 
+  get f(): { [key: string]: AbstractControl } {
+    return this.refuseForm.controls;
+  }
   private readonly subscription = new Subscription();
 
   public readonly MOTIFS_REFUS_STRUCTURE_LABELS = MOTIFS_REFUS_STRUCTURE_LABELS;
@@ -41,7 +48,6 @@ export class StructureFormRefuseComponent implements OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    public activeModal: NgbActiveModal,
     private readonly adminStructuresApiClient: AdminStructuresApiClient
   ) {
     this.initForm();
@@ -81,7 +87,6 @@ export class StructureFormRefuseComponent implements OnDestroy {
   }
 
   close(): void {
-    this.activeModal.dismiss();
     this.closeModals.emit();
   }
 
