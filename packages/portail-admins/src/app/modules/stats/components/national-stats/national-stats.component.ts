@@ -48,7 +48,6 @@ export class NationalStatsComponent implements OnInit {
   public currentStructure!: StructureListForStats | null;
   public lastUpdate: Date | null = null;
   public user: PortailAdminUser | null;
-
   constructor(
     private sanitizer: DomSanitizer,
     private readonly statsService: StatsService,
