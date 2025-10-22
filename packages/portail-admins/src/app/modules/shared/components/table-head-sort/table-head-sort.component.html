@@ -1,6 +1,6 @@
 <button
   type="button"
-  [ngClass]="sortKey === currentKey ? 'fw-bold text-primary' : ''"
+  [ngClass]="sortKey === currentKey ? 'fw-bold' : ''"
   [attr.aria-sort]="sortKey === currentKey ? sortValue : null"
   (click)="rotate()"
 >

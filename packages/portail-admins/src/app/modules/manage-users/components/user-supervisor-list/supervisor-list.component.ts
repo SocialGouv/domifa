@@ -1,13 +1,6 @@
 import { Subscription } from "rxjs";
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 import {
   DEPARTEMENTS_LISTE,
@@ -20,16 +13,16 @@ import {
 } from "@domifa/common";
 import { ManageUsersService } from "../../services/manage-users.service";
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
-import { DEFAULT_MODAL_OPTIONS } from "../../../../shared";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { subMonths } from "date-fns";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
-  selector: "app-user-profil",
-  templateUrl: "./user-profil.component.html",
+  selector: "app-supervisor-list",
+  templateUrl: "./supervisor-list.component.html",
 })
-export class UserProfilComponent implements OnInit, OnDestroy {
+export class SupervisorListComponent implements OnInit, OnDestroy {
   public users: UserSupervisor[];
   public me!: PortailAdminUser | null;
 
@@ -47,14 +40,14 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   public readonly REGIONS_LISTE = REGIONS_LISTE;
   public readonly USER_SUPERVISOR_ROLES_LABELS = USER_SUPERVISOR_ROLES_LABELS;
 
-  @ViewChild("deleteUserConfirmationModal", { static: true })
-  public deleteUserConfirmationModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("deleteUserConfirmationModal")
+  public deleteUserConfirmationModal!: DsfrModalComponent;
 
-  @ViewChild("addUserModal", { static: true })
-  public addUserModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("addUserModal")
+  public addUserModal!: DsfrModalComponent;
 
-  @ViewChild("updateUserModal", { static: true })
-  public updateUserModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("updateUserModal")
+  public updateUserModal!: DsfrModalComponent;
 
   public readonly faEdit = faEdit;
   public readonly faUserPlus = faUserPlus;
@@ -63,7 +56,6 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   constructor(
     private readonly authService: AdminAuthService,
     private readonly manageUsersService: ManageUsersService,
-    private readonly modalService: NgbModal,
     private readonly titleService: Title
   ) {
     this.users = [];
@@ -95,33 +87,38 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     this.selectedUser = null;
     this.expectedRole = null;
     this.newReferrerId = null;
-    this.modalService.dismissAll();
   }
 
   public openDeleteConfirmation(user: UserSupervisor): void {
     this.selectedUser = user;
-    this.modalService.open(
-      this.deleteUserConfirmationModal,
-      DEFAULT_MODAL_OPTIONS
-    );
+    this.deleteUserConfirmationModal.open();
   }
 
   public openUpdateUserModal(user: UserSupervisor): void {
     this.selectedUser = user;
-    this.modalService.open(this.updateUserModal, DEFAULT_MODAL_OPTIONS);
+    this.updateUserModal.open();
   }
   public openAddUserModal(): void {
     this.selectedUser = null;
-    this.modalService.open(this.addUserModal, DEFAULT_MODAL_OPTIONS);
+    this.addUserModal.open();
   }
 
-  public closeModal(): void {
+  public closeModal(modal: "add" | "update" | "delete"): void {
     this.selectedUser = null;
-    this.modalService.dismissAll();
+    if (modal === "add") {
+      this.addUserModal?.close();
+    }
+
+    if (modal === "update") {
+      this.updateUserModal?.close();
+    }
+
+    if (modal === "delete") {
+      this.deleteUserConfirmationModal?.close();
+    }
   }
 
   public getUsers(): void {
-    this.modalService.dismissAll();
     this.manageUsersService.loadUsers();
   }
 

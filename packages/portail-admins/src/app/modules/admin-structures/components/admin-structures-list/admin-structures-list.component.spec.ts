@@ -1,17 +1,20 @@
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from "@angular/core";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { RouterModule } from "@angular/router";
+import { ActivatedRoute, RouterModule } from "@angular/router";
 import { of } from "rxjs";
-import { AdminStructuresApiClient } from "../../../shared/services";
 
-import { ApiStructureAdmin } from "../../types";
 import {
   StructureFilterCriteria,
   StructureFilterCriteriaSortEnum,
 } from "../../utils/structure-filter-criteria";
 import { DomiciliesSegmentEnum } from "@domifa/common";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from "@angular/core/testing";
 import { uneStructureAdminMock } from "../../../../mocks/STRUCTURE_MOCK.mock";
 import { AdminStructuresModule } from "../../admin-structures.module";
 import { AdminStructuresListComponent } from "./admin-structures-list.component";
@@ -21,13 +24,14 @@ import {
   structuresListModelBuilder,
   structuresSorter,
 } from "../../utils";
+import { ApiStructureAdmin } from "../../types";
 
 describe("AdminStructuresListComponent", () => {
   let component: AdminStructuresListComponent;
   let fixture: ComponentFixture<AdminStructuresListComponent>;
-  let adminStructuresApiClientMock: Partial<AdminStructuresApiClient>;
-
+  let activatedRoute: Partial<ActivatedRoute>;
   // Mock data
+
   const mockApiStructures: ApiStructureAdmin[] = [
     uneStructureAdminMock({
       id: 1,
@@ -40,13 +44,11 @@ describe("AdminStructuresListComponent", () => {
       domicilieSegment: DomiciliesSegmentEnum.VERY_SMALL,
     }),
   ];
-
   beforeEach(() => {
-    // Mock the API client
-    adminStructuresApiClientMock = {
-      getAdminStructureListData: jest
-        .fn()
-        .mockReturnValue(of(mockApiStructures)),
+    activatedRoute = {
+      data: of({
+        structureList: mockApiStructures,
+      }),
     };
 
     // Configure testing module
@@ -61,8 +63,8 @@ describe("AdminStructuresListComponent", () => {
         provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },
         {
-          provide: AdminStructuresApiClient,
-          useValue: adminStructuresApiClientMock,
+          provide: ActivatedRoute,
+          useValue: activatedRoute,
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -96,15 +98,14 @@ describe("AdminStructuresListComponent", () => {
       expect(component.structures).toBeDefined();
       expect(component.filteredStructures).toBeDefined();
       expect(component.searching).toBe(false);
-      expect(component.totalStructures).toBe(2);
       expect(component.pageSize).toBe(100);
     });
 
-    it("should call getAdminStructureListData on init", () => {
-      expect(
-        adminStructuresApiClientMock.getAdminStructureListData
-      ).toHaveBeenCalled();
-    });
+    it("should retrieve structures from route data", fakeAsync(() => {
+      tick();
+      fixture.detectChanges();
+      expect(component.totalStructures).toBe(2);
+    }));
 
     it("should initialize filters from localStorage if available", () => {
       // Reset component
