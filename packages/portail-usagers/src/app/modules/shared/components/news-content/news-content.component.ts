@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
-import { NewsItem } from "../../types/NewsItem.type";
 import { SharedModule } from "../../shared.module";
 import { CommonModule } from "@angular/common";
+import { NewsItem } from "@domifa/common";
 
 @Component({
   selector: "app-news-content",

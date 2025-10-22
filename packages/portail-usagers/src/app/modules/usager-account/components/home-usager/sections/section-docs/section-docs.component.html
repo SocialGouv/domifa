@@ -13,7 +13,7 @@
     >
       <div class="fr-card__body">
         <div class="fr-card__content">
-          <h3 class="fr-card__title">
+          <div class="fr-card__title">
             <button
               type="button"
               [disabled]="doc.loading"
@@ -23,16 +23,12 @@
               (click)="downloadDoc(doc)"
             >
               <span *ngIf="!doc.loading">{{ doc.label }}</span>
-              <span *ngIf="doc.loading">
-                <fa-icon
-                  [icon]="['fas', 'circle-notch']"
-                  animation="spin"
-                  aria-hidden="true"
-                ></fa-icon>
+              <span class="d-flex gap-1" *ngIf="doc.loading">
                 {{ doc.label }} - Téléchargement en cours
+                <dsfr-ext-spinner typeLoader="quarter"></dsfr-ext-spinner>
               </span>
             </button>
-          </h3>
+          </div>
           <p class="fr-card__desc">
             Date d'ajout : {{ doc.createdAt | date : "short" }}
           </p>

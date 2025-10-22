@@ -1,17 +1,17 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
-import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { UserIdleService } from "angular-user-idle";
 import { Subscription } from "rxjs";
 import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
 import { PortailUsagerProfile } from "@domifa/common";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-idle-manager",
   templateUrl: "./idle-manager.component.html",
 })
 export class IdleManagerComponent implements OnInit {
-  @ViewChild("idleModal", { static: true })
-  public idleModal!: TemplateRef<NgbModalRef>;
+  @ViewChild(DsfrModalComponent)
+  idleModal!: DsfrModalComponent;
   public timerCount = 0;
 
   private subscription = new Subscription();
@@ -23,9 +23,8 @@ export class IdleManagerComponent implements OnInit {
   public timeIsUp = false;
 
   constructor(
-    private readonly modalService: NgbModal,
     private readonly userIdleService: UserIdleService,
-    private readonly authService: UsagerAuthService,
+    private readonly authService: UsagerAuthService
   ) {}
 
   ngOnInit(): void {
@@ -40,7 +39,7 @@ export class IdleManagerComponent implements OnInit {
             this.stopWatching();
           }
         },
-      }),
+      })
     );
   }
 
@@ -90,14 +89,10 @@ export class IdleManagerComponent implements OnInit {
 
   public openIdleModal(): void {
     this.closeModals();
-    this.modalService.open(this.idleModal, {
-      centered: true,
-      backdrop: "static",
-      ariaLabelledBy: "modal-title",
-    });
+    this.idleModal.open();
   }
 
   public closeModals(): void {
-    this.modalService.dismissAll();
+    this.idleModal.close();
   }
 }

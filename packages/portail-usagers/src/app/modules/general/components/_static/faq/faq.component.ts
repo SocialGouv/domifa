@@ -8,7 +8,6 @@ import { DsfrMenu, DsfrSidemenuModule } from "@edugouvfr/ngx-dsfr";
   standalone: true,
   imports: [RouterModule, CommonModule, DsfrSidemenuModule],
   templateUrl: "./faq.component.html",
-  styleUrl: "./faq.component.css",
 })
 export class FaqComponent {
   public sideMenu: DsfrMenu = {

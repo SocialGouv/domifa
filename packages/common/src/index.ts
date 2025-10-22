@@ -16,3 +16,4 @@ export * from "./usager";
 export * from "./usager-doc";
 export * from "./usager-options";
 export * from "./users";
+export * from "./news";

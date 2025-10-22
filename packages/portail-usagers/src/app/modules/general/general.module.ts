@@ -1,5 +1,4 @@
 import { SharedModule } from "src/app/modules/shared/shared.module";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { CommonModule } from "@angular/common";
 import {
   provideHttpClient,
@@ -10,8 +9,6 @@ import {
   CUSTOM_ELEMENTS_SCHEMA,
   NO_ERRORS_SCHEMA,
 } from "@angular/core";
-
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { NotFoundComponent } from "./components/not-found/not-found.component";
 
@@ -48,11 +45,8 @@ import { NewsContentComponent } from "../shared/components/news-content/news-con
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   imports: [
     CommonModule,
-    FontAwesomeModule,
-    NgbModule,
     RouterModule.forChild([]),
     SharedModule,
-    NgbModule,
     FormsModule,
     DsfrSidemenuModule,
     DsfrDataTableModule,

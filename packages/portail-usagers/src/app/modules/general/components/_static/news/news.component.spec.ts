@@ -1,4 +1,3 @@
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { NewsComponent } from "./news.component";
 import { SharedModule } from "../../../../shared/shared.module";
@@ -12,7 +11,7 @@ describe("NewsComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [NewsComponent],
-      imports: [RouterModule.forRoot([]), NgbModule, SharedModule],
+      imports: [RouterModule.forRoot([]), SharedModule],
       providers: [provideHttpClient()],
     }).compileComponents();
   }));
