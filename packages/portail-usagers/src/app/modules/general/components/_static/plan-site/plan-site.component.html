@@ -19,7 +19,11 @@
           <h2 class="my-3">Nos partenaires</h2>
           <ul>
             <li *ngFor="let link of partnerLinks">
-              <a class="fr-link" [href]="link.path" target="_blank"
+              <a
+                rel="noopener noreferrer"
+                class="fr-link"
+                [href]="link.path"
+                target="_blank"
                 >{{ link.label }}
               </a>
             </li>
