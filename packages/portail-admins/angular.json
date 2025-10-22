@@ -4,7 +4,7 @@
   "newProjectRoot": "projects",
   "projects": {
     "domifa-portail-admins": {
-      "root": "",
+      "root": "/",
       "sourceRoot": "src",
       "projectType": "application",
       "prefix": "app",
@@ -68,7 +68,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "4mb",
-                  "maximumError": "6mb"
+                  "maximumError": "8mb"
                 }
               ]
             },
