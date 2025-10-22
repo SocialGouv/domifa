@@ -1,3 +1,51 @@
+# [2.224.0](https://github.com/SocialGouv/domifa/compare/v2.223.3...v2.224.0) (2025-10-22)
+
+
+### Bug Fixes
+
+* **admin-usagers:** fixing reviews for main branch ([437860a](https://github.com/SocialGouv/domifa/commit/437860a6bfc4c0ac10f26c5c7266e71043d0620d))
+* **portails-admins:** quick fix lien nos partenaire ([acfd6a5](https://github.com/SocialGouv/domifa/commit/acfd6a5ddef4c01d3f6fd330e5b868fd17302574))
+* **usager:** temprary topping usagers budget ([eff1e2b](https://github.com/SocialGouv/domifa/commit/eff1e2b88d5b20c66ddda69063a15177d0760006))
+* **usagers:** adding display in footer ([6fc636b](https://github.com/SocialGouv/domifa/commit/6fc636b982931fe6baa81e853eba3b964ecbd40f))
+* **usagers:** fix reviews ([ba4610d](https://github.com/SocialGouv/domifa/commit/ba4610dc020491eae182499170ac9a27d61c110e))
+* **usagers:** fix reviews ([c902486](https://github.com/SocialGouv/domifa/commit/c90248635ddccc3ec9dcd62ec365205d11c337f3))
+* **usagers:** fix reviews ([aca2c4c](https://github.com/SocialGouv/domifa/commit/aca2c4caf500c97af56327fa7842f97ef4886bd2))
+* **usagers:** fix reviews + cleaning code ([eda1341](https://github.com/SocialGouv/domifa/commit/eda1341349c0bdb5be40a8682c72276d9f6b7855))
+* **usagers:** fix revu reviews ([9dbdef3](https://github.com/SocialGouv/domifa/commit/9dbdef3961ff68383bcdfb31a5341c86c8c9f413))
+* **usagers:** fix unit tests ([13616fb](https://github.com/SocialGouv/domifa/commit/13616fbe2dfd65baa9b381ee9e869f4c03d85084))
+* **usagers:** fixing revu review ([54e2203](https://github.com/SocialGouv/domifa/commit/54e22030d10f7d190104e12e73e5ef11439f3d5e))
+* **usagers:** form validation with dsfr ([b8a3015](https://github.com/SocialGouv/domifa/commit/b8a30159f3c75dff7dcb46cab2a0e6a524ca62c9))
+* **usagers:** import bootstrap scss et reorganisation ordre section ([ed36eec](https://github.com/SocialGouv/domifa/commit/ed36eecaa0eb7f08089aa775c6dcb00a7729f317))
+* **usagers:** jet de fix final ([d63c65b](https://github.com/SocialGouv/domifa/commit/d63c65b86bea01c25ba9adaed6756821915a1fce))
+* **usagers:** layout fix and password default behaviour ([99d1048](https://github.com/SocialGouv/domifa/commit/99d104845c949e98572808758e4dbeee5677c5a2))
+* **usagers:** modify error message for login & asterisk ([b41c505](https://github.com/SocialGouv/domifa/commit/b41c505741ede95d9943876b35ab6157a999ae93))
+* **usagers:** refactoring icons ([ef5579a](https://github.com/SocialGouv/domifa/commit/ef5579ab5acc25e2a7318c9ea201850261d577d5))
+* **usagers:** replacing H3 with H2 titles ([cf5f9c1](https://github.com/SocialGouv/domifa/commit/cf5f9c173353bf21e2cc5da4706db9cf2d34607e))
+* **usagers:** retours recette graphique portail usagers ([#3977](https://github.com/SocialGouv/domifa/issues/3977)) ([7091c29](https://github.com/SocialGouv/domifa/commit/7091c29fefb0322ee9cd1b42de845c909b376508))
+* **usagers/common:** optimizing code and fixing reviews ([9f630df](https://github.com/SocialGouv/domifa/commit/9f630dfdc81f6cd3cb4f11cdd086b709f1ee29b4))
+* **yarn:** fix yarn.lock ([781d6d5](https://github.com/SocialGouv/domifa/commit/781d6d57e3af0deeccaa94599f8ba04796600f21))
+
+
+### Features
+
+* **admin-usagers:** add skip links to admin and usagers ([#3920](https://github.com/SocialGouv/domifa/issues/3920)) ([9326e5b](https://github.com/SocialGouv/domifa/commit/9326e5b5ea9a445e8142d39fc46b001b9a566119))
+* **mon-domifa:** init dsfr ([1bab55b](https://github.com/SocialGouv/domifa/commit/1bab55bbfb26cebcacef5c4f190d9716c4ba243f))
+* **mon-domifa:** integration login ([73ba378](https://github.com/SocialGouv/domifa/commit/73ba3781832d681849bde0f8eec27dadebc93e06))
+* **usagers:** adding home banner + using button for logout ([6e88e70](https://github.com/SocialGouv/domifa/commit/6e88e707a3e45fdd2d1a9071743fede4598d7a12))
+* **usagers:** filling empty info placeholders ([ce971c4](https://github.com/SocialGouv/domifa/commit/ce971c4e598f2ca7b1e1058faf30d003d26b67da))
+* **usagers:** finalisation de la maquette ([cf03f10](https://github.com/SocialGouv/domifa/commit/cf03f102e0a747101a45b61b1fb06217c8fbc0d0))
+* **usagers:** integrating news page ([4e4909c](https://github.com/SocialGouv/domifa/commit/4e4909c3697ad7c04115d7211ffd455fc38fa3c0))
+* **usagers:** intégration des procurations et transferts ([f3ba318](https://github.com/SocialGouv/domifa/commit/f3ba318390da5f2d4e61929b6fa7a4db3440d0a3))
+* **usagers:** intégration FAQ ([e2b7b91](https://github.com/SocialGouv/domifa/commit/e2b7b91f832688453a79baaa37aae44e309482f3))
+* **usagers:** integration fragment info temporaires ([5006f65](https://github.com/SocialGouv/domifa/commit/5006f65157304fe695260124a3311ecefccd3d3b))
+* **usagers:** integration header mon domifa ([#3923](https://github.com/SocialGouv/domifa/issues/3923)) ([14c3473](https://github.com/SocialGouv/domifa/commit/14c3473ef9147f397abff778e779364abbebc492))
+* **usagers:** intégration historique courriers ([4897879](https://github.com/SocialGouv/domifa/commit/4897879b78285cb437f21a5c092a30ed3a269c8c))
+* **usagers:** intégration infos domiciliation ([32324c5](https://github.com/SocialGouv/domifa/commit/32324c5b4700f27fb0c87c32ee3ef754c18198fa))
+* **usagers:** intégration login + minimum logique ([56b0f5d](https://github.com/SocialGouv/domifa/commit/56b0f5d142cf7788b696213d49596acc622c929d))
+* **usagers:** integration modal dsfr ([279b1b0](https://github.com/SocialGouv/domifa/commit/279b1b01dc43eb8e49e9ee6c5d802d338d52aa00))
+* **usagers:** intégration page faq ([1d9616e](https://github.com/SocialGouv/domifa/commit/1d9616e5e839e99f4c9ac0f7159aafde8e141828))
+* **usagers:** intégration toast dsfr ([71b1d1b](https://github.com/SocialGouv/domifa/commit/71b1d1bce231b85b25c0679a24b34c7ec629d4f1))
+
 ## [2.223.3](https://github.com/SocialGouv/domifa/compare/v2.223.2...v2.223.3) (2025-10-21)
 
 
