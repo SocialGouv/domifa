@@ -20,10 +20,11 @@ import {
 import {
   StructureDecisionRefusMotif,
   MOTIFS_SUPPRESSION_STRUCTURE_LABELS,
+  StructureCommon,
 } from "@domifa/common";
 import { Subscription } from "rxjs";
 import { AdminStructuresApiClient } from "../../../shared/services";
-import { StructureAdmin } from "../../types";
+import { ApiStructureAdmin, StructureAdmin } from "../../types";
 import { CommonModule } from "@angular/common";
 import {
   DsfrModalModule,
@@ -31,6 +32,7 @@ import {
   DsfrButtonsGroupModule,
   DsfrModalComponent,
 } from "@edugouvfr/ngx-dsfr";
+import { structuresCache } from "../../../shared/store";
 
 @Component({
   selector: "app-structure-form-delete",
@@ -47,7 +49,11 @@ import {
 export class StructureFormDeleteComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
-  @Input() public structure!: StructureAdmin | null; // Modifié pour accepter null
+  @Input() public structure!:
+    | StructureAdmin
+    | StructureCommon
+    | ApiStructureAdmin
+    | null;
   @Output() public readonly closeModals = new EventEmitter<void>();
   @Output() public readonly deleteSuccess = new EventEmitter<void>();
 
@@ -173,6 +179,13 @@ export class StructureFormDeleteComponent
             this.loading = false;
             this.deleteSuccess.emit();
             this.closeModal();
+            const deletedStructure = structuresCache.getStructureById(
+              this.structure.id
+            );
+            structuresCache.updateStructure({
+              ...deletedStructure,
+              statut: "SUPPRIME",
+            });
           },
           error: (error) => {
             this.loading = false;

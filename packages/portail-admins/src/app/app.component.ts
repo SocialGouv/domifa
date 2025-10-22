@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs";
@@ -8,7 +8,7 @@ import { LIENS_PARTENAIRES } from "./modules/general/components/static-pages/pla
 import { PortailAdminUser } from "@domifa/common";
 import { faChartBar } from "@fortawesome/free-regular-svg-icons";
 import { faList, faUsers } from "@fortawesome/free-solid-svg-icons";
-import { DsfrLink } from "@edugouvfr/ngx-dsfr";
+import { DsfrHeaderMenuItem, DsfrLink } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-root",
@@ -23,6 +23,9 @@ export class AppComponent implements OnInit {
   public faList = faList;
   public currentUrl = "";
   public skipLinks: DsfrLink[] = [];
+  public headerToolsLinks: DsfrLink[] = [];
+  public menuHeaderItems: DsfrHeaderMenuItem[] = [];
+  @ViewChild("notice") public noticeRef!: ElementRef;
   constructor(
     private readonly router: Router,
     private readonly titleService: Title,
@@ -38,6 +41,36 @@ export class AppComponent implements OnInit {
     this.adminAuthService.currentAdminSubject.subscribe(
       (admin: PortailAdminUser | null) => {
         this.adminProfile = admin;
+        if (admin?.role === "super-admin-domifa") {
+          // left logout button
+          this.headerToolsLinks = [
+            {
+              ariaControls: "logoutModal",
+              linkId: "logout",
+              mode: "button",
+              label: "Se déconnecter",
+              icon: "fr-icon-logout-box-r-line",
+            },
+          ];
+          // subheader menun
+          this.menuHeaderItems = [
+            {
+              linkId: "dashboard",
+              label: "Tableau de bord",
+              routerLink: "/structure",
+            },
+            {
+              linkId: "manage-users",
+              label: "Utilisateurs de l'administration",
+              routerLink: "/manage-users",
+            },
+            {
+              linkId: "stats",
+              label: "Statistiques de la domiciliation",
+              routerLink: "/stats",
+            },
+          ];
+        }
       }
     );
 
@@ -53,7 +86,7 @@ export class AppComponent implements OnInit {
             link: `${this.currentUrl}#navigation`,
           },
           { label: "Aller au contenu", link: `${this.currentUrl}#page` },
-          ...(this.currentUrl === "/structures" // pour avoir le bon ordre des liens
+          ...(this.currentUrl === "/structure" // pour avoir le bon ordre des liens
             ? [
                 {
                   label: "Aller à la recherche",
@@ -92,7 +125,13 @@ export class AppComponent implements OnInit {
       });
   }
 
-  public logout(): void {
-    this.adminAuthService.logoutFromBackend();
+  public logout($event: DsfrLink): void {
+    if ($event.linkId === "logout") {
+      this.adminAuthService.logoutFromBackend();
+    }
+  }
+
+  public dismissNotice() {
+    this.noticeRef.nativeElement.remove();
   }
 }

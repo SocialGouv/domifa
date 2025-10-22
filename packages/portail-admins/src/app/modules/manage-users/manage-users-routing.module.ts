@@ -1,11 +1,11 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
-import { UserProfilComponent } from "./components/user-profil/user-profil.component";
+import { SupervisorListComponent } from "./components/user-supervisor-list/supervisor-list.component";
 
 const routes: Routes = [
   {
-    component: UserProfilComponent,
+    component: SupervisorListComponent,
     path: "",
   },
 ];

@@ -85,7 +85,7 @@ export class AdminLoginComponent implements OnInit {
           if (redirectToAfterLogin) {
             this.router.navigateByUrl(redirectToAfterLogin);
           } else {
-            this.router.navigate(["/structures"]);
+            this.router.navigate(["/structure"]);
           }
         } else {
           this.router.navigate(["/stats"]);

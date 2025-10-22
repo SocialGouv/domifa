@@ -174,7 +174,7 @@ describe("FonctionSelectionComponent", () => {
 
       // Check for error message
       const errorElement = hostFixture.debugElement.query(
-        By.css(".invalid-feedback")
+        By.css(".fr-message--error")
       );
       expect(errorElement).toBeTruthy();
       expect(errorElement.nativeElement.textContent.trim()).toBe(

@@ -13,6 +13,7 @@ import { SortValues } from "@domifa/common";
   selector: "app-table-head-sort-icon",
   templateUrl: "./table-head-sort-icon.component.html",
   imports: [NgIf, FontAwesomeModule],
+  styles: ["button, span,  { color: var(--bs-body-color)}"],
 })
 export class TableHeadSortIconComponent {
   public readonly faArrowDown = faArrowDown;

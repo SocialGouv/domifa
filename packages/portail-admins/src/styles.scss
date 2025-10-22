@@ -1,34 +1,65 @@
-@use "assets/css/main.scss";
-$primary: #4164f5;
-$bs-primary: #4164f5;
-$secondary: #50e3c2;
-$bs-secondary: #50e3c2;
+@layer bootstrap, dsfr, dsfr-personnalization;
+@import "node_modules/bootstrap/scss/bootstrap.scss" layer(bootstrap);
+@import "@gouvfr/dsfr/dist/dsfr.min.css" layer(dsfr);
+@import "@gouvfr/dsfr/dist/utility/utility.min.css" layer(dsfr);
 
-// scss-docs-start color-variables
-$blue: #4164f5 !default;
-$indigo: #6610f2 !default;
-$purple: #6f42c1 !default;
-$pink: #d63384 !default;
-$red: #e2081e !default;
-$orange: #c25700 !default;
-$yellow: #ffc107 !default;
-$green: #198754 !default;
-$teal: #20c997 !default;
-$cyan: #0dcaf0 !default;
+@layer bootstrap {
+  @import "./assets/css/bootstrap-custom.scss";
 
-// scss-docs-start input-btn-variables
-$input-btn-padding-y: 0.55rem !default;
-$input-btn-padding-x: 0.8rem !default;
+  $primary: #4164f5;
+  $bs-primary: #4164f5;
+  $secondary: #50e3c2;
+  $bs-secondary: #50e3c2;
 
-// scss-docs-start table-variables
-$table-cell-padding-y: 0.8rem !default;
-$table-cell-padding-x: 0.6rem !default;
+  // scss-docs-start color-variables
+  $blue: #4164f5 !default;
+  $indigo: #6610f2 !default;
+  $purple: #6f42c1 !default;
+  $pink: #d63384 !default;
+  $red: #e2081e !default;
+  $orange: #c25700 !default;
+  $yellow: #ffc107 !default;
+  $green: #198754 !default;
+  $teal: #20c997 !default;
+  $cyan: #0dcaf0 !default;
 
-$font-family-sans-serif: "Marianne", -apple-system, BlinkMacSystemFont,
-  "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans",
-  sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-  "Noto Color Emoji";
-$font-family-monospace: "Marianne", SFMono-Regular, Menlo, Monaco, Consolas,
-  "Liberation Mono", "Courier New", monospace;
+  // scss-docs-start input-btn-variables
+  $input-btn-padding-y: 0.55rem !default;
+  $input-btn-padding-x: 0.8rem !default;
 
-@import "bootstrap/scss/bootstrap";
+  // scss-docs-start table-variables
+  $table-cell-padding-y: 0.8rem !default;
+  $table-cell-padding-x: 0.6rem !default;
+
+  $font-family-sans-serif: "Marianne", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans",
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+  $font-family-monospace: "Marianne", SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+@layer dsfr-personnalization {
+  .fr-callout--empty {
+    background-color: var(--background-default-grey-hover);
+    background-image: linear-gradient(
+      0deg,
+      var(--text-mention-grey),
+      var(--text-mention-grey)
+    );
+  }
+
+  .fr-modal__title {
+    margin-bottom: 1rem;
+  }
+
+  a.fr-link:has(img),
+  a.fr-link:has(img):visited,
+  a.fr-link:has(img):hover {
+    background-image: none;
+    border: none;
+  }
+  thead {
+    height: 4rem;
+  }
+}

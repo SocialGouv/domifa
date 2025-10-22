@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 import { SharedModule } from "../shared/shared.module";
-import { UserProfilComponent } from "./components/user-profil/user-profil.component";
+import { SupervisorListComponent } from "./components/user-supervisor-list/supervisor-list.component";
 import { UsersModule } from "../users/users.module";
 import { RegisterUserSupervisorComponent } from "./components/register-user-supervisor/register-user-supervisor.component";
 import { ManageUsersRoutingModule } from "./manage-users-routing.module";
@@ -17,7 +17,7 @@ import {
 
 @NgModule({
   declarations: [
-    UserProfilComponent,
+    SupervisorListComponent,
     RegisterUserSupervisorComponent,
     DeleteUserComponent,
   ],
