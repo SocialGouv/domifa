@@ -5,12 +5,18 @@ import {
   OnDestroy,
   Output,
 } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
+} from "@angular/forms";
 import {
   StructureDecisionRefusMotif,
   MOTIFS_SUPPRESSION_STRUCTURE_LABELS,
 } from "@domifa/common";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import { AdminStructuresApiClient } from "../../../shared/services";
 import { StructureAdmin } from "../../types";
@@ -29,6 +35,9 @@ export class StructureFormDeleteComponent implements OnDestroy {
 
   private readonly subscription = new Subscription();
 
+  get f(): { [key: string]: AbstractControl } {
+    return this.deleteForm.controls;
+  }
   public readonly MOTIFS_SUPPRESSION_STRUCTURE_LABELS =
     MOTIFS_SUPPRESSION_STRUCTURE_LABELS;
   public motifs = Object.entries(MOTIFS_SUPPRESSION_STRUCTURE_LABELS).map(
@@ -40,7 +49,6 @@ export class StructureFormDeleteComponent implements OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    public activeModal: NgbActiveModal,
     private readonly adminStructuresApiClient: AdminStructuresApiClient
   ) {
     this.initForm();
@@ -49,9 +57,20 @@ export class StructureFormDeleteComponent implements OnDestroy {
   initForm(): void {
     this.deleteForm = this.fb.group({
       motif: ["", Validators.required],
+      structureName: ["", [Validators.required, this.structureNameValidator()]],
     });
   }
 
+  structureNameValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) {
+        return null;
+      }
+
+      const isValid = control.value === this.structure?.nom;
+      return isValid ? null : { structureNameMismatch: true };
+    };
+  }
   get r() {
     return this.deleteForm.controls;
   }
@@ -80,7 +99,6 @@ export class StructureFormDeleteComponent implements OnDestroy {
   }
 
   close(): void {
-    this.activeModal.dismiss();
     this.closeModals.emit();
   }
 

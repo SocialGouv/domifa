@@ -209,26 +209,31 @@ export class AdminStructuresController {
         });
       }
 
-      if (
-        updateStatusDto.statut === "REFUS" &&
-        !Object.values(StructureDecisionRefusMotif).includes(
-          updateStatusDto.statutDetail as StructureDecisionRefusMotif
-        )
-      ) {
-        return res.status(HttpStatus.BAD_REQUEST).json({
-          message: "INVALID_STRUCTURE_STATUT",
-        });
-      }
+      const statutConfig = {
+        REFUS: {
+          motifEnum: StructureDecisionRefusMotif,
+          logAction: "ADMIN_STRUCTURE_REFUSE",
+        },
+        SUPPRIME: {
+          motifEnum: StructureDecisionSuppressionMotif,
+          logAction: "ADMIN_STRUCTURE_DELETE",
+        },
+        VALIDE: {
+          logAction: "ADMIN_STRUCTURE_VALIDATE",
+        },
+      };
+      const config = statutConfig[updateStatusDto.statut];
 
-      if (
-        updateStatusDto.statut === "SUPPRIME" &&
-        !Object.values(StructureDecisionSuppressionMotif).includes(
-          updateStatusDto.statutDetail as StructureDecisionSuppressionMotif
-        )
-      ) {
-        return res.status(HttpStatus.BAD_REQUEST).json({
-          message: "INVALID_STRUCTURE_STATUT",
-        });
+      if (config?.motifEnum && updateStatusDto.statutDetail) {
+        const isValidMotif = Object.values(config.motifEnum).includes(
+          updateStatusDto.statutDetail as any
+        );
+
+        if (!isValidMotif) {
+          return res.status(HttpStatus.BAD_REQUEST).json({
+            message: "INVALID_STRUCTURE_STATUT",
+          });
+        }
       }
 
       await structureRepository.update(
@@ -243,19 +248,34 @@ export class AdminStructuresController {
           },
         }
       );
+      if (updateStatusDto.statut === "VALIDE") {
+        const admin = await userStructureRepository.findOneBy({
+          role: "admin",
+          structureId: structure.id,
+        });
 
-      await this.appLogsService.create({
-        userId: user.id,
-        structureId,
-        action:
-          updateStatusDto.statut === "REFUS"
-            ? "ADMIN_STRUCTURE_REFUSAL"
-            : "ADMIN_STRUCTURE_DELETE",
-        context: {
-          statut: updateStatusDto.statut,
-          statutDetail: updateStatusDto.statutDetail,
-        },
-      });
+        await userStructureRepository.update(
+          {
+            id: admin.id,
+            structureId: structure.id,
+          },
+          { verified: true }
+        );
+
+        const updatedAdmin = await userStructureRepository.findOneBy({
+          id: admin.id,
+          structureId: structure.id,
+        });
+
+        await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
+      }
+
+      if (config?.logAction) {
+        await this.appLogsService.create({
+          userId: user.id,
+          action: config.logAction,
+        });
+      }
 
       return res.status(HttpStatus.OK).json({
         structure: {

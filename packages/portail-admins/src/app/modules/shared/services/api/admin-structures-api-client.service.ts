@@ -69,7 +69,7 @@ export class AdminStructuresApiClient {
   public setDecisionStructure(
     structureId: number,
     statut: StructureDecisionStatut,
-    statutDetail:
+    statutDetail?:
       | StructureDecisionRefusMotif
       | StructureDecisionSuppressionMotif
   ): Observable<Structure> {

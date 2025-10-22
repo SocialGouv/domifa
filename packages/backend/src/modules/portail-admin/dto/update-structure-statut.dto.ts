@@ -10,7 +10,7 @@ export class UpdateStructureDecisionStatutDto {
   @ApiProperty({
     description: "Nouveau statut de la structure",
   })
-  @IsEnum(["VALIDE", "REFUS", "SUPPRIME", "EN_ATTENTE"])
+  @IsEnum(["VALIDE", "REFUS", "SUPPRIME"])
   statut: StructureDecisionStatut;
 
   @ApiProperty({
