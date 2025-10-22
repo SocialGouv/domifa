@@ -14,7 +14,6 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 export class HistoriqueCourriersComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();
   public interactions: Interaction[] = [];
-
   public readonly faChevronLeft = faChevronLeft;
   public loading = false;
 
