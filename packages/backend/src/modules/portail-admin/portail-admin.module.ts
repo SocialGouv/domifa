@@ -4,7 +4,6 @@ import { AuthModule } from "../../auth/auth.module";
 
 import { AppLogsService } from "../app-logs/app-logs.service";
 import { AdminStructuresController } from "./controllers/admin-structures/admin-structures.controller";
-import { AdminStructuresDeleteController } from "./controllers/admin-structures-delete/admin-structures-delete.controller";
 import { PortailAdminLoginController } from "./controllers/portail-admin-login/portail-admin-login.controller";
 import { AdminStructuresService } from "./services";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
@@ -15,7 +14,6 @@ import { AdminSuperivorUsersService } from "./services/admin-superivor-users/adm
 @Module({
   controllers: [
     AdminStructuresController,
-    AdminStructuresDeleteController,
     PortailAdminLoginController,
     NationalStatsController,
     AdminUsersController,

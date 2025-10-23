@@ -21,7 +21,6 @@ export type StructureAdmin = Pick<
   | "adresseCourrier"
   | "sms"
   | "portailUsager"
-  | "token"
   | "statut"
   | "import"
   | "timeZone"
