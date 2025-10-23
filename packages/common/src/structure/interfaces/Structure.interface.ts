@@ -38,22 +38,15 @@ export interface Structure extends AppEntity {
   importDate: Date;
   lastLogin: Date;
   acceptTerms: Date | null;
-
   responsable: StructureResponsable;
-
   organismeType: StructureOrganismeType | null;
   hardReset: {
     token: string;
     expireAt?: Date;
   };
 
-  tokenDelete: string;
-
   adresseCourrier: StructureAddresseCourrier;
-
   options: StructureOptions;
-
-  token: string;
   timeZone: TimeZone;
   sms: StructureSmsParams;
   portailUsager: StructurePortailUsagerParams;

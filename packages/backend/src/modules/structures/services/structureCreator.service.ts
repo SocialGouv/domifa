@@ -10,14 +10,11 @@ import { getAddress } from "./location.service";
 import {
   DEPARTEMENTS_MAP,
   Structure,
-  StructureCommon,
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
 } from "@domifa/common";
 import { appLogger } from "../../../util";
 import { generateSender } from "../../sms/services/generators";
-import { newStructureEmailSender } from "../../mails/services/templates-renderers";
-import { randomBytes } from "crypto";
 import { userStructureCreator } from "../../users/services";
 import { UserDto } from "../../users/dto";
 import { openDataCitiesRepository } from "../../../database/services/open-data/open-data-cities-repository";
@@ -25,7 +22,6 @@ import { openDataCitiesRepository } from "../../../database/services/open-data/o
 export const structureCreatorService = {
   checkStructureCreateArgs,
   createStructureWithAdminUser,
-  checkCreationToken,
 };
 
 function checkStructureCreateArgs(structureDto: StructureDto): StructureDto {
@@ -70,36 +66,7 @@ async function createStructureWithAdminUser(
 
   delete user.password;
 
-  await newStructureEmailSender.sendMail({ structure, user });
-
   return { structureId: structure.id, userId: user.id };
-}
-
-async function checkCreationToken({
-  uuid,
-  token,
-}: {
-  uuid: string;
-  token: string;
-}): Promise<StructureCommon | null> {
-  try {
-    const structure = await structureRepository.findOneByOrFail({
-      uuid,
-      token,
-    });
-
-    await structureRepository.update(
-      { uuid, token },
-      { token: null, statut: "VALIDE" }
-    );
-
-    return await structureRepository.findOneBy({
-      uuid: structure.uuid,
-    });
-  } catch (e) {
-    appLogger.error(e);
-    return null;
-  }
 }
 
 async function createStructure(structureDto: StructureDto) {
@@ -141,8 +108,6 @@ async function createStructure(structureDto: StructureDto) {
   }
 
   createdStructure.registrationDate = new Date();
-  createdStructure.token = randomBytes(30).toString("hex");
-
   createdStructure.departement = getDepartementFromCodePostal(
     createdStructure.codePostal
   );

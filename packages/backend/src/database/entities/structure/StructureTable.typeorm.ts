@@ -81,9 +81,6 @@ export class StructureTable
     expireAt?: Date;
   };
 
-  @Column({ type: "text", nullable: true })
-  tokenDelete: string;
-
   @Column({ type: "bool", default: false })
   import: boolean;
 
@@ -116,9 +113,6 @@ export class StructureTable
   @Index()
   @Column({ type: "text", nullable: false })
   structureType: StructureType;
-
-  @Column({ type: "text", nullable: true })
-  token: string;
 
   @Column({ type: "text", nullable: false })
   ville: string;

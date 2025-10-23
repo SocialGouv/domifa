@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  Post,
   Body,
   HttpStatus,
   Res,
@@ -40,13 +39,9 @@ import {
   StructureDecisionSuppressionMotif,
 } from "@domifa/common";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
-import {
-  StructureConfirmationDto,
-  UpdateStructureDecisionStatutDto,
-} from "../../dto";
+import { UpdateStructureDecisionStatutDto } from "../../dto";
 import { StructureAdminForList, UserStructureWithSecurity } from "../../types";
 import { userAccountActivatedEmailSender } from "../../../mails/services/templates-renderers";
-import { structureCreatorService } from "../../../structures/services";
 import { format } from "date-fns";
 import { getBackoffTime } from "../../../users/services";
 import { CurrentSupervisor } from "../../../../auth/decorators/current-supervisor.decorator";
@@ -148,48 +143,6 @@ export class AdminStructuresController {
       remainingBackoffMinutes: getBackoffTime(user.eventsHistory),
       ...user,
     }));
-  }
-
-  @Post("confirm-structure-creation")
-  public async confirmStructureCreation(
-    @CurrentSupervisor() _user: UserAdminAuthenticated,
-    @Body() structureConfirmationDto: StructureConfirmationDto,
-    @Res() res: ExpressResponse
-  ): Promise<ExpressResponse> {
-    const structure = await structureCreatorService.checkCreationToken({
-      token: structureConfirmationDto.token,
-      uuid: structureConfirmationDto.uuid,
-    });
-
-    if (!structure) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "STRUCTURE_TOKEN_INVALID" });
-    }
-
-    const admin = await userStructureRepository.findOneBy({
-      role: "admin",
-      structureId: structure.id,
-    });
-
-    await userStructureRepository.update(
-      {
-        id: admin.id,
-        structureId: structure.id,
-      },
-      { verified: true }
-    );
-
-    const updatedAdmin = await userStructureRepository.findOneBy({
-      id: admin.id,
-      structureId: structure.id,
-    });
-    await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
-    await this.appLogsService.create({
-      userId: _user.id,
-      action: "ADMIN_STRUCTURE_VALIDATE",
-    });
-    return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
   @Patch("structure-decision/:structureId")
