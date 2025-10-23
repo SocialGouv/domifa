@@ -20,8 +20,7 @@ import {
   tap,
 } from "rxjs";
 import { AdminStructuresApiClient } from "../../../shared/services";
-import { structuresListModelBuilder, structuresSorter } from "./services";
-import { structuresFilter } from "./services/structuresFilter.service";
+
 import { ApiStructureAdmin, StructureAdmin } from "../../types";
 import { fadeInOut } from "../../../shared/constants";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
@@ -34,6 +33,11 @@ import {
   SortValues,
   StructureType,
 } from "@domifa/common";
+import {
+  structuresListModelBuilder,
+  structuresFilter,
+  structuresSorter,
+} from "../../utils";
 
 export type FilterOutput = {
   element: keyof StructureFilterCriteria;

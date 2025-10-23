@@ -60,14 +60,14 @@ const routes: Routes = [
         (m) => m.ManageUsersModule
       ),
   },
-  {
-    path: "structures-confirm",
-    canActivate: [AuthGuard],
-    loadChildren: () =>
-      import(
-        "./modules/admin-structures-confirm/admin-structures-confirm.module"
-      ).then((m) => m.AdminStructuresConfirmModule),
-  },
+  // {
+  // path: "structures-confirm",
+  // canActivate: [AuthGuard],
+  // loadChildren: () =>
+  // import(
+  // "./modules/admin-structures-confirm/admin-structures-confirm.module"
+  // ).then((m) => m.AdminStructureConfirmModule),
+  // },
   {
     path: "",
     canActivate: [RoleRedirectGuard],

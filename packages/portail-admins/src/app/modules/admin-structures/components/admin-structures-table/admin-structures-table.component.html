@@ -44,6 +44,21 @@
         <th
           scope="col"
           (click)="sort.emit({
+            element: 'sortKey',
+            value: 'statut',
+          })"
+        >
+          <app-table-head-sort
+            sortKey="statut"
+            [sortValue]="filters.sortValue"
+            [currentKey]="filters.sortKey"
+            columnName="Statut"
+          >
+          </app-table-head-sort>
+        </th>
+        <th
+          scope="col"
+          (click)="sort.emit({
           element: 'sortKey',
           value: 'structureTypeLabel',
         })"
@@ -175,7 +190,6 @@
           >
           </app-table-head-sort>
         </th>
-        <!-- <th scope="col" >Email</th> -->
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -190,11 +204,31 @@
           {{
             structure.structureType === "ccas" ? " - " + structure.ville : ""
           }}
+        </td>
+        <td>
           <span
-            *ngIf="structure.verified === false"
+            *ngIf="structure.statut === 'VALIDE'"
+            class="badge bg-success text-dark"
+          >
+            Active
+          </span>
+          <span
+            *ngIf="structure.statut === 'EN_ATTENTE'"
             class="badge bg-warning text-dark"
           >
             Non validée
+          </span>
+          <span
+            *ngIf="structure.statut === 'REFUS'"
+            class="badge bg-danger text-dark"
+          >
+            Refusée
+          </span>
+          <span
+            *ngIf="structure.statut === 'SUPPRIME'"
+            class="badge bg-danger text-dark"
+          >
+            Supprimée
           </span>
         </td>
         <td>
@@ -251,20 +285,19 @@
             <div ngbDropdownMenu>
               <button
                 type="button"
-                *ngIf="!structure.verified"
+                *ngIf="structure.statut === 'EN_ATTENTE'"
                 class="cursor-pointer"
                 ngbDropdownItem
                 (click)="confirmStructure(structure)"
               >
                 <fa-icon aria-hidden="true" [icon]="['fas', 'check']"></fa-icon>
-
                 Valider la structure
               </button>
               <button
                 type="button"
                 class="cursor-pointer"
                 ngbDropdownItem
-                (click)="openModal(structure)"
+                (click)="openAddAdminModal(structure)"
               >
                 <fa-icon
                   aria-hidden="true"
@@ -277,10 +310,19 @@
                 type="button"
                 class="cursor-pointer text-danger"
                 ngbDropdownItem
-                (click)="deleteStructure(structure.uuid)"
+                (click)="openDeleteStructureModal(structure)"
               >
                 <fa-icon [icon]="['fas', 'trash']" aria-hidden="true"></fa-icon>
                 Supprimer la structure
+              </button>
+              <button
+                type="button"
+                class="cursor-pointer text-danger"
+                ngbDropdownItem
+                (click)="openRefuseStructureModal(structure)"
+              >
+                <fa-icon [icon]="['fas', 'times']" aria-hidden="true"></fa-icon>
+                Refuser la structure
               </button>
             </div>
           </div>
@@ -288,115 +330,129 @@
       </tr>
     </tbody>
   </table>
+</div>
 
-  <ng-template #addAdminModal let-modal>
-    <div class="modal-header">
-      <span class="modal-title" id="modal-title">
-        Création d'un utilisateur admin pour la structure :
-        {{ currentStructure?.nom }}
-      </span>
-    </div>
-    <form
-      id="newAdminForm"
-      [formGroup]="newAdminForm"
-      (ngSubmit)="submitNewAdmin()"
-    >
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-6 form-group required">
-            <label for="nom">Nom </label>
-            <input
-              type="text"
-              class="form-control"
-              id="nom"
-              formControlName="nom"
-              name="nom"
-              placeholder="Nom"
-              [ngClass]="{
-                'is-invalid': submitted && f.nom.errors
-              }"
-              required
-            />
-            <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
-              Veuillez vérifier le nom
-            </p>
-          </div>
+<ng-template #deleteModal let-modal>
+  <app-structure-form-delete
+    (closeModals)="cancelForm()"
+    [structure]="currentStructure"
+  ></app-structure-form-delete>
+</ng-template>
 
-          <div class="col-6 form-group required">
-            <label for="prenom">Prénom</label>
-            <input
-              type="text"
-              class="form-control"
-              id="prenom"
-              formControlName="prenom"
-              name="prenom"
-              placeholder="Prénom"
-              [ngClass]="{
-                'is-invalid': submitted && f.prenom.errors
-              }"
-              required
-            />
-            <p *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
-              Veuillez vérifier le prénom
-            </p>
-          </div>
+<ng-template #refuseStructureModal let-modal>
+  <app-structure-form-refuse
+    (closeModals)="cancelForm()"
+    [structure]="currentStructure"
+  ></app-structure-form-refuse
+></ng-template>
 
-          <div class="col-12 form-group required">
-            <label for="email">Email :</label>
-            <input
-              type="text"
-              class="form-control"
-              id="email"
-              formControlName="email"
-              name="email"
-              placeholder="Email"
-              [ngClass]="{
-                'is-invalid': submitted && f.email.errors
-              }"
-              required
-            />
-            <p *ngIf="f.email.errors" class="invalid-feedback">
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'exclamation-triangle']"
-              ></fa-icon>
-              <b>Vérifiez l'adresse email</b>
-            </p>
-          </div>
-          <div class="col-12 form-group required">
-            <app-fonction-selection
-              [parentFormGroup]="newAdminForm"
-              [fonctionDetailFormControl]="fonctionDetailControl"
-              [fonctionFormControl]="fonctionFormControl"
-              [submitted]="submitted"
-              invalidFeedbackText="La fonction de l'administrateur est obligatoire"
-            ></app-fonction-selection>
-          </div>
+<ng-template #addAdminModal let-modal>
+  <div class="modal-header">
+    <span class="modal-title" id="modal-title">
+      Création d'un utilisateur admin pour la structure :
+      {{ currentStructure?.nom }}
+    </span>
+  </div>
+  <form
+    id="newAdminForm"
+    [formGroup]="newAdminForm"
+    (ngSubmit)="submitNewAdmin()"
+  >
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-6 form-group required">
+          <label for="nom">Nom </label>
+          <input
+            type="text"
+            class="form-control"
+            id="nom"
+            formControlName="nom"
+            name="nom"
+            placeholder="Nom"
+            [ngClass]="{
+              'is-invalid': submitted && f.nom.errors
+            }"
+            required
+          />
+          <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+            Veuillez vérifier le nom
+          </p>
+        </div>
+
+        <div class="col-6 form-group required">
+          <label for="prenom">Prénom</label>
+          <input
+            type="text"
+            class="form-control"
+            id="prenom"
+            formControlName="prenom"
+            name="prenom"
+            placeholder="Prénom"
+            [ngClass]="{
+              'is-invalid': submitted && f.prenom.errors
+            }"
+            required
+          />
+          <p *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
+            Veuillez vérifier le prénom
+          </p>
+        </div>
+
+        <div class="col-12 form-group required">
+          <label for="email">Email :</label>
+          <input
+            type="text"
+            class="form-control"
+            id="email"
+            formControlName="email"
+            name="email"
+            placeholder="Email"
+            [ngClass]="{
+              'is-invalid': submitted && f.email.errors
+            }"
+            required
+          />
+          <p *ngIf="f.email.errors" class="invalid-feedback">
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'exclamation-triangle']"
+            ></fa-icon>
+            <b>Vérifiez l'adresse email</b>
+          </p>
+        </div>
+        <div class="col-12 form-group required">
+          <app-fonction-selection
+            [parentFormGroup]="newAdminForm"
+            [fonctionDetailFormControl]="fonctionDetailControl"
+            [fonctionFormControl]="fonctionFormControl"
+            [submitted]="submitted"
+            invalidFeedbackText="La fonction de l'administrateur est obligatoire"
+          ></app-fonction-selection>
         </div>
       </div>
+    </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="cancelForm()">
-          Annuler
-        </button>
-        <button
-          class="btn btn-primary"
-          type="submit"
-          [disabled]="loading"
-          [attr.aria-busy]="loading"
-        >
-          <span *ngIf="loading">
-            <fa-icon
-              [icon]="['fas', 'circle-notch']"
-              aria-hidden="true"
-              animation="spin"
-            >
-            </fa-icon>
-            Veuillez patienter...
-          </span>
-          <span *ngIf="!loading">Ajouter l'utilisateur</span>
-        </button>
-      </div>
-    </form>
-  </ng-template>
-</div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="cancelForm()">
+        Annuler
+      </button>
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
+      >
+        <span *ngIf="loading">
+          <fa-icon
+            [icon]="['fas', 'circle-notch']"
+            aria-hidden="true"
+            animation="spin"
+          >
+          </fa-icon>
+          Veuillez patienter...
+        </span>
+        <span *ngIf="!loading">Ajouter l'utilisateur</span>
+      </button>
+    </div>
+  </form>
+</ng-template>

@@ -1,9 +1,11 @@
 import { type AppEntity } from "../../_core";
 import { type Telephone } from "../../telephone";
 import { type TimeZone } from "../../territoires/types";
+
 import { DomiciliesSegmentEnum, PopulationSegmentEnum } from "../enums";
-import { type StructureType } from "../types";
+import { StructureDecisionStatut, type StructureType } from "../types";
 import { type StructureAddresseCourrier } from "./StructureAddresseCourrier.interface";
+import { StructureDecision } from "./StructureDecision.interface";
 import { type StructureOptions } from "./StructureOptions.interface";
 import { type StructureOrganismeType } from "./StructureOrganismeType.type";
 import { type StructurePortailUsagerParams } from "./StructurePortailUsagerParams.interface";
@@ -36,24 +38,15 @@ export interface Structure extends AppEntity {
   importDate: Date;
   lastLogin: Date;
   acceptTerms: Date | null;
-
   responsable: StructureResponsable;
-
   organismeType: StructureOrganismeType | null;
   hardReset: {
     token: string;
     expireAt?: Date;
   };
 
-  tokenDelete: string;
-
   adresseCourrier: StructureAddresseCourrier;
-
   options: StructureOptions;
-
-  token: string;
-  verified: boolean;
-
   timeZone: TimeZone;
   sms: StructureSmsParams;
   portailUsager: StructurePortailUsagerParams;
@@ -65,4 +58,6 @@ export interface Structure extends AppEntity {
   populationSegment?: PopulationSegmentEnum | null;
   registrationData?: StructureRegistrationData | null;
   siret: string | null;
+  statut: StructureDecisionStatut;
+  decision?: StructureDecision | null;
 }

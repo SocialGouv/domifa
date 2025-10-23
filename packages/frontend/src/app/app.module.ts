@@ -43,6 +43,7 @@ import { StoreModule } from "@ngrx/store";
 import { registerLocaleData } from "@angular/common";
 import localeFr from "@angular/common/locales/fr";
 import { provideUserIdleConfig } from "angular-user-idle";
+import { RefusStructureFormComponent } from "./modules/structure/components/refus-structure-form/refus-structure-form.component";
 
 const disableAnimations =
   !("animate" in document.documentElement) ||
@@ -61,7 +62,7 @@ if (environment.production) {
 registerLocaleData(localeFr, "fr");
 @NgModule({
   bootstrap: [AppComponent],
-  declarations: [AppComponent],
+  declarations: [AppComponent, RefusStructureFormComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   imports: [
     AppRoutingModule,

@@ -26,7 +26,7 @@ export const STRUCTURE_ADMIN_MOCK: StructureAdmin = {
   region: "11",
   email: "ccas.test@yopmail.com",
   nom: "CCAS de Test",
-  verified: true,
+  statut: "VALIDE",
   import: false,
   importDate: null,
   structureTypeLabel: "CCAS",
@@ -85,4 +85,13 @@ export const STRUCTURE_MOCK: StructureCommon = {
     enabledByStructure: false,
   },
   siret: "48018776400034",
+  statut: "VALIDE",
+  decision: {
+    uuid: "xxxxx",
+    dateDecision: new Date(),
+    statut: "VALIDE",
+    motif: null,
+    userId: 1,
+    userName: "User",
+  },
 };

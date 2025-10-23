@@ -13,12 +13,18 @@ import { AdminStructuresTableComponent } from "./components/admin-structures-tab
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 import { SortArrayPipe } from "../shared/pipes/sort-array.pipe";
 import { StructureFiltersComponent } from "./components/structure-filters/structure-filters.component";
+import { StructureConfirmComponent } from "./components/structure-confirm/structure-confirm.component";
+import { StructureFormRefuseComponent } from "./components/structure-form-refuse/structure-form-refuse.component";
+import { StructureFormDeleteComponent } from "./components/structure-form-delete/structure-form-delete.component";
 
 @NgModule({
   declarations: [
     AdminStructuresListComponent,
     AdminStructuresTableComponent,
     StructureFiltersComponent,
+    StructureConfirmComponent,
+    StructureFormRefuseComponent,
+    StructureFormDeleteComponent,
   ],
   imports: [
     CommonModule,
