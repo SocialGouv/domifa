@@ -16,7 +16,6 @@ import {
   CurrentUser,
 } from "../../../auth/decorators";
 import {
-  appLogsRepository,
   messageSmsRepository,
   structureRepository,
   usagerDocsRepository,
@@ -206,10 +205,6 @@ export class StructuresController {
     });
 
     await usagerRepository.delete({
-      structureId: structure.id,
-    });
-
-    await appLogsRepository.delete({
       structureId: structure.id,
     });
 
