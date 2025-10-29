@@ -11,7 +11,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 })
 export class IdleManagerComponent implements OnInit {
   @ViewChild(DsfrModalComponent)
-  idleModal!: DsfrModalComponent;
+  public idleModal!: DsfrModalComponent;
   public timerCount = 0;
 
   private subscription = new Subscription();
@@ -24,7 +24,7 @@ export class IdleManagerComponent implements OnInit {
 
   constructor(
     private readonly userIdleService: UserIdleService,
-    private readonly authService: UsagerAuthService
+    private readonly authService: UsagerAuthService,
   ) {}
 
   ngOnInit(): void {
@@ -39,7 +39,7 @@ export class IdleManagerComponent implements OnInit {
             this.stopWatching();
           }
         },
-      })
+      }),
     );
   }
 

@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { Title } from "@angular/platform-browser";
 import { PortailUsagerProfile, StructureInformation } from "@domifa/common";
 import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { StructureInformationService } from "../../services/structure-information.service";
+import { SeoService } from "../../../shared/services/seo.service";
 
 @Component({
   selector: "app-home-usager",
@@ -17,12 +17,15 @@ export class HomeUsagerComponent implements OnInit {
 
   constructor(
     private readonly usagerAuthService: UsagerAuthService,
-    private readonly titleService: Title,
+    private readonly seoService: SeoService,
     private readonly router: Router,
     private readonly structureInformationService: StructureInformationService,
   ) {
     this.usagerProfile = null;
-    this.titleService.setTitle("Mon DomiFa");
+    this.seoService.updateTitleAndTags(
+      "Mon DomiFa - le portail des domiciliés !",
+      "Consultez votre dossier de domiciliation, vos courriers en attente et les informations de votre structure",
+    );
   }
 
   public ngOnInit(): void {

@@ -11,7 +11,6 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 
 import type { PortailUsagerAuthLoginForm } from "../../../../_common";
@@ -23,6 +22,7 @@ import {
   PortailUsagerProfile,
   PortailUsagerAuthApiResponse,
 } from "@domifa/common";
+import { SeoService } from "../../shared/services/seo.service";
 
 @Component({
   selector: "app-usager-login",
@@ -51,10 +51,10 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly router: Router,
-    private readonly titleService: Title,
+    private readonly seoService: SeoService,
     private readonly authService: UsagerAuthService,
     private readonly usagerAuthService: UsagerAuthService,
-    public matomo: MatomoTracker
+    public matomo: MatomoTracker,
   ) {
     this.hidePassword = true;
     this.hidePasswordNew = true;
@@ -70,7 +70,10 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Connexion à Mon DomiFa");
+    this.seoService.updateTitleAndTags(
+      "Connexion à Mon DomiFa",
+      "Accédez à votre espace personnel pour consulter votre dossier et vos courriers en attente",
+    );
 
     this.subscription.add(
       this.usagerAuthService.currentUsagerSubject.subscribe(
@@ -81,8 +84,8 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
           } else {
             this.initForm();
           }
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -109,7 +112,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
               /[@\[\]^_!"#$%&'()*+,\-./:;{}<>=|~?]/,
               {
                 hasSpecialCharacter: true,
-              }
+              },
             ),
             Validators.minLength(12),
             Validators.maxLength(150),
@@ -134,7 +137,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
             errName: "new-password-confim-does-not-match",
           }),
         ],
-      }
+      },
     );
   }
 
@@ -181,7 +184,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
             "login-portail-usagers",
             "login_success",
             "null",
-            1
+            1,
           );
           if (!apiAuthResponse.acceptTerms) {
             this.router.navigate(["/account/accept-terms"]);
@@ -203,7 +206,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
               "login-portail-usagers",
               "login_success_first_time",
               "null",
-              1
+              1,
             );
           } else {
             this.displayPasswordIndication = false;
@@ -212,11 +215,11 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
               "login-portail-usagers",
               "login_error",
               "null",
-              1
+              1,
             );
           }
         },
-      })
+      }),
     );
   }
 }

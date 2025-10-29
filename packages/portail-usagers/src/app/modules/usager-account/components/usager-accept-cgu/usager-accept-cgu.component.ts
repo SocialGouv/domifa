@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -10,13 +10,14 @@ import { CustomToastService } from "../../../shared/services/custom-toast.servic
 import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
 import { PortailUsagerProfile } from "@domifa/common";
 import { Router } from "@angular/router";
+import { SeoService } from "../../../shared/services/seo.service";
 
 @Component({
   selector: "app-usager-accept-cgu",
   templateUrl: "./usager-accept-cgu.component.html",
   styleUrls: ["./usager-accept-cgu.component.css"],
 })
-export class UsagerAcceptCguComponent {
+export class UsagerAcceptCguComponent implements OnInit {
   public acceptTermsForm!: FormGroup;
 
   public loading: boolean;
@@ -29,6 +30,7 @@ export class UsagerAcceptCguComponent {
     private readonly toastr: CustomToastService,
     private readonly usagerAuthService: UsagerAuthService,
     private readonly router: Router,
+    private readonly seoService: SeoService,
   ) {
     this.loading = false;
     this.submitted = false;
@@ -42,6 +44,13 @@ export class UsagerAcceptCguComponent {
       },
     );
     this.initCguForm();
+  }
+
+  public ngOnInit(): void {
+    this.seoService.updateTitleAndTags(
+      "Acceptation des CGU - Mon DomiFa",
+      "Acceptez les conditions générales d'utilisation pour accéder à votre espace personnel",
+    );
   }
 
   public get f(): { [key: string]: AbstractControl } {
