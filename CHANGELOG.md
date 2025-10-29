@@ -1,3 +1,10 @@
+## [2.224.1](https://github.com/SocialGouv/domifa/compare/v2.224.0...v2.224.1) (2025-10-29)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @angular/cdk to v18.2.14 ([#3984](https://github.com/SocialGouv/domifa/issues/3984)) ([c633126](https://github.com/SocialGouv/domifa/commit/c633126259753a939e4afbb5cfd514024eb015a5))
+
 # [2.224.0](https://github.com/SocialGouv/domifa/compare/v2.223.3...v2.224.0) (2025-10-22)
 
 
