@@ -20,7 +20,6 @@ export type ApiStructureAdmin = Pick<
   | "decision"
   | "import"
   | "importDate"
-  | "token"
   | "lastLogin"
   | "domicilieSegment"
 > &

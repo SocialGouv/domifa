@@ -1,79 +1,104 @@
-<div class="modal-header bg-danger text-white">
-  <span id="modal-title">Supprimer la structure {{ structure.nom }}</span>
-  <button
-    type="button"
-    class="btn-close"
-    aria-label="Close"
-    (click)="close()"
-  ></button>
-</div>
+<dsfr-modal
+  dialogId="deleteStructureModal"
+  [titleModal]="'Supprimer la structure ' + structure?.nom"
+  [concealingBackdrop]="false"
+  (conceal)="closeModal()"
+  size="LG"
+>
+  <div class="fr-modal__content">
+    <form [formGroup]="deleteForm" (ngSubmit)="setDecision()">
+      <div class="fr-alert fr-alert--info fr-mb-3w">
+        <p>Vous êtes sur le point de supprimer la structure suivante :</p>
+        <p class="fr-text--bold">
+          {{ structure?.nom }}<br />
+          {{ structure?.adresse }}, {{ structure?.codePostal }},
+          {{ structure?.ville }}
+        </p>
+      </div>
 
-<form [formGroup]="deleteForm" (ngSubmit)="setDecision()">
-  <div class="modal-body">
-    <p class="">
-      Vous êtes sur le point de supprimer la structure suivante: <br /><br /><b
-        >{{ structure.nom }}<br />
-        {{ structure.adresse }}, {{ structure.codePostal }},
-        {{ structure.ville }}
-        <br
-      /></b>
-    </p>
-    <p class="font-weight-bold">
-      Attention, les données suivantes seront <u>DÉFINITIVEMENT</u> supprimées :
-      <br /><br />
-      - Tous les dossiers : demandes, domiciliés actifs, radiés, etc.<br />
-      - L'historique de toutes les décisions<br />
-      - Tous les fichiers uploadés<br />
-      - Tous les comptes utilisateurs<br />
-      - Toutes les interactions (courriers, appels, etc.)<br />
-    </p>
-    <div class="form-group">
-      <label for="confirmationDelete"
-        >Afin de confirmer la suppression, saisissez le nom de la
-        structure</label
+      <div class="fr-alert fr-alert--error fr-mb-3w">
+        <h3 class="fr-alert__title">
+          Attention, les données suivantes seront DÉFINITIVEMENT supprimées :
+        </h3>
+        <ul>
+          <li>Tous les dossiers : demandes, domiciliés actifs, radiés, etc.</li>
+          <li>L'historique de toutes les décisions</li>
+          <li>Tous les fichiers uploadés</li>
+          <li>Tous les comptes utilisateurs</li>
+          <li>Toutes les interactions (courriers, appels, etc.)</li>
+        </ul>
+      </div>
+
+      <div
+        class="fr-input-group fr-mb-3w"
+        [class.fr-input-group--error]="submitted && f['structureName'].errors"
       >
-      <input
-        type="text"
-        class="form-control"
-        formControlName="structureName"
-        id="confirmationDelete"
-        [ngClass]="{
-          'is-invalid': submitted && f.structureName.errors
-        }"
-        required
-      />
-      <p *ngIf="submitted && f.structureName.errors" class="invalid-feedback">
-        Veuillez saisir le nom exact de la structure
-      </p>
-    </div>
+        <label class="fr-label" for="confirmationDelete">
+          Afin de confirmer la suppression, saisissez le nom de la structure
+          <span class="fr-hint-text"
+            >Obligatoire - Nom exact : {{ structure?.nom }}</span
+          >
+        </label>
+        <input
+          type="text"
+          class="fr-input"
+          [class.fr-input--error]="submitted && f['structureName'].errors"
+          formControlName="structureName"
+          id="confirmationDelete"
+          aria-describedby="confirmationDelete-error"
+        />
+        <p
+          *ngIf="submitted && f['structureName'].errors"
+          id="confirmationDelete-error"
+          class="fr-error-text"
+        >
+          Veuillez saisir le nom exact de la structure
+        </p>
+      </div>
 
-    <div class="mb-3">
-      <label for="motif" class="required form-label">
-        Motif de suppression
-      </label>
-      <select
-        id="motif"
-        required
-        class="required form-select"
-        formControlName="motif"
+      <div
+        class="fr-select-group fr-mb-3w"
+        [class.fr-select-group--error]="submitted && f['motif'].errors"
       >
-        <option value="">Sélectionnez un motif</option>
-        <option *ngFor="let motif of motifs" [value]="motif.key">
-          {{ motif.label }}
-        </option>
-      </select>
-      <p *ngIf="submitted && f.motif.errors" class="invalid-feedback">
-        Veuillez choisir un motif
-      </p>
-    </div>
+        <label class="fr-label" for="motif">
+          Motif de suppression
+          <span class="fr-hint-text">Obligatoire</span>
+        </label>
+        <select
+          id="motif"
+          class="fr-select"
+          [class.fr-select--error]="submitted && f['motif'].errors"
+          formControlName="motif"
+          aria-describedby="motif-error"
+        >
+          <option value="" disabled selected hidden>
+            Sélectionnez un motif
+          </option>
+          <option *ngFor="let motif of motifs" [value]="motif.key">
+            {{ motif.label }}
+          </option>
+        </select>
+        <p
+          *ngIf="submitted && f['motif'].errors"
+          id="motif-error"
+          class="fr-error-text"
+        >
+          Veuillez choisir un motif de suppression
+        </p>
+      </div>
+      <div class="fr-btns-group fr-btns-group--right fr-btns-group--inline-sm">
+        <button
+          type="button"
+          (click)="closeModal()"
+          [disabled]="loading"
+          class="fr-btn fr-btn--secondary fr-btn--lg"
+        >
+          Annuler
+        </button>
+        <button type="submit" [disabled]="loading" class="fr-btn fr-btn--lg">
+          Confirmer la suppression
+        </button>
+      </div>
+    </form>
   </div>
-
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark btn-lg" (click)="close()">
-      Annuler
-    </button>
-    <button type="submit" class="btn btn-danger btn-lg">
-      Confirmer la suppression
-    </button>
-  </div>
-</form>
+</dsfr-modal>

@@ -16,8 +16,8 @@ import {
   StructureRegistrationData,
   StructureOptions,
   StructureDecisionStatut,
+  StructureDecision,
 } from "@domifa/common";
-import { StructureDecision } from "@domifa/common/dist/structure/interfaces/StructureDecision.interface";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "structure" })

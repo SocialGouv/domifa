@@ -1,23 +1,48 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { domifaConfig } from "../config";
+
+import { v4 as uuidv4 } from "uuid";
+import { StructureDecisionStatut } from "@domifa/common";
 
 export class AutoMigration1759327920930 implements MigrationInterface {
   name = "AutoMigration1759327920930";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    if (
-      domifaConfig().envId === "prod" ||
-      domifaConfig().envId === "preprod" ||
-      domifaConfig().envId === "local"
-    ) {
-      await queryRunner.query(`ALTER TABLE "structure" DROP COLUMN "verified"`);
+    await queryRunner.query(
+      `ALTER TABLE "structure" ADD "statut" text NOT NULL DEFAULT 'EN_ATTENTE'`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "structure" ADD "decision" jsonb NOT NULL DEFAULT '{}'::jsonb`
+    );
+
+    const structures = await queryRunner.query(
+      `SELECT id, verified, "createdAt" FROM "structure"`
+    );
+
+    for (const structure of structures) {
+      const statut: StructureDecisionStatut = structure?.verified
+        ? "VALIDE"
+        : "EN_ATTENTE";
+
+      const decision = {
+        uuid: uuidv4(),
+        dateDecision: structure.createdAt,
+        statut: statut,
+        motif: null,
+        motifDetails: null,
+        userId: 1,
+        userName: "Migration DomiFa",
+      };
+
       await queryRunner.query(
-        `ALTER TABLE "structure" ADD "statut" text NOT NULL DEFAULT 'EN_ATTENTE'`
-      );
-      await queryRunner.query(
-        `ALTER TABLE "structure" ADD "decision" jsonb NOT NULL DEFAULT '{}'::jsonb`
+        `UPDATE "structure"
+         SET "statut" = $1,
+             "decision" = $2::jsonb
+         WHERE id = $3`,
+        [statut, JSON.stringify(decision), structure.id]
       );
     }
+
+    await queryRunner.query(`ALTER TABLE "structure" DROP COLUMN "verified"`);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

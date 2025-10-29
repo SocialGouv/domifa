@@ -14,8 +14,11 @@ import { TableHeadSortComponent } from "../shared/components/table-head-sort/tab
 import { SortArrayPipe } from "../shared/pipes/sort-array.pipe";
 import { StructureFiltersComponent } from "./components/structure-filters/structure-filters.component";
 import { StructureConfirmComponent } from "./components/structure-confirm/structure-confirm.component";
-import { StructureFormRefuseComponent } from "./components/structure-form-refuse/structure-form-refuse.component";
+
+import { DsfrDropdownMenuComponent } from "@edugouvfr/ngx-dsfr-ext";
+import { DsfrButtonComponent, DsfrModalModule } from "@edugouvfr/ngx-dsfr";
 import { StructureFormDeleteComponent } from "./components/structure-form-delete/structure-form-delete.component";
+import { StructureFormRefuseComponent } from "./components/structure-form-refuse/structure-form-refuse.component";
 
 @NgModule({
   declarations: [
@@ -23,8 +26,6 @@ import { StructureFormDeleteComponent } from "./components/structure-form-delete
     AdminStructuresTableComponent,
     StructureFiltersComponent,
     StructureConfirmComponent,
-    StructureFormRefuseComponent,
-    StructureFormDeleteComponent,
   ],
   imports: [
     CommonModule,
@@ -36,6 +37,11 @@ import { StructureFormDeleteComponent } from "./components/structure-form-delete
     ReactiveFormsModule,
     TableHeadSortComponent,
     SortArrayPipe,
+    DsfrModalModule,
+    DsfrDropdownMenuComponent,
+    DsfrButtonComponent,
+    StructureFormRefuseComponent,
+    StructureFormDeleteComponent,
   ],
   providers: [StatsService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

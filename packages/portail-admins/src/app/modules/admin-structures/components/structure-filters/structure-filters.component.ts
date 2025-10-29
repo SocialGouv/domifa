@@ -68,4 +68,40 @@ export class StructureFiltersComponent implements OnChanges {
       return acc;
     }, {});
   };
+
+  public onStructureTypeChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    this.updateFilters.emit({
+      element: "structureType",
+      value: target.value,
+      sortValue: this.filters.sortValue,
+    });
+  }
+
+  public onRegionChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    this.updateFilters.emit({
+      element: "region",
+      value: target.value,
+      sortValue: this.filters.sortValue,
+    });
+  }
+
+  public onDepartementChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    this.updateFilters.emit({
+      element: "departement",
+      value: target.value,
+      sortValue: this.filters.sortValue,
+    });
+  }
+
+  public onDomicilieSegmentChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    this.updateFilters.emit({
+      element: "domicilieSegment",
+      value: target.value,
+      sortValue: this.filters.sortValue,
+    });
+  }
 }

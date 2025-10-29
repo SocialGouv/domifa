@@ -43,13 +43,9 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   @ViewChild("addAdminModal", { static: true })
   public addAdminModal!: TemplateRef<NgbModalRef>;
 
-  @ViewChild("deleteModal")
-  public deleteModal!: TemplateRef<NgbModalRef>;
-
-  @ViewChild("refuseStructureModal", { static: true })
-  public refuseStructureModal!: TemplateRef<NgbModalRef>;
-
   public currentStructure: StructureAdmin | undefined = undefined;
+  public structureToDelete: StructureAdmin | undefined = undefined;
+  public structureToRefuse: StructureAdmin | undefined = undefined;
 
   public newAdminForm!: UntypedFormGroup;
 
@@ -98,6 +94,16 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
     return this.newAdminForm.get("fonctionDetail");
   }
 
+  public test(structure: StructureAdmin) {
+    console.log({ structure });
+  }
+  public refuseModal(structure: StructureAdmin) {
+    this.structureToRefuse = structure;
+  }
+  public openDeleteModal(structure: StructureAdmin) {
+    this.structureToDelete = structure;
+  }
+
   public deleteStructure(structureUuid: string): void {
     this.subscription.add(
       this.adminStructuresApiClient
@@ -131,16 +137,6 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
           },
         })
     );
-  }
-
-  public openDeleteStructureModal(structure: StructureAdmin): void {
-    this.currentStructure = structure;
-    this.modalService.open(this.deleteModal);
-  }
-
-  public openRefuseStructureModal(structure: StructureAdmin): void {
-    this.modalService.open(this.refuseStructureModal);
-    this.currentStructure = structure;
   }
 
   public openAddAdminModal(structure: StructureAdmin): void {
@@ -187,6 +183,8 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   public cancelForm(): void {
     this.newAdminForm.reset();
     this.currentStructure = undefined;
+    this.structureToDelete = undefined;
+    this.structureToRefuse = undefined;
     this.submitted = false;
     this.modalService.dismissAll();
   }

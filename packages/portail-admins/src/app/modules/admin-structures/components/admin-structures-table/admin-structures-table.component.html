@@ -1,458 +1,467 @@
-<div class="table-responsive">
-  <table
-    *ngIf="structures"
-    id="structures-table"
-    class="table table-hover"
-    style="overflow-x: visible"
-  >
-    <caption class="visually-hidden">
-      Tableau des structures
-    </caption>
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th
-          scope="col"
-          (click)="sort.emit({
-            element: 'sortKey',
-            value: 'id',
-          })"
-        >
-          <app-table-head-sort
-            sortKey="id"
-            [sortValue]="filters.sortValue"
-            [currentKey]="filters.sortKey"
-            columnName="ID"
-          >
-          </app-table-head-sort>
-        </th>
-        <th
-          scope="col"
-          (click)="sort.emit({
-            element: 'sortKey',
-            value: 'nom',
-          })"
-        >
-          <app-table-head-sort
-            sortKey="nom"
-            [sortValue]="filters.sortValue"
-            [currentKey]="filters.sortKey"
-            columnName="Nom"
-          >
-          </app-table-head-sort>
-        </th>
-        <th
-          scope="col"
-          (click)="sort.emit({
+<pre>
+  {{ structureToDelete?.nom | json }}
+</pre>
+<pre>{{ structureToRefuse?.nom | json }}</pre>
+<div class="fr-table" id="table-0-component">
+  <div class="fr-table__wrapper">
+    <div class="fr-table__container">
+      <div class="fr-table__content">
+        <table *ngIf="structures" style="overflow-x: visible">
+          <caption class="visually-hidden">
+            Tableau des structures
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th
+                scope="col"
+                (click)="sort.emit({ element: 'sortKey', value: 'id',  })"
+              >
+                <app-table-head-sort
+                  sortKey="id"
+                  [sortValue]="filters.sortValue"
+                  [currentKey]="filters.sortKey"
+                  columnName="ID"
+                >
+                </app-table-head-sort>
+              </th>
+              <th
+                scope="col"
+                (click)="sort.emit({  element: 'sortKey',  value: 'nom', })"
+              >
+                <app-table-head-sort
+                  sortKey="nom"
+                  [sortValue]="filters.sortValue"
+                  [currentKey]="filters.sortKey"
+                  columnName="Nom"
+                >
+                </app-table-head-sort>
+              </th>
+              <th
+                scope="col"
+                (click)="sort.emit({
             element: 'sortKey',
             value: 'statut',
           })"
-        >
-          <app-table-head-sort
-            sortKey="statut"
-            [sortValue]="filters.sortValue"
-            [currentKey]="filters.sortKey"
-            columnName="Statut"
-          >
-          </app-table-head-sort>
-        </th>
-        <th
-          scope="col"
-          (click)="sort.emit({
+              >
+                <app-table-head-sort
+                  sortKey="statut"
+                  [sortValue]="filters.sortValue"
+                  [currentKey]="filters.sortKey"
+                  columnName="Statut"
+                >
+                </app-table-head-sort>
+              </th>
+              <th
+                scope="col"
+                (click)="sort.emit({
           element: 'sortKey',
           value: 'structureTypeLabel',
         })"
-        >
-          <app-table-head-sort
-            sortKey="structureTypeLabel"
-            [sortValue]="filters.sortValue"
-            [currentKey]="filters.sortKey"
-            columnName="Type"
-          >
-          </app-table-head-sort>
-        </th>
-        <th
-          scope="col"
-          (click)="sort.emit({
+              >
+                <app-table-head-sort
+                  sortKey="structureTypeLabel"
+                  [sortValue]="filters.sortValue"
+                  [currentKey]="filters.sortKey"
+                  columnName="Type"
+                >
+                </app-table-head-sort>
+              </th>
+              <th
+                scope="col"
+                (click)="sort.emit({
           element: 'sortKey',
           value: 'createdAt',
         })"
-        >
-          <app-table-head-sort
-            sortKey="createdAt"
-            [sortValue]="filters.sortValue"
-            [currentKey]="filters.sortKey"
-            columnName="Inscrite le"
-          >
-          </app-table-head-sort>
-        </th>
+              >
+                <app-table-head-sort
+                  sortKey="createdAt"
+                  [sortValue]="filters.sortValue"
+                  [currentKey]="filters.sortKey"
+                  columnName="Inscrite le"
+                >
+                </app-table-head-sort>
+              </th>
 
-        <th
-          scope="col"
-          (click)="sort.emit({
+              <th
+                scope="col"
+                (click)="sort.emit({
           element: 'sortKey',
           value: 'importDate',
         })"
-        >
-          <app-table-head-sort
-            sortKey="importDate"
-            [sortValue]="filters.sortValue"
-            [currentKey]="filters.sortKey"
-            columnName="Import le"
-          >
-          </app-table-head-sort>
-        </th>
-        <th
-          scope="col"
-          (click)="sort.emit({
+              >
+                <app-table-head-sort
+                  sortKey="importDate"
+                  [sortValue]="filters.sortValue"
+                  [currentKey]="filters.sortKey"
+                  columnName="Import le"
+                >
+                </app-table-head-sort>
+              </th>
+              <th
+                scope="col"
+                (click)="sort.emit({
           element: 'sortKey',
           value: 'users',
         })"
-        >
-          <app-table-head-sort
-            sortKey="users"
-            [sortValue]="filters.sortValue"
-            [currentKey]="filters.sortKey"
-            columnName="Comptes"
-          >
-          </app-table-head-sort>
-        </th>
-        <th
-          (click)="sort.emit({
+              >
+                <app-table-head-sort
+                  sortKey="users"
+                  [sortValue]="filters.sortValue"
+                  [currentKey]="filters.sortKey"
+                  columnName="Comptes"
+                >
+                </app-table-head-sort>
+              </th>
+              <th
+                (click)="sort.emit({     element: 'sortKey', value: 'usagers',    })"
+              >
+                <app-table-head-sort
+                  sortKey="usagers"
+                  [sortValue]="filters.sortValue"
+                  [currentKey]="filters.sortKey"
+                  columnName="Dossiers"
+                >
+                </app-table-head-sort>
+              </th>
+              <th
+                (click)="sort.emit({
           element: 'sortKey',
           value: 'usagers',
         })"
-        >
-          <app-table-head-sort
-            sortKey="usagers"
-            [sortValue]="filters.sortValue"
-            [currentKey]="filters.sortKey"
-            columnName="Dossiers"
-          >
-          </app-table-head-sort>
-        </th>
-        <th
-          (click)="sort.emit({
-          element: 'sortKey',
-          value: 'usagers',
-        })"
-        >
-          <app-table-head-sort
-            sortKey="actifs"
-            [sortValue]="filters.sortValue"
-            [currentKey]="filters.sortKey"
-            columnName="Actifs"
-          >
-          </app-table-head-sort>
-        </th>
-        <th
-          scope="col"
-          (click)="sort.emit({
+              >
+                <app-table-head-sort
+                  sortKey="actifs"
+                  [sortValue]="filters.sortValue"
+                  [currentKey]="filters.sortKey"
+                  columnName="Actifs"
+                >
+                </app-table-head-sort>
+              </th>
+              <th
+                scope="col"
+                (click)="sort.emit({
           element: 'sortKey',
           value: 'actifs',
         })"
-        >
-          <app-table-head-sort
-            sortKey="lastLogin"
-            [sortValue]="filters.sortValue"
-            [currentKey]="filters.sortKey"
-            columnName="Dernière connexion"
-          >
-          </app-table-head-sort>
-        </th>
-        <th
-          scope="col"
-          (click)="sort.emit({
+              >
+                <app-table-head-sort
+                  sortKey="lastLogin"
+                  [sortValue]="filters.sortValue"
+                  [currentKey]="filters.sortKey"
+                  columnName="Dernière connexion"
+                >
+                </app-table-head-sort>
+              </th>
+              <th
+                scope="col"
+                (click)="sort.emit({
           element: 'sortKey',
           value: 'lastLogin',
         })"
-        >
-          <app-table-head-sort
-            sortKey="regionLabel"
-            [sortValue]="filters.sortValue"
-            [currentKey]="filters.sortKey"
-            columnName="Région"
-          >
-          </app-table-head-sort>
-        </th>
-        <th
-          scope="col"
-          (click)="sort.emit({
+              >
+                <app-table-head-sort
+                  sortKey="regionLabel"
+                  [sortValue]="filters.sortValue"
+                  [currentKey]="filters.sortKey"
+                  columnName="Région"
+                >
+                </app-table-head-sort>
+              </th>
+              <th
+                scope="col"
+                (click)="sort.emit({
           element: 'sortKey',
           value: 'departementLabel',
         })"
-        >
-          <app-table-head-sort
-            sortKey="departementLabel"
-            [sortValue]="filters.sortValue"
-            [currentKey]="filters.sortKey"
-            columnName="Département"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="let structure of structures; let i = index; trackBy: idTrackBy"
-      >
-        <td>{{ i + 1 }}</td>
-        <td class="fw-bold">{{ structure.id }}</td>
-        <td>
-          <a [routerLink]="['/structure', structure.id]">{{ structure.nom }}</a>
-          {{
-            structure.structureType === "ccas" ? " - " + structure.ville : ""
-          }}
-        </td>
-        <td>
-          <span
-            *ngIf="structure.statut === 'VALIDE'"
-            class="badge bg-success text-dark"
-          >
-            Active
-          </span>
-          <span
-            *ngIf="structure.statut === 'EN_ATTENTE'"
-            class="badge bg-warning text-dark"
-          >
-            Non validée
-          </span>
-          <span
-            *ngIf="structure.statut === 'REFUS'"
-            class="badge bg-danger text-dark"
-          >
-            Refusée
-          </span>
-          <span
-            *ngIf="structure.statut === 'SUPPRIME'"
-            class="badge bg-danger text-dark"
-          >
-            Supprimée
-          </span>
-        </td>
-        <td>
-          {{ structure.structureTypeLabel }}
-        </td>
-
-        <td>
-          {{ structure.registrationDate | date : "dd/MM/yyyy" }}
-        </td>
-
-        <td class="d-none d-lg-table-cell">
-          {{
-            structure.importDate || structure.import
-              ? structure.importDate
-                ? (structure.importDate | date : "dd/MM/yyyy")
-                : "✅"
-              : "❌"
-          }}
-        </td>
-        <td>{{ structure.users }}</td>
-        <td>{{ structure.usagers }}</td>
-        <td>{{ structure.actifs }}</td>
-        <td>
-          {{
-            structure?.lastLogin
-              ? (structure.lastLogin | date : "dd/MM/yyyy")
-              : "❌ Jamais connecté"
-          }}
-        </td>
-        <td>
-          {{ structure.regionLabel }}
-        </td>
-        <td>
-          {{ structure.departementLabel }}
-        </td>
-        <!-- <td >
-          {{ structure.email }}
-        </td> -->
-        <td>
-          <div
-            ngbDropdown
-            container="body"
-            [id]="'dropdownActionsMenuDashboard_' + structure.id"
-            placement="bottom-right"
-          >
-            <button
-              type="button"
-              class="btn"
-              ngbDropdownToggle
-              [attr.aria-label]="'Administrer la structure ' + structure.id"
+              >
+                <app-table-head-sort
+                  sortKey="departementLabel"
+                  [sortValue]="filters.sortValue"
+                  [currentKey]="filters.sortKey"
+                  columnName="Département"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let structure of structures;
+                let i = index;
+                trackBy: idTrackBy
+              "
             >
-              <fa-icon aria-hidden="true" [icon]="['fas', 'bars']"></fa-icon>
-            </button>
-            <div ngbDropdownMenu>
-              <button
-                type="button"
-                *ngIf="structure.statut === 'EN_ATTENTE'"
-                class="cursor-pointer"
-                ngbDropdownItem
-                (click)="confirmStructure(structure)"
-              >
-                <fa-icon aria-hidden="true" [icon]="['fas', 'check']"></fa-icon>
-                Valider la structure
-              </button>
-              <button
-                type="button"
-                class="cursor-pointer"
-                ngbDropdownItem
-                (click)="openAddAdminModal(structure)"
-              >
-                <fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'user-plus']"
-                ></fa-icon>
+              <td>
+                <dsfrx-dropdownmenu
+                  [ariaLabelMenu]="'Administrer la structure ' + structure.id"
+                  [labelMenu]="'Actions'"
+                  iconMenu="fr-icon-more-fill"
+                  [closeOnAction]="true"
+                  (buttonSelect)="test(structure)"
+                >
+                  <ng-template #contentTemplate>
+                    <ng-container *ngIf="structure.statut === 'EN_ATTENTE'">
+                      <dsfrx-dropdownmenu-item
+                        (selectItem)="refuseModal(structure)"
+                      >
+                        <button
+                          type="button"
+                          class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left d-block"
+                          [disabled]="loading"
+                          (click)="refuseModal(structure)"
+                        >
+                          <i
+                            class="fr-icon-close-circle-line"
+                            aria-hidden="true"
+                          ></i>
+                          Refuser la structure
+                        </button>
+                      </dsfrx-dropdownmenu-item>
 
-                Ajouter un admin
-              </button>
-              <button
-                type="button"
-                class="cursor-pointer text-danger"
-                ngbDropdownItem
-                (click)="openDeleteStructureModal(structure)"
-              >
-                <fa-icon [icon]="['fas', 'trash']" aria-hidden="true"></fa-icon>
-                Supprimer la structure
-              </button>
-              <button
-                type="button"
-                class="cursor-pointer text-danger"
-                ngbDropdownItem
-                (click)="openRefuseStructureModal(structure)"
-              >
-                <fa-icon [icon]="['fas', 'times']" aria-hidden="true"></fa-icon>
-                Refuser la structure
-              </button>
+                      <dsfrx-dropdownmenu-item>
+                        <button
+                          type="button"
+                          class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left d-block"
+                          (click)="confirmStructure(structure)"
+                        >
+                          <i
+                            class="fr-icon-checkbox-circle-line"
+                            aria-hidden="true"
+                          ></i>
+                          Valider la structure
+                        </button>
+                      </dsfrx-dropdownmenu-item>
+                    </ng-container>
+                    <dsfrx-dropdownmenu-item>
+                      <button
+                        type="button"
+                        class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left d-block"
+                        [disabled]="loading"
+                        (click)="openDeleteModal(structure)"
+                      >
+                        <i
+                          class="fr-icon-delete-bin-line"
+                          aria-hidden="true"
+                        ></i>
+                        Supprimer la structure
+                      </button>
+                    </dsfrx-dropdownmenu-item>
+                    <dsfrx-dropdownmenu-item>
+                      <button
+                        type="button"
+                        class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left d-block"
+                        (click)="openAddAdminModal(structure)"
+                      >
+                        <i class="fr-icon-user-add-line" aria-hidden="true"></i>
+                        Ajouter un admin
+                      </button>
+                    </dsfrx-dropdownmenu-item>
+                  </ng-template>
+                </dsfrx-dropdownmenu>
+              </td>
+              <td>{{ i + 1 }}</td>
+              <td class="fw-bold">{{ structure.id }}</td>
+              <td>
+                <a [routerLink]="['/structure', structure.id]">{{
+                  structure.nom
+                }}</a>
+                {{
+                  structure.structureType === "ccas"
+                    ? " - " + structure.ville
+                    : ""
+                }}
+              </td>
+              <td>
+                <span
+                  *ngIf="structure.statut === 'VALIDE'"
+                  class="fr-badge fr-badge--success"
+                >
+                  Active
+                </span>
+                <span
+                  *ngIf="structure.statut === 'EN_ATTENTE'"
+                  class="fr-badge fr-badge--warning"
+                >
+                  Non validée
+                </span>
+                <span
+                  *ngIf="structure.statut === 'REFUS'"
+                  class="fr-badge fr-badge--error"
+                >
+                  Refusée
+                </span>
+                <span
+                  *ngIf="structure.statut === 'SUPPRIME'"
+                  class="fr-badge fr-badge--error"
+                >
+                  Supprimée
+                </span>
+              </td>
+              <td>
+                {{ structure.structureTypeLabel }}
+              </td>
+
+              <td>
+                {{ structure.registrationDate | date : "dd/MM/yyyy" }}
+              </td>
+
+              <td class="d-none d-lg-table-cell">
+                {{
+                  structure.importDate || structure.import
+                    ? structure.importDate
+                      ? (structure.importDate | date : "dd/MM/yyyy")
+                      : "✅"
+                    : "❌"
+                }}
+              </td>
+              <td>{{ structure.users }}</td>
+              <td>{{ structure.usagers }}</td>
+              <td>{{ structure.actifs }}</td>
+              <td>
+                {{
+                  structure?.lastLogin
+                    ? (structure.lastLogin | date : "dd/MM/yyyy")
+                    : "❌ Jamais connecté"
+                }}
+              </td>
+              <td>
+                {{ structure.regionLabel }}
+              </td>
+              <td>
+                {{ structure.departementLabel }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ng-template #addAdminModal let-modal>
+        <div class="modal-header">
+          <span class="modal-title" id="modal-title">
+            Création d'un utilisateur admin pour la structure :
+            {{ currentStructure?.nom }}
+          </span>
+        </div>
+        <form
+          id="newAdminForm"
+          [formGroup]="newAdminForm"
+          (ngSubmit)="submitNewAdmin()"
+        >
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-6 form-group required">
+                <label for="nom">Nom </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nom"
+                  formControlName="nom"
+                  name="nom"
+                  placeholder="Nom"
+                  [ngClass]="{
+                    'is-invalid': submitted && f.nom.errors
+                  }"
+                  required
+                />
+                <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+                  Veuillez vérifier le nom
+                </p>
+              </div>
+
+              <div class="col-6 form-group required">
+                <label for="prenom">Prénom</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="prenom"
+                  formControlName="prenom"
+                  name="prenom"
+                  placeholder="Prénom"
+                  [ngClass]="{
+                    'is-invalid': submitted && f.prenom.errors
+                  }"
+                  required
+                />
+                <p
+                  *ngIf="submitted && f.prenom.errors"
+                  class="invalid-feedback"
+                >
+                  Veuillez vérifier le prénom
+                </p>
+              </div>
+
+              <div class="col-12 form-group required">
+                <label for="email">Email :</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="email"
+                  formControlName="email"
+                  name="email"
+                  placeholder="Email"
+                  [ngClass]="{
+                    'is-invalid': submitted && f.email.errors
+                  }"
+                  required
+                />
+                <p *ngIf="f.email.errors" class="invalid-feedback">
+                  <fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'exclamation-triangle']"
+                  ></fa-icon>
+                  <b>Vérifiez l'adresse email</b>
+                </p>
+              </div>
+              <div class="col-12 form-group required">
+                <app-fonction-selection
+                  [parentFormGroup]="newAdminForm"
+                  [fonctionDetailFormControl]="fonctionDetailControl"
+                  [fonctionFormControl]="fonctionFormControl"
+                  [submitted]="submitted"
+                  invalidFeedbackText="La fonction de l'administrateur est obligatoire"
+                ></app-fonction-selection>
+              </div>
             </div>
           </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
 
-<ng-template #deleteModal let-modal>
-  <app-structure-form-delete
-    (closeModals)="cancelForm()"
-    [structure]="currentStructure"
-  ></app-structure-form-delete>
-</ng-template>
-
-<ng-template #refuseStructureModal let-modal>
-  <app-structure-form-refuse
-    (closeModals)="cancelForm()"
-    [structure]="currentStructure"
-  ></app-structure-form-refuse
-></ng-template>
-
-<ng-template #addAdminModal let-modal>
-  <div class="modal-header">
-    <span class="modal-title" id="modal-title">
-      Création d'un utilisateur admin pour la structure :
-      {{ currentStructure?.nom }}
-    </span>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="cancelForm()">
+              Annuler
+            </button>
+            <button
+              class="btn btn-primary"
+              type="submit"
+              [disabled]="loading"
+              [attr.aria-busy]="loading"
+            >
+              <span *ngIf="loading">
+                <fa-icon
+                  [icon]="['fas', 'circle-notch']"
+                  aria-hidden="true"
+                  animation="spin"
+                >
+                </fa-icon>
+                Veuillez patienter...
+              </span>
+              <span *ngIf="!loading">Ajouter l'utilisateur</span>
+            </button>
+          </div>
+        </form>
+      </ng-template>
+    </div>
   </div>
-  <form
-    id="newAdminForm"
-    [formGroup]="newAdminForm"
-    (ngSubmit)="submitNewAdmin()"
-  >
-    <div class="modal-body">
-      <div class="row">
-        <div class="col-6 form-group required">
-          <label for="nom">Nom </label>
-          <input
-            type="text"
-            class="form-control"
-            id="nom"
-            formControlName="nom"
-            name="nom"
-            placeholder="Nom"
-            [ngClass]="{
-              'is-invalid': submitted && f.nom.errors
-            }"
-            required
-          />
-          <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
-            Veuillez vérifier le nom
-          </p>
-        </div>
+</div>
+<app-structure-form-delete
+  (closeModals)="cancelForm()"
+  [structure]="structureToDelete"
+  *ngIf="structureToDelete"
+></app-structure-form-delete>
 
-        <div class="col-6 form-group required">
-          <label for="prenom">Prénom</label>
-          <input
-            type="text"
-            class="form-control"
-            id="prenom"
-            formControlName="prenom"
-            name="prenom"
-            placeholder="Prénom"
-            [ngClass]="{
-              'is-invalid': submitted && f.prenom.errors
-            }"
-            required
-          />
-          <p *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
-            Veuillez vérifier le prénom
-          </p>
-        </div>
-
-        <div class="col-12 form-group required">
-          <label for="email">Email :</label>
-          <input
-            type="text"
-            class="form-control"
-            id="email"
-            formControlName="email"
-            name="email"
-            placeholder="Email"
-            [ngClass]="{
-              'is-invalid': submitted && f.email.errors
-            }"
-            required
-          />
-          <p *ngIf="f.email.errors" class="invalid-feedback">
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'exclamation-triangle']"
-            ></fa-icon>
-            <b>Vérifiez l'adresse email</b>
-          </p>
-        </div>
-        <div class="col-12 form-group required">
-          <app-fonction-selection
-            [parentFormGroup]="newAdminForm"
-            [fonctionDetailFormControl]="fonctionDetailControl"
-            [fonctionFormControl]="fonctionFormControl"
-            [submitted]="submitted"
-            invalidFeedbackText="La fonction de l'administrateur est obligatoire"
-          ></app-fonction-selection>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal-footer">
-      <button type="button" class="btn btn-danger" (click)="cancelForm()">
-        Annuler
-      </button>
-      <button
-        class="btn btn-primary"
-        type="submit"
-        [disabled]="loading"
-        [attr.aria-busy]="loading"
-      >
-        <span *ngIf="loading">
-          <fa-icon
-            [icon]="['fas', 'circle-notch']"
-            aria-hidden="true"
-            animation="spin"
-          >
-          </fa-icon>
-          Veuillez patienter...
-        </span>
-        <span *ngIf="!loading">Ajouter l'utilisateur</span>
-      </button>
-    </div>
-  </form>
-</ng-template>
+<app-structure-form-refuse
+  (closeModals)="cancelForm()"
+  [structure]="structureToRefuse"
+  *ngIf="structureToRefuse"
+></app-structure-form-refuse>

@@ -30,7 +30,6 @@ export const STRUCTURE_ADMIN_MOCK: StructureAdmin = {
   import: false,
   importDate: null,
   structureTypeLabel: "CCAS",
-  token: "123e4567-e89b-12d3-a456-426",
   structureType: "ccas",
   ville: "Asnieres-sur-seine",
   lastLogin: new Date(),

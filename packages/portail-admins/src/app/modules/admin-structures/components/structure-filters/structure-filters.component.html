@@ -1,264 +1,221 @@
 <div id="filters" class="d-print-none">
-  <div class="container">
-    <div class="row d-flex align-items-center">
-      <div class="col-12 col-md-10">
+  <div class="fr-container">
+    <div class="d-flex align-items-center">
+      <div
+        class="d-md-inline-block d-block me-2 text-md-start text-center my-4"
+      >
         <div
-          class="d-md-inline-block d-block me-2 text-md-start text-center my-4"
+          *ngIf="this.filters.structureType"
+          class="d-inline-block my-1 me-2 dropdown-toggle--selected"
         >
-          <!-- Type structure -->
-          <div
+          <button
+            type="button"
             *ngIf="this.filters.structureType"
-            class="d-inline-block my-1 me-2 dropdown-toggle--selected"
+            [disabled]="searching"
+            class="btn btn-outline-primary dropdown-toggle__reset_btn w-100"
+            (click)="
+              updateFilters.emit({ element: 'structureType', value: null })
+            "
           >
-            <button
-              type="button"
-              *ngIf="this.filters.structureType"
-              [disabled]="searching"
-              class="btn btn-outline-primary dropdown-toggle__reset_btn w-100"
-              (click)="
-                updateFilters.emit({ element: 'structureType', value: null })
-              "
+            <span class="visually-hidden">
+              Désactiver le filtre du type structure
+            </span>
+            {{ structureTypeOptions[filters.structureType] }}
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="cross"
+            ></fa-icon>
+          </button>
+        </div>
+        <div
+          *ngIf="!filters.structureType"
+          class="fr-select-group d-inline-block my-1 me-2"
+        >
+          <label class="fr-label" for="select-type-structure">
+            Type de structures
+          </label>
+          <select
+            class="fr-select"
+            id="select-type-structure"
+            [disabled]="searching"
+            (change)="onStructureTypeChange($event)"
+          >
+            <option value="" selected disabled hidden>
+              Sélectionner un type
+            </option>
+            <option
+              *ngFor="let type of structureTypeOptions | keyvalue"
+              [value]="type.key"
             >
-              <span class="visually-hidden">
-                Désactiver le filtre du type structure
-              </span>
-              {{ structureTypeOptions[filters.structureType] }}
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'times']"
-                class="cross"
-              ></fa-icon>
-            </button>
-          </div>
-          <div
-            *ngIf="!filters.structureType"
-            ngbDropdown
-            id="dropDownTypeStructure"
-            placement="bottom"
-            class="d-inline-block my-1 me-2"
-            #dropDownTypeStructure="ngbDropdown"
-          >
-            <button type="button" [disabled]="searching" ngbDropdownToggle>
-              <span>Type de structures</span>
-            </button>
+              {{ type.value }}
+            </option>
+          </select>
+        </div>
 
-            <div
-              ngbDropdownMenu
-              aria-labelledby="dropDownTypeStructure"
-              class="dropdown-menu dropdown-menu-end"
-            >
-              <button
-                *ngFor="let type of structureTypeOptions | keyvalue"
-                type="button"
-                (click)="
-                  updateFilters.emit({
-                    element: 'structureType',
-                    value: type.key,
-                    sortValue: filters.sortValue
-                  })
-                "
-                ngbDropdownItem
-              >
-                {{ type.value }}
-              </button>
-            </div>
-          </div>
-          <!-- Region -->
-          <div
+        <div
+          *ngIf="this.filters.region"
+          class="d-inline-block my-1 me-2 dropdown-toggle--selected"
+        >
+          <button
+            type="button"
             *ngIf="this.filters.region"
-            class="d-inline-block my-1 me-2 dropdown-toggle--selected"
+            [disabled]="searching"
+            class="btn btn-outline-primary dropdown-toggle__reset_btn w-100"
+            (click)="updateFilters.emit({ element: 'region', value: null })"
           >
-            <button
-              type="button"
-              *ngIf="this.filters.region"
-              [disabled]="searching"
-              class="btn btn-outline-primary dropdown-toggle__reset_btn w-100"
-              (click)="updateFilters.emit({ element: 'region', value: null })"
-            >
-              <span class="visually-hidden">
-                Désactiver le filtre de la région
-              </span>
-              {{ REGIONS_LISTE[filters.region] }}
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'times']"
-                class="cross"
-              ></fa-icon>
-            </button>
-          </div>
+            <span class="visually-hidden">
+              Désactiver le filtre de la région
+            </span>
+            {{ REGIONS_LISTE[filters.region] }}
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="cross"
+            ></fa-icon>
+          </button>
+        </div>
 
-          <div
-            *ngIf="!filters.region"
-            ngbDropdown
-            id="dropDownRegion"
-            placement="bottom"
-            class="d-inline-block my-1 me-2"
-            #dropDownRegion="ngbDropdown"
+        <div
+          *ngIf="!filters.region"
+          class="fr-select-group d-inline-block my-1 me-2"
+        >
+          <label class="fr-label" for="select-region"> Région </label>
+          <select
+            class="fr-select"
+            id="select-region"
+            [disabled]="searching"
+            (change)="onRegionChange($event)"
           >
-            <button type="button" [disabled]="searching" ngbDropdownToggle>
-              <span>Region</span>
-            </button>
-
-            <div
-              ngbDropdownMenu
-              aria-labelledby="dropDownRegion"
-              class="dropdown-menu dropdown-menu-end"
-            >
-              <button
-                *ngFor="
-                  let region of REGIONS_LISTE
-                    | keyvalue
-                    | sortArray : 'value' : 'asc'
-                "
-                type="button"
-                (click)="
-                  updateFilters.emit({
-                    element: 'region',
-                    value: region.key,
-                    sortValue: filters.sortValue
-                  })
-                "
-                ngbDropdownItem
-              >
-                {{ region.value }}
-              </button>
-            </div>
-          </div>
-          <!-- Departement -->
-          <div
-            *ngIf="this.filters.departement"
-            class="d-inline-block my-1 me-2 dropdown-toggle--selected"
-          >
-            <button
-              type="button"
-              [disabled]="searching"
-              class="btn btn-outline-primary dropdown-toggle__reset_btn w-100"
-              (click)="
-                updateFilters.emit({ element: 'departement', value: null })
+            <option value="" selected disabled hidden>
+              Sélectionner une région
+            </option>
+            <option
+              *ngFor="
+                let region of REGIONS_LISTE
+                  | keyvalue
+                  | sortArray : 'value' : 'asc'
               "
+              [value]="region.key"
             >
-              {{ DEPARTEMENTS_LISTE[filters.departement] }}
-              <span class="visually-hidden">
-                Désactiver le filtre du département
-              </span>
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'times']"
-                class="cross"
-              ></fa-icon>
-            </button>
-          </div>
+              {{ region.value }}
+            </option>
+          </select>
+        </div>
+        <!-- Departement -->
+        <div
+          *ngIf="this.filters.departement"
+          class="d-inline-block my-1 me-2 dropdown-toggle--selected"
+        >
+          <button
+            type="button"
+            [disabled]="searching"
+            class="btn btn-outline-primary dropdown-toggle__reset_btn w-100"
+            (click)="
+              updateFilters.emit({ element: 'departement', value: null })
+            "
+          >
+            {{ DEPARTEMENTS_LISTE[filters.departement] }}
+            <span class="visually-hidden">
+              Désactiver le filtre du département
+            </span>
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="cross"
+            ></fa-icon>
+          </button>
+        </div>
 
-          <div
-            *ngIf="!filters.departement"
-            ngbDropdown
-            id="dropDownDepartement"
-            placement="bottom"
-            class="d-inline-block my-1 me-2"
-            #dropDownDepartement="ngbDropdown"
+        <div
+          *ngIf="!filters.departement"
+          class="fr-select-group d-inline-block my-1 me-2"
+        >
+          <label class="fr-label" for="select-departement"> Département </label>
+          <select
+            class="fr-select"
+            id="select-departement"
+            [disabled]="searching"
+            (change)="onDepartementChange($event)"
           >
-            <button type="button" [disabled]="searching" ngbDropdownToggle>
-              <span>Département</span>
-            </button>
-
-            <div
-              ngbDropdownMenu
-              aria-labelledby="dropDownDepartement"
-              class="dropdown-menu dropdown-menu-end"
+            <option value="" selected disabled hidden>
+              Sélectionner un département
+            </option>
+            <option
+              *ngFor="let departement of DEPARTEMENTS_LISTE | keyvalue"
+              [value]="departement.key"
             >
-              <button
-                *ngFor="let departement of DEPARTEMENTS_LISTE | keyvalue"
-                type="button"
-                (click)="
-                  updateFilters.emit({
-                    element: 'departement',
-                    value: departement.key,
-                    sortValue: filters.sortValue
-                  })
-                "
-                ngbDropdownItem
-              >
-                {{ departement.value }}
-              </button>
-            </div>
-          </div>
-          <!-- Nombre de domiciliés -->
-          <div
-            *ngIf="this.filters.domicilieSegment"
-            class="d-inline-block mt-1 mb-1 me-2 dropdown-toggle--selected"
+              {{ departement.value }}
+            </option>
+          </select>
+        </div>
+        <!-- Nombre de domiciliés -->
+        <div
+          *ngIf="this.filters.domicilieSegment"
+          class="d-inline-block mt-1 mb-1 me-2 dropdown-toggle--selected"
+        >
+          <button
+            type="button"
+            [disabled]="searching"
+            class="btn btn-outline-primary dropdown-toggle__reset_btn w-100"
+            (click)="
+              updateFilters.emit({ element: 'domicilieSegment', value: null })
+            "
           >
-            <button
-              type="button"
-              [disabled]="searching"
-              class="btn btn-outline-primary dropdown-toggle__reset_btn w-100"
-              (click)="
-                updateFilters.emit({ element: 'domicilieSegment', value: null })
-              "
-            >
-              <span class="visually-hidden">
-                Désactiver le filtre du segment domiciliés
-              </span>
-              {{ filters.domicilieSegment }}
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'times']"
-                class="cross"
-              ></fa-icon>
-            </button>
-          </div>
-          <div
-            *ngIf="!filters.domicilieSegment"
-            ngbDropdown
-            id="dropDownNombreDomicilies"
-            placement="bottom"
-            class="d-inline-block my-1 me-2"
-            #dropDownNombreD="ngbDropdown"
+            <span class="visually-hidden">
+              Désactiver le filtre du segment domiciliés
+            </span>
+            {{ filters.domicilieSegment }}
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="cross"
+            ></fa-icon>
+          </button>
+        </div>
+        <div
+          *ngIf="!filters.domicilieSegment"
+          class="fr-select-group d-inline-block my-1 me-2"
+        >
+          <label class="fr-label" for="select-nombre-domicilies">
+            Nombre de domiciliés
+          </label>
+          <select
+            class="fr-select"
+            id="select-nombre-domicilies"
+            [disabled]="searching"
+            (change)="onDomicilieSegmentChange($event)"
           >
-            <button type="button" [disabled]="searching" ngbDropdownToggle>
-              <span>Nombre de domiciliés</span>
-            </button>
-
-            <div
-              ngbDropdownMenu
-              aria-labelledby="dropDownNombreDomicilies"
-              class="dropdown-menu dropdown-menu-end"
+            <option value="" selected disabled hidden>
+              Sélectionner un segment
+            </option>
+            <option
+              *ngFor="let segment of segmentUsagersOptions | keyvalue"
+              [value]="segment.value"
             >
-              <button
-                *ngFor="let segment of segmentUsagersOptions | keyvalue"
-                type="button"
-                (click)="
-                  updateFilters.emit({
-                    element: 'domicilieSegment',
-                    value: segment.value,
-                    sortValue: filters.sortValue
-                  })
-                "
-                ngbDropdownItem
-              >
-                {{ segment.value }}
-              </button>
-            </div>
-          </div>
-          <!-- Reset -->
-          <div
-            *ngIf="this.nbResults === 0"
-            class="d-inline-block mt-1 mb-1 dropdown-toggle--selected"
+              {{ segment.value }}
+            </option>
+          </select>
+        </div>
+        <!-- Reset -->
+        <div
+          *ngIf="this.nbResults === 0"
+          class="d-inline-block mt-1 mb-1 dropdown-toggle--selected"
+        >
+          <button
+            aria-labelledby="dropDownReset"
+            type="button"
+            [disabled]="searching"
+            class="btn btn-outline-primary dropdown-toggle__reset_btn w-100"
+            (click)="updateFilters.emit({ element: 'reset', value: null })"
           >
-            <button
-              aria-labelledby="dropDownReset"
-              type="button"
-              [disabled]="searching"
-              class="btn btn-outline-primary dropdown-toggle__reset_btn w-100"
-              (click)="updateFilters.emit({ element: 'reset', value: null })"
-            >
-              Réinitialiser les filtres
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'times']"
-                class="cross"
-              ></fa-icon>
-            </button>
-          </div>
+            Réinitialiser les filtres
+            <fa-icon
+              aria-hidden="true"
+              [icon]="['fas', 'times']"
+              class="cross"
+            ></fa-icon>
+          </button>
         </div>
       </div>
     </div>
