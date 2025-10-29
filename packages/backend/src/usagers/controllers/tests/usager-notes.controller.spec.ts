@@ -47,7 +47,7 @@ describe("UsagerNote Controller", () => {
     const response = await AppTestHttpClient.post("/usagers-notes/3", {
       context,
       body: {
-        message: "1",
+        message: "",
       },
     });
     expect(response.status).toEqual(400);
