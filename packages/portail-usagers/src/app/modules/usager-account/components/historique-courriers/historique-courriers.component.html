@@ -8,9 +8,9 @@
     icon="fr-icon-arrow-left-s-line"
   ></dsfr-button>
 
-  <h3 class="fr-text-title--blue-france fr-mb-n3v">
+  <h2 class="fr-text-title--blue-france fr-mb-n3v">
     Historique des interactions
-  </h3>
+  </h2>
   <p class="fr-text--sm mb-1">
     Vous trouverez ci-dessous, l'ensemble des courriers, colis et avis de
     passage reçus.
@@ -53,7 +53,7 @@
       [pageCount]="searchResults.meta.pageCount"
       [currentPage]="searchResults.meta.page"
       [previousOnly]="!searchResults.meta.hasNextPage"
-      ariaLabel="'Pagination historique des interactions'"
+      ariaLabel="Pagination historique des interactions"
       (pageSelect)="getInteractionsByPage($event)"
       (backSelect)="getPreviousPage()"
     ></dsfr-pagination>

@@ -11,7 +11,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 })
 export class IdleManagerComponent implements OnInit {
   @ViewChild(DsfrModalComponent)
-  idleModal!: DsfrModalComponent;
+  public idleModal!: DsfrModalComponent;
   public timerCount = 0;
 
   private subscription = new Subscription();

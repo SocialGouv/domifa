@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Title } from "@angular/platform-browser";
+import { SeoService } from "../../../shared/services/seo.service";
 
 @Component({
   selector: "app-not-found",
@@ -7,8 +7,11 @@ import { Title } from "@angular/platform-browser";
   templateUrl: "./not-found.component.html",
 })
 export class NotFoundComponent implements OnInit {
-  constructor(private readonly titleService: Title) {}
+  constructor(private readonly seoService: SeoService) {}
   public ngOnInit() {
-    this.titleService.setTitle("La page que vous recherchez n'éxiste pas");
+    this.seoService.updateTitleAndTags(
+      "Page non trouvée - Mon DomiFa",
+      "La page que vous recherchez n'existe pas ou a été déplacée",
+    );
   }
 }

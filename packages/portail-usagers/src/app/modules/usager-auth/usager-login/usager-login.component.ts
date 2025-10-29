@@ -11,7 +11,6 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 
 import type { PortailUsagerAuthLoginForm } from "../../../../_common";
@@ -23,6 +22,7 @@ import {
   PortailUsagerProfile,
   PortailUsagerAuthApiResponse,
 } from "@domifa/common";
+import { SeoService } from "../../shared/services/seo.service";
 
 @Component({
   selector: "app-usager-login",
@@ -51,7 +51,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly router: Router,
-    private readonly titleService: Title,
+    private readonly seoService: SeoService,
     private readonly authService: UsagerAuthService,
     private readonly usagerAuthService: UsagerAuthService,
     public matomo: MatomoTracker,
@@ -70,7 +70,10 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Connexion à Mon DomiFa");
+    this.seoService.updateTitleAndTags(
+      "Connexion à Mon DomiFa",
+      "Accédez à votre espace personnel pour consulter votre dossier et vos courriers en attente",
+    );
 
     this.subscription.add(
       this.usagerAuthService.currentUsagerSubject.subscribe(
