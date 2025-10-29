@@ -1,3 +1,10 @@
+## [2.224.2](https://github.com/SocialGouv/domifa/compare/v2.224.1...v2.224.2) (2025-10-29)
+
+
+### Bug Fixes
+
+* **backend:** fix unit tests ([#3988](https://github.com/SocialGouv/domifa/issues/3988)) ([3926d18](https://github.com/SocialGouv/domifa/commit/3926d1884c68007a9590bf67421a8d8638f79a02))
+
 ## [2.224.1](https://github.com/SocialGouv/domifa/compare/v2.224.0...v2.224.1) (2025-10-29)
 
 
