@@ -17,7 +17,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: "structures",
+    path: "structure",
     canActivate: [AuthGuard],
     data: {
       roles: ["super-admin-domifa"],
@@ -37,17 +37,6 @@ const routes: Routes = [
     path: "users",
     loadChildren: () =>
       import("./modules/users/users.module").then((m) => m.UsersModule),
-  },
-  {
-    path: "structure",
-    canActivate: [AuthGuard],
-    data: {
-      roles: ["super-admin-domifa"],
-    },
-    loadChildren: () =>
-      import("./modules/structure/structure.module").then(
-        (m) => m.StructureModule
-      ),
   },
   {
     path: "manage-users",

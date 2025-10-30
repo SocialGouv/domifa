@@ -21,6 +21,7 @@ export class AuthGuard {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
+    debugger;
     const allowedRoles = (route.data["roles"] as UserSupervisorRole[]) || [];
 
     return this.authService.isAuth().pipe(
