@@ -10,6 +10,7 @@ export class RoleRedirectGuard {
   ) {}
 
   canActivate(): boolean {
+    debugger;
     const role = this.authService.currentUserValue?.role;
     switch (role) {
       case undefined:
