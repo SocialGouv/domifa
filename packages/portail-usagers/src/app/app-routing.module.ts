@@ -18,7 +18,7 @@ const routes: Routes = [
     path: "auth",
     loadChildren: () =>
       import("./modules/usager-auth/usager-auth.module").then(
-        (m) => m.UsagerAuthModule
+        (m) => m.UsagerAuthModule,
       ),
   },
   {
@@ -26,7 +26,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () =>
       import("./modules/usager-account/usager-account.module").then(
-        (m) => m.UsagerAccountModule
+        (m) => m.UsagerAccountModule,
       ),
   },
   { path: "news", component: NewsComponent },

@@ -16,7 +16,7 @@ export class NewsComponent implements OnInit {
   public ngOnInit(): void {
     this.seoService.updateTitleAndTags(
       "Les dernières nouveautés de Mon DomiFa",
-      "Mon DomiFa permet aux domiciliés d'accéder à leur dossier, ainsi que les courriers en attente."
+      "Mon DomiFa permet aux domiciliés d'accéder à leur dossier, ainsi que les courriers en attente.",
     );
     localStorage.setItem("news", new Date(DOMIFA_NEWS[0].date).toISOString());
   }
