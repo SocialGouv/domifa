@@ -1,142 +1,212 @@
-<div class="row pb-5" *ngIf="structure">
-  <div class="col-12">
-    <h2>Informations</h2>
+<div class="border-bottom border-grey pb-2">
+  <div class="row mt-3" *ngIf="structure">
+    <!-- Structure numbers -->
+    <div class="row ps-0 align-items-center mb-5">
+      <div class="col-12 col-sm-8 d-flex">
+        <span class="px-3 border-end border-grey">
+          10 <br />
+          Comptes
+        </span>
+        <span class="px-3 border-end border-grey">
+          13 <br />
+          Dossiers
+        </span>
+        <span class="px-3">
+          3 <br />
+          Actifs
+        </span>
+      </div>
+      <div class="col-12 col-sm-4 d-flex gap-2 justify-content-end">
+        <span class="px-3 border-end border-grey">
+          Inscrite le <br />
+          {{ structure.createdAt | date : "dd/MM/yyyy" }}
+        </span>
+        <span class="ps-3">
+          Dernière connexion <br />
+          {{
+            structure.lastLogin
+              ? (structure.lastLogin | date : "dd/MM/yyyy")
+              : "Jamais connecté"
+          }}
+        </span>
+      </div>
+    </div>
+    <div class="row ps-0">
+      <div class="col-12 col-sm-8 d-flex flex-column gap-3">
+        <!-- Responsable -->
+        <div class="row p-0 border-bottom border-grey mx-2">
+          <div class="d-flex row gap-0">
+            <div class="d-flex gap-1">
+              <span class="fr-icon-user-line fr-text-title--blue-france"></span>
+              <h2 class="m-0 fr-h6">Responsable</h2>
+            </div>
+            <div class="d-flex justify-content-start py-3">
+              <div class="col d-flex flex-column gap-1">
+                <span class="fw-bold"> Nom </span>
+                <span>
+                  {{ structure.responsable.nom | uppercase }}
+                  {{ structure.responsable.prenom }}
+                </span>
+              </div>
+              <div class="col d-flex flex-column gap-1">
+                <span class="fw-bold"> Fonction </span>
+                <span> {{ structure.responsable.fonction }} </span>
+              </div>
+              <div class="col"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Informations -->
+        <div class="row ps-0 border-bottom border-grey mx-2">
+          <div class="d-flex row gap-0">
+            <div class="d-flex gap-1">
+              <span class="fr-icon-info-line fr-text-title--blue-france"></span>
+              <span class="m-0 fr-h6">Informations</span>
+            </div>
+
+            <div class="d-flex justify-content-start py-3">
+              <div class="col d-flex flex-column gap-1">
+                <span class="fw-bold"> Type d'organisme </span>
+                <span *ngIf="structure.structureType">
+                  {{ STRUCTURE_TYPE_LABELS[structure.structureType] }}
+                </span>
+                <span *ngIf="!structure.structureType"> Non renseigné </span>
+              </div>
+              <div class="col d-flex flex-column gap-1">
+                <span class="fw-bold"> Réseau </span>
+                <span> {{ structure.reseau ?? "Non renseigné" }} </span>
+              </div>
+              <div class="col"></div>
+            </div>
+          </div>
+        </div>
+        <!-- SMS & Mon Domifa-->
+        <div class="row ps-0 border-bottom border-grey mx-2">
+          <div class="d-flex row gap-0">
+            <div class="d-flex gap-1">
+              <span
+                class="fr-icon-smartphone-line fr-text-title--blue-france"
+              ></span>
+              <h2 class="m-0 fr-h6">SMS & Mon Domifa</h2>
+            </div>
+
+            <div class="d-flex justify-content-start py-3">
+              <div class="col d-flex flex-column gap-1">
+                <span class="fw-bold"> SMS </span>
+                <span
+                  class="fr-badge"
+                  [class.fr-badge--success]="structure.sms.enabledByStructure"
+                  [class.fr-badge--error]="!structure.sms.enabledByStructure"
+                >
+                  {{ structure.sms.enabledByStructure ? "Oui" : "Non" }}
+                </span>
+              </div>
+              <div class="col d-flex flex-column gap-1">
+                <span class="fw-bold"> Jours de réceptions des SMS </span>
+                <span> {{ smsDays }} </span>
+              </div>
+              <div class="col d-flex flex-column gap-1">
+                <span class="fw-bold"> Mon Domifa </span>
+                <span
+                  class="fr-badge"
+                  [class.fr-badge--success]="
+                    structure.portailUsager.enabledByStructure
+                  "
+                  [class.fr-badge--error]="
+                    !structure.portailUsager.enabledByStructure
+                  "
+                >
+                  {{
+                    structure.portailUsager.enabledByStructure ? "Oui" : "Non"
+                  }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Données d'enregistrement-->
+        <div class="row ps-0 mx-2">
+          <div class="d-flex row gap-0">
+            <div class="d-flex gap-1">
+              <span
+                class="fr-icon-pulse-line fr-text-title--blue-france"
+              ></span>
+              <h2 class="m-0 fr-h6">Données d'enregistrement</h2>
+            </div>
+
+            <div class="d-flex justify-content-start py-3">
+              <div class="col d-flex flex-column">
+                <span class="fw-bold"> SIRET </span>
+                <span>
+                  {{ structure?.siret ?? "SIRET non renseigné" }}
+                </span>
+              </div>
+              <div class="col d-flex flex-column gap-1">
+                <span class="fw-bold"> Source de découverte </span>
+                <span> {{ sourceLabel }}</span>
+              </div>
+              <div class="col d-flex flex-column">
+                <span class="fw-bold"> Nombre d'usagers actifs </span>
+                <span>
+                  {{
+                    structure?.registrationData?.activeUsersCount ??
+                      "Non renseigné"
+                  }}
+                </span>
+              </div>
+            </div>
+            <div class="col d-flex justify-content-between">
+              <div class="col d-flex flex-column gap-1">
+                <span class="fw-bold"> Délégation du service public </span>
+                <span>
+                  {{ structure?.registrationData?.dsp ? "Oui" : "Non" }}
+                </span>
+              </div>
+              <div class="col d-flex flex-column gap-1">
+                <span class="fw-bold"> Outil actuel </span>
+                <span>
+                  {{ currentToolLabel }}
+                </span>
+              </div>
+              <div class="col d-flex flex-column gap-1">
+                <span class="fw-bold"> Outil du marché </span>
+                <span>
+                  {{ marketToolLabel }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-4 gap-3 d-none d-md-flex d-sm-flex flex-column fr-text-title--blue-france fr-background-contrast--blue-cumulus p-3"
+      >
+        <img width="80" src="assets/images/contact.svg" alt="" />
+        <h2 class="fr-text-title--blue-france m-0">Contact</h2>
+        <div class="d-flex flex-column">
+          <span class="fw-bold">Adresse</span>
+          <span> {{ structure.adresse }}</span>
+        </div>
+        <div class="d-flex flex-column">
+          <span class="fw-bold">Ville</span>
+          <span> {{ structure.codePostal }} {{ structure.ville }}</span>
+        </div>
+        <div class="d-flex flex-column">
+          <span class="fw-bold">Email</span>
+          <span> {{ structure.email }} </span>
+        </div>
+        <div class="d-flex flex-column">
+          <span class="fw-bold">Téléphone</span>
+          <span>
+            {{ structure.telephone | formatInternationalPhoneNumber }}
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <p class="col-md-4 reponses">
-    <span class="question">Nom</span>
-    <span class="valeur">{{ structure.nom }}</span>
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question">Type de structure</span>
-    <span class="valeur">{{
-      STRUCTURE_TYPE_LABELS[structure.structureType]
-    }}</span>
-  </p>
-
-  <p class="col-md-4 reponses">
-    <span class="question">Département</span>
-    <span class="valeur">{{ structure.departement }}</span>
-  </p>
 </div>
-<div class="row" *ngIf="structure.structureType === 'asso'">
-  <p class="col-md-4 reponses">
-    <span class="question">Type d'organisme</span>
-    <span class="valeur">{{
-      structure.organismeType
-        ? STRUCTURE_ORGANISME_TYPE_LABELS[structure.organismeType]
-        : "Non renseigné"
-    }}</span>
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question">Réseau</span>
-    <span class="valeur">{{ structure.reseau ?? "Non renseigné" }}</span>
-  </p>
-</div>
-<div class="row">
-  <!-- Adresse -->
-  <p class="col-md-4 reponses">
-    <span class="question">Adresse</span>
-    <span class="valeur">{{ structure.adresse }} </span>
-  </p>
-  <!-- Adresse -->
-  <p class="col-md-4 reponses" *ngIf="structure?.adresseCourrier?.actif">
-    <span class="question">Adresse de réception du courrier</span>
-    <span class="valeur"> {{ structure?.adresseCourrier?.adresse }} </span>
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question">Ville</span>
-    <span class="valeur"
-      >{{ structure.codePostal }}, {{ structure.ville }}</span
-    >
-  </p>
-</div>
-<div class="row">
-  <!-- Coordonnées -->
-  <p class="col-md-4 reponses">
-    <span class="question">Email</span>
-    <span class="valeur">{{ structure.email }}</span>
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question">Téléphone</span>
-    <span class="valeur">{{
-      structure.telephone | formatInternationalPhoneNumber
-    }}</span>
-  </p>
-</div>
-
-<div class="row">
-  <!-- Responsable -->
-  <p class="col-md-4 reponses">
-    <span class="question">Nom du responsable</span>
-    <span class="valeur"
-      >{{ structure?.responsable?.nom }}
-      {{ structure?.responsable?.prenom }}</span
-    >
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question">Fonction du responsable</span>
-    <span class="valeur">{{ structure?.responsable?.fonction }}</span>
-  </p>
-</div>
-<div class="row">
-  <div class="col-12">
-    <h2>SMS & Mon DomiFa</h2>
-  </div>
-  <p class="col-md-4 reponses">
-    <span class="question">SMS activés</span>
-    <span class="valeur"
-      >{{ structure.sms.enabledByStructure ? "Oui" : "Non" }}
-    </span>
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question">Jours de réception des SMS</span>
-    <span class="valeur">{{ smsDays }} </span>
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question">Mon DomiFa activé</span>
-    <span class="valeur"
-      >{{ structure.portailUsager.enabledByStructure ? "Oui" : "Non" }}
-    </span>
-  </p>
-</div>
-
-<div class="row">
-  <div class="col-12">
-    <h2>Données d'enregistrement</h2>
-  </div>
-  <p class="col-md-4 reponses">
-    <span class="question">SIRET</span>
-    <span class="valeur">{{ structure?.siret ?? "SIRET non renseigné" }}</span>
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question">Source de découverte</span>
-    <span class="valeur">{{ sourceLabel }}</span>
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question">Nombre d'usagers actifs</span>
-    <span class="valeur">{{
-      structure?.registrationData?.activeUsersCount ?? "Non renseigné"
-    }}</span>
-  </p>
-  <p
-    class="col-md-4 reponses"
-    *ngIf="
-      structure?.registrationData?.dsp !== undefined &&
-      structure?.structureType === 'asso'
-    "
-  >
-    <span class="question">Délégation de service public</span>
-    <span class="valeur">{{
-      structure?.registrationData?.dsp ? "Oui" : "Non"
-    }}</span>
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question">Outil actuel</span>
-    <span class="valeur">{{ currentToolLabel }}</span>
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question">Outil du marché</span>
-    <span class="valeur">{{ marketToolLabel }}</span>
-  </p>
+<div class="row fr-container justify-content-end my-4">
+  <button type="button" class="fr-btn fr-icon-delete-line fr-btn--icon-right">
+    Supprimer la structure
+  </button>
 </div>

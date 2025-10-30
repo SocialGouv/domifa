@@ -19,6 +19,7 @@ import { DsfrDropdownMenuComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { DsfrButtonComponent, DsfrModalModule } from "@edugouvfr/ngx-dsfr";
 import { StructureFormDeleteComponent } from "./components/structure-form-delete/structure-form-delete.component";
 import { StructureFormRefuseComponent } from "./components/structure-form-refuse/structure-form-refuse.component";
+import { AdminStructureContainerComponent } from "../structure/components/admin-structure-container/admin-structure-container.component";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { StructureFormRefuseComponent } from "./components/structure-form-refuse
     AdminStructuresTableComponent,
     StructureFiltersComponent,
     StructureConfirmComponent,
+    AdminStructureContainerComponent,
   ],
   imports: [
     CommonModule,

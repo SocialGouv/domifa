@@ -17,7 +17,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: "structures",
+    path: "structure",
     canActivate: [AuthGuard],
     data: {
       roles: ["super-admin-domifa"],
@@ -25,6 +25,17 @@ const routes: Routes = [
     loadChildren: () =>
       import("./modules/admin-structures/admin-structures.module").then(
         (m) => m.AdminStructuresModule
+      ),
+  },
+  {
+    path: "structure/:structureId",
+    canActivate: [AuthGuard],
+    data: {
+      roles: ["super-admin-domifa"],
+    },
+    loadChildren: () =>
+      import("./modules/structure/structure.module").then(
+        (m) => m.StructureModule
       ),
   },
   {
@@ -37,17 +48,6 @@ const routes: Routes = [
     path: "users",
     loadChildren: () =>
       import("./modules/users/users.module").then((m) => m.UsersModule),
-  },
-  {
-    path: "structure",
-    canActivate: [AuthGuard],
-    data: {
-      roles: ["super-admin-domifa"],
-    },
-    loadChildren: () =>
-      import("./modules/structure/structure.module").then(
-        (m) => m.StructureModule
-      ),
   },
   {
     path: "manage-users",
@@ -83,7 +83,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
