@@ -58,5 +58,9 @@
   a.fr-link:has(img):visited,
   a.fr-link:has(img):hover {
     background-image: none;
+    border: none;
+  }
+  thead {
+    height: 4rem;
   }
 }

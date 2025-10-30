@@ -1,0 +1,72 @@
+<div class="w-100 fr-background-contrast--blue-cumulus">
+  <div class="fr-container py-3" id="subnav">
+    <div class="row">
+      <a routerLink="/structure" class="fr-link w-auto"
+        ><span class="fr-icon-arrow-left-s-line"></span>Retour
+      </a>
+    </div>
+    <div class="row pt-2">
+      <h1 class="fr-text-title--blue-france p-0 m-0">
+        {{ structure.id }} - {{ structure.nom }}
+      </h1>
+    </div>
+  </div>
+  <div>
+    <div class="fr-tabs">
+      <div class="fr-container ps-0">
+        <ul
+          class="fr-tabs__list"
+          role="tablist"
+          aria-label="Onglets de la structures"
+        >
+          <li role="presentation">
+            <a
+              type="button"
+              class="fr-tabs__tab"
+              role="link"
+              routerLink="/structure/{{ structure.id }}"
+              [attr.aria-selected]="activeTab === 'infos'"
+            >
+              Informations
+            </a>
+          </li>
+          <li role="presentation">
+            <a
+              type="button"
+              id="storybook-tab-1"
+              class="fr-tabs__tab"
+              role="link"
+              [attr.aria-selected]="activeTab === 'users'"
+              aria-controls="storybook-tab-1-panel"
+              [routerLink]="'users'"
+            >
+              Utilisateurs
+            </a>
+          </li>
+          <li role="presentation">
+            <a
+              type="button"
+              id="storybook-tab-2"
+              class="fr-tabs__tab"
+              tabindex="-1"
+              role="link"
+              [attr.aria-selected]="activeTab === 'stats'"
+              aria-controls="storybook-tab-2-panel"
+              [routerLink]="'stats'"
+            >
+              Statistiques
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div
+        class="fr-tabs__panel border-top border-grey bg-white fr-tabs__panel--selected p-0"
+      >
+        <div class="fr-container mt-5">
+          <router-outlet> </router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
