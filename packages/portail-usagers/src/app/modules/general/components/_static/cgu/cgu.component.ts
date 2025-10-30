@@ -9,7 +9,7 @@ export class CguComponent {
   constructor(private readonly seoService: SeoService) {
     this.seoService.updateTitleAndTags(
       "Conditions générales d’utilisation de Mon DomiFa",
-      "Conditions générales d’utilisation de Mon DomiFa",
+      "Les conditions générales d’utilisation (dites « CGU ») fixent le cadre juridique de la Plateforme Mon DomiFa",
     );
   }
 }
