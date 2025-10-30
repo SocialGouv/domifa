@@ -15,12 +15,16 @@ import {
   AllowUserStructureRoles,
   CurrentUser,
 } from "../../../auth/decorators";
-import { structureRepository } from "../../../database";
+import {
+  messageSmsRepository,
+  structureRepository,
+  usagerDocsRepository,
+  usagerHistoryStatesRepository,
+  usagerRepository,
+} from "../../../database";
 import { ExpressResponse } from "../../../util/express";
 import { UserStructureAuthenticated } from "../../../_common/model";
 import { StructureDto, StructureEditSmsDto } from "../dto";
-
-import { resetUsagers } from "../services/structure-deletor.service";
 import { StructureHardResetService } from "../services/structureHardReset.service";
 import { StructuresService } from "../services/structures.service";
 import { AppLogsService } from "../../app-logs/app-logs.service";
@@ -196,7 +200,21 @@ export class StructuresController {
         .json({ message: "HARD_RESET_EXPIRED_TOKEN" });
     }
 
-    await resetUsagers(structure);
+    await usagerDocsRepository.delete({
+      structureId: structure.id,
+    });
+
+    await usagerRepository.delete({
+      structureId: structure.id,
+    });
+
+    await messageSmsRepository.delete({
+      structureId: structure.id,
+    });
+
+    await usagerHistoryStatesRepository.delete({
+      structureId: structure.id,
+    });
 
     const key = `${join(
       domifaConfig().upload.bucketRootDir,

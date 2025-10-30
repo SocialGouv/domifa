@@ -16,10 +16,10 @@ export type ApiStructureAdmin = Pick<
   | "region"
   | "codePostal"
   | "email"
-  | "verified"
+  | "statut"
+  | "decision"
   | "import"
   | "importDate"
-  | "token"
   | "lastLogin"
   | "domicilieSegment"
 > &

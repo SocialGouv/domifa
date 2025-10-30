@@ -15,6 +15,8 @@ import {
   DomiciliesSegmentEnum,
   StructureRegistrationData,
   StructureOptions,
+  StructureDecisionStatut,
+  StructureDecision,
 } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
@@ -79,9 +81,6 @@ export class StructureTable
     expireAt?: Date;
   };
 
-  @Column({ type: "text", nullable: true })
-  tokenDelete: string;
-
   @Column({ type: "bool", default: false })
   import: boolean;
 
@@ -114,12 +113,6 @@ export class StructureTable
   @Index()
   @Column({ type: "text", nullable: false })
   structureType: StructureType;
-
-  @Column({ type: "text", nullable: true })
-  token: string;
-
-  @Column({ type: "bool", default: false })
-  verified: boolean;
 
   @Column({ type: "text", nullable: false })
   ville: string;
@@ -170,6 +163,12 @@ export class StructureTable
     nullable: true,
   })
   registrationData: StructureRegistrationData;
+
+  @Column({ type: "text", default: "EN_ATTENTE" })
+  statut: StructureDecisionStatut;
+
+  @Column({ type: "jsonb", nullable: false })
+  decision?: StructureDecision;
 
   public constructor(entity?: Partial<StructureTable>) {
     super(entity);

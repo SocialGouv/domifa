@@ -21,6 +21,6 @@ export const STRUCTURE_LIGHT_ATTRIBUTES: (keyof Structure)[] = [
   "structureType",
   "timeZone",
   "uuid",
-  "verified",
+  "statut",
   "ville",
 ];

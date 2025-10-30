@@ -4294,7 +4294,8 @@ __metadata:
     "@angular/platform-browser-dynamic": "npm:^18.2.13"
     "@angular/router": "npm:^18.2.13"
     "@domifa/common": "workspace:^"
-    "@edugouvfr/ngx-dsfr": "npm:^1.14.3"
+    "@edugouvfr/ngx-dsfr": "npm:^1.16.2"
+    "@edugouvfr/ngx-dsfr-ext": "npm:^1.4.3"
     "@fortawesome/angular-fontawesome": "npm:0.15.0"
     "@fortawesome/fontawesome-svg-core": "npm:^6.7.2"
     "@fortawesome/free-regular-svg-icons": "npm:^6.7.2"
@@ -4427,7 +4428,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@edugouvfr/ngx-dsfr@npm:^1.14.3, @edugouvfr/ngx-dsfr@npm:^1.15.3":
+"@edugouvfr/ngx-dsfr-ext@npm:^1.4.3":
+  version: 1.4.3
+  resolution: "@edugouvfr/ngx-dsfr-ext@npm:1.4.3"
+  dependencies:
+    tslib: "npm:^2.3.0"
+  peerDependencies:
+    "@angular/cdk": ">=18"
+    "@angular/common": ">=18.2"
+    "@angular/core": ">=18.2"
+    "@angular/forms": ">=18.2"
+    "@edugouvfr/ngx-dsfr": ">=1.15.0"
+    ag-grid-angular: ">=32"
+    ag-grid-community: ">=32"
+    quill: ">=2"
+  peerDependenciesMeta:
+    ag-grid-angular:
+      optional: true
+    ag-grid-community:
+      optional: true
+    quill:
+      optional: true
+  checksum: 10/23ab9744524399fdba3d24c1eb8d58c1cf30565706db41d56c7f0eae551896d27be872cf5add2f953dda423536946cfa8ac857a2d7b2ed0229750911a2e70e7e
+  languageName: node
+  linkType: hard
+
+"@edugouvfr/ngx-dsfr@npm:^1.15.3":
   version: 1.16.1
   resolution: "@edugouvfr/ngx-dsfr@npm:1.16.1"
   dependencies:
@@ -4441,6 +4467,23 @@ __metadata:
     rxjs: ^6 || ^7
     uuid: ">=8.3.0"
   checksum: 10/4b4d773cccdf865c4930349bf65c3d0dfe7cda02261bda2d121aa306b5ebbb6b29cbecc7da2ec1be9377966b7181d6183d839c3ec50f7d6bb9d188644bf85288
+  languageName: node
+  linkType: hard
+
+"@edugouvfr/ngx-dsfr@npm:^1.16.2":
+  version: 1.16.2
+  resolution: "@edugouvfr/ngx-dsfr@npm:1.16.2"
+  dependencies:
+    "@gouvfr/dsfr": "npm:1.14.2"
+    tslib: "npm:^2.6.0"
+  peerDependencies:
+    "@angular/common": ">=18.2"
+    "@angular/core": ">=18.2"
+    "@angular/forms": ">=18.2"
+    args-parser: ">=1.3.0"
+    rxjs: ^6 || ^7
+    uuid: ">=8.3.0"
+  checksum: 10/441bf0a55fc6110ebcf1294ec544b471624c1d29929a6afc615106c5919857a05615359ce7addd1062bc2b9df4aa85e76f4a84859dcba4ed539c5e82501b2c80
   languageName: node
   linkType: hard
 

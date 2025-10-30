@@ -70,6 +70,7 @@ export class AppComponent implements OnInit {
         if (typeof splitUrl[1] !== "undefined") {
           const fragment = splitUrl[1];
           const element = document.getElementById(fragment);
+
           if (element) {
             element.tabIndex = -1;
             element.focus();
