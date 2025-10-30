@@ -1,3 +1,10 @@
+## [2.224.3](https://github.com/SocialGouv/domifa/compare/v2.224.2...v2.224.3) (2025-10-30)
+
+
+### Bug Fixes
+
+* **usagers:** fix accessibility reviews ([#3987](https://github.com/SocialGouv/domifa/issues/3987)) ([8901b94](https://github.com/SocialGouv/domifa/commit/8901b94ca792974f98e8d7296f242332f71c24f8))
+
 ## [2.224.2](https://github.com/SocialGouv/domifa/compare/v2.224.1...v2.224.2) (2025-10-29)
 
 
