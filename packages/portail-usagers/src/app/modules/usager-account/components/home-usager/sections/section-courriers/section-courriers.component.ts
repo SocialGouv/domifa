@@ -28,7 +28,7 @@ export class SectionCourriersComponent implements OnInit {
 
   constructor(
     private readonly interactionService: InteractionService,
-    private readonly toastr: CustomToastService
+    private readonly toastr: CustomToastService,
   ) {
     this.usager = DEFAULT_USAGER_PROFILE.usager;
   }
@@ -41,10 +41,10 @@ export class SectionCourriersComponent implements OnInit {
         },
         error: () => {
           this.toastr.error(
-            "Le chargement de votre historique a échoué. Veuillez réessayer plus tard"
+            "Le chargement de votre historique a échoué. Veuillez réessayer plus tard",
           );
         },
-      })
+      }),
     );
   }
 

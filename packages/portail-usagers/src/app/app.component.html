@@ -1,4 +1,3 @@
-<dsfr-ext-toaster position="top-left"></dsfr-ext-toaster>
 <app-idle-manager></app-idle-manager>
 <dsfr-skiplinks [links]="skipLinks"></dsfr-skiplinks>
 <header id="page-header" role="banner">
@@ -37,41 +36,96 @@
       </div>
     </div>
   </div>
-  <dsfr-header
-    [logoLabel]="'République<br/>Française'"
-    operatorImageAlt="'Retour à l'accueil de Mon DomiFa'"
-    [operatorImagePath]="'/assets/images/logo-dsfr.svg'"
-    [logoLink]="{ routerLink: '/' }"
-  >
-    <ng-template #headerTools>
-      <dsfr-button
-        *ngIf="usagerProfile"
-        buttonSize="SM"
-        icon="fr-icon-logout-box-r-line"
-        label="Se déconnecter"
-        (click)="logout()"
-      ></dsfr-button>
-    </ng-template>
-    <ng-template #headerToolsMobile>
-      <dsfr-button
-        *ngIf="usagerProfile"
-        buttonSize="SM"
-        icon="fr-icon-logout-box-r-line"
-        label="Se déconnecter"
-        (click)="logout()"
-      ></dsfr-button>
-    </ng-template>
-  </dsfr-header>
+  <div class="fr-header">
+    <div class="fr-header__body">
+      <div class="fr-container">
+        <div class="fr-header__body-row">
+          <div class="fr-header__brand fr-enlarge-link">
+            <div class="fr-header__brand-top">
+              <div class="fr-header__logo">
+                <p class="fr-logo">République <br />Française</p>
+                <span class="fr-sr-only"> Liberté, Égalité, Fraternité </span>
+              </div>
+              <div class="fr-header__operator">
+                <a
+                  ariaCurrentWhenActive="page"
+                  routerLink="/"
+                  title="Retour à l'accueil"
+                >
+                  <img
+                    class="fr-responsive-img"
+                    style="max-width: 9.0625rem"
+                    src="assets/images/logo-dsfr.svg"
+                    alt="''"
+                  />
+                </a>
+              </div>
+
+              <div *ngIf="usagerProfile" class="fr-header__navbar">
+                <button
+                  data-fr-opened="false"
+                  aria-controls="menu-modal-23"
+                  title="Menu"
+                  type="button"
+                  id="menu-header"
+                  class="fr-btn--menu fr-btn"
+                >
+                  Menu
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            id="menu-modal-23"
+            *ngIf="usagerProfile"
+            class="fr-header__tools"
+          >
+            <div class="fr-header__tools-links">
+              <ul class="fr-btns-group">
+                <li>
+                  <a
+                    [tabIndex]="0"
+                    (click)="logout()"
+                    routerLink="/"
+                    class="fr-icon-logout-box-r-line fr-btn"
+                    >Se déconnecter</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="fr-header__menu fr-modal"
+      id="menu-modal-23"
+      aria-labelledby="menu-header"
+    >
+      <div class="fr-container">
+        <button
+          aria-controls="menu-modal-23"
+          title="Fermer"
+          type="button"
+          id="button-45"
+          class="fr-btn--close fr-btn"
+        >
+          Fermer
+        </button>
+        <div class="fr-header__menu-links"></div>
+      </div>
+    </div>
+  </div>
 </header>
+
 <main role="main" id="page">
   <router-outlet></router-outlet>
 </main>
 <dsfr-footer
   [logo]="{
     label: 'République<br>Française',
-    imageAlt: 'République française logo',
-    tooltipMessage: '',
-    navigation: { routerLink: '/' }
+    imageAlt: '',
+    navigation: { route: '/' }
   }"
   [display]="true"
   [mandatoryLinks]="[
@@ -132,3 +186,4 @@
     </dsfr-buttons-group>
   </ng-template>
 </dsfr-modal>
+<dsfr-ext-toaster position="top-left"></dsfr-ext-toaster>

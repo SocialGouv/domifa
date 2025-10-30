@@ -35,7 +35,7 @@ export class HistoriqueCourriersComponent implements OnDestroy, OnInit {
   constructor(
     private readonly usagerAuthService: UsagerAuthService,
     private readonly interactionService: InteractionService,
-    private readonly toastr: CustomToastService
+    private readonly toastr: CustomToastService,
   ) {}
 
   ngOnInit() {
@@ -68,10 +68,10 @@ export class HistoriqueCourriersComponent implements OnDestroy, OnInit {
           error: () => {
             this.loading = false;
             this.toastr.error(
-              "Le chargement de votre historique a échoué. Veuillez réessayer plus tard"
+              "Le chargement de votre historique a échoué. Veuillez réessayer plus tard",
             );
           },
-        })
+        }),
       );
     }
   }

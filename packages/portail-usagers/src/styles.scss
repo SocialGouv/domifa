@@ -23,4 +23,15 @@
   a.fr-link:has(img):hover {
     background-image: none;
   }
+
+  .fr-card:hover {
+    background-color: var(--background-default-grey);
+  }
+
+  [data-fr-theme="dark"] .fr-logo-links-background {
+    padding: 0 1rem;
+    max-width: fit-content;
+    background: #fff;
+    border-radius: 0.5rem;
+  }
 }

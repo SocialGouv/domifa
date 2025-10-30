@@ -24,7 +24,7 @@ export class IdleManagerComponent implements OnInit {
 
   constructor(
     private readonly userIdleService: UserIdleService,
-    private readonly authService: UsagerAuthService
+    private readonly authService: UsagerAuthService,
   ) {}
 
   ngOnInit(): void {
@@ -39,7 +39,7 @@ export class IdleManagerComponent implements OnInit {
             this.stopWatching();
           }
         },
-      })
+      }),
     );
   }
 

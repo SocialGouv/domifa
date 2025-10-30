@@ -70,7 +70,7 @@ export class PolitiqueComponent {
   ];
   public constructor(
     private readonly titleService: Title,
-    private readonly tracker: MatomoTracker
+    private readonly tracker: MatomoTracker,
   ) {
     this.optedOut$ = tracker.isUserOptedOut();
     this.titleService.setTitle("Politique de confidentialité de Mon DomiFa");

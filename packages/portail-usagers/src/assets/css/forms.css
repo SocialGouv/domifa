@@ -3,8 +3,7 @@
   display: none !important;
 }
 
-dsfr-form-input.required .fr-label::after,
-dsfr-form-password.required .fr-label::after {
+.fr-input-group.required .fr-label::after {
   content: " *";
   color: var(--text-default-error);
 }
