@@ -38,11 +38,7 @@
           <h2 class="my-3">Nos partenaires</h2>
           <ul>
             <li *ngFor="let link of partnerLinks">
-              <a [href]="link.path" target="_blank"
-                >{{ link.label }}
-                <fa-icon aria-hidden="true" [icon]="faExternalLinkAlt">
-                </fa-icon
-              ></a>
+              <a [href]="link.path" target="_blank">{{ link.label }} </a>
             </li>
           </ul>
         </div>
