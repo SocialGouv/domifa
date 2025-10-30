@@ -1,19 +1,4 @@
 <div *ngIf="usager">
-  <div
-    *ngIf="
-      usager.decision.statut === 'INSTRUCTION' &&
-      usager.typeDom === 'RENOUVELLEMENT'
-    "
-    class="my-2 px-3"
-  >
-    <div class="alert alert-warning">
-      <div aria-hidden="true" class="svg-icon icon-calendar"></div>
-      <span class="content"
-        >Demande de renouvellement actuellement en cours</span
-      >
-    </div>
-  </div>
-
   <div class="my-2" *ngIf="!usager.lastInteraction.enAttente">
     <h2 class="fr-text-title--blue-france mb-2">Votre courrier</h2>
     <div class="border-top border-1 border-grey pt-3 mb-2">
@@ -49,15 +34,17 @@
                   courrier
                 </div>
                 <ng-container *ngIf="pendingInteractions.courrierIn?.length">
-                  <div
-                    *ngFor="let interaction of pendingInteractions.courrierIn"
-                  >
-                    {{ interaction.dateInteraction | date : "dd MMMM yyyy" }}
-                    <ng-container *ngIf="interaction.content"
-                      >:
-                      <span [innerHTML]="interaction.content | nl2br"></span>
-                    </ng-container>
-                  </div>
+                  <ul>
+                    <li
+                      *ngFor="let interaction of pendingInteractions.courrierIn"
+                    >
+                      {{ interaction.dateInteraction | date : "dd MMMM yyyy" }}
+                      <ng-container *ngIf="interaction.content"
+                        >:
+                        <span [innerHTML]="interaction.content | nl2br"></span>
+                      </ng-container>
+                    </li>
+                  </ul>
                 </ng-container>
               </div>
             </div>

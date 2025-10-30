@@ -93,6 +93,17 @@
           Votre dossier
         </h3>
 
+        <div
+          *ngIf="
+            usager.decision.statut === 'INSTRUCTION' &&
+            usager.typeDom === 'RENOUVELLEMENT'
+          "
+        >
+          <div class="fr-alert fr-alert--info mb-3">
+            Demande de renouvellement actuellement en cours
+          </div>
+        </div>
+
         <p class="my-2">
           <span class="font-medium"> Statut: </span>
           <span
