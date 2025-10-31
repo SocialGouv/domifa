@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
 import {
   SafeResourceUrl,
   DomSanitizer,
@@ -16,7 +17,7 @@ import saveAs from "file-saver";
   styleUrl: "./structure-stats.component.css",
 })
 export class StructureStatsComponent implements OnInit {
-  @Input({ required: true }) public structure: StructureCommon;
+  public structure: StructureCommon;
   public metabaseParams = new MetabaseParams();
   public iframeUrl: SafeResourceUrl | null = null;
   public loading = false;
@@ -27,18 +28,25 @@ export class StructureStatsComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private readonly statsService: StatsService,
     private readonly toastService: CustomToastService,
-    private readonly titleService: Title
+    private readonly titleService: Title,
+    private readonly activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle("Stats de " + this.structure.nom);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.metabaseParams.structureId = this.structure.id.toString() as any;
-    this.getMetabaseUrl();
-
-    for (let year = 2021; year <= new Date().getFullYear(); year++) {
-      this.years.push(year);
-    }
+    this.loading = true;
+    this.subscription.add(
+      this.activatedRoute.parent.data.subscribe((data) => {
+        this.structure = data.structure;
+        this.titleService.setTitle("Stats de " + this.structure.nom);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        this.metabaseParams.structureId = this.structure.id.toString() as any;
+        this.getMetabaseUrl();
+        for (let year = 2021; year <= new Date().getFullYear(); year++) {
+          this.years.push(year);
+        }
+        this.loading = false;
+      })
+    );
   }
 
   public getMetabaseUrl() {
