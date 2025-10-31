@@ -22,9 +22,6 @@
             "assets": ["src/assets"],
             "styles": [
               "src/styles.scss",
-              "./node_modules/@gouvfr/dsfr/dist/dsfr/dsfr.main.min.css",
-              "./node_modules/@gouvfr/dsfr/dist/utility/utility.main.min.css",
-              "src/assets/css/bootstrap-custom.scss",
               "src/assets/css/forms.scss",
               "src/assets/css/fonts.scss",
               "src/assets/css/print.css"
