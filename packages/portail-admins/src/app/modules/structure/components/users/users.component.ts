@@ -1,15 +1,14 @@
+import { ActivatedRoute } from "@angular/router";
 import {
   USER_FONCTION_LABELS,
   UserFonction,
   SortValues,
-  StructureCommon,
   UserStructure,
   USER_STRUCTURE_ROLES_LABELS,
 } from "@domifa/common";
 
 import {
   Component,
-  Input,
   OnDestroy,
   OnInit,
   TemplateRef,
@@ -86,7 +85,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   public readonly USER_ACTIVITY_LABELS = UserStructureEventHistoryLabels;
   public readonly MODAL_ACTION = MODAL_ACTION;
   public readonly USER_ROLES_LABELS = USER_STRUCTURE_ROLES_LABELS;
-  @Input({ required: true }) public structure: StructureCommon;
+  public structureId: number;
   private readonly subscription = new Subscription();
   public searching = true;
   @ViewChild("confirmModal", { static: true })
@@ -100,10 +99,12 @@ export class UsersComponent implements OnInit, OnDestroy {
     private readonly structureService: StructureService,
     private readonly modalService: NgbModal,
     private readonly toastService: CustomToastService,
-    private readonly clipboard: Clipboard
+    private readonly clipboard: Clipboard,
+    private readonly activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.structureId = this.activatedRoute.parent.snapshot.params.structureId;
     this.loadUsers();
 
     // Subscribe to reloadUsers subject to reload the list when triggered
@@ -117,7 +118,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   private loadUsers(): void {
     this.searching = true;
     this.subscription.add(
-      this.structureService.getUsers(this.structure.id).subscribe((users) => {
+      this.structureService.getUsers(this.structureId).subscribe((users) => {
         this.users = users.map((user) => mapUserStructureToViewModel(user));
         this.searching = false;
       })
@@ -198,7 +199,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       this.structureService
         .resetStructureAdminPassword(user.email)
         .pipe(
-          switchMap(() => this.structureService.getUsers(this.structure.id)),
+          switchMap(() => this.structureService.getUsers(this.structureId)),
           // Get user from users
           map((users) => {
             this.users = users.map((user) => mapUserStructureToViewModel(user));

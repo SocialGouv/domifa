@@ -13,7 +13,7 @@ import { AdminStructuresTableComponent } from "./components/admin-structures-tab
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 import { SortArrayPipe } from "../shared/pipes/sort-array.pipe";
 import { StructureFiltersComponent } from "./components/structure-filters/structure-filters.component";
-import { AdminStructureContainerComponent } from "./admin-structure-container/admin-structure-container.component";
+import { AdminStructureContainerComponent } from "../structure/components/admin-structure-container/admin-structure-container.component";
 
 @NgModule({
   declarations: [

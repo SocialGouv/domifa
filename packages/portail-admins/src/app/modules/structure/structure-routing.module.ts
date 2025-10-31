@@ -1,13 +1,33 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { StructureComponent } from "./components/structure/structure.component";
+import { AdminStructureContainerComponent } from "./components/admin-structure-container/admin-structure-container.component";
+import { structureResolver } from "../admin-structures/resolvers/structure.resolver";
+import { StructureStatsComponent } from "./components/structure-stats/structure-stats.component";
 import { UsersComponent } from "./components/users/users.component";
-import { AdminStructuresListComponent } from "../admin-structures/components/admin-structures-list/admin-structures-list.component";
 
 const routes: Routes = [
-  { path: "", component: AdminStructuresListComponent, pathMatch: "full" },
-  { path: ":structureId", component: StructureComponent, pathMatch: "full" },
-  { path: ":structureId/users", component: UsersComponent, pathMatch: "full" },
+  {
+    path: "",
+    component: AdminStructureContainerComponent,
+    resolve: {
+      structure: structureResolver,
+    },
+    children: [
+      {
+        path: "",
+        component: StructureComponent,
+      },
+      {
+        path: "users",
+        component: UsersComponent,
+      },
+      {
+        path: "stats",
+        component: StructureStatsComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({

@@ -4429,7 +4429,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@edugouvfr/ngx-dsfr@npm:^1.14.3, @edugouvfr/ngx-dsfr@npm:^1.15.3":
+"@edugouvfr/ngx-dsfr@npm:^1.15.3":
   version: 1.16.1
   resolution: "@edugouvfr/ngx-dsfr@npm:1.16.1"
   dependencies:

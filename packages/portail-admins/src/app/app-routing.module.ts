@@ -28,6 +28,17 @@ const routes: Routes = [
       ),
   },
   {
+    path: "structure/:structureId",
+    canActivate: [AuthGuard],
+    data: {
+      roles: ["super-admin-domifa"],
+    },
+    loadChildren: () =>
+      import("./modules/structure/structure.module").then(
+        (m) => m.StructureModule
+      ),
+  },
+  {
     path: "stats",
     canActivate: [AuthGuard],
     loadChildren: () =>
@@ -72,7 +83,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

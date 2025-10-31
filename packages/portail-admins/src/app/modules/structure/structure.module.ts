@@ -13,6 +13,7 @@ import { StructureStatsComponent } from "./components/structure-stats/structure-
 import { FormsModule } from "@angular/forms";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { StructureRoutingModule } from "./structure-routing.module";
+import { DsfrTooltipDirective } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { StructureRoutingModule } from "./structure-routing.module";
     TableHeadSortComponent,
     SortArrayPipe,
     ClipboardModule,
+    DsfrTooltipDirective,
   ],
 })
 export class StructureModule {}
