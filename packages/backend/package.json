@@ -123,7 +123,7 @@
     "@types/lodash.isequal": "^4.5.8",
     "@types/lodash.set": "^4.3.9",
     "@types/multer": "^2.0.0",
-    "@types/node": "^20.19.2",
+    "@types/node": "^24.0.0",
     "@types/node-pdftk": "^2.1.9",
     "@types/nodemailer": "^6.4.17",
     "@types/nunjucks": "^3.2.6",
