@@ -4066,7 +4066,7 @@ __metadata:
     "@types/lodash.isequal": "npm:^4.5.8"
     "@types/lodash.set": "npm:^4.3.9"
     "@types/multer": "npm:^2.0.0"
-    "@types/node": "npm:^20.19.2"
+    "@types/node": "npm:^24.0.0"
     "@types/node-pdftk": "npm:^2.1.9"
     "@types/nodemailer": "npm:^6.4.17"
     "@types/nunjucks": "npm:^3.2.6"
@@ -4403,32 +4403,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edugouvfr/ngx-dsfr-ext@npm:^1.4.2":
-  version: 1.4.2
-  resolution: "@edugouvfr/ngx-dsfr-ext@npm:1.4.2"
-  dependencies:
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    "@angular/cdk": ">=18"
-    "@angular/common": ">=18.2"
-    "@angular/core": ">=18.2"
-    "@angular/forms": ">=18.2"
-    "@edugouvfr/ngx-dsfr": ">=1.15.0"
-    ag-grid-angular: ">=32"
-    ag-grid-community: ">=32"
-    quill: ">=2"
-  peerDependenciesMeta:
-    ag-grid-angular:
-      optional: true
-    ag-grid-community:
-      optional: true
-    quill:
-      optional: true
-  checksum: 10/b4249358e7eeda5a3690c7d50bb38653c1df01aad5a5beb5629742e065cbdeab585b3d43dad4269bd225b2c4ae51dcaca61570d8a87afd475c71707c3ea2a53b
-  languageName: node
-  linkType: hard
-
-"@edugouvfr/ngx-dsfr-ext@npm:^1.4.3":
+"@edugouvfr/ngx-dsfr-ext@npm:^1.4.2, @edugouvfr/ngx-dsfr-ext@npm:^1.4.3":
   version: 1.4.3
   resolution: "@edugouvfr/ngx-dsfr-ext@npm:1.4.3"
   dependencies:
@@ -4453,24 +4428,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@edugouvfr/ngx-dsfr@npm:^1.15.3":
-  version: 1.16.1
-  resolution: "@edugouvfr/ngx-dsfr@npm:1.16.1"
-  dependencies:
-    "@gouvfr/dsfr": "npm:1.14.2"
-    tslib: "npm:^2.6.0"
-  peerDependencies:
-    "@angular/common": ">=18.2"
-    "@angular/core": ">=18.2"
-    "@angular/forms": ">=18.2"
-    args-parser: ">=1.3.0"
-    rxjs: ^6 || ^7
-    uuid: ">=8.3.0"
-  checksum: 10/4b4d773cccdf865c4930349bf65c3d0dfe7cda02261bda2d121aa306b5ebbb6b29cbecc7da2ec1be9377966b7181d6183d839c3ec50f7d6bb9d188644bf85288
-  languageName: node
-  linkType: hard
-
-"@edugouvfr/ngx-dsfr@npm:^1.16.2":
+"@edugouvfr/ngx-dsfr@npm:^1.15.3, @edugouvfr/ngx-dsfr@npm:^1.16.2":
   version: 1.16.2
   resolution: "@edugouvfr/ngx-dsfr@npm:1.16.2"
   dependencies:
@@ -10774,12 +10732,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=13.7.0, @types/node@npm:^22.5.5":
-  version: 22.17.0
-  resolution: "@types/node@npm:22.17.0"
+"@types/node@npm:*, @types/node@npm:>=13.7.0, @types/node@npm:^24.0.0":
+  version: 24.10.0
+  resolution: "@types/node@npm:24.10.0"
   dependencies:
-    undici-types: "npm:~6.21.0"
-  checksum: 10/f77b0e1c3c00e438b56c726d6b1170d4969c600cc8d4ecf2c2aa7692243a8ff455a3d530760da95e0b6aab059c4605a384b43d18f96646c745ff133c00b84875
+    undici-types: "npm:~7.16.0"
+  checksum: 10/bc3abd9adc61423b1a72324208f3fcfe4f957b9fc8b9e81bf3fed584deb0b40f0e2af63cd0e2afa8f408d06f14bdba899ac638ac619f646badf8e72de246c052
   languageName: node
   linkType: hard
 
@@ -10790,12 +10748,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.19.2":
-  version: 20.19.2
-  resolution: "@types/node@npm:20.19.2"
+"@types/node@npm:^22.5.5":
+  version: 22.17.0
+  resolution: "@types/node@npm:22.17.0"
   dependencies:
     undici-types: "npm:~6.21.0"
-  checksum: 10/c9ee1f7eadd32d88d8bd47ff8e98cbabba3086267c49af62895bcf7347b97892daff52865f3068c358cec8ebd5b19bdc15d075039a226e145787cfe4a513dc4c
+  checksum: 10/f77b0e1c3c00e438b56c726d6b1170d4969c600cc8d4ecf2c2aa7692243a8ff455a3d530760da95e0b6aab059c4605a384b43d18f96646c745ff133c00b84875
   languageName: node
   linkType: hard
 
@@ -28904,6 +28862,13 @@ __metadata:
   version: 6.21.0
   resolution: "undici-types@npm:6.21.0"
   checksum: 10/ec8f41aa4359d50f9b59fa61fe3efce3477cc681908c8f84354d8567bb3701fafdddf36ef6bff307024d3feb42c837cf6f670314ba37fc8145e219560e473d14
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~7.16.0":
+  version: 7.16.0
+  resolution: "undici-types@npm:7.16.0"
+  checksum: 10/db43439f69c2d94cc29f75cbfe9de86df87061d6b0c577ebe9bb3255f49b22c50162a7d7eb413b0458b6510b8ca299ac7cff38c3a29fbd31af9f504bcf7fbc0d
   languageName: node
   linkType: hard
 
