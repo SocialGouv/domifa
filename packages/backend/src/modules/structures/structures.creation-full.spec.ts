@@ -17,7 +17,10 @@ import { StructureDto } from "./dto/structure.dto";
 import { StructuresModule } from "./structure.module";
 import { AdminsAuthService, PortailAdminModule } from "../portail-admin";
 import { MailsModule } from "../mails/mails.module";
-import { UserFonction } from "@domifa/common";
+import {
+  UserFonction,
+  StructureDecisionSuppressionMotif,
+} from "@domifa/common";
 import { UserAdminAuthenticated } from "../../_common/model";
 const structureDto: StructureDto = {
   adresse: "1 rue de Pessac",
@@ -206,6 +209,31 @@ describe("Stuctures creation full", () => {
     expect(userConfirmed.verified).toBeTruthy();
   });
 
+  it("delete structure", async () => {
+    const structure = await structureRepository.findOneBy({
+      uuid: localCache.uuid,
+    });
+
+    await adminStructuresController.updateStructureStatus(
+      userAuthentificated,
+      structure.id,
+      {
+        statut: "SUPPRIME",
+        statutDetail: StructureDecisionSuppressionMotif.PAS_DE_DOMICILIATION,
+      },
+      res
+    );
+
+    const validStructures = await structureRepository.countBy({
+      statut: "VALIDE",
+    });
+
+    const deletedStructures = await structureRepository.countBy({
+      statut: "SUPPRIME",
+    });
+    expect(validStructures).toEqual(5);
+    expect(deletedStructures).toEqual(1);
+  });
   async function testPreCreateStructure() {
     const prePostStructure: StructureDto =
       structurePublicController.prePostStructure(structureDto);

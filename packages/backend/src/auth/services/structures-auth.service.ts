@@ -105,7 +105,7 @@ export class StructuresAuthService {
     });
 
     const structure: StructureCommon = await structureRepository.findOne({
-      where: { id: user.structureId },
+      where: { id: user.structureId, statut: "VALIDE" },
       select: [
         "uuid",
         "updatedAt",

@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 
 import { structureRepository } from "../../../database";
 
@@ -16,17 +16,6 @@ export class StructuresService {
       { id: user.structureId },
       { sms: structureSmsDto }
     );
-  }
-
-  public async findOneFull(structureId: number): Promise<Structure> {
-    const structure = await structureRepository.findOneBy({
-      id: structureId,
-    });
-
-    if (!structure) {
-      throw new HttpException("STRUCTURE_NOT_EXIST", HttpStatus.BAD_REQUEST);
-    }
-    return structure;
   }
 
   public async findAllLight(dto: CodePostalDto): Promise<Structure[]> {
@@ -47,7 +36,7 @@ export class StructuresService {
 
   public async findStructuresInRegion(regionId?: string): Promise<number[]> {
     const structures: Structure[] = await structureRepository.find({
-      where: { region: regionId },
+      where: { region: regionId, statut: "VALIDE" },
       select: { id: true },
     });
 
