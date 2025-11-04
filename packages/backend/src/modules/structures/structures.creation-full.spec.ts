@@ -9,13 +9,11 @@ import { UsersModule } from "../users/users.module";
 import { ExpressResponse } from "../../util/express";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 
-import { AdminStructuresDeleteController } from "../portail-admin/controllers/admin-structures-delete/admin-structures-delete.controller";
 import { AdminStructuresController } from "../portail-admin/controllers/admin-structures/admin-structures.controller";
 import { StructuresController } from "./controllers/structures.controller";
 import { StructuresPublicController } from "./controllers/structures.public.controller";
 import { StructureWithUserDto } from "./dto/structure-with-user.dto";
 import { StructureDto } from "./dto/structure.dto";
-import { structureDeletorService } from "./services/structure-deletor.service";
 import { StructuresModule } from "./structure.module";
 import { AdminsAuthService, PortailAdminModule } from "../portail-admin";
 import { MailsModule } from "../mails/mails.module";
@@ -77,7 +75,6 @@ describe("Stuctures creation full", () => {
   let structureController: StructuresController;
   let structurePublicController: StructuresPublicController;
   let adminStructuresController: AdminStructuresController;
-  let adminStructuresDeleteController: AdminStructuresDeleteController;
   let userController: UsersController;
   let adminsAuthService: AdminsAuthService;
   let userAuthentificated: UserAdminAuthenticated;
@@ -109,10 +106,6 @@ describe("Stuctures creation full", () => {
     adminStructuresController = context.module.get<AdminStructuresController>(
       AdminStructuresController
     );
-    adminStructuresDeleteController =
-      context.module.get<AdminStructuresDeleteController>(
-        AdminStructuresDeleteController
-      );
   });
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);
@@ -194,9 +187,10 @@ describe("Stuctures creation full", () => {
       uuid: localCache.uuid,
     });
 
-    await adminStructuresController.confirmStructureCreation(
+    await adminStructuresController.updateStructureStatus(
       userAuthentificated,
-      { token: structure.token, uuid: structure.uuid },
+      structure.id,
+      { statut: "VALIDE" },
       res
     );
 
@@ -210,21 +204,6 @@ describe("Stuctures creation full", () => {
 
     expect(userConfirmed).toBeDefined();
     expect(userConfirmed.verified).toBeTruthy();
-  });
-
-  it("delete structure", async () => {
-    const structure = await structureDeletorService.generateDeleteToken(
-      localCache.uuid
-    );
-
-    await adminStructuresDeleteController.deleteStructureConfirm(
-      userAuthentificated,
-      res,
-      {
-        token: structure.token,
-        uuid: structure.uuid,
-      }
-    );
   });
 
   async function testPreCreateStructure() {
