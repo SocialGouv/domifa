@@ -1,3 +1,10 @@
+# [2.225.0](https://github.com/SocialGouv/domifa/compare/v2.224.3...v2.225.0) (2025-11-04)
+
+
+### Features
+
+* **admin:** update css for dsfr ([#3997](https://github.com/SocialGouv/domifa/issues/3997)) ([69e920e](https://github.com/SocialGouv/domifa/commit/69e920e5448c01c169265fddc0b33db4155884d2))
+
 ## [2.224.3](https://github.com/SocialGouv/domifa/compare/v2.224.2...v2.224.3) (2025-10-30)
 
 
