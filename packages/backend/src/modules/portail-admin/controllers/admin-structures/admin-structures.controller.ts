@@ -22,6 +22,10 @@ import {
   userStructureRepository,
   structureRepository,
   userStructureSecurityRepository,
+  messageSmsRepository,
+  usagerDocsRepository,
+  usagerHistoryStatesRepository,
+  usagerRepository,
 } from "../../../../database";
 import { statsDeploiementExporter } from "../../../../excel/export-stats-deploiement";
 
@@ -153,10 +157,10 @@ export class AdminStructuresController {
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
     try {
-      console.log({ structureId });
       const structure = await structureRepository.findOneBy({
         id: structureId,
       });
+
       if (!structure) {
         return res.status(HttpStatus.NOT_FOUND).json({
           message: "BAD_REQUEST",
@@ -191,16 +195,18 @@ export class AdminStructuresController {
         }
       }
 
+      const decision = {
+        statut: updateStatusDto.statut,
+        dateDecision: new Date(),
+        motif: updateStatusDto?.statutDetail,
+        ...getCreatedByUserStructure(user),
+      };
+
       await structureRepository.update(
         { id: structureId },
         {
           statut: updateStatusDto.statut,
-          decision: {
-            statut: updateStatusDto.statut,
-            dateDecision: new Date(),
-            motif: updateStatusDto?.statutDetail,
-            ...getCreatedByUserStructure(user),
-          },
+          decision,
         }
       );
 
@@ -209,8 +215,6 @@ export class AdminStructuresController {
           role: "admin",
           structureId: structure.id,
         });
-
-        console.log({ admin });
 
         await userStructureRepository.update(
           {
@@ -226,6 +230,26 @@ export class AdminStructuresController {
         });
 
         await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
+      } else if (updateStatusDto.statut === "SUPPRIME") {
+        await userStructureRepository.delete({
+          structureId: structure.id,
+        });
+
+        await usagerDocsRepository.delete({
+          structureId: structure.id,
+        });
+
+        await usagerRepository.delete({
+          structureId: structure.id,
+        });
+
+        await messageSmsRepository.delete({
+          structureId: structure.id,
+        });
+
+        await usagerHistoryStatesRepository.delete({
+          structureId: structure.id,
+        });
       }
 
       if (config?.logAction) {
@@ -237,6 +261,7 @@ export class AdminStructuresController {
 
       const updatedStructure =
         await structureRepository.getAdminStructuresListData(structureId);
+
       return res.status(HttpStatus.OK).json(updatedStructure);
     } catch (error) {
       console.error("INTERNAL_ERROR", error);

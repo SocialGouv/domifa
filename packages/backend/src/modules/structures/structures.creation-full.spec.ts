@@ -213,7 +213,6 @@ describe("Stuctures creation full", () => {
     const structure = await structureRepository.findOneBy({
       uuid: localCache.uuid,
     });
-
     await adminStructuresController.updateStructureStatus(
       userAuthentificated,
       structure.id,
@@ -224,16 +223,22 @@ describe("Stuctures creation full", () => {
       res
     );
 
-    const validStructures = await structureRepository.countBy({
-      statut: "VALIDE",
+    const validStructures = await structureRepository.count({
+      where: {
+        statut: "VALIDE",
+      },
     });
 
-    const deletedStructures = await structureRepository.countBy({
-      statut: "SUPPRIME",
+    const deletedStructures = await structureRepository.count({
+      where: {
+        statut: "SUPPRIME",
+      },
     });
+
     expect(validStructures).toEqual(5);
     expect(deletedStructures).toEqual(1);
   });
+
   async function testPreCreateStructure() {
     const prePostStructure: StructureDto =
       structurePublicController.prePostStructure(structureDto);
