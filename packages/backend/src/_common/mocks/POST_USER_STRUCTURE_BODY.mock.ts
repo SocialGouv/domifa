@@ -23,6 +23,7 @@ export const POST_USER_STRUCTURE_BODY: Partial<UserStructure> = {
       adresse: "3 place des bois",
       codePostal: "95801",
     },
+    statut: "VALIDE",
     agrement: "01010101",
     capacite: 20000,
     codePostal: "95801",

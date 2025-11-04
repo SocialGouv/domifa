@@ -1,83 +1,100 @@
-<div class="head-page py-4">
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <h1>
-          Structures
-          <span *ngIf="!!structures && !!filteredStructures"
-            >({{ filteredStructures.length
-            }}<span *ngIf="totalStructures !== filteredStructures.length"
-              >/{{ totalStructures }}</span
-            >)</span
-          >
-        </h1>
+<div class="fr-background-alt--blue-france py-4">
+  <div class="fr-container">
+    <h1>Tableau de bord</h1>
+    <div class="fr-background-default--grey p-4">
+      <div class="row">
+        <div class="col">
+          <h2>
+            Liste des structures
+            <span *ngIf="!!structures && !!filteredStructures"
+              >({{ filteredStructures.length
+              }}<span *ngIf="totalStructures !== filteredStructures.length"
+                >/{{ totalStructures }}</span
+              >)</span
+            >
+          </h2>
+        </div>
+        <div class="col text-end">
+          <app-admin-structures-export></app-admin-structures-export>
+        </div>
       </div>
-      <div class="col">
-        <div id="search-bar">
-          <label for="searchInput" class="visually-hidden">
-            Rechercher un domicilié
-          </label>
-          <input
-            id="searchInput"
-            type="text"
-            name="searchInput"
-            [disabled]="searching"
-            #searchInput
-            class="form-control"
-            placeholder="Recherche"
-          />
-          <button
-            type="button"
-            aria-label="Supprimer le texte saisie"
-            *ngIf="searchInput?.value !== ''"
-            (click)="resetSearchBar()"
-            id="deleteSearchIcon"
-          >
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'circle-xmark']"
-            ></fa-icon>
-          </button>
+      <div class="d-flex gap-3 align-items-end">
+        <div class="flex-grow-1">
+          <div class="fr-search-bar" role="search">
+            <label class="fr-label" for="search-input"> Rechercher </label>
+            <input
+              class="fr-input"
+              aria-describedby="search-input-messages"
+              placeholder="Rechercher"
+              name="searchInput"
+              [disabled]="searching"
+              #searchInput
+              id="search-input"
+              type="search"
+            />
+            <div
+              class="fr-messages-group"
+              id="search-input-messages"
+              aria-live="polite"
+            ></div>
+            <button title="Rechercher" type="button" class="fr-btn">
+              Rechercher
+            </button>
+          </div>
+        </div>
+        <button
+          class="fr-btn fr-btn--tertiary-no-outline fr-icon-equalizer-line"
+          aria-label="Filtres"
+          [attr.aria-expanded]="showFilters"
+          aria-controls="filters-panel"
+          (click)="toggleFilters()"
+          type="button"
+        >
+          <span class="fr-sr-only">Filtres</span>
+        </button>
+      </div>
+
+      <div
+        id="filters-panel"
+        [hidden]="!showFilters"
+        aria-labelledby="filters-label"
+      >
+        <h2 id="filters-label" class="fr-sr-only">Panneau de filtres</h2>
+        <app-structure-filters
+          [filters]="this.filters"
+          [nbResults]="filteredStructures.length"
+          [searching]="searching"
+          (updateFilters)="updateFilters($event)"
+        ></app-structure-filters>
+      </div>
+      <div
+        *ngIf="searching"
+        @fadeInOut
+        role="alert"
+        aria-busy="true"
+        aria-label="Chargement des données..."
+        class="text-center content-overlay d-print-none"
+      >
+        <div>
+          <fa-icon
+            [icon]="faSpinner"
+            class="spinner"
+            animation="spin"
+            aria-hidden="true"
+          ></fa-icon>
+          <b>Chargement des données...</b>
         </div>
       </div>
 
-      <div class="col text-end">
-        <app-admin-structures-export></app-admin-structures-export>
-      </div>
+      <app-admin-structures-table
+        *ngIf="this.structures && !searching"
+        [structures]="this.structures"
+        [filters]="this.filters"
+        @fadeInOut
+        (sort)="updateFilters($event)"
+      ></app-admin-structures-table>
+
+      <div #sentinel class="sentinel-preload"></div>
     </div>
   </div>
 </div>
-<app-structure-filters
-  [filters]="this.filters"
-  [nbResults]="filteredStructures.length"
-  [searching]="searching"
-  (updateFilters)="updateFilters($event)"
-></app-structure-filters>
-<div
-  *ngIf="searching"
-  @fadeInOut
-  role="alert"
-  aria-busy="true"
-  aria-label="Chargement des données..."
-  class="text-center content-overlay d-print-none"
->
-  <div>
-    <fa-icon
-      [icon]="faSpinner"
-      class="spinner"
-      animation="spin"
-      aria-hidden="true"
-    ></fa-icon>
-    <b>Chargement des données...</b>
-  </div>
-</div>
-
-<app-admin-structures-table
-  *ngIf="this.structures && !searching"
-  [structures]="this.structures"
-  [filters]="this.filters"
-  @fadeInOut
-  (sort)="updateFilters($event)"
-></app-admin-structures-table>
-
-<div #sentinel class="sentinel-preload"></div>

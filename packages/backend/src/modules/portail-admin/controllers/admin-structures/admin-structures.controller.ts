@@ -1,13 +1,13 @@
 import {
   Controller,
   Get,
-  Post,
   Body,
   HttpStatus,
   Res,
   UseGuards,
   Param,
   ParseIntPipe,
+  Patch,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
@@ -25,17 +25,23 @@ import {
 } from "../../../../database";
 import { statsDeploiementExporter } from "../../../../excel/export-stats-deploiement";
 
-import { expressResponseExcelRenderer } from "../../../../util";
+import {
+  expressResponseExcelRenderer,
+  getCreatedByUserStructure,
+} from "../../../../util";
 import { ExpressResponse } from "../../../../util/express";
 import { UserAdminAuthenticated } from "../../../../_common/model";
 import { AdminStructuresService } from "../../services";
 
-import { Structure } from "@domifa/common";
+import {
+  Structure,
+  StructureDecisionRefusMotif,
+  StructureDecisionSuppressionMotif,
+} from "@domifa/common";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
-import { StructureConfirmationDto } from "../../dto";
+import { UpdateStructureDecisionStatutDto } from "../../dto";
 import { StructureAdminForList, UserStructureWithSecurity } from "../../types";
 import { userAccountActivatedEmailSender } from "../../../mails/services/templates-renderers";
-import { structureCreatorService } from "../../../structures/services";
 import { format } from "date-fns";
 import { getBackoffTime } from "../../../users/services";
 import { CurrentSupervisor } from "../../../../auth/decorators/current-supervisor.decorator";
@@ -84,7 +90,7 @@ export class AdminStructuresController {
 
   @Get("")
   public async list(): Promise<StructureAdminForList[]> {
-    return await this.adminStructuresService.getAdminStructuresListData();
+    return await structureRepository.getAdminStructuresListData();
   }
 
   @Get("structure/:structureId")
@@ -139,45 +145,104 @@ export class AdminStructuresController {
     }));
   }
 
-  @Post("confirm-structure-creation")
-  public async confirmStructureCreation(
-    @CurrentSupervisor() _user: UserAdminAuthenticated,
-    @Body() structureConfirmationDto: StructureConfirmationDto,
+  @Patch("structure-decision/:structureId")
+  public async updateStructureStatus(
+    @CurrentSupervisor() user: UserAdminAuthenticated,
+    @Param("structureId", new ParseIntPipe()) structureId: number,
+    @Body() updateStatusDto: UpdateStructureDecisionStatutDto,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
-    const structure = await structureCreatorService.checkCreationToken({
-      token: structureConfirmationDto.token,
-      uuid: structureConfirmationDto.uuid,
-    });
+    try {
+      console.log({ structureId });
+      const structure = await structureRepository.findOneBy({
+        id: structureId,
+      });
+      if (!structure) {
+        return res.status(HttpStatus.NOT_FOUND).json({
+          message: "BAD_REQUEST",
+        });
+      }
 
-    if (!structure) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "STRUCTURE_TOKEN_INVALID" });
+      const statutConfig = {
+        REFUS: {
+          motifEnum: StructureDecisionRefusMotif,
+          logAction: "ADMIN_STRUCTURE_REFUSE",
+        },
+        SUPPRIME: {
+          motifEnum: StructureDecisionSuppressionMotif,
+          logAction: "ADMIN_STRUCTURE_DELETE",
+        },
+        VALIDE: {
+          logAction: "ADMIN_STRUCTURE_VALIDATE",
+        },
+      };
+
+      const config = statutConfig[updateStatusDto.statut];
+
+      if (config?.motifEnum && updateStatusDto.statutDetail) {
+        const isValidMotif = Object.values(config.motifEnum).includes(
+          updateStatusDto.statutDetail as any
+        );
+
+        if (!isValidMotif) {
+          return res.status(HttpStatus.BAD_REQUEST).json({
+            message: "INVALID_STRUCTURE_STATUT",
+          });
+        }
+      }
+
+      await structureRepository.update(
+        { id: structureId },
+        {
+          statut: updateStatusDto.statut,
+          decision: {
+            statut: updateStatusDto.statut,
+            dateDecision: new Date(),
+            motif: updateStatusDto?.statutDetail,
+            ...getCreatedByUserStructure(user),
+          },
+        }
+      );
+
+      if (updateStatusDto.statut === "VALIDE") {
+        const admin = await userStructureRepository.findOneBy({
+          role: "admin",
+          structureId: structure.id,
+        });
+
+        console.log({ admin });
+
+        await userStructureRepository.update(
+          {
+            id: admin.id,
+            structureId: structure.id,
+          },
+          { verified: true }
+        );
+
+        const updatedAdmin = await userStructureRepository.findOneBy({
+          id: admin.id,
+          structureId: structure.id,
+        });
+
+        await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
+      }
+
+      if (config?.logAction) {
+        await this.appLogsService.create({
+          userId: user.id,
+          action: config.logAction,
+        });
+      }
+
+      const updatedStructure =
+        await structureRepository.getAdminStructuresListData(structureId);
+      return res.status(HttpStatus.OK).json(updatedStructure);
+    } catch (error) {
+      console.error("INTERNAL_ERROR", error);
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        message: "INTERNAL_SERVER_ERROR",
+      });
     }
-
-    const admin = await userStructureRepository.findOneBy({
-      role: "admin",
-      structureId: structure.id,
-    });
-
-    await userStructureRepository.update(
-      {
-        id: admin.id,
-        structureId: structure.id,
-      },
-      { verified: true }
-    );
-
-    const updatedAdmin = await userStructureRepository.findOneBy({
-      id: admin.id,
-      structureId: structure.id,
-    });
-    await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
-    await this.appLogsService.create({
-      userId: _user.id,
-      action: "ADMIN_STRUCTURE_VALIDATE",
-    });
-    return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 }

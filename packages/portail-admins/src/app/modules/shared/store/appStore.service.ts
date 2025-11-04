@@ -17,7 +17,14 @@ const appStoreReducer: Reducer<AppStoreModel | undefined, AppStoreAction> = (
         structureListData: action.data,
       };
     }
-
+    case "update-structure":
+      console.log("update_STRUCTURE");
+      return {
+        ...state,
+        structureListData: state.structureListData?.map((structure) =>
+          structure.id === action.data.id ? action.data : structure
+        ),
+      };
     case "reset": {
       return INITIAL_STATE;
     }

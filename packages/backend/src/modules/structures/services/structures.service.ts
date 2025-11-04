@@ -32,7 +32,7 @@ export class StructuresService {
   public async findAllLight(dto: CodePostalDto): Promise<Structure[]> {
     return await structureRepository.find({
       where: {
-        verified: true,
+        statut: "VALIDE",
         codePostal: dto.codePostal,
       },
       select: {
