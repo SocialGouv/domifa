@@ -4403,32 +4403,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@edugouvfr/ngx-dsfr-ext@npm:^1.4.2":
-  version: 1.4.2
-  resolution: "@edugouvfr/ngx-dsfr-ext@npm:1.4.2"
-  dependencies:
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    "@angular/cdk": ">=18"
-    "@angular/common": ">=18.2"
-    "@angular/core": ">=18.2"
-    "@angular/forms": ">=18.2"
-    "@edugouvfr/ngx-dsfr": ">=1.15.0"
-    ag-grid-angular: ">=32"
-    ag-grid-community: ">=32"
-    quill: ">=2"
-  peerDependenciesMeta:
-    ag-grid-angular:
-      optional: true
-    ag-grid-community:
-      optional: true
-    quill:
-      optional: true
-  checksum: 10/b4249358e7eeda5a3690c7d50bb38653c1df01aad5a5beb5629742e065cbdeab585b3d43dad4269bd225b2c4ae51dcaca61570d8a87afd475c71707c3ea2a53b
-  languageName: node
-  linkType: hard
-
-"@edugouvfr/ngx-dsfr-ext@npm:^1.4.3":
+"@edugouvfr/ngx-dsfr-ext@npm:^1.4.2, @edugouvfr/ngx-dsfr-ext@npm:^1.4.3":
   version: 1.4.3
   resolution: "@edugouvfr/ngx-dsfr-ext@npm:1.4.3"
   dependencies:
@@ -4453,24 +4428,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@edugouvfr/ngx-dsfr@npm:^1.15.3":
-  version: 1.16.1
-  resolution: "@edugouvfr/ngx-dsfr@npm:1.16.1"
-  dependencies:
-    "@gouvfr/dsfr": "npm:1.14.2"
-    tslib: "npm:^2.6.0"
-  peerDependencies:
-    "@angular/common": ">=18.2"
-    "@angular/core": ">=18.2"
-    "@angular/forms": ">=18.2"
-    args-parser: ">=1.3.0"
-    rxjs: ^6 || ^7
-    uuid: ">=8.3.0"
-  checksum: 10/4b4d773cccdf865c4930349bf65c3d0dfe7cda02261bda2d121aa306b5ebbb6b29cbecc7da2ec1be9377966b7181d6183d839c3ec50f7d6bb9d188644bf85288
-  languageName: node
-  linkType: hard
-
-"@edugouvfr/ngx-dsfr@npm:^1.16.2":
+"@edugouvfr/ngx-dsfr@npm:^1.15.3, @edugouvfr/ngx-dsfr@npm:^1.16.2":
   version: 1.16.2
   resolution: "@edugouvfr/ngx-dsfr@npm:1.16.2"
   dependencies:
@@ -26681,7 +26639,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sha.js@npm:^2.4.11":
+"sha.js@npm:^2.4.12":
   version: 2.4.12
   resolution: "sha.js@npm:2.4.12"
   dependencies:
@@ -28658,8 +28616,8 @@ __metadata:
   linkType: hard
 
 "typeorm@npm:^0.3.25":
-  version: 0.3.25
-  resolution: "typeorm@npm:0.3.25"
+  version: 0.3.27
+  resolution: "typeorm@npm:0.3.27"
   dependencies:
     "@sqltools/formatter": "npm:^1.2.5"
     ansis: "npm:^3.17.0"
@@ -28670,16 +28628,15 @@ __metadata:
     dedent: "npm:^1.6.0"
     dotenv: "npm:^16.4.7"
     glob: "npm:^10.4.5"
-    sha.js: "npm:^2.4.11"
+    sha.js: "npm:^2.4.12"
     sql-highlight: "npm:^6.0.0"
     tslib: "npm:^2.8.1"
     uuid: "npm:^11.1.0"
     yargs: "npm:^17.7.2"
   peerDependencies:
     "@google-cloud/spanner": ^5.18.0 || ^6.0.0 || ^7.0.0
-    "@sap/hana-client": ^2.12.25
-    better-sqlite3: ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0
-    hdb-pool: ^0.1.6
+    "@sap/hana-client": ^2.14.22
+    better-sqlite3: ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0
     ioredis: ^5.0.4
     mongodb: ^5.8.0 || ^6.0.0
     mssql: ^9.1.1 || ^10.0.1 || ^11.0.1
@@ -28688,7 +28645,7 @@ __metadata:
     pg: ^8.5.1
     pg-native: ^3.0.0
     pg-query-stream: ^4.0.0
-    redis: ^3.1.1 || ^4.0.0
+    redis: ^3.1.1 || ^4.0.0 || ^5.0.14
     reflect-metadata: ^0.1.14 || ^0.2.0
     sql.js: ^1.4.0
     sqlite3: ^5.0.3
@@ -28700,8 +28657,6 @@ __metadata:
     "@sap/hana-client":
       optional: true
     better-sqlite3:
-      optional: true
-    hdb-pool:
       optional: true
     ioredis:
       optional: true
@@ -28733,7 +28688,7 @@ __metadata:
     typeorm: cli.js
     typeorm-ts-node-commonjs: cli-ts-node-commonjs.js
     typeorm-ts-node-esm: cli-ts-node-esm.js
-  checksum: 10/cdd2e3b7b34c743e5d2e0696908d782bf77514739b0c868fe5cc12e91e80c5e7398277cb99a206e45aa84b43248c6e5c3945d48c3ec6fa4ad154e05101693c16
+  checksum: 10/9155a8573a3f7976bc7f9312294d15c7c6fd68746a11c6b95184f8c4157f31916e32b9a17dd2da136fc75deda7ae2b74947990982fc6109c44531d418ad58dcd
   languageName: node
   linkType: hard
 
