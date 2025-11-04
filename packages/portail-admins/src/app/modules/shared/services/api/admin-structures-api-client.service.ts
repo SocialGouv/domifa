@@ -84,7 +84,6 @@ export class AdminStructuresApiClient {
       )
       .pipe(
         tap((updatedStructure: ApiStructureAdmin) => {
-          console.log({ updatedStructure });
           structuresCache.updateStructure(updatedStructure);
         })
       );

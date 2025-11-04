@@ -83,7 +83,6 @@ export class StructureFormDeleteComponent
   }
 
   ngAfterViewInit(): void {
-    console.log(this.deleteStructureModal);
     this.openModal();
   }
 

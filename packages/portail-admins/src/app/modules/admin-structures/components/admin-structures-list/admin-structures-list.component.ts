@@ -96,8 +96,6 @@ export class AdminStructuresListComponent
         const structures = state?.structureListData;
 
         if (structures) {
-          console.log("STORE START");
-          console.log(structures);
           this.totalStructures = structures.length;
           this.allstructures$.next(
             structuresListModelBuilder.buildStructuresViewModel(structures)
@@ -148,7 +146,6 @@ export class AdminStructuresListComponent
     this.subscription.add(
       combineLatest([this.allstructures$, this.filters$]).subscribe(
         ([allstructures, filters]) => {
-          console.log("combinelatest");
           this.structures = allstructures;
           this.filters = filters;
           this.setFilters();

@@ -80,7 +80,6 @@ export class StructureFormRefuseComponent
   }
 
   ngAfterViewInit(): void {
-    console.log(this.refuseStructureModal);
     this.openModal();
   }
 
