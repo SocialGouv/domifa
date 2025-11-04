@@ -157,38 +157,13 @@ thead th {
   background-color: white !important;
 }
 
-.dropdown-menu {
-  padding: 0 !important;
-  margin: 0;
-  border-radius: 5px;
-  background: #ffffff;
-  border: 1px solid #ececec;
-}
-
 .dropdown-item:hover {
   background-color: #9b9b9b !important;
   color: black;
 }
 
-.dropdown-item {
-  padding: 0.6rem 1rem;
-  cursor: pointer;
-  min-width: 200px;
-  border-bottom: 1px solid #9b9b9b;
-}
-
-.dropdown-item:not(:last-child) {
-  border-bottom: 1px solid #cfcfd9;
-}
-
-.dropdown-item:last-child {
-  border: 0 !important;
-}
-
-.dropdown-item .ng-fa-icon {
-  width: 30px;
-  display: inline-block;
-  vertical-align: middle;
+.dropdown-item button {
+  width: 100%;
 }
 
 .text-sm {
