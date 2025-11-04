@@ -34,7 +34,7 @@ CREATE TABLE public.expired_token (
     "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
     version integer NOT NULL,
     "userId" integer NOT NULL,
-    "structureId" integer,
+    "structureId" integer NOT NULL,
     token text NOT NULL,
     "userProfile" text NOT NULL
 );
@@ -190,7 +190,6 @@ CREATE TABLE public.structure (
     responsable jsonb NOT NULL,
     "structureType" text NOT NULL,
     token text,
-    verified boolean DEFAULT false NOT NULL,
     ville text NOT NULL,
     sms jsonb DEFAULT '{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false}'::jsonb NOT NULL,
     "portailUsager" jsonb DEFAULT '{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}'::jsonb NOT NULL,
@@ -207,7 +206,9 @@ CREATE TABLE public.structure (
     "domicilieSegment" text,
     "populationSegment" text,
     "registrationData" jsonb,
-    siret text
+    siret text,
+    statut text DEFAULT 'EN_ATTENTE'::text NOT NULL,
+    decision jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 CREATE TABLE public.structure_doc (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
