@@ -7,7 +7,6 @@ import {
   ViewChild,
   OnDestroy,
 } from "@angular/core";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -38,9 +37,8 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   @Output()
   public readonly sort = new EventEmitter<FilterOutput>();
 
-  @ViewChild(DsfrModalComponent, { static: true })
-  public addAdminModal!: DsfrModalComponent;
-
+  @ViewChild(DsfrModalComponent)
+  addAdminModal!: DsfrModalComponent;
   public currentStructure: StructureAdmin | undefined = undefined;
 
   public newAdminForm!: UntypedFormGroup;
@@ -56,7 +54,7 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   constructor(
     private readonly adminStructuresApiClient: AdminStructuresApiClient,
     private readonly toastService: CustomToastService,
-    private readonly modalService: NgbModal,
+
     private readonly formBuilder: UntypedFormBuilder
   ) {}
 
@@ -153,7 +151,7 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
             this.loading = false;
 
             this.currentStructure = undefined;
-            this.modalService.dismissAll();
+            this.addAdminModal?.close();
             this.toastService.success("Un email a été envoyé à l'utilisateur.");
           },
           error: () => {
@@ -169,7 +167,7 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
     this.newAdminForm.reset();
     this.currentStructure = undefined;
     this.submitted = false;
-    this.modalService.dismissAll();
+    this.addAdminModal?.close();
   }
 
   public ngOnDestroy(): void {

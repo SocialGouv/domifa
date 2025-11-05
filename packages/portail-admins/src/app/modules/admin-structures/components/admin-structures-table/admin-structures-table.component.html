@@ -289,103 +289,113 @@
     </tbody>
   </table>
 
-  <ng-template #addAdminModal>
-    <dsfr-modal
-      dialogId="modal-title"
-      titleModal="Création d'un utilisateur admin pour la structure : {{
-        currentStructure?.nom
-      }}"
-    >
-      <form
-        id="newAdminForm"
-        [formGroup]="newAdminForm"
-        (ngSubmit)="submitNewAdmin()"
-      >
-        <div class="row">
-          <div class="col-6 fr-form required">
-            <label for="nom">Nom </label>
-            <input
-              type="text"
-              class="form-control"
-              id="nom"
-              formControlName="nom"
-              name="nom"
-              placeholder="Nom"
-              [ngClass]="{
-                'is-invalid': submitted && f.nom.errors
-              }"
-              required
-            />
-            <p *ngIf="submitted && f.nom.errors" class="invalid-feedback">
-              Veuillez vérifier le nom
-            </p>
+  <dsfr-modal
+    (conceal)="cancelForm()"
+    #addAdminModal
+    dialogId="addAdminModal"
+    titleModal="Création d'un utilisateur admin pour la structure : {{
+      currentStructure?.nom
+    }}"
+  >
+    <form id="newAdminForm" [formGroup]="newAdminForm">
+      <div class="row">
+        <div
+          [class.fr-input-group--error]="submitted && f.nom.errors"
+          class="col-12 fr-input-group required mb-3"
+        >
+          <label class="fr-label" for="nom">Nom </label>
+          <input
+            type="text"
+            class="fr-input"
+            id="nom"
+            formControlName="nom"
+            name="nom"
+            placeholder="Nom"
+            [ngClass]="{
+              'is-invalid': submitted && f.nom.errors
+            }"
+            required
+          />
+          <div
+            *ngIf="submitted && f.nom.errors"
+            class="fr-messages-group"
+            aria-live="polite"
+          >
+            <p class="fr-message fr-message--error">Veuillez vérifier le nom</p>
           </div>
+        </div>
 
-          <div class="col-6 form-group required">
-            <label for="prenom">Prénom</label>
-            <input
-              type="text"
-              class="form-control"
-              id="prenom"
-              formControlName="prenom"
-              name="prenom"
-              placeholder="Prénom"
-              [ngClass]="{
-                'is-invalid': submitted && f.prenom.errors
-              }"
-              required
-            />
-            <p *ngIf="submitted && f.prenom.errors" class="invalid-feedback">
+        <div
+          [class.fr-input-group--error]="submitted && f.prenom.errors"
+          class="col-12 fr-input-group required mb-3"
+        >
+          <label class="fr-label" for="prenom">Prénom</label>
+          <input
+            type="text"
+            class="fr-input"
+            id="prenom"
+            formControlName="prenom"
+            name="prenom"
+            placeholder="Prénom"
+            required="true"
+          />
+          <div
+            *ngIf="submitted && f.prenom.errors"
+            class="fr-messages-group"
+            aria-live="polite"
+          >
+            <p class="fr-message fr-message--error">
               Veuillez vérifier le prénom
             </p>
           </div>
+        </div>
 
-          <div class="col-12 form-group required">
-            <label for="email">Email :</label>
-            <input
-              type="text"
-              class="form-control"
-              id="email"
-              formControlName="email"
-              name="email"
-              placeholder="Email"
-              [ngClass]="{
-                'is-invalid': submitted && f.email.errors
-              }"
-              required
-            />
-            <p *ngIf="f.email.errors" class="invalid-feedback">
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'exclamation-triangle']"
-              ></fa-icon>
-              <b>Vérifiez l'adresse email</b>
-            </p>
-          </div>
-          <div class="col-12 form-group required">
-            <app-fonction-selection
-              [parentFormGroup]="newAdminForm"
-              [fonctionDetailFormControl]="fonctionDetailControl"
-              [fonctionFormControl]="fonctionFormControl"
-              [submitted]="submitted"
-              invalidFeedbackText="La fonction de l'administrateur est obligatoire"
-            ></app-fonction-selection>
+        <div
+          [class.fr-input-group--error]="submitted && f.email.errors"
+          class="col-12 fr-input-group required mb-3"
+        >
+          <label for="email">Email :</label>
+          <input
+            type="text"
+            class="fr-input"
+            id="email"
+            formControlName="email"
+            name="email"
+            placeholder="Email"
+            required="true"
+          />
+          <div
+            *ngIf="submitted && f.prenom.errors"
+            class="fr-messages-group"
+            aria-live="polite"
+          >
+            <p class="fr-message fr-message--error">Vérifiez l'adresse email</p>
           </div>
         </div>
-      </form>
+        <div class="col-12 fr-input-group required mb-3">
+          <app-fonction-selection
+            [parentFormGroup]="newAdminForm"
+            [fonctionDetailFormControl]="fonctionDetailControl"
+            [fonctionFormControl]="fonctionFormControl"
+            [submitted]="submitted"
+            invalidFeedbackText="La fonction de l'administrateur est obligatoire"
+          ></app-fonction-selection>
+        </div>
+      </div>
+
       <ng-template #modalFooterTemplate>
         <dsfr-buttons-group
+          (click)="submitNewAdmin()"
           inline="LG"
           alignment="reverse"
           iconPosition="left"
           groupMarkup="div"
         >
           <dsfr-button
-            class="btn btn-primary"
             type="submit"
             [disabled]="loading"
             [attr.aria-busy]="loading"
-            label="Valider"
+            label="Ajouter cet utilisateur"
           ></dsfr-button>
           <dsfr-button
             (click)="cancelForm()"
@@ -395,6 +405,6 @@
           ></dsfr-button>
         </dsfr-buttons-group>
       </ng-template>
-    </dsfr-modal>
-  </ng-template>
+    </form>
+  </dsfr-modal>
 </div>
