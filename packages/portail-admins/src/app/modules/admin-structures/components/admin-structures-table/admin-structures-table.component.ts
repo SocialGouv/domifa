@@ -5,10 +5,9 @@ import {
   OnInit,
   Output,
   ViewChild,
-  TemplateRef,
   OnDestroy,
 } from "@angular/core";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -23,6 +22,7 @@ import { SortValues, USER_FONCTION_LABELS } from "@domifa/common";
 import { StructureAdmin } from "../../types";
 import { StructureFilterCriteria } from "../../utils/structure-filter-criteria";
 import { FilterOutput } from "../admin-structures-list/admin-structures-list.component";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-admin-structures-table",
@@ -38,8 +38,8 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   @Output()
   public readonly sort = new EventEmitter<FilterOutput>();
 
-  @ViewChild("addAdminModal", { static: true })
-  public addAdminModal!: TemplateRef<NgbModalRef>;
+  @ViewChild(DsfrModalComponent, { static: true })
+  public addAdminModal!: DsfrModalComponent;
 
   public currentStructure: StructureAdmin | undefined = undefined;
 
@@ -126,7 +126,7 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
 
   public openModal(structure: StructureAdmin): void {
     this.currentStructure = structure;
-    this.modalService.open(this.addAdminModal, { size: "lg" });
+    this.addAdminModal.open();
   }
 
   public submitNewAdmin(): void {

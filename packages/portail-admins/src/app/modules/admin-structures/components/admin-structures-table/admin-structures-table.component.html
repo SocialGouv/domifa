@@ -289,21 +289,20 @@
     </tbody>
   </table>
 
-  <ng-template #addAdminModal let-modal>
-    <div class="modal-header">
-      <span class="modal-title" id="modal-title">
-        Création d'un utilisateur admin pour la structure :
-        {{ currentStructure?.nom }}
-      </span>
-    </div>
-    <form
-      id="newAdminForm"
-      [formGroup]="newAdminForm"
-      (ngSubmit)="submitNewAdmin()"
+  <ng-template #addAdminModal>
+    <dsfr-modal
+      dialogId="modal-title"
+      titleModal="Création d'un utilisateur admin pour la structure : {{
+        currentStructure?.nom
+      }}"
     >
-      <div class="modal-body">
+      <form
+        id="newAdminForm"
+        [formGroup]="newAdminForm"
+        (ngSubmit)="submitNewAdmin()"
+      >
         <div class="row">
-          <div class="col-6 form-group required">
+          <div class="col-6 fr-form required">
             <label for="nom">Nom </label>
             <input
               type="text"
@@ -373,30 +372,29 @@
             ></app-fonction-selection>
           </div>
         </div>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="cancelForm()">
-          Annuler
-        </button>
-        <button
-          class="btn btn-primary"
-          type="submit"
-          [disabled]="loading"
-          [attr.aria-busy]="loading"
+      </form>
+      <ng-template #modalFooterTemplate>
+        <dsfr-buttons-group
+          inline="LG"
+          alignment="reverse"
+          iconPosition="left"
+          groupMarkup="div"
         >
-          <span *ngIf="loading">
-            <fa-icon
-              [icon]="['fas', 'circle-notch']"
-              aria-hidden="true"
-              animation="spin"
-            >
-            </fa-icon>
-            Veuillez patienter...
-          </span>
-          <span *ngIf="!loading">Ajouter l'utilisateur</span>
-        </button>
-      </div>
-    </form>
+          <dsfr-button
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="loading"
+            [attr.aria-busy]="loading"
+            label="Valider"
+          ></dsfr-button>
+          <dsfr-button
+            (click)="cancelForm()"
+            label="Annuler"
+            variant="secondary"
+            [disabled]="loading"
+          ></dsfr-button>
+        </dsfr-buttons-group>
+      </ng-template>
+    </dsfr-modal>
   </ng-template>
 </div>
