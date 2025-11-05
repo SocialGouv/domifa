@@ -22,6 +22,7 @@ import {
   DsfrSkiplinksModule,
   DsfrFooterModule,
   DsfrHeaderModule,
+  DsfrButtonModule,
 } from "@edugouvfr/ngx-dsfr";
 import { StructureFormDeleteComponent } from "../admin-structures/components/structure-form-delete/structure-form-delete.component";
 import {
