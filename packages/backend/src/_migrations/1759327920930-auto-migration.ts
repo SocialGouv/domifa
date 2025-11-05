@@ -1,48 +1,33 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
-
-import { v4 as uuidv4 } from "uuid";
-import { StructureDecisionStatut } from "@domifa/common";
+import { domifaConfig } from "../config";
 
 export class AutoMigration1759327920930 implements MigrationInterface {
   name = "AutoMigration1759327920930";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `ALTER TABLE "structure" ADD "statut" text NOT NULL DEFAULT 'EN_ATTENTE'`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "structure" ADD "decision" jsonb NOT NULL DEFAULT '{}'::jsonb`
-    );
-
-    const structures = await queryRunner.query(
-      `SELECT id, verified, "createdAt" FROM "structure"`
-    );
-
-    for (const structure of structures) {
-      const statut: StructureDecisionStatut = structure?.verified
-        ? "VALIDE"
-        : "EN_ATTENTE";
-
-      const decision = {
-        uuid: uuidv4(),
-        dateDecision: structure.createdAt,
-        statut: statut,
-        motif: null,
-        motifDetails: null,
-        userId: 1,
-        userName: "Migration DomiFa",
-      };
-
+    if (
+      domifaConfig().envId === "prod" ||
+      domifaConfig().envId === "preprod" ||
+      domifaConfig().envId === "local"
+    ) {
       await queryRunner.query(
-        `UPDATE "structure"
-         SET "statut" = $1,
-             "decision" = $2::jsonb
-         WHERE id = $3`,
-        [statut, JSON.stringify(decision), structure.id]
+        `ALTER TABLE "structure" DROP COLUMN "tokenDelete"`
+      );
+      await queryRunner.query(`ALTER TABLE "structure" DROP COLUMN "token"`);
+      await queryRunner.query(
+        `ALTER TABLE "structure" ADD "statut" text NOT NULL DEFAULT 'EN_ATTENTE'`
+      );
+      await queryRunner.query(`ALTER TABLE "structure" ADD "decision" jsonb`);
+      await queryRunner.query(
+        `ALTER TABLE "structure" ALTER COLUMN "telephone" DROP DEFAULT`
+      );
+      await queryRunner.query(
+        `ALTER TABLE "expired_token" DROP CONSTRAINT "FK_4252acc4e242ad123a5d7b06252"`
+      );
+      await queryRunner.query(
+        `ALTER TABLE "expired_token" ALTER COLUMN "structureId" DROP NOT NULL`
       );
     }
-
-    await queryRunner.query(`ALTER TABLE "structure" DROP COLUMN "verified"`);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
@@ -52,16 +37,17 @@ export class AutoMigration1759327920930 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "user_structure" ADD "fonctionDetail" character varying(255)`
     );
+
     await queryRunner.query(
       `ALTER TABLE "structure" ALTER COLUMN "sms" SET DEFAULT '{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false}'`
     );
     await queryRunner.query(
       `ALTER TABLE "structure" ALTER COLUMN "telephone" SET DEFAULT '{"numero": "", "countryCode": "fr"}'`
     );
-    await queryRunner.query(
-      `ALTER TABLE "structure" DROP COLUMN "statutDetail"`
-    );
+    await queryRunner.query(`ALTER TABLE "structure" DROP COLUMN "decision"`);
     await queryRunner.query(`ALTER TABLE "structure" DROP COLUMN "statut"`);
+    await queryRunner.query(`ALTER TABLE "structure" ADD "token" text`);
+    await queryRunner.query(`ALTER TABLE "structure" ADD "tokenDelete" text`);
     await queryRunner.query(
       `ALTER TABLE "structure" ADD "verified" boolean NOT NULL DEFAULT false`
     );
