@@ -1,3 +1,10 @@
+# [2.226.0](https://github.com/SocialGouv/domifa/compare/v2.225.0...v2.226.0) (2025-11-06)
+
+
+### Features
+
+* **admin:** add refuse & delete for structures ([#3998](https://github.com/SocialGouv/domifa/issues/3998)) ([5a529f4](https://github.com/SocialGouv/domifa/commit/5a529f487684d0315a1a271bbfd4468407f09da3))
+
 # [2.225.0](https://github.com/SocialGouv/domifa/compare/v2.224.3...v2.225.0) (2025-11-04)
 
 
