@@ -13,6 +13,8 @@ export class AutoMigration1759327920930 implements MigrationInterface {
       await queryRunner.query(
         `ALTER TABLE "structure" DROP COLUMN "tokenDelete"`
       );
+      await queryRunner.query(`ALTER TABLE "structure" DROP COLUMN "verified"`);
+
       await queryRunner.query(`ALTER TABLE "structure" DROP COLUMN "token"`);
       await queryRunner.query(
         `ALTER TABLE "structure" ADD "statut" text NOT NULL DEFAULT 'EN_ATTENTE'`

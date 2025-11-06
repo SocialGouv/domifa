@@ -97,7 +97,9 @@ export class PublicStatsService implements OnModuleInit {
     }
     // Stats nationales
     else {
-      publicStats.structuresCount = await structureRepository.count();
+      publicStats.structuresCount = await structureRepository.count({
+        where: { statut: "VALIDE" },
+      });
 
       publicStats.structuresCountByRegion =
         await this.getStructuresCountByRegion();
