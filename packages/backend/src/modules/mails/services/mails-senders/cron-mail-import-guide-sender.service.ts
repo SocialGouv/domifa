@@ -78,6 +78,7 @@ export class CronMailImportGuideSenderService {
     const structures: Pick<Structure, "id">[] = await structureRepository.find({
       where: {
         import: false,
+        statut: "VALIDE",
       },
       select: { id: true },
     });

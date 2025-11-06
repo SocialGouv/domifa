@@ -1,0 +1,77 @@
+<dsfr-modal
+  dialogId="refuseStructureModal"
+  [titleModal]="'Refuser la structure ' + structure?.nom"
+  [concealingBackdrop]="false"
+  [autoCloseOnAction]="false"
+  (conceal)="closeModal()"
+  (disclose)="opened()"
+  size="LG"
+>
+  <div class="fr-modal__content">
+    <form [formGroup]="refuseForm" (ngSubmit)="setDecision()">
+      <div class="fr-alert fr-alert--info fr-mb-3w">
+        <p>Vous êtes sur le point de refuser la structure suivante :</p>
+        <p class="fr-text--bold">
+          {{ structure?.nom }}<br />
+          {{ structure?.adresse }}, {{ structure?.codePostal }},
+          {{ structure?.ville }}
+        </p>
+      </div>
+
+      <p class="fr-text--lg fr-mb-3w">
+        Afin de mieux suivre l'évolution des inscriptions, veuillez compléter un
+        motif de refus
+      </p>
+
+      <div
+        class="fr-select-group fr-mb-3w"
+        [class.fr-select-group--error]="
+          submitted && refuseForm.get('motif')?.errors
+        "
+      >
+        <label class="fr-label" for="motifRefus">
+          Motif de refus
+          <span class="fr-hint-text">Obligatoire</span>
+        </label>
+        <select
+          id="motifRefus"
+          class="fr-select"
+          [class.fr-select--error]="
+            submitted && refuseForm.get('motif')?.errors
+          "
+          formControlName="motif"
+          aria-describedby="motifRefus-error"
+        >
+          <option value="" disabled selected hidden>
+            Sélectionnez un motif
+          </option>
+          <option *ngFor="let motif of motifs" [value]="motif.key">
+            {{ motif.label }}
+          </option>
+        </select>
+        <p
+          *ngIf="submitted && refuseForm.get('motif')?.errors"
+          id="motifRefus-error"
+          class="fr-error-text"
+        >
+          Veuillez sélectionner un motif de refus
+        </p>
+      </div>
+
+      <!-- Boutons d'action -->
+      <div class="fr-btns-group fr-btns-group--right fr-btns-group--inline-sm">
+        <button
+          type="button"
+          (click)="closeModal()"
+          [disabled]="loading"
+          class="fr-btn fr-btn--secondary fr-btn--lg"
+        >
+          Annuler
+        </button>
+        <button type="submit" [disabled]="loading" class="fr-btn fr-btn--lg">
+          Confirmer le refus
+        </button>
+      </div>
+    </form>
+  </div>
+</dsfr-modal>

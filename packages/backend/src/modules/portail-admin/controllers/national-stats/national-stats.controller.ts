@@ -138,7 +138,7 @@ export class NationalStatsController {
           : undefined,
       departement: metabaseDto?.department ?? undefined,
       structureType: metabaseDto?.structureType ?? undefined,
-      verified: true,
+      statut: "VALIDE",
     };
 
     return await structureRepository.find({

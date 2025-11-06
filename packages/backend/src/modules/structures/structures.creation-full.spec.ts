@@ -9,17 +9,18 @@ import { UsersModule } from "../users/users.module";
 import { ExpressResponse } from "../../util/express";
 import { AppTestContext, AppTestHelper } from "../../util/test";
 
-import { AdminStructuresDeleteController } from "../portail-admin/controllers/admin-structures-delete/admin-structures-delete.controller";
 import { AdminStructuresController } from "../portail-admin/controllers/admin-structures/admin-structures.controller";
 import { StructuresController } from "./controllers/structures.controller";
 import { StructuresPublicController } from "./controllers/structures.public.controller";
 import { StructureWithUserDto } from "./dto/structure-with-user.dto";
 import { StructureDto } from "./dto/structure.dto";
-import { structureDeletorService } from "./services/structure-deletor.service";
 import { StructuresModule } from "./structure.module";
 import { AdminsAuthService, PortailAdminModule } from "../portail-admin";
 import { MailsModule } from "../mails/mails.module";
-import { UserFonction } from "@domifa/common";
+import {
+  UserFonction,
+  StructureDecisionSuppressionMotif,
+} from "@domifa/common";
 import { UserAdminAuthenticated } from "../../_common/model";
 const structureDto: StructureDto = {
   adresse: "1 rue de Pessac",
@@ -77,7 +78,6 @@ describe("Stuctures creation full", () => {
   let structureController: StructuresController;
   let structurePublicController: StructuresPublicController;
   let adminStructuresController: AdminStructuresController;
-  let adminStructuresDeleteController: AdminStructuresDeleteController;
   let userController: UsersController;
   let adminsAuthService: AdminsAuthService;
   let userAuthentificated: UserAdminAuthenticated;
@@ -109,10 +109,6 @@ describe("Stuctures creation full", () => {
     adminStructuresController = context.module.get<AdminStructuresController>(
       AdminStructuresController
     );
-    adminStructuresDeleteController =
-      context.module.get<AdminStructuresDeleteController>(
-        AdminStructuresDeleteController
-      );
   });
   afterAll(async () => {
     await AppTestHelper.tearDownTestApp(context);
@@ -167,7 +163,7 @@ describe("Stuctures creation full", () => {
     expect(structure).toBeDefined();
     expect(structure.nom).toEqual(structureDto.nom);
     expect(structure.lastLogin).toBeNull();
-    expect(structure.verified).toBeFalsy();
+    expect(structure.statut).toEqual("EN_ATTENTE");
 
     const user = await userStructureRepository.findOneBy({
       structureId: structure.id,
@@ -194,9 +190,10 @@ describe("Stuctures creation full", () => {
       uuid: localCache.uuid,
     });
 
-    await adminStructuresController.confirmStructureCreation(
+    await adminStructuresController.updateStructureStatus(
       userAuthentificated,
-      { token: structure.token, uuid: structure.uuid },
+      structure.id,
+      { statut: "VALIDE" },
       res
     );
 
@@ -213,18 +210,33 @@ describe("Stuctures creation full", () => {
   });
 
   it("delete structure", async () => {
-    const structure = await structureDeletorService.generateDeleteToken(
-      localCache.uuid
+    const structure = await structureRepository.findOneBy({
+      uuid: localCache.uuid,
+    });
+    await adminStructuresController.updateStructureStatus(
+      userAuthentificated,
+      structure.id,
+      {
+        statut: "SUPPRIME",
+        statutDetail: StructureDecisionSuppressionMotif.PAS_DE_DOMICILIATION,
+      },
+      res
     );
 
-    await adminStructuresDeleteController.deleteStructureConfirm(
-      userAuthentificated,
-      res,
-      {
-        token: structure.token,
-        uuid: structure.uuid,
-      }
-    );
+    const validStructures = await structureRepository.count({
+      where: {
+        statut: "VALIDE",
+      },
+    });
+
+    const deletedStructures = await structureRepository.count({
+      where: {
+        statut: "SUPPRIME",
+      },
+    });
+
+    expect(validStructures).toEqual(5);
+    expect(deletedStructures).toEqual(1);
   });
 
   async function testPreCreateStructure() {

@@ -35,6 +35,7 @@ export class StructureAccessGuard implements CanActivate {
       const structure = await structureRepository.findOneOrFail({
         where: {
           id: structureId,
+          // statut: "VALIDE",
         },
       });
       r.structure = structure;

@@ -64,6 +64,7 @@ export class UsagersAuthService {
 
     const structure = await structureRepository.findOneByOrFail({
       id: user.structureId,
+      statut: "VALIDE",
     });
 
     const auth: UserUsagerAuthenticated = {

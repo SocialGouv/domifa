@@ -13,12 +13,19 @@ import { AdminStructuresTableComponent } from "./components/admin-structures-tab
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 import { SortArrayPipe } from "../shared/pipes/sort-array.pipe";
 import { StructureFiltersComponent } from "./components/structure-filters/structure-filters.component";
+import { StructureConfirmComponent } from "./components/structure-confirm/structure-confirm.component";
+
+import { DsfrDropdownMenuComponent } from "@edugouvfr/ngx-dsfr-ext";
+import { DsfrButtonComponent, DsfrModalModule } from "@edugouvfr/ngx-dsfr";
+import { StructureFormDeleteComponent } from "./components/structure-form-delete/structure-form-delete.component";
+import { StructureFormRefuseComponent } from "./components/structure-form-refuse/structure-form-refuse.component";
 
 @NgModule({
   declarations: [
     AdminStructuresListComponent,
     AdminStructuresTableComponent,
     StructureFiltersComponent,
+    StructureConfirmComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +37,11 @@ import { StructureFiltersComponent } from "./components/structure-filters/struct
     ReactiveFormsModule,
     TableHeadSortComponent,
     SortArrayPipe,
+    DsfrModalModule,
+    DsfrDropdownMenuComponent,
+    DsfrButtonComponent,
+    StructureFormRefuseComponent,
+    StructureFormDeleteComponent,
   ],
   providers: [StatsService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

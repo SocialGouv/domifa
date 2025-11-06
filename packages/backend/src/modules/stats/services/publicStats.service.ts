@@ -97,7 +97,9 @@ export class PublicStatsService implements OnModuleInit {
     }
     // Stats nationales
     else {
-      publicStats.structuresCount = await structureRepository.count();
+      publicStats.structuresCount = await structureRepository.count({
+        where: { statut: "VALIDE" },
+      });
 
       publicStats.structuresCountByRegion =
         await this.getStructuresCountByRegion();
@@ -160,6 +162,7 @@ export class PublicStatsService implements OnModuleInit {
     }[]
   > {
     return await structureRepository.countBy({
+      where: { statut: "VALIDE" },
       countBy: "region",
       order: {
         count: "DESC",
@@ -175,6 +178,7 @@ export class PublicStatsService implements OnModuleInit {
       countByAlias: "departement",
       where: {
         region: regionId,
+        statut: "VALIDE",
       },
       order: {
         count: "DESC",
@@ -198,6 +202,7 @@ export class PublicStatsService implements OnModuleInit {
       .createQueryBuilder("structure")
       .select("structure.structureType", "structureType")
       .addSelect("COUNT(structure.id)", "count")
+      .where("statut='VALIDE'")
       .groupBy("structure.structureType");
 
     if (region) {

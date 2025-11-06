@@ -6,7 +6,13 @@ import { environment } from "src/environments/environment";
 
 import { structuresCache } from "../../store/structuresCache.service";
 
-import { ApiMessage, Structure } from "@domifa/common";
+import {
+  ApiMessage,
+  Structure,
+  StructureDecisionRefusMotif,
+  StructureDecisionStatut,
+  StructureDecisionSuppressionMotif,
+} from "@domifa/common";
 import {
   ApiStructureAdmin,
   UserNewAdmin,
@@ -58,6 +64,29 @@ export class AdminStructuresApiClient {
       uuid: structureUuid,
       token,
     });
+  }
+
+  public setDecisionStructure(
+    structureId: number,
+    statut: StructureDecisionStatut,
+    statutDetail?:
+      | StructureDecisionRefusMotif
+      | StructureDecisionSuppressionMotif
+  ): Observable<ApiStructureAdmin> {
+    return this.http
+      .patch<ApiStructureAdmin>(
+        `${BASE_URL}/structure-decision/${structureId}`,
+        {
+          structureId,
+          statut,
+          statutDetail,
+        }
+      )
+      .pipe(
+        tap((updatedStructure: ApiStructureAdmin) => {
+          structuresCache.updateStructure(updatedStructure);
+        })
+      );
   }
 
   public getAdminStructureListData(): Observable<ApiStructureAdmin[]> {

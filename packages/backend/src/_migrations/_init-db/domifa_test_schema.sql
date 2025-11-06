@@ -180,7 +180,6 @@ CREATE TABLE public.structure (
     region text NOT NULL,
     email text NOT NULL,
     "hardReset" jsonb,
-    "tokenDelete" text,
     import boolean DEFAULT false NOT NULL,
     "registrationDate" timestamp with time zone NOT NULL,
     "importDate" date,
@@ -189,13 +188,11 @@ CREATE TABLE public.structure (
     options jsonb NOT NULL,
     responsable jsonb NOT NULL,
     "structureType" text NOT NULL,
-    token text,
-    verified boolean DEFAULT false NOT NULL,
     ville text NOT NULL,
     sms jsonb DEFAULT '{"senderName": null, "senderDetails": null, "enabledByDomifa": true, "enabledByStructure": false}'::jsonb NOT NULL,
     "portailUsager" jsonb DEFAULT '{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}'::jsonb NOT NULL,
     "timeZone" text NOT NULL,
-    telephone jsonb DEFAULT '{"numero": "", "countryCode": "fr"}'::jsonb NOT NULL,
+    telephone jsonb NOT NULL,
     "acceptTerms" timestamp with time zone,
     latitude double precision,
     longitude double precision,
@@ -207,7 +204,9 @@ CREATE TABLE public.structure (
     "domicilieSegment" text,
     "populationSegment" text,
     "registrationData" jsonb,
-    siret text
+    siret text,
+    statut text DEFAULT 'EN_ATTENTE'::text NOT NULL,
+    decision jsonb
 );
 CREATE TABLE public.structure_doc (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -715,8 +714,6 @@ ALTER TABLE ONLY public.interactions
     ADD CONSTRAINT "FK_1953f5ad67157bada8774f7e245" FOREIGN KEY ("structureId") REFERENCES public.structure(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.usager_options_history
     ADD CONSTRAINT "FK_3cb5af09bf7cd68d7070dbc8966" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE;
-ALTER TABLE ONLY public.expired_token
-    ADD CONSTRAINT "FK_4252acc4e242ad123a5d7b06252" FOREIGN KEY ("structureId") REFERENCES public.structure(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.user_usager_login
     ADD CONSTRAINT "FK_4bf76763fec5203f945338a0377" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE;
 ALTER TABLE ONLY public.user_structure_security

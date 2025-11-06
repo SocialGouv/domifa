@@ -6,5 +6,9 @@ export type AppStoreAction =
       data: ApiStructureAdmin[];
     }
   | {
+      type: "update-structure";
+      data: ApiStructureAdmin;
+    }
+  | {
       type: "reset";
     };

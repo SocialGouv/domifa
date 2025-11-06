@@ -20,8 +20,7 @@ import {
   tap,
 } from "rxjs";
 import { AdminStructuresApiClient } from "../../../shared/services";
-import { structuresListModelBuilder, structuresSorter } from "./services";
-import { structuresFilter } from "./services/structuresFilter.service";
+
 import { ApiStructureAdmin, StructureAdmin } from "../../types";
 import { fadeInOut } from "../../../shared/constants";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
@@ -34,6 +33,12 @@ import {
   SortValues,
   StructureType,
 } from "@domifa/common";
+import {
+  structuresListModelBuilder,
+  structuresFilter,
+  structuresSorter,
+} from "../../utils";
+import { appStore } from "../../../shared/store/appStore.service";
 
 export type FilterOutput = {
   element: keyof StructureFilterCriteria;
@@ -45,7 +50,6 @@ export type FilterOutput = {
   animations: [fadeInOut],
   selector: "app-admin-structures-list",
   templateUrl: "./admin-structures-list.component.html",
-  styleUrls: ["./admin-structures-list.component.scss"],
 })
 export class AdminStructuresListComponent
   implements OnInit, OnDestroy, AfterViewInit
@@ -57,7 +61,7 @@ export class AdminStructuresListComponent
   public searching = true;
   public totalStructures = 0;
   public filters = new StructureFilterCriteria();
-
+  public showFilters = false;
   public pageSize = 100;
   public readonly faSpinner = faSpinner;
   public filters$: BehaviorSubject<StructureFilterCriteria> =
@@ -85,6 +89,21 @@ export class AdminStructuresListComponent
 
   public ngOnInit(): void {
     this.initFiltersFromStorage();
+
+    this.subscription.add(
+      appStore.subscribe(() => {
+        const state = appStore.getState();
+        const structures = state?.structureListData;
+
+        if (structures) {
+          this.totalStructures = structures.length;
+          this.allstructures$.next(
+            structuresListModelBuilder.buildStructuresViewModel(structures)
+          );
+        }
+      })
+    );
+
     const inputChange$ = fromEvent<InputEvent>(
       this.searchInput.nativeElement,
       "input"
@@ -162,6 +181,9 @@ export class AdminStructuresListComponent
     }, options);
   }
 
+  public toggleFilters() {
+    this.showFilters = !this.showFilters;
+  }
   private applyPagination(): void {
     if (!this.filteredStructures?.length) {
       return;

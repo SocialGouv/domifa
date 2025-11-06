@@ -8,26 +8,27 @@ import {
   TemplateRef,
   OnDestroy,
 } from "@angular/core";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import {
-  AbstractControl,
-  UntypedFormBuilder,
   UntypedFormGroup,
+  UntypedFormBuilder,
+  AbstractControl,
   Validators,
 } from "@angular/forms";
-import { Subscription } from "rxjs";
-import { regexp } from "../../../../shared/utils";
-import { AdminStructuresApiClient } from "../../../shared/services";
-import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { SortValues, USER_FONCTION_LABELS } from "@domifa/common";
+import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Subscription } from "rxjs";
+import { regexp } from "../../../../shared";
+import {
+  AdminStructuresApiClient,
+  CustomToastService,
+} from "../../../shared/services";
 import { StructureAdmin } from "../../types";
-import { StructureFilterCriteria } from "../../utils/structure-filter-criteria";
+import { StructureFilterCriteria } from "../../utils";
 import { FilterOutput } from "../admin-structures-list/admin-structures-list.component";
 
 @Component({
   selector: "app-admin-structures-table",
   templateUrl: "./admin-structures-table.component.html",
-  styleUrls: ["./admin-structures-table.component.scss"],
 })
 export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   @Input()
@@ -42,6 +43,8 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   public addAdminModal!: TemplateRef<NgbModalRef>;
 
   public currentStructure: StructureAdmin | undefined = undefined;
+  public structureToDelete: StructureAdmin | undefined = undefined;
+  public structureToRefuse: StructureAdmin | undefined = undefined;
 
   public newAdminForm!: UntypedFormGroup;
 
@@ -49,10 +52,11 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
 
   public loading = false;
   public exportLoading = false;
-  private readonly subscription = new Subscription();
   public sortValue: SortValues = "desc";
   public currentKey: keyof StructureAdmin = "id";
+  private readonly subscription = new Subscription();
   public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
+
   constructor(
     private readonly adminStructuresApiClient: AdminStructuresApiClient,
     private readonly toastService: CustomToastService,
@@ -89,6 +93,13 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
     return this.newAdminForm.get("fonctionDetail");
   }
 
+  public refuseModal(structure: StructureAdmin) {
+    this.structureToRefuse = structure;
+  }
+  public openDeleteModal(structure: StructureAdmin) {
+    this.structureToDelete = structure;
+  }
+
   public deleteStructure(structureUuid: string): void {
     this.subscription.add(
       this.adminStructuresApiClient
@@ -111,10 +122,10 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   public confirmStructure(structure: StructureAdmin) {
     this.subscription.add(
       this.adminStructuresApiClient
-        .confirmNewStructure(structure.uuid, structure.token)
+        .setDecisionStructure(structure.id, "VALIDE")
         .subscribe({
           next: () => {
-            structure.verified = true;
+            structure.statut = "VALIDE";
             this.toastService.success("Structure vérifiée avec succès");
           },
           error: () => {
@@ -124,9 +135,9 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
     );
   }
 
-  public openModal(structure: StructureAdmin): void {
+  public openAddAdminModal(structure: StructureAdmin): void {
+    this.modalService.open(this.addAdminModal);
     this.currentStructure = structure;
-    this.modalService.open(this.addAdminModal, { size: "lg" });
   }
 
   public submitNewAdmin(): void {
@@ -168,6 +179,8 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   public cancelForm(): void {
     this.newAdminForm.reset();
     this.currentStructure = undefined;
+    this.structureToDelete = undefined;
+    this.structureToRefuse = undefined;
     this.submitted = false;
     this.modalService.dismissAll();
   }
