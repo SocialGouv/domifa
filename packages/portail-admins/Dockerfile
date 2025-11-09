@@ -36,6 +36,6 @@ RUN yarn workspace @domifa/portail-admins build
 
 RUN yarn workspaces focus @domifa/portail-admins --production && yarn cache clean
 
-FROM ghcr.io/socialgouv/docker/nginx4spa:8.2.3
+FROM ghcr.io/socialgouv/docker/nginx4spa:8.2.4
 
 COPY --from=builder --chown=101:101 /app/packages/portail-admins/dist/domifa-portail-admins /usr/share/nginx/html
