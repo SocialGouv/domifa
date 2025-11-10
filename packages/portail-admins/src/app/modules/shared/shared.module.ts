@@ -21,6 +21,7 @@ import {
   DsfrAlertModule,
   DsfrSkiplinksModule,
   DsfrFooterModule,
+  DsfrHeaderModule,
 } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
@@ -44,6 +45,7 @@ import {
     FonctionSelectionComponent,
     FonctionFormatPipe,
     DsfrSkiplinksModule,
+    DsfrHeaderModule,
   ],
   imports: [
     DsfrAlertModule,
@@ -52,6 +54,8 @@ import {
     FormsModule,
     ReactiveFormsModule,
     FonctionFormatPipe,
+    DsfrAlertModule,
+    DsfrHeaderModule,
   ],
   providers: [AdminStructuresApiClient],
 })
