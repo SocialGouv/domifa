@@ -12,6 +12,12 @@ export const structuresCache = {
   getStructureListData: () => {
     return appStore.getState()?.structureListData;
   },
+
+  getStructureById: (structureId: number): ApiStructureAdmin | undefined => {
+    return appStore
+      .getState()
+      .structureListData?.find((structure) => structure.id === structureId);
+  },
   updateStructure: (updatedStructure: ApiStructureAdmin) => {
     appStore.dispatch({
       type: "update-structure",

@@ -55,19 +55,19 @@ export class AppComponent implements OnInit {
           // subheader menun
           this.menuHeaderItems = [
             {
-              linkId: "stats",
-              label: "Statistiques de la domiciliation",
-              routerLink: "/stats",
-            },
-            {
-              linkId: "structures",
-              label: "Liste des structures",
-              routerLink: "/structures",
+              linkId: "dashboard",
+              label: "Tableau de bord",
+              routerLink: "/structure",
             },
             {
               linkId: "manage-users",
               label: "Utilisateurs de l'administration",
               routerLink: "/manage-users",
+            },
+            {
+              linkId: "stats",
+              label: "Statistiques de la domiciliation",
+              routerLink: "/stats",
             },
           ];
         }
@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
             link: `${this.currentUrl}#navigation`,
           },
           { label: "Aller au contenu", link: `${this.currentUrl}#page` },
-          ...(this.currentUrl === "/structures" // pour avoir le bon ordre des liens
+          ...(this.currentUrl === "/structure" // pour avoir le bon ordre des liens
             ? [
                 {
                   label: "Aller à la recherche",
@@ -125,8 +125,10 @@ export class AppComponent implements OnInit {
       });
   }
 
-  public logout(): void {
-    this.adminAuthService.logoutFromBackend();
+  public logout(event: DsfrLink): void {
+    if (event.linkId === "logout") {
+      this.adminAuthService.logoutFromBackend();
+    }
   }
 
   public dismissNotice() {

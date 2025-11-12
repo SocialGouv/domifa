@@ -21,7 +21,7 @@ export class RoleRedirectGuard {
         this.router.navigate(["/stats"]);
         break;
       case "super-admin-domifa":
-        this.router.navigate(["/structures"]);
+        this.router.navigate(["/structure"]);
         break;
       default:
         this.router.navigate(["auth/login"]);

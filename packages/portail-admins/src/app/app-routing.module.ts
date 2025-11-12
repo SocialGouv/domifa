@@ -7,6 +7,7 @@ import { MentionsLegalesComponent } from "./modules/general/components/static-pa
 import { PolitiqueComponent } from "./modules/general/components/static-pages/politique/politique.component";
 import { PlanSiteComponent } from "./modules/general/components/static-pages/plan-site/plan-site.component";
 import { RoleRedirectGuard } from "./guards/redirect-guard";
+import { structuresListResolver } from "./modules/admin-structures/resolvers/structures-list.resolver";
 
 const routes: Routes = [
   {
@@ -17,14 +18,26 @@ const routes: Routes = [
       ),
   },
   {
-    path: "structures",
+    path: "structure",
+    canActivate: [AuthGuard],
+    data: { roles: ["super-admin-domifa"] },
+    resolve: {
+      structureList: structuresListResolver,
+    },
+    loadChildren: () =>
+      import("./modules/admin-structures/admin-structures.module").then(
+        (m) => m.AdminStructuresModule
+      ),
+  },
+  {
+    path: "structure/:structureId",
     canActivate: [AuthGuard],
     data: {
       roles: ["super-admin-domifa"],
     },
     loadChildren: () =>
-      import("./modules/admin-structures/admin-structures.module").then(
-        (m) => m.AdminStructuresModule
+      import("./modules/structure/structure.module").then(
+        (m) => m.StructureModule
       ),
   },
   {
@@ -37,17 +50,6 @@ const routes: Routes = [
     path: "users",
     loadChildren: () =>
       import("./modules/users/users.module").then((m) => m.UsersModule),
-  },
-  {
-    path: "structure",
-    canActivate: [AuthGuard],
-    data: {
-      roles: ["super-admin-domifa"],
-    },
-    loadChildren: () =>
-      import("./modules/structure/structure.module").then(
-        (m) => m.StructureModule
-      ),
   },
   {
     path: "manage-users",
@@ -83,7 +85,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

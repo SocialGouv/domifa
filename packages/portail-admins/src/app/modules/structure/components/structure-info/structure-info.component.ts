@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {
   CURRENT_TOOL_OPTIONS,
   MARKET_TOOLS_OPTIONS,
@@ -8,14 +8,18 @@ import {
   STRUCTURE_TYPE_LABELS,
   StructureCommon,
 } from "@domifa/common";
-
+import { ApiStructureAdmin } from "../../../admin-structures/types";
+import { structuresCache } from "../../../shared/store";
+import { ActivatedRoute } from "@angular/router";
+import { appStore } from "../../../shared/store/appStore.service";
 @Component({
   selector: "app-structure-info",
   templateUrl: "./structure-info.component.html",
   styleUrl: "./structure-info.component.css",
 })
 export class StructureInfoComponent implements OnInit {
-  @Input({ required: true }) public structure: StructureCommon;
+  public structure: StructureCommon;
+  public cachedStructure: ApiStructureAdmin;
   public readonly STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
   public readonly STRUCTURE_ORGANISME_TYPE_LABELS =
     STRUCTURE_ORGANISME_TYPE_LABELS;
@@ -23,8 +27,24 @@ export class StructureInfoComponent implements OnInit {
   public sourceLabel: string = "";
   public currentToolLabel: string = "";
   public marketToolLabel: string = "";
+  public structureToDelete?: ApiStructureAdmin;
+
+  constructor(private readonly route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.structure = this.route.snapshot.data.structure;
+    this.cachedStructure = structuresCache.getStructureById(this.structure.id);
+
+    appStore.subscribe(() => {
+      const state = appStore.getState();
+      const structures = state?.structureListData;
+
+      if (structures) {
+        this.cachedStructure = structures.find(
+          (structure) => structure.id === this.structure?.id
+        );
+      }
+    });
     this.smsDays = this.getSelectedDaysForSms();
     this.initializeLabels();
   }
@@ -104,5 +124,9 @@ export class StructureInfoComponent implements OnInit {
         this.marketToolLabel = this.structure.registrationData.marketTool;
       }
     }
+  }
+
+  public cancelForm(): void {
+    this.structureToDelete = null;
   }
 }

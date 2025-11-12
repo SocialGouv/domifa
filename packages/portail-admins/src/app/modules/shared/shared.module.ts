@@ -22,7 +22,14 @@ import {
   DsfrSkiplinksModule,
   DsfrFooterModule,
   DsfrHeaderModule,
+  DsfrButtonModule,
+  DsfrModalModule,
 } from "@edugouvfr/ngx-dsfr";
+import { StructureFormDeleteComponent } from "../admin-structures/components/structure-form-delete/structure-form-delete.component";
+import {
+  DsfrDropdownMenuComponent,
+  DsfrDropdownMenuItemComponent,
+} from "@edugouvfr/ngx-dsfr-ext";
 
 @NgModule({
   declarations: [
@@ -46,6 +53,11 @@ import {
     FonctionFormatPipe,
     DsfrSkiplinksModule,
     DsfrHeaderModule,
+    StructureFormDeleteComponent,
+    DsfrDropdownMenuComponent,
+    DsfrDropdownMenuItemComponent,
+    DsfrButtonModule,
+    DsfrModalModule,
   ],
   imports: [
     DsfrAlertModule,
@@ -56,6 +68,11 @@ import {
     FonctionFormatPipe,
     DsfrAlertModule,
     DsfrHeaderModule,
+    StructureFormDeleteComponent,
+    DsfrDropdownMenuComponent,
+    DsfrDropdownMenuItemComponent,
+    DsfrButtonModule,
+    DsfrModalModule,
   ],
   providers: [AdminStructuresApiClient],
 })

@@ -1,37 +1,39 @@
-<div class="modal-header bg-danger">
-  <span class="text-white" id="modal-title"
-    >Vous êtes sur le point de supprimer le compte de {{ selectedUser.nom }}
-    {{ selectedUser.prenom }}</span
-  >
-</div>
-<div class="modal-body">
+<div class="fr-modal__content">
   Cette personne ne pourra plus se connecter à l'espace de pilotage. Elle ne
   sera pas informée que son compte a été supprimé
 </div>
-<div class="modal-footer text-center">
-  <button
-    class="btn btn-lg btn-outline-dark"
-    type="button"
-    (click)="deleteComplete.emit()"
+<div class="fr-modal__footer">
+  <ul
+    class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
   >
-    Annuler
-  </button>
-  <button
-    type="submit"
-    class="btn btn-lg btn-danger"
-    (click)="deleteUser()"
-    [disabled]="loading"
-    [attr.aria-busy]="loading"
-  >
-    <span *ngIf="!loading">Confirmer la suppression</span>
-    <span *ngIf="loading">
-      <fa-icon
-        [icon]="['fas', 'circle-notch']"
-        aria-hidden="true"
-        animation="spin"
+    <li>
+      <button
+        type="submit"
+        class="fr-btn"
+        (click)="deleteUser()"
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
       >
-      </fa-icon>
-      Veuillez patientez...
-    </span>
-  </button>
+        <span *ngIf="!loading">Confirmer la suppression</span>
+        <span *ngIf="loading">
+          <fa-icon
+            [icon]="['fas', 'circle-notch']"
+            aria-hidden="true"
+            animation="spin"
+          >
+          </fa-icon>
+          Veuillez patientez...
+        </span>
+      </button>
+    </li>
+    <li>
+      <button
+        class="fr-btn fr-btn--secondary"
+        type="button"
+        (click)="deleteComplete.emit()"
+      >
+        Annuler
+      </button>
+    </li>
+  </ul>
 </div>
