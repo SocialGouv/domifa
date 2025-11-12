@@ -23,6 +23,7 @@ import {
   DsfrFooterModule,
   DsfrHeaderModule,
 } from "@edugouvfr/ngx-dsfr";
+import { StructureFormDeleteComponent } from "../admin-structures/components/structure-form-delete/structure-form-delete.component";
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import {
     FonctionFormatPipe,
     DsfrSkiplinksModule,
     DsfrHeaderModule,
+    StructureFormDeleteComponent,
   ],
   imports: [
     DsfrAlertModule,
@@ -56,6 +58,7 @@ import {
     FonctionFormatPipe,
     DsfrAlertModule,
     DsfrHeaderModule,
+    StructureFormDeleteComponent,
   ],
   providers: [AdminStructuresApiClient],
 })

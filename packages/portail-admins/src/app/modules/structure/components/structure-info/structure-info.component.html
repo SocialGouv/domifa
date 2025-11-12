@@ -3,16 +3,16 @@
     <!-- Structure numbers -->
     <div class="row ps-0 align-items-center mb-5">
       <div class="col-12 col-sm-8 d-flex">
-        <span class="px-3 border-end border-grey">
-          10 <br />
+        <span class="px-3 border-end border-grey text-center">
+          {{ cachedStructure?.users ?? "" }} <br />
           Comptes
         </span>
-        <span class="px-3 border-end border-grey">
-          13 <br />
+        <span class="px-3 border-end border-grey text-center">
+          {{ cachedStructure?.usagers ?? "" }} <br />
           Dossiers
         </span>
-        <span class="px-3">
-          3 <br />
+        <span class="px-3 text-center">
+          {{ cachedStructure?.actifs ?? "" }} <br />
           Actifs
         </span>
       </div>
@@ -206,7 +206,18 @@
   </div>
 </div>
 <div class="row fr-container justify-content-end my-4">
-  <button type="button" class="fr-btn fr-icon-delete-line fr-btn--icon-right">
+  <button
+    [disabled]="cachedStructure.statut === 'SUPPRIME'"
+    (click)="structureToDelete = cachedStructure"
+    type="button"
+    class="fr-btn fr-icon-delete-line fr-btn--icon-right"
+  >
     Supprimer la structure
   </button>
 </div>
+
+<app-structure-form-delete
+  (closeModals)="cancelForm()"
+  [structure]="structureToDelete"
+  *ngIf="structureToDelete"
+></app-structure-form-delete>
