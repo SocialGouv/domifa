@@ -6,8 +6,17 @@
       </a>
     </div>
     <div class="row pt-2">
-      <h1 class="fr-text-title--blue-france p-0 m-0">
+      <h1
+        [class]="
+          structure.statut === 'SUPPRIME'
+            ? 'fr-text-title--grey p-0 m-0'
+            : 'fr-text-title--blue-france p-0 m-0'
+        "
+      >
         {{ structure.id }} - {{ structure.nom }}
+        <ng-container *ngIf="structure.statut === 'SUPPRIME'">
+          (supprimée)</ng-container
+        >
       </h1>
     </div>
   </div>

@@ -7,6 +7,7 @@ import { MentionsLegalesComponent } from "./modules/general/components/static-pa
 import { PolitiqueComponent } from "./modules/general/components/static-pages/politique/politique.component";
 import { PlanSiteComponent } from "./modules/general/components/static-pages/plan-site/plan-site.component";
 import { RoleRedirectGuard } from "./guards/redirect-guard";
+import { structuresListResolver } from "./modules/admin-structures/resolvers/structures-list.resolver";
 
 const routes: Routes = [
   {
@@ -19,23 +20,13 @@ const routes: Routes = [
   {
     path: "structure",
     canActivate: [AuthGuard],
-    data: {
-      roles: ["super-admin-domifa"],
+    data: { roles: ["super-admin-domifa"] },
+    resolve: {
+      structureList: structuresListResolver,
     },
     loadChildren: () =>
       import("./modules/admin-structures/admin-structures.module").then(
         (m) => m.AdminStructuresModule
-      ),
-  },
-  {
-    path: "structure/:structureId",
-    canActivate: [AuthGuard],
-    data: {
-      roles: ["super-admin-domifa"],
-    },
-    loadChildren: () =>
-      import("./modules/structure/structure.module").then(
-        (m) => m.StructureModule
       ),
   },
   {

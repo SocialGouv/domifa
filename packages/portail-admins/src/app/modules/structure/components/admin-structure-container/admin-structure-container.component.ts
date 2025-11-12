@@ -1,21 +1,22 @@
 import { filter, Subscription } from "rxjs";
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {
   ActivatedRoute,
   NavigationEnd,
   Router,
   UrlSegment,
 } from "@angular/router";
-import { StructureCommon } from "@domifa/common";
 import { ViewportScroller } from "@angular/common";
+import { ApiStructureAdmin } from "../../../admin-structures/types";
+import { appStore } from "../../../shared/store/appStore.service";
 
 @Component({
   selector: "app-admin-structure-container",
   templateUrl: "./admin-structure-container.component.html",
   styleUrl: "./admin-structure-container.component.css",
 })
-export class AdminStructureContainerComponent {
-  public structure: StructureCommon;
+export class AdminStructureContainerComponent implements OnInit {
+  public structure?: ApiStructureAdmin;
   public currentUrl: UrlSegment[];
   public activeTab: "users" | "stats" | "infos";
   private subscription: Subscription = new Subscription();
@@ -24,8 +25,6 @@ export class AdminStructureContainerComponent {
     private readonly activatedRoute: ActivatedRoute,
     private viewportScroller: ViewportScroller
   ) {
-    this.structure = this.activatedRoute.snapshot.data.structure;
-
     this.subscription.add(
       this.router.events
         .pipe(filter((event) => event instanceof NavigationEnd))
@@ -40,6 +39,34 @@ export class AdminStructureContainerComponent {
           }
           this.viewportScroller.scrollToAnchor("subnav");
         })
+    );
+  }
+
+  ngOnInit(): void {
+    this.subscription.add(
+      this.activatedRoute.data.subscribe((data) => {
+        this.structure = data.structure;
+
+        if (!this.structure) {
+          this.router.navigate(["/404"]);
+        }
+      })
+    );
+
+    this.subscription.add(
+      appStore.subscribe(() => {
+        const state = appStore.getState();
+        const structures = state?.structureListData;
+
+        if (structures) {
+          this.structure = structures.find(
+            (structure) => structure.id === this.structure?.id
+          );
+          if (!this.structure) {
+            this.router.navigate(["/404"]);
+          }
+        }
+      })
     );
   }
 }

@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { StructureComponent } from "./components/structure/structure.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
@@ -17,7 +16,6 @@ import { DsfrTooltipDirective } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [
-    StructureComponent,
     UsersComponent,
     StructureInfoComponent,
     UsersComponent,

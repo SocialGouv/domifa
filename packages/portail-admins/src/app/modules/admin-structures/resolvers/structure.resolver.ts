@@ -1,12 +1,10 @@
-import { inject } from "@angular/core";
 import { ResolveFn } from "@angular/router";
-import { Observable } from "rxjs";
-import { StructureCommon } from "@domifa/common";
-import { StructureService } from "../../structure/services/structure.service";
+import { ApiStructureAdmin } from "../types";
+import { structuresCache } from "../../shared/store";
 
-export const structureResolver: ResolveFn<StructureCommon> = (
+export const structureResolver: ResolveFn<ApiStructureAdmin | undefined> = (
   route
-): Observable<StructureCommon> => {
-  const userService = inject(StructureService);
-  return userService.getStructure(route.params["structureId"]);
+): ApiStructureAdmin | undefined => {
+  const structureId = parseInt(route.params["structureId"]);
+  return structuresCache.getStructureById(structureId);
 };

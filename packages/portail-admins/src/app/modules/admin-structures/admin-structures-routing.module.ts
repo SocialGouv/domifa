@@ -5,7 +5,19 @@ import { AdminStructuresListComponent } from "./components/admin-structures-list
 import { StructureConfirmComponent } from "./components/structure-confirm/structure-confirm.component";
 
 const routes: Routes = [
-  { path: "", component: AdminStructuresListComponent },
+  {
+    path: "",
+    component: AdminStructuresListComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ["super-admin-domifa"] },
+  },
+  {
+    path: ":structureId",
+    loadChildren: () =>
+      import("../../modules/structure/structure.module").then(
+        (m) => m.StructureModule
+      ),
+  },
   {
     path: "delete/:structureUuid/:token",
     component: StructureConfirmComponent,
