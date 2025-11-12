@@ -23,6 +23,7 @@ import {
   DsfrFooterModule,
   DsfrHeaderModule,
   DsfrButtonModule,
+  DsfrModalModule,
 } from "@edugouvfr/ngx-dsfr";
 import { StructureFormDeleteComponent } from "../admin-structures/components/structure-form-delete/structure-form-delete.component";
 import {
@@ -55,6 +56,8 @@ import {
     StructureFormDeleteComponent,
     DsfrDropdownMenuComponent,
     DsfrDropdownMenuItemComponent,
+    DsfrButtonModule,
+    DsfrModalModule,
   ],
   imports: [
     DsfrAlertModule,
@@ -68,6 +71,8 @@ import {
     StructureFormDeleteComponent,
     DsfrDropdownMenuComponent,
     DsfrDropdownMenuItemComponent,
+    DsfrButtonModule,
+    DsfrModalModule,
   ],
   providers: [AdminStructuresApiClient],
 })
