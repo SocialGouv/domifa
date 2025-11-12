@@ -120,85 +120,106 @@
                   {{ USER_ROLES_LABELS[user.role] }}
                 </td>
                 <td>
-                  <div
-                    ngbDropdown
-                    container="body"
-                    [id]="'dropdownActionsMenuDashboard_' + user.id"
-                    placement="bottom-right"
+                  <dsfrx-dropdownmenu
+                    *ngIf="structure.statut !== 'SUPPRIME'"
+                    [ariaLabelMenu]="'Administrer la structure ' + structure.id"
+                    [labelMenu]="'Actions'"
+                    [closeOnAction]="true"
+                    appendTo="body"
                   >
-                    <button
-                      type="button"
-                      class="btn"
-                      ngbDropdownToggle
-                      [attr.aria-label]="
-                        'Administrer l\'utilisateur ' +
-                        user.nom +
-                        ' ' +
-                        user.prenom
-                      "
-                    >
-                      <fa-icon
-                        aria-hidden="true"
-                        [icon]="['fas', 'bars']"
-                      ></fa-icon>
-                    </button>
-                    <div ngbDropdownMenu>
-                      <button
-                        ngbDropdownItem
-                        (click)="
+                    <ng-template #contentTemplate>
+                      <!-- Reinitialisation mot de passe -->
+                      <dsfrx-dropdownmenu-item
+                        (selectItem)="
                           openConfirmationModal(
                             user,
                             MODAL_ACTION.REINIT_USER_PASSWORD
                           )
                         "
-                        type="button"
                       >
-                        <fa-icon
-                          aria-hidden="true"
-                          [icon]="['fas', 'key']"
-                        ></fa-icon>
-                        Réinitialiser mot de passe
-                      </button>
-
-                      <button
-                        type="button"
-                        ngbDropdownItem
+                        <button
+                          type="button"
+                          class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+                          (click)="
+                            openConfirmationModal(
+                              user,
+                              MODAL_ACTION.REINIT_USER_PASSWORD
+                            )
+                          "
+                        >
+                          <i
+                            class="fr-icon-settings-5-fill"
+                            aria-hidden="true"
+                          ></i>
+                          Réinitialiser mot de passe
+                        </button>
+                      </dsfrx-dropdownmenu-item>
+                      <!-- Copier lien mot de passe  -->
+                      <ng-container
                         *ngIf="user?.temporaryTokens?.type === 'reset-password'"
-                        (click)="getLink(user)"
                       >
-                        <fa-icon
-                          aria-hidden="true"
-                          [icon]="['fas', 'link']"
-                        ></fa-icon>
-                        Copier le lien !
-                      </button>
-                      <button
-                        ngbDropdownItem
-                        *ngIf="user.role !== 'admin'"
-                        (click)="
-                          openConfirmationModal(user, MODAL_ACTION.PROMOTE_USER)
-                        "
-                        type="button"
-                      >
-                        <fa-icon
-                          aria-hidden="true"
-                          [icon]="['fas', 'person-arrow-up-from-line']"
-                        ></fa-icon>
-                        Promouvoir en administrateur
-                      </button>
-                      <button
-                        ngbDropdownItem
-                        (click)="openInformationModal(user)"
-                        type="button"
-                      >
-                        <fa-icon
-                          aria-hidden="true"
-                          [icon]="['fas', 'user-shield']"
-                        ></fa-icon>
-                        Afficher l'activité de l'utilisateur
-                      </button>
-                    </div>
-                  </div>
+                        <dsfrx-dropdownmenu-item>
+                          <button
+                            type="button"
+                            class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+                            (click)="getLink(user)"
+                          >
+                            <i
+                              class="fr-icon-links-line"
+                              aria-hidden="true"
+                            ></i>
+                            Copier le lien !
+                          </button>
+                        </dsfrx-dropdownmenu-item>
+                      </ng-container>
+                      <!-- Promouvoir utilisateur  -->
+
+                      <ng-container *ngIf="user.role !== 'admin'">
+                        <dsfrx-dropdownmenu-item
+                          (selectItem)="
+                            openConfirmationModal(
+                              user,
+                              MODAL_ACTION.PROMOTE_USER
+                            )
+                          "
+                        >
+                          <button
+                            type="button"
+                            class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+                            (click)="
+                              openConfirmationModal(
+                                user,
+                                MODAL_ACTION.PROMOTE_USER
+                              )
+                            "
+                          >
+                            <i
+                              class="fr-icon-arrow-up-fill"
+                              aria-hidden="true"
+                            ></i>
+                            Promouvoir en administrateur
+                          </button>
+                        </dsfrx-dropdownmenu-item>
+                      </ng-container>
+
+                      <!-- Activité utilisateur -->
+                      <ng-container>
+                        <dsfrx-dropdownmenu-item>
+                          <button
+                            type="button"
+                            class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+                            (click)="openInformationModal(user)"
+                          >
+                            <i
+                              class="fr-icon-user-heart-fill"
+                              aria-hidden="true"
+                            ></i>
+                            Afficher l'activité de l'utilisateur
+                          </button>
+                        </dsfrx-dropdownmenu-item>
+                      </ng-container>
+                    </ng-template>
+                  </dsfrx-dropdownmenu>
                 </td>
               </tr>
             </tbody>

@@ -24,6 +24,8 @@ import { Clipboard } from "@angular/cdk/clipboard";
 import { UserStructureEventHistoryLabels } from "../../../admin-auth/types/event-history";
 import { UserSecurityEventType } from "../../../shared/types/UserSecurityEvent.type";
 import { UserStructureWithSecurity } from "../../../admin-auth/types/UserStructureWithSecurity.type";
+import { structuresCache } from "../../../shared/store";
+import { ApiStructureAdmin } from "../../../admin-structures/types";
 
 export enum MODAL_ACTION {
   PROMOTE_USER = "PROMOTE_USER",
@@ -86,6 +88,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   public readonly MODAL_ACTION = MODAL_ACTION;
   public readonly USER_ROLES_LABELS = USER_STRUCTURE_ROLES_LABELS;
   public structureId: number;
+  public structure?: ApiStructureAdmin;
   private readonly subscription = new Subscription();
   public searching = true;
   @ViewChild("confirmModal", { static: true })
@@ -104,7 +107,10 @@ export class UsersComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.structureId = this.activatedRoute.parent.snapshot.params.structureId;
+    this.structureId = parseInt(
+      this.activatedRoute.parent.snapshot.params.structureId
+    );
+    this.structure = structuresCache.getStructureById(this.structureId);
     this.loadUsers();
 
     // Subscribe to reloadUsers subject to reload the list when triggered

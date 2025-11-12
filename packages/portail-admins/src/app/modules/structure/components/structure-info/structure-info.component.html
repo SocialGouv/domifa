@@ -19,13 +19,13 @@
       <div class="col-12 col-sm-4 d-flex gap-2 justify-content-end">
         <span class="px-3 border-end border-grey">
           Inscrite le <br />
-          {{ structure.createdAt | date : "dd/MM/yyyy" }}
+          {{ cachedStructure.registrationDate | date : "dd/MM/yyyy" }}
         </span>
         <span class="ps-3">
           Dernière connexion <br />
           {{
             structure.lastLogin
-              ? (structure.lastLogin | date : "dd/MM/yyyy")
+              ? (cachedStructure.lastLogin | date : "dd/MM/yyyy")
               : "Jamais connecté"
           }}
         </span>
