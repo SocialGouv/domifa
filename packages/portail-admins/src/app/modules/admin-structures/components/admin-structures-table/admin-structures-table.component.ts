@@ -5,7 +5,6 @@ import {
   OnInit,
   Output,
   ViewChild,
-  TemplateRef,
   OnDestroy,
 } from "@angular/core";
 import {
@@ -15,7 +14,6 @@ import {
   Validators,
 } from "@angular/forms";
 import { SortValues, USER_FONCTION_LABELS } from "@domifa/common";
-import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import { regexp } from "../../../../shared";
 import {
@@ -25,6 +23,7 @@ import {
 import { StructureAdmin } from "../../types";
 import { StructureFilterCriteria } from "../../utils";
 import { FilterOutput } from "../admin-structures-list/admin-structures-list.component";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-admin-structures-table",
@@ -39,8 +38,8 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   @Output()
   public readonly sort = new EventEmitter<FilterOutput>();
 
-  @ViewChild("addAdminModal", { static: true })
-  public addAdminModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("addAdminModal")
+  public addAdminModal!: DsfrModalComponent;
 
   public currentStructure: StructureAdmin | undefined = undefined;
   public structureToDelete: StructureAdmin | undefined = undefined;
@@ -60,7 +59,6 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   constructor(
     private readonly adminStructuresApiClient: AdminStructuresApiClient,
     private readonly toastService: CustomToastService,
-    private readonly modalService: NgbModal,
     private readonly formBuilder: UntypedFormBuilder
   ) {}
 
@@ -136,7 +134,7 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   }
 
   public openAddAdminModal(structure: StructureAdmin): void {
-    this.modalService.open(this.addAdminModal);
+    this.addAdminModal.open();
     this.currentStructure = structure;
   }
 
@@ -164,7 +162,7 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
             this.loading = false;
 
             this.currentStructure = undefined;
-            this.modalService.dismissAll();
+            this.addAdminModal?.close();
             this.toastService.success("Un email a été envoyé à l'utilisateur.");
           },
           error: () => {
@@ -182,7 +180,7 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
     this.structureToDelete = undefined;
     this.structureToRefuse = undefined;
     this.submitted = false;
-    this.modalService.dismissAll();
+    this.addAdminModal?.close();
   }
 
   public ngOnDestroy(): void {

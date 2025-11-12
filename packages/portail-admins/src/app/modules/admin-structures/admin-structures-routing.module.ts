@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "../../guards/auth-guard";
 import { AdminStructuresListComponent } from "./components/admin-structures-list/admin-structures-list.component";
+import { StructureConfirmComponent } from "./components/structure-confirm/structure-confirm.component";
 
 const routes: Routes = [
   {
