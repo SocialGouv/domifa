@@ -1,3 +1,4 @@
+import { ActivatedRoute } from "@angular/router";
 import {
   AfterViewInit,
   Component,
@@ -19,9 +20,8 @@ import {
   Subscription,
   tap,
 } from "rxjs";
-import { AdminStructuresApiClient } from "../../../shared/services";
 
-import { ApiStructureAdmin, StructureAdmin } from "../../types";
+import { StructureAdmin } from "../../types";
 import { fadeInOut } from "../../../shared/constants";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -74,8 +74,8 @@ export class AdminStructuresListComponent
   private observer!: IntersectionObserver;
 
   constructor(
-    private readonly adminStructuresApiClient: AdminStructuresApiClient,
-    private readonly titleService: Title
+    private readonly titleService: Title,
+    private readonly activatedRoute: ActivatedRoute
   ) {
     this.titleService.setTitle("Liste des structures");
     this.filters.sortKey = StructureFilterCriteriaSortEnum.ID;
@@ -89,7 +89,13 @@ export class AdminStructuresListComponent
 
   public ngOnInit(): void {
     this.initFiltersFromStorage();
-
+    this.subscription.add(
+      this.activatedRoute.data.subscribe((data) => {
+        this.structures = data.structureList ?? [];
+        this.totalStructures = this.structures.length;
+        this.allstructures$.next(this.structures);
+      })
+    );
     this.subscription.add(
       appStore.subscribe(() => {
         const state = appStore.getState();
@@ -132,16 +138,6 @@ export class AdminStructuresListComponent
     );
 
     this.subscription.add(searchEvents$.subscribe());
-    this.subscription.add(
-      this.adminStructuresApiClient
-        .getAdminStructureListData()
-        .subscribe((structures: ApiStructureAdmin[]) => {
-          this.totalStructures = structures.length;
-          this.allstructures$.next(
-            structuresListModelBuilder.buildStructuresViewModel(structures)
-          );
-        })
-    );
 
     this.subscription.add(
       combineLatest([this.allstructures$, this.filters$]).subscribe(

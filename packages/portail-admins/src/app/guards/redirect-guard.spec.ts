@@ -34,7 +34,7 @@ describe("RoleRedirectGuard", () => {
     }
   ));
 
-  it("should redirect super-admin-domifa to /structures", () => {
+  it("should redirect super-admin-domifa to /structure", () => {
     jest.spyOn(router, "navigate");
     Object.defineProperty(authService, "currentUserValue", {
       get: () => ({ role: "super-admin-domifa" }),
@@ -44,7 +44,7 @@ describe("RoleRedirectGuard", () => {
     const result = guard.canActivate();
 
     expect(result).toBe(false);
-    expect(router.navigate).toHaveBeenCalledWith(["/structures"]);
+    expect(router.navigate).toHaveBeenCalledWith(["/structure"]);
   });
 
   it("should redirect department role to /stats", () => {
