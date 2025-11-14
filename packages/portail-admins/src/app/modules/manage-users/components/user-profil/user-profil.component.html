@@ -237,7 +237,7 @@
     {{ selectedUser?.prenom }}"
     [concealingBackdrop]="false"
     (conceal)="getUsers(); closeModal('delete')"
-    size="LG"
+    size="MD"
   >
     <ng-container *ngIf="selectedUser">
       <app-delete-user

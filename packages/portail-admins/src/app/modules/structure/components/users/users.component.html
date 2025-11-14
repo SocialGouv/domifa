@@ -229,111 +229,123 @@
     </div>
   </div>
 
-  <ng-template #confirmModal let-modal>
-    <div class="modal-header bg-primary text-white">
-      <span id="modal-title">Confirmation</span>
-      <button
-        type="button"
-        class="btn-close"
-        aria-label="Close"
-        (click)="modal.dismiss()"
-      ></button>
-    </div>
-    <div class="modal-body">
-      <p>
-        Êtes-vous sûr de vouloir {{ confirmModalContext?.actionText ?? "" }}:
-        <span class="fw-bold">
-          {{ userForModal?.email }}
-        </span>
-        ?
-      </p>
-    </div>
-    <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-lg btn-outline-dark"
-        (click)="confirmModalContext = null; modal.dismiss()"
+  <dsfr-modal
+    icon="fr-icon-check-line"
+    #confirmModal
+    dialogId="confirmModal"
+    titleModal="Confirmation"
+    [concealingBackdrop]="false"
+    [autoCloseOnAction]="false"
+    size="SM"
+  >
+    <p>
+      Êtes-vous sûr de vouloir {{ confirmModalContext?.actionText ?? "" }}:
+      <span class="fw-bold">
+        {{ userForModal?.email }}
+      </span>
+      ?
+    </p>
+    <ng-template #modalFooterTemplate>
+      <dsfr-buttons-group
+        inline="LG"
+        alignment="reverse"
+        iconPosition="left"
+        groupMarkup="div"
       >
-        Annuler
-      </button>
-      <button
-        type="button"
-        class="btn btn-lg btn-primary"
-        (click)="confirmModalContext.action(userForModal)"
-      >
-        Confirmer
-      </button>
-    </div>
-  </ng-template>
+        <dsfr-button
+          (click)="confirmModalContext.action(userForModal)"
+          label="Confirmer"
+        ></dsfr-button>
+        <dsfr-button
+          (click)="confirmModalContext = null; confirmModal.close()"
+          label="Annuler"
+          variant="secondary"
+        ></dsfr-button>
+      </dsfr-buttons-group>
+    </ng-template>
+  </dsfr-modal>
 
-  <ng-template #infoModal let-modal>
-    <div class="modal-header bg-primary text-white">
-      <span id="modal-title">Historique activité utilisateur </span>
-      <button
-        type="button"
-        class="btn-close"
-        aria-label="Close"
-        (click)="modal.dismiss()"
-      ></button>
-    </div>
-    <div class="modal-body">
+  <dsfr-modal
+    icon="fr-icon-chat-history-fill"
+    #infoModal
+    dialogId="userActivityModal"
+    titleModal="Activité utilisateur"
+    [concealingBackdrop]="false"
+    [autoCloseOnAction]="false"
+    [size]="userForModal?.eventsHistory.length ? 'LG' : 'MD'"
+  >
+    <div class="mt-2">
       <div
         *ngIf="userForModal?.remainingBackoffMinutes"
-        class="alert alert-danger"
-        role="alert"
+        class="fr-alert fr-alert--error"
       >
-        L'utilisateur est temporairement bloqué pendant encore
-        {{ userForModal.remainingBackoffMinutes }} minutes
+        <p>
+          L'utilisateur est temporairement bloqué pendant encore
+          {{ userForModal.remainingBackoffMinutes }} minutes
+        </p>
       </div>
-
       <div
         *ngIf="
           !userForModal?.eventsHistory.length &&
           !userForModal?.remainingBackoffMinutes
         "
-        class="alert alert-danger"
-        role="alert"
+        class="fr-alert fr-alert--info"
       >
-        Aucune activité récente.
+        <p>Aucune activité récente.</p>
       </div>
-
-      <table
-        class="table table-striped"
+      <div
         *ngIf="userForModal?.eventsHistory.length"
+        class="fr-table"
+        id="table-0-component"
       >
-        <caption class="visually-hidden">
-          Historique d'activité de l'utilisateur
-        </caption>
-        <thead>
-          <tr>
-            <th>Statut</th>
-            <th>Action</th>
-            <th>Date de l'action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let activity of userForModal?.eventsHistory">
-            <td>
-              <span class="label-info  {{ activity.eventLevel }}-status">
-                {{ activity.eventLabel }}
-              </span>
-            </td>
-            <td>
-              {{ USER_ACTIVITY_LABELS[activity.type] }}
-            </td>
-            <td>{{ activity.date | date : "dd MMMM yyyy à HH:mm" }}</td>
-          </tr>
-        </tbody>
-      </table>
+        <div class="fr-table__wrapper">
+          <div class="fr-table__container">
+            <div class="fr-table__content">
+              <table>
+                <caption class="visually-hidden">
+                  Historique d'activité de l'utilisateur
+                </caption>
+                <thead>
+                  <tr>
+                    <th>Statut</th>
+                    <th>Action</th>
+                    <th>Date de l'action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let activity of userForModal?.eventsHistory">
+                    <td>
+                      <span
+                        class="fr-badge  fr-badge--{{ activity.eventLevel }}"
+                      >
+                        {{ activity.eventLabel }}
+                      </span>
+                    </td>
+                    <td>
+                      {{ USER_ACTIVITY_LABELS[activity.type] }}
+                    </td>
+                    <td>{{ activity.date | date : "dd MMMM yyyy à HH:mm" }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-lg btn-outline-dark"
-        (click)="confirmModalContext = null; modal.dismiss()"
+    <ng-template #modalFooterTemplate>
+      <dsfr-buttons-group
+        inline="LG"
+        alignment="reverse"
+        iconPosition="left"
+        groupMarkup="div"
       >
-        Fermer
-      </button>
-    </div>
-  </ng-template>
+        <dsfr-button
+          (click)="confirmModalContext = null; informationModal.close()"
+          label="Fermer"
+          variant="secondary"
+        ></dsfr-button>
+      </dsfr-buttons-group>
+    </ng-template>
+  </dsfr-modal>
 </div>

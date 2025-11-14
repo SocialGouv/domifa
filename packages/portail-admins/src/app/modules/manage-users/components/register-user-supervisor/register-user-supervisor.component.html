@@ -1,4 +1,4 @@
-<div class="fr-modal__content">
+<div>
   <p *ngIf="!isEditMode">
     <span class="fw-bold text-danger">*</span> champs obligatoires
   </p>
@@ -162,7 +162,7 @@
           </option>
         </select>
         <div
-          *ngIf="!isEditMode && submitted && f.role.errors"
+          *ngIf="submitted && f.role.errors"
           class="fr-messages-group"
           id="invalid-role"
           aria-live="polite"
@@ -229,7 +229,7 @@
   </form>
 </div>
 
-<div class="fr-modal__footer">
+<div class="">
   <ul
     class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
   >
