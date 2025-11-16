@@ -1,3 +1,10 @@
+## [2.226.1](https://github.com/SocialGouv/domifa/compare/v2.226.0...v2.226.1) (2025-11-16)
+
+
+### Bug Fixes
+
+* **deps:** update ghcr.io/socialgouv/docker/nginx4spa docker tag to v8.2.4 ([#4002](https://github.com/SocialGouv/domifa/issues/4002)) ([d2ff461](https://github.com/SocialGouv/domifa/commit/d2ff461d977222f0998161ff371b234167c68905))
+
 # [2.226.0](https://github.com/SocialGouv/domifa/compare/v2.225.0...v2.226.0) (2025-11-06)
 
 
