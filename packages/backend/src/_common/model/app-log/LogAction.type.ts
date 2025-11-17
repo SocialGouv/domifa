@@ -1,4 +1,5 @@
 export type LogAction =
+  | "STRUCTURE_UPDATE"
   | "USAGERS_DELETE"
   | "USAGERS_PHONE_UPDATE"
   | "USAGERS_PHONE_DELETE"

@@ -4058,12 +4058,14 @@ __metadata:
     "@socialgouv/streaming-file-encryption": "npm:^1.1.0"
     "@types/bcryptjs": "npm:^2.4.6"
     "@types/compression": "npm:^1.8.1"
+    "@types/deep-diff": "npm:^1"
     "@types/email-templates": "npm:^10.0.4"
     "@types/express": "npm:^5.0.3"
     "@types/fs-extra": "npm:^11.0.4"
     "@types/geojson": "npm:^7946.0.16"
     "@types/jest": "npm:^29.5.14"
     "@types/lodash.isequal": "npm:^4.5.8"
+    "@types/lodash.pick": "npm:^4"
     "@types/lodash.set": "npm:^4.3.9"
     "@types/multer": "npm:^2.0.0"
     "@types/node": "npm:^20.19.2"
@@ -4092,6 +4094,7 @@ __metadata:
     compression: "npm:^1.8.1"
     date-fns: "npm:^2.30.0"
     date-fns-tz: "npm:^2.0.1"
+    deep-diff: "npm:^1.0.2"
     docxtemplater: "npm:^3.48.0"
     dotenv: "npm:^17.2.0"
     email-templates: "npm:^10.0.1"
@@ -4106,9 +4109,9 @@ __metadata:
     google-libphonenumber: "npm:^3.2.42"
     ics: "npm:^2.44.0"
     jest: "npm:^29.7.0"
-    keyv: "npm:^5.3.4"
     lint-staged: "npm:^16.1.2"
     lodash.isequal: "npm:^4.5.0"
+    lodash.pick: "npm:^4.4.0"
     lodash.set: "npm:^4.3.2"
     luhn: "npm:^2.4.1"
     mammoth: "npm:^1.4.17"
@@ -10377,6 +10380,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/deep-diff@npm:^1":
+  version: 1.0.5
+  resolution: "@types/deep-diff@npm:1.0.5"
+  checksum: 10/84504a725a3e79fc5410184d4d94fd8fae05b673e03fc4250998ea48c1f5c862dfedb9a227200b495b5979ed90288b291d739b65cea5792de9e47caff6630cc2
+  languageName: node
+  linkType: hard
+
 "@types/email-templates@npm:^10.0.4":
   version: 10.0.4
   resolution: "@types/email-templates@npm:10.0.4"
@@ -10626,6 +10636,15 @@ __metadata:
   dependencies:
     "@types/lodash": "npm:*"
   checksum: 10/f3180c2d2925514fff1908a1303c11468c9f39b47fd7b053416aad3f1447f8e4a9894dd0460187ac9ac19387e25aec8dd8214d13a50a0967e0dc9cca8e4c5353
+  languageName: node
+  linkType: hard
+
+"@types/lodash.pick@npm:^4":
+  version: 4.4.9
+  resolution: "@types/lodash.pick@npm:4.4.9"
+  dependencies:
+    "@types/lodash": "npm:*"
+  checksum: 10/007c298133b5bc2157f13d6641b139d2782b4af7b6a942cc4b1a427c6ebc6020e46b32ee2e782607389b0c63a5211d51152606424fdfe25f3eeac8afea0bdf02
   languageName: node
   linkType: hard
 
@@ -15163,6 +15182,13 @@ __metadata:
     babel-plugin-macros:
       optional: true
   checksum: 10/f100cb11001309f2185c4334c6f29e5323c1e73b7b75e3b1893bc71ef53cd13fb80534efc8fa7163a891ede633e310a9c600ba38c363cc9d14a72f238fe47078
+  languageName: node
+  linkType: hard
+
+"deep-diff@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "deep-diff@npm:1.0.2"
+  checksum: 10/3e496111b5506e7399e8a5441b713b033ade3b9d60faff96a4c47189e460a889de50dab99afdb1dcddebf701a0b6a6bb7743f5090b7a620da12e3391c940f8f3
   languageName: node
   linkType: hard
 
@@ -20706,7 +20732,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"keyv@npm:^5.3.3, keyv@npm:^5.3.4":
+"keyv@npm:^5.3.3":
   version: 5.3.4
   resolution: "keyv@npm:5.3.4"
   dependencies:
@@ -21441,6 +21467,13 @@ __metadata:
   version: 4.1.1
   resolution: "lodash.once@npm:4.1.1"
   checksum: 10/202f2c8c3d45e401b148a96de228e50ea6951ee5a9315ca5e15733d5a07a6b1a02d9da1e7fdf6950679e17e8ca8f7190ec33cae47beb249b0c50019d753f38f3
+  languageName: node
+  linkType: hard
+
+"lodash.pick@npm:^4.4.0":
+  version: 4.4.0
+  resolution: "lodash.pick@npm:4.4.0"
+  checksum: 10/5a76778aa1c245ce081d19c5a625a44cdf4853f421c8789ec962cb5d73dd21be7cf11ae3bc2123ff5f432326ed0176d674d22ca6e0e8f9eaba5b74b00f632c12
   languageName: node
   linkType: hard
 

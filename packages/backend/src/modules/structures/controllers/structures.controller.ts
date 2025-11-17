@@ -16,6 +16,7 @@ import {
   CurrentUser,
 } from "../../../auth/decorators";
 import {
+  appLogsRepository,
   messageSmsRepository,
   structureRepository,
   usagerDocsRepository,
@@ -38,13 +39,41 @@ import {
   DEPARTEMENTS_MAP,
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
+  Structure,
 } from "@domifa/common";
 import { FileManagerService } from "../../../util/file-manager/file-manager.service";
 import { domifaConfig } from "../../../config";
-import { cleanPath } from "../../../util";
+import { cleanPath, logDiff } from "../../../util";
 import { join } from "path";
 import { hardResetEmailSender } from "../../mails/services/templates-renderers";
+import { FindOptionsSelect } from "typeorm";
 
+const STRUCTURE_DTO_KEYS = [
+  "structureType",
+  "adresse",
+  "nom",
+  "complementAdresse",
+  "capacite",
+  "codePostal",
+  "ville",
+  "agrement",
+  "departement",
+  "email",
+  "telephone",
+  "responsable",
+  "adresseCourrier",
+  "options",
+  "region",
+  "regionName",
+  "departmentName",
+  "timeZone",
+  "organismeType",
+  "reseau",
+  "siret",
+  "registrationData",
+];
+
+// Usage
 @Controller("structures")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("structures")
@@ -80,6 +109,20 @@ export class StructuresController {
     );
 
     structureDto.timeZone = DEPARTEMENTS_MAP[structureDto.departement].timeZone;
+    const oldStructure = await structureRepository.findOne({
+      where: { id: user.structureId },
+      select: STRUCTURE_DTO_KEYS as FindOptionsSelect<Structure>,
+    });
+    const logs = logDiff(oldStructure, structureDto, STRUCTURE_DTO_KEYS);
+
+    await appLogsRepository.insert({
+      userId: user.id,
+      structureId: user.structureId,
+      action: "STRUCTURE_UPDATE",
+      context: logs,
+      role: user.role,
+    });
+
     await structureRepository.update({ id: user.structureId }, structureDto);
 
     return structureRepository.findOneBy({ id: user.structureId });
