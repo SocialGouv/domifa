@@ -87,7 +87,7 @@
                 #dDebut="ngbDatepicker"
                 #ca="ngModel"
                 (dateSelect)="changeStart($event)"
-                dateFr
+                appDateFr
                 value
                 [ngClass]="{
                   'is-invalid': ca.status === 'INVALID'
@@ -126,7 +126,7 @@
                 [(ngModel)]="toDate"
                 #dFin="ngbDatepicker"
                 #cb="ngModel"
-                dateFr
+                appDateFr
                 [readonly]="ca.status === 'INVALID'"
                 id="dateFinValide"
                 value

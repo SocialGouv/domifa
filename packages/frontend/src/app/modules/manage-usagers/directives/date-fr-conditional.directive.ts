@@ -11,21 +11,16 @@ export class DateFrConditionalDirective extends DateFrDirective {
     super(el);
   }
 
+  @HostListener("input", ["$event"])
+  public override onInput(event: Event) {
+    if (!this.appDateFrConditional) return;
+
+    super.onInput(event);
+  }
+
   @HostListener("keydown", ["$event"])
   public override onKeyDown(e: KeyboardEvent) {
     if (!this.appDateFrConditional) return;
     super.onKeyDown(e);
-  }
-
-  @HostListener("keyup", ["$event"])
-  public override onKeyUp(e: KeyboardEvent) {
-    if (!this.appDateFrConditional) return;
-    super.onKeyUp(e);
-  }
-
-  @HostListener("paste", ["$event"])
-  public override onPaste(event: ClipboardEvent) {
-    if (!this.appDateFrConditional) return;
-    super.onPaste(event);
   }
 }
