@@ -1,3 +1,10 @@
+# [2.227.0](https://github.com/SocialGouv/domifa/compare/v2.226.1...v2.227.0) (2025-11-18)
+
+
+### Features
+
+* **usagers:** harmonisation historique interactions ([#4006](https://github.com/SocialGouv/domifa/issues/4006)) ([7dc8b87](https://github.com/SocialGouv/domifa/commit/7dc8b87f25382783a20e6474e6ede49e7209b863))
+
 ## [2.226.1](https://github.com/SocialGouv/domifa/compare/v2.226.0...v2.226.1) (2025-11-16)
 
 
