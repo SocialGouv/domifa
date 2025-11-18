@@ -18,8 +18,8 @@ import {
   unMessageFutur,
   unMessageFuturAvecIsoDate,
   unMessagePasse,
-} from "../../../../../_tests/mocks/STRUCTURE_INFORMATION.mock";
-import { unProfilUsager } from "../../../../../_tests/mocks/PORTAIL_USAGER_PROFILE.mock";
+} from "../../../../../_tests/mocks/STRUCTURE_INFORMATION_MOCK";
+import { unProfilUsager } from "../../../../../_tests/mocks/PORTAIL_USAGER_PROFILE_MOCK";
 import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 
@@ -36,7 +36,7 @@ describe("HomeUsagerComponent", () => {
   };
   const authService = {
     currentUsagerSubject: new BehaviorSubject<PortailUsagerProfile>(
-      unProfilUsager,
+      unProfilUsager
     ),
   };
   let component: HomeUsagerComponent;
@@ -75,10 +75,10 @@ describe("HomeUsagerComponent", () => {
     tick();
     expect(component.structureInformation.length).toEqual(2);
     expect(component.structureInformation[0].title).toEqual(
-      "Un message courant",
+      "Un message courant"
     );
     expect(component.structureInformation[1].title).toEqual(
-      "Un message courant avec text date",
+      "Un message courant avec text date"
     );
   }));
 });

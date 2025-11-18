@@ -31,7 +31,9 @@
     *ngIf="usager.lastInteraction.enAttente"
     class="fr-text-title--blue-france my-2"
   >
-    <h2 class="fr-text-title--blue-france mb-2">Vous avez du courrier !</h2>
+    <h2 class="fr-text-title--blue-france mb-2">
+      Vous avez du courrier à retirer !
+    </h2>
 
     <div class="border-top border-1 border-grey pt-3 mb-2">
       <div class="d-flex align-items-top">
@@ -46,19 +48,37 @@
                   <span class="fr-h3 fr-text-title--blue-france">{{
                     usager.lastInteraction.courrierIn
                   }}</span>
-                  courrier
-                </div>
-                <ng-container *ngIf="pendingInteractions.courrierIn?.length">
-                  <div
-                    *ngFor="let interaction of pendingInteractions.courrierIn"
+                  courrier<ng-container
+                    *ngIf="usager.lastInteraction.courrierIn > 1"
+                    >s</ng-container
                   >
-                    {{ interaction.dateInteraction | date : "dd MMMM yyyy" }}
-                    <ng-container *ngIf="interaction.content"
-                      >:
-                      <span [innerHTML]="interaction.content | nl2br"></span>
+                </div>
+                <div
+                  class="d-flex flex-column ms-2 gap-1 ps-3 fr-border-left-blue-france"
+                  *ngIf="pendingInteractions.courrierIn"
+                >
+                  <div
+                    class="d-flex gap-1 flex-column"
+                    *ngFor="
+                      let interaction of groupedPendingInteractions?.courrierIn
+                        | keyvalue
+                    "
+                  >
+                    {{ interaction.key | date : "dd MMMM yyyy" }}
+                    <ng-container *ngIf="interaction.value.numberOfItems > 1">
+                      - ({{ interaction.value.numberOfItems }})</ng-container
+                    >
+                    <ng-container *ngIf="interaction.value.comments">
+                      <div
+                        *ngFor="let comment of interaction.value.comments"
+                        class="d-flex align-items-start fr-text--xs gap-1 fr-tag fr-tag--sm"
+                      >
+                        <small class="fr-icon-message-3-line"></small>
+                        <span [innerHTML]="comment | nl2br"></span>
+                      </div>
                     </ng-container>
                   </div>
-                </ng-container>
+                </div>
               </div>
             </div>
           </ng-container>
@@ -74,15 +94,31 @@
                   }}</span>
                   Colis
                 </div>
-                <ng-container *ngIf="pendingInteractions.colisIn?.length">
-                  <div *ngFor="let interaction of pendingInteractions.colisIn">
-                    {{ interaction.dateInteraction | date : "dd MMMM yyyy" }}
-                    <ng-container *ngIf="interaction.content"
-                      >:
-                      <span [innerHTML]="interaction.content | nl2br"></span>
+                <div
+                  class="d-flex flex-column ms-2 gap-1 ps-3 fr-border-left-blue-france"
+                  *ngIf="pendingInteractions.colisIn"
+                >
+                  <div
+                    *ngFor="
+                      let interaction of groupedPendingInteractions?.colisIn
+                        | keyvalue
+                    "
+                  >
+                    {{ interaction.key | date : "dd MMMM yyyy" }}
+                    <ng-container *ngIf="interaction.value.numberOfItems > 1">
+                      - ({{ interaction.value.numberOfItems }})</ng-container
+                    >
+                    <ng-container *ngIf="interaction.value.comments">
+                      <div
+                        *ngFor="let comment of interaction.value.comments"
+                        class="d-flex align-items-start fr-text--xs gap-1 fr-tag fr-tag--sm"
+                      >
+                        <small class="fr-icon-message-3-line"></small>
+                        <span [innerHTML]="comment | nl2br"></span>
+                      </div>
                     </ng-container>
                   </div>
-                </ng-container>
+                </div>
               </div>
             </div>
           </ng-container>
@@ -99,14 +135,26 @@
                   }}</span>
                   avis de passage
                 </div>
-                <ng-container *ngIf="pendingInteractions.recommandeIn?.length">
+                <ng-container *ngIf="pendingInteractions.recommandeIn">
                   <div
-                    *ngFor="let interaction of pendingInteractions.recommandeIn"
+                    class="d-flex flex-column ms-2 gap-1 ps-3 fr-border-left-blue-france"
+                    *ngFor="
+                      let interaction of groupedPendingInteractions?.recommandeIn
+                        | keyvalue
+                    "
                   >
-                    {{ interaction.dateInteraction | date : "dd MMMM yyyy" }}
-                    <ng-container *ngIf="interaction.content"
-                      >:
-                      <span [innerHTML]="interaction.content | nl2br"></span>
+                    {{ interaction.key | date : "dd MMMM yyyy" }}
+                    <ng-container *ngIf="interaction.value.numberOfItems > 1">
+                      - ({{ interaction.value.numberOfItems }})</ng-container
+                    >
+                    <ng-container *ngIf="interaction.value.comments">
+                      <div
+                        *ngFor="let comment of interaction.value.comments"
+                        class="d-flex align-items-start fr-text--xs gap-1 fr-tag fr-tag--sm"
+                      >
+                        <small class="fr-icon-message-3-line"></small>
+                        <span [innerHTML]="comment | nl2br"></span>
+                      </div>
                     </ng-container>
                   </div>
                 </ng-container>
@@ -115,17 +163,16 @@
           </ng-container>
         </div>
       </div>
-
-      <div class="text-center">
-        <a
-          routerLink="/account/historique"
-          ariaCurrentWhenActive="page"
-          class="fr-btn fr-btn--md fr-btn--secondary gap-1 mt-4 mb-2"
-        >
-          <span aria-hidden="true" class="fr-icon-time-line"></span>
-          Consulter l'historique des courriers
-        </a>
-      </div>
     </div>
+  </div>
+  <div class="text-center">
+    <a
+      routerLink="/account/historique"
+      ariaCurrentWhenActive="page"
+      class="fr-btn fr-btn--md fr-btn--secondary gap-1 mt-4 mb-2"
+    >
+      <span aria-hidden="true" class="fr-icon-time-line"></span>
+      Consultez le détail des interactions
+    </a>
   </div>
 </div>
