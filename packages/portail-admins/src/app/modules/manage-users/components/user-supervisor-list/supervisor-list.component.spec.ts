@@ -3,20 +3,20 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { UserProfilComponent } from "./user-profil.component";
+import { SupervisorListComponent } from "./supervisor-list.component";
 import { RouterModule } from "@angular/router";
 import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from "@angular/common/http";
 
-describe("UserProfilComponent", () => {
-  let component: UserProfilComponent;
-  let fixture: ComponentFixture<UserProfilComponent>;
+describe("SupervisorListComponent", () => {
+  let component: SupervisorListComponent;
+  let fixture: ComponentFixture<SupervisorListComponent>;
 
   beforeAll(async () => {
     TestBed.configureTestingModule({
-      declarations: [UserProfilComponent],
+      declarations: [SupervisorListComponent],
       imports: [RouterModule.forRoot([]), ReactiveFormsModule, FormsModule],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
@@ -24,7 +24,7 @@ describe("UserProfilComponent", () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
-    fixture = TestBed.createComponent(UserProfilComponent);
+    fixture = TestBed.createComponent(SupervisorListComponent);
     component = fixture.componentInstance;
   });
 

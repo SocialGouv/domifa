@@ -1,30 +1,25 @@
+import { ActivatedRoute } from "@angular/router";
 import {
   USER_FONCTION_LABELS,
   UserFonction,
   SortValues,
-  StructureCommon,
   UserStructure,
   USER_STRUCTURE_ROLES_LABELS,
 } from "@domifa/common";
 
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { filter, map, Subject, Subscription, switchMap } from "rxjs";
 import { StructureService } from "../../services/structure.service";
 import { environment } from "../../../../../environments/environment";
 import { subMonths } from "date-fns";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { CustomToastService } from "../../../shared/services";
 import { Clipboard } from "@angular/cdk/clipboard";
 import { UserStructureEventHistoryLabels } from "../../../admin-auth/types/event-history";
 import { UserSecurityEventType } from "../../../shared/types/UserSecurityEvent.type";
 import { UserStructureWithSecurity } from "../../../admin-auth/types/UserStructureWithSecurity.type";
+import { structuresCache } from "../../../shared/store";
+import { ApiStructureAdmin } from "../../../admin-structures/types";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 export enum MODAL_ACTION {
   PROMOTE_USER = "PROMOTE_USER",
@@ -33,19 +28,19 @@ export enum MODAL_ACTION {
 
 const EVENT_CONFIG: {
   [key in UserSecurityEventType]: {
-    class: "green" | "red";
+    class: "success" | "error";
     label: "Succès" | "Erreur";
   };
 } = {
-  "login-success": { class: "green", label: "Succès" },
-  "change-password-success": { class: "green", label: "Succès" },
-  "reset-password-success": { class: "green", label: "Succès" },
-  "reset-password-request": { class: "green", label: "Succès" },
-  "validate-account-success": { class: "green", label: "Succès" },
-  "validate-account-error": { class: "red", label: "Erreur" },
-  "login-error": { class: "red", label: "Erreur" },
-  "change-password-error": { class: "red", label: "Erreur" },
-  "reset-password-error": { class: "red", label: "Erreur" },
+  "login-success": { class: "success", label: "Succès" },
+  "change-password-success": { class: "success", label: "Succès" },
+  "reset-password-success": { class: "success", label: "Succès" },
+  "reset-password-request": { class: "success", label: "Succès" },
+  "validate-account-success": { class: "success", label: "Succès" },
+  "validate-account-error": { class: "error", label: "Erreur" },
+  "login-error": { class: "error", label: "Erreur" },
+  "change-password-error": { class: "error", label: "Erreur" },
+  "reset-password-error": { class: "error", label: "Erreur" },
 } as const;
 
 export interface ConfirmModalContext {
@@ -86,24 +81,31 @@ export class UsersComponent implements OnInit, OnDestroy {
   public readonly USER_ACTIVITY_LABELS = UserStructureEventHistoryLabels;
   public readonly MODAL_ACTION = MODAL_ACTION;
   public readonly USER_ROLES_LABELS = USER_STRUCTURE_ROLES_LABELS;
-  @Input({ required: true }) public structure: StructureCommon;
+  public structureId: number;
+  public structure?: ApiStructureAdmin;
   private readonly subscription = new Subscription();
   public searching = true;
-  @ViewChild("confirmModal", { static: true })
-  public confirmModal!: TemplateRef<NgbModalRef>;
-  @ViewChild("infoModal", { static: true })
-  public informationModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("confirmModal")
+  public confirmModal!: DsfrModalComponent;
+  @ViewChild("infoModal")
+  public informationModal!: DsfrModalComponent;
+  @ViewChild("addUserModal")
+  public addUserModal!: DsfrModalComponent;
   public confirmModalContext?: ConfirmModalContext;
-
   public userForModal?: UserWithSecurityViewModel;
   constructor(
     private readonly structureService: StructureService,
-    private readonly modalService: NgbModal,
     private readonly toastService: CustomToastService,
-    private readonly clipboard: Clipboard
+    private readonly clipboard: Clipboard,
+    private readonly activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.structureId = parseInt(
+      this.activatedRoute.parent.snapshot.params.structureId
+    );
+
+    this.structure = structuresCache.getStructureById(this.structureId);
     this.loadUsers();
 
     // Subscribe to reloadUsers subject to reload the list when triggered
@@ -117,7 +119,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   private loadUsers(): void {
     this.searching = true;
     this.subscription.add(
-      this.structureService.getUsers(this.structure.id).subscribe((users) => {
+      this.structureService.getUsers(this.structureId).subscribe((users) => {
         this.users = users.map((user) => mapUserStructureToViewModel(user));
         this.searching = false;
       })
@@ -130,18 +132,16 @@ export class UsersComponent implements OnInit, OnDestroy {
   ): void {
     this.setConfirmModalContext(user, modalAction);
     this.userForModal = user;
-    this.modalService.open(this.confirmModal, {
-      size: "s",
-      centered: true,
-    });
+    this.confirmModal.open();
   }
 
   public openInformationModal(user: UserWithSecurityViewModel): void {
     this.userForModal = user;
-    this.modalService.open(this.informationModal, {
-      size: "s",
-      centered: true,
-    });
+    this.informationModal.open();
+  }
+
+  public openAddUserModal(): void {
+    this.addUserModal.open();
   }
 
   public setConfirmModalContext(
@@ -175,7 +175,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         },
       })
     );
-    this.modalService.dismissAll();
+    this.confirmModal.close();
   }
 
   public generateResetPasswordLink(user: UserStructureWithSecurity): string {
@@ -198,7 +198,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       this.structureService
         .resetStructureAdminPassword(user.email)
         .pipe(
-          switchMap(() => this.structureService.getUsers(this.structure.id)),
+          switchMap(() => this.structureService.getUsers(this.structureId)),
           // Get user from users
           map((users) => {
             this.users = users.map((user) => mapUserStructureToViewModel(user));
@@ -229,7 +229,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         })
     );
 
-    this.modalService.dismissAll();
+    this.confirmModal.close();
   }
 
   public getLink(user: UserStructureWithSecurity): void {

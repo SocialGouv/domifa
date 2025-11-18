@@ -1,294 +1,384 @@
-<h2>Utilisateurs enregistrés: {{ users.length }} utilisateurs</h2>
-<div class="table-responsive">
-  <table class="table" [attr.aria-rowcount]="users.length">
-    <caption class="visually-hidden">
-      Liste des utilisateurs enregistrés
-    </caption>
-    <thead>
-      <tr>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="id"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="ID"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="nom"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Nom prénom"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="fonction"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Fonction"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="email"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Email"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="createdAt"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Date d'inscription"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="verified"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Statut"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="lastLogin"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Dernière connexion"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="role"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Rôle"
-          >
-          </app-table-head-sort>
-        </th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="
-          let user of users | sortArray : currentKey : sortValue;
-          let i = index
-        "
-        [attr.aria-rowindex]="i + 1"
+<div class="row">
+  <div
+    class="fr-container col-12 d-flex justify-content-between align-items-center"
+  >
+    <span class="fr-h3 mb-0"> {{ users.length }} Utilisateurs enregistrés</span>
+    <div>
+      <button
+        type="button"
+        (click)="openAddUserModal()"
+        class="fr-btn fr-icon-user-add-fill fr-btn--md fr-btn--icon-right fr-btn--secondary"
       >
-        <td class="fw-bold">{{ user.id }}</td>
-        <td class="fw-bold">{{ user.nom }} {{ user.prenom }}</td>
-        <td class="fw-bold">
-          {{ user | fonctionFormat }}
-        </td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.createdAt | date : "d MMMM y" }}</td>
-        <td>
-          <p *ngIf="user.verified">✅ Compte actif</p>
-          <p *ngIf="!user.verified">❌ Compte non vérifié</p>
-        </td>
-        <td>
-          <ng-container *ngIf="user.lastLogin">
-            <p>
-              {{ user.lastLogin | date : "dd/MM/yyyy" }}
-              <b *ngIf="user.lastLogin < twoMonthsAgo">
-                <br />❌ Inactif depuis plus de 2 mois<br />
-              </b>
-            </p>
-          </ng-container>
-          <p class="fw-bold" *ngIf="!user.lastLogin">
-            ❌ Compte jamais utilisé
-          </p>
-        </td>
-        <td>
-          {{ USER_ROLES_LABELS[user.role] }}
-        </td>
-        <td>
-          <div
-            ngbDropdown
-            container="body"
-            [id]="'dropdownActionsMenuDashboard_' + user.id"
-            placement="bottom-right"
-          >
-            <button
-              type="button"
-              class="btn"
-              ngbDropdownToggle
-              [attr.aria-label]="
-                'Administrer l\'utilisateur ' + user.nom + ' ' + user.prenom
-              "
-            >
-              <fa-icon aria-hidden="true" [icon]="['fas', 'bars']"></fa-icon>
-            </button>
-            <div ngbDropdownMenu>
-              <button
-                ngbDropdownItem
-                (click)="
-                  openConfirmationModal(user, MODAL_ACTION.REINIT_USER_PASSWORD)
+        Ajouter un utilisateur
+      </button>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="fr-table fr-table--no-outer-border" id="table-0-component">
+    <div class="fr-table__wrapper">
+      <div class="fr-table__container">
+        <div class="fr-table__content">
+          <table id="table-0" [attr.aria-rowcount]="users.length">
+            <caption class="visually-hidden">
+              Liste des utilisateurs enregistrés
+            </caption>
+            <thead>
+              <tr class="p-2">
+                <th scope="col" class="border-right border-1">
+                  <app-table-head-sort
+                    sortKey="id"
+                    [(sortValue)]="sortValue"
+                    [(currentKey)]="currentKey"
+                    columnName="ID"
+                  >
+                  </app-table-head-sort>
+                </th>
+                <th scope="col" class="border-right border-1">
+                  <app-table-head-sort
+                    sortKey="nom"
+                    [(sortValue)]="sortValue"
+                    [(currentKey)]="currentKey"
+                    columnName="Nom prénom"
+                  >
+                  </app-table-head-sort>
+                </th>
+                <th scope="col" class="border-right border-1">
+                  <app-table-head-sort
+                    sortKey="email"
+                    [(sortValue)]="sortValue"
+                    [(currentKey)]="currentKey"
+                    columnName="Email"
+                  >
+                  </app-table-head-sort>
+                </th>
+                <th scope="col" class="border-right border-1">
+                  <app-table-head-sort
+                    sortKey="createdAt"
+                    [(sortValue)]="sortValue"
+                    [(currentKey)]="currentKey"
+                    columnName="Date d'inscription"
+                  >
+                  </app-table-head-sort>
+                </th>
+                <th scope="col" class="border-right border-1">
+                  <app-table-head-sort
+                    sortKey="verified"
+                    [(sortValue)]="sortValue"
+                    [(currentKey)]="currentKey"
+                    columnName="Statut"
+                  >
+                  </app-table-head-sort>
+                </th>
+                <th scope="col" class="border-right border-1">
+                  <app-table-head-sort
+                    sortKey="lastLogin"
+                    [(sortValue)]="sortValue"
+                    [(currentKey)]="currentKey"
+                    columnName="Dernière connexion"
+                  >
+                  </app-table-head-sort>
+                </th>
+                <th scope="col" class="border-right border-1">
+                  <app-table-head-sort
+                    sortKey="role"
+                    [(sortValue)]="sortValue"
+                    [(currentKey)]="currentKey"
+                    columnName="Rôle"
+                  >
+                  </app-table-head-sort>
+                </th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                class="border-top border-1"
+                *ngFor="
+                  let user of users | sortArray : currentKey : sortValue;
+                  let i = index
                 "
-                type="button"
+                [attr.aria-rowindex]="i + 1"
               >
-                <fa-icon aria-hidden="true" [icon]="['fas', 'key']"></fa-icon>
-                Réinitialiser mot de passe
-              </button>
+                <td class="fw-bold">{{ user.id }}</td>
+                <td class="fw-bold">{{ user.nom }} {{ user.prenom }}</td>
 
-              <button
-                type="button"
-                ngbDropdownItem
-                *ngIf="user?.temporaryTokens?.type === 'reset-password'"
-                (click)="getLink(user)"
-              >
-                <fa-icon aria-hidden="true" [icon]="['fas', 'link']"></fa-icon>
-                Copier le lien !
-              </button>
-              <button
-                ngbDropdownItem
-                *ngIf="user.role !== 'admin'"
-                (click)="openConfirmationModal(user, MODAL_ACTION.PROMOTE_USER)"
-                type="button"
-              >
-                <fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'person-arrow-up-from-line']"
-                ></fa-icon>
-                Promouvoir en administrateur
-              </button>
-              <button
-                ngbDropdownItem
-                (click)="openInformationModal(user)"
-                type="button"
-              >
-                <fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'user-shield']"
-                ></fa-icon>
-                Afficher l'activité de l'utilisateur
-              </button>
-            </div>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+                <td>{{ user.email }}</td>
+                <td>{{ user.createdAt | date : "d MMMM y" }}</td>
+                <td>
+                  <span
+                    class="fr-badge"
+                    [ngClass]="{
+                      'fr-badge--success': user.verified,
+                      'fr-badge--error': !user.verified
+                    }"
+                  >
+                    {{ user.verified ? "Actif" : "Inactif" }}</span
+                  >
+                  <small
+                    *ngIf="!user.verified && user.lastLogin < twoMonthsAgo"
+                  >
+                    <br />Inactif de 2 mois<br />
+                  </small>
+                </td>
+                <td>
+                  <ng-container *ngIf="user.lastLogin">
+                    <p>
+                      {{ user.lastLogin | date : "dd/MM/yyyy" }}
+                    </p>
+                  </ng-container>
+                  <p class="fw-bold" *ngIf="!user.lastLogin">
+                    Compte jamais utilisé
+                  </p>
+                </td>
+                <td>
+                  {{ USER_ROLES_LABELS[user.role] }}
+                </td>
+                <td>
+                  <dsfrx-dropdownmenu
+                    *ngIf="structure.statut !== 'SUPPRIME'"
+                    [ariaLabelMenu]="'Administrer la structure ' + structure.id"
+                    [labelMenu]="'Actions'"
+                    [closeOnAction]="true"
+                    appendTo="body"
+                  >
+                    <ng-template #contentTemplate>
+                      <!-- Reinitialisation mot de passe -->
+                      <dsfrx-dropdownmenu-item
+                        (selectItem)="
+                          openConfirmationModal(
+                            user,
+                            MODAL_ACTION.REINIT_USER_PASSWORD
+                          )
+                        "
+                      >
+                        <button
+                          type="button"
+                          class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+                          (click)="
+                            openConfirmationModal(
+                              user,
+                              MODAL_ACTION.REINIT_USER_PASSWORD
+                            )
+                          "
+                        >
+                          <i
+                            class="fr-icon-settings-5-fill"
+                            aria-hidden="true"
+                          ></i>
+                          Réinitialiser mot de passe
+                        </button>
+                      </dsfrx-dropdownmenu-item>
+                      <!-- Copier lien mot de passe  -->
+                      <ng-container
+                        *ngIf="user?.temporaryTokens?.type === 'reset-password'"
+                      >
+                        <dsfrx-dropdownmenu-item>
+                          <button
+                            type="button"
+                            class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+                            (click)="getLink(user)"
+                          >
+                            <i
+                              class="fr-icon-links-line"
+                              aria-hidden="true"
+                            ></i>
+                            Copier le lien !
+                          </button>
+                        </dsfrx-dropdownmenu-item>
+                      </ng-container>
+                      <!-- Promouvoir utilisateur  -->
 
-  <ng-template #confirmModal let-modal>
-    <div class="modal-header bg-primary text-white">
-      <span id="modal-title">Confirmation</span>
-      <button
-        type="button"
-        class="btn-close"
-        aria-label="Close"
-        (click)="modal.dismiss()"
-      ></button>
+                      <ng-container *ngIf="user.role !== 'admin'">
+                        <dsfrx-dropdownmenu-item
+                          (selectItem)="
+                            openConfirmationModal(
+                              user,
+                              MODAL_ACTION.PROMOTE_USER
+                            )
+                          "
+                        >
+                          <button
+                            type="button"
+                            class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+                            (click)="
+                              openConfirmationModal(
+                                user,
+                                MODAL_ACTION.PROMOTE_USER
+                              )
+                            "
+                          >
+                            <i
+                              class="fr-icon-arrow-up-fill"
+                              aria-hidden="true"
+                            ></i>
+                            Promouvoir en administrateur
+                          </button>
+                        </dsfrx-dropdownmenu-item>
+                      </ng-container>
+
+                      <!-- Activité utilisateur -->
+                      <ng-container>
+                        <dsfrx-dropdownmenu-item>
+                          <button
+                            type="button"
+                            class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+                            (click)="openInformationModal(user)"
+                          >
+                            <i
+                              class="fr-icon-user-heart-fill"
+                              aria-hidden="true"
+                            ></i>
+                            Afficher l'activité de l'utilisateur
+                          </button>
+                        </dsfrx-dropdownmenu-item>
+                      </ng-container>
+                    </ng-template>
+                  </dsfrx-dropdownmenu>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-    <div class="modal-body">
-      <p>
-        Êtes-vous sûr de vouloir {{ confirmModalContext?.actionText ?? "" }}:
-        <span class="fw-bold">
-          {{ userForModal?.email }}
-        </span>
-        ?
-      </p>
-    </div>
-    <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-lg btn-outline-dark"
-        (click)="confirmModalContext = null; modal.dismiss()"
+  </div>
+
+  <dsfr-modal
+    icon="fr-icon-check-line"
+    #confirmModal
+    dialogId="confirmModal"
+    titleModal="Confirmation"
+    [concealingBackdrop]="false"
+    [autoCloseOnAction]="false"
+    size="SM"
+  >
+    <p>
+      Êtes-vous sûr de vouloir {{ confirmModalContext?.actionText ?? "" }}:
+      <span class="fw-bold">
+        {{ userForModal?.email }}
+      </span>
+      ?
+    </p>
+    <ng-template #modalFooterTemplate>
+      <dsfr-buttons-group
+        inline="LG"
+        alignment="reverse"
+        iconPosition="left"
+        groupMarkup="div"
       >
-        Annuler
-      </button>
-      <button
-        type="button"
-        class="btn btn-lg btn-primary"
-        (click)="confirmModalContext.action(userForModal)"
-      >
-        Confirmer
-      </button>
-    </div>
-  </ng-template>
+        <dsfr-button
+          (click)="confirmModalContext.action(userForModal)"
+          label="Confirmer"
+        ></dsfr-button>
+        <dsfr-button
+          (click)="confirmModalContext = null; confirmModal.close()"
+          label="Annuler"
+          variant="secondary"
+        ></dsfr-button>
+      </dsfr-buttons-group>
+    </ng-template>
+  </dsfr-modal>
 
-  <ng-template #infoModal let-modal>
-    <div class="modal-header bg-primary text-white">
-      <span id="modal-title">Historique activité utilisateur </span>
-      <button
-        type="button"
-        class="btn-close"
-        aria-label="Close"
-        (click)="modal.dismiss()"
-      ></button>
-    </div>
-    <div class="modal-body">
+  <dsfr-modal
+    icon="fr-icon-chat-history-fill"
+    #infoModal
+    dialogId="userActivityModal"
+    titleModal="Activité utilisateur"
+    [concealingBackdrop]="false"
+    [autoCloseOnAction]="false"
+    [size]="userForModal?.eventsHistory.length ? 'LG' : 'MD'"
+  >
+    <div class="mt-2">
       <div
         *ngIf="userForModal?.remainingBackoffMinutes"
-        class="alert alert-danger"
-        role="alert"
+        class="fr-alert fr-alert--error"
       >
-        L'utilisateur est temporairement bloqué pendant encore
-        {{ userForModal.remainingBackoffMinutes }} minutes
+        <p>
+          L'utilisateur est temporairement bloqué pendant encore
+          {{ userForModal.remainingBackoffMinutes }} minutes
+        </p>
       </div>
-
       <div
         *ngIf="
           !userForModal?.eventsHistory.length &&
           !userForModal?.remainingBackoffMinutes
         "
-        class="alert alert-danger"
-        role="alert"
+        class="fr-alert fr-alert--info"
       >
-        Aucune activité récente.
+        <p>Aucune activité récente.</p>
       </div>
-
-      <table
-        class="table table-striped"
+      <div
         *ngIf="userForModal?.eventsHistory.length"
+        class="fr-table"
+        id="table-0-component"
       >
-        <caption class="visually-hidden">
-          Historique d'activité de l'utilisateur
-        </caption>
-        <thead>
-          <tr>
-            <th>Statut</th>
-            <th>Action</th>
-            <th>Date de l'action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let activity of userForModal?.eventsHistory">
-            <td>
-              <span class="label-info  {{ activity.eventLevel }}-status">
-                {{ activity.eventLabel }}
-              </span>
-            </td>
-            <td>
-              {{ USER_ACTIVITY_LABELS[activity.type] }}
-            </td>
-            <td>{{ activity.date | date : "dd MMMM yyyy à HH:mm" }}</td>
-          </tr>
-        </tbody>
-      </table>
+        <div class="fr-table__wrapper">
+          <div class="fr-table__container">
+            <div class="fr-table__content">
+              <table>
+                <caption class="visually-hidden">
+                  Historique d'activité de l'utilisateur
+                </caption>
+                <thead>
+                  <tr>
+                    <th>Statut</th>
+                    <th>Action</th>
+                    <th>Date de l'action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let activity of userForModal?.eventsHistory">
+                    <td>
+                      <span
+                        class="fr-badge  fr-badge--{{ activity.eventLevel }}"
+                      >
+                        {{ activity.eventLabel }}
+                      </span>
+                    </td>
+                    <td>
+                      {{ USER_ACTIVITY_LABELS[activity.type] }}
+                    </td>
+                    <td>{{ activity.date | date : "dd MMMM yyyy à HH:mm" }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-lg btn-outline-dark"
-        (click)="confirmModalContext = null; modal.dismiss()"
+    <ng-template #modalFooterTemplate>
+      <dsfr-buttons-group
+        inline="LG"
+        alignment="reverse"
+        iconPosition="left"
+        groupMarkup="div"
       >
-        Fermer
-      </button>
-    </div>
-  </ng-template>
+        <dsfr-button
+          (click)="confirmModalContext = null; informationModal.close()"
+          label="Fermer"
+          variant="secondary"
+        ></dsfr-button>
+      </dsfr-buttons-group>
+    </ng-template>
+  </dsfr-modal>
 </div>
+
+<dsfr-modal
+  icon="fr-icon-user-add-fill"
+  #addUserModal
+  dialogId="addUserModal"
+  titleModal="Création d'un utilisateur admin pour la structure :
+      {{ structure?.nom }}"
+  [concealingBackdrop]="false"
+  [autoCloseOnAction]="false"
+  size="LG"
+>
+  <app-register-user
+    (cancel)="addUserModal.close()"
+    (getUsers)="addUserModal.close(); reloadUsersSubject$.next()"
+    [currentStructure]="structure"
+  ></app-register-user>
+</dsfr-modal>

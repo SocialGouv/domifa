@@ -55,9 +55,9 @@ export class AppComponent implements OnInit {
           // subheader menun
           this.menuHeaderItems = [
             {
-              linkId: "structures",
-              label: "Liste des structures",
-              routerLink: "/structures",
+              linkId: "dashboard",
+              label: "Tableau de bord",
+              routerLink: "/structure",
             },
             {
               linkId: "manage-users",
@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
             },
             {
               linkId: "stats",
-              label: "Statistiques",
+              label: "Statistiques de la domiciliation",
               routerLink: "/stats",
             },
           ];
@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
             link: `${this.currentUrl}#navigation`,
           },
           { label: "Aller au contenu", link: `${this.currentUrl}#page` },
-          ...(this.currentUrl === "/structures" // pour avoir le bon ordre des liens
+          ...(this.currentUrl === "/structure" // pour avoir le bon ordre des liens
             ? [
                 {
                   label: "Aller à la recherche",

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { UsersComponent } from "./users.component";
 import { CommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
+import { ActivatedRoute, RouterModule } from "@angular/router";
 import { TableHeadSortComponent } from "../../../shared/components/table-head-sort/table-head-sort.component";
 import { SortArrayPipe } from "../../../shared/pipes/sort-array.pipe";
 import { StructureService } from "../../services/structure.service";
@@ -23,13 +23,29 @@ describe("UsersComponent", () => {
         SortArrayPipe,
         RouterModule.forRoot([]),
       ],
-      providers: [provideHttpClient(), StructureService, CustomToastService],
+      providers: [
+        provideHttpClient(),
+        StructureService,
+        CustomToastService,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            parent: {
+              snapshot: {
+                params: {
+                  structureId: STRUCTURE_MOCK.id,
+                },
+              },
+            },
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UsersComponent);
     component = fixture.componentInstance;
     component.users = [];
-    component.structure = STRUCTURE_MOCK;
+    component.structureId = STRUCTURE_MOCK.id;
     fixture.detectChanges();
   });
 

@@ -1,26 +1,20 @@
-<div class="modal-header bg-primary">
-  <span class="text-white" id="modal-title">
-    {{
-      isEditMode
-        ? "Modifier l'utilisateur: " + userToEdit.nom + " " + userToEdit.prenom
-        : "Créer un utilisateur"
-    }}
-  </span>
-</div>
-
-<div class="modal-body">
+<div>
   <p *ngIf="!isEditMode">
-    Les champs suivis d'un <span class="fw-bold text-danger">*</span> sont
-    obligatoires
+    <span class="fw-bold text-danger">*</span> champs obligatoires
   </p>
 
   <form #form *ngIf="userForm" [formGroup]="userForm" (ngSubmit)="submitUser()">
-    <div class="row mb-3">
-      <div class="col-md-6 form-group required">
-        <label for="nom">Nom</label>
+    <div class="row">
+      <div
+        [class.fr-input-group--error]="
+          (f.nom.dirty || submitted) && f.nom.errors ? true : false
+        "
+        class="col-md-12 fr-input-group required mb-3"
+      >
+        <label class="fr-label mb-0" for="nom">Nom</label>
         <input
           type="text"
-          class="form-control"
+          class="fr-input"
           id="nom"
           appCleanStr
           formControlName="nom"
@@ -37,20 +31,29 @@
           "
           required
         />
-        <p
+
+        <div
           *ngIf="submitted && f.nom.errors"
+          class="fr-messages-group"
           id="invalid-name"
-          class="invalid-feedback"
+          aria-live="polite"
         >
-          Veuillez vérifier le nom
-        </p>
+          <p class="fr-message fr-message--error" id="input-2-message-error">
+            Veuillez vérifier le nom
+          </p>
+        </div>
       </div>
 
-      <div class="col-md-6 form-group required">
-        <label for="prenom">Prénom</label>
+      <div
+        [class.fr-input-group--error]="
+          (f.prenom.dirty || submitted) && f.prenom.errors ? true : false
+        "
+        class="col-md-12 fr-input-group mb-3 required"
+      >
+        <label class="fr-label mb-0" for="prenom">Prénom</label>
         <input
           type="text"
-          class="form-control"
+          class="fr-input"
           id="prenom"
           appCleanStr
           formControlName="prenom"
@@ -69,20 +72,28 @@
           "
           required
         />
-        <p
-          *ngIf="(submitted || f.prenom.dirty) && f.prenom.errors"
+        <div
+          *ngIf="submitted && f.prenom.errors"
+          class="fr-messages-group"
           id="invalid-prenom"
-          class="invalid-feedback"
+          aria-live="polite"
         >
-          Veuillez vérifier le prénom
-        </p>
+          <p class="fr-message fr-message--error" id="input-2-message-error">
+            Veuillez vérifier le prénom
+          </p>
+        </div>
       </div>
 
-      <div class="col-md-12 form-group required">
-        <label for="email">Adresse email</label>
+      <div
+        [class.fr-input-group--error]="
+          (f.email.dirty || submitted) && f.email.errors ? true : false
+        "
+        class="col-md-12 mb-3 fr-input-group required"
+      >
+        <label class="fr-label mb-0" for="email">Adresse email</label>
         <input
           type="email"
-          class="form-control"
+          class="fr-input"
           id="email"
           formControlName="email"
           name="email"
@@ -102,25 +113,31 @@
           required
         />
         <div
-          *ngIf="!isEditMode && f.email.errors && f.email.dirty"
-          class="invalid-feedback"
+          *ngIf="(f.email.dirty || submitted) && f.email.errors"
+          class="fr-messages-group"
           id="email-errors"
+          aria-live="polite"
         >
-          <p *ngIf="f.email.errors?.invalidSuperAdminEmail">
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'exclamation-triangle']"
-            ></fa-icon>
+          <p
+            *ngIf="f.email.errors?.invalidSuperAdminEmail"
+            class="fr-message fr-message--error"
+          >
             Les administrateurs doivent avoir un email "fabrique.social.gouv.fr"
           </p>
-          <p *ngIf="!f.email.errors.invalidSuperAdminEmail">
+          <p
+            *ngIf="!f.email.errors?.invalidSuperAdminEmail"
+            class="fr-message fr-message--error"
+          >
             Veuillez vérifier l'adresse email, format attendu :
             nom&#64;domaine.fr
           </p>
         </div>
       </div>
-      <div class="col-md-6 form-group required">
-        <label for="role">Rôle du superviseur</label>
+      <div
+        [class.fr-input-group--error]="submitted && f.role.errors"
+        class="col-md-12 mb-3 fr-input-group required"
+      >
+        <label class="fr-label mb-0" for="role">Rôle du superviseur</label>
         <select
           id="role"
           formControlName="role"
@@ -133,7 +150,7 @@
           [attr.aria-describedby]="
             submitted && f.role.errors ? 'invalid-role' : null
           "
-          class="form-select"
+          class="fr-select"
           required
         >
           <option [ngValue]="null"></option>
@@ -144,17 +161,21 @@
             {{ item.value }}
           </option>
         </select>
-        <p
-          *ngIf="!isEditMode && submitted && f.role.errors"
-          class="invalid-feedback"
+        <div
+          *ngIf="submitted && f.role.errors"
+          class="fr-messages-group"
           id="invalid-role"
+          aria-live="polite"
         >
-          Le rôle est obligatoire
-        </p>
+          <p class="fr-message fr-message--error">Le rôle est obligatoire</p>
+        </div>
       </div>
 
-      <div class="col-md-6 form-group required" *ngIf="showTerritories">
-        <label for="territories" class="form-label">
+      <div
+        class="col-md-12 mb-3 fr-input-group required"
+        *ngIf="showTerritories"
+      >
+        <label for="territories" class="fr-label mb-0">
           {{
             selectedRole === "department"
               ? "Département d'action"
@@ -173,7 +194,7 @@
           [attr.aria-describedby]="
             submitted && f.territories.errors ? 'invalid-territories' : null
           "
-          class="form-select"
+          class="fr-select"
           required
         >
           <option [value]="null"></option>
@@ -195,40 +216,53 @@
 
         <div
           *ngIf="!isEditMode && submitted && f.territories.errors"
-          class="invalid-feedback"
+          class="fr-messages-group"
           id="invalid-territories"
+          aria-live="polite"
         >
-          Veuillez sélectionner au moins un territoire.
+          <p class="fr-message fr-message--error">
+            Veuillez sélectionner au moins un territoire.
+          </p>
         </div>
       </div>
     </div>
   </form>
 </div>
 
-<div class="modal-footer">
-  <button
-    type="button"
-    class="btn btn-lg btn-outline-dark"
-    (click)="cancel.emit()"
+<div class="">
+  <ul
+    class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
   >
-    Annuler
-  </button>
-  <button
-    class="btn btn-lg btn-primary"
-    type="button"
-    (click)="submitUser()"
-    [disabled]="loading"
-  >
-    <span *ngIf="loading">
-      <fa-icon
-        [icon]="['fas', 'circle-notch']"
-        aria-hidden="true"
-        animation="spin"
-      ></fa-icon>
-      Veuillez patienter...
-    </span>
-    <span *ngIf="!loading">{{
-      isEditMode ? "Enregistrer les modifications" : "Ajouter cet utilisateur"
-    }}</span>
-  </button>
+    <li>
+      <button
+        class="fr-btn"
+        type="button"
+        (click)="submitUser()"
+        [disabled]="loading"
+      >
+        <span *ngIf="loading">
+          <fa-icon
+            [icon]="['fas', 'circle-notch']"
+            aria-hidden="true"
+            animation="spin"
+          ></fa-icon>
+          Veuillez patienter...
+        </span>
+        <span *ngIf="!loading">{{
+          isEditMode
+            ? "Enregistrer les modifications"
+            : "Ajouter cet utilisateur"
+        }}</span>
+      </button>
+    </li>
+    <li>
+      <button
+        type="button"
+        class="fr-btn fr-btn--secondary"
+        (click)="cancel.emit()"
+      >
+        Annuler
+      </button>
+    </li>
+  </ul>
 </div>

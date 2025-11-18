@@ -1,0 +1,250 @@
+<div class="fr-background-alt--blue-cumulus pt-4">
+  <div class="row">
+    <div class="fr-container col-md-12 col-12">
+      <h1 class="fr-text-title--blue-france">Gestion des utilisateurs Admin</h1>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="me.role === 'super-admin-domifa'" class="pt-4">
+  <div class="row">
+    <div
+      class="fr-container col-12 d-flex justify-content-between align-items-center"
+    >
+      <h2 class="fr-h5 mb-0">{{ users.length }} Utilisateurs enregistrés</h2>
+      <div>
+        <button
+          type="button"
+          (click)="openAddUserModal()"
+          class="fr-btn fr-icon-user-add-fill fr-btn--md fr-btn--icon-right fr-btn--secondary"
+        >
+          Ajouter un utilisateur
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="fr-container" *ngIf="me">
+  <div class="fr-table fr-table--no-outer-border" id="table-0-component">
+    <div class="fr-table__wrapper">
+      <div class="fr-table__container">
+        <div class="fr-table__content">
+          <table [attr.aria-rowcount]="users.length">
+            <caption class="visually-hidden">
+              Liste des utilisateurs enregistrés
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">
+                  <app-table-head-sort
+                    sortKey="nom"
+                    [(sortValue)]="sortValue"
+                    [(currentKey)]="currentKey"
+                    columnName="Nom prénom"
+                  >
+                  </app-table-head-sort>
+                </th>
+                <th scope="col">
+                  <app-table-head-sort
+                    sortKey="email"
+                    [(sortValue)]="sortValue"
+                    [(currentKey)]="currentKey"
+                    columnName="Email"
+                  >
+                  </app-table-head-sort>
+                </th>
+                <th scope="col">
+                  <app-table-head-sort
+                    sortKey="createdAt"
+                    [(sortValue)]="sortValue"
+                    [(currentKey)]="currentKey"
+                    columnName="Date d'inscription"
+                  >
+                  </app-table-head-sort>
+                </th>
+                <th scope="col">
+                  <app-table-head-sort
+                    sortKey="lastLogin"
+                    [(sortValue)]="sortValue"
+                    [(currentKey)]="currentKey"
+                    columnName="Dernière connexion"
+                  >
+                  </app-table-head-sort>
+                </th>
+                <th scope="col">
+                  <app-table-head-sort
+                    sortKey="role"
+                    [(sortValue)]="sortValue"
+                    [(currentKey)]="currentKey"
+                    columnName="Rôle"
+                  >
+                  </app-table-head-sort>
+                </th>
+                <th scope="col">Territoire d'action</th>
+
+                <th scope="col" *ngIf="me.role === 'super-admin-domifa'"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let user of users | sortArray : currentKey : sortValue;
+                  let i = index;
+                  trackBy: userIdTrackBy
+                "
+                [attr.aria-rowindex]="i + 1"
+              >
+                <td class="fw-bold">{{ user | fullName }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.createdAt | date : "d MMMM y" }}</td>
+
+                <td>
+                  <ng-container *ngIf="user.lastLogin">
+                    <p>
+                      {{ user.lastLogin | date : "dd/MM/yyyy" }}
+                      <b *ngIf="user.lastLogin < twoMonthsAgo">
+                        <br />❌ Inactif depuis plus de 2 mois<br />
+                      </b>
+                    </p>
+                  </ng-container>
+                  <p class="fw-bold" *ngIf="!user.lastLogin">
+                    ❌ Compte jamais utilisé
+                  </p>
+                </td>
+                <td>
+                  {{ USER_SUPERVISOR_ROLES_LABELS[user.role] }}
+                </td>
+                <td>
+                  <ng-container
+                    *ngIf="
+                      user.role === 'super-admin-domifa' ||
+                      user.role === 'national'
+                    "
+                  >
+                    Toute la France</ng-container
+                  >
+                  <ng-container *ngIf="user.role === 'department'">
+                    <span *ngFor="let territory of user.territories">{{
+                      DEPARTEMENTS_LISTE[territory]
+                    }}</span>
+                  </ng-container>
+                  <ng-container *ngIf="user.role === 'region'">
+                    <span *ngFor="let territory of user.territories">{{
+                      REGIONS_LISTE[territory]
+                    }}</span>
+                  </ng-container>
+                </td>
+                <td *ngIf="me.role === 'super-admin-domifa'">
+                  <dsfrx-dropdownmenu
+                    [ariaLabelMenu]="
+                      'Administrer l\'utilisateur ' +
+                      user.nom +
+                      ' ' +
+                      user.prenom
+                    "
+                    [labelMenu]="'Actions'"
+                    [closeOnAction]="true"
+                    appendTo="body"
+                  >
+                    <ng-template #contentTemplate>
+                      <!-- Modifier l'utilisateur -->
+                      <dsfrx-dropdownmenu-item
+                        (selectItem)="openUpdateUserModal(user)"
+                      >
+                        <button
+                          type="button"
+                          class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+                          (click)="openUpdateUserModal(user)"
+                        >
+                          <i class="fr-icon-edit-fill" aria-hidden="true"></i>
+                          Modifier l'utilisateur
+                        </button>
+                      </dsfrx-dropdownmenu-item>
+                      <!-- Supprimer l'utilisateur  -->
+                      <ng-container
+                        *ngIf="
+                          me.role === 'super-admin-domifa' &&
+                          me.uuid !== user.uuid
+                        "
+                      >
+                        <dsfrx-dropdownmenu-item
+                          (selectItem)="openDeleteConfirmation(user)"
+                        >
+                          <button
+                            type="button"
+                            class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+                            (click)="openDeleteConfirmation(user)"
+                          >
+                            <i
+                              class="fr-icon-delete-fill"
+                              aria-hidden="true"
+                            ></i>
+                            Supprimer l'utilisateur
+                          </button>
+                        </dsfrx-dropdownmenu-item>
+                      </ng-container>
+                    </ng-template>
+                  </dsfrx-dropdownmenu>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <dsfr-modal
+    #addUserModal
+    icon="fr-icon-user-add-fill"
+    dialogId="addAdmin"
+    [titleModal]="'Créer un utilisateur'"
+    [concealingBackdrop]="false"
+    (conceal)="closeModal('add'); getUsers()"
+    size="LG"
+  >
+    <app-register-user-supervisor
+      [isEditMode]="false"
+      (cancel)="closeModal('add'); getUsers()"
+    ></app-register-user-supervisor>
+  </dsfr-modal>
+
+  <dsfr-modal
+    icon="fr-icon-edit-fill"
+    #updateUserModal
+    dialogId="updateAdmin"
+    titleModal="Modifier l'utilisateur"
+    [concealingBackdrop]="false"
+    (conceal)="closeModal('add'); getUsers()"
+    size="LG"
+  >
+    <ng-container *ngIf="selectedUser">
+      <app-register-user-supervisor
+        [isEditMode]="true"
+        (cancel)="closeModal('update'); getUsers()"
+        [userToEdit]="selectedUser"
+      ></app-register-user-supervisor>
+    </ng-container>
+  </dsfr-modal>
+
+  <dsfr-modal
+    #deleteUserConfirmationModal
+    icon="fr-icon-delete-fill"
+    dialogId="deleteAdmin"
+    titleModal="Vous êtes sur le point de supprimer le compte de {{
+      selectedUser?.nom
+    }}
+    {{ selectedUser?.prenom }}"
+    [concealingBackdrop]="false"
+    (conceal)="getUsers(); closeModal('delete')"
+    size="MD"
+  >
+    <ng-container *ngIf="selectedUser">
+      <app-delete-user
+        [selectedUser]="selectedUser"
+        (deleteComplete)="getUsers(); closeModal('delete')"
+      ></app-delete-user>
+    </ng-container>
+  </dsfr-modal>
+</div>

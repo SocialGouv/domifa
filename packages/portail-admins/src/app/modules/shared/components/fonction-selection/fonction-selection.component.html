@@ -1,7 +1,14 @@
-<div class="row">
-  <div class="col-6 col-md-6">
+<div class="row mb-5">
+  <div
+    [class.fr-input-group--error]="
+      fonctionFormControl &&
+      (submitted || fonctionFormControl?.dirty) &&
+      fonctionFormControl.errors
+    "
+    class="col-6 fr-input-group col-md-6"
+  >
     <ng-container>
-      <label for="fonction">{{ label }}</label>
+      <label class="fr-label" for="fonction">{{ label }}</label>
       <select
         id="fonction"
         [(ngModel)]="fonction"
@@ -13,7 +20,7 @@
             (submitted || fonctionFormControl?.dirty) &&
             fonctionFormControl.errors
         }"
-        class="form-select"
+        class="fr-select"
         [attr.required]="required"
       >
         <option [ngValue]="null">Sélectionnez une option</option>
@@ -24,70 +31,70 @@
           {{ USER_FONCTION_LABELS[option.value] }}
         </option>
       </select>
-      <p
+      <div
         *ngIf="
           (submitted || fonctionFormControl?.dirty) &&
           fonctionFormControl?.errors
         "
-        class="invalid-feedback"
+        class="fr-messages-group"
         id="responsable-fonction-errors"
+        aria-live="polite"
       >
-        {{ invalidFeedbackText }}
-      </p>
+        <p class="fr-message fr-message--error">
+          {{ invalidFeedbackText }}
+        </p>
+      </div>
     </ng-container>
     <small id="responsable-fonction-description"
       >Président.e, Directrice, etc.</small
     >
   </div>
 
-  <div class="col-6 col-md-6">
-    <ng-container *ngIf="fonction === USER_FONCTION.AUTRE">
-      <div class="col-12 form-group required">
-        <label
-          for="fonctionDetail"
-          [class]="displayLabel ? '' : 'visually-hidden'"
-          >Préciser la fonction occupée par l’utilisateur</label
-        >
-        <input
-          [(ngModel)]="fonctionDetail"
-          (ngModelChange)="
-            onModelChange(CONTROL_OPTIONS.DETAIL_FONCTION, $event)
-          "
-          type="text"
-          class="form-control"
-          id="fonctionDetail"
-          maxlength="200"
-          name="fonctionDetail"
-          [ngClass]="{
-            'is-invalid':
-              (fonctionDetailFormControl.dirty || submitted) &&
-              fonctionDetailFormControl.errors
-          }"
-          [attr.aria-invalid]="
+  <div class="col-6 fr-input-group required col-md-6">
+    <div class="col-12" *ngIf="fonction === USER_FONCTION.AUTRE">
+      <label
+        class="fr-label"
+        for="fonctionDetail"
+        [class.visually-hidden]="!displayLabel"
+        >Préciser la fonction occupée par l’utilisateur</label
+      >
+      <input
+        [(ngModel)]="fonctionDetail"
+        (ngModelChange)="onModelChange(CONTROL_OPTIONS.DETAIL_FONCTION, $event)"
+        type="text"
+        class="fr-input"
+        id="fonctionDetail"
+        maxlength="200"
+        name="fonctionDetail"
+        [ngClass]="{
+          'is-invalid':
             (fonctionDetailFormControl.dirty || submitted) &&
             fonctionDetailFormControl.errors
-              ? true
-              : false
-          "
-          [attr.aria-describedby]="
-            (fonctionDetailFormControl.dirty || submitted) &&
-            fonctionDetailFormControl.errors
-              ? 'fonction-error'
-              : 'fonction-detail-description'
-          "
-          required
-        />
-        <p
-          *ngIf="
-            (submitted || fonctionDetailFormControl?.dirty) &&
-            fonctionDetailFormControl?.errors
-          "
-          class="invalid-feedback"
-          id="responsable-detail-fonction-errors"
-        >
+        }"
+        [attr.aria-invalid]="
+          (fonctionDetailFormControl.dirty || submitted) &&
+          fonctionDetailFormControl.errors
+            ? true
+            : false
+        "
+        [attr.aria-describedby]="
+          (fonctionDetailFormControl.dirty || submitted) &&
+          fonctionDetailFormControl.errors
+            ? 'fonction-error'
+            : 'fonction-detail-description'
+        "
+        required
+      />
+      <div
+        *ngIf="submitted && fonctionDetailFormControl?.errors"
+        class="fr-messages-group"
+        id="responsable-detail-fonction-errors"
+        aria-live="polite"
+      >
+        <p class="fr-message fr-message--error">
           Veuillez préciser la fonction occupée par l’utilisateur
         </p>
       </div>
-    </ng-container>
+    </div>
   </div>
 </div>
