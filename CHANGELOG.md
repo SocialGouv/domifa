@@ -1,3 +1,15 @@
+# [2.228.0](https://github.com/SocialGouv/domifa/compare/v2.227.0...v2.228.0) (2025-11-18)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([#3981](https://github.com/SocialGouv/domifa/issues/3981)) ([29698fa](https://github.com/SocialGouv/domifa/commit/29698fa4d531f81f924b7aab562ac59b387b53d7))
+
+
+### Features
+
+* **backend:** add logs for structure edition ([#4004](https://github.com/SocialGouv/domifa/issues/4004)) ([62c7eed](https://github.com/SocialGouv/domifa/commit/62c7eed3302dbb5b7339ecddda2f4bba8796e5de))
+
 # [2.227.0](https://github.com/SocialGouv/domifa/compare/v2.226.1...v2.227.0) (2025-11-18)
 
 
