@@ -8,14 +8,15 @@
 
 <div *ngIf="me.role === 'super-admin-domifa'" class="pt-4">
   <div class="row">
-    <div class="fr-container col-12 d-flex justify-content-between">
-      <h2 class="fr-h5">{{ users.length }} Utilisateurs enregistrés</h2>
-      <!-- TODO changer l'icone dès qu'il mettent à jour leurs icones -->
+    <div
+      class="fr-container col-12 d-flex justify-content-between align-items-center"
+    >
+      <h2 class="fr-h5 mb-0">{{ users.length }} Utilisateurs enregistrés</h2>
       <div>
         <button
           type="button"
           (click)="openAddUserModal()"
-          class="fr-btn fr-icon-checkbox-line fr-btn--md fr-btn--icon-right fr-btn--secondary"
+          class="fr-btn fr-icon-user-add-fill fr-btn--md fr-btn--icon-right fr-btn--secondary"
         >
           Ajouter un utilisateur
         </button>

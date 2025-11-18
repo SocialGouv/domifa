@@ -340,7 +340,7 @@
 
 <dsfr-modal
   icon="fr-icon-user-add-fill"
-  #addAdminModal
+  #addUserModal
   dialogId="refuseStructureModal"
   titleModal="Création d'un utilisateur admin pour la structure :
       {{ currentStructure?.nom }}"
@@ -348,142 +348,11 @@
   [autoCloseOnAction]="false"
   size="LG"
 >
-  <form
-    id="newAdminForm"
-    [formGroup]="newAdminForm"
-    (ngSubmit)="submitNewAdmin()"
-  >
-    <div class="modal-body">
-      <div class="row">
-        <div
-          [class.fr-input-group--error]="submitted && f.nom.errors"
-          class="col-12 fr-input-group required"
-        >
-          <label class="fr-label" for="nom">Nom </label>
-          <input
-            type="text"
-            class="fr-input"
-            id="nom"
-            formControlName="nom"
-            name="nom"
-            placeholder="Nom"
-            [ngClass]="{
-              'is-invalid': submitted && f.nom.errors
-            }"
-            required
-          />
-          <div
-            *ngIf="submitted && f.nom.errors"
-            class="fr-messages-group"
-            id="invalid-feedback"
-            aria-live="polite"
-          >
-            <p class="fr-message fr-message--error">Veuillez vérifier le nom</p>
-          </div>
-        </div>
-
-        <div
-          [class.fr-input-group--error]="submitted && f.prenom.errors"
-          class="col-12 fr-input-group required"
-        >
-          <label class="fr-label" for="prenom">Prénom</label>
-          <input
-            type="text"
-            class="fr-input"
-            id="prenom"
-            formControlName="prenom"
-            name="prenom"
-            placeholder="Prénom"
-            [ngClass]="{
-              'is-invalid': submitted && f.prenom.errors
-            }"
-            required
-          />
-          <div
-            *ngIf="submitted && f.prenom.errors"
-            class="fr-messages-group"
-            id="invalid-feedback"
-            aria-live="polite"
-          >
-            <p class="fr-message fr-message--error">
-              Veuillez vérifier le prénom
-            </p>
-          </div>
-        </div>
-
-        <div
-          [class.fr-input-group--error]="submitted && f.email.errors"
-          class="col-12 fr-input-group required"
-        >
-          <label class="fr-label" for="email">Email :</label>
-          <input
-            type="text"
-            class="fr-input"
-            id="email"
-            formControlName="email"
-            name="email"
-            placeholder="Email"
-            [ngClass]="{
-              'is-invalid': submitted && f.email.errors
-            }"
-            required
-          />
-          <div
-            *ngIf="submitted && f.email.errors"
-            class="fr-messages-group"
-            id="invalid-feedback"
-            aria-live="polite"
-          >
-            <p class="fr-message fr-message--error">Vérifiez l'adresse email</p>
-          </div>
-        </div>
-        <div class="col-12 fr-input-group required">
-          <app-fonction-selection
-            [parentFormGroup]="newAdminForm"
-            [fonctionDetailFormControl]="fonctionDetailControl"
-            [fonctionFormControl]="fonctionFormControl"
-            [submitted]="submitted"
-            invalidFeedbackText="La fonction de l'administrateur est obligatoire"
-          ></app-fonction-selection>
-        </div>
-      </div>
-    </div>
-
-    <div class="fr-modal__footer">
-      <ul
-        class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
-      >
-        <li>
-          <button
-            type="button"
-            class="fr-btn fr-btn--secondary"
-            (click)="cancelForm()"
-          >
-            Annuler
-          </button>
-        </li>
-        <li>
-          <button
-            class="fr-btn"
-            type="submit"
-            [disabled]="loading"
-            [attr.aria-busy]="loading"
-          >
-            <span *ngIf="loading">
-              <fa-icon
-                [icon]="['fas', 'circle-notch']"
-                aria-hidden="true"
-                animation="spin"
-              >
-              </fa-icon>
-              Veuillez patienter...
-            </span>
-            <span *ngIf="!loading">Ajouter l'utilisateur</span>
-          </button>
-        </li>
-      </ul>
-    </div>
-  </form>
+  <app-register-user
+    (getUsers)="addUserModal.close(); reloadStructures$.next()"
+    (cancel)="addUserModal.close()"
+    [currentStructure]="currentStructure"
+  ></app-register-user>
 </dsfr-modal>
 
 <app-structure-form-delete

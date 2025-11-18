@@ -13,6 +13,7 @@ import { FormsModule } from "@angular/forms";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { StructureRoutingModule } from "./structure-routing.module";
 import { DsfrTooltipDirective } from "@edugouvfr/ngx-dsfr";
+import { RegisterUserComponent } from "./components/register-user/register-user.component";
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { DsfrTooltipDirective } from "@edugouvfr/ngx-dsfr";
     SortArrayPipe,
     ClipboardModule,
     DsfrTooltipDirective,
+    RegisterUserComponent,
   ],
 })
 export class StructureModule {}

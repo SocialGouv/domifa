@@ -1,4 +1,20 @@
-<span class="fr-h3"> {{ users.length }} Utilisateurs enregistrés</span>
+<div class="row">
+  <div
+    class="fr-container col-12 d-flex justify-content-between align-items-center"
+  >
+    <span class="fr-h3 mb-0"> {{ users.length }} Utilisateurs enregistrés</span>
+    <div>
+      <button
+        type="button"
+        (click)="openAddUserModal()"
+        class="fr-btn fr-icon-user-add-fill fr-btn--md fr-btn--icon-right fr-btn--secondary"
+      >
+        Ajouter un utilisateur
+      </button>
+    </div>
+  </div>
+</div>
+
 <div>
   <div class="fr-table fr-table--no-outer-border" id="table-0-component">
     <div class="fr-table__wrapper">
@@ -349,3 +365,20 @@
     </ng-template>
   </dsfr-modal>
 </div>
+
+<dsfr-modal
+  icon="fr-icon-user-add-fill"
+  #addUserModal
+  dialogId="addUserModal"
+  titleModal="Création d'un utilisateur admin pour la structure :
+      {{ structure?.nom }}"
+  [concealingBackdrop]="false"
+  [autoCloseOnAction]="false"
+  size="LG"
+>
+  <app-register-user
+    (cancel)="addUserModal.close()"
+    (getUsers)="addUserModal.close(); reloadUsersSubject$.next()"
+    [currentStructure]="structure"
+  ></app-register-user>
+</dsfr-modal>

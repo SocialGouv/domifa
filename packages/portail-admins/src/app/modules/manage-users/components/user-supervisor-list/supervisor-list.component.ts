@@ -19,10 +19,10 @@ import { subMonths } from "date-fns";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
-  selector: "app-user-profil",
-  templateUrl: "./user-profil.component.html",
+  selector: "app-supervisor-list",
+  templateUrl: "./supervisor-list.component.html",
 })
-export class UserProfilComponent implements OnInit, OnDestroy {
+export class SupervisorListComponent implements OnInit, OnDestroy {
   public users: UserSupervisor[];
   public me!: PortailAdminUser | null;
 

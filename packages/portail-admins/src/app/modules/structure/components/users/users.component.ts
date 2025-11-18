@@ -89,8 +89,9 @@ export class UsersComponent implements OnInit, OnDestroy {
   public confirmModal!: DsfrModalComponent;
   @ViewChild("infoModal")
   public informationModal!: DsfrModalComponent;
+  @ViewChild("addUserModal")
+  public addUserModal!: DsfrModalComponent;
   public confirmModalContext?: ConfirmModalContext;
-
   public userForModal?: UserWithSecurityViewModel;
   constructor(
     private readonly structureService: StructureService,
@@ -103,6 +104,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.structureId = parseInt(
       this.activatedRoute.parent.snapshot.params.structureId
     );
+
     this.structure = structuresCache.getStructureById(this.structureId);
     this.loadUsers();
 
@@ -136,6 +138,10 @@ export class UsersComponent implements OnInit, OnDestroy {
   public openInformationModal(user: UserWithSecurityViewModel): void {
     this.userForModal = user;
     this.informationModal.open();
+  }
+
+  public openAddUserModal(): void {
+    this.addUserModal.open();
   }
 
   public setConfirmModalContext(
