@@ -47,31 +47,7 @@ import { cleanPath, logDiff } from "../../../util";
 import { join } from "path";
 import { hardResetEmailSender } from "../../mails/services/templates-renderers";
 import { FindOptionsSelect } from "typeorm";
-
-const STRUCTURE_DTO_KEYS = [
-  "structureType",
-  "adresse",
-  "nom",
-  "complementAdresse",
-  "capacite",
-  "codePostal",
-  "ville",
-  "agrement",
-  "departement",
-  "email",
-  "telephone",
-  "responsable",
-  "adresseCourrier",
-  "options",
-  "region",
-  "regionName",
-  "departmentName",
-  "timeZone",
-  "organismeType",
-  "reseau",
-  "siret",
-  "registrationData",
-];
+import { STRUCTURE_DTO_KEYS } from "../constants/STRUCTURE_DTO_KEYS.const";
 
 // Usage
 @Controller("structures")
@@ -91,7 +67,8 @@ export class StructuresController {
   @Patch()
   public async patchStructure(
     @Body() structureDto: StructureDto,
-    @CurrentUser() user: UserStructureAuthenticated
+    @CurrentUser() user: UserStructureAuthenticated,
+    @Res() res: ExpressResponse
   ) {
     delete structureDto.acceptCgu;
 
@@ -113,19 +90,31 @@ export class StructuresController {
       where: { id: user.structureId },
       select: STRUCTURE_DTO_KEYS as FindOptionsSelect<Structure>,
     });
-    const logs = logDiff(oldStructure, structureDto, STRUCTURE_DTO_KEYS);
 
-    await appLogsRepository.insert({
-      userId: user.id,
-      structureId: user.structureId,
-      action: "STRUCTURE_UPDATE",
-      context: logs,
-      role: user.role,
-    });
+    if (!oldStructure) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "CANNOT_SET_MORE_THAN_2_DAYS_FOR_SMS" });
+    }
+    const logs = logDiff(oldStructure, structureDto, STRUCTURE_DTO_KEYS);
+    try {
+      await appLogsRepository.insert({
+        userId: user.id,
+        structureId: user.structureId,
+        action: "STRUCTURE_UPDATE",
+        context: logs,
+        role: user.role,
+      });
+    } catch (error) {
+      console.error("Failed to create audit log:", error);
+    }
 
     await structureRepository.update({ id: user.structureId }, structureDto);
 
-    return structureRepository.findOneBy({ id: user.structureId });
+    const updatedStructure = await structureRepository.findOneBy({
+      id: user.structureId,
+    });
+    return res.status(HttpStatus.OK).json(updatedStructure);
   }
 
   @Patch("sms")
