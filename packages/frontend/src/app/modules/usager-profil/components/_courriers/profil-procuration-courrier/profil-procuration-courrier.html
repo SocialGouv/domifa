@@ -189,7 +189,7 @@
                 name="dateNaissance"
                 ngbDatepicker
                 id="date_naissance_{{i}}"
-                dateFr
+                appDateFr
                 value
                 [ngClass]="{
                   'is-invalid': (form.controls[i].get('dateNaissance')?.dirty || submitted) && form.controls[i].get('dateNaissance')?.errors
@@ -240,7 +240,7 @@
                 formControlName="dateDebut"
                 name="dateDebut"
                 ngbDatepicker
-                dateFr
+                appDateFr
                 value
                 [ngClass]="{
                   'is-invalid':
@@ -292,7 +292,7 @@
                 formControlName="dateFin"
                 name="dateFin"
                 ngbDatepicker
-                dateFr
+                appDateFr
                 value
                 [ngClass]="{
                   'is-invalid':
