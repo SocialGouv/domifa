@@ -1,13 +1,16 @@
 import { Component, OnInit } from "@angular/core";
-import { Title } from "@angular/platform-browser";
+import { SeoService } from "../../../../shared/services/seo.service";
 
 @Component({
   selector: "app-mentions-legales",
   templateUrl: "./mentions-legales.component.html",
 })
 export class MentionsLegalesComponent implements OnInit {
-  public constructor(private titleService: Title) {}
+  public constructor(private readonly seoService: SeoService) {}
   public ngOnInit(): void {
-    this.titleService.setTitle("Mentions-légales de Mon DomiFa");
+    this.seoService.updateTitleAndTags(
+      "Mentions légales de Mon DomiFa",
+      "Informations légales, éditeur, hébergeur et crédits du portail Mon DomiFa",
+    );
   }
 }

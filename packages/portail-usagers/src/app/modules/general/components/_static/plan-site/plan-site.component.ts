@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { Title } from "@angular/platform-browser";
 import { LIENS_PARTENAIRES } from "./LIENS_PARTENAIRES.const";
+import { SeoService } from "../../../../shared/services/seo.service";
 
 @Component({
   selector: "app-plan-site",
@@ -28,9 +28,12 @@ export class PlanSiteComponent implements OnInit {
 
   public readonly partnerLinks = LIENS_PARTENAIRES;
 
-  constructor(private readonly titleService: Title) {}
+  constructor(private readonly seoService: SeoService) {}
 
   public ngOnInit(): void {
-    this.titleService.setTitle("Plan du site de Mon DomiFa");
+    this.seoService.updateTitleAndTags(
+      "Plan du site de Mon DomiFa",
+      "Navigation complète du portail Mon DomiFa : accès aux pages principales et liens utiles",
+    );
   }
 }

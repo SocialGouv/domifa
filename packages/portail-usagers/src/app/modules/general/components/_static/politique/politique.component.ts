@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
-import { Title } from "@angular/platform-browser";
 import { DsfrColumn } from "@edugouvfr/ngx-dsfr";
 import { MatomoTracker } from "ngx-matomo-client";
+import { SeoService } from "../../../../shared/services/seo.service";
 
 @Component({
   selector: "app-politique",
@@ -69,11 +69,14 @@ export class PolitiqueComponent {
     },
   ];
   public constructor(
-    private readonly titleService: Title,
+    private readonly seoService: SeoService,
     private readonly tracker: MatomoTracker,
   ) {
     this.optedOut$ = tracker.isUserOptedOut();
-    this.titleService.setTitle("Politique de confidentialité de Mon DomiFa");
+    this.seoService.updateTitleAndTags(
+      "Politique de confidentialité de Mon DomiFa",
+      "Protection des données personnelles, cookies, et respect de votre vie privée sur Mon DomiFa",
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

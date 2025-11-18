@@ -4,6 +4,7 @@ import { InteractionService } from "../../services/interaction.service";
 import { Subscription } from "rxjs";
 import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { SeoService } from "../../../shared/services/seo.service";
 
 @Component({
   selector: "app-historique-courriers",
@@ -36,9 +37,14 @@ export class HistoriqueCourriersComponent implements OnDestroy, OnInit {
     private readonly usagerAuthService: UsagerAuthService,
     private readonly interactionService: InteractionService,
     private readonly toastr: CustomToastService,
+    private readonly seoService: SeoService,
   ) {}
 
   ngOnInit() {
+    this.seoService.updateTitleAndTags(
+      "Historique des courriers - Mon DomiFa",
+      "Consultez l'historique complet de vos interactions et courriers reçus",
+    );
     this.loadInteractions();
   }
 
