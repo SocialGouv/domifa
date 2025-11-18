@@ -1,3 +1,10 @@
+## [2.228.1](https://github.com/SocialGouv/domifa/compare/v2.228.0...v2.228.1) (2025-11-18)
+
+
+### Bug Fixes
+
+* **frontend:** update date-directive ([#4005](https://github.com/SocialGouv/domifa/issues/4005)) ([16c6622](https://github.com/SocialGouv/domifa/commit/16c66226bca319052d2dc3c411e9bd19c318dbb8))
+
 # [2.228.0](https://github.com/SocialGouv/domifa/compare/v2.227.0...v2.228.0) (2025-11-18)
 
 
