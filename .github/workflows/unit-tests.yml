@@ -20,7 +20,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Node.js lts
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "lts/*"
           cache: "yarn"
@@ -44,7 +44,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Node.js vlts
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "lts/*"
           cache: "yarn"
@@ -86,7 +86,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Node.js lts
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "lts/*"
           cache: "yarn"
@@ -121,7 +121,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Node.js lts
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "lts/*"
           cache: "yarn"
@@ -156,7 +156,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Node.js lts
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "lts/*"
           cache: "yarn"
@@ -186,7 +186,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Node.js vlts
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "lts/*"
           cache: "yarn"
@@ -216,7 +216,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Node.js lts
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "lts/*"
           cache: "yarn"
