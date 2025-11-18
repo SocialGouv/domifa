@@ -6,9 +6,9 @@ import { map, Subscription } from "rxjs";
 import { InteractionService } from "../../../../services/interaction.service";
 import { CustomToastService } from "../../../../../shared/services/custom-toast.service";
 import {
-  pendingInteractionsCount,
+  PendingInteractionsCount,
   TypeGroupedInteractions,
-} from "../../../../types/usuager-interactions";
+} from "../../../../types/usager-interactions";
 
 @Component({
   selector: "app-section-courriers",
@@ -20,7 +20,7 @@ import {
 export class SectionCourriersComponent implements OnInit {
   @Input() public usager!: PortailUsagerPublic;
   public groupedPendingInteractions?: TypeGroupedInteractions;
-  public pendingInteractions: pendingInteractionsCount = {
+  public pendingInteractions: PendingInteractionsCount = {
     courrierIn: 0,
     colisIn: 0,
     recommandeIn: 0,
@@ -50,7 +50,7 @@ export class SectionCourriersComponent implements OnInit {
           next: (interactions: Interaction[]) => {
             interactions.forEach((interaction) => {
               this.pendingInteractions[interaction.type] =
-                this.pendingInteractions[interaction.type]! + 1;
+                (this.pendingInteractions[interaction.type] ?? 0) + 1;
             });
             this.groupedPendingInteractions =
               this.agregateItemsByDate(interactions);

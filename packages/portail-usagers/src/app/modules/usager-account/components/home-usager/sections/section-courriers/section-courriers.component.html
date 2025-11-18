@@ -32,7 +32,7 @@
     class="fr-text-title--blue-france my-2"
   >
     <h2 class="fr-text-title--blue-france mb-2">
-      Vous avez du courrier à retiré !
+      Vous avez du courrier à retirer !
     </h2>
 
     <div class="border-top border-1 border-grey pt-3 mb-2">
@@ -49,7 +49,7 @@
                     usager.lastInteraction.courrierIn
                   }}</span>
                   courrier<ng-container
-                    *ngIf="usager.lastInteraction.courrierIn > 0"
+                    *ngIf="usager.lastInteraction.courrierIn > 1"
                     >s</ng-container
                   >
                 </div>
@@ -163,17 +163,16 @@
           </ng-container>
         </div>
       </div>
-
-      <div class="text-center">
-        <a
-          routerLink="/account/historique"
-          ariaCurrentWhenActive="page"
-          class="fr-btn fr-btn--md fr-btn--secondary gap-1 mt-4 mb-2"
-        >
-          <span aria-hidden="true" class="fr-icon-time-line"></span>
-          Consultez le détail des interactions
-        </a>
-      </div>
     </div>
+  </div>
+  <div class="text-center">
+    <a
+      routerLink="/account/historique"
+      ariaCurrentWhenActive="page"
+      class="fr-btn fr-btn--md fr-btn--secondary gap-1 mt-4 mb-2"
+    >
+      <span aria-hidden="true" class="fr-icon-time-line"></span>
+      Consultez le détail des interactions
+    </a>
   </div>
 </div>

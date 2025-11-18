@@ -5,8 +5,8 @@ import { SectionCourriersComponent } from "./section-courriers.component";
 import { SharedModule } from "../../../../../shared/shared.module";
 import { provideHttpClient } from "@angular/common/http";
 import { Interaction } from "@domifa/common";
-import { unProfilUsager } from "../../../../../../../_tests/mocks/PORTAIL_USAGER_PROFILE.mock";
-import { interactionUsager } from "../../../../../../../_tests/mocks/INTERACTION_USAGER.mock";
+import { unProfilUsager } from "../../../../../../../_tests/mocks/PORTAIL_USAGER_PROFILE_MOCK";
+import { interactionUsager } from "../../../../../../../_tests/mocks/INTERACTION_USAGER_MOCK";
 
 describe("SectionCourriersComponent", () => {
   let component: SectionCourriersComponent;

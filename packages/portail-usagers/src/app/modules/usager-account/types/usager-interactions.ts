@@ -11,6 +11,6 @@ export type TypeGroupedInteractions = {
   [key in InteractionType]?: DateGroupedInteractions;
 };
 
-export type pendingInteractionsCount = {
+export type PendingInteractionsCount = {
   [key in InteractionType]?: number;
 };
