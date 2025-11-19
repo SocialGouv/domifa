@@ -104,7 +104,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.structureId = parseInt(
       this.activatedRoute.parent.snapshot.params.structureId
     );
-
     this.structure = structuresCache.getStructureById(this.structureId);
     this.loadUsers();
 
