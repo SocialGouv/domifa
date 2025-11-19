@@ -1,98 +1,125 @@
-<div class="head-page py-4">
-  <div class="container">
-    <h1 class="title">Espace d'administration de DomiFa</h1>
+<div class="d-flex flex-row gap-0">
+  <div class="fr-background-alt--grey flex-grow-1 d-none d-sm-flex">
+    <!-- clearfix -->
   </div>
-</div>
-<div class="container my-5">
-  <div class="row justify-content-center align-items-center">
-    <form
-      [formGroup]="loginForm"
-      class="col-md-6 col-lg-4 col-12"
-      (ngSubmit)="login()"
+  <div class="fr-container d-flex flex-row flex-shrink-0 p-0">
+    <div
+      class="col-12 col-md-6 col-sm-6 d-flex flex-column align-items-left px-3 py-5 fr-background-alt--grey"
     >
-      <div class="row">
-        <div class="col form-group required">
-          <label for="email">Votre identifiant</label>
-          <input
-            type="email"
-            formControlName="email"
-            id="email"
-            name="email"
-            placeholder="Votre identifiant"
-            class="form-control"
-            [ngClass]="{
-              'is-invalid': f.email.dirty && f.email.errors
-            }"
-          />
-          <p *ngIf="f.email.dirty && f.email.errors" class="invalid-feedback">
-            Veuillez vérifier l'identifiant
-          </p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col form-group required">
-          <label for="password">Mot de passe</label>
-          <div class="input-group">
+      <h1 class="align-self-start fr-h2">Connexion à Admin DomiFa</h1>
+      <span class="col-12 col-md-12 fr-text-default--error">
+        * champs obligatoires
+      </span>
+      <form
+        [formGroup]="loginForm"
+        class="column d-flex flex-column gap-2 pt-4 pt-md-5 pb-4 pb-md-5"
+        (ngSubmit)="login()"
+      >
+        <div class="row">
+          <div
+            [class.fr-input-group--error]="f.email.dirty && f.email.errors"
+            class="col fr-input-group required"
+          >
+            <label for="email">Email</label>
             <input
-              formControlName="password"
-              id="password"
-              name="password"
-              [type]="!hidePassword ? 'text' : 'password'"
-              class="form-control"
-              placeholder="Mot de passe"
-              autocomplete="current-password"
-              [ngClass]="{
-                'is-invalid': f.password.dirty && f.password.errors
-              }"
+              type="email"
+              formControlName="email"
+              id="email"
+              name="email"
+              placeholder="Votre email"
+              class="fr-input"
             />
-            <div class="input-group-append">
-              <button
+            <p *ngIf="f.email.dirty && f.email.errors" class="invalid-feedback">
+              Veuillez vérifier l'email
+            </p>
+          </div>
+        </div>
+        <div class="fr-input-group required ng-star-inserted">
+          <div class="fr-password" id="passwordContainer">
+            <label class="fr-password__label fr-label" for="password">
+              Mot de passe
+            </label>
+            <div class="fr-input-wrap">
+              <input
+                formControlName="password"
+                id="password"
+                name="password"
+                [type]="!hidePassword ? 'text' : 'password'"
+                class="fr-input"
+                placeholder="Mot de passe"
+                autocomplete="current-password"
+              />
+            </div>
+            <div
+              class="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm"
+            >
+              <input
+                id="show-password"
+                type="checkbox"
                 class="input-group-text"
-                type="button"
-                role="switch"
                 [attr.aria-checked]="!hidePassword"
-                [attr.aria-label]="
-                  (hidePassword ? 'Afficher' : 'Masquer') + ' le mot de passe'
-                "
-                (click)="toggleShowPassword()"
+                (change)="toggleShowPassword()"
+              />
+              <label
+                class="fr--password__checkbox fr-label"
+                for="show-password"
               >
-                <fa-icon
-                  aria-hidden="true"
-                  [icon]="hidePassword ? ['far', 'eye'] : ['far', 'eye-slash']"
-                ></fa-icon>
-              </button>
+                Afficher
+              </label>
             </div>
           </div>
-          <p
-            *ngIf="f.password.dirty && f.password.errors"
-            class="invalid-feedback"
+        </div>
+        <div class="my-4">
+          <a class="fr-link" routerLink="/users/reset-password"
+            >Mot de passe oublié ?</a
           >
-            Le mot de passe est obligatoire
+        </div>
+        <div class="form-group my-2 text-center">
+          <button
+            id="loginBtn"
+            aria-label="Connexion"
+            type="submit"
+            class="fr-btn d-flex flex-column w-100"
+          >
+            <span *ngIf="!loading">Se connecter </span>
+            <span *ngIf="loading"
+              ><fa-icon
+                aria-hidden="true"
+                [icon]="['fas', 'circle-notch']"
+                animation="spin"
+              >
+              </fa-icon>
+              Connexion en cours...</span
+            >
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-12 col-md-6 col-sm-6 d-flex d-none d-sm-flex p-4">
+      <div class="content-container">
+        <div
+          class="row d-flex gap-2 align-self-start align-content-center py-4"
+        >
+          <div class="d-flex flex-column col-12 col-md-6 col-sm-6">
+            <img class="img-fluid" src="assets/images/logo-dsfr.svg" alt="" />
+          </div>
+          <p class="fw-bold">
+            Gestion et suivi statistiques des structures DomiFa
           </p>
+          <div class="col-12 col-md-12 col-sm-12 justify-content-center d-flex">
+            <img
+              aria-hidden="true"
+              class="img-fluid"
+              src="assets/images/login/main-container.svg"
+              alt="Illustration de
+        boîte aux lettres"
+            />
+          </div>
         </div>
       </div>
-      <div class="form-group my-2 text-center">
-        <button
-          type="submit"
-          [disabled]="loading || loginForm.invalid"
-          aria-label="Connexion"
-          class="btn btn-primary"
-        >
-          <span *ngIf="!loading">Connexion </span>
-          <span *ngIf="loading"
-            ><fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'circle-notch']"
-              animation="spin"
-            >
-            </fa-icon>
-            Connexion en cours...</span
-          >
-        </button>
-      </div>
-      <div class="text-center my-4">
-        <a routerLink="/users/reset-password">Mot de passe oublié ?</a>
-      </div>
-    </form>
+    </div>
+  </div>
+  <div class="flex-grow-1 d-none d-sm-flex">
+    <!-- clearfix -->
   </div>
 </div>
