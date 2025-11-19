@@ -125,8 +125,8 @@ export class AppComponent implements OnInit {
       });
   }
 
-  public logout($event: DsfrLink): void {
-    if ($event.linkId === "logout") {
+  public logout(event: DsfrLink): void {
+    if (event.linkId === "logout") {
       this.adminAuthService.logoutFromBackend();
     }
   }
