@@ -1,5 +1,5 @@
 import { Validators } from "@angular/forms";
-import { PasswordValidator } from "./services";
+import { PasswordValidator } from "../services/password-validator.service";
 
 export const PASSWORD_VALIDATOR = [
   Validators.required,
