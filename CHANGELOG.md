@@ -1,3 +1,10 @@
+# [2.229.0](https://github.com/SocialGouv/domifa/compare/v2.228.1...v2.229.0) (2025-11-20)
+
+
+### Features
+
+* **admin:** init dsfr admin ([49b17dd](https://github.com/SocialGouv/domifa/commit/49b17dd39d78e88bd5804ad991ecff1f0821ac3f)), closes [#3910](https://github.com/SocialGouv/domifa/issues/3910) [#4000](https://github.com/SocialGouv/domifa/issues/4000)
+
 ## [2.228.1](https://github.com/SocialGouv/domifa/compare/v2.228.0...v2.228.1) (2025-11-18)
 
 
