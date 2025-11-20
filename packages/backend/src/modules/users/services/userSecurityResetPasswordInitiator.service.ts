@@ -32,9 +32,9 @@ function buildResetPasswordLink({
 }) {
   const config = domifaConfig().apps;
   // Utiliser l'URL frontend pour les utilisateurs de structure, et adminFrontUrl pour les superviseurs
-  const baseUrl =
-    userProfile === "structure" ? config.frontendUrl : config.portailAdminUrl;
-  return `${baseUrl}users/reset-password/${userId}/${token}`;
+  return userProfile === "structure"
+    ? `${config.frontendUrl}users/reset-password/${userId}/${token}`
+    : `${config.portailAdminUrl}auth/reset-password/${userId}/${token}`;
 }
 
 async function generateResetPasswordToken({

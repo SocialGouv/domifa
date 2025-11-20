@@ -7,10 +7,10 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { regexp } from "../../../shared/utils/validators";
-import { CustomToastService } from "../../shared/services/custom-toast.service";
-import { PortailAdminAuthLoginForm } from "../types";
-import { AdminAuthService } from "../services/admin-auth.service";
+import { regexp } from "../../../../shared/utils/validators";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { PortailAdminAuthLoginForm } from "../../types";
+import { AdminAuthService } from "../../services/admin-auth.service";
 import { PortailAdminAuthApiResponse } from "@domifa/common";
 
 @Component({
@@ -21,7 +21,7 @@ export class AdminLoginComponent implements OnInit {
   public loginForm!: UntypedFormGroup;
 
   public userForm!: UntypedFormGroup;
-
+  public showResetPasswordForm: boolean;
   public hidePassword: boolean;
   public loading: boolean;
   public returnUrl: string;
@@ -35,6 +35,7 @@ export class AdminLoginComponent implements OnInit {
   ) {
     this.hidePassword = true;
     this.loading = false;
+    this.showResetPasswordForm = false;
     this.returnUrl = "/";
   }
 

@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs";
@@ -29,7 +35,8 @@ export class AppComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly titleService: Title,
-    private readonly adminAuthService: AdminAuthService
+    private readonly adminAuthService: AdminAuthService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     this.adminProfile = null;
   }
@@ -125,9 +132,12 @@ export class AppComponent implements OnInit {
       });
   }
 
-  public logout(event: DsfrLink): void {
-    if (event.linkId === "logout") {
+  public logout(event?: DsfrLink): void {
+    if (event?.linkId === "logout") {
       this.adminAuthService.logoutFromBackend();
+      this.headerToolsLinks = [];
+      this.menuHeaderItems = [];
+      this.cdr.markForCheck();
     }
   }
 

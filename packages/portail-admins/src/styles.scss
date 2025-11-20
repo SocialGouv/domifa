@@ -4,7 +4,7 @@
 @import "@gouvfr/dsfr/dist/utility/utility.min.css" layer(dsfr);
 
 @layer bootstrap {
-  @import "./assets/css/bootstrap-custom.scss";
+  @import "./assets/css/bootstrap-custom.scss" layer(bootstrap);
 
   $primary: #4164f5;
   $bs-primary: #4164f5;
