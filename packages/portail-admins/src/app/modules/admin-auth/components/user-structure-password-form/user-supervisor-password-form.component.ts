@@ -4,8 +4,8 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { PASSWORD_VALIDATOR } from "../../PASSWORD_VALIDATOR.const";
-import { PasswordValidator } from "../../services";
+import { PASSWORD_VALIDATOR } from "../../../admin-auth/types/PASSWORD_VALIDATOR.const";
+import { PasswordValidator } from "../../services/password-validator.service";
 
 @Component({
   selector: "app-user-supervisor-password-form",
