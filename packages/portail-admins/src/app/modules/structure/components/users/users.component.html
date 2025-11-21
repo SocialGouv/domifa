@@ -5,6 +5,7 @@
     <span class="fr-h3 mb-0"> {{ users.length }} Utilisateurs enregistrés</span>
     <div>
       <button
+        [disabled]="structure.statut === 'SUPPRIME'"
         type="button"
         (click)="openAddUserModal()"
         class="fr-btn fr-icon-user-add-fill fr-btn--md fr-btn--icon-right fr-btn--secondary"
@@ -141,6 +142,7 @@
                     [ariaLabelMenu]="'Administrer la structure ' + structure.id"
                     [labelMenu]="'Actions'"
                     [closeOnAction]="true"
+                    [size]="'SM'"
                     appendTo="body"
                   >
                     <ng-template #contentTemplate>

@@ -47,11 +47,6 @@ const routes: Routes = [
       import("./modules/stats/stats.module").then((m) => m.StatsModule),
   },
   {
-    path: "users",
-    loadChildren: () =>
-      import("./modules/users/users.module").then((m) => m.UsersModule),
-  },
-  {
     path: "manage-users",
     canActivate: [AuthGuard],
     data: {
