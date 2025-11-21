@@ -170,12 +170,6 @@ dump:
               {{ printf "structure-%d@domifa-fake.fabrique.social.gouv.fr" (.GetColumnValue "id") }}
         - name: SetNull
           params:
-            column: token
-        - name: SetNull
-          params:
-            column: tokenDelete
-        - name: SetNull
-          params:
             column: hardReset
         - name: Json
           params:
