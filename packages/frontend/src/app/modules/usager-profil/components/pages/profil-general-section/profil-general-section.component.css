@@ -33,11 +33,6 @@
   margin: 0;
 }
 
-.text-link {
-  text-decoration: underline;
-  font-weight: bold;
-}
-
 button:not(:disabled) .list-icon-disabled {
   display: none;
 }
