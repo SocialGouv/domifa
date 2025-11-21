@@ -1,3 +1,10 @@
+## [2.229.1](https://github.com/SocialGouv/domifa/compare/v2.229.0...v2.229.1) (2025-11-21)
+
+
+### Bug Fixes
+
+* **backend:** update greenmask config ([#4008](https://github.com/SocialGouv/domifa/issues/4008)) ([167da9a](https://github.com/SocialGouv/domifa/commit/167da9a06856b6da5c4d26e3f7389726ac94b8bf))
+
 # [2.229.0](https://github.com/SocialGouv/domifa/compare/v2.228.1...v2.229.0) (2025-11-20)
 
 
