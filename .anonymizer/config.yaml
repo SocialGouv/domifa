@@ -163,11 +163,6 @@ dump:
     - schema: public
       name: structure
       transformers:
-        - name: "Template"
-          params:
-            column: "email"
-            template: |
-              {{ printf "structure-%d@domifa-fake.fabrique.social.gouv.fr" (.GetColumnValue "id") }}
         - name: SetNull
           params:
             column: hardReset
@@ -202,29 +197,6 @@ dump:
                 template: "{{ .FirstName }}"
               - name: nom
                 template: "{{ .LastName }}"
-        - name: "Cmd"
-          params:
-            driver:
-              name: "json"
-            validate: true
-            timeout: 3600s
-            expected_exit_code: -1
-            executable: "node"
-
-            args:
-              - "./dist/user-structure--email.js"
-            columns:
-              - name: "email"
-                skip_on_null_input: true
-              - name: "role"
-                not_affected: true
-                skip_on_null_input: true
-              - name: "structureId"
-                not_affected: true
-                skip_on_null_input: true
-              - name: "id"
-                not_affected: true
-                skip_on_null_input: true
         - name: "Cmd"
           params:
             driver:

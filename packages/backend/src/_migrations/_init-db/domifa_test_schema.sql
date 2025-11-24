@@ -722,8 +722,6 @@ ALTER TABLE ONLY public.usager_entretien
     ADD CONSTRAINT "FK_6193a732dd00abc56e91e92fe48" FOREIGN KEY ("structureId") REFERENCES public.structure(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.usager_notes
     ADD CONSTRAINT "FK_6ca23b363643ae281d2f1eddf2f" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE;
-ALTER TABLE ONLY public.expired_token
-    ADD CONSTRAINT "FK_728480a55bd9e5daa2a89d8de0f" FOREIGN KEY ("userId") REFERENCES public.user_structure(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.open_data_places
     ADD CONSTRAINT "FK_7ee1e7a8d9441eb76ab7b4aa5a3" FOREIGN KEY ("domifaStructureId") REFERENCES public.structure(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.usager_history_states

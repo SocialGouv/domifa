@@ -37,6 +37,14 @@ COPY public.contact_support (uuid, "createdAt", "updatedAt", version, "userId", 
 
 
 --
+-- Data for Name: expired_token; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.expired_token (uuid, "createdAt", "updatedAt", version, "userId", "structureId", token, "userProfile") FROM stdin;
+\.
+
+
+--
 -- Data for Name: structure; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -46,33 +54,6 @@ e159011b-6648-426d-a772-b3ca4f27a6d5	2021-01-26 08:51:53.846157+01	2025-11-06 20
 610966c4-ab91-43c0-88da-483ae23d0af2	2021-02-01 17:12:30.65884+01	2025-11-06 20:34:50.282768+01	14	4	rue de l'import	{"actif": false, "ville": "", "adresse": "", "codePostal": ""}	123	\N	44000		44	52	test.import@yopmail.com	\N	f	2021-02-01 17:12:30.655+01	\N	\N	Structure de Test d'import	{"numeroBoite": false, "nomStructure": true}	{"nom": "Test", "prenom": "Import", "fonction": "Testeur"}	asso	Nantes	{"schedule": {"friday": false, "monday": false, "tuesday": true, "thursday": true, "wednesday": false}, "senderName": "STRUCTURE D", "senderDetails": "STRUCTURE D", "enabledByDomifa": true, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0101010101", "countryCode": "fr"}	\N	47.213973	-1.536923	\N	Loire-Atlantique	Pays de la Loire	Autre réseau	44109	VERY_SMALL	\N	\N	\N	VALIDE	{"uuid": "89c17020-99fe-48e0-ac94-90fbe121bd26", "motif": null, "statut": "VALIDE", "userId": 1, "userName": "Migration DomiFa", "dateDecision": "2025-11-06T19:34:50.259Z", "motifDetails": null}
 1d1ed6f0-7674-474a-908b-d0bd8c6389cb	2021-01-26 08:51:53.846157+01	2025-11-06 20:34:50.282768+01	10	3	1 rue du test de l'organise agréé	\N	1234	80	44000	\N	44	52	structure@yopmail.com	{"token": "6V0XR2S", "userId": 3}	t	2020-11-17 14:34:35.821+01	\N	2021-12-06	Organisme agréé de Test	{"numeroBoite": false, "nomStructure": true}	{"nom": "Calvez", "prenom": "Simon", "fonction": "Directeur"}	asso	Nantes	{"schedule": {"friday": false, "monday": false, "tuesday": true, "thursday": true, "wednesday": false}, "senderName": null, "senderDetails": null, "enabledByDomifa": false, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": false, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0506070809", "countryCode": "fr"}	\N	47.218193	-1.561368	\N	Loire-Atlantique	Pays de la Loire	Autre réseau	44109	VERY_SMALL	\N	\N	\N	VALIDE	{"uuid": "89c17020-99fe-48e0-ac94-90fbe121bd26", "motif": null, "statut": "VALIDE", "userId": 1, "userName": "Migration DomiFa", "dateDecision": "2025-11-06T19:34:50.259Z", "motifDetails": null}
 412f6962-fc6e-4e48-b0a6-a37d6eebbc67	2021-01-26 08:51:53.846157+01	2025-11-06 20:34:50.282768+01	375	1	1 rue de l'océan	\N	\N	\N	92600	\N	92	11	ccas.test@yopmail.com	\N	f	2020-11-17 14:30:23.692+01	\N	2025-09-18	CCAS de Test	{"numeroBoite": false, "nomStructure": true}	{"nom": "Jean", "prenom": "Thomson", "fonction": "PDG"}	ccas	Asnieres-sur-seine	{"schedule": {"friday": false, "monday": false, "tuesday": true, "thursday": true, "wednesday": false}, "senderName": "CCAS DE TES", "senderDetails": "CCAS DE TES", "enabledByDomifa": true, "enabledByStructure": false}	{"enabledByDomifa": true, "enabledByStructure": true, "usagerLoginUpdateLastInteraction": false}	Europe/Paris	{"numero": "0602030405", "countryCode": "fr"}	2023-02-14 18:33:51.265+01	48.903759	2.283746	\N	Hauts-de-Seine	Île-de-France	\N	92004	VERY_SMALL	\N	\N	\N	VALIDE	{"uuid": "89c17020-99fe-48e0-ac94-90fbe121bd26", "motif": null, "statut": "VALIDE", "userId": 1, "userName": "Migration DomiFa", "dateDecision": "2025-11-06T19:34:50.259Z", "motifDetails": null}
-\.
-
-
---
--- Data for Name: user_structure; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY public.user_structure (uuid, "createdAt", "updatedAt", version, email, fonction, id, "lastLogin", nom, password, prenom, role, "structureId", mails, "passwordLastUpdate", verified, "acceptTerms", "fonctionDetail") FROM stdin;
-663b9baa-2880-406c-a93a-32fe65528037	2020-11-17 14:18:47.658346+01	2020-11-17 14:18:47.658346+01	1	s1-instructeur@yopmail.com	\N	2	\N	Juste	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Isabelle	simple	1	{"guide": false, "import": false}	\N	t	\N	\N
-59c846d8-0592-4790-a5e2-1daae9b8776e	2020-11-14 14:18:27.658736+01	2020-11-14 14:18:27.658736+01	1	s1-facteur@yopmail.com	\N	6	2021-06-28 15:27:26.095+02	Dupuis	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Facteur 1	facteur	1	{"guide": true, "import": true}	\N	t	\N	\N
-d81c5566-94f9-4ee4-ab57-a604a654f79b	2020-11-17 14:32:22.193933+01	2020-11-17 14:39:14.015103+01	17	s3-admin@yopmail.com	\N	5	2020-11-17 14:39:13.796+01	Roseline	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Parmentier	admin	3	{"guide": false, "import": false}	2020-11-17 14:39:14.013+01	t	\N	\N
-d19ece1f-d32b-498c-9427-eb12b1251163	2020-11-17 14:26:29.482634+01	2020-11-17 14:26:29.490297+01	2	s3-facteur@yopmail.com	\N	4	\N	Test	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Facteur	facteur	3	{"guide": false, "import": false}	\N	t	\N	\N
-b0140303-79e3-436c-9c41-1eaefeeaed6e	2020-11-17 14:23:20.248011+01	2022-03-09 00:20:21.36073+01	9	s1-gestionnaire@yopmail.com	\N	3	2022-03-09 00:20:21.356+01	Smith	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Peter	responsable	1	{"guide": false, "import": false}	\N	t	\N	\N
-343b62db-6c85-4896-b994-18c8c89b710f	2022-03-17 17:25:53.798318+01	2022-03-23 22:08:39.505536+01	36	s5-admin@yopmail.com	\N	11	2022-03-23 22:08:39.502+01	Pali	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Mauricette	admin	5	{"guide": false, "import": false}	2022-03-17 17:25:53.78+01	t	\N	\N
-da01f451-9c4f-4f6c-98bb-c635277e33e7	2020-11-17 14:18:47.658346+01	2024-10-30 22:34:43.742052+01	392	preprod.domifa@fabrique.social.gouv.fr	\N	1	2024-10-30 22:34:43.742+01	Roméro	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Patrick	admin	1	{"guide": false, "import": false}	\N	t	2023-02-14 18:33:51.261+01	\N
-4e049e3d-bb65-48e5-8661-b1ccdc9db985	2021-09-21 00:03:26.186917+02	2025-07-18 19:04:01.796244+02	3	s3-instructeur@yopmail.com	AUTRE	8	\N	Jacquet	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Aimé	simple	3	{"guide": false, "import": false}	\N	t	\N	\N
-44f1cfe8-eae9-49d5-aedb-76dda856c413	2021-02-01 17:12:30.90825+01	2025-07-18 19:04:01.813538+02	3	s4-admin@yopmail.com	AUTRE	7	\N	Test	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Import	admin	4	{"guide": false, "import": false}	\N	t	\N	\N
-f6b20e00-77e7-46e6-b48d-8cca69161042	2020-11-17 14:32:22.193+01	2025-07-18 19:04:01.814984+02	5	s3-gestionnaire@yopmail.com	DIRECTEUR_RESPONSABLE	10	2021-12-06 16:26:01.365+01	Etchebest	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Philippe	responsable	3	{"guide": false, "import": false}	\N	t	\N	\N
-132e6e51-1612-44cc-b277-eca0a6d11c16	2020-11-14 14:18:27.658736+01	2025-09-18 22:55:07.545893+02	3	s1-agent@yopmail.com	\N	12	2025-09-18 22:55:04.854+02	Dragon	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Agent 1	agent	1	{"guide": true, "import": true}	\N	t	2025-09-18 22:55:07.545+02	\N
-\.
-
-
---
--- Data for Name: expired_token; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY public.expired_token (uuid, "createdAt", "updatedAt", version, "userId", "structureId", token, "userProfile") FROM stdin;
 \.
 
 
@@ -294,6 +275,25 @@ c9192746-debf-48de-bd13-6fb5b2ee866b	2022-03-08 23:22:50.29536+01	2022-03-08 23:
 315a308a-f0d0-4aff-9dbd-deb604f37213	2022-03-08 23:24:17.740348+01	2022-03-08 23:24:17.740348+01	1	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	Patrick Roméro	1	DELETE	transfert	Hôpital saint-antoine	\N	10 rue d'amsterdam, paris 10	t	2022-03-17	2022-03-31	\N
 83b3a23f-2085-4f41-808b-409ab05d68d3	2022-03-08 23:26:18.597459+01	2022-03-08 23:26:18.597459+01	1	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	Patrick Roméro	1	CREATION	procuration	Marzouki	Moncef	\N	t	2021-09-12	2022-05-31	2000-03-12
 6b2d709e-5bbb-4d0e-9af2-0aecb41ded85	2022-03-08 23:26:37.754744+01	2022-03-08 23:26:37.754744+01	1	97b7e840-0e93-4bf4-ba7d-0a406aa898f2	1	Patrick Roméro	1	EDIT	procuration	Marzouki	Moncef	\N	t	2021-09-12	2022-05-31	2000-03-12
+\.
+
+
+--
+-- Data for Name: user_structure; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.user_structure (uuid, "createdAt", "updatedAt", version, email, fonction, id, "lastLogin", nom, password, prenom, role, "structureId", mails, "passwordLastUpdate", verified, "acceptTerms", "fonctionDetail") FROM stdin;
+663b9baa-2880-406c-a93a-32fe65528037	2020-11-17 14:18:47.658346+01	2020-11-17 14:18:47.658346+01	1	s1-instructeur@yopmail.com	\N	2	\N	Juste	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Isabelle	simple	1	{"guide": false, "import": false}	\N	t	\N	\N
+59c846d8-0592-4790-a5e2-1daae9b8776e	2020-11-14 14:18:27.658736+01	2020-11-14 14:18:27.658736+01	1	s1-facteur@yopmail.com	\N	6	2021-06-28 15:27:26.095+02	Dupuis	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Facteur 1	facteur	1	{"guide": true, "import": true}	\N	t	\N	\N
+d81c5566-94f9-4ee4-ab57-a604a654f79b	2020-11-17 14:32:22.193933+01	2020-11-17 14:39:14.015103+01	17	s3-admin@yopmail.com	\N	5	2020-11-17 14:39:13.796+01	Roseline	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Parmentier	admin	3	{"guide": false, "import": false}	2020-11-17 14:39:14.013+01	t	\N	\N
+d19ece1f-d32b-498c-9427-eb12b1251163	2020-11-17 14:26:29.482634+01	2020-11-17 14:26:29.490297+01	2	s3-facteur@yopmail.com	\N	4	\N	Test	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Facteur	facteur	3	{"guide": false, "import": false}	\N	t	\N	\N
+b0140303-79e3-436c-9c41-1eaefeeaed6e	2020-11-17 14:23:20.248011+01	2022-03-09 00:20:21.36073+01	9	s1-gestionnaire@yopmail.com	\N	3	2022-03-09 00:20:21.356+01	Smith	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Peter	responsable	1	{"guide": false, "import": false}	\N	t	\N	\N
+343b62db-6c85-4896-b994-18c8c89b710f	2022-03-17 17:25:53.798318+01	2022-03-23 22:08:39.505536+01	36	s5-admin@yopmail.com	\N	11	2022-03-23 22:08:39.502+01	Pali	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Mauricette	admin	5	{"guide": false, "import": false}	2022-03-17 17:25:53.78+01	t	\N	\N
+da01f451-9c4f-4f6c-98bb-c635277e33e7	2020-11-17 14:18:47.658346+01	2024-10-30 22:34:43.742052+01	392	preprod.domifa@fabrique.social.gouv.fr	\N	1	2024-10-30 22:34:43.742+01	Roméro	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Patrick	admin	1	{"guide": false, "import": false}	\N	t	2023-02-14 18:33:51.261+01	\N
+4e049e3d-bb65-48e5-8661-b1ccdc9db985	2021-09-21 00:03:26.186917+02	2025-07-18 19:04:01.796244+02	3	s3-instructeur@yopmail.com	AUTRE	8	\N	Jacquet	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Aimé	simple	3	{"guide": false, "import": false}	\N	t	\N	\N
+44f1cfe8-eae9-49d5-aedb-76dda856c413	2021-02-01 17:12:30.90825+01	2025-07-18 19:04:01.813538+02	3	s4-admin@yopmail.com	AUTRE	7	\N	Test	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Import	admin	4	{"guide": false, "import": false}	\N	t	\N	\N
+f6b20e00-77e7-46e6-b48d-8cca69161042	2020-11-17 14:32:22.193+01	2025-07-18 19:04:01.814984+02	5	s3-gestionnaire@yopmail.com	DIRECTEUR_RESPONSABLE	10	2021-12-06 16:26:01.365+01	Etchebest	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Philippe	responsable	3	{"guide": false, "import": false}	\N	t	\N	\N
+132e6e51-1612-44cc-b277-eca0a6d11c16	2020-11-14 14:18:27.658736+01	2025-09-18 22:55:07.545893+02	3	s1-agent@yopmail.com	\N	12	2025-09-18 22:55:04.854+02	Dragon	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Agent 1	agent	1	{"guide": true, "import": true}	\N	t	2025-09-18 22:55:07.545+02	\N
 \.
 
 
