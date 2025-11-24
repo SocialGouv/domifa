@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { RouterModule } from "@angular/router";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { SharedModule } from "../../../shared/shared.module";
 
 import { provideHttpClient } from "@angular/common/http";
@@ -18,7 +17,6 @@ describe("StructureConfirmComponent", () => {
     TestBed.configureTestingModule({
       declarations: [StructureConfirmComponent],
       imports: [
-        NgbModule,
         ReactiveFormsModule,
         FormsModule,
         SharedModule,

@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NotFoundComponent } from "./not-found.component";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
@@ -15,12 +14,7 @@ describe("NotFoundComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [NotFoundComponent],
-      imports: [
-        NgbModule,
-        ReactiveFormsModule,
-        FormsModule,
-        RouterModule.forRoot([]),
-      ],
+      imports: [ReactiveFormsModule, FormsModule, RouterModule.forRoot([])],
       providers: [
         provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },

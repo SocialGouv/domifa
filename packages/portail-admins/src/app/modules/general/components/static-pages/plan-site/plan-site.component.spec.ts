@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { PlanSiteComponent } from "./plan-site.component";
 import { RouterModule } from "@angular/router";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { provideHttpClient } from "@angular/common/http";
 
@@ -12,7 +11,7 @@ describe("PlanSiteComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PlanSiteComponent],
-      imports: [NgbModule, RouterModule.forRoot([])],
+      imports: [RouterModule.forRoot([])],
       providers: [provideHttpClient()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

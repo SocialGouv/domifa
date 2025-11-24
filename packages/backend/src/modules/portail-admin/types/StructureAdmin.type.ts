@@ -22,6 +22,7 @@ export type StructureAdmin = Pick<
   | "sms"
   | "portailUsager"
   | "statut"
+  | "decision"
   | "import"
   | "timeZone"
   | "importDate"
