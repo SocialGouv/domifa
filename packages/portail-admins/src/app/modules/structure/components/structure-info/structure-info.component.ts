@@ -3,6 +3,8 @@ import { Component, OnInit } from "@angular/core";
 import {
   CURRENT_TOOL_OPTIONS,
   MARKET_TOOLS_OPTIONS,
+  MOTIFS_REFUS_STRUCTURE_LABELS,
+  MOTIFS_SUPPRESSION_STRUCTURE_LABELS,
   SOURCES_OPTIONS,
   STRUCTURE_ORGANISME_TYPE_LABELS,
   STRUCTURE_TYPE_LABELS,
@@ -23,6 +25,11 @@ export class StructureInfoComponent implements OnInit {
   public readonly STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
   public readonly STRUCTURE_ORGANISME_TYPE_LABELS =
     STRUCTURE_ORGANISME_TYPE_LABELS;
+
+  public readonly MOTIFS_SUPPRESSION_STRUCTURE_LABELS =
+    MOTIFS_SUPPRESSION_STRUCTURE_LABELS;
+
+  public readonly MOTIFS_REFUS_STRUCTURE_LABELS = MOTIFS_REFUS_STRUCTURE_LABELS;
   public smsDays = "";
   public sourceLabel: string = "";
   public currentToolLabel: string = "";

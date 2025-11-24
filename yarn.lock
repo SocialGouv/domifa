@@ -4337,7 +4337,6 @@ __metadata:
     "@fortawesome/free-regular-svg-icons": "npm:^6.7.2"
     "@fortawesome/free-solid-svg-icons": "npm:^6.7.2"
     "@gouvfr/dsfr": "npm:^1.14.2"
-    "@ng-bootstrap/ng-bootstrap": "npm:^17.0.1"
     "@popperjs/core": "npm:^2.11.8"
     "@schematics/update": "npm:^0.1102.18"
     "@sentry/angular": "npm:^10.5.0"

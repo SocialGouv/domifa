@@ -5,7 +5,7 @@
     <span class="fr-h3 mb-0"> {{ users.length }} Utilisateurs enregistrés</span>
     <div>
       <button
-        [disabled]="structure.statut === 'SUPPRIME'"
+        *ngIf="structure.statut !== 'SUPPRIME'"
         type="button"
         (click)="openAddUserModal()"
         class="fr-btn fr-icon-user-add-fill fr-btn--md fr-btn--icon-right fr-btn--secondary"
@@ -17,7 +17,15 @@
 </div>
 
 <div>
-  <div class="fr-table fr-table--no-outer-border" id="table-0-component">
+  <div *ngIf="!searching && users.length === 0" class="fr-callout mt-5">
+    <p class="fr-callout--text">Aucun utilisateur dans la structure</p>
+  </div>
+
+  <div
+    *ngIf="users.length > 0"
+    class="fr-table fr-table--no-outer-border"
+    id="table-0-component"
+  >
     <div class="fr-table__wrapper">
       <div class="fr-table__container">
         <div class="fr-table__content">

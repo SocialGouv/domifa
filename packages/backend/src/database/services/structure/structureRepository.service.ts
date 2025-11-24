@@ -54,6 +54,7 @@ export const structureRepository = myDataSource
           `"structure"."sms"`,
           `"structure"."portailUsager"`,
           `"structure"."statut"`,
+          `"structure"."decision"`,
           `"structure"."import"`,
           `"structure"."timeZone"`,
           `"structure"."importDate"`,

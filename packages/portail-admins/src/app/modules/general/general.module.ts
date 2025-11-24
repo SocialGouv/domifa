@@ -6,7 +6,6 @@ import {
 } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { SharedModule } from "../shared/shared.module";
 import { NotFoundComponent } from "./components/not-found/not-found.component";
 import { PlanSiteComponent } from "./components/static-pages/plan-site/plan-site.component";
@@ -31,9 +30,7 @@ import { DsfrDataTableModule } from "@edugouvfr/ngx-dsfr";
   imports: [
     CommonModule,
     FontAwesomeModule,
-    NgbModule,
     RouterModule.forChild([]),
-    NgbModule,
     SharedModule,
     DsfrDataTableModule,
   ],
