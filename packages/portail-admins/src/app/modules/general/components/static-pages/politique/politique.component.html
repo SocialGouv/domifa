@@ -146,7 +146,11 @@
         <td>{{ row.paysDestinataire }}</td>
         <td>{{ row.traitementRealise }}</td>
         <td>
-          <a href="{{ row.garanties }}" target="_blank">
+          <a
+            href="{{ row.garanties }}"
+            target="_blank"
+            title="{{ row.sousTraitant }} - nouvelle fenêtre"
+          >
             {{ row.garanties }}
           </a>
         </td>

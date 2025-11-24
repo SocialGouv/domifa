@@ -229,40 +229,34 @@
   </form>
 </div>
 
-<div class="">
-  <ul
-    class="fr-btns-group fr-btns-group--right fr-btns-group--inline-lg fr-btns-group--icon-left"
+<div
+  class="fr-btns-group fr-btns-group--right fr-btns-group--inline-lg fr-btns-group--icon-left"
+>
+  <button
+    class="fr-btn"
+    type="button"
+    (click)="submitUser()"
+    [disabled]="loading"
   >
-    <li>
-      <button
-        class="fr-btn"
-        type="button"
-        (click)="submitUser()"
-        [disabled]="loading"
-      >
-        <span *ngIf="loading">
-          <fa-icon
-            [icon]="['fas', 'circle-notch']"
-            aria-hidden="true"
-            animation="spin"
-          ></fa-icon>
-          Veuillez patienter...
-        </span>
-        <span *ngIf="!loading">{{
-          isEditMode
-            ? "Enregistrer les modifications"
-            : "Ajouter cet utilisateur"
-        }}</span>
-      </button>
-    </li>
-    <li>
-      <button
-        type="button"
-        class="fr-btn fr-btn--secondary"
-        (click)="cancel.emit()"
-      >
-        Annuler
-      </button>
-    </li>
-  </ul>
+    <span *ngIf="loading">
+      <fa-icon
+        [icon]="['fas', 'circle-notch']"
+        aria-hidden="true"
+        animation="spin"
+      ></fa-icon>
+      Veuillez patienter...
+    </span>
+    <span *ngIf="!loading">{{
+      isEditMode ? "Enregistrer les modifications" : "Ajouter cet utilisateur"
+    }}</span>
+  </button>
+</div>
+<div>
+  <button
+    type="button"
+    class="fr-btn fr-btn--secondary"
+    (click)="cancel.emit()"
+  >
+    Annuler
+  </button>
 </div>
