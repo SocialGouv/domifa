@@ -4,7 +4,6 @@ import { DeleteUserComponent } from "./delete-user.component";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { USER_SUPERVISOR_MOCK } from "../../../../mocks/USER_SUPERVISOR.mock";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
@@ -16,12 +15,7 @@ describe("DeleteUserComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DeleteUserComponent],
-      imports: [
-        NgbModule,
-        ReactiveFormsModule,
-        FormsModule,
-        RouterModule.forRoot([]),
-      ],
+      imports: [ReactiveFormsModule, FormsModule, RouterModule.forRoot([])],
       providers: [
         provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },

@@ -1,5 +1,29 @@
 <div class="border-bottom border-grey pb-2">
   <div class="row mt-3" *ngIf="structure">
+    <div
+      *ngIf="
+        structure.statut === 'REFUS' && structure?.decision?.motif !== null
+      "
+      class="fr-alert fr-alert--info fr-mb-3w"
+    >
+      <p>Motif de refus</p>
+      <p class="fr-text--bold">
+        {{ MOTIFS_REFUS_STRUCTURE_LABELS[structure?.decision?.motif] }}
+      </p>
+    </div>
+
+    <div
+      *ngIf="
+        structure.statut === 'SUPPRIME' && structure?.decision?.motif !== null
+      "
+      class="fr-alert fr-alert--info fr-mb-3w"
+    >
+      <p>Motif de suppression</p>
+      <p class="fr-text--bold">
+        {{ MOTIFS_SUPPRESSION_STRUCTURE_LABELS[structure?.decision?.motif] }}
+      </p>
+    </div>
+
     <!-- Structure numbers -->
     <div class="row ps-0 align-items-center mb-5">
       <div class="col-12 col-sm-8 d-flex">
@@ -207,7 +231,7 @@
 </div>
 <div class="row fr-container justify-content-end my-4">
   <button
-    [disabled]="cachedStructure.statut === 'SUPPRIME'"
+    *ngIf="cachedStructure.statut !== 'SUPPRIME'"
     (click)="structureToDelete = cachedStructure"
     type="button"
     class="fr-btn fr-icon-delete-line fr-btn--icon-right"

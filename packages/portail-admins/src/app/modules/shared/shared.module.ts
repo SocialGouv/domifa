@@ -31,7 +31,6 @@ import {
   DsfrDropdownMenuComponent,
   DsfrDropdownMenuItemComponent,
 } from "@edugouvfr/ngx-dsfr-ext";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
@@ -61,10 +60,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     DsfrButtonModule,
     DsfrModalModule,
     DsfrButtonsGroupModule,
-    NgbModule,
   ],
   imports: [
-    NgbModule,
     CommonModule,
     FontAwesomeModule,
     FormsModule,

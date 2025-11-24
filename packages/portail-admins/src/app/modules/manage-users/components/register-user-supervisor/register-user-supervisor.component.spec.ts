@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { RegisterUserSupervisorComponent } from "./register-user-supervisor.component";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
@@ -15,12 +14,7 @@ describe("RegisterUserSupervisorComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [RegisterUserSupervisorComponent],
-      imports: [
-        NgbModule,
-        ReactiveFormsModule,
-        FormsModule,
-        RouterModule.forRoot([]),
-      ],
+      imports: [ReactiveFormsModule, FormsModule, RouterModule.forRoot([])],
       providers: [
         provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },
