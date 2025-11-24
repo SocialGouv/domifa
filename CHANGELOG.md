@@ -1,3 +1,10 @@
+## [2.229.2](https://github.com/SocialGouv/domifa/compare/v2.229.1...v2.229.2) (2025-11-24)
+
+
+### Bug Fixes
+
+* **backend:** fix expired token delete ([#4019](https://github.com/SocialGouv/domifa/issues/4019)) ([baa11c6](https://github.com/SocialGouv/domifa/commit/baa11c6a07bf204672854e21d52050b9c629a287))
+
 ## [2.229.1](https://github.com/SocialGouv/domifa/compare/v2.229.0...v2.229.1) (2025-11-21)
 
 
