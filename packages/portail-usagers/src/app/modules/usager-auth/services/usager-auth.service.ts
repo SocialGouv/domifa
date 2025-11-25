@@ -37,18 +37,18 @@ export class UsagerAuthService {
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router,
-    private readonly toastr: CustomToastService,
+    private readonly toastr: CustomToastService
   ) {
     this.currentUsagerSubject =
       new BehaviorSubject<PortailUsagerProfile | null>(null);
   }
 
   public login(
-    loginForm: PortailUsagerAuthLoginForm,
+    loginForm: PortailUsagerAuthLoginForm
   ): Observable<PortailUsagerAuthApiResponse> {
     return this.http.post<PortailUsagerAuthApiResponse>(
       `${END_POINT_AUTH}/login`,
-      loginForm,
+      loginForm
     );
   }
 
@@ -65,7 +65,7 @@ export class UsagerAuthService {
       catchError(() => {
         this.logout();
         return of(false);
-      }),
+      })
     );
   }
 
@@ -86,7 +86,7 @@ export class UsagerAuthService {
 
   public logoutAndRedirect(
     state?: RouterStateSnapshot,
-    sessionExpired?: boolean,
+    sessionExpired?: boolean
   ): void {
     this.logout(sessionExpired);
 
@@ -94,7 +94,9 @@ export class UsagerAuthService {
     console.log({ matomoParams });
     const queryParams: Record<string, string> = { ...matomoParams };
 
-    this.router.navigate(["/auth/login"], { queryParams });
+    this.router.navigate(["/auth/login"], { queryParams }).then(() => {
+      window.location.reload();
+    });
   }
 
   private getMatomoParams(): Record<string, string> {
@@ -127,7 +129,7 @@ export class UsagerAuthService {
 
   public acceptTerms(): Observable<PortailUsagerAuthApiResponse> {
     return this.http.get<PortailUsagerAuthApiResponse>(
-      `${END_POINT_AUTH}/accept-terms`,
+      `${END_POINT_AUTH}/accept-terms`
     );
   }
 
@@ -152,7 +154,7 @@ export class UsagerAuthService {
 
   public logoutFromBackend = async (
     state?: RouterStateSnapshot,
-    sessionExpired?: boolean,
+    sessionExpired?: boolean
   ) => {
     const storedUser = this.getToken();
     if (storedUser) {
