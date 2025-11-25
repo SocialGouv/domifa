@@ -19,12 +19,12 @@ export class HomeUsagerComponent implements OnInit {
     private readonly usagerAuthService: UsagerAuthService,
     private readonly seoService: SeoService,
     private readonly router: Router,
-    private readonly structureInformationService: StructureInformationService,
+    private readonly structureInformationService: StructureInformationService
   ) {
     this.usagerProfile = null;
     this.seoService.updateTitleAndTags(
       "Mon DomiFa - le portail des domiciliés !",
-      "Consultez votre dossier de domiciliation, vos courriers en attente et les informations de votre structure",
+      "Consultez votre dossier de domiciliation, vos courriers en attente et les informations de votre structure"
     );
   }
 
@@ -32,13 +32,13 @@ export class HomeUsagerComponent implements OnInit {
     this.subscription.add(
       this.usagerAuthService.currentUsagerSubject.subscribe(
         (apiResponse: PortailUsagerProfile | null) => {
-          if (!apiResponse?.acceptTerms) {
+          if (apiResponse && !apiResponse?.acceptTerms) {
             this.router.navigate(["/account/accept-terms"]);
             return;
           }
           this.usagerProfile = apiResponse;
-        },
-      ),
+        }
+      )
     );
 
     if (this.usagerProfile) {
@@ -51,10 +51,10 @@ export class HomeUsagerComponent implements OnInit {
       this.structureInformationService.getAllStructureInformation().subscribe({
         next: (structureInformation: StructureInformation[]) => {
           this.structureInformation = structureInformation.filter(
-            (info) => !info.isExpired,
+            (info) => !info.isExpired
           );
         },
-      }),
+      })
     );
   }
 }
