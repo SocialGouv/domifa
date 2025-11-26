@@ -1,5 +1,5 @@
-import { ApiStructureAdmin } from "../../admin-structures/types";
+import { StructureAdmin } from "@domifa/common";
 
 export type AppStoreModel = {
-  structureListData?: ApiStructureAdmin[];
+  structureListData?: StructureAdmin[];
 };

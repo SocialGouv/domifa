@@ -6,10 +6,8 @@ import {
   exportListeStructuresWorksheetRenderer,
   exportListeUsersWorksheetRenderer,
 } from "./worksheet-renderer";
-import {
-  StructureAdminForList,
-  UsersForAdminList,
-} from "../../modules/portail-admin/types";
+import { UsersForAdminList } from "../../modules/portail-admin/types";
+import { StructureAdmin } from "@domifa/common";
 
 export const statsDeploiementExporter = {
   generateExcelDocument,
@@ -23,7 +21,7 @@ async function generateExcelDocument({
   structures,
   users,
 }: {
-  structures: StructureAdminForList[];
+  structures: StructureAdmin[];
   users: UsersForAdminList[];
 }): Promise<Workbook> {
   try {
@@ -41,7 +39,7 @@ async function renderWorkbook({
   structures,
   users,
 }: {
-  structures: StructureAdminForList[];
+  structures: StructureAdmin[];
   users: UsersForAdminList[];
 }) {
   const workbook = new Workbook();

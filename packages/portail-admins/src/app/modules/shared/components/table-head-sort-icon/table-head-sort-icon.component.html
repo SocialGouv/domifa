@@ -1,15 +1,17 @@
-<fa-icon
+<small
+  *ngIf="sortKey !== currentKey"
+  class="fr-icon-arrow-up-down-line fr-text-title--blue-france sort-icon"
+></small>
+
+<small
   *ngIf="sortKey === currentKey"
-  class="sort-selected ms-2"
-  aria-hidden="true"
-  [icon]="sortValue === 'desc' ? faArrowDown : faArrowUp"
-></fa-icon>
+  [ngClass]="
+    sortValue !== 'desc'
+      ? 'fr-icon-arrow-down-line fr-text-title--blue-france sort-icon'
+      : 'fr-icon-arrow-up-line fr-text-title--blue-france sort-icon'
+  "
+></small>
+
 <span *ngIf="sortKey === currentKey" class="visually-hidden">
   Colonne triée actuellement {{ SORT_ORDER_LABEL[sortValue] }}
 </span>
-<fa-icon
-  class="ms-2"
-  aria-hidden="true"
-  *ngIf="sortKey !== currentKey"
-  [icon]="faSort"
-></fa-icon>

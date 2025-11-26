@@ -8,15 +8,15 @@ import {
 export enum StructureFilterCriteriaSortEnum {
   ID = "id",
   NOM = "nom",
-  TYPE = "structureTypeLabel",
-  CREATED_AT = "createdAt",
+  TYPE = "typeStructure",
+  CREATED_AT = "createdsAt",
   IMPORT_AT = "importDate",
   USERS = "users",
   USAGERS = "usagers",
   ACTIFS = "actifs",
   LAST_LOGIN = "lastLogin",
-  REGION = "regionLabel",
-  DEPARTEMENT = "departementLabel",
+  REGION = "regionName",
+  DEPARTEMENT = "departementName",
 }
 
 export class StructureFilterCriteria extends Search {

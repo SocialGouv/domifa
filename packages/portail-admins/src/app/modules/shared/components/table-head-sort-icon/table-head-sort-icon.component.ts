@@ -1,4 +1,4 @@
-import { NgIf } from "@angular/common";
+import { NgIf, NgClass } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import {
@@ -12,8 +12,8 @@ import { SortValues } from "@domifa/common";
   standalone: true,
   selector: "app-table-head-sort-icon",
   templateUrl: "./table-head-sort-icon.component.html",
-  imports: [NgIf, FontAwesomeModule],
-  styles: ["button, span,  { color: var(--bs-body-color)}"],
+  imports: [NgIf, FontAwesomeModule, NgClass],
+  styleUrls: ["../table-head-sort/table-head-sort.component.scss"],
 })
 export class TableHeadSortIconComponent {
   public readonly faArrowDown = faArrowDown;

@@ -6,8 +6,11 @@ import {
   xlRenderer,
   XlRowModel,
 } from "../../xlLib";
-import { DEPARTEMENTS_MAP, STRUCTURE_TYPE_LABELS } from "@domifa/common";
-import { StructureAdminForList } from "../../../modules/portail-admin/types";
+import {
+  DEPARTEMENTS_MAP,
+  STRUCTURE_TYPE_LABELS,
+  StructureAdmin,
+} from "@domifa/common";
 
 export const exportListeStructuresWorksheetRenderer = {
   renderWorksheet,
@@ -20,7 +23,7 @@ function renderWorksheet({
 }: {
   workbook: Workbook;
   worksheetIndex: number;
-  structures: StructureAdminForList[];
+  structures: StructureAdmin[];
 }) {
   const worksheetRendered: WorksheetRenderer = xlRenderer.selectWorksheet(
     workbook.worksheets[worksheetIndex]
@@ -55,7 +58,7 @@ function renderWorksheet({
   });
 }
 
-function buildRows(structures: StructureAdminForList[]): XlRowModel[] {
+function buildRows(structures: StructureAdmin[]): XlRowModel[] {
   return structures.map((structure) => {
     const departement = DEPARTEMENTS_MAP[structure.departement];
     const row: XlRowModel = {

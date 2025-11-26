@@ -4,3 +4,8 @@ button {
   text-align: left;
   color: var(--bs-body-color);
 }
+
+.sort-icon::before,
+.sort-icon::after {
+  width: 1rem;
+}

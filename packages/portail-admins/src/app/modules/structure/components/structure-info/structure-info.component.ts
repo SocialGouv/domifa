@@ -8,9 +8,9 @@ import {
   SOURCES_OPTIONS,
   STRUCTURE_ORGANISME_TYPE_LABELS,
   STRUCTURE_TYPE_LABELS,
+  StructureAdmin,
   StructureCommon,
 } from "@domifa/common";
-import { ApiStructureAdmin } from "../../../admin-structures/types";
 import { structuresCache } from "../../../shared/store";
 import { ActivatedRoute } from "@angular/router";
 import { appStore } from "../../../shared/store/appStore.service";
@@ -21,7 +21,7 @@ import { appStore } from "../../../shared/store/appStore.service";
 })
 export class StructureInfoComponent implements OnInit {
   public structure: StructureCommon;
-  public cachedStructure: ApiStructureAdmin;
+  public cachedStructure: StructureAdmin;
   public readonly STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
   public readonly STRUCTURE_ORGANISME_TYPE_LABELS =
     STRUCTURE_ORGANISME_TYPE_LABELS;
@@ -34,7 +34,7 @@ export class StructureInfoComponent implements OnInit {
   public sourceLabel: string = "";
   public currentToolLabel: string = "";
   public marketToolLabel: string = "";
-  public structureToDelete?: ApiStructureAdmin;
+  public structureToDelete?: StructureAdmin;
 
   constructor(private readonly route: ActivatedRoute) {}
 
