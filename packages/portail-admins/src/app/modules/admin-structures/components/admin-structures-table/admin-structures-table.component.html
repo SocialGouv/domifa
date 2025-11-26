@@ -1,4 +1,4 @@
-<div class="fr-table fr-table--lg" id="table-0-component">
+<div class="fr-table fr-table--sm" id="table-0-component">
   <div class="fr-table__wrapper">
     <div class="fr-table__container">
       <div class="fr-table__content">
@@ -51,11 +51,11 @@
                 scope="col"
                 (click)="sort.emit({
           element: 'sortKey',
-          value: 'structureTypeLabel',
+          value: 'structureType',
         })"
               >
                 <app-table-head-sort
-                  sortKey="structureTypeLabel"
+                  sortKey="structureType"
                   [sortValue]="filters.sortValue"
                   [currentKey]="filters.sortKey"
                   columnName="Type"
@@ -89,7 +89,7 @@
                   sortKey="importDate"
                   [sortValue]="filters.sortValue"
                   [currentKey]="filters.sortKey"
-                  columnName="Import le"
+                  columnName="Import"
                 >
                 </app-table-head-sort>
               </th>
@@ -156,7 +156,7 @@
         })"
               >
                 <app-table-head-sort
-                  sortKey="regionLabel"
+                  sortKey="regionName"
                   [sortValue]="filters.sortValue"
                   [currentKey]="filters.sortKey"
                   columnName="Région"
@@ -167,11 +167,11 @@
                 scope="col"
                 (click)="sort.emit({
           element: 'sortKey',
-          value: 'departementLabel',
+          value: 'departementName',
         })"
               >
                 <app-table-head-sort
-                  sortKey="departementLabel"
+                  sortKey="departementName"
                   [sortValue]="filters.sortValue"
                   [currentKey]="filters.sortKey"
                   columnName="Département"
@@ -204,31 +204,31 @@
               <td>
                 <span
                   *ngIf="structure.statut === 'VALIDE'"
-                  class="fr-badge fr-badge--success"
+                  class="fr-badge fr-badge--sm fr-badge--success"
                 >
                   Active
                 </span>
                 <span
                   *ngIf="structure.statut === 'EN_ATTENTE'"
-                  class="fr-badge fr-badge--warning"
+                  class="fr-badge fr-badge--sm fr-badge--warning"
                 >
                   Non validée
                 </span>
                 <span
                   *ngIf="structure.statut === 'REFUS'"
-                  class="fr-badge fr-badge--error"
+                  class="fr-badge fr-badge--sm fr-badge--error"
                 >
                   Refusée
                 </span>
                 <span
                   *ngIf="structure.statut === 'SUPPRIME'"
-                  class="fr-badge fr-badge--error"
+                  class="fr-badge fr-badge--sm fr-badge--error"
                 >
                   Supprimée
                 </span>
               </td>
               <td>
-                {{ structure.structureTypeLabel }}
+                {{ structure.structureType }}
               </td>
 
               <td>
@@ -255,10 +255,10 @@
                 }}
               </td>
               <td>
-                {{ structure.regionLabel }}
+                {{ structure.regionName }}
               </td>
               <td>
-                {{ structure.departementLabel }}
+                {{ structure.departmentName }}
               </td>
               <td>
                 <dsfrx-dropdownmenu
@@ -267,6 +267,7 @@
                   [labelMenu]="'Actions'"
                   [closeOnAction]="true"
                   appendTo="body"
+                  size="SM"
                 >
                   <ng-template #contentTemplate>
                     <ng-container *ngIf="structure.statut === 'EN_ATTENTE'">
@@ -346,6 +347,7 @@
       {{ currentStructure?.nom }}"
   [concealingBackdrop]="false"
   [autoCloseOnAction]="false"
+  (conceal)="addUserModal.close()"
   size="LG"
 >
   <app-register-user

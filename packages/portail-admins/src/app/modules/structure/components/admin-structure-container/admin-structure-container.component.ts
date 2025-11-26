@@ -7,8 +7,8 @@ import {
   UrlSegment,
 } from "@angular/router";
 import { ViewportScroller } from "@angular/common";
-import { ApiStructureAdmin } from "../../../admin-structures/types";
 import { appStore } from "../../../shared/store/appStore.service";
+import { StructureAdmin } from "@domifa/common";
 
 @Component({
   selector: "app-admin-structure-container",
@@ -16,7 +16,7 @@ import { appStore } from "../../../shared/store/appStore.service";
   styleUrl: "./admin-structure-container.component.css",
 })
 export class AdminStructureContainerComponent implements OnInit {
-  public structure?: ApiStructureAdmin;
+  public structure?: StructureAdmin;
   public currentUrl: UrlSegment[];
   public activeTab: "users" | "stats" | "infos";
   private subscription: Subscription = new Subscription();

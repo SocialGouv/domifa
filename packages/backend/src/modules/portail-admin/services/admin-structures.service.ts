@@ -4,11 +4,12 @@ import {
   userStructureRepository,
   structureRepository,
 } from "../../../database";
-import { StructureAdminForList, UsersForAdminList } from "../types";
+import { UsersForAdminList } from "../types";
+import { StructureAdmin } from "@domifa/common";
 
 @Injectable()
 export class AdminStructuresService {
-  public async getAdminStructuresListData(): Promise<StructureAdminForList[]> {
+  public async getAdminStructuresListData(): Promise<StructureAdmin[]> {
     return await structureRepository
       .createQueryBuilder("structure")
       .select([

@@ -1,12 +1,12 @@
 export type AdminStructuresListSortAttribute =
   | "id"
   | "nom"
-  | "structureTypeLabel"
+  | "typeStructure"
   | "createdAt"
   | "import"
   | "importDate"
   | "users"
   | "usagers"
   | "lastLogin"
-  | "regionLabel"
-  | "departementLabel";
+  | "regionName"
+  | "departementName";

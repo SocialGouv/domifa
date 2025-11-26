@@ -10,7 +10,7 @@ import { STRUCTURE_MOCK } from "../../../../mocks/STRUCTURE_MOCK.mock";
 import { CustomToastService } from "../../../shared/services";
 import { provideHttpClient } from "@angular/common/http";
 import { structuresCache } from "../../../shared/store";
-import { ApiStructureAdmin } from "../../../admin-structures/types";
+import { StructureAdmin } from "@domifa/common";
 
 describe("UsersComponent", () => {
   let component: UsersComponent;
@@ -46,7 +46,7 @@ describe("UsersComponent", () => {
 
     jest
       .spyOn(structuresCache, "getStructureById")
-      .mockReturnValue(STRUCTURE_MOCK as unknown as ApiStructureAdmin);
+      .mockReturnValue(STRUCTURE_MOCK as unknown as StructureAdmin);
 
     fixture = TestBed.createComponent(UsersComponent);
     component = fixture.componentInstance;

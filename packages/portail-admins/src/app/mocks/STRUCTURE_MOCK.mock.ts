@@ -1,5 +1,4 @@
-import { DomiciliesSegmentEnum, StructureCommon } from "@domifa/common";
-import { StructureAdmin } from "../modules/admin-structures/types";
+import { StructureCommon, StructureAdmin } from "@domifa/common";
 
 export const uneStructureAdminMock = (
   args: Partial<StructureAdmin>
@@ -10,29 +9,58 @@ export const uneStructureAdminMock = (
 
 export const STRUCTURE_ADMIN_MOCK: StructureAdmin = {
   id: 1,
-  createdAt: new Date(),
+  registrationDate: new Date(),
   adresse: "1 rue de l'océan",
+  complementAdresse: "batiment B",
+  nom: "CCAS de Test",
+  structureType: "ccas",
+  ville: "Asnieres-sur-seine",
+  departmentName: "Hauts-de-Seine",
+  regionName: "Île-de-France",
+  capacite: null,
+  codePostal: "92600",
+  agrement: null,
+  email: "ccas.test@yopmail.com",
+  responsable: { nom: "Jean", prenom: "Thomson", fonction: "PDG" },
+  options: { numeroBoite: true, nomStructure: true, surnom: false },
+  adresseCourrier: null,
+  sms: {
+    enabledByDomifa: false,
+    enabledByStructure: false,
+    senderDetails: "",
+    senderName: "",
+    schedule: {
+      monday: false,
+      tuesday: false,
+      wednesday: false,
+      thursday: false,
+      friday: false,
+    },
+  },
+  portailUsager: {
+    usagerLoginUpdateLastInteraction: false,
+    enabledByDomifa: true,
+    enabledByStructure: false,
+  },
+  statut: "VALIDE",
+  decision: {
+    uuid: "xxxxx",
+    dateDecision: new Date(),
+    statut: "VALIDE",
+    motif: null,
+    userId: 1,
+    userName: "User",
+  },
+  import: false,
+  timeZone: "Europe/Paris",
+  importDate: null,
+  lastLogin: new Date(),
   actifs: 10,
   usagers: 100,
   users: 5,
-  uuid: "123e4567-e89b-12d3-a456-426",
-  registrationDate: new Date(),
-  departementLabel: "Hauts-de-Seine",
-  regionLabel: "Île-de-France",
-  domicilieSegment: DomiciliesSegmentEnum.SMALL,
-  codePostal: "92600",
-  complementAdresse: "batiment B",
+
   departement: "92",
   region: "11",
-  email: "ccas.test@yopmail.com",
-  nom: "CCAS de Test",
-  statut: "VALIDE",
-  import: false,
-  importDate: null,
-  structureTypeLabel: "CCAS",
-  structureType: "ccas",
-  ville: "Asnieres-sur-seine",
-  lastLogin: new Date(),
 };
 
 export const STRUCTURE_MOCK: StructureCommon = {

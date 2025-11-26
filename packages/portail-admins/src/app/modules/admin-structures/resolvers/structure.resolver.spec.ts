@@ -2,12 +2,11 @@ import { TestBed } from "@angular/core/testing";
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { structureResolver } from "./structure.resolver";
 import { structuresCache } from "../../shared/store";
-import { ApiStructureAdmin } from "../types";
 import { uneStructureAdminMock } from "../../../mocks/STRUCTURE_MOCK.mock";
-import { DomiciliesSegmentEnum } from "@domifa/common";
+import { DomiciliesSegmentEnum, StructureAdmin } from "@domifa/common";
 
 describe("structureResolver", () => {
-  const mockStructure: ApiStructureAdmin = uneStructureAdminMock({
+  const mockStructure: StructureAdmin = uneStructureAdminMock({
     id: 123,
     nom: "Test Structure",
     domicilieSegment: DomiciliesSegmentEnum.SMALL,

@@ -39,12 +39,13 @@ import { AdminStructuresService } from "../../services";
 
 import {
   Structure,
+  StructureAdmin,
   StructureDecisionRefusMotif,
   StructureDecisionSuppressionMotif,
 } from "@domifa/common";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { UpdateStructureDecisionStatutDto } from "../../dto";
-import { StructureAdminForList, UserStructureWithSecurity } from "../../types";
+import { UserStructureWithSecurity } from "../../types";
 import { userAccountActivatedEmailSender } from "../../../mails/services/templates-renderers";
 import { format } from "date-fns";
 import { getBackoffTime } from "../../../users/services";
@@ -93,7 +94,7 @@ export class AdminStructuresController {
   }
 
   @Get("")
-  public async list(): Promise<StructureAdminForList[]> {
+  public async list(): Promise<StructureAdmin[]> {
     return await structureRepository.getAdminStructuresListData();
   }
 

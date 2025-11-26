@@ -8,7 +8,7 @@ import {
   StructureFilterCriteria,
   StructureFilterCriteriaSortEnum,
 } from "../../utils/structure-filter-criteria";
-import { DomiciliesSegmentEnum } from "@domifa/common";
+import { DomiciliesSegmentEnum, StructureAdmin } from "@domifa/common";
 import {
   ComponentFixture,
   fakeAsync,
@@ -24,7 +24,6 @@ import {
   structuresListModelBuilder,
   structuresSorter,
 } from "../../utils";
-import { ApiStructureAdmin } from "../../types";
 
 describe("AdminStructuresListComponent", () => {
   let component: AdminStructuresListComponent;
@@ -32,7 +31,7 @@ describe("AdminStructuresListComponent", () => {
   let activatedRoute: Partial<ActivatedRoute>;
   // Mock data
 
-  const mockApiStructures: ApiStructureAdmin[] = [
+  const mockApiStructures: StructureAdmin[] = [
     uneStructureAdminMock({
       id: 1,
       nom: "Structure 1",
