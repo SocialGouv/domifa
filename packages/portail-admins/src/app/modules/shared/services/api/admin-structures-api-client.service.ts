@@ -9,14 +9,12 @@ import { structuresCache } from "../../store/structuresCache.service";
 import {
   ApiMessage,
   Structure,
+  StructureAdmin,
   StructureDecisionRefusMotif,
   StructureDecisionStatut,
   StructureDecisionSuppressionMotif,
 } from "@domifa/common";
-import {
-  ApiStructureAdmin,
-  UserNewAdmin,
-} from "../../../admin-structures/types";
+import { UserNewAdmin } from "../../../admin-structures/types";
 
 const BASE_URL = `${environment.apiUrl}admin/structures`;
 @Injectable()
@@ -72,26 +70,23 @@ export class AdminStructuresApiClient {
     statutDetail?:
       | StructureDecisionRefusMotif
       | StructureDecisionSuppressionMotif
-  ): Observable<ApiStructureAdmin> {
+  ): Observable<StructureAdmin> {
     return this.http
-      .patch<ApiStructureAdmin>(
-        `${BASE_URL}/structure-decision/${structureId}`,
-        {
-          structureId,
-          statut,
-          statutDetail,
-        }
-      )
+      .patch<StructureAdmin>(`${BASE_URL}/structure-decision/${structureId}`, {
+        structureId,
+        statut,
+        statutDetail,
+      })
       .pipe(
-        tap((updatedStructure: ApiStructureAdmin) => {
+        tap((updatedStructure: StructureAdmin) => {
           structuresCache.updateStructure(updatedStructure);
         })
       );
   }
 
-  public getAdminStructureListData(): Observable<ApiStructureAdmin[]> {
-    return this.http.get<ApiStructureAdmin[]>(BASE_URL).pipe(
-      tap((data: ApiStructureAdmin[]) => {
+  public getAdminStructureListData(): Observable<StructureAdmin[]> {
+    return this.http.get<StructureAdmin[]>(BASE_URL).pipe(
+      tap((data: StructureAdmin[]) => {
         structuresCache.setStructureListData(data);
       }),
       startWith(structuresCache.getStructureListData()),

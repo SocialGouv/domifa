@@ -1,5 +1,5 @@
+import { StructureAdmin } from "@domifa/common";
 import { StructureFilterCriteria, structuresSearchFilter } from ".";
-import { StructureAdmin } from "../types";
 
 export const structuresFilter = {
   filter,

@@ -1,8 +1,7 @@
-import { Structure } from "@domifa/common";
+import { Structure, StructureAdmin } from "@domifa/common";
 
 import { StructureTable } from "../../entities";
 import { joinSelectFields, myDataSource, pgRepository } from "../_postgres";
-import { StructureAdminForList } from "../../../modules/portail-admin";
 
 const baseRepository = pgRepository.get<StructureTable, Structure>(
   StructureTable
@@ -32,7 +31,7 @@ export const structureRepository = myDataSource
 
     async getAdminStructuresListData(
       structureId?: number
-    ): Promise<StructureAdminForList[]> {
+    ): Promise<StructureAdmin[]> {
       const qb = this.createQueryBuilder("structure")
         .select([
           `"structure"."id"`,
@@ -43,7 +42,9 @@ export const structureRepository = myDataSource
           `"structure"."structureType"`,
           `"structure"."ville"`,
           `"structure"."departement"`,
+          `"structure"."departmentName"`,
           `"structure"."region"`,
+          `"structure"."regionName"`,
           `"structure"."capacite"`,
           `"structure"."codePostal"`,
           `"structure"."agrement"`,

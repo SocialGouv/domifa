@@ -7,14 +7,13 @@ import {
   ViewChild,
   OnDestroy,
 } from "@angular/core";
-import { SortValues } from "@domifa/common";
+import { SortValues, StructureAdmin } from "@domifa/common";
 import { Subject, Subscription } from "rxjs";
 
 import {
   AdminStructuresApiClient,
   CustomToastService,
 } from "../../../shared/services";
-import { StructureAdmin } from "../../types";
 import { StructureFilterCriteria } from "../../utils";
 import { FilterOutput } from "../admin-structures-list/admin-structures-list.component";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";

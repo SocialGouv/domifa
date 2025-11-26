@@ -21,7 +21,6 @@ import {
   tap,
 } from "rxjs";
 
-import { StructureAdmin } from "../../types";
 import { fadeInOut } from "../../../shared/constants";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -32,6 +31,7 @@ import {
   DomiciliesSegmentEnum,
   SortValues,
   StructureType,
+  StructureAdmin,
 } from "@domifa/common";
 import {
   structuresListModelBuilder,

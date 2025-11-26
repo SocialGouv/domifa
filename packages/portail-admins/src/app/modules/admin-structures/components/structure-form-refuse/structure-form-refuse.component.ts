@@ -16,12 +16,12 @@ import {
   ReactiveFormsModule,
 } from "@angular/forms";
 import {
+  StructureAdmin,
   StructureDecisionRefusMotif,
   MOTIFS_REFUS_STRUCTURE_LABELS,
 } from "@domifa/common";
 import { Subscription } from "rxjs";
 import { AdminStructuresApiClient } from "../../../shared/services";
-import { StructureAdmin } from "../../types";
 import { CommonModule } from "@angular/common";
 import {
   DsfrModalModule,

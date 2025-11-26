@@ -1,13 +1,13 @@
 import { ResolveFn } from "@angular/router";
 import { map, Observable, of, tap } from "rxjs";
-import { ApiStructureAdmin } from "../types";
 import { AdminStructuresApiClient } from "../../shared/services";
 import { inject } from "@angular/core";
 import { structuresCache } from "../../shared/store";
 import { structuresListModelBuilder } from "../utils";
+import { StructureAdmin } from "@domifa/common";
 export const structuresListResolver: ResolveFn<
-  ApiStructureAdmin[]
-> = (): Observable<ApiStructureAdmin[]> => {
+  StructureAdmin[]
+> = (): Observable<StructureAdmin[]> => {
   const adminStructureApiClient = inject(AdminStructuresApiClient);
   if (!structuresCache.getStructureListData()?.length) {
     return adminStructureApiClient.getAdminStructureListData().pipe(
