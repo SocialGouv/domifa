@@ -16,6 +16,6 @@ export class SectionOptionsComponent implements OnInit {
     const procurations = this.usager.options.procurations;
     this.hasActiveTransfertOrProcur =
       (transfert?.actif && !transfert?.isExpired) ||
-      procurations.some((procu) => !procu.isExpired);
+      procurations.some((procu) => !procu.isInactive);
   }
 }

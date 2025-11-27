@@ -3,4 +3,5 @@ export interface IMailDelegate {
   dateDebut: Date | null;
   dateFin: Date | null;
   isExpired?: boolean;
+  isInactive?: boolean;
 }
