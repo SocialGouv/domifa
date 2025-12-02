@@ -1,5 +1,5 @@
 {
-  "name": ".anonymizer",
+  "name": "@domifa/anonymizer",
   "engines": {
     "node": ">=24",
     "pnpm": ">=10"
