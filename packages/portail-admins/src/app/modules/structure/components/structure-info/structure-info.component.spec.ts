@@ -10,7 +10,7 @@ import { STRUCTURE_MOCK } from "../../../../mocks/STRUCTURE_MOCK.mock";
 import { FormatInternationalPhoneNumberPipe } from "../../../../shared/utils/formatInternationalPhoneNumber.pipe";
 import { provideHttpClient } from "@angular/common/http";
 import { appStore } from "../../../shared/store/appStore.service";
-import { ApiStructureAdmin } from "../../../admin-structures/types";
+import { StructureAdmin } from "@domifa/common";
 
 describe("StructureInfoComponent", () => {
   let component: StructureInfoComponent;
@@ -42,7 +42,7 @@ describe("StructureInfoComponent", () => {
       ],
     }).compileComponents();
     jest.spyOn(appStore, "getState").mockReturnValue({
-      structureListData: [STRUCTURE_MOCK as unknown as ApiStructureAdmin],
+      structureListData: [STRUCTURE_MOCK as unknown as StructureAdmin],
     });
     fixture = TestBed.createComponent(StructureInfoComponent);
     component = fixture.componentInstance;

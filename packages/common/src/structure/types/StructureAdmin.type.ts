@@ -1,6 +1,5 @@
-import { Structure } from "@domifa/common";
+import { Structure } from "../interfaces";
 
-// Structure: attributs publics (retournés au frontend via UserStructureAuthenticated)
 export type StructureAdmin = Pick<
   Structure,
   | "id"
@@ -11,7 +10,9 @@ export type StructureAdmin = Pick<
   | "structureType"
   | "ville"
   | "departement"
+  | "departmentName"
   | "region"
+  | "regionName"
   | "capacite"
   | "codePostal"
   | "agrement"
@@ -22,8 +23,13 @@ export type StructureAdmin = Pick<
   | "sms"
   | "portailUsager"
   | "statut"
+  | "decision"
   | "import"
   | "timeZone"
   | "importDate"
   | "lastLogin"
->;
+> & {
+  users: number;
+  usagers: number;
+  actifs: number;
+};

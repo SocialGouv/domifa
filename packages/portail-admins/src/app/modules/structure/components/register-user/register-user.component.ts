@@ -28,15 +28,12 @@ import {
 import {
   DEPARTEMENTS_LISTE,
   RegionsLabels,
+  StructureAdmin,
   USER_FONCTION_LABELS,
   USER_SUPERVISOR_ROLES_LABELS,
   UserStructure,
   UserSupervisorRole,
 } from "@domifa/common";
-import {
-  ApiStructureAdmin,
-  StructureAdmin,
-} from "../../../admin-structures/types";
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "../../../shared/shared.module";
 
@@ -63,8 +60,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   public showTerritories = false;
   public territoriesList: RegionsLabels = DEPARTEMENTS_LISTE;
 
-  @Input() currentStructure?: StructureAdmin | ApiStructureAdmin | undefined =
-    undefined;
+  @Input() currentStructure?: StructureAdmin | undefined = undefined;
   @Output() public readonly cancel = new EventEmitter<void>();
   @Output() public readonly getUsers = new EventEmitter<void>();
 

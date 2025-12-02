@@ -1,5 +1,9 @@
-import { buildWords, search, StructureType } from "@domifa/common";
-import { StructureAdmin } from "../types";
+import {
+  buildWords,
+  search,
+  StructureType,
+  StructureAdmin,
+} from "@domifa/common";
 import { StructureFilterCriteria } from "./structure-filter-criteria";
 
 export const structuresSearchFilter = (
@@ -57,8 +61,8 @@ export const structuresSearchFilter = (
       structure.region,
       structure.departement,
       structure.codePostal,
-      structure.regionLabel,
-      structure.departementLabel,
+      structure.regionName,
+      structure.departmentName,
     ];
 
     return search.match(structure, {

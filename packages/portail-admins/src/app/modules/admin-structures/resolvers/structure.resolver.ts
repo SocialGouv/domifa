@@ -1,10 +1,10 @@
 import { ResolveFn } from "@angular/router";
-import { ApiStructureAdmin } from "../types";
 import { structuresCache } from "../../shared/store";
+import { StructureAdmin } from "@domifa/common";
 
-export const structureResolver: ResolveFn<ApiStructureAdmin | undefined> = (
+export const structureResolver: ResolveFn<StructureAdmin | undefined> = (
   route
-): ApiStructureAdmin | undefined => {
+): StructureAdmin | undefined => {
   const structureId = parseInt(route.params["structureId"]);
   return structuresCache.getStructureById(structureId);
 };

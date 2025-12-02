@@ -3,12 +3,14 @@ import { Component, OnInit } from "@angular/core";
 import {
   CURRENT_TOOL_OPTIONS,
   MARKET_TOOLS_OPTIONS,
+  MOTIFS_REFUS_STRUCTURE_LABELS,
+  MOTIFS_SUPPRESSION_STRUCTURE_LABELS,
   SOURCES_OPTIONS,
   STRUCTURE_ORGANISME_TYPE_LABELS,
   STRUCTURE_TYPE_LABELS,
+  StructureAdmin,
   StructureCommon,
 } from "@domifa/common";
-import { ApiStructureAdmin } from "../../../admin-structures/types";
 import { structuresCache } from "../../../shared/store";
 import { ActivatedRoute } from "@angular/router";
 import { appStore } from "../../../shared/store/appStore.service";
@@ -19,15 +21,20 @@ import { appStore } from "../../../shared/store/appStore.service";
 })
 export class StructureInfoComponent implements OnInit {
   public structure: StructureCommon;
-  public cachedStructure: ApiStructureAdmin;
+  public cachedStructure: StructureAdmin;
   public readonly STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
   public readonly STRUCTURE_ORGANISME_TYPE_LABELS =
     STRUCTURE_ORGANISME_TYPE_LABELS;
+
+  public readonly MOTIFS_SUPPRESSION_STRUCTURE_LABELS =
+    MOTIFS_SUPPRESSION_STRUCTURE_LABELS;
+
+  public readonly MOTIFS_REFUS_STRUCTURE_LABELS = MOTIFS_REFUS_STRUCTURE_LABELS;
   public smsDays = "";
   public sourceLabel: string = "";
   public currentToolLabel: string = "";
   public marketToolLabel: string = "";
-  public structureToDelete?: ApiStructureAdmin;
+  public structureToDelete?: StructureAdmin;
 
   constructor(private readonly route: ActivatedRoute) {}
 

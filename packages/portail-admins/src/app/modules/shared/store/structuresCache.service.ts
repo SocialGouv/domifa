@@ -1,9 +1,8 @@
-import { ApiStructureAdmin } from "../../admin-structures/types";
+import { StructureAdmin } from "@domifa/common";
 import { appStore } from "./appStore.service";
-
 export const structuresCache = {
   getSnapshot: () => appStore.getState(),
-  setStructureListData: (data: ApiStructureAdmin[]) => {
+  setStructureListData: (data: StructureAdmin[]) => {
     appStore.dispatch({
       type: "set-structures-list-data",
       data,
@@ -13,12 +12,12 @@ export const structuresCache = {
     return appStore.getState()?.structureListData;
   },
 
-  getStructureById: (structureId: number): ApiStructureAdmin | undefined => {
+  getStructureById: (structureId: number): StructureAdmin | undefined => {
     return appStore
       .getState()
       .structureListData?.find((structure) => structure.id === structureId);
   },
-  updateStructure: (updatedStructure: ApiStructureAdmin) => {
+  updateStructure: (updatedStructure: StructureAdmin) => {
     appStore.dispatch({
       type: "update-structure",
       data: updatedStructure,

@@ -5,6 +5,7 @@ import {
   SortValues,
   UserStructure,
   USER_STRUCTURE_ROLES_LABELS,
+  StructureAdmin,
 } from "@domifa/common";
 
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
@@ -18,7 +19,6 @@ import { UserStructureEventHistoryLabels } from "../../../admin-auth/types/event
 import { UserSecurityEventType } from "../../../shared/types/UserSecurityEvent.type";
 import { UserStructureWithSecurity } from "../../../admin-auth/types/UserStructureWithSecurity.type";
 import { structuresCache } from "../../../shared/store";
-import { ApiStructureAdmin } from "../../../admin-structures/types";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 export enum MODAL_ACTION {
@@ -82,7 +82,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   public readonly MODAL_ACTION = MODAL_ACTION;
   public readonly USER_ROLES_LABELS = USER_STRUCTURE_ROLES_LABELS;
   public structureId: number;
-  public structure?: ApiStructureAdmin;
+  public structure?: StructureAdmin;
   private readonly subscription = new Subscription();
   public searching = true;
   @ViewChild("confirmModal")

@@ -4,10 +4,9 @@ import { structuresListResolver } from "./structures-list.resolver";
 import { AdminStructuresApiClient } from "../../shared/services";
 import { structuresCache } from "../../shared/store";
 import { structuresListModelBuilder } from "../utils";
-import { StructureAdmin } from "../types";
 import { provideHttpClient } from "@angular/common/http";
 import { uneStructureAdminMock } from "../../../mocks/STRUCTURE_MOCK.mock";
-import { DomiciliesSegmentEnum } from "@domifa/common";
+import { DomiciliesSegmentEnum, StructureAdmin } from "@domifa/common";
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 
 describe("structuresListResolver", () => {

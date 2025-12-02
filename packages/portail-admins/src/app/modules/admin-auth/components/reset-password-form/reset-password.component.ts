@@ -12,10 +12,11 @@ import {
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { PasswordValidator } from "../../services/password-validator.service";
-import { UsersService } from "../../services/users.service";
-import { PASSWORD_VALIDATOR } from "../../PASSWORD_VALIDATOR.const";
 import { EmailValidator } from "../../../../shared";
+
+import { PASSWORD_VALIDATOR } from "../../types/PASSWORD_VALIDATOR.const";
+import { UsersService } from "../../services/users.service";
+import { PasswordValidator } from "../../services/password-validator.service";
 
 @Component({
   selector: "app-reset-password",
@@ -33,7 +34,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   public token?: string;
   public userId?: string;
   public errorLabels: { [key: string]: string };
-
   private readonly subscription = new Subscription();
 
   public get e() {
@@ -71,7 +71,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     if (this.route.snapshot.params.token) {
       const token = this.route.snapshot.params.token;
       const userId = this.route.snapshot.params.userId;
-
       this.subscription.add(
         this.userService.checkPasswordToken({ userId, token }).subscribe({
           next: () => {
@@ -86,8 +85,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
                 ? this.errorLabels[error.message]
                 : "Le lien est incorrect, veuillez recommencer la procédure";
             this.toastService.error(errorMessage);
-
-            this.router.navigate(["/users/reset-password"]);
+            this.router.navigate(["/auth/reset-password"]);
           },
         })
       );

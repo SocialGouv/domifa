@@ -13,7 +13,6 @@ import {
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { registerLocaleData } from "@angular/common";
 import localeFr from "@angular/common/locales/fr";
 import { SharedModule } from "src/app/modules/shared/shared.module";
@@ -53,7 +52,6 @@ registerLocaleData(localeFr, "fr");
     GeneralModule,
     BrowserModule,
     FormsModule,
-    NgbModule,
     SharedModule,
     ReactiveFormsModule,
     MATOMO_INJECTORS,

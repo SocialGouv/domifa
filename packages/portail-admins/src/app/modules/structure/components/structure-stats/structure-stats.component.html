@@ -2,6 +2,7 @@
   <div class="fr-select-group col-7 mb-0">
     <label class="fr-label mb-0" for="year"> Selectionner un année </label>
     <select
+      [disabled]="loading || structure.statut === 'REFUS'"
       id="year"
       class="fr-select"
       [(ngModel)]="metabaseParams.year"
@@ -16,7 +17,7 @@
   </div>
   <button
     (click)="getMetabaseUrl()"
-    [disabled]="loading"
+    [disabled]="loading || structure.statut === 'REFUS'"
     [attr.aria-busy]="loading"
     type="button"
     class="fr-btn fr-icon-refresh-line fr-btn--icon-right fr-btn--secondary"
@@ -34,7 +35,7 @@
   </button>
   <button
     (click)="export()"
-    [disabled]="loading"
+    [disabled]="loading || structure.statut === 'REFUS'"
     [attr.aria-busy]="loading"
     type="button"
     class="fr-btn fr-icon-download-line fr-btn--icon-right fr-btn--secondary"
@@ -43,7 +44,10 @@
     <span *ngIf="!loading">Exporter le rapport </span>
   </button>
 </div>
-<div *ngIf="iframeUrl">
+<div *ngIf="structure.statut === 'REFUS'" class="fr-callout mt-5">
+  <p class="fr-callout--text">Statistiques indisponible</p>
+</div>
+<div *ngIf="iframeUrl && structure.statut !== 'REFUS'">
   <iframe
     title="Rapports d'activité"
     [src]="iframeUrl"
