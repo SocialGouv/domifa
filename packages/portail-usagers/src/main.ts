@@ -5,18 +5,19 @@ import { AppModule } from "./app/app.module";
 import { environment } from "./environments/environment";
 
 import pkg from "../package.json";
-import * as Sentry from "@sentry/angular";
+import {
+  browserProfilingIntegration,
+  browserTracingIntegration,
+  init,
+} from "@sentry/angular";
 
 if (environment.production) {
-  Sentry.init({
+  init({
     release: "domifa@" + pkg.version,
     dsn: environment.sentryDsnPortail,
     environment: environment.env,
     tracesSampleRate: 1.0,
-    integrations: [
-      (Sentry as any).browserProfilingIntegration(),
-      Sentry.browserTracingIntegration(),
-    ],
+    integrations: [browserProfilingIntegration(), browserTracingIntegration()],
   });
 
   enableProdMode();

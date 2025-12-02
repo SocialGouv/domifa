@@ -9,7 +9,7 @@ import { environment } from "../../../../environments/environment";
 import { usagerActions, UsagerState } from "../../../shared";
 import { userStructureBuilder } from "../../users/services";
 import { CustomToastService } from "./custom-toast.service";
-import * as Sentry from "@sentry/angular";
+import { getCurrentScope } from "@sentry/angular";
 import { UserStructure, filterMatomoParams } from "@domifa/common";
 import { Store } from "@ngrx/store";
 
@@ -100,8 +100,8 @@ export class AuthService {
     localStorage.removeItem("currentUser");
     localStorage.removeItem("MANAGE");
 
-    Sentry.getCurrentScope().setTag("structure", "none");
-    Sentry.getCurrentScope().setUser({});
+    getCurrentScope().setTag("structure", "none");
+    getCurrentScope().setUser({});
 
     if (sessionExpired) {
       this.toastr.warning("Votre session a expiré, merci de vous reconnecter");
@@ -138,8 +138,8 @@ export class AuthService {
     this.currentUserSubject.next(user);
 
     // Configuration Sentry centralisée ici
-    Sentry.getCurrentScope().setTag("structure", user.structureId?.toString());
-    Sentry.getCurrentScope().setUser({
+    getCurrentScope().setTag("structure", user.structureId?.toString());
+    getCurrentScope().setUser({
       email: user.email,
       username: `STRUCTURE ${user.structureId?.toString()}`,
     });
