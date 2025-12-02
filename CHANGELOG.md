@@ -1,3 +1,11 @@
+## [2.229.3](https://github.com/SocialGouv/domifa/compare/v2.229.2...v2.229.3) (2025-12-02)
+
+
+### Bug Fixes
+
+* disable scripts ([973ee60](https://github.com/SocialGouv/domifa/commit/973ee6077a088b2caaebeb0f40ffd87ab22556ec))
+* disable scripts ([8c2dc5f](https://github.com/SocialGouv/domifa/commit/8c2dc5f5fe96289107a4fa008383ac108f2ba2e2))
+
 ## [2.229.2](https://github.com/SocialGouv/domifa/compare/v2.229.1...v2.229.2) (2025-11-24)
 
 
