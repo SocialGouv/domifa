@@ -20,7 +20,7 @@ export class AuthGuard {
       catchError(() => {
         this.authService.logoutAndRedirect();
         return of(false);
-      }),
+      })
     );
   }
 }
