@@ -75,7 +75,7 @@ jobs:
         run: docker compose -f ./docker-compose.tests.yml up --build --detach
 
       - name: Run backend tests
-        run: DISABLE_TYPEORM_CLOSE=1 ENV_FILE=tests-local pnpm --filter @domifa/backend exec jest --coverage --detectOpenHandles --forceExit --runInBand
+        run: DISABLE_TYPEORM_CLOSE=1 ENV_FILE=tests-local pnpm --filter @domifa/backend exec jest --coverage --forceExit --runInBand
 
       - name: Archive code coverage
         uses: actions/upload-artifact@v4
