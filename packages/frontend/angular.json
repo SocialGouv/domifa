@@ -118,7 +118,7 @@
     }
   },
   "cli": {
-    "packageManager": "yarn",
+    "packageManager": "pnpm",
     "schematicCollections": ["@angular-eslint/schematics"]
   }
 }

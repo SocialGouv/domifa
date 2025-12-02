@@ -1,18 +1,31 @@
-FROM node:22.17.1 AS deps
+FROM node:24-bookworm-slim AS deps
 
-RUN apt-get update -y && apt-get install gettext-base && rm -rf /var/lib/apt/lists/*
+RUN apt-get update -y && apt-get install -y gettext-base && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-COPY yarn.lock .yarnrc.yml ./
-COPY .yarn .yarn
-RUN yarn fetch workspaces focus @domifa/portail-admins
+# Lockfile-only layer for dependency fetch, independent of package.json changes
+COPY pnpm-lock.yaml .npmrc pnpm-workspace.yaml ./
+
+RUN corepack enable \
+  && corepack prepare pnpm@10.24.0 --activate \
+  && pnpm fetch
 
 FROM deps AS builder-common
+
+WORKDIR /app
+
 COPY ./packages/common ./packages/common
-RUN yarn workspace @domifa/common build
+
+RUN corepack enable \
+  && corepack prepare pnpm@10.24.0 --activate \
+  && pnpm install --filter @domifa/common... --frozen-lockfile --offline \
+  && pnpm --filter @domifa/common build
 
 FROM deps AS builder
+
+WORKDIR /app
+
 COPY --from=builder-common /app/packages/common ./packages/common
 
 COPY ./packages/portail-admins ./packages/portail-admins
@@ -29,12 +42,13 @@ ENV DOMIFA_ENV_ID=$DOMIFA_ENV_ID
 ENV DOMIFA_SENTRY_DSN_PORTAIL_ADMIN=$DOMIFA_SENTRY_DSN_PORTAIL_ADMIN
 
 # replace environment variables at build time
-RUN envsubst < ./packages/portail-admins/src/environments/environment.prod.ts > ./packages/portail-admins/src/environments/environment.prod-env.ts
-RUN mv ./packages/portail-admins/src/environments/environment.prod-env.ts ./packages/portail-admins/src/environments/environment.prod.ts
+RUN envsubst < ./packages/portail-admins/src/environments/environment.prod.ts > ./packages/portail-admins/src/environments/environment.prod-env.ts \
+  && mv ./packages/portail-admins/src/environments/environment.prod-env.ts ./packages/portail-admins/src/environments/environment.prod.ts
 
-RUN yarn workspace @domifa/portail-admins build
-
-RUN yarn workspaces focus @domifa/portail-admins --production && yarn cache clean
+RUN corepack enable \
+  && corepack prepare pnpm@10.24.0 --activate \
+  && pnpm install --filter @domifa/portail-admins... --frozen-lockfile --offline \
+  && pnpm --filter @domifa/portail-admins build
 
 FROM ghcr.io/socialgouv/docker/nginx4spa:8.2.4
 

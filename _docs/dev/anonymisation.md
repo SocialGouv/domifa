@@ -27,8 +27,12 @@ Avant de lancer la partie anonymisation, il faut effectuer la partie DB du setup
 - copier le fichier `.anonymizer/.env.example` dans `.anonymizer/.env`
 - éditer `.env` avec le mot de passe postgres utilisé dans le setup de domifa
 - **Configurer la base de destination** : définir `PGDATABASE_anonymized` dans `.env` (ou utiliser `PGDATABASE_RESTORE`)
-- lancer `yarn` dans le dossier `.anonymizer`
-- lancer `yarn build` ou `yarn dev`
+- installer les dépendances dans `.anonymizer` :
+  ```bash
+  cd .anonymizer
+  pnpm install --frozen-lockfile
+  ```
+- lancer `pnpm build` ou `pnpm dev` dans `.anonymizer`
 - **📥 Télécharger Greenmask** : récupérer la version v0.1.14 depuis [les releases GitHub](https://github.com/GreenmaskIO/greenmask/releases/tag/v0.1.14) et l'ajouter à votre `PATH`
 - lancer `./.anonymizer/anonymize.sh`
 
