@@ -12,8 +12,8 @@ import { SortValues } from "@domifa/common";
   standalone: true,
   selector: "app-table-head-sort-icon",
   templateUrl: "./table-head-sort-icon.component.html",
-  imports: [NgIf, FontAwesomeModule, NgClass],
-  styleUrls: ["../table-head-sort/table-head-sort.component.scss"],
+  imports: [NgIf, FontAwesomeModule],
+  styles: ["button, span { color: var(--bs-body-color) }"],
 })
 export class TableHeadSortIconComponent {
   public readonly faArrowDown = faArrowDown;
