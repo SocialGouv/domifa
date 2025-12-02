@@ -3,6 +3,8 @@ import { Cron, CronExpression } from "@nestjs/schedule";
 import { userStructureRepository } from "../../../database";
 import { appLogsRepository } from "../../../database/services/app-log";
 import { BrevoSenderService } from "./brevo-sender/brevo-sender.service";
+import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
+import { domifaConfig } from "../../../config";
 
 @Injectable()
 export class BrevoSyncCronService {
@@ -11,7 +13,9 @@ export class BrevoSyncCronService {
 
   constructor(private readonly brevoSenderService: BrevoSenderService) {}
 
-  @Cron(CronExpression.EVERY_DAY_AT_2AM)
+  @Cron(CronExpression.EVERY_DAY_AT_2AM, {
+    disabled: !isCronEnabled() && domifaConfig().envId !== "prod",
+  })
   async syncUsersToBrevo(): Promise<void> {
     const startTime = Date.now();
     this.logger.log("Démarrage de la synchronisation Brevo");
