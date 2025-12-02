@@ -3,7 +3,7 @@ export * from "./_core";
 export * from "./app-log";
 export * from "./contact-support";
 export * from "./interaction";
-export * from "./message-email";
+
 export * from "./message-sms";
 export * from "./monitoring";
 export * from "./open-data";

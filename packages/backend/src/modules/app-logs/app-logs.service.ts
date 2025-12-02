@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { appLogsRepository } from "../../database";
 
 import { AppLogTable } from "../../database/entities/app-log/AppLogTable.typeorm";
-import { AppLog } from "../../_common/model";
+import { AppLog } from "./types";
 
 @Injectable()
 export class AppLogsService {

@@ -56,22 +56,6 @@ CREATE TABLE public.interactions (
     procuration boolean DEFAULT false NOT NULL,
     "returnToSender" boolean DEFAULT false NOT NULL
 );
-CREATE TABLE public.message_email (
-    uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
-    "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
-    version integer NOT NULL,
-    status text NOT NULL,
-    "emailId" text NOT NULL,
-    "initialScheduledDate" timestamp with time zone NOT NULL,
-    "nextScheduledDate" timestamp with time zone NOT NULL,
-    "sendDate" timestamp with time zone,
-    content jsonb NOT NULL,
-    "errorCount" integer DEFAULT 0 NOT NULL,
-    "errorMessage" text,
-    "sendDetails" jsonb,
-    attachments jsonb
-);
 CREATE TABLE public.message_sms (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -564,8 +548,6 @@ ALTER TABLE ONLY public.message_sms
     ADD CONSTRAINT "PK_4d9f00a5bf0f7f424985b156043" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.app_log
     ADD CONSTRAINT "PK_69f8faf72fa4038748e4e3f3fbe" PRIMARY KEY (uuid);
-ALTER TABLE ONLY public.message_email
-    ADD CONSTRAINT "PK_6bffd9b803b67cd4e099fc795e1" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.structure_doc
     ADD CONSTRAINT "PK_6d6be27ca865c8ba30b9c862b70" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.public_stats_cache

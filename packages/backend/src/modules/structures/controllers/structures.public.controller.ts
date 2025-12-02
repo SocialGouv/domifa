@@ -6,10 +6,17 @@ import { StructureDto } from "../dto/structure.dto";
 import { structureCreatorService } from "../services/structureCreator.service";
 import { StructuresService } from "../services/structures.service";
 import { CodePostalDto } from "../dto";
+import { userStructureRepository } from "../../../database";
+import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
+import { appLogger } from "../../../util";
+import { domifaConfig } from "../../../config";
 @Controller("structures")
 @ApiTags("structures")
 export class StructuresPublicController {
-  constructor(private readonly structureService: StructuresService) {}
+  constructor(
+    private readonly structureService: StructuresService,
+    private readonly brevoSenderService: BrevoSenderService
+  ) {}
 
   @Post()
   public async postStructure(
@@ -17,10 +24,39 @@ export class StructuresPublicController {
     @Res() res: ExpressResponse
   ) {
     try {
-      await structureCreatorService.createStructureWithAdminUser(
-        structureWithUserDto.structure,
-        structureWithUserDto.user
-      );
+      const { userId } =
+        await structureCreatorService.createStructureWithAdminUser(
+          structureWithUserDto.structure,
+          structureWithUserDto.user
+        );
+
+      try {
+        const userWithStructure =
+          await userStructureRepository.getUserWithStructureByIdForSync(userId);
+        if (userWithStructure) {
+          await this.brevoSenderService.syncContactToBrevo(userWithStructure);
+
+          await this.brevoSenderService.sendEmailWithTemplate({
+            templateId:
+              domifaConfig().brevo.templates.userStructureCreatedByAdmin,
+            to: [
+              {
+                email: userWithStructure.email,
+                name: `${userWithStructure.prenom} ${userWithStructure.nom}`,
+              },
+            ],
+            params: {
+              prenom: userWithStructure.prenom,
+            },
+          });
+        }
+      } catch (error) {
+        appLogger.warn(
+          `Échec de la synchronisation Brevo pour l'utilisateur ${userId}`,
+          error
+        );
+      }
+
       return res.status(HttpStatus.OK).json("OK");
     } catch (e) {
       return res.status(HttpStatus.BAD_REQUEST).json("CREATE_STRUCTURE_FAIL");

@@ -1,9 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
-import { LogAction, UserStructureAuthenticated } from "../../_common/model";
+import { UserStructureAuthenticated } from "../../_common/model";
 import { Telephone, Usager } from "@domifa/common";
 import isEqual from "lodash.isequal";
 import { anonymizeFullName, anonymizeText } from "../../util";
+import { LogAction } from "../../modules/app-logs/types";
 
 export type UsagerForLogs = Pick<
   Usager,

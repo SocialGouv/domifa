@@ -1,4 +1,3 @@
-import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { DomifaConfigDelay } from "./DomifaConfigDelay.type";
 import { DomifaConfigPostgres } from "./DomifaConfigPostgres.type";
 import { DomifaEnvId } from "./DomifaEnvId.type";
@@ -44,18 +43,7 @@ export type DomifaConfig = {
   };
   cron: {
     enable: boolean; // DOMIFA_CRON_ENABLED
-    emailUserGuide: {
-      crontime: string; // DOMIFA_CRON_EMAIL_USER_GUIDE_CRONTIME
-      delay: DomifaConfigDelay; // DOMIFA_CRON_EMAIL_USER_GUIDE_DELAY
-    };
-    emailImportGuide: {
-      crontime: string; // DOMIFA_CRON_EMAIL_IMPORT_GUIDE_CRONTIME
-      delay: DomifaConfigDelay; // DOMIFA_CRON_EMAIL_IMPORT_GUIDE_DELAY
-    };
-    emailConsumer: {
-      enableSendImmadiately: boolean; // DOMIFA_CRON_EMAIL_SEND_IMMEDIATELY
-      crontime: string; // DOMIFA_CRON_EMAIL_CONSUMER_CRONTIME
-    };
+
     smsConsumer: {
       crontime: string; // DOMIFA_CRON_SMS_CONSUMER_CRONTIME
       fetchEndDomCronTime: string; // DOMIFA_CRON_FETCH_END_DOM_CRONTIME
@@ -65,13 +53,37 @@ export type DomifaConfig = {
       delay: DomifaConfigDelay; // DOMIFA_CRON_MONITORING_CLEANER_DELAY
     };
   };
+  brevo: {
+    apiKey: string; // DOMIFA_MAIL_BREVO_API_KEY
+    contactsListId: string; // DOMIFA_MAIL_BREVO_CONTACTS_LIST_ID
+    templates: {
+      // Contact form template
+      contactSupport: number; // DOMIFA_BREVO_TEMPLATES_CONTACT_FORM
+      // User reset password template
+      userResetPassword: number; // DOMIFA_BREVO_TEMPLATES_USER_RESET_PASSWORD
+      // User structure appointment created template
+      userStructureAppointment: number; // DOMIFA_BREVO_TEMPLATES_USER_STRUCTURE_APPOINTMENT_CREATED
+      // Structure hard reset template
+      structureHardReset: number; // DOMIFA_BREVO_TEMPLATES_HARD_RESET
+      // User account activated template
+      userAccountActivated: number; // DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_ACTIVATED
+      // Structure refusal template
+      structureRefusal: number; // DOMIFA_BREVO_TEMPLATES_STRUCTURE_REFUSAL
+      // Structure delete template
+      structureDelete: number; // DOMIFA_BREVO_TEMPLATES_STRUCTURE_DELETE
+      // User account created by admin template
+      userStructureCreatedByAdmin: number; // DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_CREATED_BY_ADMIN
+      // Structure pending activation template
+      structurePendingActivation: number; // DOMIFA_BREVO_TEMPLATES_STRUCTURE_PENDING_ACTIVATION
+      // Import fail template
+      importFail: number; // DOMIFA_BREVO_TEMPLATES_IMPORT_FAIL
+    };
+  };
   email: {
     emailsEnabled: boolean; // DOMIFA_EMAILS_ENABLE
     emailAddressRedirectAllTo: string; // DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO
     emailAddressErrorReport: string[]; // DOMIFA_ERROR_REPORT_EMAILS
     emailAddressAdmin: string; // DOMIFA_ADMIN_EMAIL
-    emailAddressFrom: string; // DOMIFA_TIPIMAIL_FROM_EMAIL
-    smtp: SMTPTransport.Options;
   };
   sms: {
     enabled: boolean; // DOMIFA_SMS_ENABLE
@@ -83,8 +95,6 @@ export type DomifaConfig = {
     soliguideToken: string;
     dataInclusionUrl: string;
     dataInclusionToken: string;
-    mssUrl: string; // MSS = Mon suivi social
-    mssToken: string; // MSS = Mon suivi social
   };
   metabase: {
     url: string;

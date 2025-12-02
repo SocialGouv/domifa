@@ -16,21 +16,21 @@ tools:
   sentry (frontend): https://sentry2.fabrique.social.gouv.fr/incubateur/domifa-frontend
   sentry (portail-usager): https://sentry2.fabrique.social.gouv.fr/incubateur/domifa-portail-usagers
   matomo: https://matomo.fabrique.social.gouv.fr
-  mails (prod+dev): https://app.tipimail.com/
-  mails (dev): https://mailtrap.io/
+  mails (prod+dev): brevo
+  mails (dev): brevo
 
 # Overall technical stack
 stack:
   common:
     - Typescript
   frontend:
-    - Angular 17
+    - Angular 18
     - Typescript
   portail-admins:
-    - Angular 17
+    - Angular 18
     - Typescript
   portail-usagers:
-    - Angular 17
+    - Angular 18
     - Typescript
   backend:
     - NestJS V11
