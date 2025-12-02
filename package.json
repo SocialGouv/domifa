@@ -29,5 +29,9 @@
       "packages/*"
     ]
   },
-  "packageManager": "yarn@4.11.0"
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=10"
+  },
+  "packageManager": "pnpm@10.24.0"
 }

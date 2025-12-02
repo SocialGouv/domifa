@@ -2,6 +2,11 @@
   "name": "@domifa/frontend",
   "version": "2.186.0",
   "main": "index.js",
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=10"
+  },
+  "packageManager": "pnpm@10.24.0",
   "author": "Incubateur des Ministères Sociaux <dsi-incubateur@sg.social.gouv.fr> (https://incubateur.social.gouv.fr)",
   "license": "Apache-2.0",
   "scripts": {

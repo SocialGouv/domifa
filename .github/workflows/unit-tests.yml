@@ -19,20 +19,24 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js lts
+      - name: Set up Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: "lts/*"
-          cache: "yarn"
+          node-version: "24.x"
+
+      - name: Enable pnpm 10.24.0 via corepack
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.24.0 --activate
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build common dependencies
-        run: yarn workspace @domifa/common build
+        run: pnpm --filter @domifa/common build
 
       - name: Lint all packages
-        run: yarn lint
+        run: pnpm lint
 
   backend:
     name: Backend unit tests
@@ -43,11 +47,15 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js vlts
+      - name: Set up Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: "lts/*"
-          cache: "yarn"
+          node-version: "24.x"
+
+      - name: Enable pnpm 10.24.0 via corepack
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.24.0 --activate
 
       - name: Change TimeZone
         uses: szenius/set-timezone@v1.2
@@ -57,18 +65,17 @@ jobs:
       - name: Create backend .env file
         run: cp ./packages/backend/.env.backend.test.local.example.env ./packages/backend/.env
 
-      - name: Install backend dependencies
-        run: yarn workspaces focus @domifa/backend
+      - name: Install backend and common dependencies
+        run: pnpm install --filter @domifa/backend... --filter @domifa/common... --frozen-lockfile
 
       - name: Build common dependencies
-        run: yarn workspace @domifa/common build
+        run: pnpm --filter @domifa/common build
 
       - name: Create Postgres service
         run: docker compose -f ./docker-compose.tests.yml up --build --detach
 
       - name: Run backend tests
-        # run: yarn workspace @domifa/backend jest --coverage --detectOpenHandles --forceExit --runInBand
-        run: DISABLE_TYPEORM_CLOSE=1 yarn workspace @domifa/backend jest --coverage --detectOpenHandles --forceExit --runInBand
+        run: DISABLE_TYPEORM_CLOSE=1 pnpm --filter @domifa/backend test -- --coverage --detectOpenHandles --forceExit --runInBand
 
       - name: Archive code coverage
         uses: actions/upload-artifact@v4
@@ -85,11 +92,15 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js lts
+      - name: Set up Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: "lts/*"
-          cache: "yarn"
+          node-version: "24.x"
+
+      - name: Enable pnpm 10.24.0 via corepack
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.24.0 --activate
 
       - name: Change TimeZone
         uses: szenius/set-timezone@v1.2
@@ -97,13 +108,13 @@ jobs:
           timezoneLinux: "Europe/Paris"
 
       - name: Install common dependencies
-        run: yarn workspaces focus @domifa/common
+        run: pnpm install --filter @domifa/common... --frozen-lockfile
 
       - name: Build common dependencies
-        run: yarn workspace @domifa/common build
+        run: pnpm --filter @domifa/common build
 
       - name: Run common tests
-        run: yarn workspace @domifa/common test --coverage --detectOpenHandles --forceExit
+        run: pnpm --filter @domifa/common test -- --coverage --detectOpenHandles --forceExit
 
       - name: Archive code coverage
         uses: actions/upload-artifact@v4
@@ -120,25 +131,29 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js lts
+      - name: Set up Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: "lts/*"
-          cache: "yarn"
+          node-version: "24.x"
+
+      - name: Enable pnpm 10.24.0 via corepack
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.24.0 --activate
 
       - name: Change TimeZone
         uses: szenius/set-timezone@v1.2
         with:
           timezoneLinux: "Europe/Paris"
 
-      - name: Install front-end dependencies
-        run: yarn workspaces focus @domifa/frontend
+      - name: Install frontend and common dependencies
+        run: pnpm install --filter @domifa/frontend... --filter @domifa/common... --frozen-lockfile
 
       - name: Build common dependencies
-        run: yarn workspace @domifa/common build
+        run: pnpm --filter @domifa/common build
 
       - name: Run front-end tests
-        run: yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
+        run: pnpm --filter @domifa/frontend test -- --coverage --detectOpenHandles --forceExit
 
       - name: Archive code coverage
         uses: actions/upload-artifact@v4
@@ -155,20 +170,24 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js lts
+      - name: Set up Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: "lts/*"
-          cache: "yarn"
+          node-version: "24.x"
 
-      - name: Install dependencies
-        run: yarn workspaces focus @domifa/portail-usagers
+      - name: Enable pnpm 10.24.0 via corepack
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.24.0 --activate
+
+      - name: Install portail-usagers and common dependencies
+        run: pnpm install --filter @domifa/portail-usagers... --filter @domifa/common... --frozen-lockfile
 
       - name: Build common dependencies
-        run: yarn workspace @domifa/common build
+        run: pnpm --filter @domifa/common build
 
       - name: Run "Mon DomiFa" tests
-        run: yarn workspace @domifa/portail-usagers test --coverage --detectOpenHandles --forceExit
+        run: pnpm --filter @domifa/portail-usagers test -- --coverage --detectOpenHandles --forceExit
 
       - name: Archive code coverage
         uses: actions/upload-artifact@v4
@@ -185,20 +204,24 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js vlts
+      - name: Set up Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: "lts/*"
-          cache: "yarn"
+          node-version: "24.x"
 
-      - name: Install dependencies
-        run: yarn workspaces focus @domifa/portail-admins
+      - name: Enable pnpm 10.24.0 via corepack
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.24.0 --activate
+
+      - name: Install portail-admins and common dependencies
+        run: pnpm install --filter @domifa/portail-admins... --filter @domifa/common... --frozen-lockfile
 
       - name: Build common dependencies
-        run: yarn workspace @domifa/common build
+        run: pnpm --filter @domifa/common build
 
       - name: Run "Portail Admin" tests
-        run: yarn workspace @domifa/portail-admins test --coverage --detectOpenHandles --forceExit
+        run: pnpm --filter @domifa/portail-admins test -- --coverage --detectOpenHandles --forceExit
 
       - name: Archive code coverage
         uses: actions/upload-artifact@v4
@@ -215,23 +238,27 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js lts
+      - name: Set up Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: "lts/*"
-          cache: "yarn"
+          node-version: "24.x"
 
-      - name: Install dependencies
+      - name: Enable pnpm 10.24.0 via corepack
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.24.0 --activate
+
+      - name: Install anonymizer dependencies
         working-directory: ./.anonymizer
-        run: yarn
+        run: pnpm install --frozen-lockfile
 
       - name: Lint
         working-directory: ./.anonymizer
-        run: yarn lint
+        run: pnpm lint
 
       - name: Build
         working-directory: ./.anonymizer
-        run: yarn build
+        run: pnpm build
 
   codecov:
     name: Publish code coverage
