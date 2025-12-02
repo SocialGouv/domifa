@@ -7,3 +7,8 @@
   content: " *";
   color: var(--text-default-error);
 }
+
+.fr-checkbox-group.required label:after {
+  content: " *";
+  color: var(--text-default-error);
+}

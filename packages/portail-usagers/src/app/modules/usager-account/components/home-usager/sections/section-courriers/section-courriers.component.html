@@ -37,7 +37,7 @@
 
     <div class="border-top border-1 border-grey pt-3 mb-2">
       <div class="d-flex align-items-top">
-        <div class="d-flex flex-column gap-4">
+        <div class="d-flex flex-column gap-2">
           <ng-container *ngIf="usager.lastInteraction.courrierIn > 0">
             <div class="d-flex gap-2">
               <span
@@ -45,13 +45,15 @@
               ></span>
               <div class="d-flex flex-column gap-1">
                 <div>
-                  <span class="fr-h3 fr-text-title--blue-france">{{
-                    usager.lastInteraction.courrierIn
-                  }}</span>
-                  courrier<ng-container
-                    *ngIf="usager.lastInteraction.courrierIn > 1"
-                    >s</ng-container
-                  >
+                  <h3 class="fr-h3 mb-0 fr-text-title--blue-france">
+                    {{ usager.lastInteraction.courrierIn }}
+                    <span class="fr-text--lead">
+                      courrier<ng-container
+                        *ngIf="usager.lastInteraction.courrierIn > 1"
+                        >s</ng-container
+                      >
+                    </span>
+                  </h3>
                 </div>
                 <div
                   class="d-flex flex-column ms-2 gap-1 ps-3 fr-border-left-blue-france"
@@ -73,7 +75,13 @@
                         *ngFor="let comment of interaction.value.comments"
                         class="d-flex align-items-start fr-text--xs gap-1 fr-tag fr-tag--sm"
                       >
-                        <small class="fr-icon-message-3-line"></small>
+                        <small
+                          aria-hidden="true"
+                          class="fr-icon-message-3-line"
+                        ></small>
+                        <span class="visually-hidden">
+                          Commentaires sur les courriers
+                        </span>
                         <span [innerHTML]="comment | nl2br"></span>
                       </div>
                     </ng-container>
@@ -89,10 +97,10 @@
               ></span>
               <div class="d-flex flex-column gap-1">
                 <div>
-                  <span class="fr-h3 fr-text-title--blue-france">{{
-                    usager.lastInteraction.colisIn
-                  }}</span>
-                  Colis
+                  <h3 class="mb-0 fr-text-title--blue-france">
+                    {{ usager.lastInteraction.colisIn }}
+                    <span class="fr-text--lead">colis</span>
+                  </h3>
                 </div>
                 <div
                   class="d-flex flex-column ms-2 gap-1 ps-3 fr-border-left-blue-france"
@@ -113,7 +121,13 @@
                         *ngFor="let comment of interaction.value.comments"
                         class="d-flex align-items-start fr-text--xs gap-1 fr-tag fr-tag--sm"
                       >
-                        <small class="fr-icon-message-3-line"></small>
+                        <small
+                          aria-hidden="true"
+                          class="fr-icon-message-3-line"
+                        ></small>
+                        <span class="visually-hidden"
+                          >Commentaires sur les colis
+                        </span>
                         <span [innerHTML]="comment | nl2br"></span>
                       </div>
                     </ng-container>
@@ -130,10 +144,10 @@
               ></span>
               <div class="d-flex flex-column gap-1">
                 <div>
-                  <span class="fr-h3 fr-text-title--blue-france">{{
-                    usager.lastInteraction.recommandeIn
-                  }}</span>
-                  avis de passage
+                  <h3 class="mb-0 fr-text-title--blue-france">
+                    {{ usager.lastInteraction.recommandeIn }}
+                    <span class="fr-text--lead"> avis de passage</span>
+                  </h3>
                 </div>
                 <ng-container *ngIf="pendingInteractions.recommandeIn">
                   <div
@@ -152,7 +166,13 @@
                         *ngFor="let comment of interaction.value.comments"
                         class="d-flex align-items-start fr-text--xs gap-1 fr-tag fr-tag--sm"
                       >
-                        <small class="fr-icon-message-3-line"></small>
+                        <small
+                          aria-hidden="true"
+                          class="fr-icon-message-3-line"
+                        ></small>
+                        <span class="visually-hidden"
+                          >Commentaires sur les avis de passage</span
+                        >
                         <span [innerHTML]="comment | nl2br"></span>
                       </div>
                     </ng-container>

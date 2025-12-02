@@ -1,16 +1,11 @@
 <app-idle-manager></app-idle-manager>
 <dsfr-skiplinks [links]="skipLinks"></dsfr-skiplinks>
 <header id="page-header" role="banner">
-  <div
-    *ngIf="!matomoInfo"
-    class="fr-notice fr-notice--info"
-    role="dialog"
-    aria-modal="true"
-  >
+  <div *ngIf="!matomoInfo" class="fr-notice fr-notice--info">
     <div class="fr-container">
       <div class="fr-notice__body">
         <p>
-          <span class="fr-notice__title"
+          <span id="notice-title" class="fr-notice__title"
             >Avertissement sur la collecte de données</span
           >
           <span class="fr-notice__desc"
@@ -30,6 +25,7 @@
           (click)="closeMatomo()"
           type="button"
           class="fr-btn--close fr-btn"
+          aria-describedby="notice-title"
         >
           Masquer le message
         </button>
