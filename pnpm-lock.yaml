@@ -560,10 +560,181 @@ importers:
       '@angular/router':
         specifier: ^18.2.13
         version: 18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
+      '@ckeditor/ckeditor5-adapter-ckfinder':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-alignment':
+        specifier: ^43.3.1
+        version: 43.3.1
       '@ckeditor/ckeditor5-angular':
         specifier: ^9.0.0
         version: 9.0.0(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2))(ckeditor5@43.3.1)(rxjs@7.8.2)
+      '@ckeditor/ckeditor5-autoformat':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-autosave':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-basic-styles':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-block-quote':
+        specifier: ^43.3.1
+        version: 43.3.1
       '@ckeditor/ckeditor5-build-classic':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-ckbox':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-ckfinder':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-clipboard':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-cloud-services':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-code-block':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-core':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-easy-image':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-editor-balloon':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-editor-classic':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-editor-decoupled':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-editor-inline':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-editor-multi-root':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-engine':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-enter':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-essentials':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-find-and-replace':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-font':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-heading':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-highlight':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-horizontal-line':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-html-embed':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-html-support':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-image':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-indent':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-integrations-common':
+        specifier: ^2.2.3
+        version: 2.2.3(ckeditor5@43.3.1)
+      '@ckeditor/ckeditor5-language':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-link':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-list':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-markdown-gfm':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-media-embed':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-mention':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-minimap':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-page-break':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-paragraph':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-paste-from-office':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-remove-format':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-restricted-editing':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-select-all':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-show-blocks':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-source-editing':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-special-characters':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-style':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-table':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-typing':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-ui':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-undo':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-upload':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-utils':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-watchdog':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-widget':
+        specifier: ^43.3.1
+        version: 43.3.1
+      '@ckeditor/ckeditor5-word-count':
         specifier: ^43.3.1
         version: 43.3.1
       '@domifa/common':
@@ -572,6 +743,9 @@ importers:
       '@fortawesome/angular-fontawesome':
         specifier: 0.15.0
         version: 0.15.0(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))
+      '@fortawesome/fontawesome-common-types':
+        specifier: ^6.7.2
+        version: 6.7.2
       '@fortawesome/fontawesome-svg-core':
         specifier: ^6.7.2
         version: 6.7.2
@@ -609,8 +783,14 @@ importers:
         specifier: ^15.2.11
         version: 15.2.11
       '@sentry/angular':
-        specifier: ^10.5.0
-        version: 10.5.0(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/router@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2))(rxjs@7.8.2)
+        specifier: ^10.28.0
+        version: 10.28.0(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/router@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2))(rxjs@7.8.2)
+      '@sentry/browser':
+        specifier: ^10.28.0
+        version: 10.28.0
+      '@sentry/core':
+        specifier: ^10.28.0
+        version: 10.28.0
       '@swimlane/ngx-charts':
         specifier: ^20.5.0
         version: 20.5.0(1d19ad5f02aff8d12d34c4e8631ee8f6)
@@ -626,6 +806,15 @@ importers:
       countup.js:
         specifier: ^2.8.0
         version: 2.9.0
+      d3-scale:
+        specifier: ^4.0.0
+        version: 4.0.2
+      d3-selection:
+        specifier: ^3.0.0
+        version: 3.0.0
+      d3-shape:
+        specifier: ^3.0.0
+        version: 3.2.0
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
@@ -885,7 +1074,7 @@ importers:
         version: 0.2003.5
       '@angular-devkit/build-angular':
         specifier: ^18.2.20
-        version: 18.2.20(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/localize@18.2.13(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))))(@types/node@22.17.0)(jest-environment-jsdom@29.7.0)(jest@29.7.0(@types/node@22.17.0)(ts-node@10.9.2(@types/node@22.17.0)(typescript@5.4.5)))(typescript@5.4.5)
+        version: 18.2.20(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/localize@18.2.13(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))))(@types/node@22.17.0)(jest-environment-jsdom@29.7.0)(jest@29.7.0(@types/node@22.17.0))(typescript@5.4.5)
       '@angular-devkit/core':
         specifier: ^18.2.20
         version: 18.2.20
@@ -957,7 +1146,7 @@ importers:
         version: 29.7.0(@types/node@22.17.0)(ts-node@10.9.2(@types/node@22.17.0)(typescript@5.4.5))
       jest-preset-angular:
         specifier: ^14.6.1
-        version: 14.6.1(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser-dynamic@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))))(@babel/core@7.28.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.28.0))(jest@29.7.0(@types/node@22.17.0)(ts-node@10.9.2(@types/node@22.17.0)(typescript@5.4.5)))(jsdom@20.0.3)(typescript@5.4.5)
+        version: 14.6.1(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser-dynamic@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))))(@babel/core@7.28.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.28.0))(jest@29.7.0(@types/node@22.17.0))(jsdom@20.0.3)(typescript@5.4.5)
       lint-staged:
         specifier: ^16.1.2
         version: 16.1.2
@@ -1060,7 +1249,7 @@ importers:
         version: 0.2003.5
       '@angular-devkit/build-angular':
         specifier: ^18.2.20
-        version: 18.2.20(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/localize@18.2.13(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))))(@types/node@22.17.0)(jest-environment-jsdom@29.7.0)(jest@29.7.0(@types/node@22.17.0)(ts-node@10.9.2(@types/node@22.17.0)(typescript@5.4.5)))(typescript@5.4.5)
+        version: 18.2.20(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/localize@18.2.13(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))))(@types/node@22.17.0)(jest-environment-jsdom@29.7.0)(jest@29.7.0(@types/node@22.17.0))(typescript@5.4.5)
       '@angular-devkit/core':
         specifier: ^18.2.20
         version: 18.2.20
@@ -1132,7 +1321,7 @@ importers:
         version: 29.7.0(@types/node@22.17.0)(ts-node@10.9.2(@types/node@22.17.0)(typescript@5.4.5))
       jest-preset-angular:
         specifier: ^14.6.1
-        version: 14.6.1(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser-dynamic@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))))(@babel/core@7.28.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.28.0))(jest@29.7.0(@types/node@22.17.0)(ts-node@10.9.2(@types/node@22.17.0)(typescript@5.4.5)))(jsdom@20.0.3)(typescript@5.4.5)
+        version: 14.6.1(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser-dynamic@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))))(@babel/core@7.28.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.28.0))(jest@29.7.0(@types/node@22.17.0))(jsdom@20.0.3)(typescript@5.4.5)
       lint-staged:
         specifier: ^16.1.2
         version: 16.1.2
@@ -2413,8 +2602,8 @@ packages:
   '@ckeditor/ckeditor5-indent@43.3.1':
     resolution: {integrity: sha512-CPU50tumKH7rJ6f9QEB/LHSyzKul9xP/43F1IesvOBWnOkAxQ2QI51oORT5WdKn4B0Z56ojAm48Q/ZUtsef+3w==}
 
-  '@ckeditor/ckeditor5-integrations-common@2.1.0':
-    resolution: {integrity: sha512-vn6qMb36sl6eSCc27dvThk6xISif59MxnxZmRBC440TyP7S9ZcS0ai4yHd5QyaH70ZIe0lhS7DWdLaiKtBggVQ==}
+  '@ckeditor/ckeditor5-integrations-common@2.2.3':
+    resolution: {integrity: sha512-92kQWQj1wiABF7bY1+J79Ze+WHr7pwVBufn1eeJLWcTXbPQq4sAolfKv8Y8Ka9g69mdyE9+GPWmGFYDeQJVPDg==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       ckeditor5: '>=42.0.0 || ^0.0.0-nightly'
@@ -4705,8 +4894,22 @@ packages:
     engines: {node: '>= 10.13.0', npm: ^6.11.0 || ^7.5.6, yarn: '>= 1.13.0'}
     deprecated: This was an internal-only Angular package up through Angular v11 which is no longer used or maintained. Upgrade Angular to v12+ to remove this dependency.
 
+  '@selderee/plugin-htmlparser2@0.10.0':
+    resolution: {integrity: sha512-gW69MEamZ4wk1OsOq1nG1jcyhXIQcnrsX5JwixVw/9xaiav8TCyjESAruu1Rz9yyInhgBXxkNwMeygKnN2uxNA==}
+
+  '@selderee/plugin-htmlparser2@0.6.0':
+    resolution: {integrity: sha512-J3jpy002TyBjd4N/p6s+s90eX42H2eRhK3SbsZuvTDv977/E8p2U3zikdiehyJja66do7FlxLomZLPlvl2/xaA==}
+
+  '@sentry-internal/browser-utils@10.28.0':
+    resolution: {integrity: sha512-FYcslFXo+Lq5/9/G83NSVK2vQlcXRkbJ6AHrMwZyPv1Qd9KJ08qoZo4buxMv63MzYDicNF591HBAqCxsv5gXsA==}
+    engines: {node: '>=18'}
+
   '@sentry-internal/browser-utils@10.5.0':
     resolution: {integrity: sha512-4KIJdEj/8Ip9yqJleVSFe68r/U5bn5o/lYUwnFNEnDNxmpUbOlr7x3DXYuRFi1sfoMUxK9K1DrjnBkR7YYF00g==}
+    engines: {node: '>=18'}
+
+  '@sentry-internal/feedback@10.28.0':
+    resolution: {integrity: sha512-vIv59ZN7Ig/oa6se/qGR69Odx3SQRoW2sIcbmJpxbjRF44Re0ZLFk6vBB3AyUvU3Lqnvabbw3y5AAwJt7Z//ug==}
     engines: {node: '>=18'}
 
   '@sentry-internal/feedback@10.5.0':
@@ -4717,8 +4920,16 @@ packages:
     resolution: {integrity: sha512-oLHVYurqZfADPh5hvmQYS5qx8t0UZzT2u6+/68VXsFruQEOnYJTODKgU3BVLmemRs3WE6kCJjPeFdHVYOQGSzQ==}
     engines: {node: '>=18'}
 
+  '@sentry-internal/replay-canvas@10.28.0':
+    resolution: {integrity: sha512-/5KnIJXms0DHiqwOsND23fBMIJ1wUzAH5DiGHdY5yHGQTYy9BmVgUxW/Pv57kXqkgA3nBvE38z5Nu6+Cq6uixw==}
+    engines: {node: '>=18'}
+
   '@sentry-internal/replay-canvas@10.5.0':
     resolution: {integrity: sha512-5nrRKd5swefd9+sFXFZ/NeL3bz/VxBls3ubAQ3afak15FikkSyHq3oKRKpMOtDsiYKXE3Bc0y3rF5A+y3OXjIA==}
+    engines: {node: '>=18'}
+
+  '@sentry-internal/replay@10.28.0':
+    resolution: {integrity: sha512-umFBdM5eVJJYnUbrjrSJdjfqs21OMDz5pJtNPTNO8+KjTNSMg/QozBkEyaQZEEfdjYZy9MAcwfQPDPfEMvfUuQ==}
     engines: {node: '>=18'}
 
   '@sentry-internal/replay@10.5.0':
@@ -4729,6 +4940,15 @@ packages:
     resolution: {integrity: sha512-Fz5+4XCg3akeoFK+K7g+d7HqGMjmnLoY2eJlpONJmaeT9pXY7yfUyXKZMmMajdE2LxxKJgQ2YKvSCaGVamTjHw==}
     engines: {node: '>=8'}
 
+  '@sentry/angular@10.28.0':
+    resolution: {integrity: sha512-wjbKYs+d3PHrbviSpGb2v2+hBdn4D5DaYGs6cV8n2NNnhez2x6HlquumSs47DMkAccqLWcW505160SyBTpvf/w==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@angular/common': '>= 14.x <= 21.x'
+      '@angular/core': '>= 14.x <= 21.x'
+      '@angular/router': '>= 14.x <= 21.x'
+      rxjs: ^6.5.5 || ^7.x
+
   '@sentry/angular@10.5.0':
     resolution: {integrity: sha512-iePdtn50OpkFpqwsGELmiUtYDBWbCqmyPzOoOIqYIo/+a4oG4YaQTV6ou41ychWhk9J4QwHY6UUiV9i4KcFoNA==}
     engines: {node: '>=18'}
@@ -4738,8 +4958,16 @@ packages:
       '@angular/router': '>= 14.x <= 20.x'
       rxjs: ^6.5.5 || ^7.x
 
+  '@sentry/browser@10.28.0':
+    resolution: {integrity: sha512-OJY5L/2IDB82Eh5Ko83I9YgBN45VBtFi0TFUxSrVDcdeha1tC9YS/975U294K9T2B0kKG65jF8JkWa6x3Gi6HA==}
+    engines: {node: '>=18'}
+
   '@sentry/browser@10.5.0':
     resolution: {integrity: sha512-o5pEJeZ/iZ7Fmaz2sIirThfnmSVNiP5ZYhacvcDi0qc288TmBbikCX3fXxq3xiSkhXfe1o5QIbNyovzfutyuVw==}
+    engines: {node: '>=18'}
+
+  '@sentry/core@10.28.0':
+    resolution: {integrity: sha512-9yFIPxyfWkDzt+IaRjboeNiXOKi22ZRGG3ELmZlLak8JCC+vA+q/+AmF/8Jnw59WlL3/KVC1Q8+t8bLCkxlswg==}
     engines: {node: '>=18'}
 
   '@sentry/core@10.5.0':
@@ -13080,6 +13308,93 @@ snapshots:
       - utf-8-validate
       - webpack-cli
 
+  '@angular-devkit/build-angular@18.2.20(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/localize@18.2.13(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))))(@types/node@22.17.0)(jest-environment-jsdom@29.7.0)(jest@29.7.0(@types/node@22.17.0))(typescript@5.4.5)':
+    dependencies:
+      '@ampproject/remapping': 2.3.0
+      '@angular-devkit/architect': 0.1802.20
+      '@angular-devkit/build-webpack': 0.1802.20(webpack-dev-server@5.2.2(webpack@5.94.0(esbuild@0.23.0)))(webpack@5.94.0(esbuild@0.23.0))
+      '@angular-devkit/core': 18.2.20
+      '@angular/build': 18.2.20(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/localize@18.2.13(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))))(@types/node@22.17.0)(less@4.2.0)(postcss@8.4.41)(terser@5.31.6)(typescript@5.4.5)
+      '@angular/compiler-cli': 18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5)
+      '@babel/core': 7.26.10
+      '@babel/generator': 7.26.10
+      '@babel/helper-annotate-as-pure': 7.25.9
+      '@babel/helper-split-export-declaration': 7.24.7
+      '@babel/plugin-transform-async-generator-functions': 7.26.8(@babel/core@7.26.10)
+      '@babel/plugin-transform-async-to-generator': 7.25.9(@babel/core@7.26.10)
+      '@babel/plugin-transform-runtime': 7.26.10(@babel/core@7.26.10)
+      '@babel/preset-env': 7.26.9(@babel/core@7.26.10)
+      '@babel/runtime': 7.26.10
+      '@discoveryjs/json-ext': 0.6.1
+      '@ngtools/webpack': 18.2.20(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(typescript@5.4.5)(webpack@5.94.0(esbuild@0.23.0))
+      ansi-colors: 4.1.3
+      autoprefixer: 10.4.20(postcss@8.4.41)
+      babel-loader: 9.1.3(@babel/core@7.26.10)(webpack@5.94.0(esbuild@0.23.0))
+      browserslist: 4.26.3
+      copy-webpack-plugin: 12.0.2(webpack@5.94.0(esbuild@0.23.0))
+      critters: 0.0.24
+      css-loader: 7.1.2(webpack@5.94.0(esbuild@0.23.0))
+      esbuild-wasm: 0.23.0
+      fast-glob: 3.3.2
+      http-proxy-middleware: 3.0.5
+      https-proxy-agent: 7.0.5
+      istanbul-lib-instrument: 6.0.3
+      jsonc-parser: 3.3.1
+      karma-source-map-support: 1.4.0
+      less: 4.2.0
+      less-loader: 12.2.0(less@4.2.0)(webpack@5.94.0(esbuild@0.23.0))
+      license-webpack-plugin: 4.0.2(webpack@5.94.0(esbuild@0.23.0))
+      loader-utils: 3.3.1
+      magic-string: 0.30.11
+      mini-css-extract-plugin: 2.9.0(webpack@5.94.0(esbuild@0.23.0))
+      mrmime: 2.0.0
+      open: 10.1.0
+      ora: 5.4.1
+      parse5-html-rewriting-stream: 7.0.0
+      picomatch: 4.0.2
+      piscina: 4.6.1
+      postcss: 8.4.41
+      postcss-loader: 8.1.1(postcss@8.4.41)(typescript@5.4.5)(webpack@5.94.0(esbuild@0.23.0))
+      resolve-url-loader: 5.0.0
+      rxjs: 7.8.1
+      sass: 1.77.6
+      sass-loader: 16.0.0(sass@1.77.6)(webpack@5.94.0(esbuild@0.23.0))
+      semver: 7.6.3
+      source-map-loader: 5.0.0(webpack@5.94.0(esbuild@0.23.0))
+      source-map-support: 0.5.21
+      terser: 5.31.6
+      tree-kill: 1.2.2
+      tslib: 2.6.3
+      typescript: 5.4.5
+      watchpack: 2.4.1
+      webpack: 5.94.0(esbuild@0.23.0)
+      webpack-dev-middleware: 7.4.2(webpack@5.94.0(esbuild@0.23.0))
+      webpack-dev-server: 5.2.2(webpack@5.94.0(esbuild@0.23.0))
+      webpack-merge: 6.0.1
+      webpack-subresource-integrity: 5.1.0(webpack@5.94.0(esbuild@0.23.0))
+    optionalDependencies:
+      '@angular/localize': 18.2.13(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))
+      esbuild: 0.23.0
+      jest: 29.7.0(@types/node@22.17.0)
+      jest-environment-jsdom: 29.7.0
+    transitivePeerDependencies:
+      - '@rspack/core'
+      - '@swc/core'
+      - '@types/node'
+      - bufferutil
+      - chokidar
+      - debug
+      - html-webpack-plugin
+      - lightningcss
+      - node-sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - uglify-js
+      - utf-8-validate
+      - webpack-cli
+
   '@angular-devkit/build-webpack@0.1802.20(webpack-dev-server@5.2.2(webpack@5.94.0(esbuild@0.23.0)))(webpack@5.94.0(esbuild@0.23.0))':
     dependencies:
       '@angular-devkit/architect': 0.1802.20
@@ -14793,7 +15108,7 @@ snapshots:
       '@angular/common': 18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
       '@angular/core': 18.2.13(rxjs@7.8.2)(zone.js@0.15.1)
       '@angular/forms': 18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
-      '@ckeditor/ckeditor5-integrations-common': 2.1.0(ckeditor5@43.3.1)
+      '@ckeditor/ckeditor5-integrations-common': 2.2.3(ckeditor5@43.3.1)
       ckeditor5: 43.3.1
       rxjs: 7.8.2
       tslib: 2.8.1
@@ -15054,7 +15369,7 @@ snapshots:
       '@ckeditor/ckeditor5-utils': 43.3.1
       ckeditor5: 43.3.1
 
-  '@ckeditor/ckeditor5-integrations-common@2.1.0(ckeditor5@43.3.1)':
+  '@ckeditor/ckeditor5-integrations-common@2.2.3(ckeditor5@43.3.1)':
     dependencies:
       ckeditor5: 43.3.1
 
@@ -17886,9 +18201,27 @@ snapshots:
       - bluebird
       - supports-color
 
+  '@selderee/plugin-htmlparser2@0.10.0':
+    dependencies:
+      domhandler: 5.0.3
+      selderee: 0.10.0
+
+  '@selderee/plugin-htmlparser2@0.6.0':
+    dependencies:
+      domhandler: 4.3.1
+      selderee: 0.6.0
+
+  '@sentry-internal/browser-utils@10.28.0':
+    dependencies:
+      '@sentry/core': 10.28.0
+
   '@sentry-internal/browser-utils@10.5.0':
     dependencies:
       '@sentry/core': 10.5.0
+
+  '@sentry-internal/feedback@10.28.0':
+    dependencies:
+      '@sentry/core': 10.28.0
 
   '@sentry-internal/feedback@10.5.0':
     dependencies:
@@ -17899,10 +18232,20 @@ snapshots:
       detect-libc: 2.0.4
       node-abi: 3.75.0
 
+  '@sentry-internal/replay-canvas@10.28.0':
+    dependencies:
+      '@sentry-internal/replay': 10.28.0
+      '@sentry/core': 10.28.0
+
   '@sentry-internal/replay-canvas@10.5.0':
     dependencies:
       '@sentry-internal/replay': 10.5.0
       '@sentry/core': 10.5.0
+
+  '@sentry-internal/replay@10.28.0':
+    dependencies:
+      '@sentry-internal/browser-utils': 10.28.0
+      '@sentry/core': 10.28.0
 
   '@sentry-internal/replay@10.5.0':
     dependencies:
@@ -17915,6 +18258,16 @@ snapshots:
       '@sentry/types': 7.120.4
       '@sentry/utils': 7.120.4
 
+  '@sentry/angular@10.28.0(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/router@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2))(rxjs@7.8.2)':
+    dependencies:
+      '@angular/common': 18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
+      '@angular/core': 18.2.13(rxjs@7.8.2)(zone.js@0.15.1)
+      '@angular/router': 18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
+      '@sentry/browser': 10.28.0
+      '@sentry/core': 10.28.0
+      rxjs: 7.8.2
+      tslib: 2.8.1
+
   '@sentry/angular@10.5.0(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/router@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2))(rxjs@7.8.2)':
     dependencies:
       '@angular/common': 18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
@@ -17925,6 +18278,14 @@ snapshots:
       rxjs: 7.8.2
       tslib: 2.8.1
 
+  '@sentry/browser@10.28.0':
+    dependencies:
+      '@sentry-internal/browser-utils': 10.28.0
+      '@sentry-internal/feedback': 10.28.0
+      '@sentry-internal/replay': 10.28.0
+      '@sentry-internal/replay-canvas': 10.28.0
+      '@sentry/core': 10.28.0
+
   '@sentry/browser@10.5.0':
     dependencies:
       '@sentry-internal/browser-utils': 10.5.0
@@ -17932,6 +18293,8 @@ snapshots:
       '@sentry-internal/replay': 10.5.0
       '@sentry-internal/replay-canvas': 10.5.0
       '@sentry/core': 10.5.0
+
+  '@sentry/core@10.28.0': {}
 
   '@sentry/core@10.5.0': {}
 
@@ -23781,6 +24144,32 @@ snapshots:
       - supports-color
       - utf-8-validate
 
+  jest-preset-angular@14.6.1(@angular/compiler-cli@18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser-dynamic@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))))(@babel/core@7.28.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.28.0))(jest@29.7.0(@types/node@22.17.0))(jsdom@20.0.3)(typescript@5.4.5):
+    dependencies:
+      '@angular/compiler-cli': 18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(typescript@5.4.5)
+      '@angular/core': 18.2.13(rxjs@7.8.2)(zone.js@0.15.1)
+      '@angular/platform-browser-dynamic': 18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))
+      bs-logger: 0.2.6
+      esbuild-wasm: 0.23.0
+      jest: 29.7.0(@types/node@22.17.0)
+      jest-environment-jsdom: 29.7.0
+      jest-util: 29.7.0
+      pretty-format: 29.7.0
+      ts-jest: 29.4.1(@babel/core@7.28.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.28.0))(esbuild@0.23.0)(jest-util@29.7.0)(jest@29.7.0(@types/node@22.17.0))(typescript@5.4.5)
+      typescript: 5.4.5
+    optionalDependencies:
+      esbuild: 0.23.0
+      jsdom: 20.0.3
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@jest/transform'
+      - '@jest/types'
+      - babel-jest
+      - bufferutil
+      - canvas
+      - supports-color
+      - utf-8-validate
+
   jest-regex-util@29.6.3: {}
 
   jest-resolve-dependencies@29.7.0:
@@ -23928,6 +24317,18 @@ snapshots:
       '@jest/types': 29.6.3
       import-local: 3.1.0
       jest-cli: 29.7.0(@types/node@20.19.25)(ts-node@10.9.2(@types/node@20.19.25)(typescript@5.8.2))
+    transitivePeerDependencies:
+      - '@types/node'
+      - babel-plugin-macros
+      - supports-color
+      - ts-node
+
+  jest@29.7.0(@types/node@22.17.0):
+    dependencies:
+      '@jest/core': 29.7.0(ts-node@10.9.2(@types/node@22.17.0)(typescript@5.4.5))
+      '@jest/types': 29.6.3
+      import-local: 3.1.0
+      jest-cli: 29.7.0(@types/node@22.17.0)(ts-node@10.9.2(@types/node@22.17.0)(typescript@5.4.5))
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -27337,6 +27738,27 @@ snapshots:
       fast-json-stable-stringify: 2.1.0
       handlebars: 4.7.8
       jest: 29.7.0(@types/node@22.17.0)(ts-node@10.9.2(@types/node@22.17.0)(typescript@5.4.5))
+      json5: 2.2.3
+      lodash.memoize: 4.1.2
+      make-error: 1.3.6
+      semver: 7.7.2
+      type-fest: 4.41.0
+      typescript: 5.4.5
+      yargs-parser: 21.1.1
+    optionalDependencies:
+      '@babel/core': 7.28.0
+      '@jest/transform': 29.7.0
+      '@jest/types': 29.6.3
+      babel-jest: 29.7.0(@babel/core@7.28.0)
+      esbuild: 0.23.0
+      jest-util: 29.7.0
+
+  ts-jest@29.4.1(@babel/core@7.28.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.28.0))(esbuild@0.23.0)(jest-util@29.7.0)(jest@29.7.0(@types/node@22.17.0))(typescript@5.4.5):
+    dependencies:
+      bs-logger: 0.2.6
+      fast-json-stable-stringify: 2.1.0
+      handlebars: 4.7.8
+      jest: 29.7.0(@types/node@22.17.0)
       json5: 2.2.3
       lodash.memoize: 4.1.2
       make-error: 1.3.6
