@@ -29,6 +29,17 @@
       "packages/*"
     ]
   },
+  "pnpm": {
+    "overrides": {
+      "@sentry/angular": "10.5.0",
+      "@sentry/browser": "10.5.0",
+      "@sentry/core": "10.5.0",
+      "@sentry-internal/feedback": "10.5.0",
+      "@sentry-internal/replay": "10.5.0",
+      "@sentry-internal/replay-canvas": "10.5.0",
+      "@sentry-internal/browser-utils": "10.5.0"
+    }
+  },
   "engines": {
     "node": ">=24",
     "pnpm": ">=10"
