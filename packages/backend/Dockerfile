@@ -56,9 +56,17 @@ USER 1000
 WORKDIR /app
 
 COPY  ./packages/backend/scripts/start /app/packages/backend/scripts/start
+
+# Copy pnpm root store so workspace symlinks in package node_modules resolve correctly
+COPY --from=builder --chown=1000:1000 /app/node_modules /app/node_modules
+
 COPY --from=builder --chown=1000:1000 /app/packages/common/node_modules /app/packages/common/node_modules
 COPY --from=builder --chown=1000:1000 /app/packages/common/dist /app/packages/common/dist
 COPY --from=builder --chown=1000:1000 /app/packages/common/package.json /app/packages/common/
+
+# Copy backend package.json so start script can read DOMIFA_VERSION
+COPY --from=builder --chown=1000:1000 /app/packages/backend/package.json /app/packages/backend/package.json
+
 COPY --from=builder --chown=1000:1000 /app/packages/backend/node_modules /app/packages/backend/node_modules
 COPY --from=builder --chown=1000:1000 /app/packages/backend/dist /app/packages/backend/dist
 COPY --from=builder --chown=1000:1000 /app/packages/backend/.env.preset /app/packages/backend/.env.preset
