@@ -19,7 +19,7 @@ import {
   UsagerOptions,
   filterMatomoParams,
 } from "@domifa/common";
-import { getCurrentScope } from "@sentry/core";
+import { getCurrentScope } from "@sentry/angular";
 import { CustomToastService } from "../../shared/services/custom-toast.service";
 
 const END_POINT_AUTH = `${environment.apiUrl}portail-usagers/auth`;
