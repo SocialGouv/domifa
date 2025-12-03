@@ -33,6 +33,7 @@ import { SharedModule } from "./modules/shared/shared.module";
 import pkg from "../../package.json";
 
 import {
+  browserProfilingIntegration,
   browserTracingIntegration,
   createErrorHandler,
   init,
@@ -54,7 +55,7 @@ if (environment.production) {
     dsn: environment.sentryDsnFrontend,
     environment: environment.env,
     tracesSampleRate: 1.0,
-    integrations: [browserTracingIntegration()],
+    integrations: [browserProfilingIntegration(), browserTracingIntegration()],
   });
 }
 

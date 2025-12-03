@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "date-fns": "^2.30.0",
+    "@babel/runtime": "^7.27.6",
     "luhn": "^2.4.1",
     "rimraf": "^6.0.1"
   },
