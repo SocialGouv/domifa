@@ -9,7 +9,6 @@
  TRUNCATE TABLE public.contact_support RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.expired_token RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.interactions RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.message_email RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.message_sms RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.monitor_batch_process RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.open_data_cities RESTART IDENTITY CASCADE;
@@ -137,14 +136,6 @@ bbf70ce8-d4d6-4318-adc6-143af0a06daa	2022-03-17 22:40:30.030609+01	2022-03-17 22
 efabd6a5-e8d3-464d-a700-f0fd723a43b9	2022-03-17 22:40:30.315091+01	2022-03-17 22:40:30.315091+01	1	2020-12-01 06:00:24.98+01	0	5	courrierOut	1	11	Mauricette Pali		6d93ecf8-c59a-42cc-ac1e-b5bd6f977a01	\N	f	f
 ccfdb5d8-dbb6-4cf8-9818-cd0f4211021e	2022-03-17 22:39:21.729672+01	2022-03-17 22:39:21.729672+01	1	2020-12-01 06:00:24.98+01	0	5	courrierOut	1	11	Mauricette Pali		6d93ecf8-c59a-42cc-ac1e-b5bd6f977a01	\N	f	f
 672bae2a-dfb3-41f3-a3d9-8eda89783612	2022-03-17 22:37:37.935256+01	2022-03-17 22:37:37.935256+01	1	2020-12-01 06:00:24.98+01	0	5	courrierOut	1	11	Mauricette Pali		6d93ecf8-c59a-42cc-ac1e-b5bd6f977a01	\N	f	f
-\.
-
-
---
--- Data for Name: message_email; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY public.message_email (uuid, "createdAt", "updatedAt", version, status, "emailId", "initialScheduledDate", "nextScheduledDate", "sendDate", content, "errorCount", "errorMessage", "sendDetails", attachments) FROM stdin;
 \.
 
 

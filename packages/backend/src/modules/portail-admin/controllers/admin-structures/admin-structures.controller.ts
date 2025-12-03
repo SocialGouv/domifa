@@ -19,36 +19,29 @@ import {
 } from "../../../../auth/decorators";
 import { AppUserGuard, StructureAccessGuard } from "../../../../auth/guards";
 import {
-  userStructureRepository,
   structureRepository,
   userStructureSecurityRepository,
-  messageSmsRepository,
-  usagerDocsRepository,
-  usagerHistoryStatesRepository,
-  usagerRepository,
 } from "../../../../database";
 import { statsDeploiementExporter } from "../../../../excel/export-stats-deploiement";
 
-import {
-  expressResponseExcelRenderer,
-  getCreatedByUserStructure,
-} from "../../../../util";
+import { expressResponseExcelRenderer } from "../../../../util";
 import { ExpressResponse } from "../../../../util/express";
 import { UserAdminAuthenticated } from "../../../../_common/model";
 import { AdminStructuresService } from "../../services";
 
 import {
   Structure,
-  StructureDecisionRefusMotif,
-  StructureDecisionSuppressionMotif,
+  StructureDecisionStatut,
+  UserStructure,
 } from "@domifa/common";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { UpdateStructureDecisionStatutDto } from "../../dto";
 import { StructureAdminForList, UserStructureWithSecurity } from "../../types";
-import { userAccountActivatedEmailSender } from "../../../mails/services/templates-renderers";
 import { format } from "date-fns";
 import { getBackoffTime } from "../../../users/services";
 import { CurrentSupervisor } from "../../../../auth/decorators/current-supervisor.decorator";
+import { StructureDecisionEmailService } from "../../services/structure-decision-email/structure-decision-email.service";
+import { StructureDecisionService } from "../../services/structure-decision/structure-decision.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
@@ -59,7 +52,9 @@ import { CurrentSupervisor } from "../../../../auth/decorators/current-superviso
 export class AdminStructuresController {
   constructor(
     private readonly adminStructuresService: AdminStructuresService,
-    private readonly appLogsService: AppLogsService
+    private readonly appLogsService: AppLogsService,
+    private readonly structureDecisionService: StructureDecisionService,
+    private readonly structureDecisionEmailService: StructureDecisionEmailService
   ) {}
 
   @Get("export")
@@ -167,98 +162,50 @@ export class AdminStructuresController {
         });
       }
 
-      const statutConfig = {
-        REFUS: {
-          motifEnum: StructureDecisionRefusMotif,
-          logAction: "ADMIN_STRUCTURE_REFUSE",
-        },
-        SUPPRIME: {
-          motifEnum: StructureDecisionSuppressionMotif,
-          logAction: "ADMIN_STRUCTURE_DELETE",
-        },
-        VALIDE: {
-          logAction: "ADMIN_STRUCTURE_VALIDATE",
-        },
-      };
-
-      const config = statutConfig[updateStatusDto.statut];
-
-      if (config?.motifEnum && updateStatusDto.statutDetail) {
-        const isValidMotif = Object.values(config.motifEnum).includes(
-          updateStatusDto.statutDetail as any
-        );
-
-        if (!isValidMotif) {
-          return res.status(HttpStatus.BAD_REQUEST).json({
-            message: "INVALID_STRUCTURE_STATUT",
-          });
-        }
-      }
-
-      const decision = {
-        statut: updateStatusDto.statut,
-        dateDecision: new Date(),
-        motif: updateStatusDto?.statutDetail,
-        ...getCreatedByUserStructure(user),
-      };
-
-      await structureRepository.update(
-        { id: structureId },
-        {
-          statut: updateStatusDto.statut,
-          decision,
-        }
+      // Valider le motif si applicable
+      const { motifLabel } = this.structureDecisionService.validateMotif(
+        updateStatusDto.statut,
+        updateStatusDto.statutDetail
       );
 
-      if (updateStatusDto.statut === "VALIDE") {
-        const admin = await userStructureRepository.findOneBy({
-          role: "admin",
-          structureId: structure.id,
-        });
+      // Construire la décision
+      const decision = this.structureDecisionService.buildDecisionObject(
+        updateStatusDto.statut,
+        updateStatusDto.statutDetail,
+        user
+      );
 
-        await userStructureRepository.update(
-          {
-            id: admin.id,
-            structureId: structure.id,
-          },
-          { verified: true }
-        );
+      // Mettre à jour la structure
+      await this.structureDecisionService.updateStructureStatut(
+        structureId,
+        updateStatusDto.statut,
+        decision
+      );
 
-        const updatedAdmin = await userStructureRepository.findOneBy({
-          id: admin.id,
-          structureId: structure.id,
-        });
+      // Récupérer l'admin de la structure
+      const admin = await this.structureDecisionService.getStructureAdmin(
+        structureId
+      );
 
-        await userAccountActivatedEmailSender.sendMail({ user: updatedAdmin });
-      } else if (updateStatusDto.statut === "SUPPRIME") {
-        await userStructureRepository.delete({
-          structureId: structure.id,
-        });
+      // Gérer les actions selon le statut
+      await this.handleStatutSpecificActions(
+        updateStatusDto.statut,
+        admin,
+        structure,
+        motifLabel,
+        user.prenom
+      );
 
-        await usagerDocsRepository.delete({
-          structureId: structure.id,
-        });
+      // Logger l'action
+      const config = this.structureDecisionService.getStatutConfig(
+        updateStatusDto.statut
+      );
+      await this.appLogsService.create({
+        userId: user.id,
+        action: config.logAction,
+      });
 
-        await usagerRepository.delete({
-          structureId: structure.id,
-        });
-
-        await messageSmsRepository.delete({
-          structureId: structure.id,
-        });
-
-        await usagerHistoryStatesRepository.delete({
-          structureId: structure.id,
-        });
-      }
-
-      if (config?.logAction) {
-        await this.appLogsService.create({
-          userId: user.id,
-          action: config.logAction,
-        });
-      }
-
+      // Retourner les données mises à jour
       const updatedStructure =
         await structureRepository.getAdminStructuresListData(structureId);
 
@@ -269,5 +216,33 @@ export class AdminStructuresController {
         message: "INTERNAL_SERVER_ERROR",
       });
     }
+  }
+
+  private async handleStatutSpecificActions(
+    statut: StructureDecisionStatut,
+    admin: Pick<UserStructure, "prenom" | "nom" | "id" | "email">,
+    structure: Pick<Structure, "id" | "uuid">,
+    motifLabel: string,
+    adminPrenomDecideur: string
+  ): Promise<void> {
+    const emailParams = {
+      prenom: adminPrenomDecideur,
+      motif: motifLabel,
+    };
+
+    const adminName = `${admin.prenom} ${admin.nom}`;
+
+    if (statut === "VALIDE") {
+      await this.structureDecisionService.activateAdmin(admin.id, structure.id);
+    } else {
+      await this.structureDecisionService.deleteStructureData(structure);
+    }
+
+    await this.structureDecisionEmailService.sendDecisionEmail(
+      statut,
+      admin.email,
+      adminName,
+      emailParams
+    );
   }
 }

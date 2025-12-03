@@ -29,7 +29,7 @@ export class SectionCourriersComponent implements OnInit {
 
   constructor(
     private readonly interactionService: InteractionService,
-    private readonly toastr: CustomToastService
+    private readonly toastr: CustomToastService,
   ) {
     this.usager = DEFAULT_USAGER_PROFILE.usager;
   }
@@ -43,8 +43,8 @@ export class SectionCourriersComponent implements OnInit {
             interaction.map((i) => ({
               ...i,
               dateInteraction: new Date(i.dateInteraction),
-            }))
-          )
+            })),
+          ),
         )
         .subscribe({
           next: (interactions: Interaction[]) => {
@@ -57,15 +57,15 @@ export class SectionCourriersComponent implements OnInit {
           },
           error: () => {
             this.toastr.error(
-              "Le chargement de votre historique a échoué. Veuillez réessayer plus tard"
+              "Le chargement de votre historique a échoué. Veuillez réessayer plus tard",
             );
           },
-        })
+        }),
     );
   }
 
   public agregateItemsByDate(
-    interactions: Interaction[]
+    interactions: Interaction[],
   ): TypeGroupedInteractions {
     return interactions.reduce<TypeGroupedInteractions>((acc, it) => {
       const type = it.type;

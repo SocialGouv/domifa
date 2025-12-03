@@ -1,7 +1,9 @@
 import { InteractionsModule } from "../../../modules/interactions/interactions.module";
+import { MailsModule } from "../../../modules/mails/mails.module";
 import { StructuresModule } from "../../../modules/structures/structure.module";
 import { UsersModule } from "../../../modules/users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
+import { AppointmentInvitationService } from "../../services";
 import { UsagerHistoryStateService } from "../../services/usagerHistoryState.service";
 
 import { UsagersService } from "../../services/usagers.service";
@@ -14,8 +16,12 @@ describe("Agenda Controller", () => {
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [AgendaController],
-      imports: [UsersModule, InteractionsModule, StructuresModule],
-      providers: [UsagersService, UsagerHistoryStateService],
+      imports: [UsersModule, InteractionsModule, StructuresModule, MailsModule],
+      providers: [
+        UsagersService,
+        UsagerHistoryStateService,
+        AppointmentInvitationService,
+      ],
     });
     controller = context.module.get<AgendaController>(AgendaController);
   });

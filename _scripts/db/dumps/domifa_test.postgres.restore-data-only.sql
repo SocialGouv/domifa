@@ -105,14 +105,6 @@ ccfdb5d8-dbb6-4cf8-9818-cd0f4211021e	2022-03-17 22:39:21.729672+01	2022-03-17 22
 
 
 --
--- Data for Name: message_email; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY public.message_email (uuid, "createdAt", "updatedAt", version, status, "emailId", "initialScheduledDate", "nextScheduledDate", "sendDate", content, "errorCount", "errorMessage", "sendDetails", attachments) FROM stdin;
-\.
-
-
---
 -- Data for Name: message_sms; Type: TABLE DATA; Schema: public; Owner: -
 --
 

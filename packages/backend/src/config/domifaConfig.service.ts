@@ -11,7 +11,6 @@ import {
 } from "./model";
 import { configParser } from "./services/configParser.service";
 import { join } from "path";
-import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 let _domifaConfig: DomifaConfig;
 
@@ -107,8 +106,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     required: false,
   });
 
-  const smtpOptions = buildSmtpOptions(x, { required: emailsEnabled });
-
   const config: DomifaConfig = {
     envId,
     version: configParser.parseString(x, "DOMIFA_VERSION", {
@@ -187,54 +184,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       enable: configParser.parseBoolean(x, "DOMIFA_CRON_ENABLED", {
         defaultValue: false,
       }),
-      emailUserGuide: {
-        crontime: configParser.parseString(
-          x,
-          "DOMIFA_CRON_EMAIL_USER_GUIDE_CRONTIME",
-          {
-            defaultValue: "0 15 * * TUE",
-          }
-        ),
-        delay: configParser.parseDelay(
-          x,
-
-          "DOMIFA_CRON_EMAIL_USER_GUIDE_DELAY",
-
-          {
-            defaultValue: "7 days",
-          }
-        ),
-      },
-      emailImportGuide: {
-        crontime: configParser.parseString(
-          x,
-          "DOMIFA_CRON_EMAIL_IMPORT_GUIDE_CRONTIME",
-          {
-            defaultValue: "0 15 * * TUE",
-          }
-        ),
-        delay: configParser.parseDelay(
-          x,
-          "DOMIFA_CRON_EMAIL_IMPORT_GUIDE_DELAY",
-          {
-            defaultValue: "7 days",
-          }
-        ),
-      },
-      emailConsumer: {
-        enableSendImmadiately: configParser.parseBoolean(
-          x,
-          "DOMIFA_CRON_EMAIL_SEND_IMMEDIATELY",
-          { defaultValue: true }
-        ),
-        crontime: configParser.parseString(
-          x,
-          "DOMIFA_CRON_EMAIL_CONSUMER_CRONTIME",
-          {
-            defaultValue: CronExpression.EVERY_5_MINUTES, // most of the time, the CRON is not necessary, as the mail consummer is triggered immediately by messageEmailSender
-          }
-        ),
-      },
       smsConsumer: {
         crontime: configParser.parseString(
           x,
@@ -268,6 +217,91 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         ),
       },
     },
+    brevo: {
+      apiKey: configParser.parseString(x, "DOMIFA_MAIL_BREVO_API_KEY", {
+        required: emailsEnabled,
+      }),
+      contactsListId: configParser.parseString(
+        x,
+        "DOMIFA_MAIL_BREVO_CONTACTS_LIST_ID",
+        {
+          required: emailsEnabled,
+        }
+      ),
+      templates: {
+        contactSupport: configParser.parseInteger(
+          x,
+          "DOMIFA_BREVO_TEMPLATES_CONTACT_FORM",
+          {
+            required: emailsEnabled,
+          }
+        ),
+
+        userResetPassword: configParser.parseInteger(
+          x,
+          "DOMIFA_BREVO_TEMPLATES_USER_RESET_PASSWORD",
+          {
+            required: emailsEnabled,
+          }
+        ),
+        userStructureAppointment: configParser.parseInteger(
+          x,
+          "DOMIFA_BREVO_TEMPLATES_USER_STRUCTURE_APPOINTMENT_CREATED",
+          {
+            required: emailsEnabled,
+          }
+        ),
+        structureHardReset: configParser.parseInteger(
+          x,
+          "DOMIFA_BREVO_TEMPLATES_HARD_RESET",
+          {
+            required: emailsEnabled,
+          }
+        ),
+        userAccountActivated: configParser.parseInteger(
+          x,
+          "DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_ACTIVATED",
+          {
+            required: emailsEnabled,
+          }
+        ),
+        structureRefusal: configParser.parseInteger(
+          x,
+          "DOMIFA_BREVO_TEMPLATES_STRUCTURE_REFUSAL",
+          {
+            required: emailsEnabled,
+          }
+        ),
+        structureDelete: configParser.parseInteger(
+          x,
+          "DOMIFA_BREVO_TEMPLATES_STRUCTURE_DELETE",
+          {
+            required: emailsEnabled,
+          }
+        ),
+        userStructureCreatedByAdmin: configParser.parseInteger(
+          x,
+          "DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_CREATED_BY_ADMIN",
+          {
+            required: emailsEnabled,
+          }
+        ),
+        structurePendingActivation: configParser.parseInteger(
+          x,
+          "DOMIFA_BREVO_TEMPLATES_STRUCTURE_PENDING_ACTIVATION",
+          {
+            required: emailsEnabled,
+          }
+        ),
+        importFail: configParser.parseInteger(
+          x,
+          "DOMIFA_BREVO_TEMPLATES_IMPORT_FAIL",
+          {
+            required: emailsEnabled,
+          }
+        ),
+      },
+    },
     email: {
       emailsEnabled,
       emailAddressAdmin: configParser.parseString(x, "DOMIFA_ADMIN_EMAIL", {
@@ -280,13 +314,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           required: false,
         }
       ),
-      emailAddressFrom: configParser.parseString(
-        x,
-        "DOMIFA_TIPIMAIL_FROM_EMAIL",
-        {
-          required: emailsEnabled,
-        }
-      ),
+
       emailAddressRedirectAllTo: configParser.parseString(
         x,
         "DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO",
@@ -294,7 +322,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           required: false,
         }
       ),
-      smtp: smtpOptions,
     },
     sms: {
       enabled: smsEnabled,
@@ -314,12 +341,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         required: false,
       }),
       soliguideToken: configParser.parseString(x, "SOLIGUIDE_TOKEN", {
-        required: false,
-      }),
-      mssUrl: configParser.parseString(x, "MSS_URL", {
-        required: false,
-      }),
-      mssToken: configParser.parseString(x, "MSS_TOKEN", {
         required: false,
       }),
       dataInclusionUrl: configParser.parseString(x, "DATA_INCLUSION_URL", {
@@ -348,53 +369,4 @@ function parseSecurityConfig(x: Partial<DomifaEnv>): DomifaConfigSecurity {
     ),
     jwtSecret: configParser.parseString(x, "DOMIFA_SECURITY_JWT_SECRET"),
   };
-}
-
-function buildSmtpOptions(
-  x: Partial<DomifaEnv>,
-  { required }: { required: boolean }
-): SMTPTransport.Options {
-  const smtpId = configParser.parseString(x, "DOMIFA_MAIL_SMTP_ID", {
-    validValues: ["MAILTRAP", "TIPIMAIL"],
-    required,
-  });
-
-  return smtpId === "TIPIMAIL"
-    ? {
-        host: configParser.parseString(x, "DOMIFA_MAIL_SMTP_TIPIMAIL_HOST", {
-          required,
-        }),
-        port: configParser.parseInteger(x, "DOMIFA_MAIL_SMTP_TIPIMAIL_PORT", {
-          required,
-        }),
-        secure: false,
-        auth: {
-          user: configParser.parseString(x, "DOMIFA_MAIL_SMTP_TIPIMAIL_USER", {
-            required,
-          }),
-          pass: configParser.parseString(
-            x,
-            "DOMIFA_MAIL_SMTP_TIPIMAIL_PASSWORD",
-            { required }
-          ),
-        },
-      }
-    : {
-        host: configParser.parseString(x, "DOMIFA_MAIL_SMTP_MAILTRAP_HOST", {
-          required,
-        }),
-        port: configParser.parseInteger(x, "DOMIFA_MAIL_SMTP_MAILTRAP_PORT", {
-          required,
-        }),
-        auth: {
-          user: configParser.parseString(x, "DOMIFA_MAIL_SMTP_MAILTRAP_USER", {
-            required,
-          }),
-          pass: configParser.parseString(
-            x,
-            "DOMIFA_MAIL_SMTP_MAILTRAP_PASSWORD",
-            { required }
-          ),
-        },
-      };
 }

@@ -17,14 +17,9 @@
             "outputPath": "dist/domifa-portail-admins",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "@angular/localize/init",
-              "zone.js"
-            ],
+            "polyfills": ["@angular/localize/init", "zone.js"],
             "tsConfig": "./tsconfig.app.json",
-            "assets": [
-              "src/assets"
-            ],
+            "assets": ["src/assets"],
             "styles": [
               "src/styles.scss",
               "src/assets/css/dsfr-custom.scss",
@@ -33,9 +28,7 @@
               "src/assets/css/fonts.scss",
               "src/assets/css/print.css"
             ],
-            "scripts": [
-              "./node_modules/@gouvfr/dsfr/dist/dsfr/dsfr.module.js"
-            ],
+            "scripts": ["./node_modules/@gouvfr/dsfr/dist/dsfr/dsfr.module.js"],
             "aot": false,
             "vendorChunk": true,
             "extractLicenses": false,
@@ -104,10 +97,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
@@ -115,8 +105,6 @@
   },
   "cli": {
     "packageManager": "yarn",
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 }

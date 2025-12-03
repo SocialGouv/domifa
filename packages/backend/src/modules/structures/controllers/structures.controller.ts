@@ -45,9 +45,9 @@ import { FileManagerService } from "../../../util/file-manager/file-manager.serv
 import { domifaConfig } from "../../../config";
 import { cleanPath, logDiff } from "../../../util";
 import { join } from "path";
-import { hardResetEmailSender } from "../../mails/services/templates-renderers";
 import { FindOptionsSelect } from "typeorm";
 import { STRUCTURE_DTO_KEYS } from "../constants/STRUCTURE_DTO_KEYS.const";
+import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
 
 // Usage
 @Controller("structures")
@@ -61,7 +61,8 @@ export class StructuresController {
     private readonly structureHardResetService: StructureHardResetService,
     private readonly structureService: StructuresService,
     private readonly appLogsService: AppLogsService,
-    private readonly fileManagerService: FileManagerService
+    private readonly fileManagerService: FileManagerService,
+    private readonly brevoSenderService: BrevoSenderService
   ) {}
 
   @Patch()
@@ -194,16 +195,27 @@ export class StructuresController {
     );
 
     if (structure) {
-      await hardResetEmailSender.sendMail({
-        user,
+      const params = {
         confirmationCode: hardResetToken.token,
-      });
-      return res.status(HttpStatus.OK).json({ message: expireAt });
-    } else {
-      return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "HARD_RESET_ERROR" });
+        prenom: user.prenom,
+      };
+
+      try {
+        await this.brevoSenderService.sendEmailWithTemplate({
+          templateId: domifaConfig().brevo.templates.structureHardReset,
+          params,
+        });
+
+        return res.status(HttpStatus.OK).json({ message: "OK" });
+      } catch (error) {
+        return res
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: "HARD_RESET_ERROR" });
+      }
     }
+    return res
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .json({ message: "HARD_RESET_ERROR" });
   }
 
   @ApiBearerAuth()

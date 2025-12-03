@@ -19,11 +19,14 @@ import {
 import { ExpressResponse } from "../../util/express";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 import { ContactSupportTable, contactSupportRepository } from "../../database";
-import { contactSupportEmailSender } from "../mails/services/templates-renderers/contact-support";
 import { getPhoneString } from "../../util";
+import { BrevoSenderService } from "../mails/services/brevo-sender/brevo-sender.service";
+import { domifaConfig } from "../../config";
 
 @Controller("contact")
 export class ContactSupportController {
+  constructor(private readonly brevoSenderService: BrevoSenderService) {}
+
   @Post("")
   @UseInterceptors(
     FileInterceptor("file", {
@@ -73,10 +76,32 @@ export class ContactSupportController {
       };
     }
 
-    const contactSaved = await contactSupportRepository.save(dataToSave);
+    await contactSupportRepository.save(dataToSave);
+
+    const subject = `[SUPPORT] ${contactSupportDto.subject} - ${contactSupportDto.structureName}`;
+
+    const params = {
+      structure: contactSupportDto?.structureId
+        ? `Oui: ${contactSupportDto.structureId}`
+        : "Non",
+      phone: contactSupportDto?.phone
+        ? getPhoneString(contactSupportDto?.phone)
+        : "Non renseigné",
+      content: contactSupportDto.content,
+      email: contactSupportDto.email,
+      name: contactSupportDto.name,
+      subject: contactSupportDto.subject,
+      structureName: contactSupportDto.structureName,
+    };
 
     try {
-      await contactSupportEmailSender.sendMail(contactSaved);
+      await this.brevoSenderService.sendEmailWithTemplate({
+        templateId: domifaConfig().brevo.templates.contactSupport,
+        subject,
+        params,
+        attachmentPath: file?.path,
+      });
+
       return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (error) {
       return res

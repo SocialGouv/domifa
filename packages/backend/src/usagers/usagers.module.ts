@@ -25,6 +25,7 @@ import { AppLogsService } from "../modules/app-logs/app-logs.service";
 import { MailsModule } from "../modules/mails/mails.module";
 import { SearchUsagersController } from "./controllers/search-usagers.controller";
 import { UsagersLogsService } from "./services/usagers-logs.service";
+import { AppointmentInvitationService } from "./services";
 
 @Module({
   controllers: [
@@ -39,7 +40,12 @@ import { UsagersLogsService } from "./services/usagers-logs.service";
     UsagerOptionsController,
     SearchUsagersController,
   ],
-  exports: [UsagersService, UsagerHistoryStateService, ImportCreatorService],
+  exports: [
+    UsagersService,
+    UsagerHistoryStateService,
+    ImportCreatorService,
+    AppointmentInvitationService,
+  ],
   imports: [
     HttpModule,
     forwardRef(() => MailsModule),
@@ -56,6 +62,7 @@ import { UsagersLogsService } from "./services/usagers-logs.service";
     ImportCreatorService,
     FileManagerService,
     AppLogsService,
+    AppointmentInvitationService,
     UsagersLogsService,
   ],
 })

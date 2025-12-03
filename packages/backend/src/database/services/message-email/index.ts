@@ -1,1 +1,0 @@
-export * from "./messageEmailRepository.service";

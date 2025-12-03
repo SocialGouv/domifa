@@ -1,0 +1,206 @@
+import { Injectable, BadRequestException, Logger } from "@nestjs/common";
+import {
+  structureRepository,
+  userStructureRepository,
+  usagerDocsRepository,
+  usagerHistoryStatesRepository,
+  usagerRepository,
+  messageSmsRepository,
+} from "../../../../database";
+import {
+  StructureDecisionRefusMotif,
+  StructureDecisionSuppressionMotif,
+  MOTIFS_REFUS_STRUCTURE_LABELS,
+  MOTIFS_SUPPRESSION_STRUCTURE_LABELS,
+  StructureDecisionStatut,
+  Structure,
+} from "@domifa/common";
+
+import { UserAdminAuthenticated } from "../../../../_common/model";
+import {
+  cleanPath,
+  FileManagerService,
+  getCreatedByUserStructure,
+} from "../../../../util";
+import { BrevoSenderService } from "../../../mails/services/brevo-sender/brevo-sender.service";
+import { domifaConfig } from "../../../../config";
+import { join } from "path";
+import { LogAction } from "../../../app-logs/types";
+
+interface MotifConfig {
+  motifEnum?: Record<string, string>;
+  labels?: Record<string, string>;
+  logAction: LogAction;
+}
+
+@Injectable()
+export class StructureDecisionService {
+  private readonly logger = new Logger(StructureDecisionService.name);
+
+  private readonly statutConfigs: Record<StructureDecisionStatut, MotifConfig> =
+    {
+      EN_ATTENTE: {
+        logAction: "ADMIN_STRUCTURE_CREATION",
+      },
+      REFUS: {
+        motifEnum: StructureDecisionRefusMotif,
+        labels: MOTIFS_REFUS_STRUCTURE_LABELS,
+        logAction: "ADMIN_STRUCTURE_REFUSAL",
+      },
+      SUPPRIME: {
+        motifEnum: StructureDecisionSuppressionMotif,
+        labels: MOTIFS_SUPPRESSION_STRUCTURE_LABELS,
+        logAction: "ADMIN_STRUCTURE_DELETE",
+      },
+      VALIDE: {
+        logAction: "ADMIN_STRUCTURE_VALIDATE",
+      },
+    };
+
+  constructor(
+    private readonly fileManagerService: FileManagerService,
+    private readonly brevoSenderService: BrevoSenderService
+  ) {}
+
+  validateMotif(
+    statut: StructureDecisionStatut,
+    statutDetail?: string
+  ): { isValid: boolean; motifLabel: string } {
+    if (!statutDetail) {
+      return { isValid: true, motifLabel: "" };
+    }
+    const config = this.statutConfigs[statut];
+
+    if (!config.motifEnum) {
+      return { isValid: true, motifLabel: "" };
+    }
+
+    const isValidMotif = Object.values(config.motifEnum).includes(
+      statutDetail as any
+    );
+
+    if (!isValidMotif) {
+      throw new BadRequestException("INVALID_STRUCTURE_STATUT");
+    }
+
+    const motifLabel = config.labels?.[statutDetail] || "";
+    return { isValid: true, motifLabel };
+  }
+
+  buildDecisionObject(
+    statut: StructureDecisionStatut,
+    statutDetail: string | undefined,
+    user: UserAdminAuthenticated
+  ) {
+    return {
+      statut,
+      dateDecision: new Date(),
+      motif: statutDetail,
+      ...getCreatedByUserStructure(user),
+    };
+  }
+
+  async updateStructureStatut(
+    structureId: number,
+    statut: StructureDecisionStatut,
+    decision: any
+  ): Promise<void> {
+    await structureRepository.update(
+      { id: structureId },
+      {
+        statut,
+        decision,
+      }
+    );
+  }
+
+  async getStructureAdmin(structureId: number) {
+    const admin = await userStructureRepository.findOneBy({
+      role: "admin",
+      structureId,
+    });
+
+    if (!admin) {
+      throw new BadRequestException("ADMIN_NOT_FOUND");
+    }
+
+    return admin;
+  }
+
+  async deleteStructureData(
+    structure: Pick<Structure, "id" | "uuid">
+  ): Promise<void> {
+    const structureId = structure.id;
+    const users = await userStructureRepository.find({
+      where: { structureId: structure.id },
+      select: { email: true },
+    });
+
+    // Delete from Brevo
+    await Promise.all(
+      users.map((user) =>
+        this.deleteContactFromBrevo(user.email).catch((error) => {
+          this.logger.warn(
+            `Impossible de supprimer le contact Brevo ${user.email} pour la structure ${structureId}`,
+            error
+          );
+        })
+      )
+    );
+
+    // Delete all files
+    const key = `${join(
+      domifaConfig().upload.bucketRootDir,
+      "usager-documents",
+      cleanPath(structure.uuid)
+    )}/`;
+
+    await this.fileManagerService.deleteAllUnderStructure(key);
+
+    // Delete in database all information
+    await Promise.all([
+      userStructureRepository.delete({ structureId }),
+      usagerDocsRepository.delete({ structureId }),
+      usagerRepository.delete({ structureId }),
+      messageSmsRepository.delete({ structureId }),
+      usagerHistoryStatesRepository.delete({ structureId }),
+    ]);
+  }
+
+  private async deleteContactFromBrevo(email: string): Promise<void> {
+    try {
+      await this.brevoSenderService.deleteContactFromBrevo(email);
+      this.logger.log(`Contact Brevo supprimé pour l'email ${email}`);
+    } catch (error) {
+      this.logger.warn(
+        `Erreur lors de la suppression du contact Brevo pour l'email ${email}`,
+        error
+      );
+      throw error;
+    }
+  }
+
+  async activateAdmin(adminId: number, structureId: number): Promise<void> {
+    await userStructureRepository.update(
+      {
+        id: adminId,
+        structureId,
+      },
+      { verified: true }
+    );
+  }
+
+  getStatutConfig(statut: StructureDecisionStatut): MotifConfig {
+    return this.statutConfigs[statut];
+  }
+
+  getMotifLabel(
+    statut: StructureDecisionStatut,
+    statutDetail?: string
+  ): string {
+    if (!statutDetail) return "";
+
+    const config = this.statutConfigs[statut];
+    return config.labels?.[statutDetail] || "";
+  }
+}
