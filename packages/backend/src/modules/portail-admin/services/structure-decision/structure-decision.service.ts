@@ -10,8 +10,6 @@ import {
 import {
   StructureDecisionRefusMotif,
   StructureDecisionSuppressionMotif,
-  MOTIFS_REFUS_STRUCTURE_LABELS,
-  MOTIFS_SUPPRESSION_STRUCTURE_LABELS,
   StructureDecisionStatut,
   Structure,
 } from "@domifa/common";
@@ -26,10 +24,10 @@ import { BrevoSenderService } from "../../../mails/services/brevo-sender/brevo-s
 import { domifaConfig } from "../../../../config";
 import { join } from "path";
 import { LogAction } from "../../../app-logs/types";
+import { getStructureDecisionMotif } from "../get-structure-decision-motif";
 
 interface MotifConfig {
   motifEnum?: Record<string, string>;
-  labels?: Record<string, string>;
   logAction: LogAction;
 }
 
@@ -44,12 +42,10 @@ export class StructureDecisionService {
       },
       REFUS: {
         motifEnum: StructureDecisionRefusMotif,
-        labels: MOTIFS_REFUS_STRUCTURE_LABELS,
         logAction: "ADMIN_STRUCTURE_REFUSAL",
       },
       SUPPRIME: {
         motifEnum: StructureDecisionSuppressionMotif,
-        labels: MOTIFS_SUPPRESSION_STRUCTURE_LABELS,
         logAction: "ADMIN_STRUCTURE_DELETE",
       },
       VALIDE: {
@@ -64,9 +60,9 @@ export class StructureDecisionService {
 
   validateMotif(
     statut: StructureDecisionStatut,
-    statutDetail?: string
+    motif?: StructureDecisionRefusMotif | StructureDecisionSuppressionMotif
   ): { isValid: boolean; motifLabel: string } {
-    if (!statutDetail) {
+    if (!motif) {
       return { isValid: true, motifLabel: "" };
     }
     const config = this.statutConfigs[statut];
@@ -75,15 +71,13 @@ export class StructureDecisionService {
       return { isValid: true, motifLabel: "" };
     }
 
-    const isValidMotif = Object.values(config.motifEnum).includes(
-      statutDetail as any
-    );
+    const isValidMotif = Object.values(config.motifEnum).includes(motif as any);
 
     if (!isValidMotif) {
       throw new BadRequestException("INVALID_STRUCTURE_STATUT");
     }
 
-    const motifLabel = config.labels?.[statutDetail] || "";
+    const motifLabel = getStructureDecisionMotif(statut, motif);
     return { isValid: true, motifLabel };
   }
 
@@ -192,15 +186,5 @@ export class StructureDecisionService {
 
   getStatutConfig(statut: StructureDecisionStatut): MotifConfig {
     return this.statutConfigs[statut];
-  }
-
-  getMotifLabel(
-    statut: StructureDecisionStatut,
-    statutDetail?: string
-  ): string {
-    if (!statutDetail) return "";
-
-    const config = this.statutConfigs[statut];
-    return config.labels?.[statutDetail] || "";
   }
 }

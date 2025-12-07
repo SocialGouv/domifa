@@ -55,7 +55,8 @@ export type DomifaConfig = {
   };
   brevo: {
     apiKey: string; // DOMIFA_MAIL_BREVO_API_KEY
-    contactsListId: string; // DOMIFA_MAIL_BREVO_CONTACTS_LIST_ID
+    contactsUsersListId: string; // DOMIFA_MAIL_BREVO_CONTACTS_USERS_LIST_ID
+    contactsStructuresListId: string; // DOMIFA_MAIL_BREVO_CONTACTS_STRUCTURES_LIST_ID
     templates: {
       // Contact form template
       contactSupport: number; // DOMIFA_BREVO_TEMPLATES_CONTACT_FORM

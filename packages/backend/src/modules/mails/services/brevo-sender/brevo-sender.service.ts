@@ -12,11 +12,13 @@ import { basename } from "path";
 import {
   DEPARTEMENTS_LISTE,
   REGIONS_LISTE,
+  STRUCTURE_DECISION_LABELS,
   USER_STRUCTURE_ROLES_LABELS,
 } from "@domifa/common";
 import { isValid } from "date-fns";
 
 import { UserStructureBrevo } from "../../types/UserStructureBrevo.type";
+import { getStructureDecisionMotif } from "../../../portail-admin/services/get-structure-decision-motif";
 
 @Injectable()
 export class BrevoSenderService {
@@ -136,14 +138,19 @@ export class BrevoSenderService {
         USER_DERNIERE_CONNEXION: this.parseTextToBrevoDate(user?.lastLogin),
         USER_DATE_INSCRIPTION: this.parseTextToBrevoDate(user?.createdAt),
         STRUCTURE_NOM: user.structure.nom,
+        STRUCTURE_STATUT: STRUCTURE_DECISION_LABELS[user.structure.statut],
+        STRUCTURE_STATUT_MOTIF: getStructureDecisionMotif(
+          user.structure.statut,
+          user.structure.decision.motif
+        ),
         STRUCTURE_DEPARTEMENT: DEPARTEMENTS_LISTE[user.structure?.departement],
         STRUCTURE_REGION: REGIONS_LISTE[user.structure?.region],
-        STRUCTURE_DERNIER_CONNEXION: this.parseTextToBrevoDate(
+        STRUCTURE_DERNIERE_CONNEXION: this.parseTextToBrevoDate(
           user.structure?.lastLogin
         ),
       };
       createContactBody.listIds = [
-        parseInt(domifaConfig().brevo.contactsListId, 10),
+        parseInt(domifaConfig().brevo.contactsUsersListId, 10),
       ];
       createContactBody.updateEnabled = true;
 

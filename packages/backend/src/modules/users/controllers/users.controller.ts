@@ -334,7 +334,6 @@ export class UsersController {
 
     await this.brevoSenderService.sendEmailWithTemplate({
       templateId: domifaConfig().brevo.templates.userStructureCreatedByAdmin,
-      subject: "[DOMIFA] Finalisez votre inscription sur DomiFa",
       to: [
         {
           email: user.email,

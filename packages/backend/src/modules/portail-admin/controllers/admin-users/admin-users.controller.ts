@@ -150,16 +150,15 @@ export class AdminUsersController {
 
     await this.brevoSenderService.sendEmailWithTemplate({
       templateId: domifaConfig().brevo.templates.userStructureCreatedByAdmin,
-      subject: "[DOMIFA] Finalisez votre inscription sur DomiFa",
       to: [
         {
-          email: user.email,
-          name: `${user.prenom} ${user.nom}`,
+          email: newUser.email,
+          name: `${newUser.prenom} ${newUser.nom}`,
         },
       ],
       params: {
         lien: link,
-        prenom: user.prenom,
+        prenom: newUser.prenom,
       },
     });
 
@@ -180,7 +179,6 @@ export class AdminUsersController {
   @Get("")
   public async getUsersSupervisors(): Promise<UserSupervisor[]> {
     return userSupervisorRepository.find({
-      where: {},
       select: {
         nom: true,
         prenom: true,

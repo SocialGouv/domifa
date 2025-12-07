@@ -6,6 +6,6 @@ export type UserStructureBrevo = Pick<
 > & {
   structure: Pick<
     StructureTable,
-    "nom" | "departement" | "region" | "lastLogin"
+    "nom" | "departement" | "region" | "lastLogin" | "statut" | "decision"
   >;
 };

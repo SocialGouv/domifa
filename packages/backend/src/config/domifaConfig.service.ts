@@ -221,9 +221,16 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       apiKey: configParser.parseString(x, "DOMIFA_MAIL_BREVO_API_KEY", {
         required: emailsEnabled,
       }),
-      contactsListId: configParser.parseString(
+      contactsUsersListId: configParser.parseString(
         x,
-        "DOMIFA_MAIL_BREVO_CONTACTS_LIST_ID",
+        "DOMIFA_MAIL_BREVO_CONTACTS_USERS_LIST_ID",
+        {
+          required: emailsEnabled,
+        }
+      ),
+      contactsStructuresListId: configParser.parseString(
+        x,
+        "DOMIFA_MAIL_BREVO_CONTACTS_STRUCTURES_LIST_ID",
         {
           required: emailsEnabled,
         }
