@@ -3,7 +3,6 @@ export * from "./_postgres";
 export * from "./app-log";
 export * from "./contact";
 export * from "./interaction";
-export * from "./message-email";
 export * from "./message-sms";
 export * from "./monitoring";
 export * from "./open-data";

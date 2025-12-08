@@ -10,6 +10,9 @@ import { FileManagerService } from "../../util/file-manager/file-manager.service
 import { NationalStatsController } from "./controllers/national-stats/national-stats.controller";
 import { AdminUsersController } from "./controllers/admin-users/admin-users.controller";
 import { AdminSuperivorUsersService } from "./services/admin-superivor-users/admin-superivor-users.service";
+import { MailsModule } from "../mails/mails.module";
+import { StructureDecisionEmailService } from "./services/structure-decision-email/structure-decision-email.service";
+import { StructureDecisionService } from "./services/structure-decision/structure-decision.service";
 
 @Module({
   controllers: [
@@ -18,12 +21,15 @@ import { AdminSuperivorUsersService } from "./services/admin-superivor-users/adm
     NationalStatsController,
     AdminUsersController,
   ],
-  imports: [AuthModule],
+
+  imports: [AuthModule, MailsModule],
   providers: [
     AppLogsService,
     AdminStructuresService,
     FileManagerService,
     AdminSuperivorUsersService,
+    StructureDecisionEmailService,
+    StructureDecisionService,
   ],
 })
 export class PortailAdminModule {}

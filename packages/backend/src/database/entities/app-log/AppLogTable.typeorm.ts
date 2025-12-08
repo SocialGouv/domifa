@@ -1,7 +1,8 @@
 import { Column, Entity } from "typeorm";
-import { AppLog, LogAction } from "../../../_common/model";
+
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import { UserStructureRole, UserSupervisorRole } from "@domifa/common";
+import { AppLog, LogAction } from "../../../modules/app-logs/types";
 
 @Entity({ name: "app_log" })
 export class AppLogTable

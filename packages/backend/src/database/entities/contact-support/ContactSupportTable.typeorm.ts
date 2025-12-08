@@ -1,8 +1,8 @@
 import { Column, Entity } from "typeorm";
-import { ContactSupport } from "../../../_common/model";
-import { MessageEmailAttachment } from "../message-email";
 
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
+import { ContactSupport } from "../../../modules/contact-support/ContactSupport.type";
+import { MessageEmailAttachment } from "../../../modules/mails/types/MessageEmailAttachment.type";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
 @Entity({ name: "contact_support" })

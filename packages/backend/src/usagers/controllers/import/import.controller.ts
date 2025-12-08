@@ -53,7 +53,9 @@ import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 import {
   FailedUsagerImportLogContext,
   SuccessfulUsagerImportLogContext,
-} from "../../../modules/app-logs/app-log-context.types";
+} from "../../../modules/app-logs/types/app-log-context.types";
+import { domifaConfig } from "../../../config";
+import { BrevoSenderService } from "../../../modules/mails/services/brevo-sender/brevo-sender.service";
 
 const UsagersImportFileInterceptor = FileInterceptor("file", {
   limits: FILES_SIZE_LIMIT,
@@ -87,7 +89,8 @@ const UsagersImportFileInterceptor = FileInterceptor("file", {
 export class ImportController {
   constructor(
     private readonly importCreatorService: ImportCreatorService,
-    private readonly appLogsService: AppLogsService
+    private readonly appLogsService: AppLogsService,
+    private readonly brevoSenderService: BrevoSenderService
   ) {}
 
   @Post(":mode")
@@ -236,6 +239,15 @@ export class ImportController {
           nombreTotal: importPreviewRows.length,
         },
       });
+
+      const params = {
+        prenom: user.prenom,
+      };
+      await this.brevoSenderService.sendEmailWithTemplate({
+        templateId: domifaConfig().brevo.templates.structureHardReset,
+        params,
+      });
+
       return res.status(HttpStatus.BAD_REQUEST).json({ previewTable });
     }
 

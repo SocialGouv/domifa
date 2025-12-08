@@ -5,14 +5,11 @@ import { monitoringBatchProcessSimpleCountRunner } from ".";
 import { MonitoringBatchProcessTrigger } from "../..";
 import { domifaConfig } from "../../../config";
 import { appLogger } from "../../../util";
-import { MonitoringBatchProcessId } from "../../entities";
-import { messageEmailRepository } from "../message-email";
-import { AdminBatchsErrorReportModel } from "./AdminBatchsErrorReportModel.type";
+
 import { monitoringBatchProcessRepository } from "./monitoringBatchProcessRepository.service";
 
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import { endOfDay, sub } from "date-fns";
-import { adminBatchsErrorReportEmailSender } from "../../../modules/mails/services/templates-renderers";
 
 @Injectable()
 export class MonitoringCleaner {
@@ -48,7 +45,6 @@ export class MonitoringCleaner {
       }) => {
         const results = {
           purgedMonitoringBatchsCount: 0,
-          purgedMessageEmailsCount: 0,
           errorReportSent: false,
         };
         monitorTotal(3);
@@ -60,37 +56,11 @@ export class MonitoringCleaner {
         } catch (err: any) {
           monitorError(err);
         }
-        try {
-          results.purgedMessageEmailsCount =
-            await purgeObsoleteMessageEmailProcess({ limitDate });
-          monitorSuccess();
-        } catch (err: any) {
-          monitorError(err);
-        }
-
-        try {
-          results.errorReportSent = await sendErrorReport();
-          monitorSuccess();
-        } catch (err: any) {
-          monitorError(err);
-        }
 
         monitorResults(results);
       }
     );
   }
-}
-
-async function purgeObsoleteMessageEmailProcess({
-  limitDate,
-}: {
-  limitDate: Date;
-}) {
-  const res = await messageEmailRepository.delete({
-    status: "sent",
-    sendDate: LessThanOrEqual(limitDate),
-  });
-  return res.affected;
 }
 
 async function purgeObsoleteMonitoringBatchProcess({
@@ -107,41 +77,4 @@ async function purgeObsoleteMonitoringBatchProcess({
     endDate: LessThanOrEqual(limitDate),
   });
   return affected;
-}
-
-async function sendErrorReport(): Promise<boolean> {
-  const monitoringBatchsInError = await monitoringBatchProcessRepository.find({
-    where: {
-      status: "error",
-      alertMailSent: false,
-    },
-    order: {
-      endDate: "DESC",
-    },
-  });
-
-  if (monitoringBatchsInError.length) {
-    appLogger.error(`Errors detected in last batchs - ${Date.now()}`);
-
-    const model: AdminBatchsErrorReportModel = {
-      errorsCount: monitoringBatchsInError.length,
-      processIds: monitoringBatchsInError.reduce((acc, item) => {
-        if (!acc.includes(item.processId)) {
-          acc.push(item.processId);
-        }
-        return acc;
-      }, [] as MonitoringBatchProcessId[]),
-      lastErrorDate: monitoringBatchsInError[0].endDate,
-      lastErrorMessage: monitoringBatchsInError[0].errorMessage,
-    };
-    await adminBatchsErrorReportEmailSender.sendMail(model);
-
-    monitoringBatchsInError.forEach((x) => {
-      x.alertMailSent = true;
-    });
-    await monitoringBatchProcessRepository.save(monitoringBatchsInError);
-
-    return true;
-  }
-  return false;
 }

@@ -45,17 +45,19 @@ import {
 } from "../dto";
 import {
   usersDeletor,
+  userSecurityResetPasswordInitiator,
   userStructureCreator,
   userStructureSecurityPasswordUpdater,
 } from "../services";
-import { userAccountCreatedByAdminEmailSender } from "../../mails/services/templates-renderers";
 import { RegisterUserStructureAdminDto } from "../../portail-admin";
 import { AppLogsService } from "../../app-logs/app-logs.service";
 import {
   UserStructureCreateLogContext,
   UserStructureRoleChangeLogContext,
-} from "../../app-logs/app-log-context.types";
+} from "../../app-logs/types/app-log-context.types";
 import { appLogger } from "../../../util";
+import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
+import { domifaConfig } from "../../../config";
 
 const userProfile: UserProfile = "structure";
 
@@ -65,7 +67,10 @@ const userProfile: UserProfile = "structure";
 @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class UsersController {
-  constructor(private readonly appLogService: AppLogsService) {}
+  constructor(
+    private readonly appLogService: AppLogsService,
+    private readonly brevoSenderService: BrevoSenderService
+  ) {}
 
   @Get("")
   public async getUsers(
@@ -217,10 +222,22 @@ export class UsersController {
     @Param("userUuid", new ParseUUIDPipe()) _userUuid: string,
     @Res() res: Response
   ) {
+    const userEmail = chosenUserStructure.email;
+
     await usersDeletor.deleteUser({
       userId: chosenUserStructure.id,
       structureId: userStructureAuth.structureId,
     });
+
+    try {
+      await this.brevoSenderService.deleteContactFromBrevo(userEmail);
+    } catch (error) {
+      appLogger.warn(
+        `Échec de la suppression du contact Brevo pour ${userEmail}`,
+        error
+      );
+    }
+
     await this.appLogService.create<UserStructureCreateLogContext>({
       action: "USER_DELETE",
       userId: userStructureAuth._userId,
@@ -303,38 +320,60 @@ export class UsersController {
     const { user: newUser, userSecurity } =
       await userStructureCreator.createUserWithTmpToken(registerUserDto);
 
-    if (newUser) {
-      return userAccountCreatedByAdminEmailSender
-        .sendMail({
-          user: newUser,
-          token: userSecurity.temporaryTokens.token,
-          userProfile,
-        })
-        .then(
-          async () => {
-            await this.appLogService.create<UserStructureCreateLogContext>({
-              action: "USER_CREATE",
-              userId: user.id,
-              structureId: "structureId" in user ? user.structureId : null,
-              role: user.role,
-              context: {
-                role: newUser.role,
-                userId: newUser.id,
-                structureId: newUser.structureId,
-              },
-            });
-            return res.status(HttpStatus.OK).json({ message: "OK" });
-          },
-          () => {
-            return res
-              .status(HttpStatus.INTERNAL_SERVER_ERROR)
-              .json({ message: "REGISTER_ERROR" });
-          }
-        );
+    if (!newUser) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "REGISTER_ERROR" });
     }
-    return res
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .json({ message: "REGISTER_ERROR" });
+
+    const link = userSecurityResetPasswordInitiator.buildResetPasswordLink({
+      token: userSecurity.temporaryTokens.token,
+      userId: user.id,
+      userProfile,
+    });
+
+    await this.brevoSenderService.sendEmailWithTemplate({
+      templateId: domifaConfig().brevo.templates.userStructureCreatedByAdmin,
+      to: [
+        {
+          email: user.email,
+          name: `${user.prenom} ${user.nom}`,
+        },
+      ],
+      params: {
+        lien: link,
+        prenom: user.prenom,
+      },
+    });
+
+    await this.appLogService.create<UserStructureCreateLogContext>({
+      action: "USER_CREATE",
+      userId: user.id,
+      structureId: "structureId" in user ? user.structureId : null,
+      role: user.role,
+      context: {
+        role: newUser.role,
+        userId: newUser.id,
+        structureId: newUser.structureId,
+      },
+    });
+
+    try {
+      const userWithStructure =
+        await userStructureRepository.getUserWithStructureByIdForSync(
+          newUser.id
+        );
+      if (userWithStructure) {
+        await this.brevoSenderService.syncContactToBrevo(userWithStructure);
+      }
+    } catch (error) {
+      appLogger.warn(
+        `Échec de la synchronisation Brevo pour l'utilisateur ${newUser.id}`,
+        error
+      );
+    }
+
+    return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
   // Edition d'un mot de passe quand on est déjà connecté

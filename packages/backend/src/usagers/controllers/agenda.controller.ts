@@ -6,10 +6,11 @@ import {
   Post,
   Res,
   UseGuards,
+  BadRequestException,
+  InternalServerErrorException,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
-import { createEvent, ReturnObject } from "ics";
 
 import {
   AllowUserProfiles,
@@ -20,18 +21,13 @@ import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { domifaConfig } from "../../config";
-import {
-  MessageEmailIcalEvent,
-  userStructureRepository,
-  usagerRepository,
-} from "../../database";
+import { userStructureRepository, usagerRepository } from "../../database";
 import { ExpressResponse } from "../../util/express";
 import { UserStructureAuthenticated } from "../../_common/model";
 import { RdvDto } from "../dto/decision-form/rdv.dto";
 import { UsagersService } from "../services/usagers.service";
-import { getPersonFullName, Usager } from "@domifa/common";
-import { usagerAppointmentCreatedEmailSender } from "../../modules/mails/services/templates-renderers";
-import { appLogger } from "../../util";
+import { Usager } from "@domifa/common";
+import { AppointmentInvitationService } from "../services/appointment-invitation.service";
 
 @ApiTags("agenda")
 @ApiBearerAuth()
@@ -40,7 +36,10 @@ import { appLogger } from "../../util";
 @AllowUserProfiles("structure")
 @AllowUserStructureRoles("simple", "responsable", "admin")
 export class AgendaController {
-  constructor(private readonly usagersService: UsagersService) {}
+  constructor(
+    private readonly usagersService: UsagersService,
+    private readonly appointmentInvitationService: AppointmentInvitationService
+  ) {}
 
   @Get("")
   @ApiOperation({ summary: "Liste des rendez-vous à venir" })
@@ -57,104 +56,87 @@ export class AgendaController {
     @Res() res: ExpressResponse
   ) {
     if (rdvDto.isNow) {
-      const updatedUsagerNow = await this.usagersService.setRdv(
+      const updatedUsager = await this.usagersService.setRdv(
         usager,
         rdvDto,
         currentUser
       );
-
-      return res.status(HttpStatus.OK).json(updatedUsagerNow);
+      return res.status(HttpStatus.OK).json(updatedUsager);
     }
 
-    const user: Pick<
-      UserStructureAuthenticated,
-      "id" | "prenom" | "nom" | "email"
-    > =
-      currentUser.id !== rdvDto.userId
-        ? await userStructureRepository.findOne({
-            where: {
-              id: rdvDto.userId,
-              structureId: currentUser.structureId,
-            },
-            select: ["prenom", "nom", "email", "id"],
-          })
-        : currentUser;
+    const assignedUser = await this.getAssignedUser(currentUser, rdvDto.userId);
 
-    if (!user) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "USER_AGENDA_NOT_EXIST" });
-    }
-
-    const title = `Entretien avec ${getPersonFullName(usager)}`;
-
-    const annee = rdvDto.dateRdv.getFullYear();
-    const mois = rdvDto.dateRdv.getMonth() + 1;
-    const jour = rdvDto.dateRdv.getDate();
-    const heure = rdvDto.dateRdv.getHours();
-    const minutes = rdvDto.dateRdv.getMinutes();
-
-    const invitation: ReturnObject = createEvent({
-      title,
-      description: "Entretien demande de domiciliation",
-      start: [annee, mois, jour, heure, minutes],
-      organizer: {
-        name: `${user.prenom} ${user.nom}`,
-        email: user.email,
-      },
-      startInputType: "local",
-      duration: { minutes: 30 },
-    });
-
-    const invitationContent = invitation.value;
-
-    if (!invitationContent) {
-      return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "ICS_GENERATION" });
-    }
-
-    const icalEvent: MessageEmailIcalEvent = {
-      filename: "invitation.ics",
-      content: invitationContent,
-      method: "publish",
-    };
-
-    let message = "";
-    if (currentUser.id !== user.id) {
-      message = `Il vous a été assigné par ${currentUser.prenom} ${currentUser.nom}`;
+    if (!assignedUser) {
+      throw new BadRequestException("USER_AGENDA_NOT_EXIST");
     }
 
     const updatedUsager = await this.usagersService.setRdv(
       usager,
       rdvDto,
-      user
+      assignedUser
     );
 
     if (!updatedUsager) {
-      return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "CANNOT_SET_RDV" });
+      throw new InternalServerErrorException("CANNOT_SET_RDV");
     }
 
-    if (!domifaConfig().email.emailsEnabled) {
-      return res.status(HttpStatus.OK).json(updatedUsager);
+    if (domifaConfig().email.emailsEnabled) {
+      await this.sendAppointmentInvitation(
+        assignedUser,
+        updatedUsager,
+        rdvDto.dateRdv,
+        currentUser
+      );
     }
 
+    return res.status(HttpStatus.OK).json(updatedUsager);
+  }
+
+  private async getAssignedUser(
+    currentUser: UserStructureAuthenticated,
+    userId: number
+  ): Promise<Pick<
+    UserStructureAuthenticated,
+    "id" | "prenom" | "nom" | "email" | "structure"
+  > | null> {
+    if (currentUser.id === userId) {
+      return {
+        id: currentUser.id,
+        prenom: currentUser.prenom,
+        nom: currentUser.nom,
+        email: currentUser.email,
+        structure: currentUser.structure,
+      };
+    }
+    const user = await userStructureRepository.findOne({
+      where: {
+        id: userId,
+        structureId: currentUser.structureId,
+      },
+      select: ["prenom", "nom", "email", "id"],
+    });
+    return { ...user, structure: currentUser.structure };
+  }
+
+  private async sendAppointmentInvitation(
+    assignedUser: Pick<
+      UserStructureAuthenticated,
+      "id" | "prenom" | "nom" | "email" | "structure"
+    >,
+    usager: Usager,
+    dateRdv: Date,
+    currentUser: UserStructureAuthenticated
+  ): Promise<void> {
     try {
-      await usagerAppointmentCreatedEmailSender.sendMail({
-        user,
-        usager: updatedUsager,
-        icalEvent,
-        message,
+      await this.appointmentInvitationService.sendAppointmentInvitation({
+        user: assignedUser,
+        usager,
+        dateRdv,
+        assignedByUser:
+          currentUser.id !== assignedUser.id ? currentUser : undefined,
       });
-      return res.status(HttpStatus.OK).json(updatedUsager);
-    } catch (err) {
-      appLogger.error(err);
-
-      return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "REGISTER_ERROR" });
+    } catch (error) {
+      throw new InternalServerErrorException("EMAIL_SEND_ERROR");
     }
   }
 }

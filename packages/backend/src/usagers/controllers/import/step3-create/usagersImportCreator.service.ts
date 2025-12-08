@@ -15,7 +15,7 @@ import { UsagerHistoryStateService, usagersCreator } from "../../../services";
 
 import { Injectable } from "@nestjs/common";
 import { UserStructure } from "@domifa/common";
-import { SuccessfulUsagerImportLogContext } from "../../../../modules/app-logs/app-log-context.types";
+import { SuccessfulUsagerImportLogContext } from "../../../../modules/app-logs/types/app-log-context.types";
 
 @Injectable()
 export class ImportCreatorService {

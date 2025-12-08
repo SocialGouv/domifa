@@ -10,7 +10,7 @@ import {
 
 import { Transform, TransformFnParams } from "class-transformer";
 
-import { MessageEmailAttachment } from "../../database/entities/message-email/MessageEmailAttachment.type";
+import { MessageEmailAttachment } from "../mails/types/MessageEmailAttachment.type";
 import { IsValidPhone, LowerCaseTransform } from "../../_common/decorators";
 import sanitizeHtml from "sanitize-html";
 import { Telephone } from "@domifa/common";
