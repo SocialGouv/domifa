@@ -1,3 +1,10 @@
+## [2.230.1](https://github.com/SocialGouv/domifa/compare/v2.230.0...v2.230.1) (2025-12-08)
+
+
+### Bug Fixes
+
+* **backend:** fix build of backend ([#4031](https://github.com/SocialGouv/domifa/issues/4031)) ([b053931](https://github.com/SocialGouv/domifa/commit/b0539312e3c3d768a7ab49a5d89a96837371a3f6))
+
 # [2.230.0](https://github.com/SocialGouv/domifa/compare/v2.229.3...v2.230.0) (2025-12-08)
 
 
