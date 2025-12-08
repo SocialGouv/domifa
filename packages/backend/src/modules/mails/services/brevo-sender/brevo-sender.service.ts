@@ -1,4 +1,4 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { domifaConfig } from "../../../../config";
 
 import {
@@ -19,10 +19,10 @@ import { isValid } from "date-fns";
 
 import { UserStructureBrevo } from "../../types/UserStructureBrevo.type";
 import { getStructureDecisionMotif } from "../../../portail-admin/services/get-structure-decision-motif";
+import { appLogger } from "../../../../util";
 
 @Injectable()
 export class BrevoSenderService {
-  private readonly logger = new Logger(BrevoSenderService.name);
   private transactionalEmailsApi: TransactionalEmailsApi;
   private contactsApi: ContactsApi;
 
@@ -57,7 +57,7 @@ export class BrevoSenderService {
     const config = domifaConfig();
 
     if (!config.email.emailsEnabled || config.envId === "test") {
-      this.logger.log(
+      appLogger.info(
         `[EMAILS DISABLED] Email non envoyé - Template ID: ${templateId}, To: ${JSON.stringify(
           to
         )}, Raison: ${
@@ -105,11 +105,11 @@ export class BrevoSenderService {
           },
         ];
       }
-      console.log(sendSmtpEmail);
+      console.info(sendSmtpEmail);
       const result = await this.transactionalEmailsApi.sendTransacEmail(
         sendSmtpEmail
       );
-      console.log({ result });
+      console.info({ result });
       return result;
     } catch (error) {
       console.error("Erreur lors de l'envoi du mail:", error);
@@ -121,7 +121,7 @@ export class BrevoSenderService {
     const config = domifaConfig();
 
     if (!config.email.emailsEnabled || config.envId === "test") {
-      this.logger.log(
+      appLogger.info(
         `[EMAILS DISABLED] Synchronisation Brevo non effectuée pour l'utilisateur ${user.id} (${user.email})`
       );
       return;
@@ -155,11 +155,11 @@ export class BrevoSenderService {
       createContactBody.updateEnabled = true;
 
       await this.contactsApi.createContact(createContactBody);
-      this.logger.log(
+      appLogger.info(
         `Contact Brevo synchronisé pour l'utilisateur ${user.id} (${user.email})`
       );
     } catch (error) {
-      this.logger.warn(
+      appLogger.warn(
         `Erreur lors de la synchronisation du contact Brevo pour l'utilisateur ${user.id}`,
         error
       );
@@ -171,7 +171,7 @@ export class BrevoSenderService {
     const config = domifaConfig();
 
     if (!config.email.emailsEnabled || config.envId === "test") {
-      this.logger.log(
+      appLogger.info(
         `[EMAILS DISABLED] Suppression Brevo non effectuée pour l'email ${email}`
       );
       return;
@@ -179,9 +179,9 @@ export class BrevoSenderService {
 
     try {
       await this.contactsApi.deleteContact(email);
-      this.logger.log(`Contact Brevo supprimé pour l'email ${email}`);
+      appLogger.info(`Contact Brevo supprimé pour l'email ${email}`);
     } catch (error) {
-      this.logger.warn(
+      appLogger.warn(
         `Erreur lors de la suppression du contact Brevo pour l'email ${email}`,
         error
       );

@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException, Logger } from "@nestjs/common";
+import { Injectable, BadRequestException } from "@nestjs/common";
 import {
   structureRepository,
   userStructureRepository,
@@ -16,6 +16,7 @@ import {
 
 import { UserAdminAuthenticated } from "../../../../_common/model";
 import {
+  appLogger,
   cleanPath,
   FileManagerService,
   getCreatedByUserStructure,
@@ -33,8 +34,6 @@ interface MotifConfig {
 
 @Injectable()
 export class StructureDecisionService {
-  private readonly logger = new Logger(StructureDecisionService.name);
-
   private readonly statutConfigs: Record<StructureDecisionStatut, MotifConfig> =
     {
       EN_ATTENTE: {
@@ -134,7 +133,7 @@ export class StructureDecisionService {
     await Promise.all(
       users.map((user) =>
         this.deleteContactFromBrevo(user.email).catch((error) => {
-          this.logger.warn(
+          appLogger.warn(
             `Impossible de supprimer le contact Brevo ${user.email} pour la structure ${structureId}`,
             error
           );
@@ -164,9 +163,9 @@ export class StructureDecisionService {
   private async deleteContactFromBrevo(email: string): Promise<void> {
     try {
       await this.brevoSenderService.deleteContactFromBrevo(email);
-      this.logger.log(`Contact Brevo supprimé pour l'email ${email}`);
+      appLogger.info(`Contact Brevo supprimé pour l'email ${email}`);
     } catch (error) {
-      this.logger.warn(
+      appLogger.warn(
         `Erreur lors de la suppression du contact Brevo pour l'email ${email}`,
         error
       );

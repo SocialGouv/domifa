@@ -1,24 +1,24 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { userStructureRepository } from "../../../database";
 import { appLogsRepository } from "../../../database/services/app-log";
 import { BrevoSenderService } from "./brevo-sender/brevo-sender.service";
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import { domifaConfig } from "../../../config";
+import { appLogger } from "../../../util";
 
 @Injectable()
 export class BrevoSyncCronService {
-  private readonly logger = new Logger(BrevoSyncCronService.name);
   private readonly BATCH_SIZE = 250;
 
   constructor(private readonly brevoSenderService: BrevoSenderService) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_2AM, {
-    disabled: !isCronEnabled() && domifaConfig().envId !== "prod",
+    disabled: !isCronEnabled() || domifaConfig().envId !== "prod",
   })
   async syncUsersToBrevo(): Promise<void> {
     const startTime = Date.now();
-    this.logger.log("Démarrage de la synchronisation Brevo");
+    appLogger.info("Démarrage de la synchronisation Brevo");
 
     try {
       const users = await userStructureRepository.getAllUsersForSync();
@@ -37,19 +37,19 @@ export class BrevoSyncCronService {
               successCount++;
             } catch (userError) {
               errorCount++;
-              this.logger.warn(
+              appLogger.warn(
                 `Erreur lors de la synchronisation de l'utilisateur ${user.id}`,
                 userError
               );
             }
           }
 
-          this.logger.log(
+          appLogger.info(
             `Batch ${batchNumber}: ${batch.length} contacts traités`
           );
         } catch (error) {
           errorCount += batch.length;
-          this.logger.error(
+          appLogger.error(
             `Erreur lors du traitement du batch ${batchNumber}`,
             error
           );
@@ -74,14 +74,11 @@ export class BrevoSyncCronService {
         })
       );
 
-      this.logger.log(
+      appLogger.info(
         `Synchronisation terminée: ${successCount} succès, ${errorCount} erreurs en ${duration}ms`
       );
     } catch (error) {
-      this.logger.error(
-        "Erreur fatale lors de la synchronisation Brevo",
-        error
-      );
+      appLogger.error("Erreur fatale lors de la synchronisation Brevo", error);
 
       await appLogsRepository.save(
         appLogsRepository.create({
