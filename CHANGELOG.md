@@ -1,3 +1,10 @@
+# [2.230.0](https://github.com/SocialGouv/domifa/compare/v2.229.3...v2.230.0) (2025-12-08)
+
+
+### Features
+
+* **backend:** 🗑️🚮 delete of nodemailer, smtp options, tipimail, mail… ([#4029](https://github.com/SocialGouv/domifa/issues/4029)) ([c777b07](https://github.com/SocialGouv/domifa/commit/c777b07cd59d766b4ab6b73e5fdb056237cc41ec))
+
 ## [2.229.3](https://github.com/SocialGouv/domifa/compare/v2.229.2...v2.229.3) (2025-12-02)
 
 
