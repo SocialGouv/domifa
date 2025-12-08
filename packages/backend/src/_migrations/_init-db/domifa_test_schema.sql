@@ -190,7 +190,7 @@ CREATE TABLE public.structure (
     "registrationData" jsonb,
     siret text,
     statut text DEFAULT 'EN_ATTENTE'::text NOT NULL,
-    decision jsonb
+    decision jsonb NOT NULL
 );
 CREATE TABLE public.structure_doc (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,

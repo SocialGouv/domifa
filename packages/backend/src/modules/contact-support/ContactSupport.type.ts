@@ -1,5 +1,5 @@
 import { AppEntity } from "../../_common/model";
-import { MessageEmailAttachment } from "../../database";
+import { MessageEmailAttachment } from "../mails/types";
 
 export type ContactSupport = AppEntity & {
   userId?: number;
