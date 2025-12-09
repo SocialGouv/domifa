@@ -1,3 +1,4 @@
+/*
 .form-group {
   margin-bottom: 1rem;
 }
@@ -17,10 +18,7 @@ input[type="radio"]:checked + label {
   color: var(--bs-danger);
 }
 
-label {
-  display: inline-block;
-  margin-bottom: 0.5rem;
-}
+
 
 form label {
   color: #4a4a4a;
@@ -135,4 +133,14 @@ textarea.form-control {
 
 .btn-block + .btn-block {
   margin-top: 0.5rem;
+}
+
+*/
+.fr-password__checkbox label:after {
+  display: none !important;
+}
+
+.fr-input-group.required .fr-label::after {
+  content: " *";
+  color: var(--text-default-error);
 }
