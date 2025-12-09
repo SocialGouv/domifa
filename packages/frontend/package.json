@@ -97,6 +97,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-regular-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@gouvfr/dsfr": "^1.14.2",
     "@khazii/ngx-intl-tel-input": "^17.0.1",
     "@ng-bootstrap/ng-bootstrap": "^17.0.1",
     "@ngrx/effects": "^18.1.1",

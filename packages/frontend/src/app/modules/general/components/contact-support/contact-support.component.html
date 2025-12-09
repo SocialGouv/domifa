@@ -1,126 +1,162 @@
-<div class="head-page py-4">
-  <div class="container">
-    <h1 class="title">Formulaire de contact</h1>
-  </div>
-</div>
-
-<div class="step-form my-5" *ngIf="success">
-  <div class="text-center">
-    <fa-icon
-      aria-hidden="true"
-      class="fa-4x text-success"
-      [icon]="['fas', 'check-circle']"
-    ></fa-icon>
-    <br />
-    <h2 class="text-success">
-      Votre demande a bien été envoyée à l'équipe DomiFa.
-    </h2>
-  </div>
-</div>
-
-<div class="content py-3" *ngIf="contactForm && !success">
-  <div class="container py-3">
-    <div class="page-content p-3">
-      <p>
-        Un problème ? Une suggestion ? Avez-vous consulté
-        <a [routerLink]="['/faq']" ariaCurrentWhenActive="page">notre FAQ</a>
-        ?
-        <br />
+<div class="w-100 fr-background-contrast--blue-ecume">
+  <div
+    class="fr-container row d-flex flex-row justify-content-between align-items-center"
+  >
+    <div class="col-12 col-md-8 col-sm-8 py-3 py-md-5 d-flex flex-column gap-1">
+      <h1 class="fr-text-title--blue-france mb-1">Contacter DomiFa</h1>
+      <p class="fr-text--lead fr-text-title--blue-france">
+        Un problème ? Une suggestion ? Avez-vous consulté notre
+        <a class="fr-link" [routerLink]="['/faq']" ariaCurrentWhenActive="page"
+          >FAQ</a
+        >
+        ? <br />
         Si la réponse ne s'y trouve pas, merci de remplir les champs ci-dessous
         en nous donnant un maximum d'informations, ce qui nous permettra de vous
         répondre plus rapidement.
       </p>
+    </div>
+    <div class="col-3 d-none d-sm-block">
+      <img class="fr-responsive-img" src="assets/images/contact.svg" alt="" />
+    </div>
+  </div>
+</div>
 
-      <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-8 col-sm-12">
-          <form [formGroup]="contactForm" (ngSubmit)="sendContactMessage()">
-            <input formControlName="userId" name="userId" type="hidden" />
+<div class="fr-container py-4" *ngIf="contactForm">
+  <div *ngIf="success" class="fr-alert fr-alert--success mb-3">
+    <span class="fr-alert__title">Message envoyé</span>
+    <p>
+      Formulaire envoyé avec succès, l’équipe vous recontactera très
+      prochainement
+    </p>
+  </div>
+
+  <div *ngIf="error" class="fr-alert fr-alert--error mb-3">
+    <span class="fr-alert__title">Erreur</span>
+    <p>Votre message n’a pas pu être envoyé. Veuillez réessayer.</p>
+  </div>
+  <h2 class="fr-icon-contact-form mb-0">Remplir le formulaire de contact</h2>
+  <span class="fr-text-default--error"> Champs obligatoires *</span>
+  <div class="py-4">
+    <div class="row justify-content-center">
+      <div class="col-md-12 col-lg-12 col-sm-12">
+        <form
+          class="d-flex flex-column justify-content-center gap-2"
+          [formGroup]="contactForm"
+          (ngSubmit)="sendContactMessage()"
+        >
+          <input formControlName="userId" name="userId" type="hidden" />
+          <input
+            formControlName="structureId"
+            name="structureId"
+            type="hidden"
+          />
+          <div
+            [class.fr-input-group--error]="
+              (submitted || f.name.dirty) && f.name.errors
+            "
+            class="fr-input-group required mb-0"
+          >
+            <label class="fr-label" for="name">Votre nom</label>
             <input
-              formControlName="structureId"
-              name="structureId"
-              type="hidden"
+              type="text"
+              class="fr-input"
+              id="name"
+              appCleanStr
+              autocomplete="name"
+              formControlName="name"
+              name="name"
+              [ngClass]="{ 'is-invalid': f.name.dirty && f.name.errors }"
+              [attr.aria-invalid]="f.name.dirty && f.name.errors ? true : false"
+              [attr.aria-describedby]="
+                (submitted || f.name.dirty) && f.name.errors
+                  ? 'invalid-name'
+                  : 'name-help'
+              "
+              required
             />
-            <div class="form-group required">
-              <label for="name">Votre nom</label>
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                appCleanStr
-                autocomplete="name"
-                formControlName="name"
-                name="name"
-                [ngClass]="{ 'is-invalid': f.name.dirty && f.name.errors }"
-                [attr.aria-invalid]="
-                  f.name.dirty && f.name.errors ? true : false
-                "
-                [attr.aria-describedby]="
-                  f.name.dirty && f.name.errors ? 'invalid-name' : 'name-help'
-                "
-                required
-              />
-              <small *ngIf="!f.name.dirty && !f.name.errors" id="name-help"
-                >2 caractères minimum</small
+
+            <ul class="fr-messages-group ms-0 ps-0">
+              <li
+                id="name-help"
+                class="fr-message fr-message--info"
+                *ngIf="!(submitted || f.name.dirty) || !f.name.errors"
               >
-              <p
-                *ngIf="(submitted || f.name.dirty) && f.name.errors"
+                2 caractères minimum
+              </li>
+              <li
                 id="invalid-name"
-                class="invalid-feedback"
+                class="fr-message fr-message--error"
+                *ngIf="(submitted || f.name.dirty) && f.name.errors"
               >
                 Veuillez indiquer votre nom, 2 caractères minimum
-              </p>
-            </div>
-            <div class="form-group required">
-              <label for="structureName">Nom de votre structure</label>
-              <input
-                autocomplete="organization"
-                type="text"
-                class="form-control"
-                id="structureName"
-                appCleanStr
-                formControlName="structureName"
-                name="structureName"
-                [attr.aria-invalid]="
+              </li>
+            </ul>
+          </div>
+          <div
+            [class.fr-input-group--error]="
+              (submitted || f.structureName.dirty) && f.structureName.errors
+            "
+            class="fr-input-group required"
+          >
+            <label class="fr-label" for="structureName"
+              >Nom de votre structure</label
+            >
+            <input
+              autocomplete="organization"
+              type="text"
+              class="fr-input"
+              id="structureName"
+              appCleanStr
+              formControlName="structureName"
+              name="structureName"
+              [attr.aria-invalid]="
+                (submitted || f.structureName.dirty) && f.structureName.errors
+                  ? true
+                  : false
+              "
+              [attr.aria-describedby]="
+                (submitted || f.structureName.dirty) && f.structureName.errors
+                  ? 'invalid-structure-name'
+                  : null
+              "
+              [ngClass]="{
+                'is-invalid':
                   (submitted || f.structureName.dirty) && f.structureName.errors
-                    ? true
-                    : false
-                "
-                [attr.aria-describedby]="
-                  (submitted || f.structureName.dirty) && f.structureName.errors
-                    ? 'invalid-structure-name'
-                    : null
-                "
-                [ngClass]="{
-                  'is-invalid':
-                    (submitted || f.structureName.dirty) &&
-                    f.structureName.errors
-                }"
-                required
-              />
-              <p
-                *ngIf="
-                  (submitted || f.structureName.dirty) && f.structureName.errors
-                "
-                class="invalid-feedback"
-                id="invalid-structure-name"
-              >
+              }"
+              required
+            />
+
+            <ul
+              class="fr-messages-group ms-0 ps-0"
+              *ngIf="
+                (submitted || f.structureName.dirty) && f.structureName.errors
+              "
+              id="invalid-structure-name"
+            >
+              <li class="fr-message fr-message--error">
                 Veuillez indiquer le nom de votre structure (2 caractères
                 minimum)
-              </p>
-            </div>
-            <div class="row">
-              <div class="form-group col-6 required">
-                <label for="email">Adresse email de contact</label>
+              </li>
+            </ul>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div
+                [class.fr-input-group--error]="
+                  (f.email.dirty || submitted) && f.email.errors
+                "
+                class="fr-input-group required"
+              >
+                <label class="fr-label" for="email"
+                  >Adresse email de contact</label
+                >
                 <input
                   type="email"
                   id="email"
                   formControlName="email"
                   name="email"
                   autocomplete="email"
-                  class="form-control"
-                  [ngClass]="{
-                    'is-invalid': (f.email.dirty || submitted) && f.email.errors
-                  }"
+                  class="fr-input"
                   [attr.aria-invalid]="
                     (f.email.dirty || submitted) && f.email.errors
                       ? true
@@ -133,24 +169,28 @@
                   "
                   required
                 />
-                <p
+                <ul
                   *ngIf="(f.email.dirty || submitted) && f.email.errors"
                   id="email-errors"
-                  class="invalid-feedback"
+                  class="fr-messages-group ms-0 ps-0"
                 >
-                  Veuillez vérifier l'adresse email, format attendu :
-                  nom&#64;domaine.fr
-                </p>
+                  <li class="fr-message fr-message--error">
+                    Veuillez vérifier l'adresse email, format attendu :
+                    nom&#64;domaine.fr
+                  </li>
+                </ul>
               </div>
-              <div class="col-md-6 col-12 form-group">
-                <label for="phone">Numéro de téléphone</label>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="fr-input-group py-2">
+                <label class="fr-label" for="phone">Numéro de téléphone</label>
                 <ngx-intl-tel-input
                   [cssClass]="
                     submitted &&
                     f.phone.value &&
                     (f.phone.errors || f.phone.invalid)
-                      ? 'form-control is-invalid'
-                      : 'form-control'
+                      ? 'fr-input is-invalid'
+                      : 'fr-input'
                   "
                   [enablePlaceholder]="true"
                   [searchCountryFlag]="true"
@@ -183,153 +223,201 @@
                 </p>
               </div>
             </div>
-            <div class="form-group required">
-              <label for="subject"
-                >Objet de votre message: demande de support, partenariat,
-                formation, etc.</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="subject"
-                appCleanStr
-                formControlName="subject"
-                subject="subject"
-                [ngClass]="{
-                  'is-invalid':
-                    (f.subject.dirty || submitted) && f.subject.errors
-                }"
-                [attr.aria-invalid]="
-                  (f.subject.dirty || submitted) && f.subject.errors
-                    ? true
-                    : false
-                "
-                [attr.aria-describedby]="
-                  (f.subject.dirty || submitted) && f.subject.errors
-                    ? 'invalid-subject'
-                    : 'subject-help'
-                "
-                required
-              />
-              <small
-                *ngIf="!(f.subject.dirty || submitted) && !f.subject.errors"
-                id="subject-help"
-                >2 caractères minimum</small
-              >
-              <p
-                *ngIf="(submitted || f.subject.dirty) && f.subject.errors"
-                id="invalid-subject"
-                class="invalid-feedback"
-              >
-                Veuillez indiquer le sujet du message, 2 caractères minimum
-              </p>
-            </div>
+          </div>
 
-            <div class="form-group required">
-              <label for="content">Votre message</label>
-              <textarea
-                [attr.aria-describedby]="
-                  (f.content.dirty || submitted) && f.content.errors
-                    ? 'content-error'
-                    : 'content-help'
-                "
-                class="form-control"
-                formControlName="content"
-                name="content"
-                id="content"
-                [ngClass]="{
-                  'is-invalid':
-                    (f.content.dirty || submitted) && f.content.errors
-                }"
-                [attr.aria-invalid]="
-                  (f.content.dirty || submitted) && f.content.errors
-                    ? true
-                    : false
-                "
-                rows="6"
-                minlength="10"
-                required
-              ></textarea>
-              <small id="content-help"
-                >En cas de souci technique, merci de spécifier le navigateur
-                utilisé (10 caractères minimum)</small
+          <div
+            [class.fr-input-group--error]="
+              (f.subject.dirty || submitted) && f.subject.errors
+            "
+            class="fr-input-group required"
+          >
+            <label class="fr-label" for="subject"
+              >Objet de votre message: demande de support, partenariat,
+              formation, etc.</label
+            >
+            <input
+              type="text"
+              class="fr-input"
+              id="subject"
+              appCleanStr
+              formControlName="subject"
+              subject="subject"
+              [ngClass]="{
+                'is-invalid': (f.subject.dirty || submitted) && f.subject.errors
+              }"
+              [attr.aria-invalid]="
+                (f.subject.dirty || submitted) && f.subject.errors
+                  ? true
+                  : false
+              "
+              [attr.aria-describedby]="
+                (f.subject.dirty || submitted) && f.subject.errors
+                  ? 'invalid-subject'
+                  : 'subject-help'
+              "
+              required
+            />
+            <ul class="fr-messages-group ms-0 ps-0">
+              <li
+                id="subject-help"
+                class="fr-message fr-message--info"
+                *ngIf="!(submitted || f.subject.dirty) || !f.subject.errors"
               >
-              <p
-                *ngIf="(f.content.dirty || submitted) && f.content.errors"
+                2 caractères minimum
+              </li>
+              <li
+                id="invalid-subject"
+                class="fr-message fr-message--error"
+                *ngIf="(submitted || f.subject.dirty) && f.subject.errors"
+              >
+                Veuillez indiquer votre nom, 2 caractères minimum
+              </li>
+            </ul>
+          </div>
+
+          <div
+            [class.fr-input-group--error]="
+              (f.content.dirty || submitted) && f.content.errors
+            "
+            class="fr-input-group required"
+          >
+            <label class="fr-label" for="content">Votre message</label>
+            <textarea
+              [attr.aria-describedby]="
+                (f.content.dirty || submitted) && f.content.errors
+                  ? 'content-error'
+                  : 'content-help'
+              "
+              class="fr-input"
+              formControlName="content"
+              name="content"
+              id="content"
+              [ngClass]="{
+                'is-invalid': (f.content.dirty || submitted) && f.content.errors
+              }"
+              [attr.aria-invalid]="
+                (f.content.dirty || submitted) && f.content.errors
+                  ? true
+                  : false
+              "
+              rows="6"
+              minlength="10"
+              required
+            ></textarea>
+
+            <ul class="fr-messages-group ms-0 ps-0">
+              <li
+                id="content-help"
+                class="fr-message fr-message--info"
+                *ngIf="!submitted"
+              >
+                En cas de souci technique, merci de spécifier le navigateur
+                utilisé (10 caractères minimum)
+              </li>
+              <li
                 id="content-error"
-                class="invalid-feedback"
+                class="fr-message fr-message--error"
+                *ngIf="(f.content.dirty || submitted) && f.content.errors"
               >
                 Veuillez inscrire un message de 10 caractères au minimum
-              </p>
-            </div>
+              </li>
+            </ul>
+          </div>
 
-            <div class="form-group">
-              <label for="file">
-                Pièces jointes (capture d'écran du problème rencontré, fichier
-                d'import anonymisé, autres informations etc.)
-              </label>
-              <input
-                (change)="onFileChange($event)"
-                class="form-control"
-                type="file"
-                accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .xlsx, .xls"
-                id="file"
-                formControlName="file"
-                multiple="false"
-                name="file"
-                [attr.aria-invalid]="
-                  (f.fileSource.dirty || submitted) && f.fileSource.errors
-                    ? true
-                    : false
-                "
-                [attr.aria-describedby]="
-                  (f.fileSource.dirty || submitted) && f.fileSource.errors
-                    ? 'pj-error'
-                    : 'file-description'
-                "
-                [ngClass]="{
-                  'is-invalid':
-                    (f.fileSource.dirty || submitted) && f.fileSource.errors
-                }"
-              />
-              <small id="file-description">
+          <div
+            [class.fr-upload-group--error]="
+              (f.fileSource.dirty || submitted) && f.fileSource.errors
+            "
+            class="fr-upload-group"
+          >
+            <label class="fr-label" for="file">
+              Pièces jointes (capture d'écran du problème rencontré, fichier
+              d'import anonymisé, autres informations etc.)
+              <span id="file-description" class="fr-hint-text">
                 Formats autorisés .pdf, xlsx, .docx, .odt, .jpg, ou .png (6mo
-                maxi)
-              </small>
-
-              <div
-                *ngIf="(f.fileSource.dirty || submitted) && f.fileSource.errors"
-                class="invalid-feedback"
-                id="pj-error"
+                maxi)</span
               >
-                <p *ngIf="f.fileSource.errors.fileType">
-                  Format de fichier invalide
-                </p>
-                <p *ngIf="f.fileSource.errors.fileSize">
-                  La taille du fichier est trop grande
-                </p>
-              </div>
-            </div>
+            </label>
+            <input
+              (change)="onFileChange($event)"
+              class="fr-upload"
+              type="file"
+              accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .xlsx, .xls"
+              id="file"
+              formControlName="file"
+              multiple="false"
+              name="file"
+              [attr.aria-invalid]="
+                (f.fileSource.dirty || submitted) && f.fileSource.errors
+                  ? true
+                  : false
+              "
+              [attr.aria-describedby]="
+                (f.fileSource.dirty || submitted) && f.fileSource.errors
+                  ? 'pj-error'
+                  : 'file-description'
+              "
+              [ngClass]="{
+                'is-invalid':
+                  (f.fileSource.dirty || submitted) && f.fileSource.errors
+              }"
+            />
 
-            <button
-              type="submit"
-              class="btn btn-primary"
-              [disabled]="loading"
-              [attr.aria-busy]="loading"
+            <ul
+              *ngIf="(f.fileSource.dirty || submitted) && f.fileSource.errors"
+              class="fr-messages-group ms-0 ps-0"
+              id="pj-error"
             >
-              <span *ngIf="loading">
-                <fa-icon
-                  [icon]="['fas', 'circle-notch']"
-                  aria-hidden="true"
-                  animation="spin"
-                >
-                </fa-icon>
-                Veuillez patienter...
-              </span>
-              <span *ngIf="!loading"> Envoyer le message </span>
-            </button>
-          </form>
-        </div>
+              <li
+                *ngIf="f.fileSource.errors.fileType"
+                class="fr-message fr-message--error"
+              >
+                Format de fichier non supporté
+              </li>
+              <li
+                *ngIf="f.fileSource.errors.fileSize"
+                class="fr-message fr-message--error"
+              >
+                La taille du fichier est trop grande
+              </li>
+            </ul>
+          </div>
+
+          <ul
+            class="fr-btns-group fr-btns-group--inline fr-btns-group--inline-reverse fr-btns-group--right fr-btns-group--md py-4"
+          >
+            <li>
+              <button
+                type="submit"
+                class="fr-btn"
+                [disabled]="loading"
+                [attr.aria-busy]="loading"
+              >
+                <span *ngIf="loading">
+                  <fa-icon
+                    [icon]="['fas', 'circle-notch']"
+                    aria-hidden="true"
+                    animation="spin"
+                  >
+                  </fa-icon>
+                  Veuillez patienter...
+                </span>
+                <span *ngIf="!loading"> Envoyer le message </span>
+              </button>
+            </li>
+            <li>
+              <button
+                (click)="contactForm.reset(); success = false; error = false"
+                type="button"
+                class="fr-btn fr-btn--secondary"
+                [disabled]="loading"
+                [attr.aria-busy]="loading"
+              >
+                Annuler
+              </button>
+            </li>
+          </ul>
+        </form>
       </div>
     </div>
   </div>
