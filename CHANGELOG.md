@@ -1,3 +1,10 @@
+## [2.231.1](https://github.com/SocialGouv/domifa/compare/v2.231.0...v2.231.1) (2025-12-10)
+
+
+### Bug Fixes
+
+* **backend:** fix brevo sync for structures ([#4034](https://github.com/SocialGouv/domifa/issues/4034)) ([493cd57](https://github.com/SocialGouv/domifa/commit/493cd57f49589e99e887b01b219cf171e778b842))
+
 # [2.231.0](https://github.com/SocialGouv/domifa/compare/v2.230.1...v2.231.0) (2025-12-10)
 
 
