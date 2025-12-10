@@ -7,7 +7,7 @@
   class="column d-flex flex-column gap-3 pt-4 pt-md-5 pb-4 pb-md-5"
   (ngSubmit)="login()"
 >
-  <div class="row">
+  <div>
     <div
       [class.fr-input-group--error]="f.email.dirty && f.email.errors"
       class="col fr-input-group required"
@@ -18,15 +18,22 @@
         formControlName="email"
         id="email"
         name="email"
+        [attr.aria-invalid]="f.email.dirty && f.email.errors"
         placeholder="Votre email"
         class="fr-input"
       />
-      <p *ngIf="f.email.dirty && f.email.errors" class="invalid-feedback">
-        Veuillez vérifier l'email
-      </p>
+      <ul
+        *ngIf="f.email.dirty && f.email.errors"
+        class="ms-0 ps-0 fr-messages-group"
+      >
+        <li class="fr-message fr-message--error">Veuillez vérifier l'email</li>
+      </ul>
     </div>
   </div>
-  <div class="fr-input-group required mb-0 ng-star-inserted">
+  <div
+    [class.fr-input-group--error]="f.password.dirty && f.password.errors"
+    class="fr-input-group required"
+  >
     <div class="fr-password" id="passwordContainer">
       <label class="fr-password__label fr-label" for="password">
         Mot de passe
@@ -38,9 +45,18 @@
           name="password"
           [type]="!hidePassword ? 'text' : 'password'"
           class="fr-input"
+          [attr.aria-invalid]="f.password.dirty && f.password.errors"
           placeholder="Mot de passe"
           autocomplete="current-password"
         />
+        <ul
+          *ngIf="f.password.dirty && f.password.errors"
+          class="ms-0 ps-0 fr-messages-group"
+        >
+          <li class="fr-message fr-message--error">
+            Veuillez vérifier le mot de passe
+          </li>
+        </ul>
       </div>
       <div
         class="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm"
@@ -64,12 +80,7 @@
     </a>
   </div>
   <div class="form-group my-2 text-center">
-    <button
-      id="loginBtn"
-      aria-label="Connexion"
-      type="submit"
-      class="fr-btn d-flex flex-column w-100"
-    >
+    <button id="loginBtn" type="submit" class="fr-btn d-flex flex-column w-100">
       <span *ngIf="!loading">Se connecter </span>
       <span *ngIf="loading"
         ><fa-icon

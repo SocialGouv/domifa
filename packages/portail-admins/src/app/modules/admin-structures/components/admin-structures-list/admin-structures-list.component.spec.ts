@@ -8,7 +8,7 @@ import {
   StructureFilterCriteria,
   StructureFilterCriteriaSortEnum,
 } from "../../utils/structure-filter-criteria";
-import { DomiciliesSegmentEnum, StructureAdmin } from "@domifa/common";
+import { StructureAdmin } from "@domifa/common";
 import {
   ComponentFixture,
   fakeAsync,
@@ -19,11 +19,7 @@ import { uneStructureAdminMock } from "../../../../mocks/STRUCTURE_MOCK.mock";
 import { AdminStructuresModule } from "../../admin-structures.module";
 import { AdminStructuresListComponent } from "./admin-structures-list.component";
 import { provideHttpClient } from "@angular/common/http";
-import {
-  structuresFilter,
-  structuresListModelBuilder,
-  structuresSorter,
-} from "../../utils";
+import { structuresFilter, structuresSorter } from "../../utils";
 
 describe("AdminStructuresListComponent", () => {
   let component: AdminStructuresListComponent;
@@ -35,12 +31,10 @@ describe("AdminStructuresListComponent", () => {
     uneStructureAdminMock({
       id: 1,
       nom: "Structure 1",
-      domicilieSegment: DomiciliesSegmentEnum.SMALL,
     }),
     uneStructureAdminMock({
       id: 2,
       nom: "Structure 2",
-      domicilieSegment: DomiciliesSegmentEnum.VERY_SMALL,
     }),
   ];
   beforeEach(() => {
@@ -158,8 +152,7 @@ describe("AdminStructuresListComponent", () => {
   describe(".applyFilters()", () => {
     it("should filter structures based on criteria", () => {
       // Setup
-      const mockStructures =
-        structuresListModelBuilder.buildStructuresViewModel(mockApiStructures);
+      const mockStructures = mockApiStructures;
       const filters = new StructureFilterCriteria();
       filters.structureType = "ccas";
 
@@ -185,8 +178,8 @@ describe("AdminStructuresListComponent", () => {
 
     it("should apply sorting after filtering", () => {
       // Setup
-      const mockStructures =
-        structuresListModelBuilder.buildStructuresViewModel(mockApiStructures);
+      const mockStructures = mockApiStructures;
+
       const filters = new StructureFilterCriteria();
       filters.sortKey = StructureFilterCriteriaSortEnum.NOM;
       filters.sortValue = "desc";
@@ -332,8 +325,8 @@ describe("AdminStructuresListComponent", () => {
   describe("filter changes and view updates", () => {
     it("should update view when filters change", () => {
       // Setup
-      const mockStructures =
-        structuresListModelBuilder.buildStructuresViewModel(mockApiStructures);
+      const mockStructures = mockApiStructures;
+
       component.structures = mockStructures;
 
       // Spy on applyFilters

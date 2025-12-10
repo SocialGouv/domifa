@@ -3,7 +3,6 @@ import { Observable, of } from "rxjs";
 import { structuresListResolver } from "./structures-list.resolver";
 import { AdminStructuresApiClient } from "../../shared/services";
 import { structuresCache } from "../../shared/store";
-import { structuresListModelBuilder } from "../utils";
 import { provideHttpClient } from "@angular/common/http";
 import { uneStructureAdminMock } from "../../../mocks/STRUCTURE_MOCK.mock";
 import { DomiciliesSegmentEnum, StructureAdmin } from "@domifa/common";
@@ -41,11 +40,6 @@ describe("structuresListResolver", () => {
       .fn()
       .mockReturnValue(of(mockApiStructures));
 
-    // Mock the structuresListModelBuilder
-    jest
-      .spyOn(structuresListModelBuilder, "buildStructuresViewModel")
-      .mockReturnValue(mockProcessedStructures);
-
     // Clear cache before each test
     structuresCache.setStructureListData(null);
   });
@@ -66,9 +60,6 @@ describe("structuresListResolver", () => {
       expect(
         adminStructuresApiClient.getAdminStructureListData
       ).toHaveBeenCalled();
-      expect(
-        structuresListModelBuilder.buildStructuresViewModel
-      ).toHaveBeenCalledWith(mockApiStructures);
       expect(data).toEqual(mockProcessedStructures);
       done();
     });
@@ -105,9 +96,7 @@ describe("structuresListResolver", () => {
       expect(
         adminStructuresApiClient.getAdminStructureListData
       ).not.toHaveBeenCalled();
-      expect(
-        structuresListModelBuilder.buildStructuresViewModel
-      ).not.toHaveBeenCalled();
+
       expect(data).toEqual(mockProcessedStructures);
       done();
     });
@@ -128,9 +117,6 @@ describe("structuresListResolver", () => {
       expect(
         adminStructuresApiClient.getAdminStructureListData
       ).toHaveBeenCalled();
-      expect(
-        structuresListModelBuilder.buildStructuresViewModel
-      ).toHaveBeenCalledWith(mockApiStructures);
       expect(data).toEqual(mockProcessedStructures);
       done();
     });

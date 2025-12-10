@@ -8,8 +8,8 @@ import {
 export enum StructureFilterCriteriaSortEnum {
   ID = "id",
   NOM = "nom",
-  TYPE = "typeStructure",
-  CREATED_AT = "createdsAt",
+  TYPE = "structureType",
+  CREATED_AT = "createdAt",
   IMPORT_AT = "importDate",
   USERS = "users",
   USAGERS = "usagers",
