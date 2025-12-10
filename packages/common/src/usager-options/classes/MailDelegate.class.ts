@@ -11,6 +11,8 @@ export class MailDelegate implements IMailDelegate {
 
   constructor(options?: Partial<IMailDelegate>) {
     this.nom = options?.nom || "";
+    // Note: If dateDebut and dateFin are the same day (today),
+    // the procuration is considered active (not expired, not inactive)
     this.dateDebut = createDate(options?.dateDebut);
     this.dateFin = createDate(options?.dateFin);
 
