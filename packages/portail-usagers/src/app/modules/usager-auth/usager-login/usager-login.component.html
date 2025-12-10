@@ -13,7 +13,7 @@
           "
           class="column d-flex flex-column gap-2 pt-4 pt-md-5 pb-4 pb-md-5"
           [formGroup]="loginForm"
-          (ngSubmit)="login()"
+          (ngSubmit)="doLogin()"
         >
           <h1 class="align-self-start">Connexion à Mon Domifa</h1>
           <span class="col-12 col-md-12 fr-text-default--error">
@@ -25,6 +25,7 @@
           >
             <label class="fr-label" for="login">Votre identifiant</label>
             <input
+              #login
               type="text"
               formControlName="login"
               autocomplete="username"
@@ -43,7 +44,6 @@
               *ngIf="f.login.dirty && f.login.errors"
               id="invalid-login"
               class="fr-messages-group"
-              aria-live="polite"
             >
               <p
                 class="fr-message fr-message--error"
@@ -72,7 +72,7 @@
                 </label>
                 <div class="fr-input-wrap">
                   <input
-                    #inputNewPassword
+                    #newPassword
                     id="newPassword"
                     formControlName="newPassword"
                     [type]="!hidePasswordNew ? 'text' : 'password'"
@@ -84,19 +84,16 @@
                     [attr.aria-invalid]="
                       f.newPassword.dirty && f.newPassword.errors ? true : false
                     "
-                    [attr.aria-describedby]="
-                      f.newPassword.dirty && f.newPassword.errors
-                        ? 'newPassword-input--messages'
-                        : 'new-password-message'
-                    "
+                    [attr.aria-describedby]="'newPassword-input--messages'"
                   />
                 </div>
-                <div
-                  class="fr-messages-group"
+                <ul
+                  class="fr-messages-group ms-0 ps-0"
                   id="newPassword-input--messages"
                   aria-live="polite"
+                  aria-atomic="true"
                 >
-                  <p
+                  <li
                     class="fr-message"
                     [ngClass]="{
                       'fr-message--info': !f.newPassword.dirty,
@@ -108,9 +105,18 @@
                         !f.newPassword.errors?.hasNumber
                     }"
                   >
+                    <span class="visually-hidden"
+                      >Règle
+                      {{
+                        !f.newPassword.errors?.required &&
+                        !f.newPassword.errors?.hasNumber
+                          ? "validée "
+                          : "non validée "
+                      }}</span
+                    >
                     Au moins 1 chiffre
-                  </p>
-                  <p
+                  </li>
+                  <li
                     class="fr-message"
                     [ngClass]="{
                       'fr-message--info': !f.newPassword.dirty,
@@ -122,9 +128,18 @@
                         !f.newPassword.errors?.hasCapitalCase
                     }"
                   >
+                    <span class="visually-hidden"
+                      >Règle
+                      {{
+                        !f.newPassword.errors?.required &&
+                        !f.newPassword.errors?.hasCapitalCase
+                          ? "validée "
+                          : "non validée "
+                      }}</span
+                    >
                     Au moins une lettre en majuscule
-                  </p>
-                  <p
+                  </li>
+                  <li
                     class="fr-message"
                     [ngClass]="{
                       'fr-message--info': !f.newPassword.dirty,
@@ -136,9 +151,18 @@
                         !f.newPassword.errors?.hasLowerCase
                     }"
                   >
+                    <span class="visually-hidden"
+                      >Règle
+                      {{
+                        !f.newPassword.errors?.required &&
+                        !f.newPassword.errors?.hasLowerCase
+                          ? "validée "
+                          : "non validée "
+                      }}</span
+                    >
                     Au moins une lettre en minuscule
-                  </p>
-                  <p
+                  </li>
+                  <li
                     class="fr-message"
                     [ngClass]="{
                       'fr-message--info': !f.newPassword.dirty,
@@ -150,10 +174,19 @@
                         !f.newPassword.errors?.hasSpecialCharacter
                     }"
                   >
+                    <span class="visually-hidden"
+                      >Règle
+                      {{
+                        !f.newPassword.errors?.required &&
+                        !f.newPassword.errors?.hasSpecialCharacter
+                          ? "validée "
+                          : "non validée "
+                      }}</span
+                    >
                     Au moins un caractère spécial:
                     &#64;[]^_!"#$%&amp;&apos;()*+,\-./:;&lbrace;&rbrace;&lt;&gt;=|~?
-                  </p>
-                  <p
+                  </li>
+                  <li
                     class="fr-message"
                     [ngClass]="{
                       'fr-message--info': !f.newPassword.dirty,
@@ -167,9 +200,19 @@
                         !f.newPassword.errors?.maxlength
                     }"
                   >
+                    <span class="visually-hidden"
+                      >Règle
+                      {{
+                        !f.newPassword.errors?.required &&
+                        !f.newPassword.errors?.minlength &&
+                        !f.newPassword.errors?.maxlength
+                          ? "validée "
+                          : "non validée "
+                      }}</span
+                    >
                     Doit contenir entre 12 et 150 caractères
-                  </p>
-                </div>
+                  </li>
+                </ul>
                 <div
                   class="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm"
                 >
@@ -209,6 +252,7 @@
                 </label>
                 <div class="fr-input-wrap">
                   <input
+                    #newPasswordConfirm
                     id="new-password-confirm"
                     formControlName="newPasswordConfirm"
                     [type]="!hidePasswordConfirm ? 'text' : 'password'"
@@ -248,7 +292,6 @@
                   "
                   class="fr-messages-group"
                   id="newPasswordConfirm-input--messages"
-                  aria-live="polite"
                 >
                   <p
                     class="fr-message fr-message--error"
@@ -291,9 +334,10 @@
             <!-- Accept terms start -->
             <div
               [class.fr-checkbox-group--error]="f.acceptTerms.errors"
-              class="fr-checkbox-group mb-5"
+              class="fr-checkbox-group required mb-5"
             >
               <input
+                #acceptTerms
                 type="checkbox"
                 formControlName="acceptTerms"
                 name="acceptTerms"
@@ -306,15 +350,15 @@
               />
               <label class="fr-label" for="acceptTerms"
                 >Je confirme avoir lu et accepter les
-                <a class="fr-ml-1v dsfr-link" routerLink="/cgu" target="_blank"
+                <a
+                  class="fr-ml-1v dsfr-link"
+                  routerLink="/cgu"
+                  target="_blank"
+                  title="conditions générales d'utilisation - Nouvelle fenêtre"
                   >conditions générales d'utilisation</a
                 ></label
               >
-              <div
-                *ngIf="f.acceptTerms.errors"
-                aria-live="polite"
-                class="fr-messages-group"
-              >
+              <div *ngIf="f.acceptTerms.errors" class="fr-messages-group">
                 <p
                   id="acceptTerms-error-message"
                   [ngClass]="{
@@ -341,6 +385,7 @@
                 </label>
                 <div class="fr-input-wrap">
                   <input
+                    #password
                     [attr.aria-invalid]="
                       f.password.dirty && f.password.errors ? true : false
                     "
@@ -360,7 +405,6 @@
                   *ngIf="f.password.touched && f.password.errors"
                   class="fr-messages-group"
                   id="password-input--messages"
-                  aria-live="polite"
                 >
                   <p
                     *ngIf="f.password.errors.required"
@@ -411,7 +455,6 @@
             </p>
           </ng-container>
           <div
-            aria-live="polite"
             role="alert"
             class="fr-alert fr-alert--info mb-3"
             *ngIf="displayPasswordIndication"
@@ -489,8 +532,7 @@
                 aria-hidden="true"
                 class="img-fluid"
                 src="assets/images/login/main-container.svg"
-                alt="Illustration de
-        boîte aux lettres"
+                alt=""
               />
             </div>
           </div>

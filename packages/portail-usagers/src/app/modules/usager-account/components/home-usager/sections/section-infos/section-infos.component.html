@@ -93,48 +93,52 @@
           Votre dossier
         </h3>
 
-        <p class="my-2">
-          <span class="font-medium"> Statut: </span>
-          <span
-            [ngClass]="{
-              'fr-badge--success': usager.decision.statut === 'VALIDE',
-              'fr-badge--error': usager.decision.statut === 'REFUS'
-            }"
-            class="fr-badge fr-badge--no-icon"
-            >{{ USAGER_DECISION_STATUT_LABELS[usager.decision.statut] }}</span
-          >
-        </p>
-        <p class="my-2">
-          Échéance:
-          {{ echeanceInfo.dateToDisplay | date : "fullDate" }}
-        </p>
-        <p class="my-2">
-          Dernier passage:
-          {{ usager.lastInteraction.dateInteraction | date : "fullDate" }}
-        </p>
+        <dl class="ms-0 ps-0">
+          <div class="d-flex gap-2 align-items-center">
+            <dt class="font-medium">Statut :</dt>
+            <dd
+              [ngClass]="{
+                'fr-badge--success': usager.decision.statut === 'VALIDE',
+                'fr-badge--error': usager.decision.statut === 'REFUS'
+              }"
+              class="fr-badge fr-badge--sm fr-badge--no-icon"
+            >
+              {{ USAGER_DECISION_STATUT_LABELS[usager.decision.statut] }}
+            </dd>
+          </div>
+          <div class="d-flex gap-2 align-items-center">
+            <dt class="my-2">Échéance :</dt>
+            <dd>{{ echeanceInfo.dateToDisplay | date : "fullDate" }}</dd>
+          </div>
+          <div class="d-flex gap-2 align-items-center">
+            <dt class="my-2">Dernier passage :</dt>
+            <dd>
+              {{ usager.lastInteraction.dateInteraction | date : "fullDate" }}
+            </dd>
+          </div>
+        </dl>
       </div>
     </div>
 
     <div class="mt-2 d-flex align-items-top fr-text-title--blue-france">
       <div>
-        <h3
-          class="fr-text-title--blue-france fr-icon-person-mail-icon"
-          aria-label="Vos informations"
-        >
+        <h3 class="fr-text-title--blue-france fr-icon-person-mail-icon">
           Vos informations
         </h3>
-        <p class="my-2">
-          Nom Prénom :
-          {{ usager.prenom }} {{ usager.nom }}
-        </p>
-        <p class="my-2">
-          Téléphone :
-          {{ usager.telephone | formatInternationalPhoneNumber }}
-        </p>
-        <p class="my-2">
-          E-mail :
-          {{ usager.email || "Email non renseigné" }}
-        </p>
+        <dl class="ms-0 ps-0">
+          <div class="d-flex gap-2 align-items-center">
+            <dt>Nom Prénom :</dt>
+            <dd>{{ usager.prenom }} {{ usager.nom }}</dd>
+          </div>
+          <div class="d-flex gap-2 align-items-center">
+            <dt>Téléphone :</dt>
+            <dd>{{ usager.telephone | formatInternationalPhoneNumber }}</dd>
+          </div>
+          <div class="d-flex gap-2 align-items-center">
+            <dt>E-mail :</dt>
+            <dd>{{ usager.email || "Email non renseigné" }}</dd>
+          </div>
+        </dl>
       </div>
     </div>
   </div>

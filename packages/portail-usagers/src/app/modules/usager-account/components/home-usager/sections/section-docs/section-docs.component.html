@@ -22,11 +22,11 @@
               [attr.aria-label]="'Télécharger le document ' + doc.label"
               (click)="downloadDoc(doc)"
             >
-              <span *ngIf="!doc.loading">{{ doc.label }}</span>
-              <span class="d-flex gap-1" *ngIf="doc.loading">
+              <h3 class="fr-h5 mb-0" *ngIf="!doc.loading">{{ doc.label }}</h3>
+              <h3 class="d-flex gap-1" *ngIf="doc.loading">
                 {{ doc.label }} - Téléchargement en cours
                 <dsfr-ext-spinner typeLoader="quarter"></dsfr-ext-spinner>
-              </span>
+              </h3>
             </button>
           </div>
           <p class="fr-card__desc">
