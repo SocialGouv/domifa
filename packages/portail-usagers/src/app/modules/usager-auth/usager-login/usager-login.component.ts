@@ -213,7 +213,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
             "null",
             1,
           );
-          if (apiAuthResponse && !apiAuthResponse.acceptTerms) {
+          if (!apiAuthResponse.acceptTerms) {
             this.router.navigate(["/account/accept-terms"]);
             return;
           }
