@@ -54,7 +54,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
     private readonly seoService: SeoService,
     private readonly authService: UsagerAuthService,
     private readonly usagerAuthService: UsagerAuthService,
-    public matomo: MatomoTracker,
+    public matomo: MatomoTracker
   ) {
     this.hidePassword = true;
     this.hidePasswordNew = true;
@@ -72,7 +72,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.seoService.updateTitleAndTags(
       "Connexion à Mon DomiFa",
-      "Accédez à votre espace personnel pour consulter votre dossier et vos courriers en attente",
+      "Accédez à votre espace personnel pour consulter votre dossier et vos courriers en attente"
     );
 
     this.subscription.add(
@@ -84,8 +84,8 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
           } else {
             this.initForm();
           }
-        },
-      ),
+        }
+      )
     );
   }
 
@@ -112,7 +112,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
               /[@\[\]^_!"#$%&'()*+,\-./:;{}<>=|~?]/,
               {
                 hasSpecialCharacter: true,
-              },
+              }
             ),
             Validators.minLength(12),
             Validators.maxLength(150),
@@ -137,7 +137,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
             errName: "new-password-confim-does-not-match",
           }),
         ],
-      },
+      }
     );
   }
 
@@ -184,7 +184,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
             "login-portail-usagers",
             "login_success",
             "null",
-            1,
+            1
           );
           if (!apiAuthResponse.acceptTerms) {
             this.router.navigate(["/account/accept-terms"]);
@@ -206,7 +206,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
               "login-portail-usagers",
               "login_success_first_time",
               "null",
-              1,
+              1
             );
           } else {
             this.displayPasswordIndication = false;
@@ -215,11 +215,11 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
               "login-portail-usagers",
               "login_error",
               "null",
-              1,
+              1
             );
           }
         },
-      }),
+      })
     );
   }
 }
