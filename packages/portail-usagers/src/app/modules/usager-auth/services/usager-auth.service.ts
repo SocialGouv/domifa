@@ -95,7 +95,7 @@ export class UsagerAuthService {
     const queryParams: Record<string, string> = { ...matomoParams };
 
     this.router.navigate(["/auth/login"], { queryParams }).then(() => {
-      window.location.reload();
+      window.location.href = "/auth/login";
     });
   }
 

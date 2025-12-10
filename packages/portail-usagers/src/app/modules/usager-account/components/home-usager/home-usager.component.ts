@@ -32,7 +32,7 @@ export class HomeUsagerComponent implements OnInit {
     this.subscription.add(
       this.usagerAuthService.currentUsagerSubject.subscribe(
         (apiResponse: PortailUsagerProfile | null) => {
-          if (apiResponse && !apiResponse?.acceptTerms) {
+          if (apiResponse && !apiResponse.acceptTerms) {
             this.router.navigate(["/account/accept-terms"]);
             return;
           }
