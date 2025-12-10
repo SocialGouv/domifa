@@ -1,3 +1,10 @@
+# [2.231.0](https://github.com/SocialGouv/domifa/compare/v2.230.1...v2.231.0) (2025-12-10)
+
+
+### Features
+
+* **usagers:** traitement retour accessibilite vol 2 ([#4033](https://github.com/SocialGouv/domifa/issues/4033)) ([0af56c7](https://github.com/SocialGouv/domifa/commit/0af56c7199ce6a4d080eb7496359d32f2f61bba1))
+
 ## [2.230.1](https://github.com/SocialGouv/domifa/compare/v2.230.0...v2.230.1) (2025-12-08)
 
 
