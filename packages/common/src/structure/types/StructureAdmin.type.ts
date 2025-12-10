@@ -28,6 +28,7 @@ export type StructureAdmin = Pick<
   | "timeZone"
   | "importDate"
   | "lastLogin"
+  | "domicilieSegment"
 > & {
   users: number;
   usagers: number;

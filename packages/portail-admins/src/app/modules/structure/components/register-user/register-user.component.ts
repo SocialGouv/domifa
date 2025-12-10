@@ -60,7 +60,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   public showTerritories = false;
   public territoriesList: RegionsLabels = DEPARTEMENTS_LISTE;
 
-  @Input() currentStructure?: StructureAdmin | undefined = undefined;
+  @Input() currentStructure!: StructureAdmin;
   @Output() public readonly cancel = new EventEmitter<void>();
   @Output() public readonly getUsers = new EventEmitter<void>();
 
