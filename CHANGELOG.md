@@ -1,3 +1,10 @@
+## [2.231.4](https://github.com/SocialGouv/domifa/compare/v2.231.3...v2.231.4) (2025-12-11)
+
+
+### Bug Fixes
+
+* **backend:** fix recipient email ([56ee200](https://github.com/SocialGouv/domifa/commit/56ee2000b9e5ad24161b45356019b2f9505f6c50))
+
 ## [2.231.3](https://github.com/SocialGouv/domifa/compare/v2.231.2...v2.231.3) (2025-12-11)
 
 
