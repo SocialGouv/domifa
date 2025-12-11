@@ -48,6 +48,7 @@ export class AppointmentInvitationService {
       attachmentName: "rendez-vous-domifa.ics",
     });
   }
+
   private generateEventUid(data: AppointmentInvitationData): string {
     const dateStr = format(data.dateRdv, "yyyy-MM-dd");
     return `${data.usager.ref}-${dateStr}@domifa.local`;

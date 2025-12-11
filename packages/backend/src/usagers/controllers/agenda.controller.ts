@@ -64,11 +64,25 @@ export class AgendaController {
       return res.status(HttpStatus.OK).json(updatedUsager);
     }
 
-    const assignedUser = await this.getAssignedUser(currentUser, rdvDto.userId);
-
-    if (!assignedUser) {
-      throw new BadRequestException("USER_AGENDA_NOT_EXIST");
+    if (currentUser.id === rdvDto.userId) {
+      return {
+        id: currentUser.id,
+        prenom: currentUser.prenom,
+        nom: currentUser.nom,
+        email: currentUser.email,
+        structure: currentUser.structure,
+      };
     }
+
+    const user = await userStructureRepository.findOneBy({
+      id: rdvDto.userId,
+      structureId: currentUser.structureId,
+    });
+    if (!user) {
+      throw new BadRequestException("USER_AGENDA_FAIL");
+    }
+
+    const assignedUser = { ...user, structure: currentUser.structure };
 
     const updatedUsager = await this.usagersService.setRdv(
       usager,
@@ -90,32 +104,6 @@ export class AgendaController {
     }
 
     return res.status(HttpStatus.OK).json(updatedUsager);
-  }
-
-  private async getAssignedUser(
-    currentUser: UserStructureAuthenticated,
-    userId: number
-  ): Promise<Pick<
-    UserStructureAuthenticated,
-    "id" | "prenom" | "nom" | "email" | "structure"
-  > | null> {
-    if (currentUser.id === userId) {
-      return {
-        id: currentUser.id,
-        prenom: currentUser.prenom,
-        nom: currentUser.nom,
-        email: currentUser.email,
-        structure: currentUser.structure,
-      };
-    }
-    const user = await userStructureRepository.findOne({
-      where: {
-        id: userId,
-        structureId: currentUser.structureId,
-      },
-      select: ["prenom", "nom", "email", "id"],
-    });
-    return { ...user, structure: currentUser.structure };
   }
 
   private async sendAppointmentInvitation(
