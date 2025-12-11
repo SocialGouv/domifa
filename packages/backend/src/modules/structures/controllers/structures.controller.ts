@@ -204,6 +204,12 @@ export class StructuresController {
         await this.brevoSenderService.sendEmailWithTemplate({
           templateId: domifaConfig().brevo.templates.structureHardReset,
           params,
+          to: [
+            {
+              email: user.email,
+              name: `${user.prenom} ${user.nom}`,
+            },
+          ],
         });
 
         return res.status(HttpStatus.OK).json({ message: "OK" });

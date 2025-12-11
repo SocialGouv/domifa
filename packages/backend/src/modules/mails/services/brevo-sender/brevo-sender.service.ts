@@ -102,7 +102,7 @@ export class BrevoSenderService {
     templateId: number;
     subject?: string;
     params: Record<string, any>;
-    to?: Array<{ email: string; name: string }>;
+    to: Array<{ email: string; name: string }>;
     attachmentPath?: string;
     attachmentContent?: string; // base64
     attachmentName?: string;
