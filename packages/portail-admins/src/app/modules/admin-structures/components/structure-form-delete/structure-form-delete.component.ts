@@ -52,7 +52,7 @@ export class StructureFormDeleteComponent
   @Input() public structure!:
     | StructureAdmin
     | StructureCommon
-    | ApiStructureAdmin
+    | ApiStructureAdmin // TODO : delete
     | null;
   @Output() public readonly closeModals = new EventEmitter<void>();
   @Output() public readonly deleteSuccess = new EventEmitter<void>();
@@ -175,17 +175,11 @@ export class StructureFormDeleteComponent
       this.adminStructuresApiClient
         .setDecisionStructure(this.structure.id, "SUPPRIME", motif)
         .subscribe({
-          next: () => {
+          next: (structure) => {
             this.loading = false;
             this.deleteSuccess.emit();
             this.closeModal();
-            const deletedStructure = structuresCache.getStructureById(
-              this.structure.id
-            );
-            structuresCache.updateStructure({
-              ...deletedStructure,
-              statut: "SUPPRIME",
-            });
+            structuresCache.updateStructure(structure);
           },
           error: (error) => {
             this.loading = false;
