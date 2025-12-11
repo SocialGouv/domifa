@@ -328,7 +328,7 @@ export class UsersController {
 
     const link = userSecurityResetPasswordInitiator.buildResetPasswordLink({
       token: userSecurity.temporaryTokens.token,
-      userId: user.id,
+      userId: newUser.id,
       userProfile,
     });
 
