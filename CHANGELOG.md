@@ -1,3 +1,20 @@
+# [2.232.0](https://github.com/SocialGouv/domifa/compare/v2.231.4...v2.232.0) (2025-12-11)
+
+
+### Bug Fixes
+
+* **admins:** decommission de ngb module ([b4ccee3](https://github.com/SocialGouv/domifa/commit/b4ccee3be642fcad0d43a77b1fdf6d6b4dd3f1c4))
+* **admins:** fix reviews ([51e376b](https://github.com/SocialGouv/domifa/commit/51e376bdc4f528e3af4bf94d915be928b7ce0431))
+
+
+### Features
+
+* **admin:**  implementing password reset ([3a1a7e3](https://github.com/SocialGouv/domifa/commit/3a1a7e362573d5df2fca79e9ddf29e6292eed0d9))
+* **admin:** fix reviews ([8d94b73](https://github.com/SocialGouv/domifa/commit/8d94b7382aa02d7cc085d6819601a8d86ff7e98d))
+* **admin:** init dsfr admin ([baea0b4](https://github.com/SocialGouv/domifa/commit/baea0b4577bc320063c63f802577e219134e30d2))
+* **admin:** integrating nat stat ([2a96d74](https://github.com/SocialGouv/domifa/commit/2a96d74eb4c7fe707bdf47ee919b68ffc68c0216))
+* **admins:** login page admin ([feb30fd](https://github.com/SocialGouv/domifa/commit/feb30fd1e10df33688300bd87e922a3f28dbc56a))
+
 ## [2.231.4](https://github.com/SocialGouv/domifa/compare/v2.231.3...v2.231.4) (2025-12-11)
 
 
