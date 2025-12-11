@@ -208,6 +208,7 @@ export class StructuresController {
 
         return res.status(HttpStatus.OK).json({ message: "OK" });
       } catch (error) {
+        console.log(error);
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .json({ message: "HARD_RESET_ERROR" });

@@ -6,7 +6,6 @@ import {
   Post,
   Res,
   UseGuards,
-  BadRequestException,
   InternalServerErrorException,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
@@ -65,21 +64,24 @@ export class AgendaController {
     }
 
     if (currentUser.id === rdvDto.userId) {
-      return {
+      return res.status(HttpStatus.OK).json({
         id: currentUser.id,
         prenom: currentUser.prenom,
         nom: currentUser.nom,
         email: currentUser.email,
         structure: currentUser.structure,
-      };
+      });
     }
 
     const user = await userStructureRepository.findOneBy({
       id: rdvDto.userId,
       structureId: currentUser.structureId,
     });
+
     if (!user) {
-      throw new BadRequestException("USER_AGENDA_FAIL");
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "USER_AGENDA_FAIL" });
     }
 
     const assignedUser = { ...user, structure: currentUser.structure };
@@ -91,7 +93,9 @@ export class AgendaController {
     );
 
     if (!updatedUsager) {
-      throw new InternalServerErrorException("CANNOT_SET_RDV");
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "CANNOT_SET_RDV" });
     }
 
     if (domifaConfig().email.emailsEnabled) {
