@@ -1,3 +1,10 @@
+## [2.231.2](https://github.com/SocialGouv/domifa/compare/v2.231.1...v2.231.2) (2025-12-11)
+
+
+### Bug Fixes
+
+* **backend:** fix set appointment email ([#4035](https://github.com/SocialGouv/domifa/issues/4035)) ([5c8b2c2](https://github.com/SocialGouv/domifa/commit/5c8b2c27280207188ce434e313ef01bef1115f96))
+
 ## [2.231.1](https://github.com/SocialGouv/domifa/compare/v2.231.0...v2.231.1) (2025-12-10)
 
 
