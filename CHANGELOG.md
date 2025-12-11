@@ -1,3 +1,10 @@
+## [2.231.3](https://github.com/SocialGouv/domifa/compare/v2.231.2...v2.231.3) (2025-12-11)
+
+
+### Bug Fixes
+
+* **backend:** fix appointment with me ([#4036](https://github.com/SocialGouv/domifa/issues/4036)) ([6e09d53](https://github.com/SocialGouv/domifa/commit/6e09d53c00755b8503c725a0f01448f6ddfe6652))
+
 ## [2.231.2](https://github.com/SocialGouv/domifa/compare/v2.231.1...v2.231.2) (2025-12-11)
 
 
