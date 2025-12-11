@@ -99,6 +99,12 @@ export class ContactSupportController {
         templateId: domifaConfig().brevo.templates.contactSupport,
         subject,
         params,
+        to: [
+          {
+            email: domifaConfig().email.emailAddressAdmin,
+            name: "DomiFa",
+          },
+        ],
         attachmentPath: file?.path,
       });
 
