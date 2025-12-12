@@ -1,0 +1,31 @@
+<div class="fr-input-group">
+  <label class="fr-label" for="phone-international">
+    Numéro de téléphone international
+  </label>
+  <div class="fr-grid-row fr-grid-row--gutters">
+    <div class="fr-col-4">
+      <div class="fr-select-group">
+        <select
+          id="country-code"
+          name="countryCode"
+          class="fr-select"
+          [(ngModel)]="selectedCountryCode"
+        >
+          <option *ngFor="let country of countries" [value]="country.dialCode">
+            +{{ country.dialCode }} - {{ country.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="fr-col-8">
+      <input
+        type="tel"
+        id="phone-international"
+        name="phoneNumber"
+        class="fr-input"
+        placeholder="Numéro de téléphone"
+        [(ngModel)]="phoneNumber"
+      />
+    </div>
+  </div>
+</div>
