@@ -71,7 +71,7 @@ jobs:
         run: DISABLE_TYPEORM_CLOSE=1 yarn workspace @domifa/backend jest --coverage --detectOpenHandles --forceExit --runInBand
 
       - name: Archive code coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: backend-coverage
           path: packages/backend/coverage
@@ -106,7 +106,7 @@ jobs:
         run: yarn workspace @domifa/common test --coverage --detectOpenHandles --forceExit
 
       - name: Archive code coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: common-coverage
           path: packages/common/coverage
@@ -141,7 +141,7 @@ jobs:
         run: yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
 
       - name: Archive code coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: frontend-coverage
           path: packages/frontend/coverage
@@ -171,7 +171,7 @@ jobs:
         run: yarn workspace @domifa/portail-usagers test --coverage --detectOpenHandles --forceExit
 
       - name: Archive code coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: portail-usagers-coverage
           path: packages/portail-usagers/coverage
@@ -201,7 +201,7 @@ jobs:
         run: yarn workspace @domifa/portail-admins test --coverage --detectOpenHandles --forceExit
 
       - name: Archive code coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: portail-admins-coverage
           path: packages/portail-admins/coverage
@@ -244,13 +244,13 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Download backend coverage
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: backend-coverage
           path: packages/backend/coverage
 
       - name: Download front-end coverage
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: frontend-coverage
           path: packages/frontend/coverage
