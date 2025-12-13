@@ -26,13 +26,6 @@
               {{ information.title }}
             </h3>
             <p
-              class="d-block fw-bold"
-              *ngIf="information?.startDate && information?.endDate"
-            >
-              Du {{ information.startDate | date : "dd MMMM yyyy" }} au
-              {{ information.endDate | date : "dd MMMM yyyy" }}
-            </p>
-            <p
               *ngIf="information.description"
               [innerHTML]="information.description | nl2br"
             ></p>
