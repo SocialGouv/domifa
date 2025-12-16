@@ -1,0 +1,215 @@
+<div class="fr-header__tools-links">
+  <!-- Logged out -->
+
+  <ul class="fr-btns-group fr-mb-n5v">
+    <li *ngIf="!me" class="d-none d-md-block">
+      <a routerLink="/faq" class="fr-btn">besoin d'aide ?</a>
+    </li>
+    <li *ngIf="!me" class="d-none d-md-block">
+      <dsfrx-dropdownmenu
+        [labelMenu]="'Se connecter'"
+        iconMenu="fr-icon-account-circle-line"
+        [closeOnAction]="true"
+        appendTo="body"
+        size="LG"
+      >
+        <ng-template #contentTemplate>
+          <ng-container>
+            <dsfrx-dropdownmenu-item>
+              <a
+                (click)="
+                  matomoService.trackEvent('HEADER', 'Header_ESP', 'null', 1)
+                "
+                routerLink="/connexion"
+                type="link"
+                class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block text-dark"
+              >
+                <i class="fr-icon-home-4-line" aria-hidden="true"></i>
+                CCAS, organismes agréés
+              </a>
+            </dsfrx-dropdownmenu-item>
+
+            <dsfrx-dropdownmenu-item>
+              <a
+                href="https://mon-domifa.fabrique.social.gouv.fr/auth/login"
+                type="link"
+                class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left d-block text-dark"
+              >
+                <i class="fr-icon-person-mail-icon" aria-hidden="true"></i>
+                Domiciliés
+              </a>
+            </dsfrx-dropdownmenu-item>
+          </ng-container>
+          <dsfrx-dropdownmenu-item>
+            <a
+              href="https://admin-domifa.fabrique.social.gouv.fr/auth/login"
+              type="link"
+              class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block text-dark"
+            >
+              <i class="fr-icon-building-4-line" aria-hidden="true"></i>
+              DGCS
+            </a>
+          </dsfrx-dropdownmenu-item>
+        </ng-template>
+      </dsfrx-dropdownmenu>
+    </li>
+  </ul>
+
+  <!-- loggedin -->
+  <ul *ngIf="me" class="fr-btns-group fr-mb-n5v">
+    <!-- Web -->
+    <li class="d-none d-md-block">
+      <a [routerLink]="['/manage']" class="fr-btn">Domiciliés</a>
+    </li>
+    <li class="d-none d-md-block">
+      <dsfrx-dropdownmenu
+        [labelMenu]="'Mon espace'"
+        [ariaLabelMenu]="'Espace utilisateur '"
+        iconMenu="fr-icon-account-circle-line"
+        [closeOnAction]="true"
+        appendTo="body"
+        size="LG"
+      >
+        <ng-template #contentTemplate>
+          <ng-container>
+            <dsfrx-dropdownmenu-item>
+              <div class="d-flex flex-column p-3 w-100 gap-2 border-bottom">
+                <span class="fw-bold"> {{ me.nom }} {{ me.prenom }}</span>
+                <span> {{ me.email }}</span>
+              </div>
+            </dsfrx-dropdownmenu-item>
+            <dsfrx-dropdownmenu-item>
+              <a
+                routerLink="/news"
+                ariaCurrentWhenActive="page"
+                class="fr-btn text-dark fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block py-3 w-100 border-bottom"
+              >
+                <i class="fr-icon-newspaper-line" aria-hidden="true"></i>
+                Nouveautés
+              </a>
+            </dsfrx-dropdownmenu-item>
+
+            <dsfrx-dropdownmenu-item>
+              <a
+                ariaCurrentWhenActive="page"
+                routerLink="/users/mon-compte"
+                type="link"
+                class="fr-btn text-dark fr-btn--tertiary-no-outline fr-btn--icon-left d-block py-3 w-100 border-bottom"
+              >
+                <i class="fr-icon-admin-line" aria-hidden="true"></i>
+                Gérér mon compte
+              </a>
+            </dsfrx-dropdownmenu-item>
+          </ng-container>
+          <ng-template [appHasRole]="['admin', 'responsable']">
+            <dsfrx-dropdownmenu-item>
+              <a
+                ariaCurrentWhenActive="page"
+                routerLink="/users/comptes"
+                type="link"
+                class="fr-btn text-dark fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block py-3 w-100 border-bottom"
+              >
+                <i class="fr-icon-group-line" aria-hidden="true"></i>
+                Gérér les utilisateurs
+              </a>
+            </dsfrx-dropdownmenu-item>
+          </ng-template>
+          <ng-template [appHasRole]="['admin', 'responsable']">
+            <dsfrx-dropdownmenu-item>
+              <a
+                ariaCurrentWhenActive="page"
+                routerLink="/structures/edit"
+                type="link"
+                class="fr-btn text-dark fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block py-3 w-100 border-bottom"
+              >
+                <i class="fr-icon-community-line" aria-hidden="true"></i>
+                Informations de la structure
+              </a>
+            </dsfrx-dropdownmenu-item>
+          </ng-template>
+          <ng-template [appHasRole]="['admin', 'responsable']">
+            <dsfrx-dropdownmenu-item>
+              <a
+                ariaCurrentWhenActive="page"
+                routerLink="/structures/documents"
+                type="link"
+                class="fr-btn text-dark fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block py-3 w-100 border-bottom"
+              >
+                <i class="fr-icon-file-text-line" aria-hidden="true"></i>
+                Documents de la structure
+              </a>
+            </dsfrx-dropdownmenu-item>
+          </ng-template>
+
+          <ng-template [appHasRole]="['admin', 'responsable']">
+            <ng-container *ngIf="me.structure?.sms?.enabledByDomifa">
+              <dsfrx-dropdownmenu-item>
+                <a
+                  ariaCurrentWhenActive="page"
+                  routerLink="/structures/sms"
+                  type="link"
+                  class="fr-btn text-dark fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block py-3 w-100 border-bottom"
+                >
+                  <i class="fr-icon-smartphone-line" aria-hidden="true"></i>
+                  Gérer l'envoi de SMS
+                </a>
+              </dsfrx-dropdownmenu-item>
+            </ng-container>
+          </ng-template>
+          <ng-template [appHasRole]="['admin', 'responsable']">
+            <ng-container *ngIf="me.structure?.portailUsager.enabledByDomifa">
+              <dsfrx-dropdownmenu-item>
+                <a
+                  ariaCurrentWhenActive="page"
+                  routerLink="/structures/portail-usager"
+                  type="link"
+                  class="fr-btn text-dark fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block py-3 w-100 border-bottom"
+                >
+                  <i class="fr-icon-computer-line" aria-hidden="true"></i>
+                  Gérer le portail domicilié
+                </a>
+              </dsfrx-dropdownmenu-item>
+            </ng-container>
+          </ng-template>
+
+          <dsfrx-dropdownmenu-item>
+            <a
+              ariaCurrentWhenActive="page"
+              routerLink="/structure-stats"
+              type="link"
+              class="fr-btn text-dark fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block py-3 w-100 border-bottom"
+            >
+              <i class="fr-icon-bar-chart-2-line" aria-hidden="true"></i>
+              Consulter les statistiques
+            </a>
+          </dsfrx-dropdownmenu-item>
+          <ng-template [appHasRole]="['admin', 'responsable', 'simple']">
+            <dsfrx-dropdownmenu-item>
+              <a
+                ariaCurrentWhenActive="page"
+                routerLink="/import"
+                type="link"
+                class="fr-btn text-dark fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block py-3 w-100"
+              >
+                <i class="fr-icon-upload-line" aria-hidden="true"></i>
+                Importer des domiciliés
+              </a>
+            </dsfrx-dropdownmenu-item>
+          </ng-template>
+
+          <dsfrx-dropdownmenu-item>
+            <div class="d-flex justify-content-center w-100 py-3">
+              <button
+                (click)="logout()"
+                type="button"
+                class="fr-btn fr-icon-logout-box-r-line fr-btn--icon-left fr-btn--secondary px-4"
+              >
+                Se déconnecter
+              </button>
+            </div>
+          </dsfrx-dropdownmenu-item>
+        </ng-template>
+      </dsfrx-dropdownmenu>
+    </li>
+  </ul>
+</div>
