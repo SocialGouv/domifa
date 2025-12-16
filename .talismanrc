@@ -1,52 +1,52 @@
 fileignoreconfig:
-  - filename: .anonymizer/yarn.lock
-    checksum: adf574ab2b9fc5e21891b802504438b9f7738c8854047dbc7ca628cd3994ef5f
-  - filename: .kontinuous/env/dev/templates/backend.sealed-secret.yaml
-    checksum: b0fb543f5704f8c6c0410bd9d4dcb3fb0ee81078750f46cebeca6c37b56b63a8
-  - filename: .kontinuous/env/preprod/templates/backend.sealed-secret.yaml
-    checksum: 4328b99895292731f5e4e75391b442d1c098aff466c1649faa7c1840550a6cd6
-  - filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
-    checksum: a6d69a27445845d23455b1440f449485fbeefd07ca2549f96b8dea8603e584bd
-  - filename: _docs/dev/0.run-local-env.md
-    checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
-  - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-    checksum: f6e35be32579c7a13ed58db688c20a68521d89ece97171647cc2a3c58ac5cec5
-  - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-    checksum: 0f73652f32a4d79243ee555a5dd6e5ca2186c87a3d0622a564328492e580a03c
-  - filename: packages/backend/package.json
-    checksum: 2f5813dbc35cdc3659516beabf9f93e2978eb62d1b5403cfbb2907f22bb25355
-  - filename: packages/backend/src/_migrations/1757532174131-auto-migration.ts
-    checksum: e2d06e63d58935b349f2591b0a3c407c254be26c4e833456829e7c605fc7411b
-  - filename: packages/backend/src/_migrations/1759327920930-auto-migration.ts
-    checksum: f9096a9010ab4dd663b09c37d6c84f3b9f273cf0fd9ac02d850bbafcc16371d0
-  - filename: packages/backend/src/_migrations/1760044365787-auto-migration.ts
-    checksum: 05cafb91fb17905b562fe559181b2d2e9eed43a650b07025a15e58d9311d4411
-  - filename: packages/backend/src/_migrations/1763999725431-auto-migration.ts
-    checksum: 3762d1281d4109a0f57e6f100d49340db6528a17b4b9421d02cf0349b93fc3a0
-  - filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
-    checksum: eb5830a53f6558916812a8c3628d7ffed713dc4d0842eee7580dccbae28bd607
-  - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.spec.ts
-    checksum: 8f66091255109d0da277819584c6c69d4a7f720256842851a49b0dda16af6651
-  - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.ts
-    checksum: a0fbc6fca054f17c58d411b55a45acfa2351309a270968298aafcede7b7ae31f
-  - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/services/structuresSearchStringFilter.service.ts
-    checksum: fe3243c2d2adc23ed62431597b6ae7b3cb61fb25d876f1ada2de5387f0872b0b
-  - filename: packages/portail-admins/src/app/modules/admin-structures/components/structure-filters/structure-filters.component.spec.ts
-    checksum: d202296bc7f349c0dc6bf140be961d8c321f57d9188325a07c49a6ca10c55b3b
-  - filename: packages/portail-admins/src/app/modules/admin-structures/components/structure-filters/structure-filters.component.ts
-    checksum: e6d4d9afca6797fbf98f12db96ad37a21d61289539827390ba5b4aefeb92a6b2
-  - filename: packages/portail-admins/src/app/modules/admin-structures/utils/structure-filter-criteria.ts
-    checksum: c54f1bf45a44280960869561243668e7a92713fb5265f008a95fc3fe66014bf1
-  - filename: packages/portail-admins/src/app/modules/general/components/static-pages/politique/politique.component.ts
-    checksum: d1cc83582130541b0aff2b8b3984e907b889c057b21f8f251c9b55583e864703
-  - filename: packages/portail-usagers/src/app/modules/general/components/_static/politique/politique.component.html
-    checksum: c569c439ae74865248ff9a0840b658903e31f2b64af367760de27155957c6ea9
-  - filename: packages/portail-usagers/src/app/modules/general/components/_static/politique/politique.component.ts
-    checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
-  - filename: pnpm-lock.yaml
-    checksum: e7aa404810a1a84ba8420d72a48563d955df656c40d01d2f8e6b6e10de787a5a
+- filename: .anonymizer/yarn.lock
+  checksum: adf574ab2b9fc5e21891b802504438b9f7738c8854047dbc7ca628cd3994ef5f
+- filename: .kontinuous/env/dev/templates/backend.sealed-secret.yaml
+  checksum: b0fb543f5704f8c6c0410bd9d4dcb3fb0ee81078750f46cebeca6c37b56b63a8
+- filename: .kontinuous/env/preprod/templates/backend.sealed-secret.yaml
+  checksum: 4328b99895292731f5e4e75391b442d1c098aff466c1649faa7c1840550a6cd6
+- filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
+  checksum: a6d69a27445845d23455b1440f449485fbeefd07ca2549f96b8dea8603e584bd
+- filename: _docs/dev/0.run-local-env.md
+  checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
+- filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
+  checksum: f6e35be32579c7a13ed58db688c20a68521d89ece97171647cc2a3c58ac5cec5
+- filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
+  checksum: 0f73652f32a4d79243ee555a5dd6e5ca2186c87a3d0622a564328492e580a03c
+- filename: packages/backend/package.json
+  checksum: 2f5813dbc35cdc3659516beabf9f93e2978eb62d1b5403cfbb2907f22bb25355
+- filename: packages/backend/src/_migrations/1757532174131-auto-migration.ts
+  checksum: e2d06e63d58935b349f2591b0a3c407c254be26c4e833456829e7c605fc7411b
+- filename: packages/backend/src/_migrations/1759327920930-auto-migration.ts
+  checksum: f9096a9010ab4dd663b09c37d6c84f3b9f273cf0fd9ac02d850bbafcc16371d0
+- filename: packages/backend/src/_migrations/1760044365787-auto-migration.ts
+  checksum: 05cafb91fb17905b562fe559181b2d2e9eed43a650b07025a15e58d9311d4411
+- filename: packages/backend/src/_migrations/1763999725431-auto-migration.ts
+  checksum: 3762d1281d4109a0f57e6f100d49340db6528a17b4b9421d02cf0349b93fc3a0
+- filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
+  checksum: eb5830a53f6558916812a8c3628d7ffed713dc4d0842eee7580dccbae28bd607
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.spec.ts
+  checksum: 8f66091255109d0da277819584c6c69d4a7f720256842851a49b0dda16af6651
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.ts
+  checksum: a0fbc6fca054f17c58d411b55a45acfa2351309a270968298aafcede7b7ae31f
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/services/structuresSearchStringFilter.service.ts
+  checksum: fe3243c2d2adc23ed62431597b6ae7b3cb61fb25d876f1ada2de5387f0872b0b
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/structure-filters/structure-filters.component.spec.ts
+  checksum: d202296bc7f349c0dc6bf140be961d8c321f57d9188325a07c49a6ca10c55b3b
+- filename: packages/portail-admins/src/app/modules/admin-structures/components/structure-filters/structure-filters.component.ts
+  checksum: e6d4d9afca6797fbf98f12db96ad37a21d61289539827390ba5b4aefeb92a6b2
+- filename: packages/portail-admins/src/app/modules/admin-structures/utils/structure-filter-criteria.ts
+  checksum: c54f1bf45a44280960869561243668e7a92713fb5265f008a95fc3fe66014bf1
+- filename: packages/portail-admins/src/app/modules/general/components/static-pages/politique/politique.component.ts
+  checksum: d1cc83582130541b0aff2b8b3984e907b889c057b21f8f251c9b55583e864703
+- filename: packages/portail-usagers/src/app/modules/general/components/_static/politique/politique.component.html
+  checksum: c569c439ae74865248ff9a0840b658903e31f2b64af367760de27155957c6ea9
+- filename: packages/portail-usagers/src/app/modules/general/components/_static/politique/politique.component.ts
+  checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
+- filename: pnpm-lock.yaml
+  checksum: 5074d34712caeff289f448370bf1dae06a94c1f73debed7aabf774e9fd77cb01
 allowed_patterns:
-  - uses:\s*[\w\-\.]+/[\w\-\.]+@[a-fA-F0-9]{40}
-  - uses:\s*[\w\-\.]+/[\w\-\.]+/[\w\-\./]*@[a-fA-F0-9]{40}
+- uses:\s*[\w\-\.]+/[\w\-\.]+@[a-fA-F0-9]{40}
+- uses:\s*[\w\-\.]+/[\w\-\.]+/[\w\-\./]*@[a-fA-F0-9]{40}
 threshold: medium
 version: "1.0"
