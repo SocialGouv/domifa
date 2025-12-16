@@ -1,324 +1,201 @@
-<header id="page-header" role="banner">
-  <div id="matomo-info" *ngIf="!matomoInfo">
-    <div
-      class="d-print-none d-flex justify-content-center align-items-center"
-      role="dialog"
-      aria-modal="true"
-    >
-      <p class="my-0 text-start">
-        <b>Avertissement sur la collecte de données</b><br />
-        Nous collectons des données anonymisées à des fins statistiques via
-        l'outil français Matomo. Pour tout savoir sur notre utilisation des
-        données, consultez notre
-        <a [routerLink]="['/confidentialite']" ariaCurrentWhenActive="page">
-          politique de confidentialité.
-        </a>
-      </p>
-
-      <div class="mx-2">
-        <button
-          type="button"
-          class="btn btn-white-primary"
-          (click)="closeMatomo()"
-        >
-          Fermer le message
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    </div>
-  </div>
-  <nav
-    role="navigation"
-    class="navbar navbar-expand-lg"
-    id="navbar-site"
-    aria-label="Navigation principale"
-  >
-    <div
-      class="container d-flex justify-content-md-between justify-content-center align-items-center px-2"
-    >
-      <div class="d-flex align-items-center">
-        <img
-          class="home-header-image"
-          src="/assets/images/logo-ministere.jpg"
-          alt="Ministère du Travail, de la Santé, des Solidarités et des familles"
-        />
-        <a
-          class="navbar-brand ms-4"
-          aria-label="Retour à l'accueil de DomiFa"
-          [routerLink]="['/']"
-          ariaCurrentWhenActive="page"
-        >
-          <img
-            class="domifa-logo"
-            src="/assets/images/logo.svg"
-            alt="Accueil"
-          />
-          <span class="d-none d-sm-inline-block" id="nom-asso" *ngIf="me">
-            {{ me.structure.nom }}
-          </span>
-        </a>
-      </div>
-      <div>
-        <div class="navbar-collapse" id="navbarsDefault">
-          <div class="my-2 my-lg-0">
-            <!-- MENU SI DECONNECTE - SAUF MOBILE -->
-            <ng-container *ngIf="!me">
-              <div class="d-none d-xs-inline-block d-sm-inline-block">
-                <a
-                  ariaCurrentWhenActive="page"
-                  routerLink="/news"
-                  class="btn btn-outline-primary"
-                  (click)="
-                    matomoService.trackEvent('HEADER', 'Header_ESP', 'null', 1)
-                  "
-                >
-                  <span
-                    *ngIf="pendingNews"
-                    class="pulse-button"
-                    aria-hidden="true"
-                  ></span>
-                  <span [ngClass]="pendingNews ? 'fw-bold' : ''"
-                    >Nouveautés
-                  </span>
-                </a>
-
-                <a
-                  routerLink="/faq"
-                  class="btn btn-outline-primary"
-                  (click)="
-                    matomoService.trackEvent('HEADER', 'Header_ESP', 'null', 1)
-                  "
-                >
-                  En savoir plus
-                </a>
-                <a routerLink="/connexion" class="btn btn-outline-primary">
-                  Me connecter
-                  <fa-icon
-                    [icon]="['fas', 'arrow-right']"
-                    aria-hidden="true"
-                  ></fa-icon>
-                </a>
-              </div>
-
-              <!-- MENU SI DECONNECTE - MOBILE -->
-              <div
-                ngbDropdown
-                id="dropdownNotAuthenticatedMenu"
-                placement="bottom"
-                class="d-inline-block d-xs-none d-sm-none text-sm-center"
+<app-alerte-confidentialite></app-alerte-confidentialite>
+<header role="banner" class="fr-header" id="mainHeader">
+  <div class="fr-header__body">
+    <div class="fr-container">
+      <div class="fr-header__body-row">
+        <div class="fr-header__brand fr-enlarge-link">
+          <div class="fr-header__brand-top">
+            <div class="fr-header__logo">
+              <p class="fr-logo">République <br />française</p>
+            </div>
+            <div class="fr-header__navbar">
+              <button
+                data-fr-opened="false"
+                aria-controls="loggedOffMenu"
+                title="Menu"
+                type="button"
+                id="navbar-site"
+                class="fr-btn--menu fr-btn"
               >
-                <button
-                  class="btn btn-outline-primary"
-                  ngbDropdownToggle
-                  type="button"
-                >
-                  <img
-                    src="../assets/icones/menu.svg"
-                    alt="Menu du site"
-                    aria-hidden="true"
-                  />
-                  Menu du site
-                </button>
-                <div
-                  ngbDropdownMenu
-                  aria-labelledby="dropdownNotAuthenticatedMenu"
-                >
-                  <a routerLink="/news" ngbDropdownItem>
-                    <span
-                      aria-hidden="true"
-                      *ngIf="pendingNews"
-                      class="pulse-button"
-                    ></span>
-                    <span [ngClass]="pendingNews ? 'fw-bold' : ''"
-                      >Nouveautés</span
-                    >
-                  </a>
-                  <a ngbDropdownItem routerLink="/faq">En savoir plus</a>
-                  <a ngbDropdownItem routerLink="/connexion">Me connecter</a>
-                </div>
-              </div>
-            </ng-container>
-
-            <!-- MENU CONNECTE -->
-            <ng-container *ngIf="me">
-              <div class="d-flex">
-                <a
-                  *ngIf="me?.role === 'admin' && me.structureId === 1"
-                  class="btn btn-outline-primary"
-                  [href]="portailAdminUrl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  ariaCurrentWhenActive="page"
-                >
-                  <fa-icon
-                    aria-hidden="true"
-                    [icon]="['fas', 'user-shield']"
-                  ></fa-icon>
-                  Admin DomiFa
-                </a>
-
-                <a
-                  class="btn btn-outline-primary"
-                  routerLink="/manage"
-                  ariaCurrentWhenActive="page"
-                >
-                  <fa-icon
-                    aria-hidden="true"
-                    [icon]="['fas', 'users']"
-                    class="me-2"
-                  ></fa-icon>
-                  Domiciliés
-                </a>
-                <div
-                  ngbDropdown
-                  id="dropdownAuthenticatedMenu"
-                  display="dynamic"
-                  placement="bottom-end"
-                >
-                  <button
-                    class="btn btn-outline-primary"
-                    data-toggle="dropdown"
-                    ngbDropdownToggle
-                    type="button"
-                  >
-                    Mon compte
-                  </button>
-                  <div
-                    ngbDropdownMenu
-                    aria-labelledby="dropdownAuthenticatedMenu"
-                  >
-                    <a
-                      ngbDropdownItem
-                      routerLink="/news"
-                      ariaCurrentWhenActive="page"
-                    >
-                      <fa-icon
-                        aria-hidden="true"
-                        [icon]="['fas', 'rss']"
-                      ></fa-icon>
-                      <span [ngClass]="pendingNews ? 'fw-bold' : ''"
-                        >Nouveautés
-                      </span>
-                      <span
-                        *ngIf="pendingNews"
-                        class="pulse-button"
-                        aria-hidden="true"
-                      ></span>
-                    </a>
-                    <a
-                      ngbDropdownItem
-                      routerLink="/users/mon-compte"
-                      ariaCurrentWhenActive="page"
-                    >
-                      <fa-icon
-                        aria-hidden="true"
-                        [icon]="['fas', 'user']"
-                      ></fa-icon>
-                      Gérer mon compte
-                    </a>
-                    <a
-                      ngbDropdownItem
-                      *ngIf="me?.role === 'admin' || me?.role === 'responsable'"
-                      routerLink="/users/comptes"
-                      ariaCurrentWhenActive="page"
-                    >
-                      <fa-icon aria-hidden="true" [icon]="['fas', 'users']">
-                      </fa-icon>
-                      Gérer les utilisateurs
-                    </a>
-                    <a
-                      ngbDropdownItem
-                      *ngIf="me?.role === 'admin' || me?.role === 'responsable'"
-                      routerLink="/structures/edit"
-                      ariaCurrentWhenActive="page"
-                    >
-                      <fa-icon aria-hidden="true" [icon]="['fas', 'home']">
-                      </fa-icon>
-                      Informations de la structure
-                    </a>
-                    <a
-                      ngbDropdownItem
-                      *ngIf="me?.role === 'admin' || me?.role === 'responsable'"
-                      routerLink="/structures/documents"
-                      ariaCurrentWhenActive="page"
-                    >
-                      <fa-icon aria-hidden="true" [icon]="['far', 'file-word']">
-                      </fa-icon>
-                      Documents de la structure
-                    </a>
-                    <a
-                      ngbDropdownItem
-                      *ngIf="
-                        me?.role === 'admin' &&
-                        me.structure?.sms?.enabledByDomifa
-                      "
-                      routerLink="/structures/sms"
-                    >
-                      <fa-icon
-                        aria-hidden="true"
-                        [icon]="['fas', 'sms']"
-                      ></fa-icon>
-                      Gérer l'envoi des SMS
-                      <span
-                        class="bg-warning badge ms-2 text-dark"
-                        *ngIf="!me.structure?.sms?.enabledByStructure"
-                        >À activer</span
-                      >
-                    </a>
-                    <a
-                      ngbDropdownItem
-                      *ngIf="
-                        me?.role === 'admin' &&
-                        me.structure?.portailUsager?.enabledByDomifa
-                      "
-                      routerLink="/structures/portail-usager"
-                      ariaCurrentWhenActive="page"
-                    >
-                      <fa-icon aria-hidden="true" icon="user-secret"></fa-icon>
-                      Gérer le portail domicilié
-                      <span
-                        class="bg-warning badge ms-2 text-dark"
-                        *ngIf="!me.structure?.portailUsager?.enabledByStructure"
-                        >À activer</span
-                      >
-                    </a>
-                    <a
-                      ngbDropdownItem
-                      routerLink="/structure-stats"
-                      ariaCurrentWhenActive="page"
-                    >
-                      <fa-icon [icon]="['far', 'chart-bar']" aria-hidden="true">
-                      </fa-icon>
-                      Consulter les statistiques
-                    </a>
-
-                    <a
-                      ngbDropdownItem
-                      *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
-                      routerLink="/import"
-                      ariaCurrentWhenActive="page"
-                    >
-                      <fa-icon
-                        aria-hidden="true"
-                        [icon]="['fas', 'upload']"
-                      ></fa-icon>
-                      Importer des domiciliés
-                    </a>
-                    <button type="button" ngbDropdownItem (click)="logout()">
-                      <fa-icon
-                        aria-hidden="true"
-                        [icon]="['fas', 'sign-out-alt']"
-                      >
-                      </fa-icon>
-                      Me déconnecter
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </ng-container>
+                Menu
+              </button>
+            </div>
           </div>
+          <div class="fr-header__operator">
+            <a
+              href="/"
+              title="Retour à l'accueil du site - Domifa - République Française"
+            >
+              <img
+                class="fr-responsive-img"
+                src="assets/images/logo-dsfr.svg"
+                alt="Retour à l'accueil du site - Domifa - République Française"
+              />
+            </a>
+          </div>
+        </div>
+
+        <div class="fr-header__tools">
+          <app-login-dropdown [me]="me"></app-login-dropdown>
         </div>
       </div>
     </div>
-  </nav>
+  </div>
+  <div
+    class="fr-header__menu fr-modal"
+    id="loggedOffMenu"
+    aria-labelledby="navbar-site"
+  >
+    <div class="fr-container">
+      <button
+        aria-controls="loggedOffMenu"
+        title="Fermer"
+        type="button"
+        id="btnFermerMenu"
+        class="fr-btn--close fr-btn"
+      >
+        Fermer
+      </button>
+      <nav
+        class="fr-nav"
+        id="header-navigation"
+        role="navigation"
+        aria-label="Menu principal"
+      >
+        <!-- logged out menu start -->
+        <ul class="fr-nav__list">
+          <li *ngIf="!me" class="fr-nav__item d-block d-md-none">
+            <button
+              id="loginDropDown"
+              aria-expanded="false"
+              aria-controls="loginDropDown"
+              type="button"
+              class="fr-nav__btn justify-content-start gap-1 w-100"
+            >
+              Se connecter
+            </button>
+            <div class="fr-collapse fr-menu" id="loginDropDown">
+              <ul class="fr-menu__list">
+                <li>
+                  <a
+                    id="loginDropDown-1"
+                    type="link"
+                    routerLink="/connexion"
+                    class="fr-nav__link justify-content-start gap-2"
+                  >
+                    <span class="fr-icon-home-4-line" aria-hidden="true"></span>
+                    CCAS, organismes agréés</a
+                  >
+                </li>
+                <li>
+                  <a
+                    id="loginDropDown-2"
+                    type="menu"
+                    href="https://mon-domifa.fabrique.social.gouv.fr/"
+                    class="fr-nav__link justify-content-start gap-2"
+                    ><span
+                      class="fr-icon-person-mail-icon"
+                      aria-hidden="true"
+                    ></span
+                    >Domiciliés</a
+                  >
+                </li>
+                <li>
+                  <a
+                    id="loginDropDown-3"
+                    type="link"
+                    href="https://admin.fabrique.social.gouv.fr/"
+                    class="fr-nav__link justify-content-start gap-2"
+                    ><span
+                      class="fr-icon-building-4-line"
+                      aria-hidden="true"
+                    ></span
+                    >DGCS</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </li>
+          <ng-container *ngIf="!me">
+            <li class="fr-nav__item">
+              <a
+                id="link-accueil"
+                type="link"
+                href=""
+                aria-label="Retour à l'accueil de DomiFa"
+                [routerLink]="['/']"
+                ariaCurrentWhenActive="page"
+                class="fr-nav__link"
+                >Accueil</a
+              >
+            </li>
+            <li class="fr-nav__item">
+              <a
+                id="link-inscription"
+                type="link"
+                routerLink="/structures/inscription"
+                ariaCurrentWhenActive="page"
+                class="fr-nav__link"
+                >Inscrire ma structure</a
+              >
+            </li>
+            <li class="fr-nav__item">
+              <a
+                id="link-stats"
+                type="link"
+                [routerLink]="['/stats']"
+                ariaCurrentWhenActive="page"
+                class="fr-nav__link"
+                >Statistiques</a
+              >
+            </li>
+            <li class="fr-nav__item">
+              <a
+                id="link-impact"
+                type="link"
+                [routerLink]="['/stats/impact']"
+                ariaCurrentWhenActive="page"
+                class="fr-nav__link"
+                >Impact</a
+              >
+            </li>
+            <li class="fr-nav__item">
+              <a
+                id="link-news"
+                type="link"
+                [routerLink]="['/news']"
+                ariaCurrentWhenActive="page"
+                class="fr-nav__link"
+                >Nouveautés</a
+              >
+            </li>
+            <li class="fr-nav__item">
+              <a
+                id="link-contact"
+                type="link"
+                [routerLink]="['/contact']"
+                ariaCurrentWhenActive="page"
+                class="fr-nav__link"
+                >Nous contacter</a
+              >
+            </li>
+            <li class="fr-nav__item d-block d-md-none">
+              <a
+                id="link-faq"
+                type="link"
+                [routerLink]="['/faq']"
+                ariaCurrentWhenActive="page"
+                class="fr-nav__link"
+                >Besoin d'aide</a
+              >
+            </li>
+          </ng-container>
+        </ul>
+        <!-- logged out menu end -->
+      </nav>
+      <div class="fr-header__menu-links">
+        <app-login-modal-menu [me]="me"></app-login-modal-menu>
+      </div>
+    </div>
+  </div>
 </header>

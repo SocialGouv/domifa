@@ -17,6 +17,9 @@ import { FormsModule } from "@angular/forms";
 import { FonctionSelectionComponent } from "./components/fonction-selection/fonction-selection.component";
 import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
 import { UserStructurePasswordFormComponent } from "./components/user-structure-password-form/user-structure-password-form.component";
+import { DsfrDropdownMenuComponent } from "@edugouvfr/ngx-dsfr-ext";
+import { HasRoleDirective } from "./directives/has-role.directive";
+import { AlerteConfidentialiteComponent } from "../general/components/navbar/fragments/alerte-confidentialite/alerte-confidentialite.component";
 
 @NgModule({
   imports: [
@@ -26,6 +29,9 @@ import { UserStructurePasswordFormComponent } from "./components/user-structure-
     FullNamePipe,
     FonctionFormatPipe,
     DsfrFooterModule,
+    HasRoleDirective,
+    DsfrDropdownMenuComponent,
+    AlerteConfidentialiteComponent,
   ],
   declarations: [
     DateFrDirective,
@@ -43,12 +49,15 @@ import { UserStructurePasswordFormComponent } from "./components/user-structure-
     FonctionSelectionComponent,
     DateFrDirective,
     CleanStrDirective,
+    HasRoleDirective,
     CustomToastrComponent,
     FontAwesomeModule,
     ButtonComponent,
     FonctionFormatPipe,
     DsfrFooterModule,
     UserStructurePasswordFormComponent,
+    DsfrDropdownMenuComponent,
+    AlerteConfidentialiteComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

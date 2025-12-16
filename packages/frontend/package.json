@@ -23,7 +23,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^18.2.13",
-    "@angular/cdk": "^18.2.14",
+    "@angular/cdk": "^18.2.13",
     "@angular/common": "^18.2.13",
     "@angular/compiler": "^18.2.13",
     "@angular/core": "^18.2.13",
@@ -35,7 +35,7 @@
     "@babel/runtime": "^7.27.6",
     "@domifa/common": "workspace:^",
     "@edugouvfr/ngx-dsfr": "^1.16.4",
-    "@edugouvfr/ngx-dsfr-ext": "^1.4.2",
+    "@edugouvfr/ngx-dsfr-ext": "^1.5.0",
     "@fortawesome/angular-fontawesome": "0.15.0",
     "@fortawesome/fontawesome-common-types": "^6.7.2",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",

@@ -537,7 +537,7 @@ importers:
         specifier: ^18.2.13
         version: 18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))
       '@angular/cdk':
-        specifier: ^18.2.14
+        specifier: ^18.2.13
         version: 18.2.14(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
       '@angular/common':
         specifier: ^18.2.13
@@ -570,11 +570,11 @@ importers:
         specifier: workspace:^
         version: link:../common
       '@edugouvfr/ngx-dsfr':
-        specifier: ^1.15.0
-        version: 1.15.0(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2))(args-parser@1.3.0)(rxjs@7.8.2)(uuid@9.0.1)
+        specifier: ^1.16.4
+        version: 1.17.1(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2))(args-parser@1.3.0)(rxjs@7.8.2)(uuid@9.0.1)
       '@edugouvfr/ngx-dsfr-ext':
-        specifier: ^1.4.0
-        version: 1.5.1(23c23bfbd7be1ffc0118820f33d64858)
+        specifier: ^1.5.0
+        version: 1.5.1(927fe6fa0386307501a1cc80449945bf)
       '@fortawesome/angular-fontawesome':
         specifier: 0.15.0
         version: 0.15.0(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))
@@ -2689,16 +2689,16 @@ packages:
       rxjs: ^6 || ^7
       uuid: '>=8.3.0'
 
-  '@edugouvfr/ngx-dsfr@1.16.5':
-    resolution: {integrity: sha512-uOIZthHnsg9bZ148RYL1l2Hda3Rvy3/yXfPSbR5bPAH86hity6ChdBPPm1phMGNKBYEpXCwArPn4yaGHheBxfw==}
-    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
+  '@edugouvfr/ngx-dsfr@1.17.1':
+    resolution: {integrity: sha512-eRnQEIC7F2TC32gEYe7rA3u6ywva+ftZLzZ6xGDyramHv8v2zaNWLW/7gPUH0wxVAlRH3yTND5MqzDIt8xpodw==}
+    engines: {node: ^20.19.0 || ^22.12.0}
     peerDependencies:
-      '@angular/common': '>=18.2'
-      '@angular/core': '>=18.2'
-      '@angular/forms': '>=18.2'
+      '@angular/common': '>=19.2'
+      '@angular/core': '>=19.2'
+      '@angular/forms': '>=19.2'
       args-parser: '>=1.3.0'
       rxjs: ^6 || ^7
-      uuid: '>=8.3.0'
+      uuid: '>=13.0.0'
 
   '@emnapi/core@1.3.1':
     resolution: {integrity: sha512-pVGjBIt1Y6gg3EJN8jTcfpP/+uuRksIo055oE/OBkDNcjZqVbfkWCksG1Jp4yZnj3iKWyWX8fdG/j6UDYPbFog==}
@@ -15139,13 +15139,13 @@ snapshots:
     optionalDependencies:
       quill: 2.0.3
 
-  '@edugouvfr/ngx-dsfr-ext@1.5.1(23c23bfbd7be1ffc0118820f33d64858)':
+  '@edugouvfr/ngx-dsfr-ext@1.5.1(927fe6fa0386307501a1cc80449945bf)':
     dependencies:
       '@angular/cdk': 18.2.14(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
       '@angular/common': 18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
       '@angular/core': 18.2.13(rxjs@7.8.2)(zone.js@0.15.1)
       '@angular/forms': 18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
-      '@edugouvfr/ngx-dsfr': 1.16.5(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2))(args-parser@1.3.0)(rxjs@7.8.2)(uuid@9.0.1)
+      '@edugouvfr/ngx-dsfr': 1.17.1(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2))(args-parser@1.3.0)(rxjs@7.8.2)(uuid@9.0.1)
       tslib: 2.8.1
     optionalDependencies:
       quill: 2.0.3
@@ -15161,7 +15161,7 @@ snapshots:
       tslib: 2.8.1
       uuid: 9.0.1
 
-  '@edugouvfr/ngx-dsfr@1.16.5(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2))(args-parser@1.3.0)(rxjs@7.8.2)(uuid@9.0.1)':
+  '@edugouvfr/ngx-dsfr@1.17.1(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2))(args-parser@1.3.0)(rxjs@7.8.2)(uuid@9.0.1)':
     dependencies:
       '@angular/common': 18.2.13(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
       '@angular/core': 18.2.13(rxjs@7.8.2)(zone.js@0.15.1)

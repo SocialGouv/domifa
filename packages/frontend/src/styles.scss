@@ -63,17 +63,17 @@ $font-family-monospace: "Marianne", SFMono-Regular, Menlo, Monaco, Consolas,
   }
 
   .fr-input-group.required .fr-label::after {
-  content: " *";
-  color: var(--text-default-error);
-}
+    content: " *";
+    color: var(--text-default-error);
+  }
 
-.fr-checkbox-group.required label:after {
-  content: " *";
-  color: var(--text-default-error);
-}
+  .fr-checkbox-group.required label:after {
+    content: " *";
+    color: var(--text-default-error);
+  }
 
-.fr-select-group.required label:after {
-  content: " *";
-  color: var(--text-default-error);
-}
+  .fr-select-group.required label:after {
+    content: " *";
+    color: var(--text-default-error);
+  }
 }
