@@ -1,3 +1,11 @@
+## [2.232.1](https://github.com/SocialGouv/domifa/compare/v2.232.0...v2.232.1) (2025-12-16)
+
+
+### Bug Fixes
+
+* **usagers:** reload page upon logout ([70e8e76](https://github.com/SocialGouv/domifa/commit/70e8e76428743d9bc4b5be138320a7ce03c2d300))
+* **usagers:** revu bot fixes ([8ca4086](https://github.com/SocialGouv/domifa/commit/8ca40868497b7c18333a253b78e84c0fa98ec6f6))
+
 # [2.232.0](https://github.com/SocialGouv/domifa/compare/v2.231.4...v2.232.0) (2025-12-11)
 
 
