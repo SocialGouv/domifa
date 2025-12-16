@@ -1,390 +1,276 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @angular-eslint/no-output-native */
+import { CommonModule } from "@angular/common";
 import {
   Component,
   Input,
-  OnInit,
-  OnDestroy,
   ViewChild,
   ElementRef,
-  Output,
-  EventEmitter,
   forwardRef,
-  AfterViewInit,
+  OnInit,
   OnChanges,
   SimpleChanges,
 } from "@angular/core";
 import {
   ControlValueAccessor,
+  FormsModule,
   NG_VALUE_ACCESSOR,
-  NG_VALIDATORS,
-  Validator,
-  AbstractControl,
-  ValidationErrors,
 } from "@angular/forms";
-import intlTelInput from "intl-tel-input";
-import { Iti } from "intl-tel-input";
+import {
+  NgbDropdown,
+  NgbDropdownToggle,
+  NgbDropdownMenu,
+  NgbDropdownItem,
+} from "@ng-bootstrap/ng-bootstrap";
 
-export const PHONE_ERROR_MESSAGES: { [key: number]: string } = {
-  0: "Numéro invalide",
-  1: "Code pays invalide",
-  2: "Numéro trop court",
-  3: "Numéro trop long",
-  4: "Format invalide",
+import intlTelInput from "intl-tel-input";
+import { Country, Iso2 } from "intl-tel-input/data";
+import frCountries from "intl-tel-input/build/js/i18n/fr/countries";
+
+export type Telephone = {
+  countryCode: Iso2;
+  numero: string;
 };
 
-export interface PhoneValidation {
-  isValid: boolean;
-  countryCode: string;
-  countryName: string;
-  internationalFormat: string;
-  nationalFormat: string;
-  e164Format: string;
-  isPossible: boolean;
-  errorCode: number | null;
-  errorMessage: string;
-}
+export const PREFERRED_COUNTRIES: Iso2[] = [
+  "fr",
+  "gp",
+  "mq",
+  "gf",
+  "re",
+  "yt",
+  "pm",
+  "bl",
+  "mf",
+  "wf",
+  "pf",
+  "nc",
+];
+
+const MOBILE_REGEX: Partial<Record<string, RegExp>> = {
+  fr: /^0[67][0-9]{8}$/,
+  gp: /^069[01][0-9]{6}$/,
+  mq: /^069[67][0-9]{6}$/,
+  gf: /^0694[0-9]{6}$/,
+  re: /^069[23][0-9]{6}$/,
+  yt: /^0639[0-9]{6}$/,
+};
 
 @Component({
-  selector: "app-input-phone-international",
+  selector: "app-phone-input",
+  standalone: true,
   templateUrl: "./input-phone-international.component.html",
-  styleUrls: ["./input-phone-international.component.css"],
+  styleUrl: "./input-phone-international.component.scss",
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbDropdownItem,
+  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputPhoneInternationalComponent),
-      multi: true,
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => InputPhoneInternationalComponent),
+      useExisting: forwardRef(() => PhoneInputComponent),
       multi: true,
     },
   ],
 })
-export class InputPhoneInternationalComponent
-  implements
-    OnInit,
-    AfterViewInit,
-    OnDestroy,
-    OnChanges,
-    ControlValueAccessor,
-    Validator
+export class PhoneInputComponent
+  implements OnInit, ControlValueAccessor, OnChanges
 {
-  @ViewChild("phoneInput", { static: false })
-  phoneInputRef!: ElementRef<HTMLInputElement>;
+  @Input() public inputId: string = "phone-input-id";
+  @Input() public label: string = "Numéro de téléphone";
+  @Input() public searchCountryPlaceholder: string = "Rechercher un pays";
 
-  // Inputs
-  @Input() id = "phone-input-" + Math.random().toString(36).substr(2, 9);
-  @Input() label = "Numéro de téléphone";
-  @Input() placeholder = "Entrez votre numéro";
-  @Input() hint = "Format international accepté";
-  @Input() initialCountry = "fr";
-  @Input() preferredCountries: string[] = ["fr", "es", "de", "be", "ch"];
-  @Input() disabled = false;
-  @Input() required = false;
-  @Input() usePreciseValidation = true;
-  @Input() showValidationDetails = true;
-  @Input() allowedCountries?: string[];
-  @Input() excludedCountries?: string[];
+  @Input() public isRequired: boolean = false;
+  @Input() public isMobileOnly: boolean = false;
 
-  // Outputs
-  @Output() numberChange = new EventEmitter<string>();
-  @Output() countryChange = new EventEmitter<string>();
-  @Output() validityChange = new EventEmitter<boolean>();
-  @Output() phoneValidationChange = new EventEmitter<PhoneValidation>();
-  @Output() readonly blur = new EventEmitter<FocusEvent>();
-  @Output() readonly focus = new EventEmitter<FocusEvent>();
+  @Input() public displayErrors: boolean = false;
 
-  // State
-  private iti: Iti | null = null;
-  private countryChangeHandler = () => this.handlePhoneInput();
-  private onChange: (value: string) => void = () => {};
-  private onTouched: () => void = () => {};
-  private onValidatorChange: () => void = () => {};
+  @Input() public errorMessage: string = "Numéro de téléphone incorrect";
+  @Input() public foreignSmsWarning: string =
+    "Attention: les SMS ne sont pas envoyés aux numéros étrangers";
 
-  phoneValidation: PhoneValidation | null = null;
-  isFieldTouched = false;
-  hasError = false;
-  errorMessage = "";
-  successMessage = "";
+  public preferredCountriesData: Country[] = [];
+  public allCountries: Country[] = [];
+  public selectedCountry: Country;
 
-  readonly errorMessagesMap = PHONE_ERROR_MESSAGES;
+  public phoneNumber: string = "";
+  public countrySearchText: string = "";
 
-  ngOnInit() {
-    this.initializeIntlTelInput();
+  public isValid: boolean = true;
+  public isTouched: boolean = false;
+
+  public showError: boolean = false;
+  public showForeignWarning: boolean = false;
+  public currentPlaceholder: string = "Numéro";
+
+  @ViewChild("focusable") focusableElement: ElementRef;
+
+  onChange: any = () => {};
+  onTouched: any = () => {};
+
+  ngOnInit(): void {
+    this.fetchCountryData();
+    this.updateUIState();
   }
 
-  ngAfterViewInit() {
-    if (!this.iti) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["displayErrors"]) {
+      this.updateUIState();
+    }
+  }
+
+  private fetchCountryData(): void {
+    const rawData = intlTelInput.getCountryData();
+
+    this.preferredCountriesData = rawData.filter((c) =>
+      PREFERRED_COUNTRIES.includes(c.iso2)
+    );
+    const otherCountries = rawData.filter(
+      (c) => !PREFERRED_COUNTRIES.includes(c.iso2)
+    );
+
+    this.allCountries = [...this.preferredCountriesData, ...otherCountries].map(
+      (country) => ({
+        ...country,
+        name: frCountries[country.iso2] || country.name,
+      })
+    );
+
+    if (!this.selectedCountry && this.preferredCountriesData.length > 0) {
+      this.selectedCountry = this.preferredCountriesData[0];
+    }
+    this.updatePlaceholder();
+  }
+
+  public searchCountry(): void {
+    if (!this.countrySearchText) {
+      this.fetchCountryData();
       return;
     }
+    const term = this.countrySearchText.toLowerCase();
+    this.allCountries = this.allCountries.filter(
+      (c) =>
+        c.name.toLowerCase().includes(term) ||
+        c.dialCode.includes(term) ||
+        c.iso2.includes(term)
+    );
+  }
 
-    // Appliquer la valeur initiale
-    if (this.phoneInputRef?.nativeElement?.value) {
-      this.setPhoneNumber(this.phoneInputRef.nativeElement.value);
-    }
+  public onCountrySelect(
+    country: Country,
+    inputElement: HTMLInputElement
+  ): void {
+    this.selectedCountry = country;
+    this.countrySearchText = "";
+    this.searchCountry();
+    this.updatePlaceholder();
+    this.onPhoneNumberChange();
+    if (inputElement) inputElement.focus();
+  }
 
-    // Appliquer l'état désactivé
-    if (this.disabled) {
-      this.setDisabledState(true);
+  public onInputKeyPress(event: KeyboardEvent): void {
+    const pattern = /[0-9]/;
+    if (!pattern.test(String.fromCharCode(event.charCode))) {
+      event.preventDefault();
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes["disabled"] && !changes["disabled"].firstChange) {
-      this.iti?.setDisabled(this.disabled);
-    }
+  onPhoneNumberChange(): void {
+    this.isTouched = true;
+    let cleanValue = this.phoneNumber.replace(/[^0-9]/g, "");
+    if (cleanValue.length > 15) cleanValue = cleanValue.substring(0, 15);
 
-    if (changes["initialCountry"] && !changes["initialCountry"].firstChange) {
-      this.iti?.setCountry(this.initialCountry);
-    }
-  }
+    if (this.phoneNumber !== cleanValue) this.phoneNumber = cleanValue;
 
-  ngOnDestroy() {
-    this.cleanup();
-  }
+    this.validateInput();
 
-  // ============ Initialization ============
-
-  private initializeIntlTelInput() {
-    if (!this.phoneInputRef?.nativeElement) {
-      // Retry après un cycle
-      setTimeout(() => this.initializeIntlTelInput(), 0);
-      return;
-    }
-
-    const element = this.phoneInputRef.nativeElement;
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const options: any = {
-      initialCountry: this.initialCountry,
-      preferredCountries: this.preferredCountries,
-      strictMode: true,
-      utilsScript:
-        "https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/js/utils.js",
+    const outputValue: Telephone = {
+      countryCode: this.selectedCountry.iso2,
+      numero: this.phoneNumber,
     };
 
-    // Ajouter les pays autorisés/exclus si spécifiés
-    if (this.allowedCountries?.length) {
-      options.onlyCountries = this.allowedCountries;
-    }
-    if (this.excludedCountries?.length) {
-      options.excludeCountries = this.excludedCountries;
-    }
-
-    this.iti = intlTelInput(element, options);
-
-    // Ajouter les listeners
-    element.addEventListener("countrychange", this.countryChangeHandler);
-    element.addEventListener("input", () => this.handlePhoneInput());
+    this.updateUIState();
+    this.onChange(outputValue);
   }
 
-  // ============ Event Handlers ============
-
-  handlePhoneInput() {
-    if (!this.iti) return;
-
-    const phoneNumber = this.iti.getNumber() || "";
-    const selectedCountry = this.iti.getSelectedCountryData();
-
-    this.numberChange.emit(phoneNumber);
-    this.countryChange.emit(selectedCountry.iso2);
-
-    this.validatePhoneNumber();
-    this.onChange(phoneNumber);
-    this.onValidatorChange();
-  }
-
-  handleBlur(event: FocusEvent) {
-    this.isFieldTouched = true;
-    this.onTouched();
-    this.validatePhoneNumber();
-    this.blur.emit(event);
-  }
-
-  handleFocus(event: FocusEvent) {
-    this.focus.emit(event);
-  }
-
-  // ============ Validation ============
-
-  private validatePhoneNumber() {
-    if (!this.iti) {
-      this.phoneValidation = null;
-      this.hasError = false;
-      this.errorMessage = "";
+  private validateInput(): void {
+    if (
+      this.isRequired &&
+      (!this.phoneNumber || this.phoneNumber.trim() === "")
+    ) {
+      this.isValid = false;
       return;
     }
 
-    const phoneNumber = this.iti.getNumber() || "";
-    const selectedCountry = this.iti.getSelectedCountryData();
-
-    // Si le champ est vide
-    if (!phoneNumber.trim()) {
-      this.phoneValidation = null;
-      this.hasError = this.required && this.isFieldTouched;
-      this.errorMessage = this.hasError
-        ? "Le numéro de téléphone est requis"
-        : "";
-      this.successMessage = "";
+    if (this.phoneNumber && this.phoneNumber.length < 2) {
+      this.isValid = false;
       return;
     }
 
-    const isValid = this.usePreciseValidation
-      ? this.iti.isValidNumberPrecise()
-      : this.iti.isValidNumber();
-
-    const isPossible = this.iti.isPossibleNumber();
-    const errorCode = this.iti.getValidationError();
-
-    this.phoneValidation = {
-      isValid,
-      isPossible,
-      countryCode: selectedCountry.iso2.toUpperCase(),
-      countryName: selectedCountry.name,
-      internationalFormat: this.iti.getNumber("INTERNATIONAL"),
-      nationalFormat: this.iti.getNumber("NATIONAL"),
-      e164Format: this.iti.getNumber("E164"),
-      errorCode,
-      errorMessage: isValid ? "" : this.getErrorMessage(errorCode),
-    };
-
-    this.hasError = !isValid && this.isFieldTouched;
-    this.errorMessage = this.hasError ? this.phoneValidation.errorMessage : "";
-    this.successMessage = isValid && this.isFieldTouched ? "Numéro valide" : "";
-
-    this.phoneValidationChange.emit(this.phoneValidation);
-    this.validityChange.emit(isValid);
-  }
-
-  private getErrorMessage(errorCode: number | null): string {
-    if (errorCode === null) {
-      return "Numéro invalide";
-    }
-    return PHONE_ERROR_MESSAGES[errorCode] || "Numéro invalide";
-  }
-
-  // ============ Public Methods ============
-
-  setPhoneNumber(value: string) {
-    if (this.iti) {
-      this.iti.setNumber(value);
-      this.handlePhoneInput();
+    if (this.isMobileOnly && this.phoneNumber) {
+      const iso = this.selectedCountry.iso2;
+      const regex = MOBILE_REGEX[iso];
+      if (regex) {
+        this.isValid = regex.test(this.phoneNumber);
+      } else {
+        this.isValid =
+          this.phoneNumber.length >= 6 && this.phoneNumber.length <= 15;
+      }
+    } else {
+      this.isValid = true;
     }
   }
 
-  setCountry(countryCode: string) {
-    if (this.iti) {
-      this.iti.setCountry(countryCode);
+  private updateUIState(): void {
+    this.showError = !this.isValid && (this.isTouched || this.displayErrors);
+
+    if (!this.phoneNumber || this.showError) {
+      this.showForeignWarning = false;
+    } else {
+      const isForeign = !PREFERRED_COUNTRIES.includes(
+        this.selectedCountry.iso2
+      );
+      this.showForeignWarning = this.isMobileOnly && isForeign;
     }
   }
 
-  getPhoneNumber(): string | null {
-    return this.phoneValidation?.isValid
-      ? this.phoneValidation.e164Format
-      : null;
+  private updatePlaceholder(): void {
+    // TODO: Implémenter la logique Google Lib plus tard pour placeholder par pays
+    this.currentPlaceholder = this.isMobileOnly ? "06 12 34 56 78" : "Numéro";
   }
 
-  getCountryCode(): string | null {
-    return this.phoneValidation?.countryCode || null;
+  trackByCountryIso(_index: number, item: Country): string {
+    return item.iso2;
   }
 
-  getFormattedNumber(): string | null {
-    return this.phoneValidation?.internationalFormat || null;
-  }
+  writeValue(value: Telephone | null): void {
+    if (!this.allCountries || this.allCountries.length === 0)
+      this.fetchCountryData();
 
-  isValid(): boolean {
-    return this.phoneValidation?.isValid || false;
-  }
-
-  reset() {
-    if (this.phoneInputRef?.nativeElement) {
-      this.phoneInputRef.nativeElement.value = "";
+    if (value && typeof value === "object") {
+      this.phoneNumber = value.numero || "";
+      const foundCountry = this.allCountries.find(
+        (c) => c.iso2 === value.countryCode
+      );
+      if (foundCountry) this.selectedCountry = foundCountry;
+    } else {
+      this.phoneNumber = "";
     }
-    this.phoneValidation = null;
-    this.isFieldTouched = false;
-    this.hasError = false;
-    this.errorMessage = "";
-    this.successMessage = "";
-    this.onChange("");
-  }
 
-  getInstance(): Iti | null {
-    return this.iti;
-  }
-
-  getInputElement(): HTMLInputElement | null {
-    return this.phoneInputRef?.nativeElement || null;
-  }
-
-  // ============ ControlValueAccessor Implementation ============
-
-  writeValue(value: string | null): void {
-    if (this.iti && value) {
-      this.iti.setNumber(value);
-      this.validatePhoneNumber();
-    }
+    this.validateInput();
+    this.updatePlaceholder();
+    // On ne met pas à jour showError ici pour ne pas afficher de rouge au chargement initial
   }
 
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
-
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-    if (this.phoneInputRef?.nativeElement) {
-      this.phoneInputRef.nativeElement.disabled = isDisabled;
-    }
-    this.iti?.setDisabled(isDisabled);
-  }
-
-  // ============ Validator Implementation ============
-
-  validate(control: AbstractControl): ValidationErrors | null {
-    if (!control.value) {
-      return this.required ? { required: true } : null;
-    }
-
-    if (!this.iti) {
-      return null;
-    }
-
-    const isValid = this.usePreciseValidation
-      ? this.iti.isValidNumberPrecise()
-      : this.iti.isValidNumber();
-
-    if (isValid) {
-      return null;
-    }
-
-    const errorCode = this.iti.getValidationError();
-    return {
-      invalidPhone: {
-        errorCode,
-        errorMessage: this.getErrorMessage(errorCode),
-      },
-    };
-  }
-
-  registerOnValidatorChange(fn: () => void): void {
-    this.onValidatorChange = fn;
-  }
-
-  // ============ Cleanup ============
-
-  private cleanup() {
-    if (!this.phoneInputRef?.nativeElement) return;
-
-    const element = this.phoneInputRef.nativeElement;
-    element.removeEventListener("countrychange", this.countryChangeHandler);
-    element.removeEventListener("input", () => this.handlePhoneInput());
-
-    this.iti?.destroy();
-    this.iti = null;
+    // Au blur, on veut mettre à jour l'état visuel
+    this.updateUIState();
   }
 }
