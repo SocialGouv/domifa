@@ -315,8 +315,181 @@
               </div>
             </ng-container>
           </div>
+          <div class="fr-header__operator">
+            <a
+              href="/"
+              title="Retour à l'accueil du site - Domifa - République Française"
+            >
+              <img
+                class="fr-responsive-img"
+                src="assets/images/logo-dsfr.svg"
+                alt="Retour à l'accueil du site - Domifa - République Française"
+              />
+            </a>
+          </div>
+        </div>
+
+        <div class="fr-header__tools">
+          <app-login-dropdown [me]="me"></app-login-dropdown>
         </div>
       </div>
     </div>
-  </nav>
+  </div>
+  <div
+    class="fr-header__menu fr-modal"
+    id="loggedOffMenu"
+    aria-labelledby="navbar-site"
+  >
+    <div class="fr-container">
+      <button
+        aria-controls="loggedOffMenu"
+        title="Fermer"
+        type="button"
+        id="btnFermerMenu"
+        class="fr-btn--close fr-btn"
+      >
+        Fermer
+      </button>
+      <nav
+        class="fr-nav"
+        id="header-navigation"
+        role="navigation"
+        aria-label="Menu principal"
+      >
+        <!-- logged out menu start -->
+        <ul class="fr-nav__list">
+          <li *ngIf="!me" class="fr-nav__item d-block d-md-none">
+            <button
+              id="loginDropDown"
+              aria-expanded="false"
+              aria-controls="loginDropDown"
+              type="button"
+              class="fr-nav__btn justify-content-start gap-1 w-100"
+            >
+              Se connecter
+            </button>
+            <div class="fr-collapse fr-menu" id="loginDropDown">
+              <ul class="fr-menu__list">
+                <li>
+                  <a
+                    id="loginDropDown-1"
+                    type="link"
+                    routerLink="/connexion"
+                    class="fr-nav__link justify-content-start gap-2"
+                  >
+                    <span class="fr-icon-home-4-line" aria-hidden="true"></span>
+                    CCAS, organismes agréés</a
+                  >
+                </li>
+                <li>
+                  <a
+                    id="loginDropDown-2"
+                    type="menu"
+                    href="https://mon-domifa.fabrique.social.gouv.fr/"
+                    class="fr-nav__link justify-content-start gap-2"
+                    ><span
+                      class="fr-icon-person-mail-icon"
+                      aria-hidden="true"
+                    ></span
+                    >Domiciliés</a
+                  >
+                </li>
+                <li>
+                  <a
+                    id="loginDropDown-3"
+                    type="link"
+                    href="https://admin.fabrique.social.gouv.fr/"
+                    class="fr-nav__link justify-content-start gap-2"
+                    ><span
+                      class="fr-icon-building-4-line"
+                      aria-hidden="true"
+                    ></span
+                    >DGCS</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </li>
+          <ng-container *ngIf="!me">
+            <li class="fr-nav__item">
+              <a
+                id="link-accueil"
+                type="link"
+                href=""
+                aria-label="Retour à l'accueil de DomiFa"
+                [routerLink]="['/']"
+                ariaCurrentWhenActive="page"
+                class="fr-nav__link"
+                >Accueil</a
+              >
+            </li>
+            <li class="fr-nav__item">
+              <a
+                id="link-inscription"
+                type="link"
+                routerLink="/structures/inscription"
+                ariaCurrentWhenActive="page"
+                class="fr-nav__link"
+                >Inscrire ma structure</a
+              >
+            </li>
+            <li class="fr-nav__item">
+              <a
+                id="link-stats"
+                type="link"
+                [routerLink]="['/stats']"
+                ariaCurrentWhenActive="page"
+                class="fr-nav__link"
+                >Statistiques</a
+              >
+            </li>
+            <li class="fr-nav__item">
+              <a
+                id="link-impact"
+                type="link"
+                [routerLink]="['/stats/impact']"
+                ariaCurrentWhenActive="page"
+                class="fr-nav__link"
+                >Impact</a
+              >
+            </li>
+            <li class="fr-nav__item">
+              <a
+                id="link-news"
+                type="link"
+                [routerLink]="['/news']"
+                ariaCurrentWhenActive="page"
+                class="fr-nav__link"
+                >Nouveautés</a
+              >
+            </li>
+            <li class="fr-nav__item">
+              <a
+                id="link-contact"
+                type="link"
+                [routerLink]="['/contact']"
+                ariaCurrentWhenActive="page"
+                class="fr-nav__link"
+                >Nous contacter</a
+              >
+            </li>
+            <li class="fr-nav__item d-block d-md-none">
+              <a
+                id="link-faq"
+                type="link"
+                [routerLink]="['/faq']"
+                ariaCurrentWhenActive="page"
+                class="fr-nav__link"
+                >Besoin d'aide</a
+              >
+            </li>
+          </ng-container>
+        </ul>
+        <!-- logged out menu end -->
+      </nav>
+      <div class="fr-header__menu-links">
+        <app-login-modal-menu [me]="me"></app-login-modal-menu>
+      </div>
+    </div>
+  </div>
 </header>
