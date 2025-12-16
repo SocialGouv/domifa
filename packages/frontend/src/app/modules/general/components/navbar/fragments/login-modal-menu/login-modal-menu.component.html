@@ -1,0 +1,149 @@
+<ng-container *ngIf="me">
+  <li *ngIf="me" class="d-block d-md-none">
+    <a
+      id="loggedInMenubtn"
+      type="link"
+      routerLink="/manage"
+      class="fr-nav__link justify-content-start gap-2"
+      ><span class="fr-icon-person-mail-icon" aria-hidden="true"></span
+      >Domiciliés</a
+    >
+  </li>
+  <li
+    *ngIf="me"
+    class="fr-nav__item d-block d-md-none"
+    aria-labelledby="dropdownAuthenticatedMenu"
+  >
+    <button
+      id="dropdownAuthenticatedMenu"
+      aria-expanded="false"
+      aria-controls="dropdownAuthenticatedMenu"
+      type="button"
+      class="justify-content-start gap-1 fr-nav__btn w-100"
+    >
+      <span class="fr-icon-account-circle-line" aria-hidden="true"></span>
+      Mon espace
+    </button>
+    <div class="fr-collapse fr-menu" id="dropdownAuthenticatedMenu">
+      <ul class="fr-menu__list">
+        <li>
+          <div class="d-flex flex-column py-3 gap-1 border-bottom">
+            <span class="fw-bold"> {{ me.nom }} {{ me.prenom }} </span>
+            <span>
+              {{ me.email }}
+            </span>
+          </div>
+        </li>
+        <li>
+          <a
+            id="dropdownAuthenticatedMenu-1"
+            type="link"
+            routerLink="/news"
+            class="fr-nav__link justify-content-start gap-2 ps-0 border-bottom"
+          >
+            <span class="fr-icon-newspaper-line" aria-hidden="true"></span>
+            Nouveautés
+          </a>
+        </li>
+        <li>
+          <a
+            id="dropdownAuthenticatedMenu-2"
+            type="menu"
+            routerLink="/users/mon-compte"
+            class="fr-nav__link justify-content-start gap-2 ps-0 border-bottom"
+            ><span class="fr-icon-admin-line" aria-hidden="true"></span>Gérér
+            mon compte</a
+          >
+        </li>
+        <ng-template [appHasRole]="['admin', 'responsable']">
+          <li>
+            <a
+              id="dropdownAuthenticatedMenu-3"
+              type="link"
+              routerLink="/users/comptes"
+              class="fr-nav__link justify-content-start gap-2 ps-0 border-bottom"
+              ><span class="fr-icon-group-line" aria-hidden="true"></span>Gérer
+              les utilisateurs</a
+            >
+          </li>
+        </ng-template>
+        <ng-template [appHasRole]="['admin', 'responsable']">
+          <li>
+            <a
+              id="dropdownAuthenticatedMenu-4"
+              type="link"
+              routerLink="/structures/edit"
+              class="fr-nav__link justify-content-start gap-2 ps-0 border-bottom"
+              ><span class="fr-icon-community-line" aria-hidden="true"></span
+              >Informations de la structure</a
+            >
+          </li>
+        </ng-template>
+        <ng-template [appHasRole]="['admin', 'responsable']">
+          <li>
+            <a
+              id="dropdownAuthenticatedMenu-5"
+              type="link"
+              href="/structures/documents"
+              class="fr-nav__link justify-content-start gap-2 ps-0 border-bottom"
+              ><span class="fr-icon-file-line" aria-hidden="true"></span
+              >Documents de la structure</a
+            >
+          </li>
+        </ng-template>
+        <ng-container *ngIf="me.structure?.sms?.enabledByDomifa">
+          <ng-template [appHasRole]="['admin', 'responsable']">
+            <li>
+              <a
+                id="dropdownAuthenticatedMenu-6"
+                type="link"
+                routerLink="/structures/sms"
+                class="fr-nav__link justify-content-start gap-2 ps-0 border-bottom"
+                ><span class="fr-icon-smartphone-line" aria-hidden="true"></span
+                >Gérer l'envoi de SMS</a
+              >
+            </li>
+          </ng-template>
+        </ng-container>
+        <li>
+          <a
+            id="dropdownAuthenticatedMenu-7"
+            type="link"
+            routerLink="/structures/portail-usager"
+            class="fr-nav__link justify-content-start gap-2 ps-0 border-bottom text-dark"
+            ><span class="fr-icon-computer-line" aria-hidden="true"></span>Gérer
+            le portail domicilié</a
+          >
+        </li>
+        <li>
+          <a
+            id="dropdownAuthenticatedMenu-8"
+            type="link"
+            routerLink="/structure-stats"
+            class="fr-nav__link justify-content-start gap-2 ps-0 border-bottom"
+            ><span class="fr-icon-bar-chart-2-line" aria-hidden="true"></span
+            >Consulter les statistiques</a
+          >
+        </li>
+        <li>
+          <a
+            id="dropdownAuthenticatedMenu-9"
+            type="link"
+            routerLink="/import"
+            class="fr-nav__link justify-content-start gap-2 ps-0 border-bottom"
+            ><span class="fr-icon-upload-line" aria-hidden="true"></span
+            >Importer des domiciliés</a
+          >
+        </li>
+        <button
+          (click)="logout()"
+          id="logout"
+          type="button"
+          class="fr-btn fr-icon-logout-box-r-line fr-btn--icon-left fr-btn--tertiary justify-content-start p-2 gap-1 w-100"
+        >
+          Se déconnecter
+        </button>
+      </ul>
+    </div>
+  </li>
+</ng-container>
