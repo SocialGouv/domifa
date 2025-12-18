@@ -6,7 +6,6 @@ import {
   Post,
   Res,
   UseGuards,
-  InternalServerErrorException,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
@@ -27,6 +26,8 @@ import { RdvDto } from "../dto/decision-form/rdv.dto";
 import { UsagersService } from "../services/usagers.service";
 import { Usager } from "@domifa/common";
 import { AppointmentInvitationService } from "../services/appointment-invitation.service";
+import { appLogger } from "../../util/logs/AppLogger.service";
+import { captureException } from "@sentry/node";
 
 @ApiTags("agenda")
 @ApiBearerAuth()
@@ -54,7 +55,7 @@ export class AgendaController {
     @CurrentUsager() usager: Usager,
     @Res() res: ExpressResponse
   ) {
-    if (rdvDto.isNow) {
+    if (rdvDto?.isNow) {
       const updatedUsager = await this.usagersService.setRdv(
         usager,
         rdvDto,
@@ -63,25 +64,23 @@ export class AgendaController {
       return res.status(HttpStatus.OK).json(updatedUsager);
     }
 
-    if (currentUser.id === rdvDto.userId) {
-      return res.status(HttpStatus.OK).json({
-        id: currentUser.id,
-        prenom: currentUser.prenom,
-        nom: currentUser.nom,
-        email: currentUser.email,
-        structure: currentUser.structure,
+    let user: Pick<
+      UserStructureAuthenticated,
+      "id" | "prenom" | "nom" | "email"
+    > = currentUser;
+    if (currentUser.id !== rdvDto.userId) {
+      const selectedUser = await userStructureRepository.findOneBy({
+        id: rdvDto.userId,
+        structureId: currentUser.structureId,
       });
-    }
 
-    const user = await userStructureRepository.findOneBy({
-      id: rdvDto.userId,
-      structureId: currentUser.structureId,
-    });
+      if (!selectedUser) {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "USER_AGENDA_FAIL" });
+      }
 
-    if (!user) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "USER_AGENDA_FAIL" });
+      user = selectedUser;
     }
 
     const assignedUser = { ...user, structure: currentUser.structure };
@@ -92,19 +91,36 @@ export class AgendaController {
       assignedUser
     );
 
-    if (!updatedUsager) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "CANNOT_SET_RDV" });
-    }
-
     if (domifaConfig().email.emailsEnabled) {
-      await this.sendAppointmentInvitation(
+      this.sendAppointmentInvitation(
         assignedUser,
         updatedUsager,
-        rdvDto.dateRdv,
         currentUser
-      );
+      ).catch((error) => {
+        appLogger.error(
+          {
+            context: {
+              usagerRef: updatedUsager.ref,
+              usagerUuid: updatedUsager.uuid,
+              userId: assignedUser.id,
+              dateRdv: updatedUsager.rdv?.dateRdv,
+            },
+            error,
+            sentry: true,
+          },
+          "[AGENDA] Échec de l'envoi de l'email de confirmation de rendez-vous"
+        );
+        captureException(error, {
+          tags: {
+            component: "agenda",
+            action: "send_appointment_email",
+          },
+          extra: {
+            usagerRef: updatedUsager.ref,
+            userId: assignedUser.id,
+          },
+        });
+      });
     }
 
     return res.status(HttpStatus.OK).json(updatedUsager);
@@ -116,19 +132,14 @@ export class AgendaController {
       "id" | "prenom" | "nom" | "email" | "structure"
     >,
     usager: Usager,
-    dateRdv: Date,
     currentUser: UserStructureAuthenticated
   ): Promise<void> {
-    try {
-      await this.appointmentInvitationService.sendAppointmentInvitation({
-        user: assignedUser,
-        usager,
-        dateRdv,
-        assignedByUser:
-          currentUser.id !== assignedUser.id ? currentUser : undefined,
-      });
-    } catch (error) {
-      throw new InternalServerErrorException("EMAIL_SEND_ERROR");
-    }
+    await this.appointmentInvitationService.sendAppointmentInvitation({
+      user: assignedUser,
+      usager,
+      dateRdv: usager.rdv.dateRdv,
+      assignedByUser:
+        currentUser.id !== assignedUser.id ? currentUser : undefined,
+    });
   }
 }
