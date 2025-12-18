@@ -13,7 +13,7 @@ export type SuccessfulUsagerImportLogContext = {
   nombreTotal: number;
 };
 
-export type AdminUserCrudLogContext = {
+export type UserSupervisorCrudLogContext = {
   // ADMIN_USER_CREATE | ADMIN_USER_DELETE
   userId: number; // identifiant utilisateur créé // supprimé // modifié
   role: UserSupervisorRole;

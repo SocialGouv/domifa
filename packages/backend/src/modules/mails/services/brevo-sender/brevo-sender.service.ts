@@ -22,6 +22,12 @@ import { UserStructureBrevo } from "../../types/UserStructureBrevo.type";
 import { getStructureDecisionMotif } from "../../../portail-admin/services/get-structure-decision-motif";
 import { appLogger } from "../../../../util";
 import { STRUCTURE_TYPE_LABELS } from "@domifa/common";
+import { UserProfile, UserSecurity } from "../../../../_common/model";
+import {
+  userStructureRepository,
+  userSupervisorRepository,
+} from "../../../../database";
+import { userSecurityResetPasswordInitiator } from "../../../users/services";
 
 @Injectable()
 export class BrevoSenderService {
@@ -240,6 +246,55 @@ export class BrevoSenderService {
       );
       throw error;
     }
+  }
+
+  async sendUserActivationEmail({
+    userId,
+    userProfile,
+    userSecurity,
+  }: {
+    userId: number;
+    userProfile: UserProfile;
+    userSecurity: UserSecurity;
+  }): Promise<void> {
+    const user =
+      userProfile === "structure"
+        ? await userStructureRepository.findOneBy({ id: userId })
+        : await userSupervisorRepository.findOneBy({ id: userId });
+
+    if (!user) {
+      throw new Error(
+        `User not found: userId=${userId}, userProfile=${userProfile}`
+      );
+    }
+
+    const link = userSecurityResetPasswordInitiator.buildResetPasswordLink({
+      token: userSecurity.temporaryTokens.token,
+      userId: user.id,
+      userProfile,
+    });
+
+    if (!link) {
+      throw new Error(`Failed to generate activation link for user ${userId}`);
+    }
+
+    await this.sendEmailWithTemplate({
+      templateId: domifaConfig().brevo.templates.userStructureCreatedByAdmin,
+      to: [
+        {
+          email: user.email,
+          name: `${user.prenom} ${user.nom}`,
+        },
+      ],
+      params: {
+        lien: link,
+        prenom: user.prenom,
+      },
+    });
+
+    appLogger.info(
+      `Email d'activation envoyé avec succès à ${user.email} (userId: ${userId}, userProfile: ${userProfile})`
+    );
   }
 
   private parseTextToBrevoDate(

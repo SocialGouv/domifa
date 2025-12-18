@@ -45,7 +45,6 @@ import {
 } from "../dto";
 import {
   usersDeletor,
-  userSecurityResetPasswordInitiator,
   userStructureCreator,
   userStructureSecurityPasswordUpdater,
 } from "../services";
@@ -57,7 +56,6 @@ import {
 } from "../../app-logs/types/app-log-context.types";
 import { appLogger } from "../../../util";
 import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
-import { domifaConfig } from "../../../config";
 
 const userProfile: UserProfile = "structure";
 
@@ -326,24 +324,11 @@ export class UsersController {
         .json({ message: "REGISTER_ERROR" });
     }
 
-    const link = userSecurityResetPasswordInitiator.buildResetPasswordLink({
-      token: userSecurity.temporaryTokens.token,
+    // Envoi de l'email d'activation avec génération automatique du lien
+    await this.brevoSenderService.sendUserActivationEmail({
       userId: newUser.id,
       userProfile,
-    });
-
-    await this.brevoSenderService.sendEmailWithTemplate({
-      templateId: domifaConfig().brevo.templates.userStructureCreatedByAdmin,
-      to: [
-        {
-          email: user.email,
-          name: `${user.prenom} ${user.nom}`,
-        },
-      ],
-      params: {
-        lien: link,
-        prenom: user.prenom,
-      },
+      userSecurity,
     });
 
     await this.appLogService.create<UserStructureCreateLogContext>({

@@ -37,13 +37,11 @@ import { AdminSuperivorUsersService } from "../../services/admin-superivor-users
 import { PatchUserSupervisorDto } from "../../dto/patch-user-supervisor.dto";
 import { ElevateUserRoleDto } from "../../dto/elevate-user-role.dto";
 import {
-  AdminUserCrudLogContext,
+  UserSupervisorCrudLogContext,
   AdminUserRoleChangeLogContext,
 } from "../../../app-logs/types/app-log-context.types";
 import { CurrentSupervisor } from "../../../../auth/decorators/current-supervisor.decorator";
 import { BrevoSenderService } from "../../../mails/services/brevo-sender/brevo-sender.service";
-import { userSecurityResetPasswordInitiator } from "../../../users/services";
-import { domifaConfig } from "../../../../config";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("dashboard")
@@ -142,27 +140,13 @@ export class AdminUsersController {
         .json({ message: "REGISTER_ERROR" });
     }
 
-    const link = userSecurityResetPasswordInitiator.buildResetPasswordLink({
-      token: userSecurity.temporaryTokens.token,
-      userId: user.id,
+    await this.brevoSenderService.sendUserActivationEmail({
+      userId: newUser.id,
       userProfile: "supervisor",
+      userSecurity,
     });
 
-    await this.brevoSenderService.sendEmailWithTemplate({
-      templateId: domifaConfig().brevo.templates.userStructureCreatedByAdmin,
-      to: [
-        {
-          email: newUser.email,
-          name: `${newUser.prenom} ${newUser.nom}`,
-        },
-      ],
-      params: {
-        lien: link,
-        prenom: newUser.prenom,
-      },
-    });
-
-    await this.appLogsService.create<AdminUserCrudLogContext>({
+    await this.appLogsService.create<UserSupervisorCrudLogContext>({
       action: "ADMIN_USER_CREATE",
       userId: user.id,
       context: {
@@ -251,7 +235,7 @@ export class AdminUsersController {
         .json({ message: "CANNOT_PATCH_USER_SUPERVISOR" });
     }
     await userSupervisorRepository.delete({ uuid });
-    await this.appLogsService.create<AdminUserCrudLogContext>({
+    await this.appLogsService.create<UserSupervisorCrudLogContext>({
       action: "ADMIN_USER_DELETE",
       userId: user.id,
       context: {

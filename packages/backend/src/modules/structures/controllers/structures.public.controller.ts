@@ -37,7 +37,7 @@ export class StructuresPublicController {
           await this.brevoSenderService.syncContactToBrevo(userWithStructure);
           await this.brevoSenderService.sendEmailWithTemplate({
             templateId:
-              domifaConfig().brevo.templates.userStructureCreatedByAdmin,
+              domifaConfig().brevo.templates.structurePendingActivation,
             to: [
               {
                 email: userWithStructure.email,

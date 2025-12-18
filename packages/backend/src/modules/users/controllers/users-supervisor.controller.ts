@@ -18,11 +18,7 @@ import {
   userSecurityResetPasswordUpdater,
 } from "../services";
 import { AppLogsService } from "../../app-logs/app-logs.service";
-import { StructureUserCrudLogContext } from "../../app-logs/types/app-log-context.types";
-import {
-  userStructureRepository,
-  userSupervisorRepository,
-} from "../../../database";
+import { UserSupervisorCrudLogContext } from "../../app-logs/types/app-log-context.types";
 import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
 import { domifaConfig } from "../../../config";
 
@@ -76,19 +72,15 @@ export class UsersSupervisorController {
     }
   }
 
-  @ApiOperation({ summary: "Reset du mot de passe : envoi du lien par mail" })
+  @ApiOperation({
+    summary: "Reset du mot de passe d'un: envoi du lien par mail",
+  })
   @Post("get-password-token")
   public async generatePasswordToken(
     @Body() emailDto: EmailDto,
     @Res() res: ExpressResponse
   ) {
     try {
-      const userSuperviseur = await userSupervisorRepository.findOneByOrFail({
-        email: emailDto.email,
-      });
-      const updateUser = await userStructureRepository.findOneByOrFail({
-        email: emailDto.email,
-      });
       const { user, userSecurity } =
         await userSecurityResetPasswordInitiator.generateResetPasswordToken({
           email: emailDto.email,
@@ -113,13 +105,9 @@ export class UsersSupervisorController {
         params: { lien: link, prenom: user.prenom },
       });
 
-      await this.appLogservice.create<StructureUserCrudLogContext>({
+      await this.appLogservice.create<UserSupervisorCrudLogContext>({
         action: "ADMIN_PASSWORD_RESET",
-        userId: userSuperviseur.id,
-        context: {
-          userId: updateUser.id,
-          role: updateUser.role,
-        },
+        userId: user.id,
       });
     } catch (err) {
       appLogger.error("Cannot reset password");
