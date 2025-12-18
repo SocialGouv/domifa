@@ -1,3 +1,10 @@
+## [2.232.2](https://github.com/SocialGouv/domifa/compare/v2.232.1...v2.232.2) (2025-12-18)
+
+
+### Bug Fixes
+
+* **backend:** update reset-password ([63095cc](https://github.com/SocialGouv/domifa/commit/63095ccb2772b8d04f4839c95cac411d1bb8490e))
+
 ## [2.232.1](https://github.com/SocialGouv/domifa/compare/v2.232.0...v2.232.1) (2025-12-16)
 
 
