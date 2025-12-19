@@ -1,3 +1,4 @@
+import { DsfrFooterModule } from "@edugouvfr/ngx-dsfr";
 import { CommonModule } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import {
@@ -23,6 +24,7 @@ import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
     FormsModule,
     FullNamePipe,
     FonctionFormatPipe,
+    DsfrFooterModule,
   ],
   declarations: [
     DateFrDirective,
@@ -43,6 +45,7 @@ import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
     FontAwesomeModule,
     ButtonComponent,
     FonctionFormatPipe,
+    DsfrFooterModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
