@@ -1,11 +1,13 @@
 <div
   class="fr-input-group"
   [class.fr-input-group--error]="
-    isTouched && ((isRequired && !phoneNumber) || (!isValid && phoneNumber))
+    (isTouched || submitted) &&
+    ((isRequired && !phoneNumber) || (!isValid && phoneNumber))
   "
 >
   <label class="fr-label" [for]="inputId">
     Numéro de téléphone
+    <span *ngIf="isRequired" aria-hidden="true" style="color: red"> * </span>
     <span class="fr-hint-text" [id]="inputId + '-desc'">
       Format attendu : sans l'indicatif (ex: 612345678)
     </span>
@@ -79,13 +81,6 @@
                   role="option"
                   [attr.aria-selected]="country.iso2 === selectedCountry.iso2"
                   [id]="'country-opt-' + country.iso2"
-                  class="fr-nav__link"
-                  style="
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    width: 100%;
-                  "
                 >
                   <span>
                     <span class="iti__flag-box fr-mr-1v">
@@ -115,18 +110,19 @@
         class="fr-input"
         [id]="inputId"
         autocomplete="tel"
-        [required]="isRequired"
+        [attr.required]="isRequired"
         [attr.aria-required]="isRequired"
-        (blur)="onTouched()"
         (keypress)="onInputKeyPress($event)"
-        [(ngModel)]="phoneNumber"
-        (ngModelChange)="onPhoneNumberChange()"
+        [value]="phoneNumber"
+        (input)="onPhoneNumberChange($event)"
+        (blur)="onBlur()"
+        [placeholder]="currentPlaceholder"
         [class.fr-input--error]="
-          isTouched &&
+          (isTouched || submitted) &&
           ((isRequired && !phoneNumber) || (!isValid && phoneNumber))
         "
         [attr.aria-invalid]="
-          isTouched &&
+          (isTouched || submitted) &&
           ((isRequired && !phoneNumber) || (!isValid && phoneNumber))
             ? 'true'
             : 'false'
@@ -144,14 +140,14 @@
   >
     <p
       class="fr-message fr-message--error"
-      *ngIf="isTouched && isRequired && !phoneNumber"
+      *ngIf="(isTouched || submitted) && isRequired && !phoneNumber"
     >
       Le numéro de téléphone est obligatoire.
     </p>
 
     <p
       class="fr-message fr-message--error"
-      *ngIf="isTouched && phoneNumber && !isValid"
+      *ngIf="(isTouched || submitted) && phoneNumber && !isValid"
     >
       Le format du numéro de téléphone est incorrect.
     </p>

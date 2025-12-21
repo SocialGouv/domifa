@@ -12,8 +12,9 @@ import {
 } from "@angular/core";
 import {
   ControlValueAccessor,
-  FormsModule,
+  ReactiveFormsModule,
   NG_VALUE_ACCESSOR,
+  FormsModule,
 } from "@angular/forms";
 import {
   NgbDropdown,
@@ -25,6 +26,7 @@ import {
 import intlTelInput from "intl-tel-input";
 import { Country, Iso2 } from "intl-tel-input/data";
 import frCountries from "intl-tel-input/build/js/i18n/fr/countries";
+import { PhoneNumberUtil } from "google-libphonenumber";
 
 export type Telephone = {
   countryCode: Iso2;
@@ -46,15 +48,6 @@ export const PREFERRED_COUNTRIES: Iso2[] = [
   "nc",
 ];
 
-const MOBILE_REGEX: Partial<Record<string, RegExp>> = {
-  fr: /^0[67][0-9]{8}$/,
-  gp: /^069[01][0-9]{6}$/,
-  mq: /^069[67][0-9]{6}$/,
-  gf: /^0694[0-9]{6}$/,
-  re: /^069[23][0-9]{6}$/,
-  yt: /^0639[0-9]{6}$/,
-};
-
 @Component({
   selector: "app-phone-input",
   standalone: true,
@@ -62,6 +55,7 @@ const MOBILE_REGEX: Partial<Record<string, RegExp>> = {
   styleUrl: "./input-phone-international.component.scss",
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     FormsModule,
     NgbDropdown,
     NgbDropdownToggle,
@@ -83,10 +77,11 @@ export class PhoneInputComponent
   @Input() public label: string = "Numéro de téléphone";
   @Input() public searchCountryPlaceholder: string = "Rechercher un pays";
 
-  @Input() public isRequired: boolean = false;
-  @Input() public isMobileOnly: boolean = false;
+  @Input({ required: true }) public isRequired: boolean = false;
+  @Input({ required: true }) public isMobileOnly: boolean = false;
 
   @Input() public displayErrors: boolean = false;
+  @Input() public submitted: boolean = false;
 
   @Input() public errorMessage: string = "Numéro de téléphone incorrect";
   @Input() public foreignSmsWarning: string =
@@ -108,6 +103,8 @@ export class PhoneInputComponent
 
   @ViewChild("focusable") focusableElement: ElementRef;
 
+  private phoneUtil: PhoneNumberUtil = PhoneNumberUtil.getInstance();
+
   onChange: any = () => {};
   onTouched: any = () => {};
 
@@ -117,7 +114,7 @@ export class PhoneInputComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes["displayErrors"]) {
+    if (changes["displayErrors"] || changes["submitted"]) {
       this.updateUIState();
     }
   }
@@ -167,7 +164,12 @@ export class PhoneInputComponent
     this.countrySearchText = "";
     this.searchCountry();
     this.updatePlaceholder();
-    this.onPhoneNumberChange();
+    this.validateInput();
+    this.updateUIState();
+    this.onChange({
+      countryCode: this.selectedCountry.iso2,
+      numero: this.phoneNumber,
+    });
     if (inputElement) inputElement.focus();
   }
 
@@ -178,7 +180,11 @@ export class PhoneInputComponent
     }
   }
 
-  onPhoneNumberChange(): void {
+  onPhoneNumberChange(event?: Event): void {
+    if (event && event.target) {
+      this.phoneNumber = (event.target as HTMLInputElement).value;
+    }
+
     this.isTouched = true;
     let cleanValue = this.phoneNumber.replace(/[^0-9]/g, "");
     if (cleanValue.length > 15) cleanValue = cleanValue.substring(0, 15);
@@ -196,7 +202,14 @@ export class PhoneInputComponent
     this.onChange(outputValue);
   }
 
+  onBlur(): void {
+    this.isTouched = true;
+    this.updateUIState();
+    this.onTouched();
+  }
+
   private validateInput(): void {
+    // Si vide et requis
     if (
       this.isRequired &&
       (!this.phoneNumber || this.phoneNumber.trim() === "")
@@ -205,27 +218,37 @@ export class PhoneInputComponent
       return;
     }
 
-    if (this.phoneNumber && this.phoneNumber.length < 2) {
-      this.isValid = false;
+    if (!this?.phoneNumber || this?.phoneNumber?.trim() === "") {
+      this.isValid = true;
       return;
     }
 
-    if (this.isMobileOnly && this.phoneNumber) {
-      const iso = this.selectedCountry.iso2;
-      const regex = MOBILE_REGEX[iso];
-      if (regex) {
-        this.isValid = regex.test(this.phoneNumber);
-      } else {
-        this.isValid =
-          this.phoneNumber.length >= 6 && this.phoneNumber.length <= 15;
+    try {
+      const parsedNumber = this.phoneUtil.parse(
+        this.phoneNumber,
+        this.selectedCountry.iso2
+      );
+
+      if (!this.phoneUtil.isValidNumber(parsedNumber)) {
+        this.isValid = false;
+        return;
       }
-    } else {
-      this.isValid = true;
+
+      if (this.isMobileOnly) {
+        const numberType = this.phoneUtil.getNumberType(parsedNumber);
+        // MOBILE = 1
+        this.isValid = numberType === 1;
+      } else {
+        this.isValid = true;
+      }
+    } catch (e) {
+      this.isValid = false;
     }
   }
 
   private updateUIState(): void {
-    this.showError = !this.isValid && (this.isTouched || this.displayErrors);
+    this.showError =
+      !this.isValid && (this.isTouched || this.displayErrors || this.submitted);
 
     if (!this.phoneNumber || this.showError) {
       this.showForeignWarning = false;
@@ -238,8 +261,23 @@ export class PhoneInputComponent
   }
 
   private updatePlaceholder(): void {
-    // TODO: Implémenter la logique Google Lib plus tard pour placeholder par pays
-    this.currentPlaceholder = this.isMobileOnly ? "06 12 34 56 78" : "Numéro";
+    try {
+      const exampleNumber = this.phoneUtil.getExampleNumber(
+        this.selectedCountry.iso2
+      );
+
+      if (exampleNumber) {
+        this.currentPlaceholder =
+          this.phoneUtil.getNationalSignificantNumber(exampleNumber);
+        return;
+      }
+    } catch (e) {
+      console.log("Cannot generate placeholder");
+    }
+
+    this.currentPlaceholder = this.isMobileOnly
+      ? "06 12 34 56 78"
+      : "01 01 01 01 01";
   }
 
   trackByCountryIso(_index: number, item: Country): string {
@@ -270,7 +308,5 @@ export class PhoneInputComponent
   }
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
-    // Au blur, on veut mettre à jour l'état visuel
-    this.updateUIState();
   }
 }
