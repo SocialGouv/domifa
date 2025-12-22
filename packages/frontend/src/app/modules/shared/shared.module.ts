@@ -15,6 +15,9 @@ import { InputReferrerComponent } from "./components/input-referrer/input-referr
 import { FormsModule } from "@angular/forms";
 import { FonctionSelectionComponent } from "./components/fonction-selection/fonction-selection.component";
 import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
+import { DsfrDropdownMenuComponent } from "@edugouvfr/ngx-dsfr-ext";
+import { HasRoleDirective } from "./directives/has-role.directive";
+import { AlerteConfidentialiteComponent } from "../general/components/navbar/fragments/alerte-confidentialite/alerte-confidentialite.component";
 
 @NgModule({
   imports: [
@@ -23,6 +26,9 @@ import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
     FormsModule,
     FullNamePipe,
     FonctionFormatPipe,
+    HasRoleDirective,
+    DsfrDropdownMenuComponent,
+    AlerteConfidentialiteComponent,
   ],
   declarations: [
     DateFrDirective,
@@ -39,10 +45,13 @@ import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
     FonctionSelectionComponent,
     DateFrDirective,
     CleanStrDirective,
+    HasRoleDirective,
     CustomToastrComponent,
     FontAwesomeModule,
     ButtonComponent,
     FonctionFormatPipe,
+    DsfrDropdownMenuComponent,
+    AlerteConfidentialiteComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
