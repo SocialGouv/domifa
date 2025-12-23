@@ -1,3 +1,10 @@
+## [2.232.3](https://github.com/SocialGouv/domifa/compare/v2.232.2...v2.232.3) (2025-12-23)
+
+
+### Bug Fixes
+
+* **admin:** fixing reviews for admin ([21180d1](https://github.com/SocialGouv/domifa/commit/21180d13eea6e1d3466a386a588f439327cb5cfd))
+
 ## [2.232.2](https://github.com/SocialGouv/domifa/compare/v2.232.1...v2.232.2) (2025-12-18)
 
 
