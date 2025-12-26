@@ -17,6 +17,7 @@ import {
   UsagerDecisionMotif,
   UsagerDecisionOrientation,
   UsagerDecision,
+  UsagerTypeDom,
 } from "@domifa/common";
 import { StripTagsTransform } from "../../../_common/decorators";
 
@@ -122,4 +123,7 @@ export class DecisionDto implements UsagerDecision {
 
   @IsEmpty()
   public uuid!: string;
+
+  @IsEmpty()
+  public typeDom!: UsagerTypeDom;
 }

@@ -22,6 +22,7 @@ const usager: PortailUsagerPublic = {
     uuid: "4328c843-e4bd-432d-b60b-b72a13ee3c9c",
     statut: "VALIDE",
     userId: 1,
+    typeDom: "PREMIERE_DOM",
     dateFin: new Date("2026-08-12T00:00:00.000Z"),
     userName: "Patrick Roméro",
     dateDebut: new Date("2025-08-13T00:00:00.000Z"),
