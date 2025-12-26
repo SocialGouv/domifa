@@ -52,6 +52,7 @@ import { SharedModule } from "../../../shared/shared.module";
 export class ContactSupportComponent implements OnInit, OnDestroy {
   public submitted: boolean;
   public success: boolean;
+  public error: boolean;
   public loading: boolean;
 
   private readonly subscription = new Subscription();
@@ -75,6 +76,7 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
     this.me = null;
     this.submitted = false;
     this.success = false;
+    this.error = false;
     this.loading = false;
   }
 
@@ -190,6 +192,7 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
           );
         },
         error: () => {
+          this.error = true;
           this.loading = false;
           this.toastService.error("Impossible d'envoyer le message");
         },
