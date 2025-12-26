@@ -1,3 +1,11 @@
+## [2.232.4](https://github.com/SocialGouv/domifa/compare/v2.232.3...v2.232.4) (2025-12-26)
+
+
+### Bug Fixes
+
+* **backend:** delete territories from nationality ([feb63a2](https://github.com/SocialGouv/domifa/commit/feb63a2c5d17f82ea0a8a7aeac24fa2da00643bb))
+* **backend:** update dump for test ([5e40ce8](https://github.com/SocialGouv/domifa/commit/5e40ce80d0f81d616981a6106f2bea46d2b728cd))
+
 ## [2.232.3](https://github.com/SocialGouv/domifa/compare/v2.232.2...v2.232.3) (2025-12-23)
 
 
