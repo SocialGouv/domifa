@@ -32,6 +32,7 @@ import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { SharedModule } from "../../../shared/shared.module";
+import { PhoneInputComponent } from "../../../usager-shared/components/input-phone-international/input-phone-international.component";
 
 @Component({
   selector: "app-contact-support",
@@ -46,6 +47,7 @@ import { SharedModule } from "../../../shared/shared.module";
     SharedModule,
     RouterModule,
     NgxIntlTelInputModule,
+    PhoneInputComponent,
   ],
   templateUrl: "./contact-support.component.html",
 })
