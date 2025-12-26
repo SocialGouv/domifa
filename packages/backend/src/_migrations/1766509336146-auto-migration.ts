@@ -66,11 +66,13 @@ export class ManualMigration1766509336146 implements MigrationInterface {
         "✏️  Step 2: Filling usager.typeDom from decision.typeDom..."
       );
       const result2 = await queryRunner.query(`
-    UPDATE usager
-    SET "typeDom" = (decision->>'typeDom')::text
-    WHERE "typeDom" IS NULL
-      AND decision IS NOT NULL
-      AND decision->>'typeDom' IS NOT NULL
+           UPDATE usager
+           SET "typeDom" = (decision->>'typeDom')::text
+           WHERE "typeDom" IS NULL
+            AND decision IS NOT NULL
+            AND decision->>'typeDom' IS NOT NULL
+            AND decision->>'typeDom' IN ('PREMIERE_DOM', 'RENOUVELLEMENT')
+
   `);
       console.log(`✓ Updated ${result2[1]} records\n`);
 
