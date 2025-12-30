@@ -761,7 +761,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cdk@npm:18.2.14, @angular/cdk@npm:^18.2.14":
+"@angular/cdk@npm:18.2.14, @angular/cdk@npm:^18.2.13, @angular/cdk@npm:^18.2.14":
   version: 18.2.14
   resolution: "@angular/cdk@npm:18.2.14"
   dependencies:
@@ -4224,7 +4224,7 @@ __metadata:
     "@angular-eslint/schematics": "npm:17.5.3"
     "@angular-eslint/template-parser": "npm:17.5.3"
     "@angular/animations": "npm:^18.2.13"
-    "@angular/cdk": "npm:^18.2.14"
+    "@angular/cdk": "npm:^18.2.13"
     "@angular/cli": "npm:^20.2.0"
     "@angular/common": "npm:^18.2.13"
     "@angular/compiler": "npm:^18.2.13"
@@ -4461,6 +4461,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@edugouvfr/ngx-dsfr-ext@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "@edugouvfr/ngx-dsfr-ext@npm:1.5.0"
+  dependencies:
+    tslib: "npm:^2.3.0"
+  peerDependencies:
+    "@angular/cdk": ">=18"
+    "@angular/common": ">=18.2"
+    "@angular/core": ">=18.2"
+    "@angular/forms": ">=18.2"
+    "@edugouvfr/ngx-dsfr": ">=1.15.0"
+    ag-grid-angular: ">=33"
+    ag-grid-community: ">=33"
+    quill: ">=2"
+  peerDependenciesMeta:
+    ag-grid-angular:
+      optional: true
+    ag-grid-community:
+      optional: true
+    quill:
+      optional: true
+  checksum: 10/c8030bf6cd863a3be71600e31bb7d546af8a3c20a50e88d4e1ba846a8830fa2e3afc856dd7354234ce9eb346f61ca1e92bd7e4ae557a15dabdc95dc3741caf00
+  languageName: node
+  linkType: hard
+
 "@edugouvfr/ngx-dsfr@npm:^1.15.3, @edugouvfr/ngx-dsfr@npm:^1.16.2":
   version: 1.16.2
   resolution: "@edugouvfr/ngx-dsfr@npm:1.16.2"
@@ -4475,6 +4500,23 @@ __metadata:
     rxjs: ^6 || ^7
     uuid: ">=8.3.0"
   checksum: 10/441bf0a55fc6110ebcf1294ec544b471624c1d29929a6afc615106c5919857a05615359ce7addd1062bc2b9df4aa85e76f4a84859dcba4ed539c5e82501b2c80
+  languageName: node
+  linkType: hard
+
+"@edugouvfr/ngx-dsfr@npm:^1.16.4":
+  version: 1.16.4
+  resolution: "@edugouvfr/ngx-dsfr@npm:1.16.4"
+  dependencies:
+    "@gouvfr/dsfr": "npm:1.14.2"
+    tslib: "npm:^2.6.0"
+  peerDependencies:
+    "@angular/common": ">=18.2"
+    "@angular/core": ">=18.2"
+    "@angular/forms": ">=18.2"
+    args-parser: ">=1.3.0"
+    rxjs: ^6 || ^7
+    uuid: ">=8.3.0"
+  checksum: 10/d747c4bdfb10cf1efa7e2f7aeee495f12ff881cd499db4fd2f8c39e70f016c3916a36b52ee783692a65506a2c9872a12a24ba2c5da5272d0731933b675fa687a
   languageName: node
   linkType: hard
 
