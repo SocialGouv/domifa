@@ -13,7 +13,7 @@ export interface UsagerDecision {
   dateDebut: Date | null;
   dateFin: Date | null;
 
-  typeDom?: UsagerTypeDom;
+  typeDom: UsagerTypeDom;
   statut: UsagerDecisionStatut;
 
   // Motif de refus ou radiation

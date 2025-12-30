@@ -278,7 +278,7 @@ CREATE TABLE public.usager (
     langue text,
     email text,
     "datePremiereDom" timestamp with time zone,
-    "typeDom" text DEFAULT 'PREMIERE_DOM'::text,
+    "typeDom" text DEFAULT 'PREMIERE_DOM'::text NOT NULL,
     decision jsonb NOT NULL,
     historique jsonb NOT NULL,
     "ayantsDroits" jsonb,
@@ -358,7 +358,7 @@ CREATE TABLE public.usager_history_states (
     "historyBeginDate" timestamp with time zone NOT NULL,
     "historyEndDate" timestamp with time zone,
     "isActive" boolean DEFAULT false,
-    "typeDom" text DEFAULT 'PREMIERE_DOM'::text,
+    "typeDom" text DEFAULT 'PREMIERE_DOM'::text NOT NULL,
     nationalite text,
     sexe text,
     "dateNaissance" timestamp with time zone

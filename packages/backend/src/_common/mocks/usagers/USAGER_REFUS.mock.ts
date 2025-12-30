@@ -93,7 +93,7 @@ export const USAGER_REFUS_MOCK: Usager = {
       statut: "INSTRUCTION",
       userId: 30,
       userName: "Testeur Robin",
-      typeDom: undefined,
+      typeDom: "PREMIERE_DOM",
       orientationDetails: null,
       orientation: null,
       motifDetails: "",
