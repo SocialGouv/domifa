@@ -1,3 +1,10 @@
+## [2.232.5](https://github.com/SocialGouv/domifa/compare/v2.232.4...v2.232.5) (2025-12-30)
+
+
+### Bug Fixes
+
+* **backend:** fix typedom and require everywhere ([8f79bd5](https://github.com/SocialGouv/domifa/commit/8f79bd56693221bf541edff520ecc7b4703c5e86))
+
 ## [2.232.4](https://github.com/SocialGouv/domifa/compare/v2.232.3...v2.232.4) (2025-12-26)
 
 
