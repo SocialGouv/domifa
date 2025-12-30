@@ -29,6 +29,7 @@ export const USAGER_VALIDE_MOCK: Usager = {
     userName: "Patrick Roméro",
     dateDebut: new Date("2020-11-01T00:00:00.000Z"),
     dateDecision: new Date("2020-11-01T00:00:00.000Z"),
+    typeDom: "PREMIERE_DOM",
     orientationDetails: null,
   },
   historique: [
@@ -40,6 +41,7 @@ export const USAGER_VALIDE_MOCK: Usager = {
       userName: "Patrick Roméro",
       dateDecision: new Date("2020-11-01T00:00:00.000Z"),
       dateDebut: new Date("2020-11-01T00:00:00.000Z"),
+      typeDom: "PREMIERE_DOM",
       orientationDetails: null,
     },
   ],

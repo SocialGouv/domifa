@@ -148,6 +148,7 @@ export class UsagersDecisionController {
     // On récupère la dernière décision
     usager.decision = usager.historique[usager.historique.length - 1];
     usager.statut = usager.decision.statut;
+    usager.typeDom = usager.decision.typeDom;
     usager.options.npai = {
       actif: false,
       dateDebut: null,
@@ -182,6 +183,7 @@ export class UsagersDecisionController {
         etapeDemande: usager.etapeDemande,
         decision: usager.decision,
         statut: usager.decision.statut,
+        typeDom: usager.typeDom,
         options: usager.options,
       }
     );

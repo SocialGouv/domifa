@@ -196,6 +196,7 @@ export class UsagersService {
     }
 
     usager.decision = newDecision as UsagerDecision;
+    usager.decision.typeDom = usager.typeDom;
     usager.statut = usager.decision.statut;
     usager.decision.uuid = uuidv4();
 
