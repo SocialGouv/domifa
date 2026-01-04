@@ -1,11 +1,7 @@
-<div class="head-page py-4">
+<div class="fr-container py-3">
+  <h1>Plan du site</h1>
   <div class="container">
-    <h1 class="title">Plan du site de DomiFa</h1>
-  </div>
-</div>
-<div class="content py-3">
-  <div class="container">
-    <div class="page-content p-3">
+    <div class="p-3">
       <div class="row" *ngIf="authService.currentUserValue">
         <ng-container *ngFor="let linkSection of siteMapLinksLogged">
           <div class="col-md-4 col-12 my-3">
@@ -28,7 +24,9 @@
             </h2>
             <ul>
               <li *ngFor="let link of linkSection.links">
-                <a routerLink="{{ link.path }}">{{ link.label }}</a>
+                <a class="fr-link text-black" routerLink="{{ link.path }}">{{
+                  link.label
+                }}</a>
               </li>
             </ul>
           </div>
@@ -38,22 +36,23 @@
           <h2 class="my-3">Nos partenaires</h2>
           <ul>
             <li *ngFor="let link of partnerLinks">
-              <a [href]="link.path" target="_blank">{{ link.label }} </a>
+              <a class="fr-link text-black" [href]="link.path" target="_blank"
+                >{{ link.label }}
+              </a>
             </li>
           </ul>
         </div>
         <div class="col-md-4 col-12 my-3">
           <h2 class="my-3">Pages de statistiques</h2>
           <section>
-            <h3 class="fw-bold text-primary">Régions françaises</h3>
-            <div class="region-list">
+            <div>
               <ul>
                 <li *ngFor="let region of REGIONS_LISTE | keyvalue">
                   <a
+                    class="fr-link text-black"
                     [routerLink]="[
                       '/stats/region/' + REGIONS_ID_SEO[region.key]
                     ]"
-                    class="region-name"
                     ariaCurrentWhenActive="page"
                   >
                     {{ region.value }}
