@@ -1,3 +1,11 @@
+## [2.232.6](https://github.com/SocialGouv/domifa/compare/v2.232.5...v2.232.6) (2026-01-04)
+
+
+### Bug Fixes
+
+* **usagers:** correction affichage procu & date message ephémère ([fee18cc](https://github.com/SocialGouv/domifa/commit/fee18cc0e00b1eae6de7bb02274cf2df68b81780))
+* **usagers:** fix reviews bot ([4a1d87f](https://github.com/SocialGouv/domifa/commit/4a1d87f1d4d626821c198e4d4e3cb447ba66d4cd))
+
 ## [2.232.5](https://github.com/SocialGouv/domifa/compare/v2.232.4...v2.232.5) (2025-12-30)
 
 
