@@ -761,7 +761,11 @@ __metadata:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "@angular/cdk@npm:18.2.14, @angular/cdk@npm:^18.2.13, @angular/cdk@npm:^18.2.14":
+=======
+"@angular/cdk@npm:18.2.14, @angular/cdk@npm:^18.2.14":
+>>>>>>> feccb818d (feat(frontend): create new phone input component)
   version: 18.2.14
   resolution: "@angular/cdk@npm:18.2.14"
   dependencies:
@@ -4224,7 +4228,11 @@ __metadata:
     "@angular-eslint/schematics": "npm:17.5.3"
     "@angular-eslint/template-parser": "npm:17.5.3"
     "@angular/animations": "npm:^18.2.13"
+<<<<<<< HEAD
     "@angular/cdk": "npm:^18.2.13"
+=======
+    "@angular/cdk": "npm:^18.2.14"
+>>>>>>> feccb818d (feat(frontend): create new phone input component)
     "@angular/cli": "npm:^20.2.0"
     "@angular/common": "npm:^18.2.13"
     "@angular/compiler": "npm:^18.2.13"
@@ -4240,7 +4248,11 @@ __metadata:
     "@ckeditor/ckeditor5-build-classic": "npm:^43.3.1"
     "@domifa/common": "workspace:^"
     "@edugouvfr/ngx-dsfr": "npm:^1.16.4"
+<<<<<<< HEAD
     "@edugouvfr/ngx-dsfr-ext": "npm:^1.5.0"
+=======
+    "@edugouvfr/ngx-dsfr-ext": "npm:^1.4.2"
+>>>>>>> feccb818d (feat(frontend): create new phone input component)
     "@fortawesome/angular-fontawesome": "npm:0.15.0"
     "@fortawesome/fontawesome-svg-core": "npm:^6.7.2"
     "@fortawesome/free-regular-svg-icons": "npm:^6.7.2"
@@ -4462,6 +4474,7 @@ __metadata:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "@edugouvfr/ngx-dsfr-ext@npm:^1.5.0":
   version: 1.5.0
   resolution: "@edugouvfr/ngx-dsfr-ext@npm:1.5.0"
@@ -4487,6 +4500,8 @@ __metadata:
   languageName: node
   linkType: hard
 
+=======
+>>>>>>> feccb818d (feat(frontend): create new phone input component)
 "@edugouvfr/ngx-dsfr@npm:^1.15.3, @edugouvfr/ngx-dsfr@npm:^1.16.2":
   version: 1.16.2
   resolution: "@edugouvfr/ngx-dsfr@npm:1.16.2"
