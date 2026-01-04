@@ -30,5 +30,30 @@ $font-family-sans-serif: "Marianne", -apple-system, BlinkMacSystemFont,
 $font-family-monospace: "Marianne", SFMono-Regular, Menlo, Monaco, Consolas,
   "Liberation Mono", "Courier New", monospace;
 
-@import "bootstrap/scss/bootstrap";
+@layer bootstrap, dsfr, dsfr-personnalization;
+@import "node_modules/bootstrap/scss/bootstrap.scss" layer(bootstrap);
+@import "@gouvfr/dsfr/dist/dsfr.min.css" layer(dsfr);
+@import "@gouvfr/dsfr/dist/utility/utility.min.css" layer(dsfr);
 @import "ckeditor5/ckeditor5.css";
+
+@layer dsfr-personnalization {
+  .fr-callout--empty {
+    background-color: var(--background-default-grey-hover);
+    background-image: linear-gradient(
+      0deg,
+      var(--text-mention-grey),
+      var(--text-mention-grey)
+    );
+  }
+
+  .fr-modal__title {
+    margin-bottom: 1rem;
+  }
+
+  a.fr-link:has(img),
+  a.fr-link:has(img):visited,
+  a.fr-link:has(img):hover {
+    background-image: none;
+    border: none;
+  }
+}
