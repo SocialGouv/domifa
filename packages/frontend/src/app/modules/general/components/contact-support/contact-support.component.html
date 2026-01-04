@@ -181,47 +181,13 @@
                 </ul>
               </div>
             </div>
-            <div class="col-12 col-md-6">
-              <div class="fr-input-group py-2">
-                <label class="fr-label" for="phone">Numéro de téléphone</label>
-                <ngx-intl-tel-input
-                  [cssClass]="
-                    submitted &&
-                    f.phone.value &&
-                    (f.phone.errors || f.phone.invalid)
-                      ? 'fr-input is-invalid'
-                      : 'fr-input'
-                  "
-                  [enablePlaceholder]="true"
-                  [searchCountryFlag]="true"
-                  searchCountryPlaceholder="Choisissez votre pays"
-                  [searchCountryField]="[
-                    SearchCountryField.Iso2,
-                    SearchCountryField.Name
-                  ]"
-                  [selectedCountryISO]="CountryISO.France"
-                  [selectFirstCountry]="true"
-                  [maxLength]="15"
-                  [phoneValidation]="true"
-                  [separateDialCode]="true"
-                  [inputId]="'phone'"
-                  [enableAutoCountrySelect]="true"
-                  [onlyCountries]="PREFERRED_COUNTRIES"
-                  [numberFormat]="PhoneNumberFormat.International"
-                  formControlName="phone"
-                  name="phone"
-                ></ngx-intl-tel-input>
-                <p
-                  *ngIf="
-                    submitted &&
-                    f.phone.value &&
-                    (f.phone.errors || f.phone.invalid)
-                  "
-                  class="invalid-feedback-custom"
-                >
-                  Numéro de téléphone incorrect (Ex: 0606060606)
-                </p>
-              </div>
+            <div class="col-6">
+              <app-phone-input
+                [isRequired]="true"
+                [isMobileOnly]="false"
+                [submitted]="submitted"
+                formControlName="phone"
+              ></app-phone-input>
             </div>
           </div>
 
