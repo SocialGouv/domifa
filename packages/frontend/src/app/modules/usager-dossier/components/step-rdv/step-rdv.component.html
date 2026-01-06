@@ -1,83 +1,88 @@
 <app-step-header
   *ngIf="usager"
-  [currentStep]="1"
   [usager]="usager"
+  [currentStep]="1"
 ></app-step-header>
 
-<div class="content" *ngIf="usager && currentUserSubject$ | async as me">
-  <div class="container py-3">
-    <div class="step-form" *ngIf="!editRdv">
-      <div class="row text-center">
-        <div class="col">
-          <h2 class="form-title">
-            Un entretien pour {{ usager.nom }} {{ usager.prenom }} est déjà
-            programmé
-          </h2>
+<div class="fr-background-alt--blue-cumulus">
+  <div
+    class="fr-container fr-background-default--grey"
+    *ngIf="usager && currentUserSubject$ | async as me"
+  >
+    <app-form-stepper
+      *ngIf="usager"
+      [usager]="usager"
+      [currentStep]="1"
+    ></app-form-stepper>
+    <div class="container py-3">
+      <div *ngIf="!editRdv">
+        <div class="row text-center">
+          <div class="col">
+            <h2 class="form-title">
+              Un entretien pour {{ usager.nom }} {{ usager.prenom }} est déjà
+              programmé
+            </h2>
 
-          <p>
-            Le
-            <strong> {{ usager.rdv.dateRdv | date : "dd MMMM yyyy" }} </strong>
-            <br />
-            à
-            <strong> {{ usager.rdv.dateRdv | date : "HH:mm" }} </strong>
-            <br />
-            avec
-            <strong>{{ usager.rdv.userName }}</strong>
-            <br />
-            <br />
-            <button (click)="rdvNow()" class="btn btn-primary" type="button">
-              <span *ngIf="loading">
+            <p>
+              Le
+              <strong>
+                {{ usager.rdv.dateRdv | date : "dd MMMM yyyy" }}
+              </strong>
+              <br />
+              à
+              <strong> {{ usager.rdv.dateRdv | date : "HH:mm" }} </strong>
+              <br />
+              avec
+              <strong>{{ usager.rdv.userName }}</strong>
+              <br />
+              <br />
+              <button (click)="rdvNow()" class="btn btn-primary" type="button">
+                <span *ngIf="loading">
+                  <fa-icon
+                    aria-hidden="true"
+                    [icon]="['fas', 'circle-notch']"
+                    animation="spin"
+                  >
+                  </fa-icon>
+                  Veuillez patienter...
+                </span>
+                <span *ngIf="!loading"> Réaliser l'entretien maintenant</span>
+              </button>
+              <br />
+              <br />
+              <button
+                type="button"
+                (click)="editRdv = true"
+                class="btn btn-outline-primary"
+              >
+                Modifier la date du rendez-vous
+              </button>
+              <br />
+              <br />
+              <button
+                type="button"
+                (click)="getCerfa(CerfaDocType.demande)"
+                class="btn btn-outline-primary"
+              >
                 <fa-icon
                   aria-hidden="true"
-                  [icon]="['fas', 'circle-notch']"
-                  animation="spin"
-                >
-                </fa-icon>
-                Veuillez patienter...
-              </span>
-              <span *ngIf="!loading"> Réaliser l'entretien maintenant</span>
-            </button>
-            <br />
-            <br />
-            <button
-              type="button"
-              (click)="editRdv = true"
-              class="btn btn-outline-primary"
-            >
-              Modifier la date du rendez-vous
-            </button>
-            <br />
-            <br />
-            <button
-              type="button"
-              (click)="getCerfa(CerfaDocType.demande)"
-              class="btn btn-outline-primary"
-            >
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'download']"
-                class="me-2"
-              ></fa-icon>
-              Télécharger l'attestation de demande
-            </button>
-            <br />
-          </p>
+                  [icon]="['fas', 'download']"
+                  class="me-2"
+                ></fa-icon>
+                Télécharger l'attestation de demande
+              </button>
+              <br />
+            </p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <form [formGroup]="rdvForm" *ngIf="editRdv" (ngSubmit)="submitRdv()">
-      <fieldset class="step-form text-center">
-        <legend class="form-title mb-3 text-center">
-          Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom }} ?
-        </legend>
+      <form [formGroup]="rdvForm" *ngIf="editRdv" (ngSubmit)="submitRdv()">
+        <fieldset>
+          <legend class="mb-3 text-center">
+            Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom }} ?
+          </legend>
 
-        <div
-          class="card my-2"
-          [ngClass]="{
-            card_selected: r.isNow.value === true
-          }"
-        >
           <div class="card-body" tabindex="0" (click)="setValueRdv(true)">
             <div class="form-check-rdv mb-2 text-center">
               <input
@@ -96,44 +101,8 @@
               Pas besoin de fixer de date d'entretien ultérieure : l'entretien
               est réalisé maintenant
             </p>
-            <div
-              class="col-12 col-md-4 offset-md-4 text-center"
-              *ngIf="r.isNow.value === true"
-            >
-              <button
-                [disabled]="loading"
-                [attr.aria-busy]="loading"
-                type="submit"
-                class="btn btn-primary btn-block"
-              >
-                <span *ngIf="!loading">
-                  Suivant
-                  <fa-icon
-                    [icon]="['fas', 'angle-right']"
-                    aria-hidden="true"
-                  ></fa-icon>
-                </span>
-
-                <span *ngIf="loading"
-                  ><fa-icon
-                    [icon]="['fas', 'circle-notch']"
-                    animation="spin"
-                    aria-hidden="true"
-                  >
-                  </fa-icon>
-                  Veuillez patienter...</span
-                >
-              </button>
-            </div>
           </div>
-        </div>
 
-        <div
-          class="card my-4"
-          [ngClass]="{
-            card_selected: r.isNow.value === false
-          }"
-        >
           <div class="card-body" tabindex="0" (click)="setValueRdv(false)">
             <div class="form-check-rdv mb-2 text-center">
               <input
@@ -287,41 +256,38 @@
                 </div>
               </div>
             </div>
-            <div
-              class="col-12 col-md-4 offset-md-4 text-center"
-              *ngIf="r.isNow.value === false"
-            >
-              <br />
-              <button
-                [disabled]="loading"
-                [attr.aria-busy]="loading"
-                type="submit"
-                class="btn btn-primary btn-block"
-              >
-                <span *ngIf="!loading">
-                  Suivant
-                  <fa-icon
-                    [icon]="['fas', 'angle-right']"
-                    aria-hidden="true"
-                  ></fa-icon>
-                </span>
-
-                <span *ngIf="loading"
-                  ><fa-icon
-                    [icon]="['fas', 'circle-notch']"
-                    animation="spin"
-                    aria-hidden="true"
-                  >
-                  </fa-icon>
-                  Veuillez patienter...</span
-                >
-              </button>
-            </div>
           </div>
-        </div>
-      </fieldset>
-    </form>
+        </fieldset>
 
-    <app-step-footer [usager]="usager"></app-step-footer>
+        <div class="col-12 col-md-4 offset-md-4 text-end">
+          <br />
+          <button
+            [disabled]="loading"
+            [attr.aria-busy]="loading"
+            type="submit"
+            class="btn btn-primary btn-block"
+          >
+            <span *ngIf="!loading">
+              Suivant
+              <fa-icon
+                [icon]="['fas', 'angle-right']"
+                aria-hidden="true"
+              ></fa-icon>
+            </span>
+
+            <span *ngIf="loading"
+              ><fa-icon
+                [icon]="['fas', 'circle-notch']"
+                animation="spin"
+                aria-hidden="true"
+              >
+              </fa-icon>
+              Veuillez patienter...</span
+            >
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
+  <app-step-footer [usager]="usager"></app-step-footer>
 </div>

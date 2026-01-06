@@ -1,7 +1,8 @@
 <ng-container *ngIf="usager">
-  <div *ngIf="!notes?.length" class="alert alert-info">
-    <p>Aucune note enregistrée actuellement</p>
+  <div class="fr-callout" *ngIf="!notes.length">
+    <p class="fr-callout__text">Aucune note enregistrée actuellement</p>
   </div>
+
   <div
     *ngFor="let note of notes | slice : 0 : 5; let i = index"
     class="note-historique"

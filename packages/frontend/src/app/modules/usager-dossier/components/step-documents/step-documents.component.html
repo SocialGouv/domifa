@@ -1,64 +1,68 @@
 <app-step-header
   *ngIf="usager"
-  [currentStep]="3"
   [usager]="usager"
+  [currentStep]="3"
 ></app-step-header>
 
-<div class="content" *ngIf="usager && currentUserSubject$ | async as me">
-  <div class="container py-3">
-    <div class="step-form" id="step-form3">
-      <h2 class="form-title">Pièces justificatives complétant le dossier</h2>
-      <p class="text-center">
-        Cette étape est optionnelle, rien ne vous oblige à enregistrer des
-        pièces justificatives.
-      </p>
+<div class="fr-background-alt--blue-cumulus">
+  <div
+    class="fr-container fr-background-default--grey"
+    *ngIf="usager && currentUserSubject$ | async as me"
+  >
+    <app-form-stepper
+      *ngIf="usager"
+      [usager]="usager"
+      [currentStep]="3"
+    ></app-form-stepper>
 
-      <div class="py-3">
-        <app-display-usager-docs
-          [me]="me"
-          [editPJ]="true"
-          [usager]="usager"
-        ></app-display-usager-docs>
-      </div>
+    <h2 class="form-title">Pièces justificatives complétant le dossier</h2>
+    <p>
+      Cette étape est optionnelle, rien ne vous oblige à enregistrer des pièces
+      justificatives.
+    </p>
 
-      <div class="col-md-4 offset-md-4 text-center">
-        <button
-          [disabled]="loading"
-          [attr.aria-busy]="loading"
-          type="submit"
-          class="btn btn-primary btn-block my-3"
-          (click)="nextStep(4)"
-        >
-          <span *ngIf="!loading">
-            Suivant
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'angle-right']"
-            ></fa-icon>
-          </span>
-
-          <span *ngIf="loading"
-            ><fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'circle-notch']"
-              animation="spin"
-            >
-            </fa-icon>
-            Veuillez patienter...</span
-          >
-        </button>
-
-        <a routerLink="/manage" class="btn btn-block my-3">
-          Continuer plus tard
-          <fa-icon
-            class="ms-2"
-            aria-hidden="true"
-            [icon]="['fas', 'angle-right']"
-          ></fa-icon>
-        </a>
-      </div>
+    <div class="py-3">
+      <app-display-usager-docs
+        [me]="me"
+        [editPJ]="true"
+        [usager]="usager"
+      ></app-display-usager-docs>
     </div>
 
-    <app-step-footer [usager]="usager"></app-step-footer>
+    <div class="col-md-4 offset-md-4 text-center">
+      <button
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
+        type="submit"
+        class="btn btn-primary btn-block my-3"
+        (click)="nextStep(4)"
+      >
+        <span *ngIf="!loading">
+          Suivant
+          <fa-icon aria-hidden="true" [icon]="['fas', 'angle-right']"></fa-icon>
+        </span>
+
+        <span *ngIf="loading"
+          ><fa-icon
+            aria-hidden="true"
+            [icon]="['fas', 'circle-notch']"
+            animation="spin"
+          >
+          </fa-icon>
+          Veuillez patienter...</span
+        >
+      </button>
+
+      <a routerLink="/manage" class="btn btn-block my-3">
+        Continuer plus tard
+        <fa-icon
+          class="ms-2"
+          aria-hidden="true"
+          [icon]="['fas', 'angle-right']"
+        ></fa-icon>
+      </a>
+    </div>
   </div>
+
+  <app-step-footer [usager]="usager"></app-step-footer>
 </div>

@@ -41,6 +41,11 @@ import { DisplayTableImageComponent } from "../shared/components/display-table-i
 import { FullNamePipe } from "./pipes";
 import { EditUsagerDocComponent } from "./components/edit-usager-doc/edit-usager-doc.component";
 import { ReferrerNamePipe } from "./pipes/referrer-name.pipe";
+import { DsfrProgressBarComponent } from "@edugouvfr/ngx-dsfr-ext";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { DisplayEtatCivilComponent } from "./components/display-etat-civil/display-etat-civil.component";
+import { DisplayContactDetailsComponent } from "./components/display-contact-details/display-contact-details.component";
+import { FormatInternationalPhoneNumberPipe } from "../../shared/phone";
 
 @NgModule({
   declarations: [
@@ -62,6 +67,8 @@ import { ReferrerNamePipe } from "./pipes/referrer-name.pipe";
     UploadComponent,
     EditUsagerDocComponent,
     ReferrerNamePipe,
+    DisplayContactDetailsComponent,
+    DisplayEtatCivilComponent,
   ],
   exports: [
     DecisionRadiationFormComponent,
@@ -80,6 +87,8 @@ import { ReferrerNamePipe } from "./pipes/referrer-name.pipe";
     SetInteractionInFormComponent,
     SetInteractionOutFormComponent,
     UploadComponent,
+    DisplayEtatCivilComponent,
+    DisplayContactDetailsComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
@@ -95,6 +104,9 @@ import { ReferrerNamePipe } from "./pipes/referrer-name.pipe";
     TableHeadSortComponent,
     FullNamePipe,
     UsersModule,
+    DsfrProgressBarComponent,
+    DsfrModalComponent,
+    FormatInternationalPhoneNumberPipe,
   ],
   providers: [
     NgbDateCustomParserFormatter,

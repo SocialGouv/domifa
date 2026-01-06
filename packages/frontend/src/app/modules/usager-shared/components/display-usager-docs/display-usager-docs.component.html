@@ -5,9 +5,10 @@
     [usager]="usager"
   ></app-upload>
 </div>
-
-<div class="alert-info alert" *ngIf="!docs.length">
-  <p>Aucune pièce jointe n'a été ajoutée pour le moment</p>
+<div class="fr-callout" *ngIf="!docs.length">
+  <p class="fr-callout__text">
+    Aucune pièce jointe n'a été ajoutée pour le moment
+  </p>
 </div>
 
 <div class="table-responsive">

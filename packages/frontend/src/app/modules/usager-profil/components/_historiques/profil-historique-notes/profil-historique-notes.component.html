@@ -58,6 +58,6 @@
     </tbody>
   </table>
 </div>
-<div *ngIf="notes.length === 0" class="alert alert-info">
-  <p>Aucune note enregistrée actuellement</p>
+<div class="fr-callout" *ngIf="!notes.length">
+  <p class="fr-callout__text">Aucune note enregistrée actuellement</p>
 </div>

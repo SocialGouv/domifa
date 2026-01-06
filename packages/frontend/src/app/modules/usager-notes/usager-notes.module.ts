@@ -9,6 +9,7 @@ import { SharedModule } from "../shared/shared.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { UsagerSharedModule } from "../usager-shared/usager-shared.module";
 import { FullNamePipe } from "../shared/pipes";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { FullNamePipe } from "../shared/pipes";
     SharedModule,
     UsagerSharedModule,
     FullNamePipe,
+    DsfrModalComponent,
   ],
 })
 export class UsagerNotesModule {}

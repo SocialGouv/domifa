@@ -65,7 +65,7 @@ h4 {
 }
 
 .active {
-  color: var(--bs-primary);
+  color: var(--text-active-blue-france);
 }
 
 .step-form {
@@ -117,19 +117,18 @@ h4 {
   margin-bottom: 1.05rem;
   margin-top: 1.05rem;
   vertical-align: middle;
-}
 
-.reponses .question {
-  color: var(--bs-primary);
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.reponses .valeur {
-  display: block;
-  color: #4a4a4a;
-  font-weight: 400;
-  word-break: break-word;
+  .question {
+    color: var(--text-active-blue-france);
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .valeur {
+    display: block;
+    color: #4a4a4a;
+    font-weight: 400;
+    word-break: break-word;
+  }
 }
 
 .label,
@@ -194,7 +193,7 @@ legend {
 }
 
 .head-page {
-  background-color: var(--bs-primary);
+  background-color: var(--text-active-blue-france);
   width: 100%;
 
   .title,
@@ -242,7 +241,7 @@ legend {
 
   a:focus,
   button:focus {
-    border-color: var(--bs-primary);
+    border-color: var(--text-active-blue-france);
   }
 
   a:hover,
@@ -252,7 +251,7 @@ legend {
     box-shadow: 0 0 5px rgba(50, 66, 124, 0.1);
   }
   .selected-section .statut-label {
-    color: var(--bs-primary);
+    color: var(--text-active-blue-france);
   }
 }
 
@@ -341,7 +340,7 @@ legend {
 
 .spinner {
   font-size: 5rem;
-  color: var(--bs-primary);
+  color: var(--text-active-blue-france);
   -webkit-text-stroke-width: 25px;
   stroke-width: 25px;
   -webkit-text-stroke-color: white;
