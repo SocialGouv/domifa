@@ -1,33 +1,47 @@
 <ng-container *ngIf="parentFormGroup">
-  <label for="nationalite">Nationalité</label>
-  <select
-    id="nationalite"
-    [(ngModel)]="usager.nationalite"
-    (ngModelChange)="updateParentFormControl($event)"
-    name="nationalite"
+  <div
+    class="fr-form-group"
     [ngClass]="{
-      'is-invalid':
+      'fr-form-group--error':
         (submitted || parentFormGroup?.controls?.nationalite?.dirty) &&
         parentFormGroup?.controls?.nationalite.errors
     }"
-    [attr.aria-describedby]="
-      (submitted || parentFormGroup?.controls?.nationalite?.dirty) &&
-      parentFormGroup?.controls?.nationalite.errors
-        ? 'nationalite-errors'
-        : null
-    "
-    [attr.aria-invalid]="
-      (submitted || parentFormGroup?.controls?.nationalite?.dirty) &&
-      parentFormGroup?.controls?.nationalite.errors
-        ? true
-        : false
-    "
-    class="form-select"
-    required
   >
-    <option [ngValue]="null">Non renseigné</option>
-    <option *ngFor="let country of COUNTRIES" [ngValue]="country">
-      {{ country }}
-    </option>
-  </select>
+    <label class="fr-label" for="nationalite"> Nationalité </label>
+    <select
+      id="nationalite"
+      [(ngModel)]="usager.nationalite"
+      (ngModelChange)="updateParentFormControl($event)"
+      name="nationalite"
+      class="fr-select"
+      [attr.aria-describedby]="
+        (submitted || parentFormGroup?.controls?.nationalite?.dirty) &&
+        parentFormGroup?.controls?.nationalite.errors
+          ? 'nationalite-errors'
+          : null
+      "
+      [attr.aria-invalid]="
+        (submitted || parentFormGroup?.controls?.nationalite?.dirty) &&
+        parentFormGroup?.controls?.nationalite.errors
+          ? true
+          : false
+      "
+      required
+    >
+      <option [ngValue]="null">Non renseigné</option>
+      <option *ngFor="let country of COUNTRIES" [ngValue]="country">
+        {{ country }}
+      </option>
+    </select>
+    <p
+      *ngIf="
+        (submitted || parentFormGroup?.controls?.nationalite?.dirty) &&
+        parentFormGroup?.controls?.nationalite.errors
+      "
+      id="nationalite-errors"
+      class="fr-error-text"
+    >
+      La nationalité est obligatoire
+    </p>
+  </div>
 </ng-container>

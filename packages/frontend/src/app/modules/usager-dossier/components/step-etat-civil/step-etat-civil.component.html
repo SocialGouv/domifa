@@ -4,303 +4,394 @@
   [currentStep]="0"
 ></app-step-header>
 
-<div class="content" *ngIf="usager && currentUserSubject$ | async as me">
-  <div class="container py-3">
-    <app-display-duplicates-usager
-      [duplicates]="duplicates"
-    ></app-display-duplicates-usager>
-    <section
-      aria-label="Formulaire d'édition de l'état-civil du demandeur"
-      class="step-form"
-      *ngIf="usagerForm"
-    >
-      <form
-        [formGroup]="usagerForm"
-        (ngSubmit)="submitInfos()"
-        autocomplete="off"
+<div class="fr-background-alt--blue-cumulus">
+  <div
+    class="fr-container fr-background-default--grey"
+    *ngIf="usager && currentUserSubject$ | async as me"
+  >
+    <app-form-stepper
+      *ngIf="usager"
+      [usager]="usager"
+      [currentStep]="0"
+    ></app-form-stepper>
+
+    <div class="fr-py-3w">
+      <app-display-duplicates-usager
+        [duplicates]="duplicates"
+      ></app-display-duplicates-usager>
+
+      <section
+        aria-label="Formulaire d'édition de l'état-civil du demandeur"
+        class="fr-mb-3w"
+        *ngIf="usagerForm"
       >
-        <h2 class="form-title">État civil du demandeur</h2>
-        <p>
-          Les champs suivis d'un
-          <span class="fw-bold text-danger">*</span> sont obligatoires
-        </p>
+        <form
+          [formGroup]="usagerForm"
+          (ngSubmit)="submitInfos()"
+          autocomplete="off"
+        >
+          <h2 class="fr-h2">État civil du demandeur</h2>
 
-        <fieldset>
-          <legend>Civilité</legend>
-          <div class="form-group">
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                formControlName="sexe"
-                name="sexe"
-                id="homme"
-                value="homme"
-              />
-              <label class="form-check-label" for="homme"> Monsieur </label>
+          <p class="fr-text--sm">
+            Les champs suivis d'un
+            <span class="fr-text--bold text-danger">*</span> sont obligatoires
+          </p>
+
+          <fieldset class="fr-fieldset">
+            <legend class="fr-fieldset__legend--regular fr-fieldset__legend">
+              Civilité
+            </legend>
+            <div class="fr-fieldset__element fr-fieldset__element--inline">
+              <div class="fr-radio-group">
+                <input
+                  type="radio"
+                  formControlName="sexe"
+                  name="sexe"
+                  id="homme"
+                  value="homme"
+                />
+                <label class="fr-label" for="homme">Monsieur</label>
+              </div>
             </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                formControlName="sexe"
-                name="sexe"
-                id="femme"
-                value="femme"
-              />
-              <label class="form-check-label" for="femme"> Madame </label>
+            <div class="fr-fieldset__element fr-fieldset__element--inline">
+              <div class="fr-radio-group">
+                <input
+                  type="radio"
+                  formControlName="sexe"
+                  name="sexe"
+                  id="femme"
+                  value="femme"
+                />
+                <label class="fr-label" for="femme">Madame</label>
+              </div>
             </div>
-          </div>
-        </fieldset>
-        <div class="row">
-          <div class="col-md-6 col-12 form-group required">
-            <label for="nom">Nom</label>
-            <input
-              type="text"
-              class="form-control"
-              id="nom"
-              appCleanStr
-              maxlength="200"
-              formControlName="nom"
-              name="nom"
-              [ngClass]="{
-                'is-invalid': (f.nom.dirty || submitted) && f.nom.errors
-              }"
-              [attr.aria-describedby]="
-                (f.nom.dirty || submitted) && f.nom.errors
-                  ? 'nom-errors'
-                  : 'nom-description'
-              "
-              [attr.aria-invalid]="f.nom.errors ? true : false"
-              required
-            />
-            <small id="nom-description"
-              >Précisez nom de naissance si nécessaire</small
-            >
-            <p
-              *ngIf="(f.nom.dirty || submitted) && f.nom.errors"
-              id="nom-errors"
-              class="invalid-feedback"
-            >
-              Le nom du demandeur est obligatoire
-            </p>
-          </div>
-          <div class="col-md-6 col-12 form-group required">
-            <label for="prenom">Prénom(s)</label>
-            <input
-              type="text"
-              class="form-control"
-              id="prenom"
-              appCleanStr
-              maxlength="200"
-              formControlName="prenom"
-              name="prenom"
-              [ngClass]="{
-                'is-invalid': (f.prenom.dirty || submitted) && f.prenom.errors
-              }"
-              [attr.aria-describedby]="
-                (f.prenom.dirty || submitted) && f.prenom.errors
-                  ? 'prenom-errors'
-                  : null
-              "
-              [attr.aria-invalid]="
-                (f.prenom.dirty || submitted) && f.prenom.errors ? true : false
-              "
-              required
-            />
-            <p
-              *ngIf="(f.prenom.dirty || submitted) && f.prenom.errors"
-              id="prenom-errors"
-              class="invalid-feedback"
-            >
-              Le prénom est obligatoire
-            </p>
-          </div>
+          </fieldset>
 
-          <div class="col-md-6 col-12 form-group">
-            <label for="surnom">Nom d'usage / Surnom</label>
-            <input
-              type="text"
-              class="form-control"
-              id="surnom"
-              appCleanStr
-              maxlength="100"
-              formControlName="surnom"
-              name="surnom"
-            />
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-6 col-12 form-group required">
-            <label for="dateNaissance">Date de naissance</label>
-            <div class="input-group">
-              <input
-                class="form-control"
-                placeholder="jj/mm/aaaa"
-                [minDate]="minDateNaissance"
-                [maxDate]="maxDateNaissance"
-                placement="auto"
-                formControlName="dateNaissance"
-                name="dateNaissance"
-                id="dateNaissance"
-                ngbDatepicker
-                appDateFr
-                value
+          <div class="fr-grid-row fr-grid-row--gutters fr-mb-3w">
+            <div class="fr-col-12 fr-col-md-4">
+              <div
+                class="fr-input-group"
                 [ngClass]="{
-                  'is-invalid':
+                  'fr-input-group--error':
+                    (f.nom.dirty || submitted) && f.nom.errors
+                }"
+              >
+                <label class="fr-label" for="nom">
+                  Nom
+                  <span class="fr-badge fr-badge--sm fr-badge--error">
+                    Obligatoire
+                  </span>
+                </label>
+                <input
+                  type="text"
+                  class="fr-input"
+                  id="nom"
+                  appCleanStr
+                  maxlength="200"
+                  formControlName="nom"
+                  name="nom"
+                  [attr.aria-describedby]="
+                    (f.nom.dirty || submitted) && f.nom.errors
+                      ? 'nom-errors'
+                      : null
+                  "
+                  [attr.aria-invalid]="f.nom.errors ? true : false"
+                  required
+                />
+                <div aria-live="polite" class="fr-messages-group">
+                  <p class="fr-message fr-message--info">
+                    Précisez nom de naissance si nécessaire
+                  </p>
+                </div>
+                <div
+                  *ngIf="(f.nom.dirty || submitted) && f.nom.errors"
+                  aria-live="polite"
+                  class="fr-messages-group"
+                  id="nom-errors"
+                >
+                  <p class="fr-message fr-message--error">
+                    Le nom du demandeur est obligatoire
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="fr-col-12 fr-col-md-4">
+              <div
+                class="fr-input-group"
+                [ngClass]="{
+                  'fr-input-group--error':
+                    (f.prenom.dirty || submitted) && f.prenom.errors
+                }"
+              >
+                <label class="fr-label" for="prenom">
+                  Prénom(s)
+                  <span class="fr-badge fr-badge--sm fr-badge--error">
+                    Obligatoire
+                  </span>
+                </label>
+                <input
+                  type="text"
+                  class="fr-input"
+                  id="prenom"
+                  appCleanStr
+                  maxlength="200"
+                  formControlName="prenom"
+                  name="prenom"
+                  [attr.aria-describedby]="
+                    (f.prenom.dirty || submitted) && f.prenom.errors
+                      ? 'prenom-errors'
+                      : null
+                  "
+                  [attr.aria-invalid]="f.prenom.errors ? true : false"
+                  required
+                />
+                <div
+                  *ngIf="(f.prenom.dirty || submitted) && f.prenom.errors"
+                  aria-live="polite"
+                  class="fr-messages-group"
+                  id="prenom-errors"
+                >
+                  <p class="fr-message fr-message--error">
+                    Le prénom est obligatoire
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="fr-col-12 fr-col-md-4">
+              <div class="fr-input-group">
+                <label class="fr-label" for="surnom">
+                  Nom d'usage / Surnom
+                </label>
+                <input
+                  type="text"
+                  class="fr-input"
+                  id="surnom"
+                  appCleanStr
+                  maxlength="100"
+                  formControlName="surnom"
+                  name="surnom"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-col-12 fr-col-md-6">
+              <div
+                class="fr-input-group"
+                [ngClass]="{
+                  'fr-input-group--error':
                     (f.dateNaissance.dirty || submitted) &&
                     f.dateNaissance.errors
                 }"
-                [attr.aria-describedby]="
-                  (f.dateNaissance.dirty || submitted) && f.dateNaissance.errors
-                    ? 'date-naissance-errors'
-                    : null
-                "
-                [attr.aria-invalid]="
-                  (f.dateNaissance.dirty || submitted) && f.dateNaissance.errors
-                    ? true
-                    : false
-                "
-                #d="ngbDatepicker"
-                maxlength="10"
-                required
-              />
+              >
+                <label class="fr-label" for="dateNaissance">
+                  Date de naissance
+                  <span class="fr-badge fr-badge--sm fr-badge--error">
+                    Obligatoire
+                  </span>
+                </label>
+                <div class="fr-input-wrap fr-input-wrap--action">
+                  <input
+                    class="fr-input"
+                    placeholder="jj/mm/aaaa"
+                    [minDate]="minDateNaissance"
+                    [maxDate]="maxDateNaissance"
+                    placement="auto"
+                    formControlName="dateNaissance"
+                    name="dateNaissance"
+                    id="dateNaissance"
+                    ngbDatepicker
+                    appDateFr
+                    value
+                    [attr.aria-describedby]="
+                      (f.dateNaissance.dirty || submitted) &&
+                      f.dateNaissance.errors
+                        ? 'date-naissance-errors'
+                        : null
+                    "
+                    [attr.aria-invalid]="
+                      (f.dateNaissance.dirty || submitted) &&
+                      f.dateNaissance.errors
+                        ? true
+                        : false
+                    "
+                    #d="ngbDatepicker"
+                    maxlength="10"
+                    required
+                  />
 
-              <button
-                type="button"
-                aria-label="Sélectionner une date de naissance sur le calendrier"
-                class="input-group-text btn btn-outline-primary"
-                (click)="d.toggle()"
-              >
-                <fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'calendar']"
-                ></fa-icon>
-              </button>
-              <p
-                id="date-naissance-errors"
-                *ngIf="
-                  (f.dateNaissance.dirty || submitted) && f.dateNaissance.errors
-                "
-                class="invalid-feedback"
-              >
-                La date de naissance est incorrecte, exemple: 20/12/1996
-              </p>
+                  <button
+                    type="button"
+                    aria-label="Sélectionner une date de naissance sur le calendrier"
+                    class="fr-btn fr-btn--tertiary fr-btn--icon-right"
+                    (click)="d.toggle()"
+                  >
+                    <span
+                      class="fr-icon-calendar-line"
+                      aria-hidden="true"
+                    ></span>
+                  </button>
+                </div>
+
+                <div aria-live="polite" class="fr-messages-group">
+                  <p class="fr-message fr-message--info">
+                    Format attendu: jj/mm/aaaa
+                  </p>
+                </div>
+                <div
+                  *ngIf="
+                    (f.dateNaissance.dirty || submitted) &&
+                    f.dateNaissance.errors
+                  "
+                  aria-live="polite"
+                  class="fr-messages-group"
+                  id="date-naissance-errors"
+                >
+                  <p class="fr-message fr-message--error">
+                    La date de naissance est incorrecte, exemple: 20/12/1996
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <div class="form-group required">
-              <label for="villeNaissance">Ville de naissance</label>
-              <input
-                type="text"
-                class="form-control"
-                id="villeNaissance"
-                formControlName="villeNaissance"
-                name="villeNaissance"
-                [attr.aria-describedby]="
-                  (submitted || f.villeNaissance.dirty) &&
-                  f.villeNaissance.errors
-                    ? 'ville-errors'
-                    : 'ville-description'
-                "
-                [attr.aria-invalid]="
-                  (submitted || f.villeNaissance.dirty) &&
-                  f.villeNaissance.errors
-                    ? true
-                    : false
-                "
+
+            <div class="fr-col-12 fr-col-md-6">
+              <div
+                class="fr-input-group"
                 [ngClass]="{
-                  'is-invalid':
+                  'fr-input-group--error':
                     (submitted || f.villeNaissance.dirty) &&
                     f.villeNaissance.errors
                 }"
-                required
-              />
-              <small id="ville-description"
-                >Préciser le pays si à l'étranger</small
               >
-              <p
-                *ngIf="
-                  (submitted || f.villeNaissance.dirty) &&
-                  f.villeNaissance.errors
-                "
-                id="ville-errors"
-                class="invalid-feedback"
-              >
-                La ville de naissance est obligatoire
-              </p>
+                <label class="fr-label" for="villeNaissance">
+                  Ville de naissance
+                  <span class="fr-badge fr-badge--sm fr-badge--error">
+                    Obligatoire
+                  </span>
+                </label>
+                <input
+                  type="text"
+                  class="fr-input"
+                  id="villeNaissance"
+                  formControlName="villeNaissance"
+                  name="villeNaissance"
+                  [attr.aria-describedby]="
+                    (submitted || f.villeNaissance.dirty) &&
+                    f.villeNaissance.errors
+                      ? 'ville-errors'
+                      : null
+                  "
+                  [attr.aria-invalid]="
+                    (submitted || f.villeNaissance.dirty) &&
+                    f.villeNaissance.errors
+                      ? true
+                      : false
+                  "
+                  required
+                />
+                <div aria-live="polite" class="fr-messages-group">
+                  <p class="fr-message fr-message--info">
+                    Préciser le pays si à l'étranger
+                  </p>
+                </div>
+                <div
+                  *ngIf="
+                    (submitted || f.villeNaissance.dirty) &&
+                    f.villeNaissance.errors
+                  "
+                  aria-live="polite"
+                  class="fr-messages-group"
+                  id="ville-errors"
+                >
+                  <p class="fr-message fr-message--error">
+                    La ville de naissance est obligatoire
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6 col-12 form-group">
-            <label for="langue">Langue parlée</label>
-            <input
-              id="langue"
-              type="text"
-              class="form-control"
-              formControlName="langue"
-              name="langue"
-              [attr.aria-describedby]="
-                (f.langue.dirty || submitted) && f.langue.errors
-                  ? 'langue-errors'
-                  : 'langue-description'
-              "
-              [attr.aria-invalid]="
-                (f.langue.dirty || submitted) && f.langue.errors ? true : false
-              "
-              [ngClass]="{
-                'is-invalid': (f.langue.dirty || submitted) && f.langue.errors
-              }"
-              [ngbTypeahead]="languagesAutocompleteSearch"
-              [resultFormatter]="languagesAutocomplete.formatter"
-              [inputFormatter]="languagesAutocomplete.formatter"
-            />
-            <small id="langue-description"
-              >Saisissez la langue, puis choisissez un élément dans la liste.
-            </small>
-            <p
-              id="langue-errors"
-              *ngIf="f.langue.touched && f.langue.errors"
-              class="invalid-feedback"
-            >
-              La langue saisie est invalide. Veuillez sélectionner une langue
-              dans la liste des propositions
-            </p>
-          </div>
-          <div class="col-md-6 col-12 form-group">
-            <app-input-nationality
-              [parentFormGroup]="usagerForm"
-              [submitted]="submitted"
-              [usager]="usager"
-            ></app-input-nationality>
-          </div>
-        </div>
-        <fieldset>
-          <legend class="visually-hidden">
-            Informations de contact du domicilié
-          </legend>
 
-          <div class="row">
-            <div class="col-md-6 col-12">
+          <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-col-12 fr-col-md-6">
               <div
-                class="form-group"
-                [ngClass]="
-                  f.contactByPhone.value === true
-                    ? 'required form-group'
-                    : 'form-group'
-                "
+                class="fr-input-group"
+                [ngClass]="{
+                  'fr-input-group--error':
+                    (f.langue.dirty || submitted) && f.langue.errors
+                }"
               >
-                <label for="telephone"
-                  >Numéro de téléphone (mobile uniquement)</label
-                >
-                <ngx-intl-tel-input
-                  [cssClass]="
-                    submitted && (f.telephone.errors || f.telephone.invalid)
-                      ? 'form-control is-invalid'
-                      : 'form-control'
+                <label class="fr-label" for="langue">Langue parlée</label>
+                <p class="fr-hint-text">
+                  Saisissez la langue, puis choisissez un élément dans la liste.
+                </p>
+                <input
+                  id="langue"
+                  type="text"
+                  class="fr-input"
+                  formControlName="langue"
+                  name="langue"
+                  [attr.aria-describedby]="
+                    (f.langue.dirty || submitted) && f.langue.errors
+                      ? 'langue-errors'
+                      : null
                   "
+                  [attr.aria-invalid]="
+                    (f.langue.dirty || submitted) && f.langue.errors
+                      ? true
+                      : false
+                  "
+                  [ngbTypeahead]="languagesAutocompleteSearch"
+                  [resultFormatter]="languagesAutocomplete.formatter"
+                  [inputFormatter]="languagesAutocomplete.formatter"
+                />
+
+                <div
+                  *ngIf="f.langue.touched && f.langue.errors"
+                  aria-live="polite"
+                  class="fr-messages-group"
+                  id="langue-errors"
+                >
+                  <p class="fr-message fr-message--error">
+                    La langue saisie est invalide. Veuillez sélectionner une
+                    langue dans la liste des propositions
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="fr-col-12 fr-col-md-6">
+              <app-input-nationality
+                [parentFormGroup]="usagerForm"
+                [submitted]="submitted"
+                [usager]="usager"
+              ></app-input-nationality>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="fr-grid-row fr-my-2v fr-grid-row--gutters">
+            <div class="fr-col-12 fr-col-md-6">
+              <div
+                class="fr-input-group"
+                [ngClass]="{
+                  'fr-input-group--error':
+                    submitted && (f.telephone.errors || f.telephone.invalid)
+                }"
+              >
+                <label class="fr-label" for="telephone">
+                  Numéro de téléphone (mobile uniquement)
+                  <span
+                    *ngIf="f.contactByPhone.value === true"
+                    class="fr-badge fr-badge--sm fr-badge--error"
+                  >
+                    Obligatoire
+                  </span>
+                </label>
+                <p class="fr-hint-text">Format attendu : (+33) 1 22 33 44 55</p>
+                <ngx-intl-tel-input
+                  [cssClass]="'fr-input telephone-input'"
                   [preferredCountries]="PREFERRED_COUNTRIES"
                   [enableAutoCountrySelect]="false"
                   [enablePlaceholder]="true"
@@ -322,12 +413,15 @@
                   (countryChange)="updatePlaceHolder($event.iso2)"
                   [selectedCountryISO]="f.telephone?.value?.countryCode"
                 ></ngx-intl-tel-input>
-                <p
+                <div
                   *ngIf="submitted && f.telephone.errors"
-                  class="invalid-feedback-custom"
+                  aria-live="polite"
+                  class="fr-messages-group"
                 >
-                  Numéro de téléphone incorrect (Ex: 0606060606)
-                </p>
+                  <p class="fr-message fr-message--error">
+                    Numéro de téléphone incorrect (Ex: 0606060606)
+                  </p>
+                </div>
                 <p
                   *ngIf="
                     !PREFERRED_COUNTRIES.includes(
@@ -336,24 +430,30 @@
                     f.telephone?.value &&
                     f?.contactByPhone?.value === true
                   "
-                  class="invalid-feedback-custom"
+                  class="fr-hint-text"
                 >
                   Attention: les SMS ne sont pas envoyés aux numéros étrangers
                 </p>
               </div>
             </div>
-            <div class="col-md-6 col-12">
-              <div class="form-group">
-                <label for="email">Adresse e-mail</label>
+            <div class="fr-col-12 fr-col-md-6">
+              <div
+                class="fr-input-group"
+                [ngClass]="{
+                  'fr-input-group--error':
+                    (f.email.dirty || submitted) && f.email.errors
+                }"
+              >
+                <label class="fr-label" for="email"> Adresse e-mail </label>
+                <p class="fr-hint-text">Format attendu : (+33) 1 22 33 44 55</p>
                 <input
                   type="email"
-                  class="form-control"
+                  class="fr-input"
                   id="email"
+                  spellcheck="off"
                   formControlName="email"
+                  autocomplete="off"
                   name="email"
-                  [ngClass]="{
-                    'is-invalid': (f.email.dirty || submitted) && f.email.errors
-                  }"
                   [attr.aria-describedby]="
                     (f.email.dirty || submitted) && f.email.errors
                       ? 'email-errors'
@@ -365,89 +465,110 @@
                       : false
                   "
                 />
-                <p
+                <div class="fr-messages-group">
+                  <p class="fr-message fr-message--info">
+                    Adresse e-mail indiquée sur le Cerfa
+                  </p>
+                </div>
+                <div
                   *ngIf="(f.email.dirty || submitted) && f.email.errors"
+                  aria-live="polite"
+                  class="fr-messages-group"
                   id="email-errors"
-                  class="invalid-feedback"
                 >
-                  Veuillez vérifier l'adresse email, format attendu :
-                  nom&#64;domaine.fr
-                </p>
+                  <p class="fr-message fr-message--error">
+                    Veuillez vérifier l'adresse email, format attendu :
+                    nom&#64;domaine.fr
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </fieldset>
-        <div class="row">
-          <div class="col-12 col-md-6 form-group">
-            <label for="numeroDistribution"
-              >Numéro de boite postale ou TSA</label
-            >
-            <input
-              type="text"
-              class="form-control"
-              id="numeroDistribution"
-              formControlName="numeroDistribution"
-              name="numeroDistribution"
-              maxlength="20"
-            />
-            <small id="numero-description">Exemple : BP 102, TSA 11000</small>
-          </div>
-          <div class="col-12 col-md-6 form-group">
-            <app-input-referrer
-              [submitted]="submitted"
-              [parentFormGroup]="usagerForm"
-              [referrerId]="f.referrerId.value"
-            ></app-input-referrer>
-          </div>
-        </div>
-
-        <div
-          class="row my-3"
-          *ngIf="
-            me.structure.sms.enabledByDomifa &&
-            me.structure.sms.enabledByStructure
-          "
-        >
-          <div class="col-md-6 col-12">
-            <fieldset>
-              <legend>
-                Le demandeur souhaite-t-il recevoir des notifications par SMS
-                (arrivée d'un courrier, échéance de domiciliation) ?
-              </legend>
-
-              <div class="form-check form-check-inline">
+          <hr />
+          <div class="fr-grid-row fr-my-2v fr-grid-row--gutters">
+            <div class="fr-col-12 fr-col-md-6">
+              <div class="fr-input-group">
+                <label class="fr-label" for="numeroDistribution">
+                  Numéro de boite postale ou TSA
+                </label>
                 <input
-                  class="form-check-input"
+                  type="text"
+                  class="fr-input"
+                  id="numeroDistribution"
+                  formControlName="numeroDistribution"
+                  name="numeroDistribution"
+                  maxlength="20"
+                />
+
+                <div class="fr-messages-group">
+                  <p class="fr-message fr-message--info">
+                    Exemple : BP 102, TSA 11000
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="fr-col-12 fr-col-md-6">
+              <app-input-referrer
+                [submitted]="submitted"
+                [parentFormGroup]="usagerForm"
+                [referrerId]="f.referrerId.value"
+              ></app-input-referrer>
+            </div>
+          </div>
+
+          <hr />
+          <fieldset
+            class="fr-fieldset fr-mb-2w"
+            *ngIf="
+              me.structure.sms.enabledByDomifa &&
+              me.structure.sms.enabledByStructure
+            "
+          >
+            <legend class="fr-fieldset__legend--regular fr-fieldset__legend">
+              Le demandeur souhaite-t-il recevoir des notifications par SMS
+              (arrivée d'un courrier, échéance de domiciliation) ?
+            </legend>
+
+            <div class="fr-fieldset__element fr-fieldset__element--inline">
+              <div class="fr-radio-group">
+                <input
+                  class="fr-radio"
                   type="radio"
                   formControlName="contactByPhone"
                   name="contactByPhone"
                   id="sms_oui"
                   [value]="true"
                 />
-                <label class="form-check-label" for="sms_oui">Oui</label>
+                <label class="fr-label" for="sms_oui">Oui</label>
               </div>
-              <div class="form-check form-check-inline">
+            </div>
+            <div class="fr-fieldset__element fr-fieldset__element--inline">
+              <div class="fr-radio-group">
                 <input
-                  class="form-check-input"
+                  class="fr-radio"
                   type="radio"
                   formControlName="contactByPhone"
                   name="contactByPhone"
                   id="sms_non"
                   [value]="false"
                 />
-                <label class="form-check-label" for="sms_non">Non</label>
+                <label class="fr-label" for="sms_non">Non</label>
               </div>
-            </fieldset>
-          </div>
-        </div>
+            </div>
+          </fieldset>
 
-        <div class="row">
-          <div class="col-md-12 my-3">
-            <fieldset>
-              <legend>Le demandeur a-t-il des ayants droit ?</legend>
-              <div class="form-check form-check-inline">
+          <fieldset class="fr-fieldset fr-mb-2w">
+            <legend class="fr-fieldset__legend fr-text--regular">
+              <span class="fr-fieldset__legend-content">
+                Le demandeur a-t-il des ayants droit ?
+              </span>
+            </legend>
+
+            <div class="fr-fieldset__element fr-fieldset__element--inline">
+              <div class="fr-radio-group">
                 <input
-                  class="form-check-input"
+                  class="fr-radio"
                   type="radio"
                   formControlName="ayantsDroitsExist"
                   name="ayantsDroitsExist"
@@ -455,13 +576,14 @@
                   [value]="true"
                   (click)="addAyantDroit()"
                 />
-                <label class="form-check-label" for="ayantsDroits_oui">
-                  Oui
-                </label>
+                <label class="fr-label" for="ayantsDroits_oui">Oui</label>
               </div>
-              <div class="form-check form-check-inline">
+            </div>
+
+            <div class="fr-fieldset__element fr-fieldset__element--inline">
+              <div class="fr-radio-group">
                 <input
-                  class="form-check-input"
+                  class="fr-radio"
                   type="radio"
                   (click)="resetAyantDroit()"
                   formControlName="ayantsDroitsExist"
@@ -469,290 +591,357 @@
                   id="ayantsDroits_non"
                   [value]="false"
                 />
-                <label class="form-check-label" for="ayantsDroits_non">
-                  Non
-                </label>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-
-        <ng-container *ngIf="f.ayantsDroitsExist.value === true" class="py-2">
-          <fieldset
-            formArrayName="ayantsDroits"
-            *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
-          >
-            <legend>Ayant-droit numéro {{ i + 1 }}</legend>
-            <div [formGroupName]="i" class="row">
-              <div class="col-12 col-md-3 form-group required">
-                <label for="nom_{{ i }}">Nom</label>
-                <input
-                  #adName
-                  id="nom_{{ i }}"
-                  type="text"
-                  appCleanStr
-                  class="form-control"
-                  formControlName="nom"
-                  name="nom"
-                  [ngClass]="{
-                    'is-invalid':
-                      (ayantsDroits.controls[i].get('nom')?.dirty ||
-                        submitted) &&
-                      ayantsDroits.controls[i].get('nom')?.errors
-                  }"
-                  [attr.aria-invalid]="
-                    (ayantsDroits.controls[i].get('nom')?.dirty || submitted) &&
-                    ayantsDroits.controls[i].get('nom')?.errors
-                      ? true
-                      : false
-                  "
-                  [attr.aria-describedby]="
-                    (ayantsDroits.controls[i].get('nom')?.dirty || submitted) &&
-                    ayantsDroits.controls[i].get('nom')?.errors
-                      ? 'nom-ad-errors-' + i
-                      : null
-                  "
-                  [attr.aria-label]="
-                    'Nom de naissance de l\'ayant droit ' + (i + 1)
-                  "
-                  required
-                />
-                <p
-                  [id]="'nom-ad-errors-' + i"
-                  *ngIf="
-                    (ayantsDroits.controls[i].get('nom')?.dirty || submitted) &&
-                    ayantsDroits.controls[i].get('nom')?.errors
-                  "
-                  class="invalid-feedback"
-                >
-                  Le nom est obligatoire
-                </p>
-              </div>
-              <div class="col-12 col-md-3 form-group required">
-                <label for="ad_prenom_{{ i }}">Prénom</label>
-                <input
-                  type="text"
-                  id="ad_prenom_{{ i }}"
-                  class="form-control"
-                  appCleanStr
-                  formControlName="prenom"
-                  name="prenom"
-                  [ngClass]="{
-                    'is-invalid':
-                      (ayantsDroits.controls[i].get('prenom')?.dirty ||
-                        submitted) &&
-                      ayantsDroits.controls[i].get('prenom')?.errors
-                  }"
-                  [attr.aria-invalid]="
-                    (ayantsDroits.controls[i].get('prenom')?.dirty ||
-                      submitted) &&
-                    ayantsDroits.controls[i].get('prenom')?.errors
-                      ? true
-                      : false
-                  "
-                  [attr.aria-describedby]="
-                    (ayantsDroits.controls[i].get('prenom')?.dirty ||
-                      submitted) &&
-                    ayantsDroits.controls[i].get('prenom')?.errors
-                      ? 'prenom-ad-errors-' + i
-                      : null
-                  "
-                  [attr.aria-label]="'Prénom de l\'ayant droit ' + (i + 1)"
-                  required
-                />
-                <p
-                  [id]="'prenom-ad-errors-' + i"
-                  *ngIf="
-                    (ayantsDroits.controls[i].get('prenom')?.dirty ||
-                      submitted) &&
-                    ayantsDroits.controls[i].get('prenom')?.errors
-                  "
-                  class="invalid-feedback"
-                >
-                  Le prénom est obligatoire
-                </p>
-              </div>
-              <div class="col form-group required">
-                <label for="dateNaissance_{{ i }}">Date de naissance</label>
-                <div class="input-group">
-                  <input
-                    id="dateNaissance_{{ i }}"
-                    class="form-control"
-                    placeholder="jj/mm/aaaa"
-                    [minDate]="minDateNaissance"
-                    [maxDate]="maxDateNaissance"
-                    placement="auto"
-                    formControlName="dateNaissance"
-                    name="dateNaissance"
-                    ngbDatepicker
-                    appDateFr
-                    value
-                    [ngClass]="{
-                      'is-invalid':
-                        (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
-                          submitted) &&
-                        ayantsDroits.controls[i].get('dateNaissance')?.errors
-                    }"
-                    [attr.aria-label]="
-                      'Date de naissance de l\'ayant droit ' + (i + 1)
-                    "
-                    [attr.aria-invalid]="
-                      (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
-                        submitted) &&
-                      ayantsDroits.controls[i].get('dateNaissance')?.errors
-                        ? true
-                        : false
-                    "
-                    [attr.aria-describedby]="
-                      (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
-                        submitted) &&
-                      ayantsDroits.controls[i].get('dateNaissance')?.errors
-                        ? 'dateNaissance-ad-errors-' + i
-                        : null
-                    "
-                    #d="ngbDatepicker"
-                    maxlength="10"
-                    required
-                  />
-
-                  <button
-                    type="button"
-                    aria-label="Sélectionner une date de naissance sur le calendrier"
-                    class="btn btn-outline-primary input-group-text"
-                    (click)="d.toggle()"
-                  >
-                    <fa-icon
-                      [icon]="['fas', 'calendar']"
-                      aria-hidden="true"
-                    ></fa-icon>
-                  </button>
-
-                  <p
-                    *ngIf="
-                      (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
-                        submitted) &&
-                      ayantsDroits.controls[i].get('dateNaissance')?.errors
-                    "
-                    [id]="'dateNaissance-ad-errors-' + i"
-                    class="invalid-feedback"
-                  >
-                    La date de naissance est obligatoire. Exemple : 20/12/1996
-                  </p>
-                </div>
-              </div>
-              <div class="col-12 col-md-2 form-group required">
-                <label for="lien_{{ i }}">Lien</label>
-                <select
-                  formControlName="lien"
-                  name="lien"
-                  id="lien_{{ i }}"
-                  class="form-select"
-                  [attr.aria-label]="
-                    'Lien de parenté de l\'ayant droit ' + (i + 1)
-                  "
-                  [attr.aria-invalid]="
-                    (ayantsDroits.controls[i].get('lien')?.dirty ||
-                      submitted) &&
-                    ayantsDroits.controls[i].get('lien')?.errors
-                      ? true
-                      : false
-                  "
-                  [attr.aria-describedby]="
-                    (ayantsDroits.controls[i].get('lien')?.dirty ||
-                      submitted) &&
-                    ayantsDroits.controls[i].get('lien')?.errors
-                      ? 'lien-parente-errors-' + i
-                      : null
-                  "
-                  [ngClass]="{
-                    'is-invalid':
-                      (ayantsDroits.controls[i].get('lien')?.dirty ||
-                        submitted) &&
-                      ayantsDroits.controls[i].get('lien')?.errors
-                  }"
-                  required
-                >
-                  <option [ngValue]="null">Non renseigné</option>
-                  <option
-                    *ngFor="let lien of LIEN_PARENTE_LABELS | keyvalue"
-                    [ngValue]="lien.key"
-                  >
-                    {{ lien.value }}
-                  </option>
-                </select>
-                <p
-                  [id]="'lien-parente-errors-' + i"
-                  *ngIf="
-                    (ayantsDroits.controls[i].get('lien')?.dirty ||
-                      submitted) &&
-                    ayantsDroits.controls[i].get('lien')?.errors
-                  "
-                  class="invalid-feedback"
-                >
-                  Le lien de parenté est obligatoire
-                </p>
-              </div>
-              <div class="form-group col-12 col-md-1">
-                <span class="label">Supprimer</span>
-                <button
-                  type="button"
-                  id="delete_ad_{{ i }}"
-                  (click)="deleteAyantDroit(i)"
-                  class="btn btn-block btn-danger"
-                  [attr.aria-label]="'Supprimer l\'ayant droit {{ (i+1) }}'"
-                >
-                  <fa-icon
-                    aria-hidden="true"
-                    [icon]="['fas', 'trash']"
-                  ></fa-icon>
-                  <span class="d-inline-block d-md-none"
-                    >Supprimer l'ayant droit {{ i + 1 }}</span
-                  >
-                </button>
+                <label class="fr-label" for="ayantsDroits_non">Non</label>
               </div>
             </div>
           </fieldset>
-          <div class="d-grid my-2 mx-auto col-md-4 col-12">
-            <button
-              type="button"
-              (click)="addAyantDroit()"
-              class="btn btn-outline-primary"
+
+          <ng-container *ngIf="f.ayantsDroitsExist.value === true">
+            <fieldset
+              formArrayName="ayantsDroits"
+              class="fr-fieldset fr-mb-2w"
+              *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
             >
-              <fa-icon [icon]="['fas', 'plus']" aria-hidden="true"></fa-icon>
-              Ajouter des ayants droit
+              <legend class="fr-fieldset__legend fr-text--regular">
+                <span class="fr-fieldset__legend-content">
+                  Ayant-droit numéro {{ i + 1 }}
+                </span>
+              </legend>
+
+              <div class="fr-fieldset__content">
+                <div
+                  [formGroupName]="i"
+                  class="fr-grid-row fr-grid-row--gutters"
+                >
+                  <div class="fr-col-12 fr-col-md-3">
+                    <div
+                      class="fr-input-group"
+                      [ngClass]="{
+                        'fr-input-group--error':
+                          (ayantsDroits.controls[i].get('nom')?.dirty ||
+                            submitted) &&
+                          ayantsDroits.controls[i].get('nom')?.errors
+                      }"
+                    >
+                      <label class="fr-label" for="nom_{{ i }}">
+                        Nom
+                        <span aria-label="obligatoire">*</span>
+                      </label>
+                      <input
+                        #adName
+                        id="nom_{{ i }}"
+                        type="text"
+                        appCleanStr
+                        class="fr-input"
+                        formControlName="nom"
+                        name="nom"
+                        [attr.aria-invalid]="
+                          (ayantsDroits.controls[i].get('nom')?.dirty ||
+                            submitted) &&
+                          ayantsDroits.controls[i].get('nom')?.errors
+                            ? true
+                            : false
+                        "
+                        [attr.aria-describedby]="
+                          (ayantsDroits.controls[i].get('nom')?.dirty ||
+                            submitted) &&
+                          ayantsDroits.controls[i].get('nom')?.errors
+                            ? 'nom-ad-errors-' + i
+                            : null
+                        "
+                        [attr.aria-label]="
+                          'Nom de naissance de l\'ayant droit ' + (i + 1)
+                        "
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          (ayantsDroits.controls[i].get('nom')?.dirty ||
+                            submitted) &&
+                          ayantsDroits.controls[i].get('nom')?.errors
+                        "
+                        [id]="'nom-ad-errors-' + i"
+                        aria-live="polite"
+                        class="fr-messages-group"
+                      >
+                        <p class="fr-message fr-message--error">
+                          Le nom est obligatoire
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="fr-col-12 fr-col-md-3">
+                    <div
+                      class="fr-input-group"
+                      [ngClass]="{
+                        'fr-input-group--error':
+                          (ayantsDroits.controls[i].get('prenom')?.dirty ||
+                            submitted) &&
+                          ayantsDroits.controls[i].get('prenom')?.errors
+                      }"
+                    >
+                      <label class="fr-label" for="ad_prenom_{{ i }}">
+                        Prénom
+                        <span aria-label="obligatoire">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="ad_prenom_{{ i }}"
+                        class="fr-input"
+                        appCleanStr
+                        formControlName="prenom"
+                        name="prenom"
+                        [attr.aria-invalid]="
+                          (ayantsDroits.controls[i].get('prenom')?.dirty ||
+                            submitted) &&
+                          ayantsDroits.controls[i].get('prenom')?.errors
+                            ? true
+                            : false
+                        "
+                        [attr.aria-describedby]="
+                          (ayantsDroits.controls[i].get('prenom')?.dirty ||
+                            submitted) &&
+                          ayantsDroits.controls[i].get('prenom')?.errors
+                            ? 'prenom-ad-errors-' + i
+                            : null
+                        "
+                        [attr.aria-label]="
+                          'Prénom de l\'ayant droit ' + (i + 1)
+                        "
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          (ayantsDroits.controls[i].get('prenom')?.dirty ||
+                            submitted) &&
+                          ayantsDroits.controls[i].get('prenom')?.errors
+                        "
+                        [id]="'prenom-ad-errors-' + i"
+                        aria-live="polite"
+                        class="fr-messages-group"
+                      >
+                        <p class="fr-message fr-message--error">
+                          Le prénom est obligatoire
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Date de naissance de l'ayant-droit -->
+                  <div class="fr-col-12 fr-col-md-3">
+                    <div
+                      class="fr-input-group"
+                      [ngClass]="{
+                        'fr-input-group--error':
+                          (ayantsDroits.controls[i].get('dateNaissance')
+                            ?.dirty ||
+                            submitted) &&
+                          ayantsDroits.controls[i].get('dateNaissance')?.errors
+                      }"
+                    >
+                      <label class="fr-label" for="dateNaissance_{{ i }}">
+                        Date de naissance
+                        <span aria-label="obligatoire">*</span></label
+                      >
+                      <div class="fr-input-wrap fr-input-wrap--action">
+                        <input
+                          id="dateNaissance_{{ i }}"
+                          class="fr-input"
+                          placeholder="jj/mm/aaaa"
+                          [minDate]="minDateNaissance"
+                          [maxDate]="maxDateNaissance"
+                          placement="auto"
+                          formControlName="dateNaissance"
+                          name="dateNaissance"
+                          ngbDatepicker
+                          appDateFr
+                          value
+                          [attr.aria-label]="
+                            'Date de naissance de l\'ayant droit ' + (i + 1)
+                          "
+                          [attr.aria-invalid]="
+                            (ayantsDroits.controls[i].get('dateNaissance')
+                              ?.dirty ||
+                              submitted) &&
+                            ayantsDroits.controls[i].get('dateNaissance')
+                              ?.errors
+                              ? true
+                              : false
+                          "
+                          [attr.aria-describedby]="
+                            (ayantsDroits.controls[i].get('dateNaissance')
+                              ?.dirty ||
+                              submitted) &&
+                            ayantsDroits.controls[i].get('dateNaissance')
+                              ?.errors
+                              ? 'dateNaissance-ad-errors-' + i
+                              : null
+                          "
+                          #d="ngbDatepicker"
+                          maxlength="10"
+                          required
+                        />
+
+                        <button
+                          type="button"
+                          aria-label="Sélectionner une date de naissance sur le calendrier"
+                          class="fr-btn fr-btn--tertiary fr-btn--icon-right"
+                          (click)="d.toggle()"
+                        >
+                          <span
+                            class="fr-icon-calendar-line"
+                            aria-hidden="true"
+                          ></span>
+                        </button>
+                      </div>
+
+                      <div
+                        *ngIf="
+                          (ayantsDroits.controls[i].get('dateNaissance')
+                            ?.dirty ||
+                            submitted) &&
+                          ayantsDroits.controls[i].get('dateNaissance')?.errors
+                        "
+                        [id]="'dateNaissance-ad-errors-' + i"
+                        aria-live="polite"
+                        class="fr-messages-group"
+                      >
+                        <p class="fr-message fr-message--error">
+                          La date de naissance est obligatoire. Exemple :
+                          20/12/1996
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Lien de parenté -->
+                  <div class="fr-col-12 fr-col-md-2">
+                    <div
+                      class="fr-input-group"
+                      [ngClass]="{
+                        'fr-input-group--error':
+                          (ayantsDroits.controls[i].get('lien')?.dirty ||
+                            submitted) &&
+                          ayantsDroits.controls[i].get('lien')?.errors
+                      }"
+                    >
+                      <label class="fr-label" for="lien_{{ i }}">
+                        Lien
+                        <span aria-label="obligatoire">*</span>
+                      </label>
+                      <select
+                        formControlName="lien"
+                        name="lien"
+                        id="lien_{{ i }}"
+                        class="fr-select"
+                        [attr.aria-label]="
+                          'Lien de parenté de l\'ayant droit ' + (i + 1)
+                        "
+                        [attr.aria-invalid]="
+                          (ayantsDroits.controls[i].get('lien')?.dirty ||
+                            submitted) &&
+                          ayantsDroits.controls[i].get('lien')?.errors
+                            ? true
+                            : false
+                        "
+                        [attr.aria-describedby]="
+                          (ayantsDroits.controls[i].get('lien')?.dirty ||
+                            submitted) &&
+                          ayantsDroits.controls[i].get('lien')?.errors
+                            ? 'lien-parente-errors-' + i
+                            : null
+                        "
+                        required
+                      >
+                        <option [ngValue]="null">Non renseigné</option>
+                        <option
+                          *ngFor="let lien of LIEN_PARENTE_LABELS | keyvalue"
+                          [ngValue]="lien.key"
+                        >
+                          {{ lien.value }}
+                        </option>
+                      </select>
+                      <div
+                        *ngIf="
+                          (ayantsDroits.controls[i].get('lien')?.dirty ||
+                            submitted) &&
+                          ayantsDroits.controls[i].get('lien')?.errors
+                        "
+                        [id]="'lien-parente-errors-' + i"
+                        aria-live="polite"
+                        class="fr-messages-group"
+                      >
+                        <p class="fr-message fr-message--error">
+                          Le lien de parenté est obligatoire
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Bouton supprimer -->
+                  <div class="fr-col-12 fr-col-md-1">
+                    <div class="fr-input-group">
+                      <label class="fr-label" for="delete_ad_{{ i }}">
+                        <span class="visually-hidden">Action</span>
+                      </label>
+                      <button
+                        type="button"
+                        id="delete_ad_{{ i }}"
+                        (click)="deleteAyantDroit(i)"
+                        class="fr-btn fr-btn--tertiary fr-btn--icon-only fr-btn--sm"
+                        [attr.aria-label]="
+                          'Supprimer l\'ayant droit ' + (i + 1)
+                        "
+                      >
+                        <span
+                          class="fr-icon-delete-line"
+                          aria-hidden="true"
+                        ></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="fr-mb-2w">
+              <button
+                type="button"
+                (click)="addAyantDroit()"
+                class="fr-btn fr-btn--secondary fr-btn--icon-left"
+              >
+                <span class="fr-icon-add-line" aria-hidden="true"></span>
+                Ajouter des ayants droit
+              </button>
+            </div>
+          </ng-container>
+
+          <div class="fr-mb-3w">
+            <button
+              [disabled]="loading"
+              [attr.aria-busy]="loading"
+              type="submit"
+              class="fr-btn"
+            >
+              <span *ngIf="!loading">
+                Suivant
+                <span
+                  class="fr-icon-arrow-right-line"
+                  aria-hidden="true"
+                ></span>
+              </span>
+
+              <span *ngIf="loading">
+                <span class="fr-icon-loader-line" aria-hidden="true"></span>
+                Veuillez patienter...
+              </span>
             </button>
           </div>
-        </ng-container>
+        </form>
+      </section>
+    </div>
 
-        <div class="d-grid my-4 mx-auto col-md-4 col-12">
-          <button
-            [disabled]="loading"
-            [attr.aria-busy]="loading"
-            type="submit"
-            class="btn btn-primary btn-block"
-          >
-            <span *ngIf="!loading">
-              Suivant
-              <fa-icon
-                [icon]="['fas', 'angle-right']"
-                aria-hidden="true"
-              ></fa-icon>
-            </span>
-
-            <span *ngIf="loading"
-              ><fa-icon
-                [icon]="['fas', 'circle-notch']"
-                animation="spin"
-                aria-hidden="true"
-              >
-              </fa-icon>
-              Veuillez patienter...</span
-            >
-          </button>
-        </div>
-      </form>
-    </section>
+    <app-step-footer *ngIf="usager" [usager]="usager"></app-step-footer>
   </div>
-
-  <app-step-footer *ngIf="usager" [usager]="usager"></app-step-footer>
 </div>
