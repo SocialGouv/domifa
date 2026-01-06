@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
-import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UserStructure } from "@domifa/common";
+import { UsagerFormModel } from "../../interfaces";
 
 @Component({
   selector: "app-display-contact-details",
@@ -8,6 +8,6 @@ import { UserStructure } from "@domifa/common";
   styleUrls: ["./display-contact-details.component.css"],
 })
 export class DisplayContactDetailsComponent {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public me!: UserStructure | null;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure | null;
 }
