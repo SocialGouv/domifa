@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from "@angular/core";
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -38,6 +45,8 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
 
   private readonly unsubscribe: Subject<void> = new Subject();
   private readonly subscription = new Subscription();
+
+  @Output() public registerSuccess = new EventEmitter<boolean>();
 
   @Input() public structureRegisterInfos!: {
     etapeInscription: number;
@@ -119,6 +128,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
           .subscribe({
             next: () => {
               this.success = true;
+              this.registerSuccess.emit(true);
               this.loading = false;
               this.matomo.trackEvent(
                 "INSCRIPTION_STRUCTURE",
