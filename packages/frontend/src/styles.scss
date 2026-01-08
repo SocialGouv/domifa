@@ -1,3 +1,9 @@
+@layer dsfr-personnalization {
+  .fr-width-2-5rem {
+    width: 2.5rem;
+  }
+}
+
 $primary: #4164f5;
 $bs-primary: #4164f5;
 $secondary: #50e3c2;
@@ -29,6 +35,21 @@ $font-family-sans-serif: "Marianne", -apple-system, BlinkMacSystemFont,
   "Noto Color Emoji";
 $font-family-monospace: "Marianne", SFMono-Regular, Menlo, Monaco, Consolas,
   "Liberation Mono", "Courier New", monospace;
+
+.fr-input-group.required .fr-label::after {
+  content: " *";
+  color: var(--text-default-error);
+}
+
+.fr-checkbox-group.required label:after {
+  content: " *";
+  color: var(--text-default-error);
+}
+
+.fr-select-group.required label:after {
+  content: " *";
+  color: var(--text-default-error);
+}
 
 @import "bootstrap/scss/bootstrap";
 @import "ckeditor5/ckeditor5.css";
