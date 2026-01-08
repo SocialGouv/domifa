@@ -1,75 +1,47 @@
 <div *ngIf="structureRegisterInfos">
-  <div class="container text-center" *ngIf="success">
-    <div class="card p-4">
-      <h2 class="text-primary">
-        Votre demande de création de compte a été enregistrée avec succès.
-      </h2>
-      <p>
-        Nous procédons actuellement à une vérification de votre dossier.
-        <br /><br />
-        Dès que votre compte sera activé, vous recevrez un e-mail de
-        confirmation.
-        <br /><br />
-        En attendant, n'hésitez pas à vous inscrire à l'une de nos présentations
-        pour découvrir la plateforme Domifa et poser toutes vos questions.
-      </p>
-      <br />
-      <div class="d-inline-block my-2">
-        <a
-          href="https://tally.so/r/3EaAVB"
-          class="btn btn-primary btn-large d-inline-block my-3"
-          target="_blank"
-        >
-          <fa-icon
-            aria-hidden="true"
-            class="me-2"
-            [icon]="['fas', 'calendar']"
-          ></fa-icon>
-          S'inscrire à une présentation</a
-        >
+  <div *ngIf="!success">
+    <div>
+      <div class="d-flex gap-1 align-items-end my-1">
+        <!-- create custom class for picto width-->
+        <img
+          style="width: 3rem"
+          src="assets/dsfr-pictograms/digital/avatar.svg"
+          aria-hidden="true"
+          alt=""
+        />
+        <h2 class="m-0">Création de votre compte administrateur</h2>
       </div>
-    </div>
-  </div>
-
-  <div class="step-form" *ngIf="!success">
-    <div class="text-center">
-      <h2 class="title">
-        Création du compte administrateur de votre structure sur DomiFa
-      </h2>
-      <p>
-        Attention, les informations que vous allez saisir vous serviront à
-        administrer votre compte DomiFa. Lorsque celui-ci sera validé, vous
-        pourrez alors inviter d'autres collaborateurs de votre structure à créer
-        des comptes pour se connecter à votre compte DomiFa.
+      <p class="mb-0">
+        <span class="fw-bold">Attention</span>, les informations que vous allez
+        renseigner sont essentielles pour gérer votre compte administrateur
+        Domifa. Une fois la validation effectuée, vous pourrez inviter d'autres
+        collaborateurs à créer leurs comptes.
       </p>
     </div>
-
-    <p class="text-left my-3">
-      Les champs suivis d'un
-      <span class="fw-bold text-danger">*</span> sont obligatoires
-    </p>
     <br />
     <form
       *ngIf="user && userForm"
       [formGroup]="userForm"
       (ngSubmit)="submitUser()"
     >
-      <div class="row">
-        <div class="col form-group required">
-          <label for="nom">Nom</label>
+      <div class="row align-items-start">
+        <div
+          [class.fr-input-group--error]="
+            (f.nom.dirty || submitted) && f.nom.errors
+          "
+          [class.fr-input-group--valid]="f.nom.dirty && !f.nom.errors"
+          class="col fr-input-group required"
+        >
+          <label class="fr-label" for="nom">Nom</label>
           <input
             type="text"
-            class="form-control"
+            class="fr-input"
             id="nom"
             appCleanStr
             autocomplete="family-name"
             formControlName="nom"
             maxlength="200"
             name="nom"
-            [ngClass]="{
-              'is-invalid': (f.nom.dirty || submitted) && f.nom.errors,
-              'is-valid': f.nom.dirty && !f.nom.errors
-            }"
             [attr.aria-describedby]="
               (f.nom.dirty || submitted) && f.nom.errors ? 'invalid-name' : null
             "
@@ -78,28 +50,33 @@
             "
             required
           />
-          <p
-            *ngIf="submitted && f.nom.errors"
-            id="invalid-name"
-            class="invalid-feedback"
-          >
-            Veuillez vérifier le nom
-          </p>
+          <ul class="fr-messages-group ps-0">
+            <li
+              id="invalid-name"
+              *ngIf="(f.nom.dirty || submitted) && f.nom.errors"
+              class="fr-message fr-message--error mt-0"
+            >
+              Veuillez vérifier le nom
+            </li>
+          </ul>
         </div>
-        <div class="col form-group required">
-          <label for="prenom">Prénom</label>
+        <div
+          [class.fr-input-group--valid]="f.prenom.dirty && !f.prenom.errors"
+          [class.fr-input-group--error]="
+            (submitted || f.prenom.dirty) && f.prenom.errors
+          "
+          class="col fr-input-group required"
+        >
+          <label class="fr-label" for="prenom">Prénom</label>
           <input
             type="text"
-            class="form-control"
+            class="fr-input"
             id="prenom"
             appCleanStr
             autocomplete="given-name"
             formControlName="prenom"
             maxlength="200"
             name="prenom"
-            [ngClass]="{
-              'is-invalid':(submitted || f.prenom.dirty) && f.prenom.errors,
-            }"
             [attr.aria-describedby]="
               (submitted || f.prenom.dirty) && f.prenom.errors
                 ? 'invalid-prenom'
@@ -110,17 +87,19 @@
             "
             required
           />
-          <p
-            *ngIf="(submitted || f.prenom.dirty) && f.prenom.errors"
+          <ul
+            class="fr-messages-group ps-0"
             id="invalid-prenom"
-            class="invalid-feedback"
+            *ngIf="(submitted || f.prenom.dirty) && f.prenom.errors"
           >
-            Veuillez vérifier le prénom
-          </p>
+            <li class="fr-message fr-message--error mt-0">
+              Veuillez vérifier le prénom
+            </li>
+          </ul>
         </div>
       </div>
       <div class="row">
-        <div class="col form-group required">
+        <div class="col fr-input-group required">
           <app-fonction-selection
             [parentFormGroup]="userForm"
             [fonctionFormControl]="fonctionControl"
@@ -130,32 +109,80 @@
           ></app-fonction-selection>
         </div>
       </div>
+      <hr class="mt-4" />
+      <div class="d-flex gap-1 align-items-end my-1">
+        <!-- create custom class for picto width-->
+        <img
+          style="width: 2.5rem"
+          src="assets/dsfr-pictograms/system/padlock.svg"
+          aria-hidden="true"
+          alt=""
+        />
+        <h2 class="m-0">Création du mot de passe</h2>
+      </div>
+      <div role="notice" class="fr-notice fr-notice--info mb-4">
+        <div class="fr-container">
+          <div class="fr-notice__body">
+            <p>
+              <span class="fr-notice__title">Information</span>
+              <span class="fr-notice__desc">
+                Pour des raisons de sécurité, les adresses emails génériques
+                (ex. : contact{{ "@" }}, domiciliation{{ "@" }} admin{{ "@" }},
+                etc.) ne sont pas autorisées lors de l’inscription. Merci
+                d’utiliser une adresse email nominative (ex. : prenom.nom{{
+                  "@"
+                }}votredomaine.com). Sans cela, votre demande d’inscription
+                pourrait ne pas être validée.</span
+              >
+            </p>
+          </div>
+        </div>
+      </div>
       <div class="row">
-        <div class="col-md-6 form-group required">
-          <label for="email">Votre adresse email</label>
+        <div
+          [class.fr-input-group--error]="
+            (f.email.dirty || submitted) && f.email.errors
+          "
+          class="col-md-12 fr-input-group"
+        >
+          <label class="fr-label" for="email"
+            >E-mail <span class="fr-text-default--error">*</span>
+            <span class="fr-hint-text"
+              >format attendu : nom{{ "@" }}domaine.fr</span
+            ></label
+          >
           <input
             type="email"
-            class="form-control"
+            class="fr-input"
             id="email"
             formControlName="email"
             name="email"
-            [ngClass]="{
-              'is-invalid': (f.email.dirty || submitted) && f.email.errors
-            }"
             [attr.aria-describedby]="
               (f.email.dirty || submitted) && f.email.errors
                 ? 'email-errors'
-                : null
+                : 'email-description'
             "
             [attr.aria-invalid]="
               (f.email.dirty || submitted) && f.email.errors ? true : false
             "
             required
           />
-          <p *ngIf="f.email.errors" class="invalid-feedback" id="email-errors">
-            Veuillez vérifier l'adresse email, format attendu :
-            nom&#64;domaine.fr
-          </p>
+          <ul class="fr-messages-group ps-0">
+            <li
+              id="email-description"
+              *ngIf="!((f.email.dirty || submitted) && f.email.errors)"
+              class="fr-message fr-message--info mt-0"
+            >
+              Adresse e-mail indiquée sur le Cerfa
+            </li>
+            <li
+              id="email-errors"
+              *ngIf="(f.email.dirty || submitted) && f.email.errors"
+              class="fr-message fr-message--error mt-0"
+            >
+              Adresse e-mail indiquée sur le Cerfa
+            </li>
+          </ul>
         </div>
       </div>
       <div class="row">
@@ -165,31 +192,37 @@
         ></app-user-structure-password-form>
       </div>
       <br />
-      <div class="text-center">
-        <button
-          type="submit"
-          [disabled]="loading"
-          [attr.aria-busy]="loading"
-          class="btn btn-primary"
-        >
-          <span *ngIf="loading">
-            <fa-icon
-              [icon]="['fas', 'circle-notch']"
-              animation="spin"
-              aria-hidden="true"
-            >
-            </fa-icon>
-            Veuillez patienter...
-          </span>
-          <span *ngIf="!loading"> Créer mon compte</span>
-        </button>
-
-        <br />
-        <br />
-        <a routerLink="/structures/inscription" class="btn btn-outline-dark">
-          Précédent
-        </a>
-      </div>
+      <ul
+        class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
+      >
+        <li>
+          <button
+            type="submit"
+            [disabled]="loading"
+            [attr.aria-busy]="loading"
+            class="fr-btn"
+          >
+            <span *ngIf="loading">
+              <fa-icon
+                [icon]="['fas', 'circle-notch']"
+                animation="spin"
+                aria-hidden="true"
+              >
+              </fa-icon>
+              Veuillez patienter...
+            </span>
+            <span *ngIf="!loading"> Créer mon compte</span>
+          </button>
+        </li>
+        <li>
+          <a
+            routerLink="/structures/inscription"
+            class="fr-btn fr-btn--secondary"
+          >
+            Précédent
+          </a>
+        </li>
+      </ul>
     </form>
   </div>
 </div>
