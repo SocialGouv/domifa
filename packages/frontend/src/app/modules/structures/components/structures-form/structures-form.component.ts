@@ -54,8 +54,14 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   public readonly SOURCES_OPTIONS = SOURCES_OPTIONS;
   public readonly MARKET_TOOLS_OPTIONS = MARKET_TOOLS_OPTIONS;
   public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
-  public success = false;
 
+  public stepsLabels = [
+    "Inscription de votre structure",
+    "Création du compte administrateur",
+  ];
+
+  public success = false;
+  public showRegisterSuccess = false;
   public loading = false;
   public structureForm!: UntypedFormGroup;
   public structure: StructureCommon;
@@ -96,13 +102,16 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
     return this.structureForm.controls;
   }
 
-  // TODO: fix controls with 2 nested form groups
   public get fonctionControl(): AbstractControl {
     return this.structureForm.controls["responsable"].get("fonction");
   }
 
   public get reg(): { [key: string]: AbstractControl } {
     return (this.structureForm.get("registrationData") as FormGroup).controls;
+  }
+
+  public get dsp(): AbstractControl {
+    return this.structureForm.get("dsp");
   }
 
   public ngOnInit(): void {

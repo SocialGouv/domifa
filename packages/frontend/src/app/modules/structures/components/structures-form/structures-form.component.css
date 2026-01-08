@@ -16,3 +16,8 @@
 #structureForm .btn label:hover {
   color: white !important;
 }
+
+.fr-input-group--error:before,
+.fr-select-group--error:before {
+  left: -0.25rem;
+}
