@@ -761,7 +761,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cdk@npm:18.2.14, @angular/cdk@npm:^18.2.14":
+"@angular/cdk@npm:18.2.14, @angular/cdk@npm:^18.2.13, @angular/cdk@npm:^18.2.14":
   version: 18.2.14
   resolution: "@angular/cdk@npm:18.2.14"
   dependencies:
@@ -4224,7 +4224,7 @@ __metadata:
     "@angular-eslint/schematics": "npm:17.5.3"
     "@angular-eslint/template-parser": "npm:17.5.3"
     "@angular/animations": "npm:^18.2.13"
-    "@angular/cdk": "npm:^18.2.14"
+    "@angular/cdk": "npm:^18.2.13"
     "@angular/cli": "npm:^20.2.0"
     "@angular/common": "npm:^18.2.13"
     "@angular/compiler": "npm:^18.2.13"
@@ -4240,7 +4240,7 @@ __metadata:
     "@ckeditor/ckeditor5-build-classic": "npm:^43.3.1"
     "@domifa/common": "workspace:^"
     "@edugouvfr/ngx-dsfr": "npm:^1.16.4"
-    "@edugouvfr/ngx-dsfr-ext": "npm:^1.4.2"
+    "@edugouvfr/ngx-dsfr-ext": "npm:^1.5.0"
     "@fortawesome/angular-fontawesome": "npm:0.15.0"
     "@fortawesome/fontawesome-svg-core": "npm:^6.7.2"
     "@fortawesome/free-regular-svg-icons": "npm:^6.7.2"
@@ -4459,6 +4459,31 @@ __metadata:
     quill:
       optional: true
   checksum: 10/23ab9744524399fdba3d24c1eb8d58c1cf30565706db41d56c7f0eae551896d27be872cf5add2f953dda423536946cfa8ac857a2d7b2ed0229750911a2e70e7e
+  languageName: node
+  linkType: hard
+
+"@edugouvfr/ngx-dsfr-ext@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "@edugouvfr/ngx-dsfr-ext@npm:1.5.0"
+  dependencies:
+    tslib: "npm:^2.3.0"
+  peerDependencies:
+    "@angular/cdk": ">=18"
+    "@angular/common": ">=18.2"
+    "@angular/core": ">=18.2"
+    "@angular/forms": ">=18.2"
+    "@edugouvfr/ngx-dsfr": ">=1.15.0"
+    ag-grid-angular: ">=33"
+    ag-grid-community: ">=33"
+    quill: ">=2"
+  peerDependenciesMeta:
+    ag-grid-angular:
+      optional: true
+    ag-grid-community:
+      optional: true
+    quill:
+      optional: true
+  checksum: 10/c8030bf6cd863a3be71600e31bb7d546af8a3c20a50e88d4e1ba846a8830fa2e3afc856dd7354234ce9eb346f61ca1e92bd7e4ae557a15dabdc95dc3741caf00
   languageName: node
   linkType: hard
 
