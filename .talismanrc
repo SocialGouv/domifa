@@ -43,7 +43,11 @@ fileignoreconfig:
   checksum: c569c439ae74865248ff9a0840b658903e31f2b64af367760de27155957c6ea9
 - filename: packages/portail-usagers/src/app/modules/general/components/_static/politique/politique.component.ts
   checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
-- filename: yarn.lock
-  checksum: 3ca66baaeec6da1fd64a602dab463e8a7af48ee8e5cee166f0d67d25053a3197
 threshold: medium
 version: "1.0"
+
+allowed_patterns:
+  # Match action pinned with SHA
+  - "uses:\\s*[\\w\\-\\.]+/[\\w\\-\\.]+@[a-fA-F0-9]{40}"
+  # If you also use nested actions (org/repo/path)
+  - "uses:\\s*[\\w\\-\\.]+/[\\w\\-\\.]+/[\\w\\-\\./]*@[a-fA-F0-9]{40}"
