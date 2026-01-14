@@ -25,7 +25,6 @@ export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "role",
   "fonction",
   "fonctionDetail",
-  "lastLogin",
   "createdAt",
 ];
 
@@ -63,33 +62,33 @@ export class StructuresAuthService {
       return false;
     }
     const authUser = await this.findAuthUser(payload);
-
     if (!authUser) {
       return false;
     }
 
-    // Mise à jour une seule fois par jour
-    const authStructureLastLogin = authUser.structure.lastLogin
+    const today = new Date();
+
+    // Structure
+    const structureLastLogin = authUser.structure.lastLogin
       ? new Date(authUser.structure.lastLogin)
       : new Date(authUser.structure.createdAt);
 
-    if (differenceInCalendarDays(authStructureLastLogin, new Date()) < 0) {
-      // update structure & user last login date
+    if (differenceInCalendarDays(today, structureLastLogin) > 0) {
       await structureRepository.update(
         { id: authUser.structureId },
-        { lastLogin: new Date() }
+        { lastLogin: today }
       );
     }
 
-    const authUserLastLogin = authUser.lastLogin
+    // User
+    const userLastLogin = authUser.lastLogin
       ? new Date(authUser.lastLogin)
       : new Date(authUser.createdAt);
 
-    // Mise à jour une seule fois par jour
-    if (differenceInCalendarDays(authUserLastLogin, new Date()) < 0) {
+    if (differenceInCalendarDays(today, userLastLogin) > 0) {
       await userStructureRepository.update(
         { id: authUser.id, structureId: authUser.structureId },
-        { lastLogin: new Date() }
+        { lastLogin: today }
       );
     }
 

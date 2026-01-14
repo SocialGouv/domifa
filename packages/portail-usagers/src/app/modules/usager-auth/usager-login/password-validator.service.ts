@@ -3,7 +3,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 export class PasswordValidator {
   public static patternValidator(
     regex: RegExp,
-    error: ValidationErrors,
+    error: ValidationErrors
   ): ValidatorFn {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -58,5 +58,27 @@ export class PasswordValidator {
       return null;
     };
     return validatorFn;
+  }
+
+  public static passwordMatchValidator(
+    passwordControlName: string
+  ): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.parent) {
+        return null;
+      }
+
+      const passwordControl = control.parent.get(passwordControlName);
+
+      if (!passwordControl) {
+        return null;
+      }
+
+      if (passwordControl.value !== control.value) {
+        return { passwordMismatch: true };
+      }
+
+      return null;
+    };
   }
 }

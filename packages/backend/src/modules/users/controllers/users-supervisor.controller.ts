@@ -12,25 +12,26 @@ import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ParseTokenPipe } from "../../../_common/decorators";
 import { appLogger, ExpressResponse } from "../../../util";
 import { EmailDto, ResetPasswordDto } from "../dto";
-import { userResetPasswordEmailSender } from "../../mails/services/templates-renderers";
 import { UserProfile } from "../../../_common/model";
 import {
   userSecurityResetPasswordInitiator,
   userSecurityResetPasswordUpdater,
 } from "../services";
 import { AppLogsService } from "../../app-logs/app-logs.service";
-import { StructureUserCrudLogContext } from "../../app-logs/app-log-context.types";
-import {
-  userStructureRepository,
-  userSupervisorRepository,
-} from "../../../database";
+import { UserSupervisorCrudLogContext } from "../../app-logs/types/app-log-context.types";
+import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
+import { domifaConfig } from "../../../config";
 
 const userProfile: UserProfile = "supervisor";
 
 @Controller("users-supervisor")
 @ApiTags("users-supervisor")
 export class UsersSupervisorController {
-  constructor(private readonly appLogservice: AppLogsService) {}
+  constructor(
+    private readonly brevoSenderService: BrevoSenderService,
+    private readonly appLogservice: AppLogsService
+  ) {}
+
   @Get("check-password-token/:userId/:token")
   public async checkPasswordToken(
     @Param("userId", new ParseIntPipe()) userId: number,
@@ -71,37 +72,43 @@ export class UsersSupervisorController {
     }
   }
 
-  @ApiOperation({ summary: "Reset du mot de passe : envoi du lien par mail" })
+  @ApiOperation({
+    summary: "Reset du mot de passe d'un: envoi du lien par mail",
+  })
   @Post("get-password-token")
   public async generatePasswordToken(
     @Body() emailDto: EmailDto,
     @Res() res: ExpressResponse
   ) {
     try {
-      const userSuperviseur = await userSupervisorRepository.findOneByOrFail({
-        email: emailDto.email,
-      });
-      const updateUser = await userStructureRepository.findOneByOrFail({
-        email: emailDto.email,
-      });
       const { user, userSecurity } =
         await userSecurityResetPasswordInitiator.generateResetPasswordToken({
           email: emailDto.email,
           userProfile,
         });
-      await userResetPasswordEmailSender.sendMail({
-        user,
+
+      const link = userSecurityResetPasswordInitiator.buildResetPasswordLink({
         token: userSecurity.temporaryTokens.token,
+        userId: user.id,
         userProfile,
-      }),
-        await this.appLogservice.create<StructureUserCrudLogContext>({
-          action: "ADMIN_PASSWORD_RESET",
-          userId: userSuperviseur.id,
-          context: {
-            userId: updateUser.id,
-            role: updateUser.role,
+      });
+
+      await this.brevoSenderService.sendEmailWithTemplate({
+        templateId: domifaConfig().brevo.templates.userResetPassword,
+        subject: "Réinitialisation de mot de passe",
+        to: [
+          {
+            email: user.email,
+            name: `${user.prenom} ${user.nom}`,
           },
-        });
+        ],
+        params: { lien: link, prenom: user.prenom },
+      });
+
+      await this.appLogservice.create<UserSupervisorCrudLogContext>({
+        action: "ADMIN_PASSWORD_RESET",
+        userId: user.id,
+      });
     } catch (err) {
       appLogger.error("Cannot reset password");
     }

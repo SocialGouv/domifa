@@ -77,6 +77,8 @@ export class NationalStatsComponent implements OnInit {
         )
         .subscribe()
     );
+    this.loading = true;
+    this.getMetabaseUrl();
 
     this.user = this.adminAuthService.currentUserValue;
 

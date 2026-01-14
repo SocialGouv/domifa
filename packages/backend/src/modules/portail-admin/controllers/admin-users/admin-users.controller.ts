@@ -29,8 +29,6 @@ import {
   userSupervisorRepository,
 } from "../../../../database";
 
-import { userAccountCreatedByAdminEmailSender } from "../../../mails/services/templates-renderers";
-
 import {
   RegisterUserStructureAdminDto,
   RegisterUserSupervisorDto,
@@ -39,10 +37,11 @@ import { AdminSuperivorUsersService } from "../../services/admin-superivor-users
 import { PatchUserSupervisorDto } from "../../dto/patch-user-supervisor.dto";
 import { ElevateUserRoleDto } from "../../dto/elevate-user-role.dto";
 import {
-  AdminUserCrudLogContext,
+  UserSupervisorCrudLogContext,
   AdminUserRoleChangeLogContext,
-} from "../../../app-logs/app-log-context.types";
+} from "../../../app-logs/types/app-log-context.types";
 import { CurrentSupervisor } from "../../../../auth/decorators/current-supervisor.decorator";
+import { BrevoSenderService } from "../../../mails/services/brevo-sender/brevo-sender.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("dashboard")
@@ -53,7 +52,8 @@ import { CurrentSupervisor } from "../../../../auth/decorators/current-superviso
 export class AdminUsersController {
   constructor(
     private readonly appLogsService: AppLogsService,
-    private readonly adminSuperivorUsersService: AdminSuperivorUsersService
+    private readonly adminSuperivorUsersService: AdminSuperivorUsersService,
+    private readonly brevoSenderService: BrevoSenderService
   ) {}
 
   @Post("register-user-structure")
@@ -62,7 +62,10 @@ export class AdminUsersController {
     @Res() res: ExpressResponse,
     @Body() registerUserDto: RegisterUserStructureAdminDto
   ): Promise<ExpressResponse> {
-    const userController = new UsersController(this.appLogsService);
+    const userController = new UsersController(
+      this.appLogsService,
+      this.brevoSenderService
+    );
     await this.appLogsService.create({
       userId: user.id,
       action: "ADMIN_CREATE_USER_STRUCTURE",
@@ -131,35 +134,28 @@ export class AdminUsersController {
         registerUserDto
       );
 
-    if (newUser) {
-      return userAccountCreatedByAdminEmailSender
-        .sendMail({
-          user: newUser,
-          token: userSecurity.temporaryTokens.token,
-          userProfile: "supervisor",
-        })
-        .then(
-          async () => {
-            await this.appLogsService.create<AdminUserCrudLogContext>({
-              action: "ADMIN_USER_CREATE",
-              userId: user.id,
-              context: {
-                userId: newUser.id,
-                role: registerUserDto.role,
-              },
-            });
-            return res.status(HttpStatus.OK).json({ message: "OK" });
-          },
-          () => {
-            return res
-              .status(HttpStatus.INTERNAL_SERVER_ERROR)
-              .json({ message: "REGISTER_ERROR" });
-          }
-        );
+    if (!newUser) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "REGISTER_ERROR" });
     }
-    return res
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .json({ message: "REGISTER_ERROR" });
+
+    await this.brevoSenderService.sendUserActivationEmail({
+      userId: newUser.id,
+      userProfile: "supervisor",
+      userSecurity,
+    });
+
+    await this.appLogsService.create<UserSupervisorCrudLogContext>({
+      action: "ADMIN_USER_CREATE",
+      userId: user.id,
+      context: {
+        userId: newUser.id,
+        role: registerUserDto.role,
+      },
+    });
+
+    return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
   @ApiBearerAuth()
@@ -167,7 +163,6 @@ export class AdminUsersController {
   @Get("")
   public async getUsersSupervisors(): Promise<UserSupervisor[]> {
     return userSupervisorRepository.find({
-      where: {},
       select: {
         nom: true,
         prenom: true,
@@ -240,7 +235,7 @@ export class AdminUsersController {
         .json({ message: "CANNOT_PATCH_USER_SUPERVISOR" });
     }
     await userSupervisorRepository.delete({ uuid });
-    await this.appLogsService.create<AdminUserCrudLogContext>({
+    await this.appLogsService.create<UserSupervisorCrudLogContext>({
       action: "ADMIN_USER_DELETE",
       userId: user.id,
       context: {

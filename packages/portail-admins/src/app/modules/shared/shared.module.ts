@@ -62,7 +62,6 @@ import {
     DsfrButtonsGroupModule,
   ],
   imports: [
-    DsfrAlertModule,
     CommonModule,
     FontAwesomeModule,
     FormsModule,

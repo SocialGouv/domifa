@@ -2,6 +2,7 @@ import { In } from "typeorm";
 import { UserStructureTable } from "../../entities";
 import { myDataSource } from "../_postgres";
 import { UserStructureRole, UserStructureProfile } from "@domifa/common";
+import { UserStructureBrevo } from "../../../modules/mails/types/UserStructureBrevo.type";
 
 export const userStructureRepository = myDataSource
   .getRepository(UserStructureTable)
@@ -55,5 +56,46 @@ export const userStructureRepository = myDataSource
         : results[0] === null || results[0].length === 0
         ? 0
         : parseInt(results[0].count, 10);
+    },
+    async getUserWithStructureByIdForSync(
+      userId: number
+    ): Promise<UserStructureBrevo> {
+      const results = await this.query(
+        `SELECT
+          us.prenom,
+          us.nom,
+          us.id,
+          us.role,
+          us.email,
+          us."createdAt",
+          us."structureId",
+          us."lastLogin",
+          row_to_json(s.*) as structure
+        FROM user_structure us
+        LEFT JOIN structure s ON us."structureId" = s.id
+        WHERE us.id = $1`,
+        [userId]
+      );
+      return results[0];
+    },
+    async getAllUsersForSync(): Promise<UserStructureBrevo[]> {
+      return this.query(
+        `SELECT
+      us.prenom,
+      us.nom,
+      us.id,
+      us.role,
+      us.email,
+      us."createdAt",
+      us."lastLogin",
+      json_build_object(
+        'nom', s.nom,
+        'departement', s.departement,
+        'region', s.region,
+        'lastLogin', s."lastLogin"
+      ) as structure
+    FROM user_structure us
+    LEFT JOIN structure s ON us."structureId" = s.id`
+      );
     },
   });

@@ -8,6 +8,10 @@ import { AppTestContext, AppTestHelper } from "../../../../util/test";
 import { AdminStructuresService } from "../../services/admin-structures.service";
 import { AdminStructuresController } from "./admin-structures.controller";
 import { SmsModule } from "../../../sms/sms.module";
+import { MailsModule } from "../../../mails/mails.module";
+import { StructureDecisionService } from "../../services/structure-decision/structure-decision.service";
+import { FileManagerService } from "../../../../util";
+import { StructureDecisionEmailService } from "../../services/structure-decision-email/structure-decision-email.service";
 
 describe("Dashboard AdminStructuresController", () => {
   let controller: AdminStructuresController;
@@ -20,9 +24,16 @@ describe("Dashboard AdminStructuresController", () => {
         forwardRef(() => StructuresModule),
         forwardRef(() => UsagersModule),
         forwardRef(() => InteractionsModule),
+        forwardRef(() => MailsModule),
         forwardRef(() => SmsModule),
       ],
-      providers: [AdminStructuresService, AppLogsService],
+      providers: [
+        AdminStructuresService,
+        AppLogsService,
+        StructureDecisionService,
+        FileManagerService,
+        StructureDecisionEmailService,
+      ],
     });
     controller = context.module.get<AdminStructuresController>(
       AdminStructuresController

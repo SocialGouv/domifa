@@ -21,7 +21,6 @@ import {
   tap,
 } from "rxjs";
 
-import { StructureAdmin } from "../../types";
 import { fadeInOut } from "../../../shared/constants";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -32,12 +31,9 @@ import {
   DomiciliesSegmentEnum,
   SortValues,
   StructureType,
+  StructureAdmin,
 } from "@domifa/common";
-import {
-  structuresListModelBuilder,
-  structuresFilter,
-  structuresSorter,
-} from "../../utils";
+import { structuresFilter, structuresSorter } from "../../utils";
 import { appStore } from "../../../shared/store/appStore.service";
 
 export type FilterOutput = {
@@ -103,9 +99,7 @@ export class AdminStructuresListComponent
 
         if (structures) {
           this.totalStructures = structures.length;
-          this.allstructures$.next(
-            structuresListModelBuilder.buildStructuresViewModel(structures)
-          );
+          this.allstructures$.next(structures);
         }
       })
     );

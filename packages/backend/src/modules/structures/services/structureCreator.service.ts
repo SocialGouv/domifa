@@ -18,6 +18,7 @@ import { generateSender } from "../../sms/services/generators";
 import { userStructureCreator } from "../../users/services";
 import { UserDto } from "../../users/dto";
 import { openDataCitiesRepository } from "../../../database/services/open-data/open-data-cities-repository";
+import { v4 as uuidv4 } from "uuid";
 
 export const structureCreatorService = {
   checkStructureCreateArgs,
@@ -50,7 +51,7 @@ async function createStructureWithAdminUser(
     throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
   }
 
-  const structure = await createStructure(structureDto);
+  const structure = await createStructure(structureDto, userDto);
 
   const { user } = await userStructureCreator.createUserWithPassword(userDto, {
     structureId: structure.id,
@@ -69,7 +70,7 @@ async function createStructureWithAdminUser(
   return { structureId: structure.id, userId: user.id };
 }
 
-async function createStructure(structureDto: StructureDto) {
+async function createStructure(structureDto: StructureDto, userDto: UserDto) {
   delete structureDto.acceptCgu;
 
   const createdStructure: Structure = new StructureTable(structureDto);
@@ -116,6 +117,14 @@ async function createStructure(structureDto: StructureDto) {
     numeroBoite: true,
     nomStructure: true,
     surnom: false,
+  };
+
+  createdStructure.decision = {
+    uuid: uuidv4(),
+    dateDecision: new Date(),
+    statut: "EN_ATTENTE",
+    userId: 0,
+    userName: `${userDto.prenom} ${userDto.nom}`,
   };
 
   createdStructure.region = getRegionCodeFromDepartement(

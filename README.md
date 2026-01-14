@@ -108,8 +108,8 @@ Le projet utilise PostgreSQL avec TypeORM pour les migrations :
 
 ### Services
 
-- **Mails (prod+dev)** : https://app.tipimail.com/
-- **Mails (dev)** : https://mailtrap.io/
+- **Mails (prod+dev)** : https://my.brevo.com/
+- **Mails (dev)** : https://my.brevo.com/
 
 ## Développement
 

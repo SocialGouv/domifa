@@ -11,17 +11,18 @@
         <div
           class="d-flex flex-row gap-2 align-items-baseline fr-text-title--blue-france"
         >
-          <span
-            class="fr-icon-calendar-event-fill"
-            aria-label="Date de publication"
-          ></span>
-          <h3 class="fr-text-title--blue-france mb-1">
+          <span class="visually-hidden">Date de publication</span>
+          <span aria-hidden="true" class="fr-icon-calendar-event-fill"></span>
+          <h2 class="fr-h3 fr-text-title--blue-france mb-1">
             {{ news.date | date : "d MMMM y" }}
-          </h3>
+          </h2>
         </div>
-        <h4 class="fr-text-title--blue-france mb-1" *ngIf="news.description">
+        <h3
+          class="fr-h4 fr-text-title--blue-france mb-1"
+          *ngIf="news.description"
+        >
           {{ news.description }}
-        </h4>
+        </h3>
       </div>
     </div>
     <div class="fr-card__body ps-0">
@@ -31,7 +32,7 @@
       >
         <hr class="pb-2" />
         <div class="d-flex">
-          <h4 class="fr-card__title">
+          <h3 class="fr-h4 fr-card__title">
             <span
               [class.fr-badge--info]="content.type === 'new'"
               [class.fr-badge--new]="content.type !== 'new'"
@@ -42,7 +43,7 @@
             <span class="fr-text-title--blue-france">
               {{ content.categorie }}
             </span>
-          </h4>
+          </h3>
         </div>
 
         <ul class="fr-card__desc ps-4 fr-text-title--blue-france">

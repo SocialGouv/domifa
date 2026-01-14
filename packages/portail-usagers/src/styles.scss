@@ -5,6 +5,15 @@
 @import "@gouvfr/dsfr/dist/utility/utility.min.css" layer(dsfr);
 
 @layer dsfr-personnalization {
+  // dl & dt & dd
+
+  dl,
+  dt,
+  dd {
+    margin-left: 0;
+    padding-left: 0;
+  }
+
   .fr-callout--empty {
     background-color: var(--background-default-grey-hover);
     background-image: linear-gradient(

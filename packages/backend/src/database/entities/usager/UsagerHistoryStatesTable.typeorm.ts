@@ -72,7 +72,7 @@ export class UsagerHistoryStatesTable
   @Column({ type: "boolean", nullable: true, default: false })
   isActive: boolean; // usager actif si VALIDE ou en cours de renouvellement
 
-  @Column({ type: "text", nullable: true, default: "PREMIERE_DOM" })
+  @Column({ type: "text", nullable: false, default: "PREMIERE_DOM" })
   typeDom!: UsagerTypeDom;
 
   public constructor(entity?: Partial<UsagerHistoryStatesTable>) {

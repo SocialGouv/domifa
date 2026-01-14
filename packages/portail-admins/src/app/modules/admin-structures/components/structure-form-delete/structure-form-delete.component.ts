@@ -21,10 +21,10 @@ import {
   StructureDecisionRefusMotif,
   MOTIFS_SUPPRESSION_STRUCTURE_LABELS,
   StructureCommon,
+  StructureAdmin,
 } from "@domifa/common";
 import { Subscription } from "rxjs";
 import { AdminStructuresApiClient } from "../../../shared/services";
-import { ApiStructureAdmin, StructureAdmin } from "../../types";
 import { CommonModule } from "@angular/common";
 import {
   DsfrModalModule,
@@ -49,11 +49,7 @@ import { structuresCache } from "../../../shared/store";
 export class StructureFormDeleteComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
-  @Input() public structure!:
-    | StructureAdmin
-    | StructureCommon
-    | ApiStructureAdmin
-    | null;
+  @Input() public structure!: StructureAdmin | StructureCommon | null;
   @Output() public readonly closeModals = new EventEmitter<void>();
   @Output() public readonly deleteSuccess = new EventEmitter<void>();
 
@@ -175,17 +171,11 @@ export class StructureFormDeleteComponent
       this.adminStructuresApiClient
         .setDecisionStructure(this.structure.id, "SUPPRIME", motif)
         .subscribe({
-          next: () => {
+          next: (structure) => {
             this.loading = false;
             this.deleteSuccess.emit();
             this.closeModal();
-            const deletedStructure = structuresCache.getStructureById(
-              this.structure.id
-            );
-            structuresCache.updateStructure({
-              ...deletedStructure,
-              statut: "SUPPRIME",
-            });
+            structuresCache.updateStructure(structure);
           },
           error: (error) => {
             this.loading = false;

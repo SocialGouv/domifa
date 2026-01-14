@@ -1,13 +1,13 @@
-import { ApiStructureAdmin } from "../../admin-structures/types";
+import { StructureAdmin } from "@domifa/common";
 
 export type AppStoreAction =
   | {
       type: "set-structures-list-data";
-      data: ApiStructureAdmin[];
+      data: StructureAdmin[];
     }
   | {
       type: "update-structure";
-      data: ApiStructureAdmin;
+      data: StructureAdmin;
     }
   | {
       type: "reset";

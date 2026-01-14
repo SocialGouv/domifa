@@ -1,3 +1,122 @@
+## [2.232.6](https://github.com/SocialGouv/domifa/compare/v2.232.5...v2.232.6) (2026-01-04)
+
+
+### Bug Fixes
+
+* **usagers:** correction affichage procu & date message ephémère ([fee18cc](https://github.com/SocialGouv/domifa/commit/fee18cc0e00b1eae6de7bb02274cf2df68b81780))
+* **usagers:** fix reviews bot ([4a1d87f](https://github.com/SocialGouv/domifa/commit/4a1d87f1d4d626821c198e4d4e3cb447ba66d4cd))
+
+## [2.232.5](https://github.com/SocialGouv/domifa/compare/v2.232.4...v2.232.5) (2025-12-30)
+
+
+### Bug Fixes
+
+* **backend:** fix typedom and require everywhere ([8f79bd5](https://github.com/SocialGouv/domifa/commit/8f79bd56693221bf541edff520ecc7b4703c5e86))
+
+## [2.232.4](https://github.com/SocialGouv/domifa/compare/v2.232.3...v2.232.4) (2025-12-26)
+
+
+### Bug Fixes
+
+* **backend:** delete territories from nationality ([feb63a2](https://github.com/SocialGouv/domifa/commit/feb63a2c5d17f82ea0a8a7aeac24fa2da00643bb))
+* **backend:** update dump for test ([5e40ce8](https://github.com/SocialGouv/domifa/commit/5e40ce80d0f81d616981a6106f2bea46d2b728cd))
+
+## [2.232.3](https://github.com/SocialGouv/domifa/compare/v2.232.2...v2.232.3) (2025-12-23)
+
+
+### Bug Fixes
+
+* **admin:** fixing reviews for admin ([21180d1](https://github.com/SocialGouv/domifa/commit/21180d13eea6e1d3466a386a588f439327cb5cfd))
+
+## [2.232.2](https://github.com/SocialGouv/domifa/compare/v2.232.1...v2.232.2) (2025-12-18)
+
+
+### Bug Fixes
+
+* **backend:** update reset-password ([63095cc](https://github.com/SocialGouv/domifa/commit/63095ccb2772b8d04f4839c95cac411d1bb8490e))
+
+## [2.232.1](https://github.com/SocialGouv/domifa/compare/v2.232.0...v2.232.1) (2025-12-16)
+
+
+### Bug Fixes
+
+* **usagers:** reload page upon logout ([70e8e76](https://github.com/SocialGouv/domifa/commit/70e8e76428743d9bc4b5be138320a7ce03c2d300))
+* **usagers:** revu bot fixes ([8ca4086](https://github.com/SocialGouv/domifa/commit/8ca40868497b7c18333a253b78e84c0fa98ec6f6))
+
+# [2.232.0](https://github.com/SocialGouv/domifa/compare/v2.231.4...v2.232.0) (2025-12-11)
+
+
+### Bug Fixes
+
+* **admins:** decommission de ngb module ([b4ccee3](https://github.com/SocialGouv/domifa/commit/b4ccee3be642fcad0d43a77b1fdf6d6b4dd3f1c4))
+* **admins:** fix reviews ([51e376b](https://github.com/SocialGouv/domifa/commit/51e376bdc4f528e3af4bf94d915be928b7ce0431))
+
+
+### Features
+
+* **admin:**  implementing password reset ([3a1a7e3](https://github.com/SocialGouv/domifa/commit/3a1a7e362573d5df2fca79e9ddf29e6292eed0d9))
+* **admin:** fix reviews ([8d94b73](https://github.com/SocialGouv/domifa/commit/8d94b7382aa02d7cc085d6819601a8d86ff7e98d))
+* **admin:** init dsfr admin ([baea0b4](https://github.com/SocialGouv/domifa/commit/baea0b4577bc320063c63f802577e219134e30d2))
+* **admin:** integrating nat stat ([2a96d74](https://github.com/SocialGouv/domifa/commit/2a96d74eb4c7fe707bdf47ee919b68ffc68c0216))
+* **admins:** login page admin ([feb30fd](https://github.com/SocialGouv/domifa/commit/feb30fd1e10df33688300bd87e922a3f28dbc56a))
+
+## [2.231.4](https://github.com/SocialGouv/domifa/compare/v2.231.3...v2.231.4) (2025-12-11)
+
+
+### Bug Fixes
+
+* **backend:** fix recipient email ([56ee200](https://github.com/SocialGouv/domifa/commit/56ee2000b9e5ad24161b45356019b2f9505f6c50))
+
+## [2.231.3](https://github.com/SocialGouv/domifa/compare/v2.231.2...v2.231.3) (2025-12-11)
+
+
+### Bug Fixes
+
+* **backend:** fix appointment with me ([#4036](https://github.com/SocialGouv/domifa/issues/4036)) ([6e09d53](https://github.com/SocialGouv/domifa/commit/6e09d53c00755b8503c725a0f01448f6ddfe6652))
+
+## [2.231.2](https://github.com/SocialGouv/domifa/compare/v2.231.1...v2.231.2) (2025-12-11)
+
+
+### Bug Fixes
+
+* **backend:** fix set appointment email ([#4035](https://github.com/SocialGouv/domifa/issues/4035)) ([5c8b2c2](https://github.com/SocialGouv/domifa/commit/5c8b2c27280207188ce434e313ef01bef1115f96))
+
+## [2.231.1](https://github.com/SocialGouv/domifa/compare/v2.231.0...v2.231.1) (2025-12-10)
+
+
+### Bug Fixes
+
+* **backend:** fix brevo sync for structures ([#4034](https://github.com/SocialGouv/domifa/issues/4034)) ([493cd57](https://github.com/SocialGouv/domifa/commit/493cd57f49589e99e887b01b219cf171e778b842))
+
+# [2.231.0](https://github.com/SocialGouv/domifa/compare/v2.230.1...v2.231.0) (2025-12-10)
+
+
+### Features
+
+* **usagers:** traitement retour accessibilite vol 2 ([#4033](https://github.com/SocialGouv/domifa/issues/4033)) ([0af56c7](https://github.com/SocialGouv/domifa/commit/0af56c7199ce6a4d080eb7496359d32f2f61bba1))
+
+## [2.230.1](https://github.com/SocialGouv/domifa/compare/v2.230.0...v2.230.1) (2025-12-08)
+
+
+### Bug Fixes
+
+* **backend:** fix build of backend ([#4031](https://github.com/SocialGouv/domifa/issues/4031)) ([b053931](https://github.com/SocialGouv/domifa/commit/b0539312e3c3d768a7ab49a5d89a96837371a3f6))
+
+# [2.230.0](https://github.com/SocialGouv/domifa/compare/v2.229.3...v2.230.0) (2025-12-08)
+
+
+### Features
+
+* **backend:** 🗑️🚮 delete of nodemailer, smtp options, tipimail, mail… ([#4029](https://github.com/SocialGouv/domifa/issues/4029)) ([c777b07](https://github.com/SocialGouv/domifa/commit/c777b07cd59d766b4ab6b73e5fdb056237cc41ec))
+
+## [2.229.3](https://github.com/SocialGouv/domifa/compare/v2.229.2...v2.229.3) (2025-12-02)
+
+
+### Bug Fixes
+
+* disable scripts ([973ee60](https://github.com/SocialGouv/domifa/commit/973ee6077a088b2caaebeb0f40ffd87ab22556ec))
+* disable scripts ([8c2dc5f](https://github.com/SocialGouv/domifa/commit/8c2dc5f5fe96289107a4fa008383ac108f2ba2e2))
+
 ## [2.229.2](https://github.com/SocialGouv/domifa/compare/v2.229.1...v2.229.2) (2025-11-24)
 
 

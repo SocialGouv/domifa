@@ -113,7 +113,6 @@ export class AppUserGuard implements CanActivate {
         context.getClass()
       ) || [];
 
-    // Combiner les rôles de superviseur
     const allowUserSupervisorRoles =
       methodAllowUserSupervisorRoles.length > 0
         ? methodAllowUserSupervisorRoles

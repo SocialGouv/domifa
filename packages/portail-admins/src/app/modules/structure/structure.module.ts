@@ -1,7 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 import { SharedModule } from "../shared/shared.module";
 import { UsersComponent } from "./components/users/users.component";
@@ -25,7 +24,6 @@ import { RegisterUserComponent } from "./components/register-user/register-user.
   imports: [
     StructureRoutingModule,
     CommonModule,
-    NgbModule,
     FormsModule,
     FormatInternationalPhoneNumberPipe,
     SharedModule,

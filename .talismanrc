@@ -2,9 +2,13 @@ fileignoreconfig:
 - filename: .anonymizer/yarn.lock
   checksum: adf574ab2b9fc5e21891b802504438b9f7738c8854047dbc7ca628cd3994ef5f
 - filename: .kontinuous/env/dev/templates/backend.sealed-secret.yaml
-  checksum: eb02b7f4930980a6ad41118a3cae40e682d3322d1a3eba9b19b17da72e321136
+  checksum: b0fb543f5704f8c6c0410bd9d4dcb3fb0ee81078750f46cebeca6c37b56b63a8
 - filename: .kontinuous/env/preprod/templates/backend.sealed-secret.yaml
-  checksum: 08602bd330f851a3a7a62707623f154cf4e33d43c96087b85531fee32dad342e
+  checksum: 4328b99895292731f5e4e75391b442d1c098aff466c1649faa7c1840550a6cd6
+- filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
+  checksum: a6d69a27445845d23455b1440f449485fbeefd07ca2549f96b8dea8603e584bd
+- filename: CHANGELOG.md
+  checksum: 29e234a71705e2c03ad186fabff67c12925a9b1d3e4104592388cfca155f67bb
 - filename: _docs/dev/0.run-local-env.md
   checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
@@ -22,7 +26,7 @@ fileignoreconfig:
 - filename: packages/backend/src/_migrations/1763999725431-auto-migration.ts
   checksum: 3762d1281d4109a0f57e6f100d49340db6528a17b4b9421d02cf0349b93fc3a0
 - filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
-  checksum: 8b421c413bab4f2419972dec548a5399879f497a8c75c9b240bbf8c123cfab06
+  checksum: eb5830a53f6558916812a8c3628d7ffed713dc4d0842eee7580dccbae28bd607
 - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.spec.ts
   checksum: 8f66091255109d0da277819584c6c69d4a7f720256842851a49b0dda16af6651
 - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.ts
@@ -41,11 +45,10 @@ fileignoreconfig:
   checksum: c569c439ae74865248ff9a0840b658903e31f2b64af367760de27155957c6ea9
 - filename: packages/portail-usagers/src/app/modules/general/components/_static/politique/politique.component.ts
   checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
+- filename: pnpm-lock.yaml
+  checksum: 6186a1c43768db0509bb6df1176b86b434a904ffe03254adecdd58b98a9ccc15
+allowed_patterns:
+- uses:\s*[\w\-\.]+/[\w\-\.]+@[a-fA-F0-9]{40}
+- uses:\s*[\w\-\.]+/[\w\-\.]+/[\w\-\./]*@[a-fA-F0-9]{40}
 threshold: medium
 version: "1.0"
-
-allowed_patterns:
-  # Match action pinned with SHA
-  - "uses:\\s*[\\w\\-\\.]+/[\\w\\-\\.]+@[a-fA-F0-9]{40}"
-  # If you also use nested actions (org/repo/path)
-  - "uses:\\s*[\\w\\-\\.]+/[\\w\\-\\.]+/[\\w\\-\\./]*@[a-fA-F0-9]{40}"

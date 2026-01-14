@@ -2,7 +2,11 @@
   <div class="fr-container py-3" id="subnav">
     <div class="row">
       <a routerLink="/structure" class="fr-link w-auto"
-        ><span class="fr-icon-arrow-left-s-line"></span>Retour
+        ><span class="fr-icon-arrow-left-s-line"></span>Retour<span
+          class="visually-hidden"
+        >
+          à la liste des structures</span
+        >
       </a>
     </div>
     <div class="row pt-2">
@@ -16,6 +20,9 @@
         {{ structure.id }} - {{ structure.nom }}
         <ng-container *ngIf="structure.statut === 'SUPPRIME'">
           (supprimée)</ng-container
+        >
+        <ng-container *ngIf="structure.statut === 'REFUS'">
+          (refusée)</ng-container
         >
       </h1>
     </div>

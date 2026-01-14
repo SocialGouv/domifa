@@ -1,6 +1,6 @@
 <app-custom-toastr></app-custom-toastr>
 <dsfr-skiplinks [links]="skipLinks"></dsfr-skiplinks>
-<div class="fr-notice fr-notice--info">
+<div #notice class="fr-notice fr-notice--info">
   <div class="fr-container">
     <div class="fr-notice__body">
       <p>
@@ -36,9 +36,9 @@
   [operatorImagePath]="'../assets/images/logo-dsfr.svg'"
   [ariaLabel]="'Menu principal'"
   [logoLink]="{ routerLink: '/' }"
-  [headerToolsLinks]="headerToolsLinks"
+  [headerToolsLinks]="adminProfile ? headerToolsLinks : []"
   (linkSelect)="logout($event)"
-  [menu]="menuHeaderItems"
+  [menu]="adminProfile ? menuHeaderItems : []"
 ></dsfr-header>
 <main role="main" id="page">
   <app-custom-toastr></app-custom-toastr>

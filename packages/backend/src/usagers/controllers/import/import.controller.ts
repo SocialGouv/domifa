@@ -53,7 +53,7 @@ import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 import {
   FailedUsagerImportLogContext,
   SuccessfulUsagerImportLogContext,
-} from "../../../modules/app-logs/app-log-context.types";
+} from "../../../modules/app-logs/types/app-log-context.types";
 
 const UsagersImportFileInterceptor = FileInterceptor("file", {
   limits: FILES_SIZE_LIMIT,
@@ -236,6 +236,7 @@ export class ImportController {
           nombreTotal: importPreviewRows.length,
         },
       });
+
       return res.status(HttpStatus.BAD_REQUEST).json({ previewTable });
     }
 

@@ -1,18 +1,14 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { AdminUsersController } from "./admin-users.controller";
-import { forwardRef, HttpStatus } from "@nestjs/common";
-import { UsagersModule } from "../../../../usagers/usagers.module";
-import { AppLogsService } from "../../../app-logs/app-logs.service";
-import { InteractionsModule } from "../../../interactions/interactions.module";
-import { SmsModule } from "../../../sms/sms.module";
-import { StructuresModule } from "../../../structures/structure.module";
-import { UsersModule } from "../../../users/users.module";
-import { AdminStructuresService } from "../../services";
+import { HttpStatus } from "@nestjs/common";
 import { AdminSuperivorUsersService } from "../../services/admin-superivor-users/admin-superivor-users.service";
 import { ElevateUserRoleDto } from "../../dto/elevate-user-role.dto";
 import { userStructureRepository } from "../../../../database";
 import { EntityNotFoundError } from "typeorm";
 import { USER_SUPERVISOR_AUTH } from "../../../../_common/mocks/USER_SUPERVISOR_AUTHENTIFICATED.mock";
+import { AppLogsService } from "../../../app-logs/app-logs.service";
+import { BrevoSenderService } from "../../../mails/services/brevo-sender/brevo-sender.service";
+
 // Mock the repository
 jest.mock("../../../../database", () => ({
   userStructureRepository: {
@@ -24,7 +20,7 @@ jest.mock("../../../../database", () => ({
 describe("AdminUsersController", () => {
   let controller: AdminUsersController;
   let mockUserStructureRepository: jest.Mocked<typeof userStructureRepository>;
-  let appLogService: AppLogsService;
+
   const mockCurrentUser = USER_SUPERVISOR_AUTH;
 
   const mockUserToElevate = {
@@ -47,25 +43,28 @@ describe("AdminUsersController", () => {
 
   beforeEach(async () => {
     jest.clearAllMocks();
-    appLogService = {
-      create: jest.fn(),
-    };
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AdminUsersController],
-      imports: [
-        forwardRef(() => UsersModule),
-        forwardRef(() => StructuresModule),
-        forwardRef(() => UsagersModule),
-        forwardRef(() => InteractionsModule),
-        forwardRef(() => SmsModule),
-      ],
       providers: [
-        AdminStructuresService,
         {
           provide: AppLogsService,
-          useValue: appLogService,
+          useValue: {
+            create: jest.fn().mockResolvedValue({}),
+          },
         },
-        AdminSuperivorUsersService,
+        {
+          provide: AdminSuperivorUsersService,
+          useValue: {
+            createUserWithTmpToken: jest.fn(),
+          },
+        },
+        {
+          provide: BrevoSenderService,
+          useValue: {
+            sendEmailWithTemplate: jest.fn().mockResolvedValue({}),
+          },
+        },
       ],
     }).compile();
 

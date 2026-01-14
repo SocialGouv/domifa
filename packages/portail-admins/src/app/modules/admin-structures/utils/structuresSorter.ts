@@ -3,8 +3,8 @@ import {
   Search,
   SortableValue,
   sortMultiple,
+  StructureAdmin,
 } from "@domifa/common";
-import { StructureAdmin } from "../types";
 
 export const structuresSorter = {
   sortBy,
@@ -34,7 +34,7 @@ function sortBy(
     let value = structure[sortKey as keyof StructureAdmin];
 
     if (
-      ["nom", "structureTypeLabel", "regionLabel", "departementLabel"].includes(
+      ["nom", "structureType", "regionName", "departementName"].includes(
         sortKey
       )
     ) {

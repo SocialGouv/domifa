@@ -18,6 +18,7 @@ import { UsagerHistoryStateService } from "../../services/usagerHistoryState.ser
 import { UsagersModule } from "../../usagers.module";
 import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 import { appLogsRepository } from "../../../database";
+import { MailsModule } from "../../../modules/mails/mails.module";
 
 const importFilesDir = resolve(
   __dirname,
@@ -33,7 +34,7 @@ describe("Import Controller", () => {
     context = await AppTestHelper.bootstrapTestApp(
       {
         controllers: [ImportController],
-        imports: [UsersModule, StructuresModule, UsagersModule],
+        imports: [UsersModule, StructuresModule, UsagersModule, MailsModule],
         providers: [UsagersService, UsagerHistoryStateService, AppLogsService],
       },
       { initApp: true }
