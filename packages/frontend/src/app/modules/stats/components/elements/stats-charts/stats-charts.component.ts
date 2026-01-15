@@ -34,7 +34,6 @@ export class StatsChartsComponent implements OnChanges {
 
   public statsInCharts!: StatsByMonth;
   public selectedCharts: "courriers" | "usagers" = "courriers";
-
   @Input() public publicStats!: PublicStats;
 
   public ngOnChanges(): void {

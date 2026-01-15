@@ -45,3 +45,10 @@ li a {
 .breadcrumb {
   background: #f6f7ff;
 }
+
+.stat-picto-img {
+  &--lg {
+    width: 7.69rem !important;
+  }
+  width: 3.94rem !important;
+}
