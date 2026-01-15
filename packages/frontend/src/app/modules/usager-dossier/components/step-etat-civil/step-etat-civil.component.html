@@ -76,12 +76,7 @@
                     (f.nom.dirty || submitted) && f.nom.errors
                 }"
               >
-                <label class="fr-label" for="nom">
-                  Nom
-                  <span class="fr-badge fr-badge--sm fr-badge--error">
-                    Obligatoire
-                  </span>
-                </label>
+                <label class="fr-label" for="nom"> Nom </label>
                 <input
                   type="text"
                   class="fr-input"
@@ -123,12 +118,7 @@
                     (f.prenom.dirty || submitted) && f.prenom.errors
                 }"
               >
-                <label class="fr-label" for="prenom">
-                  Prénom(s)
-                  <span class="fr-badge fr-badge--sm fr-badge--error">
-                    Obligatoire
-                  </span>
-                </label>
+                <label class="fr-label" for="prenom"> Prénom(s) </label>
                 <input
                   type="text"
                   class="fr-input"
@@ -187,9 +177,6 @@
               >
                 <label class="fr-label" for="dateNaissance">
                   Date de naissance
-                  <span class="fr-badge fr-badge--sm fr-badge--error">
-                    Obligatoire
-                  </span>
                 </label>
                 <div class="fr-input-wrap fr-input-wrap--action">
                   <input
@@ -265,10 +252,7 @@
                 }"
               >
                 <label class="fr-label" for="villeNaissance">
-                  Ville de naissance
-                  <span class="fr-badge fr-badge--sm fr-badge--error">
-                    Obligatoire
-                  </span>
+                  Ville de naissance fr-input-group
                 </label>
                 <input
                   type="text"
@@ -371,7 +355,9 @@
 
           <hr />
 
-          <div class="fr-grid-row fr-my-2v fr-grid-row--gutters">
+          <div
+            class="fr-grid-row fr-my-2v fr-grid-row--gutters fr-flex fr-flex--align-end"
+          >
             <div class="fr-col-12 fr-col-md-6">
               <div
                 class="fr-input-group"
@@ -380,39 +366,14 @@
                     submitted && (f.telephone.errors || f.telephone.invalid)
                 }"
               >
-                <label class="fr-label" for="telephone">
-                  Numéro de téléphone (mobile uniquement)
-                  <span
-                    *ngIf="f.contactByPhone.value === true"
-                    class="fr-badge fr-badge--sm fr-badge--error"
-                  >
-                    Obligatoire
-                  </span>
-                </label>
                 <p class="fr-hint-text">Format attendu : (+33) 1 22 33 44 55</p>
-                <ngx-intl-tel-input
-                  [cssClass]="'fr-input telephone-input'"
-                  [preferredCountries]="PREFERRED_COUNTRIES"
-                  [enableAutoCountrySelect]="false"
-                  [enablePlaceholder]="true"
-                  [searchCountryFlag]="true"
-                  [customPlaceholder]="mobilePhonePlaceHolder"
-                  searchCountryPlaceholder="Choisissez un pays"
-                  [searchCountryField]="[
-                    SearchCountryField.Iso2,
-                    SearchCountryField.Name
-                  ]"
-                  [selectFirstCountry]="false"
-                  [maxLength]="15"
-                  [phoneValidation]="true"
-                  [separateDialCode]="true"
-                  [numberFormat]="PhoneNumberFormat.International"
-                  inputId="telephone"
+                <app-phone-input
+                  [isRequired]="true"
+                  [isMobileOnly]="false"
+                  [submitted]="submitted"
                   formControlName="telephone"
-                  name="telephone"
-                  (countryChange)="updatePlaceHolder($event.iso2)"
-                  [selectedCountryISO]="f.telephone?.value?.countryCode"
-                ></ngx-intl-tel-input>
+                  [label]="'Numéro de téléphone (mobile uniquement)'"
+                ></app-phone-input>
                 <div
                   *ngIf="submitted && f.telephone.errors"
                   aria-live="polite"
@@ -445,7 +406,7 @@
                 }"
               >
                 <label class="fr-label" for="email"> Adresse e-mail </label>
-                <p class="fr-hint-text">Format attendu : (+33) 1 22 33 44 55</p>
+                <p class="fr-hint-text">Format attendu : mail[at]domaine.fr</p>
                 <input
                   type="email"
                   class="fr-input"
@@ -484,6 +445,7 @@
               </div>
             </div>
           </div>
+
           <hr />
           <div class="fr-grid-row fr-my-2v fr-grid-row--gutters">
             <div class="fr-col-12 fr-col-md-6">
@@ -623,10 +585,7 @@
                           ayantsDroits.controls[i].get('nom')?.errors
                       }"
                     >
-                      <label class="fr-label" for="nom_{{ i }}">
-                        Nom
-                        <span aria-label="obligatoire">*</span>
-                      </label>
+                      <label class="fr-label" for="nom_{{ i }}"> Nom </label>
                       <input
                         #adName
                         id="nom_{{ i }}"
@@ -683,7 +642,6 @@
                     >
                       <label class="fr-label" for="ad_prenom_{{ i }}">
                         Prénom
-                        <span aria-label="obligatoire">*</span>
                       </label>
                       <input
                         type="text"
@@ -742,8 +700,7 @@
                     >
                       <label class="fr-label" for="dateNaissance_{{ i }}">
                         Date de naissance
-                        <span aria-label="obligatoire">*</span></label
-                      >
+                      </label>
                       <div class="fr-input-wrap fr-input-wrap--action">
                         <input
                           id="dateNaissance_{{ i }}"
@@ -826,10 +783,7 @@
                           ayantsDroits.controls[i].get('lien')?.errors
                       }"
                     >
-                      <label class="fr-label" for="lien_{{ i }}">
-                        Lien
-                        <span aria-label="obligatoire">*</span>
-                      </label>
+                      <label class="fr-label" for="lien_{{ i }}"> Lien </label>
                       <select
                         formControlName="lien"
                         name="lien"

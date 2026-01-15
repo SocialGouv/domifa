@@ -17,10 +17,7 @@
             (f.nom.dirty || submitted) && f.nom.errors
           "
         >
-          <label class="fr-label" for="nom">
-            Nom
-            <span aria-label="obligatoire">*</span>
-          </label>
+          <label class="fr-label" for="nom"> Nom </label>
           <input
             #firstInput
             type="text"
@@ -57,10 +54,7 @@
             (f.prenom.dirty || submitted) && f.prenom.errors
           "
         >
-          <label class="fr-label" for="prenom">
-            Prénom(s)
-            <span aria-label="obligatoire">*</span>
-          </label>
+          <label class="fr-label" for="prenom"> Prénom(s) </label>
           <input
             type="text"
             class="fr-input"
@@ -104,10 +98,7 @@
     <div class="fr-grid-row fr-grid-row--gutters">
       <div class="fr-col-12 fr-col-md-4">
         <div class="fr-input-group">
-          <label class="fr-label" for="sexe">
-            Sexe
-            <span aria-label="obligatoire">*</span>
-          </label>
+          <label class="fr-label" for="sexe"> Sexe </label>
           <select formControlName="sexe" id="sexe" class="fr-select" required>
             <option value="homme">Homme</option>
             <option value="femme">Femme</option>
@@ -124,7 +115,6 @@
         >
           <label class="fr-label" for="dateNaissance">
             Date de naissance
-            <span aria-label="obligatoire">*</span>
           </label>
           <div class="input-group">
             <input
@@ -181,7 +171,6 @@
         >
           <label class="fr-label" for="villeNaissance">
             Ville de naissance
-            <span aria-label="obligatoire">*</span>
           </label>
           <input
             type="text"
@@ -350,10 +339,7 @@
             ayantsDroits.controls[i].get('nom')?.errors
           "
         >
-          <label class="fr-label" for="nom_{{ i }}">
-            Nom
-            <span aria-label="obligatoire">*</span>
-          </label>
+          <label class="fr-label" for="nom_{{ i }}"> Nom </label>
           <input
             id="nom_{{ i }}"
             type="text"
@@ -391,10 +377,7 @@
             ayantsDroits.controls[i].get('prenom')?.errors
           "
         >
-          <label class="fr-label" for="ad_prenom_{{ i }}">
-            Prénom
-            <span aria-label="obligatoire">*</span>
-          </label>
+          <label class="fr-label" for="ad_prenom_{{ i }}"> Prénom </label>
           <input
             type="text"
             id="ad_prenom_{{ i }}"
@@ -435,7 +418,6 @@
         >
           <label class="fr-label" for="dateNaissance_{{ i }}">
             Date de naissance
-            <span aria-label="obligatoire">*</span>
           </label>
           <div class="input-group">
             <input
@@ -498,10 +480,7 @@
             ayantsDroits.controls[i].get('lien')?.errors
           "
         >
-          <label class="fr-label" for="lien_{{ i }}">
-            Lien
-            <span aria-label="obligatoire">*</span>
-          </label>
+          <label class="fr-label" for="lien_{{ i }}"> Lien </label>
           <select
             formControlName="lien"
             id="lien_{{ i }}"

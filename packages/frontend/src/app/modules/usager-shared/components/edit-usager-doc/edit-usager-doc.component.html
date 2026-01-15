@@ -2,8 +2,8 @@
   (action)="openModal()"
   [ariaLabel]="'Modifier le document ' + doc.label"
   content="Modifier"
-  icon="pencil"
-  color="outline-primary"
+  icon="edit"
+  color="primary"
   [loading]="loading"
 >
 </app-button>
@@ -82,7 +82,8 @@
       (action)="patchDocument()"
       [ariaLabel]="'Valider la modification du document: ' + doc.label"
       content="Valider"
-      color="primary mx-1 btn-lg"
+      color="primary"
+      class="mx-1 btn-lg"
       [loading]="loading"
     >
     </app-button>

@@ -87,7 +87,6 @@
           [hidden]="currentSection !== 'transferts'"
         >
           <app-profil-historique-transferts
-            id="tabpanel-transferts"
             *ngIf="currentSection === 'transferts'"
             [me]="me"
             [usager]="usager"
@@ -104,7 +103,6 @@
           "
         >
           <app-profil-historique-sms
-            id="tabpanel-sms"
             [usager]="usager"
           ></app-profil-historique-sms>
         </div>
@@ -117,7 +115,6 @@
         >
           <app-profil-historique-notes
             [me]="me"
-            id="tabpanel-notes"
             [usager]="usager"
           ></app-profil-historique-notes>
         </div>
@@ -132,7 +129,6 @@
           "
         >
           <app-profil-historique-login-portail
-            id="tabpanel-login-portail"
             [usager]="usager"
             [me]="me"
           ></app-profil-historique-login-portail>

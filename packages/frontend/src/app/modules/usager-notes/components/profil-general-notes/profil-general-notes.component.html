@@ -1,47 +1,53 @@
 <ng-container *ngIf="usager">
-  <div class="fr-callout" *ngIf="!notes.length">
-    <p class="fr-callout__text">Aucune note enregistrée actuellement</p>
+  <!-- Message d'absence de notes -->
+  <div class="fr-callout fr-callout--info" *ngIf="!notes.length">
+    <h3 class="fr-callout__title">Aucune note enregistrée</h3>
+    <p class="fr-callout__text">Aucune note n'a été ajoutée pour le moment.</p>
   </div>
 
-  <div
-    *ngFor="let note of notes | slice : 0 : 5; let i = index"
-    class="note-historique"
-  >
-    <div class="d-flex justify-content-between align-items-top">
-      <div>
-        <div class="number">
-          <div class="icon-note"></div>
+  <div *ngIf="notes.length" class="notes-list">
+    <div *ngFor="let note of notes | slice : 0 : 5; let i = index">
+      <div class="fr-grid-row fr-grid-row--gutters">
+        <div class="fr-col-md-10">
+          <div class="fr-mb-2w">
+            <div class="fr-flex fr-flex--row fr-gap-1w">
+              <i class="fr-icon-chat-3-line" aria-hidden="true"></i>
+              <p class="fr-text--bold fr-text--primary fr-mb-0">
+                {{ note.createdAt | date : "dd MMMM yyyy 'à' HH:mm" }} -
+                {{ note.createdBy.userName }}
+              </p>
+            </div>
+            <span
+              class="fr-badge fr-badge--blue-cumulus fr-mt-1w"
+              *ngIf="note.pinned"
+            >
+              <i class="fr-icon-pushpin-2-fill" aria-hidden="true"></i>
+              Note épinglée
+            </span>
+          </div>
+
+          <!-- Contenu du message -->
+          <p class="fr-mb-3w">{{ note.message }}</p>
         </div>
-        <div class="note-separator" *ngIf="i < 5 && i < notes.length - 1"></div>
+
+        <!-- Actions (20%) -->
+        <div class="fr-col-md-2 fr-flex fr-flex--justify-end">
+          <app-usager-notes-actions
+            *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
+            [usager]="usager"
+            [note]="note"
+            (getUsagerNotes)="getUsagerNotes()"
+          ></app-usager-notes-actions>
+        </div>
       </div>
 
-      <div class="flex-grow-1 ms-3">
-        <div class="note-date">
-          <span class="text-primary fw-bold">
-            {{ note.createdAt | date : "dd MMMM yyyy à HH:mm" }} -
-            {{ note.createdBy.userName }}
-          </span>
-          <span class="badge badge-pill bg-primary" *ngIf="note.pinned">
-            <fa-icon
-              [icon]="['fas', 'thumb-tack']"
-              aria-hidden="true"
-            ></fa-icon>
-            Note épinglée
-          </span>
-          <p class="fw-bold">{{ note.message }}</p>
-        </div>
-      </div>
-      <div *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'" class="ms-3">
-        <app-usager-notes-actions
-          [usager]="usager"
-          [note]="note"
-          (getUsagerNotes)="getUsagerNotes()"
-        ></app-usager-notes-actions>
-      </div>
+      <!-- Séparateur -->
+      <hr class="fr-separator" *ngIf="i < notes.length - 1" />
     </div>
   </div>
 </ng-container>
 
+<!-- Formulaire d'ajout -->
 <app-profil-add-note-form
   [usager]="usager"
   (cancel)="closeModals()"

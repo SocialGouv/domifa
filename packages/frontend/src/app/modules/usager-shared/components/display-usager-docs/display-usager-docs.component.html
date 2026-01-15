@@ -1,22 +1,24 @@
-<div class="my-4">
+<div class="fr-my-4w">
   <app-upload
     *ngIf="me?.role !== 'facteur' && me?.role !== 'agent' && editPJ"
     (getUsagerDocs)="getUsagerDocs()"
     [usager]="usager"
   ></app-upload>
 </div>
+
 <div class="fr-callout" *ngIf="!docs.length">
   <p class="fr-callout__text">
     Aucune pièce jointe n'a été ajoutée pour le moment
   </p>
 </div>
 
-<div class="table-responsive">
-  <table class="table table-docs p-0" *ngIf="docs.length">
-    <caption class="visually-hidden">
+@if (docs.length) {
+<div class="fr-table fr-table--no-scroll">
+  <table>
+    <caption class="fr-sr-only">
       Documents de l'usager
     </caption>
-    <tbody>
+    <thead>
       <tr>
         <th scope="col">Type</th>
         <th scope="col">
@@ -25,8 +27,7 @@
             [(sortValue)]="sortValue"
             [(currentKey)]="currentKey"
             columnName="Nom du document"
-          >
-          </app-table-head-sort>
+          ></app-table-head-sort>
         </th>
         <th scope="col">
           <app-table-head-sort
@@ -34,44 +35,39 @@
             [(sortValue)]="sortValue"
             [(currentKey)]="currentKey"
             columnName="Ajouté par"
-          >
-          </app-table-head-sort>
+          ></app-table-head-sort>
         </th>
-
         <th scope="col">
           <app-table-head-sort
             sortKey="createdAt"
             [(sortValue)]="sortValue"
             [(currentKey)]="currentKey"
             columnName="Ajouté le"
-          >
-          </app-table-head-sort>
+          ></app-table-head-sort>
         </th>
-        <th scope="col" class="d-print-none text-end">Actions</th>
+        <th scope="col" class="fr-table__action">Actions</th>
       </tr>
-      <tr
-        *ngFor="
-          let document of docs | sortArray : currentKey : sortValue;
-          let i = index
-        "
-        [attr.aria-rowindex]="i + 1"
-      >
-        <td class="align-middle">
+    </thead>
+    <tbody>
+      @for (document of docs | sortArray : currentKey : sortValue; track
+      document.id; let i = $index) {
+      <tr [attr.aria-rowindex]="i + 1">
+        <td>
           <app-display-table-image
             [document]="document"
           ></app-display-table-image>
         </td>
-        <td class="align-middle">
-          {{ document.label }}
-          <span *ngIf="document.shared" class="label-info orange-status"
-            >⚠️ Document partagé sur Mon DomiFa</span
-          >
-        </td>
-        <td class="align-middle">{{ document.createdBy }}</td>
         <td>
-          {{ document.createdAt | date : "dd MMMM yyyy" }}
+          {{ document.label }}
+          @if (document.shared) {
+          <span class="fr-badge fr-badge--warning fr-badge--sm">
+            ⚠️ Document partagé sur Mon DomiFa
+          </span>
+          }
         </td>
-        <td class="align-middle text-end d-print-none">
+        <td>{{ document.createdBy }}</td>
+        <td>{{ document.createdAt | date : "dd MMMM yyyy" }}</td>
+        <td class="fr-table__action">
           <app-edit-usager-doc
             [doc]="document"
             (docChange)="updateDocument($event, i)"
@@ -84,9 +80,7 @@
             icon="download"
             color="primary"
             [loading]="document.loading"
-          >
-          </app-button>
-
+          ></app-button>
           <app-button
             (action)="deleteDocument(document)"
             [ariaLabel]="'Supprimer le document ' + document.label"
@@ -94,10 +88,11 @@
             icon="trash"
             color="danger"
             [loading]="document.loading"
-          >
-          </app-button>
+          ></app-button>
         </td>
       </tr>
+      }
     </tbody>
   </table>
 </div>
+}

@@ -1,4 +1,4 @@
-<div class="steps">
+<div class="steps fr-my-4w">
   @if (isMobile) {
   <div class="fr-hidden fr-unhidden-md fr-py-3w">
     <label class="fr-label" for="form-menu">Étapes du formulaire</label>
@@ -17,25 +17,64 @@
   </div>
   } @else {
   <nav id="steps" aria-label="Étapes du formulaire de demande de domiciliation">
-    <div class="fr-stepper">
-      <h2 class="fr-stepper__title">
+    <div class="fr-mb-4w">
+      <h2 class="fr-h4">
         {{ ETAPES_FORM_DOM[currentStep] }}
-        <span class="fr-stepper__state">
+        <span class="fr-text--sm fr-text--grey">
           Étape {{ currentStep + 1 }} sur 5
         </span>
       </h2>
-
-      <div
-        class="fr-stepper__steps"
-        [attr.data-fr-current-step]="currentStep + 1"
-        data-fr-steps="5"
-      ></div>
-
       @if (currentStep < 4) {
-      <p class="fr-stepper__details">
+      <p class="fr-text--sm fr-mb-0">
         <span class="fr-text--bold">Étape suivante :</span>
         {{ ETAPES_FORM_DOM[currentStep + 1] }}
       </p>
+      }
+    </div>
+
+    <div class="fr-grid-row fr-grid-row--gutters">
+      @for ( etape of ETAPES_FORM_DOM; track $index; let i = $index ) {
+      <div
+        class="step"
+        role="button"
+        tabindex="0"
+        (click)="goToStep(i)"
+        (keydown.enter)="goToStep(i)"
+        (keydown.space)="goToStep(i)"
+        [attr.aria-label]="'Aller à l\'étape ' + (i + 1)"
+      >
+        <div
+          class="fr-flex fr-flex--column fr-flex--center fr-gap-2w stepper-step"
+          [class.stepper-step--completed]="currentStep > i"
+        >
+          <div class="fr-flex fr-flex--center fr-flex--column">
+            <img
+              [src]="
+                'assets/dsfr-pictograms/' + ETAPES_FORM_DOM_ICONES[i] + '.svg'
+              "
+              alt=""
+              class="step-icon"
+              aria-hidden="true"
+            />
+
+            <span class="fr-text--bold fr-text--center fr-text--sm fr-mb-0">
+              {{ ETAPES_FORM_DOM[i] }}
+            </span>
+
+            @if (currentStep >= i) {
+            <span
+              class="fr-text--success fr-icon-success-fill"
+              aria-hidden="true"
+            ></span>
+            }
+          </div>
+        </div>
+
+        <div
+          class="stepper-line"
+          [class.stepper-line--completed]="currentStep >= i"
+        ></div>
+      </div>
       }
     </div>
   </nav>

@@ -1,8 +1,8 @@
 <ng-container *ngIf="parentFormGroup">
   <div
-    class="fr-form-group"
+    class="fr-input-group"
     [ngClass]="{
-      'fr-form-group--error':
+      'fr-input-group--error':
         (submitted || parentFormGroup?.controls?.nationalite?.dirty) &&
         parentFormGroup?.controls?.nationalite.errors
     }"

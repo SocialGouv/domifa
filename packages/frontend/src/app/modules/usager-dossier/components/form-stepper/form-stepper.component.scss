@@ -1,0 +1,27 @@
+.stepper-step {
+  padding: 0 var(--spacing-1w);
+}
+
+.stepper-line {
+  height: 10px;
+  background-color: var(--border-default-grey);
+  margin-top: var(--spacing-1w);
+}
+
+.stepper-line--completed {
+  background-color: var(--background-action-high-blue-france);
+}
+
+.step {
+  width: 19%;
+  margin: 0.2rem;
+  cursor: pointer;
+
+  .step-icon {
+    height: 56px;
+    width: 56px;
+  }
+}
+.step:hover {
+  background-color: var(--background-default-grey);
+}

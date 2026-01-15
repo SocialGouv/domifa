@@ -1,8 +1,5 @@
 <form [formGroup]="valideForm" (ngSubmit)="setDecisionValide()">
-  <p class="fr-text--sm fr-mb-2w">
-    Les champs suivis d'un <span aria-label="obligatoire">*</span> sont
-    obligatoires
-  </p>
+  <p class="fr-text--sm fr-mb-2w">Les champs suivis d'un sont obligatoires</p>
 
   <div class="fr-grid-row fr-grid-row--gutter">
     <div class="fr-col-12 fr-col-md-6">
@@ -15,7 +12,6 @@
       >
         <label class="fr-label" for="dateDebutValide">
           Date de début de la domiciliation
-          <span aria-label="obligatoire">*</span>
         </label>
         <div class="fr-input-wrap fr-input-wrap--action">
           <input
@@ -71,7 +67,6 @@
       >
         <label class="fr-label" for="dateFinValide">
           Date de fin de la domiciliation
-          <span aria-label="obligatoire">*</span>
         </label>
         <div class="fr-input-wrap fr-input-wrap--action">
           <input
@@ -187,9 +182,15 @@
   </div>
   }
 
-  <div
-    class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-mt-3w"
-  >
+  <div class="fr-btns-group fr-btns-group--inline fr-btns-group--right">
+    <button
+      class="fr-btn fr-btn--secondary d-print-none"
+      (click)="closeModals.emit()"
+      type="button"
+    >
+      Annuler
+    </button>
+
     <button
       class="fr-btn"
       [disabled]="v.dateDebut.value > v.dateFin.value || loading"
@@ -203,14 +204,6 @@
         <span class="fr-sr-only">Veuillez patienter...</span>
       </span>
       }
-    </button>
-
-    <button
-      class="fr-btn fr-btn--secondary d-print-none"
-      (click)="closeModals.emit()"
-      type="button"
-    >
-      Revenir au formulaire
     </button>
   </div>
 </form>

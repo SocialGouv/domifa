@@ -3,12 +3,16 @@ import { Router } from "@angular/router";
 import { ETAPES_DEMANDE_URL } from "../../../../../_common/model";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-import { ETAPES_FORM_DOM_TITRES, ETAPES_FORM_DOM } from "../../constants";
+import {
+  ETAPES_FORM_DOM_TITRES,
+  ETAPES_FORM_DOM,
+  ETAPES_FORM_DOM_ICONES,
+} from "../../constants";
 
 @Component({
   selector: "app-form-stepper",
   templateUrl: "./form-stepper.component.html",
-  styleUrls: ["./form-stepper.component.css"],
+  styleUrls: ["./form-stepper.component.scss"],
 })
 export class FormStepperComponent {
   @Input({ required: true }) public usager!: UsagerFormModel;
@@ -16,6 +20,7 @@ export class FormStepperComponent {
 
   public readonly ETAPES_FORM_DOM_TITRES = ETAPES_FORM_DOM_TITRES;
   public readonly ETAPES_FORM_DOM = ETAPES_FORM_DOM;
+  public readonly ETAPES_FORM_DOM_ICONES = ETAPES_FORM_DOM_ICONES;
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
   public isMobile = false;
 

@@ -3,20 +3,23 @@
   id="notes"
   *ngIf="usager?.uuid"
 >
-  <img
-    src="assets/dsfr-pictograms/leisure/community.svg"
-    alt=""
-    aria-hidden="true"
-  />
-  <h2 class="form-title">Commentaires privés</h2>
-  <div class="py-3">
-    <app-profil-general-notes [usager]="usager"></app-profil-general-notes>
+  <div class="fr-grid-row fr-grid-row--between fr-grid-row--middle">
+    <img
+      src="assets/dsfr-pictograms/leisure/community.svg"
+      alt=""
+      aria-hidden="true"
+    />
+    <h2 class="fr-h3 fr-m-0">Commentaires privés</h2>
   </div>
 
-  <app-delete-usager-menu
-    *ngIf="displayDeleteButton"
-    class="my-4"
-    [usager]="usager"
-    context="INSTRUCTION_FORM"
-  ></app-delete-usager-menu>
+  <div class="fr-mt-2v">
+    <app-profil-general-notes [usager]="usager"></app-profil-general-notes>
+  </div>
 </div>
+
+<app-delete-usager-menu
+  *ngIf="displayDeleteButton && usager"
+  class="fr-mt-4v"
+  [usager]="usager"
+  context="INSTRUCTION_FORM"
+></app-delete-usager-menu>
