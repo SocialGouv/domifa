@@ -248,11 +248,9 @@
               <td>{{ structure.usagers }}</td>
               <td>{{ structure.actifs }}</td>
               <td>
-                {{
-                  structure?.lastLogin
-                    ? (structure.lastLogin | date : "dd/MM/yyyy")
-                    : "❌ Jamais connecté"
-                }}
+                <app-display-last-login
+                  [lastLogin]="structure.lastLogin"
+                ></app-display-last-login>
               </td>
               <td>
                 {{ structure.regionName }}

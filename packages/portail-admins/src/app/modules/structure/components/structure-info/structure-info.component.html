@@ -47,11 +47,9 @@
         </span>
         <span class="ps-3">
           Dernière connexion <br />
-          {{
-            structure.lastLogin
-              ? (cachedStructure.lastLogin | date : "dd/MM/yyyy")
-              : "Jamais connecté"
-          }}
+          <app-display-last-login
+            [lastLogin]="cachedStructure.lastLogin"
+          ></app-display-last-login>
         </span>
       </div>
     </div>
