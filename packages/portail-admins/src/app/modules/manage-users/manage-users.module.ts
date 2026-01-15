@@ -12,6 +12,7 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from "@angular/common/http";
+import { DisplayLastLoginComponent } from "../shared/components/display-last-login/display-last-login.component";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {
     ManageUsersRoutingModule,
     FullNamePipe,
     SortArrayPipe,
+    DisplayLastLoginComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

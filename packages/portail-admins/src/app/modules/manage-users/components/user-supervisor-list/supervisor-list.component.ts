@@ -77,7 +77,7 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
       this.users = users.map((user) => {
         return {
           ...user,
-          lastLogin: user.lastLogin ? new Date(user.lastLogin) : null,
+          lastLogin: user?.lastLogin ? new Date(user.lastLogin) : null,
         };
       });
     });

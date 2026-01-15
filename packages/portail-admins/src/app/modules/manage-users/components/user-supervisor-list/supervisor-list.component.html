@@ -100,17 +100,9 @@
                 <td>{{ user.createdAt | date : "d MMMM y" }}</td>
 
                 <td>
-                  <ng-container *ngIf="user.lastLogin">
-                    <p>
-                      {{ user.lastLogin | date : "dd/MM/yyyy" }}
-                      <b *ngIf="user.lastLogin < twoMonthsAgo">
-                        <br />❌ Inactif depuis plus de 2 mois<br />
-                      </b>
-                    </p>
-                  </ng-container>
-                  <p class="fw-bold" *ngIf="!user.lastLogin">
-                    ❌ Compte jamais utilisé
-                  </p>
+                  <app-display-last-login
+                    [lastLogin]="user.lastLogin"
+                  ></app-display-last-login>
                 </td>
                 <td>
                   {{ USER_SUPERVISOR_ROLES_LABELS[user.role] }}

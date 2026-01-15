@@ -10,15 +10,15 @@ import { differenceInCalendarDays } from "date-fns";
   providedIn: "root",
 })
 export class ManageUsersService {
-  private endPoint = environment.apiUrl + "admin/users";
-  private usersSubject = new BehaviorSubject<UserSupervisor[]>([]);
+  private readonly endPoint = environment.apiUrl + "admin/users";
+  private readonly usersSubject = new BehaviorSubject<UserSupervisor[]>([]);
 
   // Observables dérivés
   readonly users$ = this.usersSubject.pipe(
     map((users) =>
       users.map((user) => ({
         ...user,
-        lastLogin: user.lastLogin ? new Date(user.lastLogin) : null,
+        lastLogin: user?.lastLogin ? new Date(user.lastLogin) : null,
         verified: user.lastLogin
           ? differenceInCalendarDays(new Date(), new Date(user.lastLogin)) < 60
           : false,
