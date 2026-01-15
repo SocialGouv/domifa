@@ -1,3 +1,4 @@
+<h3>Depuis notre lancement en 2019</h3>
 <div class="stats-charts-container py-4" *ngIf="!publicStats">
   <div class="row d-flex align-items-center">
     <div class="col-md-12 text-center">
@@ -13,57 +14,85 @@
     </div>
   </div>
 </div>
-<div class="stats-charts-container py-4" *ngIf="publicStats">
-  <div class="row d-flex align-items-center">
-    <div class="col-md-3">
-      <div class="text-center ps-md-4 pe-md-2 px-2">
-        <div class="fw-bold mb-3">Depuis notre lancement</div>
-        <button
-          type="button"
-          [ngClass]="selectedCharts === 'courriers' ? 'selected-stats' : ''"
-          class="stats-section py-4 mb-1"
-          (click)="selectChart('courriers')"
+<div *ngIf="publicStats">
+  <div class="row d-flex justify-content-center">
+    <div class="col-12 col-md-8">
+      <fieldset
+        class="fr-fieldset"
+        id="storybook-form"
+        aria-labelledby="storybook-form-legend storybook-form-messages"
+      >
+        <legend
+          class="fr-fieldset__legend--regular fr-fieldset__legend visually-hidden"
+          id="storybook-form-legend"
         >
-          <img
-            src="/assets/images/stats/courriers.svg"
-            aria-hidden="true"
-            alt="Courriers reçus depuis le lancement"
-          />
-          <div class="stats-section-counter text-primary">
-            {{ publicStats.courrierOutCount | formatBigNumber }}
+          Légende pour l’ensemble des éléments
+        </legend>
+        <div class="fr-fieldset__element fr-fieldset__element--inline">
+          <div class="fr-radio-group fr-radio-rich">
+            <input
+              type="radio"
+              id="radio-courriers"
+              name="stats-radio"
+              value="courriers"
+              [checked]="selectedCharts === 'courriers'"
+              (change)="selectChart('courriers')"
+            />
+            <label class="fr-label" for="radio-courriers">
+              <div class="fr-h3 mb-0 fr-text-title--blue-france">
+                {{ publicStats.courrierOutCount | formatBigNumber }}
+              </div>
+              <div class="stats-section-label">courriers distribués</div>
+            </label>
+            <div class="fr-radio-rich__pictogram">
+              <img
+                class="fr-artwork fr-artwork--défaut"
+                src="assets/dsfr-pictograms/digital/mail-send.svg"
+                alt=""
+              />
+            </div>
           </div>
-          <div class="stats-section-label">courriers distribués</div>
-        </button>
-
-        <button
-          type="button"
-          [ngClass]="selectedCharts === 'usagers' ? 'selected-stats' : ''"
-          class="stats-section py-4 mt-1"
-          (click)="selectChart('usagers')"
-        >
-          <img
-            src="/assets/images/stats/domicilies.svg"
-            aria-hidden="true"
-            alt="Domiciliés depuis le lancement"
-          />
-          <div class="stats-section-counter text-primary">
-            {{ publicStats.usagersCount | formatBigNumber }}
+        </div>
+        <div class="fr-fieldset__element fr-fieldset__element--inline">
+          <div class="fr-radio-group fr-radio-rich">
+            <input
+              type="radio"
+              id="radio-usagers"
+              name="radios-stat"
+              value="usagers"
+              [checked]="selectedCharts === 'usagers'"
+              (change)="selectChart('usagers')"
+            />
+            <label class="fr-label" for="radio-usagers">
+              <div class="fr-h3 mb-0 fr-text-title--blue-france">
+                {{ publicStats.usagersCount | formatBigNumber }}
+              </div>
+              <div class="stats-section-label">dossiers enregistrés</div>
+            </label>
+            <div class="fr-radio-rich__pictogram">
+              <img
+                class="fr-artwork fr-artwork--défaut"
+                src="assets/dsfr-pictograms/digital/avatar.svg"
+                alt=""
+              />
+            </div>
           </div>
-          <div class="stats-section-label">dossiers enregistrés</div>
-        </button>
-      </div>
+        </div>
+      </fieldset>
     </div>
-    <div class="col-md-9 ps-2 pe-4">
-      <div class="text-center fw-bold mb-3">
+  </div>
+  <div class="row d-flex align-items-center">
+    <div class="col-md-12 ps-2 pe-4">
+      <div class="text-start fw-bold mb-1">
         <span *ngIf="selectedCharts === 'courriers'">
-          Courrier distribué chaque mois
+          Courriers distribués chaque mois
         </span>
         <span *ngIf="selectedCharts === 'usagers'">
           Nouveaux domiciliés chaque mois
         </span>
       </div>
 
-      <div class="stats-section" *ngIf="publicStats">
+      <div *ngIf="publicStats">
         <div id="charts">
           <ngx-charts-bar-vertical
             [scheme]="colorScheme"
