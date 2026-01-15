@@ -122,7 +122,7 @@ export class StructuresAuthService {
           `Réactivation de compte utilisateur - userId: ${authUser.id}, structureId: ${authUser.structureId}`
         );
 
-        await appLogsRepository.insert({
+        await appLogsRepository.save({
           structureId: authUser.structureId,
           userId: authUser.id,
           usagerRef: null,
