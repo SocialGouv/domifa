@@ -34,8 +34,6 @@
   display: block;
   position: relative;
   background: #ffffff;
-  border: 1px solid rgba(72, 107, 255, 0.2);
-  margin: 1rem auto !important;
 }
 
 .tick {

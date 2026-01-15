@@ -18,7 +18,7 @@ import { STATS_REGIONS_FOR_MAP } from "../../../constants";
   templateUrl: "./stats-map.component.html",
   styleUrls: [
     "./stats-map.component.css",
-    "../../public-stats/public-stats.component.css",
+    "../../public-stats/public-stats.component.scss",
   ],
 })
 export class StatsMapComponent {
