@@ -139,7 +139,7 @@ export class AgendaController {
       usager,
       dateRdv: usager.rdv.dateRdv,
       assignedByUser:
-        currentUser.id !== assignedUser.id ? currentUser : undefined,
+        currentUser.id === assignedUser.id ? undefined : currentUser,
     });
   }
 }

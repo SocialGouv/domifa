@@ -19,6 +19,7 @@ import { DsfrButtonComponent, DsfrModalModule } from "@edugouvfr/ngx-dsfr";
 import { StructureFormRefuseComponent } from "./components/structure-form-refuse/structure-form-refuse.component";
 import { AdminStructureContainerComponent } from "../structure/components/admin-structure-container/admin-structure-container.component";
 import { RegisterUserComponent } from "src/app/modules/structure/components/register-user/register-user.component";
+import { DisplayLastLoginComponent } from "../shared/components/display-last-login/display-last-login.component";
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { RegisterUserComponent } from "src/app/modules/structure/components/regi
     DsfrButtonComponent,
     StructureFormRefuseComponent,
     RegisterUserComponent,
+    DisplayLastLoginComponent,
   ],
   providers: [StatsService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
