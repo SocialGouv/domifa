@@ -134,7 +134,7 @@ export class CronSmsFetchEndDomService {
    AND u."contactByPhone" = TRUE
    AND (u.decision->>'dateFin')::date = (current_date + interval '1 month')::date
    AND (s.sms->>'enabledByDomifa')::boolean is true
-   AND (s.sms->>'enabledByStructure')::booleanis true
+   AND (s.sms->>'enabledByStructure')::boolean is true
    AND s."timeZone" = $1`,
       [timeZone]
     );
