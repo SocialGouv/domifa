@@ -1,4 +1,3 @@
-import { CronExpression } from "@nestjs/schedule";
 import { decodeMainSecret } from "@socialgouv/streaming-file-encryption";
 
 import { appLogger } from "../util";
@@ -10,7 +9,7 @@ import {
   DOMIFA_ENV_IDS,
 } from "./model";
 import { configParser } from "./services/configParser.service";
-import { join } from "path";
+import { join } from "node:path";
 
 let _domifaConfig: DomifaConfig;
 
@@ -184,38 +183,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       enable: configParser.parseBoolean(x, "DOMIFA_CRON_ENABLED", {
         defaultValue: false,
       }),
-      smsConsumer: {
-        crontime: configParser.parseString(
-          x,
-          "DOMIFA_CRON_SMS_CONSUMER_CRONTIME",
-          {
-            defaultValue: "00 19 * * 1-5",
-          }
-        ),
-        fetchEndDomCronTime: configParser.parseString(
-          x,
-          "DOMIFA_CRON_FETCH_END_DOM_CRONTIME",
-          {
-            defaultValue: "0 18 * * *",
-          }
-        ),
-      },
-      monitoringCleaner: {
-        crontime: configParser.parseString(
-          x,
-          "DOMIFA_CRON_MONITORING_CLEANER_CRONTIME",
-          {
-            defaultValue: CronExpression.EVERY_DAY_AT_11PM,
-          }
-        ),
-        delay: configParser.parseDelay(
-          x,
-          "DOMIFA_CRON_MONITORING_CLEANER_DELAY",
-          {
-            defaultValue: "7 days",
-          }
-        ),
-      },
     },
     brevo: {
       apiKey: configParser.parseString(x, "DOMIFA_MAIL_BREVO_API_KEY", {

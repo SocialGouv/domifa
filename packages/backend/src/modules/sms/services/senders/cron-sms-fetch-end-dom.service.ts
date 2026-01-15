@@ -1,6 +1,6 @@
 import { MessageSmsSenderService } from "../message-sms-sender.service";
 import { Injectable } from "@nestjs/common";
-import { Cron } from "@nestjs/schedule";
+import { Cron, CronExpression } from "@nestjs/schedule";
 import { setMinutes, setHours } from "date-fns";
 import { PhoneNumberFormat } from "google-libphonenumber";
 import { domifaConfig } from "../../../../config";
@@ -25,7 +25,7 @@ export class CronSmsFetchEndDomService {
     private readonly messageSmsSenderService: MessageSmsSenderService
   ) {}
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
+  @Cron(CronExpression.EVERY_DAY_AT_6PM, {
     timeZone: "Europe/Paris",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -33,7 +33,7 @@ export class CronSmsFetchEndDomService {
     await this.fetchUsagerEndDom("Europe/Paris");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
+  @Cron(CronExpression.EVERY_DAY_AT_6PM, {
     timeZone: "America/Martinique",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -42,7 +42,7 @@ export class CronSmsFetchEndDomService {
     await this.fetchUsagerEndDom("America/Martinique");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
+  @Cron(CronExpression.EVERY_DAY_AT_6PM, {
     timeZone: "America/Cayenne",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -50,7 +50,7 @@ export class CronSmsFetchEndDomService {
     await this.fetchUsagerEndDom("America/Cayenne");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
+  @Cron(CronExpression.EVERY_DAY_AT_6PM, {
     timeZone: "Indian/Mayotte",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -58,7 +58,7 @@ export class CronSmsFetchEndDomService {
     await this.fetchUsagerEndDom("Indian/Mayotte");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
+  @Cron(CronExpression.EVERY_DAY_AT_6PM, {
     timeZone: "Pacific/Noumea",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -66,7 +66,7 @@ export class CronSmsFetchEndDomService {
     await this.fetchUsagerEndDom("Pacific/Noumea");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
+  @Cron(CronExpression.EVERY_DAY_AT_6PM, {
     timeZone: "Pacific/Tahiti",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -74,7 +74,7 @@ export class CronSmsFetchEndDomService {
     await this.fetchUsagerEndDom("Pacific/Tahiti");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
+  @Cron(CronExpression.EVERY_DAY_AT_6PM, {
     timeZone: "America/Miquelon",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -82,7 +82,7 @@ export class CronSmsFetchEndDomService {
     await this.fetchUsagerEndDom("America/Miquelon");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
+  @Cron(CronExpression.EVERY_DAY_AT_6PM, {
     timeZone: "Indian/Maldives",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -90,7 +90,7 @@ export class CronSmsFetchEndDomService {
     await this.fetchUsagerEndDom("Indian/Maldives");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
+  @Cron(CronExpression.EVERY_DAY_AT_6PM, {
     timeZone: "Indian/Reunion",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -98,7 +98,7 @@ export class CronSmsFetchEndDomService {
     await this.fetchUsagerEndDom("Indian/Reunion");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.fetchEndDomCronTime, {
+  @Cron(CronExpression.EVERY_DAY_AT_6PM, {
     timeZone: "Pacific/Wallis",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -127,13 +127,15 @@ export class CronSmsFetchEndDomService {
       telephone: Telephone;
       sms: StructureSmsParams;
     }[] = await usagerRepository.query(
-      `SELECT "structureId", "ref", "contactByPhone", u."telephone", s.sms
-        FROM usager u
-        join structure s on s.id = u."structureId"
-        WHERE decision->>'statut' = 'VALIDE'
-        AND "contactByPhone" is true
-        AND to_char((decision->>'dateFin')::timestamptz, 'YYYY-MM-DD') = to_char(current_date + interval '1 month' , 'YYYY-MM-DD')
-        and (s.sms->>'enabledByDomifa')::boolean is true and (s.sms->>'enabledByStructure')::boolean is true AND "timeZone" = $1`,
+      `SELECT u."structureId", u."ref", u."contactByPhone", u."telephone", s.sms
+   FROM usager u
+   JOIN structure s ON s.id = u."structureId"
+   WHERE u.decision->>'statut' = 'VALIDE'
+   AND u."contactByPhone" = TRUE
+   AND (u.decision->>'dateFin')::date = (current_date + interval '1 month')::date
+   AND (s.sms->>'enabledByDomifa')::boolean is true
+   AND (s.sms->>'enabledByStructure')::booleanis true
+   AND s."timeZone" = $1`,
       [timeZone]
     );
 

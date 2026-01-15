@@ -1,4 +1,3 @@
-import { DomifaConfigDelay } from "./DomifaConfigDelay.type";
 import { DomifaConfigPostgres } from "./DomifaConfigPostgres.type";
 import { DomifaEnvId } from "./DomifaEnvId.type";
 
@@ -43,15 +42,6 @@ export type DomifaConfig = {
   };
   cron: {
     enable: boolean; // DOMIFA_CRON_ENABLED
-
-    smsConsumer: {
-      crontime: string; // DOMIFA_CRON_SMS_CONSUMER_CRONTIME
-      fetchEndDomCronTime: string; // DOMIFA_CRON_FETCH_END_DOM_CRONTIME
-    };
-    monitoringCleaner: {
-      crontime: string; // DOMIFA_CRON_MONITORING_CLEANER_CRONTIME
-      delay: DomifaConfigDelay; // DOMIFA_CRON_MONITORING_CLEANER_DELAY
-    };
   };
   brevo: {
     apiKey: string; // DOMIFA_MAIL_BREVO_API_KEY

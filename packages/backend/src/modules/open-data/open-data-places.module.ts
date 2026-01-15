@@ -1,7 +1,8 @@
 import { Module } from "@nestjs/common";
-import { UpdateOpenDataPlacesService } from "./services/update-open-data-places/update-open-data-places.service";
+import { LoadDomifaDataService } from "./services/import-data/load-domifa";
+import { LoadSoliguideDataService } from "./services/import-data/load-soliguide";
 
 @Module({
-  providers: [UpdateOpenDataPlacesService],
+  providers: [LoadDomifaDataService, LoadSoliguideDataService],
 })
 export class OpenDataPlacesModule {}

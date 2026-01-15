@@ -105,11 +105,16 @@ export class ContactSupportController {
             name: "DomiFa",
           },
         ],
+        replyTo: {
+          email: contactSupportDto.email,
+          name: contactSupportDto.name,
+        },
         attachmentPath: file?.path,
       });
 
       return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (error) {
+      console.log(error);
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "CONTACT_FORM_ERROR" });
