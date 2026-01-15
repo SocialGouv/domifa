@@ -2,7 +2,12 @@ import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { differenceInCalendarDays } from "date-fns";
 import { domifaConfig } from "../../config";
-import { userStructureRepository, structureRepository } from "../../database";
+import {
+  userStructureRepository,
+  structureRepository,
+  appLogsRepository,
+} from "../../database";
+import { appLogger } from "../../util";
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
   UserStructureAuthenticated,
@@ -73,7 +78,28 @@ export class StructuresAuthService {
       ? new Date(authUser.structure.lastLogin)
       : new Date(authUser.structure.createdAt);
 
-    if (differenceInCalendarDays(today, structureLastLogin) > 0) {
+    const structureInactivityDays = differenceInCalendarDays(
+      today,
+      structureLastLogin
+    );
+    if (structureInactivityDays > 0) {
+      // Vérifier si c'est une réactivation (lastLogin était nul ou > 12 mois)
+      const isStructureReactivation =
+        !authUser.structure.lastLogin || structureInactivityDays > 365;
+
+      if (isStructureReactivation) {
+        appLogger.info(
+          `Réactivation de structure - structureId: ${authUser.structureId}`
+        );
+
+        await appLogsRepository.save({
+          structureId: authUser.structureId,
+          userId: authUser.id,
+          usagerRef: null,
+          action: "REACTIVATION_STRUCTURE",
+        });
+      }
+
       await structureRepository.update(
         { id: authUser.structureId },
         { lastLogin: today }
@@ -85,7 +111,25 @@ export class StructuresAuthService {
       ? new Date(authUser.lastLogin)
       : new Date(authUser.createdAt);
 
-    if (differenceInCalendarDays(today, userLastLogin) > 0) {
+    const userInactivityDays = differenceInCalendarDays(today, userLastLogin);
+    if (userInactivityDays > 0) {
+      // Vérifier si c'est une réactivation (lastLogin était nul ou > 12 mois)
+      const isUserReactivation =
+        !authUser.lastLogin || userInactivityDays > 365;
+
+      if (isUserReactivation) {
+        appLogger.info(
+          `Réactivation de compte utilisateur - userId: ${authUser.id}, structureId: ${authUser.structureId}`
+        );
+
+        await appLogsRepository.insert({
+          structureId: authUser.structureId,
+          userId: authUser.id,
+          usagerRef: null,
+          action: "REACTIVATION_ACCOUNT",
+        });
+      }
+
       await userStructureRepository.update(
         { id: authUser.id, structureId: authUser.structureId },
         { lastLogin: today }

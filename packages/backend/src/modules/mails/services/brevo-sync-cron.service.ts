@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, OnModuleInit } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { userStructureRepository } from "../../../database";
 import { appLogsRepository } from "../../../database/services/app-log";
@@ -8,12 +8,20 @@ import { domifaConfig } from "../../../config";
 import { appLogger } from "../../../util";
 
 @Injectable()
-export class BrevoSyncCronService {
+export class BrevoSyncCronService implements OnModuleInit {
   private readonly BATCH_SIZE = 250;
+  private readonly DELAY_BETWEEN_BATCHES = 500;
 
   constructor(private readonly brevoSenderService: BrevoSenderService) {}
+  async onModuleInit(): Promise<void> {
+    appLogger.info("BrevoSyncCronService initialisé");
 
-  @Cron(CronExpression.EVERY_DAY_AT_2AM, {
+    if (isCronEnabled() && domifaConfig().envId === "prod") {
+      await this.syncUsersToBrevo();
+    }
+  }
+  @Cron(CronExpression.EVERY_DAY_AT_1AM, {
+    timeZone: "Europe/Paris",
     disabled: !isCronEnabled() || domifaConfig().envId !== "prod",
   })
   async syncUsersToBrevo(): Promise<void> {
@@ -23,74 +31,102 @@ export class BrevoSyncCronService {
     try {
       const users = await userStructureRepository.getAllUsersForSync();
 
-      let successCount = 0;
-      let errorCount = 0;
-
-      for (let i = 0; i < users.length; i += this.BATCH_SIZE) {
-        const batch = users.slice(i, i + this.BATCH_SIZE);
-        const batchNumber = Math.floor(i / this.BATCH_SIZE) + 1;
-
-        try {
-          for (const user of batch) {
-            try {
-              await this.brevoSenderService.syncContactToBrevo(user);
-              successCount++;
-            } catch (userError) {
-              errorCount++;
-              appLogger.warn(
-                `Erreur lors de la synchronisation de l'utilisateur ${user.id}`,
-                userError
-              );
-            }
-          }
-
-          appLogger.info(
-            `Batch ${batchNumber}: ${batch.length} contacts traités`
-          );
-        } catch (error) {
-          errorCount += batch.length;
-          appLogger.error(
-            `Erreur lors du traitement du batch ${batchNumber}`,
-            error
-          );
-        }
-
-        if (i + this.BATCH_SIZE < users.length) {
-          await this.sleep(500);
-        }
+      if (users.length === 0) {
+        appLogger.info("Aucun utilisateur à synchroniser");
+        return;
       }
 
+      const results = await this.processBatches(users);
       const duration = Date.now() - startTime;
 
-      await appLogsRepository.save(
-        appLogsRepository.create({
-          action: "BREVO_SYNC",
-          context: {
-            totalUsers: users.length,
-            successCount,
-            errorCount,
-            durationMs: duration,
-          },
-        })
-      );
-
+      await this.logResults(results, users.length, duration);
       appLogger.info(
-        `Synchronisation terminée: ${successCount} succès, ${errorCount} erreurs en ${duration}ms`
+        `Synchronisation terminée: ${results.success} succès, ${results.error} erreurs en ${duration}ms`
       );
     } catch (error) {
-      appLogger.error("Erreur fatale lors de la synchronisation Brevo", error);
-
-      await appLogsRepository.save(
-        appLogsRepository.create({
-          action: "BREVO_SYNC",
-          context: {
-            error: error instanceof Error ? error.message : "Unknown error",
-          },
-        })
-      );
-
+      await this.logError(error);
       throw error;
     }
+  }
+
+  private async processBatches(
+    users: any[]
+  ): Promise<{ success: number; error: number }> {
+    let successCount = 0;
+    let errorCount = 0;
+
+    for (let i = 0; i < users.length; i += this.BATCH_SIZE) {
+      const batch = users.slice(i, i + this.BATCH_SIZE);
+      const batchNumber = Math.floor(i / this.BATCH_SIZE) + 1;
+
+      const batchResults = await this.processBatch(batch);
+      successCount += batchResults.success;
+      errorCount += batchResults.error;
+
+      appLogger.info(
+        `Batch ${batchNumber}: ${batchResults.success} succès, ${batchResults.error} erreurs`
+      );
+
+      // Délai avant le prochain batch
+      if (i + this.BATCH_SIZE < users.length) {
+        await this.sleep(this.DELAY_BETWEEN_BATCHES);
+      }
+    }
+
+    return { success: successCount, error: errorCount };
+  }
+
+  private async processBatch(
+    batch: any[]
+  ): Promise<{ success: number; error: number }> {
+    let success = 0;
+    let error = 0;
+
+    for (const user of batch) {
+      try {
+        await this.brevoSenderService.syncContactToBrevo(user);
+        success++;
+      } catch (userError) {
+        error++;
+        appLogger.warn(
+          `Erreur synchronisation utilisateur ${user.id}`,
+          userError
+        );
+      }
+    }
+
+    return { success, error };
+  }
+
+  private async logResults(
+    results: { success: number; error: number },
+    totalUsers: number,
+    durationMs: number
+  ): Promise<void> {
+    await appLogsRepository.save(
+      appLogsRepository.create({
+        action: "BREVO_SYNC",
+        context: {
+          totalUsers,
+          successCount: results.success,
+          errorCount: results.error,
+          durationMs,
+        },
+      })
+    );
+  }
+
+  private async logError(error: unknown): Promise<void> {
+    appLogger.error("Erreur fatale lors de la synchronisation Brevo", error);
+
+    await appLogsRepository.save(
+      appLogsRepository.create({
+        action: "BREVO_SYNC",
+        context: {
+          error: error instanceof Error ? error.message : "Unknown error",
+        },
+      })
+    );
   }
 
   private sleep(ms: number): Promise<void> {

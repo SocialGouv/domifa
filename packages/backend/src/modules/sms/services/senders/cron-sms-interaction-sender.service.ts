@@ -13,13 +13,16 @@ import {
 import { appLogger } from "../../../../util";
 import { MessageSmsSenderService } from "../message-sms-sender.service";
 
+// Cron: du lundi au vendredi à 19h00
+const WEEKDAY_AT_7PM = "0 19 * * 1-5";
+
 @Injectable()
 export class CronSmsInteractionSenderService {
   constructor(
     private readonly messageSmsSenderService: MessageSmsSenderService
   ) {}
 
-  @Cron(domifaConfig().cron.smsConsumer.crontime, {
+  @Cron(WEEKDAY_AT_7PM, {
     timeZone: "Europe/Paris",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -27,7 +30,7 @@ export class CronSmsInteractionSenderService {
     await this.sendSmsInteraction("cron", "Europe/Paris");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.crontime, {
+  @Cron(WEEKDAY_AT_7PM, {
     timeZone: "America/Martinique",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -36,7 +39,7 @@ export class CronSmsInteractionSenderService {
     await this.sendSmsInteraction("cron", "America/Guadeloupe");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.crontime, {
+  @Cron(WEEKDAY_AT_7PM, {
     timeZone: "America/Cayenne",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -44,7 +47,7 @@ export class CronSmsInteractionSenderService {
     await this.sendSmsInteraction("cron", "America/Cayenne");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.crontime, {
+  @Cron(WEEKDAY_AT_7PM, {
     timeZone: "Indian/Mayotte",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -52,7 +55,7 @@ export class CronSmsInteractionSenderService {
     await this.sendSmsInteraction("cron", "Indian/Mayotte");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.crontime, {
+  @Cron(WEEKDAY_AT_7PM, {
     timeZone: "Pacific/Noumea",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -60,14 +63,14 @@ export class CronSmsInteractionSenderService {
     await this.sendSmsInteraction("cron", "Pacific/Noumea");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.crontime, {
+  @Cron(WEEKDAY_AT_7PM, {
     timeZone: "Pacific/Tahiti",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
   protected async sendSmsTahiti() {
     await this.sendSmsInteraction("cron", "Pacific/Tahiti");
   }
-  @Cron(domifaConfig().cron.smsConsumer.crontime, {
+  @Cron(WEEKDAY_AT_7PM, {
     timeZone: "America/Miquelon",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -75,14 +78,14 @@ export class CronSmsInteractionSenderService {
     await this.sendSmsInteraction("cron", "America/Miquelon");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.crontime, {
+  @Cron(WEEKDAY_AT_7PM, {
     timeZone: "Indian/Maldives",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
   protected async sendSmsMaldives() {
     await this.sendSmsInteraction("cron", "Indian/Maldives");
   }
-  @Cron(domifaConfig().cron.smsConsumer.crontime, {
+  @Cron(WEEKDAY_AT_7PM, {
     timeZone: "Pacific/Wallis",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
@@ -90,7 +93,7 @@ export class CronSmsInteractionSenderService {
     await this.sendSmsInteraction("cron", "Pacific/Wallis");
   }
 
-  @Cron(domifaConfig().cron.smsConsumer.crontime, {
+  @Cron(WEEKDAY_AT_7PM, {
     timeZone: "Indian/Reunion",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
