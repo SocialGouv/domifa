@@ -1,22 +1,12 @@
 import { UsagerFormModel } from "./../../interfaces/UsagerFormModel";
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-} from "@angular/core";
+import { Component, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
-import {
-  DEFAULT_MODAL_OPTIONS,
-  UsagerLight,
-} from "../../../../../_common/model";
+import { UsagerLight } from "../../../../../_common/model";
 
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { UsagerDecisionService } from "../../services/usager-decision.service";
-import { Decision } from "../../interfaces";
+import { Decision, DeleteUsagerContext } from "../../interfaces";
 import { Subscription } from "rxjs";
 import {
   USAGER_DECISION_STATUT_LABELS,
@@ -25,6 +15,7 @@ import {
 } from "@domifa/common";
 import { getUrlUsagerProfil } from "../../utils";
 import { AuthService } from "../../../shared/services";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   styleUrls: ["./delete-usager-menu.component.css"],
@@ -32,12 +23,11 @@ import { AuthService } from "../../../shared/services";
   templateUrl: "./delete-usager-menu.component.html",
 })
 export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public context!:
-    | "MANAGE"
-    | "HISTORY"
-    | "PROFIL"
-    | "INSTRUCTION_FORM";
+  @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public context!: DeleteUsagerContext;
+
+  @ViewChild("deleteDecisionModal") deleteDecisionModal!: DsfrModalComponent;
+  @ViewChild("deleteUsagerModal") deleteUsagerModal!: DsfrModalComponent;
 
   private readonly subscription = new Subscription();
 
@@ -59,7 +49,6 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly router: Router,
-    private readonly modalService: NgbModal,
     private readonly usagerDecisionService: UsagerDecisionService,
     private readonly toastService: CustomToastService,
     private readonly authService: AuthService
@@ -74,7 +63,7 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     const user = this.authService.currentUserValue;
     this.isAdmin = user?.role === "admin" || user?.role === "responsable";
-
+    console.log(this.usager);
     this.selectedRefs.add(this.usager.ref);
     if (this.usager.historique.length > 1) {
       this.getPreviousStatus();
@@ -90,12 +79,26 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
     this.previousStatus = USAGER_DECISION_STATUT_LABELS[statut];
   }
 
-  public open(content: TemplateRef<NgbModalRef>): void {
-    this.modalService.open(content, DEFAULT_MODAL_OPTIONS);
+  public openModal(modalId: string): void {
+    const modal = document.getElementById(modalId) as HTMLDialogElement;
+    modal?.showModal();
   }
 
-  public closeModals(): void {
-    this.modalService.dismissAll();
+  public closeModal(modalId: string): void {
+    const modal = document.getElementById(modalId) as HTMLDialogElement;
+    modal?.close();
+  }
+
+  public onDeleteClick(): void {
+    if (this.context === "PROFIL") {
+      this.openModal("modal-delete-usager");
+    } else if (this.context === "INSTRUCTION_FORM") {
+      if (this.usager.historique.length > 1) {
+        this.openModal("modal-delete-decision");
+      } else {
+        this.openModal("modal-delete-usager");
+      }
+    }
   }
 
   public deleteDecision(): void {
@@ -104,7 +107,7 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
       this.usagerDecisionService.deleteDecision(this.usager).subscribe({
         next: (newUsager: UsagerLight) => {
           this.toastService.success("Décision supprimée avec succès");
-          this.modalService.dismissAll();
+          this.closeModal("modal-delete-decision");
           setTimeout(() => {
             this.loading = false;
             const redirection = getUrlUsagerProfil(newUsager);

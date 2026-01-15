@@ -8,21 +8,19 @@
 
 <dsfr-modal
   #modal
-  [title]="'Nouvelle note concernant ' + usager.nom + ' ' + usager.prenom"
+  [titleModal]="'Nouvelle note concernant ' + usager.nom + ' ' + usager.prenom"
   [isScrollable]="true"
+  [size]="'LG'"
 >
   <form [formGroup]="addNoteForm" (ngSubmit)="submit()">
     <div
-      class="fr-form-group"
+      class="fr-input-group"
       [ngClass]="{
-        'fr-form-group--error':
+        'fr-input-group--error':
           (f.message.dirty || submitted) && f.message.errors
       }"
     >
-      <label class="fr-label" for="message">
-        Contenu de la note
-        <span aria-label="obligatoire">*</span>
-      </label>
+      <label class="fr-label" for="message"> Contenu de la note </label>
       <textarea
         class="fr-input"
         formControlName="message"
@@ -52,9 +50,15 @@
     </div>
     <app-rgpd-warning></app-rgpd-warning>
 
-    <div
-      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-mt-3w"
-    >
+    <div class="fr-btns-group fr-btns-group--inline fr-btns-group--right">
+      <button
+        type="button"
+        class="fr-btn fr-btn--secondary"
+        (click)="cancel.emit()"
+      >
+        Annuler
+      </button>
+
       <button
         type="submit"
         class="fr-btn"
@@ -72,13 +76,6 @@
           </span>
           Veuillez patienter...
         </span>
-      </button>
-      <button
-        type="button"
-        class="fr-btn fr-btn--secondary"
-        (click)="cancel.emit()"
-      >
-        Annuler
       </button>
     </div>
   </form>

@@ -35,6 +35,7 @@ import { FullNamePipe } from "../usager-shared/pipes";
 import { FormStepperComponent } from "./components/form-stepper/form-stepper.component";
 import { DsfrDatePickerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { PhoneInputComponent } from "../usager-shared/components/input-phone-international/input-phone-international.component";
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
     FullNamePipe,
     DsfrDatePickerComponent,
     DsfrModalComponent,
+    PhoneInputComponent,
   ],
   providers: [
     NgbDateCustomParserFormatter,

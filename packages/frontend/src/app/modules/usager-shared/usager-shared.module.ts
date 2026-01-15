@@ -50,7 +50,6 @@ import { FormatInternationalPhoneNumberPipe } from "../../shared/phone";
 @NgModule({
   declarations: [
     DecisionRadiationFormComponent,
-    DeleteUsagerComponent,
     DeleteUsagerMenuComponent,
     DisplayAyantsDroitsComponent,
     DisplayDuplicatesUsagerComponent,
@@ -69,6 +68,7 @@ import { FormatInternationalPhoneNumberPipe } from "../../shared/phone";
     ReferrerNamePipe,
     DisplayContactDetailsComponent,
     DisplayEtatCivilComponent,
+    DeleteUsagerComponent,
   ],
   exports: [
     DecisionRadiationFormComponent,

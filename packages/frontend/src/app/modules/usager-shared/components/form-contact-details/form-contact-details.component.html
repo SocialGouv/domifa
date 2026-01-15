@@ -1,150 +1,151 @@
-<form
-  [formGroup]="contactDetailsForm"
-  (ngSubmit)="updateInfos()"
-  *ngIf="currentUserSubject$ | async as me"
->
-  <div class="row">
-    <div
-      class="col-md-4 col-12"
-      *ngIf="
-        me.structure.sms.enabledByDomifa && me.structure.sms.enabledByStructure
-      "
-    >
-      <fieldset>
-        <legend>
-          Le demandeur souhaite-t-il recevoir des notifications par SMS (arrivée
-          d'un courrier, échéance de domiciliation) ?
-        </legend>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="contactByPhone"
-            name="contactByPhone"
-            id="sms_oui"
-            [value]="true"
-          />
-          <label class="form-check-label" for="sms_oui">Oui</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="contactByPhone"
-            name="contactByPhone"
-            id="sms_non"
-            [value]="false"
-          />
-          <label class="form-check-label" for="sms_non">Non</label>
-        </div>
-      </fieldset>
-    </div>
-    <div class="col-md-4 col-12">
-      <div
-        class="form-group"
-        [ngClass]="
-          f.contactByPhone.value === true ? 'required form-group' : 'form-group'
-        "
-      >
-        <label for="telephone">Numéro de téléphone (mobile uniquement)</label>
-        <ngx-intl-tel-input
-          [cssClass]="
-            submitted && (f.telephone.errors || f.telephone.invalid)
-              ? 'form-control is-invalid'
-              : 'form-control'
-          "
-          [preferredCountries]="PREFERRED_COUNTRIES"
-          [enableAutoCountrySelect]="false"
-          [enablePlaceholder]="true"
-          [searchCountryFlag]="true"
-          [customPlaceholder]="mobilePhonePlaceHolder"
-          searchCountryPlaceholder="Choisissez un pays"
-          [searchCountryField]="[
-            SearchCountryField.Iso2,
-            SearchCountryField.Name
-          ]"
-          [selectFirstCountry]="false"
-          [maxLength]="15"
-          [phoneValidation]="true"
-          [separateDialCode]="true"
-          [numberFormat]="PhoneNumberFormat.International"
-          inputId="telephone"
-          formControlName="telephone"
-          name="telephone"
-          (countryChange)="updatePlaceHolder($event.iso2)"
-          [selectedCountryISO]="f.telephone?.value?.countryCode"
-        ></ngx-intl-tel-input>
+<ng-container *ngIf="currentUserSubject$ | async as me">
+  <form [formGroup]="contactDetailsForm" (ngSubmit)="updateInfos()">
+    <div class="fr-grid-row fr-grid-row--gutters">
+      @if ( me.structure.sms.enabledByDomifa &&
+      me.structure.sms.enabledByStructure ) {
+      <div class="fr-col-12 fr-col-md-4">
+        <fieldset class="fr-fieldset">
+          <legend class="fr-fieldset__legend fr-text--bold">
+            Le demandeur souhaite-t-il recevoir des notifications par SMS
+            (arrivée d'un courrier, échéance de domiciliation) ?
+          </legend>
+          <div class="fr-fieldset__content">
+            <div class="fr-form-group">
+              <div class="fr-radio-group">
+                <input
+                  type="radio"
+                  id="sms_oui"
+                  formControlName="contactByPhone"
+                  [value]="true"
+                />
+                <label class="fr-label" for="sms_oui">Oui</label>
+              </div>
+            </div>
+            <div class="fr-form-group">
+              <div class="fr-radio-group">
+                <input
+                  type="radio"
+                  id="sms_non"
+                  formControlName="contactByPhone"
+                  [value]="false"
+                />
+                <label class="fr-label" for="sms_non">Non</label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      }
 
-        <p
-          *ngIf="submitted && f.telephone.errors"
-          class="invalid-feedback-custom"
-        >
-          Numéro de téléphone incorrect, mobile uniquement (Ex: 0606060606)
-        </p>
-        <p
-          *ngIf="
-            !PREFERRED_COUNTRIES.includes(
-              f.telephone?.value?.countryCode.toLowerCase()
-            ) &&
-            f.telephone?.value &&
-            f?.contactByPhone?.value === true
-          "
-          class="invalid-feedback-custom"
-        >
-          Attention: les SMS ne sont pas envoyés aux numéros étrangers
-        </p>
+      <div class="fr-col-12 fr-col-md-4">
+        <div class="fr-form-group">
+          <label class="fr-label" for="telephone">
+            Numéro de téléphone (mobile uniquement) @if (f.contactByPhone.value
+            === true) {
+            <span class="fr-badge fr-badge--info">Requis</span>
+            }
+          </label>
+          <ngx-intl-tel-input
+            [cssClass]="
+              submitted && (f.telephone.errors || f.telephone.invalid)
+                ? 'fr-input fr-input--error'
+                : 'fr-input'
+            "
+            [preferredCountries]="PREFERRED_COUNTRIES"
+            [enableAutoCountrySelect]="false"
+            [enablePlaceholder]="true"
+            [searchCountryFlag]="true"
+            [customPlaceholder]="mobilePhonePlaceHolder"
+            searchCountryPlaceholder="Choisissez un pays"
+            [searchCountryField]="[
+              SearchCountryField.Iso2,
+              SearchCountryField.Name
+            ]"
+            [selectFirstCountry]="false"
+            [maxLength]="15"
+            [phoneValidation]="true"
+            [separateDialCode]="true"
+            [numberFormat]="PhoneNumberFormat.International"
+            inputId="telephone"
+            formControlName="telephone"
+            (countryChange)="updatePlaceHolder($event.iso2)"
+            [selectedCountryISO]="f.telephone?.value?.countryCode"
+            [attr.aria-describedby]="
+              submitted && (f.telephone.errors || f.telephone.invalid)
+                ? 'telephone-errors'
+                : null
+            "
+            [attr.aria-invalid]="
+              submitted && (f.telephone.errors || f.telephone.invalid)
+                ? true
+                : false
+            "
+          ></ngx-intl-tel-input>
+
+          @if (submitted && f.telephone.errors) {
+          <p id="telephone-errors" class="fr-error-text">
+            Numéro de téléphone incorrect, mobile uniquement (Ex: 0606060606)
+          </p>
+          } @if ( !PREFERRED_COUNTRIES.includes(
+          f.telephone?.value?.countryCode.toLowerCase() ) && f.telephone?.value
+          && f?.contactByPhone?.value === true ) {
+          <p class="fr-notice__text fr-notice__text--warning">
+            ⚠️ Attention : les SMS ne sont pas envoyés aux numéros étrangers
+          </p>
+          }
+        </div>
+      </div>
+
+      <div class="fr-col-12 fr-col-md-4">
+        <div class="fr-form-group">
+          <label class="fr-label" for="email">Adresse e-mail</label>
+          <input
+            type="email"
+            id="email"
+            class="fr-input"
+            formControlName="email"
+            [class.fr-input--error]="
+              (f.email.dirty || submitted) && f.email.errors
+            "
+            [attr.aria-describedby]="
+              (f.email.dirty || submitted) && f.email.errors
+                ? 'email-errors'
+                : null
+            "
+            [attr.aria-invalid]="
+              (f.email.dirty || submitted) && f.email.errors ? true : false
+            "
+          />
+          @if ((f.email.dirty || submitted) && f.email.errors) {
+          <p id="email-errors" class="fr-error-text">
+            Veuillez vérifier l'adresse email, format attendu :
+            nom&#64;domaine.fr
+          </p>
+          }
+        </div>
       </div>
     </div>
-    <div class="col-md-4 col-12">
-      <div class="form-group">
-        <label for="email">Adresse e-mail</label>
-        <input
-          type="email"
-          class="form-control"
-          id="email"
-          formControlName="email"
-          name="email"
-          [ngClass]="{
-            'is-invalid': (f.email.dirty || submitted) && f.email.errors
-          }"
-          [attr.aria-describedby]="
-            (f.email.dirty || submitted) && f.email.errors
-              ? 'email-errors'
-              : null
-          "
-          [attr.aria-invalid]="
-            (f.email.dirty || submitted) && f.email.errors ? true : false
-          "
-        />
-        <p
-          *ngIf="(f.email.dirty || submitted) && f.email.errors"
-          id="email-errors"
-          class="invalid-feedback"
-        >
-          Veuillez vérifier l'adresse email, format attendu : nom&#64;domaine.fr
-        </p>
-      </div>
-    </div>
-  </div>
 
-  <div class="d-grid my-4 mx-auto col-md-4 col-12col-12">
-    <button
-      type="submit"
-      class="btn btn-primary btn-block"
-      [disabled]="loading"
-      [attr.aria-busy]="loading"
-    >
-      <span *ngIf="!loading"> Enregistrer les modifications </span>
-
-      <span *ngIf="loading"
-        ><fa-icon
-          [icon]="['fas', 'circle-notch']"
-          aria-hidden="true"
-          animation="spin"
-        >
-        </fa-icon>
-        Veuillez patienter...</span
+    <div class="fr-my-4w">
+      <button
+        type="submit"
+        class="fr-btn"
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
       >
-    </button>
-  </div>
-</form>
+        @if (!loading) {
+        <span>Enregistrer les modifications</span>
+        } @else {
+        <span>
+          <fa-icon
+            [icon]="['fas', 'circle-notch']"
+            aria-hidden="true"
+            animation="spin"
+          ></fa-icon>
+          Veuillez patienter...
+        </span>
+        }
+      </button>
+    </div>
+  </form>
+</ng-container>

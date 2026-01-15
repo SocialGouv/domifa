@@ -5,15 +5,14 @@
   </p>
 
   <div
-    class="fr-form-group"
-    [class.fr-form-group--error]="
+    class="fr-input-group"
+    [class.fr-input-group--error]="
       (f.message.dirty || submitted) && f.message.errors
     "
   >
     <label class="fr-label" for="message">
       Motif d'ajournement du dossier (Exemples: document manquant, dossier
       incomplet, etc.)
-      <span aria-label="obligatoire">*</span>
     </label>
     <textarea
       class="fr-input"
@@ -44,7 +43,7 @@
     }
   </div>
 
-  <div class="fr-btns-group fr-btns-group--inline-reverse">
+  <div class="fr-btns-group fr-btns-group--inline fr-btns-group--right">
     <button
       type="button"
       class="fr-btn fr-btn--secondary"

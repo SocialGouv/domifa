@@ -4,18 +4,14 @@
     <span class="fr-text--bold text-error">*</span> sont obligatoires
   </p>
 
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem">
-    <!-- Date du refus -->
+  <div>
     <div
-      class="fr-form-group"
-      [class.fr-form-group--error]="
+      class="fr-input-group"
+      [class.fr-input-group--error]="
         (r.dateFin.dirty || submitted) && r.dateFin.errors
       "
     >
-      <label class="fr-label" for="dateFinRefus">
-        Date du refus
-        <span aria-label="obligatoire">*</span>
-      </label>
+      <label class="fr-label" for="dateFinRefus"> Date du refus </label>
       <div class="fr-input-group">
         <input
           class="fr-input"
@@ -55,15 +51,12 @@
 
     <!-- Motif du refus -->
     <div
-      class="fr-form-group"
-      [class.fr-form-group--error]="
+      class="fr-input-group"
+      [class.fr-input-group--error]="
         (r.motif.dirty || submitted) && r.motif.errors
       "
     >
-      <label class="fr-label" for="motifRefusSelect">
-        Pour quel motif ?
-        <span aria-label="obligatoire">*</span>
-      </label>
+      <label class="fr-label" for="motifRefusSelect"> Pour quel motif ? </label>
       <select
         class="fr-select"
         id="motifRefusSelect"
@@ -90,17 +83,15 @@
     </div>
   </div>
 
-  <!-- Autre motif de refus (si sélectionné) -->
   @if (r.motif.value === 'AUTRE') {
   <div
-    class="fr-form-group"
-    [class.fr-form-group--error]="
+    class="fr-input-group"
+    [class.fr-input-group--error]="
       (r.motifDetails.dirty || submitted) && r.motifDetails.errors
     "
   >
     <label class="fr-label" for="motifRefusAutre">
       Autre motif de refus (10 caractères minimum)
-      <span aria-label="obligatoire">*</span>
     </label>
     <input
       type="text"
@@ -130,14 +121,13 @@
 
   <!-- Orientation proposée -->
   <div
-    class="fr-form-group"
-    [class.fr-form-group--error]="
+    class="fr-input-group"
+    [class.fr-input-group--error]="
       (r.orientation.dirty || submitted) && r.orientation.errors
     "
   >
     <label class="fr-label" for="orientationRefusSelect">
       Orientation proposée
-      <span aria-label="obligatoire">*</span>
     </label>
     <select
       class="fr-select"
@@ -155,7 +145,7 @@
       "
       required
     >
-      <option value="" disabled selected>Sélectionner une orientation</option>
+      <option value="" selected>Sélectionner une orientation</option>
       <option value="ccas">CCAS</option>
       <option value="cias">CIAS, Commune</option>
       <option value="asso">Organisme agréé</option>
@@ -170,14 +160,13 @@
 
   <!-- Précision orientation -->
   <div
-    class="fr-form-group"
-    [class.fr-form-group--error]="
+    class="fr-input-group"
+    [class.fr-input-group--error]="
       (r.orientationDetails.dirty || submitted) && r.orientationDetails.errors
     "
   >
     <label class="fr-label" for="orientationRefusDetails">
       Précisez l'orientation choisie
-      <span aria-label="obligatoire">*</span>
     </label>
     <input
       type="text"
@@ -203,7 +192,7 @@
     }
   </div>
 
-  <div class="text-right">
+  <div class="fr-btns-group fr-btns-group--inline fr-btns-group--right">
     <button
       type="button"
       class="fr-btn fr-btn--secondary"
@@ -211,6 +200,7 @@
     >
       Annuler
     </button>
+
     <button
       type="submit"
       class="fr-btn"

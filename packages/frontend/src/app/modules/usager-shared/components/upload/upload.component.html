@@ -1,54 +1,49 @@
 <form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
-  <div class="fr-grid-row fr-grid-row--gutter">
-    <div class="fr-col-12">
+  <div class="fr-grid-row fr-grid-row--gutters">
+    <div class="fr-col-12 fr-col-md-5">
       <div
         class="fr-form-group"
-        [ngClass]="{ 'fr-form-group--error': submitted && u.label.errors }"
+        [class.fr-form-group--error]="submitted && u.label.errors"
       >
-        <label class="fr-label" for="label">
-          Nom du document
-          <span aria-label="obligatoire">*</span>
-        </label>
+        <label class="fr-label" for="label"> Nom du document </label>
         <input
           type="text"
           class="fr-input"
           formControlName="label"
           id="label"
           appCleanStr
-          aria-describedby="label-hint"
+          [attr.aria-describedby]="
+            submitted && u.label.errors ? 'label-errors' : 'label-hint'
+          "
           [attr.aria-invalid]="submitted && u.label.errors ? 'true' : 'false'"
           required
         />
         <p id="label-hint" class="fr-hint-text">
           Exemple : Cerfa signé, impôts, carte identité, etc.
         </p>
-        <p
-          *ngIf="submitted && u.label.errors"
-          class="fr-error-text"
-          role="alert"
-        >
+        @if (submitted && u.label.errors) {
+        <p id="label-errors" class="fr-error-text" role="alert">
           Le nom du document est obligatoire
         </p>
+        }
       </div>
     </div>
-    <div class="fr-col-12">
+
+    <div class="fr-col-12 fr-col-md-5">
       <div
-        class="fr-upload-group"
-        [ngClass]="{
-          'fr-form-group--error': submitted && u.fileSource.errors
-        }"
+        class="fr-form-group"
+        [class.fr-form-group--error]="submitted && u.fileSource.errors"
       >
-        <label class="fr-label" for="file">
-          Document à enregistrer
-          <span aria-label="obligatoire">*</span>
-        </label>
+        <label class="fr-label" for="file"> Document à enregistrer </label>
         <input
           type="file"
           class="fr-upload"
           id="file"
           accept=".jpg, .jpeg, .png, .pdf"
           formControlName="file"
-          aria-describedby="file-hint"
+          [attr.aria-describedby]="
+            submitted && u.fileSource.errors ? 'file-errors' : 'file-hint'
+          "
           [attr.aria-invalid]="
             submitted && u.fileSource.errors ? 'true' : 'false'
           "
@@ -58,58 +53,50 @@
         <p id="file-hint" class="fr-hint-text">
           Formats autorisés : .pdf, .jpg, .png. Taille maximale : 6 Mo
         </p>
-        <div
-          *ngIf="submitted && u.fileSource.errors"
-          class="fr-error-text"
-          role="alert"
-        >
-          <p *ngIf="u.fileSource.errors['required']">
-            Vous devez choisir un fichier
-          </p>
-          <p *ngIf="u.fileSource.errors['fileType']">
-            Format de fichier invalide
-          </p>
-          <p *ngIf="u.fileSource.errors['fileSize']">
-            La taille du fichier est trop grande (max 6 Mo)
-          </p>
+        @if (submitted && u.fileSource.errors) {
+        <div id="file-errors" class="fr-error-text" role="alert">
+          @if (u.fileSource.errors['required']) {
+          <p>Vous devez choisir un fichier</p>
+          } @if (u.fileSource.errors['fileType']) {
+          <p>Format de fichier invalide</p>
+          } @if (u.fileSource.errors['fileSize']) {
+          <p>La taille du fichier est trop grande (max 6 Mo)</p>
+          }
         </div>
+        }
       </div>
+    </div>
 
-      <div class="fr-form-group">
-        <button
-          type="submit"
-          class="fr-btn"
-          [disabled]="loading"
-          [attr.aria-busy]="loading"
+    <div class="fr-col-12 fr-col-md-2 fr-displayed-flex fr-flex-align-end">
+      <button
+        type="submit"
+        class="fr-btn w-100"
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
+      >
+        @if (!loading) { Ajouter un fichier } @else {
+        <span
+          class="fr-spinner fr-mr-1w"
+          role="status"
+          aria-label="Téléchargement en cours"
         >
-          <span *ngIf="!loading">Ajouter un fichier</span>
-          <span *ngIf="loading">
-            <span
-              class="fr-spinner"
-              role="status"
-              aria-label="Téléchargement en cours"
-            >
-              <span class="fr-sr-only">Patientez...</span>
-            </span>
-            Téléchargement en cours
-          </span>
-        </button>
-      </div>
+          <span class="fr-sr-only">Patientez...</span>
+        </span>
+        Téléchargement en cours }
+      </button>
     </div>
   </div>
 
-  <div *ngIf="uploadResponse" class="fr-grid-row fr-grid-row--gutter fr-mt-3w">
+  @if (uploadResponse) {
+  <div class="fr-grid-row fr-grid-row--gutters fr-mt-3w">
     <div class="fr-col-12">
-      <div
-        *ngIf="uploadResponse.status === 'error'"
-        class="fr-alert fr-alert--error"
-        role="alert"
-      >
+      @if (uploadResponse.status === 'error') {
+      <div class="fr-alert fr-alert--error" role="alert">
         <h3 class="fr-alert__title">Erreur lors du téléchargement</h3>
         <p>{{ uploadResponse.message }}</p>
       </div>
-
-      <section *ngIf="uploadResponse.status === 'progress'">
+      } @if (uploadResponse.status === 'progress') {
+      <section>
         <dsfr-ext-progressbar
           [label]="'Téléchargement'"
           [value]="uploadResponse.message"
@@ -117,15 +104,13 @@
           [showLabel]="true"
         ></dsfr-ext-progressbar>
       </section>
-
-      <div
-        *ngIf="uploadResponse.status === 'success'"
-        class="fr-alert fr-alert--success"
-        role="alert"
-      >
+      } @if (uploadResponse.status === 'success') {
+      <div class="fr-alert fr-alert--success" role="alert">
         <h3 class="fr-alert__title">Fichier téléchargé avec succès</h3>
         <p>{{ uploadResponse.message }}</p>
       </div>
+      }
     </div>
   </div>
+  }
 </form>
