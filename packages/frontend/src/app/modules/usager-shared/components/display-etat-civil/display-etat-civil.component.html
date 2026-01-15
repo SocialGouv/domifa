@@ -1,0 +1,109 @@
+@if (usager) {
+<div class="fr-grid-row fr-grid-row--gutter">
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Nom</span>
+      <span class="valeur">{{ usager.nom }}</span>
+    </p>
+  </div>
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Prénom</span>
+      <span class="valeur">{{ usager.prenom }}</span>
+    </p>
+  </div>
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Nom d'usage / surnom</span>
+      <span class="valeur">{{ usager.surnom | titlecase }}</span>
+    </p>
+  </div>
+
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Sexe</span>
+      <span class="valeur">{{ usager.sexe | titlecase }}</span>
+    </p>
+  </div>
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Date de naissance</span>
+      <span class="valeur">
+        {{ usager.dateNaissance | date : "dd MMMM yyyy" }}
+      </span>
+    </p>
+  </div>
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Ville de naissance</span>
+      <span class="valeur">{{ usager.villeNaissance | titlecase }}</span>
+    </p>
+  </div>
+
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Langue parlée</span>
+      <span class="valeur">{{ langue || "Non renseigné" }}</span>
+    </p>
+  </div>
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Nationalité</span>
+      <span class="valeur">{{ usager?.nationalite || "Non renseigné" }}</span>
+    </p>
+  </div>
+
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Identifiant personnalisé</span>
+      <span class="valeur">
+        {{ usager.customRef || "Non renseigné" }}
+      </span>
+    </p>
+  </div>
+
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question"
+        >Numéro de distribution spéciale (BP, TSA, etc)</span
+      >
+      <span class="valeur">
+        {{ usager.numeroDistribution || "Non renseigné" }}
+      </span>
+    </p>
+  </div>
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Référent du dossier</span>
+      <span class="valeur">
+        {{ usager.referrerId | referrerName | async }}
+      </span>
+    </p>
+  </div>
+</div>
+
+<div class="fr-grid-row fr-grid-row--gutter fr-mt-3w">
+  <div class="fr-col-12">
+    <h2 class="fr-h3">Ayants droit</h2>
+    @if (usager?.ayantsDroits.length === 0) {
+    <div class="fr-callout">
+      <p class="fr-callout__text">Aucun ayant droit enregistré</p>
+    </div>
+    }
+  </div>
+
+  @for (ayantDroit of usager.ayantsDroits; track ayantDroit.prenom) {
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">{{ ayantDroit | fullName }}</span>
+      @if (ayantDroit.lien) {
+      <span class="valeur">
+        {{ ayantDroit.dateNaissance | date : "dd MMMM yyyy" }},
+        {{ LIEN_PARENTE_LABELS[ayantDroit.lien] }}
+      </span>
+      }
+    </p>
+  </div>
+  }
+</div>
+}

@@ -3,577 +3,607 @@
   [formGroup]="entretienForm"
   (ngSubmit)="submitEntretien()"
 >
-  <h2 class="form-title" *ngIf="!editEntretien">Entretien avec le demandeur</h2>
+  <h2 class="fr-h2" *ngIf="!editEntretien">Entretien avec le demandeur</h2>
 
   <app-rgpd-warning></app-rgpd-warning>
-
-  <div class="row">
-    <div class="col-md-12">
-      <fieldset>
-        <legend class="label">Avez-vous été orienté ?</legend>
-        <div class="form-check form-check-inline">
-          <label class="form-check-label" for="orientation_oui">
+  <div class="fr-grid-row">
+    <div class="fr-col-12 fr-col-md-12">
+      <fieldset class="fr-fieldset">
+        <legend class="fr-fieldset__legend">Avez-vous été orienté ?</legend>
+        <div class="fr-fieldset__element fr-fieldset__element--inline">
+          <div class="fr-radio-group">
             <input
-              class="form-check-input"
               type="radio"
-              formControlName="orientation"
-              name="orientation"
               id="orientation_oui"
-              [value]="true"
-            />
-            Oui
-          </label>
-        </div>
-        <div class="form-check form-check-inline">
-          <label class="form-check-label" for="orientation_non">
-            <input
-              class="form-check-input"
-              type="radio"
               formControlName="orientation"
-              name="orientation"
-              id="orientation_non"
-              [value]="false"
-            />
-            Non
-          </label>
-        </div>
-
-        <div *ngIf="e.orientation.value === true" class="my-2 form-group">
-          <label for="orientationDetail">
-            Par quelle structure ou personne ?
-          </label>
-
-          <input
-            type="text"
-            class="form-control"
-            formControlName="orientationDetail"
-            name="orientationDetail"
-            id="orientationDetail"
-            maxlength="1000"
-          />
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend class="label">Avez-vous déjà une domiciliation ?</legend>
-
-        <div class="form-check form-check-inline">
-          <label class="form-check-label" for="domiciliation_oui">
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="domiciliation"
-              name="domiciliation"
-              id="domiciliation_oui"
               [value]="true"
             />
-            Oui
-          </label>
+            <label class="fr-label" for="orientation_oui">Oui</label>
+          </div>
         </div>
-        <div class="form-check form-check-inline">
-          <label class="form-check-label" for="domiciliation_non">
+        <div class="fr-fieldset__element fr-fieldset__element--inline">
+          <div class="fr-radio-group">
             <input
-              class="form-check-input"
               type="radio"
-              formControlName="domiciliation"
-              name="domiciliation"
-              id="domiciliation_non"
+              id="orientation_non"
+              formControlName="orientation"
               [value]="false"
             />
-            Non
-          </label>
-        </div>
-        <p>
-          <small
-            >Une domiciliation existante n’est pas un motif de refus. Néanmoins,
-            il faut rechercher pourquoi la personne formule une nouvelle demande
-            et l’inviter à choisir quelle domiciliation elle souhaite
-            conserver.</small
-          >
-        </p>
-      </fieldset>
-
-      <fieldset class="questions">
-        <legend class="label">
-          Quelle est votre situation professionnelle ?
-        </legend>
-
-        <ng-container
-          *ngFor="let situationPro of ENTRETIEN_SITUATION_PRO | keyvalue"
-        >
-          <div class="form-check" *ngIf="situationPro.key !== 'AUTRE'">
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="situationPro"
-              name="situationPro"
-              id="{{ situationPro.key }}"
-              value="{{ situationPro.key }}"
-            />
-            <label class="form-check-label" for="{{ situationPro.key }}">
-              {{ situationPro.value }}
-            </label>
+            <label class="fr-label" for="orientation_non">Non</label>
           </div>
-        </ng-container>
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="situationPro"
-            name="situationPro"
-            id="situationProAutre"
-            value="AUTRE"
-          />
-          <label class="form-check-label" for="situationProAutre">
-            Autre situation
-          </label>
-        </div>
-        <div class="form-group" *ngIf="e.situationPro.value === 'AUTRE'">
-          <label class="form-check-label" for="situationProDetail">
-            Précisez la nature de la situation
-          </label>
-          <input
-            type="text"
-            id="situationProDetail"
-            class="form-control"
-            formControlName="situationProDetail"
-            name="situationProDetail"
-          />
-        </div>
-      </fieldset>
-      <fieldset>
-        <legend class="label">Avez-vous des revenus ?</legend>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="revenus"
-            name="revenus"
-            id="revenus_oui"
-            [value]="true"
-          />
-          <label class="form-check-label" for="revenus_oui"> Oui </label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="revenus"
-            name="revenus"
-            id="revenus_non"
-            [value]="false"
-          />
-          <label class="form-check-label" for="revenus_non"> Non </label>
         </div>
 
-        <div *ngIf="e.revenus.value === true" class="my-2 form-group">
-          <label for="revenusDetail">De quelle nature ? </label>
-          <textarea
-            class="form-control"
-            formControlName="revenusDetail"
-            name="revenusDetail"
-            id="revenusDetail"
-            maxlength="1000"
-          ></textarea>
-        </div>
-      </fieldset>
-
-      <div class="questions">
-        <fieldset>
-          <legend class="label">
-            Quel est votre lien avec la commune ? (Uniquement pour les communes,
-            CCAS, CIAS)
-          </legend>
-
-          <ng-container
-            *ngFor="let liencommune of ENTRETIEN_LIEN_COMMUNE | keyvalue"
-          >
-            <div class="form-check" *ngIf="liencommune.key !== 'AUTRE'">
-              <input
-                class="form-check-input"
-                type="radio"
-                formControlName="liencommune"
-                name="liencommune"
-                id="{{ liencommune.key }}"
-                value="{{ liencommune.key }}"
-              />
-              <label class="form-check-label" for="{{ liencommune.key }}">
-                {{ liencommune.value }}
-              </label>
-            </div>
-          </ng-container>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="liencommune"
-              name="liencommune"
-              id="liencommune_autre"
-              value="AUTRE"
-            />
-            <label class="form-check-label" for="liencommune_autre">
-              Autre lien avec la commune
-            </label>
-          </div>
-          <div class="form-group" *ngIf="e.liencommune.value === 'AUTRE'">
-            <label class="form-check-label" for="liencommuneDetail">
-              Précisez lien avec la commune
-            </label>
+        <div class="fr-col-12" *ngIf="e.orientation.value === true">
+          <div class="fr-input-group">
+            <label class="fr-label" for="orientationDetail"
+              >Par quelle structure ou personne ?</label
+            >
             <input
               type="text"
-              id="liencommuneDetail"
-              class="form-control"
-              formControlName="liencommuneDetail"
-              name="liencommuneDetail"
+              id="orientationDetail"
+              formControlName="orientationDetail"
+              class="fr-input"
               maxlength="1000"
             />
           </div>
-        </fieldset>
-      </div>
-
-      <fieldset class="questions">
-        <legend class="label">
-          Quelle est la composition de votre ménage ?
-        </legend>
-        <div
-          class="form-check"
-          *ngFor="let typeMenage of ENTRETIEN_TYPE_MENAGE | keyvalue"
-        >
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="typeMenage"
-            name="typeMenage"
-            id="{{ typeMenage.key }}"
-            value="{{ typeMenage.key }}"
-          />
-          <label class="form-check-label" for="{{ typeMenage.key }}">
-            {{ typeMenage.value }}
-          </label>
         </div>
       </fieldset>
+    </div>
+  </div>
 
-      <fieldset class="questions">
-        <legend class="label">
-          Quelle est votre situation résidentielle ?
-        </legend>
-        <ng-container *ngFor="let residence of ENTRETIEN_RESIDENCE | keyvalue">
-          <div class="form-check" *ngIf="residence.key !== 'AUTRE'">
+  <hr />
+
+  <fieldset class="fr-fieldset">
+    <legend class="fr-fieldset__legend">
+      Avez-vous déjà une domiciliation ?
+    </legend>
+    <div class="fr-fieldset__element">
+      <div class="fr-grid-row fr-grid-row--gutters">
+        <div class="fr-col-12 fr-col-md-6">
+          <div class="fr-radio-group">
             <input
-              class="form-check-input"
               type="radio"
-              formControlName="residence"
-              name="residence"
-              id="{{ residence.key }}"
-              value="{{ residence.key }}"
+              id="domiciliation_oui"
+              formControlName="domiciliation"
+              [value]="true"
             />
-            <label class="form-check-label" for="{{ residence.key }}">
-              {{ residence.value }}
-            </label>
+            <label class="fr-label" for="domiciliation_oui">Oui</label>
+          </div>
+        </div>
+        <div class="fr-col-12 fr-col-md-6">
+          <div class="fr-radio-group">
+            <input
+              type="radio"
+              id="domiciliation_non"
+              formControlName="domiciliation"
+              [value]="false"
+            />
+            <label class="fr-label" for="domiciliation_non">Non</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="fr-text--sm">
+      Une domiciliation existante n'est pas un motif de refus. Néanmoins, il
+      faut rechercher pourquoi la personne formule une nouvelle demande et
+      l'inviter à choisir quelle domiciliation elle souhaite conserver.
+    </p>
+  </fieldset>
+
+  <hr />
+
+  <fieldset class="fr-fieldset">
+    <legend class="fr-fieldset__legend">
+      Quelle est votre situation professionnelle ?
+    </legend>
+    <div class="fr-fieldset__element">
+      <div class="fr-grid-row fr-grid-row--gutters">
+        <ng-container
+          *ngFor="let situationPro of ENTRETIEN_SITUATION_PRO | keyvalue"
+        >
+          <div
+            class="fr-col-12 fr-col-md-6"
+            *ngIf="situationPro.key !== 'AUTRE'"
+          >
+            <div class="fr-radio-group">
+              <input
+                type="radio"
+                id="{{ situationPro.key }}"
+                formControlName="situationPro"
+                value="{{ situationPro.key }}"
+              />
+              <label class="fr-label" for="{{ situationPro.key }}">
+                {{ situationPro.value }}
+              </label>
+            </div>
           </div>
         </ng-container>
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="residence"
-            name="residence"
-            id="residenceAutre"
-            value="AUTRE"
-          />
-          <label class="form-check-label" for="residenceAutre">
-            Autre situation résidentielle
-          </label>
+        <div class="fr-col-12 fr-col-md-6">
+          <div class="fr-radio-group">
+            <input
+              type="radio"
+              id="situationProAutre"
+              formControlName="situationPro"
+              value="AUTRE"
+            />
+            <label class="fr-label" for="situationProAutre"
+              >Autre situation</label
+            >
+          </div>
         </div>
+      </div>
+    </div>
+  </fieldset>
+  <div *ngIf="e.situationPro.value === 'AUTRE'" class="fr-grid-row">
+    <div class="fr-col-12">
+      <div class="fr-input-group">
+        <label class="fr-label" for="situationProDetail"
+          >Précisez la nature de la situation</label
+        >
+        <input
+          type="text"
+          id="situationProDetail"
+          formControlName="situationProDetail"
+          class="fr-input"
+        />
+      </div>
+    </div>
+  </div>
 
-        <div class="form-group" *ngIf="e.residence.value === 'AUTRE'">
-          <label class="form-check-label" for="residenceDetail">
-            Précisez la nature de la situation résidentielle
-          </label>
-          <input
-            type="text"
-            id="residenceDetail"
-            class="form-control"
-            formControlName="residenceDetail"
-            name="residenceDetail"
+  <hr />
+
+  <fieldset class="fr-fieldset">
+    <legend class="fr-fieldset__legend">Avez-vous des revenus ?</legend>
+    <div class="fr-fieldset__element">
+      <div class="fr-grid-row fr-grid-row--gutters">
+        <div class="fr-col-12 fr-col-md-6">
+          <div class="fr-radio-group">
+            <input
+              type="radio"
+              id="revenus_oui"
+              formControlName="revenus"
+              [value]="true"
+            />
+            <label class="fr-label" for="revenus_oui">Oui</label>
+          </div>
+        </div>
+        <div class="fr-col-12 fr-col-md-6">
+          <div class="fr-radio-group">
+            <input
+              type="radio"
+              id="revenus_non"
+              formControlName="revenus"
+              [value]="false"
+            />
+            <label class="fr-label" for="revenus_non">Non</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="e.revenus.value === true"
+      class="fr-grid-row fr-grid-row--gutters"
+    >
+      <div class="fr-col-12">
+        <div class="fr-input-group">
+          <label class="fr-label" for="revenusDetail">De quelle nature ?</label>
+          <textarea
+            id="revenusDetail"
+            formControlName="revenusDetail"
+            class="fr-input"
             maxlength="1000"
-          />
+          ></textarea>
         </div>
-      </fieldset>
+      </div>
+    </div>
+  </fieldset>
 
-      <fieldset class="questions">
-        <legend class="label">
-          Quelle est la cause de l'instabilité de logement ?
-        </legend>
+  <hr />
 
+  <fieldset class="fr-fieldset">
+    <legend class="fr-fieldset__legend">
+      Quel est votre lien avec la commune ? (Uniquement pour les communes, CCAS,
+      CIAS)
+    </legend>
+    <div class="fr-fieldset__element">
+      <div class="fr-grid-row fr-grid-row--gutters">
+        <ng-container
+          *ngFor="let liencommune of ENTRETIEN_LIEN_COMMUNE | keyvalue"
+        >
+          <div
+            class="fr-col-12 fr-col-md-6"
+            *ngIf="liencommune.key !== 'AUTRE'"
+          >
+            <div class="fr-radio-group">
+              <input
+                type="radio"
+                id="{{ liencommune.key }}"
+                formControlName="liencommune"
+                value="{{ liencommune.key }}"
+              />
+              <label class="fr-label" for="{{ liencommune.key }}">
+                {{ liencommune.value }}
+              </label>
+            </div>
+          </div>
+        </ng-container>
+        <div class="fr-col-12 fr-col-md-6">
+          <div class="fr-radio-group">
+            <input
+              type="radio"
+              id="liencommune_autre"
+              formControlName="liencommune"
+              value="AUTRE"
+            />
+            <label class="fr-label" for="liencommune_autre"
+              >Autre lien avec la commune</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <div
+    *ngIf="e.liencommune.value === 'AUTRE'"
+    class="fr-grid-row fr-grid-row--gutters"
+  >
+    <div class="fr-col-12">
+      <div class="fr-input-group">
+        <label class="fr-label" for="liencommuneDetail"
+          >Précisez lien avec la commune</label
+        >
+        <input
+          type="text"
+          id="liencommuneDetail"
+          formControlName="liencommuneDetail"
+          class="fr-input"
+          maxlength="1000"
+        />
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <fieldset class="fr-fieldset">
+    <legend class="fr-fieldset__legend">
+      Quelle est la composition de votre ménage ?
+    </legend>
+    <div class="fr-fieldset__element">
+      <div class="fr-grid-row fr-grid-row--gutters">
+        <div
+          class="fr-col-12 fr-col-md-6"
+          *ngFor="let typeMenage of ENTRETIEN_TYPE_MENAGE | keyvalue"
+        >
+          <div class="fr-radio-group">
+            <input
+              type="radio"
+              id="{{ typeMenage.key }}"
+              formControlName="typeMenage"
+              value="{{ typeMenage.key }}"
+            />
+            <label class="fr-label" for="{{ typeMenage.key }}">
+              {{ typeMenage.value }}
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <hr />
+
+  <fieldset class="fr-fieldset">
+    <legend class="fr-fieldset__legend">
+      Quelle est votre situation résidentielle ?
+    </legend>
+    <div class="fr-fieldset__element">
+      <div class="fr-grid-row fr-grid-row--gutters">
+        <ng-container *ngFor="let residence of ENTRETIEN_RESIDENCE | keyvalue">
+          <div class="fr-col-12 fr-col-md-6" *ngIf="residence.key !== 'AUTRE'">
+            <div class="fr-radio-group">
+              <input
+                type="radio"
+                id="{{ residence.key }}"
+                formControlName="residence"
+                value="{{ residence.key }}"
+              />
+              <label class="fr-label" for="{{ residence.key }}">
+                {{ residence.value }}
+              </label>
+            </div>
+          </div>
+        </ng-container>
+        <div class="fr-col-12 fr-col-md-6">
+          <div class="fr-radio-group">
+            <input
+              type="radio"
+              id="residenceAutre"
+              formControlName="residence"
+              value="AUTRE"
+            />
+            <label class="fr-label" for="residenceAutre"
+              >Autre situation résidentielle</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <div
+    *ngIf="e.residence.value === 'AUTRE'"
+    class="fr-grid-row fr-grid-row--gutters"
+  >
+    <div class="fr-col-12">
+      <div class="fr-input-group">
+        <label class="fr-label" for="residenceDetail"
+          >Précisez la nature de la situation résidentielle</label
+        >
+        <input
+          type="text"
+          id="residenceDetail"
+          formControlName="residenceDetail"
+          class="fr-input"
+          maxlength="1000"
+        />
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <fieldset class="fr-fieldset">
+    <legend class="fr-fieldset__legend">
+      Quelle est la cause de l'instabilité de logement ?
+    </legend>
+    <div class="fr-fieldset__element">
+      <div class="fr-grid-row fr-grid-row--gutters">
         <ng-container
           *ngFor="let cause of ENTRETIEN_CAUSE_INSTABILITE | keyvalue"
         >
-          <div class="form-check" *ngIf="cause.key !== 'AUTRE'">
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="cause"
-              name="cause"
-              id="{{ cause.key }}"
-              value="{{ cause.key }}"
-            />
-            <label class="form-check-label" for="{{ cause.key }}">
-              {{ cause.value }}
-            </label>
+          <div class="fr-col-12 fr-col-md-6" *ngIf="cause.key !== 'AUTRE'">
+            <div class="fr-radio-group">
+              <input
+                type="radio"
+                id="{{ cause.key }}"
+                formControlName="cause"
+                value="{{ cause.key }}"
+              />
+              <label class="fr-label" for="{{ cause.key }}">
+                {{ cause.value }}
+              </label>
+            </div>
           </div>
         </ng-container>
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="cause"
-            name="cause"
-            id="causeAutre"
-            value="AUTRE"
-          />
-          <label class="form-check-label" for="causeAutre">
-            Autre cause d'instabilité
-          </label>
+        <div class="fr-col-12 fr-col-md-6">
+          <div class="fr-radio-group">
+            <input
+              type="radio"
+              id="causeAutre"
+              formControlName="cause"
+              value="AUTRE"
+            />
+            <label class="fr-label" for="causeAutre"
+              >Autre cause d'instabilité</label
+            >
+          </div>
         </div>
+      </div>
+    </div>
+  </fieldset>
+  <div
+    *ngIf="e.cause.value === 'AUTRE'"
+    class="fr-grid-row fr-grid-row--gutters"
+  >
+    <div class="fr-col-12">
+      <div class="fr-input-group">
+        <label class="fr-label" for="causeDetail"
+          >Précisez la cause de l'instabilité</label
+        >
+        <input
+          type="text"
+          id="causeDetail"
+          formControlName="causeDetail"
+          class="fr-input"
+          maxlength="1000"
+        />
+      </div>
+    </div>
+  </div>
+  <hr />
 
-        <div class="form-group" *ngIf="e.cause.value === 'AUTRE'">
-          <label class="form-check-label" for="causeDetail">
-            Précisez la cause de l'instabilité
-          </label>
-          <input
-            type="text"
-            id="causeDetail"
-            class="form-control"
-            formControlName="causeDetail"
-            name="causeDetail"
-            maxlength="1000"
-          />
-        </div>
-      </fieldset>
-
-      <fieldset class="questions">
-        <legend class="label">
-          Quel est le motif principal de demande de domiciliation ?
-        </legend>
-
+  <fieldset class="fr-fieldset">
+    <legend class="fr-fieldset__legend">
+      Quel est le motif principal de demande de domiciliation ?
+    </legend>
+    <div class="fr-fieldset__element">
+      <div class="fr-grid-row fr-grid-row--gutters">
         <ng-container
           *ngFor="let raison of ENTRETIEN_RAISON_DEMANDE | keyvalue"
         >
-          <div class="form-check" *ngIf="raison.key !== 'AUTRE'">
-            <input
-              class="form-check-input"
-              type="radio"
-              formControlName="raison"
-              name="raison"
-              id="{{ raison.key }}"
-              value="{{ raison.key }}"
-            />
-            <label class="form-check-label" for="{{ raison.key }}">
-              {{ raison.value }}
-            </label>
+          <div class="fr-col-12 fr-col-md-6" *ngIf="raison.key !== 'AUTRE'">
+            <div class="fr-radio-group">
+              <input
+                type="radio"
+                id="{{ raison.key }}"
+                formControlName="raison"
+                value="{{ raison.key }}"
+              />
+              <label class="fr-label" for="{{ raison.key }}">
+                {{ raison.value }}
+              </label>
+            </div>
           </div>
         </ng-container>
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="raison"
-            name="raison"
-            id="raisonAutre"
-            value="AUTRE"
-          />
-          <label class="form-check-label" for="raisonAutre">
-            Autre motif
-          </label>
+        <div class="fr-col-12 fr-col-md-6">
+          <div class="fr-radio-group">
+            <input
+              type="radio"
+              id="raisonAutre"
+              formControlName="raison"
+              value="AUTRE"
+            />
+            <label class="fr-label" for="raisonAutre">Autre motif</label>
+          </div>
         </div>
-        <div *ngIf="e.raison.value === 'AUTRE'" class="form-group">
-          <label class="form-check-label" for="raisonDetail">
-            Précisez le motif
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            id="raisonDetail"
-            formControlName="raisonDetail"
-            name="raisonDetail"
-            maxlength="1000"
-          />
-        </div>
-      </fieldset>
+      </div>
+    </div>
+  </fieldset>
+  <div
+    *ngIf="e.raison.value === 'AUTRE'"
+    class="fr-grid-row fr-grid-row--gutters"
+  >
+    <div class="fr-col-12">
+      <div class="fr-input-group">
+        <label class="fr-label" for="raisonDetail">Précisez le motif</label>
+        <input
+          type="text"
+          id="raisonDetail"
+          formControlName="raisonDetail"
+          class="fr-input"
+          maxlength="1000"
+        />
+      </div>
+    </div>
+  </div>
+  <hr />
 
-      <fieldset>
-        <legend class="label">
-          Faites-vous l’objet d’un accompagnement social ?
-        </legend>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="accompagnement"
-            name="accompagnement"
-            id="accompagnement_oui"
-            [value]="true"
-          />
-          <label class="form-check-label" for="accompagnement_oui"> Oui </label>
+  <fieldset class="fr-fieldset">
+    <legend class="fr-fieldset__legend">
+      Faites-vous l'objet d'un accompagnement social ?
+    </legend>
+    <div class="fr-fieldset__element">
+      <div class="fr-grid-row fr-grid-row--gutters">
+        <div class="fr-col-12 fr-col-md-6">
+          <div class="fr-radio-group">
+            <input
+              type="radio"
+              id="accompagnement_oui"
+              formControlName="accompagnement"
+              [value]="true"
+            />
+            <label class="fr-label" for="accompagnement_oui">Oui</label>
+          </div>
         </div>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="accompagnement"
-            name="accompagnement"
-            id="accompagnement_non"
-            [value]="false"
-          />
-          <label class="form-check-label" for="accompagnement_non"> Non </label>
+        <div class="fr-col-12 fr-col-md-6">
+          <div class="fr-radio-group">
+            <input
+              type="radio"
+              id="accompagnement_non"
+              formControlName="accompagnement"
+              [value]="false"
+            />
+            <label class="fr-label" for="accompagnement_non">Non</label>
+          </div>
         </div>
+      </div>
+    </div>
+  </fieldset>
+  <div
+    *ngIf="e.accompagnement.value === true"
+    class="fr-grid-row fr-grid-row--gutters"
+  >
+    <div class="fr-col-12">
+      <div class="fr-input-group">
+        <label class="fr-label" for="accompagnementDetail"
+          >Par quelle structure ?</label
+        >
+        <input
+          type="text"
+          id="accompagnementDetail"
+          formControlName="accompagnementDetail"
+          class="fr-input"
+        />
+      </div>
+    </div>
+  </div>
 
-        <div *ngIf="e.accompagnement.value === true" class="my-2 form-group">
-          <label for="accompagnementDetail"> Par quelle structure ? </label>
-          <input
-            type="text"
-            id="accompagnementDetail"
-            class="form-control"
-            formControlName="accompagnementDetail"
-            name="accompagnementDetail"
-          />
-        </div>
-      </fieldset>
+  <hr />
 
-      <div class="form-group my-2">
-        <label class="form-label" for="rattachement">
+  <div class="fr-grid-row fr-grid-row--gutters">
+    <div class="fr-col-12">
+      <div class="fr-input-group">
+        <label class="fr-label" for="rattachement">
           Cette domiciliation est-elle réalisée au titre d'une autre commune ou
           d'un autre arrondissement ? Si oui, complétez le champ ci-dessous
         </label>
-        <div class="form-group">
-          <input
-            type="text"
-            class="form-control"
-            formControlName="rattachement"
-            name="rattachement"
-            id="rattachement"
-          />
-        </div>
+        <input
+          type="text"
+          id="rattachement"
+          formControlName="rattachement"
+          class="fr-input"
+        />
       </div>
-
-      <label for="commentaires" class="label">Commentaires</label>
-      <textarea
-        class="form-control"
-        rows="6"
-        formControlName="commentaires"
-        name="commentaires"
-        id="commentaires"
-        aria-describedby="commentairesHelp"
-        maxlength="2000"
-      ></textarea>
-      <small id="commentairesHelp"> 2000 caractères maximum </small>
     </div>
   </div>
 
-  <div class="row">
-    <div class="my-4 col-md-4 offset-md-4 text-center">
-      <button
-        type="submit"
-        *ngIf="editEntretien"
-        class="btn btn-primary btn-block"
-        [disabled]="loading"
-        [attr.aria-busy]="loading"
-      >
-        <span *ngIf="!loading"> Enregistrer les modifications </span>
+  <hr />
 
-        <span *ngIf="loading"
-          ><fa-icon
-            [icon]="['fas', 'circle-notch']"
-            animation="spin"
-            aria-hidden="true"
-          ></fa-icon>
-          Veuillez patienter...</span
+  <div class="fr-grid-row fr-grid-row--gutters">
+    <div class="fr-col-12">
+      <div class="fr-input-group">
+        <label class="fr-label" for="commentaires">Commentaires</label>
+        <textarea
+          id="commentaires"
+          formControlName="commentaires"
+          class="fr-input"
+          rows="6"
+          aria-describedby="commentairesHelp"
+          maxlength="2000"
+        ></textarea>
+        <small id="commentairesHelp" class="fr-hint-text"
+          >2000 caractères maximum</small
         >
-      </button>
-
-      <ng-container
-        *ngIf="usager.decision.statut === 'INSTRUCTION' && !editEntretien"
-      >
-        <button
-          [disabled]="loading"
-          [attr.aria-busy]="loading"
-          type="submit"
-          class="my-4 btn btn-primary btn-block"
-        >
-          <span *ngIf="!loading">
-            Suivant
-            <fa-icon
-              [icon]="['fas', 'angle-right']"
-              aria-hidden="true"
-            ></fa-icon>
-          </span>
-
-          <span *ngIf="loading"
-            ><fa-icon
-              [icon]="['fas', 'circle-notch']"
-              animation="spin"
-              aria-hidden="true"
-            ></fa-icon>
-            Veuillez patienter...</span
-          >
-        </button>
-
-        <a routerLink="/manage" class="my-3 btn btn-block">
-          <span class="me-2">Continuer plus tard</span>
-          <fa-icon [icon]="['fas', 'angle-right']" aria-hidden="true"></fa-icon>
-        </a>
-      </ng-container>
+      </div>
     </div>
   </div>
-</form>
 
-<ng-template #entretienConfirmation let-modal>
-  <div class="modal-header bg-primary">
-    <span class="text-white" id="modal-title"
-      >L’entretien préalable est obligatoire !</span
-    >
-  </div>
-  <div class="modal-body">
-    <p>
-      L’entretien préalable
-      <strong>est obligatoire,</strong>
-      il est l’occasion d’inscrire la domiciliation dans une démarche
-      d’accompagnement social visant à favoriser l’insertion des personnes
-      domiciliées et constitue une porte d’entrée pour intégrer la personne dans
-      une logique de parcours.
-      <br />
-      <br />
-      Cette étape ne peut être passée que si votre structure met déjà en place
-      un accompagnement social pour cette personne, en parallèle de sa
-      domiciliation.
-    </p>
-  </div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-lg btn-outline-dark"
-      (click)="closeModal()"
-    >
-      Revenir à l'entretien
-    </button>
+  <div class="fr-mt-6w fr-mb-6w" style="text-align: center">
     <button
       type="submit"
-      class="btn btn-lg btn-primary"
+      *ngIf="editEntretien"
+      class="fr-btn fr-btn--primary"
       [disabled]="loading"
       [attr.aria-busy]="loading"
-      (click)="loading = true; nextStep.emit(3); closeModal()"
     >
-      <span *ngIf="!loading">Continuer sans entretien</span>
-
-      <span *ngIf="loading"
-        ><fa-icon
+      <span *ngIf="!loading">Enregistrer les modifications</span>
+      <span *ngIf="loading">
+        <fa-icon
           [icon]="['fas', 'circle-notch']"
           animation="spin"
           aria-hidden="true"
         ></fa-icon>
-        Veuillez patienter...</span
-      >
+        Veuillez patienter...
+      </span>
     </button>
+
+    <ng-container
+      *ngIf="usager.decision.statut === 'INSTRUCTION' && !editEntretien"
+    >
+      <button
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
+        type="submit"
+        class="fr-btn fr-btn--primary fr-mr-2w"
+      >
+        <span *ngIf="!loading">
+          Suivant
+          <fa-icon [icon]="['fas', 'angle-right']" aria-hidden="true"></fa-icon>
+        </span>
+        <span *ngIf="loading">
+          <fa-icon
+            [icon]="['fas', 'circle-notch']"
+            animation="spin"
+            aria-hidden="true"
+          ></fa-icon>
+          Veuillez patienter...
+        </span>
+      </button>
+
+      <a routerLink="/manage" class="fr-btn fr-btn--secondary">
+        Continuer plus tard
+        <fa-icon [icon]="['fas', 'angle-right']" aria-hidden="true"></fa-icon>
+      </a>
+    </ng-container>
   </div>
-</ng-template>
+</form>
