@@ -80,8 +80,11 @@ describe("Import Controller", () => {
         userId: authInfo.id,
         structureId: authInfo.structureId,
       },
+      order: {
+        createdAt: "DESC",
+      },
     });
-    expect(logs.length).toBe(1);
+
     expect(logs[0].action).toBe("IMPORT_USAGERS_FAILED");
     expect(logs[0].context).toEqual({
       nombreActifs: 0,

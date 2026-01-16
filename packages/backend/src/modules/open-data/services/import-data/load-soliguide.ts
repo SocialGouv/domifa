@@ -120,7 +120,7 @@ export class LoadSoliguideDataService {
   }
 
   private async processPlaces(places: SoliguidePlace[]): Promise<void> {
-    for (const place of places) {
+    for await (const place of places) {
       try {
         await this.processPlace(place);
       } catch (error) {
