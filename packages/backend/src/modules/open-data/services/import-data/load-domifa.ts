@@ -51,7 +51,7 @@ export class LoadDomifaDataService {
 
       appLogger.info(`Processing ${places.length} structures...`);
 
-      for (const place of places) {
+      for await (const place of places) {
         try {
           await this.processPlace(place);
         } catch (error) {
