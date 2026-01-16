@@ -16,6 +16,7 @@ import {
 } from "../../_common/model";
 
 import { UserStructure, StructureCommon } from "@domifa/common";
+import { LogAction } from "../../modules/app-logs/types";
 
 export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "uuid",
@@ -32,6 +33,15 @@ export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "fonctionDetail",
   "createdAt",
 ];
+
+type ReactivationType = "STRUCTURE" | "ACCOUNT";
+
+interface ReactivationEvent {
+  type: ReactivationType;
+  userId: number;
+  structureId: number;
+  inactivityDays: number;
+}
 
 @Injectable()
 export class StructuresAuthService {
@@ -66,6 +76,7 @@ export class StructuresAuthService {
     if (payload._userProfile !== "structure") {
       return false;
     }
+
     const authUser = await this.findAuthUser(payload);
     if (!authUser) {
       return false;
@@ -73,70 +84,95 @@ export class StructuresAuthService {
 
     const today = new Date();
 
-    // Structure
-    const structureLastLogin = authUser.structure.lastLogin
-      ? new Date(authUser.structure.lastLogin)
-      : new Date(authUser.structure.createdAt);
-
-    const structureInactivityDays = differenceInCalendarDays(
-      today,
-      structureLastLogin
+    await this.handleReactivationCheck(
+      authUser,
+      "STRUCTURE",
+      authUser.structure.lastLogin,
+      authUser.structure.createdAt,
+      today
     );
-    if (structureInactivityDays > 0) {
-      // Vérifier si c'est une réactivation (lastLogin était nul ou > 12 mois)
-      const isStructureReactivation =
-        !authUser.structure.lastLogin || structureInactivityDays > 365;
 
-      if (isStructureReactivation) {
-        appLogger.info(
-          `Réactivation de structure - structureId: ${authUser.structureId}`
-        );
+    await this.handleReactivationCheck(
+      authUser,
+      "ACCOUNT",
+      authUser.lastLogin,
+      authUser.createdAt,
+      today
+    );
 
-        await appLogsRepository.save({
-          structureId: authUser.structureId,
-          userId: authUser.id,
-          usagerRef: null,
-          action: "REACTIVATION_STRUCTURE",
-        });
-      }
+    return authUser;
+  }
 
+  private async handleReactivationCheck(
+    authUser: UserStructureAuthenticated,
+    type: ReactivationType,
+    lastLogin: Date | null,
+    createdAt: Date,
+    today: Date
+  ): Promise<void> {
+    const referenceDate = lastLogin ? new Date(lastLogin) : new Date(createdAt);
+    const inactivityDays = differenceInCalendarDays(today, referenceDate);
+
+    if (inactivityDays <= 0) {
+      return;
+    }
+
+    const isReactivation = !lastLogin || inactivityDays > 365;
+
+    if (isReactivation) {
+      const event: ReactivationEvent = {
+        type,
+        userId: authUser.id,
+        structureId: authUser.structureId,
+        inactivityDays,
+      };
+
+      await this.logReactivation(event);
+    }
+
+    await this.updateLastLogin(type, authUser, today);
+  }
+
+  private async logReactivation(event: ReactivationEvent): Promise<void> {
+    const actionMap: Record<ReactivationType, string> = {
+      STRUCTURE: "REACTIVATION_STRUCTURE",
+      ACCOUNT: "REACTIVATION_ACCOUNT",
+    };
+
+    const action = actionMap[event.type];
+
+    appLogger.info(
+      `Réactivation de ${
+        event.type === "STRUCTURE" ? "structure" : "compte utilisateur"
+      } - ` +
+        `userId: ${event.userId}, structureId: ${event.structureId}, ` +
+        `inactivité: ${event.inactivityDays} jours`
+    );
+
+    await appLogsRepository.save({
+      structureId: event.structureId,
+      userId: event.userId,
+      usagerRef: null,
+      action: action as LogAction,
+    });
+  }
+
+  private async updateLastLogin(
+    type: ReactivationType,
+    authUser: UserStructureAuthenticated,
+    today: Date
+  ): Promise<void> {
+    if (type === "STRUCTURE") {
       await structureRepository.update(
         { id: authUser.structureId },
         { lastLogin: today }
       );
-    }
-
-    // User
-    const userLastLogin = authUser.lastLogin
-      ? new Date(authUser.lastLogin)
-      : new Date(authUser.createdAt);
-
-    const userInactivityDays = differenceInCalendarDays(today, userLastLogin);
-    if (userInactivityDays > 0) {
-      // Vérifier si c'est une réactivation (lastLogin était nul ou > 12 mois)
-      const isUserReactivation =
-        !authUser.lastLogin || userInactivityDays > 365;
-
-      if (isUserReactivation) {
-        appLogger.info(
-          `Réactivation de compte utilisateur - userId: ${authUser.id}, structureId: ${authUser.structureId}`
-        );
-
-        await appLogsRepository.save({
-          structureId: authUser.structureId,
-          userId: authUser.id,
-          usagerRef: null,
-          action: "REACTIVATION_ACCOUNT",
-        });
-      }
-
+    } else {
       await userStructureRepository.update(
         { id: authUser.id, structureId: authUser.structureId },
         { lastLogin: today }
       );
     }
-
-    return authUser;
   }
 
   public async findAuthUser(
