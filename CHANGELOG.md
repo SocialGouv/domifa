@@ -1,3 +1,14 @@
+## [2.232.7](https://github.com/SocialGouv/domifa/compare/v2.232.6...v2.232.7) (2026-01-17)
+
+
+### Bug Fixes
+
+* **admin:** last login display ([f70abdb](https://github.com/SocialGouv/domifa/commit/f70abdbe89595c349f67a41cf449fa62dc97e176))
+* **backend:** delete log ([40a304b](https://github.com/SocialGouv/domifa/commit/40a304b746a1b40470a43a057efc38779263d90b))
+* **backend:** fix cront jobs, delete useless configs ([95ab060](https://github.com/SocialGouv/domifa/commit/95ab0607c7f4c5a124ce24fc30422cbdcb970143))
+* **backend:** fix last login ([f3fff54](https://github.com/SocialGouv/domifa/commit/f3fff54a5b677d3e0e479b622fe153b711ec7fbd))
+* **backend:** update unit test ([c9ef868](https://github.com/SocialGouv/domifa/commit/c9ef86842d7a996040782c8db4aeaae745fe1924))
+
 ## [2.232.6](https://github.com/SocialGouv/domifa/compare/v2.232.5...v2.232.6) (2026-01-04)
 
 
