@@ -41,6 +41,7 @@ interface ReactivationEvent {
   userId: number;
   structureId: number;
   inactivityDays: number;
+  lastLoginBefore: Date | null;
 }
 
 @Injectable()
@@ -125,6 +126,7 @@ export class StructuresAuthService {
         userId: authUser.id,
         structureId: authUser.structureId,
         inactivityDays,
+        lastLoginBefore: lastLogin,
       };
 
       await this.logReactivation(event);
@@ -141,6 +143,11 @@ export class StructuresAuthService {
 
     const action = actionMap[event.type];
 
+    const context = {
+      lastLoginBefore: event.lastLoginBefore,
+      daysOfInactivity: event.inactivityDays,
+    };
+
     appLogger.info(
       `Réactivation de ${
         event.type === "STRUCTURE" ? "structure" : "compte utilisateur"
@@ -154,6 +161,7 @@ export class StructuresAuthService {
       userId: event.userId,
       usagerRef: null,
       action: action as LogAction,
+      context,
     });
   }
 
