@@ -62,22 +62,31 @@ export const userStructureRepository = myDataSource
     ): Promise<UserStructureBrevo> {
       const results = await this.query(
         `SELECT
-          us.prenom,
-          us.nom,
-          us.id,
-          us.role,
-          us.email,
-          us."createdAt",
-          us."structureId",
-          us."lastLogin",
-          row_to_json(s.*) as structure
-        FROM user_structure us
-        LEFT JOIN structure s ON us."structureId" = s.id
-        WHERE us.id = $1`,
+      us.prenom,
+      us.nom,
+      us.id,
+      us.role,
+      us.email,
+      us."createdAt",
+      us."structureId",
+      us."lastLogin",
+      json_build_object(
+        'id', s.id,
+        'nom', s.nom,
+        'statut', s.statut,
+        'decision', s.decision,
+        'departement', s.departement,
+        'region', s.region,
+        'lastLogin', s."lastLogin"
+      ) as structure
+    FROM user_structure us
+    LEFT JOIN structure s ON us."structureId" = s.id
+    WHERE us.id = $1`,
         [userId]
       );
       return results[0];
     },
+
     async getAllUsersForSync(): Promise<UserStructureBrevo[]> {
       return this.query(
         `SELECT
@@ -89,7 +98,10 @@ export const userStructureRepository = myDataSource
       us."createdAt",
       us."lastLogin",
       json_build_object(
+        'id', s.id,
         'nom', s.nom,
+        'statut', s.statut,
+        'decision', s.decision,
         'departement', s.departement,
         'region', s.region,
         'lastLogin', s."lastLogin"
