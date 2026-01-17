@@ -9,7 +9,7 @@
 ### Prérequis
 
 - Node.js (version LTS recommandée)
-- Yarn (gestionnaire de packages)
+- Pnpm (gestionnaire de packages)
 - Docker et Docker Compose
 - PostgreSQL (ou via Docker)
 
@@ -24,10 +24,10 @@ cd domifa
 docker-compose up -d
 
 # 3. Installer les dépendances
-yarn install
+pnpm install
 
 # 4. Démarrer le projet en mode développement
-yarn dev
+pnpm dev
 ```
 
 L'application sera accessible sur :
@@ -60,18 +60,18 @@ domifa/
 
 ```bash
 # Développement complet
-yarn dev
+pnpm dev
 
 # Services individuels
-yarn dev:backend          # Backend seul
-yarn dev:frontend         # Interface structures
-yarn dev:portail-frontend # Portail domiciliés
-yarn dev:portail-admins   # Interface admin
+pnpm dev:backend          # Backend seul
+pnpm dev:frontend         # Interface structures
+pnpm dev:portail-frontend # Portail domiciliés
+pnpm dev:portail-admins   # Interface admin
 
 # Tests et qualité
-yarn test
-yarn lint
-yarn build
+pnpm test
+pnpm lint
+pnpm build
 ```
 
 ### Base de données

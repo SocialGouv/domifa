@@ -15,39 +15,47 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js lts
-        uses: actions/setup-node@v4
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v6
         with:
-          node-version: "lts/*"
-          cache: "yarn"
+          node-version: "24.x"
+
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+        name: Install pnpm
+        with:
+          cache: true
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build common dependencies
-        run: yarn workspace @domifa/common build
+        run: pnpm --filter @domifa/common build
 
       - name: Lint all packages
-        run: yarn lint
+        run: pnpm lint
 
   backend:
     name: Backend unit tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js vlts
-        uses: actions/setup-node@v4
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v6
         with:
-          node-version: "lts/*"
-          cache: "yarn"
+          node-version: "24.x"
+
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+        name: Install pnpm
+        with:
+          cache: true
 
       - name: Change TimeZone
         uses: szenius/set-timezone@v1.2
@@ -55,23 +63,22 @@ jobs:
           timezoneLinux: "Europe/Paris"
 
       - name: Create backend .env file
-        run: cp ./packages/backend/.env.backend.test.local.example.env ./packages/backend/.env
+        run: cp ./packages/backend/.env.backend.test.local.example.env ./packages/backend/.env.backend.test.local.env
 
-      - name: Install backend dependencies
-        run: yarn workspaces focus @domifa/backend
+      - name: Install backend and common dependencies
+        run: pnpm install --filter @domifa/backend... --filter @domifa/common... --frozen-lockfile
 
       - name: Build common dependencies
-        run: yarn workspace @domifa/common build
+        run: pnpm --filter @domifa/common build
 
       - name: Create Postgres service
         run: docker compose -f ./docker-compose.tests.yml up --build --detach
 
       - name: Run backend tests
-        # run: yarn workspace @domifa/backend jest --coverage --detectOpenHandles --forceExit --runInBand
-        run: DISABLE_TYPEORM_CLOSE=1 yarn workspace @domifa/backend jest --coverage --detectOpenHandles --forceExit --runInBand
+        run: DISABLE_TYPEORM_CLOSE=1 ENV_FILE=tests-local pnpm --filter @domifa/backend exec jest --coverage --forceExit --runInBand
 
       - name: Archive code coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: backend-coverage
           path: packages/backend/coverage
@@ -81,15 +88,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js lts
-        uses: actions/setup-node@v4
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v6
         with:
-          node-version: "lts/*"
-          cache: "yarn"
+          node-version: "24.x"
+
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+        name: Install pnpm
+        with:
+          cache: true
 
       - name: Change TimeZone
         uses: szenius/set-timezone@v1.2
@@ -97,16 +108,16 @@ jobs:
           timezoneLinux: "Europe/Paris"
 
       - name: Install common dependencies
-        run: yarn workspaces focus @domifa/common
+        run: pnpm install --filter @domifa/common... --frozen-lockfile
 
       - name: Build common dependencies
-        run: yarn workspace @domifa/common build
+        run: pnpm --filter @domifa/common build
 
       - name: Run common tests
-        run: yarn workspace @domifa/common test --coverage --detectOpenHandles --forceExit
+        run: pnpm --filter @domifa/common exec jest --coverage --detectOpenHandles --forceExit
 
       - name: Archive code coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: common-coverage
           path: packages/common/coverage
@@ -116,32 +127,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js lts
-        uses: actions/setup-node@v4
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v6
         with:
-          node-version: "lts/*"
-          cache: "yarn"
+          node-version: "24.x"
+
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+        name: Install pnpm
+        with:
+          cache: true
 
       - name: Change TimeZone
         uses: szenius/set-timezone@v1.2
         with:
           timezoneLinux: "Europe/Paris"
 
-      - name: Install front-end dependencies
-        run: yarn workspaces focus @domifa/frontend
+      - name: Install frontend and common dependencies
+        run: pnpm install --filter @domifa/frontend... --filter @domifa/common... --frozen-lockfile
 
       - name: Build common dependencies
-        run: yarn workspace @domifa/common build
+        run: pnpm --filter @domifa/common build
 
       - name: Run front-end tests
-        run: yarn workspace @domifa/frontend test --coverage --detectOpenHandles --forceExit
+        run: pnpm --filter @domifa/frontend exec jest --coverage --detectOpenHandles --forceExit
 
       - name: Archive code coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: frontend-coverage
           path: packages/frontend/coverage
@@ -151,27 +166,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js lts
-        uses: actions/setup-node@v4
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v6
         with:
-          node-version: "lts/*"
-          cache: "yarn"
+          node-version: "24.x"
 
-      - name: Install dependencies
-        run: yarn workspaces focus @domifa/portail-usagers
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+        name: Install pnpm
+        with:
+          cache: true
+
+      - name: Install portail-usagers and common dependencies
+        run: pnpm install --filter @domifa/portail-usagers... --filter @domifa/common... --frozen-lockfile
 
       - name: Build common dependencies
-        run: yarn workspace @domifa/common build
+        run: pnpm --filter @domifa/common build
 
       - name: Run "Mon DomiFa" tests
-        run: yarn workspace @domifa/portail-usagers test --coverage --detectOpenHandles --forceExit
+        run: pnpm --filter @domifa/portail-usagers exec jest --coverage --detectOpenHandles --forceExit
 
       - name: Archive code coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: portail-usagers-coverage
           path: packages/portail-usagers/coverage
@@ -181,27 +200,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js vlts
-        uses: actions/setup-node@v4
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v6
         with:
-          node-version: "lts/*"
-          cache: "yarn"
+          node-version: "24.x"
 
-      - name: Install dependencies
-        run: yarn workspaces focus @domifa/portail-admins
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+        name: Install pnpm
+        with:
+          cache: true
+
+      - name: Install portail-admins and common dependencies
+        run: pnpm install --filter @domifa/portail-admins... --filter @domifa/common... --frozen-lockfile
 
       - name: Build common dependencies
-        run: yarn workspace @domifa/common build
+        run: pnpm --filter @domifa/common build
 
       - name: Run "Portail Admin" tests
-        run: yarn workspace @domifa/portail-admins test --coverage --detectOpenHandles --forceExit
+        run: pnpm --filter @domifa/portail-admins exec jest --coverage --detectOpenHandles --forceExit
 
       - name: Archive code coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: portail-admins-coverage
           path: packages/portail-admins/coverage
@@ -211,27 +234,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Set up Node.js lts
-        uses: actions/setup-node@v4
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v6
         with:
-          node-version: "lts/*"
-          cache: "yarn"
+          node-version: "24.x"
 
-      - name: Install dependencies
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+        name: Install pnpm
+        with:
+          cache: true
+
+      - name: Install anonymizer dependencies
         working-directory: ./.anonymizer
-        run: yarn
+        run: pnpm install --frozen-lockfile
 
       - name: Lint
         working-directory: ./.anonymizer
-        run: yarn lint
+        run: pnpm lint
 
       - name: Build
         working-directory: ./.anonymizer
-        run: yarn build
+        run: pnpm build
 
   codecov:
     name: Publish code coverage
@@ -239,7 +266,7 @@ jobs:
     needs: [backend, frontend, portail-usagers, portail-admins]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 

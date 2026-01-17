@@ -1,6 +1,10 @@
 {
-  "name": ".anonymizer",
-  "packageManager": "yarn@4.11.0",
+  "name": "@domifa/anonymizer",
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=10"
+  },
+  "packageManager": "pnpm@10.24.0",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
@@ -15,6 +19,7 @@
     "@types/bcryptjs": "^3.0.0",
     "@types/node": "^20.19.11",
     "eslint": "^8.57.1",
+    "@eslint/js": "^8.57.1",
     "prettier": "^3.6.2",
     "typescript": "^5.9.2",
     "typescript-eslint": "^7.18.0"

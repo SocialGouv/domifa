@@ -1,0 +1,7 @@
+packages:
+  - "packages/*"
+  - ".anonymizer"
+
+sharedWorkspaceLockfile: true
+engineStrict: true
+nodeVersion: 24.0.0
