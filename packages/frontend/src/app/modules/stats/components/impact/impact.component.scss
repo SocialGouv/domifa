@@ -1,70 +1,8 @@
-.stats-counter {
-  font-size: 3.3rem !important;
-  margin: 1rem 0;
-}
-
-.stats-counter-description {
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
 .impact-stats-section {
   background: url("/assets/images/impact/fond-impact-humain.svg") top center
     no-repeat;
-  min-height: 480px;
   max-width: 100%;
-  background-size: 480px;
-
-  p {
-    font-weight: 600;
-  }
-  img {
-    display: block;
-    margin-left: auto;
-    margin-right: 10%;
-    max-height: 280px;
-    width: auto;
-  }
-}
-
-.impact-stats-section > div {
-  padding: 80px 90px 5px 130px;
-}
-
-.quote {
-  position: relative;
-  padding: 2rem;
-  p {
-    font-size: 1.2rem;
-    font-weight: 700;
-    letter-spacing: 0px;
-    font-style: italic;
-  }
-  img {
-    position: absolute;
-    top: 0px;
-    right: 10px;
-    max-width: 30px;
-  }
-}
-
-h3:after {
-  content: "";
-  display: block;
-  margin: 5px 0;
-  width: 12px;
-  height: 12px;
-  background-color: var(--bs-primary);
-}
-
-h3 {
-  font-size: 1.5rem;
-}
-
-h4 {
-  font-weight: 700;
-  font-size: 1.4rem;
-  color: var(--bs-primary);
+  background-size: 23rem;
 }
 
 video {
@@ -73,10 +11,6 @@ video {
 }
 
 @media all and (max-width: 480px) {
-  .stats-counter {
-    font-size: 3rem !important;
-  }
-
   .impact-stats-section > div {
     padding: 10px;
   }

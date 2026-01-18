@@ -1,175 +1,124 @@
-<div class="home-header-content bg-primary py-4 text-white text-bold">
-  <div class="container px-2 py-3 py-sm-4 d-flex align-items-center">
-    <div class="text-start flex-sm-grow-1 p-1">
-      <h1 class="fw-bold">Mesure d’impact de DomiFa</h1>
-      <h2 class="fw-normal home-header-subtitle">
+<div class="w-100 fr-background-contrast--blue-ecume mb-0 pb-0">
+  <div
+    class="fr-container row d-flex flex-row justify-content-between align-items-center"
+  >
+    <div
+      class="col-12 col-md-9 col-sm-10 py-3 py-md-5 d-flex flex-column gap-1"
+    >
+      <h1 class="fr-text-title--blue-france mb-1">Mesure d’impact de DomiFa</h1>
+      <p class="fr-text--lg fr-text-title--blue-france">
         Découvrez les témoignages de nos utilisateurs sur les bénéfices de
         DomiFa au quotidien
-      </h2>
+      </p>
+    </div>
+    <div class="col-3 py-2 d-none d-sm-block">
+      <img
+        class="fr-responsive-img"
+        src="assets/images/register/register-success.svg"
+        alt=""
+      />
     </div>
   </div>
 </div>
-<section class="bg-primary-light py-5 my-2">
-  <div class="container">
+
+<section class="py-1 px-2 mb-3">
+  <div class="fr-container fr-background-alt--blue-ecume p-3">
     <div class="row align-items-center">
-      <div class="col-md-8 col-12">
-        <h3>Satisfaction utilisateurs👇</h3>
-        <p>
+      <div class="col-md-12 col-12 px-0">
+        <h2 class="text-center text-md-start">Satisfaction utilisateurs</h2>
+        <p class="px-2 px-md-0">
           Selon l’enquête de septembre 2022 menée auprès de 1000 agents
           utilisateurs de DomiFa répartis sur plus de 800 structures.
         </p>
-        <div class="row align-items-top justify-content-between">
-          <div class="col-md-4 col-12">
-            <div class="stats-counter" aria-hidden="true">
-              <span [countUp]="100" [options]="countOptions"></span>%
-            </div>
-            <app-impact-line [direction]="'horizontal'"></app-impact-line>
-            <p class="stats-counter-description">
-              <span class="visually-hidden">100 %</span> sont prêts à
-              recommander l’outil
-            </p>
-          </div>
-          <div class="col-md-4 col-12">
-            <div class="stats-counter" aria-hidden="true">
-              <span [countUp]="86" [options]="countOptions"></span>%
-            </div>
-            <app-impact-line [direction]="'horizontal'"></app-impact-line>
-            <p class="stats-counter-description">
-              <span class="visually-hidden">86%</span> considèrent que DomiFa
-              améliore la distribution du courrier
-            </p>
-          </div>
-          <div class="col-md-4 col-12">
-            <div class="stats-counter" aria-hidden="true">
-              <span [countUp]="98" [options]="countOptions"></span>%
-            </div>
-            <app-impact-line
-              [direction]="'horizontal'"
-              aria-hidden="true"
-            ></app-impact-line>
-            <p class="stats-counter-description">
-              <span class="visually-hidden">98 %</span> utilisent DomiFa
-              quotidiennement
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="my-3">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-6 py-5 col-12">
-        <h3>L’impact humain👇</h3>
-        <p>
-          <fa-icon
-            aria-hidden="true"
-            class="text-primary"
-            [icon]="['fas', 'check-circle']"
-          ></fa-icon>
-          Amélioration de la qualité de vie au travail des travailleurs sociaux
-        </p>
-        <p>
-          <fa-icon
-            aria-hidden="true"
-            class="text-primary"
-            [icon]="['fas', 'check-circle']"
-          ></fa-icon>
-          Amélioration de la prise en charge du domicilié
-        </p>
-        <p>
-          <fa-icon
-            aria-hidden="true"
-            class="text-primary"
-            [icon]="['fas', 'check-circle']"
-          ></fa-icon>
-          Gain de temps pour les domiciliés pour qu’ils puissent continuer à
-          travailler ou faire d’autres démarches
-        </p>
-      </div>
-      <div class="col-md-6 col-12">
-        <div class="impact-stats-section">
-          <div>
-            <div class="stats-counter text-dark">
-              <span [countUp]="86" [options]="countOptions"></span>%
-            </div>
-            <app-impact-line
-              [direction]="'horizontal'"
-              aria-hidden="true"
-            ></app-impact-line>
-            <div>
-              <p>
-                Des utilisateurs considèrent que DomiFa a un impact positif sur
-                leur qualité de vie au travail
-              </p>
-              <p>
-                Des agents considèrent que DomiFa fait gagner du temps aux
-                domiciliés
-              </p>
-            </div>
-          </div>
 
-          <img
-            @fadeIn
-            src="/assets/images/impact/impact-humain.svg"
-            alt="Illustration de l'impact humain"
-            aria-hidden="true"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="py-5">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-6 col-12">
-        <h4>
-          DomiFa par sa facilité d’utilisation donne confiance à ses
-          utilisateurs et au public parfois éloigné du numérique
-        </h4>
-
-        <div class="d-flex">
-          <app-impact-line [direction]="'vertical'"></app-impact-line>
-          <div class="quote">
-            <p>
-              Ça a redonné confiance à beaucoup de personnes qui n’auraient
-              jamais pensé réussir à l’utiliser, ça donne un petit coup de
-              jeune. Aujourd’hui, il y en a qui se battent pour aller à la
-              distribution du courrier et utiliser DomiFa. Ça facilite la vie,
-              c’est formidable.
-            </p>
-            <span>Montparnasse Rencontres</span>
-
+        <div
+          class="row align-items-top justify-content-between align-items-center"
+        >
+          <div class="col-md-3 col-12 d-flex justify-content-center">
             <img
-              src="/assets/images/impact/quote.svg"
-              alt="Citation d'usagers"
-              aria-hidden="true"
+              src="assets/images/impact/impact-satisfaction.svg"
+              alt=""
+              role="presentation"
             />
           </div>
+          <div
+            class="col-md-3 col-12 d-flex flex-column justify-content-center align-items-center py-1 py-md-0 mt-0 mb-md-2"
+          >
+            <span class="fr-h1 fr-text-title--blue-france mb-0"> 100% </span>
+            <p class="mb-0">sont prêts à recommander l’outil</p>
+          </div>
+          <div
+            class="col-md-3 col-12 d-flex flex-column justify-content-center align-items-center py-3 py-md-0 mt-0 mt-md-3"
+          >
+            <span class="fr-h1 mb-0 fr-text-title--blue-france"> 86% </span>
+            <p class="mb-0 text-center">
+              considèrent que DomiFa améliore la distribution du courrier
+            </p>
+          </div>
+          <div
+            class="col-md-3 col-12 d-flex flex-column justify-content-center align-items-center py-3 py-md-0 mt-0 mb-md-2"
+          >
+            <span class="fr-h1 fr-text-title--blue-france mb-0"> 98% </span>
+            <p class="mb-0">utilisent DomiFa quotidiennement</p>
+          </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+<section class="fr-container">
+  <div>
+    <div class="row align-items-top">
       <div class="col-md-6 col-12">
-        <h4>
-          La mise en place d’une interface domicilié ainsi que l’envoi de sms
-          automatiques facilite la vie des domiciliés.
-        </h4>
-
-        <div class="d-flex">
-          <app-impact-line [direction]="'vertical'"></app-impact-line>
-          <div class="quote">
-            <p>
-              Avis très favorable des domiciliés, à toutes les étapes
-              (inscription, retrait du courrier, procurations, renouvellement)
-              et nombreux remerciements sur la mise en place des SMS,
-              générateurs pour les usagers d'un gain de temps considérable.
+        <h2>L’impact humain</h2>
+        <ul>
+          <li class="d-flex gap-2 pb-2">
+            <fa-icon
+              aria-hidden="true"
+              class="fr-text-default--success"
+              [icon]="['fas', 'check-circle']"
+            ></fa-icon>
+            <span>
+              Amélioration de la qualité de vie au travail des travailleurs
+              sociaux
+            </span>
+          </li>
+          <li class="d-flex gap-2 pb-2">
+            <fa-icon
+              aria-hidden="true"
+              class="fr-text-default--success"
+              [icon]="['fas', 'check-circle']"
+            ></fa-icon>
+            <span> Amélioration de la prise en charge du domicilié </span>
+          </li>
+          <li class="d-flex gap-2 pb-2">
+            <fa-icon
+              aria-hidden="true"
+              class="fr-text-default--success"
+              [icon]="['fas', 'check-circle']"
+            ></fa-icon>
+            <span>
+              Gain de temps pour les domiciliés pour qu’ils puissent continuer à
+              travailler ou faire d’autres démarches</span
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6 col-12">
+        <div class="impact-stats-section py-5">
+          <div>
+            <p class="m-0 fw-bold">
+              <span class="fr-h1 fr-text-title--blue-france"> 86% <br /> </span>
+              Des utilisateurs considèrent que DomiFa a un impact positif sur
+              leur qualité de vie au travail. Des agents considèrent que DomiFa
+              fait gagner du temps aux domiciliés
             </p>
-            <span>Croix-Rouge Française - UL de Chartres</span>
+          </div>
+          <div class="d-flex justify-content-center">
             <img
-              src="/assets/images/impact/quote.svg"
-              alt="Citation d'usagers"
+              @fadeIn
+              src="/assets/images/impact/impact-humain.svg"
+              alt="Illustration de l'impact humain"
               aria-hidden="true"
             />
           </div>
@@ -179,198 +128,288 @@
   </div>
 </section>
 
-<section class="py-5">
-  <div class="container">
+<section class="fr-container pb-4">
+  <div>
     <div class="row align-items-center">
       <div class="col-md-6 col-12">
-        <h3>L’impact social👇</h3>
-        <h4>
-          DomiFa permet d’augmenter le temps dédié à l'accompagnement social
-        </h4>
+        <div class="p-3 fr-background-color-default-grey-hover">
+          <h3 class="fr-h5">
+            DomiFa par sa facilité d’utilisation donne confiance à ses
+            utilisateurs et au public parfois éloigné du numérique
+          </h3>
 
-        <div class="d-flex">
-          <app-impact-line [direction]="'vertical'"></app-impact-line>
-          <div class="quote">
+          <figure class="fr-quote">
+            <blockquote>
+              <p class="fr-text--md">
+                Ça a redonné confiance à beaucoup de personnes qui n’auraient
+                jamais pensé réussir à l’utiliser, ça donne un petit coup de
+                jeune. Aujourd’hui, il y en a qui se battent pour aller à la
+                distribution du courrier et utiliser DomiFa. Ça facilite la vie,
+                c’est formidable.
+              </p>
+            </blockquote>
+            <figcaption>
+              <p class="fr-quote__author">Montparnasse Rencontres</p>
+              <div class="fr-quote__source"></div>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-12">
+        <div class="p-3 fr-background-color-default-grey-hover">
+          <h3 class="fr-h5">
+            La mise en place d’une interface domicilié ainsi que l’envoi de sms
+            automatiques facilite la vie des domiciliés.
+          </h3>
+
+          <figure class="fr-quote">
+            <blockquote>
+              <p class="fr-text--md">
+                Avis très favorable des domiciliés, à toutes les étapes
+                (inscription, retrait du courrier, procurations, renouvellement)
+                et nombreux remerciements sur la mise en place des SMS,
+                générateurs pour les usagers d'un gain de temps considérable.
+              </p>
+            </blockquote>
+            <figcaption>
+              <p class="fr-quote__author">
+                Croix-Rouge Française - UL de Chartres
+              </p>
+              <div class="fr-quote__source"></div>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="fr-container" />
+<section class="fr-container py-4">
+  <div>
+    <div class="row align-items-start">
+      <h3>L’impact social</h3>
+      <div class="col-md-6 col-12">
+        <div class="p-3 fr-background-color-default-grey-hover">
+          <h4>
+            DomiFa permet d’augmenter le temps dédié à l'accompagnement social
+          </h4>
+
+          <div class="d-flex flex-column gap-3">
+            <figure class="fr-quote">
+              <blockquote>
+                <p class="fr-text--md">
+                  Le temps dégagé me permet de mieux réaliser mes autres
+                  missions : instruction des demandes d'aide financière, accueil
+                  et orientation du public.
+                </p>
+              </blockquote>
+              <figcaption>
+                <p class="fr-quote__author">CCAS Le Creusot</p>
+                <div class="fr-quote__source"></div>
+              </figcaption>
+            </figure>
+
+            <figure class="fr-quote">
+              <blockquote>
+                <p class="fr-text--md">
+                  Le temps gagné dans l'instruction des dossiers est toujours
+                  dédié à l'accompagnement.
+                </p>
+              </blockquote>
+              <figcaption>
+                <p class="fr-quote__author">CCAS Outreau</p>
+                <div class="fr-quote__source"></div>
+              </figcaption>
+            </figure>
+
+            <figure class="fr-quote">
+              <blockquote>
+                <p class="fr-text--md">
+                  Moins de temps pour la gestion administrative = plus de temps
+                  au contact du public!
+                </p>
+              </blockquote>
+              <figcaption>
+                <p class="fr-quote__author">CCAS Redon</p>
+                <div class="fr-quote__source"></div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-12 py-4">
+        <div class="impact-stats-section">
+          <p class="m-0 fw-bold">
+            <span class="fr-h1 fr-text-title--blue-france"> 83% <br /> </span>
+            des agents affirment accorder moins de temps administratif sur la
+            domiciliation depuis l'utilisation de DomiFa
+          </p>
+
+          <div class="d-flex justify-content-center">
             <img
-              src="/assets/images/impact/quote.svg"
-              alt="Citation d'usagers de CCAS"
+              src="/assets/images/impact/impact-social.svg"
+              alt=""
               aria-hidden="true"
             />
-            <p>
-              Le temps dégagé me permet de mieux réaliser mes autres missions :
-              instruction des demandes d'aide financière, accueil et orientation
-              du public.
-            </p>
-            <span>CCAS Le Creusot</span>
-
-            <p class="pt-5">
-              Le temps gagné dans l'instruction des dossiers est toujours dédié
-              à l'accompagnement.
-            </p>
-            <span>CCAS Outreau</span>
-            <p class="pt-5">
-              Moins de temps pour la gestion administrative = plus de temps au
-              contact du public!
-            </p>
-            <span>CCAS Redon</span>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+<hr class="fr-container" />
+<section class="fr-container py-4">
+  <div class="container">
+    <div class="row align-items-start">
+      <h3>L’impact organisationnel</h3>
       <div class="col-md-6 col-12">
-        <div class="impact-stats-section">
-          <div>
-            <div class="stats-counter text-dark">83%</div>
-            <app-impact-line
-              [direction]="'horizontal'"
+        <ul>
+          <li class="d-flex gap-2 pb-2">
+            <fa-icon
               aria-hidden="true"
-            ></app-impact-line>
-            <div>
-              <p>
-                des agents affirment accorder moins de temps administratif sur
-                la domiciliation depuis l'utilisation de DomiFa
-              </p>
-            </div>
-          </div>
+              class="fr-text-default--success"
+              [icon]="['fas', 'check-circle']"
+            ></fa-icon>
+            <span> Gain de temps </span>
+          </li>
+          <li class="d-flex gap-2 pb-2">
+            <fa-icon
+              aria-hidden="true"
+              class="fr-text-default--success"
+              [icon]="['fas', 'check-circle']"
+            ></fa-icon>
+            <span> Facilité de prise en main et d’utilisation </span>
+          </li>
+          <li class="d-flex gap-2 pb-2">
+            <fa-icon
+              aria-hidden="true"
+              class="fr-text-default--success"
+              [icon]="['fas', 'check-circle']"
+            ></fa-icon>
+            <span> Sécurité et traçabilité </span>
+          </li>
+          <li class="d-flex gap-2 pb-2">
+            <fa-icon
+              aria-hidden="true"
+              class="fr-text-default--success"
+              [icon]="['fas', 'check-circle']"
+            ></fa-icon>
+            <span> Harmonisation des pratiques </span>
+          </li>
+          <li class="d-flex gap-2 pb-2">
+            <fa-icon
+              aria-hidden="true"
+              class="fr-text-default--success"
+              [icon]="['fas', 'check-circle']"
+            ></fa-icon>
+            <span> Efficience de la gestion et du suivi </span>
+          </li>
+          <li class="d-flex gap-2 pb-2">
+            <fa-icon
+              aria-hidden="true"
+              class="fr-text-default--success"
+              [icon]="['fas', 'check-circle']"
+            ></fa-icon>
+            <span>Centralisation des données </span>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6 col-12 py-4">
+        <div class="impact-stats-section">
+          <p class="m-0 fw-bold">
+            <span class="fr-h1 fr-text-title--blue-france"> 94% <br /> </span>
+            déclarent que DomiFa est facile à utiliser
+          </p>
 
-          <img
-            src="/assets/images/impact/impact-social.svg"
-            alt="Illustration de l'impact humain"
-            aria-hidden="true"
-          />
+          <div class="d-flex justify-content-center">
+            <img
+              src="/assets/images/impact/impact-organisation.svg"
+              alt="Illustration de l'impact organisationnel"
+              aria-hidden="true"
+            />
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="py-3">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-6 col-12">
-        <h3>L’impact organisationnel👇</h3>
-
-        <p>
-          <fa-icon
-            aria-hidden="true"
-            class="text-primary"
-            [icon]="['fas', 'check-circle']"
-          ></fa-icon>
-          Gain de temps
-        </p>
-        <p>
-          <fa-icon
-            aria-hidden="true"
-            class="text-primary"
-            [icon]="['fas', 'check-circle']"
-          ></fa-icon>
-          Facilité de prise en main et d’utilisation
-        </p>
-        <p>
-          <fa-icon
-            aria-hidden="true"
-            class="text-primary"
-            [icon]="['fas', 'check-circle']"
-          ></fa-icon>
-          Sécurité et traçabilité
-        </p>
-        <p>
-          <fa-icon
-            aria-hidden="true"
-            class="text-primary"
-            [icon]="['fas', 'check-circle']"
-          ></fa-icon>
-          Harmonisation des pratiques
-        </p>
-
-        <p>
-          <fa-icon
-            aria-hidden="true"
-            class="text-primary"
-            [icon]="['fas', 'check-circle']"
-          ></fa-icon>
-          Efficience de la gestion et du suivi
-        </p>
-        <p>
-          <fa-icon
-            aria-hidden="true"
-            class="text-primary"
-            [icon]="['fas', 'check-circle']"
-          ></fa-icon>
-          Centralisation des données
-        </p>
-      </div>
-      <div class="col-md-6 col-12">
-        <div class="impact-stats-section">
-          <div>
-            <div class="stats-counter text-dark">94%</div>
-            <app-impact-line
-              [direction]="'horizontal'"
-              aria-hidden="true"
-            ></app-impact-line>
-            <div>
-              <p>déclarent que DomiFa est facile à utiliser</p>
-            </div>
-          </div>
-          <img
-            src="/assets/images/impact/impact-organisation.svg"
-            alt="Illustration de l'impact organisationnel"
-            aria-hidden="true"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="mt-5 pb-5">
-  <div class="container">
-    <div class="row">
+<section class="fr-container mb-3">
+  <div>
+    <div class="row fr-background-color-default-grey-hover py-4">
       <div class="col-12">
-        <h4>DomiFa permet une meilleure organisation du travail</h4>
+        <h4 class="fr-h6">
+          DomiFa permet une meilleure organisation du travail
+        </h4>
       </div>
       <div class="col-md-6 col-12">
-        <div class="d-flex my-2">
-          <app-impact-line [direction]="'vertical'"></app-impact-line>
-          <div class="quote">
-            <img
-              src="/assets/images/impact/quote.svg"
-              alt="Citation d'usagers"
-              aria-hidden="true"
-            />
-            <p>
+        <figure class="fr-quote">
+          <blockquote>
+            <p class="fr-text--md">
               Simplicité, rapidité et efficacité conjuguées aboutissent à une
               diminution significative du stress, rationalité et méthode de
               travail identique pour les bénévoles.
             </p>
-            <span>Collectivité européenne d’Alsace </span>
-          </div>
-        </div>
+          </blockquote>
+          <figcaption>
+            <p class="fr-quote__author">Collectivité européenne d’Alsace</p>
+            <div class="fr-quote__source"></div>
+          </figcaption>
+        </figure>
       </div>
       <div class="col-md-6 col-12">
-        <div class="d-flex my-2">
-          <app-impact-line [direction]="'vertical'"></app-impact-line>
-          <div class="quote">
-            <p>
+        <figure class="fr-quote">
+          <blockquote>
+            <p class="fr-text--md">
               Très facile, plus facile que mon ancien logiciel c’est pour ça que
               j’ai plongé dessus. La prise en main est très facile, il a suffi
               de s’inscrire et c’était bon, et ça n’a jamais planté jusqu’à
               présent et ça fait gagner du temps.
             </p>
-            <span>CCAS de Stains</span>
-            <img
-              src="/assets/images/impact/quote.svg"
-              alt="Citation d'usagers du CCAS de Stains"
-              aria-hidden="true"
-            />
-          </div>
-        </div>
+          </blockquote>
+          <figcaption>
+            <p class="fr-quote__author">CCAS de Stains</p>
+            <div class="fr-quote__source"></div>
+          </figcaption>
+        </figure>
       </div>
     </div>
   </div>
 </section>
 
-<section class="bg-primary-light py-5">
-  <div class="text-center">
-    <a routerLink="/stats" class="btn btn-primary">Voir nos statistiques</a>
+<section>
+  <div
+    class="w-100 d-flex flex-column justify-content-center fr-background-contrast--blue-ecume mb-0 pb-0"
+  >
+    <div
+      class="fr-container row d-flex flex-row justify-content-end align-items-center"
+    >
+      <div
+        class="col-12 col-md-7 col-sm-10 py-3 py-md-5 d-flex flex-column gap-1 align-items-center"
+      >
+        <h2 class="fr-text-title--blue-france text-center mb-1">
+          Statistiques d’utilisation de DomiFa
+        </h2>
+        <p class="fr-text--lg fr-text-title--blue-france text-center">
+          Découvrez nos chiffres clés sur l'utilisation de DomiFa en France
+        </p>
+        <div>
+          <a routerLink="/stats" class="fr-btn fr-btn--secondary">
+            Voir nos statistiques
+          </a>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-3 d-flex justify-content-center py-2">
+        <div class="col-5 col-md-12">
+          <img
+            class="fr-responsive-img"
+            src="assets/images/impact/impact-lien-stats.svg"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </section>

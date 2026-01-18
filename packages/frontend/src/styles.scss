@@ -72,8 +72,11 @@ $font-family-monospace: "Marianne", SFMono-Regular, Menlo, Monaco, Consolas,
     color: var(--text-default-error);
   }
 
-  .fr-select-group.required label:after {
-    content: " *";
-    color: var(--text-default-error);
+.fr-select-group.required label:after {
+  content: " *";
+  color: var(--text-default-error);
+}
+  .fr-background-color-default-grey-hover {
+    background-color: var(--background-default-grey-hover);
   }
 }
