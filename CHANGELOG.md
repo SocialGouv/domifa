@@ -1,3 +1,24 @@
+## [2.232.9](https://github.com/SocialGouv/domifa/compare/v2.232.8...v2.232.9) (2026-01-19)
+
+
+### Bug Fixes
+
+* backend unit tests ([41a7904](https://github.com/SocialGouv/domifa/commit/41a7904bd9d56cd25f113439f6e688e7da878be1))
+* pnpm migration ([931d2ad](https://github.com/SocialGouv/domifa/commit/931d2ad464dd76d2f956c1745d70331be79bfb34))
+* pnpm migration wip ([28438af](https://github.com/SocialGouv/domifa/commit/28438afde574b3f8ac831e33ac20419e5c8e37d5))
+* pnpm migration wip ([f7517e6](https://github.com/SocialGouv/domifa/commit/f7517e61a41e3898ed379138836238e3a3a148d5))
+* pnpm migration wip ([fc3d514](https://github.com/SocialGouv/domifa/commit/fc3d51405667f8fe707403b609a428f0a24b52f9))
+* pnpm migration wip ([2b05bee](https://github.com/SocialGouv/domifa/commit/2b05bee9a9bdbc76daf5785132d6fc0ef321ae81))
+* pnpm migration wip ([426a32e](https://github.com/SocialGouv/domifa/commit/426a32e8e1746036ceae56880444ea44b89f19ab))
+* pnpm migration wip ([20681c0](https://github.com/SocialGouv/domifa/commit/20681c0cf8f3ca420185824dcce811ae21c9f1b9))
+* pnpm migration wip ([9c6e04b](https://github.com/SocialGouv/domifa/commit/9c6e04b9b2773cc0f6368f14c9014ed7c2b33d2a))
+* pnpm migration wip ([a38eb0c](https://github.com/SocialGouv/domifa/commit/a38eb0c9c002b3cf90b13484d878428c8213b946))
+* pnpm migration wip ([925f42c](https://github.com/SocialGouv/domifa/commit/925f42cebdcd16f0b4a6d5227af7fa0577a32091))
+* setup pnpm ([b4c422e](https://github.com/SocialGouv/domifa/commit/b4c422ec1eb5963ea49df5456937dfc1f0830542))
+* wip ([d43c70d](https://github.com/SocialGouv/domifa/commit/d43c70d1d0d266bf9e833f42665e1fc3faa456d4))
+* wip ([ba57c69](https://github.com/SocialGouv/domifa/commit/ba57c6993748bfb22cffdcb6ef42d9e74bb3af33))
+* wip ([4895e97](https://github.com/SocialGouv/domifa/commit/4895e97824c247e325b08148a81a6d6553b68191))
+
 ## [2.232.8](https://github.com/SocialGouv/domifa/compare/v2.232.7...v2.232.8) (2026-01-17)
 
 
