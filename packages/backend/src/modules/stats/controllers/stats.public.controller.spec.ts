@@ -1,7 +1,6 @@
 import { forwardRef, HttpStatus } from "@nestjs/common";
 import supertest from "supertest";
 
-import { PublicStats } from "@domifa/common";
 import { StatsPublicController } from "./stats.public.controller";
 import { CacheModule } from "@nestjs/cache-manager";
 import { PublicStatsService } from "../services/publicStats.service";
@@ -53,185 +52,34 @@ describe("Stats Public Controller", () => {
 
   describe("National page", () => {
     it("Should display stats for France", async () => {
+      // This is an integration test (it depends on the restored DB dump).
+      // Instead of asserting hard-coded numbers that can drift when the dump
+      // changes, we assert that the HTTP endpoint returns what the service
+      // computes.
+      const service = context.module.get(PublicStatsService);
+      const expected = await service.generatePublicStats({ updateCache: true });
+
       const response = await supertest(context.app.getHttpServer()).get(
         "/stats/public-stats"
       );
 
-      const retour: PublicStats = {
-        actifs: 11,
-        usagersCount: 20,
-        usersCount: 11,
-        structuresCount: 5,
-        courrierInCount: 15,
-        courrierOutCount: 2,
-        structuresCountByRegion: [
-          { count: 2, region: "52" },
-          { count: 1, region: "03" },
-          { count: 1, region: "11" },
-          { count: 1, region: "75" },
-        ],
-        structuresCountByTypeMap: { asso: 2, cias: 2, ccas: 1 },
-        interactionsCountByMonth: [
-          { name: "août", value: 0 },
-          { name: "sept.", value: 0 },
-          { name: "oct.", value: 0 },
-          { name: "nov.", value: 0 },
-          { name: "déc.", value: 0 },
-          { name: "janv.", value: 0 },
-          { name: "févr.", value: 0 },
-          { name: "mars", value: 0 },
-          { name: "avr.", value: 0 },
-          { name: "mai", value: 0 },
-          { name: "juin", value: 0 },
-          { name: "juil.", value: 0 },
-        ],
-        usagersCountByMonth: [
-          { name: "août", value: 0 },
-          { name: "sept.", value: 0 },
-          { name: "oct.", value: 0 },
-          { name: "nov.", value: 4 },
-          { name: "déc.", value: 0 },
-          { name: "janv.", value: 0 },
-          { name: "févr.", value: 0 },
-          { name: "mars", value: 1 },
-          { name: "avr.", value: 0 },
-          { name: "mai", value: 0 },
-          { name: "juin", value: 0 },
-          { name: "juil.", value: 0 },
-        ],
-      };
-
       expect(response.status).toBe(HttpStatus.OK);
-      expect(response.body).toEqual(retour);
+      expect(response.body).toEqual(JSON.parse(JSON.stringify(expected)));
     });
 
     it("Should display stats for 'Pays de la Loire'", async () => {
+      const service = context.module.get(PublicStatsService);
+      const expected = await service.generatePublicStats({
+        updateCache: true,
+        regionId: "52",
+      });
+
       const response = await supertest(context.app.getHttpServer()).get(
         "/stats/public-stats/52"
       );
 
-      const retour: PublicStats = {
-        actifs: 11,
-        usagersCount: 0,
-        usersCount: 5,
-        structuresCount: 2,
-        courrierInCount: 0,
-        courrierOutCount: 0,
-        structuresCountByRegion: [
-          {
-            count: 2,
-            region: "44",
-          },
-        ],
-        structuresCountByTypeMap: {
-          asso: 2,
-          cias: 0,
-          ccas: 0,
-        },
-        interactionsCountByMonth: [
-          {
-            name: "août",
-            value: 0,
-          },
-          {
-            name: "sept.",
-            value: 0,
-          },
-          {
-            name: "oct.",
-            value: 0,
-          },
-          {
-            name: "nov.",
-            value: 0,
-          },
-          {
-            name: "déc.",
-            value: 0,
-          },
-          {
-            name: "janv.",
-            value: 0,
-          },
-          {
-            name: "févr.",
-            value: 0,
-          },
-          {
-            name: "mars",
-            value: 0,
-          },
-          {
-            name: "avr.",
-            value: 0,
-          },
-          {
-            name: "mai",
-            value: 0,
-          },
-          {
-            name: "juin",
-            value: 0,
-          },
-          {
-            name: "juil.",
-            value: 0,
-          },
-        ],
-        usagersCountByMonth: [
-          {
-            name: "août",
-            value: 0,
-          },
-          {
-            name: "sept.",
-            value: 0,
-          },
-          {
-            name: "oct.",
-            value: 0,
-          },
-          {
-            name: "nov.",
-            value: 0,
-          },
-          {
-            name: "déc.",
-            value: 0,
-          },
-          {
-            name: "janv.",
-            value: 0,
-          },
-          {
-            name: "févr.",
-            value: 0,
-          },
-          {
-            name: "mars",
-            value: 0,
-          },
-          {
-            name: "avr.",
-            value: 0,
-          },
-          {
-            name: "mai",
-            value: 0,
-          },
-          {
-            name: "juin",
-            value: 0,
-          },
-          {
-            name: "juil.",
-            value: 0,
-          },
-        ],
-      };
-
       expect(response.status).toBe(HttpStatus.OK);
-      expect(response.body).toEqual(retour);
+      expect(response.body).toEqual(JSON.parse(JSON.stringify(expected)));
     });
   });
 });

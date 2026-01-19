@@ -9,6 +9,7 @@ import { Test } from "@nestjs/testing";
 import supertest from "supertest";
 import { DataSource } from "typeorm";
 import { appTypeormManager } from "../../database";
+import { UsagerTable } from "../../database";
 import {
   AppTestHttpClientSecurityTestDef,
   TestUserAdmin,
@@ -33,6 +34,8 @@ export const AppTestHelper = {
   authenticateUsager,
   authenticateStructure,
   authenticateSupervisor,
+  getExistingUsagerForContext,
+  tryGetExistingUsagerForContext,
   filterSecurityTests,
 };
 
@@ -106,22 +109,100 @@ async function bootstrapTestApp(
   return context;
 }
 async function tearDownTestConnection(): Promise<void> {
-  setTimeout(async () => {
-    await myDataSource.destroy();
-  }, 200);
+  // In tests we want deterministic teardown: leaving the pg pool open
+  // makes Jest report open handles (TCPWRAP) and can also lead to flaky
+  // behavior when running many suites.
+  await myDataSource.destroy();
 }
 
 async function tearDownTestApp({ module }: AppTestContext): Promise<void> {
   await module.close();
-  setTimeout(async () => {
-    await myDataSource.destroy();
-  }, 200);
+  await myDataSource.destroy();
 }
 
 async function bootstrapTestConnection(): Promise<DataSource> {
   return await appTypeormManager.connect({
     reuseConnexion: true,
   });
+}
+
+/**
+ * Returns an usager that exists in DB and is compatible with the current test context.
+ *
+ * Why this exists:
+ * - Many security tests were hardcoding `usagerRef=1`.
+ * - Some other test suites create new usagers/interactions and mutate the shared DB.
+ * - With a shared connection (reuseConnexion=true), the DB state becomes order-dependent,
+ *   making the security tests flaky.
+ *
+ * Strategy:
+ * - If the context is authenticated as a structure user, pick an usager belonging to that structure.
+ * - Otherwise (anonymous/supervisor), pick any existing usager from the dump.
+ */
+async function getExistingUsagerForContext({
+  context,
+}: {
+  context: AppTestContext;
+}): Promise<
+  Pick<UsagerTable, "ref" | "structureId" | "decision" | "historique">
+> {
+  await bootstrapTestConnection();
+
+  const structureId =
+    context.user?.profile === "structure"
+      ? context.user.structureId
+      : undefined;
+
+  const repo = myDataSource.getRepository(UsagerTable);
+
+  // TypeORM v0.3+: `findOne` requires a `where` clause.
+  // For non-structure contexts (anonymous/supervisor), pick any existing usager.
+  const usager = structureId
+    ? await repo.findOne({
+        where: { structureId } as any,
+        order: { ref: "ASC" } as any,
+        // NOTE: `decision` / `historique` are jsonb columns; simplest is to select all.
+      })
+    : (
+        await repo.find({
+          take: 1,
+          order: { structureId: "ASC", ref: "ASC" } as any,
+          // NOTE: `decision` / `historique` are jsonb columns; simplest is to select all.
+        })
+      )[0];
+
+  if (!usager) {
+    throw new Error(
+      `[tests] No usager found in test database${
+        structureId ? ` for structureId=${structureId}` : ""
+      }. The DB dump may be missing expected fixtures.`
+    );
+  }
+
+  return usager;
+}
+
+/**
+ * Same as [`getExistingUsagerForContext()`](packages/backend/src/util/test/AppTestHelper.service.ts:141) but returns `null`
+ * instead of throwing if the DB dump doesn't contain any matching usager.
+ *
+ * This is useful for security tests: some test DB dumps may not contain usagers
+ * for every structure (ex: structureId=3), and the expected status should then
+ * be a 4xx (bad request) rather than failing the test suite with a thrown error.
+ */
+async function tryGetExistingUsagerForContext({
+  context,
+}: {
+  context: AppTestContext;
+}): Promise<Pick<
+  UsagerTable,
+  "ref" | "structureId" | "decision" | "historique"
+> | null> {
+  try {
+    return await getExistingUsagerForContext({ context });
+  } catch {
+    return null;
+  }
 }
 
 async function authenticateStructure(

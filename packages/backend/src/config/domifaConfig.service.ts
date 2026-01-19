@@ -11,6 +11,20 @@ import {
 import { configParser } from "./services/configParser.service";
 import { join } from "node:path";
 
+function getFallbackPackageVersion(): string {
+  // `pnpm exec` doesn't always expose `npm_package_version`.
+  // Use the backend package.json version as a stable fallback so
+  // auth flows (JWT payload, etc.) don't crash in tests.
+  try {
+    // From both TS runtime (src/...) and JS runtime (dist/...), this resolves
+    // to packages/backend/package.json.
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    return require("../../package.json").version ?? "0.0.0";
+  } catch {
+    return "0.0.0";
+  }
+}
+
 let _domifaConfig: DomifaConfig;
 
 export const domifaConfig = (env?: Partial<DomifaEnv>) => {
@@ -108,7 +122,8 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
   const config: DomifaConfig = {
     envId,
     version: configParser.parseString(x, "DOMIFA_VERSION", {
-      defaultValue: process.env.npm_package_version,
+      defaultValue:
+        process.env.npm_package_version ?? getFallbackPackageVersion(),
       required: false,
     }),
     apps: {

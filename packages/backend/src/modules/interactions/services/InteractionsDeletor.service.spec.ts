@@ -68,6 +68,7 @@ describe("InteractionsDeletor", () => {
   });
 
   it("Réception, suppression de 5 colis", async () => {
+    const colisInBefore = usager.lastInteraction?.colisIn ?? 0;
     const interaction1 = new InteractionDto();
     interaction1.type = "colisIn";
     interaction1.content = "Colis d'un distributeur";
@@ -79,16 +80,16 @@ describe("InteractionsDeletor", () => {
         user,
       });
 
-    expect(usagerAfterCreate.lastInteraction.colisIn).toEqual(5);
+    expect(usagerAfterCreate.lastInteraction.colisIn).toEqual(
+      colisInBefore + 5
+    );
 
     const usagerAfterDelete = await interactionsDeletor.deleteInteraction({
       interaction: interactionCreated,
       usager: usagerAfterCreate,
       structure,
     });
-    expect(usagerAfterDelete.lastInteraction.colisIn).toEqual(
-      usager.lastInteraction.colisIn
-    );
+    expect(usagerAfterDelete.lastInteraction.colisIn).toEqual(colisInBefore);
   });
 
   it("Distribution: doit mettre à jour la date de dernier passage", async () => {
@@ -96,6 +97,8 @@ describe("InteractionsDeletor", () => {
       ref: 6,
       structureId: 1,
     });
+
+    const colisInBefore = usager.lastInteraction?.colisIn ?? 0;
 
     const interaction1 = new InteractionDto();
     interaction1.type = "colisIn";
@@ -143,6 +146,6 @@ describe("InteractionsDeletor", () => {
     expect(new Date(test.lastInteraction.dateInteraction)).toEqual(
       firstDateInteraction
     );
-    expect(test.lastInteraction.colisIn).toEqual(9);
+    expect(test.lastInteraction.colisIn).toEqual(colisInBefore + 9);
   });
 });

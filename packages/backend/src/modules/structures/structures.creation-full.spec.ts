@@ -210,6 +210,12 @@ describe("Stuctures creation full", () => {
   });
 
   it("delete structure", async () => {
+    const deletedStructuresBefore = await structureRepository.count({
+      where: {
+        statut: "SUPPRIME",
+      },
+    });
+
     const structure = await structureRepository.findOneBy({
       uuid: localCache.uuid,
     });
@@ -236,7 +242,7 @@ describe("Stuctures creation full", () => {
     });
 
     expect(validStructures).toEqual(5);
-    expect(deletedStructures).toEqual(1);
+    expect(deletedStructures).toEqual(deletedStructuresBefore + 1);
   });
 
   async function testPreCreateStructure() {

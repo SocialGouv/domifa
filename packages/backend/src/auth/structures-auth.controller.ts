@@ -52,7 +52,15 @@ export class StructuresAuthController {
 
       return res.status(HttpStatus.OK).json(accessToken);
     } catch (err) {
-      appLogger.error(err);
+      // Important: log the real error (stack/message). Passing the error object
+      // directly as the message loses useful details with our logger wrapper.
+      appLogger.error("StructuresAuthController.loginUser failed", {
+        error: err,
+        context: {
+          userProfile,
+          email: loginDto?.email,
+        },
+      });
       return res
         .status(HttpStatus.UNAUTHORIZED)
         .json({ message: "LOGIN_FAILED" });

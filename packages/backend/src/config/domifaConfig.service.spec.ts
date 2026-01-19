@@ -16,7 +16,11 @@ describe("loadConfig", () => {
     const config = loadConfig(env);
 
     expect(config.envId).toEqual("test");
-    expect(config.version).toEqual(process.env.npm_package_version);
+    // `pnpm exec` does not always set `npm_package_version`.
+    // The config now falls back to backend package.json version in that case.
+    expect(config.version).toEqual(
+      process.env.npm_package_version ?? "2.186.0"
+    );
 
     expect(config.apps.frontendUrl).toBeDefined();
 
@@ -49,7 +53,9 @@ describe("loadConfig", () => {
     const config = loadConfig(env);
 
     expect(config.envId).toEqual("local");
-    expect(config.version).toEqual(process.env.npm_package_version);
+    expect(config.version).toEqual(
+      process.env.npm_package_version ?? "2.186.0"
+    );
 
     expect(config.apps.frontendUrl).toBeDefined();
     expect(config.apps.backendUrl).toBeDefined();

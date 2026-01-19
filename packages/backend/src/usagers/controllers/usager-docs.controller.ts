@@ -245,8 +245,8 @@ export class UsagerDocsController {
   ) {
     if (decisionUuid && !isUUID(decisionUuid)) {
       return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "DECISION_UUID_NOT_FOUND" });
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "DECISION_UUID_INVALID" });
     }
 
     const pdfForm =
@@ -269,6 +269,15 @@ export class UsagerDocsController {
       return res.setHeader("content-type", "application/pdf").send(buffer);
     } catch (err) {
       appLogger.error(err);
+
+      // `decisionUuid` is a user input (query param). When it is provided but
+      // not found in `usager.historique`, we should respond 400 instead of 500.
+      if (decisionUuid && (err as any)?.message === "CERFA_INDEX_UNDEFINED") {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "DECISION_UUID_NOT_FOUND" });
+      }
+
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "CERFA_ERROR" });
