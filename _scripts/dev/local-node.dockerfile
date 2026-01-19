@@ -1,4 +1,4 @@
-FROM node:lts-bookworm-slim
+FROM node:24-bookworm-slim
 
 USER root
 

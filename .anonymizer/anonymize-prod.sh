@@ -18,7 +18,7 @@ cat config.yaml \
     | sed "s%{{type}}%directory%" \
     > config.local.yaml
 
-yarn
-yarn build
+pnpm install
+pnpm build
 
 greenmask dump --config config.local.yaml -j 1 --exclude-table-data $exclude_tables

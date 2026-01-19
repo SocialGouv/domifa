@@ -26,28 +26,41 @@ export const ImportControllerSecurityTests: AppTestHttpClientSecurityTestDef[] =
     {
       label: `${CONTROLLER}.importExcel (fichier incorrect)`,
       query: async (context: AppTestContext) => {
-        const importFilePath = resolve(importFilesDir, "import_ko_1.xlsx");
+        const expectedStatus = expectedResponseStatusBuilder.allowStructureOnly(
+          context.user,
+          {
+            roles: ["responsable", "admin"],
+            validExpectedResponseStatus: HttpStatus.BAD_REQUEST, // invalid xls file
+          }
+        );
 
-        expect(await pathExists(importFilePath)).toBeTruthy();
+        // For forbidden/unauthorized users, sending a multipart stream may
+        // trigger "write EPIPE" because guards can reject the request early
+        // without consuming the body.
+        // Only send the file when the user is authorized to hit the endpoint.
+        let response;
+        if (expectedStatus === HttpStatus.BAD_REQUEST) {
+          const importFilePath = resolve(importFilesDir, "import_ko_1.xlsx");
+          expect(await pathExists(importFilePath)).toBeTruthy();
 
-        const headers: { [name: string]: string } = {};
-        headers["Content-Type"] = "multipart/form-data";
+          const headers: { [name: string]: string } = {
+            "Content-Type": "multipart/form-data",
+          };
 
-        const response = await AppTestHttpClient.post("/import/confirm", {
-          headers,
-          attachments: { file: importFilePath },
-          context,
-        });
+          response = await AppTestHttpClient.post("/import/confirm", {
+            headers,
+            attachments: { file: importFilePath },
+            context,
+          });
+        } else {
+          response = await AppTestHttpClient.post("/import/confirm", {
+            context,
+          });
+        }
 
         return {
           response,
-          expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
-            context.user,
-            {
-              roles: ["responsable", "admin"],
-              validExpectedResponseStatus: HttpStatus.BAD_REQUEST, // this is an invalid xls file
-            }
-          ),
+          expectedStatus,
         };
       },
     },

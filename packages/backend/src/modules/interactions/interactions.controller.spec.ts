@@ -84,8 +84,7 @@ describe("Interactions Controller", () => {
   });
 
   it("POST : colis", async () => {
-    // 4 Colis déjà enregistrés en base
-    const nbCourrierBefore = 4;
+    const nbCourrierBefore = usager.lastInteraction?.colisIn ?? 0;
     const nbCourrierToAdd = 12;
     const interaction = new InteractionDto();
     interaction.type = "colisIn";

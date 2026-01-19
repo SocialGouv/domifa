@@ -1,30 +1,45 @@
-ARG NODE_VERSION=lts-bookworm-slim
+ARG NODE_VERSION=24-bookworm-slim
 
 FROM node:${NODE_VERSION} AS deps
 
 ENV TZ Europe/Paris
-
-RUN cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
+RUN cp /usr/share/zoneinfo/Europe/Paris /etc/localtime || true
 
 WORKDIR /app
 
-COPY yarn.lock .yarnrc.yml ./
-COPY .yarn .yarn
-RUN yarn fetch workspaces focus @domifa/backend
+# Use pnpm with a lockfile-only layer for maximal cache reuse
+COPY pnpm-lock.yaml .npmrc pnpm-workspace.yaml ./
+
+RUN corepack enable \
+  && corepack prepare pnpm@10.24.0 --activate \
+  && pnpm fetch
 
 FROM deps AS builder-common
+
+WORKDIR /app
+
+# Build shared common library
 COPY ./packages/common ./packages/common
-RUN yarn workspace @domifa/common build
+
+RUN corepack enable \
+  && corepack prepare pnpm@10.24.0 --activate \
+  && pnpm install --filter @domifa/common... --frozen-lockfile --offline \
+  && pnpm --filter @domifa/common build
 
 FROM deps AS builder
+
+WORKDIR /app
+
+# Reuse built common package
 COPY --from=builder-common /app/packages/common ./packages/common
 
+# Copy backend sources
 COPY ./packages/backend /app/packages/backend
 
-RUN yarn workspace @domifa/backend build
-
-RUN yarn workspaces focus @domifa/backend --production && yarn cache clean
-RUN mkdir -p packages/backend/node_modules && mkdir -p packages/common/node_modules
+RUN corepack enable \
+  && corepack prepare pnpm@10.24.0 --activate \
+  && pnpm install --filter @domifa/backend... --frozen-lockfile --offline \
+  && pnpm --filter @domifa/backend build
 
 FROM node:${NODE_VERSION}
 
@@ -41,14 +56,20 @@ USER 1000
 WORKDIR /app
 
 COPY  ./packages/backend/scripts/start /app/packages/backend/scripts/start
+
+# Copy pnpm root store so workspace symlinks in package node_modules resolve correctly
 COPY --from=builder --chown=1000:1000 /app/node_modules /app/node_modules
+
 COPY --from=builder --chown=1000:1000 /app/packages/common/node_modules /app/packages/common/node_modules
 COPY --from=builder --chown=1000:1000 /app/packages/common/dist /app/packages/common/dist
 COPY --from=builder --chown=1000:1000 /app/packages/common/package.json /app/packages/common/
+
+# Copy backend package.json so start script can read DOMIFA_VERSION
+COPY --from=builder --chown=1000:1000 /app/packages/backend/package.json /app/packages/backend/package.json
+
 COPY --from=builder --chown=1000:1000 /app/packages/backend/node_modules /app/packages/backend/node_modules
 COPY --from=builder --chown=1000:1000 /app/packages/backend/dist /app/packages/backend/dist
 COPY --from=builder --chown=1000:1000 /app/packages/backend/.env.preset /app/packages/backend/.env.preset
-COPY --from=builder --chown=1000:1000 /app/packages/backend/package.json /app/packages/backend/
 COPY --from=builder --chown=1000:1000 /app/packages/backend/src/excel/_templates /app/packages/backend/dist/excel/_templates/
 COPY --from=builder --chown=1000:1000 /app/packages/backend/src/_static /app/packages/backend/dist/_static/
 COPY --from=builder --chown=1000:1000 /app/packages/backend/src/_migrations/_init-db/domifa_test_schema.sql /app/packages/backend/dist/_migrations/_init-db/domifa_test_schema.sql

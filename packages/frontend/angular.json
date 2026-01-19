@@ -118,7 +118,10 @@
     }
   },
   "cli": {
-    "packageManager": "yarn",
-    "schematicCollections": ["@angular-eslint/schematics"]
+    "packageManager": "pnpm",
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ],
+    "analytics": false
   }
 }

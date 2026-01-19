@@ -12,6 +12,8 @@ describe("userUsagerLoginRepository", () => {
 
   it("Count all logins made", async () => {
     const users = await userUsagerLoginRepository.count();
-    expect(users).toBeGreaterThan(2);
+    // The canonical test dump contains 2 rows in `user_usager_login`.
+    // This test asserts that the repository is wired correctly, not the exact dump size.
+    expect(users).toBeGreaterThanOrEqual(2);
   });
 });

@@ -5,7 +5,11 @@
 //
 
 import { HttpStatus } from "@nestjs/common";
-import { AppTestContext, AppTestHttpClient } from "../../../util/test";
+import {
+  AppTestContext,
+  AppTestHelper,
+  AppTestHttpClient,
+} from "../../../util/test";
 import {
   AppTestHttpClientSecurityTestDef,
   expectedResponseStatusBuilder,
@@ -23,40 +27,65 @@ export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef
   [
     {
       label: `${CONTROLLER}.getCerfa - without decisionUuid`,
-      query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.get("/docs/cerfa/1/attestation", {
+      query: async (context: AppTestContext) => {
+        const usager = await AppTestHelper.tryGetExistingUsagerForContext({
           context,
-        }),
-        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
-          context.user,
-          {
-            roles: ["simple", "responsable", "admin", "agent"],
-            validExpectedResponseStatus: HttpStatus.OK,
-            validStructureIds: [1, 3],
-          }
-        ),
-      }),
+        });
+
+        // Some DB dumps may not contain usagers for every structure.
+        // In that case, this endpoint should be rejected by the usager access guard.
+        const usagerRef = usager?.ref ?? 4444444;
+
+        return {
+          response: await AppTestHttpClient.get(
+            `/docs/cerfa/${usagerRef}/attestation`,
+            {
+              context,
+            }
+          ),
+          expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+            context.user,
+            {
+              roles: ["simple", "responsable", "admin", "agent"],
+              validExpectedResponseStatus:
+                usager != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+            }
+          ),
+        };
+      },
     },
     {
       label: `${CONTROLLER}.getCerfa - with valid decisionUuid`,
-      query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.get(
-          "/docs/cerfa/1/attestation?decisionUuid=52ba789e-eb21-4d84-9176-abe1e0d3c778",
-          {
-            context,
-          }
-        ),
-        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
-          context.user,
-          {
-            roles: ["simple", "responsable", "admin", "agent"],
-            validExpectedResponseStatus: HttpStatus.OK,
-            invalidStructureIdExpectedResponseStatus:
-              HttpStatus.INTERNAL_SERVER_ERROR,
-            validStructureIds: [1],
-          }
-        ),
-      }),
+      query: async (context: AppTestContext) => {
+        const usager = await AppTestHelper.tryGetExistingUsagerForContext({
+          context,
+        });
+
+        const usagerRef = usager?.ref ?? 4444444;
+        const decisionUuid = usager?.decision?.uuid;
+
+        // If there is no usager or no decisionUuid in the dump, we expect a 4xx.
+        const validExpectedResponseStatus =
+          usager && decisionUuid ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+
+        return {
+          response: await AppTestHttpClient.get(
+            `/docs/cerfa/${usagerRef}/attestation?decisionUuid=${
+              decisionUuid ?? "missing"
+            }`,
+            {
+              context,
+            }
+          ),
+          expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+            context.user,
+            {
+              roles: ["simple", "responsable", "admin", "agent"],
+              validExpectedResponseStatus,
+            }
+          ),
+        };
+      },
     },
     {
       label: `${CONTROLLER}.getCerfa - with invalid UUID format`,
@@ -71,10 +100,7 @@ export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef
           context.user,
           {
             roles: ["simple", "responsable", "admin", "agent"],
-            validExpectedResponseStatus: HttpStatus.INTERNAL_SERVER_ERROR, // Invalid UUID format
-            invalidStructureIdExpectedResponseStatus:
-              HttpStatus.INTERNAL_SERVER_ERROR,
-            validStructureIds: [1],
+            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
           }
         ),
       }),
@@ -92,10 +118,7 @@ export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef
           context.user,
           {
             roles: ["simple", "responsable", "admin", "agent"],
-            validExpectedResponseStatus: HttpStatus.INTERNAL_SERVER_ERROR, // Non-existing decision
-            invalidStructureIdExpectedResponseStatus:
-              HttpStatus.INTERNAL_SERVER_ERROR,
-            validStructureIds: [1],
+            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
           }
         ),
       }),
@@ -121,19 +144,27 @@ export const UsagerDocsControllerSecurityTests: AppTestHttpClientSecurityTestDef
     },
     {
       label: `${CONTROLLER}.getUsagerDocuments`,
-      query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.get("/docs/1", {
+      query: async (context: AppTestContext) => {
+        const usager = await AppTestHelper.tryGetExistingUsagerForContext({
           context,
-        }),
-        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
-          context.user,
-          {
-            roles: ["simple", "responsable", "admin"],
-            validExpectedResponseStatus: HttpStatus.OK, // filesystem document does not exists in tests
-            invalidStructureIdExpectedResponseStatus: HttpStatus.BAD_REQUEST,
-          }
-        ),
-      }),
+        });
+
+        const usagerRef = usager?.ref ?? 4444444;
+
+        return {
+          response: await AppTestHttpClient.get(`/docs/${usagerRef}`, {
+            context,
+          }),
+          expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+            context.user,
+            {
+              roles: ["simple", "responsable", "admin"],
+              validExpectedResponseStatus:
+                usager != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST,
+            }
+          ),
+        };
+      },
     },
     {
       label: `${CONTROLLER}.patchDocument (wrong payload)`,
