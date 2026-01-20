@@ -34,7 +34,6 @@ $font-family-monospace: "Marianne", SFMono-Regular, Menlo, Monaco, Consolas,
 @import "node_modules/bootstrap/scss/bootstrap.scss" layer(bootstrap);
 @import "@gouvfr/dsfr/dist/dsfr.min.css" layer(dsfr);
 @import "@gouvfr/dsfr/dist/utility/utility.min.css" layer(dsfr);
-@import "ckeditor5/ckeditor5.css";
 
 @layer dsfr-personnalization {
   .fr-callout--empty {
