@@ -11,7 +11,10 @@
 .stepper-line--completed {
   background-color: var(--background-action-high-blue-france);
 }
-
+.step-icon {
+  width: 56px;
+  height: 56px;
+}
 .step {
   width: 19%;
   margin: 0.2rem;

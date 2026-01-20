@@ -366,9 +366,8 @@
                     submitted && (f.telephone.errors || f.telephone.invalid)
                 }"
               >
-                <p class="fr-hint-text">Format attendu : (+33) 1 22 33 44 55</p>
                 <app-phone-input
-                  [isRequired]="true"
+                  [isRequired]="false"
                   [isMobileOnly]="false"
                   [submitted]="submitted"
                   formControlName="telephone"

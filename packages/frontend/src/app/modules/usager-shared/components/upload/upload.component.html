@@ -68,21 +68,8 @@
     </div>
 
     <div class="fr-col-12 fr-col-md-2 fr-displayed-flex fr-flex-align-end">
-      <button
-        type="submit"
-        class="fr-btn w-100"
-        [disabled]="loading"
-        [attr.aria-busy]="loading"
-      >
-        @if (!loading) { Ajouter un fichier } @else {
-        <span
-          class="fr-spinner fr-mr-1w"
-          role="status"
-          aria-label="Téléchargement en cours"
-        >
-          <span class="fr-sr-only">Patientez...</span>
-        </span>
-        Téléchargement en cours }
+      <button type="submit" class="fr-btn" [disabled]="loading">
+        Ajouter le fichier
       </button>
     </div>
   </div>
