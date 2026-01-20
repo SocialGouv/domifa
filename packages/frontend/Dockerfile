@@ -1,4 +1,4 @@
-FROM node:24-bookworm-slim AS deps
+FROM node:22-bookworm-slim AS deps
 
 RUN apt-get update -y && apt-get install -y gettext-base && rm -rf /var/lib/apt/lists/*
 
