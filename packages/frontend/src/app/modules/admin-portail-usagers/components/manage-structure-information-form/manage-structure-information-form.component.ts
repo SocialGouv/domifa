@@ -25,17 +25,6 @@ import {
   formatDateToNgb,
 } from "../../../../shared";
 import { Subscription } from "rxjs";
-import { EditorConfig } from "ckeditor5/src/core";
-import {
-  Bold,
-  ClassicEditor,
-  Essentials,
-  Italic,
-  List,
-  Mention,
-  Paragraph,
-  Undo,
-} from "ckeditor5";
 
 @Component({
   selector: "app-manage-structure-information-form",
@@ -56,37 +45,6 @@ export class ManageStructureInformationFormComponent
 
   @Output()
   public getStructureInformation = new EventEmitter<void>();
-
-  public Editor = ClassicEditor;
-  public config: EditorConfig = {
-    toolbar: [
-      "bold",
-      "italic",
-      "list",
-      "bulletedList",
-      "numberedList",
-      "|",
-      "undo",
-      "redo",
-    ],
-    plugins: [Bold, Essentials, Italic, Mention, Paragraph, Undo, List],
-    placeholder: "Contenu de l'information que vous souhaitez diffuser",
-    language: "fr",
-    link: {
-      addTargetToExternalLinks: true,
-      defaultProtocol: "https://",
-      decorators: {
-        openInNewTab: {
-          mode: "manual",
-          label: "Ouvrir dans un nouvel onglet",
-          attributes: {
-            target: "_blank",
-            rel: "noopener noreferrer",
-          },
-        },
-      },
-    },
-  };
 
   constructor(
     private readonly fb: FormBuilder,
@@ -124,7 +82,7 @@ export class ManageStructureInformationFormComponent
           [
             Validators.required,
             Validators.minLength(10),
-            this.ckeditorValidator(),
+            this.dsfrEditorValidator(),
           ],
         ],
         startDate: [
@@ -151,13 +109,14 @@ export class ManageStructureInformationFormComponent
     );
   }
 
-  ckeditorValidator() {
+  dsfrEditorValidator() {
     return (control: AbstractControl): ValidationErrors | null => {
       const value = control.value;
       if (!value) {
         return { required: true };
       }
 
+      // Récupérer le texte brut du HTML
       const div = document.createElement("div");
       div.innerHTML = value;
       const text = div.textContent || div.innerText || "";
@@ -168,6 +127,13 @@ export class ManageStructureInformationFormComponent
 
       return null;
     };
+  }
+
+  onEditorChange(): void {
+    // La mise à jour se fait automatiquement via formControlName
+    // Cette méthode peut être utilisée pour des traitements supplémentaires si nécessaire
+    this.tempMessageForm.get("description")?.markAsDirty();
+    this.tempMessageForm.get("description")?.markAsTouched();
   }
 
   onSubmit(): void {
@@ -205,6 +171,7 @@ export class ManageStructureInformationFormComponent
   }
 
   private patchStructureInformation(formData: Partial<StructureInformation>) {
+    this.loading = true;
     this.subscription.add(
       this.structureInformationService
         .updateStructureInformation(this.structureInformation.uuid, formData)
@@ -225,6 +192,7 @@ export class ManageStructureInformationFormComponent
   }
 
   private postStructureInformation(formData: Partial<StructureInformation>) {
+    this.loading = true;
     this.subscription.add(
       this.structureInformationService
         .createStructureInformation(formData)
@@ -254,6 +222,7 @@ export class ManageStructureInformationFormComponent
       ? endDateAfterBeginDateCheck(beginDateControl, endDateControl)
       : null;
   };
+
   public ngOnDestroy() {
     this.subscription.unsubscribe();
   }
