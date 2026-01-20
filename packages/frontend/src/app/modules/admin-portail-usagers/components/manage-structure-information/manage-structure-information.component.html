@@ -10,11 +10,7 @@
         class="my-2 d-flex flex-wrap justify-content-between align-items-center"
       >
         <h2>Informations déjà enregistrées</h2>
-        <button
-          (click)="openForm(null)"
-          type="button"
-          class="btn btn-outline-dark"
-        >
+        <button (click)="openForm(null)" type="button" class="btn btn-primary">
           <fa-icon
             [icon]="['fas', 'plus']"
             aria-hidden="true"
@@ -115,54 +111,64 @@
   </div>
 </div>
 
-<ng-template #structureInformationEditorModal let-modal>
-  <app-manage-structure-information-form
-    [structureInformation]="selectedStructureInformation"
-    (getStructureInformation)="getStructureInformation()"
-  >
-  </app-manage-structure-information-form>
-</ng-template>
+<dsfr-modal
+  #editorModal
+  [size]="'LG'"
+  dialogId="structureInformationEditorModal"
+  [titleModal]="
+    selectedStructureInformation
+      ? 'Modifier l\'information'
+      : 'Ajouter une information'
+  "
+  (closeEvent)="closeModals()"
+>
+  <ng-container dsfrModalBody>
+    <app-manage-structure-information-form
+      [structureInformation]="selectedStructureInformation"
+      (getStructureInformation)="getStructureInformation()"
+    >
+    </app-manage-structure-information-form>
+  </ng-container>
+</dsfr-modal>
 
-<ng-template #structureInformationDeleteConfirmationModal let-modal>
-  <div class="modal-header bg-danger">
-    <span class="text-white" id="modal-title">Confirmer la suppression</span>
-  </div>
-
-  <div class="modal-body py-4 text-center">
+<dsfr-modal
+  #deleteModal
+  dialogId="structureInformationDeleteModal"
+  titleModal="Confirmer la suppression"
+  (closeEvent)="closeModals()"
+>
+  <ng-container dsfrModalBody>
     <p>
-      <b>Attention</b> En supprimant ce message, les domiciliés qui utilisent le
-      portail ne verront plus son contenu. Une fois supprimé le message ne peux
-      pas être récupéré.
+      <strong>Attention</strong> En supprimant ce message, les domiciliés qui
+      utilisent le portail ne verront plus son contenu. Une fois supprimé, le
+      message ne peut pas être récupéré.
     </p>
-  </div>
+  </ng-container>
 
-  <div class="modal-footer">
+  <ng-container dsfrModalActions>
     <button
-      type="submit"
-      class="btn btn-lg btn-danger"
+      type="button"
+      class="fr-btn fr-btn--danger"
       (click)="deleteStructureInformation()"
       [disabled]="loading"
       [attr.aria-busy]="loading"
     >
-      <span *ngIf="loading">
-        <fa-icon
-          [icon]="['fas', 'circle-notch']"
-          animation="spin"
-          aria-hidden="true"
-        ></fa-icon>
-        Veuillez patienter...
-      </span>
-      <span *ngIf="!loading">Confirmer la suppression</span>
+      <fa-icon
+        *ngIf="loading"
+        [icon]="['fas', 'circle-notch']"
+        animation="spin"
+        aria-hidden="true"
+        class="me-2"
+      ></fa-icon>
+      {{ loading ? "Suppression en cours..." : "Confirmer la suppression" }}
     </button>
     <button
       type="button"
-      [disabled]="loading"
-      [attr.aria-busy]="loading"
-      [attr.aria-disabled]="loading"
-      class="btn btn-lg btn-outline-dark"
+      class="fr-btn fr-btn--secondary"
       (click)="closeModals()"
+      [disabled]="loading"
     >
-      Revenir au profil
+      Annuler
     </button>
-  </div>
-</ng-template>
+  </ng-container>
+</dsfr-modal>
