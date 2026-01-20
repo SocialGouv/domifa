@@ -1,7 +1,7 @@
 {
   "name": "@domifa/anonymizer",
   "engines": {
-    "node": ">=24",
+    "node": ">=22",
     "pnpm": ">=10"
   },
   "packageManager": "pnpm@10.24.0",
