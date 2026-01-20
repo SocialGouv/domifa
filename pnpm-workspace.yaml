@@ -4,4 +4,4 @@ packages:
 
 sharedWorkspaceLockfile: true
 engineStrict: true
-nodeVersion: 24.0.0
+nodeVersion: 22.22.0
