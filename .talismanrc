@@ -7,6 +7,8 @@ fileignoreconfig:
   checksum: 4328b99895292731f5e4e75391b442d1c098aff466c1649faa7c1840550a6cd6
 - filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
   checksum: a6d69a27445845d23455b1440f449485fbeefd07ca2549f96b8dea8603e584bd
+- filename: CHANGELOG.md
+  checksum: df7139c2553d684685d005d1e97151fa4d9fbe617787e0a27455812a117f1ce3
 - filename: _docs/dev/0.run-local-env.md
   checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql

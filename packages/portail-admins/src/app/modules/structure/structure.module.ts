@@ -13,6 +13,7 @@ import { ClipboardModule } from "@angular/cdk/clipboard";
 import { StructureRoutingModule } from "./structure-routing.module";
 import { DsfrTooltipDirective } from "@edugouvfr/ngx-dsfr";
 import { RegisterUserComponent } from "./components/register-user/register-user.component";
+import { DisplayLastLoginComponent } from "../shared/components/display-last-login/display-last-login.component";
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { RegisterUserComponent } from "./components/register-user/register-user.
     ClipboardModule,
     DsfrTooltipDirective,
     RegisterUserComponent,
+    DisplayLastLoginComponent,
   ],
 })
 export class StructureModule {}

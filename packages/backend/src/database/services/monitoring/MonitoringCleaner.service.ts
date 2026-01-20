@@ -1,19 +1,18 @@
 import { Injectable } from "@nestjs/common";
-import { Cron } from "@nestjs/schedule";
+import { Cron, CronExpression } from "@nestjs/schedule";
 import { LessThanOrEqual } from "typeorm";
 import { monitoringBatchProcessSimpleCountRunner } from ".";
 import { MonitoringBatchProcessTrigger } from "../..";
-import { domifaConfig } from "../../../config";
 import { appLogger } from "../../../util";
 
 import { monitoringBatchProcessRepository } from "./monitoringBatchProcessRepository.service";
 
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
-import { endOfDay, sub } from "date-fns";
+import { endOfDay, subDays } from "date-fns";
 
 @Injectable()
 export class MonitoringCleaner {
-  @Cron(domifaConfig().cron.monitoringCleaner.crontime)
+  @Cron(CronExpression.EVERY_DAY_AT_11PM)
   public async purgeObsoleteDataCron() {
     if (!isCronEnabled()) {
       appLogger.debug("[CRON] [purgeObsoleteDataCron] Disabled by config");
@@ -24,13 +23,8 @@ export class MonitoringCleaner {
 
   public async purgeObsoleteData(trigger: MonitoringBatchProcessTrigger) {
     appLogger.warn("[CRON] [purgeObsoleteDataCron] Start");
-    const delay = domifaConfig().cron.monitoringCleaner.delay;
 
-    const limitDate = endOfDay(
-      sub(new Date(), {
-        [delay.unit]: delay.amount,
-      })
-    );
+    const limitDate = endOfDay(subDays(new Date(), 7));
 
     await monitoringBatchProcessSimpleCountRunner.monitorProcess(
       {

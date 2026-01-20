@@ -6,22 +6,23 @@ import {
   TransactionalEmailsApi,
   ContactsApi,
   CreateContact,
+  SendSmtpEmailReplyTo,
 } from "@getbrevo/brevo";
-import { readFileSync } from "fs";
-import { basename } from "path";
+import { readFileSync } from "node:fs";
+import { basename } from "node:path";
 import {
   DEPARTEMENTS_LISTE,
   REGIONS_LISTE,
   Structure,
   STRUCTURE_DECISION_LABELS,
   USER_STRUCTURE_ROLES_LABELS,
+  STRUCTURE_TYPE_LABELS,
 } from "@domifa/common";
 import { isValid } from "date-fns";
 
 import { UserStructureBrevo } from "../../types/UserStructureBrevo.type";
 import { getStructureDecisionMotif } from "../../../portail-admin/services/get-structure-decision-motif";
 import { appLogger } from "../../../../util";
-import { STRUCTURE_TYPE_LABELS } from "@domifa/common";
 import { UserProfile, UserSecurity } from "../../../../_common/model";
 import {
   userStructureRepository,
@@ -31,8 +32,8 @@ import { userSecurityResetPasswordInitiator } from "../../../users/services";
 
 @Injectable()
 export class BrevoSenderService {
-  private transactionalEmailsApi: TransactionalEmailsApi;
-  private contactsApi: ContactsApi;
+  private readonly transactionalEmailsApi: TransactionalEmailsApi;
+  private readonly contactsApi: ContactsApi;
 
   constructor() {
     const config = domifaConfig();
@@ -104,6 +105,7 @@ export class BrevoSenderService {
     attachmentPath,
     attachmentContent,
     attachmentName,
+    replyTo,
   }: {
     templateId: number;
     subject?: string;
@@ -112,6 +114,7 @@ export class BrevoSenderService {
     attachmentPath?: string;
     attachmentContent?: string; // base64
     attachmentName?: string;
+    replyTo?: SendSmtpEmailReplyTo;
   }) {
     const config = domifaConfig();
 
@@ -120,7 +123,7 @@ export class BrevoSenderService {
         `[EMAILS DISABLED] Email non envoyé - Template ID: ${templateId}, To: ${JSON.stringify(
           to
         )}, Raison: ${
-          !config.email.emailsEnabled ? "emailsEnabled=false" : "envId=test"
+          config.email.emailsEnabled ? "envId=test" : "emailsEnabled=false"
         }`
       );
       return { messageId: "mock-message-id-emails-disabled" };
@@ -143,7 +146,9 @@ export class BrevoSenderService {
                 name: "DomiFa Préprod",
               },
             ];
+
       sendSmtpEmail.params = params;
+      sendSmtpEmail.replyTo = replyTo;
 
       if (attachmentPath) {
         const fileContent = readFileSync(attachmentPath);
@@ -209,7 +214,7 @@ export class BrevoSenderService {
         ),
       };
       createContactBody.listIds = [
-        parseInt(domifaConfig().brevo.contactsUsersListId, 10),
+        Number.parseInt(domifaConfig().brevo.contactsUsersListId, 10),
       ];
       createContactBody.updateEnabled = true;
 

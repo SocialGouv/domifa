@@ -1,17 +1,10 @@
-import {
-  DomifaConfigDelayUnit,
-  DomifaEnv,
-  DomifaEnvKey,
-  DOMIFA_CONFIG_DELAY_UNITS,
-  DomifaConfigDelay,
-} from "../model";
+import { DomifaEnv, DomifaEnvKey } from "../model";
 
 export const configParser = {
   parseBoolean,
   parseInteger,
   parseString,
   parseStringArray,
-  parseDelay,
 };
 
 function parseBoolean(
@@ -140,46 +133,6 @@ function parseString<T extends string>(
 
 function isStringValueSet(value: string): boolean {
   return !!value && value.trim && value.trim().length !== 0;
-}
-
-function parseDelay<T extends string>(
-  envConfig: Partial<DomifaEnv>,
-  key: DomifaEnvKey,
-  {
-    required = true,
-    defaultValue,
-  }: {
-    required?: boolean;
-    defaultValue?: T;
-  } = {
-    required: true,
-  }
-): DomifaConfigDelay {
-  const value = parseString(envConfig, key, {
-    defaultValue,
-    required,
-  });
-  if (value) {
-    const chunks = value.split(" ");
-    if (chunks.length !== 2) {
-      // eslint:disable-next-line: no-console
-      console.error(`[configParser] invalid delay value "${key}": "${value}"`);
-      throw new Error("Invalid delay value");
-    }
-    const amount = parseIntegerFromString(chunks[0]);
-    const unit = chunks[1] as DomifaConfigDelayUnit;
-    if (!DOMIFA_CONFIG_DELAY_UNITS.includes(unit)) {
-      // eslint:disable-next-line: no-console
-      console.error(
-        `[configParser] invalid delay unit "${key}": "${unit}"(allowed: ${DOMIFA_CONFIG_DELAY_UNITS.map(
-          (x) => `"${x}"`
-        ).join(",")})`
-      );
-      throw new Error("Invalid delay unit");
-    }
-    return { amount, unit };
-  }
-  return defaultValue as unknown as DomifaConfigDelay;
 }
 
 function parseIntegerFromString(value: string): number | undefined {

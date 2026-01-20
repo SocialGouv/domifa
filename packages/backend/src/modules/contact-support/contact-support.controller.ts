@@ -105,6 +105,10 @@ export class ContactSupportController {
             name: "DomiFa",
           },
         ],
+        replyTo: {
+          email: contactSupportDto.email,
+          name: contactSupportDto.name,
+        },
         attachmentPath: file?.path,
       });
 

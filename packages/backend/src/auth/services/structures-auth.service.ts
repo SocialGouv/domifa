@@ -2,7 +2,12 @@ import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { differenceInCalendarDays } from "date-fns";
 import { domifaConfig } from "../../config";
-import { userStructureRepository, structureRepository } from "../../database";
+import {
+  userStructureRepository,
+  structureRepository,
+  appLogsRepository,
+} from "../../database";
+import { appLogger } from "../../util";
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
   UserStructureAuthenticated,
@@ -11,6 +16,7 @@ import {
 } from "../../_common/model";
 
 import { UserStructure, StructureCommon } from "@domifa/common";
+import { LogAction } from "../../modules/app-logs/types";
 
 export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "uuid",
@@ -27,6 +33,16 @@ export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "fonctionDetail",
   "createdAt",
 ];
+
+type ReactivationType = "STRUCTURE" | "ACCOUNT";
+
+interface ReactivationEvent {
+  type: ReactivationType;
+  userId: number;
+  structureId: number;
+  inactivityDays: number;
+  lastLoginBefore: Date | null;
+}
 
 @Injectable()
 export class StructuresAuthService {
@@ -61,6 +77,7 @@ export class StructuresAuthService {
     if (payload._userProfile !== "structure") {
       return false;
     }
+
     const authUser = await this.findAuthUser(payload);
     if (!authUser) {
       return false;
@@ -68,31 +85,102 @@ export class StructuresAuthService {
 
     const today = new Date();
 
-    // Structure
-    const structureLastLogin = authUser.structure.lastLogin
-      ? new Date(authUser.structure.lastLogin)
-      : new Date(authUser.structure.createdAt);
+    await this.handleReactivationCheck(
+      authUser,
+      "STRUCTURE",
+      authUser.structure.lastLogin,
+      authUser.structure.createdAt,
+      today
+    );
 
-    if (differenceInCalendarDays(today, structureLastLogin) > 0) {
+    await this.handleReactivationCheck(
+      authUser,
+      "ACCOUNT",
+      authUser.lastLogin,
+      authUser.createdAt,
+      today
+    );
+
+    return authUser;
+  }
+
+  private async handleReactivationCheck(
+    authUser: UserStructureAuthenticated,
+    type: ReactivationType,
+    lastLogin: Date | null,
+    createdAt: Date,
+    today: Date
+  ): Promise<void> {
+    const referenceDate = lastLogin ? new Date(lastLogin) : new Date(createdAt);
+    const inactivityDays = differenceInCalendarDays(today, referenceDate);
+
+    if (inactivityDays <= 0) {
+      return;
+    }
+
+    const isReactivation = !lastLogin || inactivityDays > 365;
+
+    if (isReactivation) {
+      const event: ReactivationEvent = {
+        type,
+        userId: authUser.id,
+        structureId: authUser.structureId,
+        inactivityDays,
+        lastLoginBefore: lastLogin,
+      };
+
+      await this.logReactivation(event);
+    }
+
+    await this.updateLastLogin(type, authUser, today);
+  }
+
+  private async logReactivation(event: ReactivationEvent): Promise<void> {
+    const actionMap: Record<ReactivationType, string> = {
+      STRUCTURE: "REACTIVATION_STRUCTURE",
+      ACCOUNT: "REACTIVATION_ACCOUNT",
+    };
+
+    const action = actionMap[event.type];
+
+    const context = {
+      lastLoginBefore: event.lastLoginBefore,
+      daysOfInactivity: event.inactivityDays,
+    };
+
+    appLogger.info(
+      `Réactivation de ${
+        event.type === "STRUCTURE" ? "structure" : "compte utilisateur"
+      } - ` +
+        `userId: ${event.userId}, structureId: ${event.structureId}, ` +
+        `inactivité: ${event.inactivityDays} jours`
+    );
+
+    await appLogsRepository.save({
+      structureId: event.structureId,
+      userId: event.userId,
+      usagerRef: null,
+      action: action as LogAction,
+      context,
+    });
+  }
+
+  private async updateLastLogin(
+    type: ReactivationType,
+    authUser: UserStructureAuthenticated,
+    today: Date
+  ): Promise<void> {
+    if (type === "STRUCTURE") {
       await structureRepository.update(
         { id: authUser.structureId },
         { lastLogin: today }
       );
-    }
-
-    // User
-    const userLastLogin = authUser.lastLogin
-      ? new Date(authUser.lastLogin)
-      : new Date(authUser.createdAt);
-
-    if (differenceInCalendarDays(today, userLastLogin) > 0) {
+    } else {
       await userStructureRepository.update(
         { id: authUser.id, structureId: authUser.structureId },
         { lastLogin: today }
       );
     }
-
-    return authUser;
   }
 
   public async findAuthUser(

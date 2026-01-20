@@ -274,7 +274,7 @@ const mapUserStructureToViewModel = (
   user: UserStructureWithSecurity
 ): UserWithSecurityViewModel => ({
   ...user,
-  lastLogin: new Date(user.lastLogin),
+  lastLogin: user?.lastLogin ? new Date(user.lastLogin) : null,
   eventsHistory: user.eventsHistory
     .map((eventHistory) => ({
       ...eventHistory,
