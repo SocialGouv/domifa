@@ -25,28 +25,14 @@ import {
 
 import intlTelInput from "intl-tel-input";
 import { Country, Iso2 } from "intl-tel-input/data";
-import frCountries from "intl-tel-input/build/js/i18n/fr/countries.js";
 import { PhoneNumberUtil } from "google-libphonenumber";
+import { FR_COUNTRIES } from "./constants/FR_COUNTRIES.const";
+import { PREFERRED_COUNTRIES } from "./constants";
 
 export type Telephone = {
   countryCode: Iso2;
   numero: string;
 };
-
-export const PREFERRED_COUNTRIES: Iso2[] = [
-  "fr",
-  "gp",
-  "mq",
-  "gf",
-  "re",
-  "yt",
-  "pm",
-  "bl",
-  "mf",
-  "wf",
-  "pf",
-  "nc",
-];
 
 @Component({
   selector: "app-phone-input",
@@ -132,7 +118,7 @@ export class PhoneInputComponent
     this.allCountries = [...this.preferredCountriesData, ...otherCountries].map(
       (country) => ({
         ...country,
-        name: frCountries[country.iso2] || country.name,
+        name: FR_COUNTRIES[country.iso2] || country.name,
       })
     );
 
