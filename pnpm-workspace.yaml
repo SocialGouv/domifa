@@ -1,9 +1,11 @@
 packages:
-  - "packages/*"
-  - ".anonymizer"
+  - packages/*
+  - .anonymizer
 
-sharedWorkspaceLockfile: true
 engineStrict: true
-nodeVersion: 22.22.0
 
 hoist: true
+
+nodeVersion: 22.22.0
+
+sharedWorkspaceLockfile: true
