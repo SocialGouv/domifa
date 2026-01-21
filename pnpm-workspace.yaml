@@ -5,3 +5,5 @@ packages:
 sharedWorkspaceLockfile: true
 engineStrict: true
 nodeVersion: 22.22.0
+
+hoist: true
