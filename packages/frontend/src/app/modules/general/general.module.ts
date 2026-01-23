@@ -28,7 +28,6 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
 import { RouterModule } from "@angular/router";
 
 import { SharedModule } from "../shared/shared.module";
-import { LoginComponent } from "./components/login/login.component";
 import { PlanSiteComponent } from "./components/plan-site/plan-site.component";
 import { HelpModalComponent } from "./components/static-modals/help-modal/help-modal.component";
 import { RgaaComponent } from "./components/static-pages/rgaa/rgaa.component";
@@ -48,7 +47,6 @@ import { FaqSectionComponent } from "../shared/components/faq-section/faq-sectio
     CguComponent,
     PolitiqueComponent,
     NavbarComponent,
-    LoginComponent,
     PlanSiteComponent,
     HelpModalComponent,
     IdleManagerComponent,

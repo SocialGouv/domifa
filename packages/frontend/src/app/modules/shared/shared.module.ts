@@ -16,6 +16,7 @@ import { InputReferrerComponent } from "./components/input-referrer/input-referr
 import { FormsModule } from "@angular/forms";
 import { FonctionSelectionComponent } from "./components/fonction-selection/fonction-selection.component";
 import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
+import { UserStructurePasswordFormComponent } from "./components/user-structure-password-form/user-structure-password-form.component";
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
     ButtonComponent,
     InputReferrerComponent,
     FonctionSelectionComponent,
+    UserStructurePasswordFormComponent,
   ],
   exports: [
     ReplaceLineBreaks,
@@ -46,6 +48,7 @@ import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
     ButtonComponent,
     FonctionFormatPipe,
     DsfrFooterModule,
+    UserStructurePasswordFormComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

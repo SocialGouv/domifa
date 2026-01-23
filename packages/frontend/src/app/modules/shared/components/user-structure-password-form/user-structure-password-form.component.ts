@@ -4,8 +4,8 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { PASSWORD_VALIDATOR } from "../../PASSWORD_VALIDATOR.const";
-import { PasswordValidator } from "../../services";
+import { PASSWORD_VALIDATOR } from "../../../users/PASSWORD_VALIDATOR.const";
+import { PasswordValidator } from "../../../users/services";
 
 @Component({
   selector: "app-user-structure-password-form",
