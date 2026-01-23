@@ -19,6 +19,7 @@ import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
 import { DsfrDropdownMenuComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { HasRoleDirective } from "./directives/has-role.directive";
 import { AlerteConfidentialiteComponent } from "../general/components/navbar/fragments/alerte-confidentialite/alerte-confidentialite.component";
+import { UserStructurePasswordFormComponent } from "./components/user-structure-password-form/user-structure-password-form.component";
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { AlerteConfidentialiteComponent } from "../general/components/navbar/fra
     ButtonComponent,
     InputReferrerComponent,
     FonctionSelectionComponent,
+    UserStructurePasswordFormComponent,
   ],
   exports: [
     ReplaceLineBreaks,
@@ -55,6 +57,7 @@ import { AlerteConfidentialiteComponent } from "../general/components/navbar/fra
     DsfrFooterModule,
     DsfrDropdownMenuComponent,
     AlerteConfidentialiteComponent,
+    UserStructurePasswordFormComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
