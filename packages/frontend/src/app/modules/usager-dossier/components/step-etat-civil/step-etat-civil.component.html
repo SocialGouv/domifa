@@ -178,7 +178,7 @@
                 <label class="fr-label" for="dateNaissance">
                   Date de naissance
                 </label>
-                <div class="fr-input-wrap fr-input-wrap--action">
+                <div class="">
                   <input
                     class="fr-input"
                     placeholder="jj/mm/aaaa"
@@ -211,7 +211,7 @@
                   <button
                     type="button"
                     aria-label="Sélectionner une date de naissance sur le calendrier"
-                    class="fr-btn fr-btn--tertiary fr-btn--icon-right"
+                    class="date-btn"
                     (click)="d.toggle()"
                   >
                     <span
@@ -700,7 +700,7 @@
                       <label class="fr-label" for="dateNaissance_{{ i }}">
                         Date de naissance
                       </label>
-                      <div class="fr-input-wrap fr-input-wrap--action">
+                      <div class="">
                         <input
                           id="dateNaissance_{{ i }}"
                           class="fr-input"
@@ -742,7 +742,7 @@
                         <button
                           type="button"
                           aria-label="Sélectionner une date de naissance sur le calendrier"
-                          class="fr-btn fr-btn--tertiary fr-btn--icon-right"
+                          class="date-btn"
                           (click)="d.toggle()"
                         >
                           <span

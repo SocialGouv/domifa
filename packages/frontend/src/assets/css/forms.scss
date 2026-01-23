@@ -6,3 +6,17 @@
   content: " *";
   color: var(--text-default-error);
 }
+
+label:has(input[required])::after {
+  content: "*";
+  color: var(--error-425-625);
+  margin-left: 4px;
+  font-weight: bold;
+}
+
+.date-btn {
+  top: 2.5rem;
+  right: 0;
+  position: absolute;
+  background-color: transparent;
+}
