@@ -5,7 +5,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { LoginComponent } from "./login.component";
+import { LoginFormComponent } from "./login-form.component";
 
 import { _usagerReducer, MATOMO_INJECTORS } from "../../../../shared";
 import { StoreModule } from "@ngrx/store";
@@ -13,12 +13,12 @@ import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
 
 describe("LoginComponent", () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+  let component: LoginFormComponent;
+  let fixture: ComponentFixture<LoginFormComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [LoginComponent],
+      declarations: [LoginFormComponent],
       imports: [
         NgbModule,
         ReactiveFormsModule,
@@ -36,7 +36,7 @@ describe("LoginComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginComponent);
+    fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

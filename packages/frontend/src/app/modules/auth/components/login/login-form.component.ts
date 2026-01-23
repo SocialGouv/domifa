@@ -1,4 +1,4 @@
-import { LEGACY_PASSWORD_VALIDATOR } from "./../../../users/PASSWORD_VALIDATOR.const";
+import { LEGACY_PASSWORD_VALIDATOR } from "../../../users/PASSWORD_VALIDATOR.const";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
@@ -17,11 +17,11 @@ import { EmailValidator } from "../../../../shared";
 import { MatomoTracker } from "ngx-matomo-client";
 
 @Component({
-  selector: "app-login",
-  styleUrls: ["./login.component.css"],
-  templateUrl: "./login.component.html",
+  selector: "app-login-form",
+  styleUrls: ["./login-form.component.css"],
+  templateUrl: "./login-form.component.html",
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginFormComponent implements OnInit, OnDestroy {
   public loginForm!: UntypedFormGroup;
   public userForm!: UntypedFormGroup;
 
@@ -49,6 +49,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || "/";
     this.titleService.setTitle("Connexion à DomiFa");
     this.initForm();
+  }
+
+  public toggleShowPassword(): void {
+    this.hidePassword = !this.hidePassword;
   }
 
   public initForm() {
