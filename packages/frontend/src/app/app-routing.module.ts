@@ -8,7 +8,6 @@ import { MentionsLegalesComponent } from "./modules/general/components/static-pa
 import { PolitiqueComponent } from "./modules/general/components/static-pages/politique/politique.component";
 import { ContactSupportComponent } from "./modules/general/components/contact-support/contact-support.component";
 import { NotFoundComponent } from "./modules/general/components/errors/not-found/not-found.component";
-import { FaqComponent } from "./modules/general/components/faq/faq.component";
 import { HomeComponent } from "./modules/general/components/home/home.component";
 import { LoginComponent } from "./modules/general/components/login/login.component";
 import { NewsComponent } from "./modules/general/components/news/news.component";
@@ -37,7 +36,13 @@ export const routes: Routes = [
   },
   { component: HomeComponent, path: "" },
   { component: RgaaComponent, path: "accessibilite" },
-  { component: FaqComponent, path: "faq" },
+  {
+    path: "faq",
+    loadChildren: () =>
+      import("./modules/general/components/faq/faq-routing.module").then(
+        (m) => m.FaqRoutingModule
+      ),
+  },
   { component: ContactSupportComponent, path: "contact" },
   { component: NewsComponent, path: "news" },
   { component: MentionsLegalesComponent, path: "mentions-legales" },

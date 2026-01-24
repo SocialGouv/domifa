@@ -1,3 +1,122 @@
+<div class="w-100 fr-background-contrast--blue-ecume">
+  <div class="fr-container row d-flex flex-row justify-content-between">
+    <div class="col-12 col-md-8 col-sm-8 py-3 py-md-5 d-flex flex-column gap-1">
+      <h1 class="fr-text-title--blue-france mb-0">
+        Bienvenue dans la FAQ DomiFa !
+      </h1>
+      <p class="fr-text--lead fr-text-title--blue-france">
+        Nous avons rassemblé ici les réponses aux questions les plus fréquentes
+        pour vous aider à trouver rapidement l’information dont vous avez
+        besoin. <br /><br />
+        Parcourez les catégories pour obtenir des réponses claires et rapides.
+      </p>
+    </div>
+    <div class="col-2 py-4 d-none d-md-flex d-sm-flex align-content-center">
+      <img
+        class="fr-responsive-img"
+        src="/assets/images/faq/faq-header.svg"
+        alt=""
+      />
+    </div>
+  </div>
+</div>
+<div class="fr-container">
+  <div class="fr-grid-row fr-grid-row--gutters">
+    <!-- Sidebar Menu -->
+    <div class="fr-col-12 fr-col-md-4 py-3">
+      <nav
+        class="fr-sidemenu"
+        role="navigation"
+        aria-labelledby="sidemenu-title"
+      >
+        <div class="fr-sidemenu__inner">
+          <button
+            aria-expanded="false"
+            aria-controls="sidemenu-collapse-6"
+            type="button"
+            class="fr-sidemenu__btn"
+          >
+            Dans cette rubrique
+          </button>
+          <div class="fr-collapse" id="sidemenu-collapse-6">
+            <p class="fr-sidemenu__title" id="sidemenu-title"></p>
+            <ul class="fr-sidemenu__list">
+              <li class="fr-sidemenu__item">
+                <a
+                  routerLinkActive
+                  #rlaDecouvrir="routerLinkActive"
+                  [attr.aria-current]="rlaDecouvrir.isActive ? 'page' : null"
+                  type="link"
+                  id="decouvrir-domifa"
+                  routerLink="decouvrir-domifa"
+                  class="fr-sidemenu__link"
+                  >Découvrir DomiFa</a
+                >
+              </li>
+              <li class="fr-sidemenu__item">
+                <a
+                  routerLinkActive
+                  #rlaUtiliser="routerLinkActive"
+                  [attr.aria-current]="rlaUtiliser.isActive ? 'page' : null"
+                  type="link"
+                  id="utiliser-domifa"
+                  routerLink="utiliser-domifa"
+                  class="fr-sidemenu__link"
+                  >Utiliser DomiFa</a
+                >
+              </li>
+              <li class="fr-sidemenu__item">
+                <a
+                  routerLinkActive
+                  #rlaSecurite="routerLinkActive"
+                  [attr.aria-current]="rlaSecurite.isActive ? 'page' : null"
+                  type="link"
+                  id="securite-et-confidentialite"
+                  routerLink="securite-et-confidentialite"
+                  class="fr-sidemenu__link"
+                  >Sécurité et confidentialité</a
+                >
+              </li>
+              <li class="fr-sidemenu__item">
+                <a
+                  routerLinkActive
+                  #rlaFiches="routerLinkActive"
+                  [attr.aria-current]="rlaFiches.isActive ? 'page' : null"
+                  type="link"
+                  id="fiches-pratiques"
+                  routerLink="fiches-pratiques"
+                  class="fr-sidemenu__link"
+                  >Fiches pratiques</a
+                >
+              </li>
+              <li class="fr-sidemenu__item">
+                <a
+                  routerLinkActive
+                  #rlaTutoriels="routerLinkActive"
+                  [attr.aria-current]="rlaTutoriels.isActive ? 'page' : null"
+                  type="link"
+                  id="tutoriels-videos"
+                  routerLink="tutoriels-videos"
+                  class="fr-sidemenu__link"
+                  >Tutoriels vidéos</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Content Area -->
+    <div class="fr-col-12 fr-col-md-8 py-5">
+      <div class="faq-content">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 
 <div class="head-page py-4">
   <div class="container">
     <div class="row">
@@ -483,3 +602,4 @@
     </div>
   </div>
 </div>
+-->
