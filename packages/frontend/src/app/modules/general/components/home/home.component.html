@@ -1,396 +1,380 @@
-<div id="home-header">
-  <div class="home-header-content text-white text-bold bg-primary">
-    <div class="container px-2 d-flex">
-      <div class="flex-sm-grow-1 text-start py-5">
-        <h1>
-          <span class="d-block fw-bold">Simplifiez la domiciliation&nbsp;</span>
-          <span class="fw-normal home-header-subtitle">
-            pour les personnes sans domicile stable
-          </span>
-        </h1>
-        <div id="content" *ngIf="!me" class="mt-4 mt-md-2 mt-lg-4">
-          <a
-            routerLink="/structures/inscription"
-            class="btn btn-white-primary"
-            (click)="
-              matomo.trackEvent('HOME', 'INSCRIRE_MA_STRUCTURE', 'null', 1)
-            "
-          >
-            Inscrire ma structure sur DomiFa &#8594;
-          </a>
-        </div>
-      </div>
-      <div class="d-none d-md-block flex-lg-grow-0 text-end">
-        <div class="w-100 text-center">
-          <img
-            class="mb-0 mb-sm-4"
-            src="../assets/images/home/courrier-reception-main.png"
-            alt="Réception de courrier"
-            aria-hidden="true"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="px-2 text-center py-3 row">
-      <div class="col-12 col-md-4 mb-3 mt-sm-0">
-        <img
-          src="../../../assets/images/home/avantage-1-suivi-complet.png"
-          alt="Illustration suivi"
-          aria-hidden="true"
-        />
-        <div class="fs-4 mt-3 mb-1 py-0 fw-bold text-primary">
-          Suivi complet
-        </div>
-        <p class="mx-3">
-          Gestion des domiciliations de A à Z et accompagnement dans les
-          démarches.
-        </p>
-      </div>
-      <div class="col-12 col-md-4 mb-3 mt-sm-0">
-        <img
-          src="../../../assets/images/home/avantage-2-logiciel-intuitif.png"
-          alt=""
-          aria-hidden="true"
-        />
-        <div class="fs-4 mt-3 mb-1 py-0 fw-bold text-primary">
-          Logiciel intuitif
-        </div>
-        <p class="mx-3">
-          Installation rapide et prise en main facile pour les responsables, les
-          salariés ou les bénévoles.
-        </p>
-      </div>
-      <div class="col-12 col-md-4 mb-3 mt-sm-0">
-        <img
-          src="../../../assets/images/home/avantage-3-dossiers-securises.png"
-          alt=""
-          aria-hidden="true"
-        />
-        <div class="fs-4 mt-3 mb-1 py-0 fw-bold text-primary">
-          Dossiers sécurisés
-        </div>
-        <p class="mx-3">
-          Interface sécurisée conforme RGPD et CNIL.
-          <br />Droits d’accès configurables.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="my-5 container px-2">
-    <h2 class="fw-bold">
-      <img
-        aria-hidden="true"
-        src="../../../assets/images/home/avantage-4-liberez-temps.png"
-        alt="Horloge"
-        class="me-1"
-      />
-      <span>Libérez du temps pour l'accompagnement social</span>
-    </h2>
-    <div class="my-2 row align-items-center">
-      <div class="col-12 col-md-6 text-start">
-        <h3 class="mt-3 mb-1 py-0 fw-bold text-primary">
-          Recevez plus de domiciliés
-        </h3>
-        <p class="p-1">
-          Faites face à la hausse des demandes de domiciliation en
-          dématérialisant. <br />DomiFa permet d’instruire et de valider les
-          nouvelles demandes en quelques clics.
-        </p>
-        <ul class="text-gray check-list">
-          <li>Grilles d’entretien à compléter</li>
-          <li>Édition de Cerfas en ligne</li>
-        </ul>
-      </div>
-      <div class="d-none d-md-block ms-5 col-md-4">
-        <img
-          class="w-100 max-w-200"
-          aria-hidden="true"
-          src="../../../assets/images/home/domifa-screenshot-1.png"
-          alt="Capture d'écran de la gestion des dossiers sur DomiFa"
-        />
-      </div>
-    </div>
-    <div class="my-2 row align-items-center">
-      <div class="d-none d-md-block ms-5 col-md-3">
-        <img
-          class="w-100 max-w-200"
-          aria-hidden="true"
-          src="../../../assets/images/home/domifa-screenshot-2.png"
-          alt="Capture d'écran de la page domicilié de DomiFa"
-        />
-      </div>
-      <div class="col-12 col-md-6 text-start">
-        <h3 class="mt-3 mb-1 py-0 fw-bold text-primary">
-          Gagnez du temps sur l’administratif
-        </h3>
-        <p class="p-1">
-          Limitez les ruptures de prise en charge. <br />
-          DomiFa permet de suivre les échéances et de gérer les courriers.
-        </p>
-        <ul class="text-gray check-list">
-          <li>Mise à jour des derniers passages</li>
-          <li>Gestion des radiations et renouvellements</li>
-        </ul>
-      </div>
-    </div>
-    <div class="my-2 row align-items-center">
-      <div class="col-12 col-md-6 text-start">
-        <h3 class="mt-3 mb-1 py-0 fw-bold text-primary">
-          Suivez votre activité
-        </h3>
-        <p class="p-1">
-          Remplissez vos obligations légales auprès de votre département en un
-          clic. <br />DomiFa génère automatiquement un rapport d’activité
-          conforme au code de l'action sociale et des familles.
-        </p>
-        <ul class="text-gray check-list">
-          <li>Export de la base de données</li>
-          <li>Indicateurs statistiques</li>
-        </ul>
-      </div>
-      <div class="d-none d-md-block ms-5 col-md-4">
-        <img
-          class="w-100 max-w-200"
-          aria-hidden="true"
-          src="../../../assets/images/home/domifa-screenshot-3.png"
-          alt="Capture d'écran des stats sur DomiFa"
-        />
-      </div>
-    </div>
-  </div>
-  <div class="my-5 bg-secondary-light">
-    <div class="container px-2 py-5">
-      <h2 class="fw-bold">
-        <img
-          src="../../../assets/images/home/avantage-5-protegez-donnees-domicilies.png"
-          alt=""
-          aria-hidden="true"
-          class="me-1"
-        />
-        <span>Protégez les données de vos domiciliés</span>
-      </h2>
-      <p class="p-1">
-        DomiFa est conforme au RGPD et à la Loi informatique et répond à toutes
-        les bonnes pratiques de la CNIL. <br />La plateforme permet une gestion
-        fine des droits utilisateurs : responsables, salariés et bénévoles ont
-        accès seulement aux informations nécessaires.
+<div class="w-100 fr-background-contrast--blue-ecume">
+  <div class="fr-container row d-flex flex-row justify-content-between">
+    <div class="col-12 col-md-8 col-sm-8 py-3 py-md-5 d-flex flex-column gap-1">
+      <h1 class="fr-text-title--blue-france">
+        Simplifiez la domiciliation pour les personnes sans domicile stable 
+      </h1>
+      <p class="fr-text--lead fr-text-title--blue-france">
+        CCAS, CIAS ou organisme agréé : facilitez votre gestion de la
+        domiciliation avec un outil gratuit, sécurisé et homologué par l’État,
+        déjà adopté par plusieurs milliers de structures.
       </p>
-      <div class="mt-2">
-        <a routerLink="/confidentialite" class="text-sm fw-bold text-primary">
-          Lire notre politique de confidentialité &#8594;
-        </a>
-      </div>
-    </div>
-  </div>
-  <div class="my-5 container px-2">
-    <h2 class="fw-bold">
-      <img
-        aria-hidden="true"
-        src="../../../assets/images/home/avantage-6-facilitez-autonomie.png"
-        alt=""
-        class="me-1"
-      />
-      <span>Facilitez l’autonomie de vos salariés et bénévoles </span>
-    </h2>
-    <div class="row">
-      <div class="col-md-6 col-12 my-2">
-        <h3 class="mt-3 mb-1 py-0 fw-bold text-primary">Obtenez de l’aide</h3>
-        <p class="p-1">
-          Suivez le guide utilisateur, nos tutoriels vidéos ou nos webinaires
-          pour découvrir la plateforme.
-        </p>
-        <div>
-          <a
-            routerLink="/faq"
-            class="text-sm fw-bold text-primary"
-            title="Voir notre centre d'aide"
-          >
-            Voir notre centre d’aide &#8594;
-          </a>
-        </div>
-      </div>
-      <div class="col-md-6 col-12 my-2">
-        <h3 class="mt-3 mb-1 py-0 fw-bold text-primary">
-          Testez dès aujourd’hui
-        </h3>
-        <p class="p-1">
-          Pas de convention à signer ! <br />Inscrivez-vous pour essayer DomiFa
-          en quelques clics.
-        </p>
-
+      <div class="d-flex gap-2 flex-wrap justify-content-start">
         <a
+          class="fr-btn fr-icon-arrow-right-s-line fr-btn--icon-right fr-btn--lg flex-grow-1 flex-md-grow-0"
           routerLink="/structures/inscription"
           (click)="
             matomo.trackEvent('HOME', 'INSCRIRE_MA_STRUCTURE', 'null', 1)
           "
-          class="text-sm fw-bold text-primary"
         >
-          S'inscrire à la plateforme DomiFa &#8594;
+          Créer mon espace structure
+        </a>
+        <a
+          class="fr-btn fr-icon-arrow-right-s-line fr-btn--icon-right fr-btn--secondary fr-btn--lg flex-grow-1 flex-md-grow-0"
+          routerLink="/faq"
+          title="Voir notre centre d'aide"
+          (click)="matomo.trackEvent('HOME', 'HP_Centre_Aide', 'null', 1)"
+        >
+          Découvrir DomiFa
+        </a>
+      </div>
+    </div>
+    <div class="col-4 py-2 d-none d-md-flex d-sm-flex align-items-center">
+      <img
+        src="/assets/images/home/home-header.svg"
+        alt=""
+        aria-hidden="true"
+      />
+    </div>
+  </div>
+</div>
+
+<section class="fr-container py-5">
+  <p class="col-12 fr-h5 fr-text-title--blue-france">
+    Un outil dédié à la gestion de la domiciliation au quotidien, qui facilite
+    l'accompagnement des personnes les plus vulnérables
+  </p>
+  <div class="row justify-content-between">
+    <div class="col-12 col-md-3 col-sm-3 d-flex flex-column align-items-center">
+      <img
+        class="fr-responsive-img"
+        src="assets/dsfr-pictograms/environment/human-cooperation.svg"
+        alt=""
+      />
+      <h3 class="m-0 fr-text-title--blue-france">Un suivi complet</h3>
+      <p class="m-0 text-center">
+        Gestion des domiciliations de A à Z et accompagnement dans les
+        démarches.
+      </p>
+    </div>
+    <div class="col-12 col-md-3 col-sm-3 d-flex flex-column align-items-center">
+      <img
+        class="fr-responsive-img"
+        aria-hidden="true"
+        src="assets/dsfr-pictograms/digital/innovation.svg"
+        alt=""
+      />
+      <h3 class="m-0 fr-text-title--blue-france">Logiciel intuitif</h3>
+      <p class="m-0 text-center">
+        Installation rapide, prise en main facile. Conçu pour les responsables,
+        agents et bénévoles.
+      </p>
+    </div>
+    <div class="col-12 col-md-3 col-sm-3 d-flex flex-column align-items-center">
+      <img
+        aria-hidden="true"
+        class="fr-responsive-img"
+        src="assets/dsfr-pictograms/system/padlock.svg"
+        alt=""
+      />
+      <h3 class="m-0 fr-text-title--blue-france">Dossiers sécurisés</h3>
+      <p class="fr-text m-0 text-center">
+        Interface conforme au RGPD et aux recommandations de la CNIL. Droits
+        d’accès configurables selon les rôles.
+      </p>
+      <div class="text-center">
+        <a routerLink="/confidentialite" class="fr-link my-0 fr-text--sm">
+          Lire notre politique de confidentialité
+          <span class="fr-icon-arrow-right-line" aria-hidden="true"></span>
         </a>
       </div>
     </div>
   </div>
+</section>
+<hr />
+<section class="fr-container py-4">
+  <div class="px-2">
+    <h2 class="fw-bold fr-text-title--blue-france">
+      Libérez du temps pour l'accompagnement social
+    </h2>
+    <div class="my-2 row align-items-center">
+      <div class="col-12 col-md-4 text-start my-2">
+        <div class="fr-card">
+          <div class="fr-card__body">
+            <div class="fr-card__content">
+              <h3 class="fr-card__title my-0">Recevez plus de domiciliés</h3>
+
+              <div class="fr-card__desc">
+                <p>
+                  Faites face à la hausse des demandes de domiciliation en
+                  dématérialisant.DomiFa permet d’instruire et de valider les
+                  nouvelles demandes en quelques clics.
+                </p>
+
+                <ul>
+                  <li class="list-unstyled">
+                    ✅ Grilles d’entretien à compléter
+                  </li>
+                  <li class="list-unstyled">✅ Édition de Cerfas en ligne</li>
+                </ul>
+              </div>
+
+              <div class="fr-card__start"></div>
+            </div>
+          </div>
+          <div class="fr-card__header">
+            <div class="fr-card__img">
+              <img
+                class="fr-responsive-img"
+                src="assets/images/home/accompagnemet-social-1.svg"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 text-start my-2">
+        <div class="fr-card">
+          <div class="fr-card__body">
+            <div class="fr-card__content">
+              <h3 class="fr-card__title my-0">
+                Gagnez du temps sur l’administratif
+              </h3>
+
+              <div class="fr-card__desc">
+                <p>
+                  Limitez les ruptures de prise en charge. DomiFa permet de
+                  suivre les échéances et de gérer les courriers.
+                </p>
+
+                <ul>
+                  <li class="list-unstyled">
+                    ✅ Mise à jour des derniers passages
+                  </li>
+                  <li class="list-unstyled">
+                    ✅ Gestion des radiations et renouvellements
+                  </li>
+                </ul>
+              </div>
+
+              <div class="fr-card__start"></div>
+            </div>
+          </div>
+          <div class="fr-card__header">
+            <div class="fr-card__img">
+              <img
+                class="fr-responsive-img"
+                src="assets/images/home/accompagnemet-social-2.svg"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 text-start my-2">
+        <div class="fr-card">
+          <div class="fr-card__body">
+            <div class="fr-card__content">
+              <h3 class="fr-card__title my-0">Suivez votre activité</h3>
+
+              <div class="fr-card__desc">
+                <p>
+                  Remplissez vos obligations légales auprès de votre département
+                  en un clic.DomiFa génère automatiquement un rapport d’activité
+                  conforme au code de l'action sociale et des familles.
+                </p>
+
+                <ul>
+                  <li class="list-unstyled">✅ Export de la base de données</li>
+                  <li class="list-unstyled">✅ Indicateurs statistiques</li>
+                </ul>
+              </div>
+
+              <div class="fr-card__start"></div>
+            </div>
+          </div>
+          <div class="fr-card__header">
+            <div class="fr-card__img">
+              <img
+                class="fr-responsive-img"
+                src="assets/images/home/accompagnemet-social-3.svg"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="row justify-content-center mb-4">
+  <a
+    routerLink="/structures/inscription"
+    class="fr-btn fr-icon-arrow-right-s-line fr-btn--icon-right fr-btn--secondary fr-btn--lg"
+  >
+    Créer mon espace structure
+  </a>
+</div>
+
+<section class="w-100 fr-background-contrast--blue-ecume">
+  <div class="fr-container row d-flex flex-row justify-content-between">
+    <div class="col-4 py-2 d-none d-md-flex d-sm-flex align-items-center">
+      <img src="/assets/images/home/link-mon-domifa.svg" alt="" />
+    </div>
+    <div class="col-12 col-md-8 col-sm-8 py-3 py-md-5 d-flex flex-column gap-1">
+      <h1 class="fr-text-title--blue-france">Vous êtes domicilié ?</h1>
+      <p class="fr-text-title--blue-france">
+        Un espace est mis à votre disposition pour suivre les informations de
+        votre domiciliation et l'arrivée de courriers. <br />
+        Demandez l'activation de votre compte à votre structure domiciliataire.
+        <br />
+        Accèder à
+        <a
+          href="https://mon-domifa.fabrique.social.gouv.fr/"
+          rel="noopener noreferrer"
+          target="_blank"
+          class="fr-link"
+        >
+          Mon DomiFa</a
+        >
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
   <app-home-stats></app-home-stats>
-  <div class="my-5 container px-2">
-    <h2 class="fw-bold">
+</section>
+<hr />
+<section class="fr-container py-2">
+  <app-faq-section></app-faq-section>
+</section>
+
+<section class="fr-background-contrast--blue-ecume">
+  <div class="fr-container row py-5">
+    <div class="col-12 col-md-6">
+      <h4 class="fr-h5 mb-0">Abonnez-vous à notre lettre d’information</h4>
+      <p>
+        Inscrivez-vous à notre infolettre pour vous tenir informé des actualités
+        de DomiFa
+      </p>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="fr-input-group mb-1" id="input-newsletter-group">
+        <div class="fr-input-wrap fr-input-wrap--addon">
+          <input
+            placeholder="Votre adresse électronique (ex. : nom@domaine.fr)"
+            class="fr-input"
+            aria-describedby="input-newsletter-description"
+            id="input-newsletter"
+            type="email"
+          />
+          <button type="submit" class="fr-btn">S'abonner</button>
+        </div>
+        <div
+          class="fr-messages-group"
+          id="input-newsletter-error"
+          aria-live="polite"
+        ></div>
+      </div>
+      <p class="fr-text--sm" id="input-newsletter-description">
+        En renseignant votre adresse électronique, vous acceptez de recevoir nos
+        actualités par courriel. Vous pouvez vous désinscrire à tout moment à
+        l’aide des liens de désinscription ou en nous contactant.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="fr-background-contrast--grey py-3">
+  <div class="fr-container">
+    <div class="row d-flex gap-1"></div>
+    <h2>
       <img
-        src="/assets/icones/icon-heart.png"
+        src="/assets/icones/icon-heart.svg"
         aria-hidden="true"
         alt=""
         class="me-1"
       />
       Ces structures nous font confiance
     </h2>
-    <p class="my-2">
-      De nombreux organismes domiciliataires utilisent DomiFa : CCAS, CIAS ou
-      associations.
-    </p>
-    <div
-      class="partenaires d-flex flex-wrap justify-content-center align-items-center"
-    >
-      <a
-        href="https://www.paris.fr/dossiers/centre-d-action-sociale-de-la-ville-de-paris-casvp-23"
-        target="_blank"
-        rel="noopener noreferrer"
-        title="Site du CASVP"
+    <div class="row p-0 m-0">
+      <div
+        class="col-12 col-md-2 d-flex justify-content-center align-items-center my-4"
       >
-        <img src="../assets/images/home/structure-paris.jpg" alt="CASVP" />
-      </a>
-      <a
-        href="https://www.samusocial.paris/"
-        target="_blank"
-        title="Site du Samu Social de Paris"
-        rel="noopener noreferrer"
-      >
-        <img
-          src="../assets/images/home/structure-samu-social-paris.png"
-          alt="Samu Social de Paris"
-        />
-      </a>
-      <img
-        src="../assets/images/home/structure-ccas-clermont-ferrant.png"
-        alt="CCAS Clermont Ferrant"
-      />
-
-      <img
-        src="../assets/images/home/structure-ccas-le-havre.png"
-        alt="CCAS Le Havre"
-      />
-
-      <img src="../assets/images/home/structure-aurore.png" alt="Aurore" />
-
-      <img
-        src="../assets/images/home/structure-ccas-annecy.png"
-        alt="CCAS d'annecy"
-      />
-    </div>
-  </div>
-
-  <div class="home-header-content bg-primary text-white text-bold d-flex">
-    <div class="container px-2 d-flex">
-      <div class="mt-sm-0 py-5 py-sm-4 text-start flex-sm-grow-1">
-        <h2 class="fw-bold mt-2">Gérez vos domiciliations avec DomiFa</h2>
-        <p>
-          Découvrez DomiFa en quelques minutes et commencez à instruire des
-          demandes de domiciliations.
-        </p>
-        <div class="mt-2 mt-lg-4">
-          <a
-            *ngIf="!me"
-            routerLink="/structures/inscription"
-            class="btn btn-white-primary"
-            (click)="
-              matomo.trackEvent('HOME', 'INSCRIRE_MA_STRUCTURE', 'null', 1)
-            "
-          >
-            S'inscrire &#8594;
-          </a>
-          <br />
-          <br />
-          <a routerLink="/contact" class="btn btn-white-primary">
-            Contacter l’équipe &#8594;
-          </a>
-        </div>
-      </div>
-
-      <div class="flex-sm-grow-0 flex-lg-grow-0 text-end">
-        <div class="w-100 text-center">
+        <a
+          href="https://www.paris.fr/dossiers/centre-d-action-sociale-de-la-ville-de-paris-casvp-23"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Site du CASVP"
+        >
           <img
-            aria-hidden="true"
-            class="mt-0 mt-sm-4"
-            src="../assets/images/home/courrier-distribution-main.png"
-            alt="Distribution de courrier"
+            class="fr-responsive-img"
+            src="../assets/images/home/structure-paris.svg"
+            alt="CASVP"
           />
-        </div>
+        </a>
+      </div>
+      <div
+        class="col-12 col-md-2 d-flex justify-content-center align-items-center my-4"
+      >
+        <a
+          href="https://www.samusocial.paris/"
+          target="_blank"
+          title="Site du Samu Social de Paris"
+          rel="noopener noreferrer"
+        >
+          <img
+            class="fr-responsive-img"
+            src="../assets/images/home/structure-samu-social-paris.svg"
+            alt="Samu Social de Paris"
+          />
+        </a>
+      </div>
+
+      <div
+        class="col-12 col-md-2 d-flex justify-content-center align-items-center my-4"
+      >
+        <img
+          class="fr-responsive-img"
+          src="../assets/images/home/structure-ccas-clermont-ferrant.png"
+          alt="CCAS Clermont Ferrant"
+        />
+      </div>
+
+      <div
+        class="col-12 col-md-2 d-flex justify-content-center align-items-center my-4"
+      >
+        <img
+          class="fr-responsive-img"
+          src="../assets/images/home/structure-ccas-le-havre.png"
+          alt="CCAS Le Havre"
+        />
+      </div>
+
+      <div
+        class="col-12 col-md-2 d-flex justify-content-center align-items-center my-4"
+      >
+        <img
+          class="fr-responsive-img"
+          src="../assets/images/home/structure-aurore.png"
+          alt="Aurore"
+        />
+      </div>
+      <div
+        class="col-12 col-md-2 d-flex justify-content-center align-items-center my-4"
+      >
+        <img
+          class="fr-responsive-img"
+          src="../assets/images/home/structure-ccas-annecy.png"
+          alt="CCAS d'annecy"
+        />
       </div>
     </div>
-  </div>
-  <!-- <div class="my-4 container">
+
     <div
       class="partenaires d-flex flex-wrap justify-content-center align-items-center"
-    >
-      <a
-        href="https://www.fabrique.social.gouv.fr"
-        target="_blank"
-        title="Site internet de La Fabrique Numérique "
-        rel="noopener noreferrer"
-      >
-        <img
-          src="../assets/images/footer/partenaire-fabrique-numerique.png"
-          alt="La Fabrique Numérique"
-        />
-      </a>
-      <a
-        href="https://beta.gouv.fr"
-        title="Site internet de Beta Gouv - nouvelle fenêtre"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          src="../assets/images/footer/partenaire-beta-gouv.png"
-          alt="Beta Gouv"
-        />
-      </a>
-      <a
-        href="https://www.gouvernement.fr/france-relance"
-        target="_blank"
-        rel="noopener noreferrer"
-        title="Site internet de France Relance - nouvelle fenêtre"
-      >
-        <img
-          src="../assets/images/footer/logo_francerelance.webp"
-          alt="France Relance soutien DomiFa"
-        />
-      </a>
-      <a
-        href="https://agence-cohesion-territoires.gouv.fr/"
-        target="_blank"
-        rel="noopener noreferrer"
-        title="Site internet de l'ANCT - nouvelle fenêtre"
-      >
-        <img
-          src="../assets/images/footer/logo_anct.webp"
-          alt="Agence nationale de la cohésion des territoires"
-        />
-      </a>
-      <a
-        href="https://solidarites.gouv.fr/"
-        target="_blank"
-        title="Site internet de la DGCS - nouvelle fenêtre"
-        rel="noopener noreferrer"
-      >
-        <img src="/assets/images/footer/logo-dgcs.svg" alt="DGCS" />
-      </a>
-      <a
-        href="https://www.unccas.org"
-        target="_blank"
-        rel="noopener noreferrer"
-        title="Site internet de l'UNCCAS - nouvelle fenêtre"
-      >
-        <img src="../assets/images/footer/partenaire-unccas.jpg" alt="UNCCAS" />
-      </a>
-    </div>
-  </div> -->
-</div>
+    ></div>
+  </div>
+</section>
