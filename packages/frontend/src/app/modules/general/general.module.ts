@@ -36,6 +36,7 @@ import { HomeStatsComponent } from "../stats/components/home-stats/home-stats.co
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { LoginDropdownComponent } from "./components/navbar/fragments/login-dropdown/login-dropdown.component";
 import { LoginModalMenuComponent } from "./components/navbar/fragments/login-modal-menu/login-modal-menu.component";
+import { FaqSectionComponent } from "../shared/components/faq-section/faq-section.component";
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { LoginModalMenuComponent } from "./components/navbar/fragments/login-mod
     NgbModule,
     FontAwesomeModule,
     HomeStatsComponent,
+    FaqSectionComponent,
   ],
   providers: [GeneralService, provideHttpClient(withInterceptorsFromDi())],
 })
