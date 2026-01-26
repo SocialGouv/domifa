@@ -25,6 +25,8 @@ fileignoreconfig:
   checksum: 3762d1281d4109a0f57e6f100d49340db6528a17b4b9421d02cf0349b93fc3a0
 - filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
   checksum: eb5830a53f6558916812a8c3628d7ffed713dc4d0842eee7580dccbae28bd607
+- filename: packages/frontend/src/app/modules/general/components/faq/fragments/faq-fiches/faq-fiches.component.html
+  checksum: 0a041320c6acdfa6cba9aa310652a0322cdd25bd4b729496cf438305aa777fab
 - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.spec.ts
   checksum: 8f66091255109d0da277819584c6c69d4a7f720256842851a49b0dda16af6651
 - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.ts
