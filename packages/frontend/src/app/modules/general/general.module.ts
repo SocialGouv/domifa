@@ -35,6 +35,7 @@ import { RgaaComponent } from "./components/static-pages/rgaa/rgaa.component";
 import { LandingPagePortailComponent } from "./components/static-pages/landing-page-portail/landing-page-portail.component";
 import { HomeStatsComponent } from "../stats/components/home-stats/home-stats.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { FaqSectionComponent } from "../shared/components/faq-section/faq-section.component";
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     NgbModule,
     FontAwesomeModule,
     HomeStatsComponent,
+    FaqSectionComponent,
   ],
   providers: [GeneralService, provideHttpClient(withInterceptorsFromDi())],
 })
