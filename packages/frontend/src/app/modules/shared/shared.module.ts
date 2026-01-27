@@ -21,6 +21,7 @@ import { HasRoleDirective } from "./directives/has-role.directive";
 import { AlerteConfidentialiteComponent } from "../general/components/navbar/fragments/alerte-confidentialite/alerte-confidentialite.component";
 import { UserStructurePasswordFormComponent } from "./components/user-structure-password-form/user-structure-password-form.component";
 
+import { DsfrTimelineComponent } from "@edugouvfr/ngx-dsfr-ext";
 @NgModule({
   imports: [
     CommonModule,
@@ -32,6 +33,7 @@ import { UserStructurePasswordFormComponent } from "./components/user-structure-
     HasRoleDirective,
     DsfrDropdownMenuComponent,
     AlerteConfidentialiteComponent,
+    DsfrTimelineComponent,
   ],
   declarations: [
     DateFrDirective,
@@ -58,6 +60,7 @@ import { UserStructurePasswordFormComponent } from "./components/user-structure-
     DsfrDropdownMenuComponent,
     AlerteConfidentialiteComponent,
     UserStructurePasswordFormComponent,
+    DsfrTimelineComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
