@@ -4,376 +4,385 @@
   [currentStep]="4"
 ></app-step-header>
 
-<div class="fr-background-alt--blue-cumulus">
-  <div
-    class="fr-container fr-background-default--grey"
-    *ngIf="usager && currentUserSubject$ | async as me"
-  >
-    <app-form-stepper
-      *ngIf="usager"
-      [usager]="usager"
-      [currentStep]="4"
-    ></app-form-stepper>
+<div class="fr-content-container">
+  @let me = (currentUserSubject$ | async); @if (me) {
+  <div class="fr-container">
+    <div class="fr-content">
+      @if (usager) {
+      <app-form-stepper
+        *ngIf="usager"
+        [usager]="usager"
+        [currentStep]="4"
+      ></app-form-stepper>
 
-    <div
-      class="fr-p-3w fr-my-2w fr-background-alt--blue-cumulus fr-text--center"
-    >
-      <h2 class="fr-h3 fr-text--center">
-        Le dossier de {{ usager.nom }} {{ usager.prenom }} est complet
-      </h2>
+      <div
+        class="fr-p-3w fr-my-2w fr-background-alt--blue-cumulus fr-text--center"
+      >
+        <h2 class="fr-h3 fr-text--center">
+          Le dossier de {{ usager.nom }} {{ usager.prenom }} est complet
+        </h2>
 
-      @if (usager.decision.statut === 'ATTENTE_DECISION') {
-      <p class="fr-text--center fr-mt-2w">
-        Ce dossier a été mis en attente d'une décision par
-        <strong>
-          {{ usager.decision.userName }}
-          le {{ usager.decision.dateDecision | date : "dd MMMM yyyy à HH:mm" }}
-        </strong>
-      </p>
-      }
+        @if (usager.decision.statut === 'ATTENTE_DECISION') {
+        <p class="fr-text--center fr-mt-2w">
+          Ce dossier a été mis en attente d'une décision par
+          <strong>
+            {{ usager.decision.userName }}
+            le
+            {{ usager.decision.dateDecision | date : "dd MMMM yyyy à HH:mm" }}
+          </strong>
+        </p>
+        }
 
-      <div class="fr-grid-row fr-grid-row--gutters">
-        <div class="fr-col-12">
-          @if (usager.decision.statut === 'ATTENTE_DECISION' && !isAdmin) {
-          <h3 class="fr-h3">Demande de domiciliation en cours</h3>
-          <p>
-            La demande d'élection de domicile de
-            <strong>{{ usager | fullName }}</strong>
-            a été envoyée le
-            <strong>
-              {{
-                usager.decision.dateDecision | date : "dd MMMM yyyy à HH:mm"
-              }}.
-            </strong>
-            <br />
-            La personne référente dans votre structure est invitée à statuer sur
-            cette demande.
-          </p>
-          } @if (!isAdmin && usager.decision.statut === 'INSTRUCTION') {
-          <div class="fr-grid-row fr-grid-row--gutters">
-            <div class="fr-col-12 fr-col-md-6 fr-col-offset-md-3">
+        <div class="fr-grid-row fr-grid-row--gutters">
+          <div class="fr-col-12">
+            @if (usager.decision.statut === 'ATTENTE_DECISION' && !isAdmin) {
+            <h3 class="fr-h3">Demande de domiciliation en cours</h3>
+            <p>
+              La demande d'élection de domicile de
+              <strong>{{ usager | fullName }}</strong>
+              a été envoyée le
+              <strong>
+                {{
+                  usager.decision.dateDecision | date : "dd MMMM yyyy à HH:mm"
+                }}.
+              </strong>
+              <br />
+              La personne référente dans votre structure est invitée à statuer
+              sur cette demande.
+            </p>
+            } @if (!isAdmin && usager.decision.statut === 'INSTRUCTION') {
+            <div class="fr-grid-row fr-grid-row--gutters">
+              <div class="fr-col-12 fr-col-md-6 fr-col-offset-md-3">
+                <button
+                  type="button"
+                  (click)="setDecisionAttente()"
+                  class="fr-btn"
+                >
+                  <i class="fr-icon-error-fill" aria-hidden="true"></i>
+                  Soumettre la demande
+                </button>
+              </div>
+            </div>
+            } @if (isAdmin) {
+            <div
+              class="fr-btns-group fr-btns-group--center fr-btns-group--inline"
+            >
+              @if (usager.decision.statut !== 'ATTENTE_DECISION') {
               <button
-                type="button"
                 (click)="setDecisionAttente()"
-                class="fr-btn"
+                type="button"
+                class="fr-btn fr-btn--secondary"
               >
-                <i class="fr-icon-error-fill" aria-hidden="true"></i>
+                <i class="fr-icon-time-line fr-mr-1w" aria-hidden="true"></i>
                 Soumettre la demande
               </button>
+              } @if (usager.decision.statut === 'ATTENTE_DECISION') {
+              <button
+                type="button"
+                class="fr-btn fr-btn--secondary"
+                (click)="open('standby')"
+              >
+                <i class="fr-icon-time-line fr-mr-1w" aria-hidden="true"></i>
+                Ajourner le dossier
+              </button>
+              }
+
+              <button
+                type="button"
+                class="fr-btn fr-btn--secondary"
+                (click)="open('refus')"
+              >
+                <i class="fr-icon-close-line fr-mr-1w" aria-hidden="true"></i>
+                Refuser le dossier
+              </button>
+
+              <button
+                type="button"
+                class="fr-btn"
+                (click)="open('confirmation')"
+              >
+                <i class="fr-icon-check-line fr-mr-1w" aria-hidden="true"></i>
+                Accepter le dossier
+              </button>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="fr-grid-row fr-grid-row--gutters fr-mt-3w">
+        <div class="fr-col-12">
+          <div class="fr-grid-row fr-grid-row--between fr-grid-row--middle">
+            <h3 class="fr-h3">
+              <i class="fr-icon-user-line" aria-hidden="true"></i>
+              État civil
+            </h3>
+            <div class="fr-ml-auto d-print-none">
+              @if (!editInfos) {
+              <button
+                class="fr-btn fr-btn--secondary"
+                type="button"
+                (click)="editInfos = true"
+              >
+                <i class="fr-icon-edit-line" aria-hidden="true"></i>
+                Modifier
+                <span class="fr-sr-only">l'état-civil et les ayants droit</span>
+              </button>
+              } @else {
+              <button
+                class="fr-btn fr-btn--secondary"
+                type="button"
+                (click)="editInfos = false"
+              >
+                Annuler
+              </button>
+              }
             </div>
           </div>
-          } @if (isAdmin) {
+        </div>
+
+        <div class="fr-col-12">
+          @if (!editInfos) {
+          <app-display-etat-civil
+            [usager]="usager"
+            section="ETAT_CIVIL"
+          ></app-display-etat-civil>
+          } @else {
+          <app-profil-etat-civil-form
+            [usager]="usager"
+            [(editInfos)]="editInfos"
+          ></app-profil-etat-civil-form>
+          }
+        </div>
+      </div>
+
+      <div class="fr-grid-row fr-grid-row--gutters fr-mt-3w">
+        <div class="fr-col-12">
+          <div class="fr-grid-row fr-grid-row--between fr-grid-row--middle">
+            <h3 class="fr-h3">
+              <i class="fr-icon-at-line" aria-hidden="true"></i>
+              Informations de contact
+            </h3>
+            <div class="fr-ml-auto d-print-none">
+              @if (!editContactDetails) {
+              <button
+                class="fr-btn fr-btn--secondary"
+                type="button"
+                (click)="editContactDetails = true"
+              >
+                <i class="fr-icon-edit-line" aria-hidden="true"></i>
+                Modifier
+                <span class="fr-sr-only">les informations de contact</span>
+              </button>
+              } @else {
+              <button
+                class="fr-btn fr-btn--secondary"
+                type="button"
+                (click)="editContactDetails = false"
+              >
+                Annuler
+              </button>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="fr-col-12">
+          @if (!editContactDetails) {
+          <app-display-contact-details
+            [usager]="usager"
+            [me]="me"
+          ></app-display-contact-details>
+          } @else {
+          <app-form-contact-details
+            [usager]="usager"
+            [(editContactDetails)]="editContactDetails"
+          ></app-form-contact-details>
+          }
+        </div>
+      </div>
+
+      <div class="fr-grid-row fr-grid-row--gutters fr-mt-3w">
+        <div class="fr-col-12">
+          <div class="fr-grid-row fr-grid-row--between fr-grid-row--middle">
+            <h3 class="fr-h3">
+              <i class="fr-icon-speak-line" aria-hidden="true"></i>
+              Entretien social
+            </h3>
+            <div class="fr-ml-auto d-print-none">
+              @if (!editEntretien) {
+              <button
+                type="button"
+                class="fr-btn fr-btn--secondary"
+                (click)="editEntretien = true"
+              >
+                <i class="fr-icon-edit-line" aria-hidden="true"></i>
+                Modifier
+                <span class="fr-sr-only">l'entretien</span>
+              </button>
+              } @else {
+              <button
+                type="button"
+                class="fr-btn fr-btn--secondary"
+                (click)="editEntretien = false"
+              >
+                Annuler les modifications
+              </button>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="fr-col-12">
+          @if (!editEntretien) {
+          <app-display-entretien
+            [usager]="usager"
+            [structure]="me.structure"
+          ></app-display-entretien>
+          } @else {
+          <app-entretien-form
+            [(editEntretien)]="editEntretien"
+            [usager]="usager"
+          ></app-entretien-form>
+          }
+        </div>
+      </div>
+
+      <div class="fr-grid-row fr-grid-row--gutters fr-mt-3w">
+        <div class="fr-col-12">
+          <h3 class="fr-h3">
+            <i class="fr-icon-file-text-line" aria-hidden="true"></i>
+            Attestations et Cerfa
+          </h3>
+        </div>
+        <div class="fr-col-12">
           <div
             class="fr-btns-group fr-btns-group--center fr-btns-group--inline"
           >
-            @if (usager.decision.statut !== 'ATTENTE_DECISION') {
-            <button
-              (click)="setDecisionAttente()"
-              type="button"
-              class="fr-btn fr-btn--secondary"
-            >
-              <i class="fr-icon-time-line fr-mr-1w" aria-hidden="true"></i>
-              Soumettre la demande
-            </button>
-            } @if (usager.decision.statut === 'ATTENTE_DECISION') {
-            <button
-              type="button"
-              class="fr-btn fr-btn--secondary"
-              (click)="open('standby')"
-            >
-              <i class="fr-icon-time-line fr-mr-1w" aria-hidden="true"></i>
-              Ajourner le dossier
-            </button>
+            <app-button
+              (action)="getCerfa(CerfaDocType.demande)"
+              ariaLabel="Télécharger l'attestation de demande"
+              content="Télécharger l'attestation de demande"
+              icon="download"
+              color="secondary"
+            ></app-button>
+
+            @if (me?.role !== 'facteur' && me?.role !== 'simple' && me?.role !==
+            'agent') {
+            <app-button
+              (action)="getCerfa(CerfaDocType.attestation_future)"
+              ariaLabel="Télécharger le Cerfa provisoire"
+              content="Télécharger le Cerfa provisoire"
+              icon="download"
+              color="secondary"
+            ></app-button>
+            <app-button
+              (action)="getCerfa(CerfaDocType.attestation)"
+              ariaLabel="Télécharger le Cerfa actuel"
+              content="Télécharger le Cerfa actuel"
+              icon="download"
+              color="secondary"
+            ></app-button>
             }
-
-            <button
-              type="button"
-              class="fr-btn fr-btn--secondary"
-              (click)="open('refus')"
-            >
-              <i class="fr-icon-close-line fr-mr-1w" aria-hidden="true"></i>
-              Refuser le dossier
-            </button>
-
-            <button type="button" class="fr-btn" (click)="open('confirmation')">
-              <i class="fr-icon-check-line fr-mr-1w" aria-hidden="true"></i>
-              Accepter le dossier
-            </button>
           </div>
+        </div>
+      </div>
+
+      <div class="fr-grid-row fr-grid-row--gutters fr-mt-3w">
+        <div class="fr-col-12">
+          <div class="fr-grid-row fr-grid-row--between fr-grid-row--middle">
+            <h3 class="fr-h3">
+              <i class="fr-icon-file-text-line" aria-hidden="true"></i>
+              Pièces jointes
+            </h3>
+            <div class="fr-ml-auto d-print-none">
+              @if (!editPJ) {
+              <button
+                type="submit"
+                class="fr-btn fr-btn--secondary"
+                (click)="editPJ = true"
+              >
+                <i class="fr-icon-edit-line" aria-hidden="true"></i>
+                Modifier
+                <span class="fr-sr-only">les pièces jointes</span>
+              </button>
+              } @else {
+              <button
+                type="button"
+                class="fr-btn fr-btn--secondary"
+                (click)="editPJ = false"
+              >
+                Annuler les modifications
+              </button>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="fr-col-12 fr-mb-5w">
+          @if (!editPJ) {
+          <app-display-usager-docs
+            [me]="me"
+            [editPJ]="false"
+            [usager]="usager"
+          ></app-display-usager-docs>
+          } @else {
+          <app-display-usager-docs
+            [me]="me"
+            [editPJ]="true"
+            [usager]="usager"
+          ></app-display-usager-docs>
           }
         </div>
       </div>
+
+      <div class="fr-btns-group fr-btns-group--right fr-mt-3w">
+        <button type="button" class="fr-btn" (click)="printPage()">
+          <i class="fr-icon-printer-line" aria-hidden="true"></i>
+          Imprimer le dossier complet
+        </button>
+      </div>
+      }
     </div>
+    <app-step-footer [usager]="usager"></app-step-footer>
+    @if (usager) {
+    <dsfr-modal
+      #refusModal
+      [titleModal]="'Refuser le dossier'"
+      [isScrollable]="true"
+      [size]="'LG'"
+    >
+      <app-decision-refus-form
+        [usager]="usager"
+        (closeModals)="closeModals()"
+      ></app-decision-refus-form>
+    </dsfr-modal>
 
-    <div class="fr-grid-row fr-grid-row--gutters fr-mt-3w">
-      <div class="fr-col-12">
-        <div class="fr-grid-row fr-grid-row--between fr-grid-row--middle">
-          <h3 class="fr-h3">
-            <i class="fr-icon-user-line" aria-hidden="true"></i>
-            État civil
-          </h3>
-          <div class="fr-ml-auto d-print-none">
-            @if (!editInfos) {
-            <button
-              class="fr-btn fr-btn--secondary"
-              type="button"
-              (click)="editInfos = true"
-            >
-              <i class="fr-icon-edit-line" aria-hidden="true"></i>
-              Modifier
-              <span class="fr-sr-only">l'état-civil et les ayants droit</span>
-            </button>
-            } @else {
-            <button
-              class="fr-btn fr-btn--secondary"
-              type="button"
-              (click)="editInfos = false"
-            >
-              Annuler
-            </button>
-            }
-          </div>
-        </div>
-      </div>
+    <dsfr-modal
+      #confirmationModal
+      [titleModal]="'Confirmer la domiciliation de ' + (usager | fullName)"
+      [isScrollable]="true"
+      [size]="'LG'"
+    >
+      <app-decision-valide-form
+        [usager]="usager"
+        (closeModals)="closeModals()"
+      ></app-decision-valide-form>
+    </dsfr-modal>
 
-      <div class="fr-col-12">
-        @if (!editInfos) {
-        <app-display-etat-civil
-          [usager]="usager"
-          section="ETAT_CIVIL"
-        ></app-display-etat-civil>
-        } @else {
-        <app-profil-etat-civil-form
-          [usager]="usager"
-          [(editInfos)]="editInfos"
-        ></app-profil-etat-civil-form>
-        }
-      </div>
-    </div>
-
-    <div class="fr-grid-row fr-grid-row--gutters fr-mt-3w">
-      <div class="fr-col-12">
-        <div class="fr-grid-row fr-grid-row--between fr-grid-row--middle">
-          <h3 class="fr-h3">
-            <i class="fr-icon-at-line" aria-hidden="true"></i>
-            Informations de contact
-          </h3>
-          <div class="fr-ml-auto d-print-none">
-            @if (!editContactDetails) {
-            <button
-              class="fr-btn fr-btn--secondary"
-              type="button"
-              (click)="editContactDetails = true"
-            >
-              <i class="fr-icon-edit-line" aria-hidden="true"></i>
-              Modifier
-              <span class="fr-sr-only">les informations de contact</span>
-            </button>
-            } @else {
-            <button
-              class="fr-btn fr-btn--secondary"
-              type="button"
-              (click)="editContactDetails = false"
-            >
-              Annuler
-            </button>
-            }
-          </div>
-        </div>
-      </div>
-
-      <div class="fr-col-12">
-        @if (!editContactDetails) {
-        <app-display-contact-details
-          [usager]="usager"
-          [me]="me"
-        ></app-display-contact-details>
-        } @else {
-        <app-form-contact-details
-          [usager]="usager"
-          [(editContactDetails)]="editContactDetails"
-        ></app-form-contact-details>
-        }
-      </div>
-    </div>
-
-    <div class="fr-grid-row fr-grid-row--gutters fr-mt-3w">
-      <div class="fr-col-12">
-        <div class="fr-grid-row fr-grid-row--between fr-grid-row--middle">
-          <h3 class="fr-h3">
-            <i class="fr-icon-speak-line" aria-hidden="true"></i>
-            Entretien social
-          </h3>
-          <div class="fr-ml-auto d-print-none">
-            @if (!editEntretien) {
-            <button
-              type="button"
-              class="fr-btn fr-btn--secondary"
-              (click)="editEntretien = true"
-            >
-              <i class="fr-icon-edit-line" aria-hidden="true"></i>
-              Modifier
-              <span class="fr-sr-only">l'entretien</span>
-            </button>
-            } @else {
-            <button
-              type="button"
-              class="fr-btn fr-btn--secondary"
-              (click)="editEntretien = false"
-            >
-              Annuler les modifications
-            </button>
-            }
-          </div>
-        </div>
-      </div>
-
-      <div class="fr-col-12">
-        @if (!editEntretien) {
-        <app-display-entretien
-          [usager]="usager"
-          [structure]="me.structure"
-        ></app-display-entretien>
-        } @else {
-        <app-entretien-form
-          [(editEntretien)]="editEntretien"
-          [usager]="usager"
-        ></app-entretien-form>
-        }
-      </div>
-    </div>
-
-    <div class="fr-grid-row fr-grid-row--gutters fr-mt-3w">
-      <div class="fr-col-12">
-        <h3 class="fr-h3">
-          <i class="fr-icon-file-text-line" aria-hidden="true"></i>
-          Attestations et Cerfa
-        </h3>
-      </div>
-      <div class="fr-col-12">
-        <div class="fr-btns-group fr-btns-group--center fr-btns-group--inline">
-          <app-button
-            (action)="getCerfa(CerfaDocType.demande)"
-            ariaLabel="Télécharger l'attestation de demande"
-            content="Télécharger l'attestation de demande"
-            icon="download"
-            color="secondary"
-          ></app-button>
-
-          @if (me?.role !== 'facteur' && me?.role !== 'simple' && me?.role !==
-          'agent') {
-          <app-button
-            (action)="getCerfa(CerfaDocType.attestation_future)"
-            ariaLabel="Télécharger le Cerfa provisoire"
-            content="Télécharger le Cerfa provisoire"
-            icon="download"
-            color="secondary"
-          ></app-button>
-          <app-button
-            (action)="getCerfa(CerfaDocType.attestation)"
-            ariaLabel="Télécharger le Cerfa actuel"
-            content="Télécharger le Cerfa actuel"
-            icon="download"
-            color="secondary"
-          ></app-button>
-          }
-        </div>
-      </div>
-    </div>
-
-    <div class="fr-grid-row fr-grid-row--gutters fr-mt-3w">
-      <div class="fr-col-12">
-        <div class="fr-grid-row fr-grid-row--between fr-grid-row--middle">
-          <h3 class="fr-h3">
-            <i class="fr-icon-file-text-line" aria-hidden="true"></i>
-            Pièces jointes
-          </h3>
-          <div class="fr-ml-auto d-print-none">
-            @if (!editPJ) {
-            <button
-              type="submit"
-              class="fr-btn fr-btn--secondary"
-              (click)="editPJ = true"
-            >
-              <i class="fr-icon-edit-line" aria-hidden="true"></i>
-              Modifier
-              <span class="fr-sr-only">les pièces jointes</span>
-            </button>
-            } @else {
-            <button
-              type="button"
-              class="fr-btn fr-btn--secondary"
-              (click)="editPJ = false"
-            >
-              Annuler les modifications
-            </button>
-            }
-          </div>
-        </div>
-      </div>
-
-      <div class="fr-col-12 fr-mb-5w">
-        @if (!editPJ) {
-        <app-display-usager-docs
-          [me]="me"
-          [editPJ]="false"
-          [usager]="usager"
-        ></app-display-usager-docs>
-        } @else {
-        <app-display-usager-docs
-          [me]="me"
-          [editPJ]="true"
-          [usager]="usager"
-        ></app-display-usager-docs>
-        }
-      </div>
-    </div>
-
-    <div class="fr-btns-group fr-btns-group--right fr-mt-3w">
-      <button type="button" class="fr-btn" (click)="printPage()">
-        <i class="fr-icon-printer-line" aria-hidden="true"></i>
-        Imprimer le dossier complet
-      </button>
-    </div>
+    <dsfr-modal
+      #standbyModal
+      [titleModal]="'Ajourner le dossier'"
+      [isScrollable]="true"
+      [size]="'LG'"
+    >
+      <app-decision-standby-form
+        [usager]="usager"
+        [me]="me"
+        (closeModals)="closeModals()"
+      ></app-decision-standby-form>
+    </dsfr-modal>
+    }
   </div>
-
-  <app-step-footer [usager]="usager"></app-step-footer>
-  @if (usager) {
-  <dsfr-modal
-    #refusModal
-    [titleModal]="'Refuser le dossier'"
-    [isScrollable]="true"
-    [size]="'LG'"
-  >
-    <app-decision-refus-form
-      [usager]="usager"
-      (closeModals)="closeModals()"
-    ></app-decision-refus-form>
-  </dsfr-modal>
-
-  <dsfr-modal
-    #confirmationModal
-    [titleModal]="'Confirmer la domiciliation de ' + (usager | fullName)"
-    [isScrollable]="true"
-    [size]="'LG'"
-  >
-    <app-decision-valide-form
-      [usager]="usager"
-      (closeModals)="closeModals()"
-    ></app-decision-valide-form>
-  </dsfr-modal>
-
-  <dsfr-modal
-    #standbyModal
-    [titleModal]="'Ajourner le dossier'"
-    [isScrollable]="true"
-    [size]="'LG'"
-  >
-    <app-decision-standby-form
-      [usager]="usager"
-      [me]="me"
-      (closeModals)="closeModals()"
-    ></app-decision-standby-form>
-  </dsfr-modal>
   }
 </div>

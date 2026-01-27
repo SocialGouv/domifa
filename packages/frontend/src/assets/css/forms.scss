@@ -2,11 +2,6 @@
   display: none !important;
 }
 
-.fr-input-group.required .fr-label::after {
-  content: " *";
-  color: var(--text-default-error);
-}
-
 label:has(input[required])::after {
   content: "*";
   color: var(--error-425-625);
@@ -14,9 +9,44 @@ label:has(input[required])::after {
   font-weight: bold;
 }
 
-.date-btn {
-  top: 2.5rem;
-  right: 0;
-  position: absolute;
-  background-color: transparent;
+.fr-checkbox-group.required label:after {
+  content: " *";
+  color: var(--text-default-error);
+}
+
+.fr-select-group.required label:after {
+  content: " *";
+  color: var(--text-default-error);
+}
+
+.fr-input-group:has(input[required]) .fr-label::after,
+.fr-checkbox-group:has(input[required]) label::after,
+.fr-select-group:has(select[required]) label::after {
+  content: " *";
+  color: var(--text-default-error);
+}
+
+// Button for date with "ng-bootstrap"
+.fr-date-input {
+  position: relative;
+  margin-top: 0.5rem;
+
+  .date-btn {
+    bottom: 0.5rem;
+    right: 0.3rem;
+    position: absolute;
+    background-color: transparent;
+  }
+}
+
+.empty-hint,
+p.fr-hint-text {
+  min-height: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+// Icons for titles
+h2 i,
+h3 i {
+  color: var(--text-active-blue-france);
 }

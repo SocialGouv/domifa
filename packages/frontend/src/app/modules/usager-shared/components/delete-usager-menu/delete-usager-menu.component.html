@@ -3,10 +3,9 @@
 <div class="fr-container fr-py-5v" style="text-align: center">
   <button
     type="button"
-    class="fr-btn fr-btn--primary fr-icon-delete-line"
+    class="fr-icon-delete-line fr-btn--icon-left fr-btn"
     (click)="onDeleteClick()"
   >
-    454154154
     {{
       context === "PROFIL" ? "Supprimer ce dossier" : "Supprimer cette demande"
     }}
@@ -24,23 +23,21 @@
 } }
 
 <dsfr-modal #deleteDecisionModal [isScrollable]="true" [size]="'LG'">
-  <p style="text-align: center; margin-bottom: 1rem">
-    Vous êtes sur le point de supprimer la décision suivante:
-  </p>
-  <p style="text-align: center; margin-bottom: 1.5rem">
+  <p>
+    Vous êtes sur le point de supprimer la décision suivante:<br />
     <strong>
       {{ DECISION_LABELS[usager.decision.statut] }} le
       {{ usager.decision.dateDecision | date : "d MMMM y à HH:mm" }} par
       {{ usager.decision.userName }}
     </strong>
   </p>
-  <p style="text-align: center; margin-bottom: 1.5rem">
+  <p>
     Les statistiques seront mises à jour, une note sera ajoutée au dossier et
     l'usager retournera à son statut précédent:
     <strong>{{ previousStatus }}</strong>
   </p>
 
-  <ng-template #footer>
+  <ng-container dsfrModalActions>
     <button
       type="submit"
       class="fr-btn fr-btn--primary"
@@ -68,16 +65,14 @@
       <span class="fr-icon-close-line" aria-hidden="true"></span>
       Annuler
     </button>
-  </ng-template>
+  </ng-container>
 </dsfr-modal>
 
 <dsfr-modal
   #deleteUsagerModal
-  [titleModal]="
-    context === 'PROFIL' ? 'Supprimer ce dossier' : 'Supprimer cette demande'
-  "
+  [titleModal]="modalTitle"
   [isScrollable]="false"
-  [size]="'MD'"
+  [size]="'LG'"
 >
   <app-delete-usager
     [selectedRefs]="selectedRefs"

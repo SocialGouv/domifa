@@ -4,6 +4,10 @@
   align-items: center;
   justify-content: center;
   gap: 1rem;
+
+  label {
+    margin-bottom: 0.75rem;
+  }
 }
 
 .fr-text--lead {
@@ -13,10 +17,9 @@
 .rdv-choice {
   width: 100%;
   transition: all 0.2s ease;
-  padding: 1.25rem 2.5rem;
+  padding: 1.5rem 2.5rem;
   cursor: pointer;
   border-radius: 0.25rem;
-
   .rdv-select {
     align-items: center;
     gap: 1rem;
@@ -33,4 +36,10 @@
 
 .rdv-choice--selected {
   background-color: var(--background-alt-blue-cumulus);
+}
+
+.rdv-description {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 0;
 }

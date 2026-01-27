@@ -4,21 +4,20 @@
   [currentStep]="2"
 ></app-step-header>
 
-<div class="fr-background-alt--blue-cumulus">
-  <div
-    class="fr-container fr-background-default--grey"
-    *ngIf="usager && currentUserSubject$ | async as me"
-  >
-    <app-form-stepper
-      *ngIf="usager"
-      [usager]="usager"
-      [currentStep]="2"
-    ></app-form-stepper>
+<div class="fr-content-container">
+  <div class="fr-container" *ngIf="usager && currentUserSubject$ | async as me">
+    <div class="fr-content">
+      <app-form-stepper
+        *ngIf="usager"
+        [usager]="usager"
+        [currentStep]="2"
+      ></app-form-stepper>
 
-    <app-entretien-form
-      [usager]="usager"
-      (nextStep)="nextStep($event)"
-    ></app-entretien-form>
+      <app-entretien-form
+        [usager]="usager"
+        (nextStep)="nextStep($event)"
+      ></app-entretien-form>
+    </div>
   </div>
 
   <app-step-footer [usager]="usager"></app-step-footer>

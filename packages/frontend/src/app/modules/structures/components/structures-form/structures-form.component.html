@@ -296,8 +296,8 @@
                   class="fr-message fr-message--error mt-0"
                   *ngIf="(submitted || f.siret?.dirty) && f.siret?.errors"
                 >
-                  {{ 
-                    f.siret?.errors?.['invalidSiret'] 
+                  {{
+                    f.siret?.errors?.['invalidSiret']
                       ? 'Le format du numéro de SIRET est incorrect'
                       : 'Si vous n\'avez pas de n° SIRET veuillez cochez la case ci-dessous'
                   }}

@@ -2,10 +2,13 @@
   <div class="fr-grid-row fr-grid-row--gutters">
     <div class="fr-col-12 fr-col-md-5">
       <div
-        class="fr-form-group"
+        class="fr-form-group required"
         [class.fr-form-group--error]="submitted && u.label.errors"
       >
         <label class="fr-label" for="label"> Nom du document </label>
+        <p id="label-hint" class="fr-hint-text">
+          Exemple : Cerfa signé, impôts, carte identité, etc.
+        </p>
         <input
           type="text"
           class="fr-input"
@@ -18,9 +21,7 @@
           [attr.aria-invalid]="submitted && u.label.errors ? 'true' : 'false'"
           required
         />
-        <p id="label-hint" class="fr-hint-text">
-          Exemple : Cerfa signé, impôts, carte identité, etc.
-        </p>
+
         @if (submitted && u.label.errors) {
         <p id="label-errors" class="fr-error-text" role="alert">
           Le nom du document est obligatoire
@@ -31,10 +32,13 @@
 
     <div class="fr-col-12 fr-col-md-5">
       <div
-        class="fr-form-group"
+        class="fr-form-group required"
         [class.fr-form-group--error]="submitted && u.fileSource.errors"
       >
         <label class="fr-label" for="file"> Document à enregistrer </label>
+        <p id="file-hint" class="fr-hint-text">
+          Formats autorisés : .pdf, .jpg, .png. Taille maximale : 6 Mo
+        </p>
         <input
           type="file"
           class="fr-upload"
@@ -50,9 +54,7 @@
           (change)="onFileChange($event)"
           required
         />
-        <p id="file-hint" class="fr-hint-text">
-          Formats autorisés : .pdf, .jpg, .png. Taille maximale : 6 Mo
-        </p>
+
         @if (submitted && u.fileSource.errors) {
         <div id="file-errors" class="fr-error-text" role="alert">
           @if (u.fileSource.errors['required']) {
@@ -71,6 +73,28 @@
       <button type="submit" class="fr-btn" [disabled]="loading">
         Ajouter le fichier
       </button>
+    </div>
+
+    <div
+      class="fr-col-12 fr-col-md-12"
+      *ngIf="usager.options.portailUsagerEnabled"
+    >
+      <div class="fr-toggle">
+        <input
+          type="checkbox"
+          class="fr-toggle__input"
+          id="toggle-2"
+          aria-describedby="toggle-2-messages"
+        />
+        <label class="fr-toggle__label" for="toggle-2"
+          >Partager le document avec le domicilié sur “Mon DomiFa”</label
+        >
+        <div
+          class="fr-messages-group"
+          id="toggle-2-messages"
+          aria-live="polite"
+        ></div>
+      </div>
     </div>
   </div>
 

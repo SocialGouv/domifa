@@ -38,75 +38,33 @@
       }
 
       <div class="fr-col-12 fr-col-md-4">
-        <div class="fr-form-group">
-          <label class="fr-label" for="telephone">
-            Numéro de téléphone (mobile uniquement) @if (f.contactByPhone.value
-            === true) {
-            <span class="fr-badge fr-badge--info">Requis</span>
-            }
-          </label>
-          <ngx-intl-tel-input
-            [cssClass]="
-              submitted && (f.telephone.errors || f.telephone.invalid)
-                ? 'fr-input fr-input--error'
-                : 'fr-input'
-            "
-            [preferredCountries]="PREFERRED_COUNTRIES"
-            [enableAutoCountrySelect]="false"
-            [enablePlaceholder]="true"
-            [searchCountryFlag]="true"
-            [customPlaceholder]="mobilePhonePlaceHolder"
-            searchCountryPlaceholder="Choisissez un pays"
-            [searchCountryField]="[
-              SearchCountryField.Iso2,
-              SearchCountryField.Name
-            ]"
-            [selectFirstCountry]="false"
-            [maxLength]="15"
-            [phoneValidation]="true"
-            [separateDialCode]="true"
-            [numberFormat]="PhoneNumberFormat.International"
-            inputId="telephone"
-            formControlName="telephone"
-            (countryChange)="updatePlaceHolder($event.iso2)"
-            [selectedCountryISO]="f.telephone?.value?.countryCode"
-            [attr.aria-describedby]="
-              submitted && (f.telephone.errors || f.telephone.invalid)
-                ? 'telephone-errors'
-                : null
-            "
-            [attr.aria-invalid]="
-              submitted && (f.telephone.errors || f.telephone.invalid)
-                ? true
-                : false
-            "
-          ></ngx-intl-tel-input>
-
-          @if (submitted && f.telephone.errors) {
-          <p id="telephone-errors" class="fr-error-text">
-            Numéro de téléphone incorrect, mobile uniquement (Ex: 0606060606)
-          </p>
-          } @if ( !PREFERRED_COUNTRIES.includes(
-          f.telephone?.value?.countryCode.toLowerCase() ) && f.telephone?.value
-          && f?.contactByPhone?.value === true ) {
-          <p class="fr-notice__text fr-notice__text--warning">
-            ⚠️ Attention : les SMS ne sont pas envoyés aux numéros étrangers
-          </p>
-          }
-        </div>
+        <app-phone-input
+          [isRequired]="f.contactByPhone.value === true"
+          [isMobileOnly]="true"
+          [submitted]="submitted"
+          formControlName="telephone"
+          [label]="'Numéro de téléphone (mobile uniquement)'"
+        ></app-phone-input>
       </div>
 
       <div class="fr-col-12 fr-col-md-4">
-        <div class="fr-form-group">
-          <label class="fr-label" for="email">Adresse e-mail</label>
+        <div
+          class="fr-input-group"
+          [ngClass]="{
+            'fr-input-group--error':
+              (f.email.dirty || submitted) && f.email.errors
+          }"
+        >
+          <label class="fr-label" for="email"> Adresse e-mail </label>
+          <p class="fr-hint-text">Format attendu : mail[at]domaine.fr</p>
           <input
             type="email"
-            id="email"
             class="fr-input"
+            id="email"
+            spellcheck="off"
             formControlName="email"
-            [class.fr-input--error]="
-              (f.email.dirty || submitted) && f.email.errors
-            "
+            autocomplete="off"
+            name="email"
             [attr.aria-describedby]="
               (f.email.dirty || submitted) && f.email.errors
                 ? 'email-errors'
@@ -116,12 +74,22 @@
               (f.email.dirty || submitted) && f.email.errors ? true : false
             "
           />
-          @if ((f.email.dirty || submitted) && f.email.errors) {
-          <p id="email-errors" class="fr-error-text">
-            Veuillez vérifier l'adresse email, format attendu :
-            nom&#64;domaine.fr
-          </p>
-          }
+          <div class="fr-messages-group">
+            <p class="fr-message fr-message--info">
+              Adresse e-mail indiquée sur le Cerfa
+            </p>
+          </div>
+          <div
+            *ngIf="(f.email.dirty || submitted) && f.email.errors"
+            aria-live="polite"
+            class="fr-messages-group"
+            id="email-errors"
+          >
+            <p class="fr-message fr-message--error">
+              Veuillez vérifier l'adresse email, format attendu :
+              nom&#64;domaine.fr
+            </p>
+          </div>
         </div>
       </div>
     </div>

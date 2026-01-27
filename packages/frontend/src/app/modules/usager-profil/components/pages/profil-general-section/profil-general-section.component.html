@@ -230,7 +230,21 @@
         <div class="col-md-6">
           <div class="row">
             <div class="col-12">
-              <h2>Dossier</h2>
+              <h2 class="fr-h4">
+                <i
+                  class="fr-icon-folder-2-line fr-text-title--blue-france"
+                  aria-hidden="true"
+                ></i>
+                Dossier
+              </h2>
+            </div>
+
+            <div class="col-6 my-1 align-self-center">
+              <span class="label">Date de naissance</span>
+            </div>
+
+            <div class="col-6 my-1 align-self-center">
+              {{ usager.dateNaissance | date : "dd/MM/yyyy" }}
             </div>
 
             <div class="col-6 my-1 align-self-center">
@@ -317,7 +331,13 @@
         </div>
 
         <div class="col-md-6">
-          <h2>Courrier en attente</h2>
+          <h2 class="fr-h4">
+            <i
+              class="fr-icon-mail-line fr-text-title--blue-france"
+              aria-hidden="true"
+            ></i>
+            Courrier en attente
+          </h2>
           <div class="profil-interaction my-3">
             <div class="interaction-icon-box me-3">
               <div class="interaction-icon icon-courrier"></div>
@@ -358,7 +378,7 @@
                 type="button"
                 [disabled]="loadingButtons.indexOf('visite') !== -1"
                 [attr.aria-disabled]="loadingButtons.indexOf('visite') !== -1"
-                class="my-1 btn me-2 btn-primary"
+                class="my-1 me-2 fr-btn"
                 (click)="setSingleInteraction(usager.ref, 'visite')"
               >
                 <fa-icon
@@ -375,7 +395,7 @@
                 type="button"
                 [disabled]="loadingButtons.indexOf('appel') !== -1"
                 [attr.aria-disabled]="loadingButtons.indexOf('appel') !== -1"
-                class="my-1 btn btn-primary me-2"
+                class="my-1 fr-btn me-2"
                 (click)="setSingleInteraction(usager.ref, 'appel')"
               >
                 <fa-icon
@@ -393,7 +413,7 @@
 
             <button
               type="button"
-              class="my-1 btn btn-primary me-2"
+              class="my-1 fr-btn me-2"
               (click)="openInteractionInModal()"
             >
               <span
@@ -406,7 +426,7 @@
             <button
               type="button"
               *ngIf="usager.lastInteraction.enAttente"
-              class="my-1 btn btn-primary me-2"
+              class="my-1 fr-btn me-2"
               (click)="openInteractionOutModal()"
             >
               <span
@@ -424,8 +444,14 @@
 
       <div class="row mt-3">
         <div class="col-md-6 mb-3">
-          <h2>Historique des courriers</h2>
-
+          <h2 class="fr-h4">
+            <img
+              src="assets/dsfr-pictograms/document/archive.svg"
+              aria-hidden="true"
+              alt=""
+            />
+            Historique des courriers
+          </h2>
           <app-profil-general-historique-courriers
             [usager]="usager"
             [me]="me"
@@ -444,7 +470,15 @@
         </div>
 
         <div class="col-md-6">
-          <h2>Notes</h2>
+          <h2 class="fr-h4">
+            <img
+              src="assets/dsfr-pictograms/leisure/community.svg"
+              aria-hidden="true"
+              alt=""
+            />
+            Notes
+          </h2>
+
           <app-profil-general-notes
             [me]="me"
             [usager]="usager"

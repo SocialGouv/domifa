@@ -1,60 +1,93 @@
-<form
-  [formGroup]="usagerForm"
-  (ngSubmit)="updateInfos()"
-  *ngIf="currentUserSubject$ | async as me"
+<section
+  aria-label="Formulaire d'édition de l'état-civil du demandeur"
+  class="fr-mb-3w"
+  *ngIf="usagerForm"
 >
-  <fieldset>
-    <p>
+  @let me = (currentUserSubject$ | async); @if (me) {
+
+  <form [formGroup]="usagerForm" (ngSubmit)="updateInfos()" autocomplete="off">
+    <p class="fr-text--sm">
       Les champs suivis d'un
-      <span class="fr-text--bold text-error">*</span> sont obligatoires
+      <span class="fr-text--bold text-danger">*</span> sont obligatoires
     </p>
-    <legend class="visually-hidden">État civil du domicilié</legend>
-    <div class="fr-grid-row fr-grid-row--gutters">
+
+    <fieldset class="fr-fieldset">
+      <legend class="fr-fieldset__legend--regular fr-fieldset__legend">
+        Civilité
+      </legend>
+      <div class="fr-fieldset__element fr-fieldset__element--inline">
+        <div class="fr-radio-group">
+          <input
+            type="radio"
+            formControlName="sexe"
+            name="sexe"
+            id="homme"
+            value="homme"
+          />
+          <label class="fr-label" for="homme">Monsieur</label>
+        </div>
+      </div>
+      <div class="fr-fieldset__element fr-fieldset__element--inline">
+        <div class="fr-radio-group">
+          <input
+            type="radio"
+            formControlName="sexe"
+            name="sexe"
+            id="femme"
+            value="femme"
+          />
+          <label class="fr-label" for="femme">Madame</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="fr-grid-row fr-grid-row--gutters fr-mb-3w">
       <div class="fr-col-12 fr-col-md-4">
         <div
-          class="fr-input-group"
-          [class.fr-input-group--error]="
-            (f.nom.dirty || submitted) && f.nom.errors
-          "
+          class="fr-input-group required"
+          [ngClass]="{
+            'fr-input-group--error': (f.nom.dirty || submitted) && f.nom.errors
+          }"
         >
           <label class="fr-label" for="nom"> Nom </label>
+          <p class="fr-hint-text">Précisez nom de naissance si nécessaire</p>
           <input
-            #firstInput
             type="text"
             class="fr-input"
             id="nom"
             appCleanStr
             maxlength="200"
             formControlName="nom"
+            name="nom"
             [attr.aria-describedby]="
-              (f.nom.dirty || submitted) && f.nom.errors
-                ? 'nom-errors'
-                : 'nom-description'
+              (f.nom.dirty || submitted) && f.nom.errors ? 'nom-errors' : null
             "
-            [attr.aria-invalid]="
-              (f.nom.dirty || submitted) && f.nom.errors ? true : false
-            "
+            [attr.aria-invalid]="f.nom.errors ? true : false"
             required
           />
-          <p id="nom-description" class="fr-hint-text">
-            Précisez nom de naissance si nécessaire
-          </p>
-          @if ((f.nom.dirty || submitted) && f.nom.errors) {
-          <p id="nom-errors" class="fr-error-text">
-            Le nom du demandeur est obligatoire
-          </p>
-          }
+
+          <div
+            *ngIf="(f.nom.dirty || submitted) && f.nom.errors"
+            aria-live="polite"
+            class="fr-messages-group"
+            id="nom-errors"
+          >
+            <p class="fr-message fr-message--error">
+              Le nom du demandeur est obligatoire
+            </p>
+          </div>
         </div>
       </div>
-
       <div class="fr-col-12 fr-col-md-4">
         <div
           class="fr-input-group"
-          [class.fr-input-group--error]="
-            (f.prenom.dirty || submitted) && f.prenom.errors
-          "
+          [ngClass]="{
+            'fr-input-group--error':
+              (f.prenom.dirty || submitted) && f.prenom.errors
+          }"
         >
           <label class="fr-label" for="prenom"> Prénom(s) </label>
+          <p class="fr-hint-text empty-hint"></p>
           <input
             type="text"
             class="fr-input"
@@ -62,27 +95,32 @@
             appCleanStr
             maxlength="200"
             formControlName="prenom"
+            name="prenom"
             [attr.aria-describedby]="
               (f.prenom.dirty || submitted) && f.prenom.errors
                 ? 'prenom-errors'
                 : null
             "
-            [attr.aria-invalid]="
-              (f.prenom.dirty || submitted) && f.prenom.errors ? true : false
-            "
+            [attr.aria-invalid]="f.prenom.errors ? true : false"
             required
           />
-          @if ((f.prenom.dirty || submitted) && f.prenom.errors) {
-          <p id="prenom-errors" class="fr-error-text">
-            Le prénom est obligatoire
-          </p>
-          }
+          <div
+            *ngIf="(f.prenom.dirty || submitted) && f.prenom.errors"
+            aria-live="polite"
+            class="fr-messages-group"
+            id="prenom-errors"
+          >
+            <p class="fr-message fr-message--error">
+              Le prénom est obligatoire
+            </p>
+          </div>
         </div>
       </div>
-
       <div class="fr-col-12 fr-col-md-4">
         <div class="fr-input-group">
-          <label class="fr-label" for="surnom">Nom d'usage / Surnom</label>
+          <label class="fr-label" for="surnom"> Nom d'usage / Surnom </label>
+          <p class="fr-hint-text empty-hint"></p>
+
           <input
             type="text"
             class="fr-input"
@@ -90,47 +128,35 @@
             appCleanStr
             maxlength="100"
             formControlName="surnom"
+            name="surnom"
           />
         </div>
       </div>
-    </div>
-
-    <div class="fr-grid-row fr-grid-row--gutters">
-      <div class="fr-col-12 fr-col-md-4">
-        <div class="fr-input-group">
-          <label class="fr-label" for="sexe"> Sexe </label>
-          <select formControlName="sexe" id="sexe" class="fr-select" required>
-            <option value="homme">Homme</option>
-            <option value="femme">Femme</option>
-          </select>
-        </div>
-      </div>
-
       <div class="fr-col-12 fr-col-md-4">
         <div
           class="fr-input-group"
-          [class.fr-input-group--error]="
-            (f.dateNaissance.dirty || submitted) && f.dateNaissance.errors
-          "
+          [ngClass]="{
+            'fr-input-group--error':
+              (f.dateNaissance.dirty || submitted) && f.dateNaissance.errors
+          }"
         >
           <label class="fr-label" for="dateNaissance">
             Date de naissance
           </label>
-          <div class="input-group">
+          <p class="fr-hint-text">Format attendu: jj/mm/aaaa</p>
+          <div class="fr-date-input">
             <input
-              class="form-control"
+              class="fr-input"
               placeholder="jj/mm/aaaa"
               [minDate]="minDateNaissance"
               [maxDate]="maxDateNaissance"
               placement="auto"
               formControlName="dateNaissance"
+              name="dateNaissance"
               id="dateNaissance"
               ngbDatepicker
               appDateFr
-              [ngClass]="{
-                'is-invalid':
-                  (f.dateNaissance.dirty || submitted) && f.dateNaissance.errors
-              }"
+              value
               [attr.aria-describedby]="
                 (f.dateNaissance.dirty || submitted) && f.dateNaissance.errors
                   ? 'date-naissance-errors'
@@ -145,39 +171,52 @@
               maxlength="10"
               required
             />
+
             <button
               type="button"
-              aria-label="Sélectionner une date de naissance dans le calendrier"
-              class="input-group-text btn btn-outline-primary"
+              aria-label="Sélectionner une date de naissance sur le calendrier"
+              class="date-btn"
               (click)="d.toggle()"
             >
-              <i class="ri-calendar-line" aria-hidden="true"></i>
+              <span class="fr-icon-calendar-line" aria-hidden="true"></span>
             </button>
           </div>
-          @if ((f.dateNaissance.dirty || submitted) && f.dateNaissance.errors) {
-          <p id="date-naissance-errors" class="fr-error-text">
-            La date de naissance est obligatoire, exemple : 20/12/1996
-          </p>
-          }
+
+          <div
+            *ngIf="
+              (f.dateNaissance.dirty || submitted) && f.dateNaissance.errors
+            "
+            aria-live="polite"
+            class="fr-messages-group"
+            id="date-naissance-errors"
+          >
+            <p class="fr-message fr-message--error">
+              La date de naissance est incorrecte, exemple: 20/12/1996
+            </p>
+          </div>
         </div>
       </div>
-
       <div class="fr-col-12 fr-col-md-4">
         <div
           class="fr-input-group"
-          [class.fr-input-group--error]="
-            (submitted || f.villeNaissance.dirty) && f.villeNaissance.errors
-          "
+          [ngClass]="{
+            'fr-input-group--error':
+              (submitted || f.villeNaissance.dirty) && f.villeNaissance.errors
+          }"
         >
           <label class="fr-label" for="villeNaissance">
             Ville de naissance
           </label>
+          <p id="ville-description" class="fr-hint-text empty-hint">
+            Préciser le pays si à l'étranger
+          </p>
+
           <input
             type="text"
             class="fr-input"
             id="villeNaissance"
             formControlName="villeNaissance"
-            maxlength="100"
+            name="villeNaissance"
             [attr.aria-describedby]="
               (submitted || f.villeNaissance.dirty) && f.villeNaissance.errors
                 ? 'ville-errors'
@@ -190,358 +229,565 @@
             "
             required
           />
-          <p id="ville-description" class="fr-hint-text">
-            Préciser le pays si à l'étranger
-          </p>
-          @if ((submitted || f.villeNaissance.dirty) && f.villeNaissance.errors)
-          {
-          <p id="ville-errors" class="fr-error-text">
-            La ville de naissance est obligatoire
-          </p>
-          }
-        </div>
-      </div>
-    </div>
-  </fieldset>
 
-  <div class="fr-grid-row fr-grid-row--gutters fr-mt-4w">
-    <div class="fr-col-12 fr-col-md-4">
-      <div class="fr-input-group">
-        <label class="fr-label" for="langue">Langue parlée</label>
-        <input
-          id="langue"
-          type="text"
-          class="fr-input"
-          formControlName="langue"
-          [attr.aria-describedby]="
-            (f.langue.dirty || submitted) && f.langue.errors
-              ? 'langue-errors'
-              : 'langue-description'
-          "
-          [attr.aria-invalid]="
-            (f.langue.dirty || submitted) && f.langue.errors ? true : false
-          "
-          [ngbTypeahead]="languagesAutocompleteSearch"
-          [resultFormatter]="languagesAutocomplete.formatter"
-          [inputFormatter]="languagesAutocomplete.formatter"
-        />
-        <p id="langue-description" class="fr-hint-text">
-          Saisissez la langue, puis choisissez un élément dans la liste.
-        </p>
-        @if (f.langue.touched && f.langue.errors) {
-        <p id="langue-errors" class="fr-error-text">
-          La langue saisie est invalide. Veuillez sélectionner une langue dans
-          la liste des propositions
-        </p>
-        }
-      </div>
-    </div>
-
-    <div class="fr-col-12 fr-col-md-4">
-      <app-input-nationality
-        [parentFormGroup]="usagerForm"
-        [usager]="usager"
-        [submitted]="submitted"
-      ></app-input-nationality>
-    </div>
-
-    <div class="fr-col-12 fr-col-md-4">
-      <div
-        class="fr-input-group"
-        [class.fr-input-group--error]="
-          (f.customRef.dirty || submitted) && f.customRef.errors
-        "
-      >
-        <label class="fr-label" for="customRef">Identifiant personnalisé</label>
-        <input
-          type="text"
-          class="fr-input"
-          id="customRef"
-          maxlength="50"
-          [attr.aria-describedby]="
-            (f.customRef.dirty || submitted) && f.customRef.errors
-              ? 'customRef-errors'
-              : null
-          "
-          [attr.aria-invalid]="
-            (f.customRef.dirty || submitted) && f.customRef.errors
-              ? true
-              : false
-          "
-          formControlName="customRef"
-        />
-        @if ((submitted || f.customRef.dirty) && f.customRef.errors) {
-        <p id="customRef-errors" class="fr-error-text">30 caractères maximum</p>
-        }
-      </div>
-    </div>
-
-    <div class="fr-col-12 fr-col-md-4">
-      <div class="fr-input-group">
-        <label class="fr-label" for="numeroDistribution">
-          Numéro de distribution spéciale (BP, TSA, etc)
-        </label>
-        <input
-          type="text"
-          class="fr-input"
-          id="numeroDistribution"
-          formControlName="numeroDistribution"
-          maxlength="50"
-        />
-        <p id="numero-description" class="fr-hint-text">
-          Exemple : BP 102, TSA 11000
-        </p>
-      </div>
-    </div>
-
-    <div class="fr-col-12 fr-col-md-4">
-      <app-input-referrer
-        [submitted]="submitted"
-        [parentFormGroup]="usagerForm"
-        [referrerId]="f.referrerId.value"
-        [required]="false"
-      ></app-input-referrer>
-    </div>
-  </div>
-
-  <div class="fr-grid-row fr-grid-row--gutters fr-mt-5w">
-    <div class="fr-col-12">
-      <h2>Ayants droit</h2>
-    </div>
-  </div>
-
-  <div class="fr-grid-row fr-grid-row--gutters fr-mb-2w">
-    <div class="fr-col-12">
-      <button
-        type="button"
-        (click)="addAyantDroit()"
-        class="fr-btn fr-btn--secondary"
-      >
-        <i class="ri-add-line" aria-hidden="true"></i>
-        Ajouter des ayants droit
-      </button>
-    </div>
-  </div>
-
-  <div class="fr-callout" *ngIf="ayantsDroits.length === 0">
-    <p class="fr-callout__text">Aucun ayant droit enregistré</p>
-  </div>
-
-  @for (ayantDroit of ayantsDroits.controls; track $index; let i = $index) {
-  <fieldset class="fr-fieldset fr-mb-3w">
-    <legend class="fr-fieldset__legend">Ayant droit numéro {{ i + 1 }}</legend>
-    <div [formGroupName]="i" class="fr-grid-row fr-grid-row--gutters">
-      <div class="fr-col-12 fr-col-md-3">
-        <div
-          class="fr-input-group"
-          [class.fr-input-group--error]="
-            (ayantsDroits.controls[i].get('nom')?.dirty || submitted) &&
-            ayantsDroits.controls[i].get('nom')?.errors
-          "
-        >
-          <label class="fr-label" for="nom_{{ i }}"> Nom </label>
-          <input
-            id="nom_{{ i }}"
-            type="text"
-            appCleanStr
-            class="fr-input"
-            formControlName="nom"
-            [attr.aria-invalid]="
-              (ayantsDroits.controls[i].get('nom')?.dirty || submitted) &&
-              ayantsDroits.controls[i].get('nom')?.errors
-                ? true
-                : false
+          <div
+            *ngIf="
+              (submitted || f.villeNaissance.dirty) && f.villeNaissance.errors
             "
-            [attr.aria-describedby]="
-              (ayantsDroits.controls[i].get('nom')?.dirty || submitted) &&
-              ayantsDroits.controls[i].get('nom')?.errors
-                ? 'nom-ad-errors-' + i
-                : null
-            "
-            required
-          />
-          @if ((ayantsDroits.controls[i].get('nom')?.dirty || submitted) &&
-          ayantsDroits.controls[i].get('nom')?.errors) {
-          <p [id]="'nom-ad-errors-' + i" class="fr-error-text">
-            Le nom est obligatoire
-          </p>
-          }
-        </div>
-      </div>
-
-      <div class="fr-col-12 fr-col-md-3">
-        <div
-          class="fr-input-group"
-          [class.fr-input-group--error]="
-            (ayantsDroits.controls[i].get('prenom')?.dirty || submitted) &&
-            ayantsDroits.controls[i].get('prenom')?.errors
-          "
-        >
-          <label class="fr-label" for="ad_prenom_{{ i }}"> Prénom </label>
-          <input
-            type="text"
-            id="ad_prenom_{{ i }}"
-            class="fr-input"
-            appCleanStr
-            formControlName="prenom"
-            [attr.aria-invalid]="
-              (ayantsDroits.controls[i].get('prenom')?.dirty || submitted) &&
-              ayantsDroits.controls[i].get('prenom')?.errors
-                ? true
-                : false
-            "
-            [attr.aria-describedby]="
-              (ayantsDroits.controls[i].get('prenom')?.dirty || submitted) &&
-              ayantsDroits.controls[i].get('prenom')?.errors
-                ? 'prenom-ad-errors-' + i
-                : null
-            "
-            required
-          />
-          @if ((ayantsDroits.controls[i].get('prenom')?.dirty || submitted) &&
-          ayantsDroits.controls[i].get('prenom')?.errors) {
-          <p [id]="'prenom-ad-errors-' + i" class="fr-error-text">
-            Le prénom est obligatoire
-          </p>
-          }
-        </div>
-      </div>
-
-      <div class="fr-col-12 fr-col-md-3">
-        <div
-          class="fr-input-group"
-          [class.fr-input-group--error]="
-            (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
-              submitted) &&
-            ayantsDroits.controls[i].get('dateNaissance')?.errors
-          "
-        >
-          <label class="fr-label" for="dateNaissance_{{ i }}">
-            Date de naissance
-          </label>
-          <div class="input-group">
-            <input
-              id="dateNaissance_{{ i }}"
-              class="form-control"
-              placeholder="jj/mm/aaaa"
-              [minDate]="minDateNaissance"
-              [maxDate]="maxDateNaissance"
-              placement="auto"
-              formControlName="dateNaissance"
-              ngbDatepicker
-              appDateFr
-              [ngClass]="{
-                'is-invalid':
-                  (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
-                    submitted) &&
-                  ayantsDroits.controls[i].get('dateNaissance')?.errors
-              }"
-              [attr.aria-invalid]="
-                (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
-                  submitted) &&
-                ayantsDroits.controls[i].get('dateNaissance')?.errors
-                  ? true
-                  : false
-              "
-              [attr.aria-describedby]="
-                (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
-                  submitted) &&
-                ayantsDroits.controls[i].get('dateNaissance')?.errors
-                  ? 'dateNaissance-ad-errors-' + i
-                  : null
-              "
-              #d="ngbDatepicker"
-              maxlength="10"
-              required
-            />
-            <button
-              type="button"
-              aria-label="Sélectionner une date de naissance dans le calendrier"
-              class="btn btn-outline-primary input-group-text"
-              (click)="d.toggle()"
-            >
-              <i class="ri-calendar-line" aria-hidden="true"></i>
-            </button>
+            aria-live="polite"
+            class="fr-messages-group"
+            id="ville-errors"
+          >
+            <p class="fr-message fr-message--error">
+              La ville de naissance est obligatoire
+            </p>
           </div>
-          @if ((ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
-          submitted) && ayantsDroits.controls[i].get('dateNaissance')?.errors) {
-          <p [id]="'dateNaissance-ad-errors-' + i" class="fr-error-text">
-            La date de naissance est obligatoire. Exemple : 20/12/1996
-          </p>
-          }
         </div>
       </div>
 
-      <div class="fr-col-12 fr-col-md-2">
+      <div class="fr-col-12 fr-col-md-4">
         <div
           class="fr-input-group"
-          [class.fr-input-group--error]="
-            (ayantsDroits.controls[i].get('lien')?.dirty || submitted) &&
-            ayantsDroits.controls[i].get('lien')?.errors
-          "
+          [ngClass]="{
+            'fr-input-group--error':
+              (f.langue.dirty || submitted) && f.langue.errors
+          }"
         >
-          <label class="fr-label" for="lien_{{ i }}"> Lien </label>
-          <select
-            formControlName="lien"
-            id="lien_{{ i }}"
-            class="fr-select"
-            [attr.aria-invalid]="
-              (ayantsDroits.controls[i].get('lien')?.dirty || submitted) &&
-              ayantsDroits.controls[i].get('lien')?.errors
-                ? true
-                : false
-            "
+          <label class="fr-label" for="langue">Langue parlée</label>
+          <p class="fr-hint-text">
+            Saisissez la langue, puis choisissez un élément dans la liste.
+          </p>
+
+          <input
+            id="langue"
+            type="text"
+            class="fr-input"
+            formControlName="langue"
+            name="langue"
             [attr.aria-describedby]="
-              (ayantsDroits.controls[i].get('lien')?.dirty || submitted) &&
-              ayantsDroits.controls[i].get('lien')?.errors
-                ? 'lien-parente-errors-' + i
+              (f.langue.dirty || submitted) && f.langue.errors
+                ? 'langue-errors'
                 : null
             "
-            required
+            [attr.aria-invalid]="
+              (f.langue.dirty || submitted) && f.langue.errors ? true : false
+            "
+            [ngbTypeahead]="languagesAutocompleteSearch"
+            [resultFormatter]="languagesAutocomplete.formatter"
+            [inputFormatter]="languagesAutocomplete.formatter"
+          />
+
+          <div
+            *ngIf="f.langue.touched && f.langue.errors"
+            aria-live="polite"
+            class="fr-messages-group"
+            id="langue-errors"
           >
-            <option [ngValue]="null">Non renseigné</option>
-            @for (lien of LIEN_PARENTE_LABELS | keyvalue; track lien.key) {
-            <option [ngValue]="lien.key">
-              {{ lien.value }}
-            </option>
-            }
-          </select>
-          @if ((ayantsDroits.controls[i].get('lien')?.dirty || submitted) &&
-          ayantsDroits.controls[i].get('lien')?.errors) {
-          <p [id]="'lien-parente-errors-' + i" class="fr-error-text">
-            Le lien de parenté est obligatoire
+            <p class="fr-message fr-message--error">
+              La langue saisie est invalide. Veuillez sélectionner une langue
+              dans la liste des propositions
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="fr-col-12 fr-col-md-4">
+        <app-input-nationality
+          [parentFormGroup]="usagerForm"
+          [submitted]="submitted"
+          [usager]="usager"
+        ></app-input-nationality>
+      </div>
+
+      <div class="fr-col-12 fr-col-md-4">
+        <div
+          class="fr-input-group"
+          [ngClass]="{
+            'fr-input-group--error':
+              submitted && (f.telephone.errors || f.telephone.invalid)
+          }"
+        >
+          <app-phone-input
+            [isRequired]="false"
+            [isMobileOnly]="false"
+            [submitted]="submitted"
+            formControlName="telephone"
+            [label]="'Numéro de téléphone (mobile uniquement)'"
+          ></app-phone-input>
+          <div
+            *ngIf="submitted && f.telephone.errors"
+            aria-live="polite"
+            class="fr-messages-group"
+          >
+            <p class="fr-message fr-message--error">
+              Numéro de téléphone incorrect (Ex: 0606060606)
+            </p>
+          </div>
+          <p
+            *ngIf="
+              !PREFERRED_COUNTRIES.includes(
+                f.telephone?.value?.countryCode.toLowerCase()
+              ) &&
+              f.telephone?.value &&
+              f?.contactByPhone?.value === true
+            "
+            class="fr-hint-text"
+          >
+            Attention: les SMS ne sont pas envoyés aux numéros étrangers
           </p>
-          }
+        </div>
+      </div>
+      <div class="fr-col-12 fr-col-md-4">
+        <div
+          class="fr-input-group"
+          [ngClass]="{
+            'fr-input-group--error':
+              (f.email.dirty || submitted) && f.email.errors
+          }"
+        >
+          <label class="fr-label" for="email"> Adresse e-mail </label>
+          <p class="fr-hint-text">Format attendu : mail[at]domaine.fr</p>
+          <input
+            type="email"
+            class="fr-input"
+            id="email"
+            spellcheck="off"
+            formControlName="email"
+            autocomplete="off"
+            name="email"
+            [attr.aria-describedby]="
+              (f.email.dirty || submitted) && f.email.errors
+                ? 'email-errors'
+                : null
+            "
+            [attr.aria-invalid]="
+              (f.email.dirty || submitted) && f.email.errors ? true : false
+            "
+          />
+          <div class="fr-messages-group">
+            <p class="fr-message fr-message--info">
+              Adresse e-mail indiquée sur le Cerfa
+            </p>
+          </div>
+          <div
+            *ngIf="(f.email.dirty || submitted) && f.email.errors"
+            aria-live="polite"
+            class="fr-messages-group"
+            id="email-errors"
+          >
+            <p class="fr-message fr-message--error">
+              Veuillez vérifier l'adresse email, format attendu :
+              nom&#64;domaine.fr
+            </p>
+          </div>
         </div>
       </div>
 
-      <div class="fr-col-12 fr-col-md-1">
+      <div class="fr-col-12 fr-col-md-4">
         <div class="fr-input-group">
-          <label class="fr-label" for="delete_ad_{{ i }}">Supprimer</label>
-          <button
-            type="button"
-            id="delete_ad_{{ i }}"
-            (click)="deleteAyantDroit(i)"
-            class="fr-btn fr-btn--danger w-100"
-          >
-            <i class="ri-delete-bin-line" aria-hidden="true"></i>
-            <span class="d-none d-md-inline">Supprimer</span>
-          </button>
+          <label class="fr-label" for="numeroDistribution">
+            Numéro de boite postale ou TSA
+          </label>
+          <p class="fr-hint-text">Exemple : BP 102, TSA 11000</p>
+          <input
+            type="text"
+            class="fr-input"
+            id="numeroDistribution"
+            formControlName="numeroDistribution"
+            name="numeroDistribution"
+            maxlength="20"
+          />
         </div>
+      </div>
+
+      <div class="fr-col-12 fr-col-md-4">
+        <app-input-referrer
+          [submitted]="submitted"
+          [parentFormGroup]="usagerForm"
+          [referrerId]="f.referrerId.value"
+        ></app-input-referrer>
       </div>
     </div>
-  </fieldset>
-  }
 
-  <div class="fr-text-center">
-    <button
-      type="submit"
-      class="fr-btn"
-      [disabled]="loading"
-      [attr.aria-busy]="loading"
+    <fieldset
+      class="fr-fieldset fr-mb-2w"
+      *ngIf="
+        me.structure.sms.enabledByDomifa && me.structure.sms.enabledByStructure
+      "
     >
-      @if (!loading) { Enregistrer les modifications } @else { Veuillez
-      patienter... }
-    </button>
-  </div>
-</form>
+      <legend class="fr-fieldset__legend--regular fr-fieldset__legend">
+        Le demandeur souhaite-t-il recevoir des notifications par SMS (arrivée
+        d'un courrier, échéance de domiciliation) ?
+      </legend>
+
+      <div class="fr-fieldset__element fr-fieldset__element--inline">
+        <div class="fr-radio-group">
+          <input
+            class="fr-radio"
+            type="radio"
+            formControlName="contactByPhone"
+            name="contactByPhone"
+            id="sms_oui"
+            [value]="true"
+          />
+          <label class="fr-label" for="sms_oui">Oui</label>
+        </div>
+      </div>
+      <div class="fr-fieldset__element fr-fieldset__element--inline">
+        <div class="fr-radio-group">
+          <input
+            class="fr-radio"
+            type="radio"
+            formControlName="contactByPhone"
+            name="contactByPhone"
+            id="sms_non"
+            [value]="false"
+          />
+          <label class="fr-label" for="sms_non">Non</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="fr-fieldset fr-mb-2w">
+      <legend class="fr-fieldset__legend fr-text--regular">
+        <span class="fr-fieldset__legend-content">
+          Le demandeur a-t-il des ayants droit ?
+        </span>
+      </legend>
+
+      <div class="fr-fieldset__element fr-fieldset__element--inline">
+        <div class="fr-radio-group">
+          <input
+            class="fr-radio"
+            type="radio"
+            formControlName="ayantsDroitsExist"
+            name="ayantsDroitsExist"
+            id="ayantsDroits_oui"
+            [value]="true"
+            (click)="addAyantDroit()"
+          />
+          <label class="fr-label" for="ayantsDroits_oui">Oui</label>
+        </div>
+      </div>
+
+      <div class="fr-fieldset__element fr-fieldset__element--inline">
+        <div class="fr-radio-group">
+          <input
+            class="fr-radio"
+            type="radio"
+            (click)="resetAyantDroit()"
+            formControlName="ayantsDroitsExist"
+            name="ayantsDroitsExist"
+            id="ayantsDroits_non"
+            [value]="false"
+          />
+          <label class="fr-label" for="ayantsDroits_non">Non</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <ng-container *ngIf="f.ayantsDroitsExist.value === true">
+      <fieldset
+        formArrayName="ayantsDroits"
+        class="fr-fieldset fr-mb-2w"
+        *ngFor="let ayantDroit of ayantsDroits.controls; let i = index"
+      >
+        <legend class="fr-fieldset__legend fr-text--regular">
+          <span class="fr-fieldset__legend-content">
+            Ayant-droit numéro {{ i + 1 }}
+          </span>
+        </legend>
+
+        <div class="fr-fieldset__content">
+          <div [formGroupName]="i" class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-col-12 fr-col-md-3">
+              <div
+                class="fr-input-group"
+                [ngClass]="{
+                  'fr-input-group--error':
+                    (ayantsDroits.controls[i].get('nom')?.dirty || submitted) &&
+                    ayantsDroits.controls[i].get('nom')?.errors
+                }"
+              >
+                <label class="fr-label" for="nom_{{ i }}"> Nom </label>
+                <input
+                  #adName
+                  id="nom_{{ i }}"
+                  type="text"
+                  appCleanStr
+                  class="fr-input"
+                  formControlName="nom"
+                  name="nom"
+                  [attr.aria-invalid]="
+                    (ayantsDroits.controls[i].get('nom')?.dirty || submitted) &&
+                    ayantsDroits.controls[i].get('nom')?.errors
+                      ? true
+                      : false
+                  "
+                  [attr.aria-describedby]="
+                    (ayantsDroits.controls[i].get('nom')?.dirty || submitted) &&
+                    ayantsDroits.controls[i].get('nom')?.errors
+                      ? 'nom-ad-errors-' + i
+                      : null
+                  "
+                  [attr.aria-label]="
+                    'Nom de naissance de l\'ayant droit ' + (i + 1)
+                  "
+                  required
+                />
+                <div
+                  *ngIf="
+                    (ayantsDroits.controls[i].get('nom')?.dirty || submitted) &&
+                    ayantsDroits.controls[i].get('nom')?.errors
+                  "
+                  [id]="'nom-ad-errors-' + i"
+                  aria-live="polite"
+                  class="fr-messages-group"
+                >
+                  <p class="fr-message fr-message--error">
+                    Le nom est obligatoire
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="fr-col-12 fr-col-md-3">
+              <div
+                class="fr-input-group"
+                [ngClass]="{
+                  'fr-input-group--error':
+                    (ayantsDroits.controls[i].get('prenom')?.dirty ||
+                      submitted) &&
+                    ayantsDroits.controls[i].get('prenom')?.errors
+                }"
+              >
+                <label class="fr-label" for="ad_prenom_{{ i }}"> Prénom </label>
+                <input
+                  type="text"
+                  id="ad_prenom_{{ i }}"
+                  class="fr-input"
+                  appCleanStr
+                  formControlName="prenom"
+                  name="prenom"
+                  [attr.aria-invalid]="
+                    (ayantsDroits.controls[i].get('prenom')?.dirty ||
+                      submitted) &&
+                    ayantsDroits.controls[i].get('prenom')?.errors
+                      ? true
+                      : false
+                  "
+                  [attr.aria-describedby]="
+                    (ayantsDroits.controls[i].get('prenom')?.dirty ||
+                      submitted) &&
+                    ayantsDroits.controls[i].get('prenom')?.errors
+                      ? 'prenom-ad-errors-' + i
+                      : null
+                  "
+                  [attr.aria-label]="'Prénom de l\'ayant droit ' + (i + 1)"
+                  required
+                />
+                <div
+                  *ngIf="
+                    (ayantsDroits.controls[i].get('prenom')?.dirty ||
+                      submitted) &&
+                    ayantsDroits.controls[i].get('prenom')?.errors
+                  "
+                  [id]="'prenom-ad-errors-' + i"
+                  aria-live="polite"
+                  class="fr-messages-group"
+                >
+                  <p class="fr-message fr-message--error">
+                    Le prénom est obligatoire
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="fr-col-12 fr-col-md-3">
+              <div
+                class="fr-input-group"
+                [ngClass]="{
+                  'fr-input-group--error':
+                    (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
+                      submitted) &&
+                    ayantsDroits.controls[i].get('dateNaissance')?.errors
+                }"
+              >
+                <label class="fr-label" for="dateNaissance_{{ i }}">
+                  Date de naissance
+                </label>
+
+                <div class="fr-date-input">
+                  <input
+                    id="dateNaissance_{{ i }}"
+                    class="fr-input"
+                    placeholder="jj/mm/aaaa"
+                    [minDate]="minDateNaissance"
+                    [maxDate]="maxDateNaissance"
+                    placement="auto"
+                    formControlName="dateNaissance"
+                    name="dateNaissance"
+                    ngbDatepicker
+                    appDateFr
+                    value
+                    [attr.aria-label]="
+                      'Date de naissance de l\'ayant droit ' + (i + 1)
+                    "
+                    [attr.aria-invalid]="
+                      (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
+                        submitted) &&
+                      ayantsDroits.controls[i].get('dateNaissance')?.errors
+                        ? true
+                        : false
+                    "
+                    [attr.aria-describedby]="
+                      (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
+                        submitted) &&
+                      ayantsDroits.controls[i].get('dateNaissance')?.errors
+                        ? 'dateNaissance-ad-errors-' + i
+                        : null
+                    "
+                    #d="ngbDatepicker"
+                    maxlength="10"
+                    required
+                  />
+
+                  <button
+                    type="button"
+                    aria-label="Sélectionner une date de naissance sur le calendrier"
+                    class="date-btn"
+                    (click)="d.toggle()"
+                  >
+                    <span
+                      class="fr-icon-calendar-line"
+                      aria-hidden="true"
+                    ></span>
+                  </button>
+                </div>
+
+                <div
+                  *ngIf="
+                    (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
+                      submitted) &&
+                    ayantsDroits.controls[i].get('dateNaissance')?.errors
+                  "
+                  [id]="'dateNaissance-ad-errors-' + i"
+                  aria-live="polite"
+                  class="fr-messages-group"
+                >
+                  <p class="fr-message fr-message--error">
+                    La date de naissance est obligatoire. Exemple : 20/12/1996
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="fr-col-12 fr-col-md-2">
+              <div
+                class="fr-input-group"
+                [ngClass]="{
+                  'fr-input-group--error':
+                    (ayantsDroits.controls[i].get('lien')?.dirty ||
+                      submitted) &&
+                    ayantsDroits.controls[i].get('lien')?.errors
+                }"
+              >
+                <label class="fr-label" for="lien_{{ i }}"> Lien </label>
+                <select
+                  formControlName="lien"
+                  name="lien"
+                  id="lien_{{ i }}"
+                  class="fr-select"
+                  [attr.aria-label]="
+                    'Lien de parenté de l\'ayant droit ' + (i + 1)
+                  "
+                  [attr.aria-invalid]="
+                    (ayantsDroits.controls[i].get('lien')?.dirty ||
+                      submitted) &&
+                    ayantsDroits.controls[i].get('lien')?.errors
+                      ? true
+                      : false
+                  "
+                  [attr.aria-describedby]="
+                    (ayantsDroits.controls[i].get('lien')?.dirty ||
+                      submitted) &&
+                    ayantsDroits.controls[i].get('lien')?.errors
+                      ? 'lien-parente-errors-' + i
+                      : null
+                  "
+                  required
+                >
+                  <option [ngValue]="null">Non renseigné</option>
+                  <option
+                    *ngFor="let lien of LIEN_PARENTE_LABELS | keyvalue"
+                    [ngValue]="lien.key"
+                  >
+                    {{ lien.value }}
+                  </option>
+                </select>
+                <div
+                  *ngIf="
+                    (ayantsDroits.controls[i].get('lien')?.dirty ||
+                      submitted) &&
+                    ayantsDroits.controls[i].get('lien')?.errors
+                  "
+                  [id]="'lien-parente-errors-' + i"
+                  aria-live="polite"
+                  class="fr-messages-group"
+                >
+                  <p class="fr-message fr-message--error">
+                    Le lien de parenté est obligatoire
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bouton supprimer -->
+            <div class="fr-col-12 fr-col-md-1">
+              <div class="fr-input-group">
+                <label class="fr-label" for="delete_ad_{{ i }}">
+                  <span class="visually-hidden">Action</span>
+                </label>
+                <button
+                  type="button"
+                  id="delete_ad_{{ i }}"
+                  (click)="deleteAyantDroit(i)"
+                  class="fr-btn fr-btn--tertiary fr-btn--icon-only fr-btn--sm"
+                  [attr.aria-label]="'Supprimer l\'ayant droit ' + (i + 1)"
+                >
+                  <span class="fr-icon-delete-line" aria-hidden="true"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="fr-mb-2w">
+        <button
+          type="button"
+          (click)="addAyantDroit()"
+          class="fr-btn fr-btn--secondary fr-btn--icon-left"
+        >
+          <span class="fr-icon-add-line" aria-hidden="true"></span>
+          Ajouter des ayants droit
+        </button>
+      </div>
+    </ng-container>
+
+    <div
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
+    >
+      <div class="fr-text-center">
+        <button
+          type="submit"
+          class="fr-btn"
+          [disabled]="loading"
+          [attr.aria-busy]="loading"
+        >
+          @if (!loading) { Enregistrer les modifications } @else { Veuillez
+          patienter... }
+        </button>
+      </div>
+    </div>
+  </form>
+  }
+</section>

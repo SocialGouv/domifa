@@ -1,8 +1,7 @@
 @if (usager) { @let displayedNotes = (notes | slice : 0 : 5); @if
 (!notes.length) {
 <div class="fr-callout fr-callout--info">
-  <h3 class="fr-callout__title">Aucune note enregistrée</h3>
-  <p class="fr-callout__text">Aucune note n'a été ajoutée pour le moment.</p>
+  <p class="fr-callout__text">Aucune note enregistrée</p>
 </div>
 } @if (notes.length) {
 

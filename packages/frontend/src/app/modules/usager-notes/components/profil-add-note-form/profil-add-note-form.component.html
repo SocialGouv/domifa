@@ -1,11 +1,12 @@
-<button
-  type="button"
-  class="fr-btn fr-btn--secondary"
-  (click)="openAddNoteInModal()"
->
-  Ajouter une note
-</button>
-
+<div class="fr-btns-group--right">
+  <button
+    type="button"
+    class="fr-btn fr-icon-add-line fr-btn--icon-left fr-btn--secondary"
+    (click)="openAddNoteInModal()"
+  >
+    Ajouter une note
+  </button>
+</div>
 <dsfr-modal
   #modal
   [titleModal]="'Nouvelle note concernant ' + usager.nom + ' ' + usager.prenom"
@@ -66,16 +67,7 @@
         [attr.aria-busy]="loading"
       >
         <span *ngIf="!loading">Enregistrer la note</span>
-        <span *ngIf="loading">
-          <span
-            class="fr-spinner"
-            role="status"
-            aria-label="Enregistrement en cours"
-          >
-            <span class="fr-sr-only">Patientez...</span>
-          </span>
-          Veuillez patienter...
-        </span>
+        <span *ngIf="loading"> Veuillez patienter... </span>
       </button>
     </div>
   </form>

@@ -58,6 +58,13 @@ export class UsagerNotesActionsComponent implements OnDestroy {
     );
   }
 
+  buttonSelect(event) {
+    console.log(event);
+  }
+  linkSelect(event) {
+    console.log(event);
+  }
+
   confirmAction(): void {
     switch (this.choosenAction) {
       case "DELETE":

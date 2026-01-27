@@ -4,48 +4,49 @@
   [currentStep]="3"
 ></app-step-header>
 
-<div class="fr-background-alt--blue-cumulus">
+<div class="fr-content-container">
   @let me = (currentUserSubject$ | async); @if (me) {
-  <div class="fr-container fr-background-default--grey">
-    @if (usager) {
-    <app-form-stepper [usager]="usager" [currentStep]="3"></app-form-stepper>
-    }
+  <div class="fr-container">
+    <div class="fr-content">
+      @if (usager) {
+      <app-form-stepper [usager]="usager" [currentStep]="3"></app-form-stepper>
+      }
 
-    <h2 class="fr-h3">Pièces justificatives complétant le dossier</h2>
-    <p>
-      Cette étape est optionnelle, rien ne vous oblige à enregistrer des pièces
-      justificatives.
-    </p>
+      <p>
+        Cette étape est optionnelle, rien ne vous oblige à enregistrer des
+        pièces justificatives.
+      </p>
 
-    <div class="fr-my-3w">
-      <app-display-usager-docs
-        [me]="me"
-        [editPJ]="true"
-        [usager]="usager"
-      ></app-display-usager-docs>
-    </div>
+      <div class="fr-my-3w">
+        <app-display-usager-docs
+          [me]="me"
+          [editPJ]="true"
+          [usager]="usager"
+        ></app-display-usager-docs>
+      </div>
 
-    <div class="fr-btns-group fr-btns-group--inline fr-btns-group--right">
-      <div class="fr-col-12 fr-col-md-4">
-        <a
-          routerLink="/manage"
-          class="fr-btn fr-btn--secondary fr-w-100 fr-mt-2w"
-        >
-          Continuer plus tard
-        </a>
-        <button
-          [disabled]="loading"
-          [attr.aria-busy]="loading"
-          type="submit"
-          class="fr-btn fr-btn--primary fr-w-100"
-          (click)="nextStep(4)"
-        >
-          @if (!loading) {
-          <span> Suivant </span>
-          } @else {
-          <span> Veuillez patienter... </span>
-          }
-        </button>
+      <div class="fr-btns-group fr-btns-group--inline fr-btns-group--right">
+        <div class="fr-col-12 fr-col-md-4">
+          <a
+            routerLink="/manage"
+            class="fr-btn fr-btn--secondary fr-w-100 fr-mt-2w"
+          >
+            Continuer plus tard
+          </a>
+          <button
+            [disabled]="loading"
+            [attr.aria-busy]="loading"
+            type="submit"
+            class="fr-btn fr-btn--primary fr-w-100"
+            (click)="nextStep(4)"
+          >
+            @if (!loading) {
+            <span> Suivant </span>
+            } @else {
+            <span> Veuillez patienter... </span>
+            }
+          </button>
+        </div>
       </div>
     </div>
   </div>

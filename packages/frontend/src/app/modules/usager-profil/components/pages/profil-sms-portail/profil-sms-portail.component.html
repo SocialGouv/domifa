@@ -19,11 +19,14 @@
           <div
             class="my-2 d-flex flex-wrap justify-content-between align-items-center"
           >
-            <h2>Informations de contact</h2>
+            <h2 class="fr-h3">
+              <i class="fr-icon-at-line" aria-hidden="true"></i>
+              Informations de contact
+            </h2>
             <ng-container *ngIf="usager?.echeanceInfos?.isActif">
               <button
                 type="submit"
-                class="btn btn-outline-dark"
+                class="fr-btn fr-btn--secondary"
                 *ngIf="!editContactDetails"
                 (click)="openContactForm()"
               >
@@ -36,7 +39,7 @@
               </button>
               <button
                 type="button"
-                class="btn btn-outline-dark"
+                class="fr-btn fr-btn--secondary"
                 *ngIf="editContactDetails"
                 (click)="editContactDetails = false"
               >

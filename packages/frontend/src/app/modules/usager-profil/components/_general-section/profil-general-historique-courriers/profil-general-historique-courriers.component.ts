@@ -4,6 +4,7 @@ import { Subscription } from "rxjs";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { Interaction, Order, PageResults, UserStructure } from "@domifa/common";
+import { INTERACTION_ICONS } from "../../../../../../_common/model";
 
 @Component({
   selector: "app-profil-general-historique-courriers",
@@ -18,7 +19,7 @@ export class ProfilGeneralHistoriqueCourriersComponent
 
   private readonly subscription = new Subscription();
   public interactions: Interaction[];
-
+  public readonly INTERACTION_ICONS = INTERACTION_ICONS;
   constructor(private readonly interactionService: InteractionService) {
     this.interactions = [];
   }

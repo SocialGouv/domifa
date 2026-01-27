@@ -6,50 +6,47 @@
   <h2 class="fr-h2" *ngIf="!editEntretien">Entretien avec le demandeur</h2>
 
   <app-rgpd-warning></app-rgpd-warning>
-  <div class="fr-grid-row">
-    <div class="fr-col-12 fr-col-md-12">
-      <fieldset class="fr-fieldset">
-        <legend class="fr-fieldset__legend">Avez-vous été orienté ?</legend>
-        <div class="fr-fieldset__element fr-fieldset__element--inline">
-          <div class="fr-radio-group">
-            <input
-              type="radio"
-              id="orientation_oui"
-              formControlName="orientation"
-              [value]="true"
-            />
-            <label class="fr-label" for="orientation_oui">Oui</label>
-          </div>
-        </div>
-        <div class="fr-fieldset__element fr-fieldset__element--inline">
-          <div class="fr-radio-group">
-            <input
-              type="radio"
-              id="orientation_non"
-              formControlName="orientation"
-              [value]="false"
-            />
-            <label class="fr-label" for="orientation_non">Non</label>
-          </div>
-        </div>
 
-        <div class="fr-col-12" *ngIf="e.orientation.value === true">
-          <div class="fr-input-group">
-            <label class="fr-label" for="orientationDetail"
-              >Par quelle structure ou personne ?</label
-            >
-            <input
-              type="text"
-              id="orientationDetail"
-              formControlName="orientationDetail"
-              class="fr-input"
-              maxlength="1000"
-            />
-          </div>
-        </div>
-      </fieldset>
+  <br />
+  <fieldset class="fr-fieldset">
+    <legend class="fr-fieldset__legend">Avez-vous été orienté ?</legend>
+    <div class="fr-fieldset__element fr-fieldset__element--inline">
+      <div class="fr-radio-group">
+        <input
+          type="radio"
+          id="orientation_oui"
+          formControlName="orientation"
+          [value]="true"
+        />
+        <label class="fr-label" for="orientation_oui">Oui</label>
+      </div>
     </div>
-  </div>
+    <div class="fr-fieldset__element fr-fieldset__element--inline">
+      <div class="fr-radio-group">
+        <input
+          type="radio"
+          id="orientation_non"
+          formControlName="orientation"
+          [value]="false"
+        />
+        <label class="fr-label" for="orientation_non">Non</label>
+      </div>
+    </div>
+    <div class="fr-col-12" *ngIf="e.orientation.value === true">
+      <div class="fr-input-group">
+        <label class="fr-label" for="orientationDetail"
+          >Par quelle structure ou personne ?</label
+        >
+        <input
+          type="text"
+          id="orientationDetail"
+          formControlName="orientationDetail"
+          class="fr-input"
+          maxlength="1000"
+        />
+      </div>
+    </div>
+  </fieldset>
 
   <hr />
 
@@ -83,38 +80,34 @@
         </div>
       </div>
     </div>
-    <p class="fr-text--sm">
-      Une domiciliation existante n'est pas un motif de refus. Néanmoins, il
-      faut rechercher pourquoi la personne formule une nouvelle demande et
-      l'inviter à choisir quelle domiciliation elle souhaite conserver.
-    </p>
   </fieldset>
+  <p class="fr-text--sm">
+    Une domiciliation existante n'est pas un motif de refus. Néanmoins, il faut
+    rechercher pourquoi la personne formule une nouvelle demande et l'inviter à
+    choisir quelle domiciliation elle souhaite conserver.
+  </p>
 
   <hr />
 
+  <!-- Situation professionnelle -->
   <fieldset class="fr-fieldset">
     <legend class="fr-fieldset__legend">
       Quelle est votre situation professionnelle ?
     </legend>
     <div class="fr-fieldset__element">
       <div class="fr-grid-row fr-grid-row--gutters">
-        <ng-container
-          *ngFor="let situationPro of ENTRETIEN_SITUATION_PRO | keyvalue"
-        >
-          <div
-            class="fr-col-12 fr-col-md-6"
-            *ngIf="situationPro.key !== 'AUTRE'"
-          >
+        <ng-container *ngFor="let item of ENTRETIEN_SITUATION_PRO | keyvalue">
+          <div class="fr-col-12 fr-col-md-6" *ngIf="item.key !== 'AUTRE'">
             <div class="fr-radio-group">
               <input
                 type="radio"
-                id="{{ situationPro.key }}"
+                [id]="item.key"
                 formControlName="situationPro"
-                value="{{ situationPro.key }}"
+                value="{{ item.key }}"
               />
-              <label class="fr-label" for="{{ situationPro.key }}">
-                {{ situationPro.value }}
-              </label>
+              <label class="fr-label" for="{{ item.key }}">{{
+                item.value
+              }}</label>
             </div>
           </div>
         </ng-container>
@@ -152,6 +145,7 @@
 
   <hr />
 
+  <!-- Revenus -->
   <fieldset class="fr-fieldset">
     <legend class="fr-fieldset__legend">Avez-vous des revenus ?</legend>
     <div class="fr-fieldset__element">
@@ -207,23 +201,18 @@
     </legend>
     <div class="fr-fieldset__element">
       <div class="fr-grid-row fr-grid-row--gutters">
-        <ng-container
-          *ngFor="let liencommune of ENTRETIEN_LIEN_COMMUNE | keyvalue"
-        >
-          <div
-            class="fr-col-12 fr-col-md-6"
-            *ngIf="liencommune.key !== 'AUTRE'"
-          >
+        <ng-container *ngFor="let item of ENTRETIEN_LIEN_COMMUNE | keyvalue">
+          <div class="fr-col-12 fr-col-md-6" *ngIf="item.key !== 'AUTRE'">
             <div class="fr-radio-group">
               <input
                 type="radio"
-                id="{{ liencommune.key }}"
+                [id]="item.key"
                 formControlName="liencommune"
-                value="{{ liencommune.key }}"
+                value="{{ item.key }}"
               />
-              <label class="fr-label" for="{{ liencommune.key }}">
-                {{ liencommune.value }}
-              </label>
+              <label class="fr-label" for="{{ item.key }}">{{
+                item.value
+              }}</label>
             </div>
           </div>
         </ng-container>
@@ -235,9 +224,7 @@
               formControlName="liencommune"
               value="AUTRE"
             />
-            <label class="fr-label" for="liencommune_autre"
-              >Autre lien avec la commune</label
-            >
+            <label class="fr-label" for="liencommune_autre">Autre lien</label>
           </div>
         </div>
       </div>
@@ -265,6 +252,7 @@
 
   <hr />
 
+  <!-- Composition du ménage -->
   <fieldset class="fr-fieldset">
     <legend class="fr-fieldset__legend">
       Quelle est la composition de votre ménage ?
@@ -273,18 +261,18 @@
       <div class="fr-grid-row fr-grid-row--gutters">
         <div
           class="fr-col-12 fr-col-md-6"
-          *ngFor="let typeMenage of ENTRETIEN_TYPE_MENAGE | keyvalue"
+          *ngFor="let item of ENTRETIEN_TYPE_MENAGE | keyvalue"
         >
           <div class="fr-radio-group">
             <input
               type="radio"
-              id="{{ typeMenage.key }}"
+              [id]="item.key"
               formControlName="typeMenage"
-              value="{{ typeMenage.key }}"
+              value="{{ item.key }}"
             />
-            <label class="fr-label" for="{{ typeMenage.key }}">
-              {{ typeMenage.value }}
-            </label>
+            <label class="fr-label" for="{{ item.key }}">{{
+              item.value
+            }}</label>
           </div>
         </div>
       </div>
@@ -293,24 +281,25 @@
 
   <hr />
 
+  <!-- Situation résidentielle -->
   <fieldset class="fr-fieldset">
     <legend class="fr-fieldset__legend">
       Quelle est votre situation résidentielle ?
     </legend>
     <div class="fr-fieldset__element">
       <div class="fr-grid-row fr-grid-row--gutters">
-        <ng-container *ngFor="let residence of ENTRETIEN_RESIDENCE | keyvalue">
-          <div class="fr-col-12 fr-col-md-6" *ngIf="residence.key !== 'AUTRE'">
+        <ng-container *ngFor="let item of ENTRETIEN_RESIDENCE | keyvalue">
+          <div class="fr-col-12 fr-col-md-6" *ngIf="item.key !== 'AUTRE'">
             <div class="fr-radio-group">
               <input
                 type="radio"
-                id="{{ residence.key }}"
+                [id]="item.key"
                 formControlName="residence"
-                value="{{ residence.key }}"
+                value="{{ item.key }}"
               />
-              <label class="fr-label" for="{{ residence.key }}">
-                {{ residence.value }}
-              </label>
+              <label class="fr-label" for="{{ item.key }}">{{
+                item.value
+              }}</label>
             </div>
           </div>
         </ng-container>
@@ -322,9 +311,7 @@
               formControlName="residence"
               value="AUTRE"
             />
-            <label class="fr-label" for="residenceAutre"
-              >Autre situation résidentielle</label
-            >
+            <label class="fr-label" for="residenceAutre">Autre situation</label>
           </div>
         </div>
       </div>
@@ -352,6 +339,7 @@
 
   <hr />
 
+  <!-- Cause instabilité -->
   <fieldset class="fr-fieldset">
     <legend class="fr-fieldset__legend">
       Quelle est la cause de l'instabilité de logement ?
@@ -359,19 +347,19 @@
     <div class="fr-fieldset__element">
       <div class="fr-grid-row fr-grid-row--gutters">
         <ng-container
-          *ngFor="let cause of ENTRETIEN_CAUSE_INSTABILITE | keyvalue"
+          *ngFor="let item of ENTRETIEN_CAUSE_INSTABILITE | keyvalue"
         >
-          <div class="fr-col-12 fr-col-md-6" *ngIf="cause.key !== 'AUTRE'">
+          <div class="fr-col-12 fr-col-md-6" *ngIf="item.key !== 'AUTRE'">
             <div class="fr-radio-group">
               <input
                 type="radio"
-                id="{{ cause.key }}"
+                [id]="item.key"
                 formControlName="cause"
-                value="{{ cause.key }}"
+                value="{{ item.key }}"
               />
-              <label class="fr-label" for="{{ cause.key }}">
-                {{ cause.value }}
-              </label>
+              <label class="fr-label" for="{{ item.key }}">{{
+                item.value
+              }}</label>
             </div>
           </div>
         </ng-container>
@@ -383,9 +371,7 @@
               formControlName="cause"
               value="AUTRE"
             />
-            <label class="fr-label" for="causeAutre"
-              >Autre cause d'instabilité</label
-            >
+            <label class="fr-label" for="causeAutre">Autre cause</label>
           </div>
         </div>
       </div>
@@ -410,28 +396,28 @@
       </div>
     </div>
   </div>
+
   <hr />
 
+  <!-- Raison demande -->
   <fieldset class="fr-fieldset">
     <legend class="fr-fieldset__legend">
       Quel est le motif principal de demande de domiciliation ?
     </legend>
     <div class="fr-fieldset__element">
       <div class="fr-grid-row fr-grid-row--gutters">
-        <ng-container
-          *ngFor="let raison of ENTRETIEN_RAISON_DEMANDE | keyvalue"
-        >
-          <div class="fr-col-12 fr-col-md-6" *ngIf="raison.key !== 'AUTRE'">
+        <ng-container *ngFor="let item of ENTRETIEN_RAISON_DEMANDE | keyvalue">
+          <div class="fr-col-12 fr-col-md-6" *ngIf="item.key !== 'AUTRE'">
             <div class="fr-radio-group">
               <input
                 type="radio"
-                id="{{ raison.key }}"
+                [id]="item.key"
                 formControlName="raison"
-                value="{{ raison.key }}"
+                value="{{ item.key }}"
               />
-              <label class="fr-label" for="{{ raison.key }}">
-                {{ raison.value }}
-              </label>
+              <label class="fr-label" for="{{ item.key }}">{{
+                item.value
+              }}</label>
             </div>
           </div>
         </ng-container>
@@ -466,8 +452,10 @@
       </div>
     </div>
   </div>
+
   <hr />
 
+  <!-- Accompagnement -->
   <fieldset class="fr-fieldset">
     <legend class="fr-fieldset__legend">
       Faites-vous l'objet d'un accompagnement social ?
@@ -520,13 +508,14 @@
 
   <hr />
 
+  <!-- Autres champs -->
   <div class="fr-grid-row fr-grid-row--gutters">
     <div class="fr-col-12">
       <div class="fr-input-group">
-        <label class="fr-label" for="rattachement">
-          Cette domiciliation est-elle réalisée au titre d'une autre commune ou
-          d'un autre arrondissement ? Si oui, complétez le champ ci-dessous
-        </label>
+        <label class="fr-label" for="rattachement"
+          >Cette domiciliation est-elle réalisée au titre d'une autre commune ou
+          d'un autre arrondissement ?</label
+        >
         <input
           type="text"
           id="rattachement"
@@ -560,50 +549,83 @@
 
   <div class="fr-mt-6w fr-mb-6w" style="text-align: center">
     <button
-      type="submit"
       *ngIf="editEntretien"
+      type="submit"
       class="fr-btn fr-btn--primary"
       [disabled]="loading"
       [attr.aria-busy]="loading"
     >
       <span *ngIf="!loading">Enregistrer les modifications</span>
-      <span *ngIf="loading">
-        <fa-icon
-          [icon]="['fas', 'circle-notch']"
-          animation="spin"
-          aria-hidden="true"
-        ></fa-icon>
-        Veuillez patienter...
-      </span>
+      <span *ngIf="loading">Veuillez patienter...</span>
     </button>
 
     <ng-container
       *ngIf="usager.decision.statut === 'INSTRUCTION' && !editEntretien"
     >
       <button
-        [disabled]="loading"
-        [attr.aria-busy]="loading"
         type="submit"
         class="fr-btn fr-btn--primary fr-mr-2w"
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
       >
-        <span *ngIf="!loading">
-          Suivant
-          <fa-icon [icon]="['fas', 'angle-right']" aria-hidden="true"></fa-icon>
-        </span>
-        <span *ngIf="loading">
-          <fa-icon
-            [icon]="['fas', 'circle-notch']"
-            animation="spin"
-            aria-hidden="true"
-          ></fa-icon>
-          Veuillez patienter...
-        </span>
+        <span *ngIf="!loading"
+          >Suivant <i class="fr-icon-arrow-right-line" aria-hidden="true"></i
+        ></span>
+        <span *ngIf="loading">Veuillez patienter...</span>
       </button>
-
       <a routerLink="/manage" class="fr-btn fr-btn--secondary">
         Continuer plus tard
-        <fa-icon [icon]="['fas', 'angle-right']" aria-hidden="true"></fa-icon>
+        <i class="fr-icon-arrow-right-line" aria-hidden="true"></i>
       </a>
     </ng-container>
   </div>
 </form>
+
+<dsfr-modal
+  #entretienConfirmationModal
+  dialogId="entretienConfirmationModal"
+  titleModal="Confirmer votre saisie"
+  (closeEvent)="closeModal()"
+>
+  <ng-container dsfrModalBody>
+    <p>
+      L’entretien préalable
+      <strong>est obligatoire,</strong>
+      il est l’occasion d’inscrire la domiciliation dans une démarche
+      d’accompagnement social visant à favoriser l’insertion des personnes
+      domiciliées et constitue une porte d’entrée pour intégrer la personne dans
+      une logique de parcours.
+      <br />
+      <br />
+      Cette étape ne peut être passée que si votre structure met déjà en place
+      un accompagnement social pour cette personne, en parallèle de sa
+      domiciliation.
+    </p>
+  </ng-container>
+  <ng-template #modalFooterTemplate>
+    <div class="fr-btns-group fr-btns-group--inline fr-btns-group--right">
+      <button
+        type="button"
+        class="fr-btn fr-btn--secondary"
+        (click)="closeModal()"
+      >
+        Annuler
+      </button>
+      <button
+        type="button"
+        class="fr-btn fr-btn--primary"
+        (click)="submitEntretien()"
+      >
+        <span *ngIf="!loading">Continuer sans entretien</span>
+        <span *ngIf="loading"
+          ><fa-icon
+            [icon]="['fas', 'circle-notch']"
+            animation="spin"
+            aria-hidden="true"
+          ></fa-icon>
+          Veuillez patienter...</span
+        >
+      </button>
+    </div>
+  </ng-template>
+</dsfr-modal>

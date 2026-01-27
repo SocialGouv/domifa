@@ -46,6 +46,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { DisplayEtatCivilComponent } from "./components/display-etat-civil/display-etat-civil.component";
 import { DisplayContactDetailsComponent } from "./components/display-contact-details/display-contact-details.component";
 import { FormatInternationalPhoneNumberPipe } from "../../shared/phone";
+import { PhoneInputComponent } from "./components/input-phone-international/input-phone-international.component";
 
 @NgModule({
   declarations: [
@@ -107,6 +108,7 @@ import { FormatInternationalPhoneNumberPipe } from "../../shared/phone";
     DsfrProgressBarComponent,
     DsfrModalComponent,
     FormatInternationalPhoneNumberPipe,
+    PhoneInputComponent,
   ],
   providers: [
     NgbDateCustomParserFormatter,

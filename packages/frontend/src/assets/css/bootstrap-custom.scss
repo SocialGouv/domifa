@@ -134,14 +134,6 @@ small {
   color: var(--bs-primary) !important;
 }
 
-.table > :not(:first-child) {
-  border-top: 0 !important;
-}
-
-.table th .btn-primary {
-  background-color: var(--bs-primary);
-}
-
 thead th {
   font-style: normal;
   font-weight: 700;

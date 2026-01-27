@@ -31,12 +31,13 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
 
   private readonly subscription = new Subscription();
 
-  public previousStatus: string;
-  public loading: boolean;
-  public isAdmin: boolean;
+  public previousStatus = "";
+  public loading: boolean = false;
+  public isAdmin: boolean = false;
   public me!: UserStructure | null;
   public selectedRefs: Set<number> = new Set<number>();
 
+  public modalTitle = "";
   public readonly DECISION_LABELS: {
     [key in UsagerDecisionStatut]: string;
   } = {
@@ -53,10 +54,6 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
     private readonly toastService: CustomToastService,
     private readonly authService: AuthService
   ) {
-    this.isAdmin = false;
-    this.loading = false;
-
-    this.previousStatus = "";
     this.me = this.authService.currentUserValue;
   }
 
@@ -67,6 +64,14 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
     this.selectedRefs.add(this.usager.ref);
     if (this.usager.historique.length > 1) {
       this.getPreviousStatus();
+    }
+
+    if (this.context === "PROFIL") {
+      this.modalTitle = `Vous êtes sur le point de supprimer ${
+        this.selectedRefs.size
+      } ${this.selectedRefs.size > 1 ? "domiciliés" : "domicilié"} !`;
+    } else {
+      this.modalTitle = "Supprimer cette dmande";
     }
   }
 
@@ -79,24 +84,23 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
     this.previousStatus = USAGER_DECISION_STATUT_LABELS[statut];
   }
 
-  public openModal(modalId: string): void {
-    const modal = document.getElementById(modalId) as HTMLDialogElement;
-    modal?.showModal();
-  }
-
-  public closeModal(modalId: string): void {
-    const modal = document.getElementById(modalId) as HTMLDialogElement;
-    modal?.close();
+  public closeModal(): void {
+    if (this.deleteUsagerModal) {
+      this.deleteUsagerModal.close();
+    }
+    if (this.deleteDecisionModal) {
+      this.deleteDecisionModal.close();
+    }
   }
 
   public onDeleteClick(): void {
     if (this.context === "PROFIL") {
-      this.openModal("modal-delete-usager");
+      this.deleteUsagerModal.open();
     } else if (this.context === "INSTRUCTION_FORM") {
       if (this.usager.historique.length > 1) {
-        this.openModal("modal-delete-decision");
+        this.deleteDecisionModal.open();
       } else {
-        this.openModal("modal-delete-usager");
+        this.deleteUsagerModal.open();
       }
     }
   }
@@ -107,7 +111,7 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
       this.usagerDecisionService.deleteDecision(this.usager).subscribe({
         next: (newUsager: UsagerLight) => {
           this.toastService.success("Décision supprimée avec succès");
-          this.closeModal("modal-delete-decision");
+          this.closeModal();
           setTimeout(() => {
             this.loading = false;
             const redirection = getUrlUsagerProfil(newUsager);
