@@ -1,192 +1,184 @@
-<div *ngIf="usager && me" class="head-page pt-3">
-  <div class="container">
+@if (usager && me) {
+<div class="head-page fr-pt-3w">
+  <div class="fr-container">
     <div
-      class="py-3 px-0 mx-0 d-md-flex justify-content-between align-items-center"
+      class="fr-px-0 fr-mx-0 fr-grid-row fr-grid-row--space-between fr-grid-row--middle"
     >
-      <div class="px-0 mx-0 d-block d-md-flex align-items-center">
+      <div class="fr-px-0 fr-mx-0 fr-grid-row fr-grid-row--middle">
         <a
           [routerLink]="['/manage']"
           ariaCurrentWhenActive="page"
-          class="btn my-1 px-2 py-0 d-md-inline-block d-none d-print-none"
+          class="fr-my-1w fr-px-2w fr-py-0 fr-hidden-sm fr-d-print-none"
           aria-label="Revenir à la liste des domiciliés"
           title="Revenir à la liste des domiciliés"
         >
-          <fa-icon
-            class="fa-2x text-white"
+          <span
+            class="fr-icon-arrow-left-line fr-icon--lg"
             aria-hidden="true"
-            [icon]="['fas', 'angle-left']"
-          ></fa-icon>
+          ></span>
         </a>
-        <h1 class="title m-0">
+        <h1 class="title fr-m-0">
           {{ usager | fullName }} -
           {{ usager.customRef ? usager.customRef : usager.ref }}
         </h1>
       </div>
-      <div class="d-none d-print-block">{{ me?.structure?.nom }}</div>
+      <div class="fr-hidden-lg fr-d-print-block">{{ me?.structure?.nom }}</div>
+      @if (me?.role !== 'facteur' && me?.role !== 'agent') {
+      <div class="fr-px-0 fr-mx-0 fr-text-align-right fr-d-print-none">
+        @if (usager.decision.statut === 'INSTRUCTION') {
+        <a
+          [routerLink]="[
+            '/usager/' +
+              usager.ref +
+              '/edit/' +
+              ETAPES_DEMANDE_URL[usager.etapeDemande]
+          ]"
+          class="fr-my-1w fr-my-md-0 fr-btn fr-btn--secondary fr-ms-2w"
+        >
+          <span class="fr-icon-refresh-line fr-me-1w" aria-hidden="true"></span>
+          Compléter la demande
+        </a>
+        } @if (usager.decision.statut === 'REFUS') {
+        <button
+          type="button"
+          (click)="openRenewModal()"
+          class="fr-my-1w fr-btn fr-btn--secondary fr-ms-2w"
+        >
+          <span class="fr-icon-refresh-line fr-me-1w" aria-hidden="true"></span>
+          Créer une nouvelle demande
+        </button>
+        <button
+          type="button"
+          class="fr-my-1w fr-btn fr-btn--secondary fr-ms-2w"
+          (click)="
+            getCerfa(
+              usager.decision.statut === 'REFUS'
+                ? CerfaDocType.demande
+                : CerfaDocType.attestation
+            )
+          "
+        >
+          <span
+            class="fr-icon-download-line fr-me-1w"
+            aria-hidden="true"
+          ></span>
+          Télécharger le CERFA
+        </button>
+        } @if (usager.decision.statut === 'RADIE') {
+        <button
+          type="button"
+          class="fr-my-1w fr-my-md-0 fr-btn fr-btn--secondary fr-ms-2w"
+          (click)="openRenewModal()"
+        >
+          <span class="fr-icon-refresh-line fr-me-1w" aria-hidden="true"></span>
+          Créer une nouvelle demande
+        </button>
+        } @if (usager.decision.statut === 'VALIDE') {
+        <button
+          type="button"
+          class="fr-my-1w fr-my-md-0 fr-btn fr-btn--secondary fr-ms-2w"
+          (click)="openRenewModal()"
+        >
+          <span class="fr-icon-refresh-line fr-me-1w" aria-hidden="true"></span>
+          Demande de renouvellement
+        </button>
 
-      <div
-        class="px-0 mx-0 text-md-end text-center d-print-none"
-        *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
-      >
-        <ng-container *ngIf="usager.decision.statut === 'INSTRUCTION'">
-          <a
-            [routerLink]="[
-              '/usager/' +
-                usager.ref +
-                '/edit/' +
-                ETAPES_DEMANDE_URL[usager.etapeDemande]
-            ]"
-            ariaCurrentWhenActive="page"
-            class="btn my-1 my-md-0 btn-white-primary ms-2"
-          >
-            <fa-icon
-              [icon]="['fas', 'redo']"
-              aria-hidden="true"
-              class="me-2"
-            ></fa-icon>
-            Compléter la demande
-          </a>
-        </ng-container>
-
-        <ng-container *ngIf="usager.decision.statut === 'REFUS'">
-          <button
-            type="button"
-            (click)="openRenewModal()"
-            class="btn my-1 btn-white-primary ms-2"
-          >
-            <fa-icon
-              [icon]="['fas', 'redo']"
-              aria-hidden="true"
-              class="me-2"
-            ></fa-icon>
-            Créer une nouvelle demande
-          </button>
-          <button
-            type="button"
-            class="btn my-1 btn-white-primary ms-2"
-            (click)="
-              getCerfa(
-                usager.decision.statut === 'REFUS'
-                  ? CerfaDocType.demande
-                  : CerfaDocType.attestation
-              )
-            "
-          >
-            <fa-icon [icon]="['fas', 'download']" aria-hidden="true"></fa-icon>
-            {{
-              usager.decision.statut === "REFUS"
-                ? "Télécharger l'attestation de Refus"
-                : "Télécharger le Cerfa"
-            }}
-          </button>
-        </ng-container>
-
-        <ng-container *ngIf="usager.decision.statut === 'RADIE'">
-          <button
-            type="button"
-            class="btn my-1 my-md-0 btn-white-primary ms-2"
-            (click)="openRenewModal()"
-          >
-            <fa-icon
-              [icon]="['fas', 'redo']"
-              aria-hidden="true"
-              class="me-2"
-            ></fa-icon>
-            Créer une nouvelle demande
-          </button>
-        </ng-container>
-
-        <ng-container *ngIf="usager.decision.statut === 'VALIDE'">
-          <button
-            type="button"
-            class="my-1 my-md-0 btn btn-white-primary ms-2"
-            (click)="openRenewModal()"
-          >
-            <fa-icon
-              [icon]="['fas', 'redo']"
-              aria-hidden="true"
-              class="me-2"
-            ></fa-icon>
-            Demande de renouvellement
-          </button>
-
-          <app-decision-radiation-form
-            [usager]="usager"
-            context="PROFIL"
-            (closeModals)="closeModals()"
-          ></app-decision-radiation-form>
-        </ng-container>
+        <app-decision-radiation-form
+          [usager]="usager"
+          context="PROFIL"
+          (closeModals)="closeModals()"
+        ></app-decision-radiation-form>
+        }
       </div>
+      }
     </div>
 
-    <nav id="statut-selector" class="mt-4 row d-print-none">
-      <a
-        [ngClass]="section === 'general' ? 'selected-section col' : 'col'"
-        [routerLink]="['/profil/general/' + usager.ref]"
-        ariaCurrentWhenActive="page"
+    <div class="fr-tabs fr-mt-4w fr-d-print-none">
+      <ul
+        class="fr-tabs__list"
+        role="tablist"
+        aria-label="Navigation du profil"
       >
-        <span class="statut-label">Vue d'ensemble</span>
-        <span class="visually-hidden" *ngIf="section === 'general'"
-          >, onglet actif</span
-        >
-      </a>
-
-      <a
-        [ngClass]="section === 'dossier' ? 'selected-section col' : 'col'"
-        [routerLink]="['/profil/dossier/' + usager.ref]"
-        ariaCurrentWhenActive="page"
-        ><span class="statut-label"> Dossier</span>
-        <span class="visually-hidden" *ngIf="section === 'dossier'"
-          >, onglet actif</span
-        >
-      </a>
-      <a
-        [ngClass]="section === 'courrier' ? 'selected-section col' : 'col'"
-        [routerLink]="['/profil/courriers/' + usager.ref]"
-        ><span class="statut-label">Procurations et transferts</span>
-        <span class="visually-hidden" *ngIf="section === 'courrier'"
-          >, onglet actif</span
-        >
-      </a>
-      <a
-        class="col"
-        [ngClass]="section === 'documents' ? 'selected-section col' : 'col'"
-        [routerLink]="
-          me?.role !== 'facteur' ? ['/profil/documents/' + usager.ref] : null
-        "
-        (click)="goToDocuments()"
-        ariaCurrentWhenActive="page"
-        ><span class="statut-label"
-          >Documents<span *ngIf="me?.role === 'facteur'"
-            >, accès restreint</span
-          ></span
-        >
-        <span class="visually-hidden" *ngIf="section === 'documents'"
-          >, onglet actif</span
-        >
-      </a>
-
-      <a
-        [ngClass]="section === 'sms' ? 'selected-section col' : 'col'"
-        [routerLink]="['/profil/sms/' + usager.ref]"
-        ariaCurrentWhenActive="page"
-        ><span class="statut-label">SMS et Mon DomiFa</span>
-        <span class="visually-hidden" *ngIf="section === 'sms'"
-          >, onglet actif</span
-        >
-      </a>
-      <a
-        [ngClass]="section === 'historique' ? 'selected-section col' : 'col'"
-        [routerLink]="['/profil/historique/' + usager.ref + '/interactions']"
-        ariaCurrentWhenActive="page"
-        ><span class="statut-label"> Historique</span>
-        <span class="visually-hidden" *ngIf="section === 'historique'"
-          >, onglet actif</span
-        >
-      </a>
-    </nav>
+        <li role="presentation">
+          <a
+            [routerLink]="['/profil/general/' + usager.ref]"
+            [class.fr-tabs__tab--selected]="section === 'general'"
+            class="fr-tabs__tab"
+            role="tab"
+            [attr.aria-selected]="section === 'general'"
+          >
+            Vue d'ensemble
+          </a>
+        </li>
+        <li role="presentation">
+          <a
+            [routerLink]="['/profil/dossier/' + usager.ref]"
+            [class.fr-tabs__tab--selected]="section === 'dossier'"
+            class="fr-tabs__tab"
+            role="tab"
+            [attr.aria-selected]="section === 'dossier'"
+          >
+            Dossier
+          </a>
+        </li>
+        <li role="presentation">
+          <a
+            [routerLink]="['/profil/courriers/' + usager.ref]"
+            [class.fr-tabs__tab--selected]="section === 'courrier'"
+            class="fr-tabs__tab"
+            role="tab"
+            [attr.aria-selected]="section === 'courrier'"
+          >
+            Procurations et transferts
+          </a>
+        </li>
+        <li role="presentation">
+          <a
+            [routerLink]="
+              me?.role !== 'facteur'
+                ? ['/profil/documents/' + usager.ref]
+                : null
+            "
+            (click)="goToDocuments()"
+            [class.fr-tabs__tab--selected]="section === 'documents'"
+            class="fr-tabs__tab"
+            role="tab"
+            [attr.aria-selected]="section === 'documents'"
+          >
+            Documents @if (me?.role === 'facteur') {
+            <span class="fr-badge fr-badge--sm">, accès restreint</span>
+            }
+          </a>
+        </li>
+        <li role="presentation">
+          <a
+            [routerLink]="['/profil/sms/' + usager.ref]"
+            [class.fr-tabs__tab--selected]="section === 'sms'"
+            class="fr-tabs__tab"
+            role="tab"
+            [attr.aria-selected]="section === 'sms'"
+          >
+            SMS et Mon DomiFa
+          </a>
+        </li>
+        <li role="presentation">
+          <a
+            [routerLink]="[
+              '/profil/historique/' + usager.ref + '/interactions'
+            ]"
+            [class.fr-tabs__tab--selected]="section === 'historique'"
+            class="fr-tabs__tab"
+            role="tab"
+            [attr.aria-selected]="section === 'historique'"
+          >
+            Historique
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
+}
 
 <ng-template #renewModal let-modal>
   <div class="modal-header bg-primary">
@@ -238,7 +230,7 @@
   <div class="modal-footer">
     <button
       type="submit"
-      class="btn btn-lg btn-primary"
+      class="fr-btn"
       (click)="renouvellement()"
       [disabled]="loading"
       [attr.aria-busy]="loading"
@@ -272,7 +264,7 @@
       >
     </button>
     <button
-      class="btn btn-lg btn-outline-dark"
+      class="btn-lg btn-outline-dark"
       type="button"
       (click)="closeModals()"
     >

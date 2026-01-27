@@ -13,7 +13,6 @@ import {
 
 import { SharedModule } from "../shared/shared.module";
 import { UsagerSharedModule } from "../usager-shared/usager-shared.module";
-import { DisplayEtatCivilComponent } from "./components/_general-section/display-etat-civil/display-etat-civil.component";
 import { ProfilCourriersComponent } from "./components/pages/profil-courriers/profil-courriers.component";
 import { ProfilDocumentsSectionComponent } from "./components/pages/profil-documents-section/profil-documents-section.component";
 import { ProfilDossierComponent } from "./components/pages/profil-dossier/profil-dossier.component";
@@ -42,7 +41,6 @@ import {
 import { ProfilHistoriqueLoginPortailComponent } from "./components/_historiques/profil-historique-login-portail/profil-historique-login-portail.component";
 import { SetNpaiComponent } from "./components/_general-section/set-npai/set-npai.component";
 
-import { DisplayContactDetailsComponent } from "./components/_general-section/display-contact-details/display-contact-details.component";
 import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 import { FormatInternationalPhoneNumberPipe } from "../../shared/phone/formatInternationalPhoneNumber.pipe";
 import { ProfilSmsPortailComponent } from "./components/pages/profil-sms-portail/profil-sms-portail.component";
@@ -54,8 +52,6 @@ import { FullNamePipe } from "../usager-shared/pipes";
 @NgModule({
   declarations: [
     BaseUsagerProfilPageComponent,
-    DisplayContactDetailsComponent,
-    DisplayEtatCivilComponent,
     ProfilCourriersComponent,
     ProfilDocumentsSectionComponent,
     ProfilDossierComponent,

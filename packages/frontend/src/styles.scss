@@ -76,7 +76,24 @@ $font-family-monospace: "Marianne", SFMono-Regular, Menlo, Monaco, Consolas,
     content: " *";
     color: var(--text-default-error);
   }
+
   .fr-background-color-default-grey-hover {
     background-color: var(--background-default-grey-hover);
+  }
+
+  .fr-content-container {
+    padding-top: 2rem;
+    --hover: var(--background-alt-blue-cumulus-hover) !important;
+    --active: var(--background-alt-blue-cumulus-active) !important;
+    background-color: var(--background-alt-blue-cumulus) !important;
+  }
+
+  .fr-content {
+    padding: 1.5rem 2.2rem;
+    --hover: var(--background-default-grey-hover) !important;
+    --active: var(--background-default-grey-active) !important;
+    background-color: var(--background-default-grey) !important;
+    border-radius: 0.5rem;
+    display: block;
   }
 }

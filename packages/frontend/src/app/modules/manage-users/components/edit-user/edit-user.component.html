@@ -60,7 +60,7 @@
         <button
           *ngIf="!editUser"
           (click)="initUserForm()"
-          class="btn btn-outline-dark"
+          class="fr-btn fr-btn--secondary"
           type="button"
         >
           <fa-icon
@@ -217,7 +217,7 @@
           <button
             (click)="editUser = false"
             type="button"
-            class="my-1 btn btn-outline-dark me-2"
+            class="my-1 fr-btn fr-btn--secondary me-2"
           >
             <fa-icon
               aria-hidden="true"
@@ -227,11 +227,7 @@
             Annuler les modifications
           </button>
 
-          <button
-            class="my-1 btn btn-primary"
-            type="submit"
-            [disabled]="loading"
-          >
+          <button class="my-1 fr-btn" type="submit" [disabled]="loading">
             <span *ngIf="loading">
               <fa-icon
                 [icon]="['fas', 'circle-notch']"
@@ -253,7 +249,7 @@
             *ngIf="!editPassword"
             (click)="initPasswordForm()"
             type="button"
-            class="btn btn-outline-dark"
+            class="fr-btn fr-btn--secondary"
           >
             <fa-icon
               aria-hidden="true"
@@ -327,7 +323,7 @@
           <button
             type="button"
             (click)="editPassword = false"
-            class="my-1 btn btn-outline-dark me-2"
+            class="my-1 fr-btn fr-btn--secondary me-2"
           >
             <fa-icon
               [icon]="['fas', 'times']"
@@ -338,7 +334,7 @@
           </button>
 
           <button
-            class="my-1 btn btn-primary"
+            class="my-1 fr-btn"
             type="submit"
             [disabled]="loading"
             [attr.aria-busy]="loading"

@@ -4,8 +4,12 @@
 }
 
 .dropdown-toggle {
-  background-color: rgb(238, 238, 238) !important;
-  box-shadow: inset 0 0 0 1px var(--border-default-grey);
+  position: absolute;
+  font-size: 0.9rem;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding: 0.2rem 0.4rem;
 }
 
 .dropdown-menu {
@@ -19,4 +23,13 @@
     margin: 0;
     padding: 0.2rem 0.1rem;
   }
+}
+
+.fr-phone-input-group input {
+  padding-left: 6.5rem;
+}
+
+.iti__flag {
+  display: inline-block;
+  vertical-align: middle;
 }
