@@ -1,8 +1,15 @@
-<span
-  aria-hidden="true"
-  [class]="'doc-icon ' + STRUCTURE_DOC_ICONS[document.filetype]"
->
-</span>
-<span class="visually-hidden">
-  {{ STRUCTURE_DOC_EXTENSIONS_LABELS[document.filetype] }}
-</span>
+<div>
+  <img
+    [src]="
+      'assets/icones/file-type-' +
+      STRUCTURE_DOC_ICONS[document.filetype] +
+      '.svg'
+    "
+    alt=""
+    aria-hidden="true"
+    class="table-image-icon"
+  />
+  <span class="visually-hidden">
+    {{ STRUCTURE_DOC_EXTENSIONS_LABELS[document.filetype] }}
+  </span>
+</div>

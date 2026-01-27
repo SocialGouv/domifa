@@ -361,7 +361,7 @@ $secondary-rgb: 80, 227, 194;
 }
 
 // BTN WHITE PRIMARY - Votre classe personnalisée
-.btn-white-primary {
+.fr-btn fr-btn--secondary {
   background-color: #ffffff !important;
   color: $primary !important;
   box-shadow: 0 2px 2px darken($primary, 15%) !important;

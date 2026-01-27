@@ -486,6 +486,25 @@
     </fieldset>
 
     <ng-container *ngIf="f.ayantsDroitsExist.value === true">
+      <div class="fr-notice fr-notice--info">
+        <div class="fr-notice__body">
+          <p>
+            <span class="fr-notice__title">Information importante</span>
+            <span class="fr-notice__desc">
+              Il convient d’apprécier avec les personnes concernées
+              l’opportunité d’établir des attestations de domiciliation
+              individuelles, notamment pour les conjoints, concubins ou
+              partenaires de PACS afin de garantir la confidentialité des
+              courriers, en particulier dans le cadre de la lutte contre les
+              violences conjugales. Nous recommandons également que les ayants
+              droit majeurs disposent d’une domiciliation individuelle au même
+              titre que pour les conjoints/concubins ou partenaires de
+              PACS</span
+            >
+          </p>
+        </div>
+      </div>
+      <br />
       <fieldset
         formArrayName="ayantsDroits"
         class="fr-fieldset fr-mb-2w"

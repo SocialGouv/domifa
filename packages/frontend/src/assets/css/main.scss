@@ -184,7 +184,8 @@ h4 {
 }
 
 .head-page {
-  background-color: var(--text-active-blue-france);
+  background-color: var(--background-alt-blue-cumulus-active);
+  color: var(--text-active-blue-france) !important;
   width: 100%;
 
   .title,
@@ -192,7 +193,7 @@ h4 {
     font-style: normal;
     font-weight: bold;
     font-size: 1.7rem;
-    color: #ffffff !important;
+    color: var(--text-active-blue-france) !important;
   }
 }
 

@@ -819,9 +819,8 @@
                     </div>
                   </div>
 
-                  <!-- Bouton supprimer -->
                   <div class="fr-col-12 fr-col-md-1">
-                    <div class="fr-input-group">
+                    <div class="fr-input-group delete-btn">
                       <label class="fr-label" for="delete_ad_{{ i }}">
                         <span class="visually-hidden">Action</span>
                       </label>
@@ -829,7 +828,7 @@
                         type="button"
                         id="delete_ad_{{ i }}"
                         (click)="deleteAyantDroit(i)"
-                        class="fr-btn fr-btn--tertiary fr-btn--icon-only fr-btn--sm"
+                        class="fr-btn fr-btn--icon-only"
                         [attr.aria-label]="
                           'Supprimer l\'ayant droit ' + (i + 1)
                         "

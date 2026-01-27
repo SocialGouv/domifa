@@ -11,10 +11,7 @@
 .stepper-line--completed {
   background-color: var(--background-action-high-blue-france);
 }
-.step-icon {
-  width: 56px;
-  height: 56px;
-}
+
 .step {
   width: 19%;
   margin: 0.2rem;
@@ -25,6 +22,12 @@
     width: 56px;
   }
 }
+
 .step:hover {
   background-color: var(--background-default-grey);
+}
+
+.fr-icon-success-fill {
+  color: var(--text-action-high-success-france);
+  font-size: 1.5rem;
 }

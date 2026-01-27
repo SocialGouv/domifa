@@ -8,7 +8,7 @@
         <a
           href="https://fabnummas.notion.site/Activer-le-portail-domicili-856ef0d4354244d1a1cebd0bf3806396?pvs=25"
           target="_blank"
-          class="btn btn-white-primary"
+          class="fr-btn fr-btn--secondary"
           (click)="
             matomo.trackEvent(
               'PORTAIL_MON_DOMIFA',
@@ -38,7 +38,7 @@
       <br />
       <button
         *ngIf="!isLandingPage"
-        class="btn btn-lg btn-primary my-2"
+        class="fr-btn my-2"
         type="button"
         (click)="activatePortail.emit()"
       >
@@ -111,7 +111,7 @@
 
   <div class="text-center py-5 my-2" @fadeIn>
     <button
-      class="btn btn-lg btn-primary my-2 mx-2"
+      class="fr-btn my-2 mx-2"
       *ngIf="!isLandingPage"
       type="button"
       (click)="activatePortail.emit()"

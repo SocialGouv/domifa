@@ -1,32 +1,27 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { NgClass } from "@angular/common";
 import { TableHeadSortIconComponent } from "../table-head-sort-icon/table-head-sort-icon.component";
 import { SortValues } from "@domifa/common";
 
 @Component({
   selector: "app-table-head-sort",
   templateUrl: "./table-head-sort.component.html",
-  styleUrls: ["./table-head-sort.component.scss"],
   standalone: true,
-  imports: [TableHeadSortIconComponent, NgClass],
+  imports: [TableHeadSortIconComponent],
 })
 export class TableHeadSortComponent {
-  @Input() public columnName: string;
+  @Input({ required: true }) public columnName: string;
 
-  @Input() public sortValue: SortValues;
+  @Input({ required: true }) public sortValue: SortValues;
   @Output() public readonly sortValueChange = new EventEmitter<SortValues>();
 
-  @Input() public currentKey: string;
+  @Input({ required: true }) public currentKey: string;
   @Output() public readonly currentKeyChange = new EventEmitter<string>();
 
   @Input() public sortKey: string;
   @Output() public readonly sortArray = new EventEmitter<void>();
 
-  public rotate() {
-    const rotation: {
-      [key in SortValues]: SortValues;
-    } = {
+  public rotate(): void {
+    const rotation: Record<SortValues, SortValues> = {
       asc: "desc",
       desc: "asc",
     };
@@ -36,5 +31,12 @@ export class TableHeadSortComponent {
       this.currentKeyChange.emit(this.sortKey);
     }
     this.sortArray.emit();
+  }
+
+  public get buttonClass(): string {
+    if (this.sortKey !== this.currentKey) {
+      return "fr-btn";
+    }
+    return `fr-btn fr-btn--sort-${this.sortValue}`;
   }
 }
