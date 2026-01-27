@@ -14,6 +14,7 @@ import { Store } from "@ngrx/store";
 import { usagerActions, UsagerState } from "../../../../shared";
 import { Router } from "@angular/router";
 import { UserStructure } from "@domifa/common";
+import { DeleteUsagerContext } from "../../interfaces";
 
 @Component({
   selector: "app-delete-usager",
@@ -21,10 +22,10 @@ import { UserStructure } from "@domifa/common";
   styleUrls: ["./delete-usager.component.css"],
 })
 export class DeleteUsagerComponent implements OnDestroy {
-  @Input() public selectedRefs: Set<number>;
+  @Input() public selectedRefs: Set<number> = new Set();
 
   @Input({ required: true })
-  public context!: "MANAGE" | "PROFIL";
+  public context!: DeleteUsagerContext;
 
   @Output() public actionAfterSuccess = new EventEmitter<void>();
 
@@ -32,7 +33,7 @@ export class DeleteUsagerComponent implements OnDestroy {
 
   private readonly subscription = new Subscription();
 
-  public loading: boolean;
+  public loading = false;
 
   constructor(
     private readonly modalService: NgbModal,
@@ -40,10 +41,7 @@ export class DeleteUsagerComponent implements OnDestroy {
     private readonly toastService: CustomToastService,
     private readonly store: Store<UsagerState>,
     private readonly router: Router
-  ) {
-    this.loading = false;
-    this.selectedRefs = new Set();
-  }
+  ) {}
 
   public deleteUsager(): void {
     this.loading = true;

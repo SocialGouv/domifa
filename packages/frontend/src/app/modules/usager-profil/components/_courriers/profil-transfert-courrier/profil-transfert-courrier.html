@@ -7,7 +7,7 @@
         type="button"
         *ngIf="!isFormVisible"
         (click)="showForm()"
-        class="btn btn-outline-dark"
+        class="fr-btn fr-btn--secondary"
       >
         <fa-icon
           aria-hidden="true"
@@ -21,7 +21,7 @@
         type="button"
         *ngIf="isFormVisible"
         (click)="hideForm()"
-        class="btn btn-outline-dark"
+        class="fr-btn fr-btn--secondary"
       >
         <fa-icon
           aria-hidden="true"
@@ -260,7 +260,7 @@
       </div>
       <div class="col-12 text-center">
         <button
-          class="btn btn-primary"
+          class="fr-btn"
           type="submit"
           [disabled]="loading"
           [attr.aria-busy]="loading"

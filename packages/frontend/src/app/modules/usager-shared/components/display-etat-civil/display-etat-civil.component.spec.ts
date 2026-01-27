@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 
 import { DisplayEtatCivilComponent } from "./display-etat-civil.component";
-import { SharedModule } from "../../../../shared/shared.module";
+import { SharedModule } from "../../../shared/shared.module";
 
 describe("DisplayEtatCivilComponent", () => {
   let component: DisplayEtatCivilComponent;

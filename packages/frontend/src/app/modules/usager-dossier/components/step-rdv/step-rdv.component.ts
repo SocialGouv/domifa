@@ -43,9 +43,8 @@ import { ManageUsersService } from "../../../manage-users/services/manage-users.
 
 @Component({
   animations: [fadeInOut],
-
   selector: "app-rdv",
-  styleUrls: ["./step-rdv.component.css"],
+  styleUrls: ["./step-rdv.component.scss"],
   templateUrl: "./step-rdv.component.html",
 })
 export class StepRdvComponent

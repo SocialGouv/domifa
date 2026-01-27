@@ -3,7 +3,7 @@
   <ng-container>
     <button
       (click)="openConfirmationModal()"
-      class="mx-1 my-1 btn btn-primary"
+      class="mx-1 my-1 fr-btn"
       type="button"
       [disabled]="loading"
     >
@@ -106,14 +106,14 @@
 
   <div class="modal-footer">
     <button
-      class="btn btn-outline-dark d-print-none"
+      class="fr-btn fr-btn--secondary d-print-none"
       (click)="closeModals()"
       type="button"
     >
       Revenir au dossier
     </button>
     <button
-      class="btn btn-primary"
+      class="fr-btn"
       [disabled]="loading"
       (click)="resetPassword()"
       type="submit"
