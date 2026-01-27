@@ -14,6 +14,7 @@ import { RgaaComponent } from "./modules/general/components/static-pages/rgaa/rg
 import { AuthGuard } from "./guards";
 import { LandingPagePortailComponent } from "./modules/general/components/static-pages/landing-page-portail/landing-page-portail.component";
 import { ALL_USER_STRUCTURE_ROLES } from "@domifa/common";
+import { DecouvrirDomifaComponent } from "./modules/general/components/decouvrir-domifa/decouvrir-domifa.component";
 
 export const routes: Routes = [
   {
@@ -40,6 +41,7 @@ export const routes: Routes = [
   },
   { component: ContactSupportComponent, path: "contact" },
   { component: NewsComponent, path: "news" },
+  { component: DecouvrirDomifaComponent, path: "decouvrir-domifa" },
   { component: MentionsLegalesComponent, path: "mentions-legales" },
   { component: PolitiqueComponent, path: "confidentialite" },
   { component: CguComponent, path: "cgu" },
