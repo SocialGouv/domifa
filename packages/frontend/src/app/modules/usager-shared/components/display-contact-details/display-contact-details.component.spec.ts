@@ -1,14 +1,14 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { DisplayContactDetailsComponent } from "./display-contact-details.component";
-import {
-  USAGER_VALIDE_MOCK,
-  USER_STRUCTURE_MOCK,
-} from "../../../../../../_common/mocks";
-import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
-import { FormatInternationalPhoneNumberPipe } from "../../../../../shared/phone/formatInternationalPhoneNumber.pipe";
+import {
+  USER_STRUCTURE_MOCK,
+  USAGER_VALIDE_MOCK,
+} from "../../../../../_common/mocks";
+import { FormatInternationalPhoneNumberPipe } from "../../../../shared/phone";
+import { UsagerFormModel } from "../../interfaces";
 
 describe("DisplayContactDetailsComponent", () => {
   let component: DisplayContactDetailsComponent;

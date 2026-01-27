@@ -10,7 +10,7 @@
             *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
             routerLink="/usager/nouveau"
             ariaCurrentWhenActive="page"
-            class="btn btn-white-primary"
+            class="fr-btn fr-btn--secondary"
           >
             <fa-icon
               aria-hidden="true"
@@ -335,11 +335,7 @@
         affichés. Le chargement de tous les dossiers peut prendre plusieurs
         minutes
       </p>
-      <button
-        type="button"
-        class="btn btn-primary"
-        (click)="chargerTousRadies()"
-      >
+      <button type="button" class="fr-btn" (click)="chargerTousRadies()">
         Afficher tous les radiés
       </button>
     </div>
@@ -355,7 +351,7 @@
       <button
         type="button"
         (click)="resetFilters()"
-        class="btn btn-outline-dark my-1 my-md-0"
+        class="fr-btn fr-btn--secondary my-1 my-md-0"
       >
         Réinitialiser les filtres
       </button>

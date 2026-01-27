@@ -8,7 +8,15 @@
         <a
           href="https://docs.numerique.gouv.fr/docs/7f7f4ec4-5d4c-43ce-a416-74e5aa4af14c/"
           target="_blank"
-          class="btn btn-white-primary"
+          class="fr-btn fr-btn--secondary"
+          (click)="
+            matomo.trackEvent(
+              'PORTAIL_MON_DOMIFA',
+              'LIEN_GUIDE_HEADER',
+              'null',
+              1
+            )
+          "
           rel="noopener noreferrer"
         >
           <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
@@ -30,7 +38,7 @@
       <br />
       <button
         *ngIf="!isLandingPage"
-        class="btn btn-lg btn-primary my-2"
+        class="fr-btn my-2"
         type="button"
         (click)="activatePortail.emit()"
       >
@@ -103,7 +111,7 @@
 
   <div class="text-center py-5 my-2" @fadeIn>
     <button
-      class="btn btn-lg btn-primary my-2 mx-2"
+      class="fr-btn my-2 mx-2"
       *ngIf="!isLandingPage"
       type="button"
       (click)="activatePortail.emit()"

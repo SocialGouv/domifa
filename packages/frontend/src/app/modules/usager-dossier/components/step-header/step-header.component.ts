@@ -1,14 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
-import { ETAPES_DEMANDE_URL, UsagerLight } from "../../../../../_common/model";
+import { UsagerLight } from "../../../../../_common/model";
 import { selectUsagerById, UsagerState } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { Store } from "@ngrx/store";
 import { Subscription } from "rxjs";
-import { ETAPES_FORM_DOM_TITRES, ETAPES_FORM_DOM } from "../../constants";
+import { ETAPES_FORM_DOM_TITRES } from "../../constants";
 import { getPersonFullName } from "@domifa/common";
 
 @Component({
@@ -17,27 +16,20 @@ import { getPersonFullName } from "@domifa/common";
   styleUrls: ["./step-header.component.css"],
 })
 export class StepHeaderComponent implements OnInit, OnDestroy {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public currentStep!: number;
-
-  public readonly ETAPES_FORM_DOM_TITRES = ETAPES_FORM_DOM_TITRES;
-  public readonly ETAPES_FORM_DOM = ETAPES_FORM_DOM;
-  public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public currentStep!: number;
 
   public nbNotes = 0;
   public currentUrl = "";
 
   private readonly subscription = new Subscription();
-  public isMobile = false;
 
   constructor(
     private readonly router: Router,
     private readonly titleService: Title,
     private readonly toastService: CustomToastService,
     private readonly store: Store<UsagerState>
-  ) {
-    this.isMobile = this.checkIfIsMobile();
-  }
+  ) {}
 
   public ngOnInit(): void {
     if (
@@ -90,54 +82,7 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
     this.currentUrl = this.router.url;
   }
 
-  public changeStep(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    const value = parseInt(target.value, 10);
-
-    this.goToStep(value);
-  }
-
-  public goToStep(step: number): void {
-    if (this.usager.decision.statut === "ATTENTE_DECISION") {
-      this.toastService.warning(
-        "Vous ne pouvez pas revenir en arrière quand le dossier est en attente de décision"
-      );
-      return;
-    }
-
-    if (this.usager.uuid) {
-      if (step > this.usager.etapeDemande) {
-        this.toastService.warning(
-          "Pour passer à la suite, vous devez cliquer sur Suivant"
-        );
-      } else {
-        this.router.navigate([
-          "usager/" +
-            this.usager.ref +
-            "/edit/" +
-            this.ETAPES_DEMANDE_URL[step],
-        ]);
-      }
-    } else {
-      this.toastService.warning(
-        "Pour passer à la suite, vous devez cliquer sur Suivant"
-      );
-    }
-  }
-
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
-  }
-
-  private checkIfIsMobile(): boolean {
-    const userAgent = window.navigator.userAgent;
-    const mobileDevices = [
-      "Android",
-      "iPhone",
-      "Windows Phone",
-      "iPad",
-      "iPod",
-    ];
-    return mobileDevices.some((device) => userAgent.includes(device));
   }
 }

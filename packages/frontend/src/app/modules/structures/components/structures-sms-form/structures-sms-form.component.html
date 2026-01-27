@@ -9,7 +9,7 @@
         <a
           href="https://docs.numerique.gouv.fr/docs/23c749ed-4172-432a-ab8d-7e46d78eafb5/"
           target="_blank"
-          class="btn btn-white-primary my-1 my-md-0"
+          class="fr-btn fr-btn--secondary my-1 my-md-0"
           rel="noopener noreferrer"
         >
           <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
@@ -77,7 +77,7 @@
                       <label
                         [ngClass]="
                           form.enabledByStructure.value === true
-                            ? 'btn btn-primary'
+                            ? 'fr-btn'
                             : 'btn btn-outline-primary'
                         "
                         for="btnradio1"
@@ -280,7 +280,7 @@
 
                 <div class="col-md-12 my-2 text-center">
                   <button
-                    class="btn btn-primary"
+                    class="fr-btn"
                     type="submit"
                     [disabled]="loading"
                     [attr.aria-busy]="loading"

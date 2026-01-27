@@ -17,7 +17,6 @@ import { CustomDatepickerI18n } from "../shared/services/date-french.service";
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { UsagerSharedModule } from "../usager-shared/usager-shared.module";
-import { DisplayEtatCivilDecisionComponent } from "./components/display-etat-civil-decision/display-etat-civil-decision.component";
 import { StepDecisionComponent } from "./components/step-decision/step-decision.component";
 import { StepDocumentsComponent } from "./components/step-documents/step-documents.component";
 import { StepEntretienComponent } from "./components/step-entretien/step-entretien.component";
@@ -31,9 +30,12 @@ import { DecisionValideFormComponent } from "./components/decision-valide-form/d
 import { UsagerNotesModule } from "../usager-notes/usager-notes.module";
 import { BaseUsagerDossierPageComponent } from "./components/base-usager-dossier-page/base-usager-dossier-page.component";
 import { FormatInternationalPhoneNumberPipe } from "../../shared/phone/formatInternationalPhoneNumber.pipe";
-import { DisplayContactDetailsDecisionComponent } from "./components/display-contact-details-decision/display-contact-details-decision.component";
 import { DecisionStandbyFormComponent } from "./components/decision-standby-form/decision-standby-form.component";
 import { FullNamePipe } from "../usager-shared/pipes";
+import { FormStepperComponent } from "./components/form-stepper/form-stepper.component";
+import { DsfrDatePickerComponent } from "@edugouvfr/ngx-dsfr-ext";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { PhoneInputComponent } from "../usager-shared/components/input-phone-international/input-phone-international.component";
 
 @NgModule({
   declarations: [
@@ -42,15 +44,14 @@ import { FullNamePipe } from "../usager-shared/pipes";
     StepEntretienComponent,
     StepDocumentsComponent,
     StepEtatCivilComponent,
-    DisplayEtatCivilDecisionComponent,
     StepFooterComponent,
     StepHeaderComponent,
     // Sous-composants pour les décisions
     DecisionValideFormComponent,
     DecisionRefusFormComponent,
     BaseUsagerDossierPageComponent,
-    DisplayContactDetailsDecisionComponent,
     DecisionStandbyFormComponent,
+    FormStepperComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
@@ -66,6 +67,9 @@ import { FullNamePipe } from "../usager-shared/pipes";
     UsagerNotesModule,
     FormatInternationalPhoneNumberPipe,
     FullNamePipe,
+    DsfrDatePickerComponent,
+    DsfrModalComponent,
+    PhoneInputComponent,
   ],
   providers: [
     NgbDateCustomParserFormatter,

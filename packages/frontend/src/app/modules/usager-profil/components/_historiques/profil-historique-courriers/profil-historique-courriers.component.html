@@ -82,8 +82,12 @@
       </tbody>
     </table>
   </div>
-  <div class="alert alert-info" *ngIf="interactions.length === 0">
-    <p>Aucune interaction enregistrée</p>
+
+  <div
+    class="fr-callout fr-callout--info"
+    *ngIf="!interactions || interactions.length === 0"
+  >
+    <p class="fr-callout__text">Aucune interaction enregistrée</p>
   </div>
 </ng-container>
 

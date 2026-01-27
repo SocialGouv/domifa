@@ -1,0 +1,53 @@
+<div class="fr-grid-row fr-grid-row--gutter">
+  @if (me.structure.sms.enabledByStructure) {
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Notifications par SMS activés</span>
+      <span class="valeur">
+        @if (usager.contactByPhone) {
+        <span class="fr-badge fr-badge--success"> Oui </span>
+        } @else {
+        <span class="fr-badge fr-badge--error"> Non </span>
+        }
+      </span>
+    </p>
+  </div>
+  }
+
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Numéro de téléphone</span>
+      <span class="valeur">
+        @if (usager.telephone.numero) {
+        {{ usager.telephone | formatInternationalPhoneNumber }}
+        } @else { Non renseigné }
+      </span>
+    </p>
+  </div>
+
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Adresse email</span>
+      <span class="valeur">
+        @if (usager.email) {
+        <a [href]="'mailto:' + usager.email">
+          {{ usager.email }}
+        </a>
+        } @else { Non renseigné }
+      </span>
+    </p>
+  </div>
+
+  @if (me.structure.sms.enabledByStructure) {
+  <div class="fr-col-12">
+    <a
+      class="fr-link fr-mt-2w fr-mb-2w"
+      [routerLink]="['/profil/historique/' + usager.ref + '/sms']"
+      routerLinkActive="router-link-active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      Voir l'historique des SMS reçus
+    </a>
+  </div>
+  }
+</div>
