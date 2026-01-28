@@ -60,7 +60,6 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     const user = this.authService.currentUserValue;
     this.isAdmin = user?.role === "admin" || user?.role === "responsable";
-    console.log(this.usager);
     this.selectedRefs.add(this.usager.ref);
     if (this.usager.historique.length > 1) {
       this.getPreviousStatus();

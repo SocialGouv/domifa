@@ -5,6 +5,7 @@ import { environment } from "../../../../../environments/environment";
 
 import { AuthService } from "../../../shared/services/auth.service";
 import { UserStructure } from "@domifa/common";
+import { Router } from "@angular/router";
 @Component({
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
@@ -18,11 +19,16 @@ export class NavbarComponent implements AfterViewInit {
 
   constructor(
     private readonly authService: AuthService,
-    public readonly matomoService: MatomoTracker
+    public readonly matomoService: MatomoTracker,
+    private router: Router
   ) {}
 
   public logout(): void {
     this.authService.logoutFromBackend();
+  }
+
+  isCurrentRoute(path: string): boolean {
+    return this.router.url === path;
   }
 
   ngAfterViewInit(): void {
