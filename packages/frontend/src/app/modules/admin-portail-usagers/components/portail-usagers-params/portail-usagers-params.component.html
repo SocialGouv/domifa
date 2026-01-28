@@ -36,7 +36,7 @@
                 <label
                   [ngClass]="
                     structure.portailUsager.enabledByStructure === true
-                      ? 'btn btn-primary'
+                      ? 'fr-btn'
                       : 'btn btn-outline-primary'
                   "
                   for="enabledByStructure1"
@@ -86,7 +86,7 @@
                   [ngClass]="
                     structure.portailUsager.usagerLoginUpdateLastInteraction ===
                     true
-                      ? 'btn btn-primary'
+                      ? 'fr-btn'
                       : 'btn btn-outline-primary'
                   "
                   for="usagerLoginUpdateLastInteractionOui"
@@ -132,7 +132,7 @@
 
         <div class="col-md-12 my-2 text-center">
           <button
-            class="btn btn-primary"
+            class="fr-btn"
             type="submit"
             (click)="submitStructurePortailForm()"
             [disabled]="loading"

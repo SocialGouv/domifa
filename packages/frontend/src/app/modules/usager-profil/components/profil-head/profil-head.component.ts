@@ -27,13 +27,13 @@ import { UserStructure, CerfaDocType } from "@domifa/common";
   styleUrls: ["./profil-head.component.css"],
 })
 export class ProfilHeadComponent implements OnDestroy {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public me!: UserStructure;
-  @Input() public section!: string;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure;
+  @Input({ required: true }) public section!: string;
 
   private readonly subscription = new Subscription();
 
-  public loading: boolean;
+  public loading = false;
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
 
   @ViewChild("renewModal", { static: true })
@@ -47,9 +47,7 @@ export class ProfilHeadComponent implements OnDestroy {
     private readonly router: Router,
     private readonly usagerDecisionService: UsagerDecisionService,
     private readonly documentService: DocumentService
-  ) {
-    this.loading = false;
-  }
+  ) {}
 
   public closeModals(): void {
     this.loading = false;

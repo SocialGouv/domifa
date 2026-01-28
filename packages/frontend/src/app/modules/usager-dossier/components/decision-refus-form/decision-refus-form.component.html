@@ -1,22 +1,20 @@
-<div class="modal-header bg-danger">
-  <span class="text-white" id="modal-title"
-    >Motivez le refus pour {{ usager | fullName }}</span
-  >
-</div>
-<div class="modal-body py-4">
-  <form [formGroup]="refusForm" (ngSubmit)="setDecisionRefus()">
-    <div class="col-md-12">
-      <p>
-        Les champs suivis d'un
-        <span class="fw-bold text-danger">*</span> sont obligatoires
-      </p>
-    </div>
+<form [formGroup]="refusForm" (ngSubmit)="setDecisionRefus()">
+  <p>
+    Les champs suivis d'un
+    <span class="fr-text--bold text-error">*</span> sont obligatoires
+  </p>
 
-    <div class="form-group required col-md-6">
-      <label for="dateFinRefus">Date du refus</label>
-      <div class="input-group">
+  <div>
+    <div
+      class="fr-input-group"
+      [class.fr-input-group--error]="
+        (r.dateFin.dirty || submitted) && r.dateFin.errors
+      "
+    >
+      <label class="fr-label" for="dateFinRefus"> Date du refus </label>
+      <div class="fr-input-group">
         <input
-          class="form-control"
+          class="fr-input"
           placeholder="jj/mm/aaaa"
           [minDate]="minDate"
           [maxDate]="maxDateRefus"
@@ -24,13 +22,8 @@
           ngbDatepicker
           id="dateFinRefus"
           formControlName="dateFin"
-          name="dateFin"
           #dFin="ngbDatepicker"
           appDateFr
-          value
-          [ngClass]="{
-            'is-invalid': (r.dateFin.dirty || submitted) && r.dateFin.errors
-          }"
           [attr.aria-invalid]="
             (r.dateFin.dirty || submitted) && r.dateFin.errors ? true : false
           "
@@ -42,303 +35,179 @@
           maxlength="10"
           required
         />
-
         <button
           type="button"
           aria-label="Sélectionner la date du refus dans le calendrier"
-          class="input-group-text btn btn-outline-primary d-print-none"
+          class="fr-btn fr-btn--tertiary-no-outline fr-icon-calendar-line"
           (click)="dFin.toggle()"
-        >
-          <fa-icon [icon]="['fas', 'calendar']" aria-hidden="true"></fa-icon>
-        </button>
+        ></button>
       </div>
-      <p
-        *ngIf="(r.dateFin.dirty || submitted) && r.dateFin.errors"
-        id="date-fin-errors"
-        class="invalid-feedback"
-      >
+      @if ((r.dateFin.dirty || submitted) && r.dateFin.errors) {
+      <p id="date-fin-errors" class="fr-error-text">
         La date de refus est incorrecte, exemple: 20/12/2022
       </p>
+      }
     </div>
 
-    <div class="form-group col-md-12">
-      <fieldset
-        aria-required="true"
-        [ngClass]="{
-          'is-invalid': (r.motif.dirty || submitted) && r.motif.errors
-        }"
+    <!-- Motif du refus -->
+    <div
+      class="fr-input-group"
+      [class.fr-input-group--error]="
+        (r.motif.dirty || submitted) && r.motif.errors
+      "
+    >
+      <label class="fr-label" for="motifRefusSelect"> Pour quel motif ? </label>
+      <select
+        class="fr-select"
+        id="motifRefusSelect"
+        formControlName="motif"
         [attr.aria-invalid]="
           (r.motif.dirty || submitted) && r.motif.errors ? true : false
         "
         [attr.aria-describedby]="
           (r.motif.dirty || submitted) && r.motif.errors ? 'motif-errors' : null
         "
+        required
       >
-        <legend>
-          Pour quel motif ?
-          <span class="text-danger">*</span>
-        </legend>
-        <div
-          class="form-row"
-          *ngFor="let motif of MOTIFS_REFUS_LABELS | keyvalue"
-        >
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="motif-refus-{{ motif.key }}"
-              formControlName="motif"
-              name="motif"
-              value="{{ motif.key }}"
-            />
-            <label class="form-check-label" for="motif-refus-{{ motif.key }}">
-              {{ motif.value }}
-            </label>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="motif-autre"
-              formControlName="motif"
-              name="motif"
-              value="AUTRE"
-            />
-            <label class="form-check-label" for="motif-autre">
-              Autre raison
-            </label>
-          </div>
-        </div>
-
-        <div class="form-group required" *ngIf="r.motif.value === 'AUTRE'">
-          <label class="form-check-label" for="motifRefusAutre">
-            Autre motif de refus (10 caractères minimum)
-          </label>
-          <input
-            type="text"
-            [ngClass]="{
-              'is-invalid':
-                (r.motifDetails.dirty || submitted) && r.motifDetails.errors
-            }"
-            [attr.aria-invalid]="
-              (r.motifDetails.dirty || submitted) && r.motifDetails.errors
-                ? true
-                : false
-            "
-            [attr.aria-describedby]="
-              (r.motifDetails.dirty || submitted) && r.motifDetails.errors
-                ? 'motifDetails-errors'
-                : null
-            "
-            class="form-control"
-            id="motifRefusAutre"
-            formControlName="motifDetails"
-            name="motifDetails"
-            required
-          />
-          <p
-            *ngIf="(r.motifDetails.dirty || submitted) && r.motifDetails.errors"
-            class="invalid-feedback"
-            id="motifDetails-errors"
-          >
-            Veuillez précisez la raison
-          </p>
-        </div>
-
-        <p
-          *ngIf="submitted && r.motif.errors"
-          id="motif-errors"
-          class="invalid-feedback"
-        >
-          Veuillez sélectionner un motif
-        </p>
-      </fieldset>
+        <option value="" disabled selected>Sélectionner un motif</option>
+        @for (motif of MOTIFS_REFUS_LABELS | keyvalue; track motif.key) {
+        <option [value]="motif.key">{{ motif.value }}</option>
+        }
+        <option value="AUTRE">Autre raison</option>
+      </select>
+      @if ((r.motif.dirty || submitted) && r.motif.errors) {
+      <p id="motif-errors" class="fr-error-text">
+        Veuillez sélectionner un motif
+      </p>
+      }
     </div>
+  </div>
 
-    <div class="col-md-12">
-      <fieldset aria-required="true">
-        <legend>
-          Orientation proposée
-          <span class="text-danger">*</span>
-        </legend>
-        <div class="form-row form-check">
-          <input
-            class="form-check-input"
-            type="radio"
-            id="orientationRefusCcas"
-            formControlName="orientation"
-            name="orientation"
-            [ngClass]="{
-              'is-invalid':
-                (r.orientation.dirty || submitted) && r.orientation.errors
-            }"
-            [attr.aria-invalid]="
-              (r.orientation.dirty || submitted) && r.orientation.errors
-                ? true
-                : false
-            "
-            [attr.aria-describedby]="
-              (r.orientation.dirty || submitted) && r.orientation.errors
-                ? 'orientation-errors'
-                : null
-            "
-            value="ccas"
-          />
-          <label class="form-check-label" for="orientationRefusCcas">
-            CCAS
-          </label>
-        </div>
-        <div class="form-row form-check">
-          <input
-            class="form-check-input"
-            type="radio"
-            id="orientationRefusCias"
-            formControlName="orientation"
-            name="orientation"
-            [ngClass]="{
-              'is-invalid':
-                (r.orientation.dirty || submitted) && r.orientation.errors
-            }"
-            [attr.aria-invalid]="
-              (r.orientation.dirty || submitted) && r.orientation.errors
-                ? true
-                : false
-            "
-            [attr.aria-describedby]="
-              (r.orientation.dirty || submitted) && r.orientation.errors
-                ? 'orientation-errors'
-                : null
-            "
-            value="cias"
-          />
-          <label class="form-check-label" for="orientationRefusCias">
-            CIAS, Commune
-          </label>
-        </div>
-        <div class="form-row">
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="orientationRefusAsso"
-              formControlName="orientation"
-              name="orientation"
-              [ngClass]="{
-                'is-invalid':
-                  (r.orientation.dirty || submitted) && r.orientation.errors
-              }"
-              [attr.aria-invalid]="
-                (r.orientation.dirty || submitted) && r.orientation.errors
-                  ? true
-                  : false
-              "
-              [attr.aria-describedby]="
-                (r.orientation.dirty || submitted) && r.orientation.errors
-                  ? 'orientation-errors'
-                  : null
-              "
-              value="asso"
-            />
-            <label class="form-check-label" for="orientationRefusAsso">
-              Organisme agréé
-            </label>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              [ngClass]="{ 'is-invalid': submitted && r.orientation.errors }"
-              type="radio"
-              id="otherOrientation"
-              formControlName="orientation"
-              name="orientation"
-              value="other"
-            />
-            <label class="form-check-label" for="otherOrientation">Autre</label>
-          </div>
-        </div>
-
-        <p
-          *ngIf="submitted && r.orientation.errors"
-          id="orientation-errors"
-          class="invalid-feedback"
-        >
-          Veuillez proposer une orientation
-        </p>
-      </fieldset>
-    </div>
-    <div class="col-md-12 my-2">
-      <div class="form-group required">
-        <label for="orientationRefusDetails"
-          >Précisez l'orientation choisie
-        </label>
-        <input
-          class="form-control"
-          type="text"
-          [ngClass]="{
-            'is-invalid':
-              (r.orientationDetails.dirty || submitted) &&
-              r.orientationDetails.errors
-          }"
-          [attr.aria-invalid]="
-            (r.orientationDetails.dirty || submitted) &&
-            r.orientationDetails.errors
-              ? true
-              : false
-          "
-          [attr.aria-describedby]="
-            (r.orientationDetails.dirty || submitted) &&
-            r.orientationDetails.errors
-              ? 'orientationDetails-errors'
-              : null
-          "
-          formControlName="orientationDetails"
-          name="orientationDetails"
-          id="orientationRefusDetails"
-          required
-        />
-        <p
-          *ngIf="submitted && r.orientationDetails.errors"
-          id="orientationDetails-errors"
-          class="invalid-feedback"
-        >
-          Veuillez indiquer vers quel organisme vous souhaitez orienter le
-          demandeur
-        </p>
-      </div>
-    </div>
-  </form>
-</div>
-
-<div class="modal-footer">
-  <button
-    class="btn btn-lg btn-outline-danger"
-    type="button"
-    (click)="closeModals.emit()"
+  @if (r.motif.value === 'AUTRE') {
+  <div
+    class="fr-input-group"
+    [class.fr-input-group--error]="
+      (r.motifDetails.dirty || submitted) && r.motifDetails.errors
+    "
   >
-    Annuler
-  </button>
-  <button
-    class="btn btn-lg btn-danger"
-    [disabled]="loading"
-    [attr.aria-busy]="loading"
-    type="submit"
-    (click)="setDecisionRefus()"
-  >
-    <span *ngIf="!loading">Confirmer le refus</span>
+    <label class="fr-label" for="motifRefusAutre">
+      Autre motif de refus (10 caractères minimum)
+    </label>
+    <input
+      type="text"
+      class="fr-input"
+      id="motifRefusAutre"
+      formControlName="motifDetails"
+      minlength="10"
+      [attr.aria-invalid]="
+        (r.motifDetails.dirty || submitted) && r.motifDetails.errors
+          ? true
+          : false
+      "
+      [attr.aria-describedby]="
+        (r.motifDetails.dirty || submitted) && r.motifDetails.errors
+          ? 'motifDetails-errors'
+          : null
+      "
+      required
+    />
+    @if ((r.motifDetails.dirty || submitted) && r.motifDetails.errors) {
+    <p id="motifDetails-errors" class="fr-error-text">
+      Veuillez préciser la raison
+    </p>
+    }
+  </div>
+  }
 
-    <span *ngIf="loading"
-      ><fa-icon
-        [icon]="['fas', 'circle-notch']"
-        animation="spin"
-        aria-hidden="true"
-      ></fa-icon>
-      Veuillez patienter...</span
+  <!-- Orientation proposée -->
+  <div
+    class="fr-input-group"
+    [class.fr-input-group--error]="
+      (r.orientation.dirty || submitted) && r.orientation.errors
+    "
+  >
+    <label class="fr-label" for="orientationRefusSelect">
+      Orientation proposée
+    </label>
+    <select
+      class="fr-select"
+      id="orientationRefusSelect"
+      formControlName="orientation"
+      [attr.aria-invalid]="
+        (r.orientation.dirty || submitted) && r.orientation.errors
+          ? true
+          : false
+      "
+      [attr.aria-describedby]="
+        (r.orientation.dirty || submitted) && r.orientation.errors
+          ? 'orientation-errors'
+          : null
+      "
+      required
     >
-  </button>
-</div>
+      <option value="" selected>Sélectionner une orientation</option>
+      <option value="ccas">CCAS</option>
+      <option value="cias">CIAS, Commune</option>
+      <option value="asso">Organisme agréé</option>
+      <option value="other">Autre</option>
+    </select>
+    @if (submitted && r.orientation.errors) {
+    <p id="orientation-errors" class="fr-error-text">
+      Veuillez proposer une orientation
+    </p>
+    }
+  </div>
+
+  <!-- Précision orientation -->
+  <div
+    class="fr-input-group"
+    [class.fr-input-group--error]="
+      (r.orientationDetails.dirty || submitted) && r.orientationDetails.errors
+    "
+  >
+    <label class="fr-label" for="orientationRefusDetails">
+      Précisez l'orientation choisie
+    </label>
+    <input
+      type="text"
+      class="fr-input"
+      id="orientationRefusDetails"
+      formControlName="orientationDetails"
+      [attr.aria-invalid]="
+        (r.orientationDetails.dirty || submitted) && r.orientationDetails.errors
+          ? true
+          : false
+      "
+      [attr.aria-describedby]="
+        (r.orientationDetails.dirty || submitted) && r.orientationDetails.errors
+          ? 'orientationDetails-errors'
+          : null
+      "
+      required
+    />
+    @if (submitted && r.orientationDetails.errors) {
+    <p id="orientationDetails-errors" class="fr-error-text">
+      Veuillez indiquer vers quel organisme vous souhaitez orienter le demandeur
+    </p>
+    }
+  </div>
+
+  <div class="fr-btns-group fr-btns-group--inline fr-btns-group--right">
+    <button
+      type="button"
+      class="fr-btn fr-btn--secondary"
+      (click)="closeModals.emit()"
+    >
+      Annuler
+    </button>
+
+    <button
+      type="submit"
+      class="fr-btn"
+      [disabled]="loading"
+      [attr.aria-busy]="loading"
+    >
+      @if (!loading) { Confirmer le refus } @else { Veuillez patienter... }
+    </button>
+  </div>
+</form>

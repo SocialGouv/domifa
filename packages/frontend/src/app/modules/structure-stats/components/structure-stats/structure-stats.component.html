@@ -13,7 +13,7 @@
           *ngIf="startDate !== null"
           [disabled]="loading"
           [attr.aria-busy]="loading"
-          class="btn btn-white-primary"
+          class="fr-btn fr-btn--secondary"
           type="button"
         >
           <span *ngIf="!loading">
@@ -162,7 +162,7 @@
             <button
               type="button"
               id="start"
-              class="mt-2 btn btn-primary mx-1"
+              class="mt-2 fr-btn mx-1"
               [disabled]="loading"
               [attr.aria-busy]="loading"
               (click)="compare()"

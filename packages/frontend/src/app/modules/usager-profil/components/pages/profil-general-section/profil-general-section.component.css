@@ -33,11 +33,6 @@
   margin: 0;
 }
 
-.text-link {
-  text-decoration: underline;
-  font-weight: bold;
-}
-
 button:not(:disabled) .list-icon-disabled {
   display: none;
 }
@@ -59,4 +54,9 @@ button:disabled {
   font-size: 1.8rem;
   min-width: 35px;
   word-break: break-all;
+}
+
+h2 img {
+  width: 54px;
+  height: auto;
 }

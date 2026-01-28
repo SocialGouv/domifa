@@ -43,7 +43,7 @@ import { UserStructure } from "@domifa/common";
   styleUrls: ["./form-contact-details.component.css"],
 })
 export class FormContactDetailsComponent implements OnInit, OnDestroy {
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public usager!: UsagerFormModel;
   @Output() public readonly editContactDetailsChange =
     new EventEmitter<boolean>();
 

@@ -1,0 +1,35 @@
+.dropdown-item {
+  border: none;
+  padding: 0.2rem 0.4rem;
+}
+
+.dropdown-toggle {
+  position: absolute;
+  font-size: 0.9rem;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding: 0.2rem 0.4rem;
+}
+
+.dropdown-menu {
+  max-height: 320px;
+  overflow: auto;
+}
+
+.country-list-scroll {
+  span {
+    display: inline-block;
+    margin: 0;
+    padding: 0.2rem 0.1rem;
+  }
+}
+
+.fr-phone-input-group input {
+  padding-left: 6.5rem;
+}
+
+.iti__flag {
+  display: inline-block;
+  vertical-align: middle;
+}

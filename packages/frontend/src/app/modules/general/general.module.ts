@@ -28,13 +28,16 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
 import { RouterModule } from "@angular/router";
 
 import { SharedModule } from "../shared/shared.module";
-import { LoginComponent } from "./components/login/login.component";
 import { PlanSiteComponent } from "./components/plan-site/plan-site.component";
 import { HelpModalComponent } from "./components/static-modals/help-modal/help-modal.component";
 import { RgaaComponent } from "./components/static-pages/rgaa/rgaa.component";
 import { LandingPagePortailComponent } from "./components/static-pages/landing-page-portail/landing-page-portail.component";
 import { HomeStatsComponent } from "../stats/components/home-stats/home-stats.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { LoginDropdownComponent } from "./components/navbar/fragments/login-dropdown/login-dropdown.component";
+import { LoginModalMenuComponent } from "./components/navbar/fragments/login-modal-menu/login-modal-menu.component";
+import { FaqSectionComponent } from "../shared/components/faq-section/faq-section.component";
+import { DecouvrirDomifaComponent } from "./components/decouvrir-domifa/decouvrir-domifa.component";
 
 @NgModule({
   declarations: [
@@ -47,12 +50,14 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     CguComponent,
     PolitiqueComponent,
     NavbarComponent,
-    LoginComponent,
+    LoginDropdownComponent,
     PlanSiteComponent,
     HelpModalComponent,
     IdleManagerComponent,
     RgaaComponent,
     LandingPagePortailComponent,
+    LoginModalMenuComponent,
+    DecouvrirDomifaComponent,
   ],
   exports: [
     LoadingComponent,
@@ -62,6 +67,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     HelpModalComponent,
     IdleManagerComponent,
     LandingPagePortailComponent,
+    LoginDropdownComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   imports: [
@@ -74,6 +80,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     NgbModule,
     FontAwesomeModule,
     HomeStatsComponent,
+    FaqSectionComponent,
   ],
   providers: [GeneralService, provideHttpClient(withInterceptorsFromDi())],
 })

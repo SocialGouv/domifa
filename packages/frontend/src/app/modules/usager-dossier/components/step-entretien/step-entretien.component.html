@@ -4,9 +4,15 @@
   [currentStep]="2"
 ></app-step-header>
 
-<div class="content" *ngIf="usager && currentUserSubject$ | async as me">
-  <div class="container py-3">
-    <div class="step-form">
+<div class="fr-content-container">
+  <div class="fr-container" *ngIf="usager && currentUserSubject$ | async as me">
+    <div class="fr-content">
+      <app-form-stepper
+        *ngIf="usager"
+        [usager]="usager"
+        [currentStep]="2"
+      ></app-form-stepper>
+
       <app-entretien-form
         [usager]="usager"
         (nextStep)="nextStep($event)"

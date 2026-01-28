@@ -1,46 +1,47 @@
-<div class="text-center section py-3 bg-primary-light" *ngIf="stats">
-  <div class="container p-2">
+<div class="fr-container py-3" *ngIf="stats">
+  <h2 class="fr-text-title--blue-france mb-0">Aujourd’hui, DomiFa c’est</h2>
+  <div class="p-2">
     <div class="row text-center">
       <div class="my-2 col-12 col-md-3">
         <div
           [countUp]="stats.structuresCount"
           [options]="countOptions"
-          class="display-4 fw-bold text-primary"
+          class="fr-h1 mb-0 fr-text-title--blue-france"
         ></div>
-        <div class="counter-title">structures inscrites</div>
+        <div class="counter-title">Structures inscrites</div>
       </div>
       <div class="my-2 col-12 col-md-3">
         <div
           [countUp]="stats.actifs"
           [options]="countOptions"
-          class="display-4 fw-bold text-primary"
+          class="fr-h1 mb-0 fr-text-title--blue-france"
         ></div>
-        <div class="counter-title">domiciliés actifs</div>
+        <div class="counter-title">Domiciliés actifs</div>
       </div>
       <div class="my-2 col-12 col-md-3">
         <div
           [countUp]="stats.usagersCount"
           [options]="countOptions"
-          class="display-4 fw-bold text-primary"
+          class="fr-h1 mb-0 fr-text-title--blue-france"
         ></div>
-        <div class="counter-title">dossiers enregistrés</div>
+        <div class="counter-title">Dossiers enregistrés</div>
       </div>
       <div class="my-2 col-12 col-md-3">
         <div
           [countUp]="stats.courrierInCount"
           [options]="countOptions"
-          class="display-4 fw-bold text-primary"
+          class="fr-h1 mb-0 fr-text-title--blue-france"
         ></div>
-        <div class="counter-title">courriers enregistrés</div>
+        <div class="counter-title">Courriers enregistrés</div>
       </div>
     </div>
   </div>
-  <div class="my-3 my-lg-3">
-    <a routerLink="/stats" class="btn btn-primary mx-2 my-1">
-      Voir nos statistiques
-    </a>
-    <a routerLink="/stats/impact" class="btn btn-primary mx-2 my-1">
-      Découvrir notre impact
-    </a>
+  <div class="row d-block d-md-flex justify-content-center text-center">
+    <div class="col-12 col-md-6 d-block d-md-flex justify-content-end p-1">
+      <a routerLink="/stats" class="fr-btn"> Voir nos statistiques </a>
+    </div>
+    <div class="col-12 col-md-6 d-block d-md-flex justify-content-start p-1">
+      <a routerLink="/stats/impact" class="fr-btn"> Découvrir notre impact </a>
+    </div>
   </div>
 </div>
