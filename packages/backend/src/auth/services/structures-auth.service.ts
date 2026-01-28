@@ -87,17 +87,17 @@ export class StructuresAuthService {
 
     await this.handleReactivationCheck(
       authUser,
-      "STRUCTURE",
-      authUser.structure.lastLogin,
-      authUser.structure.createdAt,
+      "ACCOUNT",
+      authUser.lastLogin,
+      authUser.createdAt,
       today
     );
 
     await this.handleReactivationCheck(
       authUser,
-      "ACCOUNT",
-      authUser.lastLogin,
-      authUser.createdAt,
+      "STRUCTURE",
+      authUser.structure.lastLogin,
+      authUser.structure.createdAt,
       today
     );
 

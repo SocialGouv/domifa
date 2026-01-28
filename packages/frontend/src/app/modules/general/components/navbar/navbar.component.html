@@ -91,7 +91,13 @@
                 >
                   En savoir plus
                 </a>
-                <a routerLink="/connexion" class="btn btn-outline-primary">
+                <a
+                  routerLink="/connexion"
+                  class="btn btn-outline-primary"
+                  (click)="
+                    matomoService.trackEvent('CONNEXION', 'HEADER', 'null', 1)
+                  "
+                >
                   Me connecter
                   <fa-icon
                     [icon]="['fas', 'arrow-right']"
@@ -134,7 +140,14 @@
                     >
                   </a>
                   <a ngbDropdownItem routerLink="/faq">En savoir plus</a>
-                  <a ngbDropdownItem routerLink="/connexion">Me connecter</a>
+                  <a
+                    ngbDropdownItem
+                    routerLink="/connexion"
+                    (click)="
+                      matomoService.trackEvent('CONNEXION', 'HEADER', 'null', 1)
+                    "
+                    >Me connecter</a
+                  >
                 </div>
               </div>
             </ng-container>

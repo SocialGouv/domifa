@@ -14,6 +14,7 @@ import { CustomToastService } from "../../../shared/services/custom-toast.servic
 import { Subscription } from "rxjs";
 import { environment } from "../../../../../environments/environment";
 import { EmailValidator } from "../../../../shared";
+import { MatomoTracker } from "ngx-matomo-client";
 
 @Component({
   selector: "app-login",
@@ -36,7 +37,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly titleService: Title,
     private readonly authService: AuthService,
-    private readonly toastService: CustomToastService
+    private readonly toastService: CustomToastService,
+    public readonly matomo: MatomoTracker
   ) {
     this.hidePassword = true;
     this.loading = false;
@@ -77,6 +79,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         .subscribe({
           next: () => {
             this.loading = false;
+            this.matomo.trackEvent("CONNEXION", "LOGIN_SUCCESS", "SUCCESS", 1);
 
             this.returnUrl !== "/"
               ? this.router.navigateByUrl(this.returnUrl)
@@ -84,6 +87,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           },
           error: () => {
             this.loading = false;
+            this.matomo.trackEvent("CONNEXION", "LOGIN_FAILED", "ERROR", 0);
             this.toastService.error("Email et ou mot de passe incorrect");
           },
         })
