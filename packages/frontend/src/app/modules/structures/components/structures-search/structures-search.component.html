@@ -25,10 +25,10 @@
   </div>
 </div>
 
-<div class="fr-background-alt--grey h-100 mt-0 pt-5 pb-5">
-  <div class="fr-container mt-0 pt-2">
+<div class="fr-background-alt--grey h-100 mt-0 p-4">
+  <div class="fr-container mt-0">
     <div>
-      <div class="fr-background-default--grey px-4 py-2">
+      <div class="fr-background-default--grey p-4">
         <div
           *ngIf="!searchFailed && structures.length <= 0"
           class="d-flex flex-column"
@@ -51,7 +51,7 @@
           </div>
           <!-- Start Search bar-->
           <form [formGroup]="codePostalForm" (ngSubmit)="submitCodePostal()">
-            <label class="fr-label" for="structure-search">
+            <label class="fr-label mb-2" for="structure-search">
               Quel est le code postal de votre structure ?
             </label>
             <div
@@ -133,7 +133,7 @@
               <div
                 class="col-10 col-md-10 d-flex flex-column justify-content-center"
               >
-                <h2 class="m-0">Vous êtes domicilié ?</h2>
+                <h2 class="fr-h3 m-0">Vous êtes domicilié ?</h2>
                 <p class="m-0">
                   La plateforme Mon DomiFa vous permet de suivre l'arrivée de
                   courrier dans votre structure
@@ -141,7 +141,7 @@
                 <div>
                   <a
                     href="https://mon-domifa.fabrique.social.gouv.fr/"
-                    class="fr-link"
+                    class="fr-link fr-icon-arrow-right-line fr-link--icon-right"
                   >
                     Accéder à Mon Domifa
                   </a>
@@ -149,7 +149,6 @@
               </div>
             </div>
           </div>
-          <div class="py-4"></div>
         </div>
 
         <div class="py-2" *ngIf="searchFailed && structures.length === 0">
