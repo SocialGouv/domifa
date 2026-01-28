@@ -8,15 +8,13 @@ import { MatomoTracker } from "ngx-matomo-client";
   styleUrls: ["./decouvrir-domifa.component.css"],
 })
 export class DecouvrirDomifaComponent {
-  public myEvents: DsfrTimelineEvent[] = [
+  public timelineEvent: DsfrTimelineEvent[] = [
     {
       heading: "Juin 2018",
       description:
         "Face à une demande croissante du terrain, l’ouverture d’un appel à projets de l’incubateur des ministères sociaux à l’été 2018 marque un tournant : c’est la genèse de DomiFa. La DRJSCS-AURA propose le développement d’une plateforme en ligne permettant de sécuriser et d’optimiser la gestion des domiciliations administratives.",
       actions: [],
       headingLevel: "H2",
-      current: false,
-      detailBottom: "",
     },
     {
       heading: "Avril 2019",
@@ -24,8 +22,6 @@ export class DecouvrirDomifaComponent {
         "Une première version du service est mise en ligne. Testée auprès des structures domiciliatrices des régions Auvergne-Rhône-Alpes, Île-de-France et Hauts-de-France.",
       actions: [],
       headingLevel: "H2",
-      current: false,
-      detailBottom: "",
     },
     {
       heading: "Février 2022",
@@ -33,8 +29,6 @@ export class DecouvrirDomifaComponent {
         "Création d’un portail pour les domiciliés, Mon DomiFa, dédié au suivi de la domiciliation et l’arrivée de courrier.",
       actions: [],
       headingLevel: "H2",
-      current: false,
-      detailBottom: "",
     },
     {
       heading: "Février 2024",
@@ -42,8 +36,6 @@ export class DecouvrirDomifaComponent {
         "DomiFa est reconnu service numérique à impact national par la Direction interministérielle du numérique (DINUM).",
       actions: [],
       headingLevel: "H2",
-      current: false,
-      detailBottom: "",
     },
     {
       heading: "Décembre 2025",
@@ -51,8 +43,6 @@ export class DecouvrirDomifaComponent {
         "DomiFa est reconnu service numérique à impact national par la Direction interministérielle du numérique (DINUM). ",
       actions: [],
       headingLevel: "H2",
-      current: false,
-      detailBottom: "",
     },
   ];
 

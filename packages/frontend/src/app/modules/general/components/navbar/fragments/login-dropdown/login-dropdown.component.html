@@ -1,9 +1,11 @@
 <div class="fr-header__tools-links">
   <!-- Logged out -->
 
-  <ul class="fr-btns-group fr-mb-n5v">
+  <ul class="fr-btns-group fr-mb-n5v align-items-baseline">
     <li *ngIf="!me" class="d-none d-md-block">
-      <a routerLink="/faq" class="fr-btn">besoin d'aide ?</a>
+      <a routerLink="/faq" class="fr-btn">
+        <span class="fw-bold"> besoin d'aide ?</span>
+      </a>
     </li>
     <li *ngIf="!me" class="d-none d-md-block">
       <dsfrx-dropdownmenu

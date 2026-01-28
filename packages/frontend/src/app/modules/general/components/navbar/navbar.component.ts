@@ -6,7 +6,6 @@ import {
   AfterViewInit,
 } from "@angular/core";
 
-import { MatomoTracker } from "ngx-matomo-client";
 import { Subscription } from "rxjs";
 import { environment } from "../../../../../environments/environment";
 
@@ -30,7 +29,6 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private readonly authService: AuthService,
-    public readonly matomoService: MatomoTracker,
     private readonly welcomeService: WelcomeService
   ) {
     this.matomoInfo = false;
@@ -60,7 +58,6 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.matomoInfo = true;
     localStorage.setItem("matomo", "done");
   }
-
   public logout(): void {
     this.authService.logoutFromBackend();
   }

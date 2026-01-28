@@ -413,62 +413,81 @@
           <ng-container *ngIf="!me">
             <li class="fr-nav__item">
               <a
+                [attr.aria-current]="isCurrentRoute('/') ? 'page' : null"
                 id="link-accueil"
                 type="link"
                 href=""
                 aria-label="Retour à l'accueil de DomiFa"
-                [routerLink]="['/']"
-                ariaCurrentWhenActive="page"
+                [routerLink]="'/'"
                 class="fr-nav__link"
                 >Accueil</a
               >
             </li>
             <li class="fr-nav__item">
               <a
+                [attr.aria-current]="
+                  isCurrentRoute('/structures/inscription') ? 'page' : null
+                "
                 id="link-inscription"
                 type="link"
                 routerLink="/structures/inscription"
-                ariaCurrentWhenActive="page"
                 class="fr-nav__link"
                 >Inscrire ma structure</a
               >
             </li>
             <li class="fr-nav__item">
               <a
+                [attr.aria-current]="isCurrentRoute('/stats') ? 'page' : null"
                 id="link-stats"
                 type="link"
                 [routerLink]="['/stats']"
-                ariaCurrentWhenActive="page"
                 class="fr-nav__link"
                 >Statistiques</a
               >
             </li>
             <li class="fr-nav__item">
               <a
+                [attr.aria-current]="
+                  isCurrentRoute('/stats/impact') ? 'page' : null
+                "
                 id="link-impact"
                 type="link"
                 [routerLink]="['/stats/impact']"
-                ariaCurrentWhenActive="page"
                 class="fr-nav__link"
                 >Impact</a
               >
             </li>
             <li class="fr-nav__item">
               <a
+                [attr.aria-current]="isCurrentRoute('/news') ? 'page' : null"
                 id="link-news"
                 type="link"
                 [routerLink]="['/news']"
-                ariaCurrentWhenActive="page"
                 class="fr-nav__link"
                 >Nouveautés</a
               >
             </li>
             <li class="fr-nav__item">
               <a
+                [attr.aria-current]="
+                  isCurrentRoute('/decouvrir-domifa') ? 'page' : null
+                "
+                id="link-contact"
+                type="link"
+                [routerLink]="['/decouvrir-domifa']"
+                class="fr-nav__link"
+                >Découvrir DomiFa</a
+              >
+            </li>
+            <li class="fr-nav__item">
+              <a
+                routerLinkActive
+                #rlaContact="routerLinkActive"
+                [attr.aria-current]="rlaContact.isActive ? 'page' : null"
+                [routerLinkActiveOptions]="{ exact: true }"
                 id="link-contact"
                 type="link"
                 [routerLink]="['/contact']"
-                ariaCurrentWhenActive="page"
                 class="fr-nav__link"
                 >Nous contacter</a
               >
@@ -479,7 +498,7 @@
                 type="link"
                 [routerLink]="['/faq']"
                 ariaCurrentWhenActive="page"
-                class="fr-nav__link"
+                class="fr-nav__link fw-bold"
                 >Besoin d'aide</a
               >
             </li>
