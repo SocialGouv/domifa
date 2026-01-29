@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { Meta, Title } from "@angular/platform-browser";
-import { MatomoTracker } from "ngx-matomo-client";
 import { GeneralService } from "../../services/general.service";
 import { ImportDocumentType } from "@domifa/common";
 
@@ -13,7 +12,6 @@ export class FaqComponent implements OnInit {
   constructor(
     private readonly titleService: Title,
     private readonly meta: Meta,
-    private readonly matomo: MatomoTracker,
     private readonly generalService: GeneralService
   ) {}
 
@@ -36,9 +34,5 @@ export class FaqComponent implements OnInit {
 
   public doLogDownloadAction(): void {
     this.generalService.logDownloadAction(ImportDocumentType.GUIDE);
-  }
-
-  public trackVideo(name: string): void {
-    this.matomo.trackEvent("vues_videos_faq", name, "null", 1);
   }
 }

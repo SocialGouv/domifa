@@ -10,6 +10,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { RegisterUserComponent } from "./register-user.component";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
+import { MATOMO_INJECTORS } from "../../../../shared";
 
 describe("RegisterUserComponent", () => {
   let component: RegisterUserComponent;
@@ -22,6 +23,7 @@ describe("RegisterUserComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
+        ...MATOMO_INJECTORS,
         RouterModule.forRoot([]),
       ],
 

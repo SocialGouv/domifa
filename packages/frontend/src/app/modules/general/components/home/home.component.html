@@ -178,13 +178,7 @@
         accès seulement aux informations nécessaires.
       </p>
       <div class="mt-2">
-        <a
-          routerLink="/confidentialite"
-          class="text-sm fw-bold text-primary"
-          (click)="
-            matomo.trackEvent('HOME', 'HP_Politique_Confidentialité', 'null', 1)
-          "
-        >
+        <a routerLink="/confidentialite" class="text-sm fw-bold text-primary">
           Lire notre politique de confidentialité &#8594;
         </a>
       </div>
@@ -212,7 +206,6 @@
             routerLink="/faq"
             class="text-sm fw-bold text-primary"
             title="Voir notre centre d'aide"
-            (click)="matomo.trackEvent('HOME', 'HP_Centre_Aide', 'null', 1)"
           >
             Voir notre centre d’aide &#8594;
           </a>
@@ -229,7 +222,9 @@
 
         <a
           routerLink="/structures/inscription"
-          (click)="matomo.trackEvent('HOME', 'HP_Inscription1', 'null', 1)"
+          (click)="
+            matomo.trackEvent('HOME', 'INSCRIRE_MA_STRUCTURE', 'null', 1)
+          "
           class="text-sm fw-bold text-primary"
         >
           S'inscrire à la plateforme DomiFa &#8594;
@@ -306,17 +301,15 @@
             *ngIf="!me"
             routerLink="/structures/inscription"
             class="btn btn-white-primary"
-            (click)="matomo.trackEvent('HOME', 'HP_Inscription2', 'null', 1)"
+            (click)="
+              matomo.trackEvent('HOME', 'INSCRIRE_MA_STRUCTURE', 'null', 1)
+            "
           >
             S'inscrire &#8594;
           </a>
           <br />
           <br />
-          <a
-            routerLink="/contact"
-            class="btn btn-white-primary"
-            (click)="matomo.trackEvent('HOME', 'HP_Contact_Équipe', 'null', 1)"
-          >
+          <a routerLink="/contact" class="btn btn-white-primary">
             Contacter l’équipe &#8594;
           </a>
         </div>
@@ -343,7 +336,6 @@
         target="_blank"
         title="Site internet de La Fabrique Numérique "
         rel="noopener noreferrer"
-        (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_Fabrique', 'null', 1)"
       >
         <img
           src="../assets/images/footer/partenaire-fabrique-numerique.png"
@@ -355,7 +347,6 @@
         title="Site internet de Beta Gouv - nouvelle fenêtre"
         target="_blank"
         rel="noopener noreferrer"
-        (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_Beta', 'null', 1)"
       >
         <img
           src="../assets/images/footer/partenaire-beta-gouv.png"
@@ -367,9 +358,6 @@
         target="_blank"
         rel="noopener noreferrer"
         title="Site internet de France Relance - nouvelle fenêtre"
-        (click)="
-          matomo.trackEvent('FOOTER', 'Footer_Logo_FranceRelance', 'null', 1)
-        "
       >
         <img
           src="../assets/images/footer/logo_francerelance.webp"
@@ -381,7 +369,6 @@
         target="_blank"
         rel="noopener noreferrer"
         title="Site internet de l'ANCT - nouvelle fenêtre"
-        (click)="matomo.trackEvent('FOOTER', 'ANCT', 'null', 1)"
       >
         <img
           src="../assets/images/footer/logo_anct.webp"
@@ -389,7 +376,6 @@
         />
       </a>
       <a
-        (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_DGCS', 'null', 1)"
         href="https://solidarites.gouv.fr/"
         target="_blank"
         title="Site internet de la DGCS - nouvelle fenêtre"
@@ -402,7 +388,6 @@
         target="_blank"
         rel="noopener noreferrer"
         title="Site internet de l'UNCCAS - nouvelle fenêtre"
-        (click)="matomo.trackEvent('FOOTER', 'Footer_Logo_UNCCAS', 'null', 1)"
       >
         <img src="../assets/images/footer/partenaire-unccas.jpg" alt="UNCCAS" />
       </a>

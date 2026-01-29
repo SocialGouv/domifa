@@ -8,7 +8,6 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { MatomoTracker } from "ngx-matomo-client";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "../../../shared/services";
 import { StructureService } from "../../services";
@@ -33,8 +32,7 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
     private readonly formBuilder: UntypedFormBuilder,
     private readonly structureService: StructureService,
     private readonly toastService: CustomToastService,
-    private readonly titleService: Title,
-    private readonly matomo: MatomoTracker
+    private readonly titleService: Title
   ) {
     this.loading = false;
     this.submitted = false;
@@ -157,10 +155,6 @@ export class StructuresSmsFormComponent implements OnInit, OnDestroy {
           },
         })
     );
-  }
-
-  public trackVideo(name: string): void {
-    this.matomo.trackEvent("vues_videos_faq", name, "null", 1);
   }
 
   public ngOnDestroy(): void {

@@ -21,6 +21,7 @@ import {
 } from "../../../users/services";
 import { StructureService } from "../../services";
 import { UserStructure, StructureCommon } from "@domifa/common";
+import { MatomoTracker } from "ngx-matomo-client";
 
 @Component({
   animations: [fadeInOut],
@@ -59,7 +60,8 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     private readonly formBuilder: UntypedFormBuilder,
     private readonly structureService: StructureService,
     private readonly toastService: CustomToastService,
-    private readonly titleService: Title
+    private readonly titleService: Title,
+    private readonly matomo: MatomoTracker
   ) {
     this.user = userStructureBuilder.buildUserStructure({});
     this.submitted = false;
@@ -118,6 +120,12 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
             next: () => {
               this.success = true;
               this.loading = false;
+              this.matomo.trackEvent(
+                "INSCRIPTION_STRUCTURE",
+                "VALIDATION_ETAPE_2",
+                "SUCCESS",
+                1
+              );
               this.scrollTop();
               this.toastService.success(
                 "Félicitations, votre compte a été créé avec succès"
@@ -125,6 +133,12 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
             },
             error: () => {
               this.loading = false;
+              this.matomo.trackEvent(
+                "INSCRIPTION_STRUCTURE",
+                "VALIDATION_ETAPE_2",
+                "FAIL",
+                0
+              );
               this.toastService.error(
                 "Veuillez vérifier les champs du formulaire"
               );

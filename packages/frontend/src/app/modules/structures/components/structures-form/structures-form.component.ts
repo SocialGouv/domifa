@@ -18,6 +18,7 @@ import { Subject, Subscription } from "rxjs";
 import { PREFERRED_COUNTRIES } from "../../../../../_common/model";
 import { StructureService } from "../../services/structure.service";
 import { StructureCommonWeb } from "../../classes/StructureCommonWeb.class";
+import { MatomoTracker } from "ngx-matomo-client";
 
 import { getFormPhone } from "../../../../shared/phone";
 import {
@@ -80,7 +81,8 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
     private readonly formBuilder: UntypedFormBuilder,
     private readonly structureService: StructureService,
     private readonly toastService: CustomToastService,
-    private readonly titleService: Title
+    private readonly titleService: Title,
+    private readonly matomo: MatomoTracker
   ) {
     this.structure = new StructureCommonWeb();
 
@@ -155,6 +157,12 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
         next: (structure: StructureCommon) => {
           this.structureRegisterInfos.etapeInscription = 1;
           this.structureRegisterInfos.structure = structure;
+          this.matomo.trackEvent(
+            "INSCRIPTION_STRUCTURE",
+            "VALIDATION_ETAPE_1",
+            "SUCCESS",
+            1
+          );
           window.scroll({
             behavior: "smooth",
             left: 0,
@@ -163,6 +171,12 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.toastService.error("Veuillez vérifier les champs du formulaire");
+          this.matomo.trackEvent(
+            "INSCRIPTION_STRUCTURE",
+            "VALIDATION_ETAPE_1",
+            "FAIL",
+            0
+          );
         },
       })
     );

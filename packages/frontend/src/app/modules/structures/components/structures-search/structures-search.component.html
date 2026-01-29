@@ -21,6 +21,9 @@
             [href]="portailUsagerUrl"
             rel="noopener noreferrer"
             class="btn btn-primary"
+            (click)="
+              matomo.trackEvent('CONNEXION', 'PORTAIL_USAGER', 'null', 1)
+            "
             >Me connecter à Mon DomiFa</a
           >
         </div>

@@ -23,7 +23,6 @@ import {
   NgbModal,
   NgbModalRef,
 } from "@ng-bootstrap/ng-bootstrap";
-import { MatomoTracker } from "ngx-matomo-client";
 import { Subscription } from "rxjs";
 import { DEFAULT_MODAL_OPTIONS } from "../../../../../../_common/model";
 import {
@@ -77,7 +76,6 @@ export class UsagersProfilProcurationCourrierComponent
     private readonly formBuilder: UntypedFormBuilder,
     private readonly toastService: CustomToastService,
     private readonly usagerOptionsService: UsagerOptionsService,
-    private readonly matomo: MatomoTracker,
     private readonly modalService: NgbModal,
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {
@@ -202,7 +200,6 @@ export class UsagersProfilProcurationCourrierComponent
           next: () => {
             this.hideForm();
             this.toastService.success("Procuration modifiée avec succès");
-            this.matomo.trackEvent("profil", "actions", "edit_procuration", 1);
           },
           error: () => {
             this.loading = false;
@@ -235,13 +232,6 @@ export class UsagersProfilProcurationCourrierComponent
             this.toastService.success("Procuration supprimée avec succès");
             this.hideForm();
             this.closeModals();
-
-            this.matomo.trackEvent(
-              "profil",
-              "actions",
-              "delete-procuration",
-              1
-            );
           },
           error: () => {
             this.toastService.error("Impossible de supprimer la procuration");
