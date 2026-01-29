@@ -8,6 +8,7 @@ import { StructuresFormComponent } from "./structures-form.component";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
+import { MATOMO_INJECTORS } from "../../../../shared";
 
 describe("StructuresFormComponent", () => {
   let component: StructuresFormComponent;
@@ -22,6 +23,7 @@ describe("StructuresFormComponent", () => {
         FormsModule,
         NoopAnimationsModule,
         NgxIntlTelInputModule,
+        ...MATOMO_INJECTORS,
         RouterModule.forRoot([]),
       ],
       providers: [
