@@ -6,6 +6,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { StructuresSearchComponent } from "./structures-search.component";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
+import { MATOMO_INJECTORS } from "../../../../shared";
 
 describe("StructuresSearchComponent", () => {
   let component: StructuresSearchComponent;
@@ -18,6 +19,7 @@ describe("StructuresSearchComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         FormsModule,
+        ...MATOMO_INJECTORS,
         RouterModule.forRoot([]),
       ],
       providers: [

@@ -11,6 +11,7 @@ import { environment } from "../../../../../environments/environment";
 import { StructureService } from "../../services/structure.service";
 import { StructureCommon } from "@domifa/common";
 import { getPostalCodeValidator } from "../../utils/structure-validators";
+import { MatomoTracker } from "ngx-matomo-client";
 
 @Component({
   selector: "app-structures-search",
@@ -34,7 +35,8 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
     private readonly structureService: StructureService,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly toastService: CustomToastService,
-    private readonly titleService: Title
+    private readonly titleService: Title,
+    public readonly matomo: MatomoTracker
   ) {
     this.searchFailed = false;
     this.submitted = false;
@@ -74,10 +76,22 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
           } else {
             this.searchFailed = false;
             this.structures = structures;
+            this.matomo.trackEvent(
+              "INSCRIPTION_STRUCTURE",
+              "RECHERCHE_CODE_POSTAL",
+              this.f.codePostal.value,
+              1
+            );
           }
         },
         error: () => {
           this.loading = false;
+          this.matomo.trackEvent(
+            "INSCRIPTION_STRUCTURE",
+            "RECHERCHE_CODE_POSTAL",
+            "FAIL",
+            0
+          );
         },
       })
     );
