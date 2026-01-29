@@ -1,7 +1,7 @@
 {
   "name": "domifa",
   "private": true,
-  "version": "2.232.9",
+  "version": "2.232.10",
   "scripts": {
     "build": "lerna run build  ",
     "dev": "lerna run dev  ",

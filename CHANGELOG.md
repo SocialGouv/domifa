@@ -1,3 +1,10 @@
+## [2.232.10](https://github.com/SocialGouv/domifa/compare/v2.232.9...v2.232.10) (2026-01-29)
+
+
+### Bug Fixes
+
+* **frontend:** fix matomo tracking ([#4069](https://github.com/SocialGouv/domifa/issues/4069)) ([bbd4c69](https://github.com/SocialGouv/domifa/commit/bbd4c694ad55483ebf558e8419775256de7bb456))
+
 ## [2.232.9](https://github.com/SocialGouv/domifa/compare/v2.232.8...v2.232.9) (2026-01-19)
 
 
