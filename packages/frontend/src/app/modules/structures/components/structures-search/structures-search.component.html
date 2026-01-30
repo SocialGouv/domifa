@@ -15,34 +15,36 @@
       </p>
     </div>
 
-    <div class="col-2 d-none d-sm-block">
-      <img
-        class="fr-responsive-img"
-        src="assets/images/home/inscription-structure.svg"
-        alt=""
-      />
+    <div class="col-12 col-md-2 d-flex justify-content-center">
+      <div class="col-8 col-md-12">
+        <img
+          class="fr-responsive-img"
+          src="assets/images/home/inscription-structure.svg"
+          alt=""
+        />
+      </div>
     </div>
   </div>
 </div>
 
-<div class="fr-background-alt--grey h-100 mt-0 p-4">
+<div class="fr-background-alt--grey h-100 mt-0 py-2">
   <div class="fr-container mt-0">
-    <div>
-      <div class="fr-background-default--grey p-4">
+    <div class="p-1">
+      <div class="fr-background-default--grey p-2 p-md-4">
         <div
           *ngIf="!searchFailed && structures.length <= 0"
           class="d-flex flex-column"
         >
           <div>
-            <h2 class="m-0">
+            <h2 class="fr-h3 m-0">
               Votre structure existe peut-être déjà sur DomiFa ?
             </h2>
-            <span class="fr-text--lg">
+            <span class="fr-text--lg fw-bold">
               DomiFa compte plusieurs milliers de structures— vérifiez si la
               vôtre en fait déjà partie.
             </span>
           </div>
-          <div class="col-2 d-none d-sm-block align-self-center">
+          <div class="col-7 col-md-2 d-flex align-self-center">
             <img
               class="fr-responsive-img"
               src="assets/images/home/recherche-structure.svg"
@@ -121,9 +123,9 @@
           </form>
           <!-- End search bar -->
 
-          <div class="fr-background-default--grey py-2 fr-px-3v">
-            <div class="row fr-background-alt--grey">
-              <div class="col-2 col-md-2">
+          <div class="fr-background-default--grey">
+            <div class="row m-0 fr-background-alt--grey my-2 py-4 px-2">
+              <div class="col-2 col-md-2 d-none d-md-block">
                 <img
                   class="fr-responsive-img"
                   src="assets/images/home/mon-domifa.svg"
