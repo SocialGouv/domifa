@@ -4,7 +4,7 @@
 >
   <ng-template #contentTemplate>
     @if (!note.archived) {
-    <dsfrx-dropdownmenu-item type="button" (selectItem)="pinNote(note)">
+    <dsfrx-dropdownmenu-item (selectItem)="pinNote(note)">
       <div>
         <span class="fr-icon-pushpin-line" aria-hidden="true"></span>
         {{ note.pinned ? "Désépingler" : "Épingler" }} la note
@@ -12,10 +12,7 @@
     </dsfrx-dropdownmenu-item>
     }
 
-    <dsfrx-dropdownmenu-item
-      type="button"
-      (selectItem)="openActionModal('ARCHIVE')"
-    >
+    <dsfrx-dropdownmenu-item (selectItem)="openActionModal('ARCHIVE')">
       <div>
         <span
           [class]="
@@ -30,7 +27,6 @@
     </dsfrx-dropdownmenu-item>
 
     <dsfrx-dropdownmenu-item
-      type="button"
       class="fr-menu__link--danger"
       (selectItem)="openActionModal('DELETE')"
     >
