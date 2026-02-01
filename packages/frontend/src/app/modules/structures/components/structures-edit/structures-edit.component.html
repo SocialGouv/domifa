@@ -65,11 +65,7 @@
           (click)="open(hardResetConfirmation)"
           class="btn btn-outline-danger my-1"
         >
-          <fa-icon
-            [icon]="['fas', 'trash']"
-            aria-hidden="true"
-            class="me-2"
-          ></fa-icon>
+          <span class="fr-icon-delete-line fr-mr-2w" aria-hidden="true"></span>
           Supprimer tous les domiciliés
         </button>
       </section>
@@ -155,7 +151,7 @@
             Annuler
           </button>
           <button
-            class="btn btn-danger"
+            class="fr-btn"
             *ngIf="!showHardReset"
             (click)="hardReset()"
             [disabled]="loading"
@@ -176,7 +172,7 @@
           </button>
           <button
             type="submit"
-            class="btn btn-danger"
+            class="fr-btn"
             *ngIf="showHardReset"
             [disabled]="loading"
             [attr.aria-busy]="loading"

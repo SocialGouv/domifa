@@ -18,6 +18,8 @@ import { UsagerState } from "../../../../../shared";
 })
 export class ProfilDocumentsSectionComponent extends BaseUsagerProfilPageComponent {
   public readonly CerfaDocType = CerfaDocType;
+  public section = "documents";
+
   constructor(
     protected readonly authService: AuthService,
     protected readonly usagerProfilService: UsagerProfilService,

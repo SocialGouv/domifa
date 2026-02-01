@@ -50,3 +50,19 @@ h2 i,
 h3 i {
   color: var(--text-active-blue-france);
 }
+
+// Spin for loading
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fr-icon-spin {
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-right: 0.5rem;
+}

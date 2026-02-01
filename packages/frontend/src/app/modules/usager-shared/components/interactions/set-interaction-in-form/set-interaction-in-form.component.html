@@ -146,8 +146,10 @@
       <app-rgpd-warning></app-rgpd-warning>
     </div>
   </div>
-  <div class="alert alert-danger" *ngIf="usager.decision.statut === 'RADIE'">
-    <div aria-hidden="true" class="svg-icon icon-danger"></div>
+  <div
+    class="fr-alert fr-alert--error"
+    *ngIf="usager.decision.statut === 'RADIE'"
+  >
     <p class="text-danger">
       Vous êtes sur le point d'ajouter du courrier à un dossier marqué comme
       radié

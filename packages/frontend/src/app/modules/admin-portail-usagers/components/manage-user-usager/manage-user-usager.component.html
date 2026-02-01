@@ -120,9 +120,11 @@
           </table>
         </div>
 
-        <div class="alert alert-info" *ngIf="searchResults.data.length === 0">
+        @if (searchResults.data.length === 0) {
+        <div class="fr-alert fr-alert--info">
           <p>Aucun compte utilisateur trouvé</p>
         </div>
+        }
       </ng-container>
 
       <div

@@ -319,17 +319,14 @@
 
 <div class="content pt-3 pb-5">
   <div class="container">
+    @if ( (filters.statut === UsagersFilterCriteriaStatut.TOUS || filters.statut
+    === UsagersFilterCriteriaStatut.RADIE) && usagersCountByStatus.RADIE !==
+    usagersRadiesLoadedCount && !this.chargerTousRadies$.value ) {
     <div
-      class="my-4 alert alert-info flex-wrap text-center justify-content-md-between justify-content-center align-items-center"
-      *ngIf="
-        (filters.statut === UsagersFilterCriteriaStatut.TOUS ||
-          filters.statut === UsagersFilterCriteriaStatut.RADIE) &&
-        usagersCountByStatus.RADIE !== usagersRadiesLoadedCount &&
-        !this.chargerTousRadies$.value
-      "
+      class="my-4 fr-alert fr-alert--info flex-wrap text-center justify-content-md-between justify-content-center align-items-center"
     >
       <p class="me-2">
-        <strong>Information:</strong>
+        <span class="fr-alert__title">Information:</span>
         {{ usagersRadiesLoadedCount }} /
         {{ usagersCountByStatus.RADIE }} dossiers radiés sont actuellement
         affichés. Le chargement de tous les dossiers peut prendre plusieurs
@@ -339,12 +336,12 @@
         Afficher tous les radiés
       </button>
     </div>
+    } @if (usagers.length === 0 && !searching) {
     <div
-      *ngIf="usagers.length === 0 && !searching"
-      class="my-4 alert alert-warning flex-wrap text-center justify-content-md-between justify-content-center align-items-center"
+      class="my-4 fr-alert fr-alert--warning flex-wrap text-center justify-content-md-between justify-content-center align-items-center"
     >
       <p class="me-2">
-        <strong>Aucun résultat :</strong>
+        <span class="fr-alert__title">Aucun résultat :</span>
         aucun dossier ne correspond à votre recherche
       </p>
 
@@ -356,6 +353,7 @@
         Réinitialiser les filtres
       </button>
     </div>
+    }
 
     <div
       *ngIf="searching"

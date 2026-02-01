@@ -91,12 +91,9 @@
                     type="button"
                     aria-label="Supprimer l'information"
                     (click)="openDeleteConfirmation(information)"
-                    class="btn btn-danger"
+                    class="fr-btn"
                   >
-                    <fa-icon
-                      aria-hidden="true"
-                      [icon]="['fas', 'trash']"
-                    ></fa-icon>
+                    <span class="fr-icon-delete-line" aria-hidden="true"></span>
                   </button>
                 </td>
               </tr>
@@ -104,9 +101,11 @@
           </tbody>
         </table>
       </div>
-      <div class="alert alert-info" *ngIf="structureInformation.length === 0">
+      @if (structureInformation.length === 0) {
+      <div class="fr-alert fr-alert--info">
         <p>Aucune information enregistrée</p>
       </div>
+      }
     </div>
   </div>
 </div>

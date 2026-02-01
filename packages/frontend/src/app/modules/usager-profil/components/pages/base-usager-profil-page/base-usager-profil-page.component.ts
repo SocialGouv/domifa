@@ -20,6 +20,7 @@ export class BaseUsagerProfilPageComponent implements OnInit, OnDestroy {
   public subscription = new Subscription();
   public titlePrefix: string;
   public displayDeleteButton = false;
+  public section = "general";
 
   constructor(
     protected readonly authService: AuthService,

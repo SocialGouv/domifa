@@ -16,6 +16,7 @@ export class ProfilDossierComponent extends BaseUsagerProfilPageComponent {
   public editInfos = false;
   public editEntretien = false;
   public editContactDetails = false;
+  public section = "dossier";
 
   constructor(
     public authService: AuthService,

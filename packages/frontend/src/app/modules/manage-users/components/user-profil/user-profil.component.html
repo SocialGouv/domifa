@@ -126,15 +126,12 @@
                   type="button"
                   *ngIf="me?.role === 'admin' && me.uuid !== user.uuid"
                   (click)="openDeleteConfirmation(user)"
-                  class="btn btn-danger"
+                  class="fr-btn"
                   [attr.aria-label]="
                     'Supprimer ' + user.nom + ' ' + user.prenom
                   "
                 >
-                  <fa-icon
-                    [icon]="['fas', 'trash']"
-                    aria-hidden="true"
-                  ></fa-icon>
+                  <span class="fr-icon-delete-line" aria-hidden="true"></span>
                 </button>
               </td>
             </tr>

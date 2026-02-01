@@ -19,11 +19,7 @@
           (click)="openDeleteUsagersModal()"
           class="btn btn-sm btn-outline-danger"
         >
-          <fa-icon
-            aria-hidden="true"
-            [icon]="['fas', 'trash']"
-            class="me-2"
-          ></fa-icon>
+          <span class="fr-mr-2w fr-icon-delete-line" aria-hidden="true"></span>
           <ng-container *ngIf="selectedRefs.size === 1"
             >Supprimer le domicilié</ng-container
           >

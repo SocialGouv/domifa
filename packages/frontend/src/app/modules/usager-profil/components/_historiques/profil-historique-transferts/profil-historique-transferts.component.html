@@ -1,7 +1,9 @@
 <h3>Historique des transferts</h3>
-<div class="alert alert-info" *ngIf="transfertHistory.length === 0">
+@if (transfertHistory.length === 0) {
+<div class="fr-alert fr-alert--info">
   <p>Aucun historique de transferts de courriers actuellement</p>
 </div>
+}
 <div class="table-responsive" *ngIf="transfertHistory.length > 0">
   <table class="table-history table">
     <caption class="visually-hidden">

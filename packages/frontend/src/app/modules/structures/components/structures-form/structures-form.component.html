@@ -1,92 +1,102 @@
-<div class="w-100 fr-background-contrast--blue-ecume mb-0 pb-0">
-  <div
-    class="fr-container row d-flex flex-row justify-content-between align-items-center"
-  >
+<div class="w-100 fr-background-contrast--blue-ecume">
+  <div class="fr-container fr-py-4w@sm fr-py-5w@md">
     <div
-      class="col-12 col-md-10 col-sm-10 py-3 py-md-5 d-flex flex-column gap-1"
+      class="fr-grid-row fr-grid-row--gutters fr-grid-row--between fr-grid-row--middle"
     >
-      <h1 class="fr-text-title--blue-france mb-1">
-        Inscrire ma structure sur DomiFa
-      </h1>
-      <p class="fr-text--lg fr-text-title--blue-france">
-        Vous êtes un CCAS, CIAS ou un organisme agréé et vous souhaitez utiliser
-        un outil qui vous simplifie la gestion de la domiciliation des personnes
-        sans domicile stable ? DomiFa est fait pour vous !
-      </p>
-    </div>
+      <div class="fr-col-12 fr-col-md-10">
+        <h1 class="fr-text-title--blue-france fr-mb-1w">
+          Inscrire ma structure sur DomiFa
+        </h1>
+        <p class="fr-text--lg fr-text-title--blue-france">
+          Vous êtes un CCAS, CIAS ou un organisme agréé et vous souhaitez
+          utiliser un outil qui vous simplifie la gestion de la domiciliation
+          des personnes sans domicile stable ? DomiFa est fait pour vous !
+        </p>
+      </div>
 
-    <div class="col-2 d-none d-sm-block">
-      <img
-        class="fr-responsive-img"
-        src="assets/images/home/inscription-structure.svg"
-        alt=""
-      />
+      <div class="fr-col-2 fr-display-none@sm fr-display-block">
+        <img
+          class="fr-responsive-img"
+          src="assets/images/home/inscription-structure.svg"
+          alt=""
+        />
+      </div>
     </div>
   </div>
 </div>
-<div class="fr-background-alt--grey py-3">
-  <div class="fr-container fr-background-default--grey py-3">
-    <div *ngIf="showRegisterSuccess">
-      <div class="row d-flex justify-content-center text-center gap-3">
-        <div>
-          <img
-            class="fr-img-fluid"
-            src="assets/images/register/success-structure.svg"
-            alt=""
-            aria-hidden="true"
-          />
-        </div>
-        <div>
-          <h2>Votre compte est en cours de validation !</h2>
-          <span>Cette étape peut prendre jusqu’à 7 jours maximum.</span>
-        </div>
 
+<div class="fr-background-alt--grey fr-py-3w">
+  <div class="fr-container fr-background-default--grey fr-py-3w">
+    <!-- Succès -->
+    @if (showRegisterSuccess) {
+    <div class="fr-grid-row fr-grid-row--center fr-gap-3w">
+      <div class="fr-col-12">
+        <img
+          class="fr-img-fluid"
+          src="assets/images/register/success-structure.svg"
+          alt=""
+          aria-hidden="true"
+        />
+      </div>
+      <div class="fr-col-12 fr-text-center">
+        <h2>Votre compte est en cours de validation !</h2>
+        <span>Cette étape peut prendre jusqu'à 7 jours maximum.</span>
+      </div>
+
+      <div class="fr-col-12">
         <p>
           Merci pour votre demande de création de compte structure sur DomiFa.
           <br />
           Votre demande a bien été enregistrée et est actuellement en cours de
           validation par notre équipe.
         </p>
+      </div>
+
+      <div
+        class="fr-col-12 fr-background-alt--blue-france fr-py-4w fr-gap-4w fr-display-flex fr-direction-column fr-align-items-center"
+      >
+        <div class="fr-display-flex fr-gap-1w fr-align-items-center">
+          <img
+            src="assets/dsfr-pictograms/buildings/companie.svg"
+            alt=""
+            aria-hidden="true"
+          />
+          <p class="fr-text--bold fr-mb-0">
+            En attendant l'activation de votre compte, vous pouvez :
+          </p>
+        </div>
+
         <div
-          class="d-flex flex-column fr-background-alt--blue-france py-4 gap-4"
+          class="fr-display-flex fr-direction-column fr-align-items-center fr-gap-1w"
         >
-          <div class="d-flex gap-1 justify-content-center align-items-center">
-            <img
-              src="assets/dsfr-pictograms/buildings/companie.svg"
-              alt=""
-              aria-hidden="true"
-            />
-            <p class="fw-bold mb-0">
-              En attendant l’activation de votre compte, vous pouvez :
-            </p>
-          </div>
-          <div class="d-flex flex-column align-items-center gap-1">
-            <span class="mb-0"
-              >Vous inscrire à une session de formation en ligne</span
-            >
-            <a href="https://tally.so/r/3EaAVB" class="fr-btn" target="_blank">
-              M'inscrire</a
-            >
-          </div>
-          <div class="d-flex flex-column align-items-center gap-1">
-            <span class="mb-0"
-              >Consulter notre FAQ dédiée aux utilisateurs
-            </span>
-            <a routerLink="/faq" class="fr-btn gap-2">
-              <span class="fr-icon-question-line" aria-hidden="true"></span>
-              Accéder à la FAQ
-            </a>
-          </div>
+          <span class="fr-mb-0"
+            >Vous inscrire à une session de formation en ligne</span
+          >
+          <a href="https://tally.so/r/3EaAVB" class="fr-btn" target="_blank">
+            M'inscrire
+          </a>
+        </div>
+
+        <div
+          class="fr-display-flex fr-direction-column fr-align-items-center fr-gap-1w"
+        >
+          <span class="fr-mb-0"
+            >Consulter notre FAQ dédiée aux utilisateurs</span
+          >
+          <a routerLink="/faq" class="fr-btn fr-gap-2w">
+            <span class="fr-icon-question-line" aria-hidden="true"></span>
+            Accéder à la FAQ
+          </a>
         </div>
       </div>
     </div>
+    }
 
-    <div
-      *ngIf="!showRegisterSuccess"
-      class="fr-background-default--grey py-2 px-4"
-    >
-      <!-- Form header -->
-      <div class="fr-stepper mb-2">
+    <!-- Formulaire -->
+    @if (!showRegisterSuccess) {
+    <div class="fr-background-default--grey fr-py-2w fr-px-4w">
+      <!-- Header stepper -->
+      <div class="fr-stepper fr-mb-2w">
         <h2 class="fr-stepper__title">
           {{ stepsLabels[structureRegisterInfos.etapeInscription] }}
           <span class="fr-stepper__state"
@@ -105,111 +115,119 @@
         </p>
       </div>
 
-      <p class="text-danger my-3">* champs obligatoires</p>
+      <p class="fr-text-danger fr-my-3w">* champs obligatoires</p>
 
-      <form
-        *ngIf="structureRegisterInfos.etapeInscription === 0 && structureForm"
-        [formGroup]="structureForm"
-        (ngSubmit)="submitStrucutre()"
-      >
-        <!-- Structure -->
+      <!-- Étape 1: Structure -->
+      @if (structureRegisterInfos.etapeInscription === 0 && structureForm) {
+      <form [formGroup]="structureForm" (ngSubmit)="submitStrucutre()">
+        <!-- Section: Structure -->
         <section>
-          <div class="d-flex flex-column justify-content-center">
-            <div class="d-flex gap-1 align-items-end my-1">
+          <div
+            class="fr-display-flex fr-direction-column fr-justify-content-center"
+          >
+            <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
               <img
                 class="fr-width-2-5rem"
                 src="assets/dsfr-pictograms/buildings/companie.svg"
                 aria-hidden="true"
                 alt=""
               />
-              <h2 class="m-0">Structure</h2>
+              <h2 class="fr-m-0">Structure</h2>
             </div>
             <p>
               Veuillez saisir les coordonnées de votre structure, celles-ci
-              apparaitront sur le Cerfa d’attestation :
+              apparaitront sur le Cerfa d'attestation :
             </p>
-            <fieldset
-              class="fr-fieldset fr-background-alt--blue-france py-3 px-3 mx-1"
-              id="type-strcture-choice"
-              aria-labelledby="type-structure-choice-legend"
-            >
-              <legend
-                class="fr-fieldset__legend--regular fr-fieldset__legend mb-0 fw-bold"
-                id="type-structure-choice-legend"
-              >
-                A quel type de structure appartenez-vous ?
-              </legend>
-              <div class="fr-fieldset__element fr-fieldset__element--inline">
-                <div class="fr-radio-group">
-                  <input
-                    id="cias"
-                    formControlName="structureType"
-                    name="structureType"
-                    type="radio"
-                    value="cias"
-                  />
-                  <label for="cias" class="fr-label"> CIAS </label>
-                </div>
-              </div>
-              <div class="fr-fieldset__element fr-fieldset__element--inline">
-                <div class="fr-radio-group">
-                  <input
-                    formControlName="structureType"
-                    name="structureType"
-                    type="radio"
-                    id="ccas"
-                    value="ccas"
-                  />
-                  <label for="ccas" class="fr-label">
-                    CCAS / Commune / Mairie
-                  </label>
-                </div>
-              </div>
-              <div class="fr-fieldset__element fr-fieldset__element--inline">
-                <div class="fr-radio-group">
-                  <input
-                    formControlName="structureType"
-                    name="structureType"
-                    type="radio"
-                    value="asso"
-                    id="asso"
-                  />
-                  <label for="asso" class="fr-label"> Organisme agréé </label>
-                </div>
-              </div>
-              <div
-                *ngIf="submitted && f.structureType.value === null"
-                class="fr-messages-group"
-                id="type-structure-choice-legend-messages"
-                aria-live="polite"
-              >
-                <p class="fr-message fr-message--error">
-                  Veuillez saisir les coordonnées de votre structure, celles-ci
-                  apparaitront sur le Cerfa d’attestation :
-                </p>
-              </div>
-            </fieldset>
           </div>
 
-          <div class="row py-1">
+          <!-- Type de structure -->
+          <fieldset
+            class="fr-fieldset fr-background-alt--blue-france fr-py-3w fr-px-3w fr-mx-1w"
+            id="type-strcture-choice"
+            aria-labelledby="type-structure-choice-legend"
+          >
+            <legend
+              class="fr-fieldset__legend--regular fr-fieldset__legend fr-text--bold fr-mb-0"
+              id="type-structure-choice-legend"
+            >
+              A quel type de structure appartenez-vous ?
+            </legend>
+
+            <div class="fr-fieldset__element fr-fieldset__element--inline">
+              <div class="fr-radio-group">
+                <input
+                  id="cias"
+                  formControlName="structureType"
+                  name="structureType"
+                  type="radio"
+                  value="cias"
+                />
+                <label for="cias" class="fr-label">CIAS</label>
+              </div>
+            </div>
+
+            <div class="fr-fieldset__element fr-fieldset__element--inline">
+              <div class="fr-radio-group">
+                <input
+                  formControlName="structureType"
+                  name="structureType"
+                  type="radio"
+                  id="ccas"
+                  value="ccas"
+                />
+                <label for="ccas" class="fr-label">
+                  CCAS / Commune / Mairie
+                </label>
+              </div>
+            </div>
+
+            <div class="fr-fieldset__element fr-fieldset__element--inline">
+              <div class="fr-radio-group">
+                <input
+                  formControlName="structureType"
+                  name="structureType"
+                  type="radio"
+                  value="asso"
+                  id="asso"
+                />
+                <label for="asso" class="fr-label">Organisme agréé</label>
+              </div>
+            </div>
+
+            @if (submitted && f.structureType.value === null) {
+            <div
+              class="fr-messages-group"
+              id="type-structure-choice-messages"
+              aria-live="polite"
+              role="alert"
+            >
+              <p class="fr-message fr-message--error">
+                Veuillez sélectionner un type de structure
+              </p>
+            </div>
+            }
+          </fieldset>
+
+          <!-- Nom structure -->
+          <div class="fr-grid-row fr-py-1w">
             <div
               [class.fr-input-group--error]="
                 (f.nom.dirty || submitted) && f.nom.errors
               "
-              class="col-md-12 fr-input-group required"
+              class="fr-col-12 fr-input-group fr-input-group--required"
             >
-              <label class="fr-label" for="nom"
-                >Raison sociale (nom de la structure)</label
-              >
+              <label class="fr-label" for="nom">
+                Raison sociale (nom de la structure)
+              </label>
               <input
                 type="text"
-                class="fr-input mb-0"
+                class="fr-input fr-mb-0"
                 id="nom"
                 autocomplete="organization"
                 formControlName="nom"
                 name="nom"
                 [attr.aria-invalid]="
-                  (f.adresse.dirty || submitted) && f.nom.errors ? true : false
+                  (f.nom.dirty || submitted) && f.nom.errors ? true : false
                 "
                 [attr.aria-describedby]="
                   (f.nom.dirty || submitted) && f.nom.errors
@@ -219,48 +237,44 @@
                 required
               />
 
-              <div
-                class="fr-messages-group"
-                id="type-structure-choice-legend-messages"
-                aria-live="polite"
-              >
-                <ul class="fr-messages-group ps-0">
+              <div class="fr-messages-group" aria-live="polite">
+                <ul class="fr-messages-group__list fr-pl-0">
+                  @if (!((f.nom.dirty || submitted) && f.nom.errors)) {
                   <li
                     id="nom-structure-description"
-                    *ngIf="!((f.nom.dirty || submitted) && f.nom.errors)"
                     class="fr-message fr-message--info fr-mt-1v fr-mb-5v"
                   >
                     Préciser le nom de votre ville / de votre unité locale en
                     cas de réseau / de votre association
                   </li>
+                  } @if ((f.nom.dirty || submitted) && f.nom.errors) {
                   <li
-                    *ngIf="(f.nom.dirty || submitted) && f.nom.errors"
                     id="nom-errors"
-                    class="fr-message fr-message--error mt-0"
+                    class="fr-message fr-message--error fr-mt-0"
                   >
                     Le nom de la structure est requis
                   </li>
+                  }
                 </ul>
-                <p
-                  *ngIf="isInvalidStructureName(f.nom.value)"
-                  id="nom-structure-description"
-                  class="fr-message fr-message--error"
-                >
-                  <b
-                    >Préciser le nom de votre ville / de votre unité locale en
-                    cas de réseau / de votre association.</b
-                  >
+                @if (isInvalidStructureName(f.nom.value)) {
+                <p id="nom-validation" class="fr-message fr-message--error">
+                  <b>
+                    Préciser le nom de votre ville / de votre unité locale en
+                    cas de réseau / de votre association.
+                  </b>
                 </p>
+                }
               </div>
             </div>
           </div>
 
-          <div class="row py-1">
+          <!-- SIRET -->
+          <div class="fr-grid-row fr-py-1w">
             <div
               [class.fr-input-group--error]="
                 (submitted || f.siret?.dirty) && f.siret?.errors
               "
-              class="col-12 col-md-12 fr-input-group"
+              class="fr-col-12 fr-input-group"
             >
               <label class="fr-label" for="siret">N° Siret</label>
               <input
@@ -284,72 +298,83 @@
                     : 'siret-description'
                 "
               />
-              <ul class="fr-messages-group ps-0">
+              <ul class="fr-messages-group__list fr-pl-0">
                 <li
                   id="siret-description"
-                  class="fr-message fr-message--info mt-0"
+                  class="fr-message fr-message--info fr-mt-0"
                 >
                   14 chiffres (Optionnel)
                 </li>
+                @if ((submitted || f.siret?.dirty) && f.siret?.errors) {
                 <li
                   id="siret-errors"
-                  class="fr-message fr-message--error mt-0"
-                  *ngIf="(submitted || f.siret?.dirty) && f.siret?.errors"
+                  class="fr-message fr-message--error fr-mt-0"
                 >
                   {{
-                    f.siret?.errors?.['invalidSiret']
-                      ? 'Le format du numéro de SIRET est incorrect'
-                      : 'Si vous n\'avez pas de n° SIRET veuillez cochez la case ci-dessous'
+                          f.siret?.errors?.['invalidSiret']
+                            ? 'Le format du numéro de SIRET est incorrect'
+                            : 'Si vous n\'avez pas de n° SIRET veuillez cochez la case ci-dessous'
                   }}
                 </li>
+                }
               </ul>
             </div>
           </div>
-          <div class="row pt-1 pb-4">
-            <div class="fr-checkbox-group">
-              <input
-                formControlName="noSiret"
-                name="checkbox"
-                id="noSiret"
-                type="checkbox"
-              />
-              <label class="fr-label" for="noSiret">
-                Je n’ai pas de numéro Siret
-              </label>
-              <div class="fr-messages-group" aria-live="polite"></div>
+
+          <!-- Checkbox pas de SIRET -->
+          <div class="fr-grid-row fr-pt-1w fr-pb-4w">
+            <div class="fr-col-12">
+              <div class="fr-checkbox-group">
+                <input
+                  formControlName="noSiret"
+                  name="checkbox"
+                  id="noSiret"
+                  type="checkbox"
+                />
+                <label class="fr-label" for="noSiret">
+                  Je n'ai pas de numéro Siret
+                </label>
+              </div>
             </div>
           </div>
         </section>
-        <!-- Informations sur l'agrément -->
+
+        <!-- Section: Agrément (visible si type = asso) -->
+        @if (f.structureType.value === 'asso') {
         <section
-          class="py-4 px-2 fr-background-alt--grey border-top border-bottom"
-          *ngIf="f.structureType.value === 'asso'"
+          class="fr-py-4w fr-px-2w fr-background-alt--grey"
+          style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc"
         >
-          <div class="d-flex flex-column justify-content-center">
-            <div class="d-flex gap-1 align-items-end my-1">
+          <div
+            class="fr-display-flex fr-direction-column fr-justify-content-center"
+          >
+            <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
               <img
                 class="fr-width-2-5rem"
                 src="assets/dsfr-pictograms/buildings/companie.svg"
                 aria-hidden="true"
                 alt=""
               />
-              <h2 class="m-0">Informations sur l'agrément</h2>
+              <h2 class="fr-m-0">Informations sur l'agrément</h2>
             </div>
           </div>
-          <fieldset class="my-2">
-            <legend class="visually-hidden">
+
+          <fieldset class="fr-my-2w">
+            <legend class="fr-sr-only">
               Informations sur l'agrément de votre organisme
             </legend>
-            <div class="row">
+
+            <div class="fr-grid-row">
+              <!-- Département -->
               <div
                 [class.fr-select-group--error]="
                   (submitted || f.departement.dirty) && f.departement.errors
                 "
-                class="col-12 col-md-6 fr-select-group required"
+                class="fr-col-12 fr-col-md-6 fr-select-group fr-select-group--required"
               >
-                <label class="fr-label" for="departement"
-                  >Préfecture ayant délivré l’agrément</label
-                >
+                <label class="fr-label" for="departement">
+                  Préfecture ayant délivré l'agrément
+                </label>
                 <select
                   id="departement"
                   formControlName="departement"
@@ -368,31 +393,34 @@
                   required
                 >
                   <option [ngValue]="null"></option>
-                  <option
-                    *ngFor="let departement of DEPARTEMENTS_LISTE | keyvalue"
-                    [ngValue]="departement.key"
-                  >
+                  @for (let departement of (DEPARTEMENTS_LISTE | keyvalue);
+                  track departement.key) {
+                  <option [ngValue]="departement.key">
                     {{ departement.key }} - {{ departement.value }}
                   </option>
+                  }
                 </select>
+                @if ( (submitted || f.departement.dirty) && f.departement.errors
+                ) {
                 <ul
-                  class="fr-messages-group ps-0"
+                  class="fr-messages-group__list fr-pl-0"
                   id="departement-errors"
-                  *ngIf="
-                    (submitted || f.departement.dirty) && f.departement.errors
-                  "
+                  role="alert"
+                  aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
+                  <li class="fr-message fr-message--error fr-mt-0">
                     Veuillez sélectionner un département
                   </li>
                 </ul>
+                }
               </div>
 
+              <!-- Agrément -->
               <div
                 [class.fr-input-group--error]="
                   (submitted || f.agrement.dirty) && f.agrement.errors
                 "
-                class="col-12 col-md-6 fr-input-group required"
+                class="fr-col-12 fr-col-md-6 fr-input-group fr-input-group--required"
               >
                 <label class="fr-label" for="agrement">Numéro d'agrément</label>
                 <input
@@ -413,26 +441,30 @@
                       : null
                   "
                 />
+                @if ((submitted || f.agrement.dirty) && f.agrement.errors) {
                 <ul
-                  class="fr-messages-group ps-0"
+                  class="fr-messages-group__list fr-pl-0"
                   id="agrement-errors"
-                  *ngIf="(submitted || f.agrement.dirty) && f.agrement.errors"
+                  role="alert"
+                  aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
+                  <li class="fr-message fr-message--error fr-mt-0">
                     Veuillez insérer un numéro d'agrément
                   </li>
                 </ul>
+                }
               </div>
 
+              <!-- Capacité -->
               <div
                 [class.fr-input-group--error]="
                   (submitted || f.capacite.dirty) && f.capacite.errors
                 "
-                class="col-12 col-md-6 fr-input-group"
+                class="fr-col-12 fr-col-md-6 fr-input-group"
               >
-                <label class="fr-label" for="capacite"
-                  >Capacité d'accueil</label
-                >
+                <label class="fr-label" for="capacite">
+                  Capacité d'accueil
+                </label>
                 <input
                   formControlName="capacite"
                   name="capacite"
@@ -451,28 +483,31 @@
                       : false
                   "
                 />
-
+                @if ((submitted || f.capacite.dirty) && f.capacite.errors) {
                 <ul
-                  class="fr-messages-group ps-0"
+                  class="fr-messages-group__list fr-pl-0"
                   id="capacite-errors"
-                  *ngIf="(submitted || f.capacite.dirty) && f.capacite.errors"
+                  role="alert"
+                  aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
+                  <li class="fr-message fr-message--error fr-mt-0">
                     La capacité doit être supérieure à 0
                   </li>
                 </ul>
+                }
               </div>
 
+              <!-- Type d'organisme -->
               <div
                 [class.fr-select-group--error]="
                   (submitted || f.organismeType?.dirty) &&
                   f.organismeType.errors
                 "
-                class="col-12 col-md-6 fr-select-group required"
+                class="fr-col-12 fr-col-md-6 fr-select-group fr-select-group--required"
               >
-                <label class="fr-label" for="organismeType"
-                  >Type d'organisme agréé</label
-                >
+                <label class="fr-label" for="organismeType">
+                  Type d'organisme agréé
+                </label>
                 <select
                   id="organismeType"
                   formControlName="organismeType"
@@ -493,38 +528,38 @@
                   required
                 >
                   <option [ngValue]="null"></option>
-                  <option
-                    *ngFor="
-                      let organismeType of STRUCTURE_ORGANISME_TYPE_LABELS
-                        | keyvalue
-                    "
-                    [ngValue]="organismeType.key"
-                  >
+                  @for ( let organismeType of STRUCTURE_ORGANISME_TYPE_LABELS |
+                  keyvalue; track organismeType.key ) {
+                  <option [ngValue]="organismeType.key">
                     {{ organismeType.value }}
                   </option>
+                  }
                 </select>
+                @if ( (submitted || f.organismeType?.dirty) &&
+                f.organismeType.errors ) {
                 <ul
-                  class="fr-messages-group ps-0"
+                  class="fr-messages-group__list fr-pl-0"
                   id="organisme-type-errors"
-                  *ngIf="
-                    (submitted || f.organismeType?.dirty) &&
-                    f.organismeType.errors
-                  "
+                  role="alert"
+                  aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
-                    Veuillez sélectionner un département
+                  <li class="fr-message fr-message--error fr-mt-0">
+                    Veuillez sélectionner un type d'organisme
                   </li>
                 </ul>
+                }
               </div>
+
+              <!-- Réseau -->
               <div
                 [class.fr-select-group--error]="
                   (submitted || f.reseau?.dirty) && f.reseau.errors
                 "
-                class="col-12 col-md-12 fr-select-group"
+                class="fr-col-12 fr-select-group"
               >
                 <label class="fr-label" for="reseau">
-                  Précisez votre réseau</label
-                >
+                  Précisez votre réseau
+                </label>
                 <select
                   id="reseau"
                   formControlName="reseau"
@@ -544,32 +579,34 @@
                   <option [ngValue]="null">Non renseigné</option>
                   <option value="Pas de réseau">Pas de réseau</option>
                   <option value="Autre réseau">Autre réseau</option>
-                  <option
-                    *ngFor="let reseau of NETWORKS"
-                    [ngValue]="reseau.canonicalName"
-                  >
+                  @for (let reseau of NETWORKS; track reseau.canonicalName) {
+                  <option [ngValue]="reseau.canonicalName">
                     {{ reseau.canonicalName }}
                   </option>
+                  }
                 </select>
+                @if ((submitted || f.reseau?.dirty) && f.reseau.errors) {
                 <ul
-                  class="fr-messages-group ps-0"
-                  id="organisme-type-errors"
-                  *ngIf="(submitted || f.reseau?.dirty) && f.reseau.errors"
+                  class="fr-messages-group__list fr-pl-0"
+                  id="reseau-type-errors"
+                  role="alert"
+                  aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
-                    Veuillez sélectionner un type d'organisme
+                  <li class="fr-message fr-message--error fr-mt-0">
+                    Veuillez sélectionner un réseau
                   </li>
                 </ul>
+                }
               </div>
-              <div
-                class="col-12"
-                [ngClass]="{
-                  'is-invalid': (submitted || dsp?.dirty) && dsp?.errors
-                }"
-              >
+
+              <!-- DSP -->
+              <div class="fr-col-12">
                 <fieldset
                   id="dsp-fieldset"
                   class="fr-fieldset"
+                  [class.fr-fieldset--error]="
+                    (submitted || dsp?.dirty) && dsp?.errors
+                  "
                   role="group"
                   [attr.aria-labelledby]="'dsp-legend'"
                   [attr.aria-describedby]="
@@ -580,19 +617,14 @@
                   [attr.aria-invalid]="
                     (submitted || dsp?.dirty) && dsp?.errors ? true : false
                   "
-                  [class.fr-fieldset--error]="
-                    (submitted || dsp?.dirty) && dsp?.errors
-                  "
                 >
                   <legend
                     id="dsp-legend"
-                    class="fr-fieldset__legend--regular fr-fieldset__legend required"
-                    [ngClass]="{
-                      'is-invalid': (submitted || dsp?.dirty) && dsp?.errors
-                    }"
+                    class="fr-fieldset__legend--regular fr-fieldset__legend fr-fieldset__legend--required"
                   >
                     Exercez-vous une délégation de Service Public
                   </legend>
+
                   <div
                     class="fr-fieldset__element fr-fieldset__element--inline"
                   >
@@ -603,9 +635,6 @@
                         formControlName="dsp"
                         name="dsp"
                         [value]="true"
-                        [ngClass]="{
-                          'is-invalid': (submitted || dsp?.dirty) && dsp?.errors
-                        }"
                         [attr.aria-invalid]="
                           (submitted || dsp?.dirty) && dsp?.errors
                             ? true
@@ -616,11 +645,11 @@
                             ? 'dsp-errors'
                             : 'dsp-legend'
                         "
-                        [attr.required]="dsp?.errors ? true : null"
                       />
                       <label class="fr-label" for="dsp-oui">Oui</label>
                     </div>
                   </div>
+
                   <div
                     class="fr-fieldset__element fr-fieldset__element--inline"
                   >
@@ -631,9 +660,6 @@
                         formControlName="dsp"
                         name="dsp"
                         [value]="false"
-                        [ngClass]="{
-                          'is-invalid': (submitted || dsp?.dirty) && dsp?.errors
-                        }"
                         [attr.aria-invalid]="
                           (submitted || dsp?.dirty) && dsp?.errors
                             ? true
@@ -644,51 +670,59 @@
                             ? 'dsp-errors'
                             : 'dsp-legend'
                         "
-                        [attr.required]="dsp?.errors ? true : null"
                       />
                       <label class="fr-label" for="dsp-non">Non</label>
                     </div>
                   </div>
 
+                  @if ((submitted || dsp?.dirty) && dsp?.errors) {
                   <ul
-                    class="fr-messages-group ps-0"
+                    class="fr-messages-group__list fr-pl-0"
                     id="dsp-errors"
-                    *ngIf="(submitted || dsp?.dirty) && dsp?.errors"
                     role="alert"
                     aria-live="polite"
                     [attr.aria-atomic]="true"
                   >
-                    <li class="fr-message fr-message--error mt-0">
+                    <li class="fr-message fr-message--error fr-mt-0">
                       Ce champ est requis
                     </li>
                   </ul>
+                  }
                 </fieldset>
               </div>
             </div>
           </fieldset>
         </section>
-        <!-- Resposable légal -->
+        }
+
+        <!-- Section: Responsable légal -->
         <section>
-          <div class="d-flex flex-column justify-content-center">
-            <div class="d-flex gap-1 align-items-end my-1">
+          <div
+            class="fr-display-flex fr-direction-column fr-justify-content-center"
+          >
+            <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
               <img
                 class="fr-width-2-5rem"
                 src="assets/dsfr-pictograms/digital/avatar.svg"
                 aria-hidden="true"
                 alt=""
               />
-              <h2 class="m-0">Responsable légal</h2>
+              <h2 class="fr-m-0">Responsable légal</h2>
             </div>
-            <p>Il s’agit du nom qui apparaîtra sur le Cerfa.</p>
+            <p>Il s'agit du nom qui apparaîtra sur le Cerfa.</p>
           </div>
-          <fieldset class="my-2">
-            <div class="row" formGroupName="responsable">
+
+          <fieldset class="fr-my-2w">
+            <legend class="fr-sr-only">Données du responsable légal</legend>
+
+            <div class="fr-grid-row" formGroupName="responsable">
+              <!-- Nom responsable -->
               <div
                 [class.fr-input-group--error]="
                   (submitted || f.responsable.get('nom')?.dirty) &&
                   f.responsable.get('nom')?.errors
                 "
-                class="col-12 col-md-4 fr-input-group required"
+                class="fr-col-12 fr-col-md-4 fr-input-group fr-input-group--required"
               >
                 <label class="fr-label" for="responsable-nom">Nom</label>
                 <input
@@ -712,29 +746,32 @@
                   "
                   required
                 />
+                @if ( (submitted || f.responsable.get('nom')?.dirty) &&
+                f.responsable.get('nom')?.errors ) {
                 <ul
-                  class="fr-messages-group ps-0"
+                  class="fr-messages-group__list fr-pl-0"
                   id="responsable-nom-errors"
-                  *ngIf="
-                    (submitted || f.responsable.get('nom')?.dirty) &&
-                    f.responsable.get('nom')?.errors
-                  "
+                  role="alert"
+                  aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
+                  <li class="fr-message fr-message--error fr-mt-0">
                     Le nom du responsable est obligatoire
                   </li>
                 </ul>
+                }
               </div>
+
+              <!-- Prénom responsable -->
               <div
                 [class.fr-input-group--error]="
                   (submitted || f.responsable.get('prenom')?.dirty) &&
                   f.responsable.get('prenom')?.errors
                 "
-                class="col-12 col-md-4 fr-input-group required"
+                class="fr-col-12 fr-col-md-4 fr-input-group fr-input-group--required"
               >
-                <label class="fr-label" for="responsable-prenom"
-                  >Prénom(s)</label
-                >
+                <label class="fr-label" for="responsable-prenom">
+                  Prénom(s)
+                </label>
                 <input
                   type="text"
                   class="fr-input"
@@ -756,25 +793,28 @@
                   "
                   required
                 />
+                @if ( (submitted || f.responsable.get('prenom')?.dirty) &&
+                f.responsable.get('prenom')?.errors ) {
                 <ul
-                  class="fr-messages-group ps-0"
+                  class="fr-messages-group__list fr-pl-0"
                   id="responsable-prenom-errors"
-                  *ngIf="
-                    (submitted || f.responsable.get('prenom')?.dirty) &&
-                    f.responsable.get('prenom')?.errors
-                  "
+                  role="alert"
+                  aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
+                  <li class="fr-message fr-message--error fr-mt-0">
                     Le prénom du responsable est obligatoire
                   </li>
                 </ul>
+                }
               </div>
+
+              <!-- Fonction -->
               <div
                 [class.fr-input-group--error]="
                   (submitted || f.responsable.get('fonction')?.dirty) &&
                   f.responsable.get('fonction')?.errors
                 "
-                class="col-12 col-md-4 fr-input-group required"
+                class="fr-col-12 fr-col-md-4 fr-input-group fr-input-group--required"
               >
                 <label class="fr-label" for="fonction">Fonction</label>
                 <input
@@ -798,77 +838,78 @@
                   "
                   required
                 />
-                <small id=""></small>
-                <ul class="fr-messages-group ps-0" id="">
-                  <li
-                    *ngIf="
-                      !(
-                        (submitted || f.responsable.get('fonction')?.dirty) &&
-                        f.responsable.get('fonction')?.errors
-                      )
-                    "
-                    id="responsable-fonction-description"
-                    class="fr-message fr-message--info mt-0"
-                  >
-                    Président.e, Directrice, etc.
-                  </li>
-                  <li
-                    *ngIf="
-                      (submitted || f.responsable.get('fonction')?.dirty) &&
-                      f.responsable.get('fonction')?.errors
-                    "
-                    id="responsable-fonction-errors"
-                    class="fr-message fr-message--error mt-0"
-                  >
-                    La fonction du responsable est obligatoire
-                  </li>
-                </ul>
+                <div class="fr-messages-group">
+                  <ul class="fr-messages-group__list fr-pl-0">
+                    @if ( !( (submitted || f.responsable.get('fonction')?.dirty)
+                    && f.responsable.get('fonction')?.errors ) ) {
+                    <li
+                      id="responsable-fonction-description"
+                      class="fr-message fr-message--info fr-mt-0"
+                    >
+                      Président.e, Directrice, etc.
+                    </li>
+                    } @if ( (submitted || f.responsable.get('fonction')?.dirty)
+                    && f.responsable.get('fonction')?.errors ) {
+                    <li
+                      id="responsable-fonction-errors"
+                      class="fr-message fr-message--error fr-mt-0"
+                    >
+                      La fonction du responsable est obligatoire
+                    </li>
+                    }
+                  </ul>
+                </div>
               </div>
             </div>
           </fieldset>
         </section>
+
         <hr />
-        <!-- Adresse -->
+
+        <!-- Section: Adresse -->
         <section>
-          <div class="d-flex flex-column justify-content-center">
-            <div class="d-flex gap-1 align-items-end my-1">
+          <div
+            class="fr-display-flex fr-direction-column fr-justify-content-center"
+          >
+            <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
               <img
                 class="fr-width-2-5rem"
                 src="assets/dsfr-pictograms/map/map-pin.svg"
                 aria-hidden="true"
                 alt=""
               />
-              <h2 class="m-0">Adresse</h2>
+              <h2 class="fr-m-0">Adresse</h2>
             </div>
-            <p class="fw-bold">
+            <p class="fr-text--bold">
               Précisez le nom de votre ville / de votre unité locale en cas de
               réseau / de votre association. <br />
-              <small class="text-xs"
-                >Ex : CCAS du Havre / Croix Rouge de Paris / Association Aurore
+              <small class="fr-text--xs">
+                Ex : CCAS du Havre / Croix Rouge de Paris / Association Aurore
               </small>
             </p>
           </div>
+
           <fieldset>
-            <legend class="visually-hidden">
-              Adresse complète de la structure
-            </legend>
-            <div class="row">
+            <legend class="fr-sr-only">Adresse complète de la structure</legend>
+
+            <div class="fr-grid-row">
+              <!-- Adresse -->
               <div
                 [class.fr-input-group--error]="
                   (f.adresse.dirty || submitted) && f.adresse.errors
                 "
-                class="col-12 col-md-12 fr-input-group required"
+                class="fr-col-12 fr-input-group fr-input-group--required"
               >
-                <label class="fr-label" for="adresse"
-                  >Adresse de l'organisme domiciliataire</label
-                >
+                <label class="fr-label" for="adresse">
+                  Adresse de l'organisme domiciliataire
+                </label>
                 <input
                   id="adresse"
                   type="text"
                   class="fr-input"
                   formControlName="adresse"
                   name="adresse"
-                  autcomplete="street-address"
+                  autocomplete="street-address"
                   [attr.aria-invalid]="
                     (f.adresse.dirty || submitted) && f.adresse.errors
                       ? true
@@ -881,30 +922,34 @@
                   "
                   required
                 />
-                <small id="address-description"
-                  >Cette adresse apparaîtra sur le Cerfa</small
-                >
+                <small id="address-description">
+                  Cette adresse apparaîtra sur le Cerfa
+                </small>
+                @if (submitted && f.adresse.errors) {
                 <ul
-                  class="fr-messages-group ps-0"
+                  class="fr-messages-group__list fr-pl-0"
                   id="address-errors"
-                  *ngIf="submitted && f.adresse.errors"
+                  role="alert"
+                  aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
+                  <li class="fr-message fr-message--error fr-mt-0">
                     L'adresse est obligatoire
                   </li>
                 </ul>
+                }
               </div>
 
+              <!-- Complément adresse -->
               <div
                 [class.fr-input-group--error]="
                   (f.complementAdresse.dirty || submitted) &&
                   f.complementAdresse.errors
                 "
-                class="col-md-12 fr-input-group"
+                class="fr-col-12 fr-input-group"
               >
-                <label class="fr-label" for="complementAdresse"
-                  >Complément d'adresse</label
-                >
+                <label class="fr-label" for="complementAdresse">
+                  Complément d'adresse
+                </label>
                 <input
                   type="text"
                   class="fr-input"
@@ -924,24 +969,29 @@
                       : false
                   "
                 />
-                <small id="complement-description"
-                  >Lieu-dit, Bâtiment, étage, etc..</small
-                >
+                <small id="complement-description">
+                  Lieu-dit, Bâtiment, étage, etc..
+                </small>
+                @if (submitted && f.complementAdresse.errors) {
                 <ul
-                  class="fr-messages-group ps-0"
+                  class="fr-messages-group__list fr-pl-0"
                   id="complement-errors"
-                  *ngIf="submitted && f.complementAdresse.errors"
+                  role="alert"
+                  aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
+                  <li class="fr-message fr-message--error fr-mt-0">
                     Veuillez vérifier le complément d'adresse
                   </li>
                 </ul>
+                }
               </div>
+
+              <!-- Code postal -->
               <div
                 [class.fr-input-group--error]="
                   (f.codePostal.dirty || submitted) && f.codePostal.errors
                 "
-                class="col-12 col-md-6 fr-input-group required"
+                class="fr-col-12 fr-col-md-6 fr-input-group fr-input-group--required"
               >
                 <label class="fr-label" for="codePostal">Code postal</label>
                 <input
@@ -963,21 +1013,26 @@
                   "
                   required
                 />
+                @if (f.codePostal.errors) {
                 <ul
-                  class="fr-messages-group ps-0"
+                  class="fr-messages-group__list fr-pl-0"
                   id="code-postal-errors"
-                  *ngIf="f.codePostal.errors"
+                  role="alert"
+                  aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
+                  <li class="fr-message fr-message--error fr-mt-0">
                     Le code postal est obligatoire (Exemple: 75001)
                   </li>
                 </ul>
+                }
               </div>
+
+              <!-- Ville -->
               <div
                 [class.fr-input-group--error]="
                   (f.ville.dirty || submitted) && f.ville.errors
                 "
-                class="col-12 col-md-6 fr-input-group mb-4 required"
+                class="fr-col-12 fr-col-md-6 fr-input-group fr-mb-4w fr-input-group--required"
               >
                 <label class="fr-label" for="ville">Ville</label>
                 <input
@@ -998,22 +1053,27 @@
                       : false
                   "
                 />
+                @if ((f.ville.dirty || submitted) && f.ville.errors) {
                 <ul
-                  class="fr-messages-group ps-0"
+                  class="fr-messages-group__list fr-pl-0"
                   id="ville-errors"
-                  *ngIf="(f.ville.dirty || submitted) && f.ville.errors"
+                  role="alert"
+                  aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
+                  <li class="fr-message fr-message--error fr-mt-0">
                     La ville est obligatoire
                   </li>
                 </ul>
+                }
               </div>
             </div>
           </fieldset>
+
+          <!-- Adresse courrier différente -->
           <div formGroupName="adresseCourrier">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="form-check fr-checkbox-group ps-0">
+            <div class="fr-grid-row">
+              <div class="fr-col-12">
+                <div class="fr-checkbox-group fr-pl-0">
                   <input
                     type="checkbox"
                     formControlName="actif"
@@ -1029,31 +1089,31 @@
               </div>
             </div>
 
-            <fieldset
-              *ngIf="f.adresseCourrier.get('actif')?.value === true"
-              class="my-2"
-            >
-              <legend class="visually-hidden">
+            @if (f.adresseCourrier.get('actif')?.value === true) {
+            <fieldset class="fr-my-2w">
+              <legend class="fr-sr-only">
                 Informations sur l'adresse de réception du courrier
               </legend>
-              <div class="row">
+
+              <div class="fr-grid-row">
+                <!-- Adresse courrier -->
                 <div
                   [class.fr-input-group--error]="
                     (submitted || f.adresseCourrier.get('adresse')?.dirty) &&
                     f.adresseCourrier.get('adresse')?.errors
                   "
-                  class="col-12 col-md-12 fr-input-group required"
+                  class="fr-col-12 fr-input-group fr-input-group--required"
                 >
-                  <label class="fr-label" for="adresse2"
-                    >Adresse de réception du courrier</label
-                  >
+                  <label class="fr-label" for="adresse2">
+                    Adresse de réception du courrier
+                  </label>
                   <input
                     type="text"
                     class="fr-input"
                     id="adresse2"
                     formControlName="adresse"
                     name="adresse"
-                    autcomplete="street-address"
+                    autocomplete="street-address"
                     [attr.aria-describedby]="
                       (submitted || f.adresseCourrier.get('adresse')?.dirty) &&
                       f.adresseCourrier.get('adresse')?.errors
@@ -1068,27 +1128,32 @@
                     "
                     required
                   />
+                  @if ( (submitted || f.adresseCourrier.get('adresse')?.dirty)
+                  && f.adresseCourrier.get('adresse')?.errors ) {
                   <ul
-                    class="fr-messages-group ps-0"
+                    class="fr-messages-group__list fr-pl-0"
                     id="adresse-reception-errors"
-                    *ngIf="
-                      (submitted || f.adresseCourrier.get('adresse')?.dirty) &&
-                      f.adresseCourrier.get('adresse')?.errors
-                    "
+                    role="alert"
+                    aria-live="polite"
                   >
-                    <li class="fr-message fr-message--error mt-0">
+                    <li class="fr-message fr-message--error fr-mt-0">
                       L'adresse de réception est obligatoire
                     </li>
                   </ul>
+                  }
                 </div>
+
+                <!-- Code postal courrier -->
                 <div
                   [class.fr-input-group--error]="
                     (submitted || f.adresseCourrier.get('codePostal')?.dirty) &&
                     f.adresseCourrier.get('codePostal')?.errors
                   "
-                  class="col-12 col-md-6 fr-input-group required"
+                  class="fr-col-12 fr-col-md-6 fr-input-group fr-input-group--required"
                 >
-                  <label class="fr-label" for="codePostal2">Code postal</label>
+                  <label class="fr-label" for="codePostal2">
+                    Code postal
+                  </label>
                   <input
                     type="text"
                     class="fr-input"
@@ -1112,26 +1177,29 @@
                     "
                     required
                   />
+                  @if ( (submitted ||
+                  f.adresseCourrier.get('codePostal')?.dirty) &&
+                  f.adresseCourrier.get('codePostal')?.errors ) {
                   <ul
-                    class="fr-messages-group ps-0"
+                    class="fr-messages-group__list fr-pl-0"
                     id="code-postal-reception-errors"
-                    *ngIf="
-                      (submitted ||
-                        f.adresseCourrier.get('codePostal')?.dirty) &&
-                      f.adresseCourrier.get('codePostal')?.errors
-                    "
+                    role="alert"
+                    aria-live="polite"
                   >
-                    <li class="fr-message fr-message--error mt-0">
+                    <li class="fr-message fr-message--error fr-mt-0">
                       Le code postal est obligatoire (Exemple: 75001)
                     </li>
                   </ul>
+                  }
                 </div>
+
+                <!-- Ville courrier -->
                 <div
                   [class.fr-input-group--error]="
                     (submitted || f.adresseCourrier.get('ville')?.dirty) &&
                     f.adresseCourrier.get('ville')?.errors
                   "
-                  class="col-12 col-md-6 fr-input-group required"
+                  class="fr-col-12 fr-col-md-6 fr-input-group fr-input-group--required"
                 >
                   <label class="fr-label" for="ville2">Ville</label>
                   <input
@@ -1154,106 +1222,104 @@
                     "
                     required
                   />
+                  @if ( (submitted || f.adresseCourrier.get('ville')?.dirty) &&
+                  f.adresseCourrier.get('ville')?.errors ) {
                   <ul
-                    class="fr-messages-group ps-0"
+                    class="fr-messages-group__list fr-pl-0"
                     id="ville-reception-errors"
-                    *ngIf="
-                      (submitted || f.adresseCourrier.get('ville')?.dirty) &&
-                      f.adresseCourrier.get('ville')?.errors
-                    "
+                    role="alert"
+                    aria-live="polite"
                   >
-                    <li class="fr-message fr-message--error mt-0">
+                    <li class="fr-message fr-message--error fr-mt-0">
                       La ville est obligatoire
                     </li>
                   </ul>
+                  }
                 </div>
               </div>
             </fieldset>
+            }
           </div>
         </section>
-        <hr class="mt-2" />
-        <!-- Contact -->
+
+        <hr />
+
+        <!-- Section: Contact -->
         <section>
-          <div class="d-flex flex-column justify-content-center">
-            <div class="d-flex gap-1 align-items-end mb-3">
+          <div
+            class="fr-display-flex fr-direction-column fr-justify-content-center"
+          >
+            <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-mb-3w">
               <img
                 class="fr-width-2-5rem"
                 src="assets/dsfr-pictograms/digital/mail-send.svg"
                 aria-hidden="true"
                 alt=""
               />
-              <h2 class="m-0">Contact</h2>
+              <h2 class="fr-m-0">Contact</h2>
             </div>
           </div>
-          <div role="notice" class="fr-notice fr-notice--info mb-4">
+
+          <div role="status" class="fr-notice fr-notice--info fr-mb-4w">
             <div class="fr-container">
               <div class="fr-notice__body">
                 <p>
-                  <span class="fr-notice__title">Information</span>
+                  <strong class="fr-notice__title">Information</strong>
                   <span class="fr-notice__desc">
                     Pour des raisons de sécurité, les adresses emails génériques
-                    (ex. : contact{{ "@" }}, domiciliation{{ "@" }} admin{{
-                      "@"
-                    }}, etc.) ne sont pas autorisées lors de l’inscription.
-                    Merci d’utiliser une adresse email nominative (ex. :
-                    prenom.nom{{ "@" }}votredomaine.com). Sans cela, votre
-                    demande d’inscription pourrait ne pas être validée.</span
-                  >
+                    (ex. : contact&#64;, domiciliation&#64; admin&#64;, etc.) ne
+                    sont pas autorisées lors de l'inscription. Merci d'utiliser
+                    une adresse email nominative (ex. :
+                    prenom.nom&#64;votredomaine.com). Sans cela, votre demande
+                    d'inscription pourrait ne pas être validée.
+                  </span>
                 </p>
               </div>
             </div>
           </div>
-          <fieldset class="my-2">
-            <legend class="visually-hidden">
+
+          <fieldset class="fr-my-2w">
+            <legend class="fr-sr-only">
               Informations de contact de la structure
             </legend>
 
-            <div class="row">
+            <div class="fr-grid-row">
+              <!-- Téléphone -->
               <div
-                [class.fr-input-group--error]="
-                  submitted && (f.telephone.errors || f.telephone.invalid)
-                "
-                class="col-md-6 col-12 fr-input-group required"
-              >
-                <label class="fr-label" for="phone">Numéro de téléphone</label>
-                <ngx-intl-tel-input
-                  cssClass="fr-input"
-                  [preferredCountries]="PREFERRED_COUNTRIES"
-                  [enableAutoCountrySelect]="false"
-                  [enablePlaceholder]="true"
-                  [searchCountryFlag]="true"
-                  searchCountryPlaceholder="Choisissez votre pays"
-                  [searchCountryField]="[
-                    SearchCountryField.Iso2,
-                    SearchCountryField.Name
-                  ]"
-                  [selectedCountryISO]="CountryISO.France"
-                  [selectFirstCountry]="true"
-                  [maxLength]="15"
-                  [phoneValidation]="true"
-                  [separateDialCode]="true"
-                  [onlyCountries]="PREFERRED_COUNTRIES"
-                  [inputId]="'phone'"
-                  [numberFormat]="PhoneNumberFormat.International"
-                  formControlName="telephone"
-                  name="telephone"
-                ></ngx-intl-tel-input>
-                <ul
-                  class="fr-messages-group ps-0"
-                  *ngIf="
+                class="fr-col-12 fr-col-md-6 fr-mb-4w fr-input-group fr-input-group--required"
+                [ngClass]="{
+                  'fr-input-group--error':
                     submitted && (f.telephone.errors || f.telephone.invalid)
-                  "
-                >
-                  <li class="fr-message fr-message--error mt-0">
-                    Veuillez vérifier le numéro de téléphone. Ex: 0101010101
-                  </li>
-                </ul>
+                }"
+              >
+                <app-phone-input
+                  [isRequired]="false"
+                  [isMobileOnly]="false"
+                  [submitted]="submitted"
+                  formControlName="telephone"
+                  [label]="'Numéro de téléphone (mobile uniquement)'"
+                ></app-phone-input>
+                @if (submitted && f.telephone.errors) {
+                <div aria-live="polite" role="alert" class="fr-messages-group">
+                  <p class="fr-message fr-message--error">
+                    Numéro de téléphone incorrect (Ex: 0606060606)
+                  </p>
+                </div>
+                } @if ( !PREFERRED_COUNTRIES.includes(
+                f.telephone?.value?.countryCode.toLowerCase() ) &&
+                f.telephone?.value && f?.contactByPhone?.value === true ) {
+                <p class="fr-hint-text">
+                  Attention: les SMS ne sont pas envoyés aux numéros étrangers
+                </p>
+                }
               </div>
+
+              <!-- Email -->
               <div
                 [class.fr-input-group--error]="
                   (submitted || f.email.dirty) && f.email.errors
                 "
-                class="col-md-6 col-12 mb-4 fr-input-group required"
+                class="fr-col-12 fr-col-md-6 fr-mb-4w fr-input-group fr-input-group--required"
               >
                 <label class="fr-label" for="email">E-mail</label>
                 <input
@@ -1275,53 +1341,59 @@
                   "
                   required
                 />
-                <ul class="fr-messages-group ps-0">
-                  <li
-                    id="email-hint"
-                    *ngIf="!((submitted || f.email.dirty) && f.email.errors)"
-                    class="fr-message fr-message--info"
-                  >
-                    Adresse e-mail indiquée sur le Cerfa
-                  </li>
-                  <li
-                    id="email-errors"
-                    *ngIf="(submitted || f.email.dirty) && f.email.errors"
-                    class="fr-message fr-message--error mt-0"
-                  >
-                    Veuillez vérifier l'adresse email, format attendu :
-                    nom&#64;domaine.fr
-                  </li>
-                </ul>
+                <div class="fr-messages-group">
+                  <ul class="fr-messages-group__list fr-pl-0">
+                    @if (!((submitted || f.email.dirty) && f.email.errors)) {
+                    <li id="email-hint" class="fr-message fr-message--info">
+                      Adresse e-mail indiquée sur le Cerfa
+                    </li>
+                    } @if ((submitted || f.email.dirty) && f.email.errors) {
+                    <li
+                      id="email-errors"
+                      class="fr-message fr-message--error fr-mt-0"
+                    >
+                      Veuillez vérifier l'adresse email, format attendu :
+                      nom&#64;domaine.fr
+                    </li>
+                    }
+                  </ul>
+                </div>
               </div>
             </div>
           </fieldset>
         </section>
+
         <hr />
-        <!-- Informations sur votre activité -->
+
+        <!-- Section: Activité -->
         <section>
-          <div class="d-flex flex-column justify-content-center">
-            <div class="d-flex gap-1 align-items-end my-1">
+          <div
+            class="fr-display-flex fr-direction-column fr-justify-content-center"
+          >
+            <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
               <img
                 class="fr-width-2-5rem"
                 src="assets/dsfr-pictograms/system/information.svg"
                 aria-hidden="true"
                 alt=""
               />
-              <h2 class="m-0">Informations sur votre activité</h2>
+              <h2 class="fr-m-0">Informations sur votre activité</h2>
             </div>
             <p>Ces informations nous aident à mieux comprendre vos besoins</p>
           </div>
-          <fieldset class="mb-4" formGroupName="registrationData">
-            <legend class="visually-hidden">
+
+          <fieldset class="fr-mb-4w" formGroupName="registrationData">
+            <legend class="fr-sr-only">
               Données d'inscription et informations sur l'activité
             </legend>
 
-            <div class="row py-2">
+            <div class="fr-grid-row fr-py-2w">
+              <!-- Source -->
               <div
                 [class.fr-select-group--error]="
                   (submitted || reg.source?.dirty) && reg.source?.errors
                 "
-                class="col-12 fr-select-group required"
+                class="fr-col-12 fr-select-group fr-select-group--required"
               >
                 <label class="fr-label" for="source">
                   Comment avez-vous entendu parler de DomiFa ?
@@ -1344,31 +1416,35 @@
                   required
                 >
                   <option [ngValue]="null">Sélectionnez une option</option>
-                  <option
-                    *ngFor="let option of SOURCES_OPTIONS"
-                    [value]="option.value"
-                  >
+                  @for (let option of SOURCES_OPTIONS; track option.value) {
+                  <option [value]="option.value">
                     {{ option.label }}
                   </option>
+                  }
                 </select>
 
+                @if ( (submitted || reg.source?.dirty) && reg.source?.errors ) {
                 <ul
-                  class="fr-messages-group ps-0"
+                  class="fr-messages-group__list fr-pl-0"
                   id="source-errors"
-                  *ngIf="(submitted || reg.source?.dirty) && reg.source?.errors"
+                  role="alert"
+                  aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
+                  <li class="fr-message fr-message--error fr-mt-0">
                     Veuillez sélectionner une option
                   </li>
                 </ul>
+                }
               </div>
+
+              <!-- Source détail (conditionnel) -->
+              @if (showsourceDetail) {
               <div
                 [class.fr-input-group--error]="
                   (submitted || reg.sourceDetail?.dirty) &&
                   reg.sourceDetail?.errors
                 "
-                *ngIf="showsourceDetail"
-                class="col-12 fr-input-group required"
+                class="fr-col-12 fr-input-group fr-input-group--required"
               >
                 <label class="fr-label" for="sourceDetail"> Précisez : </label>
                 <input
@@ -1378,33 +1454,36 @@
                   formControlName="sourceDetail"
                   required
                 />
+                @if ( (submitted || reg.sourceDetail?.dirty) &&
+                reg.sourceDetail?.errors ) {
                 <ul
-                  class="fr-messages-group ps-0"
-                  *ngIf="
-                    (submitted || reg.sourceDetail?.dirty) &&
-                    reg.sourceDetail?.errors
-                  "
+                  class="fr-messages-group__list fr-pl-0"
+                  role="alert"
+                  aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
+                  <li class="fr-message fr-message--error fr-mt-0">
                     Ce champ est requis
                   </li>
                 </ul>
+                }
               </div>
+              }
             </div>
 
-            <div class="row py-2">
+            <div class="fr-grid-row fr-py-2w">
+              <!-- Outil actuel -->
               <div
-                [class.fr-input-group--error]="
+                [class.fr-select-group--error]="
                   (submitted || reg.currentTool?.dirty) &&
                   reg.currentTool?.errors
                 "
-                class="col-12 fr-input-group required"
+                class="fr-col-12 fr-select-group fr-select-group--required"
               >
                 <label class="fr-label" for="currentTool">
                   Comment gérez-vous actuellement la domiciliation ?
                 </label>
                 <select
-                  class="fr-input form-select"
+                  class="fr-select"
                   id="currentTool"
                   formControlName="currentTool"
                   name="currentTool"
@@ -1423,36 +1502,36 @@
                   required
                 >
                   <option [ngValue]="null">Sélectionnez une option</option>
-                  <option
-                    *ngFor="let option of CURRENT_TOOL_OPTIONS"
-                    [value]="option.value"
-                  >
+                  @for ( let option of CURRENT_TOOL_OPTIONS; track option.value
+                  ) {
+                  <option [value]="option.value">
                     {{ option.label }}
                   </option>
+                  }
                 </select>
 
+                @if ( (submitted || reg.currentTool?.dirty) &&
+                reg.currentTool?.errors ) {
                 <ul
-                  class="fr-messages-group ps-0"
+                  class="fr-messages-group__list fr-pl-0"
                   id="currentTool-errors"
-                  *ngIf="
-                    (submitted || reg.currentTool?.dirty) &&
-                    reg.currentTool?.errors
-                  "
                   role="alert"
                   aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
+                  <li class="fr-message fr-message--error fr-mt-0">
                     Veuillez sélectionner une option
                   </li>
                 </ul>
+                }
               </div>
 
+              <!-- Outil marché (conditionnel) -->
+              @if (reg.currentTool?.value === 'OUTIL_MARCHE') {
               <div
-                [class.fr-input-group--error]="
+                [class.fr-select-group--error]="
                   (submitted || reg.marketTool?.dirty) && reg.marketTool?.errors
                 "
-                class="col-6 fr-input-group required"
-                *ngIf="reg.currentTool?.value === 'OUTIL_MARCHE'"
+                class="fr-col-6 fr-select-group fr-select-group--required"
               >
                 <label class="fr-label" for="marketTool">
                   Quel outil du marché utilisez-vous ?
@@ -1477,40 +1556,37 @@
                   required
                 >
                   <option [ngValue]="null">Sélectionnez une option</option>
-                  <option
-                    *ngFor="let option of MARKET_TOOLS_OPTIONS"
-                    [value]="option.value"
-                  >
+                  @for ( let option of MARKET_TOOLS_OPTIONS; track option.value
+                  ) {
+                  <option [value]="option.value">
                     {{ option.label }}
                   </option>
+                  }
                 </select>
 
+                @if ( (submitted || reg.marketTool?.dirty) &&
+                reg.marketTool?.errors ) {
                 <ul
-                  class="fr-messages-group ps-0"
+                  class="fr-messages-group__list fr-pl-0"
                   id="marketTool-errors"
-                  *ngIf="
-                    (submitted || reg.marketTool?.dirty) &&
-                    reg.marketTool?.errors
-                  "
                   role="alert"
                   aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
+                  <li class="fr-message fr-message--error fr-mt-0">
                     Veuillez sélectionner une option
                   </li>
                 </ul>
+                }
               </div>
 
+              <!-- Autre outil marché (conditionnel) -->
+              @if (reg.marketTool?.value === 'AUTRE') {
               <div
                 [class.fr-input-group--error]="
                   (submitted || reg.marketToolOther?.dirty) &&
                   reg.marketToolOther?.errors
                 "
-                class="col-6 fr-input-group required"
-                *ngIf="
-                  reg.currentTool?.value === 'OUTIL_MARCHE' &&
-                  reg.marketTool?.value === 'AUTRE'
-                "
+                class="fr-col-6 fr-input-group fr-input-group--required"
               >
                 <label class="fr-label" for="marketToolOther">
                   Précisez l'outil :
@@ -1537,33 +1613,35 @@
                   required
                 />
 
+                @if ( (submitted || reg.marketToolOther?.dirty) &&
+                reg.marketToolOther?.errors ) {
                 <ul
-                  class="fr-messages-group ps-0"
+                  class="fr-messages-group__list fr-pl-0"
                   id="marketToolOther-errors"
-                  *ngIf="
-                    (submitted || reg.marketToolOther?.dirty) &&
-                    reg.marketToolOther?.errors
-                  "
                   role="alert"
                   aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
+                  <li class="fr-message fr-message--error fr-mt-0">
                     Ce champ est requis
                   </li>
                 </ul>
+                }
               </div>
+              } }
             </div>
-            <div class="row py-2">
+
+            <!-- Nombre de domiciliés -->
+            <div class="fr-grid-row fr-py-2w">
               <div
                 [class.fr-input-group--error]="
                   (submitted || reg.activeUsersCount?.dirty) &&
                   reg.activeUsersCount?.errors
                 "
-                class="col-12 col-md-12 fr-input-group required"
+                class="fr-col-12 fr-input-group fr-input-group--required"
               >
-                <label class="fr-label" for="activeUsersCount"
-                  >Nombre de domiciliés à date</label
-                >
+                <label class="fr-label" for="activeUsersCount">
+                  Nombre de domiciliés à date
+                </label>
                 <input
                   formControlName="activeUsersCount"
                   name="activeUsersCount"
@@ -1586,36 +1664,38 @@
                   "
                 />
 
+                @if ( (submitted || reg.activeUsersCount.dirty) &&
+                reg.activeUsersCount.errors ) {
                 <ul
-                  class="fr-messages-group ps-0"
+                  class="fr-messages-group__list fr-pl-0"
                   id="activeUsersCount-errors"
-                  *ngIf="
-                    (submitted || reg.activeUsersCount.dirty) &&
-                    reg.activeUsersCount.errors
-                  "
+                  role="alert"
+                  aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
+                  <li class="fr-message fr-message--error fr-mt-0">
                     Le nombre de domicilié est obligatoire
                   </li>
                 </ul>
+                }
               </div>
             </div>
           </fieldset>
         </section>
+
         <hr />
-        <!-- Conditions générales d'utilisation de DomiFa -->
+
+        <!-- Section: CGU -->
         <section>
-          <fieldset class="my-2">
+          <fieldset class="fr-my-2w">
             <legend>Conditions générales d'utilisation de DomiFa</legend>
 
-            <div class="row">
-              <div class="col-md-12 required">
-                <div class="fr-checkbox-group ps-0">
+            <div class="fr-grid-row">
+              <div class="fr-col-12 fr-input-group--required">
+                <div class="fr-checkbox-group fr-pl-0">
                   <input
                     type="checkbox"
                     formControlName="acceptCgu"
                     name="acceptCgu"
-                    class="form-check-input me-2"
                     [ngClass]="{
                       'is-invalid': submitted && f.acceptCgu?.errors
                     }"
@@ -1627,60 +1707,62 @@
                     id="acceptCgu"
                     required
                   />
-                  <label class="fr-label gap-1" for="acceptCgu"
-                    >Je confirme que le responsable de la structure a lu et
+                  <label class="fr-label fr-gap-1w" for="acceptCgu">
+                    Je confirme que le responsable de la structure a lu et
                     accepté les
-
-                    <a routerLink="/cgu" target="_blank">CGU</a></label
-                  >
+                    <a routerLink="/cgu" target="_blank">CGU</a>
+                  </label>
                 </div>
 
+                @if (submitted && f.acceptCgu?.errors) {
                 <ul
-                  class="fr-messages-group ps-0"
+                  class="fr-messages-group__list fr-pl-0"
                   id="invalid-cgu-read"
-                  *ngIf="submitted && f.acceptCgu?.errors"
+                  role="alert"
+                  aria-live="polite"
                 >
-                  <li class="fr-message fr-message--error mt-0">
+                  <li class="fr-message fr-message--error fr-mt-0">
                     Vous devez accepter les CGU afin de poursuivre l'inscription
                   </li>
                 </ul>
+                }
               </div>
             </div>
           </fieldset>
         </section>
-        <!-- Submit -->
+
+        <!-- Section: Submission -->
         <section>
-          <div class="my-3 d-flex justify-content-end">
+          <div class="fr-my-3w fr-display-flex fr-justify-content-end">
             <button
               type="submit"
               [disabled]="loading"
               [attr.aria-busy]="loading"
               class="fr-btn"
             >
-              <span *ngIf="loading">
-                <fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'circle-notch']"
-                  animation="spin"
-                >
-                </fa-icon>
+              @if (loading) {
+              <span>
+                <span aria-hidden="true" class="fr-icon-spinner fr-icon--spin">
+                </span>
                 Veuillez patienter...
               </span>
-              <span *ngIf="!loading"> Continuer</span>
+              } @if (!loading) {
+              <span>Continuer</span>
+              }
             </button>
           </div>
         </section>
       </form>
+      }
     </div>
 
-    <div
-      class="fr-background-default--grey py-2 px-4"
-      *ngIf="structureRegisterInfos.etapeInscription === 1"
-    >
+    @if (structureRegisterInfos.etapeInscription === 1) {
+    <div class="fr-background-default--grey fr-py-2w fr-px-4w">
       <app-register-user
         (registerSuccess)="showRegisterSuccess = $event"
         [structureRegisterInfos]="structureRegisterInfos"
       ></app-register-user>
     </div>
+    } }
   </div>
 </div>

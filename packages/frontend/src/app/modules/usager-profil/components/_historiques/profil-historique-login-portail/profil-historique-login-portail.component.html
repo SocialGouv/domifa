@@ -44,9 +44,11 @@
       </tbody>
     </table>
   </div>
-  <div class="alert alert-info" *ngIf="interactions.length === 0">
+  @if (interactions.length === 0) {
+  <div class="fr-alert fr-alert--info">
     <p>Aucune connexion enregistrée sur Mon DomiFa</p>
   </div>
+  }
 </ng-container>
 
 <div

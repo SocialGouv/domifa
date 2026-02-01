@@ -13,9 +13,7 @@
       class="col fr-input-group required"
     >
       <label class="fr-label" for="email">Identifiant </label>
-      <span class="fr-hint-text mb-1"
-        >Format attendu : nom{{ "@" }}domaine.fr</span
-      >
+      <span class="fr-hint-text mb-1">Format attendu : nom&#64;domaine.fr</span>
       <input
         type="email"
         id="email"
@@ -101,17 +99,18 @@
     </a>
   </div>
   <div class="fr-input-group my-2 text-center">
-    <button id="loginBtn" type="submit" class="fr-btn d-flex flex-column w-100">
-      <span *ngIf="!loading">Se connecter </span>
-      <span *ngIf="loading"
-        ><fa-icon
+    <button type="submit" class="fr-btn d-flex flex-column w-100">
+      @if (!loading) {
+      <span>Se connecter</span>
+      } @if (loading) {
+      <span class="fr-loading">
+        <span
           aria-hidden="true"
-          [icon]="['fas', 'circle-notch']"
-          animation="spin"
-        >
-        </fa-icon>
-        Connexion en cours...</span
-      >
+          class="fr-icon-refresh-line fr-icon-spin"
+        ></span>
+        Connexion en cours...
+      </span>
+      }
     </button>
   </div>
 

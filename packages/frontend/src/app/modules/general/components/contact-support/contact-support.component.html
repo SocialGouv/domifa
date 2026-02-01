@@ -160,6 +160,7 @@
                 <label class="fr-label" for="email"
                   >Adresse email de contact</label
                 >
+                <p class="fr-hint-text empty-hint"></p>
                 <input
                   type="email"
                   id="email"
@@ -200,7 +201,7 @@
               ></app-phone-input>
             </div>
           </div>
-
+          <br />
           <div
             [class.fr-input-group--error]="
               (f.subject.dirty || submitted) && f.subject.errors

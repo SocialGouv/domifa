@@ -13,6 +13,8 @@ import { UsagerState } from "../../../../../shared";
   templateUrl: "./profil-courriers.component.html",
 })
 export class ProfilCourriersComponent extends BaseUsagerProfilPageComponent {
+  public section = "courriers";
+
   constructor(
     protected readonly authService: AuthService,
     protected readonly usagerProfilService: UsagerProfilService,
