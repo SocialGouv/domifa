@@ -1,9 +1,12 @@
-<app-profil-head *ngIf="usager" [usager]="usager" [section]="'sms'" [me]="me">
-</app-profil-head>
-
-<div class="content" *ngIf="usager && me">
-  <div class="container p-0">
-    <div class="page-content p-3">
+<div class="fr-content-container-light">
+  <app-profil-head
+    [usager]="usager"
+    [section]="section"
+    *ngIf="me"
+    [me]="me"
+  ></app-profil-head>
+  <div class="fr-container" *ngIf="usager">
+    <div class="fr-content">
       <div
         class="col-md-12 my-4"
         *ngIf="me.structure.portailUsager.enabledByStructure"

@@ -11,9 +11,11 @@
         <div class="col-12">
           <h2>Mes prochains rendez-vous</h2>
           <ng-container *ngIf="usagers$ | async as nextMeetings">
-            <div class="alert-info alert" *ngIf="nextMeetings.length === 0">
-              <p>Aucun rendez-vous prévu</p>
+            @if (!nextMeetings?.length) {
+            <div class="fr-callout fr-callout--info">
+              <p class="fr-callout__text">Aucun rendez-vous prévu</p>
             </div>
+            }
             <div class="table-responsive">
               <table class="table" *ngIf="nextMeetings.length > 0">
                 <caption class="visually-hidden">

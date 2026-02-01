@@ -5,6 +5,7 @@ import {
 } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
@@ -40,6 +41,7 @@ import {
 } from "../shared/services";
 import { ProfilHistoriqueLoginPortailComponent } from "./components/_historiques/profil-historique-login-portail/profil-historique-login-portail.component";
 import { SetNpaiComponent } from "./components/_general-section/set-npai/set-npai.component";
+import { ProfilAlertsComponent } from "./components/profil-alerts/profil-alerts.component";
 
 import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 import { FormatInternationalPhoneNumberPipe } from "../../shared/phone/formatInternationalPhoneNumber.pipe";
@@ -52,6 +54,7 @@ import { FullNamePipe } from "../usager-shared/pipes";
 @NgModule({
   declarations: [
     BaseUsagerProfilPageComponent,
+    ProfilAlertsComponent,
     ProfilCourriersComponent,
     ProfilDocumentsSectionComponent,
     ProfilDossierComponent,
@@ -83,6 +86,7 @@ import { FullNamePipe } from "../usager-shared/pipes";
     NgbModule,
     NgxIntlTelInputModule,
     ReactiveFormsModule,
+    RouterModule,
     SharedModule,
     SortArrayPipe,
     TableHeadSortComponent,

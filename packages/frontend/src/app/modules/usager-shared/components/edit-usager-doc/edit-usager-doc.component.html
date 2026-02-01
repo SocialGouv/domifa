@@ -68,10 +68,14 @@
         </div>
       </fieldset>
 
-      <div class="alert alert-info" *ngIf="usager.options.portailUsagerEnabled">
-        Attention: le domicilié pourra télécharger le document depuis un
-        ordinateur ou un téléphone
+      @if (usager.options.portailUsagerEnabled) {
+      <div class="fr-alert fr-alert--info">
+        <p>
+          Attention: le domicilié pourra télécharger le document depuis un
+          ordinateur ou un téléphone
+        </p>
       </div>
+      }
     </form>
   </div>
   <div class="text-end modal-footer">

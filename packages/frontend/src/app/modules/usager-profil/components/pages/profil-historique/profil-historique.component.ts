@@ -37,6 +37,7 @@ export class ProfilHistoriqueComponent
     "notes",
     "login-portail",
   ];
+  public section = "historique";
 
   public sections: { id: HistorySections; name: string }[] = [
     {

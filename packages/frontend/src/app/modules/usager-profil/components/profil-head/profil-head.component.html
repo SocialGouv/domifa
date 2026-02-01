@@ -1,5 +1,5 @@
 @if (usager && me) {
-<div class="head-page fr-pt-3w">
+<div class="head-page fr-p-3w">
   <div class="fr-container">
     <div
       class="fr-px-0 fr-mx-0 fr-grid-row fr-grid-row--space-between fr-grid-row--middle"
@@ -92,90 +92,84 @@
       </div>
       }
     </div>
+  </div>
+</div>
 
-    <div class="fr-tabs fr-mt-4w fr-d-print-none">
-      <ul
-        class="fr-tabs__list"
-        role="tablist"
-        aria-label="Navigation du profil"
-      >
-        <li role="presentation">
-          <a
-            [routerLink]="['/profil/general/' + usager.ref]"
-            [class.fr-tabs__tab--selected]="section === 'general'"
-            class="fr-tabs__tab"
-            role="tab"
-            [attr.aria-selected]="section === 'general'"
-          >
-            Vue d'ensemble
-          </a>
-        </li>
-        <li role="presentation">
-          <a
-            [routerLink]="['/profil/dossier/' + usager.ref]"
-            [class.fr-tabs__tab--selected]="section === 'dossier'"
-            class="fr-tabs__tab"
-            role="tab"
-            [attr.aria-selected]="section === 'dossier'"
-          >
-            Dossier
-          </a>
-        </li>
-        <li role="presentation">
-          <a
-            [routerLink]="['/profil/courriers/' + usager.ref]"
-            [class.fr-tabs__tab--selected]="section === 'courrier'"
-            class="fr-tabs__tab"
-            role="tab"
-            [attr.aria-selected]="section === 'courrier'"
-          >
-            Procurations et transferts
-          </a>
-        </li>
-        <li role="presentation">
-          <a
-            [routerLink]="
-              me?.role !== 'facteur'
-                ? ['/profil/documents/' + usager.ref]
-                : null
-            "
-            (click)="goToDocuments()"
-            [class.fr-tabs__tab--selected]="section === 'documents'"
-            class="fr-tabs__tab"
-            role="tab"
-            [attr.aria-selected]="section === 'documents'"
-          >
-            Documents @if (me?.role === 'facteur') {
-            <span class="fr-badge fr-badge--sm">, accès restreint</span>
-            }
-          </a>
-        </li>
-        <li role="presentation">
-          <a
-            [routerLink]="['/profil/sms/' + usager.ref]"
-            [class.fr-tabs__tab--selected]="section === 'sms'"
-            class="fr-tabs__tab"
-            role="tab"
-            [attr.aria-selected]="section === 'sms'"
-          >
-            SMS et Mon DomiFa
-          </a>
-        </li>
-        <li role="presentation">
-          <a
-            [routerLink]="[
-              '/profil/historique/' + usager.ref + '/interactions'
-            ]"
-            [class.fr-tabs__tab--selected]="section === 'historique'"
-            class="fr-tabs__tab"
-            role="tab"
-            [attr.aria-selected]="section === 'historique'"
-          >
-            Historique
-          </a>
-        </li>
-      </ul>
-    </div>
+<div class="fr-container">
+  <div class="fr-tabs fr-mt-4w fr-d-print-none">
+    <ul class="fr-tabs__list" role="tablist" aria-label="Navigation du profil">
+      <li role="presentation">
+        <a
+          [routerLink]="['/profil/general/' + usager.ref]"
+          [class.fr-tabs__tab--selected]="section === 'general'"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.aria-selected]="section === 'general'"
+        >
+          Vue d'ensemble
+        </a>
+      </li>
+      <li role="presentation">
+        <a
+          [routerLink]="['/profil/dossier/' + usager.ref]"
+          [class.fr-tabs__tab--selected]="section === 'dossier'"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.aria-selected]="section === 'dossier'"
+        >
+          Dossier
+        </a>
+      </li>
+      <li role="presentation">
+        <a
+          [routerLink]="['/profil/courriers/' + usager.ref]"
+          [class.fr-tabs__tab--selected]="section === 'courrier'"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.aria-selected]="section === 'courrier'"
+        >
+          Procurations et transferts
+        </a>
+      </li>
+      <li role="presentation">
+        <a
+          [routerLink]="
+            me?.role !== 'facteur' ? ['/profil/documents/' + usager.ref] : null
+          "
+          (click)="goToDocuments()"
+          [class.fr-tabs__tab--selected]="section === 'documents'"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.aria-selected]="section === 'documents'"
+        >
+          Documents @if (me?.role === 'facteur') {
+          <span class="fr-badge fr-badge--sm">, accès restreint</span>
+          }
+        </a>
+      </li>
+      <li role="presentation">
+        <a
+          [routerLink]="['/profil/sms/' + usager.ref]"
+          [class.fr-tabs__tab--selected]="section === 'sms'"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.aria-selected]="section === 'sms'"
+        >
+          SMS et Mon DomiFa
+        </a>
+      </li>
+      <li role="presentation">
+        <a
+          [routerLink]="['/profil/historique/' + usager.ref + '/interactions']"
+          [class.fr-tabs__tab--selected]="section === 'historique'"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.aria-selected]="section === 'historique'"
+        >
+          Historique
+        </a>
+      </li>
+    </ul>
   </div>
 </div>
 }

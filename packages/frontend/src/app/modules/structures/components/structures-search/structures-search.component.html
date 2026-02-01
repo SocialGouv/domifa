@@ -44,6 +44,7 @@
               vôtre en fait déjà partie.
             </span>
           </div>
+          <br />
           <div class="col-7 col-md-2 d-flex align-self-center">
             <img
               class="fr-responsive-img"
@@ -51,7 +52,7 @@
               alt=""
             />
           </div>
-          <!-- Start Search bar-->
+
           <form [formGroup]="codePostalForm" (ngSubmit)="submitCodePostal()">
             <label class="fr-label mb-2" for="structure-search">
               Quel est le code postal de votre structure ?
@@ -121,8 +122,6 @@
               </p>
             </div>
           </form>
-          <!-- End search bar -->
-
           <div class="fr-background-default--grey">
             <div class="row m-0 fr-background-alt--grey my-2 py-4 px-2">
               <div class="col-2 col-md-2 d-none d-md-block">

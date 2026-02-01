@@ -1,7 +1,9 @@
 <h3>Historique des procurations</h3>
-<div class="alert alert-info" *ngIf="procurationHistory.length === 0">
+@if (procurationHistory.length === 0) {
+<div class="fr-alert fr-alert--info">
   <p>Aucun historique de procurations actuellement</p>
 </div>
+}
 <div class="table-responsive" *ngIf="procurationHistory.length > 0">
   <table *ngIf="procurationHistory.length > 0" class="table table-history">
     <caption class="visually-hidden">
