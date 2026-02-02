@@ -20,6 +20,7 @@ import { DocumentService } from "../../../usager-shared/services/document.servic
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
 import { Subscription } from "rxjs";
 import { UserStructure, CerfaDocType } from "@domifa/common";
+import { ProfilHeadSection } from "../../ProfilHeadSection.Type";
 
 @Component({
   selector: "app-profil-head",
@@ -29,7 +30,7 @@ import { UserStructure, CerfaDocType } from "@domifa/common";
 export class ProfilHeadComponent implements OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;
   @Input({ required: true }) public me!: UserStructure;
-  @Input({ required: true }) public section!: string;
+  @Input({ required: true }) public section!: ProfilHeadSection;
 
   private readonly subscription = new Subscription();
 

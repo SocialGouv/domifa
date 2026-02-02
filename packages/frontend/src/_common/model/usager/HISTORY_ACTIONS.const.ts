@@ -1,14 +1,14 @@
 export const HISTORY_ACTIONS = {
   EDIT: {
-    class: "orange-status",
+    class: "fr-badge--warning",
     label: "Modification",
   },
   DELETE: {
-    class: "red-status",
+    class: "fr-badge--error",
     label: "Suppression",
   },
   CREATION: {
-    class: "green-status",
+    class: "fr-badge--success",
     label: "Création",
   },
 };

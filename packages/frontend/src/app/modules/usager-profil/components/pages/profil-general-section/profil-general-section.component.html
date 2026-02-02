@@ -43,7 +43,7 @@
               <span class="label">Statut</span>
             </div>
             <div class="fr-col-6 fr-my-1">
-              <div [class]="'label-info ' + usager.statusInfo.color">
+              <div [class]="'fr-badge ' + usager.statusInfo.color">
                 <span>
                   {{ USAGER_DECISION_STATUT_LABELS[usager.decision.statut] }}
                 </span>
@@ -55,11 +55,11 @@
             </div>
             <div class="fr-col-6 fr-my-1">
               @if (usager.typeDom === 'RENOUVELLEMENT') {
-              <div class="label-info orange-status">
+              <div class="fr-badge fr-badge--yellow-tournesol">
                 <span>Renouvellement</span>
               </div>
               } @if (usager.typeDom === 'PREMIERE_DOM') {
-              <div class="label-info grey-status">
+              <div class="fr-badge fr-badge--grey">
                 <span>Première demande</span>
               </div>
               }

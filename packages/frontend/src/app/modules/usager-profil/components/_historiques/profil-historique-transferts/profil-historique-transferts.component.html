@@ -46,9 +46,7 @@
       >
         <td>{{ transfert.createdAt | date : "dd MMMM yyyy à HH:mm" }}</td>
         <td>
-          <span
-            [class]="'label-info ' + HISTORY_ACTIONS[transfert.action].class"
-          >
+          <span [class]="'fr-badge ' + HISTORY_ACTIONS[transfert.action].class">
             {{ HISTORY_ACTIONS[transfert.action].label }}
           </span>
         </td>

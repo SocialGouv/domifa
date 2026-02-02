@@ -51,6 +51,11 @@ h3 i {
   color: var(--text-active-blue-france);
 }
 
+h2 img {
+  width: 54px;
+  height: auto;
+}
+
 // Spin for loading
 @keyframes spin {
   from {

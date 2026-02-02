@@ -14,7 +14,7 @@ import { UsagerState } from "../../../../../shared";
 })
 export class ProfilSmsPortailComponent extends BaseUsagerProfilPageComponent {
   public editContactDetails = false;
-  public section = "sms-portail";
+
   constructor(
     protected readonly authService: AuthService,
     protected readonly usagerProfilService: UsagerProfilService,
@@ -34,6 +34,7 @@ export class ProfilSmsPortailComponent extends BaseUsagerProfilPageComponent {
       store
     );
     this.titlePrefix = "Courriers";
+    this.section = "sms";
   }
 
   public openContactForm(): void {

@@ -239,7 +239,7 @@
         *ngIf="filters.statut === UsagersFilterCriteriaStatut.TOUS"
         class="clickable text-start"
       >
-        <span [class]="'label-info ' + usager?.statusInfo?.color">
+        <span [class]="'fr-badge ' + usager?.statusInfo?.color">
           {{ usager?.statusInfo?.text }}</span
         >
       </td>
@@ -300,13 +300,13 @@
       >
         <p
           *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
-          class="m-0 label-info orange-status"
+          class="m-0 fr-badge fr-badge--warning"
         >
           Renouvellement
         </p>
         <p
           *ngIf="usager.typeDom === 'PREMIERE_DOM'"
-          class="m-0 label-info grey-status"
+          class="m-0 fr-badge fr-badge--info"
         >
           Première demande
         </p>

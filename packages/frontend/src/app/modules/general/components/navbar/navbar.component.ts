@@ -12,6 +12,7 @@ import { environment } from "../../../../../environments/environment";
 import { AuthService } from "../../../shared/services/auth.service";
 import { WelcomeService } from "../../services/welcome.service";
 import { UserStructure } from "@domifa/common";
+import { MatomoTracker } from "ngx-matomo-client";
 @Component({
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
@@ -29,11 +30,9 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private readonly authService: AuthService,
-    private readonly welcomeService: WelcomeService
-  ) {
-    this.matomoInfo = false;
-    this.initMatomo();
-  }
+    private readonly welcomeService: WelcomeService,
+    public readonly matomoService: MatomoTracker
+  ) {}
 
   public ngOnInit(): void {
     this.subscription.add(

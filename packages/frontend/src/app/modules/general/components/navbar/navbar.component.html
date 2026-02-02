@@ -22,6 +22,7 @@
               </a>
             </div>
 
+            <!-- MENU NON CONNECTE -->
             <div class="fr-header__navbar">
               <button
                 data-fr-opened="false"
@@ -31,31 +32,32 @@
                 id="navbar-site"
                 class="fr-btn--menu fr-btn"
               >
+                Menu
+              </button>
+
+              <div
+                *ngIf="!me"
+                ngbDropdown
+                id="dropdownNotAuthenticatedMenu"
+                display="dynamic"
+                placement="bottom-end"
+              >
                 <button
-                  class="btn btn-outline-primary"
-                  ngbDropdownToggle
                   type="button"
+                  ngbDropdownToggle
+                  class="fr-btn fr-btn--tertiary"
                 >
-                  <img
-                    src="../assets/icones/menu.svg"
-                    alt="Menu du site"
-                    aria-hidden="true"
-                  />
+                  <img src="assets/icones/menu.svg" alt="" aria-hidden="true" />
                   Menu du site
                 </button>
-                <div
-                  ngbDropdownMenu
-                  aria-labelledby="dropdownNotAuthenticatedMenu"
-                >
-                  <a routerLink="/news" ngbDropdownItem>
+                <div ngbDropdownMenu>
+                  <a ngbDropdownItem routerLink="/news">
                     <span
                       aria-hidden="true"
                       *ngIf="pendingNews"
                       class="pulse-button"
                     ></span>
-                    <span [ngClass]="pendingNews ? 'fw-bold' : ''"
-                      >Nouveautés</span
-                    >
+                    <span [class.fw-bold]="pendingNews">Nouveautés</span>
                   </a>
                   <a ngbDropdownItem routerLink="/faq">En savoir plus</a>
                   <a
@@ -64,189 +66,12 @@
                     (click)="
                       matomoService.trackEvent('CONNEXION', 'HEADER', 'null', 1)
                     "
-                    >Me connecter</a
                   >
+                    Me connecter
+                  </a>
                 </div>
               </div>
-            </ng-container>
-
-            <!-- MENU CONNECTE -->
-            <ng-container *ngIf="me">
-              <div class="d-flex">
-                <a
-                  *ngIf="me?.role === 'admin' && me.structureId === 1"
-                  class="btn btn-outline-primary"
-                  [href]="portailAdminUrl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  ariaCurrentWhenActive="page"
-                >
-                  <fa-icon
-                    aria-hidden="true"
-                    [icon]="['fas', 'user-shield']"
-                  ></fa-icon>
-                  Admin DomiFa
-                </a>
-
-                <a
-                  class="btn btn-outline-primary"
-                  routerLink="/manage"
-                  ariaCurrentWhenActive="page"
-                >
-                  <fa-icon
-                    aria-hidden="true"
-                    [icon]="['fas', 'users']"
-                    class="me-2"
-                  ></fa-icon>
-                  Domiciliés
-                </a>
-                <div
-                  ngbDropdown
-                  id="dropdownAuthenticatedMenu"
-                  display="dynamic"
-                  placement="bottom-end"
-                >
-                  <button
-                    class="btn btn-outline-primary"
-                    data-toggle="dropdown"
-                    ngbDropdownToggle
-                    type="button"
-                  >
-                    Mon compte
-                  </button>
-                  <div
-                    ngbDropdownMenu
-                    aria-labelledby="dropdownAuthenticatedMenu"
-                  >
-                    <a
-                      ngbDropdownItem
-                      routerLink="/news"
-                      ariaCurrentWhenActive="page"
-                    >
-                      <fa-icon
-                        aria-hidden="true"
-                        [icon]="['fas', 'rss']"
-                      ></fa-icon>
-                      <span [ngClass]="pendingNews ? 'fw-bold' : ''"
-                        >Nouveautés
-                      </span>
-                      <span
-                        *ngIf="pendingNews"
-                        class="pulse-button"
-                        aria-hidden="true"
-                      ></span>
-                    </a>
-                    <a
-                      ngbDropdownItem
-                      routerLink="/users/mon-compte"
-                      ariaCurrentWhenActive="page"
-                    >
-                      <fa-icon
-                        aria-hidden="true"
-                        [icon]="['fas', 'user']"
-                      ></fa-icon>
-                      Gérer mon compte
-                    </a>
-                    <a
-                      ngbDropdownItem
-                      *ngIf="me?.role === 'admin' || me?.role === 'responsable'"
-                      routerLink="/users/comptes"
-                      ariaCurrentWhenActive="page"
-                    >
-                      <fa-icon aria-hidden="true" [icon]="['fas', 'users']">
-                      </fa-icon>
-                      Gérer les utilisateurs
-                    </a>
-                    <a
-                      ngbDropdownItem
-                      *ngIf="me?.role === 'admin' || me?.role === 'responsable'"
-                      routerLink="/structures/edit"
-                      ariaCurrentWhenActive="page"
-                    >
-                      <fa-icon aria-hidden="true" [icon]="['fas', 'home']">
-                      </fa-icon>
-                      Informations de la structure
-                    </a>
-                    <a
-                      ngbDropdownItem
-                      *ngIf="me?.role === 'admin' || me?.role === 'responsable'"
-                      routerLink="/structures/documents"
-                      ariaCurrentWhenActive="page"
-                    >
-                      <fa-icon aria-hidden="true" [icon]="['far', 'file-word']">
-                      </fa-icon>
-                      Documents de la structure
-                    </a>
-                    <a
-                      ngbDropdownItem
-                      *ngIf="
-                        me?.role === 'admin' &&
-                        me.structure?.sms?.enabledByDomifa
-                      "
-                      routerLink="/structures/sms"
-                    >
-                      <fa-icon
-                        aria-hidden="true"
-                        [icon]="['fas', 'sms']"
-                      ></fa-icon>
-                      Gérer l'envoi des SMS
-                      <span
-                        class="bg-warning badge ms-2 text-dark"
-                        *ngIf="!me.structure?.sms?.enabledByStructure"
-                        >À activer</span
-                      >
-                    </a>
-                    <a
-                      ngbDropdownItem
-                      *ngIf="
-                        me?.role === 'admin' &&
-                        me.structure?.portailUsager?.enabledByDomifa
-                      "
-                      routerLink="/structures/portail-usager"
-                      ariaCurrentWhenActive="page"
-                    >
-                      <fa-icon aria-hidden="true" icon="user-secret"></fa-icon>
-                      Gérer le portail domicilié
-                      <span
-                        class="bg-warning badge ms-2 text-dark"
-                        *ngIf="!me.structure?.portailUsager?.enabledByStructure"
-                        >À activer</span
-                      >
-                    </a>
-                    <a
-                      ngbDropdownItem
-                      routerLink="/structure-stats"
-                      ariaCurrentWhenActive="page"
-                    >
-                      <fa-icon [icon]="['far', 'chart-bar']" aria-hidden="true">
-                      </fa-icon>
-                      Consulter les statistiques
-                    </a>
-
-                    <a
-                      ngbDropdownItem
-                      *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
-                      routerLink="/import"
-                      ariaCurrentWhenActive="page"
-                    >
-                      <fa-icon
-                        aria-hidden="true"
-                        [icon]="['fas', 'upload']"
-                      ></fa-icon>
-                      Importer des domiciliés
-                    </a>
-                    <button type="button" ngbDropdownItem (click)="logout()">
-                      <fa-icon
-                        aria-hidden="true"
-                        [icon]="['fas', 'sign-out-alt']"
-                      >
-                      </fa-icon>
-                      Me déconnecter
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </ng-container>
+            </div>
           </div>
         </div>
 
@@ -256,6 +81,8 @@
       </div>
     </div>
   </div>
+
+  <!-- MENU MOBILE -->
   <div
     class="fr-header__menu fr-modal"
     id="loggedOffMenu"
@@ -277,15 +104,14 @@
         role="navigation"
         aria-label="Menu principal"
       >
-        <!-- logged out menu start -->
         <ul class="fr-nav__list">
-          <li *ngIf="!me" class="fr-nav__item d-block d-md-none">
+          <li *ngIf="!me" class="fr-nav__item">
             <button
               id="loginDropDown"
               aria-expanded="false"
               aria-controls="loginDropDown"
               type="button"
-              class="fr-nav__btn justify-content-start gap-1 w-100"
+              class="fr-nav__btn"
             >
               Se connecter
             </button>
@@ -294,55 +120,47 @@
                 <li>
                   <a
                     id="loginDropDown-1"
-                    type="link"
                     routerLink="/connexion"
-                    class="fr-nav__link justify-content-start gap-2"
+                    class="fr-nav__link"
                   >
-                    <span class="fr-icon-home-4-line" aria-hidden="true"></span>
-                    CCAS, organismes agréés</a
-                  >
+                    <i class="fr-icon-home-4-line" aria-hidden="true"></i>
+                    CCAS, organismes agréés
+                  </a>
                 </li>
                 <li>
                   <a
                     id="loginDropDown-2"
-                    type="menu"
                     href="https://mon-domifa.fabrique.social.gouv.fr/"
-                    class="fr-nav__link justify-content-start gap-2"
-                    ><span
-                      class="fr-icon-person-mail-icon"
-                      aria-hidden="true"
-                    ></span
-                    >Domiciliés</a
+                    class="fr-nav__link"
                   >
+                    <i class="fr-icon-mail-line" aria-hidden="true"></i>
+                    Domiciliés
+                  </a>
                 </li>
                 <li>
                   <a
                     id="loginDropDown-3"
-                    type="link"
                     href="https://admin.fabrique.social.gouv.fr/"
-                    class="fr-nav__link justify-content-start gap-2"
-                    ><span
-                      class="fr-icon-building-4-line"
-                      aria-hidden="true"
-                    ></span
-                    >DGCS</a
+                    class="fr-nav__link"
                   >
+                    <i class="fr-icon-building-4-line" aria-hidden="true"></i>
+                    DGCS
+                  </a>
                 </li>
               </ul>
             </div>
           </li>
+
           <ng-container *ngIf="!me">
             <li class="fr-nav__item">
               <a
                 [attr.aria-current]="isCurrentRoute('/') ? 'page' : null"
                 id="link-accueil"
-                type="link"
-                href=""
-                aria-label="Retour à l'accueil de DomiFa"
-                [routerLink]="'/'"
+                routerLink="/"
                 class="fr-nav__link"
-                >Accueil</a
               >
+                Accueil
+              </a>
             </li>
             <li class="fr-nav__item">
               <a
@@ -350,21 +168,21 @@
                   isCurrentRoute('/structures/inscription') ? 'page' : null
                 "
                 id="link-inscription"
-                type="link"
                 routerLink="/structures/inscription"
                 class="fr-nav__link"
-                >Inscrire ma structure</a
               >
+                Inscrire ma structure
+              </a>
             </li>
             <li class="fr-nav__item">
               <a
                 [attr.aria-current]="isCurrentRoute('/stats') ? 'page' : null"
                 id="link-stats"
-                type="link"
-                [routerLink]="['/stats']"
+                routerLink="/stats"
                 class="fr-nav__link"
-                >Statistiques</a
               >
+                Statistiques
+              </a>
             </li>
             <li class="fr-nav__item">
               <a
@@ -372,60 +190,54 @@
                   isCurrentRoute('/stats/impact') ? 'page' : null
                 "
                 id="link-impact"
-                type="link"
-                [routerLink]="['/stats/impact']"
+                routerLink="/stats/impact"
                 class="fr-nav__link"
-                >Impact</a
               >
+                Impact
+              </a>
             </li>
             <li class="fr-nav__item">
               <a
                 [attr.aria-current]="isCurrentRoute('/news') ? 'page' : null"
                 id="link-news"
-                type="link"
-                [routerLink]="['/news']"
+                routerLink="/news"
                 class="fr-nav__link"
-                >Nouveautés</a
               >
+                Nouveautés
+              </a>
             </li>
             <li class="fr-nav__item">
               <a
                 [attr.aria-current]="
                   isCurrentRoute('/decouvrir-domifa') ? 'page' : null
                 "
-                id="link-contact"
-                type="link"
-                [routerLink]="['/decouvrir-domifa']"
+                id="link-domifa"
+                routerLink="/decouvrir-domifa"
                 class="fr-nav__link"
-                >Découvrir DomiFa</a
               >
+                Découvrir DomiFa
+              </a>
             </li>
             <li class="fr-nav__item">
               <a
-                routerLinkActive
+                routerLinkActive="active"
                 #rlaContact="routerLinkActive"
                 [attr.aria-current]="rlaContact.isActive ? 'page' : null"
                 [routerLinkActiveOptions]="{ exact: true }"
                 id="link-contact"
-                type="link"
-                [routerLink]="['/contact']"
+                routerLink="/contact"
                 class="fr-nav__link"
-                >Nous contacter</a
               >
+                Nous contacter
+              </a>
             </li>
-            <li class="fr-nav__item d-block d-md-none">
-              <a
-                id="link-faq"
-                type="link"
-                [routerLink]="['/faq']"
-                ariaCurrentWhenActive="page"
-                class="fr-nav__link fw-bold"
-                >Besoin d'aide</a
-              >
+            <li class="fr-nav__item">
+              <a id="link-faq" routerLink="/faq" class="fr-nav__link">
+                Besoin d'aide
+              </a>
             </li>
           </ng-container>
         </ul>
-        <!-- logged out menu end -->
       </nav>
       <div class="fr-header__menu-links">
         <app-login-modal-menu [me]="me"></app-login-modal-menu>

@@ -37,7 +37,6 @@ export class ProfilHistoriqueComponent
     "notes",
     "login-portail",
   ];
-  public section = "historique";
 
   public sections: { id: HistorySections; name: string }[] = [
     {
@@ -83,6 +82,7 @@ export class ProfilHistoriqueComponent
     );
     this.currentSection = "interactions";
     this.titlePrefix = "Historique";
+    this.section = "historique";
   }
 
   public goToPrint(): void {

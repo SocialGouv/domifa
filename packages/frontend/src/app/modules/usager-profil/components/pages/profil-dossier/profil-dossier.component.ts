@@ -16,7 +16,6 @@ export class ProfilDossierComponent extends BaseUsagerProfilPageComponent {
   public editInfos = false;
   public editEntretien = false;
   public editContactDetails = false;
-  public section = "dossier";
 
   constructor(
     public authService: AuthService,
@@ -37,6 +36,7 @@ export class ProfilDossierComponent extends BaseUsagerProfilPageComponent {
       store
     );
     this.titlePrefix = "État-civil et entretien";
+    this.section = "dossier";
   }
 
   public openEntretien(): void {

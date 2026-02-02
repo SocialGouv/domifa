@@ -34,10 +34,10 @@
           {{ note.createdAt | date : "dd MMMM yyyy à HH:mm" }}
         </td>
         <td>
-          <span *ngIf="note.archivedAt" class="label-info orange-status">
+          <span *ngIf="note.archivedAt" class="fr-badge fr-badge--warning">
             Archivée
           </span>
-          <span class="label-info green-status" *ngIf="note.pinned">
+          <span class="fr-badge fr-badge--success" *ngIf="note.pinned">
             Épinglée
           </span>
         </td>
