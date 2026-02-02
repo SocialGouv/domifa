@@ -4,9 +4,9 @@
   </div>
 </div>
 
-<div class="content py-3" *ngIf="DOMIFA_NEWS">
-  <div class="container py-3">
-    <div class="card my-3 text-start" *ngFor="let news of DOMIFA_NEWS">
+<div class="fr-content-container">
+  <div class="fr-container">
+    <div class="fr-content fr-mb-2w" *ngFor="let news of DOMIFA_NEWS">
       <h2 class="my-2">
         Nouveautés du {{ news.date | date : "d MMMM y"
         }}<span *ngIf="news.description"> - {{ news.description }}</span>

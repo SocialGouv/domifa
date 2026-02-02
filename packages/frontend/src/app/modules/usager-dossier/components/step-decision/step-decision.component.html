@@ -344,45 +344,45 @@
       </div>
       }
     </div>
-    <app-step-footer [usager]="usager"></app-step-footer>
-    @if (usager) {
-    <dsfr-modal
-      #refusModal
-      [titleModal]="'Refuser le dossier'"
-      [isScrollable]="true"
-      [size]="'LG'"
-    >
-      <app-decision-refus-form
-        [usager]="usager"
-        (closeModals)="closeModals()"
-      ></app-decision-refus-form>
-    </dsfr-modal>
-
-    <dsfr-modal
-      #confirmationModal
-      [titleModal]="'Confirmer la domiciliation de ' + (usager | fullName)"
-      [isScrollable]="true"
-      [size]="'LG'"
-    >
-      <app-decision-valide-form
-        [usager]="usager"
-        (closeModals)="closeModals()"
-      ></app-decision-valide-form>
-    </dsfr-modal>
-
-    <dsfr-modal
-      #standbyModal
-      [titleModal]="'Ajourner le dossier'"
-      [isScrollable]="true"
-      [size]="'LG'"
-    >
-      <app-decision-standby-form
-        [usager]="usager"
-        [me]="me"
-        (closeModals)="closeModals()"
-      ></app-decision-standby-form>
-    </dsfr-modal>
-    }
   </div>
   }
 </div>
+<app-step-footer [usager]="usager"></app-step-footer>
+@if (usager) {
+<dsfr-modal
+  #refusModal
+  [titleModal]="'Refuser le dossier'"
+  [isScrollable]="true"
+  [size]="'LG'"
+>
+  <app-decision-refus-form
+    [usager]="usager"
+    (closeModals)="closeModals()"
+  ></app-decision-refus-form>
+</dsfr-modal>
+
+<dsfr-modal
+  #confirmationModal
+  [titleModal]="'Confirmer la domiciliation de ' + (usager | fullName)"
+  [isScrollable]="true"
+  [size]="'LG'"
+>
+  <app-decision-valide-form
+    [usager]="usager"
+    (closeModals)="closeModals()"
+  ></app-decision-valide-form>
+</dsfr-modal>
+
+<dsfr-modal
+  #standbyModal
+  [titleModal]="'Ajourner le dossier'"
+  [isScrollable]="true"
+  [size]="'LG'"
+>
+  <app-decision-standby-form
+    [usager]="usager"
+    [me]="me"
+    (closeModals)="closeModals()"
+  ></app-decision-standby-form>
+</dsfr-modal>
+}

@@ -4,7 +4,7 @@
 ></app-display-ayants-droits>
 
 <div
-  class="label-info label-procuration"
+  class="fr-badge fr-badge--info"
   *ngIf="usager.options.procurations.length > 0"
   [ngbTooltip]="procurationActif"
   tabindex="0"
@@ -42,7 +42,7 @@
 </div>
 
 <div
-  class="label-info label-transfert"
+  class="fr-badge fr-badge--info"
   *ngIf="usager.options.transfert.actif"
   [ngbTooltip]="transfertActif"
   tabindex="0"
@@ -64,7 +64,7 @@
   </ng-template>
 </div>
 
-<span *ngIf="usager.options.npai.actif" class="label-info red-status">
+<span *ngIf="usager.options.npai.actif" class="fr-badge fr-badge--error">
   <span>Pli non distribuable</span>
 </span>
 

@@ -9,6 +9,7 @@ import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { Store } from "@ngrx/store";
 import { UserStructure, getPersonFullName } from "@domifa/common";
+import { ProfilHeadSection } from "../../../ProfilHeadSection.Type";
 
 @Component({
   selector: "app-base-usager-profil-page",
@@ -20,7 +21,7 @@ export class BaseUsagerProfilPageComponent implements OnInit, OnDestroy {
   public subscription = new Subscription();
   public titlePrefix: string;
   public displayDeleteButton = false;
-  public section = "general";
+  public section: ProfilHeadSection = "general";
 
   constructor(
     protected readonly authService: AuthService,

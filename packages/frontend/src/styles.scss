@@ -82,7 +82,7 @@ $font-family-monospace: "Marianne", SFMono-Regular, Menlo, Monaco, Consolas,
   }
 
   .fr-content-container {
-    padding-top: 2rem;
+    padding: 2rem 0;
     --hover: var(--background-alt-blue-cumulus-hover) !important;
     --active: var(--background-alt-blue-cumulus-active) !important;
     background-color: var(--background-alt-blue-cumulus) !important;

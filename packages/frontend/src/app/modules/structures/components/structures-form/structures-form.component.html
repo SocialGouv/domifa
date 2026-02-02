@@ -25,76 +25,76 @@
   </div>
 </div>
 
-<div class="fr-background-alt--grey fr-py-3w">
-  <div class="fr-container fr-background-default--grey fr-py-3w">
-    <!-- Succès -->
-    @if (showRegisterSuccess) {
-    <div class="fr-grid-row fr-grid-row--center fr-gap-3w">
-      <div class="fr-col-12">
-        <img
-          class="fr-img-fluid"
-          src="assets/images/register/success-structure.svg"
-          alt=""
-          aria-hidden="true"
-        />
-      </div>
-      <div class="fr-col-12 fr-text-center">
-        <h2>Votre compte est en cours de validation !</h2>
-        <span>Cette étape peut prendre jusqu'à 7 jours maximum.</span>
-      </div>
-
-      <div class="fr-col-12">
-        <p>
-          Merci pour votre demande de création de compte structure sur DomiFa.
-          <br />
-          Votre demande a bien été enregistrée et est actuellement en cours de
-          validation par notre équipe.
-        </p>
-      </div>
-
-      <div
-        class="fr-col-12 fr-background-alt--blue-france fr-py-4w fr-gap-4w fr-display-flex fr-direction-column fr-align-items-center"
-      >
-        <div class="fr-display-flex fr-gap-1w fr-align-items-center">
+<div class="fr-content-container">
+  <div class="fr-container">
+    <div class="fr-content">
+      @if (showRegisterSuccess) {
+      <div class="fr-grid-row fr-grid-row--center fr-gap-3w">
+        <div class="fr-col-12">
           <img
-            src="assets/dsfr-pictograms/buildings/companie.svg"
+            class="fr-img-fluid"
+            src="assets/images/register/success-structure.svg"
             alt=""
             aria-hidden="true"
           />
-          <p class="fr-text--bold fr-mb-0">
-            En attendant l'activation de votre compte, vous pouvez :
+        </div>
+        <div class="fr-col-12 fr-text-center">
+          <h2>Votre compte est en cours de validation !</h2>
+          <span>Cette étape peut prendre jusqu'à 7 jours maximum.</span>
+        </div>
+
+        <div class="fr-col-12">
+          <p>
+            Merci pour votre demande de création de compte structure sur DomiFa.
+            <br />
+            Votre demande a bien été enregistrée et est actuellement en cours de
+            validation par notre équipe.
           </p>
         </div>
 
         <div
-          class="fr-display-flex fr-direction-column fr-align-items-center fr-gap-1w"
+          class="fr-col-12 fr-background-alt--blue-france fr-py-4w fr-gap-4w fr-display-flex fr-direction-column fr-align-items-center"
         >
-          <span class="fr-mb-0"
-            >Vous inscrire à une session de formation en ligne</span
-          >
-          <a href="https://tally.so/r/3EaAVB" class="fr-btn" target="_blank">
-            M'inscrire
-          </a>
-        </div>
+          <div class="fr-display-flex fr-gap-1w fr-align-items-center">
+            <img
+              src="assets/dsfr-pictograms/buildings/companie.svg"
+              alt=""
+              aria-hidden="true"
+            />
+            <p class="fr-text--bold fr-mb-0">
+              En attendant l'activation de votre compte, vous pouvez :
+            </p>
+          </div>
 
-        <div
-          class="fr-display-flex fr-direction-column fr-align-items-center fr-gap-1w"
-        >
-          <span class="fr-mb-0"
-            >Consulter notre FAQ dédiée aux utilisateurs</span
+          <div
+            class="fr-display-flex fr-direction-column fr-align-items-center fr-gap-1w"
           >
-          <a routerLink="/faq" class="fr-btn fr-gap-2w">
-            <span class="fr-icon-question-line" aria-hidden="true"></span>
-            Accéder à la FAQ
-          </a>
+            <span class="fr-mb-0"
+              >Vous inscrire à une session de formation en ligne</span
+            >
+            <a href="https://tally.so/r/3EaAVB" class="fr-btn" target="_blank">
+              M'inscrire
+            </a>
+          </div>
+
+          <div
+            class="fr-display-flex fr-direction-column fr-align-items-center fr-gap-1w"
+          >
+            <span class="fr-mb-0"
+              >Consulter notre FAQ dédiée aux utilisateurs</span
+            >
+            <a routerLink="/faq" class="fr-btn fr-gap-2w">
+              <span class="fr-icon-question-line" aria-hidden="true"></span>
+              Accéder à la FAQ
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-    }
+      }
 
-    <!-- Formulaire -->
-    @if (!showRegisterSuccess) {
-    <div class="fr-background-default--grey fr-py-2w fr-px-4w">
+      <!-- Formulaire -->
+      @if (!showRegisterSuccess) {
+
       <!-- Header stepper -->
       <div class="fr-stepper fr-mb-2w">
         <h2 class="fr-stepper__title">
@@ -126,13 +126,14 @@
             class="fr-display-flex fr-direction-column fr-justify-content-center"
           >
             <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
-              <img
-                class="fr-width-2-5rem"
-                src="assets/dsfr-pictograms/buildings/companie.svg"
-                aria-hidden="true"
-                alt=""
-              />
-              <h2 class="fr-m-0">Structure</h2>
+              <h2 class="fr-m-0">
+                <img
+                  src="assets/dsfr-pictograms/buildings/companie.svg"
+                  aria-hidden="true"
+                  alt=""
+                />
+                Structure
+              </h2>
             </div>
             <p>
               Veuillez saisir les coordonnées de votre structure, celles-ci
@@ -350,7 +351,6 @@
           >
             <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
               <img
-                class="fr-width-2-5rem"
                 src="assets/dsfr-pictograms/buildings/companie.svg"
                 aria-hidden="true"
                 alt=""
@@ -393,8 +393,8 @@
                   required
                 >
                   <option [ngValue]="null"></option>
-                  @for (let departement of (DEPARTEMENTS_LISTE | keyvalue);
-                  track departement.key) {
+                  @for (departement of (DEPARTEMENTS_LISTE | keyvalue); track
+                  departement.key) {
                   <option [ngValue]="departement.key">
                     {{ departement.key }} - {{ departement.value }}
                   </option>
@@ -528,7 +528,7 @@
                   required
                 >
                   <option [ngValue]="null"></option>
-                  @for ( let organismeType of STRUCTURE_ORGANISME_TYPE_LABELS |
+                  @for ( organismeType of STRUCTURE_ORGANISME_TYPE_LABELS |
                   keyvalue; track organismeType.key ) {
                   <option [ngValue]="organismeType.key">
                     {{ organismeType.value }}
@@ -579,7 +579,7 @@
                   <option [ngValue]="null">Non renseigné</option>
                   <option value="Pas de réseau">Pas de réseau</option>
                   <option value="Autre réseau">Autre réseau</option>
-                  @for (let reseau of NETWORKS; track reseau.canonicalName) {
+                  @for (reseau of NETWORKS; track reseau.canonicalName) {
                   <option [ngValue]="reseau.canonicalName">
                     {{ reseau.canonicalName }}
                   </option>
@@ -695,19 +695,18 @@
         </section>
         }
 
-        <!-- Section: Responsable légal -->
         <section>
           <div
             class="fr-display-flex fr-direction-column fr-justify-content-center"
           >
             <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
-              <img
-                class="fr-width-2-5rem"
-                src="assets/dsfr-pictograms/digital/avatar.svg"
-                aria-hidden="true"
-                alt=""
-              />
-              <h2 class="fr-m-0">Responsable légal</h2>
+              <h2 class="fr-m-0">
+                <img
+                  src="assets/dsfr-pictograms/digital/avatar.svg"
+                  aria-hidden="true"
+                  alt=""
+                />Responsable légal
+              </h2>
             </div>
             <p>Il s'agit du nom qui apparaîtra sur le Cerfa.</p>
           </div>
@@ -872,13 +871,13 @@
             class="fr-display-flex fr-direction-column fr-justify-content-center"
           >
             <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
-              <img
-                class="fr-width-2-5rem"
-                src="assets/dsfr-pictograms/map/map-pin.svg"
-                aria-hidden="true"
-                alt=""
-              />
-              <h2 class="fr-m-0">Adresse</h2>
+              <h2 class="fr-m-0">
+                <img
+                  src="assets/dsfr-pictograms/map/map-pin.svg"
+                  aria-hidden="true"
+                  alt=""
+                />Adresse
+              </h2>
             </div>
             <p class="fr-text--bold">
               Précisez le nom de votre ville / de votre unité locale en cas de
@@ -1250,13 +1249,14 @@
             class="fr-display-flex fr-direction-column fr-justify-content-center"
           >
             <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-mb-3w">
-              <img
-                class="fr-width-2-5rem"
-                src="assets/dsfr-pictograms/digital/mail-send.svg"
-                aria-hidden="true"
-                alt=""
-              />
-              <h2 class="fr-m-0">Contact</h2>
+              <h2 class="fr-m-0">
+                <img
+                  src="assets/dsfr-pictograms/digital/mail-send.svg"
+                  aria-hidden="true"
+                  alt=""
+                />
+                Contact
+              </h2>
             </div>
           </div>
 
@@ -1371,13 +1371,14 @@
             class="fr-display-flex fr-direction-column fr-justify-content-center"
           >
             <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
-              <img
-                class="fr-width-2-5rem"
-                src="assets/dsfr-pictograms/system/information.svg"
-                aria-hidden="true"
-                alt=""
-              />
-              <h2 class="fr-m-0">Informations sur votre activité</h2>
+              <h2 class="fr-m-0">
+                <img
+                  src="assets/dsfr-pictograms/system/information.svg"
+                  aria-hidden="true"
+                  alt=""
+                />
+                Informations sur votre activité
+              </h2>
             </div>
             <p>Ces informations nous aident à mieux comprendre vos besoins</p>
           </div>
@@ -1416,7 +1417,7 @@
                   required
                 >
                   <option [ngValue]="null">Sélectionnez une option</option>
-                  @for (let option of SOURCES_OPTIONS; track option.value) {
+                  @for (option of SOURCES_OPTIONS; track option.value) {
                   <option [value]="option.value">
                     {{ option.label }}
                   </option>
@@ -1502,8 +1503,7 @@
                   required
                 >
                   <option [ngValue]="null">Sélectionnez une option</option>
-                  @for ( let option of CURRENT_TOOL_OPTIONS; track option.value
-                  ) {
+                  @for ( option of CURRENT_TOOL_OPTIONS; track option.value ) {
                   <option [value]="option.value">
                     {{ option.label }}
                   </option>
@@ -1556,8 +1556,7 @@
                   required
                 >
                   <option [ngValue]="null">Sélectionnez une option</option>
-                  @for ( let option of MARKET_TOOLS_OPTIONS; track option.value
-                  ) {
+                  @for ( option of MARKET_TOOLS_OPTIONS; track option.value ) {
                   <option [value]="option.value">
                     {{ option.label }}
                   </option>
@@ -1753,16 +1752,14 @@
           </div>
         </section>
       </form>
-      }
+      } @if (structureRegisterInfos.etapeInscription === 1) {
+      <div class="fr-background-default--grey fr-py-2w fr-px-4w">
+        <app-register-user
+          (registerSuccess)="showRegisterSuccess = $event"
+          [structureRegisterInfos]="structureRegisterInfos"
+        ></app-register-user>
+      </div>
+      } }
     </div>
-
-    @if (structureRegisterInfos.etapeInscription === 1) {
-    <div class="fr-background-default--grey fr-py-2w fr-px-4w">
-      <app-register-user
-        (registerSuccess)="showRegisterSuccess = $event"
-        [structureRegisterInfos]="structureRegisterInfos"
-      ></app-register-user>
-    </div>
-    } }
   </div>
 </div>

@@ -1,31 +1,24 @@
 <div class="fr-content-container">
   <div class="fr-container" *ngIf="usager">
     <div class="fr-content">
-      <div class="fr-grid-row">
-        <div class="fr-col-12">
-          <div class="fr-grid-row fr-grid-row--between fr-grid-row--middle">
-            <img
-              src="assets/dsfr-pictograms/leisure/community.svg"
-              alt=""
-              aria-hidden="true"
-            />
-            <h2 class="fr-h3 fr-m-0">Commentaires privés</h2>
-          </div>
+      <h2 class="fr-h3 fr-m-0">
+        <img
+          src="assets/dsfr-pictograms/leisure/community.svg"
+          alt=""
+          aria-hidden="true"
+        />Commentaires privés
+      </h2>
 
-          <div class="fr-mt-2v">
-            <app-profil-general-notes
-              [usager]="usager"
-            ></app-profil-general-notes>
-          </div>
-        </div>
+      <div class="fr-mt-2v">
+        <app-profil-general-notes [usager]="usager"></app-profil-general-notes>
       </div>
-    </div>
 
-    <app-delete-usager-menu
-      *ngIf="displayDeleteButton && usager"
-      class="fr-mt-4v"
-      [usager]="usager"
-      context="INSTRUCTION_FORM"
-    ></app-delete-usager-menu>
+      <app-delete-usager-menu
+        *ngIf="displayDeleteButton && usager"
+        class="fr-mt-4v"
+        [usager]="usager"
+        context="INSTRUCTION_FORM"
+      ></app-delete-usager-menu>
+    </div>
   </div>
 </div>
