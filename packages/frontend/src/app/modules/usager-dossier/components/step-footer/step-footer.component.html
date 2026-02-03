@@ -12,13 +12,12 @@
       <div class="fr-mt-2v">
         <app-profil-general-notes [usager]="usager"></app-profil-general-notes>
       </div>
-
-      <app-delete-usager-menu
-        *ngIf="displayDeleteButton && usager"
-        class="fr-mt-4v"
-        [usager]="usager"
-        context="INSTRUCTION_FORM"
-      ></app-delete-usager-menu>
     </div>
   </div>
+  <app-delete-usager-menu
+    *ngIf="displayDeleteButton && usager"
+    class="fr-mt-4v"
+    [usager]="usager"
+    context="INSTRUCTION_FORM"
+  ></app-delete-usager-menu>
 </div>

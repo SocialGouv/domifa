@@ -1,6 +1,0 @@
-@layer dsfr-personnalization {
-  :host ::ng-deep .dsfrx-menu-dropdown__btn {
-    margin-bottom: 0 !important;
-    margin-left: 0;
-  }
-}

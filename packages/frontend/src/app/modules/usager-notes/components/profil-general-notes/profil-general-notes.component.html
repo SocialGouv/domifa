@@ -9,7 +9,10 @@
   <ng-container *ngFor="let note of displayedNotes; let last = last">
     <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--top">
       <div class="fr-col-12 fr-col-md-10">
-        <i class="fr-icon-message-2-line fr-icon--sm" aria-hidden="true"></i>
+        <span
+          class="fr-icon-message-2-line fr-text-label--blue-france"
+          aria-hidden="true"
+        ></span>
 
         <span class="fr-text--bold fr-text-title--blue-france">
           {{ note.createdAt | date : "dd MMMM yyyy 'à' HH:mm" }} -

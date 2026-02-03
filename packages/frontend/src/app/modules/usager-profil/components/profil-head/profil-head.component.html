@@ -1,10 +1,10 @@
 @if (usager && me) {
-<div class="head-page fr-p-3w">
+<div class="head-page fr-py-3w">
   <div class="fr-container">
     <div
       class="fr-px-0 fr-mx-0 fr-grid-row fr-grid-row--space-between fr-grid-row--middle"
     >
-      <div class="fr-px-0 fr-mx-0 fr-grid-row fr-grid-row--middle">
+      <div class="fr-px-0 fr-mx-0 fr-grid-row fr-grid-row--middle fr-col">
         <a
           [routerLink]="['/manage']"
           ariaCurrentWhenActive="page"
@@ -22,9 +22,10 @@
           {{ usager.customRef ? usager.customRef : usager.ref }}
         </h1>
       </div>
-      <div class="fr-hidden-lg fr-d-print-block">{{ me?.structure?.nom }}</div>
       @if (me?.role !== 'facteur' && me?.role !== 'agent') {
-      <div class="fr-px-0 fr-mx-0 fr-text-align-right fr-d-print-none">
+      <div
+        class="fr-px-0 fr-mx-0 fr-text-align-right fr-d-print-none fr-col-auto"
+      >
         @if (usager.decision.statut === 'INSTRUCTION') {
         <a
           [routerLink]="[
