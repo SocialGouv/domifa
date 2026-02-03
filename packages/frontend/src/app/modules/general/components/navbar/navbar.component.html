@@ -1,3 +1,4 @@
+<!-- header.component.html -->
 <app-alerte-confidentialite></app-alerte-confidentialite>
 <header role="banner" class="fr-header" id="mainHeader">
   <div class="fr-header__body">
@@ -22,11 +23,11 @@
               </a>
             </div>
 
-            <!-- MENU NON CONNECTE -->
+            <!-- Bouton burger mobile -->
             <div class="fr-header__navbar">
               <button
                 data-fr-opened="false"
-                aria-controls="loggedOffMenu"
+                aria-controls="header-modal-menu"
                 title="Menu"
                 type="button"
                 id="navbar-site"
@@ -34,70 +35,86 @@
               >
                 Menu
               </button>
-
-              <div
-                *ngIf="!me"
-                ngbDropdown
-                id="dropdownNotAuthenticatedMenu"
-                display="dynamic"
-                placement="bottom-end"
-              >
-                <button
-                  type="button"
-                  ngbDropdownToggle
-                  class="fr-btn fr-btn--tertiary"
-                >
-                  <img src="assets/icones/menu.svg" alt="" aria-hidden="true" />
-                  Menu du site
-                </button>
-                <div ngbDropdownMenu>
-                  <a ngbDropdownItem routerLink="/news">
-                    <span
-                      aria-hidden="true"
-                      *ngIf="pendingNews"
-                      class="pulse-button"
-                    ></span>
-                    <span [class.fw-bold]="pendingNews">Nouveautés</span>
-                  </a>
-                  <a ngbDropdownItem routerLink="/faq">En savoir plus</a>
-                  <a
-                    ngbDropdownItem
-                    routerLink="/connexion"
-                    (click)="
-                      matomoService.trackEvent('CONNEXION', 'HEADER', 'null', 1)
-                    "
-                  >
-                    Me connecter
-                  </a>
-                </div>
-              </div>
             </div>
           </div>
         </div>
 
+        <!-- DESKTOP : Quick access + dropdown utilisateur -->
         <div class="fr-header__tools">
-          <app-login-dropdown [me]="me"></app-login-dropdown>
+          <div class="fr-header__tools-links">
+            @if (!me) {
+            <ul class="fr-btns-group">
+              <li>
+                <a routerLink="/news" class="fr-btn fr-btn--tertiary">
+                  @if (pendingNews) {
+                  <span class="fr-badge fr-badge--sm fr-badge--error fr-mr-1w"
+                    >New</span
+                  >
+                  } Nouveautés
+                </a>
+              </li>
+              <li>
+                <a routerLink="/faq" class="fr-btn fr-btn--tertiary">
+                  En savoir plus
+                </a>
+              </li>
+              <li>
+                <a
+                  routerLink="/connexion"
+                  class="fr-btn fr-icon-account-circle-line fr-btn--icon-left"
+                  (click)="
+                    matomoService.trackEvent('CONNEXION', 'HEADER', 'null', 1)
+                  "
+                >
+                  Me connecter
+                </a>
+              </li>
+            </ul>
+            } @else { @if (me) {
+            <ul class="fr-btns-group">
+              <li>
+                <a
+                  [attr.aria-current]="
+                    isCurrentRoute('/manage') ? 'page' : null
+                  "
+                  [routerLink]="'/manage'"
+                  class="fr-btn fr-btn--tertiary"
+                >
+                  <img
+                    src="/assets/icones/dsfr/domicilies.svg"
+                    alt=""
+                    class="fr-icon--xs fr-mr-1w"
+                  />
+                  Domiciliés
+                </a>
+              </li>
+            </ul>
+            }
+            <app-login-dropdown [me]="me"></app-login-dropdown>
+
+            }
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- MENU MOBILE -->
+  <!-- MENU MOBILE MODAL -->
   <div
     class="fr-header__menu fr-modal"
-    id="loggedOffMenu"
+    id="header-modal-menu"
     aria-labelledby="navbar-site"
   >
     <div class="fr-container">
       <button
-        aria-controls="loggedOffMenu"
+        aria-controls="header-modal-menu"
         title="Fermer"
         type="button"
-        id="btnFermerMenu"
         class="fr-btn--close fr-btn"
       >
         Fermer
       </button>
+
       <nav
         class="fr-nav"
         id="header-navigation"
@@ -105,45 +122,50 @@
         aria-label="Menu principal"
       >
         <ul class="fr-nav__list">
-          <li *ngIf="!me" class="fr-nav__item">
+          <!-- NON CONNECTÉ -->
+          @if (!me) {
+          <!-- Dropdown Se connecter -->
+          <li class="fr-nav__item">
             <button
-              id="loginDropDown"
-              aria-expanded="false"
-              aria-controls="loginDropDown"
-              type="button"
               class="fr-nav__btn"
+              aria-expanded="false"
+              aria-controls="menu-connexion-mobile"
+              type="button"
             >
               Se connecter
             </button>
-            <div class="fr-collapse fr-menu" id="loginDropDown">
+            <div class="fr-collapse fr-menu" id="menu-connexion-mobile">
               <ul class="fr-menu__list">
                 <li>
-                  <a
-                    id="loginDropDown-1"
-                    routerLink="/connexion"
-                    class="fr-nav__link"
-                  >
-                    <i class="fr-icon-home-4-line" aria-hidden="true"></i>
+                  <a routerLink="/connexion" class="fr-nav__link">
+                    <span
+                      class="fr-icon-home-4-line fr-mr-1w"
+                      aria-hidden="true"
+                    ></span>
                     CCAS, organismes agréés
                   </a>
                 </li>
                 <li>
                   <a
-                    id="loginDropDown-2"
                     href="https://mon-domifa.fabrique.social.gouv.fr/"
                     class="fr-nav__link"
                   >
-                    <i class="fr-icon-mail-line" aria-hidden="true"></i>
+                    <span
+                      class="fr-icon-mail-line fr-mr-1w"
+                      aria-hidden="true"
+                    ></span>
                     Domiciliés
                   </a>
                 </li>
                 <li>
                   <a
-                    id="loginDropDown-3"
                     href="https://admin.fabrique.social.gouv.fr/"
                     class="fr-nav__link"
                   >
-                    <i class="fr-icon-building-4-line" aria-hidden="true"></i>
+                    <span
+                      class="fr-icon-building-line fr-mr-1w"
+                      aria-hidden="true"
+                    ></span>
                     DGCS
                   </a>
                 </li>
@@ -151,97 +173,99 @@
             </div>
           </li>
 
-          <ng-container *ngIf="!me">
-            <li class="fr-nav__item">
-              <a
-                [attr.aria-current]="isCurrentRoute('/') ? 'page' : null"
-                id="link-accueil"
-                routerLink="/"
-                class="fr-nav__link"
+          <!-- Liens directs -->
+          <li class="fr-nav__item">
+            <a
+              class="fr-nav__link"
+              routerLink="/"
+              [attr.aria-current]="isCurrentRoute('/') ? 'page' : null"
+            >
+              Accueil
+            </a>
+          </li>
+          <li class="fr-nav__item">
+            <a
+              class="fr-nav__link"
+              routerLink="/structures/inscription"
+              [attr.aria-current]="
+                isCurrentRoute('/structures/inscription') ? 'page' : null
+              "
+            >
+              Inscrire ma structure
+            </a>
+          </li>
+          <li class="fr-nav__item">
+            <a
+              class="fr-nav__link"
+              routerLink="/stats"
+              [attr.aria-current]="isCurrentRoute('/stats') ? 'page' : null"
+            >
+              Statistiques
+            </a>
+          </li>
+          <li class="fr-nav__item">
+            <a
+              class="fr-nav__link"
+              routerLink="/stats/impact"
+              [attr.aria-current]="
+                isCurrentRoute('/stats/impact') ? 'page' : null
+              "
+            >
+              Impact
+            </a>
+          </li>
+          <li class="fr-nav__item">
+            <a
+              class="fr-nav__link"
+              routerLink="/news"
+              [attr.aria-current]="isCurrentRoute('/news') ? 'page' : null"
+            >
+              @if (pendingNews) {
+              <span class="fr-badge fr-badge--sm fr-badge--error fr-mr-1w"
+                >New</span
               >
-                Accueil
-              </a>
-            </li>
-            <li class="fr-nav__item">
-              <a
-                [attr.aria-current]="
-                  isCurrentRoute('/structures/inscription') ? 'page' : null
-                "
-                id="link-inscription"
-                routerLink="/structures/inscription"
-                class="fr-nav__link"
-              >
-                Inscrire ma structure
-              </a>
-            </li>
-            <li class="fr-nav__item">
-              <a
-                [attr.aria-current]="isCurrentRoute('/stats') ? 'page' : null"
-                id="link-stats"
-                routerLink="/stats"
-                class="fr-nav__link"
-              >
-                Statistiques
-              </a>
-            </li>
-            <li class="fr-nav__item">
-              <a
-                [attr.aria-current]="
-                  isCurrentRoute('/stats/impact') ? 'page' : null
-                "
-                id="link-impact"
-                routerLink="/stats/impact"
-                class="fr-nav__link"
-              >
-                Impact
-              </a>
-            </li>
-            <li class="fr-nav__item">
-              <a
-                [attr.aria-current]="isCurrentRoute('/news') ? 'page' : null"
-                id="link-news"
-                routerLink="/news"
-                class="fr-nav__link"
-              >
-                Nouveautés
-              </a>
-            </li>
-            <li class="fr-nav__item">
-              <a
-                [attr.aria-current]="
-                  isCurrentRoute('/decouvrir-domifa') ? 'page' : null
-                "
-                id="link-domifa"
-                routerLink="/decouvrir-domifa"
-                class="fr-nav__link"
-              >
-                Découvrir DomiFa
-              </a>
-            </li>
-            <li class="fr-nav__item">
-              <a
-                routerLinkActive="active"
-                #rlaContact="routerLinkActive"
-                [attr.aria-current]="rlaContact.isActive ? 'page' : null"
-                [routerLinkActiveOptions]="{ exact: true }"
-                id="link-contact"
-                routerLink="/contact"
-                class="fr-nav__link"
-              >
-                Nous contacter
-              </a>
-            </li>
-            <li class="fr-nav__item">
-              <a id="link-faq" routerLink="/faq" class="fr-nav__link">
-                Besoin d'aide
-              </a>
-            </li>
-          </ng-container>
+              } Nouveautés
+            </a>
+          </li>
+          <li class="fr-nav__item">
+            <a
+              class="fr-nav__link"
+              routerLink="/decouvrir-domifa"
+              [attr.aria-current]="
+                isCurrentRoute('/decouvrir-domifa') ? 'page' : null
+              "
+            >
+              Découvrir DomiFa
+            </a>
+          </li>
+          <li class="fr-nav__item">
+            <a
+              class="fr-nav__link"
+              routerLink="/contact"
+              [attr.aria-current]="isCurrentRoute('/contact') ? 'page' : null"
+            >
+              Nous contacter
+            </a>
+          </li>
+          <li class="fr-nav__item">
+            <a
+              class="fr-nav__link"
+              routerLink="/faq"
+              [attr.aria-current]="isCurrentRoute('/faq') ? 'page' : null"
+            >
+              Besoin d'aide
+            </a>
+          </li>
+          }
         </ul>
       </nav>
+
+      <!-- Menu utilisateur mobile -->
+      @if (me) {
       <div class="fr-header__menu-links">
-        <app-login-modal-menu [me]="me"></app-login-modal-menu>
+        <app-login-dropdown [me]="me"></app-login-dropdown>
       </div>
+      }
     </div>
   </div>
 </header>

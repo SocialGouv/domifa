@@ -1,6 +1,6 @@
 <div class="steps fr-pb-4w">
   @if (isMobile) {
-  <div class="fr-hidden fr-unhidden-md fr-py-3w">
+  <div class="fr-hidden fr-unhidden-md fr-py-2w">
     <label class="fr-label" for="form-menu">Étapes du formulaire</label>
     <select
       class="fr-select"
@@ -23,10 +23,10 @@
       </span>
     </div>
 
-    <div class="fr-grid-row fr-grid-row--gutters">
+    <div class="fr-grid-row fr-grid-row--center fr-grid-row--middle">
       @for ( etape of ETAPES_FORM_DOM; track $index; let i = $index ) {
       <div
-        class="step"
+        class="step fr-col"
         role="button"
         tabindex="0"
         (click)="goToStep(i)"
@@ -35,28 +35,31 @@
         [attr.aria-label]="'Aller à l\'étape ' + (i + 1)"
       >
         <div
-          class="fr-flex fr-flex--column fr-flex--center fr-gap-2w stepper-step"
-          [class.stepper-step--completed]="currentStep > i"
+          [ngClass]="{ 'stepper-step--completed': currentStep > i }"
+          class="fr-flex fr-flex--center"
         >
-          <div class="fr-flex fr-flex--center fr-flex--column">
-            <img
-              [src]="
-                'assets/dsfr-pictograms/' + ETAPES_FORM_DOM_ICONES[i] + '.svg'
-              "
-              alt=""
-              class="step-icon"
-              aria-hidden="true"
-            />
+          <div class="fr-grid-row fr-grid-row--middle">
+            <div class="col fr-flex fr-flex--center fr-flex--column">
+              <img
+                [src]="
+                  'assets/dsfr-pictograms/' + ETAPES_FORM_DOM_ICONES[i] + '.svg'
+                "
+                alt=""
+                class="step-icon"
+                aria-hidden="true"
+              />
 
-            <span class="fr-text--bold fr-text--center fr-text--sm fr-mb-0">
-              {{ ETAPES_FORM_DOM[i] }}
-            </span>
-
+              <span class="step-text">
+                {{ ETAPES_FORM_DOM[i] }}
+              </span>
+            </div>
             @if (currentStep >= i) {
-            <span
-              class="fr-text--success fr-icon-success-fill"
-              aria-hidden="true"
-            ></span>
+            <div class="col-auto">
+              <span
+                class="fr-icon-success-fill fr-text-default--success"
+                aria-hidden="true"
+              ></span>
+            </div>
             }
           </div>
         </div>

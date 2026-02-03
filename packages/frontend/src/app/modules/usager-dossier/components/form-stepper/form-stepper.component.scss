@@ -3,7 +3,7 @@
 }
 
 .stepper-line {
-  height: 10px;
+  height: 0.5rem;
   background-color: var(--border-default-grey);
   margin-top: var(--spacing-1w);
 }
@@ -13,13 +13,17 @@
 }
 
 .step {
-  width: 19%;
   margin: 0.2rem;
   cursor: pointer;
 
   .step-icon {
-    height: 56px;
-    width: 56px;
+    height: 54px;
+    width: 54px;
+  }
+
+  .step-text {
+    font-size: 0.85rem;
+    font-weight: 700;
   }
 }
 

@@ -1,4 +1,4 @@
-<div class="fr-background-action-low--blue-cumulus fr-py-4w" *ngIf="usager">
+<div class="fr-background-action-low--blue-cumulus fr-py-3w" *ngIf="usager">
   <div class="fr-container">
     <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
       <div class="fr-col-auto">
@@ -6,13 +6,13 @@
           <a
             [routerLink]="['/manage']"
             routerLinkActive="page"
-            class="fr-btn fr-btn--tertiary fr-btn--icon-left"
+            class="fr-btn fr-btn--tertiary fr-text-action-high--blue-france"
             aria-label="Revenir à la liste des domiciliés"
             title="Revenir à la liste des domiciliés"
           >
-            <span class="fr-icon-arrow-left-line" aria-hidden="true"></span>
+            <span class="fr-icon-arrow-left-s-line" aria-hidden="true"></span>
           </a>
-          <h1 class="fr-m-0 fr-ml-2w">
+          <h1 class="fr-m-0 fr-ml-2w fr-text-action-high--blue-france">
             <span *ngIf="!usager.uuid">Nouvelle demande</span>
             <ng-container *ngIf="usager.uuid">
               {{
@@ -47,7 +47,7 @@
             aria-label="Naviguer vers les commentaires privés"
             title="Commentaires privés"
           >
-            <span class="fr-icon-chat-3-line" aria-hidden="true"></span>
+            <span class="fr-icon-message-2-line" aria-hidden="true"></span>
             Commentaires
             <span class="fr-badge fr-badge--info" *ngIf="nbNotes > 0">
               {{ nbNotes }}
