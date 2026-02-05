@@ -187,13 +187,25 @@ h4 {
   background-color: var(--background-alt-blue-cumulus-active);
   color: var(--text-active-blue-france) !important;
   width: 100%;
+  padding: 2rem 0;
 
+  * {
+    vertical-align: middle;
+  }
   .title,
   h1 {
+    display: flex;
+    align-items: center;
     font-style: normal;
     font-weight: bold;
     font-size: 1.7rem;
+    margin-bottom: 0;
     color: var(--text-active-blue-france) !important;
+
+    [class^="fr-icon-"],
+    [class*=" fr-icon-"] {
+      margin-right: 0.5rem;
+    }
   }
 }
 

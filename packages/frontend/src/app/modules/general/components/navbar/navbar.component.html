@@ -23,7 +23,6 @@
               </a>
             </div>
 
-            <!-- Bouton burger mobile -->
             <div class="fr-header__navbar">
               <button
                 data-fr-opened="false"
@@ -42,8 +41,8 @@
         <!-- DESKTOP : Quick access + dropdown utilisateur -->
         <div class="fr-header__tools">
           <div class="fr-header__tools-links">
-            @if (!me) {
             <ul class="fr-btns-group">
+              @if (!me) {
               <li>
                 <a routerLink="/news" class="fr-btn fr-btn--tertiary">
                   @if (pendingNews) {
@@ -58,20 +57,8 @@
                   En savoir plus
                 </a>
               </li>
-              <li>
-                <a
-                  routerLink="/connexion"
-                  class="fr-btn fr-icon-account-circle-line fr-btn--icon-left"
-                  (click)="
-                    matomoService.trackEvent('CONNEXION', 'HEADER', 'null', 1)
-                  "
-                >
-                  Me connecter
-                </a>
-              </li>
-            </ul>
-            } @else { @if (me) {
-            <ul class="fr-btns-group">
+
+              } @else {
               <li>
                 <a
                   [attr.aria-current]="
@@ -88,11 +75,9 @@
                   Domiciliés
                 </a>
               </li>
+              }
+              <app-login-dropdown [me]="me"></app-login-dropdown>
             </ul>
-            }
-            <app-login-dropdown [me]="me"></app-login-dropdown>
-
-            }
           </div>
         </div>
       </div>
@@ -124,54 +109,6 @@
         <ul class="fr-nav__list">
           <!-- NON CONNECTÉ -->
           @if (!me) {
-          <!-- Dropdown Se connecter -->
-          <li class="fr-nav__item">
-            <button
-              class="fr-nav__btn"
-              aria-expanded="false"
-              aria-controls="menu-connexion-mobile"
-              type="button"
-            >
-              Se connecter
-            </button>
-            <div class="fr-collapse fr-menu" id="menu-connexion-mobile">
-              <ul class="fr-menu__list">
-                <li>
-                  <a routerLink="/connexion" class="fr-nav__link">
-                    <span
-                      class="fr-icon-home-4-line fr-mr-1w"
-                      aria-hidden="true"
-                    ></span>
-                    CCAS, organismes agréés
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://mon-domifa.fabrique.social.gouv.fr/"
-                    class="fr-nav__link"
-                  >
-                    <span
-                      class="fr-icon-mail-line fr-mr-1w"
-                      aria-hidden="true"
-                    ></span>
-                    Domiciliés
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://admin.fabrique.social.gouv.fr/"
-                    class="fr-nav__link"
-                  >
-                    <span
-                      class="fr-icon-building-line fr-mr-1w"
-                      aria-hidden="true"
-                    ></span>
-                    DGCS
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
 
           <!-- Liens directs -->
           <li class="fr-nav__item">
@@ -260,12 +197,9 @@
         </ul>
       </nav>
 
-      <!-- Menu utilisateur mobile -->
-      @if (me) {
       <div class="fr-header__menu-links">
         <app-login-dropdown [me]="me"></app-login-dropdown>
       </div>
-      }
     </div>
   </div>
 </header>

@@ -11,30 +11,59 @@ import { Router } from "@angular/router";
   templateUrl: "./login-dropdown.component.html",
 })
 export class LoginDropdownComponent implements OnInit {
-  @Input({ required: true }) me: UserStructure | null = null;
+  @Input() me: UserStructure | null = null;
 
   public dsfrLinks: DsfrLink[] = [];
+  public loginLinks: DsfrLink[] = [];
   public userName = "";
+
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router
   ) {}
 
   ngOnInit(): void {
-    this.buildLinks();
-    this.userName = this.me ? `${this.me.nom} ${this.me.prenom}` : "";
+    this.buildLoginLinks();
+    if (this.me) {
+      this.buildUserLinks();
+      this.userName = `${this.me.nom} ${this.me.prenom}`;
+    }
   }
 
-  private buildLinks(): void {
+  private buildLoginLinks(): void {
+    this.loginLinks = [
+      {
+        label: "CCAS, organismes agréés",
+        routerLink: "/connexion",
+        icon: "fr-icon-home-4-line",
+      },
+      {
+        label: "Domiciliés",
+        link: "https://mon-domifa.fabrique.social.gouv.fr/",
+        target: "_blank",
+        icon: "fr-icon-mail-line",
+      },
+      {
+        label: "DGCS",
+        link: "https://admin.fabrique.social.gouv.fr/",
+        target: "_blank",
+        icon: "fr-icon-building-line",
+      },
+    ];
+
+    console.log(this.loginLinks);
+  }
+
+  private buildUserLinks(): void {
     this.dsfrLinks = [
       {
         label: "Nouveautés",
-        route: "/news",
+        routerLink: "/news",
         icon: "fr-icon-newspaper-line",
       },
       {
         label: "Gérer mon compte",
-        route: "/users/mon-compte",
+        routerLink: "/users/mon-compte",
         icon: "fr-icon-admin-line",
       },
     ];
@@ -43,17 +72,17 @@ export class LoginDropdownComponent implements OnInit {
       this.dsfrLinks.push(
         {
           label: "Gérer les utilisateurs",
-          route: "/users/comptes",
+          routerLink: "/users/comptes",
           icon: "fr-icon-group-line",
         },
         {
           label: "Informations de la structure",
-          route: "/structures/edit",
+          routerLink: "/structures/edit",
           icon: "fr-icon-community-line",
         },
         {
           label: "Documents de la structure",
-          route: "/structures/documents",
+          routerLink: "/structures/documents",
           icon: "fr-icon-file-line",
         }
       );
@@ -61,7 +90,7 @@ export class LoginDropdownComponent implements OnInit {
       if (this.isSmsEnabled) {
         this.dsfrLinks.push({
           label: "Gérer l'envoi de SMS",
-          route: "/structures/sms",
+          routerLink: "/structures/sms",
           icon: "fr-icon-smartphone-line",
         });
       }
@@ -70,17 +99,17 @@ export class LoginDropdownComponent implements OnInit {
     this.dsfrLinks.push(
       {
         label: "Gérer le portail domicilié",
-        route: "/structures/portail-usager",
+        routerLink: "/structures/portail-usager",
         icon: "fr-icon-computer-line",
       },
       {
         label: "Consulter les statistiques",
-        route: "/structure-stats",
+        routerLink: "/structure-stats",
         icon: "fr-icon-bar-chart-box-line",
       },
       {
         label: "Importer des domiciliés",
-        route: "/import",
+        routerLink: "/import",
         icon: "fr-icon-upload-line",
       }
     );
