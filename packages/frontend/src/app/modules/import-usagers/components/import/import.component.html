@@ -1,24 +1,20 @@
-<div class="head-page py-4">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-7 col-12">
-        <h1>Importer des domiciliés sur DomiFa</h1>
-      </div>
-      <div class="text-start text-md-end col-12 col-md-5">
+<div class="head-page">
+  <div class="fr-container">
+    <div class="fr-grid-row fr-grid-row--center">
+      <h1 class="fr-col">
+        <span class="fr-icon-upload-line" aria-hidden="true"></span>Importer des
+        domiciliés
+      </h1>
+
+      <div class="fr-col-auto">
         <a
           (click)="doLogDownloadAction(ImportDocumentType.MODELE)"
           href="/assets/files/modele_import_domifa.xlsx"
           target="_blank"
           rel="noopener noreferrer"
-          class="my-1 fr-btn fr-btn--secondary me-md-2 mx-0"
+          class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-file-download-line fr-mr-md-2w"
           download
         >
-          <fa-icon
-            [icon]="['far', 'file-excel']"
-            aria-hidden="true"
-            class="me-1"
-          ></fa-icon>
-
           Télécharger le modèle Excel
         </a>
         <a
@@ -26,7 +22,7 @@
           href="https://docs.numerique.gouv.fr/docs/a5bedf11-1115-4a46-bb2c-dd41a8fd781b/"
           target="_blank"
           rel="noopener noreferrer"
-          class="my-1 btn btn-white-primary"
+          class="fr-btn fr-btn--secondary"
         >
           Guide explicatif de l'import
         </a>
@@ -35,10 +31,23 @@
   </div>
 </div>
 
-<div class="content py-3" *ngIf="etapeImport === 'select-file'">
-  <div class="container py-3">
-    <div class="page-content p-3">
-      <h2>Étape 1 : Télécharger et compléter le modèle</h2>
+<div class="fr-content-container">
+  <div class="fr-container">
+    <div class="fr-content">
+      @if (etapeImport === 'select-file') {
+      <div role="notice" class="fr-notice fr-notice--warning">
+        <div class="fr-container">
+          <div class="fr-notice__body">
+            <p class="fr-notice__desc">
+              <strong>Attention :</strong> seul le modèle téléchargé sur DomiFa
+              vous permettra d'importer. Pour éviter tout bug, merci de ne pas
+              modifier l'ordre ou le format des colonnes du fichier Excel.
+            </p>
+          </div>
+        </div>
+      </div>
+      <br />
+      <h2 class="fr-h4">Étape 1 : Télécharger et compléter le modèle</h2>
       <p>
         Afin d'importer vos dossiers, vous devez télécharger et compléter le
         fichier Excel ci-dessous. Vous trouverez toutes les indications dans ce
@@ -49,25 +58,19 @@
           document explicatif
         </a>
       </p>
-      <p class="text-danger">
-        <strong>Attention:</strong> seul le modèle téléchargé sur DomiFa vous
-        permettra d'importer. Pour éviter tout bug, merci de ne pas modifier
-        l'ordre ou le format des colonnes du fichier Excel
-      </p>
 
-      <div class="pt-2 pb-5">
-        <h2>Étape 2 : importer le fichier complété</h2>
+      <div class="fr-pt-2w fr-pb-5w">
+        <h2 class="fr-h4">Étape 2 : importer le fichier complété</h2>
         <p>
           Une fois le modèle Excel complété, cliquez ci-dessous pour l'importer
-          sur DomiFa
+          sur DomiFa.
         </p>
-        <div>
-          <label for="fileExcel" class="form-label">
-            <fa-icon [icon]="['fas', 'download']" aria-hidden="true"></fa-icon>
-            Cliquez ici pour importer le fichier Excel complété</label
-          >
+        <div class="fr-upload-group">
+          <label class="fr-label" for="fileExcel">
+            Cliquez ici pour importer le fichier Excel complété
+          </label>
           <input
-            class="form-control"
+            class="fr-upload"
             type="file"
             id="fileExcel"
             name="fileExcel"
@@ -78,493 +81,492 @@
           />
         </div>
       </div>
-    </div>
-  </div>
-</div>
-<div *ngIf="etapeImport === 'preview-import'" class="text-center">
-  <div
-    class="form-group text-center"
-    *ngIf="!uploadForm.invalid && previewTable?.errorsCount === 0"
-  >
-    <div class="my-2" *ngIf="previewTable">
-      <h2 class="text-primary">Votre fichier est prêt à être importé !</h2>
 
-      <p class="fw-bold">
-        {{ previewTable.totalCount }} domiciliés seront importés sur DomiFa
-      </p>
-    </div>
+      } @if (etapeImport === 'preview-import') {
+      <div class="import-preview">
+        @if (!uploadForm.invalid && previewTable?.errorsCount === 0) {
 
-    <form
-      #form
-      [formGroup]="uploadForm"
-      (ngSubmit)="submitFile(UsagersImportMode.confirm)"
-    >
-      <div>
-        <input
-          type="hidden"
-          name="fileHidden"
-          formControlName="fileInput"
-          required
-        />
+        <div class="fr-grid-row fr-grid-row--gutters">
+          <div class="fr-col">
+            <h2 class="fr-h4">Votre fichier est prêt à être importé !</h2>
+            <p class="fr-text--bold">
+              {{ previewTable.totalCount }} domiciliés seront importés sur
+              DomiFa
+            </p>
+          </div>
+          <div class="fr-col-auto">
+            <form
+              #form
+              [formGroup]="uploadForm"
+              (ngSubmit)="submitFile(UsagersImportMode.confirm)"
+            >
+              <div>
+                <input
+                  type="hidden"
+                  name="fileHidden"
+                  formControlName="fileInput"
+                  required
+                />
+                @if (previewTable?.errorsCount === 0) {
+                <button
+                  type="submit"
+                  class="fr-btn fr-btn--icon-left fr-icon-check-line"
+                >
+                  Cliquez ici pour finaliser l'import
+                </button>
+                }
+              </div>
+            </form>
+          </div>
+        </div>
+        } @if (previewTable?.errorsCount > 0) {
+        <div class="fr-alert fr-alert--error fr-mb-3w">
+          <h2 class="fr-alert__title">
+            Votre fichier ne peut pas être importé !
+          </h2>
+          <p>
+            Attention : votre fichier contient
+            <strong>{{ previewTable?.errorsCount }}</strong>
+            erreurs indiqués dans le tableau ci-dessous.
+            <br />
+            N'hésitez pas à consulter ce
+            <a
+              title="Télécharger le document explicatif pour importer les domiciliés"
+              href="/assets/files/tuto-import.pdf"
+              download
+            >
+              document explicatif
+            </a>
+            en cas de souci.
+          </p>
+          <p>
+            <strong>Note :</strong> seules les 50 premières lignes du fichier
+            sont affichées.
+          </p>
+        </div>
+
         <button
-          type="submit"
-          class="fr-btn"
-          *ngIf="previewTable?.errorsCount === 0"
+          type="button"
+          (click)="backToEtapeSelectFile()"
+          class="fr-btn fr-mb-3w"
         >
-          <fa-icon [icon]="['fas', 'check']" aria-hidden="true"></fa-icon>
-          Cliquez ici pour finaliser l'import
+          Recommencer
         </button>
-      </div>
-    </form>
-  </div>
-
-  <div *ngIf="previewTable?.errorsCount > 0" class="text-danger">
-    <h2 class="text-danger">Votre fichier ne peut pas être importé !</h2>
-
-    <p>
-      Attention : votre fichier contient
-      <strong>{{ previewTable?.errorsCount }}</strong>
-      erreurs
-      <br />
-      Les champs incorrects sont marqués en rouge dans le tableau ci-dessous
-      <br />
-      N'hésitez pas à consulter ce
-      <a
-        title="Consulter le document explicatif pour importer les domiciliés"
-        href="https://docs.numerique.gouv.fr/docs/a5bedf11-1115-4a46-bb2c-dd41a8fd781b/"
-      >
-        document explicatif
-      </a>
-      en cas de souci.
-    </p>
-    <p class="text-danger">
-      Note: seules les 50 premières lignes du fichier sont affichées.
-    </p>
-  </div>
-
-  <button
-    type="button"
-    *ngIf="previewTable?.errorsCount > 0"
-    (click)="backToEtapeSelectFile()"
-    class="fr-btn"
-  >
-    Recommencer
-  </button>
-  &nbsp;
-
-  <div id="import-table" class="table-responsive" *ngIf="!uploadForm.invalid">
-    <table class="table table-striped table-hover">
-      <caption class="visually-hidden">
-        Aperçu de l'import
-      </caption>
-      <thead>
-        <th scope="col">#</th>
-        <th scope="col">ID</th>
-        <th scope="col" class="required">Civilité (H/F)</th>
-        <th scope="col" class="required">Nom</th>
-        <th scope="col" class="required">Prénom</th>
-        <th scope="col">Nom d'usage / Surnom</th>
-        <th scope="col" class="required">
-          Date de naissance
-          <br />
-          (jj/mm/aaaa)
-        </th>
-        <th scope="col" class="required">Lieu de naissance</th>
-        <th scope="col">N° Téléphone</th>
-        <th scope="col">Adresse Mail</th>
-
-        <th scope="col" class="required">Statut demande</th>
-        <th scope="col">
-          <strong>Seulement si refus</strong>
-          <br />
-          Motif du refus
-        </th>
-        <th scope="col">
-          <strong>Seulement si radiation</strong>
-          <br />
-          Motif de radiation
-        </th>
-        <th scope="col" class="required">Type de demande</th>
-        <th scope="col" class="required">
-          Date de Début
-          <br />
-          domiciliation actuelle
-        </th>
-        <th scope="col" class="required">
-          Date de fin de domiciliation OU <br />
-          Date de radiation si radié OU <br />
-          Date de refus si refusé
-        </th>
-        <th scope="col">
-          Date de la 1
-          <sup>ère</sup>
-          DOM
-        </th>
-        <th scope="col">Date de dernier passage</th>
-        <th scope="col">La personne a-t-elle été orientée ?</th>
-        <th scope="col">
-          <b>Seulement si orientation</b><br />
-          Par quelle structure/personne la personne a-t-elle été orientée ?
-        </th>
-        <th scope="col">La personne a-t-elle déjà une domiciliation ?</th>
-        <th scope="col">
-          Quelle est la situation professionnelle de la personne ?
-        </th>
-        <th>Si autre situation, précisez</th>
-        <th scope="col">La personne a-t-elle des revenus ?</th>
-        <th scope="col">
-          <b>Seulement si revenus,</b> <br />
-          de quelle nature ?
-        </th>
-        <th scope="col">
-          Quel est le lien avec la commune ? (Si CCAS ou CIAS)
-        </th>
-        <th scope="col"><b>Si autre lien avec la commune</b>, précisions</th>
-        <th scope="col">Composition du ménage</th>
-        <th scope="col">Situation résidentielle</th>
-        <th scope="col">
-          <b>Si autre situation résidentielle</b><br />, précisions
-        </th>
-        <th scope="col">Cause instabilité logement</th>
-        <th scope="col">
-          <b>Si autre cause d'instabilité</b><br />, précisions
-        </th>
-        <th scope="col">Motif principal de la demande</th>
-        <th scope="col"><b>Si autre motif,</b><br />, précisions</th>
-        <th scope="col">Accompagnement social</th>
-        <th scope="col">Détail de l'accompagnement social</th>
-        <th scope="col">Commentaires</th>
-        <ng-container
-          *ngFor="
-            let ayantDroitColumnIndex of USAGERS_IMPORT_COLUMNS_AYANT_DROIT;
-            let rowIndex = index
-          "
+        } @if (!uploadForm.invalid) {
+        <div
+          class="fr-table fr-table--bordered fr-table--no-caption"
+          id="import-table"
         >
-          <th scope="col">
-            Nom
-            <br />
-            Ayant-droit {{ rowIndex + 1 }}
-          </th>
-          <th scope="col">
-            Prénom
-            <br />
-            Ayant-droit {{ rowIndex + 1 }}
-          </th>
-          <th scope="col">
-            Date de naissance
-            <br />
-            Ayant-droit {{ rowIndex + 1 }}
-          </th>
-          <th scope="col">
-            Lien de parenté
-            <br />
-            Ayant-droit {{ rowIndex + 1 }}
-          </th>
-        </ng-container>
-      </thead>
-      <tbody *ngIf="visibleRows">
-        <tr *ngFor="let row of visibleRows; let index = index">
-          <td>
-            <strong>{{ row.rowNumber - 1 }}</strong>
-          </td>
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.customRef.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.customRef.index]?.value }}
-          </td>
+          <div class="fr-table__wrapper">
+            <div class="fr-table__container">
+              <div class="fr-table__content">
+                <table>
+                  <caption>
+                    Aperçu de l'import
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">ID</th>
+                      <th scope="col" class="required">Civilité (H/F)</th>
+                      <th scope="col" class="required">Nom</th>
+                      <th scope="col" class="required">Prénom</th>
+                      <th scope="col">Nom d'usage / Surnom</th>
+                      <th scope="col" class="required">
+                        Date de naissance
+                        <br />
+                        (jj/mm/aaaa)
+                      </th>
+                      <th scope="col" class="required">Lieu de naissance</th>
+                      <th scope="col">N° Téléphone</th>
+                      <th scope="col">Adresse Mail</th>
+                      <th scope="col" class="required">Statut demande</th>
+                      <th scope="col">
+                        <strong>Seulement si refus</strong>
+                        <br />
+                        Motif du refus
+                      </th>
+                      <th scope="col">
+                        <strong>Seulement si radiation</strong>
+                        <br />
+                        Motif de radiation
+                      </th>
+                      <th scope="col" class="required">Type de demande</th>
+                      <th scope="col" class="required">
+                        Date de Début
+                        <br />
+                        domiciliation actuelle
+                      </th>
+                      <th scope="col" class="required">
+                        Date de fin de domiciliation OU
+                        <br />
+                        Date de radiation si radié OU
+                        <br />
+                        Date de refus si refusé
+                      </th>
+                      <th scope="col">Date de la 1<sup>ère</sup> DOM</th>
+                      <th scope="col">Date de dernier passage</th>
+                      <th scope="col">La personne a-t-elle été orientée ?</th>
+                      <th scope="col">
+                        <strong>Seulement si orientation</strong><br />
+                        Par quelle structure/personne la personne a-t-elle été
+                        orientée ?
+                      </th>
+                      <th scope="col">
+                        La personne a-t-elle déjà une domiciliation ?
+                      </th>
+                      <th scope="col">
+                        Quelle est la situation professionnelle de la personne ?
+                      </th>
+                      <th scope="col">Si autre situation, précisez</th>
+                      <th scope="col">La personne a-t-elle des revenus ?</th>
+                      <th scope="col">
+                        <strong>Seulement si revenus,</strong>
+                        <br />
+                        de quelle nature ?
+                      </th>
+                      <th scope="col">
+                        Quel est le lien avec la commune ? (Si CCAS ou CIAS)
+                      </th>
+                      <th scope="col">
+                        <strong>Si autre lien avec la commune</strong>,
+                        précisions
+                      </th>
+                      <th scope="col">Composition du ménage</th>
+                      <th scope="col">Situation résidentielle</th>
+                      <th scope="col">
+                        <strong>Si autre situation résidentielle</strong><br />,
+                        précisions
+                      </th>
+                      <th scope="col">Cause instabilité logement</th>
+                      <th scope="col">
+                        <strong>Si autre cause d'instabilité</strong><br />,
+                        précisions
+                      </th>
+                      <th scope="col">Motif principal de la demande</th>
+                      <th scope="col">
+                        <strong>Si autre motif,</strong><br />, précisions
+                      </th>
+                      <th scope="col">Accompagnement social</th>
+                      <th scope="col">Détail de l'accompagnement social</th>
+                      <th scope="col">Commentaires</th>
+                      @for (ayantDroitColumnIndex of
+                      USAGERS_IMPORT_COLUMNS_AYANT_DROIT; track
+                      ayantDroitColumnIndex; let rowIndex = $index) {
+                      <th scope="col">
+                        Nom
+                        <br />
+                        Ayant-droit {{ rowIndex + 1 }}
+                      </th>
+                      <th scope="col">
+                        Prénom
+                        <br />
+                        Ayant-droit {{ rowIndex + 1 }}
+                      </th>
+                      <th scope="col">
+                        Date de naissance
+                        <br />
+                        Ayant-droit {{ rowIndex + 1 }}
+                      </th>
+                      <th scope="col">
+                        Lien de parenté
+                        <br />
+                        Ayant-droit {{ rowIndex + 1 }}
+                      </th>
+                      }
+                    </tr>
+                  </thead>
+                  @if (visibleRows) {
+                  <tbody>
+                    @for (row of visibleRows; track row.rowNumber; let index =
+                    $index) {
+                    <tr>
+                      <td>
+                        <strong>{{ row.rowNumber - 1 }}</strong>
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.customRef.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.customRef.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.civilite.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.civilite.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.nom.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.nom.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.prenom.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.prenom.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.surnom.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.surnom.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.dateNaissance.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.dateNaissance.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.lieuNaissance.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.lieuNaissance.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.telephone.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.telephone.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.email.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.email.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.statutDom.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.statutDom.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.motifRefus.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.motifRefus.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.motifRadiation.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.motifRadiation.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.typeDom.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.typeDom.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.dateDebutDom.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.dateDebutDom.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.dateFinDom.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.dateFinDom.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.datePremiereDom.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.datePremiereDom.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.dateDernierPassage.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.dateDernierPassage.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.orientation.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.orientation.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.orientationDetail.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.orientationDetail.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.domiciliationExistante.index]
+                            ?.isValid
+                        "
+                      >
+                        {{
+                          row.columns[COL.domiciliationExistante.index]?.value
+                        }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.situationPro.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.situationPro.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.situationProDetail.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.situationProDetail.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.revenus.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.revenus.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.revenusDetail.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.revenusDetail.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.liencommune.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.liencommune.index]?.value }}
+                      </td>
+                      <td>
+                        {{ row.columns[COL.liencommuneDetail.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.typeMenage.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.typeMenage.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.residence.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.residence.index]?.value }}
+                      </td>
+                      <td>
+                        {{ row.columns[COL.residenceDetail.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.causeInstabilite.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.causeInstabilite.index]?.value }}
+                      </td>
+                      <td>
+                        {{ row.columns[COL.causeDetail.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.raisonDemande.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.raisonDemande.index]?.value }}
+                      </td>
+                      <td>
+                        {{ row.columns[COL.raisonDemandeDetail.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.accompagnement.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.accompagnement.index]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          !row.columns[COL.accompagnementDetail.index]?.isValid
+                        "
+                      >
+                        {{ row.columns[COL.accompagnementDetail.index]?.value }}
+                      </td>
+                      <td>
+                        {{ row.columns[COL.commentaires.index]?.value }}
+                      </td>
 
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.civilite.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.civilite.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{ 'table-danger': !row.columns[COL.nom.index]?.isValid }"
-          >
-            {{ row.columns[COL.nom.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.prenom.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.prenom.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.surnom.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.surnom.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.dateNaissance.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.dateNaissance.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.lieuNaissance.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.lieuNaissance.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.telephone.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.telephone.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.email.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.email.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.statutDom.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.statutDom.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.motifRefus.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.motifRefus.index]?.value }}
-          </td>
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.motifRadiation.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.motifRadiation.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.typeDom.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.typeDom.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.dateDebutDom.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.dateDebutDom.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.dateFinDom.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.dateFinDom.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.datePremiereDom.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.datePremiereDom.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger':
-                !row.columns[COL.dateDernierPassage.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.dateDernierPassage.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.orientation.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.orientation.index]?.value }}
-          </td>
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.orientationDetail.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.orientationDetail.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger':
-                !row.columns[COL.domiciliationExistante.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.domiciliationExistante.index]?.value }}
-          </td>
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.situationPro.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.situationPro.index]?.value }}
-          </td>
-          <td
-            [ngClass]="{
-              'table-danger':
-                !row.columns[COL.situationProDetail.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.situationProDetail.index]?.value }}
-          </td>
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.revenus.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.revenus.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.revenusDetail.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.revenusDetail.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.liencommune.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.liencommune.index]?.value }}
-          </td>
-          <td>
-            {{ row.columns[COL.liencommuneDetail.index]?.value }}
-          </td>
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.typeMenage.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.typeMenage.index]?.value }}
-          </td>
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.residence.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.residence.index]?.value }}
-          </td>
-
-          <td>
-            {{ row.columns[COL.residenceDetail.index]?.value }}
-          </td>
-
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.causeInstabilite.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.causeInstabilite.index]?.value }}
-          </td>
-
-          <td>
-            {{ row.columns[COL.causeDetail.index]?.value }}
-          </td>
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.raisonDemande.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.raisonDemande.index]?.value }}
-          </td>
-          <td>
-            {{ row.columns[COL.raisonDemandeDetail.index]?.value }}
-          </td>
-          <td
-            [ngClass]="{
-              'table-danger': !row.columns[COL.accompagnement.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.accompagnement.index]?.value }}
-          </td>
-          <td
-            [ngClass]="{
-              'table-danger':
-                !row.columns[COL.accompagnementDetail.index]?.isValid
-            }"
-          >
-            {{ row.columns[COL.accompagnementDetail.index]?.value }}
-          </td>
-          <td>
-            {{ row.columns[COL.commentaires.index]?.value }}
-          </td>
-
-          <ng-container
-            *ngFor="
-              let ayantDroitColumnIndex of USAGERS_IMPORT_COLUMNS_AYANT_DROIT;
-              let rowIndex = index
-            "
-          >
-            <td
-              [ngClass]="{
-                'table-danger':
-                  row.columns[ayantDroitColumnIndex]?.isValid === false
-              }"
-            >
-              {{ row.columns[ayantDroitColumnIndex]?.value }}
-            </td>
-            <td
-              [ngClass]="{
-                'table-danger':
-                  row.columns[ayantDroitColumnIndex + 1]?.isValid === false
-              }"
-            >
-              {{ row.columns[ayantDroitColumnIndex + 1]?.value }}
-            </td>
-            <td
-              [ngClass]="{
-                'table-danger':
-                  row.columns[ayantDroitColumnIndex + 2]?.isValid === false
-              }"
-            >
-              {{ row.columns[ayantDroitColumnIndex + 2]?.value }}
-            </td>
-            <td
-              [ngClass]="{
-                'table-danger':
-                  row.columns[ayantDroitColumnIndex + 3]?.isValid === false
-              }"
-            >
-              {{ row.columns[ayantDroitColumnIndex + 3]?.value }}
-            </td>
-          </ng-container>
-        </tr>
-      </tbody>
-    </table>
+                      @for (ayantDroitColumnIndex of
+                      USAGERS_IMPORT_COLUMNS_AYANT_DROIT; track
+                      ayantDroitColumnIndex) {
+                      <td
+                        [class.cell--error]="
+                          row.columns[ayantDroitColumnIndex]?.isValid === false
+                        "
+                      >
+                        {{ row.columns[ayantDroitColumnIndex]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          row.columns[ayantDroitColumnIndex + 1]?.isValid ===
+                          false
+                        "
+                      >
+                        {{ row.columns[ayantDroitColumnIndex + 1]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          row.columns[ayantDroitColumnIndex + 2]?.isValid ===
+                          false
+                        "
+                      >
+                        {{ row.columns[ayantDroitColumnIndex + 2]?.value }}
+                      </td>
+                      <td
+                        [class.cell--error]="
+                          row.columns[ayantDroitColumnIndex + 3]?.isValid ===
+                          false
+                        "
+                      >
+                        {{ row.columns[ayantDroitColumnIndex + 3]?.value }}
+                      </td>
+                      }
+                    </tr>
+                    }
+                  </tbody>
+                  }
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+      }
+    </div>
   </div>
 </div>
