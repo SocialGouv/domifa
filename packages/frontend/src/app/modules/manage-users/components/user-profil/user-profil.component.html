@@ -1,443 +1,197 @@
-<div *ngIf="me" class="head-page">
-  <div class="container">
-    <h1 class="title">Gérer les utilisateurs</h1>
-  </div>
-</div>
-
-<div class="content py-3" *ngIf="me">
-  <div class="container py-3">
-    <div class="page-content p-3">
-      <h2>Utilisateurs enregistrés: {{ users.length }} utilisateurs</h2>
-      <div class="table-responsive">
-        <table class="table" [attr.aria-rowcount]="users.length">
-          <caption class="visually-hidden">
-            Liste des utilisateurs enregistrés
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">
-                <app-table-head-sort
-                  sortKey="nom"
-                  [(sortValue)]="sortValue"
-                  [(currentKey)]="currentKey"
-                  columnName="Nom prénom"
-                >
-                </app-table-head-sort>
-              </th>
-              <th scope="col">
-                <app-table-head-sort
-                  sortKey="email"
-                  [(sortValue)]="sortValue"
-                  [(currentKey)]="currentKey"
-                  columnName="Email"
-                >
-                </app-table-head-sort>
-              </th>
-              <th scope="col">
-                <app-table-head-sort
-                  sortKey="createdAt"
-                  [(sortValue)]="sortValue"
-                  [(currentKey)]="currentKey"
-                  columnName="Date d'inscription"
-                >
-                </app-table-head-sort>
-              </th>
-              <th scope="col">
-                <app-table-head-sort
-                  sortKey="lastLogin"
-                  [(sortValue)]="sortValue"
-                  [(currentKey)]="currentKey"
-                  columnName="Statut"
-                >
-                </app-table-head-sort>
-              </th>
-              <th scope="col">
-                <app-table-head-sort
-                  sortKey="role"
-                  [(sortValue)]="sortValue"
-                  [(currentKey)]="currentKey"
-                  columnName="Rôle"
-                >
-                </app-table-head-sort>
-              </th>
-              <th scope="col">
-                <app-table-head-sort
-                  sortKey="fonction"
-                  [(sortValue)]="sortValue"
-                  [(currentKey)]="currentKey"
-                  columnName="Fonction"
-                >
-                </app-table-head-sort>
-              </th>
-              <th scope="col" *ngIf="me?.role === 'admin'">Supprimer</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="
-                let user of users | sortArray : currentKey : sortValue;
-                let i = index;
-                trackBy: userIdTrackBy
-              "
-              [attr.aria-rowindex]="i + 1"
-            >
-              <td class="fw-bold">{{ user | fullName }}</td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.createdAt | date : "d MMMM y" }}</td>
-              <td>
-                <p *ngIf="user.verified">✅ Compte actif</p>
-                <p *ngIf="!user.verified && user.lastLogin">
-                  ❌ Inactif depuis plus de 2 mois<br />Dernière connexion le
-                  {{ user.lastLogin | date : "d MMMM y" }}
-                </p>
-                <p class="fw-bold" *ngIf="!user.verified && !user.lastLogin">
-                  ❌ Compte jamais utilisé
-                </p>
-              </td>
-              <td>
-                <ng-container *ngIf="me?.role !== 'admin'">{{
-                  USER_STRUCTURE_ROLES_LABELS[user.role]
-                }}</ng-container>
-                <ng-container
-                  *ngIf="me?.role === 'admin' && me.uuid !== user.uuid"
-                >
-                  <label class="visually-hidden" for="role-{{ user.uuid }}"
-                    >Rôle de {{ user | fullName }}</label
-                  >
-                  <select
-                    [disabled]="loading"
-                    [attr.aria-busy]="loading"
-                    id="role-{{ user.uuid }}"
-                    [(ngModel)]="user.role"
-                    (ngModelChange)="onRoleChange(user, user.role)"
-                    class="form-select"
-                  >
-                    <option value="admin">Administrateur</option>
-                    <option value="responsable">Gestionnaire</option>
-                    <option value="simple">Instructeur</option>
-                    <option value="facteur">Facteur</option>
-                    <option value="agent">Agent d'accueil</option>
-                  </select>
-                </ng-container>
-              </td>
-              <td>{{ user | fonctionFormat }}</td>
-              <td *ngIf="me?.role === 'admin'">
-                <button
-                  type="button"
-                  *ngIf="me?.role === 'admin' && me.uuid !== user.uuid"
-                  (click)="openDeleteConfirmation(user)"
-                  class="fr-btn"
-                  [attr.aria-label]="
-                    'Supprimer ' + user.nom + ' ' + user.prenom
-                  "
-                >
-                  <span class="fr-icon-delete-line" aria-hidden="true"></span>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+@if (me) {
+<div class="head-page">
+  <div class="fr-container">
+    <div class="fr-grid-row fr-grid-row--middle fr-grid-row--gutters">
+      <div class="fr-col">
+        <h1 class="title">Gérer les utilisateurs</h1>
       </div>
-      <button
-        type="button"
-        class="btn btn-outline-primary my-2"
-        [attr.aria-expanded]="displayUserRightsHelper"
-        aria-controls="user-infos"
-        (click)="displayUserRightsHelper = !displayUserRightsHelper"
-      >
-        <fa-icon aria-hidden="true" [icon]="['fas', 'question']"></fa-icon>
-        &nbsp; En savoir plus sur les rôles utilisateurs
-      </button>
-      <div
-        class="my-2 table-responsive"
-        id="user-infos"
-        *ngIf="displayUserRightsHelper"
-      >
-        <table class="table">
-          <caption class="visually-hidden">
-            Liste des rôles utilisateurs et des rôles
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Fonctionnalité</th>
-              <th scope="col">Facteur</th>
-              <th scope="col">Agent d'accueil</th>
-              <th scope="col">Instructeur</th>
-              <th scope="col">Gestionnaire</th>
-              <th scope="col">Administrateur</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- GESTION DES UTILISATEURS -->
-            <tr class="table-secondary">
-              <td colspan="6"><strong>GESTION DES UTILISATEURS</strong></td>
-            </tr>
-            <tr>
-              <td>Création et suppression d'un utilisateur</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Accès à la liste des membres actifs</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Changement de rôle d'un utilisateur</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-
-            <!-- GESTION DE LA STRUCTURE -->
-            <tr class="table-secondary">
-              <td colspan="6"><strong>GESTION DE LA STRUCTURE</strong></td>
-            </tr>
-            <tr>
-              <td>Modification des informations de votre structure</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Ajout documentation interne structure</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>* Téléchargement seulement</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Paramètres (SMS, ID personnalisés etc.)</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Portail usager</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Paramétrage des courriers</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>
-                Suppression de la liste des usagers liée à votre structure
-              </td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Export des données</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Page statistiques de la structure</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-
-            <!-- GESTION DES DOSSIERS -->
-            <tr class="table-secondary">
-              <td colspan="6"><strong>GESTION DES DOSSIERS</strong></td>
-            </tr>
-            <tr>
-              <td>
-                Instruction d'une demande ou d'un renouvellement de
-                domiciliation
-              </td>
-              <td>Non</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Validation ou refus d'une demande ou d'un renouvellement</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Radiation d'un dossier</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>
-                Modification de la fiche d'un domicilié :
-                <ul style="text-align: left; margin: 0; padding-left: 20px">
-                  <li>état civil*</li>
-                  <li>Ayants droit*</li>
-                  <li>Informations de contact**</li>
-                  <li>Notifications SMS*</li>
-                  <li>Portail usager*</li>
-                  <li>Transfert de courrier**</li>
-                  <li>Procurations de courrier**</li>
-                  <li>Entretien</li>
-                  <li>Pièces jointes</li>
-                </ul>
-              </td>
-              <td>
-                <p>* Lecture des informations seulement</p>
-                <p>** Modification et suppression possible</p>
-              </td>
-              <td>
-                <p>* Lecture des informations seulement</p>
-                <p>** Modification et suppression possible</p>
-              </td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Ajout de notes internes</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Suppression de notes internes</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Gestion de la réception des courriers/colis/avis</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Déclaration d'un passage/appel</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Téléchargement des pièces jointes liées au dossier</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Télécharger le Cerfa</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Réinitialiser les identifiants mon domifa d'un domicilié</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-            <tr>
-              <td>Suppression du dossier d'un domicilié</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td>Non</td>
-              <td class="bg-success text-white">Oui</td>
-              <td class="bg-success text-white">Oui</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div *ngIf="me?.role === 'admin'" class="my-3">
-        <app-register-user-admin
-          (getUsers)="getUsers()"
-        ></app-register-user-admin>
+      <div class="fr-col-auto">
+        <a
+          class="fr-btn fr-icon-file-text-line fr-btn--icon-left fr-btn--secondary"
+          routerLink="/manage/user-rights"
+        >
+          En savoir plus sur les rôles des utilisateurs
+        </a>
       </div>
     </div>
   </div>
 </div>
 
-<ng-template #deleteUserConfirmation let-modal
-  ><app-delete-user
+<div class="fr-content-container">
+  <div class="fr-container">
+    <div class="fr-content">
+      <div class="fr-grid-row fr-grid-row--center">
+        <h2 class="fr-col fr-h4">
+          <span
+            class="fr-icon-group-line fr-mr-1w fr-text-action-high--blue-france"
+            aria-hidden="true"
+          ></span>
+          Utilisateurs enregistrés : {{ users.length }} utilisateurs
+        </h2>
+
+        @if (me?.role === 'admin') {
+        <div class="fr-col-auto">
+          <button
+            type="button"
+            class="fr-btn fr-btn--secondary fr-icon-user-add-line fr-btn--icon-left"
+            aria-controls="register-user-modal"
+            data-fr-opened="false"
+          >
+            Ajouter un utilisateur
+          </button>
+        </div>
+        }
+      </div>
+
+      <div class="fr-table" id="table-users">
+        <div class="fr-table__wrapper">
+          <div class="fr-table__container">
+            <div class="fr-table__content">
+              <table [attr.aria-rowcount]="users.length">
+                <caption class="fr-sr-only">
+                  Liste des utilisateurs enregistrés
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      <app-table-head-sort
+                        sortKey="nom"
+                        [(sortValue)]="sortValue"
+                        [(currentKey)]="currentKey"
+                        columnName="Nom prénom"
+                      />
+                    </th>
+                    <th scope="col">
+                      <app-table-head-sort
+                        sortKey="email"
+                        [(sortValue)]="sortValue"
+                        [(currentKey)]="currentKey"
+                        columnName="Email"
+                      />
+                    </th>
+                    <th scope="col">
+                      <app-table-head-sort
+                        sortKey="createdAt"
+                        [(sortValue)]="sortValue"
+                        [(currentKey)]="currentKey"
+                        columnName="Date d'inscription"
+                      />
+                    </th>
+                    <th scope="col">
+                      <app-table-head-sort
+                        sortKey="lastLogin"
+                        [(sortValue)]="sortValue"
+                        [(currentKey)]="currentKey"
+                        columnName="Statut"
+                      />
+                    </th>
+                    <th scope="col">
+                      <app-table-head-sort
+                        sortKey="role"
+                        [(sortValue)]="sortValue"
+                        [(currentKey)]="currentKey"
+                        columnName="Rôle"
+                      />
+                    </th>
+                    <th scope="col">
+                      <app-table-head-sort
+                        sortKey="fonction"
+                        [(sortValue)]="sortValue"
+                        [(currentKey)]="currentKey"
+                        columnName="Fonction"
+                      />
+                    </th>
+                    @if (me?.role === 'admin') {
+                    <th scope="col">Supprimer</th>
+                    }
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (user of users | sortArray: currentKey : sortValue; track
+                  userIdTrackBy($index, user); let i = $index) {
+                  <tr [attr.aria-rowindex]="i + 1">
+                    <td class="fr-text--bold">{{ user | fullName }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.createdAt | date : "d MMMM y" }}</td>
+                    <td>
+                      <app-display-last-login
+                        [lastLogin]="user.lastLogin"
+                      ></app-display-last-login>
+                    </td>
+                    <td>
+                      @if (me?.role !== 'admin') {
+                      {{ USER_STRUCTURE_ROLES_LABELS[user.role] }}
+                      } @if (me?.role === 'admin' && me.uuid !== user.uuid) {
+                      <div class="fr-select-group">
+                        <label
+                          class="fr-label fr-sr-only"
+                          [for]="'role-' + user.uuid"
+                        >
+                          Rôle de {{ user | fullName }}
+                        </label>
+                        <select
+                          class="fr-select"
+                          [disabled]="loading"
+                          [attr.aria-busy]="loading"
+                          [id]="'role-' + user.uuid"
+                          [(ngModel)]="user.role"
+                          (ngModelChange)="onRoleChange(user, user.role)"
+                        >
+                          <option value="admin">Administrateur</option>
+                          <option value="responsable">Gestionnaire</option>
+                          <option value="simple">Instructeur</option>
+                          <option value="facteur">Facteur</option>
+                          <option value="agent">Agent d'accueil</option>
+                        </select>
+                      </div>
+                      }
+                    </td>
+                    <td>{{ user | fonctionFormat }}</td>
+                    @if (me?.role === 'admin') {
+                    <td>
+                      @if (me.uuid !== user.uuid) {
+                      <button
+                        type="button"
+                        class="fr-btn fr-btn--secondary fr-icon-delete-line"
+                        (click)="openDeleteConfirmation(user)"
+                        [attr.aria-label]="
+                          'Supprimer le compte de ' +
+                          user.nom +
+                          ' ' +
+                          user.prenom
+                        "
+                      >
+                        Supprimer
+                      </button>
+                      }
+                    </td>
+                    }
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@if (me?.role === 'admin') {
+<app-register-user-admin (getUsers)="getUsers()" />
+} }
+
+<dsfr-modal
+  #deleteModal
+  dialogId="delete-user-modal"
+  [size]="'LG'"
+  titleModal="Suppression du compte de {{ selectedUser?.nom }} {{
+    selectedUser?.prenom
+  }}"
+>
+  <app-delete-user
     [selectedUser]="selectedUser"
     (deleteComplete)="getUsers()"
-  ></app-delete-user>
-</ng-template>
-
-<ng-template #assignReferrersModal let-modal>
-  <div class="modal-header">
-    <span id="modal-title">
-      Souhaitez-vous réassigner les dossiers suivis par cet utilisateur ?
-    </span>
-  </div>
-
-  <div class="modal-body text-center py-3">
-    <p>
-      Un utilisateur ayant pour rôle "facteur" ou "agent" ne peut pas être
-      référent. Pour continuer, veuillez choisir à quel utilisateur vous
-      souhaitez affecter les dossiers suivis par {{ selectedUser | fullName }}
-    </p>
-    <app-assign-referrers
-      [currentUser]="selectedUser"
-      [(newReferrerId)]="newReferrerId"
-    ></app-assign-referrers>
-  </div>
-  <div class="modal-footer">
-    <button
-      class="btn btn-lg btn-outline-primary"
-      type="button"
-      (click)="resetRoles()"
-    >
-      Annuler
-    </button>
-    <button class="fr-btn" type="submit" (click)="updateRoleAndReassign()">
-      Modifier le rôle
-    </button>
-  </div>
-</ng-template>
+  />
+</dsfr-modal>

@@ -25,6 +25,7 @@ import { AuthService, CustomToastService } from "../../../shared/services";
 
 import { UserStructure } from "@domifa/common";
 import { UsersService, userStructureBuilder } from "../../../users/services";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   animations: [fadeInOut],
@@ -46,6 +47,9 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
 
   @ViewChild("form", { static: true })
   public form!: ElementRef<HTMLFormElement>;
+
+  @ViewChild("registerModal", { static: false })
+  registerModal!: DsfrModalComponent;
 
   public get f(): { [key: string]: AbstractControl } {
     return this.userForm.controls;
@@ -94,6 +98,14 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
       ],
       structureId: [this.user.structureId, []],
     });
+  }
+
+  public openModal(): void {
+    this.registerModal.open();
+  }
+
+  public closeModals() {
+    this.registerModal.close();
   }
 
   public submitUser() {

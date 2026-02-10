@@ -1,20 +1,16 @@
-<div class="alert alert-warning">
-  <div class="row">
-    <div class="col-12 col-md-6">
-      <b>
-        {{ currentUser | fullName }} est référent de
-        {{ nbReferrers }} domiciliés.</b
-      >
-      <br />À qui souhaitez-vous assigner ces dossiers ?
-    </div>
-    <div class="col-12 col-md-6">
-      <app-input-referrer
-        [submitted]="submitted"
-        [displayLabel]="false"
-        label="Liste des référents"
-        [required]="true"
-        (outputFunction)="updateReferrers($event)"
-      ></app-input-referrer>
-    </div>
-  </div>
+<div class="fr-alert fr-alert--warning fr-mb-3w">
+  <b>
+    {{ currentUser | fullName }} est référent de
+    {{ nbReferrers }} domiciliés.</b
+  >
+  <br />À qui souhaitez-vous assigner ces dossiers ?
 </div>
+
+<app-input-referrer
+  [submitted]="submitted"
+  [displayLabel]="false"
+  [displayHint]="false"
+  label="Liste des référents"
+  [required]="true"
+  (outputFunction)="updateReferrers($event)"
+></app-input-referrer>

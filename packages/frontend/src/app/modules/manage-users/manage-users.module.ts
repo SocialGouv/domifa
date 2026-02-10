@@ -16,6 +16,8 @@ import { RegisterUserAdminComponent } from "./components/register-user-admin/reg
 import { ManageUsersRoutingModule } from "./manage-users-routing.module";
 import { AssignReferrersComponent } from "./components/assign-referrers/assign-referrers.component";
 import { DeleteUserComponent } from "./components/delete-user/delete-user.component";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { DisplayLastLoginComponent } from "src/app/modules/shared/components/display-last-login/display-last-login.component";
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { DeleteUserComponent } from "./components/delete-user/delete-user.compon
     ManageUsersRoutingModule,
     FullNamePipe,
     SortArrayPipe,
+    DsfrModalComponent,
+    DisplayLastLoginComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })
