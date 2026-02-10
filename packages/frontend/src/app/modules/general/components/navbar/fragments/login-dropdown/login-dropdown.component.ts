@@ -1,4 +1,3 @@
-// login-dropdown.component.ts
 import { Component, Input, OnInit } from "@angular/core";
 import { DsfrLink } from "@edugouvfr/ngx-dsfr";
 
@@ -11,7 +10,17 @@ import { Router } from "@angular/router";
   templateUrl: "./login-dropdown.component.html",
 })
 export class LoginDropdownComponent implements OnInit {
-  @Input() me: UserStructure | null = null;
+  private _me: UserStructure | null = null;
+
+  @Input()
+  set me(value: UserStructure | null) {
+    this._me = value;
+    this.updateLinks();
+  }
+
+  get me(): UserStructure | null {
+    return this._me;
+  }
 
   public dsfrLinks: DsfrLink[] = [];
   public loginLinks: DsfrLink[] = [];
@@ -24,9 +33,15 @@ export class LoginDropdownComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildLoginLinks();
-    if (this.me) {
+  }
+
+  private updateLinks(): void {
+    if (this._me) {
+      this.userName = `${this._me.nom} ${this._me.prenom}`;
       this.buildUserLinks();
-      this.userName = `${this.me.nom} ${this.me.prenom}`;
+    } else {
+      this.userName = "";
+      this.dsfrLinks = [];
     }
   }
 
@@ -50,8 +65,6 @@ export class LoginDropdownComponent implements OnInit {
         icon: "fr-icon-building-line",
       },
     ];
-
-    console.log(this.loginLinks);
   }
 
   private buildUserLinks(): void {
@@ -116,8 +129,8 @@ export class LoginDropdownComponent implements OnInit {
   }
 
   onLinkSelect(link: DsfrLink): void {
-    if (link.route) {
-      this.router.navigate([link.route]);
+    if (link.routerLink) {
+      this.router.navigate([link.routerLink]);
     }
   }
 
@@ -126,14 +139,14 @@ export class LoginDropdownComponent implements OnInit {
   }
 
   get userEmail(): string {
-    return this.me?.email ?? "";
+    return this._me?.email ?? "";
   }
 
   get isAdminOrResponsable(): boolean {
-    return this.me ? ["admin", "responsable"].includes(this.me.role) : false;
+    return this._me ? ["admin", "responsable"].includes(this._me.role) : false;
   }
 
   get isSmsEnabled(): boolean {
-    return this.me?.structure?.sms?.enabledByDomifa ?? false;
+    return this._me?.structure?.sms?.enabledByDomifa ?? false;
   }
 }

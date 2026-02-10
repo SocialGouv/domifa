@@ -1,46 +1,46 @@
-<ng-container>
-  <div
-    class="fr-input-group"
-    [ngClass]="{
-      'fr-input-group--error':
-        parentFormGroup &&
-        (submitted || parentFormGroup?.controls?.referrerId?.dirty) &&
-        parentFormGroup?.controls?.referrerId.errors
-    }"
+<div
+  class="fr-input-group"
+  [ngClass]="{
+    'fr-input-group--error':
+      parentFormGroup &&
+      (submitted || parentFormGroup?.controls?.referrerId?.dirty) &&
+      parentFormGroup?.controls?.referrerId.errors
+  }"
+>
+  <label class="fr-label" [class.fr-sr-only]="!displayLabel" for="referrerId">
+    {{ label }}
+  </label>
+  @if(displayHint) {
+  <p class="empty-hint"></p>
+  }
+  <select
+    id="referrerId"
+    [(ngModel)]="referrerId"
+    (ngModelChange)="onModelChange($event)"
+    name="referrerId"
+    class="fr-select"
+    [attr.aria-invalid]="
+      parentFormGroup &&
+      (submitted || parentFormGroup?.controls?.referrerId?.dirty) &&
+      parentFormGroup?.controls?.referrerId.errors
+        ? true
+        : false
+    "
+    [attr.required]="required"
   >
-    <label class="fr-label" [class.fr-sr-only]="!displayLabel" for="referrerId">
-      {{ label }}
-    </label>
-    <p class="empty-hint"></p>
-    <select
-      id="referrerId"
-      [(ngModel)]="referrerId"
-      (ngModelChange)="onModelChange($event)"
-      name="referrerId"
-      class="fr-select"
-      [attr.aria-invalid]="
-        parentFormGroup &&
-        (submitted || parentFormGroup?.controls?.referrerId?.dirty) &&
-        parentFormGroup?.controls?.referrerId.errors
-          ? true
-          : false
-      "
-      [attr.required]="required"
-    >
-      <option [value]="null">Sans référent</option>
-      <option *ngFor="let user of users" [value]="user.id">
-        {{ user | fullName }}
-      </option>
-    </select>
-    <p
-      *ngIf="
-        parentFormGroup &&
-        (submitted || parentFormGroup?.controls?.referrerId?.dirty) &&
-        parentFormGroup?.controls?.referrerId.errors
-      "
-      class="fr-error-text"
-    >
-      Le référent est obligatoire
-    </p>
-  </div>
-</ng-container>
+    <option [value]="null">Sans référent</option>
+    <option *ngFor="let user of users" [value]="user.id">
+      {{ user | fullName }}
+    </option>
+  </select>
+  <p
+    *ngIf="
+      parentFormGroup &&
+      (submitted || parentFormGroup?.controls?.referrerId?.dirty) &&
+      parentFormGroup?.controls?.referrerId.errors
+    "
+    class="fr-error-text"
+  >
+    Le référent est obligatoire
+  </p>
+</div>

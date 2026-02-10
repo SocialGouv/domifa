@@ -109,12 +109,9 @@
                     } @else { <span>Mot de passe inconnu</span>}
                   </td>
                   <td>
-                    <span *ngIf="account?.lastLogin">
-                      {{ account.lastLogin | date : "dd/MM/yyyy à HH:mm" }}
-                    </span>
-                    <span *ngIf="!account.lastLogin" class="text-muted">
-                      Jamais connecté
-                    </span>
+                    <app-display-last-login
+                      [lastLogin]="account.lastLogin"
+                    ></app-display-last-login>
                   </td>
                 </tr>
               </ng-container>
