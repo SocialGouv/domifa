@@ -44,6 +44,15 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   @ViewChild("assignReferrersModal")
   public assignReferrersModal!: DsfrModalComponent;
 
+  @ViewChild("deleteUserConfirmationModal")
+  public deleteUserConfirmationModal!: DsfrModalComponent;
+
+  @ViewChild("addUserModal")
+  public addUserModal!: DsfrModalComponent;
+
+  @ViewChild("updateUserModal")
+  public updateUserModal!: DsfrModalComponent;
+
   constructor(
     private readonly authService: AuthService,
     private readonly manageUsersService: ManageUsersService,
@@ -115,6 +124,36 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     );
   }
 
+  public openDeleteConfirmation(user: UserStructure): void {
+    this.selectedUser = user;
+    this.deleteUserConfirmationModal.open();
+  }
+
+  public openUpdateUserModal(user: UserStructure): void {
+    this.selectedUser = user;
+    this.updateUserModal.open();
+  }
+
+  public openAddUserModal(): void {
+    this.selectedUser = null;
+    this.addUserModal.open();
+  }
+
+  public closeModal(modal: "add" | "update" | "delete"): void {
+    this.selectedUser = null;
+    if (modal === "add") {
+      this.addUserModal?.close();
+    }
+
+    if (modal === "update") {
+      this.updateUserModal?.close();
+    }
+
+    if (modal === "delete") {
+      this.deleteUserConfirmationModal?.close();
+    }
+  }
+
   public updateRoleAndReassign(): void {
     if (this.selectedUser?.uuid) {
       this.loading = true;
@@ -152,11 +191,6 @@ export class UserProfilComponent implements OnInit, OnDestroy {
           })
       );
     }
-  }
-
-  public openDeleteConfirmation(user: UserStructure): void {
-    this.selectedUser = user;
-    this.deleteModal.open();
   }
 
   public closeModals(): void {

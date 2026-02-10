@@ -119,50 +119,59 @@
                       ></app-display-last-login>
                     </td>
                     <td>
-                      @if (me?.role !== 'admin') {
                       {{ USER_STRUCTURE_ROLES_LABELS[user.role] }}
-                      } @if (me?.role === 'admin' && me.uuid !== user.uuid) {
-                      <div class="fr-select-group">
-                        <label
-                          class="fr-label fr-sr-only"
-                          [for]="'role-' + user.uuid"
-                        >
-                          Rôle de {{ user | fullName }}
-                        </label>
-                        <select
-                          class="fr-select"
-                          [disabled]="loading"
-                          [attr.aria-busy]="loading"
-                          [id]="'role-' + user.uuid"
-                          [(ngModel)]="user.role"
-                          (ngModelChange)="onRoleChange(user, user.role)"
-                        >
-                          <option value="admin">Administrateur</option>
-                          <option value="responsable">Gestionnaire</option>
-                          <option value="simple">Instructeur</option>
-                          <option value="facteur">Facteur</option>
-                          <option value="agent">Agent d'accueil</option>
-                        </select>
-                      </div>
-                      }
                     </td>
                     <td>{{ user | fonctionFormat }}</td>
                     @if (me?.role === 'admin') {
                     <td>
                       @if (me.uuid !== user.uuid) {
-                      <button
-                        type="button"
-                        class="fr-btn fr-btn--secondary fr-icon-delete-line"
-                        (click)="openDeleteConfirmation(user)"
-                        [attr.aria-label]="
-                          'Supprimer le compte de ' +
+                      <dsfrx-dropdownmenu
+                        [ariaLabelMenu]="
+                          'Modifier  l\'utilisateur ' +
                           user.nom +
                           ' ' +
                           user.prenom
                         "
+                        [labelMenu]="'Actions'"
+                        [closeOnAction]="true"
+                        [size]="'SM'"
+                        appendTo="body"
                       >
-                        Supprimer
-                      </button>
+                        <ng-template #contentTemplate>
+                          <dsfrx-dropdownmenu-item
+                            (selectItem)="openUpdateUserModal(user)"
+                          >
+                            <button
+                              type="button"
+                              class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+                              (click)="openUpdateUserModal(user)"
+                            >
+                              <i
+                                class="fr-icon-edit-fill"
+                                aria-hidden="true"
+                              ></i>
+                              Modifier l'utilisateur
+                            </button>
+                          </dsfrx-dropdownmenu-item>
+
+                          <dsfrx-dropdownmenu-item
+                            (selectItem)="openDeleteConfirmation(user)"
+                          >
+                            <button
+                              type="button"
+                              class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+                              (click)="openDeleteConfirmation(user)"
+                            >
+                              <i
+                                class="fr-icon-delete-fill"
+                                aria-hidden="true"
+                              ></i>
+                              Supprimer l'utilisateur
+                            </button>
+                          </dsfrx-dropdownmenu-item>
+                        </ng-template>
+                      </dsfrx-dropdownmenu>
+
                       }
                     </td>
                     }

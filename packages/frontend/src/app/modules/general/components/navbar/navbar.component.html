@@ -38,23 +38,17 @@
           </div>
         </div>
 
-        <!-- DESKTOP : Quick access + dropdown utilisateur -->
         <div class="fr-header__tools">
           <div class="fr-header__tools-links">
             <ul class="fr-btns-group">
               @if (!me) {
-              <li>
-                <a routerLink="/news" class="fr-btn fr-btn--tertiary">
-                  @if (pendingNews) {
-                  <span class="fr-badge fr-badge--sm fr-badge--error fr-mr-1w"
-                    >New</span
-                  >
-                  } Nouveautés
-                </a>
-              </li>
-              <li>
-                <a routerLink="/faq" class="fr-btn fr-btn--tertiary">
-                  En savoir plus
+              <li class="fr-nav__item">
+                <a
+                  class="fr-nav__link fr-btn fr-btn--tertiary"
+                  routerLink="/faq"
+                  [attr.aria-current]="isCurrentRoute('/faq') ? 'page' : null"
+                >
+                  Besoin d'aide ?
                 </a>
               </li>
 
@@ -183,15 +177,7 @@
               Nous contacter
             </a>
           </li>
-          <li class="fr-nav__item">
-            <a
-              class="fr-nav__link"
-              routerLink="/faq"
-              [attr.aria-current]="isCurrentRoute('/faq') ? 'page' : null"
-            >
-              Besoin d'aide
-            </a>
-          </li>
+
           }
         </ul>
       </nav>
