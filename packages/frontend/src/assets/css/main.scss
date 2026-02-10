@@ -43,32 +43,6 @@ h4 {
   max-width: 1500px;
 }
 
-.modal-backdrop.show {
-  opacity: 0.75;
-}
-
-.modal-content {
-  animation-name: fadeIn;
-  animation-duration: 300ms;
-}
-
-.bg-primary-light {
-  background: #f6f7ff;
-}
-
-.active {
-  color: var(--text-active-blue-france);
-}
-
-.step-form {
-  background-color: white;
-  padding: 1.4rem 1rem;
-  max-width: 1040px;
-  margin: 1rem auto;
-  border: 1px solid #d1d1d1;
-  border-radius: 4px;
-}
-
 .tooltip.show {
   opacity: 1 !important;
 }

@@ -9,7 +9,10 @@
     <div class="page-content p-3">
       <div class="row" *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'">
         <div class="col-12">
-          <h2>Mes prochains rendez-vous</h2>
+          <h2>
+            <span class="fr-icon-calendar-line" aria-hidden="true"></span> Mes
+            prochains rendez-vous
+          </h2>
           <ng-container *ngIf="usagers$ | async as nextMeetings">
             @if (!nextMeetings?.length) {
             <div class="fr-callout fr-callout--info">
@@ -245,7 +248,10 @@
       </form>
 
       <div class="row my-4">
-        <h2 class="col-md-8">Mot de passe</h2>
+        <h2 class="col-md-8">
+          <span class="fr-icon-lock-fill" aria-hidden="true"></span> Mot de
+          passe
+        </h2>
         <h2 class="col-md-4 text-end">
           <button
             *ngIf="!editPassword"
@@ -263,9 +269,9 @@
         </h2>
 
         <div class="col-md-12 text-center" *ngIf="!editPassword">
-          <p>
-            {{ lastPasswordUpdate }}
-          </p>
+          <div class="fr-callout fr-callout--info">
+            <p class="fr-callout__text">{{ lastPasswordUpdate }}</p>
+          </div>
         </div>
       </div>
 
