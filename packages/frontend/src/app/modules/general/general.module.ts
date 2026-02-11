@@ -29,7 +29,6 @@ import { RouterModule } from "@angular/router";
 
 import { SharedModule } from "../shared/shared.module";
 import { PlanSiteComponent } from "./components/plan-site/plan-site.component";
-import { HelpModalComponent } from "./components/static-modals/help-modal/help-modal.component";
 import { RgaaComponent } from "./components/static-pages/rgaa/rgaa.component";
 import { LandingPagePortailComponent } from "./components/static-pages/landing-page-portail/landing-page-portail.component";
 import { HomeStatsComponent } from "../stats/components/home-stats/home-stats.component";
@@ -58,7 +57,7 @@ import { LoginDropdownComponent } from "./components/navbar/fragments/login-drop
     PolitiqueComponent,
     NavbarComponent,
     PlanSiteComponent,
-    HelpModalComponent,
+
     IdleManagerComponent,
     RgaaComponent,
     LandingPagePortailComponent,
@@ -70,7 +69,6 @@ import { LoginDropdownComponent } from "./components/navbar/fragments/login-drop
     NotFoundComponent,
     NavbarComponent,
     CguComponent,
-    HelpModalComponent,
     IdleManagerComponent,
     LandingPagePortailComponent,
   ],
