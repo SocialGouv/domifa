@@ -1,401 +1,356 @@
-<div class="w-100 fr-background-contrast--blue-ecume">
-  <div
-    class="fr-container row d-flex flex-row justify-content-between align-items-center"
-  >
-    <div class="col-12 col-md-8 col-sm-8 py-3 py-md-5 d-flex flex-column gap-1">
-      <h1 class="fr-text-title--blue-france mb-1">Contacter DomiFa</h1>
-      <p class="fr-text--lead fr-text-title--blue-france">
-        Un problème ? Une suggestion ? Avez-vous consulté notre
-        <a class="fr-link" [routerLink]="['/faq']" ariaCurrentWhenActive="page"
-          >FAQ</a
-        >
-        ? <br />
-        Si la réponse ne s'y trouve pas, merci de remplir les champs ci-dessous
-        en nous donnant un maximum d'informations, ce qui nous permettra de vous
-        répondre plus rapidement.
-      </p>
-    </div>
-    <div class="col-3 d-none d-sm-block">
-      <img class="fr-responsive-img" src="assets/images/contact.svg" alt="" />
-    </div>
-  </div>
-</div>
-
-<div class="fr-container py-4" *ngIf="contactForm">
-  <div *ngIf="success" class="fr-alert fr-alert--success mb-3">
-    <span class="fr-alert__title">Message envoyé</span>
-    <p>
-      Formulaire envoyé avec succès, l’équipe vous recontactera très
-      prochainement
-    </p>
-  </div>
-
-  <div *ngIf="error" class="fr-alert fr-alert--error mb-3">
-    <span class="fr-alert__title">Erreur</span>
-    <p>Votre message n’a pas pu être envoyé. Veuillez réessayer.</p>
-  </div>
-  <div class="d-flex align-items-center gap-1">
-    <div>
-      <img
-        class="fr-responsive-img"
-        src="assets/dsfr-pictograms/digital/avatar.svg"
-        alt=""
-      />
-    </div>
-    <h2 class="mb-0">Remplir le formulaire de contact</h2>
-  </div>
-
-  <span class="fr-text-default--error"> Champs obligatoires *</span>
-  <div class="py-4">
-    <div class="row justify-content-center">
-      <div class="col-md-12 col-lg-12 col-sm-12">
-        <form
-          class="d-flex flex-column justify-content-center gap-2"
-          [formGroup]="contactForm"
-          (ngSubmit)="sendContactMessage()"
-        >
-          <input formControlName="userId" name="userId" type="hidden" />
-          <input
-            formControlName="structureId"
-            name="structureId"
-            type="hidden"
-          />
-          <div
-            [class.fr-input-group--error]="
-              (submitted || f.name.dirty) && f.name.errors
-            "
-            class="fr-input-group required mb-0"
+<div class="fr-background-contrast--blue-ecume">
+  <div class="fr-container">
+    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+      <div class="fr-col-12 fr-col-sm-8 fr-py-3w fr-py-md-5w">
+        <h1 class="fr-text-title--blue-france fr-mb-1w">Contacter DomiFa</h1>
+        <p class="fr-text--lead fr-text-title--blue-france">
+          Un problème ? Une suggestion ? Avez-vous consulté notre
+          <a
+            class="fr-link"
+            [routerLink]="['/faq']"
+            ariaCurrentWhenActive="page"
+            >FAQ</a
           >
-            <label class="fr-label" for="name">Votre nom</label>
-            <input
-              type="text"
-              class="fr-input"
-              id="name"
-              appCleanStr
-              autocomplete="name"
-              formControlName="name"
-              name="name"
-              [ngClass]="{ 'is-invalid': f.name.dirty && f.name.errors }"
-              [attr.aria-invalid]="f.name.dirty && f.name.errors ? true : false"
-              [attr.aria-describedby]="
-                (submitted || f.name.dirty) && f.name.errors
-                  ? 'invalid-name'
-                  : 'name-help'
-              "
-              required
-            />
-
-            <ul class="fr-messages-group ms-0 ps-0">
-              <li
-                id="name-help"
-                class="fr-message fr-message--info"
-                *ngIf="!(submitted || f.name.dirty) || !f.name.errors"
-              >
-                2 caractères minimum
-              </li>
-              <li
-                id="invalid-name"
-                class="fr-message fr-message--error"
-                *ngIf="(submitted || f.name.dirty) && f.name.errors"
-              >
-                Veuillez indiquer votre nom, 2 caractères minimum
-              </li>
-            </ul>
-          </div>
-          <div
-            [class.fr-input-group--error]="
-              (submitted || f.structureName.dirty) && f.structureName.errors
-            "
-            class="fr-input-group required"
-          >
-            <label class="fr-label" for="structureName"
-              >Nom de votre structure</label
-            >
-            <input
-              autocomplete="organization"
-              type="text"
-              class="fr-input"
-              id="structureName"
-              appCleanStr
-              formControlName="structureName"
-              name="structureName"
-              [attr.aria-invalid]="
-                (submitted || f.structureName.dirty) && f.structureName.errors
-                  ? true
-                  : false
-              "
-              [attr.aria-describedby]="
-                (submitted || f.structureName.dirty) && f.structureName.errors
-                  ? 'invalid-structure-name'
-                  : null
-              "
-              [ngClass]="{
-                'is-invalid':
-                  (submitted || f.structureName.dirty) && f.structureName.errors
-              }"
-              required
-            />
-
-            <ul
-              class="fr-messages-group ms-0 ps-0"
-              *ngIf="
-                (submitted || f.structureName.dirty) && f.structureName.errors
-              "
-              id="invalid-structure-name"
-            >
-              <li class="fr-message fr-message--error">
-                Veuillez indiquer le nom de votre structure (2 caractères
-                minimum)
-              </li>
-            </ul>
-          </div>
-          <div class="row">
-            <div class="col-12 col-md-6">
-              <div
-                [class.fr-input-group--error]="
-                  (f.email.dirty || submitted) && f.email.errors
-                "
-                class="fr-input-group required"
-              >
-                <label class="fr-label" for="email"
-                  >Adresse email de contact</label
-                >
-                <p class="fr-hint-text empty-hint"></p>
-                <input
-                  type="email"
-                  id="email"
-                  formControlName="email"
-                  name="email"
-                  autocomplete="email"
-                  class="fr-input"
-                  [attr.aria-invalid]="
-                    (f.email.dirty || submitted) && f.email.errors
-                      ? true
-                      : false
-                  "
-                  [attr.aria-describedby]="
-                    (f.email.dirty || submitted) && f.email.errors
-                      ? 'email-errors'
-                      : null
-                  "
-                  required
-                />
-                <ul
-                  *ngIf="(f.email.dirty || submitted) && f.email.errors"
-                  id="email-errors"
-                  class="fr-messages-group ms-0 ps-0"
-                >
-                  <li class="fr-message fr-message--error">
-                    Veuillez vérifier l'adresse email, format attendu :
-                    nom&#64;domaine.fr
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-6">
-              <app-phone-input
-                [isRequired]="true"
-                [isMobileOnly]="false"
-                [submitted]="submitted"
-                formControlName="phone"
-              ></app-phone-input>
-            </div>
-          </div>
+          ?
           <br />
-          <div
-            [class.fr-input-group--error]="
-              (f.subject.dirty || submitted) && f.subject.errors
-            "
-            class="fr-input-group required"
-          >
-            <label class="fr-label" for="subject"
-              >Objet de votre message: demande de support, partenariat,
-              formation, etc.</label
-            >
-            <input
-              type="text"
-              class="fr-input"
-              id="subject"
-              appCleanStr
-              formControlName="subject"
-              subject="subject"
-              [ngClass]="{
-                'is-invalid': (f.subject.dirty || submitted) && f.subject.errors
-              }"
-              [attr.aria-invalid]="
-                (f.subject.dirty || submitted) && f.subject.errors
-                  ? true
-                  : false
-              "
-              [attr.aria-describedby]="
-                (f.subject.dirty || submitted) && f.subject.errors
-                  ? 'invalid-subject'
-                  : 'subject-help'
-              "
-              required
-            />
-            <ul class="fr-messages-group ms-0 ps-0">
-              <li
-                id="subject-help"
-                class="fr-message fr-message--info"
-                *ngIf="!(submitted || f.subject.dirty) || !f.subject.errors"
-              >
-                2 caractères minimum
-              </li>
-              <li
-                id="invalid-subject"
-                class="fr-message fr-message--error"
-                *ngIf="(submitted || f.subject.dirty) && f.subject.errors"
-              >
-                Veuillez indiquer votre nom, 2 caractères minimum
-              </li>
-            </ul>
-          </div>
-
-          <div
-            [class.fr-input-group--error]="
-              (f.content.dirty || submitted) && f.content.errors
-            "
-            class="fr-input-group required"
-          >
-            <label class="fr-label" for="content">Votre message</label>
-            <textarea
-              [attr.aria-describedby]="
-                (f.content.dirty || submitted) && f.content.errors
-                  ? 'content-error'
-                  : 'content-help'
-              "
-              class="fr-input"
-              formControlName="content"
-              name="content"
-              id="content"
-              [ngClass]="{
-                'is-invalid': (f.content.dirty || submitted) && f.content.errors
-              }"
-              [attr.aria-invalid]="
-                (f.content.dirty || submitted) && f.content.errors
-                  ? true
-                  : false
-              "
-              rows="6"
-              minlength="10"
-              required
-            ></textarea>
-
-            <ul class="fr-messages-group ms-0 ps-0">
-              <li
-                id="content-help"
-                class="fr-message fr-message--info"
-                *ngIf="!submitted"
-              >
-                En cas de souci technique, merci de spécifier le navigateur
-                utilisé (10 caractères minimum)
-              </li>
-              <li
-                id="content-error"
-                class="fr-message fr-message--error"
-                *ngIf="(f.content.dirty || submitted) && f.content.errors"
-              >
-                Veuillez inscrire un message de 10 caractères au minimum
-              </li>
-            </ul>
-          </div>
-
-          <div
-            [class.fr-upload-group--error]="
-              (f.fileSource.dirty || submitted) && f.fileSource.errors
-            "
-            class="fr-upload-group"
-          >
-            <label class="fr-label" for="file">
-              Pièces jointes (capture d'écran du problème rencontré, fichier
-              d'import anonymisé, autres informations etc.)
-              <span id="file-description" class="fr-hint-text">
-                Formats autorisés .pdf, xlsx, .docx, .odt, .jpg, ou .png (6mo
-                maxi)</span
-              >
-            </label>
-            <input
-              (change)="onFileChange($event)"
-              class="fr-upload"
-              type="file"
-              accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .xlsx, .xls"
-              id="file"
-              formControlName="file"
-              multiple="false"
-              name="file"
-              [attr.aria-invalid]="
-                (f.fileSource.dirty || submitted) && f.fileSource.errors
-                  ? true
-                  : false
-              "
-              [attr.aria-describedby]="
-                (f.fileSource.dirty || submitted) && f.fileSource.errors
-                  ? 'pj-error'
-                  : 'file-description'
-              "
-              [ngClass]="{
-                'is-invalid':
-                  (f.fileSource.dirty || submitted) && f.fileSource.errors
-              }"
-            />
-
-            <ul
-              *ngIf="(f.fileSource.dirty || submitted) && f.fileSource.errors"
-              class="fr-messages-group ms-0 ps-0"
-              id="pj-error"
-            >
-              <li
-                *ngIf="f.fileSource.errors.fileType"
-                class="fr-message fr-message--error"
-              >
-                Format de fichier non supporté
-              </li>
-              <li
-                *ngIf="f.fileSource.errors.fileSize"
-                class="fr-message fr-message--error"
-              >
-                La taille du fichier est trop grande
-              </li>
-            </ul>
-          </div>
-
-          <ul
-            class="fr-btns-group fr-btns-group--inline fr-btns-group--inline-reverse fr-btns-group--right fr-btns-group--md py-4"
-          >
-            <li>
-              <button
-                type="submit"
-                class="fr-btn"
-                [disabled]="loading"
-                [attr.aria-busy]="loading"
-              >
-                <span *ngIf="loading">
-                  <fa-icon
-                    [icon]="['fas', 'circle-notch']"
-                    aria-hidden="true"
-                    animation="spin"
-                  >
-                  </fa-icon>
-                  Veuillez patienter...
-                </span>
-                <span *ngIf="!loading"> Envoyer le message </span>
-              </button>
-            </li>
-            <li>
-              <button
-                (click)="contactForm.reset(); success = false; error = false"
-                type="button"
-                class="fr-btn fr-btn--secondary"
-                [disabled]="loading"
-                [attr.aria-busy]="loading"
-              >
-                Annuler
-              </button>
-            </li>
-          </ul>
-        </form>
+          Si la réponse ne s'y trouve pas, merci de remplir les champs
+          ci-dessous en nous donnant un maximum d'informations, ce qui nous
+          permettra de vous répondre plus rapidement.
+        </p>
+      </div>
+      <div class="fr-col-3 fr-hidden fr-unhidden-sm">
+        <img class="fr-responsive-img" src="assets/images/contact.svg" alt="" />
       </div>
     </div>
   </div>
 </div>
+
+@if (contactForm) {
+<div class="fr-container fr-py-4w">
+  @if (success) {
+  <div class="fr-alert fr-alert--success fr-mb-3w">
+    <h3 class="fr-alert__title">Message envoyé</h3>
+    <p>
+      Formulaire envoyé avec succès, l'équipe vous recontactera très
+      prochainement
+    </p>
+  </div>
+  } @if (error) {
+  <div class="fr-alert fr-alert--error fr-mb-3w">
+    <h3 class="fr-alert__title">Erreur</h3>
+    <p>Votre message n'a pas pu être envoyé. Veuillez réessayer.</p>
+  </div>
+  }
+
+  <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+    <div class="fr-col-auto">
+      <img
+        class="fr-responsive-img fr-artwork--sm"
+        src="assets/dsfr-pictograms/digital/avatar.svg"
+        alt=""
+      />
+    </div>
+    <div class="fr-col">
+      <h2 class="fr-mb-0">Remplir le formulaire de contact</h2>
+    </div>
+  </div>
+
+  <p class="fr-text-default--error fr-mt-2w">Champs obligatoires *</p>
+
+  <div class="fr-py-4w">
+    <form [formGroup]="contactForm" (ngSubmit)="sendContactMessage()">
+      <input formControlName="userId" name="userId" type="hidden" />
+      <input formControlName="structureId" name="structureId" type="hidden" />
+
+      <!-- Nom -->
+      <div
+        class="fr-input-group fr-mb-3w"
+        [class.fr-input-group--error]="
+          (submitted || f.name.dirty) && f.name.errors
+        "
+      >
+        <label class="fr-label" for="name">
+          Votre nom <span class="fr-hint-text">Champ obligatoire</span>
+        </label>
+        <input
+          type="text"
+          class="fr-input"
+          id="name"
+          appCleanStr
+          autocomplete="name"
+          formControlName="name"
+          name="name"
+          [attr.aria-invalid]="
+            (submitted || f.name.dirty) && f.name.errors ? true : false
+          "
+          [attr.aria-describedby]="
+            (submitted || f.name.dirty) && f.name.errors
+              ? 'invalid-name'
+              : 'name-help'
+          "
+          aria-required="true"
+        />
+        <div class="fr-messages-group" aria-live="polite">
+          @if (!(submitted || f.name.dirty) || !f.name.errors) {
+          <p id="name-help" class="fr-message fr-message--info">
+            2 caractères minimum
+          </p>
+          } @if ((submitted || f.name.dirty) && f.name.errors) {
+          <p id="invalid-name" class="fr-message fr-message--error">
+            Veuillez indiquer votre nom, 2 caractères minimum
+          </p>
+          }
+        </div>
+      </div>
+
+      <!-- Nom de la structure -->
+      <div
+        class="fr-input-group fr-mb-3w"
+        [class.fr-input-group--error]="
+          (submitted || f.structureName.dirty) && f.structureName.errors
+        "
+      >
+        <label class="fr-label" for="structureName">
+          Nom de votre structure
+          <span class="fr-hint-text">Champ obligatoire</span>
+        </label>
+        <input
+          autocomplete="organization"
+          type="text"
+          class="fr-input"
+          id="structureName"
+          appCleanStr
+          formControlName="structureName"
+          name="structureName"
+          [attr.aria-invalid]="
+            (submitted || f.structureName.dirty) && f.structureName.errors
+              ? true
+              : false
+          "
+          [attr.aria-describedby]="
+            (submitted || f.structureName.dirty) && f.structureName.errors
+              ? 'invalid-structure-name'
+              : null
+          "
+          aria-required="true"
+        />
+        <div class="fr-messages-group" aria-live="polite">
+          @if ((submitted || f.structureName.dirty) && f.structureName.errors) {
+          <p id="invalid-structure-name" class="fr-message fr-message--error">
+            Veuillez indiquer le nom de votre structure (2 caractères minimum)
+          </p>
+          }
+        </div>
+      </div>
+
+      <!-- Email + Téléphone -->
+      <div class="fr-grid-row fr-grid-row--gutters fr-mb-3w">
+        <div class="fr-col-12 fr-col-md-6">
+          <div
+            class="fr-input-group"
+            [class.fr-input-group--error]="
+              (f.email.dirty || submitted) && f.email.errors
+            "
+          >
+            <label class="fr-label" for="email">
+              Adresse email de contact
+              <span class="fr-hint-text">Champ obligatoire</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              name="email"
+              autocomplete="email"
+              class="fr-input"
+              [attr.aria-invalid]="
+                (f.email.dirty || submitted) && f.email.errors ? true : false
+              "
+              [attr.aria-describedby]="
+                (f.email.dirty || submitted) && f.email.errors
+                  ? 'email-errors'
+                  : null
+              "
+              aria-required="true"
+            />
+            <div class="fr-messages-group" aria-live="polite">
+              @if ((f.email.dirty || submitted) && f.email.errors) {
+              <p id="email-errors" class="fr-message fr-message--error">
+                Veuillez vérifier l'adresse email, format attendu :
+                nom&#64;domaine.fr
+              </p>
+              }
+            </div>
+          </div>
+        </div>
+        <div class="fr-col-12 fr-col-md-6">
+          <app-phone-input
+            [isRequired]="false"
+            [isMobileOnly]="false"
+            [submitted]="submitted"
+            formControlName="phone"
+          ></app-phone-input>
+        </div>
+      </div>
+
+      <!-- Objet -->
+      <div
+        class="fr-input-group fr-mb-3w"
+        [class.fr-input-group--error]="
+          (f.subject.dirty || submitted) && f.subject.errors
+        "
+      >
+        <label class="fr-label" for="subject">
+          Objet de votre message: demande de support, partenariat, formation,
+          etc.
+          <span class="fr-hint-text">Champ obligatoire</span>
+        </label>
+        <input
+          type="text"
+          class="fr-input"
+          id="subject"
+          appCleanStr
+          formControlName="subject"
+          name="subject"
+          [attr.aria-invalid]="
+            (f.subject.dirty || submitted) && f.subject.errors ? true : false
+          "
+          [attr.aria-describedby]="
+            (f.subject.dirty || submitted) && f.subject.errors
+              ? 'invalid-subject'
+              : 'subject-help'
+          "
+          aria-required="true"
+        />
+        <div class="fr-messages-group" aria-live="polite">
+          @if (!(submitted || f.subject.dirty) || !f.subject.errors) {
+          <p id="subject-help" class="fr-message fr-message--info">
+            2 caractères minimum
+          </p>
+          } @if ((submitted || f.subject.dirty) && f.subject.errors) {
+          <p id="invalid-subject" class="fr-message fr-message--error">
+            Veuillez indiquer l'objet de votre message, 2 caractères minimum
+          </p>
+          }
+        </div>
+      </div>
+
+      <!-- Message -->
+      <div
+        class="fr-input-group fr-mb-3w"
+        [class.fr-input-group--error]="
+          (f.content.dirty || submitted) && f.content.errors
+        "
+      >
+        <label class="fr-label" for="content">
+          Votre message <span class="fr-hint-text">Champ obligatoire</span>
+        </label>
+        <textarea
+          class="fr-input"
+          formControlName="content"
+          name="content"
+          id="content"
+          [attr.aria-invalid]="
+            (f.content.dirty || submitted) && f.content.errors ? true : false
+          "
+          [attr.aria-describedby]="
+            (f.content.dirty || submitted) && f.content.errors
+              ? 'content-error'
+              : 'content-help'
+          "
+          aria-required="true"
+          rows="6"
+          minlength="10"
+        ></textarea>
+        <div class="fr-messages-group" aria-live="polite">
+          @if (!submitted) {
+          <p id="content-help" class="fr-message fr-message--info">
+            En cas de souci technique, merci de spécifier le navigateur utilisé
+            (10 caractères minimum)
+          </p>
+          } @if ((f.content.dirty || submitted) && f.content.errors) {
+          <p id="content-error" class="fr-message fr-message--error">
+            Veuillez inscrire un message de 10 caractères au minimum
+          </p>
+          }
+        </div>
+      </div>
+
+      <!-- Pièce jointe -->
+      <div
+        class="fr-upload-group fr-mb-3w"
+        [class.fr-upload-group--error]="
+          (f.fileSource.dirty || submitted) && f.fileSource.errors
+        "
+      >
+        <label class="fr-label" for="file">
+          Pièces jointes (capture d'écran du problème rencontré, fichier
+          d'import anonymisé, autres informations etc.)
+          <span id="file-description" class="fr-hint-text">
+            Formats autorisés .pdf, xlsx, .docx, .odt, .jpg, ou .png (6mo maxi)
+          </span>
+        </label>
+        <input
+          (change)="onFileChange($event)"
+          class="fr-upload"
+          type="file"
+          accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .xlsx, .xls"
+          id="file"
+          formControlName="file"
+          multiple="false"
+          name="file"
+          [attr.aria-invalid]="
+            (f.fileSource.dirty || submitted) && f.fileSource.errors
+              ? true
+              : false
+          "
+          [attr.aria-describedby]="
+            (f.fileSource.dirty || submitted) && f.fileSource.errors
+              ? 'pj-error'
+              : 'file-description'
+          "
+        />
+        <div class="fr-messages-group" aria-live="polite">
+          @if ((f.fileSource.dirty || submitted) && f.fileSource.errors) { @if
+          (f.fileSource.errors.fileType) {
+          <p id="pj-error" class="fr-message fr-message--error">
+            Format de fichier non supporté
+          </p>
+          } @if (f.fileSource.errors.fileSize) {
+          <p id="pj-error" class="fr-message fr-message--error">
+            La taille du fichier est trop grande
+          </p>
+          } }
+        </div>
+      </div>
+
+      <!-- Boutons -->
+      <ul
+        class="fr-btns-group fr-btns-group--inline fr-btns-group--inline-reverse fr-btns-group--right fr-btns-group--md fr-mt-4w"
+      >
+        <li>
+          <button
+            type="submit"
+            class="fr-btn"
+            [disabled]="loading"
+            [attr.aria-busy]="loading"
+          >
+            @if (loading) { Veuillez patienter... } @else { Envoyer le message }
+          </button>
+        </li>
+        <li>
+          <button
+            (click)="contactForm.reset(); success = false; error = false"
+            type="button"
+            class="fr-btn fr-btn--secondary"
+            [disabled]="loading"
+            [attr.aria-busy]="loading"
+          >
+            Annuler
+          </button>
+        </li>
+      </ul>
+    </form>
+  </div>
+</div>
+}

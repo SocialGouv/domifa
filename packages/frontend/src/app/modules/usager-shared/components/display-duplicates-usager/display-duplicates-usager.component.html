@@ -13,7 +13,13 @@
   <ul class="fr-notice__list">
     @for (duplicate of duplicates; track duplicate.ref) {
     <li>
-      <a target="_blank" [routerLink]="'/profil/general/' + duplicate.ref">
+      <a
+        target="_blank"
+        [routerLink]="'/profil/general/' + duplicate.ref"
+        [title]="
+          'Voir le profil de ' + (duplicate | fullName) + ' - nouvelle fenêtre'
+        "
+      >
         <strong
           >{{ duplicate.customRef }} - {{ duplicate | fullName }}</strong
         > </a
