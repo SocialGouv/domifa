@@ -30,7 +30,6 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/assets/css/bootstrap-custom.scss",
               "src/assets/css/forms.scss",
               "src/assets/css/main.scss",
               "src/assets/css/print.css",
