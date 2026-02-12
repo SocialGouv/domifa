@@ -1,11 +1,11 @@
 <div class="fr-content-container-light">
-  @if (me) {
+  @if (me && usager) {
   <app-profil-head
     [usager]="usager"
     [section]="section"
     [me]="me"
   ></app-profil-head>
-  } @if (usager) {
+
   <div class="fr-container">
     <div class="fr-content">
       <app-profil-alerts [usager]="usager" [me]="me"></app-profil-alerts>
