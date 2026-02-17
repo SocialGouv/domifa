@@ -1,11 +1,12 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SeoService } from "../../../../../shared/services";
+import { AdminAuthRoutingModule } from "src/app/modules/auth/auth.routing.module";
 
 @Component({
   selector: "app-faq-discover",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AdminAuthRoutingModule],
   templateUrl: "./faq-discover.component.html",
 })
 export class FaqDiscoverComponent {

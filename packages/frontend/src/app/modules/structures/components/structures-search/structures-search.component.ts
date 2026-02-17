@@ -6,7 +6,6 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Subscription } from "rxjs";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { environment } from "../../../../../environments/environment";
 import { StructureService } from "../../services/structure.service";
 import { StructureCommon } from "@domifa/common";
@@ -34,7 +33,6 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
   constructor(
     private readonly structureService: StructureService,
     private readonly formBuilder: UntypedFormBuilder,
-    private readonly toastService: CustomToastService,
     private readonly titleService: Title,
     public readonly matomo: MatomoTracker
   ) {
@@ -59,9 +57,6 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
   public submitCodePostal(): void {
     this.submitted = true;
     if (this.codePostalForm.invalid) {
-      this.toastService.error(
-        "Veuillez vérifier les champs marqués en rouge dans le formulaire"
-      );
       return;
     }
     this.loading = true;

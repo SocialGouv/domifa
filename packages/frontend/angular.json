@@ -23,9 +23,9 @@
               "src/assets",
               "src/robots.txt",
               {
-                "input": "./node_modules/@gouvfr/dsfr/dist/artwork/pictograms",
+                "input": "./node_modules/@gouvfr/dsfr/dist/artwork",
                 "glob": "**/*",
-                "output": "assets/dsfr-pictograms"
+                "output": "artwork"
               }
             ],
             "styles": [
