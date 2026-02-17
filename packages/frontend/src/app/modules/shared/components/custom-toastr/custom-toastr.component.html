@@ -1,26 +1,9 @@
-<ng-container *ngIf="toast">
-  <div
-    tabindex="0"
-    (click)="closeToast()"
-    @fadeIn
-    *ngIf="toast.display"
-    id="toast-container"
-    [attr.role]="toast.class === 'success' ? 'status' : 'alert'"
-    aria-atomic="true"
-    class="toast-top-left toast-container"
-  >
-    <div [class]="'ngx-toastr toast-' + toast.class">
-      <div class="row d-flex align-items-center">
-        <div class="col-2">
-          <fa-icon size="2x" [icon]="['fas', icon]" aria-hidden="true">
-          </fa-icon>
-        </div>
-        <div class="col-10">
-          <div class="toast-message">
-            {{ toast.message }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</ng-container>
+<dsfr-alert
+  id="toast-container"
+  *ngIf="toast && toast.display"
+  [headingLevel]="undefined"
+  [message]="toast.message"
+  [severity]="toast.class === 'success' ? 'success' : 'error'"
+  [ariaRoleValue]="'alert'"
+  [hasAriaRole]="false"
+></dsfr-alert>

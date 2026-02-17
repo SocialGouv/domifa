@@ -1,11 +1,7 @@
-<div class="w-100 fr-background-contrast--blue-ecume mb-0 pb-0">
-  <div
-    class="fr-container row d-flex flex-row justify-content-between align-items-center"
-  >
-    <div
-      class="col-12 col-md-10 col-sm-10 py-3 py-md-5 d-flex flex-column gap-1"
-    >
-      <h1 class="fr-text-title--blue-france mb-1">
+<div class="fr-py-0 fr-mb-0 fr-background-contrast--blue-ecume">
+  <div class="fr-container fr-grid-row fr-grid-row--middle">
+    <div class="fr-col-12 fr-col-md-10 fr-py-3w fr-py-md-5w">
+      <h1 class="fr-text-title--blue-france fr-mb-1w">
         Inscrire ma structure sur DomiFa
       </h1>
       <p class="fr-text--lg fr-text-title--blue-france">
@@ -15,8 +11,8 @@
       </p>
     </div>
 
-    <div class="col-12 col-md-2 d-flex justify-content-center">
-      <div class="col-8 col-md-12">
+    <div class="fr-col-12 fr-col-md-2 fr-grid-row fr-grid-row--center">
+      <div class="fr-col-8 fr-col-md-12">
         <img
           class="fr-responsive-img"
           src="assets/images/home/inscription-structure.svg"
@@ -27,195 +23,179 @@
   </div>
 </div>
 
-<div class="fr-background-alt--grey h-100 mt-0 py-2">
-  <div class="fr-container mt-0">
-    <div class="p-1">
-      <div class="fr-background-default--grey p-2 p-md-4">
+<div class="fr-content-container">
+  <div class="fr-container">
+    <div class="fr-content fr-mb-2w">
+      @if (!searchFailed && structures.length <= 0) {
+      <div>
+        <h2 class="fr-h3 fr-mb-0">
+          Votre structure existe peut-être déjà sur DomiFa ?
+        </h2>
+        <span class="fr-text--lg fr-text--bold">
+          DomiFa compte plusieurs milliers de structures— vérifiez si la vôtre
+          en fait déjà partie.
+        </span>
+      </div>
+
+      <div class="fr-col-7 fr-col-md-2 fr-mx-auto fr-my-2w">
+        <img
+          class="fr-responsive-img"
+          src="assets/images/home/recherche-structure.svg"
+          alt=""
+        />
+      </div>
+
+      <form [formGroup]="codePostalForm" (ngSubmit)="submitCodePostal()">
         <div
-          *ngIf="!searchFailed && structures.length <= 0"
-          class="d-flex flex-column"
+          class="fr-input-group"
+          [class.fr-input-group--error]="
+            (f.codePostal.dirty || submitted) && f.codePostal.errors
+          "
         >
-          <div>
-            <h2 class="fr-h3 m-0">
-              Votre structure existe peut-être déjà sur DomiFa ?
-            </h2>
-            <span class="fr-text--lg fw-bold">
-              DomiFa compte plusieurs milliers de structures— vérifiez si la
-              vôtre en fait déjà partie.
-            </span>
+          <label class="fr-label fr-mb-2w" for="structure-search">
+            Quel est le code postal de votre structure ?
+          </label>
+
+          <div class="fr-search-bar fr-search-bar--lg" role="search">
+            <input
+              class="fr-input"
+              type="text"
+              role="search"
+              id="structure-search"
+              placeholder="93000"
+              [attr.aria-invalid]="
+                (f.codePostal.dirty || submitted) && f.codePostal.errors
+                  ? 'true'
+                  : null
+              "
+              [attr.aria-describedby]="
+                (f.codePostal.dirty || submitted) && f.codePostal.errors
+                  ? 'code-postal-error'
+                  : null
+              "
+              formControlName="codePostal"
+              name="codePostal"
+              minlength="5"
+              maxlength="5"
+              autocomplete="postal-code"
+              required
+            />
+
+            <button
+              [disabled]="loading"
+              [attr.aria-busy]="loading"
+              type="submit"
+              class="fr-btn"
+            >
+              @if (loading) { Veuillez patienter... } @else { Rechercher }
+            </button>
           </div>
-          <br />
-          <div class="col-7 col-md-2 d-flex align-self-center">
+
+          @if ((f.codePostal.dirty || submitted) && f.codePostal.errors) {
+          <div
+            class="fr-messages-group fr-mt-2w"
+            id="code-postal-error"
+            aria-live="polite"
+          >
+            <p class="fr-message fr-message--error">
+              Code postal incorrect. Exemple : 75001
+            </p>
+          </div>
+          }
+        </div>
+      </form>
+
+      <div class="fr-background-default--grey">
+        <div
+          class="fr-grid-row fr-background-alt--grey fr-my-2w fr-py-4w fr-px-2w"
+        >
+          <div class="fr-col-2 fr-hidden fr-unhidden-md">
             <img
               class="fr-responsive-img"
-              src="assets/images/home/recherche-structure.svg"
+              src="assets/images/home/mon-domifa.svg"
               alt=""
             />
           </div>
-
-          <form [formGroup]="codePostalForm" (ngSubmit)="submitCodePostal()">
-            <label class="fr-label mb-2" for="structure-search">
-              Quel est le code postal de votre structure ?
-            </label>
-            <div
-              *ngIf="!searchFailed && structures.length <= 0"
-              class="fr-search-bar fr-search-bar--lg"
-              id="search-lg"
-              role="search"
-            >
-              <input
-                class="fr-input"
-                type="text"
-                role="search"
-                id="structure-search"
-                placeholder="Rechercher"
-                [ngClass]="{
-                  'is-invalid':
-                    (f.codePostal.dirty || submitted) && f.codePostal.errors,
-                  'is-valid':
-                    (f.codePostal.dirty || submitted) && !f.codePostal.errors
-                }"
-                [attr.aria-invalid]="
-                  (f.codePostal.dirty || submitted) && f.codePostal.errors
-                    ? true
-                    : false
-                "
-                [attr.aria-describedby]="
-                  (f.codePostal.dirty || submitted) && f.codePostal.errors
-                    ? 'code-postal-error'
-                    : null
-                "
-                formControlName="codePostal"
-                name="codePostal"
-                minlength="5"
-                maxlength="5"
-                autocomplete="postal-code"
-                required
-              />
-
-              <button
-                [disabled]="loading"
-                [attr.aria-busy]="loading"
-                type="submit"
-                class="fr-btn"
-              >
-                <span *ngIf="loading">
-                  <fa-icon
-                    [icon]="['fas', 'circle-notch']"
-                    aria-hidden="true"
-                    animation="spin"
-                  >
-                  </fa-icon>
-                  Veuillez patienter...
-                </span>
-                <span *ngIf="!loading"> Rechercher</span>
-              </button>
-            </div>
-
-            <div
-              *ngIf="f.codePostal.touched && f.codePostal.errors"
-              class="fr-messages-group mt-2"
-              id="code-postal-error"
-            >
-              <p class="fr-message--error">
-                Code postal incorrect. Exemple: 75001
+          <div class="fr-col-10 fr-grid-row fr-grid-row--middle">
+            <div>
+              <h2 class="fr-h3 fr-mb-0">Vous êtes domicilié ?</h2>
+              <p class="fr-mb-0">
+                La plateforme Mon DomiFa vous permet de suivre l'arrivée de
+                courrier dans votre structure
               </p>
-            </div>
-          </form>
-          <div class="fr-background-default--grey">
-            <div class="row m-0 fr-background-alt--grey my-2 py-4 px-2">
-              <div class="col-2 col-md-2 d-none d-md-block">
-                <img
-                  class="fr-responsive-img"
-                  src="assets/images/home/mon-domifa.svg"
-                  alt=""
-                />
-              </div>
-              <div
-                class="col-10 col-md-10 d-flex flex-column justify-content-center"
+              <a
+                href="https://mon-domifa.fabrique.social.gouv.fr/"
+                class="fr-link fr-icon-arrow-right-line fr-link--icon-right"
               >
-                <h2 class="fr-h3 m-0">Vous êtes domicilié ?</h2>
-                <p class="m-0">
-                  La plateforme Mon DomiFa vous permet de suivre l'arrivée de
-                  courrier dans votre structure
-                </p>
-                <div>
-                  <a
-                    href="https://mon-domifa.fabrique.social.gouv.fr/"
-                    class="fr-link fr-icon-arrow-right-line fr-link--icon-right"
-                  >
-                    Accéder à Mon Domifa
-                  </a>
-                </div>
-              </div>
+                Accéder à Mon Domifa
+              </a>
             </div>
-          </div>
-        </div>
-
-        <div class="py-2" *ngIf="searchFailed && structures.length === 0">
-          <h2 class="m-0">
-            Aucune structure n'est enregistrée dans votre ville.
-          </h2>
-          <div
-            class="d-flex flex-column gap-1 justify-content-center align-items-center"
-          >
-            <div class="col-2 col-md-2">
-              <img
-                class="fr-responsive-img"
-                src="assets/images/home/structure-introuvable.svg"
-                alt=""
-              />
-            </div>
-            <a
-              class="fr-btn"
-              [routerLink]="['/structures/nouveau']"
-              ariaCurrentWhenActive="page"
-            >
-              J'inscris ma structure
-            </a>
-          </div>
-        </div>
-        <div class="py-3 px-3" *ngIf="structures.length > 0">
-          <h2 class="m-0">
-            Voici les structures utilisatrices de DomiFa dans votre département
-          </h2>
-          <p class="mt-0 mb-3 fw-bold">
-            Si vous appartenez à l’une de ces structures, un membre de celle-ci
-            doit vous donner accès :
-          </p>
-
-          <ul class="ps-0 list-unstyled">
-            <li
-              class="py-4 px-4 mt-2 border border-grey"
-              *ngFor="let structure of structures"
-            >
-              <div class="d-flex gap-2 flex-column">
-                <h3 class="fr-h5 mb-0 fr-text-title--blue-france">
-                  {{ structure.nom }}
-                </h3>
-                <span class="fr-text-default--grey">
-                  {{ structure.adresse }}, {{ structure.codePostal }},
-                  {{ structure.ville }}</span
-                >
-              </div>
-            </li>
-          </ul>
-
-          <div class="py-3 d-flex justify-content-between align-items-baseline">
-            <p>
-              Vous ne trouvez pas votre structure dans la liste ? Inscrivez-là
-              dès maintenant !
-            </p>
-            <a
-              class="fr-btn"
-              [routerLink]="['/structures/nouveau']"
-              ariaCurrentWhenActive="page"
-            >
-              J'inscris ma structure
-            </a>
           </div>
         </div>
       </div>
+      } @if (searchFailed && structures.length === 0) {
+      <div class="fr-py-2w">
+        <h2 class="fr-mb-0">
+          Aucune structure n'est enregistrée dans votre ville.
+        </h2>
+        <div class="fr-grid-row fr-grid-row--center fr-my-3w">
+          <div class="fr-col-12 fr-col-md-4">
+            <img
+              class="fr-responsive-img"
+              src="assets/images/home/structure-introuvable.svg"
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="fr-grid-row fr-grid-row--center">
+          <a
+            class="fr-btn"
+            [routerLink]="['/structures/nouveau']"
+            ariaCurrentWhenActive="page"
+          >
+            J'inscris ma structure
+          </a>
+        </div>
+      </div>
+      } @if (structures.length > 0) {
+      <div class="fr-py-3w fr-px-3w">
+        <h2 class="fr-mb-0">
+          Voici les structures utilisatrices de DomiFa dans votre département
+        </h2>
+        <p class="fr-mt-0 fr-mb-3w fr-text--bold">
+          Si vous appartenez à l'une de ces structures, un membre de celle-ci
+          doit vous donner accès :
+        </p>
+
+        <ul class="fr-raw-list">
+          @for (structure of structures; track structure.id) {
+          <li class="fr-py-4w fr-px-4w fr-mt-2w structure-item">
+            <h3 class="fr-h5 fr-mb-0 fr-text-title--blue-france">
+              {{ structure.nom }}
+            </h3>
+            <span class="fr-text-default--grey">
+              {{ structure.adresse }}, {{ structure.codePostal }},
+              {{ structure.ville }}
+            </span>
+          </li>
+          }
+        </ul>
+
+        <div class="fr-py-3w">
+          <p class="fr-mb-0">
+            Vous ne trouvez pas votre structure dans la liste ? Inscrivez-là dès
+            maintenant !
+          </p>
+          <a
+            class="fr-btn"
+            [routerLink]="['/structures/nouveau']"
+            ariaCurrentWhenActive="page"
+          >
+            J'inscris ma structure
+          </a>
+        </div>
+      </div>
+      }
     </div>
   </div>
 </div>

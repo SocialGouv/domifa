@@ -22,13 +22,7 @@
       <p>
         Si vous décidez de ne pas utiliser DomiFa, vous pourrez ensuite demander
         la suppression de votre compte en utilisant le
-        <a
-          href="https://domifa.fabrique.social.gouv.fr/contact"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Formulaire de contact - nouvelle fenêtre"
-          >formulaire de contact</a
-        >
+        <a routerLink="/contact">formulaire de contact</a>
         disponible sur le site DomiFa.
       </p>
     </div>
@@ -49,11 +43,7 @@
       <p>
         La création d'un compte structure se fait via le formulaire
         d'inscription disponible sur
-        <a
-          href="https://domifa.fabrique.social.gouv.fr/structures/inscription"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Inscrire ma structure sur DomiFa - Ouvre dans un nouvel onglet"
+        <a routerLink="/structures/inscription"
           >« Inscrire ma structure sur DomiFa »</a
         >.
       </p>
@@ -221,13 +211,7 @@
     <div class="fr-collapse" id="accordion-usage-9">
       <p>
         Toutes les informations de la structure sont disponibles sur
-        <a
-          href="https://domifa.fabrique.social.gouv.fr/structures/edit"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Modifier les informations de la structure - Ouvre dans un nouvel onglet"
-          >cette page</a
-        >.
+        <a routerLink="/structures/edit">cette page</a>.
       </p>
     </div>
   </section>
@@ -247,13 +231,7 @@
     <div class="fr-collapse" id="accordion-usage-10">
       <p>
         Vous pouvez exporter sous format excel votre base de données sur
-        <a
-          href="https://domifa.fabrique.social.gouv.fr/structures/edit"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Exporter les données - Ouvre dans un nouvel onglet"
-          >cette page</a
-        >.
+        <a routerLink="/structures/edit">cette page</a>.
       </p>
     </div>
   </section>
@@ -297,13 +275,7 @@
     <div class="fr-collapse" id="accordion-usage-12">
       <p>
         La création d'un compte utilisateur se fait via la page de
-        <a
-          href="https://domifa.fabrique.social.gouv.fr/manage-users/accounts"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Gestion des utilisateurs - Ouvre dans un nouvel onglet"
-          >gestion des utilisateurs</a
-        >.
+        <a routerLink="/manage-users/accounts">gestion des utilisateurs</a>.
       </p>
     </div>
   </section>
@@ -323,11 +295,7 @@
       <p>
         La réinitialisation du mot de passe d'un utilisateur se fait directement
         en ligne via ce lien :
-        <a
-          href="https://domifa.fabrique.social.gouv.fr/users/reset-password"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Réinitialisation du mot de passe - Ouvre dans un nouvel onglet"
+        <a routerLink="/users/reset-password"
           >réinitialisation du mot de passe</a
         >
       </p>
@@ -424,13 +392,7 @@
     <div class="fr-collapse" id="accordion-usage-18">
       <p>
         Oui, il est possible d'importer vos anciennes données via le
-        <a
-          href="https://domifa.fabrique.social.gouv.fr/import"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Modèle Excel fourni par DomiFa - Ouvre dans un nouvel onglet"
-          >modèle Excel fourni par DomiFa</a
-        >.
+        <a routerLink="/import">modèle Excel fourni par DomiFa</a>.
       </p>
     </div>
   </section>
@@ -556,11 +518,7 @@
     <div class="fr-collapse" id="accordion-usage-24">
       <p>
         Oui. Il est possible de refaire un import, mais il faut d'abord
-        <a
-          href="https://domifa.fabrique.social.gouv.fr/structures/edit"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Supprimer les données existantes - Ouvre dans un nouvel onglet"
+        <a routerLink="/structures/edit"
           ><strong>supprimer les données existantes</strong></a
         >
         avant de relancer l'import.
@@ -674,7 +632,7 @@
       <p>
         La création d'une première demande se fait depuis
         <a
-          href="https://domifa.fabrique.social.gouv.fr/usager/nouveau"
+          routerLink="/usager/nouveau"
           target="_blank"
           rel="noopener noreferrer"
           title="Liste des domiciliés - Ouvre dans un nouvel onglet"
@@ -829,11 +787,7 @@
         <li>
           <strong>Au niveau de la structure</strong> : activez le portail sur
           cette page →
-          <a
-            href="https://domifa.fabrique.social.gouv.fr/portail-usagers/parametres"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Paramètres du portail usagers - Ouvre dans un nouvel onglet"
+          <a routerLink="/portail-usagers/parametres"
             >Paramètres du portail usagers</a
           >.
         </li>
@@ -867,8 +821,8 @@
         aria-expanded="false"
         aria-controls="accordion-usage-35"
       >
-        Que peuvent faire les domiciliés depuis leur espace
-        <em>Mon DomiFa</em> ?
+        Que peuvent faire les domiciliés depuis leur espace<em> Mon DomiFa</em>
+        ?
       </button>
     </div>
     <div class="fr-collapse" id="accordion-usage-35">
@@ -942,13 +896,7 @@
         <li>
           <strong>Au niveau de la structure</strong> : activez les sur cette
           page →
-          <a
-            href="https://domifa.fabrique.social.gouv.fr/structures/sms"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Paramètres des SMS - Ouvre dans un nouvel onglet"
-            >Paramètres des SMS</a
-          >
+          <a routerLink="/structures/sms">Paramètres des SMS</a>
         </li>
         <li>
           <strong>Au niveau de chaque domicilié</strong> : dans le dossier
@@ -1167,11 +1115,10 @@
 <p class="fr-callout">
   Si vous ne trouvez pas ce que vous cherchez, n'hésitez pas à nous
   contactez-nous via
-  <a
-    href="https://domifa.fabrique.social.gouv.fr/contact"
-    target="_blank"
-    rel="noopener noreferrer"
-    title="Formulaire de contact DomiFa dédié aux structures - Ouvre dans un nouvel onglet"
+
+  <a routerLink="/contact"
     >notre formulaire de contact DomiFa dédié aux structures</a
-  >.
+  >
+
+  .
 </p>
