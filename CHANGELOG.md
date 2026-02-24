@@ -1,3 +1,10 @@
+## [2.233.1](https://github.com/SocialGouv/domifa/compare/v2.233.0...v2.233.1) (2026-02-24)
+
+
+### Bug Fixes
+
+* **frontend:** fix forms to check duplicates ([2b6f796](https://github.com/SocialGouv/domifa/commit/2b6f796e81290ff021e2084b101a2178abea8024))
+
 # [2.233.0](https://github.com/SocialGouv/domifa/compare/v2.232.10...v2.233.0) (2026-02-24)
 
 
