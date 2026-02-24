@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, OnModuleInit } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { SentryCron } from "@sentry/nestjs";
 import { domifaConfig } from "../../../../config";
@@ -24,20 +24,30 @@ const RESULTS_BY_PAGE = 50;
 const MAX_DISTANCE = 50; // 50 mètres pour détecter les doublons
 
 @Injectable()
-export class LoadSoliguideDataService {
+export class LoadSoliguideDataService implements OnModuleInit {
+  async onModuleInit() {
+    if (
+      (domifaConfig().envId === "local" || domifaConfig().envId === "prod") &&
+      isCronEnabled()
+    ) {
+      appLogger.info("LoadMssDataService: Running import on module init");
+      await this.importSoliguideData();
+    }
+  }
+
   private page = 1;
   private nbResults = 0;
   private newPlaces = 0;
   private updatedPlaces = 0;
   private readonly departementCache = new Map<string, string>();
 
-  @Cron(CronExpression.EVERY_DAY_AT_3AM, {
+  @Cron(CronExpression.EVERY_DAY_AT_11PM, {
     disabled: !isCronEnabled() || domifaConfig().envId !== "prod",
   })
   @SentryCron("open-data-load-soliguide", {
     schedule: {
       type: "crontab",
-      value: CronExpression.EVERY_DAY_AT_3AM,
+      value: CronExpression.EVERY_DAY_AT_11PM,
     },
     timezone: "Europe/Paris",
     checkinMargin: 10,

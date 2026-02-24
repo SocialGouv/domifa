@@ -96,7 +96,7 @@
         </p>
         <p class="text-left my-3">
           Veuillez saisir les coordonnées de votre structure, celles-ci
-          apparaitront sur le Cerfa d’attestation :
+          apparaîtront sur le Cerfa d'attestation :
         </p>
 
         <div class="row">
@@ -687,7 +687,7 @@
                 id="organisme-type-errors"
                 class="invalid-feedback"
               >
-                Veuillez sélectionner un département
+                Veuillez sélectionner un organisme
               </p>
             </div>
             <div class="col-12 col-md-6 form-group">
@@ -702,7 +702,7 @@
                 }"
                 [attr.aria-describedby]="
                   (submitted || f.reseau?.dirty) && f.reseau.errors
-                    ? 'reseau-type-errors'
+                    ? 'reseau-errors'
                     : null
                 "
                 [attr.aria-invalid]="
@@ -724,10 +724,10 @@
               </select>
               <p
                 *ngIf="(submitted || f.reseau?.dirty) && f.reseau.errors"
-                id="organisme-type-errors"
+                id="reseau-errors"
                 class="invalid-feedback"
               >
-                Veuillez sélectionner un type d'organisme
+                Veuillez sélectionner un réseau
               </p>
             </div>
           </div>
@@ -1031,7 +1031,7 @@
                 id="activeUsersCount-errors"
                 class="invalid-feedback"
               >
-                Le nombre de domicilié est obligatoire
+                Le nombre de domiciliés est obligatoire
               </p>
             </div>
           </div>

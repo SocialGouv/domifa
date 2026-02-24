@@ -1,8 +1,8 @@
 <div class="modal-header bg-dark">
   <span class="text-white" id="modal-title">Motivez votre décision</span>
 </div>
-<div class="modal-body py-4">
-  <form [formGroup]="addNoteForm" (ngSubmit)="submit()">
+<form [formGroup]="addNoteForm" (ngSubmit)="submit()">
+  <div class="modal-body py-4">
     <div class="col-md-12">
       <p>
         Les champs suivis d'un
@@ -54,32 +54,32 @@
         </p>
       </div>
     </div>
-  </form>
-</div>
+  </div>
 
-<div class="modal-footer">
-  <button
-    class="btn btn-lg btn-outline-dark"
-    type="button"
-    (click)="closeModals.emit()"
-  >
-    Annuler
-  </button>
-  <button
-    class="btn btn-lg btn-dark"
-    [disabled]="loading"
-    [attr.aria-busy]="loading"
-    type="submit"
-    (click)="submit()"
-  >
-    <span *ngIf="!loading">Confirmer l'ajournement</span>
-    <span *ngIf="loading"
-      ><fa-icon
-        [icon]="['fas', 'circle-notch']"
-        animation="spin"
-        aria-hidden="true"
-      ></fa-icon>
-      Veuillez patienter...</span
+  <div class="modal-footer">
+    <button
+      class="btn btn-lg btn-outline-dark"
+      type="button"
+      (click)="closeModals.emit()"
     >
-  </button>
-</div>
+      Annuler
+    </button>
+    <button
+      class="btn btn-lg btn-dark"
+      [disabled]="loading"
+      [attr.aria-busy]="loading"
+      type="submit"
+      (click)="submit()"
+    >
+      <span *ngIf="!loading">Confirmer l'ajournement</span>
+      <span *ngIf="loading"
+        ><fa-icon
+          [icon]="['fas', 'circle-notch']"
+          animation="spin"
+          aria-hidden="true"
+        ></fa-icon>
+        Veuillez patienter...</span
+      >
+    </button>
+  </div>
+</form>

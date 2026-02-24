@@ -24,7 +24,8 @@ import {
   parseDateFromNgb,
 } from "../../../../shared/bootstrap-util";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
-import { Subscription } from "rxjs";
+import { Subject, Subscription } from "rxjs";
+import { debounceTime, exhaustMap } from "rxjs/operators";
 import { NoWhiteSpaceValidator } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -49,6 +50,7 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
   public minDate: NgbDateStruct;
 
   private readonly subscription = new Subscription();
+  private readonly submitSubject$ = new Subject<UsagerDecisionRefusForm>();
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
@@ -92,31 +94,19 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
         }
       })
     );
-  }
 
-  public setDecisionRefus() {
-    this.submitted = true;
-    if (this.refusForm.invalid) {
-      this.toastService.error(
-        "Le formulaire contient une erreur, veuillez vérifier les champs"
-      );
-      return;
-    }
-
-    const formDatas: UsagerDecisionRefusForm = {
-      ...this.refusForm.value,
-      dateFin: parseDateFromNgb(this.refusForm.controls.dateFin.value),
-    };
-
-    this.setDecision(formDatas);
-  }
-
-  public setDecision(formDatas: UsagerDecisionRefusForm): void {
-    this.loading = true;
-
+    // Protection contre les soumissions multiples avec debounceTime + exhaustMap
     this.subscription.add(
-      this.usagerDecisionService
-        .setDecision(this.usager.ref, formDatas)
+      this.submitSubject$
+        .pipe(
+          debounceTime(300),
+          exhaustMap((formDatas) => {
+            return this.usagerDecisionService.setDecision(
+              this.usager.ref,
+              formDatas
+            );
+          })
+        )
         .subscribe({
           next: (usager: UsagerLight) => {
             this.toastService.success("Décision enregistrée avec succès ! ");
@@ -131,6 +121,30 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
           },
         })
     );
+  }
+
+  public setDecisionRefus() {
+    if (this.loading) {
+      return;
+    }
+
+    this.loading = true;
+    this.submitted = true;
+
+    if (this.refusForm.invalid) {
+      this.loading = false;
+      this.toastService.error(
+        "Le formulaire contient une erreur, veuillez vérifier les champs"
+      );
+      return;
+    }
+
+    const formDatas: UsagerDecisionRefusForm = {
+      ...this.refusForm.value,
+      dateFin: parseDateFromNgb(this.refusForm.controls.dateFin.value),
+    };
+
+    this.submitSubject$.next(formDatas);
   }
 
   public ngOnDestroy(): void {

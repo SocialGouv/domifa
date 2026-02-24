@@ -44,7 +44,7 @@ export class AppTourModalComponent implements OnInit {
     {
       title: "Bienvenue sur DomiFa",
       content:
-        "Découvrez vos premiers pas sur l'outil grâce à cette courte présentation",
+        "Découvrez vos premiers pas sur l'outil grâce à cette courte présentation.",
     },
     {
       title: "✨ Réalisez vos premières actions",
@@ -53,9 +53,9 @@ export class AppTourModalComponent implements OnInit {
           subtitle: "Vous gérez la structure et les utilisateurs.",
           description: "Choisissez votre première action :",
           actions: [
-            "Créer les comptes utilisateurs de votre structure",
-            "Importer vos données domiciliés",
-            "Créer une demande de domiciliation",
+            "Créer les comptes utilisateurs de votre structure.",
+            "Importer vos données domiciliés.",
+            "Créer une demande de domiciliation.",
           ],
         },
         responsable: {
@@ -63,8 +63,8 @@ export class AppTourModalComponent implements OnInit {
             "Vous pilotez la gestion quotidienne des dossiers et des domiciliés :",
           description: "Choisissez votre première action :",
           actions: [
-            "Créer une demande de domiciliation",
-            "Modifier les informations sur un dossier domicilié (radier, renouveler, supprimer, ajouter une interaction)",
+            "Créer une demande de domiciliation.",
+            "Modifier les informations sur un dossier domicilié (radier, renouveler, supprimer, ajouter une interaction).",
           ],
         },
         simple: {
@@ -72,15 +72,15 @@ export class AppTourModalComponent implements OnInit {
             "Vous pilotez la gestion quotidienne des dossiers et des domiciliés :",
           description: "Choisissez votre première action :",
           actions: [
-            "Créer une demande de domiciliation",
-            "Modifier les informations sur un dossier domicilié (radier, renouveler, supprimer, ajouter une interaction)",
+            "Créer une demande de domiciliation.",
+            "Modifier les informations sur un dossier domicilié (radier, renouveler, supprimer, ajouter une interaction).",
           ],
         },
         facteur: {
           subtitle: "Vous êtes le premier contact des domiciliés :",
           description: "Choisissez votre première action :",
           actions: [
-            "Ajouter une interaction sur un dossier (courrier, passages, appels)",
+            "Ajouter une interaction sur un dossier (courrier, passages, appels).",
           ],
         },
       },

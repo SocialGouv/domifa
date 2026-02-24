@@ -15,7 +15,8 @@ import {
   Validators,
 } from "@angular/forms";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { Subscription, concatMap, from, toArray } from "rxjs";
+import { Subject, Subscription, concatMap, from, toArray } from "rxjs";
+import { debounceTime, exhaustMap } from "rxjs/operators";
 import {
   DEFAULT_MODAL_OPTIONS,
   UsagerDecisionRadiationForm,
@@ -63,6 +64,7 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
   public readonly maxDate = minDateToday;
 
   private readonly subscription = new Subscription();
+  private readonly submitSubject$ = new Subject<UsagerDecisionRadiationForm>();
 
   @ViewChild("decisionRadiationFormModal", { static: true })
   public decisionRadiationFormModal!: TemplateRef<NgbModalRef>;
@@ -104,55 +106,27 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
         }
       })
     );
-  }
-
-  public setDecisionRadiation(): void {
-    this.submitted = true;
-    if (this.radiationForm.invalid) {
-      this.toastService.error(
-        "Le formulaire contient une erreur, veuillez vérifier les champs"
-      );
-      return;
-    }
-    const formDatas: UsagerDecisionRadiationForm = {
-      ...this.radiationForm.value,
-      dateFin: new Date(
-        this.nbgDate.formatEn(this.radiationForm.controls.dateFin.value)
-      ),
-    };
-
-    this.setDecision(formDatas);
-  }
-
-  public closeModals(): void {
-    this.modalService.dismissAll();
-  }
-
-  public openRadiationModal(): void {
-    this.modalService.open(
-      this.decisionRadiationFormModal,
-      DEFAULT_MODAL_OPTIONS
-    );
-  }
-
-  public setDecision(formDatas: UsagerDecisionRadiationForm): void {
-    this.loading = true;
-
-    if (!this.selectedRefs && !this.usager) {
-      throw new Error("Cannot update radiation");
-    }
-
-    if (this.usager) {
-      this.selectedRefs = new Set<number>().add(this.usager.ref);
-    }
 
     this.subscription.add(
-      from(this.selectedRefs)
+      this.submitSubject$
         .pipe(
-          concatMap((ref: number) =>
-            this.usagerDecisionService.setDecision(ref, formDatas, false)
-          ),
-          toArray()
+          debounceTime(300),
+          exhaustMap((formDatas) => {
+            if (!this.selectedRefs && !this.usager) {
+              throw new Error("Cannot update radiation");
+            }
+
+            if (this.usager) {
+              this.selectedRefs = new Set<number>().add(this.usager.ref);
+            }
+
+            return from(this.selectedRefs).pipe(
+              concatMap((ref: number) =>
+                this.usagerDecisionService.setDecision(ref, formDatas, false)
+              ),
+              toArray()
+            );
+          })
         )
         .subscribe({
           next: (usagers: UsagerLight[]) => {
@@ -186,6 +160,42 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
             this.toastService.error("La décision n'a pas pu être enregistrée");
           },
         })
+    );
+  }
+
+  public setDecisionRadiation(): void {
+    if (this.loading) {
+      return;
+    }
+
+    this.loading = true;
+    this.submitted = true;
+
+    if (this.radiationForm.invalid) {
+      this.loading = false;
+      this.toastService.error(
+        "Le formulaire contient une erreur, veuillez vérifier les champs"
+      );
+      return;
+    }
+    const formDatas: UsagerDecisionRadiationForm = {
+      ...this.radiationForm.value,
+      dateFin: new Date(
+        this.nbgDate.formatEn(this.radiationForm.controls.dateFin.value)
+      ),
+    };
+
+    this.submitSubject$.next(formDatas);
+  }
+
+  public closeModals(): void {
+    this.modalService.dismissAll();
+  }
+
+  public openRadiationModal(): void {
+    this.modalService.open(
+      this.decisionRadiationFormModal,
+      DEFAULT_MODAL_OPTIONS
     );
   }
 

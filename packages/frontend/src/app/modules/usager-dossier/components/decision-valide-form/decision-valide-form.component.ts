@@ -15,7 +15,8 @@ import {
 import { Router } from "@angular/router";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { addYears, subDays, format, isBefore } from "date-fns";
-import { Subscription } from "rxjs";
+import { Subject, Subscription } from "rxjs";
+import { debounceTime, exhaustMap } from "rxjs/operators";
 import {
   UsagerLight,
   UsagerDecisionValideForm,
@@ -56,6 +57,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
 
   public duplicates: UsagerLight[];
   private readonly subscription = new Subscription();
+  private readonly submitSubject$ = new Subject<UsagerDecisionValideForm>();
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
@@ -154,6 +156,34 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     this.getLastDomiciled();
     this.getLastDecision();
     this.checkDuplicatesRef(this.usager.customRef);
+
+    // Protection contre les soumissions multiples avec debounceTime + exhaustMap
+    this.subscription.add(
+      this.submitSubject$
+        .pipe(
+          debounceTime(300), // Ignore les clics rapides (< 300ms)
+          exhaustMap((formDatas) => {
+            // exhaustMap ignore les nouveaux appels tant que la requête précédente n'est pas terminée
+            return this.usagerDecisionService.setDecision(
+              this.usager.ref,
+              formDatas
+            );
+          })
+        )
+        .subscribe({
+          next: (usager: UsagerLight) => {
+            this.toastService.success("Décision enregistrée avec succès ! ");
+            this.router.navigate(["profil/general/" + usager.ref]);
+            this.closeModals.emit();
+            this.submitted = false;
+            this.loading = false;
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error("La décision n'a pas pu être enregistrée");
+          },
+        })
+    );
   }
 
   private checkDuplicatesRef(value: string): void {
@@ -166,8 +196,15 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     );
   }
   public setDecisionValide() {
+    if (this.loading) {
+      return;
+    }
+
+    this.loading = true;
     this.submitted = true;
+
     if (this.valideForm.invalid) {
+      this.loading = false;
       this.toastService.error(
         "Le formulaire contient une erreur, veuillez vérifier les champs"
       );
@@ -194,29 +231,8 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
       ),
     };
 
-    this.setDecision(formDatas);
-  }
-
-  public setDecision(formDatas: UsagerDecisionValideForm): void {
-    this.loading = true;
-
-    this.subscription.add(
-      this.usagerDecisionService
-        .setDecision(this.usager.ref, formDatas)
-        .subscribe({
-          next: (usager: UsagerLight) => {
-            this.toastService.success("Décision enregistrée avec succès ! ");
-            this.router.navigate(["profil/general/" + usager.ref]);
-            this.closeModals.emit();
-            this.submitted = false;
-            this.loading = false;
-          },
-          error: () => {
-            this.loading = false;
-            this.toastService.error("La décision n'a pas pu être enregistrée");
-          },
-        })
-    );
+    // Émettre vers le Subject pour bénéficier du debounceTime + exhaustMap
+    this.submitSubject$.next(formDatas);
   }
 
   private getLastDomiciled(): void {
