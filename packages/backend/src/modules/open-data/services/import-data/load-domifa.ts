@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, OnModuleInit } from "@nestjs/common";
 import { SentryCron } from "@sentry/nestjs";
 import {
   structureRepository,
@@ -22,7 +22,16 @@ import { domifaConfig } from "../../../../config";
 import { isCronEnabled } from "../../../../config/services/isCronEnabled.service";
 
 @Injectable()
-export class LoadDomifaDataService {
+export class LoadDomifaDataService implements OnModuleInit {
+  async onModuleInit() {
+    if (
+      (domifaConfig().envId === "local" || domifaConfig().envId === "prod") &&
+      isCronEnabled()
+    ) {
+      appLogger.info("LoadMssDataService: Running import on module init");
+      await this.loadDomifaInOpenDataPlaces();
+    }
+  }
   @Cron(CronExpression.EVERY_DAY_AT_1AM, {
     disabled: !isCronEnabled() || domifaConfig().envId !== "prod",
   })

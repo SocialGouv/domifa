@@ -13,45 +13,10 @@
 
   <div class="modal-body" *ngIf="me">
     <p>
-      Nous sommes ravis de vous accueillir sur la plateforme<br />
-      Découvre vos premiers pas sur l'outile grâce à cette courte présentation
+      Nous sommes ravis de vous accueillir sur la plateforme.<br />
+      Découvrez vos premiers pas sur l'outil grâce à cette courte présentation.
     </p>
 
-    <div class="tour-content">
-      <ng-container *ngIf="currentStep === 1; else defaultImage">
-        <img
-          *ngIf="me?.role === 'admin'"
-          src="/assets/images/modals/admin.png"
-          alt="Interface DomiFa vue administrateur"
-          aria-describedby="transcription-step-1"
-          class="img-fluid"
-        />
-        <img
-          *ngIf="me?.role === 'responsable' || me?.role === 'simple'"
-          src="/assets/images/modals/responsable.png"
-          alt="Interface DomiFa vue gestionnaire et instructeur"
-          aria-describedby="transcription-step-1"
-          class="img-fluid"
-        />
-        <img
-          *ngIf="me?.role === 'facteur'"
-          src="/assets/images/modals/facteur.png"
-          alt="Interface DomiFa vue agent d'accueil et facteur"
-          aria-describedby="transcription-step-1"
-          class="img-fluid"
-        />
-      </ng-container>
-      <ng-template #defaultImage>
-        <img
-          src="/assets/images/modals/popup.gif"
-          alt="Interface de DomiFa"
-          aria-describedby="transcription-step-0"
-          class="img-fluid"
-        />
-      </ng-template>
-    </div>
-
-    <!-- Transcriptions accessibles (lecteurs d'écran uniquement) -->
     <span class="visually-hidden" aria-live="polite">
       <ng-container *ngIf="currentStep === 0">
         <span id="transcription-step-0">
@@ -92,13 +57,14 @@
     </span>
     <ng-container *ngIf="currentStep === 0">
       <p>
-        💡 Explorer l'ensemble des fonctionnalités: documentation en ligne<br />
-        💬 Une question ? Contactez l'équipe DomiFa via le formulaire de contact
+        💡 Explorer l'ensemble des fonctionnalités: documentation en ligne.<br />
+        💬 Une question ? Contactez l'équipe DomiFa via le formulaire de
+        contact.
       </p>
       <p>
-        <b>Prêt à passer à l'action</b>
+        <b>Prêt à passer à l'action.</b>
       </p>
-      <p>👉🏽 Découvrir mes premières actions dans la page suivante</p>
+      <p>👉🏽 Découvrir mes premières actions dans la page suivante.</p>
     </ng-container>
     <ng-container *ngIf="currentStep === 1">
       <ng-container>
@@ -111,6 +77,40 @@
         </ul>
       </ng-container>
     </ng-container>
+
+    <div class="tour-content">
+      <ng-container *ngIf="currentStep === 1; else defaultImage">
+        <img
+          *ngIf="me?.role === 'admin'"
+          src="/assets/images/modals/admin.png"
+          alt="Interface DomiFa vue administrateur"
+          aria-describedby="transcription-step-1"
+          class="img-fluid"
+        />
+        <img
+          *ngIf="me?.role === 'responsable' || me?.role === 'simple'"
+          src="/assets/images/modals/responsable.png"
+          alt="Interface DomiFa vue gestionnaire et instructeur"
+          aria-describedby="transcription-step-1"
+          class="img-fluid"
+        />
+        <img
+          *ngIf="me?.role === 'facteur'"
+          src="/assets/images/modals/facteur.png"
+          alt="Interface DomiFa vue agent d'accueil et facteur"
+          aria-describedby="transcription-step-1"
+          class="img-fluid"
+        />
+      </ng-container>
+      <ng-template #defaultImage>
+        <img
+          src="/assets/images/modals/popup.gif"
+          alt="Interface de DomiFa"
+          aria-describedby="transcription-step-0"
+          class="img-fluid"
+        />
+      </ng-template>
+    </div>
   </div>
 
   <div class="modal-footer justify-content-between">

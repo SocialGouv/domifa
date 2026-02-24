@@ -28,18 +28,21 @@ import { MssPlace, OpenDataPlace } from "../../interfaces";
 @Injectable()
 export class LoadMssDataService implements OnModuleInit {
   async onModuleInit() {
-    if (domifaConfig().envId === "local" && isCronEnabled()) {
+    if (
+      (domifaConfig().envId === "local" || domifaConfig().envId === "prod") &&
+      isCronEnabled()
+    ) {
       appLogger.info("LoadMssDataService: Running import on module init");
       await this.importMssData();
     }
   }
-  @Cron(CronExpression.EVERY_DAY_AT_2AM, {
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT, {
     disabled: !isCronEnabled() || domifaConfig().envId !== "prod",
   })
   @SentryCron("open-data-load-mss", {
     schedule: {
       type: "crontab",
-      value: CronExpression.EVERY_DAY_AT_2AM,
+      value: CronExpression.EVERY_DAY_AT_MIDNIGHT,
     },
     timezone: "Europe/Paris",
     checkinMargin: 10,

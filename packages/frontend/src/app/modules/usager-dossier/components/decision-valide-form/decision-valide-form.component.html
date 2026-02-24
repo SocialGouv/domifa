@@ -3,14 +3,9 @@
     >Confirmer la domiciliation de {{ usager | fullName }}</span
   >
 </div>
-
-<div class="modal-body">
-  <div class="col">
-    <form
-      [formGroup]="valideForm"
-      class="my-1"
-      (ngSubmit)="setDecisionValide()"
-    >
+<form [formGroup]="valideForm" class="my-1" (ngSubmit)="setDecisionValide()">
+  <div class="modal-body">
+    <div class="col">
       <div class="row">
         <div class="col-md-12">
           <p>
@@ -70,7 +65,7 @@
             class="invalid-feedback"
             id="date-debut-errors"
           >
-            La date de debut est incorrecte, exemple: 20/12/1996
+            La date de début est incorrecte, exemple: 20/12/1996
           </p>
         </div>
         <div class="form-group col-12 col-md-6 required">
@@ -191,34 +186,33 @@
           <br />
         </div>
       </div>
-    </form>
+    </div>
   </div>
-</div>
 
-<div class="modal-footer">
-  <button
-    class="btn btn-lg btn-outline-dark d-print-none"
-    (click)="closeModals.emit()"
-    type="button"
-  >
-    Revenir au formulaire
-  </button>
-  <button
-    class="btn btn-lg btn-success"
-    [disabled]="v.dateDebut.value > v.dateFin.value || loading"
-    (click)="setDecisionValide()"
-    type="submit"
-  >
-    <span *ngIf="!loading">Confirmer la domiciliation</span>
-
-    <span *ngIf="loading"
-      ><fa-icon
-        [icon]="['fas', 'circle-notch']"
-        aria-hidden="true"
-        animation="spin"
-      >
-      </fa-icon>
-      Veuillez patienter...</span
+  <div class="modal-footer">
+    <button
+      class="btn btn-lg btn-outline-dark d-print-none"
+      (click)="closeModals.emit()"
+      type="button"
     >
-  </button>
-</div>
+      Revenir au formulaire
+    </button>
+    <button
+      class="btn btn-lg btn-success"
+      [disabled]="v.dateDebut.value > v.dateFin.value || loading"
+      type="submit"
+    >
+      <span *ngIf="!loading">Confirmer la domiciliation</span>
+
+      <span *ngIf="loading"
+        ><fa-icon
+          [icon]="['fas', 'circle-notch']"
+          aria-hidden="true"
+          animation="spin"
+        >
+        </fa-icon>
+        Veuillez patienter...</span
+      >
+    </button>
+  </div>
+</form>
