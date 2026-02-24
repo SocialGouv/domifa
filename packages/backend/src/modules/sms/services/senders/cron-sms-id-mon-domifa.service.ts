@@ -7,6 +7,7 @@ import { domifaConfig } from "../../../../config";
 import { isCronEnabled } from "../../../../config/services/isCronEnabled.service";
 import { MessageSmsSenderService } from "../message-sms-sender.service";
 import { SmsToSend } from "../../types";
+import { SentryCron } from "@sentry/nestjs";
 
 @Injectable()
 export class CronSmsMonDomiFaService {
@@ -14,9 +15,18 @@ export class CronSmsMonDomiFaService {
     private readonly messageSmsSenderService: MessageSmsSenderService
   ) {}
 
-  @Cron(CronExpression.EVERY_30_MINUTES, {
+  @Cron(CronExpression.EVERY_HOUR, {
     timeZone: "Europe/Paris",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
+  })
+  @SentryCron("sms-mon-domifa-batch", {
+    schedule: {
+      type: "crontab",
+      value: CronExpression.EVERY_HOUR,
+    },
+    timezone: "Europe/Paris",
+    checkinMargin: 10,
+    maxRuntime: 50,
   })
   protected async processSMSBatch() {
     appLogger.info("[SMS BATCH] Début d'envoi d'un batch de 500 SMS");

@@ -132,7 +132,7 @@ COPY public.open_data_cities (uuid, "createdAt", "updatedAt", version, "regionCo
 -- Data for Name: open_data_places; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.open_data_places (uuid, "createdAt", "updatedAt", version, nom, adresse, "complementAdresse", ville, "codePostal", departement, region, latitude, longitude, source, software, mail, "structureType", "domifaStructureId", "soliguideStructureId", "mssId", "nbDomicilies", "nbDomiciliesDomifa", "nbAttestations", "nbAttestationsDomifa", saturation, "saturationDetails", "dgcsId", reseau, "domicilieSegment", "cityCode", "populationSegment") FROM stdin;
+COPY public.open_data_places (uuid, "createdAt", "updatedAt", version, nom, adresse, "complementAdresse", ville, "codePostal", departement, region, latitude, longitude, source, software, mail, "structureType", "domifaStructureId", "soliguideStructureId", "mssId", "nbDomicilies", "nbDomiciliesDomifa", "nbAttestations", "nbAttestationsDomifa", saturation, "saturationDetails", "dgcsId", reseau, "domicilieSegment", "cityCode", "populationSegment", siret) FROM stdin;
 \.
 
 

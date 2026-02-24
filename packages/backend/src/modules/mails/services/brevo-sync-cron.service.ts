@@ -1,5 +1,6 @@
 import { Injectable, OnModuleInit } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
+import { SentryCron } from "@sentry/nestjs";
 import { userStructureRepository } from "../../../database";
 import { appLogsRepository } from "../../../database/services/app-log";
 import { BrevoSenderService } from "./brevo-sender/brevo-sender.service";
@@ -23,6 +24,15 @@ export class BrevoSyncCronService implements OnModuleInit {
   @Cron(CronExpression.EVERY_DAY_AT_1AM, {
     timeZone: "Europe/Paris",
     disabled: !isCronEnabled() || domifaConfig().envId !== "prod",
+  })
+  @SentryCron("brevo-sync-cron", {
+    schedule: {
+      type: "crontab",
+      value: CronExpression.EVERY_DAY_AT_1AM,
+    },
+    timezone: "Europe/Paris",
+    checkinMargin: 10,
+    maxRuntime: 60,
   })
   async syncUsersToBrevo(): Promise<void> {
     const startTime = Date.now();

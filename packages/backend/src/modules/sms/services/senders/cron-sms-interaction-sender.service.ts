@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
+import { SentryCron } from "@sentry/nestjs";
 
 import { TimeZone } from "@domifa/common";
 import { format } from "date-fns";
@@ -26,6 +27,12 @@ export class CronSmsInteractionSenderService {
     timeZone: "Europe/Paris",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
+  @SentryCron("sms-interaction-europe-paris", {
+    schedule: { type: "crontab", value: WEEKDAY_AT_7PM },
+    timezone: "Europe/Paris",
+    checkinMargin: 15,
+    maxRuntime: 30,
+  })
   protected async sendSmsEurope() {
     await this.sendSmsInteraction("cron", "Europe/Paris");
   }
@@ -33,6 +40,12 @@ export class CronSmsInteractionSenderService {
   @Cron(WEEKDAY_AT_7PM, {
     timeZone: "America/Martinique",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
+  })
+  @SentryCron("sms-interaction-martinique-guadeloupe", {
+    schedule: { type: "crontab", value: WEEKDAY_AT_7PM },
+    timezone: "America/Martinique",
+    checkinMargin: 15,
+    maxRuntime: 30,
   })
   protected async sendSmsMartiniqueAndGuadeloupe() {
     await this.sendSmsInteraction("cron", "America/Martinique");
@@ -43,6 +56,12 @@ export class CronSmsInteractionSenderService {
     timeZone: "America/Cayenne",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
+  @SentryCron("sms-interaction-cayenne", {
+    schedule: { type: "crontab", value: WEEKDAY_AT_7PM },
+    timezone: "America/Cayenne",
+    checkinMargin: 15,
+    maxRuntime: 30,
+  })
   protected async sendSmsCayenne() {
     await this.sendSmsInteraction("cron", "America/Cayenne");
   }
@@ -50,6 +69,12 @@ export class CronSmsInteractionSenderService {
   @Cron(WEEKDAY_AT_7PM, {
     timeZone: "Indian/Mayotte",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
+  })
+  @SentryCron("sms-interaction-mayotte", {
+    schedule: { type: "crontab", value: WEEKDAY_AT_7PM },
+    timezone: "Indian/Mayotte",
+    checkinMargin: 15,
+    maxRuntime: 30,
   })
   protected async sendSmsMayotte() {
     await this.sendSmsInteraction("cron", "Indian/Mayotte");
@@ -59,6 +84,12 @@ export class CronSmsInteractionSenderService {
     timeZone: "Pacific/Noumea",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
+  @SentryCron("sms-interaction-noumea", {
+    schedule: { type: "crontab", value: WEEKDAY_AT_7PM },
+    timezone: "Pacific/Noumea",
+    checkinMargin: 15,
+    maxRuntime: 30,
+  })
   protected async sendSmsNoumea() {
     await this.sendSmsInteraction("cron", "Pacific/Noumea");
   }
@@ -67,12 +98,24 @@ export class CronSmsInteractionSenderService {
     timeZone: "Pacific/Tahiti",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
+  @SentryCron("sms-interaction-tahiti", {
+    schedule: { type: "crontab", value: WEEKDAY_AT_7PM },
+    timezone: "Pacific/Tahiti",
+    checkinMargin: 15,
+    maxRuntime: 30,
+  })
   protected async sendSmsTahiti() {
     await this.sendSmsInteraction("cron", "Pacific/Tahiti");
   }
   @Cron(WEEKDAY_AT_7PM, {
     timeZone: "America/Miquelon",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
+  })
+  @SentryCron("sms-interaction-miquelon", {
+    schedule: { type: "crontab", value: WEEKDAY_AT_7PM },
+    timezone: "America/Miquelon",
+    checkinMargin: 15,
+    maxRuntime: 30,
   })
   protected async sendSmsMiquelon() {
     await this.sendSmsInteraction("cron", "America/Miquelon");
@@ -82,12 +125,24 @@ export class CronSmsInteractionSenderService {
     timeZone: "Indian/Maldives",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
+  @SentryCron("sms-interaction-maldives", {
+    schedule: { type: "crontab", value: WEEKDAY_AT_7PM },
+    timezone: "Indian/Maldives",
+    checkinMargin: 15,
+    maxRuntime: 30,
+  })
   protected async sendSmsMaldives() {
     await this.sendSmsInteraction("cron", "Indian/Maldives");
   }
   @Cron(WEEKDAY_AT_7PM, {
     timeZone: "Pacific/Wallis",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
+  })
+  @SentryCron("sms-interaction-wallis", {
+    schedule: { type: "crontab", value: WEEKDAY_AT_7PM },
+    timezone: "Pacific/Wallis",
+    checkinMargin: 15,
+    maxRuntime: 30,
   })
   protected async sendSmsWallis() {
     await this.sendSmsInteraction("cron", "Pacific/Wallis");
@@ -96,6 +151,12 @@ export class CronSmsInteractionSenderService {
   @Cron(WEEKDAY_AT_7PM, {
     timeZone: "Indian/Reunion",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
+  })
+  @SentryCron("sms-interaction-reunion", {
+    schedule: { type: "crontab", value: WEEKDAY_AT_7PM },
+    timezone: "Indian/Reunion",
+    checkinMargin: 15,
+    maxRuntime: 30,
   })
   protected async sendSmsReunion() {
     await this.sendSmsInteraction("cron", "Indian/Reunion");

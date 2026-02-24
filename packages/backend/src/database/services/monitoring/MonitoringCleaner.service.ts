@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
+import { SentryCron } from "@sentry/nestjs";
 import { LessThanOrEqual } from "typeorm";
 import { monitoringBatchProcessSimpleCountRunner } from ".";
 import { MonitoringBatchProcessTrigger } from "../..";
@@ -13,6 +14,15 @@ import { endOfDay, subDays } from "date-fns";
 @Injectable()
 export class MonitoringCleaner {
   @Cron(CronExpression.EVERY_DAY_AT_11PM)
+  @SentryCron("purge-obsolete-monitoring-data", {
+    schedule: {
+      type: "crontab",
+      value: CronExpression.EVERY_DAY_AT_11PM,
+    },
+    timezone: "Europe/Paris",
+    checkinMargin: 10,
+    maxRuntime: 15,
+  })
   public async purgeObsoleteDataCron() {
     if (!isCronEnabled()) {
       appLogger.debug("[CRON] [purgeObsoleteDataCron] Disabled by config");

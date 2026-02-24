@@ -58,6 +58,8 @@ export type DomifaEnv = {
   DOMIFA_PHONE_NUMBER_REDIRECT_ALL_TO: string;
   SOLIGUIDE_URL: string;
   SOLIGUIDE_TOKEN: string;
+  MSS_URL: string;
+  MSS_TOKEN: string;
   DATA_INCLUSION_URL: string;
   DATA_INCLUSION_TOKEN: string;
   METABASE_TOKEN: string;

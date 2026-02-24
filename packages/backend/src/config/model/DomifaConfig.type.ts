@@ -84,6 +84,8 @@ export type DomifaConfig = {
   openDataApps: {
     soliguideUrl: string;
     soliguideToken: string;
+    mssUrl: string;
+    mssToken: string;
     dataInclusionUrl: string;
     dataInclusionToken: string;
   };

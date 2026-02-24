@@ -1,6 +1,7 @@
 import { MessageSmsSenderService } from "../message-sms-sender.service";
 import { Injectable } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
+import { SentryCron } from "@sentry/nestjs";
 import { setMinutes, setHours } from "date-fns";
 import { PhoneNumberFormat } from "google-libphonenumber";
 import { domifaConfig } from "../../../../config";
@@ -29,6 +30,15 @@ export class CronSmsFetchEndDomService {
     timeZone: "Europe/Paris",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
+  @SentryCron("sms-end-dom-europe-paris", {
+    schedule: {
+      type: "crontab",
+      value: CronExpression.EVERY_DAY_AT_6PM,
+    },
+    timezone: "Europe/Paris",
+    checkinMargin: 15,
+    maxRuntime: 30,
+  })
   protected async sendSmsEurope() {
     await this.fetchUsagerEndDom("Europe/Paris");
   }
@@ -36,6 +46,15 @@ export class CronSmsFetchEndDomService {
   @Cron(CronExpression.EVERY_DAY_AT_6PM, {
     timeZone: "America/Martinique",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
+  })
+  @SentryCron("sms-end-dom-martinique-guadeloupe", {
+    schedule: {
+      type: "crontab",
+      value: CronExpression.EVERY_DAY_AT_6PM,
+    },
+    timezone: "America/Martinique",
+    checkinMargin: 15,
+    maxRuntime: 30,
   })
   protected async sendSmsMartiniqueAndGuadeloupe() {
     await this.fetchUsagerEndDom("America/Guadeloupe");
@@ -46,6 +65,15 @@ export class CronSmsFetchEndDomService {
     timeZone: "America/Cayenne",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
+  @SentryCron("sms-end-dom-cayenne", {
+    schedule: {
+      type: "crontab",
+      value: CronExpression.EVERY_DAY_AT_6PM,
+    },
+    timezone: "America/Cayenne",
+    checkinMargin: 15,
+    maxRuntime: 30,
+  })
   protected async sendSmsCayenne() {
     await this.fetchUsagerEndDom("America/Cayenne");
   }
@@ -53,6 +81,15 @@ export class CronSmsFetchEndDomService {
   @Cron(CronExpression.EVERY_DAY_AT_6PM, {
     timeZone: "Indian/Mayotte",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
+  })
+  @SentryCron("sms-end-dom-mayotte", {
+    schedule: {
+      type: "crontab",
+      value: CronExpression.EVERY_DAY_AT_6PM,
+    },
+    timezone: "Indian/Mayotte",
+    checkinMargin: 15,
+    maxRuntime: 30,
   })
   protected async sendSmsMayotte() {
     await this.fetchUsagerEndDom("Indian/Mayotte");
@@ -62,6 +99,15 @@ export class CronSmsFetchEndDomService {
     timeZone: "Pacific/Noumea",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
+  @SentryCron("sms-end-dom-noumea", {
+    schedule: {
+      type: "crontab",
+      value: CronExpression.EVERY_DAY_AT_6PM,
+    },
+    timezone: "Pacific/Noumea",
+    checkinMargin: 15,
+    maxRuntime: 30,
+  })
   protected async sendSmsNoumea() {
     await this.fetchUsagerEndDom("Pacific/Noumea");
   }
@@ -69,6 +115,15 @@ export class CronSmsFetchEndDomService {
   @Cron(CronExpression.EVERY_DAY_AT_6PM, {
     timeZone: "Pacific/Tahiti",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
+  })
+  @SentryCron("sms-end-dom-tahiti", {
+    schedule: {
+      type: "crontab",
+      value: CronExpression.EVERY_DAY_AT_6PM,
+    },
+    timezone: "Pacific/Tahiti",
+    checkinMargin: 15,
+    maxRuntime: 30,
   })
   protected async sendSmsTahiti() {
     await this.fetchUsagerEndDom("Pacific/Tahiti");
@@ -78,6 +133,15 @@ export class CronSmsFetchEndDomService {
     timeZone: "America/Miquelon",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
+  @SentryCron("sms-end-dom-miquelon", {
+    schedule: {
+      type: "crontab",
+      value: CronExpression.EVERY_DAY_AT_6PM,
+    },
+    timezone: "America/Miquelon",
+    checkinMargin: 15,
+    maxRuntime: 30,
+  })
   protected async sendSmsMiquelon() {
     await this.fetchUsagerEndDom("America/Miquelon");
   }
@@ -85,6 +149,15 @@ export class CronSmsFetchEndDomService {
   @Cron(CronExpression.EVERY_DAY_AT_6PM, {
     timeZone: "Indian/Maldives",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
+  })
+  @SentryCron("sms-end-dom-maldives", {
+    schedule: {
+      type: "crontab",
+      value: CronExpression.EVERY_DAY_AT_6PM,
+    },
+    timezone: "Indian/Maldives",
+    checkinMargin: 15,
+    maxRuntime: 30,
   })
   protected async sendSmsMaldives() {
     await this.fetchUsagerEndDom("Indian/Maldives");
@@ -94,6 +167,15 @@ export class CronSmsFetchEndDomService {
     timeZone: "Indian/Reunion",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
+  @SentryCron("sms-end-dom-reunion", {
+    schedule: {
+      type: "crontab",
+      value: CronExpression.EVERY_DAY_AT_6PM,
+    },
+    timezone: "Indian/Reunion",
+    checkinMargin: 15,
+    maxRuntime: 30,
+  })
   protected async sendSmsReunion() {
     await this.fetchUsagerEndDom("Indian/Reunion");
   }
@@ -101,6 +183,15 @@ export class CronSmsFetchEndDomService {
   @Cron(CronExpression.EVERY_DAY_AT_6PM, {
     timeZone: "Pacific/Wallis",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
+  })
+  @SentryCron("sms-end-dom-wallis", {
+    schedule: {
+      type: "crontab",
+      value: CronExpression.EVERY_DAY_AT_6PM,
+    },
+    timezone: "Pacific/Wallis",
+    checkinMargin: 15,
+    maxRuntime: 30,
   })
   protected async sendSmsWallis() {
     await this.fetchUsagerEndDom("Pacific/Wallis");
