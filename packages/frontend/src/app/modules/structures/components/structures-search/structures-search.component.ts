@@ -86,12 +86,6 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.loading = false;
-          this.matomo.trackEvent(
-            "INSCRIPTION_STRUCTURE",
-            "RECHERCHE_CODE_POSTAL",
-            "FAIL",
-            0
-          );
         },
       })
     );

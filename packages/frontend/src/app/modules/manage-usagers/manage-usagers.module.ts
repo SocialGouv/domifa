@@ -30,6 +30,7 @@ import {
   StickySelectionBarDirective,
   DateFrConditionalDirective,
 } from "./directives";
+import { WelcomeModalComponent } from "../general/components/static-modals/welcome-modal/welcome-modal.component";
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import {
     ManageUsagersRoutingModule,
     FormatInternationalPhoneNumberPipe,
     FullNamePipe,
+    WelcomeModalComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

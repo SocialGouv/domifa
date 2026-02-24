@@ -1,0 +1,144 @@
+<ng-template #appTourModal let-modal>
+  <div class="modal-header">
+    <h2 id="modal-title" class="modal-title">
+      {{ tourSteps[currentStep].title }}
+    </h2>
+    <button
+      class="btn-close"
+      type="button"
+      aria-label="Fermer"
+      (click)="skipTour()"
+    ></button>
+  </div>
+
+  <div class="modal-body" *ngIf="me">
+    <p>
+      Nous sommes ravis de vous accueillir sur la plateforme<br />
+      Découvre vos premiers pas sur l'outile grâce à cette courte présentation
+    </p>
+
+    <div class="tour-content">
+      <ng-container *ngIf="currentStep === 1; else defaultImage">
+        <img
+          *ngIf="me?.role === 'admin'"
+          src="/assets/images/modals/admin.png"
+          alt="Interface DomiFa vue administrateur"
+          aria-describedby="transcription-step-1"
+          class="img-fluid"
+        />
+        <img
+          *ngIf="me?.role === 'responsable' || me?.role === 'simple'"
+          src="/assets/images/modals/responsable.png"
+          alt="Interface DomiFa vue gestionnaire et instructeur"
+          aria-describedby="transcription-step-1"
+          class="img-fluid"
+        />
+        <img
+          *ngIf="me?.role === 'facteur'"
+          src="/assets/images/modals/facteur.png"
+          alt="Interface DomiFa vue agent d'accueil et facteur"
+          aria-describedby="transcription-step-1"
+          class="img-fluid"
+        />
+      </ng-container>
+      <ng-template #defaultImage>
+        <img
+          src="/assets/images/modals/popup.gif"
+          alt="Interface de DomiFa"
+          aria-describedby="transcription-step-0"
+          class="img-fluid"
+        />
+      </ng-template>
+    </div>
+
+    <!-- Transcriptions accessibles (lecteurs d'écran uniquement) -->
+    <span class="visually-hidden" aria-live="polite">
+      <ng-container *ngIf="currentStep === 0">
+        <span id="transcription-step-0">
+          Une courte vidéo montre l'interface de DomiFa destinée aux
+          utilisateurs de structures. Dans le menu Mon compte, configurez les
+          paramètres de votre compte. Dans le bouton Domiciliés, suivez la
+          gestion quotidienne des domiciliés. Dans le bouton Créer une demande,
+          créez un nouveau dossier domicilié. Dans le menu central, suivez le
+          statut de vos domiciliés. Sur le moteur de recherche, retrouvez
+          facilement un dossier domicilié. Dans les sections interaction et
+          courrier, ajoutez un passage, appel ou courrier. Modifiez une
+          information dans un dossier en cliquant sur le nom et prénom de la
+          personne. Pour toute question, contactez l'équipe via le bouton
+          d'accès au centre d'aide, sur le symbole point d'interrogation.
+        </span>
+      </ng-container>
+
+      <ng-container *ngIf="currentStep === 1">
+        <span id="transcription-step-1">
+          <ng-container *ngIf="me?.role === 'admin'">
+            Dans la section Mon compte, configurez les paramètres de votre
+            compte. Dans le bouton Créer une demande, créez une demande de
+            domiciliation.
+          </ng-container>
+          <ng-container
+            *ngIf="me?.role === 'responsable' || me?.role === 'simple'"
+          >
+            Depuis le bouton Créer une demande, créez une demande de
+            domiciliation. Modifiez une information dans un dossier en cliquant
+            sur le nom et le prénom du domicilié.
+          </ng-container>
+          <ng-container *ngIf="me?.role === 'facteur'">
+            Dans les sections Interactions et Courriers, ajoutez un passage, un
+            appel ou un courrier.
+          </ng-container>
+        </span>
+      </ng-container>
+    </span>
+    <ng-container *ngIf="currentStep === 0">
+      <p>
+        💡 Explorer l'ensemble des fonctionnalités: documentation en ligne<br />
+        💬 Une question ? Contactez l'équipe DomiFa via le formulaire de contact
+      </p>
+      <p>
+        <b>Prêt à passer à l'action</b>
+      </p>
+      <p>👉🏽 Découvrir mes premières actions dans la page suivante</p>
+    </ng-container>
+    <ng-container *ngIf="currentStep === 1">
+      <ng-container>
+        <p class="fw-bold mb-1">{{ currentRoleStep.subtitle }}</p>
+        <p class="mb-2">{{ currentRoleStep.description }}</p>
+        <ul class="list-unstyled mb-0">
+          <li *ngFor="let action of currentRoleStep.actions">
+            ✅ {{ action }}
+          </li>
+        </ul>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <div class="modal-footer justify-content-between">
+    <button
+      *ngIf="currentStep === 1"
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="previousStep()"
+    >
+      Retour
+    </button>
+
+    <button
+      *ngIf="currentStep === 0"
+      type="button"
+      class="btn btn-primary ms-auto"
+      (click)="nextStep()"
+    >
+      Suivant
+    </button>
+
+    <button
+      *ngIf="currentStep === 1"
+      type="button"
+      class="btn btn-primary"
+      (click)="skipTour()"
+    >
+      Commencer à utiliser DomiFa
+    </button>
+  </div>
+</ng-template>

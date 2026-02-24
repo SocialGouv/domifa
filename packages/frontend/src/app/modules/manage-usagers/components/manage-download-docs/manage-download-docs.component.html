@@ -37,6 +37,15 @@
       Télécharger le Cerfa d'élection de domicile (.pdf)
     </button>
     <button
+      ngbDropdownItem
+      type="button"
+      (click)="getCerfa(usager.ref, CerfaDocType.demande)"
+      *ngIf="usager.decision.statut === 'REFUS'"
+    >
+      <fa-icon aria-hidden="true" [icon]="faFilePdf"></fa-icon>
+      Télécharger l'attestation de refus (.pdf)
+    </button>
+    <button
       *ngIf="
         usager.decision.statut !== 'REFUS' && usager.decision.statut === 'RADIE'
       "

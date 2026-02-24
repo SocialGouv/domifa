@@ -59,7 +59,14 @@
         <td class="text-end d-print-none">
           <app-button
             *ngIf="decision.statut === 'VALIDE'"
-            [content]="'Cerfa'"
+            [content]="'Télécharger le Cerfa'"
+            icon="download"
+            class="me-2"
+            (action)="getCerfa(decision.uuid)"
+          ></app-button>
+          <app-button
+            *ngIf="decision.statut === 'REFUS'"
+            [content]="'Télécharger l\'attestation de Refus'"
             icon="download"
             class="me-2"
             (action)="getCerfa(decision.uuid)"

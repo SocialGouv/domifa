@@ -50,7 +50,11 @@
                   aria-hidden="true"
                   class="me-2"
                 ></fa-icon>
-                Télécharger le CERFA
+                {{
+                  usager.decision.statut === "REFUS"
+                    ? "Télécharger l'attestation de Refus"
+                    : "Télécharger le Cerfa"
+                }}
               </button>
             </div>
           </div>

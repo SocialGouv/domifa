@@ -35,6 +35,7 @@ import { RgaaComponent } from "./components/static-pages/rgaa/rgaa.component";
 import { LandingPagePortailComponent } from "./components/static-pages/landing-page-portail/landing-page-portail.component";
 import { HomeStatsComponent } from "../stats/components/home-stats/home-stats.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { WelcomeService } from "./services/welcome.service";
 
 @NgModule({
   declarations: [
@@ -75,6 +76,10 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     FontAwesomeModule,
     HomeStatsComponent,
   ],
-  providers: [GeneralService, provideHttpClient(withInterceptorsFromDi())],
+  providers: [
+    GeneralService,
+    WelcomeService,
+    provideHttpClient(withInterceptorsFromDi()),
+  ],
 })
 export class GeneralModule {}
