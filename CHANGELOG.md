@@ -1,3 +1,16 @@
+# [2.233.0](https://github.com/SocialGouv/domifa/compare/v2.232.10...v2.233.0) (2026-02-24)
+
+
+### Bug Fixes
+
+* **backend:** add label other for cerfa ([bb5734f](https://github.com/SocialGouv/domifa/commit/bb5734f927e5f26ce4a15582f973a0fedb06b054))
+
+
+### Features
+
+* **backend:** refactor cron, add sentry monitoring, add data from 'MSS' ([adf9625](https://github.com/SocialGouv/domifa/commit/adf9625ea4261f5dd3b90bf39c2ebb6d22335005))
+* **frontend:** update docs, add popups ([e36a138](https://github.com/SocialGouv/domifa/commit/e36a138dfe8323c6cd9ba656ecee8af1400b0f37))
+
 ## [2.232.10](https://github.com/SocialGouv/domifa/compare/v2.232.9...v2.232.10) (2026-01-29)
 
 
