@@ -22,7 +22,6 @@ import { DEFAULT_MODAL_OPTIONS } from "../_common/model";
 import { CustomToastService } from "./modules/shared/services";
 
 import { fadeInOut } from "./shared";
-import DOMIFA_NEWS from "../assets/files/news.json";
 import { LIENS_PARTENAIRES } from "./modules/general/components/plan-site/LIENS_PARTENAIRES.const";
 import { UserStructure } from "@domifa/common";
 
@@ -47,15 +46,8 @@ export class AppComponent implements OnInit, OnDestroy {
   public acceptTermsForm!: FormGroup;
   public loading: boolean;
   public submitted: boolean;
-  public pendingNews: boolean;
 
   private readonly subscription = new Subscription();
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public news: any;
-
-  @ViewChild("newsModal", { static: true })
-  public newsModal!: TemplateRef<NgbModalRef>;
 
   public readonly partnerLinks = LIENS_PARTENAIRES;
 
@@ -71,7 +63,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.apiVersion = localStorage.getItem("version");
 
     this.submitted = false;
-    this.pendingNews = false;
     this.loading = false;
     this.me = null;
     this.initCguForm();
@@ -146,8 +137,6 @@ export class AppComponent implements OnInit, OnDestroy {
         if (!this.me.acceptTerms) {
           this.openAcceptTermsModal();
           this.initCguForm();
-        } else {
-          this.checkNews();
         }
       },
     });
@@ -181,24 +170,6 @@ export class AppComponent implements OnInit, OnDestroy {
           });
         }
       });
-  }
-
-  public checkNews(): void {
-    const lastNews = localStorage.getItem("news");
-    this.pendingNews = lastNews
-      ? new Date(lastNews) < new Date(DOMIFA_NEWS[0].date)
-      : true;
-
-    if (this.pendingNews) {
-      this.news = DOMIFA_NEWS[0];
-      this.modalService.open(this.newsModal, DEFAULT_MODAL_OPTIONS);
-    }
-  }
-
-  public hideNews(): void {
-    this.modalService.dismissAll();
-    localStorage.setItem("news", new Date(DOMIFA_NEWS[0].date).toISOString());
-    this.pendingNews = false;
   }
 
   public logout(): void {

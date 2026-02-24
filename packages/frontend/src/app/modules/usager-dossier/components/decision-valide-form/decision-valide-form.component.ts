@@ -20,7 +20,11 @@ import {
   UsagerLight,
   UsagerDecisionValideForm,
 } from "../../../../../_common/model";
-import { formatDateToNgb, parseDateFromNgb } from "../../../../shared";
+import {
+  formatDateToNgb,
+  getTodayNgb,
+  parseDateFromNgb,
+} from "../../../../shared";
 import { Decision, UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
 import {
@@ -35,8 +39,8 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
   @Output() public closeModals = new EventEmitter<void>();
 
-  public submitted: boolean;
-  public loading: boolean;
+  public submitted: boolean = false;
+  public loading: boolean = false;
   public valideForm!: UntypedFormGroup;
 
   public minDate: NgbDateStruct;
@@ -60,8 +64,6 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly toastService: CustomToastService
   ) {
-    this.submitted = false;
-    this.loading = false;
     this.duplicates = [];
     this.lastDomiciled = [];
 
@@ -77,9 +79,9 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
 
   private setDate(date: Date) {
     return {
-      day: parseInt(format(date, "d"), 10),
-      month: parseInt(format(date, "M"), 10),
-      year: parseInt(format(date, "y"), 10),
+      day: Number.parseInt(format(date, "d"), 10),
+      month: Number.parseInt(format(date, "M"), 10),
+      year: Number.parseInt(format(date, "y"), 10),
     };
   }
 
@@ -95,11 +97,8 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.valideForm = this.formBuilder.group({
-      dateDebut: [formatDateToNgb(new Date()), [Validators.required]],
-      dateFin: [
-        formatDateToNgb(subDays(addYears(new Date(), 1), 1)),
-        [Validators.required],
-      ],
+      dateDebut: [getTodayNgb(), [Validators.required]],
+      dateFin: [getTodayNgb(), [Validators.required]],
       statut: ["VALIDE", [Validators.required]],
       customRef: [this.usager.customRef],
     });
@@ -107,7 +106,14 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.valideForm.get("dateDebut")?.valueChanges.subscribe((value) => {
         if (value !== null && this.nbgDate.isValid(value)) {
-          const newDateDebut = new Date(this.nbgDate.formatEn(value));
+          const newDateDebut = new Date(
+            value.year,
+            value.month - 1,
+            value.day,
+            12,
+            0,
+            0
+          );
           const newDateFin = subDays(addYears(newDateDebut, 1), 1);
 
           this.valideForm.controls.dateFin.setValue(
@@ -171,10 +177,20 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     const formDatas: UsagerDecisionValideForm = {
       ...this.valideForm.value,
       dateDebut: new Date(
-        this.nbgDate.formatEn(this.valideForm.controls.dateDebut.value)
+        this.valideForm.controls.dateDebut.value.year,
+        this.valideForm.controls.dateDebut.value.month - 1,
+        this.valideForm.controls.dateDebut.value.day,
+        12,
+        0,
+        0
       ),
       dateFin: new Date(
-        this.nbgDate.formatEn(this.valideForm.controls.dateFin.value)
+        this.valideForm.controls.dateFin.value.year,
+        this.valideForm.controls.dateFin.value.month - 1,
+        this.valideForm.controls.dateFin.value.day,
+        12,
+        0,
+        0
       ),
     };
 

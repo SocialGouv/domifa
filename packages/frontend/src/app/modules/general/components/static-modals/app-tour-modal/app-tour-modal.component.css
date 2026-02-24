@@ -1,0 +1,55 @@
+.tour-content {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.tour-icon {
+  color: #0d6efd;
+  margin-bottom: 1.5rem;
+}
+
+.tour-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #495057;
+  margin: 0;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navigation-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.transcription-toggle {
+  text-align: center;
+}
+
+.transcription-toggle button {
+  font-size: 0.9rem;
+  color: #495057;
+  padding: 0.25rem 0.5rem;
+}
+
+.transcription-toggle button:hover {
+  color: #0d6efd;
+}
+
+.transcription-content {
+  border: 1px solid #dee2e6;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: #212529;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.transcription-content h6 {
+  margin-bottom: 1rem;
+  color: #0d6efd;
+}

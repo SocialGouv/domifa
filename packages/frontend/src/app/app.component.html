@@ -36,7 +36,7 @@
 </nav>
 <app-help-modal></app-help-modal>
 
-<app-navbar [pendingNews]="pendingNews" [me]="me"></app-navbar>
+<app-navbar [me]="me"></app-navbar>
 
 <main role="main" id="page">
   <router-outlet></router-outlet>
@@ -332,54 +332,6 @@
     <button class="btn btn-lg btn-primary" type="submit" (click)="refresh()">
       <fa-icon aria-hidden="true" [icon]="['fas', 'sync']"></fa-icon> Actualiser
       la page
-    </button>
-  </div>
-</ng-template>
-
-<ng-template #newsModal let-modal>
-  <div class="modal-header">
-    <span id="modal-title">
-      🎉 Des nouveautés sont disponibles sur la plateforme
-    </span>
-    <button
-      class="btn-close"
-      type="button"
-      aria-label="Fermer la boite de dialogue"
-      (click)="hideNews()"
-    ></button>
-  </div>
-  <div class="modal-body px-3 py-2">
-    <p class="my-2 fw-bold">
-      Nouveautés du {{ news.date | date : "d MMMM y"
-      }}<span *ngIf="news.description"> - {{ news.description }}</span>
-    </p>
-
-    <ng-container *ngFor="let content of news.content">
-      <p class="text-start my-1">
-        <span
-          class="badge badge-pill"
-          [ngClass]="{
-            'bg-primary': content.type === 'new',
-            'bg-warning text-dark': content.type === 'bug'
-          }"
-        >
-          {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
-        </span>
-        &nbsp;
-        <b>{{ content.categorie }}</b>
-      </p>
-      <ul class="mb-3">
-        <li
-          *ngFor="let message of content.message"
-          [innerHTML]="message | nl2br"
-        ></li>
-      </ul>
-    </ng-container>
-  </div>
-
-  <div class="modal-footer">
-    <button class="btn btn-primary btn-lg" (click)="hideNews()" type="submit">
-      Continuer sur DomiFa
     </button>
   </div>
 </ng-template>

@@ -5,9 +5,18 @@
     >
       <h1>Rapport d'activité et statistiques</h1>
       <h2 class="d-none d-print-block">
-        {{ me?.structure.nom }}
+        {{ me?.structure?.nom }}
       </h2>
       <div class="px-0 mx-0 d-block d-md-flex align-items-center">
+        <a
+          href="https://docs.numerique.gouv.fr/docs/18c2dbb5-8b83-4c80-881a-12ae355f15d1/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="my-1 btn btn-white-primary"
+        >
+          Mieux comprendre les statistiques
+        </a>
+
         <button
           (click)="export()"
           *ngIf="startDate !== null"

@@ -68,9 +68,6 @@
                   ariaCurrentWhenActive="page"
                   routerLink="/news"
                   class="btn btn-outline-primary"
-                  (click)="
-                    matomoService.trackEvent('HEADER', 'Header_ESP', 'null', 1)
-                  "
                 >
                   <span
                     *ngIf="pendingNews"
@@ -82,22 +79,10 @@
                   </span>
                 </a>
 
-                <a
-                  routerLink="/faq"
-                  class="btn btn-outline-primary"
-                  (click)="
-                    matomoService.trackEvent('HEADER', 'Header_ESP', 'null', 1)
-                  "
-                >
+                <a routerLink="/faq" class="btn btn-outline-primary">
                   En savoir plus
                 </a>
-                <a
-                  routerLink="/connexion"
-                  class="btn btn-outline-primary"
-                  (click)="
-                    matomoService.trackEvent('CONNEXION', 'HEADER', 'null', 1)
-                  "
-                >
+                <a routerLink="/connexion" class="btn btn-outline-primary">
                   Me connecter
                   <fa-icon
                     [icon]="['fas', 'arrow-right']"

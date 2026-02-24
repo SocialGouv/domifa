@@ -171,12 +171,6 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.toastService.error("Veuillez vérifier les champs du formulaire");
-          this.matomo.trackEvent(
-            "INSCRIPTION_STRUCTURE",
-            "VALIDATION_ETAPE_1",
-            "FAIL",
-            0
-          );
         },
       })
     );

@@ -31,7 +31,14 @@ export function parseDateFromNgb(ngbDate: NgbDate): Date {
     Date.UTC(ngbDate.year, ngbDate.month - 1, ngbDate.day, 12, 0, 0)
   );
 }
-
+export function getTodayNgb(): NgbDate {
+  const today = new Date();
+  return new NgbDate(
+    today.getFullYear(),
+    today.getMonth() + 1,
+    today.getDate()
+  );
+}
 export const minDateNaissance = { day: 1, month: 1, year: 1900 };
 
 export const minDateToday = {

@@ -73,7 +73,11 @@
             "
           >
             <fa-icon [icon]="['fas', 'download']" aria-hidden="true"></fa-icon>
-            Télécharger le CERFA
+            {{
+              usager.decision.statut === "REFUS"
+                ? "Télécharger l'attestation de Refus"
+                : "Télécharger le Cerfa"
+            }}
           </button>
         </ng-container>
 

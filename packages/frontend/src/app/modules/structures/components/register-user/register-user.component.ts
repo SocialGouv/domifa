@@ -133,12 +133,6 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
             },
             error: () => {
               this.loading = false;
-              this.matomo.trackEvent(
-                "INSCRIPTION_STRUCTURE",
-                "VALIDATION_ETAPE_2",
-                "FAIL",
-                0
-              );
               this.toastService.error(
                 "Veuillez vérifier les champs du formulaire"
               );
