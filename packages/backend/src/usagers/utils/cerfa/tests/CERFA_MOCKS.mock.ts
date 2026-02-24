@@ -17,7 +17,7 @@ export const CERFA_MOCK_USAGER_ACTIF: UsagerCerfaFields = {
   ayantsDroits: "Karamoko Mauricette né(e) le 20/12/1978",
   courriel: "domicilie2@yopmail.com",
   courrielOrga: "ccas.test@yopmail.com",
-  decision: "",
+  decision: "1",
   entretienAdresse: "1 rue de l'océan\n92600 - Asnieres-sur-seine",
   entretienAvec: "",
   heureRdv: "",

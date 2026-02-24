@@ -28,7 +28,8 @@ import {
 } from "@domifa/common";
 import { UsagerHistoryStateService } from "./usagerHistoryState.service";
 import { StructureUsagerExport } from "../utils/xlsx-structure-usagers-renderer";
-import { getPhoneString } from "../../util";
+import { getPhoneString, appLogger } from "../../util";
+import { captureMessage } from "@sentry/node";
 
 @Injectable()
 export class UsagersService {
@@ -162,6 +163,22 @@ export class UsagersService {
     const now = new Date();
     newDecision.dateDecision = now;
     usager.etapeDemande = ETAPE_DOSSIER_COMPLET;
+
+    // Détection de double validation - log Sentry
+    if (
+      newDecision.statut === "VALIDE" &&
+      usager.decision.statut === "VALIDE"
+    ) {
+      const errorMessage = `[DOUBLE_VALIDATION] Tentative de validation d'un dossier déjà VALIDE - usagerRef: ${usager.ref}, structureId: ${usager.structureId}, userId: ${newDecision.userId}`;
+      appLogger.warn(errorMessage, {
+        usagerRef: usager.ref,
+        usagerUuid: usager.uuid,
+        structureId: usager.structureId,
+        currentDecision: usager.decision,
+        newDecision,
+      });
+      captureMessage(errorMessage);
+    }
 
     if (
       newDecision.statut === "ATTENTE_DECISION" ||

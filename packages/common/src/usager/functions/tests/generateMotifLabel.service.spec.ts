@@ -51,16 +51,14 @@ describe("generateMotifLabel", () => {
     );
 
     decisionRefus.motif = "AUTRE";
-    decisionRefus.motifDetails = "Nombre maximal domiciliations atteint";
+    decisionRefus.motifDetails = "nombre maximal domiciliations atteint";
 
     expect(generateMotifLabel(decisionRefus)).toEqual(
-      "Autre motif: Nombre maximal domiciliations atteint"
+      "Nombre maximal domiciliations atteint"
     );
 
     decisionRefus.motifDetails = undefined;
 
-    expect(generateMotifLabel(decisionRefus)).toEqual(
-      "Autre motif: non précisé"
-    );
+    expect(generateMotifLabel(decisionRefus)).toEqual("Motif non précisé");
   });
 });

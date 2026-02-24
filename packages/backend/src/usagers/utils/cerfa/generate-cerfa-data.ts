@@ -89,7 +89,7 @@ export const generateCerfaData = (
     ayantsDroits: getAyantsDroit(usager),
     courriel,
     courrielOrga: user.structure.email,
-    decision: decisionToUse.statut === "REFUS" ? "2" : "",
+    decision: decisionToUse.statut === "REFUS" ? "2" : "1",
     entretienAdresse: adresseStructure,
     entretienAvec,
     heureRdv: dateRdv.heure,

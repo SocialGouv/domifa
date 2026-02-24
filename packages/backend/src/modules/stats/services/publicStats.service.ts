@@ -9,6 +9,7 @@ import {
 
 import { Injectable, OnModuleInit } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
+import { SentryCron } from "@sentry/nestjs";
 
 import { startOfMonth, subYears, subMonths } from "date-fns";
 import { In } from "typeorm";
@@ -39,6 +40,15 @@ export class PublicStatsService implements OnModuleInit {
   @Cron(CronExpression.EVERY_DAY_AT_2AM, {
     timeZone: "Europe/Paris",
     disabled: !isCronEnabled(),
+  })
+  @SentryCron("public-stats-cache-update", {
+    schedule: {
+      type: "crontab",
+      value: CronExpression.EVERY_DAY_AT_2AM,
+    },
+    timezone: "Europe/Paris",
+    checkinMargin: 10,
+    maxRuntime: 60,
   })
   public async updateAllStatsCache(): Promise<void> {
     for (const regionId of Object.keys(REGIONS_LISTE)) {
