@@ -69,6 +69,9 @@ export class OpenDataPlaceTable extends AppTypeormTable<OpenDataPlace> {
   mssId: string;
 
   @Column({ type: "text", nullable: true })
+  siret: string;
+
+  @Column({ type: "text", nullable: true })
   dgcsId: string;
 
   @Column({ type: "text", nullable: true })

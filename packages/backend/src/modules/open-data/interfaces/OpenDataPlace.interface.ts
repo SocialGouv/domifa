@@ -25,6 +25,7 @@ export interface OpenDataPlace extends AppEntity {
   mail: string | null;
   soliguideStructureId?: number;
   mssId?: string | null;
+  siret?: string | null;
   structureType: StructureType | null;
   nbDomicilies?: number | null;
   nbDomiciliesDomifa?: number | null;

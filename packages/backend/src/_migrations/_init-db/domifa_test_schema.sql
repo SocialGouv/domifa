@@ -138,7 +138,8 @@ CREATE TABLE public.open_data_places (
     reseau text,
     "domicilieSegment" text,
     "cityCode" text,
-    "populationSegment" text
+    "populationSegment" text,
+    siret text
 );
 CREATE TABLE public.public_stats_cache (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
