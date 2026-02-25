@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { SentryCron } from "@sentry/nestjs";
 import { userStructureRepository } from "../../../database";
@@ -9,18 +9,12 @@ import { domifaConfig } from "../../../config";
 import { appLogger } from "../../../util";
 
 @Injectable()
-export class BrevoSyncCronService implements OnModuleInit {
+export class BrevoSyncCronService {
   private readonly BATCH_SIZE = 250;
   private readonly DELAY_BETWEEN_BATCHES = 500;
 
   constructor(private readonly brevoSenderService: BrevoSenderService) {}
-  async onModuleInit(): Promise<void> {
-    appLogger.info("BrevoSyncCronService initialisé");
 
-    if (isCronEnabled() && domifaConfig().envId === "prod") {
-      await this.syncUsersToBrevo();
-    }
-  }
   @Cron(CronExpression.EVERY_DAY_AT_1AM, {
     timeZone: "Europe/Paris",
     disabled: !isCronEnabled() || domifaConfig().envId !== "prod",

@@ -1,7 +1,8 @@
 import { NgbDate } from "@ng-bootstrap/ng-bootstrap";
+import { subDays, addYears } from "date-fns";
 
 export function toInteger(value: string): number {
-  return parseInt(`${value}`, 10);
+  return Number.parseInt(`${value}`, 10);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -46,3 +47,36 @@ export const minDateToday = {
   month: new Date().getMonth() + 1,
   year: new Date().getFullYear(),
 };
+
+export function toNoon(date: Date): Date {
+  return new Date(
+    Date.UTC(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate(),
+      12,
+      0,
+      0,
+      0
+    )
+  );
+}
+
+export function getToday(): Date {
+  const now = new Date();
+  return new Date(
+    Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate(),
+      12,
+      0,
+      0,
+      0
+    )
+  );
+}
+
+export function getNextYear(startDate: Date): Date {
+  return subDays(addYears(toNoon(startDate), 1), 1);
+}
