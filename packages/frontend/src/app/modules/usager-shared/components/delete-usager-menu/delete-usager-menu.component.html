@@ -77,5 +77,6 @@
   <app-delete-usager
     [selectedRefs]="selectedRefs"
     [context]="context === 'PROFIL' ? 'PROFIL' : 'INSTRUCTION_FORM'"
+    (closeModal)="closeModal()"
   ></app-delete-usager>
 </dsfr-modal>

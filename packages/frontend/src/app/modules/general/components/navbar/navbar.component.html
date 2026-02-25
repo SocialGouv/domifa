@@ -46,7 +46,8 @@
                 <a
                   class="fr-nav__link fr-btn fr-btn--tertiary"
                   routerLink="/faq"
-                  [attr.aria-current]="isCurrentRoute('/faq') ? 'page' : null"
+                  ariaCurrentWhenActive="page"
+                  [routerLinkActiveOptions]="{ exact: true }"
                 >
                   Besoin d'aide ?
                 </a>
@@ -55,9 +56,8 @@
               } @else {
               <li>
                 <a
-                  [attr.aria-current]="
-                    isCurrentRoute('/manage') ? 'page' : null
-                  "
+                  ariaCurrentWhenActive="page"
+                  [routerLinkActiveOptions]="{ exact: true }"
                   [routerLink]="'/manage'"
                   class="fr-btn fr-btn--tertiary"
                 >
@@ -108,7 +108,8 @@
             <a
               class="fr-nav__link"
               routerLink="/"
-              [attr.aria-current]="isCurrentRoute('/') ? 'page' : null"
+              ariaCurrentWhenActive="page"
+              [routerLinkActiveOptions]="{ exact: true }"
             >
               Accueil
             </a>
@@ -117,9 +118,8 @@
             <a
               class="fr-nav__link"
               routerLink="/structures/inscription"
-              [attr.aria-current]="
-                isCurrentRoute('/structures/inscription') ? 'page' : null
-              "
+              ariaCurrentWhenActive="page"
+              [routerLinkActiveOptions]="{ exact: true }"
             >
               Inscrire ma structure
             </a>
@@ -128,7 +128,8 @@
             <a
               class="fr-nav__link"
               routerLink="/stats"
-              [attr.aria-current]="isCurrentRoute('/stats') ? 'page' : null"
+              ariaCurrentWhenActive="page"
+              [routerLinkActiveOptions]="{ exact: true }"
             >
               Statistiques
             </a>
@@ -137,9 +138,8 @@
             <a
               class="fr-nav__link"
               routerLink="/stats/impact"
-              [attr.aria-current]="
-                isCurrentRoute('/stats/impact') ? 'page' : null
-              "
+              ariaCurrentWhenActive="page"
+              [routerLinkActiveOptions]="{ exact: true }"
             >
               Impact
             </a>
@@ -148,7 +148,8 @@
             <a
               class="fr-nav__link"
               routerLink="/news"
-              [attr.aria-current]="isCurrentRoute('/news') ? 'page' : null"
+              ariaCurrentWhenActive="page"
+              [routerLinkActiveOptions]="{ exact: true }"
             >
               @if (pendingNews) {
               <span class="fr-badge fr-badge--sm fr-badge--error fr-mr-1w"
@@ -161,9 +162,8 @@
             <a
               class="fr-nav__link"
               routerLink="/decouvrir-domifa"
-              [attr.aria-current]="
-                isCurrentRoute('/decouvrir-domifa') ? 'page' : null
-              "
+              ariaCurrentWhenActive="page"
+              [routerLinkActiveOptions]="{ exact: true }"
             >
               Découvrir DomiFa
             </a>
@@ -172,7 +172,8 @@
             <a
               class="fr-nav__link"
               routerLink="/contact"
-              [attr.aria-current]="isCurrentRoute('/contact') ? 'page' : null"
+              ariaCurrentWhenActive="page"
+              [routerLinkActiveOptions]="{ exact: true }"
             >
               Nous contacter
             </a>

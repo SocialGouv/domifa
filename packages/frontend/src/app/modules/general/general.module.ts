@@ -34,7 +34,6 @@ import { LandingPagePortailComponent } from "./components/static-pages/landing-p
 import { HomeStatsComponent } from "../stats/components/home-stats/home-stats.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { WelcomeService } from "./services/welcome.service";
-import { LoginDropdownComponent } from "./components/navbar/fragments/login-dropdown/login-dropdown.component";
 import { FaqSectionComponent } from "../shared/components/faq-section/faq-section.component";
 import { DecouvrirDomifaComponent } from "./components/decouvrir-domifa/decouvrir-domifa.component";
 import {
@@ -57,7 +56,6 @@ import { LoginDropdownComponent } from "./components/navbar/fragments/login-drop
     PolitiqueComponent,
     NavbarComponent,
     PlanSiteComponent,
-
     IdleManagerComponent,
     RgaaComponent,
     LandingPagePortailComponent,
@@ -89,6 +87,7 @@ import { LoginDropdownComponent } from "./components/navbar/fragments/login-drop
     DsfrLinkComponent,
     DsfrButtonComponent,
     DsfrResponseComponent,
+    DsfrUserMenuComponent,
   ],
   providers: [
     GeneralService,

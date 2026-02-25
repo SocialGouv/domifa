@@ -175,95 +175,71 @@
 </div>
 }
 
-<ng-template #renewModal let-modal>
-  <div class="modal-header bg-primary">
-    <span
-      class="text-white"
-      id="modal-title"
-      *ngIf="
-        usager.decision.statut !== 'RADIE' && usager.decision.statut !== 'REFUS'
-      "
-    >
-      Demande de renouvellement
-    </span>
-    <span
-      class="text-white"
-      id="modal-title"
-      *ngIf="
-        usager.decision.statut === 'RADIE' || usager.decision.statut === 'REFUS'
-      "
-    >
-      Nouvelle demande de domiciliation
-    </span>
-  </div>
+<dsfr-modal
+  id="renew-modal"
+  #renewModal
+  [size]="'LG'"
+  dialogId="renewModal"
+  [titleModal]="
+    usager.decision.statut !== 'RADIE' && usager.decision.statut !== 'REFUS'
+      ? 'Demande de renouvellement'
+      : 'Nouvelle demande de domiciliation'
+  "
+>
+  <ng-container dsfrModalBody>
+    <div class="fr-modal__content">
+      @if (usager.decision.statut !== 'RADIE' && usager.decision.statut !==
+      'REFUS') {
+      <p>
+        Si vous commencez un renouvellement,<br />
+        <strong>ce dossier ne sera plus considéré comme "actif".</strong>
+      </p>
+      } @if (usager.decision.statut === 'RADIE') {
+      <p>
+        Si vous commencez une nouvelle demande,
+        <strong>ce dossier ne sera plus comptabilisé parmi les radiés.</strong>
+      </p>
+      } @if (usager.decision.statut === 'REFUS') {
+      <p>
+        Si vous créez une nouvelle demande,<br />
+        <strong>ce dossier ne sera plus comptabilisé parmi les refusés.</strong>
+      </p>
+      }
 
-  <div class="modal-body py-4 text-center">
-    <p
-      *ngIf="
-        usager.decision.statut !== 'RADIE' && usager.decision.statut !== 'REFUS'
-      "
+      <p>
+        Afin de le retrouver dans la liste, vous devrez cliquer sur le filtre
+        <strong>«&nbsp;À compléter&nbsp;»</strong>.
+      </p>
+    </div>
+  </ng-container>
+  <ng-container dsfrModalActions>
+    <div
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
     >
-      Si vous commencez un renouvellement,
-      <br />
-      <strong> ce dossier ne sera plus considéré comme "actif". </strong>
-    </p>
-    <p *ngIf="usager.decision.statut === 'RADIE'">
-      Si vous commencez une nouvelle demande,
-      <b> ce dossier ne sera plus comptabilisé parmi les radiés. </b>
-    </p>
-    <p *ngIf="usager.decision.statut === 'REFUS'">
-      Si vous créez une nouvelle demande,
-      <br />
-      <b> ce dossier ne sera plus comptabilisé parmi les refusés. </b>
-    </p>
-    <p>
-      Afin de le retrouver dans la liste, vous devrez cliquer sur le filtre "À
-      compléter"
-    </p>
-  </div>
-
-  <div class="modal-footer">
-    <button
-      type="submit"
-      class="fr-btn"
-      (click)="renouvellement()"
-      [disabled]="loading"
-      [attr.aria-busy]="loading"
-    >
-      <ng-container *ngIf="!loading">
-        <span
-          *ngIf="
-            usager.decision.statut !== 'RADIE' &&
-            usager.decision.statut !== 'REFUS'
-          "
-        >
-          Demander un renouvellement
-        </span>
-        <span
-          *ngIf="
-            usager.decision.statut === 'RADIE' ||
-            usager.decision.statut === 'REFUS'
-          "
-        >
-          Créer une nouvelle demande
-        </span>
-      </ng-container>
-      <span *ngIf="loading"
-        ><fa-icon
-          [icon]="['fas', 'circle-notch']"
-          aria-hidden="true"
-          animation="spin"
-        >
-        </fa-icon>
-        Veuillez patienter...</span
+      <button
+        type="submit"
+        class="fr-btn"
+        (click)="renouvellement()"
+        [disabled]="loading"
+        [attr.aria-busy]="loading || null"
       >
-    </button>
-    <button
-      class="btn-lg btn-outline-dark"
-      type="button"
-      (click)="closeModals()"
-    >
-      Revenir au profil
-    </button>
-  </div>
-</ng-template>
+        @if (loading) {
+        <span
+          class="fr-icon-refresh-line fr-icon--sm"
+          aria-hidden="true"
+        ></span>
+        Veuillez patienter… } @else if (usager.decision.statut !== 'RADIE' &&
+        usager.decision.statut !== 'REFUS') { Demander un renouvellement } @else
+        { Créer une nouvelle demande }
+      </button>
+
+      <button
+        type="button"
+        class="fr-btn fr-btn--secondary"
+        (click)="closeModals()"
+      >
+        Revenir au profil
+      </button>
+    </div>
+  </ng-container>
+</dsfr-modal>

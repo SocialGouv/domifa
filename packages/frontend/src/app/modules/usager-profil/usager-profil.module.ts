@@ -50,6 +50,7 @@ import { SortArrayPipe } from "../shared/pipes";
 import { DisplayTableImageComponent } from "../shared/components/display-table-image/display-table-image.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { FullNamePipe } from "../usager-shared/pipes";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { FullNamePipe } from "../usager-shared/pipes";
     UsagerNotesModule,
     UsagerProfilRoutingModule,
     UsagerSharedModule,
+    DsfrModalComponent,
   ],
   providers: [
     NgbDateCustomParserFormatter,

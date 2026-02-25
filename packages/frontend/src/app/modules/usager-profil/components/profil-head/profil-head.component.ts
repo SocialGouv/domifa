@@ -1,19 +1,8 @@
-import {
-  Component,
-  Input,
-  OnDestroy,
-  TemplateRef,
-  ViewChild,
-} from "@angular/core";
+import { Component, Input, OnDestroy, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
-import {
-  DEFAULT_MODAL_OPTIONS,
-  ETAPES_DEMANDE_URL,
-  UsagerLight,
-} from "../../../../../_common/model";
+import { ETAPES_DEMANDE_URL, UsagerLight } from "../../../../../_common/model";
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
@@ -21,6 +10,7 @@ import { UsagerDecisionService } from "../../../usager-shared/services/usager-de
 import { Subscription } from "rxjs";
 import { UserStructure, CerfaDocType } from "@domifa/common";
 import { ProfilHeadSection } from "../../ProfilHeadSection.Type";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-profil-head",
@@ -32,27 +22,29 @@ export class ProfilHeadComponent implements OnDestroy {
   @Input({ required: true }) public me!: UserStructure;
   @Input({ required: true }) public section!: ProfilHeadSection;
 
-  private readonly subscription = new Subscription();
+  @ViewChild("renewModal")
+  public renewModal!: DsfrModalComponent;
 
   public loading = false;
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
-
-  @ViewChild("renewModal", { static: true })
-  public renewModal!: TemplateRef<NgbModalRef>;
-
   public readonly CerfaDocType = CerfaDocType;
 
+  private readonly subscription = new Subscription();
+
   constructor(
-    private readonly modalService: NgbModal,
     private readonly toastService: CustomToastService,
     private readonly router: Router,
     private readonly usagerDecisionService: UsagerDecisionService,
     private readonly documentService: DocumentService
   ) {}
 
+  public openRenewModal(): void {
+    this.renewModal.open();
+  }
+
   public closeModals(): void {
     this.loading = false;
-    this.modalService.dismissAll();
+    this.renewModal.close();
   }
 
   public goToDocuments(): void {
@@ -84,15 +76,11 @@ export class ProfilHeadComponent implements OnDestroy {
     );
   }
 
-  public openRenewModal(): void {
-    this.modalService.open(this.renewModal, DEFAULT_MODAL_OPTIONS);
-  }
-
   public getCerfa(typeCerfa: CerfaDocType): void {
     return this.documentService.getCerfa(this.usager.ref, typeCerfa);
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

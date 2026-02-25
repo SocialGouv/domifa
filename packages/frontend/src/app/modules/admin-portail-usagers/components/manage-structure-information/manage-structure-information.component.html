@@ -74,7 +74,7 @@
                 <td>
                   {{ information.createdAt | date : "dd MMMM yyyy à HH:mm" }}
                 </td>
-                <td>{{ information.createdBy.userName }}</td>
+                <td>{{ information.createdBy?.userName }}</td>
                 <td class="text-end d-print-none">
                   <button
                     type="button"
