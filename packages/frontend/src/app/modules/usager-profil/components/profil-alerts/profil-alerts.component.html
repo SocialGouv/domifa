@@ -124,18 +124,15 @@ me?.role !== 'agent' ) {
 <!-- COURRIERS -->
 <div class="col-md-12">
   <!-- NPAI -->
-  <div *ngIf="usager.options.npai.actif" class="alert alert-danger">
-    <fa-icon
-      [icon]="['fas', 'ban']"
-      aria-hidden="true"
-      class="text-danger me-3"
-    ></fa-icon>
-    <span> N'habite plus à l'adresse indiquée, pli non distribuable </span>
+  <div *ngIf="usager.options.npai.actif" class="fr-alert fr-alert--error">
+    <p>N'habite plus à l'adresse indiquée, pli non distribuable</p>
   </div>
   <ng-container *ngIf="usager.options.transfert.actif">
     <!-- TRANSFERT -->
-    <div *ngIf="usager.options.transfert.isExpired" class="alert alert-danger">
-      <div class="svg-icon icon-distribution"></div>
+    <div
+      *ngIf="usager.options.transfert.isExpired"
+      class="fr-alert fr-alert--error"
+    >
       <p>
         <strong>Attention : </strong> le transfert de courrier était valable
         jusqu'au
@@ -145,9 +142,8 @@ me?.role !== 'agent' ) {
 
     <div
       *ngIf="!usager.options.transfert.isExpired"
-      class="alert alert-warning"
+      class="fr-alert fr-alert--warning"
     >
-      <div class="svg-icon icon-distribution"></div>
       <p>
         Votre courrier est transféré à l'adresse suivante :
         {{ usager.options.transfert.nom | titlecase }}
@@ -157,9 +153,7 @@ me?.role !== 'agent' ) {
   </ng-container>
   <ng-container *ngIf="usager.options.procurations.length > 0">
     <ng-container *ngFor="let procuration of usager.options.procurations">
-      <div class="alert alert-warning" *ngIf="!procuration.isExpired">
-        <div class="svg-icon icon-distribution"></div>
-
+      <div class="fr-alert fr-alert--warning" *ngIf="!procuration.isExpired">
         <p>
           Une procuration au nom de
           <strong>{{ procuration | fullName }}</strong>
@@ -167,8 +161,7 @@ me?.role !== 'agent' ) {
           {{ procuration.dateFin | date : "dd MMMM yyyy" }}
         </p>
       </div>
-      <div *ngIf="procuration.isExpired" class="alert alert-danger">
-        <span class="svg-icon icon-calendar" aria-hidden="true"></span>
+      <div *ngIf="procuration.isExpired" class="fr-alert fr-alert--error">
         <p>
           La procuration au nom de
           <strong>{{ procuration | fullName }}</strong>

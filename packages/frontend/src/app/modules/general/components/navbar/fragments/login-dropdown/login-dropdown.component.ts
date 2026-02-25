@@ -62,7 +62,7 @@ export class LoginDropdownComponent implements OnInit {
       },
       {
         label: "DGCS",
-        link: "https://admin.fabrique.social.gouv.fr/",
+        link: "https://admin-domifa.fabrique.social.gouv.fr/",
         target: "_blank",
         icon: "fr-icon-building-line",
       },
