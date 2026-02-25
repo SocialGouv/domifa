@@ -1,3 +1,10 @@
+## [2.233.2](https://github.com/SocialGouv/domifa/compare/v2.233.1...v2.233.2) (2026-02-25)
+
+
+### Bug Fixes
+
+* **frontend:** update date of end ([1a168fc](https://github.com/SocialGouv/domifa/commit/1a168fc93c05f291177984370619638a24d5f808))
+
 ## [2.233.1](https://github.com/SocialGouv/domifa/compare/v2.233.0...v2.233.1) (2026-02-24)
 
 
