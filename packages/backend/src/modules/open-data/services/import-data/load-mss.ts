@@ -37,6 +37,7 @@ export class LoadMssDataService implements OnModuleInit {
     }
   }
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT, {
+    timeZone: "Europe/Paris",
     disabled: !isCronEnabled() || domifaConfig().envId !== "prod",
   })
   @SentryCron("open-data-load-mss", {

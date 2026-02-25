@@ -13,8 +13,9 @@ import {
   Validators,
 } from "@angular/forms";
 import { Router } from "@angular/router";
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-import { addYears, subDays, format, isBefore } from "date-fns";
+import { NgbDate, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { format, isBefore } from "date-fns";
+
 import { Subject, Subscription } from "rxjs";
 import { debounceTime, exhaustMap } from "rxjs/operators";
 import {
@@ -23,8 +24,11 @@ import {
 } from "../../../../../_common/model";
 import {
   formatDateToNgb,
+  getNextYear,
+  getToday,
   getTodayNgb,
   parseDateFromNgb,
+  toNoon,
 } from "../../../../shared";
 import { Decision, UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
@@ -32,6 +36,7 @@ import {
   NgbDateCustomParserFormatter,
   CustomToastService,
 } from "../../../shared/services";
+
 @Component({
   selector: "app-decision-valide-form",
   templateUrl: "./decision-valide-form.component.html",
@@ -71,7 +76,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
 
     this.minDate = { day: 1, month: 1, year: new Date().getFullYear() - 1 };
     this.maxDate = { day: 31, month: 12, year: new Date().getFullYear() + 2 };
-    this.maxEndDate = this.setDate(subDays(addYears(new Date(), 1), 1));
+    this.maxEndDate = this.toNgbDate(getNextYear(getToday()));
     this.showDurationWarning = false;
   }
 
@@ -79,7 +84,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     return this.valideForm.controls;
   }
 
-  private setDate(date: Date) {
+  private toNgbDate(date: Date): NgbDateStruct {
     return {
       day: Number.parseInt(format(date, "d"), 10),
       month: Number.parseInt(format(date, "M"), 10),
@@ -98,9 +103,11 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    const defaultEndDate = getNextYear(getToday());
+
     this.valideForm = this.formBuilder.group({
       dateDebut: [getTodayNgb(), [Validators.required]],
-      dateFin: [getTodayNgb(), [Validators.required]],
+      dateFin: [formatDateToNgb(defaultEndDate), [Validators.required]],
       statut: ["VALIDE", [Validators.required]],
       customRef: [this.usager.customRef],
     });
@@ -108,20 +115,13 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.valideForm.get("dateDebut")?.valueChanges.subscribe((value) => {
         if (value !== null && this.nbgDate.isValid(value)) {
-          const newDateDebut = new Date(
-            value.year,
-            value.month - 1,
-            value.day,
-            12,
-            0,
-            0
+          const newDateFin = getNextYear(
+            parseDateFromNgb(new NgbDate(value.year, value.month, value.day))
           );
-          const newDateFin = subDays(addYears(newDateDebut, 1), 1);
-
           this.valideForm.controls.dateFin.setValue(
             formatDateToNgb(newDateFin)
           );
-          this.maxEndDate = this.setDate(subDays(addYears(newDateDebut, 1), 1));
+          this.maxEndDate = this.toNgbDate(newDateFin);
         }
       })
     );
@@ -138,37 +138,21 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.valideForm.get("dateFin")?.valueChanges.subscribe((value) => {
-        const dateDebut = parseDateFromNgb(
-          this.valideForm.get("dateDebut")?.value
-        );
-
-        if (
-          value !== null &&
-          this.nbgDate.isValid(value) &&
-          isBefore(parseDateFromNgb(value), subDays(addYears(dateDebut, 1), 1))
-        ) {
-          this.showDurationWarning = true;
-        } else {
-          this.showDurationWarning = false;
-        }
+        this.showDurationWarning = this.updateDurationWarning(value);
       })
     );
+
     this.getLastDomiciled();
     this.getLastDecision();
     this.checkDuplicatesRef(this.usager.customRef);
 
-    // Protection contre les soumissions multiples avec debounceTime + exhaustMap
     this.subscription.add(
       this.submitSubject$
         .pipe(
-          debounceTime(300), // Ignore les clics rapides (< 300ms)
-          exhaustMap((formDatas) => {
-            // exhaustMap ignore les nouveaux appels tant que la requête précédente n'est pas terminée
-            return this.usagerDecisionService.setDecision(
-              this.usager.ref,
-              formDatas
-            );
-          })
+          debounceTime(300),
+          exhaustMap((formDatas) =>
+            this.usagerDecisionService.setDecision(this.usager.ref, formDatas)
+          )
         )
         .subscribe({
           next: (usager: UsagerLight) => {
@@ -186,6 +170,17 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     );
   }
 
+  public updateDurationWarning(value: NgbDateStruct | null): boolean {
+    if (!value || !this.nbgDate.isValid(value)) {
+      return false;
+    }
+    const dateDebut = parseDateFromNgb(this.valideForm.get("dateDebut")?.value);
+    return isBefore(
+      parseDateFromNgb(new NgbDate(value.year, value.month, value.day)),
+      getNextYear(dateDebut)
+    );
+  }
+
   private checkDuplicatesRef(value: string): void {
     this.subscription.add(
       this.usagerDecisionService
@@ -195,6 +190,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
         })
     );
   }
+
   public setDecisionValide() {
     if (this.loading) {
       return;
@@ -213,25 +209,22 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
 
     const formDatas: UsagerDecisionValideForm = {
       ...this.valideForm.value,
-      dateDebut: new Date(
-        this.valideForm.controls.dateDebut.value.year,
-        this.valideForm.controls.dateDebut.value.month - 1,
-        this.valideForm.controls.dateDebut.value.day,
-        12,
-        0,
-        0
+      dateDebut: toNoon(
+        new Date(
+          this.valideForm.controls.dateDebut.value.year,
+          this.valideForm.controls.dateDebut.value.month - 1,
+          this.valideForm.controls.dateDebut.value.day
+        )
       ),
-      dateFin: new Date(
-        this.valideForm.controls.dateFin.value.year,
-        this.valideForm.controls.dateFin.value.month - 1,
-        this.valideForm.controls.dateFin.value.day,
-        12,
-        0,
-        0
+      dateFin: toNoon(
+        new Date(
+          this.valideForm.controls.dateFin.value.year,
+          this.valideForm.controls.dateFin.value.month - 1,
+          this.valideForm.controls.dateFin.value.day
+        )
       ),
     };
 
-    // Émettre vers le Subject pour bénéficier du debounceTime + exhaustMap
     this.submitSubject$.next(formDatas);
   }
 

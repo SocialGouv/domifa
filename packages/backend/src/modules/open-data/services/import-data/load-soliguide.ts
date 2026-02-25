@@ -30,7 +30,7 @@ export class LoadSoliguideDataService implements OnModuleInit {
       (domifaConfig().envId === "local" || domifaConfig().envId === "prod") &&
       isCronEnabled()
     ) {
-      appLogger.info("LoadMssDataService: Running import on module init");
+      appLogger.info("LoadSoliguideDataService: Running import on module init");
       await this.importSoliguideData();
     }
   }
@@ -41,13 +41,14 @@ export class LoadSoliguideDataService implements OnModuleInit {
   private updatedPlaces = 0;
   private readonly departementCache = new Map<string, string>();
 
-  @Cron(CronExpression.EVERY_DAY_AT_11PM, {
+  @Cron(CronExpression.EVERY_DAY_AT_NOON, {
+    timeZone: "Europe/Paris",
     disabled: !isCronEnabled() || domifaConfig().envId !== "prod",
   })
   @SentryCron("open-data-load-soliguide", {
     schedule: {
       type: "crontab",
-      value: CronExpression.EVERY_DAY_AT_11PM,
+      value: CronExpression.EVERY_DAY_AT_NOON,
     },
     timezone: "Europe/Paris",
     checkinMargin: 10,
