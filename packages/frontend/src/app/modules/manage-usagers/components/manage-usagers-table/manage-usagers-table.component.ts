@@ -83,6 +83,7 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   public currentFilters!: UsagersFilterCriteria;
 
   public loading = false;
+  private deleteUsagersModalRef?: NgbModalRef;
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
   public readonly UsagersFilterCriteriaStatut = UsagersFilterCriteriaStatut;
 
@@ -151,7 +152,16 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   }
 
   public openDeleteUsagersModal(): void {
-    this.modalService.open(this.deleteUsagersModal, DEFAULT_MODAL_OPTIONS);
+    this.deleteUsagersModalRef = this.modalService.open(
+      this.deleteUsagersModal,
+      DEFAULT_MODAL_OPTIONS
+    );
+  }
+
+  public closeDeleteUsagersModal(): void {
+    if (this.deleteUsagersModalRef) {
+      this.deleteUsagersModalRef.dismiss();
+    }
   }
 
   public openAssignReferrerModal(): void {

@@ -93,12 +93,12 @@ me?.role !== 'agent' ) {
 }
 
 <!-- Alerte échéance proche -->
-@if ( usager?.echeanceInfos?.dayBeforeEnd > 0 &&
-usager?.echeanceInfos?.dayBeforeEnd < 60 ) {
+@if ( usager.echeanceInfos.dayBeforeEnd > 0 && usager.echeanceInfos.dayBeforeEnd
+< 60 ) {
 <div
   [ngClass]="{
-    'fr-alert fr-alert--error': usager?.echeanceInfos?.dayBeforeEnd <= 15,
-    'fr-alert fr-alert--warning': usager?.echeanceInfos?.dayBeforeEnd > 15
+    'fr-alert fr-alert--error': usager.echeanceInfos.dayBeforeEnd <= 15,
+    'fr-alert fr-alert--warning': usager.echeanceInfos.dayBeforeEnd > 15
   }"
 >
   <p>
@@ -111,12 +111,12 @@ usager?.echeanceInfos?.dayBeforeEnd < 60 ) {
 }
 
 <!-- Alerte échéance expirée -->
-@if (usager?.echeanceInfos?.dayBeforeEnd < 0) {
+@if (usager.echeanceInfos.dayBeforeEnd < 0) {
 <div class="fr-alert fr-alert--error">
   <p>
     Domiciliation expirée depuis le
     {{ usager?.echeanceInfos?.dateToDisplay | date : "dd MMMM yyyy" }}, il y a
-    {{ usager?.echeanceInfos?.dayBeforeEnd * -1 }} jours
+    {{ usager.echeanceInfos.dayBeforeEnd * -1 }} jours
   </p>
 </div>
 }

@@ -374,6 +374,7 @@
   <app-delete-usager
     [selectedRefs]="selectedRefs"
     (actionAfterSuccess)="resetCheckboxes()"
+    (closeModal)="closeDeleteUsagersModal()"
     context="MANAGE"
   ></app-delete-usager>
 </ng-template>

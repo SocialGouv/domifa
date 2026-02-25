@@ -43,6 +43,7 @@ import { StoreModule } from "@ngrx/store";
 import { registerLocaleData } from "@angular/common";
 import localeFr from "@angular/common/locales/fr";
 import { provideUserIdleConfig } from "angular-user-idle";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 const disableAnimations =
   !("animate" in document.documentElement) ||
@@ -75,6 +76,7 @@ registerLocaleData(localeFr, "fr");
     StoreModule.forRoot({ app: _usagerReducer }),
     SharedModule,
     MATOMO_INJECTORS,
+    DsfrModalComponent,
   ],
   providers: [
     AuthService,

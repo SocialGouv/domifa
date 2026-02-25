@@ -5,7 +5,6 @@ import {
   OnDestroy,
   Output,
 } from "@angular/core";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription, concatMap, from, toArray } from "rxjs";
 
 import { CustomToastService } from "../../../shared/services";
@@ -29,6 +28,8 @@ export class DeleteUsagerComponent implements OnDestroy {
 
   @Output() public actionAfterSuccess = new EventEmitter<void>();
 
+  @Output() public closeModal = new EventEmitter<void>();
+
   @Input() public me!: UserStructure;
 
   private readonly subscription = new Subscription();
@@ -36,7 +37,6 @@ export class DeleteUsagerComponent implements OnDestroy {
   public loading = false;
 
   constructor(
-    private readonly modalService: NgbModal,
     private readonly usagerProfilService: UsagerProfilService,
     private readonly toastService: CustomToastService,
     private readonly store: Store<UsagerState>,
@@ -64,7 +64,7 @@ export class DeleteUsagerComponent implements OnDestroy {
             if (this.context === "PROFIL") {
               this.router.navigate(["/manage"]);
             }
-            this.modalService.dismissAll();
+            this.closeModal.emit();
             this.store.dispatch(
               usagerActions.deleteUsagers({ usagerRefs: this.selectedRefs })
             );
@@ -83,7 +83,7 @@ export class DeleteUsagerComponent implements OnDestroy {
   }
 
   public closeModals(): void {
-    this.modalService.dismissAll();
+    this.closeModal.emit();
   }
 
   public ngOnDestroy(): void {

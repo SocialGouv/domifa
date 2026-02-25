@@ -29,7 +29,7 @@ import { UserStructure } from "@domifa/common";
 })
 export class DecisionStandbyFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
-  @Input() public me!: UserStructure;
+  @Input() public me!: UserStructure | null;
   @Output() public closeModals = new EventEmitter<void>();
 
   public submitted: boolean;

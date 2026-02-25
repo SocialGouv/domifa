@@ -1,36 +1,42 @@
 <app-custom-toastr></app-custom-toastr>
 <app-loading></app-loading>
 <app-idle-manager></app-idle-manager>
+
 <nav id="skip-links" role="navigation" aria-label="Accès rapide">
   <ul>
     <li>
       <a
-        ariaCurrentWhenActive="page"
         [routerLink]="currentUrl"
         fragment="header-navigation"
-        >Aller à la navigation</a
+        ariaCurrentWhenActive="page"
       >
+        Aller à la navigation
+      </a>
     </li>
     <li>
-      <a ariaCurrentWhenActive="page" [routerLink]="currentUrl" fragment="page"
-        >Aller au contenu</a
-      >
+      <a [routerLink]="currentUrl" fragment="page" ariaCurrentWhenActive="page">
+        Aller au contenu
+      </a>
     </li>
-    <li *ngIf="currentUrl === '/manage'">
+    @if (currentUrl === '/manage') {
+    <li>
       <a
-        ariaCurrentWhenActive="page"
         [routerLink]="currentUrl"
         fragment="search-bar"
-        >Aller à la recherche</a
+        ariaCurrentWhenActive="page"
       >
+        Aller à la recherche
+      </a>
     </li>
+    }
     <li>
       <a
-        ariaCurrentWhenActive="page"
         [routerLink]="currentUrl"
         fragment="footer"
-        >Aller au pied de page</a
+        ariaCurrentWhenActive="page"
       >
+        Aller au pied de page
+      </a>
     </li>
   </ul>
 </nav>
@@ -40,6 +46,7 @@
 <main role="main" id="page">
   <router-outlet></router-outlet>
 </main>
+
 <dsfr-footer
   artworkDirPath="/assets"
   [logo]="{
@@ -50,137 +57,110 @@
   }"
   [display]="true"
   [mandatoryLinks]="[
-    {
-      label: 'Accessibilité : partiellement conforme',
-      link: '/accessibilite',
-    },
-    {
-      label: 'Mentions légales',
-      link: '/mentions-legales',
-    },
-    {
-      label: 'Conditions générales d’utilisation',
-      link: '/cgu',
-    },
-    {
-      label: 'Politique de confidentialité',
-      link: '/confidentialite',
-    },
-    {
-      label: 'Plan du site',
-      link: '/plan-site',
-    },
-    {
-      label: 'FAQ',
-      link: '/faq',
-    },
-    {
-      label: 'Contact',
-      link: '/contact'
-    },
-    {
-      label: 'Nos partenaires',
-      link: '/partenaires'
-    },
-    {
-      label: 'Nouveautés',
-      link: '/news',
-    }
+    { label: 'Accessibilité : partiellement conforme', link: '/accessibilite' },
+    { label: 'Mentions légales', link: '/mentions-legales' },
+    { label: 'Conditions générales d\u2019utilisation', link: '/cgu' },
+    { label: 'Politique de confidentialité', link: '/confidentialite' },
+    { label: 'Plan du site', link: '/plan-site' },
+    { label: 'FAQ', link: '/faq' },
+    { label: 'Contact', link: '/contact' },
+    { label: 'Nos partenaires', link: '/partenaires' },
+    { label: 'Nouveautés', link: '/news' }
   ]"
   license="Sauf mention explicite de propriété intellectuelle détenue par des tiers, les contenus de ce site sont proposés sous <a href='https://github.com/etalab/licence-ouverte/blob/master/LO.md' _target='_blank' title='licence etalab-2.0 - nouvelle fenêtre'>licence etalab-2.0</a>"
 ></dsfr-footer>
 
-<ng-template #acceptTermsModal let-modal>
-  <div class="modal-header">
-    <span id="modal-title">Veuillez lire et accepter les CGU</span>
-  </div>
+<!-- Modale CGU — non fermable au clic sur le fond (équivalent keyboard:false) -->
+<dsfr-modal
+  #acceptTermsModal
+  dialogId="accept-terms-modal"
+  titleModal="Veuillez lire et accepter les CGU"
+  icon="fr-icon-file-text-line"
+  [concealingBackdrop]="false"
+  [autoCloseOnAction]="false"
+  (conceal)="onAcceptTermsModalClosed()"
+>
   <form [formGroup]="acceptTermsForm">
-    <div class="modal-body py-4">
-      <p>
-        Les conditions générales d'utilisation de DomiFa évoluent. <br />Afin de
-        pouvoir continuer à l'utiliser, merci de lire et accepter les nouvelles
-        CGU
-      </p>
-      <div id="cgu-modal" *ngIf="me">
-        <app-cgu></app-cgu>
-      </div>
-      <div class="row">
-        <div class="col-md-12 required">
-          <input
-            type="checkbox"
-            formControlName="acceptCgu"
-            name="acceptCgu"
-            class="form-check-input me-2"
-            [ngClass]="{
-              'is-invalid': submitted && f.acceptCgu.errors
-            }"
-            [attr.aria-describedby]="
-              submitted && f.acceptCgu.errors ? 'invalid-cgu-choice' : null
-            "
-            id="acceptCgu"
-            required
-          />
-          <label class="form-check-label" for="acceptCgu"
-            >J'ai lu et j'accepte les conditions générales d’utilisation
-          </label>
-          <p
-            *ngIf="submitted && f.acceptCgu?.errors"
-            class="invalid-feedback"
-            id="invalid-cgu-choice"
-          >
+    <p>
+      Les conditions générales d'utilisation de DomiFa évoluent.<br />
+      Afin de pouvoir continuer à l'utiliser, merci de lire et accepter les
+      nouvelles CGU.
+    </p>
+
+    @if (me) {
+    <div id="cgu-modal">
+      <app-cgu></app-cgu>
+    </div>
+    }
+
+    <div class="fr-fieldset__element">
+      <div
+        class="fr-checkbox-group"
+        [class.fr-checkbox-group--error]="submitted && f['acceptCgu'].errors"
+      >
+        <input
+          type="checkbox"
+          formControlName="acceptCgu"
+          name="acceptCgu"
+          id="acceptCgu"
+          [attr.aria-describedby]="
+            submitted && f['acceptCgu'].errors ? 'invalid-cgu-choice' : null
+          "
+          required
+        />
+        <label class="fr-label" for="acceptCgu">
+          J'ai lu et j'accepte les conditions générales d'utilisation
+        </label>
+        @if (submitted && f['acceptCgu'].errors) {
+        <div
+          class="fr-messages-group"
+          id="invalid-cgu-choice"
+          aria-live="assertive"
+        >
+          <p class="fr-message fr-message--error">
             Vous devez accepter les CGU afin de poursuivre l'inscription
           </p>
         </div>
+        }
       </div>
     </div>
-    <div class="modal-footer">
-      <button
-        class="btn btn-lg btn-outline-primary"
-        type="button"
-        (click)="logout()"
-      >
-        Se déconnecter
-      </button>
-      <button
-        class="fr-btn"
-        type="submit"
-        (click)="submitAcceptTerms()"
-        [disabled]="loading"
-        [attr.aria-busy]="loading"
-      >
-        <span *ngIf="!loading"> Enregistrer </span>
-        <span *ngIf="loading"
-          ><fa-icon
-            [icon]="['fas', 'circle-notch']"
-            aria-hidden="true"
-            animation="spin"
-          >
-          </fa-icon>
-          Enregistrement en cours...</span
-        >
-      </button>
-    </div>
   </form>
-</ng-template>
 
-<ng-template #versionModal let-modal>
-  <div class="modal-header">
-    <span id="modal-title">
-      ℹ️ Une nouvelle version de DomiFa est disponible
-    </span>
-  </div>
+  <!-- Footer via ng-template pour avoir accès au loader sur le bouton -->
+  <ng-template #modalFooterTemplate>
+    <ul
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
+    >
+      <li>
+        <dsfr-button
+          label="Enregistrer"
+          type="button"
+          [loader]="loading"
+          [disabled]="loading"
+          (click)="submitAcceptTerms()"
+        ></dsfr-button>
+      </li>
+      <li>
+        <dsfr-button
+          label="Se déconnecter"
+          variant="secondary"
+          type="button"
+          (click)="logout()"
+        ></dsfr-button>
+      </li>
+    </ul>
+  </ng-template>
+</dsfr-modal>
 
-  <div class="modal-body text-center py-2">
-    <p>
-      Afin de profiter des nouveautés de DomiFa, vous devez actualiser la
-      page.<br />
-      La page sera automatiquement actualisée dans 10 secondes.
-    </p>
-  </div>
-  <div class="modal-footer">
-    <button class="fr-btn" type="submit" (click)="refresh()">
-      <fa-icon aria-hidden="true" [icon]="['fas', 'sync']"></fa-icon> Actualiser
-      la page
-    </button>
-  </div>
-</ng-template>
+<dsfr-modal
+  #versionModal
+  dialogId="version-modal"
+  titleModal="Une nouvelle version de DomiFa est disponible"
+  icon="fr-icon-information-line"
+  [actions]="versionModalActions"
+>
+  <p>
+    Afin de profiter des nouveautés de DomiFa, vous devez actualiser la page.<br />
+    La page sera automatiquement actualisée dans 10 secondes.
+  </p>
+</dsfr-modal>
