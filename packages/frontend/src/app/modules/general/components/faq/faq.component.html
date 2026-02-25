@@ -44,20 +44,18 @@
               <li class="fr-sidemenu__item">
                 <a
                   routerLinkActive
-                  #rlaDecouvrir="routerLinkActive"
-                  [attr.aria-current]="rlaDecouvrir.isActive ? 'page' : null"
+                  ariaCurrentWhenActive="page"
                   type="link"
                   id="decouvrir-domifa"
                   routerLink="decouvrir-domifa"
                   class="fr-sidemenu__link"
-                  >Découvrir DomiFa</a
+                  >Présentation de DomiFa</a
                 >
               </li>
               <li class="fr-sidemenu__item">
                 <a
                   routerLinkActive
-                  #rlaUtiliser="routerLinkActive"
-                  [attr.aria-current]="rlaUtiliser.isActive ? 'page' : null"
+                  ariaCurrentWhenActive="page"
                   type="link"
                   id="utiliser-domifa"
                   routerLink="utiliser-domifa"
@@ -68,8 +66,7 @@
               <li class="fr-sidemenu__item">
                 <a
                   routerLinkActive
-                  #rlaSecurite="routerLinkActive"
-                  [attr.aria-current]="rlaSecurite.isActive ? 'page' : null"
+                  ariaCurrentWhenActive="page"
                   type="link"
                   id="securite-et-confidentialite"
                   routerLink="securite-et-confidentialite"
@@ -80,8 +77,7 @@
               <li class="fr-sidemenu__item">
                 <a
                   routerLinkActive
-                  #rlaFiches="routerLinkActive"
-                  [attr.aria-current]="rlaFiches.isActive ? 'page' : null"
+                  ariaCurrentWhenActive="page"
                   type="link"
                   id="fiches-pratiques"
                   routerLink="fiches-pratiques"
@@ -92,8 +88,7 @@
               <li class="fr-sidemenu__item">
                 <a
                   routerLinkActive
-                  #rlaTutoriels="routerLinkActive"
-                  [attr.aria-current]="rlaTutoriels.isActive ? 'page' : null"
+                  ariaCurrentWhenActive="page"
                   type="link"
                   id="tutoriels-videos"
                   routerLink="tutoriels-videos"
