@@ -14,7 +14,7 @@ import {
 } from "@angular/forms";
 import { Router } from "@angular/router";
 import { NgbDate, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-import { format, isBefore } from "date-fns";
+import { isBefore } from "date-fns";
 
 import { Subject, Subscription } from "rxjs";
 import { debounceTime, exhaustMap } from "rxjs/operators";
@@ -28,7 +28,6 @@ import {
   getToday,
   getTodayNgb,
   parseDateFromNgb,
-  toNoon,
 } from "../../../../shared";
 import { Decision, UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
@@ -76,20 +75,12 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
 
     this.minDate = { day: 1, month: 1, year: new Date().getFullYear() - 1 };
     this.maxDate = { day: 31, month: 12, year: new Date().getFullYear() + 2 };
-    this.maxEndDate = this.toNgbDate(getNextYear(getToday()));
+    this.maxEndDate = formatDateToNgb(getNextYear(getToday()));
     this.showDurationWarning = false;
   }
 
   public get v(): { [key: string]: AbstractControl } {
     return this.valideForm.controls;
-  }
-
-  private toNgbDate(date: Date): NgbDateStruct {
-    return {
-      day: Number.parseInt(format(date, "d"), 10),
-      month: Number.parseInt(format(date, "M"), 10),
-      year: Number.parseInt(format(date, "y"), 10),
-    };
   }
 
   public getLastDecision() {
@@ -121,7 +112,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
           this.valideForm.controls.dateFin.setValue(
             formatDateToNgb(newDateFin)
           );
-          this.maxEndDate = this.toNgbDate(newDateFin);
+          this.maxEndDate = formatDateToNgb(newDateFin);
         }
       })
     );
@@ -209,20 +200,8 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
 
     const formDatas: UsagerDecisionValideForm = {
       ...this.valideForm.value,
-      dateDebut: toNoon(
-        new Date(
-          this.valideForm.controls.dateDebut.value.year,
-          this.valideForm.controls.dateDebut.value.month - 1,
-          this.valideForm.controls.dateDebut.value.day
-        )
-      ),
-      dateFin: toNoon(
-        new Date(
-          this.valideForm.controls.dateFin.value.year,
-          this.valideForm.controls.dateFin.value.month - 1,
-          this.valideForm.controls.dateFin.value.day
-        )
-      ),
+      dateDebut: parseDateFromNgb(this.valideForm.controls.dateDebut.value),
+      dateFin: parseDateFromNgb(this.valideForm.controls.dateFin.value),
     };
 
     this.submitSubject$.next(formDatas);
