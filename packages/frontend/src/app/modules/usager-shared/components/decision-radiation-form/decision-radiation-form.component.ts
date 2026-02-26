@@ -22,11 +22,12 @@ import {
   UsagerDecisionRadiationForm,
   UsagerLight,
 } from "../../../../../_common/model";
-import { usagerActions, minDateToday } from "../../../../shared";
 import {
-  NgbDateCustomParserFormatter,
-  CustomToastService,
-} from "../../../shared/services";
+  usagerActions,
+  minDateToday,
+  parseDateFromNgb,
+} from "../../../../shared";
+import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../interfaces";
 import { UsagerDecisionService } from "../../services/usager-decision.service";
 import { MOTIFS_RADIATION_LABELS } from "@domifa/common";
@@ -72,7 +73,6 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
   constructor(
     private readonly modalService: NgbModal,
     private readonly formBuilder: UntypedFormBuilder,
-    private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly usagerDecisionService: UsagerDecisionService,
     private readonly toastService: CustomToastService,
     private readonly store: Store
@@ -180,9 +180,7 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
     }
     const formDatas: UsagerDecisionRadiationForm = {
       ...this.radiationForm.value,
-      dateFin: new Date(
-        this.nbgDate.formatEn(this.radiationForm.controls.dateFin.value)
-      ),
+      dateFin: parseDateFromNgb(this.radiationForm.controls.dateFin.value),
     };
 
     this.submitSubject$.next(formDatas);
