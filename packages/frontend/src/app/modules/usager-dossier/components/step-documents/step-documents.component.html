@@ -1,19 +1,23 @@
 <app-step-header
   *ngIf="usager"
-  [currentStep]="3"
   [usager]="usager"
+  [currentStep]="3"
 ></app-step-header>
 
-<div class="content" *ngIf="usager && currentUserSubject$ | async as me">
-  <div class="container py-3">
-    <div class="step-form" id="step-form3">
-      <h2 class="form-title">Pièces justificatives complétant le dossier</h2>
-      <p class="text-center">
+<div class="fr-content-container">
+  @let me = (currentUserSubject$ | async); @if (me) {
+  <div class="fr-container">
+    <div class="fr-content">
+      @if (usager) {
+      <app-form-stepper [usager]="usager" [currentStep]="3"></app-form-stepper>
+      }
+
+      <p>
         Cette étape est optionnelle, rien ne vous oblige à enregistrer des
         pièces justificatives.
       </p>
 
-      <div class="py-3">
+      <div class="fr-my-3w">
         <app-display-usager-docs
           [me]="me"
           [editPJ]="true"
@@ -21,44 +25,32 @@
         ></app-display-usager-docs>
       </div>
 
-      <div class="col-md-4 offset-md-4 text-center">
-        <button
-          [disabled]="loading"
-          [attr.aria-busy]="loading"
-          type="submit"
-          class="btn btn-primary btn-block my-3"
-          (click)="nextStep(4)"
-        >
-          <span *ngIf="!loading">
-            Suivant
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'angle-right']"
-            ></fa-icon>
-          </span>
-
-          <span *ngIf="loading"
-            ><fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'circle-notch']"
-              animation="spin"
-            >
-            </fa-icon>
-            Veuillez patienter...</span
+      <div class="fr-btns-group fr-btns-group--inline fr-btns-group--right">
+        <div class="fr-col-12 fr-col-md-4">
+          <a
+            routerLink="/manage"
+            class="fr-btn fr-btn--secondary fr-w-100 fr-mt-2w"
           >
-        </button>
-
-        <a routerLink="/manage" class="btn btn-block my-3">
-          Continuer plus tard
-          <fa-icon
-            class="ms-2"
-            aria-hidden="true"
-            [icon]="['fas', 'angle-right']"
-          ></fa-icon>
-        </a>
+            Continuer plus tard
+          </a>
+          <button
+            [disabled]="loading"
+            [attr.aria-busy]="loading"
+            type="submit"
+            class="fr-btn fr-btn--primary fr-w-100"
+            (click)="nextStep(4)"
+          >
+            @if (!loading) {
+            <span> Suivant </span>
+            } @else {
+            <span> Veuillez patienter... </span>
+            }
+          </button>
+        </div>
       </div>
     </div>
-
-    <app-step-footer [usager]="usager"></app-step-footer>
   </div>
+  }
+
+  <app-step-footer [usager]="usager"></app-step-footer>
 </div>

@@ -1,139 +1,189 @@
-<div class="row">
-  <p class="col-md-4 reponses">
-    <span class="question">Orientation</span>
-    <span class="valeur" *ngIf="usager.entretien.orientation !== null">
-      {{ usager.entretien.orientation ? "Oui " : "Non" }}
-      <ng-container *ngIf="usager.entretien.orientationDetail">
-        : {{ usager.entretien.orientationDetail ?? "non renseigné" }}
-      </ng-container>
-    </span>
-    <span class="valeur" *ngIf="usager.entretien.orientation === null">
-      Non renseigné
-    </span>
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question">Domiciliation existante</span>
-    <span class="valeur" *ngIf="usager.entretien.domiciliation !== null">
-      {{ usager.entretien.domiciliation ? "Oui" : "Non" }}
-    </span>
-    <span class="valeur" *ngIf="usager.entretien.domiciliation === null">
-      Non renseigné
-    </span>
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question">Situation professionnelle</span>
-    <span class="valeur" *ngIf="usager.entretien.situationPro === 'AUTRE'">
-      Autre situation:
-      {{ usager.entretien?.situationProDetail ?? "non renseigné" }}
-    </span>
-    <span class="valeur" *ngIf="usager.entretien.situationPro !== 'AUTRE'">
-      {{
-        usager.entretien?.situationPro
-          ? ENTRETIEN_SITUATION_PRO[usager.entretien.situationPro]
-          : "Non renseigné"
-      }}
-    </span>
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question">Revenus</span>
-    <span class="valeur" *ngIf="usager.entretien.revenus !== null">
-      {{ usager.entretien.revenus ? "Oui " : "Non" }}
-      <ng-container *ngIf="usager.entretien.revenusDetail">
-        : {{ usager.entretien.revenusDetail }}
-      </ng-container>
-    </span>
-    <span class="valeur" *ngIf="usager.entretien.revenus === null">
-      Non renseigné
-    </span>
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question">Lien commune</span>
-    <span class="valeur" *ngIf="usager.entretien.liencommune === 'AUTRE'">
-      Autre lien:
-      {{ usager.entretien?.liencommuneDetail ?? "non renseigné" }}
-    </span>
-    <span class="valeur" *ngIf="usager.entretien.liencommune !== 'AUTRE'">
-      {{
-        ENTRETIEN_LIEN_COMMUNE[usager.entretien.liencommune] || "Non renseigné"
-      }}
-    </span>
-  </p>
+<div class="fr-grid-row fr-grid-row--gutter">
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Orientation</span>
+      @if (usager.entretien.orientation !== null) {
+      <span class="valeur">
+        {{ usager.entretien.orientation ? "Oui " : "Non" }}
+        @if (usager.entretien.orientationDetail) { :
+        {{ usager.entretien.orientationDetail ?? "non renseigné" }}
+        }
+      </span>
+      } @else {
+      <span class="valeur">Non renseigné</span>
+      }
+    </p>
+  </div>
 
-  <p class="col-md-4 reponses">
-    <span class="question">Motif de la demande</span>
-    <span class="valeur" *ngIf="usager.entretien.raison === 'AUTRE'">
-      Autre motif:
-      {{ usager.entretien?.raisonDetail ?? "non renseigné" }}
-    </span>
-    <span class="valeur" *ngIf="usager.entretien.raison !== 'AUTRE'">
-      {{ ENTRETIEN_RAISON_DEMANDE[usager.entretien.raison] || "Non renseigné" }}
-    </span>
-  </p>
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Domicilation existante</span>
+      @if (usager.entretien.domiciliation !== null) {
+      <span class="valeur">
+        {{ usager.entretien.domiciliation ? "Oui" : "Non" }}
+      </span>
+      } @else {
+      <span class="valeur">Non renseigné</span>
+      }
+    </p>
+  </div>
 
-  <p class="col-md-4 reponses">
-    <span class="question">Composition ménage</span>
-    <span class="valeur">
-      {{
-        usager.entretien.typeMenage
-          ? ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage]
-          : "Non renseigné"
-      }}
-    </span>
-  </p>
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Situation professionnelle</span>
+      @if (usager.entretien.situationPro === 'AUTRE') {
+      <span class="valeur">
+        Autre situation:
+        {{ usager.entretien?.situationProDetail ?? "non renseigné" }}
+      </span>
+      } @else {
+      <span class="valeur">
+        {{
+          usager.entretien?.situationPro
+            ? ENTRETIEN_SITUATION_PRO[usager.entretien.situationPro]
+            : "Non renseigné"
+        }}
+      </span>
+      }
+    </p>
+  </div>
 
-  <p class="col-md-4 reponses">
-    <span class="question">Cause de l'instabilité logement</span>
-    <span class="valeur" *ngIf="usager.entretien.cause !== 'AUTRE'">
-      {{
-        usager.entretien.cause
-          ? ENTRETIEN_CAUSE_INSTABILITE[usager.entretien.cause]
-          : "Non renseigné"
-      }}
-    </span>
-    <span class="valeur" *ngIf="usager.entretien.cause === 'AUTRE'"
-      >Autre cause: {{ usager.entretien?.causeDetail ?? "Non renseigné" }}
-    </span>
-  </p>
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Revenus</span>
+      @if (usager.entretien.revenus !== null) {
+      <span class="valeur">
+        {{ usager.entretien.revenus ? "Oui " : "Non" }}
+        @if (usager.entretien.revenusDetail) { :
+        {{ usager.entretien.revenusDetail }}
+        }
+      </span>
+      } @else {
+      <span class="valeur">Non renseigné</span>
+      }
+    </p>
+  </div>
 
-  <p class="col-md-4 reponses">
-    <span class="question">Situation residentielle</span>
-    <span class="valeur" *ngIf="usager.entretien.residence === 'AUTRE'">
-      Autre situation:
-      {{ usager.entretien.residenceDetail ?? "non renseignée" }}
-    </span>
-    <span class="valeur" *ngIf="usager.entretien.residence !== 'AUTRE'">
-      {{
-        usager.entretien.residence
-          ? ENTRETIEN_RESIDENCE[usager.entretien.residence]
-          : "Non renseignée"
-      }}
-    </span>
-  </p>
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Lien commune</span>
+      @if (usager.entretien.liencommune === 'AUTRE') {
+      <span class="valeur">
+        Autre lien: {{ usager.entretien?.liencommuneDetail ?? "non renseigné" }}
+      </span>
+      } @else {
+      <span class="valeur">
+        {{
+          ENTRETIEN_LIEN_COMMUNE[usager.entretien.liencommune] ||
+            "Non renseigné"
+        }}
+      </span>
+      }
+    </p>
+  </div>
 
-  <p class="col-md-4 reponses">
-    <span class="question">Accompagnement social actuel</span>
-    <span class="valeur" *ngIf="usager.entretien.accompagnement !== null">
-      {{ usager.entretien.accompagnement ? "Oui " : "Non" }}
-      <ng-container *ngIf="usager.entretien.accompagnementDetail">
-        : {{ usager.entretien.accompagnementDetail ?? "non renseigné" }}
-      </ng-container>
-    </span>
-    <span class="valeur" *ngIf="usager.entretien.accompagnement === null"
-      >Non renseigné</span
-    >
-  </p>
-  <p class="col-md-4 reponses">
-    <span class="question">Rattachement à une ville ou un arrondissement </span>
-    <span class="valeur">
-      {{ usager.entretien.rattachement ?? "Non renseigné" }}
-    </span>
-  </p>
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Motif de la demande</span>
+      @if (usager.entretien.raison === 'AUTRE') {
+      <span class="valeur">
+        Autre motif: {{ usager.entretien?.raisonDetail ?? "non renseigné" }}
+      </span>
+      } @else {
+      <span class="valeur">
+        {{
+          ENTRETIEN_RAISON_DEMANDE[usager.entretien.raison] || "Non renseigné"
+        }}
+      </span>
+      }
+    </p>
+  </div>
 
-  <p class="my-3 col-md-12 reponses">
-    <span class="question">Notes supplémentaires</span>
-    <span class="valeur">
-      {{ usager.entretien.commentaires ?? "Non renseigné" }}
-    </span>
-    <br />
-  </p>
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Composition ménage</span>
+      <span class="valeur">
+        {{
+          usager.entretien.typeMenage
+            ? ENTRETIEN_TYPE_MENAGE[usager.entretien.typeMenage]
+            : "Non renseigné"
+        }}
+      </span>
+    </p>
+  </div>
+
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Cause de l'instabilité logement</span>
+      @if (usager.entretien.cause !== 'AUTRE') {
+      <span class="valeur">
+        {{
+          usager.entretien.cause
+            ? ENTRETIEN_CAUSE_INSTABILITE[usager.entretien.cause]
+            : "Non renseigné"
+        }}
+      </span>
+      } @else {
+      <span class="valeur">
+        Autre cause: {{ usager.entretien?.causeDetail ?? "Non renseigné" }}
+      </span>
+      }
+    </p>
+  </div>
+
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Situation residentielle</span>
+      @if (usager.entretien.residence === 'AUTRE') {
+      <span class="valeur">
+        Autre situation:
+        {{ usager.entretien.residenceDetail ?? "non renseignée" }}
+      </span>
+      } @else {
+      <span class="valeur">
+        {{
+          usager.entretien.residence
+            ? ENTRETIEN_RESIDENCE[usager.entretien.residence]
+            : "Non renseignée"
+        }}
+      </span>
+      }
+    </p>
+  </div>
+
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question">Accompagnement social actuel</span>
+      @if (usager.entretien.accompagnement !== null) {
+      <span class="valeur">
+        {{ usager.entretien.accompagnement ? "Oui " : "Non" }}
+        @if (usager.entretien.accompagnementDetail) { :
+        {{ usager.entretien.accompagnementDetail ?? "non renseigné" }}
+        }
+      </span>
+      } @else {
+      <span class="valeur">Non renseigné</span>
+      }
+    </p>
+  </div>
+
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
+      <span class="question"
+        >Rattachement à une ville ou un arrondissement</span
+      >
+      <span class="valeur">
+        {{ usager.entretien.rattachement ?? "Non renseigné" }}
+      </span>
+    </p>
+  </div>
+
+  <div class="fr-col-12 fr-mt-2w">
+    <p class="reponses">
+      <span class="question">Notes supplémentaires</span>
+      <span class="valeur">
+        {{ usager.entretien.commentaires ?? "Non renseigné" }}
+      </span>
+    </p>
+  </div>
 </div>

@@ -5,7 +5,6 @@ import {
   OnDestroy,
   Output,
 } from "@angular/core";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription, concatMap, from, toArray } from "rxjs";
 
 import { CustomToastService } from "../../../shared/services";
@@ -14,6 +13,7 @@ import { Store } from "@ngrx/store";
 import { usagerActions, UsagerState } from "../../../../shared";
 import { Router } from "@angular/router";
 import { UserStructure } from "@domifa/common";
+import { DeleteUsagerContext } from "../../interfaces";
 
 @Component({
   selector: "app-delete-usager",
@@ -21,29 +21,27 @@ import { UserStructure } from "@domifa/common";
   styleUrls: ["./delete-usager.component.css"],
 })
 export class DeleteUsagerComponent implements OnDestroy {
-  @Input() public selectedRefs: Set<number>;
+  @Input() public selectedRefs: Set<number> = new Set();
 
   @Input({ required: true })
-  public context!: "MANAGE" | "PROFIL";
+  public context!: DeleteUsagerContext;
 
   @Output() public actionAfterSuccess = new EventEmitter<void>();
+
+  @Output() public closeModal = new EventEmitter<void>();
 
   @Input() public me!: UserStructure;
 
   private readonly subscription = new Subscription();
 
-  public loading: boolean;
+  public loading = false;
 
   constructor(
-    private readonly modalService: NgbModal,
     private readonly usagerProfilService: UsagerProfilService,
     private readonly toastService: CustomToastService,
     private readonly store: Store<UsagerState>,
     private readonly router: Router
-  ) {
-    this.loading = false;
-    this.selectedRefs = new Set();
-  }
+  ) {}
 
   public deleteUsager(): void {
     this.loading = true;
@@ -66,7 +64,7 @@ export class DeleteUsagerComponent implements OnDestroy {
             if (this.context === "PROFIL") {
               this.router.navigate(["/manage"]);
             }
-            this.modalService.dismissAll();
+            this.closeModal.emit();
             this.store.dispatch(
               usagerActions.deleteUsagers({ usagerRefs: this.selectedRefs })
             );
@@ -85,7 +83,7 @@ export class DeleteUsagerComponent implements OnDestroy {
   }
 
   public closeModals(): void {
-    this.modalService.dismissAll();
+    this.closeModal.emit();
   }
 
   public ngOnDestroy(): void {

@@ -1,138 +1,73 @@
-.form-group {
-  margin-bottom: 1rem;
+.fr-password__checkbox label:after {
+  display: none !important;
 }
 
-legend.required::after,
-.form-group.required .control-label:after {
+label:has(input[required])::after {
   content: "*";
-  color: var(--bs-danger);
+  color: var(--error-425-625);
+  margin-left: 4px;
+  font-weight: bold;
 }
 
-input[type="radio"]:checked + label {
-  color: var(--bs-blue);
-}
-
-.form-group.required label:after {
+.fr-checkbox-group.required label:after {
   content: " *";
-  color: var(--bs-danger);
+  color: var(--text-default-error);
 }
 
-label {
-  display: inline-block;
-  margin-bottom: 0.5rem;
+.fr-select-group.required label:after {
+  content: " *";
+  color: var(--text-default-error);
 }
 
-form label {
-  color: #4a4a4a;
-  cursor: pointer;
-  font-weight: 600;
+.fr-input-group:has(input[required]) .fr-label::after,
+.fr-checkbox-group:has(input[required]) label::after,
+.fr-select-group:has(select[required]) label::after {
+  content: " *";
+  color: var(--text-default-error);
 }
 
-textarea.form-control {
-  background: #f9f9fc;
-  border: 1px solid #cfcfd9;
-  box-sizing: border-box;
-  border-radius: 5px;
-  min-height: 100px;
-}
+// Button for date with "ng-bootstrap"
+.fr-date-input {
+  position: relative;
+  margin-top: 0.5rem;
 
-.invalid-feedback-custom {
-  width: 100%;
-  margin-top: 0.25rem;
-  font-size: 80%;
-  color: var(--bs-danger);
-}
-
-.separate-dial-code {
-  width: 100%;
-}
-
-.indications {
-  padding: 5px;
-  text-align: left;
-  div {
-    padding-top: 5px;
-  }
-  .ng-fa-icon {
-    margin-right: 5px;
+  .date-btn {
+    bottom: 0.5rem;
+    right: 0.3rem;
+    position: absolute;
+    background-color: transparent;
   }
 }
 
-.modal-body {
-  .form-check {
-    padding: 0 0 0 1.75rem;
-    cursor: pointer;
-    width: 100%;
-  }
-  .form-check-input {
-    font-weight: 300;
-    margin-top: 4px;
-  }
-}
-
-.btn-group * {
-  vertical-align: middle;
-}
-.btn-group {
-  flex-wrap: wrap;
-}
-
-.btn-white-primary {
-  background-color: #ffffff;
-  color: #4164f5;
-  box-shadow: 0 2px 2px #2f4ece;
-  border-radius: 3px;
-}
-
-.btn-white-primary:hover {
-  background-color: #e7e7e7;
-  color: var(--bs-primary);
-  border: 1px solid rgba(65, 100, 245, 0.6);
-}
-
-.btn-white-primary:disabled {
-  background-color: var(--bs-gray-800);
-  color: white;
-  opacity: 1;
-}
-
-.btn-close:focus-visible,
-.btn-close:focus {
-  border: 1px solid rgba(65, 100, 245, 1);
-}
-
-.btn-white-primary:active,
-.btn-white-primary:focus-visible,
-.btn-white-primary:focus {
-  background-color: #ffffff !important;
-  border: 1px solid rgba(65, 100, 245, 1);
-  color: #2444c5;
-  box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.7);
-}
-
-.modal-body .form-check label {
-  font-weight: 300;
-  margin-left: 5px;
-  padding: 2px 0;
-  width: 100%;
-}
-
-.modal-body .invalid-feedback {
-  display: block !important;
-}
-
-.form-title {
-  font-size: 1.3rem;
-  font-weight: 700;
-  text-align: center;
+.empty-hint,
+p.fr-hint-text {
+  min-height: 1.3rem;
   margin-bottom: 1rem;
 }
 
-.btn-block {
-  display: block;
-  width: 100%;
+// Icons for titles
+h2 i,
+h3 i {
+  color: var(--text-active-blue-france);
 }
 
-.btn-block + .btn-block {
-  margin-top: 0.5rem;
+h2 img {
+  width: 54px;
+  height: auto;
+}
+
+// Spin for loading
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fr-icon-spin {
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-right: 0.5rem;
 }

@@ -1,68 +1,82 @@
-<div class="head-page pt-4">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-7 col-12">
-        <h1>{{ title }}</h1>
-      </div>
-      <div class="text-start text-md-end col-12 col-md-5">
-        <a
-          href="https://docs.numerique.gouv.fr/docs/7f7f4ec4-5d4c-43ce-a416-74e5aa4af14c/"
-          target="_blank"
-          class="btn btn-white-primary"
-          rel="noopener noreferrer"
-        >
-          <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
-          Consulter le guide
-        </a>
-      </div>
+<div class="fr-container fr-py-4w">
+  <div class="fr-grid-row fr-grid-row--middle fr-grid-row--gutters">
+    <div class="fr-col-12 fr-col-md-7">
+      <h1>{{ title }}</h1>
     </div>
+    <div class="fr-col-12 fr-col-md-5 head-page__actions">
+      <a
+        href="https://docs.numerique.gouv.fr/docs/7f7f4ec4-5d4c-43ce-a416-74e5aa4af14c/"
+        target="_blank"
+        class="fr-btn fr-btn--secondary"
+        rel="noopener noreferrer"
+        title="Consulter le guide - nouvelle fenêtre"
+      >
+        <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
+        Consulter le guide
+      </a>
+    </div>
+  </div>
 
-    <nav id="statut-selector" class="mt-4 row d-print-none">
-      <a
-        class="col"
-        [ngClass]="section === '' ? 'selected-section col' : 'col'"
-        routerLink="/portail-usagers/"
-        ariaCurrentWhenActive="page"
-      >
-        <span class="statut-label">Présentation du portail Mon DomiFa</span>
-        <span class="visually-hidden" *ngIf="section === ''"
-          >, onglet actif</span
+  <div class="fr-tabs fr-mt-3w no-print" id="statut-selector">
+    <ul
+      class="fr-tabs__list"
+      role="tablist"
+      aria-label="Sections du portail usagers"
+    >
+      <li role="presentation">
+        <button
+          type="button"
+          id="tab-presentation"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.aria-selected]="section === ''"
+          [attr.tabindex]="section === '' ? 0 : -1"
+          routerLink="/portail-usagers/"
         >
-      </a>
-      <a
-        class="col"
-        [ngClass]="section === 'parametres' ? 'selected-section col' : 'col'"
-        routerLink="/portail-usagers/parametres"
-        ariaCurrentWhenActive="page"
-      >
-        <span class="statut-label">Paramètres du portail</span>
-        <span class="visually-hidden" *ngIf="section === 'parametres'"
-          >, onglet actif</span
+          Présentation du portail Mon DomiFa
+        </button>
+      </li>
+      <li role="presentation">
+        <button
+          type="button"
+          id="tab-parametres"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.aria-selected]="section === 'parametres'"
+          [attr.tabindex]="section === 'parametres' ? 0 : -1"
+          routerLink="/portail-usagers/parametres"
         >
-      </a>
-      <a
-        class="col"
-        ariaCurrentWhenActive="page"
-        routerLink="/portail-usagers/informations"
-        [ngClass]="section === 'informations' ? 'selected-section col' : 'col'"
-      >
-        <span class="statut-label">Diffuser des informations</span>
-        <span class="visually-hidden" *ngIf="section === 'informations'"
-          >, onglet actif</span
+          Paramètres du portail
+        </button>
+      </li>
+      <li role="presentation">
+        <button
+          type="button"
+          id="tab-informations"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.aria-selected]="section === 'informations'"
+          [attr.tabindex]="section === 'informations' ? 0 : -1"
+          routerLink="/portail-usagers/informations"
         >
-      </a>
-      <a
-        class="col"
-        ariaCurrentWhenActive="page"
-        *ngIf="me?.role === 'admin'"
-        routerLink="/portail-usagers/manage"
-        [ngClass]="section === 'manage' ? 'selected-section col' : 'col'"
-      >
-        <span class="statut-label">Liste des comptes</span>
-        <span class="visually-hidden" *ngIf="section === 'manage'"
-          >, onglet actif</span
+          Diffuser des informations
+        </button>
+      </li>
+      @if (me?.role === 'admin') {
+      <li role="presentation">
+        <button
+          type="button"
+          id="tab-manage"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.aria-selected]="section === 'manage'"
+          [attr.tabindex]="section === 'manage' ? 0 : -1"
+          routerLink="/portail-usagers/manage"
         >
-      </a>
-    </nav>
+          Liste des comptes
+        </button>
+      </li>
+      }
+    </ul>
   </div>
 </div>

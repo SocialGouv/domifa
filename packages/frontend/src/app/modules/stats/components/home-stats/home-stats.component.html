@@ -1,46 +1,55 @@
-<div class="text-center section py-3 bg-primary-light" *ngIf="stats">
-  <div class="container p-2">
-    <div class="row text-center">
-      <div class="my-2 col-12 col-md-3">
-        <div
-          [countUp]="stats.structuresCount"
-          [options]="countOptions"
-          class="display-4 fw-bold text-primary"
-        ></div>
-        <div class="counter-title">structures inscrites</div>
-      </div>
-      <div class="my-2 col-12 col-md-3">
-        <div
-          [countUp]="stats.actifs"
-          [options]="countOptions"
-          class="display-4 fw-bold text-primary"
-        ></div>
-        <div class="counter-title">domiciliés actifs</div>
-      </div>
-      <div class="my-2 col-12 col-md-3">
-        <div
-          [countUp]="stats.usagersCount"
-          [options]="countOptions"
-          class="display-4 fw-bold text-primary"
-        ></div>
-        <div class="counter-title">dossiers enregistrés</div>
-      </div>
-      <div class="my-2 col-12 col-md-3">
-        <div
-          [countUp]="stats.courrierInCount"
-          [options]="countOptions"
-          class="display-4 fw-bold text-primary"
-        ></div>
-        <div class="counter-title">courriers enregistrés</div>
-      </div>
-    </div>
-  </div>
-  <div class="my-3 my-lg-3">
-    <a routerLink="/stats" class="btn btn-primary mx-2 my-1">
-      Voir nos statistiques
-    </a>
-    <a routerLink="/stats/impact" class="btn btn-primary mx-2 my-1">
-      Découvrir notre impact
-    </a>
-  </div>
+@if (stats) {
+<div class="fr-container fr-py-3w fr-text--center">
+  <h2 class="fr-text-title--blue-france fr-mb-0">Aujourd'hui, DomiFa c'est</h2>
+
+  <ul class="fr-grid-row fr-grid-row--gutters fr-raw-list fr-mt-2w" role="list">
+    <li class="fr-col-12 fr-col-md-3">
+      <p
+        [countUp]="stats.structuresCount"
+        [options]="countOptions"
+        class="fr-h1 fr-mb-0 fr-text-title--blue-france"
+        aria-label="Structures inscrites"
+      ></p>
+      <p class="counter-title">Structures inscrites</p>
+    </li>
+    <li class="fr-col-12 fr-col-md-3">
+      <p
+        [countUp]="stats.actifs"
+        [options]="countOptions"
+        class="fr-h1 fr-mb-0 fr-text-title--blue-france"
+        aria-label="Domiciliés actifs"
+      ></p>
+      <p class="counter-title">Domiciliés actifs</p>
+    </li>
+    <li class="fr-col-12 fr-col-md-3">
+      <p
+        [countUp]="stats.usagersCount"
+        [options]="countOptions"
+        class="fr-h1 fr-mb-0 fr-text-title--blue-france"
+        aria-label="Dossiers enregistrés"
+      ></p>
+      <p class="counter-title">Dossiers enregistrés</p>
+    </li>
+    <li class="fr-col-12 fr-col-md-3">
+      <p
+        [countUp]="stats.courrierInCount"
+        [options]="countOptions"
+        class="fr-h1 fr-mb-0 fr-text-title--blue-france"
+        aria-label="Courriers enregistrés"
+      ></p>
+      <p class="counter-title">Courriers enregistrés</p>
+    </li>
+  </ul>
+
+  <ul
+    class="fr-btns-group fr-btns-group--inline fr-btns-group--center fr-mt-2w"
+  >
+    <li>
+      <a routerLink="/stats" class="fr-btn">Voir nos statistiques</a>
+    </li>
+    <li>
+      <a routerLink="/stats/impact" class="fr-btn">Découvrir notre impact</a>
+    </li>
+  </ul>
 </div>
+}

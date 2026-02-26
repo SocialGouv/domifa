@@ -1,312 +1,107 @@
-<app-profil-head
-  [usager]="usager"
-  [section]="'general'"
-  *ngIf="me"
-  [me]="me"
-></app-profil-head>
+<div class="fr-content-container-light">
+  @if (me && usager) {
+  <app-profil-head
+    [usager]="usager"
+    [section]="section"
+    [me]="me"
+  ></app-profil-head>
 
-<div class="content" *ngIf="usager && me">
-  <div class="container p-0">
-    <div class="page-content p-3">
-      <div class="row">
-        <!-- INFOS LIÉS AU STATUT -->
-        <div class="col-md-12">
-          <div class="alert alert-info" *ngIf="usager.pinnedNote">
-            <div>
-              <fa-icon
-                [icon]="['fas', 'thumb-tack']"
-                aria-hidden="true"
-              ></fa-icon>
-            </div>
-            <p>
-              <b>
-                {{ usager.pinnedNote.message }}
-              </b>
-              <br />
-              Note épinglée créée le
-              {{ usager.pinnedNote.createdAt | date : "dd MMMM yyyy à HH:mm" }}
-              par {{ usager.pinnedNote.createdBy?.userName }}
-            </p>
-          </div>
+  <div class="fr-container">
+    <div class="fr-content">
+      <app-profil-alerts [usager]="usager" [me]="me"></app-profil-alerts>
 
-          <div
-            class="alert alert-danger"
-            *ngIf="usager.decision.statut === 'RADIE'"
-          >
-            <div aria-hidden="true" class="svg-icon icon-danger"></div>
-            <p>
-              Cette personne a été radiée le
-              {{ usager.decision.dateFin | date : "dd MMMM yyyy" }}
-              : {{ usager.decision.motifString }}
-            </p>
-          </div>
-          <div
-            class="alert alert-danger"
-            *ngIf="usager.decision.statut === 'REFUS'"
-          >
-            <div aria-hidden="true" class="svg-icon icon-danger"></div>
-            <p class="text-danger">
-              <b
-                >Demande refusée le
-                {{ usager.decision.dateDecision | date : "dd MMMM yyyy" }}
-              </b>
-              <br />
-              {{ usager.decision.motifString }}
-            </p>
-          </div>
-
-          <div
-            class="alert"
-            [ngClass]="
-              usager.rdvInfo.class
-                ? 'alert-' + usager.rdvInfo.class
-                : 'alert-info'
-            "
-            *ngIf="
-              usager.decision.statut === 'INSTRUCTION' &&
-              me?.role !== 'facteur' &&
-              me?.role !== 'agent'
-            "
-          >
-            <div aria-hidden="true" class="svg-icon icon-calendar"></div>
-            <p>
-              {{
-                usager.typeDom === "PREMIERE_DOM"
-                  ? "Première demande"
-                  : "Demande de renouvellement"
-              }}
-              actuellement en cours
-              {{
-                usager.rdvInfo.content
-                  ? ": rendez-vous le " + usager.rdvInfo.content
-                  : ""
-              }}
-
-              <a
-                [routerLink]="[
-                  '/usager/' +
-                    usager.ref +
-                    '/edit/' +
-                    ETAPES_DEMANDE_URL[usager.etapeDemande]
-                ]"
-                class="ms-2"
-                ariaCurrentWhenActive="page"
-              >
-                Compléter la demande
-              </a>
-            </p>
-          </div>
-
-          <div
-            class="alert alert-info"
-            *ngIf="usager.decision.statut === 'ATTENTE_DECISION'"
-          >
-            <div aria-hidden="true" class="svg-icon icon-calendar"></div>
-            <p>
-              Votre
-              {{
-                usager.typeDom === "PREMIERE_DOM"
-                  ? "demande de domiciliation"
-                  : "demande de renouvellement"
-              }}
-              est actuellement en attente d'une décision.
-            </p>
-            <div>
-              <a
-                [routerLink]="['/usager/' + usager.ref + '/edit/decision']"
-                class="ms-2"
-                ariaCurrentWhenActive="page"
-              >
-                Voir le récapitulatif
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-12">
-          <div
-            class="alert"
-            [ngClass]="{
-              'alert-danger': usager?.echeanceInfos?.dayBeforeEnd <= 15,
-              'alert-warning': usager?.echeanceInfos?.dayBeforeEnd > 15
-            }"
-            *ngIf="
-              usager?.echeanceInfos?.dayBeforeEnd > 0 &&
-              usager?.echeanceInfos?.dayBeforeEnd < 60
-            "
-          >
-            <div class="svg-icon icon-danger"></div>
-            <p>
-              La domiciliation expire le
-              <strong>
-                {{
-                  usager?.echeanceInfos?.dateToDisplay | date : "dd MMMM yyyy"
-                }}
-              </strong>
-            </p>
-          </div>
-          <div
-            class="alert alert-danger"
-            *ngIf="usager?.echeanceInfos?.dayBeforeEnd < 0"
-          >
-            <div aria-hidden="true" class="svg-icon icon-danger"></div>
-            <p>
-              Domiciliation expirée depuis le
-              {{
-                usager?.echeanceInfos?.dateToDisplay | date : "dd MMMM yyyy"
-              }}, il y a {{ usager?.echeanceInfos?.dayBeforeEnd * -1 }} jours
-            </p>
-          </div>
-        </div>
-
-        <!-- COURRIERS -->
-        <div class="col-md-12">
-          <!-- NPAI -->
-          <div *ngIf="usager.options.npai.actif" class="alert alert-danger">
-            <fa-icon
-              [icon]="['fas', 'ban']"
-              aria-hidden="true"
-              class="text-danger me-3"
-            ></fa-icon>
-            <span>
-              N'habite plus à l'adresse indiquée, pli non distribuable
-            </span>
-          </div>
-          <ng-container *ngIf="usager.options.transfert.actif">
-            <!-- TRANSFERT -->
-            <div
-              *ngIf="usager.options.transfert.isExpired"
-              class="alert alert-danger"
-            >
-              <div class="svg-icon icon-distribution"></div>
-              <p>
-                <strong>Attention : </strong> le transfert de courrier était
-                valable jusqu'au
-                {{ usager.options.transfert.dateFin | date : "dd MMMM yyyy" }}
-              </p>
+      <div class="fr-grid-row fr-pb-5">
+        <div class="fr-col-12 fr-col-md-6">
+          <div class="fr-grid-row">
+            <div class="fr-col-12">
+              <h2 class="fr-h4">
+                <i
+                  class="fr-icon-folder-2-line fr-text-title--blue-france"
+                  aria-hidden="true"
+                ></i>
+                Dossier
+              </h2>
             </div>
 
-            <div
-              *ngIf="!usager.options.transfert.isExpired"
-              class="alert alert-warning"
-            >
-              <div class="svg-icon icon-distribution"></div>
-              <p>
-                Votre courrier est transféré à l'adresse suivante :
-                {{ usager.options.transfert.nom | titlecase }}
-                {{ usager.options.transfert.adresse | titlecase }}
-              </p>
-            </div>
-          </ng-container>
-          <ng-container *ngIf="usager.options.procurations.length > 0">
-            <ng-container
-              *ngFor="let procuration of usager.options.procurations"
-            >
-              <div class="alert alert-warning" *ngIf="!procuration.isExpired">
-                <div class="svg-icon icon-distribution"></div>
-
-                <p>
-                  Une procuration au nom de
-                  <strong>{{ procuration | fullName }}</strong>
-                  est active et valable jusqu'au
-                  {{ procuration.dateFin | date : "dd MMMM yyyy" }}
-                </p>
-              </div>
-              <div *ngIf="procuration.isExpired" class="alert alert-danger">
-                <span class="svg-icon icon-calendar" aria-hidden="true"></span>
-                <p>
-                  La procuration au nom de
-                  <strong>{{ procuration | fullName }}</strong>
-                  a expiré le
-                  {{ procuration.dateFin | date : "dd MMMM yyyy" }}
-                </p>
-              </div>
-            </ng-container>
-          </ng-container>
-        </div>
-      </div>
-
-      <div class="row pb-5">
-        <div class="col-md-6">
-          <div class="row">
-            <div class="col-12">
-              <h2>Dossier</h2>
+            <div class="fr-col-6 fr-my-1">
+              <span class="label">Date de naissance</span>
             </div>
 
-            <div class="col-6 my-1 align-self-center">
+            <div class="fr-col-6 fr-my-1">
+              {{ usager.dateNaissance | date : "dd/MM/yyyy" }}
+            </div>
+
+            <div class="fr-col-6 fr-my-1">
               <span class="label">Référence dossier</span>
             </div>
 
-            <div class="col-6 my-1 align-self-center">
+            <div class="fr-col-6 fr-my-1">
               {{ usager.customRef }}
             </div>
 
-            <div class="col-6 my-1 align-self-center">
+            <div class="fr-col-6 fr-my-1">
               <span class="label">Statut</span>
             </div>
-            <div class="col-6 my-1 align-self-center">
-              <div [class]="'label-info ' + usager.statusInfo.color">
+            <div class="fr-col-6 fr-my-1">
+              <div [class]="'fr-badge ' + usager.statusInfo.color">
                 <span>
                   {{ USAGER_DECISION_STATUT_LABELS[usager.decision.statut] }}
                 </span>
               </div>
             </div>
 
-            <div class="col-6 my-1">
+            <div class="fr-col-6 fr-my-1">
               <span class="label">Type de domiciliation</span>
             </div>
-            <div class="col-6 my-1">
-              <div
-                *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
-                class="label-info orange-status"
-              >
+            <div class="fr-col-6 fr-my-1">
+              @if (usager.typeDom === 'RENOUVELLEMENT') {
+              <div class="fr-badge fr-badge--yellow-tournesol">
                 <span>Renouvellement</span>
               </div>
-
-              <div
-                *ngIf="usager.typeDom === 'PREMIERE_DOM'"
-                class="label-info grey-status"
-              >
+              } @if (usager.typeDom === 'PREMIERE_DOM') {
+              <div class="fr-badge fr-badge--grey">
                 <span>Première demande</span>
               </div>
+              }
             </div>
-            <div class="col-6 my-1"><span class="label">Échéance</span></div>
-            <div class="col-6 my-1">
+            <div class="fr-col-6 fr-my-1">
+              <span class="label">Échéance</span>
+            </div>
+            <div class="fr-col-6 fr-my-1">
               {{ usager?.echeanceInfos?.dateToDisplay | date : "dd MMMM yyyy" }}
             </div>
-            <div class="col-6 my-1">
+            <div class="fr-col-6 fr-my-1">
               <span class="label">Dernier passage</span>
             </div>
-            <div class="col-6 my-1">
+            <div class="fr-col-6 fr-my-1">
               {{
                 usager.lastInteraction.dateInteraction | date : "dd MMMM yyyy"
               }}
             </div>
 
-            <div class="col-6 my-1">
+            <div class="fr-col-6 fr-my-1">
               <span class="label">Première domiciliation</span>
             </div>
-            <div class="col-6 my-1">
+            <div class="fr-col-6 fr-my-1">
               {{ usager.datePremiereDom | date : "dd MMMM yyyy" }}
             </div>
 
-            <div class="col-6 my-1 align-self-center">
+            <div class="fr-col-6 fr-my-1">
               <span class="label">Ayants droit</span>
             </div>
-            <div class="col-6 my-1 align-self-center">
+            <div class="fr-col-6 fr-my-1">
               <app-display-ayants-droits
                 [usager]="usager"
               ></app-display-ayants-droits>
             </div>
-            <div class="col-6 my-1 align-self-center">
+            <div class="fr-col-6 fr-my-1">
               <span class="label">Référent du dossier</span>
             </div>
-            <div class="col-6 my-1">
+            <div class="fr-col-6 fr-my-1">
               {{ usager.referrerId | referrerName | async }}
             </div>
-            <div class="col-12 mt-4">
+            <div class="fr-col-12 fr-mt-4">
               <a
-                class="text-link"
                 [routerLink]="['/profil/dossier/' + usager.ref]"
                 ariaCurrentWhenActive="page"
               >
@@ -316,26 +111,32 @@
           </div>
         </div>
 
-        <div class="col-md-6">
-          <h2>Courrier en attente</h2>
-          <div class="profil-interaction my-3">
-            <div class="interaction-icon-box me-3">
+        <div class="fr-col-12 fr-col-md-6">
+          <h2 class="fr-h4">
+            <i
+              class="fr-icon-mail-line fr-text-title--blue-france"
+              aria-hidden="true"
+            ></i>
+            Courrier en attente
+          </h2>
+          <div class="profil-interaction fr-my-3">
+            <div class="interaction-icon-box fr-me-3">
               <div class="interaction-icon icon-courrier"></div>
             </div>
             <p>
               <strong>{{ usager.lastInteraction.courrierIn }}</strong> courriers
             </p>
           </div>
-          <div class="profil-interaction my-3">
-            <div class="interaction-icon-box me-3">
+          <div class="profil-interaction fr-my-3">
+            <div class="interaction-icon-box fr-me-3">
               <div class="interaction-icon icon-colis"></div>
             </div>
             <p>
               <strong>{{ usager.lastInteraction.colisIn }}</strong> colis
             </p>
           </div>
-          <div class="profil-interaction my-3">
-            <div class="interaction-icon-box me-3">
+          <div class="profil-interaction fr-my-3">
+            <div class="interaction-icon-box fr-me-3">
               <div class="interaction-icon icon-recommande"></div>
             </div>
             <p>
@@ -344,96 +145,97 @@
             </p>
           </div>
 
-          <ng-container
-            *ngIf="
-              usager?.echeanceInfos?.isActif ||
-              (usager.decision.statut === 'RADIE' && !usager.options.npai.actif)
-            "
+          @if ( usager?.echeanceInfos?.isActif || (usager.decision.statut ===
+          'RADIE' && !usager.options.npai.actif) ) { @if
+          (usager?.echeanceInfos?.isActif) {
+          <div class="fr-d-flex fr-align-items-center">
+            <button
+              type="button"
+              [disabled]="loadingButtons.indexOf('visite') !== -1"
+              [attr.aria-disabled]="loadingButtons.indexOf('visite') !== -1"
+              class="fr-my-1 fr-me-2 fr-btn"
+              (click)="setSingleInteraction(usager.ref, 'visite')"
+            >
+              <fa-icon
+                [icon]="['fas', 'circle-notch']"
+                animation="spin"
+                class="list-icon-disabled"
+                aria-hidden="true"
+              ></fa-icon>
+              <span class="icon-passage list-icon fr-me-2"></span>Ajouter un
+              passage
+            </button>
+
+            <button
+              type="button"
+              [disabled]="loadingButtons.indexOf('appel') !== -1"
+              [attr.aria-disabled]="loadingButtons.indexOf('appel') !== -1"
+              class="fr-my-1 fr-btn fr-me-2"
+              (click)="setSingleInteraction(usager.ref, 'appel')"
+            >
+              <fa-icon
+                class="list-icon-disabled"
+                [icon]="['fas', 'circle-notch']"
+                aria-hidden="true"
+                animation="spin"
+              >
+              </fa-icon>
+              <span class="icon-appel list-icon fr-me-2"></span>Ajouter un appel
+              téléphonique
+            </button>
+          </div>
+          }
+          <br />
+
+          <button
+            type="button"
+            class="fr-my-1 fr-btn fr-me-2"
+            (click)="openInteractionInModal()"
           >
-            <ng-container
-              *ngIf="usager?.echeanceInfos?.isActif"
-              class="d-flex align-items-center"
-            >
-              <button
-                type="button"
-                [disabled]="loadingButtons.indexOf('visite') !== -1"
-                [attr.aria-disabled]="loadingButtons.indexOf('visite') !== -1"
-                class="my-1 btn me-2 btn-primary"
-                (click)="setSingleInteraction(usager.ref, 'visite')"
-              >
-                <fa-icon
-                  [icon]="['fas', 'circle-notch']"
-                  animation="spin"
-                  class="list-icon-disabled"
-                  aria-hidden="true"
-                ></fa-icon>
-                <span class="icon-passage list-icon me-2"></span>Ajouter un
-                passage
-              </button>
+            <span
+              class="icon-reception list-icon fr-me-2"
+              aria-hidden="true"
+            ></span>
+            Ajouter du courrier
+          </button>
 
-              <button
-                type="button"
-                [disabled]="loadingButtons.indexOf('appel') !== -1"
-                [attr.aria-disabled]="loadingButtons.indexOf('appel') !== -1"
-                class="my-1 btn btn-primary me-2"
-                (click)="setSingleInteraction(usager.ref, 'appel')"
-              >
-                <fa-icon
-                  class="list-icon-disabled"
-                  [icon]="['fas', 'circle-notch']"
-                  aria-hidden="true"
-                  animation="spin"
-                >
-                </fa-icon>
-                <span class="icon-appel list-icon me-2"></span>Ajouter un appel
-                téléphonique
-              </button>
-            </ng-container>
-            <br />
-
-            <button
-              type="button"
-              class="my-1 btn btn-primary me-2"
-              (click)="openInteractionInModal()"
-            >
-              <span
-                class="icon-reception list-icon me-2"
-                aria-hidden="true"
-              ></span>
-              Ajouter du courrier
-            </button>
-
-            <button
-              type="button"
-              *ngIf="usager.lastInteraction.enAttente"
-              class="my-1 btn btn-primary me-2"
-              (click)="openInteractionOutModal()"
-            >
-              <span
-                class="icon-distribution list-icon me-2"
-                aria-hidden="true"
-              ></span>
-              Distribuer le courrier
-            </button>
-          </ng-container>
+          @if (usager.lastInteraction.enAttente) {
+          <button
+            type="button"
+            class="fr-my-1 fr-btn fr-me-2"
+            (click)="openInteractionOutModal()"
+          >
+            <span
+              class="icon-distribution list-icon fr-me-2"
+              aria-hidden="true"
+            ></span>
+            Distribuer le courrier
+          </button>
+          } }
           <app-set-npai [usager]="usager"></app-set-npai>
         </div>
       </div>
 
       <hr />
 
-      <div class="row mt-3">
-        <div class="col-md-6 mb-3">
-          <h2>Historique des courriers</h2>
-
+      <div class="fr-grid-row fr-mt-3">
+        <div class="fr-col-12 fr-col-md-6 fr-mb-3">
+          <h2 class="fr-h4">
+            <img
+              src="artwork/pictograms/document/archive.svg"
+              aria-hidden="true"
+              alt=""
+            />
+            Historique des courriers
+          </h2>
           <app-profil-general-historique-courriers
             [usager]="usager"
             [me]="me"
             (updateInteractions)="updateInteractions()"
           ></app-profil-general-historique-courriers>
-
+          <br />
           <a
-            class="text-link my-4 d-block"
+            class="fr-my-4"
             [routerLink]="[
               '/profil/historique/' + usager.ref + '/interactions'
             ]"
@@ -443,8 +245,16 @@
           </a>
         </div>
 
-        <div class="col-md-6">
-          <h2>Notes</h2>
+        <div class="fr-col-12 fr-col-md-6">
+          <h2 class="fr-h4">
+            <img
+              src="artwork/pictograms/leisure/community.svg"
+              aria-hidden="true"
+              alt=""
+            />
+            Notes
+          </h2>
+
           <app-profil-general-notes
             [me]="me"
             [usager]="usager"
@@ -452,13 +262,15 @@
         </div>
       </div>
     </div>
+    @if (displayDeleteButton) {
     <app-delete-usager-menu
       context="PROFIL"
       [usager]="usager"
-      *ngIf="displayDeleteButton"
       [me]="me"
     ></app-delete-usager-menu>
+    }
   </div>
+  }
 </div>
 
 <ng-template #setInteractionInModal let-modal>

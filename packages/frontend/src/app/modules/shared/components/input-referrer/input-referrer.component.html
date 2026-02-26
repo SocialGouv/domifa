@@ -1,19 +1,31 @@
-<ng-container>
-  <label for="referrerId" [class]="displayLabel ? '' : 'visually-hidden'">{{
-    label
-  }}</label>
+<div
+  class="fr-input-group"
+  [ngClass]="{
+    'fr-input-group--error':
+      parentFormGroup &&
+      (submitted || parentFormGroup?.controls?.referrerId?.dirty) &&
+      parentFormGroup?.controls?.referrerId.errors
+  }"
+>
+  <label class="fr-label" [class.fr-sr-only]="!displayLabel" for="referrerId">
+    {{ label }}
+  </label>
+  @if(displayHint) {
+  <p class="empty-hint"></p>
+  }
   <select
     id="referrerId"
     [(ngModel)]="referrerId"
     (ngModelChange)="onModelChange($event)"
     name="referrerId"
-    [ngClass]="{
-      'is-invalid':
-        parentFormGroup &&
-        (submitted || parentFormGroup?.controls?.referrerId?.dirty) &&
-        parentFormGroup?.controls?.referrerId.errors
-    }"
-    class="form-select"
+    class="fr-select"
+    [attr.aria-invalid]="
+      parentFormGroup &&
+      (submitted || parentFormGroup?.controls?.referrerId?.dirty) &&
+      parentFormGroup?.controls?.referrerId.errors
+        ? true
+        : false
+    "
     [attr.required]="required"
   >
     <option [value]="null">Sans référent</option>
@@ -21,4 +33,14 @@
       {{ user | fullName }}
     </option>
   </select>
-</ng-container>
+  <p
+    *ngIf="
+      parentFormGroup &&
+      (submitted || parentFormGroup?.controls?.referrerId?.dirty) &&
+      parentFormGroup?.controls?.referrerId.errors
+    "
+    class="fr-error-text"
+  >
+    Le référent est obligatoire
+  </p>
+</div>

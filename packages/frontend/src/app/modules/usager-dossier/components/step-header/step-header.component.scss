@@ -1,0 +1,28 @@
+.icon-note {
+  display: block;
+  width: 22px;
+  height: 22px;
+  text-align: center;
+  box-sizing: border-box;
+  background-color: black;
+  -webkit-mask-size: 80% !important;
+  mask-size: 80% !important;
+}
+
+.notif-notes {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  line-height: 120%;
+  font-size: 0.9rem;
+  background-color: var(--bs-primary);
+  border-radius: 50%;
+  text-align: center;
+  color: white;
+}
+
+h1 {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1.7rem;
+}

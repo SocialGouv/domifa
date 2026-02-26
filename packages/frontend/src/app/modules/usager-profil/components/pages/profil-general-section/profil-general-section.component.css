@@ -33,11 +33,6 @@
   margin: 0;
 }
 
-.text-link {
-  text-decoration: underline;
-  font-weight: bold;
-}
-
 button:not(:disabled) .list-icon-disabled {
   display: none;
 }
@@ -52,11 +47,4 @@ button:disabled {
 
 .list-icon-disabled {
   padding: 0.2rem 0.5rem;
-}
-
-.alert .ng-fa-icon {
-  display: table-cell;
-  font-size: 1.8rem;
-  min-width: 35px;
-  word-break: break-all;
 }

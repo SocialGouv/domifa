@@ -6,7 +6,6 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  TemplateRef,
   ViewChild,
 } from "@angular/core";
 import {
@@ -15,9 +14,7 @@ import {
   AbstractControl,
   Validators,
 } from "@angular/forms";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import {
   ENTRETIEN_CAUSE_INSTABILITE,
   ENTRETIEN_LIEN_COMMUNE,
@@ -27,11 +24,10 @@ import {
   ENTRETIEN_TYPE_MENAGE,
 } from "@domifa/common";
 
-import { Entretien } from "../../interfaces";
-
 import { Subscription } from "rxjs";
 import { UsagerService } from "../../services/usagers.service";
 import { NoWhiteSpaceValidator } from "../../../../shared";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-entretien-form",
@@ -57,20 +53,17 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
   @Output()
   public readonly nextStep = new EventEmitter<number>();
 
-  @ViewChild("entretienConfirmation", { static: true })
-  public entretienConfirmation!: TemplateRef<NgbModalRef>;
+  @ViewChild("entretienConfirmationModal", { static: true })
+  public entretienConfirmationModal!: DsfrModalComponent;
 
+  public isModalOpen = false;
   public loading = false;
-  public entretienVide: Entretien;
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly usagerService: UsagerService,
-    private readonly toastService: CustomToastService,
-    private readonly modalService: NgbModal
-  ) {
-    this.entretienVide = new Entretien();
-  }
+    private readonly toastService: CustomToastService
+  ) {}
 
   public get e(): { [key: string]: AbstractControl } {
     return this.entretienForm.controls;
@@ -129,17 +122,17 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
   }
 
   public closeModal(): void {
-    this.modalService.dismissAll();
+    this.isModalOpen = false;
+
+    this.entretienConfirmationModal.close();
   }
 
   public submitEntretien(): void {
-    if (this.usager.decision.statut === "INSTRUCTION") {
+    if (this.usager.decision.statut === "INSTRUCTION" && !this.isModalOpen) {
       if (this.isEmptyForm()) {
-        this.modalService.open(
-          this.entretienConfirmation,
-          DEFAULT_MODAL_OPTIONS
-        );
+        this.entretienConfirmationModal.open();
         this.loading = false;
+        this.isModalOpen = true;
         return;
       }
     }
@@ -149,13 +142,17 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
         .submitEntretien(this.entretienForm.value, this.usager.ref)
         .subscribe({
           next: () => {
+            this.entretienConfirmationModal.close();
             this.editEntretienChange.emit(false);
             this.nextStep.emit(3);
             this.toastService.success("Enregistrement de l'entretien réussi");
             this.loading = false;
+            this.isModalOpen = false;
           },
           error: () => {
             this.loading = false;
+            this.isModalOpen = false;
+
             this.toastService.error("Impossible d'enregistrer l'entretien");
           },
         })

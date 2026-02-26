@@ -32,6 +32,7 @@ import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { SharedModule } from "../../../shared/shared.module";
+import { PhoneInputComponent } from "../../../usager-shared/components/input-phone-international/input-phone-international.component";
 
 @Component({
   selector: "app-contact-support",
@@ -46,12 +47,14 @@ import { SharedModule } from "../../../shared/shared.module";
     SharedModule,
     RouterModule,
     NgxIntlTelInputModule,
+    PhoneInputComponent,
   ],
   templateUrl: "./contact-support.component.html",
 })
 export class ContactSupportComponent implements OnInit, OnDestroy {
   public submitted: boolean;
   public success: boolean;
+  public error: boolean;
   public loading: boolean;
 
   private readonly subscription = new Subscription();
@@ -75,6 +78,7 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
     this.me = null;
     this.submitted = false;
     this.success = false;
+    this.error = false;
     this.loading = false;
   }
 
@@ -190,6 +194,7 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
           );
         },
         error: () => {
+          this.error = true;
           this.loading = false;
           this.toastService.error("Impossible d'envoyer le message");
         },

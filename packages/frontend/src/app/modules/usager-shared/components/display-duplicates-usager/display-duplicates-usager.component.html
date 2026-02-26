@@ -1,22 +1,32 @@
+@if (duplicates.length > 0) {
 <div
   aria-live="polite"
   @fadeInOut
-  class="d-block text-center mx-auto alert-warning alert"
-  *ngIf="duplicates.length > 0"
+  class="fr-notice fr-notice--warning fr-p-2w"
+  role="alert"
 >
-  <div class="d-block">
-    Attention, au moins un doublon potentiel a été détecté
+  <div class="fr-notice__body">
+    <span class="fr-notice__title">
+      Attention, au moins un doublon potentiel a été détecté
+    </span>
   </div>
-  <div class="d-block">
-    <ul>
-      <li *ngFor="let duplicate of duplicates">
-        <a target="_blank" [routerLink]="'/profil/general/' + duplicate.ref">
-          <strong
-            >{{ duplicate.customRef }} - {{ duplicate | fullName }}</strong
-          >
-          {{ duplicate.prenom }}</a
-        >, né(e) le {{ duplicate.dateNaissance | date : "dd MMMM yyyy" }}
-      </li>
-    </ul>
-  </div>
+  <ul class="fr-notice__list">
+    @for (duplicate of duplicates; track duplicate.ref) {
+    <li>
+      <a
+        target="_blank"
+        [routerLink]="'/profil/general/' + duplicate.ref"
+        [title]="
+          'Voir le profil de ' + (duplicate | fullName) + ' - nouvelle fenêtre'
+        "
+      >
+        <strong
+          >{{ duplicate.customRef }} - {{ duplicate | fullName }}</strong
+        > </a
+      >, né(e) le
+      {{ duplicate.dateNaissance | date : "dd MMMM yyyy" }}
+    </li>
+    }
+  </ul>
 </div>
+}

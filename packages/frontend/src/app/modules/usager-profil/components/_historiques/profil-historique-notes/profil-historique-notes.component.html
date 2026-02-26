@@ -34,10 +34,10 @@
           {{ note.createdAt | date : "dd MMMM yyyy à HH:mm" }}
         </td>
         <td>
-          <span *ngIf="note.archivedAt" class="label-info orange-status">
+          <span *ngIf="note.archivedAt" class="fr-badge fr-badge--warning">
             Archivée
           </span>
-          <span class="label-info green-status" *ngIf="note.pinned">
+          <span class="fr-badge fr-badge--success" *ngIf="note.pinned">
             Épinglée
           </span>
         </td>
@@ -58,6 +58,6 @@
     </tbody>
   </table>
 </div>
-<div *ngIf="notes.length === 0" class="alert alert-info">
-  <p>Aucune note enregistrée actuellement</p>
+<div class="fr-callout" *ngIf="!notes.length">
+  <p class="fr-callout__text">Aucune note enregistrée actuellement</p>
 </div>

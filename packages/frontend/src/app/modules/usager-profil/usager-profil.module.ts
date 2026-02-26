@@ -5,6 +5,7 @@ import {
 } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
 import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
@@ -13,7 +14,6 @@ import {
 
 import { SharedModule } from "../shared/shared.module";
 import { UsagerSharedModule } from "../usager-shared/usager-shared.module";
-import { DisplayEtatCivilComponent } from "./components/_general-section/display-etat-civil/display-etat-civil.component";
 import { ProfilCourriersComponent } from "./components/pages/profil-courriers/profil-courriers.component";
 import { ProfilDocumentsSectionComponent } from "./components/pages/profil-documents-section/profil-documents-section.component";
 import { ProfilDossierComponent } from "./components/pages/profil-dossier/profil-dossier.component";
@@ -41,8 +41,8 @@ import {
 } from "../shared/services";
 import { ProfilHistoriqueLoginPortailComponent } from "./components/_historiques/profil-historique-login-portail/profil-historique-login-portail.component";
 import { SetNpaiComponent } from "./components/_general-section/set-npai/set-npai.component";
+import { ProfilAlertsComponent } from "./components/profil-alerts/profil-alerts.component";
 
-import { DisplayContactDetailsComponent } from "./components/_general-section/display-contact-details/display-contact-details.component";
 import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 import { FormatInternationalPhoneNumberPipe } from "../../shared/phone/formatInternationalPhoneNumber.pipe";
 import { ProfilSmsPortailComponent } from "./components/pages/profil-sms-portail/profil-sms-portail.component";
@@ -50,12 +50,12 @@ import { SortArrayPipe } from "../shared/pipes";
 import { DisplayTableImageComponent } from "../shared/components/display-table-image/display-table-image.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { FullNamePipe } from "../usager-shared/pipes";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [
     BaseUsagerProfilPageComponent,
-    DisplayContactDetailsComponent,
-    DisplayEtatCivilComponent,
+    ProfilAlertsComponent,
     ProfilCourriersComponent,
     ProfilDocumentsSectionComponent,
     ProfilDossierComponent,
@@ -87,6 +87,7 @@ import { FullNamePipe } from "../usager-shared/pipes";
     NgbModule,
     NgxIntlTelInputModule,
     ReactiveFormsModule,
+    RouterModule,
     SharedModule,
     SortArrayPipe,
     TableHeadSortComponent,
@@ -94,6 +95,7 @@ import { FullNamePipe } from "../usager-shared/pipes";
     UsagerNotesModule,
     UsagerProfilRoutingModule,
     UsagerSharedModule,
+    DsfrModalComponent,
   ],
   providers: [
     NgbDateCustomParserFormatter,

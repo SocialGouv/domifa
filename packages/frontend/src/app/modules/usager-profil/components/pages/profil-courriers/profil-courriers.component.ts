@@ -32,5 +32,6 @@ export class ProfilCourriersComponent extends BaseUsagerProfilPageComponent {
       store
     );
     this.titlePrefix = "Courriers";
+    this.section = "courrier";
   }
 }

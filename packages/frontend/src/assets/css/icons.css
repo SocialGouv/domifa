@@ -116,3 +116,15 @@
   width: 24px;
   padding: 0;
 }
+
+.fr-icon-contact-form::before,
+.fr-icon-contact-form::after {
+  -webkit-mask-image: url("../icones/contact-form.svg");
+  mask-image: url("../icones/contact-form.svg");
+}
+
+.fr-icon-person-mail-icon::before,
+.fr-icon-person-mail-icon::after {
+  -webkit-mask-image: url("../icones/person-mail.svg");
+  mask-image: url("../icones/person-mail.svg");
+}

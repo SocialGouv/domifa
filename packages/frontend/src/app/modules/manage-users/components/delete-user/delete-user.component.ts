@@ -10,7 +10,7 @@ import { concatMap, Subscription } from "rxjs";
   styleUrls: ["./delete-user.component.css"],
 })
 export class DeleteUserComponent {
-  @Input() public selectedUser: UserStructureProfile | null;
+  @Input({ required: true }) public selectedUser: UserStructureProfile | null;
   @Output() deleteComplete = new EventEmitter<void>();
 
   public loading: boolean;

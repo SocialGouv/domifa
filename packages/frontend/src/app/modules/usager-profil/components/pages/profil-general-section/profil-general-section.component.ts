@@ -52,7 +52,7 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
   public setInteractionOutModal!: TemplateRef<NgbModalRef>;
 
   @ViewChild(ProfilGeneralHistoriqueCourriersComponent)
-  private profileComponent!: ProfilGeneralHistoriqueCourriersComponent;
+  private readonly profileComponent!: ProfilGeneralHistoriqueCourriersComponent;
 
   public readonly USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;
 
@@ -85,6 +85,7 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
     this.maxDateNaissance = formatDateToNgb(new Date());
 
     this.titlePrefix = "Dossier";
+    this.section = "general";
   }
 
   public setSingleInteraction(usagerRef: number, type: InteractionType): void {

@@ -1,7 +1,10 @@
 <h3>Historique des décisions</h3>
-<div class="alert alert-info" *ngIf="usager.historique.length === 0">
-  <p>Aucun historique de décision n'est enregistré</p>
+
+@if (usager.historique.length === 0) {
+<div class="fr-callout fr-callout--info">
+  <p class="fr-callout__text">Aucun historique de décision n'est enregistré</p>
 </div>
+}
 <div class="table-responsive" *ngIf="usager.historique.length > 0">
   <table class="table-history table">
     <caption class="visually-hidden">

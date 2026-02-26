@@ -1,104 +1,125 @@
-<div
-  class="d-inline-block"
-  ngbDropdown
-  container="body"
-  placement="auto"
-  #myDrop="ngbDropdown"
+<dsfrx-dropdownmenu
+  [labelMenu]="'Actions'"
+  class="fr-icon-settings-line fr-btn--icon-left"
 >
-  <button
-    type="button"
-    class="btn btn-outline-primary me-2"
-    id="dropDownNote{{ note.id }}"
-    ngbDropdownToggle
-  >
-    Actions
-    <span class="visually-hidden">
-      Supprimer, archiver ou épingler la note du
-      {{ note.createdAt | date : "dd MMMM yyyy à HH:mm" }}
-    </span>
-  </button>
-  <div
-    ngbDropdownMenu
-    [attr.aria-labelledby]="'dropDownNote' + note.id"
-    container="body"
-  >
-    <button
-      type="button"
-      (click)="pinNote(note)"
-      *ngIf="!note.archived"
-      ngbDropdownItem
+  <ng-template #contentTemplate>
+    @if (!note.archived) {
+    <dsfrx-dropdownmenu-item (selectItem)="pinNote(note)">
+      <div>
+        <span class="fr-icon-pushpin-line" aria-hidden="true"></span>
+        {{ note.pinned ? "Désépingler" : "Épingler" }} la note
+      </div>
+    </dsfrx-dropdownmenu-item>
+    }
+
+    <dsfrx-dropdownmenu-item (selectItem)="openActionModal('ARCHIVE')">
+      <div>
+        <span
+          [class]="
+            note.archived
+              ? 'fr-icon-inbox-unarchive-line'
+              : 'fr-icon-inbox-archive-line'
+          "
+          aria-hidden="true"
+        ></span>
+        {{ note.archived ? "Rétablir" : "Archiver" }} la note
+      </div>
+    </dsfrx-dropdownmenu-item>
+
+    <dsfrx-dropdownmenu-item
+      class="fr-menu__link--danger"
+      (selectItem)="openActionModal('DELETE')"
     >
-      <fa-icon aria-hidden="true" [icon]="['fas', 'thumbtack']"></fa-icon>
-      {{ note.pinned ? "Désépingler" : "Épingler" }} la note
-    </button>
-    <button type="button" (click)="openActionModal('ARCHIVE')" ngbDropdownItem>
-      <fa-icon aria-hidden="true" [icon]="['fas', 'folder-open']"></fa-icon>
-      {{ note.archived ? "Rétablir" : "Archiver" }} la note
-    </button>
-    <button type="button" (click)="openActionModal('DELETE')" ngbDropdownItem>
-      <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
-      Supprimer la note
-    </button>
-  </div>
-</div>
+      <div>
+        <span class="fr-icon-delete-line" aria-hidden="true"></span>
+        Supprimer la note
+      </div>
+    </dsfrx-dropdownmenu-item>
+  </ng-template>
+</dsfrx-dropdownmenu>
 
 <ng-template #deleteOrArchiveNoteModal let-modal>
-  <div class="modal-header">
-    <span id="modal-title" *ngIf="choosenAction === 'DELETE'">
-      Supprimer une note du dossier de {{ usager.nom }} {{ usager.prenom }}
-    </span>
-    <span
-      id="modal-title"
-      *ngIf="choosenAction === 'ARCHIVE' && !note.archived"
+  <div class="fr-modal__header">
+    <button
+      class="fr-btn--close"
+      type="button"
+      (click)="modal.dismiss()"
+      aria-label="Fermer la modale"
     >
-      Archiver une note du dossier de {{ usager | fullName }}
-    </span>
-    <span id="modal-title" *ngIf="choosenAction === 'ARCHIVE' && note.archived">
-      Désarchiver une note du dossier de {{ usager | fullName }}
-    </span>
+      <span class="fr-icon-close-line" aria-hidden="true"></span>
+    </button>
   </div>
 
-  <div class="modal-body text-center">
-    <p *ngIf="choosenAction === 'DELETE'">
-      Êtes-vous sûr de vouloir supprimer cette note ? <br /><b
-        >Cette action est définitive</b
-      >, vous ne pourrez plus retrouver la note dans l'historique !
-    </p>
-    <p *ngIf="choosenAction === 'ARCHIVE' && !note.archived">
-      Une note archivée n'apparait plus dans la section "Vue d'ensemble" de la
-      fiche. <br />
-      Vous pourrez toujours la consulter dans la page historique
-    </p>
-    <p *ngIf="choosenAction === 'ARCHIVE' && note.archived">
-      Cette note est déjà archivée. Vous êtes sur le point de la retirer des
-      archives.<br />
-      Elle sera de nouveau visible dans la section "Vue d'ensemble" du dossier
-    </p>
-  </div>
-  <div class="modal-footer text-end">
-    <button
-      [disabled]="loading"
-      [attr.aria-busy]="loading"
-      type="submit"
-      (click)="confirmAction()"
-      class="btn btn-lg btn-danger mx-1"
-    >
-      <span *ngIf="!loading">Confirmer</span>
-      <span *ngIf="loading">
-        <fa-icon
-          [icon]="['fas', 'circle-notch']"
-          animation="spin"
-          aria-hidden="true"
-        ></fa-icon>
-        Veuillez patienter...
+  <div class="fr-modal__body">
+    <h1 class="fr-modal__title" id="modal-title">
+      @switch (choosenAction) { @case ('DELETE') {
+      <span>
+        Supprimer une note du dossier de {{ usager.nom }} {{ usager.prenom }}
       </span>
-    </button>
-    <button
-      type="button"
-      class="btn btn-outline-dark btn-lg me-2"
-      (click)="cancelArchiveOrDelete()"
-    >
-      Annuler
-    </button>
+      } @case ('ARCHIVE') { @if (!note.archived) {
+      <span> Archiver une note du dossier de {{ usager | fullName }} </span>
+      } @else {
+      <span> Désarchiver une note du dossier de {{ usager | fullName }} </span>
+      } } }
+    </h1>
+
+    @if (choosenAction === 'DELETE') {
+    <div class="fr-alert fr-alert--info">
+      <p class="fr-alert__title">Attention</p>
+      <p class="fr-alert__desc">
+        Êtes-vous sûr de vouloir supprimer cette note ?
+        <strong>Cette action est définitive</strong>, vous ne pourrez plus
+        retrouver la note dans l'historique !
+      </p>
+    </div>
+    } @if (choosenAction === 'ARCHIVE' && !note.archived) {
+    <p>
+      Une note archivée n'apparait plus dans la section "Vue d'ensemble" de la
+      fiche. Vous pourrez toujours la consulter dans la page historique.
+    </p>
+    } @if (choosenAction === 'ARCHIVE' && note.archived) {
+    <p>
+      Cette note est déjà archivée. Vous êtes sur le point de la retirer des
+      archives. Elle sera de nouveau visible dans la section "Vue d'ensemble" du
+      dossier.
+    </p>
+    }
+  </div>
+
+  <div class="fr-modal__footer">
+    <ul class="fr-btns-group fr-btns-group--right fr-btns-group--inline">
+      <li>
+        <button
+          type="button"
+          class="fr-btn fr-btn--secondary"
+          (click)="cancelArchiveOrDelete()"
+          [disabled]="loading"
+        >
+          Annuler
+        </button>
+      </li>
+      <li>
+        <button
+          type="submit"
+          [class.fr-btn--danger]="choosenAction === 'DELETE'"
+          class="fr-btn"
+          (click)="confirmAction()"
+          [disabled]="loading"
+          [attr.aria-busy]="loading"
+        >
+          @if (!loading) {
+          <span>Confirmer</span>
+          } @else {
+          <span>
+            <span
+              class="fr-icon-refresh-line fr-icon--spin"
+              aria-hidden="true"
+            ></span>
+            Veuillez patienter...
+          </span>
+          }
+        </button>
+      </li>
+    </ul>
   </div>
 </ng-template>

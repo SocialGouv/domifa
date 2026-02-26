@@ -1,297 +1,333 @@
-<div class="modal-header bg-primary">
-  <span class="text-white" id="modal-title"
-    >{{ structureInformation ? "Modifier" : "Ajouter" }} une information</span
-  >
-</div>
-
 <form [formGroup]="tempMessageForm" *ngIf="tempMessageForm">
-  <div class="modal-body">
-    <div class="row">
-      <div class="col-12 form-group required">
-        <label for="title" class="form-label">Titre</label>
-        <input
-          id="title"
-          type="text"
-          formControlName="title"
-          [ngClass]="{
-            'is-invalid': submitted && f.title.errors
-          }"
-          [attr.aria-invalid]="submitted && f.title.errors ? true : false"
-          [attr.aria-describedby]="
-            submitted && f.title.errors ? 'invalid-title' : null
-          "
-          class="form-control"
-          required
-        />
-        <p
-          *ngIf="submitted && f.title.errors"
-          class="invalid-feedback"
-          id="invalid-title"
-        >
-          Le titre est obligatoire
-        </p>
-      </div>
-
-      <div class="col-12 form-group required">
-        <label for="type" class="form-label">Type d'information</label>
-        <select
-          id="type"
-          formControlName="type"
-          name="type"
-          [ngClass]="{
-            'is-invalid': submitted && f.type.errors
-          }"
-          [attr.aria-invalid]="submitted && f.type.errors ? true : false"
-          [attr.aria-describedby]="
-            submitted && f.type.errors ? 'invalid-type' : null
-          "
-          class="form-select"
-          required
-        >
-          <option [ngValue]="null"></option>
-          <option value="closing">Fermeture</option>
-          <option value="opening-hours">Horaires d'ouverture</option>
-          <option value="general">Information générale</option>
-          <option value="other">Autre</option>
-        </select>
-        <p
-          *ngIf="submitted && f.type.errors"
-          class="invalid-feedback"
-          id="invalid-type"
-        >
-          Le type d'information est obligatoire
-        </p>
-      </div>
-
-      <div class="my-2 col-12 form-group required">
-        <label for="description" class="form-label"
-          >Contenu de l'information</label
-        >
-
-        <ckeditor
-          [editor]="Editor"
-          [config]="config"
-          formControlName="description"
-          ngDefaultControl
-          id="description"
-          name="description"
-          [required]="true"
-          [ngClass]="{
-            'description-invalid':
-              (f.description.dirty || submitted) && f.description.errors,
-            'is-valid':
-              (f.description.dirty || f.description.value) &&
-              !f.description.errors
-          }"
-        ></ckeditor>
-
-        <div
-          *ngIf="
-            tempMessageForm.get('description')?.invalid &&
-            (tempMessageForm.get('description')?.dirty ||
-              tempMessageForm.get('description')?.touched)
-          "
-        >
-          <small
-            class="text-danger"
-            *ngIf="tempMessageForm.get('description')?.errors?.['required']"
-          >
-            La description est requise.
-          </small>
-          <small
-            class="text-danger"
-            *ngIf="tempMessageForm.get('description')?.errors?.['minlength']"
-          >
-            La description doit contenir au moins 10 caractères.
-          </small>
-          <small
-            class="text-danger"
-            *ngIf="tempMessageForm.get('description')?.errors?.['invalidContent']"
-          >
-            Le contenu de la description n'est pas valide.
-          </small>
-        </div>
-      </div>
+  <div class="fr-grid-row">
+    <div
+      class="fr-col-12 fr-form-group"
+      [class.fr-form-group--error]="submitted && f.title.errors"
+    >
+      <label for="title" class="fr-label">Titre </label>
+      <input
+        id="title"
+        type="text"
+        formControlName="title"
+        [class.fr-input--error]="submitted && f.title.errors"
+        [attr.aria-invalid]="submitted && f.title.errors ? true : false"
+        [attr.aria-describedby]="
+          submitted && f.title.errors ? 'invalid-title' : null
+        "
+        class="fr-input"
+        required
+      />
+      <p
+        *ngIf="submitted && f.title.errors"
+        class="fr-error-text"
+        id="invalid-title"
+      >
+        Le titre est obligatoire
+      </p>
     </div>
 
-    <div class="row">
-      <div class="col-12 form-group">
-        <fieldset>
-          <legend class="label required">
-            S'agit t-il d'une information temporaire ? (affichage à partir d'une
-            date donnée)
-          </legend>
+    <div
+      class="fr-col-12 fr-form-group"
+      [class.fr-form-group--error]="submitted && f.type.errors"
+    >
+      <label for="type" class="fr-label">Type d'information </label>
+      <select
+        id="type"
+        formControlName="type"
+        name="type"
+        [class.fr-select--error]="submitted && f.type.errors"
+        [attr.aria-invalid]="submitted && f.type.errors ? true : false"
+        [attr.aria-describedby]="
+          submitted && f.type.errors ? 'invalid-type' : null
+        "
+        class="fr-select"
+        required
+      >
+        <option [ngValue]="null"></option>
+        <option value="closing">Fermeture</option>
+        <option value="opening-hours">Horaires d'ouverture</option>
+        <option value="general">Information générale</option>
+        <option value="other">Autre</option>
+      </select>
+      <p
+        *ngIf="submitted && f.type.errors"
+        class="fr-error-text"
+        id="invalid-type"
+      >
+        Le type d'information est obligatoire
+      </p>
+    </div>
 
-          <div class="form-check form-check-inline">
+    <div
+      class="fr-col-12 fr-form-group"
+      [class.fr-form-group--error]="
+        (f.description.dirty || submitted) && f.description.errors
+      "
+    >
+      <label for="description" class="fr-label"
+        >Contenu de l'information
+      </label>
+
+      <dsfrx-editor
+        id="description"
+        formControlName="description"
+        [value]="f.description.value"
+        (onChange)="onEditorChange()"
+        [required]="true"
+      ></dsfrx-editor>
+
+      <div
+        *ngIf="
+          tempMessageForm.get('description')?.invalid &&
+          (tempMessageForm.get('description')?.dirty ||
+            tempMessageForm.get('description')?.touched)
+        "
+      >
+        <p
+          class="fr-error-text"
+          *ngIf="tempMessageForm.get('description')?.errors?.['required']"
+        >
+          La description est requise.
+        </p>
+        <p
+          class="fr-error-text"
+          *ngIf="tempMessageForm.get('description')?.errors?.['minlength']"
+        >
+          La description doit contenir au moins 10 caractères.
+        </p>
+        <p
+          class="fr-error-text"
+          *ngIf="tempMessageForm.get('description')?.errors?.['invalidContent']"
+        >
+          Le contenu de la description n'est pas valide.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="fr-grid-row">
+    <div class="fr-col-12 fr-form-group">
+      <fieldset class="fr-fieldset">
+        <legend class="fr-fieldset__legend--regular fr-legend">
+          S'agit t-il d'une information temporaire ? (affichage à partir d'une
+          date donnée)
+        </legend>
+
+        <div class="fr-fieldset__content">
+          <div class="fr-radio-group">
             <input
-              class="form-check-input"
+              class="fr-radio-group__input"
               type="radio"
               formControlName="isTemporary"
               name="isTemporary"
               id="isTemporaryYes"
               [value]="true"
             />
-            <label class="form-check-label" for="isTemporaryYes">Oui</label>
+            <label class="fr-radio-group__label" for="isTemporaryYes"
+              >Oui</label
+            >
           </div>
-          <div class="form-check form-check-inline">
+          <div class="fr-radio-group">
             <input
-              class="form-check-input"
+              class="fr-radio-group__input"
               type="radio"
               formControlName="isTemporary"
               name="isTemporary"
               id="isTemporaryNo"
               [value]="false"
             />
-            <label class="form-check-label" for="isTemporaryNo">Non</label>
+            <label class="fr-radio-group__label" for="isTemporaryNo">Non</label>
           </div>
-        </fieldset>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="fr-grid-row" *ngIf="f.isTemporary.value === true">
+    <div
+      class="fr-col-12 fr-col-md-6 fr-form-group"
+      [class.fr-form-group--error]="
+        (f.startDate.dirty || submitted) && f.startDate.errors
+      "
+    >
+      <label for="startDate" class="fr-label"
+        >Date de début de diffusion
+      </label>
+      <div class="fr-input-group">
+        <input
+          class="fr-input"
+          placeholder="jj/mm/aaaa"
+          placement="auto"
+          id="startDate"
+          formControlName="startDate"
+          name="startDate"
+          ngbDatepicker
+          dateFr
+          value
+          [class.fr-input--error]="
+            (f.startDate.dirty || submitted) && f.startDate.errors
+          "
+          [attr.aria-describedby]="
+            (f.startDate.dirty || submitted) && f.startDate.errors
+              ? 'startDate-errors'
+              : null
+          "
+          [attr.aria-invalid]="
+            (f.startDate.dirty || submitted) && f.startDate.errors
+              ? true
+              : false
+          "
+          #startDate="ngbDatepicker"
+          maxlength="10"
+          required
+        />
+
+        <button
+          type="button"
+          aria-label="Choisir une date de début de validité dans le calendrier"
+          class="fr-btn fr-btn--secondary fr-btn--sm"
+          (click)="startDate.toggle()"
+        >
+          <svg
+            class="fr-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+        </button>
+
+        <p
+          *ngIf="(f.startDate.dirty || submitted) && f.startDate.errors"
+          id="startDate-errors"
+          class="fr-error-text"
+        >
+          La date de debut est incorrecte. Exemple : 20/12/1996
+        </p>
       </div>
     </div>
-    <div class="row" *ngIf="f.isTemporary.value === true">
-      <div class="my-1 col-6 form-group required">
-        <label for="startDate" class="form-label"
-          >Date de début de diffusion</label
+
+    <div
+      class="fr-col-12 fr-col-md-6 fr-form-group"
+      [class.fr-form-group--error]="
+        (f.endDate.dirty || submitted) && f.endDate.errors
+      "
+    >
+      <label for="endDate" class="fr-label">Date de fin </label>
+      <div class="fr-input-group">
+        <input
+          class="fr-input"
+          placeholder="jj/mm/aaaa"
+          placement="auto"
+          id="endDate"
+          formControlName="endDate"
+          name="endDate"
+          ngbDatepicker
+          dateFr
+          required
+          value
+          [class.fr-input--error]="
+            (f.endDate.dirty || submitted) && f.endDate.errors
+          "
+          [attr.aria-describedby]="
+            (f.endDate.dirty || submitted) && f.endDate.errors
+              ? 'endDate-errors'
+              : null
+          "
+          [attr.aria-invalid]="
+            (f.endDate.dirty || submitted) && f.endDate.errors ? true : false
+          "
+          #endDate="ngbDatepicker"
+          maxlength="10"
+        />
+
+        <button
+          type="button"
+          aria-label="Choisir une date de fin de validité dans le calendrier"
+          class="fr-btn fr-btn--secondary fr-btn--sm"
+          (click)="endDate.toggle()"
         >
-        <div class="input-group">
-          <input
-            class="form-control"
-            placeholder="jj/mm/aaaa"
-            placement="auto"
-            id="startDate"
-            formControlName="startDate"
-            name="startDate"
-            ngbDatepicker
-            dateFr
-            value
-            [ngClass]="{
-              'is-invalid':
-                (f.startDate.dirty || submitted) && f.startDate.errors
-            }"
-            [attr.aria-describedby]="
-              (f.startDate.dirty || submitted) && f.startDate.errors
-                ? 'startDate-errors'
-                : null
-            "
-            [attr.aria-invalid]="
-              (f.startDate.dirty || submitted) && f.startDate.errors
-                ? true
-                : false
-            "
-            #startDate="ngbDatepicker"
-            maxlength="10"
-            required
-          />
-
-          <button
-            type="button"
-            aria-label="Choisir une date de début de validité dans le calendrier"
-            class="btn input-group-text btn-outline-primary"
-            (click)="startDate.toggle()"
+          <svg
+            class="fr-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           >
-            <fa-icon aria-hidden="true" [icon]="['fas', 'calendar']"></fa-icon>
-          </button>
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+        </button>
 
-          <p
-            *ngIf="(f.startDate.dirty || submitted) && f.startDate.errors"
-            id="startDate-errors"
-            class="invalid-feedback"
-          >
-            La date de début est incorrecte. Exemple : 20/12/1996
+        <div
+          *ngIf="(f.endDate.dirty || submitted) && f.endDate.errors"
+          id="endDate-errors"
+          class="fr-error-text"
+        >
+          <p *ngIf="f.endDate.errors.required">
+            La date de fin est obligatoire
           </p>
-        </div>
-      </div>
-      <div class="my-1 col-6 form-group required">
-        <label for="endDate">Date de fin </label>
-        <div class="input-group">
-          <input
-            class="form-control"
-            placeholder="jj/mm/aaaa"
-            placement="auto"
-            id="endDate"
-            formControlName="endDate"
-            name="endDate"
-            ngbDatepicker
-            dateFr
-            required
-            value
-            [ngClass]="{
-              'is-invalid': (f.endDate.dirty || submitted) && f.endDate.errors
-            }"
-            [attr.aria-describedby]="
-              (f.endDate.dirty || submitted) && f.endDate.errors
-                ? 'endDate-errors'
-                : null
+          <p
+            *ngIf="
+              f.endDate.errors.ngbDate || f.endDate.errors.endDateAfterBeginDate
             "
-            [attr.aria-invalid]="
-              (f.endDate.dirty || submitted) && f.endDate.errors ? true : false
-            "
-            #endDate="ngbDatepicker"
-            maxlength="10"
-          />
-
-          <button
-            type="button"
-            aria-label="Choisir une date de fin de validité dans le calendrier"
-            class="btn input-group-text btn-outline-primary"
-            (click)="endDate.toggle()"
           >
-            <fa-icon aria-hidden="true" [icon]="['fas', 'calendar']"></fa-icon>
-          </button>
-
-          <div
-            *ngIf="(f.endDate.dirty || submitted) && f.endDate.errors"
-            id="endDate-errors"
-            class="invalid-feedback"
-          >
-            <p *ngIf="f.endDate.errors.required">
-              La date de fin est obligatoire
-            </p>
-            <p
-              *ngIf="
-                f.endDate.errors.ngbDate ||
-                f.endDate.errors.endDateAfterBeginDate
-              "
-            >
-              La date de fin est incorrecte. Exemple : 20/12/1996
-            </p>
-          </div>
+            La date de fin est incorrecte. Exemple : 20/12/1996
+          </p>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="modal-footer">
-    <button
-      type="submit"
-      class="btn btn-lg btn-primary"
-      (click)="onSubmit()"
-      [disabled]="loading"
-      [attr.aria-busy]="loading"
+  <div class="fr-modal__footer">
+    <ul
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse"
     >
-      <span *ngIf="loading">
-        <fa-icon
-          [icon]="['fas', 'circle-notch']"
-          animation="spin"
-          aria-hidden="true"
-        ></fa-icon>
-        Veuillez patienter...
-      </span>
-      <span *ngIf="!loading"
-        >{{
-          structureInformation?.uuid ? "Modifier" : "Ajouter"
-        }}
-        l'information</span
-      >
-    </button>
-    <button
-      type="button"
-      [disabled]="loading"
-      [attr.aria-busy]="loading"
-      [attr.aria-disabled]="loading"
-      class="btn btn-lg btn-outline-dark"
-      (click)="getStructureInformation.emit()"
-    >
-      Revenir au profil
-    </button>
+      <li>
+        <button
+          type="submit"
+          class="fr-btn"
+          (click)="onSubmit()"
+          [disabled]="loading"
+          [attr.aria-busy]="loading"
+        >
+          <fa-icon
+            *ngIf="loading"
+            [icon]="['fas', 'circle-notch']"
+            animation="spin"
+            aria-hidden="true"
+            class="me-2"
+          ></fa-icon>
+          <span *ngIf="loading">Veuillez patienter...</span>
+          <span *ngIf="!loading">
+            {{ structureInformation?.uuid ? "Modifier" : "Ajouter" }}
+            l'information
+          </span>
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          [disabled]="loading"
+          class="fr-btn fr-btn--secondary"
+          (click)="getStructureInformation.emit()"
+        >
+          Annuler
+        </button>
+      </li>
+    </ul>
   </div>
 </form>

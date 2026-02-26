@@ -1,4 +1,4 @@
-<div class="head-page pt-3">
+<div class="head-page">
   <div class="container">
     <div
       class="px-0 py-2 mx-0 d-md-flex justify-content-between align-items-center"
@@ -22,7 +22,7 @@
           *ngIf="startDate !== null"
           [disabled]="loading"
           [attr.aria-busy]="loading"
-          class="btn btn-white-primary"
+          class="fr-btn fr-btn--secondary"
           type="button"
         >
           <span *ngIf="!loading">
@@ -171,7 +171,7 @@
             <button
               type="button"
               id="start"
-              class="mt-2 btn btn-primary mx-1"
+              class="mt-2 fr-btn mx-1"
               [disabled]="loading"
               [attr.aria-busy]="loading"
               (click)="compare()"

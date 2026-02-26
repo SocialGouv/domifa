@@ -3,7 +3,7 @@
   <ng-container>
     <button
       (click)="openConfirmationModal()"
-      class="mx-1 my-1 btn btn-primary"
+      class="mx-1 my-1 fr-btn"
       type="button"
       [disabled]="loading"
     >
@@ -33,10 +33,10 @@
     <span class="question">Accès au portail créés</span>
     <span class="valeur">
       <ng-container *ngIf="!usager.options.portailUsagerEnabled">
-        <span class="label-info red-status">Non</span>
+        <span class="fr-badge fr-badge--error">Non</span>
       </ng-container>
       <ng-container *ngIf="usager.options.portailUsagerEnabled">
-        <span class="label-info green-status">Oui</span>
+        <span class="fr-badge fr-badge--success">Oui</span>
       </ng-container>
     </span>
   </p>
@@ -46,8 +46,10 @@
       <span class="question">Compte activé par le domicilié</span>
       <span class="valeur">
         @if (portailUsagersInformations?.passwordType === 'PERSONAL') {
-        <span class="label-info green-status">Compte actif</span>
-        } @else { <span class="label-info red-status">Non</span>}
+        <span class="fr-badge fr-badge--success">Compte actif</span>
+        } @else {
+        <span class="fr-badge fr-badge--error">Non</span>
+        }
       </span>
     </p>
 
@@ -78,7 +80,7 @@
 <div>
   <p class="col-12" *ngIf="usager.options.portailUsagerEnabled">
     <a
-      class="text-link my-4 d-block fw-bold"
+      class="my-4 w-bold"
       [routerLink]="['/profil/historique/' + usager.ref + '/login-portail']"
       ariaCurrentWhenActive="page"
     >
@@ -106,14 +108,14 @@
 
   <div class="modal-footer">
     <button
-      class="btn btn-outline-dark d-print-none"
+      class="fr-btn fr-btn--secondary d-print-none"
       (click)="closeModals()"
       type="button"
     >
       Revenir au dossier
     </button>
     <button
-      class="btn btn-primary"
+      class="fr-btn"
       [disabled]="loading"
       (click)="resetPassword()"
       type="submit"

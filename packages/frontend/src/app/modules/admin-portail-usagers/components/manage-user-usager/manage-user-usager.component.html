@@ -81,9 +81,11 @@
                 <tr [attr.aria-rowindex]="i + 1">
                   <td class="fw-bold">
                     @if (account.passwordType !== 'PERSONAL') {
-                    <span class="label-info red-status">Non activé</span>
+                    <span class="fr-badge fr-badge--green-bourgeon"
+                      >Non activé</span
+                    >
                     } @else {
-                    <span class="label-info green-status">Activé</span>
+                    <span class="fr-badge fr-badge--success">Activé</span>
                     }
                   </td>
                   <td class="fw-bold">
@@ -107,12 +109,9 @@
                     } @else { <span>Mot de passe inconnu</span>}
                   </td>
                   <td>
-                    <span *ngIf="account?.lastLogin">
-                      {{ account.lastLogin | date : "dd/MM/yyyy à HH:mm" }}
-                    </span>
-                    <span *ngIf="!account.lastLogin" class="text-muted">
-                      Jamais connecté
-                    </span>
+                    <app-display-last-login
+                      [lastLogin]="account.lastLogin"
+                    ></app-display-last-login>
                   </td>
                 </tr>
               </ng-container>
@@ -120,9 +119,11 @@
           </table>
         </div>
 
-        <div class="alert alert-info" *ngIf="searchResults.data.length === 0">
+        @if (searchResults.data.length === 0) {
+        <div class="fr-alert fr-alert--info">
           <p>Aucun compte utilisateur trouvé</p>
         </div>
+        }
       </ng-container>
 
       <div

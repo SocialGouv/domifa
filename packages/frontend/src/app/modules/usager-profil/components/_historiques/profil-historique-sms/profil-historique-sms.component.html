@@ -77,6 +77,8 @@
   ></ngb-pagination>
 </div>
 
-<div *ngIf="searchResults?.data?.length === 0" class="alert alert-info">
+@if (searchResults?.data?.length === 0) {
+<div class="fr-alert fr-alert--info">
   <p>Aucun sms enregistré actuellement</p>
 </div>
+}

@@ -1,0 +1,130 @@
+<h1 class="align-self-start fr-h3">Se connecter avec mon compte</h1>
+<span class="col-12 col-md-12 fr-text-default--error">
+  * champs obligatoires
+</span>
+<form
+  [formGroup]="loginForm"
+  class="column d-flex flex-column gap-3 pt-4 pt-md-5 pb-4 pb-md-5"
+  (ngSubmit)="login()"
+>
+  <div>
+    <div
+      [class.fr-input-group--error]="f.email.dirty && f.email.errors"
+      class="col fr-input-group required"
+    >
+      <label class="fr-label" for="email">Identifiant </label>
+      <span class="fr-hint-text mb-1">Format attendu : nom&#64;domaine.fr</span>
+      <input
+        type="email"
+        id="email"
+        formControlName="email"
+        name="email"
+        autocomplete="email"
+        required
+        class="fr-input"
+        [attr.aria-invalid]="f.email.dirty && f.email.errors ? true : false"
+        [attr.aria-describedby]="
+          f.email.dirty && f.email.errors ? 'email-errors' : null
+        "
+      />
+      <ul
+        id="email-errors"
+        *ngIf="f.email.dirty && f.email.errors"
+        class="ms-0 ps-0 fr-messages-group"
+      >
+        <li class="fr-message fr-message--error">Veuillez vérifier l'email</li>
+      </ul>
+    </div>
+  </div>
+  <div
+    [class.fr-input-group--error]="f.password.dirty && f.password.errors"
+    class="fr-input-group mb-0 required"
+  >
+    <div class="fr-password" id="passwordContainer">
+      <label class="fr-password__label fr-label" for="password">
+        Mot de passe
+      </label>
+      <div class="fr-input-wrap">
+        <input
+          required
+          id="password"
+          formControlName="password"
+          name="password"
+          [type]="!hidePassword ? 'text' : 'password'"
+          class="fr-input"
+          autocomplete="current-password"
+          [attr.aria-invalid]="
+            f.password.dirty && f.password.errors ? true : false
+          "
+          [attr.aria-describedby]="
+            f.password.dirty && f.password.errors ? 'invalid-password' : null
+          "
+          [ngClass]="{
+            'is-invalid': f.password.dirty && f.password.errors
+          }"
+        />
+        <ul
+          id="invalid-password"
+          *ngIf="f.password.dirty && f.password.errors"
+          class="ms-0 ps-0 fr-messages-group"
+        >
+          <li class="fr-message fr-message--error">
+            Veuillez vérifier le mot de passe
+          </li>
+        </ul>
+      </div>
+      <div
+        class="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm"
+      >
+        <input
+          id="show-password"
+          type="checkbox"
+          class="fr-checkbox"
+          role="switch"
+          [attr.aria-checked]="!hidePassword"
+          [attr.aria-label]="
+            (hidePassword ? 'Voir' : 'Masquer') + ' le mot de passe'
+          "
+          (change)="toggleShowPassword()"
+        />
+        <label class="fr--password__checkbox fr-label" for="show-password">
+          Afficher
+        </label>
+      </div>
+    </div>
+  </div>
+  <div>
+    <a routerLink="/users/reset-password" class="fr-link">
+      Mot de passe oublié ?
+    </a>
+  </div>
+  <div class="fr-input-group my-2 text-center">
+    <button type="submit" class="fr-btn d-flex flex-column w-100">
+      @if (!loading) {
+      <span>Se connecter</span>
+      } @if (loading) {
+      <span class="fr-loading">
+        <span
+          aria-hidden="true"
+          class="fr-icon-refresh-line fr-icon-spin"
+        ></span>
+        Connexion en cours...
+      </span>
+      }
+    </button>
+  </div>
+
+  <hr />
+  <div class="col-12 d-flex flex-column gap-2">
+    <h2 class="fr-h5 mb-0">Votre structure n’est pas encore inscrite ?</h2>
+    <div class="fr-input-group my-2 text-center">
+      <a
+        routerLink="/structures/inscription"
+        id="inscriptionLink"
+        class="fr-btn fr-btn--secondary d-flex flex-column w-100"
+      >
+        Inscrivez votre structure
+      </a>
+    </div>
+  </div>
+</form>

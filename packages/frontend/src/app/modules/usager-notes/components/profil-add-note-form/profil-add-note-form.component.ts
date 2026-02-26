@@ -5,7 +5,6 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  TemplateRef,
   ViewChild,
 } from "@angular/core";
 import {
@@ -15,13 +14,12 @@ import {
   Validators,
 } from "@angular/forms";
 import { Subscription } from "rxjs";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 import { NoWhiteSpaceValidator, bounce } from "../../../../shared";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerNotesService } from "../../services/usager-notes.service";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 
 @Component({
   animations: [bounce],
@@ -29,16 +27,16 @@ import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
   templateUrl: "./profil-add-note-form.component.html",
 })
 export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public usager!: UsagerFormModel;
 
   @Output()
-  public cancel = new EventEmitter();
+  public readonly cancel = new EventEmitter();
 
   @Output()
   public getUsagerNotes = new EventEmitter();
 
-  @ViewChild("addNoteInModal", { static: true })
-  public addNoteInModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("modal", { static: false })
+  public modal!: DsfrModalComponent;
 
   public addNoteForm!: UntypedFormGroup;
   public submitted: boolean;
@@ -47,7 +45,6 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly usagerNotesService: UsagerNotesService,
-    private readonly modalService: NgbModal,
     private readonly toastService: CustomToastService,
     private readonly formBuilder: UntypedFormBuilder
   ) {
@@ -60,7 +57,9 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
   }
 
   public openAddNoteInModal(): void {
-    this.modalService.open(this.addNoteInModal, DEFAULT_MODAL_OPTIONS);
+    this.submitted = false;
+    this.addNoteForm.reset();
+    this.modal.open();
   }
 
   public ngOnInit(): void {
@@ -103,6 +102,7 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.submitted = false;
             this.addNoteForm.reset();
+            this.modal.close();
             this.cancel.emit();
             this.getUsagerNotes.emit();
           },

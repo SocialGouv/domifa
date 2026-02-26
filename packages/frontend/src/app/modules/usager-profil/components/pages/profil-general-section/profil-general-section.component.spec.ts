@@ -11,6 +11,7 @@ import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../../shared";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
+import { SharedModule } from "../../../../shared/shared.module";
 
 describe("ProfilGeneralSectionComponent", () => {
   let component: ProfilGeneralSectionComponent;
@@ -24,6 +25,7 @@ describe("ProfilGeneralSectionComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         StoreModule.forRoot({ app: _usagerReducer }),
+        SharedModule,
       ],
       providers: [
         provideHttpClient(),

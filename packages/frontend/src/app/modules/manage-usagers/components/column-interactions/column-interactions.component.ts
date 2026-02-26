@@ -1,21 +1,19 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnDestroy,
-  TemplateRef,
+  Output,
   ViewChild,
 } from "@angular/core";
-import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
-import {
-  InteractionInForApi,
-  DEFAULT_MODAL_OPTIONS,
-} from "../../../../../_common/model";
+import { InteractionInForApi } from "../../../../../_common/model";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { InteractionService } from "../../../usager-shared/services";
 import { INTERACTIONS_LABELS_SINGULIER, InteractionType } from "@domifa/common";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-manage-usagers-interactions",
@@ -25,12 +23,13 @@ import { INTERACTIONS_LABELS_SINGULIER, InteractionType } from "@domifa/common";
 })
 export class ColumnInteractionsComponent implements OnDestroy {
   @ViewChild("setInteractionInModal")
-  public setInteractionInModal!: TemplateRef<NgbModalRef>;
+  public setInteractionInModal!: DsfrModalComponent;
 
   @ViewChild("setInteractionOutModal")
-  public setInteractionOutModal!: TemplateRef<NgbModalRef>;
+  public setInteractionOutModal!: DsfrModalComponent;
 
-  private lastModalRef: NgbModalRef | null = null;
+  @Output()
+  public updateInteractions = new EventEmitter<void>();
 
   public isInteractionLoading: { [key in InteractionType]?: boolean } = {
     courrierIn: false,
@@ -48,8 +47,7 @@ export class ColumnInteractionsComponent implements OnDestroy {
 
   constructor(
     private readonly interactionService: InteractionService,
-    private readonly toastService: CustomToastService,
-    private readonly modalService: NgbModal
+    private readonly toastService: CustomToastService
   ) {}
 
   public setSingleInteraction(
@@ -89,39 +87,41 @@ export class ColumnInteractionsComponent implements OnDestroy {
     );
   }
 
-  public openInteractionInModal() {
-    this.lastModalRef = this.modalService.open(
-      this.setInteractionInModal,
-      DEFAULT_MODAL_OPTIONS
-    );
+  public openInteractionInModal(): void {
+    this.setInteractionInModal.open();
   }
 
-  public openInteractionOutModal() {
-    this.lastModalRef = this.modalService.open(
-      this.setInteractionOutModal,
-      DEFAULT_MODAL_OPTIONS
-    );
+  public openInteractionOutModal(): void {
+    this.setInteractionOutModal.open();
+  }
+
+  public closeInteractionInModal(
+    interactionType: InteractionType | "distribution" | "reception",
+    usagerRef: number
+  ): void {
+    this.setInteractionInModal.close();
+    this.setFocusOnElement(interactionType, usagerRef);
+  }
+
+  public closeInteractionOutModal(
+    interactionType: InteractionType | "distribution" | "reception",
+    usagerRef: number
+  ): void {
+    this.setInteractionOutModal.close();
+    this.setFocusOnElement(interactionType, usagerRef);
   }
 
   public cancelReception(
     interactionType: InteractionType | "distribution" | "reception",
     usagerRef: number
-  ) {
-    this.modalService.dismissAll();
-    this.lastModalRef.result.then(
-      () => {
-        this.setFocusOnElement(interactionType, usagerRef);
-      },
-      () => {
-        this.setFocusOnElement(interactionType, usagerRef);
-      }
-    );
+  ): void {
+    this.setFocusOnElement(interactionType, usagerRef);
   }
 
   private setFocusOnElement(
     interactionType: InteractionType | "distribution" | "reception",
     usagerRef: number
-  ) {
+  ): void {
     setTimeout(() => {
       let usagerElement = document.getElementById(
         `${interactionType}-${usagerRef}`

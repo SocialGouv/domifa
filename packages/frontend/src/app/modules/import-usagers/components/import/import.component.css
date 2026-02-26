@@ -1,59 +1,38 @@
 #import-table {
   max-height: 50vh;
   overflow: auto;
-  margin: 20px auto;
-  overflow-x: scroll;
-  border: 1px solid #dbdbdb;
+  border: 1px solid var(--border-default-grey);
+
+  table {
+    min-width: 6500px;
+  }
+
+  td:nth-child(n + 3) {
+    min-width: 220px;
+  }
+
+  th:first-child,
+  td:first-child {
+    position: sticky;
+    left: 0;
+    width: 60px;
+    background-color: var(--background-default-grey);
+  }
+
+  tbody tr:nth-of-type(odd) td:first-child {
+    background-color: var(--background-alt-grey);
+  }
+
+  .required::after {
+    color: var(--text-default-error);
+    content: " *";
+  }
 }
 
-#import-table table {
-  min-width: 6500px;
-}
-
-#import-table td:nth-child(n + 3) {
-  min-width: 220px;
-}
-
-#import-table th {
-  border-top: none;
-  vertical-align: middle;
-}
-
-#import-table th:first-child,
-#import-table td:first-child {
-  position: sticky;
-  left: 0;
-  width: 60px;
-}
-
-#import-table tbody tr:nth-of-type(odd) th:first-child,
-#import-table tbody tr:nth-of-type(odd) td:first-child {
-  background-color: #f1f2f1 !important;
-}
-
-#import-table tbody tr:nth-of-type(even) th:first-child,
-#import-table tbody tr:nth-of-type(even) td:first-child {
-  background-color: white !important;
-}
-
-#import-table .required:after {
-  color: var(--bs-danger);
-  content: " *";
-}
-
-#import-menu .btn {
-  margin-top: 0.5rem;
-  width: 300px;
-  margin-left: auto;
-  display: block;
-  margin-right: auto;
+.cell--error {
+  background-color: var(--background-contrast-error) !important;
 }
 
 #errors-list {
-  margin: 20px auto;
-  padding: 15px 10px;
-  border: 1px solid var(--bs-danger);
-}
-.table > :not(caption) > * > * {
-  background-color: transparent;
+  border: 1px solid var(--border-plain-error);
 }

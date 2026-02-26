@@ -7,7 +7,7 @@
         type="button"
         *ngIf="!isFormVisible"
         (click)="showForm()"
-        class="btn btn-outline-dark"
+        class="fr-btn fr-btn--secondary"
       >
         <fa-icon
           aria-hidden="true"
@@ -21,7 +21,7 @@
         type="button"
         *ngIf="isFormVisible"
         (click)="hideForm()"
-        class="btn btn-outline-dark"
+        class="fr-btn fr-btn--secondary"
       >
         <fa-icon
           aria-hidden="true"
@@ -71,9 +71,9 @@
         type="button"
         (click)="openConfirmation()"
         aria-label="Supprimer le transfert"
-        class="btn btn-danger me-2"
+        class="fr-btn me-2"
       >
-        <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
+        <span class="fr-icon-delete-line" aria-hidden="true"></span>
       </button>
     </p>
   </div>
@@ -260,7 +260,7 @@
       </div>
       <div class="col-12 text-center">
         <button
-          class="btn btn-primary"
+          class="fr-btn"
           type="submit"
           [disabled]="loading"
           [attr.aria-busy]="loading"

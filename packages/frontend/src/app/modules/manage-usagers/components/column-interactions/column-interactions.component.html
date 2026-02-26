@@ -1,165 +1,118 @@
-<ng-container *ngIf="template === 'small-buttons' && usager">
-  <div class="interaction-buttons" *ngIf="usager?.echeanceInfos?.isActif">
-    <button
-      type="button"
-      [id]="'visite-' + usager.ref"
-      [disabled]="isInteractionLoading.visite"
-      [attr.aria-busy]="isInteractionLoading.visite"
-      [attr.aria-label]="'Ajout d\'un passage pour ' + (usager | fullName)"
-      [ngbTooltip]="'Ajout d\'un passage pour ' + (usager | fullName)"
-      class="interaction-btn btn-light"
-      (click)="setSingleInteraction(usager, 'visite')"
-    >
-      <fa-icon
-        [icon]="['fas', 'circle-notch']"
-        animation="spin"
-        class="list-icon-disabled"
-      >
-      </fa-icon>
-      <span class="icon-passage list-icon"></span>
-    </button>
-    <button
-      type="button"
-      [id]="'appel-' + usager.ref"
-      [disabled]="isInteractionLoading.appel"
-      [attr.aria-busy]="isInteractionLoading.appel"
-      [attr.aria-label]="
-        'Ajout d\'un appel téléphonique pour ' + (usager | fullName)
-      "
-      [ngbTooltip]="
-        'Ajout d\'un appel téléphonique pour ' + (usager | fullName)
-      "
-      class="interaction-btn btn-light"
-      (click)="setSingleInteraction(usager, 'appel')"
-    >
-      <fa-icon
-        [icon]="['fas', 'circle-notch']"
-        animation="spin"
-        class="list-icon-disabled"
-      >
-      </fa-icon>
-      <span class="icon-appel list-icon"></span>
-    </button>
-  </div>
-</ng-container>
-<ng-container *ngIf="template === 'big-buttons' && usager">
-  <div
-    class="interaction-buttons"
-    *ngIf="
-      usager?.echeanceInfos?.isActif ||
-      (usager.decision.statut === 'RADIE' && !usager.options.npai.actif)
-    "
+@if (template === 'small-buttons' && usager) { @if
+(usager?.echeanceInfos?.isActif) {
+<div class="interaction-buttons">
+  <button
+    type="button"
+    [id]="'visite-' + usager.ref"
+    [disabled]="isInteractionLoading.visite"
+    [attr.aria-busy]="isInteractionLoading.visite"
+    [attr.aria-label]="'Ajout d\'un passage pour ' + (usager | fullName)"
+    [title]="'Ajout d\'un passage pour ' + (usager | fullName)"
+    class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
+    (click)="setSingleInteraction(usager, 'visite')"
   >
-    <button
-      type="button"
-      [id]="'courrierIn-' + usager.ref"
-      [disabled]="isInteractionLoading.courrierIn"
-      [attr.aria-busy]="isInteractionLoading.courrierIn"
-      [attr.aria-label]="'Ajout d\'un courrier pour ' + (usager | fullName)"
-      class="interaction-btn btn-light"
-      (click)="setSingleInteraction(usager, 'courrierIn')"
-      [ngbTooltip]="courrierTooltip"
-    >
-      <fa-icon
-        [icon]="['fas', 'circle-notch']"
-        animation="spin"
-        class="list-icon-disabled"
-      >
-      </fa-icon>
-      <span aria-hidden="true" class="icon-courrier list-icon"></span>
-    </button>
-    <ng-template #courrierTooltip>
-      <p>Ajout d'un courrier pour {{ usager | fullName }}</p>
-    </ng-template>
-    <button
-      type="button"
-      [attr.aria-label]="
-        'Réception de courriers, colis ou recommandés pour ' +
-        (usager | fullName)
-      "
-      [id]="'reception-' + usager.ref"
-      class="interaction-btn btn-light"
-      [ngbTooltip]="receptionBox"
-      (click)="openInteractionInModal()"
-    >
-      <span aria-hidden="true" class="icon-reception list-icon"></span>
-    </button>
-    <ng-template #receptionBox>
-      <p>
-        Réception de courriers, colis ou recommandés pour
-        {{ usager | fullName }}
-      </p>
-    </ng-template>
+    <span class="icon-passage list-icon" aria-hidden="true"></span>
+  </button>
+  <button
+    type="button"
+    [id]="'appel-' + usager.ref"
+    [disabled]="isInteractionLoading.appel"
+    [attr.aria-busy]="isInteractionLoading.appel"
+    [attr.aria-label]="
+      'Ajout d\'un appel téléphonique pour ' + (usager | fullName)
+    "
+    [title]="'Ajout d\'un appel téléphonique pour ' + (usager | fullName)"
+    class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
+    (click)="setSingleInteraction(usager, 'appel')"
+  >
+    <span class="icon-appel list-icon" aria-hidden="true"></span>
+  </button>
+</div>
+} } @if (template === 'big-buttons' && usager) { @if
+(usager?.echeanceInfos?.isActif || (usager.decision.statut === 'RADIE' &&
+!usager.options.npai.actif)) {
+<div class="interaction-buttons">
+  <button
+    type="button"
+    [id]="'courrierIn-' + usager.ref"
+    [disabled]="isInteractionLoading.courrierIn"
+    [attr.aria-busy]="isInteractionLoading.courrierIn"
+    [attr.aria-label]="'Ajout d\'un courrier pour ' + (usager | fullName)"
+    [title]="'Ajout d\'un courrier pour ' + (usager | fullName)"
+    class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
+    (click)="setSingleInteraction(usager, 'courrierIn')"
+  >
+    <span aria-hidden="true" class="icon-courrier list-icon"></span>
+  </button>
 
-    <button
-      *ngIf="usager.lastInteraction.enAttente"
-      class="interaction-btn btn-light"
-      type="button"
-      [id]="'distribution-' + usager.ref"
-      [attr.aria-label]="
-        'Distribuer ' +
-        usager.standByInteractions +
-        ' courriers de ' +
-        (usager | fullName)
-      "
-      [ngbTooltip]="distributionBox"
-      (click)="openInteractionOutModal()"
-    >
-      <span class="icon-distribution list-icon"></span>
-      <strong class="notification">
-        {{ usager.standByInteractions }}
-      </strong>
-    </button>
+  <button
+    type="button"
+    [attr.aria-label]="
+      'Réception de courriers, colis ou recommandés pour ' + (usager | fullName)
+    "
+    [title]="
+      'Réception de courriers, colis ou recommandés pour ' + (usager | fullName)
+    "
+    [id]="'reception-' + usager.ref"
+    class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
+    (click)="openInteractionInModal()"
+  >
+    <span aria-hidden="true" class="icon-reception list-icon"></span>
+  </button>
 
-    <ng-template #distributionBox>
-      <div class="distribution-tooltip text-start">
-        <p class="fw-bold">Distribuer les courriers</p>
-        <p class="m-0" *ngIf="usager.lastInteraction.courrierIn > 0">
-          <span class="list-icon icon-courrier"></span>
-          <span>
-            <strong class="text-primary">{{
-              usager.lastInteraction.courrierIn
-            }}</strong>
-            courriers
-          </span>
-        </p>
+  @if (usager.lastInteraction.enAttente) {
+  <button
+    class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
+    type="button"
+    [id]="'distribution-' + usager.ref"
+    [attr.aria-label]="
+      'Distribuer ' +
+      usager.standByInteractions +
+      ' courriers de ' +
+      (usager | fullName)
+    "
+    [title]="
+      'Distribuer ' +
+      usager.standByInteractions +
+      ' courriers de ' +
+      (usager | fullName)
+    "
+    (click)="openInteractionOutModal()"
+  >
+    <span class="icon-distribution list-icon" aria-hidden="true"></span>
+    <strong class="notification">
+      {{ usager.standByInteractions }}
+    </strong>
+  </button>
+  }
+</div>
+} }
 
-        <p class="m-0" *ngIf="usager.lastInteraction.recommandeIn > 0">
-          <span class="list-icon icon-recommande"> </span>
-          <span>
-            <strong class="text-primary">{{
-              usager.lastInteraction.recommandeIn
-            }}</strong>
-            avis de passage</span
-          >
-        </p>
-
-        <p class="m-0" *ngIf="usager.lastInteraction.colisIn > 0">
-          <span class="list-icon icon-colis"> </span>
-          <span>
-            <strong class="text-primary">{{
-              usager.lastInteraction.colisIn
-            }}</strong>
-            colis</span
-          >
-        </p>
-      </div>
-    </ng-template>
-  </div>
-</ng-container>
-
-<ng-template #setInteractionInModal let-modal>
+<dsfr-modal
+  #setInteractionInModal
+  titleModal="Réception de courriers"
+  size="LG"
+  (conceal)="cancelReception('reception', usager.ref)"
+>
+  @if (usager) {
   <app-set-interaction-in-form
-    *ngIf="usager"
     [usager]="usager"
-    (cancelReception)="cancelReception('reception', usager.ref)"
+    (cancelReception)="closeInteractionInModal('reception', usager.ref)"
   ></app-set-interaction-in-form>
-</ng-template>
+  }
+</dsfr-modal>
 
-<ng-template #setInteractionOutModal let-modal>
+<dsfr-modal
+  #setInteractionOutModal
+  titleModal="Distribuer les courriers"
+  size="MD"
+  (conceal)="cancelReception('distribution', usager.ref)"
+>
+  @if (usager) {
   <app-set-interaction-out-form
-    *ngIf="usager"
     [usager]="usager"
-    (cancelReception)="cancelReception('distribution', usager.ref)"
+    (cancelReception)="closeInteractionOutModal('distribution', usager.ref)"
+    (updateInteractions)="updateInteractions.emit()"
   ></app-set-interaction-out-form>
-</ng-template>
+  }
+</dsfr-modal>

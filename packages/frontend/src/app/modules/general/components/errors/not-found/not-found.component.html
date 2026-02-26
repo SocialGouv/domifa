@@ -1,11 +1,9 @@
-<div class="notfound">
-  <h1>404</h1>
-  <h2>La page que vous recherchez n'existe pas</h2>
-  <br /><br />
-  <a
-    [routerLink]="['/']"
-    ariaCurrentWhenActive="page"
-    class="btn btn-block btn-primary"
-    >Retour à l'accueil</a
-  >
-</div>
+<dsfr-response
+  [showContact]="false"
+  [showBackToHome]="true"
+  detail="Si vous avez tapé l'adresse web dans le navigateur, vérifiez qu'elle est correcte. La page n’est peut-être plus disponible. Dans ce cas, pour continuer votre visite vous pouvez consulter notre page d’accueil. Sinon contactez-nous pour que l’on puisse vous rediriger vers la bonne information."
+  (backToHomeSelect)="backToHomeSelect()"
+  [error]="404"
+  title="Page non trouvée"
+  description="La page que vous cherchez est introuvable. Excusez-nous pour la gène occasionnée."
+></dsfr-response>

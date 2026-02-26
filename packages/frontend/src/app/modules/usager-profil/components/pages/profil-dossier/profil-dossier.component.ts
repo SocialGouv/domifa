@@ -36,6 +36,7 @@ export class ProfilDossierComponent extends BaseUsagerProfilPageComponent {
       store
     );
     this.titlePrefix = "État-civil et entretien";
+    this.section = "dossier";
   }
 
   public openEntretien(): void {
