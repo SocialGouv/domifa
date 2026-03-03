@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { SentryModule } from "@sentry/nestjs/setup";
 import { ScheduleModule } from "@nestjs/schedule";
 
 import { PortailAdminModule } from "./modules/portail-admin";
@@ -23,6 +24,7 @@ import { AppSentryInterceptor } from "./util";
 @Module({
   exports: [FileManagerService],
   imports: [
+    SentryModule.forRoot(),
     AuthModule,
     ScheduleModule.forRoot(),
     HealthModule,

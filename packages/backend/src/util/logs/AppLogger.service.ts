@@ -1,17 +1,17 @@
 import { pino, Logger, SerializedRequest, LoggerOptions } from "pino";
 import * as pinoSerializers from "pino-std-serializers";
 import traceCaller from "./traceCaller";
-import { randomUUID } from "crypto";
+import { randomUUID } from "node:crypto";
 import { NextFunction, Request, Response } from "express";
-import { AsyncLocalStorage } from "async_hooks";
+import { AsyncLocalStorage } from "node:async_hooks";
 import { INestApplication, LoggerService } from "@nestjs/common";
 import {
   addBreadcrumb,
   captureException,
   captureMessage,
   SeverityLevel,
-} from "@sentry/node";
-import { IncomingMessage } from "http";
+} from "@sentry/nestjs";
+import { IncomingMessage } from "node:http";
 import { domifaConfig } from "../../config";
 
 class Store {

@@ -1,7 +1,7 @@
 import { MessageSms } from "@domifa/common";
 import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
-import { captureMessage } from "@sentry/node";
+import { captureMessage } from "@sentry/nestjs";
 import { AxiosError } from "axios";
 import {
   MessageSmsSendResponse,

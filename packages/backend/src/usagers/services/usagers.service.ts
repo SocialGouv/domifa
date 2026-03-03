@@ -29,7 +29,7 @@ import {
 import { UsagerHistoryStateService } from "./usagerHistoryState.service";
 import { StructureUsagerExport } from "../utils/xlsx-structure-usagers-renderer";
 import { getPhoneString, appLogger } from "../../util";
-import { captureMessage } from "@sentry/node";
+import { captureMessage } from "@sentry/nestjs";
 
 @Injectable()
 export class UsagersService {

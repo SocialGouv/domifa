@@ -5,7 +5,7 @@ import {
 } from "@domifa/common";
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { getCurrentScope } from "@sentry/node";
+import { getCurrentScope } from "@sentry/nestjs";
 import {
   UserProfile,
   UserStructureAuthenticated,

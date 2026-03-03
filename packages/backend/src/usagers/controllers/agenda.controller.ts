@@ -27,7 +27,7 @@ import { UsagersService } from "../services/usagers.service";
 import { Usager } from "@domifa/common";
 import { AppointmentInvitationService } from "../services/appointment-invitation.service";
 import { appLogger } from "../../util/logs/AppLogger.service";
-import { captureException } from "@sentry/node";
+import { captureException } from "@sentry/nestjs";
 
 @ApiTags("agenda")
 @ApiBearerAuth()
