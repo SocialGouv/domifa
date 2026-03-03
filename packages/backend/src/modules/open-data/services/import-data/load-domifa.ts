@@ -13,7 +13,10 @@ import {
   cleanCity,
   cleanSpaces,
 } from "../../../../util";
-import { getAddress } from "../../../structures/services/location.service";
+import {
+  getAddress,
+  getCityCode,
+} from "../../../structures/services/location.service";
 import { OpenDataPlace } from "../../interfaces";
 import { findNetwork } from "@domifa/common";
 import { getDomiciliesSegment } from "../../functions";
@@ -33,6 +36,7 @@ export class LoadDomifaDataService implements OnModuleInit {
     }
   }
   @Cron(CronExpression.EVERY_DAY_AT_1AM, {
+    timeZone: "Europe/Paris",
     disabled: !isCronEnabled() || domifaConfig().envId !== "prod",
   })
   @SentryCron("open-data-load-domifa", {
@@ -63,6 +67,7 @@ export class LoadDomifaDataService implements OnModuleInit {
           "structureType",
           "adresseCourrier",
           "complementAdresse",
+          "cityCode",
           "id",
           "siret",
           "createdAt",
@@ -109,7 +114,7 @@ export class LoadDomifaDataService implements OnModuleInit {
     // 3️⃣ Géolocaliser seulement si nécessaire et récupérer le cityCode
     let latitude = place.latitude;
     let longitude = place.longitude;
-    let cityCode = null;
+    let cityCode = place.cityCode || null;
 
     if (!latitude || !longitude) {
       const addressToSearch = `${adresse}, ${ville} ${codePostal}`;
@@ -118,8 +123,21 @@ export class LoadDomifaDataService implements OnModuleInit {
       if (addressResult) {
         latitude = addressResult.geometry.coordinates[1];
         longitude = addressResult.geometry.coordinates[0];
-        cityCode = addressResult.properties?.citycode || null;
+        if (!cityCode) {
+          cityCode = addressResult.properties?.citycode || null;
+        }
       }
+    }
+
+    // Récupérer cityCode via géocodage inversé si toujours manquant mais lat/lon disponibles
+    if (!cityCode && latitude && longitude) {
+      cityCode = await getCityCode({
+        nom: place.nom,
+        ville,
+        codePostal,
+        latitude,
+        longitude,
+      });
     }
 
     // Récupérer le populationSegment depuis open_data_cities si cityCode disponible
@@ -240,6 +258,7 @@ export class LoadDomifaDataService implements OnModuleInit {
       const soliguideUpdates: Partial<OpenDataPlace> = {
         domifaStructureId: place.id,
         nbDomiciliesDomifa,
+        domicilieSegment,
         software: "domifa",
       };
       // Enrichir avec complementAdresse si manquant
@@ -254,6 +273,14 @@ export class LoadDomifaDataService implements OnModuleInit {
       if (placeData.reseau) {
         soliguideUpdates.reseau = placeData.reseau;
       }
+      // Enrichir avec cityCode si manquant
+      if (!nearbySoliguide.cityCode && placeData.cityCode) {
+        soliguideUpdates.cityCode = placeData.cityCode;
+      }
+      // Enrichir avec populationSegment si manquant
+      if (!nearbySoliguide.populationSegment && placeData.populationSegment) {
+        soliguideUpdates.populationSegment = placeData.populationSegment;
+      }
       await openDataPlaceRepository.update(
         { uuid: nearbySoliguide.uuid },
         soliguideUpdates
@@ -267,6 +294,7 @@ export class LoadDomifaDataService implements OnModuleInit {
       const mssUpdates: Partial<OpenDataPlace> = {
         domifaStructureId: place.id,
         nbDomiciliesDomifa,
+        domicilieSegment,
         software: "domifa",
       };
       // Enrichir avec complementAdresse si manquant
@@ -284,6 +312,14 @@ export class LoadDomifaDataService implements OnModuleInit {
       // Enrichir avec reseau (priorité DomiFa)
       if (placeData.reseau) {
         mssUpdates.reseau = placeData.reseau;
+      }
+      // Enrichir avec cityCode si manquant
+      if (!nearbyMss.cityCode && placeData.cityCode) {
+        mssUpdates.cityCode = placeData.cityCode;
+      }
+      // Enrichir avec populationSegment si manquant
+      if (!nearbyMss.populationSegment && placeData.populationSegment) {
+        mssUpdates.populationSegment = placeData.populationSegment;
       }
 
       await openDataPlaceRepository.update(

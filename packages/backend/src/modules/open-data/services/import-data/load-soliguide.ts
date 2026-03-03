@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
-import * as Sentry from "@sentry/nestjs";
+import { SentryCron } from "@sentry/nestjs";
 import { domifaConfig } from "../../../../config";
 import {
   findNetwork,
@@ -43,21 +43,18 @@ export class LoadSoliguideDataService implements OnModuleInit {
 
   @Cron(CronExpression.EVERY_DAY_AT_11PM, {
     timeZone: "Europe/Paris",
+    disabled: !isCronEnabled() || domifaConfig().envId !== "prod",
+  })
+  @SentryCron("open-data-load-soliguide", {
+    schedule: {
+      type: "crontab",
+      value: CronExpression.EVERY_DAY_AT_11PM,
+    },
+    timezone: "Europe/Paris",
+    checkinMargin: 10,
+    maxRuntime: 60,
   })
   async importSoliguideData(): Promise<void> {
-    // Check if Sentry is loaded
-    if (!Sentry || typeof Sentry.captureCheckIn !== "function") {
-      appLogger.warn("⚠️ Sentry is not loaded, skipping monitoring check-in");
-      return;
-    }
-
-    appLogger.info("✅ Sentry is loaded and active");
-
-    const checkInId = Sentry.captureCheckIn({
-      monitorSlug: "open-data-load-soliguide",
-      status: "in_progress",
-    });
-
     appLogger.info("Import Soliguide start 🏃‍♂️...");
 
     // Reset state
@@ -69,11 +66,6 @@ export class LoadSoliguideDataService implements OnModuleInit {
 
     try {
       if (!this.validateConfig()) {
-        Sentry.captureCheckIn({
-          checkInId,
-          monitorSlug: "open-data-load-soliguide",
-          status: "error",
-        });
         return;
       }
 
@@ -82,19 +74,8 @@ export class LoadSoliguideDataService implements OnModuleInit {
       appLogger.info("✅ Import 'soliguide' data done");
       appLogger.info(`🆕 ${this.newPlaces} places added`);
       appLogger.info(`🔁 ${this.updatedPlaces} places updated`);
-
-      Sentry.captureCheckIn({
-        checkInId,
-        monitorSlug: "open-data-load-soliguide",
-        status: "ok",
-      });
     } catch (error) {
       appLogger.error("Fatal error during Soliguide import", error);
-      Sentry.captureCheckIn({
-        checkInId,
-        monitorSlug: "open-data-load-soliguide",
-        status: "error",
-      });
       throw error;
     }
   }
@@ -327,6 +308,9 @@ export class LoadSoliguideDataService implements OnModuleInit {
         if (nearbyDomifa.nbDomiciliesDomifa) {
           updates.nbDomiciliesDomifa = nearbyDomifa.nbDomiciliesDomifa;
           updates.software = "domifa";
+        }
+        if (nearbyDomifa.domicilieSegment) {
+          updates.domicilieSegment = nearbyDomifa.domicilieSegment;
         }
         // Enrichir avec complementAdresse si manquant dans Soliguide
         if (

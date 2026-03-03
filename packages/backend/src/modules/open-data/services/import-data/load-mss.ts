@@ -213,6 +213,10 @@ export class LoadMssDataService implements OnModuleInit {
           updates.nbDomiciliesDomifa = nearbyDomifa.nbDomiciliesDomifa;
           updates.software = "domifa";
         }
+        // Enrichir avec domicilieSegment
+        if (nearbyDomifa.domicilieSegment) {
+          updates.domicilieSegment = nearbyDomifa.domicilieSegment;
+        }
         // Enrichir avec saturation si disponible
         if (nearbyDomifa.saturation) {
           updates.saturation = nearbyDomifa.saturation;
@@ -232,6 +236,14 @@ export class LoadMssDataService implements OnModuleInit {
         if (nearbyDomifa.reseau) {
           updates.reseau = nearbyDomifa.reseau;
         }
+        // Enrichir MSS avec cityCode si manquant
+        if (!mssData.cityCode && nearbyDomifa.cityCode) {
+          updates.cityCode = nearbyDomifa.cityCode;
+        }
+        // Enrichir MSS avec populationSegment si manquant
+        if (!mssData.populationSegment && nearbyDomifa.populationSegment) {
+          updates.populationSegment = nearbyDomifa.populationSegment;
+        }
 
         // Enrichir DomiFa avec complementAdresse et siret MSS si manquants
         const domifaUpdates: Partial<OpenDataPlace> = { mssId };
@@ -240,6 +252,14 @@ export class LoadMssDataService implements OnModuleInit {
         }
         if (!nearbyDomifa.siret && mssData.siret) {
           domifaUpdates.siret = mssData.siret;
+        }
+        // Enrichir DomiFa avec cityCode si manquant
+        if (!nearbyDomifa.cityCode && mssData.cityCode) {
+          domifaUpdates.cityCode = mssData.cityCode;
+        }
+        // Enrichir DomiFa avec populationSegment si manquant
+        if (!nearbyDomifa.populationSegment && mssData.populationSegment) {
+          domifaUpdates.populationSegment = mssData.populationSegment;
         }
 
         await openDataPlaceRepository.update(

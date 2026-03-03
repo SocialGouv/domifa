@@ -5,7 +5,7 @@ import {
   CallHandler,
   InternalServerErrorException,
 } from "@nestjs/common";
-import { getCurrentScope, captureException } from "@sentry/node";
+import { getCurrentScope, captureException } from "@sentry/nestjs";
 import { Observable, catchError, throwError } from "rxjs";
 import { appLogger } from "../logs";
 import {

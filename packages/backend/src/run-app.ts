@@ -1,4 +1,4 @@
-import "./open-telemetry";
+import "./instrument";
 import { bootstrapApplication, tearDownApplication } from "./app.bootstrap";
 
 import { appLogger } from "./util";
