@@ -1,3 +1,10 @@
+## [2.233.5](https://github.com/SocialGouv/domifa/compare/v2.233.4...v2.233.5) (2026-03-03)
+
+
+### Bug Fixes
+
+* **backend:** upgrade backend nestjs config ([3d541c7](https://github.com/SocialGouv/domifa/commit/3d541c7415f9d9d4749b343109c7ff960733399c))
+
 ## [2.233.4](https://github.com/SocialGouv/domifa/compare/v2.233.3...v2.233.4) (2026-03-03)
 
 
