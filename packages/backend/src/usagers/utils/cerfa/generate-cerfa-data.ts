@@ -73,6 +73,14 @@ export const generateCerfaData = (
   const motif =
     decisionToUse.statut === "REFUS" ? generateMotifLabel(decisionToUse) : "";
 
+  let cerfaDecisionChecker = "";
+
+  if (decisionToUse.statut === "REFUS") {
+    cerfaDecisionChecker = "2";
+  } else if (decisionToUse.statut === "VALIDE") {
+    cerfaDecisionChecker = "1";
+  }
+
   return {
     adresse: adresseDomicilie,
     adresseOrga1: adresseStructure,
@@ -89,7 +97,8 @@ export const generateCerfaData = (
     ayantsDroits: getAyantsDroit(usager),
     courriel,
     courrielOrga: user.structure.email,
-    decision: decisionToUse.statut === "REFUS" ? "2" : "1",
+    decision: cerfaDecisionChecker,
+
     entretienAdresse: adresseStructure,
     entretienAvec,
     heureRdv: dateRdv.heure,
