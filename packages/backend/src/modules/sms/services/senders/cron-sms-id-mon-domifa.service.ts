@@ -15,29 +15,29 @@ export class CronSmsMonDomiFaService {
     private readonly messageSmsSenderService: MessageSmsSenderService
   ) {}
 
-  @Cron(CronExpression.EVERY_HOUR, {
+  @Cron(CronExpression.EVERY_5_MINUTES, {
     timeZone: "Europe/Paris",
     disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
   })
   @SentryCron("sms-mon-domifa-batch", {
     schedule: {
       type: "crontab",
-      value: CronExpression.EVERY_HOUR,
+      value: CronExpression.EVERY_5_MINUTES,
     },
     timezone: "Europe/Paris",
     checkinMargin: 10,
     maxRuntime: 50,
   })
   protected async processSMSBatch() {
-    appLogger.info("[SMS BATCH] Début d'envoi d'un batch de 500 SMS");
+    appLogger.info("[SMS BATCH] Début d'envoi d'un batch de 250 SMS");
 
     try {
       const now = new Date();
       const currentHour = now.getHours();
 
-      if (currentHour >= 23) {
+      if (currentHour < 9 || currentHour >= 19) {
         appLogger.info(
-          `[SMS BATCH] Hors plage horaire (${currentHour}h) - Arrêt de l'envoi`
+          `[SMS BATCH] Hors plage horaire (${currentHour}h) - Envoi uniquement entre 9h et 19h`
         );
         return;
       }
@@ -47,7 +47,7 @@ export class CronSmsMonDomiFaService {
           status: "TO_SEND",
           smsId: "idMonDomiFa",
         },
-        take: 200,
+        take: 250,
       });
 
       if (smsToSend.length === 0) {
