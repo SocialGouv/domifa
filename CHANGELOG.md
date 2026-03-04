@@ -1,3 +1,10 @@
+# [2.234.0](https://github.com/SocialGouv/domifa/compare/v2.233.6...v2.234.0) (2026-03-04)
+
+
+### Features
+
+* **backend:** add mondomifa SMS ([c360ffd](https://github.com/SocialGouv/domifa/commit/c360ffdbe8b8dcb0c060e9a5eba51a6c03c23ac9))
+
 ## [2.233.6](https://github.com/SocialGouv/domifa/compare/v2.233.5...v2.233.6) (2026-03-04)
 
 
