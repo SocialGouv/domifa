@@ -1,3 +1,10 @@
+## [2.233.6](https://github.com/SocialGouv/domifa/compare/v2.233.5...v2.233.6) (2026-03-04)
+
+
+### Bug Fixes
+
+* **frontend:** fix politique ([5864aad](https://github.com/SocialGouv/domifa/commit/5864aad6ab9fb9603f3cc64e3f5402e44f3743ad))
+
 ## [2.233.5](https://github.com/SocialGouv/domifa/compare/v2.233.4...v2.233.5) (2026-03-03)
 
 
