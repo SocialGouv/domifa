@@ -1,8 +1,4 @@
 export const LIENS_PARTENAIRES = [
-  {
-    label: "La fabrique numérique",
-    path: "https://www.fabrique.social.gouv.fr/",
-  },
   { label: "Beta.gouv.fr", path: "https://beta.gouv.fr/" },
   {
     label: "France relance",
