@@ -1,8 +1,8 @@
 import { PhoneNumberFormat } from "google-libphonenumber";
 import { format } from "date-fns";
-import { appLogger, getPhoneString } from "../../util";
-import { messageSmsRepository, MessageSmsTable } from "../../database";
 import { QueryRunner } from "typeorm";
+import { MessageSmsTable, messageSmsRepository } from "../database";
+import { appLogger, getPhoneString } from "../util";
 
 export async function createSmsMigrationForStructure(
   queryRunner: QueryRunner,
