@@ -1,3 +1,11 @@
+## [2.234.1](https://github.com/SocialGouv/domifa/compare/v2.234.0...v2.234.1) (2026-03-05)
+
+
+### Bug Fixes
+
+* **backend:** fix build of backend ([c833b17](https://github.com/SocialGouv/domifa/commit/c833b173ee22a7517c7ca7d294fcc71ba6349e82))
+* **backend:** fix migration reboot ([d097080](https://github.com/SocialGouv/domifa/commit/d097080282785d709e1fef203fef28ff01d9a9d6))
+
 # [2.234.0](https://github.com/SocialGouv/domifa/compare/v2.233.6...v2.234.0) (2026-03-04)
 
 
