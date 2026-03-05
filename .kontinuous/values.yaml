@@ -159,7 +159,7 @@ backend-cron:
     <<: *backendVars
     DOMIFA_CRON_ENABLED: "true"
     DOMIFA_SENTRY_ENABLED: "true"
-    DOMIFA_SENTRY_DEBUG_MODE_ENABLED: "true"
+    DOMIFA_SENTRY_DEBUG_MODE_ENABLED: "false"
 
   securityContext:
     fsGroup: 1000
