@@ -1,3 +1,4 @@
+import { DsfrFooterModule } from "@edugouvfr/ngx-dsfr";
 import { CommonModule } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import {
@@ -15,7 +16,15 @@ import { InputReferrerComponent } from "./components/input-referrer/input-referr
 import { FormsModule } from "@angular/forms";
 import { FonctionSelectionComponent } from "./components/fonction-selection/fonction-selection.component";
 import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
+import {
+  DsfrDropdownMenuComponent,
+  DsfrDropdownMenuItemComponent,
+} from "@edugouvfr/ngx-dsfr-ext";
+import { HasRoleDirective } from "./directives/has-role.directive";
+import { AlerteConfidentialiteComponent } from "../general/components/navbar/fragments/alerte-confidentialite/alerte-confidentialite.component";
+import { UserStructurePasswordFormComponent } from "./components/user-structure-password-form/user-structure-password-form.component";
 
+import { DsfrTimelineComponent } from "@edugouvfr/ngx-dsfr-ext";
 @NgModule({
   imports: [
     CommonModule,
@@ -23,6 +32,12 @@ import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
     FormsModule,
     FullNamePipe,
     FonctionFormatPipe,
+    DsfrFooterModule,
+    HasRoleDirective,
+    DsfrDropdownMenuComponent,
+    AlerteConfidentialiteComponent,
+    DsfrTimelineComponent,
+    DsfrDropdownMenuItemComponent,
   ],
   declarations: [
     DateFrDirective,
@@ -32,6 +47,7 @@ import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
     ButtonComponent,
     InputReferrerComponent,
     FonctionSelectionComponent,
+    UserStructurePasswordFormComponent,
   ],
   exports: [
     ReplaceLineBreaks,
@@ -39,10 +55,17 @@ import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
     FonctionSelectionComponent,
     DateFrDirective,
     CleanStrDirective,
+    HasRoleDirective,
     CustomToastrComponent,
     FontAwesomeModule,
     ButtonComponent,
     FonctionFormatPipe,
+    DsfrFooterModule,
+    DsfrDropdownMenuComponent,
+    AlerteConfidentialiteComponent,
+    UserStructurePasswordFormComponent,
+    DsfrTimelineComponent,
+    DsfrDropdownMenuItemComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

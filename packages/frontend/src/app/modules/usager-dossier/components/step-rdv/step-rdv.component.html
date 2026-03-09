@@ -1,327 +1,331 @@
 <app-step-header
   *ngIf="usager"
-  [currentStep]="1"
   [usager]="usager"
+  [currentStep]="1"
 ></app-step-header>
 
-<div class="content" *ngIf="usager && currentUserSubject$ | async as me">
-  <div class="container py-3">
-    <div class="step-form" *ngIf="!editRdv">
-      <div class="row text-center">
-        <div class="col">
-          <h2 class="form-title">
-            Un entretien pour {{ usager.nom }} {{ usager.prenom }} est déjà
-            programmé
-          </h2>
+<div class="fr-content-container">
+  <div class="fr-container" *ngIf="usager && currentUserSubject$ | async as me">
+    <div class="fr-content">
+      <app-form-stepper
+        *ngIf="usager"
+        [usager]="usager"
+        [currentStep]="1"
+      ></app-form-stepper>
 
-          <p>
-            Le
-            <strong> {{ usager.rdv.dateRdv | date : "dd MMMM yyyy" }} </strong>
-            <br />
-            à
-            <strong> {{ usager.rdv.dateRdv | date : "HH:mm" }} </strong>
-            <br />
-            avec
-            <strong>{{ usager.rdv.userName }}</strong>
-            <br />
-            <br />
-            <button (click)="rdvNow()" class="btn btn-primary" type="button">
-              <span *ngIf="loading">
-                <fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'circle-notch']"
-                  animation="spin"
-                >
-                </fa-icon>
-                Veuillez patienter...
-              </span>
-              <span *ngIf="!loading"> Réaliser l'entretien maintenant</span>
-            </button>
-            <br />
-            <br />
-            <button
-              type="button"
-              (click)="editRdv = true"
-              class="btn btn-outline-primary"
-            >
-              Modifier la date du rendez-vous
-            </button>
-            <br />
-            <br />
+      <div class="fr-py-3w">
+        @if (!editRdv) {
+        <div class="fr-grid-row fr-grid-row--center">
+          <div class="fr-col-12 text-center fr-text--center">
+            <img src="assets/images/usager-form/entretien.svg" alt="" />
+            <h2 class="fr-h3">
+              Un entretien pour {{ usager.nom }} {{ usager.prenom }} est déjà
+              programmé
+            </h2>
+
+            <p class="fr-callout__text">
+              Le
+              <span class="fr-text--bold">{{
+                usager.rdv.dateRdv | date : "dd MMMM yyyy"
+              }}</span
+              ><br />
+              à
+              <span class="fr-text--bold">{{
+                usager.rdv.dateRdv | date : "HH:mm"
+              }}</span
+              ><br />
+              avec <span class="fr-text--bold">{{ usager.rdv.userName }}</span>
+            </p>
+          </div>
+
+          <div class="fr-col-12 fr-my-2w text-center">
             <button
               type="button"
               (click)="getCerfa(CerfaDocType.demande)"
-              class="btn btn-outline-primary"
+              class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-download-line"
             >
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'download']"
-                class="me-2"
-              ></fa-icon>
               Télécharger l'attestation de demande
             </button>
-            <br />
-          </p>
-        </div>
-      </div>
-    </div>
+          </div>
 
-    <form [formGroup]="rdvForm" *ngIf="editRdv" (ngSubmit)="submitRdv()">
-      <fieldset class="step-form text-center">
-        <legend class="form-title mb-3 text-center">
-          Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom }} ?
-        </legend>
-
-        <div
-          class="card my-2"
-          [ngClass]="{
-            card_selected: r.isNow.value === true
-          }"
-        >
-          <div class="card-body" tabindex="0" (click)="setValueRdv(true)">
-            <div class="form-check-rdv mb-2 text-center">
-              <input
-                class="form-check-input me-2"
-                type="radio"
-                formControlName="isNow"
-                name="isNow"
-                id="rdvNow"
-                [value]="true"
-              />
-              <label class="form-check-label" for="rdvNow"
-                >L'entretien a lieu maintenant</label
-              >
-            </div>
-            <p class="card-text">
-              Pas besoin de fixer de date d'entretien ultérieure : l'entretien
-              est réalisé maintenant
-            </p>
-            <div
-              class="col-12 col-md-4 offset-md-4 text-center"
-              *ngIf="r.isNow.value === true"
+          <div class="fr-col-12 text-center">
+            <button
+              (click)="rdvNow()"
+              [disabled]="loading"
+              [attr.aria-busy]="loading"
+              class="fr-btn fr-mx-2w"
+              type="button"
             >
-              <button
-                [disabled]="loading"
-                [attr.aria-busy]="loading"
-                type="submit"
-                class="btn btn-primary btn-block"
-              >
-                <span *ngIf="!loading">
-                  Suivant
-                  <fa-icon
-                    [icon]="['fas', 'angle-right']"
-                    aria-hidden="true"
-                  ></fa-icon>
-                </span>
+              @if (loading) {
+              <i class="fr-icon-loader-4-line" aria-hidden="true"></i>
+              Veuillez patienter... } @else { Réaliser l'entretien maintenant }
+            </button>
 
-                <span *ngIf="loading"
-                  ><fa-icon
-                    [icon]="['fas', 'circle-notch']"
-                    animation="spin"
-                    aria-hidden="true"
-                  >
-                  </fa-icon>
-                  Veuillez patienter...</span
-                >
-              </button>
-            </div>
+            <button
+              type="button"
+              (click)="editRdv = true"
+              class="fr-btn fr-btn--secondary"
+            >
+              Modifier la date du rendez-vous
+            </button>
           </div>
         </div>
+        } @else {
+        <form [formGroup]="rdvForm" (ngSubmit)="submitRdv()">
+          <fieldset class="rdv-form">
+            <legend class="fr-h3">
+              Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom }} ?
+            </legend>
 
-        <div
-          class="card my-4"
-          [ngClass]="{
-            card_selected: r.isNow.value === false
-          }"
-        >
-          <div class="card-body" tabindex="0" (click)="setValueRdv(false)">
-            <div class="form-check-rdv mb-2 text-center">
-              <input
-                class="form-check-input me-2"
-                type="radio"
-                id="rdv"
-                [value]="false"
-                formControlName="isNow"
-                name="isNow"
-              />
-              <label class="form-check-label" for="rdv"
-                >Fixer une date de rendez-vous</label
+            <div class="rdv-radios-group">
+              <div
+                class="rdv-choice"
+                [class.rdv-choice--selected]="r.isNow.value === true"
+                [class.rdv-choice--idle]="r.isNow.value !== true"
               >
-            </div>
-            <p class="card-text">
-              L'entretien sera réalisé plus tard, par vous-même ou un autre
-              collaborateur.
-            </p>
-            <p *ngIf="r.isNow.value === false">
-              Les champs suivis d'un
-              <span class="fw-bold text-danger">*</span> sont obligatoires
-            </p>
-            <div class="row text-center" *ngIf="r.isNow.value === false">
-              <div class="form-group col-12 col-md-4 required">
-                <label for="rdvUser">Avec quel collaborateur ?</label>
-                <select
-                  [ngClass]="{
-                    'is-invalid':
-                      (submitted || r.userId.dirty) && r.userId.invalid
-                  }"
-                  [attr.aria-describedby]="
-                    (submitted || r.userId.dirty) && r.userId.invalid
-                      ? 'user-errors'
-                      : null
-                  "
-                  [attr.aria-invalid]="
-                    (submitted || r.userId.dirty) && r.userId.invalid
-                      ? true
-                      : false
-                  "
-                  id="rdvUser"
-                  formControlName="userId"
-                  name="userId"
-                  class="form-select"
-                  required
-                >
-                  <option value=""></option>
-                  <option *ngFor="let user of users" [ngValue]="user.id">
-                    {{ user.nom }} {{ user.prenom }}
-                  </option>
-                </select>
-                <p
-                  *ngIf="r.userId.dirty && r.userId.invalid"
-                  class="text-center invalid-feedback"
-                  id="user-errors"
-                >
-                  Veuillez choisir un collaborateur
+                <div class="rdv-select">
+                  <div class="fr-radio-group">
+                    <input
+                      type="radio"
+                      formControlName="isNow"
+                      name="isNow"
+                      id="rdvNow"
+                      [value]="true"
+                    />
+                    <label class="fr-label fr-text--lead" for="rdvNow"
+                      >L'entretien a lieu maintenant</label
+                    >
+                  </div>
+                </div>
+
+                <p class="rdv-description">
+                  Pas besoin de fixer de date d'entretien ultérieure :
+                  l'entretien est réalisé maintenant
                 </p>
               </div>
-              <div class="form-group col-12 col-md-4 required">
-                <label for="jourRdv">Date du rendez-vous</label>
-                <div class="input-group">
-                  <input
-                    class="form-control"
-                    placeholder="jj/mm/aaaa"
-                    [minDate]="minDateToday"
-                    [maxDate]="maxDateRdv"
-                    placement="auto"
-                    id="jourRdv"
-                    ngbDatepicker
-                    formControlName="jourRdv"
-                    name="jourRdv"
-                    #dRdv="ngbDatepicker"
-                    [ngClass]="{
-                      'is-invalid':
-                        (submitted || r.jourRdv.dirty) && r.jourRdv.errors
-                    }"
-                    [attr.aria-describedby]="
-                      (submitted || r.jourRdv.dirty) && r.jourRdv.errors
-                        ? 'jourRdv-errors'
-                        : null
-                    "
-                    [attr.aria-invalid]="
-                      (submitted || r.jourRdv.dirty) && r.jourRdv.errors
-                        ? true
-                        : false
-                    "
-                    required
-                  />
 
-                  <button
-                    type="button"
-                    aria-label="Sélectionner une date de rendez-vous sur le calendrier"
-                    class="input-group-text btn btn-outline-primary"
-                    (click)="dRdv.toggle()"
-                  >
-                    <fa-icon
-                      [icon]="['fas', 'calendar']"
-                      aria-hidden="true"
-                    ></fa-icon>
-                  </button>
-
-                  <p
-                    *ngIf="r.jourRdv.invalid"
-                    id="jourRdv-errors"
-                    class="text-center invalid-feedback"
-                  >
-                    La date est incorrecte
-                  </p>
-                </div>
-              </div>
-              <div class="form-group col-12 col-md-4 required">
-                <label for="heureRdv">Heure du rendez-vous</label>
-                <div class="input-group">
-                  <input
-                    type="time"
-                    class="form-control"
-                    [ngClass]="{
-                      'is-invalid':
-                        (submitted || r.heureRdv.dirty) && r.heureRdv.errors
-                    }"
-                    [attr.aria-describedby]="
-                      (submitted || r.heureRdv.dirty) && r.heureRdv.errors
-                        ? 'heureRdv-errors'
-                        : null
-                    "
-                    [attr.aria-invalid]="
-                      (submitted || r.heureRdv.dirty) && r.heureRdv.errors
-                        ? true
-                        : false
-                    "
-                    id="heureRdv"
-                    formControlName="heureRdv"
-                    name="heureRdv"
-                    required
-                  />
-                </div>
-                <div id="heureRdv-errors">
-                  <p
-                    *ngIf="r.heureRdv.errors?.required"
-                    class="small form-text text-center text-danger"
-                  >
-                    L'heure est obligatoire
-                  </p>
-                  <p
-                    *ngIf="r.heureRdv.errors?.dateInvalid"
-                    class="small form-text text-center text-danger"
-                  >
-                    L'horaire choisi est incorrect
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div
-              class="col-12 col-md-4 offset-md-4 text-center"
-              *ngIf="r.isNow.value === false"
-            >
-              <br />
-              <button
-                [disabled]="loading"
-                [attr.aria-busy]="loading"
-                type="submit"
-                class="btn btn-primary btn-block"
+              <div
+                class="rdv-choice"
+                [class.rdv-choice--selected]="r.isNow.value === false"
+                [class.rdv-choice--idle]="r.isNow.value !== false"
               >
-                <span *ngIf="!loading">
-                  Suivant
-                  <fa-icon
-                    [icon]="['fas', 'angle-right']"
-                    aria-hidden="true"
-                  ></fa-icon>
-                </span>
+                <div class="rdv-select">
+                  <div class="fr-radio-group">
+                    <input
+                      type="radio"
+                      formControlName="isNow"
+                      name="isNow"
+                      id="rdvLater"
+                      [value]="false"
+                    />
+                    <label class="fr-label fr-text--lead" for="rdvLater"
+                      >Fixer une date de rendez-vous</label
+                    >
+                  </div>
+                </div>
 
-                <span *ngIf="loading"
-                  ><fa-icon
-                    [icon]="['fas', 'circle-notch']"
-                    animation="spin"
-                    aria-hidden="true"
-                  >
-                  </fa-icon>
-                  Veuillez patienter...</span
-                >
-              </button>
+                <p class="rdv-description">
+                  L'entretien sera réalisé plus tard, par vous-même ou un autre
+                  collaborateur.
+                </p>
+                @if (r.isNow.value === false) {
+                <div class="fr-grid-row fr-grid-row--gutters fr-my-2w">
+                  <div class="fr-col-12 fr-col-md-4">
+                    <div
+                      class="fr-input-group required"
+                      [ngClass]="{
+                        'fr-input-group--error':
+                          (submitted || r.userId.dirty) && r.userId.invalid
+                      }"
+                      id="input-group-user"
+                    >
+                      <label class="fr-label" for="rdvUser">
+                        Avec quel collaborateur ?
+                      </label>
+                      <select
+                        class="fr-select"
+                        id="rdvUser"
+                        formControlName="userId"
+                        name="userId"
+                        [attr.aria-describedby]="
+                          (submitted || r.userId.dirty) && r.userId.invalid
+                            ? 'rdvUser-messages'
+                            : null
+                        "
+                        [attr.aria-invalid]="
+                          (submitted || r.userId.dirty) && r.userId.invalid
+                            ? true
+                            : false
+                        "
+                        required
+                      >
+                        <option value=""></option>
+                        <ng-container *ngFor="let user of users">
+                          <option [ngValue]="user.id">
+                            {{ user.nom }} {{ user.prenom }}
+                          </option>
+                        </ng-container>
+                      </select>
+                      @if ((submitted || r.userId.dirty) && r.userId.invalid) {
+                      <div
+                        class="fr-messages-group"
+                        id="rdvUser-messages"
+                        aria-live="polite"
+                      >
+                        <p class="fr-message fr-message--error">
+                          Veuillez choisir un collaborateur
+                        </p>
+                      </div>
+                      }
+                    </div>
+                  </div>
+
+                  <div class="fr-col-12 fr-col-md-4">
+                    <div
+                      class="fr-input-group required"
+                      [ngClass]="{
+                        'fr-input-group--error':
+                          (submitted || r.jourRdv.dirty) && r.jourRdv.errors
+                      }"
+                      id="input-group-date"
+                    >
+                      <label class="fr-label" for="jourRdv">
+                        Date du rendez-vous
+                      </label>
+                      <div class="fr-date-input">
+                        <input
+                          class="fr-input"
+                          placeholder="jj/mm/aaaa"
+                          [minDate]="minDateToday"
+                          [maxDate]="maxDateRdv"
+                          placement="auto"
+                          id="jourRdv"
+                          ngbDatepicker
+                          appDateFr
+                          formControlName="jourRdv"
+                          name="jourRdv"
+                          #dRdv="ngbDatepicker"
+                          [attr.aria-describedby]="
+                            (submitted || r.jourRdv.dirty) && r.jourRdv.errors
+                              ? 'jourRdv-messages'
+                              : null
+                          "
+                          [attr.aria-invalid]="
+                            (submitted || r.jourRdv.dirty) && r.jourRdv.errors
+                              ? true
+                              : false
+                          "
+                          required
+                        />
+                        <button
+                          type="button"
+                          aria-label="Sélectionner une date de rendez-vous sur le calendrier"
+                          class="date-btn"
+                          (click)="dRdv.toggle()"
+                        >
+                          <i
+                            class="fr-icon-calendar-line"
+                            aria-hidden="true"
+                          ></i>
+                        </button>
+                      </div>
+                      @if ((submitted || r.jourRdv.dirty) && r.jourRdv.errors) {
+                      <div
+                        class="fr-messages-group"
+                        id="jourRdv-messages"
+                        aria-live="polite"
+                      >
+                        <p class="fr-message fr-message--error">
+                          La date est incorrecte
+                        </p>
+                      </div>
+                      }
+                    </div>
+                  </div>
+
+                  <div class="fr-col-12 fr-col-md-4">
+                    <div
+                      class="fr-input-group required"
+                      [ngClass]="{
+                        'fr-input-group--error':
+                          (submitted || r.heureRdv.dirty) && r.heureRdv.errors
+                      }"
+                      id="input-group-time"
+                    >
+                      <label class="fr-label" for="heureRdv">
+                        Heure du rendez-vous
+                      </label>
+                      <input
+                        type="time"
+                        class="fr-input"
+                        [attr.aria-describedby]="
+                          (submitted || r.heureRdv.dirty) && r.heureRdv.errors
+                            ? 'heureRdv-messages'
+                            : null
+                        "
+                        [attr.aria-invalid]="
+                          (submitted || r.heureRdv.dirty) && r.heureRdv.errors
+                            ? true
+                            : false
+                        "
+                        id="heureRdv"
+                        formControlName="heureRdv"
+                        name="heureRdv"
+                        required
+                      />
+                      @if ((submitted || r.heureRdv.dirty) && r.heureRdv.errors)
+                      {
+                      <div
+                        class="fr-messages-group"
+                        id="heureRdv-messages"
+                        aria-live="polite"
+                      >
+                        @if (r.heureRdv.errors?.required) {
+                        <p class="fr-message fr-message--error">
+                          L'heure est obligatoire
+                        </p>
+                        } @if (r.heureRdv.errors?.dateInvalid) {
+                        <p class="fr-message fr-message--error">
+                          L'horaire choisi est incorrect
+                        </p>
+                        }
+                      </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+                }
+              </div>
             </div>
-          </div>
-        </div>
-      </fieldset>
-    </form>
+          </fieldset>
+          <br />
+          <div
+            class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
+          >
+            <button
+              [disabled]="loading"
+              [attr.aria-busy]="loading"
+              type="submit"
+              class="fr-btn"
+            >
+              <span *ngIf="!loading">
+                Suivant
+                <span
+                  class="fr-icon-arrow-right-line"
+                  aria-hidden="true"
+                ></span>
+              </span>
 
-    <app-step-footer [usager]="usager"></app-step-footer>
+              <span *ngIf="loading">
+                <span class="fr-icon-loader-line" aria-hidden="true"></span>
+                Veuillez patienter...
+              </span>
+            </button>
+          </div>
+        </form>
+        }
+      </div>
+    </div>
   </div>
+  <app-step-footer [usager]="usager"></app-step-footer>
 </div>

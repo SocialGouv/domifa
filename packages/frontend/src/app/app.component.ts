@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -13,17 +7,14 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Event, NavigationEnd, Router } from "@angular/router";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { MatomoTracker } from "ngx-matomo-client";
 import { filter, Subscription, switchMap } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-
-import { DEFAULT_MODAL_OPTIONS } from "../_common/model";
 import { CustomToastService } from "./modules/shared/services";
-
 import { fadeInOut } from "./shared";
 import { LIENS_PARTENAIRES } from "./modules/general/components/plan-site/LIENS_PARTENAIRES.const";
 import { UserStructure } from "@domifa/common";
+import { DsfrModalComponent, DsfrModalAction } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   animations: [fadeInOut],
@@ -34,21 +25,30 @@ import { UserStructure } from "@domifa/common";
 export class AppComponent implements OnInit, OnDestroy {
   public apiVersion: string | null;
   public currentUrl = "";
-
   public me: UserStructure | null;
 
-  @ViewChild("versionModal", { static: true })
-  public versionModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("acceptTermsModal")
+  public acceptTermsModalRef!: DsfrModalComponent;
 
-  @ViewChild("acceptTermsModal", { static: true })
-  public acceptTermsModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("versionModal")
+  public versionModalRef!: DsfrModalComponent;
 
   public acceptTermsForm!: FormGroup;
-  public loading: boolean;
-  public submitted: boolean;
+  public loading = false;
+  public submitted = false;
+
+  // Permet de bloquer la réouverture si une modale est déjà ouverte
+  private isAnyModalOpen = false;
+
+  public readonly versionModalActions: DsfrModalAction[] = [
+    {
+      label: "Actualiser la page",
+      icon: "fr-icon-refresh-line",
+      callback: () => this.refresh(),
+    },
+  ];
 
   private readonly subscription = new Subscription();
-
   public readonly partnerLinks = LIENS_PARTENAIRES;
 
   constructor(
@@ -57,37 +57,12 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly titleService: Title,
     private readonly toastService: CustomToastService,
     private readonly formBuilder: FormBuilder,
-    private readonly modalService: NgbModal,
     private readonly matomo: MatomoTracker
   ) {
     this.apiVersion = localStorage.getItem("version");
-
-    this.submitted = false;
-    this.loading = false;
     this.me = null;
     this.initCguForm();
     this.checkMatomo();
-  }
-
-  private checkMatomo() {
-    if (localStorage.getItem("matomo-opted-in") === null) {
-      localStorage.setItem("matomo-opted-in", JSON.stringify(true));
-    }
-
-    const disableMatomo =
-      JSON.parse(localStorage.getItem("matomo-opted-in")) === true;
-
-    if (!disableMatomo) {
-      this.matomo.optUserOut();
-    } else {
-      localStorage.setItem("matomo-opted-in", JSON.stringify(true));
-    }
-  }
-
-  private initCguForm() {
-    this.acceptTermsForm = this.formBuilder.group({
-      acceptCgu: [null, [Validators.requiredTrue]],
-    });
   }
 
   public get f(): { [key: string]: AbstractControl } {
@@ -98,39 +73,36 @@ export class AppComponent implements OnInit, OnDestroy {
     window.location.reload();
   }
 
+  public onAcceptTermsModalClosed(): void {
+    this.isAnyModalOpen = false;
+  }
+
   public ngOnInit(): void {
     this.titleService.setTitle(
       "DomiFa, l'outil qui facilite la gestion des structures domiciliatrices"
     );
 
     this.currentUrl = this.router.url;
-
     this.authService.isAuth().subscribe();
 
     this.authService.currentUserSubject.subscribe({
       next: (user: UserStructure | null) => {
         this.me = user;
 
-        if (!user || this.modalService.hasOpenModals()) {
+        if (!user || this.isAnyModalOpen) {
           return;
         }
 
         const newVersion = this.me.domifaVersion;
-        // Initialisation de la première version
+
         if (this.apiVersion === null) {
           this.apiVersion = newVersion;
           localStorage.setItem("version", newVersion);
         } else if (this.apiVersion !== newVersion) {
           localStorage.setItem("version", newVersion);
-          this.modalService.dismissAll();
-          this.modalService.open(this.versionModal, DEFAULT_MODAL_OPTIONS);
-          setTimeout(() => {
-            window.location.reload();
-          }, 10000);
-          return;
-        }
-
-        if (this.modalService.hasOpenModals()) {
+          this.isAnyModalOpen = true;
+          this.versionModalRef.open();
+          setTimeout(() => window.location.reload(), 10000);
           return;
         }
 
@@ -149,8 +121,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.currentUrl = splitUrl[0];
 
         if (typeof splitUrl[1] !== "undefined") {
-          const fragment = splitUrl[1];
-          const element = document.getElementById(fragment);
+          const element = document.getElementById(splitUrl[1]);
           if (element) {
             element.tabIndex = -1;
             element.focus();
@@ -162,18 +133,13 @@ export class AppComponent implements OnInit, OnDestroy {
             mainHeader.tabIndex = -1;
             mainHeader.focus();
           }
-
-          window.scroll({
-            behavior: "smooth",
-            left: 0,
-            top: 0,
-          });
+          window.scroll({ behavior: "smooth", left: 0, top: 0 });
         }
       });
   }
 
   public logout(): void {
-    this.modalService.dismissAll();
+    this.acceptTermsModalRef.close();
     this.authService.logout();
   }
 
@@ -210,17 +176,35 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public openAcceptTermsModal(): void {
-    this.modalService.open(this.acceptTermsModal, {
-      ...DEFAULT_MODAL_OPTIONS,
-      keyboard: false,
-    });
+    this.isAnyModalOpen = true;
+    this.acceptTermsModalRef.open();
   }
 
   public closeModals(): void {
-    this.modalService.dismissAll();
+    this.acceptTermsModalRef.close();
+    this.isAnyModalOpen = false;
   }
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  private checkMatomo(): void {
+    if (localStorage.getItem("matomo-opted-in") === null) {
+      localStorage.setItem("matomo-opted-in", JSON.stringify(true));
+    }
+    const disableMatomo =
+      JSON.parse(localStorage.getItem("matomo-opted-in")) === true;
+    if (!disableMatomo) {
+      this.matomo.optUserOut();
+    } else {
+      localStorage.setItem("matomo-opted-in", JSON.stringify(true));
+    }
+  }
+
+  private initCguForm(): void {
+    this.acceptTermsForm = this.formBuilder.group({
+      acceptCgu: [null, [Validators.requiredTrue]],
+    });
   }
 }

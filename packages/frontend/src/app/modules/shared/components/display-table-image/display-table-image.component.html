@@ -1,12 +1,15 @@
-<span
-  aria-hidden="true"
-  [ngClass]="'doc-icon icon-' + STRUCTURE_DOC_ICONS[document.filetype].iconName"
->
-  <fa-icon
+<div>
+  <img
+    [src]="
+      'assets/icones/file-type-' +
+      STRUCTURE_DOC_ICONS[document.filetype] +
+      '.svg'
+    "
+    alt=""
     aria-hidden="true"
-    [icon]="STRUCTURE_DOC_ICONS[document.filetype]"
-  ></fa-icon>
-</span>
-<span class="visually-hidden">
-  {{ STRUCTURE_DOC_EXTENSIONS_LABELS[document.filetype] }}
-</span>
+    class="table-image-icon"
+  />
+  <span class="visually-hidden">
+    {{ STRUCTURE_DOC_EXTENSIONS_LABELS[document.filetype] }}
+  </span>
+</div>

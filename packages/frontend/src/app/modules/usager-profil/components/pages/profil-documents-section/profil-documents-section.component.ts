@@ -18,6 +18,7 @@ import { UsagerState } from "../../../../../shared";
 })
 export class ProfilDocumentsSectionComponent extends BaseUsagerProfilPageComponent {
   public readonly CerfaDocType = CerfaDocType;
+
   constructor(
     protected readonly authService: AuthService,
     protected readonly usagerProfilService: UsagerProfilService,
@@ -38,6 +39,7 @@ export class ProfilDocumentsSectionComponent extends BaseUsagerProfilPageCompone
       store
     );
     this.titlePrefix = "Documents";
+    this.section = "documents";
   }
 
   public getCerfa(typeCerfa: CerfaDocType = CerfaDocType.attestation): void {

@@ -47,6 +47,10 @@ export function createform(
       structure.capacite,
       structure.structureType === "asso" ? [Validators.required] : [],
     ],
+    dsp: [
+      structure?.registrationData?.dsp ?? null,
+      structure.structureType === "asso" ? [Validators.required] : [],
+    ],
     complementAdresse: [structure.complementAdresse, []],
     departement: [structure.departement, []],
     email: [structure.email, [Validators.required, Validators.email]],
@@ -104,7 +108,8 @@ export function createform(
     ville: [structure.ville, [Validators.required, Validators.maxLength(255)]],
     acceptCgu: [null, []],
     reseau: [structure.reseau, null],
-    siret: [structure?.siret, [siretValidator]],
+    siret: [structure?.siret, [siretValidator, Validators.required]],
+    noSiret: [null, []],
     registrationData: formBuilder.group({
       source: [structure.registrationData?.source, [Validators.required]],
       sourceDetail: [structure.registrationData?.sourceDetail, []],
@@ -112,7 +117,6 @@ export function createform(
         structure.registrationData?.activeUsersCount ?? 0,
         [Validators.required, Validators.min(0)],
       ],
-      dsp: [structure?.registrationData?.dsp ?? null, []],
       currentTool: [
         structure.registrationData?.currentTool,
         [Validators.required],
@@ -152,29 +156,19 @@ export const setupFormSubscriptions = (
       form.get("agrement")?.setValidators(null);
       form.get("departement")?.setValidators(null);
       form.get("organismeType")?.setValidators(null);
-
-      const dspControl = form.get("registrationData")?.get("dsp");
-      if (dspControl) {
-        dspControl.setValidators(null);
-      }
+      form.get("dsp")?.setValidators(null);
 
       if (value === "asso") {
         form.get("agrement")?.setValidators(Validators.required);
         form.get("departement")?.setValidators(Validators.required);
-        form.get("organismeType")?.setValidators(Validators.required);
-
-        if (dspControl) {
-          dspControl.setValidators(Validators.required);
-        }
+        form.get("organismeType");
+        form.get("dsp")?.setValidators(Validators.required);
       }
 
       form.get("agrement")?.updateValueAndValidity();
       form.get("departement")?.updateValueAndValidity();
       form.get("organismeType")?.updateValueAndValidity();
-
-      if (dspControl) {
-        dspControl.updateValueAndValidity();
-      }
+      form.get("dsp")?.updateValueAndValidity();
     })
   );
 
@@ -194,6 +188,19 @@ export const setupFormSubscriptions = (
       ?.valueChanges.subscribe((value: CurrentTool) => {
         updateCurrentToolQuestion(form, value);
       })
+  );
+
+  subscription.add(
+    form.get("noSiret").valueChanges.subscribe((value) => {
+      const siretFormControl = form.get("siret");
+      if (!value) {
+        siretFormControl?.setValidators(Validators.required);
+      } else {
+        siretFormControl?.setValidators([]);
+      }
+
+      siretFormControl.updateValueAndValidity();
+    })
   );
 
   subscription.add(

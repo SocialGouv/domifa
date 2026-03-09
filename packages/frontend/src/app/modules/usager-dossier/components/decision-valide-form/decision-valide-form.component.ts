@@ -41,7 +41,7 @@ import {
   templateUrl: "./decision-valide-form.component.html",
 })
 export class DecisionValideFormComponent implements OnInit, OnDestroy {
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public usager!: UsagerFormModel;
   @Output() public closeModals = new EventEmitter<void>();
 
   public submitted: boolean = false;

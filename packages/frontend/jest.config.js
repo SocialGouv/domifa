@@ -7,4 +7,8 @@ module.exports = {
     "^assets/(.*)$": "<rootDir>/src/assets/$1",
     "^environments/(.*)$": "<rootDir>/src/environments/$1",
   },
+  transformIgnorePatterns: [
+    String.raw`node_modules/(?!.*\.mjs$|uuid|@edugouvfr/ngx-dsfr|intl-tel-input|google-libphonenumber)`,
+    "node_modules/(?!.*\\.mjs$|uuid|@edugouvfr/ngx-dsfr)",
+  ],
 };
