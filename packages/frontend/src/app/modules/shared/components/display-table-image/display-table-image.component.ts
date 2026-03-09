@@ -1,26 +1,16 @@
 import { Component, Input } from "@angular/core";
 
 import { StructureDoc, UsagerDoc } from "@domifa/common";
-import { NgClass } from "@angular/common";
-
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import {
-  faFileWord,
-  faImage,
-  faFileExcel,
-  faFilePdf,
-} from "@fortawesome/free-regular-svg-icons";
 
 @Component({
   selector: "app-display-table-image",
   templateUrl: "./display-table-image.component.html",
   standalone: true,
-  imports: [FontAwesomeModule, NgClass],
   styleUrl: "./display-table-image.component.scss",
 })
 export class DisplayTableImageComponent {
   @Input() public document!: UsagerDoc | StructureDoc;
+
   public readonly STRUCTURE_DOC_EXTENSIONS_LABELS: {
     [key: string]: string;
   } = {
@@ -38,18 +28,18 @@ export class DisplayTableImageComponent {
   };
 
   public readonly STRUCTURE_DOC_ICONS: {
-    [key: string]: IconDefinition;
+    [key: string]: string;
   } = {
-    "image/jpg": faImage,
-    "image/jpeg": faImage,
-    "image/png": faImage,
-    "application/pdf": faFilePdf,
-    "application/msword": faFileWord,
+    "image/jpg": "image",
+    "image/jpeg": "image",
+    "image/png": "image",
+    "application/pdf": "pdf",
+    "application/msword": "word",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-      faFileWord,
-    "application/vnd.oasis.opendocument.text": faFileWord,
+      "word",
+    "application/vnd.oasis.opendocument.text": "word",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-      faFileExcel,
-    "application/vnd.ms-excel": faFileExcel,
+      "excel",
+    "application/vnd.ms-excel": "excel",
   };
 }

@@ -9,7 +9,7 @@ import { Component, Input } from "@angular/core";
   animations: [fadeInOut],
 })
 export class DisplayDuplicatesUsagerComponent {
-  @Input() public duplicates: UsagerLight[];
+  @Input({ required: true }) public duplicates: UsagerLight[];
   constructor() {
     this.duplicates = [];
   }

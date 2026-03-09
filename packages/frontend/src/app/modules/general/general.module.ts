@@ -28,14 +28,21 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
 import { RouterModule } from "@angular/router";
 
 import { SharedModule } from "../shared/shared.module";
-import { LoginComponent } from "./components/login/login.component";
 import { PlanSiteComponent } from "./components/plan-site/plan-site.component";
-import { HelpModalComponent } from "./components/static-modals/help-modal/help-modal.component";
 import { RgaaComponent } from "./components/static-pages/rgaa/rgaa.component";
 import { LandingPagePortailComponent } from "./components/static-pages/landing-page-portail/landing-page-portail.component";
 import { HomeStatsComponent } from "../stats/components/home-stats/home-stats.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { WelcomeService } from "./services/welcome.service";
+import { FaqSectionComponent } from "../shared/components/faq-section/faq-section.component";
+import { DecouvrirDomifaComponent } from "./components/decouvrir-domifa/decouvrir-domifa.component";
+import {
+  DsfrUserMenuComponent,
+  DsfrLinkComponent,
+  DsfrButtonComponent,
+  DsfrResponseComponent,
+} from "@edugouvfr/ngx-dsfr";
+import { LoginDropdownComponent } from "./components/navbar/fragments/login-dropdown/login-dropdown.component";
 
 @NgModule({
   declarations: [
@@ -48,19 +55,18 @@ import { WelcomeService } from "./services/welcome.service";
     CguComponent,
     PolitiqueComponent,
     NavbarComponent,
-    LoginComponent,
     PlanSiteComponent,
-    HelpModalComponent,
     IdleManagerComponent,
     RgaaComponent,
     LandingPagePortailComponent,
+    DecouvrirDomifaComponent,
+    LoginDropdownComponent,
   ],
   exports: [
     LoadingComponent,
     NotFoundComponent,
     NavbarComponent,
     CguComponent,
-    HelpModalComponent,
     IdleManagerComponent,
     LandingPagePortailComponent,
   ],
@@ -75,6 +81,13 @@ import { WelcomeService } from "./services/welcome.service";
     NgbModule,
     FontAwesomeModule,
     HomeStatsComponent,
+    FaqSectionComponent,
+    DsfrUserMenuComponent,
+    DsfrUserMenuComponent,
+    DsfrLinkComponent,
+    DsfrButtonComponent,
+    DsfrResponseComponent,
+    DsfrUserMenuComponent,
   ],
   providers: [
     GeneralService,

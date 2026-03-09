@@ -7,47 +7,66 @@
   </div>
 </div>
 
-<div class="home-header-content bg-primary py-3 py-md-4 text-white text-bold">
-  <div class="container px-2 py-3 py-sm-4 d-flex align-items-center">
-    <div class="text-start flex-sm-grow-1 p-1">
-      <ng-container *ngIf="!regionId">
-        <h1 class="fw-bold">Statistiques d'utilisation de DomiFa</h1>
-        <h2 class="fw-normal home-header-subtitle">
-          Découvrez nos chiffres clés sur l'utilisation de DomiFa en France
-        </h2>
-      </ng-container>
-      <ng-container *ngIf="regionId">
-        <h1 class="fw-bold">
-          Statistiques régionales :
+<div class="w-100 fr-background-contrast--blue-ecume mb-0 pb-0">
+  <div
+    class="fr-container row d-flex flex-row justify-content-between align-items-center"
+  >
+    <div
+      *ngIf="!regionId"
+      class="col-12 col-md-9 col-sm-10 py-3 py-md-5 d-flex flex-column gap-1"
+    >
+      <h1 class="fr-text-title--blue-france mb-1">
+        Statistiques d'utilisation de DomiFa
+      </h1>
+      <p class="fr-text--lg fr-text-title--blue-france">
+        Découvrez nos chiffres clés sur l'utilisation de DomiFa en France
+      </p>
+    </div>
+
+    <div
+      *ngIf="regionId"
+      class="col-12 col-md-9 col-sm-10 py-3 py-md-5 d-flex flex-column gap-1"
+    >
+      <h1 class="fr-text-title--blue-france mb-1">
+        Statistiques régionales :
+        {{ regions[REGIONS_SEO_ID[regionId]] }}
+      </h1>
+      <p class="fr-text--lg fr-text-title--blue-france">
+        Découvrez nos chiffres clés sur l'utilisation de DomiFa sur la région
+        <span class="fw-bold">
           {{ regions[REGIONS_SEO_ID[regionId]] }}
-        </h1>
-        <h2 class="fw-normal home-header-subtitle">
-          DomiFa simplifie la domiciliation et la distribution de courrier pour
-          les personnes sans domicile stable dans la région
-          {{ regions[REGIONS_SEO_ID[regionId]] }}
-        </h2>
-      </ng-container>
+        </span>
+      </p>
+    </div>
+
+    <div class="col-3 py-2 d-none d-sm-block">
+      <img
+        class="fr-responsive-img"
+        src="assets/images/stats/stat-header.svg"
+        alt=""
+      />
     </div>
   </div>
 </div>
 
-<div class="container">
+<div class="fr-container">
   <section class="py-3 py-md-4 my-1">
-    <h2 class="fw-bold text-primary">
-      Nous équipons les structures de domiciliation
-    </h2>
+    <h2>Nous équipons les structures de domiciliation</h2>
     <p>
       En lien avec les domiciliés, des structures de domiciliation utilisent
       DomiFa chaque jour pour gérer leur activité
       <br />
-      <a routerLink="/structures/inscription">
+      <a class="fr-link" routerLink="/structures/inscription">
         Vous souhaitez utiliser DomiFa ?
       </a>
     </p>
 
-    <div class="stats-charts-container p-3 p-md-4">
-      <div class="row align-items-center" *ngIf="!stats">
-        <div class="col-md-12 text-center">
+    <div class="row m-0 justify-content-between align-items-stretch">
+      <div
+        class="d-flex align-items-center p-4 align-items-center fr-background-alt--blue-ecume"
+        *ngIf="!stats"
+      >
+        <div class="col-md-12 px-0 text-center">
           <div @fadeInOut aria-live="polite">
             <fa-icon
               [icon]="['fas', 'spinner']"
@@ -59,94 +78,168 @@
           </div>
         </div>
       </div>
-
-      <div
-        class="d-flex flex-wrap justify-content-between align-items-top"
-        *ngIf="stats"
-      >
-        <div class="p-2 d-flex align-items-top">
-          <div class="me-4">
-            <img
-              src="/assets/images/stats/structures.svg"
-              alt="Nombre de structures"
-              aria-hidden="true"
-            />
-          </div>
-          <div>
-            <div class="text-start">
-              <div class="stats-counter">
-                {{ stats?.structuresCount | formatBigNumber }}
+      <div class="col-12 col-md-8 px-0 d-flex">
+        <div
+          class="d-flex fr-background-alt--blue-ecume flex-column justify-content-start align-items-top p-4 w-100"
+          *ngIf="stats"
+        >
+          <h3>Structures inscrites sur DomiFa</h3>
+          <div class="row d-flex">
+            <div class="col-12 col-md-4 d-flex gap-2 justify-content-center">
+              <div>
+                <img
+                  class="stat-picto-img--lg"
+                  src="artwork/pictograms/buildings/companie.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
               </div>
-              <div class="stats-counter-label">structures</div>
+              <dl class="d-flex ps-0 flex-column align-items-center py-4">
+                <dt class="visually-hidden">Nombre de structures</dt>
+                <dd class="fr-h1 mb-0 ps-0 fr-text-title--blue-france">
+                  {{ stats?.structuresCount | formatBigNumber }}
+                </dd>
+                <dd>Structures</dd>
+              </dl>
             </div>
-            <div class="py-3 text-start" *ngIf="stats">
-              <ul>
-                <li
-                  *ngFor="
-                    let structure of stats.structuresCountByTypeMap | keyvalue
-                  "
-                >
-                  <span class="sub-stats-number">{{
-                    structure.value | formatBigNumber
-                  }}</span>
-                  <span class="sub-stats-label">
-                    {{ STRUCTURE_TYPE_LABELS[structure.key] }}
-                  </span>
-                </li>
+            <hr class="d-block d-md-none" />
+            <div
+              class="col-12 col-md-7 d-flex flex-column justify-content-start"
+            >
+              <ul class="py-1">
+                <ul>
+                  <li
+                    class="d-flex justify-content-start align-items-center gap-2"
+                    *ngFor="
+                      let structure of stats.structuresCountByTypeMap | keyvalue
+                    "
+                  >
+                    <span
+                      class="fr-text--lead mb-0 fr-text-title--blue-france fw-bold"
+                      >{{ structure.value | formatBigNumber }}</span
+                    >
+                    <span class="sub-stats-label">
+                      {{ STRUCTURE_TYPE_LABELS[structure.key] }}
+                    </span>
+                  </li>
+                </ul>
               </ul>
             </div>
           </div>
-        </div>
-
-        <div class="p-2 d-flex align-items-top">
-          <div class="me-4">
-            <img
-              src="../assets/images/stats/agents.svg"
-              alt="Nombre d'utilisateurs"
-              aria-hidden="true"
-            />
-          </div>
-          <div class="text-start">
-            <div class="stats-counter">
-              {{ stats?.usersCount | formatBigNumber }}
+          <div class="row d-flex py-2 justify-content-between border-top">
+            <div
+              class="col-12 col-md-2 d-flex flex-column align-items-center fr-mb-4v fr-mt-md-0"
+            >
+              <div>
+                <img
+                  class="stat-picto-img"
+                  src="../assets/digital/avatar.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </div>
+              <div class="text-center">
+                <div class="fr-h3 mb-0 fr-text-title--blue-france">
+                  {{ stats?.usersCount | formatBigNumber }}
+                </div>
+                <span>Agents</span>
+              </div>
             </div>
-            <div class="stats-counter-label">agents</div>
-          </div>
-        </div>
 
-        <div class="p-2">
-          <div class="stats-counter" aria-hidden="true">
-            <span
-              [countUp]="stats?.courrierInCount"
-              [options]="countOptions"
-            ></span>
-          </div>
-          <span> courriers enregistrés </span>
-          <app-impact-line [direction]="'horizontal'"></app-impact-line>
-        </div>
-        <div class="p-2">
-          <div class="stats-counter" aria-hidden="true">
-            <span
-              [countUp]="stats.courrierOutCount"
-              [options]="countOptions"
-            ></span>
-          </div>
-          <span>courriers distribués</span>
-          <app-impact-line [direction]="'horizontal'"></app-impact-line>
-        </div>
+            <div
+              class="col-12 col-md-3 d-flex flex-column text-center fr-mb-4v fr-mt-md-0"
+            >
+              <div class="text-center">
+                <img
+                  class="stat-picto-img"
+                  src="../assets/digital/self-training.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </div>
 
-        <div class="p-2">
-          <div class="text-primary fw-bold">
-            soit
-            <span class="stats-counter">{{ distributionRate }}%</span> de taux
-            d’acheminement
+              <div class="text-center">
+                <div class="fr-h3 mb-0 fr-text-title--blue-france">
+                  <span
+                    [countUp]="stats?.courrierInCount"
+                    [options]="countOptions"
+                  ></span>
+                </div>
+                <span> courriers enregistrés </span>
+              </div>
+            </div>
+            <div
+              class="col-12 col-md-3 d-flex flex-column text-center fr-mb-4v fr-mt-md-0"
+            >
+              <div>
+                <img
+                  class="stat-picto-img"
+                  src="../assets/digital/mail-send.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </div>
+              <div class="d-flex flex-column text-center">
+                <div class="fr-h3 mb-0" aria-hidden="true">
+                  <span
+                    class="mb-0 fr-text-title--blue-france"
+                    [countUp]="stats.courrierOutCount"
+                    [options]="countOptions"
+                  ></span>
+                </div>
+                <span>courriers distribués</span>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-4 d-flex flex-column text-center">
+              <div>
+                <img
+                  class="stat-picto-img"
+                  src="../assets/system/success.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </div>
+              <div>
+                <span class="fr-h3 mb-0 fr-text-title--blue-france">
+                  {{ distributionRate }}%</span
+                >
+              </div>
+              <span>de taux d’acheminement</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 px-0 px-md-2 d-flex">
+        <div
+          *ngIf="stats"
+          class="fr-background-alt--blue-ecume d-flex flex-column gap-3 p-3 w-100 fr-mt-2v fr-mt-md-0"
+        >
+          <div class="d-flex flex-column justify-content-start gap-2">
+            <h3>Domiciliés accompagnés sur DomiFa</h3>
+            <div class="text-center">
+              <img
+                class="stat-picto-img--lg"
+                src="artwork/pictograms/buildings/house.svg"
+                alt=""
+                aria-hidden="true"
+              />
+            </div>
+            <div class="d-flex flex-column align-self-center text-center">
+              <span class="fr-h2 mb-0 pb-0 fr-text-title--blue-france">
+                {{ stats.actifs | formatBigNumber }}</span
+              >
+              <span>Domiciliés</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+</div>
 
-  <section class="py-3 py-md-4 my-1">
+<div class="fr-container">
+  <section class="p-4 my-1 fr-background-alt--blue-ecume">
     <app-stats-charts [publicStats]="stats"></app-stats-charts>
   </section>
 
@@ -158,7 +251,7 @@
   >
     <div class="row">
       <div class="col-md-6">
-        <h3 class="fw-bold text-primary">Structures par département</h3>
+        <h3 class="mb-1">Structures par département</h3>
 
         <ul>
           <li
@@ -182,9 +275,7 @@
   </section>
 
   <section class="py-3 py-md-4" *ngIf="!regionId">
-    <h2 class="fw-bold text-primary">
-      Nous répondons présent partout en France !
-    </h2>
+    <h3 class="mb-0">Nous répondons présent partout en France !</h3>
     <p>
       DomiFa est utilisé dans la majorité des régions Françaises.
       <a routerLink="/stats/impact"
@@ -212,57 +303,58 @@
           [publicStats]="stats"
         ></app-stats-map>
       </div>
-      <div class="col">
+      <div class="col d-flex flex-column gap-4 p-2">
         <section>
-          <h3 class="fw-bold text-primary">Top des régions</h3>
+          <h4 class="mb-1">Top des régions</h4>
           <div class="region-list">
             <ul>
               <li
-                class="py-2"
+                class="d-flex justify-content-start gap-2 align-items-center"
                 *ngFor="let structure of stats?.structuresCountByRegion"
               >
-                <a
-                  [routerLink]="[
-                    '/stats/region/' + REGIONS_ID_SEO[structure.region]
-                  ]"
-                  class="region-name"
-                  ariaCurrentWhenActive="page"
-                >
-                  {{
-                    regions[structure.region]
-                      ? regions[structure.region]
-                      : structure.region
-                  }}
-                </a>
-                <span class="text-primary fw-bold">
+                <span class="fr-background-alt--blue-ecume fw-bold">
                   {{ structure.count }}
                 </span>
+                <span>
+                  <a
+                    class="fr-link"
+                    [routerLink]="[
+                      '/stats/region/' + REGIONS_ID_SEO[structure.region]
+                    ]"
+                    ariaCurrentWhenActive="page"
+                  >
+                    {{
+                      regions[structure.region]
+                        ? regions[structure.region]
+                        : structure.region
+                    }}
+                  </a></span
+                >
               </li>
             </ul>
           </div>
         </section>
-      </div>
-      <div class="col">
         <section>
           <div class="text-start">
-            <h4 class="fw-bold text-primary">Les collectivités d'outre-mer</h4>
-            <div class="region-list">
+            <h4 class="mb-1">Les collectivités d'outre-mer</h4>
+            <div>
               <ul>
                 <li
-                  class="py-2"
+                  class="d-flex justify-content-start gap-2 align-items-center"
                   *ngFor="let departementCom of DEPARTEMENTS_COM | keyvalue"
                 >
-                  <a
-                    [routerLink]="[
-                      '/stats/region/' + departementCom.value.regionId
-                    ]"
-                    class="region-name"
-                    ariaCurrentWhenActive="page"
-                  >
-                    {{ departementCom.value.departmentName }}
-                  </a>
-                  <span class="text-primary fw-bold">
+                  <span class="fr-text-title--blue-france fw-bold">
                     {{ statsRegionsValues[departementCom.value.regionCode] }}
+                  </span>
+                  <span>
+                    <a
+                      [routerLink]="[
+                        '/stats/region/' + departementCom.value.regionId
+                      ]"
+                      ariaCurrentWhenActive="page"
+                    >
+                      {{ departementCom.value.departmentName }}
+                    </a>
                   </span>
                 </li>
               </ul>
@@ -273,10 +365,39 @@
     </div>
   </section>
 </div>
-<section class="bg-primary-light py-5">
-  <div class="text-center">
-    <a routerLink="/stats/impact" class="btn btn-primary">
-      Découvrir notre impact
-    </a>
+<section>
+  <div
+    class="w-100 d-flex flex-column justify-content-center fr-background-contrast--blue-ecume mb-0 pb-0"
+  >
+    <div
+      class="fr-container row d-flex flex-row justify-content-end align-items-center"
+    >
+      <div
+        class="col-12 col-md-7 col-sm-10 py-3 py-md-5 d-flex flex-column gap-1 align-items-center"
+      >
+        <h2 class="fr-text-title--blue-france text-center mb-1">
+          Mesure d’impact de DomiFa
+        </h2>
+        <p class="fr-text--lg fr-text-title--blue-france text-center">
+          Découvrez les témoignages de nos utilisateurs sur les bénéfices de
+          DomiFa au quotidien
+        </p>
+        <div>
+          <a routerLink="/stats/impact" class="fr-btn fr-btn--secondary">
+            Découvrir notre impact
+          </a>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-3 d-flex justify-content-center py-2">
+        <div class="col-5 col-md-12">
+          <img
+            class="fr-responsive-img"
+            src="assets/images/register/success-structure.svg"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </section>

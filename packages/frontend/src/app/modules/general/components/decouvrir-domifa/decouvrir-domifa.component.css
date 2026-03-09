@@ -1,0 +1,23 @@
+@layer dsfr-personnalization {
+  :host ::ng-deep .timeline-section .fr-card__title {
+    color: var(--text-title-blue-france) !important;
+  }
+
+  :host ::ng-deep .timeline-section .fr-card__footer {
+    display: none;
+  }
+  :host ::ng-deep .timeline-section .timeline--bloc {
+    padding-left: 1.2rem !important;
+    padding-bottom: 0 !important;
+  }
+
+  :host ::ng-deep .timeline-section .fr-card {
+    background-color: transparent;
+    background-image: none;
+    height: 100% !important;
+  }
+
+  :host ::ng-deep .timeline-section .fr-card__content {
+    padding: 1.5rem 0rem;
+  }
+}
