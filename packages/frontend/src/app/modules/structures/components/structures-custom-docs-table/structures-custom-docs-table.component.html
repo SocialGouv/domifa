@@ -1,6 +1,8 @@
-<div class="alert-info alert" *ngIf="!structureDocs?.length">
-  <p>Aucun document n'a été ajouté pour le moment</p>
+@if (!structureDocs?.length) {
+<div class="fr-callout fr-callout--info">
+  <p class="fr-callout__text">Aucun document n'a été ajouté pour le moment</p>
 </div>
+}
 <div class="table-responsive" *ngIf="structureDocs?.length">
   <table
     class="table table-docs"

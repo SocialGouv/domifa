@@ -26,7 +26,7 @@
         <button
           type="button"
           (click)="decrement('courrierIn')"
-          class="btn btn-primary"
+          class="fr-btn"
           aria-label="Diminuer le nombre de courriers reçus"
           [disabled]="interactionFormData.courrierIn.nbCourrier === 0"
         >
@@ -35,7 +35,7 @@
         <span class="px-1"></span>
         <button
           type="button"
-          class="btn btn-primary"
+          class="fr-btn"
           aria-label="Augmenter le nombre de courriers reçus"
           (click)="increment('courrierIn')"
         >
@@ -62,7 +62,7 @@
         <button
           type="button"
           (click)="decrement('colisIn')"
-          class="btn btn-primary"
+          class="fr-btn"
           aria-label="Diminuer le nombre de colis reçus"
           [disabled]="interactionFormData.colisIn.nbCourrier === 0"
         >
@@ -71,7 +71,7 @@
         <span class="px-1"></span>
         <button
           type="button"
-          class="btn btn-primary"
+          class="fr-btn"
           aria-label="Augmenter le nombre de colis reçus"
           (click)="increment('colisIn')"
         >
@@ -98,7 +98,7 @@
         <button
           type="button"
           (click)="decrement('recommandeIn')"
-          class="btn btn-primary"
+          class="fr-btn"
           aria-label="Diminuer le nombre d'avis de passage reçus"
           [disabled]="interactionFormData.recommandeIn.nbCourrier === 0"
         >
@@ -107,7 +107,7 @@
         <span class="px-1"></span>
         <button
           type="button"
-          class="btn btn-primary"
+          class="fr-btn"
           aria-label="Augmenter le nombre d'avis de passage reçus"
           (click)="increment('recommandeIn')"
         >
@@ -134,7 +134,7 @@
       ></textarea>
 
       <div
-        class="alert alert-warning mt-2"
+        class="fr-alert fr-alert--warning mt-2"
         *ngIf="usager.options.portailUsagerEnabled"
       >
         <p>
@@ -146,8 +146,10 @@
       <app-rgpd-warning></app-rgpd-warning>
     </div>
   </div>
-  <div class="alert alert-danger" *ngIf="usager.decision.statut === 'RADIE'">
-    <div aria-hidden="true" class="svg-icon icon-danger"></div>
+  <div
+    class="fr-alert fr-alert--error"
+    *ngIf="usager.decision.statut === 'RADIE'"
+  >
     <p class="text-danger">
       Vous êtes sur le point d'ajouter du courrier à un dossier marqué comme
       radié
@@ -158,7 +160,7 @@
 <div class="text-end modal-footer">
   <button
     type="submit"
-    class="btn btn-lg btn-primary mx-1"
+    class="fr-btn mx-1"
     [disabled]="loading"
     [attr.aria-busy]="loading"
     (click)="setInteractionForm()"
@@ -175,7 +177,7 @@
   </button>
   <button
     type="button"
-    class="btn btn-outline-dark btn-lg me-2"
+    class="fr-btn fr-btn--secondary btn-lg me-2"
     (click)="cancelReception.emit()"
   >
     Annuler

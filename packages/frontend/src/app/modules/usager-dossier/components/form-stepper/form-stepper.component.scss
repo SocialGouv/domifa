@@ -1,0 +1,37 @@
+.stepper-step {
+  padding: 0 var(--spacing-1w);
+}
+
+.stepper-line {
+  height: 0.5rem;
+  background-color: var(--border-default-grey);
+  margin-top: var(--spacing-1w);
+}
+
+.stepper-line--completed {
+  background-color: var(--background-action-high-blue-france);
+}
+
+.step {
+  margin: 0.2rem;
+  cursor: pointer;
+
+  .step-icon {
+    height: 54px;
+    width: 54px;
+  }
+
+  .step-text {
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+}
+
+.step:hover {
+  background-color: var(--background-default-grey);
+}
+
+.fr-icon-success-fill {
+  color: var(--text-action-high-success-france);
+  font-size: 1.5rem;
+}

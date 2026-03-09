@@ -2,21 +2,19 @@ import { NgModule } from "@angular/core";
 
 import { ExtraOptions, RouterModule, Routes } from "@angular/router";
 
-import { LoggedGuard } from "./guards/logged.guard";
 import { CguComponent } from "./modules/general/components/static-pages/cgu/cgu.component";
 import { MentionsLegalesComponent } from "./modules/general/components/static-pages/mentions-legales/mentions-legales.component";
 import { PolitiqueComponent } from "./modules/general/components/static-pages/politique/politique.component";
 import { ContactSupportComponent } from "./modules/general/components/contact-support/contact-support.component";
 import { NotFoundComponent } from "./modules/general/components/errors/not-found/not-found.component";
-import { FaqComponent } from "./modules/general/components/faq/faq.component";
 import { HomeComponent } from "./modules/general/components/home/home.component";
-import { LoginComponent } from "./modules/general/components/login/login.component";
 import { NewsComponent } from "./modules/general/components/news/news.component";
 import { PlanSiteComponent } from "./modules/general/components/plan-site/plan-site.component";
 import { RgaaComponent } from "./modules/general/components/static-pages/rgaa/rgaa.component";
 import { AuthGuard } from "./guards";
 import { LandingPagePortailComponent } from "./modules/general/components/static-pages/landing-page-portail/landing-page-portail.component";
 import { ALL_USER_STRUCTURE_ROLES } from "@domifa/common";
+import { DecouvrirDomifaComponent } from "./modules/general/components/decouvrir-domifa/decouvrir-domifa.component";
 
 export const routes: Routes = [
   {
@@ -27,30 +25,29 @@ export const routes: Routes = [
     path: "admin",
     redirectTo: "users/admin",
   },
-  {
-    path: "reset-password",
-    redirectTo: "users/reset-password",
-  },
-  {
-    path: "reset-password/:userId/:token",
-    redirectTo: "users/reset-password/:userId/:token",
-  },
   { component: HomeComponent, path: "" },
+  {
+    path: "",
+    loadChildren: () =>
+      import("./modules/auth/auth.module").then((m) => m.AuthModule),
+  },
   { component: RgaaComponent, path: "accessibilite" },
-  { component: FaqComponent, path: "faq" },
+  {
+    path: "faq",
+    loadChildren: () =>
+      import("./modules/general/components/faq/faq-routing.module").then(
+        (m) => m.FaqRoutingModule
+      ),
+  },
   { component: ContactSupportComponent, path: "contact" },
   { component: NewsComponent, path: "news" },
+  { component: DecouvrirDomifaComponent, path: "decouvrir-domifa" },
   { component: MentionsLegalesComponent, path: "mentions-legales" },
   { component: PolitiqueComponent, path: "confidentialite" },
   { component: CguComponent, path: "cgu" },
 
   { component: PlanSiteComponent, path: "plan-site" },
   { component: LandingPagePortailComponent, path: "portail-mon-domifa" },
-  {
-    canActivate: [LoggedGuard],
-    component: LoginComponent,
-    path: "connexion",
-  },
   {
     loadChildren: () =>
       import("./modules/stats/stats.module").then((m) => m.StatsModule),

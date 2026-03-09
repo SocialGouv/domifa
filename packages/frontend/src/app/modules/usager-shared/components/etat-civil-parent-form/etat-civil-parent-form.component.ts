@@ -120,9 +120,6 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     protected readonly authService: AuthService,
     protected readonly changeDetectorRef: ChangeDetectorRef
   ) {
-    this.submitted = false;
-    this.loading = false;
-    this.mobilePhonePlaceHolder = "";
     this.minDateToday = minDateToday;
     this.minDateNaissance = minDateNaissance;
     this.maxDateNaissance = formatDateToNgb(new Date());

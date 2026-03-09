@@ -1,6 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import {
   STRUCTURE_INFORMATION_TYPES,
   StructureInformation,
@@ -9,17 +7,16 @@ import { CustomToastService } from "../../../shared/services";
 import { StructureInformationService } from "../../services/structure-information.service";
 import { Subscription } from "rxjs";
 
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+
 @Component({
   selector: "app-manage-structure-information",
   templateUrl: "./manage-structure-information.component.html",
   styleUrls: ["./manage-structure-information.component.css"],
 })
 export class ManageStructureInformationComponent implements OnInit {
-  @ViewChild("structureInformationEditorModal", { static: true })
-  public structureInformationEditorModal!: TemplateRef<NgbModalRef>;
-
-  @ViewChild("structureInformationDeleteConfirmationModal", { static: true })
-  public structureInformationDeleteConfirmationModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("editorModal") editorModal!: DsfrModalComponent;
+  @ViewChild("deleteModal") deleteModal!: DsfrModalComponent;
 
   public loading: boolean;
   public selectedStructureInformation: StructureInformation | null;
@@ -29,7 +26,6 @@ export class ManageStructureInformationComponent implements OnInit {
   public readonly STRUCTURE_INFORMATION_TYPES = STRUCTURE_INFORMATION_TYPES;
 
   constructor(
-    private readonly modalService: NgbModal,
     private readonly structureInformationService: StructureInformationService,
     private readonly toastService: CustomToastService
   ) {
@@ -43,41 +39,39 @@ export class ManageStructureInformationComponent implements OnInit {
   }
 
   public openForm(structureInformation: StructureInformation | null) {
-    if (structureInformation) {
-      this.selectedStructureInformation = structureInformation;
-    }
-    this.modalService.open(
-      this.structureInformationEditorModal,
-      DEFAULT_MODAL_OPTIONS
-    );
+    this.selectedStructureInformation = structureInformation;
+    this.editorModal.open();
   }
 
   public openDeleteConfirmation(structureInformation: StructureInformation) {
     this.selectedStructureInformation = structureInformation;
-    this.modalService.open(
-      this.structureInformationDeleteConfirmationModal,
-      DEFAULT_MODAL_OPTIONS
-    );
+    this.deleteModal.open();
   }
 
   public closeModals() {
     this.selectedStructureInformation = null;
-    this.modalService.dismissAll();
+    if (this.editorModal) {
+      this.editorModal.close();
+    }
+    if (this.deleteModal) {
+      this.deleteModal.close();
+    }
   }
 
   public deleteStructureInformation() {
+    this.loading = true;
     this.subscription.add(
       this.structureInformationService
-        .deleteStructureInformation(this.selectedStructureInformation.uuid)
+        .deleteStructureInformation(this.selectedStructureInformation!.uuid)
         .subscribe({
-          next: (structureInformation: StructureInformation[]) => {
+          next: () => {
             this.loading = false;
-            this.structureInformation = structureInformation;
+            this.toastService.success("Information supprimée avec succès");
             this.getStructureInformation();
           },
           error: () => {
             this.loading = false;
-            this.toastService.error("Impossible de charger les informations");
+            this.toastService.error("Impossible de supprimer l'information");
           },
         })
     );

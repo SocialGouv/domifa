@@ -1,11 +1,10 @@
 <button
   type="button"
-  [ngClass]="sortKey === currentKey ? 'fw-bold text-primary' : ''"
-  class="btn"
-  [attr.aria-sort]="sortKey === currentKey ? sortValue : null"
+  [class]="'fr-btn--sm' + buttonClass"
+  [attr.aria-sort]="sortKey === currentKey ? sortValue : 'none'"
   (click)="rotate()"
 >
-  <span class="visually-hidden">Trier par</span>
+  <span class="sr-only">Trier par</span>
   <span>{{ columnName }}</span>
   <app-table-head-sort-icon
     [sortKey]="sortKey"

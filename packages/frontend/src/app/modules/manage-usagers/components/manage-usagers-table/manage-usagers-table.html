@@ -19,11 +19,7 @@
           (click)="openDeleteUsagersModal()"
           class="btn btn-sm btn-outline-danger"
         >
-          <fa-icon
-            aria-hidden="true"
-            [icon]="['fas', 'trash']"
-            class="me-2"
-          ></fa-icon>
+          <span class="fr-mr-2w fr-icon-delete-line" aria-hidden="true"></span>
           <ng-container *ngIf="selectedRefs.size === 1"
             >Supprimer le domicilié</ng-container
           >
@@ -243,7 +239,7 @@
         *ngIf="filters.statut === UsagersFilterCriteriaStatut.TOUS"
         class="clickable text-start"
       >
-        <span [class]="'label-info ' + usager?.statusInfo?.color">
+        <span [class]="'fr-badge ' + usager?.statusInfo?.color">
           {{ usager?.statusInfo?.text }}</span
         >
       </td>
@@ -304,13 +300,13 @@
       >
         <p
           *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
-          class="m-0 label-info orange-status"
+          class="m-0 fr-badge fr-badge--warning"
         >
           Renouvellement
         </p>
         <p
           *ngIf="usager.typeDom === 'PREMIERE_DOM'"
-          class="m-0 label-info grey-status"
+          class="m-0 fr-badge fr-badge--info"
         >
           Première demande
         </p>
@@ -378,6 +374,7 @@
   <app-delete-usager
     [selectedRefs]="selectedRefs"
     (actionAfterSuccess)="resetCheckboxes()"
+    (closeModal)="closeDeleteUsagersModal()"
     context="MANAGE"
   ></app-delete-usager>
 </ng-template>

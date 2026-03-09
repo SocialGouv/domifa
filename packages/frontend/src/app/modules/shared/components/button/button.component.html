@@ -1,30 +1,35 @@
 <button
   type="button"
-  [ngClass]="'m-1 btn btn-' + color"
+  [ngClass]="{
+    'fr-btn': true,
+    'fr-btn--secondary': color === 'secondary',
+    'fr-btn--danger': color === 'danger',
+    'fr-btn--tertiary': color === 'tertiary',
+    'fr-m-1w': true
+  }"
   [disabled]="loading"
   [attr.aria-busy]="loading"
-  [attr.aria-disabled]="loading"
   [attr.aria-label]="ariaLabel"
   (click)="action.emit()"
   (keydown.enter)="action.emit()"
   (keydown.space)="action.emit()"
 >
-  <span *ngIf="loading">
-    <fa-icon
-      [icon]="['fas', 'circle-notch']"
-      aria-hidden="true"
-      [fixedWidth]="true"
-      animation="spin"
-    ></fa-icon>
-    {{ loadingText }}
+  @if (loading) {
+  <span>
+    <span class="fr-spinner" role="status" aria-label="Chargement en cours">
+      <span class="fr-sr-only">{{ loadingText }}</span>
+    </span>
   </span>
-  <span *ngIf="!loading">
-    <fa-icon
-      *ngIf="icon"
-      [icon]="['fas', icon]"
-      aria-hidden="true"
-      class="me-1"
-    ></fa-icon>
+  } @else {
+  <span>
+    @if (icon) {
+    <span [class]="'fr-icon-' + iconMap[icon]" aria-hidden="true"></span>
+    }
     {{ content }}
   </span>
+  }
 </button>
+<dsfr-button
+  icon="fr-icon-checkbox-circle-line"
+  tooltipMessage="Ceci est un message"
+></dsfr-button>

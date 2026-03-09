@@ -39,7 +39,7 @@ foreignObject {
 }
 
 .map-number {
-  background-color: var(--bs-primary);
+  background-color: var(--artwork-major-blue-france);
   font-weight: bold;
   border-radius: 100%;
   padding: 4px;

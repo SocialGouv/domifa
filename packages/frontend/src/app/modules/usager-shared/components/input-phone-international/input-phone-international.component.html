@@ -1,0 +1,148 @@
+<div
+  class="fr-input-group"
+  [class.fr-input-group--error]="
+    (isTouched || submitted) &&
+    ((isRequired && !phoneNumber) || (!isValid && phoneNumber))
+  "
+>
+  <label class="fr-label" [class.required]="isRequired" [for]="inputId">
+    Numéro de téléphone
+  </label>
+  <p class="fr-hint-text" [id]="inputId + '-desc'">
+    Format attendu : sans l'indicatif (ex: 612345678)
+  </p>
+  <div class="fr-phone-input-group">
+    <div ngbDropdown>
+      <button
+        type="button"
+        class="fr-btn fr-btn--tertiary fr-icon-arrow-down-s-line fr-btn--icon-right"
+        id="countryDropdown"
+        ngbDropdownToggle
+        [attr.aria-label]="
+          'Sélectionner l\'indicatif pays. Actuellement : ' +
+          selectedCountry.name
+        "
+        [attr.aria-expanded]="false"
+      >
+        <span class="fr-mr-1v">
+          <span
+            class="iti__flag"
+            [ngClass]="'iti__' + selectedCountry.iso2"
+            aria-hidden="true"
+          ></span>
+          <span class="fr-ml-1v fr-text--bold">
+            +{{ selectedCountry.dialCode }}
+          </span>
+        </span>
+        <span class="fr-sr-only">
+          {{ selectedCountry.name }} (+{{ selectedCountry.dialCode }})
+        </span>
+      </button>
+
+      <div
+        ngbDropdownMenu
+        aria-labelledby="countryDropdown"
+        class="fr-p-2v custom-country-dropdown"
+      >
+        <div class="fr-input-group fr-mb-2v">
+          <label class="fr-sr-only" for="country-search-box">
+            Rechercher un pays
+          </label>
+          <input
+            type="text"
+            class="fr-input fr-input--sm"
+            id="country-search-box"
+            [(ngModel)]="countrySearchText"
+            (keyup)="searchCountry()"
+            (click)="$event.stopPropagation()"
+            [placeholder]="searchCountryPlaceholder"
+            autocomplete="off"
+          />
+        </div>
+
+        <ul
+          class="country-list-scroll fr-m-0 fr-p-0"
+          #countryList
+          role="listbox"
+          style="list-style: none"
+          [attr.aria-activedescendant]="selectedCountry.iso2"
+        >
+          <ng-container
+            *ngFor="let country of allCountries; trackBy: trackByCountryIso"
+          >
+            <li role="presentation">
+              <button
+                ngbDropdownItem
+                type="button"
+                (click)="onCountrySelect(country, focusable)"
+                role="option"
+                [attr.aria-selected]="country.iso2 === selectedCountry.iso2"
+                [id]="'country-opt-' + country.iso2"
+              >
+                <span>
+                  <span class="iti__flag-box fr-mr-1v">
+                    <span
+                      aria-hidden="true"
+                      class="iti__flag"
+                      [ngClass]="'iti__' + country.iso2"
+                    ></span>
+                  </span>
+                  <span class="fr-text--sm">{{ country.name }}</span>
+                </span>
+
+                <span class="fr-text--sm fr-text--bold fr-ml-2v">
+                  +{{ country.dialCode }}
+                </span>
+              </button>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+    <input
+      type="tel"
+      class="fr-input"
+      [id]="inputId"
+      autocomplete="tel"
+      [attr.required]="isRequired"
+      [attr.aria-required]="isRequired"
+      (keypress)="onInputKeyPress($event)"
+      [value]="phoneNumber"
+      (input)="onPhoneNumberChange($event)"
+      (blur)="onBlur()"
+      [placeholder]="currentPlaceholder"
+      [class.fr-input--error]="
+        (isTouched || submitted) &&
+        ((isRequired && !phoneNumber) || (!isValid && phoneNumber))
+      "
+      [attr.aria-invalid]="
+        (isTouched || submitted) &&
+        ((isRequired && !phoneNumber) || (!isValid && phoneNumber))
+          ? 'true'
+          : 'false'
+      "
+      [attr.aria-describedby]="inputId + '-desc ' + inputId + '-messages'"
+      #focusable
+    />
+  </div>
+
+  <div
+    class="fr-messages-group"
+    [id]="inputId + '-messages'"
+    aria-live="polite"
+  >
+    <p
+      class="fr-message fr-message--error"
+      *ngIf="(isTouched || submitted) && isRequired && !phoneNumber"
+    >
+      Le numéro de téléphone est obligatoire.
+    </p>
+
+    <p
+      class="fr-message fr-message--error"
+      *ngIf="(isTouched || submitted) && phoneNumber && !isValid"
+    >
+      Le format du numéro de téléphone est incorrect.
+    </p>
+  </div>
+</div>

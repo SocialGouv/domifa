@@ -1,0 +1,174 @@
+<div class="fr-alert fr-alert--info" *ngIf="usager.pinnedNote">
+  <p class="fr-alert__title">
+    <b>
+      {{ usager.pinnedNote.message }}
+    </b>
+    <br />
+  </p>
+  <p>
+    Note épinglée créée le
+    {{ usager.pinnedNote.createdAt | date : "dd MMMM yyyy à HH:mm" }}
+    par {{ usager.pinnedNote.createdBy?.userName }}
+  </p>
+</div>
+
+<!-- Alerte personne radiée -->
+@if (usager.decision.statut === 'RADIE') {
+<div class="fr-alert fr-alert--error">
+  <p>
+    Cette personne a été radiée le
+    {{ usager.decision.dateFin | date : "dd MMMM yyyy" }} :
+    {{ usager.decision.motifString }}
+  </p>
+</div>
+}
+
+<!-- Alerte demande refusée -->
+@if (usager.decision.statut === 'REFUS') {
+<div class="fr-alert fr-alert--error">
+  <p>
+    <strong
+      >Demande refusée le
+      {{ usager.decision.dateDecision | date : "dd MMMM yyyy" }}
+    </strong>
+    <br />
+    {{ usager.decision.motifString }}
+  </p>
+</div>
+}
+
+<!-- Alerte instruction en cours -->
+@if ( usager.decision.statut === 'INSTRUCTION' && me?.role !== 'facteur' &&
+me?.role !== 'agent' ) {
+<div [class]="'fr-alert ' + getAlertClass()">
+  <p>
+    {{
+      usager.typeDom === "PREMIERE_DOM"
+        ? "Première demande"
+        : "Demande de renouvellement"
+    }}
+    actuellement en cours
+    {{
+      usager.rdvInfo.content ? ": rendez-vous le " + usager.rdvInfo.content : ""
+    }}
+
+    <a
+      [routerLink]="[
+        '/usager/' +
+          usager.ref +
+          '/edit/' +
+          ETAPES_DEMANDE_URL[usager.etapeDemande]
+      ]"
+      class="fr-link ms-2"
+      ariaCurrentWhenActive="page"
+    >
+      Compléter la demande
+    </a>
+  </p>
+</div>
+}
+
+<!-- Alerte attente de décision -->
+@if (usager.decision.statut === 'ATTENTE_DECISION') {
+<div class="fr-alert fr-alert--info">
+  <p>
+    Votre
+    {{
+      usager.typeDom === "PREMIERE_DOM"
+        ? "demande de domiciliation"
+        : "demande de renouvellement"
+    }}
+    est actuellement en attente d'une décision.
+  </p>
+  <p>
+    <a
+      [routerLink]="['/usager/' + usager.ref + '/edit/decision']"
+      class="fr-link"
+      ariaCurrentWhenActive="page"
+    >
+      Voir le récapitulatif
+    </a>
+  </p>
+</div>
+}
+
+<!-- Alerte échéance proche -->
+@if ( usager.echeanceInfos.dayBeforeEnd > 0 && usager.echeanceInfos.dayBeforeEnd
+< 60 ) {
+<div
+  [ngClass]="{
+    'fr-alert fr-alert--error': usager.echeanceInfos.dayBeforeEnd <= 15,
+    'fr-alert fr-alert--warning': usager.echeanceInfos.dayBeforeEnd > 15
+  }"
+>
+  <p>
+    La domiciliation expire le
+    <strong>
+      {{ usager?.echeanceInfos?.dateToDisplay | date : "dd MMMM yyyy" }}
+    </strong>
+  </p>
+</div>
+}
+
+<!-- Alerte échéance expirée -->
+@if (usager.echeanceInfos.dayBeforeEnd < 0) {
+<div class="fr-alert fr-alert--error">
+  <p>
+    Domiciliation expirée depuis le
+    {{ usager?.echeanceInfos?.dateToDisplay | date : "dd MMMM yyyy" }}, il y a
+    {{ usager.echeanceInfos.dayBeforeEnd * -1 }} jours
+  </p>
+</div>
+}
+
+<!-- COURRIERS -->
+<div class="col-md-12">
+  <!-- NPAI -->
+  <div *ngIf="usager.options.npai.actif" class="fr-alert fr-alert--error">
+    <p>N'habite plus à l'adresse indiquée, pli non distribuable</p>
+  </div>
+  <ng-container *ngIf="usager.options.transfert.actif">
+    <!-- TRANSFERT -->
+    <div
+      *ngIf="usager.options.transfert.isExpired"
+      class="fr-alert fr-alert--error"
+    >
+      <p>
+        <strong>Attention : </strong> le transfert de courrier était valable
+        jusqu'au
+        {{ usager.options.transfert.dateFin | date : "dd MMMM yyyy" }}
+      </p>
+    </div>
+
+    <div
+      *ngIf="!usager.options.transfert.isExpired"
+      class="fr-alert fr-alert--warning"
+    >
+      <p>
+        Votre courrier est transféré à l'adresse suivante :
+        {{ usager.options.transfert.nom | titlecase }}
+        {{ usager.options.transfert.adresse | titlecase }}
+      </p>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="usager.options.procurations.length > 0">
+    <ng-container *ngFor="let procuration of usager.options.procurations">
+      <div class="fr-alert fr-alert--warning" *ngIf="!procuration.isExpired">
+        <p>
+          Une procuration au nom de
+          <strong>{{ procuration | fullName }}</strong>
+          est active et valable jusqu'au
+          {{ procuration.dateFin | date : "dd MMMM yyyy" }}
+        </p>
+      </div>
+      <div *ngIf="procuration.isExpired" class="fr-alert fr-alert--error">
+        <p>
+          La procuration au nom de
+          <strong>{{ procuration | fullName }}</strong>
+          a expiré le
+          {{ procuration.dateFin | date : "dd MMMM yyyy" }}
+        </p>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

@@ -31,6 +31,7 @@ import {
   DateFrConditionalDirective,
 } from "./directives";
 import { WelcomeModalComponent } from "../general/components/static-modals/welcome-modal/welcome-modal.component";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { WelcomeModalComponent } from "../general/components/static-modals/welco
     FormatInternationalPhoneNumberPipe,
     FullNamePipe,
     WelcomeModalComponent,
+    DsfrModalComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

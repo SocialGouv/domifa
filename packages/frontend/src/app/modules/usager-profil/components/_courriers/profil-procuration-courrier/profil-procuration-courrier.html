@@ -6,7 +6,7 @@
         (click)="openForm()"
         type="button"
         *ngIf="!isFormVisible"
-        class="btn btn-outline-dark"
+        class="fr-btn fr-btn--secondary"
       >
         <fa-icon
           [icon]="['far', 'edit']"
@@ -19,7 +19,7 @@
         type="button"
         *ngIf="isFormVisible"
         (click)="hideForm()"
-        class="btn btn-outline-dark"
+        class="fr-btn fr-btn--secondary"
       >
         <fa-icon
           [icon]="['fas', 'times']"
@@ -74,22 +74,23 @@
           aria-label="Supprimer la procuration"
           type="button"
           (click)="openConfirmation(i)"
-          class="btn btn-danger me-2"
+          class="fr-btn me-2"
         >
-          <fa-icon aria-hidden="true" [icon]="['fas', 'trash']"></fa-icon>
+          <span class="fr-icon-delete-line" aria-hidden="true"></span>
         </button>
       </div>
     </div>
   </ng-container>
 
-  <p
-    class="alert alert-info"
-    *ngIf="isFormVisible && form.controls.length ===0 "
-  >
-    Aucune procuration n'est saisie, veuillez cliquer sur "Ajouter une
-    procuration" pour en créer une. Si vous souhaitez confirmer la suppression
-    de toutes les procurations, cliquez sur "Enregistrer les procurations"
-  </p>
+  @if (isFormVisible && form.controls.length ===0 ) {
+  <div class="fr-alert fr-alert--info">
+    <p>
+      Aucune procuration n'est saisie, veuillez cliquer sur "Ajouter une
+      procuration" pour en créer une. Si vous souhaitez confirmer la suppression
+      de toutes les procurations, cliquez sur "Enregistrer les procurations"
+    </p>
+  </div>
+  }
   <form
     *ngIf="isFormVisible"
     [formGroup]="procurationsForm"
@@ -212,7 +213,7 @@
               <button
                 type="button"
                 aria-label="Sélectionner une date de naissance sur le calendrier"
-                class="input-group-text btn btn-outline-primary"
+                class="date-btn"
                 (click)="d.toggle()"
               >
                 <fa-icon
@@ -350,11 +351,8 @@
               [attr.aria-label]="'Supprimer la procuration numéro '+ i"
               class="btn btn-block btn-danger"
             >
-              <fa-icon
-                aria-hidden="true"
-                class="me-1"
-                [icon]="['fas', 'trash']"
-              ></fa-icon>
+              <span class="fr-icon-delete-line" aria-hidden="true"></span>
+
               Supprimer
             </button>
           </div>
@@ -378,7 +376,7 @@
         Ajouter une procuration
       </button>
       <button
-        class="btn btn-primary"
+        class="fr-btn"
         [disabled]="loading"
         [attr.aria-busy]="loading"
         type="submit"

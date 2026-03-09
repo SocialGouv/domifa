@@ -36,7 +36,7 @@
                 <label
                   [ngClass]="
                     structure.portailUsager.enabledByStructure === true
-                      ? 'btn btn-primary'
+                      ? 'fr-btn'
                       : 'btn btn-outline-primary'
                   "
                   for="enabledByStructure1"
@@ -54,7 +54,7 @@
                 <label
                   [ngClass]="
                     structure.portailUsager.enabledByStructure === false
-                      ? 'btn btn-danger'
+                      ? 'fr-btn'
                       : 'btn btn-outline-danger'
                   "
                   for="enabledByStructure2"
@@ -86,7 +86,7 @@
                   [ngClass]="
                     structure.portailUsager.usagerLoginUpdateLastInteraction ===
                     true
-                      ? 'btn btn-primary'
+                      ? 'fr-btn'
                       : 'btn btn-outline-primary'
                   "
                   for="usagerLoginUpdateLastInteractionOui"
@@ -108,7 +108,7 @@
                   [ngClass]="
                     structure.portailUsager.usagerLoginUpdateLastInteraction ===
                     false
-                      ? 'btn btn-danger'
+                      ? 'fr-btn'
                       : 'btn btn-outline-danger'
                   "
                   for="usagerLoginUpdateLastInteractionNon"
@@ -132,7 +132,7 @@
 
         <div class="col-md-12 my-2 text-center">
           <button
-            class="btn btn-primary"
+            class="fr-btn"
             type="submit"
             (click)="submitStructurePortailForm()"
             [disabled]="loading"

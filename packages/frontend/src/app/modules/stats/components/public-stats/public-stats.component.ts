@@ -27,7 +27,7 @@ import {
   selector: "app-public-stats",
   templateUrl: "./public-stats.component.html",
   styleUrls: [
-    "./public-stats.component.css",
+    "./public-stats.component.scss",
     "../elements/stats-charts/stats-charts.component.css",
   ],
 })

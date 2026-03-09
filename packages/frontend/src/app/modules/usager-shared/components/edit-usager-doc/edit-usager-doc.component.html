@@ -2,8 +2,8 @@
   (action)="openModal()"
   [ariaLabel]="'Modifier le document ' + doc.label"
   content="Modifier"
-  icon="pencil"
-  color="outline-primary"
+  icon="edit"
+  color="primary"
   [loading]="loading"
 >
 </app-button>
@@ -43,10 +43,7 @@
       </div>
 
       <fieldset *ngIf="usager.options.portailUsagerEnabled">
-        <legend>
-          Partager le document avec le domicilié sur "Mon DomiFa".
-        </legend>
-
+        <legend>Partager le document avec le domicilié sur “Mon DomiFa”</legend>
         <div class="form-check form-check-inline">
           <input
             class="form-check-input"
@@ -71,10 +68,14 @@
         </div>
       </fieldset>
 
-      <div class="alert alert-info" *ngIf="usager.options.portailUsagerEnabled">
-        Attention: le domicilié pourra télécharger le document depuis un
-        ordinateur ou un téléphone
+      @if (usager.options.portailUsagerEnabled) {
+      <div class="fr-alert fr-alert--info">
+        <p>
+          Attention: le domicilié pourra télécharger le document depuis un
+          ordinateur ou un téléphone
+        </p>
       </div>
+      }
     </form>
   </div>
   <div class="text-end modal-footer">
@@ -82,14 +83,15 @@
       (action)="patchDocument()"
       [ariaLabel]="'Valider la modification du document: ' + doc.label"
       content="Valider"
-      color="primary mx-1 btn-lg"
+      color="primary"
+      class="mx-1 btn-lg"
       [loading]="loading"
     >
     </app-button>
 
     <button
       type="button"
-      class="btn btn-outline-dark btn-lg me-2"
+      class="fr-btn fr-btn--secondary btn-lg me-2"
       (click)="closeModals()"
     >
       Annuler
