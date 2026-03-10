@@ -7,3 +7,21 @@
     font-size: 1.35rem;
   }
 }
+
+#mon-domifa-header {
+  margin-bottom: 2rem;
+  padding: 2rem;
+
+  * {
+    display: inline-block !important;
+    vertical-align: middle;
+    max-width: 60%;
+    margin: 0 1rem;
+  }
+
+  img {
+    height: 110px;
+    width: auto;
+    margin-right: 1.2rem;
+  }
+}

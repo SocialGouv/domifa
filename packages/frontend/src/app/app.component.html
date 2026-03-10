@@ -70,15 +70,13 @@
   license="Sauf mention explicite de propriété intellectuelle détenue par des tiers, les contenus de ce site sont proposés sous <a href='https://github.com/etalab/licence-ouverte/blob/master/LO.md' _target='_blank' title='licence etalab-2.0 - nouvelle fenêtre'>licence etalab-2.0</a>"
 ></dsfr-footer>
 
-<!-- Modale CGU — non fermable au clic sur le fond (équivalent keyboard:false) -->
 <dsfr-modal
   #acceptTermsModal
   dialogId="accept-terms-modal"
   titleModal="Veuillez lire et accepter les CGU"
   icon="fr-icon-file-text-line"
-  [concealingBackdrop]="false"
-  [autoCloseOnAction]="false"
-  (conceal)="onAcceptTermsModalClosed()"
+  [isScrollable]="false"
+  [size]="'LG'"
 >
   <form [formGroup]="acceptTermsForm">
     <p>
@@ -88,7 +86,7 @@
     </p>
 
     @if (me) {
-    <div id="cgu-modal">
+    <div id="cgu-modal" style="max-height: 40vh; overflow-y: auto">
       <app-cgu></app-cgu>
     </div>
     }
@@ -126,30 +124,24 @@
     </div>
   </form>
 
-  <!-- Footer via ng-template pour avoir accès au loader sur le bouton -->
-  <ng-template #modalFooterTemplate>
-    <ul
-      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
+  <ng-container dsfrModalActions>
+    <div
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
     >
-      <li>
-        <dsfr-button
-          label="Enregistrer"
-          type="button"
-          [loader]="loading"
-          [disabled]="loading"
-          (click)="submitAcceptTerms()"
-        ></dsfr-button>
-      </li>
-      <li>
-        <dsfr-button
-          label="Se déconnecter"
-          variant="secondary"
-          type="button"
-          (click)="logout()"
-        ></dsfr-button>
-      </li>
-    </ul>
-  </ng-template>
+      <button
+        type="button"
+        class="fr-btn"
+        (click)="submitAcceptTerms()"
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
+      >
+        @if (!loading) { Enregistrer } @else { Veuillez patienter... }
+      </button>
+      <button type="button" class="fr-btn fr-btn--secondary" (click)="logout()">
+        Se déconnecter
+      </button>
+    </div>
+  </ng-container>
 </dsfr-modal>
 
 <dsfr-modal
@@ -157,6 +149,7 @@
   dialogId="version-modal"
   titleModal="Une nouvelle version de DomiFa est disponible"
   icon="fr-icon-information-line"
+  [size]="'LG'"
   [actions]="versionModalActions"
 >
   <p>

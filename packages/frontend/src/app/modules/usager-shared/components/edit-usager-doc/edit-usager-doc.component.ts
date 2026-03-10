@@ -5,7 +5,6 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  TemplateRef,
   ViewChild,
 } from "@angular/core";
 import {
@@ -19,8 +18,7 @@ import { Subscription } from "rxjs";
 import { CustomToastService } from "../../../shared/services";
 import { DocumentService } from "../../services";
 import { NoWhiteSpaceValidator } from "../../../../shared";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 export type DocumentPatchForm = Pick<UsagerDoc, "label" | "shared">;
 
@@ -42,21 +40,20 @@ export class EditUsagerDocComponent implements OnInit, OnDestroy {
   >();
 
   @ViewChild("editDocumentModal", { static: true })
-  public editDocumentModal!: TemplateRef<NgbModalRef>;
+  public editDocumentModal!: DsfrModalComponent;
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly documentService: DocumentService,
-    private readonly toastService: CustomToastService,
-    private readonly modalService: NgbModal
+    private readonly toastService: CustomToastService
   ) {}
 
   public openModal(): void {
-    this.modalService.open(this.editDocumentModal, DEFAULT_MODAL_OPTIONS);
+    this.editDocumentModal.open();
   }
 
   public closeModals(): void {
-    this.modalService.dismissAll();
+    this.editDocumentModal.close();
   }
 
   public get u(): { [key: string]: AbstractControl } {

@@ -1,17 +1,16 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import {
   PageOptions,
   PageResults,
   UsagersCountByStatus,
   UserUsagerWithUsagerInfo,
 } from "@domifa/common";
-import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { ManagePortailUsagersService } from "../../services/manage-portail-usagers.service";
 import { ManageUsagersService } from "../../../manage-usagers/services/manage-usagers.service";
 import { fadeIn } from "../../../../shared";
 import saveAs from "file-saver";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   animations: [fadeIn],
@@ -21,7 +20,7 @@ import saveAs from "file-saver";
 })
 export class ManageUserUsagerComponent implements OnInit {
   @ViewChild("activateAllAccountsModal", { static: true })
-  public activateAllAccountsModal!: TemplateRef<NgbModalRef>;
+  public activateAllAccountsModal!: DsfrModalComponent;
   public params = new PageOptions({ take: 50 });
 
   public searchResults = new PageResults<UserUsagerWithUsagerInfo>();
@@ -34,7 +33,6 @@ export class ManageUserUsagerComponent implements OnInit {
   constructor(
     private readonly managePortailUsagersService: ManagePortailUsagersService,
     private readonly manageUsagersService: ManageUsagersService,
-    private readonly modalService: NgbModal,
     private readonly toastService: CustomToastService
   ) {}
 
@@ -87,10 +85,7 @@ export class ManageUserUsagerComponent implements OnInit {
   }
 
   public openActivateAllAccountsModal(): void {
-    this.modalService.open(
-      this.activateAllAccountsModal,
-      DEFAULT_MODAL_OPTIONS
-    );
+    this.activateAllAccountsModal.open();
   }
 
   public activateAllAccounts(): void {
@@ -99,7 +94,7 @@ export class ManageUserUsagerComponent implements OnInit {
     this.managePortailUsagersService.activateAllUserUsagerAccounts().subscribe({
       next: () => {
         this.activatingAccounts = false;
-        this.modalService.dismissAll();
+        this.activateAllAccountsModal.close();
         this.toastService.success(
           "Tous les comptes ont été générés avec succès"
         );
@@ -135,6 +130,6 @@ export class ManageUserUsagerComponent implements OnInit {
     });
   }
   public closeModal(): void {
-    this.modalService.dismissAll();
+    this.activateAllAccountsModal.close();
   }
 }

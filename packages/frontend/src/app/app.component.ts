@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -22,15 +28,15 @@ import { DsfrModalComponent, DsfrModalAction } from "@edugouvfr/ngx-dsfr";
   styleUrls: ["./app.component.scss"],
   templateUrl: "./app.component.html",
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   public apiVersion: string | null;
   public currentUrl = "";
   public me: UserStructure | null;
 
-  @ViewChild("acceptTermsModal")
+  @ViewChild("acceptTermsModal", { static: false })
   public acceptTermsModalRef!: DsfrModalComponent;
 
-  @ViewChild("versionModal")
+  @ViewChild("versionModal", { static: false })
   public versionModalRef!: DsfrModalComponent;
 
   public acceptTermsForm!: FormGroup;
@@ -73,10 +79,6 @@ export class AppComponent implements OnInit, OnDestroy {
     window.location.reload();
   }
 
-  public onAcceptTermsModalClosed(): void {
-    this.isAnyModalOpen = false;
-  }
-
   public ngOnInit(): void {
     this.titleService.setTitle(
       "DomiFa, l'outil qui facilite la gestion des structures domiciliatrices"
@@ -84,34 +86,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.currentUrl = this.router.url;
     this.authService.isAuth().subscribe();
-
-    this.authService.currentUserSubject.subscribe({
-      next: (user: UserStructure | null) => {
-        this.me = user;
-
-        if (!user || this.isAnyModalOpen) {
-          return;
-        }
-
-        const newVersion = this.me.domifaVersion;
-
-        if (this.apiVersion === null) {
-          this.apiVersion = newVersion;
-          localStorage.setItem("version", newVersion);
-        } else if (this.apiVersion !== newVersion) {
-          localStorage.setItem("version", newVersion);
-          this.isAnyModalOpen = true;
-          this.versionModalRef.open();
-          setTimeout(() => window.location.reload(), 10000);
-          return;
-        }
-
-        if (!this.me.acceptTerms) {
-          this.openAcceptTermsModal();
-          this.initCguForm();
-        }
-      },
-    });
 
     this.router.events
       .pipe(filter((e: Event) => e instanceof NavigationEnd))
@@ -138,8 +112,41 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
+  public ngAfterViewInit(): void {
+    this.subscription.add(
+      this.authService.currentUserSubject.subscribe({
+        next: (user: UserStructure | null) => {
+          this.me = user;
+
+          if (!user || this.isAnyModalOpen) {
+            return;
+          }
+
+          const newVersion = this.me.domifaVersion;
+
+          if (this.apiVersion === null) {
+            this.apiVersion = newVersion;
+            localStorage.setItem("version", newVersion);
+          } else if (this.apiVersion !== newVersion) {
+            localStorage.setItem("version", newVersion);
+            this.isAnyModalOpen = true;
+            this.versionModalRef.open();
+            setTimeout(() => window.location.reload(), 10000);
+            return;
+          }
+
+          if (!this.me.acceptTerms) {
+            this.openAcceptTermsModal();
+            this.initCguForm();
+          }
+        },
+      })
+    );
+  }
+
   public logout(): void {
     this.acceptTermsModalRef.close();
+    this.isAnyModalOpen = false;
     this.authService.logout();
   }
 

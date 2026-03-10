@@ -15,7 +15,6 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
   styleUrls: ["./manage-structure-information.component.css"],
 })
 export class ManageStructureInformationComponent implements OnInit {
-  @ViewChild("editorModal") editorModal!: DsfrModalComponent;
   @ViewChild("deleteModal") deleteModal!: DsfrModalComponent;
 
   public loading: boolean;
@@ -38,21 +37,13 @@ export class ManageStructureInformationComponent implements OnInit {
     this.getStructureInformation();
   }
 
-  public openForm(structureInformation: StructureInformation | null) {
-    this.selectedStructureInformation = structureInformation;
-    this.editorModal.open();
-  }
-
   public openDeleteConfirmation(structureInformation: StructureInformation) {
     this.selectedStructureInformation = structureInformation;
     this.deleteModal.open();
   }
 
-  public closeModals() {
+  public closeDeleteModal() {
     this.selectedStructureInformation = null;
-    if (this.editorModal) {
-      this.editorModal.close();
-    }
     if (this.deleteModal) {
       this.deleteModal.close();
     }
@@ -78,7 +69,7 @@ export class ManageStructureInformationComponent implements OnInit {
   }
 
   public getStructureInformation() {
-    this.closeModals();
+    this.closeDeleteModal();
     this.subscription.add(
       this.structureInformationService.getAllStructureInformation().subscribe({
         next: (structureInformation: StructureInformation[]) => {
