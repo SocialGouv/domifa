@@ -1,3 +1,10 @@
+## [2.234.2](https://github.com/SocialGouv/domifa/compare/v2.234.1...v2.234.2) (2026-03-10)
+
+
+### Bug Fixes
+
+* persist ([d1793df](https://github.com/SocialGouv/domifa/commit/d1793dfca422305ba62e46241b020e7bcc16007d))
+
 ## [2.234.1](https://github.com/SocialGouv/domifa/compare/v2.234.0...v2.234.1) (2026-03-05)
 
 
