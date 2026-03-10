@@ -1,10 +1,9 @@
 import {
   Component,
   EventEmitter,
-  Input,
   OnDestroy,
-  OnInit,
   Output,
+  ViewChild,
 } from "@angular/core";
 import {
   FormGroup,
@@ -25,23 +24,43 @@ import {
   formatDateToNgb,
 } from "../../../../shared";
 import { Subscription } from "rxjs";
+import {
+  DsfrToggleFormatControl,
+  DsfrPromptFormatControl,
+  RadioFormatControl,
+  DsfrValueFormatControl,
+  FormatConst,
+  ListValue,
+  ToolbarControl,
+} from "@edugouvfr/ngx-dsfr-ext/editor";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-manage-structure-information-form",
   templateUrl: "./manage-structure-information-form.component.html",
   styleUrls: ["./manage-structure-information-form.component.scss"],
 })
-export class ManageStructureInformationFormComponent
-  implements OnInit, OnDestroy
-{
+export class ManageStructureInformationFormComponent implements OnDestroy {
+  @ViewChild("editorModal", { static: false })
+  editorModal!: DsfrModalComponent;
+
   public tempMessageForm!: FormGroup;
-  public tempMessageTypes = ["closing", "opening-hours", "general", "other"];
   public subscription = new Subscription();
+
+  public toolbarOptions: ToolbarControl[] = [
+    new DsfrToggleFormatControl(FormatConst.BOLD),
+    new DsfrToggleFormatControl(FormatConst.ITALIC),
+    new RadioFormatControl(
+      FormatConst.LIST,
+      [new DsfrValueFormatControl(ListValue.BULLET)],
+      true
+    ),
+    new DsfrPromptFormatControl(FormatConst.LINK),
+  ];
 
   public submitted = false;
   public loading = false;
-
-  @Input() structureInformation: StructureInformation | null;
+  public structureInformation: StructureInformation | null = null;
 
   @Output()
   public getStructureInformation = new EventEmitter<void>();
@@ -57,20 +76,17 @@ export class ManageStructureInformationFormComponent
     return this.tempMessageForm.controls;
   }
 
-  ngOnInit(): void {
+  public openModal(information: StructureInformation | null): void {
+    this.structureInformation = information;
+    this.submitted = false;
+    this.loading = false;
     this.initForm();
+    this.editorModal.open();
+  }
 
-    this.subscription.add(
-      this.tempMessageForm
-        .get("isTemporary")
-        ?.valueChanges.subscribe((value: boolean) => {
-          const validator = value ? [Validators.required] : null;
-          this.tempMessageForm.get("startDate")?.setValidators(validator);
-          this.tempMessageForm.get("endDate")?.setValidators(validator);
-          this.tempMessageForm.get("startDate")?.updateValueAndValidity();
-          this.tempMessageForm.get("endDate")?.updateValueAndValidity();
-        })
-    );
+  public closeModal(): void {
+    this.structureInformation = null;
+    this.editorModal.close();
   }
 
   initForm(): void {
@@ -107,6 +123,18 @@ export class ManageStructureInformationFormComponent
         validators: this.endDateAfterBeginDateValidator,
       }
     );
+
+    this.subscription.add(
+      this.tempMessageForm
+        .get("isTemporary")
+        ?.valueChanges.subscribe((value: boolean) => {
+          const validator = value ? [Validators.required] : null;
+          this.tempMessageForm.get("startDate")?.setValidators(validator);
+          this.tempMessageForm.get("endDate")?.setValidators(validator);
+          this.tempMessageForm.get("startDate")?.updateValueAndValidity();
+          this.tempMessageForm.get("endDate")?.updateValueAndValidity();
+        })
+    );
   }
 
   dsfrEditorValidator() {
@@ -116,7 +144,6 @@ export class ManageStructureInformationFormComponent
         return { required: true };
       }
 
-      // Récupérer le texte brut du HTML
       const div = document.createElement("div");
       div.innerHTML = value;
       const text = div.textContent || div.innerText || "";
@@ -130,8 +157,6 @@ export class ManageStructureInformationFormComponent
   }
 
   onEditorChange(): void {
-    // La mise à jour se fait automatiquement via formControlName
-    // Cette méthode peut être utilisée pour des traitements supplémentaires si nécessaire
     this.tempMessageForm.get("description")?.markAsDirty();
     this.tempMessageForm.get("description")?.markAsTouched();
   }
@@ -179,6 +204,7 @@ export class ManageStructureInformationFormComponent
           next: () => {
             this.loading = false;
             this.toastService.success("Informations mises à jour avec succès");
+            this.closeModal();
             this.getStructureInformation.emit();
           },
           error: () => {
@@ -200,6 +226,7 @@ export class ManageStructureInformationFormComponent
           next: () => {
             this.loading = false;
             this.toastService.success("Informations ajoutée avec succès");
+            this.closeModal();
             this.getStructureInformation.emit();
           },
           error: () => {

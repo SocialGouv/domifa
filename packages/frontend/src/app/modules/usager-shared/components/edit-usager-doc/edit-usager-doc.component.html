@@ -8,93 +8,98 @@
 >
 </app-button>
 
-<ng-template #editDocumentModal let-modal>
-  <div class="modal-header">
-    <span id="modal-title">Modifier le document: {{ doc.label }}</span>
-  </div>
-  <div class="modal-body py-4">
-    <form [formGroup]="documentForm" (ngSubmit)="patchDocument()">
-      <p>
-        Les champs suivis d'un
-        <span class="fw-bold text-danger">*</span> sont obligatoires
-      </p>
+<dsfr-modal
+  #editDocumentModal
+  [titleModal]="'Modifier le document: ' + doc.label"
+  [isScrollable]="true"
+  [size]="'LG'"
+>
+  <form [formGroup]="documentForm" (ngSubmit)="patchDocument()">
+    <p>
+      Les champs suivis d'un
+      <span class="fr-text--bold fr-text-default--error">*</span> sont
+      obligatoires
+    </p>
 
-      <div class="form-group required">
-        <label for="label">Nom du document</label>
-        <input
-          type="text"
-          class="form-control"
-          formControlName="label"
-          name="label"
-          appCleanStr
-          id="label"
-          [ngClass]="{ 'is-invalid': submitted && u.label.errors }"
-          [attr.aria-describedby]="
-            submitted && u.label.errors ? 'label-errors' : 'label-description'
-          "
-          required
-        />
-        <small id="label-description"
-          >Exemple : Cerfa signé, impots, carte identité, etc..</small
+    <div
+      class="fr-input-group"
+      [class.fr-input-group--error]="submitted && u.label.errors"
+    >
+      <label class="fr-label" for="label">
+        Nom du document
+        <span class="fr-hint-text" id="label-description"
+          >Exemple : Cerfa signé, impots, carte identité, etc..</span
         >
-        <p *ngIf="u.label.errors" id="label-errors" class="invalid-feedback">
-          Le nom du document est obligatoire
-        </p>
-      </div>
-
-      <fieldset *ngIf="usager.options.portailUsagerEnabled">
-        <legend>Partager le document avec le domicilié sur “Mon DomiFa”</legend>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="shared"
-            name="shared"
-            id="yes"
-            [value]="true"
-          />
-          <label class="form-check-label" for="yes">Oui</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="radio"
-            formControlName="shared"
-            name="shared"
-            id="no"
-            [value]="false"
-          />
-          <label class="form-check-label" for="no">Non</label>
-        </div>
-      </fieldset>
-
-      @if (usager.options.portailUsagerEnabled) {
-      <div class="fr-alert fr-alert--info">
-        <p>
-          Attention: le domicilié pourra télécharger le document depuis un
-          ordinateur ou un téléphone
-        </p>
-      </div>
+      </label>
+      <input
+        type="text"
+        class="fr-input"
+        formControlName="label"
+        name="label"
+        appCleanStr
+        id="label"
+        [class.fr-input--error]="submitted && u.label.errors"
+        [attr.aria-describedby]="
+          submitted && u.label.errors ? 'label-errors' : 'label-description'
+        "
+        required
+      />
+      @if (submitted && u.label.errors) {
+      <p id="label-errors" class="fr-error-text">
+        Le nom du document est obligatoire
+      </p>
       }
-    </form>
-  </div>
-  <div class="text-end modal-footer">
-    <app-button
-      (action)="patchDocument()"
-      [ariaLabel]="'Valider la modification du document: ' + doc.label"
-      content="Valider"
-      color="primary"
-      class="mx-1 btn-lg"
-      [loading]="loading"
-    >
-    </app-button>
+    </div>
 
-    <button
-      type="button"
-      class="fr-btn fr-btn--secondary btn-lg me-2"
-      (click)="closeModals()"
+    <div class="fr-toggle" *ngIf="usager.options.portailUsagerEnabled">
+      <input
+        type="checkbox"
+        formControlName="shared"
+        class="fr-toggle__input"
+        id="toggle-2"
+        aria-describedby="toggle-2-messages"
+      />
+      <label class="fr-toggle__label" for="toggle-2">
+        Partager le document avec le domicilié sur "Mon DomiFa"</label
+      >
+      <div
+        class="fr-messages-group"
+        id="toggle-2-messages"
+        aria-live="polite"
+      ></div>
+    </div>
+
+    @if (usager.options.portailUsagerEnabled) {
+    <div class="fr-alert fr-alert--info">
+      <p>
+        Attention: le domicilié pourra télécharger le document depuis un
+        ordinateur ou un téléphone
+      </p>
+    </div>
+    }
+  </form>
+
+  <ng-container dsfrModalActions>
+    <div
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
     >
-      Annuler
-    </button>
-  </div>
-</ng-template>
+      <button
+        type="button"
+        class="fr-btn fr-btn--primary"
+        (click)="patchDocument()"
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
+        [attr.aria-label]="'Valider la modification du document: ' + doc.label"
+      >
+        Valider
+      </button>
+      <button
+        type="button"
+        class="fr-btn fr-btn--secondary"
+        (click)="closeModals()"
+      >
+        Annuler
+      </button>
+    </div>
+  </ng-container>
+</dsfr-modal>

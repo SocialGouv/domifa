@@ -28,6 +28,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   public returnUrl: string;
   public hidePassword: boolean;
   public loading: boolean;
+  public submitted: boolean;
+  public loginError: boolean;
   private readonly subscription = new Subscription();
   public portailUsagerUrl = environment.portailUsagersUrl;
 
@@ -42,6 +44,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   ) {
     this.hidePassword = true;
     this.loading = false;
+    this.submitted = false;
+    this.loginError = false;
     this.returnUrl = "/";
   }
 
@@ -71,6 +75,9 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   public login() {
+    this.submitted = true;
+    this.loginError = false;
+
     if (this.loginForm.invalid) {
       this.toastService.error("Veuillez vérifier les champs du formulaire");
       return;
@@ -91,6 +98,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           },
           error: () => {
             this.loading = false;
+            this.loginError = true;
             this.matomo.trackEvent("CONNEXION", "LOGIN_FAILED", "ERROR", 0);
             this.toastService.error("Email et ou mot de passe incorrect");
           },

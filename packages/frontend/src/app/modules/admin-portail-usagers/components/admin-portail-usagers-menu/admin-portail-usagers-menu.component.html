@@ -1,23 +1,29 @@
-<div class="fr-container fr-py-4w">
-  <div class="fr-grid-row fr-grid-row--middle fr-grid-row--gutters">
-    <div class="fr-col-12 fr-col-md-7">
-      <h1>{{ title }}</h1>
-    </div>
-    <div class="fr-col-12 fr-col-md-5 head-page__actions">
-      <a
-        href="https://docs.numerique.gouv.fr/docs/7f7f4ec4-5d4c-43ce-a416-74e5aa4af14c/"
-        target="_blank"
-        class="fr-btn fr-btn--secondary"
-        rel="noopener noreferrer"
-        title="Consulter le guide - nouvelle fenêtre"
-      >
-        <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
-        Consulter le guide
-      </a>
+<div class="head-page fr-py-3w">
+  <div class="fr-container">
+    <div
+      class="fr-px-0 fr-mx-0 fr-grid-row fr-grid-row--space-between fr-grid-row--middle"
+    >
+      <div class="">
+        <h1>{{ title }}</h1>
+      </div>
+      <div class="">
+        <a
+          href="https://docs.numerique.gouv.fr/docs/7f7f4ec4-5d4c-43ce-a416-74e5aa4af14c/"
+          target="_blank"
+          class="fr-btn fr-btn--secondary"
+          rel="noopener noreferrer"
+          title="Consulter le guide - nouvelle fenêtre"
+        >
+          <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
+          Consulter le guide
+        </a>
+      </div>
     </div>
   </div>
+</div>
 
-  <div class="fr-tabs fr-mt-3w no-print" id="statut-selector">
+<div class="fr-container">
+  <div class="fr-tabs fr-mt-4w fr-d-print-none">
     <ul
       class="fr-tabs__list"
       role="tablist"
