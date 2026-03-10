@@ -138,7 +138,7 @@
     "internmap": "^2.0.3",
     "date-fns": "^2.30.0",
     "@babel/runtime": "^7.27.6",
-    "lodash-es": "4.17.21",
+    "lodash-es": "4.17.23",
     "blurhash": "2.0.5",
     "marked": "4.0.12",
     "turndown": "7.2.0",
