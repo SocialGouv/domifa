@@ -9,6 +9,7 @@ import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
 import { MATOMO_INJECTORS } from "../../../../shared";
+import { PhoneInputComponent } from "../../../usager-shared/components/input-phone-international/input-phone-international.component";
 
 describe("StructuresFormComponent", () => {
   let component: StructuresFormComponent;
@@ -23,6 +24,7 @@ describe("StructuresFormComponent", () => {
         FormsModule,
         NoopAnimationsModule,
         NgxIntlTelInputModule,
+        PhoneInputComponent,
         ...MATOMO_INJECTORS,
         RouterModule.forRoot([]),
       ],

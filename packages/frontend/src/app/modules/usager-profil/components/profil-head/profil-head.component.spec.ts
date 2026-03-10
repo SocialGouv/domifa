@@ -11,6 +11,8 @@ import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
+import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks";
+import { UsagerFormModel } from "../../../usager-shared/interfaces/UsagerFormModel";
 
 describe("ProfilHeadComponent", () => {
   let component: ProfilHeadComponent;
@@ -39,6 +41,7 @@ describe("ProfilHeadComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfilHeadComponent);
     component = fixture.componentInstance;
+    component.usager = new UsagerFormModel(USAGER_VALIDE_MOCK);
     fixture.detectChanges();
   });
 

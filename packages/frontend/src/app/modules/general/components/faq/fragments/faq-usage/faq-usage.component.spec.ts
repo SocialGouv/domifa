@@ -8,7 +8,19 @@ describe("FaqUsageComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FaqUsageComponent],
+      imports: [
+        FaqUsageComponent,
+        NgbModule,
+        ReactiveFormsModule,
+        FormsModule,
+        RouterModule.forRoot([]),
+        ...MATOMO_INJECTORS,
+      ],
+      providers: [
+        provideHttpClient(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FaqUsageComponent);
