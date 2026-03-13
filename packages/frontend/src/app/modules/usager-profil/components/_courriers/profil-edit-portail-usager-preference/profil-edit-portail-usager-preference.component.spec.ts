@@ -13,6 +13,7 @@ import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../../shared";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 describe("ProfilEditPortailUsagerPreferenceComponent", () => {
   let component: ProfilEditPortailUsagerPreferenceComponent;
@@ -27,6 +28,7 @@ describe("ProfilEditPortailUsagerPreferenceComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         SharedModule,
+        DsfrModalComponent,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [

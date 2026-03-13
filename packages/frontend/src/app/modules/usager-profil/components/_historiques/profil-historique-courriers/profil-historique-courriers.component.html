@@ -1,185 +1,166 @@
 <h3>
-  Historique des interactions:
+  Historique des interactions :
   {{ searchResults.meta.itemCount }} interactions
 </h3>
+
+@if (loading) {
 <div
-  *ngIf="loading"
   @fadeIn
   role="alert"
   aria-busy="true"
-  aria-label="Chargement des dossiers..."
-  class="text-center content-overlay d-print-none"
+  aria-label="Chargement des interactions..."
+  class="fr-p-4w fr-text--center"
 >
-  <div>
-    <fa-icon
-      [icon]="['fas', 'spinner']"
-      class="spinner"
-      animation="spin"
-      aria-hidden="true"
-    ></fa-icon>
-    <br />
-    <span class="fw-bold">Chargement des interactions...</span>
-  </div>
+  <span class="fr-icon-refresh-line fr-icon--spin" aria-hidden="true"></span>
+  <br />
+  <span class="fr-text--bold">Chargement des interactions...</span>
 </div>
-
-<ng-container *ngIf="!loading">
-  <div *ngIf="interactions.length > 0" class="table-responsive">
-    <table class="table-history table">
-      <caption class="visually-hidden">
-        Historique des courriers, colis, passages, et connexion au portail
-      </caption>
-      <thead>
-        <tr>
-          <th scope="col">Date</th>
-          <th scope="col">Type d'interaction</th>
-          <th scope="col">Contenu</th>
-          <th scope="col">Notifié par</th>
-          <th scope="col" class="text-end d-print-none">Actions</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <ng-container *ngFor="let interaction of interactions; let i = index">
-          <tr [attr.aria-rowindex]="i + 1">
-            <td>
-              {{ interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm" }}
-            </td>
-            <td
-              [ngClass]="{
-                'fw-bold':
+} @if (!loading) { @if (interactions.length > 0) {
+<div class="fr-table fr-table--no-caption">
+  <div class="fr-table__wrapper">
+    <div class="fr-table__container">
+      <div class="fr-table__content">
+        <table>
+          <caption class="fr-sr-only">
+            Historique des courriers, colis, passages, et connexion au portail
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Type d'interaction</th>
+              <th scope="col">Contenu</th>
+              <th scope="col">Notifié par</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (interaction of interactions; track interaction.uuid; let i =
+            $index) {
+            <tr [attr.aria-rowindex]="i + 1">
+              <td>
+                {{
+                  interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm"
+                }}
+              </td>
+              <td
+                [class.fr-text--bold]="
                   interaction.type === 'courrierOut' ||
                   interaction.type === 'recommandeOut' ||
                   interaction.type === 'colisOut'
-              }"
-            >
-              {{ interaction.label }}
-            </td>
-            <td>
-              <span
-                *ngIf="interaction.content"
-                [innerHTML]="interaction.content | nl2br"
-              ></span>
-            </td>
-            <td>{{ interaction.userName }}</td>
-            <td class="text-end d-print-none">
-              <ng-container *ngIf="i === 0 && params.page === 1">
+                "
+              >
+                {{ interaction.label }}
+              </td>
+              <td>
+                @if (interaction.content) {
+                <span [innerHTML]="interaction.content | nl2br"></span>
+                }
+              </td>
+              <td>{{ interaction.userName }}</td>
+              <td>
+                @if (i === 0 && params.page === 1) {
                 <button
                   type="button"
                   aria-label="Supprimer l'interaction"
                   (click)="openDeleteInteractionModal(interaction)"
-                  class="fr-btn"
-                >
-                  <span class="fr-icon-delete-line" aria-hidden="true"></span>
-                </button>
-              </ng-container>
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
+                  class="fr-btn fr-icon-delete-line"
+                ></button>
+                }
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
-
-  <div
-    class="fr-callout fr-callout--info"
-    *ngIf="!interactions || interactions.length === 0"
-  >
-    <p class="fr-callout__text">Aucune interaction enregistrée</p>
-  </div>
-</ng-container>
-
-<div
-  class="justify-content-center d-flex p-3 d-print-none"
-  *ngIf="interactions.length > 0 && searchResults.meta.itemCount >= params.take"
->
-  <div
-    class="results-selector justify-content-start align-items-center d-flex me-auto"
-  >
-    <select
-      name="limit"
-      [(ngModel)]="params.take"
-      (ngModelChange)="getInteractions()"
-      id="limit"
-    >
-      <option [ngValue]="10">10</option>
-      <option [ngValue]="50">50</option>
-      <option [ngValue]="100">100</option>
-      <option [ngValue]="250">250</option>
-      <option [ngValue]="500">500</option>
-    </select>
-    <label for="limit" class="ms-3 fw-bold">résultats par page </label>
-  </div>
-
-  <ngb-pagination
-    [collectionSize]="searchResults.meta.itemCount"
-    [(page)]="params.page"
-    [boundaryLinks]="true"
-    [rotate]="true"
-    [maxSize]="5"
-    [pageSize]="params.take"
-    (pageChange)="getInteractions()"
-  ></ngb-pagination>
 </div>
-<ng-template #deleteInteractionModal let-modal>
-  <div class="modal-header bg-danger">
-    <span class="text-white" id="modal-title">
-      Confirmez la suppression d'une interaction</span
-    >
+} @if (!interactions || interactions.length === 0) {
+<div class="fr-callout fr-callout--info">
+  <p class="fr-callout__text">Aucune interaction enregistrée</p>
+</div>
+} } @if (interactions.length > 0 && searchResults.meta.itemCount >= params.take)
+{
+<div class="fr-grid-row fr-grid-row--middle fr-p-3w">
+  <div class="fr-col">
+    <div class="fr-select-group">
+      <label class="fr-label" for="limit">Résultats par page</label>
+      <select
+        class="fr-select"
+        name="limit"
+        id="limit"
+        [(ngModel)]="params.take"
+        (ngModelChange)="getInteractions()"
+      >
+        <option [ngValue]="10">10</option>
+        <option [ngValue]="50">50</option>
+        <option [ngValue]="100">100</option>
+        <option [ngValue]="250">250</option>
+        <option [ngValue]="500">500</option>
+      </select>
+    </div>
   </div>
 
-  <div class="modal-body py-4 text-center" *ngIf="interactionToDelete">
-    <strong>Êtes-vous sûr de vouloir supprimer cette interaction ?</strong>
-    <br />
-    <p
-      *ngIf="
-        interactionToDelete.type === 'courrierIn' ||
-        interactionToDelete.type === 'recommandeIn' ||
-        interactionToDelete.type === 'colisIn'
-      "
-    >
-      Cette interaction sera retirée des interactions en attente de
-      distribution.
-    </p>
-
-    <p
-      *ngIf="
-        interactionToDelete.type === 'courrierOut' ||
-        interactionToDelete.type === 'recommandeOut' ||
-        interactionToDelete.type === 'colisOut'
-      "
-    >
-      Tous les courriers, colis ou avis de passage liés à cette distribution
-      seront de nouveau marqués comme "à distribuer".
-    </p>
-    <p>Le compteur d'interactions en attente sera remis à jour.</p>
+  <div class="fr-col--right">
+    <dsfr-pagination
+      [pageCount]="totalPages"
+      [currentPage]="params.page"
+      (pageSelect)="onPageSelect($event)"
+      ariaLabel="Pagination des interactions"
+    ></dsfr-pagination>
   </div>
+</div>
+}
 
-  <div class="modal-footer">
-    <button
-      type="submit"
-      class="btn btn-lg btn-danger"
-      (click)="deleteInteraction()"
-      [disabled]="loading"
-      [attr.aria-busy]="loading"
+<dsfr-modal
+  #deleteInteractionModal
+  titleModal="Confirmez la suppression d'une interaction"
+  dialogId="deleteInteractionModal"
+>
+  @if (interactionToDelete) {
+  <strong>Êtes-vous sûr de vouloir supprimer cette interaction ?</strong>
+
+  @if ( interactionToDelete.type === 'courrierIn' || interactionToDelete.type
+  === 'recommandeIn' || interactionToDelete.type === 'colisIn' ) {
+  <p>
+    Cette interaction sera retirée des interactions en attente de distribution.
+  </p>
+  } @if ( interactionToDelete.type === 'courrierOut' || interactionToDelete.type
+  === 'recommandeOut' || interactionToDelete.type === 'colisOut' ) {
+  <p>
+    Tous les courriers, colis ou avis de passage liés à cette distribution
+    seront de nouveau marqués comme "à distribuer".
+  </p>
+  }
+  <p>Le compteur d'interactions en attente sera remis à jour.</p>
+  }
+
+  <ng-template #modalFooterTemplate>
+    <div
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
     >
-      <span *ngIf="loading">
-        <fa-icon
-          [icon]="['fas', 'circle-notch']"
-          animation="spin"
+      <button
+        type="submit"
+        class="fr-btn"
+        (click)="deleteInteraction()"
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
+      >
+        @if (!loading) { Confirmer la suppression } @else {
+        <span
+          class="fr-icon-refresh-line fr-icon--spin"
           aria-hidden="true"
-        ></fa-icon>
-        Veuillez patienter...
-      </span>
-      <span *ngIf="!loading">Confirmer la suppression</span>
-    </button>
-    <button
-      type="button"
-      [disabled]="loading"
-      [attr.aria-busy]="loading"
-      [attr.aria-disabled]="loading"
-      class="btn btn-lg btn-outline-dark"
-      (click)="closeModals()"
-    >
-      Revenir au profil
-    </button>
-  </div>
-</ng-template>
+        ></span>
+        Veuillez patienter... }
+      </button>
+      <button
+        type="button"
+        class="fr-btn fr-btn--secondary"
+        [disabled]="loading"
+        (click)="closeModals()"
+      >
+        Revenir au profil
+      </button>
+    </div>
+  </ng-template>
+</dsfr-modal>

@@ -15,6 +15,7 @@ import {
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [ReportingFormComponent, StuctureStatsComponent],
@@ -26,6 +27,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     FormsModule,
     NgbModule,
     ReactiveFormsModule,
+    DsfrModalComponent,
   ],
   providers: [
     StructureStatsService,

@@ -80,30 +80,24 @@
               <button
                 type="button"
                 class="fr-btn fr-btn--secondary"
-                (click)="open('standby')"
+                (click)="open()"
               >
                 <i class="fr-icon-time-line fr-mr-1w" aria-hidden="true"></i>
                 Ajourner le dossier
               </button>
               }
 
-              <button
-                type="button"
-                class="fr-btn fr-btn--secondary"
-                (click)="open('refus')"
-              >
-                <i class="fr-icon-close-line fr-mr-1w" aria-hidden="true"></i>
-                Refuser le dossier
-              </button>
+              <app-decision-refus-form
+                [usager]="usager"
+                template="modal"
+                (closeModals)="closeModals()"
+              ></app-decision-refus-form>
 
-              <button
-                type="button"
-                class="fr-btn"
-                (click)="open('confirmation')"
-              >
-                <i class="fr-icon-check-line fr-mr-1w" aria-hidden="true"></i>
-                Accepter le dossier
-              </button>
+              <app-decision-valide-form
+                [usager]="usager"
+                template="modal"
+                (closeModals)="closeModals()"
+              ></app-decision-valide-form>
             </div>
             }
           </div>
@@ -349,29 +343,6 @@
 </div>
 <app-step-footer [usager]="usager"></app-step-footer>
 @if (usager) {
-<dsfr-modal
-  #refusModal
-  [titleModal]="'Refuser le dossier'"
-  [isScrollable]="true"
-  [size]="'LG'"
->
-  <app-decision-refus-form
-    [usager]="usager"
-    (closeModals)="closeModals()"
-  ></app-decision-refus-form>
-</dsfr-modal>
-
-<dsfr-modal
-  #confirmationModal
-  [titleModal]="'Confirmer la domiciliation de ' + (usager | fullName)"
-  [size]="'LG'"
->
-  <app-decision-valide-form
-    [usager]="usager"
-    (closeModals)="closeModals()"
-  ></app-decision-valide-form>
-</dsfr-modal>
-
 <dsfr-modal
   #standbyModal
   [titleModal]="'Ajourner le dossier'"

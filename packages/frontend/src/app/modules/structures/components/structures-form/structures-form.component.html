@@ -151,7 +151,10 @@
               class="fr-fieldset__legend--regular fr-fieldset__legend fr-text--bold fr-mb-0"
               id="type-structure-choice-legend"
             >
-              A quel type de structure appartenez-vous ?
+              A quel type de structure appartenez-vous ?<span
+                class="fr-text--error"
+                >*
+              </span>
             </legend>
 
             <div class="fr-fieldset__element fr-fieldset__element--inline">
@@ -288,6 +291,7 @@
                 maxlength="14"
                 pattern="[0-9]{14}"
                 appDigitOnly
+                required
                 [attr.aria-invalid]="
                   (submitted || f.siret?.dirty) && f.siret?.errors
                     ? true

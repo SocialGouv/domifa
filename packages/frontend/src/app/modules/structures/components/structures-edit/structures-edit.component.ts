@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -6,12 +6,10 @@ import {
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { saveAs } from "file-saver";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
-import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 import { StructureService } from "../../services/structure.service";
 import {
@@ -21,6 +19,7 @@ import {
 } from "@domifa/common";
 import { Store } from "@ngrx/store";
 import { usagerActions, UsagerState } from "../../../../shared";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-structures-edit",
@@ -39,12 +38,14 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
   private readonly subscription = new Subscription();
   public readonly UsagersFilterCriteriaStatut = UsagersFilterCriteriaStatut;
 
+  @ViewChild("hardResetModal", { static: false })
+  public hardResetModal!: DsfrModalComponent;
+
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly structureService: StructureService,
     private readonly toastService: CustomToastService,
     private readonly authService: AuthService,
-    private readonly modalService: NgbModal,
     private readonly titleService: Title,
     private readonly store: Store<UsagerState>
   ) {
@@ -79,12 +80,12 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  public open(content: TemplateRef<NgbModalRef>): void {
-    this.modalService.open(content, DEFAULT_MODAL_OPTIONS);
+  public openHardResetModal(): void {
+    this.hardResetModal.open();
   }
 
   public closeModals(): void {
-    this.modalService.dismissAll();
+    this.hardResetModal?.close();
   }
 
   public hardReset(): void {

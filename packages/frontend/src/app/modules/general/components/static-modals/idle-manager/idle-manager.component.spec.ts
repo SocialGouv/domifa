@@ -5,6 +5,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { IdleManagerComponent } from "./idle-manager.component";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../../shared";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 describe("IdleManagerComponent", () => {
   let component: IdleManagerComponent;
@@ -16,6 +17,7 @@ describe("IdleManagerComponent", () => {
       imports: [
         NgbModule,
         HttpClientTestingModule,
+        DsfrModalComponent,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
     }).compileComponents();

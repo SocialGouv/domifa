@@ -1,14 +1,6 @@
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from "@angular/core";
+import { Component, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
-import { DEFAULT_MODAL_OPTIONS } from "../../../../../../_common/model";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { Subscription } from "rxjs";
@@ -35,21 +27,29 @@ export class ProfilHistoriqueCourriersComponent implements OnInit, OnDestroy {
   public interactionToDelete: Interaction | null;
   private readonly subscription = new Subscription();
 
-  @ViewChild("deleteInteractionModal", { static: true })
-  public deleteInteractionModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("deleteInteractionModal", { static: false })
+  public deleteInteractionModal!: DsfrModalComponent;
 
-  public loading: boolean;
+  public loading = true;
   public params = new PageOptions({ take: 50 });
 
   public searchResults = new PageResults<Interaction>();
+
   constructor(
     private readonly toastService: CustomToastService,
-    private readonly interactionService: InteractionService,
-    private readonly modalService: NgbModal
+    private readonly interactionService: InteractionService
   ) {
-    this.loading = true;
     this.interactionToDelete = null;
     this.interactions = [];
+  }
+
+  public get totalPages(): number {
+    return Math.ceil(this.searchResults.meta.itemCount / this.params.take);
+  }
+
+  public onPageSelect(page: number): void {
+    this.params.page = page;
+    this.getInteractions();
   }
 
   public ngOnInit(): void {
@@ -97,13 +97,13 @@ export class ProfilHistoriqueCourriersComponent implements OnInit, OnDestroy {
 
   public openDeleteInteractionModal(interaction: Interaction): void {
     this.interactionToDelete = interaction;
-    this.modalService.open(this.deleteInteractionModal, DEFAULT_MODAL_OPTIONS);
+    this.deleteInteractionModal.open();
   }
 
   public closeModals(): void {
     this.loading = false;
     this.interactionToDelete = null;
-    this.modalService.dismissAll();
+    this.deleteInteractionModal.close();
   }
 
   public ngOnDestroy(): void {

@@ -91,7 +91,9 @@ export class PublicStatsComponent implements OnInit, OnDestroy {
       );
 
       const title =
-        "Statistiques régionales : " + this.regions[REGIONS_SEO_ID[region]];
+        "Statistiques régionales : " +
+        this.regions[REGIONS_SEO_ID[region]] +
+        " - DomiFa";
       const description =
         "DomiFa simplifie la domiciliation et la distribution de courrier pour les personnes sans domicile stable dans la région " +
         this.regions[REGIONS_SEO_ID[region]];

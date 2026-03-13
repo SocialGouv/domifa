@@ -1087,6 +1087,7 @@
             maxlength="14"
             pattern="[0-9]{14}"
             appDigitOnly
+            required
             aria-describedby="siret-messages"
             [attr.aria-invalid]="
               (submitted || f.siret?.dirty) && f.siret?.errors ? true : null

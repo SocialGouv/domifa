@@ -3,7 +3,6 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ProfilGeneralSectionComponent } from "./profil-general-section.component";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
@@ -22,7 +21,6 @@ describe("ProfilGeneralSectionComponent", () => {
       declarations: [ProfilGeneralSectionComponent],
       imports: [
         RouterModule.forRoot([]),
-        NgbModule,
         ReactiveFormsModule,
         StoreModule.forRoot({ app: _usagerReducer }),
         SharedModule,

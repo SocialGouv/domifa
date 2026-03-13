@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  AfterViewInit,
-} from "@angular/core";
+import { Component, OnDestroy, OnInit, AfterViewInit } from "@angular/core";
 
 import { Subscription } from "rxjs";
 import { environment } from "../../../../../environments/environment";
@@ -24,7 +18,7 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   public readonly portailAdminUrl = environment.portailAdminUrl;
 
   public pendingNews = false;
-  @Input() public me!: UserStructure | null;
+  public me: UserStructure | null = null;
 
   private readonly subscription = new Subscription();
 
@@ -35,6 +29,14 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   public ngOnInit(): void {
+    this.subscription.add(
+      this.authService.currentUserSubject.subscribe({
+        next: (user: UserStructure | null) => {
+          this.me = user;
+        },
+      })
+    );
+
     this.subscription.add(
       this.welcomeService.pendingNews$.subscribe({
         next: (pending) => {

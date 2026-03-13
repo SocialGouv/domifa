@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from "@angular/core";
 import {
   AbstractControl,
@@ -35,6 +36,7 @@ import {
   NgbDateCustomParserFormatter,
   CustomToastService,
 } from "../../../shared/services";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-decision-valide-form",
@@ -42,8 +44,13 @@ import {
 })
 export class DecisionValideFormComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public template: "modal" | "input" = "input";
   @Output() public closeModals = new EventEmitter<void>();
 
+  @ViewChild("decisionValideModal", { static: false })
+  public decisionValideModal!: DsfrModalComponent;
+
+  public modalTitle = "";
   public submitted: boolean = false;
   public loading: boolean = false;
   public valideForm!: UntypedFormGroup;
@@ -180,6 +187,16 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
           this.duplicates = duplicates;
         })
     );
+  }
+
+  public openModal(): void {
+    this.modalTitle = `Confirmer la domiciliation de ${this.usager.nom} ${this.usager.prenom}`;
+    this.decisionValideModal.open();
+  }
+
+  public closeModal(): void {
+    this.decisionValideModal.close();
+    this.closeModals.emit();
   }
 
   public setDecisionValide() {

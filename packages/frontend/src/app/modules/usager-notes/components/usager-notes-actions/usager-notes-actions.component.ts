@@ -4,19 +4,17 @@ import {
   Input,
   OnDestroy,
   Output,
-  TemplateRef,
   ViewChild,
   inject,
 } from "@angular/core";
 
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { UsagerNotesService } from "../../services/usager-notes.service";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerNote } from "@domifa/common";
-import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 
 type ActionType = "DELETE" | "ARCHIVE";
 
@@ -29,40 +27,22 @@ export class UsagerNotesActionsComponent implements OnDestroy {
   @Input({ required: true }) usager!: UsagerFormModel;
   @Output() getUsagerNotes = new EventEmitter<void>();
 
-  @ViewChild("deleteOrArchiveNoteModal", { static: true })
-  deleteOrArchiveNoteModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("deleteOrArchiveNoteModal", { static: false })
+  deleteOrArchiveNoteModal!: DsfrModalComponent;
 
-  // Signals et propriétés
-  dropdownOpen = false;
   loading = false;
   choosenAction: ActionType | null = null;
+  modalTitle = "";
 
-  // Dépendances injectées
   private readonly usagerNotesService = inject(UsagerNotesService);
-  private readonly modalService = inject(NgbModal);
   private readonly toastService = inject(CustomToastService);
 
-  // Gestion du lifecycle
   private readonly destroy$ = new Subject<void>();
-  private modalRef: NgbModalRef | null = null;
-
-  toggleDropdown(): void {
-    this.dropdownOpen = !this.dropdownOpen;
-  }
 
   openActionModal(action: ActionType): void {
     this.choosenAction = action;
-    this.modalRef = this.modalService.open(
-      this.deleteOrArchiveNoteModal,
-      DEFAULT_MODAL_OPTIONS
-    );
-  }
-
-  buttonSelect(event) {
-    console.log(event);
-  }
-  linkSelect(event) {
-    console.log(event);
+    this.modalTitle = this.getModalTitle(action);
+    this.deleteOrArchiveNoteModal.open();
   }
 
   confirmAction(): void {
@@ -150,13 +130,22 @@ export class UsagerNotesActionsComponent implements OnDestroy {
 
   cancelArchiveOrDelete(): void {
     this.choosenAction = null;
-    this.modalRef?.dismiss();
+    this.deleteOrArchiveNoteModal.close();
   }
 
   private closeModal(): void {
     this.loading = false;
     this.choosenAction = null;
-    this.modalRef?.close();
+    this.deleteOrArchiveNoteModal.close();
+  }
+
+  private getModalTitle(action: ActionType): string {
+    if (action === "DELETE") {
+      return `Supprimer une note du dossier de ${this.usager.nom} ${this.usager.prenom}`;
+    }
+    return this.note.archived
+      ? `Désarchiver une note du dossier de ${this.usager.nom} ${this.usager.prenom}`
+      : `Archiver une note du dossier de ${this.usager.nom} ${this.usager.prenom}`;
   }
 
   ngOnDestroy(): void {

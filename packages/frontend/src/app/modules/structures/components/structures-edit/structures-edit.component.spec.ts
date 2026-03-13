@@ -10,6 +10,7 @@ import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 describe("StructuresEditComponent", () => {
   let component: StructuresEditComponent;
@@ -25,6 +26,7 @@ describe("StructuresEditComponent", () => {
         RouterModule.forRoot([]),
         StoreModule.forRoot({ app: _usagerReducer }),
         NgxIntlTelInputModule,
+        DsfrModalComponent,
       ],
       providers: [
         provideHttpClient(),

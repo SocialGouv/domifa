@@ -54,30 +54,28 @@
     <legend class="fr-fieldset__legend">
       Avez-vous déjà une domiciliation ?
     </legend>
-    <div class="fr-fieldset__element">
-      <div class="fr-grid-row fr-grid-row--gutters">
-        <div class="fr-col-12 fr-col-md-6">
-          <div class="fr-radio-group">
-            <input
-              type="radio"
-              id="domiciliation_oui"
-              formControlName="domiciliation"
-              [value]="true"
-            />
-            <label class="fr-label" for="domiciliation_oui">Oui</label>
-          </div>
-        </div>
-        <div class="fr-col-12 fr-col-md-6">
-          <div class="fr-radio-group">
-            <input
-              type="radio"
-              id="domiciliation_non"
-              formControlName="domiciliation"
-              [value]="false"
-            />
-            <label class="fr-label" for="domiciliation_non">Non</label>
-          </div>
-        </div>
+
+    <div class="fr-fieldset__element fr-fieldset__element--inline">
+      <div class="fr-radio-group">
+        <input
+          type="radio"
+          id="domiciliation_oui"
+          formControlName="domiciliation"
+          [value]="true"
+        />
+        <label class="fr-label" for="domiciliation_oui">Oui</label>
+      </div>
+    </div>
+
+    <div class="fr-fieldset__element fr-fieldset__element--inline">
+      <div class="fr-radio-group">
+        <input
+          type="radio"
+          id="domiciliation_non"
+          formControlName="domiciliation"
+          [value]="false"
+        />
+        <label class="fr-label" for="domiciliation_non">Non</label>
       </div>
     </div>
   </fieldset>
@@ -172,21 +170,19 @@
             <label class="fr-label" for="revenus_non">Non</label>
           </div>
         </div>
-      </div>
-    </div>
-    <div
-      *ngIf="e.revenus.value === true"
-      class="fr-grid-row fr-grid-row--gutters"
-    >
-      <div class="fr-col-12">
-        <div class="fr-input-group">
-          <label class="fr-label" for="revenusDetail">De quelle nature ?</label>
-          <textarea
-            id="revenusDetail"
-            formControlName="revenusDetail"
-            class="fr-input"
-            maxlength="1000"
-          ></textarea>
+
+        <div class="fr-col-12" *ngIf="e.revenus.value === true">
+          <div class="fr-input-group">
+            <label class="fr-label" for="revenusDetail"
+              >De quelle nature ?</label
+            >
+            <textarea
+              id="revenusDetail"
+              formControlName="revenusDetail"
+              class="fr-input"
+              maxlength="1000"
+            ></textarea>
+          </div>
         </div>
       </div>
     </div>

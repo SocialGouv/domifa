@@ -36,12 +36,6 @@ export class StepDecisionComponent
   extends BaseUsagerDossierPageComponent
   implements OnInit, OnDestroy
 {
-  @ViewChild("refusModal", { static: false })
-  refusModal!: DsfrModalComponent;
-
-  @ViewChild("confirmationModal", { static: false })
-  confirmationModal!: DsfrModalComponent;
-
   @ViewChild("standbyModal", { static: false })
   standbyModal!: DsfrModalComponent;
 
@@ -96,24 +90,12 @@ export class StepDecisionComponent
     );
   }
 
-  public open(modalType: "refus" | "confirmation" | "standby") {
-    switch (modalType) {
-      case "refus":
-        this.refusModal.open();
-        break;
-      case "confirmation":
-        this.confirmationModal.open();
-        break;
-      case "standby":
-        this.standbyModal.open();
-        break;
-    }
+  public open() {
+    this.standbyModal.open();
   }
 
   public closeModals() {
-    this.refusModal.close();
-    this.confirmationModal.close();
-    this.standbyModal.close();
+    this.standbyModal?.close();
   }
 
   public getCerfa(typeCerfa: CerfaDocType) {

@@ -1,16 +1,9 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ViewChild,
-  TemplateRef,
-} from "@angular/core";
-import { NgbModal, NgbModalRef, NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { Subscription } from "rxjs";
 import { AuthService } from "../../../../shared/services";
 import { WelcomeService } from "../../../services/welcome.service";
 import { UserStructure } from "@domifa/common";
-import { DEFAULT_MODAL_OPTIONS } from "src/_common/model";
 import DOMIFA_NEWS from "src/assets/files/news.json";
 import { AppTourModalComponent } from "../app-tour-modal/app-tour-modal.component";
 import { CommonModule } from "@angular/common";
@@ -19,12 +12,17 @@ import { SharedModule } from "../../../../shared/shared.module";
 @Component({
   selector: "app-welcome-modal",
   standalone: true,
-  imports: [NgbModule, CommonModule, AppTourModalComponent, SharedModule],
+  imports: [
+    DsfrModalComponent,
+    CommonModule,
+    AppTourModalComponent,
+    SharedModule,
+  ],
   templateUrl: "./welcome-modal.component.html",
 })
 export class WelcomeModalComponent implements OnInit, OnDestroy {
-  @ViewChild("newsModal", { static: true })
-  public newsModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("newsModal", { static: false })
+  public newsModal!: DsfrModalComponent;
 
   @ViewChild(AppTourModalComponent)
   public appTourModal!: AppTourModalComponent;
@@ -32,11 +30,12 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public news: any;
 
+  public newsModalOpen = false;
+
   private readonly subscription = new Subscription();
 
   constructor(
     private readonly authService: AuthService,
-    private readonly modalService: NgbModal,
     private readonly welcomeService: WelcomeService
   ) {}
 
@@ -44,7 +43,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.authService.currentUserSubject.subscribe({
         next: (user: UserStructure | null) => {
-          if (!user || this.modalService.hasOpenModals()) {
+          if (!user || this.newsModalOpen) {
             return;
           }
 
@@ -58,7 +57,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   }
 
   private checkWelcomeFlow(): void {
-    if (this.modalService.hasOpenModals()) {
+    if (this.newsModalOpen) {
       return;
     }
 
@@ -84,7 +83,8 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
 
   private showNewsModal(): void {
     this.news = DOMIFA_NEWS[0];
-    this.modalService.open(this.newsModal, DEFAULT_MODAL_OPTIONS);
+    this.newsModalOpen = true;
+    this.newsModal.open();
   }
 
   public onTourComplete(): void {
@@ -100,7 +100,8 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   }
 
   public hideNews(): void {
-    this.modalService.dismissAll();
+    this.newsModalOpen = false;
+    this.newsModal.close();
     this.welcomeService.markNewsAsSeen();
   }
 

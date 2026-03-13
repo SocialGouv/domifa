@@ -1,15 +1,7 @@
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 
 import { AuthService } from "../../../shared/services/auth.service";
 import { StructureDocService } from "../../services/structure-doc.service";
@@ -19,6 +11,7 @@ import {
   initLoadingState,
   WithLoading,
 } from "@domifa/common";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-structures-custom-docs",
@@ -33,14 +26,13 @@ export class StructuresCustomDocsComponent implements OnInit, OnDestroy {
   public isCustomDoc: boolean;
   private readonly subscription = new Subscription();
 
-  @ViewChild("uploadCustomDocModal", { static: true })
-  public uploadCustomDocModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("uploadCustomDocModal", { static: false })
+  public uploadCustomDocModal!: DsfrModalComponent;
 
   constructor(
     private readonly authService: AuthService,
     private readonly structureDocService: StructureDocService,
     private readonly toastService: CustomToastService,
-    private readonly modalService: NgbModal,
     private readonly titleService: Title
   ) {
     this.structureDocs = [];
@@ -75,12 +67,12 @@ export class StructuresCustomDocsComponent implements OnInit, OnDestroy {
   }
 
   public closeModals(): void {
-    this.modalService.dismissAll();
+    this.uploadCustomDocModal?.close();
   }
 
   public openUploadCustomDocModal(isCustomDoc = false): void {
     this.isCustomDoc = isCustomDoc;
-    this.modalService.open(this.uploadCustomDocModal, DEFAULT_MODAL_OPTIONS);
+    this.uploadCustomDocModal.open();
   }
 
   public ngOnDestroy(): void {

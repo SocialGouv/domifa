@@ -305,7 +305,7 @@
       </div>
       <div class="col d-flex flex-column gap-4 p-2">
         <section>
-          <h4 class="mb-1">Top des régions</h4>
+          <h4 class="mb-1">Liste des régions</h4>
           <div class="region-list">
             <ul>
               <li
@@ -331,34 +331,26 @@
                   </a></span
                 >
               </li>
+
+              <li
+                class="d-flex justify-content-start gap-2 align-items-center"
+                *ngFor="let departementCom of DEPARTEMENTS_COM | keyvalue"
+              >
+                <span class="fr-text-title--blue-france fw-bold">
+                  {{ statsRegionsValues[departementCom.value.regionCode] }}
+                </span>
+                <span>
+                  <a
+                    [routerLink]="[
+                      '/stats/region/' + departementCom.value.regionId
+                    ]"
+                    ariaCurrentWhenActive="page"
+                  >
+                    {{ departementCom.value.departmentName }}
+                  </a>
+                </span>
+              </li>
             </ul>
-          </div>
-        </section>
-        <section>
-          <div class="text-start">
-            <h4 class="mb-1">Les collectivités d'outre-mer</h4>
-            <div>
-              <ul>
-                <li
-                  class="d-flex justify-content-start gap-2 align-items-center"
-                  *ngFor="let departementCom of DEPARTEMENTS_COM | keyvalue"
-                >
-                  <span class="fr-text-title--blue-france fw-bold">
-                    {{ statsRegionsValues[departementCom.value.regionCode] }}
-                  </span>
-                  <span>
-                    <a
-                      [routerLink]="[
-                        '/stats/region/' + departementCom.value.regionId
-                      ]"
-                      ariaCurrentWhenActive="page"
-                    >
-                      {{ departementCom.value.departmentName }}
-                    </a>
-                  </span>
-                </li>
-              </ul>
-            </div>
           </div>
         </section>
       </div>

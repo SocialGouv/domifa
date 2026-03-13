@@ -15,7 +15,7 @@
   mask-size: 80% !important;
 }
 
-.btn:hover .list-icon {
+.fr-btn:hover .list-icon {
   background-color: white;
 }
 
