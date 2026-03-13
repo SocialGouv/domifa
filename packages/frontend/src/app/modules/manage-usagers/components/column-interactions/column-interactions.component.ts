@@ -13,7 +13,8 @@ import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { InteractionService } from "../../../usager-shared/services";
 import { INTERACTIONS_LABELS_SINGULIER, InteractionType } from "@domifa/common";
-import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { SetInteractionInFormComponent } from "../../../usager-shared/components/interactions/set-interaction-in-form/set-interaction-in-form.component";
+import { SetInteractionOutFormComponent } from "../../../usager-shared/components/interactions/set-interaction-out-form/set-interaction-out-form.component";
 
 @Component({
   selector: "app-manage-usagers-interactions",
@@ -22,11 +23,11 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ColumnInteractionsComponent implements OnDestroy {
-  @ViewChild("setInteractionInModal")
-  public setInteractionInModal!: DsfrModalComponent;
+  @ViewChild("interactionInRef")
+  public interactionInRef!: SetInteractionInFormComponent;
 
-  @ViewChild("setInteractionOutModal")
-  public setInteractionOutModal!: DsfrModalComponent;
+  @ViewChild("interactionOutRef")
+  public interactionOutRef!: SetInteractionOutFormComponent;
 
   @Output()
   public updateInteractions = new EventEmitter<void>();
@@ -88,34 +89,19 @@ export class ColumnInteractionsComponent implements OnDestroy {
   }
 
   public openInteractionInModal(): void {
-    this.setInteractionInModal.open();
+    this.interactionInRef.open();
   }
 
   public openInteractionOutModal(): void {
-    this.setInteractionOutModal.open();
+    this.interactionOutRef.open();
   }
 
-  public closeInteractionInModal(
-    interactionType: InteractionType | "distribution" | "reception",
-    usagerRef: number
-  ): void {
-    this.setInteractionInModal.close();
-    this.setFocusOnElement(interactionType, usagerRef);
+  public onInteractionInClosed(): void {
+    this.setFocusOnElement("reception", this.usager.ref);
   }
 
-  public closeInteractionOutModal(
-    interactionType: InteractionType | "distribution" | "reception",
-    usagerRef: number
-  ): void {
-    this.setInteractionOutModal.close();
-    this.setFocusOnElement(interactionType, usagerRef);
-  }
-
-  public cancelReception(
-    interactionType: InteractionType | "distribution" | "reception",
-    usagerRef: number
-  ): void {
-    this.setFocusOnElement(interactionType, usagerRef);
+  public onInteractionOutClosed(): void {
+    this.setFocusOnElement("distribution", this.usager.ref);
   }
 
   private setFocusOnElement(

@@ -273,56 +273,16 @@
   }
 </div>
 
-<dsfr-modal
-  #setInteractionInModal
-  [size]="'LG'"
-  dialogId="setInteractionInModal"
-  titleModal="Réception de courrier"
->
-  <app-set-interaction-in-form
-    #interactionInRef
-    [usager]="usager"
-    (cancelReception)="closeModals()"
-    (updateInteractions)="updateInteractions()"
-  ></app-set-interaction-in-form>
+<app-set-interaction-in-form
+  #interactionInRef
+  [usager]="usager"
+  (cancelReception)="closeModals()"
+  (updateInteractions)="updateInteractions()"
+></app-set-interaction-in-form>
 
-  <ng-template #modalFooterTemplate>
-    <div
-      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
-    >
-      <button
-        type="button"
-        class="fr-btn"
-        [disabled]="interactionInRef.loading"
-        [attr.aria-busy]="interactionInRef.loading"
-        (click)="interactionInRef.setInteractionForm()"
-      >
-        @if (!interactionInRef.loading) {
-        <span>Valider</span>
-        } @else {
-        <span class="fr-sr-only">Veuillez patienter...</span>
-        }
-      </button>
-      <button
-        type="button"
-        class="fr-btn fr-btn--secondary"
-        (click)="closeModals()"
-      >
-        Annuler
-      </button>
-    </div>
-  </ng-template>
-</dsfr-modal>
-
-<dsfr-modal
-  #setInteractionOutModal
-  [size]="'LG'"
-  dialogId="setInteractionOutModal"
-  titleModal="Distribution du courrier"
->
-  <app-set-interaction-out-form
-    [usager]="usager"
-    (cancelReception)="closeModals()"
-    (updateInteractions)="updateInteractions()"
-  ></app-set-interaction-out-form>
-</dsfr-modal>
+<app-set-interaction-out-form
+  #interactionOutRef
+  [usager]="usager"
+  (cancelReception)="closeModals()"
+  (updateInteractions)="updateInteractions()"
+></app-set-interaction-out-form>

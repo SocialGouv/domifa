@@ -86,61 +86,18 @@
   </button>
   }
 </div>
-} }
-
-<dsfr-modal
-  #setInteractionInModal
-  titleModal="Réception de courriers"
-  size="LG"
-  (conceal)="cancelReception('reception', usager.ref)"
->
-  @if (usager) {
-  <app-set-interaction-in-form
-    #interactionInRef
-    [usager]="usager"
-    (cancelReception)="closeInteractionInModal('reception', usager.ref)"
-  ></app-set-interaction-in-form>
-  }
-
-  <ng-template #modalFooterTemplate>
-    <div
-      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
-    >
-      <button
-        type="button"
-        class="fr-btn"
-        [disabled]="interactionInRef?.loading"
-        [attr.aria-busy]="interactionInRef?.loading"
-        (click)="interactionInRef?.setInteractionForm()"
-      >
-        @if (!interactionInRef?.loading) {
-        <span>Valider</span>
-        } @else {
-        <span class="fr-sr-only">Veuillez patienter...</span>
-        }
-      </button>
-      <button
-        type="button"
-        class="fr-btn fr-btn--secondary"
-        (click)="closeInteractionInModal('reception', usager.ref)"
-      >
-        Annuler
-      </button>
-    </div>
-  </ng-template>
-</dsfr-modal>
-
-<dsfr-modal
-  #setInteractionOutModal
-  titleModal="Distribuer les courriers"
-  size="MD"
-  (conceal)="cancelReception('distribution', usager.ref)"
->
-  @if (usager) {
-  <app-set-interaction-out-form
-    [usager]="usager"
-    (cancelReception)="closeInteractionOutModal('distribution', usager.ref)"
-    (updateInteractions)="updateInteractions.emit()"
-  ></app-set-interaction-out-form>
-  }
-</dsfr-modal>
+} } @if (usager) {
+<app-set-interaction-in-form
+  #interactionInRef
+  [usager]="usager"
+  (cancelReception)="onInteractionInClosed()"
+  (updateInteractions)="updateInteractions.emit()"
+></app-set-interaction-in-form>
+} @if (usager) {
+<app-set-interaction-out-form
+  #interactionOutRef
+  [usager]="usager"
+  (cancelReception)="onInteractionOutClosed()"
+  (updateInteractions)="updateInteractions.emit()"
+></app-set-interaction-out-form>
+}

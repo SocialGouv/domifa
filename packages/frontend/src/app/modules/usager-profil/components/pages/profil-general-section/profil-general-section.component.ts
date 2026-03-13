@@ -2,9 +2,9 @@ import { Component, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
-
 import { ProfilGeneralHistoriqueCourriersComponent } from "../../_general-section/profil-general-historique-courriers/profil-general-historique-courriers.component";
+import { SetInteractionInFormComponent } from "../../../../usager-shared/components/interactions/set-interaction-in-form/set-interaction-in-form.component";
+import { SetInteractionOutFormComponent } from "../../../../usager-shared/components/interactions/set-interaction-out-form/set-interaction-out-form.component";
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
 import {
   ETAPES_DEMANDE_URL,
@@ -38,11 +38,11 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
 
-  @ViewChild("setInteractionInModal", { static: false })
-  public setInteractionInModal!: DsfrModalComponent;
+  @ViewChild("interactionInRef")
+  public interactionInRef!: SetInteractionInFormComponent;
 
-  @ViewChild("setInteractionOutModal", { static: false })
-  public setInteractionOutModal!: DsfrModalComponent;
+  @ViewChild("interactionOutRef")
+  public interactionOutRef!: SetInteractionOutFormComponent;
 
   @ViewChild(ProfilGeneralHistoriqueCourriersComponent)
   private readonly profileComponent!: ProfilGeneralHistoriqueCourriersComponent;
@@ -116,17 +116,14 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
     this.profileComponent.getInteractions();
   }
 
-  public closeModals(): void {
-    this.setInteractionInModal?.close();
-    this.setInteractionOutModal?.close();
-  }
+  public closeModals(): void {}
 
   public openInteractionInModal(): void {
-    this.setInteractionInModal.open();
+    this.interactionInRef.open();
   }
 
   public openInteractionOutModal(): void {
-    this.setInteractionOutModal.open();
+    this.interactionOutRef.open();
   }
 
   private stopLoading(loadingRef: string) {
