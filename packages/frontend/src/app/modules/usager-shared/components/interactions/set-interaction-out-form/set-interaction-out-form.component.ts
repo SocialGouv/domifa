@@ -93,6 +93,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
 
   public close(): void {
     this.distributionModal.close();
+    this.cancelReception.emit();
   }
 
   public ngOnDestroy(): void {
@@ -193,7 +194,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
           next: () => {
             this.loading = false;
             this.updateInteractions.emit();
-            this.cancelReception.emit();
+            this.close();
             this.toastService.success("Distribution effectuée avec succès");
           },
           error: () => {
