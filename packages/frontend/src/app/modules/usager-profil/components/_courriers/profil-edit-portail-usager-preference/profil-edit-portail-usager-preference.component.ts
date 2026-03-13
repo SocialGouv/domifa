@@ -1,15 +1,7 @@
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from "@angular/core";
+import { Component, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { saveAs } from "file-saver";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
-import { DEFAULT_MODAL_OPTIONS } from "../../../../../../_common/model";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { DocumentService } from "../../../../usager-shared/services/document.service";
 import { StructureDocTypesAvailable, UserStructure } from "@domifa/common";
@@ -17,7 +9,7 @@ import {
   PortailUsagersInformations,
   PortailUsagersService,
 } from "../../../services/portail-usagers.service";
-import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-profil-edit-portail-usager-preference",
@@ -37,8 +29,8 @@ export class ProfilEditPortailUsagerPreferenceComponent
     temporaryPassword: string;
   };
 
-  @ViewChild("confirmationModal", { static: true })
-  public confirmationModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("confirmationModal", { static: false })
+  public confirmationModal!: DsfrModalComponent;
 
   private readonly subscription = new Subscription();
   public portailUsagersInformations: PortailUsagersInformations | null;
@@ -46,8 +38,7 @@ export class ProfilEditPortailUsagerPreferenceComponent
   constructor(
     private readonly toastService: CustomToastService,
     private readonly documentService: DocumentService,
-    private readonly portailUsagersService: PortailUsagersService,
-    private readonly modalService: NgbModal
+    private readonly portailUsagersService: PortailUsagersService
   ) {
     this.isLoginToDisplay = false;
     this.loginToDisplay = {
@@ -65,11 +56,11 @@ export class ProfilEditPortailUsagerPreferenceComponent
   }
 
   public openConfirmationModal(): void {
-    this.modalService.open(this.confirmationModal, DEFAULT_MODAL_OPTIONS);
+    this.confirmationModal.open();
   }
 
   public closeModals(): void {
-    this.modalService.dismissAll();
+    this.confirmationModal.close();
   }
 
   public getPortaiUsagersInformations(): void {

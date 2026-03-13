@@ -1,32 +1,24 @@
-<ng-template #idleModal let-modal>
-  <div class="modal-header">
-    <span id="modal-title">
-      ⏳ Souhaitez-vous poursuivre votre navigation sur DomiFa ?
-    </span>
-    <button
-      class="btn-close"
-      type="button"
-      aria-label="Fermer la boite de dialogue"
-      (click)="resetTimer()"
-    ></button>
-  </div>
+<dsfr-modal
+  #idleModal
+  [titleModal]="'Souhaitez-vous poursuivre votre navigation sur DomiFa ?'"
+  [size]="'MD'"
+  dialogId="idleModal"
+>
+  <p>
+    Aucune activité n'a été enregistrée depuis une heure, vous allez être
+    automatiquement déconnecté dans 1 minute.
+  </p>
 
-  <div class="modal-body text-center py-3">
-    <p>
-      Aucune activité n'a été enregistrée depuis une heure, vous allez être
-      automatiquement déconnecté dans 1 minute.
-    </p>
-  </div>
-  <div class="modal-footer">
-    <button class="fr-btn" type="submit" (click)="resetTimer()">
-      Oui, je reste connecté
-    </button>
-    <button
-      class="btn btn-lg btn-outline-primary"
-      type="button"
-      (click)="logout()"
+  <ng-template #modalFooterTemplate>
+    <div
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
     >
-      Non, je me déconnecte
-    </button>
-  </div>
-</ng-template>
+      <button class="fr-btn" type="button" (click)="resetTimer()">
+        Oui, je reste connecté
+      </button>
+      <button class="fr-btn fr-btn--secondary" type="button" (click)="logout()">
+        Non, je me déconnecte
+      </button>
+    </div>
+  </ng-template>
+</dsfr-modal>

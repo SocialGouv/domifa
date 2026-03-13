@@ -1,18 +1,14 @@
-import { Component, TemplateRef, ViewChild } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import {
-  NgbDateStruct,
-  NgbModal,
-  NgbModalRef,
-} from "@ng-bootstrap/ng-bootstrap";
+import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 import { ProfilGeneralHistoriqueCourriersComponent } from "../../_general-section/profil-general-historique-courriers/profil-general-historique-courriers.component";
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
 import {
   ETAPES_DEMANDE_URL,
   InteractionInForApi,
-  DEFAULT_MODAL_OPTIONS,
 } from "../../../../../../_common/model";
 import {
   minDateNaissance,
@@ -42,14 +38,11 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
 
-  @ViewChild("distributionConfirm", { static: true })
-  public distributionConfirm!: TemplateRef<NgbModalRef>;
+  @ViewChild("setInteractionInModal", { static: false })
+  public setInteractionInModal!: DsfrModalComponent;
 
-  @ViewChild("setInteractionInModal", { static: true })
-  public setInteractionInModal!: TemplateRef<NgbModalRef>;
-
-  @ViewChild("setInteractionOutModal", { static: true })
-  public setInteractionOutModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("setInteractionOutModal", { static: false })
+  public setInteractionOutModal!: DsfrModalComponent;
 
   @ViewChild(ProfilGeneralHistoriqueCourriersComponent)
   private readonly profileComponent!: ProfilGeneralHistoriqueCourriersComponent;
@@ -66,7 +59,6 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
     public route: ActivatedRoute,
     public router: Router,
     public store: Store<UsagerState>,
-    private readonly modalService: NgbModal,
     private readonly interactionService: InteractionService
   ) {
     super(
@@ -125,15 +117,16 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
   }
 
   public closeModals(): void {
-    this.modalService.dismissAll();
+    this.setInteractionInModal?.close();
+    this.setInteractionOutModal?.close();
   }
 
   public openInteractionInModal(): void {
-    this.modalService.open(this.setInteractionInModal, DEFAULT_MODAL_OPTIONS);
+    this.setInteractionInModal.open();
   }
 
   public openInteractionOutModal(): void {
-    this.modalService.open(this.setInteractionOutModal, DEFAULT_MODAL_OPTIONS);
+    this.setInteractionOutModal.open();
   }
 
   private stopLoading(loadingRef: string) {

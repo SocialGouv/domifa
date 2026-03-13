@@ -41,6 +41,7 @@ import {
   DsfrLinkComponent,
   DsfrButtonComponent,
   DsfrResponseComponent,
+  DsfrModalComponent,
 } from "@edugouvfr/ngx-dsfr";
 import { LoginDropdownComponent } from "./components/navbar/fragments/login-dropdown/login-dropdown.component";
 
@@ -87,6 +88,7 @@ import { LoginDropdownComponent } from "./components/navbar/fragments/login-drop
     DsfrLinkComponent,
     DsfrButtonComponent,
     DsfrResponseComponent,
+    DsfrModalComponent,
     DsfrUserMenuComponent,
   ],
   providers: [

@@ -23,7 +23,7 @@ import {
 } from "../../../../util";
 import { BrevoSenderService } from "../../../mails/services/brevo-sender/brevo-sender.service";
 import { domifaConfig } from "../../../../config";
-import { join } from "path";
+import { join } from "node:path";
 import { LogAction } from "../../../app-logs/types";
 import { getStructureDecisionMotif } from "../get-structure-decision-motif";
 

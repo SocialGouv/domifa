@@ -178,7 +178,6 @@
 <dsfr-modal
   id="renew-modal"
   #renewModal
-  [size]="'LG'"
   dialogId="renewModal"
   [titleModal]="
     usager.decision.statut !== 'RADIE' && usager.decision.statut !== 'REFUS'
@@ -187,32 +186,30 @@
   "
 >
   <ng-container dsfrModalBody>
-    <div class="fr-modal__content">
-      @if (usager.decision.statut !== 'RADIE' && usager.decision.statut !==
-      'REFUS') {
-      <p>
-        Si vous commencez un renouvellement,<br />
-        <strong>ce dossier ne sera plus considéré comme "actif".</strong>
-      </p>
-      } @if (usager.decision.statut === 'RADIE') {
-      <p>
-        Si vous commencez une nouvelle demande,
-        <strong>ce dossier ne sera plus comptabilisé parmi les radiés.</strong>
-      </p>
-      } @if (usager.decision.statut === 'REFUS') {
-      <p>
-        Si vous créez une nouvelle demande,<br />
-        <strong>ce dossier ne sera plus comptabilisé parmi les refusés.</strong>
-      </p>
-      }
+    @if (usager?.decision?.statut !== 'RADIE' && usager?.decision?.statut !==
+    'REFUS') {
+    <p>
+      Si vous commencez un renouvellement,<br />
+      <strong>ce dossier ne sera plus considéré comme "actif".</strong>
+    </p>
+    } @if (usager.decision.statut === 'RADIE') {
+    <p>
+      Si vous commencez une nouvelle demande,
+      <strong>ce dossier ne sera plus comptabilisé parmi les radiés.</strong>
+    </p>
+    } @if (usager.decision.statut === 'REFUS') {
+    <p>
+      Si vous créez une nouvelle demande,<br />
+      <strong>ce dossier ne sera plus comptabilisé parmi les refusés.</strong>
+    </p>
+    }
 
-      <p>
-        Afin de le retrouver dans la liste, vous devrez cliquer sur le filtre
-        <strong>«&nbsp;À compléter&nbsp;»</strong>.
-      </p>
-    </div>
+    <p>
+      Afin de le retrouver dans la liste, vous devrez cliquer sur le filtre
+      <strong>«&nbsp;À compléter&nbsp;»</strong>.
+    </p>
   </ng-container>
-  <ng-container dsfrModalActions>
+  <ng-template #modalFooterTemplate>
     <div
       class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
     >
@@ -241,5 +238,5 @@
         Revenir au profil
       </button>
     </div>
-  </ng-container>
+  </ng-template>
 </dsfr-modal>

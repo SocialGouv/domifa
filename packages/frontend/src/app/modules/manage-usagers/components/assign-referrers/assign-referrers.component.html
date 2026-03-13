@@ -1,11 +1,57 @@
-<div class="modal-header bg-primary">
-  <span class="text-white" id="modal-title"
-    >Assigner un référents aux {{ selectedRefs.size }} dossiers
-  </span>
+@if (template === 'modal' && me?.role !== 'facteur' && me?.role !== 'agent') {
+<button
+  type="button"
+  (click)="openModal()"
+  class="fr-btn fr-btn--secondary fr-btn--sm fr-icon-team-line fr-btn--icon-left"
+>
+  Assigner un référent
+</button>
+} @if (template === 'input') {
+<p>
+  Assigner un référent aux {{ selectedRefs.size }} dossiers<br />
+  Vous pouvez assigner un référent en choissant dans la liste ci-dessous.
+  <br />
+  Attention, si le dossier dispose déjà d'un référent, celui-ci sera remplacé
+</p>
+<div class="d-flex flex-wrap justify-content-center align-items-center">
+  <div class="w-50">
+    <app-input-referrer
+      [submitted]="submitted"
+      [displayLabel]="true"
+      label="À qui souhaitez-vous assigner ces dossiers ?"
+      [required]="true"
+      (outputFunction)="updateReferrers($event)"
+    ></app-input-referrer>
+  </div>
 </div>
-
-<div class="modal-body text-center">
+<div class="fr-btns-group fr-btns-group--inline fr-mt-2w">
+  <button
+    class="fr-btn fr-btn--secondary"
+    type="button"
+    (click)="actionAfterSuccess.emit()"
+  >
+    Annuler
+  </button>
+  <button
+    type="submit"
+    class="fr-btn"
+    (click)="assignReferrers()"
+    [disabled]="loading"
+    [attr.aria-busy]="loading"
+  >
+    @if (!loading) { Confirmer l'assignation } @else {
+    <span class="fr-icon-refresh-line fr-icon--spin" aria-hidden="true"></span>
+    Veuillez patienter... }
+  </button>
+</div>
+} @if (template === 'modal') {
+<dsfr-modal
+  #assignReferrersModal
+  dialogId="assignReferrersModal"
+  titleModal="Assigner un référent"
+>
   <p>
+    Assigner un référent aux {{ selectedRefs.size }} dossiers<br />
     Vous pouvez assigner un référent en choissant dans la liste ci-dessous.
     <br />
     Attention, si le dossier dispose déjà d'un référent, celui-ci sera remplacé
@@ -21,32 +67,33 @@
       ></app-input-referrer>
     </div>
   </div>
-</div>
 
-<div class="modal-footer text-center">
-  <button
-    class="btn btn-lg btn-outline-dark"
-    type="button"
-    (click)="actionAfterSuccess.emit()"
-  >
-    Annuler
-  </button>
-  <button
-    type="submit"
-    class="fr-btn"
-    (click)="assignReferrers()"
-    [disabled]="loading"
-    [attr.aria-busy]="loading"
-  >
-    <span *ngIf="!loading">Confirmer l'assignation</span>
-    <span *ngIf="loading">
-      <fa-icon
-        [icon]="['fas', 'circle-notch']"
-        aria-hidden="true"
-        animation="spin"
+  <ng-template #modalFooterTemplate>
+    <div
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
+    >
+      <button
+        type="button"
+        class="fr-btn"
+        (click)="assignReferrers()"
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
       >
-      </fa-icon>
-      Veuillez patientez...
-    </span>
-  </button>
-</div>
+        @if (!loading) { Confirmer l'assignation } @else {
+        <span
+          class="fr-icon-refresh-line fr-icon--spin"
+          aria-hidden="true"
+        ></span>
+        Veuillez patienter... }
+      </button>
+      <button
+        type="button"
+        class="fr-btn fr-btn--secondary"
+        (click)="closeModal()"
+      >
+        Annuler
+      </button>
+    </div>
+  </ng-template>
+</dsfr-modal>
+}

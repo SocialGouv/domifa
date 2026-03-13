@@ -4,7 +4,6 @@ import {
   Input,
   OnInit,
   Output,
-  TemplateRef,
   ViewChild,
 } from "@angular/core";
 import {
@@ -13,6 +12,7 @@ import {
   Validators,
   AbstractControl,
 } from "@angular/forms";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 import {
   StructureStatsReportingQuestions,
@@ -23,8 +23,6 @@ import {
 import { StructureStatsService } from "../../services/structure-stats.service";
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { Subscription } from "rxjs";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import { MatomoTracker } from "ngx-matomo-client";
 import { valueInArrayValidator } from "../../../../shared";
 
@@ -45,8 +43,9 @@ export class ReportingFormComponent implements OnInit {
   public submitted = false;
   public loading = false;
   public me: UserStructure | null;
-  @ViewChild("completeReportModal", { static: true })
-  public completeReportModal!: TemplateRef<NgbModalRef>;
+  public modalTitle = "";
+  @ViewChild("completeReportModal", { static: false })
+  public completeReportModal!: DsfrModalComponent;
 
   public get f(): { [key: string]: AbstractControl } {
     return this.structureStatsForm.controls;
@@ -56,7 +55,6 @@ export class ReportingFormComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly structureStatsService: StructureStatsService,
     private readonly toastService: CustomToastService,
-    private readonly modalService: NgbModal,
     private readonly matomo: MatomoTracker,
     private readonly authService: AuthService
   ) {
@@ -68,6 +66,7 @@ export class ReportingFormComponent implements OnInit {
   }
 
   public openModal(): void {
+    this.modalTitle = `Compléter le rapport de l'année ${this.currentReport?.year}`;
     this.matomo.trackEvent("STATS", "ANNUAL_REPORT_FORM", "START", 1);
 
     this.structureStatsForm = this.fb.group({
@@ -104,15 +103,12 @@ export class ReportingFormComponent implements OnInit {
         ],
       ],
     });
-    this.modalService.open(this.completeReportModal, {
-      ...DEFAULT_MODAL_OPTIONS,
-      keyboard: false,
-    });
+    this.completeReportModal.open();
   }
 
   public closeModal(): void {
     this.submitted = false;
-    this.modalService.dismissAll();
+    this.completeReportModal.close();
   }
 
   public sendQuestionsForm() {

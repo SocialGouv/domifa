@@ -4,7 +4,6 @@ import {
   ElementRef,
   Input,
   OnDestroy,
-  TemplateRef,
   ViewChild,
 } from "@angular/core";
 import {
@@ -13,9 +12,8 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { Subscription } from "rxjs";
-import { DEFAULT_MODAL_OPTIONS } from "../../../../../../_common/model";
 import {
   endDateAfterBeginDateValidator,
   formatDateToNgb,
@@ -41,8 +39,8 @@ export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
 
   public transfertForm!: UntypedFormGroup;
 
-  @ViewChild("confirmDelete", { static: true })
-  public confirmDelete!: TemplateRef<NgbModalRef>;
+  @ViewChild("confirmDeleteModal", { static: false })
+  public confirmDeleteModal!: DsfrModalComponent;
 
   @ViewChild("transfertName")
   public firstInput!: ElementRef;
@@ -53,7 +51,6 @@ export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
     private readonly formBuilder: UntypedFormBuilder,
     private readonly toastService: CustomToastService,
     private readonly usagerOptionsService: UsagerOptionsService,
-    private readonly modalService: NgbModal,
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.isFormVisible = false;
@@ -156,11 +153,11 @@ export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
   }
 
   public openConfirmation(): void {
-    this.modalService.open(this.confirmDelete, DEFAULT_MODAL_OPTIONS);
+    this.confirmDeleteModal.open();
   }
 
   public closeModals(): void {
-    this.modalService.dismissAll();
+    this.confirmDeleteModal.close();
   }
 
   public deleteTransfert(): void {

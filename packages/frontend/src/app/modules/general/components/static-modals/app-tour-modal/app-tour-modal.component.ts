@@ -1,29 +1,27 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
-  OnInit,
+  OnDestroy,
   Output,
-  TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { NgbModal, NgbModalRef, NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { MatomoTracker } from "ngx-matomo-client";
-import { DEFAULT_MODAL_OPTIONS } from "src/_common/model";
 import { AuthService } from "../../../../shared/services";
 import { UserStructure } from "@domifa/common";
 import { Subscription } from "rxjs";
-import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-app-tour-modal",
   templateUrl: "./app-tour-modal.component.html",
   standalone: true,
-  imports: [NgbModule, CommonModule],
+  imports: [DsfrModalComponent],
   styleUrls: ["./app-tour-modal.component.css"],
 })
-export class AppTourModalComponent implements OnInit {
-  @ViewChild("appTourModal", { static: true })
-  public appTourModal!: TemplateRef<NgbModalRef>;
+export class AppTourModalComponent implements AfterViewInit, OnDestroy {
+  @ViewChild("appTourModal", { static: false })
+  public appTourModal!: DsfrModalComponent;
 
   @Output() tourComplete = new EventEmitter<void>();
 
@@ -90,22 +88,20 @@ export class AppTourModalComponent implements OnInit {
   private readonly subscription = new Subscription();
 
   constructor(
-    private readonly modalService: NgbModal,
     private readonly matomo: MatomoTracker,
     private readonly authService: AuthService
   ) {
     this.me = this.authService.currentUserValue;
   }
 
-  ngOnInit(): void {
-    // Ne lancer la modal que si l'utilisateur est connecté
+  ngAfterViewInit(): void {
     this.subscription.add(
       this.authService.currentUserSubject.subscribe({
         next: (user: UserStructure | null) => {
           if (user && user.role && user.acceptTerms) {
             this.currentRoleStep = this.tourSteps[1].roles[this.me.role];
             if (!localStorage.getItem("appTourSeen")) {
-              this.modalService.open(this.appTourModal, DEFAULT_MODAL_OPTIONS);
+              this.appTourModal.open();
             }
           }
         },
@@ -113,8 +109,11 @@ export class AppTourModalComponent implements OnInit {
     );
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   public openTour(): void {
-    // Ne pas ouvrir le tour si l'utilisateur n'est pas connecté
     if (!this.me || !this.me.role) {
       return;
     }
@@ -123,7 +122,7 @@ export class AppTourModalComponent implements OnInit {
     this.startTime = Date.now();
     this.showTranscription = false;
     this.matomo.trackEvent("APP_TOUR", "OPEN", "TOUR_OPENED", 1);
-    this.modalService.open(this.appTourModal, DEFAULT_MODAL_OPTIONS);
+    this.appTourModal.open();
   }
 
   public nextStep(): void {
@@ -166,7 +165,7 @@ export class AppTourModalComponent implements OnInit {
     const timeSpent = Math.round((Date.now() - this.startTime) / 1000);
     this.matomo.trackEvent("APP_TOUR", "COMPLETE", "FINISHED", timeSpent);
     localStorage.setItem("appTourSeen", "true");
-    this.modalService.dismissAll();
+    this.appTourModal.close();
     this.tourComplete.emit();
   }
 
@@ -174,7 +173,7 @@ export class AppTourModalComponent implements OnInit {
     const timeSpent = Math.round((Date.now() - this.startTime) / 1000);
     this.matomo.trackEvent("APP_TOUR", "SKIP", "SKIPPED", timeSpent);
     localStorage.setItem("appTourSeen", "true");
-    this.modalService.dismissAll();
+    this.appTourModal.close();
     this.tourComplete.emit();
   }
 }

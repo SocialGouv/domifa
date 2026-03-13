@@ -60,68 +60,76 @@
         </div>
       </div>
       } @else { @if (searchResults.data.length > 0) {
-      <div class="fr-table fr-table--layout-fixed">
-        <table>
-          <caption class="fr-sr-only">
-            Liste des comptes utilisateurs Mon DomiFa
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Statut</th>
-              <th scope="col">Nom</th>
-              <th scope="col">Prénom</th>
-              <th scope="col">Identifiant</th>
-              <th scope="col">Téléphone</th>
-              <th scope="col">Date de naissance</th>
-              <th scope="col">Mot de passe temporaire</th>
-              <th scope="col">Dernière connexion</th>
-            </tr>
-          </thead>
+      <div class="fr-table fr-table--layout-fixed fr-table--no-caption">
+        <div class="fr-table__wrapper">
+          <div class="fr-table__container">
+            <div class="fr-table__content">
+              <table>
+                <caption class="fr-sr-only">
+                  Liste des comptes utilisateurs Mon DomiFa
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Statut</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Identifiant</th>
+                    <th scope="col">Téléphone</th>
+                    <th scope="col">Date de naissance</th>
+                    <th scope="col">Mot de passe temporaire</th>
+                    <th scope="col">Dernière connexion</th>
+                  </tr>
+                </thead>
 
-          <tbody>
-            @for (account of searchResults.data; track account.login; let i =
-            $index) {
-            <tr [attr.aria-rowindex]="i + 1">
-              <td class="fr-text--bold">
-                @if (account.passwordType !== 'PERSONAL') {
-                <span class="fr-badge fr-badge--green-bourgeon"
-                  >Non activé</span
-                >
-                } @else {
-                <span class="fr-badge fr-badge--success">Activé</span>
-                }
-              </td>
-              <td class="fr-text--bold">
-                {{ account.nom }}
-              </td>
-              <td>
-                {{ account.prenom }}
-              </td>
-              <td>
-                {{ account.login }}
-              </td>
-              <td>
-                {{ account.telephone?.numero || "Non renseigné" }}
-              </td>
-              <td>
-                {{ account.dateNaissance | date : "dd/MM/yyyy" }}
-              </td>
-              <td>
-                @if (account.passwordType === 'BIRTH_DATE') {
-                <span>Date de naissance</span>
-                } @else {
-                <span>Mot de passe inconnu</span>
-                }
-              </td>
-              <td>
-                <app-display-last-login
-                  [lastLogin]="account.lastLogin"
-                ></app-display-last-login>
-              </td>
-            </tr>
-            }
-          </tbody>
-        </table>
+                <tbody>
+                  @for (account of searchResults.data; track account.login; let
+                  i = $index) {
+                  <tr [attr.aria-rowindex]="i + 1">
+                    <td class="fr-text--bold">
+                      @if (account.passwordType !== 'PERSONAL') {
+                      <span class="fr-badge fr-badge--sm fr-badge--warning"
+                        >Non activé</span
+                      >
+                      } @else {
+                      <span class="fr-badge fr-badge--sm fr-badge--success"
+                        >Activé</span
+                      >
+                      }
+                    </td>
+                    <td class="fr-text--bold">
+                      {{ account.nom }}
+                    </td>
+                    <td>
+                      {{ account.prenom }}
+                    </td>
+                    <td>
+                      {{ account.login }}
+                    </td>
+                    <td>
+                      {{ account.telephone?.numero || "Non renseigné" }}
+                    </td>
+                    <td>
+                      {{ account.dateNaissance | date : "dd/MM/yyyy" }}
+                    </td>
+                    <td>
+                      @if (account.passwordType === 'BIRTH_DATE') {
+                      <span>Date de naissance</span>
+                      } @else {
+                      <span>Mot de passe inconnu</span>
+                      }
+                    </td>
+                    <td>
+                      <app-display-last-login
+                        [lastLogin]="account.lastLogin"
+                      ></app-display-last-login>
+                    </td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
       } @if (searchResults.data.length === 0) {
       <div class="fr-callout">
@@ -186,7 +194,7 @@
     traiter.
   </p>
 
-  <ng-container dsfrModalActions>
+  <ng-template #modalFooterTemplate>
     <div
       class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
     >
@@ -209,5 +217,5 @@
         Annuler
       </button>
     </div>
-  </ng-container>
+  </ng-template>
 </dsfr-modal>

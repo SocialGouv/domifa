@@ -161,6 +161,7 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
   }
 
   public setDecisionRadiation(): void {
+    console.log("setDecisionRadiation", this.radiationForm.value);
     if (this.loading) {
       return;
     }

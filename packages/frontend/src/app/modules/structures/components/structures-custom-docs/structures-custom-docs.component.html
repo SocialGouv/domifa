@@ -1,12 +1,13 @@
-<div *ngIf="me" class="head-page">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-9 col-12">
+@if (me) {
+<div class="head-page">
+  <div class="fr-container">
+    <div class="fr-grid-row fr-grid-row--between fr-grid-row--middle">
+      <div class="fr-col-md-9 fr-col-12">
         <h1 class="title">
           Gestion des documents téléchargeables et personnalisés
         </h1>
       </div>
-      <div class="text-start text-md-end col-12 col-md-3">
+      <div class="fr-col-12 fr-col-md-3">
         <a
           href="https://docs.numerique.gouv.fr/docs/ca835c79-8477-4332-9a70-27faeb982b4c/"
           target="_blank"
@@ -14,7 +15,7 @@
           class="fr-btn fr-btn--secondary"
           rel="noopener noreferrer"
         >
-          <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
+          <i class="fr-icon-information-line fr-mr-1w" aria-hidden="true"></i>
           Consulter le guide
         </a>
       </div>
@@ -22,23 +23,25 @@
   </div>
 </div>
 
-<div class="content py-3" *ngIf="me">
-  <div class="container py-3">
-    <div class="page-content p-3">
-      <div class="d-flex justify-content-between align-items-center">
+<div class="content fr-py-3w">
+  <div class="fr-container fr-py-3w">
+    <div class="page-content fr-p-3w">
+      <div class="fr-grid-row fr-grid-row--between fr-grid-row--middle">
         <h2>Documents pré-remplis</h2>
-        <div *ngIf="me?.role === 'admin'">
+        @if (me?.role === 'admin') {
+        <div>
           <button
             type="button"
-            class="btn-outline-primary btn"
+            class="fr-btn fr-btn--secondary"
             (click)="openUploadCustomDocModal(true)"
           >
-            <fa-icon aria-hidden="true" [icon]="['fas', 'upload']"></fa-icon>
+            <i class="fr-icon-upload-line fr-mr-1w" aria-hidden="true"></i>
             Importer un document pré-rempli
           </button>
         </div>
+        }
       </div>
-      <div class="py-3 mb-3">
+      <div class="fr-py-3w fr-mb-3w">
         <p>
           Ce sont des documents Word (.docx) qui sont automatiquement complétés
           par des données issues de DomiFa. <br />
@@ -55,7 +58,7 @@
               download
             >
               Télécharger le modèle
-              <span class="visually-hidden">Courrier de radiation </span></a
+              <span class="fr-sr-only">Courrier de radiation </span></a
             >
           </li>
           <li>
@@ -67,11 +70,11 @@
               download
             >
               Télécharger le modèle
-              <span class="visually-hidden">Attestation postale</span></a
+              <span class="fr-sr-only">Attestation postale</span></a
             >
           </li>
           <li>
-            <span class="badge bg-primary me-2">Nouveau !</span>
+            <span class="fr-badge fr-badge--info fr-mr-2w">Nouveau !</span>
             <strong>Cerfa d'attestation d'élection de domicile :</strong> ce
             modèle permet d'intégrer le tampon de votre structure ou la
             signature d'un responsable.
@@ -81,7 +84,7 @@
               download
             >
               Télécharger le modèle
-              <span class="visually-hidden"
+              <span class="fr-sr-only"
                 >Cerfa d'attestation d'élection de domicile</span
               ></a
             >
@@ -97,21 +100,23 @@
       ></app-structures-custom-docs-table>
     </div>
 
-    <div class="page-content my-3 p-4">
-      <div class="d-flex justify-content-between align-items-center">
+    <div class="page-content fr-my-3w fr-p-4w">
+      <div class="fr-grid-row fr-grid-row--between fr-grid-row--middle">
         <h2>Autres documents</h2>
-        <div *ngIf="me?.role === 'admin'">
+        @if (me?.role === 'admin') {
+        <div>
           <button
             type="button"
-            class="btn-outline-primary btn"
+            class="fr-btn fr-btn--secondary"
             (click)="openUploadCustomDocModal(false)"
           >
-            <fa-icon aria-hidden="true" [icon]="['fas', 'upload']"></fa-icon>
+            <i class="fr-icon-upload-line fr-mr-1w" aria-hidden="true"></i>
             Importer un document
           </button>
         </div>
+        }
       </div>
-      <div class="py-3 mb-3">
+      <div class="fr-py-3w fr-mb-3w">
         <p>
           Dans cet espace, vous pouvez téléverser autant de fichiers que vous le
           souhaitez pour votre gestion des domiciliés : livrets d'accueil,
@@ -129,10 +134,48 @@
   </div>
 </div>
 
-<ng-template #uploadCustomDocModal let-modal>
+<dsfr-modal
+  #uploadCustomDocModal
+  [titleModal]="
+    isCustomDoc
+      ? 'Télécharger un document pré-rempli'
+      : 'Télécharger un document'
+  "
+  [size]="'LG'"
+  dialogId="uploadCustomDocModal"
+>
   <app-structures-upload-docs
+    #uploadDocsRef
     (cancel)="closeModals()"
     [isCustomDoc]="isCustomDoc"
     (getAllStructureDocs)="getAllStructureDocs()"
   ></app-structures-upload-docs>
-</ng-template>
+
+  <ng-template #modalFooterTemplate>
+    <div
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
+    >
+      <button
+        class="fr-btn"
+        (click)="uploadDocsRef.submitFile()"
+        [disabled]="uploadDocsRef.loading"
+        [attr.aria-busy]="uploadDocsRef.loading"
+        type="button"
+      >
+        @if (!uploadDocsRef.loading) {
+        <span>Ajouter</span>
+        } @else {
+        <span class="fr-sr-only">Patientez</span>
+        }
+      </button>
+      <button
+        class="fr-btn fr-btn--secondary"
+        type="button"
+        (click)="closeModals()"
+      >
+        Annuler
+      </button>
+    </div>
+  </ng-template>
+</dsfr-modal>
+}

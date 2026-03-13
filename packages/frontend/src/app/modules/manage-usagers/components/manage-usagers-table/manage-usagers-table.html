@@ -27,19 +27,12 @@
             >Supprimer les domiciliés</ng-container
           >
         </button>
-        <button
-          type="button"
-          *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
-          (click)="openAssignReferrerModal()"
-          class="btn ms-2 btn-sm btn-outline-dark"
-        >
-          <fa-icon
-            aria-hidden="true"
-            [icon]="['fas', 'users']"
-            class="me-2"
-          ></fa-icon>
-          Assigner un référent
-        </button>
+        <app-assign-referrers
+          [selectedRefs]="selectedRefs"
+          (actionAfterSuccess)="resetCheckboxes()"
+          template="modal"
+          [me]="me"
+        ></app-assign-referrers>
       </div>
     </div>
   </div>
@@ -370,18 +363,17 @@
   </tbody>
 </table>
 
-<ng-template #deleteUsagersModal let-modal>
+<dsfr-modal
+  #deleteUsagersModal
+  titleModal="Supprimer des domiciliés"
+  dialogId="deleteUsagersModal"
+  [isScrollable]="false"
+  [size]="'LG'"
+>
   <app-delete-usager
     [selectedRefs]="selectedRefs"
     (actionAfterSuccess)="resetCheckboxes()"
     (closeModal)="closeDeleteUsagersModal()"
     context="MANAGE"
   ></app-delete-usager>
-</ng-template>
-
-<ng-template #assignReferrersModal let-modal>
-  <app-assign-referrers
-    [selectedRefs]="selectedRefs"
-    (actionAfterSuccess)="resetCheckboxes()"
-  ></app-assign-referrers>
-</ng-template>
+</dsfr-modal>

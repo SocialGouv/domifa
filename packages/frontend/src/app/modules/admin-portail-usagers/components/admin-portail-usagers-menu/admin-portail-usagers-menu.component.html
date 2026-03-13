@@ -1,12 +1,14 @@
 <div class="head-page fr-py-3w">
   <div class="fr-container">
-    <div
-      class="fr-px-0 fr-mx-0 fr-grid-row fr-grid-row--space-between fr-grid-row--middle"
-    >
-      <div class="">
-        <h1>{{ title }}</h1>
+    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+      <div class="fr-col">
+        <h1>
+          <span class="fr-icon-settings-5-line" aria-hidden="true"></span>
+          {{ title }}
+        </h1>
       </div>
-      <div class="">
+
+      <div class="fr-col-auto">
         <a
           href="https://docs.numerique.gouv.fr/docs/7f7f4ec4-5d4c-43ce-a416-74e5aa4af14c/"
           target="_blank"
@@ -14,7 +16,10 @@
           rel="noopener noreferrer"
           title="Consulter le guide - nouvelle fenêtre"
         >
-          <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
+          <span
+            class="fr-icon-information-line fr-mr-1w"
+            aria-hidden="true"
+          ></span>
           Consulter le guide
         </a>
       </div>

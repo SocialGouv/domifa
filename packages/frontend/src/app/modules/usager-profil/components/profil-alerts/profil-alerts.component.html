@@ -1,4 +1,5 @@
-<div class="fr-alert fr-alert--info" *ngIf="usager.pinnedNote">
+@if (usager.pinnedNote) {
+<div class="fr-alert fr-alert--info">
   <p class="fr-alert__title">
     <b>
       {{ usager.pinnedNote.message }}
@@ -11,6 +12,7 @@
     par {{ usager.pinnedNote.createdBy?.userName }}
   </p>
 </div>
+}
 
 <!-- Alerte personne radiée -->
 @if (usager.decision.statut === 'RADIE') {
@@ -38,8 +40,8 @@
 }
 
 <!-- Alerte instruction en cours -->
-@if ( usager.decision.statut === 'INSTRUCTION' && me?.role !== 'facteur' &&
-me?.role !== 'agent' ) {
+@if (usager.decision.statut === 'INSTRUCTION' && me?.role !== 'facteur' &&
+me?.role !== 'agent') {
 <div [class]="'fr-alert ' + getAlertClass()">
   <p>
     {{
@@ -59,7 +61,7 @@ me?.role !== 'agent' ) {
           '/edit/' +
           ETAPES_DEMANDE_URL[usager.etapeDemande]
       ]"
-      class="fr-link ms-2"
+      class="fr-link fr-ml-2w"
       ariaCurrentWhenActive="page"
     >
       Compléter la demande
@@ -93,13 +95,12 @@ me?.role !== 'agent' ) {
 }
 
 <!-- Alerte échéance proche -->
-@if ( usager.echeanceInfos.dayBeforeEnd > 0 && usager.echeanceInfos.dayBeforeEnd
-< 60 ) {
+@if (usager.echeanceInfos.dayBeforeEnd > 0 && usager.echeanceInfos.dayBeforeEnd
+< 60) {
 <div
-  [ngClass]="{
-    'fr-alert fr-alert--error': usager.echeanceInfos.dayBeforeEnd <= 15,
-    'fr-alert fr-alert--warning': usager.echeanceInfos.dayBeforeEnd > 15
-  }"
+  class="fr-my-1w fr-alert"
+  [class.fr-alert--error]="usager.echeanceInfos.dayBeforeEnd <= 15"
+  [class.fr-alert--warning]="usager.echeanceInfos.dayBeforeEnd > 15"
 >
   <p>
     La domiciliation expire le
@@ -112,7 +113,7 @@ me?.role !== 'agent' ) {
 
 <!-- Alerte échéance expirée -->
 @if (usager.echeanceInfos.dayBeforeEnd < 0) {
-<div class="fr-alert fr-alert--error">
+<div class="fr-my-1w fr-alert fr-alert--error">
   <p>
     Domiciliation expirée depuis le
     {{ usager?.echeanceInfos?.dateToDisplay | date : "dd MMMM yyyy" }}, il y a
@@ -122,53 +123,48 @@ me?.role !== 'agent' ) {
 }
 
 <!-- COURRIERS -->
-<div class="col-md-12">
+<div class="fr-col-12">
   <!-- NPAI -->
-  <div *ngIf="usager.options.npai.actif" class="fr-alert fr-alert--error">
+  @if (usager.options.npai.actif) {
+  <div class="fr-alert fr-alert--error">
     <p>N'habite plus à l'adresse indiquée, pli non distribuable</p>
   </div>
-  <ng-container *ngIf="usager.options.transfert.actif">
-    <!-- TRANSFERT -->
-    <div
-      *ngIf="usager.options.transfert.isExpired"
-      class="fr-alert fr-alert--error"
-    >
-      <p>
-        <strong>Attention : </strong> le transfert de courrier était valable
-        jusqu'au
-        {{ usager.options.transfert.dateFin | date : "dd MMMM yyyy" }}
-      </p>
-    </div>
-
-    <div
-      *ngIf="!usager.options.transfert.isExpired"
-      class="fr-alert fr-alert--warning"
-    >
-      <p>
-        Votre courrier est transféré à l'adresse suivante :
-        {{ usager.options.transfert.nom | titlecase }}
-        {{ usager.options.transfert.adresse | titlecase }}
-      </p>
-    </div>
-  </ng-container>
-  <ng-container *ngIf="usager.options.procurations.length > 0">
-    <ng-container *ngFor="let procuration of usager.options.procurations">
-      <div class="fr-alert fr-alert--warning" *ngIf="!procuration.isExpired">
-        <p>
-          Une procuration au nom de
-          <strong>{{ procuration | fullName }}</strong>
-          est active et valable jusqu'au
-          {{ procuration.dateFin | date : "dd MMMM yyyy" }}
-        </p>
-      </div>
-      <div *ngIf="procuration.isExpired" class="fr-alert fr-alert--error">
-        <p>
-          La procuration au nom de
-          <strong>{{ procuration | fullName }}</strong>
-          a expiré le
-          {{ procuration.dateFin | date : "dd MMMM yyyy" }}
-        </p>
-      </div>
-    </ng-container>
-  </ng-container>
+  } @if (usager.options.transfert.actif) {
+  <!-- TRANSFERT -->
+  @if (usager.options.transfert.isExpired) {
+  <div class="fr-alert fr-alert--error">
+    <p>
+      <strong>Attention : </strong> le transfert de courrier était valable
+      jusqu'au
+      {{ usager.options.transfert.dateFin | date : "dd MMMM yyyy" }}
+    </p>
+  </div>
+  } @else {
+  <div class="fr-alert fr-alert--warning">
+    <p>
+      Votre courrier est transféré à l'adresse suivante :
+      {{ usager.options.transfert.nom | titlecase }}
+      {{ usager.options.transfert.adresse | titlecase }}
+    </p>
+  </div>
+  } } @if (usager.options.procurations.length > 0) { @for (procuration of
+  usager.options.procurations; track $index) { @if (!procuration.isExpired) {
+  <div class="fr-alert fr-alert--warning">
+    <p>
+      Une procuration au nom de
+      <strong>{{ procuration | fullName }}</strong>
+      est active et valable jusqu'au
+      {{ procuration.dateFin | date : "dd MMMM yyyy" }}
+    </p>
+  </div>
+  } @else {
+  <div class="fr-alert fr-alert--error">
+    <p>
+      La procuration au nom de
+      <strong>{{ procuration | fullName }}</strong>
+      a expiré le
+      {{ procuration.dateFin | date : "dd MMMM yyyy" }}
+    </p>
+  </div>
+  } } }
 </div>
