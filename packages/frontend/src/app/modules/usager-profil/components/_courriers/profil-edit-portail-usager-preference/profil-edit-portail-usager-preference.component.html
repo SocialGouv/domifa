@@ -1,84 +1,75 @@
-<div class="my-2 d-flex flex-wrap justify-content-between align-items-center">
+<div class="fr-my-2w fr-grid-row fr-grid-row--between fr-grid-row--middle">
   <h2>Accès au portail "Mon DomiFa"</h2>
-  <ng-container>
-    <button
-      (click)="openConfirmationModal()"
-      class="mx-1 my-1 btn btn-primary"
-      type="button"
-      [disabled]="loading"
-    >
-      <span *ngIf="loading"
-        ><fa-icon
-          [icon]="['fas', 'circle-notch']"
-          animation="spin"
-          aria-hidden="true"
-        ></fa-icon>
-        Patientez...</span
-      >
-      <span *ngIf="!loading"
-        ><fa-icon [icon]="['fas', 'download']" aria-hidden="true"></fa-icon>
-        <ng-container *ngIf="!usager.options.portailUsagerEnabled">
-          Activer le portail et télécharger les identifiants
-        </ng-container>
-        <ng-container *ngIf="usager.options.portailUsagerEnabled">
-          Réinitialiser les identifiants
-        </ng-container>
-      </span>
-    </button>
-  </ng-container>
+  <button
+    (click)="openConfirmationModal()"
+    class="fr-btn"
+    type="button"
+    [disabled]="loading"
+    [attr.aria-busy]="loading"
+  >
+    @if (loading) {
+    <span class="fr-sr-only">Patientez...</span>
+    } @else {
+    <i class="fr-icon-download-line fr-mr-1w" aria-hidden="true"></i>
+    @if (!usager.options.portailUsagerEnabled) { Activer le portail et
+    télécharger les identifiants } @else { Réinitialiser les identifiants } }
+  </button>
 </div>
 
-<div class="row my-3">
-  <p class="col-12 col-md-4 reponses">
+<div class="fr-grid-row fr-grid-row--gutters fr-my-3w">
+  <p class="fr-col-12 fr-col-md-4 reponses">
     <span class="question">Accès au portail créés</span>
     <span class="valeur">
-      <ng-container *ngIf="!usager.options.portailUsagerEnabled">
-        <span class="label-info red-status">Non</span>
-      </ng-container>
-      <ng-container *ngIf="usager.options.portailUsagerEnabled">
-        <span class="label-info green-status">Oui</span>
-      </ng-container>
+      @if (!usager.options.portailUsagerEnabled) {
+      <span class="fr-badge fr-badge--error">Non</span>
+      } @else {
+      <span class="fr-badge fr-badge--success">Oui</span>
+      }
     </span>
   </p>
 
-  <ng-container *ngIf="usager.options.portailUsagerEnabled">
-    <p class="col-12 col-md-4 reponses">
-      <span class="question">Compte activé par le domicilié</span>
-      <span class="valeur">
-        @if (portailUsagersInformations?.passwordType === 'PERSONAL') {
-        <span class="label-info green-status">Compte actif</span>
-        } @else { <span class="label-info red-status">Non</span>}
-      </span>
-    </p>
+  @if (usager.options.portailUsagerEnabled) {
+  <p class="fr-col-12 fr-col-md-4 reponses">
+    <span class="question">Compte activé par le domicilié</span>
+    <span class="valeur">
+      @if (portailUsagersInformations?.passwordType === 'PERSONAL') {
+      <span class="fr-badge fr-badge--success">Compte actif</span>
+      } @else {
+      <span class="fr-badge fr-badge--error">Non</span>
+      }
+    </span>
+  </p>
 
-    <p class="col-12 col-md-4 reponses">
-      <span class="question">Identifiant du domicilié</span>
-      <span class="valeur">
-        {{
-          portailUsagersInformations
-            ? portailUsagersInformations.login
-            : "Aucune identifiant enregistré"
-        }}
-      </span>
-    </p>
+  <p class="fr-col-12 fr-col-md-4 reponses">
+    <span class="question">Identifiant du domicilié</span>
+    <span class="valeur">
+      {{
+        portailUsagersInformations
+          ? portailUsagersInformations.login
+          : "Aucune identifiant enregistré"
+      }}
+    </span>
+  </p>
 
-    <p class="col-12 col-md-4 reponses">
-      <span class="question">Date de dernière connexion </span>
-      <span class="valeur">
-        {{
-          portailUsagersInformations?.lastLogin
-            ? (portailUsagersInformations.lastLogin
-              | date : "dd MMMM yyyy à HH:mm")
-            : "Aucune connexion enregistrée"
-        }}
-      </span>
-    </p>
-  </ng-container>
+  <p class="fr-col-12 fr-col-md-4 reponses">
+    <span class="question">Date de dernière connexion </span>
+    <span class="valeur">
+      {{
+        portailUsagersInformations?.lastLogin
+          ? (portailUsagersInformations.lastLogin
+            | date : "dd MMMM yyyy à HH:mm")
+          : "Aucune connexion enregistrée"
+      }}
+    </span>
+  </p>
+  }
 </div>
+
+@if (usager.options.portailUsagerEnabled) {
 <div>
-  <p class="col-12" *ngIf="usager.options.portailUsagerEnabled">
+  <p class="fr-col-12">
     <a
-      class="text-link my-4 d-block fw-bold"
+      class="fr-link"
       [routerLink]="['/profil/historique/' + usager.ref + '/login-portail']"
       ariaCurrentWhenActive="page"
     >
@@ -86,48 +77,48 @@
     </a>
   </p>
 </div>
+}
 
-<ng-template #confirmationModal let-modal>
-  <div class="modal-header bg-primary text-white">
-    <span id="modal-title">
-      Vous êtes sur le point de réinitialiser le mot de passe de
-      {{ usager | fullName }}
-    </span>
-  </div>
+<dsfr-modal
+  #confirmationModal
+  [titleModal]="
+    'Vous êtes sur le point de réinitialiser le mot de passe de ' +
+    (usager | fullName)
+  "
+  [size]="'MD'"
+  dialogId="confirmationPortailModal"
+>
+  <p>
+    Le précédent mot de passe ne pourra plus être utilisé.
+    <br />
+    Vous devrez à nouveau transmettre le document avec le mot de passe
+    temporaire au domicilié
+  </p>
 
-  <div class="modal-body text-center py-2">
-    <p>
-      Le précédent mot de passe ne pourra plus être utilisé.
-      <br />
-      Vous devrez à nouveau transmettre le document avec le mot de passe
-      temporaire au domicilié
-    </p>
-  </div>
-
-  <div class="modal-footer">
-    <button
-      class="btn btn-outline-dark d-print-none"
-      (click)="closeModals()"
-      type="button"
+  <ng-template #modalFooterTemplate>
+    <div
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
     >
-      Revenir au dossier
-    </button>
-    <button
-      class="btn btn-primary"
-      [disabled]="loading"
-      (click)="resetPassword()"
-      type="submit"
-    >
-      <span *ngIf="!loading">Confirmer la réinitialisation</span>
-      <span *ngIf="loading"
-        ><fa-icon
-          [icon]="['fas', 'circle-notch']"
-          aria-hidden="true"
-          animation="spin"
-        >
-        </fa-icon>
-        Veuillez patienter...</span
+      <button
+        class="fr-btn"
+        [disabled]="loading"
+        (click)="resetPassword()"
+        type="button"
+        [attr.aria-busy]="loading"
       >
-    </button>
-  </div>
-</ng-template>
+        @if (!loading) {
+        <span>Confirmer la réinitialisation</span>
+        } @else {
+        <span class="fr-sr-only">Veuillez patienter...</span>
+        }
+      </button>
+      <button
+        class="fr-btn fr-btn--secondary d-print-none"
+        (click)="closeModals()"
+        type="button"
+      >
+        Revenir au dossier
+      </button>
+    </div>
+  </ng-template>
+</dsfr-modal>

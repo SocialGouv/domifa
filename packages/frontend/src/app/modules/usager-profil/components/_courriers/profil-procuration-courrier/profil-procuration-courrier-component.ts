@@ -6,7 +6,6 @@ import {
   OnDestroy,
   OnInit,
   QueryList,
-  TemplateRef,
   ViewChild,
   ViewChildren,
 } from "@angular/core";
@@ -18,13 +17,9 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import {
-  NgbDateStruct,
-  NgbModal,
-  NgbModalRef,
-} from "@ng-bootstrap/ng-bootstrap";
+import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { Subscription } from "rxjs";
-import { DEFAULT_MODAL_OPTIONS } from "../../../../../../_common/model";
 import {
   endDateAfterBeginDateValidator,
   NoWhiteSpaceValidator,
@@ -66,8 +61,8 @@ export class UsagersProfilProcurationCourrierComponent
 
   public loading: boolean;
 
-  @ViewChild("confirmDeleteModal", { static: true })
-  public confirmDeleteModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("confirmDeleteProcurationModal", { static: false })
+  public confirmDeleteProcurationModal!: DsfrModalComponent;
 
   @ViewChildren("procurationName")
   public firstInputs!: QueryList<ElementRef>;
@@ -76,7 +71,6 @@ export class UsagersProfilProcurationCourrierComponent
     private readonly formBuilder: UntypedFormBuilder,
     private readonly toastService: CustomToastService,
     private readonly usagerOptionsService: UsagerOptionsService,
-    private readonly modalService: NgbModal,
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.submitted = false;
@@ -211,7 +205,7 @@ export class UsagersProfilProcurationCourrierComponent
 
   public openConfirmation(index: number): void {
     this.procurationToDelete = index;
-    this.modalService.open(this.confirmDeleteModal, DEFAULT_MODAL_OPTIONS);
+    this.confirmDeleteProcurationModal.open();
   }
 
   public deleteProcurationForm(i: number): void {
@@ -243,7 +237,7 @@ export class UsagersProfilProcurationCourrierComponent
   public closeModals(): void {
     this.procurationToDelete = 0;
     this.submitted = false;
-    this.modalService.dismissAll();
+    this.confirmDeleteProcurationModal.close();
   }
 
   public ngOnDestroy(): void {

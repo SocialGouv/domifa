@@ -8,15 +8,11 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
-import {
-  DEFAULT_MODAL_OPTIONS,
-  ETAPES_DEMANDE_URL,
-} from "../../../../../_common/model";
+import { ETAPES_DEMANDE_URL } from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
@@ -61,11 +57,8 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   @Input({ required: true })
   public selectedRefs: Set<number> = new Set();
 
-  @ViewChild("deleteUsagersModal")
-  public deleteUsagersModal!: TemplateRef<NgbModalRef>;
-
-  @ViewChild("assignReferrersModal")
-  public assignReferrersModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("deleteUsagersModal", { static: false })
+  public deleteUsagersModal!: DsfrModalComponent;
 
   @Output()
   public readonly goToPrint = new EventEmitter<void>();
@@ -96,7 +89,6 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     desc: "descending",
   };
   constructor(
-    private readonly modalService: NgbModal,
     private readonly router: Router,
     private readonly authService: AuthService,
     private readonly cd: ChangeDetectorRef
@@ -151,11 +143,11 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   }
 
   public openDeleteUsagersModal(): void {
-    this.modalService.open(this.deleteUsagersModal, DEFAULT_MODAL_OPTIONS);
+    this.deleteUsagersModal.open();
   }
 
-  public openAssignReferrerModal(): void {
-    this.modalService.open(this.assignReferrersModal, DEFAULT_MODAL_OPTIONS);
+  public closeDeleteUsagersModal(): void {
+    this.deleteUsagersModal.close();
   }
 
   public goToProfil(usager: UsagerFormModel): void {
@@ -214,6 +206,6 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     this.selectAllCheckboxesChange.emit(false);
     this.selectAllCheckboxes = false;
     this.selectedRefs.clear();
-    this.modalService.dismissAll();
+    this.deleteUsagersModal?.close();
   }
 }

@@ -1,50 +1,46 @@
 <app-app-tour-modal (tourComplete)="onTourComplete()"></app-app-tour-modal>
 
-<!-- News Modal Template (déplacé depuis app.component.html) -->
-<ng-template #newsModal let-modal>
-  <div class="modal-header">
-    <span id="modal-title">
-      🎉 Des nouveautés sont disponibles sur la plateforme
-    </span>
-    <button
-      class="btn-close"
-      type="button"
-      aria-label="Fermer la boite de dialogue"
-      (click)="hideNews()"
-    ></button>
-  </div>
-  <div class="modal-body px-3 py-2">
-    <p class="my-2 fw-bold">
-      Nouveautés du {{ news.date | date : "d MMMM y"
-      }}<span *ngIf="news.description"> - {{ news.description }}</span>
+<dsfr-modal
+  #newsModal
+  dialogId="newsModal"
+  titleModal="Des nouveautés sont disponibles sur la plateforme"
+>
+  <ng-container dsfrModalBody>
+    @if (news) {
+    <p class="fr-text--bold fr-mb-1w">
+      Nouveautés du {{ news.date | date : "d MMMM y" }}@if (news.description) {
+      - {{ news.description }}}
     </p>
 
-    <ng-container *ngFor="let content of news.content">
-      <p class="text-start my-1">
-        <span
-          class="badge badge-pill"
-          [ngClass]="{
-            'bg-primary': content.type === 'new',
-            'bg-warning text-dark': content.type === 'bug'
-          }"
-        >
-          {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
-        </span>
-        &nbsp;
-        <b>{{ content.categorie }}</b>
-      </p>
-      <ul class="mb-3">
-        <li
-          *ngFor="let message of content.message"
-          [innerHTML]="message | nl2br"
-        ></li>
-      </ul>
-    </ng-container>
-  </div>
+    @for (content of news.content; track content.categorie) {
+    <p class="fr-text--sm fr-mb-1w">
+      <span
+        class="fr-badge fr-badge--sm"
+        [ngClass]="{
+          'fr-badge--info': content.type === 'new',
+          'fr-badge--warning': content.type === 'bug'
+        }"
+      >
+        {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
+      </span>
+      &nbsp;
+      <b>{{ content.categorie }}</b>
+    </p>
+    <ul class="fr-mb-3w">
+      @for (message of content.message; track message) {
+      <li [innerHTML]="message | nl2br"></li>
+      }
+    </ul>
+    } }
+  </ng-container>
 
-  <div class="modal-footer">
-    <button class="btn btn-primary btn-lg" (click)="hideNews()" type="submit">
-      Continuer sur DomiFa
-    </button>
-  </div>
-</ng-template>
+  <ng-template #modalFooterTemplate>
+    <div
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
+    >
+      <button class="fr-btn" type="button" (click)="hideNews()">
+        Continuer sur DomiFa
+      </button>
+    </div>
+  </ng-template>
+</dsfr-modal>

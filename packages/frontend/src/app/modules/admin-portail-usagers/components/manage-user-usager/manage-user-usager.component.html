@@ -1,20 +1,24 @@
-<app-admin-portail-usagers-menu
-  section="manage"
-  title="Gestion des comptes Mon DomiFa"
-></app-admin-portail-usagers-menu>
-
-<div class="content py-3">
-  <div class="container py-3">
-    <div class="page-content p-3">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>
-          Liste des comptes Mon DomiFa:
-          <span *ngIf="searchResults"
-            >{{ userUsagerAccountsByStatus.VALIDE }} comptes /
-            {{ usagerCountByStatuts.VALIDE }} domiciliés actifs</span
-          >
-        </h3>
-        <div>
+<div class="fr-content-container-light fr-pb-3w">
+  <app-admin-portail-usagers-menu
+    section="manage"
+    title="Gestion des comptes Mon DomiFa"
+  ></app-admin-portail-usagers-menu>
+  <div class="fr-container">
+    <div class="fr-content">
+      <div
+        class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-mb-3w"
+      >
+        <div class="fr-col">
+          <h3>
+            Liste des comptes Mon DomiFa : @if (searchResults) {
+            <span
+              >{{ userUsagerAccountsByStatus.VALIDE }} comptes /
+              {{ usagerCountByStatuts.VALIDE }} domiciliés actifs</span
+            >
+            }
+          </h3>
+        </div>
+        <div class="fr-col-auto">
           <app-button
             (action)="exportAccountsToExcel()"
             ariaLabel="Télécharger la liste des comptes"
@@ -35,13 +39,14 @@
         </div>
       </div>
 
+      @if (loading) {
       <div
-        *ngIf="loading"
         @fadeIn
         role="alert"
         aria-busy="true"
         aria-label="Chargement des comptes..."
-        class="text-center content-overlay d-print-none"
+        class="content-overlay d-print-none"
+        style="text-align: center"
       >
         <div>
           <fa-icon
@@ -51,104 +56,110 @@
             aria-hidden="true"
           ></fa-icon>
           <br />
-          <span class="fw-bold">Chargement des comptes...</span>
+          <span class="fr-text--bold">Chargement des comptes...</span>
         </div>
       </div>
+      } @else { @if (searchResults.data.length > 0) {
+      <div class="fr-table fr-table--layout-fixed fr-table--no-caption">
+        <div class="fr-table__wrapper">
+          <div class="fr-table__container">
+            <div class="fr-table__content">
+              <table>
+                <caption class="fr-sr-only">
+                  Liste des comptes utilisateurs Mon DomiFa
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Statut</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Identifiant</th>
+                    <th scope="col">Téléphone</th>
+                    <th scope="col">Date de naissance</th>
+                    <th scope="col">Mot de passe temporaire</th>
+                    <th scope="col">Dernière connexion</th>
+                  </tr>
+                </thead>
 
-      <ng-container *ngIf="!loading">
-        <div *ngIf="searchResults.data.length > 0" class="table-responsive">
-          <table class="table-history table">
-            <caption class="visually-hidden">
-              Liste des comptes utilisateurs Mon DomiFa
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Statut</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Prénom</th>
-                <th scope="col">Identifiant</th>
-                <th scope="col">Téléphone</th>
-                <th scope="col">Date de naissance</th>
-                <th scope="col">Mot de passe temporaire</th>
-                <th scope="col">Dernière connexion</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <ng-container
-                *ngFor="let account of searchResults.data; let i = index"
-              >
-                <tr [attr.aria-rowindex]="i + 1">
-                  <td class="fw-bold">
-                    @if (account.passwordType !== 'PERSONAL') {
-                    <span class="label-info red-status">Non activé</span>
-                    } @else {
-                    <span class="label-info green-status">Activé</span>
-                    }
-                  </td>
-                  <td class="fw-bold">
-                    {{ account.nom }}
-                  </td>
-                  <td>
-                    {{ account.prenom }}
-                  </td>
-                  <td>
-                    {{ account.login }}
-                  </td>
-                  <td>
-                    {{ account.telephone?.numero || "Non renseigné" }}
-                  </td>
-                  <td>
-                    {{ account.dateNaissance | date : "dd/MM/yyyy" }}
-                  </td>
-                  <td>
-                    @if (account.passwordType === 'BIRTH_DATE') {
-                    <span>Date de naissance </span>
-                    } @else { <span>Mot de passe inconnu</span>}
-                  </td>
-                  <td>
-                    <span *ngIf="account?.lastLogin">
-                      {{ account.lastLogin | date : "dd/MM/yyyy à HH:mm" }}
-                    </span>
-                    <span *ngIf="!account.lastLogin" class="text-muted">
-                      Jamais connecté
-                    </span>
-                  </td>
-                </tr>
-              </ng-container>
-            </tbody>
-          </table>
+                <tbody>
+                  @for (account of searchResults.data; track account.login; let
+                  i = $index) {
+                  <tr [attr.aria-rowindex]="i + 1">
+                    <td class="fr-text--bold">
+                      @if (account.passwordType !== 'PERSONAL') {
+                      <span class="fr-badge fr-badge--sm fr-badge--warning"
+                        >Non activé</span
+                      >
+                      } @else {
+                      <span class="fr-badge fr-badge--sm fr-badge--success"
+                        >Activé</span
+                      >
+                      }
+                    </td>
+                    <td class="fr-text--bold">
+                      {{ account.nom }}
+                    </td>
+                    <td>
+                      {{ account.prenom }}
+                    </td>
+                    <td>
+                      {{ account.login }}
+                    </td>
+                    <td>
+                      {{ account.telephone?.numero || "Non renseigné" }}
+                    </td>
+                    <td>
+                      {{ account.dateNaissance | date : "dd/MM/yyyy" }}
+                    </td>
+                    <td>
+                      @if (account.passwordType === 'BIRTH_DATE') {
+                      <span>Date de naissance</span>
+                      } @else {
+                      <span>Mot de passe inconnu</span>
+                      }
+                    </td>
+                    <td>
+                      <app-display-last-login
+                        [lastLogin]="account.lastLogin"
+                      ></app-display-last-login>
+                    </td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-
-        <div class="alert alert-info" *ngIf="searchResults.data.length === 0">
-          <p>Aucun compte utilisateur trouvé</p>
-        </div>
-      </ng-container>
-
+      </div>
+      } @if (searchResults.data.length === 0) {
+      <div class="fr-callout">
+        <p>Aucun compte utilisateur trouvé</p>
+      </div>
+      } } @if ( searchResults.data.length > 0 && searchResults &&
+      searchResults.meta.itemCount >= params.take ) {
       <div
-        class="justify-content-center d-flex p-3 d-print-none"
-        *ngIf="
-          searchResults.data.length > 0 &&
-          searchResults &&
-          searchResults.meta.itemCount >= params.take
-        "
+        class="fr-grid-row fr-grid-row--middle fr-p-3w d-print-none"
+        style="justify-content: center"
       >
-        <div
-          class="results-selector justify-content-start align-items-center d-flex me-auto"
-        >
-          <select
-            name="limit"
-            [(ngModel)]="params.take"
-            (ngModelChange)="loadAccounts(params)"
-            id="limit"
-          >
-            <option [ngValue]="10">10</option>
-            <option [ngValue]="50">50</option>
-            <option [ngValue]="100">100</option>
-            <option [ngValue]="250">250</option>
-            <option [ngValue]="500">500</option>
-          </select>
-          <label for="limit" class="ms-3 fw-bold">résultats par page</label>
+        <div class="fr-col-auto" style="margin-right: auto">
+          <div class="fr-select-group">
+            <label class="fr-label fr-text--bold" for="limit"
+              >Résultats par page</label
+            >
+            <select
+              class="fr-select"
+              name="limit"
+              [(ngModel)]="params.take"
+              (ngModelChange)="loadAccounts(params)"
+              id="limit"
+            >
+              <option [ngValue]="10">10</option>
+              <option [ngValue]="50">50</option>
+              <option [ngValue]="100">100</option>
+              <option [ngValue]="250">250</option>
+              <option [ngValue]="500">500</option>
+            </select>
+          </div>
         </div>
 
         <ngb-pagination
@@ -161,71 +172,50 @@
           (pageChange)="loadAccounts()"
         ></ngb-pagination>
       </div>
+      }
     </div>
   </div>
 </div>
-
-<ng-template #activateAllAccountsModal let-modal>
-  <div class="modal-header bg-warning">
-    <span class="text-dark" id="modal-title">
-      Confirmer la génération des comptes
-    </span>
-  </div>
-
-  <div class="modal-body py-4">
-    <div class="text-center mb-3">
-      <fa-icon
-        [icon]="['fas', 'exclamation-triangle']"
-        class="text-warning"
-        size="2x"
-        aria-hidden="true"
-      ></fa-icon>
-    </div>
-    <p class="text-center">
+<dsfr-modal
+  #activateAllAccountsModal
+  dialogId="activate-all-accounts-modal"
+  titleModal="Confirmer la génération des comptes"
+  icon="fr-icon-warning-line"
+  [size]="'LG'"
+>
+  <div class="fr-alert fr-alert--warning fr-mb-2w">
+    <p>
       <strong>Attention :</strong> Cette action va générer des comptes Mon
       DomiFa pour tous les usagers éligibles qui n'en ont pas encore.
     </p>
-    <p class="text-center text-muted">
-      Cette opération peut prendre plusieurs minutes selon le nombre d'usagers à
-      traiter.
-    </p>
   </div>
+  <p class="fr-text--light">
+    Cette opération peut prendre plusieurs minutes selon le nombre d'usagers à
+    traiter.
+  </p>
 
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-lg btn-warning"
-      (click)="activateAllAccounts()"
-      [disabled]="activatingAccounts"
-      [attr.aria-busy]="activatingAccounts"
+  <ng-template #modalFooterTemplate>
+    <div
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
     >
-      <span *ngIf="activatingAccounts">
-        <fa-icon
-          [icon]="['fas', 'spinner']"
-          animation="spin"
-          aria-hidden="true"
-          class="me-2"
-        ></fa-icon>
-        Génération en cours...
-      </span>
-      <span *ngIf="!activatingAccounts">
-        <fa-icon
-          [icon]="['fas', 'check']"
-          aria-hidden="true"
-          class="me-2"
-        ></fa-icon>
-        Confirmer la génération
-      </span>
-    </button>
-    <button
-      type="button"
-      [disabled]="activatingAccounts"
-      [attr.aria-busy]="activatingAccounts"
-      [attr.aria-disabled]="activatingAccounts"
-      class="btn btn-lg btn-outline-dark"
-      (click)="closeModal()"
-    >
-      Annuler
-    </button>
-  </div>
-</ng-template>
+      <button
+        type="button"
+        class="fr-btn"
+        (click)="activateAllAccounts()"
+        [disabled]="activatingAccounts"
+        [attr.aria-busy]="activatingAccounts"
+      >
+        @if (!activatingAccounts) { Confirmer la génération } @else { Génération
+        en cours... }
+      </button>
+      <button
+        type="button"
+        class="fr-btn fr-btn--secondary"
+        [disabled]="activatingAccounts"
+        (click)="closeModal()"
+      >
+        Annuler
+      </button>
+    </div>
+  </ng-template>
+</dsfr-modal>

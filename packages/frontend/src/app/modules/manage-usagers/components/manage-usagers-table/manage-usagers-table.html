@@ -19,11 +19,7 @@
           (click)="openDeleteUsagersModal()"
           class="btn btn-sm btn-outline-danger"
         >
-          <fa-icon
-            aria-hidden="true"
-            [icon]="['fas', 'trash']"
-            class="me-2"
-          ></fa-icon>
+          <span class="fr-mr-2w fr-icon-delete-line" aria-hidden="true"></span>
           <ng-container *ngIf="selectedRefs.size === 1"
             >Supprimer le domicilié</ng-container
           >
@@ -31,19 +27,12 @@
             >Supprimer les domiciliés</ng-container
           >
         </button>
-        <button
-          type="button"
-          *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
-          (click)="openAssignReferrerModal()"
-          class="btn ms-2 btn-sm btn-outline-dark"
-        >
-          <fa-icon
-            aria-hidden="true"
-            [icon]="['fas', 'users']"
-            class="me-2"
-          ></fa-icon>
-          Assigner un référent
-        </button>
+        <app-assign-referrers
+          [selectedRefs]="selectedRefs"
+          (actionAfterSuccess)="resetCheckboxes()"
+          template="modal"
+          [me]="me"
+        ></app-assign-referrers>
       </div>
     </div>
   </div>
@@ -243,7 +232,7 @@
         *ngIf="filters.statut === UsagersFilterCriteriaStatut.TOUS"
         class="clickable text-start"
       >
-        <span [class]="'label-info ' + usager?.statusInfo?.color">
+        <span [class]="'fr-badge ' + usager?.statusInfo?.color">
           {{ usager?.statusInfo?.text }}</span
         >
       </td>
@@ -304,13 +293,13 @@
       >
         <p
           *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
-          class="m-0 label-info orange-status"
+          class="m-0 fr-badge fr-badge--warning"
         >
           Renouvellement
         </p>
         <p
           *ngIf="usager.typeDom === 'PREMIERE_DOM'"
-          class="m-0 label-info grey-status"
+          class="m-0 fr-badge fr-badge--info"
         >
           Première demande
         </p>
@@ -374,17 +363,17 @@
   </tbody>
 </table>
 
-<ng-template #deleteUsagersModal let-modal>
+<dsfr-modal
+  #deleteUsagersModal
+  titleModal="Supprimer des domiciliés"
+  dialogId="deleteUsagersModal"
+  [isScrollable]="false"
+  [size]="'LG'"
+>
   <app-delete-usager
     [selectedRefs]="selectedRefs"
     (actionAfterSuccess)="resetCheckboxes()"
+    (closeModal)="closeDeleteUsagersModal()"
     context="MANAGE"
   ></app-delete-usager>
-</ng-template>
-
-<ng-template #assignReferrersModal let-modal>
-  <app-assign-referrers
-    [selectedRefs]="selectedRefs"
-    (actionAfterSuccess)="resetCheckboxes()"
-  ></app-assign-referrers>
-</ng-template>
+</dsfr-modal>

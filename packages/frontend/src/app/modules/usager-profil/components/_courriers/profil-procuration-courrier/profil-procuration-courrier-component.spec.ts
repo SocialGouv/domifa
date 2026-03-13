@@ -4,6 +4,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbDatepickerI18n, NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 import { USAGER_VALIDE_MOCK } from "../../../../../../_common/mocks/USAGER_VALIDE.mock";
 import { MATOMO_INJECTORS, _usagerReducer } from "../../../../../shared";
@@ -34,6 +35,7 @@ describe("UsagersProfilProcurationCourrierComponent", () => {
         FormsModule,
         SharedModule,
         ReactiveFormsModule,
+        DsfrModalComponent,
         ...MATOMO_INJECTORS,
       ],
       providers: [

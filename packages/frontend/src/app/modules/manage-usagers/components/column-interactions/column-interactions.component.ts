@@ -1,21 +1,20 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnDestroy,
-  TemplateRef,
+  Output,
   ViewChild,
 } from "@angular/core";
-import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
-import {
-  InteractionInForApi,
-  DEFAULT_MODAL_OPTIONS,
-} from "../../../../../_common/model";
+import { InteractionInForApi } from "../../../../../_common/model";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { InteractionService } from "../../../usager-shared/services";
 import { INTERACTIONS_LABELS_SINGULIER, InteractionType } from "@domifa/common";
+import { SetInteractionInFormComponent } from "../../../usager-shared/components/interactions/set-interaction-in-form/set-interaction-in-form.component";
+import { SetInteractionOutFormComponent } from "../../../usager-shared/components/interactions/set-interaction-out-form/set-interaction-out-form.component";
 
 @Component({
   selector: "app-manage-usagers-interactions",
@@ -24,13 +23,14 @@ import { INTERACTIONS_LABELS_SINGULIER, InteractionType } from "@domifa/common";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ColumnInteractionsComponent implements OnDestroy {
-  @ViewChild("setInteractionInModal")
-  public setInteractionInModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("interactionInRef")
+  public interactionInRef!: SetInteractionInFormComponent;
 
-  @ViewChild("setInteractionOutModal")
-  public setInteractionOutModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("interactionOutRef")
+  public interactionOutRef!: SetInteractionOutFormComponent;
 
-  private lastModalRef: NgbModalRef | null = null;
+  @Output()
+  public updateInteractions = new EventEmitter<void>();
 
   public isInteractionLoading: { [key in InteractionType]?: boolean } = {
     courrierIn: false,
@@ -48,8 +48,7 @@ export class ColumnInteractionsComponent implements OnDestroy {
 
   constructor(
     private readonly interactionService: InteractionService,
-    private readonly toastService: CustomToastService,
-    private readonly modalService: NgbModal
+    private readonly toastService: CustomToastService
   ) {}
 
   public setSingleInteraction(
@@ -89,39 +88,26 @@ export class ColumnInteractionsComponent implements OnDestroy {
     );
   }
 
-  public openInteractionInModal() {
-    this.lastModalRef = this.modalService.open(
-      this.setInteractionInModal,
-      DEFAULT_MODAL_OPTIONS
-    );
+  public openInteractionInModal(): void {
+    this.interactionInRef.open();
   }
 
-  public openInteractionOutModal() {
-    this.lastModalRef = this.modalService.open(
-      this.setInteractionOutModal,
-      DEFAULT_MODAL_OPTIONS
-    );
+  public openInteractionOutModal(): void {
+    this.interactionOutRef.open();
   }
 
-  public cancelReception(
-    interactionType: InteractionType | "distribution" | "reception",
-    usagerRef: number
-  ) {
-    this.modalService.dismissAll();
-    this.lastModalRef.result.then(
-      () => {
-        this.setFocusOnElement(interactionType, usagerRef);
-      },
-      () => {
-        this.setFocusOnElement(interactionType, usagerRef);
-      }
-    );
+  public onInteractionInClosed(): void {
+    this.setFocusOnElement("reception", this.usager.ref);
+  }
+
+  public onInteractionOutClosed(): void {
+    this.setFocusOnElement("distribution", this.usager.ref);
   }
 
   private setFocusOnElement(
     interactionType: InteractionType | "distribution" | "reception",
     usagerRef: number
-  ) {
+  ): void {
     setTimeout(() => {
       let usagerElement = document.getElementById(
         `${interactionType}-${usagerRef}`

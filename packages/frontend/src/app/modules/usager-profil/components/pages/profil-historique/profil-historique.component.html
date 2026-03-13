@@ -1,23 +1,17 @@
-<app-profil-head
-  *ngIf="usager"
-  [usager]="usager"
-  [section]="'historique'"
-  [me]="me"
->
-</app-profil-head>
-
-<div class="content" *ngIf="usager && me">
-  <div class="container p-0">
-    <div class="page-content p-3">
+<div class="fr-content-container-light">
+  <app-profil-head
+    [usager]="usager"
+    [section]="section"
+    *ngIf="me"
+    [me]="me"
+  ></app-profil-head>
+  <div class="fr-container" *ngIf="usager">
+    <div class="fr-content">
       <div
         class="d-flex my-3 d-print-none justify-content-between align-items-center"
       >
         <h2 id="tablist-1">Historique du dossier</h2>
-        <button
-          type="button"
-          class="btn btn-primary d-print-none"
-          (click)="goToPrint()"
-        >
+        <button type="button" class="fr-btn d-print-none" (click)="goToPrint()">
           <fa-icon
             [icon]="['fas', 'print']"
             class="me-2"
@@ -87,7 +81,6 @@
           [hidden]="currentSection !== 'transferts'"
         >
           <app-profil-historique-transferts
-            id="tabpanel-transferts"
             *ngIf="currentSection === 'transferts'"
             [me]="me"
             [usager]="usager"
@@ -104,7 +97,6 @@
           "
         >
           <app-profil-historique-sms
-            id="tabpanel-sms"
             [usager]="usager"
           ></app-profil-historique-sms>
         </div>
@@ -117,7 +109,6 @@
         >
           <app-profil-historique-notes
             [me]="me"
-            id="tabpanel-notes"
             [usager]="usager"
           ></app-profil-historique-notes>
         </div>
@@ -132,7 +123,6 @@
           "
         >
           <app-profil-historique-login-portail
-            id="tabpanel-login-portail"
             [usager]="usager"
             [me]="me"
           ></app-profil-historique-login-portail>

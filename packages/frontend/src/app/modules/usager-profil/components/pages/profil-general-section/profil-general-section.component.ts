@@ -1,18 +1,14 @@
-import { Component, TemplateRef, ViewChild } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import {
-  NgbDateStruct,
-  NgbModal,
-  NgbModalRef,
-} from "@ng-bootstrap/ng-bootstrap";
-
+import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { ProfilGeneralHistoriqueCourriersComponent } from "../../_general-section/profil-general-historique-courriers/profil-general-historique-courriers.component";
+import { SetInteractionInFormComponent } from "../../../../usager-shared/components/interactions/set-interaction-in-form/set-interaction-in-form.component";
+import { SetInteractionOutFormComponent } from "../../../../usager-shared/components/interactions/set-interaction-out-form/set-interaction-out-form.component";
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
 import {
   ETAPES_DEMANDE_URL,
   InteractionInForApi,
-  DEFAULT_MODAL_OPTIONS,
 } from "../../../../../../_common/model";
 import {
   minDateNaissance,
@@ -42,17 +38,14 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
   public minDateNaissance: NgbDateStruct;
   public maxDateNaissance: NgbDateStruct;
 
-  @ViewChild("distributionConfirm", { static: true })
-  public distributionConfirm!: TemplateRef<NgbModalRef>;
+  @ViewChild("interactionInRef")
+  public interactionInRef!: SetInteractionInFormComponent;
 
-  @ViewChild("setInteractionInModal", { static: true })
-  public setInteractionInModal!: TemplateRef<NgbModalRef>;
-
-  @ViewChild("setInteractionOutModal", { static: true })
-  public setInteractionOutModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("interactionOutRef")
+  public interactionOutRef!: SetInteractionOutFormComponent;
 
   @ViewChild(ProfilGeneralHistoriqueCourriersComponent)
-  private profileComponent!: ProfilGeneralHistoriqueCourriersComponent;
+  private readonly profileComponent!: ProfilGeneralHistoriqueCourriersComponent;
 
   public readonly USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;
 
@@ -66,7 +59,6 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
     public route: ActivatedRoute,
     public router: Router,
     public store: Store<UsagerState>,
-    private readonly modalService: NgbModal,
     private readonly interactionService: InteractionService
   ) {
     super(
@@ -85,6 +77,7 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
     this.maxDateNaissance = formatDateToNgb(new Date());
 
     this.titlePrefix = "Dossier";
+    this.section = "general";
   }
 
   public setSingleInteraction(usagerRef: number, type: InteractionType): void {
@@ -123,16 +116,14 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
     this.profileComponent.getInteractions();
   }
 
-  public closeModals(): void {
-    this.modalService.dismissAll();
-  }
+  public closeModals(): void {}
 
   public openInteractionInModal(): void {
-    this.modalService.open(this.setInteractionInModal, DEFAULT_MODAL_OPTIONS);
+    this.interactionInRef.open();
   }
 
   public openInteractionOutModal(): void {
-    this.modalService.open(this.setInteractionOutModal, DEFAULT_MODAL_OPTIONS);
+    this.interactionOutRef.open();
   }
 
   private stopLoading(loadingRef: string) {

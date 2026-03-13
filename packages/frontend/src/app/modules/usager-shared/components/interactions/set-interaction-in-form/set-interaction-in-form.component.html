@@ -1,41 +1,48 @@
-<div class="modal-header">
-  <span id="modal-title">
-    Nouveaux courriers pour
-    <span class="text-primary">
-      {{ usager | fullName }} -
-      {{ usager.customRef ? usager.customRef : usager.ref }}
-    </span>
-  </span>
-</div>
-<div class="modal-body text-center">
-  <div class="d-flex flex-wrap justify-content-center justify-content-md-start">
-    <div class="interaction-zone p-1 mx-md-2 mx-auto my-2">
+<dsfr-modal
+  #receptionModal
+  titleModal="Réception de courriers"
+  size="LG"
+  (conceal)="cancelReception.emit()"
+>
+  <div class="fr-text--center">
+    <p>
+      Nouveaux courriers pour
+      <strong class="fr-text-label--blue-france">
+        {{ usager | fullName }} -
+        {{ usager.customRef ? usager.customRef : usager.ref }}
+      </strong>
+    </p>
+  </div>
+
+  <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
+    <div class="interaction-zone fr-p-1w fr-mx-md-2w fr-mx-auto fr-my-2w">
       <div class="interaction-icon-box">
+        @if (interactionFormData.courrierIn.nbCourrier > 0) {
         <div
           [@bounce]="interactionFormData.courrierIn.nbCourrier"
-          *ngIf="interactionFormData.courrierIn.nbCourrier > 0"
           class="interaction-notification"
           aria-live="polite"
         >
           {{ interactionFormData.courrierIn.nbCourrier }}
-          <span class="visually-hidden"> courriers</span>
+          <span class="fr-sr-only"> courriers</span>
         </div>
+        }
         <div class="interaction-icon icon-courrier"></div>
       </div>
       <div class="interaction-actions">
         <button
           type="button"
           (click)="decrement('courrierIn')"
-          class="btn btn-primary"
+          class="fr-btn"
           aria-label="Diminuer le nombre de courriers reçus"
           [disabled]="interactionFormData.courrierIn.nbCourrier === 0"
         >
           <span class="icon-moins" aria-hidden="true"></span>
         </button>
-        <span class="px-1"></span>
+        <span class="fr-px-1w"></span>
         <button
           type="button"
-          class="btn btn-primary"
+          class="fr-btn"
           aria-label="Augmenter le nombre de courriers reçus"
           (click)="increment('courrierIn')"
         >
@@ -45,33 +52,34 @@
       <span class="interaction-label">Courriers</span>
     </div>
 
-    <div class="interaction-zone p-1 mx-md-2 mx-auto my-2">
+    <div class="interaction-zone fr-p-1w fr-mx-md-2w fr-mx-auto fr-my-2w">
       <div class="interaction-icon-box">
+        @if (interactionFormData.colisIn.nbCourrier > 0) {
         <div
           [@bounce]="interactionFormData.colisIn.nbCourrier"
-          *ngIf="interactionFormData.colisIn.nbCourrier > 0"
           class="interaction-notification"
           aria-live="polite"
         >
           {{ interactionFormData.colisIn.nbCourrier }}
-          <span class="visually-hidden"> colis</span>
+          <span class="fr-sr-only"> colis</span>
         </div>
+        }
         <div class="interaction-icon icon-colis"></div>
       </div>
       <div class="interaction-actions">
         <button
           type="button"
           (click)="decrement('colisIn')"
-          class="btn btn-primary"
+          class="fr-btn"
           aria-label="Diminuer le nombre de colis reçus"
           [disabled]="interactionFormData.colisIn.nbCourrier === 0"
         >
           <span class="icon-moins" aria-hidden="true"></span>
         </button>
-        <span class="px-1"></span>
+        <span class="fr-px-1w"></span>
         <button
           type="button"
-          class="btn btn-primary"
+          class="fr-btn"
           aria-label="Augmenter le nombre de colis reçus"
           (click)="increment('colisIn')"
         >
@@ -81,33 +89,34 @@
       <span class="interaction-label">Colis</span>
     </div>
 
-    <div class="interaction-zone p-1 mx-md-2 mx-auto my-2">
+    <div class="interaction-zone fr-p-1w fr-mx-md-2w fr-mx-auto fr-my-2w">
       <div class="interaction-icon-box">
+        @if (interactionFormData.recommandeIn.nbCourrier > 0) {
         <div
           [@bounce]="interactionFormData.recommandeIn.nbCourrier"
-          *ngIf="interactionFormData.recommandeIn.nbCourrier > 0"
           class="interaction-notification"
           aria-live="polite"
         >
           {{ interactionFormData.recommandeIn.nbCourrier }}
-          <span class="visually-hidden">recommandés</span>
+          <span class="fr-sr-only">recommandés</span>
         </div>
+        }
         <div class="interaction-icon icon-recommande"></div>
       </div>
       <div class="interaction-actions">
         <button
           type="button"
           (click)="decrement('recommandeIn')"
-          class="btn btn-primary"
+          class="fr-btn"
           aria-label="Diminuer le nombre d'avis de passage reçus"
           [disabled]="interactionFormData.recommandeIn.nbCourrier === 0"
         >
           <span class="icon-moins" aria-hidden="true"></span>
         </button>
-        <span class="px-1"></span>
+        <span class="fr-px-1w"></span>
         <button
           type="button"
-          class="btn btn-primary"
+          class="fr-btn"
           aria-label="Augmenter le nombre d'avis de passage reçus"
           (click)="increment('recommandeIn')"
         >
@@ -118,66 +127,64 @@
     </div>
   </div>
 
-  <div class="px-1 my-1">
-    <div class="form-group">
-      <label class="label text-start" for="content">
+  <div class="fr-px-1w fr-my-1w">
+    <div class="fr-input-group">
+      <label class="fr-label" for="content">
         Informations importantes concernant les courriers (1000 caractères
-        maximum).<small class="my-2 text-start" id="message-informations">
+        maximum)
+        <span class="fr-hint-text" id="message-informations">
           Caractères interdits: &#36;&#126;&#42;&lt;&gt;&#123;&#125;
-        </small>
+        </span>
       </label>
       <textarea
-        class="form-control"
+        class="fr-input"
         [(ngModel)]="content"
         id="content"
         aria-describedby="message-informations"
       ></textarea>
 
-      <div
-        class="alert alert-warning mt-2"
-        *ngIf="usager.options.portailUsagerEnabled"
-      >
+      @if (usager.options.portailUsagerEnabled) {
+      <div class="fr-alert fr-alert--warning fr-mt-2w">
         <p>
           Les informations saisies dans ce champ sont visibles par le domicilié
           depuis "Mon DomiFa"
         </p>
       </div>
+      }
 
       <app-rgpd-warning></app-rgpd-warning>
     </div>
   </div>
-  <div class="alert alert-danger" *ngIf="usager.decision.statut === 'RADIE'">
-    <div aria-hidden="true" class="svg-icon icon-danger"></div>
-    <p class="text-danger">
+
+  @if (usager.decision.statut === 'RADIE') {
+  <div class="fr-alert fr-alert--error">
+    <p>
       Vous êtes sur le point d'ajouter du courrier à un dossier marqué comme
       radié
     </p>
   </div>
-</div>
+  }
 
-<div class="text-end modal-footer">
-  <button
-    type="submit"
-    class="btn btn-lg btn-primary mx-1"
-    [disabled]="loading"
-    [attr.aria-busy]="loading"
-    (click)="setInteractionForm()"
-  >
-    <span *ngIf="!loading">Valider</span>
-    <span *ngIf="loading">
-      <fa-icon
-        [icon]="['fas', 'circle-notch']"
-        animation="spin"
-        aria-hidden="true"
-      ></fa-icon>
-      Veuillez patientez...
-    </span>
-  </button>
-  <button
-    type="button"
-    class="btn btn-outline-dark btn-lg me-2"
-    (click)="cancelReception.emit()"
-  >
-    Annuler
-  </button>
-</div>
+  <ng-template #modalFooterTemplate>
+    <div
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
+    >
+      <button
+        type="button"
+        class="fr-btn"
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
+        (click)="setInteractionForm()"
+      >
+        @if (!loading) {
+        <span>Valider</span>
+        } @else {
+        <span class="fr-sr-only">Veuillez patienter...</span>
+        }
+      </button>
+      <button type="button" class="fr-btn fr-btn--secondary" (click)="close()">
+        Annuler
+      </button>
+    </div>
+  </ng-template>
+</dsfr-modal>

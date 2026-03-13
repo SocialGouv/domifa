@@ -23,9 +23,11 @@ import {
   NgbDateCustomParserFormatter,
   CustomDatepickerI18n,
 } from "../shared/services";
-import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { ManageUserUsagerComponent } from "./components/manage-user-usager/manage-user-usager.component";
+import { DsfrEditorComponent } from "@edugouvfr/ngx-dsfr-ext/editor";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { DisplayLastLoginComponent } from "../shared/components/display-last-login/display-last-login.component";
 
 @NgModule({
   declarations: [
@@ -43,8 +45,10 @@ import { ManageUserUsagerComponent } from "./components/manage-user-usager/manag
     ReactiveFormsModule,
     SharedModule,
     GeneralModule,
-    CKEditorModule,
     FontAwesomeModule,
+    DsfrEditorComponent,
+    DsfrModalComponent,
+    DisplayLastLoginComponent,
   ],
   providers: [
     StructureInformationService,

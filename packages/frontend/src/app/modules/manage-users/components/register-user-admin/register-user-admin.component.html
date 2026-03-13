@@ -1,151 +1,198 @@
-<h2 class="title mt-3">Créer un utilisateur</h2>
-<p>
-  Les champs suivis d'un <span class="fw-bold text-danger">*</span> sont
-  obligatoires
-</p>
-<form #form [formGroup]="userForm" (ngSubmit)="submitUser()">
-  <div class="row">
-    <div class="col-md-6 form-group required">
-      <label for="nom">Nom</label>
-      <input
-        type="text"
-        class="form-control"
-        id="nom"
-        appCleanStr
-        formControlName="nom"
-        name="nom"
-        [ngClass]="{
-          'is-invalid': (f.nom.dirty || submitted) && f.nom.errors,
-          'is-valid': f.nom.dirty && !f.nom.errors
-        }"
-        [attr.aria-describedby]="
-          (f.nom.dirty || submitted) && f.nom.errors ? 'invalid-name' : null
-        "
-        [attr.aria-invalid]="
-          (f.nom.dirty || submitted) && f.nom.errors ? true : false
-        "
-        required
-      />
-      <p
-        *ngIf="submitted && f.nom.errors"
-        id="invalid-name"
-        class="invalid-feedback"
-      >
-        Veuillez vérifier le nom
-      </p>
-    </div>
-    <div class="col-md-6 form-group required">
-      <label for="prenom">Prénom</label>
-      <input
-        type="text"
-        class="form-control"
-        id="prenom"
-        appCleanStr
-        formControlName="prenom"
-        name="prenom"
-        [ngClass]="{
-          'is-invalid':(submitted || f.prenom.dirty) && f.prenom.errors,
-        }"
-        [attr.aria-describedby]="
-          (submitted || f.prenom.dirty) && f.prenom.errors
-            ? 'invalid-prenom'
-            : null
-        "
-        [attr.aria-invalid]="
-          (submitted || f.prenom.dirty) && f.prenom.errors ? true : false
-        "
-        required
-      />
-      <p
-        *ngIf="(submitted || f.prenom.dirty) && f.prenom.errors"
-        id="invalid-prenom"
-        class="invalid-feedback"
-      >
-        Veuillez vérifier le prénom
-      </p>
-    </div>
-    <div class="col-md-6 form-group required">
-      <label for="email">Adresse email</label>
-      <input
-        type="email"
-        class="form-control"
-        id="email"
-        formControlName="email"
-        name="email"
-        [attr.aria-invalid]="
-          (f.email.dirty || submitted) && f.email.errors ? true : false
-        "
-        [ngClass]="{
-          'is-invalid': (f.email.dirty || submitted) && f.email.errors
-        }"
-        [attr.aria-describedby]="
-          (f.email.dirty || submitted) && f.email.errors ? 'email-errors' : null
-        "
-        required
-      />
+<dsfr-modal
+  [size]="'LG'"
+  #registerModal
+  dialogId="register-user-modal"
+  titleModal="Créer un utilisateur"
+>
+  <p class="fr-text--sm fr-mb-2w">
+    Les champs suivis d'un
+    <span class="fr-text--bold">*</span> sont obligatoires
+  </p>
 
-      <p *ngIf="f.email.errors" class="invalid-feedback" id="email-errors">
-        Veuillez vérifier l'adresse email, format attendu : nom&#64;domaine.fr
-      </p>
-    </div>
-    <div class="col-md-6 form-group required">
-      <label for="role">Accès</label>
-      <select
-        id="role"
-        formControlName="role"
-        name="role"
-        [ngClass]="{
-          'is-invalid': submitted && f.role.errors
-        }"
-        [attr.aria-invalid]="submitted && f.role.errors ? true : false"
-        [attr.aria-describedby]="
-          submitted && f.role.errors ? 'invalid-role' : null
-        "
-        class="form-select"
-        required
-      >
-        <option [ngValue]="null"></option>
-        <option value="admin">Administrateur</option>
-        <option value="responsable">Gestionnaire</option>
-        <option value="simple">Instructeur</option>
-        <option value="facteur">Facteur</option>
-        <option value="agent">Agent d'accueil</option>
-      </select>
-      <p
-        *ngIf="submitted && f.role.errors"
-        class="invalid-feedback"
-        id="invalid-role"
-      >
-        Le rôle est obligatoire
-      </p>
-    </div>
-    <div class="col-md-12 form-group required">
-      <app-fonction-selection
-        [parentFormGroup]="userForm"
-        [fonctionFormControl]="fonctionFormControl"
-        [fonctionDetailFormControl]="fonctionDetailFormControl"
-        [submitted]="submitted"
-        invalidFeedbackText="Le champs fonction est obligatoire"
-      ></app-fonction-selection>
-    </div>
-    <div class="col-12 text-center">
-      <button
-        class="btn btn-primary"
-        type="submit"
-        [disabled]="loading"
-        [attr.aria-busy]="loading"
-      >
-        <span *ngIf="loading">
-          <fa-icon
-            [icon]="['fas', 'circle-notch']"
-            aria-hidden="true"
-            animation="spin"
+  <form #form [formGroup]="userForm" (ngSubmit)="submitUser()">
+    <div class="fr-grid-row fr-grid-row--gutters">
+      <!-- Nom -->
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
+            (f.nom.dirty || submitted) && f.nom.errors
+          "
+        >
+          <label class="fr-label" for="nom"> Nom </label>
+          <input
+            class="fr-input"
+            [class.fr-input--error]="(f.nom.dirty || submitted) && f.nom.errors"
+            type="text"
+            id="nom"
+            name="nom"
+            appCleanStr
+            formControlName="nom"
+            [attr.aria-describedby]="
+              (f.nom.dirty || submitted) && f.nom.errors ? 'nom-messages' : null
+            "
+            [attr.aria-invalid]="
+              (f.nom.dirty || submitted) && f.nom.errors ? true : false
+            "
+            required
+          />
+          <div class="fr-messages-group" id="nom-messages" aria-live="polite">
+            @if ((f.nom.dirty || submitted) && f.nom.errors) {
+            <p class="fr-message fr-message--error">Veuillez vérifier le nom</p>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Prénom -->
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
+            (f.prenom.dirty || submitted) && f.prenom.errors
+          "
+        >
+          <label class="fr-label" for="prenom"> Prénom </label>
+          <input
+            class="fr-input"
+            [class.fr-input--error]="
+              (f.prenom.dirty || submitted) && f.prenom.errors
+            "
+            type="text"
+            id="prenom"
+            name="prenom"
+            appCleanStr
+            formControlName="prenom"
+            [attr.aria-describedby]="
+              (f.prenom.dirty || submitted) && f.prenom.errors
+                ? 'prenom-messages'
+                : null
+            "
+            [attr.aria-invalid]="
+              (f.prenom.dirty || submitted) && f.prenom.errors ? true : false
+            "
+            required
+          />
+          <div
+            class="fr-messages-group"
+            id="prenom-messages"
+            aria-live="polite"
           >
-          </fa-icon>
-          Veuillez patienter...
-        </span>
-        <span *ngIf="!loading">Ajouter cet utilisateur</span>
-      </button>
+            @if ((f.prenom.dirty || submitted) && f.prenom.errors) {
+            <p class="fr-message fr-message--error">
+              Veuillez vérifier le prénom
+            </p>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="fr-col-12">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
+            (f.email.dirty || submitted) && f.email.errors
+          "
+        >
+          <label class="fr-label" for="email"> Adresse email </label>
+          <input
+            class="fr-input"
+            [class.fr-input--error]="
+              (f.email.dirty || submitted) && f.email.errors
+            "
+            type="email"
+            id="email"
+            name="email"
+            formControlName="email"
+            [attr.aria-describedby]="
+              (f.email.dirty || submitted) && f.email.errors
+                ? 'email-messages'
+                : null
+            "
+            [attr.aria-invalid]="
+              (f.email.dirty || submitted) && f.email.errors ? true : false
+            "
+            required
+          />
+          <div class="fr-messages-group" id="email-messages" aria-live="polite">
+            @if ((f.email.dirty || submitted) && f.email.errors) {
+            <p class="fr-message fr-message--error">
+              Veuillez vérifier l'adresse email, format attendu :
+              nom&#64;domaine.fr
+            </p>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="fr-col-12">
+        <div
+          class="fr-select-group"
+          [class.fr-select-group--error]="submitted && f.role.errors"
+        >
+          <label class="fr-label" for="role"> Accès </label>
+          <select
+            class="fr-select"
+            [class.fr-select--error]="submitted && f.role.errors"
+            id="role"
+            name="role"
+            formControlName="role"
+            [attr.aria-describedby]="
+              submitted && f.role.errors ? 'role-messages' : null
+            "
+            [attr.aria-invalid]="submitted && f.role.errors ? true : false"
+            required
+          >
+            <option [ngValue]="null" disabled hidden>
+              Sélectionner un rôle
+            </option>
+            <option value="admin">Administrateur</option>
+            <option value="responsable">Gestionnaire</option>
+            <option value="simple">Instructeur</option>
+            <option value="facteur">Facteur</option>
+            <option value="agent">Agent d'accueil</option>
+          </select>
+          <div class="fr-messages-group" id="role-messages" aria-live="polite">
+            @if (submitted && f.role.errors) {
+            <p class="fr-message fr-message--error">Le rôle est obligatoire</p>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Fonction -->
+      <div class="fr-col-12">
+        <app-fonction-selection
+          [parentFormGroup]="userForm"
+          [fonctionFormControl]="fonctionFormControl"
+          [fonctionDetailFormControl]="fonctionDetailFormControl"
+          [submitted]="submitted"
+          invalidFeedbackText="Le champs fonction est obligatoire"
+        />
+      </div>
     </div>
-  </div>
-</form>
+
+    <ng-template #modalFooterTemplate>
+      <div class="fr-btns-group fr-btns-group--inline fr-btns-group--right">
+        <button
+          type="button"
+          class="fr-btn fr-btn--secondary"
+          (click)="closeModals()"
+        >
+          Annuler
+        </button>
+        <button
+          type="submit"
+          class="fr-btn"
+          (click)="submitUser()"
+          [disabled]="loading"
+          [attr.aria-busy]="loading"
+        >
+          @if (!loading) { Confirmer l'ajournement } @else { Veuillez
+          patienter... }
+        </button>
+      </div>
+    </ng-template>
+  </form>
+</dsfr-modal>

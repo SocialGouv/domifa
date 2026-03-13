@@ -14,6 +14,7 @@ import { _usagerReducer } from "../../../../shared";
 import { UsagerDossierModule } from "../../usager-dossier.module";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 describe("DecisionRefusFormComponent", () => {
   let component: DecisionRefusFormComponent;
@@ -29,6 +30,7 @@ describe("DecisionRefusFormComponent", () => {
         FormsModule,
         ReactiveFormsModule,
         UsagerDossierModule,
+        DsfrModalComponent,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [

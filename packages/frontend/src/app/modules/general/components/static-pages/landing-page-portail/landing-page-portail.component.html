@@ -1,129 +1,181 @@
-<div class="head-page py-4" *ngIf="displayMenu">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-7 col-12">
+@if (displayMenu) {
+<div class="head-page">
+  <div class="fr-container">
+    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+      <div class="fr-col-12 fr-col-md-7">
         <h1>Le portail Mon DomiFa, consulter son courrier en ligne</h1>
       </div>
-      <div class="text-start text-md-end col-12 col-md-5">
+      <div class="fr-col-12 fr-col-md-5" style="text-align: right">
         <a
           href="https://docs.numerique.gouv.fr/docs/7f7f4ec4-5d4c-43ce-a416-74e5aa4af14c/"
           target="_blank"
-          class="btn btn-white-primary"
+          class="fr-btn fr-btn--secondary"
+          (click)="
+            matomo.trackEvent(
+              'PORTAIL_MON_DOMIFA',
+              'LIEN_GUIDE_HEADER',
+              'null',
+              1
+            )
+          "
           rel="noopener noreferrer"
+          title="Consulter le guide - nouvelle fenêtre"
         >
-          <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
+          <span
+            class="fr-icon-information-line fr-mr-1w"
+            aria-hidden="true"
+          ></span>
           Consulter le guide
         </a>
       </div>
     </div>
   </div>
 </div>
-<div class="container py-3 landing">
-  <div class="row my-4 align-items-center" @fadeIn>
-    <div class="col-12 col-md-6 px-5">
-      <h2>Vérifier son courrier sans se déplacer !</h2>
-      <p>
-        Le portail “Mon DomiFa” permet aux domiciliés de savoir s’ils ont des
-        courriers en attente à tout moment de la journée depuis un ordinateur ou
-        un smartphone
-      </p>
-      <br />
+}
+
+<div class="fr-container">
+  <div class="fr-content">
+    <div class="fr-content-container-light" id="mon-domifa-header">
+      <img
+        src="/assets/icones/mon-domifa/logo-mon-domifa.svg"
+        alt=""
+        class="fr-responsive-img fr-py-2w"
+      />
+      <img
+        src="/assets/icones/mon-domifa/illu-mon-domifa.svg"
+        alt=""
+        class="fr-responsive-img"
+      />
+      <h2>
+        Découvrez le portail Mon DomiFa et activez-le pour les domiciliés !
+      </h2>
+    </div>
+    <div
+      class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-my-4w"
+      @fadeIn
+    >
+      <div class="fr-col-12 fr-col-md-6 fr-px-5w">
+        <h2>Vérifier son courrier sans se déplacer !</h2>
+        <p>
+          Le portail "Mon DomiFa" permet aux domiciliés de savoir s'ils ont des
+          courriers en attente à tout moment de la journée depuis un ordinateur
+          ou un smartphone
+        </p>
+        <br />
+        @if (!isLandingPage) {
+        <button
+          class="fr-btn fr-my-2w"
+          type="button"
+          (click)="activatePortail.emit()"
+        >
+          Activer le portail "Mon DomiFa"
+        </button>
+        }
+        <br />
+        <a
+          href="https://docs.numerique.gouv.fr/docs/7f7f4ec4-5d4c-43ce-a416-74e5aa4af14c/"
+          target="_blank"
+          class="fr-btn fr-btn--secondary fr-my-2w"
+          rel="noopener noreferrer"
+          title="Consulter le guide - nouvelle fenêtre"
+        >
+          <span
+            class="fr-icon-information-line fr-mr-1w"
+            aria-hidden="true"
+          ></span>
+          Consulter le guide
+        </a>
+      </div>
+      <div class="fr-col-12 fr-col-md-6">
+        <img
+          src="/assets/images/mon-domifa/image-1.png"
+          class="fr-responsive-img"
+          alt=""
+        />
+      </div>
+    </div>
+
+    <div
+      class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-my-4w"
+      @fadeIn
+    >
+      <div class="fr-col-12 fr-col-md-6">
+        <img
+          src="/assets/images/mon-domifa/image-2.png"
+          class="fr-responsive-img"
+          alt=""
+        />
+      </div>
+      <div class="fr-col-12 fr-col-md-6 fr-px-5w">
+        <p>
+          En donnant des accès au portail Mon DomiFa à vos domiciliés, vous
+          <b>pourrez diminuer drastiquement les visites inutiles </b>des
+          personnes n'ayant aucun courrier en attente. <br /><br />
+          Moins de déplacements <b>couteux et fatiguant </b>pour les domiciliés,
+          moins de flux à gérer pour votre structure <br /><br />Aussi, toutes
+          les personnes qui travaillent, qui n'ont pas ou peu de moyens pour se
+          déplacer ne viendront que lorsque ce la est nécessaire
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-my-4w"
+      @fadeIn
+    >
+      <div class="fr-col-12 fr-col-md-6 fr-px-5w">
+        <h2>Favoriser l'autonomie des domiciliés et réduire les radiations</h2>
+        <p>
+          Grâce à "Mon DomiFa", les domiciliés pourront consulter leur dossier à
+          tout moment: état de leur domiciliation, date de dernier passage,
+          prochaine échéance, etc.
+          <br /><br />
+          Des alertes visuelles leur permettront d'être averti de la fin
+          prochaine de leur domiciliation
+          <br /><br />
+          La consultation du portail par un domicilié
+          <b>peut-être enregistrée comme un passage</b>. Cela permet d'éviter
+          une perte de droit pour non-présentation d'un domicilié
+        </p>
+      </div>
+      <div class="fr-col-12 fr-col-md-6">
+        <img
+          src="/assets/images/mon-domifa/image-3.png"
+          class="fr-responsive-img"
+          alt=""
+        />
+      </div>
+    </div>
+
+    <div class="fr-py-5w fr-my-2w" style="text-align: center" @fadeIn>
+      @if (!isLandingPage) {
       <button
-        *ngIf="!isLandingPage"
-        class="btn btn-lg btn-primary my-2"
+        class="fr-btn fr-my-2w fr-mx-2w"
         type="button"
         (click)="activatePortail.emit()"
       >
         Activer le portail "Mon DomiFa"
       </button>
-      <br />
+      }
+
       <a
         href="https://docs.numerique.gouv.fr/docs/7f7f4ec4-5d4c-43ce-a416-74e5aa4af14c/"
         target="_blank"
-        class="btn btn-lg btn-outline-primary my-2"
+        class="fr-btn fr-btn--secondary fr-my-2w"
         rel="noopener noreferrer"
+        title="Consulter le guide - nouvelle fenêtre"
       >
-        <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
+        <span
+          class="fr-icon-information-line fr-mr-1w"
+          aria-hidden="true"
+        ></span>
         Consulter le guide
       </a>
-    </div>
-    <div class="col-12 col-md-6">
-      <img
-        src="/assets/images/portail/no-courrier.png"
-        class="img-fluid"
-        alt="Courrier"
-      />
-    </div>
-  </div>
-  <div class="row my-4 align-items-center" @fadeIn>
-    <div class="col-12 col-md-6">
-      <img
-        src="/assets/images/portail/courrier.png"
-        class="img-fluid"
-        alt="Courrier"
-      />
-    </div>
-    <div class="col-12 col-md-6 px-5">
-      <p>
-        En donnant des accès au portail Mon DomiFa à vos domiciliés, vous
-        <b>pourrez diminuer drastiquement les visites inutiles </b>des personnes
-        n’ayant aucun courrier en attente. <br /><br />
-        Moins de déplacements <b>couteux et fatiguant </b>pour les domiciliés,
-        moins de flux à gérer pour votre structure <br /><br />Aussi, toutes les
-        personnes qui travaillent, qui n’ont pas ou peu de moyens pour se
-        déplacer ne viendront que lorsque ce la est nécessaire
-      </p>
-    </div>
-  </div>
-  <div class="row my-4 align-items-center" @fadeIn>
-    <div class="col-12 col-md-6 px-5">
-      <h2>Favoriser l’autonomie des domiciliés et réduire les radiations</h2>
-      <p>
-        Grâce à “Mon DomiFa”, les domiciliés pourront consulter leur dossier à
-        tout moment: état de leur domiciliation, date de dernier passage,
-        prochaine échéance, etc.
-        <br /><br />
-        Des alertes visuelles leur permettront d’être averti de la fin prochaine
-        de leur domiciliation
 
-        <br /><br />
-        La consultation du portail par un domicilié
-        <b>peut-être enregistrée comme un passage</b>. Cela permet d’éviter une
-        perte de droit pour non-présentation d’un domicilié
-      </p>
+      <a href="/contact" class="fr-btn fr-btn--secondary fr-my-2w fr-mx-2w">
+        <span class="fr-icon-mail-line fr-mr-2w" aria-hidden="true"></span>
+        Contactez l'équipe
+      </a>
     </div>
-    <div class="col-12 col-md-6">
-      <img
-        src="/assets/images/portail/notif.png"
-        class="img-fluid"
-        alt="Courrier"
-      />
-    </div>
-  </div>
-
-  <div class="text-center py-5 my-2" @fadeIn>
-    <button
-      class="btn btn-lg btn-primary my-2 mx-2"
-      *ngIf="!isLandingPage"
-      type="button"
-      (click)="activatePortail.emit()"
-    >
-      Activer le portail "Mon DomiFa"
-    </button>
-
-    <a
-      href="https://docs.numerique.gouv.fr/docs/7f7f4ec4-5d4c-43ce-a416-74e5aa4af14c/"
-      target="_blank"
-      class="btn btn-lg btn-outline-primary my-2"
-      rel="noopener noreferrer"
-    >
-      <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
-      Consulter le guide
-    </a>
-
-    <a href="/contact" class="btn btn-lg btn-outline-primary my-2 mx-2">
-      <fa-icon aria-hidden="true" [icon]="['far', 'envelope']"></fa-icon>
-      Contactez l'équipe
-    </a>
   </div>
 </div>

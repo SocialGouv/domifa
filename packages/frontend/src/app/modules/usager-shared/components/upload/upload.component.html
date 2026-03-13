@@ -1,97 +1,127 @@
 <form [formGroup]="uploadForm" (ngSubmit)="submitFile()">
-  <div class="row">
-    <div class="col-md-12 col-12">
-      <p>
-        Les champs suivis d'un
-        <span class="fw-bold text-danger">*</span> sont obligatoires
-      </p>
-    </div>
-    <div class="col-md-5 col-12">
-      <div class="form-group required">
-        <label for="label">Nom du document</label>
+  <div class="fr-grid-row fr-grid-row--gutters">
+    <div class="fr-col-12 fr-col-md-5">
+      <div
+        class="fr-form-group required"
+        [class.fr-form-group--error]="submitted && u.label.errors"
+      >
+        <label class="fr-label" for="label"> Nom du document </label>
+        <p id="label-hint" class="fr-hint-text">
+          Exemple : Cerfa signé, impôts, carte identité, etc.
+        </p>
         <input
           type="text"
-          class="form-control"
+          class="fr-input"
           formControlName="label"
-          name="label"
-          appCleanStr
           id="label"
-          [ngClass]="{ 'is-invalid': submitted && u.label.errors }"
+          appCleanStr
           [attr.aria-describedby]="
-            submitted && u.label.errors ? 'label-errors' : 'label-description'
+            submitted && u.label.errors ? 'label-errors' : 'label-hint'
           "
+          [attr.aria-invalid]="submitted && u.label.errors ? 'true' : 'false'"
           required
         />
-        <small id="label-description"
-          >Exemple : Cerfa signé, impots, carte identité, etc..</small
-        >
-        <p *ngIf="u.label.errors" id="label-errors" class="invalid-feedback">
+
+        @if (submitted && u.label.errors) {
+        <p id="label-errors" class="fr-error-text" role="alert">
           Le nom du document est obligatoire
         </p>
+        }
       </div>
     </div>
-    <div class="col-md-5 col-12 form-group required">
-      <label for="file"> Document à enregistrer </label>
-      <input
-        type="file"
-        class="form-control"
-        id="file"
-        accept=".jpg, .jpeg, .png, .pdf"
-        formControlName="file"
-        name="file"
-        aria-describedby="file-description"
-        [ngClass]="{ 'is-invalid': submitted && u.fileSource.errors }"
-        (change)="onFileChange($event)"
-        required
-      />
 
-      <small id="file-description">
-        Formats autorisés .pdf, .jpg, ou .png (6mo maxi)
-      </small>
-
-      <div *ngIf="submitted && u.fileSource.errors" class="invalid-feedback">
-        <p *ngIf="u.fileSource.errors.required">
-          Vous devez choisir un fichier
-        </p>
-        <p *ngIf="u.fileSource.errors.fileType">Format de fichier invalide</p>
-        <p *ngIf="u.fileSource.errors.fileSize">
-          La taille du fichier est trop grande
-        </p>
-      </div>
-    </div>
-    <div class="col-md-2 col-12 my-2">
-      <button
-        type="submit"
-        class="btn btn-primary btn-block mt-4"
-        [disabled]="loading"
-        [attr.aria-busy]="loading"
+    <div class="fr-col-12 fr-col-md-5">
+      <div
+        class="fr-form-group required"
+        [class.fr-form-group--error]="submitted && u.fileSource.errors"
       >
-        <span *ngIf="!loading">Ajouter</span>
-        <span *ngIf="loading">
-          <fa-icon
-            [icon]="['fas', 'circle-notch']"
-            animation="spin"
-            aria-hidden="true"
-          ></fa-icon>
-          Patientez...
-        </span>
+        <label class="fr-label" for="file"> Document à enregistrer </label>
+        <p id="file-hint" class="fr-hint-text">
+          Formats autorisés : .pdf, .jpg, .png. Taille maximale : 6 Mo
+        </p>
+        <input
+          type="file"
+          class="fr-upload"
+          id="file"
+          accept=".jpg, .jpeg, .png, .pdf"
+          formControlName="file"
+          [attr.aria-describedby]="
+            submitted && u.fileSource.errors ? 'file-errors' : 'file-hint'
+          "
+          [attr.aria-invalid]="
+            submitted && u.fileSource.errors ? 'true' : 'false'
+          "
+          (change)="onFileChange($event)"
+          required
+        />
+
+        @if (submitted && u.fileSource.errors) {
+        <div id="file-errors" class="fr-error-text" role="alert">
+          @if (u.fileSource.errors['required']) {
+          <p>Vous devez choisir un fichier</p>
+          } @if (u.fileSource.errors['fileType']) {
+          <p>Format de fichier invalide</p>
+          } @if (u.fileSource.errors['fileSize']) {
+          <p>La taille du fichier est trop grande (max 6 Mo)</p>
+          }
+        </div>
+        }
+      </div>
+    </div>
+
+    <div class="fr-col-12 fr-col-md-2 fr-displayed-flex fr-flex-align-end">
+      <button type="submit" class="fr-btn" [disabled]="loading">
+        Ajouter le fichier
       </button>
     </div>
 
-    <div class="col-md-12" *ngIf="uploadResponse">
-      <p *ngIf="uploadResponse.status === 'error'">
-        {{ uploadResponse.message }}
-      </p>
-      <div *ngIf="uploadResponse.status === 'progress'">
-        <ngb-progressbar
-          type="success"
-          [striped]="true"
-          [animated]="true"
-          [value]="uploadResponse.message"
+    <div
+      class="fr-col-12 fr-col-md-12"
+      *ngIf="usager.options.portailUsagerEnabled"
+    >
+      <div class="fr-toggle">
+        <input
+          type="checkbox"
+          class="fr-toggle__input"
+          id="toggle-2"
+          aria-describedby="toggle-2-messages"
+        />
+        <label class="fr-toggle__label" for="toggle-2"
+          >Partager le document avec le domicilié sur “Mon DomiFa”</label
         >
-          {{ uploadResponse.message }} %
-        </ngb-progressbar>
+        <div
+          class="fr-messages-group"
+          id="toggle-2-messages"
+          aria-live="polite"
+        ></div>
       </div>
     </div>
   </div>
+
+  @if (uploadResponse) {
+  <div class="fr-grid-row fr-grid-row--gutters fr-mt-3w">
+    <div class="fr-col-12">
+      @if (uploadResponse.status === 'error') {
+      <div class="fr-alert fr-alert--error" role="alert">
+        <h3 class="fr-alert__title">Erreur lors du téléchargement</h3>
+        <p>{{ uploadResponse.message }}</p>
+      </div>
+      } @if (uploadResponse.status === 'progress') {
+      <section>
+        <dsfr-ext-progressbar
+          [label]="'Téléchargement'"
+          [value]="uploadResponse.message"
+          [showValue]="true"
+          [showLabel]="true"
+        ></dsfr-ext-progressbar>
+      </section>
+      } @if (uploadResponse.status === 'success') {
+      <div class="fr-alert fr-alert--success" role="alert">
+        <h3 class="fr-alert__title">Fichier téléchargé avec succès</h3>
+        <p>{{ uploadResponse.message }}</p>
+      </div>
+      }
+    </div>
+  </div>
+  }
 </form>

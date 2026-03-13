@@ -5,6 +5,7 @@ import {
   Input,
   OnDestroy,
   Output,
+  ViewChild,
 } from "@angular/core";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
@@ -16,6 +17,7 @@ import { bounce } from "../../../../../shared";
 import { UsagerFormModel } from "../../../interfaces";
 import { InteractionService } from "../../../services/interaction.service";
 import { Subscription } from "rxjs";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   animations: [bounce],
@@ -24,6 +26,9 @@ import { Subscription } from "rxjs";
   styleUrls: ["../interactions.css"],
 })
 export class SetInteractionInFormComponent implements OnDestroy {
+  @ViewChild("receptionModal")
+  public receptionModal!: DsfrModalComponent;
+
   @Input() public usager!: UsagerFormModel;
 
   @Output()
@@ -59,6 +64,15 @@ export class SetInteractionInFormComponent implements OnDestroy {
     this.content = null;
   }
 
+  public open(): void {
+    this.receptionModal.open();
+  }
+
+  public close(): void {
+    this.receptionModal.close();
+    this.cancelReception.emit();
+  }
+
   public setInteractionForm(): void {
     const interactionsToSave: InteractionInForApi[] = INTERACTIONS_IN.reduce(
       (filtered: InteractionInForApi[], interaction) => {
@@ -91,8 +105,8 @@ export class SetInteractionInFormComponent implements OnDestroy {
         .subscribe({
           next: () => {
             this.toastService.success("Réception enregistrée avec succès");
-            this.cancelReception.emit();
             this.updateInteractions.emit();
+            this.close();
           },
           error: () => {
             this.toastService.error(

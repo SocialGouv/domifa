@@ -1,157 +1,94 @@
-<app-admin-portail-usagers-menu
-  [section]="section"
-  [title]="
-    section === ''
-      ? 'Présentation du portail Mon DomiFa'
-      : 'Paramètres du portail Mon DomiFa'
-  "
-></app-admin-portail-usagers-menu>
+<div class="fr-content-container-light fr-pb-3w">
+  <app-admin-portail-usagers-menu
+    [section]="section"
+    [title]="
+      section === ''
+        ? 'Présentation du portail Mon DomiFa'
+        : 'Paramètres du portail Mon DomiFa'
+    "
+  ></app-admin-portail-usagers-menu>
 
-<app-landing-page-portail
-  *ngIf="section === ''"
-  (activatePortail)="activatePortail()"
-  [isLandingPage]="structure.portailUsager.enabledByStructure"
-  [displayMenu]="false"
-></app-landing-page-portail>
-
-<div class="content py-3" *ngIf="section === 'parametres'">
-  <div class="container py-3">
-    <div class="page-content p-3">
-      <p class="py-2">
-        Une fois que la fonctionnalité d'accès au portail usager au sein de
-        votre structure est activée, il vous faudra la valider sur chacune des
-        fiches des domiciliés lorsqu'ils vous en ont fait la demande
+  @if (section === '') {
+  <app-landing-page-portail
+    (activatePortail)="activatePortail()"
+    [isLandingPage]="structure.portailUsager.enabledByStructure"
+    [displayMenu]="false"
+  ></app-landing-page-portail>
+  } @if (section === 'parametres') {
+  <div class="fr-container">
+    <div class="fr-content">
+      <p class="fr-py-2w">
+        Après l’activation de la fonctionnalité d’accès au portail dans votre
+        structure, il conviendra de la valider pour chaque fiche domiciliés dès
+        qu’une demande vous sera adressée.
       </p>
 
       <form>
-        <fieldset>
-          <div class="row align-items-center">
-            <div class="col-12 col-md-8">
-              <legend class="label">
-                Activer l'accès au portail usager pour les domiciliés
-              </legend>
-            </div>
-            <div class="col-md-4 col-12 text-center text-md-end">
-              <div class="btn-group btn-group-toggle" role="group">
-                <label
-                  [ngClass]="
-                    structure.portailUsager.enabledByStructure === true
-                      ? 'btn btn-primary'
-                      : 'btn btn-outline-primary'
-                  "
-                  for="enabledByStructure1"
-                >
-                  <input
-                    type="radio"
-                    [(ngModel)]="structure.portailUsager.enabledByStructure"
-                    [value]="true"
-                    name="enabledByStructure"
-                    id="enabledByStructure1"
-                    class="me-2"
-                  /><span>Oui</span></label
-                >
+        <div class="fr-my-2w fr-toggle">
+          <input
+            type="checkbox"
+            class="fr-toggle__input"
+            id="enabledByStructure"
+            [(ngModel)]="structure.portailUsager.enabledByStructure"
+            name="enabledByStructure"
+            aria-describedby="enabledByStructure-messages"
+          />
+          <label class="fr-toggle__label" for="enabledByStructure">
+            Activer l'accès au portail usager
+          </label>
+          <div
+            class="fr-messages-group"
+            id="enabledByStructure-messages"
+            aria-live="polite"
+          ></div>
+        </div>
 
-                <label
-                  [ngClass]="
-                    structure.portailUsager.enabledByStructure === false
-                      ? 'btn btn-danger'
-                      : 'btn btn-outline-danger'
-                  "
-                  for="enabledByStructure2"
-                >
-                  <input
-                    type="radio"
-                    [(ngModel)]="structure.portailUsager.enabledByStructure"
-                    [value]="false"
-                    name="enabledByStructure"
-                    id="enabledByStructure2"
-                    class="me-2"
-                  /><span>Non</span></label
-                >
-              </div>
-            </div>
-          </div>
-        </fieldset>
-        <fieldset>
-          <div class="row align-items-center">
-            <div class="col-md-8 col-12">
-              <legend class="label">
-                Mettre à jour la date de dernier passage du domicilié s'il se
-                connecte au portail usager
-              </legend>
-            </div>
-            <div class="col-md-4 col-12 text-center text-md-end">
-              <div class="btn-group btn-group-toggle" role="group">
-                <label
-                  [ngClass]="
-                    structure.portailUsager.usagerLoginUpdateLastInteraction ===
-                    true
-                      ? 'btn btn-primary'
-                      : 'btn btn-outline-primary'
-                  "
-                  for="usagerLoginUpdateLastInteractionOui"
-                >
-                  <input
-                    type="radio"
-                    name="usagerLoginUpdateLastInteractionOui"
-                    id="usagerLoginUpdateLastInteractionOui"
-                    [(ngModel)]="
-                      structure.portailUsager.usagerLoginUpdateLastInteraction
-                    "
-                    [value]="true"
-                    class="me-2"
-                  />
-                  <span>Oui</span>
-                </label>
+        <div class="fr-my-2w fr-toggle">
+          <input
+            type="checkbox"
+            class="fr-toggle__input"
+            id="usagerLoginUpdateLastInteraction"
+            [(ngModel)]="
+              structure.portailUsager.usagerLoginUpdateLastInteraction
+            "
+            name="usagerLoginUpdateLastInteraction"
+            aria-describedby="usagerLoginUpdateLastInteraction-messages"
+          />
+          <label
+            class="fr-toggle__label"
+            for="usagerLoginUpdateLastInteraction"
+          >
+            Mettre à jour la date de dernier passage
+          </label>
+          <div
+            class="fr-messages-group"
+            id="usagerLoginUpdateLastInteraction-messages"
+            aria-live="polite"
+          ></div>
+        </div>
 
-                <label
-                  [ngClass]="
-                    structure.portailUsager.usagerLoginUpdateLastInteraction ===
-                    false
-                      ? 'btn btn-danger'
-                      : 'btn btn-outline-danger'
-                  "
-                  for="usagerLoginUpdateLastInteractionNon"
-                >
-                  <input
-                    name="usagerLoginUpdateLastInteractionNon"
-                    type="radio"
-                    id="usagerLoginUpdateLastInteractionNon"
-                    [value]="false"
-                    class="me-2"
-                    [(ngModel)]="
-                      structure.portailUsager.usagerLoginUpdateLastInteraction
-                    "
-                  />
-                  <span>Non</span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </fieldset>
+        <div
+          *ngIf="successMessage"
+          class="fr-alert fr-alert--success fr-my-2w"
+          role="alert"
+        >
+          <p>{{ successMessage }}</p>
+        </div>
 
-        <div class="col-md-12 my-2 text-center">
+        <div class="fr-mt-3w" style="text-align: center">
           <button
-            class="btn btn-primary"
+            class="fr-btn"
             type="submit"
             (click)="submitStructurePortailForm()"
             [disabled]="loading"
             [attr.aria-busy]="loading"
           >
-            <span *ngIf="!loading"> Enregistrer les modifications </span>
-
-            <span *ngIf="loading"
-              ><fa-icon
-                [icon]="['fas', 'circle-notch']"
-                animation="spin"
-                aria-hidden="true"
-              >
-              </fa-icon>
-              Veuillez patienter...</span
-            >
+            @if (!loading) { Enregistrer les modifications } @else { Veuillez
+            patienter... }
           </button>
         </div>
       </form>
     </div>
   </div>
+  }
 </div>

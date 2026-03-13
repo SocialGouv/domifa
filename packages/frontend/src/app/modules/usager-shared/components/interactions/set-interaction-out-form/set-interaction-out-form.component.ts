@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from "@angular/core";
 
 import { BehaviorSubject, Subscription, combineLatest } from "rxjs";
@@ -14,7 +15,6 @@ import {
   InteractionOutForApi,
 } from "../../../../../../_common/model";
 import { bounce } from "../../../../../shared";
-import { CustomToastService } from "../../../../shared/services";
 import { UsagerFormModel } from "../../../interfaces";
 
 import { InteractionService } from "../../../services/interaction.service";
@@ -24,6 +24,8 @@ import {
   Order,
   PageResults,
 } from "@domifa/common";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { CustomToastService } from "../../../../shared/services";
 
 @Component({
   animations: [bounce],
@@ -40,13 +42,16 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   @Output()
   public updateInteractions = new EventEmitter<void>();
 
+  @ViewChild("distributionModal")
+  public distributionModal!: DsfrModalComponent;
+
   public interactions$: BehaviorSubject<Interaction[]>;
   public selectedInteractionsWithContent: Interaction[] = [];
 
   public interactionFormData: InteractionOutForm;
   public interactionFormData$: BehaviorSubject<InteractionOutForm>;
 
-  public procurationIndex: number | null; // Mandataire = true / domicilié = false
+  public procurationIndex: number | null;
   public returnToSender: boolean = false;
   public loading = false;
 
@@ -82,6 +87,15 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     );
   }
 
+  public open(): void {
+    this.distributionModal.open();
+  }
+
+  public close(): void {
+    this.distributionModal.close();
+    this.cancelReception.emit();
+  }
+
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
@@ -108,7 +122,6 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
           Interaction[],
           InteractionOutForm
         ]) => {
-          // update interactions with content when form or fetched data changes
           if (interactions && interactionFormData) {
             const selectedInteractionsWithContent: Interaction[] = [];
             for (const interaction of interactions) {
@@ -181,7 +194,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
           next: () => {
             this.loading = false;
             this.updateInteractions.emit();
-            this.cancelReception.emit();
+            this.close();
             this.toastService.success("Distribution effectuée avec succès");
           },
           error: () => {

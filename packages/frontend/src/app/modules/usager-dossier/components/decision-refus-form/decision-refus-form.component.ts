@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from "@angular/core";
 import {
   UntypedFormGroup,
@@ -30,6 +31,7 @@ import { NoWhiteSpaceValidator } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { MOTIFS_REFUS_LABELS } from "@domifa/common";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-decision-refus-form",
@@ -37,7 +39,11 @@ import { MOTIFS_REFUS_LABELS } from "@domifa/common";
 })
 export class DecisionRefusFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public template: "modal" | "input" = "input";
   @Output() public closeModals = new EventEmitter<void>();
+
+  @ViewChild("decisionRefusModal", { static: false })
+  public decisionRefusModal!: DsfrModalComponent;
 
   public readonly MOTIFS_REFUS_LABELS = MOTIFS_REFUS_LABELS;
 
@@ -145,6 +151,15 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
     };
 
     this.submitSubject$.next(formDatas);
+  }
+
+  public openModal(): void {
+    this.decisionRefusModal.open();
+  }
+
+  public closeModal(): void {
+    this.decisionRefusModal.close();
+    this.closeModals.emit();
   }
 
   public ngOnDestroy(): void {

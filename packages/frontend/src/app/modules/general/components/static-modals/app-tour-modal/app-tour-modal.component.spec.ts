@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppTourModalComponent } from "./app-tour-modal.component";
 import { CommonModule, APP_BASE_HREF } from "@angular/common";
 import { provideHttpClient } from "@angular/common/http";
@@ -22,7 +21,6 @@ describe("AppTourModalComponent", () => {
         RouterModule.forRoot([]),
         StoreModule.forRoot({ app: _usagerReducer }),
         ...MATOMO_INJECTORS,
-        NgbModule,
       ],
       providers: [
         provideHttpClient(),

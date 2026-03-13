@@ -1,4 +1,13 @@
-<div class="my-4">
+<div class="fr-alert fr-alert--info">
+  <p class="fr-alert__title">Attention</p>
+  <p class="fr-alert__desc">
+    Cette section ne sert pas à téléverser des modèles de document (courrier de
+    radiation, avertissement, passage). Pour cela rendez-vous dans vos
+    paramètres document de la structure
+  </p>
+</div>
+
+<div class="fr-my-4w">
   <app-upload
     *ngIf="me?.role !== 'facteur' && me?.role !== 'agent' && editPJ"
     (getUsagerDocs)="getUsagerDocs()"
@@ -6,97 +15,98 @@
   ></app-upload>
 </div>
 
-<div class="alert-info alert" *ngIf="!docs.length">
-  <p>Aucune pièce jointe n'a été ajoutée pour le moment</p>
+<div class="fr-callout" *ngIf="!docs.length">
+  <p class="fr-callout__text">
+    Aucune pièce jointe n'a été ajoutée pour le moment
+  </p>
 </div>
 
-<div class="table-responsive">
-  <table class="table table-docs p-0" *ngIf="docs.length">
-    <caption class="visually-hidden">
-      Documents de l'usager
-    </caption>
-    <tbody>
-      <tr>
-        <th scope="col">Type</th>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="label"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Nom du document"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="createdBy"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Ajouté par"
-          >
-          </app-table-head-sort>
-        </th>
-
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="createdAt"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Ajouté le"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col" class="d-print-none text-end">Actions</th>
-      </tr>
-      <tr
-        *ngFor="
-          let document of docs | sortArray : currentKey : sortValue;
-          let i = index
-        "
-        [attr.aria-rowindex]="i + 1"
-      >
-        <td class="align-middle">
-          <app-display-table-image
-            [document]="document"
-          ></app-display-table-image>
-        </td>
-        <td class="align-middle">
-          {{ document.label }}
-          <span *ngIf="document.shared" class="label-info orange-status"
-            >⚠️ Document partagé sur Mon DomiFa</span
-          >
-        </td>
-        <td class="align-middle">{{ document.createdBy }}</td>
-        <td>
-          {{ document.createdAt | date : "dd MMMM yyyy" }}
-        </td>
-        <td class="align-middle text-end d-print-none">
-          <app-edit-usager-doc
-            [doc]="document"
-            (docChange)="updateDocument($event, i)"
-            [usager]="usager"
-          ></app-edit-usager-doc>
-          <app-button
-            (action)="getDocument(document)"
-            [ariaLabel]="'Télécharger le document ' + document.label"
-            content="Télécharger"
-            icon="download"
-            color="primary"
-            [loading]="document.loading"
-          >
-          </app-button>
-
-          <app-button
-            (action)="deleteDocument(document)"
-            [ariaLabel]="'Supprimer le document ' + document.label"
-            content="Supprimer"
-            icon="trash"
-            color="danger"
-            [loading]="document.loading"
-          >
-          </app-button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+@if (docs.length) {
+<div class="fr-table__wrapper">
+  <div class="fr-table__container">
+    <div class="fr-table__content">
+      <table>
+        <caption class="fr-sr-only">
+          Documents de l'usager
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Type</th>
+            <th scope="col">
+              <app-table-head-sort
+                sortKey="label"
+                [(sortValue)]="sortValue"
+                [(currentKey)]="currentKey"
+                columnName="Nom du document"
+              ></app-table-head-sort>
+            </th>
+            <th scope="col">
+              <app-table-head-sort
+                sortKey="createdBy"
+                [(sortValue)]="sortValue"
+                [(currentKey)]="currentKey"
+                columnName="Ajouté par"
+              ></app-table-head-sort>
+            </th>
+            <th scope="col">
+              <app-table-head-sort
+                sortKey="createdAt"
+                [(sortValue)]="sortValue"
+                [(currentKey)]="currentKey"
+                columnName="Ajouté le"
+              ></app-table-head-sort>
+            </th>
+            <th scope="col" class="fr-table__action">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (document of docs | sortArray : currentKey : sortValue; track
+          document.id; let i = $index) {
+          <tr [attr.aria-rowindex]="i + 1">
+            <td>
+              <app-display-table-image
+                [document]="document"
+              ></app-display-table-image>
+            </td>
+            <td>
+              {{ document.label }}
+              @if (document.shared) {
+              <span class="fr-badge fr-badge--warning fr-badge--sm">
+                ⚠️ Document partagé sur Mon DomiFa
+              </span>
+              }
+            </td>
+            <td>{{ document.createdBy }}</td>
+            <td>{{ document.createdAt | date : "dd MMMM yyyy" }}</td>
+            <td class="fr-table__action">
+              <app-edit-usager-doc
+                [doc]="document"
+                (docChange)="updateDocument($event, i)"
+                [usager]="usager"
+              ></app-edit-usager-doc>
+              <app-button
+                (action)="getDocument(document)"
+                [ariaLabel]="'Télécharger le document ' + document.label"
+                content="Télécharger"
+                icon="download"
+                color="primary"
+                [loading]="document.loading"
+              ></app-button>
+              <app-button
+                (action)="deleteDocument(document)"
+                [ariaLabel]="'Supprimer le document ' + document.label"
+                content="Supprimer"
+                icon="trash"
+                color="danger"
+                [loading]="document.loading"
+              ></app-button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
+
+}

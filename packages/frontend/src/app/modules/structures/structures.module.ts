@@ -26,6 +26,8 @@ import { SortArrayPipe } from "../shared/pipes";
 import { DisplayTableImageComponent } from "../shared/components/display-table-image/display-table-image.component";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 import { DigitOnlyDirective } from "../shared/directives";
+import { PhoneInputComponent } from "../usager-shared/components/input-phone-international/input-phone-international.component";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { DigitOnlyDirective } from "../shared/directives";
     DisplayTableImageComponent,
     TableHeadSortComponent,
     DigitOnlyDirective,
+    PhoneInputComponent,
+    DsfrModalComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

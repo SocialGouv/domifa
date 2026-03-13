@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "WebFetch(domain:foad.phm.education.gouv.fr)",
+      "mcp__ide__getDiagnostics"
+    ]
+  }
+}
