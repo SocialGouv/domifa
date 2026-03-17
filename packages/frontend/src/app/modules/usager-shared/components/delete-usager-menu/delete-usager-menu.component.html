@@ -22,7 +22,12 @@
 </button>
 } }
 <div class="text-start">
-  <dsfr-modal #deleteDecisionModal [isScrollable]="true" [size]="'LG'">
+  <dsfr-modal
+    class="text-start"
+    #deleteDecisionModal
+    [isScrollable]="true"
+    [size]="'LG'"
+  >
     <p>
       Vous êtes sur le point de supprimer la décision suivante:<br />
       <strong>
@@ -73,6 +78,7 @@
   </dsfr-modal>
 
   <dsfr-modal
+    class="text-start"
     #deleteUsagerModal
     [titleModal]="modalTitle"
     [isScrollable]="false"

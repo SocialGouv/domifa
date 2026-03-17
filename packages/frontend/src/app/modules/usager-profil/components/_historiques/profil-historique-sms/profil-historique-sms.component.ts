@@ -14,7 +14,7 @@ import { SMS_LABELS } from "../../../constants";
 
 @Component({
   selector: "app-profil-historique-sms",
-  styleUrls: ["../historique-table.scss"],
+
   templateUrl: "./profil-historique-sms.component.html",
 })
 export class ProfilHistoriqueSmsComponent implements OnInit, OnDestroy {

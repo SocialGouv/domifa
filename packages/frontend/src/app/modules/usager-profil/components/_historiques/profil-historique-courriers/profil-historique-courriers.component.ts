@@ -16,7 +16,7 @@ import {
 @Component({
   selector: "app-profil-historique-courriers",
   templateUrl: "./profil-historique-courriers.component.html",
-  styleUrls: ["../historique-table.scss"],
+
   animations: [fadeIn],
 })
 export class ProfilHistoriqueCourriersComponent implements OnInit, OnDestroy {

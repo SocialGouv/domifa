@@ -33,7 +33,7 @@
           >
           </app-table-head-sort>
         </th>
-        <th scope="col" class="d-print-none text-end">Actions</th>
+        <th scope="col" class="d-print-none fr-text--right">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -57,7 +57,7 @@
         <td>
           {{ document.createdAt | date : "dd MMMM yyyy" }}
         </td>
-        <td class="align-middle text-end">
+        <td class="align-middle fr-text--right">
           <app-button
             (action)="getStructureCustomDoc(document)"
             [ariaLabel]="'Télécharger le document ' + document.label"

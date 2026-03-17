@@ -57,7 +57,7 @@
       </span>
       }
     </p>
-    <p class="fr-col-12 fr-col-md-1 text-end">
+    <p class="fr-col-12 fr-col-md-1 fr-text--right">
       <button
         type="button"
         (click)="openConfirmation()"
@@ -308,6 +308,7 @@
 }
 
 <dsfr-modal
+  class="text-start"
   #confirmDeleteModal
   dialogId="confirmDeleteTransfertModal"
   titleModal="Confirmer la suppression du transfert"
