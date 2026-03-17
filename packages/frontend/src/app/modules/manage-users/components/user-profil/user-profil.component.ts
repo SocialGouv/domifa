@@ -34,6 +34,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   public selectedUser: UserStructureProfile | null;
   public newReferrerId: number | null = null;
   public expectedRole: UserStructureRole | null = null;
+  public selectedRole: UserStructureRole | null = null;
 
   public readonly USER_STRUCTURE_ROLES_LABELS = USER_STRUCTURE_ROLES_LABELS;
   public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
@@ -82,7 +83,10 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     this.assignReferrersModal.open();
   }
 
-  public onRoleChange(user: UserStructure, newRole: UserStructureRole): void {
+  public onRoleChange(
+    user: UserStructureProfile,
+    newRole: UserStructureRole
+  ): void {
     if (newRole === "facteur" || newRole === "agent") {
       this.selectedUser = user;
       this.expectedRole = newRole;
@@ -129,9 +133,21 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     this.deleteUserConfirmationModal.open();
   }
 
-  public openUpdateUserModal(user: UserStructure): void {
+  public openUpdateUserModal(user: UserStructureProfile): void {
     this.selectedUser = user;
+    this.selectedRole = user.role;
     this.updateUserModal.open();
+  }
+
+  public submitRoleChange(): void {
+    if (
+      this.selectedUser &&
+      this.selectedRole &&
+      this.selectedRole !== this.selectedUser.role
+    ) {
+      this.updateUserModal.close();
+      this.onRoleChange(this.selectedUser, this.selectedRole);
+    }
   }
 
   public openAddUserModal(): void {

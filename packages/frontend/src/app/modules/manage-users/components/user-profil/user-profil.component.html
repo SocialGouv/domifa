@@ -192,6 +192,88 @@
 } }
 
 <dsfr-modal
+  #updateUserModal
+  dialogId="update-user-modal"
+  [size]="'MD'"
+  titleModal="Modifier le rôle de {{ selectedUser?.nom }} {{
+    selectedUser?.prenom
+  }}"
+>
+  @if (selectedUser) {
+  <div class="fr-select-group">
+    <label class="fr-label" for="update-role">Rôle</label>
+    <select
+      class="fr-select"
+      id="update-role"
+      name="update-role"
+      [ngModel]="selectedRole"
+      (ngModelChange)="selectedRole = $event"
+    >
+      <option value="admin">Administrateur</option>
+      <option value="responsable">Gestionnaire</option>
+      <option value="simple">Instructeur</option>
+      <option value="facteur">Facteur</option>
+      <option value="agent">Agent d'accueil</option>
+    </select>
+  </div>
+
+  <ng-template #modalFooterTemplate>
+    <div class="fr-btns-group fr-btns-group--inline fr-btns-group--right">
+      <button
+        type="button"
+        class="fr-btn fr-btn--secondary"
+        (click)="closeModal('update')"
+      >
+        Annuler
+      </button>
+      <button
+        type="button"
+        class="fr-btn"
+        [disabled]="selectedRole === selectedUser.role || loading"
+        (click)="submitRoleChange()"
+      >
+        Valider
+      </button>
+    </div>
+  </ng-template>
+  }
+</dsfr-modal>
+
+<dsfr-modal
+  #assignReferrersModal
+  dialogId="assign-referrers-modal"
+  [size]="'LG'"
+  titleModal="Réassignation des dossiers"
+>
+  @if (selectedUser) {
+  <app-assign-referrers
+    [currentUser]="selectedUser"
+    [(newReferrerId)]="newReferrerId"
+  />
+
+  <ng-template #modalFooterTemplate>
+    <div class="fr-btns-group fr-btns-group--inline fr-btns-group--right">
+      <button
+        type="button"
+        class="fr-btn fr-btn--secondary"
+        (click)="resetRoles()"
+      >
+        Annuler
+      </button>
+      <button
+        type="button"
+        class="fr-btn"
+        [disabled]="loading"
+        (click)="updateRoleAndReassign()"
+      >
+        Confirmer
+      </button>
+    </div>
+  </ng-template>
+  }
+</dsfr-modal>
+
+<dsfr-modal
   #deleteModal
   dialogId="delete-user-modal"
   [size]="'LG'"

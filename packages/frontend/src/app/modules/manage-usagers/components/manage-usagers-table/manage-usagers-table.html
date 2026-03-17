@@ -1,5 +1,5 @@
 <section class="row align-items-center my-2 flex-wrap justify-content-between">
-  <div class="col-md-6 col-12">
+  <div class="fr-col-md-6 fr-col-12">
     <div
       class="d-flex align-items-center flex-wrap justify-content-md-start justify-content-center"
       *ngIf="selectedRefs.size > 0"
@@ -36,12 +36,8 @@
       </div>
     </div>
   </div>
-  <div class="col-md-6 col-12 text-end">
-    <button
-      type="button"
-      class="btn-sm btn-primary btn"
-      (click)="goToPrint.emit()"
-    >
+  <div class="fr-col-md-6 fr-col-12 text-end">
+    <button type="button" class="fr-btn fr-btn--sm" (click)="goToPrint.emit()">
       <fa-icon
         aria-hidden="true"
         [icon]="['fas', 'print']"

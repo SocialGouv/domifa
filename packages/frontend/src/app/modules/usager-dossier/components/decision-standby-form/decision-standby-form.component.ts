@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from "@angular/core";
 import {
   AbstractControl,
@@ -21,6 +22,7 @@ import { UsagerDecisionService } from "../../../usager-shared/services";
 
 import { format } from "date-fns";
 import { UserStructure } from "@domifa/common";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-decision-standby-form",
@@ -30,7 +32,11 @@ import { UserStructure } from "@domifa/common";
 export class DecisionStandbyFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;
   @Input() public me!: UserStructure | null;
+  @Input({ required: true }) public template: "modal" | "input" = "input";
   @Output() public closeModals = new EventEmitter<void>();
+
+  @ViewChild("decisionStandbyModal", { static: false })
+  public decisionStandbyModal!: DsfrModalComponent;
 
   public submitted: boolean;
   public loading: boolean;
@@ -104,13 +110,22 @@ export class DecisionStandbyFormComponent implements OnInit, OnDestroy {
     );
   }
 
+  public openModal(): void {
+    this.decisionStandbyModal.open();
+  }
+
+  public closeModal(): void {
+    this.decisionStandbyModal.close();
+    this.closeModals.emit();
+  }
+
   public setDecisionAttente() {
     this.subscription.add(
       this.usagerDecisionService
         .setDecision(this.usager.ref, { statut: "INSTRUCTION" })
         .subscribe({
           next: () => {
-            this.closeModals.emit();
+            this.closeModal();
             this.toastService.success("Décision enregistrée avec succès !");
           },
           error: () => {

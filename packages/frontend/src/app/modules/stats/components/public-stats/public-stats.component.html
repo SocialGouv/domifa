@@ -13,7 +13,7 @@
   >
     <div
       *ngIf="!regionId"
-      class="col-12 col-md-9 col-sm-10 py-3 py-md-5 d-flex flex-column gap-1"
+      class="fr-col-12 fr-col-md-9 fr-col-sm-10 py-3 py-md-5 d-flex flex-column gap-1"
     >
       <h1 class="fr-text-title--blue-france mb-1">
         Statistiques d'utilisation de DomiFa
@@ -25,7 +25,7 @@
 
     <div
       *ngIf="regionId"
-      class="col-12 col-md-9 col-sm-10 py-3 py-md-5 d-flex flex-column gap-1"
+      class="fr-col-12 fr-col-md-9 fr-col-sm-10 py-3 py-md-5 d-flex flex-column gap-1"
     >
       <h1 class="fr-text-title--blue-france mb-1">
         Statistiques régionales :
@@ -39,7 +39,7 @@
       </p>
     </div>
 
-    <div class="col-3 py-2 d-none d-sm-block">
+    <div class="fr-col-3 py-2 d-none d-sm-block">
       <img
         class="fr-responsive-img"
         src="assets/images/stats/stat-header.svg"
@@ -66,7 +66,7 @@
         class="d-flex align-items-center p-4 align-items-center fr-background-alt--blue-ecume"
         *ngIf="!stats"
       >
-        <div class="col-md-12 px-0 text-center">
+        <div class="fr-col-md-12 px-0 fr-text--center">
           <div @fadeInOut aria-live="polite">
             <fa-icon
               [icon]="['fas', 'spinner']"
@@ -78,14 +78,16 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-8 px-0 d-flex">
+      <div class="fr-col-12 fr-col-md-8 px-0 d-flex">
         <div
           class="d-flex fr-background-alt--blue-ecume flex-column justify-content-start align-items-top p-4 w-100"
           *ngIf="stats"
         >
           <h3>Structures inscrites sur DomiFa</h3>
           <div class="row d-flex">
-            <div class="col-12 col-md-4 d-flex gap-2 justify-content-center">
+            <div
+              class="fr-col-12 fr-col-md-4 d-flex gap-2 justify-content-center"
+            >
               <div>
                 <img
                   class="stat-picto-img--lg"
@@ -104,7 +106,7 @@
             </div>
             <hr class="d-block d-md-none" />
             <div
-              class="col-12 col-md-7 d-flex flex-column justify-content-start"
+              class="fr-col-12 fr-col-md-7 d-flex flex-column justify-content-start"
             >
               <ul class="py-1">
                 <ul>
@@ -128,7 +130,7 @@
           </div>
           <div class="row d-flex py-2 justify-content-between border-top">
             <div
-              class="col-12 col-md-2 d-flex flex-column align-items-center fr-mb-4v fr-mt-md-0"
+              class="fr-col-12 fr-col-md-2 d-flex flex-column align-items-center fr-mb-4v fr-mt-md-0"
             >
               <div>
                 <img
@@ -138,7 +140,7 @@
                   aria-hidden="true"
                 />
               </div>
-              <div class="text-center">
+              <div class="fr-text--center">
                 <div class="fr-h3 mb-0 fr-text-title--blue-france">
                   {{ stats?.usersCount | formatBigNumber }}
                 </div>
@@ -147,9 +149,9 @@
             </div>
 
             <div
-              class="col-12 col-md-3 d-flex flex-column text-center fr-mb-4v fr-mt-md-0"
+              class="fr-col-12 fr-col-md-3 d-flex flex-column fr-text--center fr-mb-4v fr-mt-md-0"
             >
-              <div class="text-center">
+              <div class="fr-text--center">
                 <img
                   class="stat-picto-img"
                   src="../assets/digital/self-training.svg"
@@ -158,7 +160,7 @@
                 />
               </div>
 
-              <div class="text-center">
+              <div class="fr-text--center">
                 <div class="fr-h3 mb-0 fr-text-title--blue-france">
                   <span
                     [countUp]="stats?.courrierInCount"
@@ -169,7 +171,7 @@
               </div>
             </div>
             <div
-              class="col-12 col-md-3 d-flex flex-column text-center fr-mb-4v fr-mt-md-0"
+              class="fr-col-12 fr-col-md-3 d-flex flex-column fr-text--center fr-mb-4v fr-mt-md-0"
             >
               <div>
                 <img
@@ -179,7 +181,7 @@
                   aria-hidden="true"
                 />
               </div>
-              <div class="d-flex flex-column text-center">
+              <div class="d-flex flex-column fr-text--center">
                 <div class="fr-h3 mb-0" aria-hidden="true">
                   <span
                     class="mb-0 fr-text-title--blue-france"
@@ -191,7 +193,9 @@
               </div>
             </div>
 
-            <div class="col-12 col-md-4 d-flex flex-column text-center">
+            <div
+              class="fr-col-12 fr-col-md-4 d-flex flex-column fr-text--center"
+            >
               <div>
                 <img
                   class="stat-picto-img"
@@ -210,14 +214,14 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-4 px-0 px-md-2 d-flex">
+      <div class="fr-col-12 fr-col-md-4 px-0 px-md-2 d-flex">
         <div
           *ngIf="stats"
           class="fr-background-alt--blue-ecume d-flex flex-column gap-3 p-3 w-100 fr-mt-2v fr-mt-md-0"
         >
           <div class="d-flex flex-column justify-content-start gap-2">
             <h3>Domiciliés accompagnés sur DomiFa</h3>
-            <div class="text-center">
+            <div class="fr-text--center">
               <img
                 class="stat-picto-img--lg"
                 src="artwork/pictograms/buildings/house.svg"
@@ -225,7 +229,7 @@
                 aria-hidden="true"
               />
             </div>
-            <div class="d-flex flex-column align-self-center text-center">
+            <div class="d-flex flex-column align-self-center fr-text--center">
               <span class="fr-h2 mb-0 pb-0 fr-text-title--blue-france">
                 {{ stats.actifs | formatBigNumber }}</span
               >
@@ -250,7 +254,7 @@
     "
   >
     <div class="row">
-      <div class="col-md-6">
+      <div class="fr-col-md-6">
         <h3 class="mb-1">Structures par département</h3>
 
         <ul>
@@ -284,7 +288,7 @@
     </p>
     <br />
     <div class="row d-flex align-items-center" *ngIf="!stats">
-      <div class="col-md-12 text-center">
+      <div class="fr-col-md-12 fr-text--center">
         <div @fadeInOut aria-live="polite">
           <fa-icon
             [icon]="['fas', 'spinner']"
@@ -297,7 +301,7 @@
       </div>
     </div>
     <div class="row" *ngIf="stats">
-      <div class="col-md-5 text-center px-4">
+      <div class="fr-col-md-5 fr-text--center px-4">
         <app-stats-map
           [statsRegionsValues]="statsRegionsValues"
           [publicStats]="stats"
@@ -365,12 +369,12 @@
       class="fr-container row d-flex flex-row justify-content-end align-items-center"
     >
       <div
-        class="col-12 col-md-7 col-sm-10 py-3 py-md-5 d-flex flex-column gap-1 align-items-center"
+        class="fr-col-12 fr-col-md-7 fr-col-sm-10 py-3 py-md-5 d-flex flex-column gap-1 align-items-center"
       >
-        <h2 class="fr-text-title--blue-france text-center mb-1">
+        <h2 class="fr-text-title--blue-france fr-text--center mb-1">
           Mesure d’impact de DomiFa
         </h2>
-        <p class="fr-text--lg fr-text-title--blue-france text-center">
+        <p class="fr-text--lg fr-text-title--blue-france fr-text--center">
           Découvrez les témoignages de nos utilisateurs sur les bénéfices de
           DomiFa au quotidien
         </p>
@@ -381,8 +385,8 @@
         </div>
       </div>
 
-      <div class="col-12 col-md-3 d-flex justify-content-center py-2">
-        <div class="col-5 col-md-12">
+      <div class="fr-col-12 fr-col-md-3 d-flex justify-content-center py-2">
+        <div class="fr-col-5 fr-col-md-12">
           <img
             class="fr-responsive-img"
             src="assets/images/register/success-structure.svg"

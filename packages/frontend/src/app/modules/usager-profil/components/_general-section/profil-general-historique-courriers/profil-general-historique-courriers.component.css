@@ -9,17 +9,6 @@
   text-align: center;
 }
 
-.icon-courrier {
-  width: 100%;
-  height: 100%;
-  display: block;
-  text-align: center;
-  box-sizing: border-box;
-  background-color: #4164f5;
-  -webkit-mask-size: 80% !important;
-  mask-size: 80% !important;
-}
-
 .interaction-separator {
   margin: 0 auto;
   width: 1px;

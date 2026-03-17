@@ -1,5 +1,4 @@
 #sms-preview {
-  background: none repeat scroll 0 0 #fff;
   color: #ffffff;
 
   width: 100%;
@@ -47,7 +46,10 @@
 
 .sms-header #sms-contact {
   font-weight: 600;
+  line-height: 100%;
   color: #383838;
+  padding: 1.2rem 0;
+  font-size: 1.3rem;
 }
 
 .messages-wrapper {

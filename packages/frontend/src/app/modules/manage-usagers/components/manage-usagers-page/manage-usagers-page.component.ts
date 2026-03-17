@@ -74,6 +74,7 @@ export class ManageUsagersPageComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
   public searching: boolean;
+  public showFilters = false;
 
   public usagersRadiesLoadedCount = 0;
   public readonly CriteriaSearchField = CriteriaSearchField;
@@ -425,6 +426,16 @@ export class ManageUsagersPageComponent
   public resetFilters(): void {
     this.filters = new UsagersFilterCriteria();
     this.resetSearchBar();
+  }
+
+  public get activeFilterCount(): number {
+    let count = 0;
+    if (this.filters.lastInteractionDate) count++;
+    if (this.filters.echeance) count++;
+    if (this.filters.interactionType) count++;
+    if (this.filters.entretien) count++;
+    if (this.filters.referrerId !== undefined) count++;
+    return count;
   }
 
   public updateFilters<T extends keyof UsagersFilterCriteria>({

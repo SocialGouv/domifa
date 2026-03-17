@@ -8,7 +8,7 @@
   <div class="fr-container" *ngIf="usager">
     <div class="fr-content">
       <div class="row mb-5">
-        <div class="col-md-12">
+        <div class="fr-col-md-12">
           <div
             class="mt-2 mb-4 d-md-flex justify-content-between align-items-center"
           >
@@ -24,7 +24,7 @@
                 type="button"
                 (click)="getCerfa(CerfaDocType.demande)"
                 *ngIf="usager.decision.statut !== 'REFUS'"
-                class="my-2 btn me-md-2 btn-primary my-md-1"
+                class="fr-btn fr-btn--icon-left fr-icon-download-line fr-my-1w"
               >
                 <fa-icon
                   [icon]="['fas', 'download']"
@@ -44,7 +44,7 @@
                       : CerfaDocType.attestation
                   )
                 "
-                class="my-2 btn me-md-2 btn-primary my-md-1"
+                class="fr-btn fr-btn--icon-left fr-icon-download-line fr-my-1w"
               >
                 <fa-icon
                   [icon]="['fas', 'download']"
@@ -67,7 +67,7 @@
       </div>
 
       <div class="row mb-5" *ngIf="displayDeleteButton">
-        <div class="col-md-12">
+        <div class="fr-col-md-12">
           <h2>Documents de l'usager</h2>
           <app-display-usager-docs
             [me]="me"

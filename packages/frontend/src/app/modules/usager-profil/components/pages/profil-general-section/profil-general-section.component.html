@@ -10,7 +10,7 @@
     <div class="fr-content">
       <app-profil-alerts [usager]="usager" [me]="me"></app-profil-alerts>
 
-      <div class="fr-grid-row fr-pb-5">
+      <div class="fr-grid-row fr-py-4w">
         <div class="fr-col-12 fr-col-md-6">
           <div class="fr-grid-row">
             <div class="fr-col-12">
@@ -120,24 +120,33 @@
             Courrier en attente
           </h2>
           <div class="profil-interaction fr-my-3">
-            <div class="interaction-icon-box fr-me-3">
-              <div class="interaction-icon icon-courrier"></div>
+            <div class="interaction-icon-box fr-mr-3">
+              <span
+                class="fr-icon-mail-line interaction-icon"
+                aria-hidden="true"
+              ></span>
             </div>
             <p>
               <strong>{{ usager.lastInteraction.courrierIn }}</strong> courriers
             </p>
           </div>
           <div class="profil-interaction fr-my-3">
-            <div class="interaction-icon-box fr-me-3">
-              <div class="interaction-icon icon-colis"></div>
+            <div class="interaction-icon-box fr-mr-3">
+              <span
+                class="fr-icon-briefcase-line interaction-icon"
+                aria-hidden="true"
+              ></span>
             </div>
             <p>
               <strong>{{ usager.lastInteraction.colisIn }}</strong> colis
             </p>
           </div>
           <div class="profil-interaction fr-my-3">
-            <div class="interaction-icon-box fr-me-3">
-              <div class="interaction-icon icon-recommande"></div>
+            <div class="interaction-icon-box fr-mr-3">
+              <span
+                class="fr-icon-newspaper-line interaction-icon"
+                aria-hidden="true"
+              ></span>
             </div>
             <p>
               <strong>{{ usager.lastInteraction.recommandeIn }}</strong> avis de
@@ -153,7 +162,7 @@
               type="button"
               [disabled]="loadingButtons.indexOf('visite') !== -1"
               [attr.aria-disabled]="loadingButtons.indexOf('visite') !== -1"
-              class="fr-my-1 fr-me-2 fr-btn"
+              class="fr-my-1 fr-mr-2w fr-btn"
               (click)="setSingleInteraction(usager.ref, 'visite')"
             >
               <fa-icon
@@ -162,7 +171,7 @@
                 class="list-icon-disabled"
                 aria-hidden="true"
               ></fa-icon>
-              <span class="icon-passage list-icon fr-me-2"></span>Ajouter un
+              <span class="icon-passage list-icon fr-mr-2w"></span>Ajouter un
               passage
             </button>
 
@@ -170,7 +179,7 @@
               type="button"
               [disabled]="loadingButtons.indexOf('appel') !== -1"
               [attr.aria-disabled]="loadingButtons.indexOf('appel') !== -1"
-              class="fr-my-1 fr-btn fr-me-1w"
+              class="fr-my-1w fr-btn fr-mr-1w"
               (click)="setSingleInteraction(usager.ref, 'appel')"
             >
               <fa-icon
@@ -180,7 +189,7 @@
                 animation="spin"
               >
               </fa-icon>
-              <span class="icon-appel list-icon fr-me-1w"></span>Ajouter un
+              <span class="icon-appel list-icon fr-mr-1w"></span>Ajouter un
               appel téléphonique
             </button>
           </div>
@@ -189,11 +198,11 @@
 
           <button
             type="button"
-            class="fr-my-1 fr-btn fr-me-1w"
+            class="fr-my-1 fr-btn fr-mr-1w"
             (click)="openInteractionInModal()"
           >
             <span
-              class="icon-reception list-icon fr-me-2"
+              class="icon-reception list-icon fr-mr-2w"
               aria-hidden="true"
             ></span>
             Ajouter du courrier
@@ -202,11 +211,11 @@
           @if (usager.lastInteraction.enAttente) {
           <button
             type="button"
-            class="fr-my-1 fr-btn fr-me-2"
+            class="fr-my-1 fr-btn fr-mr-2w"
             (click)="openInteractionOutModal()"
           >
             <span
-              class="icon-distribution list-icon fr-me-2"
+              class="icon-distribution list-icon fr-mr-2w"
               aria-hidden="true"
             ></span>
             Distribuer le courrier

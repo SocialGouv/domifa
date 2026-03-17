@@ -9,7 +9,6 @@ import {
   Validators,
 } from "@angular/forms";
 
-import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { AuthService } from "../../../shared/services/auth.service";
 import { Title, Meta } from "@angular/platform-browser";
 import {
@@ -70,7 +69,6 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly generalService: GeneralService,
-    private readonly toastService: CustomToastService,
     private readonly authService: AuthService,
     private readonly titleService: Title,
     private readonly meta: Meta
@@ -154,7 +152,6 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
     this.submitted = true;
 
     if (this.contactForm.invalid) {
-      this.toastService.error("Le formulaire d'upload comporte des erreurs");
       return;
     }
 
@@ -189,14 +186,10 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
           this.success = true;
           this.submitted = false;
           this.contactForm.reset();
-          this.toastService.success(
-            "Message envoyé avec succès, l'équipe vous recontactera très prochainement"
-          );
         },
         error: () => {
           this.error = true;
           this.loading = false;
-          this.toastService.error("Impossible d'envoyer le message");
         },
       })
     );

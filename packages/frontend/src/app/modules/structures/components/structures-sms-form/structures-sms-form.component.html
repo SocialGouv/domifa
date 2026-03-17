@@ -1,134 +1,114 @@
 <div class="head-page">
-  <div class="container">
-    <div
-      class="my-2 d-flex flex-wrap justify-content-between align-items-center"
-    >
-      <h1 class="title">Paramètres d'envoi de SMS pour votre structure</h1>
-
-      <div class="text-start text-md-end col">
-        <a
-          href="https://docs.numerique.gouv.fr/docs/23c749ed-4172-432a-ab8d-7e46d78eafb5/"
-          target="_blank"
-          class="fr-btn fr-btn--secondary my-1 my-md-0"
-          rel="noopener noreferrer"
-        >
-          <fa-icon aria-hidden="true" [icon]="['fas', 'info-circle']"></fa-icon>
-          Consulter le guide SMS
-        </a>
-      </div>
+  <div class="fr-container">
+    <div class="fr-grid-row fr-grid-row--middle justify-content-between">
+      <h1 class="title">
+        <span class="fr-icon-settings-5-line" aria-hidden="true"></span
+        >Paramètres d'envoi de SMS pour votre structure
+      </h1>
+      <a
+        href="https://docs.numerique.gouv.fr/docs/23c749ed-4172-432a-ab8d-7e46d78eafb5/"
+        target="_blank"
+        class="fr-btn fr-btn--secondary"
+        rel="noopener noreferrer"
+      >
+        <span
+          class="fr-icon-information-line fr-mr-1w"
+          aria-hidden="true"
+        ></span>
+        Consulter le guide SMS
+      </a>
     </div>
   </div>
 </div>
 
-<div class="content py-3" *ngIf="structureSmsForm">
-  <div class="container py-3">
-    <div class="page-content p-3">
-      <p>
-        <strong>Information importante : </strong> afin que les domiciliés
-        recoivent des SMS, veuillez compléter les 3 étapes ci-dessous:
+<div class="fr-content-container-light fr-py-3w">
+  <div class="fr-container">
+    <div class="fr-content">
+      <p class="fr-callout__text">
+        <strong>Information importante :</strong> afin que les domiciliés
+        reçoivent des SMS, veuillez compléter les 3 étapes ci-dessous :
       </p>
-      <ul>
-        <li>1. Activez les SMS via le formulaire ci-dessous</li>
+      <ol class="fr-mt-2w fr-mb-0">
+        <li>Activez les SMS via le formulaire ci-dessous</li>
         <li>
-          2. Complétez le nom de l'expéditeur et la signature des SMS.
-          <b
-            >Seul des lettres peuvent être utilisés pour l'expéditeur, aucun
-            numéro ne doit figurer dans l'expéditeur !</b
+          Complétez le nom de l'expéditeur et la signature des SMS.
+          <strong
+            >Seules des lettres peuvent être utilisées pour l'expéditeur, aucun
+            numéro ne doit figurer dans l'expéditeur !</strong
           >
         </li>
         <li>
-          3. Dans la section <strong>dossier</strong> des fiches domiciliés,
+          Dans la section <strong>dossier</strong> des fiches domiciliés,
           ajoutez un numéro de portable à chaque domicilié
         </li>
-      </ul>
-      <p>
-        <br />
+      </ol>
+      <p class="fr-mt-2w fr-mb-0">
         Vous pouvez
         <a
+          class="fr-link"
           href="https://docs.numerique.gouv.fr/docs/23c749ed-4172-432a-ab8d-7e46d78eafb5/"
           target="_blank"
           rel="noopener noreferrer"
-          >consulter un document explicatif
-        </a>
+          >consulter un document explicatif</a
+        >
         sur la mise en place des notifications SMS.
       </p>
+      <br />
+      @if (structureSmsForm) {
 
-      <div class="row my-3">
-        <div class="col-12 my-1 col-md-8">
-          <div class="card p-4">
-            <form
-              *ngIf="structure"
-              [formGroup]="structureSmsForm"
-              (ngSubmit)="submitStructureSmsForm()"
-            >
-              <div class="row">
-                <p class="col-12">
-                  Les champs suivis d'un
-                  <span class="fw-bold text-danger">*</span> sont obligatoires
-                </p>
-              </div>
-              <fieldset>
-                <div class="row align-items-center">
-                  <legend class="col-12 col-md-8">
-                    Activer l'envoi de SMS pour les domiciliés
-                  </legend>
-                  <div class="col-md-4 col-12 text-center text-md-end">
-                    <div class="btn-group btn-group-toggle">
-                      <label
-                        [ngClass]="
-                          form.enabledByStructure.value === true
-                            ? 'fr-btn'
-                            : 'btn btn-outline-primary'
-                        "
-                        for="btnradio1"
-                      >
-                        <input
-                          type="radio"
-                          formControlName="enabledByStructure"
-                          name="enabledByStructure"
-                          [value]="true"
-                          id="btnradio1"
-                          class="me-2"
-                        /><span>Oui</span></label
-                      >
+      <div class="fr-grid-row fr-grid-row--gutters">
+        <div class="fr-col-12 fr-col-md-8">
+          @if (structure) {
+          <form
+            [formGroup]="structureSmsForm"
+            (ngSubmit)="submitStructureSmsForm()"
+          >
+            <p class="fr-mt-2w">
+              Les champs suivis d'un
+              <span class="fr-text-default--error">*</span> sont obligatoires
+            </p>
 
-                      <label
-                        [ngClass]="
-                          form.enabledByStructure.value === false
-                            ? 'fr-btn'
-                            : 'btn btn-outline-danger'
-                        "
-                        for="btnradio2"
-                      >
-                        <input
-                          type="radio"
-                          formControlName="enabledByStructure"
-                          name="enabledByStructure"
-                          [value]="false"
-                          id="btnradio2"
-                          class="me-2"
-                        /><span>Non</span></label
-                      >
-                    </div>
-                  </div>
-                </div>
-              </fieldset>
-              <br />
-              <div class="row">
-                <div class="col-md-6 col-12 form-group required">
-                  <label for="senderName">Expéditeur</label>
+            <div class="fr-toggle fr-mb-3w">
+              <input
+                type="checkbox"
+                class="fr-toggle__input"
+                formControlName="enabledByStructure"
+                id="enabledByStructure"
+              />
+              <label
+                class="fr-toggle__label"
+                for="enabledByStructure"
+                data-fr-checked-label="Activé"
+                data-fr-unchecked-label="Désactivé"
+              >
+                Activer l'envoi de SMS pour les domiciliés
+              </label>
+            </div>
+
+            <div class="fr-grid-row fr-grid-row--gutters fr-mb-3w">
+              <div class="fr-col-12 fr-col-md-6">
+                <div
+                  class="fr-input-group"
+                  [class.fr-input-group--error]="
+                    (submitted || form.senderName.dirty) &&
+                    form.senderName.errors
+                  "
+                >
+                  <label class="fr-label" for="senderName"> Expéditeur </label>
+                  <p class="fr-hint-text" id="sender-name-help">
+                    Veuillez n'utiliser que des lettres (11 maximum)
+                  </p>
                   <input
                     type="text"
-                    class="form-control"
+                    class="fr-input"
                     id="senderName"
                     formControlName="senderName"
                     name="senderName"
                     maxLength="11"
-                    [ngClass]="{
-                      'is-invalid':
-                        (submitted || form.senderName.dirty) &&
-                        form.senderName.errors
-                    }"
+                    [class.fr-input--error]="
+                      (submitted || form.senderName.dirty) &&
+                      form.senderName.errors
+                    "
                     [attr.aria-invalid]="
                       (submitted || form.senderName.dirty) &&
                       form.senderName.errors
@@ -136,175 +116,157 @@
                         : false
                     "
                     [attr.aria-describedby]="
-                      (submitted || form.senderDetails.dirty) &&
-                      form.senderDetails.errors
+                      (submitted || form.senderName.dirty) &&
+                      form.senderName.errors
                         ? 'sender-name-errors'
                         : 'sender-name-help'
                     "
                     required
                     autocapitalize="true"
                   />
-                  <small id="sender-name-help"
-                    >Veuillez n'utiliser que des lettres (11 maximum)</small
-                  >
-                  <p
-                    id="sender-name-errors"
-                    *ngIf="
-                      (submitted || form.senderName.dirty) &&
-                      form.senderName.errors
-                    "
-                    class="invalid-feedback"
-                  >
-                    Le champs expéditeur est incorrect
+                  @if ( (submitted || form.senderName.dirty) &&
+                  form.senderName.errors ) {
+                  <p class="fr-error-text" id="sender-name-errors">
+                    Le champ expéditeur est incorrect
                   </p>
+                  }
                 </div>
+              </div>
 
-                <div class="col-md-6 col-12 form-group required">
-                  <label for="senderDetails">Signature du message</label>
+              <div class="fr-col-12 fr-col-md-6">
+                <div
+                  class="fr-input-group"
+                  [class.fr-input-group--error]="
+                    (submitted || form.senderDetails.dirty) &&
+                    form.senderDetails.errors
+                  "
+                >
+                  <label class="fr-label" for="senderDetails">
+                    Signature du message
+                  </label>
+                  <p class="fr-hint-text" id="sender-details-help">
+                    30 caractères maximum
+                  </p>
                   <input
                     id="senderDetails"
                     type="text"
-                    class="form-control"
+                    class="fr-input"
                     maxLength="30"
                     appCleanStr
                     formControlName="senderDetails"
                     name="senderDetails"
+                    [class.fr-input--error]="
+                      (submitted || form.senderDetails.dirty) &&
+                      form.senderDetails.errors
+                    "
                     [attr.aria-invalid]="
                       (submitted || form.senderDetails.dirty) &&
                       form.senderDetails.errors
                         ? true
                         : false
                     "
-                    [ngClass]="{
-                      'is-invalid':
-                        (submitted || form.senderDetails.dirty) &&
-                        form.senderDetails.errors
-                    }"
                     [attr.aria-describedby]="
                       (submitted || form.senderDetails.dirty) &&
                       form.senderDetails.errors
                         ? 'sender-details-errors'
                         : 'sender-details-help'
                     "
+                    required
                   />
-                  <small id="sender-details-help">30 caractères maximum</small>
-                  <p
-                    *ngIf="
-                      (submitted || form.senderDetails.dirty) &&
-                      form.senderDetails.errors
-                    "
-                    class="invalid-feedback"
-                    id="sender-details-errors"
-                  >
+                  @if ( (submitted || form.senderDetails.dirty) &&
+                  form.senderDetails.errors ) {
+                  <p class="fr-error-text" id="sender-details-errors">
                     La signature du message est obligatoire (maximum 30
                     caractères)
                   </p>
-                </div>
-
-                <div class="col-12 my-2">
-                  <fieldset>
-                    <legend class="required">
-                      Quel(s) jour(s) souhaitez-vous envoyer les SMS (2 jours
-                      par semaine maximum)
-                    </legend>
-                    <div formGroupName="schedule">
-                      <label for="monday" class="form-check-label me-3">
-                        <input
-                          type="checkbox"
-                          formControlName="monday"
-                          id="monday"
-                          name="monday"
-                        />
-                        Lundi
-                      </label>
-                      <label for="tuesday" class="form-check-label me-3">
-                        <input
-                          type="checkbox"
-                          formControlName="tuesday"
-                          id="tuesday"
-                          name="tuesday"
-                        />
-                        Mardi
-                      </label>
-                      <label for="wednesday" class="form-check-label me-3">
-                        <input
-                          type="checkbox"
-                          formControlName="wednesday"
-                          id="wednesday"
-                          name="wednesday"
-                        />
-                        Mercredi
-                      </label>
-                      <label for="thursday" class="form-check-label me-3">
-                        <input
-                          type="checkbox"
-                          formControlName="thursday"
-                          id="thursday"
-                          name="thursday"
-                        />
-                        Jeudi
-                      </label>
-                      <label for="friday" class="form-check-label me-3">
-                        <input
-                          type="checkbox"
-                          formControlName="friday"
-                          id="friday"
-                          name="friday"
-                        />
-                        Vendredi
-                      </label>
-
-                      <p
-                        *ngIf="
-                          submitted || structureSmsForm?.errors?.moreThanTwoDays
-                        "
-                        class="invalid-feedback"
-                        id="sender-details-errors"
-                      >
-                        Vous devez sélectionner entre 1 et 2 jours de la semaine
-                        pour l'envoi de SMS
-                      </p>
-                      <p
-                        *ngIf="
-                          submitted || structureSmsForm?.errors?.atLeastOneDay
-                        "
-                        class="invalid-feedback"
-                        id="sender-details-errors"
-                      >
-                        Vous devez sélectionner au moins 1 jour de la semaine
-                        pour l'envoi de SMS
-                      </p>
-                    </div>
-                  </fieldset>
-                </div>
-
-                <div class="col-md-12 my-2 text-center">
-                  <button
-                    class="fr-btn"
-                    type="submit"
-                    [disabled]="loading"
-                    [attr.aria-busy]="loading"
-                  >
-                    <span *ngIf="!loading">
-                      Enregistrer les modifications
-                    </span>
-
-                    <span *ngIf="loading"
-                      ><fa-icon
-                        [icon]="['fas', 'circle-notch']"
-                        animation="spin"
-                        aria-hidden="true"
-                      >
-                      </fa-icon>
-                      Veuillez patienter...</span
-                    >
-                  </button>
+                  }
                 </div>
               </div>
-            </form>
-          </div>
+            </div>
+
+            <fieldset class="fr-fieldset fr-mb-3w" formGroupName="schedule">
+              <legend class="fr-fieldset__legend">
+                Quel(s) jour(s) souhaitez-vous envoyer les SMS (2 jours par
+                semaine maximum)
+                <span class="fr-text-default--error">*</span>
+              </legend>
+
+              <div class="fr-fieldset__element fr-fieldset__element--inline">
+                <div class="fr-checkbox-group">
+                  <input type="checkbox" formControlName="monday" id="monday" />
+                  <label class="fr-label" for="monday">Lundi</label>
+                </div>
+              </div>
+              <div class="fr-fieldset__element fr-fieldset__element--inline">
+                <div class="fr-checkbox-group">
+                  <input
+                    type="checkbox"
+                    formControlName="tuesday"
+                    id="tuesday"
+                  />
+                  <label class="fr-label" for="tuesday">Mardi</label>
+                </div>
+              </div>
+              <div class="fr-fieldset__element fr-fieldset__element--inline">
+                <div class="fr-checkbox-group">
+                  <input
+                    type="checkbox"
+                    formControlName="wednesday"
+                    id="wednesday"
+                  />
+                  <label class="fr-label" for="wednesday">Mercredi</label>
+                </div>
+              </div>
+              <div class="fr-fieldset__element fr-fieldset__element--inline">
+                <div class="fr-checkbox-group">
+                  <input
+                    type="checkbox"
+                    formControlName="thursday"
+                    id="thursday"
+                  />
+                  <label class="fr-label" for="thursday">Jeudi</label>
+                </div>
+              </div>
+              <div class="fr-fieldset__element fr-fieldset__element--inline">
+                <div class="fr-checkbox-group">
+                  <input type="checkbox" formControlName="friday" id="friday" />
+                  <label class="fr-label" for="friday">Vendredi</label>
+                </div>
+              </div>
+
+              @if (structureSmsForm?.errors?.moreThanTwoDays) {
+              <p class="fr-error-text" id="schedule-max-errors">
+                Vous devez sélectionner entre 1 et 2 jours de la semaine pour
+                l'envoi de SMS
+              </p>
+              } @if (structureSmsForm?.errors?.atLeastOneDay) {
+              <p class="fr-error-text" id="schedule-min-errors">
+                Vous devez sélectionner au moins 1 jour de la semaine pour
+                l'envoi de SMS
+              </p>
+              }
+            </fieldset>
+
+            <div class="fr-text--center">
+              <button
+                class="fr-btn"
+                type="submit"
+                [disabled]="loading"
+                [attr.aria-busy]="loading"
+              >
+                @if (!loading) { Enregistrer les modifications } @else {
+                <span
+                  class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
+                  aria-hidden="true"
+                ></span>
+                Veuillez patienter... }
+              </button>
+            </div>
+          </form>
+          }
         </div>
-        <div class="col-12 my-1 col-md-4">
+
+        <div class="fr-col-12 fr-col-md-4">
           <div id="sms-preview">
             <div class="sms-header">
               <span class="left">Messages</span>
@@ -335,6 +297,7 @@
           </div>
         </div>
       </div>
+      }
     </div>
   </div>
 </div>

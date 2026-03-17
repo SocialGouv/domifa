@@ -16,7 +16,7 @@
       <div class="fr-py-3w">
         @if (!editRdv) {
         <div class="fr-grid-row fr-grid-row--center">
-          <div class="fr-col-12 text-center fr-text--center">
+          <div class="fr-col-12 fr-text--center">
             <img src="assets/images/usager-form/entretien.svg" alt="" />
             <h2 class="fr-h3">
               Un entretien pour {{ usager.nom }} {{ usager.prenom }} est déjà
@@ -38,7 +38,7 @@
             </p>
           </div>
 
-          <div class="fr-col-12 fr-my-2w text-center">
+          <div class="fr-col-12 fr-my-2w fr-text--center">
             <button
               type="button"
               (click)="getCerfa(CerfaDocType.demande)"
@@ -48,7 +48,7 @@
             </button>
           </div>
 
-          <div class="fr-col-12 text-center">
+          <div class="fr-col-12 fr-text--center">
             <button
               (click)="rdvNow()"
               [disabled]="loading"

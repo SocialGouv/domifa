@@ -1,488 +1,178 @@
-<div id="filters" class="py-4 d-print-none">
-  <div class="container">
-    <div class="row d-flex align-items-center">
-      <div class="col-12 col-md-10">
-        <p
-          aria-live="polite"
-          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
-        >
-          <ng-container *ngIf="nbResults">
-            Filtrer les <span class="text-primary"> {{ nbResults }} </span>
-            <ng-container
-              *ngIf="
-                filters.statut === UsagersFilterCriteriaStatut.RADIE &&
-                usagersRadiesTotalCount !== usagersRadiesLoadedCount
-              "
-            >
-              premiers
-            </ng-container>
-            résultats
-          </ng-container>
-          <ng-container *ngIf="!nbResults"> Aucun résultat </ng-container>
+<div
+  id="filter-zone"
+  role="region"
+  aria-label="Zone de filtres"
+  [hidden]="!showFilters"
+  class="fr-py-2w d-print-none"
+>
+  <div class="fr-container">
+    <div
+      class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-grid-row--bottom"
+    >
+      <div class="fr-col-auto">
+        <p aria-live="polite" class="fr-mb-0 fr-text--sm">
+          @if (nbResults) {
+          <span class="fr-text--bold">{{ nbResults }}</span>
+          @if ( filters.statut === UsagersFilterCriteriaStatut.RADIE &&
+          usagersRadiesTotalCount !== usagersRadiesLoadedCount ) { premiers }
+          résultats } @else { Aucun résultat }
         </p>
+      </div>
 
-        <div
-          *ngIf="
-            filters.statut === UsagersFilterCriteriaStatut.TOUS ||
-            filters.statut === UsagersFilterCriteriaStatut.VALIDE
-          "
-          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
-        >
-          <button
+      <!-- Dernier passage (TOUS ou VALIDE) -->
+      @if ( filters.statut === UsagersFilterCriteriaStatut.TOUS ||
+      filters.statut === UsagersFilterCriteriaStatut.VALIDE ) {
+      <div class="fr-col-auto">
+        <div class="fr-select-group">
+          <label class="fr-label" for="filter-dernier-passage">
+            Dernier passage
+          </label>
+          <select
+            class="fr-select"
+            id="filter-dernier-passage"
             [disabled]="searching"
-            *ngIf="filters.lastInteractionDate"
-            type="button"
-            aria-label="Réinitialiser le filtre date de dernier passage"
-            class="btn btn-outline-primary"
-            (click)="
-              updateFilters.emit({
-                element: 'lastInteractionDate',
-                value: null
-              })
-            "
+            [ngModel]="filters.lastInteractionDate || ''"
+            (ngModelChange)="onFilterChange('lastInteractionDate', $event)"
           >
-            {{ labelsDernierPassage[filters.lastInteractionDate].label }}
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'times']"
-              class="cross"
-            ></fa-icon>
-          </button>
-
-          <div
-            ngbDropdown
-            *ngIf="!filters.lastInteractionDate"
-            id="dropdownDernierPassage"
-            placement="bottom"
-            #dropdownDernierPassage="ngbDropdown"
-            class="d-inline-block my-1"
-          >
-            <button type="button" [disabled]="searching" ngbDropdownToggle>
-              <span>Dernier passage</span>
-            </button>
-            <div
-              ngbDropdownMenu
-              aria-labelledby="dropdownDernierPassage"
-              class="dropdown-menu"
-            >
-              <button
-                [disabled]="searching"
-                *ngFor="let p of labelsDernierPassage | keyvalue"
-                type="button"
-                (click)="
-                  updateFilters.emit({
-                    element: 'lastInteractionDate',
-                    value: p.key
-                  })
-                "
-                ngbDropdownItem
-              >
-                {{ labelsDernierPassage[p.key].label }}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div
-          *ngIf="
-            filters.statut === UsagersFilterCriteriaStatut.TOUS ||
-            filters.statut === UsagersFilterCriteriaStatut.VALIDE
-          "
-          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
-        >
-          <button
-            type="button"
-            *ngIf="filters.echeance"
-            [disabled]="searching"
-            class="btn btn-outline-primary"
-            (click)="updateFilters.emit({ element: 'echeance', value: null })"
-          >
-            {{ labelsEcheance[filters.echeance].label }}
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'times']"
-              class="cross"
-            ></fa-icon>
-          </button>
-
-          <div
-            *ngIf="!filters.echeance"
-            ngbDropdown
-            id="dropdownEcheance"
-            placement="bottom"
-            class="d-inline-block my-1"
-            #dropdownEcheance="ngbDropdown"
-          >
-            <button type="button" [disabled]="searching" ngbDropdownToggle>
-              <span>Échéance de domiciliation</span>
-            </button>
-
-            <div
-              ngbDropdownMenu
-              aria-labelledby="dropdownEcheance"
-              class="dropdown-menu dropdown-menu-end"
-            >
-              <button
-                *ngFor="let e of labelsEcheance | keyvalue"
-                type="button"
-                (click)="
-                  updateFilters.emit({
-                    element: 'echeance',
-                    value: e.key
-                  })
-                "
-                ngbDropdownItem
-              >
-                {{ e.value?.label }}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div
-          *ngIf="filters.statut === UsagersFilterCriteriaStatut.RADIE"
-          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
-        >
-          <button
-            type="button"
-            *ngIf="filters.echeance"
-            class="btn btn-outline-primary"
-            (click)="updateFilters.emit({ element: 'echeance', value: null })"
-          >
-            {{ labelsEcheanceRadiation[filters.echeance].label }}
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'times']"
-              class="cross"
-            ></fa-icon>
-          </button>
-
-          <div
-            *ngIf="!filters.echeance"
-            ngbDropdown
-            id="dropdownEcheance"
-            placement="bottom"
-            class="d-inline-block my-1"
-            #dropdownEcheance="ngbDropdown"
-          >
-            <button type="button" ngbDropdownToggle>
-              <span>Radié depuis</span>
-            </button>
-
-            <div
-              ngbDropdownMenu
-              aria-labelledby="dropdownEcheance"
-              class="dropdown-menu dropdown-menu-end"
-            >
-              <button
-                *ngFor="let e of labelsEcheanceRadiation | keyvalue"
-                type="button"
-                (click)="
-                  updateFilters.emit({
-                    element: 'echeance',
-                    value: e.key
-                  })
-                "
-                ngbDropdownItem
-              >
-                {{ e.value?.label }}
-              </button>
-            </div>
-          </div>
-        </div>
-        <div
-          *ngIf="filters.statut !== UsagersFilterCriteriaStatut.REFUS"
-          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
-        >
-          <button
-            [disabled]="searching"
-            type="button"
-            aria-label="Réinitialiser le filtre courrier à récupérer"
-            class="btn btn-outline-primary"
-            *ngIf="filters.interactionType"
-            (click)="
-              updateFilters.emit({ element: 'interactionType', value: null })
-            "
-          >
-            Courrier à récupérer
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'times']"
-              class="cross"
-            ></fa-icon>
-          </button>
-
-          <div
-            ngbDropdown
-            id="dropDownCourrierAttente"
-            placement="bottom"
-            class="d-inline-block my-1"
-            *ngIf="!filters.interactionType"
-            #dropDownCourrierAttente="ngbDropdown"
-          >
-            <button type="button" ngbDropdownToggle>
-              <span>Courriers à récupérer</span>
-            </button>
-            <div
-              ngbDropdownMenu
-              aria-labelledby="dropDownCourrierAttente"
-              class="dropdown-menu"
-            >
-              <button
-                type="button"
-                (click)="
-                  updateFilters.emit({
-                    element: 'interactionType',
-                    value: 'courrierIn'
-                  })
-                "
-                ngbDropdownItem
-              >
-                Courrier à récupérer
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div
-          *ngIf="filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION"
-          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
-        >
-          <button
-            [disabled]="searching"
-            type="button"
-            *ngIf="filters.entretien"
-            aria-label="Réinitialiser le filtre entretien"
-            class="btn btn-outline-primary"
-            (click)="updateFilters.emit({ element: 'entretien', value: null })"
-          >
-            Entretien {{ labelsEntretien[filters.entretien] }}
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'times']"
-              class="cross"
-            ></fa-icon>
-          </button>
-
-          <div
-            ngbDropdown
-            id="dropDownEntretien"
-            placement="bottom"
-            *ngIf="!filters.entretien"
-            class="d-inline-block my-1"
-            #dropDownEntretien="ngbDropdown"
-          >
-            <button type="button" [disabled]="searching" ngbDropdownToggle>
-              Entretien
-            </button>
-            <div
-              ngbDropdownMenu
-              aria-labelledby="dropDownEntretien"
-              class="dropdown-menu"
-            >
-              <button
-                [disabled]="searching"
-                type="button"
-                (click)="
-                  updateFilters.emit({
-                    element: 'entretien',
-                    value: UsagersFilterCriteriaEntretien.COMING
-                  })
-                "
-                ngbDropdownItem
-              >
-                À venir
-              </button>
-
-              <button
-                [disabled]="searching"
-                type="button"
-                (click)="
-                  updateFilters.emit({
-                    element: 'entretien',
-                    value: UsagersFilterCriteriaEntretien.OVERDUE
-                  })
-                "
-                ngbDropdownItem
-              >
-                Date dépassée
-              </button>
-            </div>
-          </div>
-        </div>
-        <div
-          class="d-md-inline-block d-block me-2 text-md-start text-center my-1"
-        >
-          <button
-            [disabled]="searching"
-            type="button"
-            *ngIf="filters?.referrerId !== undefined"
-            aria-label="Réinitialiser le filtre référents"
-            class="btn btn-outline-primary"
-            (click)="
-              updateFilters.emit({ element: 'referrerId', value: undefined })
-            "
-          >
-            {{
-              filters.referrerId === null
-                ? "Aucun référent"
-                : (filters.referrerId | referrerName | async)
-            }}
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'times']"
-              class="cross"
-            ></fa-icon>
-          </button>
-
-          <div
-            ngbDropdown
-            id="dropDownUsers"
-            placement="bottom"
-            *ngIf="filters?.referrerId === undefined"
-            class="d-inline-block my-1"
-            #dropDownUsers="ngbDropdown"
-          >
-            <button
-              [disabled]="searching"
-              type="button"
-              ngbDropdownToggle
-              aria-label="Filtrer par référent"
-            >
-              <span>Référents</span>
-            </button>
-            <div
-              ngbDropdownMenu
-              aria-labelledby="dropDownUsers"
-              class="dropdown-menu"
-            >
-              <button
-                type="button"
-                [disabled]="searching"
-                ngbDropdownItem
-                aria-label="Filtrer les dossiers sans référent"
-                (click)="
-                  updateFilters.emit({
-                    element: 'referrerId',
-                    value: null
-                  })
-                "
-              >
-                Aucun référent
-              </button>
-              <button
-                [disabled]="searching"
-                *ngFor="let referrer of referrers"
-                type="button"
-                ngbDropdownItem
-                [attr.aria-label]="
-                  'Filtrer les dossiers suivis par ' +
-                  referrer.prenom +
-                  ' ' +
-                  referrer.nom
-                "
-                (click)="
-                  updateFilters.emit({
-                    element: 'referrerId',
-                    value: referrer.id
-                  })
-                "
-              >
-                {{ referrer | fullName }}
-              </button>
-            </div>
-          </div>
+            <option value="">Tous</option>
+            @for (p of labelsDernierPassage | keyvalue; track p.key) {
+            <option [value]="p.key">{{ p.value.label }}</option>
+            }
+          </select>
         </div>
       </div>
-      <div class="col-12 col-md-2 text-md-end text-center my-1">
-        <div
-          ngbDropdown
-          id="dropdownSort"
-          role="listbox"
-          #dropdownSort="ngbDropdown"
-        >
-          <button
+      }
+
+      <!-- Échéance de domiciliation (TOUS ou VALIDE) -->
+      @if ( filters.statut === UsagersFilterCriteriaStatut.TOUS ||
+      filters.statut === UsagersFilterCriteriaStatut.VALIDE ) {
+      <div class="fr-col-auto">
+        <div class="fr-select-group">
+          <label class="fr-label" for="filter-echeance"> Échéance </label>
+          <select
+            class="fr-select"
+            id="filter-echeance"
             [disabled]="searching"
-            type="button"
-            class="mx-auto ms-md-auto me-md-0"
-            id="dropdownSortButton"
-            ngbDropdownToggle
-            aria-label="Trier les éléments"
-            aria-haspopup="listbox"
+            [ngModel]="filters.echeance || ''"
+            (ngModelChange)="onFilterChange('echeance', $event)"
           >
-            <span>
-              Trier par {{ filters.sortKey | sortLabel : filters.statut }}
-              <fa-icon
-                *ngIf="filters.sortValue === 'asc'"
-                [icon]="['fas', 'sort-amount-up']"
-                aria-hidden="true"
-                class="ms-2"
-              ></fa-icon>
+            <option value="">Toutes</option>
+            @for (e of labelsEcheance | keyvalue; track e.key) {
+            <option [value]="e.key">{{ e.value.label }}</option>
+            }
+          </select>
+        </div>
+      </div>
+      }
 
-              <fa-icon
-                *ngIf="filters.sortValue === 'desc'"
-                [icon]="['fas', 'sort-amount-down']"
-                aria-hidden="true"
-                class="ms-2"
-              ></fa-icon>
-            </span>
-          </button>
-
-          <div
-            ngbDropdownMenu
-            aria-labelledby="dropdownSort"
-            class="dropdown-menu dropdown-menu-end"
+      <!-- Radié depuis (RADIE) -->
+      @if (filters.statut === UsagersFilterCriteriaStatut.RADIE) {
+      <div class="fr-col-auto">
+        <div class="fr-select-group">
+          <label class="fr-label" for="filter-echeance-radiation">
+            Radié depuis
+          </label>
+          <select
+            class="fr-select"
+            id="filter-echeance-radiation"
+            [disabled]="searching"
+            [ngModel]="filters.echeance || ''"
+            (ngModelChange)="onFilterChange('echeance', $event)"
           >
-            <ng-container *ngFor="let option of sortMenuItems">
-              <button
-                type="button"
-                [disabled]="searching"
-                (click)="
-                  updateFilters.emit({
-                    element: 'sortKey',
-                    value: option.id,
-                    sortValue: 'asc'
-                  })
-                "
-                ngbDropdownItem
-                role="option"
-                [attr.aria-selected]="
-                  filters.sortKey === option.id && filters.sortValue === 'asc'
-                "
-              >
-                <fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'sort-amount-up']"
-                ></fa-icon>
-                <span>Trier par {{ option.label }}</span>
-                <span class="visually-hidden">, ordre croissant</span>
-              </button>
+            <option value="">Toutes les périodes</option>
+            @for (e of labelsEcheanceRadiation | keyvalue; track e.key) {
+            <option [value]="e.key">{{ e.value.label }}</option>
+            }
+          </select>
+        </div>
+      </div>
+      }
 
-              <button
-                [disabled]="searching"
-                type="button"
-                (click)="
-                  updateFilters.emit({
-                    element: 'sortKey',
-                    value: option.id,
-                    sortValue: 'desc'
-                  })
-                "
-                ngbDropdownItem
-                role="option"
-                [attr.aria-selected]="
-                  filters.sortKey === option.id && filters.sortValue === 'desc'
-                "
-              >
-                <fa-icon
-                  aria-hidden="true"
-                  [icon]="['fas', 'sort-amount-down']"
-                ></fa-icon>
-                <span>Trier par {{ option.label }}</span>
-                <span class="visually-hidden">, ordre décroissant</span>
-              </button>
-            </ng-container>
-          </div>
+      <!-- Courriers à récupérer (tous sauf REFUS) -->
+      @if (filters.statut !== UsagersFilterCriteriaStatut.REFUS) {
+      <div class="fr-col-auto">
+        <div class="fr-select-group">
+          <label class="fr-label" for="filter-courrier"> Courriers </label>
+          <select
+            class="fr-select"
+            id="filter-courrier"
+            [disabled]="searching"
+            [ngModel]="filters.interactionType || ''"
+            (ngModelChange)="onFilterChange('interactionType', $event)"
+          >
+            <option value="">Tous</option>
+            <option value="courrierIn">À récupérer</option>
+          </select>
+        </div>
+      </div>
+      }
+
+      <!-- Entretien (INSTRUCTION) -->
+      @if (filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION) {
+      <div class="fr-col-auto">
+        <div class="fr-select-group">
+          <label class="fr-label" for="filter-entretien"> Entretien </label>
+          <select
+            class="fr-select"
+            id="filter-entretien"
+            [disabled]="searching"
+            [ngModel]="filters.entretien || ''"
+            (ngModelChange)="onFilterChange('entretien', $event)"
+          >
+            <option value="">Tous</option>
+            <option [value]="UsagersFilterCriteriaEntretien.COMING">
+              À venir
+            </option>
+            <option [value]="UsagersFilterCriteriaEntretien.OVERDUE">
+              Date dépassée
+            </option>
+          </select>
+        </div>
+      </div>
+      }
+
+      <!-- Référents -->
+      <div class="fr-col-auto">
+        <div class="fr-select-group">
+          <label class="fr-label" for="filter-referent"> Référent </label>
+          <select
+            class="fr-select"
+            id="filter-referent"
+            [disabled]="searching"
+            [ngModel]="getReferrerValue()"
+            (ngModelChange)="onReferrerChange($event)"
+          >
+            <option value="">Tous</option>
+            <option value="null">Aucun référent</option>
+            @for (referrer of referrers; track referrer.id) {
+            <option [value]="referrer.id">
+              {{ referrer | fullName }}
+            </option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <!-- Trier par -->
+      <div class="fr-col-auto">
+        <div class="fr-select-group">
+          <label class="fr-label" for="filter-sort"> Trier par </label>
+          <select
+            class="fr-select"
+            id="filter-sort"
+            [disabled]="searching"
+            [ngModel]="filters.sortKey + '_' + filters.sortValue"
+            (ngModelChange)="onSortChange($event)"
+          >
+            @for (option of sortMenuItems; track option.id) {
+            <option [value]="option.id + '_asc'">
+              {{ option.label }} (croissant)
+            </option>
+            <option [value]="option.id + '_desc'">
+              {{ option.label }} (décroissant)
+            </option>
+            }
+          </select>
         </div>
       </div>
     </div>
