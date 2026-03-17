@@ -15,7 +15,6 @@ import { fadeIn } from "../../../../../shared";
   animations: [fadeIn],
   selector: "app-profil-historique-login-portail",
   templateUrl: "./profil-historique-login-portail.component.html",
-  styleUrls: ["../historique-table.scss"],
 })
 export class ProfilHistoriqueLoginPortailComponent
   implements OnInit, OnDestroy

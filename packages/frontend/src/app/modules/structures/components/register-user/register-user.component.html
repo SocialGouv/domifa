@@ -30,7 +30,7 @@
             (f.nom.dirty || submitted) && f.nom.errors
           "
           [class.fr-input-group--valid]="f.nom.dirty && !f.nom.errors"
-          class="col fr-input-group required"
+          class="fr-col fr-input-group required"
         >
           <label class="fr-label" for="nom">Nom</label>
           <input
@@ -65,7 +65,7 @@
           [class.fr-input-group--error]="
             (submitted || f.prenom.dirty) && f.prenom.errors
           "
-          class="col fr-input-group required"
+          class="fr-col fr-input-group required"
         >
           <label class="fr-label" for="prenom">Prénom</label>
           <input
@@ -99,7 +99,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col fr-input-group required">
+        <div class="fr-col fr-input-group required">
           <app-fonction-selection
             [parentFormGroup]="userForm"
             [fonctionFormControl]="fonctionControl"

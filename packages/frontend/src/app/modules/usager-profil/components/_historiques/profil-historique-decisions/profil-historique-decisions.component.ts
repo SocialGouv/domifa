@@ -13,7 +13,6 @@ import { DocumentService } from "../../../../usager-shared/services";
 @Component({
   selector: "app-profil-historique-decisions",
   templateUrl: "./profil-historique-decisions.component.html",
-  styleUrls: ["../historique-table.scss"],
 })
 export class ProfilHistoriqueDecisionsComponent implements OnInit {
   public readonly USAGER_DECISION_STATUT_LABELS_PROFIL =

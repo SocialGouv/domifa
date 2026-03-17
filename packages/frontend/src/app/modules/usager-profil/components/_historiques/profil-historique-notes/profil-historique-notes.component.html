@@ -19,7 +19,7 @@
         <th scope="col">Statut</th>
         <th scope="col">Message</th>
         <th scope="col">Notifié par</th>
-        <th scope="col" class="text-end">Actions</th>
+        <th scope="col" class="fr-text--right">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -45,7 +45,7 @@
           {{ note.message }}
         </td>
         <td>{{ note.createdBy.userName }}</td>
-        <td class="text-end">
+        <td class="fr-text--right">
           <app-usager-notes-actions
             *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
             class="ms-3"

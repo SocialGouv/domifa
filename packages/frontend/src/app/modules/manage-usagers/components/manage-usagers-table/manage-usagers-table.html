@@ -36,7 +36,7 @@
       </div>
     </div>
   </div>
-  <div class="fr-col-md-6 fr-col-12 text-end">
+  <div class="fr-col-md-6 fr-col-12 fr-text--right">
     <button type="button" class="fr-btn fr-btn--sm" (click)="goToPrint.emit()">
       <fa-icon
         aria-hidden="true"
@@ -360,6 +360,7 @@
 </table>
 
 <dsfr-modal
+  class="text-start"
   #deleteUsagersModal
   titleModal="Supprimer des domiciliés"
   dialogId="deleteUsagersModal"

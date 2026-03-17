@@ -12,7 +12,6 @@ import {
 @Component({
   selector: "app-profil-historique-procurations",
   templateUrl: "./profil-historique-procurations.component.html",
-  styleUrls: ["../historique-table.scss"],
 })
 export class ProfilHistoriqueProcurationsComponent
   implements OnInit, OnDestroy
