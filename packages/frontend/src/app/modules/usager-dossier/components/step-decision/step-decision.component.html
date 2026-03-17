@@ -77,14 +77,12 @@
                 Soumettre la demande
               </button>
               } @if (usager.decision.statut === 'ATTENTE_DECISION') {
-              <button
-                type="button"
-                class="fr-btn fr-btn--secondary"
-                (click)="open()"
-              >
-                <i class="fr-icon-time-line fr-mr-1w" aria-hidden="true"></i>
-                Ajourner le dossier
-              </button>
+              <app-decision-standby-form
+                [usager]="usager"
+                [me]="me"
+                template="modal"
+                (closeModals)="closeModals()"
+              ></app-decision-standby-form>
               }
 
               <app-decision-refus-form
@@ -342,17 +340,3 @@
   }
 </div>
 <app-step-footer [usager]="usager"></app-step-footer>
-@if (usager) {
-<dsfr-modal
-  #standbyModal
-  [titleModal]="'Ajourner le dossier'"
-  [isScrollable]="true"
-  [size]="'LG'"
->
-  <app-decision-standby-form
-    [usager]="usager"
-    [me]="me"
-    (closeModals)="closeModals()"
-  ></app-decision-standby-form>
-</dsfr-modal>
-}

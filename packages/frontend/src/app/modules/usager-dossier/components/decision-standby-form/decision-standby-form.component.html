@@ -1,3 +1,86 @@
+@if (template === 'modal') {
+<button type="button" class="fr-btn fr-btn--secondary" (click)="openModal()">
+  <i class="fr-icon-time-line fr-mr-1w" aria-hidden="true"></i>
+  Ajourner le dossier
+</button>
+
+<dsfr-modal
+  #decisionStandbyModal
+  [titleModal]="'Ajourner le dossier'"
+  [isScrollable]="true"
+  dialogId="decisionStandbyModal"
+>
+  <form [formGroup]="addNoteForm" (ngSubmit)="submit()">
+    <p>
+      Les champs suivis d'un
+      <span class="fr-text--bold text-error">*</span> sont obligatoires
+    </p>
+
+    <div
+      class="fr-input-group"
+      [class.fr-input-group--error]="
+        (f.message.dirty || submitted) && f.message.errors
+      "
+    >
+      <label class="fr-label" for="message">
+        Motif d'ajournement du dossier (Exemples: document manquant, dossier
+        incomplet, etc.)
+      </label>
+      <textarea
+        class="fr-input"
+        formControlName="message"
+        id="message"
+        maxlength="1000"
+        appCleanStr
+        required
+        [attr.aria-describedby]="
+          (f.message.dirty || submitted) && f.message.errors
+            ? 'message-errors'
+            : 'message-informations'
+        "
+        [attr.aria-invalid]="
+          (f.message.dirty || submitted) && f.message.errors ? true : false
+        "
+      ></textarea>
+      @if ((!f.message.dirty && !submitted) || !f.message.errors) {
+      <p id="message-informations" class="fr-hint-text">
+        1000 caractères maximum. Caractères interdits:
+        &#36;&#126;&#42;&lt;&gt;&#123;&#125;
+      </p>
+      } @if ((submitted || f.message.dirty) && f.message.errors) {
+      <p id="message-errors" class="fr-error-text">
+        Veuillez vérifier le contenu de la note saisie. 1000 caractères maximum.
+        Caractères interdits: &#36;&#126;&#42;&lt;&gt;&#123;&#125;
+      </p>
+      }
+    </div>
+  </form>
+
+  <ng-template #modalFooterTemplate>
+    <div
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
+    >
+      <button
+        class="fr-btn"
+        type="button"
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
+        (click)="submit()"
+      >
+        @if (!loading) { Confirmer l'ajournement } @else { Veuillez patienter...
+        }
+      </button>
+      <button
+        class="fr-btn fr-btn--secondary"
+        type="button"
+        (click)="closeModal()"
+      >
+        Annuler
+      </button>
+    </div>
+  </ng-template>
+</dsfr-modal>
+} @if (template === 'input') {
 <form [formGroup]="addNoteForm" (ngSubmit)="submit()">
   <p>
     Les champs suivis d'un
@@ -10,33 +93,33 @@
       (f.message.dirty || submitted) && f.message.errors
     "
   >
-    <label class="fr-label" for="message">
+    <label class="fr-label" for="message-input">
       Motif d'ajournement du dossier (Exemples: document manquant, dossier
       incomplet, etc.)
     </label>
     <textarea
       class="fr-input"
       formControlName="message"
-      id="message"
+      id="message-input"
       maxlength="1000"
       appCleanStr
       required
       [attr.aria-describedby]="
         (f.message.dirty || submitted) && f.message.errors
-          ? 'message-errors'
-          : 'message-informations'
+          ? 'message-input-errors'
+          : 'message-input-informations'
       "
       [attr.aria-invalid]="
         (f.message.dirty || submitted) && f.message.errors ? true : false
       "
     ></textarea>
     @if ((!f.message.dirty && !submitted) || !f.message.errors) {
-    <p id="message-informations" class="fr-hint-text">
+    <p id="message-input-informations" class="fr-hint-text">
       1000 caractères maximum. Caractères interdits:
       &#36;&#126;&#42;&lt;&gt;&#123;&#125;
     </p>
     } @if ((submitted || f.message.dirty) && f.message.errors) {
-    <p id="message-errors" class="fr-error-text">
+    <p id="message-input-errors" class="fr-error-text">
       Veuillez vérifier le contenu de la note saisie. 1000 caractères maximum.
       Caractères interdits: &#36;&#126;&#42;&lt;&gt;&#123;&#125;
     </p>
@@ -61,3 +144,4 @@
     </button>
   </div>
 </form>
+}

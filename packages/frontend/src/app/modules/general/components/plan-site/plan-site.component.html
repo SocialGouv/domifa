@@ -1,68 +1,73 @@
-<div class="fr-container py-3">
-  <h1>Plan du site</h1>
-  <div class="container">
-    <div class="p-3">
-      <div class="row" *ngIf="authService.currentUserValue">
-        <ng-container *ngFor="let linkSection of siteMapLinksLogged">
-          <div class="col-md-4 col-12 my-3">
-            <h2 class="my-3">
-              {{ linkSection.section }}
-            </h2>
-            <ul>
-              <li *ngFor="let link of linkSection.links">
-                <a routerLink="{{ link.path }}">{{ link.label }}</a>
-              </li>
-            </ul>
-          </div>
-        </ng-container>
-      </div>
-      <div class="row">
-        <ng-container *ngFor="let linkSection of sitemapLinks">
-          <div class="col-md-4 col-12 my-3">
-            <h2 class="my-3">
-              {{ linkSection.section }}
-            </h2>
-            <ul>
-              <li *ngFor="let link of linkSection.links">
-                <a class="fr-link text-black" routerLink="{{ link.path }}">{{
-                  link.label
-                }}</a>
-              </li>
-            </ul>
-          </div>
-        </ng-container>
+<div class="head-page">
+  <div class="fr-container">
+    <h1 class="title">Plan du site</h1>
+  </div>
+</div>
 
-        <div class="col-md-4 col-12 my-3">
-          <h2 class="my-3">Nos partenaires</h2>
-          <ul>
-            <li *ngFor="let link of partnerLinks">
-              <a class="fr-link text-black" [href]="link.path" target="_blank"
-                >{{ link.label }}
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-4 col-12 my-3">
-          <h2 class="my-3">Pages de statistiques</h2>
-          <section>
-            <div>
-              <ul>
-                <li *ngFor="let region of REGIONS_LISTE | keyvalue">
-                  <a
-                    class="fr-link text-black"
-                    [routerLink]="[
-                      '/stats/region/' + REGIONS_ID_SEO[region.key]
-                    ]"
-                    ariaCurrentWhenActive="page"
-                  >
-                    {{ region.value }}
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </section>
-        </div>
-      </div>
+<div class="fr-container fr-py-4w">
+  @if (authService.currentUserValue) {
+  <div class="fr-grid-row fr-grid-row--gutters">
+    @for (linkSection of siteMapLinksLogged; track linkSection.section) {
+    <div class="fr-col-12 fr-col-md-4">
+      <h2 class="fr-mb-2w">{{ linkSection.section }}</h2>
+      <ul class="fr-raw-list">
+        @for (link of linkSection.links; track link.path) {
+        <li class="fr-mb-1w">
+          <a class="fr-link" [routerLink]="link.path">{{ link.label }}</a>
+        </li>
+        }
+      </ul>
+    </div>
+    }
+  </div>
+  }
+
+  <div class="fr-grid-row fr-grid-row--gutters">
+    @for (linkSection of sitemapLinks; track linkSection.section) {
+    <div class="fr-col-12 fr-col-md-4">
+      <h2 class="fr-mb-2w">{{ linkSection.section }}</h2>
+      <ul class="fr-raw-list">
+        @for (link of linkSection.links; track link.path) {
+        <li class="fr-mb-1w">
+          <a class="fr-link" [routerLink]="link.path">{{ link.label }}</a>
+        </li>
+        }
+      </ul>
+    </div>
+    }
+
+    <div class="fr-col-12 fr-col-md-4">
+      <h2 class="fr-mb-2w">Nos partenaires</h2>
+      <ul class="fr-raw-list">
+        @for (link of partnerLinks; track link.path) {
+        <li class="fr-mb-1w">
+          <a
+            class="fr-link"
+            [href]="link.path"
+            target="_blank"
+            rel="noopener"
+            >{{ link.label }}</a
+          >
+        </li>
+        }
+      </ul>
+    </div>
+
+    <div class="fr-col-12 fr-col-md-4">
+      <h2 class="fr-mb-2w">Pages de statistiques</h2>
+      <ul class="fr-raw-list">
+        @for (region of REGIONS_LISTE | keyvalue; track region.key) {
+        <li class="fr-mb-1w">
+          <a
+            class="fr-link"
+            [routerLink]="'/stats/region/' + REGIONS_ID_SEO[region.key]"
+            ariaCurrentWhenActive="page"
+          >
+            {{ region.value }}
+          </a>
+        </li>
+        }
+      </ul>
     </div>
   </div>
 </div>

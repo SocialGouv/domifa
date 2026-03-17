@@ -27,12 +27,8 @@
           [id]="'tab-' + section.id"
           [routerLink]="['/profil/historique/' + usager.ref + '/' + section.id]"
           ariaCurrentWhenActive="page"
-          class="btn me-1 my-1"
-          [ngClass]="
-            currentSection === section.id
-              ? 'btn-primary'
-              : 'btn-outline-primary'
-          "
+          class="fr-btn fr-mr-1w fr-my-1w"
+          [ngClass]="currentSection === section.id ? '' : 'fr-btn--secondary'"
           (click)="currentSection = section.id"
         >
           <span class="focus">{{ section.name }}</span>
@@ -41,7 +37,7 @@
 
       <div class="row">
         <div
-          class="col-md-12"
+          class="fr-col-md-12"
           id="tabpanel-decisions"
           [attr.aria-labelledby]="'tab-decisions'"
           [hidden]="currentSection !== 'decisions'"
@@ -52,7 +48,7 @@
           ></app-profil-historique-decisions>
         </div>
         <div
-          class="col-md-12"
+          class="fr-col-md-12"
           id="tabpanel-interactions"
           [attr.aria-labelledby]="'tab-interactions'"
           [hidden]="currentSection !== 'interactions'"
@@ -63,7 +59,7 @@
           ></app-profil-historique-courriers>
         </div>
         <div
-          class="col-md-12"
+          class="fr-col-md-12"
           id="tabpanel-procurations"
           [attr.aria-labelledby]="'tab-procurations'"
           [hidden]="currentSection !== 'procurations'"
@@ -75,7 +71,7 @@
         </div>
 
         <div
-          class="col-md-12"
+          class="fr-col-md-12"
           id="tabpanel-transferts"
           [attr.aria-labelledby]="'tab-transferts'"
           [hidden]="currentSection !== 'transferts'"
@@ -87,7 +83,7 @@
           ></app-profil-historique-transferts>
         </div>
         <div
-          class="col-md-12"
+          class="fr-col-md-12"
           id="tabpanel-sms"
           [attr.aria-labelledby]="'tab-sms'"
           [hidden]="currentSection !== 'sms'"
@@ -102,7 +98,7 @@
         </div>
 
         <div
-          class="col-md-12"
+          class="fr-col-md-12"
           id="tabpanel-notes"
           [attr.aria-labelledby]="'tab-notes'"
           [hidden]="currentSection !== 'notes'"
@@ -113,7 +109,7 @@
           ></app-profil-historique-notes>
         </div>
         <div
-          class="col-md-12"
+          class="fr-col-md-12"
           id="tabpanel-login-portail"
           [attr.aria-labelledby]="'tab-login-portail'"
           [hidden]="currentSection !== 'login-portail'"

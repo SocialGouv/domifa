@@ -1,158 +1,40 @@
 <app-welcome-modal></app-welcome-modal>
 <div class="head-page d-print-none">
-  <div class="container">
-    <div class="py-2 px-0 mx-0">
-      <div
-        class="row text-center justify-content-md-between justify-content-center align-items-center py-2"
-      >
-        <div class="col-md-2 col-6 text-end order-2 order-md-3">
-          <a
-            *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
-            routerLink="/usager/nouveau"
-            ariaCurrentWhenActive="page"
-            class="fr-btn fr-btn--secondary"
-          >
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'plus']"
-              class="me-2"
-            ></fa-icon>
-            Créer une demande
-          </a>
-        </div>
-        <h1 class="col-md-2 col-6 title text-start order-1 order-md-1">
-          Domiciliés
-        </h1>
-        <div class="col-md-8 col-12 order-3 order-md-2">
-          <div class="input-group" id="search-bar">
-            <div
-              ngbDropdown
-              id="dropdownSearchString"
-              #dropdownSearchString="ngbDropdown"
-            >
-              <button
-                class="btn btn-light"
-                type="button"
-                aria-label="Type de donnée recherchée"
-                aria-haspopup="true"
-                ngbDropdownToggle
-              >
-                <fa-icon
-                  [icon]="['fas', 'list']"
-                  aria-hidden="true"
-                  class="me-2"
-                ></fa-icon>
-                {{
-                  SEARCH_STRING_FIELD_LABELS[this.filters.searchStringField]
-                    .label
-                }}
-              </button>
-
-              <div
-                ngbDropdownMenu
-                aria-labelledby="dropdownSearchString"
-                class="dropdown-menu"
-                role="listbox"
-              >
-                <button
-                  type="button"
-                  (click)="
-                    updateFilters({
-                      element: 'searchStringField',
-                      value: CriteriaSearchField.BIRTH_DATE
-                    })
-                  "
-                  role="option"
-                  [attr.aria-selected]="
-                    filters.searchStringField === CriteriaSearchField.BIRTH_DATE
-                  "
-                  ngbDropdownItem
-                >
-                  Date de naissance
-                </button>
-                <button
-                  type="button"
-                  (click)="
-                    updateFilters({
-                      element: 'searchStringField',
-                      value: CriteriaSearchField.DEFAULT
-                    })
-                  "
-                  role="option"
-                  [attr.aria-selected]="
-                    filters.searchStringField === CriteriaSearchField.DEFAULT
-                  "
-                  ngbDropdownItem
-                >
-                  {{ SEARCH_STRING_FIELD_LABELS.DEFAULT.label }}
-                </button>
-                <button
-                  type="button"
-                  (click)="
-                    updateFilters({
-                      element: 'searchStringField',
-                      value: CriteriaSearchField.PHONE_NUMBER
-                    })
-                  "
-                  role="option"
-                  [attr.aria-selected]="
-                    filters.searchStringField ===
-                    CriteriaSearchField.PHONE_NUMBER
-                  "
-                  ngbDropdownItem
-                >
-                  {{ SEARCH_STRING_FIELD_LABELS.PHONE_NUMBER.label }}
-                </button>
-              </div>
-            </div>
-
-            <label for="searchInput" class="visually-hidden">
-              Rechercher un domicilié
-            </label>
-            <input
-              id="searchInput"
-              [type]="
-                filters.searchStringField === CriteriaSearchField.PHONE_NUMBER
-                  ? 'tel'
-                  : 'text'
-              "
-              [appDateFrConditional]="
-                filters.searchStringField === CriteriaSearchField.BIRTH_DATE
-              "
-              name="searchInput"
-              #searchInput
-              class="form-control"
-            />
-
-            <button
-              type="button"
-              aria-label="Supprimer le texte saisie"
-              *ngIf="filters?.searchString"
-              (click)="resetSearchBar()"
-              id="deleteSearchIcon"
-            >
-              <fa-icon
-                aria-hidden="true"
-                [icon]="['fas', 'circle-xmark']"
-              ></fa-icon>
-            </button>
-            <button
-              class="btn btn-light"
-              type="button"
-              #refreshButton
-              aria-label="Lancer la recherche"
-              id="search-btn"
-            >
-              <fa-icon [icon]="['fas', 'search']" aria-hidden="true"></fa-icon>
-            </button>
-          </div>
-        </div>
+  <div class="fr-container">
+    <div
+      class="row fr-text--center justify-content-md-between justify-content-center align-items-center py-2"
+    >
+      <div class="fr-col-md-2 fr-col-6 text-end order-2 order-md-3">
+        <a
+          *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
+          routerLink="/usager/nouveau"
+          ariaCurrentWhenActive="page"
+          class="fr-btn fr-btn--secondary"
+        >
+          <fa-icon
+            aria-hidden="true"
+            [icon]="['fas', 'plus']"
+            class="me-2"
+          ></fa-icon>
+          Créer une demande
+        </a>
       </div>
+      <h1 class="fr-col-md-2 fr-col-6 title text-start order-1 order-md-1">
+        Domiciliés
+      </h1>
     </div>
+  </div>
+</div>
+<div class="fr-content-container-light fr-py-3w">
+  <div class="fr-container">
     <div role="tablist" id="statut-selector" class="mt-3 row">
       <button
         type="button"
-        class="col-md-2 col-6"
+        class="fr-tabs__tab"
+        role="tab"
+        [attr.tabindex]="
+          filters.statut === UsagersFilterCriteriaStatut.TOUS ? 0 : -1
+        "
         [ngClass]="{
           'selected-section':
             filters.statut === UsagersFilterCriteriaStatut.TOUS
@@ -181,11 +63,15 @@
       </button>
       <button
         type="button"
-        class="col-md-2 col-6"
+        class="fr-tabs__tab"
+        role="tab"
         [ngClass]="{
           'selected-section':
             filters.statut === UsagersFilterCriteriaStatut.VALIDE
         }"
+        [attr.tabindex]="
+          filters.statut === UsagersFilterCriteriaStatut.VALIDE ? 0 : -1
+        "
         [attr.aria-selected]="
           filters.statut === UsagersFilterCriteriaStatut.VALIDE
         "
@@ -210,7 +96,11 @@
       </button>
       <button
         type="button"
-        class="col-md-2 col-6"
+        class="fr-tabs__tab"
+        role="tab"
+        [attr.tabindex]="
+          filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION ? 0 : -1
+        "
         [ngClass]="{
           'selected-section':
             filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION
@@ -233,7 +123,13 @@
       </button>
       <button
         type="button"
-        class="col-md-2 col-6"
+        class="fr-tabs__tab"
+        role="tab"
+        [attr.tabindex]="
+          filters.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION
+            ? 0
+            : -1
+        "
         [ngClass]="{
           'selected-section':
             filters.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION
@@ -260,7 +156,11 @@
       </button>
       <button
         type="button"
-        class="col-md-2 col-6"
+        class="fr-tabs__tab"
+        role="tab"
+        [attr.tabindex]="
+          filters.statut === UsagersFilterCriteriaStatut.REFUS ? 0 : -1
+        "
         [ngClass]="{
           'selected-section':
             filters.statut === UsagersFilterCriteriaStatut.REFUS
@@ -283,7 +183,11 @@
       </button>
       <button
         type="button"
-        class="col-md-2 col-6"
+        class="fr-tabs__tab"
+        role="tab"
+        [attr.tabindex]="
+          filters.statut === UsagersFilterCriteriaStatut.RADIE ? 0 : -1
+        "
         [ngClass]="{
           'selected-section':
             filters.statut === UsagersFilterCriteriaStatut.RADIE
@@ -306,87 +210,173 @@
       </button>
     </div>
   </div>
-</div>
+  <div class="content">
+    <div class="fr-container">
+      <div class="page-content fr-p-3w">
+        <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom">
+          <div class="fr-col-auto">
+            <div class="fr-select-group">
+              <label class="fr-label" for="searchStringField">
+                Rechercher par
+              </label>
+              <select
+                class="fr-select"
+                id="searchStringField"
+                [ngModel]="filters.searchStringField"
+                (ngModelChange)="
+                  updateFilters({
+                    element: 'searchStringField',
+                    value: $event
+                  })
+                "
+              >
+                <option [ngValue]="CriteriaSearchField.DEFAULT">
+                  {{ SEARCH_STRING_FIELD_LABELS.DEFAULT.label }}
+                </option>
+                <option [ngValue]="CriteriaSearchField.BIRTH_DATE">
+                  Date de naissance
+                </option>
+                <option [ngValue]="CriteriaSearchField.PHONE_NUMBER">
+                  {{ SEARCH_STRING_FIELD_LABELS.PHONE_NUMBER.label }}
+                </option>
+              </select>
+            </div>
+          </div>
 
-<app-manage-filters
-  [filters]="filters"
-  (updateFilters)="updateFilters($event)"
-  [nbResults]="nbResults"
-  [searching]="searching"
-  [usagersRadiesLoadedCount]="usagersRadiesLoadedCount"
-  [usagersRadiesTotalCount]="usagersCountByStatus.RADIE"
-></app-manage-filters>
+          <div class="fr-col">
+            <div class="fr-search-bar" role="search">
+              <label class="fr-label" for="searchInput">
+                {{
+                  SEARCH_STRING_FIELD_LABELS[filters.searchStringField]
+                    .placeholder
+                }}
+              </label>
+              <input
+                class="fr-input"
+                id="searchInput"
+                [type]="
+                  filters.searchStringField === CriteriaSearchField.PHONE_NUMBER
+                    ? 'tel'
+                    : 'search'
+                "
+                [appDateFrConditional]="
+                  filters.searchStringField === CriteriaSearchField.BIRTH_DATE
+                "
+                [placeholder]="
+                  SEARCH_STRING_FIELD_LABELS[filters.searchStringField]
+                    .placeholder
+                "
+                name="searchInput"
+                #searchInput
+              />
+              <button
+                class="fr-btn"
+                type="button"
+                #refreshButton
+                title="Lancer la recherche"
+              >
+                Rechercher
+              </button>
+            </div>
+          </div>
 
-<div class="content pt-3 pb-5">
-  <div class="container">
-    @if ( (filters.statut === UsagersFilterCriteriaStatut.TOUS || filters.statut
-    === UsagersFilterCriteriaStatut.RADIE) && usagersCountByStatus.RADIE !==
-    usagersRadiesLoadedCount && !this.chargerTousRadies$.value ) {
-    <div
-      class="my-4 fr-alert fr-alert--info flex-wrap text-center justify-content-md-between justify-content-center align-items-center"
-    >
-      <p class="me-2">
-        <span class="fr-alert__title">Information:</span>
-        {{ usagersRadiesLoadedCount }} /
-        {{ usagersCountByStatus.RADIE }} dossiers radiés sont actuellement
-        affichés. Le chargement de tous les dossiers peut prendre plusieurs
-        minutes
-      </p>
-      <button type="button" class="fr-btn" (click)="chargerTousRadies()">
-        Afficher tous les radiés
-      </button>
-    </div>
-    } @if (usagers.length === 0 && !searching) {
-    <div
-      class="my-4 fr-alert fr-alert--warning flex-wrap text-center justify-content-md-between justify-content-center align-items-center"
-    >
-      <p class="me-2">
-        <span class="fr-alert__title">Aucun résultat :</span>
-        aucun dossier ne correspond à votre recherche
-      </p>
+          <div class="fr-col-auto">
+            <button
+              type="button"
+              class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-filter-line"
+              [attr.aria-expanded]="showFilters"
+              aria-controls="filter-zone"
+              (click)="showFilters = !showFilters"
+            >
+              Filtrer @if (activeFilterCount > 0) {
+              <span class="fr-badge fr-badge--sm fr-badge--info fr-ml-1w">
+                {{ activeFilterCount }}
+              </span>
+              }
+            </button>
+          </div>
+        </div>
+        <app-manage-filters
+          [filters]="filters"
+          [showFilters]="showFilters"
+          (updateFilters)="updateFilters($event)"
+          [nbResults]="nbResults"
+          [searching]="searching"
+          [usagersRadiesLoadedCount]="usagersRadiesLoadedCount"
+          [usagersRadiesTotalCount]="usagersCountByStatus.RADIE"
+        ></app-manage-filters>
 
-      <button
-        type="button"
-        (click)="resetFilters()"
-        class="fr-btn fr-btn--secondary my-1 my-md-0"
-      >
-        Réinitialiser les filtres
-      </button>
-    </div>
-    }
+        @if ( (filters.statut === UsagersFilterCriteriaStatut.TOUS ||
+        filters.statut === UsagersFilterCriteriaStatut.RADIE) &&
+        usagersCountByStatus.RADIE !== usagersRadiesLoadedCount &&
+        !this.chargerTousRadies$.value ) {
+        <div
+          class="my-4 fr-alert fr-alert--info flex-wrap fr-text--center justify-content-md-between justify-content-center align-items-center"
+        >
+          <p class="me-2">
+            <span class="fr-alert__title">Information:</span>
+            {{ usagersRadiesLoadedCount }} /
+            {{ usagersCountByStatus.RADIE }} dossiers radiés sont actuellement
+            affichés. Le chargement de tous les dossiers peut prendre plusieurs
+            minutes
+          </p>
+          <button type="button" class="fr-btn" (click)="chargerTousRadies()">
+            Afficher tous les radiés
+          </button>
+        </div>
+        } @if (usagers.length === 0 && !searching) {
+        <div
+          class="my-4 fr-alert fr-alert--warning flex-wrap fr-text--center justify-content-md-between justify-content-center align-items-center"
+        >
+          <p class="me-2">
+            <span class="fr-alert__title">Aucun résultat :</span>
+            aucun dossier ne correspond à votre recherche
+          </p>
 
-    <div
-      *ngIf="searching"
-      @fadeInOut
-      role="alert"
-      aria-busy="true"
-      aria-label="Chargement des dossiers..."
-      class="text-center content-overlay d-print-none"
-    >
-      <div>
-        <fa-icon
-          [icon]="['fas', 'spinner']"
-          class="spinner"
-          animation="spin"
-          aria-hidden="true"
-        ></fa-icon>
-        <br />
-        <span>Chargement des dossiers...</span>
+          <button
+            type="button"
+            (click)="resetFilters()"
+            class="fr-btn fr-btn--secondary my-1 my-md-0"
+          >
+            Réinitialiser les filtres
+          </button>
+        </div>
+        }
+
+        <div
+          *ngIf="searching"
+          @fadeInOut
+          role="alert"
+          aria-busy="true"
+          aria-label="Chargement des dossiers..."
+          class="fr-text--center content-overlay d-print-none"
+        >
+          <div>
+            <fa-icon
+              [icon]="['fas', 'spinner']"
+              class="spinner"
+              animation="spin"
+              aria-hidden="true"
+            ></fa-icon>
+            <br />
+            <span>Chargement des dossiers...</span>
+          </div>
+        </div>
+
+        <div id="table-container" @fadeInOut>
+          <app-manage-manage-usagers-table
+            [selectedRefs]="selectedRefs"
+            [usagers]="usagers"
+            [(selectAllCheckboxes)]="selectAllCheckboxes"
+            [filters]="filters"
+            [filters$]="filters$"
+            (updateFilters)="updateFilters($event)"
+            (goToPrint)="goToPrint()"
+          ></app-manage-manage-usagers-table>
+
+          <div #sentinel class="sentinel-preload"></div>
+        </div>
       </div>
-    </div>
-
-    <div id="table-container" @fadeInOut>
-      <app-manage-manage-usagers-table
-        [selectedRefs]="selectedRefs"
-        [usagers]="usagers"
-        [(selectAllCheckboxes)]="selectAllCheckboxes"
-        [filters]="filters"
-        [filters$]="filters$"
-        (updateFilters)="updateFilters($event)"
-        (goToPrint)="goToPrint()"
-      ></app-manage-manage-usagers-table>
-
-      <div #sentinel class="sentinel-preload"></div>
     </div>
   </div>
 </div>

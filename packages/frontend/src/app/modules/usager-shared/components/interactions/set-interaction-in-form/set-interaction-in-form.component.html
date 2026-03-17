@@ -1,7 +1,6 @@
 <dsfr-modal
   #receptionModal
   titleModal="Réception de courriers"
-  size="LG"
   (conceal)="cancelReception.emit()"
 >
   <div class="fr-text--center">
@@ -27,7 +26,10 @@
           <span class="fr-sr-only"> courriers</span>
         </div>
         }
-        <div class="interaction-icon icon-courrier"></div>
+        <span
+          class="fr-icon-mail-line interaction-icon"
+          aria-hidden="true"
+        ></span>
       </div>
       <div class="interaction-actions">
         <button
@@ -64,7 +66,10 @@
           <span class="fr-sr-only"> colis</span>
         </div>
         }
-        <div class="interaction-icon icon-colis"></div>
+        <span
+          class="fr-icon-briefcase-line interaction-icon"
+          aria-hidden="true"
+        ></span>
       </div>
       <div class="interaction-actions">
         <button
@@ -101,7 +106,10 @@
           <span class="fr-sr-only">recommandés</span>
         </div>
         }
-        <div class="interaction-icon icon-recommande"></div>
+        <span
+          class="fr-icon-newspaper-line interaction-icon"
+          aria-hidden="true"
+        ></span>
       </div>
       <div class="interaction-actions">
         <button

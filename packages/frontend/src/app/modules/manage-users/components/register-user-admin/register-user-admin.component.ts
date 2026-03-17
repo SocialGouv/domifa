@@ -128,6 +128,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
               this.loading = false;
               this.submitted = false;
               this.getUsers.emit();
+              this.closeModals();
               this.form.nativeElement.reset();
               this.toastService.success(
                 "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."

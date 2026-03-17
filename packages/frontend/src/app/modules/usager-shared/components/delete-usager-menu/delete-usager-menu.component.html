@@ -21,66 +21,67 @@
   <span>Supprimer la dernière décision</span>
 </button>
 } }
+<div class="text-start">
+  <dsfr-modal #deleteDecisionModal [isScrollable]="true" [size]="'LG'">
+    <p>
+      Vous êtes sur le point de supprimer la décision suivante:<br />
+      <strong>
+        {{ DECISION_LABELS[usager.decision.statut] }} le
+        {{ usager.decision.dateDecision | date : "d MMMM y à HH:mm" }} par
+        {{ usager.decision.userName }}
+      </strong>
+    </p>
+    <p>
+      Les statistiques seront mises à jour, une note sera ajoutée au dossier et
+      l'usager retournera à son statut précédent:
+      <strong>{{ previousStatus }}</strong>
+    </p>
 
-<dsfr-modal #deleteDecisionModal [isScrollable]="true" [size]="'LG'">
-  <p>
-    Vous êtes sur le point de supprimer la décision suivante:<br />
-    <strong>
-      {{ DECISION_LABELS[usager.decision.statut] }} le
-      {{ usager.decision.dateDecision | date : "d MMMM y à HH:mm" }} par
-      {{ usager.decision.userName }}
-    </strong>
-  </p>
-  <p>
-    Les statistiques seront mises à jour, une note sera ajoutée au dossier et
-    l'usager retournera à son statut précédent:
-    <strong>{{ previousStatus }}</strong>
-  </p>
-
-  <ng-template #modalFooterTemplate>
-    <div
-      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
-    >
-      <button
-        type="submit"
-        class="fr-btn"
-        (click)="deleteDecision()"
-        [disabled]="loading"
-        [attr.aria-busy]="loading"
+    <ng-template #modalFooterTemplate>
+      <div
+        class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
       >
-        <span class="fr-icon-check-line" aria-hidden="true"></span>
-        <span *ngIf="!loading">Confirmer la suppression</span>
-        @if (loading) {
-        <span>
-          <span
-            class="fr-icon-loader-4-line fr-animate-spin"
-            aria-hidden="true"
-          ></span>
-          Veuillez patienter...
-        </span>
-        }
-      </button>
-      <button
-        type="button"
-        class="fr-btn fr-btn--secondary"
-        (click)="deleteDecisionModal.close()"
-      >
-        <span class="fr-icon-close-line" aria-hidden="true"></span>
-        Annuler
-      </button>
-    </div>
-  </ng-template>
-</dsfr-modal>
+        <button
+          type="submit"
+          class="fr-btn"
+          (click)="deleteDecision()"
+          [disabled]="loading"
+          [attr.aria-busy]="loading"
+        >
+          <span class="fr-icon-check-line" aria-hidden="true"></span>
+          <span *ngIf="!loading">Confirmer la suppression</span>
+          @if (loading) {
+          <span>
+            <span
+              class="fr-icon-loader-4-line fr-animate-spin"
+              aria-hidden="true"
+            ></span>
+            Veuillez patienter...
+          </span>
+          }
+        </button>
+        <button
+          type="button"
+          class="fr-btn fr-btn--secondary"
+          (click)="deleteDecisionModal.close()"
+        >
+          <span class="fr-icon-close-line" aria-hidden="true"></span>
+          Annuler
+        </button>
+      </div>
+    </ng-template>
+  </dsfr-modal>
 
-<dsfr-modal
-  #deleteUsagerModal
-  [titleModal]="modalTitle"
-  [isScrollable]="false"
-  [size]="'LG'"
->
-  <app-delete-usager
-    [selectedRefs]="selectedRefs"
-    [context]="context === 'PROFIL' ? 'PROFIL' : 'INSTRUCTION_FORM'"
-    (closeModal)="closeModal()"
-  ></app-delete-usager>
-</dsfr-modal>
+  <dsfr-modal
+    #deleteUsagerModal
+    [titleModal]="modalTitle"
+    [isScrollable]="false"
+    [size]="'LG'"
+  >
+    <app-delete-usager
+      [selectedRefs]="selectedRefs"
+      [context]="context === 'PROFIL' ? 'PROFIL' : 'INSTRUCTION_FORM'"
+      (closeModal)="closeModal()"
+    ></app-delete-usager>
+  </dsfr-modal>
+</div>

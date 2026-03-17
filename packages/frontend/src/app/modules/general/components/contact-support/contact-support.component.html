@@ -56,7 +56,6 @@
   </div>
 
   <p class="fr-text-default--error fr-mt-2w">Champs obligatoires *</p>
-
   <div class="fr-py-4w">
     <form [formGroup]="contactForm" (ngSubmit)="sendContactMessage()">
       <input formControlName="userId" name="userId" type="hidden" />
@@ -69,9 +68,7 @@
           (submitted || f.name.dirty) && f.name.errors
         "
       >
-        <label class="fr-label" for="name">
-          Votre nom <span class="fr-hint-text">Champ obligatoire</span>
-        </label>
+        <label class="fr-label" for="name"> Votre nom </label>
         <input
           type="text"
           class="fr-input"
@@ -89,6 +86,7 @@
               : 'name-help'
           "
           aria-required="true"
+          required
         />
         <div class="fr-messages-group" aria-live="polite">
           @if (!(submitted || f.name.dirty) || !f.name.errors) {
@@ -112,7 +110,6 @@
       >
         <label class="fr-label" for="structureName">
           Nom de votre structure
-          <span class="fr-hint-text">Champ obligatoire</span>
         </label>
         <input
           autocomplete="organization"
@@ -133,6 +130,7 @@
               : null
           "
           aria-required="true"
+          required
         />
         <div class="fr-messages-group" aria-live="polite">
           @if ((submitted || f.structureName.dirty) && f.structureName.errors) {
@@ -154,7 +152,6 @@
           >
             <label class="fr-label" for="email">
               Adresse email de contact
-              <span class="fr-hint-text">Champ obligatoire</span>
             </label>
             <input
               type="email"
@@ -172,6 +169,7 @@
                   : null
               "
               aria-required="true"
+              required
             />
             <div class="fr-messages-group" aria-live="polite">
               @if ((f.email.dirty || submitted) && f.email.errors) {
@@ -203,7 +201,6 @@
         <label class="fr-label" for="subject">
           Objet de votre message: demande de support, partenariat, formation,
           etc.
-          <span class="fr-hint-text">Champ obligatoire</span>
         </label>
         <input
           type="text"
@@ -221,6 +218,7 @@
               : 'subject-help'
           "
           aria-required="true"
+          required
         />
         <div class="fr-messages-group" aria-live="polite">
           @if (!(submitted || f.subject.dirty) || !f.subject.errors) {
@@ -242,9 +240,7 @@
           (f.content.dirty || submitted) && f.content.errors
         "
       >
-        <label class="fr-label" for="content">
-          Votre message <span class="fr-hint-text">Champ obligatoire</span>
-        </label>
+        <label class="fr-label" for="content"> Votre message </label>
         <textarea
           class="fr-input"
           formControlName="content"
@@ -259,6 +255,7 @@
               : 'content-help'
           "
           aria-required="true"
+          required
           rows="6"
           minlength="10"
         ></textarea>
@@ -323,6 +320,16 @@
           } }
         </div>
       </div>
+
+      <!-- Alerte erreur formulaire -->
+      @if (submitted && contactForm.invalid) {
+      <div class="fr-alert fr-alert--error fr-alert--sm fr-mb-3w" role="alert">
+        <p>
+          Le formulaire comporte des erreurs, veuillez vérifier les champs
+          ci-dessus.
+        </p>
+      </div>
+      }
 
       <!-- Boutons -->
       <ul

@@ -61,6 +61,7 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
     const user = this.authService.currentUserValue;
     this.isAdmin = user?.role === "admin" || user?.role === "responsable";
     this.selectedRefs.add(this.usager.ref);
+
     if (this.usager.historique.length > 1) {
       this.getPreviousStatus();
     }
@@ -70,7 +71,7 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
         this.selectedRefs.size
       } ${this.selectedRefs.size > 1 ? "domiciliés" : "domicilié"} !`;
     } else {
-      this.modalTitle = "Supprimer cette dmande";
+      this.modalTitle = "Supprimer cette décision ?";
     }
   }
 

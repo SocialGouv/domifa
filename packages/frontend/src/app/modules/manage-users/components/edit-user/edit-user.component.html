@@ -1,365 +1,376 @@
-<div *ngIf="me" class="head-page">
-  <div class="container">
+@if (me) {
+<div class="head-page">
+  <div class="fr-container">
     <h1 class="title">Mon compte</h1>
   </div>
 </div>
 
-<div class="content py-3" *ngIf="me">
-  <div class="container py-3">
-    <div class="page-content p-3">
-      <div class="row" *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'">
-        <div class="col-12">
-          <h2>
-            <span class="fr-icon-calendar-line" aria-hidden="true"></span> Mes
-            prochains rendez-vous
-          </h2>
-          <ng-container *ngIf="usagers$ | async as nextMeetings">
-            @if (!nextMeetings?.length) {
-            <div class="fr-callout fr-callout--info">
-              <p class="fr-callout__text">Aucun rendez-vous prévu</p>
-            </div>
-            }
-            <div class="table-responsive">
-              <table class="table" *ngIf="nextMeetings.length > 0">
-                <caption class="visually-hidden">
-                  Mes prochains rendez-vous
-                </caption>
-                <thead>
-                  <tr>
-                    <th scope="col">Date du rendez-vous</th>
-                    <th scope="col">Domicilié(e) concerné(e)</th>
-                    <th scope="col">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    *ngFor="let usager of nextMeetings; let i = index"
-                    [attr.aria-rowindex]="i + 1"
-                  >
-                    <td>
-                      Le
-                      {{ usager.rdv.dateRdv | date : "dd MMMM yyyy à HH:mm" }}
-                    </td>
-                    <td>{{ usager.nom }} {{ usager.prenom }}</td>
-                    <td class="text-end">
-                      <a
-                        [routerLink]="['/usager/' + usager.ref + '/edit']"
-                        ariaCurrentWhenActive="page"
-                      >
-                        Voir la fiche du domicilié
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </ng-container>
-        </div>
-      </div>
-
-      <div
-        class="my-4 d-flex flex-wrap justify-content-between align-items-center"
-      >
-        <h2>Informations personnelles</h2>
-
-        <button
-          *ngIf="!editUser"
-          (click)="initUserForm()"
-          class="fr-btn fr-btn--secondary"
-          type="button"
-        >
-          <fa-icon
-            [icon]="['far', 'edit']"
-            aria-hidden="true"
-            class="me-2"
-          ></fa-icon>
-
-          Modifier mes informations
-        </button>
-      </div>
-
-      <div *ngIf="!editUser" class="row">
-        <p class="col-md-6 reponses">
-          <span class="question">NOM</span>
-          <span class="valeur">
-            {{ me.nom }}
-          </span>
-        </p>
-        <p class="col-md-6 reponses">
-          <span class="question">PRÉNOM</span>
-          <span class="valeur">
-            {{ me.prenom }}
-          </span>
-        </p>
-        <p class="col-md-12 reponses">
-          <span class="question">EMAIL</span>
-          <span class="valeur">
-            {{ me.email }}
-          </span>
-        </p>
-        <p class="col-md-12 reponses">
-          <span class="question">Fonction</span>
-          <span class="valeur">
-            {{ me | fonctionFormat }}
-          </span>
-        </p>
-      </div>
-
-      <form
-        *ngIf="editUser"
-        [formGroup]="userForm"
-        class="row"
-        (ngSubmit)="updateUser()"
-      >
-        <div class="col-md-12">
-          <p>
-            Les champs suivis d'un
-            <span class="fw-bold text-danger">*</span> sont obligatoires
-          </p>
-        </div>
-
-        <div class="col-12 col-md-6 form-group required">
-          <label for="nom">Nom</label>
-          <input
-            #userName
-            type="text"
-            class="form-control"
-            id="nom"
-            appCleanStr
-            autocomplete="family-name"
-            formControlName="nom"
-            maxlength="200"
-            name="nom"
-            [ngClass]="{
-              'is-invalid': (f.nom.dirty || submitted) && f.nom.errors,
-              'is-valid': f.nom.dirty && !f.nom.errors
-            }"
-            [attr.aria-describedby]="
-              (f.nom.dirty || submitted) && f.nom.errors ? 'invalid-name' : null
-            "
-            [attr.aria-invalid]="
-              (f.nom.dirty || submitted) && f.nom.errors ? true : false
-            "
-            required
-          />
-          <p
-            *ngIf="submitted && f.nom.errors"
-            id="invalid-name"
-            class="invalid-feedback"
-          >
-            Veuillez vérifier le nom
-          </p>
-        </div>
-        <div class="col-12 col-md-6 form-group required">
-          <label for="prenom">Prénom</label>
-          <input
-            type="text"
-            class="form-control"
-            id="prenom"
-            appCleanStr
-            autocomplete="given-name"
-            formControlName="prenom"
-            name="prenom"
-            [ngClass]="{
-              'is-invalid':(submitted || f.prenom.dirty) && f.prenom.errors,
-            }"
-            [attr.aria-describedby]="
-              (submitted || f.prenom.dirty) && f.prenom.errors
-                ? 'invalid-prenom'
-                : null
-            "
-            [attr.aria-invalid]="
-              (submitted || f.prenom.dirty) && f.prenom.errors ? true : false
-            "
-            required
-          />
-          <p
-            *ngIf="(submitted || f.prenom.dirty) && f.prenom.errors"
-            id="invalid-prenom"
-            class="invalid-feedback"
-          >
-            Veuillez vérifier le prénom
-          </p>
-        </div>
-        <div class="col-12 col-md-12 form-group required">
-          <label for="email">Votre adresse email</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            autocomplete="email"
-            formControlName="email"
-            name="email"
-            [ngClass]="{
-              'is-invalid': (submitted || f.email.dirty) && f.email.errors
-            }"
-            [attr.aria-describedby]="
-              (submitted || f.email.dirty) && f.email.errors
-                ? 'email-errors'
-                : null
-            "
-            [attr.aria-invalid]="
-              (submitted || f.email.dirty) && f.email.errors ? true : false
-            "
-            required
-          />
-          <p *ngIf="f.email?.errors" id="email-errors" class="invalid-feedback">
-            L'adresse email est incorrecte, format attendu : nom&#64;domaine.fr
-          </p>
-        </div>
-
-        <div class="col-12 form-group required">
-          <app-fonction-selection
-            [parentFormGroup]="userForm"
-            [fonctionFormControl]="fonctionFormControl"
-            [fonctionDetailFormControl]="fonctionDetailFormControl"
-            [submitted]="submitted"
-            invalidFeedbackText="Le champs fonction est obligatoire"
-          ></app-fonction-selection>
-        </div>
-
-        <div class="col-12 col-md-12 text-center">
-          <button
-            (click)="editUser = false"
-            type="button"
-            class="my-1 fr-btn fr-btn--secondary me-2"
-          >
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'times']"
-              class="me-2"
-            ></fa-icon>
-            Annuler les modifications
-          </button>
-
-          <button class="my-1 fr-btn" type="submit" [disabled]="loading">
-            <span *ngIf="loading">
-              <fa-icon
-                [icon]="['fas', 'circle-notch']"
-                animation="spin"
-                aria-hidden="true"
-              >
-              </fa-icon>
-              Veuillez patienter...
-            </span>
-            <span *ngIf="!loading">Enregistrer les changements</span>
-          </button>
-        </div>
-      </form>
-
-      <div class="row my-4">
-        <h2 class="col-md-8">
-          <span class="fr-icon-lock-fill" aria-hidden="true"></span> Mot de
-          passe
+<div class="fr-content-container-light fr-py-3w">
+  <div class="fr-container">
+    <div class="fr-content">
+      @if (me?.role !== 'facteur' && me?.role !== 'agent') {
+      <section class="fr-mb-4w">
+        <h2 class="fr-h3">
+          <span class="fr-icon-calendar-line" aria-hidden="true"></span> Mes
+          prochains rendez-vous
         </h2>
-        <h2 class="col-md-4 text-end">
+        @if (usagers$ | async; as nextMeetings) { @if (!nextMeetings?.length) {
+        <div class="fr-callout fr-callout--info">
+          <p class="fr-callout__text">Aucun rendez-vous prévu</p>
+        </div>
+        } @if (nextMeetings.length > 0) {
+        <div class="fr-table">
+          <table>
+            <caption class="fr-sr-only">
+              Mes prochains rendez-vous
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Date du rendez-vous</th>
+                <th scope="col">Domicilié(e) concerné(e)</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (usager of nextMeetings; track usager.ref; let i = $index) {
+              <tr [attr.aria-rowindex]="i + 1">
+                <td>
+                  Le
+                  {{ usager.rdv.dateRdv | date : "dd MMMM yyyy à HH:mm" }}
+                </td>
+                <td>{{ usager.nom }} {{ usager.prenom }}</td>
+                <td>
+                  <a
+                    class="fr-link"
+                    [routerLink]="['/usager/' + usager.ref + '/edit']"
+                    ariaCurrentWhenActive="page"
+                  >
+                    Voir la fiche du domicilié
+                  </a>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        } }
+      </section>
+      }
+
+      <section class="fr-mb-4w">
+        <div
+          class="fr-grid-row fr-grid-row--middle justify-content-between fr-mb-2w"
+        >
+          <h2 class="fr-h3 fr-mb-0">Informations personnelles</h2>
+          @if (!editUser) {
           <button
-            *ngIf="!editPassword"
+            (click)="initUserForm()"
+            class="fr-btn fr-btn--secondary"
+            type="button"
+          >
+            <span class="fr-icon-edit-line fr-mr-1w" aria-hidden="true"></span>
+            Modifier mes informations
+          </button>
+          }
+        </div>
+
+        @if (!editUser) {
+        <div class="fr-grid-row fr-grid-row--gutters">
+          <div class="fr-col-md-3 fr-col-12">
+            <p class="fr-mb-1w">
+              <strong>NOM</strong><br />
+              {{ me.nom }}
+            </p>
+          </div>
+          <div class="fr-col-md-3 fr-col-12">
+            <p class="fr-mb-1w">
+              <strong>PRÉNOM</strong><br />
+              {{ me.prenom }}
+            </p>
+          </div>
+          <div class="fr-col-3">
+            <p class="fr-mb-1w">
+              <strong>EMAIL</strong><br />
+              {{ me.email }}
+            </p>
+          </div>
+          <div class="fr-col-3">
+            <p class="fr-mb-1w">
+              <strong>Fonction</strong><br />
+              {{ me | fonctionFormat }}
+            </p>
+          </div>
+        </div>
+        } @if (editUser) {
+        <form [formGroup]="userForm" (ngSubmit)="updateUser()">
+          <p class="fr-text--sm fr-mb-2w">
+            Les champs suivis d'un
+            <span class="fr-text-default--error">*</span> sont obligatoires
+          </p>
+
+          <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-col-12 fr-col-md-4">
+              <div
+                class="fr-input-group"
+                [class.fr-input-group--error]="
+                  (f.nom.dirty || submitted) && f.nom.errors
+                "
+              >
+                <label class="fr-label" for="nom">Nom</label>
+                <input
+                  #userName
+                  type="text"
+                  class="fr-input"
+                  id="nom"
+                  appCleanStr
+                  autocomplete="family-name"
+                  formControlName="nom"
+                  maxlength="200"
+                  name="nom"
+                  [class.fr-input--error]="
+                    (f.nom.dirty || submitted) && f.nom.errors
+                  "
+                  [attr.aria-describedby]="
+                    (f.nom.dirty || submitted) && f.nom.errors
+                      ? 'invalid-name'
+                      : null
+                  "
+                  [attr.aria-invalid]="
+                    (f.nom.dirty || submitted) && f.nom.errors ? true : false
+                  "
+                  required
+                />
+                @if (submitted && f.nom.errors) {
+                <p class="fr-error-text" id="invalid-name">
+                  Veuillez vérifier le nom
+                </p>
+                }
+              </div>
+            </div>
+
+            <div class="fr-col-12 fr-col-md-4">
+              <div
+                class="fr-input-group"
+                [class.fr-input-group--error]="
+                  (submitted || f.prenom.dirty) && f.prenom.errors
+                "
+              >
+                <label class="fr-label" for="prenom">Prénom</label>
+                <input
+                  type="text"
+                  class="fr-input"
+                  id="prenom"
+                  appCleanStr
+                  autocomplete="given-name"
+                  formControlName="prenom"
+                  name="prenom"
+                  [class.fr-input--error]="
+                    (submitted || f.prenom.dirty) && f.prenom.errors
+                  "
+                  [attr.aria-describedby]="
+                    (submitted || f.prenom.dirty) && f.prenom.errors
+                      ? 'invalid-prenom'
+                      : null
+                  "
+                  [attr.aria-invalid]="
+                    (submitted || f.prenom.dirty) && f.prenom.errors
+                      ? true
+                      : false
+                  "
+                  required
+                />
+                @if ((submitted || f.prenom.dirty) && f.prenom.errors) {
+                <p class="fr-error-text" id="invalid-prenom">
+                  Veuillez vérifier le prénom
+                </p>
+                }
+              </div>
+            </div>
+
+            <div class="fr-col-4">
+              <div
+                class="fr-input-group"
+                [class.fr-input-group--error]="
+                  (submitted || f.email.dirty) && f.email.errors
+                "
+              >
+                <label class="fr-label" for="email">Votre adresse email</label>
+                <input
+                  type="email"
+                  class="fr-input"
+                  id="email"
+                  autocomplete="email"
+                  formControlName="email"
+                  name="email"
+                  [class.fr-input--error]="
+                    (submitted || f.email.dirty) && f.email.errors
+                  "
+                  [attr.aria-describedby]="
+                    (submitted || f.email.dirty) && f.email.errors
+                      ? 'email-errors'
+                      : null
+                  "
+                  [attr.aria-invalid]="
+                    (submitted || f.email.dirty) && f.email.errors
+                      ? true
+                      : false
+                  "
+                  required
+                />
+                @if (f.email?.errors) {
+                <p class="fr-error-text" id="email-errors">
+                  L'adresse email est incorrecte, format attendu :
+                  nom&#64;domaine.fr
+                </p>
+                }
+              </div>
+            </div>
+
+            <div class="fr-col-12">
+              <app-fonction-selection
+                [parentFormGroup]="userForm"
+                [fonctionFormControl]="fonctionFormControl"
+                [fonctionDetailFormControl]="fonctionDetailFormControl"
+                [submitted]="submitted"
+                invalidFeedbackText="Le champs fonction est obligatoire"
+              ></app-fonction-selection>
+            </div>
+          </div>
+
+          <div
+            class="fr-btns-group fr-btns-group--center fr-btns-group--inline fr-mt-3w"
+          >
+            <button
+              (click)="editUser = false"
+              type="button"
+              class="fr-btn fr-btn--secondary"
+            >
+              Annuler les modifications
+            </button>
+            <button
+              class="fr-btn"
+              type="submit"
+              [disabled]="loading"
+              [attr.aria-busy]="loading"
+            >
+              @if (loading) {
+              <span
+                class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
+                aria-hidden="true"
+              ></span>
+              Veuillez patienter... } @else { Enregistrer les changements }
+            </button>
+          </div>
+        </form>
+        }
+      </section>
+
+      <section class="fr-mb-4w">
+        <div
+          class="fr-grid-row fr-grid-row--middle justify-content-between fr-mb-2w"
+        >
+          <h2 class="fr-h3 fr-mb-0">
+            <span class="fr-icon-lock-fill" aria-hidden="true"></span> Mot de
+            passe
+          </h2>
+          @if (!editPassword) {
+          <button
             (click)="initPasswordForm()"
             type="button"
             class="fr-btn fr-btn--secondary"
           >
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['far', 'edit']"
-              class="me-2"
-            ></fa-icon>
+            <span class="fr-icon-edit-line fr-mr-1w" aria-hidden="true"></span>
             Modifier mon mot de passe
           </button>
-        </h2>
-
-        <div class="col-md-12 text-center" *ngIf="!editPassword">
-          <div class="fr-callout fr-callout--info">
-            <p class="fr-callout__text">{{ lastPasswordUpdate }}</p>
-          </div>
+          }
         </div>
-      </div>
 
-      <form
-        *ngIf="editPassword && passwordForm"
-        [formGroup]="passwordForm"
-        class="row"
-        (ngSubmit)="updateMyPassword()"
-      >
-        <div class="col-md-12">
-          <p>
+        @if (!editPassword) {
+        <div class="fr-callout fr-callout--info">
+          <p class="fr-callout__text">{{ lastPasswordUpdate }}</p>
+        </div>
+        } @if (editPassword && passwordForm) {
+        <form [formGroup]="passwordForm" (ngSubmit)="updateMyPassword()">
+          <p class="fr-text--sm fr-mb-2w">
             Les champs suivis d'un
-            <span class="fw-bold text-danger">*</span> sont obligatoires
+            <span class="fr-text-default--error">*</span> sont obligatoires
           </p>
-        </div>
-        <div class="col-md-4 form-group required">
-          <label for="oldPassword">Ancien mot de passe</label>
-          <div class="input-group">
-            <input
-              class="form-control"
-              [type]="!hideOldPassword ? 'text' : 'password'"
-              [ngClass]="{
-                'is-invalid': p.oldPassword.dirty && p.oldPassword.errors
-              }"
-              id="oldPassword"
-              formControlName="oldPassword"
-              name="oldPassword"
-              autocomplete="current-password"
-              required
-            />
 
+          <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-col-md-4 fr-col-12">
+              <div class="fr-password">
+                <label class="fr-label" for="oldPassword"
+                  >Ancien mot de passe</label
+                >
+                <div class="fr-input-wrap">
+                  <input
+                    class="fr-password__input fr-input"
+                    [type]="!hideOldPassword ? 'text' : 'password'"
+                    [class.fr-input--error]="
+                      p.oldPassword.dirty && p.oldPassword.errors
+                    "
+                    id="oldPassword"
+                    formControlName="oldPassword"
+                    name="oldPassword"
+                    autocomplete="current-password"
+                    required
+                  />
+                </div>
+                <div
+                  class="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm"
+                >
+                  <input
+                    type="checkbox"
+                    id="toggle-old-password"
+                    [checked]="!hideOldPassword"
+                    (change)="toggleOldPassword()"
+                    aria-label="Afficher l'ancien mot de passe"
+                  />
+                  <label
+                    class="fr-password__checkbox fr-label"
+                    for="toggle-old-password"
+                  >
+                    Afficher
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="fr-col-md-8 fr-col-12">
+              <app-user-structure-password-form
+                [parentFormGroup]="passwordForm"
+                [submitted]="submitted"
+              ></app-user-structure-password-form>
+            </div>
+          </div>
+
+          <div
+            class="fr-btns-group fr-btns-group--center fr-btns-group--inline fr-mt-3w"
+          >
             <button
               type="button"
-              role="switch"
-              [attr.aria-checked]="!hideOldPassword"
-              [attr.aria-label]="
-                (hideOldPassword ? 'Voir' : 'Masquer') +
-                ' l\'ancien mot de passe'
-              "
-              class="input-group-text"
-              (click)="toggleOldPassword()"
+              (click)="editPassword = false"
+              class="fr-btn fr-btn--secondary"
             >
-              <fa-icon
+              Annuler les modifications
+            </button>
+            <button
+              class="fr-btn"
+              type="submit"
+              [disabled]="loading"
+              [attr.aria-busy]="loading"
+            >
+              @if (loading) {
+              <span
+                class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
                 aria-hidden="true"
-                [icon]="hideOldPassword ? ['far', 'eye'] : ['far', 'eye-slash']"
-              ></fa-icon>
+              ></span>
+              Veuillez patienter... } @else { Enregistrer les changements }
             </button>
           </div>
-        </div>
-        <div class="col-md-8">
-          <app-user-structure-password-form
-            [parentFormGroup]="passwordForm"
-            [submitted]="submitted"
-          ></app-user-structure-password-form>
-        </div>
-        <div class="col-md-12 text-center">
-          <button
-            type="button"
-            (click)="editPassword = false"
-            class="my-1 fr-btn fr-btn--secondary me-2"
-          >
-            <fa-icon
-              [icon]="['fas', 'times']"
-              aria-hidden="true"
-              class="me-2"
-            ></fa-icon>
-            Annuler les modifications
-          </button>
-
-          <button
-            class="my-1 fr-btn"
-            type="submit"
-            [disabled]="loading"
-            [attr.aria-busy]="loading"
-          >
-            <span *ngIf="loading">
-              <fa-icon
-                [icon]="['fas', 'circle-notch']"
-                aria-hidden="true"
-                animation="spin"
-              >
-              </fa-icon>
-              Veuillez patienter...
-            </span>
-            <span *ngIf="!loading">Enregistrer les changements</span>
-          </button>
-        </div>
-      </form>
+        </form>
+        }
+      </section>
     </div>
   </div>
 </div>
+}

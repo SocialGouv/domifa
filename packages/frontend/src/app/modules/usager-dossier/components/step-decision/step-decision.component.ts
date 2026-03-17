@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 
 import { ActivatedRoute, Router } from "@angular/router";
 import {
@@ -7,7 +7,6 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 
 import { MatomoTracker } from "ngx-matomo-client";
-import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
@@ -36,9 +35,6 @@ export class StepDecisionComponent
   extends BaseUsagerDossierPageComponent
   implements OnInit, OnDestroy
 {
-  @ViewChild("standbyModal", { static: false })
-  standbyModal!: DsfrModalComponent;
-
   public isAdmin: boolean;
   public editInfos: boolean;
   public editContactDetails = false;
@@ -90,13 +86,7 @@ export class StepDecisionComponent
     );
   }
 
-  public open() {
-    this.standbyModal.open();
-  }
-
-  public closeModals() {
-    this.standbyModal?.close();
-  }
+  public closeModals() {}
 
   public getCerfa(typeCerfa: CerfaDocType) {
     return this.documentService.getCerfa(this.usager.ref, typeCerfa);

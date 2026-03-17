@@ -13,7 +13,7 @@
       </h2>
 
       <ng-container *ngFor="let content of news.content">
-        <p class="text-start my-1">
+        <h3 class="text-start my-1">
           <span
             class="badge badge-pill"
             [ngClass]="{
@@ -24,8 +24,8 @@
             {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
           </span>
           &nbsp;
-          <b>{{ content.categorie }}</b>
-        </p>
+          <span [innerHTML]="content.categorie | ariaHideEmoji"></span>
+        </h3>
         <ul class="mb-2">
           <li
             *ngFor="let message of content.message"

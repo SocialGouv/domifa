@@ -12,6 +12,7 @@ import {
 } from "../../classes/UsagersFilterCriteria";
 import {
   extractDeadlines,
+  SortValues,
   UsagersFilterCriteriaDernierPassage,
   UsagersFilterCriteriaEcheance,
   UsagersFilterCriteriaEntretien,
@@ -32,6 +33,8 @@ export class ManageFiltersComponent implements OnInit, OnChanges {
   @Input({ required: true }) public usagersRadiesTotalCount: number;
   @Input({ required: true }) public searching: boolean;
   @Input({ required: true }) public nbResults: number;
+
+  @Input() public showFilters = false;
 
   @Output() public readonly updateFilters = new EventEmitter();
 
@@ -117,5 +120,56 @@ export class ManageFiltersComponent implements OnInit, OnChanges {
       return "refus";
     }
     return "échéance";
+  }
+
+  public get activeFilterCount(): number {
+    let count = 0;
+    if (this.filters.lastInteractionDate) count++;
+    if (this.filters.echeance) count++;
+    if (this.filters.interactionType) count++;
+    if (this.filters.entretien) count++;
+    if (this.filters.referrerId !== undefined) count++;
+    return count;
+  }
+
+  public onFilterChange(element: string, value: string): void {
+    this.updateFilters.emit({
+      element,
+      value: value || null,
+    });
+  }
+
+  public getReferrerValue(): string {
+    if (this.filters.referrerId === undefined) {
+      return "";
+    }
+    if (this.filters.referrerId === null) {
+      return "null";
+    }
+    return String(this.filters.referrerId);
+  }
+
+  public onReferrerChange(value: string): void {
+    if (value === "") {
+      this.updateFilters.emit({ element: "referrerId", value: undefined });
+    } else if (value === "null") {
+      this.updateFilters.emit({ element: "referrerId", value: null });
+    } else {
+      this.updateFilters.emit({
+        element: "referrerId",
+        value: parseInt(value, 10),
+      });
+    }
+  }
+
+  public onSortChange(value: string): void {
+    const lastUnderscore = value.lastIndexOf("_");
+    const sortKey = value.substring(0, lastUnderscore);
+    const sortValue = value.substring(lastUnderscore + 1) as SortValues;
+    this.updateFilters.emit({
+      element: "sortKey",
+      value: sortKey,
+      sortValue,
+    });
   }
 }
