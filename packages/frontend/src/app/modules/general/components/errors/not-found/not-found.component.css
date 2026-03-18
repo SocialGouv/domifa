@@ -9,7 +9,11 @@
   font-size: 12rem;
   font-weight: 200;
   margin: 0;
-  background: linear-gradient(119deg, var(--bs-primary), var(--bs-secondary));
+  background: linear-gradient(
+    119deg,
+    var(--text-active-blue-france),
+    var(--bs-secondary)
+  );
   color: transparent;
   -webkit-background-clip: text;
   background-clip: text;

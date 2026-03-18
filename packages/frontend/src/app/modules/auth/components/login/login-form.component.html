@@ -1,10 +1,10 @@
-<h1 class="align-self-start fr-h3">Se connecter avec mon compte</h1>
+<h1 class="fr-align-self-start fr-h3">Se connecter avec mon compte</h1>
 <span class="fr-col-12 fr-col-md-12 fr-text-default--error">
   * champs obligatoires
 </span>
 <form
   [formGroup]="loginForm"
-  class="column d-flex flex-column gap-3 pt-4 pt-md-5 pb-4 pb-md-5"
+  class="column fr-display-flex fr-flex-column fr-gap-3w pt-4 pt-md-5 pb-4 pb-md-5"
   (ngSubmit)="login()"
 >
   @if (loginError) {
@@ -102,8 +102,8 @@
       Mot de passe oublié ?
     </a>
   </div>
-  <div class="fr-input-group my-2 fr-text--center">
-    <button type="submit" class="fr-btn d-flex flex-column w-100">
+  <div class="fr-input-group fr-my-2w fr-text--center">
+    <button type="submit" class="fr-btn fr-display-flex fr-flex-column w-100">
       @if (!loading) {
       <span>Se connecter</span>
       } @if (loading) {
@@ -119,13 +119,13 @@
   </div>
 
   <hr />
-  <div class="fr-col-12 d-flex flex-column gap-2">
+  <div class="fr-col-12 fr-display-flex fr-flex-column fr-gap-2w">
     <h2 class="fr-h5 mb-0">Votre structure n’est pas encore inscrite ?</h2>
-    <div class="fr-input-group my-2 fr-text--center">
+    <div class="fr-input-group fr-my-2w fr-text--center">
       <a
         routerLink="/structures/inscription"
         id="inscriptionLink"
-        class="fr-btn fr-btn--secondary d-flex flex-column w-100"
+        class="fr-btn fr-btn--secondary fr-display-flex fr-flex-column w-100"
       >
         Inscrivez votre structure
       </a>

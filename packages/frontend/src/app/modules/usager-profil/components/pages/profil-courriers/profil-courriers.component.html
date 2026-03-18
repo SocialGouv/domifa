@@ -7,15 +7,15 @@
   ></app-profil-head>
   <div class="fr-container" *ngIf="usager">
     <div class="fr-content">
-      <div class="row">
-        <div class="fr-col-md-12 my-4">
+      <div class="fr-grid-row">
+        <div class="fr-col-md-12 fr-my-4w">
           <app-profil-procuration-courrier
             [usager]="usager"
             [me]="me"
           ></app-profil-procuration-courrier>
         </div>
 
-        <div class="fr-col-md-12 my-4">
+        <div class="fr-col-md-12 fr-my-4w">
           <app-profil-transfert-courrier
             [usager]="usager"
             [me]="me"

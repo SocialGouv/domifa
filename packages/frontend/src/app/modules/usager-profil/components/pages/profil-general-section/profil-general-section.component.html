@@ -23,26 +23,26 @@
               </h2>
             </div>
 
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               <span class="label">Date de naissance</span>
             </div>
 
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               {{ usager.dateNaissance | date : "dd/MM/yyyy" }}
             </div>
 
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               <span class="label">Référence dossier</span>
             </div>
 
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               {{ usager.customRef }}
             </div>
 
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               <span class="label">Statut</span>
             </div>
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               <div [class]="'fr-badge ' + usager.statusInfo.color">
                 <span>
                   {{ USAGER_DECISION_STATUT_LABELS[usager.decision.statut] }}
@@ -50,10 +50,10 @@
               </div>
             </div>
 
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               <span class="label">Type de domiciliation</span>
             </div>
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               @if (usager.typeDom === 'RENOUVELLEMENT') {
               <div class="fr-badge fr-badge--yellow-tournesol">
                 <span>Renouvellement</span>
@@ -64,40 +64,40 @@
               </div>
               }
             </div>
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               <span class="label">Échéance</span>
             </div>
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               {{ usager?.echeanceInfos?.dateToDisplay | date : "dd MMMM yyyy" }}
             </div>
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               <span class="label">Dernier passage</span>
             </div>
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               {{
                 usager.lastInteraction.dateInteraction | date : "dd MMMM yyyy"
               }}
             </div>
 
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               <span class="label">Première domiciliation</span>
             </div>
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               {{ usager.datePremiereDom | date : "dd MMMM yyyy" }}
             </div>
 
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               <span class="label">Ayants droit</span>
             </div>
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               <app-display-ayants-droits
                 [usager]="usager"
               ></app-display-ayants-droits>
             </div>
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               <span class="label">Référent du dossier</span>
             </div>
-            <div class="fr-col-6 fr-my-1">
+            <div class="fr-col-6 fr-my-1w">
               {{ usager.referrerId | referrerName | async }}
             </div>
             <div class="fr-col-12 fr-mt-4">
@@ -119,7 +119,7 @@
             ></i>
             Courrier en attente
           </h2>
-          <div class="profil-interaction fr-my-3">
+          <div class="profil-interaction fr-my-1w">
             <div class="interaction-icon-box fr-mr-3">
               <span
                 class="fr-icon-mail-line interaction-icon"
@@ -130,7 +130,7 @@
               <strong>{{ usager.lastInteraction.courrierIn }}</strong> courriers
             </p>
           </div>
-          <div class="profil-interaction fr-my-3">
+          <div class="profil-interaction fr-my-1w">
             <div class="interaction-icon-box fr-mr-3">
               <span
                 class="fr-icon-briefcase-line interaction-icon"
@@ -141,7 +141,7 @@
               <strong>{{ usager.lastInteraction.colisIn }}</strong> colis
             </p>
           </div>
-          <div class="profil-interaction fr-my-3">
+          <div class="profil-interaction fr-my-1w">
             <div class="interaction-icon-box fr-mr-3">
               <span
                 class="fr-icon-newspaper-line interaction-icon"
@@ -157,41 +157,22 @@
           @if ( usager?.echeanceInfos?.isActif || (usager.decision.statut ===
           'RADIE' && !usager.options.npai.actif) ) { @if
           (usager?.echeanceInfos?.isActif) {
-          <div class="fr-d-flex fr-align-items-center">
-            <button
-              type="button"
-              [disabled]="loadingButtons.indexOf('visite') !== -1"
-              [attr.aria-disabled]="loadingButtons.indexOf('visite') !== -1"
-              class="fr-my-1 fr-mr-2w fr-btn"
-              (click)="setSingleInteraction(usager.ref, 'visite')"
-            >
-              <fa-icon
-                [icon]="['fas', 'circle-notch']"
-                animation="spin"
-                class="list-icon-disabled"
-                aria-hidden="true"
-              ></fa-icon>
-              <span class="icon-passage list-icon fr-mr-2w"></span>Ajouter un
-              passage
-            </button>
+          <div class="fr-display-flex fr-align-items-center">
+            <app-button
+              customClass="fr-mr-1w"
+              [loading]="loadingVisite"
+              content="Ajouter un passage"
+              icon="user"
+              (action)="setSingleInteraction(usager.ref, 'visite')"
+            ></app-button>
 
-            <button
-              type="button"
-              [disabled]="loadingButtons.indexOf('appel') !== -1"
-              [attr.aria-disabled]="loadingButtons.indexOf('appel') !== -1"
-              class="fr-my-1w fr-btn fr-mr-1w"
-              (click)="setSingleInteraction(usager.ref, 'appel')"
-            >
-              <fa-icon
-                class="list-icon-disabled"
-                [icon]="['fas', 'circle-notch']"
-                aria-hidden="true"
-                animation="spin"
-              >
-              </fa-icon>
-              <span class="icon-appel list-icon fr-mr-1w"></span>Ajouter un
-              appel téléphonique
-            </button>
+            <app-button
+              customClass="fr-mr-2w"
+              [loading]="loadingAppel"
+              content="Ajouter un appel téléphonique"
+              icon="phone"
+              (action)="setSingleInteraction(usager.ref, 'appel')"
+            ></app-button>
           </div>
           }
           <br />
@@ -201,10 +182,8 @@
             class="fr-my-1 fr-btn fr-mr-1w"
             (click)="openInteractionInModal()"
           >
-            <span
-              class="icon-reception list-icon fr-mr-2w"
-              aria-hidden="true"
-            ></span>
+            <span class="fr-icon-mail-line fr-mr-2w" aria-hidden="true"></span>
+
             Ajouter du courrier
           </button>
 
@@ -215,7 +194,7 @@
             (click)="openInteractionOutModal()"
           >
             <span
-              class="icon-distribution list-icon fr-mr-2w"
+              class="fr-icon-mail-open-line fr-mr-2w"
               aria-hidden="true"
             ></span>
             Distribuer le courrier

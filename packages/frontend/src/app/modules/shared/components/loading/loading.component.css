@@ -16,7 +16,7 @@
 }
 
 .overlay span {
-  color: var(--bs-primary);
+  color: var(--text-active-blue-france);
   font-size: 1.3rem;
   font-weight: 600;
 }

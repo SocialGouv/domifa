@@ -23,7 +23,7 @@
 }
 
 .stats-section-counter {
-  color: var(--bs-primary);
+  color: var(--text-active-blue-france);
   font-weight: 700;
   font-size: 2rem;
 }
@@ -37,5 +37,5 @@
 }
 
 .tick {
-  color: var(--bs-primary);
+  color: var(--text-active-blue-france);
 }

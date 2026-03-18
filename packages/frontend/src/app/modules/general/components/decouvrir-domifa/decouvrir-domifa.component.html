@@ -1,7 +1,9 @@
 <div class="w-100 fr-background-contrast--blue-ecume">
-  <div class="fr-container row d-flex flex-row justify-content-between">
+  <div
+    class="fr-container fr-grid-row fr-display-flex fr-flex-row fr-justify-content-between"
+  >
     <div
-      class="fr-col-12 fr-col-md-8 fr-col-sm-8 py-3 py-md-5 d-flex flex-column gap-1"
+      class="fr-col-12 fr-col-md-8 fr-col-sm-8 py-3 py-md-5 fr-display-flex fr-flex-column fr-gap-1w"
     >
       <h1 class="fr-text-title--blue-france">Découvrir DomiFa</h1>
       <p class="fr-text--lead fr-text-title--blue-france">
@@ -11,7 +13,7 @@
         social tout en garantissant un suivi efficace des bénéficiaires.
       </p>
     </div>
-    <div class="fr-col-4 py-1 py-md-2 d-flex align-items-center">
+    <div class="fr-col-4 py-1 py-md-2 fr-display-flex fr-align-items-center">
       <img
         src="/assets/images/discover/discover-header.svg"
         alt=""
@@ -65,12 +67,12 @@
 </section>
 
 <section class="fr-container">
-  <div class="my-2 row">
-    <div class="fr-col-12 fr-col-md-4 text-start my-2 d-flex">
+  <div class="fr-my-2w fr-grid-row">
+    <div class="fr-col-12 fr-col-md-4 text-start fr-my-2w fr-display-flex">
       <div class="fr-card h-100">
         <div class="fr-card__body">
           <div class="fr-card__content">
-            <h3 class="fr-card__title my-0">Pour les domiciliés</h3>
+            <h3 class="fr-card__title fr-my-0w">Pour les domiciliés</h3>
 
             <div class="fr-card__desc">
               <ul>
@@ -113,11 +115,11 @@
         </div>
       </div>
     </div>
-    <div class="fr-col-12 fr-col-md-4 text-start my-2 d-flex">
+    <div class="fr-col-12 fr-col-md-4 text-start fr-my-2w fr-display-flex">
       <div class="fr-card h-100">
         <div class="fr-card__body">
           <div class="fr-card__content">
-            <h3 class="fr-card__title my-0">
+            <h3 class="fr-card__title fr-my-0w">
               Pour les structures (CCAS, CIAS, organismes agréés) :
             </h3>
 
@@ -161,11 +163,13 @@
         </div>
       </div>
     </div>
-    <div class="fr-col-12 fr-col-md-4 text-start my-2 d-flex">
+    <div class="fr-col-12 fr-col-md-4 text-start fr-my-2w fr-display-flex">
       <div class="fr-card h-100">
         <div class="fr-card__body">
           <div class="fr-card__content">
-            <h3 class="fr-card__title my-0">Pour les services de l’État :</h3>
+            <h3 class="fr-card__title fr-my-0w">
+              Pour les services de l’État :
+            </h3>
 
             <div class="fr-card__desc">
               <ul>
@@ -210,8 +214,8 @@
 
 <section class="fr-container">
   <div class="fr-background-contrast--blue-ecume p-4">
-    <div class="d-flex">
-      <div class="d-none d-md-flex">
+    <div class="fr-display-flex">
+      <div class="d-none d-mfr-display-flex">
         <img
           src="artwork/pictograms/digital/innovation.svg"
           aria-hidden="true"
@@ -253,9 +257,9 @@
         </li>
       </ul>
     </div>
-    <div class="d-flex justify-content-center">
+    <div class="fr-display-flex fr-justify-content-center">
       <a
-        class="fr-btn fr-icon-arrow-right-s-line fr-btn--icon-right fr-btn--lg flex-grow-1 flex-md-grow-0"
+        class="fr-btn fr-icon-arrow-right-s-line fr-btn--icon-right fr-btn--lg fr-flex-grow-1 flex-md-grow-0"
         routerLink="/structures/inscription"
         (click)="
           matomo.trackEvent('DISCOVER', 'INSCRIRE_MA_STRUCTURE', 'null', 1)
@@ -274,11 +278,11 @@
   </div>
 </section>
 
-<section class="fr-container my-4">
+<section class="fr-container fr-my-4w">
   <h1 class="fr-text-title--blue-france">Ils utilisent DomiFa</h1>
-  <div class="row">
+  <div class="fr-grid-row">
     <div class="fr-col-12 fr-col-md-6">
-      <div class="d-flex flex-column gap-1">
+      <div class="fr-display-flex fr-flex-column fr-gap-1w">
         <figure role="group" class="fr-content-media">
           <iframe
             title="[À MODIFIER - titre de la vidéo]"
@@ -377,7 +381,7 @@
       </div>
     </div>
     <div class="fr-col-12 fr-col-md-6">
-      <div class="d-flex flex-column gap-1">
+      <div class="fr-display-flex fr-flex-column fr-gap-1w">
         <figure role="group" class="fr-content-media">
           <iframe
             title="[À MODIFIER - titre de la vidéo]"
@@ -476,7 +480,7 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="fr-grid-row">
     <h2 class="fr-text-title--blue-france fr-h3">Témoignages</h2>
     <div class="fr-col-12 mb-3">
       <figure class="fr-quote">
@@ -518,9 +522,9 @@
       </figure>
     </div>
   </div>
-  <div class="row p-0 m-0">
+  <div class="fr-grid-row p-0 m-0">
     <div
-      class="fr-col-12 fr-col-md-2 d-flex justify-content-center align-items-center my-4"
+      class="fr-col-12 fr-col-md-2 fr-display-flex fr-justify-content-center fr-align-items-center fr-my-4w"
     >
       <a
         href="https://www.paris.fr/dossiers/centre-d-action-sociale-de-la-ville-de-paris-casvp-23"
@@ -536,7 +540,7 @@
       </a>
     </div>
     <div
-      class="fr-col-12 fr-col-md-2 d-flex justify-content-center align-items-center my-4"
+      class="fr-col-12 fr-col-md-2 fr-display-flex fr-justify-content-center fr-align-items-center fr-my-4w"
     >
       <a
         href="https://www.samusocial.paris/"
@@ -553,7 +557,7 @@
     </div>
 
     <div
-      class="fr-col-12 fr-col-md-2 d-flex justify-content-center align-items-center my-4"
+      class="fr-col-12 fr-col-md-2 fr-display-flex fr-justify-content-center fr-align-items-center fr-my-4w"
     >
       <img
         class="fr-responsive-img"
@@ -563,7 +567,7 @@
     </div>
 
     <div
-      class="fr-col-12 fr-col-md-2 d-flex justify-content-center align-items-center my-4"
+      class="fr-col-12 fr-col-md-2 fr-display-flex fr-justify-content-center fr-align-items-center fr-my-4w"
     >
       <img
         class="fr-responsive-img"
@@ -573,7 +577,7 @@
     </div>
 
     <div
-      class="fr-col-12 fr-col-md-2 d-flex justify-content-center align-items-center my-4"
+      class="fr-col-12 fr-col-md-2 fr-display-flex fr-justify-content-center fr-align-items-center fr-my-4w"
     >
       <img
         class="fr-responsive-img"
@@ -582,7 +586,7 @@
       />
     </div>
     <div
-      class="fr-col-12 fr-col-md-2 d-flex justify-content-center align-items-center my-4"
+      class="fr-col-12 fr-col-md-2 fr-display-flex fr-justify-content-center fr-align-items-center fr-my-4w"
     >
       <img
         class="fr-responsive-img"
@@ -595,8 +599,10 @@
 <section class="fr-background-alt--blue-ecume p-3">
   <div class="fr-container">
     <h2 class="fr-text-title--blue-france">Rejoignez DomiFa !</h2>
-    <div class="row">
-      <div class="fr-col-12 fr-col-md-3 d-flex justify-content-center">
+    <div class="fr-grid-row">
+      <div
+        class="fr-col-12 fr-col-md-3 fr-display-flex fr-justify-content-center"
+      >
         <img
           aria-hidden="true"
           src="/assets/images/discover/bottom-banner.svg"
@@ -605,8 +611,8 @@
         />
       </div>
       <div class="fr-col-12 fr-col-md-9">
-        <div class="row border-bottom border-grey pb-4">
-          <h3 class="my-0">
+        <div class="fr-grid-row border-bottom border-grey pb-4">
+          <h3 class="fr-my-0w">
             CCAS, CIAS, organisme agréé ? <br />
             Outillez votre structure avec un service adapté
           </h3>
@@ -614,14 +620,16 @@
             DomiFa est un service public, gratuit et adapté pour gérer la
             domiciliation des personnes sans domicile stable.
           </p>
-          <div class="d-flex justify-content-md-end justify-content-center">
+          <div
+            class="fr-display-flex justify-content-md-end fr-justify-content-center"
+          >
             <a routerLink="/structures/inscription" class="fr-btn">
               Inscrire ma structure sur DomiFa</a
             >
           </div>
         </div>
-        <div class="row pt-4">
-          <h3 class="my-0">
+        <div class="fr-grid-row pt-4">
+          <h3 class="fr-my-0w">
             Domicilié ? <br />
             Accédez à votre dossier en toute facilité
           </h3>
@@ -629,7 +637,9 @@
             Avec Mon DomiFa, suivez votre dossier de domiciliation et l’arrivée
             de courrier dans votre structure.
           </p>
-          <div class="d-flex justify-content-md-end justify-content-center">
+          <div
+            class="fr-display-flex justify-content-md-end fr-justify-content-center"
+          >
             <a routerLink="/structures/inscription" class="fr-btn">
               Aller sur Mon DomiFa</a
             >

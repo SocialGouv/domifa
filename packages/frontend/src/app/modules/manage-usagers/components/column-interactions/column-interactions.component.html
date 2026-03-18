@@ -11,7 +11,7 @@
     class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
     (click)="setSingleInteraction(usager, 'visite')"
   >
-    <span class="icon-passage list-icon" aria-hidden="true"></span>
+    <span class="ri-walk-line" aria-hidden="true"></span>
   </button>
   <button
     type="button"
@@ -25,7 +25,7 @@
     class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
     (click)="setSingleInteraction(usager, 'appel')"
   >
-    <span class="icon-appel list-icon" aria-hidden="true"></span>
+    <span class="fr-icon-phone-line" aria-hidden="true"></span>
   </button>
 </div>
 } } @if (template === 'big-buttons' && usager) { @if
@@ -42,7 +42,7 @@
     class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
     (click)="setSingleInteraction(usager, 'courrierIn')"
   >
-    <span aria-hidden="true" class="fr-icon-mail-line list-icon"></span>
+    <span class="fr-icon-mail-line" aria-hidden="true"></span>
   </button>
 
   <button
@@ -57,7 +57,7 @@
     class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
     (click)="openInteractionInModal()"
   >
-    <span aria-hidden="true" class="icon-reception list-icon"></span>
+    <span class="ri-mail-add-line" aria-hidden="true"></span>
   </button>
 
   @if (usager.lastInteraction.enAttente) {
@@ -79,7 +79,7 @@
     "
     (click)="openInteractionOutModal()"
   >
-    <span class="icon-distribution list-icon" aria-hidden="true"></span>
+    <span class="fr-icon-mail-open-line" aria-hidden="true"></span>
     <strong class="notification">
       {{ usager.standByInteractions }}
     </strong>

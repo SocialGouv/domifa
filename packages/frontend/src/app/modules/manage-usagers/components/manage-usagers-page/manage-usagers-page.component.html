@@ -2,7 +2,7 @@
 <div class="head-page d-print-none">
   <div class="fr-container">
     <div
-      class="row fr-text--center justify-content-md-between justify-content-center align-items-center py-2"
+      class="fr-grid-row fr-text--center justify-content-md-between fr-justify-content-center fr-align-items-center py-2"
     >
       <div class="fr-col-md-2 fr-col-6 fr-text--right order-2 order-md-3">
         <a
@@ -27,7 +27,7 @@
 </div>
 <div class="fr-content-container-light fr-py-3w">
   <div class="fr-container">
-    <div role="tablist" id="statut-selector" class="mt-3 row">
+    <div role="tablist" id="statut-selector" class="mt-3 fr-grid-row">
       <button
         type="button"
         class="fr-tabs__tab"
@@ -311,7 +311,7 @@
         usagersCountByStatus.RADIE !== usagersRadiesLoadedCount &&
         !this.chargerTousRadies$.value ) {
         <div
-          class="my-4 fr-alert fr-alert--info flex-wrap fr-text--center justify-content-md-between justify-content-center align-items-center"
+          class="fr-my-4w fr-alert fr-alert--info fr-flex-wrap fr-text--center justify-content-md-between fr-justify-content-center fr-align-items-center"
         >
           <p class="me-2">
             <span class="fr-alert__title">Information:</span>
@@ -326,7 +326,7 @@
         </div>
         } @if (usagers.length === 0 && !searching) {
         <div
-          class="my-4 fr-alert fr-alert--warning flex-wrap fr-text--center justify-content-md-between justify-content-center align-items-center"
+          class="fr-my-4w fr-alert fr-alert--warning fr-flex-wrap fr-text--center justify-content-md-between fr-justify-content-center fr-align-items-center"
         >
           <p class="me-2">
             <span class="fr-alert__title">Aucun résultat :</span>
@@ -336,7 +336,7 @@
           <button
             type="button"
             (click)="resetFilters()"
-            class="fr-btn fr-btn--secondary my-1 my-md-0"
+            class="fr-btn fr-btn--secondary fr-my-1w my-md-0"
           >
             Réinitialiser les filtres
           </button>

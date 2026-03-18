@@ -1,0 +1,32 @@
+.interaction-icon {
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.profil-interaction {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: start;
+  align-items: flex-start;
+
+  p,
+  div {
+    font-size: 1.1rem;
+    align-self: center;
+  }
+  p {
+    margin: 0;
+  }
+
+  .interaction-icon-box {
+    border: 1px solid #e3e6fd;
+    padding: 1rem;
+    text-align: center;
+    margin-right: 1rem;
+  }
+  button:not(:disabled) .list-icon-disabled {
+    display: none;
+  }
+}

@@ -104,7 +104,7 @@
       class="fr-input"
       [id]="inputId"
       autocomplete="tel"
-      [attr.required]="isRequired"
+      [attr.required]="isRequired ? 'true' : null"
       [attr.aria-required]="isRequired"
       (keypress)="onInputKeyPress($event)"
       [value]="phoneNumber"

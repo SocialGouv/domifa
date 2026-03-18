@@ -9,6 +9,7 @@ $font-family-monospace: "Marianne", SFMono-Regular, Menlo, Monaco, Consolas,
 @import "node_modules/bootstrap/scss/bootstrap.scss" layer(bootstrap);
 @import "@gouvfr/dsfr/dist/dsfr.min.css" layer(dsfr);
 @import "@gouvfr/dsfr/dist/utility/utility.min.css" layer(dsfr);
+@import "remixicon/fonts/remixicon.css" layer(remixicon);
 
 @layer dsfr-personnalization {
   .fr-callout--empty {
@@ -70,5 +71,119 @@ $font-family-monospace: "Marianne", SFMono-Regular, Menlo, Monaco, Consolas,
     background-color: var(--background-default-grey) !important;
     border-radius: 0.5rem;
     display: block;
+  }
+
+  // _flex-utilities.scss
+
+  // Base
+  .fr-display-flex {
+    display: flex;
+  }
+  .fr-display-inline-flex {
+    display: inline-flex;
+  }
+
+  // Flex wrap
+  .fr-flex-wrap {
+    flex-wrap: wrap;
+  }
+  .fr-flex-nowrap {
+    flex-wrap: nowrap;
+  }
+
+  // Direction
+  .fr-flex-row {
+    flex-direction: row;
+  }
+  .fr-flex-column {
+    flex-direction: column;
+  }
+
+  // Justify content
+  .fr-justify-content-start {
+    justify-content: flex-start;
+  }
+  .fr-justify-content-end {
+    justify-content: flex-end;
+  }
+  .fr-justify-content-center {
+    justify-content: center;
+  }
+  .fr-justify-content-between {
+    justify-content: space-between;
+  }
+  .fr-justify-content-around {
+    justify-content: space-around;
+  }
+  .fr-justify-content-evenly {
+    justify-content: space-evenly;
+  }
+
+  // Align items
+  .fr-align-items-start {
+    align-items: flex-start;
+  }
+  .fr-align-items-end {
+    align-items: flex-end;
+  }
+  .fr-align-items-center {
+    align-items: center;
+  }
+  .fr-align-items-baseline {
+    align-items: baseline;
+  }
+  .fr-align-items-stretch {
+    align-items: stretch;
+  }
+
+  // Align self
+  .fr-align-self-start {
+    align-self: flex-start;
+  }
+  .fr-align-self-end {
+    align-self: flex-end;
+  }
+  .fr-align-self-center {
+    align-self: center;
+  }
+  .fr-align-self-stretch {
+    align-self: stretch;
+  }
+
+  // Flex grow / shrink
+  .fr-flex-1 {
+    flex: 1;
+  }
+  .fr-flex-auto {
+    flex: auto;
+  }
+  .fr-flex-none {
+    flex: none;
+  }
+  .fr-flex-grow-1 {
+    flex-grow: 1;
+  }
+  .fr-flex-shrink-0 {
+    flex-shrink: 0;
+  }
+
+  // Gap (utilise les tokens d'espacement DSFR)
+  .fr-gap-1 {
+    gap: 0.25rem;
+  }
+  .fr-gap-2 {
+    gap: 0.5rem;
+  }
+  .fr-gap-3 {
+    gap: 1rem;
+  }
+  .fr-gap-4 {
+    gap: 1.5rem;
+  }
+  .fr-gap-5 {
+    gap: 2rem;
+  }
+  .fr-gap-6 {
+    gap: 3rem;
   }
 }

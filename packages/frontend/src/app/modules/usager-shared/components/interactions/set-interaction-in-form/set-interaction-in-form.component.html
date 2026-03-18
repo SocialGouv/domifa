@@ -4,15 +4,14 @@
   titleModal="Réception de courriers"
   (conceal)="cancelReception.emit()"
 >
-  <div class="fr-text--center">
-    <p>
-      Nouveaux courriers pour
-      <strong class="fr-text-label--blue-france">
-        {{ usager | fullName }} -
-        {{ usager.customRef ? usager.customRef : usager.ref }}
-      </strong>
-    </p>
-  </div>
+  @if(usager) {
+  <p class="fr-text--center">
+    Nouveaux courriers pour
+    <strong class="fr-text-label--blue-france">
+      {{ usager | fullName }} -
+      {{ usager.customRef ? usager.customRef : usager.ref }}
+    </strong>
+  </p>
 
   <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
     <div class="interaction-zone fr-p-1w fr-mx-md-2w fr-mx-auto fr-my-2w">
@@ -40,7 +39,7 @@
           aria-label="Diminuer le nombre de courriers reçus"
           [disabled]="interactionFormData.courrierIn.nbCourrier === 0"
         >
-          <span class="icon-moins" aria-hidden="true"></span>
+          <span class="ri-subtract-line" aria-hidden="true"></span>
         </button>
         <span class="fr-px-1w"></span>
         <button
@@ -49,7 +48,7 @@
           aria-label="Augmenter le nombre de courriers reçus"
           (click)="increment('courrierIn')"
         >
-          <span class="icon-plus" aria-hidden="true"></span>
+          <i class="fr-icon-add-line" aria-hidden="true"></i>
         </button>
       </div>
       <span class="interaction-label">Courriers</span>
@@ -80,7 +79,7 @@
           aria-label="Diminuer le nombre de colis reçus"
           [disabled]="interactionFormData.colisIn.nbCourrier === 0"
         >
-          <span class="icon-moins" aria-hidden="true"></span>
+          <span class="ri-subtract-line" aria-hidden="true"></span>
         </button>
         <span class="fr-px-1w"></span>
         <button
@@ -89,7 +88,7 @@
           aria-label="Augmenter le nombre de colis reçus"
           (click)="increment('colisIn')"
         >
-          <span class="icon-plus" aria-hidden="true"></span>
+          <i class="fr-icon-add-line" aria-hidden="true"></i>
         </button>
       </div>
       <span class="interaction-label">Colis</span>
@@ -120,7 +119,7 @@
           aria-label="Diminuer le nombre d'avis de passage reçus"
           [disabled]="interactionFormData.recommandeIn.nbCourrier === 0"
         >
-          <span class="icon-moins" aria-hidden="true"></span>
+          <span class="ri-subtract-line" aria-hidden="true"></span>
         </button>
         <span class="fr-px-1w"></span>
         <button
@@ -129,7 +128,7 @@
           aria-label="Augmenter le nombre d'avis de passage reçus"
           (click)="increment('recommandeIn')"
         >
-          <span class="icon-plus" aria-hidden="true"></span>
+          <i class="fr-icon-add-line" aria-hidden="true"></i>
         </button>
       </div>
       <span class="interaction-label">Avis de passage</span>
@@ -196,4 +195,5 @@
       </button>
     </div>
   </ng-template>
+  }
 </dsfr-modal>

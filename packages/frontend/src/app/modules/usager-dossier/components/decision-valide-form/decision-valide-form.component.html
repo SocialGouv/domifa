@@ -14,7 +14,7 @@
   <form [formGroup]="valideForm" (ngSubmit)="setDecisionValide()">
     <p class="fr-text--sm fr-mb-2w">Les champs suivis d'un sont obligatoires</p>
 
-    <div class="fr-grid-row fr-grid-row--gutter">
+    <div class="fr-grid-row fr-grid-row--gutters">
       <div class="fr-col-12 fr-col-md-6">
         <div
           class="fr-input-group"
@@ -144,20 +144,7 @@
       </div>
     </div>
 
-    @if (lastDecision && usager.typeDom === 'RENOUVELLEMENT') {
-    <div class="fr-alert fr-alert--info fr-mt-2w">
-      <p class="fr-alert__description">
-        La dernière domiciliation connue de
-        {{ usager | fullName }} était valide du
-        <strong>
-          {{ lastDecision.dateDebut | date : "dd/MM/yyyy" }} au
-          {{ lastDecision.dateFin | date : "dd/MM/yyyy" }}
-        </strong>
-      </p>
-    </div>
-    }
-
-    <div class="fr-grid-row fr-grid-row--gutter fr-mt-2w">
+    <div class="fr-grid-row fr-grid-row--gutters fr-mt-2w">
       <div class="fr-col-12 fr-col-md-6">
         <div class="fr-input-group">
           <label class="fr-label" for="customRef"
@@ -175,7 +162,18 @@
       </div>
     </div>
 
-    @if (duplicates.length > 0) {
+    @if (lastDecision && usager.typeDom === 'RENOUVELLEMENT') {
+    <div class="fr-alert fr-alert--info fr-mt-2w">
+      <p class="fr-alert__description">
+        La dernière domiciliation connue de
+        {{ usager | fullName }} était valide du
+        <strong>
+          {{ lastDecision.dateDebut | date : "dd/MM/yyyy" }} au
+          {{ lastDecision.dateFin | date : "dd/MM/yyyy" }}
+        </strong>
+      </p>
+    </div>
+    } @if (duplicates.length > 0) {
     <div class="fr-mt-2w">
       <app-display-duplicates-usager
         [duplicates]="duplicates"
@@ -230,7 +228,7 @@
 <form [formGroup]="valideForm" (ngSubmit)="setDecisionValide()">
   <p class="fr-text--sm fr-mb-2w">Les champs suivis d'un sont obligatoires</p>
 
-  <div class="fr-grid-row fr-grid-row--gutter">
+  <div class="fr-grid-row fr-grid-row--gutters">
     <div class="fr-col-12 fr-col-md-6">
       <div
         class="fr-input-group"
@@ -358,20 +356,7 @@
     </div>
   </div>
 
-  @if (lastDecision && usager.typeDom === 'RENOUVELLEMENT') {
-  <div class="fr-alert fr-alert--info fr-mt-2w">
-    <p class="fr-alert__description">
-      La dernière domiciliation connue de
-      {{ usager | fullName }} était valide du
-      <strong>
-        {{ lastDecision.dateDebut | date : "dd/MM/yyyy" }} au
-        {{ lastDecision.dateFin | date : "dd/MM/yyyy" }}
-      </strong>
-    </p>
-  </div>
-  }
-
-  <div class="fr-grid-row fr-grid-row--gutter fr-mt-2w">
+  <div class="fr-grid-row fr-grid-row--gutters fr-mt-2w">
     <div class="fr-col-12 fr-col-md-6">
       <div class="fr-input-group">
         <label class="fr-label" for="customRef">Identifiant personnalisé</label>
@@ -387,7 +372,18 @@
     </div>
   </div>
 
-  @if (duplicates.length > 0) {
+  @if (lastDecision && usager.typeDom === 'RENOUVELLEMENT') {
+  <div class="fr-alert fr-alert--info fr-mt-2w">
+    <p class="fr-alert__description">
+      La dernière domiciliation connue de
+      {{ usager | fullName }} était valide du
+      <strong>
+        {{ lastDecision.dateDebut | date : "dd/MM/yyyy" }} au
+        {{ lastDecision.dateFin | date : "dd/MM/yyyy" }}
+      </strong>
+    </p>
+  </div>
+  } @if (duplicates.length > 0) {
   <div class="fr-mt-2w">
     <app-display-duplicates-usager
       [duplicates]="duplicates"

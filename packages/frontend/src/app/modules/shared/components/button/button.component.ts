@@ -9,6 +9,8 @@ type ButtonIcon =
   | "edit"
   | "arrow-right"
   | "calendar"
+  | "user"
+  | "phone"
   | "plus"
   | "printer"
   | "search"
@@ -27,6 +29,7 @@ export class ButtonComponent {
   @Input() loadingText = "Patientez...";
   @Input() content = "";
   @Input() ariaLabel = "";
+  @Input() customClass = "";
 
   @Output() readonly action = new EventEmitter<void>();
 
@@ -43,5 +46,7 @@ export class ButtonComponent {
     search: "search-line",
     refresh: "refresh-line",
     settings: "settings-line",
+    user: "user-line",
+    phone: "phone-line",
   };
 }

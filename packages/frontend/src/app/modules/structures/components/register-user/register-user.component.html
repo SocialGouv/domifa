@@ -1,7 +1,7 @@
 <div *ngIf="structureRegisterInfos">
   <div *ngIf="!success">
     <div>
-      <div class="d-flex gap-1 align-items-end my-1">
+      <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
         <!-- create custom class for picto width-->
         <img
           style="width: 3rem"
@@ -24,7 +24,7 @@
       [formGroup]="userForm"
       (ngSubmit)="submitUser()"
     >
-      <div class="row align-items-start">
+      <div class="fr-grid-row fr-align-items-start">
         <div
           [class.fr-input-group--error]="
             (f.nom.dirty || submitted) && f.nom.errors
@@ -98,7 +98,7 @@
           </ul>
         </div>
       </div>
-      <div class="row">
+      <div class="fr-grid-row">
         <div class="fr-col fr-input-group required">
           <app-fonction-selection
             [parentFormGroup]="userForm"
@@ -110,7 +110,7 @@
         </div>
       </div>
       <hr class="mt-4" />
-      <div class="d-flex gap-1 align-items-end my-1">
+      <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
         <img
           style="width: 2.5rem"
           src="artwork/pictograms/system/padlock.svg"
@@ -136,7 +136,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="fr-grid-row">
         <div
           [class.fr-input-group--error]="
             (f.email.dirty || submitted) && f.email.errors
@@ -145,9 +145,9 @@
         >
           <label class="fr-label" for="email"
             >E-mail <span class="fr-text-default--error">*</span>
-            <span class="fr-hint-text"
-              >format attendu : nom&#64;domaine.fr</span
-            ></label
+            <p class="fr-hint-text">
+              format attendu : nom&#64;domaine.fr
+            </p></label
           >
           <input
             type="email"
@@ -183,7 +183,7 @@
           </ul>
         </div>
       </div>
-      <div class="row">
+      <div class="fr-grid-row">
         <app-user-structure-password-form
           [parentFormGroup]="userForm"
           [submitted]="submitted"

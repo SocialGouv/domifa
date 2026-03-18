@@ -9,11 +9,11 @@
 
 <div class="w-100 fr-background-contrast--blue-ecume mb-0 pb-0">
   <div
-    class="fr-container row d-flex flex-row justify-content-between align-items-center"
+    class="fr-container fr-grid-row fr-display-flex fr-flex-row fr-justify-content-between fr-align-items-center"
   >
     <div
       *ngIf="!regionId"
-      class="fr-col-12 fr-col-md-9 fr-col-sm-10 py-3 py-md-5 d-flex flex-column gap-1"
+      class="fr-col-12 fr-col-md-9 fr-col-sm-10 py-3 py-md-5 fr-display-flex fr-flex-column fr-gap-1w"
     >
       <h1 class="fr-text-title--blue-france mb-1">
         Statistiques d'utilisation de DomiFa
@@ -25,7 +25,7 @@
 
     <div
       *ngIf="regionId"
-      class="fr-col-12 fr-col-md-9 fr-col-sm-10 py-3 py-md-5 d-flex flex-column gap-1"
+      class="fr-col-12 fr-col-md-9 fr-col-sm-10 py-3 py-md-5 fr-display-flex fr-flex-column fr-gap-1w"
     >
       <h1 class="fr-text-title--blue-france mb-1">
         Statistiques régionales :
@@ -50,7 +50,7 @@
 </div>
 
 <div class="fr-container">
-  <section class="py-3 py-md-4 my-1">
+  <section class="py-3 py-md-4 fr-my-1w">
     <h2>Nous équipons les structures de domiciliation</h2>
     <p>
       En lien avec les domiciliés, des structures de domiciliation utilisent
@@ -61,9 +61,11 @@
       </a>
     </p>
 
-    <div class="row m-0 justify-content-between align-items-stretch">
+    <div
+      class="fr-grid-row m-0 fr-justify-content-between fr-align-items-stretch"
+    >
       <div
-        class="d-flex align-items-center p-4 align-items-center fr-background-alt--blue-ecume"
+        class="fr-display-flex fr-align-items-center p-4 fr-align-items-center fr-background-alt--blue-ecume"
         *ngIf="!stats"
       >
         <div class="fr-col-md-12 px-0 fr-text--center">
@@ -78,15 +80,15 @@
           </div>
         </div>
       </div>
-      <div class="fr-col-12 fr-col-md-8 px-0 d-flex">
+      <div class="fr-col-12 fr-col-md-8 px-0 fr-display-flex">
         <div
-          class="d-flex fr-background-alt--blue-ecume flex-column justify-content-start align-items-top p-4 w-100"
+          class="fr-display-flex fr-background-alt--blue-ecume fr-flex-column fr-justify-content-start align-items-top p-4 w-100"
           *ngIf="stats"
         >
           <h3>Structures inscrites sur DomiFa</h3>
-          <div class="row d-flex">
+          <div class="fr-grid-row fr-display-flex">
             <div
-              class="fr-col-12 fr-col-md-4 d-flex gap-2 justify-content-center"
+              class="fr-col-12 fr-col-md-4 fr-display-flex fr-gap-2w fr-justify-content-center"
             >
               <div>
                 <img
@@ -96,7 +98,9 @@
                   aria-hidden="true"
                 />
               </div>
-              <dl class="d-flex ps-0 flex-column align-items-center py-4">
+              <dl
+                class="fr-display-flex ps-0 fr-flex-column fr-align-items-center py-4"
+              >
                 <dt class="visually-hidden">Nombre de structures</dt>
                 <dd class="fr-h1 mb-0 ps-0 fr-text-title--blue-france">
                   {{ stats?.structuresCount | formatBigNumber }}
@@ -106,12 +110,12 @@
             </div>
             <hr class="d-block d-md-none" />
             <div
-              class="fr-col-12 fr-col-md-7 d-flex flex-column justify-content-start"
+              class="fr-col-12 fr-col-md-7 fr-display-flex fr-flex-column fr-justify-content-start"
             >
               <ul class="py-1">
                 <ul>
                   <li
-                    class="d-flex justify-content-start align-items-center gap-2"
+                    class="fr-display-flex fr-justify-content-start fr-align-items-center fr-gap-2w"
                     *ngFor="
                       let structure of stats.structuresCountByTypeMap | keyvalue
                     "
@@ -128,9 +132,11 @@
               </ul>
             </div>
           </div>
-          <div class="row d-flex py-2 justify-content-between border-top">
+          <div
+            class="fr-grid-row fr-display-flex py-2 fr-justify-content-between border-top"
+          >
             <div
-              class="fr-col-12 fr-col-md-2 d-flex flex-column align-items-center fr-mb-4v fr-mt-md-0"
+              class="fr-col-12 fr-col-md-2 fr-display-flex fr-flex-column fr-align-items-center fr-mb-4v fr-mt-md-0"
             >
               <div>
                 <img
@@ -149,7 +155,7 @@
             </div>
 
             <div
-              class="fr-col-12 fr-col-md-3 d-flex flex-column fr-text--center fr-mb-4v fr-mt-md-0"
+              class="fr-col-12 fr-col-md-3 fr-display-flex fr-flex-column fr-text--center fr-mb-4v fr-mt-md-0"
             >
               <div class="fr-text--center">
                 <img
@@ -171,7 +177,7 @@
               </div>
             </div>
             <div
-              class="fr-col-12 fr-col-md-3 d-flex flex-column fr-text--center fr-mb-4v fr-mt-md-0"
+              class="fr-col-12 fr-col-md-3 fr-display-flex fr-flex-column fr-text--center fr-mb-4v fr-mt-md-0"
             >
               <div>
                 <img
@@ -181,7 +187,7 @@
                   aria-hidden="true"
                 />
               </div>
-              <div class="d-flex flex-column fr-text--center">
+              <div class="fr-display-flex fr-flex-column fr-text--center">
                 <div class="fr-h3 mb-0" aria-hidden="true">
                   <span
                     class="mb-0 fr-text-title--blue-france"
@@ -194,7 +200,7 @@
             </div>
 
             <div
-              class="fr-col-12 fr-col-md-4 d-flex flex-column fr-text--center"
+              class="fr-col-12 fr-col-md-4 fr-display-flex fr-flex-column fr-text--center"
             >
               <div>
                 <img
@@ -214,12 +220,14 @@
           </div>
         </div>
       </div>
-      <div class="fr-col-12 fr-col-md-4 px-0 px-md-2 d-flex">
+      <div class="fr-col-12 fr-col-md-4 px-0 px-md-2 fr-display-flex">
         <div
           *ngIf="stats"
-          class="fr-background-alt--blue-ecume d-flex flex-column gap-3 p-3 w-100 fr-mt-2v fr-mt-md-0"
+          class="fr-background-alt--blue-ecume fr-display-flex fr-flex-column fr-gap-3w p-3 w-100 fr-mt-2v fr-mt-md-0"
         >
-          <div class="d-flex flex-column justify-content-start gap-2">
+          <div
+            class="fr-display-flex fr-flex-column fr-justify-content-start fr-gap-2w"
+          >
             <h3>Domiciliés accompagnés sur DomiFa</h3>
             <div class="fr-text--center">
               <img
@@ -229,7 +237,9 @@
                 aria-hidden="true"
               />
             </div>
-            <div class="d-flex flex-column align-self-center fr-text--center">
+            <div
+              class="fr-display-flex fr-flex-column fr-align-self-center fr-text--center"
+            >
               <span class="fr-h2 mb-0 pb-0 fr-text-title--blue-france">
                 {{ stats.actifs | formatBigNumber }}</span
               >
@@ -243,7 +253,7 @@
 </div>
 
 <div class="fr-container">
-  <section class="p-4 my-1 fr-background-alt--blue-ecume">
+  <section class="p-4 fr-my-1w fr-background-alt--blue-ecume">
     <app-stats-charts [publicStats]="stats"></app-stats-charts>
   </section>
 
@@ -253,7 +263,7 @@
       regionId && REGIONS_OUTRE_MER.indexOf(REGIONS_SEO_ID[regionId]) === -1
     "
   >
-    <div class="row">
+    <div class="fr-grid-row">
       <div class="fr-col-md-6">
         <h3 class="mb-1">Structures par département</h3>
 
@@ -287,7 +297,10 @@
       >
     </p>
     <br />
-    <div class="row d-flex align-items-center" *ngIf="!stats">
+    <div
+      class="fr-grid-row fr-display-flex fr-align-items-center"
+      *ngIf="!stats"
+    >
       <div class="fr-col-md-12 fr-text--center">
         <div @fadeInOut aria-live="polite">
           <fa-icon
@@ -300,20 +313,20 @@
         </div>
       </div>
     </div>
-    <div class="row" *ngIf="stats">
+    <div class="fr-grid-row" *ngIf="stats">
       <div class="fr-col-md-5 fr-text--center px-4">
         <app-stats-map
           [statsRegionsValues]="statsRegionsValues"
           [publicStats]="stats"
         ></app-stats-map>
       </div>
-      <div class="fr-col d-flex flex-column gap-4 p-2">
+      <div class="fr-col fr-display-flex fr-flex-column fr-gap-4w p-2">
         <section>
           <h4 class="mb-1">Liste des régions</h4>
           <div class="region-list">
             <ul>
               <li
-                class="d-flex justify-content-start gap-2 align-items-center"
+                class="fr-display-flex fr-justify-content-start fr-gap-2w fr-align-items-center"
                 *ngFor="let structure of stats?.structuresCountByRegion"
               >
                 <span class="fr-background-alt--blue-ecume fw-bold">
@@ -337,7 +350,7 @@
               </li>
 
               <li
-                class="d-flex justify-content-start gap-2 align-items-center"
+                class="fr-display-flex fr-justify-content-start fr-gap-2w fr-align-items-center"
                 *ngFor="let departementCom of DEPARTEMENTS_COM | keyvalue"
               >
                 <span class="fr-text-title--blue-france fw-bold">
@@ -363,13 +376,13 @@
 </div>
 <section>
   <div
-    class="w-100 d-flex flex-column justify-content-center fr-background-contrast--blue-ecume mb-0 pb-0"
+    class="w-100 fr-display-flex fr-flex-column fr-justify-content-center fr-background-contrast--blue-ecume mb-0 pb-0"
   >
     <div
-      class="fr-container row d-flex flex-row justify-content-end align-items-center"
+      class="fr-container fr-grid-row fr-display-flex fr-flex-row fr-justify-content-end fr-align-items-center"
     >
       <div
-        class="fr-col-12 fr-col-md-7 fr-col-sm-10 py-3 py-md-5 d-flex flex-column gap-1 align-items-center"
+        class="fr-col-12 fr-col-md-7 fr-col-sm-10 py-3 py-md-5 fr-display-flex fr-flex-column fr-gap-1w fr-align-items-center"
       >
         <h2 class="fr-text-title--blue-france fr-text--center mb-1">
           Mesure d’impact de DomiFa
@@ -385,7 +398,9 @@
         </div>
       </div>
 
-      <div class="fr-col-12 fr-col-md-3 d-flex justify-content-center py-2">
+      <div
+        class="fr-col-12 fr-col-md-3 fr-display-flex fr-justify-content-center py-2"
+      >
         <div class="fr-col-5 fr-col-md-12">
           <img
             class="fr-responsive-img"

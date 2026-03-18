@@ -24,7 +24,7 @@ export class StatsChartsComponent implements OnChanges {
     name: "ocean",
     selectable: false,
     group: ScaleType.Ordinal,
-    domain: ["#4164f5"],
+    domain: ["#1212ff"],
   };
   public xAxisLabel = "";
   public showYAxisLabel = true;

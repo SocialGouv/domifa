@@ -46,14 +46,35 @@ p.fr-hint-text {
 }
 
 // Icons for titles
-h2 i,
-h3 i {
-  color: var(--text-active-blue-france);
+h2,
+h3 {
+  i,
+  span[class^="fr-icon-"],
+  span[class*=" fr-icon-"] {
+    color: var(--text-active-blue-france);
+    margin-right: 0.5rem;
+    vertical-align: bottom;
+    display: inline-block;
+  }
+
+  [class^="fr-icon-"]::before,
+  [class^="fr-icon-"]::after,
+  [class*=" fr-icon-"]::before,
+  [class*=" fr-icon-"]::after,
+  [class^="fr-fi-"]::before,
+  [class^="fr-fi-"]::after,
+  [class*=" fr-fi-"]::before,
+  [class*=" ri-"]::before,
+  [class*=" fr-fi-"]::after {
+    --icon-size: 2rem;
+  }
 }
 
 h2 img {
-  width: 54px;
+  width: 45px;
   height: auto;
+  margin-right: 0.5rem;
+  vertical-align: middle;
 }
 
 // Spin for loading

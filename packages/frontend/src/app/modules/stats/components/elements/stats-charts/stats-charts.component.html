@@ -1,6 +1,6 @@
 <h3>Depuis notre lancement en 2019</h3>
 <div class="stats-charts-container py-4" *ngIf="!publicStats">
-  <div class="row d-flex align-items-center">
+  <div class="fr-grid-row fr-display-flex fr-align-items-center">
     <div class="fr-col-md-12 fr-text--center">
       <div @fadeInOut aria-live="polite">
         <fa-icon
@@ -15,10 +15,10 @@
   </div>
 </div>
 <div *ngIf="publicStats">
-  <div class="row d-flex justify-content-center">
+  <div class="fr-grid-row fr-display-flex fr-justify-content-center">
     <div class="fr-col-12 fr-col-md-10">
       <fieldset
-        class="fr-fieldset row"
+        class="fr-fieldset fr-grid-row"
         id="storybook-form"
         aria-labelledby="storybook-form-legend "
       >
@@ -85,7 +85,7 @@
       </fieldset>
     </div>
   </div>
-  <div class="row d-flex align-items-center">
+  <div class="fr-grid-row fr-display-flex fr-align-items-center">
     <div class="fr-col-md-12 ps-2 pe-4">
       <div class="text-start fw-bold mb-1">
         <span *ngIf="selectedCharts === 'courriers'">
