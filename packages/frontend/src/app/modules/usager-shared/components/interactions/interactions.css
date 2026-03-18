@@ -5,8 +5,7 @@
 
 .interaction-icon-box {
   background: #e3e6fd;
-  border-radius: 6px;
-  padding: 10px 5px;
+  padding: 1rem 0.5rem;
   text-align: center;
 }
 
@@ -16,10 +15,6 @@
   text-align: center;
   padding: 50px 30px;
   margin: 0 auto;
-  box-sizing: border-box;
-  background-color: black;
-  -webkit-mask-size: 100% !important;
-  mask-size: 100% !important;
 }
 
 .interaction-actions {
@@ -51,7 +46,6 @@
 }
 
 .interaction-actions button {
-  border-radius: 100%;
   padding: 6px 8px;
   display: inline-block;
   max-width: 60px;

@@ -7,74 +7,63 @@
   ></app-profil-head>
   <div class="fr-container" *ngIf="usager">
     <div class="fr-content">
-      <div class="row mb-5">
-        <div class="fr-col-md-12">
-          <div
-            class="mt-2 mb-4 d-md-flex justify-content-between align-items-center"
+      <div
+        class="fr-py-2w fr-display-flex fr-justify-content-between fr-align-items-center"
+      >
+        <h2 class="fr-h3 fr-my-0">
+          <span class="fr-icon-folder-2-line" aria-hidden="true"></span>
+          Modèles de document de la structure
+        </h2>
+
+        <div
+          *ngIf="
+            usager?.echeanceInfos?.isActif || usager.decision.statut === 'REFUS'
+          "
+        >
+          <button
+            type="button"
+            (click)="getCerfa(CerfaDocType.demande)"
+            *ngIf="usager.decision.statut !== 'REFUS'"
+            class="fr-btn fr-btn--icon-left fr-icon-download-line fr-mr-1w"
           >
-            <h2 class="fr-h3">Documents mis à disposition par la structure</h2>
+            Télécharger l'attestation de demande
+          </button>
 
-            <div
-              *ngIf="
-                usager?.echeanceInfos?.isActif ||
+          <button
+            type="button"
+            *ngIf="usager.decision.statut !== 'RADIE'"
+            (click)="
+              getCerfa(
                 usager.decision.statut === 'REFUS'
-              "
-            >
-              <button
-                type="button"
-                (click)="getCerfa(CerfaDocType.demande)"
-                *ngIf="usager.decision.statut !== 'REFUS'"
-                class="fr-btn fr-btn--icon-left fr-icon-download-line fr-my-1w"
-              >
-                <fa-icon
-                  [icon]="['fas', 'download']"
-                  aria-hidden="true"
-                  class="me-2"
-                ></fa-icon>
-                Télécharger l'attestation de demande
-              </button>
-
-              <button
-                type="button"
-                *ngIf="usager.decision.statut !== 'RADIE'"
-                (click)="
-                  getCerfa(
-                    usager.decision.statut === 'REFUS'
-                      ? CerfaDocType.demande
-                      : CerfaDocType.attestation
-                  )
-                "
-                class="fr-btn fr-btn--icon-left fr-icon-download-line fr-my-1w"
-              >
-                <fa-icon
-                  [icon]="['fas', 'download']"
-                  aria-hidden="true"
-                  class="me-2"
-                ></fa-icon>
-                {{
-                  usager.decision.statut === "REFUS"
-                    ? "Télécharger l'attestation de Refus"
-                    : "Télécharger le Cerfa"
-                }}
-              </button>
-            </div>
-          </div>
-          <app-profil-structure-docs
-            [me]="me"
-            [usager]="usager"
-          ></app-profil-structure-docs>
+                  ? CerfaDocType.demande
+                  : CerfaDocType.attestation
+              )
+            "
+            class="fr-btn fr-btn--icon-left fr-icon-download-line fr-mr-1w"
+          >
+            {{
+              usager.decision.statut === "REFUS"
+                ? "Télécharger l'attestation de Refus"
+                : "Télécharger le Cerfa"
+            }}
+          </button>
         </div>
       </div>
+      <app-profil-structure-docs
+        [me]="me"
+        [usager]="usager"
+      ></app-profil-structure-docs>
 
-      <div class="row mb-5" *ngIf="displayDeleteButton">
-        <div class="fr-col-md-12">
-          <h2>Documents de l'usager</h2>
-          <app-display-usager-docs
-            [me]="me"
-            [editPJ]="true"
-            [usager]="usager"
-          ></app-display-usager-docs>
-        </div>
+      <div class="fr-my-5w" *ngIf="displayDeleteButton">
+        <h2 class="fr-h3 fr-my-0">
+          <span class="fr-icon-file-text-line" aria-hidden="true"></span
+          >Documents de l'usager
+        </h2>
+        <app-display-usager-docs
+          [me]="me"
+          [editPJ]="true"
+          [usager]="usager"
+        ></app-display-usager-docs>
       </div>
     </div>
     <app-delete-usager-menu

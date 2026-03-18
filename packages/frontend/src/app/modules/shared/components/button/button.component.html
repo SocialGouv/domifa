@@ -1,12 +1,9 @@
 <button
   type="button"
-  [ngClass]="{
-    'fr-btn': true,
-    'fr-btn--secondary': color === 'secondary',
-    'fr-btn--danger': color === 'danger',
-    'fr-btn--tertiary': color === 'tertiary',
-    'fr-m-1w': true
-  }"
+  [class]="'fr-btn' + ' ' + customClass"
+  [class.fr-btn--secondary]="color === 'secondary'"
+  [class.fr-btn--danger]="color === 'danger'"
+  [class.fr-btn--tertiary]="color === 'tertiary'"
   [disabled]="loading"
   [attr.aria-busy]="loading"
   [attr.aria-label]="ariaLabel"
@@ -15,11 +12,11 @@
   (keydown.space)="action.emit()"
 >
   @if (loading) {
-  <span>
-    <span class="fr-spinner" role="status" aria-label="Chargement en cours">
-      <span class="fr-sr-only">{{ loadingText }}</span>
-    </span>
+
+  <span class="fr-spinner" role="status" aria-label="Chargement en cours">
+    <span class="fr-sr-only">{{ loadingText }}</span>
   </span>
+
   } @else {
   <span>
     @if (icon) {

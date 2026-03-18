@@ -8,7 +8,7 @@
 <div class="notes-list">
   <ng-container *ngFor="let note of displayedNotes; let last = last">
     <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--top">
-      <div class="fr-col-12 fr-col-md-10">
+      <div class="fr-col-12 fr-col-md-9">
         <span
           class="fr-icon-message-2-line fr-text-label--blue-france"
           aria-hidden="true"
@@ -21,7 +21,7 @@
 
         @if (note.pinned) {
         <span class="fr-badge fr-badge--blue-cumulus fr-mt-1w">
-          <span class="ri-pushpin-line" aria-hidden="true"></span>
+          <span class="fr-icon-bookmark-line" aria-hidden="true"></span>
           Note épinglée
         </span>
         }
@@ -29,9 +29,7 @@
         <p class="fr-mb-3w">{{ note.message }}</p>
       </div>
 
-      <div
-        class="fr-col-12 fr-col-md-2 fr-flex fr-flex--justify-end fr-flex--align-items-start"
-      >
+      <div class="fr-col-12 fr-col-md-3 fr-text-right">
         @if (me?.role !== 'facteur' && me?.role !== 'agent') {
         <app-usager-notes-actions
           [usager]="usager"

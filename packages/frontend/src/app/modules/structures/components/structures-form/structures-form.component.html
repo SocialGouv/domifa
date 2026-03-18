@@ -122,24 +122,20 @@
       <form [formGroup]="structureForm" (ngSubmit)="submitStrucutre()">
         <!-- Section: Structure -->
         <section>
-          <div
-            class="fr-display-flex fr-direction-column fr-justify-content-center"
-          >
-            <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
-              <h2 class="fr-m-0">
-                <img
-                  src="artwork/pictograms/buildings/companie.svg"
-                  aria-hidden="true"
-                  alt=""
-                />
-                Structure
-              </h2>
-            </div>
-            <p>
-              Veuillez saisir les coordonnées de votre structure, celles-ci
-              apparaitront sur le Cerfa d'attestation :
-            </p>
-          </div>
+          <h2 class="fr-h3 fr-m-0">
+            <img
+              src="artwork/pictograms/buildings/companie.svg"
+              aria-hidden="true"
+              alt=""
+            />
+            Structure
+          </h2>
+
+          <p>
+            Veuillez saisir les coordonnées de votre structure, celles-ci
+            apparaitront sur le Cerfa d'attestation : apparaitront sur le Cerfa
+            d'attestation :
+          </p>
 
           <!-- Type de structure -->
           <fieldset
@@ -151,10 +147,8 @@
               class="fr-fieldset__legend--regular fr-fieldset__legend fr-text--bold fr-mb-0"
               id="type-structure-choice-legend"
             >
-              A quel type de structure appartenez-vous ?<span
-                class="fr-text--error"
-                >*
-              </span>
+              A quel type de structure appartenez-vous ?
+              <span class="fr-text-default--error">* </span>
             </legend>
 
             <div class="fr-fieldset__element fr-fieldset__element--inline">
@@ -346,29 +340,21 @@
 
         <!-- Section: Agrément (visible si type = asso) -->
         @if (f.structureType.value === 'asso') {
-        <section
-          class="fr-py-4w fr-px-2w fr-background-alt--grey"
-          style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc"
-        >
-          <div
-            class="fr-display-flex fr-direction-column fr-justify-content-center"
-          >
-            <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
-              <img
-                src="artwork/pictograms/buildings/companie.svg"
-                aria-hidden="true"
-                alt=""
-              />
-              <h2 class="fr-m-0">Informations sur l'agrément</h2>
-            </div>
-          </div>
+        <section class="fr-py-4w fr-px-2w fr-background-alt--grey">
+          <h2 class="fr-h3 fr-m-0">
+            <img
+              src="artwork/pictograms/buildings/companie.svg"
+              aria-hidden="true"
+              alt=""
+            />Informations sur l'agrément
+          </h2>
 
           <fieldset class="fr-my-2w">
             <legend class="fr-sr-only">
               Informations sur l'agrément de votre organisme
             </legend>
 
-            <div class="fr-grid-row">
+            <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
               <!-- Département -->
               <div
                 [class.fr-select-group--error]="
@@ -702,25 +688,23 @@
         }
 
         <section>
-          <div
-            class="fr-display-flex fr-direction-column fr-justify-content-center"
-          >
-            <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
-              <h2 class="fr-m-0">
-                <img
-                  src="artwork/pictograms/digital/avatar.svg"
-                  aria-hidden="true"
-                  alt=""
-                />Responsable légal
-              </h2>
-            </div>
-            <p>Il s'agit du nom qui apparaîtra sur le Cerfa.</p>
-          </div>
+          <h2 class="fr-h3 fr-m-0">
+            <img
+              src="artwork/pictograms/digital/avatar.svg"
+              aria-hidden="true"
+              alt=""
+            />Responsable légal
+          </h2>
+
+          <p>Il s'agit du nom qui apparaîtra sur le Cerfa.</p>
 
           <fieldset class="fr-my-2w">
             <legend class="fr-sr-only">Données du responsable légal</legend>
 
-            <div class="fr-grid-row" formGroupName="responsable">
+            <div
+              class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle"
+              formGroupName="responsable"
+            >
               <!-- Nom responsable -->
               <div
                 [class.fr-input-group--error]="
@@ -873,75 +857,72 @@
 
         <!-- Section: Adresse -->
         <section>
-          <div
-            class="fr-display-flex fr-direction-column fr-justify-content-center"
-          >
-            <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
-              <h2 class="fr-m-0">
-                <img
-                  src="artwork/pictograms/map/map-pin.svg"
-                  aria-hidden="true"
-                  alt=""
-                />Adresse
-              </h2>
-            </div>
-            <p class="fr-text--bold">
-              Précisez le nom de votre ville / de votre unité locale en cas de
-              réseau / de votre association. <br />
-              <small class="fr-text--xs">
-                Ex : CCAS du Havre / Croix Rouge de Paris / Association Aurore
-              </small>
-            </p>
-          </div>
+          <h2 class="fr-m-0">
+            <img
+              src="artwork/pictograms/map/map-pin.svg"
+              aria-hidden="true"
+              alt=""
+            />Adresse
+          </h2>
+
+          <p class="fr-text--bold">
+            Précisez le nom de votre ville / de votre unité locale en cas de
+            réseau / de votre association. <br />
+            <small class="fr-text--xs">
+              Ex : CCAS du Havre / Croix Rouge de Paris / Association Aurore
+            </small>
+          </p>
 
           <fieldset>
             <legend class="fr-sr-only">Adresse complète de la structure</legend>
 
-            <div class="fr-grid-row">
+            <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
               <!-- Adresse -->
-              <div
-                [class.fr-input-group--error]="
-                  (f.adresse.dirty || submitted) && f.adresse.errors
-                "
-                class="fr-col-12 fr-input-group fr-input-group--required"
-              >
-                <label class="fr-label" for="adresse">
-                  Adresse de l'organisme domiciliataire
-                </label>
-                <input
-                  id="adresse"
-                  type="text"
-                  class="fr-input"
-                  formControlName="adresse"
-                  name="adresse"
-                  autocomplete="street-address"
-                  [attr.aria-invalid]="
+              <div class="fr-col-12">
+                <div
+                  [class.fr-input-group--error]="
                     (f.adresse.dirty || submitted) && f.adresse.errors
-                      ? true
-                      : false
                   "
-                  [attr.aria-describedby]="
-                    (f.adresse.dirty || submitted) && f.adresse.errors
-                      ? 'address-errors'
-                      : 'address-description'
-                  "
-                  required
-                />
-                <small id="address-description">
-                  Cette adresse apparaîtra sur le Cerfa
-                </small>
-                @if (submitted && f.adresse.errors) {
-                <ul
-                  class="fr-messages-group__list fr-pl-0"
-                  id="address-errors"
-                  role="alert"
-                  aria-live="polite"
+                  class="fr-input-group fr-input-group--required"
                 >
-                  <li class="fr-message fr-message--error fr-mt-0">
-                    L'adresse est obligatoire
-                  </li>
-                </ul>
-                }
+                  <label class="fr-label" for="adresse">
+                    Adresse de l'organisme domiciliataire
+                  </label>
+                  <input
+                    id="adresse"
+                    type="text"
+                    class="fr-input"
+                    formControlName="adresse"
+                    name="adresse"
+                    autocomplete="street-address"
+                    [attr.aria-invalid]="
+                      (f.adresse.dirty || submitted) && f.adresse.errors
+                        ? true
+                        : false
+                    "
+                    [attr.aria-describedby]="
+                      (f.adresse.dirty || submitted) && f.adresse.errors
+                        ? 'address-errors'
+                        : 'address-description'
+                    "
+                    required
+                  />
+                  <small id="address-description">
+                    Cette adresse apparaîtra sur le Cerfa
+                  </small>
+                  @if (submitted && f.adresse.errors) {
+                  <ul
+                    class="fr-messages-group__list fr-pl-0"
+                    id="address-errors"
+                    role="alert"
+                    aria-live="polite"
+                  >
+                    <li class="fr-message fr-message--error fr-mt-0">
+                      L'adresse est obligatoire
+                    </li>
+                  </ul>
+                  }
+                </div>
               </div>
 
               <!-- Complément adresse -->
@@ -991,7 +972,6 @@
                 }
               </div>
 
-              <!-- Code postal -->
               <div
                 [class.fr-input-group--error]="
                   (f.codePostal.dirty || submitted) && f.codePostal.errors
@@ -1018,7 +998,8 @@
                   "
                   required
                 />
-                @if (f.codePostal.errors) {
+                @if ( (f.codePostal.dirty || submitted) && f.codePostal.errors)
+                {
                 <ul
                   class="fr-messages-group__list fr-pl-0"
                   id="code-postal-errors"
@@ -1076,7 +1057,7 @@
 
           <!-- Adresse courrier différente -->
           <div formGroupName="adresseCourrier">
-            <div class="fr-grid-row">
+            <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
               <div class="fr-col-12">
                 <div class="fr-checkbox-group fr-pl-0">
                   <input
@@ -1100,7 +1081,7 @@
                 Informations sur l'adresse de réception du courrier
               </legend>
 
-              <div class="fr-grid-row">
+              <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
                 <!-- Adresse courrier -->
                 <div
                   [class.fr-input-group--error]="
@@ -1251,20 +1232,14 @@
 
         <!-- Section: Contact -->
         <section>
-          <div
-            class="fr-display-flex fr-direction-column fr-justify-content-center"
-          >
-            <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-mb-3w">
-              <h2 class="fr-m-0">
-                <img
-                  src="artwork/pictograms/digital/mail-send.svg"
-                  aria-hidden="true"
-                  alt=""
-                />
-                Contact
-              </h2>
-            </div>
-          </div>
+          <h2 class="fr-h3 fr-m-0">
+            <img
+              src="artwork/pictograms/digital/mail-send.svg"
+              aria-hidden="true"
+              alt=""
+            />
+            Contact
+          </h2>
 
           <div role="status" class="fr-notice fr-notice--info fr-mb-4w">
             <div class="fr-container">
@@ -1289,7 +1264,7 @@
               Informations de contact de la structure
             </legend>
 
-            <div class="fr-grid-row">
+            <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
               <!-- Téléphone -->
               <div
                 class="fr-col-12 fr-col-md-6 fr-mb-4w fr-input-group fr-input-group--required"
@@ -1328,6 +1303,7 @@
                 class="fr-col-12 fr-col-md-6 fr-mb-4w fr-input-group fr-input-group--required"
               >
                 <label class="fr-label" for="email">E-mail</label>
+                <p class="fr-hint-text">format attendu : nom&#64;domaine.fr</p>
                 <input
                   type="email"
                   id="email"
@@ -1371,23 +1347,17 @@
 
         <hr />
 
-        <!-- Section: Activité -->
         <section>
-          <div
-            class="fr-display-flex fr-direction-column fr-justify-content-center"
-          >
-            <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
-              <h2 class="fr-m-0">
-                <img
-                  src="artwork/pictograms/system/information.svg"
-                  aria-hidden="true"
-                  alt=""
-                />
-                Informations sur votre activité
-              </h2>
-            </div>
-            <p>Ces informations nous aident à mieux comprendre vos besoins</p>
-          </div>
+          <h2 class="fr-h3fr-m-0">
+            <img
+              src="artwork/pictograms/system/information.svg"
+              aria-hidden="true"
+              alt=""
+            />
+            Informations sur votre activité
+          </h2>
+
+          <p>Ces informations nous aident à mieux comprendre vos besoins</p>
 
           <fieldset class="fr-mb-4w" formGroupName="registrationData">
             <legend class="fr-sr-only">
@@ -1695,7 +1665,7 @@
           <fieldset class="fr-my-2w">
             <legend>Conditions générales d'utilisation de DomiFa</legend>
 
-            <div class="fr-grid-row">
+            <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
               <div class="fr-col-12 fr-input-group--required">
                 <div class="fr-checkbox-group fr-pl-0">
                   <input

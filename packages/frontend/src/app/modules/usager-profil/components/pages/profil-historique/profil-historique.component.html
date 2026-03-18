@@ -8,9 +8,12 @@
   <div class="fr-container" *ngIf="usager">
     <div class="fr-content">
       <div
-        class="d-flex my-3 d-print-none justify-content-between align-items-center"
+        class="fr-display-flex fr-my-3w d-print-none fr-justify-content-between fr-align-items-center"
       >
-        <h2 id="tablist-1">Historique du dossier</h2>
+        <h2 class="fr-my-0 fr-h3" id="tablist-1">
+          <span class="fr-icon-time-line" aria-hidden="true"></span>Historique
+          du dossier
+        </h2>
         <button type="button" class="fr-btn d-print-none" (click)="goToPrint()">
           <fa-icon
             [icon]="['fas', 'print']"
@@ -21,7 +24,11 @@
         </button>
       </div>
 
-      <div role="tablist" aria-labelledby="tablist-1" class="my-2 d-print-none">
+      <div
+        role="tablist"
+        aria-labelledby="tablist-1"
+        class="fr-my-2w d-print-none"
+      >
         <a
           *ngFor="let section of sections"
           [id]="'tab-' + section.id"
@@ -35,7 +42,7 @@
         </a>
       </div>
 
-      <div class="row">
+      <div class="fr-grid-row">
         <div
           class="fr-col-md-12"
           id="tabpanel-decisions"

@@ -7,13 +7,13 @@
 <div class="fr-content-container">
   <div class="fr-container">
     <div class="fr-content fr-mb-2w" *ngFor="let news of DOMIFA_NEWS">
-      <h2 class="my-2">
+      <h2 class="fr-my-2w">
         Nouveautés du {{ news.date | date : "d MMMM y"
         }}<span *ngIf="news.description"> - {{ news.description }}</span>
       </h2>
 
       <ng-container *ngFor="let content of news.content">
-        <h3 class="text-start my-1">
+        <h3 class="text-start fr-my-1w">
           <span
             class="badge badge-pill"
             [ngClass]="{

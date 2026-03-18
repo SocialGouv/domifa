@@ -29,7 +29,7 @@ import {
 @Component({
   selector: "app-profil-general-section",
   templateUrl: "./profil-general-section.component.html",
-  styleUrls: ["./profil-general-section.component.css"],
+  styleUrls: ["./profil-general-section.component.scss"],
 })
 export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent {
   public interactions: Interaction[];
@@ -49,7 +49,8 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
 
   public readonly USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;
 
-  public loadingButtons: string[];
+  public loadingVisite = false;
+  public loadingAppel = false;
 
   constructor(
     public authService: AuthService,
@@ -70,7 +71,6 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
       router,
       store
     );
-    this.loadingButtons = [];
     this.interactions = [];
 
     this.minDateNaissance = minDateNaissance;
@@ -87,12 +87,9 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
       content: null,
     };
 
-    if (this.loadingButtons.indexOf(type) !== -1) {
-      this.toastService.warning("Veuillez patienter quelques instants");
-      return;
-    }
+    if (type === "visite") this.loadingVisite = true;
+    if (type === "appel") this.loadingAppel = true;
 
-    this.loadingButtons.push(type);
     this.subscription.add(
       this.interactionService
         .setInteraction(usagerRef, [interaction])
@@ -100,13 +97,13 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
           next: () => {
             this.toastService.success(INTERACTIONS_LABELS_SINGULIER[type]);
             this.updateInteractions();
-            this.stopLoading(type);
+            this.setLoading(type, false);
           },
           error: () => {
             this.toastService.error(
               "Impossible d'enregistrer cette interaction"
             );
-            this.stopLoading(type);
+            this.setLoading(type, false);
           },
         })
     );
@@ -126,10 +123,8 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
     this.interactionOutRef.open();
   }
 
-  private stopLoading(loadingRef: string) {
-    const index = this.loadingButtons.indexOf(loadingRef);
-    if (index !== -1) {
-      this.loadingButtons.splice(index, 1);
-    }
+  private setLoading(type: InteractionType, value: boolean): void {
+    if (type === "visite") this.loadingVisite = value;
+    if (type === "appel") this.loadingAppel = value;
   }
 }

@@ -1,7 +1,12 @@
 @if (usager) {
 <div class="d-print-none">
-  <div class="my-2 d-flex flex-wrap justify-content-between align-items-center">
-    <h2>Transfert de courrier</h2>
+  <div
+    class="fr-display-flex fr-flex-wrap fr-justify-content-between fr-align-items-center"
+  >
+    <h2 class="fr-my-0 fr-h3">
+      <span class="ri-arrow-left-right-line" aria-hidden="true"></span>
+      Transfert de courrier
+    </h2>
 
     @if (usager.decision.statut !== 'REFUS') { @if (!isFormVisible) {
     <button
@@ -32,7 +37,7 @@
   </div>
   } @if (usager.options.transfert.actif && !isFormVisible) {
   <div
-    class="fr-grid-row fr-grid-row--gutters fr-my-2w justify-content-between align-items-center"
+    class="fr-grid-row fr-grid-row--gutters fr-my-2w fr-justify-content-between fr-align-items-center"
   >
     <p class="fr-col-12 fr-col-md-3 reponses">
       <span class="question">Nom de l'établissement</span>

@@ -18,7 +18,7 @@
         <div class="fr-grid-row fr-grid-row--center">
           <div class="fr-col-12 fr-text--center">
             <img src="assets/images/usager-form/entretien.svg" alt="" />
-            <h2 class="fr-h3">
+            <h2 class="fr-h3 fr-my-0">
               Un entretien pour {{ usager.nom }} {{ usager.prenom }} est déjà
               programmé
             </h2>
@@ -73,7 +73,7 @@
         } @else {
         <form [formGroup]="rdvForm" (ngSubmit)="submitRdv()">
           <fieldset class="rdv-form">
-            <legend class="fr-h3">
+            <legend class="fr-h3 fr-my-0">
               Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom }} ?
             </legend>
 

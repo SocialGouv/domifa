@@ -597,8 +597,8 @@ importers:
         specifier: ^6.7.2
         version: 6.7.2
       '@gouvfr/dsfr':
-        specifier: ^1.14.2
-        version: 1.14.2
+        specifier: 1.14.4
+        version: 1.14.4
       '@khazii/ngx-intl-tel-input':
         specifier: ^17.0.1
         version: 17.0.1(9eb750c7ee5a53d132e59eb2e50b8e65)
@@ -779,6 +779,9 @@ importers:
       quill-delta:
         specifier: ^5.1.0
         version: 5.1.0
+      remixicon:
+        specifier: ^4.9.1
+        version: 4.9.1
       rfdc:
         specifier: 1.4.1
         version: 1.4.1
@@ -3070,6 +3073,10 @@ packages:
 
   '@gouvfr/dsfr@1.14.2':
     resolution: {integrity: sha512-EJ/ZZMLmSN4KISuuXp0X0lGf+gKVqYATyqgcM5IPhMQAkJ8s5pjzvthjv+Hu6zYk4jwf2NRVt+jQz7JRpw1yiA==}
+    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
+
+  '@gouvfr/dsfr@1.14.4':
+    resolution: {integrity: sha512-Ca17apmTyAF2tMFwMcLwQN7fTlbfMFeyYSLUIUmjoSg1XVF4vDDkbvvKBpWJWaoTLDSFZBbvvHzcDyxw9wSkLA==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
 
   '@grpc/grpc-js@1.10.9':
@@ -11483,6 +11490,9 @@ packages:
     resolution: {integrity: sha512-cnE+y8bz4NhMjISKbgeVJtqNbtf5QpjZP+Bslo+UqkIt9QPnX9q095eiRRASJG1/tz6dlNr6Z5NsBiWYokp6EQ==}
     hasBin: true
 
+  remixicon@4.9.1:
+    resolution: {integrity: sha512-36gLSoujkabnCFZFDyP17VNh9piuBA/rsXUb4auSJWLGsHVXtmxLj/EM5FjaEAGnk8oIAj1Azob/DZ2N+90lAQ==}
+
   request@2.88.2:
     resolution: {integrity: sha512-MsvtOrfG9ZcrOwAW+Qi+F6HbD0CWXEh9ou77uOb7FM2WPhwT7smM833PzanhJLsgXjN89Ir6V2PczXNnMpwKhw==}
     engines: {node: '>= 6'}
@@ -15700,6 +15710,8 @@ snapshots:
       - supports-color
 
   '@gouvfr/dsfr@1.14.2': {}
+
+  '@gouvfr/dsfr@1.14.4': {}
 
   '@grpc/grpc-js@1.10.9':
     dependencies:
@@ -26618,6 +26630,8 @@ snapshots:
   regjsparser@0.12.0:
     dependencies:
       jsesc: 3.0.2
+
+  remixicon@4.9.1: {}
 
   request@2.88.2:
     dependencies:

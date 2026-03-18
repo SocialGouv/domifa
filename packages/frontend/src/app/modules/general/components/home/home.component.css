@@ -48,7 +48,7 @@ ul.check-list li::before {
   content: "\2713";
   padding-right: 0.51em;
   font-weight: bold;
-  color: #4164f5;
+  color: #1212ff;
 }
 
 .counter-title {
@@ -63,7 +63,7 @@ ul.check-list li::before {
 }
 
 .btn-light {
-  color: var(--bs-primary) !important;
+  color: var(--text-active-blue-france) !important;
 }
 
 .bg-secondary-light {

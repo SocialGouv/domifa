@@ -1,7 +1,12 @@
 @if (usager && me) {
 <div class="d-print-none">
-  <div class="my-2 d-flex flex-wrap justify-content-between align-items-center">
-    <h2>Procurations (5 maximum)</h2>
+  <div
+    class="fr-display-flex fr-flex-wrap fr-justify-content-between fr-align-items-center"
+  >
+    <h2 class="fr-h3">
+      <span class="fr-icon-group-line" aria-hidden="true"></span>
+      Procurations (5 maximum)
+    </h2>
     @if (usager.decision.statut !== 'REFUS') { @if (!isFormVisible) {
     <button
       (click)="openForm()"
@@ -30,7 +35,7 @@
   } @if (usager.options.procurations.length > 0 && !isFormVisible) { @for
   (procuration of usager.options.procurations; track $index; let i = $index) {
   <div
-    class="fr-grid-row fr-grid-row--gutters justify-content-between align-items-center"
+    class="fr-grid-row fr-grid-row--gutters fr-justify-content-between fr-align-items-center"
   >
     <p class="fr-col reponses">
       <span class="question">Nom</span>
@@ -391,7 +396,7 @@
     }
 
     <div
-      class="fr-my-2w d-flex justify-content-center align-items-center flex-wrap"
+      class="fr-my-2w fr-display-flex fr-justify-content-center fr-align-items-center fr-flex-wrap"
       style="gap: 1rem"
     >
       @if (form.controls.length < 5) {

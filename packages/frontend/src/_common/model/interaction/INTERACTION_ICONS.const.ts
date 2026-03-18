@@ -33,7 +33,7 @@ export const INTERACTION_ICONS: Record<
     label: "Appel",
   },
   visite: {
-    icon: "fr-icon-walk-line",
+    icon: "ri-walk-fill",
     label: "Visite",
   },
 } as const;
