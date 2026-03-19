@@ -129,110 +129,113 @@
       </div>
 
       <div
-        class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w"
+        class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-my-4w"
         *ngIf="f.isTemporary.value === true"
       >
-        <div
-          class="fr-col-12 fr-col-md-6 fr-input-group"
-          [class.fr-input-group--error]="
-            (f.startDate.dirty || submitted) && f.startDate.errors
-          "
-        >
-          <label for="startDate" class="fr-label"
-            >Date de début de diffusion
-          </label>
-          <div class="fr-date-input">
-            <input
-              class="fr-input"
-              placeholder="jj/mm/aaaa"
-              placement="auto"
-              id="startDate"
-              formControlName="startDate"
-              name="startDate"
-              ngbDatepicker
-              dateFr
-              value
-              [class.fr-input--error]="
-                (f.startDate.dirty || submitted) && f.startDate.errors
-              "
-              [attr.aria-describedby]="
-                (f.startDate.dirty || submitted) && f.startDate.errors
-                  ? 'startDate-errors'
-                  : null
-              "
-              [attr.aria-invalid]="
-                (f.startDate.dirty || submitted) && f.startDate.errors
-                  ? true
-                  : false
-              "
-              #startDate="ngbDatepicker"
-              maxlength="10"
-              required
-            />
-
-            <button
-              type="button"
-              aria-label="Choisir une date de début de validité dans le calendrier"
-              class="date-btn"
-              (click)="startDate.toggle()"
-            >
-              <span class="fr-icon-calendar-line" aria-hidden="true"></span>
-            </button>
-          </div>
-
-          <p
-            *ngIf="(f.startDate.dirty || submitted) && f.startDate.errors"
-            id="startDate-errors"
-            class="fr-error-text"
+        <div class="fr-col-12 fr-col-md-6">
+          <div
+            class="fr-input-group"
+            [class.fr-input-group--error]="
+              (f.startDate.dirty || submitted) && f.startDate.errors
+            "
           >
-            La date de debut est incorrecte. Exemple : 20/12/1996
-          </p>
-        </div>
+            <label for="startDate" class="fr-label"
+              >Date de début de diffusion
+            </label>
+            <div class="fr-date-input">
+              <input
+                class="fr-input"
+                placeholder="jj/mm/aaaa"
+                placement="auto"
+                id="startDate"
+                formControlName="startDate"
+                name="startDate"
+                ngbDatepicker
+                dateFr
+                value
+                [class.fr-input--error]="
+                  (f.startDate.dirty || submitted) && f.startDate.errors
+                "
+                [attr.aria-describedby]="
+                  (f.startDate.dirty || submitted) && f.startDate.errors
+                    ? 'startDate-errors'
+                    : null
+                "
+                [attr.aria-invalid]="
+                  (f.startDate.dirty || submitted) && f.startDate.errors
+                    ? true
+                    : false
+                "
+                #startDate="ngbDatepicker"
+                maxlength="10"
+                required
+              />
 
-        <div
-          class="fr-col-12 fr-col-md-6 fr-input-group"
-          [class.fr-input-group--error]="
-            (f.endDate.dirty || submitted) && f.endDate.errors
-          "
-        >
-          <label for="endDate" class="fr-label">Date de fin </label>
-          <div class="fr-date-input">
-            <input
-              class="fr-input"
-              placeholder="jj/mm/aaaa"
-              placement="auto"
-              id="endDate"
-              formControlName="endDate"
-              name="endDate"
-              ngbDatepicker
-              dateFr
-              required
-              value
-              [class.fr-input--error]="
-                (f.endDate.dirty || submitted) && f.endDate.errors
-              "
-              [attr.aria-describedby]="
-                (f.endDate.dirty || submitted) && f.endDate.errors
-                  ? 'endDate-errors'
-                  : null
-              "
-              [attr.aria-invalid]="
-                (f.endDate.dirty || submitted) && f.endDate.errors
-                  ? true
-                  : false
-              "
-              #endDate="ngbDatepicker"
-              maxlength="10"
-            />
+              <button
+                type="button"
+                aria-label="Choisir une date de début de validité dans le calendrier"
+                class="date-btn"
+                (click)="startDate.toggle()"
+              >
+                <span class="fr-icon-calendar-line" aria-hidden="true"></span>
+              </button>
+            </div>
 
-            <button
-              type="button"
-              aria-label="Choisir une date de fin de validité dans le calendrier"
-              class="date-btn"
-              (click)="endDate.toggle()"
+            <p
+              *ngIf="(f.startDate.dirty || submitted) && f.startDate.errors"
+              id="startDate-errors"
+              class="fr-error-text"
             >
-              <span class="fr-icon-calendar-line" aria-hidden="true"></span>
-            </button>
+              La date de debut est incorrecte. Exemple : 20/12/1996
+            </p>
+          </div>
+        </div>
+        <div class="fr-col-12 fr-col-md-6">
+          <div
+            class="fr-input-group"
+            [class.fr-input-group--error]="
+              (f.endDate.dirty || submitted) && f.endDate.errors
+            "
+          >
+            <label for="endDate" class="fr-label">Date de fin </label>
+            <div class="fr-date-input">
+              <input
+                class="fr-input"
+                placeholder="jj/mm/aaaa"
+                placement="auto"
+                id="endDate"
+                formControlName="endDate"
+                name="endDate"
+                ngbDatepicker
+                dateFr
+                required
+                value
+                [class.fr-input--error]="
+                  (f.endDate.dirty || submitted) && f.endDate.errors
+                "
+                [attr.aria-describedby]="
+                  (f.endDate.dirty || submitted) && f.endDate.errors
+                    ? 'endDate-errors'
+                    : null
+                "
+                [attr.aria-invalid]="
+                  (f.endDate.dirty || submitted) && f.endDate.errors
+                    ? true
+                    : false
+                "
+                #endDate="ngbDatepicker"
+                maxlength="10"
+              />
+
+              <button
+                type="button"
+                aria-label="Choisir une date de fin de validité dans le calendrier"
+                class="date-btn"
+                (click)="endDate.toggle()"
+              >
+                <span class="fr-icon-calendar-line" aria-hidden="true"></span>
+              </button>
+            </div>
           </div>
 
           <div

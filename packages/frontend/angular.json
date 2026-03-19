@@ -30,7 +30,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/assets/css/forms.scss",
+              "src/assets/css/custom-dsfr.scss",
               "src/assets/css/main.scss",
               "src/assets/css/print.css",
               "node_modules/intl-tel-input/build/css/intlTelInput.css"

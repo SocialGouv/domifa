@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 
-type ButtonColor = "primary" | "secondary" | "danger" | "tertiary";
+type ButtonColor = "primary" | "secondary" | "tertiary";
 type ButtonIcon =
   | "download"
   | "trash"

@@ -3,7 +3,8 @@
   [ariaLabel]="'Modifier le document ' + doc.label"
   content="Modifier"
   icon="edit"
-  color="primary"
+  color="secondary"
+  customClass="fr-btn--sm  fr-mx-1w"
   [loading]="loading"
 >
 </app-button>
@@ -26,12 +27,10 @@
       class="fr-input-group"
       [class.fr-input-group--error]="submitted && u.label.errors"
     >
-      <label class="fr-label" for="label">
-        Nom du document
-        <span class="fr-hint-text" id="label-description"
-          >Exemple : Cerfa signé, impots, carte identité, etc..</span
-        >
-      </label>
+      <label class="fr-label" for="label"> Nom du document </label>
+      <p class="fr-hint-text" id="label-description">
+        Exemple : Cerfa signé, impots, carte identité, etc..
+      </p>
       <input
         type="text"
         class="fr-input"

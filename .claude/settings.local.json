@@ -2,7 +2,14 @@
   "permissions": {
     "allow": [
       "Bash(npm run build:frontend:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(find src:*)",
+      "WebSearch",
+      "WebFetch(domain:www.systeme-de-design.gouv.fr)",
+      "Bash(find:*)",
+      "Bash(xargs:*)",
+      "Bash(npx ng:*)",
+      "Bash(python3:*)"
     ]
   }
 }

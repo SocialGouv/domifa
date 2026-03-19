@@ -1,9 +1,8 @@
 <div class="fr-alert fr-alert--info">
-  <p class="fr-alert__title">Attention</p>
   <p class="fr-alert__desc">
-    Cette section ne sert pas à téléverser des modèles de document (courrier de
-    radiation, avertissement, passage). Pour cela rendez-vous dans vos
-    paramètres document de la structure
+    Attention. Cette section ne sert pas à téléverser des modèles de document
+    (courrier de radiation, avertissement, passage). Pour cela rendez-vous dans
+    vos paramètres document de la structure
   </p>
 </div>
 
@@ -56,12 +55,12 @@
                 columnName="Ajouté le"
               ></app-table-head-sort>
             </th>
-            <th scope="col" class="fr-table__action">Actions</th>
+            <th scope="col" class="fr-table__action fr-text--right">Actions</th>
           </tr>
         </thead>
         <tbody>
           @for (document of docs | sortArray : currentKey : sortValue; track
-          document.id; let i = $index) {
+          document.uuid; let i = $index) {
           <tr [attr.aria-rowindex]="i + 1">
             <td>
               <app-display-table-image
@@ -78,20 +77,19 @@
             </td>
             <td>{{ document.createdBy }}</td>
             <td>{{ document.createdAt | date : "dd MMMM yyyy" }}</td>
-            <td class="fr-table__action">
+            <td class="fr-table__action fr-text--right">
               <app-edit-usager-doc
                 [doc]="document"
                 (docChange)="updateDocument($event, i)"
                 [usager]="usager"
-                customClass="fr-btn--sm"
               ></app-edit-usager-doc>
               <app-button
                 (action)="getDocument(document)"
                 [ariaLabel]="'Télécharger le document ' + document.label"
                 content="Télécharger"
                 icon="download"
-                color="primary"
-                customClass="fr-btn--sm"
+                color="secondary"
+                customClass="fr-btn--sm fr-mx-1w"
                 [loading]="document.loading"
               ></app-button>
               <app-button
@@ -99,8 +97,8 @@
                 [ariaLabel]="'Supprimer le document ' + document.label"
                 content="Supprimer"
                 icon="trash"
-                color="danger"
-                customClass="fr-btn--sm"
+                color="secondary"
+                customClass="fr-btn--sm fr-mx-1w"
                 [loading]="document.loading"
               ></app-button>
             </td>

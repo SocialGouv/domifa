@@ -1,12 +1,17 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { Title } from "@angular/platform-browser";
+import { RouterModule } from "@angular/router";
 
 @Component({
   selector: "app-rgaa",
+  standalone: true,
+  imports: [RouterModule],
   templateUrl: "./rgaa.component.html",
 })
 export class RgaaComponent {
-  constructor(private readonly titleService: Title) {
-    this.titleService.setTitle("Déclaration d’accessibilité de DomiFa");
+  private readonly titleService = inject(Title);
+
+  constructor() {
+    this.titleService.setTitle("Déclaration d'accessibilité de DomiFa");
   }
 }

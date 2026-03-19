@@ -19,7 +19,7 @@
           type="button"
           *ngIf="me?.role !== 'simple'"
           (click)="openDeleteUsagersModal()"
-          class="btn btn-sm btn-outline-danger"
+          class="fr-btn fr-btn--sm fr-btn--secondary"
         >
           <span class="fr-mr-2w fr-icon-delete-line" aria-hidden="true"></span>
           <ng-container *ngIf="selectedRefs.size === 1"
