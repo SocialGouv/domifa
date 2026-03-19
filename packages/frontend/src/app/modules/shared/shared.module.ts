@@ -1,11 +1,6 @@
 import { DsfrFooterModule } from "@edugouvfr/ngx-dsfr";
 import { CommonModule } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
-import {
-  FaIconLibrary,
-  FontAwesomeModule,
-} from "@fortawesome/angular-fontawesome";
-import { FA_ICONS } from "./constants/FA_ICONS.const";
 
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 
@@ -29,7 +24,7 @@ import { LoadingComponent } from "./components/loading/loading.component";
 @NgModule({
   imports: [
     CommonModule,
-    FontAwesomeModule,
+
     FormsModule,
     FullNamePipe,
     FonctionFormatPipe,
@@ -61,7 +56,7 @@ import { LoadingComponent } from "./components/loading/loading.component";
     CleanStrDirective,
     HasRoleDirective,
     CustomToastrComponent,
-    FontAwesomeModule,
+
     ButtonComponent,
     FonctionFormatPipe,
     DsfrFooterModule,
@@ -73,8 +68,4 @@ import { LoadingComponent } from "./components/loading/loading.component";
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class SharedModule {
-  constructor(library: FaIconLibrary) {
-    library.addIcons(...FA_ICONS);
-  }
-}
+export class SharedModule {}

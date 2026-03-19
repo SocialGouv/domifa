@@ -1,17 +1,15 @@
-<div
+<button
   #tooltipAyantsDroit="ngbTooltip"
   [ngbTooltip]="ayantsDroitsInfos"
-  class="fr-badge fr-badge--success fr-badge--sm"
+  class="fr-tag fr-tag--green-emeraude fr-tag--sm"
   *ngIf="usager.ayantsDroits.length > 0"
-  tabindex="0"
+  type="button"
 >
-  <p class="m-0">
-    <span *ngIf="usager.ayantsDroits.length > 1">
-      {{ usager.ayantsDroits.length }} ayants droit
-    </span>
-    <span *ngIf="usager.ayantsDroits.length === 1">1 ayant droit</span>
-  </p>
-</div>
+  <span *ngIf="usager.ayantsDroits.length > 1">
+    {{ usager.ayantsDroits.length }} ayants droit
+  </span>
+  <span *ngIf="usager.ayantsDroits.length === 1">1 ayant droit</span>
+</button>
 
 <ng-template #ayantsDroitsInfos class="p-4">
   <div

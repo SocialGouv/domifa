@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
-import { faFilePdf } from "@fortawesome/free-regular-svg-icons";
 import {
   CerfaDocType,
   SortValues,
@@ -23,7 +22,7 @@ export class ProfilHistoriqueDecisionsComponent implements OnInit {
   public sortValue: SortValues = "desc";
   public currentKey: keyof UsagerDecision = "dateDecision";
   public displayDeleteButton = false;
-  public readonly faFilePdf = faFilePdf;
+
   constructor(private readonly documentService: DocumentService) {}
   ngOnInit() {
     this.displayDeleteButton =

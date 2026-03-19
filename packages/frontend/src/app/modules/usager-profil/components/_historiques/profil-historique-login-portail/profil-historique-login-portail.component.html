@@ -11,14 +11,12 @@
   class="fr-text--center content-overlay d-print-none"
 >
   <div>
-    <fa-icon
-      [icon]="['fas', 'spinner']"
-      class="spinner"
-      animation="spin"
+    <span
+      class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
       aria-hidden="true"
-    ></fa-icon>
+    ></span>
     <br />
-    <span class="fw-bold">Chargement des connexions...</span>
+    <span class="fr-text--bold">Chargement des connexions...</span>
   </div>
 </div>
 
@@ -60,7 +58,7 @@
 </ng-container>
 
 <div
-  class="fr-justify-content-center fr-display-flex p-3 d-print-none"
+  class="fr-justify-content-center fr-display-flex fr-p-3w d-print-none"
   *ngIf="interactions.length > 0 && searchResults.meta.itemCount >= params.take"
 >
   <div
@@ -78,7 +76,7 @@
       <option [ngValue]="250">250</option>
       <option [ngValue]="500">500</option>
     </select>
-    <label for="limit" class="ms-3 fw-bold">résultats par page </label>
+    <label for="limit" class="ms-3 fr-text--bold">résultats par page </label>
   </div>
 
   <dsfr-pagination

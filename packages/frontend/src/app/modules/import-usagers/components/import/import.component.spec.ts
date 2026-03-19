@@ -12,7 +12,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { SharedModule } from "../../../shared/shared.module";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
 
@@ -30,7 +30,6 @@ describe("ImportComponent", () => {
         SharedModule,
         ReactiveFormsModule,
         FormsModule,
-        FontAwesomeModule,
       ],
       providers: [
         provideHttpClient(),

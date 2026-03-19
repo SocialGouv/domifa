@@ -1,381 +1,375 @@
 <app-welcome-modal></app-welcome-modal>
-<div class="head-page d-print-none">
+
+<div class="fr-content-container fr-py-3w">
   <div class="fr-container">
     <div
-      class="fr-grid-row fr-text--center justify-content-md-between fr-justify-content-center fr-align-items-center py-2"
+      class="fr-grid-row fr-text--center justify-content-md-between fr-justify-content-center fr-align-items-center"
     >
-      <div class="fr-col-md-2 fr-col-6 fr-text--right order-2 order-md-3">
+      <h1 class="fr-h3 fr-col-md-2 fr-col-6 title text-start">Domiciliés</h1>
+      <div class="fr-col-md-2 fr-col-6 fr-text--right">
         <a
           *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
           routerLink="/usager/nouveau"
           ariaCurrentWhenActive="page"
           class="fr-btn fr-btn--secondary"
         >
-          <fa-icon
+          <span
+            class="fr-icon-file-add-line fr-mr-1w"
             aria-hidden="true"
-            [icon]="['fas', 'plus']"
-            class="me-2"
-          ></fa-icon>
+          ></span>
           Créer une demande
         </a>
       </div>
-      <h1 class="fr-col-md-2 fr-col-6 title text-start order-1 order-md-1">
-        Domiciliés
-      </h1>
     </div>
-  </div>
-</div>
-<div class="fr-content-container-light fr-py-3w">
-  <div class="fr-container">
-    <div role="tablist" id="statut-selector" class="mt-3 fr-grid-row">
-      <button
-        type="button"
-        class="fr-tabs__tab"
-        role="tab"
-        [attr.tabindex]="
-          filters.statut === UsagersFilterCriteriaStatut.TOUS ? 0 : -1
-        "
-        [ngClass]="{
-          'selected-section':
-            filters.statut === UsagersFilterCriteriaStatut.TOUS
-        }"
-        [attr.aria-selected]="
-          filters.statut === UsagersFilterCriteriaStatut.TOUS
-        "
-        [attr.aria-label]="
-          'Afficher les ' + usagersCountByStatus.TOUS + ' dossiers '
-        "
-        (click)="
-          updateFilters({
-            element: 'statut',
-            value: UsagersFilterCriteriaStatut.TOUS
-          })
-        "
-      >
-        <span class="statut-cpt">{{ usagersCountByStatus.TOUS }}</span>
-        <span class="statut-label"> Tous</span>
-        <span
-          class="visually-hidden"
-          *ngIf="filters.statut === UsagersFilterCriteriaStatut.TOUS"
-          >{{ usagersCountByStatus.TOUS }} dossiers, statut actuellement
-          sélectionné
-        </span>
-      </button>
-      <button
-        type="button"
-        class="fr-tabs__tab"
-        role="tab"
-        [ngClass]="{
-          'selected-section':
-            filters.statut === UsagersFilterCriteriaStatut.VALIDE
-        }"
-        [attr.tabindex]="
-          filters.statut === UsagersFilterCriteriaStatut.VALIDE ? 0 : -1
-        "
-        [attr.aria-selected]="
-          filters.statut === UsagersFilterCriteriaStatut.VALIDE
-        "
-        [attr.aria-label]="
-          'Afficher les ' + usagersCountByStatus.VALIDE + ' dossiers actifs'
-        "
-        (click)="
-          updateFilters({
-            element: 'statut',
-            value: UsagersFilterCriteriaStatut.VALIDE
-          })
-        "
-      >
-        <span class="statut-cpt">{{ usagersCountByStatus?.VALIDE }} </span>
-        <span class="statut-label"> Actifs</span>
-        <span
-          class="visually-hidden"
-          *ngIf="filters.statut === UsagersFilterCriteriaStatut.VALIDE"
-          >{{ usagersCountByStatus?.VALIDE }} dossiers, statut actuellement
-          sélectionné
-        </span>
-      </button>
-      <button
-        type="button"
-        class="fr-tabs__tab"
-        role="tab"
-        [attr.tabindex]="
-          filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION ? 0 : -1
-        "
-        [ngClass]="{
-          'selected-section':
-            filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION
-        }"
-        [attr.aria-selected]="
-          filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION
-        "
-        [attr.aria-label]="
-          'Afficher les ' + usagersCountByStatus.INSTRUCTION + ' dossiers '
-        "
-        (click)="
-          updateFilters({
-            element: 'statut',
-            value: UsagersFilterCriteriaStatut.INSTRUCTION
-          })
-        "
-      >
-        <span class="statut-cpt">{{ usagersCountByStatus?.INSTRUCTION }} </span>
-        <span class="statut-label">À compléter</span>
-      </button>
-      <button
-        type="button"
-        class="fr-tabs__tab"
-        role="tab"
-        [attr.tabindex]="
-          filters.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION
-            ? 0
-            : -1
-        "
-        [ngClass]="{
-          'selected-section':
-            filters.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION
-        }"
-        [attr.aria-label]="
-          'Afficher les ' +
-          usagersCountByStatus.ATTENTE_DECISION +
-          ' dossiers en attente de décision'
-        "
-        [attr.aria-selected]="
-          filters.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION
-        "
-        (click)="
-          updateFilters({
-            element: 'statut',
-            value: UsagersFilterCriteriaStatut.ATTENTE_DECISION
-          })
-        "
-      >
-        <span class="statut-cpt"
-          >{{ usagersCountByStatus?.ATTENTE_DECISION }}
-        </span>
-        <span class="statut-label">Attente de décision</span>
-      </button>
-      <button
-        type="button"
-        class="fr-tabs__tab"
-        role="tab"
-        [attr.tabindex]="
-          filters.statut === UsagersFilterCriteriaStatut.REFUS ? 0 : -1
-        "
-        [ngClass]="{
-          'selected-section':
-            filters.statut === UsagersFilterCriteriaStatut.REFUS
-        }"
-        [attr.aria-label]="
-          'Afficher les ' + usagersCountByStatus?.REFUS + ' dossiers '
-        "
-        [attr.aria-selected]="
-          filters.statut === UsagersFilterCriteriaStatut.REFUS
-        "
-        (click)="
-          updateFilters({
-            element: 'statut',
-            value: UsagersFilterCriteriaStatut.REFUS
-          })
-        "
-      >
-        <span class="statut-cpt">{{ usagersCountByStatus?.REFUS }} </span>
-        <span class="statut-label">Refusés</span>
-      </button>
-      <button
-        type="button"
-        class="fr-tabs__tab"
-        role="tab"
-        [attr.tabindex]="
-          filters.statut === UsagersFilterCriteriaStatut.RADIE ? 0 : -1
-        "
-        [ngClass]="{
-          'selected-section':
-            filters.statut === UsagersFilterCriteriaStatut.RADIE
-        }"
-        [attr.aria-label]="
-          'Afficher les ' + usagersCountByStatus?.RADIE + ' dossiers '
-        "
-        [attr.aria-selected]="
-          filters.statut === UsagersFilterCriteriaStatut.RADIE
-        "
-        (click)="
-          updateFilters({
-            element: 'statut',
-            value: UsagersFilterCriteriaStatut.RADIE
-          })
-        "
-      >
-        <span class="statut-cpt">{{ usagersCountByStatus.RADIE }} </span>
-        <span class="statut-label"> Radiés</span>
-      </button>
-    </div>
-  </div>
-  <div class="fr-content">
     <div class="fr-container">
-      <div class="fr-content">
-        <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom">
-          <div class="fr-col-auto">
-            <div class="fr-select-group">
-              <label class="fr-label" for="searchStringField">
-                Rechercher par
-              </label>
-              <select
-                class="fr-select"
-                id="searchStringField"
-                [ngModel]="filters.searchStringField"
-                (ngModelChange)="
-                  updateFilters({
-                    element: 'searchStringField',
-                    value: $event
-                  })
-                "
-              >
-                <option [ngValue]="CriteriaSearchField.DEFAULT">
-                  {{ SEARCH_STRING_FIELD_LABELS.DEFAULT.label }}
-                </option>
-                <option [ngValue]="CriteriaSearchField.BIRTH_DATE">
-                  Date de naissance
-                </option>
-                <option [ngValue]="CriteriaSearchField.PHONE_NUMBER">
-                  {{ SEARCH_STRING_FIELD_LABELS.PHONE_NUMBER.label }}
-                </option>
-              </select>
-            </div>
-          </div>
+      <div role="tablist" id="statut-selector" class="mt-3 fr-grid-row">
+        <button
+          type="button"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.tabindex]="
+            filters.statut === UsagersFilterCriteriaStatut.TOUS ? 0 : -1
+          "
+          [ngClass]="{
+            'selected-section':
+              filters.statut === UsagersFilterCriteriaStatut.TOUS
+          }"
+          [attr.aria-selected]="
+            filters.statut === UsagersFilterCriteriaStatut.TOUS
+          "
+          [attr.aria-label]="
+            'Afficher les ' + usagersCountByStatus.TOUS + ' dossiers '
+          "
+          (click)="
+            updateFilters({
+              element: 'statut',
+              value: UsagersFilterCriteriaStatut.TOUS
+            })
+          "
+        >
+          <span class="statut-cpt">{{ usagersCountByStatus.TOUS }}</span>
+          <span class="statut-label"> Tous</span>
+          <span
+            class="fr-sr-only"
+            *ngIf="filters.statut === UsagersFilterCriteriaStatut.TOUS"
+            >{{ usagersCountByStatus.TOUS }} dossiers, statut actuellement
+            sélectionné
+          </span>
+        </button>
+        <button
+          type="button"
+          class="fr-tabs__tab"
+          role="tab"
+          [ngClass]="{
+            'selected-section':
+              filters.statut === UsagersFilterCriteriaStatut.VALIDE
+          }"
+          [attr.tabindex]="
+            filters.statut === UsagersFilterCriteriaStatut.VALIDE ? 0 : -1
+          "
+          [attr.aria-selected]="
+            filters.statut === UsagersFilterCriteriaStatut.VALIDE
+          "
+          [attr.aria-label]="
+            'Afficher les ' + usagersCountByStatus.VALIDE + ' dossiers actifs'
+          "
+          (click)="
+            updateFilters({
+              element: 'statut',
+              value: UsagersFilterCriteriaStatut.VALIDE
+            })
+          "
+        >
+          <span class="statut-cpt">{{ usagersCountByStatus?.VALIDE }} </span>
+          <span class="statut-label"> Actifs</span>
+          <span
+            class="fr-sr-only"
+            *ngIf="filters.statut === UsagersFilterCriteriaStatut.VALIDE"
+            >{{ usagersCountByStatus?.VALIDE }} dossiers, statut actuellement
+            sélectionné
+          </span>
+        </button>
+        <button
+          type="button"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.tabindex]="
+            filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION ? 0 : -1
+          "
+          [ngClass]="{
+            'selected-section':
+              filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION
+          }"
+          [attr.aria-selected]="
+            filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION
+          "
+          [attr.aria-label]="
+            'Afficher les ' + usagersCountByStatus.INSTRUCTION + ' dossiers '
+          "
+          (click)="
+            updateFilters({
+              element: 'statut',
+              value: UsagersFilterCriteriaStatut.INSTRUCTION
+            })
+          "
+        >
+          <span class="statut-cpt"
+            >{{ usagersCountByStatus?.INSTRUCTION }}
+          </span>
+          <span class="statut-label">À compléter</span>
+        </button>
+        <button
+          type="button"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.tabindex]="
+            filters.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION
+              ? 0
+              : -1
+          "
+          [ngClass]="{
+            'selected-section':
+              filters.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION
+          }"
+          [attr.aria-label]="
+            'Afficher les ' +
+            usagersCountByStatus.ATTENTE_DECISION +
+            ' dossiers en attente de décision'
+          "
+          [attr.aria-selected]="
+            filters.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION
+          "
+          (click)="
+            updateFilters({
+              element: 'statut',
+              value: UsagersFilterCriteriaStatut.ATTENTE_DECISION
+            })
+          "
+        >
+          <span class="statut-cpt"
+            >{{ usagersCountByStatus?.ATTENTE_DECISION }}
+          </span>
+          <span class="statut-label">Attente de décision</span>
+        </button>
+        <button
+          type="button"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.tabindex]="
+            filters.statut === UsagersFilterCriteriaStatut.REFUS ? 0 : -1
+          "
+          [ngClass]="{
+            'selected-section':
+              filters.statut === UsagersFilterCriteriaStatut.REFUS
+          }"
+          [attr.aria-label]="
+            'Afficher les ' + usagersCountByStatus?.REFUS + ' dossiers '
+          "
+          [attr.aria-selected]="
+            filters.statut === UsagersFilterCriteriaStatut.REFUS
+          "
+          (click)="
+            updateFilters({
+              element: 'statut',
+              value: UsagersFilterCriteriaStatut.REFUS
+            })
+          "
+        >
+          <span class="statut-cpt">{{ usagersCountByStatus?.REFUS }} </span>
+          <span class="statut-label">Refusés</span>
+        </button>
+        <button
+          type="button"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.tabindex]="
+            filters.statut === UsagersFilterCriteriaStatut.RADIE ? 0 : -1
+          "
+          [ngClass]="{
+            'selected-section':
+              filters.statut === UsagersFilterCriteriaStatut.RADIE
+          }"
+          [attr.aria-label]="
+            'Afficher les ' + usagersCountByStatus?.RADIE + ' dossiers '
+          "
+          [attr.aria-selected]="
+            filters.statut === UsagersFilterCriteriaStatut.RADIE
+          "
+          (click)="
+            updateFilters({
+              element: 'statut',
+              value: UsagersFilterCriteriaStatut.RADIE
+            })
+          "
+        >
+          <span class="statut-cpt">{{ usagersCountByStatus.RADIE }} </span>
+          <span class="statut-label"> Radiés</span>
+        </button>
+      </div>
+    </div>
 
-          <div class="fr-col">
-            <div class="fr-search-bar" role="search">
-              <label class="fr-label" for="searchInput">
-                {{
-                  SEARCH_STRING_FIELD_LABELS[filters.searchStringField]
-                    .placeholder
-                }}
-              </label>
-              <input
-                class="fr-input"
-                id="searchInput"
-                [type]="
-                  filters.searchStringField === CriteriaSearchField.PHONE_NUMBER
-                    ? 'tel'
-                    : 'search'
-                "
-                [appDateFrConditional]="
-                  filters.searchStringField === CriteriaSearchField.BIRTH_DATE
-                "
-                [placeholder]="
-                  SEARCH_STRING_FIELD_LABELS[filters.searchStringField]
-                    .placeholder
-                "
-                name="searchInput"
-                #searchInput
-              />
-              <button
-                class="fr-btn"
-                type="button"
-                #refreshButton
-                title="Lancer la recherche"
-              >
-                Rechercher
-              </button>
-            </div>
-          </div>
-
-          <div class="fr-col-auto">
-            <button
-              type="button"
-              class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-filter-line"
-              [attr.aria-expanded]="showFilters"
-              aria-controls="filter-zone"
-              (click)="showFilters = !showFilters"
+    <div class="fr-content">
+      <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom">
+        <div class="fr-col-auto">
+          <div class="fr-select-group">
+            <label class="fr-label" for="searchStringField">
+              Rechercher par
+            </label>
+            <select
+              class="fr-select"
+              id="searchStringField"
+              [ngModel]="filters.searchStringField"
+              (ngModelChange)="
+                updateFilters({
+                  element: 'searchStringField',
+                  value: $event
+                })
+              "
             >
-              Filtrer @if (activeFilterCount > 0) {
-              <span class="fr-badge fr-badge--sm fr-badge--info fr-ml-1w">
-                {{ activeFilterCount }}
-              </span>
-              }
+              <option [ngValue]="CriteriaSearchField.DEFAULT">
+                {{ SEARCH_STRING_FIELD_LABELS.DEFAULT.label }}
+              </option>
+              <option [ngValue]="CriteriaSearchField.BIRTH_DATE">
+                Date de naissance
+              </option>
+              <option [ngValue]="CriteriaSearchField.PHONE_NUMBER">
+                {{ SEARCH_STRING_FIELD_LABELS.PHONE_NUMBER.label }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="fr-col">
+          <div class="fr-search-bar" role="search">
+            <label class="fr-label" for="searchInput">
+              {{
+                SEARCH_STRING_FIELD_LABELS[filters.searchStringField]
+                  .placeholder
+              }}
+            </label>
+            <input
+              class="fr-input"
+              id="searchInput"
+              [type]="
+                filters.searchStringField === CriteriaSearchField.PHONE_NUMBER
+                  ? 'tel'
+                  : 'search'
+              "
+              [appDateFrConditional]="
+                filters.searchStringField === CriteriaSearchField.BIRTH_DATE
+              "
+              [placeholder]="
+                SEARCH_STRING_FIELD_LABELS[filters.searchStringField]
+                  .placeholder
+              "
+              name="searchInput"
+              #searchInput
+            />
+            <button
+              class="fr-btn"
+              type="button"
+              #refreshButton
+              title="Lancer la recherche"
+            >
+              Rechercher
             </button>
           </div>
         </div>
-        <app-manage-filters
-          [filters]="filters"
-          [showFilters]="showFilters"
-          (updateFilters)="updateFilters($event)"
-          [nbResults]="nbResults"
-          [searching]="searching"
-          [usagersRadiesLoadedCount]="usagersRadiesLoadedCount"
-          [usagersRadiesTotalCount]="usagersCountByStatus.RADIE"
-        ></app-manage-filters>
 
-        @if ( (filters.statut === UsagersFilterCriteriaStatut.TOUS ||
-        filters.statut === UsagersFilterCriteriaStatut.RADIE) &&
-        usagersCountByStatus.RADIE !== usagersRadiesLoadedCount &&
-        !this.chargerTousRadies$.value ) {
-        <div
-          class="fr-my-4w fr-alert fr-alert--info fr-flex-wrap fr-text--center justify-content-md-between fr-justify-content-center fr-align-items-center"
-        >
-          <p class="me-2">
-            <span class="fr-alert__title">Information:</span>
-            {{ usagersRadiesLoadedCount }} /
-            {{ usagersCountByStatus.RADIE }} dossiers radiés sont actuellement
-            affichés. Le chargement de tous les dossiers peut prendre plusieurs
-            minutes
-          </p>
-          <button type="button" class="fr-btn" (click)="chargerTousRadies()">
-            Afficher tous les radiés
-          </button>
-        </div>
-        } @if (usagers.length === 0 && !searching) {
-        <div
-          class="fr-my-4w fr-alert fr-alert--warning fr-flex-wrap fr-text--center justify-content-md-between fr-justify-content-center fr-align-items-center"
-        >
-          <p class="me-2">
-            <span class="fr-alert__title">Aucun résultat :</span>
-            aucun dossier ne correspond à votre recherche
-          </p>
-
+        <div class="fr-col-auto">
           <button
             type="button"
-            (click)="resetFilters()"
-            class="fr-btn fr-btn--secondary fr-my-1w my-md-0"
+            class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-filter-line"
+            [attr.aria-expanded]="showFilters"
+            aria-controls="filter-zone"
+            (click)="showFilters = !showFilters"
           >
-            Réinitialiser les filtres
+            Filtrer @if (activeFilterCount > 0) {
+            <span class="fr-badge fr-badge--sm fr-badge--info fr-ml-1w">
+              {{ activeFilterCount }}
+            </span>
+            }
           </button>
         </div>
-        }
+      </div>
 
-        <div
-          *ngIf="searching"
-          @fadeInOut
-          role="alert"
-          aria-busy="true"
-          aria-label="Chargement des dossiers..."
-          class="fr-text--center content-overlay d-print-none"
+      <app-manage-filters
+        [filters]="filters"
+        [showFilters]="showFilters"
+        (updateFilters)="updateFilters($event)"
+        [nbResults]="nbResults"
+        [searching]="searching"
+        [usagersRadiesLoadedCount]="usagersRadiesLoadedCount"
+        [usagersRadiesTotalCount]="usagersCountByStatus.RADIE"
+      ></app-manage-filters>
+
+      @if ( (filters.statut === UsagersFilterCriteriaStatut.TOUS ||
+      filters.statut === UsagersFilterCriteriaStatut.RADIE) &&
+      usagersCountByStatus.RADIE !== usagersRadiesLoadedCount &&
+      !this.chargerTousRadies$.value ) {
+      <div
+        class="fr-my-4w fr-alert fr-alert--info fr-flex-wrap fr-text--center justify-content-md-between fr-justify-content-center fr-align-items-center"
+      >
+        <p class="me-2">
+          <span class="fr-alert__title">Information:</span>
+          {{ usagersRadiesLoadedCount }} /
+          {{ usagersCountByStatus.RADIE }} dossiers radiés sont actuellement
+          affichés. Le chargement de tous les dossiers peut prendre plusieurs
+          minutes
+        </p>
+        <button type="button" class="fr-btn" (click)="chargerTousRadies()">
+          Afficher tous les radiés
+        </button>
+      </div>
+      } @if (usagers.length === 0 && !searching) {
+      <div
+        class="fr-my-4w fr-alert fr-alert--warning fr-flex-wrap fr-text--center justify-content-md-between fr-justify-content-center fr-align-items-center"
+      >
+        <p class="me-2">
+          <span class="fr-alert__title">Aucun résultat :</span>
+          aucun dossier ne correspond à votre recherche
+        </p>
+
+        <button
+          type="button"
+          (click)="resetFilters()"
+          class="fr-btn fr-btn--secondary fr-my-1w my-md-0"
         >
-          <div>
-            <fa-icon
-              [icon]="['fas', 'spinner']"
-              class="spinner"
-              animation="spin"
-              aria-hidden="true"
-            ></fa-icon>
-            <br />
-            <span>Chargement des dossiers...</span>
-          </div>
-        </div>
+          Réinitialiser les filtres
+        </button>
+      </div>
+      }
 
-        <div id="table-container" @fadeInOut>
-          <app-manage-manage-usagers-table
-            [selectedRefs]="selectedRefs"
-            [usagers]="usagers"
-            [(selectAllCheckboxes)]="selectAllCheckboxes"
-            [filters]="filters"
-            [filters$]="filters$"
-            (updateFilters)="updateFilters($event)"
-            (goToPrint)="goToPrint()"
-          ></app-manage-manage-usagers-table>
-
-          <div #sentinel class="sentinel-preload"></div>
+      <div
+        *ngIf="searching"
+        @fadeInOut
+        role="alert"
+        aria-busy="true"
+        aria-label="Chargement des dossiers..."
+        class="fr-text--center content-overlay d-print-none"
+      >
+        <div>
+          <span
+            class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
+            aria-hidden="true"
+          ></span>
+          <br />
+          <span>Chargement des dossiers...</span>
         </div>
+      </div>
+
+      <div @fadeInOut>
+        <app-manage-manage-usagers-table
+          [selectedRefs]="selectedRefs"
+          [usagers]="usagers"
+          [(selectAllCheckboxes)]="selectAllCheckboxes"
+          [filters]="filters"
+          [filters$]="filters$"
+          (updateFilters)="updateFilters($event)"
+          (goToPrint)="goToPrint()"
+        ></app-manage-manage-usagers-table>
+
+        <div #sentinel class="sentinel-preload"></div>
       </div>
     </div>
   </div>

@@ -49,7 +49,7 @@
   </div>
 </div>
 <div
-  class="fr-justify-content-center fr-display-flex p-3 d-print-none"
+  class="fr-justify-content-center fr-display-flex fr-p-3w d-print-none"
   *ngIf="
     searchResults.data.length > 0 && searchResults.meta.itemCount >= params.take
   "
@@ -69,7 +69,7 @@
       <option [ngValue]="250">250</option>
       <option [ngValue]="500">500</option>
     </select>
-    <label for="limit" class="ms-3 fw-bold">résultats par page </label>
+    <label for="limit" class="ms-3 fr-text--bold">résultats par page </label>
   </div>
 
   <dsfr-pagination

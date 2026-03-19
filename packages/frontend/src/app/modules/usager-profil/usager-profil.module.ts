@@ -48,7 +48,7 @@ import { FormatInternationalPhoneNumberPipe } from "../../shared/phone/formatInt
 import { ProfilSmsPortailComponent } from "./components/pages/profil-sms-portail/profil-sms-portail.component";
 import { SortArrayPipe } from "../shared/pipes";
 import { DisplayTableImageComponent } from "../shared/components/display-table-image/display-table-image.component";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+
 import { FullNamePipe } from "../usager-shared/pipes";
 import { DsfrModalComponent, DsfrPaginationModule } from "@edugouvfr/ngx-dsfr";
 
@@ -81,7 +81,7 @@ import { DsfrModalComponent, DsfrPaginationModule } from "@edugouvfr/ngx-dsfr";
   imports: [
     CommonModule,
     DisplayTableImageComponent,
-    FontAwesomeModule,
+
     FormatInternationalPhoneNumberPipe,
     FormsModule,
     NgbModule,

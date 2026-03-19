@@ -3,12 +3,10 @@
   <div class="fr-grid-row fr-display-flex fr-align-items-center">
     <div class="fr-col-md-12 fr-text--center">
       <div @fadeInOut aria-live="polite">
-        <fa-icon
-          [icon]="['fas', 'spinner']"
-          class="spinner"
-          animation="spin"
+        <span
+          class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
           aria-hidden="true"
-        ></fa-icon>
+        ></span>
         <span>Chargement en cours, veuillez patienter</span>
       </div>
     </div>
@@ -23,7 +21,7 @@
         aria-labelledby="storybook-form-legend "
       >
         <legend
-          class="fr-fieldset__legend--regular fr-fieldset__legend visually-hidden"
+          class="fr-fieldset__legend--regular fr-fieldset__legend fr-sr-only"
           id="storybook-form-legend"
         >
           Légende pour l’ensemble des éléments
@@ -87,7 +85,7 @@
   </div>
   <div class="fr-grid-row fr-display-flex fr-align-items-center">
     <div class="fr-col-md-12 ps-2 pe-4">
-      <div class="text-start fw-bold mb-1">
+      <div class="text-start fr-text--bold mb-1">
         <span *ngIf="selectedCharts === 'courriers'">
           Courriers distribués chaque mois
         </span>

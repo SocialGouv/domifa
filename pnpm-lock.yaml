@@ -581,21 +581,6 @@ importers:
       '@edugouvfr/ngx-dsfr-ext':
         specifier: ^1.5.0
         version: 1.6.1(36f196b3039387ae89ce6f03c635966c)
-      '@fortawesome/angular-fontawesome':
-        specifier: 0.15.0
-        version: 0.15.0(@angular/core@18.2.13(rxjs@7.8.2)(zone.js@0.15.1))
-      '@fortawesome/fontawesome-common-types':
-        specifier: ^6.7.2
-        version: 6.7.2
-      '@fortawesome/fontawesome-svg-core':
-        specifier: ^6.7.2
-        version: 6.7.2
-      '@fortawesome/free-regular-svg-icons':
-        specifier: ^6.7.2
-        version: 6.7.2
-      '@fortawesome/free-solid-svg-icons':
-        specifier: ^6.7.2
-        version: 6.7.2
       '@gouvfr/dsfr':
         specifier: 1.14.4
         version: 1.14.4
