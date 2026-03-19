@@ -1,4 +1,4 @@
-@if (displayMenu) {
+@if (displayMenu()) {
 <div class="head-page">
   <div class="fr-container">
     <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
@@ -62,7 +62,7 @@
           ou un smartphone
         </p>
         <br />
-        @if (!isLandingPage) {
+        @if (!isLandingPage()) {
         <button
           class="fr-btn fr-my-2w"
           type="button"
@@ -148,7 +148,7 @@
     </div>
 
     <div class="fr-py-5w fr-my-2w" style="text-align: center" @fadeIn>
-      @if (!isLandingPage) {
+      @if (!isLandingPage()) {
       <button
         class="fr-btn fr-my-2w fr-mx-2w"
         type="button"

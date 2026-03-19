@@ -46,18 +46,12 @@ import { LoginDropdownComponent } from "./components/navbar/fragments/login-drop
 @NgModule({
   declarations: [
     HomeComponent,
-
-    MentionsLegalesComponent,
     NotFoundComponent,
     FaqComponent,
     NewsComponent,
-    CguComponent,
-    PolitiqueComponent,
     NavbarComponent,
     PlanSiteComponent,
     IdleManagerComponent,
-    RgaaComponent,
-    LandingPagePortailComponent,
     DecouvrirDomifaComponent,
     LoginDropdownComponent,
   ],
@@ -87,6 +81,11 @@ import { LoginDropdownComponent } from "./components/navbar/fragments/login-drop
     DsfrResponseComponent,
     DsfrModalComponent,
     DsfrUserMenuComponent,
+    CguComponent,
+    MentionsLegalesComponent,
+    PolitiqueComponent,
+    RgaaComponent,
+    LandingPagePortailComponent,
   ],
   providers: [
     GeneralService,

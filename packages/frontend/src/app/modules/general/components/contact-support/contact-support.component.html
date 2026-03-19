@@ -141,7 +141,9 @@
         </div>
       </div>
 
-      <div class="fr-grid-row fr-grid-row--gutters fr-mb-3w">
+      <div
+        class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-my-4w"
+      >
         <div class="fr-col-12 fr-col-md-6">
           <div
             class="fr-input-group"
@@ -284,10 +286,10 @@
         <label class="fr-label" for="file">
           Pièces jointes (capture d'écran du problème rencontré, fichier
           d'import anonymisé, autres informations etc.)
-          <span id="file-description" class="fr-hint-text">
-            Formats autorisés .pdf, xlsx, .docx, .odt, .jpg, ou .png (6mo maxi)
-          </span>
         </label>
+        <p id="file-description" class="fr-hint-text">
+          Formats autorisés .pdf, xlsx, .docx, .odt, .jpg, ou .png (6mo maxi)
+        </p>
         <input
           (change)="onFileChange($event)"
           class="fr-upload"

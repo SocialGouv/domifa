@@ -1,25 +1,3 @@
-html,
-body {
-  font-family: "Marianne", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
-
-.content {
-  background-color: #f2f2f2;
-  min-height: calc(90vh - 78px);
-  padding-bottom: 4rem;
-}
-
-.page-content {
-  background-color: white;
-  border-radius: 3px;
-}
-
-.container {
-  max-width: 1500px;
-}
-
 .tooltip.show {
   opacity: 1 !important;
 }
@@ -48,14 +26,6 @@ body {
   }
 }
 
-.title {
-  font-weight: 700;
-}
-
-.subtitle {
-  font-weight: 600;
-}
-
 .reponses {
   margin-bottom: 1.05rem;
   margin-top: 1.05rem;
@@ -72,31 +42,6 @@ body {
     font-weight: 400;
     word-break: break-word;
   }
-}
-
-.label {
-  display: block;
-  font-style: normal;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  padding: 0;
-  font-size: 1rem;
-}
-
-.form-check label {
-  font-weight: 300;
-  margin-left: 0.25rem;
-}
-
-.questions {
-  margin: 1rem auto;
-}
-
-.questions .form-check {
-  display: inline-block;
-  margin-bottom: 0.8rem;
-  max-width: 350px;
-  width: 98%;
 }
 
 @keyframes fadeIn {
@@ -134,40 +79,6 @@ body {
   font-weight: 700;
 }
 
-.head-page {
-  background-color: var(--background-alt-blue-cumulus-active);
-  color: var(--text-active-blue-france) !important;
-  width: 100%;
-  padding: 2rem 0;
-
-  * {
-    vertical-align: middle;
-  }
-  .title,
-  h1 {
-    display: flex;
-    align-items: center;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 1.7rem;
-    margin-bottom: 0;
-    color: var(--text-active-blue-france) !important;
-
-    [class^="fr-icon-"],
-    [class*=" fr-icon-"] {
-      margin-right: 0.5rem;
-    }
-  }
-}
-
-.head-page .statut-label a,
-.statut-label {
-  font-style: normal;
-  font-weight: 600;
-  color: #282828;
-  letter-spacing: 0;
-}
-
 .spinner {
   font-size: 5rem;
   color: var(--text-active-blue-france);
@@ -185,14 +96,5 @@ body {
   }
   100% {
     background-position: 500px;
-  }
-}
-
-@media (min-width: 78em) {
-  .fr-container,
-  .fr-container-lg,
-  .fr-container-md,
-  .fr-container-sm {
-    max-width: 90rem;
   }
 }

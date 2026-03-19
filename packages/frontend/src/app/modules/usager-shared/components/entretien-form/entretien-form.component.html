@@ -527,6 +527,9 @@
     <div class="fr-col-12">
       <div class="fr-input-group">
         <label class="fr-label" for="commentaires">Commentaires</label>
+        <p id="commentairesHelp" class="fr-hint-text">
+          2000 caractères maximum
+        </p>
         <textarea
           id="commentaires"
           formControlName="commentaires"
@@ -535,9 +538,6 @@
           aria-describedby="commentairesHelp"
           maxlength="2000"
         ></textarea>
-        <small id="commentairesHelp" class="fr-hint-text"
-          >2000 caractères maximum</small
-        >
       </div>
     </div>
   </div>

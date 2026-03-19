@@ -85,15 +85,12 @@
         class="fr-upload-group"
         [class.fr-upload-group--error]="submitted && f.fileSource.errors"
       >
-        <label class="fr-label" for="file">
-          Document à enregistrer
-          <span class="fr-hint-text" id="file-description">
-            @if (isCustomDoc) { Seuls les fichiers Word au format .docx sont
-            autorisés } @else { Formats autorisés pdf, docx, xlsx, odt, jpg ou
-            png (6mo maxi) }
-          </span>
-        </label>
-
+        <label class="fr-label" for="file"> Document à enregistrer </label>
+        <p class="fr-hint-text" id="file-description">
+          @if (isCustomDoc) { Seuls les fichiers Word au format .docx sont
+          autorisés } @else { Formats autorisés pdf, docx, xlsx, odt, jpg ou png
+          (6mo maxi) }
+        </p>
         <input
           type="file"
           class="fr-upload"

@@ -6,33 +6,56 @@
 
 <div class="fr-content-container">
   <div class="fr-container">
-    <div class="fr-content fr-mb-2w" *ngFor="let news of DOMIFA_NEWS">
+    <div class="fr-tabs">
+      <ul
+        class="fr-tabs__list"
+        role="tablist"
+        aria-label="Nouveautés par année"
+      >
+        @for (year of years; track year) {
+        <li role="presentation">
+          <button
+            [class.fr-tabs__tab--selected]="selectedYear === year"
+            class="fr-tabs__tab"
+            role="tab"
+            [attr.aria-selected]="selectedYear === year"
+            type="button"
+            (click)="selectYear(year)"
+          >
+            {{ year }}
+          </button>
+        </li>
+        }
+      </ul>
+    </div>
+
+    @for (news of filteredNews; track news.date) {
+    <div class="fr-content fr-mb-2w">
       <h2 class="fr-my-2w">
-        Nouveautés du {{ news.date | date : "d MMMM y"
-        }}<span *ngIf="news.description"> - {{ news.description }}</span>
+        Nouveautés du {{ news.date | date : "d MMMM y" }}@if (news.description)
+        {<span> - {{ news.description }}</span
+        >}
       </h2>
 
-      <ng-container *ngFor="let content of news.content">
-        <h3 class="text-start fr-my-1w">
-          <span
-            class="badge badge-pill"
-            [ngClass]="{
-              'bg-primary': content.type === 'new',
-              'bg-warning text-dark': content.type === 'bug'
-            }"
-          >
-            {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
-          </span>
-          &nbsp;
-          <span [innerHTML]="content.categorie | ariaHideEmoji"></span>
-        </h3>
-        <ul class="mb-2">
-          <li
-            *ngFor="let message of content.message"
-            [innerHTML]="message | nl2br"
-          ></li>
-        </ul>
-      </ng-container>
+      @for (content of news.content; track content.categorie) {
+      <h3 class="text-start fr-my-1w">
+        <span
+          class="fr-badge"
+          [class.fr-badge--info]="content.type === 'new'"
+          [class.fr-badge--warning]="content.type === 'bug'"
+        >
+          {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
+        </span>
+        &nbsp;
+        <span [innerHTML]="content.categorie | ariaHideEmoji"></span>
+      </h3>
+      <ul class="fr-mb-2w">
+        @for (message of content.message; track message) {
+        <li [innerHTML]="message | nl2br"></li>
+        }
+      </ul>
+      }
     </div>
+    }
   </div>
 </div>

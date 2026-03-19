@@ -27,10 +27,8 @@
   </div>
 
   @if (usager.options.procurations.length === 0 && !isFormVisible) {
-  <div class="fr-grid-row">
-    <p class="fr-col-12 fr-col-md-6 reponses">
-      <span class="question">Il n'y a aucune procuration actuellement.</span>
-    </p>
+  <div class="fr-callout fr-mt-3w">
+    <p class="fr-callout__text">Il n'y a aucune procuration actuellement.</p>
   </div>
   } @if (usager.options.procurations.length > 0 && !isFormVisible) { @for
   (procuration of usager.options.procurations; track $index; let i = $index) {

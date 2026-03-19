@@ -28,13 +28,12 @@
   </div>
 
   @if (!usager.options.transfert.actif && !isFormVisible) {
-  <div class="fr-grid-row">
-    <div class="fr-col-12 fr-col-md-6 reponses">
-      <span class="question"
-        >Il n'y a aucun transfert de courrier actuellement.</span
-      >
-    </div>
+  <div class="fr-callout fr-mt-3w">
+    <p class="fr-callout__text">
+      Il n'y a aucun transfert de courrier actuellement.
+    </p>
   </div>
+
   } @if (usager.options.transfert.actif && !isFormVisible) {
   <div
     class="fr-grid-row fr-grid-row--gutters fr-my-2w fr-justify-content-between fr-align-items-center"
@@ -98,10 +97,10 @@
         >
           <label class="fr-label" for="transfert_nom">
             Nom de l'établissement
-            <span class="fr-hint-text"
-              >Exemple: Maison d'arrêt, Hôpital saint-louis, etc.</span
-            >
           </label>
+          <p class="fr-hint-text">
+            Exemple: Maison d'arrêt, Hôpital saint-louis, etc.
+          </p>
           <input
             #transfertName
             type="text"
@@ -140,10 +139,10 @@
         >
           <label class="fr-label" for="transfert_adresse">
             Adresse de l'établissement
-            <span class="fr-hint-text"
-              >Précisez l'adresse complète, 10 caractères minimum</span
-            >
           </label>
+          <p class="fr-hint-text">
+            Précisez l'adresse complète, 10 caractères minimum
+          </p>
           <input
             type="text"
             class="fr-input"

@@ -8,11 +8,9 @@ describe("RgaaComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RgaaComponent],
+      imports: [RgaaComponent],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(RgaaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

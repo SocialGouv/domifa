@@ -174,15 +174,15 @@
       >
         <label class="fr-label" for="nom">
           Raison sociale (nom de la structure)
-          <span class="fr-hint-text">
-            <strong>
-              Préciser le nom de votre ville / de votre unité locale en cas de
-              réseau / de votre association.
-            </strong>
-            <br />
-            Ex&nbsp;: CCAS du Havre / Croix Rouge de Paris / Association Aurore
-          </span>
         </label>
+        <p class="fr-hint-text">
+          <strong>
+            Préciser le nom de votre ville / de votre unité locale en cas de
+            réseau / de votre association.
+          </strong>
+          <br />
+          Ex&nbsp;: CCAS du Havre / Croix Rouge de Paris / Association Aurore
+        </p>
         <input
           type="text"
           class="fr-input"
@@ -235,10 +235,8 @@
         >
           <label class="fr-label" for="adresse">
             Adresse de l'organisme domiciliataire
-            <span class="fr-hint-text"
-              >Cette adresse apparaîtra sur le Cerfa</span
-            >
           </label>
+          <p class="fr-hint-text">Cette adresse apparaîtra sur le Cerfa</p>
           <input
             type="text"
             class="fr-input"
@@ -281,8 +279,8 @@
         >
           <label class="fr-label" for="complementAdresse">
             Complément d'adresse
-            <span class="fr-hint-text">Lieu-dit, Bâtiment, étage, etc.</span>
           </label>
+          <p class="fr-hint-text">Lieu-dit, Bâtiment, étage, etc.</p>
           <input
             type="text"
             class="fr-input"
@@ -1007,10 +1005,9 @@
             f.responsable.get('fonction')?.errors
           "
         >
-          <label class="fr-label" for="fonction">
-            Fonction
-            <span class="fr-hint-text">Président.e, Directrice, etc.</span>
-          </label>
+          <label class="fr-label" for="fonction"> Fonction </label>
+          <p class="fr-hint-text">Président.e, Directrice, etc.</p>
+
           <input
             type="text"
             class="fr-input"
@@ -1068,10 +1065,8 @@
             (submitted || f.siret?.dirty) && f.siret?.errors
           "
         >
-          <label class="fr-label" for="siret">
-            Numéro SIRET
-            <span class="fr-hint-text">14 chiffres (optionnel)</span>
-          </label>
+          <label class="fr-label" for="siret"> Numéro SIRET </label>
+          <p class="fr-hint-text">14 chiffres (optionnel)</p>
           <input
             type="text"
             class="fr-input"
