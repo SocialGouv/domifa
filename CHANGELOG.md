@@ -1,3 +1,25 @@
+# [2.235.0](https://github.com/SocialGouv/domifa/compare/v2.234.2...v2.235.0) (2026-03-19)
+
+
+### Bug Fixes
+
+* **frontend:** add modal for interactions ([5748adc](https://github.com/SocialGouv/domifa/commit/5748adc7a136e15defc64e04a3cb37c03654eb93))
+* **frontend:** add new rules for css ([33d4b6b](https://github.com/SocialGouv/domifa/commit/33d4b6b5bd00cb114d258ebf819e12bf0fea55ed))
+* **frontend:** fix align text ([639047d](https://github.com/SocialGouv/domifa/commit/639047da07d2d8afb3309d176e85d3e321bbcd5f))
+* **frontend:** fix columns ([9d770e6](https://github.com/SocialGouv/domifa/commit/9d770e68b7d86d2077b044a8e59b8e2d2a5a9a02))
+* **frontend:** migrate portail to dsfr ([bbcca8e](https://github.com/SocialGouv/domifa/commit/bbcca8e864c0b830aade4c1deeaf31e102fbd1b4))
+* **frontend:** update margins ([fc37a1e](https://github.com/SocialGouv/domifa/commit/fc37a1e333f6dd01cf7e70d4ea74611c24398ab5))
+* **frontend:** update of modals & dropdown ([6ff603e](https://github.com/SocialGouv/domifa/commit/6ff603e910777872406ce82b12784898ef7fbfb7))
+* **frontend:** update tests ([4b31ea4](https://github.com/SocialGouv/domifa/commit/4b31ea407672bac50fb2cafba77614f4b003c83c))
+* **frontend:** update unit tests ([f94e9d0](https://github.com/SocialGouv/domifa/commit/f94e9d0fd837f1098010fa0d3ae2122c67be535b))
+
+
+### Features
+
+* **frontend:** add DSFR to frontend ([d29586f](https://github.com/SocialGouv/domifa/commit/d29586fd6d7890633dfdea666132e7c18bf145a0))
+* **frontend:** delete all ngbmodals ([5647eb3](https://github.com/SocialGouv/domifa/commit/5647eb3efdc5fe6e2dd1953781bec4894b26cf3f))
+* **frontend:** delete columns, delete text from bootstrap, add pages ([4e3a926](https://github.com/SocialGouv/domifa/commit/4e3a92657b8ad51d0c27b90987736515e5a02aea))
+
 ## [2.234.2](https://github.com/SocialGouv/domifa/compare/v2.234.1...v2.234.2) (2026-03-10)
 
 
