@@ -186,4 +186,9 @@ $font-family-monospace: "Marianne", SFMono-Regular, Menlo, Monaco, Consolas,
   .fr-gap-6 {
     gap: 3rem;
   }
+
+  // Text alignment
+  .fr-text--right {
+    text-align: right;
+  }
 }

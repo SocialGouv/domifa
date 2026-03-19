@@ -7,7 +7,7 @@ import { UsagerLight } from "../../../../../_common/model";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { UsagerDecisionService } from "../../services/usager-decision.service";
 import { Decision, DeleteUsagerContext } from "../../interfaces";
-import { Subscription } from "rxjs";
+import { Subscription, concatMap, from, toArray } from "rxjs";
 import {
   USAGER_DECISION_STATUT_LABELS,
   UsagerDecisionStatut,
@@ -16,6 +16,9 @@ import {
 import { getUrlUsagerProfil } from "../../utils";
 import { AuthService } from "../../../shared/services";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { UsagerProfilService } from "../../../usager-profil/services/usager-profil.service";
+import { Store } from "@ngrx/store";
+import { usagerActions, UsagerState } from "../../../../shared";
 
 @Component({
   styleUrls: ["./delete-usager-menu.component.css"],
@@ -51,8 +54,10 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
   constructor(
     private readonly router: Router,
     private readonly usagerDecisionService: UsagerDecisionService,
+    private readonly usagerProfilService: UsagerProfilService,
     private readonly toastService: CustomToastService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly store: Store<UsagerState>
   ) {
     this.me = this.authService.currentUserValue;
   }
@@ -125,6 +130,39 @@ export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
           );
         },
       })
+    );
+  }
+
+  public deleteUsager(): void {
+    this.loading = true;
+    this.subscription.add(
+      from(this.selectedRefs)
+        .pipe(
+          concatMap((ref: number) => this.usagerProfilService.delete(ref)),
+          toArray()
+        )
+        .subscribe({
+          next: () => {
+            const message =
+              this.selectedRefs.size > 1
+                ? "Les dossiers sélectionnés ont été supprimé avec succès"
+                : "Domicilié supprimé avec succès";
+            this.toastService.success(message);
+            this.loading = false;
+            this.closeModal();
+            this.store.dispatch(
+              usagerActions.deleteUsagers({ usagerRefs: this.selectedRefs })
+            );
+            if (this.context === "PROFIL") {
+              this.router.navigate(["/manage"]);
+            }
+          },
+          error: () => {
+            this.loading = false;
+            this.toastService.error("Impossible de supprimer la fiche");
+            window.location.reload();
+          },
+        })
     );
   }
 

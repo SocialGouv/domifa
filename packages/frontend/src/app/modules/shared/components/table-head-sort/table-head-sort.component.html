@@ -1,14 +1,17 @@
-<button
-  type="button"
-  [class]="'fr-btn--sm' + buttonClass"
-  [attr.aria-sort]="sortKey === currentKey ? sortValue : 'none'"
-  (click)="rotate()"
->
-  <span class="sr-only">Trier par</span>
-  <span>{{ columnName }}</span>
-  <app-table-head-sort-icon
-    [sortKey]="sortKey"
-    [sortValue]="sortValue"
-    [currentKey]="currentKey"
-  ></app-table-head-sort-icon>
-</button>
+<div class="fr-cell--sort">
+  <span class="fr-cell__title">
+    <span class="sr-only">Trier par</span> <span>{{ columnName }}</span></span
+  >
+  <button
+    type="button"
+    class="fr-btn--sort fr-btn fr-btn--sm"
+    [attr.aria-sort]="sortKey === currentKey ? sortValue : 'none'"
+    (click)="rotate()"
+  >
+    <app-table-head-sort-icon
+      [sortKey]="sortKey"
+      [sortValue]="sortValue"
+      [currentKey]="currentKey"
+    ></app-table-head-sort-icon>
+  </button>
+</div>

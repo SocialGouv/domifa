@@ -16,16 +16,15 @@
 <div
   class="fr-display-flex fr-flex-wrap fr-justify-content-center fr-align-items-center"
 >
-  <div class="w-50">
-    <app-input-referrer
-      [submitted]="submitted"
-      [displayLabel]="true"
-      label="À qui souhaitez-vous assigner ces dossiers ?"
-      [required]="true"
-      (outputFunction)="updateReferrers($event)"
-    ></app-input-referrer>
-  </div>
+  <app-input-referrer
+    [submitted]="submitted"
+    [displayLabel]="true"
+    label="À qui souhaitez-vous assigner ces dossiers ?"
+    [required]="true"
+    (outputFunction)="updateReferrers($event)"
+  ></app-input-referrer>
 </div>
+
 <div class="fr-btns-group fr-btns-group--inline fr-mt-2w">
   <button
     class="fr-btn fr-btn--secondary"

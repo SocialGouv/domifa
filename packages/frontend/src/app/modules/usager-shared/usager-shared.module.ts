@@ -27,7 +27,6 @@ import { DisplayUsagerDocsComponent } from "./components/display-usager-docs/dis
 import { EtatCivilParentFormComponent } from "./components/etat-civil-parent-form/etat-civil-parent-form.component";
 import { DisplayDuplicatesUsagerComponent } from "./components/display-duplicates-usager/display-duplicates-usager.component";
 import { DecisionRadiationFormComponent } from "./components/decision-radiation-form/decision-radiation-form.component";
-import { DeleteUsagerComponent } from "./components/delete-usager/delete-usager.component";
 import {
   NgbDateCustomParserFormatter,
   CustomDatepickerI18n,
@@ -47,6 +46,7 @@ import { DisplayEtatCivilComponent } from "./components/display-etat-civil/displ
 import { DisplayContactDetailsComponent } from "./components/display-contact-details/display-contact-details.component";
 import { FormatInternationalPhoneNumberPipe } from "../../shared/phone";
 import { PhoneInputComponent } from "./components/input-phone-international/input-phone-international.component";
+import { LoadingComponent } from "../shared/components/loading/loading.component";
 
 @NgModule({
   declarations: [
@@ -69,12 +69,10 @@ import { PhoneInputComponent } from "./components/input-phone-international/inpu
     ReferrerNamePipe,
     DisplayContactDetailsComponent,
     DisplayEtatCivilComponent,
-    DeleteUsagerComponent,
   ],
   exports: [
     DecisionRadiationFormComponent,
     ReferrerNamePipe,
-    DeleteUsagerComponent,
     DeleteUsagerMenuComponent,
     DisplayAyantsDroitsComponent,
     DisplayDuplicatesUsagerComponent,
@@ -93,6 +91,7 @@ import { PhoneInputComponent } from "./components/input-phone-international/inpu
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
+    LoadingComponent,
     CommonModule,
     DisplayTableImageComponent,
     FormsModule,

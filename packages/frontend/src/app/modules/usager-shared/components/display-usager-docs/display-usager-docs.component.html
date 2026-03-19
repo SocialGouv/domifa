@@ -83,6 +83,7 @@
                 [doc]="document"
                 (docChange)="updateDocument($event, i)"
                 [usager]="usager"
+                customClass="fr-btn--sm"
               ></app-edit-usager-doc>
               <app-button
                 (action)="getDocument(document)"
@@ -90,6 +91,7 @@
                 content="Télécharger"
                 icon="download"
                 color="primary"
+                customClass="fr-btn--sm"
                 [loading]="document.loading"
               ></app-button>
               <app-button
@@ -98,6 +100,7 @@
                 content="Supprimer"
                 icon="trash"
                 color="danger"
+                customClass="fr-btn--sm"
                 [loading]="document.loading"
               ></app-button>
             </td>

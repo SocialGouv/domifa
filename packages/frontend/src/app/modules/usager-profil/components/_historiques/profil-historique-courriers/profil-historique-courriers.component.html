@@ -1,21 +1,8 @@
-<h3>
+<h3 class="fr-h4">
   Historique des interactions :
   {{ searchResults.meta.itemCount }} interactions
 </h3>
-
-@if (loading) {
-<div
-  @fadeIn
-  role="alert"
-  aria-busy="true"
-  aria-label="Chargement des interactions..."
-  class="fr-p-4w fr-text--center"
->
-  <span class="fr-icon-refresh-line fr-icon--spin" aria-hidden="true"></span>
-  <br />
-  <span class="fr-text--bold">Chargement des interactions...</span>
-</div>
-} @if (!loading) { @if (interactions.length > 0) {
+@if (interactions.length > 0) {
 <div class="fr-table fr-table--no-caption">
   <div class="fr-table__wrapper">
     <div class="fr-table__container">
@@ -63,7 +50,7 @@
                   type="button"
                   aria-label="Supprimer l'interaction"
                   (click)="openDeleteInteractionModal(interaction)"
-                  class="fr-btn fr-icon-delete-line"
+                  class="fr-btn fr-btn--sm fr-icon-delete-line"
                 ></button>
                 }
               </td>
@@ -79,10 +66,9 @@
 <div class="fr-callout fr-callout--info">
   <p class="fr-callout__text">Aucune interaction enregistrée</p>
 </div>
-} } @if (interactions.length > 0 && searchResults.meta.itemCount >= params.take)
-{
-<div class="fr-grid-row fr-grid-row--middle fr-p-3w">
-  <div class="fr-col">
+} @if (interactions.length > 0 && searchResults.meta.itemCount >= params.take) {
+<div class="fr-grid-row fr-grid-row--between fr-grid-row--middle">
+  <div class="fr-col-md-2 fr-col--left">
     <div class="fr-select-group">
       <label class="fr-label" for="limit">Résultats par page</label>
       <select
@@ -101,7 +87,7 @@
     </div>
   </div>
 
-  <div class="fr-col--right">
+  <div class="fr-col-md-10 fr-col--right">
     <dsfr-pagination
       [pageCount]="totalPages"
       [currentPage]="params.page"

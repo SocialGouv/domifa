@@ -84,10 +84,61 @@
     [isScrollable]="false"
     [size]="'LG'"
   >
-    <app-delete-usager
-      [selectedRefs]="selectedRefs"
-      [context]="context === 'PROFIL' ? 'PROFIL' : 'INSTRUCTION_FORM'"
-      (closeModal)="closeModal()"
-    ></app-delete-usager>
+    @if (selectedRefs.size === 1) {
+    <p>
+      Si vous supprimez un domicilié, vous ne pourrez plus retrouver sa fiche !
+      <br />
+      Ce dossier n'apparaitra ni dans les rapports d'activité ni dans la liste
+      des domiciliés.
+    </p>
+    } @if (selectedRefs.size > 1) {
+    <p>
+      Si vous supprimez ces {{ selectedRefs.size }} domiciliés, vous ne pourrez
+      plus retrouver leur fiche !
+      <br />
+      Ces dossiers n'apparaîtront ni dans les rapports d'activité ni dans la
+      liste des domiciliés.
+    </p>
+    }
+
+    <div class="fr-alert fr-alert--warning">
+      <p>
+        Toutes les informations liées à ce domicilié disparaitront
+        définitivement.
+      </p>
+    </div>
+
+    <ul class="fr-list fr-text--bold">
+      <li>Les fichiers uploadés sur DomiFa</li>
+      <li>L'historique de la domiciliation</li>
+      <li>L'historique des interactions</li>
+      <li>Les statistiques</li>
+      <li>L'accès au portail domicilié</li>
+    </ul>
+
+    <ng-template #modalFooterTemplate>
+      <div
+        class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
+      >
+        <button
+          type="submit"
+          class="fr-btn"
+          (click)="deleteUsager()"
+          [disabled]="loading"
+          [attr.aria-busy]="loading"
+        >
+          @if (!loading) { Confirmer la suppression } @if (loading) {
+          <span class="fr-icon-refresh-line" aria-hidden="true"></span>
+          Veuillez patienter... }
+        </button>
+        <button
+          class="fr-btn fr-btn--secondary"
+          type="button"
+          (click)="closeModal()"
+        >
+          Annuler
+        </button>
+      </div>
+    </ng-template>
   </dsfr-modal>
 </div>

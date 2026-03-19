@@ -26,7 +26,10 @@ import {
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { ManageUserUsagerComponent } from "./components/manage-user-usager/manage-user-usager.component";
 import { DsfrEditorComponent } from "@edugouvfr/ngx-dsfr-ext/editor";
-import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import {
+  DsfrModalComponent,
+  DsfrPaginationComponent,
+} from "@edugouvfr/ngx-dsfr";
 import { DisplayLastLoginComponent } from "../shared/components/display-last-login/display-last-login.component";
 
 @NgModule({
@@ -49,6 +52,7 @@ import { DisplayLastLoginComponent } from "../shared/components/display-last-log
     DsfrEditorComponent,
     DsfrModalComponent,
     DisplayLastLoginComponent,
+    DsfrPaginationComponent,
   ],
   providers: [
     StructureInformationService,

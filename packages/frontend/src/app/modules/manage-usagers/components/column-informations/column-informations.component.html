@@ -26,11 +26,10 @@
             Active: {{ procuration.nom }} {{ procuration.prenom }}
           </ng-container>
           <ng-container *ngIf="procuration.isExpired">
-            <fa-icon
+            <span
+              class="fr-icon-close-line fr-text-default--error fr-mr-1w"
               aria-hidden="true"
-              [icon]="['fas', 'times']"
-              class="text-danger me-1"
-            ></fa-icon>
+            ></span>
             Procuration au nom de {{ procuration.nom }}
             {{ procuration.prenom }}, expirée le
             {{ procuration.dateFin | date : "dd MMMM yyyy" }}

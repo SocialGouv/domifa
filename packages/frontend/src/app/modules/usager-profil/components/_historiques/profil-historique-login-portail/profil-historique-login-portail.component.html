@@ -1,4 +1,4 @@
-<h3>
+<h3 class="fr-h4">
   Historique des connexions à Mon DomiFa:
   {{ searchResults.meta.itemCount }} connexions
 </h3>
@@ -23,26 +23,34 @@
 </div>
 
 <ng-container *ngIf="!loading">
-  <div *ngIf="interactions.length > 0" class="table-responsive">
-    <table class="table-history table">
-      <caption class="visually-hidden">
-        Historique des connexions au portail "Mon DomiFa"
-      </caption>
-      <thead>
-        <tr>
-          <th scope="col">Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let interaction of interactions; let i = index">
-          <tr [attr.aria-rowindex]="i + 1">
-            <td>
-              {{ interaction.createdAt | date : "dd MMMM yyyy à HH:mm" }}
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
+  <div *ngIf="interactions.length > 0" class="fr-table fr-table--no-caption">
+    <div class="fr-table__wrapper">
+      <div class="fr-table__container">
+        <div class="fr-table__content">
+          <table>
+            <caption class="fr-sr-only">
+              Historique des connexions au portail "Mon DomiFa"
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container
+                *ngFor="let interaction of interactions; let i = index"
+              >
+                <tr [attr.aria-rowindex]="i + 1">
+                  <td>
+                    {{ interaction.createdAt | date : "dd MMMM yyyy à HH:mm" }}
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
   @if (interactions.length === 0) {
   <div class="fr-alert fr-alert--info">
@@ -73,13 +81,10 @@
     <label for="limit" class="ms-3 fw-bold">résultats par page </label>
   </div>
 
-  <ngb-pagination
-    [collectionSize]="searchResults.meta.itemCount"
-    [(page)]="params.page"
-    [boundaryLinks]="true"
-    [rotate]="true"
-    [maxSize]="5"
-    [pageSize]="params.take"
-    (pageChange)="getInteractions()"
-  ></ngb-pagination>
+  <dsfr-pagination
+    [pageCount]="totalPages"
+    [currentPage]="params.page"
+    (pageSelect)="onPageSelect($event)"
+    ariaLabel="Pagination des connexions"
+  ></dsfr-pagination>
 </div>

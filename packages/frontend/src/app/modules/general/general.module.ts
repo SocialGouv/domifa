@@ -13,8 +13,6 @@ import {
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { LoadingComponent } from "../shared/components/loading/loading.component";
-
 import { CguComponent } from "./components/static-pages/cgu/cgu.component";
 import { NotFoundComponent } from "./components/errors/not-found/not-found.component";
 import { FaqComponent } from "./components/faq/faq.component";
@@ -48,7 +46,7 @@ import { LoginDropdownComponent } from "./components/navbar/fragments/login-drop
 @NgModule({
   declarations: [
     HomeComponent,
-    LoadingComponent,
+
     MentionsLegalesComponent,
     NotFoundComponent,
     FaqComponent,
@@ -64,7 +62,6 @@ import { LoginDropdownComponent } from "./components/navbar/fragments/login-drop
     LoginDropdownComponent,
   ],
   exports: [
-    LoadingComponent,
     NotFoundComponent,
     NavbarComponent,
     CguComponent,

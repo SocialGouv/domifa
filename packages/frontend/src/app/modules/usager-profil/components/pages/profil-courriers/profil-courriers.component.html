@@ -1,11 +1,12 @@
 <div class="fr-content-container-light">
+  @if (me) {
   <app-profil-head
     [usager]="usager"
     [section]="section"
-    *ngIf="me"
     [me]="me"
   ></app-profil-head>
-  <div class="fr-container" *ngIf="usager">
+  } @if (usager) {
+  <div class="fr-container">
     <div class="fr-content">
       <div class="fr-grid-row">
         <div class="fr-col-md-12 fr-my-4w">
@@ -23,10 +24,13 @@
         </div>
       </div>
     </div>
+
+    @if (displayDeleteButton) {
     <app-delete-usager-menu
       [usager]="usager"
       context="PROFIL"
-      *ngIf="displayDeleteButton"
     ></app-delete-usager-menu>
+    }
   </div>
+  }
 </div>

@@ -1,92 +1,81 @@
-<div
-  ngbDropdown
-  dropdownClass="dropdown-manage-actions"
-  container="body"
-  placement="auto"
-  class="dropdown-manage-actions p-0"
-  *ngIf="me?.role !== 'facteur'"
+@if (me?.role !== 'facteur') {
+<dsfrx-dropdownmenu
+  [ariaLabelMenu]="
+    'Menu pour télécharger un document de ' + usager.nom + ' ' + usager.prenom
+  "
+  appendTo="body"
+  [closeOnAction]="true"
 >
-  <button
-    type="button"
-    class="btn toggle-actions"
-    ngbDropdownToggle
-    [attr.aria-label]="
-      'Menu pour télécharger un document de ' + usager.nom + ' ' + usager.prenom
-    "
-  >
-    <fa-icon [icon]="['fas', 'ellipsis-vertical']" aria-hidden="true"></fa-icon>
-  </button>
-  <div ngbDropdownMenu>
-    <button
-      ngbDropdownItem
-      type="button"
-      (click)="getCerfa(usager.ref, CerfaDocType.demande)"
+  <ng-template #contentTemplate>
+    <dsfrx-dropdownmenu-item
+      (selectItem)="getCerfa(usager.ref, CerfaDocType.demande)"
     >
-      <fa-icon aria-hidden="true" [icon]="faFilePdf"></fa-icon>
-      Télécharger le Cerfa d'attestation de demande (.pdf)
-    </button>
-    <button
-      ngbDropdownItem
-      type="button"
-      (click)="getCerfa(usager.ref, CerfaDocType.attestation)"
-      *ngIf="
-        usager.decision.statut !== 'REFUS' && usager.decision.statut !== 'RADIE'
-      "
+      <div>
+        <span class="ri-file-pdf-2-line" aria-hidden="true"></span>
+        Télécharger le Cerfa d'attestation de demande (.pdf)
+      </div>
+    </dsfrx-dropdownmenu-item>
+
+    @if (usager.decision.statut !== 'REFUS' && usager.decision.statut !==
+    'RADIE') {
+    <dsfrx-dropdownmenu-item
+      (selectItem)="getCerfa(usager.ref, CerfaDocType.attestation)"
     >
-      <fa-icon aria-hidden="true" [icon]="faFilePdf"></fa-icon>
-      Télécharger le Cerfa d'élection de domicile (.pdf)
-    </button>
-    <button
-      ngbDropdownItem
-      type="button"
-      (click)="getCerfa(usager.ref, CerfaDocType.demande)"
-      *ngIf="usager.decision.statut === 'REFUS'"
+      <div>
+        <span class="ri-file-pdf-2-line" aria-hidden="true"></span>
+        Télécharger le Cerfa d'élection de domicile (.pdf)
+      </div>
+    </dsfrx-dropdownmenu-item>
+    } @if (usager.decision.statut === 'REFUS') {
+    <dsfrx-dropdownmenu-item
+      (selectItem)="getCerfa(usager.ref, CerfaDocType.demande)"
     >
-      <fa-icon aria-hidden="true" [icon]="faFilePdf"></fa-icon>
-      Télécharger l'attestation de refus (.pdf)
-    </button>
-    <button
-      *ngIf="
-        usager.decision.statut !== 'REFUS' && usager.decision.statut === 'RADIE'
-      "
-      ngbDropdownItem
-      type="button"
-      (click)="
+      <div>
+        <span class="ri-file-pdf-2-line" aria-hidden="true"></span>
+        Télécharger l'attestation de refus (.pdf)
+      </div>
+    </dsfrx-dropdownmenu-item>
+    } @if (usager.decision.statut !== 'REFUS' && usager.decision.statut ===
+    'RADIE') {
+    <dsfrx-dropdownmenu-item
+      (selectItem)="
         getDomifaCustomDoc(
           usager.ref,
           StructureDocTypesAvailable.courrier_radiation
         )
       "
     >
-      Télécharger le courrier de radiation (.docx)
-    </button>
-    <button
-      *ngIf="usager.decision.statut === 'VALIDE'"
-      ngbDropdownItem
-      type="button"
-      (click)="
+      <div>Télécharger le courrier de radiation (.docx)</div>
+    </dsfrx-dropdownmenu-item>
+    } @if (usager.decision.statut === 'VALIDE') {
+    <dsfrx-dropdownmenu-item
+      (selectItem)="
         getDomifaCustomDoc(
           usager.ref,
           StructureDocTypesAvailable.attestation_postale
         )
       "
     >
-      <fa-icon aria-hidden="true" [icon]="faFileWord"></fa-icon>
-      Télécharger l'attestation postale (.docx)
-    </button>
-    <button
-      *ngIf="usager.decision.statut === 'VALIDE'"
-      ngbDropdownItem
-      type="button"
-      (click)="
+      <div>
+        <span class="ri-file-word-2-line" aria-hidden="true"></span>
+        Télécharger l'attestation postale (.docx)
+      </div>
+    </dsfrx-dropdownmenu-item>
+
+    <dsfrx-dropdownmenu-item
+      (selectItem)="
         getDomifaCustomDoc(
           usager.ref,
           StructureDocTypesAvailable.cerfa_attestation
         )
       "
     >
-      <fa-icon aria-hidden="true" [icon]="faFileWord"></fa-icon>
-      Télécharger le Cerfa d'élection de domicile (.docx)
-    </button>
-  </div>
-</div>
+      <div>
+        <span class="ri-file-word-2-line" aria-hidden="true"></span>
+        Télécharger le Cerfa d'élection de domicile (.docx)
+      </div>
+    </dsfrx-dropdownmenu-item>
+    }
+  </ng-template>
+</dsfrx-dropdownmenu>
+}

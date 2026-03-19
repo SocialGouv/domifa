@@ -1,18 +1,15 @@
-<dsfr-modal
+@if(usager) {<dsfr-modal
   class="text-start"
   #receptionModal
-  titleModal="Réception de courriers"
+  size="LG"
+  [titleModal]="
+    ' Nouveaux courriers pour ' +
+    (usager | fullName) +
+    ' - ' +
+    (usager.customRef ? usager.customRef : usager.ref)
+  "
   (conceal)="cancelReception.emit()"
 >
-  @if(usager) {
-  <p class="fr-text--center">
-    Nouveaux courriers pour
-    <strong class="fr-text-label--blue-france">
-      {{ usager | fullName }} -
-      {{ usager.customRef ? usager.customRef : usager.ref }}
-    </strong>
-  </p>
-
   <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
     <div class="interaction-zone fr-p-1w fr-mx-md-2w fr-mx-auto fr-my-2w">
       <div class="interaction-icon-box">
@@ -144,12 +141,14 @@
           Caractères interdits: &#36;&#126;&#42;&lt;&gt;&#123;&#125;
         </span>
       </label>
-      <textarea
+      <input
+        type="text"
         class="fr-input"
         [(ngModel)]="content"
         id="content"
         aria-describedby="message-informations"
-      ></textarea>
+        maxlength="1000"
+      />
 
       @if (usager.options.portailUsagerEnabled) {
       <div class="fr-alert fr-alert--warning fr-mt-2w">
@@ -195,5 +194,5 @@
       </button>
     </div>
   </ng-template>
-  }
 </dsfr-modal>
+}

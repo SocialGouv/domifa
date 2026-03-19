@@ -3,92 +3,97 @@
   <p class="fr-callout__text">Aucun document n'a été ajouté pour le moment</p>
 </div>
 }
-<div class="table-responsive" *ngIf="structureDocs?.length">
-  <table
-    class="table table-docs"
-    *ngIf="structureDocs.length"
-    [attr.aria-rowcount]="structureDocs.length"
-  >
-    <caption class="visually-hidden">
-      {{
-        title
-      }}
-    </caption>
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="label"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Nom du document"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="createdBy"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Ajouté par"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="createdAt"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Ajouté le"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col" class="d-print-none fr-text--right">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Si Aucun doc personnalisé ne remplace l'attestation postale -->
-      <tr
-        [attr.aria-rowindex]="i + 1"
-        *ngFor="
-          let document of structureDocs | sortArray : currentKey : sortValue;
-          let i = index
-        "
-      >
-        <td class="align-middle">
-          <app-display-table-image
-            [document]="document"
-          ></app-display-table-image>
-        </td>
-        <td>{{ document.label }}</td>
-        <td class="align-middle">
-          {{ document.createdBy.nom }} {{ document.createdBy.prenom }}
-        </td>
-        <td class="align-middle">
-          {{ document.createdAt | date : "dd MMMM yyyy" }}
-        </td>
-        <td class="align-middle fr-text--right">
-          <app-button
-            (action)="getStructureDoc(document)"
-            [ariaLabel]="'Télécharger le document ' + document.label"
-            content="Télécharger"
-            icon="download"
-            color="primary"
-            [loading]="document.loading"
-          >
-          </app-button>
-          <app-button
-            (action)="deleteStructureDoc(document)"
-            [ariaLabel]="'Supprimer le document ' + document.label"
-            content="Supprimer"
-            icon="trash"
-            color="danger"
-            [loading]="document.loading"
-          >
-          </app-button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="fr-table fr-table--no-caption" *ngIf="structureDocs?.length">
+  <div class="fr-table__wrapper">
+    <div class="fr-table__container">
+      <div class="fr-table__content">
+        <table [attr.aria-rowcount]="structureDocs.length">
+          <caption class="fr-sr-only">
+            {{
+              title
+            }}
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Type</th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="label"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Nom du document"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="createdBy"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Ajouté par"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="createdAt"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Ajouté le"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col" class="d-print-none fr-text--right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Si Aucun doc personnalisé ne remplace l'attestation postale -->
+            <tr
+              [attr.aria-rowindex]="i + 1"
+              *ngFor="
+                let document of structureDocs
+                  | sortArray : currentKey : sortValue;
+                let i = index
+              "
+            >
+              <td class="align-middle">
+                <app-display-table-image
+                  [document]="document"
+                ></app-display-table-image>
+              </td>
+              <td>{{ document.label }}</td>
+              <td class="align-middle">
+                {{ document.createdBy.nom }} {{ document.createdBy.prenom }}
+              </td>
+              <td class="align-middle">
+                {{ document.createdAt | date : "dd MMMM yyyy" }}
+              </td>
+              <td class="align-middle fr-text--right">
+                <app-button
+                  (action)="getStructureDoc(document)"
+                  [ariaLabel]="'Télécharger le document ' + document.label"
+                  content="Télécharger"
+                  icon="download"
+                  color="primary"
+                  customClass="fr-btn--sm fr-mx-1w"
+                  [loading]="document.loading"
+                >
+                </app-button>
+                <app-button
+                  (action)="deleteStructureDoc(document)"
+                  [ariaLabel]="'Supprimer le document ' + document.label"
+                  content="Supprimer"
+                  icon="trash"
+                  color="danger"
+                  customClass="fr-btn--sm"
+                  [loading]="document.loading"
+                >
+                </app-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

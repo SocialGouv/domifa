@@ -23,7 +23,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
   animations: [bounce],
   selector: "app-set-interaction-in-form",
   templateUrl: "./set-interaction-in-form.component.html",
-  styleUrls: ["../interactions.css"],
+  styleUrls: ["../interactions.scss"],
 })
 export class SetInteractionInFormComponent implements OnDestroy {
   @ViewChild("receptionModal")

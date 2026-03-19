@@ -1,4 +1,8 @@
-<dsfrx-dropdownmenu [labelMenu]="'Actions'" [closeOnAction]="true">
+<dsfrx-dropdownmenu
+  [labelMenu]="'Actions'"
+  appendTo="body"
+  [closeOnAction]="true"
+>
   <ng-template #contentTemplate>
     @if (!note.archived) {
     <dsfrx-dropdownmenu-item (selectItem)="pinNote(note)">
@@ -40,26 +44,26 @@
   #deleteOrArchiveNoteModal
   [titleModal]="modalTitle"
   dialogId="deleteOrArchiveNoteModal"
+  size="LG"
 >
   @if (choosenAction === 'DELETE') {
-  <div class="fr-alert fr-alert--info">
-    <p class="fr-alert__title">Attention</p>
-    <p class="fr-alert__desc">
-      Êtes-vous sûr de vouloir supprimer cette note ?
-      <strong>Cette action est définitive</strong>, vous ne pourrez plus
-      retrouver la note dans l'historique !
-    </p>
-  </div>
+  <p>
+    Êtes-vous sûr de vouloir supprimer cette note ? <br />
+    <strong>Cette action est définitive</strong>, vous ne pourrez plus retrouver
+    la note dans l'historique !
+  </p>
+
   } @if (choosenAction === 'ARCHIVE' && !note.archived) {
   <p>
     Une note archivée n'apparait plus dans la section "Vue d'ensemble" de la
-    fiche. Vous pourrez toujours la consulter dans la page historique.
+    fiche. <br />
+    Vous pourrez toujours la consulter dans la page historique.
   </p>
   } @if (choosenAction === 'ARCHIVE' && note.archived) {
   <p>
-    Cette note est déjà archivée. Vous êtes sur le point de la retirer des
-    archives. Elle sera de nouveau visible dans la section "Vue d'ensemble" du
-    dossier.
+    Vous êtes sur le point de la retirer des archives.
+    <br />
+    Elle sera de nouveau visible dans la section "Vue d'ensemble" du dossier.
   </p>
   }
 
