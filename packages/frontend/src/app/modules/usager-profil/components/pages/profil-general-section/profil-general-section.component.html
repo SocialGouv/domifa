@@ -119,7 +119,13 @@
             ></i>
             Courrier en attente
           </h2>
-          <div class="profil-interaction fr-my-1w">
+          <div
+            class="profil-interaction fr-my-1w"
+            [ngClass]="{
+              'fr-text-action-high--blue-france':
+                usager.lastInteraction.courrierIn > 0
+            }"
+          >
             <div class="interaction-icon-box fr-mr-3">
               <span
                 class="fr-icon-mail-line interaction-icon"
@@ -130,7 +136,13 @@
               <strong>{{ usager.lastInteraction.courrierIn }}</strong> courriers
             </p>
           </div>
-          <div class="profil-interaction fr-my-1w">
+          <div
+            class="profil-interaction fr-my-1w"
+            [ngClass]="{
+              'fr-text-action-high--blue-france':
+                usager.lastInteraction.colisIn > 0
+            }"
+          >
             <div class="interaction-icon-box fr-mr-3">
               <span
                 class="fr-icon-briefcase-line interaction-icon"
@@ -141,7 +153,13 @@
               <strong>{{ usager.lastInteraction.colisIn }}</strong> colis
             </p>
           </div>
-          <div class="profil-interaction fr-my-1w">
+          <div
+            class="profil-interaction fr-my-1w"
+            [ngClass]="{
+              'fr-text-action-high--blue-france':
+                usager.lastInteraction.recommandeIn > 0
+            }"
+          >
             <div class="interaction-icon-box fr-mr-3">
               <span
                 class="fr-icon-newspaper-line interaction-icon"

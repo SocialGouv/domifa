@@ -1,87 +1,94 @@
-<h3>Historique des décisions</h3>
+<h3 class="fr-h4">Historique des décisions</h3>
 
 @if (usager.historique.length === 0) {
 <div class="fr-callout fr-callout--info">
   <p class="fr-callout__text">Aucun historique de décision n'est enregistré</p>
 </div>
 }
-<div class="table-responsive" *ngIf="usager.historique.length > 0">
-  <table class="table-history table">
-    <caption class="visually-hidden">
-      Historique des décisions
-    </caption>
-    <thead>
-      <tr>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="dateDecision"
-            [(sortValue)]="sortValue"
-            currentKey="dateDecision"
-            columnName="Date"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col">Type de décision</th>
-        <th scope="col">Notifié par</th>
-        <th scope="col" class="fr-text--right d-print-none">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="
-          let decision of usager.historique
-            | sortArray : currentKey : sortValue;
-          let i = index
-        "
-        [attr.aria-rowindex]="i + 1"
-      >
-        <td>
-          {{ decision.dateDecision | date : "dd MMMM yyyy à HH:mm" }}
-        </td>
-        <td>
-          {{ USAGER_DECISION_STATUT_LABELS_PROFIL[decision.statut] }}
-          <span
-            *ngIf="decision.statut === 'REFUS' || decision.statut === 'RADIE'"
-          >
-            le {{ decision.dateDebut | date : "dd MMMM yyyy" }}
-          </span>
 
-          <span *ngIf="decision.statut === 'VALIDE'">
-            du
-            <strong>
-              {{ decision.dateDebut | date : "dd MMMM yyyy" }}
-            </strong>
-            au
-            <strong>{{ decision.dateFin | date : "dd MMMM yyyy" }}</strong>
-          </span>
-          <div *ngIf="decision.statut === 'RADIE'">
-            {{ decision.motifString }}
-          </div>
-        </td>
-        <td>{{ decision.userName }}</td>
-        <td class="fr-text--right d-print-none">
-          <app-button
-            *ngIf="decision.statut === 'VALIDE'"
-            [content]="'Télécharger le Cerfa'"
-            icon="download"
-            class="me-2"
-            (action)="getCerfa(decision.uuid)"
-          ></app-button>
-          <app-button
-            *ngIf="decision.statut === 'REFUS'"
-            [content]="'Télécharger l\'attestation de Refus'"
-            icon="download"
-            class="me-2"
-            (action)="getCerfa(decision.uuid)"
-          ></app-button>
-          <app-delete-usager-menu
-            *ngIf="i === 0 && displayDeleteButton"
-            [usager]="usager"
-            context="HISTORY"
-            [me]="me"
-          ></app-delete-usager-menu>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div
+  class="fr-table"
+  id="table-0-component"
+  *ngIf="usager.historique.length > 0"
+>
+  <div class="fr-table__wrapper">
+    <div class="fr-table__container">
+      <div class="fr-table__content">
+        <table>
+          <caption class="visually-hidden">
+            Historique des décisions
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Date de décision</th>
+              <th scope="col">Type de décision</th>
+              <th scope="col">Notifié par</th>
+              <th scope="col" class="fr-text--right d-print-none">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let decision of usager.historique
+                  | sortArray : currentKey : sortValue;
+                let i = index
+              "
+              [attr.aria-rowindex]="i + 1"
+            >
+              <td>
+                {{ decision.dateDecision | date : "dd MMMM yyyy à HH:mm" }}
+              </td>
+              <td>
+                {{ USAGER_DECISION_STATUT_LABELS_PROFIL[decision.statut] }}
+                <span
+                  *ngIf="
+                    decision.statut === 'REFUS' || decision.statut === 'RADIE'
+                  "
+                >
+                  le {{ decision.dateDebut | date : "dd MMMM yyyy" }}
+                </span>
+
+                <span *ngIf="decision.statut === 'VALIDE'">
+                  du
+                  <strong>
+                    {{ decision.dateDebut | date : "dd MMMM yyyy" }}
+                  </strong>
+                  au
+                  <strong>{{
+                    decision.dateFin | date : "dd MMMM yyyy"
+                  }}</strong>
+                </span>
+                <div *ngIf="decision.statut === 'RADIE'">
+                  {{ decision.motifString }}
+                </div>
+              </td>
+              <td>{{ decision.userName }}</td>
+              <td class="fr-text--right d-print-none">
+                <app-button
+                  *ngIf="decision.statut === 'VALIDE'"
+                  [content]="'Télécharger le Cerfa'"
+                  icon="download"
+                  customClass="fr-btn--sm"
+                  (action)="getCerfa(decision.uuid)"
+                ></app-button>
+                <app-button
+                  *ngIf="decision.statut === 'REFUS'"
+                  [content]="'Télécharger l\'attestation de Refus'"
+                  icon="download"
+                  customClass="fr-btn--sm"
+                  (action)="getCerfa(decision.uuid)"
+                ></app-button>
+                <app-delete-usager-menu
+                  *ngIf="i === 0 && displayDeleteButton"
+                  [usager]="usager"
+                  context="HISTORY"
+                  [me]="me"
+                ></app-delete-usager-menu>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

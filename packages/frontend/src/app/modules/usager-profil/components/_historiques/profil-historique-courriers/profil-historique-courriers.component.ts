@@ -31,7 +31,7 @@ export class ProfilHistoriqueCourriersComponent implements OnInit, OnDestroy {
   public deleteInteractionModal!: DsfrModalComponent;
 
   public loading = true;
-  public params = new PageOptions({ take: 50 });
+  public params = new PageOptions({ take: 5 });
 
   public searchResults = new PageResults<Interaction>();
 

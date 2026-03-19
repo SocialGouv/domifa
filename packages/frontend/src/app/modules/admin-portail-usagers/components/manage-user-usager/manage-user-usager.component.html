@@ -9,7 +9,7 @@
         class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-mb-3w"
       >
         <div class="fr-col">
-          <h3>
+          <h3 class="fr-h4">
             Liste des comptes Mon DomiFa : @if (searchResults) {
             <span
               >{{ userUsagerAccountsByStatus.VALIDE }} comptes /
@@ -162,15 +162,12 @@
           </div>
         </div>
 
-        <ngb-pagination
-          [collectionSize]="searchResults.meta.itemCount"
-          [(page)]="params.page"
-          [boundaryLinks]="true"
-          [rotate]="true"
-          [maxSize]="5"
-          [pageSize]="params.take"
-          (pageChange)="loadAccounts()"
-        ></ngb-pagination>
+        <dsfr-pagination
+          [pageCount]="totalPages"
+          [currentPage]="params.page"
+          (pageSelect)="onPageSelect($event)"
+          ariaLabel="Pagination des comptes"
+        ></dsfr-pagination>
       </div>
       }
     </div>

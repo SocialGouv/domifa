@@ -1,70 +1,81 @@
-<h3>Historique des procurations</h3>
+<h3 class="fr-h4">Historique des procurations</h3>
 @if (procurationHistory.length === 0) {
 <div class="fr-alert fr-alert--info">
   <p>Aucun historique de procurations actuellement</p>
 </div>
 }
-<div class="table-responsive" *ngIf="procurationHistory.length > 0">
-  <table *ngIf="procurationHistory.length > 0" class="table table-history">
-    <caption class="visually-hidden">
-      Historique des procurations
-    </caption>
-    <thead>
-      <tr>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="createdAt"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Date"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col">Action</th>
-        <th scope="col">Nom prénom</th>
-        <th scope="col">Date de naissance</th>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="dateDebut"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Période de validité"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col">Notifié par</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="
-          let procuration of procurationHistory
-            | sortArray : currentKey : sortValue;
-          let i = index
-        "
-        [attr.aria-rowindex]="i + 1"
-      >
-        <td>{{ procuration.createdAt | date : "dd/MM/yyyy à HH:mm" }}</td>
-        <td>
-          <span
-            [class]="'fr-badge ' + HISTORY_ACTIONS[procuration.action].class"
-          >
-            {{ HISTORY_ACTIONS[procuration.action].label }}
-          </span>
-        </td>
-        <td>{{ procuration | fullName }}</td>
-        <td>{{ procuration.dateNaissance | date : "dd/MM/yyyy" }}</td>
-        <td>
-          <span *ngIf="procuration.dateDebut === null">
-            {{ procuration.dateFin | date : "dd/MM/yyyy" }}
-          </span>
-          <span class="valeur" *ngIf="procuration.dateDebut">
-            Du {{ procuration.dateDebut | date : "dd/MM/yyyy" }} au
-            {{ procuration.dateFin | date : "dd/MM/yyyy" }}
-          </span>
-        </td>
-        <td>{{ procuration.userName }}</td>
-      </tr>
-    </tbody>
-  </table>
+<div
+  class="fr-table fr-table--no-caption"
+  *ngIf="procurationHistory.length > 0"
+>
+  <div class="fr-table__wrapper">
+    <div class="fr-table__container">
+      <div class="fr-table__content">
+        <table>
+          <caption class="fr-sr-only">
+            Historique des procurations
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="createdAt"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Date"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">Action</th>
+              <th scope="col">Nom prénom</th>
+              <th scope="col">Date de naissance</th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="dateDebut"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Période de validité"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">Notifié par</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let procuration of procurationHistory
+                  | sortArray : currentKey : sortValue;
+                let i = index
+              "
+              [attr.aria-rowindex]="i + 1"
+            >
+              <td>{{ procuration.createdAt | date : "dd/MM/yyyy à HH:mm" }}</td>
+              <td>
+                <span
+                  [class]="
+                    'fr-badge ' + HISTORY_ACTIONS[procuration.action].class
+                  "
+                >
+                  {{ HISTORY_ACTIONS[procuration.action].label }}
+                </span>
+              </td>
+              <td>{{ procuration | fullName }}</td>
+              <td>{{ procuration.dateNaissance | date : "dd/MM/yyyy" }}</td>
+              <td>
+                <span *ngIf="procuration.dateDebut === null">
+                  {{ procuration.dateFin | date : "dd/MM/yyyy" }}
+                </span>
+                <span class="valeur" *ngIf="procuration.dateDebut">
+                  Du {{ procuration.dateDebut | date : "dd/MM/yyyy" }} au
+                  {{ procuration.dateFin | date : "dd/MM/yyyy" }}
+                </span>
+              </td>
+              <td>{{ procuration.userName }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

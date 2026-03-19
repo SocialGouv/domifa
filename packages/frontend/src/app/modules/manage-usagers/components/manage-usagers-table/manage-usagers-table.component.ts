@@ -1,4 +1,11 @@
-import { Subject, Subscription, takeUntil } from "rxjs";
+import {
+  Subject,
+  Subscription,
+  concatMap,
+  from,
+  takeUntil,
+  toArray,
+} from "rxjs";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -17,8 +24,11 @@ import { fadeInOut } from "../../../../shared";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 import { Router } from "@angular/router";
-import { AuthService } from "../../../shared/services";
+import { AuthService, CustomToastService } from "../../../shared/services";
 import { getUrlUsagerProfil } from "../../../usager-shared/utils";
+import { UsagerProfilService } from "../../../usager-profil/services/usager-profil.service";
+import { usagerActions, UsagerState } from "../../../../shared";
+import { Store } from "@ngrx/store";
 import {
   SortValues,
   UsagersFilterCriteriaStatut,
@@ -76,6 +86,7 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   public currentFilters!: UsagersFilterCriteria;
 
   public loading = false;
+  public loadingDelete = false;
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
   public readonly UsagersFilterCriteriaStatut = UsagersFilterCriteriaStatut;
 
@@ -91,7 +102,10 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService,
-    private readonly cd: ChangeDetectorRef
+    private readonly cd: ChangeDetectorRef,
+    private readonly usagerProfilService: UsagerProfilService,
+    private readonly toastService: CustomToastService,
+    private readonly store: Store<UsagerState>
   ) {
     this.me = this.authService.currentUserValue;
     this.usagers = [];
@@ -200,6 +214,36 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  public deleteUsagers(): void {
+    this.loadingDelete = true;
+    this.subscription.add(
+      from(this.selectedRefs)
+        .pipe(
+          concatMap((ref: number) => this.usagerProfilService.delete(ref)),
+          toArray()
+        )
+        .subscribe({
+          next: () => {
+            const message =
+              this.selectedRefs.size > 1
+                ? "Les dossiers sélectionnés ont été supprimé avec succès"
+                : "Domicilié supprimé avec succès";
+            this.toastService.success(message);
+            this.loadingDelete = false;
+            this.store.dispatch(
+              usagerActions.deleteUsagers({ usagerRefs: this.selectedRefs })
+            );
+            this.resetCheckboxes();
+          },
+          error: () => {
+            this.loadingDelete = false;
+            this.toastService.error("Impossible de supprimer la fiche");
+            window.location.reload();
+          },
+        })
+    );
   }
 
   public resetCheckboxes() {

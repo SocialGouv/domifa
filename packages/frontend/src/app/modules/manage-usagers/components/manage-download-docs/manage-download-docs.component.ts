@@ -16,7 +16,6 @@ import {
   CerfaDocType,
   StructureDocTypesAvailable,
 } from "@domifa/common";
-import { faFilePdf, faFileWord } from "@fortawesome/free-regular-svg-icons";
 
 @Component({
   selector: "app-manage-download-docs",
@@ -32,8 +31,8 @@ export class ManageDownloadDocsComponent implements OnDestroy {
   public readonly CerfaDocType = CerfaDocType;
   public readonly StructureDocTypesAvailable = StructureDocTypesAvailable;
 
-  public readonly faFilePdf = faFilePdf;
-  public readonly faFileWord = faFileWord;
+  public readonly faFilePdf = "file-pdf-2-line";
+  public readonly faFileWord = "ri-file-word-2-line";
 
   constructor(
     private readonly documentService: DocumentService,

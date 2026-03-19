@@ -19,12 +19,13 @@ import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
 import {
   DsfrDropdownMenuComponent,
   DsfrDropdownMenuItemComponent,
+  DsfrTimelineComponent,
 } from "@edugouvfr/ngx-dsfr-ext";
 import { HasRoleDirective } from "./directives/has-role.directive";
 import { AlerteConfidentialiteComponent } from "../general/components/navbar/fragments/alerte-confidentialite/alerte-confidentialite.component";
 import { UserStructurePasswordFormComponent } from "./components/user-structure-password-form/user-structure-password-form.component";
+import { LoadingComponent } from "./components/loading/loading.component";
 
-import { DsfrTimelineComponent } from "@edugouvfr/ngx-dsfr-ext";
 @NgModule({
   imports: [
     CommonModule,
@@ -38,6 +39,7 @@ import { DsfrTimelineComponent } from "@edugouvfr/ngx-dsfr-ext";
     AlerteConfidentialiteComponent,
     DsfrTimelineComponent,
     DsfrDropdownMenuItemComponent,
+    LoadingComponent,
   ],
   declarations: [
     DateFrDirective,

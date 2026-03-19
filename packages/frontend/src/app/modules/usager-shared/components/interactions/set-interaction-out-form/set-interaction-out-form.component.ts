@@ -31,7 +31,7 @@ import { CustomToastService } from "../../../../shared/services";
   animations: [bounce],
   selector: "app-set-interaction-out-form",
   templateUrl: "./set-interaction-out-form.component.html",
-  styleUrls: ["../interactions.css"],
+  styleUrls: ["../interactions.scss"],
 })
 export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   @Input() public usager!: UsagerFormModel;

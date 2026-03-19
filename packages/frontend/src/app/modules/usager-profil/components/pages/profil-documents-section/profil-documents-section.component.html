@@ -1,63 +1,61 @@
 <div class="fr-content-container-light">
+  @if (me) {
   <app-profil-head
     [usager]="usager"
     [section]="section"
-    *ngIf="me"
     [me]="me"
   ></app-profil-head>
-  <div class="fr-container" *ngIf="usager">
+  } @if (usager) {
+  <div class="fr-container">
     <div class="fr-content">
       <div
         class="fr-py-2w fr-display-flex fr-justify-content-between fr-align-items-center"
       >
-        <h2 class="fr-h3 fr-my-0">
+        <h2 class="fr-h3 fr-my-0w">
           <span class="fr-icon-folder-2-line" aria-hidden="true"></span>
-          Modèles de document de la structure
+          Modeles de document de la structure
         </h2>
 
-        <div
-          *ngIf="
-            usager?.echeanceInfos?.isActif || usager.decision.statut === 'REFUS'
-          "
-        >
-          <button
-            type="button"
-            (click)="getCerfa(CerfaDocType.demande)"
-            *ngIf="usager.decision.statut !== 'REFUS'"
-            class="fr-btn fr-btn--icon-left fr-icon-download-line fr-mr-1w"
-          >
-            Télécharger l'attestation de demande
-          </button>
-
-          <button
-            type="button"
-            *ngIf="usager.decision.statut !== 'RADIE'"
-            (click)="
+        @if (usager?.echeanceInfos?.isActif || usager.decision.statut ===
+        'REFUS') {
+        <div>
+          @if (usager.decision.statut !== 'REFUS') {
+          <app-button
+            content="Telecharger l'attestation de demande"
+            icon="download"
+            (action)="getCerfa(CerfaDocType.demande)"
+          ></app-button>
+          } @if (usager.decision.statut !== 'RADIE') {
+          <app-button
+            [content]="
+              usager.decision.statut === 'REFUS'
+                ? 'Telecharger l\'attestation de Refus'
+                : 'Telecharger le Cerfa'
+            "
+            icon="download"
+            (action)="
               getCerfa(
                 usager.decision.statut === 'REFUS'
                   ? CerfaDocType.demande
                   : CerfaDocType.attestation
               )
             "
-            class="fr-btn fr-btn--icon-left fr-icon-download-line fr-mr-1w"
-          >
-            {{
-              usager.decision.statut === "REFUS"
-                ? "Télécharger l'attestation de Refus"
-                : "Télécharger le Cerfa"
-            }}
-          </button>
+          ></app-button>
+          }
         </div>
+        }
       </div>
+
       <app-profil-structure-docs
         [me]="me"
         [usager]="usager"
       ></app-profil-structure-docs>
 
-      <div class="fr-my-5w" *ngIf="displayDeleteButton">
-        <h2 class="fr-h3 fr-my-0">
-          <span class="fr-icon-file-text-line" aria-hidden="true"></span
-          >Documents de l'usager
+      @if (displayDeleteButton) {
+      <div class="fr-my-5w">
+        <h2 class="fr-h3 fr-my-0w">
+          <span class="fr-icon-file-text-line" aria-hidden="true"></span>
+          Documents de l'usager
         </h2>
         <app-display-usager-docs
           [me]="me"
@@ -65,12 +63,16 @@
           [usager]="usager"
         ></app-display-usager-docs>
       </div>
+      }
     </div>
+
+    @if (displayDeleteButton) {
     <app-delete-usager-menu
       [usager]="usager"
       context="PROFIL"
       [me]="me"
-      *ngIf="displayDeleteButton"
     ></app-delete-usager-menu>
+    }
   </div>
+  }
 </div>

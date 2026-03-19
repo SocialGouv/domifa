@@ -7,7 +7,7 @@
           Gestion des documents téléchargeables et personnalisés
         </h1>
       </div>
-      <div class="fr-col-12 fr-col-md-3">
+      <div class="fr-col-12 fr-col-md-3 fr-text--right">
         <a
           href="https://docs.numerique.gouv.fr/docs/ca835c79-8477-4332-9a70-27faeb982b4c/"
           target="_blank"
@@ -28,7 +28,7 @@
     <div class="page-content fr-p-3w">
       <div class="fr-grid-row fr-grid-row--between fr-grid-row--middle">
         <h2 class="fr-h3 fr-my-0">
-          <i class="fr-icon-at-line" aria-hidden="true"></i>
+          <span class="fr-icon-folder-2-line" aria-hidden="true"></span>
           Documents pré-remplis
         </h2>
         <div class="fr-ml-auto d-print-none">
@@ -106,19 +106,24 @@
 
     <div class="page-content fr-my-3w fr-p-4w">
       <div class="fr-grid-row fr-grid-row--between fr-grid-row--middle">
-        <h2 class="fr-my-0 fr-h3">Autres documents</h2>
-        @if (me?.role === 'admin') {
-        <div>
-          <button
-            type="button"
-            class="fr-btn fr-btn--secondary"
-            (click)="openUploadCustomDocModal(false)"
-          >
-            <i class="fr-icon-upload-line fr-mr-1w" aria-hidden="true"></i>
-            Importer un document
-          </button>
+        <h2 class="fr-h3 fr-my-0">
+          <span class="fr-icon-file-text-line" aria-hidden="true"></span>
+          Autres documents
+        </h2>
+        <div class="fr-ml-auto d-print-none">
+          @if (me?.role === 'admin') {
+          <div>
+            <button
+              type="button"
+              class="fr-btn fr-btn--secondary"
+              (click)="openUploadCustomDocModal(false)"
+            >
+              <i class="fr-icon-upload-line fr-mr-1w" aria-hidden="true"></i>
+              Importer un document
+            </button>
+          </div>
+          }
         </div>
-        }
       </div>
       <div class="fr-py-3w fr-mb-3w">
         <p>

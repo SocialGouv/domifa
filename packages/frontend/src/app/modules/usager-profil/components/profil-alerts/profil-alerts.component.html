@@ -1,5 +1,5 @@
 @if (usager.pinnedNote) {
-<div class="fr-alert fr-alert--info">
+<div class="fr-alert fr-alert--info fr-my-1w">
   <p class="fr-alert__title">
     <b>
       {{ usager.pinnedNote.message }}
@@ -16,7 +16,7 @@
 
 <!-- Alerte personne radiée -->
 @if (usager.decision.statut === 'RADIE') {
-<div class="fr-alert fr-alert--error">
+<div class="fr-alert fr-alert--error fr-my-1w">
   <p>
     Cette personne a été radiée le
     {{ usager.decision.dateFin | date : "dd MMMM yyyy" }} :
@@ -27,7 +27,7 @@
 
 <!-- Alerte demande refusée -->
 @if (usager.decision.statut === 'REFUS') {
-<div class="fr-alert fr-alert--error">
+<div class="fr-alert fr-alert--error fr-my-1w">
   <p>
     <strong
       >Demande refusée le
@@ -72,7 +72,7 @@ me?.role !== 'agent') {
 
 <!-- Alerte attente de décision -->
 @if (usager.decision.statut === 'ATTENTE_DECISION') {
-<div class="fr-alert fr-alert--info">
+<div class="fr-alert fr-alert--info fr-my-1w">
   <p>
     Votre
     {{
@@ -113,7 +113,7 @@ me?.role !== 'agent') {
 
 <!-- Alerte échéance expirée -->
 @if (usager.echeanceInfos.dayBeforeEnd < 0) {
-<div class="fr-my-1w fr-alert fr-alert--error">
+<div class="fr-my-1w fr-alert fr-alert--error fr-my-1w">
   <p>
     Domiciliation expirée depuis le
     {{ usager?.echeanceInfos?.dateToDisplay | date : "dd MMMM yyyy" }}, il y a
@@ -126,13 +126,13 @@ me?.role !== 'agent') {
 <div class="fr-col-12">
   <!-- NPAI -->
   @if (usager.options.npai.actif) {
-  <div class="fr-alert fr-alert--error">
+  <div class="fr-alert fr-alert--error fr-my-1w">
     <p>N'habite plus à l'adresse indiquée, pli non distribuable</p>
   </div>
   } @if (usager.options.transfert.actif) {
   <!-- TRANSFERT -->
   @if (usager.options.transfert.isExpired) {
-  <div class="fr-alert fr-alert--error">
+  <div class="fr-alert fr-alert--error fr-my-1w">
     <p>
       <strong>Attention : </strong> le transfert de courrier était valable
       jusqu'au
@@ -149,7 +149,7 @@ me?.role !== 'agent') {
   </div>
   } } @if (usager.options.procurations.length > 0) { @for (procuration of
   usager.options.procurations; track $index) { @if (!procuration.isExpired) {
-  <div class="fr-alert fr-alert--warning">
+  <div class="fr-alert fr-alert--warning fr-my-1w">
     <p>
       Une procuration au nom de
       <strong>{{ procuration | fullName }}</strong>
@@ -158,7 +158,7 @@ me?.role !== 'agent') {
     </p>
   </div>
   } @else {
-  <div class="fr-alert fr-alert--error">
+  <div class="fr-alert fr-alert--error fr-my-1w">
     <p>
       La procuration au nom de
       <strong>{{ procuration | fullName }}</strong>

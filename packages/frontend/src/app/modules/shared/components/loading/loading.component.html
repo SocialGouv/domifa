@@ -1,20 +1,12 @@
-<div
-  *ngIf="loading"
-  class="overlay"
-  aria-live="polite"
-  aria-atomic="true"
-  [attr.aria-busy]="loading"
-  role="alert"
->
-  <p @fadeInOut>
-    <fa-icon
-      [icon]="['fas', 'spinner']"
-      class="spinner"
-      animation="spin"
-      aria-hidden="true"
-    ></fa-icon>
-    <span class="loading_message"
-      >Chargement en cours, veuillez patienter...</span
-    >
-  </p>
-</div>
+@if(loading) {
+<dsfr-ext-spinner
+  typeLoader="quarter"
+  [overlay]="true"
+  label="Veuillez patienter"
+></dsfr-ext-spinner>
+}
+<dsfr-ext-spinner
+  typeLoader="quarter"
+  [overlay]="true"
+  label="Veuillez patienter"
+></dsfr-ext-spinner>

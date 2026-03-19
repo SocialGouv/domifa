@@ -36,6 +36,15 @@ export class ManageUserUsagerComponent implements OnInit {
     private readonly toastService: CustomToastService
   ) {}
 
+  public get totalPages(): number {
+    return Math.ceil(this.searchResults.meta.itemCount / this.params.take);
+  }
+
+  public onPageSelect(page: number): void {
+    this.params.page = page;
+    this.loadAccounts();
+  }
+
   ngOnInit() {
     this.countUsagerByStatus();
     this.countUserUsagerAccountsByStatus();

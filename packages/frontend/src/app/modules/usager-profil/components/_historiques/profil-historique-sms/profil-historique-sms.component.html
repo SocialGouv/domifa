@@ -1,4 +1,4 @@
-<h3>Historique des envois de SMS</h3>
+<h3 class="fr-h4">Historique des envois de SMS</h3>
 
 <p>Rappel: les domiciliés peuvent recevoir 2 type de SMS</p>
 <ul class="mb-4">
@@ -12,35 +12,41 @@
   </li>
 </ul>
 
-<div class="table-responsive" *ngIf="searchResults.data?.length">
-  <table class="table-history table">
-    <caption class="visually-hidden">
-      Historique des SMS envoyés
-    </caption>
-    <thead>
-      <tr>
-        <th scope="col">Date d'envoi</th>
-        <th scope="col">Statut</th>
-        <th scope="col">Type de SMS</th>
-        <th scope="col">Numéro de téléphone</th>
-        <th scope="col">Contenu</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let sms of searchResults.data">
-        <td>
-          {{
-            (sms.sendDate ? sms.sendDate : sms.scheduledDate)
-              | date : "dd MMMM yyyy à HH:mm"
-          }}
-        </td>
-        <td>{{ SMS_STATUS_LABELS[sms.status] }}</td>
-        <td>{{ SMS_LABELS[sms.smsId] }}</td>
-        <td>{{ sms.phoneNumber }}</td>
-        <td>{{ sms.content }}</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="fr-table fr-table--no-caption" *ngIf="searchResults.data?.length">
+  <div class="fr-table__wrapper">
+    <div class="fr-table__container">
+      <div class="fr-table__content">
+        <table>
+          <caption class="fr-sr-only">
+            Historique des SMS envoyés
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Date d'envoi</th>
+              <th scope="col">Statut</th>
+              <th scope="col">Type de SMS</th>
+              <th scope="col">Numéro de téléphone</th>
+              <th scope="col">Contenu</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sms of searchResults.data">
+              <td>
+                {{
+                  (sms.sendDate ? sms.sendDate : sms.scheduledDate)
+                    | date : "dd MMMM yyyy à HH:mm"
+                }}
+              </td>
+              <td>{{ SMS_STATUS_LABELS[sms.status] }}</td>
+              <td>{{ SMS_LABELS[sms.smsId] }}</td>
+              <td>{{ sms.phoneNumber }}</td>
+              <td>{{ sms.content }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 <div
   class="fr-justify-content-center fr-display-flex p-3 d-print-none"
@@ -66,15 +72,12 @@
     <label for="limit" class="ms-3 fw-bold">résultats par page </label>
   </div>
 
-  <ngb-pagination
-    [collectionSize]="searchResults.meta.itemCount"
-    [(page)]="params.page"
-    [boundaryLinks]="true"
-    [rotate]="true"
-    [maxSize]="5"
-    [pageSize]="params.take"
-    (pageChange)="getSms()"
-  ></ngb-pagination>
+  <dsfr-pagination
+    [pageCount]="totalPages"
+    [currentPage]="params.page"
+    (pageSelect)="onPageSelect($event)"
+    ariaLabel="Pagination des SMS"
+  ></dsfr-pagination>
 </div>
 
 @if (searchResults?.data?.length === 0) {

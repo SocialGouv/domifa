@@ -10,11 +10,14 @@
 }
 
 .interaction-icon {
-  height: 60px;
-  width: 60px;
   text-align: center;
-  padding: 50px 30px;
   margin: 0 auto;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 1rem 0.4rem;
+}
+.interaction-icon::before {
+  --icon-size: 3rem;
 }
 
 .interaction-actions {
@@ -22,6 +25,16 @@
   width: 100%;
   margin-top: -12px;
   margin-bottom: 10px;
+
+  button {
+    width: 40px;
+    display: inline-block;
+    max-width: 60px;
+    padding: 0.3rem;
+    margin: 0 auto;
+    text-align: center;
+    cursor: pointer;
+  }
 }
 
 .interaction-notification {
@@ -39,22 +52,7 @@
   z-index: 1000;
 }
 
-.interaction-actions img {
-  width: 20px;
-  height: auto;
-  margin-top: -4px;
-}
-
-.interaction-actions button {
-  padding: 6px 8px;
-  display: inline-block;
-  max-width: 60px;
-  margin: 0 auto;
-  text-align: center;
-  cursor: pointer;
-}
-
-.interaction-actions button:hover {
+.interaction-actions .interaction-actions button:hover {
   box-shadow: 2px 1px 4px rgb(179 179 179 / 50%);
 }
 

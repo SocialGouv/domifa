@@ -37,6 +37,15 @@ export class ProfilHistoriqueSmsComponent implements OnInit, OnDestroy {
     this.loading = true;
   }
 
+  public get totalPages(): number {
+    return Math.ceil(this.searchResults.meta.itemCount / this.params.take);
+  }
+
+  public onPageSelect(page: number): void {
+    this.params.page = page;
+    this.getSms();
+  }
+
   public ngOnInit(): void {
     this.getSms();
   }

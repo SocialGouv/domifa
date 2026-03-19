@@ -1,74 +1,80 @@
-<div class="table-responsive">
-  <table class="table table-docs">
-    <caption class="visually-hidden">
-      Documents pré-remplis automatiquement
-    </caption>
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="label"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Nom du document"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="createdBy"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Ajouté par"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="createdAt"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Ajouté le"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col" class="d-print-none fr-text--right">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Documents mis en ligne par les structures -->
-      <tr
-        *ngFor="
-          let document of docs | sortArray : currentKey : sortValue;
-          let i = index
-        "
-        [attr.aria-rowindex]="i + 1"
-      >
-        <td>
-          <app-display-table-image
-            [document]="document"
-          ></app-display-table-image>
-        </td>
-        <td>
-          {{ document.label }}
-        </td>
-        <td>{{ document.createdBy | fullName }}</td>
-        <td>
-          {{ document.createdAt | date : "dd MMMM yyyy" }}
-        </td>
-        <td class="align-middle fr-text--right">
-          <app-button
-            (action)="getStructureCustomDoc(document)"
-            [ariaLabel]="'Télécharger le document ' + document.label"
-            content="Télécharger"
-            icon="download"
-            color="primary"
-            [loading]="document.loading"
-          >
-          </app-button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="fr-table fr-table--no-caption">
+  <div class="fr-table__wrapper">
+    <div class="fr-table__container">
+      <div class="fr-table__content">
+        <table>
+          <caption class="fr-sr-only">
+            Documents pré-remplis automatiquement
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Type</th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="label"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Nom du document"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="createdBy"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Ajouté par"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="createdAt"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Ajouté le"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col" class="d-print-none fr-text--right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let document of docs | sortArray : currentKey : sortValue;
+                let i = index
+              "
+              [attr.aria-rowindex]="i + 1"
+            >
+              <td>
+                <app-display-table-image
+                  [document]="document"
+                ></app-display-table-image>
+              </td>
+              <td>
+                {{ document.label }}
+              </td>
+              <td>{{ document.createdBy | fullName }}</td>
+              <td>
+                {{ document.createdAt | date : "dd MMMM yyyy" }}
+              </td>
+              <td class="align-middle fr-text--right">
+                <app-button
+                  (action)="getStructureCustomDoc(document)"
+                  [ariaLabel]="'Télécharger le document ' + document.label"
+                  content="Télécharger"
+                  icon="download"
+                  customClass="fr-btn--sm"
+                  color="primary"
+                  [loading]="document.loading"
+                >
+                </app-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

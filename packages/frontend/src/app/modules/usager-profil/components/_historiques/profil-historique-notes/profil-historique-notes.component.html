@@ -1,62 +1,70 @@
-<h3>Historique des notes</h3>
+<h3 class="fr-h4">Historique des notes</h3>
 
-<div class="table-responsive">
-  <table *ngIf="notes.length > 0" class="table-history table">
-    <caption class="visually-hidden">
-      Notes sur l'usager
-    </caption>
-    <thead>
-      <tr>
-        <th scope="col">
-          <app-table-head-sort
-            sortKey="createdAt"
-            [(sortValue)]="sortValue"
-            [(currentKey)]="currentKey"
-            columnName="Date"
-          >
-          </app-table-head-sort>
-        </th>
-        <th scope="col">Statut</th>
-        <th scope="col">Message</th>
-        <th scope="col">Notifié par</th>
-        <th scope="col" class="fr-text--right">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="
-          let note of notes | sortArray : currentKey : sortValue;
-          let i = index
-        "
-        [attr.aria-rowindex]="i + 1"
-      >
-        <td>
-          {{ note.createdAt | date : "dd MMMM yyyy à HH:mm" }}
-        </td>
-        <td>
-          <span *ngIf="note.archivedAt" class="fr-badge fr-badge--warning">
-            Archivée
-          </span>
-          <span class="fr-badge fr-badge--success" *ngIf="note.pinned">
-            Épinglée
-          </span>
-        </td>
-        <td class="text-break">
-          {{ note.message }}
-        </td>
-        <td>{{ note.createdBy.userName }}</td>
-        <td class="fr-text--right">
-          <app-usager-notes-actions
-            *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
-            class="ms-3"
-            [usager]="usager"
-            [note]="note"
-            (getUsagerNotes)="getUsagerNotes()"
-          ></app-usager-notes-actions>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div *ngIf="notes.length > 0" class="fr-table fr-table--no-caption">
+  <div class="fr-table__wrapper">
+    <div class="fr-table__container">
+      <div class="fr-table__content">
+        <table>
+          <caption class="fr-sr-only">
+            Notes sur l'usager
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="createdAt"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Date"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">Statut</th>
+              <th scope="col">Message</th>
+              <th scope="col">Notifié par</th>
+              <th scope="col" class="fr-text--right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let note of notes | sortArray : currentKey : sortValue;
+                let i = index
+              "
+              [attr.aria-rowindex]="i + 1"
+            >
+              <td>
+                {{ note.createdAt | date : "dd MMMM yyyy à HH:mm" }}
+              </td>
+              <td>
+                <span
+                  *ngIf="note.archivedAt"
+                  class="fr-badge fr-badge--warning"
+                >
+                  Archivée
+                </span>
+                <span class="fr-badge fr-badge--success" *ngIf="note.pinned">
+                  Épinglée
+                </span>
+              </td>
+              <td class="text-break">
+                {{ note.message }}
+              </td>
+              <td>{{ note.createdBy.userName }}</td>
+              <td class="fr-text--right">
+                <app-usager-notes-actions
+                  *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
+                  [usager]="usager"
+                  [note]="note"
+                  (getUsagerNotes)="getUsagerNotes()"
+                ></app-usager-notes-actions>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="fr-callout" *ngIf="!notes.length">
   <p class="fr-callout__text">Aucune note enregistrée actuellement</p>
