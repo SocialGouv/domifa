@@ -1,4 +1,4 @@
-<div class="breadcrumb py-3 py-md-4 m-0" *ngIf="regionId">
+<div class="breadcrumb py-3 py-md-4 fr-m-0w" *ngIf="regionId">
   <div class="container">
     <a routerLink="/">Accueil</a>
     &gt;
@@ -33,7 +33,7 @@
       </h1>
       <p class="fr-text--lg fr-text-title--blue-france">
         Découvrez nos chiffres clés sur l'utilisation de DomiFa sur la région
-        <span class="fw-bold">
+        <span class="fr-text--bold">
           {{ regions[REGIONS_SEO_ID[regionId]] }}
         </span>
       </p>
@@ -62,7 +62,7 @@
     </p>
 
     <div
-      class="fr-grid-row m-0 fr-justify-content-between fr-align-items-stretch"
+      class="fr-grid-row fr-m-0w fr-justify-content-between fr-align-items-stretch"
     >
       <div
         class="fr-display-flex fr-align-items-center p-4 fr-align-items-center fr-background-alt--blue-ecume"
@@ -70,12 +70,10 @@
       >
         <div class="fr-col-md-12 px-0 fr-text--center">
           <div @fadeInOut aria-live="polite">
-            <fa-icon
-              [icon]="['fas', 'spinner']"
-              class="spinner"
-              animation="spin"
+            <span
+              class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
               aria-hidden="true"
-            ></fa-icon>
+            ></span>
             <span>Chargement en cours, veuillez patienter</span>
           </div>
         </div>
@@ -101,7 +99,7 @@
               <dl
                 class="fr-display-flex ps-0 fr-flex-column fr-align-items-center py-4"
               >
-                <dt class="visually-hidden">Nombre de structures</dt>
+                <dt class="fr-sr-only">Nombre de structures</dt>
                 <dd class="fr-h1 mb-0 ps-0 fr-text-title--blue-france">
                   {{ stats?.structuresCount | formatBigNumber }}
                 </dd>
@@ -121,7 +119,7 @@
                     "
                   >
                     <span
-                      class="fr-text--lead mb-0 fr-text-title--blue-france fw-bold"
+                      class="fr-text--lead mb-0 fr-text-title--blue-france fr-text--bold"
                       >{{ structure.value | formatBigNumber }}</span
                     >
                     <span class="sub-stats-label">
@@ -223,7 +221,7 @@
       <div class="fr-col-12 fr-col-md-4 px-0 px-md-2 fr-display-flex">
         <div
           *ngIf="stats"
-          class="fr-background-alt--blue-ecume fr-display-flex fr-flex-column fr-gap-3w p-3 w-100 fr-mt-2v fr-mt-md-0"
+          class="fr-background-alt--blue-ecume fr-display-flex fr-flex-column fr-gap-3w fr-p-3w w-100 fr-mt-2v fr-mt-md-0"
         >
           <div
             class="fr-display-flex fr-flex-column fr-justify-content-start fr-gap-2w"
@@ -279,7 +277,7 @@
                   : structure.region
               }}
             </span>
-            <span class="text-primary fw-bold">
+            <span class="text-primary fr-text--bold">
               {{ structure.count }}
             </span>
           </li>
@@ -303,12 +301,10 @@
     >
       <div class="fr-col-md-12 fr-text--center">
         <div @fadeInOut aria-live="polite">
-          <fa-icon
-            [icon]="['fas', 'spinner']"
-            class="spinner"
-            animation="spin"
+          <span
+            class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
             aria-hidden="true"
-          ></fa-icon>
+          ></span>
           <span>Chargement en cours, veuillez patienter</span>
         </div>
       </div>
@@ -329,7 +325,7 @@
                 class="fr-display-flex fr-justify-content-start fr-gap-2w fr-align-items-center"
                 *ngFor="let structure of stats?.structuresCountByRegion"
               >
-                <span class="fr-background-alt--blue-ecume fw-bold">
+                <span class="fr-background-alt--blue-ecume fr-text--bold">
                   {{ structure.count }}
                 </span>
                 <span>
@@ -353,7 +349,7 @@
                 class="fr-display-flex fr-justify-content-start fr-gap-2w fr-align-items-center"
                 *ngFor="let departementCom of DEPARTEMENTS_COM | keyvalue"
               >
-                <span class="fr-text-title--blue-france fw-bold">
+                <span class="fr-text-title--blue-france fr-text--bold">
                   {{ statsRegionsValues[departementCom.value.regionCode] }}
                 </span>
                 <span>

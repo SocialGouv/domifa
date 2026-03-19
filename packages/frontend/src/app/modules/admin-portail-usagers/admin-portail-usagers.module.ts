@@ -23,7 +23,7 @@ import {
   NgbDateCustomParserFormatter,
   CustomDatepickerI18n,
 } from "../shared/services";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+
 import { ManageUserUsagerComponent } from "./components/manage-user-usager/manage-user-usager.component";
 import { DsfrEditorComponent } from "@edugouvfr/ngx-dsfr-ext/editor";
 import {
@@ -48,7 +48,7 @@ import { DisplayLastLoginComponent } from "../shared/components/display-last-log
     ReactiveFormsModule,
     SharedModule,
     GeneralModule,
-    FontAwesomeModule,
+
     DsfrEditorComponent,
     DsfrModalComponent,
     DisplayLastLoginComponent,

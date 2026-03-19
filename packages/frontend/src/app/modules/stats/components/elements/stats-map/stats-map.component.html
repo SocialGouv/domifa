@@ -35,7 +35,7 @@
           class="fr-text--center"
         >
           <div class="map-tooltip">
-            <p class="m-0 text-black">
+            <p class="fr-m-0w text-black">
               {{ REGIONS_LABELS[regionMap.key] }}
             </p>
             <a
@@ -44,7 +44,7 @@
                 REGIONS_LABELS[regionMap.key]
               "
               [routerLink]="['/stats/region/' + REGIONS_ID_SEO[regionMap.key]]"
-              class="region-name fw-bold"
+              class="region-name fr-text--bold"
             >
               Voir le détail
             </a>
@@ -64,7 +64,7 @@
               REGIONS_LABELS[regionMap.key]
             "
             [routerLink]="['/stats/region/' + REGIONS_ID_SEO[regionMap.key]]"
-            class="region-name fw-bold"
+            class="region-name fr-text--bold"
             *ngIf="statsRegionsValues"
           >
             <span class="map-number">
@@ -109,7 +109,7 @@
           @fadeInOut
         >
           <div class="map-tooltip">
-            <p class="m-0">
+            <p class="fr-m-0w">
               {{ REGIONS_LABELS[regionDomTom] }}
             </p>
             <a
@@ -119,7 +119,7 @@
               "
               *ngIf="statsRegionsValues[regionDomTom] !== 0"
               [routerLink]="['/stats/region/' + REGIONS_ID_SEO[regionDomTom]]"
-              class="region-name fw-bold"
+              class="region-name fr-text--bold"
             >
               Voir le détail
             </a>
@@ -139,7 +139,7 @@
               REGIONS_LABELS[regionDomTom]
             "
             [routerLink]="['/stats/region/' + REGIONS_ID_SEO[regionDomTom]]"
-            class="region-name fw-bold"
+            class="region-name fr-text--bold"
           >
             <span class="map-number">
               {{ statsRegionsValues[regionDomTom] }}

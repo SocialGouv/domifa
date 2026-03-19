@@ -271,13 +271,10 @@
         [disabled]="loading"
         [attr.aria-busy]="loading"
       >
-        <fa-icon
-          *ngIf="loading"
-          [icon]="['fas', 'circle-notch']"
-          animation="spin"
+        <span
+          class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
           aria-hidden="true"
-          class="fr-mr-1w"
-        ></fa-icon>
+        ></span>
         <span *ngIf="loading">Veuillez patienter...</span>
         <span *ngIf="!loading">
           {{ structureInformation?.uuid ? "Modifier" : "Ajouter" }}

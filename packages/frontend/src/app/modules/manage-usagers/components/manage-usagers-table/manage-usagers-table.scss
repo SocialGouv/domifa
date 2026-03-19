@@ -1,126 +1,12 @@
 #table-usagers {
-  border-collapse: separate;
-  border-spacing: 0 9px;
-  margin: 0 auto;
-  box-sizing: content-box;
   min-width: 1000px;
-  width: 100%;
-  max-width: 2000px;
-
-  tbody td {
-    vertical-align: middle;
-    border: none;
-    font-style: normal;
-    padding: 0 0.2rem;
-    height: 62px;
-    font-size: 0.95rem;
-
-    label {
-      width: 100%;
-      padding: 1.3rem 0.5rem;
-      margin: 0;
-      text-align: center;
-      background-color: transparent;
-    }
-    span {
-      vertical-align: middle;
-    }
-    a {
-      width: 100%;
-      height: 100%;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      color: black;
-    }
-  }
-
-  tbody td a:hover,
-  tbody td a:active,
-  tbody td a:visited {
-    text-decoration: none;
-  }
-
-  input[type="checkbox"] {
-    width: 15px;
-    height: 15px;
-    vertical-align: middle;
-  }
-  tbody th input[type="checkbox"] {
-    background-color: transparent;
-  }
 
   .manage-usager-ref {
-    background-color: white;
     min-width: 40px;
   }
 
-  tbody td:nth-child(2) {
-    max-width: 350px;
-    word-break: break-word;
-  }
-
-  tbody td:first-child {
-    border-radius: 2px 0 0 2px;
-    padding: 0 0.5rem;
-    text-align: center;
-  }
-
-  tbody td:last-child {
-    background-color: white;
-    text-align: right;
-    border-radius: 0 2px 2px 0;
-    width: 50px;
-    min-width: 0;
-  }
-
-  tbody tr {
-    transition: all 0.5s;
-    animation-timing-function: cubic-bezier(Ease Out);
-    background: #ffffff;
-    box-shadow: 0 3px 1px rgba(0, 0, 0, 0.06);
-    border-radius: 2px;
-  }
-
-  tbody tr:hover {
-    background-color: #fff;
-    box-shadow: 2px 1px 4px rgba(179, 179, 179, 0.5);
-  }
-
-  thead th {
-    font-style: normal;
-    font-weight: 600;
-    font-size: 1rem;
-    color: #3150c0;
-    padding: 0.7rem 0;
-    text-transform: uppercase;
-    border: none;
-    transition: all 0.2s ease;
-    vertical-align: bottom;
-    label {
-      padding: 0;
-      text-align: center;
-      width: 100%;
-      vertical-align: bottom;
-      margin: 0;
-      background-color: transparent;
-    }
-    button {
-      padding: 0;
-      color: #3150c0;
-      text-transform: uppercase;
-      border: none;
-      background-color: transparent !important;
-
-      * {
-        vertical-align: bottom;
-      }
-    }
-  }
-
-  .table-name img {
-    display: inline-block;
-    vertical-align: middle;
+  .table-name {
+    max-width: 300px;
   }
 
   .table-name a div {
@@ -130,8 +16,9 @@
     text-overflow: ellipsis;
   }
 
-  .table-name {
-    max-width: 300px;
+  .table-name img {
+    display: inline-block;
+    vertical-align: middle;
   }
 }
 

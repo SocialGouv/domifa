@@ -2,7 +2,6 @@
   type="button"
   [class]="'fr-btn' + ' ' + customClass"
   [class.fr-btn--secondary]="color === 'secondary'"
-  [class.fr-btn--danger]="color === 'danger'"
   [class.fr-btn--tertiary]="color === 'tertiary'"
   [disabled]="loading"
   [attr.aria-busy]="loading"
@@ -12,7 +11,6 @@
   (keydown.space)="action.emit()"
 >
   @if (loading) {
-
   <span class="fr-spinner" role="status" aria-label="Chargement en cours">
     <span class="fr-sr-only">{{ loadingText }}</span>
   </span>
@@ -26,7 +24,3 @@
   </span>
   }
 </button>
-<dsfr-button
-  icon="fr-icon-checkbox-circle-line"
-  tooltipMessage="Ceci est un message"
-></dsfr-button>

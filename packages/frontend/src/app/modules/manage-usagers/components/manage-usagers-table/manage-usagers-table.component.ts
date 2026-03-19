@@ -20,25 +20,20 @@ import {
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 import { ETAPES_DEMANDE_URL } from "../../../../../_common/model";
-import { fadeInOut } from "../../../../shared";
+
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
 import { Router } from "@angular/router";
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { getUrlUsagerProfil } from "../../../usager-shared/utils";
 import { UsagerProfilService } from "../../../usager-profil/services/usager-profil.service";
-import { usagerActions, UsagerState } from "../../../../shared";
+import { usagerActions, UsagerState, fadeInOut } from "../../../../shared";
 import { Store } from "@ngrx/store";
 import {
   SortValues,
   UsagersFilterCriteriaStatut,
   UserStructure,
 } from "@domifa/common";
-import {
-  faArrowDown,
-  faArrowUp,
-  faSort,
-} from "@fortawesome/free-solid-svg-icons";
 import { UsagersFilterCriteria } from "../../classes";
 
 @Component({
@@ -90,9 +85,6 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
   public readonly UsagersFilterCriteriaStatut = UsagersFilterCriteriaStatut;
 
-  public readonly faArrowDown = faArrowDown;
-  public readonly faArrowUp = faArrowUp;
-  public readonly faSort = faSort;
   public readonly ARIA_SORT: {
     [key in SortValues]: string;
   } = {

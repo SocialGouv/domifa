@@ -11,7 +11,6 @@ import { SharedModule } from "../shared/shared.module";
 import { UsagerSharedModule } from "../usager-shared/usager-shared.module";
 import { UsersModule } from "../users/users.module";
 import { ImportUsagersRoutingModule } from "./import-usagers-routing.module";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 @NgModule({
   declarations: [ImportComponent],
@@ -24,7 +23,6 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     SharedModule,
     UsersModule,
     ImportUsagersRoutingModule,
-    FontAwesomeModule,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

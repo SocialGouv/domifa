@@ -2,33 +2,30 @@
   class="fr-grid-row fr-align-items-center fr-my-2w fr-flex-wrap fr-justify-content-between"
 >
   <div class="fr-col-md-6 fr-col-12">
+    @if (selectedRefs.size > 0) {
     <div
       class="fr-display-flex fr-align-items-center fr-flex-wrap justify-content-md-start fr-justify-content-center"
-      *ngIf="selectedRefs.size > 0"
       appStickySelectionBar
     >
-      <div class="me-2">{{ selectedRefs.size }} selectionnés</div>
-      <div data-toggle="buttons">
+      <div class="fr-mr-1w">{{ selectedRefs.size }} selectionnés</div>
+      <div>
+        @if (filters.statut === UsagersFilterCriteriaStatut.VALIDE) {
         <app-decision-radiation-form
           [selectedRefs]="selectedRefs"
           (actionAfterSuccess)="resetCheckboxes()"
           context="MANAGE"
-          *ngIf="filters.statut === UsagersFilterCriteriaStatut.VALIDE"
         ></app-decision-radiation-form>
+        } @if (me?.role !== 'simple') {
         <button
           type="button"
-          *ngIf="me?.role !== 'simple'"
           (click)="openDeleteUsagersModal()"
           class="fr-btn fr-btn--sm fr-btn--secondary"
         >
           <span class="fr-mr-2w fr-icon-delete-line" aria-hidden="true"></span>
-          <ng-container *ngIf="selectedRefs.size === 1"
-            >Supprimer le domicilié</ng-container
-          >
-          <ng-container *ngIf="selectedRefs.size > 1"
-            >Supprimer les domiciliés</ng-container
-          >
+          @if (selectedRefs.size === 1) { Supprimer le domicilié } @if
+          (selectedRefs.size > 1) { Supprimer les domiciliés }
         </button>
+        }
         <app-assign-referrers
           [selectedRefs]="selectedRefs"
           (actionAfterSuccess)="resetCheckboxes()"
@@ -37,332 +34,319 @@
         ></app-assign-referrers>
       </div>
     </div>
+    }
   </div>
-  <div class="fr-col-md-6 fr-col-12 fr-text--right">
+  <!-- <div class="fr-col-md-6 fr-col-12 fr-text--right">
     <button type="button" class="fr-btn fr-btn--sm" (click)="goToPrint.emit()">
-      <fa-icon
-        aria-hidden="true"
-        [icon]="['fas', 'print']"
-        *ngIf="!loading"
-      ></fa-icon>
-      <fa-icon
-        aria-hidden="true"
-        [icon]="['fas', 'circle-notch']"
-        animation="spin"
-        *ngIf="loading"
-      >
-      </fa-icon>
+      @if (!loading) {
+        <span class="fr-icon-printer-line fr-mr-1w" aria-hidden="true"></span>
+      }
+      @if (loading) {
+        <span class="fr-icon-refresh-line fr-icon--spin fr-mr-1w" aria-hidden="true"></span>
+      }
       Imprimer la liste
     </button>
-  </div>
+  </div> -->
 </section>
-<table
-  class="table"
-  *ngIf="usagers.length !== 0 && !loading"
-  id="table-usagers"
-  [attr.aria-rowcount]="usagers.length"
->
-  <caption class="visually-hidden text-dark">
-    Tableau des domiciliés: les colonnes ID, nom prénom, passage et échéance
-    peuvent disposent de boutons pour trier les colonnes
-  </caption>
-  <thead>
-    <th scope="col" role="columnheader" *ngIf="showCheckboxes">
-      <span class="visually-hidden"
-        >Colonne de sélection des dossiers les supprimer ou les radier</span
-      >
 
-      <label for="check-all">
-        <span class="visually-hidden">
-          Sélectionner tous les dossiers visibles à l'écran</span
-        >
-        <input
-          id="check-all"
-          type="checkbox"
-          [(ngModel)]="selectAllCheckboxes"
-          (ngModelChange)="getVisibleCheckboxIds() "
-        />
-      </label>
-    </th>
-    <th
-      scope="col"
-      role="columnheader"
-      *ngIf="filters.statut ===UsagersFilterCriteriaStatut.TOUS"
-    >
-      STATUT
-    </th>
+@if (usagers.length !== 0 && !loading) {
+<div class="fr-table" id="table-usagers-component">
+  <div class="fr-table__wrapper">
+    <div class="fr-table__container">
+      <div class="fr-table__content">
+        <table id="table-usagers" [attr.aria-rowcount]="usagers.length">
+          <caption class="fr-sr-only">
+            Tableau des domiciliés: les colonnes ID, nom prénom, passage et
+            échéance peuvent disposent de boutons pour trier les colonnes
+          </caption>
+          <thead>
+            <tr>
+              @if (showCheckboxes) {
+              <th class="fr-cell--fixed" role="columnheader">
+                <div class="fr-checkbox-group fr-checkbox-group--sm">
+                  <input
+                    id="check-all"
+                    type="checkbox"
+                    [(ngModel)]="selectAllCheckboxes"
+                    (ngModelChange)="getVisibleCheckboxIds()"
+                  />
+                  <label class="fr-label" for="check-all">
+                    <span class="fr-sr-only"
+                      >Sélectionner tous les dossiers visibles à l'écran</span
+                    >
+                  </label>
+                </div>
+              </th>
+              } @if (filters.statut === UsagersFilterCriteriaStatut.TOUS) {
+              <th scope="col" role="columnheader">STATUT</th>
+              }
+              <th scope="col" role="columnheader">
+                <div class="fr-cell--sort">
+                  <span>ID</span>
+                  <button
+                    type="button"
+                    [ngClass]="filters.sortKey === 'ID' ? 'fr-text--bold active-sort' : ''"
+                    [attr.aria-sort]="filters.sortKey === 'ID' ? ARIA_SORT[filters.sortValue] : 'none'"
+                    (click)="updateFilters.emit({ element: 'sortKey', value: 'ID' })"
+                    class="fr-btn--sort fr-btn fr-btn--sm"
+                  >
+                    <app-table-head-sort-icon
+                      [sortKey]="filters.sortKey"
+                      [sortValue]="filters.sortValue"
+                      currentKey="ID"
+                    ></app-table-head-sort-icon>
+                  </button>
+                </div>
+              </th>
 
-    <th scope="col" role="columnheader">
-      <button
-        type="button"
-        [ngClass]="filters.sortKey === 'ID' ? 'fw-bold text-primary' : ''"
-        [attr.aria-sort]="filters.sortKey ==='ID' ? ARIA_SORT[filters.sortValue] : 'none'"
-        (click)="updateFilters.emit({  element: 'sortKey',  value: 'ID'})"
-      >
-        <span class="visually-hidden">Trier par</span>
-        <span>ID</span>
-        <app-table-head-sort-icon
-          [sortKey]="filters.sortKey"
-          [sortValue]="filters.sortValue"
-          currentKey="ID"
-        ></app-table-head-sort-icon>
-      </button>
-    </th>
-    <th scope="col"><span class="visually-hidden">Notes épinglées</span></th>
-    <th scope="col">
-      <button
-        type="button"
-        [ngClass]="filters.sortKey === 'NOM' ? 'fw-bold text-primary' : ''"
-        [attr.aria-sort]="filters.sortKey ==='NOM' ? ARIA_SORT[filters.sortValue] : 'none'"
-        (click)="updateFilters.emit({ element: 'sortKey',  value: 'NOM' })"
-      >
-        <span class="visually-hidden">Trier par</span>
-        <span>Nom prénom</span>
-        <app-table-head-sort-icon
-          [sortKey]="filters.sortKey"
-          [sortValue]="filters.sortValue"
-          currentKey="NOM"
-        ></app-table-head-sort-icon>
-      </button>
-    </th>
-    <th scope="col" role="columnheader">Téléphone</th>
-    <th scope="col" role="columnheader">INFORMATIONS</th>
-    <th
-      scope="col"
-      role="columnheader"
-      *ngIf="filters.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION || filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION"
-    >
-      Type de demande
-    </th>
-    <th
-      class="clickable"
-      scope="col"
-      role="columnheader"
-      *ngIf="filters.statut === UsagersFilterCriteriaStatut.VALIDE || filters.statut === UsagersFilterCriteriaStatut.TOUS "
-    >
-      <button
-        type="button"
-        [ngClass]="filters.sortKey === 'PASSAGE' ? 'fw-bold text-primary' : ''"
-        [attr.aria-sort]="filters.sortKey ==='PASSAGE' ? ARIA_SORT[filters.sortValue] : 'none'"
-        (click)="updateFilters.emit({element: 'sortKey', value: 'PASSAGE'})"
-      >
-        <span class="visually-hidden">Trier par</span>
-        <span>PASSAGE</span>
-        <app-table-head-sort-icon
-          [sortKey]="filters.sortKey"
-          [sortValue]="filters.sortValue"
-          currentKey="PASSAGE"
-        ></app-table-head-sort-icon>
-      </button>
-    </th>
-    <th
-      scope="col"
-      role="columnheader"
-      *ngIf="filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION"
-      class="clickable"
-    >
-      <button
-        type="button"
-        [ngClass]="filters.sortKey === 'RDV' ? 'fw-bold text-primary' : ''"
-        [attr.aria-sort]="filters.sortKey ==='RDV' ? ARIA_SORT[filters.sortValue] : 'none'"
-        (click)="updateFilters.emit({element: 'sortKey', value: 'RDV'})"
-      >
-        <span class="visually-hidden">Trier par</span>
-        Rendez-vous le
-        <app-table-head-sort-icon
-          [sortKey]="filters.sortKey"
-          [sortValue]="filters.sortValue"
-          currentKey="RDV"
-        ></app-table-head-sort-icon>
-      </button>
-    </th>
-    <th class="clickable" role="columnheader" scope="col">
-      <button
-        type="button"
-        [ngClass]="filters.sortKey === 'ECHEANCE' ? 'fw-bold text-primary' : ''"
-        [attr.aria-sort]="filters.sortKey ==='ECHEANCE' ? ARIA_SORT[filters.sortValue] : 'none'"
-        (click)="updateFilters.emit({element: 'sortKey', value: 'ECHEANCE'})"
-      >
-        <span class="visually-hidden">Trier par</span>
-        <span>
-          <ng-container
-            *ngIf="filters.statut !== 'REFUS' && filters.statut !== 'RADIE'"
-            >ÉCHÉANCE</ng-container
-          >
-          <ng-container *ngIf="filters.statut === 'REFUS'"
-            >REFUSÉ LE</ng-container
-          >
-          <ng-container *ngIf="filters.statut === 'RADIE'"
-            >RADIÉ LE</ng-container
-          >
-        </span>
-        <app-table-head-sort-icon
-          [sortKey]="filters.sortKey"
-          [sortValue]="filters.sortValue"
-          currentKey="ECHEANCE"
-        ></app-table-head-sort-icon>
-      </button>
-    </th>
-    <th scope="col" class="text-start d-print-none">Interaction</th>
-    <th scope="col" class="text-start d-print-none">Courrier</th>
-    <th scope="col" class="d-print-none">
-      <span class="visually-hidden">Actions</span>
-    </th>
-  </thead>
-  <tbody>
-    <tr *ngFor="let usager of usagers; let i = index; trackBy: refTrackBy">
-      <td class="text-start p-0 m-0" *ngIf="showCheckboxes">
-        <label
-          for="select-{{ usager.ref }}"
-          (change)="toggleSelection(usager.ref)"
-        >
-          <span class="visually-hidden">
-            Sélectionner {{ usager | fullName }}</span
-          >
-          <input
-            [id]="'select-' + usager.ref"
-            type="checkbox"
-            [checked]="selectedRefs.has(usager.ref)"
-          />
-        </label>
-      </td>
-      <td
-        *ngIf="filters.statut === UsagersFilterCriteriaStatut.TOUS"
-        class="clickable text-start"
-      >
-        <span [class]="'fr-badge ' + usager?.statusInfo?.color">
-          {{ usager?.statusInfo?.text }}</span
-        >
-      </td>
-      <td
-        class="text-primary manage-usager-ref clickable"
-        (click)="goToProfil(usager)"
-        tabindex="0"
-      >
-        <span>{{ usager.customRef ? usager.customRef : usager.ref }}</span>
-      </td>
-      <td>
-        <img
-          *ngIf="usager?.pinnedNote"
-          [ngbTooltip]="pinnedNote"
-          triggers="hover focus"
-          src="/assets/icones/pinned-note.svg"
-          alt="Note épinglée"
-          tabindex="0"
-        />
-        <ng-template #pinnedNote>
-          <b>Note épinglée : </b>{{ usager.pinnedNote?.message }}
-        </ng-template>
-        <span class="visually-hidden" *ngIf="!usager.pinnedNote"
-          >Aucune note épinglée</span
-        >
-      </td>
-      <td class="clickable table-name td-name">
-        <a
-          [routerLink]="(usager.decision.statut === UsagersFilterCriteriaStatut.INSTRUCTION || usager.decision.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION) && me?.role !== 'facteur'&& me?.role !== 'agent'
-           ? '/usager/'+usager.ref+'/edit/'+ETAPES_DEMANDE_URL[usager.etapeDemande]
-           : '/profil/general/'+usager.ref"
-          ariaCurrentWhenActive="page"
-        >
-          <span class="visually-hidden">Consulter la fiche de </span>
-          <span>{{ usager.nom | uppercase}} {{ usager.prenom }}</span>
-          <span class="ms-2" *ngIf="usager?.surnom">
-            ({{ usager.surnom }})
-          </span>
-        </a>
-      </td>
-      <td
-        class="clickable table-name"
-        tabindex="0"
-        (click)="goToProfil(usager)"
-      >
-        <span *ngIf="usager.telephone?.numero">
-          {{ usager?.phoneNumber || "Non renseigné" }}</span
-        >
-        <span class="visually-hidden" *ngIf="!usager.telephone?.numero"
-          >Téléphone non renseigné</span
-        >
-      </td>
-      <td>
-        <app-column-informations [usager]="usager"></app-column-informations>
-      </td>
-      <td
-        *ngIf="filters.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION || filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION"
-      >
-        <p
-          *ngIf="usager.typeDom === 'RENOUVELLEMENT'"
-          class="m-0 fr-badge fr-badge--warning"
-        >
-          Renouvellement
-        </p>
-        <p
-          *ngIf="usager.typeDom === 'PREMIERE_DOM'"
-          class="m-0 fr-badge fr-badge--info"
-        >
-          Première demande
-        </p>
-      </td>
-      <td
-        class="clickable"
-        *ngIf="filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION"
-      >
-        {{ usager.rdvInfo.content }}
-      </td>
-      <td
-        *ngIf="filters.statut === UsagersFilterCriteriaStatut.VALIDE || filters.statut === UsagersFilterCriteriaStatut.TOUS"
-        class="clickable"
-        tabindex="0"
-        (click)="goToProfil(usager)"
-      >
-        {{ usager.lastInteraction.dateInteraction | date : "dd/MM/yy" }}
-      </td>
-      <td
-        class="statut-date clickable"
-        tabindex="0"
-        (click)="goToProfil(usager)"
-      >
-        <ng-container *ngIf="usager?.echeanceInfos?.isActif">
-          <span
-            [class]="'statut-signal ' + usager?.echeanceInfos?.color"
-          ></span>
-          <span
-            class="visually-hidden"
-            *ngIf="usager?.echeanceInfos.color === 'bg-danger'"
-            >Moins de 2 mois
-          </span>
-          <span
-            class="visually-hidden"
-            *ngIf="usager?.echeanceInfos.color !== 'bg-danger'"
-          >
-            Moins de 2 semaines ou dépassée
-          </span>
-        </ng-container>
-        <span *ngIf="usager?.echeanceInfos?.dateToDisplay">
-          {{ usager.echeanceInfos?.dateToDisplay | date : "dd/MM/yy" }}
-        </span>
-      </td>
-      <td class="text-start list-interaction-icons d-print-none">
-        <app-manage-usagers-interactions
-          [usager]="usager"
-          template="small-buttons"
-        ></app-manage-usagers-interactions>
-      </td>
-      <td class="text-start list-interaction-icons d-print-none">
-        <app-manage-usagers-interactions
-          [usager]="usager"
-          template="big-buttons"
-        ></app-manage-usagers-interactions>
-      </td>
+              <th scope="col" role="columnheader">
+                <div class="fr-cell--sort">
+                  <span>Nom prénom</span>
+                  <button
+                    type="button"
+                    [ngClass]="filters.sortKey === 'NOM' ? 'fr-text--bold active-sort' : ''"
+                    [attr.aria-sort]="filters.sortKey === 'NOM' ? ARIA_SORT[filters.sortValue] : 'none'"
+                    (click)="updateFilters.emit({ element: 'sortKey', value: 'NOM' })"
+                    class="fr-btn--sort fr-btn fr-btn--sm"
+                  >
+                    <app-table-head-sort-icon
+                      [sortKey]="filters.sortKey"
+                      [sortValue]="filters.sortValue"
+                      currentKey="NOM"
+                    ></app-table-head-sort-icon>
+                  </button>
+                </div>
+              </th>
+              <th scope="col" role="columnheader">Téléphone</th>
+              <th scope="col" role="columnheader">Informations</th>
+              @if (filters.statut ===
+              UsagersFilterCriteriaStatut.ATTENTE_DECISION || filters.statut ===
+              UsagersFilterCriteriaStatut.INSTRUCTION) {
+              <th scope="col" role="columnheader">Type de demande</th>
+              } @if (filters.statut === UsagersFilterCriteriaStatut.VALIDE ||
+              filters.statut === UsagersFilterCriteriaStatut.TOUS) {
+              <th scope="col" role="columnheader">
+                <div class="fr-cell--sort">
+                  <span>Passage</span>
 
-      <td class="d-print-none">
-        <app-manage-download-docs [usager]="usager"></app-manage-download-docs>
-      </td>
-    </tr>
-  </tbody>
-</table>
+                  <button
+                    type="button"
+                    [ngClass]="filters.sortKey === 'PASSAGE' ? 'fr-text--bold active-sort' : ''"
+                    [attr.aria-sort]="filters.sortKey === 'PASSAGE' ? ARIA_SORT[filters.sortValue] : 'none'"
+                    (click)="updateFilters.emit({ element: 'sortKey', value: 'PASSAGE' })"
+                    class="fr-btn--sort fr-btn fr-btn--sm"
+                  >
+                    <app-table-head-sort-icon
+                      [sortKey]="filters.sortKey"
+                      [sortValue]="filters.sortValue"
+                      currentKey="PASSAGE"
+                    ></app-table-head-sort-icon>
+                  </button>
+                </div>
+              </th>
+              } @if (filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION)
+              {
+              <th scope="col" role="columnheader">
+                Rendez-vous le
+                <button
+                  type="button"
+                  [ngClass]="filters.sortKey === 'RDV' ? 'fr-text--bold active-sort' : ''"
+                  [attr.aria-sort]="filters.sortKey === 'RDV' ? ARIA_SORT[filters.sortValue] : 'none'"
+                  (click)="updateFilters.emit({ element: 'sortKey', value: 'RDV' })"
+                  class="fr-btn--sort fr-btn fr-btn--sm"
+                >
+                  <app-table-head-sort-icon
+                    [sortKey]="filters.sortKey"
+                    [sortValue]="filters.sortValue"
+                    currentKey="RDV"
+                  ></app-table-head-sort-icon>
+                </button>
+              </th>
+              }
+              <th scope="col" role="columnheader">
+                <span>
+                  @if (filters.statut !== 'REFUS' && filters.statut !== 'RADIE')
+                  { ÉCHÉANCE } @if (filters.statut === 'REFUS') { REFUSÉ LE }
+                  @if (filters.statut === 'RADIE') { RADIÉ LE }
+                </span>
+                <button
+                  type="button"
+                  [ngClass]="filters.sortKey === 'ECHEANCE' ? 'fr-text--bold active-sort' : ''"
+                  [attr.aria-sort]="filters.sortKey === 'ECHEANCE' ? ARIA_SORT[filters.sortValue] : 'none'"
+                  (click)="updateFilters.emit({ element: 'sortKey', value: 'ECHEANCE' })"
+                  class="fr-btn--sort fr-btn fr-btn--sm"
+                >
+                  <app-table-head-sort-icon
+                    [sortKey]="filters.sortKey"
+                    [sortValue]="filters.sortValue"
+                    currentKey="ECHEANCE"
+                  ></app-table-head-sort-icon>
+                </button>
+              </th>
+              <th scope="col" class="fr-text--left no-print">Interaction</th>
+              <th scope="col" class="fr-text--left no-print">Courrier</th>
+              <th scope="col" class="no-print">
+                <span class="fr-sr-only">Actions</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (usager of usagers; track usager.ref; let i = $index) {
+            <tr
+              [id]="'table-usagers-row-' + usager.ref"
+              [attr.data-row-key]="usager.ref"
+            >
+              @if (showCheckboxes) {
+              <th class="fr-cell--fixed" scope="row">
+                <div class="fr-checkbox-group fr-checkbox-group--sm">
+                  <input
+                    name="row-select"
+                    [id]="'select-' + usager.ref"
+                    type="checkbox"
+                    [checked]="selectedRefs.has(usager.ref)"
+                    (change)="toggleSelection(usager.ref)"
+                  />
+                  <label class="fr-label" [for]="'select-' + usager.ref">
+                    <span class="fr-sr-only"
+                      >Sélectionner {{ usager | fullName }}</span
+                    >
+                  </label>
+                </div>
+              </th>
+              } @if (filters.statut === UsagersFilterCriteriaStatut.TOUS) {
+              <td class="clickable fr-text--left">
+                <span
+                  [class]="'fr-badge fr-badge--sm ' + usager?.statusInfo?.color"
+                >
+                  {{ usager?.statusInfo?.text }}
+                </span>
+              </td>
+              }
+              <td
+                class="manage-usager-ref clickable"
+                (click)="goToProfil(usager)"
+                tabindex="0"
+              >
+                <span
+                  >{{ usager.customRef ? usager.customRef : usager.ref }}</span
+                >
+              </td>
+
+              <td class="clickable table-name td-name">
+                @if (usager?.pinnedNote) {
+                <span
+                  [ngbTooltip]="pinnedNote"
+                  triggers="hover focus"
+                  tabindex="0"
+                  class="ri-pushpin-line"
+                ></span>
+                <ng-template #pinnedNote>
+                  <b>Note épinglée : </b>{{ usager.pinnedNote?.message }}
+                </ng-template>
+                } @if (!usager.pinnedNote) {
+                <span class="fr-sr-only">Aucune note épinglée</span>
+                }
+                <a
+                  [routerLink]="(usager.decision.statut === UsagersFilterCriteriaStatut.INSTRUCTION || usager.decision.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION) && me?.role !== 'facteur' && me?.role !== 'agent'
+                        ? '/usager/' + usager.ref + '/edit/' + ETAPES_DEMANDE_URL[usager.etapeDemande]
+                        : '/profil/general/' + usager.ref"
+                  ariaCurrentWhenActive="page"
+                >
+                  <span class="fr-sr-only">Consulter la fiche de </span>
+                  <span>{{ usager.nom | uppercase }} {{ usager.prenom }}</span>
+                  @if (usager?.surnom) {
+                  <span class="fr-ml-1w">({{ usager.surnom }})</span>
+                  }
+                </a>
+              </td>
+              <td
+                class="clickable table-name"
+                tabindex="0"
+                (click)="goToProfil(usager)"
+              >
+                @if (usager.telephone?.numero) {
+                <span>{{ usager?.phoneNumber || "Non renseigné" }}</span>
+                } @if (!usager.telephone?.numero) {
+                <span class="fr-sr-only">Téléphone non renseigné</span>
+                }
+              </td>
+              <td>
+                <app-column-informations
+                  [usager]="usager"
+                ></app-column-informations>
+              </td>
+              @if (filters.statut ===
+              UsagersFilterCriteriaStatut.ATTENTE_DECISION || filters.statut ===
+              UsagersFilterCriteriaStatut.INSTRUCTION) {
+              <td>
+                @if (usager.typeDom === 'RENOUVELLEMENT') {
+                <p class="fr-fr-m-0w fr-badge fr-badge--warning">
+                  Renouvellement
+                </p>
+                } @if (usager.typeDom === 'PREMIERE_DOM') {
+                <p class="fr-fr-m-0w fr-badge fr-badge--info">
+                  Première demande
+                </p>
+                }
+              </td>
+              } @if (filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION)
+              {
+              <td class="clickable">{{ usager.rdvInfo.content }}</td>
+              } @if (filters.statut === UsagersFilterCriteriaStatut.VALIDE ||
+              filters.statut === UsagersFilterCriteriaStatut.TOUS) {
+              <td class="clickable" tabindex="0" (click)="goToProfil(usager)">
+                {{ usager.lastInteraction.dateInteraction | date : "dd/MM/yy" }}
+              </td>
+              }
+              <td
+                class="statut-date clickable"
+                tabindex="0"
+                (click)="goToProfil(usager)"
+              >
+                @if (usager?.echeanceInfos?.isActif) {
+                <span
+                  [class]="'statut-signal ' + usager?.echeanceInfos?.color"
+                ></span>
+                @if (usager?.echeanceInfos?.color === 'bg-danger') {
+                <span class="fr-sr-only">Moins de 2 mois</span>
+                } @if (usager?.echeanceInfos?.color !== 'bg-danger') {
+                <span class="fr-sr-only">Moins de 2 semaines ou dépassée</span>
+                } } @if (usager?.echeanceInfos?.dateToDisplay) {
+                <span
+                  >{{ usager.echeanceInfos?.dateToDisplay | date : "dd/MM/yy"
+                  }}</span
+                >
+                }
+              </td>
+              <td class="fr-text--left list-interaction-icons no-print">
+                <app-manage-usagers-interactions
+                  [usager]="usager"
+                  template="small-buttons"
+                ></app-manage-usagers-interactions>
+              </td>
+              <td class="fr-text--left list-interaction-icons no-print">
+                <app-manage-usagers-interactions
+                  [usager]="usager"
+                  template="big-buttons"
+                ></app-manage-usagers-interactions>
+              </td>
+              <td class="no-print">
+                <app-manage-download-docs
+                  [usager]="usager"
+                ></app-manage-download-docs>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+}
 
 <dsfr-modal
-  class="text-start"
+  class="fr-text--left"
   #deleteUsagersModal
   [titleModal]="'Vous êtes sur le point de supprimer ' + selectedRefs.size + (selectedRefs.size > 1 ? ' domiciliés' : ' domicilié') + ' !'"
   dialogId="deleteUsagersModal"

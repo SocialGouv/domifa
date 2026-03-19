@@ -6,12 +6,10 @@
   (click)="stopCourrier()"
 >
   <ng-container *ngIf="loading">
-    <fa-icon
-      class="list-icon-disabled"
-      [icon]="['fas', 'circle-notch']"
-      animation="spin"
-    >
-    </fa-icon>
+    <span
+      class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
+      aria-hidden="true"
+    ></span>
     <span class="list-icon-disabled">Veuillez patienter</span>
   </ng-container>
   <ng-container *ngIf="!loading && !usager.options?.npai?.actif">
