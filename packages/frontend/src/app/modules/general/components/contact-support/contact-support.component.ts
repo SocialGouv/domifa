@@ -26,7 +26,6 @@ import {
 } from "@khazii/ngx-intl-tel-input";
 import { PREFERRED_COUNTRIES } from "../../../../../_common/model";
 import { anyPhoneValidator, getFormPhone } from "../../../../shared/phone";
-import { NgClass, NgIf } from "@angular/common";
 import { RouterModule } from "@angular/router";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -39,10 +38,7 @@ import { PhoneInputComponent } from "../../../usager-shared/components/input-pho
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
-    NgClass,
     NgbModule,
-
     SharedModule,
     RouterModule,
     NgxIntlTelInputModule,

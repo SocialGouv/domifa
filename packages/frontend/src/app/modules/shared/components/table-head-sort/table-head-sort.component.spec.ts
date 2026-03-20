@@ -10,7 +10,7 @@ describe("TableHeadSortComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NgIf, NgClass, FontAwesomeModule],
+      imports: [NgIf, NgClass],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
 
