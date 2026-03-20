@@ -1,3 +1,11 @@
+## [2.235.1](https://github.com/SocialGouv/domifa/compare/v2.235.0...v2.235.1) (2026-03-20)
+
+
+### Bug Fixes
+
+* **frontend:** fix build & fix manage ([09341ba](https://github.com/SocialGouv/domifa/commit/09341ba2785e18b2a2324e070c5733c42774eb3b))
+* **frontend:** fix unit tests ([2eff5ce](https://github.com/SocialGouv/domifa/commit/2eff5ceb749b4d4420a2d67201e798222622a181))
+
 # [2.235.0](https://github.com/SocialGouv/domifa/compare/v2.234.2...v2.235.0) (2026-03-19)
 
 
