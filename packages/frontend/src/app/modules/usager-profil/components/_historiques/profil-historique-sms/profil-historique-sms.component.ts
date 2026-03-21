@@ -18,8 +18,8 @@ import { SMS_LABELS } from "../../../constants";
   templateUrl: "./profil-historique-sms.component.html",
 })
 export class ProfilHistoriqueSmsComponent implements OnInit, OnDestroy {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public me!: UserStructure;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure;
   private readonly subscription = new Subscription();
 
   public readonly SMS_LABELS = SMS_LABELS;

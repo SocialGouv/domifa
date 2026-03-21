@@ -11,7 +11,6 @@ import {
   NgbDatepickerI18n,
   NgbModule,
 } from "@ng-bootstrap/ng-bootstrap";
-import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
@@ -96,7 +95,6 @@ import { LoadingComponent } from "../shared/components/loading/loading.component
     DisplayTableImageComponent,
     FormsModule,
     NgbModule,
-    NgxIntlTelInputModule,
     ReactiveFormsModule,
     RouterModule.forChild([]),
     SharedModule,

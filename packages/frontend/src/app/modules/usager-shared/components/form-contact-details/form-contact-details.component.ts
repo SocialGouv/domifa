@@ -27,11 +27,7 @@ import {
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../interfaces";
 import { UsagerService } from "../../services";
-import {
-  CountryISO,
-  PhoneNumberFormat,
-  SearchCountryField,
-} from "@khazii/ngx-intl-tel-input";
+import { Iso2 } from "intl-tel-input/data";
 
 import { Observable, Subscription } from "rxjs";
 import { EmailValidator } from "../../../../shared";
@@ -56,10 +52,7 @@ export class FormContactDetailsComponent implements OnInit, OnDestroy {
   public submitted = false;
   private readonly subscription = new Subscription();
 
-  public PhoneNumberFormat = PhoneNumberFormat;
-  public SearchCountryField = SearchCountryField;
-  public CountryISO = CountryISO;
-  public PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
+  public PREFERRED_COUNTRIES: Iso2[] = PREFERRED_COUNTRIES;
 
   constructor(
     private readonly authService: AuthService,
@@ -119,7 +112,7 @@ export class FormContactDetailsComponent implements OnInit, OnDestroy {
 
     if (!country) {
       country = this.authService.currentUserValue?.structure.telephone
-        .countryCode as CountryISO;
+        .countryCode as Iso2;
     }
 
     country = country.toLowerCase();
@@ -143,7 +136,7 @@ export class FormContactDetailsComponent implements OnInit, OnDestroy {
 
     const telephone: Telephone = !formValue?.telephone
       ? {
-          countryCode: CountryISO.France,
+          countryCode: "fr" as Iso2,
           numero: "",
         }
       : getFormPhone(formValue.telephone);

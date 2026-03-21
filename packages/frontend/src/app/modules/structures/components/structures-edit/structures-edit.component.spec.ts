@@ -3,7 +3,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
+import { PhoneInputComponent } from "../../../../usager-shared/components/input-phone-international/input-phone-international.component";
 
 import { StructuresEditComponent } from "./structures-edit.component";
 import { StoreModule } from "@ngrx/store";
@@ -25,7 +25,7 @@ describe("StructuresEditComponent", () => {
         FormsModule,
         RouterModule.forRoot([]),
         StoreModule.forRoot({ app: _usagerReducer }),
-        NgxIntlTelInputModule,
+        PhoneInputComponent,
         DsfrModalComponent,
       ],
       providers: [

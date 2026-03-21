@@ -9,8 +9,8 @@ import { NgControl } from "@angular/forms";
 export class CleanStrDirective {
   constructor(
     private readonly el: ElementRef,
-    private renderer: Renderer2,
-    private control: NgControl
+    private readonly renderer: Renderer2,
+    private readonly control: NgControl
   ) {}
 
   @HostListener("paste", ["$event"])

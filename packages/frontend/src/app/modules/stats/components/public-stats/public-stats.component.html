@@ -1,4 +1,4 @@
-<div class="breadcrumb py-3 py-md-4 fr-m-0w" *ngIf="regionId">
+<div class="breadcrumb py-3 py-md-4 fr-m-0" *ngIf="regionId">
   <div class="container">
     <a routerLink="/">Accueil</a>
     &gt;
@@ -62,7 +62,7 @@
     </p>
 
     <div
-      class="fr-grid-row fr-m-0w fr-justify-content-between fr-align-items-stretch"
+      class="fr-grid-row fr-m-0 fr-justify-content-between fr-align-items-stretch"
     >
       <div
         class="fr-display-flex fr-align-items-center p-4 fr-align-items-center fr-background-alt--blue-ecume"
@@ -188,7 +188,7 @@
               <div class="fr-display-flex fr-flex-column fr-text--center">
                 <div class="fr-h3 mb-0" aria-hidden="true">
                   <span
-                    class="mb-0 fr-text-title--blue-france"
+                    class="fr-mb-0 fr-text-title--blue-france"
                     [countUp]="stats.courrierOutCount"
                     [options]="countOptions"
                   ></span>
@@ -263,7 +263,7 @@
   >
     <div class="fr-grid-row">
       <div class="fr-col-md-6">
-        <h3 class="mb-1">Structures par département</h3>
+        <h3>Structures par département</h3>
 
         <ul>
           <li
@@ -287,7 +287,7 @@
   </section>
 
   <section class="py-3 py-md-4" *ngIf="!regionId">
-    <h3 class="mb-0">Nous répondons présent partout en France !</h3>
+    <h3 class="fr-mb-0">Nous répondons présent partout en France !</h3>
     <p>
       DomiFa est utilisé dans la majorité des régions Françaises.
       <a routerLink="/stats/impact"
@@ -318,7 +318,7 @@
       </div>
       <div class="fr-col fr-display-flex fr-flex-column fr-gap-4w p-2">
         <section>
-          <h4 class="mb-1">Liste des régions</h4>
+          <h4>Liste des régions</h4>
           <div class="region-list">
             <ul>
               <li

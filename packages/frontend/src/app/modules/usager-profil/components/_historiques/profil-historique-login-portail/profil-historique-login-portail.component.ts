@@ -19,8 +19,8 @@ import { fadeIn } from "../../../../../shared";
 export class ProfilHistoriqueLoginPortailComponent
   implements OnInit, OnDestroy
 {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public me!: UserStructure;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure;
 
   public interactions: UserUsagerLogin[];
   private readonly subscription = new Subscription();

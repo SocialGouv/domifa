@@ -6,7 +6,6 @@ import {
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
@@ -50,7 +49,6 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
     SharedModule,
     CommonModule,
     UsersModule,
-    NgxIntlTelInputModule,
     GeneralModule,
     StructuresRoutingModule,
     SortArrayPipe,

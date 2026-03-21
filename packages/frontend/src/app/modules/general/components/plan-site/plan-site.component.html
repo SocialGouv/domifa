@@ -1,6 +1,6 @@
 <div class="head-page">
   <div class="fr-container">
-    <h1 class="title">Plan du site</h1>
+    <h1>Plan du site</h1>
   </div>
 </div>
 
@@ -46,8 +46,10 @@
             [href]="link.path"
             target="_blank"
             rel="noopener"
-            >{{ link.label }}</a
+            [title]="link.label + ' - nouvelle fenêtre'"
           >
+            {{ link.label }}
+          </a>
         </li>
         }
       </ul>

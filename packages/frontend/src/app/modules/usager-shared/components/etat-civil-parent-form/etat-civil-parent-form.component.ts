@@ -20,11 +20,7 @@ import {
   NgbDatepickerI18n,
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
-import {
-  SearchCountryField,
-  CountryISO,
-  PhoneNumberFormat,
-} from "@khazii/ngx-intl-tel-input";
+import { Iso2 } from "intl-tel-input/data";
 import { Observable, Subscription } from "rxjs";
 
 import {
@@ -73,10 +69,7 @@ import { languagesAutocomplete } from "../../utils/languages";
   ],
 })
 export class EtatCivilParentFormComponent implements OnDestroy {
-  public PhoneNumberFormat = PhoneNumberFormat;
-  public SearchCountryField = SearchCountryField;
-  public CountryISO = CountryISO;
-  public PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
+  public PREFERRED_COUNTRIES: Iso2[] = PREFERRED_COUNTRIES;
   public countryCode: string | null;
 
   public readonly LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;
@@ -242,7 +235,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
 
     if (!country) {
       country = this.authService.currentUserValue?.structure.telephone
-        .countryCode as CountryISO;
+        .countryCode as Iso2;
     }
 
     country = country.toLowerCase();
@@ -284,7 +277,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
       telephone,
       numeroDistribution: formValue?.numeroDistribution || null,
       referrerId: formValue?.referrerId
-        ? parseInt(formValue?.referrerId)
+        ? Number.parseInt(formValue?.referrerId)
         : null,
       ayantsDroits,
       contactByPhone: formValue?.contactByPhone,
