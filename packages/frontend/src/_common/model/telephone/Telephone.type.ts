@@ -1,5 +1,5 @@
-import { CountryISO } from "@khazii/ngx-intl-tel-input";
+import { Iso2 } from "intl-tel-input/data";
 export type Telephone = {
-  countryCode: CountryISO;
+  countryCode: Iso2;
   numero: string;
 };

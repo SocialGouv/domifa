@@ -12,42 +12,28 @@
     Format attendu : sans l'indicatif (ex: 612345678)
   </p>
   <div class="fr-phone-input-group">
-    <div ngbDropdown>
-      <button
-        type="button"
-        class="fr-btn fr-btn--tertiary fr-icon-arrow-down-s-line fr-btn--icon-right"
-        id="countryDropdown"
-        ngbDropdownToggle
-        [attr.aria-label]="
-          'Sélectionner l\'indicatif pays. Actuellement : ' +
-          selectedCountry.name
-        "
-        [attr.aria-expanded]="false"
-      >
-        <span class="fr-mr-1v">
-          <span
-            class="iti__flag"
-            [ngClass]="'iti__' + selectedCountry.iso2"
-            aria-hidden="true"
-          ></span>
-          <span class="fr-ml-1v fr-text--bold">
-            +{{ selectedCountry.dialCode }}
-          </span>
-        </span>
-        <span class="fr-sr-only">
-          {{ selectedCountry.name }} (+{{ selectedCountry.dialCode }})
-        </span>
-      </button>
-
-      <div
-        ngbDropdownMenu
-        aria-labelledby="countryDropdown"
-        class="fr-p-2v custom-country-dropdown"
-      >
-        <div class="fr-input-group fr-mb-2v">
-          <label class="fr-sr-only" for="country-search-box">
-            Rechercher un pays
-          </label>
+    <span class="phone-flag-indicator" aria-hidden="true">
+      <span class="iti__flag" [ngClass]="'iti__' + selectedCountry.iso2"></span>
+    </span>
+    <dsfrx-dropdownmenu
+      size="SM"
+      [labelMenu]="'+' + selectedCountry.dialCode"
+      [ariaLabelMenu]="
+        'Sélectionner l\'indicatif pays. Actuellement : ' +
+        selectedCountry.name +
+        ' (+' +
+        selectedCountry.dialCode +
+        ')'
+      "
+      [closeOnAction]="true"
+      menuId="countryDropdown"
+      (click)="focusSearchInput()"
+    >
+      <ng-template #contentTemplate>
+        <div class="fr-input-group fr-mb-1v fr-px-1v">
+          <label class="fr-label" for="country-search-box"
+            >Rechercher un pays</label
+          >
           <input
             type="text"
             class="fr-input fr-input--sm"
@@ -55,50 +41,38 @@
             [(ngModel)]="countrySearchText"
             (keyup)="searchCountry()"
             (click)="$event.stopPropagation()"
-            [placeholder]="searchCountryPlaceholder"
             autocomplete="off"
           />
         </div>
 
-        <ul
-          class="country-list-scroll fr-fr-m-0w fr-p-0"
-          #countryList
-          role="listbox"
-          style="list-style: none"
-          [attr.aria-activedescendant]="selectedCountry.iso2"
+        <ng-container
+          *ngFor="let country of allCountries; trackBy: trackByCountryIso"
         >
-          <ng-container
-            *ngFor="let country of allCountries; trackBy: trackByCountryIso"
+          <dsfrx-dropdownmenu-item
+            (selectItem)="onCountrySelect(country, focusable)"
           >
-            <li role="presentation">
-              <button
-                ngbDropdownItem
-                type="button"
-                (click)="onCountrySelect(country, focusable)"
-                role="option"
-                [attr.aria-selected]="country.iso2 === selectedCountry.iso2"
-                [id]="'country-opt-' + country.iso2"
-              >
-                <span>
-                  <span class="iti__flag-box fr-mr-1v">
-                    <span
-                      aria-hidden="true"
-                      class="iti__flag"
-                      [ngClass]="'iti__' + country.iso2"
-                    ></span>
-                  </span>
-                  <span class="fr-text--sm">{{ country.name }}</span>
+            <div
+              class="country-option"
+              [attr.aria-selected]="country.iso2 === selectedCountry.iso2"
+            >
+              <span>
+                <span class="iti__flag-box fr-mr-1v">
+                  <span
+                    aria-hidden="true"
+                    class="iti__flag"
+                    [ngClass]="'iti__' + country.iso2"
+                  ></span>
                 </span>
-
-                <span class="fr-text--sm fr-text--bold fr-ml-2v">
-                  +{{ country.dialCode }}
-                </span>
-              </button>
-            </li>
-          </ng-container>
-        </ul>
-      </div>
-    </div>
+                <span class="fr-text--sm">{{ country.name }}</span>
+              </span>
+              <span class="fr-text--sm fr-text--bold fr-ml-2v">
+                +{{ country.dialCode }}
+              </span>
+            </div>
+          </dsfrx-dropdownmenu-item>
+        </ng-container>
+      </ng-template>
+    </dsfrx-dropdownmenu>
     <input
       type="tel"
       class="fr-input"

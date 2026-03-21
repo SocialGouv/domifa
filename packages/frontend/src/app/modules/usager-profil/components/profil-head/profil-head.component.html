@@ -17,7 +17,7 @@
             aria-hidden="true"
           ></span>
         </a>
-        <h1 class="title fr-fr-m-0w">
+        <h1 class="title fr-m-0">
           {{ usager | fullName }} -
           {{ usager.customRef ? usager.customRef : usager.ref }}
         </h1>
@@ -175,7 +175,7 @@
 </div>
 } @if (usager && me) {
 <dsfr-modal
-  class="text-start"
+  class="fr-text--left"
   id="renew-modal"
   #renewModal
   dialogId="renewModal"

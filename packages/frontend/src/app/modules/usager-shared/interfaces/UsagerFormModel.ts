@@ -1,4 +1,4 @@
-import { CountryISO } from "@khazii/ngx-intl-tel-input";
+import { Iso2 } from "intl-tel-input/data";
 import { Entretien, Rdv, Decision } from ".";
 import { UsagerEcheanceInfos, Telephone } from "../../../../_common/model";
 
@@ -109,7 +109,7 @@ export class UsagerFormModel implements Usager {
     this.email = usager?.email || "";
 
     this.telephone = (usager?.telephone as Telephone) || {
-      countryCode: CountryISO.France,
+      countryCode: "fr" as Iso2,
       numero: "",
     };
 

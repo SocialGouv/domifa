@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
+import { PhoneInputComponent } from "../input-phone-international/input-phone-international.component";
 
 import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks/USAGER_VALIDE.mock";
 import { UsagerFormModel } from "../../interfaces";
@@ -28,7 +28,7 @@ describe("ProfilEtatCivilFormComponent", () => {
         ReactiveFormsModule,
         FormsModule,
         RouterModule.forRoot([]),
-        NgxIntlTelInputModule,
+        PhoneInputComponent,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { DisplayContactDetailsComponent } from "./display-contact-details.component";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
+import { PhoneInputComponent } from "../input-phone-international/input-phone-international.component";
 import {
   USER_STRUCTURE_MOCK,
   USAGER_VALIDE_MOCK,
@@ -18,7 +18,7 @@ describe("DisplayContactDetailsComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [DisplayContactDetailsComponent],
       schemas: [NO_ERRORS_SCHEMA],
-      imports: [FormatInternationalPhoneNumberPipe, NgxIntlTelInputModule],
+      imports: [FormatInternationalPhoneNumberPipe, PhoneInputComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DisplayContactDetailsComponent);

@@ -20,8 +20,8 @@ import {
   animations: [fadeIn],
 })
 export class ProfilHistoriqueCourriersComponent implements OnInit, OnDestroy {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public me!: UserStructure;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure;
 
   public interactions: Interaction[];
   public interactionToDelete: Interaction | null;

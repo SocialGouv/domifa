@@ -33,8 +33,8 @@ export class EditUsagerDocComponent implements OnInit, OnDestroy {
   public documentForm!: UntypedFormGroup;
   private readonly subscription = new Subscription();
 
-  @Input() public usager: Pick<Usager, "ref" | "options">;
-  @Input() public doc: WithLoading<UsagerDoc>;
+  @Input({ required: true }) public usager: Pick<Usager, "ref" | "options">;
+  @Input({ required: true }) public doc: WithLoading<UsagerDoc>;
   @Output() public readonly docChange = new EventEmitter<
     WithLoading<UsagerDoc>
   >();

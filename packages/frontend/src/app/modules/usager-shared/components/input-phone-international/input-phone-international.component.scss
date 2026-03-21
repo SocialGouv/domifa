@@ -1,32 +1,58 @@
-.dropdown-item {
-  border: none;
-  padding: 0.2rem 0.4rem;
-}
+.fr-phone-input-group {
+  position: relative;
 
-.dropdown-toggle {
-  position: absolute;
-  font-size: 0.9rem;
-  border: none;
-  background: transparent;
-  box-shadow: none;
-  padding: 0.2rem 0.4rem;
-}
-
-.dropdown-menu {
-  max-height: 320px;
-  overflow: auto;
-}
-
-.country-list-scroll {
-  span {
-    display: inline-block;
-    margin: 0;
-    padding: 0.2rem 0.1rem;
+  input[type="tel"] {
+    padding-left: 7.5rem;
   }
 }
 
-.fr-phone-input-group input {
-  padding-left: 6.5rem;
+.phone-flag-indicator {
+  position: absolute;
+  top: 50%;
+  left: 0.5rem;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+:host ::ng-deep dsfrx-dropdownmenu {
+  .dsfrx-menu-dropdown__btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    z-index: 1;
+    padding: 0.25rem 0.75rem !important;
+    --icon-size: 1rem !important;
+    margin-left: 1rem !important;
+    font-size: 1rem;
+    margin-top: 0.3rem;
+  }
+
+  .dsfrx-menu-dropdown__list {
+    max-height: 320px;
+    overflow: auto;
+  }
+
+  .dsfrx-menu-item {
+    padding: 0.15rem 0.25rem;
+  }
+}
+
+.country-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  span {
+    display: inline-block;
+    margin: 0;
+    padding: 0.1rem;
+  }
 }
 
 .iti__flag {

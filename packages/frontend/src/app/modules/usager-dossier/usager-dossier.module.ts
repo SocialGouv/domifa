@@ -10,7 +10,6 @@ import {
   NgbDatepickerI18n,
   NgbModule,
 } from "@ng-bootstrap/ng-bootstrap";
-import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 
 import { NgbDateCustomParserFormatter } from "../shared/services/date-formatter.service";
 import { CustomDatepickerI18n } from "../shared/services/date-french.service";
@@ -63,7 +62,6 @@ import { PhoneInputComponent } from "../usager-shared/components/input-phone-int
     ReactiveFormsModule,
     UsagerDossierRoutingModule,
     UsersModule,
-    NgxIntlTelInputModule,
     UsagerNotesModule,
     FormatInternationalPhoneNumberPipe,
     FullNamePipe,

@@ -9,9 +9,9 @@ import { UsagerFormModel } from "../../interfaces";
   styleUrls: ["./input-nationality.component.css"],
 })
 export class InputNationalityComponent {
-  @Input() public parentFormGroup!: UntypedFormGroup;
-  @Input() public submitted!: boolean;
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public parentFormGroup!: UntypedFormGroup;
+  @Input({ required: true }) public submitted!: boolean;
+  @Input({ required: true }) public usager!: UsagerFormModel;
 
   public readonly COUNTRIES = Object.values(COUNTRIES);
 

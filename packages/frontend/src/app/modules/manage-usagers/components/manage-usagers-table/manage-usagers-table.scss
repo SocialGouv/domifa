@@ -1,27 +1,6 @@
-#table-usagers {
-  min-width: 1000px;
-
-  .manage-usager-ref {
-    min-width: 40px;
-  }
-
-  .table-name {
-    max-width: 300px;
-  }
-
-  .table-name a div {
-    width: 210px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  .table-name img {
-    display: inline-block;
-    vertical-align: middle;
-  }
+.fr-table__content th .fr-checkbox-group {
+  vertical-align: top;
 }
-
 .clickable {
   cursor: pointer;
 }

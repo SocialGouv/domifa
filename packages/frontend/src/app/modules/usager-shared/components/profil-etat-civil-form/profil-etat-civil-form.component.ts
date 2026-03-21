@@ -31,7 +31,7 @@ export class ProfilEtatCivilFormComponent
   @ViewChild("firstInput")
   public firstInput!: ElementRef;
 
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public usager!: UsagerFormModel;
   @Output() public editInfosChange = new EventEmitter<boolean>();
 
   constructor(

@@ -9,7 +9,7 @@ import { UsagerProfilService } from "../../../services/usager-profil.service";
   templateUrl: "./set-npai.component.html",
 })
 export class SetNpaiComponent implements OnDestroy {
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public usager!: UsagerFormModel;
   public subscription = new Subscription();
   public loading = false;
 

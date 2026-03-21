@@ -29,7 +29,7 @@ export class SetInteractionInFormComponent implements OnDestroy {
   @ViewChild("receptionModal")
   public receptionModal!: DsfrModalComponent;
 
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public usager!: UsagerFormModel;
 
   @Output()
   public readonly cancelReception = new EventEmitter<void>();

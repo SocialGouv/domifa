@@ -14,7 +14,7 @@ import { UsagerFormModel } from "../../interfaces";
   templateUrl: "./display-entretien.component.html",
 })
 export class DisplayEntretienComponent {
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public usager!: UsagerFormModel;
 
   public readonly ENTRETIEN_LIEN_COMMUNE = ENTRETIEN_LIEN_COMMUNE;
   public readonly ENTRETIEN_RESIDENCE = ENTRETIEN_RESIDENCE;

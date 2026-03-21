@@ -7,11 +7,7 @@ import {
 } from "@angular/forms";
 
 import { Subject, Subscription } from "rxjs";
-import {
-  CountryISO,
-  PhoneNumberFormat,
-  SearchCountryField,
-} from "@khazii/ngx-intl-tel-input";
+import { Iso2 } from "intl-tel-input/data";
 import { getFormPhone } from "../../../../shared/phone";
 import { CustomToastService } from "../../../shared/services";
 import { StructureService } from "../../services";
@@ -43,10 +39,7 @@ import { initEditionForm, setupFormSubscriptions } from "../../utils";
   styleUrls: ["./structure-edit-form.component.css"],
 })
 export class StructureEditFormComponent implements OnInit, OnDestroy {
-  public readonly PhoneNumberFormat = PhoneNumberFormat;
-  public readonly SearchCountryField = SearchCountryField;
-  public readonly CountryISO = CountryISO;
-  public readonly PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
+  public readonly PREFERRED_COUNTRIES: Iso2[] = PREFERRED_COUNTRIES;
   public readonly STRUCTURE_ORGANISME_TYPE_LABELS =
     STRUCTURE_ORGANISME_TYPE_LABELS;
   public readonly DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
@@ -54,9 +47,9 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
   public loading = false;
   public submitted = false;
   public structureForm: UntypedFormGroup;
-  public selectedCountryISO: CountryISO = CountryISO.France;
+  public selectedCountryISO: Iso2 = "fr";
 
-  @Input() public structure!: StructureCommon;
+  @Input({ required: true }) public structure!: StructureCommon;
 
   private readonly subscription = new Subscription();
   private readonly unsubscribe: Subject<void> = new Subject();
@@ -93,9 +86,7 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.structureForm = initEditionForm(this.structure, this.formBuilder);
 
-    this.selectedCountryISO = COUNTRY_CODES_TIMEZONE[
-      this.structure.timeZone
-    ] as CountryISO;
+    this.selectedCountryISO = COUNTRY_CODES_TIMEZONE[this.structure.timeZone];
 
     this.showsourceDetail = updateSourceQuestion(
       this.structureForm,

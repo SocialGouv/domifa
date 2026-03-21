@@ -1,13 +1,13 @@
-import { CountryISO } from "@khazii/ngx-intl-tel-input";
+import { Iso2 } from "intl-tel-input/data";
 
-export const PREFERRED_COUNTRIES: CountryISO[] = [
-  CountryISO.France,
-  CountryISO.Réunion,
-  CountryISO.Martinique,
-  CountryISO.Guadeloupe,
-  CountryISO.FrenchGuiana,
-  CountryISO.FrenchPolynesia,
-  CountryISO.Mayotte,
-  CountryISO.SaintPierreAndMiquelon,
-  CountryISO.WallisAndFutuna,
+export const PREFERRED_COUNTRIES: Iso2[] = [
+  "fr",
+  "re",
+  "mq",
+  "gp",
+  "gf",
+  "pf",
+  "yt",
+  "pm",
+  "wf",
 ];

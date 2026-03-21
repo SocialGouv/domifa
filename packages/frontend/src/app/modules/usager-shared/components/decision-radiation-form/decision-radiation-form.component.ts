@@ -37,10 +37,10 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
   templateUrl: "./decision-radiation-form.component.html",
 })
 export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
-  @Input()
+  @Input({ required: true })
   public usager!: UsagerFormModel;
 
-  @Input()
+  @Input({ required: true })
   public selectedRefs: Set<number>;
 
   @Input({ required: true })

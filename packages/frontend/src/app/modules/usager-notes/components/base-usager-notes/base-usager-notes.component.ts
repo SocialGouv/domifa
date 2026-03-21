@@ -18,8 +18,8 @@ import { selectUsagerById } from "../../../../shared";
   templateUrl: "./base-usager-notes.component.html",
 })
 export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
-  @Input() public me!: UserStructure;
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure;
+  @Input({ required: true }) public usager!: UsagerFormModel;
 
   public params = new PageOptions();
 

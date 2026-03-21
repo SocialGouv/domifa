@@ -6,11 +6,7 @@ import {
   UntypedFormGroup,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import {
-  CountryISO,
-  PhoneNumberFormat,
-  SearchCountryField,
-} from "@khazii/ngx-intl-tel-input";
+import { Iso2 } from "intl-tel-input/data";
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { Subject, Subscription } from "rxjs";
@@ -47,10 +43,7 @@ import { initCreationForm, setupFormSubscriptions } from "../../utils";
   templateUrl: "./structures-form.component.html",
 })
 export class StructuresFormComponent implements OnInit, OnDestroy {
-  public readonly PhoneNumberFormat = PhoneNumberFormat;
-  public readonly SearchCountryField = SearchCountryField;
-  public readonly CountryISO = CountryISO;
-  public readonly PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
+  public readonly PREFERRED_COUNTRIES: Iso2[] = PREFERRED_COUNTRIES;
   public readonly CURRENT_TOOL_OPTIONS = CURRENT_TOOL_OPTIONS;
   public readonly SOURCES_OPTIONS = SOURCES_OPTIONS;
   public readonly MARKET_TOOLS_OPTIONS = MARKET_TOOLS_OPTIONS;

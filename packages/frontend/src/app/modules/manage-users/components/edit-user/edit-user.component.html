@@ -1,7 +1,7 @@
 @if (me) {
 <div class="head-page">
   <div class="fr-container">
-    <h1 class="title">Mon compte</h1>
+    <h1>Mon compte</h1>
   </div>
 </div>
 
@@ -9,8 +9,8 @@
   <div class="fr-container">
     <div class="fr-content">
       @if (me?.role !== 'facteur' && me?.role !== 'agent') {
-      <section class="fr-mb-4w">
-        <h2 class="fr-h3 fr-my-0">
+      <section class="fr-my-4w">
+        <h2 class="fr-h3">
           <span class="fr-icon-calendar-line" aria-hidden="true"></span> Mes
           prochains rendez-vous
         </h2>
@@ -57,9 +57,9 @@
       </section>
       }
 
-      <section class="fr-mb-4w">
+      <section class="fr-my-4w">
         <div
-          class="fr-grid-row fr-grid-row--middle fr-justify-content-between fr-mb-2w"
+          class="fr-grid-row fr-grid-row--middle fr-justify-content-between fr-my-4w"
         >
           <h2 class="fr-h3 fr-mb-0">Informations personnelles</h2>
           @if (!editUser) {
@@ -117,6 +117,7 @@
                 "
               >
                 <label class="fr-label" for="nom">Nom</label>
+                <p class="fr-hint-text empty-hint"></p>
                 <input
                   #userName
                   type="text"
@@ -156,6 +157,8 @@
                 "
               >
                 <label class="fr-label" for="prenom">Prénom</label>
+                <p class="fr-hint-text empty-hint"></p>
+
                 <input
                   type="text"
                   class="fr-input"
@@ -195,6 +198,8 @@
                 "
               >
                 <label class="fr-label" for="email">Votre adresse email</label>
+                <p class="fr-hint-text">Format attendu : nom&#64;domaine.fr</p>
+
                 <input
                   type="email"
                   class="fr-input"

@@ -38,7 +38,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
   templateUrl: "./decision-refus-form.component.html",
 })
 export class DecisionRefusFormComponent implements OnInit, OnDestroy {
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public usager!: UsagerFormModel;
   @Input({ required: true }) public template: "modal" | "input" = "input";
   @Output() public closeModals = new EventEmitter<void>();
 

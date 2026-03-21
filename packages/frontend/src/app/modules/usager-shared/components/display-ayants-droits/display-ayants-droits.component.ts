@@ -8,5 +8,5 @@ import { LIEN_PARENTE_LABELS } from "@domifa/common";
 })
 export class DisplayAyantsDroitsComponent {
   public readonly LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public usager!: UsagerFormModel;
 }

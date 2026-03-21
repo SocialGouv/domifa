@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
+import { PhoneInputComponent } from "../../../usager-shared/components/input-phone-international/input-phone-international.component";
 
 import { SharedModule } from "./../../../shared/shared.module";
 import { StepEtatCivilComponent } from "./step-etat-civil.component";
@@ -33,7 +33,7 @@ describe("StepEtatCivilComponent", () => {
         FormsModule,
         SharedModule,
         StoreModule.forRoot({ app: _usagerReducer }),
-        NgxIntlTelInputModule,
+        PhoneInputComponent,
       ],
       providers: [
         provideHttpClientTesting(),

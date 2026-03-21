@@ -17,22 +17,16 @@ import {
   FormsModule,
 } from "@angular/forms";
 import {
-  NgbDropdown,
-  NgbDropdownToggle,
-  NgbDropdownMenu,
-  NgbDropdownItem,
-} from "@ng-bootstrap/ng-bootstrap";
+  DsfrDropdownMenuComponent,
+  DsfrDropdownMenuItemComponent,
+} from "@edugouvfr/ngx-dsfr-ext";
 
 import intlTelInput from "intl-tel-input";
-import { Country, Iso2 } from "intl-tel-input/data";
+import { Country } from "intl-tel-input/data";
 import { PhoneNumberUtil } from "google-libphonenumber";
 import { FR_COUNTRIES } from "./constants/FR_COUNTRIES.const";
 import { PREFERRED_COUNTRIES } from "./constants";
-
-export type Telephone = {
-  countryCode: Iso2;
-  numero: string;
-};
+import { Telephone } from "../../../../../_common/model";
 
 @Component({
   selector: "app-phone-input",
@@ -43,10 +37,8 @@ export type Telephone = {
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    NgbDropdown,
-    NgbDropdownToggle,
-    NgbDropdownMenu,
-    NgbDropdownItem,
+    DsfrDropdownMenuComponent,
+    DsfrDropdownMenuItemComponent,
   ],
   providers: [
     {
@@ -88,6 +80,7 @@ export class PhoneInputComponent
   public currentPlaceholder: string = "Numéro";
 
   @ViewChild("focusable") focusableElement: ElementRef;
+  @ViewChild(DsfrDropdownMenuComponent) dropdown: DsfrDropdownMenuComponent;
 
   private readonly phoneUtil: PhoneNumberUtil = PhoneNumberUtil.getInstance();
 
@@ -142,6 +135,15 @@ export class PhoneInputComponent
     );
   }
 
+  public focusSearchInput(): void {
+    setTimeout(() => {
+      const el = document.getElementById("country-search-box");
+      if (el) {
+        el.focus();
+      }
+    }, 50);
+  }
+
   public onCountrySelect(
     country: Country,
     inputElement: HTMLInputElement
@@ -156,6 +158,12 @@ export class PhoneInputComponent
       countryCode: this.selectedCountry.iso2,
       numero: this.phoneNumber,
     });
+
+    // Fermer le dropdown programmatiquement
+    if (this.dropdown) {
+      (this.dropdown as any).isOpen?.set(false);
+    }
+
     if (inputElement) inputElement.focus();
   }
 
