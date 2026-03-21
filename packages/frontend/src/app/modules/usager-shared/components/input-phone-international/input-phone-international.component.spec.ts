@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
-import {
-  PhoneInputComponent,
-  Telephone,
-} from "./input-phone-international.component";
+import { PhoneInputComponent } from "./input-phone-international.component";
+import { Telephone } from "@domifa/common";
 
 describe("PhoneInputComponent", () => {
   let component: PhoneInputComponent;
