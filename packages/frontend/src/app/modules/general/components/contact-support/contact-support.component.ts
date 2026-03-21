@@ -18,12 +18,7 @@ import {
 } from "../../../../shared";
 import { Subscription } from "rxjs";
 import { GeneralService } from "../../services/general.service";
-import {
-  CountryISO,
-  NgxIntlTelInputModule,
-  PhoneNumberFormat,
-  SearchCountryField,
-} from "@khazii/ngx-intl-tel-input";
+import { Iso2 } from "intl-tel-input/data";
 import { PREFERRED_COUNTRIES } from "../../../../../_common/model";
 import { anyPhoneValidator, getFormPhone } from "../../../../shared/phone";
 import { RouterModule } from "@angular/router";
@@ -41,7 +36,6 @@ import { PhoneInputComponent } from "../../../usager-shared/components/input-pho
     NgbModule,
     SharedModule,
     RouterModule,
-    NgxIntlTelInputModule,
     PhoneInputComponent,
   ],
   templateUrl: "./contact-support.component.html",
@@ -56,11 +50,7 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
   public contactForm!: UntypedFormGroup;
 
   public me!: UserStructure | null;
-  public readonly PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
-  public selectedCountryISO: CountryISO = CountryISO.France;
-  public readonly PhoneNumberFormat = PhoneNumberFormat;
-  public readonly SearchCountryField = SearchCountryField;
-  public readonly CountryISO = CountryISO;
+  public readonly PREFERRED_COUNTRIES: Iso2[] = PREFERRED_COUNTRIES;
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,

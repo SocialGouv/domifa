@@ -11,14 +11,14 @@
   <span *ngIf="usager.ayantsDroits.length === 1">1 ayant droit</span>
 </button>
 
-<ng-template #ayantsDroitsInfos class="p-4">
+<ng-template #ayantsDroitsInfos class="fr-p-4w">
   <div
     class="distribution-tooltip text-start"
     tabindex="0"
     [ngbTooltip]="ayantsDroitsInfos"
   >
     <ul>
-      <li class="p-1" *ngFor="let ayantDroit of usager.ayantsDroits">
+      <li class="fr-p-1w" *ngFor="let ayantDroit of usager.ayantsDroits">
         <strong class="text-primary">{{ ayantDroit.nom }}</strong>
         {{ ayantDroit.prenom }}, né(e) le
         {{ ayantDroit.dateNaissance | date : "dd MMMM yyyy" }} ({{

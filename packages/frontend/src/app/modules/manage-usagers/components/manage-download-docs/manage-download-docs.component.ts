@@ -27,7 +27,8 @@ export class ManageDownloadDocsComponent implements OnDestroy {
   private readonly subscription = new Subscription();
 
   public me!: UserStructure | null;
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+
   public readonly CerfaDocType = CerfaDocType;
   public readonly StructureDocTypesAvailable = StructureDocTypesAvailable;
 

@@ -1,21 +1,20 @@
-import { ChangeData } from "@khazii/ngx-intl-tel-input";
-
 import { AbstractControl, ValidationErrors } from "@angular/forms";
 import { PhoneNumberUtil } from "google-libphonenumber";
+import { Telephone } from "../../../_common/model";
 
 export const mobilePhoneValidator = (
   control: AbstractControl
 ): ValidationErrors | null => {
   const phoneUtil = PhoneNumberUtil.getInstance();
-  const value = control.value as ChangeData;
+  const value = control.value as Telephone;
   if (!value) {
     return null;
   }
-  if (!value.number || value.number === "") {
+  if (!value.numero || value.numero === "") {
     return null;
   }
   try {
-    const parsedValue = phoneUtil.parse(value.number, value.countryCode);
+    const parsedValue = phoneUtil.parse(value.numero, value.countryCode);
     const error = { isNotMobilePhone: true };
 
     if (phoneUtil.isValidNumber(parsedValue)) {
@@ -31,16 +30,16 @@ export const anyPhoneValidator = (
   control: AbstractControl
 ): ValidationErrors | null => {
   const phoneUtil = PhoneNumberUtil.getInstance();
-  const value = control.value as ChangeData;
+  const value = control.value as Telephone;
   if (!value) {
     return null;
   }
-  if (!value.number || value.number === "") {
+  if (!value.numero || value.numero === "") {
     return null;
   }
 
   try {
-    const parsedValue = phoneUtil.parse(value.number, value.countryCode);
+    const parsedValue = phoneUtil.parse(value.numero, value.countryCode);
     return phoneUtil.isValidNumber(parsedValue)
       ? null
       : { isNotValidPhone: true };

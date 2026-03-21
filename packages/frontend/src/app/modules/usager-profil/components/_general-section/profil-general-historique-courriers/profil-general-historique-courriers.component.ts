@@ -14,8 +14,8 @@ import { INTERACTION_ICONS } from "../../../../../../_common/model";
 export class ProfilGeneralHistoriqueCourriersComponent
   implements OnInit, OnDestroy
 {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public me!: UserStructure;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure;
 
   private readonly subscription = new Subscription();
   public interactions: Interaction[];

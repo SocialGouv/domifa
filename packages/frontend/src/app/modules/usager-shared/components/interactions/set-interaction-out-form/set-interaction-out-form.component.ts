@@ -34,7 +34,7 @@ import { CustomToastService } from "../../../../shared/services";
   styleUrls: ["../interactions.scss"],
 })
 export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public usager!: UsagerFormModel;
 
   @Output()
   public cancelReception = new EventEmitter<void>();

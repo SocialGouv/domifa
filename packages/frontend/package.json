@@ -37,7 +37,6 @@
     "@edugouvfr/ngx-dsfr": "1.16.4",
     "@edugouvfr/ngx-dsfr-ext": "^1.5.0",
     "@gouvfr/dsfr": "1.14.4",
-    "@khazii/ngx-intl-tel-input": "^17.0.1",
     "@ng-bootstrap/ng-bootstrap": "^17.0.1",
     "@ngrx/effects": "^18.1.1",
     "@ngrx/entity": "^18.1.1",

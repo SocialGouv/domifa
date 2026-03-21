@@ -5,7 +5,7 @@ import { map, Observable } from "rxjs";
   name: "referrerName",
 })
 export class ReferrerNamePipe implements PipeTransform {
-  constructor(private manageUsersService: ManageUsersService) {}
+  constructor(private readonly manageUsersService: ManageUsersService) {}
 
   transform(referrerId: number | null): Observable<string> {
     return this.manageUsersService.referrersMap$.pipe(

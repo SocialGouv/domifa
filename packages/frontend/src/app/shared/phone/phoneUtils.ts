@@ -1,29 +1,27 @@
 /* eslint-disable id-denylist */
 import { PhoneNumberUtil } from "google-libphonenumber";
-import { ChangeData, CountryISO } from "@khazii/ngx-intl-tel-input";
 import { Telephone } from "../../../_common/model";
+import { Iso2 } from "intl-tel-input/data";
 
-export function getFormPhone(formValue: ChangeData): Telephone {
+export function getFormPhone(formValue: Telephone | null): Telephone {
   if (!formValue) {
     return {
       numero: "",
-      countryCode: CountryISO.France,
+      countryCode: "fr" as Iso2,
     };
   }
   return {
-    numero: formValue?.nationalNumber
-      ? formValue?.nationalNumber.replace(/\D/g, "")
-      : "",
+    numero: formValue?.numero ? formValue?.numero.replace(/\D/g, "") : "",
     countryCode: formValue?.countryCode
-      ? (formValue?.countryCode.toLowerCase() as CountryISO)
-      : CountryISO.France,
+      ? (formValue?.countryCode.toLowerCase() as Iso2)
+      : ("fr" as Iso2),
   };
 }
 
-export function setFormPhone(telephone: Telephone): ChangeData {
+export function setFormPhone(telephone: Telephone): Telephone {
   const phoneUtil = PhoneNumberUtil.getInstance();
-  const defaultReturn = {
-    number: "",
+  const defaultReturn: Telephone = {
+    numero: "",
     countryCode: telephone.countryCode,
   };
   try {
@@ -35,7 +33,7 @@ export function setFormPhone(telephone: Telephone): ChangeData {
       return defaultReturn;
     }
     return {
-      number: parsedPhone.getNationalNumber()?.toString(),
+      numero: parsedPhone.getNationalNumber()?.toString() || "",
       countryCode: telephone.countryCode,
     };
   } catch (e) {

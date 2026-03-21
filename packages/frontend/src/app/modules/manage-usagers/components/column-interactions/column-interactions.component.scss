@@ -9,16 +9,14 @@
   justify-content: center;
   border: 1px solid rgba(65, 100, 245, 0.4);
   box-sizing: border-box;
-  border-radius: 4px;
-  margin: 3px;
-  padding: 0.1rem 0.2rem;
+  margin: 0 0.2rem;
+  padding: 0rem 0.35rem;
   position: relative;
   background-color: white;
   transition: all 0.2s;
 
   span {
-    font-size: 1rem;
-    height: 24px;
+    font-size: 1.65rem;
   }
 
   [class^="fr-icon-"]::before,
@@ -30,8 +28,8 @@
   [class*=" fr-fi-"]::before,
   [class*=" ri-"]::before,
   [class*=" fr-fi-"]::after {
-    --icon-size: 1.5rem;
-    height: 1.5rem;
+    --icon-size: 1.65rem;
+    height: 1.65rem;
   }
 }
 

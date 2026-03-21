@@ -30,8 +30,8 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
   styleUrls: ["./decision-standby-form.component.css"],
 })
 export class DecisionStandbyFormComponent implements OnInit, OnDestroy {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public me!: UserStructure | null;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure | null;
   @Input({ required: true }) public template: "modal" | "input" = "input";
   @Output() public closeModals = new EventEmitter<void>();
 

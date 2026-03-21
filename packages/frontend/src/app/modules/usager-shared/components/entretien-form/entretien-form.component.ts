@@ -45,9 +45,9 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
   public entretienForm!: UntypedFormGroup;
   private readonly subscription = new Subscription();
 
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public usager!: UsagerFormModel;
 
-  @Input() public editEntretien!: boolean;
+  @Input({ required: true }) public editEntretien!: boolean;
   @Output() public readonly editEntretienChange = new EventEmitter<boolean>();
 
   @Output()

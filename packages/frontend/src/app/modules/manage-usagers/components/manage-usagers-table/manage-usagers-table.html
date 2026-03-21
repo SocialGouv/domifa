@@ -119,6 +119,7 @@
               </th>
               <th scope="col" role="columnheader">Téléphone</th>
               <th scope="col" role="columnheader">Informations</th>
+
               @if (filters.statut ===
               UsagersFilterCriteriaStatut.ATTENTE_DECISION || filters.statut ===
               UsagersFilterCriteriaStatut.INSTRUCTION) {
@@ -127,7 +128,7 @@
               filters.statut === UsagersFilterCriteriaStatut.TOUS) {
               <th scope="col" role="columnheader">
                 <div class="fr-cell--sort">
-                  <span>Passage</span>
+                  Passage
 
                   <button
                     type="button"
@@ -147,41 +148,44 @@
               } @if (filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION)
               {
               <th scope="col" role="columnheader">
-                Rendez-vous le
-                <button
-                  type="button"
-                  [ngClass]="filters.sortKey === 'RDV' ? 'fr-text--bold active-sort' : ''"
-                  [attr.aria-sort]="filters.sortKey === 'RDV' ? ARIA_SORT[filters.sortValue] : 'none'"
-                  (click)="updateFilters.emit({ element: 'sortKey', value: 'RDV' })"
-                  class="fr-btn--sort fr-btn fr-btn--sm"
-                >
-                  <app-table-head-sort-icon
-                    [sortKey]="filters.sortKey"
-                    [sortValue]="filters.sortValue"
-                    currentKey="RDV"
-                  ></app-table-head-sort-icon>
-                </button>
+                <div class="fr-cell--sort">
+                  Rendez-vous le
+                  <button
+                    type="button"
+                    [ngClass]="filters.sortKey === 'RDV' ? 'fr-text--bold active-sort' : ''"
+                    [attr.aria-sort]="filters.sortKey === 'RDV' ? ARIA_SORT[filters.sortValue] : 'none'"
+                    (click)="updateFilters.emit({ element: 'sortKey', value: 'RDV' })"
+                    class="fr-btn--sort fr-btn fr-btn--sm"
+                  >
+                    <app-table-head-sort-icon
+                      [sortKey]="filters.sortKey"
+                      [sortValue]="filters.sortValue"
+                      currentKey="RDV"
+                    ></app-table-head-sort-icon>
+                  </button>
+                </div>
               </th>
               }
               <th scope="col" role="columnheader">
-                <span>
+                <div class="fr-cell--sort">
                   @if (filters.statut !== 'REFUS' && filters.statut !== 'RADIE')
-                  { ÉCHÉANCE } @if (filters.statut === 'REFUS') { REFUSÉ LE }
-                  @if (filters.statut === 'RADIE') { RADIÉ LE }
-                </span>
-                <button
-                  type="button"
-                  [ngClass]="filters.sortKey === 'ECHEANCE' ? 'fr-text--bold active-sort' : ''"
-                  [attr.aria-sort]="filters.sortKey === 'ECHEANCE' ? ARIA_SORT[filters.sortValue] : 'none'"
-                  (click)="updateFilters.emit({ element: 'sortKey', value: 'ECHEANCE' })"
-                  class="fr-btn--sort fr-btn fr-btn--sm"
-                >
-                  <app-table-head-sort-icon
-                    [sortKey]="filters.sortKey"
-                    [sortValue]="filters.sortValue"
-                    currentKey="ECHEANCE"
-                  ></app-table-head-sort-icon>
-                </button>
+                  { Échéance } @if (filters.statut === 'REFUS') { Refusé le }
+                  @if (filters.statut === 'RADIE') { Radié le }
+
+                  <button
+                    type="button"
+                    [ngClass]="filters.sortKey === 'ECHEANCE' ? 'fr-text--bold active-sort' : ''"
+                    [attr.aria-sort]="filters.sortKey === 'ECHEANCE' ? ARIA_SORT[filters.sortValue] : 'none'"
+                    (click)="updateFilters.emit({ element: 'sortKey', value: 'ECHEANCE' })"
+                    class="fr-btn--sort fr-btn fr-btn--sm"
+                  >
+                    <app-table-head-sort-icon
+                      [sortKey]="filters.sortKey"
+                      [sortValue]="filters.sortValue"
+                      currentKey="ECHEANCE"
+                    ></app-table-head-sort-icon>
+                  </button>
+                </div>
               </th>
               <th scope="col" class="fr-text--left no-print">Interaction</th>
               <th scope="col" class="fr-text--left no-print">Courrier</th>
@@ -280,13 +284,9 @@
               UsagersFilterCriteriaStatut.INSTRUCTION) {
               <td>
                 @if (usager.typeDom === 'RENOUVELLEMENT') {
-                <p class="fr-fr-m-0w fr-badge fr-badge--warning">
-                  Renouvellement
-                </p>
+                <p class="fr-m-0 fr-badge fr-badge--warning">Renouvellement</p>
                 } @if (usager.typeDom === 'PREMIERE_DOM') {
-                <p class="fr-fr-m-0w fr-badge fr-badge--info">
-                  Première demande
-                </p>
+                <p class="fr-m-0 fr-badge fr-badge--info">Première demande</p>
                 }
               </td>
               } @if (filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION)

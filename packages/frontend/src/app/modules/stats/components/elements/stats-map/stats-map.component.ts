@@ -39,9 +39,11 @@ export class StatsMapComponent {
   public selectedRegion: string | null;
 
   // Statistiques par region
-  @Input() public statsRegionsValues: { [key: string]: number };
+  @Input({ required: true }) public statsRegionsValues: {
+    [key: string]: number;
+  };
 
-  @Input() public publicStats!: PublicStats;
+  @Input({ required: true }) public publicStats!: PublicStats;
 
   constructor() {
     this.statsRegionsValues = {};

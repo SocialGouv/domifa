@@ -1,5 +1,5 @@
 import { TimeZone } from "@domifa/common";
-import { CountryISO } from "@khazii/ngx-intl-tel-input";
+import { Iso2 } from "intl-tel-input/data";
 
 export const COUNTRY_CODES: { [key: string]: string } = {
   af: "93",
@@ -247,18 +247,18 @@ export const COUNTRY_CODES: { [key: string]: string } = {
   ax: "358",
 };
 
-export const COUNTRY_CODES_TIMEZONE: { [key in TimeZone]: CountryISO } = {
-  "America/Guadeloupe": CountryISO.Guadeloupe,
-  "America/Martinique": CountryISO.Martinique,
-  "America/Cayenne": CountryISO.FrenchGuiana,
-  "Indian/Reunion": CountryISO.Réunion,
-  "Indian/Mayotte": CountryISO.Mayotte,
-  "Europe/Paris": CountryISO.France,
-  "Pacific/Noumea": CountryISO.FrenchPolynesia,
-  "Pacific/Tahiti": CountryISO.FrenchPolynesia,
-  "Pacific/Wallis": CountryISO.WallisAndFutuna,
-  "America/Miquelon": CountryISO.SaintPierreAndMiquelon,
-  "Indian/Maldives": CountryISO.France,
+export const COUNTRY_CODES_TIMEZONE: { [key in TimeZone]: Iso2 } = {
+  "America/Guadeloupe": "gp",
+  "America/Martinique": "mq",
+  "America/Cayenne": "gf",
+  "Indian/Reunion": "re",
+  "Indian/Mayotte": "yt",
+  "Europe/Paris": "fr",
+  "Pacific/Noumea": "pf",
+  "Pacific/Tahiti": "pf",
+  "Pacific/Wallis": "wf",
+  "America/Miquelon": "pm",
+  "Indian/Maldives": "fr",
 };
 
 export const PHONE_PLACEHOLDERS: { [key: string]: string } = {

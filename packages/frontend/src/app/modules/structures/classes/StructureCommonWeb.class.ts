@@ -1,6 +1,6 @@
 import { Telephone } from "../../../../_common/model";
 
-import { CountryISO } from "@khazii/ngx-intl-tel-input";
+import { Iso2 } from "intl-tel-input/data";
 
 import {
   StructureType,
@@ -33,7 +33,7 @@ export class StructureCommonWeb implements StructureCommon {
   public organismeType: StructureOrganismeType | null = null;
   public telephone: Telephone = {
     numero: "",
-    countryCode: CountryISO.France,
+    countryCode: "fr" as Iso2,
   };
   public email = "";
   public timeZone: TimeZone = "Europe/Paris";

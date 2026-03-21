@@ -24,7 +24,7 @@ export class StatsChartsComponent implements OnChanges {
     name: "ocean",
     selectable: false,
     group: ScaleType.Ordinal,
-    domain: ["#1212ff"],
+    domain: ["#00009d"],
   };
   public xAxisLabel = "";
   public showYAxisLabel = true;
@@ -34,7 +34,8 @@ export class StatsChartsComponent implements OnChanges {
 
   public statsInCharts!: StatsByMonth;
   public selectedCharts: "courriers" | "usagers" = "courriers";
-  @Input() public publicStats!: PublicStats;
+
+  @Input({ required: true }) public publicStats!: PublicStats;
 
   public ngOnChanges(): void {
     if (this.publicStats) {

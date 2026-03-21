@@ -16,7 +16,7 @@
   <div tabindex="0">
     <ul>
       <li
-        class="text-start"
+        class="fr-text--left"
         *ngFor="let procuration of usager.options.procurations"
       >
         <ng-container *ngIf="!procuration.isExpired">
@@ -47,12 +47,12 @@
 </button>
 <ng-template #transfertActif>
   <div class="distribution-tooltip" tabindex="0">
-    <p class="fr-m-0w" *ngIf="!usager.options.transfert.isExpired">
+    <p class="fr-m-0" *ngIf="!usager.options.transfert.isExpired">
       Courrier à transférer : {{ usager.options.transfert.nom | titlecase }}
       {{ usager.options.transfert.adresse | titlecase }}
     </p>
 
-    <p class="fr-m-0w" *ngIf="usager.options.transfert.isExpired">
+    <p class="fr-m-0" *ngIf="usager.options.transfert.isExpired">
       Transfert expiré le
       {{ usager.options.transfert.dateFin | date : "dd MMMM yyyy" }}
     </p>

@@ -43,7 +43,6 @@ import { ProfilHistoriqueLoginPortailComponent } from "./components/_historiques
 import { SetNpaiComponent } from "./components/_general-section/set-npai/set-npai.component";
 import { ProfilAlertsComponent } from "./components/profil-alerts/profil-alerts.component";
 
-import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
 import { FormatInternationalPhoneNumberPipe } from "../../shared/phone/formatInternationalPhoneNumber.pipe";
 import { ProfilSmsPortailComponent } from "./components/pages/profil-sms-portail/profil-sms-portail.component";
 import { SortArrayPipe } from "../shared/pipes";
@@ -85,7 +84,6 @@ import { DsfrModalComponent, DsfrPaginationModule } from "@edugouvfr/ngx-dsfr";
     FormatInternationalPhoneNumberPipe,
     FormsModule,
     NgbModule,
-    NgxIntlTelInputModule,
     ReactiveFormsModule,
     RouterModule,
     SharedModule,

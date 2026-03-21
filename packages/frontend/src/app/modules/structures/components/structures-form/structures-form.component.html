@@ -72,7 +72,12 @@
             <span class="fr-mb-0"
               >Vous inscrire à une session de formation en ligne</span
             >
-            <a href="https://tally.so/r/3EaAVB" class="fr-btn" target="_blank">
+            <a
+              href="https://tally.so/r/3EaAVB"
+              class="fr-btn"
+              target="_blank"
+              title="M'inscrire à une session de formation - nouvelle fenêtre"
+            >
               M'inscrire
             </a>
           </div>
@@ -122,7 +127,7 @@
       <form [formGroup]="structureForm" (ngSubmit)="submitStrucutre()">
         <!-- Section: Structure -->
         <section>
-          <h2 class="fr-h3 fr-fr-m-0w">
+          <h2 class="fr-h3 fr-m-0">
             <img
               src="artwork/pictograms/buildings/companie.svg"
               aria-hidden="true"
@@ -341,7 +346,7 @@
         <!-- Section: Agrément (visible si type = asso) -->
         @if (f.structureType.value === 'asso') {
         <section class="fr-py-4w fr-px-2w fr-background-alt--grey">
-          <h2 class="fr-h3 fr-fr-m-0w">
+          <h2 class="fr-h3 fr-m-0">
             <img
               src="artwork/pictograms/buildings/companie.svg"
               aria-hidden="true"
@@ -688,7 +693,7 @@
         }
 
         <section>
-          <h2 class="fr-h3 fr-fr-m-0w">
+          <h2 class="fr-h3 fr-m-0">
             <img
               src="artwork/pictograms/digital/avatar.svg"
               aria-hidden="true"
@@ -857,7 +862,7 @@
 
         <!-- Section: Adresse -->
         <section>
-          <h2 class="fr-fr-m-0w">
+          <h2 class="fr-m-0">
             <img
               src="artwork/pictograms/map/map-pin.svg"
               aria-hidden="true"
@@ -1232,7 +1237,7 @@
 
         <!-- Section: Contact -->
         <section>
-          <h2 class="fr-h3 fr-fr-m-0w">
+          <h2 class="fr-h3 fr-m-0">
             <img
               src="artwork/pictograms/digital/mail-send.svg"
               aria-hidden="true"
@@ -1264,81 +1269,90 @@
               Informations de contact de la structure
             </legend>
 
-            <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
-              <!-- Téléphone -->
-              <div
-                class="fr-col-12 fr-col-md-6 fr-mb-4w fr-input-group fr-input-group--required"
-                [ngClass]="{
-                  'fr-input-group--error':
-                    submitted && (f.telephone.errors || f.telephone.invalid)
-                }"
-              >
-                <app-phone-input
-                  [isRequired]="false"
-                  [isMobileOnly]="false"
-                  [submitted]="submitted"
-                  formControlName="telephone"
-                  [label]="'Numéro de téléphone (mobile uniquement)'"
-                ></app-phone-input>
-                @if (submitted && f.telephone.errors) {
-                <div aria-live="polite" role="alert" class="fr-messages-group">
-                  <p class="fr-message fr-message--error">
-                    Numéro de téléphone incorrect (Ex: 0606060606)
+            <div class="fr-grid-row fr-grid-row--gutters">
+              <div class="fr-col-12 fr-col-md-6">
+                <div
+                  class="fr-input-group fr-input-group--required"
+                  [ngClass]="{
+                    'fr-input-group--error':
+                      submitted && (f.telephone.errors || f.telephone.invalid)
+                  }"
+                >
+                  <app-phone-input
+                    [isRequired]="false"
+                    [isMobileOnly]="false"
+                    [submitted]="submitted"
+                    formControlName="telephone"
+                    [label]="'Numéro de téléphone (mobile uniquement)'"
+                  ></app-phone-input>
+                  @if (submitted && f.telephone.errors) {
+                  <div
+                    aria-live="polite"
+                    role="alert"
+                    class="fr-messages-group"
+                  >
+                    <p class="fr-message fr-message--error">
+                      Numéro de téléphone incorrect (Ex: 0606060606)
+                    </p>
+                  </div>
+                  } @if ( !PREFERRED_COUNTRIES.includes(
+                  f.telephone?.value?.countryCode.toLowerCase() ) &&
+                  f.telephone?.value && f?.contactByPhone?.value === true ) {
+                  <p class="fr-hint-text">
+                    Attention: les SMS ne sont pas envoyés aux numéros étrangers
                   </p>
+                  }
                 </div>
-                } @if ( !PREFERRED_COUNTRIES.includes(
-                f.telephone?.value?.countryCode.toLowerCase() ) &&
-                f.telephone?.value && f?.contactByPhone?.value === true ) {
-                <p class="fr-hint-text">
-                  Attention: les SMS ne sont pas envoyés aux numéros étrangers
-                </p>
-                }
               </div>
 
               <!-- Email -->
-              <div
-                [class.fr-input-group--error]="
-                  (submitted || f.email.dirty) && f.email.errors
-                "
-                class="fr-col-12 fr-col-md-6 fr-mb-4w fr-input-group fr-input-group--required"
-              >
-                <label class="fr-label" for="email">E-mail</label>
-                <p class="fr-hint-text">format attendu : nom&#64;domaine.fr</p>
-                <input
-                  type="email"
-                  id="email"
-                  formControlName="email"
-                  name="email"
-                  autocomplete="email"
-                  class="fr-input"
-                  [attr.aria-invalid]="
+              <div class="fr-col-12 fr-col-md-6">
+                <div
+                  [class.fr-input-group--error]="
                     (submitted || f.email.dirty) && f.email.errors
-                      ? true
-                      : false
                   "
-                  [attr.aria-describedby]="
-                    (submitted || f.email.dirty) && f.email.errors
-                      ? 'email-errors'
-                      : 'email-hint'
-                  "
-                  required
-                />
-                <div class="fr-messages-group">
-                  <ul class="fr-messages-group__list fr-pl-0">
-                    @if (!((submitted || f.email.dirty) && f.email.errors)) {
-                    <li id="email-hint" class="fr-message fr-message--info">
-                      Adresse e-mail indiquée sur le Cerfa
-                    </li>
-                    } @if ((submitted || f.email.dirty) && f.email.errors) {
-                    <li
-                      id="email-errors"
-                      class="fr-message fr-message--error fr-mt-0"
-                    >
-                      Veuillez vérifier l'adresse email, format attendu :
-                      nom&#64;domaine.fr
-                    </li>
-                    }
-                  </ul>
+                  class="fr-input-group fr-input-group--required"
+                >
+                  <label class="fr-label" for="email">E-mail</label>
+                  <p class="fr-hint-text">
+                    format attendu : nom&#64;domaine.fr
+                  </p>
+                  <input
+                    type="email"
+                    id="email"
+                    formControlName="email"
+                    name="email"
+                    autocomplete="email"
+                    class="fr-input"
+                    [attr.aria-invalid]="
+                      (submitted || f.email.dirty) && f.email.errors
+                        ? true
+                        : false
+                    "
+                    [attr.aria-describedby]="
+                      (submitted || f.email.dirty) && f.email.errors
+                        ? 'email-errors'
+                        : 'email-hint'
+                    "
+                    required
+                  />
+                  <div class="fr-messages-group">
+                    <ul class="fr-messages-group__list fr-pl-0">
+                      @if (!((submitted || f.email.dirty) && f.email.errors)) {
+                      <li id="email-hint" class="fr-message fr-message--info">
+                        Adresse e-mail indiquée sur le Cerfa
+                      </li>
+                      } @if ((submitted || f.email.dirty) && f.email.errors) {
+                      <li
+                        id="email-errors"
+                        class="fr-message fr-message--error fr-mt-0"
+                      >
+                        Veuillez vérifier l'adresse email, format attendu :
+                        nom&#64;domaine.fr
+                      </li>
+                      }
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1348,7 +1362,7 @@
         <hr />
 
         <section>
-          <h2 class="fr-h3fr-fr-m-0w">
+          <h2 class="fr-h3fr-m-0">
             <img
               src="artwork/pictograms/system/information.svg"
               aria-hidden="true"
@@ -1685,8 +1699,13 @@
                   />
                   <label class="fr-label fr-gap-1w" for="acceptCgu">
                     Je confirme que le responsable de la structure a lu et
-                    accepté les
-                    <a routerLink="/cgu" target="_blank">CGU</a>
+                    accepté les &nbsp;
+                    <a
+                      routerLink="/cgu"
+                      target="_blank"
+                      title="CGU - nouvelle fenêtre"
+                      >CGU</a
+                    >
                   </label>
                 </div>
 

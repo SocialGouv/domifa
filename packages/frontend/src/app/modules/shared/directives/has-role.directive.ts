@@ -15,9 +15,9 @@ import { Subscription } from "rxjs";
 })
 export class HasRoleDirective implements OnDestroy {
   private roles: string[] = [];
-  private templateRef: TemplateRef<HTMLElement>;
-  private viewContainer: ViewContainerRef;
-  private authService: AuthService;
+  private readonly templateRef: TemplateRef<HTMLElement>;
+  private readonly viewContainer: ViewContainerRef;
+  private readonly authService: AuthService;
   private subscription: Subscription | null = null;
   constructor() {
     this.templateRef = inject(TemplateRef);

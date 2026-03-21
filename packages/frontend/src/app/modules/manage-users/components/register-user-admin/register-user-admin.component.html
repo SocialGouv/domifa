@@ -1,5 +1,5 @@
 <dsfr-modal
-  class="text-start"
+  class="fr-text--left"
   [size]="'LG'"
   #registerModal
   dialogId="register-user-modal"
@@ -97,6 +97,7 @@
           "
         >
           <label class="fr-label" for="email"> Adresse email </label>
+          <p class="fr-hint-text">Format attendu : nom&#64;domaine.fr</p>
           <input
             class="fr-input"
             [class.fr-input--error]="

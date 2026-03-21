@@ -42,18 +42,11 @@
       margin-bottom: 0;
       color: var(--text-active-blue-france) !important;
 
+      [class^="ri-"],
       [class^="fr-icon-"],
       [class*=" fr-icon-"] {
         margin-right: 0.5rem;
       }
-    }
-
-    .statut-label a,
-    .statut-label {
-      font-style: normal;
-      font-weight: 600;
-      color: #282828;
-      letter-spacing: 0;
     }
   }
 
@@ -193,6 +186,10 @@
     margin-right: 0.5rem;
   }
 
+  // Text alignment
+  .fr-text--left {
+    text-align: left;
+  }
   // Text alignment
   .fr-text--right {
     text-align: right;

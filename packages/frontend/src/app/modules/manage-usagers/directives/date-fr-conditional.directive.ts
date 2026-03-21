@@ -5,7 +5,7 @@ import { DateFrDirective } from "../../shared/directives";
   selector: "[appDateFrConditional]",
 })
 export class DateFrConditionalDirective extends DateFrDirective {
-  @Input() public appDateFrConditional: boolean = false;
+  @Input({ required: true }) public appDateFrConditional: boolean = false;
 
   constructor(el: ElementRef) {
     super(el);

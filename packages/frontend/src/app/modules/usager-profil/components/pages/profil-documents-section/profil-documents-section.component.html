@@ -11,7 +11,7 @@
       <div
         class="fr-py-2w fr-display-flex fr-justify-content-between fr-align-items-center"
       >
-        <h2 class="fr-h3 fr-my-0w">
+        <h2 class="fr-h3 fr-my-0">
           <span class="fr-icon-folder-2-line" aria-hidden="true"></span>
           Modeles de document de la structure
         </h2>
@@ -32,6 +32,7 @@
                 ? 'Telecharger l\'attestation de Refus'
                 : 'Telecharger le Cerfa'
             "
+            customClass="fr-btn--sm fr-me-1w"
             icon="download"
             (action)="
               getCerfa(
@@ -53,7 +54,7 @@
 
       @if (displayDeleteButton) {
       <div class="fr-my-5w">
-        <h2 class="fr-h3 fr-my-0w">
+        <h2 class="fr-h3 fr-my-0">
           <span class="fr-icon-file-text-line" aria-hidden="true"></span>
           Documents de l'usager
         </h2>
