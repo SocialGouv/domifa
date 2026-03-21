@@ -3,7 +3,6 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { PhoneInputComponent } from "../../../../usager-shared/components/input-phone-international/input-phone-international.component";
 
 import { StructuresEditComponent } from "./structures-edit.component";
 import { StoreModule } from "@ngrx/store";
@@ -11,6 +10,7 @@ import { _usagerReducer } from "../../../../shared";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { PhoneInputComponent } from "../../../usager-shared/components/input-phone-international/input-phone-international.component";
 
 describe("StructuresEditComponent", () => {
   let component: StructuresEditComponent;
