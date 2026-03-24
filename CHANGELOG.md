@@ -1,3 +1,11 @@
+## [2.235.2](https://github.com/SocialGouv/domifa/compare/v2.235.1...v2.235.2) (2026-03-24)
+
+
+### Bug Fixes
+
+* **frontend:** delete ngx-intl-input ([e9b029e](https://github.com/SocialGouv/domifa/commit/e9b029e7a969180519f87a77a85962884c2d697e))
+* **frontend:** fix build & tests ([8416e9a](https://github.com/SocialGouv/domifa/commit/8416e9a1f7613a09bfde6f63d888c0892ae76995))
+
 ## [2.235.1](https://github.com/SocialGouv/domifa/compare/v2.235.0...v2.235.1) (2026-03-20)
 
 
