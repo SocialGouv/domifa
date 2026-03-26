@@ -3,7 +3,6 @@ import { CommonModule, APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ProfilDocumentsSectionComponent } from "./profil-documents-section.component";
 
@@ -22,7 +21,6 @@ describe("ProfilDocumentsSectionComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [ProfilDocumentsSectionComponent],
       imports: [
-        NgbModule,
         CommonModule,
         ReactiveFormsModule,
         FormsModule,

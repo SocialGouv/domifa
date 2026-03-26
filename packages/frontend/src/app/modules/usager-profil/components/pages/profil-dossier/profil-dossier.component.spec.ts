@@ -3,7 +3,6 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ProfilDossierComponent } from "./profil-dossier.component";
 import { _usagerReducer } from "../../../../../shared";
@@ -21,7 +20,6 @@ describe("ProfilDossierComponent", () => {
     TestBed.configureTestingModule({
       declarations: [ProfilDossierComponent],
       imports: [
-        NgbModule,
         ReactiveFormsModule,
         RouterModule.forRoot([]),
         StoreModule.forRoot({ app: _usagerReducer }),

@@ -3,7 +3,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { USAGER_VALIDE_MOCK } from "../../../../../../_common/mocks";
 import { MATOMO_INJECTORS, _usagerReducer } from "../../../../../shared";
@@ -26,7 +26,7 @@ describe("UsagersProfilTransfertCourrierComponent", () => {
       imports: [
         FormsModule,
         RouterModule.forRoot([]),
-        NgbModule,
+
         ReactiveFormsModule,
         DsfrModalComponent,
         ...MATOMO_INJECTORS,

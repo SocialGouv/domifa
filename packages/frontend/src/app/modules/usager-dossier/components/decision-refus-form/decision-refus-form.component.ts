@@ -14,20 +14,20 @@ import {
   AbstractControl,
 } from "@angular/forms";
 import { Router } from "@angular/router";
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import {
   UsagerDecisionRefusForm,
   UsagerLight,
 } from "../../../../../_common/model";
 import {
-  formatDateToNgb,
-  minDateToday,
-  parseDateFromNgb,
-} from "../../../../shared/bootstrap-util";
+  getTodayFr,
+  getTodayIso,
+  NoWhiteSpaceValidator,
+  parseFrDate,
+} from "../../../../shared";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
 import { Subject, Subscription } from "rxjs";
 import { debounceTime, exhaustMap } from "rxjs/operators";
-import { NoWhiteSpaceValidator } from "../../../../shared";
+
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { MOTIFS_REFUS_LABELS } from "@domifa/common";
@@ -52,8 +52,8 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
 
   public refusForm!: UntypedFormGroup;
 
-  public maxDateRefus: NgbDateStruct;
-  public minDate: NgbDateStruct;
+  public maxDateRefus: string;
+  public minDate: string;
 
   private readonly subscription = new Subscription();
   private readonly submitSubject$ = new Subject<UsagerDecisionRefusForm>();
@@ -66,8 +66,8 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
   ) {
     this.loading = false;
     this.submitted = false;
-    this.minDate = { day: 1, month: 1, year: new Date().getFullYear() - 1 };
-    this.maxDateRefus = minDateToday;
+    this.minDate = `${new Date().getFullYear() - 1}-01-01`;
+    this.maxDateRefus = getTodayIso();
   }
 
   public get r(): { [key: string]: AbstractControl } {
@@ -76,7 +76,7 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.refusForm = this.formBuilder.group({
-      dateFin: [formatDateToNgb(new Date()), [Validators.required]],
+      dateFin: [getTodayFr(), [Validators.required]],
       motif: [null, [Validators.required]],
       statut: ["REFUS", [Validators.required]],
       motifDetails: [null, []],
@@ -147,7 +147,7 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
 
     const formDatas: UsagerDecisionRefusForm = {
       ...this.refusForm.value,
-      dateFin: parseDateFromNgb(this.refusForm.controls.dateFin.value),
+      dateFin: parseFrDate(this.refusForm.controls.dateFin.value),
     };
 
     this.submitSubject$.next(formDatas);

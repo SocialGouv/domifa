@@ -6,8 +6,6 @@ import {
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { SharedModule } from "../shared/shared.module";
 import { UsersRoutingModule } from "./users-routing.module";
 
@@ -17,7 +15,7 @@ import { UsersRoutingModule } from "./users-routing.module";
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     FormsModule,
-    NgbModule,
+
     ReactiveFormsModule,
     SharedModule,
     CommonModule,

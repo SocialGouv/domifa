@@ -2,7 +2,6 @@ import { CommonModule, APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { BaseUsagerDossierPageComponent } from "./base-usager-dossier-page.component";
 import { StoreModule } from "@ngrx/store";
@@ -20,7 +19,6 @@ describe("BaseUsagerDossierPageComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [BaseUsagerDossierPageComponent],
       imports: [
-        NgbModule,
         CommonModule,
         ReactiveFormsModule,
         FormsModule,

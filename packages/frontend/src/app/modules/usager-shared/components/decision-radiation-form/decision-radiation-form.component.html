@@ -69,60 +69,21 @@
         </div>
 
         <div class="fr-col-12 fr-col-md-6">
-          <div
-            class="fr-input-group"
-            [class.fr-input-group--error]="
+          <dsfr-ext-datepicker
+            formControlName="dateFin"
+            label="Date de la radiation *"
+            [min]="minDate"
+            [max]="maxDate"
+            [required]="true"
+            [showMask]="true"
+            appendTo="body"
+            [message]="
               (r.dateFin.dirty || submitted) && r.dateFin.errors
+                ? 'La date de fin est incorrecte. Format attendu: jj/mm/aaaa'
+                : ''
             "
-          >
-            <label class="fr-label" for="dateFin">Date de la radiation</label>
-
-            <div class="fr-date-input">
-              <input
-                class="fr-input"
-                [class.fr-input--error]="
-                  (r.dateFin.dirty || submitted) && r.dateFin.errors
-                "
-                placeholder="jj/mm/aaaa"
-                [minDate]="minDate"
-                [maxDate]="maxDate"
-                placement="auto"
-                ngbDatepicker
-                id="dateFin"
-                formControlName="dateFin"
-                name="dateFin"
-                #dFin="ngbDatepicker"
-                [attr.aria-invalid]="
-                  (r.dateFin.dirty || submitted) && r.dateFin.errors
-                    ? true
-                    : false
-                "
-                [attr.aria-describedby]="
-                  (r.dateFin.dirty || submitted) && r.dateFin.errors
-                    ? 'date-fin-errors'
-                    : null
-                "
-                appDateFr
-                value
-                required
-                maxlength="10"
-              />
-
-              <button
-                type="button"
-                class="date-btn"
-                (click)="dFin.toggle()"
-                aria-label="Ouvrir le calendrier"
-              >
-                <span class="fr-icon-calendar-line" aria-hidden="true"></span>
-              </button>
-            </div>
-            @if ((r.dateFin.dirty || submitted) && r.dateFin.errors) {
-            <p id="date-fin-errors" class="fr-error-text">
-              La date de fin est incorrecte. Format attendu: jj/mm/aaaa
-            </p>
-            }
-          </div>
+            [messageSeverity]="'error'"
+          ></dsfr-ext-datepicker>
         </div>
 
         <div class="fr-col-12 fr-col-md-6">
@@ -219,6 +180,7 @@
           [disabled]="loading"
           [attr.aria-busy]="loading"
           type="submit"
+          (click)="setDecisionRadiation()"
         >
           @if (!loading) { Confirmer la radiation } @else {
           <span

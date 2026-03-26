@@ -1,6 +1,5 @@
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { SharedModule } from "../../../shared/shared.module";
 
@@ -19,7 +18,6 @@ describe("StructuresCustomDocsComponent", () => {
     await TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       imports: [
-        NgbModule,
         RouterModule.forRoot([]),
         StoreModule.forRoot({ app: _usagerReducer }),
         SharedModule,

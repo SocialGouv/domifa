@@ -1,5 +1,5 @@
 <h3 class="fr-h4">Depuis notre lancement en 2019</h3>
-<div class="stats-charts-container py-4" *ngIf="!publicStats">
+<div class="stats-charts-container fr-py-3w" *ngIf="!publicStats">
   <div class="fr-grid-row fr-display-flex fr-align-items-center">
     <div class="fr-col-md-12 fr-text--center">
       <div @fadeInOut aria-live="polite">
@@ -39,7 +39,7 @@
               (change)="selectChart('courriers')"
             />
             <label class="fr-label" for="radio-courriers">
-              <div class="fr-h3 mb-0 fr-text-title--blue-france">
+              <div class="fr-h3 fr-mb-0 fr-text-title--blue-france">
                 {{ publicStats.courrierOutCount | formatBigNumber }}
               </div>
               <div class="stats-section-label">courriers distribués</div>
@@ -66,7 +66,7 @@
               (change)="selectChart('usagers')"
             />
             <label class="fr-label" for="radio-usagers">
-              <div class="fr-h3 mb-0 fr-text-title--blue-france">
+              <div class="fr-h3 fr-mb-0 fr-text-title--blue-france">
                 {{ publicStats.usagersCount | formatBigNumber }}
               </div>
               <div class="stats-section-label">dossiers enregistrés</div>
@@ -85,7 +85,7 @@
   </div>
   <div class="fr-grid-row fr-display-flex fr-align-items-center">
     <div class="fr-col-md-12 ps-2 pe-4">
-      <div class="text-start fr-text--bold mb-1">
+      <div class="text-start fr-text--bold fr-mb-1v">
         <span *ngIf="selectedCharts === 'courriers'">
           Courriers distribués chaque mois
         </span>

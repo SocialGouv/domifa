@@ -23,7 +23,6 @@ import { PREFERRED_COUNTRIES } from "../../../../../_common/model";
 import { anyPhoneValidator, getFormPhone } from "../../../../shared/phone";
 import { RouterModule } from "@angular/router";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { SharedModule } from "../../../shared/shared.module";
 import { PhoneInputComponent } from "../../../usager-shared/components/input-phone-international/input-phone-international.component";
 
@@ -33,7 +32,7 @@ import { PhoneInputComponent } from "../../../usager-shared/components/input-pho
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgbModule,
+
     SharedModule,
     RouterModule,
     PhoneInputComponent,

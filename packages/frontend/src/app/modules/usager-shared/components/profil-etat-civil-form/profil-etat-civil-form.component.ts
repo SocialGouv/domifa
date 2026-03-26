@@ -19,6 +19,8 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 
 import { UsagerFormModel } from "../../interfaces";
 import { AuthService } from "../../../shared/services/auth.service";
+import { LANGUAGES } from "../../utils/languages";
+import { AppLanguage } from "../../utils/languages/AppLanguage.type";
 
 @Component({
   selector: "app-profil-etat-civil-form",
@@ -33,6 +35,7 @@ export class ProfilEtatCivilFormComponent
 
   @Input({ required: true }) public usager!: UsagerFormModel;
   @Output() public editInfosChange = new EventEmitter<boolean>();
+  public allLanguages: AppLanguage[] = LANGUAGES;
 
   constructor(
     public authService: AuthService,

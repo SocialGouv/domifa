@@ -16,9 +16,9 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { Subscription } from "rxjs";
 import {
   endDateAfterBeginDateValidator,
-  formatDateToNgb,
+  formatDateToFr,
   NoWhiteSpaceValidator,
-  parseDateFromNgb,
+  parseFrDate,
 } from "../../../../../shared";
 import { CustomToastService } from "../../../../shared/services";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
@@ -101,13 +101,13 @@ export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
         ],
         dateFin: [
           this.usager.options.transfert.dateFin
-            ? formatDateToNgb(this.usager.options.transfert.dateFin)
+            ? formatDateToFr(this.usager.options.transfert.dateFin)
             : null,
           [Validators.required],
         ],
         dateDebut: [
           this.usager.options.transfert.dateDebut
-            ? formatDateToNgb(this.usager.options.transfert.dateDebut)
+            ? formatDateToFr(this.usager.options.transfert.dateDebut)
             : null,
           [Validators.required],
         ],
@@ -130,8 +130,8 @@ export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
     const formValue = {
       actif: true,
       ...this.transfertForm.value,
-      dateFin: parseDateFromNgb(this.transfertForm.controls.dateFin.value),
-      dateDebut: parseDateFromNgb(this.transfertForm.controls.dateDebut.value),
+      dateFin: parseFrDate(this.transfertForm.controls.dateFin.value),
+      dateDebut: parseFrDate(this.transfertForm.controls.dateDebut.value),
     };
 
     this.loading = true;

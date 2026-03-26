@@ -10,7 +10,8 @@
       "Bash(xargs:*)",
       "Bash(npx ng:*)",
       "Bash(python3:*)",
-      "Bash(read f:*)"
+      "Bash(read f:*)",
+      "Bash(ls:*)"
     ]
   }
 }

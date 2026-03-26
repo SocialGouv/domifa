@@ -15,11 +15,6 @@ import {
   UntypedFormBuilder,
   ValidationErrors,
 } from "@angular/forms";
-import {
-  NgbDateParserFormatter,
-  NgbDatepickerI18n,
-  NgbDateStruct,
-} from "@ng-bootstrap/ng-bootstrap";
 import { Iso2 } from "intl-tel-input/data";
 import { Observable, Subscription } from "rxjs";
 
@@ -31,20 +26,17 @@ import {
   PREFERRED_COUNTRIES,
 } from "../../../../../_common/model";
 import {
-  minDateToday,
-  minDateNaissance,
-  formatDateToNgb,
+  formatDateToFr,
   NoWhiteSpaceValidator,
-  parseDateFromNgb,
+  parseFrDate,
   EmailValidator,
+  MIN_DATE_NAISSANCE,
+  getTodayFr,
+  getTodayIso,
 } from "../../../../shared";
 
 import { AyantDroit, UsagerFormModel } from "../../interfaces";
-import {
-  NgbDateCustomParserFormatter,
-  CustomDatepickerI18n,
-  AuthService,
-} from "../../../shared/services";
+import { AuthService } from "../../../shared/services";
 import {
   getFormPhone,
   mobilePhoneValidator,
@@ -58,15 +50,11 @@ import {
   COUNTRIES,
 } from "@domifa/common";
 
-import { languagesAutocomplete } from "../../utils/languages";
+import { LANGUAGES } from "../../utils/languages";
 
 @Component({
   selector: "app-etat-civil-parent-form",
   templateUrl: "./etat-civil-parent-form.component.html",
-  providers: [
-    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
-  ],
 })
 export class EtatCivilParentFormComponent implements OnDestroy {
   public PREFERRED_COUNTRIES: Iso2[] = PREFERRED_COUNTRIES;
@@ -75,9 +63,9 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   public readonly LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;
 
   /* Config datepickers */
-  public maxDateNaissance: NgbDateStruct;
-  public minDateNaissance: NgbDateStruct;
-  public minDateToday: NgbDateStruct;
+  public maxDateNaissance: string;
+  public minDateNaissance: string;
+  public minDateToday: string;
   public mobilePhonePlaceHolder: string;
 
   public usager!: UsagerFormModel;
@@ -88,10 +76,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   public ayantsDroitsExist = false;
   public displayContactDetails = true;
 
-  public languagesAutocomplete = languagesAutocomplete;
-  public languagesAutocompleteSearch = languagesAutocomplete.typeahead({
-    maxResults: 10,
-  });
+  public languageSuggestions = LANGUAGES;
 
   public subscription = new Subscription();
   public currentUserSubject$: Observable<UserStructure | null>;
@@ -113,24 +98,23 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     protected readonly authService: AuthService,
     protected readonly changeDetectorRef: ChangeDetectorRef
   ) {
-    this.minDateToday = minDateToday;
-    this.minDateNaissance = minDateNaissance;
-    this.maxDateNaissance = formatDateToNgb(new Date());
+    this.minDateToday = getTodayFr();
+    this.minDateNaissance = MIN_DATE_NAISSANCE;
+    this.maxDateNaissance = getTodayIso();
 
     this.currentUserSubject$ = this.authService.currentUserSubject;
   }
 
   public initForm(): void {
+    console.info(formatDateToFr(this?.usager?.dateNaissance));
     this.ayantsDroitsExist = this.usager.ayantsDroits?.length > 0;
 
     this.usagerForm = this.formBuilder.group({
       ayantsDroits: this.formBuilder.array([]),
-      langue: [this.usager.langue, languagesAutocomplete.validator],
+      langue: [this.usager.langue || null],
       ayantsDroitsExist: [this.ayantsDroitsExist, []],
       dateNaissance: [
-        this.usager.dateNaissance
-          ? formatDateToNgb(this.usager.dateNaissance)
-          : null,
+        formatDateToFr(this?.usager?.dateNaissance),
         [Validators.required],
       ],
       customRef: [this.usager.customRef, [Validators.maxLength(50)]],
@@ -216,7 +200,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     return this.formBuilder.group({
       dateNaissance: [
         ayantDroit.dateNaissance
-          ? formatDateToNgb(ayantDroit.dateNaissance)
+          ? formatDateToFr(ayantDroit?.dateNaissance)
           : null,
         [Validators.required],
       ],
@@ -254,7 +238,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
           lien: ayantDroit.lien,
           nom: ayantDroit.nom.trim(),
           prenom: ayantDroit.prenom.trim(),
-          dateNaissance: parseDateFromNgb(ayantDroit.dateNaissance),
+          dateNaissance: parseFrDate(ayantDroit.dateNaissance),
         };
       }
     );
@@ -281,7 +265,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
         : null,
       ayantsDroits,
       contactByPhone: formValue?.contactByPhone,
-      dateNaissance: parseDateFromNgb(formValue.dateNaissance),
+      dateNaissance: parseFrDate(formValue.dateNaissance),
     };
 
     return data;

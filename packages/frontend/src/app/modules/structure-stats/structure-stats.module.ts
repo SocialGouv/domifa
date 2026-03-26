@@ -14,8 +14,9 @@ import {
 } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { DsfrDatePickerComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 @NgModule({
   declarations: [ReportingFormComponent, StuctureStatsComponent],
@@ -25,7 +26,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
     StructureStatsRoutingModule,
     SharedModule,
     FormsModule,
-    NgbModule,
+    DsfrDatePickerComponent,
     ReactiveFormsModule,
     DsfrModalComponent,
   ],

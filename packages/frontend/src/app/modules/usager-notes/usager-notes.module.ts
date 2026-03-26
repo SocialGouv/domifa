@@ -1,4 +1,3 @@
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { BaseUsagerNotesComponent } from "./components/base-usager-notes/base-usager-notes.component";
@@ -27,7 +26,7 @@ import { DsfrDropdownMenuComponent } from "@edugouvfr/ngx-dsfr-ext";
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     CommonModule,
-    NgbModule,
+
     FormsModule,
     ReactiveFormsModule,
     SharedModule,

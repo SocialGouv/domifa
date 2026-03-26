@@ -101,86 +101,25 @@
         } @if (isCustomDates) {
         <div class="fr-grid-row fr-grid-row--gutters">
           <div class="fr-col-12 fr-col-md-3">
-            <div class="fr-date-input">
-              <label class="fr-label" for="dateDebutValide"
-                >Date de début</label
-              >
-              <div class="fr-display-flex fr-align-items-center">
-                <input
-                  class="fr-input"
-                  placeholder="jj/mm/aaaa"
-                  [minDate]="minStartDate"
-                  [maxDate]="maxStartDate"
-                  ngbDatepicker
-                  id="dateDebutValide"
-                  outsideDays="hidden"
-                  [(ngModel)]="fromDate"
-                  #dDebut="ngbDatepicker"
-                  #ca="ngModel"
-                  (dateSelect)="changeStart($event)"
-                  appDateFr
-                  value
-                  [ngClass]="{
-                    'fr-input--error': ca.status === 'INVALID'
-                  }"
-                  maxlength="10"
-                  required
-                />
-                <button
-                  type="button"
-                  aria-label="Sélectionner une date de début sur le calendrier"
-                  class="date-btn"
-                  (click)="dDebut.toggle()"
-                >
-                  <span class="fr-icon-calendar-line" aria-hidden="true"></span>
-                </button>
-              </div>
-            </div>
-            @if (ca.status === 'INVALID') {
-            <p class="fr-error-text">
-              Veuillez saisir une date de début valide. Par exemple : 01/01/2021
-            </p>
-            }
+            <dsfr-ext-datepicker
+              [(ngModel)]="fromDate"
+              label="Date de début"
+              [min]="minStartDate"
+              [max]="maxStartDate"
+              [required]="true"
+              [showMask]="true"
+              (ngModelChange)="changeStart($event)"
+            ></dsfr-ext-datepicker>
           </div>
           <div class="fr-col-12 fr-col-md-3">
-            <div class="fr-date-input">
-              <label class="fr-label" for="dateFinValide">Date de fin</label>
-              <div class="fr-display-flex fr-align-items-center">
-                <input
-                  class="fr-input"
-                  placeholder="jj/mm/aaaa"
-                  [minDate]="minEndDate"
-                  [maxDate]="maxEndDate"
-                  ngbDatepicker
-                  [(ngModel)]="toDate"
-                  #dFin="ngbDatepicker"
-                  #cb="ngModel"
-                  appDateFr
-                  [readonly]="ca.status === 'INVALID'"
-                  id="dateFinValide"
-                  value
-                  [ngClass]="{
-                    'fr-input--error': cb.status === 'INVALID',
-                    disabled: ca.status === 'INVALID'
-                  }"
-                  maxlength="10"
-                  required
-                />
-                <button
-                  aria-label="Sélectionner une date de fin sur le calendrier"
-                  class="date-btn"
-                  type="button"
-                  (click)="dFin.toggle()"
-                >
-                  <span class="fr-icon-calendar-line" aria-hidden="true"></span>
-                </button>
-              </div>
-            </div>
-            @if (cb.status === 'INVALID') {
-            <p class="fr-error-text">
-              Veuillez saisir une date de fin valide. Exemple : 01/01/2021
-            </p>
-            }
+            <dsfr-ext-datepicker
+              [(ngModel)]="toDate"
+              label="Date de fin"
+              [min]="minEndDate"
+              [max]="maxEndDate"
+              [required]="true"
+              [showMask]="true"
+            ></dsfr-ext-datepicker>
           </div>
           <div class="fr-col-12 fr-col-md-6">
             <div class="fr-input-group">

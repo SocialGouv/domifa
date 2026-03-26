@@ -20,49 +20,22 @@
     </p>
 
     <div class="fr-grid-row fr-grid-row--gutters fr-mb-3w">
-      <div
-        class="fr-input-group fr-col-md-6"
-        [class.fr-input-group--error]="
-          (r.dateFin.dirty || submitted) && r.dateFin.errors
-        "
-      >
-        <label class="fr-label" for="dateFinRefusModal"> Date du refus </label>
-        <div class="fr-date-input">
-          <input
-            class="fr-input"
-            placeholder="jj/mm/aaaa"
-            [minDate]="minDate"
-            [maxDate]="maxDateRefus"
-            placement="auto"
-            ngbDatepicker
-            id="dateFinRefusModal"
-            formControlName="dateFin"
-            #dFinModal="ngbDatepicker"
-            appDateFr
-            [attr.aria-invalid]="
-              (r.dateFin.dirty || submitted) && r.dateFin.errors ? true : false
-            "
-            [attr.aria-describedby]="
-              (r.dateFin.dirty || submitted) && r.dateFin.errors
-                ? 'date-fin-refus-errors-modal'
-                : null
-            "
-            maxlength="10"
-          />
-          <button
-            type="button"
-            aria-label="Sélectionner la date du refus dans le calendrier"
-            class="date-btn"
-            (click)="dFinModal.toggle()"
-          >
-            <span class="fr-icon-calendar-line" aria-hidden="true"></span>
-          </button>
-        </div>
-        @if ((r.dateFin.dirty || submitted) && r.dateFin.errors) {
-        <p id="date-fin-refus-errors-modal" class="fr-error-text">
-          La date de refus est incorrecte, exemple: 20/12/2022
-        </p>
-        }
+      <div class="fr-col-md-6">
+        <dsfr-ext-datepicker
+          formControlName="dateFin"
+          label="Date du refus"
+          [min]="minDate"
+          [max]="maxDateRefus"
+          [required]="true"
+          [showMask]="true"
+          appendTo="body"
+          [message]="
+            (r.dateFin.dirty || submitted) && r.dateFin.errors
+              ? 'La date de refus est incorrecte, exemple: 20/12/2022'
+              : ''
+          "
+          [messageSeverity]="'error'"
+        ></dsfr-ext-datepicker>
       </div>
 
       <div
@@ -249,49 +222,21 @@
   </p>
 
   <div class="fr-grid-row fr-grid-row--gutters fr-mb-3w">
-    <div
-      class="fr-input-group fr-col-md-6"
-      [class.fr-input-group--error]="
-        (r.dateFin.dirty || submitted) && r.dateFin.errors
-      "
-    >
-      <label class="fr-label" for="dateFinRefus"> Date du refus </label>
-      <div class="fr-date-input">
-        <input
-          class="fr-input"
-          placeholder="jj/mm/aaaa"
-          [minDate]="minDate"
-          [maxDate]="maxDateRefus"
-          placement="auto"
-          ngbDatepicker
-          id="dateFinRefus"
-          formControlName="dateFin"
-          #dFin="ngbDatepicker"
-          appDateFr
-          [attr.aria-invalid]="
-            (r.dateFin.dirty || submitted) && r.dateFin.errors ? true : false
-          "
-          [attr.aria-describedby]="
-            (r.dateFin.dirty || submitted) && r.dateFin.errors
-              ? 'date-fin-refus-errors'
-              : null
-          "
-          maxlength="10"
-        />
-        <button
-          type="button"
-          aria-label="Sélectionner la date du refus dans le calendrier"
-          class="date-btn"
-          (click)="dFin.toggle()"
-        >
-          <span class="fr-icon-calendar-line" aria-hidden="true"></span>
-        </button>
-      </div>
-      @if ((r.dateFin.dirty || submitted) && r.dateFin.errors) {
-      <p id="date-fin-refus-errors" class="fr-error-text">
-        La date de refus est incorrecte, exemple: 20/12/2022
-      </p>
-      }
+    <div class="fr-col-md-6">
+      <dsfr-ext-datepicker
+        formControlName="dateFin"
+        label="Date du refus"
+        [min]="minDate"
+        [max]="maxDateRefus"
+        [required]="true"
+        [showMask]="true"
+        [message]="
+          (r.dateFin.dirty || submitted) && r.dateFin.errors
+            ? 'La date de refus est incorrecte, exemple: 20/12/2022'
+            : ''
+        "
+        [messageSeverity]="'error'"
+      ></dsfr-ext-datepicker>
     </div>
 
     <div

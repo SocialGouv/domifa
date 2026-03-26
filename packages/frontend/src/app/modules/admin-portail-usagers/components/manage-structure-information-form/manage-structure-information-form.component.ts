@@ -12,16 +12,14 @@ import {
   Validators,
   ValidationErrors,
 } from "@angular/forms";
-import {
-  CustomToastService,
-  NgbDateCustomParserFormatter,
-} from "../../../shared/services";
+import { CustomToastService } from "../../../shared/services";
 import { StructureInformation } from "@domifa/common";
 import { StructureInformationService } from "../../services/structure-information.service";
 
 import {
   endDateAfterBeginDateCheck,
-  formatDateToNgb,
+  formatDateToFr,
+  parseFrDate,
 } from "../../../../shared";
 import { Subscription } from "rxjs";
 import {
@@ -67,7 +65,6 @@ export class ManageStructureInformationFormComponent implements OnDestroy {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly structureInformationService: StructureInformationService,
     private readonly toastService: CustomToastService
   ) {}
@@ -103,13 +100,13 @@ export class ManageStructureInformationFormComponent implements OnDestroy {
         ],
         startDate: [
           this.structureInformation?.startDate
-            ? formatDateToNgb(this.structureInformation?.startDate)
+            ? formatDateToFr(this.structureInformation?.startDate)
             : null,
           this.structureInformation?.isTemporary ? Validators.required : null,
         ],
         endDate: [
           this.structureInformation?.endDate
-            ? formatDateToNgb(this.structureInformation?.endDate)
+            ? formatDateToFr(this.structureInformation?.endDate)
             : null,
           this.structureInformation?.isTemporary ? Validators.required : null,
         ],
@@ -169,19 +166,11 @@ export class ManageStructureInformationFormComponent implements OnDestroy {
         ...this.tempMessageForm.value,
         startDate:
           this.tempMessageForm.controls.isTemporary.value === true
-            ? new Date(
-                this.nbgDate.formatEn(
-                  this.tempMessageForm.controls.startDate.value
-                )
-              )
+            ? parseFrDate(this.tempMessageForm.controls.startDate.value)
             : null,
         endDate:
           this.tempMessageForm.controls.isTemporary.value === true
-            ? new Date(
-                this.nbgDate.formatEn(
-                  this.tempMessageForm.controls.endDate.value
-                )
-              )
+            ? parseFrDate(this.tempMessageForm.controls.endDate.value)
             : null,
       };
 

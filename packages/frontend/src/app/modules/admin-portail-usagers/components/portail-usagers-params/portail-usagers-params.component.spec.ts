@@ -3,7 +3,7 @@ import { PortailUsagersParamsComponent } from "./portail-usagers-params.componen
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import {
   MockAuthService,
   USER_STRUCTURE_MOCK,
@@ -18,12 +18,7 @@ describe("PortailUsagersParamsComponent", () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [
-        NgbModule,
-        ReactiveFormsModule,
-        FormsModule,
-        RouterModule.forRoot([]),
-      ],
+      imports: [ReactiveFormsModule, FormsModule, RouterModule.forRoot([])],
       providers: [
         provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },

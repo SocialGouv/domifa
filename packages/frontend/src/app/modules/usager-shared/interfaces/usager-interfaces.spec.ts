@@ -22,11 +22,7 @@ describe("Usager Interfaces testing", () => {
       dateRdv: new Date("December 20, 2033 02:12:00"),
       heureRdv: "02:12",
       isNow: false,
-      jourRdv: {
-        day: 20,
-        month: 12,
-        year: 2033,
-      },
+      jourRdv: "2033-12-20",
       userId: 10,
       userName: "DomiFa",
     });
@@ -42,11 +38,7 @@ describe("Usager Interfaces testing", () => {
       dateRdv: new Date("October 12, 2019 15:05:00"),
       heureRdv: "15:05",
       isNow: true,
-      jourRdv: {
-        day: 12,
-        month: 10,
-        year: 2019,
-      },
+      jourRdv: "2019-10-12",
       userId: 10,
       userName: "DomiFa",
     });

@@ -4,10 +4,6 @@
   align-items: center;
   justify-content: center;
   gap: 1rem;
-
-  label {
-    margin-bottom: 0.75rem;
-  }
 }
 
 .fr-text--lead {
@@ -20,6 +16,7 @@
   padding: 1.5rem 2.5rem;
   cursor: pointer;
   border-radius: 0.25rem;
+
   .rdv-select {
     align-items: center;
     gap: 1rem;
@@ -27,6 +24,10 @@
     justify-content: center;
     align-content: center;
     text-align: center;
+
+    label {
+      margin-bottom: 0.75rem;
+    }
   }
 }
 

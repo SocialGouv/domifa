@@ -6,7 +6,7 @@ import {
   withInterceptorsFromDi,
 } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 import { FullNamePipe, SortArrayPipe } from "../shared/pipes";
 import { SharedModule } from "../shared/shared.module";
@@ -30,7 +30,7 @@ import { DisplayLastLoginComponent } from "src/app/modules/shared/components/dis
   imports: [
     TableHeadSortComponent,
     FormsModule,
-    NgbModule,
+
     UsersModule,
     ReactiveFormsModule,
     SharedModule,

@@ -17,7 +17,6 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { Subscription } from "rxjs";
 import {
@@ -25,11 +24,12 @@ import {
   NoWhiteSpaceValidator,
 } from "../../../../../shared";
 import {
-  minDateToday,
-  minDateNaissance,
-  formatDateToNgb,
-  parseDateFromNgb,
-} from "../../../../../shared/bootstrap-util";
+  MIN_DATE_NAISSANCE,
+  getTodayFr,
+  getTodayIso,
+  formatDateToFr,
+  parseFrDate,
+} from "../../../../../shared";
 
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 
@@ -55,9 +55,9 @@ export class UsagersProfilProcurationCourrierComponent
 
   public procurationsForm!: UntypedFormGroup;
 
-  public minDateToday: NgbDateStruct;
-  public minDateNaissance: NgbDateStruct;
-  public maxDateNaissance: NgbDateStruct;
+  public minDateToday: string;
+  public minDateNaissance: string;
+  public maxDateNaissance: string;
 
   public loading: boolean;
 
@@ -76,9 +76,9 @@ export class UsagersProfilProcurationCourrierComponent
     this.submitted = false;
     this.loading = false;
     this.isFormVisible = false;
-    this.minDateToday = minDateToday;
-    this.minDateNaissance = minDateNaissance;
-    this.maxDateNaissance = minDateToday;
+    this.minDateToday = getTodayFr();
+    this.minDateNaissance = MIN_DATE_NAISSANCE;
+    this.maxDateNaissance = getTodayIso();
     this.procurationToDelete = 0;
   }
 
@@ -142,17 +142,17 @@ export class UsagersProfilProcurationCourrierComponent
           Validators.required,
           NoWhiteSpaceValidator,
         ]),
-        dateFin: new FormControl<NgbDateStruct>(
-          procuration.dateFin ? formatDateToNgb(procuration.dateFin) : null,
+        dateFin: new FormControl<string>(
+          procuration.dateFin ? formatDateToFr(procuration.dateFin) : null,
           [Validators.required]
         ),
-        dateDebut: new FormControl<NgbDateStruct>(
-          procuration.dateDebut ? formatDateToNgb(procuration.dateDebut) : null,
+        dateDebut: new FormControl<string>(
+          procuration.dateDebut ? formatDateToFr(procuration.dateDebut) : null,
           [Validators.required]
         ),
-        dateNaissance: new FormControl<NgbDateStruct>(
+        dateNaissance: new FormControl<string>(
           procuration.dateNaissance
-            ? formatDateToNgb(procuration.dateNaissance)
+            ? formatDateToFr(procuration.dateNaissance)
             : null,
           [Validators.required]
         ),
@@ -179,9 +179,9 @@ export class UsagersProfilProcurationCourrierComponent
         return {
           nom: procuration.nom,
           prenom: procuration.prenom,
-          dateFin: parseDateFromNgb(procuration.dateFin),
-          dateDebut: parseDateFromNgb(procuration.dateDebut),
-          dateNaissance: parseDateFromNgb(procuration.dateNaissance),
+          dateFin: parseFrDate(procuration.dateFin),
+          dateDebut: parseFrDate(procuration.dateDebut),
+          dateNaissance: parseFrDate(procuration.dateNaissance),
         };
       }
     );

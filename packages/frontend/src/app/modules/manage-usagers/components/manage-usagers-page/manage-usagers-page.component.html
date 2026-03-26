@@ -5,7 +5,16 @@
     <div
       class="fr-grid-row fr-text--center justify-content-md-between fr-justify-content-center fr-align-items-center"
     >
-      <h1 class="fr-h3 fr-col-md-2 fr-col-6 title text-start">Domiciliés</h1>
+      <div>
+        <h1 class="fr-h3 fr-m-0 text-start">Domiciliés</h1>
+        <!-- <p aria-live="polite" class="fr-mb-0 fr-text--sm">
+          @if (nbResults) {
+          <span class="fr-text--bold">{{ nbResults }}</span>
+          @if ( filters.statut === UsagersFilterCriteriaStatut.RADIE &&
+          usagersRadiesTotalCount !== usagersRadiesLoadedCount ) { premiers }
+          résultats } @else { Aucun résultat }
+        </p> -->
+      </div>
       <div class="fr-col-md-2 fr-col-6 fr-text--right">
         <a
           *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
@@ -22,7 +31,7 @@
       </div>
     </div>
     <div class="fr-container">
-      <div role="tablist" id="statut-selector" class="mt-3 fr-grid-row">
+      <div role="tablist" id="statut-selector" class="fr-mt-2w fr-grid-row">
         <button
           type="button"
           class="fr-tabs__tab"
@@ -310,7 +319,7 @@
       <div
         class="fr-my-4w fr-alert fr-alert--info fr-flex-wrap fr-text--center justify-content-md-between fr-justify-content-center fr-align-items-center"
       >
-        <p class="me-2">
+        <p class="fr-mr-1w">
           <span class="fr-alert__title">Information:</span>
           {{ usagersRadiesLoadedCount }} /
           {{ usagersCountByStatus.RADIE }} dossiers radiés sont actuellement
@@ -325,7 +334,7 @@
       <div
         class="fr-my-4w fr-alert fr-alert--warning fr-flex-wrap fr-text--center justify-content-md-between fr-justify-content-center fr-align-items-center"
       >
-        <p class="me-2">
+        <p class="fr-mr-1w">
           <span class="fr-alert__title">Aucun résultat :</span>
           aucun dossier ne correspond à votre recherche
         </p>
@@ -333,7 +342,7 @@
         <button
           type="button"
           (click)="resetFilters()"
-          class="fr-btn fr-btn--secondary fr-my-1w my-md-0"
+          class="fr-btn fr-btn--secondary fr-my-1w fr-my-md-0"
         >
           Réinitialiser les filtres
         </button>

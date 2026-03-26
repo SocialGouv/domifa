@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { PlanSiteComponent } from "./plan-site.component";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
@@ -15,7 +15,6 @@ describe("PlanSiteComponent", () => {
     TestBed.configureTestingModule({
       declarations: [PlanSiteComponent],
       imports: [
-        NgbModule,
         RouterModule.forRoot([]),
         StoreModule.forRoot({ app: _usagerReducer }),
       ],

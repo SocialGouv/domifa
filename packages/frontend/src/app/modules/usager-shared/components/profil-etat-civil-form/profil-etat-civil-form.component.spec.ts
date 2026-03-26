@@ -2,7 +2,6 @@ import { CommonModule, APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { PhoneInputComponent } from "../input-phone-international/input-phone-international.component";
 
@@ -23,7 +22,6 @@ describe("ProfilEtatCivilFormComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [ProfilEtatCivilFormComponent],
       imports: [
-        NgbModule,
         CommonModule,
         ReactiveFormsModule,
         FormsModule,

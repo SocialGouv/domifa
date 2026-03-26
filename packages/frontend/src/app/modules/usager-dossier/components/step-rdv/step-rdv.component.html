@@ -72,7 +72,7 @@
         </div>
         } @else {
         <form [formGroup]="rdvForm" (ngSubmit)="submitRdv()">
-          <fieldset class="rdv-form">
+          <fieldset class="fr-fieldset">
             <legend class="fr-h3 fr-my-0">
               Quand souhaitez-vous réaliser l'entretien de {{ usager.prenom }} ?
             </legend>
@@ -181,66 +181,21 @@
                   </div>
 
                   <div class="fr-col-12 fr-col-md-4">
-                    <div
-                      class="fr-input-group required"
-                      [ngClass]="{
-                        'fr-input-group--error':
-                          (submitted || r.jourRdv.dirty) && r.jourRdv.errors
-                      }"
-                      id="input-group-date"
-                    >
-                      <label class="fr-label" for="jourRdv">
-                        Date du rendez-vous
-                      </label>
-                      <div class="fr-date-input">
-                        <input
-                          class="fr-input"
-                          placeholder="jj/mm/aaaa"
-                          [minDate]="minDateToday"
-                          [maxDate]="maxDateRdv"
-                          placement="auto"
-                          id="jourRdv"
-                          ngbDatepicker
-                          appDateFr
-                          formControlName="jourRdv"
-                          name="jourRdv"
-                          #dRdv="ngbDatepicker"
-                          [attr.aria-describedby]="
-                            (submitted || r.jourRdv.dirty) && r.jourRdv.errors
-                              ? 'jourRdv-messages'
-                              : null
-                          "
-                          [attr.aria-invalid]="
-                            (submitted || r.jourRdv.dirty) && r.jourRdv.errors
-                              ? true
-                              : false
-                          "
-                          required
-                        />
-                        <button
-                          type="button"
-                          aria-label="Sélectionner une date de rendez-vous sur le calendrier"
-                          class="date-btn"
-                          (click)="dRdv.toggle()"
-                        >
-                          <i
-                            class="fr-icon-calendar-line"
-                            aria-hidden="true"
-                          ></i>
-                        </button>
-                      </div>
-                      @if ((submitted || r.jourRdv.dirty) && r.jourRdv.errors) {
-                      <div
-                        class="fr-messages-group"
-                        id="jourRdv-messages"
-                        aria-live="polite"
-                      >
-                        <p class="fr-message fr-message--error">
-                          La date est incorrecte
-                        </p>
-                      </div>
-                      }
-                    </div>
+                    <dsfr-ext-datepicker
+                      formControlName="jourRdv"
+                      label="Date du rendez-vous"
+                      [min]="minDateToday"
+                      [max]="maxDateRdv"
+                      [required]="true"
+                      [showMask]="true"
+                      [message]="
+                        (submitted || r.jourRdv.dirty) && r.jourRdv.errors
+                          ? 'La date est incorrecte'
+                          : ''
+                      "
+                      [messageSeverity]="'error'"
+                      (dateChange)="onDateChange($event)"
+                    ></dsfr-ext-datepicker>
                   </div>
 
                   <div class="fr-col-12 fr-col-md-4">

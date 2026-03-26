@@ -3,7 +3,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { StructureEditFormComponent } from "./structure-edit-form.component";
 import { StructureCommonWeb } from "../../classes";
 import { RouterModule } from "@angular/router";
@@ -18,7 +18,6 @@ describe("StructureEditFormComponent", () => {
     TestBed.configureTestingModule({
       declarations: [StructureEditFormComponent],
       imports: [
-        NgbModule,
         ReactiveFormsModule,
         FormsModule,
         RouterModule.forRoot([]),

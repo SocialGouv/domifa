@@ -5,8 +5,6 @@ import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { DeleteUsagerMenuComponent } from "./delete-usager-menu.component";
 import { APP_BASE_HREF } from "@angular/common";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { UsagerFormModel } from "../../interfaces";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
@@ -21,7 +19,7 @@ describe("DeleteUsagerMenuComponent", () => {
     TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
-        NgbModule,
+
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
       schemas: [NO_ERRORS_SCHEMA],

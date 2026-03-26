@@ -11,8 +11,6 @@ import {
 } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { SharedModule } from "../shared/shared.module";
 
 import { PublicStatsComponent } from "./components/public-stats/public-stats.component";
@@ -35,7 +33,7 @@ import { FormatBigNumberPipe } from "./pipes";
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   imports: [
     CommonModule,
-    NgbModule,
+
     NgxChartsModule,
     CountUpModule,
     SharedModule,

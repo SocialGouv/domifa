@@ -2,7 +2,6 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { PhoneInputComponent } from "../../../usager-shared/components/input-phone-international/input-phone-international.component";
 
@@ -28,7 +27,7 @@ describe("StepEtatCivilComponent", () => {
       declarations: [StepEtatCivilComponent],
       imports: [
         RouterModule.forRoot([]),
-        NgbModule,
+
         ReactiveFormsModule,
         FormsModule,
         SharedModule,

@@ -3,8 +3,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks/USAGER_VALIDE.mock";
 import { SharedModule } from "../../../shared/shared.module";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -23,7 +21,6 @@ describe("StepRdvComponent", () => {
     TestBed.configureTestingModule({
       declarations: [StepRdvComponent],
       imports: [
-        NgbModule,
         RouterModule.forRoot([]),
         SharedModule,
         ReactiveFormsModule,

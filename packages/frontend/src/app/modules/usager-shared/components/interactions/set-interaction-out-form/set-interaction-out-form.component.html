@@ -2,12 +2,12 @@
   class="fr-text--left"
   #distributionModal
   titleModal="Distribuer les courriers"
-  size="MD"
+  size="LG"
   (conceal)="cancelReception.emit()"
 >
   @if (usager) {
-  <fieldset>
-    <legend>Que souhaitez-vous distribuer ?</legend>
+  <fieldset class="fr-fieldset">
+    <legend class="fr-fieldset__legend">Que souhaitez-vous distribuer ?</legend>
     <div class="interaction-choices">
       @if (interactionFormData.courrierOut.nbCourrier > 0) {
       <div class="interaction-zone fr-p-1w fr-my-3w fr-mx-md-3w">
@@ -84,8 +84,10 @@
 
   @if (usager.options.procurations.length > 0 || usager.decision.statut ===
   'RADIE') {
-  <fieldset class="fr-my-3w">
-    <legend>A qui est distribué le courrier ?</legend>
+  <fieldset class="fr-fieldset">
+    <legend class="fr-fieldset__legend">
+      A qui est distribué le courrier ?
+    </legend>
 
     @if (usager.decision.statut === 'RADIE') {
     <div class="fr-alert fr-alert--error fr-mb-2w">

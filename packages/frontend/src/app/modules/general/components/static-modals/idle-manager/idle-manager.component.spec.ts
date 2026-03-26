@@ -1,6 +1,5 @@
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { IdleManagerComponent } from "./idle-manager.component";
 import { StoreModule } from "@ngrx/store";
@@ -15,7 +14,6 @@ describe("IdleManagerComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [IdleManagerComponent],
       imports: [
-        NgbModule,
         HttpClientTestingModule,
         DsfrModalComponent,
         StoreModule.forRoot({ app: _usagerReducer }),

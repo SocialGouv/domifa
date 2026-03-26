@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BaseUsagerNotesComponent } from "./base-usager-notes.component";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import {
   USAGER_VALIDE_MOCK,
   USER_STRUCTURE_MOCK,
@@ -20,7 +20,6 @@ describe("BaseUsagerNotesComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [BaseUsagerNotesComponent],
       imports: [
-        NgbModule,
         HttpClientTestingModule,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
