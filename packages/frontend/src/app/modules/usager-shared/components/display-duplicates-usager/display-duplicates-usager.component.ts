@@ -7,6 +7,7 @@ import { Component, Input } from "@angular/core";
   templateUrl: "./display-duplicates-usager.component.html",
   styleUrls: ["./display-duplicates-usager.component.css"],
   animations: [fadeInOut],
+  standalone: false,
 })
 export class DisplayDuplicatesUsagerComponent {
   @Input({ required: true }) public duplicates: UsagerLight[];

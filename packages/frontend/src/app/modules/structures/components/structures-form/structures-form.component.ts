@@ -41,6 +41,7 @@ import { initCreationForm, setupFormSubscriptions } from "../../utils";
   selector: "app-structures-form",
   styleUrls: ["./structures-form.component.css"],
   templateUrl: "./structures-form.component.html",
+  standalone: false,
 })
 export class StructuresFormComponent implements OnInit, OnDestroy {
   public readonly PREFERRED_COUNTRIES: Iso2[] = PREFERRED_COUNTRIES;

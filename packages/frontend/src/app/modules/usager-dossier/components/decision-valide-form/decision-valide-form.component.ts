@@ -71,6 +71,7 @@ const END_DATE_KEYS = [
 @Component({
   selector: "app-decision-valide-form",
   templateUrl: "./decision-valide-form.component.html",
+  standalone: false,
 })
 export class DecisionValideFormComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;

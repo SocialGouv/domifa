@@ -4,7 +4,6 @@ import { RouterModule } from "@angular/router";
 
 @Component({
   selector: "app-alerte-confidentialite",
-  standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: "./alerte-confidentialite.component.html",
 })

@@ -37,6 +37,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
   selector: "app-manage-structure-information-form",
   templateUrl: "./manage-structure-information-form.component.html",
   styleUrls: ["./manage-structure-information-form.component.scss"],
+  standalone: false,
 })
 export class ManageStructureInformationFormComponent implements OnDestroy {
   @ViewChild("editorModal", { static: false })

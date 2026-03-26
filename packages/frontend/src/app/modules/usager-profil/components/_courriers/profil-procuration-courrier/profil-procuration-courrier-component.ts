@@ -40,6 +40,7 @@ import { CustomToastService } from "../../../../shared/services";
 @Component({
   selector: "app-profil-procuration-courrier",
   templateUrl: "./profil-procuration-courrier.html",
+  standalone: false,
 })
 export class UsagersProfilProcurationCourrierComponent
   implements OnInit, OnDestroy

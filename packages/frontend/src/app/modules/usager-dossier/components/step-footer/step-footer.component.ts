@@ -8,6 +8,7 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
   selector: "app-step-footer",
   templateUrl: "./step-footer.component.html",
   styleUrl: "./step-footer.component.scss",
+  standalone: false,
 })
 export class StepFooterComponent {
   @Input({ required: true }) public usager!: UsagerFormModel;

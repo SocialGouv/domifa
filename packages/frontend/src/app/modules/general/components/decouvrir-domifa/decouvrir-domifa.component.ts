@@ -6,6 +6,7 @@ import { MatomoTracker } from "ngx-matomo-client";
   selector: "app-decouvrir-domifa",
   templateUrl: "./decouvrir-domifa.component.html",
   styleUrls: ["./decouvrir-domifa.component.css"],
+  standalone: false,
 })
 export class DecouvrirDomifaComponent {
   public timelineEvent: DsfrTimelineEvent[] = [

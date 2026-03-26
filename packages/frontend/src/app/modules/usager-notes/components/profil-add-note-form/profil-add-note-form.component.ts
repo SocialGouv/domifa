@@ -25,12 +25,13 @@ import { CustomToastService } from "../../../shared/services/custom-toast.servic
   animations: [bounce],
   selector: "app-profil-add-note-form",
   templateUrl: "./profil-add-note-form.component.html",
+  standalone: false,
 })
 export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;
 
   @Output()
-  public readonly cancel = new EventEmitter();
+  public readonly cancelModal = new EventEmitter();
 
   @Output()
   public getUsagerNotes = new EventEmitter();
@@ -103,7 +104,7 @@ export class ProfilAddNoteFormComponent implements OnInit, OnDestroy {
             this.submitted = false;
             this.addNoteForm.reset();
             this.modal.close();
-            this.cancel.emit();
+            this.cancelModal.emit();
             this.getUsagerNotes.emit();
           },
           error: () => {

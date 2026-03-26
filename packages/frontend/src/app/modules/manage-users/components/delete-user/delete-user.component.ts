@@ -8,6 +8,7 @@ import { concatMap, Subscription } from "rxjs";
   selector: "app-delete-user",
   templateUrl: "./delete-user.component.html",
   styleUrls: ["./delete-user.component.css"],
+  standalone: false,
 })
 export class DeleteUserComponent {
   @Input({ required: true }) public selectedUser: UserStructureProfile | null;

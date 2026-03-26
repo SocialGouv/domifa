@@ -11,6 +11,7 @@ import { Title } from "@angular/platform-browser";
     "./impact.component.scss",
     "../public-stats/public-stats.component.scss",
   ],
+  standalone: false,
 })
 export class ImpactComponent {
   public readonly countOptions = {

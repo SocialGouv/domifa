@@ -8,7 +8,6 @@ import { DatePipe } from "@angular/common";
   selector: "app-display-ayants-droits",
   templateUrl: "./display-ayants-droits.component.html",
   imports: [NgbTooltipModule, DatePipe],
-  standalone: true,
 })
 export class DisplayAyantsDroitsComponent {
   public readonly LIEN_PARENTE_LABELS = LIEN_PARENTE_LABELS;

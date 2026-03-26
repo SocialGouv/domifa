@@ -30,6 +30,7 @@ import {
     "./public-stats.component.scss",
     "../elements/stats-charts/stats-charts.component.css",
   ],
+  standalone: false,
 })
 export class PublicStatsComponent implements OnInit, OnDestroy {
   public readonly STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;

@@ -30,7 +30,6 @@ import { Telephone } from "../../../../../_common/model";
 
 @Component({
   selector: "app-phone-input",
-  standalone: true,
   templateUrl: "./input-phone-international.component.html",
   styleUrl: "./input-phone-international.component.scss",
   imports: [

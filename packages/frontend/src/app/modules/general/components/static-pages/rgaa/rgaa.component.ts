@@ -4,7 +4,6 @@ import { RouterModule } from "@angular/router";
 
 @Component({
   selector: "app-rgaa",
-  standalone: true,
   imports: [RouterModule],
   templateUrl: "./rgaa.component.html",
 })

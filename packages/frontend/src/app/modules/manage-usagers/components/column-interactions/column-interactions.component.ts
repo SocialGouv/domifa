@@ -21,6 +21,7 @@ import { SetInteractionOutFormComponent } from "../../../usager-shared/component
   templateUrl: "./column-interactions.component.html",
   styleUrls: ["./column-interactions.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ColumnInteractionsComponent implements OnDestroy {
   @ViewChild("interactionInRef")

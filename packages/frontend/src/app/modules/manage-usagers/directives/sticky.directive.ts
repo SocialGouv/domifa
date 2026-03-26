@@ -11,6 +11,7 @@ import { takeUntil, throttleTime } from "rxjs/operators";
 
 @Directive({
   selector: "[appStickySelectionBar]",
+  standalone: false,
 })
 export class StickySelectionBarDirective implements OnInit, OnDestroy {
   private isSticky = false;

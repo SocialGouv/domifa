@@ -29,6 +29,7 @@ import {
   selector: "app-profil-general-section",
   templateUrl: "./profil-general-section.component.html",
   styleUrls: ["./profil-general-section.component.scss"],
+  standalone: false,
 })
 export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent {
   public interactions: Interaction[];

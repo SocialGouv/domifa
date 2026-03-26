@@ -7,6 +7,7 @@ import DOMIFA_NEWS from "../../../../../assets/files/news.json";
   selector: "app-news",
   styleUrls: ["./news.component.css"],
   templateUrl: "./news.component.html",
+  standalone: false,
 })
 export class NewsComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

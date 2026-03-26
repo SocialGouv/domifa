@@ -8,6 +8,7 @@ import { UserStructure } from "@domifa/common";
   selector: "app-input-referrer",
   templateUrl: "./input-referrer.component.html",
   styleUrls: ["./input-referrer.component.css"],
+  standalone: false,
 })
 export class InputReferrerComponent implements OnInit {
   @Input({ required: true }) public submitted!: boolean;

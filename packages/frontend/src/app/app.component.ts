@@ -27,6 +27,7 @@ import { DsfrModalComponent, DsfrModalAction } from "@edugouvfr/ngx-dsfr";
   selector: "app-root",
   styleUrls: ["./app.component.scss"],
   templateUrl: "./app.component.html",
+  standalone: false,
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   public apiVersion: string | null;

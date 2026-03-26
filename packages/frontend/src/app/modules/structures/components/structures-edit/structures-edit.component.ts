@@ -24,6 +24,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 @Component({
   selector: "app-structures-edit",
   templateUrl: "./structures-edit.component.html",
+  standalone: false,
 })
 export class StructuresEditComponent implements OnInit, OnDestroy {
   public me!: UserStructure | null;

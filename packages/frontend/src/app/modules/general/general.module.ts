@@ -40,6 +40,7 @@ import {
   DsfrModalComponent,
 } from "@edugouvfr/ngx-dsfr";
 import { LoginDropdownComponent } from "./components/navbar/fragments/login-dropdown/login-dropdown.component";
+import { DsfrTimelineComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 @NgModule({
   declarations: [
@@ -65,13 +66,11 @@ import { LoginDropdownComponent } from "./components/navbar/fragments/login-drop
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-
     SharedModule,
     RouterModule.forChild([]),
-
     HomeStatsComponent,
     FaqSectionComponent,
-    DsfrUserMenuComponent,
+    DsfrTimelineComponent,
     DsfrUserMenuComponent,
     DsfrLinkComponent,
     DsfrButtonComponent,

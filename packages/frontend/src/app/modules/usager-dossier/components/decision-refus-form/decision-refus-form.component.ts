@@ -36,6 +36,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 @Component({
   selector: "app-decision-refus-form",
   templateUrl: "./decision-refus-form.component.html",
+  standalone: false,
 })
 export class DecisionRefusFormComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;

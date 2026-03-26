@@ -3,7 +3,6 @@ import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-faq-security",
-  standalone: true,
   imports: [CommonModule],
   templateUrl: "./faq-security.component.html",
 })

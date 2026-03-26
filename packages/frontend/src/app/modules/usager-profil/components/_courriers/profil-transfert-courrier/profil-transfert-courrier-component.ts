@@ -28,6 +28,7 @@ import { UserStructure } from "@domifa/common";
 @Component({
   selector: "app-profil-transfert-courrier",
   templateUrl: "./profil-transfert-courrier.html",
+  standalone: false,
 })
 export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;

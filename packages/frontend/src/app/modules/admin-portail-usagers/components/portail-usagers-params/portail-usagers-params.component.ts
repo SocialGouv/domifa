@@ -11,6 +11,7 @@ import { StructureCommonWeb } from "../../../structures/classes";
   selector: "app-portail-usagers-params",
   templateUrl: "./portail-usagers-params.component.html",
   styleUrls: ["./portail-usagers-params.component.css"],
+  standalone: false,
 })
 export class PortailUsagersParamsComponent implements OnInit, OnDestroy {
   public me!: UserStructure | null;

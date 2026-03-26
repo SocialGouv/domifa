@@ -20,6 +20,7 @@ import { MatomoTracker } from "ngx-matomo-client";
   selector: "app-login-form",
   styleUrls: ["./login-form.component.css"],
   templateUrl: "./login-form.component.html",
+  standalone: false,
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
   public loginForm!: UntypedFormGroup;

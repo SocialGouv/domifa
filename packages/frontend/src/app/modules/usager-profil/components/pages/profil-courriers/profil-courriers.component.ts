@@ -11,6 +11,7 @@ import { UsagerState } from "../../../../../shared";
 @Component({
   selector: "app-profil-courriers",
   templateUrl: "./profil-courriers.component.html",
+  standalone: false,
 })
 export class ProfilCourriersComponent extends BaseUsagerProfilPageComponent {
   constructor(

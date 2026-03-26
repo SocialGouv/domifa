@@ -5,9 +5,9 @@ import { AdminAuthRoutingModule } from "src/app/modules/auth/auth.routing.module
 
 @Component({
   selector: "app-faq-discover",
-  standalone: true,
   imports: [CommonModule, AdminAuthRoutingModule],
   templateUrl: "./faq-discover.component.html",
+  standalone: true,
 })
 export class FaqDiscoverComponent {
   constructor(private readonly seoService: SeoService) {

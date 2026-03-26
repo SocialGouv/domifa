@@ -16,6 +16,7 @@ import { MatomoTracker } from "ngx-matomo-client";
   selector: "app-structures-search",
   styleUrls: ["./structures-search.component.css"],
   templateUrl: "./structures-search.component.html",
+  standalone: false,
 })
 export class StructuresSearchComponent implements OnInit, OnDestroy {
   public structures: StructureCommon[];

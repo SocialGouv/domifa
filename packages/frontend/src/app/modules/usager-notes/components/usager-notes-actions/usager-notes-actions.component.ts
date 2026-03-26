@@ -21,6 +21,7 @@ type ActionType = "DELETE" | "ARCHIVE";
 @Component({
   selector: "app-usager-notes-actions",
   templateUrl: "./usager-notes-actions.component.html",
+  standalone: false,
 })
 export class UsagerNotesActionsComponent implements OnDestroy {
   @Input({ required: true }) note!: UsagerNote;

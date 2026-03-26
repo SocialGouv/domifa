@@ -11,7 +11,6 @@ import { SharedModule } from "../../../../shared/shared.module";
 
 @Component({
   selector: "app-welcome-modal",
-  standalone: true,
   imports: [
     DsfrModalComponent,
     CommonModule,

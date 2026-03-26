@@ -26,6 +26,7 @@ import { UsagerFormModel } from "../../interfaces";
 @Component({
   selector: "app-upload",
   templateUrl: "./upload.component.html",
+  standalone: false,
 })
 export class UploadComponent implements OnInit, OnDestroy {
   public submitted = false;

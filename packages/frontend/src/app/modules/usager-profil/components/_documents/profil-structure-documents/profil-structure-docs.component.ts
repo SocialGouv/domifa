@@ -20,6 +20,7 @@ import {
 @Component({
   selector: "app-profil-structure-docs",
   templateUrl: "./profil-structure-docs.component.html",
+  standalone: false,
 })
 export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;

@@ -34,6 +34,7 @@ import { MatomoTracker } from "ngx-matomo-client";
   animations: [fadeInOut],
   selector: "app-register-user",
   templateUrl: "./register-user.component.html",
+  standalone: false,
 })
 export class RegisterUserComponent implements OnInit, OnDestroy {
   public user: UserStructure;

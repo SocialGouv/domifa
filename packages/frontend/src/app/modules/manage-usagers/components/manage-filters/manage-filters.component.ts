@@ -26,6 +26,7 @@ import { Subscription } from "rxjs";
   selector: "app-manage-filters",
   templateUrl: "./manage-filters.component.html",
   styleUrls: ["../manage-usagers-page/manage-usagers-page.component.scss"],
+  standalone: false,
 })
 export class ManageFiltersComponent implements OnInit, OnChanges {
   @Input({ required: true }) public filters: UsagersFilterCriteria;

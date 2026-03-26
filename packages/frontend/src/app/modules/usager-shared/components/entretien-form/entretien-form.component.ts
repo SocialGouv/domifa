@@ -33,6 +33,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
   selector: "app-entretien-form",
   styleUrls: ["./entretien-form.component.css"],
   templateUrl: "./entretien-form.component.html",
+  standalone: false,
 })
 export class EntretienFormComponent implements OnInit, OnDestroy {
   public readonly ENTRETIEN_LIEN_COMMUNE = ENTRETIEN_LIEN_COMMUNE;

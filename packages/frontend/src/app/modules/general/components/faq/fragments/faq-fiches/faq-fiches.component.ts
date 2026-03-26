@@ -3,7 +3,6 @@ import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-faq-fiches",
-  standalone: true,
   imports: [CommonModule],
   templateUrl: "./faq-fiches.component.html",
 })

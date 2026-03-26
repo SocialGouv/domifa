@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
-@Pipe({ name: "ariaHideEmoji" })
+@Pipe({
+  name: "ariaHideEmoji",
+  standalone: false,
+})
 export class AriaHideEmojiPipe implements PipeTransform {
   private static readonly EMOJI_REGEX =
     /(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu;

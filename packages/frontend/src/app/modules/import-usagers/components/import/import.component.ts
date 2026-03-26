@@ -38,6 +38,7 @@ import { GeneralService } from "../../../general/services/general.service";
   selector: "app-import",
   styleUrls: ["./import.component.css"],
   templateUrl: "./import.component.html",
+  standalone: false,
 })
 export class ImportComponent implements OnInit, OnDestroy {
   public uploadForm!: UntypedFormGroup;

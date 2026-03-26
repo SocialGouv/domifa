@@ -11,7 +11,12 @@
       "Bash(npx ng:*)",
       "Bash(python3:*)",
       "Bash(read f:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:angular.dev)",
+      "Bash(npx:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm remove:*)"
     ]
   }
 }

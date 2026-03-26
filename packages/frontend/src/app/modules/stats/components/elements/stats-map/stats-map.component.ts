@@ -20,6 +20,7 @@ import { STATS_REGIONS_FOR_MAP } from "../../../constants";
     "./stats-map.component.css",
     "../../public-stats/public-stats.component.scss",
   ],
+  standalone: false,
 })
 export class StatsMapComponent {
   // Liste des régions

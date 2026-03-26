@@ -5,6 +5,7 @@ import { LIEN_PARENTE_LABELS } from "@domifa/common";
 @Component({
   selector: "app-display-etat-civil",
   templateUrl: "./display-etat-civil.component.html",
+  standalone: false,
 })
 export class DisplayEtatCivilComponent {
   @Input({ required: true }) public usager!: UsagerFormModel;

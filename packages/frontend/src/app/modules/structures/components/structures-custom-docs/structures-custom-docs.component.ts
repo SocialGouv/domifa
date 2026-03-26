@@ -16,6 +16,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 @Component({
   selector: "app-structures-custom-docs",
   templateUrl: "./structures-custom-docs.component.html",
+  standalone: false,
 })
 export class StructuresCustomDocsComponent implements OnInit, OnDestroy {
   public structureDocs: WithLoading<StructureDoc>[];

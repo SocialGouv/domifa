@@ -8,6 +8,7 @@ import { REGIONS_LISTE, REGIONS_ID_SEO } from "@domifa/common";
   selector: "app-plan-site",
   templateUrl: "./plan-site.component.html",
   styleUrls: ["./plan-site.component.css"],
+  standalone: false,
 })
 export class PlanSiteComponent implements OnInit {
   public readonly REGIONS_LISTE = REGIONS_LISTE;

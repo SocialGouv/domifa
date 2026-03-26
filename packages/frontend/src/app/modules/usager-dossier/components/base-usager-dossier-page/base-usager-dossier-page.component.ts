@@ -19,6 +19,7 @@ import {
 @Component({
   selector: "app-base-usager-dossier-page",
   templateUrl: "./base-usager-dossier-page.component.html",
+  standalone: false,
 })
 export class BaseUsagerDossierPageComponent implements OnInit, OnDestroy {
   public me!: UserStructure | null;

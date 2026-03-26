@@ -42,6 +42,7 @@ import { UsagersFilterCriteria } from "../../classes";
   templateUrl: "./manage-usagers-table.html",
   styleUrls: ["./manage-usagers-table.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   @Input({ required: true })

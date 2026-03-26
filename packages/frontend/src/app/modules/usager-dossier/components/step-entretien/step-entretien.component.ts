@@ -14,6 +14,7 @@ import { UsagerState } from "../../../../shared";
 @Component({
   selector: "app-usager-dossier-step-entretien",
   templateUrl: "./step-entretien.component.html",
+  standalone: false,
 })
 export class StepEntretienComponent
   extends BaseUsagerDossierPageComponent

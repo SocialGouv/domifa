@@ -5,6 +5,7 @@ import { NgControl } from "@angular/forms";
 
 @Directive({
   selector: "[appCleanStr]",
+  standalone: false,
 })
 export class CleanStrDirective {
   constructor(

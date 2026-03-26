@@ -16,6 +16,7 @@ import { selectUsagerById } from "../../../../shared";
 @Component({
   selector: "app-base-usager-notes",
   templateUrl: "./base-usager-notes.component.html",
+  standalone: false,
 })
 export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public me!: UserStructure;

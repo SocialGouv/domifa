@@ -7,6 +7,7 @@ import { UsagerProfilService } from "../../../services/usager-profil.service";
 @Component({
   selector: "app-set-npai",
   templateUrl: "./set-npai.component.html",
+  standalone: false,
 })
 export class SetNpaiComponent implements OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;

@@ -19,6 +19,7 @@ import { EtatCivilParentFormComponent } from "../../../usager-shared/components/
   selector: "app-step-etat-civil",
   styleUrls: ["./step-etat-civil.component.scss"],
   templateUrl: "./step-etat-civil.component.html",
+  standalone: false,
 })
 export class StepEtatCivilComponent
   extends EtatCivilParentFormComponent

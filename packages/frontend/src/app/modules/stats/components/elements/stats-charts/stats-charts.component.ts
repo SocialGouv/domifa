@@ -8,6 +8,7 @@ import { PublicStats, StatsByMonth } from "@domifa/common";
   selector: "app-stats-charts",
   templateUrl: "./stats-charts.component.html",
   styleUrls: ["./stats-charts.component.css"],
+  standalone: false,
 })
 export class StatsChartsComponent implements OnChanges {
   public view: number[] = [700, 400];

@@ -13,6 +13,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
   selector: "app-manage-structure-information",
   templateUrl: "./manage-structure-information.component.html",
   styleUrls: ["./manage-structure-information.component.css"],
+  standalone: false,
 })
 export class ManageStructureInformationComponent implements OnInit {
   @ViewChild("deleteModal") deleteModal!: DsfrModalComponent;

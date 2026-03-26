@@ -17,6 +17,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
   selector: "app-manage-user-usager",
   templateUrl: "./manage-user-usager.component.html",
   styleUrls: ["./manage-user-usager.component.css"],
+  standalone: false,
 })
 export class ManageUserUsagerComponent implements OnInit {
   @ViewChild("activateAllAccountsModal", { static: true })
