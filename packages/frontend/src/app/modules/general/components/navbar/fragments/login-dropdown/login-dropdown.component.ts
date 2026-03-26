@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
 @Component({
   selector: "app-login-dropdown",
   templateUrl: "./login-dropdown.component.html",
+  standalone: false,
 })
 export class LoginDropdownComponent implements OnInit {
   private _me: UserStructure | null = null;

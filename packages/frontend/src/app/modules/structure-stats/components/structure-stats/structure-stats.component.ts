@@ -33,6 +33,7 @@ import { format, startOfMonth, startOfYear, subYears } from "date-fns";
   selector: "app-structure-stats",
   styleUrls: ["./structure-stats.component.scss"],
   templateUrl: "./structure-stats.component.html",
+  standalone: false,
 })
 export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
   public stats: StructureStatsFull | null = null;

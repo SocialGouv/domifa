@@ -3,6 +3,7 @@ import { DateFrDirective } from "../../shared/directives";
 
 @Directive({
   selector: "[appDateFrConditional]",
+  standalone: false,
 })
 export class DateFrConditionalDirective extends DateFrDirective {
   @Input({ required: true }) public appDateFrConditional: boolean = false;

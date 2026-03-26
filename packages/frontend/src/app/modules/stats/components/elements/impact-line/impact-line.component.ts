@@ -6,6 +6,7 @@ import { fadeIn, fadeInOut } from "../../../../../shared";
   selector: "app-impact-line",
   templateUrl: "./impact-line.component.html",
   styleUrls: ["./impact-line.component.scss"],
+  standalone: false,
 })
 export class ImpactLineComponent {
   @Input({ required: true }) public direction!: "horizontal" | "vertical";

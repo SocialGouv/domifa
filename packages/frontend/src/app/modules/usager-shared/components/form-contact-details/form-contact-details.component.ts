@@ -37,6 +37,7 @@ import { UserStructure } from "@domifa/common";
   selector: "app-form-contact-details",
   templateUrl: "./form-contact-details.component.html",
   styleUrls: ["./form-contact-details.component.css"],
+  standalone: false,
 })
 export class FormContactDetailsComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;

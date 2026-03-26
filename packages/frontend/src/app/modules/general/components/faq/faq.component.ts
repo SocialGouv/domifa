@@ -7,6 +7,7 @@ import { ImportDocumentType } from "@domifa/common";
   selector: "app-faq",
   styleUrls: ["./faq.component.scss"],
   templateUrl: "./faq.component.html",
+  standalone: false,
 })
 export class FaqComponent implements OnInit {
   constructor(

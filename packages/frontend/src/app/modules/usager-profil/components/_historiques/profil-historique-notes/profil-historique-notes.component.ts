@@ -11,6 +11,7 @@ import { UsagerState } from "../../../../../shared";
 @Component({
   selector: "app-profil-historique-notes",
   templateUrl: "./profil-historique-notes.component.html",
+  standalone: false,
 })
 export class ProfilHistoriqueNotesComponent extends BaseUsagerNotesComponent {
   @Input({ required: true }) public usager!: UsagerFormModel;

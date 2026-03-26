@@ -11,6 +11,7 @@ import { UsagerState } from "../../../../../shared";
   selector: "app-profil-sms-portail",
   templateUrl: "./profil-sms-portail.component.html",
   styleUrls: ["./profil-sms-portail.component.css"],
+  standalone: false,
 })
 export class ProfilSmsPortailComponent extends BaseUsagerProfilPageComponent {
   public editContactDetails = false;

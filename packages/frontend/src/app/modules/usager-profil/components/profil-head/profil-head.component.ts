@@ -16,6 +16,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
   selector: "app-profil-head",
   templateUrl: "./profil-head.component.html",
   styleUrls: ["./profil-head.component.css"],
+  standalone: false,
 })
 export class ProfilHeadComponent implements OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;

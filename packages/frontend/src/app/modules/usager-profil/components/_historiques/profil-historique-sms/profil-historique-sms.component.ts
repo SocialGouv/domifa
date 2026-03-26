@@ -14,8 +14,8 @@ import { SMS_LABELS } from "../../../constants";
 
 @Component({
   selector: "app-profil-historique-sms",
-
   templateUrl: "./profil-historique-sms.component.html",
+  standalone: false,
 })
 export class ProfilHistoriqueSmsComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;

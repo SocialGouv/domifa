@@ -7,6 +7,7 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
   selector: "app-profil-alerts",
   templateUrl: "./profil-alerts.component.html",
   styleUrls: ["./profil-alerts.component.css"],
+  standalone: false,
 })
 export class ProfilAlertsComponent {
   @Input({ required: true }) public usager!: UsagerFormModel;

@@ -14,6 +14,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 @Component({
   selector: "app-profil-edit-portail-usager-preference",
   templateUrl: "./profil-edit-portail-usager-preference.component.html",
+  standalone: false,
 })
 export class ProfilEditPortailUsagerPreferenceComponent
   implements OnInit, OnDestroy

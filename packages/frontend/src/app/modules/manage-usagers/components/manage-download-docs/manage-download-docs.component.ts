@@ -22,6 +22,7 @@ import {
   templateUrl: "./manage-download-docs.component.html",
   styleUrls: ["./manage-download-docs.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ManageDownloadDocsComponent implements OnDestroy {
   private readonly subscription = new Subscription();

@@ -14,6 +14,7 @@ import { getPersonFullName } from "@domifa/common";
   selector: "app-step-header",
   templateUrl: "./step-header.component.html",
   styleUrls: ["./step-header.component.scss"],
+  standalone: false,
 })
 export class StepHeaderComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;

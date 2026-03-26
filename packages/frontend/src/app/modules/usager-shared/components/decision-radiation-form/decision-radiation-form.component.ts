@@ -31,6 +31,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
   selector: "app-decision-radiation-form",
   styleUrls: ["./decision-radiation-form.component.scss"],
   templateUrl: "./decision-radiation-form.component.html",
+  standalone: false,
 })
 export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
   @Input()

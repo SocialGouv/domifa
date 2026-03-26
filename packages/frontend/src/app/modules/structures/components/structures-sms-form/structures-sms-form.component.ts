@@ -18,6 +18,7 @@ import { NoWhiteSpaceValidator } from "../../../../shared/validators/no-whitespa
   selector: "app-structures-sms-form",
   templateUrl: "./structures-sms-form.component.html",
   styleUrls: ["./structures-sms-form.component.css"],
+  standalone: false,
 })
 export class StructuresSmsFormComponent implements OnInit, OnDestroy {
   public structure!: StructureCommon;

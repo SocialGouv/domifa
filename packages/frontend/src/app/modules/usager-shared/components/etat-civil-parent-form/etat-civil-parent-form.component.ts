@@ -55,6 +55,7 @@ import { LANGUAGES } from "../../utils/languages";
 @Component({
   selector: "app-etat-civil-parent-form",
   templateUrl: "./etat-civil-parent-form.component.html",
+  standalone: false,
 })
 export class EtatCivilParentFormComponent implements OnDestroy {
   public PREFERRED_COUNTRIES: Iso2[] = PREFERRED_COUNTRIES;

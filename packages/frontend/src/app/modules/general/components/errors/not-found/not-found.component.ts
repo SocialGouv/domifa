@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
   selector: "app-not-found",
   styleUrls: ["./not-found.component.css"],
   templateUrl: "./not-found.component.html",
+  standalone: false,
 })
 export class NotFoundComponent implements OnInit {
   constructor(

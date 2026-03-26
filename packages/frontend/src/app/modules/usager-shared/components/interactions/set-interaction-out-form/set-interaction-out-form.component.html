@@ -8,8 +8,9 @@
   @if (usager) {
   <fieldset class="fr-fieldset">
     <legend class="fr-fieldset__legend">Que souhaitez-vous distribuer ?</legend>
+    {{ interactionFormData | json }}
     <div class="interaction-choices">
-      @if (interactionFormData.courrierOut.nbCourrier > 0) {
+      @if (interactionFormData.courrierOut?.nbCourrier > 0) {
       <div class="interaction-zone fr-p-1w fr-my-3w fr-mx-md-3w">
         <div class="interaction-icon-box">
           <div class="interaction-notification">
@@ -32,7 +33,7 @@
           </label>
         </div>
       </div>
-      } @if (interactionFormData.colisOut.nbCourrier > 0) {
+      } @if (interactionFormData.colisOut?.nbCourrier > 0) {
       <div class="interaction-zone fr-p-1w fr-my-3w fr-mx-md-3w">
         <div class="interaction-icon-box">
           <div class="interaction-notification">
@@ -55,7 +56,7 @@
           </label>
         </div>
       </div>
-      } @if (interactionFormData.recommandeOut.nbCourrier > 0) {
+      } @if (interactionFormData.recommandeOut?.nbCourrier > 0) {
       <div class="interaction-zone fr-p-1w fr-my-3w fr-mx-md-3w">
         <div class="interaction-icon-box">
           <div class="interaction-notification">

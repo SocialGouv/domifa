@@ -24,6 +24,7 @@ import { usagerActions, UsagerState } from "../../../../shared";
   styleUrls: ["./delete-usager-menu.component.css"],
   selector: "app-delete-usager-menu",
   templateUrl: "./delete-usager-menu.component.html",
+  standalone: false,
 })
 export class DeleteUsagerMenuComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;

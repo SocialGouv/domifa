@@ -69,6 +69,7 @@ const STORAGE_KEY = "SEARCH";
   selector: "app-manage-usagers-page",
   styleUrls: ["./manage-usagers-page.component.scss"],
   templateUrl: "./manage-usagers-page.component.html",
+  standalone: false,
 })
 export class ManageUsagersPageComponent
   implements OnInit, OnDestroy, AfterViewInit

@@ -11,6 +11,7 @@ import { UsagerState } from "../../../../shared";
   selector: "app-profil-general-notes",
   templateUrl: "./profil-general-notes.component.html",
   styleUrls: ["./profil-general-notes.component.css"],
+  standalone: false,
 })
 export class ProfilGeneralNotesComponent extends BaseUsagerNotesComponent {
   constructor(

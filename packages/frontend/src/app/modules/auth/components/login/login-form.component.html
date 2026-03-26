@@ -1,10 +1,10 @@
-<h1 class="fr-align-self-start fr-h3">Se connecter avec mon compte</h1>
+<h1 class="fr-h3">Se connecter avec mon compte</h1>
 <span class="fr-col-12 fr-col-md-12 fr-text-default--error">
   * champs obligatoires
 </span>
 <form
   [formGroup]="loginForm"
-  class="column fr-display-flex fr-flex-column fr-gap-3w pt-4 pt-md-5 pb-4 pb-md-5"
+  class="fr-display-flex fr-flex-column fr-gap-3w fr-pt-md-4w"
   (ngSubmit)="login()"
 >
   @if (loginError) {

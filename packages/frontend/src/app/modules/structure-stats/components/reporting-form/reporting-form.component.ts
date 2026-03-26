@@ -30,6 +30,7 @@ import { valueInArrayValidator } from "../../../../shared";
   selector: "app-reporting-form",
   templateUrl: "./reporting-form.component.html",
   styleUrls: ["./reporting-form.component.css"],
+  standalone: false,
 })
 export class ReportingFormComponent implements OnInit {
   public structureStatsForm: FormGroup;

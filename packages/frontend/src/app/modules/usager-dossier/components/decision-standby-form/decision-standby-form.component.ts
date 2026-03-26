@@ -28,6 +28,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
   selector: "app-decision-standby-form",
   templateUrl: "./decision-standby-form.component.html",
   styleUrls: ["./decision-standby-form.component.css"],
+  standalone: false,
 })
 export class DecisionStandbyFormComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;

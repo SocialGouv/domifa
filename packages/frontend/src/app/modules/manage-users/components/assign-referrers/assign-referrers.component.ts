@@ -14,6 +14,7 @@ import { UserStructureProfile } from "@domifa/common";
   selector: "app-assign-referrers",
   templateUrl: "./assign-referrers.component.html",
   styleUrls: ["./assign-referrers.component.css"],
+  standalone: false,
 })
 export class AssignReferrersComponent implements OnInit, OnDestroy {
   public nbReferrers: number = 0;

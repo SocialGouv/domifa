@@ -25,6 +25,7 @@ import { AppLanguage } from "../../utils/languages/AppLanguage.type";
 @Component({
   selector: "app-profil-etat-civil-form",
   templateUrl: "./profil-etat-civil-form.component.html",
+  standalone: false,
 })
 export class ProfilEtatCivilFormComponent
   extends EtatCivilParentFormComponent

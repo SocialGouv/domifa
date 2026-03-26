@@ -15,6 +15,7 @@ import { UsagerState } from "../../../../../shared";
 @Component({
   selector: "app-profil-documents-section",
   templateUrl: "./profil-documents-section.component.html",
+  standalone: false,
 })
 export class ProfilDocumentsSectionComponent extends BaseUsagerProfilPageComponent {
   public readonly CerfaDocType = CerfaDocType;

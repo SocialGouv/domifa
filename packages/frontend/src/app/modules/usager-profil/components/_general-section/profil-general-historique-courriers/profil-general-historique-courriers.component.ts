@@ -10,6 +10,7 @@ import { INTERACTION_ICONS } from "../../../../../../_common/model";
   selector: "app-profil-general-historique-courriers",
   templateUrl: "./profil-general-historique-courriers.component.html",
   styleUrls: ["./profil-general-historique-courriers.component.css"],
+  standalone: false,
 })
 export class ProfilGeneralHistoriqueCourriersComponent
   implements OnInit, OnDestroy

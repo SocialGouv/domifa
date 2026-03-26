@@ -2,6 +2,7 @@ import { Directive, ElementRef, HostListener } from "@angular/core";
 
 @Directive({
   selector: "[appDateFr]",
+  standalone: false,
 })
 export class DateFrDirective {
   constructor(private el: ElementRef) {}

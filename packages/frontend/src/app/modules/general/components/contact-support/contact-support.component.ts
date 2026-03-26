@@ -28,11 +28,9 @@ import { PhoneInputComponent } from "../../../usager-shared/components/input-pho
 
 @Component({
   selector: "app-contact-support",
-  standalone: true,
   imports: [
     FormsModule,
     ReactiveFormsModule,
-
     SharedModule,
     RouterModule,
     PhoneInputComponent,

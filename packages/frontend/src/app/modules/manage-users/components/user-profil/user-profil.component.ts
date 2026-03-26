@@ -21,6 +21,7 @@ import { ManageUsersService } from "../../services/manage-users.service";
   selector: "app-user-profil",
   templateUrl: "./user-profil.component.html",
   styleUrls: ["./user-profil.component.css"],
+  standalone: false,
 })
 export class UserProfilComponent implements OnInit, OnDestroy {
   public users: UserStructureProfile[];

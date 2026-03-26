@@ -21,6 +21,7 @@ type ButtonIcon =
   selector: "app-button",
   templateUrl: "./button.component.html",
   styleUrl: "./button.component.scss",
+  standalone: false,
 })
 export class ButtonComponent {
   @Input() loading = false;

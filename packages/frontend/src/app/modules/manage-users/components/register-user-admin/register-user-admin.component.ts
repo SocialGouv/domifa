@@ -31,6 +31,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
   animations: [fadeInOut],
   selector: "app-register-user-admin",
   templateUrl: "./register-user-admin.component.html",
+  standalone: false,
 })
 export class RegisterUserAdminComponent implements OnInit, OnDestroy {
   public user: UserStructure;

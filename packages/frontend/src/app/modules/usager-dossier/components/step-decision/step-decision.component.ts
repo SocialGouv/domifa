@@ -17,6 +17,7 @@ import { UsagerState } from "../../../../shared";
 @Component({
   selector: "app-step-decision",
   templateUrl: "./step-decision.component.html",
+  standalone: false,
 })
 export class StepDecisionComponent
   extends BaseUsagerDossierPageComponent

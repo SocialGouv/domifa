@@ -16,8 +16,8 @@ import {
 @Component({
   selector: "app-profil-historique-courriers",
   templateUrl: "./profil-historique-courriers.component.html",
-
   animations: [fadeIn],
+  standalone: false,
 })
 export class ProfilHistoriqueCourriersComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;

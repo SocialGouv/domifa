@@ -37,6 +37,7 @@ import { initEditionForm, setupFormSubscriptions } from "../../utils";
   selector: "app-structure-edit-form",
   templateUrl: "./structure-edit-form.component.html",
   styleUrls: ["./structure-edit-form.component.css"],
+  standalone: false,
 })
 export class StructureEditFormComponent implements OnInit, OnDestroy {
   public readonly PREFERRED_COUNTRIES: Iso2[] = PREFERRED_COUNTRIES;

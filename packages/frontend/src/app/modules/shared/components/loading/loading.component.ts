@@ -10,7 +10,6 @@ import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
   animations: [fadeInOut],
   selector: "app-loading",
   imports: [DsfrSpinnerComponent],
-  standalone: true,
   styleUrls: ["./loading.component.css"],
   templateUrl: "./loading.component.html",
 })

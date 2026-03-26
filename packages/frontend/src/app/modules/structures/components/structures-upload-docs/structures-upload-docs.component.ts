@@ -22,6 +22,7 @@ import { STRUCTURE_CUSTOM_DOC_LABELS } from "@domifa/common";
 @Component({
   selector: "app-structures-upload-docs",
   templateUrl: "./structures-upload-docs.component.html",
+  standalone: false,
 })
 export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
   public loading = false;
@@ -33,7 +34,7 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
   private readonly subscription = new Subscription();
 
   @Output()
-  public readonly cancel = new EventEmitter<void>();
+  public readonly cancelModal = new EventEmitter<void>();
 
   @Output()
   public readonly getAllStructureDocs = new EventEmitter<void>();
@@ -133,7 +134,7 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
             this.submitted = false;
             this.templateError = null;
             this.uploadForm.reset();
-            this.cancel.emit();
+            this.cancelModal.emit();
             this.getAllStructureDocs.emit();
           }, 500);
         },

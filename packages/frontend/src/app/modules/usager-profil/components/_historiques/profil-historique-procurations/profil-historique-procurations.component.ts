@@ -12,6 +12,7 @@ import {
 @Component({
   selector: "app-profil-historique-procurations",
   templateUrl: "./profil-historique-procurations.component.html",
+  standalone: false,
 })
 export class ProfilHistoriqueProcurationsComponent
   implements OnInit, OnDestroy

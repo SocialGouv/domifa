@@ -42,6 +42,7 @@ import { ManageUsersService } from "../../../manage-users/services/manage-users.
   selector: "app-rdv",
   styleUrls: ["./step-rdv.component.scss"],
   templateUrl: "./step-rdv.component.html",
+  standalone: false,
 })
 export class StepRdvComponent
   extends BaseUsagerDossierPageComponent

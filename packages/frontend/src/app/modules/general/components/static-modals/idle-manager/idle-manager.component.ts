@@ -8,6 +8,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 @Component({
   selector: "app-idle-manager",
   templateUrl: "./idle-manager.component.html",
+  standalone: false,
 })
 export class IdleManagerComponent implements OnInit, OnDestroy {
   @ViewChild("idleModal", { static: false })

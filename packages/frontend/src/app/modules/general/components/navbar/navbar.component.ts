@@ -11,6 +11,7 @@ import { MatomoTracker } from "ngx-matomo-client";
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
   styleUrls: ["./navbar.component.css"],
+  standalone: false,
 })
 export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   public matomoInfo: boolean;

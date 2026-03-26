@@ -7,6 +7,7 @@ import { UsagerFormModel } from "../../interfaces";
   selector: "app-input-nationality",
   templateUrl: "./input-nationality.component.html",
   styleUrls: ["./input-nationality.component.css"],
+  standalone: false,
 })
 export class InputNationalityComponent {
   @Input({ required: true }) public parentFormGroup!: UntypedFormGroup;

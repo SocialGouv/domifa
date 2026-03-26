@@ -10,6 +10,7 @@ import { PasswordValidator } from "../../../users/services";
 @Component({
   selector: "app-user-structure-password-form",
   templateUrl: "./user-structure-password-form.component.html",
+  standalone: false,
 })
 export class UserStructurePasswordFormComponent {
   @Input() public submitted!: boolean;

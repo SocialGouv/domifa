@@ -10,6 +10,7 @@ import { AuthService } from "../../../shared/services";
   selector: "app-home",
   styleUrls: ["./home.component.css"],
   templateUrl: "./home.component.html",
+  standalone: false,
 })
 export class HomeComponent implements OnInit, OnDestroy {
   private readonly subscription = new Subscription();

@@ -26,6 +26,7 @@ export type DocumentPatchForm = Pick<UsagerDoc, "label" | "shared">;
   selector: "app-edit-usager-doc",
   templateUrl: "./edit-usager-doc.component.html",
   styleUrls: ["./edit-usager-doc.component.css"],
+  standalone: false,
 })
 export class EditUsagerDocComponent implements OnInit, OnDestroy {
   public submitted = false;

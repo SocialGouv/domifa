@@ -15,7 +15,6 @@ import { Subscription } from "rxjs";
 @Component({
   selector: "app-app-tour-modal",
   templateUrl: "./app-tour-modal.component.html",
-  standalone: true,
   imports: [DsfrModalComponent],
   styleUrls: ["./app-tour-modal.component.css"],
 })

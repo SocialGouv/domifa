@@ -18,6 +18,7 @@ import slug from "slug";
 @Component({
   selector: "app-display-usager-docs",
   templateUrl: "./display-usager-docs.component.html",
+  standalone: false,
 })
 export class DisplayUsagerDocsComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;

@@ -14,7 +14,6 @@ import { DatePipe, TitleCasePipe } from "@angular/common";
     DatePipe,
     TitleCasePipe,
   ],
-  standalone: true,
 })
 export class ColumnInformationsComponent {
   @Input({ required: true }) public usager!: UsagerFormModel;

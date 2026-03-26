@@ -13,6 +13,7 @@ import {
   selector: "app-form-stepper",
   templateUrl: "./form-stepper.component.html",
   styleUrls: ["./form-stepper.component.scss"],
+  standalone: false,
 })
 export class FormStepperComponent {
   @Input({ required: true }) public usager!: UsagerFormModel;

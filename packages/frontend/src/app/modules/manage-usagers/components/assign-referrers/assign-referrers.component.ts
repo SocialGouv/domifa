@@ -15,6 +15,7 @@ import { UserStructure } from "@domifa/common";
   selector: "app-assign-referrers",
   templateUrl: "./assign-referrers.component.html",
   styleUrls: ["./assign-referrers.component.css"],
+  standalone: false,
 })
 export class AssignReferrersComponent {
   private readonly subscription = new Subscription();

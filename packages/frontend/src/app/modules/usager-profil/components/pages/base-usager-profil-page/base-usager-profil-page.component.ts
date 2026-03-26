@@ -14,6 +14,7 @@ import { ProfilHeadSection } from "../../../ProfilHeadSection.Type";
 @Component({
   selector: "app-base-usager-profil-page",
   templateUrl: "./base-usager-profil-page.component.html",
+  standalone: false,
 })
 export class BaseUsagerProfilPageComponent implements OnInit, OnDestroy {
   public me!: UserStructure | null;
