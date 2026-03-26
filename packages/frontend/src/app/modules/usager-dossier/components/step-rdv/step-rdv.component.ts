@@ -8,7 +8,6 @@ import {
   Validators,
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 
 import { UsagerLight } from "../../../../../_common/model";
 import { DocumentService } from "../../../usager-shared/services/document.service";
@@ -22,21 +21,18 @@ import {
 } from "date-fns";
 import {
   fadeInOut,
-  minDateToday,
   NoWhiteSpaceValidator,
   selectUsagerById,
   UsagerState,
+  getTodayIso,
+  getMaxDateIso,
 } from "../../../../shared";
 
 import { Title } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
 import { BaseUsagerDossierPageComponent } from "../base-usager-dossier-page/base-usager-dossier-page.component";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
-import {
-  NgbDateCustomParserFormatter,
-  AuthService,
-  CustomToastService,
-} from "../../../shared/services";
+import { AuthService, CustomToastService } from "../../../shared/services";
 import { CerfaDocType, Usager, UserStructureProfile } from "@domifa/common";
 import { RdvForm } from "../../types";
 import { ManageUsersService } from "../../../manage-users/services/manage-users.service";
@@ -55,9 +51,10 @@ export class StepRdvComponent
   public editRdv: boolean;
   public users: UserStructureProfile[] = [];
   public rdvIsToday: boolean;
-  public dToday = new Date();
-  public minDateToday: NgbDateStruct;
-  public maxDateRdv: NgbDateStruct;
+  public minDateToday: string;
+  public maxDateRdv: string;
+
+  private selectedDate: Date | undefined;
 
   constructor(
     public authService: AuthService,
@@ -69,7 +66,6 @@ export class StepRdvComponent
     public store: Store<UsagerState>,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly documentService: DocumentService,
-    private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly manageUsersService: ManageUsersService
   ) {
     super(
@@ -85,12 +81,8 @@ export class StepRdvComponent
     this.loading = false;
     this.editRdv = false;
     this.rdvIsToday = false;
-    this.maxDateRdv = {
-      day: this.dToday.getDate(),
-      month: this.dToday.getMonth() + 1,
-      year: this.dToday.getFullYear() + 2,
-    };
-    this.minDateToday = minDateToday;
+    this.maxDateRdv = getMaxDateIso(2);
+    this.minDateToday = getTodayIso();
   }
 
   public ngOnInit(): void {
@@ -148,30 +140,6 @@ export class StepRdvComponent
       ],
     });
 
-    this.subscription.add(
-      this.rdvForm.controls.jourRdv.valueChanges.subscribe(
-        (value: NgbDateStruct) => {
-          let isValueToday = false;
-          if (!this.r.jourRdv.invalid) {
-            const jourRdv = new Date(this.nbgDate.formatEn(value));
-
-            if (differenceInCalendarDays(jourRdv, new Date()) === 0) {
-              isValueToday = true;
-
-              this.rdvForm.controls.heureRdv.setValue(
-                format(addMinutes(new Date(), 1), "HH:mm"),
-                {
-                  onlySelf: true,
-                }
-              );
-            }
-          }
-          this.rdvIsToday = isValueToday;
-          this.rdvForm.controls.heureRdv.updateValueAndValidity();
-        }
-      )
-    );
-
     this.rdvForm.controls.jourRdv.setValue(this.usager.rdv.jourRdv);
     this.editRdv = this.usager.rdv.userId === null;
 
@@ -180,6 +148,25 @@ export class StepRdvComponent
     this.rdvForm.controls.userId.setValue(userIdRdv, {
       onlySelf: true,
     });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public onDateChange(event: any): void {
+    this.selectedDate = event.date;
+
+    if (event.date) {
+      const isToday = differenceInCalendarDays(event.date, new Date()) === 0;
+
+      if (isToday) {
+        this.rdvForm.controls.heureRdv.setValue(
+          format(addMinutes(new Date(), 1), "HH:mm"),
+          { onlySelf: true }
+        );
+      }
+
+      this.rdvIsToday = isToday;
+      this.rdvForm.controls.heureRdv.updateValueAndValidity();
+    }
   }
 
   public setValueRdv(value: boolean): void {
@@ -232,10 +219,11 @@ export class StepRdvComponent
     this.loading = true;
 
     const heureRdv = this.rdvForm.controls.heureRdv.value.split(":");
-    const jourRdv = this.nbgDate.formatEn(this.rdvForm.controls.jourRdv.value);
+    const baseDate =
+      this.selectedDate || new Date(this.rdvForm.controls.jourRdv.value);
 
     const dateRdv: Date = setMinutes(
-      setHours(new Date(jourRdv), heureRdv[0]),
+      setHours(baseDate, heureRdv[0]),
       heureRdv[1]
     );
 

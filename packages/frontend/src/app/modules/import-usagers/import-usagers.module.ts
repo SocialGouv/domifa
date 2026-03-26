@@ -6,7 +6,7 @@ import {
   withInterceptorsFromDi,
 } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { SharedModule } from "../shared/shared.module";
 import { UsagerSharedModule } from "../usager-shared/usager-shared.module";
 import { UsersModule } from "../users/users.module";
@@ -18,7 +18,7 @@ import { ImportUsagersRoutingModule } from "./import-usagers-routing.module";
     CommonModule,
     FormsModule,
     UsagerSharedModule,
-    NgbModule,
+
     ReactiveFormsModule,
     SharedModule,
     UsersModule,

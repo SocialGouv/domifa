@@ -6,11 +6,6 @@ import {
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-import {
-  NgbDateParserFormatter,
-  NgbDatepickerI18n,
-  NgbModule,
-} from "@ng-bootstrap/ng-bootstrap";
 
 import { SharedModule } from "../shared/shared.module";
 import { UsagerSharedModule } from "../usager-shared/usager-shared.module";
@@ -35,10 +30,6 @@ import { ProfilHistoriqueTransfertsComponent } from "./components/_historiques/p
 import { ProfilHistoriqueDecisionsComponent } from "./components/_historiques/profil-historique-decisions/profil-historique-decisions.component";
 import { ProfilHistoriqueNotesComponent } from "./components/_historiques/profil-historique-notes/profil-historique-notes.component";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
-import {
-  NgbDateCustomParserFormatter,
-  CustomDatepickerI18n,
-} from "../shared/services";
 import { ProfilHistoriqueLoginPortailComponent } from "./components/_historiques/profil-historique-login-portail/profil-historique-login-portail.component";
 import { SetNpaiComponent } from "./components/_general-section/set-npai/set-npai.component";
 import { ProfilAlertsComponent } from "./components/profil-alerts/profil-alerts.component";
@@ -50,6 +41,11 @@ import { DisplayTableImageComponent } from "../shared/components/display-table-i
 
 import { FullNamePipe } from "../usager-shared/pipes";
 import { DsfrModalComponent, DsfrPaginationModule } from "@edugouvfr/ngx-dsfr";
+import {
+  DsfrDatePickerComponent,
+  DsfrAutocompleteComponent,
+} from "@edugouvfr/ngx-dsfr-ext";
+import { DisplayAyantsDroitsComponent } from "../usager-shared/components/display-ayants-droits/display-ayants-droits.component";
 
 @NgModule({
   declarations: [
@@ -80,10 +76,11 @@ import { DsfrModalComponent, DsfrPaginationModule } from "@edugouvfr/ngx-dsfr";
   imports: [
     CommonModule,
     DisplayTableImageComponent,
-
+    DisplayAyantsDroitsComponent,
     FormatInternationalPhoneNumberPipe,
     FormsModule,
-    NgbModule,
+    DsfrDatePickerComponent,
+    DsfrAutocompleteComponent,
     ReactiveFormsModule,
     RouterModule,
     SharedModule,
@@ -96,11 +93,6 @@ import { DsfrModalComponent, DsfrPaginationModule } from "@edugouvfr/ngx-dsfr";
     DsfrModalComponent,
     DsfrPaginationModule,
   ],
-  providers: [
-    NgbDateCustomParserFormatter,
-    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
-    provideHttpClient(withInterceptorsFromDi()),
-  ],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
 })
 export class UsagerProfilModule {}

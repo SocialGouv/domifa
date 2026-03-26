@@ -6,12 +6,6 @@ import {
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-import {
-  NgbDateParserFormatter,
-  NgbDatepickerI18n,
-  NgbModule,
-} from "@ng-bootstrap/ng-bootstrap";
-
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { DeleteUsagerMenuComponent } from "./components/delete-usager-menu/delete-usager-menu.component";
@@ -26,32 +20,32 @@ import { DisplayUsagerDocsComponent } from "./components/display-usager-docs/dis
 import { EtatCivilParentFormComponent } from "./components/etat-civil-parent-form/etat-civil-parent-form.component";
 import { DisplayDuplicatesUsagerComponent } from "./components/display-duplicates-usager/display-duplicates-usager.component";
 import { DecisionRadiationFormComponent } from "./components/decision-radiation-form/decision-radiation-form.component";
-import {
-  NgbDateCustomParserFormatter,
-  CustomDatepickerI18n,
-} from "../shared/services";
-import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits/display-ayants-droits.component";
 import { FormContactDetailsComponent } from "./components/form-contact-details/form-contact-details.component";
 import { InputNationalityComponent } from "./components/input-nationality/input-nationality.component";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
-import { SortArrayPipe } from "../shared/pipes";
+import { SafeHtmlPipe, SortArrayPipe } from "../shared/pipes";
 import { DisplayTableImageComponent } from "../shared/components/display-table-image/display-table-image.component";
 import { FullNamePipe } from "./pipes";
 import { EditUsagerDocComponent } from "./components/edit-usager-doc/edit-usager-doc.component";
 import { ReferrerNamePipe } from "./pipes/referrer-name.pipe";
-import { DsfrProgressBarComponent } from "@edugouvfr/ngx-dsfr-ext";
+import { LanguageLabelPipe } from "./pipes/language-label.pipe";
+import {
+  DsfrAutocompleteComponent,
+  DsfrDatePickerComponent,
+  DsfrProgressBarComponent,
+} from "@edugouvfr/ngx-dsfr-ext";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { DisplayEtatCivilComponent } from "./components/display-etat-civil/display-etat-civil.component";
 import { DisplayContactDetailsComponent } from "./components/display-contact-details/display-contact-details.component";
 import { FormatInternationalPhoneNumberPipe } from "../../shared/phone";
 import { PhoneInputComponent } from "./components/input-phone-international/input-phone-international.component";
 import { LoadingComponent } from "../shared/components/loading/loading.component";
+import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits/display-ayants-droits.component";
 
 @NgModule({
   declarations: [
     DecisionRadiationFormComponent,
     DeleteUsagerMenuComponent,
-    DisplayAyantsDroitsComponent,
     DisplayDuplicatesUsagerComponent,
     DisplayEntretienComponent,
     DisplayUsagerDocsComponent,
@@ -66,14 +60,16 @@ import { LoadingComponent } from "../shared/components/loading/loading.component
     UploadComponent,
     EditUsagerDocComponent,
     ReferrerNamePipe,
+    LanguageLabelPipe,
     DisplayContactDetailsComponent,
     DisplayEtatCivilComponent,
   ],
   exports: [
     DecisionRadiationFormComponent,
     ReferrerNamePipe,
+    LanguageLabelPipe,
     DeleteUsagerMenuComponent,
-    DisplayAyantsDroitsComponent,
+
     DisplayDuplicatesUsagerComponent,
     DisplayEntretienComponent,
     DisplayUsagerDocsComponent,
@@ -94,11 +90,14 @@ import { LoadingComponent } from "../shared/components/loading/loading.component
     CommonModule,
     DisplayTableImageComponent,
     FormsModule,
-    NgbModule,
+    SafeHtmlPipe,
     ReactiveFormsModule,
+    DsfrDatePickerComponent,
+    DsfrAutocompleteComponent,
     RouterModule.forChild([]),
     SharedModule,
     SortArrayPipe,
+    DisplayAyantsDroitsComponent,
     TableHeadSortComponent,
     FullNamePipe,
     UsersModule,
@@ -107,11 +106,6 @@ import { LoadingComponent } from "../shared/components/loading/loading.component
     FormatInternationalPhoneNumberPipe,
     PhoneInputComponent,
   ],
-  providers: [
-    NgbDateCustomParserFormatter,
-    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
-    provideHttpClient(withInterceptorsFromDi()),
-  ],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
 })
 export class UsagerSharedModule {}

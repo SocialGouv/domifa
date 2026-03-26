@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { StructuresEditComponent } from "./structures-edit.component";
 import { StoreModule } from "@ngrx/store";
@@ -20,7 +19,6 @@ describe("StructuresEditComponent", () => {
     TestBed.configureTestingModule({
       declarations: [StructuresEditComponent],
       imports: [
-        NgbModule,
         ReactiveFormsModule,
         FormsModule,
         RouterModule.forRoot([]),

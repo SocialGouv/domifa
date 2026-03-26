@@ -9,17 +9,6 @@
     <div
       class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-grid-row--bottom"
     >
-      <div class="fr-col-auto">
-        <p aria-live="polite" class="fr-mb-0 fr-text--sm">
-          @if (nbResults) {
-          <span class="fr-text--bold">{{ nbResults }}</span>
-          @if ( filters.statut === UsagersFilterCriteriaStatut.RADIE &&
-          usagersRadiesTotalCount !== usagersRadiesLoadedCount ) { premiers }
-          résultats } @else { Aucun résultat }
-        </p>
-      </div>
-
-      <!-- Dernier passage (TOUS ou VALIDE) -->
       @if ( filters.statut === UsagersFilterCriteriaStatut.TOUS ||
       filters.statut === UsagersFilterCriteriaStatut.VALIDE ) {
       <div class="fr-col-auto">

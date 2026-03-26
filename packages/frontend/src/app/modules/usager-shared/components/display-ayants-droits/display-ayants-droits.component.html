@@ -1,14 +1,12 @@
+@if (usager.ayantsDroits.length > 0) {
 <button
   #tooltipAyantsDroit="ngbTooltip"
   [ngbTooltip]="ayantsDroitsInfos"
   class="fr-tag fr-tag--green-emeraude fr-tag--sm"
-  *ngIf="usager.ayantsDroits.length > 0"
   type="button"
 >
-  <span *ngIf="usager.ayantsDroits.length > 1">
-    {{ usager.ayantsDroits.length }} ayants droit
-  </span>
-  <span *ngIf="usager.ayantsDroits.length === 1">1 ayant droit</span>
+  @if (usager.ayantsDroits.length > 1) {
+  {{ usager.ayantsDroits.length }} ayants droit } @else { 1 ayant droit }
 </button>
 
 <ng-template #ayantsDroitsInfos class="fr-p-4w">
@@ -18,13 +16,15 @@
     [ngbTooltip]="ayantsDroitsInfos"
   >
     <ul>
-      <li class="fr-p-1w" *ngFor="let ayantDroit of usager.ayantsDroits">
+      @for (ayantDroit of usager.ayantsDroits; track ayantDroit.nom) {
+      <li class="fr-p-1w">
         <strong class="text-primary">{{ ayantDroit.nom }}</strong>
         {{ ayantDroit.prenom }}, né(e) le
-        {{ ayantDroit.dateNaissance | date : "dd MMMM yyyy" }} ({{
-          LIEN_PARENTE_LABELS[ayantDroit.lien]
-        }})
+        {{ ayantDroit.dateNaissance | date : "dd MMMM yyyy" }}
+        ({{ LIEN_PARENTE_LABELS[ayantDroit.lien] }})
       </li>
+      }
     </ul>
   </div>
 </ng-template>
+}

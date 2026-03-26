@@ -1,7 +1,6 @@
-export const LANGUAGES: Array<{
-  isoCode: string;
-  label: string;
-}> = [
+import { AppLanguage } from "./AppLanguage.type";
+
+export const LANGUAGES: Array<AppLanguage> = [
   { isoCode: "aa", label: "Afar" },
   { isoCode: "ab", label: "Abkhaze" },
   { isoCode: "af", label: "Afrikaans" },
@@ -176,6 +175,6 @@ export const LANGUAGES: Array<{
   { isoCode: "zu", label: "Zoulou" },
 ];
 
-export const LANGUAGES_MAP = Object.fromEntries(
+export const LANGUAGES_MAP: { [key: string]: AppLanguage } = Object.fromEntries(
   LANGUAGES.map((l) => [l.isoCode, l])
 );

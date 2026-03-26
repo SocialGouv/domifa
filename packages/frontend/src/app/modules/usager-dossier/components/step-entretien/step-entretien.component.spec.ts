@@ -3,8 +3,6 @@ import { APP_BASE_HREF } from "@angular/common";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { StepEntretienComponent } from "./step-entretien.component";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
@@ -21,7 +19,7 @@ describe("StepEntretienComponent", () => {
       schemas: [NO_ERRORS_SCHEMA],
       imports: [
         RouterModule.forRoot([]),
-        NgbModule,
+
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
       declarations: [StepEntretienComponent],

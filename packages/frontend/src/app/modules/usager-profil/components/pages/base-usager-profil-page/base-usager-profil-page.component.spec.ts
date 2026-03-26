@@ -2,7 +2,6 @@ import { CommonModule, APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { BaseUsagerProfilPageComponent } from "./base-usager-profil-page.component";
 import { StoreModule } from "@ngrx/store";
@@ -18,7 +17,6 @@ describe("BaseUsagerProfilPageComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [BaseUsagerProfilPageComponent],
       imports: [
-        NgbModule,
         CommonModule,
         ReactiveFormsModule,
         FormsModule,

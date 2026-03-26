@@ -240,7 +240,7 @@
       Informations sur l'agrément
     </h2>
 
-    <fieldset class="fr-my-2w">
+    <fieldset class="fr-fieldset">
       <legend class="fr-sr-only">
         Informations sur l'agrément de votre organisme
       </legend>
@@ -487,161 +487,155 @@
 
     <p>Il s'agit du nom qui apparaîtra sur le Cerfa.</p>
 
-    <fieldset class="fr-my-2w">
-      <legend class="fr-sr-only">
-        Informations sur le / la responsable de la structure
-      </legend>
-
+    <div
+      class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle"
+      formGroupName="responsable"
+    >
+      <!-- Nom -->
       <div
-        class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle"
-        formGroupName="responsable"
+        [class.fr-input-group--error]="
+          (submitted || f.responsable.get('nom')?.dirty) &&
+          f.responsable.get('nom')?.errors
+        "
+        class="fr-col-12 fr-col-md-4 fr-input-group fr-input-group--required"
       >
-        <!-- Nom -->
-        <div
-          [class.fr-input-group--error]="
+        <label class="fr-label" for="responsable-nom">Nom</label>
+        <input
+          type="text"
+          class="fr-input"
+          [class.fr-input--error]="
             (submitted || f.responsable.get('nom')?.dirty) &&
             f.responsable.get('nom')?.errors
           "
-          class="fr-col-12 fr-col-md-4 fr-input-group fr-input-group--required"
+          id="responsable-nom"
+          formControlName="nom"
+          name="nom"
+          autocomplete="family-name"
+          aria-describedby="responsable-nom-messages"
+          [attr.aria-invalid]="
+            (submitted || f.responsable.get('nom')?.dirty) &&
+            f.responsable.get('nom')?.errors
+              ? true
+              : null
+          "
+          required
+        />
+        @if ((submitted || f.responsable.get('nom')?.dirty) &&
+        f.responsable.get('nom')?.errors) {
+        <ul
+          class="fr-messages-group__list fr-pl-0"
+          id="responsable-nom-messages"
+          role="alert"
+          aria-live="polite"
         >
-          <label class="fr-label" for="responsable-nom">Nom</label>
-          <input
-            type="text"
-            class="fr-input"
-            [class.fr-input--error]="
-              (submitted || f.responsable.get('nom')?.dirty) &&
-              f.responsable.get('nom')?.errors
-            "
-            id="responsable-nom"
-            formControlName="nom"
-            name="nom"
-            autocomplete="family-name"
-            aria-describedby="responsable-nom-messages"
-            [attr.aria-invalid]="
-              (submitted || f.responsable.get('nom')?.dirty) &&
-              f.responsable.get('nom')?.errors
-                ? true
-                : null
-            "
-            required
-          />
-          @if ((submitted || f.responsable.get('nom')?.dirty) &&
-          f.responsable.get('nom')?.errors) {
-          <ul
-            class="fr-messages-group__list fr-pl-0"
-            id="responsable-nom-messages"
-            role="alert"
-            aria-live="polite"
-          >
-            <li class="fr-message fr-message--error fr-mt-0">
-              Le nom du responsable est obligatoire
-            </li>
-          </ul>
-          }
-        </div>
+          <li class="fr-message fr-message--error fr-mt-0">
+            Le nom du responsable est obligatoire
+          </li>
+        </ul>
+        }
+      </div>
 
-        <!-- Prénom -->
-        <div
-          [class.fr-input-group--error]="
+      <!-- Prénom -->
+      <div
+        [class.fr-input-group--error]="
+          (submitted || f.responsable.get('prenom')?.dirty) &&
+          f.responsable.get('prenom')?.errors
+        "
+        class="fr-col-12 fr-col-md-4 fr-input-group fr-input-group--required"
+      >
+        <label class="fr-label" for="responsable-prenom">Prénom(s)</label>
+        <input
+          type="text"
+          class="fr-input"
+          [class.fr-input--error]="
             (submitted || f.responsable.get('prenom')?.dirty) &&
             f.responsable.get('prenom')?.errors
           "
-          class="fr-col-12 fr-col-md-4 fr-input-group fr-input-group--required"
+          id="responsable-prenom"
+          formControlName="prenom"
+          name="prenom"
+          autocomplete="given-name"
+          aria-describedby="responsable-prenom-messages"
+          [attr.aria-invalid]="
+            (submitted || f.responsable.get('prenom')?.dirty) &&
+            f.responsable.get('prenom')?.errors
+              ? true
+              : null
+          "
+          required
+        />
+        @if ((submitted || f.responsable.get('prenom')?.dirty) &&
+        f.responsable.get('prenom')?.errors) {
+        <ul
+          class="fr-messages-group__list fr-pl-0"
+          id="responsable-prenom-messages"
+          role="alert"
+          aria-live="polite"
         >
-          <label class="fr-label" for="responsable-prenom">Prénom(s)</label>
-          <input
-            type="text"
-            class="fr-input"
-            [class.fr-input--error]="
-              (submitted || f.responsable.get('prenom')?.dirty) &&
-              f.responsable.get('prenom')?.errors
-            "
-            id="responsable-prenom"
-            formControlName="prenom"
-            name="prenom"
-            autocomplete="given-name"
-            aria-describedby="responsable-prenom-messages"
-            [attr.aria-invalid]="
-              (submitted || f.responsable.get('prenom')?.dirty) &&
-              f.responsable.get('prenom')?.errors
-                ? true
-                : null
-            "
-            required
-          />
-          @if ((submitted || f.responsable.get('prenom')?.dirty) &&
-          f.responsable.get('prenom')?.errors) {
-          <ul
-            class="fr-messages-group__list fr-pl-0"
-            id="responsable-prenom-messages"
-            role="alert"
-            aria-live="polite"
-          >
-            <li class="fr-message fr-message--error fr-mt-0">
-              Le prénom du responsable est obligatoire
-            </li>
-          </ul>
-          }
-        </div>
+          <li class="fr-message fr-message--error fr-mt-0">
+            Le prénom du responsable est obligatoire
+          </li>
+        </ul>
+        }
+      </div>
 
-        <!-- Fonction -->
-        <div
-          [class.fr-input-group--error]="
+      <!-- Fonction -->
+      <div
+        [class.fr-input-group--error]="
+          (submitted || f.responsable.get('fonction')?.dirty) &&
+          f.responsable.get('fonction')?.errors
+        "
+        class="fr-col-12 fr-col-md-4 fr-input-group fr-input-group--required"
+      >
+        <label class="fr-label" for="fonction">Fonction</label>
+        <input
+          type="text"
+          class="fr-input"
+          [class.fr-input--error]="
             (submitted || f.responsable.get('fonction')?.dirty) &&
             f.responsable.get('fonction')?.errors
           "
-          class="fr-col-12 fr-col-md-4 fr-input-group fr-input-group--required"
-        >
-          <label class="fr-label" for="fonction">Fonction</label>
-          <input
-            type="text"
-            class="fr-input"
-            [class.fr-input--error]="
-              (submitted || f.responsable.get('fonction')?.dirty) &&
-              f.responsable.get('fonction')?.errors
-            "
-            id="fonction"
-            formControlName="fonction"
-            name="fonction"
-            autocomplete="organization-title"
-            [attr.aria-invalid]="
-              (submitted || f.responsable.get('fonction')?.dirty) &&
-              f.responsable.get('fonction')?.errors
-                ? true
-                : null
-            "
-            [attr.aria-describedby]="
-              (submitted || f.responsable.get('fonction')?.dirty) &&
-              f.responsable.get('fonction')?.errors
-                ? 'responsable-fonction-errors'
-                : 'responsable-fonction-description'
-            "
-            required
-          />
-          <div class="fr-messages-group">
-            <ul class="fr-messages-group__list fr-pl-0">
-              @if (!((submitted || f.responsable.get('fonction')?.dirty) &&
-              f.responsable.get('fonction')?.errors)) {
-              <li
-                id="responsable-fonction-description"
-                class="fr-message fr-message--info fr-mt-0"
-              >
-                Président.e, Directrice, etc.
-              </li>
-              } @if ((submitted || f.responsable.get('fonction')?.dirty) &&
-              f.responsable.get('fonction')?.errors) {
-              <li
-                id="responsable-fonction-errors"
-                class="fr-message fr-message--error fr-mt-0"
-              >
-                La fonction du responsable est obligatoire
-              </li>
-              }
-            </ul>
-          </div>
+          id="fonction"
+          formControlName="fonction"
+          name="fonction"
+          autocomplete="organization-title"
+          [attr.aria-invalid]="
+            (submitted || f.responsable.get('fonction')?.dirty) &&
+            f.responsable.get('fonction')?.errors
+              ? true
+              : null
+          "
+          [attr.aria-describedby]="
+            (submitted || f.responsable.get('fonction')?.dirty) &&
+            f.responsable.get('fonction')?.errors
+              ? 'responsable-fonction-errors'
+              : 'responsable-fonction-description'
+          "
+          required
+        />
+        <div class="fr-messages-group">
+          <ul class="fr-messages-group__list fr-pl-0">
+            @if (!((submitted || f.responsable.get('fonction')?.dirty) &&
+            f.responsable.get('fonction')?.errors)) {
+            <li
+              id="responsable-fonction-description"
+              class="fr-message fr-message--info fr-mt-0"
+            >
+              Président.e, Directrice, etc.
+            </li>
+            } @if ((submitted || f.responsable.get('fonction')?.dirty) &&
+            f.responsable.get('fonction')?.errors) {
+            <li
+              id="responsable-fonction-errors"
+              class="fr-message fr-message--error fr-mt-0"
+            >
+              La fonction du responsable est obligatoire
+            </li>
+            }
+          </ul>
         </div>
       </div>
-    </fieldset>
+    </div>
   </section>
 
   <hr />
@@ -657,177 +651,167 @@
 
     <p class="fr-text--bold">Cette adresse apparaîtra sur le Cerfa.</p>
 
-    <fieldset class="fr-my-2w">
-      <legend class="fr-sr-only">Adresse complète de la structure</legend>
-
-      <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
-        <!-- Adresse -->
-        <div class="fr-col-12">
-          <div
-            class="fr-input-group"
-            [class.fr-input-group--error]="
+    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+      <!-- Adresse -->
+      <div class="fr-col-12">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
+            (f.adresse.dirty || submitted) && f.adresse.errors
+          "
+        >
+          <label class="fr-label" for="adresse">
+            Adresse de l'organisme domiciliataire
+          </label>
+          <input
+            type="text"
+            class="fr-input"
+            [class.fr-input--error]="
               (f.adresse.dirty || submitted) && f.adresse.errors
             "
-          >
-            <label class="fr-label" for="adresse">
-              Adresse de l'organisme domiciliataire
-            </label>
-            <input
-              type="text"
-              class="fr-input"
-              [class.fr-input--error]="
-                (f.adresse.dirty || submitted) && f.adresse.errors
-              "
-              id="adresse"
-              formControlName="adresse"
-              name="adresse"
-              maxlength="400"
-              autocomplete="street-address"
-              aria-describedby="adresse-messages"
-              [attr.aria-invalid]="
-                (f.adresse.dirty || submitted) && f.adresse.errors ? true : null
-              "
-              required
-            />
-            <div
-              class="fr-messages-group"
-              id="adresse-messages"
-              aria-live="polite"
-            >
-              @if (submitted && f.adresse.errors) {
-              <p class="fr-message fr-message--error">
-                L'adresse est obligatoire
-              </p>
-              }
-            </div>
-          </div>
-        </div>
-
-        <!-- Complément d'adresse -->
-        <div class="fr-col-12">
-          <div
-            class="fr-input-group"
-            [class.fr-input-group--error]="
-              (f.complementAdresse.dirty || submitted) &&
-              f.complementAdresse.errors
+            id="adresse"
+            formControlName="adresse"
+            name="adresse"
+            maxlength="400"
+            autocomplete="street-address"
+            aria-describedby="adresse-messages"
+            [attr.aria-invalid]="
+              (f.adresse.dirty || submitted) && f.adresse.errors ? true : null
             "
-          >
-            <label class="fr-label" for="complementAdresse">
-              Complément d'adresse
-            </label>
-            <p class="fr-hint-text">Lieu-dit, Bâtiment, étage, etc.</p>
-            <input
-              type="text"
-              class="fr-input"
-              [class.fr-input--error]="
-                (f.complementAdresse.dirty || submitted) &&
-                f.complementAdresse.errors
-              "
-              id="complementAdresse"
-              formControlName="complementAdresse"
-              name="complementAdresse"
-              aria-describedby="complementAdresse-messages"
-              [attr.aria-invalid]="
-                (f.complementAdresse.dirty || submitted) &&
-                f.complementAdresse.errors
-                  ? true
-                  : null
-              "
-            />
-            <div
-              class="fr-messages-group"
-              id="complementAdresse-messages"
-              aria-live="polite"
-            >
-              @if (submitted && f.complementAdresse.errors) {
-              <p class="fr-message fr-message--error">
-                Veuillez vérifier le complément d'adresse
-              </p>
-              }
-            </div>
-          </div>
-        </div>
-
-        <!-- Code postal -->
-        <div class="fr-col-12 fr-col-md-6">
+            required
+          />
           <div
-            class="fr-input-group"
-            [class.fr-input-group--error]="
-              (f.codePostal.dirty || submitted) && f.codePostal.errors
-            "
+            class="fr-messages-group"
+            id="adresse-messages"
+            aria-live="polite"
           >
-            <label class="fr-label" for="codePostal">Code postal</label>
-            <input
-              type="text"
-              class="fr-input"
-              [class.fr-input--error]="
-                (f.codePostal.dirty || submitted) && f.codePostal.errors
-              "
-              id="codePostal"
-              maxlength="5"
-              formControlName="codePostal"
-              name="codePostal"
-              aria-describedby="codePostal-messages"
-              [attr.aria-invalid]="
-                (f.codePostal.dirty || submitted) && f.codePostal.errors
-                  ? true
-                  : null
-              "
-              required
-            />
-            <div
-              class="fr-messages-group"
-              id="codePostal-messages"
-              aria-live="polite"
-            >
-              @if (f.codePostal.errors) {
-              <p class="fr-message fr-message--error">
-                Le code postal est obligatoire (Exemple&nbsp;: 75001)
-              </p>
-              }
-            </div>
-          </div>
-        </div>
-
-        <!-- Ville -->
-        <div class="fr-col-12 fr-col-md-6">
-          <div
-            class="fr-input-group"
-            [class.fr-input-group--error]="
-              (f.ville.dirty || submitted) && f.ville.errors
-            "
-          >
-            <label class="fr-label" for="ville">Ville</label>
-            <input
-              type="text"
-              class="fr-input"
-              [class.fr-input--error]="
-                (f.ville.dirty || submitted) && f.ville.errors
-              "
-              id="ville"
-              formControlName="ville"
-              name="ville"
-              aria-describedby="ville-messages"
-              [attr.aria-invalid]="
-                (f.ville.dirty || submitted) && f.ville.errors ? true : null
-              "
-              required
-            />
-            <div
-              class="fr-messages-group"
-              id="ville-messages"
-              aria-live="polite"
-            >
-              @if ((f.ville.dirty || submitted) && f.ville.errors) {
-              <p class="fr-message fr-message--error">
-                La ville est obligatoire
-              </p>
-              }
-            </div>
+            @if (submitted && f.adresse.errors) {
+            <p class="fr-message fr-message--error">
+              L'adresse est obligatoire
+            </p>
+            }
           </div>
         </div>
       </div>
-    </fieldset>
+
+      <!-- Complément d'adresse -->
+      <div class="fr-col-12">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
+            (f.complementAdresse.dirty || submitted) &&
+            f.complementAdresse.errors
+          "
+        >
+          <label class="fr-label" for="complementAdresse">
+            Complément d'adresse
+          </label>
+          <p class="fr-hint-text">Lieu-dit, Bâtiment, étage, etc.</p>
+          <input
+            type="text"
+            class="fr-input"
+            [class.fr-input--error]="
+              (f.complementAdresse.dirty || submitted) &&
+              f.complementAdresse.errors
+            "
+            id="complementAdresse"
+            formControlName="complementAdresse"
+            name="complementAdresse"
+            aria-describedby="complementAdresse-messages"
+            [attr.aria-invalid]="
+              (f.complementAdresse.dirty || submitted) &&
+              f.complementAdresse.errors
+                ? true
+                : null
+            "
+          />
+          <div
+            class="fr-messages-group"
+            id="complementAdresse-messages"
+            aria-live="polite"
+          >
+            @if (submitted && f.complementAdresse.errors) {
+            <p class="fr-message fr-message--error">
+              Veuillez vérifier le complément d'adresse
+            </p>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Code postal -->
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
+            (f.codePostal.dirty || submitted) && f.codePostal.errors
+          "
+        >
+          <label class="fr-label" for="codePostal">Code postal</label>
+          <input
+            type="text"
+            class="fr-input"
+            [class.fr-input--error]="
+              (f.codePostal.dirty || submitted) && f.codePostal.errors
+            "
+            id="codePostal"
+            maxlength="5"
+            formControlName="codePostal"
+            name="codePostal"
+            aria-describedby="codePostal-messages"
+            [attr.aria-invalid]="
+              (f.codePostal.dirty || submitted) && f.codePostal.errors
+                ? true
+                : null
+            "
+            required
+          />
+          <div
+            class="fr-messages-group"
+            id="codePostal-messages"
+            aria-live="polite"
+          >
+            @if (f.codePostal.errors) {
+            <p class="fr-message fr-message--error">
+              Le code postal est obligatoire (Exemple&nbsp;: 75001)
+            </p>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Ville -->
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
+            (f.ville.dirty || submitted) && f.ville.errors
+          "
+        >
+          <label class="fr-label" for="ville">Ville</label>
+          <input
+            type="text"
+            class="fr-input"
+            [class.fr-input--error]="
+              (f.ville.dirty || submitted) && f.ville.errors
+            "
+            id="ville"
+            formControlName="ville"
+            name="ville"
+            aria-describedby="ville-messages"
+            [attr.aria-invalid]="
+              (f.ville.dirty || submitted) && f.ville.errors ? true : null
+            "
+            required
+          />
+          <div class="fr-messages-group" id="ville-messages" aria-live="polite">
+            @if ((f.ville.dirty || submitted) && f.ville.errors) {
+            <p class="fr-message fr-message--error">La ville est obligatoire</p>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Adresse courrier différente -->
     <div formGroupName="adresseCourrier">
@@ -854,7 +838,7 @@
       </div>
 
       @if (f.adresseCourrier.get('actif')?.value === true) {
-      <fieldset class="fr-fieldset fr-my-2w">
+      <fieldset class="fr-fieldset">
         <legend class="fr-sr-only">
           Informations sur l'adresse de réception du courrier
         </legend>
@@ -1016,7 +1000,7 @@
       Contact
     </h2>
 
-    <fieldset class="fr-my-2w">
+    <fieldset class="fr-fieldset">
       <legend class="fr-sr-only">
         Informations de contact de la structure
       </legend>
@@ -1093,60 +1077,54 @@
       Informations administratives
     </h2>
 
-    <fieldset class="fr-my-2w">
-      <legend class="fr-sr-only">
-        Informations administratives de la structure
-      </legend>
-
-      <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
-        <div class="fr-col-12 fr-col-md-6">
-          <div
-            class="fr-input-group"
-            [class.fr-input-group--error]="
+    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
+            (submitted || f.siret?.dirty) && f.siret?.errors
+          "
+        >
+          <label class="fr-label" for="siret">Numéro SIRET</label>
+          <input
+            type="text"
+            class="fr-input"
+            [class.fr-input--error]="
               (submitted || f.siret?.dirty) && f.siret?.errors
             "
-          >
-            <label class="fr-label" for="siret">Numéro SIRET</label>
-            <input
-              type="text"
-              class="fr-input"
-              [class.fr-input--error]="
-                (submitted || f.siret?.dirty) && f.siret?.errors
-              "
-              id="siret"
-              formControlName="siret"
-              name="siret"
-              placeholder="12345678901234"
-              maxlength="14"
-              pattern="[0-9]{14}"
-              appDigitOnly
-              required
-              aria-describedby="siret-messages"
-              [attr.aria-invalid]="
-                (submitted || f.siret?.dirty) && f.siret?.errors ? true : null
-              "
-            />
-            <ul class="fr-messages-group__list fr-pl-0">
-              <li
-                id="siret-description"
-                class="fr-message fr-message--info fr-mt-0"
-              >
-                14 chiffres (Optionnel)
-              </li>
-              @if ((submitted || f.siret?.dirty) && f.siret?.errors) { @if
-              (f.siret?.errors?.['invalidSiret']) {
-              <li
-                id="siret-messages"
-                class="fr-message fr-message--error fr-mt-0"
-              >
-                Le format du numéro de SIRET est incorrect
-              </li>
-              } }
-            </ul>
-          </div>
+            id="siret"
+            formControlName="siret"
+            name="siret"
+            placeholder="12345678901234"
+            maxlength="14"
+            pattern="[0-9]{14}"
+            appDigitOnly
+            required
+            aria-describedby="siret-messages"
+            [attr.aria-invalid]="
+              (submitted || f.siret?.dirty) && f.siret?.errors ? true : null
+            "
+          />
+          <ul class="fr-messages-group__list fr-pl-0">
+            <li
+              id="siret-description"
+              class="fr-message fr-message--info fr-mt-0"
+            >
+              14 chiffres (Optionnel)
+            </li>
+            @if ((submitted || f.siret?.dirty) && f.siret?.errors) { @if
+            (f.siret?.errors?.['invalidSiret']) {
+            <li
+              id="siret-messages"
+              class="fr-message fr-message--error fr-mt-0"
+            >
+              Le format du numéro de SIRET est incorrect
+            </li>
+            } }
+          </ul>
         </div>
       </div>
-    </fieldset>
+    </div>
   </section>
 
   <hr />
@@ -1166,302 +1144,292 @@
 
     <p>Ces informations nous aident à mieux comprendre vos besoins.</p>
 
-    <fieldset class="fr-my-2w" formGroupName="registrationData">
-      <legend class="fr-sr-only">
-        Données d'inscription et informations sur l'activité
-      </legend>
-
-      <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
-        <div class="fr-col-12 fr-col-md-6">
-          <div
-            class="fr-select-group"
-            [class.fr-select-group--error]="
+    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-select-group"
+          [class.fr-select-group--error]="
+            (submitted || reg.source?.dirty) && reg.source?.errors
+          "
+        >
+          <label class="fr-label" for="source">
+            Comment avez-vous entendu parler de DomiFa&nbsp;?
+          </label>
+          <select
+            class="fr-select"
+            id="source"
+            formControlName="source"
+            name="source"
+            aria-describedby="source-messages"
+            [attr.aria-invalid]="
               (submitted || reg.source?.dirty) && reg.source?.errors
+                ? true
+                : null
             "
+            required
           >
-            <label class="fr-label" for="source">
-              Comment avez-vous entendu parler de DomiFa&nbsp;?
-            </label>
-            <select
-              class="fr-select"
-              id="source"
-              formControlName="source"
-              name="source"
-              aria-describedby="source-messages"
-              [attr.aria-invalid]="
-                (submitted || reg.source?.dirty) && reg.source?.errors
-                  ? true
-                  : null
-              "
-              required
-            >
-              <option [ngValue]="null" selected disabled hidden>
-                Sélectionnez une option
-              </option>
-              @for (option of SOURCES_OPTIONS; track option.value) {
-              <option [value]="option.value">{{ option.label }}</option>
-              }
-            </select>
-            <div
-              class="fr-messages-group"
-              id="source-messages"
-              aria-live="polite"
-            >
-              @if ((submitted || reg.source?.dirty) && reg.source?.errors) {
-              <p class="fr-message fr-message--error">
-                Veuillez sélectionner une option
-              </p>
-              }
-            </div>
-          </div>
-        </div>
-
-        <!-- Source détail -->
-        @if (showsourceDetail) {
-        <div class="fr-col-12 fr-col-md-6">
+            <option [ngValue]="null" selected disabled hidden>
+              Sélectionnez une option
+            </option>
+            @for (option of SOURCES_OPTIONS; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
           <div
-            class="fr-input-group"
-            [class.fr-input-group--error]="
-              (submitted || reg.sourceDetail?.dirty) && reg.sourceDetail?.errors
-            "
+            class="fr-messages-group"
+            id="source-messages"
+            aria-live="polite"
           >
-            <label class="fr-label" for="sourceDetail"> Précisez&nbsp;: </label>
-            <input
-              type="text"
-              class="fr-input"
-              [class.fr-input--error]="
-                (submitted || reg.sourceDetail?.dirty) &&
-                reg.sourceDetail?.errors
-              "
-              id="sourceDetail"
-              formControlName="sourceDetail"
-              aria-describedby="sourceDetail-messages"
-              [attr.aria-invalid]="
-                (submitted || reg.sourceDetail?.dirty) &&
-                reg.sourceDetail?.errors
-                  ? true
-                  : null
-              "
-              required
-            />
-            <div
-              class="fr-messages-group"
-              id="sourceDetail-messages"
-              aria-live="polite"
-            >
-              @if ((submitted || reg.sourceDetail?.dirty) &&
-              reg.sourceDetail?.errors) {
-              <p class="fr-message fr-message--error">Ce champ est requis</p>
-              }
-            </div>
+            @if ((submitted || reg.source?.dirty) && reg.source?.errors) {
+            <p class="fr-message fr-message--error">
+              Veuillez sélectionner une option
+            </p>
+            }
           </div>
         </div>
-        }
       </div>
 
-      <!-- DSP (conditionnel : asso uniquement) -->
-      @if (f.structureType.value === 'asso') {
-      <div class="fr-grid-row fr-grid-row--gutters fr-mt-2w">
-        <div class="fr-col-12">
-          <fieldset
-            class="fr-fieldset"
-            [class.fr-fieldset--error]="
-              (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+      <!-- Source détail -->
+      @if (showsourceDetail) {
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
+            (submitted || reg.sourceDetail?.dirty) && reg.sourceDetail?.errors
+          "
+        >
+          <label class="fr-label" for="sourceDetail"> Précisez&nbsp;: </label>
+          <input
+            type="text"
+            class="fr-input"
+            [class.fr-input--error]="
+              (submitted || reg.sourceDetail?.dirty) && reg.sourceDetail?.errors
             "
-            aria-labelledby="dsp-legend dsp-messages"
+            id="sourceDetail"
+            formControlName="sourceDetail"
+            aria-describedby="sourceDetail-messages"
+            [attr.aria-invalid]="
+              (submitted || reg.sourceDetail?.dirty) && reg.sourceDetail?.errors
+                ? true
+                : null
+            "
+            required
+          />
+          <div
+            class="fr-messages-group"
+            id="sourceDetail-messages"
+            aria-live="polite"
           >
-            <legend
-              class="fr-fieldset__legend--regular fr-fieldset__legend"
-              id="dsp-legend"
-            >
-              Exercez-vous une délégation de Service Public ? (Gestion de
-              l'activité de domiciliation pour le compte d'une autre structure
-              ex: CCAS, CIAS)
-            </legend>
+            @if ((submitted || reg.sourceDetail?.dirty) &&
+            reg.sourceDetail?.errors) {
+            <p class="fr-message fr-message--error">Ce champ est requis</p>
+            }
+          </div>
+        </div>
+      </div>
+      }
+    </div>
 
-            <div class="fr-fieldset__element fr-fieldset__element--inline">
-              <div class="fr-radio-group">
-                <input
-                  type="radio"
-                  id="dsp-oui"
-                  formControlName="dsp"
-                  name="dsp"
-                  [value]="true"
-                />
-                <label class="fr-label" for="dsp-oui">Oui</label>
-              </div>
-            </div>
+    <!-- DSP (conditionnel : asso uniquement) -->
+    @if (f.structureType.value === 'asso') {
+    <div class="fr-grid-row fr-grid-row--gutters fr-mt-2w">
+      <div class="fr-col-12">
+        <fieldset
+          class="fr-fieldset"
+          [class.fr-fieldset--error]="
+            (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+          "
+          aria-labelledby="dsp-legend dsp-messages"
+        >
+          <legend
+            class="fr-fieldset__legend--regular fr-fieldset__legend"
+            id="dsp-legend"
+          >
+            Exercez-vous une délégation de Service Public ? (Gestion de
+            l'activité de domiciliation pour le compte d'une autre structure ex:
+            CCAS, CIAS)
+          </legend>
 
-            <div class="fr-fieldset__element fr-fieldset__element--inline">
-              <div class="fr-radio-group">
-                <input
-                  type="radio"
-                  id="dsp-non"
-                  formControlName="dsp"
-                  name="dsp"
-                  [value]="false"
-                />
-                <label class="fr-label" for="dsp-non">Non</label>
-              </div>
+          <div class="fr-fieldset__element fr-fieldset__element--inline">
+            <div class="fr-radio-group">
+              <input
+                type="radio"
+                id="dsp-oui"
+                formControlName="dsp"
+                name="dsp"
+                [value]="true"
+              />
+              <label class="fr-label" for="dsp-oui">Oui</label>
             </div>
+          </div>
 
-            <div class="fr-messages-group" id="dsp-messages" aria-live="polite">
-              @if ((submitted || reg.dsp?.dirty) && reg.dsp?.errors) {
-              <p class="fr-message fr-message--error">Ce champ est requis</p>
-              }
+          <div class="fr-fieldset__element fr-fieldset__element--inline">
+            <div class="fr-radio-group">
+              <input
+                type="radio"
+                id="dsp-non"
+                formControlName="dsp"
+                name="dsp"
+                [value]="false"
+              />
+              <label class="fr-label" for="dsp-non">Non</label>
             </div>
-          </fieldset>
+          </div>
+
+          <div class="fr-messages-group" id="dsp-messages" aria-live="polite">
+            @if ((submitted || reg.dsp?.dirty) && reg.dsp?.errors) {
+            <p class="fr-message fr-message--error">Ce champ est requis</p>
+            }
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    }
+
+    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-mt-2w">
+      <!-- Outil actuel -->
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-select-group"
+          [class.fr-select-group--error]="
+            (submitted || reg.currentTool?.dirty) && reg.currentTool?.errors
+          "
+        >
+          <label class="fr-label" for="currentTool">
+            Comment gériez-vous la domiciliation avant la mise en place de
+            DomiFa ?
+          </label>
+          <select
+            class="fr-select"
+            id="currentTool"
+            formControlName="currentTool"
+            name="currentTool"
+            aria-describedby="currentTool-messages"
+            [attr.aria-invalid]="
+              (submitted || reg.currentTool?.dirty) && reg.currentTool?.errors
+                ? true
+                : null
+            "
+            required
+          >
+            <option [ngValue]="null" selected disabled hidden>
+              Sélectionnez une option
+            </option>
+            @for (option of CURRENT_TOOL_OPTIONS; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
+          <div
+            class="fr-messages-group"
+            id="currentTool-messages"
+            aria-live="polite"
+          >
+            @if ((submitted || reg.currentTool?.dirty) &&
+            reg.currentTool?.errors) {
+            <p class="fr-message fr-message--error">
+              Veuillez sélectionner une option
+            </p>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Outil du marché -->
+      @if (reg.currentTool?.value === 'OUTIL_MARCHE') {
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-select-group"
+          [class.fr-select-group--error]="
+            (submitted || reg.marketTool?.dirty) && reg.marketTool?.errors
+          "
+        >
+          <label class="fr-label" for="marketTool">
+            Quel outil du marché utilisez-vous&nbsp;?
+          </label>
+          <select
+            class="fr-select"
+            id="marketTool"
+            formControlName="marketTool"
+            name="marketTool"
+            aria-describedby="marketTool-messages"
+            [attr.aria-invalid]="
+              (submitted || reg.marketTool?.dirty) && reg.marketTool?.errors
+                ? true
+                : null
+            "
+            required
+          >
+            <option [ngValue]="null" selected disabled hidden>
+              Sélectionnez une option
+            </option>
+            @for (option of MARKET_TOOLS_OPTIONS; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
+          <div
+            class="fr-messages-group"
+            id="marketTool-messages"
+            aria-live="polite"
+          >
+            @if ((submitted || reg.marketTool?.dirty) && reg.marketTool?.errors)
+            {
+            <p class="fr-message fr-message--error">
+              Veuillez sélectionner une option
+            </p>
+            }
+          </div>
         </div>
       </div>
       }
 
-      <div
-        class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-mt-2w"
-      >
-        <!-- Outil actuel -->
-        <div class="fr-col-12 fr-col-md-6">
-          <div
-            class="fr-select-group"
-            [class.fr-select-group--error]="
-              (submitted || reg.currentTool?.dirty) && reg.currentTool?.errors
-            "
-          >
-            <label class="fr-label" for="currentTool">
-              Comment gériez-vous la domiciliation avant la mise en place de
-              DomiFa ?
-            </label>
-            <select
-              class="fr-select"
-              id="currentTool"
-              formControlName="currentTool"
-              name="currentTool"
-              aria-describedby="currentTool-messages"
-              [attr.aria-invalid]="
-                (submitted || reg.currentTool?.dirty) && reg.currentTool?.errors
-                  ? true
-                  : null
-              "
-              required
-            >
-              <option [ngValue]="null" selected disabled hidden>
-                Sélectionnez une option
-              </option>
-              @for (option of CURRENT_TOOL_OPTIONS; track option.value) {
-              <option [value]="option.value">{{ option.label }}</option>
-              }
-            </select>
-            <div
-              class="fr-messages-group"
-              id="currentTool-messages"
-              aria-live="polite"
-            >
-              @if ((submitted || reg.currentTool?.dirty) &&
-              reg.currentTool?.errors) {
-              <p class="fr-message fr-message--error">
-                Veuillez sélectionner une option
-              </p>
-              }
-            </div>
-          </div>
-        </div>
-
-        <!-- Outil du marché -->
-        @if (reg.currentTool?.value === 'OUTIL_MARCHE') {
-        <div class="fr-col-12 fr-col-md-6">
-          <div
-            class="fr-select-group"
-            [class.fr-select-group--error]="
-              (submitted || reg.marketTool?.dirty) && reg.marketTool?.errors
-            "
-          >
-            <label class="fr-label" for="marketTool">
-              Quel outil du marché utilisez-vous&nbsp;?
-            </label>
-            <select
-              class="fr-select"
-              id="marketTool"
-              formControlName="marketTool"
-              name="marketTool"
-              aria-describedby="marketTool-messages"
-              [attr.aria-invalid]="
-                (submitted || reg.marketTool?.dirty) && reg.marketTool?.errors
-                  ? true
-                  : null
-              "
-              required
-            >
-              <option [ngValue]="null" selected disabled hidden>
-                Sélectionnez une option
-              </option>
-              @for (option of MARKET_TOOLS_OPTIONS; track option.value) {
-              <option [value]="option.value">{{ option.label }}</option>
-              }
-            </select>
-            <div
-              class="fr-messages-group"
-              id="marketTool-messages"
-              aria-live="polite"
-            >
-              @if ((submitted || reg.marketTool?.dirty) &&
-              reg.marketTool?.errors) {
-              <p class="fr-message fr-message--error">
-                Veuillez sélectionner une option
-              </p>
-              }
-            </div>
-          </div>
-        </div>
-        }
-
-        <!-- Outil du marché : autre -->
-        @if (reg.currentTool?.value === 'OUTIL_MARCHE' && reg.marketTool?.value
-        === 'AUTRE') {
-        <div class="fr-col-12 fr-col-md-6">
-          <div
-            class="fr-input-group"
-            [class.fr-input-group--error]="
+      <!-- Outil du marché : autre -->
+      @if (reg.currentTool?.value === 'OUTIL_MARCHE' && reg.marketTool?.value
+      === 'AUTRE') {
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
+            (submitted || reg.marketToolOther?.dirty) &&
+            reg.marketToolOther?.errors
+          "
+        >
+          <label class="fr-label" for="marketToolOther">
+            Précisez l'outil&nbsp;:
+          </label>
+          <input
+            type="text"
+            class="fr-input"
+            [class.fr-input--error]="
               (submitted || reg.marketToolOther?.dirty) &&
               reg.marketToolOther?.errors
             "
+            id="marketToolOther"
+            formControlName="marketToolOther"
+            name="marketToolOther"
+            placeholder="Nom de l'outil"
+            aria-describedby="marketToolOther-messages"
+            [attr.aria-invalid]="
+              (submitted || reg.marketToolOther?.dirty) &&
+              reg.marketToolOther?.errors
+                ? true
+                : null
+            "
+            required
+          />
+          <div
+            class="fr-messages-group"
+            id="marketToolOther-messages"
+            aria-live="polite"
           >
-            <label class="fr-label" for="marketToolOther">
-              Précisez l'outil&nbsp;:
-            </label>
-            <input
-              type="text"
-              class="fr-input"
-              [class.fr-input--error]="
-                (submitted || reg.marketToolOther?.dirty) &&
-                reg.marketToolOther?.errors
-              "
-              id="marketToolOther"
-              formControlName="marketToolOther"
-              name="marketToolOther"
-              placeholder="Nom de l'outil"
-              aria-describedby="marketToolOther-messages"
-              [attr.aria-invalid]="
-                (submitted || reg.marketToolOther?.dirty) &&
-                reg.marketToolOther?.errors
-                  ? true
-                  : null
-              "
-              required
-            />
-            <div
-              class="fr-messages-group"
-              id="marketToolOther-messages"
-              aria-live="polite"
-            >
-              @if ((submitted || reg.marketToolOther?.dirty) &&
-              reg.marketToolOther?.errors) {
-              <p class="fr-message fr-message--error">Ce champ est requis</p>
-              }
-            </div>
+            @if ((submitted || reg.marketToolOther?.dirty) &&
+            reg.marketToolOther?.errors) {
+            <p class="fr-message fr-message--error">Ce champ est requis</p>
+            }
           </div>
         </div>
-        }
       </div>
-    </fieldset>
+      }
+    </div>
   </section>
 
   <!-- ====================================================== -->

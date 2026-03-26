@@ -2,7 +2,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { MATOMO_INJECTORS, _usagerReducer } from "../../../../shared";
 
 import { SharedModule } from "../../../shared/shared.module";
@@ -23,7 +23,7 @@ describe("StepDecisionComponent", () => {
       imports: [
         FormsModule,
         RouterModule.forRoot([]),
-        NgbModule,
+
         ReactiveFormsModule,
         SharedModule,
         StoreModule.forRoot({ app: _usagerReducer }),

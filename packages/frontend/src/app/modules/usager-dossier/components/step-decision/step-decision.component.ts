@@ -1,10 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 
 import { ActivatedRoute, Router } from "@angular/router";
-import {
-  NgbDateParserFormatter,
-  NgbDatepickerI18n,
-} from "@ng-bootstrap/ng-bootstrap";
 
 import { MatomoTracker } from "ngx-matomo-client";
 
@@ -14,20 +10,11 @@ import { UsagerDossierService } from "../../services/usager-dossier.service";
 import { BaseUsagerDossierPageComponent } from "../base-usager-dossier-page/base-usager-dossier-page.component";
 import { Title } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
-import {
-  NgbDateCustomParserFormatter,
-  CustomDatepickerI18n,
-  AuthService,
-  CustomToastService,
-} from "../../../shared/services";
+import { AuthService, CustomToastService } from "../../../shared/services";
 import { CerfaDocType } from "@domifa/common";
 import { UsagerState } from "../../../../shared";
 
 @Component({
-  providers: [
-    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
-  ],
   selector: "app-step-decision",
   templateUrl: "./step-decision.component.html",
 })

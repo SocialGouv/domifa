@@ -6,7 +6,7 @@ import { provideHttpClient } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { MATOMO_INJECTORS } from "../../../../../../shared";
 
 describe("FaqSecurityComponent", () => {
@@ -17,7 +17,7 @@ describe("FaqSecurityComponent", () => {
     await TestBed.configureTestingModule({
       imports: [
         FaqSecurityComponent,
-        NgbModule,
+
         ReactiveFormsModule,
         FormsModule,
         RouterModule.forRoot([]),

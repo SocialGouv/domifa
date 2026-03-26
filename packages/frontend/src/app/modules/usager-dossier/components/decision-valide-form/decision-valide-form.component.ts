@@ -11,11 +11,12 @@ import {
   AbstractControl,
   UntypedFormBuilder,
   UntypedFormGroup,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from "@angular/forms";
 import { Router } from "@angular/router";
-import { NgbDate, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
-import { isBefore } from "date-fns";
+import { format, isAfter, isBefore } from "date-fns";
 
 import { Subject, Subscription } from "rxjs";
 import { debounceTime, exhaustMap } from "rxjs/operators";
@@ -24,19 +25,48 @@ import {
   UsagerDecisionValideForm,
 } from "../../../../../_common/model";
 import {
-  formatDateToNgb,
+  FR_DATE_FORMAT,
   getNextYear,
   getToday,
-  getTodayNgb,
-  parseDateFromNgb,
+  parseFrDate,
+  formatDateToIso,
+  parseDateFromIso,
 } from "../../../../shared";
 import { Decision, UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
-import {
-  NgbDateCustomParserFormatter,
-  CustomToastService,
-} from "../../../shared/services";
+import { CustomToastService } from "../../../shared/services";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+
+const DATE_ERROR_MESSAGES: Record<string, string> = {
+  START_DATE_EMPTY: "La date de début est obligatoire",
+  START_DATE_INVALID: "La date de début est incorrecte, exemple: 20/12/1996",
+  START_DATE_TOO_LOW:
+    "La date de début est antérieure à la date minimale autorisée",
+  START_DATE_TOO_HIGH: "La date de début dépasse la date maximale autorisée",
+  END_DATE_EMPTY: "La date de fin est obligatoire",
+  END_DATE_INVALID: "La date de fin est incorrecte, exemple: 20/12/1996",
+  END_DATE_TOO_LOW:
+    "La date de fin est antérieure à la date minimale autorisée",
+  END_DATE_TOO_HIGH: "La date de fin dépasse la date maximale autorisée",
+  START_DATE_MUST_BEFORE_END:
+    "La date de fin doit être supérieure à la date de début",
+};
+
+const START_DATE_KEYS = [
+  "START_DATE_EMPTY",
+  "START_DATE_INVALID",
+  "START_DATE_TOO_LOW",
+  "START_DATE_TOO_HIGH",
+  "START_DATE_MUST_BEFORE_END",
+];
+
+const END_DATE_KEYS = [
+  "END_DATE_EMPTY",
+  "END_DATE_INVALID",
+  "END_DATE_TOO_LOW",
+  "END_DATE_TOO_HIGH",
+  "START_DATE_MUST_BEFORE_END",
+];
 
 @Component({
   selector: "app-decision-valide-form",
@@ -44,29 +74,27 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 })
 export class DecisionValideFormComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;
-  @Input({ required: true }) public template: "modal" | "input" = "input";
   @Output() public closeModals = new EventEmitter<void>();
 
   @ViewChild("decisionValideModal", { static: false })
   public decisionValideModal!: DsfrModalComponent;
 
   public modalTitle = "";
-  public submitted: boolean = false;
-  public loading: boolean = false;
+  public submitted = false;
+  public loading = false;
   public valideForm!: UntypedFormGroup;
 
-  public minDate: NgbDateStruct;
-  public maxDate: NgbDateStruct;
-  public maxEndDate: NgbDateStruct;
-  public showDurationWarning: boolean;
+  public minDate: string;
+  public maxDate: string;
+  public maxEndDate: string;
 
   public lastDecision: Decision | null = null;
   public lastDomiciled: Pick<
     UsagerLight,
     "ref" | "customRef" | "nom" | "prenom" | "sexe" | "structureId"
-  >[];
+  >[] = [];
 
-  public duplicates: UsagerLight[];
+  public duplicates: UsagerLight[] = [];
   private readonly subscription = new Subscription();
   private readonly submitSubject$ = new Subject<UsagerDecisionValideForm>();
 
@@ -74,54 +102,67 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     private readonly formBuilder: UntypedFormBuilder,
     private readonly usagerDecisionService: UsagerDecisionService,
     private readonly router: Router,
-    private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly toastService: CustomToastService
   ) {
-    this.duplicates = [];
-    this.lastDomiciled = [];
-
-    this.minDate = { day: 1, month: 1, year: new Date().getFullYear() - 1 };
-    this.maxDate = { day: 31, month: 12, year: new Date().getFullYear() + 2 };
-    this.maxEndDate = formatDateToNgb(getNextYear(getToday()));
-    this.showDurationWarning = false;
+    this.minDate = `${new Date().getFullYear() - 1}-01-01`;
+    this.maxDate = `${new Date().getFullYear() + 1}-12-31`;
+    this.maxEndDate = formatDateToIso(getNextYear(getToday()));
   }
 
   public get v(): { [key: string]: AbstractControl } {
     return this.valideForm.controls;
   }
 
-  public getLastDecision() {
+  public get showDurationWarning(): boolean {
+    if (!this.valideForm) {
+      return false;
+    }
+    const dateDebut = parseFrDate(this.valideForm.get("dateDebut")?.value);
+    const dateFin = parseFrDate(this.valideForm.get("dateFin")?.value);
+    if (!dateDebut || !dateFin || !isBefore(dateDebut, dateFin)) {
+      return false;
+    }
+    return isBefore(dateFin, getNextYear(dateDebut));
+  }
+
+  public getLastDecision(): void {
     const indexOfDate =
       this.usager.decision.statut === "ATTENTE_DECISION" ? 3 : 2;
 
-    if (indexOfDate && this.usager.historique.length >= indexOfDate) {
+    if (this.usager.historique.length >= indexOfDate) {
       this.lastDecision =
         this.usager.historique[this.usager.historique.length - indexOfDate];
     }
   }
 
   public ngOnInit(): void {
-    const defaultEndDate = getNextYear(getToday());
+    const today = getToday();
+    const defaultEndDate = getNextYear(today);
 
-    this.valideForm = this.formBuilder.group({
-      dateDebut: [getTodayNgb(), [Validators.required]],
-      dateFin: [formatDateToNgb(defaultEndDate), [Validators.required]],
-      statut: ["VALIDE", [Validators.required]],
-      customRef: [this.usager.customRef],
-    });
+    this.valideForm = this.formBuilder.group(
+      {
+        dateDebut: [format(today, FR_DATE_FORMAT)],
+        dateFin: [format(defaultEndDate, FR_DATE_FORMAT)],
+        statut: ["VALIDE", [Validators.required]],
+        customRef: [this.usager.customRef],
+      },
+      { validators: [this.datesValidator()] }
+    );
 
     this.subscription.add(
-      this.valideForm.get("dateDebut")?.valueChanges.subscribe((value) => {
-        if (value !== null && this.nbgDate.isValid(value)) {
-          const newDateFin = getNextYear(
-            parseDateFromNgb(new NgbDate(value.year, value.month, value.day))
-          );
-          this.valideForm.controls.dateFin.setValue(
-            formatDateToNgb(newDateFin)
-          );
-          this.maxEndDate = formatDateToNgb(newDateFin);
-        }
-      })
+      this.valideForm
+        .get("dateDebut")
+        ?.valueChanges.subscribe((value: string) => {
+          const dateDebut = parseFrDate(value);
+          if (dateDebut) {
+            const newDateFin = getNextYear(dateDebut);
+            this.maxEndDate = formatDateToIso(newDateFin);
+            this.valideForm.controls.dateFin.setValue(
+              format(newDateFin, FR_DATE_FORMAT),
+              { emitEvent: false }
+            );
+          }
+        })
     );
 
     this.subscription.add(
@@ -131,12 +172,6 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
         } else {
           this.duplicates = [];
         }
-      })
-    );
-
-    this.subscription.add(
-      this.valideForm.get("dateFin")?.valueChanges.subscribe((value) => {
-        this.showDurationWarning = this.updateDurationWarning(value);
       })
     );
 
@@ -168,25 +203,12 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  public updateDurationWarning(value: NgbDateStruct | null): boolean {
-    if (!value || !this.nbgDate.isValid(value)) {
-      return false;
-    }
-    const dateDebut = parseDateFromNgb(this.valideForm.get("dateDebut")?.value);
-    return isBefore(
-      parseDateFromNgb(new NgbDate(value.year, value.month, value.day)),
-      getNextYear(dateDebut)
-    );
+  public getStartDateMessage(): string {
+    return this.getDateMessage("dateDebut", START_DATE_KEYS);
   }
 
-  private checkDuplicatesRef(value: string): void {
-    this.subscription.add(
-      this.usagerDecisionService
-        .isDuplicateCustomRef(this.usager.ref, value)
-        .subscribe((duplicates: UsagerLight[]) => {
-          this.duplicates = duplicates;
-        })
-    );
+  public getEndDateMessage(): string {
+    return this.getDateMessage("dateFin", END_DATE_KEYS);
   }
 
   public openModal(): void {
@@ -199,7 +221,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     this.closeModals.emit();
   }
 
-  public setDecisionValide() {
+  public setDecisionValide(): void {
     if (this.loading) {
       return;
     }
@@ -217,11 +239,96 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
 
     const formDatas: UsagerDecisionValideForm = {
       ...this.valideForm.value,
-      dateDebut: parseDateFromNgb(this.valideForm.controls.dateDebut.value),
-      dateFin: parseDateFromNgb(this.valideForm.controls.dateFin.value),
+      dateDebut: parseFrDate(this.valideForm.controls.dateDebut.value),
+      dateFin: parseFrDate(this.valideForm.controls.dateFin.value),
     };
 
     this.submitSubject$.next(formDatas);
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  private getDateMessage(controlName: string, keys: string[]): string {
+    if (!this.submitted && !this.v?.[controlName]?.touched) {
+      return "";
+    }
+    const errors = this.valideForm?.errors;
+    if (!errors) {
+      return "";
+    }
+    for (const key of keys) {
+      if (errors[key]) {
+        return DATE_ERROR_MESSAGES[key];
+      }
+    }
+    return "";
+  }
+
+  private datesValidator(): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+      const form = group as UntypedFormGroup;
+      const errors: ValidationErrors = {};
+
+      const dateDebutValue = form.get("dateDebut")?.value;
+      const dateFinValue = form.get("dateFin")?.value;
+
+      if (!dateDebutValue) {
+        errors["START_DATE_EMPTY"] = true;
+      }
+      if (!dateFinValue) {
+        errors["END_DATE_EMPTY"] = true;
+      }
+
+      const dateDebut = parseFrDate(dateDebutValue);
+      const dateFin = parseFrDate(dateFinValue);
+
+      if (dateDebutValue && !dateDebut) {
+        errors["START_DATE_INVALID"] = true;
+      }
+      if (dateFinValue && !dateFin) {
+        errors["END_DATE_INVALID"] = true;
+      }
+
+      if (dateDebut) {
+        const min = parseDateFromIso(this.minDate);
+        const max = parseDateFromIso(this.maxDate);
+        if (min && isBefore(dateDebut, min)) {
+          errors["START_DATE_TOO_LOW"] = true;
+        }
+        if (max && isAfter(dateDebut, max)) {
+          errors["START_DATE_TOO_HIGH"] = true;
+        }
+      }
+
+      if (dateFin) {
+        const min = parseDateFromIso(this.minDate);
+        const maxEnd = parseDateFromIso(this.maxEndDate);
+        if (min && isBefore(dateFin, min)) {
+          errors["END_DATE_TOO_LOW"] = true;
+        }
+        if (maxEnd && isAfter(dateFin, maxEnd)) {
+          errors["END_DATE_TOO_HIGH"] = true;
+        }
+      }
+
+      if (dateDebut && dateFin && !isBefore(dateDebut, dateFin)) {
+        errors["START_DATE_MUST_BEFORE_END"] = true;
+      }
+
+      return Object.keys(errors).length ? errors : null;
+    };
+  }
+
+  private checkDuplicatesRef(value: string): void {
+    this.subscription.add(
+      this.usagerDecisionService
+        .isDuplicateCustomRef(this.usager.ref, value)
+        .subscribe((duplicates: UsagerLight[]) => {
+          this.duplicates = duplicates;
+        })
+    );
   }
 
   private getLastDomiciled(): void {
@@ -234,9 +341,5 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
           },
         })
     );
-  }
-
-  public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

@@ -2,7 +2,6 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ContactSupportComponent } from "./contact-support.component";
 import { StoreModule } from "@ngrx/store";
@@ -18,9 +17,8 @@ describe("ContactSupportComponent", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule,
-        ReactiveFormsModule,
         FormsModule,
+        ReactiveFormsModule,
         StoreModule.forRoot({ app: _usagerReducer }),
         NoopAnimationsModule,
         RouterModule.forRoot([]),

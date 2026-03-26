@@ -5,8 +5,6 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { ResetPasswordComponent } from "./reset-password.component";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
@@ -18,12 +16,7 @@ describe("ResetPasswordComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ResetPasswordComponent],
-      imports: [
-        NgbModule,
-        ReactiveFormsModule,
-        FormsModule,
-        RouterModule.forRoot([]),
-      ],
+      imports: [ReactiveFormsModule, FormsModule, RouterModule.forRoot([])],
       providers: [
         provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },

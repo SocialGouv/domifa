@@ -4,7 +4,6 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { LoginFormComponent } from "./login-form.component";
 
 import { _usagerReducer, MATOMO_INJECTORS } from "../../../../shared";
@@ -20,7 +19,6 @@ describe("LoginComponent", () => {
     TestBed.configureTestingModule({
       declarations: [LoginFormComponent],
       imports: [
-        NgbModule,
         ReactiveFormsModule,
         FormsModule,
         ...MATOMO_INJECTORS,

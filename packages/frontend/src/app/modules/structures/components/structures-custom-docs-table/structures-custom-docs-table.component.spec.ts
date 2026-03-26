@@ -2,7 +2,6 @@ import { USER_STRUCTURE_MOCK } from "../../../../../_common/mocks/USER_STRUCTURE
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { StructuresCustomDocsTableComponent } from "./structures-custom-docs-table.component";
 import { RouterModule } from "@angular/router";
@@ -15,7 +14,7 @@ describe("StructuresCustomDocsTableComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [StructuresCustomDocsTableComponent],
-      imports: [NgbModule, RouterModule.forRoot([])],
+      imports: [RouterModule.forRoot([])],
       providers: [
         provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },

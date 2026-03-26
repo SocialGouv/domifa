@@ -3,7 +3,6 @@ import { SharedModule } from "../../../shared/shared.module";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { DecisionRadiationFormComponent } from "./decision-radiation-form.component";
 
@@ -25,7 +24,7 @@ describe("RadiationFormComponent", () => {
       imports: [
         FormsModule,
         RouterModule.forRoot([]),
-        NgbModule,
+
         ReactiveFormsModule,
         SharedModule,
         StoreModule.forRoot({ app: _usagerReducer }),

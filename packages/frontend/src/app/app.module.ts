@@ -16,8 +16,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { environment } from "src/environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -69,7 +67,7 @@ registerLocaleData(localeFr, "fr");
     FormsModule,
     ReactiveFormsModule,
     GeneralModule,
-    NgbModule,
+
     StoreModule.forRoot({ app: _usagerReducer }),
     SharedModule,
     MATOMO_INJECTORS,

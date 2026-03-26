@@ -11,8 +11,6 @@ import {
   NO_ERRORS_SCHEMA,
 } from "@angular/core";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { CguComponent } from "./components/static-pages/cgu/cgu.component";
 import { NotFoundComponent } from "./components/errors/not-found/not-found.component";
 import { FaqComponent } from "./components/faq/faq.component";
@@ -67,10 +65,9 @@ import { LoginDropdownComponent } from "./components/navbar/fragments/login-drop
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule,
+
     SharedModule,
     RouterModule.forChild([]),
-    NgbModule,
 
     HomeStatsComponent,
     FaqSectionComponent,

@@ -19,11 +19,7 @@ import {
   UsagerDecisionRadiationForm,
   UsagerLight,
 } from "../../../../../_common/model";
-import {
-  usagerActions,
-  minDateToday,
-  parseDateFromNgb,
-} from "../../../../shared";
+import { usagerActions, getTodayIso, parseFrDate } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../interfaces";
 import { UsagerDecisionService } from "../../services/usager-decision.service";
@@ -54,13 +50,8 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
 
   public readonly MOTIFS_RADIATION_LABELS = MOTIFS_RADIATION_LABELS;
 
-  public readonly minDate = {
-    day: 1,
-    month: 1,
-    year: new Date().getFullYear() - 1,
-  };
-
-  public readonly maxDate = minDateToday;
+  public readonly minDate = `${new Date().getFullYear() - 1}-01-01`;
+  public readonly maxDate = getTodayIso();
 
   private readonly subscription = new Subscription();
   private readonly submitSubject$ = new Subject<UsagerDecisionRadiationForm>();
@@ -178,7 +169,7 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
     }
     const formDatas: UsagerDecisionRadiationForm = {
       ...this.radiationForm.value,
-      dateFin: parseDateFromNgb(this.radiationForm.controls.dateFin.value),
+      dateFin: parseFrDate(this.radiationForm.controls.dateFin.value),
     };
 
     this.submitSubject$.next(formDatas);

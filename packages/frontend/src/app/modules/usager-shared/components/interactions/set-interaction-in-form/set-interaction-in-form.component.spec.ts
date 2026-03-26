@@ -3,7 +3,6 @@ import { APP_BASE_HREF } from "@angular/common";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { UsagerFormModel } from "../../../interfaces";
 import { SetInteractionInFormComponent } from "./set-interaction-in-form.component";
@@ -21,7 +20,6 @@ describe("SetInteractionInFormComponent", () => {
     TestBed.configureTestingModule({
       declarations: [SetInteractionInFormComponent],
       imports: [
-        NgbModule,
         HttpClientTestingModule,
         SharedModule,
         FormsModule,

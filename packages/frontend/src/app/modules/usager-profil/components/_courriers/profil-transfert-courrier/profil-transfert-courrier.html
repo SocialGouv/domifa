@@ -88,7 +88,7 @@
         </p>
       </div>
 
-      <div class="fr-col-12 fr-col-md-4">
+      <div class="fr-col-12 fr-col-md-3">
         <div
           class="fr-input-group"
           [class.fr-input-group--error]="
@@ -130,7 +130,7 @@
         </div>
       </div>
 
-      <div class="fr-col-12 fr-col-md-4">
+      <div class="fr-col-12 fr-col-md-3">
         <div
           class="fr-input-group"
           [class.fr-input-group--error]="
@@ -175,119 +175,38 @@
         </div>
       </div>
 
-      <div class="fr-col-12 fr-col-md-2">
-        <div
-          class="fr-input-group"
-          [class.fr-input-group--error]="
+      <div class="fr-col-12 fr-col-md-3">
+        <dsfr-ext-datepicker
+          formControlName="dateDebut"
+          label="Valide du"
+          hint="Le format de la date doit être jj/mm/aaaa"
+          [showMask]="true"
+          [required]="true"
+          [message]="
             (f.dateDebut.dirty || submitted) && f.dateDebut.errors
+              ? 'La date de début est incorrecte. Exemple : 20/12/1996'
+              : ''
           "
-        >
-          <label class="fr-label" for="transfertDateDebut">Valide du</label>
-          <p class="fr-hint-text empty-hint"></p>
-          <div class="fr-date-input">
-            <input
-              class="fr-input"
-              [class.fr-input--error]="
-                (f.dateDebut.dirty || submitted) && f.dateDebut.errors
-              "
-              placeholder="jj/mm/aaaa"
-              placement="auto"
-              id="transfertDateDebut"
-              formControlName="dateDebut"
-              name="dateDebut"
-              ngbDatepicker
-              appDateFr
-              value
-              [attr.aria-describedby]="
-                (f.dateDebut.dirty || submitted) && f.dateDebut.errors
-                  ? 'dateDebut-errors'
-                  : null
-              "
-              [attr.aria-invalid]="
-                (f.dateDebut.dirty || submitted) && f.dateDebut.errors
-                  ? true
-                  : false
-              "
-              #dateDebut="ngbDatepicker"
-              maxlength="10"
-            />
-
-            <button
-              type="button"
-              aria-label="Choisir une date de début de validité dans le calendrier"
-              class="date-btn"
-              (click)="dateDebut.toggle()"
-            >
-              <span class="fr-icon-calendar-line" aria-hidden="true"></span>
-            </button>
-          </div>
-          @if ((f.dateDebut.dirty || submitted) && f.dateDebut.errors) {
-          <p class="fr-error-text" id="dateDebut-errors">
-            La date de début est incorrecte. Exemple : 20/12/1996
-          </p>
-          }
-        </div>
+          [messageSeverity]="'error'"
+        ></dsfr-ext-datepicker>
       </div>
 
-      <div class="fr-col-12 fr-col-md-2">
-        <div
-          class="fr-input-group"
-          [class.fr-input-group--error]="
+      <div class="fr-col-12 fr-col-md-3">
+        <dsfr-ext-datepicker
+          formControlName="dateFin"
+          label="Valide jusqu'au"
+          hint="Le format de la date doit être jj/mm/aaaa"
+          [required]="true"
+          [showMask]="true"
+          [message]="
             (f.dateFin.dirty || submitted) && f.dateFin.errors
+              ? (f.dateFin.errors.required
+                ? 'La date de fin est obligatoire'
+                : 'La date de fin est incorrecte. Exemple : 20/12/1996')
+              : ''
           "
-        >
-          <label class="fr-label" for="transfertDateFin">Valide jusqu'au</label>
-          <p class="fr-hint-text empty-hint"></p>
-          <div class="fr-date-input">
-            <input
-              class="fr-input"
-              [class.fr-input--error]="
-                (f.dateFin.dirty || submitted) && f.dateFin.errors
-              "
-              placeholder="jj/mm/aaaa"
-              placement="auto"
-              id="transfertDateFin"
-              formControlName="dateFin"
-              name="dateFin"
-              ngbDatepicker
-              appDateFr
-              value
-              [attr.aria-describedby]="
-                (f.dateFin.dirty || submitted) && f.dateFin.errors
-                  ? 'dateFin-errors'
-                  : null
-              "
-              [attr.aria-invalid]="
-                (f.dateFin.dirty || submitted) && f.dateFin.errors
-                  ? true
-                  : false
-              "
-              #dateFin="ngbDatepicker"
-              maxlength="10"
-            />
-
-            <button
-              type="button"
-              aria-label="Choisir une date de fin de validité dans le calendrier"
-              class="date-btn"
-              (click)="dateFin.toggle()"
-            >
-              <span class="fr-icon-calendar-line" aria-hidden="true"></span>
-            </button>
-          </div>
-          @if ((f.dateFin.dirty || submitted) && f.dateFin.errors) {
-          <div id="dateFin-errors">
-            @if (f.dateFin.errors.required) {
-            <p class="fr-error-text">La date de fin est obligatoire</p>
-            } @if (f.dateFin.errors.ngbDate ||
-            f.dateFin.errors.endDateAfterBeginDate) {
-            <p class="fr-error-text">
-              La date de fin est incorrecte. Exemple : 20/12/1996
-            </p>
-            }
-          </div>
-          }
-        </div>
+          [messageSeverity]="'error'"
+        ></dsfr-ext-datepicker>
       </div>
 
       <div class="fr-col-12" style="text-align: center">

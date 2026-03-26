@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { UsagerNotesActionsComponent } from "./usager-notes-actions.component";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { USAGER_VALIDE_MOCK, USAGER_NOTE } from "../../../../../_common/mocks";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -17,7 +17,7 @@ describe("UsagerNotesActionsComponent", () => {
     await TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        NgbModule,
+
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
       declarations: [UsagerNotesActionsComponent],

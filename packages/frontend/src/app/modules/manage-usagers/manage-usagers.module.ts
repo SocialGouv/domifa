@@ -6,8 +6,6 @@ import {
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { UsagerSharedModule } from "../usager-shared/usager-shared.module";
@@ -32,13 +30,13 @@ import {
 } from "./directives";
 import { WelcomeModalComponent } from "../general/components/static-modals/welcome-modal/welcome-modal.component";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
     ManageUsagersPageComponent,
     ManageUsagersTableComponent,
     ManageDownloadDocsComponent,
-    ColumnInformationsComponent,
     ManageFiltersComponent,
     ColumnInteractionsComponent,
     SortLabelPipe,
@@ -51,9 +49,10 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
     CommonModule,
     FormsModule,
     UsagerSharedModule,
-    NgbModule,
+    ColumnInformationsComponent,
     SharedModule,
     UsersModule,
+    NgbTooltipModule,
     TableHeadSortIconComponent,
     ManageUsagersRoutingModule,
     FormatInternationalPhoneNumberPipe,

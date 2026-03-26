@@ -54,7 +54,7 @@
             <li
               id="invalid-name"
               *ngIf="(f.nom.dirty || submitted) && f.nom.errors"
-              class="fr-message fr-message--error mt-0"
+              class="fr-message fr-message--error fr-mt-0"
             >
               Veuillez vérifier le nom
             </li>
@@ -92,7 +92,7 @@
             id="invalid-prenom"
             *ngIf="(submitted || f.prenom.dirty) && f.prenom.errors"
           >
-            <li class="fr-message fr-message--error mt-0">
+            <li class="fr-message fr-message--error fr-mt-0">
               Veuillez vérifier le prénom
             </li>
           </ul>
@@ -119,7 +119,7 @@
         />
         <h2 class="fr-m-0">Création du mot de passe</h2>
       </div>
-      <div role="notice" class="fr-notice fr-notice--info mb-4">
+      <div role="notice" class="fr-notice fr-notice--info fr-mb-3w">
         <div class="fr-container">
           <div class="fr-notice__body">
             <p>
@@ -169,14 +169,14 @@
             <li
               id="email-description"
               *ngIf="!((f.email.dirty || submitted) && f.email.errors)"
-              class="fr-message fr-message--info mt-0"
+              class="fr-message fr-message--info fr-mt-0"
             >
               Adresse e-mail indiquée sur le Cerfa
             </li>
             <li
               id="email-errors"
               *ngIf="(f.email.dirty || submitted) && f.email.errors"
-              class="fr-message fr-message--error mt-0"
+              class="fr-message fr-message--error fr-mt-0"
             >
               Adresse e-mail indiquée sur le Cerfa
             </li>

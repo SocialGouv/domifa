@@ -96,8 +96,8 @@
 
     @for (procuration of form.controls; track $index; let i = $index) {
     <div formArrayName="procurations">
-      <fieldset>
-        <legend>Procuration {{ i + 1 }}</legend>
+      <fieldset class="fr-fieldset">
+        <legend class="fr-fieldset__legend">Procuration {{ i + 1 }}</legend>
         <div [formGroupName]="i" class="fr-grid-row fr-grid-row--gutters">
           <div class="fr-col-12 fr-col-md-2">
             <div
@@ -185,194 +185,53 @@
           </div>
 
           <div class="fr-col-12 fr-col-md-2">
-            <div
-              class="fr-input-group"
-              [class.fr-input-group--error]="
+            <dsfr-ext-datepicker
+              formControlName="dateNaissance"
+              label="Date de naissance"
+              [min]="minDateNaissance"
+              [max]="maxDateNaissance"
+              [required]="true"
+              [showMask]="true"
+              [message]="
                 (form.controls[i].get('dateNaissance')?.dirty || submitted) &&
                 form.controls[i].get('dateNaissance')?.errors
+                  ? 'La date de naissance est obligatoire. Exemple : 20/12/1996'
+                  : ''
               "
-            >
-              <label class="fr-label" for="date_naissance_{{ i }}"
-                >Date de naissance</label
-              >
-              <div class="fr-date-input">
-                <input
-                  class="fr-input"
-                  [class.fr-input--error]="
-                    (form.controls[i].get('dateNaissance')?.dirty ||
-                      submitted) &&
-                    form.controls[i].get('dateNaissance')?.errors
-                  "
-                  placeholder="jj/mm/aaaa"
-                  [minDate]="minDateNaissance"
-                  [maxDate]="maxDateNaissance"
-                  placement="auto"
-                  formControlName="dateNaissance"
-                  name="dateNaissance"
-                  ngbDatepicker
-                  id="date_naissance_{{ i }}"
-                  appDateFr
-                  value
-                  [attr.aria-describedby]="
-                    (form.controls[i].get('dateNaissance')?.dirty ||
-                      submitted) &&
-                    form.controls[i].get('dateNaissance')?.errors
-                      ? 'date-naissance-errors-' + i
-                      : null
-                  "
-                  [attr.aria-invalid]="
-                    (form.controls[i].get('dateNaissance')?.dirty ||
-                      submitted) &&
-                    form.controls[i].get('dateNaissance')?.errors
-                      ? true
-                      : false
-                  "
-                  #d="ngbDatepicker"
-                  maxlength="10"
-                />
-
-                <button
-                  type="button"
-                  aria-label="Sélectionner une date de naissance sur le calendrier"
-                  class="date-btn"
-                  (click)="d.toggle()"
-                >
-                  <span class="fr-icon-calendar-line" aria-hidden="true"></span>
-                </button>
-              </div>
-              @if ((form.controls[i].get('dateNaissance')?.dirty || submitted)
-              && form.controls[i].get('dateNaissance')?.errors) {
-              <p class="fr-error-text" [id]="'date-naissance-errors-' + i">
-                La date de naissance est obligatoire. Exemple : 20/12/1996
-              </p>
-              }
-            </div>
+              [messageSeverity]="'error'"
+            ></dsfr-ext-datepicker>
           </div>
 
           <div class="fr-col-12 fr-col-md-2">
-            <div
-              class="fr-input-group"
-              [class.fr-input-group--error]="
-                (form.controls[i].get('dateDebut')?.dirty || submitted) &&
-                form.controls[i].get('dateDebut')?.errors
+            <dsfr-ext-datepicker
+              formControlName="dateDebut"
+              label="Valide du"
+              [required]="true"
+              [showMask]="true"
+              [message]="
+                submitted && form.controls[i].get('dateDebut')?.errors
+                  ? 'La date de début est incorrecte. Exemple : 20/12/1996'
+                  : ''
               "
-            >
-              <label class="fr-label" for="date_debut_{{ i }}">Valide du</label>
-              <div class="fr-date-input">
-                <input
-                  class="fr-input"
-                  [class.fr-input--error]="
-                    (form.controls[i].get('dateDebut')?.dirty || submitted) &&
-                    form.controls[i].get('dateDebut')?.errors
-                  "
-                  placeholder="jj/mm/aaaa"
-                  placement="auto"
-                  id="date_debut_{{ i }}"
-                  formControlName="dateDebut"
-                  name="dateDebut"
-                  ngbDatepicker
-                  appDateFr
-                  value
-                  [attr.aria-describedby]="
-                    (form.controls[i].get('dateDebut')?.dirty || submitted) &&
-                    form.controls[i].get('dateDebut')?.errors
-                      ? 'date-debut-errors-' + i
-                      : null
-                  "
-                  [attr.aria-invalid]="
-                    (form.controls[i].get('dateDebut')?.dirty || submitted) &&
-                    form.controls[i].get('dateDebut')?.errors
-                      ? true
-                      : false
-                  "
-                  #dateDebut="ngbDatepicker"
-                  maxlength="10"
-                />
-                <button
-                  type="button"
-                  aria-label="Choisir une date de début de validité dans le calendrier"
-                  class="date-btn"
-                  (click)="dateDebut.toggle()"
-                >
-                  <span class="fr-icon-calendar-line" aria-hidden="true"></span>
-                </button>
-              </div>
-              @if (submitted && form.controls[i].get('dateDebut')?.errors) {
-              <p class="fr-error-text" [id]="'date-debut-errors-' + i">
-                La date de début est incorrecte. Exemple : 20/12/1996
-              </p>
-              }
-            </div>
+              [messageSeverity]="'error'"
+            ></dsfr-ext-datepicker>
           </div>
 
           <div class="fr-col-12 fr-col-md-2">
-            <div
-              class="fr-input-group"
-              [class.fr-input-group--error]="
-                (form.controls[i].get('dateFin')?.dirty || submitted) &&
-                form.controls[i].get('dateFin')?.errors
+            <dsfr-ext-datepicker
+              formControlName="dateFin"
+              label="Valide jusqu'au"
+              [required]="true"
+              [showMask]="true"
+              [message]="
+                submitted && form.controls[i].get('dateFin')?.errors
+                  ? (form.controls[i].get('dateFin')?.errors?.required
+                    ? 'La date de fin est obligatoire. Exemple : 20/12/1996'
+                    : 'La date de fin est incorrecte, vérifiez la cohérence avec la date de début.')
+                  : ''
               "
-            >
-              <label class="fr-label" for="date_fin_{{ i }}"
-                >Valide jusqu'au</label
-              >
-              <div class="fr-date-input">
-                <input
-                  class="fr-input"
-                  [class.fr-input--error]="
-                    (form.controls[i].get('dateFin')?.dirty || submitted) &&
-                    form.controls[i].get('dateFin')?.errors
-                  "
-                  placeholder="jj/mm/aaaa"
-                  placement="auto"
-                  id="date_fin_{{ i }}"
-                  formControlName="dateFin"
-                  name="dateFin"
-                  ngbDatepicker
-                  appDateFr
-                  value
-                  [attr.aria-describedby]="
-                    (form.controls[i].get('dateFin')?.dirty || submitted) &&
-                    form.controls[i].get('dateFin')?.errors
-                      ? 'date-fin-errors-' + i
-                      : null
-                  "
-                  [attr.aria-invalid]="
-                    (form.controls[i].get('dateFin')?.dirty || submitted) &&
-                    form.controls[i].get('dateFin')?.errors
-                      ? true
-                      : false
-                  "
-                  #dateFin="ngbDatepicker"
-                  maxlength="10"
-                />
-
-                <button
-                  type="button"
-                  aria-label="Choisir une date de fin de validité dans le calendrier"
-                  class="date-btn"
-                  (click)="dateFin.toggle()"
-                >
-                  <span class="fr-icon-calendar-line" aria-hidden="true"></span>
-                </button>
-              </div>
-              @if (submitted && form.controls[i].get('dateFin')?.errors) {
-              <div [id]="'date-fin-errors-' + i">
-                @if (form.controls[i].get('dateFin')?.errors?.required) {
-                <p class="fr-error-text">
-                  La date de fin est obligatoire. Exemple : 20/12/1996
-                </p>
-                } @if (form.controls[i].get('dateFin')?.errors?.ngbDate ||
-                form.controls[i].get('dateFin')?.errors ?.endDateAfterBeginDate)
-                {
-                <p class="fr-error-text">
-                  La date de fin est incorrecte, vérifiez la cohérence avec la
-                  date de début.
-                </p>
-                }
-              </div>
-              }
-            </div>
+              [messageSeverity]="'error'"
+            ></dsfr-ext-datepicker>
           </div>
 
           <div class="fr-col-12 fr-col-md-2" style="text-align: center">

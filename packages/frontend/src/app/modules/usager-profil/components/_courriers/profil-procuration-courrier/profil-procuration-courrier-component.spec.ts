@@ -3,7 +3,7 @@ import { APP_BASE_HREF, CommonModule } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbDatepickerI18n, NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 import { USAGER_VALIDE_MOCK } from "../../../../../../_common/mocks/USAGER_VALIDE.mock";
@@ -13,10 +13,7 @@ import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagersProfilProcurationCourrierComponent } from "./profil-procuration-courrier-component";
 import { StoreModule } from "@ngrx/store";
 import { SharedModule } from "../../../../shared/shared.module";
-import {
-  NgbDateCustomParserFormatter,
-  CustomDatepickerI18n,
-} from "../../../../shared/services";
+
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
 
@@ -31,7 +28,7 @@ describe("UsagersProfilProcurationCourrierComponent", () => {
         RouterModule.forRoot([{ path: "404", component: NotFoundComponent }]),
         CommonModule,
         StoreModule.forRoot({ app: _usagerReducer }),
-        NgbModule,
+
         FormsModule,
         SharedModule,
         ReactiveFormsModule,
@@ -41,8 +38,6 @@ describe("UsagersProfilProcurationCourrierComponent", () => {
       providers: [
         provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },
-        NgbDateCustomParserFormatter,
-        { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

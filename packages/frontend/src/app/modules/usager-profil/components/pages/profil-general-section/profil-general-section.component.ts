@@ -1,7 +1,6 @@
 import { Component, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { ProfilGeneralHistoriqueCourriersComponent } from "../../_general-section/profil-general-historique-courriers/profil-general-historique-courriers.component";
 import { SetInteractionInFormComponent } from "../../../../usager-shared/components/interactions/set-interaction-in-form/set-interaction-in-form.component";
 import { SetInteractionOutFormComponent } from "../../../../usager-shared/components/interactions/set-interaction-out-form/set-interaction-out-form.component";
@@ -11,8 +10,8 @@ import {
   InteractionInForApi,
 } from "../../../../../../_common/model";
 import {
-  minDateNaissance,
-  formatDateToNgb,
+  MIN_DATE_NAISSANCE,
+  getTodayIso,
   UsagerState,
 } from "../../../../../shared";
 import { AuthService, CustomToastService } from "../../../../shared/services";
@@ -35,8 +34,8 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
   public interactions: Interaction[];
 
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
-  public minDateNaissance: NgbDateStruct;
-  public maxDateNaissance: NgbDateStruct;
+  public minDateNaissance: string;
+  public maxDateNaissance: string;
 
   @ViewChild("interactionInRef")
   public interactionInRef!: SetInteractionInFormComponent;
@@ -73,8 +72,8 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
     );
     this.interactions = [];
 
-    this.minDateNaissance = minDateNaissance;
-    this.maxDateNaissance = formatDateToNgb(new Date());
+    this.minDateNaissance = MIN_DATE_NAISSANCE;
+    this.maxDateNaissance = getTodayIso();
 
     this.titlePrefix = "Dossier";
     this.section = "general";

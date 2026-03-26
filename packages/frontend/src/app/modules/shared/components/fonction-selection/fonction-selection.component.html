@@ -30,7 +30,7 @@
         </select>
         <ul class="fr-messages-group ps-0">
           <li
-            class="fr-message fr-message--info mt-0"
+            class="fr-message fr-message--info fr-mt-0"
             *ngIf="
               !(
                 (submitted || fonctionFormControl?.dirty) &&
@@ -47,7 +47,7 @@
               (submitted || fonctionFormControl?.dirty) &&
               fonctionFormControl?.errors
             "
-            class="fr-message fr-message--error mt-0"
+            class="fr-message fr-message--error fr-mt-0"
           >
             {{ invalidFeedbackText }}
           </li>
@@ -102,7 +102,7 @@
             fonctionDetailFormControl?.errors
           "
         >
-          <li class="fr-message fr-message--error mt-0">
+          <li class="fr-message fr-message--error fr-mt-0">
             Veuillez préciser la fonction
           </li>
         </ul>

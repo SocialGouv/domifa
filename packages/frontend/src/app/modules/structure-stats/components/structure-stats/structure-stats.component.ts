@@ -6,20 +6,10 @@ import {
   OnDestroy,
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import {
-  NgbDate,
-  NgbDateParserFormatter,
-  NgbDatepickerI18n,
-} from "@ng-bootstrap/ng-bootstrap";
 
 import { saveAs } from "file-saver";
 import { buildExportStructureStatsFileName } from "../../services";
-import {
-  NgbDateCustomParserFormatter,
-  CustomDatepickerI18n,
-  CustomToastService,
-  AuthService,
-} from "../../../shared/services";
+import { CustomToastService, AuthService } from "../../../shared/services";
 import {
   ENTRETIEN_RESIDENCE,
   ENTRETIEN_SITUATION_PRO,
@@ -28,17 +18,18 @@ import {
   UserStructure,
   StructureStatsReportingQuestions,
 } from "@domifa/common";
-import { formatDateToNgb } from "../../../../shared";
+import {
+  formatDateToFr,
+  formatDateToIso,
+  parseFrDate,
+  toUtcNoon,
+} from "../../../../shared";
 import { StructureStatsService } from "../../services/structure-stats.service";
 import { MatomoTracker } from "ngx-matomo-client";
 import { format, startOfMonth, startOfYear, subYears } from "date-fns";
 
 @Component({
-  providers: [
-    NgbDateCustomParserFormatter,
-    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
-  ],
+  providers: [],
   selector: "app-structure-stats",
   styleUrls: ["./structure-stats.component.scss"],
   templateUrl: "./structure-stats.component.html",
@@ -51,15 +42,13 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
   public startDate: Date = new Date();
   public endDate: Date | null = null;
 
-  public hoveredDate: NgbDate | null = null;
+  public minStartDate: string;
+  public minEndDate: string;
+  public maxStartDate: string;
+  public maxEndDate: string;
 
-  public minStartDate: NgbDate;
-  public minEndDate: NgbDate;
-  public maxStartDate: NgbDate;
-  public maxEndDate: NgbDate;
-
-  public fromDate: NgbDate;
-  public toDate: NgbDate | null = null;
+  public fromDate: string;
+  public toDate: string | null = null;
   public me!: UserStructure | null;
 
   private readonly subscription = new Subscription();
@@ -76,49 +65,29 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
   public reports: StructureStatsReportingQuestions[] = [];
   public currentReport: StructureStatsReportingQuestions | null = null;
   public isCustomDates = false;
-  private unsubscribe$ = new Subject<void>();
+  private readonly unsubscribe$ = new Subject<void>();
 
   constructor(
-    private readonly formatter: NgbDateCustomParserFormatter,
     private readonly structureStatsService: StructureStatsService,
     private readonly titleService: Title,
     private readonly toastService: CustomToastService,
     private readonly authService: AuthService,
     private readonly matomo: MatomoTracker,
-    private cd: ChangeDetectorRef
+    private readonly cd: ChangeDetectorRef
   ) {
     for (let year = this.firstReportsYear; year < this.currentYear; year++) {
       this.years.push(year);
     }
 
-    const refDate = startOfYear(subYears(new Date(), 4));
+    const refDate = toUtcNoon(startOfYear(subYears(new Date(), 4)));
 
-    this.minStartDate = new NgbDate(
-      refDate.getFullYear(),
-      refDate.getMonth() + 1,
-      refDate.getDate()
-    );
-    this.minEndDate = new NgbDate(
-      refDate.getFullYear(),
-      refDate.getMonth() + 1,
-      refDate.getDate()
-    );
-    this.fromDate = new NgbDate(
-      refDate.getFullYear(),
-      refDate.getMonth() + 1,
-      refDate.getDate()
-    );
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
+    this.minStartDate = formatDateToIso(refDate);
+    this.minEndDate = formatDateToIso(refDate);
+    this.fromDate = formatDateToFr(refDate);
 
-    // Dates du calendrier
-    this.maxStartDate = new NgbDate(
-      yesterday.getFullYear(),
-      yesterday.getMonth() + 1,
-      yesterday.getDate() + 1
-    );
-
-    this.maxEndDate = new NgbDate(yesterday.getFullYear() + 1, 1, 1);
+    const today = toUtcNoon(new Date());
+    this.maxStartDate = formatDateToIso(today);
+    this.maxEndDate = `${today.getFullYear() + 1}-01-01`;
 
     this.titleService.setTitle("Rapport d'activité - DomiFa");
     this.me = this.authService.currentUserValue;
@@ -130,8 +99,11 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
     this.cd.detectChanges();
   }
 
-  public changeStart(newDate: NgbDate): void {
-    this.minEndDate = newDate;
+  public changeStart(newDate: string): void {
+    const parsed = parseFrDate(newDate);
+    if (parsed) {
+      this.minEndDate = formatDateToIso(parsed);
+    }
   }
 
   public export(year?: number): void {
@@ -146,10 +118,7 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
       period.startDate = new Date(year.toString() + "-01-01");
       period.endDate = new Date(year.toString() + "-12-31");
     } else {
-      this.endDate =
-        this.toDate !== null
-          ? new Date(this.formatter.formatEn(this.toDate))
-          : null;
+      this.endDate = this.toDate !== null ? parseFrDate(this.toDate) : null;
     }
 
     const structureId = this.me?.structureId as number;
@@ -217,10 +186,10 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
     if (year === this.selectedYear && this.stats) {
       return;
     }
-    this.startDate = new Date(year as number, 0, 1);
-    this.endDate = new Date(year as number, 11, 31);
-    this.fromDate = formatDateToNgb(this.startDate);
-    this.toDate = formatDateToNgb(this.endDate);
+    this.startDate = toUtcNoon(new Date(year as number, 0, 1));
+    this.endDate = toUtcNoon(new Date(year as number, 11, 31));
+    this.fromDate = formatDateToFr(this.startDate);
+    this.toDate = formatDateToFr(this.endDate);
     this.isCustomDates = false;
     this.selectedYear = year;
     this.currentReport = this.reports.find((report) => report.year === year);
@@ -229,11 +198,10 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
   }
 
   public setCustomDates() {
-    this.startDate = startOfMonth(new Date());
-    this.endDate = new Date();
-    this.fromDate = formatDateToNgb(this.startDate);
-    this.toDate = formatDateToNgb(this.endDate);
-
+    this.startDate = toUtcNoon(startOfMonth(new Date()));
+    this.endDate = toUtcNoon(new Date());
+    this.fromDate = formatDateToFr(this.startDate);
+    this.toDate = formatDateToFr(this.endDate);
     this.currentReport = null;
     this.isCustomDates = true;
     this.stats = null;
@@ -242,11 +210,8 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
   public compare(): void {
     this.loading = true;
     this.stats = null;
-    this.startDate = new Date(this.formatter.formatEn(this.fromDate));
-    this.endDate =
-      this.toDate !== null
-        ? new Date(this.formatter.formatEn(this.toDate))
-        : null;
+    this.startDate = parseFrDate(this.fromDate)!;
+    this.endDate = this.toDate !== null ? parseFrDate(this.toDate) : null;
 
     const startFormatted = format(this.startDate, "dd/MM/yyyy");
     const endFormatted = format(this.startDate, "dd/MM/yyyy");
