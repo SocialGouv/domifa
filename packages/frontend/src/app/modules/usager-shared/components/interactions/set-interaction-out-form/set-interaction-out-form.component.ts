@@ -102,6 +102,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    console.log(this.usager);
     this.toggleProcurationIndex(null);
     this.interactionFormData.courrierOut.nbCourrier =
       this.usager.lastInteraction.courrierIn;

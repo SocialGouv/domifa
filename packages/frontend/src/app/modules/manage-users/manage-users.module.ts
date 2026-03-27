@@ -15,7 +15,6 @@ import { UsersModule } from "../users/users.module";
 import { RegisterUserAdminComponent } from "./components/register-user-admin/register-user-admin.component";
 import { ManageUsersRoutingModule } from "./manage-users-routing.module";
 import { AssignReferrersComponent } from "./components/assign-referrers/assign-referrers.component";
-import { DeleteUserComponent } from "./components/delete-user/delete-user.component";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { DisplayLastLoginComponent } from "src/app/modules/shared/components/display-last-login/display-last-login.component";
 
@@ -25,7 +24,6 @@ import { DisplayLastLoginComponent } from "src/app/modules/shared/components/dis
     EditUserComponent,
     RegisterUserAdminComponent,
     AssignReferrersComponent,
-    DeleteUserComponent,
   ],
   imports: [
     TableHeadSortComponent,

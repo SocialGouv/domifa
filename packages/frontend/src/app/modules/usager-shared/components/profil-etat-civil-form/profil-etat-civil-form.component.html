@@ -144,7 +144,7 @@
           [required]="true"
           [showMask]="true"
           [message]="
-            (f.dateNaissance.dirty || submitted) && f.dateNaissance.errors
+            submitted && f.dateNaissance.errors
               ? 'La date de naissance est incorrecte, exemple: 20/12/1996'
               : ''
           "
@@ -546,8 +546,7 @@
                 [required]="true"
                 [showMask]="true"
                 [message]="
-                  (ayantsDroits.controls[i].get('dateNaissance')?.dirty ||
-                    submitted) &&
+                  submitted &&
                   ayantsDroits.controls[i].get('dateNaissance')?.errors
                     ? 'La date de naissance est obligatoire. Exemple : 20/12/1996'
                     : ''

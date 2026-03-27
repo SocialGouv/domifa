@@ -2,6 +2,16 @@ import { AbstractControl, ValidationErrors } from "@angular/forms";
 import { PhoneNumberUtil } from "google-libphonenumber";
 import { Telephone } from "../../../_common/model";
 
+export const phoneRequiredValidator = (
+  control: AbstractControl
+): ValidationErrors | null => {
+  const value = control.value as Telephone;
+  if (!value || !value.numero || value.numero.trim() === "") {
+    return { required: true };
+  }
+  return null;
+};
+
 export const mobilePhoneValidator = (
   control: AbstractControl
 ): ValidationErrors | null => {

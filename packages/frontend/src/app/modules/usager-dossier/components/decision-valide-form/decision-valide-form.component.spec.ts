@@ -262,7 +262,7 @@ describe("DecisionValideFormComponent", () => {
   });
 
   describe("Error message methods", () => {
-    it("should return empty string when not submitted and not touched", () => {
+    it("should return empty string when not submitted", () => {
       expect(component.getStartDateMessage()).toBe("");
       expect(component.getEndDateMessage()).toBe("");
     });
@@ -283,9 +283,9 @@ describe("DecisionValideFormComponent", () => {
       );
     });
 
-    it("should return error message when field is touched", () => {
+    it("should return error message after submit with invalid date format", () => {
       component.valideForm.get("dateDebut")?.setValue("abc");
-      component.valideForm.get("dateDebut")?.markAsTouched();
+      component.submitted = true;
       expect(component.getStartDateMessage()).toBe(
         "La date de début est incorrecte, exemple: 20/12/1996"
       );

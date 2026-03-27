@@ -256,6 +256,7 @@
               content="Télécharger l'attestation de demande"
               icon="download"
               color="secondary"
+              customClass="fr-mx-1w fr-btn--sm"
             ></app-button>
 
             @if (me?.role !== 'facteur' && me?.role !== 'simple' && me?.role !==
@@ -266,6 +267,7 @@
               content="Télécharger le Cerfa provisoire"
               icon="download"
               color="secondary"
+              customClass="fr-mx-1w fr-btn--sm"
             ></app-button>
             <app-button
               (action)="getCerfa(CerfaDocType.attestation)"
@@ -273,6 +275,7 @@
               content="Télécharger le Cerfa actuel"
               icon="download"
               color="secondary"
+              customClass="fr-mx-1w fr-btn--sm"
             ></app-button>
             }
           </div>

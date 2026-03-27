@@ -1,14 +1,14 @@
 <dsfr-modal
   class="fr-text--left"
   #editorModal
-  [size]="'LG'"
+  [modalSize]="'LG'"
   dialogId="structureInformationEditorModal"
   [titleModal]="
     structureInformation ? 'Modifier l\'information' : 'Ajouter une information'
   "
   (closeEvent)="closeModal()"
 >
-  <ng-container dsfrModalBody>
+  <ng-container>
     <form [formGroup]="tempMessageForm" *ngIf="tempMessageForm">
       <div
         class="fr-input-group"
@@ -139,7 +139,7 @@
             [required]="true"
             [showMask]="true"
             [message]="
-              (f.startDate.dirty || submitted) && f.startDate.errors
+              submitted && f.startDate.errors
                 ? 'La date de début est incorrecte. Exemple : 20/12/1996'
                 : ''
             "
@@ -153,7 +153,7 @@
             [required]="true"
             [showMask]="true"
             [message]="
-              (f.endDate.dirty || submitted) && f.endDate.errors
+              submitted && f.endDate.errors
                 ? f.endDate.errors.required
                   ? 'La date de fin est obligatoire'
                   : 'La date de fin est incorrecte. Exemple : 20/12/1996'

@@ -7,7 +7,7 @@
   class="fr-text--left"
   #decisionValideModal
   [titleModal]="modalTitle"
-  [size]="'LG'"
+  [modalSize]="'LG'"
   dialogId="decisionValideModal"
 >
   <form [formGroup]="valideForm" (ngSubmit)="setDecisionValide()">
@@ -109,7 +109,7 @@
       >
         <button
           class="fr-btn"
-          [disabled]="valideForm.invalid || loading"
+          [disabled]="loading"
           type="button"
           (click)="setDecisionValide()"
           [attr.aria-busy]="loading"

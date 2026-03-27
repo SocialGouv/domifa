@@ -193,7 +193,7 @@
               [required]="true"
               [showMask]="true"
               [message]="
-                (form.controls[i].get('dateNaissance')?.dirty || submitted) &&
+                submitted &&
                 form.controls[i].get('dateNaissance')?.errors
                   ? 'La date de naissance est obligatoire. Exemple : 20/12/1996'
                   : ''

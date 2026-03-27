@@ -23,6 +23,8 @@
           <app-button
             content="Telecharger l'attestation de demande"
             icon="download"
+            $
+            customClass="fr-btn--sm fr-mx-1w"
             (action)="getCerfa(CerfaDocType.demande)"
           ></app-button>
           } @if (usager.decision.statut !== 'RADIE') {
@@ -54,7 +56,7 @@
 
       @if (displayDeleteButton) {
       <div class="fr-my-5w">
-        <h2 class="fr-h3 fr-my-0">
+        <h2 class="fr-h3 fr-my-2w">
           <span class="fr-icon-file-text-line" aria-hidden="true"></span>
           Documents de l'usager
         </h2>

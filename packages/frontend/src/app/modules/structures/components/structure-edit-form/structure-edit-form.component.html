@@ -1000,66 +1000,56 @@
       Contact
     </h2>
 
-    <fieldset class="fr-fieldset">
-      <legend class="fr-sr-only">
-        Informations de contact de la structure
-      </legend>
+    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+      <!-- Téléphone -->
+      <div class="fr-col-12 fr-col-md-6">
+        <app-phone-input
+          [isRequired]="false"
+          [isMobileOnly]="false"
+          [submitted]="submitted"
+          formControlName="telephone"
+          inputId="phone"
+        ></app-phone-input>
+      </div>
 
-      <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
-        <!-- Téléphone -->
-        <div class="fr-col-12 fr-col-md-6">
-          <app-phone-input
-            [isRequired]="false"
-            [isMobileOnly]="false"
-            [submitted]="submitted"
-            formControlName="telephone"
-            inputId="phone"
-          ></app-phone-input>
-        </div>
-
-        <!-- Email -->
-        <div class="fr-col-12 fr-col-md-6">
-          <div
-            class="fr-input-group"
-            [class.fr-input-group--error]="
+      <!-- Email -->
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
+            (submitted || f.email.dirty) && f.email.errors
+          "
+        >
+          <label class="fr-label" for="email">
+            Adresse e-mail indiquée sur le Cerfa
+          </label>
+          <input
+            type="email"
+            class="fr-input"
+            [class.fr-input--error]="
               (submitted || f.email.dirty) && f.email.errors
             "
-          >
-            <label class="fr-label" for="email">
-              Adresse e-mail indiquée sur le Cerfa
-            </label>
-            <input
-              type="email"
-              class="fr-input"
-              [class.fr-input--error]="
-                (submitted || f.email.dirty) && f.email.errors
-              "
-              id="email"
-              formControlName="email"
-              name="email"
-              autocomplete="email"
-              aria-describedby="email-messages"
-              [attr.aria-invalid]="
-                (submitted || f.email.dirty) && f.email.errors ? true : null
-              "
-              required
-            />
-            <div
-              class="fr-messages-group"
-              id="email-messages"
-              aria-live="polite"
-            >
-              @if ((submitted || f.email.dirty) && f.email.errors) {
-              <p class="fr-message fr-message--error">
-                Veuillez vérifier l'adresse email, format attendu&nbsp;:
-                nom&#64;domaine.fr
-              </p>
-              }
-            </div>
+            id="email"
+            formControlName="email"
+            name="email"
+            autocomplete="email"
+            aria-describedby="email-messages"
+            [attr.aria-invalid]="
+              (submitted || f.email.dirty) && f.email.errors ? true : null
+            "
+            required
+          />
+          <div class="fr-messages-group" id="email-messages" aria-live="polite">
+            @if ((submitted || f.email.dirty) && f.email.errors) {
+            <p class="fr-message fr-message--error">
+              Veuillez vérifier l'adresse email, format attendu&nbsp;:
+              nom&#64;domaine.fr
+            </p>
+            }
           </div>
         </div>
       </div>
-    </fieldset>
+    </div>
   </section>
 
   <hr />

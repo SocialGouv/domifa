@@ -9,7 +9,7 @@
   #decisionRefusModal
   [titleModal]="'Refuser le dossier'"
   [isScrollable]="true"
-  [size]="'LG'"
+  [modalSize]="'LG'"
   dialogId="decisionRefusModal"
 >
   <form [formGroup]="refusForm" (ngSubmit)="setDecisionRefus()">
@@ -30,7 +30,7 @@
           [showMask]="true"
           appendTo="body"
           [message]="
-            (r.dateFin.dirty || submitted) && r.dateFin.errors
+            submitted && r.dateFin.errors
               ? 'La date de refus est incorrecte, exemple: 20/12/2022'
               : ''
           "

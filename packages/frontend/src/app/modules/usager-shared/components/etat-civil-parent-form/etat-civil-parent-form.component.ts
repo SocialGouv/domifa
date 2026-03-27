@@ -40,6 +40,7 @@ import { AuthService } from "../../../shared/services";
 import {
   getFormPhone,
   mobilePhoneValidator,
+  phoneRequiredValidator,
   setFormPhone,
 } from "../../../../shared/phone";
 import {
@@ -133,7 +134,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
       telephone: new UntypedFormControl(
         setFormPhone(this.usager.telephone),
         this.usager.contactByPhone
-          ? [Validators.required, mobilePhoneValidator]
+          ? [phoneRequiredValidator, mobilePhoneValidator]
           : [mobilePhoneValidator]
       ),
       prenom: [
@@ -160,7 +161,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
         .get("contactByPhone")
         ?.valueChanges.subscribe((value: boolean) => {
           const isRequiredTelephone = value
-            ? [Validators.required, mobilePhoneValidator]
+            ? [phoneRequiredValidator, mobilePhoneValidator]
             : [mobilePhoneValidator];
 
           this.usagerForm.get("telephone")?.setValidators(isRequiredTelephone);

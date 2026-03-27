@@ -141,33 +141,18 @@
                           <dsfrx-dropdownmenu-item
                             (selectItem)="openUpdateUserModal(user)"
                           >
-                            <button
-                              type="button"
-                              class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
-                              (click)="openUpdateUserModal(user)"
-                            >
-                              <i
-                                class="fr-icon-edit-fill"
-                                aria-hidden="true"
-                              ></i>
-                              Modifier l'utilisateur
-                            </button>
+                            <i class="fr-icon-edit-fill" aria-hidden="true"></i>
+                            Modifier l'utilisateur
                           </dsfrx-dropdownmenu-item>
 
                           <dsfrx-dropdownmenu-item
                             (selectItem)="openDeleteConfirmation(user)"
                           >
-                            <button
-                              type="button"
-                              class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
-                              (click)="openDeleteConfirmation(user)"
-                            >
-                              <i
-                                class="fr-icon-delete-fill"
-                                aria-hidden="true"
-                              ></i>
-                              Supprimer l'utilisateur
-                            </button>
+                            <i
+                              class="fr-icon-delete-fill"
+                              aria-hidden="true"
+                            ></i>
+                            Supprimer l'utilisateur
                           </dsfrx-dropdownmenu-item>
                         </ng-template>
                       </dsfrx-dropdownmenu>
@@ -189,18 +174,17 @@
 
 @if (me?.role === 'admin') {
 <app-register-user-admin (getUsers)="getUsers()" />
-} }
+} } @if (selectedUser) {
 
 <dsfr-modal
   class="fr-text--left"
   #updateUserModal
   dialogId="update-user-modal"
-  [size]="'MD'"
+  modalSize="MD"
   titleModal="Modifier le rôle de {{ selectedUser?.nom }} {{
     selectedUser?.prenom
   }}"
 >
-  @if (selectedUser) {
   <div class="fr-select-group">
     <label class="fr-label" for="update-role">Rôle</label>
     <select
@@ -237,22 +221,20 @@
       </button>
     </div>
   </ng-template>
-  }
 </dsfr-modal>
+}
 
 <dsfr-modal
   class="fr-text--left"
   #assignReferrersModal
   dialogId="assign-referrers-modal"
-  [size]="'LG'"
+  [modalSize]="'LG'"
   titleModal="Réassignation des dossiers"
 >
-  @if (selectedUser) {
   <app-assign-referrers
     [currentUser]="selectedUser"
     [(newReferrerId)]="newReferrerId"
   />
-
   <ng-template #modalFooterTemplate>
     <div class="fr-btns-group fr-btns-group--inline fr-btns-group--right">
       <button
@@ -272,20 +254,48 @@
       </button>
     </div>
   </ng-template>
-  }
 </dsfr-modal>
 
 <dsfr-modal
   class="fr-text--left"
-  #deleteModal
+  #deleteUserConfirmationModal
   dialogId="delete-user-modal"
-  [size]="'LG'"
+  [modalSize]="'LG'"
   titleModal="Suppression du compte de {{ selectedUser?.nom }} {{
     selectedUser?.prenom
   }}"
 >
-  <app-delete-user
-    [selectedUser]="selectedUser"
-    (deleteComplete)="getUsers()"
+  <p>
+    Attention, cette action est irréversible. Une fois supprimé, l'utilisateur
+    ne pourra plus se connecter et accéder à DomiFa.
+  </p>
+
+  <app-assign-referrers
+    [(newReferrerId)]="newReferrerId"
+    [currentUser]="selectedUser"
   />
+
+  <ng-template #modalFooterTemplate>
+    <div
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
+    >
+      <button
+        type="button"
+        class="fr-btn"
+        (click)="deleteUser()"
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
+      >
+        @if (!loading) { Confirmer la suppression } @else { Veuillez
+        patienter... }
+      </button>
+      <button
+        type="button"
+        class="fr-btn fr-btn--secondary"
+        (click)="closeModal('delete')"
+      >
+        Annuler
+      </button>
+    </div>
+  </ng-template>
 </dsfr-modal>

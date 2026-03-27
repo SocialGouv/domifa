@@ -3,19 +3,18 @@
 <div class="fr-content-container fr-py-3w">
   <div class="fr-container">
     <div
-      class="fr-grid-row fr-text--center justify-content-md-between fr-justify-content-center fr-align-items-center"
+      class="fr-justify-content-between fr-align-items-center fr-display-flex"
     >
-      <div>
-        <h1 class="fr-h3 fr-m-0 text-start">Domiciliés</h1>
-        <!-- <p aria-live="polite" class="fr-mb-0 fr-text--sm">
+      <h1 class="fr-h3 fr-m-0 text-start">Domiciliés</h1>
+      <!-- <p aria-live="polite" class="fr-mb-0 fr-text--sm">
           @if (nbResults) {
           <span class="fr-text--bold">{{ nbResults }}</span>
           @if ( filters.statut === UsagersFilterCriteriaStatut.RADIE &&
           usagersRadiesTotalCount !== usagersRadiesLoadedCount ) { premiers }
           résultats } @else { Aucun résultat }
         </p> -->
-      </div>
-      <div class="fr-col-md-2 fr-col-6 fr-text--right">
+
+      <div class="fr-text--right">
         <a
           *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
           routerLink="/usager/nouveau"
@@ -317,7 +316,7 @@
       usagersCountByStatus.RADIE !== usagersRadiesLoadedCount &&
       !this.chargerTousRadies$.value ) {
       <div
-        class="fr-my-4w fr-alert fr-alert--info fr-flex-wrap fr-text--center justify-content-md-between fr-justify-content-center fr-align-items-center"
+        class="fr-my-4w fr-alert fr-alert--info fr-flex-wrap fr-text--center fr-justify-content-between fr-align-items-center fr-justify-content-center fr-align-items-center"
       >
         <p class="fr-mr-1w">
           <span class="fr-alert__title">Information:</span>
@@ -332,7 +331,7 @@
       </div>
       } @if (usagers.length === 0 && !searching) {
       <div
-        class="fr-my-4w fr-alert fr-alert--warning fr-flex-wrap fr-text--center justify-content-md-between fr-justify-content-center fr-align-items-center"
+        class="fr-my-4w fr-alert fr-alert--warning fr-flex-wrap fr-text--center fr-justify-content-between fr-align-items-center fr-justify-content-center fr-align-items-center"
       >
         <p class="fr-mr-1w">
           <span class="fr-alert__title">Aucun résultat :</span>
