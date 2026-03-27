@@ -40,9 +40,6 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   public readonly USER_STRUCTURE_ROLES_LABELS = USER_STRUCTURE_ROLES_LABELS;
   public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
 
-  @ViewChild("deleteModal")
-  public deleteModal!: DsfrModalComponent;
-
   @ViewChild("assignReferrersModal")
   public assignReferrersModal!: DsfrModalComponent;
 
@@ -134,6 +131,34 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     this.deleteUserConfirmationModal.open();
   }
 
+  public deleteUser(): void {
+    if (this.selectedUser?.uuid) {
+      this.loading = true;
+      this.subscription.add(
+        this.manageUsersService
+          .reassignReferrers(this.selectedUser, this.newReferrerId)
+          .pipe(
+            concatMap(() =>
+              this.manageUsersService.deleteUser(this.selectedUser!.uuid)
+            )
+          )
+          .subscribe({
+            next: () => {
+              this.toastService.success("Utilisateur supprimé avec succès");
+              this.getUsers();
+            },
+            error: () => {
+              this.loading = false;
+              this.toastService.error("Impossible de supprimer l'utilisateur");
+            },
+            complete: () => {
+              this.loading = false;
+            },
+          })
+      );
+    }
+  }
+
   public openUpdateUserModal(user: UserStructureProfile): void {
     this.selectedUser = user;
     this.selectedRole = user.role;
@@ -211,8 +236,9 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   }
 
   public closeModals(): void {
-    this.deleteModal?.close();
+    this.deleteUserConfirmationModal?.close();
     this.assignReferrersModal?.close();
+    this.updateUserModal?.close();
   }
 
   public getUsers(): void {

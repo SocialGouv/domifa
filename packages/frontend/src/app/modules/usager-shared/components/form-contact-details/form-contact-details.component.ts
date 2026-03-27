@@ -22,6 +22,7 @@ import {
 import {
   setFormPhone,
   mobilePhoneValidator,
+  phoneRequiredValidator,
   getFormPhone,
 } from "../../../../shared/phone";
 import { AuthService, CustomToastService } from "../../../shared/services";
@@ -79,7 +80,7 @@ export class FormContactDetailsComponent implements OnInit, OnDestroy {
       telephone: [
         setFormPhone(this.usager.telephone),
         this.usager.contactByPhone
-          ? [Validators.required, mobilePhoneValidator]
+          ? [phoneRequiredValidator, mobilePhoneValidator]
           : [mobilePhoneValidator],
       ],
     });
@@ -89,7 +90,7 @@ export class FormContactDetailsComponent implements OnInit, OnDestroy {
         .get("contactByPhone")
         ?.valueChanges.subscribe((value: boolean) => {
           const isRequiredTelephone = value
-            ? [Validators.required, mobilePhoneValidator]
+            ? [phoneRequiredValidator, mobilePhoneValidator]
             : [mobilePhoneValidator];
 
           this.contactDetailsForm

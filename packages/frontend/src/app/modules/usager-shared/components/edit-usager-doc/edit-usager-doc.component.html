@@ -14,7 +14,7 @@
   #editDocumentModal
   [titleModal]="'Modifier le document: ' + doc.label"
   [isScrollable]="true"
-  [size]="'LG'"
+  [modalSize]="'LG'"
 >
   <form [formGroup]="documentForm" (ngSubmit)="patchDocument()">
     <p>

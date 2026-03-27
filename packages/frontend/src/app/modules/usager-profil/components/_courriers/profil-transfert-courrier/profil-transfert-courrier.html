@@ -183,7 +183,7 @@
           [showMask]="true"
           [required]="true"
           [message]="
-            (f.dateDebut.dirty || submitted) && f.dateDebut.errors
+            submitted && f.dateDebut.errors
               ? 'La date de début est incorrecte. Exemple : 20/12/1996'
               : ''
           "
@@ -199,7 +199,7 @@
           [required]="true"
           [showMask]="true"
           [message]="
-            (f.dateFin.dirty || submitted) && f.dateFin.errors
+            submitted && f.dateFin.errors
               ? (f.dateFin.errors.required
                 ? 'La date de fin est obligatoire'
                 : 'La date de fin est incorrecte. Exemple : 20/12/1996')

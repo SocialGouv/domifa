@@ -34,12 +34,11 @@
         (keydown.space)="goToStep(i)"
         [attr.aria-label]="'Aller à l\'étape ' + (i + 1)"
       >
-        <div
-          [ngClass]="{ 'stepper-step--completed': currentStep > i }"
-          class="fr-flex fr-flex--center"
-        >
-          <div class="fr-grid-row fr-grid-row--middle">
-            <div class="fr-col fr-flex fr-flex--center fr-flex--column">
+        <div [ngClass]="{ 'stepper-step--completed': currentStep > i }">
+          <div class="fr-grid-row fr-grid-row--between fr-grid-row--middle">
+            <div
+              class="fr-col-9 fr-display-flex fr-flex--center fr-align-items-center fr-flex--column"
+            >
               <img
                 [src]="
                   'artwork/pictograms/' + ETAPES_FORM_DOM_ICONES[i] + '.svg'
@@ -54,7 +53,7 @@
               </span>
             </div>
             @if (currentStep >= i) {
-            <div class="fr-col-auto">
+            <div class="fr-col-3 fr-text--right">
               <span
                 class="fr-icon-success-fill fr-text-default--success"
                 aria-hidden="true"

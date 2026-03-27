@@ -26,7 +26,7 @@
     class="fr-text--left"
     #deleteDecisionModal
     [isScrollable]="true"
-    [size]="'LG'"
+    [modalSize]="'LG'"
   >
     <p>
       Vous êtes sur le point de supprimer la décision suivante:<br />
@@ -82,7 +82,7 @@
     #deleteUsagerModal
     [titleModal]="modalTitle"
     [isScrollable]="false"
-    [size]="'LG'"
+    [modalSize]="'LG'"
   >
     @if (selectedRefs.size === 1) {
     <p>

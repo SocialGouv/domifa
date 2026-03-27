@@ -92,7 +92,14 @@ export class PhoneInputComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes["displayErrors"] || changes["submitted"]) {
+    if (changes["isRequired"]) {
+      this.validateInput();
+    }
+    if (
+      changes["displayErrors"] ||
+      changes["submitted"] ||
+      changes["isRequired"]
+    ) {
       this.updateUIState();
     }
   }

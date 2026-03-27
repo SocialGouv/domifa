@@ -1,5 +1,5 @@
+@if (me && usager) {
 <div class="fr-content-container-light">
-  @if (me && usager) {
   <app-profil-head
     [usager]="usager"
     [section]="section"
@@ -276,7 +276,6 @@
     ></app-delete-usager-menu>
     }
   </div>
-  }
 </div>
 
 <app-set-interaction-in-form
@@ -292,3 +291,4 @@
   (cancelReception)="closeModals()"
   (updateInteractions)="updateInteractions()"
 ></app-set-interaction-out-form>
+}

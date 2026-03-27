@@ -1,9 +1,6 @@
 .rdv-radios-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
+  width: 100%;
+  margin: 1.5rem auto;
 }
 
 .fr-text--lead {
@@ -13,6 +10,7 @@
 .rdv-choice {
   width: 100%;
   transition: all 0.2s ease;
+  margin: 1rem auto;
   padding: 1.5rem 2.5rem;
   cursor: pointer;
   border-radius: 0.25rem;

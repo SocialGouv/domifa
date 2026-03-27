@@ -1,4 +1,4 @@
-@if (template === 'small-buttons' && usager) { @if
+@if(usager) { @if (template === 'small-buttons' ) { @if
 (usager?.echeanceInfos?.isActif) {
 <div class="interaction-buttons">
   <button
@@ -28,9 +28,8 @@
     <span class="fr-icon-phone-line" aria-hidden="true"></span>
   </button>
 </div>
-} } @if (template === 'big-buttons' && usager) { @if
-(usager?.echeanceInfos?.isActif || (usager.decision.statut === 'RADIE' &&
-!usager.options.npai.actif)) {
+} } @if (template === 'big-buttons' ) { @if (usager?.echeanceInfos?.isActif ||
+(usager.decision.statut === 'RADIE' && !usager.options.npai.actif)) {
 <div class="interaction-buttons">
   <button
     type="button"
@@ -86,14 +85,14 @@
   </button>
   }
 </div>
-} } @if (usager) {
+} }
 <app-set-interaction-in-form
   #interactionInRef
   [usager]="usager"
   (cancelReception)="onInteractionInClosed()"
   (updateInteractions)="updateInteractions.emit()"
 ></app-set-interaction-in-form>
-} @if (usager) {
+
 <app-set-interaction-out-form
   #interactionOutRef
   [usager]="usager"

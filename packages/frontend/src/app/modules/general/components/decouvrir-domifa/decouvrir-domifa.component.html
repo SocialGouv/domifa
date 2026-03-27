@@ -1,10 +1,8 @@
 <div class="w-100 fr-background-contrast--blue-ecume">
   <div
-    class="fr-container fr-grid-row fr-display-flex fr-flex-row fr-justify-content-between"
+    class="fr-container fr-grid-row fr-display-flex fr-flex-row fr-justify-content-between fr-align-items-center fr-py-2w"
   >
-    <div
-      class="fr-col-12 fr-col-md-8 fr-col-sm-8 fr-py-3w py-md-5 fr-display-flex fr-flex-column fr-gap-1w"
-    >
+    <div class="fr-col-12 fr-col-md-8">
       <h1 class="fr-text-title--blue-france">Découvrir DomiFa</h1>
       <p class="fr-text--lead fr-text-title--blue-france">
         DomiFa est une plateforme en ligne qui permet de sécuriser et optimiser
@@ -13,7 +11,7 @@
         social tout en garantissant un suivi efficace des bénéficiaires.
       </p>
     </div>
-    <div class="fr-col-4 py-1 py-md-2 fr-display-flex fr-align-items-center">
+    <div class="fr-col-4">
       <img
         src="/assets/images/discover/discover-header.svg"
         alt=""
@@ -67,7 +65,7 @@
 </section>
 
 <section class="fr-container">
-  <div class="fr-my-2w fr-grid-row">
+  <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-my-2w">
     <div class="fr-col-12 fr-col-md-4 text-start fr-my-2w fr-display-flex">
       <div class="fr-card h-100">
         <div class="fr-card__body">
@@ -213,20 +211,17 @@
 </section>
 
 <section class="fr-container">
-  <div class="fr-background-contrast--blue-ecume p-4">
-    <div class="fr-display-flex">
-      <div class="d-none fr-display-flex">
-        <img
-          src="artwork/pictograms/digital/innovation.svg"
-          aria-hidden="true"
-          alt=""
-        />
-      </div>
-      <h2 class="fr-text-title--blue-france">
-        Grâce à DomiFa, les structures domiciliataires bénéficient d’une
-        plateforme complète pour :
-      </h2>
-    </div>
+  <div class="fr-background-contrast--blue-ecume fr-p-4w">
+    <h2 class="fr-h3 fr-text-title--blue-france">
+      <img
+        src="artwork/pictograms/digital/innovation.svg"
+        aria-hidden="true"
+        alt=""
+      />
+      Grâce à DomiFa, les structures domiciliataires bénéficient d’une
+      plateforme complète pour :
+    </h2>
+
     <div class="fr-text--bold">
       <p>
         ✅ Dématérialiser les processus qui sont au coeur de la domiciliation :
@@ -257,9 +252,9 @@
         </li>
       </ul>
     </div>
-    <div class="fr-display-flex fr-justify-content-center">
+    <div class="fr-text--center">
       <a
-        class="fr-btn fr-icon-arrow-right-s-line fr-btn--icon-right fr-btn--lg fr-flex-grow-1 flex-md-grow-0"
+        class="fr-btn fr-icon-arrow-right-s-line fr-btn--icon-right fr-btn--lg"
         routerLink="/structures/inscription"
         (click)="
           matomo.trackEvent('DISCOVER', 'INSCRIRE_MA_STRUCTURE', 'null', 1)
@@ -270,7 +265,7 @@
     </div>
   </div>
 </section>
-
+<div class="fr-my-2w"></div>
 <section class="timeline-section fr-background-contrast--blue-ecume fr-py-3w">
   <div class="fr-container">
     <h2 class="fr-text-title--blue-france">En quelques dates</h2>
@@ -279,207 +274,6 @@
 </section>
 
 <section class="fr-container fr-my-4w">
-  <h1 class="fr-text-title--blue-france">Ils utilisent DomiFa</h1>
-  <div class="fr-grid-row">
-    <div class="fr-col-12 fr-col-md-6">
-      <div class="fr-display-flex fr-flex-column fr-gap-1w">
-        <figure role="group" class="fr-content-media">
-          <iframe
-            title="[À MODIFIER - titre de la vidéo]"
-            class="fr-responsive-vid"
-            src="https://www.youtube.com/embed/HyirpmPL43I"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
-          <figcaption class="fr-content-media__caption">
-            Description / Source
-            <a id="link-2" href="#" class="fr-link">Libellé du lien</a>
-          </figcaption>
-        </figure>
-        <!-- Start Transcript -->
-        <div class="fr-transcription" id="transcription-id">
-          <button
-            type="button"
-            class="fr-transcription__btn"
-            aria-expanded="false"
-            aria-controls="fr-transcription-collapse-transcription-id"
-          >
-            Transcription
-          </button>
-          <div
-            class="fr-collapse"
-            id="fr-transcription-collapse-transcription-id"
-          >
-            <div class="fr-transcription__footer">
-              <div class="fr-transcription__actions-group">
-                <button
-                  aria-controls="fr-transcription-modal-transcription-id"
-                  data-fr-opened="false"
-                  type="button"
-                  class="fr-btn--fullscreen fr-btn"
-                >
-                  Agrandir
-                </button>
-              </div>
-            </div>
-            <dialog
-              id="fr-transcription-modal-transcription-id"
-              class="fr-modal"
-            >
-              <div class="fr-container fr-container--fluid fr-container-md">
-                <div class="fr-grid-row fr-grid-row--center">
-                  <div class="fr-col-12 fr-col-md-10 fr-col-lg-8">
-                    <div class="fr-modal__body">
-                      <div class="fr-modal__header">
-                        <button
-                          aria-controls="fr-transcription-modal-transcription-id"
-                          title="Fermer"
-                          type="button"
-                          id="button-1"
-                          class="fr-btn--close fr-btn"
-                        >
-                          Fermer
-                        </button>
-                      </div>
-                      <div class="fr-modal__content">
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing,
-                          incididunt, ut labore et dolore magna aliqua. Vitae
-                          sapien pellentesque habitant morbi tristique senectus
-                          et. Diam maecenas sed enim ut. Accumsan lacus vel
-                          facilisis volutpat est. Ut aliquam purus sit amet
-                          luctus. Lorem ipsum dolor sit amet consectetur
-                          adipiscing elit ut.
-                        </p>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing,
-                          incididunt, ut labore et dolore magna aliqua. Vitae
-                          sapien pellentesque habitant morbi tristique senectus
-                          et. Diam maecenas sed enim ut. Accumsan lacus vel
-                          facilisis volutpat est. Ut aliquam purus sit amet
-                          luctus. Lorem ipsum dolor sit amet consectetur
-                          adipiscing elit ut.
-                        </p>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing,
-                          incididunt, ut labore et dolore magna aliqua. Vitae
-                          sapien pellentesque habitant morbi tristique senectus
-                          et. Diam maecenas sed enim ut. Accumsan lacus vel
-                          facilisis volutpat est. Ut aliquam purus sit amet
-                          luctus. Lorem ipsum dolor sit amet consectetur
-                          adipiscing elit ut.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </dialog>
-          </div>
-        </div>
-        <!-- End Transcript -->
-      </div>
-    </div>
-    <div class="fr-col-12 fr-col-md-6">
-      <div class="fr-display-flex fr-flex-column fr-gap-1w">
-        <figure role="group" class="fr-content-media">
-          <iframe
-            title="[À MODIFIER - titre de la vidéo]"
-            class="fr-responsive-vid"
-            src="https://www.youtube.com/embed/HyirpmPL43I"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
-          <figcaption class="fr-content-media__caption">
-            Description / Source
-            <a id="link-2" href="#" class="fr-link">Libellé du lien</a>
-          </figcaption>
-        </figure>
-        <!-- Start Transcript -->
-        <div class="fr-transcription" id="transcription-id">
-          <button
-            type="button"
-            class="fr-transcription__btn"
-            aria-expanded="false"
-            aria-controls="fr-transcription-collapse-transcription-id"
-          >
-            Transcription
-          </button>
-          <div
-            class="fr-collapse"
-            id="fr-transcription-collapse-transcription-id"
-          >
-            <div class="fr-transcription__footer">
-              <div class="fr-transcription__actions-group">
-                <button
-                  aria-controls="fr-transcription-modal-transcription-id"
-                  data-fr-opened="false"
-                  type="button"
-                  class="fr-btn--fullscreen fr-btn"
-                >
-                  Agrandir
-                </button>
-              </div>
-            </div>
-            <dialog
-              id="fr-transcription-modal-transcription-id"
-              class="fr-modal"
-            >
-              <div class="fr-container fr-container--fluid fr-container-md">
-                <div class="fr-grid-row fr-grid-row--center">
-                  <div class="fr-col-12 fr-col-md-10 fr-col-lg-8">
-                    <div class="fr-modal__body">
-                      <div class="fr-modal__header">
-                        <button
-                          aria-controls="fr-transcription-modal-transcription-id"
-                          title="Fermer"
-                          type="button"
-                          id="button-1"
-                          class="fr-btn--close fr-btn"
-                        >
-                          Fermer
-                        </button>
-                      </div>
-                      <div class="fr-modal__content">
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing,
-                          incididunt, ut labore et dolore magna aliqua. Vitae
-                          sapien pellentesque habitant morbi tristique senectus
-                          et. Diam maecenas sed enim ut. Accumsan lacus vel
-                          facilisis volutpat est. Ut aliquam purus sit amet
-                          luctus. Lorem ipsum dolor sit amet consectetur
-                          adipiscing elit ut.
-                        </p>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing,
-                          incididunt, ut labore et dolore magna aliqua. Vitae
-                          sapien pellentesque habitant morbi tristique senectus
-                          et. Diam maecenas sed enim ut. Accumsan lacus vel
-                          facilisis volutpat est. Ut aliquam purus sit amet
-                          luctus. Lorem ipsum dolor sit amet consectetur
-                          adipiscing elit ut.
-                        </p>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing,
-                          incididunt, ut labore et dolore magna aliqua. Vitae
-                          sapien pellentesque habitant morbi tristique senectus
-                          et. Diam maecenas sed enim ut. Accumsan lacus vel
-                          facilisis volutpat est. Ut aliquam purus sit amet
-                          luctus. Lorem ipsum dolor sit amet consectetur
-                          adipiscing elit ut.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </dialog>
-          </div>
-        </div>
-        <!-- End Transcript -->
-      </div>
-    </div>
-  </div>
   <div class="fr-grid-row">
     <h2 class="fr-text-title--blue-france fr-h3">Témoignages</h2>
     <div class="fr-col-12 fr-mb-2w">
@@ -502,77 +296,6 @@
           <div class="fr-quote__source"></div>
         </figcaption>
       </figure>
-    </div>
-
-    <div class="fr-col-12">
-      <figure class="fr-quote">
-        <blockquote>
-          <p class="fr-text--md">
-            DomiFa propose de nouveaux raccourcis pratiques, la prise en main
-            est rapide et intuitive. Le design est agréable, l'outil est
-            pratique et fiable.
-          </p>
-        </blockquote>
-        <figcaption>
-          <p class="fr-quote__author">
-            Service de domiciliation de la Croix-Rouge – Unité locale de Rennes
-          </p>
-          <div class="fr-quote__source"></div>
-        </figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-<section class="fr-background-alt--blue-ecume fr-p-3w">
-  <div class="fr-container">
-    <h2 class="fr-text-title--blue-france">Rejoignez DomiFa !</h2>
-    <div class="fr-grid-row">
-      <div
-        class="fr-col-12 fr-col-md-3 fr-display-flex fr-justify-content-center"
-      >
-        <img
-          aria-hidden="true"
-          src="/assets/images/discover/bottom-banner.svg"
-          alt=""
-          class="fr-responsive-img"
-        />
-      </div>
-      <div class="fr-col-12 fr-col-md-9">
-        <div class="fr-grid-row border-bottom border-grey pb-4">
-          <h3 class="fr-my-0">
-            CCAS, CIAS, organisme agréé ? <br />
-            Outillez votre structure avec un service adapté
-          </h3>
-          <p>
-            DomiFa est un service public, gratuit et adapté pour gérer la
-            domiciliation des personnes sans domicile stable.
-          </p>
-          <div
-            class="fr-display-flex justify-content-md-end fr-justify-content-center"
-          >
-            <a routerLink="/structures/inscription" class="fr-btn">
-              Inscrire ma structure sur DomiFa</a
-            >
-          </div>
-        </div>
-        <div class="fr-grid-row pt-4">
-          <h3 class="fr-my-0">
-            Domicilié ? <br />
-            Accédez à votre dossier en toute facilité
-          </h3>
-          <p>
-            Avec Mon DomiFa, suivez votre dossier de domiciliation et l’arrivée
-            de courrier dans votre structure.
-          </p>
-          <div
-            class="fr-display-flex justify-content-md-end fr-justify-content-center"
-          >
-            <a routerLink="/structures/inscription" class="fr-btn">
-              Aller sur Mon DomiFa</a
-            >
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </section>

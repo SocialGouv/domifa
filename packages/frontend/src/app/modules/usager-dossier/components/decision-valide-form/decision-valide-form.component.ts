@@ -251,8 +251,8 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  private getDateMessage(controlName: string, keys: string[]): string {
-    if (!this.submitted && !this.v?.[controlName]?.touched) {
+  private getDateMessage(_controlName: string, keys: string[]): string {
+    if (!this.submitted) {
       return "";
     }
     const errors = this.valideForm?.errors;

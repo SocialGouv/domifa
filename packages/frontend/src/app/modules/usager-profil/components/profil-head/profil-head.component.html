@@ -50,7 +50,7 @@
         </button>
         <button
           type="button"
-          class="fr-my-1w fr-btn fr-btn--secondary fr-ms-2w"
+          class="fr-my-1w fr-btn fr-btn--secondary fr-mx-1w"
           (click)="
             getCerfa(
               usager.decision.statut === 'REFUS'
@@ -185,7 +185,7 @@
       : 'Nouvelle demande de domiciliation'
   "
 >
-  <ng-container dsfrModalBody>
+  <ng-container>
     @if (usager?.decision?.statut !== 'RADIE' && usager?.decision?.statut !==
     'REFUS') {
     <p>

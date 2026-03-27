@@ -284,9 +284,13 @@
               UsagersFilterCriteriaStatut.INSTRUCTION) {
               <td>
                 @if (usager.typeDom === 'RENOUVELLEMENT') {
-                <p class="fr-m-0 fr-badge fr-badge--warning">Renouvellement</p>
+                <p class="fr-m-0 fr-badge fr-badge--sm fr-badge--warning">
+                  Renouvellement
+                </p>
                 } @if (usager.typeDom === 'PREMIERE_DOM') {
-                <p class="fr-m-0 fr-badge fr-badge--info">Première demande</p>
+                <p class="fr-m-0 fr-badge fr-badge--sm fr-badge--info">
+                  Première demande
+                </p>
                 }
               </td>
               } @if (filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION)
@@ -351,7 +355,7 @@
   [titleModal]="'Vous êtes sur le point de supprimer ' + selectedRefs.size + (selectedRefs.size > 1 ? ' domiciliés' : ' domicilié') + ' !'"
   dialogId="deleteUsagersModal"
   [isScrollable]="false"
-  [size]="'LG'"
+  [modalSize]="'LG'"
 >
   @if (selectedRefs.size === 1) {
   <p>

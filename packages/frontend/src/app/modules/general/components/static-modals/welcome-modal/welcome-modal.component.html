@@ -6,34 +6,32 @@
   dialogId="newsModal"
   titleModal="Des nouveautés sont disponibles sur la plateforme"
 >
-  <ng-container dsfrModalBody>
-    @if (news) {
-    <p class="fr-text--bold fr-mb-1w">
-      Nouveautés du {{ news.date | date : "d MMMM y" }}@if (news.description) {
-      - {{ news.description }}}
-    </p>
+  @if (news) {
+  <p class="fr-text--bold fr-mb-1w">
+    Nouveautés du {{ news.date | date : "d MMMM y" }}@if (news.description) { -
+    {{ news.description }}}
+  </p>
 
-    @for (content of news.content; track content.categorie) {
-    <p class="fr-text--sm fr-mb-1w">
-      <span
-        class="fr-badge fr-badge--sm"
-        [ngClass]="{
-          'fr-badge--info': content.type === 'new',
-          'fr-badge--warning': content.type === 'bug'
-        }"
-      >
-        {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
-      </span>
-      &nbsp;
-      <b>{{ content.categorie }}</b>
-    </p>
-    <ul class="fr-mb-3w">
-      @for (message of content.message; track message) {
-      <li [innerHTML]="message | nl2br"></li>
-      }
-    </ul>
-    } }
-  </ng-container>
+  @for (content of news.content; track content.categorie) {
+  <p class="fr-text--sm fr-mb-1w">
+    <span
+      class="fr-badge fr-badge--sm"
+      [ngClass]="{
+        'fr-badge--info': content.type === 'new',
+        'fr-badge--warning': content.type === 'bug'
+      }"
+    >
+      {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
+    </span>
+    &nbsp;
+    <b>{{ content.categorie }}</b>
+  </p>
+  <ul class="fr-mb-3w">
+    @for (message of content.message; track message) {
+    <li [innerHTML]="message | nl2br"></li>
+    }
+  </ul>
+  } }
 
   <ng-template #modalFooterTemplate>
     <div

@@ -1,11 +1,11 @@
 <dsfr-modal
   class="fr-text--left"
   #appTourModal
-  [size]="'LG'"
+  [modalSize]="'LG'"
   dialogId="appTourModal"
   [titleModal]="tourSteps[currentStep].title"
 >
-  <ng-container dsfrModalBody>
+  <ng-container>
     @if (me) {
     <p>
       Nous sommes ravis de vous accueillir sur la plateforme.<br />

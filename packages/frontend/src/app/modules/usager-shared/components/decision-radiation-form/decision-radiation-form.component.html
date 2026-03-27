@@ -20,17 +20,17 @@
   #decisionRadiationFormModal
   titleModal="Motivez votre radiation"
   [isScrollable]="true"
-  [size]="'LG'"
+  [modalSize]="'LG'"
 >
   <form [formGroup]="radiationForm" (ngSubmit)="setDecisionRadiation()">
     <div class="fr-p-4w">
       @if (usager && context === 'PROFIL') {
       <p>
         Vous souhaitez mettre fin à la domiciliation de
-        <strong>
+        <b>
           {{ usager | fullName }} né{{ usager.sexe === "homme" ? "" : "e" }} le
           {{ usager.dateNaissance | date : "dd MMMM yyyy" }}.
-        </strong>
+        </b>
         <br />
         <br />
         La radiation peut avoir de lourdes conséquences et laisser une personne
@@ -43,9 +43,9 @@
       } @if (context === 'MANAGE') {
       <p>
         Vous souhaitez mettre fin à la domiciliation de
-        <strong
+        <b
           >{{ selectedRefs.size }}
-          {{ selectedRefs.size > 1 ? "domiciliés" : "domicilié" }}</strong
+          {{ selectedRefs.size > 1 ? "domiciliés" : "domicilié" }}</b
         >
         <br />
         La radiation peut avoir de lourdes conséquences et laisser toutes les
@@ -78,7 +78,7 @@
             [showMask]="true"
             appendTo="body"
             [message]="
-              (r.dateFin.dirty || submitted) && r.dateFin.errors
+              submitted && r.dateFin.errors
                 ? 'La date de fin est incorrecte. Format attendu: jj/mm/aaaa'
                 : ''
             "
