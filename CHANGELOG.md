@@ -1,3 +1,13 @@
+## [2.235.3](https://github.com/SocialGouv/domifa/compare/v2.235.2...v2.235.3) (2026-03-29)
+
+
+### Bug Fixes
+
+* **frontend:** delete bootstrap ([5552718](https://github.com/SocialGouv/domifa/commit/5552718e7e63d233571fd2b305e81c0254451bbd))
+* **frontend:** fix margins ([08e96a6](https://github.com/SocialGouv/domifa/commit/08e96a6c5c2871761638e53bac6c6eda3af62f33))
+* **frontend:** fix stats ([f8979f8](https://github.com/SocialGouv/domifa/commit/f8979f87ffd21ca3546da4175ee2d24afb76d8da))
+* **frontend:** update dsfr and angular ([dd33f36](https://github.com/SocialGouv/domifa/commit/dd33f363f9f9f94731d86ff054ecc3660d798b39))
+
 ## [2.235.2](https://github.com/SocialGouv/domifa/compare/v2.235.1...v2.235.2) (2026-03-24)
 
 
