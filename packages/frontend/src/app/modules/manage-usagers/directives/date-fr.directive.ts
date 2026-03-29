@@ -2,10 +2,10 @@ import { Directive, ElementRef, HostListener } from "@angular/core";
 
 @Directive({
   selector: "[appDateFr]",
-  standalone: false,
+  standalone: true,
 })
 export class DateFrDirective {
-  constructor(private el: ElementRef) {}
+  constructor(private readonly el: ElementRef) {}
 
   @HostListener("input", ["$event"])
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,7 +16,7 @@ export class DateFrDirective {
     const cursorPosition = input.selectionStart;
     const originalLength = value.length;
 
-    let cleanValue = value.replace(/\D/g, "");
+    let cleanValue = value.replaceAll(/\D/g, "");
 
     if (cleanValue.length > 8) {
       cleanValue = cleanValue.substring(0, 8);

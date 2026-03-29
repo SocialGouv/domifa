@@ -38,150 +38,158 @@
         ></dsfr-ext-datepicker>
       </div>
 
-      <div
-        class="fr-input-group fr-col-md-6"
-        [class.fr-input-group--error]="
-          (r.motif.dirty || submitted) && r.motif.errors
-        "
-      >
-        <label class="fr-label" for="motifRefusSelectModal">
-          Pour quel motif ?
-        </label>
-        <select
-          class="fr-select"
-          id="motifRefusSelectModal"
-          formControlName="motif"
-          [attr.aria-invalid]="
-            (r.motif.dirty || submitted) && r.motif.errors ? true : false
-          "
-          [attr.aria-describedby]="
+      <div class="fr-col-md-6">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
             (r.motif.dirty || submitted) && r.motif.errors
-              ? 'motif-errors-modal'
-              : null
           "
         >
-          <option value="" disabled selected>Sélectionner un motif</option>
-          @for (motif of MOTIFS_REFUS_LABELS | keyvalue; track motif.key) {
-          <option [value]="motif.key">{{ motif.value }}</option>
+          <label class="fr-label" for="motifRefusSelectModal">
+            Pour quel motif ?
+          </label>
+          <select
+            class="fr-select"
+            id="motifRefusSelectModal"
+            formControlName="motif"
+            [attr.aria-invalid]="
+              (r.motif.dirty || submitted) && r.motif.errors ? true : false
+            "
+            [attr.aria-describedby]="
+              (r.motif.dirty || submitted) && r.motif.errors
+                ? 'motif-errors-modal'
+                : null
+            "
+          >
+            <option value="" disabled selected>Sélectionner un motif</option>
+            @for (motif of MOTIFS_REFUS_LABELS | keyvalue; track motif.key) {
+            <option [value]="motif.key">{{ motif.value }}</option>
+            }
+            <option value="AUTRE">Autre raison</option>
+          </select>
+          @if ((r.motif.dirty || submitted) && r.motif.errors) {
+          <p id="motif-errors-modal" class="fr-error-text">
+            Veuillez sélectionner un motif
+          </p>
           }
-          <option value="AUTRE">Autre raison</option>
-        </select>
-        @if ((r.motif.dirty || submitted) && r.motif.errors) {
-        <p id="motif-errors-modal" class="fr-error-text">
-          Veuillez sélectionner un motif
-        </p>
-        }
+        </div>
       </div>
 
       @if (r.motif.value === 'AUTRE') {
-      <div
-        class="fr-input-group fr-col-md-12"
-        [class.fr-input-group--error]="
-          (r.motifDetails.dirty || submitted) && r.motifDetails.errors
-        "
-      >
-        <label class="fr-label" for="motifRefusAutreModal">
-          Autre motif de refus (10 caractères minimum)
-        </label>
-        <input
-          type="text"
-          class="fr-input"
-          id="motifRefusAutreModal"
-          formControlName="motifDetails"
-          minlength="10"
-          [attr.aria-invalid]="
+      <div class="fr-col-md-12">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
             (r.motifDetails.dirty || submitted) && r.motifDetails.errors
-              ? true
-              : false
           "
-          [attr.aria-describedby]="
-            (r.motifDetails.dirty || submitted) && r.motifDetails.errors
-              ? 'motifDetails-errors-modal'
-              : null
-          "
-        />
-        @if ((r.motifDetails.dirty || submitted) && r.motifDetails.errors) {
-        <p id="motifDetails-errors-modal" class="fr-error-text">
-          Veuillez préciser la raison
-        </p>
-        }
+        >
+          <label class="fr-label" for="motifRefusAutreModal">
+            Autre motif de refus (10 caractères minimum)
+          </label>
+          <input
+            type="text"
+            class="fr-input"
+            id="motifRefusAutreModal"
+            formControlName="motifDetails"
+            minlength="10"
+            [attr.aria-invalid]="
+              (r.motifDetails.dirty || submitted) && r.motifDetails.errors
+                ? true
+                : false
+            "
+            [attr.aria-describedby]="
+              (r.motifDetails.dirty || submitted) && r.motifDetails.errors
+                ? 'motifDetails-errors-modal'
+                : null
+            "
+          />
+          @if ((r.motifDetails.dirty || submitted) && r.motifDetails.errors) {
+          <p id="motifDetails-errors-modal" class="fr-error-text">
+            Veuillez préciser la raison
+          </p>
+          }
+        </div>
       </div>
       }
     </div>
     <div class="fr-grid-row fr-grid-row--gutters fr-mb-3w">
       <!-- Orientation proposée -->
-      <div
-        class="fr-col-md-6 fr-input-group"
-        [class.fr-input-group--error]="
-          (r.orientation.dirty || submitted) && r.orientation.errors
-        "
-      >
-        <label class="fr-label" for="orientationRefusSelectModal">
-          Orientation proposée
-        </label>
-        <select
-          class="fr-select"
-          id="orientationRefusSelectModal"
-          formControlName="orientation"
-          [attr.aria-invalid]="
+      <div class="fr-col-md-6">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
             (r.orientation.dirty || submitted) && r.orientation.errors
-              ? true
-              : false
-          "
-          [attr.aria-describedby]="
-            (r.orientation.dirty || submitted) && r.orientation.errors
-              ? 'orientation-errors-modal'
-              : null
           "
         >
-          <option value="" selected>Sélectionner une orientation</option>
-          <option value="ccas">CCAS</option>
-          <option value="cias">CIAS, Commune</option>
-          <option value="asso">Organisme agréé</option>
-          <option value="other">Autre</option>
-        </select>
-        @if (submitted && r.orientation.errors) {
-        <p id="orientation-errors-modal" class="fr-error-text">
-          Veuillez proposer une orientation
-        </p>
-        }
+          <label class="fr-label" for="orientationRefusSelectModal">
+            Orientation proposée
+          </label>
+          <select
+            class="fr-select"
+            id="orientationRefusSelectModal"
+            formControlName="orientation"
+            [attr.aria-invalid]="
+              (r.orientation.dirty || submitted) && r.orientation.errors
+                ? true
+                : false
+            "
+            [attr.aria-describedby]="
+              (r.orientation.dirty || submitted) && r.orientation.errors
+                ? 'orientation-errors-modal'
+                : null
+            "
+          >
+            <option value="" selected>Sélectionner une orientation</option>
+            <option value="ccas">CCAS</option>
+            <option value="cias">CIAS, Commune</option>
+            <option value="asso">Organisme agréé</option>
+            <option value="other">Autre</option>
+          </select>
+          @if (submitted && r.orientation.errors) {
+          <p id="orientation-errors-modal" class="fr-error-text">
+            Veuillez proposer une orientation
+          </p>
+          }
+        </div>
       </div>
 
       <!-- Précision orientation -->
-      <div
-        class="fr-col-md-6 fr-input-group"
-        [class.fr-input-group--error]="
-          (r.orientationDetails.dirty || submitted) &&
-          r.orientationDetails.errors
-        "
-      >
-        <label class="fr-label" for="orientationRefusDetailsModal">
-          Précisez l'orientation choisie
-        </label>
-        <input
-          type="text"
-          class="fr-input"
-          id="orientationRefusDetailsModal"
-          formControlName="orientationDetails"
-          [attr.aria-invalid]="
+      <div class="fr-col-md-6">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
             (r.orientationDetails.dirty || submitted) &&
             r.orientationDetails.errors
-              ? true
-              : false
           "
-          [attr.aria-describedby]="
-            (r.orientationDetails.dirty || submitted) &&
-            r.orientationDetails.errors
-              ? 'orientationDetails-errors-modal'
-              : null
-          "
-        />
-        @if (submitted && r.orientationDetails.errors) {
-        <p id="orientationDetails-errors-modal" class="fr-error-text">
-          Veuillez indiquer vers quel organisme vous souhaitez orienter le
-          demandeur
-        </p>
-        }
+        >
+          <label class="fr-label" for="orientationRefusDetailsModal">
+            Précisez l'orientation choisie
+          </label>
+          <input
+            type="text"
+            class="fr-input"
+            id="orientationRefusDetailsModal"
+            formControlName="orientationDetails"
+            [attr.aria-invalid]="
+              (r.orientationDetails.dirty || submitted) &&
+              r.orientationDetails.errors
+                ? true
+                : false
+            "
+            [attr.aria-describedby]="
+              (r.orientationDetails.dirty || submitted) &&
+              r.orientationDetails.errors
+                ? 'orientationDetails-errors-modal'
+                : null
+            "
+          />
+          @if (submitted && r.orientationDetails.errors) {
+          <p id="orientationDetails-errors-modal" class="fr-error-text">
+            Veuillez indiquer vers quel organisme vous souhaitez orienter le
+            demandeur
+          </p>
+          }
+        </div>
       </div>
     </div>
 
@@ -239,145 +247,158 @@
       ></dsfr-ext-datepicker>
     </div>
 
-    <div
-      class="fr-input-group fr-col-md-6"
-      [class.fr-input-group--error]="
-        (r.motif.dirty || submitted) && r.motif.errors
-      "
-    >
-      <label class="fr-label" for="motifRefusSelect"> Pour quel motif ? </label>
-      <select
-        class="fr-select"
-        id="motifRefusSelect"
-        formControlName="motif"
-        [attr.aria-invalid]="
-          (r.motif.dirty || submitted) && r.motif.errors ? true : false
-        "
-        [attr.aria-describedby]="
-          (r.motif.dirty || submitted) && r.motif.errors ? 'motif-errors' : null
+    <div class="fr-col-md-6">
+      <div
+        class="fr-input-group"
+        [class.fr-input-group--error]="
+          (r.motif.dirty || submitted) && r.motif.errors
         "
       >
-        <option value="" disabled selected>Sélectionner un motif</option>
-        @for (motif of MOTIFS_REFUS_LABELS | keyvalue; track motif.key) {
-        <option [value]="motif.key">{{ motif.value }}</option>
+        <label class="fr-label" for="motifRefusSelect">
+          Pour quel motif ?
+        </label>
+        <select
+          class="fr-select"
+          id="motifRefusSelect"
+          formControlName="motif"
+          [attr.aria-invalid]="
+            (r.motif.dirty || submitted) && r.motif.errors ? true : false
+          "
+          [attr.aria-describedby]="
+            (r.motif.dirty || submitted) && r.motif.errors
+              ? 'motif-errors'
+              : null
+          "
+        >
+          <option value="" disabled selected>Sélectionner un motif</option>
+          @for (motif of MOTIFS_REFUS_LABELS | keyvalue; track motif.key) {
+          <option [value]="motif.key">{{ motif.value }}</option>
+          }
+          <option value="AUTRE">Autre raison</option>
+        </select>
+        @if ((r.motif.dirty || submitted) && r.motif.errors) {
+        <p id="motif-errors" class="fr-error-text">
+          Veuillez sélectionner un motif
+        </p>
         }
-        <option value="AUTRE">Autre raison</option>
-      </select>
-      @if ((r.motif.dirty || submitted) && r.motif.errors) {
-      <p id="motif-errors" class="fr-error-text">
-        Veuillez sélectionner un motif
-      </p>
-      }
+      </div>
     </div>
 
     @if (r.motif.value === 'AUTRE') {
-    <div
-      class="fr-input-group fr-col-md-12"
-      [class.fr-input-group--error]="
-        (r.motifDetails.dirty || submitted) && r.motifDetails.errors
-      "
-    >
-      <label class="fr-label" for="motifRefusAutre">
-        Autre motif de refus (10 caractères minimum)
-      </label>
-      <input
-        type="text"
-        class="fr-input"
-        id="motifRefusAutre"
-        formControlName="motifDetails"
-        minlength="10"
-        [attr.aria-invalid]="
+    <div class="fr-col-md-12">
+      <div
+        class="fr-input-group"
+        [class.fr-input-group--error]="
           (r.motifDetails.dirty || submitted) && r.motifDetails.errors
-            ? true
-            : false
         "
-        [attr.aria-describedby]="
-          (r.motifDetails.dirty || submitted) && r.motifDetails.errors
-            ? 'motifDetails-errors'
-            : null
-        "
-      />
-      @if ((r.motifDetails.dirty || submitted) && r.motifDetails.errors) {
-      <p id="motifDetails-errors" class="fr-error-text">
-        Veuillez préciser la raison
-      </p>
-      }
+      >
+        <label class="fr-label" for="motifRefusAutre">
+          Autre motif de refus (10 caractères minimum)
+        </label>
+        <input
+          type="text"
+          class="fr-input"
+          id="motifRefusAutre"
+          formControlName="motifDetails"
+          minlength="10"
+          [attr.aria-invalid]="
+            (r.motifDetails.dirty || submitted) && r.motifDetails.errors
+              ? true
+              : false
+          "
+          [attr.aria-describedby]="
+            (r.motifDetails.dirty || submitted) && r.motifDetails.errors
+              ? 'motifDetails-errors'
+              : null
+          "
+        />
+        @if ((r.motifDetails.dirty || submitted) && r.motifDetails.errors) {
+        <p id="motifDetails-errors" class="fr-error-text">
+          Veuillez préciser la raison
+        </p>
+        }
+      </div>
     </div>
     }
   </div>
   <div class="fr-grid-row fr-grid-row--gutters fr-mb-3w">
     <!-- Orientation proposée -->
-    <div
-      class="fr-col-md-6 fr-input-group"
-      [class.fr-input-group--error]="
-        (r.orientation.dirty || submitted) && r.orientation.errors
-      "
-    >
-      <label class="fr-label" for="orientationRefusSelect">
-        Orientation proposée
-      </label>
-      <select
-        class="fr-select"
-        id="orientationRefusSelect"
-        formControlName="orientation"
-        [attr.aria-invalid]="
+    <div class="fr-col-md-6">
+      <div
+        class="fr-input-group"
+        [class.fr-input-group--error]="
           (r.orientation.dirty || submitted) && r.orientation.errors
-            ? true
-            : false
-        "
-        [attr.aria-describedby]="
-          (r.orientation.dirty || submitted) && r.orientation.errors
-            ? 'orientation-errors'
-            : null
         "
       >
-        <option value="" selected>Sélectionner une orientation</option>
-        <option value="ccas">CCAS</option>
-        <option value="cias">CIAS, Commune</option>
-        <option value="asso">Organisme agréé</option>
-        <option value="other">Autre</option>
-      </select>
-      @if (submitted && r.orientation.errors) {
-      <p id="orientation-errors" class="fr-error-text">
-        Veuillez proposer une orientation
-      </p>
-      }
+        <label class="fr-label" for="orientationRefusSelect">
+          Orientation proposée
+        </label>
+        <select
+          class="fr-select"
+          id="orientationRefusSelect"
+          formControlName="orientation"
+          [attr.aria-invalid]="
+            (r.orientation.dirty || submitted) && r.orientation.errors
+              ? true
+              : false
+          "
+          [attr.aria-describedby]="
+            (r.orientation.dirty || submitted) && r.orientation.errors
+              ? 'orientation-errors'
+              : null
+          "
+        >
+          <option value="" selected>Sélectionner une orientation</option>
+          <option value="ccas">CCAS</option>
+          <option value="cias">CIAS, Commune</option>
+          <option value="asso">Organisme agréé</option>
+          <option value="other">Autre</option>
+        </select>
+        @if (submitted && r.orientation.errors) {
+        <p id="orientation-errors" class="fr-error-text">
+          Veuillez proposer une orientation
+        </p>
+        }
+      </div>
     </div>
 
     <!-- Précision orientation -->
-    <div
-      class="fr-col-md-6 fr-input-group"
-      [class.fr-input-group--error]="
-        (r.orientationDetails.dirty || submitted) && r.orientationDetails.errors
-      "
-    >
-      <label class="fr-label" for="orientationRefusDetails">
-        Précisez l'orientation choisie
-      </label>
-      <input
-        type="text"
-        class="fr-input"
-        id="orientationRefusDetails"
-        formControlName="orientationDetails"
-        [attr.aria-invalid]="
+    <div class="fr-col-md-6">
+      <div
+        class="fr-input-group"
+        [class.fr-input-group--error]="
           (r.orientationDetails.dirty || submitted) &&
           r.orientationDetails.errors
-            ? true
-            : false
         "
-        [attr.aria-describedby]="
-          (r.orientationDetails.dirty || submitted) &&
-          r.orientationDetails.errors
-            ? 'orientationDetails-errors'
-            : null
-        "
-      />
-      @if (submitted && r.orientationDetails.errors) {
-      <p id="orientationDetails-errors" class="fr-error-text">
-        Veuillez indiquer vers quel organisme vous souhaitez orienter le
-        demandeur
-      </p>
-      }
+      >
+        <label class="fr-label" for="orientationRefusDetails">
+          Précisez l'orientation choisie
+        </label>
+        <input
+          type="text"
+          class="fr-input"
+          id="orientationRefusDetails"
+          formControlName="orientationDetails"
+          [attr.aria-invalid]="
+            (r.orientationDetails.dirty || submitted) &&
+            r.orientationDetails.errors
+              ? true
+              : false
+          "
+          [attr.aria-describedby]="
+            (r.orientationDetails.dirty || submitted) &&
+            r.orientationDetails.errors
+              ? 'orientationDetails-errors'
+              : null
+          "
+        />
+        @if (submitted && r.orientationDetails.errors) {
+        <p id="orientationDetails-errors" class="fr-error-text">
+          Veuillez indiquer vers quel organisme vous souhaitez orienter le
+          demandeur
+        </p>
+        }
+      </div>
     </div>
   </div>
 

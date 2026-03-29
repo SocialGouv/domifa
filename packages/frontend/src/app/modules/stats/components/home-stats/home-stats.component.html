@@ -1,8 +1,11 @@
 @if (stats) {
-<div class="fr-container fr-py-3w fr-text--center">
+<div class="fr-container fr-py-3w">
   <h2 class="fr-text-title--blue-france fr-mb-0">Aujourd'hui, DomiFa c'est</h2>
 
-  <ul class="fr-grid-row fr-grid-row--gutters fr-raw-list fr-mt-2w" role="list">
+  <ul
+    class="fr-grid-row fr-grid-row--gutters fr-raw-list fr-mt-2w fr-text--center"
+    role="list"
+  >
     <li class="fr-col-12 fr-col-md-3">
       <p
         [countUp]="stats.structuresCount"

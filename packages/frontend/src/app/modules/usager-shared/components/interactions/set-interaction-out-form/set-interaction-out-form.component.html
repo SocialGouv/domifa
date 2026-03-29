@@ -6,7 +6,7 @@
   (conceal)="cancelReception.emit()"
 >
   @if (usager) {
-  <fieldset class="fr-fieldset">
+  <fieldset class="fr-fieldset fr-my-0">
     <legend class="fr-fieldset__legend">Que souhaitez-vous distribuer ?</legend>
     <div class="interaction-choices">
       @if (interactionFormData.courrierOut?.nbCourrier > 0) {
@@ -84,7 +84,7 @@
 
   @if (usager.options.procurations.length > 0 || usager.decision.statut ===
   'RADIE') {
-  <fieldset class="fr-fieldset">
+  <fieldset class="fr-fieldset fr-my-0">
     <legend class="fr-fieldset__legend">
       A qui est distribué le courrier ?
     </legend>
@@ -98,15 +98,12 @@
     </div>
     }
 
-    <div class="fr-grid-row fr-grid-row--gutters">
+    <div class="fr-grid-row w-100 fr-grid-row--gutters">
       @if (usager.decision.statut === 'RADIE') {
-      <div class="fr-col-md-6 fr-my-2w">
-        <div class="interaction-icon-box">
-          <label for="return-to-sender">
-            <span class="fr-text--bold">Retour à l'expéditeur</span>
-          </label>
-        </div>
-        <div class="interaction-actions checkbox">
+      <div
+        class="fr-fieldset__element fr-fieldset__element--inline fr-col-12 fr-col-md-6"
+      >
+        <div class="fr-radio-group fr-radio-rich">
           <input
             name="procuration"
             id="return-to-sender"
@@ -114,18 +111,17 @@
             [attr.aria-checked]="procurationIndex === null && returnToSender"
             (click)="toggleReturnToSender()"
           />
+          <label class="fr-label" for="return-to-sender">
+            Retour à l'expéditeur
+          </label>
         </div>
       </div>
       }
 
-      <div class="fr-col-md-6 fr-my-2w">
-        <div class="interaction-icon-box">
-          <label for="distribution-domicilie">
-            <span class="fr-text--bold">Domicilié</span><br />
-            {{ usager | fullName }}
-          </label>
-        </div>
-        <div class="interaction-actions checkbox">
+      <div
+        class="fr-fieldset__element fr-fieldset__element--inline fr-col-12 fr-col-md-6"
+      >
+        <div class="fr-radio-group fr-radio-rich">
           <input
             name="procuration"
             id="distribution-domicilie"
@@ -134,31 +130,19 @@
             [attr.aria-checked]="procurationIndex === null && !returnToSender"
             (click)="toggleProcurationIndex(null)"
           />
+          <label class="fr-label" for="distribution-domicilie">
+            <div class="fr-text--bold fr-mb-0">Domicilié</div>
+            <div>{{ usager | fullName }}</div>
+          </label>
         </div>
       </div>
 
       @for (procuration of usager.options.procurations; track procuration; let i
       = $index) {
-      <div class="fr-col-md-6 fr-my-2w">
-        <div class="interaction-icon-box">
-          <div
-            class="fr-text--bold"
-            [class.fr-text-default--error]="procuration.isExpired"
-          >
-            Mandataire @if (procuration.isExpired) {
-            <span>(Procuration expirée !)</span>
-            }
-          </div>
-          <div
-            class="fr-mb-1w"
-            [class.fr-text-default--error]="procuration.isExpired"
-          >
-            <label for="distribution-mandataire-{{ i }}">
-              {{ procuration | fullName }}
-            </label>
-          </div>
-        </div>
-        <div class="interaction-actions checkbox">
+      <div
+        class="fr-fieldset__element fr-fieldset__element--inline fr-col-12 fr-col-md-6"
+      >
+        <div class="fr-radio-group fr-radio-rich">
           <input
             [disabled]="procuration.isExpired"
             name="procuration"
@@ -167,6 +151,19 @@
             [attr.aria-checked]="procurationIndex === i"
             (click)="toggleProcurationIndex(i)"
           />
+          <label class="fr-label" for="distribution-mandataire-{{ i }}">
+            <div
+              class="fr-text--bold fr-mb-0"
+              [class.fr-text-default--error]="procuration.isExpired"
+            >
+              Mandataire @if (procuration.isExpired) {
+              <span>(Procuration expirée !)</span>
+              }
+            </div>
+            <div [class.fr-text-default--error]="procuration.isExpired">
+              {{ procuration | fullName }}
+            </div>
+          </label>
         </div>
       </div>
       }

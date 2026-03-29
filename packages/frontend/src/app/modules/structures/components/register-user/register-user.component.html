@@ -25,88 +25,96 @@
       (ngSubmit)="submitUser()"
     >
       <div class="fr-grid-row fr-align-items-start">
-        <div
-          [class.fr-input-group--error]="
-            (f.nom.dirty || submitted) && f.nom.errors
-          "
-          [class.fr-input-group--valid]="f.nom.dirty && !f.nom.errors"
-          class="fr-col fr-input-group required"
-        >
-          <label class="fr-label" for="nom">Nom</label>
-          <input
-            type="text"
-            class="fr-input"
-            id="nom"
-            appCleanStr
-            autocomplete="family-name"
-            formControlName="nom"
-            maxlength="200"
-            name="nom"
-            [attr.aria-describedby]="
-              (f.nom.dirty || submitted) && f.nom.errors ? 'invalid-name' : null
+        <div class="fr-col">
+          <div
+            [class.fr-input-group--error]="
+              (f.nom.dirty || submitted) && f.nom.errors
             "
-            [attr.aria-invalid]="
-              (f.nom.dirty || submitted) && f.nom.errors ? true : false
-            "
-            required
-          />
-          <ul class="fr-messages-group ps-0">
-            <li
-              id="invalid-name"
-              *ngIf="(f.nom.dirty || submitted) && f.nom.errors"
-              class="fr-message fr-message--error fr-mt-0"
-            >
-              Veuillez vérifier le nom
-            </li>
-          </ul>
-        </div>
-        <div
-          [class.fr-input-group--valid]="f.prenom.dirty && !f.prenom.errors"
-          [class.fr-input-group--error]="
-            (submitted || f.prenom.dirty) && f.prenom.errors
-          "
-          class="fr-col fr-input-group required"
-        >
-          <label class="fr-label" for="prenom">Prénom</label>
-          <input
-            type="text"
-            class="fr-input"
-            id="prenom"
-            appCleanStr
-            autocomplete="given-name"
-            formControlName="prenom"
-            maxlength="200"
-            name="prenom"
-            [attr.aria-describedby]="
-              (submitted || f.prenom.dirty) && f.prenom.errors
-                ? 'invalid-prenom'
-                : null
-            "
-            [attr.aria-invalid]="
-              (submitted || f.prenom.dirty) && f.prenom.errors ? true : false
-            "
-            required
-          />
-          <ul
-            class="fr-messages-group ps-0"
-            id="invalid-prenom"
-            *ngIf="(submitted || f.prenom.dirty) && f.prenom.errors"
+            [class.fr-input-group--valid]="f.nom.dirty && !f.nom.errors"
+            class="fr-input-group required"
           >
-            <li class="fr-message fr-message--error fr-mt-0">
-              Veuillez vérifier le prénom
-            </li>
-          </ul>
+            <label class="fr-label" for="nom">Nom</label>
+            <input
+              type="text"
+              class="fr-input"
+              id="nom"
+              appCleanStr
+              autocomplete="family-name"
+              formControlName="nom"
+              maxlength="200"
+              name="nom"
+              [attr.aria-describedby]="
+                (f.nom.dirty || submitted) && f.nom.errors
+                  ? 'invalid-name'
+                  : null
+              "
+              [attr.aria-invalid]="
+                (f.nom.dirty || submitted) && f.nom.errors ? true : false
+              "
+              required
+            />
+            <ul class="fr-messages-group ps-0">
+              <li
+                id="invalid-name"
+                *ngIf="(f.nom.dirty || submitted) && f.nom.errors"
+                class="fr-message fr-message--error fr-mt-0"
+              >
+                Veuillez vérifier le nom
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="fr-col">
+          <div
+            [class.fr-input-group--valid]="f.prenom.dirty && !f.prenom.errors"
+            [class.fr-input-group--error]="
+              (submitted || f.prenom.dirty) && f.prenom.errors
+            "
+            class="fr-input-group required"
+          >
+            <label class="fr-label" for="prenom">Prénom</label>
+            <input
+              type="text"
+              class="fr-input"
+              id="prenom"
+              appCleanStr
+              autocomplete="given-name"
+              formControlName="prenom"
+              maxlength="200"
+              name="prenom"
+              [attr.aria-describedby]="
+                (submitted || f.prenom.dirty) && f.prenom.errors
+                  ? 'invalid-prenom'
+                  : null
+              "
+              [attr.aria-invalid]="
+                (submitted || f.prenom.dirty) && f.prenom.errors ? true : false
+              "
+              required
+            />
+            <ul
+              class="fr-messages-group ps-0"
+              id="invalid-prenom"
+              *ngIf="(submitted || f.prenom.dirty) && f.prenom.errors"
+            >
+              <li class="fr-message fr-message--error fr-mt-0">
+                Veuillez vérifier le prénom
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <div class="fr-grid-row">
-        <div class="fr-col fr-input-group required">
-          <app-fonction-selection
-            [parentFormGroup]="userForm"
-            [fonctionFormControl]="fonctionControl"
-            [fonctionDetailFormControl]="fonctionDetailControl"
-            [submitted]="submitted"
-            invalidFeedbackText="La fonction du responsable est obligatoire"
-          ></app-fonction-selection>
+        <div class="fr-col">
+          <div class="fr-input-group required">
+            <app-fonction-selection
+              [parentFormGroup]="userForm"
+              [fonctionFormControl]="fonctionControl"
+              [fonctionDetailFormControl]="fonctionDetailControl"
+              [submitted]="submitted"
+              invalidFeedbackText="La fonction du responsable est obligatoire"
+            ></app-fonction-selection>
+          </div>
         </div>
       </div>
       <hr class="fr-mt-4w" />
@@ -137,50 +145,52 @@
         </div>
       </div>
       <div class="fr-grid-row">
-        <div
-          [class.fr-input-group--error]="
-            (f.email.dirty || submitted) && f.email.errors
-          "
-          class="fr-col-md-12 fr-input-group"
-        >
-          <label class="fr-label" for="email"
-            >E-mail <span class="fr-text-default--error">*</span>
-            <p class="fr-hint-text">
-              format attendu : nom&#64;domaine.fr
-            </p></label
-          >
-          <input
-            type="email"
-            class="fr-input"
-            id="email"
-            formControlName="email"
-            name="email"
-            [attr.aria-describedby]="
+        <div class="fr-col-md-12">
+          <div
+            [class.fr-input-group--error]="
               (f.email.dirty || submitted) && f.email.errors
-                ? 'email-errors'
-                : 'email-description'
             "
-            [attr.aria-invalid]="
-              (f.email.dirty || submitted) && f.email.errors ? true : false
-            "
-            required
-          />
-          <ul class="fr-messages-group ps-0">
-            <li
-              id="email-description"
-              *ngIf="!((f.email.dirty || submitted) && f.email.errors)"
-              class="fr-message fr-message--info fr-mt-0"
+            class="fr-input-group"
+          >
+            <label class="fr-label" for="email"
+              >E-mail <span class="fr-text-default--error">*</span>
+              <p class="fr-hint-text">
+                format attendu : nom&#64;domaine.fr
+              </p></label
             >
-              Adresse e-mail indiquée sur le Cerfa
-            </li>
-            <li
-              id="email-errors"
-              *ngIf="(f.email.dirty || submitted) && f.email.errors"
-              class="fr-message fr-message--error fr-mt-0"
-            >
-              Adresse e-mail indiquée sur le Cerfa
-            </li>
-          </ul>
+            <input
+              type="email"
+              class="fr-input"
+              id="email"
+              formControlName="email"
+              name="email"
+              [attr.aria-describedby]="
+                (f.email.dirty || submitted) && f.email.errors
+                  ? 'email-errors'
+                  : 'email-description'
+              "
+              [attr.aria-invalid]="
+                (f.email.dirty || submitted) && f.email.errors ? true : false
+              "
+              required
+            />
+            <ul class="fr-messages-group ps-0">
+              <li
+                id="email-description"
+                *ngIf="!((f.email.dirty || submitted) && f.email.errors)"
+                class="fr-message fr-message--info fr-mt-0"
+              >
+                Adresse e-mail indiquée sur le Cerfa
+              </li>
+              <li
+                id="email-errors"
+                *ngIf="(f.email.dirty || submitted) && f.email.errors"
+                class="fr-message fr-message--error fr-mt-0"
+              >
+                Adresse e-mail indiquée sur le Cerfa
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <div class="fr-grid-row">
