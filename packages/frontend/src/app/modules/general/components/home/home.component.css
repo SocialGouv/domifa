@@ -1,54 +1,6 @@
-h2 {
-  font-size: 1.65rem;
-}
-
-h2 span,
-h2 img {
-  vertical-align: middle;
-}
-
-h2 img {
-  width: 32px;
-  height: auto;
-}
-
-h3 {
-  font-size: 1.45rem;
-}
-
-#home-header .home-header-content img {
-  width: 200px;
-}
-
-#home-header .home-header-content h1 {
-  font-size: 2.5rem;
-}
-
-#home-header h1 .home-header-subtitle {
-  font-size: 1.6rem;
-}
-
-.max-w-200 {
-  max-width: 260px;
-}
-
-.text-gray {
-  color: #1a1a1a;
-}
-
-ul.check-list {
-  padding: 0;
-}
-
-ul.check-list li {
+ul {
   list-style: none;
-}
-
-ul.check-list li::before {
-  content: "\2713";
-  padding-right: 0.51em;
-  font-weight: bold;
-  color: #1212ff;
+  padding: 0;
 }
 
 .counter-title {
@@ -56,14 +8,14 @@ ul.check-list li::before {
   font-size: 1.05rem;
 }
 
+.hero-icon {
+  width: 200px;
+  height: auto;
+}
 .partenaires img {
   height: 80px;
   width: auto;
   margin: 1rem;
-}
-
-.btn-light {
-  color: var(--text-active-blue-france) !important;
 }
 
 .bg-secondary-light {

@@ -42,7 +42,6 @@ import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
     SortLabelPipe,
     StickySelectionBarDirective,
     AssignReferrersComponent,
-    DateFrConditionalDirective,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
@@ -51,6 +50,7 @@ import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
     UsagerSharedModule,
     ColumnInformationsComponent,
     SharedModule,
+    DateFrConditionalDirective,
     UsersModule,
     NgbTooltipModule,
     TableHeadSortIconComponent,

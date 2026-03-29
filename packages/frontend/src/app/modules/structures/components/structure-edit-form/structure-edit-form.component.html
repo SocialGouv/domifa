@@ -168,59 +168,61 @@
 
     <!-- Raison sociale -->
     <div class="fr-grid-row fr-py-1w">
-      <div
-        [class.fr-input-group--error]="
-          (f.nom.dirty || submitted) && f.nom.errors
-        "
-        class="fr-col-12 fr-input-group fr-input-group--required"
-      >
-        <label class="fr-label" for="nom">
-          Raison sociale (nom de la structure)
-        </label>
-        <input
-          type="text"
-          class="fr-input fr-mb-0"
-          [class.fr-input--error]="(f.nom.dirty || submitted) && f.nom.errors"
-          id="nom"
-          maxlength="200"
-          autocomplete="organization"
-          formControlName="nom"
-          appCleanStr
-          name="nom"
-          [attr.aria-invalid]="
-            (f.nom.dirty || submitted) && f.nom.errors ? true : null
-          "
-          [attr.aria-describedby]="
+      <div class="fr-col-12">
+        <div
+          [class.fr-input-group--error]="
             (f.nom.dirty || submitted) && f.nom.errors
-              ? 'nom-errors'
-              : 'nom-structure-description'
           "
-          required
-        />
-        <div class="fr-messages-group" aria-live="polite">
-          <ul class="fr-messages-group__list fr-pl-0">
-            @if (!((f.nom.dirty || submitted) && f.nom.errors)) {
-            <li
-              id="nom-structure-description"
-              class="fr-message fr-message--info fr-mt-1v fr-mb-5v"
-            >
-              Préciser le nom de votre ville / de votre unité locale en cas de
-              réseau / de votre association
-            </li>
-            } @if ((f.nom.dirty || submitted) && f.nom.errors) {
-            <li id="nom-errors" class="fr-message fr-message--error fr-mt-0">
-              Le nom de la structure est requis
-            </li>
+          class="fr-input-group fr-input-group--required"
+        >
+          <label class="fr-label" for="nom">
+            Raison sociale (nom de la structure)
+          </label>
+          <input
+            type="text"
+            class="fr-input fr-mb-0"
+            [class.fr-input--error]="(f.nom.dirty || submitted) && f.nom.errors"
+            id="nom"
+            maxlength="200"
+            autocomplete="organization"
+            formControlName="nom"
+            appCleanStr
+            name="nom"
+            [attr.aria-invalid]="
+              (f.nom.dirty || submitted) && f.nom.errors ? true : null
+            "
+            [attr.aria-describedby]="
+              (f.nom.dirty || submitted) && f.nom.errors
+                ? 'nom-errors'
+                : 'nom-structure-description'
+            "
+            required
+          />
+          <div class="fr-messages-group" aria-live="polite">
+            <ul class="fr-messages-group__list fr-pl-0">
+              @if (!((f.nom.dirty || submitted) && f.nom.errors)) {
+              <li
+                id="nom-structure-description"
+                class="fr-message fr-message--info fr-mt-1v fr-mb-5v"
+              >
+                Préciser le nom de votre ville / de votre unité locale en cas de
+                réseau / de votre association
+              </li>
+              } @if ((f.nom.dirty || submitted) && f.nom.errors) {
+              <li id="nom-errors" class="fr-message fr-message--error fr-mt-0">
+                Le nom de la structure est requis
+              </li>
+              }
+            </ul>
+            @if (isInvalidStructureName(f.nom.value)) {
+            <p class="fr-message fr-message--warning fr-mt-1w">
+              <strong>
+                Préciser le nom de votre ville / de votre unité locale en cas de
+                réseau / de votre association.
+              </strong>
+            </p>
             }
-          </ul>
-          @if (isInvalidStructureName(f.nom.value)) {
-          <p class="fr-message fr-message--warning fr-mt-1w">
-            <strong>
-              Préciser le nom de votre ville / de votre unité locale en cas de
-              réseau / de votre association.
-            </strong>
-          </p>
-          }
+          </div>
         </div>
       </div>
     </div>
@@ -240,235 +242,225 @@
       Informations sur l'agrément
     </h2>
 
-    <fieldset class="fr-fieldset">
-      <legend class="fr-sr-only">
-        Informations sur l'agrément de votre organisme
-      </legend>
-
-      <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
-        <!-- Département -->
-        <div class="fr-col-12 fr-col-md-6">
-          <div
-            class="fr-select-group"
-            [class.fr-select-group--error]="
+    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+      <!-- Département -->
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-select-group"
+          [class.fr-select-group--error]="
+            (submitted || f.departement.dirty) && f.departement.errors
+          "
+        >
+          <label class="fr-label" for="departement">
+            Préfecture ayant délivré l'agrément
+          </label>
+          <select
+            class="fr-select"
+            id="departement"
+            formControlName="departement"
+            name="departement"
+            aria-describedby="departement-messages"
+            [attr.aria-invalid]="
               (submitted || f.departement.dirty) && f.departement.errors
+                ? true
+                : null
             "
+            required
           >
-            <label class="fr-label" for="departement">
-              Préfecture ayant délivré l'agrément
-            </label>
-            <select
-              class="fr-select"
-              id="departement"
-              formControlName="departement"
-              name="departement"
-              aria-describedby="departement-messages"
-              [attr.aria-invalid]="
-                (submitted || f.departement.dirty) && f.departement.errors
-                  ? true
-                  : null
-              "
-              required
-            >
-              <option [ngValue]="null" selected disabled hidden>
-                Sélectionnez un département
-              </option>
-              @for (departement of DEPARTEMENTS_LISTE | keyvalue; track
-              departement.key) {
-              <option [ngValue]="departement.key">
-                {{ departement.key }} - {{ departement.value }}
-              </option>
-              }
-            </select>
-            <div
-              class="fr-messages-group"
-              id="departement-messages"
-              aria-live="polite"
-            >
-              @if ((submitted || f.departement.dirty) && f.departement.errors) {
-              <p class="fr-message fr-message--error">
-                Veuillez sélectionner un département
-              </p>
-              }
-            </div>
-          </div>
-        </div>
-
-        <!-- Numéro d'agrément -->
-        <div class="fr-col-12 fr-col-md-6">
+            <option [ngValue]="null" selected disabled hidden>
+              Sélectionnez un département
+            </option>
+            @for (departement of DEPARTEMENTS_LISTE | keyvalue; track
+            departement.key) {
+            <option [ngValue]="departement.key">
+              {{ departement.key }} - {{ departement.value }}
+            </option>
+            }
+          </select>
           <div
-            class="fr-input-group"
-            [class.fr-input-group--error]="
-              (submitted || f.agrement.dirty) && f.agrement.errors
-            "
+            class="fr-messages-group"
+            id="departement-messages"
+            aria-live="polite"
           >
-            <label class="fr-label" for="agrement">Numéro d'agrément</label>
-            <p class="fr-hint-text">Numéro donné par la préfecture</p>
-            <input
-              type="text"
-              class="fr-input"
-              [class.fr-input--error]="
-                (submitted || f.agrement.dirty) && f.agrement.errors
-              "
-              id="agrement"
-              formControlName="agrement"
-              name="agrement"
-              aria-describedby="agrement-messages"
-              [attr.aria-invalid]="
-                (submitted || f.agrement.dirty) && f.agrement.errors
-                  ? true
-                  : null
-              "
-              required
-            />
-            <div
-              class="fr-messages-group"
-              id="agrement-messages"
-              aria-live="polite"
-            >
-              @if ((submitted || f.agrement.dirty) && f.agrement.errors) {
-              <p class="fr-message fr-message--error">
-                Veuillez insérer un numéro d'agrément
-              </p>
-              }
-            </div>
-          </div>
-        </div>
-
-        <!-- Capacité d'accueil -->
-        <div class="fr-col-12 fr-col-md-6">
-          <div
-            class="fr-input-group"
-            [class.fr-input-group--error]="
-              (submitted || f.capacite.dirty) && f.capacite.errors
-            "
-          >
-            <label class="fr-label" for="capacite">Capacité d'accueil</label>
-            <input
-              type="number"
-              class="fr-input"
-              [class.fr-input--error]="
-                (submitted || f.capacite.dirty) && f.capacite.errors
-              "
-              id="capacite"
-              formControlName="capacite"
-              name="capacite"
-              min="0"
-              aria-describedby="capacite-messages"
-              [attr.aria-invalid]="
-                (submitted || f.capacite.dirty) && f.capacite.errors
-                  ? true
-                  : null
-              "
-            />
-            <div
-              class="fr-messages-group"
-              id="capacite-messages"
-              aria-live="polite"
-            >
-              @if ((submitted || f.capacite.dirty) && f.capacite.errors) {
-              <p class="fr-message fr-message--error">
-                La capacité doit être supérieure à 0
-              </p>
-              }
-            </div>
-          </div>
-        </div>
-
-        <!-- Type d'organisme agréé -->
-        <div class="fr-col-12 fr-col-md-6">
-          <div
-            class="fr-select-group"
-            [class.fr-select-group--error]="
-              (submitted || f.organismeType?.dirty) && f.organismeType.errors
-            "
-          >
-            <label class="fr-label" for="organismeType">
-              Type d'organisme agréé
-            </label>
-            <select
-              class="fr-select"
-              id="organismeType"
-              formControlName="organismeType"
-              name="organismeType"
-              aria-describedby="organismeType-messages"
-              [attr.aria-invalid]="
-                (submitted || f.organismeType?.dirty) && f.organismeType.errors
-                  ? true
-                  : null
-              "
-              required
-            >
-              <option [ngValue]="null" selected disabled hidden>
-                Sélectionnez un type
-              </option>
-              @for (organismeType of STRUCTURE_ORGANISME_TYPE_LABELS | keyvalue;
-              track organismeType.key) {
-              <option [ngValue]="organismeType.key">
-                {{ organismeType.value }}
-              </option>
-              }
-            </select>
-            <div
-              class="fr-messages-group"
-              id="organismeType-messages"
-              aria-live="polite"
-            >
-              @if ((submitted || f.organismeType?.dirty) &&
-              f.organismeType.errors) {
-              <p class="fr-message fr-message--error">
-                Veuillez sélectionner un type d'organisme
-              </p>
-              }
-            </div>
-          </div>
-        </div>
-
-        <!-- Réseau -->
-        <div class="fr-col-12 fr-col-md-6">
-          <div
-            class="fr-select-group"
-            [class.fr-select-group--error]="
-              (submitted || f.reseau?.dirty) && f.reseau.errors
-            "
-          >
-            <label class="fr-label" for="reseau">
-              À quel réseau appartenez-vous&nbsp;?
-            </label>
-            <select
-              class="fr-select"
-              id="reseau"
-              formControlName="reseau"
-              name="reseau"
-              aria-describedby="reseau-messages"
-              [attr.aria-invalid]="
-                (submitted || f.reseau?.dirty) && f.reseau.errors ? true : null
-              "
-            >
-              <option [ngValue]="null">Non renseigné</option>
-              <option value="Pas de réseau">Pas de réseau</option>
-              <option value="Autre réseau">Autre réseau</option>
-              @for (reseau of NETWORKS; track reseau.canonicalName) {
-              <option [ngValue]="reseau.canonicalName">
-                {{ reseau.canonicalName }}
-              </option>
-              }
-            </select>
-            <div
-              class="fr-messages-group"
-              id="reseau-messages"
-              aria-live="polite"
-            >
-              @if ((submitted || f.reseau?.dirty) && f.reseau.errors) {
-              <p class="fr-message fr-message--error">
-                Veuillez sélectionner un réseau
-              </p>
-              }
-            </div>
+            @if ((submitted || f.departement.dirty) && f.departement.errors) {
+            <p class="fr-message fr-message--error">
+              Veuillez sélectionner un département
+            </p>
+            }
           </div>
         </div>
       </div>
-    </fieldset>
+
+      <!-- Numéro d'agrément -->
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
+            (submitted || f.agrement.dirty) && f.agrement.errors
+          "
+        >
+          <label class="fr-label" for="agrement">Numéro d'agrément</label>
+          <p class="fr-hint-text">Numéro donné par la préfecture</p>
+          <input
+            type="text"
+            class="fr-input"
+            [class.fr-input--error]="
+              (submitted || f.agrement.dirty) && f.agrement.errors
+            "
+            id="agrement"
+            formControlName="agrement"
+            name="agrement"
+            aria-describedby="agrement-messages"
+            [attr.aria-invalid]="
+              (submitted || f.agrement.dirty) && f.agrement.errors ? true : null
+            "
+            required
+          />
+          <div
+            class="fr-messages-group"
+            id="agrement-messages"
+            aria-live="polite"
+          >
+            @if ((submitted || f.agrement.dirty) && f.agrement.errors) {
+            <p class="fr-message fr-message--error">
+              Veuillez insérer un numéro d'agrément
+            </p>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Capacité d'accueil -->
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
+            (submitted || f.capacite.dirty) && f.capacite.errors
+          "
+        >
+          <label class="fr-label" for="capacite">Capacité d'accueil</label>
+          <input
+            type="number"
+            class="fr-input"
+            [class.fr-input--error]="
+              (submitted || f.capacite.dirty) && f.capacite.errors
+            "
+            id="capacite"
+            formControlName="capacite"
+            name="capacite"
+            min="0"
+            aria-describedby="capacite-messages"
+            [attr.aria-invalid]="
+              (submitted || f.capacite.dirty) && f.capacite.errors ? true : null
+            "
+          />
+          <div
+            class="fr-messages-group"
+            id="capacite-messages"
+            aria-live="polite"
+          >
+            @if ((submitted || f.capacite.dirty) && f.capacite.errors) {
+            <p class="fr-message fr-message--error">
+              La capacité doit être supérieure à 0
+            </p>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Type d'organisme agréé -->
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-select-group"
+          [class.fr-select-group--error]="
+            (submitted || f.organismeType?.dirty) && f.organismeType.errors
+          "
+        >
+          <label class="fr-label" for="organismeType">
+            Type d'organisme agréé
+          </label>
+          <select
+            class="fr-select"
+            id="organismeType"
+            formControlName="organismeType"
+            name="organismeType"
+            aria-describedby="organismeType-messages"
+            [attr.aria-invalid]="
+              (submitted || f.organismeType?.dirty) && f.organismeType.errors
+                ? true
+                : null
+            "
+            required
+          >
+            <option [ngValue]="null" selected disabled hidden>
+              Sélectionnez un type
+            </option>
+            @for (organismeType of STRUCTURE_ORGANISME_TYPE_LABELS | keyvalue;
+            track organismeType.key) {
+            <option [ngValue]="organismeType.key">
+              {{ organismeType.value }}
+            </option>
+            }
+          </select>
+          <div
+            class="fr-messages-group"
+            id="organismeType-messages"
+            aria-live="polite"
+          >
+            @if ((submitted || f.organismeType?.dirty) &&
+            f.organismeType.errors) {
+            <p class="fr-message fr-message--error">
+              Veuillez sélectionner un type d'organisme
+            </p>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Réseau -->
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-select-group"
+          [class.fr-select-group--error]="
+            (submitted || f.reseau?.dirty) && f.reseau.errors
+          "
+        >
+          <label class="fr-label" for="reseau">
+            À quel réseau appartenez-vous&nbsp;?
+          </label>
+          <select
+            class="fr-select"
+            id="reseau"
+            formControlName="reseau"
+            name="reseau"
+            aria-describedby="reseau-messages"
+            [attr.aria-invalid]="
+              (submitted || f.reseau?.dirty) && f.reseau.errors ? true : null
+            "
+          >
+            <option [ngValue]="null">Non renseigné</option>
+            <option value="Pas de réseau">Pas de réseau</option>
+            <option value="Autre réseau">Autre réseau</option>
+            @for (reseau of NETWORKS; track reseau.canonicalName) {
+            <option [ngValue]="reseau.canonicalName">
+              {{ reseau.canonicalName }}
+            </option>
+            }
+          </select>
+          <div
+            class="fr-messages-group"
+            id="reseau-messages"
+            aria-live="polite"
+          >
+            @if ((submitted || f.reseau?.dirty) && f.reseau.errors) {
+            <p class="fr-message fr-message--error">
+              Veuillez sélectionner un réseau
+            </p>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
   }
 
@@ -492,147 +484,153 @@
       formGroupName="responsable"
     >
       <!-- Nom -->
-      <div
-        [class.fr-input-group--error]="
-          (submitted || f.responsable.get('nom')?.dirty) &&
-          f.responsable.get('nom')?.errors
-        "
-        class="fr-col-12 fr-col-md-4 fr-input-group fr-input-group--required"
-      >
-        <label class="fr-label" for="responsable-nom">Nom</label>
-        <input
-          type="text"
-          class="fr-input"
-          [class.fr-input--error]="
+      <div class="fr-col-12 fr-col-md-4">
+        <div
+          [class.fr-input-group--error]="
             (submitted || f.responsable.get('nom')?.dirty) &&
             f.responsable.get('nom')?.errors
           "
-          id="responsable-nom"
-          formControlName="nom"
-          name="nom"
-          autocomplete="family-name"
-          aria-describedby="responsable-nom-messages"
-          [attr.aria-invalid]="
-            (submitted || f.responsable.get('nom')?.dirty) &&
-            f.responsable.get('nom')?.errors
-              ? true
-              : null
-          "
-          required
-        />
-        @if ((submitted || f.responsable.get('nom')?.dirty) &&
-        f.responsable.get('nom')?.errors) {
-        <ul
-          class="fr-messages-group__list fr-pl-0"
-          id="responsable-nom-messages"
-          role="alert"
-          aria-live="polite"
+          class="fr-input-group fr-input-group--required"
         >
-          <li class="fr-message fr-message--error fr-mt-0">
-            Le nom du responsable est obligatoire
-          </li>
-        </ul>
-        }
+          <label class="fr-label" for="responsable-nom">Nom</label>
+          <input
+            type="text"
+            class="fr-input"
+            [class.fr-input--error]="
+              (submitted || f.responsable.get('nom')?.dirty) &&
+              f.responsable.get('nom')?.errors
+            "
+            id="responsable-nom"
+            formControlName="nom"
+            name="nom"
+            autocomplete="family-name"
+            aria-describedby="responsable-nom-messages"
+            [attr.aria-invalid]="
+              (submitted || f.responsable.get('nom')?.dirty) &&
+              f.responsable.get('nom')?.errors
+                ? true
+                : null
+            "
+            required
+          />
+          @if ((submitted || f.responsable.get('nom')?.dirty) &&
+          f.responsable.get('nom')?.errors) {
+          <ul
+            class="fr-messages-group__list fr-pl-0"
+            id="responsable-nom-messages"
+            role="alert"
+            aria-live="polite"
+          >
+            <li class="fr-message fr-message--error fr-mt-0">
+              Le nom du responsable est obligatoire
+            </li>
+          </ul>
+          }
+        </div>
       </div>
 
       <!-- Prénom -->
-      <div
-        [class.fr-input-group--error]="
-          (submitted || f.responsable.get('prenom')?.dirty) &&
-          f.responsable.get('prenom')?.errors
-        "
-        class="fr-col-12 fr-col-md-4 fr-input-group fr-input-group--required"
-      >
-        <label class="fr-label" for="responsable-prenom">Prénom(s)</label>
-        <input
-          type="text"
-          class="fr-input"
-          [class.fr-input--error]="
+      <div class="fr-col-12 fr-col-md-4">
+        <div
+          [class.fr-input-group--error]="
             (submitted || f.responsable.get('prenom')?.dirty) &&
             f.responsable.get('prenom')?.errors
           "
-          id="responsable-prenom"
-          formControlName="prenom"
-          name="prenom"
-          autocomplete="given-name"
-          aria-describedby="responsable-prenom-messages"
-          [attr.aria-invalid]="
-            (submitted || f.responsable.get('prenom')?.dirty) &&
-            f.responsable.get('prenom')?.errors
-              ? true
-              : null
-          "
-          required
-        />
-        @if ((submitted || f.responsable.get('prenom')?.dirty) &&
-        f.responsable.get('prenom')?.errors) {
-        <ul
-          class="fr-messages-group__list fr-pl-0"
-          id="responsable-prenom-messages"
-          role="alert"
-          aria-live="polite"
+          class="fr-input-group fr-input-group--required"
         >
-          <li class="fr-message fr-message--error fr-mt-0">
-            Le prénom du responsable est obligatoire
-          </li>
-        </ul>
-        }
+          <label class="fr-label" for="responsable-prenom">Prénom(s)</label>
+          <input
+            type="text"
+            class="fr-input"
+            [class.fr-input--error]="
+              (submitted || f.responsable.get('prenom')?.dirty) &&
+              f.responsable.get('prenom')?.errors
+            "
+            id="responsable-prenom"
+            formControlName="prenom"
+            name="prenom"
+            autocomplete="given-name"
+            aria-describedby="responsable-prenom-messages"
+            [attr.aria-invalid]="
+              (submitted || f.responsable.get('prenom')?.dirty) &&
+              f.responsable.get('prenom')?.errors
+                ? true
+                : null
+            "
+            required
+          />
+          @if ((submitted || f.responsable.get('prenom')?.dirty) &&
+          f.responsable.get('prenom')?.errors) {
+          <ul
+            class="fr-messages-group__list fr-pl-0"
+            id="responsable-prenom-messages"
+            role="alert"
+            aria-live="polite"
+          >
+            <li class="fr-message fr-message--error fr-mt-0">
+              Le prénom du responsable est obligatoire
+            </li>
+          </ul>
+          }
+        </div>
       </div>
 
       <!-- Fonction -->
-      <div
-        [class.fr-input-group--error]="
-          (submitted || f.responsable.get('fonction')?.dirty) &&
-          f.responsable.get('fonction')?.errors
-        "
-        class="fr-col-12 fr-col-md-4 fr-input-group fr-input-group--required"
-      >
-        <label class="fr-label" for="fonction">Fonction</label>
-        <input
-          type="text"
-          class="fr-input"
-          [class.fr-input--error]="
+      <div class="fr-col-12 fr-col-md-4">
+        <div
+          [class.fr-input-group--error]="
             (submitted || f.responsable.get('fonction')?.dirty) &&
             f.responsable.get('fonction')?.errors
           "
-          id="fonction"
-          formControlName="fonction"
-          name="fonction"
-          autocomplete="organization-title"
-          [attr.aria-invalid]="
-            (submitted || f.responsable.get('fonction')?.dirty) &&
-            f.responsable.get('fonction')?.errors
-              ? true
-              : null
-          "
-          [attr.aria-describedby]="
-            (submitted || f.responsable.get('fonction')?.dirty) &&
-            f.responsable.get('fonction')?.errors
-              ? 'responsable-fonction-errors'
-              : 'responsable-fonction-description'
-          "
-          required
-        />
-        <div class="fr-messages-group">
-          <ul class="fr-messages-group__list fr-pl-0">
-            @if (!((submitted || f.responsable.get('fonction')?.dirty) &&
-            f.responsable.get('fonction')?.errors)) {
-            <li
-              id="responsable-fonction-description"
-              class="fr-message fr-message--info fr-mt-0"
-            >
-              Président.e, Directrice, etc.
-            </li>
-            } @if ((submitted || f.responsable.get('fonction')?.dirty) &&
-            f.responsable.get('fonction')?.errors) {
-            <li
-              id="responsable-fonction-errors"
-              class="fr-message fr-message--error fr-mt-0"
-            >
-              La fonction du responsable est obligatoire
-            </li>
-            }
-          </ul>
+          class="fr-input-group fr-input-group--required"
+        >
+          <label class="fr-label" for="fonction">Fonction</label>
+          <input
+            type="text"
+            class="fr-input"
+            [class.fr-input--error]="
+              (submitted || f.responsable.get('fonction')?.dirty) &&
+              f.responsable.get('fonction')?.errors
+            "
+            id="fonction"
+            formControlName="fonction"
+            name="fonction"
+            autocomplete="organization-title"
+            [attr.aria-invalid]="
+              (submitted || f.responsable.get('fonction')?.dirty) &&
+              f.responsable.get('fonction')?.errors
+                ? true
+                : null
+            "
+            [attr.aria-describedby]="
+              (submitted || f.responsable.get('fonction')?.dirty) &&
+              f.responsable.get('fonction')?.errors
+                ? 'responsable-fonction-errors'
+                : 'responsable-fonction-description'
+            "
+            required
+          />
+          <div class="fr-messages-group">
+            <ul class="fr-messages-group__list fr-pl-0">
+              @if (!((submitted || f.responsable.get('fonction')?.dirty) &&
+              f.responsable.get('fonction')?.errors)) {
+              <li
+                id="responsable-fonction-description"
+                class="fr-message fr-message--info fr-mt-0"
+              >
+                Président.e, Directrice, etc.
+              </li>
+              } @if ((submitted || f.responsable.get('fonction')?.dirty) &&
+              f.responsable.get('fonction')?.errors) {
+              <li
+                id="responsable-fonction-errors"
+                class="fr-message fr-message--error fr-mt-0"
+              >
+                La fonction du responsable est obligatoire
+              </li>
+              }
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -838,149 +836,144 @@
       </div>
 
       @if (f.adresseCourrier.get('actif')?.value === true) {
-      <fieldset class="fr-fieldset">
-        <legend class="fr-sr-only">
-          Informations sur l'adresse de réception du courrier
-        </legend>
 
-        <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
-          <!-- Adresse réception -->
-          <div class="fr-col-12">
-            <div
-              class="fr-input-group"
-              [class.fr-input-group--error]="
+      <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+        <!-- Adresse réception -->
+        <div class="fr-col-12">
+          <div
+            class="fr-input-group"
+            [class.fr-input-group--error]="
+              (submitted || f.adresseCourrier.get('adresse')?.dirty) &&
+              f.adresseCourrier.get('adresse')?.errors
+            "
+          >
+            <label class="fr-label" for="adresse2">
+              Adresse de réception du courrier
+            </label>
+            <input
+              type="text"
+              class="fr-input"
+              [class.fr-input--error]="
                 (submitted || f.adresseCourrier.get('adresse')?.dirty) &&
                 f.adresseCourrier.get('adresse')?.errors
               "
-            >
-              <label class="fr-label" for="adresse2">
-                Adresse de réception du courrier
-              </label>
-              <input
-                type="text"
-                class="fr-input"
-                [class.fr-input--error]="
-                  (submitted || f.adresseCourrier.get('adresse')?.dirty) &&
-                  f.adresseCourrier.get('adresse')?.errors
-                "
-                id="adresse2"
-                formControlName="adresse"
-                name="adresse"
-                autocomplete="street-address"
-                aria-describedby="adresse2-messages"
-                [attr.aria-invalid]="
-                  (submitted || f.adresseCourrier.get('adresse')?.dirty) &&
-                  f.adresseCourrier.get('adresse')?.errors
-                    ? true
-                    : null
-                "
-                required
-              />
-              <div
-                class="fr-messages-group"
-                id="adresse2-messages"
-                aria-live="polite"
-              >
-                @if ((submitted || f.adresseCourrier.get('adresse')?.dirty) &&
-                f.adresseCourrier.get('adresse')?.errors) {
-                <p class="fr-message fr-message--error">
-                  L'adresse de réception est obligatoire
-                </p>
-                }
-              </div>
-            </div>
-          </div>
-
-          <!-- Code postal réception -->
-          <div class="fr-col-12 fr-col-md-6">
-            <div
-              class="fr-input-group"
-              [class.fr-input-group--error]="
-                (submitted || f.adresseCourrier.get('codePostal')?.dirty) &&
-                f.adresseCourrier.get('codePostal')?.errors
+              id="adresse2"
+              formControlName="adresse"
+              name="adresse"
+              autocomplete="street-address"
+              aria-describedby="adresse2-messages"
+              [attr.aria-invalid]="
+                (submitted || f.adresseCourrier.get('adresse')?.dirty) &&
+                f.adresseCourrier.get('adresse')?.errors
+                  ? true
+                  : null
               "
-            >
-              <label class="fr-label" for="codePostal2">Code postal</label>
-              <input
-                type="text"
-                class="fr-input"
-                [class.fr-input--error]="
-                  (submitted || f.adresseCourrier.get('codePostal')?.dirty) &&
-                  f.adresseCourrier.get('codePostal')?.errors
-                "
-                id="codePostal2"
-                maxlength="5"
-                formControlName="codePostal"
-                name="codePostal"
-                aria-describedby="codePostal2-messages"
-                [attr.aria-invalid]="
-                  (submitted || f.adresseCourrier.get('codePostal')?.dirty) &&
-                  f.adresseCourrier.get('codePostal')?.errors
-                    ? true
-                    : null
-                "
-                required
-              />
-              <div
-                class="fr-messages-group"
-                id="codePostal2-messages"
-                aria-live="polite"
-              >
-                @if ((submitted || f.adresseCourrier.get('codePostal')?.dirty)
-                && f.adresseCourrier.get('codePostal')?.errors) {
-                <p class="fr-message fr-message--error">
-                  Le code postal est obligatoire (Exemple&nbsp;: 75001)
-                </p>
-                }
-              </div>
-            </div>
-          </div>
-
-          <!-- Ville réception -->
-          <div class="fr-col-12 fr-col-md-6">
+              required
+            />
             <div
-              class="fr-input-group"
-              [class.fr-input-group--error]="
-                (submitted || f.adresseCourrier.get('ville')?.dirty) &&
-                f.adresseCourrier.get('ville')?.errors
-              "
+              class="fr-messages-group"
+              id="adresse2-messages"
+              aria-live="polite"
             >
-              <label class="fr-label" for="ville2">Ville</label>
-              <input
-                type="text"
-                class="fr-input"
-                [class.fr-input--error]="
-                  (submitted || f.adresseCourrier.get('ville')?.dirty) &&
-                  f.adresseCourrier.get('ville')?.errors
-                "
-                id="ville2"
-                formControlName="ville"
-                name="ville"
-                aria-describedby="ville2-messages"
-                [attr.aria-invalid]="
-                  (submitted || f.adresseCourrier.get('ville')?.dirty) &&
-                  f.adresseCourrier.get('ville')?.errors
-                    ? true
-                    : null
-                "
-                required
-              />
-              <div
-                class="fr-messages-group"
-                id="ville2-messages"
-                aria-live="polite"
-              >
-                @if ((submitted || f.adresseCourrier.get('ville')?.dirty) &&
-                f.adresseCourrier.get('ville')?.errors) {
-                <p class="fr-message fr-message--error">
-                  La ville est obligatoire
-                </p>
-                }
-              </div>
+              @if ((submitted || f.adresseCourrier.get('adresse')?.dirty) &&
+              f.adresseCourrier.get('adresse')?.errors) {
+              <p class="fr-message fr-message--error">
+                L'adresse de réception est obligatoire
+              </p>
+              }
             </div>
           </div>
         </div>
-      </fieldset>
+
+        <!-- Code postal réception -->
+        <div class="fr-col-12 fr-col-md-6">
+          <div
+            class="fr-input-group"
+            [class.fr-input-group--error]="
+              (submitted || f.adresseCourrier.get('codePostal')?.dirty) &&
+              f.adresseCourrier.get('codePostal')?.errors
+            "
+          >
+            <label class="fr-label" for="codePostal2">Code postal</label>
+            <input
+              type="text"
+              class="fr-input"
+              [class.fr-input--error]="
+                (submitted || f.adresseCourrier.get('codePostal')?.dirty) &&
+                f.adresseCourrier.get('codePostal')?.errors
+              "
+              id="codePostal2"
+              maxlength="5"
+              formControlName="codePostal"
+              name="codePostal"
+              aria-describedby="codePostal2-messages"
+              [attr.aria-invalid]="
+                (submitted || f.adresseCourrier.get('codePostal')?.dirty) &&
+                f.adresseCourrier.get('codePostal')?.errors
+                  ? true
+                  : null
+              "
+              required
+            />
+            <div
+              class="fr-messages-group"
+              id="codePostal2-messages"
+              aria-live="polite"
+            >
+              @if ((submitted || f.adresseCourrier.get('codePostal')?.dirty) &&
+              f.adresseCourrier.get('codePostal')?.errors) {
+              <p class="fr-message fr-message--error">
+                Le code postal est obligatoire (Exemple&nbsp;: 75001)
+              </p>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Ville réception -->
+        <div class="fr-col-12 fr-col-md-6">
+          <div
+            class="fr-input-group"
+            [class.fr-input-group--error]="
+              (submitted || f.adresseCourrier.get('ville')?.dirty) &&
+              f.adresseCourrier.get('ville')?.errors
+            "
+          >
+            <label class="fr-label" for="ville2">Ville</label>
+            <input
+              type="text"
+              class="fr-input"
+              [class.fr-input--error]="
+                (submitted || f.adresseCourrier.get('ville')?.dirty) &&
+                f.adresseCourrier.get('ville')?.errors
+              "
+              id="ville2"
+              formControlName="ville"
+              name="ville"
+              aria-describedby="ville2-messages"
+              [attr.aria-invalid]="
+                (submitted || f.adresseCourrier.get('ville')?.dirty) &&
+                f.adresseCourrier.get('ville')?.errors
+                  ? true
+                  : null
+              "
+              required
+            />
+            <div
+              class="fr-messages-group"
+              id="ville2-messages"
+              aria-live="polite"
+            >
+              @if ((submitted || f.adresseCourrier.get('ville')?.dirty) &&
+              f.adresseCourrier.get('ville')?.errors) {
+              <p class="fr-message fr-message--error">
+                La ville est obligatoire
+              </p>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
       }
     </div>
   </section>

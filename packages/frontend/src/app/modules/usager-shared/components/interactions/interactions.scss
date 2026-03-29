@@ -5,7 +5,7 @@
 
 .interaction-icon-box {
   background: #e3e6fd;
-  padding: 1rem 0.5rem;
+  padding: 0.75rem 0.35rem;
   text-align: center;
 }
 
@@ -14,8 +14,9 @@
   margin: 0 auto;
   display: inline-block;
   vertical-align: middle;
-  padding: 1rem 0.4rem;
+  padding: 0.75rem 0.35rem;
 }
+
 .interaction-icon::before {
   --icon-size: 3rem;
 }
