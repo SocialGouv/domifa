@@ -25,7 +25,9 @@
 
     <div
       class="fr-input-group"
-      [class.fr-input-group--error]="submitted && u.label.errors"
+      [class.fr-input-group--error]="
+        (submitted || u.label.dirty) && u.label.errors
+      "
     >
       <label class="fr-label" for="label"> Nom du document </label>
       <p class="fr-hint-text" id="label-description">
@@ -38,15 +40,26 @@
         name="label"
         appCleanStr
         id="label"
-        [class.fr-input--error]="submitted && u.label.errors"
+        minlength="2"
+        maxlength="100"
+        [class.fr-input--error]="(submitted || u.label.dirty) && u.label.errors"
         [attr.aria-describedby]="
-          submitted && u.label.errors ? 'label-errors' : 'label-description'
+          (submitted || u.label.dirty) && u.label.errors
+            ? 'label-errors'
+            : 'label-description'
+        "
+        [attr.aria-invalid]="
+          (submitted || u.label.dirty) && u.label.errors ? true : false
         "
         required
       />
-      @if (submitted && u.label.errors) {
+      @if ((submitted || u.label.dirty) && u.label.errors) {
       <p id="label-errors" class="fr-error-text">
-        Le nom du document est obligatoire
+        @if (u.label.errors?.required || u.label.errors?.noWhiteSpace) { Le nom
+        du document est obligatoire } @else if (u.label.errors?.minlength) { Le
+        nom du document doit contenir au moins 2 caractères } @else if
+        (u.label.errors?.maxlength) { Le nom du document ne doit pas dépasser
+        100 caractères }
       </p>
       }
     </div>
@@ -70,7 +83,7 @@
     </div>
 
     @if (usager.options.portailUsagerEnabled) {
-    <div class="fr-alert fr-alert--info">
+    <div class="fr-alert fr-mt-2w fr-alert--info">
       <p>
         Attention: le domicilié pourra télécharger le document depuis un
         ordinateur ou un téléphone

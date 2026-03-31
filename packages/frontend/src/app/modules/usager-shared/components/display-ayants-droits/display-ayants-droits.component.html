@@ -1,30 +1,10 @@
 @if (usager.ayantsDroits.length > 0) {
 <button
-  #tooltipAyantsDroit="ngbTooltip"
-  [ngbTooltip]="ayantsDroitsInfos"
   class="fr-tag fr-tag--green-emeraude fr-tag--sm"
   type="button"
+  [tooltip]="ayantsDroitsTooltip"
 >
   @if (usager.ayantsDroits.length > 1) {
   {{ usager.ayantsDroits.length }} ayants droit } @else { 1 ayant droit }
 </button>
-
-<ng-template #ayantsDroitsInfos class="fr-p-4w">
-  <div
-    class="distribution-tooltip text-start"
-    tabindex="0"
-    [ngbTooltip]="ayantsDroitsInfos"
-  >
-    <ul>
-      @for (ayantDroit of usager.ayantsDroits; track ayantDroit.nom) {
-      <li class="fr-p-1w">
-        <strong class="text-primary">{{ ayantDroit.nom }}</strong>
-        {{ ayantDroit.prenom }}, né(e) le
-        {{ ayantDroit.dateNaissance | date : "dd MMMM yyyy" }}
-        ({{ LIEN_PARENTE_LABELS[ayantDroit.lien] }})
-      </li>
-      }
-    </ul>
-  </div>
-</ng-template>
 }

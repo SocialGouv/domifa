@@ -86,13 +86,7 @@
     autocomplete="off"
     #formProcurations
   >
-    <p>
-      Les champs suivis d'un
-      <span class="fr-text--bold" style="color: var(--text-default-error)"
-        >*</span
-      >
-      sont obligatoires
-    </p>
+    <p>Tous les champs sont obligatoires</p>
 
     @for (procuration of form.controls; track $index; let i = $index) {
     <div formArrayName="procurations">
@@ -119,6 +113,7 @@
                 id="procuration_nom_{{ i }}"
                 formControlName="nom"
                 name="nom"
+                required
                 [attr.aria-describedby]="
                   (form.controls[i].get('nom')?.dirty || submitted) &&
                   form.controls[i].get('nom')?.errors
@@ -162,6 +157,7 @@
                 id="procuration_prenom_{{ i }}"
                 formControlName="prenom"
                 name="prenom"
+                required
                 [attr.aria-describedby]="
                   (form.controls[i].get('prenom')?.dirty || submitted) &&
                   form.controls[i].get('prenom')?.errors
@@ -187,7 +183,7 @@
           <div class="fr-col-12 fr-col-md-2">
             <dsfr-ext-datepicker
               formControlName="dateNaissance"
-              label="Date de naissance"
+              label="Date de naissance *"
               [min]="minDateNaissance"
               [max]="maxDateNaissance"
               [required]="true"
@@ -205,7 +201,7 @@
           <div class="fr-col-12 fr-col-md-2">
             <dsfr-ext-datepicker
               formControlName="dateDebut"
-              label="Valide du"
+              label="Valide du *"
               [required]="true"
               [showMask]="true"
               [message]="
@@ -220,7 +216,7 @@
           <div class="fr-col-12 fr-col-md-2">
             <dsfr-ext-datepicker
               formControlName="dateFin"
-              label="Valide jusqu'au"
+              label="Valide jusqu'au *"
               [required]="true"
               [showMask]="true"
               [message]="

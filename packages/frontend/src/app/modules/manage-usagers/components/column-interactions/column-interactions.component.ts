@@ -8,13 +8,14 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Subscription } from "rxjs";
-import { InteractionInForApi } from "../../../../../_common/model";
+
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { InteractionService } from "../../../usager-shared/services";
 import { INTERACTIONS_LABELS_SINGULIER, InteractionType } from "@domifa/common";
 import { SetInteractionInFormComponent } from "../../../usager-shared/components/interactions/set-interaction-in-form/set-interaction-in-form.component";
 import { SetInteractionOutFormComponent } from "../../../usager-shared/components/interactions/set-interaction-out-form/set-interaction-out-form.component";
+import { InteractionInForApi } from "../../../usager-shared/interfaces/interaction";
 
 @Component({
   selector: "app-manage-usagers-interactions",

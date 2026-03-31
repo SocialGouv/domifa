@@ -40,6 +40,7 @@ import { registerLocaleData } from "@angular/common";
 import localeFr from "@angular/common/locales/fr";
 import { provideUserIdleConfig } from "angular-user-idle";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { LoadingComponent } from "./modules/shared/components/loading/loading.component";
 
 const disableAnimations =
   !("animate" in document.documentElement) ||
@@ -67,7 +68,7 @@ registerLocaleData(localeFr, "fr");
     FormsModule,
     ReactiveFormsModule,
     GeneralModule,
-
+    LoadingComponent,
     StoreModule.forRoot({ app: _usagerReducer }),
     SharedModule,
     MATOMO_INJECTORS,

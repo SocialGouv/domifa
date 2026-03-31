@@ -10,12 +10,6 @@ import {
 } from "@angular/core";
 
 import { BehaviorSubject, Subscription, combineLatest } from "rxjs";
-import {
-  InteractionOutForm,
-  InteractionOutForApi,
-} from "../../../../../../_common/model";
-import { bounce } from "../../../../../shared";
-import { UsagerFormModel } from "../../../interfaces";
 
 import { InteractionService } from "../../../services/interaction.service";
 import {
@@ -26,6 +20,12 @@ import {
 } from "@domifa/common";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { CustomToastService } from "../../../../shared/services";
+import { bounce } from "../../../../../shared";
+import { UsagerFormModel } from "../../../interfaces";
+import {
+  InteractionOutForm,
+  InteractionOutForApi,
+} from "../../../interfaces/interaction";
 
 @Component({
   animations: [bounce],

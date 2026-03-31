@@ -11,7 +11,7 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 import {
   InteractionInForm,
   InteractionInForApi,
-} from "../../../../../../_common/model/interaction";
+} from "../../../interfaces/interaction";
 import { INTERACTIONS_IN, InteractionIn } from "@domifa/common";
 import { bounce } from "../../../../../shared";
 import { UsagerFormModel } from "../../../interfaces";

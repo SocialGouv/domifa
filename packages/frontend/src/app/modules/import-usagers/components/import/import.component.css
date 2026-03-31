@@ -1,11 +1,5 @@
 #import-table {
-  max-height: 50vh;
-  overflow: auto;
-  border: 1px solid var(--border-default-grey);
-
-  table {
-    min-width: 6500px;
-  }
+  max-height: 80vh;
 
   td:nth-child(n + 3) {
     min-width: 220px;

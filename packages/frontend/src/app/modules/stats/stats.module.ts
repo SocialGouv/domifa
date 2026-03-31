@@ -18,7 +18,6 @@ import { StatsRoutingModule } from "./stats-routing.module";
 import { StatsChartsComponent } from "./components/elements/stats-charts/stats-charts.component";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { StatsMapComponent } from "./components/elements/stats-map/stats-map.component";
-import { ImpactLineComponent } from "./components/elements/impact-line/impact-line.component";
 import { CountUpModule } from "ngx-countup";
 import { FormatBigNumberPipe } from "./pipes";
 
@@ -27,7 +26,6 @@ import { FormatBigNumberPipe } from "./pipes";
     PublicStatsComponent,
     StatsChartsComponent,
     StatsMapComponent,
-    ImpactLineComponent,
     ImpactComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

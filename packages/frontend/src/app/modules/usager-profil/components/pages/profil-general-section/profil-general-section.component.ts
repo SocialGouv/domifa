@@ -5,10 +5,7 @@ import { ProfilGeneralHistoriqueCourriersComponent } from "../../_general-sectio
 import { SetInteractionInFormComponent } from "../../../../usager-shared/components/interactions/set-interaction-in-form/set-interaction-in-form.component";
 import { SetInteractionOutFormComponent } from "../../../../usager-shared/components/interactions/set-interaction-out-form/set-interaction-out-form.component";
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
-import {
-  ETAPES_DEMANDE_URL,
-  InteractionInForApi,
-} from "../../../../../../_common/model";
+import { ETAPES_DEMANDE_URL } from "../../../../../../_common/model";
 import {
   MIN_DATE_NAISSANCE,
   getTodayIso,
@@ -24,6 +21,7 @@ import {
   InteractionType,
   Interaction,
 } from "@domifa/common";
+import { InteractionInForApi } from "../../../../usager-shared/interfaces/interaction";
 
 @Component({
   selector: "app-profil-general-section",

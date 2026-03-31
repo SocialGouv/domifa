@@ -348,23 +348,12 @@
       </div>
       }
 
-      <div
+      <dsfr-ext-spinner
         *ngIf="searching"
         @fadeInOut
-        role="alert"
-        aria-busy="true"
-        aria-label="Chargement des dossiers..."
-        class="fr-text--center content-overlay d-print-none"
-      >
-        <div>
-          <span
-            class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
-            aria-hidden="true"
-          ></span>
-          <br />
-          <span>Chargement des dossiers...</span>
-        </div>
-      </div>
+        typeLoader="sun"
+        [overlay]="true"
+      ></dsfr-ext-spinner>
 
       <div @fadeInOut>
         <app-manage-manage-usagers-table

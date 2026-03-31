@@ -5,164 +5,162 @@
   [hidden]="!showFilters"
   class="fr-py-2w d-print-none"
 >
-  <div class="fr-container">
-    <div
-      class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-grid-row--bottom"
-    >
-      @if ( filters.statut === UsagersFilterCriteriaStatut.TOUS ||
-      filters.statut === UsagersFilterCriteriaStatut.VALIDE ) {
-      <div class="fr-col-auto">
-        <div class="fr-select-group">
-          <label class="fr-label" for="filter-dernier-passage">
-            Dernier passage
-          </label>
-          <select
-            class="fr-select"
-            id="filter-dernier-passage"
-            [disabled]="searching"
-            [ngModel]="filters.lastInteractionDate || ''"
-            (ngModelChange)="onFilterChange('lastInteractionDate', $event)"
-          >
-            <option value="">Tous</option>
-            @for (p of labelsDernierPassage | keyvalue; track p.key) {
-            <option [value]="p.key">{{ p.value.label }}</option>
-            }
-          </select>
-        </div>
+  <div
+    class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-grid-row--bottom"
+  >
+    @if ( filters.statut === UsagersFilterCriteriaStatut.TOUS || filters.statut
+    === UsagersFilterCriteriaStatut.VALIDE ) {
+    <div class="fr-col-auto">
+      <div class="fr-select-group">
+        <label class="fr-label" for="filter-dernier-passage">
+          Dernier passage
+        </label>
+        <select
+          class="fr-select"
+          id="filter-dernier-passage"
+          [disabled]="searching"
+          [ngModel]="filters.lastInteractionDate || ''"
+          (ngModelChange)="onFilterChange('lastInteractionDate', $event)"
+        >
+          <option value="">Tous</option>
+          @for (p of labelsDernierPassage | keyvalue; track p.key) {
+          <option [value]="p.key">{{ p.value.label }}</option>
+          }
+        </select>
       </div>
-      }
+    </div>
+    }
 
-      <!-- Échéance de domiciliation (TOUS ou VALIDE) -->
-      @if ( filters.statut === UsagersFilterCriteriaStatut.TOUS ||
-      filters.statut === UsagersFilterCriteriaStatut.VALIDE ) {
-      <div class="fr-col-auto">
-        <div class="fr-select-group">
-          <label class="fr-label" for="filter-echeance"> Échéance </label>
-          <select
-            class="fr-select"
-            id="filter-echeance"
-            [disabled]="searching"
-            [ngModel]="filters.echeance || ''"
-            (ngModelChange)="onFilterChange('echeance', $event)"
-          >
-            <option value="">Toutes</option>
-            @for (e of labelsEcheance | keyvalue; track e.key) {
-            <option [value]="e.key">{{ e.value.label }}</option>
-            }
-          </select>
-        </div>
+    <!-- Échéance de domiciliation (TOUS ou VALIDE) -->
+    @if ( filters.statut === UsagersFilterCriteriaStatut.TOUS || filters.statut
+    === UsagersFilterCriteriaStatut.VALIDE ) {
+    <div class="fr-col-auto">
+      <div class="fr-select-group">
+        <label class="fr-label" for="filter-echeance"> Échéance </label>
+        <select
+          class="fr-select"
+          id="filter-echeance"
+          [disabled]="searching"
+          [ngModel]="filters.echeance || ''"
+          (ngModelChange)="onFilterChange('echeance', $event)"
+        >
+          <option value="">Toutes</option>
+          @for (e of labelsEcheance | keyvalue; track e.key) {
+          <option [value]="e.key">{{ e.value.label }}</option>
+          }
+        </select>
       </div>
-      }
+    </div>
+    }
 
-      <!-- Radié depuis (RADIE) -->
-      @if (filters.statut === UsagersFilterCriteriaStatut.RADIE) {
-      <div class="fr-col-auto">
-        <div class="fr-select-group">
-          <label class="fr-label" for="filter-echeance-radiation">
-            Radié depuis
-          </label>
-          <select
-            class="fr-select"
-            id="filter-echeance-radiation"
-            [disabled]="searching"
-            [ngModel]="filters.echeance || ''"
-            (ngModelChange)="onFilterChange('echeance', $event)"
-          >
-            <option value="">Toutes les périodes</option>
-            @for (e of labelsEcheanceRadiation | keyvalue; track e.key) {
-            <option [value]="e.key">{{ e.value.label }}</option>
-            }
-          </select>
-        </div>
+    <!-- Radié depuis (RADIE) -->
+    @if (filters.statut === UsagersFilterCriteriaStatut.RADIE) {
+    <div class="fr-col-auto">
+      <div class="fr-select-group">
+        <label class="fr-label" for="filter-echeance-radiation">
+          Radié depuis
+        </label>
+        <select
+          class="fr-select"
+          id="filter-echeance-radiation"
+          [disabled]="searching"
+          [ngModel]="filters.echeance || ''"
+          (ngModelChange)="onFilterChange('echeance', $event)"
+        >
+          <option value="">Toutes les périodes</option>
+          @for (e of labelsEcheanceRadiation | keyvalue; track e.key) {
+          <option [value]="e.key">{{ e.value.label }}</option>
+          }
+        </select>
       </div>
-      }
+    </div>
+    }
 
-      <!-- Courriers à récupérer (tous sauf REFUS) -->
-      @if (filters.statut !== UsagersFilterCriteriaStatut.REFUS) {
-      <div class="fr-col-auto">
-        <div class="fr-select-group">
-          <label class="fr-label" for="filter-courrier"> Courriers </label>
-          <select
-            class="fr-select"
-            id="filter-courrier"
-            [disabled]="searching"
-            [ngModel]="filters.interactionType || ''"
-            (ngModelChange)="onFilterChange('interactionType', $event)"
-          >
-            <option value="">Tous</option>
-            <option value="courrierIn">À récupérer</option>
-          </select>
-        </div>
+    <!-- Courriers à récupérer (tous sauf REFUS) -->
+    @if (filters.statut !== UsagersFilterCriteriaStatut.REFUS) {
+    <div class="fr-col-auto">
+      <div class="fr-select-group">
+        <label class="fr-label" for="filter-courrier"> Courriers </label>
+        <select
+          class="fr-select"
+          id="filter-courrier"
+          [disabled]="searching"
+          [ngModel]="filters.interactionType || ''"
+          (ngModelChange)="onFilterChange('interactionType', $event)"
+        >
+          <option value="">Tous</option>
+          <option value="courrierIn">À récupérer</option>
+        </select>
       </div>
-      }
+    </div>
+    }
 
-      <!-- Entretien (INSTRUCTION) -->
-      @if (filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION) {
-      <div class="fr-col-auto">
-        <div class="fr-select-group">
-          <label class="fr-label" for="filter-entretien"> Entretien </label>
-          <select
-            class="fr-select"
-            id="filter-entretien"
-            [disabled]="searching"
-            [ngModel]="filters.entretien || ''"
-            (ngModelChange)="onFilterChange('entretien', $event)"
-          >
-            <option value="">Tous</option>
-            <option [value]="UsagersFilterCriteriaEntretien.COMING">
-              À venir
-            </option>
-            <option [value]="UsagersFilterCriteriaEntretien.OVERDUE">
-              Date dépassée
-            </option>
-          </select>
-        </div>
+    <!-- Entretien (INSTRUCTION) -->
+    @if (filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION) {
+    <div class="fr-col-auto">
+      <div class="fr-select-group">
+        <label class="fr-label" for="filter-entretien"> Entretien </label>
+        <select
+          class="fr-select"
+          id="filter-entretien"
+          [disabled]="searching"
+          [ngModel]="filters.entretien || ''"
+          (ngModelChange)="onFilterChange('entretien', $event)"
+        >
+          <option value="">Tous</option>
+          <option [value]="UsagersFilterCriteriaEntretien.COMING">
+            À venir
+          </option>
+          <option [value]="UsagersFilterCriteriaEntretien.OVERDUE">
+            Date dépassée
+          </option>
+        </select>
       </div>
-      }
+    </div>
+    }
 
-      <!-- Référents -->
-      <div class="fr-col-auto">
-        <div class="fr-select-group">
-          <label class="fr-label" for="filter-referent"> Référent </label>
-          <select
-            class="fr-select"
-            id="filter-referent"
-            [disabled]="searching"
-            [ngModel]="getReferrerValue()"
-            (ngModelChange)="onReferrerChange($event)"
-          >
-            <option value="">Tous</option>
-            <option value="null">Aucun référent</option>
-            @for (referrer of referrers; track referrer.id) {
-            <option [value]="referrer.id">
-              {{ referrer | fullName }}
-            </option>
-            }
-          </select>
-        </div>
+    <!-- Référents -->
+    <div class="fr-col-auto">
+      <div class="fr-select-group">
+        <label class="fr-label" for="filter-referent"> Référent </label>
+        <select
+          class="fr-select"
+          id="filter-referent"
+          [disabled]="searching"
+          [ngModel]="getReferrerValue()"
+          (ngModelChange)="onReferrerChange($event)"
+        >
+          <option value="">Tous</option>
+          <option value="null">Aucun référent</option>
+          @for (referrer of referrers; track referrer.id) {
+          <option [value]="referrer.id">
+            {{ referrer | fullName }}
+          </option>
+          }
+        </select>
       </div>
+    </div>
 
-      <!-- Trier par -->
-      <div class="fr-col-auto">
-        <div class="fr-select-group">
-          <label class="fr-label" for="filter-sort"> Trier par </label>
-          <select
-            class="fr-select"
-            id="filter-sort"
-            [disabled]="searching"
-            [ngModel]="filters.sortKey + '_' + filters.sortValue"
-            (ngModelChange)="onSortChange($event)"
-          >
-            @for (option of sortMenuItems; track option.id) {
-            <option [value]="option.id + '_asc'">
-              {{ option.label }} (croissant)
-            </option>
-            <option [value]="option.id + '_desc'">
-              {{ option.label }} (décroissant)
-            </option>
-            }
-          </select>
-        </div>
+    <!-- Trier par -->
+    <div class="fr-col-auto">
+      <div class="fr-select-group">
+        <label class="fr-label" for="filter-sort"> Trier par </label>
+        <select
+          class="fr-select"
+          id="filter-sort"
+          [disabled]="searching"
+          [ngModel]="filters.sortKey + '_' + filters.sortValue"
+          (ngModelChange)="onSortChange($event)"
+        >
+          @for (option of sortMenuItems; track option.id) {
+          <option [value]="option.id + '_asc'">
+            {{ option.label }} (croissant)
+          </option>
+          <option [value]="option.id + '_desc'">
+            {{ option.label }} (décroissant)
+          </option>
+          }
+        </select>
       </div>
     </div>
   </div>

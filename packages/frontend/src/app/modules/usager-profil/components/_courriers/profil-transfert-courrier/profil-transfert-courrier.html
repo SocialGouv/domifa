@@ -79,13 +79,7 @@
   >
     <div class="fr-grid-row fr-grid-row--gutters">
       <div class="fr-col-12">
-        <p>
-          Les champs suivis d'un
-          <span class="fr-text--bold" style="color: var(--text-default-error)"
-            >*</span
-          >
-          sont obligatoires
-        </p>
+        <p>Tous les champs sont obligatoires</p>
       </div>
 
       <div class="fr-col-12 fr-col-md-3">
@@ -113,6 +107,7 @@
             maxlength="200"
             formControlName="nom"
             name="nom"
+            required
             [attr.aria-describedby]="
               (f.nom.dirty || submitted) && f.nom.errors
                 ? 'nom-errors'
@@ -145,6 +140,7 @@
           </p>
           <input
             type="text"
+            required
             class="fr-input"
             [class.fr-input--error]="
               (f.adresse.dirty || submitted) && f.adresse.errors
@@ -178,7 +174,7 @@
       <div class="fr-col-12 fr-col-md-3">
         <dsfr-ext-datepicker
           formControlName="dateDebut"
-          label="Valide du"
+          label="Valide du *"
           hint="Le format de la date doit être jj/mm/aaaa"
           [showMask]="true"
           [required]="true"
@@ -194,7 +190,7 @@
       <div class="fr-col-12 fr-col-md-3">
         <dsfr-ext-datepicker
           formControlName="dateFin"
-          label="Valide jusqu'au"
+          label="Valide jusqu'au *"
           hint="Le format de la date doit être jj/mm/aaaa"
           [required]="true"
           [showMask]="true"

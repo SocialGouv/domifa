@@ -77,6 +77,8 @@ export class EditUsagerDocComponent implements OnInit, OnDestroy {
   }
 
   public patchDocument() {
+    this.submitted = true;
+    this.documentForm.markAllAsTouched();
     if (this.documentForm.invalid) {
       this.toastService.error("Le formulaire d'édition comporte des erreurs");
       return;

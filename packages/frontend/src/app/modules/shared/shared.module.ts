@@ -1,4 +1,4 @@
-import { DsfrFooterModule } from "@edugouvfr/ngx-dsfr";
+import { DsfrAlertComponent, DsfrFooterModule } from "@edugouvfr/ngx-dsfr";
 import { CommonModule } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 
@@ -34,6 +34,7 @@ import { LoadingComponent } from "./components/loading/loading.component";
     DsfrTimelineComponent,
     DsfrDropdownMenuItemComponent,
     LoadingComponent,
+    DsfrAlertComponent,
   ],
   declarations: [
     CleanStrDirective,
