@@ -4,7 +4,7 @@
   padding: 2px;
   display: block;
   background: #fff;
-
+  font-size: 3rem;
   color: var(--text-active-blue-france);
   text-align: center;
 }
@@ -31,4 +31,13 @@
 
 p {
   margin: 0;
+}
+
+span [class*=" ri-"],
+span[class^="fr-icon-"],
+span[class*=" fr-icon-"] {
+  color: var(--text-active-blue-france) !important;
+  margin-right: 0.5rem !important;
+  vertical-align: bottom !important;
+  display: inline-block !important;
 }

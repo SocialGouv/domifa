@@ -5,11 +5,11 @@ export const INTERACTION_ICONS: Record<
   { icon: string; label: string }
 > = {
   courrierIn: {
-    icon: "fr-icon-mail-check-line",
+    icon: "ri-mail-download-line",
     label: "Courrier entrant",
   },
   courrierOut: {
-    icon: "fr-icon-mail-send-line",
+    icon: "ri-mail-check-fill",
     label: "Courrier sortant",
   },
   recommandeIn: {
@@ -21,11 +21,11 @@ export const INTERACTION_ICONS: Record<
     label: "Recommandé sortant",
   },
   colisIn: {
-    icon: "fr-icon-inbox-line",
+    icon: "ri-inbox-archive-line",
     label: "Colis entrant",
   },
   colisOut: {
-    icon: "fr-icon-send-plane-2-line",
+    icon: "ri-inbox-unarchive-fill",
     label: "Colis sortant",
   },
   appel: {

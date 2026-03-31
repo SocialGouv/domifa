@@ -37,7 +37,6 @@
     "@edugouvfr/ngx-dsfr": "1.18.0",
     "@edugouvfr/ngx-dsfr-ext": "1.7.2",
     "@gouvfr/dsfr": "1.14.4",
-    "@ng-bootstrap/ng-bootstrap": "^18.0.0",
     "@ngrx/effects": "^19.2.1",
     "@ngrx/entity": "^19.2.1",
     "@ngrx/operators": "^19.2.1",

@@ -4,7 +4,7 @@ import { Subscription } from "rxjs";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { Interaction, Order, PageResults, UserStructure } from "@domifa/common";
-import { INTERACTION_ICONS } from "../../../../../../_common/model";
+import { INTERACTION_ICONS } from "../../../constants";
 
 @Component({
   selector: "app-profil-general-historique-courriers",

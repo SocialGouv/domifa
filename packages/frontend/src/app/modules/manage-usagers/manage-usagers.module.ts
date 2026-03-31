@@ -29,8 +29,8 @@ import {
   DateFrConditionalDirective,
 } from "./directives";
 import { WelcomeModalComponent } from "../general/components/static-modals/welcome-modal/welcome-modal.component";
-import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
-import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
+import { DsfrModalComponent, DsfrTooltipDirective } from "@edugouvfr/ngx-dsfr";
+import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 @NgModule({
   declarations: [
@@ -52,13 +52,14 @@ import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
     SharedModule,
     DateFrConditionalDirective,
     UsersModule,
-    NgbTooltipModule,
+    DsfrTooltipDirective,
     TableHeadSortIconComponent,
     ManageUsagersRoutingModule,
     FormatInternationalPhoneNumberPipe,
     FullNamePipe,
     WelcomeModalComponent,
     DsfrModalComponent,
+    DsfrSpinnerComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

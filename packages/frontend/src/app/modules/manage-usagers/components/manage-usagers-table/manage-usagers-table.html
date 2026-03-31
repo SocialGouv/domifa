@@ -239,14 +239,10 @@
               <td class="clickable table-name td-name">
                 @if (usager?.pinnedNote) {
                 <span
-                  [ngbTooltip]="pinnedNote"
-                  triggers="hover focus"
+                  [tooltip]="'📌 Note épinglée : ' + usager.pinnedNote?.message"
                   tabindex="0"
                   class="ri-pushpin-line"
                 ></span>
-                <ng-template #pinnedNote>
-                  <b>Note épinglée : </b>{{ usager.pinnedNote?.message }}
-                </ng-template>
                 } @if (!usager.pinnedNote) {
                 <span class="fr-sr-only">Aucune note épinglée</span>
                 }
@@ -262,6 +258,9 @@
                   <span class="fr-ml-1w">({{ usager.surnom }})</span>
                   }
                 </a>
+                <span class="usager-date-birth"
+                  >{{ usager.dateNaissance | date : "dd/MM/yyyy" }}</span
+                >
               </td>
               <td
                 class="clickable table-name"

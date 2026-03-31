@@ -1,3 +1,4 @@
+@if (usager) {
 <dsfr-modal
   class="fr-text--left"
   #distributionModal
@@ -5,7 +6,6 @@
   modalSize="LG"
   (conceal)="cancelReception.emit()"
 >
-  @if (usager) {
   <fieldset class="fr-fieldset fr-my-0">
     <legend class="fr-fieldset__legend">Que souhaitez-vous distribuer ?</legend>
     <div class="interaction-choices">
@@ -198,7 +198,7 @@
     </div>
     } }
   </div>
-  } }
+  }
 
   <ng-template #modalFooterTemplate>
     <div
@@ -225,3 +225,4 @@
     </div>
   </ng-template>
 </dsfr-modal>
+}

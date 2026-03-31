@@ -6,62 +6,28 @@
 @if (usager.options.procurations.length > 0) {
 <button
   class="fr-tag fr-tag--sm fr-tag--brown-cafe-creme"
-  [ngbTooltip]="procurationActif"
   type="button"
-  #tooltipProcuration="ngbTooltip"
+  [tooltip]="procurationTooltip"
 >
   {{ usager.options.procurations.length > 1 ? "Procurations" : "Procuration" }}
 </button>
-}
-<ng-template #procurationActif>
-  <div tabindex="0">
-    <ul>
-      @for (procuration of usager.options.procurations; track $index) {
-      <li class="fr-text--left">
-        @if (!procuration.isExpired) { Active: {{ procuration.nom }}
-        {{ procuration.prenom }}
-        } @else {
-        <span
-          class="fr-icon-close-line fr-text-default--error fr-mr-1w"
-          aria-hidden="true"
-        ></span>
-        Procuration au nom de {{ procuration.nom }} {{ procuration.prenom }},
-        expirée le
-        {{ procuration.dateFin | date : "dd MMMM yyyy" }}
-        }
-      </li>
-      }
-    </ul>
-  </div>
-</ng-template>
-
-@if (usager.options.transfert.actif) {
+} @if (usager.options.transfert.actif) {
 <button
   class="fr-tag fr-tag--info fr-tag--sm"
-  [ngbTooltip]="transfertActif"
   type="button"
-  #tooltipTransfert="ngbTooltip"
+  [tooltip]="
+    !usager.options.transfert.isExpired
+      ? 'Courrier à transférer : ' +
+        (usager.options.transfert.nom | titlecase) +
+        ' ' +
+        (usager.options.transfert.adresse | titlecase)
+      : 'Transfert expiré le ' +
+        (usager.options.transfert.dateFin | date : 'dd MMMM yyyy')
+  "
 >
   Transfert
 </button>
-}
-<ng-template #transfertActif>
-  <div class="distribution-tooltip" tabindex="0">
-    @if (!usager.options.transfert.isExpired) {
-    <p class="fr-m-0">
-      Courrier à transférer : {{ usager.options.transfert.nom | titlecase }}
-      {{ usager.options.transfert.adresse | titlecase }}
-    </p>
-    } @else {
-    <p class="fr-m-0">
-      Transfert expiré le
-      {{ usager.options.transfert.dateFin | date : "dd MMMM yyyy" }}
-    </p>
-    }
-  </div>
-</ng-template>
-
-@if (usager.options.npai.actif) {
+} @if (usager.options.npai.actif) {
 <span class="fr-badge fr-badge--sm fr-badge--error">
   <span>Pli non distribuable</span>
 </span>
