@@ -7,8 +7,10 @@
 
 <div class="notes-list">
   <ng-container *ngFor="let note of displayedNotes; let last = last">
-    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--top">
-      <div class="fr-col-12 fr-col-md-9">
+    <div
+      class="fr-grid-row fr-grid-row--middle fr-justify-content-between fr-mb-2w fr-grid-row--top"
+    >
+      <div class=" ">
         <span
           class="fr-icon-message-2-line fr-text-label--blue-france"
           aria-hidden="true"
@@ -29,7 +31,7 @@
         <p class="fr-mb-3w">{{ note.message }}</p>
       </div>
 
-      <div class="fr-col-12 fr-col-md-3 fr-text-right">
+      <div class=" ">
         @if (me?.role !== 'facteur' && me?.role !== 'agent') {
         <app-usager-notes-actions
           [usager]="usager"

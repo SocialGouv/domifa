@@ -22,7 +22,6 @@
                 />
               </a>
             </div>
-
             <div class="fr-header__navbar">
               <button
                 data-fr-opened="false"
@@ -36,6 +35,13 @@
               </button>
             </div>
           </div>
+          @if (me?.structure?.nom) {
+          <div class="fr-header__service">
+            <a href="/" title="Retour à l'accueil du site - Domifa">
+              <p class="fr-header__service-title">{{ me.structure.nom }}</p>
+            </a>
+          </div>
+          }
         </div>
 
         <div class="fr-header__tools">
@@ -184,6 +190,17 @@
               [routerLinkActiveOptions]="{ exact: true }"
             >
               Nous contacter
+            </a>
+          </li>
+          <li class="fr-nav__item">
+            <a
+              class="fr-nav__link"
+              routerLink="/faq"
+              routerLinkActive=""
+              ariaCurrentWhenActive="page"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              Besoin d'aide ?
             </a>
           </li>
 

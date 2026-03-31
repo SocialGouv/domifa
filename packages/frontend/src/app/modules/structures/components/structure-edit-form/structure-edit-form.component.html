@@ -203,7 +203,7 @@
               @if (!((f.nom.dirty || submitted) && f.nom.errors)) {
               <li
                 id="nom-structure-description"
-                class="fr-message fr-message--info fr-mt-1v fr-mb-5v"
+                class="fr-message fr-message--info fr-mt-1w fr-mb-5v"
               >
                 Préciser le nom de votre ville / de votre unité locale en cas de
                 réseau / de votre association
@@ -493,6 +493,8 @@
           class="fr-input-group fr-input-group--required"
         >
           <label class="fr-label" for="responsable-nom">Nom</label>
+          <p class="empty-hint"></p>
+
           <input
             type="text"
             class="fr-input"
@@ -539,6 +541,8 @@
           class="fr-input-group fr-input-group--required"
         >
           <label class="fr-label" for="responsable-prenom">Prénom(s)</label>
+          <p class="empty-hint"></p>
+
           <input
             type="text"
             class="fr-input"
@@ -585,6 +589,8 @@
           class="fr-input-group fr-input-group--required"
         >
           <label class="fr-label" for="fonction">Fonction</label>
+          <p class="fr-hint-text">Ex : Directeur, Président, etc..</p>
+
           <input
             type="text"
             class="fr-input"
@@ -612,15 +618,7 @@
           />
           <div class="fr-messages-group">
             <ul class="fr-messages-group__list fr-pl-0">
-              @if (!((submitted || f.responsable.get('fonction')?.dirty) &&
-              f.responsable.get('fonction')?.errors)) {
-              <li
-                id="responsable-fonction-description"
-                class="fr-message fr-message--info fr-mt-0"
-              >
-                Président.e, Directrice, etc.
-              </li>
-              } @if ((submitted || f.responsable.get('fonction')?.dirty) &&
+              @if ((submitted || f.responsable.get('fonction')?.dirty) &&
               f.responsable.get('fonction')?.errors) {
               <li
                 id="responsable-fonction-errors"
@@ -1127,7 +1125,10 @@
 
     <p>Ces informations nous aident à mieux comprendre vos besoins.</p>
 
-    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+    <div
+      formGroupName="registrationData"
+      class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle"
+    >
       <div class="fr-col-12 fr-col-md-6">
         <div
           class="fr-select-group"
@@ -1269,7 +1270,10 @@
     </div>
     }
 
-    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-mt-2w">
+    <div
+      formGroupName="registrationData"
+      class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-mt-2w"
+    >
       <!-- Outil actuel -->
       <div class="fr-col-12 fr-col-md-6">
         <div

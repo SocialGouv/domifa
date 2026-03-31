@@ -108,7 +108,7 @@
             name="procuration"
             id="return-to-sender"
             type="radio"
-            [attr.aria-checked]="procurationIndex === null && returnToSender"
+            [checked]="procurationIndex === null && returnToSender"
             (click)="toggleReturnToSender()"
           />
           <label class="fr-label" for="return-to-sender">
@@ -126,8 +126,7 @@
             name="procuration"
             id="distribution-domicilie"
             type="radio"
-            checked
-            [attr.aria-checked]="procurationIndex === null && !returnToSender"
+            [checked]="procurationIndex === null && !returnToSender"
             (click)="toggleProcurationIndex(null)"
           />
           <label class="fr-label" for="distribution-domicilie">
@@ -148,17 +147,18 @@
             name="procuration"
             id="distribution-mandataire-{{ i }}"
             type="radio"
-            [attr.aria-checked]="procurationIndex === i"
+            [checked]="procurationIndex === i"
             (click)="toggleProcurationIndex(i)"
           />
           <label class="fr-label" for="distribution-mandataire-{{ i }}">
             <div
-              class="fr-text--bold fr-mb-0"
+              class="fr-mb-0"
               [class.fr-text-default--error]="procuration.isExpired"
             >
-              Mandataire @if (procuration.isExpired) {
-              <span>(Procuration expirée !)</span>
-              }
+              <span class="fr-text--bold"
+                >Mandataire @if (procuration.isExpired) {
+                <span>(Procuration expirée !)</span> }</span
+              >
             </div>
             <div [class.fr-text-default--error]="procuration.isExpired">
               {{ procuration | fullName }}
@@ -181,7 +181,8 @@
     </p>
   </div>
   } @if (selectedInteractionsWithContent.length !== 0) {
-  <div class="interaction-icon-box fr-px-3w fr-py-3w fr-my-3w">
+
+  <div class="fr-alert fr-alert--info fr-my-3w">
     <p class="fr-mb-2w fr-text--bold">
       Un ou plusieurs courriers contiennent des informations importantes :
     </p>
@@ -192,9 +193,7 @@
         {{ interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm" }}
       </strong>
       – {{ interaction.label }}
-      @if (interaction.content) {
-      <div>{{ interaction.content }}</div>
-      }
+      {{ interaction?.content ? " : " + interaction.content : "" }}
     </div>
     } }
   </div>

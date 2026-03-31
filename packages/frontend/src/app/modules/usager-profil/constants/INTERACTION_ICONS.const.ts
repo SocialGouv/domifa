@@ -13,11 +13,11 @@ export const INTERACTION_ICONS: Record<
     label: "Courrier sortant",
   },
   recommandeIn: {
-    icon: "fr-icon-mail-check-line",
+    icon: "ri-mail-send-line",
     label: "Recommandé entrant",
   },
   recommandeOut: {
-    icon: "fr-icon-mail-check-line",
+    icon: "ri-mail-send-fill",
     label: "Recommandé sortant",
   },
   colisIn: {

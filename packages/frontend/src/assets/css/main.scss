@@ -5,7 +5,7 @@
 .tooltip-inner {
   background: #ffffff !important;
   border: 1px solid #e6e6e6;
-  color: black;
+  color: var(--text-default-grey);
   max-width: 310px;
   font-weight: 600;
   padding: 0.5rem 1rem;
@@ -38,7 +38,7 @@
   }
   .valeur {
     display: block;
-    color: #4a4a4a;
+    color: var(--text-action-high-grey);
     font-weight: 400;
     word-break: break-word;
   }
@@ -84,8 +84,8 @@
   color: var(--text-active-blue-france);
   -webkit-text-stroke-width: 25px;
   stroke-width: 25px;
-  -webkit-text-stroke-color: white;
-  stroke: white;
+  -webkit-text-stroke-color: var(--background-default-grey);
+  stroke: var(--background-default-grey);
   display: block;
   margin-bottom: 10px;
 }

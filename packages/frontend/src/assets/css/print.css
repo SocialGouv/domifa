@@ -3,7 +3,7 @@
   body {
     width: 100%;
     margin: 0 !important;
-    background-color: white;
+    background-color: var(--background-default-grey);
   }
 
   @page {
@@ -54,9 +54,9 @@
 
   .head-page,
   h1 {
-    background-color: white;
+    background-color: var(--background-default-grey);
     margin: 0 !important;
     padding: 0 !important;
-    color: black !important;
+    color: var(--text-default-grey) !important;
   }
 }

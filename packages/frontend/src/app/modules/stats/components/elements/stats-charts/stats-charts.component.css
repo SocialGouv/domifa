@@ -8,7 +8,7 @@
 
 .selected-stats,
 .charts-section {
-  background: #ffffff !important;
+  background: var(--background-alt-blue-france) !important;
   border: 1px solid rgba(72, 107, 255, 0.2) !important;
   box-sizing: border-box;
 }

@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { DsfrTimelineEvent } from "@edugouvfr/ngx-dsfr-ext";
 import { MatomoTracker } from "ngx-matomo-client";
+import { SeoService } from "../../../shared/services";
 
 @Component({
   selector: "app-decouvrir-domifa",
@@ -25,6 +26,7 @@ export class DecouvrirDomifaComponent {
       actions: [],
       current: false,
       detailBottom: "",
+      headingLevel: "H3",
     },
     {
       heading: "Février 2022",
@@ -33,13 +35,14 @@ export class DecouvrirDomifaComponent {
       actions: [],
       current: false,
       detailBottom: "",
+      headingLevel: "H3",
     },
     {
       heading: "Février 2024",
       description:
         "DomiFa est reconnu service numérique à impact national par la Direction interministérielle du numérique (DINUM).",
       actions: [],
-      headingLevel: "H2",
+      headingLevel: "H3",
       current: false,
       detailBottom: "",
     },
@@ -48,11 +51,19 @@ export class DecouvrirDomifaComponent {
       description:
         "DomiFa est reconnu service numérique à impact national par la Direction interministérielle du numérique (DINUM). ",
       actions: [],
-      headingLevel: "H2",
+      headingLevel: "H3",
       current: false,
       detailBottom: "",
     },
   ];
 
-  constructor(public matomo: MatomoTracker) {}
+  constructor(
+    public matomo: MatomoTracker,
+    private readonly seoService: SeoService
+  ) {
+    this.seoService.updateTitleAndTags(
+      "Découvrir DomiFa, le logiciel de la domiciliation",
+      "DomiFa est une plateforme en ligne qui permet de sécuriser et optimiser la gestion des domiciliations administratives pour les CCAS, CIAS et organismes agréés. Elle permet de libérer du temps pour l’accompagnement social tout en garantissant un suivi efficace des bénéficiaires."
+    );
+  }
 }

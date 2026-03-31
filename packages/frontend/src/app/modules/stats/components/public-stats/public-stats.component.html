@@ -13,7 +13,7 @@
       *ngIf="!regionId"
       class="fr-col-12 fr-col-md-9 fr-col-sm-10 fr-py-3w py-md-5 fr-display-flex fr-flex-column fr-gap-1w"
     >
-      <h1 class="fr-text-title--blue-france fr-mb-1v">
+      <h1 class="fr-text-title--blue-france fr-mb-1w">
         Statistiques d'utilisation de DomiFa
       </h1>
       <p class="fr-text--lg fr-text-title--blue-france">
@@ -25,7 +25,7 @@
       *ngIf="regionId"
       class="fr-col-12 fr-col-md-9 fr-col-sm-10 fr-py-3w py-md-5 fr-display-flex fr-flex-column fr-gap-1w"
     >
-      <h1 class="fr-text-title--blue-france fr-mb-1v">
+      <h1 class="fr-text-title--blue-france fr-mb-1w">
         Statistiques régionales :
         {{ regions[REGIONS_SEO_ID[regionId]] }}
       </h1>
@@ -59,24 +59,10 @@
       </a>
     </p>
 
-    <div class="fr-grid-row fr-grid-row--gutters">
-      <div
-        class="fr-display-flex fr-align-items-center fr-p-4wfr-align-items-center fr-background-alt--blue-ecume"
-        *ngIf="!stats"
-      >
-        <div class="fr-col-md-12 fr-p-0 fr-text--center">
-          <div @fadeInOut aria-live="polite">
-            <span
-              class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
-              aria-hidden="true"
-            ></span>
-            <span>Chargement en cours, veuillez patienter</span>
-          </div>
-        </div>
-      </div>
+    <div class="fr-grid-row">
       <div class="fr-background-alt--blue-ecume fr-col-12 fr-col-md-8 fr-p-3w">
         <h3 class="fr-h4">Structures inscrites sur DomiFa</h3>
-        <div class="fr-grid-row">
+        <div class="fr-grid-row fr-grid-row--gutters">
           <div
             class="fr-col-12 fr-col-md-4 fr-display-flex fr-gap-2w fr-justify-content-center"
           >
@@ -97,9 +83,7 @@
             </dl>
           </div>
           <hr />
-          <div
-            class="fr-col-12 fr-col-md-7 fr-display-flex fr-flex-column fr-justify-content-start"
-          >
+          <div class="fr-col-12 fr-col-md-7 fr-display-flex fr-flex-column">
             <ul class="py-1">
               <ul>
                 <li
@@ -109,7 +93,7 @@
                   "
                 >
                   <span
-                    class="fr-text--lead fr-mb-0 fr-text-title--blue-france fr-text--bold"
+                    class="fr-text--lead fr-mr-2w fr-mb-0 fr-text-title--blue-france fr-text--bold"
                     >{{ structure.value | formatBigNumber }}</span
                   >
                   <span class="sub-stats-label">
@@ -129,7 +113,7 @@
             <div>
               <img
                 class="stat-picto-img"
-                src="artwork/pictograms/avatar.svg"
+                src="artwork/pictograms/digital/avatar.svg"
                 alt=""
                 aria-hidden="true"
               />
@@ -148,7 +132,7 @@
             <div class="fr-text--center">
               <img
                 class="stat-picto-img"
-                src="artwork/pictograms/self-training.svg"
+                src="artwork/pictograms/digital/self-training.svg"
                 alt=""
                 aria-hidden="true"
               />
@@ -170,7 +154,7 @@
             <div>
               <img
                 class="stat-picto-img"
-                src="artwork/pictograms/mail-send.svg"
+                src="artwork/pictograms/digital/mail-send.svg"
                 alt=""
                 aria-hidden="true"
               />
@@ -193,7 +177,7 @@
             <div>
               <img
                 class="stat-picto-img"
-                src="../assets/system/success.svg"
+                src="artwork/pictograms/system/success.svg"
                 alt=""
                 aria-hidden="true"
               />
@@ -207,10 +191,10 @@
           </div>
         </div>
       </div>
-      <div class="fr-background-alt--blue-ecume fr-col-12 fr-col-md-4 fr-p-3w">
+      <div class="fr-col-12 fr-col-md-4 fr-pl-3w">
         <div
           *ngIf="stats"
-          class="fr-background-alt--blue-ecume fr-display-flex fr-flex-column fr-gap-3w fr-p-3w w-100 fr-mt-2v fr-mt-md-0"
+          class="fr-background-alt--blue-ecume fr-display-flex fr-flex-column fr-gap-3w fr-p-3w w-100 fr-mt-2w fr-mt-md-0"
         >
           <div
             class="fr-display-flex fr-flex-column fr-justify-content-start fr-gap-2w"
@@ -314,7 +298,7 @@
                 class="fr-display-flex fr-justify-content-start fr-gap-2w fr-align-items-center"
                 *ngFor="let structure of stats?.structuresCountByRegion"
               >
-                <span class="fr-background-alt--blue-ecume fr-text--bold">
+                <span class="fr-text-title--blue-france fr-mr-2w fr-text--bold">
                   {{ structure.count }}
                 </span>
                 <span>
@@ -338,7 +322,7 @@
                 class="fr-display-flex fr-justify-content-start fr-gap-2w fr-align-items-center"
                 *ngFor="let departementCom of DEPARTEMENTS_COM | keyvalue"
               >
-                <span class="fr-text-title--blue-france fr-text--bold">
+                <span class="fr-text-title--blue-france fr-mr-2w fr-text--bold">
                   {{ statsRegionsValues[departementCom.value.regionCode] }}
                 </span>
                 <span>
@@ -369,7 +353,7 @@
       <div
         class="fr-col-12 fr-col-md-7 fr-col-sm-10 fr-py-3w py-md-5 fr-display-flex fr-flex-column fr-gap-1w fr-align-items-center"
       >
-        <h2 class="fr-text-title--blue-france fr-text--center fr-mb-1v">
+        <h2 class="fr-text-title--blue-france fr-text--center fr-mb-1w">
           Mesure d’impact de DomiFa
         </h2>
         <p class="fr-text--lg fr-text-title--blue-france fr-text--center">
