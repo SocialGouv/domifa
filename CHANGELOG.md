@@ -1,3 +1,10 @@
+## [2.235.4](https://github.com/SocialGouv/domifa/compare/v2.235.3...v2.235.4) (2026-03-31)
+
+
+### Bug Fixes
+
+* **frontend:** delete bootstrap ([b9eb0d4](https://github.com/SocialGouv/domifa/commit/b9eb0d4d1aaaed8193a3faba54e9510430ee7505))
+
 ## [2.235.3](https://github.com/SocialGouv/domifa/compare/v2.235.2...v2.235.3) (2026-03-29)
 
 
