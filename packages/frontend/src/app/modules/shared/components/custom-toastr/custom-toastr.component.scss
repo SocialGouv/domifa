@@ -1,7 +1,7 @@
 #toast-container {
   position: fixed;
   z-index: 999999;
-  background-color: white;
+  background-color: var(--background-default-grey);
   padding: 0;
   top: 10px;
   left: 10px;

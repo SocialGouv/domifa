@@ -20,12 +20,14 @@ import {
 } from "@domifa/common";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { CustomToastService } from "../../../../shared/services";
-import { bounce } from "../../../../../shared";
+import { bounce, selectUsagerById, UsagerState } from "../../../../../shared";
 import { UsagerFormModel } from "../../../interfaces";
 import {
   InteractionOutForm,
   InteractionOutForApi,
 } from "../../../interfaces/interaction";
+import { Store } from "@ngrx/store";
+import { UsagerLight } from "../../../../../../_common/model";
 
 @Component({
   animations: [bounce],
@@ -60,7 +62,8 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly interactionService: InteractionService,
-    private readonly toastService: CustomToastService
+    private readonly toastService: CustomToastService,
+    private readonly store: Store<UsagerState>
   ) {
     this.procurationIndex = null;
     this.interactionFormData = {
@@ -102,21 +105,16 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    console.log(this.usager);
-    this.toggleProcurationIndex(null);
-    this.interactionFormData.courrierOut.nbCourrier =
-      this.usager.lastInteraction.courrierIn;
-    this.interactionFormData.recommandeOut.nbCourrier =
-      this.usager.lastInteraction.recommandeIn;
-    this.interactionFormData.colisOut.nbCourrier =
-      this.usager.lastInteraction.colisIn;
-
-    this.interactionFormData.courrierOut.selected =
-      this.usager.lastInteraction.courrierIn > 0;
-    this.interactionFormData.recommandeOut.selected =
-      this.usager.lastInteraction.recommandeIn > 0;
-    this.interactionFormData.colisOut.selected =
-      this.usager.lastInteraction.colisIn > 0;
+    this.subscription.add(
+      this.store.select(selectUsagerById(this.usager.ref)).subscribe({
+        next: (usager: UsagerLight) => {
+          if (usager) {
+            this.usager = new UsagerFormModel(usager);
+            this.initFormData();
+          }
+        },
+      })
+    );
 
     this.subscription.add(
       combineLatest([this.interactions$, this.interactionFormData$]).subscribe(
@@ -215,6 +213,25 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
       event.preventDefault();
       this.setInteractionForm();
     }
+  }
+
+  private initFormData(): void {
+    this.toggleProcurationIndex(null);
+    this.interactionFormData.courrierOut.nbCourrier =
+      this.usager.lastInteraction.courrierIn;
+    this.interactionFormData.recommandeOut.nbCourrier =
+      this.usager.lastInteraction.recommandeIn;
+    this.interactionFormData.colisOut.nbCourrier =
+      this.usager.lastInteraction.colisIn;
+
+    this.interactionFormData.courrierOut.selected =
+      this.usager.lastInteraction.courrierIn > 0;
+    this.interactionFormData.recommandeOut.selected =
+      this.usager.lastInteraction.recommandeIn > 0;
+    this.interactionFormData.colisOut.selected =
+      this.usager.lastInteraction.colisIn > 0;
+
+    this.interactionFormData$.next(this.interactionFormData);
   }
 
   private getInteractions(): void {

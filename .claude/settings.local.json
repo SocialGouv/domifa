@@ -16,7 +16,11 @@
       "WebFetch(domain:angular.dev)",
       "Bash(npx:*)",
       "Bash(pnpm add:*)",
-      "Bash(pnpm remove:*)"
+      "Bash(pnpm remove:*)",
+      "Bash(../../node_modules/.bin/ng build:*)",
+      "Bash(/Users/humans/Documents/dev/domifa/node_modules/.bin/ng build:*)",
+      "Bash(pnpm:*)",
+      "Bash(grep:*)"
     ]
   }
 }

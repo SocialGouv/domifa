@@ -14,7 +14,7 @@ path {
   stroke-width: 1px;
   stroke-linecap: round;
   stroke-linejoin: round;
-  fill: white;
+  fill: var(--background-default-grey);
   transition: all 0.2s ease;
 }
 
@@ -51,7 +51,7 @@ foreignObject {
   font-size: 0.9rem;
   margin: 8% auto;
   cursor: pointer;
-  color: white;
+  color: var(--text-inverted-grey);
   transition: all 0.3s ease;
 }
 
@@ -73,5 +73,5 @@ foreignObject {
   font-weight: 600;
 }
 .map-tooltip div {
-  color: black !important;
+  color: var(--text-default-grey) !important;
 }

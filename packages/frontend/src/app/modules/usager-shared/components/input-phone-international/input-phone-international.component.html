@@ -30,7 +30,7 @@
       (click)="focusSearchInput()"
     >
       <ng-template #contentTemplate>
-        <div class="fr-input-group fr-mb-1v fr-px-1v">
+        <div class="fr-input-group fr-mb-1w fr-py-1w fr-px-3w">
           <label class="fr-label" for="country-search-box"
             >Rechercher un pays</label
           >
@@ -56,7 +56,7 @@
               [attr.aria-selected]="country.iso2 === selectedCountry.iso2"
             >
               <span>
-                <span class="iti__flag-box fr-mr-1v">
+                <span class="iti__flag-box fr-mr-1w">
                   <span
                     aria-hidden="true"
                     class="iti__flag"
@@ -65,7 +65,7 @@
                 </span>
                 <span class="fr-text--sm">{{ country.name }}</span>
               </span>
-              <span class="fr-text--sm fr-text--bold fr-ml-2v">
+              <span class="fr-text--sm fr-text--bold fr-ml-2w">
                 +{{ country.dialCode }}
               </span>
             </div>

@@ -35,7 +35,7 @@ li a:hover {
 }
 
 li a {
-  color: black;
+  color: var(--text-default-grey);
 }
 
 .region-name {
@@ -43,5 +43,5 @@ li a {
 }
 
 .breadcrumb {
-  background: #f6f7ff;
+  background: var(--background-alt-blue-ecume);
 }

@@ -12,7 +12,7 @@
   margin: 0 0.2rem;
   padding: 0rem 0.35rem;
   position: relative;
-  background-color: white;
+  background-color: var(--background-default-grey);
   transition: all 0.2s;
 
   span {
@@ -21,26 +21,26 @@
 
   [class^="fr-icon-"]::before,
   [class^="fr-icon-"]::after,
-  [class*=" fr-icon-"]::before,
-  [class*=" fr-icon-"]::after,
+  [class*="fr-icon-"]::before,
+  [class*="fr-icon-"]::after,
   [class^="fr-fi-"]::before,
   [class^="fr-fi-"]::after,
-  [class*=" fr-fi-"]::before,
-  [class*=" ri-"]::before,
-  [class*=" fr-fi-"]::after {
+  [class*="fr-fi-"]::before,
+  [class*="ri-"]::before,
+  [class*="fr-fi-"]::after {
     --icon-size: 1.65rem;
     height: 1.65rem;
   }
 }
 
 .interaction-btn:hover {
-  color: white;
+  color: var(--text-inverted-grey);
   background-color: var(--text-active-blue-france);
   box-shadow: 0 0 0 0.25rem rgba(179, 179, 179, 0.5);
 }
 
 .interaction-btn:hover .list-icon {
-  background-color: white;
+  background-color: var(--background-default-grey);
 }
 
 .interaction-btn:not(:disabled) .list-icon-disabled {
@@ -66,7 +66,7 @@
 .distribution-tooltip {
   .list-icon {
     box-sizing: border-box;
-    background-color: black;
+    background-color: var(--background-default-grey-inverted);
     width: 20px;
     height: 20px;
     margin-right: 10px;

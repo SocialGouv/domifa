@@ -4,6 +4,7 @@ import {
   HostListener,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   ViewChild,
 } from "@angular/core";
@@ -13,11 +14,13 @@ import {
   InteractionInForApi,
 } from "../../../interfaces/interaction";
 import { INTERACTIONS_IN, InteractionIn } from "@domifa/common";
-import { bounce } from "../../../../../shared";
+import { bounce, selectUsagerById, UsagerState } from "../../../../../shared";
 import { UsagerFormModel } from "../../../interfaces";
 import { InteractionService } from "../../../services/interaction.service";
 import { Subscription } from "rxjs";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { Store } from "@ngrx/store";
+import { UsagerLight } from "../../../../../../_common/model";
 
 @Component({
   animations: [bounce],
@@ -26,7 +29,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
   styleUrls: ["../interactions.scss"],
   standalone: false,
 })
-export class SetInteractionInFormComponent implements OnDestroy {
+export class SetInteractionInFormComponent implements OnInit, OnDestroy {
   @ViewChild("receptionModal")
   public receptionModal!: DsfrModalComponent;
 
@@ -46,7 +49,8 @@ export class SetInteractionInFormComponent implements OnDestroy {
 
   constructor(
     private readonly interactionService: InteractionService,
-    private readonly toastService: CustomToastService
+    private readonly toastService: CustomToastService,
+    private readonly store: Store<UsagerState>
   ) {
     this.interactionFormData = {
       courrierIn: {
@@ -63,6 +67,18 @@ export class SetInteractionInFormComponent implements OnDestroy {
       },
     };
     this.content = null;
+  }
+
+  public ngOnInit(): void {
+    this.subscription.add(
+      this.store.select(selectUsagerById(this.usager.ref)).subscribe({
+        next: (usager: UsagerLight) => {
+          if (usager) {
+            this.usager = new UsagerFormModel(usager);
+          }
+        },
+      })
+    );
   }
 
   public open(): void {

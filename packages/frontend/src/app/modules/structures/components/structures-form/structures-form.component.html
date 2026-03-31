@@ -246,7 +246,7 @@
                     @if (!((f.nom.dirty || submitted) && f.nom.errors)) {
                     <li
                       id="nom-structure-description"
-                      class="fr-message fr-message--info fr-mt-1v fr-mb-5v"
+                      class="fr-message fr-message--info fr-mt-1w fr-mb-5v"
                     >
                       Préciser le nom de votre ville / de votre unité locale en
                       cas de réseau / de votre association
@@ -369,6 +369,8 @@
               <label class="fr-label" for="departement">
                 Préfecture ayant délivré l'agrément
               </label>
+              <p class="empty-hint"></p>
+
               <select
                 id="departement"
                 formControlName="departement"
@@ -708,6 +710,8 @@
                 class="fr-input-group fr-input-group--required"
               >
                 <label class="fr-label" for="responsable-nom">Nom</label>
+                <p class="empty-hint"></p>
+
                 <input
                   type="text"
                   class="fr-input"
@@ -757,6 +761,8 @@
                 <label class="fr-label" for="responsable-prenom">
                   Prénom(s)
                 </label>
+                <p class="empty-hint"></p>
+
                 <input
                   type="text"
                   class="fr-input"
@@ -804,6 +810,7 @@
                 class="fr-input-group fr-input-group--required"
               >
                 <label class="fr-label" for="fonction">Fonction</label>
+                <p class="fr-hint-text">Ex : Directeur, Président, etc..</p>
                 <input
                   type="text"
                   class="fr-input"
@@ -827,16 +834,8 @@
                 />
                 <div class="fr-messages-group">
                   <ul class="fr-messages-group__list fr-pl-0">
-                    @if ( !( (submitted || f.responsable.get('fonction')?.dirty)
-                    && f.responsable.get('fonction')?.errors ) ) {
-                    <li
-                      id="responsable-fonction-description"
-                      class="fr-message fr-message--info fr-mt-0"
-                    >
-                      Président.e, Directrice, etc.
-                    </li>
-                    } @if ( (submitted || f.responsable.get('fonction')?.dirty)
-                    && f.responsable.get('fonction')?.errors ) {
+                    @if ( (submitted || f.responsable.get('fonction')?.dirty) &&
+                    f.responsable.get('fonction')?.errors ) {
                     <li
                       id="responsable-fonction-errors"
                       class="fr-message fr-message--error fr-mt-0"
@@ -1018,7 +1017,7 @@
                 [class.fr-input-group--error]="
                   (f.ville.dirty || submitted) && f.ville.errors
                 "
-                class="fr-input-group fr-mb-4w fr-input-group--required"
+                class="fr-input-group fr-input-group--required"
               >
                 <label class="fr-label" for="ville">Ville</label>
                 <input
@@ -1077,7 +1076,7 @@
 
             @if (f.adresseCourrier.get('actif')?.value === true) {
 
-            <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+            <div class="fr-grid-row fr-grid-row--gutters">
               <!-- Adresse courrier -->
               <div class="fr-col-12">
                 <div
@@ -1358,297 +1357,304 @@
 
           <p>Ces informations nous aident à mieux comprendre vos besoins</p>
 
-          <div class="fr-grid-row fr-py-2w">
-            <!-- Source -->
-            <div
-              [class.fr-select-group--error]="
-                (submitted || reg.source?.dirty) && reg.source?.errors
-              "
-              class="fr-col-12 fr-select-group fr-select-group--required"
-            >
-              <label class="fr-label" for="source">
-                Comment avez-vous entendu parler de DomiFa ?
-              </label>
-              <select
-                class="fr-select"
-                id="source"
-                formControlName="source"
-                name="source"
-                [attr.aria-invalid]="
-                  (submitted || reg.source?.dirty) && reg.source?.errors
-                    ? true
-                    : false
-                "
-                [attr.aria-describedby]="
-                  (submitted || reg.source?.dirty) && reg.source?.errors
-                    ? 'source-errors'
-                    : null
-                "
-                required
-              >
-                <option [ngValue]="null">Sélectionnez une option</option>
-                @for (option of SOURCES_OPTIONS; track option.value) {
-                <option [value]="option.value">
-                  {{ option.label }}
-                </option>
-                }
-              </select>
-
-              @if ( (submitted || reg.source?.dirty) && reg.source?.errors ) {
-              <ul
-                class="fr-messages-group__list fr-pl-0"
-                id="source-errors"
-                role="alert"
-                aria-live="polite"
-              >
-                <li class="fr-message fr-message--error fr-mt-0">
-                  Veuillez sélectionner une option
-                </li>
-              </ul>
-              }
-            </div>
-
-            <!-- Source détail (conditionnel) -->
-            @if (showsourceDetail) {
-            <div class="fr-col-12">
+          <div formGroupName="registrationData">
+            <div class="fr-grid-row fr-py-2w">
+              <!-- Source -->
               <div
-                [class.fr-input-group--error]="
-                  (submitted || reg.sourceDetail?.dirty) &&
-                  reg.sourceDetail?.errors
+                [class.fr-select-group--error]="
+                  (submitted || reg.source?.dirty) && reg.source?.errors
                 "
-                class="fr-input-group fr-input-group--required"
+                class="fr-col-12 fr-select-group fr-select-group--required"
               >
-                <label class="fr-label" for="sourceDetail"> Précisez : </label>
-                <input
-                  type="text"
-                  class="fr-input"
-                  id="sourceDetail"
-                  formControlName="sourceDetail"
-                  required
-                />
-                @if ( (submitted || reg.sourceDetail?.dirty) &&
-                reg.sourceDetail?.errors ) {
-                <ul
-                  class="fr-messages-group__list fr-pl-0"
-                  role="alert"
-                  aria-live="polite"
-                >
-                  <li class="fr-message fr-message--error fr-mt-0">
-                    Ce champ est requis
-                  </li>
-                </ul>
-                }
-              </div>
-            </div>
-            }
-          </div>
-
-          <div class="fr-grid-row fr-py-2w">
-            <!-- Outil actuel -->
-            <div
-              [class.fr-select-group--error]="
-                (submitted || reg.currentTool?.dirty) && reg.currentTool?.errors
-              "
-              class="fr-col-12 fr-select-group fr-select-group--required"
-            >
-              <label class="fr-label" for="currentTool">
-                Comment gériez-vous la domiciliation avant la mise en place de
-                DomiFa ?
-              </label>
-              <select
-                class="fr-select"
-                id="currentTool"
-                formControlName="currentTool"
-                name="currentTool"
-                [attr.aria-invalid]="
-                  (submitted || reg.currentTool?.dirty) &&
-                  reg.currentTool?.errors
-                    ? true
-                    : false
-                "
-                [attr.aria-describedby]="
-                  (submitted || reg.currentTool?.dirty) &&
-                  reg.currentTool?.errors
-                    ? 'currentTool-errors'
-                    : null
-                "
-                required
-              >
-                <option [ngValue]="null">Sélectionnez une option</option>
-                @for ( option of CURRENT_TOOL_OPTIONS; track option.value ) {
-                <option [value]="option.value">
-                  {{ option.label }}
-                </option>
-                }
-              </select>
-
-              @if ( (submitted || reg.currentTool?.dirty) &&
-              reg.currentTool?.errors ) {
-              <ul
-                class="fr-messages-group__list fr-pl-0"
-                id="currentTool-errors"
-                role="alert"
-                aria-live="polite"
-              >
-                <li class="fr-message fr-message--error fr-mt-0">
-                  Veuillez sélectionner une option
-                </li>
-              </ul>
-              }
-            </div>
-
-            <!-- Outil marché (conditionnel) -->
-            @if (reg.currentTool?.value === 'OUTIL_MARCHE') {
-            <div
-              [class.fr-select-group--error]="
-                (submitted || reg.marketTool?.dirty) && reg.marketTool?.errors
-              "
-              class="fr-col-6 fr-select-group fr-select-group--required"
-            >
-              <label class="fr-label" for="marketTool">
-                Quel outil du marché utilisez-vous ?
-              </label>
-              <select
-                class="fr-select"
-                id="marketTool"
-                formControlName="marketTool"
-                name="marketTool"
-                [attr.aria-invalid]="
-                  (submitted || reg.marketTool?.dirty) && reg.marketTool?.errors
-                    ? true
-                    : false
-                "
-                [attr.aria-describedby]="
-                  (submitted || reg.marketTool?.dirty) && reg.marketTool?.errors
-                    ? 'marketTool-errors'
-                    : null
-                "
-                required
-              >
-                <option [ngValue]="null">Sélectionnez une option</option>
-                @for ( option of MARKET_TOOLS_OPTIONS; track option.value ) {
-                <option [value]="option.value">
-                  {{ option.label }}
-                </option>
-                }
-              </select>
-
-              @if ( (submitted || reg.marketTool?.dirty) &&
-              reg.marketTool?.errors ) {
-              <ul
-                class="fr-messages-group__list fr-pl-0"
-                id="marketTool-errors"
-                role="alert"
-                aria-live="polite"
-              >
-                <li class="fr-message fr-message--error fr-mt-0">
-                  Veuillez sélectionner une option
-                </li>
-              </ul>
-              }
-            </div>
-
-            <!-- Autre outil marché (conditionnel) -->
-            @if (reg.marketTool?.value === 'AUTRE') {
-            <div class="fr-col-6">
-              <div
-                [class.fr-input-group--error]="
-                  (submitted || reg.marketToolOther?.dirty) &&
-                  reg.marketToolOther?.errors
-                "
-                class="fr-input-group fr-input-group--required"
-              >
-                <label class="fr-label" for="marketToolOther">
-                  Précisez l'outil :
+                <label class="fr-label" for="source">
+                  Comment avez-vous entendu parler de DomiFa ?
                 </label>
-                <input
-                  type="text"
-                  class="fr-input"
-                  id="marketToolOther"
-                  formControlName="marketToolOther"
-                  name="marketToolOther"
-                  placeholder="Nom de l'outil"
+                <select
+                  class="fr-select"
+                  id="source"
+                  formControlName="source"
+                  name="source"
                   [attr.aria-invalid]="
-                    (submitted || reg.marketToolOther?.dirty) &&
-                    reg.marketToolOther?.errors
+                    (submitted || reg.source?.dirty) && reg.source?.errors
                       ? true
                       : false
                   "
                   [attr.aria-describedby]="
-                    (submitted || reg.marketToolOther?.dirty) &&
-                    reg.marketToolOther?.errors
-                      ? 'marketToolOther-errors'
+                    (submitted || reg.source?.dirty) && reg.source?.errors
+                      ? 'source-errors'
                       : null
                   "
                   required
-                />
+                >
+                  <option [ngValue]="null">Sélectionnez une option</option>
+                  @for (option of SOURCES_OPTIONS; track option.value) {
+                  <option [value]="option.value">
+                    {{ option.label }}
+                  </option>
+                  }
+                </select>
 
-                @if ( (submitted || reg.marketToolOther?.dirty) &&
-                reg.marketToolOther?.errors ) {
+                @if ( (submitted || reg.source?.dirty) && reg.source?.errors ) {
                 <ul
                   class="fr-messages-group__list fr-pl-0"
-                  id="marketToolOther-errors"
+                  id="source-errors"
                   role="alert"
                   aria-live="polite"
                 >
                   <li class="fr-message fr-message--error fr-mt-0">
-                    Ce champ est requis
+                    Veuillez sélectionner une option
                   </li>
                 </ul>
                 }
               </div>
-            </div>
-            } }
-          </div>
 
-          <!-- Nombre de domiciliés -->
-          <div class="fr-grid-row fr-py-2w">
-            <div class="fr-col-12">
-              <div
-                [class.fr-input-group--error]="
-                  (submitted || reg.activeUsersCount?.dirty) &&
-                  reg.activeUsersCount?.errors
-                "
-                class="fr-input-group fr-input-group--required"
-              >
-                <label class="fr-label" for="activeUsersCount">
-                  Nombre de domiciliés à date
-                </label>
-                <input
-                  formControlName="activeUsersCount"
-                  name="activeUsersCount"
-                  class="fr-input"
-                  id="activeUsersCount"
-                  min="0"
-                  type="number"
-                  required
-                  [attr.aria-describedby]="
-                    (submitted || reg.activeUsersCount?.dirty) &&
-                    reg.activeUsersCount?.errors
-                      ? 'activeUsersCount-errors'
-                      : null
+              <!-- Source détail (conditionnel) -->
+              @if (showsourceDetail) {
+              <div class="fr-col-12">
+                <div
+                  [class.fr-input-group--error]="
+                    (submitted || reg.sourceDetail?.dirty) &&
+                    reg.sourceDetail?.errors
                   "
+                  class="fr-input-group fr-input-group--required"
+                >
+                  <label class="fr-label" for="sourceDetail">
+                    Précisez :
+                  </label>
+                  <input
+                    type="text"
+                    class="fr-input"
+                    id="sourceDetail"
+                    formControlName="sourceDetail"
+                    required
+                  />
+                  @if ( (submitted || reg.sourceDetail?.dirty) &&
+                  reg.sourceDetail?.errors ) {
+                  <ul
+                    class="fr-messages-group__list fr-pl-0"
+                    role="alert"
+                    aria-live="polite"
+                  >
+                    <li class="fr-message fr-message--error fr-mt-0">
+                      Ce champ est requis
+                    </li>
+                  </ul>
+                  }
+                </div>
+              </div>
+              }
+            </div>
+
+            <div class="fr-grid-row fr-py-2w">
+              <!-- Outil actuel -->
+              <div
+                [class.fr-select-group--error]="
+                  (submitted || reg.currentTool?.dirty) &&
+                  reg.currentTool?.errors
+                "
+                class="fr-col-12 fr-select-group fr-select-group--required"
+              >
+                <label class="fr-label" for="currentTool">
+                  Comment gériez-vous la domiciliation avant la mise en place de
+                  DomiFa ?
+                </label>
+                <select
+                  class="fr-select"
+                  id="currentTool"
+                  formControlName="currentTool"
+                  name="currentTool"
                   [attr.aria-invalid]="
-                    (submitted || reg.activeUsersCount?.dirty) &&
-                    reg.activeUsersCount?.errors
+                    (submitted || reg.currentTool?.dirty) &&
+                    reg.currentTool?.errors
                       ? true
                       : false
                   "
-                />
+                  [attr.aria-describedby]="
+                    (submitted || reg.currentTool?.dirty) &&
+                    reg.currentTool?.errors
+                      ? 'currentTool-errors'
+                      : null
+                  "
+                  required
+                >
+                  <option [ngValue]="null">Sélectionnez une option</option>
+                  @for ( option of CURRENT_TOOL_OPTIONS; track option.value ) {
+                  <option [value]="option.value">
+                    {{ option.label }}
+                  </option>
+                  }
+                </select>
 
-                @if ( (submitted || reg.activeUsersCount.dirty) &&
-                reg.activeUsersCount.errors ) {
+                @if ( (submitted || reg.currentTool?.dirty) &&
+                reg.currentTool?.errors ) {
                 <ul
                   class="fr-messages-group__list fr-pl-0"
-                  id="activeUsersCount-errors"
+                  id="currentTool-errors"
                   role="alert"
                   aria-live="polite"
                 >
                   <li class="fr-message fr-message--error fr-mt-0">
-                    Le nombre de domicilié est obligatoire
+                    Veuillez sélectionner une option
                   </li>
                 </ul>
                 }
+              </div>
+
+              <!-- Outil marché (conditionnel) -->
+              @if (reg.currentTool?.value === 'OUTIL_MARCHE') {
+              <div
+                [class.fr-select-group--error]="
+                  (submitted || reg.marketTool?.dirty) && reg.marketTool?.errors
+                "
+                class="fr-col-6 fr-select-group fr-select-group--required"
+              >
+                <label class="fr-label" for="marketTool">
+                  Quel outil du marché utilisez-vous ?
+                </label>
+                <select
+                  class="fr-select"
+                  id="marketTool"
+                  formControlName="marketTool"
+                  name="marketTool"
+                  [attr.aria-invalid]="
+                    (submitted || reg.marketTool?.dirty) &&
+                    reg.marketTool?.errors
+                      ? true
+                      : false
+                  "
+                  [attr.aria-describedby]="
+                    (submitted || reg.marketTool?.dirty) &&
+                    reg.marketTool?.errors
+                      ? 'marketTool-errors'
+                      : null
+                  "
+                  required
+                >
+                  <option [ngValue]="null">Sélectionnez une option</option>
+                  @for ( option of MARKET_TOOLS_OPTIONS; track option.value ) {
+                  <option [value]="option.value">
+                    {{ option.label }}
+                  </option>
+                  }
+                </select>
+
+                @if ( (submitted || reg.marketTool?.dirty) &&
+                reg.marketTool?.errors ) {
+                <ul
+                  class="fr-messages-group__list fr-pl-0"
+                  id="marketTool-errors"
+                  role="alert"
+                  aria-live="polite"
+                >
+                  <li class="fr-message fr-message--error fr-mt-0">
+                    Veuillez sélectionner une option
+                  </li>
+                </ul>
+                }
+              </div>
+
+              <!-- Autre outil marché (conditionnel) -->
+              @if (reg.marketTool?.value === 'AUTRE') {
+              <div class="fr-col-6">
+                <div
+                  [class.fr-input-group--error]="
+                    (submitted || reg.marketToolOther?.dirty) &&
+                    reg.marketToolOther?.errors
+                  "
+                  class="fr-input-group fr-input-group--required"
+                >
+                  <label class="fr-label" for="marketToolOther">
+                    Précisez l'outil :
+                  </label>
+                  <input
+                    type="text"
+                    class="fr-input"
+                    id="marketToolOther"
+                    formControlName="marketToolOther"
+                    name="marketToolOther"
+                    placeholder="Nom de l'outil"
+                    [attr.aria-invalid]="
+                      (submitted || reg.marketToolOther?.dirty) &&
+                      reg.marketToolOther?.errors
+                        ? true
+                        : false
+                    "
+                    [attr.aria-describedby]="
+                      (submitted || reg.marketToolOther?.dirty) &&
+                      reg.marketToolOther?.errors
+                        ? 'marketToolOther-errors'
+                        : null
+                    "
+                    required
+                  />
+
+                  @if ( (submitted || reg.marketToolOther?.dirty) &&
+                  reg.marketToolOther?.errors ) {
+                  <ul
+                    class="fr-messages-group__list fr-pl-0"
+                    id="marketToolOther-errors"
+                    role="alert"
+                    aria-live="polite"
+                  >
+                    <li class="fr-message fr-message--error fr-mt-0">
+                      Ce champ est requis
+                    </li>
+                  </ul>
+                  }
+                </div>
+              </div>
+              } }
+            </div>
+
+            <!-- Nombre de domiciliés -->
+            <div class="fr-grid-row fr-py-2w">
+              <div class="fr-col-12">
+                <div
+                  [class.fr-input-group--error]="
+                    (submitted || reg.activeUsersCount?.dirty) &&
+                    reg.activeUsersCount?.errors
+                  "
+                  class="fr-input-group fr-input-group--required"
+                >
+                  <label class="fr-label" for="activeUsersCount">
+                    Nombre de domiciliés à date
+                  </label>
+                  <input
+                    formControlName="activeUsersCount"
+                    name="activeUsersCount"
+                    class="fr-input"
+                    id="activeUsersCount"
+                    min="0"
+                    type="number"
+                    required
+                    [attr.aria-describedby]="
+                      (submitted || reg.activeUsersCount?.dirty) &&
+                      reg.activeUsersCount?.errors
+                        ? 'activeUsersCount-errors'
+                        : null
+                    "
+                    [attr.aria-invalid]="
+                      (submitted || reg.activeUsersCount?.dirty) &&
+                      reg.activeUsersCount?.errors
+                        ? true
+                        : false
+                    "
+                  />
+
+                  @if ( (submitted || reg.activeUsersCount.dirty) &&
+                  reg.activeUsersCount.errors ) {
+                  <ul
+                    class="fr-messages-group__list fr-pl-0"
+                    id="activeUsersCount-errors"
+                    role="alert"
+                    aria-live="polite"
+                  >
+                    <li class="fr-message fr-message--error fr-mt-0">
+                      Le nombre de domicilié est obligatoire
+                    </li>
+                  </ul>
+                  }
+                </div>
               </div>
             </div>
           </div>
