@@ -212,7 +212,7 @@
                   />
                   <label class="fr-label" [for]="'select-' + usager.ref">
                     <span class="fr-sr-only"
-                      >Sélectionner {{ usager | fullName }}</span
+                      >Sélectionner {{ usager.fullName }}</span
                     >
                   </label>
                 </div>
@@ -331,6 +331,8 @@
                 <app-manage-usagers-interactions
                   [usager]="usager"
                   template="big-buttons"
+                  (openReception)="openInteractionInModal($event)"
+                  (openDistribution)="openInteractionOutModal($event)"
                 ></app-manage-usagers-interactions>
               </td>
               <td class="no-print">
@@ -346,6 +348,18 @@
     </div>
   </div>
 </div>
+} @if (usagers.length > 0) {
+<app-set-interaction-in-form
+  #sharedInteractionInRef
+  [usager]="usagers[0]"
+  (cancelReception)="onInteractionInClosed()"
+></app-set-interaction-in-form>
+
+<app-set-interaction-out-form
+  #sharedInteractionOutRef
+  [usager]="usagers[0]"
+  (cancelReception)="onInteractionOutClosed()"
+></app-set-interaction-out-form>
 }
 
 <dsfr-modal

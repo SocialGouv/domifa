@@ -35,7 +35,7 @@ export class ManageFiltersComponent implements OnInit, OnChanges {
   @Input({ required: true }) public searching: boolean;
   @Input({ required: true }) public nbResults: number;
 
-  @Input({ required: true }) public showFilters = false;
+  @Input({ required: true }) public showFilters = true;
 
   @Output() public readonly updateFilters = new EventEmitter();
 

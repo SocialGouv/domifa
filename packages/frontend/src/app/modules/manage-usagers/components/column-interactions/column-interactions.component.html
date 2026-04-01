@@ -6,8 +6,8 @@
     [id]="'visite-' + usager.ref"
     [disabled]="isInteractionLoading.visite"
     [attr.aria-busy]="isInteractionLoading.visite"
-    [attr.aria-label]="'Ajout d\'un passage pour ' + (usager | fullName)"
-    [title]="'Ajout d\'un passage pour ' + (usager | fullName)"
+    [attr.aria-label]="'Ajout d\'un passage pour ' + usager.fullName"
+    [title]="'Ajout d\'un passage pour ' + usager.fullName"
     class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
     (click)="setSingleInteraction(usager, 'visite')"
   >
@@ -18,10 +18,8 @@
     [id]="'appel-' + usager.ref"
     [disabled]="isInteractionLoading.appel"
     [attr.aria-busy]="isInteractionLoading.appel"
-    [attr.aria-label]="
-      'Ajout d\'un appel téléphonique pour ' + (usager | fullName)
-    "
-    [title]="'Ajout d\'un appel téléphonique pour ' + (usager | fullName)"
+    [attr.aria-label]="'Ajout d\'un appel téléphonique pour ' + usager.fullName"
+    [title]="'Ajout d\'un appel téléphonique pour ' + usager.fullName"
     class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
     (click)="setSingleInteraction(usager, 'appel')"
   >
@@ -36,8 +34,8 @@
     [id]="'courrierIn-' + usager.ref"
     [disabled]="isInteractionLoading.courrierIn"
     [attr.aria-busy]="isInteractionLoading.courrierIn"
-    [attr.aria-label]="'Ajout d\'un courrier pour ' + (usager | fullName)"
-    [title]="'Ajout d\'un courrier pour ' + (usager | fullName)"
+    [attr.aria-label]="'Ajout d\'un courrier pour ' + usager.fullName"
+    [title]="'Ajout d\'un courrier pour ' + usager.fullName"
     class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
     (click)="setSingleInteraction(usager, 'courrierIn')"
   >
@@ -47,10 +45,10 @@
   <button
     type="button"
     [attr.aria-label]="
-      'Réception de courriers, colis ou recommandés pour ' + (usager | fullName)
+      'Réception de courriers, colis ou recommandés pour ' + usager.fullName
     "
     [title]="
-      'Réception de courriers, colis ou recommandés pour ' + (usager | fullName)
+      'Réception de courriers, colis ou recommandés pour ' + usager.fullName
     "
     [id]="'reception-' + usager.ref"
     class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
@@ -68,13 +66,13 @@
       'Distribuer ' +
       usager.standByInteractions +
       ' courriers de ' +
-      (usager | fullName)
+      usager.fullName
     "
     [title]="
       'Distribuer ' +
       usager.standByInteractions +
       ' courriers de ' +
-      (usager | fullName)
+      usager.fullName
     "
     (click)="openInteractionOutModal()"
   >
@@ -85,18 +83,4 @@
   </button>
   }
 </div>
-} }
-<app-set-interaction-in-form
-  #interactionInRef
-  [usager]="usager"
-  (cancelReception)="onInteractionInClosed()"
-  (updateInteractions)="updateInteractions.emit()"
-></app-set-interaction-in-form>
-
-<app-set-interaction-out-form
-  #interactionOutRef
-  [usager]="usager"
-  (cancelReception)="onInteractionOutClosed()"
-  (updateInteractions)="updateInteractions.emit()"
-></app-set-interaction-out-form>
-}
+} } }

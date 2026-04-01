@@ -10,7 +10,7 @@
   >
     @if ( filters.statut === UsagersFilterCriteriaStatut.TOUS || filters.statut
     === UsagersFilterCriteriaStatut.VALIDE ) {
-    <div class="fr-col-auto">
+    <div class="fr-col-md-3 fr-col-auto">
       <div class="fr-select-group">
         <label class="fr-label" for="filter-dernier-passage">
           Dernier passage
@@ -34,7 +34,7 @@
     <!-- Échéance de domiciliation (TOUS ou VALIDE) -->
     @if ( filters.statut === UsagersFilterCriteriaStatut.TOUS || filters.statut
     === UsagersFilterCriteriaStatut.VALIDE ) {
-    <div class="fr-col-auto">
+    <div class="fr-col-md-3 fr-col-auto">
       <div class="fr-select-group">
         <label class="fr-label" for="filter-echeance"> Échéance </label>
         <select
@@ -55,7 +55,7 @@
 
     <!-- Radié depuis (RADIE) -->
     @if (filters.statut === UsagersFilterCriteriaStatut.RADIE) {
-    <div class="fr-col-auto">
+    <div class="fr-col-md-3 fr-col-auto">
       <div class="fr-select-group">
         <label class="fr-label" for="filter-echeance-radiation">
           Radié depuis
@@ -78,7 +78,7 @@
 
     <!-- Courriers à récupérer (tous sauf REFUS) -->
     @if (filters.statut !== UsagersFilterCriteriaStatut.REFUS) {
-    <div class="fr-col-auto">
+    <div class="fr-col-md-3 fr-col-auto">
       <div class="fr-select-group">
         <label class="fr-label" for="filter-courrier"> Courriers </label>
         <select
@@ -97,7 +97,7 @@
 
     <!-- Entretien (INSTRUCTION) -->
     @if (filters.statut === UsagersFilterCriteriaStatut.INSTRUCTION) {
-    <div class="fr-col-auto">
+    <div class="fr-col-md-3 fr-col-auto">
       <div class="fr-select-group">
         <label class="fr-label" for="filter-entretien"> Entretien </label>
         <select
@@ -120,7 +120,7 @@
     }
 
     <!-- Référents -->
-    <div class="fr-col-auto">
+    <div class="fr-col-md-3 fr-col-auto">
       <div class="fr-select-group">
         <label class="fr-label" for="filter-referent"> Référent </label>
         <select
@@ -142,7 +142,7 @@
     </div>
 
     <!-- Trier par -->
-    <div class="fr-col-auto">
+    <div class="fr-col-md-3 fr-col-auto">
       <div class="fr-select-group">
         <label class="fr-label" for="filter-sort"> Trier par </label>
         <select

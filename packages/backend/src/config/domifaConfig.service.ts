@@ -217,6 +217,13 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
           required: emailsEnabled,
         }
       ),
+      newsletterListId: configParser.parseString(
+        x,
+        "DOMIFA_MAIL_BREVO_NEWSLETTER_LIST_ID",
+        {
+          required: false,
+        }
+      ),
       templates: {
         contactSupport: configParser.parseInteger(
           x,

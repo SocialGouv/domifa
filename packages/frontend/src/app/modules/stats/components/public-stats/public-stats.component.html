@@ -1,17 +1,20 @@
-<div class="breadcrumb fr-py-3w py-md-4 fr-m-0" *ngIf="regionId">
+<div class="breadcrumb fr-py-3w fr-py-md-4 fr-m-0" *ngIf="regionId">
   <a routerLink="/">Accueil</a>
   &gt;
   <a routerLink="/stats"> Statistiques de DomiFa </a>
   &gt; {{ regions[REGIONS_SEO_ID[regionId]] }}
 </div>
 
-<div class="w-100 fr-background-contrast--blue-ecume fr-mb-0 pb-0">
+<div
+  class="w-100 fr-background-contrast--blue-ecume fr-mb-0 pb-0"
+  *ngIf="stats"
+>
   <div
     class="fr-container fr-grid-row fr-display-flex fr-flex-row fr-justify-content-between fr-align-items-center"
   >
     <div
       *ngIf="!regionId"
-      class="fr-col-12 fr-col-md-9 fr-col-sm-10 fr-py-3w py-md-5 fr-display-flex fr-flex-column fr-gap-1w"
+      class="fr-col-12 fr-col-md-9 fr-col-sm-10 fr-py-3w fr-py-md-5 fr-display-flex fr-flex-column fr-gap-1w"
     >
       <h1 class="fr-text-title--blue-france fr-mb-1w">
         Statistiques d'utilisation de DomiFa
@@ -23,7 +26,7 @@
 
     <div
       *ngIf="regionId"
-      class="fr-col-12 fr-col-md-9 fr-col-sm-10 fr-py-3w py-md-5 fr-display-flex fr-flex-column fr-gap-1w"
+      class="fr-col-12 fr-col-md-9 fr-col-sm-10 fr-py-3w fr-py-md-5 fr-display-flex fr-flex-column fr-gap-1w"
     >
       <h1 class="fr-text-title--blue-france fr-mb-1w">
         Statistiques régionales :
@@ -229,7 +232,7 @@
   </section>
 
   <section
-    class="py-3 py-md-4"
+    class="py-3 fr-py-md-4w"
     *ngIf="
       regionId && REGIONS_OUTRE_MER.indexOf(REGIONS_SEO_ID[regionId]) === -1
     "
@@ -259,7 +262,7 @@
     </div>
   </section>
 
-  <section class="py-3 py-md-4" *ngIf="!regionId">
+  <section class="fr-py-md-4w fr-my-md-4w" *ngIf="!regionId">
     <h3 class="fr-mb-0">Nous répondons présent partout en France !</h3>
     <p>
       DomiFa est utilisé dans la majorité des régions Françaises.
@@ -289,7 +292,9 @@
           [publicStats]="stats"
         ></app-stats-map>
       </div>
-      <div class="fr-col fr-display-flex fr-flex-column fr-gap-4w p-2">
+      <div
+        class="fr-col-auto fr-mx-3w fr-display-flex fr-flex-column fr-gap-4w p-2"
+      >
         <section>
           <h4>Liste des régions</h4>
           <div class="region-list">
@@ -351,7 +356,7 @@
       class="fr-container fr-grid-row fr-display-flex fr-flex-row fr-justify-content-end fr-align-items-center"
     >
       <div
-        class="fr-col-12 fr-col-md-7 fr-col-sm-10 fr-py-3w py-md-5 fr-display-flex fr-flex-column fr-gap-1w fr-align-items-center"
+        class="fr-col-12 fr-col-md-7 fr-col-sm-10 fr-py-3w fr-py-md-5 fr-display-flex fr-flex-column fr-gap-1w fr-align-items-center"
       >
         <h2 class="fr-text-title--blue-france fr-text--center fr-mb-1w">
           Mesure d’impact de DomiFa

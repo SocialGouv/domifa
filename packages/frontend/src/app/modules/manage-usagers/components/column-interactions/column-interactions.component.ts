@@ -5,7 +5,6 @@ import {
   Input,
   OnDestroy,
   Output,
-  ViewChild,
 } from "@angular/core";
 import { Subscription } from "rxjs";
 
@@ -13,8 +12,6 @@ import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { InteractionService } from "../../../usager-shared/services";
 import { INTERACTIONS_LABELS_SINGULIER, InteractionType } from "@domifa/common";
-import { SetInteractionInFormComponent } from "../../../usager-shared/components/interactions/set-interaction-in-form/set-interaction-in-form.component";
-import { SetInteractionOutFormComponent } from "../../../usager-shared/components/interactions/set-interaction-out-form/set-interaction-out-form.component";
 import { InteractionInForApi } from "../../../usager-shared/interfaces/interaction";
 
 @Component({
@@ -25,14 +22,14 @@ import { InteractionInForApi } from "../../../usager-shared/interfaces/interacti
   standalone: false,
 })
 export class ColumnInteractionsComponent implements OnDestroy {
-  @ViewChild("interactionInRef")
-  public interactionInRef!: SetInteractionInFormComponent;
-
-  @ViewChild("interactionOutRef")
-  public interactionOutRef!: SetInteractionOutFormComponent;
-
   @Output()
   public updateInteractions = new EventEmitter<void>();
+
+  @Output()
+  public openReception = new EventEmitter<UsagerFormModel>();
+
+  @Output()
+  public openDistribution = new EventEmitter<UsagerFormModel>();
 
   public isInteractionLoading: { [key in InteractionType]?: boolean } = {
     courrierIn: false,
@@ -91,37 +88,18 @@ export class ColumnInteractionsComponent implements OnDestroy {
   }
 
   public openInteractionInModal(): void {
-    this.interactionInRef.open();
+    this.openReception.emit(this.usager);
   }
 
   public openInteractionOutModal(): void {
-    this.interactionOutRef.open();
+    this.openDistribution.emit(this.usager);
   }
 
-  public onInteractionInClosed(): void {
-    this.setFocusOnElement("reception", this.usager.ref);
-  }
-
-  public onInteractionOutClosed(): void {
-    this.setFocusOnElement("distribution", this.usager.ref);
-  }
-
-  private setFocusOnElement(
-    interactionType: InteractionType | "distribution" | "reception",
-    usagerRef: number
-  ): void {
+  private setFocusOnElement(type: InteractionType, usagerRef: number): void {
     setTimeout(() => {
-      let usagerElement = document.getElementById(
-        `${interactionType}-${usagerRef}`
-      );
-
-      if (usagerElement) {
-        usagerElement.focus();
-      } else if (interactionType === "distribution") {
-        usagerElement = document.getElementById(`reception-${usagerRef}`);
-        if (usagerElement) {
-          usagerElement.focus();
-        }
+      const element = document.getElementById(`${type}-${usagerRef}`);
+      if (element) {
+        element.focus();
       }
     }, 0);
   }

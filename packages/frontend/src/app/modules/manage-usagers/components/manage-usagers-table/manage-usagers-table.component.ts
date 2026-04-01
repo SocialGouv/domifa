@@ -18,6 +18,9 @@ import {
   ViewChild,
 } from "@angular/core";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { SetInteractionInFormComponent } from "../../../usager-shared/components/interactions/set-interaction-in-form/set-interaction-in-form.component";
+import { SetInteractionOutFormComponent } from "../../../usager-shared/components/interactions/set-interaction-out-form/set-interaction-out-form.component";
+import { InteractionType } from "@domifa/common";
 
 import { ETAPES_DEMANDE_URL } from "../../../../../_common/model";
 
@@ -65,6 +68,14 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
   @ViewChild("deleteUsagersModal", { static: false })
   public deleteUsagersModal!: DsfrModalComponent;
+
+  @ViewChild("sharedInteractionInRef")
+  public sharedInteractionInRef!: SetInteractionInFormComponent;
+
+  @ViewChild("sharedInteractionOutRef")
+  public sharedInteractionOutRef!: SetInteractionOutFormComponent;
+
+  public activeUsagerRef: number | null = null;
 
   @Output()
   public readonly goToPrint = new EventEmitter<void>();
@@ -168,6 +179,49 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
   public refTrackBy(_index: number, item: UsagerFormModel) {
     return item.ref;
+  }
+
+  public openInteractionInModal(usager: UsagerFormModel): void {
+    this.activeUsagerRef = usager.ref;
+    this.sharedInteractionInRef.usager = usager;
+    this.sharedInteractionInRef.open();
+  }
+
+  public openInteractionOutModal(usager: UsagerFormModel): void {
+    this.activeUsagerRef = usager.ref;
+    this.sharedInteractionOutRef.usager = usager;
+    this.sharedInteractionOutRef.open();
+  }
+
+  public onInteractionInClosed(): void {
+    this.setFocusOnElement("reception", this.activeUsagerRef);
+  }
+
+  public onInteractionOutClosed(): void {
+    this.setFocusOnElement("distribution", this.activeUsagerRef);
+  }
+
+  private setFocusOnElement(
+    interactionType: InteractionType | "distribution" | "reception",
+    usagerRef: number | null
+  ): void {
+    if (usagerRef === null) {
+      return;
+    }
+    setTimeout(() => {
+      let usagerElement = document.getElementById(
+        `${interactionType}-${usagerRef}`
+      );
+
+      if (usagerElement) {
+        usagerElement.focus();
+      } else if (interactionType === "distribution") {
+        usagerElement = document.getElementById(`reception-${usagerRef}`);
+        if (usagerElement) {
+          usagerElement.focus();
+        }
+      }
+    }, 0);
   }
 
   public ngOnDestroy(): void {

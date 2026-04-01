@@ -1,0 +1,42 @@
+.download-docs-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.fr-nav__btn,
+.fr-nav__link {
+  min-height: 0.5rem;
+}
+.dropdown-list {
+  position: absolute;
+  right: 0;
+  z-index: 500;
+  background: var(--background-default-grey);
+  box-shadow: 0 6px 18px rgb(0 0 18 / 16%);
+  min-width: 420px;
+  max-width: 100%;
+  text-align: left;
+  padding: 0.2rem 0;
+
+  li {
+    list-style: none;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.2rem 0.7rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-align: left;
+    white-space: nowrap;
+
+    &:hover {
+      background: var(--background-default-grey-hover);
+    }
+  }
+}
