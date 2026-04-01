@@ -83,6 +83,10 @@ export class BrevoSyncCronService {
   private async processBatch(
     batch: any[]
   ): Promise<{ success: number; error: number }> {
+    if (domifaConfig().envId !== "prod") {
+      return { success: 0, error: 0 };
+    }
+
     let success = 0;
     let error = 0;
 

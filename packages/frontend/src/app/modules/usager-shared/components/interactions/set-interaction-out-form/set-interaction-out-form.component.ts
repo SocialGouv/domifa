@@ -4,7 +4,6 @@ import {
   HostListener,
   Input,
   OnDestroy,
-  OnInit,
   Output,
   ViewChild,
 } from "@angular/core";
@@ -36,7 +35,7 @@ import { UsagerLight } from "../../../../../../_common/model";
   styleUrls: ["../interactions.scss"],
   standalone: false,
 })
-export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
+export class SetInteractionOutFormComponent implements OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;
 
   @Output()
@@ -58,7 +57,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   public returnToSender: boolean = false;
   public loading = false;
 
-  private readonly subscription = new Subscription();
+  private modalSubscription = new Subscription();
 
   constructor(
     private readonly interactionService: InteractionService,
@@ -84,7 +83,6 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
       },
     };
 
-    this.subscription = new Subscription();
     this.interactions$ = new BehaviorSubject<Interaction[]>([]);
     this.interactionFormData$ = new BehaviorSubject<InteractionOutForm>(
       this.interactionFormData
@@ -92,20 +90,9 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   }
 
   public open(): void {
-    this.distributionModal.open();
-  }
+    this.modalSubscription = new Subscription();
 
-  public close(): void {
-    this.distributionModal.close();
-    this.cancelReception.emit();
-  }
-
-  public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  public ngOnInit(): void {
-    this.subscription.add(
+    this.modalSubscription.add(
       this.store.select(selectUsagerById(this.usager.ref)).subscribe({
         next: (usager: UsagerLight) => {
           if (usager) {
@@ -116,7 +103,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.subscription.add(
+    this.modalSubscription.add(
       combineLatest([this.interactions$, this.interactionFormData$]).subscribe(
         ([interactions, interactionFormData]: [
           Interaction[],
@@ -146,6 +133,17 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     );
 
     this.getInteractions();
+    this.distributionModal.open();
+  }
+
+  public close(): void {
+    this.modalSubscription.unsubscribe();
+    this.distributionModal.close();
+    this.cancelReception.emit();
+  }
+
+  public ngOnDestroy(): void {
+    this.modalSubscription.unsubscribe();
   }
 
   public toggleSelect(
@@ -187,7 +185,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     }
 
     this.loading = true;
-    this.subscription.add(
+    this.modalSubscription.add(
       this.interactionService
         .setInteraction(this.usager.ref, interactionsToSave)
         .subscribe({
@@ -216,6 +214,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   }
 
   private initFormData(): void {
+    this.loading = false;
     this.toggleProcurationIndex(null);
     this.interactionFormData.courrierOut.nbCourrier =
       this.usager.lastInteraction.courrierIn;
@@ -235,7 +234,7 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   }
 
   private getInteractions(): void {
-    this.subscription.add(
+    this.modalSubscription.add(
       this.interactionService
         .getInteractions(this.usager.ref, {
           order: Order.DESC,

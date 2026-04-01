@@ -4,7 +4,6 @@ import {
   HostListener,
   Input,
   OnDestroy,
-  OnInit,
   Output,
   ViewChild,
 } from "@angular/core";
@@ -29,7 +28,7 @@ import { UsagerLight } from "../../../../../../_common/model";
   styleUrls: ["../interactions.scss"],
   standalone: false,
 })
-export class SetInteractionInFormComponent implements OnInit, OnDestroy {
+export class SetInteractionInFormComponent implements OnDestroy {
   @ViewChild("receptionModal")
   public receptionModal!: DsfrModalComponent;
 
@@ -41,7 +40,7 @@ export class SetInteractionInFormComponent implements OnInit, OnDestroy {
   @Output()
   public readonly updateInteractions = new EventEmitter<void>();
 
-  private readonly subscription = new Subscription();
+  private modalSubscription = new Subscription();
 
   public interactionFormData: InteractionInForm;
   public content: string | null;
@@ -69,8 +68,9 @@ export class SetInteractionInFormComponent implements OnInit, OnDestroy {
     this.content = null;
   }
 
-  public ngOnInit(): void {
-    this.subscription.add(
+  public open(): void {
+    this.modalSubscription = new Subscription();
+    this.modalSubscription.add(
       this.store.select(selectUsagerById(this.usager.ref)).subscribe({
         next: (usager: UsagerLight) => {
           if (usager) {
@@ -79,13 +79,31 @@ export class SetInteractionInFormComponent implements OnInit, OnDestroy {
         },
       })
     );
-  }
-
-  public open(): void {
+    this.initFormData();
     this.receptionModal.open();
   }
 
+  private initFormData(): void {
+    this.loading = false;
+    this.interactionFormData = {
+      courrierIn: {
+        nbCourrier: 0,
+        content: null,
+      },
+      recommandeIn: {
+        nbCourrier: 0,
+        content: null,
+      },
+      colisIn: {
+        nbCourrier: 0,
+        content: null,
+      },
+    };
+    this.content = null;
+  }
+
   public close(): void {
+    this.modalSubscription.unsubscribe();
     this.receptionModal.close();
     this.cancelReception.emit();
   }
@@ -116,7 +134,7 @@ export class SetInteractionInFormComponent implements OnInit, OnDestroy {
 
     this.loading = true;
 
-    this.subscription.add(
+    this.modalSubscription.add(
       this.interactionService
         .setInteraction(this.usager.ref, interactionsToSave)
         .subscribe({
@@ -156,6 +174,6 @@ export class SetInteractionInFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.modalSubscription.unsubscribe();
   }
 }

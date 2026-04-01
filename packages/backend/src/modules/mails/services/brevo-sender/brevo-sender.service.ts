@@ -231,6 +231,42 @@ export class BrevoSenderService {
     }
   }
 
+  async subscribeToNewsletter(email: string): Promise<void> {
+    const config = domifaConfig();
+
+    if (!config.email.emailsEnabled || config.envId === "test") {
+      appLogger.info(
+        `[EMAILS DISABLED] Inscription newsletter non effectuée pour l'email ${email}`
+      );
+      return;
+    }
+
+    if (!config.brevo.newsletterListId) {
+      appLogger.warn(
+        `[NEWSLETTER] DOMIFA_MAIL_BREVO_NEWSLETTER_LIST_ID non configuré, inscription ignorée`
+      );
+      return;
+    }
+
+    try {
+      const createContactBody = new CreateContact();
+      createContactBody.email = email;
+      createContactBody.listIds = [
+        Number.parseInt(config.brevo.newsletterListId, 10),
+      ];
+      createContactBody.updateEnabled = true;
+
+      await this.contactsApi.createContact(createContactBody);
+      appLogger.info(`Contact newsletter Brevo ajouté pour l'email ${email}`);
+    } catch (error) {
+      appLogger.warn(
+        `Erreur lors de l'inscription newsletter Brevo pour l'email ${email}`,
+        error
+      );
+      throw error;
+    }
+  }
+
   async deleteContactFromBrevo(email: string): Promise<void> {
     const config = domifaConfig();
 

@@ -9,7 +9,7 @@
           aria-hidden="true"
           alt=""
         />
-        <h2 class="fr-m-0">Création de votre compte administrateur</h2>
+        <h2 class="">Création de votre compte administrateur</h2>
       </div>
       <p class="fr-mb-0">
         <span class="fr-text--bold">Attention</span>, les informations que vous
@@ -24,7 +24,7 @@
       [formGroup]="userForm"
       (ngSubmit)="submitUser()"
     >
-      <div class="fr-grid-row fr-align-items-start">
+      <div class="fr-grid-row fr-grid-row--gutters fr-align-items-start">
         <div class="fr-col">
           <div
             [class.fr-input-group--error]="
@@ -144,7 +144,7 @@
           </div>
         </div>
       </div>
-      <div class="fr-grid-row">
+      <div class="fr-grid-row fr-grid-row--gutters">
         <div class="fr-col-md-12">
           <div
             [class.fr-input-group--error]="
@@ -193,7 +193,7 @@
           </div>
         </div>
       </div>
-      <div class="fr-grid-row">
+      <div class="fr-grid-row fr-grid-row--gutters">
         <app-user-structure-password-form
           [parentFormGroup]="userForm"
           [submitted]="submitted"

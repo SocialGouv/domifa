@@ -18,6 +18,7 @@ import {
   UsagerDecisionStatut,
   UsagerOptions,
   getEcheanceInfo,
+  getPersonFullName,
 } from "@domifa/common";
 import { formatInternationalPhoneNumber } from "../../../shared/phone/formatInternationalPhoneNumber";
 
@@ -85,6 +86,7 @@ export class UsagerFormModel implements Usager {
 
   public nbNotes?: number = 0;
   public referrerId?: number | null;
+  public fullName: string;
 
   constructor(usager?: Usager) {
     this.pinnedNote = usager?.pinnedNote || null;
@@ -158,5 +160,6 @@ export class UsagerFormModel implements Usager {
     });
 
     this.standByInteractions = countStandByInteractions(this.lastInteraction);
+    this.fullName = getPersonFullName(this);
   }
 }

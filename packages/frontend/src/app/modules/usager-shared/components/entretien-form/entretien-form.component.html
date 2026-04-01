@@ -146,47 +146,41 @@
   <!-- Revenus -->
   <fieldset class="fr-fieldset">
     <legend class="fr-fieldset__legend">Avez-vous des revenus ?</legend>
-    <div class="fr-fieldset__element">
-      <div class="fr-grid-row fr-grid-row--gutters">
-        <div class="fr-col-12 fr-col-md-6">
-          <div class="fr-radio-group">
-            <input
-              type="radio"
-              id="revenus_oui"
-              formControlName="revenus"
-              [value]="true"
-            />
-            <label class="fr-label" for="revenus_oui">Oui</label>
-          </div>
-        </div>
-        <div class="fr-col-12 fr-col-md-6">
-          <div class="fr-radio-group">
-            <input
-              type="radio"
-              id="revenus_non"
-              formControlName="revenus"
-              [value]="false"
-            />
-            <label class="fr-label" for="revenus_non">Non</label>
-          </div>
-        </div>
-
-        <div class="fr-col-12" *ngIf="e.revenus.value === true">
-          <div class="fr-input-group">
-            <label class="fr-label" for="revenusDetail"
-              >De quelle nature ?</label
-            >
-            <textarea
-              id="revenusDetail"
-              formControlName="revenusDetail"
-              class="fr-input"
-              maxlength="1000"
-            ></textarea>
-          </div>
-        </div>
+    <div class="fr-fieldset__element fr-fieldset__element--inline">
+      <div class="fr-radio-group">
+        <input
+          type="radio"
+          id="revenus_oui"
+          formControlName="revenus"
+          [value]="true"
+        />
+        <label class="fr-label" for="revenus_oui">Oui</label>
+      </div>
+    </div>
+    <div class="fr-fieldset__element fr-fieldset__element--inline">
+      <div class="fr-radio-group">
+        <input
+          type="radio"
+          id="revenus_non"
+          formControlName="revenus"
+          [value]="false"
+        />
+        <label class="fr-label" for="revenus_non">Non</label>
       </div>
     </div>
   </fieldset>
+
+  <div *ngIf="e.revenus.value === true">
+    <div class="fr-input-group">
+      <label class="fr-label" for="revenusDetail">De quelle nature ?</label>
+      <textarea
+        id="revenusDetail"
+        formControlName="revenusDetail"
+        class="fr-input"
+        maxlength="1000"
+      ></textarea>
+    </div>
+  </div>
 
   <hr />
 
@@ -456,30 +450,27 @@
     <legend class="fr-fieldset__legend">
       Faites-vous l'objet d'un accompagnement social ?
     </legend>
-    <div class="fr-fieldset__element">
-      <div class="fr-grid-row fr-grid-row--gutters">
-        <div class="fr-col-12 fr-col-md-6">
-          <div class="fr-radio-group">
-            <input
-              type="radio"
-              id="accompagnement_oui"
-              formControlName="accompagnement"
-              [value]="true"
-            />
-            <label class="fr-label" for="accompagnement_oui">Oui</label>
-          </div>
-        </div>
-        <div class="fr-col-12 fr-col-md-6">
-          <div class="fr-radio-group">
-            <input
-              type="radio"
-              id="accompagnement_non"
-              formControlName="accompagnement"
-              [value]="false"
-            />
-            <label class="fr-label" for="accompagnement_non">Non</label>
-          </div>
-        </div>
+
+    <div class="fr-fieldset__element fr-fieldset__element--inline">
+      <div class="fr-radio-group">
+        <input
+          type="radio"
+          id="accompagnement_oui"
+          formControlName="accompagnement"
+          [value]="true"
+        />
+        <label class="fr-label" for="accompagnement_oui">Oui</label>
+      </div>
+    </div>
+    <div class="fr-fieldset__element fr-fieldset__element--inline">
+      <div class="fr-radio-group">
+        <input
+          type="radio"
+          id="accompagnement_non"
+          formControlName="accompagnement"
+          [value]="false"
+        />
+        <label class="fr-label" for="accompagnement_non">Non</label>
       </div>
     </div>
   </fieldset>

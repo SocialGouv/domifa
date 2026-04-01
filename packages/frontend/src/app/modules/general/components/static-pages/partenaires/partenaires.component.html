@@ -1,0 +1,17 @@
+<div class="fr-container fr-py-3w">
+  <h1>Nos partenaires</h1>
+  <ul>
+    @for (partenaire of partenaires; track partenaire.label) {
+    <li>
+      <a
+        class="fr-link"
+        [href]="partenaire.path"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {{ partenaire.label }}
+      </a>
+    </li>
+    }
+  </ul>
+</div>

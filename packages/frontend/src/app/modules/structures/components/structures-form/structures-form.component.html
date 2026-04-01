@@ -29,7 +29,7 @@
   <div class="fr-container">
     <div class="fr-content">
       @if (showRegisterSuccess) {
-      <div class="fr-grid-row fr-grid-row--center fr-gap-3w">
+      <div class="fr-grid-row fr-grid-row--center fr-gap-3w fr-text--center">
         <div class="fr-col-12">
           <img
             class="fr-img-fluid"
@@ -56,14 +56,14 @@
           class="fr-col-12 fr-background-alt--blue-france fr-py-4w fr-gap-4w fr-display-flex fr-direction-column fr-align-items-center"
         >
           <div class="fr-display-flex fr-gap-1w fr-align-items-center">
-            <img
-              src="artwork/pictograms/buildings/companie.svg"
-              alt=""
-              aria-hidden="true"
-            />
-            <p class="fr-text--bold fr-mb-0">
+            <h3>
+              <img
+                src="artwork/pictograms/buildings/companie.svg"
+                alt=""
+                aria-hidden="true"
+              />
               En attendant l'activation de votre compte, vous pouvez :
-            </p>
+            </h3>
           </div>
 
           <div
@@ -127,7 +127,7 @@
       <form [formGroup]="structureForm" (ngSubmit)="submitStrucutre()">
         <!-- Section: Structure -->
         <section>
-          <h2 class="fr-h3 fr-m-0">
+          <h2 class="fr-h3">
             <img
               src="artwork/pictograms/buildings/companie.svg"
               aria-hidden="true"
@@ -212,7 +212,7 @@
           </fieldset>
 
           <!-- Nom structure -->
-          <div class="fr-grid-row fr-py-1w">
+          <div class="fr-grid-row fr-grid-row--gutters fr-py-1w">
             <div class="fr-col-12">
               <div
                 [class.fr-input-group--error]="
@@ -274,7 +274,7 @@
           </div>
 
           <!-- SIRET -->
-          <div class="fr-grid-row fr-py-1w">
+          <div class="fr-grid-row fr-grid-row--gutters">
             <div class="fr-col-12">
               <div
                 [class.fr-input-group--error]="
@@ -282,7 +282,7 @@
                 "
                 class="fr-input-group"
               >
-                <label class="fr-label" for="siret">N° Siret</label>
+                <label class="fr-label" for="siret">Numéro SIRET</label>
                 <input
                   type="text"
                   class="fr-input"
@@ -1233,7 +1233,7 @@
 
         <!-- Section: Contact -->
         <section>
-          <h2 class="fr-h3 fr-m-0">
+          <h2 class="fr-h3">
             <img
               src="artwork/pictograms/digital/mail-send.svg"
               aria-hidden="true"
@@ -1346,7 +1346,7 @@
         <hr />
 
         <section>
-          <h2 class="fr-h3fr-m-0">
+          <h2 class="fr-h3">
             <img
               src="artwork/pictograms/system/information.svg"
               aria-hidden="true"
@@ -1358,7 +1358,7 @@
           <p>Ces informations nous aident à mieux comprendre vos besoins</p>
 
           <div formGroupName="registrationData">
-            <div class="fr-grid-row fr-py-2w">
+            <div class="fr-grid-row fr-grid-row--gutters fr-py-2w">
               <!-- Source -->
               <div
                 [class.fr-select-group--error]="
@@ -1445,7 +1445,7 @@
               }
             </div>
 
-            <div class="fr-grid-row fr-py-2w">
+            <div class="fr-grid-row fr-grid-row--gutters fr-py-2w">
               <!-- Outil actuel -->
               <div
                 [class.fr-select-group--error]="
@@ -1607,7 +1607,7 @@
             </div>
 
             <!-- Nombre de domiciliés -->
-            <div class="fr-grid-row fr-py-2w">
+            <div class="fr-grid-row fr-grid-row--gutters fr-py-2w">
               <div class="fr-col-12">
                 <div
                   [class.fr-input-group--error]="

@@ -2,6 +2,8 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  HostListener,
   Input,
   OnDestroy,
 } from "@angular/core";
@@ -35,13 +37,22 @@ export class ManageDownloadDocsComponent implements OnDestroy {
 
   public readonly faFilePdf = "file-pdf-2-line";
   public readonly faFileWord = "ri-file-word-2-line";
+  public showMenu = false;
 
   constructor(
     private readonly documentService: DocumentService,
     private readonly toastService: CustomToastService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly elementRef: ElementRef
   ) {
     this.me = this.authService.currentUserValue;
+  }
+
+  @HostListener("document:click", ["$event.target"])
+  onClickOutside(target: HTMLElement): void {
+    if (this.showMenu && !this.elementRef.nativeElement.contains(target)) {
+      this.showMenu = false;
+    }
   }
 
   public getCerfa(

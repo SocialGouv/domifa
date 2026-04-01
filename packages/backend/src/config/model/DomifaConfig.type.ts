@@ -47,6 +47,7 @@ export type DomifaConfig = {
     apiKey: string; // DOMIFA_MAIL_BREVO_API_KEY
     contactsUsersListId: string; // DOMIFA_MAIL_BREVO_CONTACTS_USERS_LIST_ID
     contactsStructuresListId: string; // DOMIFA_MAIL_BREVO_CONTACTS_STRUCTURES_LIST_ID
+    newsletterListId: string; // DOMIFA_MAIL_BREVO_NEWSLETTER_LIST_ID
     templates: {
       // Contact form template
       contactSupport: number; // DOMIFA_BREVO_TEMPLATES_CONTACT_FORM
