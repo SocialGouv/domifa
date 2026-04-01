@@ -19,6 +19,6 @@ Thumbs.db
 
 *.psql.gz
 
-
+.claude
 .nx/cache
 .nx/workspace-data
