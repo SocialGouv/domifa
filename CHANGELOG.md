@@ -1,3 +1,11 @@
+## [2.235.6](https://github.com/SocialGouv/domifa/compare/v2.235.5...v2.235.6) (2026-04-02)
+
+
+### Bug Fixes
+
+* **frontend:** fix memory leak + add newsletter endpoint ([5e16222](https://github.com/SocialGouv/domifa/commit/5e16222f81dd11e7281123d60680bcb4ce728f25))
+* **git:** delete claude config ([1fd950b](https://github.com/SocialGouv/domifa/commit/1fd950bfed5830c2f2b07d2eecaea0938fdec78f))
+
 ## [2.235.5](https://github.com/SocialGouv/domifa/compare/v2.235.4...v2.235.5) (2026-03-31)
 
 
