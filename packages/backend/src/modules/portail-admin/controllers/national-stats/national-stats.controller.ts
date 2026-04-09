@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpException,
   HttpStatus,
   Post,
   Res,
@@ -44,9 +45,21 @@ export class NationalStatsController {
     @Body() statsDto: StatsDto,
     @Res() res: Response
   ): Promise<void> {
+    if (!statsDto?.structureId) {
+      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
+    }
+
+    const structure = await structureRepository.findOneBy({
+      id: statsDto.structureId,
+    });
+
+    if (!structure) {
+      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
+    }
+
     await this.appLogsService.create({
       userId: userLogged.id,
-      structureId: 1,
+      structureId: statsDto.structureId,
       action: "EXPORT_STATS_FROM_ADMIN",
     });
 
@@ -87,7 +100,7 @@ export class NationalStatsController {
     if (!checkTerritories(user, metabaseDto)) {
       return res
         .status(HttpStatus.UNAUTHORIZED)
-        .json({ message: "USER_NOT_FOUND" });
+        .json({ message: "BAD_REQUEST" });
     }
 
     const year = metabaseDto.year ? [metabaseDto.year] : [];

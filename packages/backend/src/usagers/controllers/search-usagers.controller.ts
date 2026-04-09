@@ -7,6 +7,7 @@ import {
   ALL_USER_STRUCTURE_ROLES,
 } from "@domifa/common";
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -42,10 +43,18 @@ import { SearchUsagerDto } from "../dto";
 export class SearchUsagersController {
   @Get()
   public async findAllByStructure(
-    @Query("chargerTousRadies", new ParseBoolPipe())
+    @Query(
+      "chargerTousRadies",
+      new ParseBoolPipe({
+        exceptionFactory: () => new BadRequestException("BAD_REQUEST"),
+      })
+    )
     chargerTousRadies: boolean,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
+    if (typeof chargerTousRadies !== "boolean") {
+      throw new BadRequestException("BAD_REQUEST");
+    }
     const usagersNonRadies = await usagerRepository.find({
       where: {
         statut: Not("RADIE"),

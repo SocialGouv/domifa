@@ -1,10 +1,22 @@
 import { Transform } from "class-transformer";
-import { ArrayMinSize, IsArray, IsInt, IsOptional, Min } from "class-validator";
+import {
+  ArrayMinSize,
+  IsArray,
+  IsInt,
+  IsOptional,
+  Min,
+  ValidateIf,
+} from "class-validator";
 
 export class AssignReferrersDto {
-  @Transform(({ value }) => (value ? parseInt(value, 10) : null))
-  @IsOptional()
+  @Transform(({ value }) => {
+    if (value === null || value === undefined || value === "") return null;
+    return Number(value);
+  })
+  @ValidateIf((_, value) => value !== null)
   @IsInt()
+  @Min(1)
+  @IsOptional()
   newReferrerId: number | null;
 
   @IsArray()

@@ -25,6 +25,7 @@ describe("usagerRepository", () => {
   it("findNextMeetings", async () => {
     const rendezVous = await usagerRepository.findNextMeetings({
       userId: 2,
+      structureId: 1,
       dateRefNow: new Date(Date.UTC(2019, 1, 1)),
     });
     expect(rendezVous.length).toEqual(1);

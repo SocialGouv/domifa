@@ -27,11 +27,11 @@ export class UsagerDocAccessGuard implements CanActivate {
           role: user.role,
         },
       });
-      throw new HttpException("USAGER_DOC_NOT_FOUND", HttpStatus.BAD_REQUEST);
+      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
     }
 
     if (user?.role === "facteur" || user?.role === "agent") {
-      throw new HttpException("CANNOT_GET_DOC", HttpStatus.UNAUTHORIZED);
+      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
     }
 
     const docUuid = request.params.docUuid;
@@ -56,7 +56,7 @@ export class UsagerDocAccessGuard implements CanActivate {
           role: user.role,
         },
       });
-      throw new HttpException("USAGER_DOC_NOT_FOUND", HttpStatus.BAD_REQUEST);
+      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
     }
   }
 }

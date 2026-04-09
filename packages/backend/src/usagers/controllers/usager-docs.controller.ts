@@ -182,6 +182,7 @@ export class UsagerDocsController {
     await usagerDocsRepository.update(
       {
         uuid: docUuid,
+        structureId: user.structureId,
       },
       {
         label: updatedDoc.label,
@@ -192,6 +193,7 @@ export class UsagerDocsController {
     const doc = await usagerDocsRepository.findOne({
       where: {
         uuid: docUuid,
+        structureId: user.structureId,
       },
       select: USAGER_DOCS_FIELDS_TO_SELECT,
     });
@@ -214,6 +216,7 @@ export class UsagerDocsController {
 
     await usagerDocsRepository.delete({
       uuid: usagerDoc.uuid,
+      structureId: user.structureId,
     });
 
     await this.appLogsService.create({
@@ -246,7 +249,7 @@ export class UsagerDocsController {
     if (decisionUuid && !isUUID(decisionUuid)) {
       return res
         .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "DECISION_UUID_INVALID" });
+        .json({ message: "BAD_REQUEST" });
     }
 
     const pdfForm =
@@ -275,7 +278,7 @@ export class UsagerDocsController {
       if (decisionUuid && (err as any)?.message === "CERFA_INDEX_UNDEFINED") {
         return res
           .status(HttpStatus.BAD_REQUEST)
-          .json({ message: "DECISION_UUID_NOT_FOUND" });
+          .json({ message: "BAD_REQUEST" });
       }
 
       return res

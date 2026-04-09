@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Injectable,
 } from "@nestjs/common";
+import { isInt } from "class-validator";
 
 import { appLogger } from "../../util";
 import { structureRepository } from "../../database";
@@ -14,22 +15,18 @@ export class StructureAccessGuard implements CanActivate {
   public async canActivate(context: ExecutionContext) {
     const r = context.switchToHttp().getRequest();
 
-    if (!r?.params?.structureId) {
-      appLogger.error("[StructureAccessGuard] invalid structureId for admin", {
+    const structureId = Number(r.params?.structureId);
+
+    if (!isInt(structureId) || structureId <= 0) {
+      appLogger.error("[StructureAccessGuard] invalid structureId", {
         sentry: true,
         context: {
-          usagerRef: r?.params?.uui,
-          structureId: r?.user?.structureId,
-          user: r?.user?._id,
+          structureId: r?.params?.structureId,
+          user: r?.user?.id,
         },
       });
-      throw new HttpException(
-        "STRUCTURE_INFORMATION_NOT_FOUND",
-        HttpStatus.BAD_REQUEST
-      );
+      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
     }
-
-    const structureId = parseInt(r.params.structureId, 10);
 
     try {
       const structure = await structureRepository.findOneOrFail({
@@ -45,11 +42,11 @@ export class StructureAccessGuard implements CanActivate {
         sentry: true,
         context: {
           structureId,
-          user: r?.user?._id,
+          user: r?.user?.id,
           role: r?.user?.role,
         },
       });
-      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
+      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
     }
   }
 }

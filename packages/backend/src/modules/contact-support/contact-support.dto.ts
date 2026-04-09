@@ -2,6 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import {
   IsEmail,
   IsEmpty,
+  IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -70,6 +71,7 @@ export class ContactSupportDto {
     required: false,
   })
   @IsOptional()
+  @IsInt()
   @Transform(({ value }: TransformFnParams) => {
     return cleanFormDataValue(value, "number");
   })
@@ -80,6 +82,7 @@ export class ContactSupportDto {
     required: false,
   })
   @IsOptional()
+  @IsInt()
   @Transform(({ value }: TransformFnParams) => {
     return cleanFormDataValue(value, "number");
   })

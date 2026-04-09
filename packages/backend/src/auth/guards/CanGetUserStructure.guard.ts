@@ -7,7 +7,7 @@ import {
 } from "@nestjs/common";
 
 import { appLogger } from "../../util";
-import { isUUID } from "class-validator";
+import { isInt, isUUID } from "class-validator";
 import { userStructureRepository } from "../../database";
 
 @Injectable()
@@ -15,22 +15,23 @@ export class CanGetUserStructureGuard implements CanActivate {
   public async canActivate(context: ExecutionContext) {
     const r = context.switchToHttp().getRequest();
 
-    const userUuid = r.params.userUuid;
-    const structureId = r.user.structureId;
+    const userUuid = r.params?.userUuid;
+    const structureId = Number(r.user?.structureId);
 
-    if (
-      userUuid === undefined ||
-      structureId === undefined ||
-      !isUUID(userUuid)
-    ) {
-      appLogger.error(
-        "[CanGetUserStructureGuard] invalid user.Uuid or structureId",
-        {
-          sentry: true,
-          context: { "user.Uuid": userUuid, structureId, user: r.user._id },
-        }
-      );
-      throw new HttpException("Invalid structureId", HttpStatus.FORBIDDEN);
+    if (!isUUID(userUuid)) {
+      appLogger.error("[CanGetUserStructureGuard] invalid userUuid", {
+        sentry: true,
+        context: { userUuid, user: r.user?.id },
+      });
+      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
+    }
+
+    if (!isInt(structureId) || structureId <= 0) {
+      appLogger.error("[CanGetUserStructureGuard] invalid structureId", {
+        sentry: true,
+        context: { structureId: r.user?.structureId, user: r.user?.id },
+      });
+      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
     }
     const chosenUserStructure = await userStructureRepository.findOneBy({
       uuid: userUuid,
@@ -45,12 +46,12 @@ export class CanGetUserStructureGuard implements CanActivate {
           context: {
             userUuid,
             structureId,
-            user: r.user._id,
+            user: r.user.id,
             role: r.user.role,
           },
         }
       );
-      throw new HttpException("Invalid structureId", HttpStatus.FORBIDDEN);
+      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
     }
 
     r.chosenUserStructure = chosenUserStructure;

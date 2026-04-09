@@ -177,7 +177,7 @@ export class UsersController {
       if (!user) {
         return res
           .status(HttpStatus.BAD_REQUEST)
-          .json({ message: "USER_NOT_FOUND" });
+          .json({ message: "BAD_REQUEST" });
       }
     }
 
