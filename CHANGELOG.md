@@ -1,3 +1,12 @@
+## [2.234.3](https://github.com/SocialGouv/domifa/compare/v2.234.2...v2.234.3) (2026-04-09)
+
+
+### Bug Fixes
+
+* **backend:** add logs to backend ([7ff4d66](https://github.com/SocialGouv/domifa/commit/7ff4d662917dcfc68cb1c6d48ea9ddc6edb6f36b))
+* **backend:** enforce security rules ([f82ddc5](https://github.com/SocialGouv/domifa/commit/f82ddc5c3708b5d355930f096c159d614a2b3ec2))
+* **backend:** scope notes ([eeb1be7](https://github.com/SocialGouv/domifa/commit/eeb1be7299be88e6a0aa14544fce05948a612104))
+
 ## [2.234.2](https://github.com/SocialGouv/domifa/compare/v2.234.1...v2.234.2) (2026-03-10)
 
 
