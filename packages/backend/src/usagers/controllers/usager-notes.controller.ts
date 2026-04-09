@@ -129,6 +129,7 @@ export class UsagerNotesController {
 
     await usagerNotesRepository.delete({
       uuid: currentUsagerNote.uuid,
+      structureId: currentUser.structureId,
     });
 
     await appLogsRepository.save(
@@ -159,7 +160,7 @@ export class UsagerNotesController {
       { pinned: false }
     );
     await usagerNotesRepository.update(
-      { uuid: currentUsagerNote.uuid },
+      { uuid: currentUsagerNote.uuid, structureId: currentUsager.structureId },
       { pinned: newPinnedStatus }
     );
 
