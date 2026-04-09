@@ -1,41 +1,38 @@
-<section
-  class="fr-grid-row fr-align-items-center fr-my-2w fr-flex-wrap fr-justify-content-between"
->
-  <div class="fr-col-md-6 fr-col-12">
-    @if (selectedRefs.size > 0) {
-    <div
-      class="fr-display-flex fr-align-items-center fr-flex-wrap justify-content-md-start fr-justify-content-center"
-      appStickySelectionBar
-    >
-      <div class="fr-mr-1w">{{ selectedRefs.size }} selectionnés</div>
-      <div>
-        @if (filters.statut === UsagersFilterCriteriaStatut.VALIDE) {
-        <app-decision-radiation-form
-          [selectedRefs]="selectedRefs"
-          (actionAfterSuccess)="resetCheckboxes()"
-          context="MANAGE"
-        ></app-decision-radiation-form>
-        } @if (me?.role !== 'simple') {
-        <button
-          type="button"
-          (click)="openDeleteUsagersModal()"
-          class="fr-btn fr-btn--sm fr-btn--secondary"
-        >
-          <span class="fr-mr-2w fr-icon-delete-line" aria-hidden="true"></span>
-          @if (selectedRefs.size === 1) { Supprimer le domicilié } @if
-          (selectedRefs.size > 1) { Supprimer les domiciliés }
-        </button>
-        }
-        <app-assign-referrers
-          [selectedRefs]="selectedRefs"
-          (actionAfterSuccess)="resetCheckboxes()"
-          template="modal"
-          [me]="me"
-        ></app-assign-referrers>
-      </div>
+<section>
+  @if (selectedRefs.size > 0) {
+  <div
+    class="fr-display-flex fr-align-items-center fr-flex-wrap justify-content-md-start fr-justify-content-center"
+    appStickySelectionBar
+  >
+    <div class="fr-mr-1w">{{ selectedRefs.size }} selectionnés</div>
+    <div>
+      @if (filters.statut === UsagersFilterCriteriaStatut.VALIDE) {
+      <app-decision-radiation-form
+        [selectedRefs]="selectedRefs"
+        (actionAfterSuccess)="resetCheckboxes()"
+        context="MANAGE"
+      ></app-decision-radiation-form>
+      } @if (me?.role !== 'simple') {
+      <button
+        type="button"
+        (click)="openDeleteUsagersModal()"
+        class="fr-btn fr-btn--sm fr-my-1w fr-mx-1w fr-btn--secondary"
+      >
+        <span class="fr-mr-1w fr-icon-delete-line" aria-hidden="true"></span>
+        @if (selectedRefs.size === 1) { Supprimer le domicilié } @if
+        (selectedRefs.size > 1) { Supprimer les domiciliés }
+      </button>
+      }
+      <app-assign-referrers
+        [selectedRefs]="selectedRefs"
+        (actionAfterSuccess)="resetCheckboxes()"
+        template="modal"
+        [me]="me"
+      ></app-assign-referrers>
     </div>
-    }
   </div>
+  }
+
   <!-- <div class="fr-col-md-6 fr-col-12 fr-text--right">
     <button type="button" class="fr-btn fr-btn--sm" (click)="goToPrint.emit()">
       @if (!loading) {

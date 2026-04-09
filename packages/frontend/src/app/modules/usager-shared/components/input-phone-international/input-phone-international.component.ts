@@ -16,10 +16,7 @@ import {
   NG_VALUE_ACCESSOR,
   FormsModule,
 } from "@angular/forms";
-import {
-  DsfrDropdownMenuComponent,
-  DsfrDropdownMenuItemComponent,
-} from "@edugouvfr/ngx-dsfr-ext";
+import { DsfrDropdownMenuComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 import intlTelInput from "intl-tel-input";
 import { Country } from "intl-tel-input/data";
@@ -37,7 +34,6 @@ import { Telephone } from "../../../../../_common/model";
     ReactiveFormsModule,
     FormsModule,
     DsfrDropdownMenuComponent,
-    DsfrDropdownMenuItemComponent,
   ],
   providers: [
     {
@@ -66,6 +62,7 @@ export class PhoneInputComponent
 
   public preferredCountriesData: Country[] = [];
   public allCountries: Country[] = [];
+  public filteredCountries: Country[] = [];
   public selectedCountry: Country;
 
   public phoneNumber: string = "";
@@ -120,6 +117,7 @@ export class PhoneInputComponent
         name: FR_COUNTRIES[country.iso2] || country.name,
       })
     );
+    this.filteredCountries = [...this.allCountries];
 
     if (!this.selectedCountry && this.preferredCountriesData.length > 0) {
       this.selectedCountry = this.preferredCountriesData[0];
@@ -129,11 +127,11 @@ export class PhoneInputComponent
 
   public searchCountry(): void {
     if (!this.countrySearchText) {
-      this.fetchCountryData();
+      this.filteredCountries = [...this.allCountries];
       return;
     }
     const term = this.countrySearchText.toLowerCase();
-    this.allCountries = this.allCountries.filter(
+    this.filteredCountries = this.allCountries.filter(
       (c) =>
         c.name.toLowerCase().includes(term) ||
         c.dialCode.includes(term) ||

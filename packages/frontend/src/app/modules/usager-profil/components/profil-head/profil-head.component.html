@@ -1,5 +1,5 @@
 @if (usager && me) {
-<div class="head-page fr-py-3w">
+<div class="head-page">
   <div class="fr-container">
     <div
       class="fr-px-0 fr-mx-0 fr-grid-row fr-grid-row--space-between fr-grid-row--middle"
@@ -189,7 +189,7 @@
     @if (usager?.decision?.statut !== 'RADIE' && usager?.decision?.statut !==
     'REFUS') {
     <p>
-      Si vous commencez un renouvellement,<br />
+      Si vous commencez un renouvellement,
       <strong>ce dossier ne sera plus considéré comme "actif".</strong>
     </p>
     } @if (usager.decision.statut === 'RADIE') {
@@ -199,7 +199,7 @@
     </p>
     } @if (usager.decision.statut === 'REFUS') {
     <p>
-      Si vous créez une nouvelle demande,<br />
+      Si vous créez une nouvelle demande,
       <strong>ce dossier ne sera plus comptabilisé parmi les refusés.</strong>
     </p>
     }

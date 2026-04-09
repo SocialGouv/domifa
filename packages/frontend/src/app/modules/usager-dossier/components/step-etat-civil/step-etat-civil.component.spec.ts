@@ -80,7 +80,7 @@ describe("StepEtatCivilComponent", () => {
     expect(component.usagerForm.valid).toBeTruthy();
   });
 
-  it("Ayant-droit", () => {
+  it("Ayant droit", () => {
     component.resetAyantDroit();
     expect(component.usagerForm.controls.ayantsDroits.value).toEqual([]);
 

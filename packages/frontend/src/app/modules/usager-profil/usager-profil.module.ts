@@ -31,7 +31,6 @@ import { ProfilHistoriqueDecisionsComponent } from "./components/_historiques/pr
 import { ProfilHistoriqueNotesComponent } from "./components/_historiques/profil-historique-notes/profil-historique-notes.component";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 import { ProfilHistoriqueLoginPortailComponent } from "./components/_historiques/profil-historique-login-portail/profil-historique-login-portail.component";
-import { SetNpaiComponent } from "./components/_general-section/set-npai/set-npai.component";
 import { ProfilAlertsComponent } from "./components/profil-alerts/profil-alerts.component";
 
 import { FormatInternationalPhoneNumberPipe } from "../../shared/phone/formatInternationalPhoneNumber.pipe";
@@ -46,6 +45,7 @@ import {
   DsfrAutocompleteComponent,
 } from "@edugouvfr/ngx-dsfr-ext";
 import { DisplayAyantsDroitsComponent } from "../usager-shared/components/display-ayants-droits/display-ayants-droits.component";
+import { SetNpaiComponent } from "./components/_general-section/set-npai/set-npai.component";
 
 @NgModule({
   declarations: [
@@ -68,7 +68,6 @@ import { DisplayAyantsDroitsComponent } from "../usager-shared/components/displa
     ProfilHistoriqueTransfertsComponent,
     ProfilSmsPortailComponent,
     ProfilStructureDocsComponent,
-    SetNpaiComponent,
     UsagersProfilProcurationCourrierComponent,
     UsagersProfilTransfertCourrierComponent,
   ],
@@ -92,6 +91,7 @@ import { DisplayAyantsDroitsComponent } from "../usager-shared/components/displa
     UsagerSharedModule,
     DsfrModalComponent,
     DsfrPaginationModule,
+    SetNpaiComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

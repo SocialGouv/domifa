@@ -30,47 +30,51 @@
       (click)="focusSearchInput()"
     >
       <ng-template #contentTemplate>
-        <div class="fr-input-group fr-mb-1w fr-py-1w fr-px-3w">
-          <label class="fr-label" for="country-search-box"
-            >Rechercher un pays</label
-          >
+        <div class="fr-search-bar fr-mb-1w fr-py-1w fr-px-3w" role="search">
+          <label class="fr-label" for="country-search-box">
+            Rechercher un pays
+          </label>
           <input
-            type="text"
+            type="search"
             class="fr-input fr-input--sm"
             id="country-search-box"
             [(ngModel)]="countrySearchText"
-            (keyup)="searchCountry()"
+            (input)="searchCountry()"
             (click)="$event.stopPropagation()"
             autocomplete="off"
+            placeholder="Rechercher un pays"
           />
         </div>
 
-        <ng-container
-          *ngFor="let country of allCountries; trackBy: trackByCountryIso"
-        >
-          <dsfrx-dropdownmenu-item
-            (selectItem)="onCountrySelect(country, focusable)"
+        <ul class="country-list" role="listbox">
+          @for (country of filteredCountries; track country.iso2) {
+          <li
+            class="country-list__item"
+            role="option"
+            tabindex="0"
+            [attr.aria-selected]="country.iso2 === selectedCountry.iso2"
+            (click)="onCountrySelect(country, focusable)"
+            (keydown.enter)="onCountrySelect(country, focusable)"
+            (keydown.space)="
+              $event.preventDefault(); onCountrySelect(country, focusable)
+            "
           >
-            <div
-              class="country-option"
-              [attr.aria-selected]="country.iso2 === selectedCountry.iso2"
-            >
-              <span>
-                <span class="iti__flag-box fr-mr-1w">
-                  <span
-                    aria-hidden="true"
-                    class="iti__flag"
-                    [ngClass]="'iti__' + country.iso2"
-                  ></span>
-                </span>
-                <span class="fr-text--sm">{{ country.name }}</span>
+            <span>
+              <span class="iti__flag-box fr-mr-1w">
+                <span
+                  aria-hidden="true"
+                  class="iti__flag"
+                  [ngClass]="'iti__' + country.iso2"
+                ></span>
               </span>
-              <span class="fr-text--sm fr-text--bold fr-ml-2w">
-                +{{ country.dialCode }}
-              </span>
-            </div>
-          </dsfrx-dropdownmenu-item>
-        </ng-container>
+              <span class="fr-text--sm">{{ country.name }}</span>
+            </span>
+            <span class="fr-text--sm fr-text--bold fr-ml-2w">
+              +{{ country.dialCode }}
+            </span>
+          </li>
+          }
+        </ul>
       </ng-template>
     </dsfrx-dropdownmenu>
     <input
@@ -105,18 +109,14 @@
     [id]="inputId + '-messages'"
     aria-live="polite"
   >
-    <p
-      class="fr-message fr-message--error"
-      *ngIf="(isTouched || submitted) && isRequired && !phoneNumber"
-    >
+    @if ((isTouched || submitted) && isRequired && !phoneNumber) {
+    <p class="fr-message fr-message--error">
       Le numéro de téléphone est obligatoire.
     </p>
-
-    <p
-      class="fr-message fr-message--error"
-      *ngIf="(isTouched || submitted) && phoneNumber && !isValid"
-    >
+    } @if ((isTouched || submitted) && phoneNumber && !isValid) {
+    <p class="fr-message fr-message--error">
       Le format du numéro de téléphone est incorrect.
     </p>
+    }
   </div>
 </div>

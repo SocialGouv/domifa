@@ -62,23 +62,6 @@
   }
 }
 
-.notification {
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
-  text-align: center;
-  width: 20px;
-  height: 20px;
-  background-color: var(--background-action-high-error);
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  font-size: 12px;
-  line-height: 18px;
-  color: #fff;
-  font-weight: 700;
-}
-
 .spinner {
   font-size: 5rem;
   color: var(--text-active-blue-france);

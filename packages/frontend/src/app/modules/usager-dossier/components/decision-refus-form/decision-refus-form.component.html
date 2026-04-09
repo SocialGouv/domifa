@@ -47,11 +47,13 @@
         >
           <label class="fr-label" for="motifRefusSelectModal">
             Pour quel motif ?
+            <span class="fr-text--bold fr-text-default--error">*</span>
           </label>
           <select
             class="fr-select"
             id="motifRefusSelectModal"
             formControlName="motif"
+            required
             [attr.aria-invalid]="
               (r.motif.dirty || submitted) && r.motif.errors ? true : false
             "
@@ -85,12 +87,14 @@
         >
           <label class="fr-label" for="motifRefusAutreModal">
             Autre motif de refus (10 caractères minimum)
+            <span class="fr-text--bold fr-text-default--error">*</span>
           </label>
           <input
             type="text"
             class="fr-input"
             id="motifRefusAutreModal"
             formControlName="motifDetails"
+            required
             minlength="10"
             [attr.aria-invalid]="
               (r.motifDetails.dirty || submitted) && r.motifDetails.errors
@@ -123,11 +127,13 @@
         >
           <label class="fr-label" for="orientationRefusSelectModal">
             Orientation proposée
+            <span class="fr-text--bold fr-text-default--error">*</span>
           </label>
           <select
             class="fr-select"
             id="orientationRefusSelectModal"
             formControlName="orientation"
+            required
             [attr.aria-invalid]="
               (r.orientation.dirty || submitted) && r.orientation.errors
                 ? true
@@ -170,6 +176,7 @@
             class="fr-input"
             id="orientationRefusDetailsModal"
             formControlName="orientationDetails"
+            required
             [attr.aria-invalid]="
               (r.orientationDetails.dirty || submitted) &&
               r.orientationDetails.errors
@@ -197,43 +204,31 @@
       <div
         class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
       >
-        <button
-          class="fr-btn"
-          [disabled]="loading"
-          type="button"
-          (click)="setDecisionRefus()"
-          [attr.aria-busy]="loading"
-        >
-          @if (!loading) {
-          <span>Confirmer le refus</span>
-          } @else {
-          <span class="fr-sr-only">Veuillez patienter...</span>
-          }
-        </button>
-        <button
-          class="fr-btn fr-btn--secondary d-print-none"
-          (click)="closeModal()"
-          type="button"
-        >
-          Annuler
-        </button>
+        <app-button
+          [loading]="loading"
+          content="Confirmer le refus"
+          icon="check"
+          (action)="setDecisionRefus()"
+        ></app-button>
+        <app-button
+          color="secondary"
+          content="Annuler"
+          customClass="d-print-none"
+          (action)="closeModal()"
+        ></app-button>
       </div>
     </ng-template>
   </form>
 </dsfr-modal>
 } @if (template === 'input') {
 <form [formGroup]="refusForm" (ngSubmit)="setDecisionRefus()">
-  <p>
-    Les champs suivis d'un
-    <span class="fr-text--bold fr-text-default--error">*</span> sont
-    obligatoires
-  </p>
+  <p>Tous les champs sont obligatoires</p>
 
   <div class="fr-grid-row fr-grid-row--gutters fr-mb-3w">
     <div class="fr-col-md-6">
       <dsfr-ext-datepicker
         formControlName="dateFin"
-        label="Date du refus"
+        label="Date du refus *"
         [min]="minDate"
         [max]="maxDateRefus"
         [required]="true"
@@ -256,11 +251,13 @@
       >
         <label class="fr-label" for="motifRefusSelect">
           Pour quel motif ?
+          <span class="fr-text--bold fr-text-default--error">*</span>
         </label>
         <select
           class="fr-select"
           id="motifRefusSelect"
           formControlName="motif"
+          required
           [attr.aria-invalid]="
             (r.motif.dirty || submitted) && r.motif.errors ? true : false
           "
@@ -294,12 +291,14 @@
       >
         <label class="fr-label" for="motifRefusAutre">
           Autre motif de refus (10 caractères minimum)
+          <span class="fr-text--bold fr-text-default--error">*</span>
         </label>
         <input
           type="text"
           class="fr-input"
           id="motifRefusAutre"
           formControlName="motifDetails"
+          required
           minlength="10"
           [attr.aria-invalid]="
             (r.motifDetails.dirty || submitted) && r.motifDetails.errors
@@ -332,11 +331,13 @@
       >
         <label class="fr-label" for="orientationRefusSelect">
           Orientation proposée
+          <span class="fr-text--bold fr-text-default--error">*</span>
         </label>
         <select
           class="fr-select"
           id="orientationRefusSelect"
           formControlName="orientation"
+          required
           [attr.aria-invalid]="
             (r.orientation.dirty || submitted) && r.orientation.errors
               ? true
@@ -373,12 +374,14 @@
       >
         <label class="fr-label" for="orientationRefusDetails">
           Précisez l'orientation choisie
+          <span class="fr-text--bold fr-text-default--error">*</span>
         </label>
         <input
           type="text"
           class="fr-input"
           id="orientationRefusDetails"
           formControlName="orientationDetails"
+          required
           [attr.aria-invalid]="
             (r.orientationDetails.dirty || submitted) &&
             r.orientationDetails.errors
@@ -406,25 +409,18 @@
     <div
       class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
     >
-      <button
-        class="fr-btn"
-        [disabled]="loading"
-        type="submit"
-        [attr.aria-busy]="loading"
-      >
-        @if (!loading) {
-        <span>Confirmer le refus</span>
-        } @else {
-        <span class="fr-sr-only">Veuillez patienter...</span>
-        }
-      </button>
-      <button
-        class="fr-btn fr-btn--secondary d-print-none"
-        (click)="closeModals.emit()"
-        type="button"
-      >
-        Annuler
-      </button>
+      <app-button
+        [loading]="loading"
+        content="Confirmer le refus"
+        icon="check"
+        (action)="setDecisionRefus()"
+      ></app-button>
+      <app-button
+        color="secondary"
+        content="Annuler"
+        customClass="d-print-none"
+        (action)="closeModals.emit()"
+      ></app-button>
     </div>
   </ng-template>
 </form>

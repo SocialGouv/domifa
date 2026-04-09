@@ -1,23 +1,21 @@
+@if (usager().decision.statut === 'RADIE') {
 <button
   type="button"
-  class="fr-btn fr-mr-1w"
-  *ngIf="usager.decision.statut === 'RADIE'"
+  class="fr-btn fr-my-1w fr-mr-1w"
   [disabled]="loading"
   (click)="stopCourrier()"
 >
-  <ng-container *ngIf="loading">
-    <span
-      class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
-      aria-hidden="true"
-    ></span>
-    <span class="list-icon-disabled">Veuillez patienter</span>
-  </ng-container>
-  <ng-container *ngIf="!loading && !usager.options?.npai?.actif">
-    <span class="list-icon icon-ban fr-mr-1w"></span>
-    <span>Ne plus accepter le courrier</span>
-  </ng-container>
-  <ng-container *ngIf="!loading && usager.options?.npai?.actif">
-    <span class="list-icon icon-ban fr-mr-1w"></span>
-    <span>Accepter le courrier</span>
-  </ng-container>
+  @if (loading) {
+  <span
+    class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
+    aria-hidden="true"
+  ></span>
+  Veuillez patienter } @else if (!usager().options?.npai?.actif) {
+  <span class="fr-icon-pause-circle-fill fr-mr-1w" aria-hidden="true"></span>
+  <span>Ne plus accepter le courrier</span>
+  } @else {
+  <span class="fr-icon-play-circle-fill fr-mr-1w" aria-hidden="true"></span>
+  <span>Accepter le courrier</span>
+  }
 </button>
+}

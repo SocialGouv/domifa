@@ -4,14 +4,16 @@
   (click)="openRadiationModal()"
   class="fr-btn fr-btn--secondary fr-ml-1w"
 >
+  <span class="fr-icon-pause-circle-fill" aria-hidden="true"></span>
   Radier le domicilié
 </button>
 } @if (context === 'MANAGE') {
 <button
   type="button"
   (click)="openRadiationModal()"
-  class="fr-btn fr-btn--secondary fr-btn--sm"
+  class="fr-btn fr-btn--secondary fr-my-1w fr-ml-1w fr-btn--sm"
 >
+  <span class="fr-icon-pause-circle-fill fr-mr-1w" aria-hidden="true"></span>
   Radier {{ selectedRefs.size === 1 ? "le domicilié" : "les domiciliés" }}
 </button>
 }
@@ -23,144 +25,142 @@
   [modalSize]="'LG'"
 >
   <form [formGroup]="radiationForm" (ngSubmit)="setDecisionRadiation()">
-    <div class="fr-p-4w">
-      @if (usager && context === 'PROFIL') {
-      <p>
-        Vous souhaitez mettre fin à la domiciliation de
-        <b>
-          {{ usager | fullName }} né{{ usager.sexe === "homme" ? "" : "e" }} le
-          {{ usager.dateNaissance | date : "dd MMMM yyyy" }}.
-        </b>
-        <br />
-        <br />
-        La radiation peut avoir de lourdes conséquences et laisser une personne
-        sans adresse.
-        <br />
-        Elle doit être notifiée par écrit à l'intéressé et motivée, avec mention
-        des voies et délais de recours.
-        <br />
-        <b>Tous les champs sont obligatoires</b>
-      </p>
-      } @if (context === 'MANAGE') {
-      <p>
-        Vous souhaitez mettre fin à la domiciliation de
-        <b
-          >{{ selectedRefs.size }}
-          {{ selectedRefs.size > 1 ? "domiciliés" : "domicilié" }}</b
+    @if (usager && context === 'PROFIL') {
+    <p>
+      Vous souhaitez mettre fin à la domiciliation de
+      <b>
+        {{ usager | fullName }} né{{ usager.sexe === "homme" ? "" : "e" }} le
+        {{ usager.dateNaissance | date : "dd MMMM yyyy" }}.
+      </b>
+      <br />
+      <br />
+      La radiation peut avoir de lourdes conséquences et laisser une personne
+      sans adresse.
+      <br />
+      Elle doit être notifiée par écrit à l'intéressé et motivée, avec mention
+      des voies et délais de recours.
+      <br />
+      <b>Tous les champs sont obligatoires</b>
+    </p>
+    } @if (context === 'MANAGE') {
+    <p>
+      Vous souhaitez mettre fin à la domiciliation de
+      <b
+        >{{ selectedRefs.size }}
+        {{ selectedRefs.size > 1 ? "domiciliés" : "domicilié" }}</b
+      >
+      <br />
+      La radiation peut avoir de lourdes conséquences et laisser toutes les
+      personnes sélectionnées sans adresse.
+      <br />
+      Elle doit être notifiée par écrit à l'intéressé et motivée, avec mention
+      des voies et délais de recours.
+      <br />
+      <b>Tous les champs sont obligatoires</b>
+    </p>
+    }
+
+    <div class="fr-grid-row fr-grid-row--gutters">
+      <div class="fr-col-12 fr-col-md-6">
+        <dsfr-ext-datepicker
+          formControlName="dateFin"
+          label="Date de la radiation *"
+          [min]="minDate"
+          [max]="maxDate"
+          [required]="true"
+          [showMask]="true"
+          appendTo="body"
+          [message]="
+            submitted && r.dateFin.errors
+              ? 'La date de fin est incorrecte. Format attendu: jj/mm/aaaa'
+              : ''
+          "
+          [messageSeverity]="'error'"
+        ></dsfr-ext-datepicker>
+      </div>
+
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-select-group"
+          [class.fr-select-group--error]="
+            (r.motif.dirty || submitted) && r.motif.errors
+          "
         >
-        <br />
-        La radiation peut avoir de lourdes conséquences et laisser toutes les
-        personnes sélectionnées sans adresse.
-        <br />
-        Elle doit être notifiée par écrit à l'intéressé et motivée, avec mention
-        des voies et délais de recours.
-        <br />
-        <b>Tous les champs sont obligatoires</b>
-      </p>
-      }
-
-      <div class="fr-grid-row fr-grid-row--gutters">
-        <div class="fr-col-12 fr-col-md-6">
-          <dsfr-ext-datepicker
-            formControlName="dateFin"
-            label="Date de la radiation *"
-            [min]="minDate"
-            [max]="maxDate"
-            [required]="true"
-            [showMask]="true"
-            appendTo="body"
-            [message]="
-              submitted && r.dateFin.errors
-                ? 'La date de fin est incorrecte. Format attendu: jj/mm/aaaa'
-                : ''
-            "
-            [messageSeverity]="'error'"
-          ></dsfr-ext-datepicker>
-        </div>
-
-        <div class="fr-col-12 fr-col-md-6">
-          <div
-            class="fr-select-group"
-            [class.fr-select-group--error]="
+          <label class="fr-label" for="motif">
+            Merci d'indiquer le motif
+          </label>
+          <select
+            class="fr-select"
+            [class.fr-select--error]="
               (r.motif.dirty || submitted) && r.motif.errors
             "
-          >
-            <label class="fr-label" for="motif">
-              Merci d'indiquer le motif
-            </label>
-            <select
-              class="fr-select"
-              [class.fr-select--error]="
-                (r.motif.dirty || submitted) && r.motif.errors
-              "
-              id="motif"
-              formControlName="motif"
-              name="motif"
-              required
-              [attr.aria-invalid]="
-                (r.motif.dirty || submitted) && r.motif.errors ? true : false
-              "
-              [attr.aria-describedby]="
-                (r.motif.dirty || submitted) && r.motif.errors
-                  ? 'motif-errors'
-                  : null
-              "
-            >
-              <option value="" disabled selected>Sélectionnez un motif</option>
-              @for (motif of MOTIFS_RADIATION_LABELS | keyvalue; track
-              motif.key) {
-              <option [value]="motif.key">{{ motif.value }}</option>
-              }
-              <option value="AUTRE">Autre motif</option>
-            </select>
-            @if ((r.motif.dirty || submitted) && r.motif.errors) {
-            <p id="motif-errors" class="fr-error-text">
-              Veuillez choisir un motif de radiation
-            </p>
-            }
-          </div>
-        </div>
-
-        @if (r.motif.value === 'AUTRE') {
-        <div class="fr-col-12 fr-col-md-6">
-          <div
-            class="fr-input-group"
-            [class.fr-input-group--error]="
-              (r.motifDetails.dirty || submitted) && r.motifDetails.errors
+            id="motif"
+            formControlName="motif"
+            name="motif"
+            required
+            [attr.aria-invalid]="
+              (r.motif.dirty || submitted) && r.motif.errors ? true : false
+            "
+            [attr.aria-describedby]="
+              (r.motif.dirty || submitted) && r.motif.errors
+                ? 'motif-errors'
+                : null
             "
           >
-            <label class="fr-label" for="motifAutre">
-              Autre motif de radiation (10 caractères minimum)
-            </label>
-            <input
-              type="text"
-              class="fr-input"
-              [class.fr-input--error]="
-                (r.motifDetails.dirty || submitted) && r.motifDetails.errors
-              "
-              [attr.aria-invalid]="
-                (r.motifDetails.dirty || submitted) && r.motifDetails.errors
-                  ? true
-                  : false
-              "
-              [attr.aria-describedby]="
-                (r.motifDetails.dirty || submitted) && r.motifDetails.errors
-                  ? 'motifDetails-errors'
-                  : null
-              "
-              id="motifAutre"
-              formControlName="motifDetails"
-              name="motifDetails"
-            />
-            @if ((r.motifDetails.dirty || submitted) && r.motifDetails.errors) {
-            <p class="fr-error-text" id="motifDetails-errors">
-              Veuillez préciser le motif
-            </p>
+            <option value="" disabled selected>Sélectionnez un motif</option>
+            @for (motif of MOTIFS_RADIATION_LABELS | keyvalue; track motif.key)
+            {
+            <option [value]="motif.key">{{ motif.value }}</option>
             }
-          </div>
+            <option value="AUTRE">Autre motif</option>
+          </select>
+          @if ((r.motif.dirty || submitted) && r.motif.errors) {
+          <p id="motif-errors" class="fr-error-text">
+            Veuillez choisir un motif de radiation
+          </p>
+          }
         </div>
-        }
       </div>
+
+      @if (r.motif.value === 'AUTRE') {
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
+            (r.motifDetails.dirty || submitted) && r.motifDetails.errors
+          "
+        >
+          <label class="fr-label" for="motifAutre">
+            Autre motif de radiation (10 caractères minimum)
+          </label>
+          <input
+            type="text"
+            class="fr-input"
+            [class.fr-input--error]="
+              (r.motifDetails.dirty || submitted) && r.motifDetails.errors
+            "
+            [attr.aria-invalid]="
+              (r.motifDetails.dirty || submitted) && r.motifDetails.errors
+                ? true
+                : false
+            "
+            [attr.aria-describedby]="
+              (r.motifDetails.dirty || submitted) && r.motifDetails.errors
+                ? 'motifDetails-errors'
+                : null
+            "
+            id="motifAutre"
+            formControlName="motifDetails"
+            name="motifDetails"
+          />
+          @if ((r.motifDetails.dirty || submitted) && r.motifDetails.errors) {
+          <p class="fr-error-text" id="motifDetails-errors">
+            Veuillez préciser le motif
+          </p>
+          }
+        </div>
+      </div>
+      }
     </div>
 
     <ng-template #modalFooterTemplate>

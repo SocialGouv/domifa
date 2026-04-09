@@ -47,10 +47,10 @@
     }
   </ng-container>
 </div>
-} }
-
+} } @if(usager?.ref) {
 <app-profil-add-note-form
   [usager]="usager"
   (cancelModal)="closeModals()"
   (getUsagerNotes)="getUsagerNotes()"
 ></app-profil-add-note-form>
+}

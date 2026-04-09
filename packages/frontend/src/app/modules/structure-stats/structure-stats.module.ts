@@ -16,7 +16,10 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
 
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
-import { DsfrDatePickerComponent } from "@edugouvfr/ngx-dsfr-ext";
+import {
+  DsfrDatePickerComponent,
+  DsfrSpinnerComponent,
+} from "@edugouvfr/ngx-dsfr-ext";
 
 @NgModule({
   declarations: [ReportingFormComponent, StuctureStatsComponent],
@@ -29,6 +32,7 @@ import { DsfrDatePickerComponent } from "@edugouvfr/ngx-dsfr-ext";
     DsfrDatePickerComponent,
     ReactiveFormsModule,
     DsfrModalComponent,
+    DsfrSpinnerComponent,
   ],
   providers: [
     StructureStatsService,

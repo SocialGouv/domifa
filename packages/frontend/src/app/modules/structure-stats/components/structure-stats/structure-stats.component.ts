@@ -40,16 +40,16 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
 
   public loading: boolean = false;
 
-  public startDate: Date = new Date();
-  public endDate: Date | null = null;
+  public startDate: Date = toUtcNoon(startOfMonth(new Date()));
+  public endDate: Date = toUtcNoon(new Date());
 
   public minStartDate: string;
   public minEndDate: string;
   public maxStartDate: string;
   public maxEndDate: string;
 
-  public fromDate: string;
-  public toDate: string | null = null;
+  public fromDate: string = formatDateToFr(this.startDate);
+  public toDate: string = formatDateToFr(this.endDate);
   public me!: UserStructure | null;
 
   private readonly subscription = new Subscription();
@@ -110,18 +110,15 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
   public export(year?: number): void {
     this.loading = true;
 
-    const period = {
-      startDate: this.startDate,
-      endDate: this.endDate,
-    };
-
     if (year) {
-      period.startDate = new Date(year.toString() + "-01-01");
-      period.endDate = new Date(year.toString() + "-12-31");
+      this.startDate = new Date(year.toString() + "-01-01");
+      this.endDate = new Date(year.toString() + "-12-31");
     } else {
-      this.endDate = this.toDate !== null ? parseFrDate(this.toDate) : null;
+      this.startDate = parseFrDate(this.fromDate) ?? this.startDate;
+      this.endDate = parseFrDate(this.toDate) ?? this.endDate;
     }
 
+    const period = { startDate: this.startDate, endDate: this.endDate };
     const structureId = this.me?.structureId as number;
 
     this.subscription.add(
@@ -198,7 +195,7 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
     this.compare();
   }
 
-  public setCustomDates() {
+  public setCustomDates(): void {
     this.startDate = toUtcNoon(startOfMonth(new Date()));
     this.endDate = toUtcNoon(new Date());
     this.fromDate = formatDateToFr(this.startDate);
@@ -209,16 +206,14 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
   }
 
   public compare(): void {
+    this.startDate = parseFrDate(this.fromDate) ?? this.startDate;
+    this.endDate = parseFrDate(this.toDate) ?? this.endDate;
     this.loading = true;
     this.stats = null;
-    this.startDate = parseFrDate(this.fromDate)!;
-    this.endDate = this.toDate !== null ? parseFrDate(this.toDate) : null;
 
     const startFormatted = format(this.startDate, "dd/MM/yyyy");
-    const endFormatted = format(this.startDate, "dd/MM/yyyy");
-    const requestedInterval = `${startFormatted}${
-      this.endDate ? endFormatted : ""
-    }`;
+    const endFormatted = format(this.endDate, "dd/MM/yyyy");
+    const requestedInterval = `${startFormatted} - ${endFormatted}`;
 
     this.matomo.trackEvent(
       "STATS",

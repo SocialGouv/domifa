@@ -13,6 +13,7 @@ import { DsfrTooltipDirective } from "@edugouvfr/ngx-dsfr";
   selector: "app-column-informations",
   templateUrl: "./column-informations.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ["./column-informations.component.scss"],
   imports: [
     DisplayAyantsDroitsComponent,
     DatePipe,

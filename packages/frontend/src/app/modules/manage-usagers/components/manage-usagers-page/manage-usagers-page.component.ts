@@ -103,8 +103,8 @@ export class ManageUsagersPageComponent
     };
   } = {
     DEFAULT: {
-      label: "ID, nom, prénom, ayant-droit ou mandataire",
-      placeholder: "Recherche par ID, nom, prénom, ayant-droit ou mandataire",
+      label: "ID, nom, prénom, ayant droit ou mandataire",
+      placeholder: "Recherche par ID, nom, prénom, ayant droit ou mandataire",
     },
     BIRTH_DATE: {
       label: "Date de naissance (format attendu:  JJ/MM/AAAA)",
