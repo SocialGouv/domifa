@@ -324,13 +324,6 @@ export class UsersController {
         .json({ message: "REGISTER_ERROR" });
     }
 
-    // Envoi de l'email d'activation avec génération automatique du lien
-    await this.brevoSenderService.sendUserActivationEmail({
-      userId: newUser.id,
-      userProfile,
-      userSecurity,
-    });
-
     await this.appLogService.create<UserStructureCreateLogContext>({
       action: "USER_CREATE",
       userId: user.id,
@@ -341,6 +334,13 @@ export class UsersController {
         userId: newUser.id,
         structureId: newUser.structureId,
       },
+    });
+
+    // Envoi de l'email d'activation avec génération automatique du lien
+    await this.brevoSenderService.sendUserActivationEmail({
+      userId: newUser.id,
+      userProfile,
+      userSecurity,
     });
 
     try {

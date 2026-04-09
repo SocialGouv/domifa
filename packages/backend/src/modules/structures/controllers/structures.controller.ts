@@ -145,21 +145,22 @@ export class StructuresController {
         .json({ message: "CANNOT_SET_MORE_THAN_2_DAYS_FOR_SMS" });
     }
 
-    if (
-      user.structure.sms.enabledByStructure !==
-      structureSmsDto.enabledByStructure
-    ) {
-      const action = structureSmsDto.enabledByStructure
-        ? "ENABLE_SMS_BY_STRUCTURE"
-        : "DISABLE_SMS_BY_STRUCTURE";
+    const before = { ...user.structure.sms };
 
-      await this.appLogsService.create({
-        userId: user._userId,
-        usagerRef: null,
-        structureId: user.structureId,
-        action,
-      });
-    }
+    await this.appLogsService.create({
+      userId: user._userId,
+      structureId: user.structureId,
+      action: "SMS_SETTINGS_UPDATE",
+      context: {
+        before,
+        after: {
+          enabledByStructure: structureSmsDto.enabledByStructure,
+          schedule: structureSmsDto.schedule,
+          senderName: structureSmsDto.senderName,
+          senderDetails: structureSmsDto.senderDetails,
+        },
+      },
+    });
 
     structureSmsDto.enabledByDomifa = user.structure.sms.enabledByDomifa;
 
