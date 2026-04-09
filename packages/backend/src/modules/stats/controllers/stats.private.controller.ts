@@ -98,6 +98,7 @@ export class StatsPrivateController {
     @CurrentUser() user: UserStructureAuthenticated,
     @Body() statsDto: StatsDto
   ) {
+    statsDto.structureId = user.structureId;
     await this.appLogsService.create({
       userId: user.id,
       structureId: user.structureId,
@@ -113,9 +114,11 @@ export class StatsPrivateController {
     @Body() statsDto: StatsDto,
     @Res() res: Response
   ): Promise<void> {
+    statsDto.structureId = user.structureId;
+
     await this.appLogsService.create({
       userId: user.id,
-      structureId: user?.structureId ?? 1,
+      structureId: user.structureId,
       action: "EXPORT_STATS",
     });
 

@@ -44,7 +44,10 @@ export class AgendaController {
   @Get("")
   @ApiOperation({ summary: "Liste des rendez-vous à venir" })
   public async getAll(@CurrentUser() user: UserStructureAuthenticated) {
-    return await usagerRepository.findNextMeetings({ userId: user.id });
+    return await usagerRepository.findNextMeetings({
+      userId: user.id,
+      structureId: user.structureId,
+    });
   }
 
   @Post(":usagerRef")
@@ -77,7 +80,7 @@ export class AgendaController {
       if (!selectedUser) {
         return res
           .status(HttpStatus.BAD_REQUEST)
-          .json({ message: "USER_AGENDA_FAIL" });
+          .json({ message: "BAD_REQUEST" });
       }
 
       user = selectedUser;

@@ -19,7 +19,7 @@ import {
 export class MetabaseStatsDto {
   @IsNotEmpty()
   @IsNumber()
-  @Transform(({ value }) => parseInt(value, 10), { toClassOnly: true })
+  @Transform(({ value }) => Number(value), { toClassOnly: true })
   @Min(2020)
   @Max(2048)
   year: number;

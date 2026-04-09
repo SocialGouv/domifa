@@ -31,7 +31,7 @@ export class StructureRegistrationDto {
 
   @IsNumber()
   @Min(0)
-  @Transform(({ value }) => parseInt(value))
+  @Transform(({ value }) => Number(value))
   activeUsersCount: number;
 
   @ValidateIf((obj) => obj.structureType === "asso")

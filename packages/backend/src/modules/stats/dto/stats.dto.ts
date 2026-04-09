@@ -1,12 +1,18 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDateString, IsNotEmpty, IsNumber } from "class-validator";
+import {
+  IsDateString,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  Min,
+} from "class-validator";
 
 export class StatsDto {
   @ApiProperty({
     type: String,
     required: true,
   })
-  @IsDateString()
+  @IsDateString({ strict: true, strictSeparator: true })
   @IsNotEmpty()
   public startDate!: string;
 
@@ -14,10 +20,12 @@ export class StatsDto {
     type: String,
     required: true,
   })
-  @IsDateString()
+  @IsDateString({ strict: true, strictSeparator: true })
   @IsNotEmpty()
   public endDate!: string;
 
-  @IsNumber()
+  @IsOptional()
+  @IsInt()
+  @Min(1)
   public structureId: number;
 }

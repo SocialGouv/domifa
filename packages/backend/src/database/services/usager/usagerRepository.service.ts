@@ -246,17 +246,20 @@ async function findLastFiveCustomRef({
 
 async function findNextMeetings({
   userId,
+  structureId,
   dateRefNow = new Date(),
 }: {
   userId: number;
+  structureId: number;
   dateRefNow?: Date;
 }): Promise<Pick<Usager, "nom" | "prenom" | "uuid" | "ref" | "rdv">[]> {
   return usagerRepository
     .createQueryBuilder("usager")
     .select(joinSelectFields(["nom", "prenom", "uuid", "ref", "rdv"]))
     .where(
-      `rdv->>'userId' = :userId and (rdv->>'dateRdv')::timestamptz >= :dateRefNow`,
+      `"structureId" = :structureId AND rdv->>'userId' = :userId and (rdv->>'dateRdv')::timestamptz >= :dateRefNow`,
       {
+        structureId,
         userId,
         dateRefNow,
       }

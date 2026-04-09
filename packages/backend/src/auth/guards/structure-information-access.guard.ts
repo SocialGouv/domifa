@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Injectable,
 } from "@nestjs/common";
+import { isInt, isUUID } from "class-validator";
 
 import { appLogger } from "../../util";
 import { structureInformationRepository } from "../../database";
@@ -14,29 +15,30 @@ export class StructureInformationAccessGuard implements CanActivate {
   public async canActivate(context: ExecutionContext) {
     const r = context.switchToHttp().getRequest();
 
-    if (
-      typeof r.params.uuid === "undefined" ||
-      typeof r.user.structureId === "undefined"
-    ) {
-      appLogger.error(
-        "[StructureInformationAccessGuard] invalid uuid or structureId",
-        {
-          sentry: true,
-          context: {
-            usagerRef: r?.params?.uui,
-            structureId: r?.user?.structureId,
-            user: r?.user?._id,
-          },
-        }
-      );
-      throw new HttpException(
-        "STRUCTURE_INFORMATION_NOT_FOUND",
-        HttpStatus.BAD_REQUEST
-      );
+    const uuid = r.params?.uuid;
+    const structureId = Number(r.user?.structureId);
+
+    if (!isUUID(uuid)) {
+      appLogger.error("[StructureInformationAccessGuard] invalid uuid", {
+        sentry: true,
+        context: {
+          uuid,
+          user: r?.user?.id,
+        },
+      });
+      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
     }
 
-    const uuid = r.params.uuid;
-    const structureId = parseInt(r.user.structureId, 10);
+    if (!isInt(structureId) || structureId <= 0) {
+      appLogger.error("[StructureInformationAccessGuard] invalid structureId", {
+        sentry: true,
+        context: {
+          structureId: r?.user?.structureId,
+          user: r?.user?.id,
+        },
+      });
+      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
+    }
 
     try {
       const structureInformation =
@@ -54,11 +56,11 @@ export class StructureInformationAccessGuard implements CanActivate {
         context: {
           uuid,
           structureId,
-          user: r?.user?._id,
+          user: r?.user?.id,
           role: r?.user?.role,
         },
       });
-      throw new HttpException("USAGER_NOT_FOUND", HttpStatus.BAD_REQUEST);
+      throw new HttpException("BAD_REQUEST", HttpStatus.BAD_REQUEST);
     }
   }
 }
