@@ -2,16 +2,17 @@ export function cleanFormDataValue(
   value: any,
   type: "string" | "number"
 ): string | number | null {
+  if (
+    value === null ||
+    value === undefined ||
+    value === "" ||
+    value === "null" ||
+    value === "undefined"
+  ) {
+    return null;
+  }
+
   if (type === "string") {
-    if (
-      value === null ||
-      value === undefined ||
-      value === "" ||
-      value === "null" ||
-      value === "undefined"
-    ) {
-      return null;
-    }
     const trimmed = String(value).trim();
     return trimmed === "" ? null : trimmed;
   }
@@ -21,6 +22,7 @@ export function cleanFormDataValue(
       return Number.NaN;
     }
     const num = Number(value);
+
     return Number.isNaN(num) ? Number.NaN : num;
   }
 
