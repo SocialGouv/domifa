@@ -98,11 +98,11 @@ export class ManageUsersService {
   // Assign referrers from another user
   public reassignReferrers(
     sourceUser: Pick<UserStructureProfile, "uuid">,
-    targetUserId: number | null
+    targetUserUuid: string | null
   ): Observable<ApiMessage> {
     const params: Record<string, string> = {};
-    if (targetUserId !== null && targetUserId !== undefined) {
-      params["newReferrerId"] = targetUserId.toString();
+    if (targetUserUuid) {
+      params["newReferrerId"] = targetUserUuid;
     }
     return this.http.get<ApiMessage>(
       `${this.endPoint}/reassign-referrers/${sourceUser.uuid}`,

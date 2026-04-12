@@ -14,7 +14,11 @@ import {
 import { Transform, TransformFnParams } from "class-transformer";
 
 import { MessageEmailAttachment } from "../mails/types/MessageEmailAttachment.type";
-import { IsValidPhone, LowerCaseTransform } from "../../_common/decorators";
+import {
+  IsValidPhone,
+  LowerCaseTransform,
+  StripTagsTransform,
+} from "../../_common/decorators";
 import sanitizeHtml from "sanitize-html";
 import { Telephone } from "@domifa/common";
 import { cleanFormDataValue } from "../../util";
@@ -39,10 +43,7 @@ export class ContactSupportDto {
   @IsString()
   @MinLength(2)
   @MaxLength(300)
-  @Transform(({ value }: TransformFnParams) => {
-    value = sanitizeHtml(value);
-    return value.toString().trim();
-  })
+  @StripTagsTransform()
   public name!: string;
 
   @ApiProperty({
@@ -53,10 +54,7 @@ export class ContactSupportDto {
   @IsString()
   @MinLength(2)
   @MaxLength(300)
-  @Transform(({ value }: TransformFnParams) => {
-    value = sanitizeHtml(value);
-    return value.toString().trim();
-  })
+  @StripTagsTransform()
   public structureName!: string;
 
   @ApiProperty({
@@ -67,10 +65,7 @@ export class ContactSupportDto {
   @IsString()
   @MinLength(10)
   @MaxLength(10000)
-  @Transform(({ value }: TransformFnParams) => {
-    value = sanitizeHtml(value);
-    return value.toString().trim();
-  })
+  @StripTagsTransform()
   public content!: string;
 
   @ApiProperty({
