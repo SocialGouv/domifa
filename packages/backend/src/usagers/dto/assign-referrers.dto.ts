@@ -10,7 +10,15 @@ import {
 
 export class AssignReferrersDto {
   @Transform(({ value }) => {
-    if (value === null || value === undefined || value === "") return null;
+    if (
+      value === null ||
+      value === undefined ||
+      value === "" ||
+      value === "null" ||
+      value === "undefined"
+    ) {
+      return null;
+    }
     return Number(value);
   })
   @ValidateIf((_, value) => value !== null)

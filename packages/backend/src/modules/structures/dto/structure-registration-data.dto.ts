@@ -3,6 +3,7 @@ import {
   IsString,
   IsNumber,
   IsBoolean,
+  MaxLength,
   Min,
   ValidateIf,
   IsIn,
@@ -27,6 +28,7 @@ export class StructureRegistrationDto {
 
   @IsOptional()
   @IsString()
+  @MaxLength(500)
   sourceDetail?: string;
 
   @IsNumber()
@@ -49,5 +51,6 @@ export class StructureRegistrationDto {
     (obj) => obj.currentTool === "OUTIL_MARCHE" && obj.marketTool === "AUTRE"
   )
   @IsString()
+  @MaxLength(200)
   marketToolOther?: string;
 }

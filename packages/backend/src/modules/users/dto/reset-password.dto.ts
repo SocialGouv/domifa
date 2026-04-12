@@ -1,14 +1,15 @@
-import { BadRequestException } from "@nestjs/common";
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 import {
+  IsInt,
   IsNotEmpty,
-  IsNumberString,
   IsString,
+  MaxLength,
+  Min,
   MinLength,
 } from "class-validator";
 
-import { IsValidPassword } from "../../../_common/decorators";
+import { IsValidPassword, MatchField } from "../../../_common/decorators";
 
 export class ResetPasswordDto {
   @ApiProperty({
@@ -16,6 +17,7 @@ export class ResetPasswordDto {
     required: true,
   })
   @IsNotEmpty()
+  @IsString()
   @IsValidPassword("password")
   public readonly password!: string;
 
@@ -24,30 +26,23 @@ export class ResetPasswordDto {
     required: true,
   })
   @IsNotEmpty()
+  @IsString()
   @IsValidPassword("passwordConfirmation")
-  @Transform(({ value, obj }: TransformFnParams) => {
-    if (
-      typeof obj.password !== "undefined" &&
-      typeof obj.passwordConfirmation !== "undefined"
-    ) {
-      if (
-        typeof obj.password === "string" &&
-        typeof obj.passwordConfirmation === "string" &&
-        obj.password === obj.passwordConfirmation
-      ) {
-        return value;
-      }
-    }
-    throw new BadRequestException("PASSWORD_NOT_MATCH");
-  })
+  @MatchField("password", { message: "PASSWORD_NOT_MATCH" })
   public readonly passwordConfirmation!: string;
 
   @MinLength(12)
+  @MaxLength(500)
   @IsString()
   @IsNotEmpty()
   public readonly token!: string;
 
   @IsNotEmpty()
-  @IsNumberString()
+  @IsInt()
+  @Min(1)
+  @Transform(({ value }: TransformFnParams) => {
+    const num = Number(value);
+    return Number.isNaN(num) ? value : num;
+  })
   public readonly userId!: number;
 }

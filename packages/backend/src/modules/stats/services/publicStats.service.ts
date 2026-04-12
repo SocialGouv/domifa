@@ -216,7 +216,7 @@ export class PublicStatsService implements OnModuleInit {
       .groupBy("structure.structureType");
 
     if (region) {
-      query.where("structure.region = :region", { region });
+      query.andWhere("structure.region = :region", { region });
     }
 
     const result = await query.getRawMany();

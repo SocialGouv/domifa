@@ -1,11 +1,10 @@
-import { IsNotEmpty, MaxLength, MinLength } from "class-validator";
-import { Transform, TransformFnParams } from "class-transformer";
+import { IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsValidPassword } from "../../../_common/decorators";
-import { BadRequestException } from "@nestjs/common";
+import { IsValidPassword, MatchField } from "../../../_common/decorators";
 
 export class EditMyPasswordDto {
   @IsNotEmpty()
+  @IsString()
   @MinLength(12)
   @MaxLength(100)
   public readonly oldPassword!: string;
@@ -15,6 +14,7 @@ export class EditMyPasswordDto {
     required: true,
   })
   @IsNotEmpty()
+  @IsString()
   @IsValidPassword("password")
   public readonly password!: string;
 
@@ -23,21 +23,8 @@ export class EditMyPasswordDto {
     required: true,
   })
   @IsNotEmpty()
+  @IsString()
   @IsValidPassword("passwordConfirmation")
-  @Transform(({ value, obj }: TransformFnParams) => {
-    if (
-      typeof obj.password !== "undefined" &&
-      typeof obj.passwordConfirmation !== "undefined"
-    ) {
-      if (
-        typeof obj.password === "string" &&
-        typeof obj.passwordConfirmation === "string" &&
-        obj.password === obj.passwordConfirmation
-      ) {
-        return value;
-      }
-    }
-    throw new BadRequestException("PASSWORD_NOT_MATCH");
-  })
+  @MatchField("password", { message: "PASSWORD_NOT_MATCH" })
   public readonly passwordConfirmation!: string;
 }

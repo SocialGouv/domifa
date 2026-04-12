@@ -3,8 +3,6 @@ import { messageSmsRepository } from "../../../../database";
 
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { Injectable } from "@nestjs/common";
-import { domifaConfig } from "../../../../config";
-import { isCronEnabled } from "../../../../config/services/isCronEnabled.service";
 import { MessageSmsSenderService } from "../message-sms-sender.service";
 import { SmsToSend } from "../../types";
 import { SentryCron } from "@sentry/nestjs";
@@ -17,7 +15,7 @@ export class CronSmsMonDomiFaService {
 
   @Cron(CronExpression.EVERY_5_MINUTES, {
     timeZone: "Europe/Paris",
-    disabled: !isCronEnabled() || !domifaConfig().sms.enabled,
+    disabled: true,
   })
   @SentryCron("sms-mon-domifa-batch", {
     schedule: {

@@ -69,7 +69,9 @@ export class CreateUsagerDto {
     description: "Surnom",
   })
   @IsOptional()
+  @IsString()
   @MaxLength(400)
+  @StripTagsTransform()
   @TrimOrNullTransform()
   public surnom!: string;
 
@@ -102,6 +104,7 @@ export class CreateUsagerDto {
   })
   @IsOptional()
   @IsString()
+  @MaxLength(20)
   @TrimOrNullTransform()
   @StripTagsTransform()
   public langue!: string | null;
@@ -135,7 +138,9 @@ export class CreateUsagerDto {
     description: "Email du domicilié",
   })
   @IsOptional()
+  @IsString()
   @IsEmail()
+  @MaxLength(254)
   @TrimOrNullTransform()
   @LowerCaseTransform()
   public email!: string;

@@ -411,7 +411,7 @@ export class UsagersController {
         structureId: userStructureAuth.structureId,
         ref: In(body.usagersRefs),
       },
-      { referrerId: body?.newReferrerId }
+      { referrerId: body?.newReferrerId ?? null }
     );
 
     const updatedUsagers = await usagerRepository.find({

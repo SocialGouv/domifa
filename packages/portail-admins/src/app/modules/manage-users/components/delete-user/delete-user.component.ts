@@ -16,7 +16,7 @@ export class DeleteUserComponent {
   public loading: boolean;
   private readonly subscription = new Subscription();
 
-  public newReferrerId: number | null;
+  public newReferrerId: number | null = null;
 
   constructor(
     private readonly manageUsersService: ManageUsersService,

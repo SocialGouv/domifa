@@ -11,7 +11,7 @@ import { ManageUsagersService } from "../../services/manage-usagers.service";
 export class AssignReferrersComponent {
   private readonly subscription = new Subscription();
   @Input() public selectedRefs: Set<number>;
-  @Input() public newReferrerId: number;
+  @Input() public newReferrerId: number | null = null;
   @Output() public actionAfterSuccess = new EventEmitter<number | null>();
 
   public loading: boolean = false;

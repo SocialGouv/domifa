@@ -183,7 +183,7 @@ export class UsersController {
 
     await usagerRepository.update(
       { referrerId: chosenUserStructure.id },
-      { referrerId: query?.newReferrerId }
+      { referrerId: query?.newReferrerId ?? null }
     );
 
     return res.status(HttpStatus.OK).json({ message: "OK" });

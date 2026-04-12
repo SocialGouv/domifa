@@ -34,7 +34,9 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   public revenus!: boolean;
 
   @IsOptional()
+  @IsString()
   @MaxLength(1000)
+  @StripTagsTransform()
   @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
     obj.revenus ? value : null
   )
@@ -51,6 +53,8 @@ export class EntretienDto implements Partial<UsagerEntretien> {
 
   @IsOptional()
   @IsString()
+  @MaxLength(1000)
+  @StripTagsTransform()
   public rattachement!: string;
 
   @ApiProperty({
@@ -82,6 +86,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
 
   @IsOptional()
   @IsString()
+  @MaxLength(1000)
   @StripTagsTransform()
   @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
     obj.residence === "AUTRE" && value ? value.toString().trim() : null
@@ -150,6 +155,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
     required: false,
   })
   @IsOptional()
+  @IsBoolean()
   public accompagnement!: boolean;
 
   @ApiProperty({

@@ -5,6 +5,7 @@ import {
   IsEmpty,
   IsIn,
   IsNotEmpty,
+  MaxLength,
   IsNumber,
   IsOptional,
   IsString,
@@ -40,6 +41,7 @@ export class InteractionDto {
   @ValidateIf((o) => INTERACTIONS_IN.indexOf(o.type) !== -1)
   @IsOptional()
   @IsString()
+  @MaxLength(5000)
   @StripTagsTransform()
   @TrimOrNullTransform()
   public content?: string;
@@ -63,6 +65,7 @@ export class InteractionDto {
   @IsNumber()
   @IsNotEmpty()
   @Min(1)
+  @Max(100)
   public nbCourrier!: number;
 
   @IsEmpty()
