@@ -2,5 +2,6 @@
 export * from "../../modules/portail-admin/decorators/isValidGeographicDecorator";
 export * from "./IsValidPasswordDecorator";
 export * from "./IsValidPhoneDecorator";
+export * from "./MatchFieldDecorator";
 export * from "./parse-pipes";
 export * from "./transformers";

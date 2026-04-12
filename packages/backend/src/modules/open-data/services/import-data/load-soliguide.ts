@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { SentryCron } from "@sentry/nestjs";
 import { domifaConfig } from "../../../../config";
@@ -24,17 +24,7 @@ const RESULTS_BY_PAGE = 200;
 const MAX_DISTANCE = 50; // 50 mètres pour détecter les doublons
 
 @Injectable()
-export class LoadSoliguideDataService implements OnModuleInit {
-  async onModuleInit() {
-    if (
-      (domifaConfig().envId === "local" || domifaConfig().envId === "prod") &&
-      isCronEnabled()
-    ) {
-      appLogger.info("LoadSoliguideDataService: Running import on module init");
-      await this.importSoliguideData();
-    }
-  }
-
+export class LoadSoliguideDataService {
   private page = 1;
   private nbResults = 0;
   private newPlaces = 0;

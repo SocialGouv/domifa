@@ -99,7 +99,7 @@ export class AdminStructuresController {
     @CurrentSupervisor() _user: UserAdminAuthenticated,
     @CurrentStructure() structure: Structure,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    @Param("structureId") _structureId: number
+    @Param("structureId", new ParseIntPipe()) _structureId: number
   ): Promise<Structure> {
     return await structureRepository.findOneOrFail({
       where: { id: structure.id },

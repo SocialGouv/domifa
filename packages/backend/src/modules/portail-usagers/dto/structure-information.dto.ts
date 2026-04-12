@@ -2,9 +2,10 @@ import {
   IsString,
   IsNotEmpty,
   IsDate,
+  IsIn,
   IsOptional,
-  IsEnum,
   IsBoolean,
+  MaxLength,
 } from "class-validator";
 import { Transform, Type } from "class-transformer";
 import { StructureInformationType } from "@domifa/common";
@@ -13,11 +14,13 @@ import sanitizeHtml from "sanitize-html";
 export class StructureInformationDto {
   @IsString()
   @IsNotEmpty()
+  @MaxLength(200)
   @Transform(({ value }) => sanitizeHtml(value, { allowedTags: [] }))
   title: string;
 
   @IsString()
   @IsNotEmpty()
+  @MaxLength(10000)
   @Transform(({ value }) =>
     sanitizeHtml(value, {
       allowedTags: [
@@ -52,6 +55,7 @@ export class StructureInformationDto {
   @IsNotEmpty()
   isTemporary: boolean;
 
-  @IsEnum(["closing", "opening-hours", "general", "other"])
+  @IsIn(["closing", "opening-hours", "general", "other"])
+  @IsNotEmpty()
   type: StructureInformationType;
 }

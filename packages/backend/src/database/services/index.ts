@@ -10,7 +10,6 @@ export * from "./structure";
 export * from "./structure-doc";
 export * from "./usager";
 export * from "./user-structure";
-export * from "./user-structure-mail";
 export * from "./user-structure-security";
 export * from "./user-supervisor";
 export * from "./user-usager";

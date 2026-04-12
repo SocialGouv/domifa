@@ -113,6 +113,7 @@ export class StructureDto {
   })
   @IsOptional()
   @IsString()
+  @MaxLength(200)
   @TrimOrNullTransform()
   public agrement!: string;
 
@@ -130,7 +131,9 @@ export class StructureDto {
     required: true,
   })
   @IsNotEmpty()
+  @IsString()
   @IsEmail()
+  @MaxLength(254)
   @Trim()
   public email!: string;
 
@@ -204,11 +207,16 @@ export class StructureDto {
   @MaxLength(100)
   public reseau!: string;
 
-  @Transform(({ value }) =>
-    typeof value === "string" ? value.replace(/\D/g, "") : value
-  )
+  @Transform(({ value }) => {
+    if (value === null || value === undefined || value === "") {
+      return null;
+    }
+    return typeof value === "string" ? value.replaceAll(/\D/g, "") : value;
+  })
+  @ValidateIf((_, value) => value !== null)
+  @IsString()
   @IsSIRET()
-  siret: string;
+  siret: string | null;
 
   @ValidateNested()
   @Type(() => StructureRegistrationDto)

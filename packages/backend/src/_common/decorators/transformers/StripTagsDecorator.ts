@@ -21,8 +21,11 @@ export function StripTagsTransform(
 
     const sanitized = sanitizeHtml(sourceData.value);
 
-    return striptags(sanitized)
-      .replace(/[\\$~*<>{}]/gi, "")
-      .replace(/\s+/g, " ");
+    const result = striptags(sanitized)
+      .replaceAll(/[\\$~*<>{}]/gi, "")
+      .replaceAll(/\s+/g, " ")
+      .trim();
+
+    return result === "" ? null : result;
   }, transformOptions);
 }

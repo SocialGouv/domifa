@@ -6,6 +6,8 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  MaxLength,
+  Min,
   MinLength,
 } from "class-validator";
 
@@ -23,7 +25,9 @@ export class ContactSupportDto {
     required: true,
   })
   @IsNotEmpty()
+  @IsString()
   @IsEmail()
+  @MaxLength(254)
   @LowerCaseTransform()
   public email!: string;
 
@@ -34,6 +38,7 @@ export class ContactSupportDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(2)
+  @MaxLength(300)
   @Transform(({ value }: TransformFnParams) => {
     value = sanitizeHtml(value);
     return value.toString().trim();
@@ -47,6 +52,7 @@ export class ContactSupportDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(2)
+  @MaxLength(300)
   @Transform(({ value }: TransformFnParams) => {
     value = sanitizeHtml(value);
     return value.toString().trim();
@@ -60,6 +66,7 @@ export class ContactSupportDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(10)
+  @MaxLength(10000)
   @Transform(({ value }: TransformFnParams) => {
     value = sanitizeHtml(value);
     return value.toString().trim();
@@ -72,6 +79,7 @@ export class ContactSupportDto {
   })
   @IsOptional()
   @IsInt()
+  @Min(1)
   @Transform(({ value }: TransformFnParams) => {
     return cleanFormDataValue(value, "number");
   })
@@ -83,6 +91,7 @@ export class ContactSupportDto {
   })
   @IsOptional()
   @IsInt()
+  @Min(1)
   @Transform(({ value }: TransformFnParams) => {
     return cleanFormDataValue(value, "number");
   })
@@ -93,6 +102,9 @@ export class ContactSupportDto {
     required: false,
   })
   @IsNotEmpty()
+  @IsString()
+  @MinLength(2)
+  @MaxLength(500)
   @Transform(({ value }: TransformFnParams) => {
     value = sanitizeHtml(value);
     return value.toString().trim();

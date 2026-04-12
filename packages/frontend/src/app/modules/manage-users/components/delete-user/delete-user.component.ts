@@ -18,7 +18,7 @@ export class DeleteUserComponent {
   public referrers: Pick<UserStructure, "id">[] = [];
   private readonly subscription = new Subscription();
 
-  public newReferrerId: number | null;
+  public newReferrerId: number | null = null;
 
   constructor(
     private readonly manageUsersService: ManageUsersService,
