@@ -286,9 +286,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
       email: formValue?.email.toLowerCase().trim() || null,
       telephone,
       numeroDistribution: formValue?.numeroDistribution || null,
-      referrerId: formValue?.referrerId
-        ? parseInt(formValue?.referrerId)
-        : null,
+      referrerId: formValue?.referrerId ?? null,
       ayantsDroits,
       contactByPhone: formValue?.contactByPhone,
       dateNaissance: parseDateFromNgb(formValue.dateNaissance),

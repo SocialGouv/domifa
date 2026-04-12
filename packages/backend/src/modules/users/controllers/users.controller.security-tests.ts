@@ -67,7 +67,7 @@ export const UserControllerSecurityTests: AppTestHttpClientSecurityTestDef[] = [
       return {
         response: await AppTestHttpClient.patch(
           `/users/update-role/${
-            userOtherStructure?.uuid ?? "ee7ef219-b101-422c-8ad4-4d5aedf9caad"
+            userOtherStructure?.uuid ?? "a03a9a49-ae31-4160-9879-bab02dc46361"
           }`,
           {
             context,

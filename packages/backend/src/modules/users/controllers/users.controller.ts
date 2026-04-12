@@ -168,11 +168,9 @@ export class UsersController {
     @CurrentChosenUserStructure() chosenUserStructure: UserStructure,
     @Res() res: Response
   ) {
-    let resolvedReferrerId: number | null = null;
-
     if (query?.newReferrerId) {
       const user = await userStructureRepository.findOneBy({
-        uuid: query.newReferrerId,
+        id: query.newReferrerId,
         structureId: userStructureAuth.structureId,
       });
 
@@ -181,12 +179,11 @@ export class UsersController {
           .status(HttpStatus.BAD_REQUEST)
           .json({ message: "BAD_REQUEST" });
       }
-      resolvedReferrerId = user.id;
     }
 
     await usagerRepository.update(
       { referrerId: chosenUserStructure.id },
-      { referrerId: resolvedReferrerId }
+      { referrerId: query?.newReferrerId ?? null }
     );
 
     return res.status(HttpStatus.OK).json({ message: "OK" });
