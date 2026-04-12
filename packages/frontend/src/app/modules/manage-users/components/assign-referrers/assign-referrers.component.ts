@@ -21,10 +21,10 @@ export class AssignReferrersComponent implements OnInit, OnDestroy {
   private readonly subscription = new Subscription();
 
   @Input({ required: true }) @Input() public currentUser: UserStructureProfile;
-  @Input() public newReferrerId: string | null;
+  @Input() public newReferrerId: number | null;
 
   @Output() public readonly newReferrerIdChange = new EventEmitter<
-    string | null
+    number | null
   >();
 
   constructor(private readonly manageUsersService: ManageUsersService) {}
@@ -39,7 +39,7 @@ export class AssignReferrersComponent implements OnInit, OnDestroy {
     );
   }
 
-  public updateReferrers(event: string | null) {
+  public updateReferrers(event: number | null) {
     this.newReferrerIdChange.emit(event);
   }
 

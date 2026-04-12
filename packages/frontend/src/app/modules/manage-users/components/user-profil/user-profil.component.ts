@@ -39,7 +39,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   private readonly subscription = new Subscription();
 
   public selectedUser: UserStructureProfile | null;
-  public newReferrerId: string | null = null;
+  public newReferrerId: number | null = null;
   public expectedRole: UserStructureRole | null = null;
 
   public readonly USER_STRUCTURE_ROLES_LABELS = USER_STRUCTURE_ROLES_LABELS;

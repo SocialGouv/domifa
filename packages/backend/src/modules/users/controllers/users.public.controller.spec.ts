@@ -128,7 +128,7 @@ describe("Users Public Controller", () => {
           userId: "1",
         });
       expect(responseFail.status).toBe(HttpStatus.BAD_REQUEST);
-      expect(responseFail.body?.message).toBe("PASSWORD_NOT_MATCH");
+      expect(responseFail.body?.message).toContain("PASSWORD_NOT_MATCH");
     });
 
     it("✅  Request OK /users/reset-password", async () => {

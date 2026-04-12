@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer";
-import { IsOptional, IsUUID } from "class-validator";
+import { IsInt, IsOptional, Min, ValidateIf } from "class-validator";
 
 export class NewReferrerIdDto {
   @Transform(({ value }) => {
@@ -12,9 +12,11 @@ export class NewReferrerIdDto {
     ) {
       return null;
     }
-    return value;
+    return Number(value);
   })
+  @ValidateIf((_, value) => value !== null)
+  @IsInt()
+  @Min(1)
   @IsOptional()
-  @IsUUID()
-  newReferrerId: string | null;
+  newReferrerId: number | null;
 }

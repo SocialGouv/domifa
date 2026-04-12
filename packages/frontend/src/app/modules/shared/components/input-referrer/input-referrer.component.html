@@ -16,11 +16,8 @@
     class="form-select"
     [attr.required]="required"
   >
-    <option [value]="null">Sans référent</option>
-    <option
-      *ngFor="let user of users"
-      [value]="valueField === 'uuid' ? user.uuid : user.id"
-    >
+    <option [ngValue]="null">Sans référent</option>
+    <option *ngFor="let user of users" [ngValue]="user.id">
       {{ user | fullName }}
     </option>
   </select>

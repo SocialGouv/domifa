@@ -13,22 +13,17 @@ export class InputReferrerComponent implements OnInit {
   @Input({ required: true }) public submitted!: boolean;
 
   @Input() public parentFormGroup!: UntypedFormGroup;
-  @Input() public referrerId: number | string | null = null;
+  @Input() public referrerId: number | null = null;
   @Input() public required = false;
   @Input() public label = "Référent du dossier";
   @Input() public displayLabel = true;
-  @Input() public valueField: "id" | "uuid" = "id";
 
-  @Output() outputFunction = new EventEmitter<number | string | null>();
+  @Output() outputFunction = new EventEmitter<number | null>();
 
-  public users: Pick<UserStructure, "uuid" | "nom" | "prenom" | "id">[] = [];
+  public users: Pick<UserStructure, "nom" | "prenom" | "id">[] = [];
   public subscription = new Subscription();
 
   constructor(private readonly manageUsersService: ManageUsersService) {}
-
-  public updateParentFormControl(event: number | null) {
-    this.parentFormGroup.controls.referrer.setValue(event);
-  }
 
   ngOnInit() {
     this.subscription.add(
@@ -38,7 +33,7 @@ export class InputReferrerComponent implements OnInit {
     );
   }
 
-  onModelChange(event: number | string | null) {
+  onModelChange(event: number | null) {
     if (this.parentFormGroup) {
       this.parentFormGroup.controls.referrerId.setValue(event);
     } else {
