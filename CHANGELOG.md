@@ -1,3 +1,12 @@
+## [2.234.4](https://github.com/SocialGouv/domifa/compare/v2.234.3...v2.234.4) (2026-04-13)
+
+
+### Bug Fixes
+
+* **backend:** dto contact ([bfd5e15](https://github.com/SocialGouv/domifa/commit/bfd5e159b813b9bd89a6ada8fdcc4f9f32d1de9d))
+* **backend:** enforce DTO, add maxlength ([3251087](https://github.com/SocialGouv/domifa/commit/32510872c50d4a292a7cec36109f56159b6748b4))
+* **backend:** fix dto of referrers ([0b43ef8](https://github.com/SocialGouv/domifa/commit/0b43ef8de56840cc31bb7a9dad51a7a9948542ca))
+
 ## [2.234.3](https://github.com/SocialGouv/domifa/compare/v2.234.2...v2.234.3) (2026-04-09)
 
 
