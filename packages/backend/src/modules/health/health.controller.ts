@@ -4,9 +4,11 @@ import {
   HealthCheckService,
   HealthIndicatorResult,
 } from "@nestjs/terminus";
+import { SkipThrottle } from "@nestjs/throttler";
 import { domifaConfig } from "../../config";
 import { PostgresHealthIndicator } from "./postgres-health-indicator.service";
 
+@SkipThrottle()
 @Controller("healthz")
 export class HealthController {
   public version: HealthIndicatorResult = {

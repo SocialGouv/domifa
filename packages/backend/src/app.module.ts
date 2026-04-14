@@ -29,8 +29,8 @@ import { AppSentryInterceptor } from "./util";
     SentryModule.forRoot(),
     ThrottlerModule.forRoot([
       { name: "short", ttl: 1_000, limit: 20 }, // 20 req/s
-      { name: "medium", ttl: 60_000, limit: 200 }, // 200 req/min
-      { name: "long", ttl: 3_600_000, limit: 2_000 }, // 2000 req/h
+      { name: "medium", ttl: 60_000, limit: 300 }, // 300 req/min
+      { name: "long", ttl: 3_600_000, limit: 10_000 }, // 10000 req/h
     ]),
     AuthModule,
     ScheduleModule.forRoot(),
