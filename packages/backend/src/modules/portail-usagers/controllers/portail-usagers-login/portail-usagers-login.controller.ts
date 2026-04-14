@@ -1,4 +1,3 @@
-import { structureRepository } from "../../../../database/services/structure/structureRepository.service";
 import {
   Body,
   Controller,
@@ -18,6 +17,7 @@ import {
   usagerRepository,
   userUsagerLoginRepository,
   userUsagerRepository,
+  structureRepository,
 } from "../../../../database";
 import { UsagerLoginDto } from "../../../users/dto";
 import { ExpressRequest, ExpressResponse } from "../../../../util/express";
@@ -48,7 +48,7 @@ export class PortailUsagersLoginController {
       const user = await userUsagerSecurityPasswordChecker.checkPassword({
         login: loginDto.login,
         password: loginDto.password,
-        newPassword: loginDto.newPassword,
+        newPassword: loginDto.newPassword as string,
       });
 
       if (user.passwordType !== "PERSONAL") {
@@ -72,7 +72,7 @@ export class PortailUsagersLoginController {
         id: user.structureId,
       });
 
-      const lastLogin = await userUsagerLoginRepository.save(
+      await userUsagerLoginRepository.save(
         new UserUsagerLoginTable({
           usagerUUID: usager.uuid,
           structureId: user.structureId,
@@ -80,7 +80,7 @@ export class PortailUsagersLoginController {
       );
 
       if (structure.portailUsager.usagerLoginUpdateLastInteraction) {
-        usager.lastInteraction.dateInteraction = lastLogin.createdAt;
+        usager.lastInteraction.dateInteraction = new Date();
         await usagerRepository.update(
           { uuid: usager.uuid },
           { lastInteraction: usager.lastInteraction }

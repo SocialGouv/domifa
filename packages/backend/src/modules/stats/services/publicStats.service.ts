@@ -21,6 +21,7 @@ import {
   structureRepository,
   usagerRepository,
   PublicStatsCache,
+  PublicStatsCacheTable,
   interactionRepository,
   InteractionsTable,
 } from "../../../database";
@@ -29,6 +30,11 @@ import { StructuresService } from "../../structures/services";
 
 @Injectable()
 export class PublicStatsService implements OnModuleInit {
+  private readonly pendingCalculations = new Map<
+    string,
+    Promise<PublicStats>
+  >();
+
   constructor(private readonly structuresService: StructuresService) {}
 
   async onModuleInit() {
@@ -53,25 +59,52 @@ export class PublicStatsService implements OnModuleInit {
   public async updateAllStatsCache(): Promise<void> {
     for (const regionId of Object.keys(REGIONS_LISTE)) {
       appLogger.info(`[CACHE] Update public stats for region ${regionId}`);
-      await this.generatePublicStats({ updateCache: true, regionId });
+      await this.forceRefreshStats(regionId);
     }
 
     appLogger.info("[CACHE] Update public stats");
-    await this.generatePublicStats({ updateCache: true });
+    await this.forceRefreshStats();
 
     appLogger.info("[CACHE] End of cache update");
   }
 
-  public async generatePublicStats({
-    updateCache,
-    regionId,
-  }: {
-    updateCache?: boolean;
-    regionId?: string;
-  }): Promise<PublicStats> {
+  public async getPublicStats(regionId?: string): Promise<PublicStats> {
     const key = regionId ? `public-stats-${regionId}` : "public-stats";
 
-    const value = await publicStatsCacheRepository
+    // Vérifier le cache DB
+    const cached = await this.getCachedStats(key);
+    if (cached) {
+      return cached.stats;
+    }
+
+    const pending = await this.pendingCalculations.get(key);
+    if (pending) {
+      appLogger.info(
+        `[PUBLIC_STATS] Calcul déjà en cours pour "${key}", attente du résultat`
+      );
+      return pending;
+    }
+
+    const calculation = this.computePublicStats(key, regionId);
+    this.pendingCalculations.set(key, calculation);
+
+    try {
+      return await calculation;
+    } finally {
+      this.pendingCalculations.delete(key);
+    }
+  }
+
+  private async forceRefreshStats(regionId?: string): Promise<void> {
+    const key = regionId ? `public-stats-${regionId}` : "public-stats";
+    const previousValue = await this.getCachedStats(key);
+    await this.computePublicStats(key, regionId, previousValue);
+  }
+
+  private async getCachedStats(
+    key: string
+  ): Promise<PublicStatsCacheTable | null> {
+    return publicStatsCacheRepository
       .createQueryBuilder("public_stats_cache")
       .where(
         `"createdAt" > now() - interval '1 day' and "createdAt" <= now() and key = :key`,
@@ -79,13 +112,15 @@ export class PublicStatsService implements OnModuleInit {
       )
       .orderBy(`"createdAt"`, "DESC")
       .getOne();
+  }
 
-    if (value && !updateCache) {
-      return value.stats;
-    }
-
+  private async computePublicStats(
+    key: string,
+    regionId?: string,
+    previousValue?: PublicStatsCache
+  ): Promise<PublicStats> {
     const publicStats = new PublicStats();
-    let structures: number[] = null;
+    let structures: number[] | undefined;
 
     if (regionId) {
       structures = await this.structuresService.findStructuresInRegion(
@@ -94,7 +129,7 @@ export class PublicStatsService implements OnModuleInit {
 
       // Si aucune structure dans la région, tous les indicateurs sont à zero
       if (!structures.length) {
-        return this.saveStats(key, publicStats, value);
+        return this.saveStats(key, publicStats, previousValue);
       }
 
       publicStats.structuresCountByRegion =
@@ -142,7 +177,7 @@ export class PublicStatsService implements OnModuleInit {
 
     publicStats.usagersCountByMonth = await this.countUsagersByMonth(regionId);
 
-    return this.saveStats(key, publicStats, value);
+    return this.saveStats(key, publicStats, previousValue);
   }
 
   private async saveStats(

@@ -19,7 +19,6 @@ import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import { UserStructureAuthenticated } from "../../_common/model";
-import { usagerOptionsHistoryRepository } from "../../database/services/usager/usagerOptionsHistoryRepository.service";
 import {
   AllowUserProfiles,
   AllowUserStructureRoles,
@@ -30,7 +29,10 @@ import { UsagerOptionsHistoryService } from "../services";
 import { ExpressResponse } from "../../util/express";
 import { isEqual } from "lodash";
 
-import { usagerRepository } from "../../database";
+import {
+  usagerRepository,
+  usagerOptionsHistoryRepository,
+} from "../../database";
 import {
   ALL_USER_STRUCTURE_ROLES,
   Usager,

@@ -1,8 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { SentryCron } from "@sentry/nestjs";
-import { userStructureRepository } from "../../../database";
-import { appLogsRepository } from "../../../database/services/app-log";
+import { userStructureRepository, appLogsRepository } from "../../../database";
 import { BrevoSenderService } from "./brevo-sender/brevo-sender.service";
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import { domifaConfig } from "../../../config";

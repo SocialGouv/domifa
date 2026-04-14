@@ -1,4 +1,4 @@
-import { structureRepository } from "./../../../database/services/structure/structureRepository.service";
+import { structureRepository } from "../../../database";
 import {
   Controller,
   Get,

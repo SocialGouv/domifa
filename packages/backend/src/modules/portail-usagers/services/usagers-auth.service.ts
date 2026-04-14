@@ -1,9 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { structureRepository } from "../../../database";
-
-import { usagerRepository } from "../../../database/services/usager/usagerRepository.service";
-import { userUsagerRepository } from "../../../database/services/user-usager/userUsagerRepository.service";
+import {
+  structureRepository,
+  usagerRepository,
+  userUsagerRepository,
+} from "../../../database";
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
   UserUsagerAuthenticated,
