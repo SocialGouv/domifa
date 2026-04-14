@@ -1,6 +1,8 @@
 import { Module } from "@nestjs/common";
 import { SentryModule } from "@sentry/nestjs/setup";
 import { ScheduleModule } from "@nestjs/schedule";
+import { ThrottlerModule } from "@nestjs/throttler";
+import { AppThrottlerGuard } from "./auth/guards/app-throttler";
 
 import { PortailAdminModule } from "./modules/portail-admin";
 import { PortailUsagersModule } from "./modules/portail-usagers";
@@ -18,13 +20,18 @@ import { OpenDataPlacesModule } from "./modules/open-data/open-data-places.modul
 import { UsersModule } from "./modules/users/users.module";
 import { HealthModule } from "./modules/health/health.module";
 import { StatsModule } from "./modules/stats/stats.module";
-import { APP_INTERCEPTOR } from "@nestjs/core";
+import { APP_GUARD, APP_INTERCEPTOR } from "@nestjs/core";
 import { AppSentryInterceptor } from "./util";
 
 @Module({
   exports: [FileManagerService],
   imports: [
     SentryModule.forRoot(),
+    ThrottlerModule.forRoot([
+      { name: "short", ttl: 1_000, limit: 20 }, // 20 req/s
+      { name: "medium", ttl: 60_000, limit: 200 }, // 200 req/min
+      { name: "long", ttl: 3_600_000, limit: 2_000 }, // 2000 req/h
+    ]),
     AuthModule,
     ScheduleModule.forRoot(),
     HealthModule,
@@ -44,6 +51,10 @@ import { AppSentryInterceptor } from "./util";
   providers: [
     FileManagerService,
     InteractionsService,
+    {
+      provide: APP_GUARD,
+      useClass: AppThrottlerGuard,
+    },
     {
       provide: APP_INTERCEPTOR,
       useClass: AppSentryInterceptor,
