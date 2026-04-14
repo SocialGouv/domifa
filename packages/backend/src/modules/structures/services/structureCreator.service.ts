@@ -3,6 +3,7 @@ import {
   userStructureRepository,
   structureRepository,
   StructureTable,
+  openDataCitiesRepository,
 } from "../../../database";
 
 import { StructureDto } from "../dto/structure.dto";
@@ -17,7 +18,6 @@ import { appLogger } from "../../../util";
 import { generateSender } from "../../sms/services/generators";
 import { userStructureCreator } from "../../users/services";
 import { UserDto } from "../../users/dto";
-import { openDataCitiesRepository } from "../../../database/services/open-data/open-data-cities-repository";
 import { v4 as uuidv4 } from "uuid";
 
 export const structureCreatorService = {

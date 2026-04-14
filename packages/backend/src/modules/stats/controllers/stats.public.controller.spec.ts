@@ -57,7 +57,7 @@ describe("Stats Public Controller", () => {
       // changes, we assert that the HTTP endpoint returns what the service
       // computes.
       const service = context.module.get(PublicStatsService);
-      const expected = await service.generatePublicStats({ updateCache: true });
+      const expected = await service.getPublicStats();
 
       const response = await supertest(context.app.getHttpServer()).get(
         "/stats/public-stats"
@@ -69,10 +69,7 @@ describe("Stats Public Controller", () => {
 
     it("Should display stats for 'Pays de la Loire'", async () => {
       const service = context.module.get(PublicStatsService);
-      const expected = await service.generatePublicStats({
-        updateCache: true,
-        regionId: "52",
-      });
+      const expected = await service.getPublicStats("52");
 
       const response = await supertest(context.app.getHttpServer()).get(
         "/stats/public-stats/52"

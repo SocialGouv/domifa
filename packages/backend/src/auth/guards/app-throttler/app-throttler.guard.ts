@@ -1,13 +1,14 @@
 import { ExecutionContext, Injectable } from "@nestjs/common";
 import { ThrottlerGuard, ThrottlerLimitDetail } from "@nestjs/throttler";
 import { Request } from "express";
-import { appLogsRepository } from "../../../database/services/app-log";
-import { AppLogTable } from "../../../database/entities/app-log/AppLogTable.typeorm";
+import { appLogsRepository, AppLogTable } from "../../../database";
 import { ThrottleBlockedLogContext } from "./app-throttler.types";
 import { extractJwtUser } from "./app-throttler.utils";
 
 @Injectable()
 export class AppThrottlerGuard extends ThrottlerGuard {
+  private readonly activeBlocks = new Map<string, string>();
+
   protected override async throwThrottlingException(
     context: ExecutionContext,
     throttlerLimitDetail: ThrottlerLimitDetail
@@ -15,23 +16,37 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     const request = context.switchToHttp().getRequest<Request>();
 
     const logContext: ThrottleBlockedLogContext = {
+      ...throttlerLimitDetail,
       ip: request.ip,
       userAgent: request.headers["user-agent"],
       method: request.method,
       url: request.url,
-      throttlerName: throttlerLimitDetail.key,
-      limit: throttlerLimitDetail.limit,
-      ttl: throttlerLimitDetail.ttl,
-      totalHits: throttlerLimitDetail.totalHits,
       jwtUser: extractJwtUser(request.headers["authorization"]),
     };
 
-    // Fire-and-forget : on ne bloque pas la réponse 429 si le log échoue
-    appLogsRepository
-      .save(
-        new AppLogTable({ action: "THROTTLE_BLOCKED", context: logContext })
-      )
-      .catch(() => undefined);
+    const existingLogUuid = this.activeBlocks.get(throttlerLimitDetail.key);
+
+    if (existingLogUuid) {
+      await appLogsRepository
+        .update(existingLogUuid, { context: logContext as any })
+        .catch(() => undefined);
+    } else {
+      const log = new AppLogTable({
+        action: "THROTTLE_BLOCKED",
+        context: logContext,
+      });
+
+      const saved = await appLogsRepository.save(log).catch(() => undefined);
+
+      if (saved?.uuid) {
+        this.activeBlocks.set(throttlerLimitDetail.key, saved.uuid);
+
+        const timeout = setTimeout(() => {
+          this.activeBlocks.delete(throttlerLimitDetail.key);
+        }, throttlerLimitDetail.ttl);
+        timeout.unref();
+      }
+    }
 
     return super.throwThrottlingException(context, throttlerLimitDetail);
   }

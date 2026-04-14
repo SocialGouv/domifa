@@ -13,7 +13,7 @@ optional/e2e/runners/puppeteer/output
 Thumbs.db
 
 # Local anonymizer
-.anonymizer/tmp 
+.anonymizer/tmp
 .anonymizer/config.local.yaml
 .anonymizer/greenmask
 
@@ -22,3 +22,6 @@ Thumbs.db
 
 .nx/cache
 .nx/workspace-data
+
+.claude
+
