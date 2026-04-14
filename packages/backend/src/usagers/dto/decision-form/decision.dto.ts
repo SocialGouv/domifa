@@ -78,8 +78,12 @@ export class DecisionDto implements UsagerDecision {
   @ApiProperty({
     type: String,
   })
-  @IsOptional()
+  @ValidateIf(
+    (o) => (o.statut === "REFUS" || o.statut === "RADIE") && o.motif === "AUTRE"
+  )
+  @IsNotEmpty()
   @IsString()
+  @MinLength(10)
   @MaxLength(1000)
   @StripTagsTransform()
   public motifDetails!: string;
@@ -97,7 +101,7 @@ export class DecisionDto implements UsagerDecision {
   })
   @ValidateIf((o) => o.statut === "REFUS")
   @IsNotEmpty()
-  @MinLength(10)
+  @MinLength(5)
   @MaxLength(1000)
   @IsString()
   @StripTagsTransform()

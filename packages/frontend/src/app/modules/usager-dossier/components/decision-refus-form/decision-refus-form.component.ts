@@ -75,7 +75,14 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
       statut: ["REFUS", [Validators.required]],
       motifDetails: [null, []],
       orientation: [null, [Validators.required]],
-      orientationDetails: [null, [Validators.required]],
+      orientationDetails: [
+        null,
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(1000),
+        ],
+      ],
     });
 
     this.subscription.add(
@@ -87,6 +94,7 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
               Validators.required,
               NoWhiteSpaceValidator,
               Validators.minLength(10),
+              Validators.maxLength(1000),
             ]);
         } else {
           this.refusForm.get("motifDetails")?.setValidators(null);
