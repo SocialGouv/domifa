@@ -99,7 +99,11 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
         if (value === "AUTRE") {
           this.radiationForm
             .get("motifDetails")
-            ?.setValidators([Validators.required, Validators.minLength(10)]);
+            ?.setValidators([
+              Validators.required,
+              Validators.minLength(10),
+              Validators.maxLength(1000),
+            ]);
         } else {
           this.radiationForm.get("motifDetails")?.setValidators(null);
           this.radiationForm.get("motifDetails")?.setValue(null);

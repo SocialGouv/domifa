@@ -147,11 +147,9 @@ export class LoadSoliguideDataService {
   private async processPlace(place: SoliguidePlace): Promise<void> {
     const departement = this.getDepartementCached(place.position.codePostal);
 
-    const services = place.services_all.find(
+    const service = place.services_all.find(
       (service) => service.category === "domiciliation"
     );
-
-    const service = services[0];
 
     if (!service) {
       return;
