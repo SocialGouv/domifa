@@ -77,7 +77,7 @@ export class PublicStatsService implements OnModuleInit {
       return cached.stats;
     }
 
-    const pending = await this.pendingCalculations.get(key);
+    const pending = this.pendingCalculations.get(key);
     if (pending) {
       appLogger.info(
         `[PUBLIC_STATS] Calcul déjà en cours pour "${key}", attente du résultat`

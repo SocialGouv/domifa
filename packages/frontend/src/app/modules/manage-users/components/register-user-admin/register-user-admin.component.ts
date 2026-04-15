@@ -90,7 +90,11 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
       ],
       fonctionDetail: [
         this.user.fonction,
-        [Validators.minLength(2), Validators.minLength(255)],
+        [
+          NoWhiteSpaceValidator,
+          Validators.minLength(2),
+          Validators.minLength(255),
+        ],
       ],
       structureId: [this.user.structureId, []],
     });

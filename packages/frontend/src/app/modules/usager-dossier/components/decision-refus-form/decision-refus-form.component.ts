@@ -79,6 +79,7 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
         null,
         [
           Validators.required,
+          NoWhiteSpaceValidator,
           Validators.minLength(5),
           Validators.maxLength(1000),
         ],
