@@ -15,6 +15,7 @@ import {
   SOURCES_OPTIONS,
 } from "@domifa/common";
 import slug from "slug";
+import { NoWhiteSpaceValidator } from "../../../shared";
 
 export function isInvalidStructureName(structureName: string): boolean {
   if (!structureName) {
@@ -49,6 +50,7 @@ export const getPostalCodeValidator = (
         Validators.maxLength(5),
         Validators.minLength(4),
         Validators.required,
+        NoWhiteSpaceValidator,
         codePostalValidator(),
       ]
     : null;
