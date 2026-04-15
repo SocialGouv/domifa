@@ -3,6 +3,7 @@ import { SentryModule } from "@sentry/nestjs/setup";
 import { ScheduleModule } from "@nestjs/schedule";
 import { ThrottlerModule } from "@nestjs/throttler";
 import { AppThrottlerGuard } from "./auth/guards/app-throttler";
+import { domifaConfig } from "./config";
 
 import { PortailAdminModule } from "./modules/portail-admin";
 import { PortailUsagersModule } from "./modules/portail-usagers";
@@ -23,14 +24,32 @@ import { StatsModule } from "./modules/stats/stats.module";
 import { APP_GUARD, APP_INTERCEPTOR } from "@nestjs/core";
 import { AppSentryInterceptor } from "./util";
 
+const THROTTLED_ENVS = ["prod", "preprod"];
+const isThrottled = THROTTLED_ENVS.includes(domifaConfig().envId);
+
+const throttlerImports = isThrottled
+  ? [
+      ThrottlerModule.forRoot([
+        { name: "short", ttl: 1_000, limit: 20 }, // 20 req/s
+        { name: "medium", ttl: 60_000, limit: 300 }, // 300 req/min
+      ]),
+    ]
+  : [];
+
+const throttlerProviders = isThrottled
+  ? [
+      {
+        provide: APP_GUARD,
+        useClass: AppThrottlerGuard,
+      },
+    ]
+  : [];
+
 @Module({
   exports: [FileManagerService],
   imports: [
     SentryModule.forRoot(),
-    ThrottlerModule.forRoot([
-      { name: "short", ttl: 1_000, limit: 20 }, // 20 req/s
-      { name: "medium", ttl: 60_000, limit: 300 }, // 300 req/min
-    ]),
+    ...throttlerImports,
     AuthModule,
     ScheduleModule.forRoot(),
     HealthModule,
@@ -50,10 +69,7 @@ import { AppSentryInterceptor } from "./util";
   providers: [
     FileManagerService,
     InteractionsService,
-    {
-      provide: APP_GUARD,
-      useClass: AppThrottlerGuard,
-    },
+    ...throttlerProviders,
     {
       provide: APP_INTERCEPTOR,
       useClass: AppSentryInterceptor,

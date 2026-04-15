@@ -2,12 +2,22 @@ import { ExecutionContext, Injectable } from "@nestjs/common";
 import { ThrottlerGuard, ThrottlerLimitDetail } from "@nestjs/throttler";
 import { Request } from "express";
 import { appLogsRepository, AppLogTable } from "../../../database";
+import { domifaConfig } from "../../../config";
 import { ThrottleBlockedLogContext } from "./app-throttler.types";
 import { extractJwtUser } from "./app-throttler.utils";
+
+const THROTTLED_ENVS = ["prod", "preprod"];
 
 @Injectable()
 export class AppThrottlerGuard extends ThrottlerGuard {
   private readonly activeBlocks = new Map<string, string>();
+
+  override async canActivate(context: ExecutionContext): Promise<boolean> {
+    if (!THROTTLED_ENVS.includes(domifaConfig().envId)) {
+      return true;
+    }
+    return super.canActivate(context);
+  }
 
   protected override async throwThrottlingException(
     context: ExecutionContext,
