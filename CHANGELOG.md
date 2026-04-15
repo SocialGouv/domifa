@@ -453,6 +453,19 @@
 
 * **backend:** add throlling ([e827fbc](https://github.com/SocialGouv/domifa/commit/e827fbce7a49484a2f9572a09cee5eb9539499b9))
 
+# [2.235.0](https://github.com/SocialGouv/domifa/compare/v2.234.4...v2.235.0) (2026-04-15)
+
+
+### Bug Fixes
+
+* **backend:** add logs to throlling ([b7deda4](https://github.com/SocialGouv/domifa/commit/b7deda467bcaeec0c1f40ee23d0a479dcd6d8429))
+* **backend:** disable throlling for health check ([d841faa](https://github.com/SocialGouv/domifa/commit/d841faa445ea883dd0b3b903eda3672a32db571c))
+
+
+### Features
+
+* **backend:** add throlling ([e827fbc](https://github.com/SocialGouv/domifa/commit/e827fbce7a49484a2f9572a09cee5eb9539499b9))
+
 # [2.235.0](https://github.com/SocialGouv/domifa/compare/v2.234.4...v2.235.0) (2026-04-14)
 
 
