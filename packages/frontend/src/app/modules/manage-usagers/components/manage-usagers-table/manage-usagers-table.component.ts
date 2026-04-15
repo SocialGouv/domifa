@@ -103,15 +103,12 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   ) {
     this.me = this.authService.currentUserValue;
     this.usagers = [];
-    this.selectedRefs.clear();
   }
 
   ngOnInit() {
     this.filters$.pipe(takeUntil(this.destroy$)).subscribe((filters) => {
       this.currentFilters = filters;
       this.computeCheckboxVisibility();
-      this.selectAllCheckboxes = false;
-      this.selectedRefs.clear();
       this.cd.markForCheck();
     });
   }
@@ -176,6 +173,9 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   }
 
   public getVisibleCheckboxIds(): void {
+    if (!this.selectAllCheckboxes) {
+      return;
+    }
     const checkboxes = document.querySelectorAll(
       'table input[type="checkbox"]'
     );
@@ -199,15 +199,11 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
       }
     });
 
-    if (!this.selectAllCheckboxes) {
-      this.selectedRefs.clear();
-    } else {
-      visibleIds.forEach((id) => {
-        if (!this.selectedRefs.has(id)) {
-          this.selectedRefs.add(id);
-        }
-      });
-    }
+    visibleIds.forEach((id) => {
+      if (!this.selectedRefs.has(id)) {
+        this.selectedRefs.add(id);
+      }
+    });
   }
 
   public resetCheckboxes() {
