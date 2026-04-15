@@ -1,3 +1,20 @@
+# [2.235.0](https://github.com/SocialGouv/domifa/compare/v2.234.4...v2.235.0) (2026-04-15)
+
+
+### Bug Fixes
+
+* **backend:** add logs to throlling ([b7deda4](https://github.com/SocialGouv/domifa/commit/b7deda467bcaeec0c1f40ee23d0a479dcd6d8429))
+* **backend:** disable throlling for health check ([d841faa](https://github.com/SocialGouv/domifa/commit/d841faa445ea883dd0b3b903eda3672a32db571c))
+* **backend:** fix dto for decisions ([f76159a](https://github.com/SocialGouv/domifa/commit/f76159a3af7198ce1233ebd0bc8a9a8b2a84d024))
+* **backend:** fix throlling in test ([009878b](https://github.com/SocialGouv/domifa/commit/009878bb90775c4118da6a1539af88587a97a42a))
+* **ci:** add [skip ci] to semantic-release commit message ([d514d0d](https://github.com/SocialGouv/domifa/commit/d514d0d51ae38f1f0935369c1205b0a34585db26))
+* **frontend:** fix number of caracters ([e608cbc](https://github.com/SocialGouv/domifa/commit/e608cbcc45e22bb7491846fa9c2a5ca465b24780))
+
+
+### Features
+
+* **backend:** add throlling ([e827fbc](https://github.com/SocialGouv/domifa/commit/e827fbce7a49484a2f9572a09cee5eb9539499b9))
+
 ## [2.234.4](https://github.com/SocialGouv/domifa/compare/v2.234.3...v2.234.4) (2026-04-13)
 
 
