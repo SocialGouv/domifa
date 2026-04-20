@@ -80,7 +80,7 @@ export const UserControllerSecurityTests: AppTestHttpClientSecurityTestDef[] = [
           context.user,
           {
             roles: ["admin"],
-            validExpectedResponseStatus: HttpStatus.FORBIDDEN, // ce user appartient à une autre structure!
+            validExpectedResponseStatus: HttpStatus.BAD_REQUEST, // ce user appartient à une autre structure!
           }
         ),
       };
