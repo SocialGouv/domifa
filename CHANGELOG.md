@@ -1,3 +1,14 @@
+## [2.235.1](https://github.com/SocialGouv/domifa/compare/v2.235.0...v2.235.1) (2026-04-21)
+
+
+### Bug Fixes
+
+* **backend:** add claude.md ([1353b33](https://github.com/SocialGouv/domifa/commit/1353b33d23246fa79fa525ba532290ceaf76760b))
+* **backend:** fix changelog ([f063dc3](https://github.com/SocialGouv/domifa/commit/f063dc3e4245d6409817adbba0ba2d75bc888e81))
+* **backend:** fix unit test ([20fcd6b](https://github.com/SocialGouv/domifa/commit/20fcd6bab22bff983d5814549fe39905018e6c22))
+* **ci:** add [skip ci] to semantic-release commit message ([f0e704b](https://github.com/SocialGouv/domifa/commit/f0e704bcbba8bd8b6c0f70472e036dc6264c6eb8))
+* **ci:** run semantic ([99724e1](https://github.com/SocialGouv/domifa/commit/99724e19e05588936a22b69a2ba96bf659b02669))
+
 # [2.235.0](https://github.com/SocialGouv/domifa/compare/v2.234.4...v2.235.0) (2026-04-15)
 
 
