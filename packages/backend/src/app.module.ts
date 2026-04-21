@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, Logger } from "@nestjs/common";
 import { SentryModule } from "@sentry/nestjs/setup";
 import { ScheduleModule } from "@nestjs/schedule";
 import { ThrottlerModule } from "@nestjs/throttler";
@@ -24,14 +24,24 @@ import { StatsModule } from "./modules/stats/stats.module";
 import { APP_GUARD, APP_INTERCEPTOR } from "@nestjs/core";
 import { AppSentryInterceptor } from "./util";
 
-const THROTTLED_ENVS = ["prod", "preprod"];
-const isThrottled = THROTTLED_ENVS.includes(domifaConfig().envId);
+const appModuleLogger = new Logger("AppModule");
+
+const SKIP_THROTTLE_ENVS = ["test"];
+const envId = domifaConfig().envId;
+const isThrottled = !SKIP_THROTTLE_ENVS.includes(envId);
+
+appModuleLogger.log(
+  `[THROTTLE CONFIG] envId="${envId}" isThrottled=${isThrottled} (SKIP_THROTTLE_ENVS=${JSON.stringify(
+    SKIP_THROTTLE_ENVS
+  )})`
+);
 
 const throttlerImports = isThrottled
   ? [
       ThrottlerModule.forRoot([
-        { name: "short", ttl: 1_000, limit: 20 }, // 20 req/s
-        { name: "medium", ttl: 60_000, limit: 300 }, // 300 req/min
+        { name: "short", ttl: 1_000, limit: 10, blockDuration: 300_000 }, // 10 req/s, block 5min
+        { name: "medium", ttl: 60_000, limit: 100, blockDuration: 900_000 }, // 100 req/min, block 15min
+        { name: "long", ttl: 3_600_000, limit: 3000, blockDuration: 3_600_000 }, // 3000 req/h, block 1h
       ]),
     ]
   : [];
@@ -44,6 +54,12 @@ const throttlerProviders = isThrottled
       },
     ]
   : [];
+
+appModuleLogger.log(
+  `[THROTTLE CONFIG] ThrottlerModule ${
+    isThrottled ? "ENABLED" : "DISABLED"
+  } | Guard ${isThrottled ? "REGISTERED" : "NOT REGISTERED"}`
+);
 
 @Module({
   exports: [FileManagerService],

@@ -8,6 +8,7 @@ import {
   UploadedFile,
   UseInterceptors,
 } from "@nestjs/common";
+import { Throttle } from "@nestjs/throttler";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
 
@@ -27,6 +28,11 @@ import { domifaConfig } from "../../config";
 export class ContactSupportController {
   constructor(private readonly brevoSenderService: BrevoSenderService) {}
 
+  @Throttle({
+    short: { limit: 3, ttl: 60_000, blockDuration: 1_800_000 }, // 3 req/min, block 30min
+    medium: { limit: 5, ttl: 600_000, blockDuration: 1_800_000 }, // 5 req/10min, block 30min
+    long: { limit: 10, ttl: 3_600_000, blockDuration: 3_600_000 }, // 10 req/h, block 1h
+  })
   @Post("")
   @UseInterceptors(
     FileInterceptor("file", {
