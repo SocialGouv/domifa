@@ -1,4 +1,4 @@
-import { ExecutionContext, Injectable } from "@nestjs/common";
+import { ExecutionContext, Injectable, Logger } from "@nestjs/common";
 import { ThrottlerGuard, ThrottlerLimitDetail } from "@nestjs/throttler";
 import { Request } from "express";
 import { appLogsRepository, AppLogTable } from "../../../database";
@@ -6,16 +6,27 @@ import { domifaConfig } from "../../../config";
 import { ThrottleBlockedLogContext } from "./app-throttler.types";
 import { extractJwtUser } from "./app-throttler.utils";
 
-const THROTTLED_ENVS = ["prod", "preprod"];
+const SKIP_THROTTLE_ENVS = ["test"];
 
 @Injectable()
 export class AppThrottlerGuard extends ThrottlerGuard {
+  private readonly logger = new Logger("AppThrottlerGuard");
   private readonly activeBlocks = new Map<string, string>();
 
   override async canActivate(context: ExecutionContext): Promise<boolean> {
-    if (!THROTTLED_ENVS.includes(domifaConfig().envId)) {
+    const envId = domifaConfig().envId;
+    if (SKIP_THROTTLE_ENVS.includes(envId)) {
+      this.logger.debug(
+        `[THROTTLE] Skipped: envId="${envId}" not in THROTTLED_ENVS`
+      );
       return true;
     }
+
+    const request = context.switchToHttp().getRequest<Request>();
+    this.logger.debug(
+      `[THROTTLE] envId="${envId}" ip="${request.ip}" x-forwarded-for="${request.headers["x-forwarded-for"]}" x-real-ip="${request.headers["x-real-ip"]}" ${request.method} ${request.url}`
+    );
+
     return super.canActivate(context);
   }
 

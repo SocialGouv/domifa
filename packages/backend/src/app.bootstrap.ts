@@ -36,6 +36,10 @@ export async function bootstrapApplication(): Promise<{
     const app = await NestFactory.create(AppModule);
     setupLog(app);
 
+    // Trust first proxy (nginx ingress) so req.ip returns the real client IP
+    // Required for throttling, logging, and security behind a reverse proxy
+    app.getHttpAdapter().getInstance().set("trust proxy", 1);
+
     if (domifaConfig().dev.sentry.enabled) {
       app.useGlobalInterceptors(new AppSentryInterceptor());
     }
