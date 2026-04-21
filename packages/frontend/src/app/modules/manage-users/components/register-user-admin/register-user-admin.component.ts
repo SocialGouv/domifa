@@ -25,11 +25,13 @@ import { AuthService, CustomToastService } from "../../../shared/services";
 
 import { UserStructure } from "@domifa/common";
 import { UsersService, userStructureBuilder } from "../../../users/services";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   animations: [fadeInOut],
   selector: "app-register-user-admin",
   templateUrl: "./register-user-admin.component.html",
+  standalone: false,
 })
 export class RegisterUserAdminComponent implements OnInit, OnDestroy {
   public user: UserStructure;
@@ -46,6 +48,9 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
 
   @ViewChild("form", { static: true })
   public form!: ElementRef<HTMLFormElement>;
+
+  @ViewChild("registerModal", { static: false })
+  registerModal!: DsfrModalComponent;
 
   public get f(): { [key: string]: AbstractControl } {
     return this.userForm.controls;
@@ -100,6 +105,14 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
     });
   }
 
+  public openModal(): void {
+    this.registerModal.open();
+  }
+
+  public closeModals() {
+    this.registerModal.close();
+  }
+
   public submitUser() {
     this.submitted = true;
 
@@ -120,6 +133,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
               this.loading = false;
               this.submitted = false;
               this.getUsers.emit();
+              this.closeModals();
               this.form.nativeElement.reset();
               this.toastService.success(
                 "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."

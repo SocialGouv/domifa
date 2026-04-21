@@ -2,7 +2,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { MATOMO_INJECTORS } from "../../../../shared";
 
 import { StructuresSmsFormComponent } from "./structures-sms-form.component";
@@ -16,7 +16,6 @@ describe("StructuresSmsFormComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule,
         ReactiveFormsModule,
         FormsModule,
         RouterModule.forRoot([]),

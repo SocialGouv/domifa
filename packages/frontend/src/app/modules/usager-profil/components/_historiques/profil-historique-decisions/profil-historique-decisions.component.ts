@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
-import { faFilePdf } from "@fortawesome/free-regular-svg-icons";
 import {
   CerfaDocType,
   SortValues,
@@ -13,7 +12,7 @@ import { DocumentService } from "../../../../usager-shared/services";
 @Component({
   selector: "app-profil-historique-decisions",
   templateUrl: "./profil-historique-decisions.component.html",
-  styleUrls: ["../historique-table.scss"],
+  standalone: false,
 })
 export class ProfilHistoriqueDecisionsComponent implements OnInit {
   public readonly USAGER_DECISION_STATUT_LABELS_PROFIL =
@@ -24,7 +23,7 @@ export class ProfilHistoriqueDecisionsComponent implements OnInit {
   public sortValue: SortValues = "desc";
   public currentKey: keyof UsagerDecision = "dateDecision";
   public displayDeleteButton = false;
-  public readonly faFilePdf = faFilePdf;
+
   constructor(private readonly documentService: DocumentService) {}
   ngOnInit() {
     this.displayDeleteButton =

@@ -12,7 +12,7 @@ import {
 @Component({
   selector: "app-profil-historique-transferts",
   templateUrl: "./profil-historique-transferts.component.html",
-  styleUrls: ["../historique-table.scss"],
+  standalone: false,
 })
 export class ProfilHistoriqueTransfertsComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;

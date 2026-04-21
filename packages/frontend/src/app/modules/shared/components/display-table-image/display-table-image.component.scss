@@ -1,21 +1,9 @@
-.doc-icon {
-  padding: 0.4rem 1.2rem;
-  font-size: 2rem;
+div {
   text-align: center;
-  border-radius: 6px;
-  display: inline-block;
-  background-color: #ecefff;
-}
+  padding: 0.3rem 0.4rem;
 
-.icon-image {
-  color: #553828;
-}
-.icon-file-pdf {
-  color: #fe3b31;
-}
-.icon-file-word {
-  color: #017aff;
-}
-.icon-file-excel {
-  color: #33c75a;
+  img {
+    width: 30px;
+    height: auto;
+  }
 }

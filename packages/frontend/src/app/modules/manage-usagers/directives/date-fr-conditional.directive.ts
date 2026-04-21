@@ -1,11 +1,12 @@
 import { Directive, ElementRef, HostListener, Input } from "@angular/core";
-import { DateFrDirective } from "../../shared/directives";
+import { DateFrDirective } from "./date-fr.directive";
 
 @Directive({
   selector: "[appDateFrConditional]",
+  standalone: true,
 })
 export class DateFrConditionalDirective extends DateFrDirective {
-  @Input() public appDateFrConditional: boolean = false;
+  @Input({ required: true }) public appDateFrConditional: boolean = false;
 
   constructor(el: ElementRef) {
     super(el);

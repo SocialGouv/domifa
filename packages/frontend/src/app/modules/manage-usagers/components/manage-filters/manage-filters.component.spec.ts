@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ManageFiltersComponent } from "./manage-filters.component";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 
 import { ManageUsagersModule } from "../../manage-usagers.module";
@@ -17,7 +17,7 @@ describe("ManageFiltersComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ManageFiltersComponent],
-      imports: [NgbModule, ManageUsagersModule],
+      imports: [ManageUsagersModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 

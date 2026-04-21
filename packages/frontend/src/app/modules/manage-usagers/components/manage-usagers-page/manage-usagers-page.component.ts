@@ -69,11 +69,13 @@ const STORAGE_KEY = "SEARCH";
   selector: "app-manage-usagers-page",
   styleUrls: ["./manage-usagers-page.component.scss"],
   templateUrl: "./manage-usagers-page.component.html",
+  standalone: false,
 })
 export class ManageUsagersPageComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
   public searching: boolean;
+  public showFilters = true;
 
   public usagersRadiesLoadedCount = 0;
   public readonly CriteriaSearchField = CriteriaSearchField;
@@ -101,8 +103,8 @@ export class ManageUsagersPageComponent
     };
   } = {
     DEFAULT: {
-      label: "ID, nom, prénom, ayant-droit ou mandataire",
-      placeholder: "Recherche par ID, nom, prénom, ayant-droit ou mandataire",
+      label: "ID, nom, prénom, ayant droit ou mandataire",
+      placeholder: "Recherche par ID, nom, prénom, ayant droit ou mandataire",
     },
     BIRTH_DATE: {
       label: "Date de naissance (format attendu:  JJ/MM/AAAA)",
@@ -140,28 +142,34 @@ export class ManageUsagersPageComponent
     private readonly matomo: MatomoTracker,
     private readonly toastr: CustomToastService // private readonly tallyService: TallyService
   ) {
+    console.time("[MANAGE] constructor");
     this.me = this.authService.currentUserValue;
     this.nbResults = 0;
     this.needToPrint = false;
     this.searching = true;
     this.usagers = [];
     this.filters = new UsagersFilterCriteria(this.getFilters());
-    this.pageSize = 50;
+    this.pageSize = 200;
     this.filters.page = 1;
     this.titleService.setTitle("Gestion des domiciliés - DomiFa");
     this.filters$.next(this.filters);
+    console.timeEnd("[MANAGE] constructor");
   }
 
   ngAfterViewInit() {
+    console.time("[MANAGE] ngAfterViewInit");
     this.setupIntersectionObserver();
 
     if (this.sentinel) {
       this.observer.observe(this.sentinel.nativeElement);
     }
+    console.timeEnd("[MANAGE] ngAfterViewInit");
   }
 
   public ngOnInit(): void {
+    console.time("[MANAGE] ngOnInit total");
     if (!this.me?.acceptTerms) {
+      console.timeEnd("[MANAGE] ngOnInit total");
       return;
     }
 
@@ -290,7 +298,9 @@ export class ManageUsagersPageComponent
           takeUntil(this.destroy$)
         )
         .subscribe(({ filters, usagers, usagersRadiesTotalCount }) => {
+          console.time("[MANAGE] store subscribe handler");
           if (filters && usagers) {
+            console.log("[MANAGE] usagers count:", usagers.length);
             this.setFilters();
             this.countRadiesLoaded(usagers);
             this.usagersCountByStatus = calculateUsagersCountByStatus(
@@ -300,11 +310,14 @@ export class ManageUsagersPageComponent
             this.applyFilters({ filters, allUsagers: usagers });
           }
           this.searching = false;
+          console.timeEnd("[MANAGE] store subscribe handler");
         })
     );
+    console.timeEnd("[MANAGE] ngOnInit total");
   }
 
   private setupIntersectionObserver(): void {
+    console.log("[MANAGE] setupIntersectionObserver");
     const viewportHeight = window.innerHeight;
     const rootMargin = Math.floor(viewportHeight * 0.5) + "px";
 
@@ -317,30 +330,43 @@ export class ManageUsagersPageComponent
     this.observer = new IntersectionObserver((entries) => {
       const entry = entries[0];
       if (entry.isIntersecting && this.usagers.length < this.nbResults) {
+        console.time(
+          "[MANAGE] intersection -> load next page " + (this.filters.page + 1)
+        );
         this.filters.page = this.filters.page + 1;
         this.applyPagination();
+        console.timeEnd(
+          "[MANAGE] intersection -> load next page " + this.filters.page
+        );
       }
     }, options);
   }
 
   public launchSearch() {
+    console.log("[MANAGE] launchSearch");
     this.filters$.next(this.filters);
   }
 
   private loadDataFromAPI() {
+    console.time("[MANAGE] loadDataFromAPI");
     return this.chargerTousRadies$.pipe(
       tap(() => {
         this.searching = true;
       }),
       switchMap((chargerTousRadies) => {
+        console.time("[MANAGE] fetchSearchPageUsagerData");
         return this.usagerService.fetchSearchPageUsagerData({
           chargerTousRadies,
         });
       }),
+      tap(() => {
+        console.timeEnd("[MANAGE] fetchSearchPageUsagerData");
+      }),
       switchMap(() => this.chargerTousRadies$),
-      switchMap((chargerTousRadies) =>
-        this.findRemoteUsagers(chargerTousRadies, this.filters)
-      )
+      switchMap((chargerTousRadies) => {
+        console.timeEnd("[MANAGE] loadDataFromAPI");
+        return this.findRemoteUsagers(chargerTousRadies, this.filters);
+      })
     );
   }
 
@@ -348,6 +374,7 @@ export class ManageUsagersPageComponent
     chargerTousRadies: boolean,
     filters: UsagersFilterCriteria
   ): Observable<string> {
+    console.time("[MANAGE] findRemoteUsagers");
     if (
       this.usagersCountByStatus.RADIE !== this.usagersRadiesLoadedCount &&
       !chargerTousRadies &&
@@ -367,7 +394,9 @@ export class ManageUsagersPageComponent
       return this.usagerService
         .getSearchPageRemoteSearchRadies(this.filters)
         .pipe(
+          tap(() => console.timeEnd("[MANAGE] findRemoteUsagers")),
           catchError(() => {
+            console.timeEnd("[MANAGE] findRemoteUsagers");
             this.searching = false;
             this.toastr.error(
               "La recherche n'a pas abouti, merci de réessayer dans quelques instants"
@@ -376,10 +405,12 @@ export class ManageUsagersPageComponent
           })
         );
     }
+    console.timeEnd("[MANAGE] findRemoteUsagers");
     return of(filters.searchString);
   }
 
   public chargerTousRadies(): void {
+    console.log("[MANAGE] chargerTousRadies");
     this.searching = true;
     this.matomo.trackEvent(
       "MANAGE",
@@ -400,6 +431,7 @@ export class ManageUsagersPageComponent
   }
 
   public goToPrint(): void {
+    console.log("[MANAGE] goToPrint");
     this.pageSize = 20000;
     this.filters.page = 1;
     this.needToPrint = true;
@@ -427,6 +459,16 @@ export class ManageUsagersPageComponent
     this.resetSearchBar();
   }
 
+  public get activeFilterCount(): number {
+    let count = 0;
+    if (this.filters.lastInteractionDate) count++;
+    if (this.filters.echeance) count++;
+    if (this.filters.interactionType) count++;
+    if (this.filters.entretien) count++;
+    if (this.filters.referrerId !== undefined) count++;
+    return count;
+  }
+
   public updateFilters<T extends keyof UsagersFilterCriteria>({
     element,
     value,
@@ -436,6 +478,7 @@ export class ManageUsagersPageComponent
     value: UsagersFilterCriteria[T] | null;
     sortValue?: SortValues;
   }): void {
+    console.time("[MANAGE] updateFilters " + String(element));
     const filtersToToggle = [
       "echeance",
       "interactionType",
@@ -498,6 +541,7 @@ export class ManageUsagersPageComponent
       this.filters$.next(this.filters);
     }
     this.setFilters();
+    console.timeEnd("[MANAGE] updateFilters " + String(element));
   }
 
   private getNextSortValue(
@@ -515,17 +559,23 @@ export class ManageUsagersPageComponent
     filters: UsagersFilterCriteria;
     allUsagers: UsagerLight[];
   }): void {
+    console.time("[MANAGE] applyFilters total");
     this.searching = true;
 
     this.resetCheckboxes();
 
+    console.time("[MANAGE] applyFilters -> usagersFilter.filter");
     this.filteredUsagers = usagersFilter.filter(allUsagers, {
       criteria: filters,
     }) as UsagerFormModel[];
+    console.timeEnd("[MANAGE] applyFilters -> usagersFilter.filter");
 
     this.nbResults = this.filteredUsagers.length;
+    console.log("[MANAGE] applyFilters -> nbResults:", this.nbResults);
 
     this.applySorting();
+
+    console.timeEnd("[MANAGE] applyFilters total");
 
     // Impression: on attend la fin de la génération de la liste
     if (this.needToPrint) {
@@ -557,22 +607,29 @@ export class ManageUsagersPageComponent
   };
 
   private applySorting(): void {
+    console.time("[MANAGE] applySorting");
     if (!this.filteredUsagers.length) {
       this.usagers = [];
+      console.timeEnd("[MANAGE] applySorting");
       return;
     }
 
+    console.time("[MANAGE] applySorting -> usagersSorter.sortBy");
     this.filteredUsagers = usagersSorter.sortBy(this.filteredUsagers, {
       sortKey: this.filters.sortKey,
       sortValue: this.filters.sortValue,
     }) as UsagerFormModel[];
+    console.timeEnd("[MANAGE] applySorting -> usagersSorter.sortBy");
 
     this.setFilters();
     this.applyPaginationFromStore();
+    console.timeEnd("[MANAGE] applySorting");
   }
 
   private applyPaginationFromStore(): void {
+    console.time("[MANAGE] applyPaginationFromStore");
     if (!this.filteredUsagers?.length) {
+      console.timeEnd("[MANAGE] applyPaginationFromStore");
       return;
     }
 
@@ -580,10 +637,19 @@ export class ManageUsagersPageComponent
     const endIndex = this.filters.page * this.pageSize;
 
     this.usagers = this.filteredUsagers.slice(startIndex, endIndex);
+    console.log(
+      "[MANAGE] applyPaginationFromStore -> displayed:",
+      this.usagers.length,
+      "/ total:",
+      this.filteredUsagers.length
+    );
+    console.timeEnd("[MANAGE] applyPaginationFromStore");
   }
 
   private applyPagination(): void {
+    console.time("[MANAGE] applyPagination");
     if (!this.filteredUsagers?.length) {
+      console.timeEnd("[MANAGE] applyPagination");
       return;
     }
 
@@ -597,6 +663,13 @@ export class ManageUsagersPageComponent
     } else {
       this.usagers = [...this.usagers, ...newElements];
     }
+    console.log(
+      "[MANAGE] applyPagination -> page:",
+      this.filters.page,
+      "displayed:",
+      this.usagers.length
+    );
+    console.timeEnd("[MANAGE] applyPagination");
   }
 
   private setSortKeyAndValue(

@@ -3,15 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import {
-  NgbDateParserFormatter,
-  NgbDatepickerI18n,
-  NgbModule,
-} from "@ng-bootstrap/ng-bootstrap";
-
 import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks/USAGER_VALIDE.mock";
-import { NgbDateCustomParserFormatter } from "../../../shared/services/date-formatter.service";
-import { CustomDatepickerI18n } from "../../../shared/services/date-french.service";
 import { SharedModule } from "../../../shared/shared.module";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 
@@ -22,11 +14,14 @@ import { UsagerDossierModule } from "../../usager-dossier.module";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
 import {
-  parseDateFromNgb,
   _usagerReducer,
   getNextYear,
   getToday,
+  parseFrDate,
 } from "../../../../shared";
+import { format } from "date-fns";
+
+const FR_DATE_FORMAT = "dd/MM/yyyy";
 
 describe("DecisionValideFormComponent", () => {
   let component: DecisionValideFormComponent;
@@ -36,7 +31,6 @@ describe("DecisionValideFormComponent", () => {
     TestBed.configureTestingModule({
       declarations: [DecisionValideFormComponent],
       imports: [
-        NgbModule,
         RouterModule.forRoot([]),
         SharedModule,
         ReactiveFormsModule,
@@ -46,11 +40,6 @@ describe("DecisionValideFormComponent", () => {
       ],
       providers: [
         provideHttpClient(),
-        { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-        {
-          provide: NgbDateParserFormatter,
-          useClass: NgbDateCustomParserFormatter,
-        },
         { provide: APP_BASE_HREF, useValue: "/" },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -68,9 +57,33 @@ describe("DecisionValideFormComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  // ─────────────────────────────────────────────────────────────
-  // Tests unitaires de computeEndDate (source de vérité isolée)
-  // ─────────────────────────────────────────────────────────────
+  describe("parseFrDate", () => {
+    it("should parse a valid dd/MM/yyyy date to UTC noon", () => {
+      const result = parseFrDate("15/03/2024");
+      expect(result).not.toBeNull();
+      expect(result!.getUTCFullYear()).toBe(2024);
+      expect(result!.getUTCMonth()).toBe(2);
+      expect(result!.getUTCDate()).toBe(15);
+      expect(result!.getUTCHours()).toBe(12);
+    });
+
+    it("should return null for empty string", () => {
+      expect(parseFrDate("")).toBeNull();
+    });
+
+    it("should return null for invalid date", () => {
+      expect(parseFrDate("invalid")).toBeNull();
+      expect(parseFrDate("2024-03-15")).toBeNull();
+    });
+
+    it("should handle leap day", () => {
+      const result = parseFrDate("29/02/2024");
+      expect(result).not.toBeNull();
+      expect(result!.getUTCDate()).toBe(29);
+      expect(result!.getUTCMonth()).toBe(1);
+    });
+  });
+
   describe("date.utils", () => {
     describe("getToday", () => {
       it("should return current date at noon UTC", () => {
@@ -110,8 +123,6 @@ describe("DecisionValideFormComponent", () => {
       });
 
       it("should handle leap year: 29 feb 2024 → 27 feb 2025", () => {
-        // addYears(29 fév 2024, 1) = 28 fév 2025 (date-fns clippe au dernier jour de fév)
-        // subDays(28 fév 2025, 1)  = 27 fév 2025
         const result = getNextYear(new Date(Date.UTC(2024, 1, 29)));
         expect(result.getUTCFullYear()).toBe(2025);
         expect(result.getUTCMonth()).toBe(1);
@@ -125,7 +136,7 @@ describe("DecisionValideFormComponent", () => {
         expect(result.getUTCDate()).toBe(30);
       });
 
-      it("should be robust for DOM-TOM-equivalent offsets (UTC-4 Guyane, UTC+4 Réunion)", () => {
+      it("should be robust for DOM-TOM-equivalent offsets", () => {
         const extremeHours = [0, 1, 23];
         extremeHours.forEach((h) => {
           const result = getNextYear(new Date(Date.UTC(2024, 5, 15, h, 0, 0)));
@@ -138,7 +149,10 @@ describe("DecisionValideFormComponent", () => {
             ctx,
             month: 5,
           });
-          expect({ ctx, date: result.getUTCDate() }).toEqual({ ctx, date: 14 });
+          expect({ ctx, date: result.getUTCDate() }).toEqual({
+            ctx,
+            date: 14,
+          });
           expect({ ctx, hours: result.getUTCHours() }).toEqual({
             ctx,
             hours: 12,
@@ -148,50 +162,133 @@ describe("DecisionValideFormComponent", () => {
     });
   });
 
-  // ─────────────────────────────────────────────────────────────
-  // Tests d'intégration du composant (s'appuient sur computeEndDate)
-  // ─────────────────────────────────────────────────────────────
   describe("Date calculation in component", () => {
     it("should initialize dateFin using getNextYear(getToday())", () => {
       const expectedEndDate = getNextYear(getToday());
-
       const dateFin = component.valideForm.get("dateFin")?.value;
-      const dateFinAsDate = parseDateFromNgb(dateFin);
+      const dateFinAsDate = parseFrDate(dateFin);
 
-      expect(dateFinAsDate.getFullYear()).toBe(expectedEndDate.getFullYear());
-      expect(dateFinAsDate.getMonth()).toBe(expectedEndDate.getMonth());
-      expect(dateFinAsDate.getDate()).toBe(expectedEndDate.getDate());
+      expect(dateFinAsDate!.getUTCFullYear()).toBe(
+        expectedEndDate.getUTCFullYear()
+      );
+      expect(dateFinAsDate!.getUTCMonth()).toBe(expectedEndDate.getUTCMonth());
+      expect(dateFinAsDate!.getUTCDate()).toBe(expectedEndDate.getUTCDate());
     });
 
     it("should update dateFin with getNextYear when dateDebut changes", () => {
-      const newDateDebut = { day: 15, month: 3, year: 2024 };
-      component.valideForm.get("dateDebut")?.setValue(newDateDebut);
+      component.valideForm.get("dateDebut")?.setValue("15/03/2024");
       fixture.detectChanges();
 
       const expectedEndDate = getNextYear(
-        new Date(
-          Date.UTC(newDateDebut.year, newDateDebut.month - 1, newDateDebut.day)
-        )
+        new Date(Date.UTC(2024, 2, 15, 12, 0, 0))
       );
-      const dateFin = component.valideForm.get("dateFin")?.value;
+      const dateFinAsDate = parseFrDate(
+        component.valideForm.get("dateFin")?.value
+      );
 
-      expect(dateFin.day).toBe(expectedEndDate.getDate());
-      expect(dateFin.month).toBe(expectedEndDate.getMonth() + 1);
-      expect(dateFin.year).toBe(expectedEndDate.getFullYear());
+      expect(dateFinAsDate!.getUTCFullYear()).toBe(
+        expectedEndDate.getUTCFullYear()
+      );
+      expect(dateFinAsDate!.getUTCMonth()).toBe(expectedEndDate.getUTCMonth());
+      expect(dateFinAsDate!.getUTCDate()).toBe(expectedEndDate.getUTCDate());
     });
 
     it("should keep dateFin consistent for a leap day dateDebut", () => {
-      // 29 fév 2024 → getNextYear → 27 fév 2025 (addYears clippe à 28 fév, subDays donne 27)
-      const newDateDebut = { day: 29, month: 2, year: 2024 };
-      component.valideForm.get("dateDebut")?.setValue(newDateDebut);
+      component.valideForm.get("dateDebut")?.setValue("29/02/2024");
       fixture.detectChanges();
 
-      const expectedEndDate = getNextYear(new Date(2024, 1, 29));
-      const dateFin = component.valideForm.get("dateFin")?.value;
+      const expectedEndDate = getNextYear(
+        new Date(Date.UTC(2024, 1, 29, 12, 0, 0))
+      );
+      const dateFinAsDate = parseFrDate(
+        component.valideForm.get("dateFin")?.value
+      );
 
-      expect(dateFin.day).toBe(expectedEndDate.getDate());
-      expect(dateFin.month).toBe(expectedEndDate.getMonth() + 1);
-      expect(dateFin.year).toBe(expectedEndDate.getFullYear());
+      expect(dateFinAsDate!.getUTCFullYear()).toBe(
+        expectedEndDate.getUTCFullYear()
+      );
+      expect(dateFinAsDate!.getUTCMonth()).toBe(expectedEndDate.getUTCMonth());
+      expect(dateFinAsDate!.getUTCDate()).toBe(expectedEndDate.getUTCDate());
+    });
+  });
+
+  describe("Validator error keys", () => {
+    it("should have no errors with default dates", () => {
+      expect(component.valideForm.errors).toBeNull();
+    });
+
+    it("should set START_DATE_EMPTY when dateDebut is cleared", () => {
+      component.valideForm.get("dateDebut")?.setValue("");
+      expect(component.valideForm.errors?.["START_DATE_EMPTY"]).toBeTruthy();
+    });
+
+    it("should set END_DATE_EMPTY when dateFin is cleared", () => {
+      component.valideForm.get("dateFin")?.setValue("");
+      expect(component.valideForm.errors?.["END_DATE_EMPTY"]).toBeTruthy();
+    });
+
+    it("should set START_DATE_INVALID for malformed dateDebut", () => {
+      component.valideForm.get("dateDebut")?.setValue("abc");
+      expect(component.valideForm.errors?.["START_DATE_INVALID"]).toBeTruthy();
+    });
+
+    it("should set END_DATE_INVALID for malformed dateFin", () => {
+      component.valideForm.get("dateFin")?.setValue("abc");
+      expect(component.valideForm.errors?.["END_DATE_INVALID"]).toBeTruthy();
+    });
+
+    it("should set START_DATE_TOO_LOW for date before minDate", () => {
+      const tooEarly = `01/01/${new Date().getFullYear() - 2}`;
+      component.valideForm.get("dateDebut")?.setValue(tooEarly);
+      expect(component.valideForm.errors?.["START_DATE_TOO_LOW"]).toBeTruthy();
+    });
+
+    it("should set START_DATE_TOO_HIGH for date after maxDate", () => {
+      const tooLate = `01/01/${new Date().getFullYear() + 3}`;
+      component.valideForm.get("dateDebut")?.setValue(tooLate);
+      expect(component.valideForm.errors?.["START_DATE_TOO_HIGH"]).toBeTruthy();
+    });
+
+    it("should set START_DATE_MUST_BEFORE_END when dateDebut >= dateFin", () => {
+      const today = format(getToday(), FR_DATE_FORMAT);
+      component.valideForm.get("dateDebut")?.setValue(today, {
+        emitEvent: false,
+      });
+      component.valideForm.get("dateFin")?.setValue(today);
+      expect(
+        component.valideForm.errors?.["START_DATE_MUST_BEFORE_END"]
+      ).toBeTruthy();
+    });
+  });
+
+  describe("Error message methods", () => {
+    it("should return empty string when not submitted", () => {
+      expect(component.getStartDateMessage()).toBe("");
+      expect(component.getEndDateMessage()).toBe("");
+    });
+
+    it("should return error message after submit with invalid dateDebut", () => {
+      component.valideForm.get("dateDebut")?.setValue("");
+      component.submitted = true;
+      expect(component.getStartDateMessage()).toBe(
+        "La date de début est obligatoire"
+      );
+    });
+
+    it("should return error message after submit with invalid dateFin", () => {
+      component.valideForm.get("dateFin")?.setValue("");
+      component.submitted = true;
+      expect(component.getEndDateMessage()).toBe(
+        "La date de fin est obligatoire"
+      );
+    });
+
+    it("should return error message after submit with invalid date format", () => {
+      component.valideForm.get("dateDebut")?.setValue("abc");
+      component.submitted = true;
+      expect(component.getStartDateMessage()).toBe(
+        "La date de début est incorrecte, exemple: 20/12/1996"
+      );
     });
   });
 });

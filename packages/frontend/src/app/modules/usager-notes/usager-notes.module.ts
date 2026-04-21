@@ -1,4 +1,3 @@
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { BaseUsagerNotesComponent } from "./components/base-usager-notes/base-usager-notes.component";
@@ -9,6 +8,8 @@ import { SharedModule } from "../shared/shared.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { UsagerSharedModule } from "../usager-shared/usager-shared.module";
 import { FullNamePipe } from "../shared/pipes";
+import { DsfrButtonComponent, DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { DsfrDropdownMenuComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 @NgModule({
   declarations: [
@@ -25,12 +26,15 @@ import { FullNamePipe } from "../shared/pipes";
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     CommonModule,
-    NgbModule,
+
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
     UsagerSharedModule,
     FullNamePipe,
+    DsfrModalComponent,
+    DsfrDropdownMenuComponent,
+    DsfrButtonComponent,
   ],
 })
 export class UsagerNotesModule {}

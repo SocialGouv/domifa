@@ -1,0 +1,82 @@
+.fr-phone-input-group {
+  position: relative;
+
+  input[type="tel"] {
+    padding-left: 7.5rem;
+  }
+}
+
+.phone-flag-indicator {
+  position: absolute;
+  top: 50%;
+  left: 0.5rem;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+:host ::ng-deep dsfrx-dropdownmenu {
+  .dsfrx-menu-dropdown__btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    z-index: 1;
+    padding: 0.25rem 0.75rem !important;
+    --icon-size: 1rem !important;
+    margin-left: 1rem !important;
+    font-size: 1rem;
+  }
+
+  .dsfrx-menu-dropdown__list {
+    width: 300px;
+    max-height: 320px;
+    overflow: auto;
+  }
+}
+
+.country-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.country-list__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.25rem 0.75rem;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background-color: var(--background-default-grey-hover);
+    outline: none;
+  }
+
+  &[aria-selected="true"] {
+    background-color: var(--background-active-blue-france);
+    color: var(--text-inverted-blue-france);
+  }
+}
+
+.country-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  span {
+    display: inline-block;
+    margin: 0;
+    padding: 0.1rem;
+  }
+}
+
+.iti__flag {
+  display: inline-block;
+  vertical-align: middle;
+}

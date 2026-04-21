@@ -1,12 +1,6 @@
-import { Component, OnDestroy, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 
 import { ActivatedRoute, Router } from "@angular/router";
-import {
-  NgbDateParserFormatter,
-  NgbDatepickerI18n,
-  NgbModal,
-  NgbModalRef,
-} from "@ng-bootstrap/ng-bootstrap";
 
 import { MatomoTracker } from "ngx-matomo-client";
 
@@ -16,23 +10,14 @@ import { UsagerDossierService } from "../../services/usager-dossier.service";
 import { BaseUsagerDossierPageComponent } from "../base-usager-dossier-page/base-usager-dossier-page.component";
 import { Title } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
-import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
-import {
-  NgbDateCustomParserFormatter,
-  CustomDatepickerI18n,
-  AuthService,
-  CustomToastService,
-} from "../../../shared/services";
+import { AuthService, CustomToastService } from "../../../shared/services";
 import { CerfaDocType } from "@domifa/common";
 import { UsagerState } from "../../../../shared";
 
 @Component({
-  providers: [
-    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
-  ],
   selector: "app-step-decision",
   templateUrl: "./step-decision.component.html",
+  standalone: false,
 })
 export class StepDecisionComponent
   extends BaseUsagerDossierPageComponent
@@ -53,7 +38,6 @@ export class StepDecisionComponent
     protected readonly router: Router,
     protected readonly store: Store<UsagerState>,
     private readonly usagerDecisionService: UsagerDecisionService,
-    private readonly modalService: NgbModal,
     private readonly matomo: MatomoTracker,
     private readonly documentService: DocumentService
   ) {
@@ -90,13 +74,7 @@ export class StepDecisionComponent
     );
   }
 
-  public open(content: TemplateRef<NgbModalRef>) {
-    this.modalService.open(content, DEFAULT_MODAL_OPTIONS);
-  }
-
-  public closeModals() {
-    this.modalService.dismissAll();
-  }
+  public closeModals() {}
 
   public getCerfa(typeCerfa: CerfaDocType) {
     return this.documentService.getCerfa(this.usager.ref, typeCerfa);

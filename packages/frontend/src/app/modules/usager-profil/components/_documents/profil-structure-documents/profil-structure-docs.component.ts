@@ -20,10 +20,11 @@ import {
 @Component({
   selector: "app-profil-structure-docs",
   templateUrl: "./profil-structure-docs.component.html",
+  standalone: false,
 })
 export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public me!: UserStructure;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure;
 
   private readonly subscription = new Subscription();
   public docs: WithLoading<StructureDoc>[] = [];

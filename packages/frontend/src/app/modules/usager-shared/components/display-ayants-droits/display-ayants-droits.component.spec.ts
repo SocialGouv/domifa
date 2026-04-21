@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { DisplayAyantsDroitsComponent } from "./display-ayants-droits.component";
 import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks";
 import { UsagerFormModel } from "../../interfaces";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 describe("DisplayAyantsDroitsComponent", () => {
   let component: DisplayAyantsDroitsComponent;
@@ -11,7 +10,6 @@ describe("DisplayAyantsDroitsComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgbModule],
       declarations: [DisplayAyantsDroitsComponent],
     }).compileComponents();
 

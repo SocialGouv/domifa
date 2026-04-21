@@ -21,6 +21,7 @@ import {
 @Component({
   selector: "app-structures-custom-docs-table",
   templateUrl: "./structures-custom-docs-table.component.html",
+  standalone: false,
 })
 export class StructuresCustomDocsTableComponent implements OnDestroy {
   @Input({ required: true }) public structureDocs!: WithLoading<StructureDoc>[];

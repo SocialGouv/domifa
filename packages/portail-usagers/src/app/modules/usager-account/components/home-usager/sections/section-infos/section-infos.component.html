@@ -51,10 +51,10 @@
       </ng-container>
     </div>
     <div
-      class="alert"
+      class="fr-alert"
       [ngClass]="{
-        'alert-danger': echeanceInfo.dayBeforeEnd <= 15,
-        'alert-warning': echeanceInfo.dayBeforeEnd > 15
+        'fr-alert--error': echeanceInfo.dayBeforeEnd <= 15,
+        'fr-alert--warning': echeanceInfo.dayBeforeEnd > 15
       }"
       *ngIf="
         usager.decision.statut !== 'ATTENTE_DECISION' &&
@@ -62,22 +62,20 @@
         echeanceInfo.dayBeforeEnd < 60
       "
     >
-      <div class="svg-icon icon-danger"></div>
-      <span>
+      <p>
         Attention, votre domiciliation expire le
         <strong>
           {{ echeanceInfo.dateToDisplay | date : "fullDate" }}
         </strong>
-      </span>
+      </p>
     </div>
     <div
-      class="alert alert-danger"
+      class="fr-alert fr-alert--error"
       *ngIf="
         usager.decision.statut !== 'ATTENTE_DECISION' &&
         echeanceInfo.dayBeforeEnd < 0
       "
     >
-      <div aria-hidden="true" class="svg-icon icon-danger"></div>
       <p>
         Domiciliation expirée depuis le
         {{ echeanceInfo.dateToDisplay | date : "fullDate" }}, il y a

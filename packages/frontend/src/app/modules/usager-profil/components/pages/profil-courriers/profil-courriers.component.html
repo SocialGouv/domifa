@@ -1,20 +1,22 @@
-<div *ngIf="usager && me">
-  <app-profil-head [usager]="usager" [section]="'courrier'" [me]="me">
-  </app-profil-head>
-</div>
-
-<div class="content" *ngIf="usager && me">
-  <div class="container p-0">
-    <div class="page-content p-3">
-      <div class="row">
-        <div class="col-md-12 my-4">
+<div class="fr-content-container-light">
+  @if (me) {
+  <app-profil-head
+    [usager]="usager"
+    [section]="section"
+    [me]="me"
+  ></app-profil-head>
+  } @if (usager) {
+  <div class="fr-container">
+    <div class="fr-content">
+      <div class="fr-grid-row">
+        <div class="fr-col-md-12 fr-my-4w">
           <app-profil-procuration-courrier
             [usager]="usager"
             [me]="me"
           ></app-profil-procuration-courrier>
         </div>
 
-        <div class="col-md-12 my-4">
+        <div class="fr-col-md-12 fr-my-4w">
           <app-profil-transfert-courrier
             [usager]="usager"
             [me]="me"
@@ -22,10 +24,13 @@
         </div>
       </div>
     </div>
+
+    @if (displayDeleteButton) {
     <app-delete-usager-menu
       [usager]="usager"
       context="PROFIL"
-      *ngIf="displayDeleteButton"
     ></app-delete-usager-menu>
+    }
   </div>
+  }
 </div>

@@ -16,10 +16,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { environment } from "src/environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -43,6 +39,8 @@ import { StoreModule } from "@ngrx/store";
 import { registerLocaleData } from "@angular/common";
 import localeFr from "@angular/common/locales/fr";
 import { provideUserIdleConfig } from "angular-user-idle";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { LoadingComponent } from "./modules/shared/components/loading/loading.component";
 
 const disableAnimations =
   !("animate" in document.documentElement) ||
@@ -69,12 +67,12 @@ registerLocaleData(localeFr, "fr");
     BrowserAnimationsModule.withConfig({ disableAnimations }),
     FormsModule,
     ReactiveFormsModule,
-    FontAwesomeModule,
     GeneralModule,
-    NgbModule,
+    LoadingComponent,
     StoreModule.forRoot({ app: _usagerReducer }),
     SharedModule,
     MATOMO_INJECTORS,
+    DsfrModalComponent,
   ],
   providers: [
     AuthService,

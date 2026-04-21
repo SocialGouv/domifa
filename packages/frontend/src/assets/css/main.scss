@@ -1,67 +1,3 @@
-html,
-body {
-  font-family: "Marianne", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
-
-html {
-  font-size: 90%;
-}
-
-ul {
-  margin-bottom: 0;
-}
-
-caption {
-  color: black !important;
-}
-
-.content {
-  background-color: #f2f2f2;
-  min-height: calc(90vh - 78px);
-  padding-bottom: 4rem;
-}
-
-.page-content {
-  background-color: white;
-  border-radius: 3px;
-}
-
-#page {
-  min-height: calc(90vh - 78px);
-}
-
-.container {
-  max-width: 1500px;
-}
-
-.modal-backdrop.show {
-  opacity: 0.75;
-}
-
-.modal-content {
-  animation-name: fadeIn;
-  animation-duration: 300ms;
-}
-
-.bg-primary-light {
-  background: #f6f7ff;
-}
-
-.active {
-  color: var(--bs-primary);
-}
-
-.step-form {
-  background-color: white;
-  padding: 1.4rem 1rem;
-  max-width: 1040px;
-  margin: 1rem auto;
-  border: 1px solid #d1d1d1;
-  border-radius: 4px;
-}
-
 .tooltip.show {
   opacity: 1 !important;
 }
@@ -69,7 +5,7 @@ caption {
 .tooltip-inner {
   background: #ffffff !important;
   border: 1px solid #e6e6e6;
-  color: black;
+  color: var(--text-default-grey);
   max-width: 310px;
   font-weight: 600;
   padding: 0.5rem 1rem;
@@ -90,57 +26,22 @@ caption {
   }
 }
 
-.title {
-  font-weight: 700;
-}
-
-.subtitle {
-  font-weight: 600;
-}
-
 .reponses {
   margin-bottom: 1.05rem;
   margin-top: 1.05rem;
   vertical-align: middle;
-}
 
-.reponses .question {
-  color: var(--bs-primary);
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.reponses .valeur {
-  display: block;
-  color: #4a4a4a;
-  font-weight: 400;
-  word-break: break-word;
-}
-
-.label,
-legend {
-  display: block;
-  font-style: normal;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  padding: 0;
-  font-size: 1rem;
-}
-
-.form-check label {
-  font-weight: 300;
-  margin-left: 0.25rem;
-}
-
-.questions {
-  margin: 1rem auto;
-}
-
-.questions .form-check {
-  display: inline-block;
-  margin-bottom: 0.8rem;
-  max-width: 350px;
-  width: 98%;
+  .question {
+    color: var(--text-active-blue-france);
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .valeur {
+    display: block;
+    color: var(--text-action-high-grey);
+    font-weight: 400;
+    word-break: break-word;
+  }
 }
 
 @keyframes fadeIn {
@@ -161,176 +62,13 @@ legend {
   }
 }
 
-.notification {
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
-  text-align: center;
-  width: 20px;
-  height: 20px;
-  background-color: var(--bs-danger);
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  font-size: 12px;
-  line-height: 18px;
-  color: #fff;
-  font-weight: 700;
-}
-
-.head-page {
-  background-color: var(--bs-primary);
-  width: 100%;
-
-  .title,
-  h1 {
-    font-style: normal;
-    font-weight: bold;
-    font-size: 1.7rem;
-    color: #ffffff;
-  }
-}
-
-.head-page .statut-label a,
-.statut-label {
-  font-style: normal;
-  font-weight: 600;
-  color: #282828;
-  letter-spacing: 0;
-}
-
-#statut-selector {
-  box-shadow: 0 1px 3px rgba(50, 66, 124, 0.1);
-
-  .col:first-child,
-  [class*="col-"]:first-child {
-    border-radius: 5px 0 0 0 !important;
-  }
-
-  .col:last-child,
-  [class*="col-"]:last-child {
-    border-radius: 0 5px 0 0 !important;
-  }
-
-  button,
-  a {
-    padding: 1rem 1.1rem;
-    margin: 0;
-    border: 1px solid transparent;
-    text-align: left;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.25s ease-in-out;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 -1px 2px 0 rgba(65, 100, 245, 0.2);
-  }
-
-  a:focus,
-  button:focus {
-    border-color: var(--bs-primary);
-  }
-
-  a:hover,
-  button:hover,
-  .selected-section {
-    background-color: white !important;
-    box-shadow: 0 0 5px rgba(50, 66, 124, 0.1);
-  }
-  .selected-section .statut-label {
-    color: var(--bs-primary);
-  }
-}
-
-.red-status {
-  background-color: #ffe5dd;
-  color: #b51515;
-}
-
-.green-status {
-  background-color: #ecf9a2;
-  color: black;
-}
-
-.orange-status {
-  background-color: #feedd1;
-  color: black;
-}
-
-.grey-status {
-  background-color: #efefef;
-  color: black;
-}
-
-.danger-status .statut-date,
-.warning-status .statut-date {
-  font-weight: bold;
-}
-
-.filter-part {
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 10px;
-  font-style: normal;
-  font-weight: 600;
-}
-
-.label-info {
-  border-radius: 50px;
-  padding: 3px 12px;
-  min-width: 60px;
-  margin-right: 3px;
-  margin-top: 2px;
-  margin-bottom: 2px;
-  text-align: center;
-  cursor: normal;
-  display: inline-block;
-  font-size: 0.875rem;
-  position: relative;
-  font-style: normal;
-  font-weight: normal;
-}
-
-.label-info span {
-  display: block;
-}
-
-.label-green {
-  background-color: #d4f4ed;
-  color: black;
-}
-
-.label-procuration {
-  background-color: #ffdaf7;
-  color: black;
-}
-
-.label-transfert {
-  background-color: #f5e3ff;
-  color: black;
-}
-
-.table-docs {
-  td:first-child {
-    width: 100px;
-  }
-
-  td:nth-child(2) {
-    min-width: 300px;
-  }
-  td {
-    vertical-align: middle;
-    border-bottom: 1px solid #eceffe;
-    min-width: 80px;
-  }
-}
-
 .spinner {
   font-size: 5rem;
-  color: var(--bs-primary);
+  color: var(--text-active-blue-france);
   -webkit-text-stroke-width: 25px;
   stroke-width: 25px;
-  -webkit-text-stroke-color: white;
-  stroke: white;
+  -webkit-text-stroke-color: var(--background-default-grey);
+  stroke: var(--background-default-grey);
   display: block;
   margin-bottom: 10px;
 }
@@ -341,41 +79,5 @@ legend {
   }
   100% {
     background-position: 500px;
-  }
-}
-
-.pulse-button {
-  width: 10px;
-  height: 10px;
-  margin-right: 10px;
-  border: none;
-  box-shadow: 0 0 0 0 rgba(35, 224, 161, 0.7);
-  border-radius: 50%;
-  background-color: var(--bs-secondary);
-  cursor: pointer;
-  -webkit-animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
-  -moz-animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
-  -ms-animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
-  animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
-}
-
-@-webkit-keyframes pulse {
-  to {
-    box-shadow: 0 0 0 8px rgba(232, 76, 61, 0);
-  }
-}
-@-moz-keyframes pulse {
-  to {
-    box-shadow: 0 0 0 8px rgba(232, 76, 61, 0);
-  }
-}
-@-ms-keyframes pulse {
-  to {
-    box-shadow: 0 0 0 8px rgba(232, 76, 61, 0);
-  }
-}
-@keyframes pulse {
-  to {
-    box-shadow: 0 0 0 8px rgba(232, 76, 61, 0);
   }
 }

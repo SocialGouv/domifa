@@ -1,24 +1,25 @@
-import { CustomToastService } from "./../../services/custom-toast.service";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 
 import { Subscription } from "rxjs";
 import { CustomToast } from "../../types/CustomToast.type";
 
 import { CustomToastClass } from "../../types";
-import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { fadeIn } from "../../../../shared";
+
+import { CustomToastService } from "../../services";
+import { fadeInOut } from "../../../../shared";
 
 @Component({
   selector: "app-custom-toastr",
   templateUrl: "./custom-toastr.component.html",
-  styleUrls: ["./custom-toastr.component.css"],
-  animations: [fadeIn],
+  styleUrls: ["./custom-toastr.component.scss"],
+  animations: [fadeInOut],
+  standalone: false,
 })
 export class CustomToastrComponent implements OnInit, OnDestroy {
   public toast: CustomToast;
   public customToastSubscription: Subscription = new Subscription();
 
-  public readonly toastIcons: { [key in CustomToastClass]: IconName } = {
+  public toastIcons: { [key in CustomToastClass]: string } = {
     success: "check-circle",
     warning: "exclamation-circle",
     error: "times-circle",
@@ -26,9 +27,9 @@ export class CustomToastrComponent implements OnInit, OnDestroy {
     "": "info-circle",
   };
 
-  public icon: IconName;
+  public icon: string;
 
-  constructor(public customToastService: CustomToastService) {
+  constructor(public readonly customToastService: CustomToastService) {
     this.toast = {
       display: false,
       message: "",
@@ -36,11 +37,6 @@ export class CustomToastrComponent implements OnInit, OnDestroy {
     };
     this.icon = "info-circle";
     this.customToastSubscription = new Subscription();
-  }
-
-  public closeToast(): void {
-    this.toast.display = false;
-    this.customToastService.toast$.next(this.toast);
   }
 
   public ngOnInit(): void {

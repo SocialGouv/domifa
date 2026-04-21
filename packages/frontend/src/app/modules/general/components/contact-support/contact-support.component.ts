@@ -9,7 +9,6 @@ import {
   Validators,
 } from "@angular/forms";
 
-import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { AuthService } from "../../../shared/services/auth.service";
 import { Title, Meta } from "@angular/platform-browser";
 import {
@@ -19,55 +18,40 @@ import {
 } from "../../../../shared";
 import { Subscription } from "rxjs";
 import { GeneralService } from "../../services/general.service";
-import {
-  CountryISO,
-  NgxIntlTelInputModule,
-  PhoneNumberFormat,
-  SearchCountryField,
-} from "@khazii/ngx-intl-tel-input";
+import { Iso2 } from "intl-tel-input/data";
 import { PREFERRED_COUNTRIES } from "../../../../../_common/model";
 import { anyPhoneValidator, getFormPhone } from "../../../../shared/phone";
-import { NgClass, NgIf } from "@angular/common";
 import { RouterModule } from "@angular/router";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { SharedModule } from "../../../shared/shared.module";
+import { PhoneInputComponent } from "../../../usager-shared/components/input-phone-international/input-phone-international.component";
 
 @Component({
   selector: "app-contact-support",
-  standalone: true,
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
-    NgClass,
-    NgbModule,
-    FontAwesomeModule,
     SharedModule,
     RouterModule,
-    NgxIntlTelInputModule,
+    PhoneInputComponent,
   ],
   templateUrl: "./contact-support.component.html",
 })
 export class ContactSupportComponent implements OnInit, OnDestroy {
   public submitted: boolean;
   public success: boolean;
+  public error: boolean;
   public loading: boolean;
 
   private readonly subscription = new Subscription();
   public contactForm!: UntypedFormGroup;
 
   public me!: UserStructure | null;
-  public readonly PREFERRED_COUNTRIES: CountryISO[] = PREFERRED_COUNTRIES;
-  public selectedCountryISO: CountryISO = CountryISO.France;
-  public readonly PhoneNumberFormat = PhoneNumberFormat;
-  public readonly SearchCountryField = SearchCountryField;
-  public readonly CountryISO = CountryISO;
+  public readonly PREFERRED_COUNTRIES: Iso2[] = PREFERRED_COUNTRIES;
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly generalService: GeneralService,
-    private readonly toastService: CustomToastService,
     private readonly authService: AuthService,
     private readonly titleService: Title,
     private readonly meta: Meta
@@ -75,6 +59,7 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
     this.me = null;
     this.submitted = false;
     this.success = false;
+    this.error = false;
     this.loading = false;
   }
 
@@ -150,7 +135,6 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
     this.submitted = true;
 
     if (this.contactForm.invalid) {
-      this.toastService.error("Le formulaire d'upload comporte des erreurs");
       return;
     }
 
@@ -185,13 +169,10 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
           this.success = true;
           this.submitted = false;
           this.contactForm.reset();
-          this.toastService.success(
-            "Message envoyé avec succès, l'équipe vous recontactera très prochainement"
-          );
         },
         error: () => {
+          this.error = true;
           this.loading = false;
-          this.toastService.error("Impossible d'envoyer le message");
         },
       })
     );

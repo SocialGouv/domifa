@@ -2,7 +2,6 @@ import { CommonModule, APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { SharedModule } from "../../../shared/shared.module";
 
@@ -20,7 +19,6 @@ describe("StepFooterComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [StepFooterComponent],
       imports: [
-        NgbModule,
         CommonModule,
         ReactiveFormsModule,
         FormsModule,

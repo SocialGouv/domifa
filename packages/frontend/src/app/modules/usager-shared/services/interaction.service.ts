@@ -3,11 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map, tap } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
-import {
-  InteractionInForApi,
-  InteractionOutForApi,
-  UsagerLight,
-} from "../../../../_common/model";
+import { UsagerLight } from "../../../../_common/model";
 
 import { Store } from "@ngrx/store";
 import { usagerActions, UsagerState } from "../../../shared";
@@ -17,6 +13,10 @@ import {
   PageResults,
   UserUsagerLogin,
 } from "@domifa/common";
+import {
+  InteractionInForApi,
+  InteractionOutForApi,
+} from "../interfaces/interaction";
 
 @Injectable({
   providedIn: "root",

@@ -1,0 +1,109 @@
+.interaction-zone {
+  width: 130px;
+  position: relative;
+}
+
+.interaction-icon-box {
+  background: #e3e6fd;
+  padding: 0.75rem 0.35rem;
+  text-align: center;
+}
+
+.interaction-icon {
+  text-align: center;
+  margin: 0 auto;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0.75rem 0.35rem;
+}
+
+.interaction-icon::before {
+  --icon-size: 3rem;
+}
+
+.interaction-actions {
+  text-align: center;
+  width: 100%;
+  margin-top: -12px;
+  margin-bottom: 10px;
+
+  button {
+    width: 40px;
+    display: inline-block;
+    max-width: 60px;
+    padding: 0.3rem;
+    margin: 0 auto;
+    text-align: center;
+    cursor: pointer;
+  }
+}
+
+.interaction-notification {
+  display: inline-block;
+  position: absolute;
+  top: -20px;
+  right: -6px;
+  background-color: var(--background-action-low-blue-france);
+  border-radius: 100%;
+  color: var(--text-default-grey);
+  font-weight: 600;
+  width: 38px;
+  padding: 4px 2px;
+  font-size: 1.35rem;
+  z-index: 1000;
+}
+
+.interaction-actions .interaction-actions button:hover {
+  box-shadow: 2px 1px 4px rgb(179 179 179 / 50%);
+}
+
+.interaction-label {
+  word-break: break-word;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.disabled .action,
+.disabled .interaction-notification {
+  display: none;
+}
+
+.checkbox {
+  position: relative;
+}
+
+.checkbox input {
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  display: block;
+  margin: 2px auto;
+  background-color: var(--background-action-low-blue-france);
+  border: 1px solid var(--border-action-high-blue-france);
+  border-radius: 50%;
+  transition: background-color 300ms ease, color 300ms ease,
+    box-shadow 300ms ease;
+}
+
+.checkbox input:checked {
+  box-shadow: 2px 1px 4px rgb(179 179 179 / 50%);
+  border: 2px solid var(--text-default-grey);
+}
+
+.checkbox input:focus {
+  box-shadow: 0 0 0 0.2rem var(--background-action-low-blue-france);
+  background-color: var(--background-action-high-blue-france);
+  border-color: var(--border-action-high-blue-france);
+}
+
+.interaction-choices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .interaction-choices {
+    justify-content: flex-start;
+  }
+}

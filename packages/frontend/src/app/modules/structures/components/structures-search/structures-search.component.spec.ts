@@ -2,7 +2,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { StructuresSearchComponent } from "./structures-search.component";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
@@ -16,7 +16,6 @@ describe("StructuresSearchComponent", () => {
     TestBed.configureTestingModule({
       declarations: [StructuresSearchComponent],
       imports: [
-        NgbModule,
         ReactiveFormsModule,
         FormsModule,
         ...MATOMO_INJECTORS,

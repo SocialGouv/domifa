@@ -1,17 +1,10 @@
 import { concatMap, Subscription } from "rxjs";
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
-import { DEFAULT_MODAL_OPTIONS } from "../../../../../_common/model";
 import { AuthService } from "../../../shared/services/auth.service";
 
 import {
@@ -27,13 +20,14 @@ import { ManageUsersService } from "../../services/manage-users.service";
 @Component({
   selector: "app-user-profil",
   templateUrl: "./user-profil.component.html",
+  styleUrls: ["./user-profil.component.css"],
+  standalone: false,
 })
 export class UserProfilComponent implements OnInit, OnDestroy {
   public users: UserStructureProfile[];
   public me!: UserStructure | null;
 
   public loading: boolean;
-  public displayUserRightsHelper: boolean;
   public sortValue: SortValues;
   public currentKey: keyof UserStructureProfile;
   private readonly subscription = new Subscription();
@@ -41,20 +35,26 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   public selectedUser: UserStructureProfile | null;
   public newReferrerId: number | null = null;
   public expectedRole: UserStructureRole | null = null;
+  public selectedRole: UserStructureRole | null = null;
 
   public readonly USER_STRUCTURE_ROLES_LABELS = USER_STRUCTURE_ROLES_LABELS;
   public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
 
-  @ViewChild("deleteUserConfirmation", { static: true })
-  public deleteUserConfirmation!: TemplateRef<NgbModalRef>;
-
   @ViewChild("assignReferrersModal")
-  public assignReferrersModal!: TemplateRef<NgbModalRef>;
+  public assignReferrersModal!: DsfrModalComponent;
+
+  @ViewChild("deleteUserConfirmationModal")
+  public deleteUserConfirmationModal!: DsfrModalComponent;
+
+  @ViewChild("addUserModal")
+  public addUserModal!: DsfrModalComponent;
+
+  @ViewChild("updateUserModal")
+  public updateUserModal!: DsfrModalComponent;
 
   constructor(
     private readonly authService: AuthService,
     private readonly manageUsersService: ManageUsersService,
-    private readonly modalService: NgbModal,
     private readonly toastService: CustomToastService,
     private readonly titleService: Title
   ) {
@@ -63,7 +63,6 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     this.currentKey = "nom";
     this.loading = false;
     this.selectedUser = null;
-    this.displayUserRightsHelper = false;
   }
 
   public ngOnInit(): void {
@@ -79,10 +78,13 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   }
 
   public openAssignReferrerModal(): void {
-    this.modalService.open(this.assignReferrersModal, DEFAULT_MODAL_OPTIONS);
+    this.assignReferrersModal.open();
   }
 
-  public onRoleChange(user: UserStructure, newRole: UserStructureRole): void {
+  public onRoleChange(
+    user: UserStructureProfile,
+    newRole: UserStructureRole
+  ): void {
     if (newRole === "facteur" || newRole === "agent") {
       this.selectedUser = user;
       this.expectedRole = newRole;
@@ -92,11 +94,11 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     }
   }
 
-  public resetRoles() {
+  public resetRoles(): void {
     this.selectedUser = null;
     this.expectedRole = null;
     this.newReferrerId = null;
-    this.modalService.dismissAll();
+    this.assignReferrersModal.close();
   }
 
   public updateRole(uuid: string, role: UserStructureRole): void {
@@ -124,8 +126,77 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     );
   }
 
+  public openDeleteConfirmation(user: UserStructure): void {
+    this.selectedUser = user;
+    this.deleteUserConfirmationModal.open();
+  }
+
+  public deleteUser(): void {
+    if (this.selectedUser?.uuid) {
+      this.loading = true;
+      this.subscription.add(
+        this.manageUsersService
+          .reassignReferrers(this.selectedUser, this.newReferrerId)
+          .pipe(
+            concatMap(() =>
+              this.manageUsersService.deleteUser(this.selectedUser!.uuid)
+            )
+          )
+          .subscribe({
+            next: () => {
+              this.toastService.success("Utilisateur supprimé avec succès");
+              this.getUsers();
+            },
+            error: () => {
+              this.loading = false;
+              this.toastService.error("Impossible de supprimer l'utilisateur");
+            },
+            complete: () => {
+              this.loading = false;
+            },
+          })
+      );
+    }
+  }
+
+  public openUpdateUserModal(user: UserStructureProfile): void {
+    this.selectedUser = user;
+    this.selectedRole = user.role;
+    this.updateUserModal.open();
+  }
+
+  public submitRoleChange(): void {
+    if (
+      this.selectedUser &&
+      this.selectedRole &&
+      this.selectedRole !== this.selectedUser.role
+    ) {
+      this.updateUserModal.close();
+      this.onRoleChange(this.selectedUser, this.selectedRole);
+    }
+  }
+
+  public openAddUserModal(): void {
+    this.selectedUser = null;
+    this.addUserModal.open();
+  }
+
+  public closeModal(modal: "add" | "update" | "delete"): void {
+    this.selectedUser = null;
+    if (modal === "add") {
+      this.addUserModal?.close();
+    }
+
+    if (modal === "update") {
+      this.updateUserModal?.close();
+    }
+
+    if (modal === "delete") {
+      this.deleteUserConfirmationModal?.close();
+    }
+  }
+
   public updateRoleAndReassign(): void {
-    this.loading = true;
     if (this.selectedUser?.uuid) {
       this.loading = true;
       this.subscription.add(
@@ -134,8 +205,8 @@ export class UserProfilComponent implements OnInit, OnDestroy {
           .pipe(
             concatMap(() =>
               this.manageUsersService.updateRole(
-                this.selectedUser.uuid,
-                this.expectedRole
+                this.selectedUser!.uuid,
+                this.expectedRole!
               )
             )
           )
@@ -144,9 +215,9 @@ export class UserProfilComponent implements OnInit, OnDestroy {
               this.getUsers();
               this.toastService.success(
                 "Les droits de " +
-                  this.selectedUser.nom +
+                  this.selectedUser!.nom +
                   " " +
-                  this.selectedUser.prenom +
+                  this.selectedUser!.prenom +
                   " ont été mis à jour avec succès"
               );
             },
@@ -164,17 +235,14 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     }
   }
 
-  public openDeleteConfirmation(user: UserStructure): void {
-    this.selectedUser = user;
-    this.modalService.open(this.deleteUserConfirmation, DEFAULT_MODAL_OPTIONS);
-  }
-
-  public closeModal(): void {
-    this.modalService.dismissAll();
+  public closeModals(): void {
+    this.deleteUserConfirmationModal?.close();
+    this.assignReferrersModal?.close();
+    this.updateUserModal?.close();
   }
 
   public getUsers(): void {
-    this.modalService.dismissAll();
+    this.closeModals();
     this.manageUsersService.loadUsers();
   }
 

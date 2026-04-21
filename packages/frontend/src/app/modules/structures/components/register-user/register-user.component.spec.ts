@@ -5,8 +5,6 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { RegisterUserComponent } from "./register-user.component";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
@@ -20,7 +18,6 @@ describe("RegisterUserComponent", () => {
     TestBed.configureTestingModule({
       declarations: [RegisterUserComponent],
       imports: [
-        NgbModule,
         ReactiveFormsModule,
         FormsModule,
         ...MATOMO_INJECTORS,

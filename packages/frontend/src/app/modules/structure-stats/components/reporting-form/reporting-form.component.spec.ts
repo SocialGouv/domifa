@@ -4,7 +4,7 @@ import { ReportingFormComponent } from "./reporting-form.component";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { _usagerReducer, MATOMO_INJECTORS } from "../../../../shared";
 import { StoreModule } from "@ngrx/store";
 import { RouterModule } from "@angular/router";
@@ -19,7 +19,7 @@ describe("ReportingFormComponent", () => {
       declarations: [ReportingFormComponent],
       imports: [
         RouterModule.forRoot([]),
-        NgbModule,
+
         FormsModule,
         ...MATOMO_INJECTORS,
         StoreModule.forRoot({ app: _usagerReducer }),

@@ -1,3 +1,20 @@
+.notification {
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  background-color: var(--background-action-high-error);
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: 12px;
+  line-height: 18px;
+  color: #fff;
+  font-weight: 700;
+}
+
 .interaction-buttons {
   display: flex;
   align-items: center;
@@ -9,30 +26,33 @@
   justify-content: center;
   border: 1px solid rgba(65, 100, 245, 0.4);
   box-sizing: border-box;
-  border-radius: 4px;
-  margin: 3px;
-  padding: 0.1rem 0.2rem;
+  margin: 0 0.2rem;
+  padding: 0rem 0.35rem;
   position: relative;
-  background-color: white;
-  transition: all 0.2s;
+  background-color: var(--background-default-grey);
+
+  span {
+    font-size: 1.65rem;
+  }
+
+  [class^="fr-icon-"]::before,
+  [class^="fr-icon-"]::after,
+  [class*="fr-icon-"]::before,
+  [class*="fr-icon-"]::after,
+  [class^="fr-fi-"]::before,
+  [class^="fr-fi-"]::after,
+  [class*="fr-fi-"]::before,
+  [class*="ri-"]::before,
+  [class*="fr-fi-"]::after {
+    --icon-size: 1.65rem;
+    height: 1.65rem;
+  }
 }
 
 .interaction-btn:hover {
-  color: white;
-  background-color: var(--bs-primary);
+  color: var(--text-inverted-grey);
+  background-color: var(--text-active-blue-france);
   box-shadow: 0 0 0 0.25rem rgba(179, 179, 179, 0.5);
-}
-
-.interaction-btn:hover .list-icon {
-  background-color: white;
-}
-
-.interaction-btn:not(:disabled) .list-icon-disabled {
-  display: none;
-}
-
-.interaction-btn:disabled .list-icon {
-  display: none;
 }
 
 .interaction-btn:disabled {
@@ -42,35 +62,9 @@
   cursor: progress;
 }
 
-.list-icon {
-  padding: 15px;
-  box-sizing: border-box;
-  background-color: #4164f5;
-  -webkit-mask-size: 78%;
-  mask-size: 78%;
-}
-
-.list-icon-label {
-  font-size: 0.85rem;
-  padding: 0 4px;
-}
-
 .distribution-tooltip {
-  .list-icon {
-    box-sizing: border-box;
-    background-color: black;
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-    background-size: 90%;
-  }
-
   span {
     vertical-align: middle;
     display: inline-block;
   }
-}
-
-.list-icon-disabled {
-  padding: 0.25rem 0.5rem;
 }

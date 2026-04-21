@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { ManageUsagersTableComponent } from "./manage-usagers-table.component";
 import { MATOMO_INJECTORS, _usagerReducer } from "../../../../shared";
@@ -19,7 +18,7 @@ describe("ManageUsagersTableComponent", () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
-        NgbModule,
+
         ...MATOMO_INJECTORS,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],

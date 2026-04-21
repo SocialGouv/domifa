@@ -1,0 +1,21 @@
+@if (me) {
+<dsfr-usermenu
+  labelMenu="Mon espace"
+  iconMenu="fr-icon-account-circle-fill"
+  [links]="dsfrLinks"
+  (linkSelect)="onLinkSelect($event)"
+  [userName]="userName"
+  [userDetails]="userEmail"
+  [showLogout]="true"
+  (logoutSelect)="logoutSelect()"
+>
+</dsfr-usermenu>
+} @else {
+<dsfr-usermenu
+  labelMenu="Se connecter"
+  iconMenu="fr-icon-account-circle-line"
+  [links]="loginLinks"
+  [showLogout]="false"
+>
+</dsfr-usermenu>
+}

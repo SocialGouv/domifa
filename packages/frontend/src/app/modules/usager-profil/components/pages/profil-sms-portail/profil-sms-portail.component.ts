@@ -11,9 +11,11 @@ import { UsagerState } from "../../../../../shared";
   selector: "app-profil-sms-portail",
   templateUrl: "./profil-sms-portail.component.html",
   styleUrls: ["./profil-sms-portail.component.css"],
+  standalone: false,
 })
 export class ProfilSmsPortailComponent extends BaseUsagerProfilPageComponent {
   public editContactDetails = false;
+
   constructor(
     protected readonly authService: AuthService,
     protected readonly usagerProfilService: UsagerProfilService,
@@ -33,6 +35,7 @@ export class ProfilSmsPortailComponent extends BaseUsagerProfilPageComponent {
       store
     );
     this.titlePrefix = "Courriers";
+    this.section = "sms";
   }
 
   public openContactForm(): void {

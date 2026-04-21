@@ -4,18 +4,11 @@ import {
   HostListener,
   Input,
   OnDestroy,
-  OnInit,
   Output,
+  ViewChild,
 } from "@angular/core";
 
 import { BehaviorSubject, Subscription, combineLatest } from "rxjs";
-import {
-  InteractionOutForm,
-  InteractionOutForApi,
-} from "../../../../../../_common/model";
-import { bounce } from "../../../../../shared";
-import { CustomToastService } from "../../../../shared/services";
-import { UsagerFormModel } from "../../../interfaces";
 
 import { InteractionService } from "../../../services/interaction.service";
 import {
@@ -24,15 +17,26 @@ import {
   Order,
   PageResults,
 } from "@domifa/common";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { CustomToastService } from "../../../../shared/services";
+import { bounce, selectUsagerById, UsagerState } from "../../../../../shared";
+import { UsagerFormModel } from "../../../interfaces";
+import {
+  InteractionOutForm,
+  InteractionOutForApi,
+} from "../../../interfaces/interaction";
+import { Store } from "@ngrx/store";
+import { UsagerLight } from "../../../../../../_common/model";
 
 @Component({
   animations: [bounce],
   selector: "app-set-interaction-out-form",
   templateUrl: "./set-interaction-out-form.component.html",
-  styleUrls: ["../interactions.css"],
+  styleUrls: ["../interactions.scss"],
+  standalone: false,
 })
-export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
-  @Input() public usager!: UsagerFormModel;
+export class SetInteractionOutFormComponent implements OnDestroy {
+  @Input({ required: true }) public usager!: UsagerFormModel;
 
   @Output()
   public cancelReception = new EventEmitter<void>();
@@ -40,21 +44,25 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
   @Output()
   public updateInteractions = new EventEmitter<void>();
 
+  @ViewChild("distributionModal")
+  public distributionModal!: DsfrModalComponent;
+
   public interactions$: BehaviorSubject<Interaction[]>;
   public selectedInteractionsWithContent: Interaction[] = [];
 
   public interactionFormData: InteractionOutForm;
   public interactionFormData$: BehaviorSubject<InteractionOutForm>;
 
-  public procurationIndex: number | null; // Mandataire = true / domicilié = false
+  public procurationIndex: number | null;
   public returnToSender: boolean = false;
   public loading = false;
 
-  private readonly subscription = new Subscription();
+  private modalSubscription = new Subscription();
 
   constructor(
     private readonly interactionService: InteractionService,
-    private readonly toastService: CustomToastService
+    private readonly toastService: CustomToastService,
+    private readonly store: Store<UsagerState>
   ) {
     this.procurationIndex = null;
     this.interactionFormData = {
@@ -75,40 +83,32 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
       },
     };
 
-    this.subscription = new Subscription();
     this.interactions$ = new BehaviorSubject<Interaction[]>([]);
     this.interactionFormData$ = new BehaviorSubject<InteractionOutForm>(
       this.interactionFormData
     );
   }
 
-  public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+  public open(): void {
+    this.modalSubscription = new Subscription();
 
-  public ngOnInit(): void {
-    this.toggleProcurationIndex(null);
-    this.interactionFormData.courrierOut.nbCourrier =
-      this.usager.lastInteraction.courrierIn;
-    this.interactionFormData.recommandeOut.nbCourrier =
-      this.usager.lastInteraction.recommandeIn;
-    this.interactionFormData.colisOut.nbCourrier =
-      this.usager.lastInteraction.colisIn;
+    this.modalSubscription.add(
+      this.store.select(selectUsagerById(this.usager.ref)).subscribe({
+        next: (usager: UsagerLight) => {
+          if (usager) {
+            this.usager = new UsagerFormModel(usager);
+            this.initFormData();
+          }
+        },
+      })
+    );
 
-    this.interactionFormData.courrierOut.selected =
-      this.usager.lastInteraction.courrierIn > 0;
-    this.interactionFormData.recommandeOut.selected =
-      this.usager.lastInteraction.recommandeIn > 0;
-    this.interactionFormData.colisOut.selected =
-      this.usager.lastInteraction.colisIn > 0;
-
-    this.subscription.add(
+    this.modalSubscription.add(
       combineLatest([this.interactions$, this.interactionFormData$]).subscribe(
         ([interactions, interactionFormData]: [
           Interaction[],
           InteractionOutForm
         ]) => {
-          // update interactions with content when form or fetched data changes
           if (interactions && interactionFormData) {
             const selectedInteractionsWithContent: Interaction[] = [];
             for (const interaction of interactions) {
@@ -133,6 +133,17 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     );
 
     this.getInteractions();
+    this.distributionModal.open();
+  }
+
+  public close(): void {
+    this.modalSubscription.unsubscribe();
+    this.distributionModal.close();
+    this.cancelReception.emit();
+  }
+
+  public ngOnDestroy(): void {
+    this.modalSubscription.unsubscribe();
   }
 
   public toggleSelect(
@@ -174,14 +185,14 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     }
 
     this.loading = true;
-    this.subscription.add(
+    this.modalSubscription.add(
       this.interactionService
         .setInteraction(this.usager.ref, interactionsToSave)
         .subscribe({
           next: () => {
             this.loading = false;
             this.updateInteractions.emit();
-            this.cancelReception.emit();
+            this.close();
             this.toastService.success("Distribution effectuée avec succès");
           },
           error: () => {
@@ -202,8 +213,28 @@ export class SetInteractionOutFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  private initFormData(): void {
+    this.loading = false;
+    this.toggleProcurationIndex(null);
+    this.interactionFormData.courrierOut.nbCourrier =
+      this.usager.lastInteraction.courrierIn;
+    this.interactionFormData.recommandeOut.nbCourrier =
+      this.usager.lastInteraction.recommandeIn;
+    this.interactionFormData.colisOut.nbCourrier =
+      this.usager.lastInteraction.colisIn;
+
+    this.interactionFormData.courrierOut.selected =
+      this.usager.lastInteraction.courrierIn > 0;
+    this.interactionFormData.recommandeOut.selected =
+      this.usager.lastInteraction.recommandeIn > 0;
+    this.interactionFormData.colisOut.selected =
+      this.usager.lastInteraction.colisIn > 0;
+
+    this.interactionFormData$.next(this.interactionFormData);
+  }
+
   private getInteractions(): void {
-    this.subscription.add(
+    this.modalSubscription.add(
       this.interactionService
         .getInteractions(this.usager.ref, {
           order: Order.DESC,

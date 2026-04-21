@@ -13,3 +13,11 @@ export const ETAPES_FORM_DOM_TITRES = [
   "pièces justificatives",
   "récapitulatif et prise de décision",
 ];
+
+export const ETAPES_FORM_DOM_ICONES = [
+  "digital/avatar",
+  "digital/calendar",
+  "leisure/community",
+  "document/document-signature",
+  "system/success",
+];

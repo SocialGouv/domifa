@@ -4,7 +4,7 @@ import { ProfilSmsPortailComponent } from "./profil-sms-portail.component";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../../shared";
 import { RouterModule } from "@angular/router";
@@ -20,7 +20,7 @@ describe("ProfilSmsPortailComponent", () => {
       imports: [
         FormsModule,
         RouterModule.forRoot([]),
-        NgbModule,
+
         ReactiveFormsModule,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],

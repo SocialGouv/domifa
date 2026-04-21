@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { RegisterUserAdminComponent } from "./register-user-admin.component";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
 import { APP_BASE_HREF } from "@angular/common";
@@ -20,7 +20,6 @@ describe("RegisterUserAdminComponent", () => {
     TestBed.configureTestingModule({
       declarations: [RegisterUserAdminComponent],
       imports: [
-        NgbModule,
         ReactiveFormsModule,
         FormsModule,
         RouterModule.forRoot([]),

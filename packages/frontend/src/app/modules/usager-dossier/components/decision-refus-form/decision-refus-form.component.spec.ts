@@ -2,7 +2,6 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks/USAGER_VALIDE.mock";
 import { SharedModule } from "../../../shared/shared.module";
@@ -14,6 +13,7 @@ import { _usagerReducer } from "../../../../shared";
 import { UsagerDossierModule } from "../../usager-dossier.module";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 describe("DecisionRefusFormComponent", () => {
   let component: DecisionRefusFormComponent;
@@ -23,12 +23,12 @@ describe("DecisionRefusFormComponent", () => {
     TestBed.configureTestingModule({
       declarations: [DecisionRefusFormComponent],
       imports: [
-        NgbModule,
         RouterModule.forRoot([]),
         SharedModule,
         FormsModule,
         ReactiveFormsModule,
         UsagerDossierModule,
+        DsfrModalComponent,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [

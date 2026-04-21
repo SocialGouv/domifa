@@ -1,5 +1,5 @@
 import { StructureCommon } from "@domifa/common";
-import { CountryISO } from "@khazii/ngx-intl-tel-input";
+import { Iso2 } from "intl-tel-input/data";
 
 export const STRUCTURE_MOCK: StructureCommon = {
   id: 1,
@@ -22,7 +22,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
   options: { numeroBoite: false, nomStructure: false, surnom: false },
   telephone: {
     numero: "0602030405",
-    countryCode: CountryISO.France,
+    countryCode: "fr" as Iso2,
   },
   organismeType: null,
   acceptTerms: new Date(),

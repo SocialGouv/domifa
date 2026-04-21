@@ -12,6 +12,7 @@ import { UserStructure } from "@domifa/common";
   templateUrl: "./admin-portail-usagers-menu.component.html",
   styleUrls: ["./admin-portail-usagers-menu.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AdminPortailUsagersMenuComponent implements OnInit {
   @Input({ required: true }) public section:

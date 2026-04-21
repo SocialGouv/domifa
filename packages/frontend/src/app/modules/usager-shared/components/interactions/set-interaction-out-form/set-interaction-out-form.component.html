@@ -1,27 +1,24 @@
-<div class="modal-header">
-  <span id="modal-title">
-    Distribuer les courriers de
-    <span class="text-primary">
-      {{ usager | fullName }} -
-      {{ usager.customRef ? usager.customRef : usager.ref }}
-    </span>
-  </span>
-</div>
-<div class="modal-body" *ngIf="usager">
-  <fieldset>
-    <legend>Que souhaitez-vous distribuer ?</legend>
-    <div
-      class="d-flex flex-wrap justify-content-center justify-content-md-start"
-    >
-      <div
-        class="interaction-zone p-1 my-3 mx-md-3"
-        *ngIf="interactionFormData.courrierOut.nbCourrier > 0"
-      >
+@if (usager) {
+<dsfr-modal
+  class="fr-text--left"
+  #distributionModal
+  titleModal="Distribuer les courriers"
+  modalSize="LG"
+  (conceal)="cancelReception.emit()"
+>
+  <fieldset class="fr-fieldset fr-my-0">
+    <legend class="fr-fieldset__legend">Que souhaitez-vous distribuer ?</legend>
+    <div class="interaction-choices">
+      @if (interactionFormData.courrierOut?.nbCourrier > 0) {
+      <div class="interaction-zone fr-p-1w fr-my-3w fr-mx-md-3w">
         <div class="interaction-icon-box">
           <div class="interaction-notification">
             {{ interactionFormData.courrierOut.nbCourrier }}
           </div>
-          <div class="interaction-icon icon-courrier"></div>
+          <span
+            class="fr-icon-mail-line interaction-icon"
+            aria-hidden="true"
+          ></span>
         </div>
         <div class="interaction-actions checkbox">
           <input
@@ -30,21 +27,21 @@
             (click)="toggleSelect('courrierOut')"
             [ngModel]="interactionFormData.courrierOut.selected"
           />
-          <label for="courrier-distribution" class="interaction-label"
-            >{{ interactionFormData.courrierOut.nbCourrier }} courriers
+          <label for="courrier-distribution" class="interaction-label">
+            {{ interactionFormData.courrierOut.nbCourrier }} courriers
           </label>
         </div>
       </div>
-
-      <div
-        class="interaction-zone p-1 my-3 mx-md-3"
-        *ngIf="interactionFormData.colisOut.nbCourrier > 0"
-      >
+      } @if (interactionFormData.colisOut?.nbCourrier > 0) {
+      <div class="interaction-zone fr-p-1w fr-my-3w fr-mx-md-3w">
         <div class="interaction-icon-box">
           <div class="interaction-notification">
             {{ interactionFormData.colisOut.nbCourrier }}
           </div>
-          <div class="interaction-icon icon-colis"></div>
+          <span
+            class="fr-icon-briefcase-line interaction-icon"
+            aria-hidden="true"
+          ></span>
         </div>
         <div class="interaction-actions checkbox">
           <input
@@ -53,23 +50,22 @@
             (click)="toggleSelect('colisOut')"
             [ngModel]="interactionFormData.colisOut.selected"
           />
-          <label for="colis-distribution" class="interaction-label"
-            >Colis
+          <label for="colis-distribution" class="interaction-label">
+            Colis
           </label>
         </div>
       </div>
-
-      <div
-        class="interaction-zone p-1 my-3 mx-md-3"
-        *ngIf="interactionFormData.recommandeOut.nbCourrier > 0"
-      >
+      } @if (interactionFormData.recommandeOut?.nbCourrier > 0) {
+      <div class="interaction-zone fr-p-1w fr-my-3w fr-mx-md-3w">
         <div class="interaction-icon-box">
           <div class="interaction-notification">
             {{ interactionFormData.recommandeOut.nbCourrier }}
           </div>
-          <div class="interaction-icon icon-recommande"></div>
+          <span
+            class="fr-icon-newspaper-line interaction-icon"
+            aria-hidden="true"
+          ></span>
         </div>
-
         <div class="interaction-actions checkbox">
           <input
             id="recommande-distribution"
@@ -77,169 +73,155 @@
             (click)="toggleSelect('recommandeOut')"
             [ngModel]="interactionFormData.recommandeOut.selected"
           />
-          <label for="recommande-distribution" class="interaction-label"
-            >Avis de passage
+          <label for="recommande-distribution" class="interaction-label">
+            Avis de passage
           </label>
         </div>
       </div>
+      }
     </div>
   </fieldset>
 
-  <fieldset
-    class="text-start my-3"
-    *ngIf="
-      usager.options.procurations.length > 0 ||
-      usager.decision.statut === 'RADIE'
-    "
-  >
-    <legend>A qui est distribué le courrier ?</legend>
+  @if (usager.options.procurations.length > 0 || usager.decision.statut ===
+  'RADIE') {
+  <fieldset class="fr-fieldset fr-my-0">
+    <legend class="fr-fieldset__legend">
+      A qui est distribué le courrier ?
+    </legend>
 
-    <div class="alert alert-danger" *ngIf="usager.decision.statut === 'RADIE'">
-      <div aria-hidden="true" class="svg-icon icon-danger"></div>
-      <p class="text-danger">
-        Le dossier est est indiqué comme radié. Si le courrier est renvoyé à
+    @if (usager.decision.statut === 'RADIE') {
+    <div class="fr-alert fr-alert--error fr-mb-2w">
+      <p>
+        Le dossier est indiqué comme radié. Si le courrier est renvoyé à
         l'expéditeur, vous pouvez cocher la case correspondante
       </p>
     </div>
-    <div class="row align-items-top">
-      <div class="col-md-6 my-2" *ngIf="usager.decision.statut === 'RADIE'">
-        <div class="interaction-icon-box">
-          <label for="return-to-sender"
-            ><span class="d-block fw-bold">Retour à l'expéditeur</span><br
-          /></label>
-        </div>
+    }
 
-        <div class="interaction-actions checkbox">
+    <div class="fr-grid-row w-100 fr-grid-row--gutters">
+      @if (usager.decision.statut === 'RADIE') {
+      <div
+        class="fr-fieldset__element fr-fieldset__element--inline fr-col-12 fr-col-md-6"
+      >
+        <div class="fr-radio-group fr-radio-rich">
           <input
             name="procuration"
             id="return-to-sender"
             type="radio"
-            [attr.aria-checked]="procurationIndex === null && returnToSender"
+            [checked]="procurationIndex === null && returnToSender"
             (click)="toggleReturnToSender()"
           />
-        </div>
-      </div>
-
-      <div class="col-md-6 my-2">
-        <div class="interaction-icon-box">
-          <label for="distribution-domicilie">
-            <span class="d-block fw-bold">Domicilié</span>
-            {{ usager | fullName }}
+          <label class="fr-label" for="return-to-sender">
+            Retour à l'expéditeur
           </label>
         </div>
-        <div class="interaction-actions checkbox">
+      </div>
+      }
+
+      <div
+        class="fr-fieldset__element fr-fieldset__element--inline fr-col-12 fr-col-md-6"
+      >
+        <div class="fr-radio-group fr-radio-rich">
           <input
             name="procuration"
             id="distribution-domicilie"
             type="radio"
-            checked
-            [attr.aria-checked]="procurationIndex === null && !returnToSender"
+            [checked]="procurationIndex === null && !returnToSender"
             (click)="toggleProcurationIndex(null)"
           />
+          <label class="fr-label" for="distribution-domicilie">
+            <div class="fr-text--bold fr-mb-0">Domicilié</div>
+            <div>{{ usager | fullName }}</div>
+          </label>
         </div>
       </div>
-      <ng-container
-        *ngFor="let procuration of usager.options.procurations; let i = index"
+
+      @for (procuration of usager.options.procurations; track procuration; let i
+      = $index) {
+      <div
+        class="fr-fieldset__element fr-fieldset__element--inline fr-col-12 fr-col-md-6"
       >
-        <div class="col-md-6 my-2">
-          <div class="interaction-icon-box">
+        <div class="fr-radio-group fr-radio-rich">
+          <input
+            [disabled]="procuration.isExpired"
+            name="procuration"
+            id="distribution-mandataire-{{ i }}"
+            type="radio"
+            [checked]="procurationIndex === i"
+            (click)="toggleProcurationIndex(i)"
+          />
+          <label class="fr-label" for="distribution-mandataire-{{ i }}">
             <div
-              class="fw-bold"
-              [ngClass]="procuration.isExpired ? 'text-danger' : ''"
+              class="fr-mb-0"
+              [class.fr-text-default--error]="procuration.isExpired"
             >
-              Mandataire
-              <span *ngIf="procuration.isExpired">(Procuration expirée !)</span>
+              <span class="fr-text--bold"
+                >Mandataire @if (procuration.isExpired) {
+                <span>(Procuration expirée !)</span> }</span
+              >
             </div>
-            <div
-              class="mb-1"
-              [ngClass]="procuration.isExpired ? 'text-danger' : ''"
-            >
-              <label for="distribution-mandataire-{{ i }}">
-                {{ procuration | fullName }}
-              </label>
+            <div [class.fr-text-default--error]="procuration.isExpired">
+              {{ procuration | fullName }}
             </div>
-          </div>
-          <div class="interaction-actions checkbox">
-            <input
-              [disabled]="procuration.isExpired"
-              name="procuration"
-              id="distribution-mandataire-{{ i }}"
-              type="radio"
-              [attr.aria-checked]="procurationIndex === i"
-              (click)="toggleProcurationIndex(i)"
-            />
-          </div>
+          </label>
         </div>
-      </ng-container>
+      </div>
+      }
     </div>
   </fieldset>
-
-  <div *ngIf="usager.options.transfert.isExpired" class="alert alert-warning">
-    <div class="svg-icon icon-distribution"></div>
+  } @if (usager.options.transfert.isExpired) {
+  <div class="fr-alert fr-alert--warning fr-my-3w">
     <p>
       Un transfert est actif sur le dossier. Le courrier doit être transféré à
-      l'adresse suivante:<br />
-      <i>
-        {{ usager.options.transfert.nom | titlecase }}
-        {{ usager.options.transfert.adresse | titlecase }}</i
-      >
+      l'adresse suivante :
+    </p>
+    <p class="fr-text--italic">
+      {{ usager.options.transfert.nom | titlecase }}
+      {{ usager.options.transfert.adresse | titlecase }}
     </p>
   </div>
-  <div
-    class="interaction-icon-box text-start px-3 py-3 my-3"
-    *ngIf="this.selectedInteractionsWithContent.length !== 0"
-  >
-    <p class="mb-2 fw-bold">
+  } @if (selectedInteractionsWithContent.length !== 0) {
+
+  <div class="fr-alert fr-alert--info fr-my-3w">
+    <p class="fr-mb-2w fr-text--bold">
       Un ou plusieurs courriers contiennent des informations importantes :
     </p>
-    <div
-      class="text-start"
-      *ngFor="
-        let interaction of selectedInteractionsWithContent | slice : 0 : 30
-      "
-    >
-      <ng-container *ngIf="interaction.content">
-        <strong
-          >{{ interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm" }}
-        </strong>
-        -
-        {{ interaction.label }}
-        <div *ngIf="interaction.content">
-          {{ interaction.content }}
-        </div>
-      </ng-container>
+    @for (interaction of selectedInteractionsWithContent | slice:0:30; track
+    interaction) { @if (interaction.content) {
+    <div>
+      <strong>
+        {{ interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm" }}
+      </strong>
+      – {{ interaction.label }}
+      {{ interaction?.content ? " : " + interaction.content : "" }}
     </div>
+    } }
   </div>
-</div>
+  }
 
-<div class="text-end modal-footer">
-  <button
-    [disabled]="
-      (!interactionFormData.courrierOut.selected &&
-        !interactionFormData.recommandeOut.selected &&
-        !interactionFormData.colisOut.selected) ||
-      loading
-    "
-    type="submit"
-    [attr.aria-busy]="loading"
-    class="btn btn-lg btn-primary me-2"
-    (click)="setInteractionForm()"
-  >
-    <span *ngIf="!loading">Confirmer la distribution</span>
-    <span *ngIf="loading">
-      <fa-icon
-        [icon]="['fas', 'circle-notch']"
-        animation="spin"
-        aria-hidden="true"
-      ></fa-icon>
-      Veuillez patientez...
-    </span>
-  </button>
-  <button
-    class="btn btn-lg btn-outline-dark"
-    type="button"
-    (click)="cancelReception.emit()"
-  >
-    Annuler
-  </button>
-</div>
+  <ng-template #modalFooterTemplate>
+    <div
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
+    >
+      <button
+        [disabled]="
+          (!interactionFormData.courrierOut.selected &&
+            !interactionFormData.recommandeOut.selected &&
+            !interactionFormData.colisOut.selected) ||
+          loading
+        "
+        type="button"
+        [attr.aria-busy]="loading"
+        class="fr-btn"
+        (click)="setInteractionForm()"
+      >
+        @if (loading) { Veuillez patienter... } @else { Confirmer la
+        distribution }
+      </button>
+      <button type="button" class="fr-btn fr-btn--secondary" (click)="close()">
+        Annuler
+      </button>
+    </div>
+  </ng-template>
+</dsfr-modal>
+}

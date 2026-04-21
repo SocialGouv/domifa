@@ -1,53 +1,46 @@
-<app-profil-head
-  *ngIf="usager"
-  [usager]="usager"
-  [section]="'historique'"
-  [me]="me"
->
-</app-profil-head>
-
-<div class="content" *ngIf="usager && me">
-  <div class="container p-0">
-    <div class="page-content p-3">
+<div class="fr-content-container-light">
+  <app-profil-head
+    [usager]="usager"
+    [section]="section"
+    *ngIf="me"
+    [me]="me"
+  ></app-profil-head>
+  <div class="fr-container" *ngIf="usager">
+    <div class="fr-content">
       <div
-        class="d-flex my-3 d-print-none justify-content-between align-items-center"
+        class="fr-display-flex fr-my-3w d-print-none fr-justify-content-between fr-align-items-center"
       >
-        <h2 id="tablist-1">Historique du dossier</h2>
-        <button
-          type="button"
-          class="btn btn-primary d-print-none"
-          (click)="goToPrint()"
-        >
-          <fa-icon
-            [icon]="['fas', 'print']"
-            class="me-2"
-            aria-hidden="true"
-          ></fa-icon>
+        <h2 class="fr-my-0 fr-h3" id="tablist-1">
+          <span class="fr-icon-time-line" aria-hidden="true"></span>Historique
+          du dossier
+        </h2>
+        <button type="button" class="fr-btn d-print-none" (click)="goToPrint()">
+          <span class="fr-icon-printer-line fr-mr-1w" aria-hidden="true"></span>
           Imprimer
         </button>
       </div>
 
-      <div role="tablist" aria-labelledby="tablist-1" class="my-2 d-print-none">
+      <div
+        role="tablist"
+        aria-labelledby="tablist-1"
+        class="fr-my-2w d-print-none"
+      >
         <a
           *ngFor="let section of sections"
           [id]="'tab-' + section.id"
           [routerLink]="['/profil/historique/' + usager.ref + '/' + section.id]"
           ariaCurrentWhenActive="page"
-          class="btn me-1 my-1"
-          [ngClass]="
-            currentSection === section.id
-              ? 'btn-primary'
-              : 'btn-outline-primary'
-          "
+          class="fr-btn fr-mr-1w fr-my-1w"
+          [ngClass]="currentSection === section.id ? '' : 'fr-btn--secondary'"
           (click)="currentSection = section.id"
         >
           <span class="focus">{{ section.name }}</span>
         </a>
       </div>
 
-      <div class="row">
+      <div class="fr-grid-row">
         <div
-          class="col-md-12"
+          class="fr-col-md-12"
           id="tabpanel-decisions"
           [attr.aria-labelledby]="'tab-decisions'"
           [hidden]="currentSection !== 'decisions'"
@@ -58,7 +51,7 @@
           ></app-profil-historique-decisions>
         </div>
         <div
-          class="col-md-12"
+          class="fr-col-md-12"
           id="tabpanel-interactions"
           [attr.aria-labelledby]="'tab-interactions'"
           [hidden]="currentSection !== 'interactions'"
@@ -69,7 +62,7 @@
           ></app-profil-historique-courriers>
         </div>
         <div
-          class="col-md-12"
+          class="fr-col-md-12"
           id="tabpanel-procurations"
           [attr.aria-labelledby]="'tab-procurations'"
           [hidden]="currentSection !== 'procurations'"
@@ -81,20 +74,19 @@
         </div>
 
         <div
-          class="col-md-12"
+          class="fr-col-md-12"
           id="tabpanel-transferts"
           [attr.aria-labelledby]="'tab-transferts'"
           [hidden]="currentSection !== 'transferts'"
         >
           <app-profil-historique-transferts
-            id="tabpanel-transferts"
             *ngIf="currentSection === 'transferts'"
             [me]="me"
             [usager]="usager"
           ></app-profil-historique-transferts>
         </div>
         <div
-          class="col-md-12"
+          class="fr-col-md-12"
           id="tabpanel-sms"
           [attr.aria-labelledby]="'tab-sms'"
           [hidden]="currentSection !== 'sms'"
@@ -104,25 +96,24 @@
           "
         >
           <app-profil-historique-sms
-            id="tabpanel-sms"
             [usager]="usager"
+            [me]="me"
           ></app-profil-historique-sms>
         </div>
 
         <div
-          class="col-md-12"
+          class="fr-col-md-12"
           id="tabpanel-notes"
           [attr.aria-labelledby]="'tab-notes'"
           [hidden]="currentSection !== 'notes'"
         >
           <app-profil-historique-notes
             [me]="me"
-            id="tabpanel-notes"
             [usager]="usager"
           ></app-profil-historique-notes>
         </div>
         <div
-          class="col-md-12"
+          class="fr-col-md-12"
           id="tabpanel-login-portail"
           [attr.aria-labelledby]="'tab-login-portail'"
           [hidden]="currentSection !== 'login-portail'"
@@ -132,7 +123,6 @@
           "
         >
           <app-profil-historique-login-portail
-            id="tabpanel-login-portail"
             [usager]="usager"
             [me]="me"
           ></app-profil-historique-login-portail>

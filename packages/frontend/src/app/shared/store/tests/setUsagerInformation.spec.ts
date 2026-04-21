@@ -26,13 +26,13 @@ describe("setUsagerInformation", () => {
     it("Should complete 'statusInfo' for 'VALIDE'", () => {
       const result = setUsagerInformation({ ...USAGER_VALIDE_MOCK });
       expect(result.statusInfo.text).toEqual("Actif");
-      expect(result.statusInfo.color).toEqual("green-status");
+      expect(result.statusInfo.color).toEqual("fr-badge--success");
     });
 
     it("Should complete 'statusInfo' for 'REFUS'", () => {
       const result = setUsagerInformation({ ...USAGER_REFUS_MOCK });
       expect(result.statusInfo.text).toEqual("Refusé");
-      expect(result.statusInfo.color).toEqual("red-status");
+      expect(result.statusInfo.color).toEqual("fr-badge--error");
     });
   });
 

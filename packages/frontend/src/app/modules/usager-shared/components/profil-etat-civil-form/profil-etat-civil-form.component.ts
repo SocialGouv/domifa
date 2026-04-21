@@ -19,10 +19,13 @@ import { CustomToastService } from "src/app/modules/shared/services/custom-toast
 
 import { UsagerFormModel } from "../../interfaces";
 import { AuthService } from "../../../shared/services/auth.service";
+import { LANGUAGES } from "../../utils/languages";
+import { AppLanguage } from "../../utils/languages/AppLanguage.type";
 
 @Component({
   selector: "app-profil-etat-civil-form",
   templateUrl: "./profil-etat-civil-form.component.html",
+  standalone: false,
 })
 export class ProfilEtatCivilFormComponent
   extends EtatCivilParentFormComponent
@@ -31,8 +34,9 @@ export class ProfilEtatCivilFormComponent
   @ViewChild("firstInput")
   public firstInput!: ElementRef;
 
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public usager!: UsagerFormModel;
   @Output() public editInfosChange = new EventEmitter<boolean>();
+  public allLanguages: AppLanguage[] = LANGUAGES;
 
   constructor(
     public authService: AuthService,

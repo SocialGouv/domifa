@@ -12,8 +12,6 @@ import { _usagerReducer } from "../../../../shared";
 import { CommonModule } from "@angular/common";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 describe("ManageUserUsagerComponent", () => {
   let component: ManageUserUsagerComponent;
   let fixture: ComponentFixture<ManageUserUsagerComponent>;
@@ -26,7 +24,6 @@ describe("ManageUserUsagerComponent", () => {
         CommonModule,
         NoopAnimationsModule,
         HttpClientTestingModule,
-        NgbModule,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [provideHttpClient(), provideHttpClientTesting()],

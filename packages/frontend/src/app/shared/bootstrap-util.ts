@@ -1,4 +1,3 @@
-import { NgbDate } from "@ng-bootstrap/ng-bootstrap";
 import { subDays, addYears } from "date-fns";
 
 export function toInteger(value: string): number {
@@ -17,30 +16,6 @@ export function padNumber(value: number): string {
     return "";
   }
 }
-
-export function formatDateToNgb(date: Date | string): NgbDate {
-  const dateObj = typeof date === "string" ? new Date(date) : date;
-  const year = dateObj.getUTCFullYear();
-  const month = dateObj.getUTCMonth() + 1;
-  const day = dateObj.getUTCDate();
-
-  return new NgbDate(year, month, day);
-}
-
-export function parseDateFromNgb(ngbDate: NgbDate): Date {
-  return new Date(
-    Date.UTC(ngbDate.year, ngbDate.month - 1, ngbDate.day, 12, 0, 0)
-  );
-}
-export function getTodayNgb(): NgbDate {
-  const today = new Date();
-  return new NgbDate(
-    today.getFullYear(),
-    today.getMonth() + 1,
-    today.getDate()
-  );
-}
-export const minDateNaissance = { day: 1, month: 1, year: 1900 };
 
 export const minDateToday = {
   day: new Date().getDate(),

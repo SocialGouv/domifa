@@ -172,7 +172,7 @@ describe("FonctionSelectionComponent", () => {
 
       // Check for error message
       const errorElement = hostFixture.debugElement.query(
-        By.css(".invalid-feedback")
+        By.css(".fr-message--error")
       );
       expect(errorElement).toBeTruthy();
       expect(errorElement.nativeElement.textContent.trim()).toBe(
@@ -180,13 +180,15 @@ describe("FonctionSelectionComponent", () => {
       );
     });
 
-    it("should apply is-invalid class when form control is invalid and submitted", () => {
+    it("should apply fr-select-group--error class to parent div when form control is invalid and submitted", () => {
       // Mark as submitted
       hostComponent.submitted = true;
       hostFixture.detectChanges();
 
       const selectElement = hostFixture.debugElement.query(By.css("select"));
-      expect(selectElement.nativeElement.classList).toContain("is-invalid");
+      expect(selectElement.parent.nativeElement.classList).toContain(
+        "fr-select-group--error"
+      );
     });
 
     it("should not show error when form control is valid", () => {

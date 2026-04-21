@@ -21,6 +21,7 @@ type HistorySections =
   selector: "app-profil-historique",
   templateUrl: "./profil-historique.component.html",
   styleUrls: ["profil-historique.component.scss"],
+  standalone: false,
 })
 export class ProfilHistoriqueComponent
   extends BaseUsagerProfilPageComponent
@@ -82,6 +83,7 @@ export class ProfilHistoriqueComponent
     );
     this.currentSection = "interactions";
     this.titlePrefix = "Historique";
+    this.section = "historique";
   }
 
   public goToPrint(): void {

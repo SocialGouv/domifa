@@ -26,6 +26,7 @@ import { UsagerFormModel } from "../../interfaces";
 @Component({
   selector: "app-upload",
   templateUrl: "./upload.component.html",
+  standalone: false,
 })
 export class UploadComponent implements OnInit, OnDestroy {
   public submitted = false;
@@ -36,7 +37,6 @@ export class UploadComponent implements OnInit, OnDestroy {
 
   @Output() public readonly getUsagerDocs = new EventEmitter<void>();
   @Input({ required: true }) public usager!: UsagerFormModel;
-  @Input() public edit!: boolean;
 
   private readonly subscription = new Subscription();
 

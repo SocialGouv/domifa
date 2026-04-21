@@ -15,13 +15,13 @@ import { fadeIn } from "../../../../../shared";
   animations: [fadeIn],
   selector: "app-profil-historique-login-portail",
   templateUrl: "./profil-historique-login-portail.component.html",
-  styleUrls: ["../historique-table.scss"],
+  standalone: false,
 })
 export class ProfilHistoriqueLoginPortailComponent
   implements OnInit, OnDestroy
 {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public me!: UserStructure;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure;
 
   public interactions: UserUsagerLogin[];
   private readonly subscription = new Subscription();
@@ -37,6 +37,15 @@ export class ProfilHistoriqueLoginPortailComponent
   constructor(private readonly interactionService: InteractionService) {
     this.loading = true;
     this.interactions = [];
+  }
+
+  public get totalPages(): number {
+    return Math.ceil(this.searchResults.meta.itemCount / this.params.take);
+  }
+
+  public onPageSelect(page: number): void {
+    this.params.page = page;
+    this.getInteractions();
   }
 
   public ngOnInit(): void {

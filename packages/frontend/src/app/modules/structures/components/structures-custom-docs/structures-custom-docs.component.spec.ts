@@ -1,6 +1,5 @@
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { SharedModule } from "../../../shared/shared.module";
 
@@ -9,6 +8,7 @@ import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 describe("StructuresCustomDocsComponent", () => {
   let component: StructuresCustomDocsComponent;
@@ -18,10 +18,10 @@ describe("StructuresCustomDocsComponent", () => {
     await TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       imports: [
-        NgbModule,
         RouterModule.forRoot([]),
         StoreModule.forRoot({ app: _usagerReducer }),
         SharedModule,
+        DsfrModalComponent,
       ],
       providers: [provideHttpClient()],
       declarations: [StructuresCustomDocsComponent],

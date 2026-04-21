@@ -1,36 +1,35 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnDestroy,
-  TemplateRef,
-  ViewChild,
+  Output,
 } from "@angular/core";
-import { NgbModalRef, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
-import {
-  InteractionInForApi,
-  DEFAULT_MODAL_OPTIONS,
-} from "../../../../../_common/model";
+
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { InteractionService } from "../../../usager-shared/services";
 import { INTERACTIONS_LABELS_SINGULIER, InteractionType } from "@domifa/common";
+import { InteractionInForApi } from "../../../usager-shared/interfaces/interaction";
 
 @Component({
   selector: "app-manage-usagers-interactions",
   templateUrl: "./column-interactions.component.html",
   styleUrls: ["./column-interactions.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ColumnInteractionsComponent implements OnDestroy {
-  @ViewChild("setInteractionInModal")
-  public setInteractionInModal!: TemplateRef<NgbModalRef>;
+  @Output()
+  public updateInteractions = new EventEmitter<void>();
 
-  @ViewChild("setInteractionOutModal")
-  public setInteractionOutModal!: TemplateRef<NgbModalRef>;
+  @Output()
+  public openReception = new EventEmitter<UsagerFormModel>();
 
-  private lastModalRef: NgbModalRef | null = null;
+  @Output()
+  public openDistribution = new EventEmitter<UsagerFormModel>();
 
   public isInteractionLoading: { [key in InteractionType]?: boolean } = {
     courrierIn: false,
@@ -48,8 +47,7 @@ export class ColumnInteractionsComponent implements OnDestroy {
 
   constructor(
     private readonly interactionService: InteractionService,
-    private readonly toastService: CustomToastService,
-    private readonly modalService: NgbModal
+    private readonly toastService: CustomToastService
   ) {}
 
   public setSingleInteraction(
@@ -89,51 +87,19 @@ export class ColumnInteractionsComponent implements OnDestroy {
     );
   }
 
-  public openInteractionInModal() {
-    this.lastModalRef = this.modalService.open(
-      this.setInteractionInModal,
-      DEFAULT_MODAL_OPTIONS
-    );
+  public openInteractionInModal(): void {
+    this.openReception.emit(this.usager);
   }
 
-  public openInteractionOutModal() {
-    this.lastModalRef = this.modalService.open(
-      this.setInteractionOutModal,
-      DEFAULT_MODAL_OPTIONS
-    );
+  public openInteractionOutModal(): void {
+    this.openDistribution.emit(this.usager);
   }
 
-  public cancelReception(
-    interactionType: InteractionType | "distribution" | "reception",
-    usagerRef: number
-  ) {
-    this.modalService.dismissAll();
-    this.lastModalRef.result.then(
-      () => {
-        this.setFocusOnElement(interactionType, usagerRef);
-      },
-      () => {
-        this.setFocusOnElement(interactionType, usagerRef);
-      }
-    );
-  }
-
-  private setFocusOnElement(
-    interactionType: InteractionType | "distribution" | "reception",
-    usagerRef: number
-  ) {
+  private setFocusOnElement(type: InteractionType, usagerRef: number): void {
     setTimeout(() => {
-      let usagerElement = document.getElementById(
-        `${interactionType}-${usagerRef}`
-      );
-
-      if (usagerElement) {
-        usagerElement.focus();
-      } else if (interactionType === "distribution") {
-        usagerElement = document.getElementById(`reception-${usagerRef}`);
-        if (usagerElement) {
-          usagerElement.focus();
-        }
+      const element = document.getElementById(`${type}-${usagerRef}`);
+      if (element) {
+        element.focus();
       }
     }, 0);
   }

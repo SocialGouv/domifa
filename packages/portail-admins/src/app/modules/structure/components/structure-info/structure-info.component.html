@@ -63,18 +63,18 @@
               <h2 class="m-0 fr-h6">Responsable</h2>
             </div>
             <div class="d-flex justify-content-start py-3">
-              <div class="col d-flex flex-column gap-1">
+              <div class="fr-col d-flex flex-column gap-1">
                 <span class="fw-bold"> Nom </span>
                 <span>
                   {{ structure.responsable.nom | uppercase }}
                   {{ structure.responsable.prenom }}
                 </span>
               </div>
-              <div class="col d-flex flex-column gap-1">
+              <div class="fr-col d-flex flex-column gap-1">
                 <span class="fw-bold"> Fonction </span>
                 <span> {{ structure.responsable.fonction }} </span>
               </div>
-              <div class="col"></div>
+              <div class="fr-col"></div>
             </div>
           </div>
         </div>
@@ -87,18 +87,18 @@
             </div>
 
             <div class="d-flex justify-content-start py-3">
-              <div class="col d-flex flex-column gap-1">
+              <div class="fr-col d-flex flex-column gap-1">
                 <span class="fw-bold"> Type d'organisme </span>
                 <span *ngIf="structure.structureType">
                   {{ STRUCTURE_TYPE_LABELS[structure.structureType] }}
                 </span>
                 <span *ngIf="!structure.structureType"> Non renseigné </span>
               </div>
-              <div class="col d-flex flex-column gap-1">
+              <div class="fr-col d-flex flex-column gap-1">
                 <span class="fw-bold"> Réseau </span>
                 <span> {{ structure.reseau ?? "Non renseigné" }} </span>
               </div>
-              <div class="col"></div>
+              <div class="fr-col"></div>
             </div>
           </div>
         </div>
@@ -113,7 +113,7 @@
             </div>
 
             <div class="d-flex justify-content-start py-3">
-              <div class="col d-flex flex-column gap-1">
+              <div class="fr-col d-flex flex-column gap-1">
                 <span class="fw-bold"> SMS </span>
                 <span
                   class="fr-badge"
@@ -123,11 +123,11 @@
                   {{ structure.sms.enabledByStructure ? "Oui" : "Non" }}
                 </span>
               </div>
-              <div class="col d-flex flex-column gap-1">
+              <div class="fr-col d-flex flex-column gap-1">
                 <span class="fw-bold"> Jours de réceptions des SMS </span>
                 <span> {{ smsDays }} </span>
               </div>
-              <div class="col d-flex flex-column gap-1">
+              <div class="fr-col d-flex flex-column gap-1">
                 <span class="fw-bold"> Mon Domifa </span>
                 <span
                   class="fr-badge"
@@ -157,17 +157,17 @@
             </div>
 
             <div class="d-flex justify-content-start py-3">
-              <div class="col d-flex flex-column">
+              <div class="fr-col d-flex flex-column">
                 <span class="fw-bold"> SIRET </span>
                 <span>
                   {{ structure?.siret ?? "SIRET non renseigné" }}
                 </span>
               </div>
-              <div class="col d-flex flex-column gap-1">
+              <div class="fr-col d-flex flex-column gap-1">
                 <span class="fw-bold"> Source de découverte </span>
                 <span> {{ sourceLabel }}</span>
               </div>
-              <div class="col d-flex flex-column">
+              <div class="fr-col d-flex flex-column">
                 <span class="fw-bold"> Nombre d'usagers actifs </span>
                 <span>
                   {{
@@ -177,20 +177,20 @@
                 </span>
               </div>
             </div>
-            <div class="col d-flex justify-content-between">
-              <div class="col d-flex flex-column gap-1">
+            <div class="fr-col d-flex justify-content-between">
+              <div class="fr-col d-flex flex-column gap-1">
                 <span class="fw-bold"> Délégation du service public </span>
                 <span>
                   {{ structure?.registrationData?.dsp ? "Oui" : "Non" }}
                 </span>
               </div>
-              <div class="col d-flex flex-column gap-1">
+              <div class="fr-col d-flex flex-column gap-1">
                 <span class="fw-bold"> Outil actuel </span>
                 <span>
                   {{ currentToolLabel }}
                 </span>
               </div>
-              <div class="col d-flex flex-column gap-1">
+              <div class="fr-col d-flex flex-column gap-1">
                 <span class="fw-bold"> Outil du marché </span>
                 <span>
                   {{ marketToolLabel }}

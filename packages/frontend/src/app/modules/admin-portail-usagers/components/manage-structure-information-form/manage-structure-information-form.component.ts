@@ -1,10 +1,9 @@
 import {
   Component,
   EventEmitter,
-  Input,
   OnDestroy,
-  OnInit,
   Output,
+  ViewChild,
 } from "@angular/core";
 import {
   FormGroup,
@@ -13,84 +12,60 @@ import {
   Validators,
   ValidationErrors,
 } from "@angular/forms";
-import {
-  CustomToastService,
-  NgbDateCustomParserFormatter,
-} from "../../../shared/services";
+import { CustomToastService } from "../../../shared/services";
 import { StructureInformation } from "@domifa/common";
 import { StructureInformationService } from "../../services/structure-information.service";
 
 import {
   endDateAfterBeginDateCheck,
-  formatDateToNgb,
+  formatDateToFr,
+  parseFrDate,
 } from "../../../../shared";
 import { Subscription } from "rxjs";
-import { EditorConfig } from "ckeditor5/src/core";
 import {
-  Bold,
-  ClassicEditor,
-  Essentials,
-  Italic,
-  List,
-  Mention,
-  Paragraph,
-  Undo,
-} from "ckeditor5";
+  DsfrToggleFormatControl,
+  DsfrPromptFormatControl,
+  RadioFormatControl,
+  DsfrValueFormatControl,
+  FormatConst,
+  ListValue,
+  ToolbarControl,
+} from "@edugouvfr/ngx-dsfr-ext/editor";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-manage-structure-information-form",
   templateUrl: "./manage-structure-information-form.component.html",
   styleUrls: ["./manage-structure-information-form.component.scss"],
+  standalone: false,
 })
-export class ManageStructureInformationFormComponent
-  implements OnInit, OnDestroy
-{
+export class ManageStructureInformationFormComponent implements OnDestroy {
+  @ViewChild("editorModal", { static: false })
+  editorModal!: DsfrModalComponent;
+
   public tempMessageForm!: FormGroup;
-  public tempMessageTypes = ["closing", "opening-hours", "general", "other"];
   public subscription = new Subscription();
+
+  public toolbarOptions: ToolbarControl[] = [
+    new DsfrToggleFormatControl(FormatConst.BOLD),
+    new DsfrToggleFormatControl(FormatConst.ITALIC),
+    new RadioFormatControl(
+      FormatConst.LIST,
+      [new DsfrValueFormatControl(ListValue.BULLET)],
+      true
+    ),
+    new DsfrPromptFormatControl(FormatConst.LINK),
+  ];
 
   public submitted = false;
   public loading = false;
-
-  @Input() structureInformation: StructureInformation | null;
+  public structureInformation: StructureInformation | null = null;
 
   @Output()
   public getStructureInformation = new EventEmitter<void>();
 
-  public Editor = ClassicEditor;
-  public config: EditorConfig = {
-    toolbar: [
-      "bold",
-      "italic",
-      "list",
-      "bulletedList",
-      "numberedList",
-      "|",
-      "undo",
-      "redo",
-    ],
-    plugins: [Bold, Essentials, Italic, Mention, Paragraph, Undo, List],
-    placeholder: "Contenu de l'information que vous souhaitez diffuser",
-    language: "fr",
-    link: {
-      addTargetToExternalLinks: true,
-      defaultProtocol: "https://",
-      decorators: {
-        openInNewTab: {
-          mode: "manual",
-          label: "Ouvrir dans un nouvel onglet",
-          attributes: {
-            target: "_blank",
-            rel: "noopener noreferrer",
-          },
-        },
-      },
-    },
-  };
-
   constructor(
     private readonly fb: FormBuilder,
-    private readonly nbgDate: NgbDateCustomParserFormatter,
     private readonly structureInformationService: StructureInformationService,
     private readonly toastService: CustomToastService
   ) {}
@@ -99,8 +74,53 @@ export class ManageStructureInformationFormComponent
     return this.tempMessageForm.controls;
   }
 
-  ngOnInit(): void {
+  public openModal(information: StructureInformation | null): void {
+    this.structureInformation = information;
+    this.submitted = false;
+    this.loading = false;
     this.initForm();
+    this.editorModal.open();
+  }
+
+  public closeModal(): void {
+    this.structureInformation = null;
+    this.editorModal.close();
+  }
+
+  initForm(): void {
+    this.tempMessageForm = this.fb.group(
+      {
+        title: [this.structureInformation?.title ?? "", Validators.required],
+        description: [
+          this.structureInformation?.description ?? "",
+          [
+            Validators.required,
+            Validators.minLength(10),
+            this.dsfrEditorValidator(),
+          ],
+        ],
+        startDate: [
+          this.structureInformation?.startDate
+            ? formatDateToFr(this.structureInformation?.startDate)
+            : null,
+          this.structureInformation?.isTemporary ? Validators.required : null,
+        ],
+        endDate: [
+          this.structureInformation?.endDate
+            ? formatDateToFr(this.structureInformation?.endDate)
+            : null,
+          this.structureInformation?.isTemporary ? Validators.required : null,
+        ],
+        type: [this.structureInformation?.type ?? "", Validators.required],
+        isTemporary: [
+          this.structureInformation?.isTemporary ?? false,
+          Validators.required,
+        ],
+      },
+      {
+        validators: this.endDateAfterBeginDateValidator,
+      }
+    );
 
     this.subscription.add(
       this.tempMessageForm
@@ -115,43 +135,7 @@ export class ManageStructureInformationFormComponent
     );
   }
 
-  initForm(): void {
-    this.tempMessageForm = this.fb.group(
-      {
-        title: [this.structureInformation?.title ?? "", Validators.required],
-        description: [
-          this.structureInformation?.description ?? "",
-          [
-            Validators.required,
-            Validators.minLength(10),
-            this.ckeditorValidator(),
-          ],
-        ],
-        startDate: [
-          this.structureInformation?.startDate
-            ? formatDateToNgb(this.structureInformation?.startDate)
-            : null,
-          this.structureInformation?.isTemporary ? Validators.required : null,
-        ],
-        endDate: [
-          this.structureInformation?.endDate
-            ? formatDateToNgb(this.structureInformation?.endDate)
-            : null,
-          this.structureInformation?.isTemporary ? Validators.required : null,
-        ],
-        type: [this.structureInformation?.type ?? "", Validators.required],
-        isTemporary: [
-          this.structureInformation?.isTemporary ?? false,
-          Validators.required,
-        ],
-      },
-      {
-        validators: this.endDateAfterBeginDateValidator,
-      }
-    );
-  }
-
-  ckeditorValidator() {
+  dsfrEditorValidator() {
     return (control: AbstractControl): ValidationErrors | null => {
       const value = control.value;
       if (!value) {
@@ -170,6 +154,11 @@ export class ManageStructureInformationFormComponent
     };
   }
 
+  onEditorChange(): void {
+    this.tempMessageForm.get("description")?.markAsDirty();
+    this.tempMessageForm.get("description")?.markAsTouched();
+  }
+
   onSubmit(): void {
     this.submitted = true;
 
@@ -178,19 +167,11 @@ export class ManageStructureInformationFormComponent
         ...this.tempMessageForm.value,
         startDate:
           this.tempMessageForm.controls.isTemporary.value === true
-            ? new Date(
-                this.nbgDate.formatEn(
-                  this.tempMessageForm.controls.startDate.value
-                )
-              )
+            ? parseFrDate(this.tempMessageForm.controls.startDate.value)
             : null,
         endDate:
           this.tempMessageForm.controls.isTemporary.value === true
-            ? new Date(
-                this.nbgDate.formatEn(
-                  this.tempMessageForm.controls.endDate.value
-                )
-              )
+            ? parseFrDate(this.tempMessageForm.controls.endDate.value)
             : null,
       };
 
@@ -205,6 +186,7 @@ export class ManageStructureInformationFormComponent
   }
 
   private patchStructureInformation(formData: Partial<StructureInformation>) {
+    this.loading = true;
     this.subscription.add(
       this.structureInformationService
         .updateStructureInformation(this.structureInformation.uuid, formData)
@@ -212,6 +194,7 @@ export class ManageStructureInformationFormComponent
           next: () => {
             this.loading = false;
             this.toastService.success("Informations mises à jour avec succès");
+            this.closeModal();
             this.getStructureInformation.emit();
           },
           error: () => {
@@ -225,6 +208,7 @@ export class ManageStructureInformationFormComponent
   }
 
   private postStructureInformation(formData: Partial<StructureInformation>) {
+    this.loading = true;
     this.subscription.add(
       this.structureInformationService
         .createStructureInformation(formData)
@@ -232,6 +216,7 @@ export class ManageStructureInformationFormComponent
           next: () => {
             this.loading = false;
             this.toastService.success("Informations ajoutée avec succès");
+            this.closeModal();
             this.getStructureInformation.emit();
           },
           error: () => {
@@ -254,6 +239,7 @@ export class ManageStructureInformationFormComponent
       ? endDateAfterBeginDateCheck(beginDateControl, endDateControl)
       : null;
   };
+
   public ngOnDestroy() {
     this.subscription.unsubscribe();
   }

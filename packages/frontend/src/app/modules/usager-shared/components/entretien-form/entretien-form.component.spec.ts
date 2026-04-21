@@ -3,8 +3,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { SharedModule } from "../../../shared/shared.module";
 import { EntretienFormComponent } from "./entretien-form.component";
 import { StoreModule } from "@ngrx/store";
@@ -20,7 +18,6 @@ describe("EntretienFormComponent", () => {
     TestBed.configureTestingModule({
       declarations: [EntretienFormComponent],
       imports: [
-        NgbModule,
         RouterModule.forRoot([]),
         SharedModule,
         ReactiveFormsModule,
