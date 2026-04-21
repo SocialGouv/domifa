@@ -12,6 +12,7 @@ import { UsagerState } from "../../../../shared";
 @Component({
   selector: "app-usager-documents-form",
   templateUrl: "./step-documents.component.html",
+  standalone: false,
 })
 export class StepDocumentsComponent extends BaseUsagerDossierPageComponent {
   constructor(

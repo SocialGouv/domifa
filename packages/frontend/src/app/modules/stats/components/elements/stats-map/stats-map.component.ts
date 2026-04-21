@@ -18,8 +18,9 @@ import { STATS_REGIONS_FOR_MAP } from "../../../constants";
   templateUrl: "./stats-map.component.html",
   styleUrls: [
     "./stats-map.component.css",
-    "../../public-stats/public-stats.component.css",
+    "../../public-stats/public-stats.component.scss",
   ],
+  standalone: false,
 })
 export class StatsMapComponent {
   // Liste des régions
@@ -39,9 +40,11 @@ export class StatsMapComponent {
   public selectedRegion: string | null;
 
   // Statistiques par region
-  @Input() public statsRegionsValues: { [key: string]: number };
+  @Input({ required: true }) public statsRegionsValues: {
+    [key: string]: number;
+  };
 
-  @Input() public publicStats!: PublicStats;
+  @Input({ required: true }) public publicStats!: PublicStats;
 
   constructor() {
     this.statsRegionsValues = {};

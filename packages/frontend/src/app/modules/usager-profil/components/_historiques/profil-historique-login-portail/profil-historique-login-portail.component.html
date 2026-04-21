@@ -1,4 +1,4 @@
-<h3>
+<h3 class="fr-h4">
   Historique des connexions à Mon DomiFa:
   {{ searchResults.meta.itemCount }} connexions
 </h3>
@@ -8,53 +8,61 @@
   role="alert"
   aria-busy="true"
   aria-label="Chargement des dossiers..."
-  class="text-center content-overlay d-print-none"
+  class="fr-text--center content-overlay d-print-none"
 >
   <div>
-    <fa-icon
-      [icon]="['fas', 'spinner']"
-      class="spinner"
-      animation="spin"
+    <span
+      class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
       aria-hidden="true"
-    ></fa-icon>
+    ></span>
     <br />
-    <span class="fw-bold">Chargement des connexions...</span>
+    <span class="fr-text--bold">Chargement des connexions...</span>
   </div>
 </div>
 
 <ng-container *ngIf="!loading">
-  <div *ngIf="interactions.length > 0" class="table-responsive">
-    <table class="table-history table">
-      <caption class="visually-hidden">
-        Historique des connexions au portail "Mon DomiFa"
-      </caption>
-      <thead>
-        <tr>
-          <th scope="col">Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let interaction of interactions; let i = index">
-          <tr [attr.aria-rowindex]="i + 1">
-            <td>
-              {{ interaction.createdAt | date : "dd MMMM yyyy à HH:mm" }}
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
+  <div *ngIf="interactions.length > 0" class="fr-table fr-table--no-caption">
+    <div class="fr-table__wrapper">
+      <div class="fr-table__container">
+        <div class="fr-table__content">
+          <table>
+            <caption class="fr-sr-only">
+              Historique des connexions au portail "Mon DomiFa"
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container
+                *ngFor="let interaction of interactions; let i = index"
+              >
+                <tr [attr.aria-rowindex]="i + 1">
+                  <td>
+                    {{ interaction.createdAt | date : "dd MMMM yyyy à HH:mm" }}
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="alert alert-info" *ngIf="interactions.length === 0">
+  @if (interactions.length === 0) {
+  <div class="fr-alert fr-alert--info">
     <p>Aucune connexion enregistrée sur Mon DomiFa</p>
   </div>
+  }
 </ng-container>
 
 <div
-  class="justify-content-center d-flex p-3 d-print-none"
+  class="fr-justify-content-center fr-display-flex fr-p-3w d-print-none"
   *ngIf="interactions.length > 0 && searchResults.meta.itemCount >= params.take"
 >
   <div
-    class="results-selector justify-content-start align-items-center d-flex me-auto"
+    class="results-selector fr-justify-content-start fr-align-items-center fr-display-flex fr-mr-auto"
   >
     <select
       name="limit"
@@ -68,16 +76,15 @@
       <option [ngValue]="250">250</option>
       <option [ngValue]="500">500</option>
     </select>
-    <label for="limit" class="ms-3 fw-bold">résultats par page </label>
+    <label for="limit" class="fr-ml-2w fr-text--bold"
+      >résultats par page
+    </label>
   </div>
 
-  <ngb-pagination
-    [collectionSize]="searchResults.meta.itemCount"
-    [(page)]="params.page"
-    [boundaryLinks]="true"
-    [rotate]="true"
-    [maxSize]="5"
-    [pageSize]="params.take"
-    (pageChange)="getInteractions()"
-  ></ngb-pagination>
+  <dsfr-pagination
+    [pageCount]="totalPages"
+    [currentPage]="params.page"
+    (pageSelect)="onPageSelect($event)"
+    ariaLabel="Pagination des connexions"
+  ></dsfr-pagination>
 </div>

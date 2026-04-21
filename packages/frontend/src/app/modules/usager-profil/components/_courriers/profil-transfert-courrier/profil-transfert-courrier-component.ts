@@ -4,7 +4,6 @@ import {
   ElementRef,
   Input,
   OnDestroy,
-  TemplateRef,
   ViewChild,
 } from "@angular/core";
 import {
@@ -13,14 +12,13 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { Subscription } from "rxjs";
-import { DEFAULT_MODAL_OPTIONS } from "../../../../../../_common/model";
 import {
   endDateAfterBeginDateValidator,
-  formatDateToNgb,
+  formatDateToFr,
   NoWhiteSpaceValidator,
-  parseDateFromNgb,
+  parseFrDate,
 } from "../../../../../shared";
 import { CustomToastService } from "../../../../shared/services";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
@@ -30,6 +28,7 @@ import { UserStructure } from "@domifa/common";
 @Component({
   selector: "app-profil-transfert-courrier",
   templateUrl: "./profil-transfert-courrier.html",
+  standalone: false,
 })
 export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;
@@ -41,8 +40,8 @@ export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
 
   public transfertForm!: UntypedFormGroup;
 
-  @ViewChild("confirmDelete", { static: true })
-  public confirmDelete!: TemplateRef<NgbModalRef>;
+  @ViewChild("confirmDeleteModal", { static: false })
+  public confirmDeleteModal!: DsfrModalComponent;
 
   @ViewChild("transfertName")
   public firstInput!: ElementRef;
@@ -53,7 +52,6 @@ export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
     private readonly formBuilder: UntypedFormBuilder,
     private readonly toastService: CustomToastService,
     private readonly usagerOptionsService: UsagerOptionsService,
-    private readonly modalService: NgbModal,
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.isFormVisible = false;
@@ -104,13 +102,13 @@ export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
         ],
         dateFin: [
           this.usager.options.transfert.dateFin
-            ? formatDateToNgb(this.usager.options.transfert.dateFin)
+            ? formatDateToFr(this.usager.options.transfert.dateFin)
             : null,
           [Validators.required],
         ],
         dateDebut: [
           this.usager.options.transfert.dateDebut
-            ? formatDateToNgb(this.usager.options.transfert.dateDebut)
+            ? formatDateToFr(this.usager.options.transfert.dateDebut)
             : null,
           [Validators.required],
         ],
@@ -133,8 +131,8 @@ export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
     const formValue = {
       actif: true,
       ...this.transfertForm.value,
-      dateFin: parseDateFromNgb(this.transfertForm.controls.dateFin.value),
-      dateDebut: parseDateFromNgb(this.transfertForm.controls.dateDebut.value),
+      dateFin: parseFrDate(this.transfertForm.controls.dateFin.value),
+      dateDebut: parseFrDate(this.transfertForm.controls.dateDebut.value),
     };
 
     this.loading = true;
@@ -156,11 +154,11 @@ export class UsagersProfilTransfertCourrierComponent implements OnDestroy {
   }
 
   public openConfirmation(): void {
-    this.modalService.open(this.confirmDelete, DEFAULT_MODAL_OPTIONS);
+    this.confirmDeleteModal.open();
   }
 
   public closeModals(): void {
-    this.modalService.dismissAll();
+    this.confirmDeleteModal.close();
   }
 
   public deleteTransfert(): void {

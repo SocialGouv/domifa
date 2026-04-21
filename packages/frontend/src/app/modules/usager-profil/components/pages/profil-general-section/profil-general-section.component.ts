@@ -1,22 +1,14 @@
-import { Component, TemplateRef, ViewChild } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import {
-  NgbDateStruct,
-  NgbModal,
-  NgbModalRef,
-} from "@ng-bootstrap/ng-bootstrap";
-
 import { ProfilGeneralHistoriqueCourriersComponent } from "../../_general-section/profil-general-historique-courriers/profil-general-historique-courriers.component";
+import { SetInteractionInFormComponent } from "../../../../usager-shared/components/interactions/set-interaction-in-form/set-interaction-in-form.component";
+import { SetInteractionOutFormComponent } from "../../../../usager-shared/components/interactions/set-interaction-out-form/set-interaction-out-form.component";
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
+import { ETAPES_DEMANDE_URL } from "../../../../../../_common/model";
 import {
-  ETAPES_DEMANDE_URL,
-  InteractionInForApi,
-  DEFAULT_MODAL_OPTIONS,
-} from "../../../../../../_common/model";
-import {
-  minDateNaissance,
-  formatDateToNgb,
+  MIN_DATE_NAISSANCE,
+  getTodayIso,
   UsagerState,
 } from "../../../../../shared";
 import { AuthService, CustomToastService } from "../../../../shared/services";
@@ -29,34 +21,34 @@ import {
   InteractionType,
   Interaction,
 } from "@domifa/common";
+import { InteractionInForApi } from "../../../../usager-shared/interfaces/interaction";
 
 @Component({
   selector: "app-profil-general-section",
   templateUrl: "./profil-general-section.component.html",
-  styleUrls: ["./profil-general-section.component.css"],
+  styleUrls: ["./profil-general-section.component.scss"],
+  standalone: false,
 })
 export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent {
   public interactions: Interaction[];
 
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
-  public minDateNaissance: NgbDateStruct;
-  public maxDateNaissance: NgbDateStruct;
+  public minDateNaissance: string;
+  public maxDateNaissance: string;
 
-  @ViewChild("distributionConfirm", { static: true })
-  public distributionConfirm!: TemplateRef<NgbModalRef>;
+  @ViewChild("interactionInRef")
+  public interactionInRef!: SetInteractionInFormComponent;
 
-  @ViewChild("setInteractionInModal", { static: true })
-  public setInteractionInModal!: TemplateRef<NgbModalRef>;
-
-  @ViewChild("setInteractionOutModal", { static: true })
-  public setInteractionOutModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("interactionOutRef")
+  public interactionOutRef!: SetInteractionOutFormComponent;
 
   @ViewChild(ProfilGeneralHistoriqueCourriersComponent)
-  private profileComponent!: ProfilGeneralHistoriqueCourriersComponent;
+  private readonly profileComponent!: ProfilGeneralHistoriqueCourriersComponent;
 
   public readonly USAGER_DECISION_STATUT_LABELS = USAGER_DECISION_STATUT_LABELS;
 
-  public loadingButtons: string[];
+  public loadingVisite = false;
+  public loadingAppel = false;
 
   constructor(
     public authService: AuthService,
@@ -66,7 +58,6 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
     public route: ActivatedRoute,
     public router: Router,
     public store: Store<UsagerState>,
-    private readonly modalService: NgbModal,
     private readonly interactionService: InteractionService
   ) {
     super(
@@ -78,13 +69,13 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
       router,
       store
     );
-    this.loadingButtons = [];
     this.interactions = [];
 
-    this.minDateNaissance = minDateNaissance;
-    this.maxDateNaissance = formatDateToNgb(new Date());
+    this.minDateNaissance = MIN_DATE_NAISSANCE;
+    this.maxDateNaissance = getTodayIso();
 
     this.titlePrefix = "Dossier";
+    this.section = "general";
   }
 
   public setSingleInteraction(usagerRef: number, type: InteractionType): void {
@@ -94,12 +85,9 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
       content: null,
     };
 
-    if (this.loadingButtons.indexOf(type) !== -1) {
-      this.toastService.warning("Veuillez patienter quelques instants");
-      return;
-    }
+    if (type === "visite") this.loadingVisite = true;
+    if (type === "appel") this.loadingAppel = true;
 
-    this.loadingButtons.push(type);
     this.subscription.add(
       this.interactionService
         .setInteraction(usagerRef, [interaction])
@@ -107,13 +95,13 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
           next: () => {
             this.toastService.success(INTERACTIONS_LABELS_SINGULIER[type]);
             this.updateInteractions();
-            this.stopLoading(type);
+            this.setLoading(type, false);
           },
           error: () => {
             this.toastService.error(
               "Impossible d'enregistrer cette interaction"
             );
-            this.stopLoading(type);
+            this.setLoading(type, false);
           },
         })
     );
@@ -123,22 +111,18 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
     this.profileComponent.getInteractions();
   }
 
-  public closeModals(): void {
-    this.modalService.dismissAll();
-  }
+  public closeModals(): void {}
 
   public openInteractionInModal(): void {
-    this.modalService.open(this.setInteractionInModal, DEFAULT_MODAL_OPTIONS);
+    this.interactionInRef.open();
   }
 
   public openInteractionOutModal(): void {
-    this.modalService.open(this.setInteractionOutModal, DEFAULT_MODAL_OPTIONS);
+    this.interactionOutRef.open();
   }
 
-  private stopLoading(loadingRef: string) {
-    const index = this.loadingButtons.indexOf(loadingRef);
-    if (index !== -1) {
-      this.loadingButtons.splice(index, 1);
-    }
+  private setLoading(type: InteractionType, value: boolean): void {
+    if (type === "visite") this.loadingVisite = value;
+    if (type === "appel") this.loadingAppel = value;
   }
 }

@@ -13,6 +13,8 @@ fileignoreconfig:
   checksum: f6e35be32579c7a13ed58db688c20a68521d89ece97171647cc2a3c58ac5cec5
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
   checksum: 0f73652f32a4d79243ee555a5dd6e5ca2186c87a3d0622a564328492e580a03c
+- filename: package.json
+  checksum: 9f1a88fbfc8cd4e19d5e8ef253d5ddbf174bdfd6ff252ee26df4e9b370294646
 - filename: packages/backend/package.json
   checksum: 2f5813dbc35cdc3659516beabf9f93e2978eb62d1b5403cfbb2907f22bb25355
 - filename: packages/backend/src/_migrations/1757532174131-auto-migration.ts
@@ -25,6 +27,10 @@ fileignoreconfig:
   checksum: 3762d1281d4109a0f57e6f100d49340db6528a17b4b9421d02cf0349b93fc3a0
 - filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
   checksum: eb5830a53f6558916812a8c3628d7ffed713dc4d0842eee7580dccbae28bd607
+- filename: packages/frontend/src/app/modules/general/components/static-pages/politique/politique.component.html
+  checksum: 5a51711775b228a5086ca5f40eac5f971a09d9a6837b115f0cb81db16938b8e2
+- filename: packages/frontend/src/assets/images/discover/partenaire-fabrique.svg
+  checksum: 57fe56d87f88e2640091654f554b10d1b10b971b65967a4ae28b6133259fe3b1
 - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.spec.ts
   checksum: 8f66091255109d0da277819584c6c69d4a7f720256842851a49b0dda16af6651
 - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.ts
@@ -44,7 +50,7 @@ fileignoreconfig:
 - filename: packages/portail-usagers/src/app/modules/general/components/_static/politique/politique.component.ts
   checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
 - filename: pnpm-lock.yaml
-  checksum: f0836a16dd241b7141cc44050669c14b0b68dd7b224aa050f77df9860c05b4f1
+  checksum: b8bc2a8a1eb329c4fcdbf26c5a7b1bee9cdf0166145a54aeed3f1708e6f41b82
 allowed_patterns:
 - uses:\s*[\w\-\.]+/[\w\-\.]+@[a-fA-F0-9]{40}
 - uses:\s*[\w\-\.]+/[\w\-\.]+/[\w\-\./]*@[a-fA-F0-9]{40}

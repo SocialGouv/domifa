@@ -1,0 +1,44 @@
+.rdv-radios-group {
+  width: 100%;
+  margin: 1.5rem auto;
+}
+
+.fr-text--lead {
+  background-position: 0 !important;
+}
+
+.rdv-choice {
+  width: 100%;
+  transition: all 0.2s ease;
+  margin: 1rem auto;
+  padding: 1.5rem 2.5rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+
+  .rdv-select {
+    align-items: center;
+    gap: 1rem;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+
+    label {
+      margin-bottom: 0.75rem;
+    }
+  }
+}
+
+.rdv-choice--idle {
+  background-color: var(--background-alt-grey);
+}
+
+.rdv-choice--selected {
+  background-color: var(--background-alt-blue-cumulus);
+}
+
+.rdv-description {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 0;
+}

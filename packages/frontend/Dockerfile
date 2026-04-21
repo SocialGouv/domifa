@@ -1,4 +1,4 @@
-FROM node:24-bookworm-slim AS deps
+FROM node:22-bookworm-slim AS deps
 
 RUN apt-get update -y && apt-get install -y gettext-base && rm -rf /var/lib/apt/lists/*
 
@@ -19,7 +19,7 @@ COPY ./packages/common ./packages/common
 
 RUN corepack enable \
   && corepack prepare pnpm@10.24.0 --activate \
-  && pnpm install --filter @domifa/common... --frozen-lockfile --offline \
+  && pnpm install --filter @domifa/common... --frozen-lockfile \
   && pnpm --filter @domifa/common build
 
 FROM deps AS builder
@@ -58,7 +58,7 @@ RUN envsubst < ./packages/frontend/src/environments/environment.prod.ts > ./pack
 
 RUN corepack enable \
   && corepack prepare pnpm@10.24.0 --activate \
-  && pnpm install --filter @domifa/frontend... --frozen-lockfile --offline \
+  && pnpm install --filter @domifa/frontend... --frozen-lockfile \
   && pnpm --filter @domifa/frontend build
 
 FROM ghcr.io/socialgouv/docker/nginx4spa:8.2.4

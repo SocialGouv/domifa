@@ -4,10 +4,12 @@ import { debounceTime } from "rxjs/operators";
 import { fadeInOut } from "../../../../shared";
 
 import { LoadingService } from "../../services/loading.service";
+import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 @Component({
   animations: [fadeInOut],
   selector: "app-loading",
+  imports: [DsfrSpinnerComponent],
   styleUrls: ["./loading.component.css"],
   templateUrl: "./loading.component.html",
 })

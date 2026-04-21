@@ -14,12 +14,12 @@ import { SMS_LABELS } from "../../../constants";
 
 @Component({
   selector: "app-profil-historique-sms",
-  styleUrls: ["../historique-table.scss"],
   templateUrl: "./profil-historique-sms.component.html",
+  standalone: false,
 })
 export class ProfilHistoriqueSmsComponent implements OnInit, OnDestroy {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public me!: UserStructure;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure;
   private readonly subscription = new Subscription();
 
   public readonly SMS_LABELS = SMS_LABELS;
@@ -35,6 +35,15 @@ export class ProfilHistoriqueSmsComponent implements OnInit, OnDestroy {
 
   constructor(private readonly usagerProfilService: UsagerProfilService) {
     this.loading = true;
+  }
+
+  public get totalPages(): number {
+    return Math.ceil(this.searchResults.meta.itemCount / this.params.take);
+  }
+
+  public onPageSelect(page: number): void {
+    this.params.page = page;
+    this.getSms();
   }
 
   public ngOnInit(): void {

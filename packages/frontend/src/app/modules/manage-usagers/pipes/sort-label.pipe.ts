@@ -4,6 +4,7 @@ import { UsagersFilterCriteriaSortKey } from "../classes";
 @Pipe({
   name: "sortLabel",
   pure: true,
+  standalone: false,
 })
 export class SortLabelPipe implements PipeTransform {
   private readonly LABELS_SORT: {

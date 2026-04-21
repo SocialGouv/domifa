@@ -11,10 +11,6 @@ import {
   NO_ERRORS_SCHEMA,
 } from "@angular/core";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
-import { LoadingComponent } from "../shared/components/loading/loading.component";
-
 import { CguComponent } from "./components/static-pages/cgu/cgu.component";
 import { NotFoundComponent } from "./components/errors/not-found/not-found.component";
 import { FaqComponent } from "./components/faq/faq.component";
@@ -28,39 +24,40 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
 import { RouterModule } from "@angular/router";
 
 import { SharedModule } from "../shared/shared.module";
-import { LoginComponent } from "./components/login/login.component";
 import { PlanSiteComponent } from "./components/plan-site/plan-site.component";
-import { HelpModalComponent } from "./components/static-modals/help-modal/help-modal.component";
 import { RgaaComponent } from "./components/static-pages/rgaa/rgaa.component";
 import { LandingPagePortailComponent } from "./components/static-pages/landing-page-portail/landing-page-portail.component";
 import { HomeStatsComponent } from "../stats/components/home-stats/home-stats.component";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+
 import { WelcomeService } from "./services/welcome.service";
+import { FaqSectionComponent } from "../shared/components/faq-section/faq-section.component";
+import { DecouvrirDomifaComponent } from "./components/decouvrir-domifa/decouvrir-domifa.component";
+import {
+  DsfrUserMenuComponent,
+  DsfrLinkComponent,
+  DsfrButtonComponent,
+  DsfrResponseComponent,
+  DsfrModalComponent,
+} from "@edugouvfr/ngx-dsfr";
+import { LoginDropdownComponent } from "./components/navbar/fragments/login-dropdown/login-dropdown.component";
+import { DsfrTimelineComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 @NgModule({
   declarations: [
     HomeComponent,
-    LoadingComponent,
-    MentionsLegalesComponent,
     NotFoundComponent,
     FaqComponent,
     NewsComponent,
-    CguComponent,
-    PolitiqueComponent,
     NavbarComponent,
-    LoginComponent,
     PlanSiteComponent,
-    HelpModalComponent,
     IdleManagerComponent,
-    RgaaComponent,
-    LandingPagePortailComponent,
+    DecouvrirDomifaComponent,
+    LoginDropdownComponent,
   ],
   exports: [
-    LoadingComponent,
     NotFoundComponent,
     NavbarComponent,
     CguComponent,
-    HelpModalComponent,
     IdleManagerComponent,
     LandingPagePortailComponent,
   ],
@@ -69,12 +66,22 @@ import { WelcomeService } from "./services/welcome.service";
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule,
     SharedModule,
     RouterModule.forChild([]),
-    NgbModule,
-    FontAwesomeModule,
     HomeStatsComponent,
+    FaqSectionComponent,
+    DsfrTimelineComponent,
+    DsfrUserMenuComponent,
+    DsfrLinkComponent,
+    DsfrButtonComponent,
+    DsfrResponseComponent,
+    DsfrModalComponent,
+    DsfrUserMenuComponent,
+    CguComponent,
+    MentionsLegalesComponent,
+    PolitiqueComponent,
+    RgaaComponent,
+    LandingPagePortailComponent,
   ],
   providers: [
     GeneralService,

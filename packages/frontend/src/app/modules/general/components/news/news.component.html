@@ -1,38 +1,77 @@
-<div class="head-page py-4">
-  <div class="container">
-    <h1 class="title">Les dernières nouveautés de DomiFa</h1>
+<div class="fr-background-contrast--blue-ecume">
+  <div class="fr-container">
+    <div class="fr-grid-row fr-grid-row--middle fr-grid-row--gutters">
+      <div class="fr-col-12 fr-col-md-7 fr-py-3w fr-py-md-5w">
+        <h1 class="fr-text-title--blue-france">Nouveautés sur DomiFa</h1>
+        <p class="fr-text--lead fr-text-title--blue-france">
+          Cette page recense toutes les nouveautés et améliorations de l'outil
+          DomiFa, mise à jour régulièrement afin de vous tenir informé des
+          dernières évolutions.
+        </p>
+      </div>
+      <div class="fr-col-md-5 fr-hidden fr-unhidden-md fr-py-1w">
+        <img
+          class="head-page-illustration"
+          src="/assets/images/news.svg"
+          alt=""
+        />
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="content py-3" *ngIf="DOMIFA_NEWS">
-  <div class="container py-3">
-    <div class="card my-3 text-start" *ngFor="let news of DOMIFA_NEWS">
-      <h2 class="my-2">
-        Nouveautés du {{ news.date | date : "d MMMM y"
-        }}<span *ngIf="news.description"> - {{ news.description }}</span>
+<div class="fr-content-container">
+  <div class="fr-container">
+    <div class="fr-tabs">
+      <ul
+        class="fr-tabs__list"
+        role="tablist"
+        aria-label="Nouveautés par année"
+      >
+        @for (year of years; track year) {
+        <li role="presentation">
+          <button
+            [class.fr-tabs__tab--selected]="selectedYear === year"
+            class="fr-tabs__tab"
+            role="tab"
+            [attr.aria-selected]="selectedYear === year"
+            type="button"
+            (click)="selectYear(year)"
+          >
+            {{ year }}
+          </button>
+        </li>
+        }
+      </ul>
+    </div>
+
+    @for (news of filteredNews; track news.date) {
+    <div class="fr-content fr-mb-2w">
+      <h2 class="fr-my-2w">
+        Nouveautés du {{ news.date | date : "d MMMM y" }}@if (news.description)
+        {<span> - {{ news.description }}</span
+        >}
       </h2>
 
-      <ng-container *ngFor="let content of news.content">
-        <p class="text-start my-1">
-          <span
-            class="badge badge-pill"
-            [ngClass]="{
-              'bg-primary': content.type === 'new',
-              'bg-warning text-dark': content.type === 'bug'
-            }"
-          >
-            {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
-          </span>
-          &nbsp;
-          <b>{{ content.categorie }}</b>
-        </p>
-        <ul class="mb-2">
-          <li
-            *ngFor="let message of content.message"
-            [innerHTML]="message | nl2br"
-          ></li>
-        </ul>
-      </ng-container>
+      @for (content of news.content; track content.categorie) {
+      <h3 class="text-start fr-my-1w">
+        <span
+          class="fr-badge"
+          [class.fr-badge--info]="content.type === 'new'"
+          [class.fr-badge--warning]="content.type === 'bug'"
+        >
+          {{ content?.type === "bug" ? "Améliorations" : "Nouveauté" }}
+        </span>
+        &nbsp;
+        <span [innerHTML]="content.categorie | ariaHideEmoji"></span>
+      </h3>
+      <ul class="fr-mb-2w">
+        @for (message of content.message; track message) {
+        <li [innerHTML]="message | nl2br"></li>
+        }
+      </ul>
+      }
     </div>
+    }
   </div>
 </div>

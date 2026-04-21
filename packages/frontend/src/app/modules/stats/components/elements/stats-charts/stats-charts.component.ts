@@ -8,6 +8,7 @@ import { PublicStats, StatsByMonth } from "@domifa/common";
   selector: "app-stats-charts",
   templateUrl: "./stats-charts.component.html",
   styleUrls: ["./stats-charts.component.css"],
+  standalone: false,
 })
 export class StatsChartsComponent implements OnChanges {
   public view: number[] = [700, 400];
@@ -24,7 +25,7 @@ export class StatsChartsComponent implements OnChanges {
     name: "ocean",
     selectable: false,
     group: ScaleType.Ordinal,
-    domain: ["#4164f5"],
+    domain: ["#00009d"],
   };
   public xAxisLabel = "";
   public showYAxisLabel = true;
@@ -35,7 +36,7 @@ export class StatsChartsComponent implements OnChanges {
   public statsInCharts!: StatsByMonth;
   public selectedCharts: "courriers" | "usagers" = "courriers";
 
-  @Input() public publicStats!: PublicStats;
+  @Input({ required: true }) public publicStats!: PublicStats;
 
   public ngOnChanges(): void {
     if (this.publicStats) {

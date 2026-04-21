@@ -1,0 +1,10 @@
+<span class="fr-badge fr-badge--sm" [ngClass]="badgeClass">
+  <ng-container *ngIf="showNeverUsed">Jamais connecté</ng-container>
+  <ng-container *ngIf="showInactiveOneYear"
+    >Inactif depuis plus d'un an</ng-container
+  >
+  <ng-container *ngIf="showInactive2Months">Inactif depuis 2 mois</ng-container>
+  <ng-container *ngIf="showLastLoginDate && !showInactiveOneYear">
+    Compte actif
+  </ng-container>
+</span>

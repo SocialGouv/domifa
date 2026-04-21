@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
     private readonly titleService: Title,
     private readonly router: Router,
     private readonly usagerAuthService: UsagerAuthService,
-    private readonly matomo: MatomoTracker
+    private readonly matomo: MatomoTracker,
   ) {
     this.apiVersion = null;
     this.usagerProfile = null;
@@ -82,14 +82,14 @@ export class AppComponent implements OnInit {
     this.newsModal.close();
     localStorage.setItem(
       "NEWS_MON_DOMIFA",
-      new Date(DOMIFA_NEWS[0].date).toISOString()
+      new Date(DOMIFA_NEWS[0].date).toISOString(),
     );
     this.pendingNews = false;
   }
 
   public ngOnInit(): void {
     this.titleService.setTitle(
-      "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices"
+      "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices",
     );
 
     this.usagerAuthService.currentUsagerSubject.subscribe(
@@ -99,7 +99,7 @@ export class AppComponent implements OnInit {
         if (usager) {
           this.checkNews();
         }
-      }
+      },
     );
 
     this.router.events

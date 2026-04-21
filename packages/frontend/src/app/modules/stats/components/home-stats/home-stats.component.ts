@@ -4,14 +4,12 @@ import { CountUpOptions } from "countup.js";
 import { StatsService } from "../../services/stats.service";
 import { Subscription } from "rxjs";
 import { CountUpModule } from "ngx-countup";
-import { NgIf } from "@angular/common";
 import { RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-home-stats",
   templateUrl: "./home-stats.component.html",
-  standalone: true,
-  imports: [NgIf, CountUpModule, RouterLink],
+  imports: [CountUpModule, RouterLink],
   styleUrls: ["./home-stats.component.css"],
 })
 export class HomeStatsComponent implements OnInit {

@@ -15,7 +15,7 @@ footer {
 #skip-links {
   width: 100%;
   padding: 0.25rem 0;
-  background-color: white;
+  background-color: var(--background-default-grey);
   position: absolute;
   top: 0;
   transform: translateY(-100%);
@@ -42,21 +42,4 @@ footer {
   border: 1px solid #b1b1b1;
   border-radius: 5px;
   margin: 1rem auto;
-}
-
-#logo-footer img {
-  height: 200px;
-  width: auto;
-}
-.content-list {
-  .ng-fa-icon {
-    margin-left: 0.3rem;
-  }
-
-  li {
-    display: inline-block;
-    padding: 1rem;
-    font-size: 1rem;
-    font-weight: bold;
-  }
 }

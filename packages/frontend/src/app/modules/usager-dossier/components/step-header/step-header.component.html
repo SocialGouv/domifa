@@ -1,158 +1,59 @@
-<div class="head-page py-4 d-print-none" *ngIf="usager">
-  <div class="container">
-    <div class="px-0 mx-0 d-md-flex justify-content-between align-items-center">
-      <div class="px-0 mx-0 d-block d-md-flex align-items-center">
-        <a
-          [routerLink]="['/manage']"
-          ariaCurrentWhenActive="page"
-          class="px-3"
-          *ngIf="!isMobile"
-          aria-label="Revenir à la liste des domiciliés"
-          title="Revenir à la liste des domiciliés"
-        >
-          <fa-icon
-            class="fa-2x text-white"
-            aria-hidden="true"
-            [icon]="['fas', 'angle-left']"
-          ></fa-icon>
-        </a>
-        <h1 class="m-0">
-          <span *ngIf="!usager.uuid">Nouvelle demande</span>
-          <ng-container *ngIf="usager.uuid">
-            {{
-              !usager?.echeanceInfos?.isActif
-                ? "Première demande"
-                : "Renouvellement"
-            }}
-            de {{ usager | fullName }}
-          </ng-container>
-        </h1>
+<div class="fr-background-action-low--blue-cumulus fr-py-3w" *ngIf="usager">
+  <div class="fr-container">
+    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+      <div class="fr-col-auto">
+        <div class="fr-display--flex fr-align-items--center">
+          <a
+            [routerLink]="['/manage']"
+            routerLinkActive="page"
+            class="fr-btn fr-btn--tertiary fr-text-action-high--blue-france"
+            aria-label="Revenir à la liste des domiciliés"
+            title="Revenir à la liste des domiciliés"
+          >
+            <span class="fr-icon-arrow-left-s-line" aria-hidden="true"></span>
+          </a>
+          <h1 class="fr-m-0 fr-ml-2w fr-text-action-high--blue-france">
+            <span *ngIf="!usager.uuid">Nouvelle demande</span>
+            <ng-container *ngIf="usager.uuid">
+              {{
+                usager.typeDom === "RENOUVELLEMENT"
+                  ? "Renouvellement"
+                  : "Première demande"
+              }}
+              de {{ usager | fullName }}
+            </ng-container>
+          </h1>
+        </div>
       </div>
 
-      <div class="px-0 mx-0 d-block d-md-flex align-items-center">
-        <a
-          ariaCurrentWhenActive="page"
-          [routerLink]="['/profil/general', usager.ref]"
-          class="btn btn-white-primary my-2 my-md-0 mx-auto mx-md-1"
-          *ngIf="usager.uuid"
-        >
-          Voir le dossier complet
-        </a>
-        <a
-          aria-label="Naviguer vers les commentaires privés"
-          ariaCurrentWhenActive="page"
-          [routerLink]="currentUrl"
-          class="btn btn-white-primary my-2 my-md-0 mx-auto mx-md-1 d-flex align-items-center"
-          *ngIf="usager.uuid"
-          fragment="notes"
-        >
-          <div class="icon-note me-2"></div>
-          Commentaires privés
-          <div class="notif-notes ms-2">
-            {{ nbNotes }}
-          </div>
-        </a>
+      <div class="fr-col"></div>
+
+      <div class="fr-col-auto">
+        <div class="fr-display--flex fr-align-items--center fr-gap-2w">
+          <a
+            *ngIf="usager.uuid"
+            [routerLink]="['/profil/general', usager.ref]"
+            routerLinkActive="page"
+            class="fr-btn fr-btn--secondary fr-mx-2w"
+          >
+            Voir le dossier complet
+          </a>
+          <a
+            *ngIf="usager.uuid"
+            [routerLink]="currentUrl"
+            [fragment]="'notes'"
+            routerLinkActive="page"
+            class="fr-btn fr-btn--secondary"
+            aria-label="Naviguer vers les notes"
+          >
+            <span class="fr-icon-message-2-line" aria-hidden="true"></span>
+            Notes
+            <span class="fr-badge fr-badge--info" *ngIf="nbNotes > 0">
+              {{ nbNotes }}
+            </span>
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-<div class="steps" *ngIf="usager">
-  <div class="container">
-    <div class="d-md-none d-block py-3">
-      <label for="form-menu">Étapes du formulaire</label>
-      <select
-        class="form-select"
-        id="form-menu"
-        [ngModel]="currentStep"
-        (change)="changeStep($event)"
-      >
-        <ng-container *ngFor="let etape of ETAPES_FORM_DOM; let i = index">
-          <option [value]="i">
-            Étape {{ i + 1 }} sur 5 du formulaire,
-            {{ ETAPES_FORM_DOM_TITRES[i] }}.
-          </option>
-        </ng-container>
-      </select>
-    </div>
-
-    <nav
-      id="steps"
-      class="d-none d-md-block"
-      aria-label="Menu de navigation des étapes du formulaire de demande de domiciliation"
-    >
-      <ol>
-        <li
-          class="step"
-          *ngFor="let etape of ETAPES_FORM_DOM; let i = index"
-          id="step{{ i }}"
-        >
-          <button
-            (click)="goToStep(i)"
-            type="button"
-            [attr.aria-disabled]="
-              (usager.ref === 0 || i > usager.etapeDemande) && i > 0
-            "
-          >
-            <span *ngIf="currentStep > i" class="step-number step_check">
-              <span class="visually-hidden"
-                >Naviguer vers l'étape {{ i + 1 }} sur 5,
-                {{ ETAPES_FORM_DOM_TITRES[i] }}. Cette étape a déjà été
-                complétée.
-              </span>
-              <fa-icon aria-hidden="true" [icon]="['fas', 'check']"></fa-icon>
-            </span>
-            <span
-              *ngIf="currentStep <= i"
-              [ngClass]="{
-                step_active: currentStep === i,
-                step_inactive:
-                  (usager.ref === 0 || i > usager.etapeDemande) && i > 0
-              }"
-              class="step-number"
-            >
-              <span class="visually-hidden">Étape </span>
-              <span aria-hidden="true">{{ i + 1 }}</span>
-              <span class="visually-hidden">
-                sur 5, {{ ETAPES_FORM_DOM_TITRES[i] }}
-              </span>
-              <span class="visually-hidden" *ngIf="currentStep === i">
-                étape active, veuillez compléter ce formulaire pour accéder à la
-                suite
-              </span>
-              <span
-                class="visually-hidden"
-                *ngIf="(usager.ref === 0 || i > usager.etapeDemande) && i > 0"
-              >
-                , veuillez compléter les étapes précédentes pour y accéder:
-              </span>
-            </span>
-            <span
-              [ngClass]="{
-                step_text_active: currentStep === i,
-                step_text_inactive:
-                  usager.ref === 0 || (i > usager.etapeDemande && i > 0)
-              }"
-              class="step_text"
-            >
-              <span aria-hidden="true">{{ etape }}</span>
-            </span>
-          </button>
-          <div
-            *ngIf="i < 4"
-            [className]="currentStep > i ? 'check_sep' : ''"
-            aria-hidden="true"
-          >
-            <span
-              class="separateur"
-              [ngClass]="{
-                step_text_active: currentStep === i,
-                separateur_inactive:
-                  (usager.ref === 0 || i > usager.etapeDemande) && i > 0
-              }"
-            ></span>
-          </div>
-        </li>
-      </ol>
-    </nav>
   </div>
 </div>

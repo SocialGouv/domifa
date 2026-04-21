@@ -4,21 +4,23 @@ import { Subscription } from "rxjs";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { InteractionService } from "../../../../usager-shared/services/interaction.service";
 import { Interaction, Order, PageResults, UserStructure } from "@domifa/common";
+import { INTERACTION_ICONS } from "../../../constants";
 
 @Component({
   selector: "app-profil-general-historique-courriers",
   templateUrl: "./profil-general-historique-courriers.component.html",
   styleUrls: ["./profil-general-historique-courriers.component.css"],
+  standalone: false,
 })
 export class ProfilGeneralHistoriqueCourriersComponent
   implements OnInit, OnDestroy
 {
-  @Input() public usager!: UsagerFormModel;
-  @Input() public me!: UserStructure;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure;
 
   private readonly subscription = new Subscription();
   public interactions: Interaction[];
-
+  public readonly INTERACTION_ICONS = INTERACTION_ICONS;
   constructor(private readonly interactionService: InteractionService) {
     this.interactions = [];
   }

@@ -1,6 +1,7 @@
-.alert {
+.fr-alert {
   display: block;
 }
+
 p,
 label {
   text-align: left;

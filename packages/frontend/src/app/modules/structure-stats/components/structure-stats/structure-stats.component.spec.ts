@@ -5,8 +5,6 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { StructuresModule } from "src/app/modules/structures/structures.module";
 
 import { _usagerReducer, MATOMO_INJECTORS } from "../../../../shared";
@@ -27,7 +25,6 @@ describe("StuctureStatsComponent", () => {
       imports: [
         StructuresModule,
         HttpClientTestingModule,
-        NgbModule,
         FormsModule,
         SharedModule,
         RouterModule.forRoot([]),

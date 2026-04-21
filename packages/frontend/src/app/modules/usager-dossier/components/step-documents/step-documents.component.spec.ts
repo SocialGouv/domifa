@@ -4,8 +4,6 @@ import { StepDocumentsComponent } from "./step-documents.component";
 
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { APP_BASE_HREF } from "@angular/common";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
@@ -21,7 +19,7 @@ describe("StepDocumentsComponent", () => {
     TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
-        NgbModule,
+
         ReactiveFormsModule,
         FormsModule,
         StoreModule.forRoot({ app: _usagerReducer }),

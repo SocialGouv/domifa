@@ -1,27 +1,28 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { SetNpaiComponent } from "./set-npai.component";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../../shared";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
+import { ComponentRef } from "@angular/core";
 
 describe("SetNpaiComponent", () => {
   let component: SetNpaiComponent;
+  let componentRef: ComponentRef<SetNpaiComponent>;
   let fixture: ComponentFixture<SetNpaiComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SetNpaiComponent],
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({ app: _usagerReducer }),
-      ],
+      imports: [SetNpaiComponent, StoreModule.forRoot({ app: _usagerReducer })],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SetNpaiComponent);
     component = fixture.componentInstance;
-    component.usager = new UsagerFormModel();
+    componentRef = fixture.componentRef;
+    componentRef.setInput("usager", new UsagerFormModel());
     fixture.detectChanges();
   });
 

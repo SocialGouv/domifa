@@ -5,7 +5,7 @@ import { ColumnInformationsComponent } from "./column-informations.component";
 import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { UsagerSharedModule } from "../../../usager-shared/usager-shared.module";
 
 describe("ColumnInformationsComponent", () => {
@@ -15,7 +15,7 @@ describe("ColumnInformationsComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ColumnInformationsComponent],
-      imports: [NgbModule, UsagerSharedModule],
+      imports: [UsagerSharedModule],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

@@ -55,11 +55,7 @@ describe("UsagerDossierService", () => {
       dateRdv: new Date("December 20, 2035 02:12:00"),
       heureRdv: "02:12",
       isNow: false,
-      jourRdv: {
-        day: 20,
-        month: 12,
-        year: 2035,
-      },
+      jourRdv: "2035-12-20",
       userId: 10,
       userName: "DomiFa",
     });

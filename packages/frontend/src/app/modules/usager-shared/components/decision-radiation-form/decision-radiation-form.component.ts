@@ -1,9 +1,9 @@
 import {
+  ChangeDetectorRef,
   Component,
   OnInit,
   Input,
   OnDestroy,
-  TemplateRef,
   ViewChild,
   EventEmitter,
   Output,
@@ -14,29 +14,25 @@ import {
   AbstractControl,
   Validators,
 } from "@angular/forms";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { Subject, Subscription, concatMap, from, toArray } from "rxjs";
 import { debounceTime, exhaustMap } from "rxjs/operators";
 import {
-  DEFAULT_MODAL_OPTIONS,
   UsagerDecisionRadiationForm,
   UsagerLight,
 } from "../../../../../_common/model";
-import {
-  usagerActions,
-  minDateToday,
-  parseDateFromNgb,
-} from "../../../../shared";
+import { usagerActions, getTodayIso, parseFrDate } from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../interfaces";
 import { UsagerDecisionService } from "../../services/usager-decision.service";
 import { MOTIFS_RADIATION_LABELS } from "@domifa/common";
 import { Store } from "@ngrx/store";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-decision-radiation-form",
   styleUrls: ["./decision-radiation-form.component.scss"],
   templateUrl: "./decision-radiation-form.component.html",
+  standalone: false,
 })
 export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
   @Input()
@@ -56,26 +52,21 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
 
   public readonly MOTIFS_RADIATION_LABELS = MOTIFS_RADIATION_LABELS;
 
-  public readonly minDate = {
-    day: 1,
-    month: 1,
-    year: new Date().getFullYear() - 1,
-  };
-
-  public readonly maxDate = minDateToday;
+  public readonly minDate = `${new Date().getFullYear() - 1}-01-01`;
+  public readonly maxDate = getTodayIso();
 
   private readonly subscription = new Subscription();
   private readonly submitSubject$ = new Subject<UsagerDecisionRadiationForm>();
 
-  @ViewChild("decisionRadiationFormModal", { static: true })
-  public decisionRadiationFormModal!: TemplateRef<NgbModalRef>;
+  @ViewChild("decisionRadiationFormModal")
+  public decisionRadiationFormModal!: DsfrModalComponent;
 
   constructor(
-    private readonly modalService: NgbModal,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly usagerDecisionService: UsagerDecisionService,
     private readonly toastService: CustomToastService,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.submitted = false;
     this.loading = false;
@@ -88,7 +79,7 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.radiationForm = this.formBuilder.group({
-      motif: [null, [Validators.required]],
+      motif: ["", [Validators.required]],
       dateFin: [null, [Validators.required]],
       statut: ["RADIE", [Validators.required]],
       motifDetails: [null, []],
@@ -157,7 +148,7 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
               this.actionAfterSuccess.emit();
             }
 
-            this.modalService.dismissAll();
+            this.closeModals();
           },
           error: () => {
             this.loading = false;
@@ -168,12 +159,17 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
   }
 
   public setDecisionRadiation(): void {
+    console.log("setDecisionRadiation", this.radiationForm.value);
     if (this.loading) {
       return;
     }
 
     this.loading = true;
     this.submitted = true;
+    this.radiationForm.markAllAsTouched();
+    this.radiationForm.markAsDirty();
+    this.radiationForm.updateValueAndValidity();
+    this.changeDetectorRef.detectChanges();
 
     if (this.radiationForm.invalid) {
       this.loading = false;
@@ -184,21 +180,22 @@ export class DecisionRadiationFormComponent implements OnInit, OnDestroy {
     }
     const formDatas: UsagerDecisionRadiationForm = {
       ...this.radiationForm.value,
-      dateFin: parseDateFromNgb(this.radiationForm.controls.dateFin.value),
+      dateFin: parseFrDate(this.radiationForm.controls.dateFin.value),
     };
 
     this.submitSubject$.next(formDatas);
   }
 
   public closeModals(): void {
-    this.modalService.dismissAll();
+    if (this.decisionRadiationFormModal) {
+      this.decisionRadiationFormModal.close();
+    }
   }
 
   public openRadiationModal(): void {
-    this.modalService.open(
-      this.decisionRadiationFormModal,
-      DEFAULT_MODAL_OPTIONS
-    );
+    if (this.decisionRadiationFormModal) {
+      this.decisionRadiationFormModal.open();
+    }
   }
 
   public ngOnDestroy(): void {

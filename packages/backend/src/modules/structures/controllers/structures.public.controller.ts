@@ -33,7 +33,7 @@ export class StructuresPublicController {
       try {
         const userWithStructure =
           await userStructureRepository.getUserWithStructureByIdForSync(userId);
-        if (userWithStructure) {
+        if (userWithStructure && domifaConfig().envId === "prod") {
           await this.brevoSenderService.syncContactToBrevo(userWithStructure);
           await this.brevoSenderService.sendEmailWithTemplate({
             templateId:

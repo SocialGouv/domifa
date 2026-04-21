@@ -2,7 +2,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { MATOMO_INJECTORS } from "../../../../../shared";
 import { PolitiqueComponent } from "./politique.component";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { FormsModule } from "@angular/forms";
 
 describe("PolitiqueComponent", () => {
   let component: PolitiqueComponent;
@@ -10,13 +9,10 @@ describe("PolitiqueComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PolitiqueComponent],
-      imports: [...MATOMO_INJECTORS, FormsModule],
+      imports: [PolitiqueComponent, ...MATOMO_INJECTORS],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(PolitiqueComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

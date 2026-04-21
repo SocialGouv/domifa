@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { EditUserComponent } from "./edit-user.component";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
 import { APP_BASE_HREF } from "@angular/common";
@@ -19,7 +19,6 @@ describe("EditUserComponent", () => {
     TestBed.configureTestingModule({
       declarations: [EditUserComponent],
       imports: [
-        NgbModule,
         ReactiveFormsModule,
         FormsModule,
         RouterModule.forRoot([]),

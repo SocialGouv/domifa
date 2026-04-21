@@ -11,12 +11,14 @@ import { StructureCommonWeb } from "../../../structures/classes";
   selector: "app-portail-usagers-params",
   templateUrl: "./portail-usagers-params.component.html",
   styleUrls: ["./portail-usagers-params.component.css"],
+  standalone: false,
 })
 export class PortailUsagersParamsComponent implements OnInit, OnDestroy {
   public me!: UserStructure | null;
   public structure!: StructureCommon;
 
   public loading: boolean;
+  public successMessage: string | null = null;
   private readonly subscription = new Subscription();
   public section: "" | "parametres" | "informations" = "";
 
@@ -54,6 +56,7 @@ export class PortailUsagersParamsComponent implements OnInit, OnDestroy {
   }
 
   public submitStructurePortailForm() {
+    this.successMessage = null;
     this.subscription.add(
       this.managePortailUsagersService
         .patchPortailUsagerParams({
@@ -65,13 +68,12 @@ export class PortailUsagersParamsComponent implements OnInit, OnDestroy {
           next: (structure: StructureCommonWeb) => {
             this.loading = false;
             this.me.structure = structure;
-
-            this.toastService.success(
-              "Paramètres du portail usager mis à jour avec succès"
-            );
+            this.successMessage =
+              "Paramètres du portail usager mis à jour avec succès";
           },
           error: () => {
             this.loading = false;
+            this.successMessage = null;
             this.toastService.error(
               "Impossible de mettre à jour les paramètres"
             );

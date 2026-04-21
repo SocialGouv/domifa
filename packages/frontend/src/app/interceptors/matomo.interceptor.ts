@@ -13,7 +13,7 @@ export class MatomoInterceptor implements MatomoRouterInterceptor {
     const title = this.titleService.getTitle();
 
     if (urlParts[1] === "profil" || urlParts[1] === "usager") {
-      const newTitle = title.replace(/ de.*/g, " de xxx xxx");
+      const newTitle = title.replaceAll(/ de.*/g, " de xxx xxx");
       this.tracker.setDocumentTitle(newTitle);
     }
   }

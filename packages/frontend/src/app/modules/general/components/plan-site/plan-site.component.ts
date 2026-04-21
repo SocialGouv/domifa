@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import { AuthService } from "../../../shared/services/auth.service";
 import { LIENS_PARTENAIRES } from "./LIENS_PARTENAIRES.const";
 import { REGIONS_LISTE, REGIONS_ID_SEO } from "@domifa/common";
@@ -9,12 +8,12 @@ import { REGIONS_LISTE, REGIONS_ID_SEO } from "@domifa/common";
   selector: "app-plan-site",
   templateUrl: "./plan-site.component.html",
   styleUrls: ["./plan-site.component.css"],
+  standalone: false,
 })
 export class PlanSiteComponent implements OnInit {
   public readonly REGIONS_LISTE = REGIONS_LISTE;
   public readonly REGIONS_ID_SEO = REGIONS_ID_SEO;
 
-  public readonly faExternalLinkAlt = faExternalLinkAlt;
   public siteMapLinksLogged: {
     section: string;
     links: {
@@ -72,6 +71,7 @@ export class PlanSiteComponent implements OnInit {
         { label: "Mentions légales de DomiFa", path: "/mentions-legales" },
         { label: "Déclaration d’accessibilité", path: "/accessibilite" },
         { label: "Conditions d’utilisation de DomiFa", path: "/cgu" },
+        { label: "Nos partenaires", path: "/partenaires" },
         { label: "Nouveautés", path: "/news" },
         { label: "Consulter les statistiques de DomiFa", path: "/stats" },
         { label: "Notre impact", path: "/stats/impact" },

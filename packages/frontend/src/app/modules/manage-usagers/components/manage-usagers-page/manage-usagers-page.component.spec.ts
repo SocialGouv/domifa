@@ -3,7 +3,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { _usagerReducer, MATOMO_INJECTORS } from "../../../../shared";
 
 import { ManageUsagersPageComponent } from "./manage-usagers-page.component";
@@ -25,7 +25,7 @@ describe("ManageUsagersPageComponent", () => {
       declarations: [ManageUsagersPageComponent],
       imports: [
         FormsModule,
-        NgbModule,
+
         ReactiveFormsModule,
         RouterModule.forChild([]),
         StoreModule.forRoot({ app: _usagerReducer }),

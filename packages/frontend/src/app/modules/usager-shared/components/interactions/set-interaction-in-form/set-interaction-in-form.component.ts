@@ -5,26 +5,34 @@ import {
   Input,
   OnDestroy,
   Output,
+  ViewChild,
 } from "@angular/core";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import {
   InteractionInForm,
   InteractionInForApi,
-} from "../../../../../../_common/model/interaction";
+} from "../../../interfaces/interaction";
 import { INTERACTIONS_IN, InteractionIn } from "@domifa/common";
-import { bounce } from "../../../../../shared";
+import { bounce, selectUsagerById, UsagerState } from "../../../../../shared";
 import { UsagerFormModel } from "../../../interfaces";
 import { InteractionService } from "../../../services/interaction.service";
 import { Subscription } from "rxjs";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { Store } from "@ngrx/store";
+import { UsagerLight } from "../../../../../../_common/model";
 
 @Component({
   animations: [bounce],
   selector: "app-set-interaction-in-form",
   templateUrl: "./set-interaction-in-form.component.html",
-  styleUrls: ["../interactions.css"],
+  styleUrls: ["../interactions.scss"],
+  standalone: false,
 })
 export class SetInteractionInFormComponent implements OnDestroy {
-  @Input() public usager!: UsagerFormModel;
+  @ViewChild("receptionModal")
+  public receptionModal!: DsfrModalComponent;
+
+  @Input({ required: true }) public usager!: UsagerFormModel;
 
   @Output()
   public readonly cancelReception = new EventEmitter<void>();
@@ -32,7 +40,7 @@ export class SetInteractionInFormComponent implements OnDestroy {
   @Output()
   public readonly updateInteractions = new EventEmitter<void>();
 
-  private readonly subscription = new Subscription();
+  private modalSubscription = new Subscription();
 
   public interactionFormData: InteractionInForm;
   public content: string | null;
@@ -40,7 +48,8 @@ export class SetInteractionInFormComponent implements OnDestroy {
 
   constructor(
     private readonly interactionService: InteractionService,
-    private readonly toastService: CustomToastService
+    private readonly toastService: CustomToastService,
+    private readonly store: Store<UsagerState>
   ) {
     this.interactionFormData = {
       courrierIn: {
@@ -57,6 +66,46 @@ export class SetInteractionInFormComponent implements OnDestroy {
       },
     };
     this.content = null;
+  }
+
+  public open(): void {
+    this.modalSubscription = new Subscription();
+    this.modalSubscription.add(
+      this.store.select(selectUsagerById(this.usager.ref)).subscribe({
+        next: (usager: UsagerLight) => {
+          if (usager) {
+            this.usager = new UsagerFormModel(usager);
+          }
+        },
+      })
+    );
+    this.initFormData();
+    this.receptionModal.open();
+  }
+
+  private initFormData(): void {
+    this.loading = false;
+    this.interactionFormData = {
+      courrierIn: {
+        nbCourrier: 0,
+        content: null,
+      },
+      recommandeIn: {
+        nbCourrier: 0,
+        content: null,
+      },
+      colisIn: {
+        nbCourrier: 0,
+        content: null,
+      },
+    };
+    this.content = null;
+  }
+
+  public close(): void {
+    this.modalSubscription.unsubscribe();
+    this.receptionModal.close();
+    this.cancelReception.emit();
   }
 
   public setInteractionForm(): void {
@@ -85,14 +134,14 @@ export class SetInteractionInFormComponent implements OnDestroy {
 
     this.loading = true;
 
-    this.subscription.add(
+    this.modalSubscription.add(
       this.interactionService
         .setInteraction(this.usager.ref, interactionsToSave)
         .subscribe({
           next: () => {
             this.toastService.success("Réception enregistrée avec succès");
-            this.cancelReception.emit();
             this.updateInteractions.emit();
+            this.close();
           },
           error: () => {
             this.toastService.error(
@@ -125,6 +174,6 @@ export class SetInteractionInFormComponent implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.modalSubscription.unsubscribe();
   }
 }

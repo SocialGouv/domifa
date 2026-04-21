@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -6,7 +12,6 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Subscription } from "rxjs";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { environment } from "../../../../../environments/environment";
 import { StructureService } from "../../services/structure.service";
 import { StructureCommon } from "@domifa/common";
@@ -17,6 +22,7 @@ import { MatomoTracker } from "ngx-matomo-client";
   selector: "app-structures-search",
   styleUrls: ["./structures-search.component.css"],
   templateUrl: "./structures-search.component.html",
+  standalone: false,
 })
 export class StructuresSearchComponent implements OnInit, OnDestroy {
   public structures: StructureCommon[];
@@ -31,10 +37,12 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
 
   public portailUsagerUrl = environment.portailUsagersUrl;
 
+  @ViewChild("searchResultTitle")
+  public searchResultTitle!: ElementRef;
+
   constructor(
     private readonly structureService: StructureService,
     private readonly formBuilder: UntypedFormBuilder,
-    private readonly toastService: CustomToastService,
     private readonly titleService: Title,
     public readonly matomo: MatomoTracker
   ) {
@@ -59,9 +67,6 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
   public submitCodePostal(): void {
     this.submitted = true;
     if (this.codePostalForm.invalid) {
-      this.toastService.error(
-        "Veuillez vérifier les champs marqués en rouge dans le formulaire"
-      );
       return;
     }
     this.loading = true;
@@ -83,6 +88,9 @@ export class StructuresSearchComponent implements OnInit, OnDestroy {
               1
             );
           }
+          setTimeout(() => {
+            this.searchResultTitle?.nativeElement?.focus();
+          });
         },
         error: () => {
           this.loading = false;

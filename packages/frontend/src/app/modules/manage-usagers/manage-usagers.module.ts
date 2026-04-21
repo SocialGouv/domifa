@@ -6,8 +6,6 @@ import {
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { SharedModule } from "../shared/shared.module";
 import { UsersModule } from "../users/users.module";
 import { UsagerSharedModule } from "../usager-shared/usager-shared.module";
@@ -31,33 +29,37 @@ import {
   DateFrConditionalDirective,
 } from "./directives";
 import { WelcomeModalComponent } from "../general/components/static-modals/welcome-modal/welcome-modal.component";
+import { DsfrModalComponent, DsfrTooltipDirective } from "@edugouvfr/ngx-dsfr";
+import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 @NgModule({
   declarations: [
     ManageUsagersPageComponent,
     ManageUsagersTableComponent,
     ManageDownloadDocsComponent,
-    ColumnInformationsComponent,
     ManageFiltersComponent,
     ColumnInteractionsComponent,
     SortLabelPipe,
     StickySelectionBarDirective,
     AssignReferrersComponent,
-    DateFrConditionalDirective,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     CommonModule,
     FormsModule,
     UsagerSharedModule,
-    NgbModule,
+    ColumnInformationsComponent,
     SharedModule,
+    DateFrConditionalDirective,
     UsersModule,
+    DsfrTooltipDirective,
     TableHeadSortIconComponent,
     ManageUsagersRoutingModule,
     FormatInternationalPhoneNumberPipe,
     FullNamePipe,
     WelcomeModalComponent,
+    DsfrModalComponent,
+    DsfrSpinnerComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

@@ -1,24 +1,10 @@
 .number {
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  padding: 8px;
+  width: 30px;
+  height: 30px;
+  padding: 2px;
   display: block;
-  background: #fff;
-  border: 1px solid var(--bs-primary);
-  color: var(--bs-primary);
+  color: var(--text-active-blue-france);
   text-align: center;
-}
-
-.icon-courrier {
-  width: 100%;
-  height: 100%;
-  display: block;
-  text-align: center;
-  box-sizing: border-box;
-  background-color: #4164f5;
-  -webkit-mask-size: 80% !important;
-  mask-size: 80% !important;
 }
 
 .interaction-separator {
@@ -33,7 +19,7 @@
   font-style: normal;
   font-weight: bold;
   font-size: 0.95rem;
-  color: var(--bs-primary);
+  color: var(--text-active-blue-france);
   line-height: 150%;
 }
 
@@ -43,4 +29,32 @@
 
 p {
   margin: 0;
+}
+
+i,
+span[class^="fr-icon-"],
+span[class*="ri-"],
+span[class*="fr-icon-"] {
+  color: var(--text-active-blue-france) !important;
+  margin-right: 0.5rem !important;
+  vertical-align: bottom !important;
+  display: inline-block !important;
+}
+
+[class^="fr-icon-"]::before,
+[class^="fr-icon-"]::after,
+[class*="fr-icon-"]::before,
+[class*="fr-icon-"]::after,
+[class^="fr-fi-"]::before,
+[class^="fr-fi-"]::after,
+[class*="fr-fi-"]::before,
+[class*="fr-fi-"]::after,
+[class*="ri-"]::before {
+  --icon-size: 1.65rem;
+  color: var(--text-active-blue-france) !important;
+  margin-right: 0.5rem !important;
+  vertical-align: bottom !important;
+  display: inline-block !important;
+  height: 1.65rem;
+  font-size: 1.65rem;
 }

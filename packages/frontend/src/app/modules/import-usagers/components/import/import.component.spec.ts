@@ -7,12 +7,10 @@ import { ImportComponent } from "./import.component";
 
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { SharedModule } from "../../../shared/shared.module";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
 
@@ -24,13 +22,11 @@ describe("ImportComponent", () => {
     TestBed.configureTestingModule({
       declarations: [ImportComponent],
       imports: [
-        NgbModule,
         RouterModule.forRoot([]),
         StoreModule.forRoot({ app: _usagerReducer }),
         SharedModule,
         ReactiveFormsModule,
         FormsModule,
-        FontAwesomeModule,
       ],
       providers: [
         provideHttpClient(),

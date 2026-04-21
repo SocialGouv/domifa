@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks";
 
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -20,7 +20,6 @@ describe("ProfilAddNoteFormComponent", () => {
     TestBed.configureTestingModule({
       declarations: [ProfilAddNoteFormComponent],
       imports: [
-        NgbModule,
         HttpClientTestingModule,
         ReactiveFormsModule,
         StoreModule.forRoot({ app: _usagerReducer }),

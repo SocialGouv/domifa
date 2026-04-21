@@ -7,8 +7,10 @@ import { UsagersModule } from "../../usagers/usagers.module";
 import { UsersModule } from "../users/users.module";
 import { BrevoSenderService } from "./services/brevo-sender/brevo-sender.service";
 import { BrevoSyncCronService } from "./services/brevo-sync-cron.service";
+import { NewsletterPublicController } from "./controllers/newsletter.public.controller";
 
 @Module({
+  controllers: [NewsletterPublicController],
   exports: [BrevoSenderService],
   providers: [BrevoSenderService, BrevoSyncCronService],
   imports: [

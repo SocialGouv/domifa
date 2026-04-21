@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors } from "@angular/forms";
 import { differenceInCalendarDays, isValid } from "date-fns";
-import { parseDateFromNgb } from "../bootstrap-util";
+import { parseFrDate } from "../date-utils";
 
 export const endDateAfterBeginDateValidator = (
   controls: AbstractControl
@@ -20,10 +20,14 @@ export const endDateAfterBeginDateCheck = (
   if (beginDateControl.value && endDateControl.value) {
     const beginDate = isValid(beginDateControl.value)
       ? beginDateControl.value
-      : parseDateFromNgb(beginDateControl.value);
+      : parseFrDate(beginDateControl.value);
     const endDate = isValid(endDateControl.value)
       ? endDateControl.value
-      : parseDateFromNgb(endDateControl.value);
+      : parseFrDate(endDateControl.value);
+
+    if (!beginDate || !endDate) {
+      return null;
+    }
 
     if (differenceInCalendarDays(endDate, beginDate) >= 0) {
       return null;

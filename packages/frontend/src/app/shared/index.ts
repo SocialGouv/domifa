@@ -2,6 +2,7 @@
 export * from "./animations";
 export * from "./bootstrap-util";
 export * from "./constants";
+export * from "./date-utils";
 export * from "./store";
 export * from "./string-cleaner.service";
 export * from "./validators";

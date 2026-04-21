@@ -6,8 +6,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ProfilStructureDocsComponent } from "./profil-structure-docs.component";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
 import { SharedModule } from "../../../../shared/shared.module";
 import { SortArrayPipe } from "../../../../shared/pipes";
 import { RouterModule } from "@angular/router";
@@ -23,7 +21,7 @@ describe("ProfilStructureDocsComponent", () => {
       imports: [
         FormsModule,
         RouterModule.forRoot([]),
-        NgbModule,
+
         ReactiveFormsModule,
         SharedModule,
         SortArrayPipe,

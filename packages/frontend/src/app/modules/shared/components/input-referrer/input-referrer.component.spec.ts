@@ -4,7 +4,7 @@ import { InputReferrerComponent } from "./input-referrer.component";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
 import { RouterModule } from "@angular/router";
@@ -18,7 +18,6 @@ describe("InputReferrerComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [InputReferrerComponent],
       imports: [
-        NgbModule,
         ReactiveFormsModule,
         FormsModule,
         RouterModule.forRoot([]),

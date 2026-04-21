@@ -2,13 +2,13 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, waitForAsync, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { NgxIntlTelInputModule } from "@khazii/ngx-intl-tel-input";
+
 import { StructuresFormComponent } from "./structures-form.component";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
 import { MATOMO_INJECTORS } from "../../../../shared";
+import { PhoneInputComponent } from "../../../usager-shared/components/input-phone-international/input-phone-international.component";
 
 describe("StructuresFormComponent", () => {
   let component: StructuresFormComponent;
@@ -18,11 +18,10 @@ describe("StructuresFormComponent", () => {
     TestBed.configureTestingModule({
       declarations: [StructuresFormComponent],
       imports: [
-        NgbModule,
         ReactiveFormsModule,
         FormsModule,
         NoopAnimationsModule,
-        NgxIntlTelInputModule,
+        PhoneInputComponent,
         ...MATOMO_INJECTORS,
         RouterModule.forRoot([]),
       ],

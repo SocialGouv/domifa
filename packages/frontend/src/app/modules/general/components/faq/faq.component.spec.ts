@@ -6,7 +6,6 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { FaqComponent } from "./faq.component";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
@@ -18,7 +17,6 @@ describe("FaqComponent", () => {
     TestBed.configureTestingModule({
       declarations: [FaqComponent],
       imports: [
-        NgbModule,
         ReactiveFormsModule,
         FormsModule,
         RouterModule.forRoot([]),

@@ -2,7 +2,7 @@
 
 set -e
 
-exclude_tables="contact_support,contact_support_message,expired_token,message_email,monitor_batch_process,user_usager_login"
+exclude_tables="contact_support,expired_token,monitor_batch_process,user_usager_login"
 
 cd "$(dirname "$0")"
 

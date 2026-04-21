@@ -9,8 +9,9 @@ import { Title } from "@angular/platform-browser";
   templateUrl: "./impact.component.html",
   styleUrls: [
     "./impact.component.scss",
-    "../public-stats/public-stats.component.css",
+    "../public-stats/public-stats.component.scss",
   ],
+  standalone: false,
 })
 export class ImpactComponent {
   public readonly countOptions = {

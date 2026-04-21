@@ -11,6 +11,7 @@ import { UsagerState } from "../../../../../shared";
 @Component({
   selector: "app-profil-dossier",
   templateUrl: "./profil-dossier.component.html",
+  standalone: false,
 })
 export class ProfilDossierComponent extends BaseUsagerProfilPageComponent {
   public editInfos = false;
@@ -36,6 +37,7 @@ export class ProfilDossierComponent extends BaseUsagerProfilPageComponent {
       store
     );
     this.titlePrefix = "État-civil et entretien";
+    this.section = "dossier";
   }
 
   public openEntretien(): void {

@@ -7,9 +7,10 @@ import { Component, Input } from "@angular/core";
   templateUrl: "./display-duplicates-usager.component.html",
   styleUrls: ["./display-duplicates-usager.component.css"],
   animations: [fadeInOut],
+  standalone: false,
 })
 export class DisplayDuplicatesUsagerComponent {
-  @Input() public duplicates: UsagerLight[];
+  @Input({ required: true }) public duplicates: UsagerLight[];
   constructor() {
     this.duplicates = [];
   }

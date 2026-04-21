@@ -1,10 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { UntypedFormBuilder } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import {
-  NgbDateParserFormatter,
-  NgbDatepickerI18n,
-} from "@ng-bootstrap/ng-bootstrap";
 
 import { UsagerDossierService } from "../../services/usager-dossier.service";
 import {
@@ -12,12 +8,7 @@ import {
   UsagerEtatCivilFormData,
 } from "../../../../../_common/model";
 import { fadeInOut } from "../../../../shared";
-import {
-  NgbDateCustomParserFormatter,
-  CustomDatepickerI18n,
-  AuthService,
-  CustomToastService,
-} from "../../../shared/services";
+import { AuthService, CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { Usager } from "@domifa/common";
 import { merge, debounceTime, distinctUntilChanged } from "rxjs";
@@ -25,13 +16,10 @@ import { EtatCivilParentFormComponent } from "../../../usager-shared/components/
 
 @Component({
   animations: [fadeInOut],
-  providers: [
-    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
-    { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
-  ],
   selector: "app-step-etat-civil",
-  styleUrls: ["./step-etat-civil.component.css"],
+  styleUrls: ["./step-etat-civil.component.scss"],
   templateUrl: "./step-etat-civil.component.html",
+  standalone: false,
 })
 export class StepEtatCivilComponent
   extends EtatCivilParentFormComponent

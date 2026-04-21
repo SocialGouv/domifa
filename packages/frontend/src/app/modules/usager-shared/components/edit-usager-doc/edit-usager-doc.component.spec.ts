@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 
 import { EditUsagerDocComponent } from "./edit-usager-doc.component";
 import { provideHttpClient } from "@angular/common/http";
@@ -13,6 +14,7 @@ describe("EditUsagerDocComponent", () => {
       declarations: [EditUsagerDocComponent],
       imports: [SharedModule],
       providers: [provideHttpClient()],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(EditUsagerDocComponent);

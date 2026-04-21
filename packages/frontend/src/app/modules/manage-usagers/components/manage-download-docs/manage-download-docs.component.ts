@@ -2,6 +2,8 @@ import { AuthService } from "src/app/modules/shared/services/auth.service";
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  HostListener,
   Input,
   OnDestroy,
 } from "@angular/core";
@@ -16,31 +18,41 @@ import {
   CerfaDocType,
   StructureDocTypesAvailable,
 } from "@domifa/common";
-import { faFilePdf, faFileWord } from "@fortawesome/free-regular-svg-icons";
 
 @Component({
   selector: "app-manage-download-docs",
   templateUrl: "./manage-download-docs.component.html",
   styleUrls: ["./manage-download-docs.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ManageDownloadDocsComponent implements OnDestroy {
   private readonly subscription = new Subscription();
 
   public me!: UserStructure | null;
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public usager!: UsagerFormModel;
+
   public readonly CerfaDocType = CerfaDocType;
   public readonly StructureDocTypesAvailable = StructureDocTypesAvailable;
 
-  public readonly faFilePdf = faFilePdf;
-  public readonly faFileWord = faFileWord;
+  public readonly faFilePdf = "file-pdf-2-line";
+  public readonly faFileWord = "ri-file-word-2-line";
+  public showMenu = false;
 
   constructor(
     private readonly documentService: DocumentService,
     private readonly toastService: CustomToastService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly elementRef: ElementRef
   ) {
     this.me = this.authService.currentUserValue;
+  }
+
+  @HostListener("document:click", ["$event.target"])
+  onClickOutside(target: HTMLElement): void {
+    if (this.showMenu && !this.elementRef.nativeElement.contains(target)) {
+      this.showMenu = false;
+    }
   }
 
   public getCerfa(

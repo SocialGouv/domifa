@@ -45,9 +45,12 @@ export const CURRENT_TOOL_OPTIONS: Array<{
   label: string;
 }> = [
   { value: "PAPIER", label: "Nous gérons la domiciliation sur papier" },
-  { value: "EXCEL", label: "Sur excel" },
+  { value: "EXCEL", label: "Un outil de base de données (Excel, Access…)" },
   { value: "OUTIL_INTERNE", label: "Un outil développé en interne" },
-  { value: "OUTIL_MARCHE", label: "Un outil du marché" },
+  {
+    value: "OUTIL_MARCHE",
+    label: "Un outil acquis auprès d’un éditeur externe privé",
+  },
 ];
 
 export const MARKET_TOOLS_OPTIONS: Array<{

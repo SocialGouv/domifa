@@ -1,0 +1,134 @@
+<h1 class="fr-h3">Se connecter avec mon compte</h1>
+<span class="fr-col-12 fr-col-md-12 fr-text-default--error">
+  * champs obligatoires
+</span>
+<form
+  [formGroup]="loginForm"
+  class="fr-display-flex fr-flex-column fr-gap-3w fr-pt-md-4w"
+  (ngSubmit)="login()"
+>
+  @if (loginError) {
+  <div class="fr-alert fr-alert--error" role="alert">
+    <p>Veuillez vérifier la combinaison email et mot de passe</p>
+  </div>
+  }
+  <div
+    [class.fr-input-group--error]="
+      (f.email.dirty || submitted) && f.email.errors
+    "
+    class="fr-input-group required"
+  >
+    <label class="fr-label" for="email">Adresse email</label>
+    <p class="fr-hint-text">Format attendu : nom&#64;domaine.fr</p>
+    <input
+      type="email"
+      id="email"
+      formControlName="email"
+      name="email"
+      autocomplete="email"
+      required
+      class="fr-input"
+      [class.fr-input--error]="(f.email.dirty || submitted) && f.email.errors"
+      [attr.aria-invalid]="
+        (f.email.dirty || submitted) && f.email.errors ? true : false
+      "
+      [attr.aria-describedby]="
+        (f.email.dirty || submitted) && f.email.errors ? 'email-errors' : null
+      "
+    />
+    @if ((f.email.dirty || submitted) && f.email.errors) {
+    <p id="email-errors" class="fr-error-text">Veuillez vérifier l'email</p>
+    }
+  </div>
+  <div
+    [class.fr-input-group--error]="
+      (f.password.dirty || submitted) && f.password.errors
+    "
+    class="fr-input-group fr-mb-0 required"
+  >
+    <div class="fr-password" id="passwordContainer">
+      <label class="fr-password__label fr-label" for="password">
+        Mot de passe
+      </label>
+      <div class="fr-input-wrap">
+        <input
+          required
+          id="password"
+          formControlName="password"
+          name="password"
+          [type]="!hidePassword ? 'text' : 'password'"
+          class="fr-input"
+          autocomplete="current-password"
+          [class.fr-input--error]="
+            (f.password.dirty || submitted) && f.password.errors
+          "
+          [attr.aria-invalid]="
+            (f.password.dirty || submitted) && f.password.errors ? true : false
+          "
+          [attr.aria-describedby]="
+            (f.password.dirty || submitted) && f.password.errors
+              ? 'invalid-password'
+              : null
+          "
+        />
+        @if ((f.password.dirty || submitted) && f.password.errors) {
+        <p id="invalid-password" class="fr-error-text">
+          Veuillez vérifier le mot de passe
+        </p>
+        }
+      </div>
+      <div
+        class="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm"
+      >
+        <input
+          id="show-password"
+          type="checkbox"
+          class="fr-checkbox"
+          role="switch"
+          [attr.aria-checked]="!hidePassword"
+          [attr.aria-label]="
+            (hidePassword ? 'Voir' : 'Masquer') + ' le mot de passe'
+          "
+          (change)="toggleShowPassword()"
+        />
+        <label class="fr--password__checkbox fr-label" for="show-password">
+          Afficher
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="fr-my-2w">
+    <a routerLink="/users/reset-password" class="fr-link">
+      Mot de passe oublié ?
+    </a>
+  </div>
+  <div class="fr-input-group fr-my-2w fr-text--center">
+    <button type="submit" class="fr-btn fr-display-flex fr-flex-column w-100">
+      @if (!loading) {
+      <span>Se connecter</span>
+      } @if (loading) {
+      <span class="fr-loading">
+        <span
+          aria-hidden="true"
+          class="fr-icon-refresh-line fr-icon-spin"
+        ></span>
+        Connexion en cours...
+      </span>
+      }
+    </button>
+  </div>
+
+  <hr />
+  <div class="fr-col-12 fr-display-flex fr-flex-column fr-gap-2w">
+    <h2 class="fr-h5 fr-mb-0">Votre structure n’est pas encore inscrite ?</h2>
+    <div class="fr-input-group fr-my-2w fr-text--center">
+      <a
+        routerLink="/structures/inscription"
+        id="inscriptionLink"
+        class="fr-btn fr-btn--secondary fr-display-flex fr-flex-column w-100"
+      >
+        Inscrivez votre structure
+      </a>
+    </div>
+  </div>
+</form>

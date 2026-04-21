@@ -3,9 +3,10 @@ import { ManageUsersService } from "../../manage-users/services/manage-users.ser
 import { map, Observable } from "rxjs";
 @Pipe({
   name: "referrerName",
+  standalone: false,
 })
 export class ReferrerNamePipe implements PipeTransform {
-  constructor(private manageUsersService: ManageUsersService) {}
+  constructor(private readonly manageUsersService: ManageUsersService) {}
 
   transform(referrerId: number | null): Observable<string> {
     return this.manageUsersService.referrersMap$.pipe(

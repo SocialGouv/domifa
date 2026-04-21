@@ -3,78 +3,35 @@
   [usager]="usager"
 ></app-display-ayants-droits>
 
-<div
-  class="label-info label-procuration"
-  *ngIf="usager.options.procurations.length > 0"
-  [ngbTooltip]="procurationActif"
-  tabindex="0"
-  #tooltipProcuration="ngbTooltip"
+@if (usager.options.procurations.length > 0) {
+<button
+  class="fr-tag fr-tag--sm fr-tag--brown-cafe-creme"
+  type="button"
+  [tooltip]="procurationTooltip"
 >
-  <p class="m-0">
-    {{
-      usager.options.procurations.length > 1 ? "Procurations" : "Procuration"
-    }}
-  </p>
-  <ng-template #procurationActif>
-    <div tabindex="0">
-      <ul>
-        <li
-          class="text-start"
-          *ngFor="let procuration of usager.options.procurations"
-        >
-          <ng-container *ngIf="!procuration.isExpired">
-            Active: {{ procuration.nom }} {{ procuration.prenom }}
-          </ng-container>
-          <ng-container *ngIf="procuration.isExpired">
-            <fa-icon
-              aria-hidden="true"
-              [icon]="['fas', 'times']"
-              class="text-danger me-1"
-            ></fa-icon>
-            Procuration au nom de {{ procuration.nom }}
-            {{ procuration.prenom }}, expirée le
-            {{ procuration.dateFin | date : "dd MMMM yyyy" }}
-          </ng-container>
-        </li>
-      </ul>
-    </div>
-  </ng-template>
-</div>
-
-<div
-  class="label-info label-transfert"
-  *ngIf="usager.options.transfert.actif"
-  [ngbTooltip]="transfertActif"
-  tabindex="0"
-  #tooltipTransfert="ngbTooltip"
+  {{ usager.options.procurations.length > 1 ? "Procurations" : "Procuration" }}
+</button>
+} @if (usager.options.transfert.actif) {
+<button
+  class="fr-tag fr-tag--info fr-tag--sm"
+  type="button"
+  [tooltip]="
+    !usager.options.transfert.isExpired
+      ? 'Courrier à transférer : ' +
+        (usager.options.transfert.nom | titlecase) +
+        ' ' +
+        (usager.options.transfert.adresse | titlecase)
+      : 'Transfert expiré le ' +
+        (usager.options.transfert.dateFin | date : 'dd MMMM yyyy')
+  "
 >
-  <span>Transfert</span>
-  <ng-template #transfertActif>
-    <div class="distribution-tooltip" tabindex="0">
-      <p class="m-0" *ngIf="!usager.options.transfert.isExpired">
-        Courrier à transférer : {{ usager.options.transfert.nom | titlecase }}
-        {{ usager.options.transfert.adresse | titlecase }}
-      </p>
-
-      <p class="m-0" *ngIf="usager.options.transfert.isExpired">
-        Transfert expiré le
-        {{ usager.options.transfert.dateFin | date : "dd MMMM yyyy" }}
-      </p>
-    </div>
-  </ng-template>
-</div>
-
-<span *ngIf="usager.options.npai.actif" class="label-info red-status">
+  Transfert
+</button>
+} @if (usager.options.npai.actif) {
+<span class="fr-badge fr-badge--sm fr-badge--error">
   <span>Pli non distribuable</span>
 </span>
-
-<span
-  class="visually-hidden"
-  *ngIf="
-    !usager.options.npai.actif &&
-    usager.options.procurations.length === 0 &&
-    !usager.options.transfert.actif &&
-    usager.ayantsDroits.length === 0
-  "
-  >Aucune information particulière</span
->
+} @if ( !usager.options.npai.actif && usager.options.procurations.length === 0
+&& !usager.options.transfert.actif && usager.ayantsDroits.length === 0 ) {
+<span class="fr-sr-only">Aucune information particulière</span>
+}

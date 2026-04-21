@@ -31,6 +31,7 @@ import { ManageUsersService } from "../../services/manage-users.service";
 @Component({
   selector: "app-edit-user",
   templateUrl: "./edit-user.component.html",
+  standalone: false,
 })
 export class EditUserComponent implements OnInit, OnDestroy {
   public me!: UserStructure | null;

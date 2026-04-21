@@ -8,7 +8,7 @@
 
 .selected-stats,
 .charts-section {
-  background: #ffffff !important;
+  background: var(--background-alt-blue-france) !important;
   border: 1px solid rgba(72, 107, 255, 0.2) !important;
   box-sizing: border-box;
 }
@@ -23,7 +23,7 @@
 }
 
 .stats-section-counter {
-  color: var(--bs-primary);
+  color: var(--text-active-blue-france);
   font-weight: 700;
   font-size: 2rem;
 }
@@ -34,10 +34,8 @@
   display: block;
   position: relative;
   background: #ffffff;
-  border: 1px solid rgba(72, 107, 255, 0.2);
-  margin: 1rem auto !important;
 }
 
 .tick {
-  color: var(--bs-primary);
+  color: var(--text-active-blue-france);
 }

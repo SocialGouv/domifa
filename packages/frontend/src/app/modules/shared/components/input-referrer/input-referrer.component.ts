@@ -8,15 +8,18 @@ import { UserStructure } from "@domifa/common";
   selector: "app-input-referrer",
   templateUrl: "./input-referrer.component.html",
   styleUrls: ["./input-referrer.component.css"],
+  standalone: false,
 })
 export class InputReferrerComponent implements OnInit {
   @Input({ required: true }) public submitted!: boolean;
 
   @Input() public parentFormGroup!: UntypedFormGroup;
   @Input() public referrerId: number | null = null;
-  @Input() public required = false;
   @Input() public label = "Référent du dossier";
-  @Input() public displayLabel = true;
+  @Input() public displayHint = true;
+
+  @Input({ required: true }) public required = false;
+  @Input({ required: true }) public displayLabel = true;
 
   @Output() outputFunction = new EventEmitter<number | null>();
 

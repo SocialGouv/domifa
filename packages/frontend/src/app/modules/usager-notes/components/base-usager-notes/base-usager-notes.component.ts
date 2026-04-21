@@ -10,17 +10,17 @@ import {
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { UsagerNotesService } from "../../services/usager-notes.service";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Store, select } from "@ngrx/store";
 import { selectUsagerById } from "../../../../shared";
 
 @Component({
   selector: "app-base-usager-notes",
   templateUrl: "./base-usager-notes.component.html",
+  standalone: false,
 })
 export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
-  @Input() public me!: UserStructure;
-  @Input() public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure;
+  @Input({ required: true }) public usager!: UsagerFormModel;
 
   public params = new PageOptions();
 
@@ -33,7 +33,6 @@ export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
 
   constructor(
     protected readonly usagerNotesService: UsagerNotesService,
-    protected readonly modalService: NgbModal,
     protected readonly toastService: CustomToastService,
     protected readonly authService: AuthService,
     protected readonly store: Store
@@ -78,7 +77,7 @@ export class BaseUsagerNotesComponent implements OnInit, OnDestroy {
   }
 
   public closeModals() {
-    this.modalService.dismissAll();
+    // Kept for subclass template compatibility
   }
 
   public ngOnDestroy(): void {

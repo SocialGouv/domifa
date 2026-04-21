@@ -56,6 +56,7 @@ import {
 } from "../../app-logs/types/app-log-context.types";
 import { appLogger } from "../../../util";
 import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
+import { domifaConfig } from "../../../config";
 
 const userProfile: UserProfile = "structure";
 
@@ -348,7 +349,7 @@ export class UsersController {
         await userStructureRepository.getUserWithStructureByIdForSync(
           newUser.id
         );
-      if (userWithStructure) {
+      if (userWithStructure && domifaConfig().envId === "prod") {
         await this.brevoSenderService.syncContactToBrevo(userWithStructure);
       }
     } catch (error) {
