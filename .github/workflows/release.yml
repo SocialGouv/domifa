@@ -3,10 +3,10 @@ name: Release
 on:
   workflow_dispatch:
   push:
-    branches: [master, alpha, beta, next, fix-enforce-safety]
+    branches: [ master, alpha, beta, next ]
 
 permissions:
-  id-token: write  # Required for OIDC token generation
+  id-token: write # Required for OIDC token generation
 
 jobs:
   release:
@@ -14,29 +14,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Get GitHub App Token
-      id: token
-      uses: SocialGouv/token-bureau@main
-      with:
-        token-bureau-url: https://token-bureau.fabrique.social.gouv.fr
-        audience: socialgouv
+      - name: Get GitHub App Token
+        id: token
+        uses: SocialGouv/token-bureau@main
+        with:
+          token-bureau-url: https://token-bureau.fabrique.social.gouv.fr
+          audience: socialgouv
 
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        persist-credentials: false
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
-    - name: Semantic Release
-      uses: cycjimmy/semantic-release-action@v2
-      with:
-        semantic_version: 17
-        extra_plugins: |
-          @semantic-release/changelog@5.0.1
-          @semantic-release/git@9.0.0
-      env:
-        GIT_AUTHOR_EMAIL: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
-        GIT_AUTHOR_NAME: ${{ secrets.SOCIALGROOVYBOT_NAME }}
-        GIT_COMMITTER_EMAIL: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
-        GIT_COMMITTER_NAME: ${{ secrets.SOCIALGROOVYBOT_NAME }}
-        GITHUB_TOKEN: ${{ steps.token.outputs.token }}
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v2
+        with:
+          semantic_version: 17
+          extra_plugins: |
+            @semantic-release/changelog@5.0.1
+            @semantic-release/git@9.0.0
+        env:
+          GIT_AUTHOR_EMAIL: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
+          GIT_AUTHOR_NAME: ${{ secrets.SOCIALGROOVYBOT_NAME }}
+          GIT_COMMITTER_EMAIL: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
+          GIT_COMMITTER_NAME: ${{ secrets.SOCIALGROOVYBOT_NAME }}
+          GITHUB_TOKEN: ${{ steps.token.outputs.token }}
