@@ -20,5 +20,6 @@ export const STRUCTURE_DTO_KEYS = [
   "organismeType",
   "reseau",
   "siret",
+  "noSiret",
   "registrationData",
 ];

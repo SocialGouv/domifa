@@ -58,6 +58,7 @@ export interface Structure extends AppEntity {
   populationSegment?: PopulationSegmentEnum | null;
   registrationData?: StructureRegistrationData | null;
   siret: string | null;
+  noSiret: boolean | null;
   statut: StructureDecisionStatut;
   decision?: StructureDecision | null;
 }

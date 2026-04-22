@@ -30,6 +30,7 @@ export type StructureCommon = Pick<
   | "reseau"
   | "registrationData"
   | "siret"
+  | "noSiret"
   | "statut"
   | "decision"
 >;

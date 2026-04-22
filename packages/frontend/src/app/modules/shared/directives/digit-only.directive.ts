@@ -1,11 +1,12 @@
-import { Directive, HostListener } from "@angular/core";
+import { Directive, HostListener, Optional, Self } from "@angular/core";
+import { NgControl } from "@angular/forms";
 
 @Directive({
   selector: "[appDigitOnly]",
   standalone: true,
 })
 export class DigitOnlyDirective {
-  constructor() {}
+  constructor(@Optional() @Self() private readonly ngControl: NgControl) {}
 
   @HostListener("input", ["$event"])
   public onInput(event: Event) {
@@ -14,6 +15,7 @@ export class DigitOnlyDirective {
 
     if (input.value !== cleanValue) {
       input.value = cleanValue;
+      this.ngControl?.control?.setValue(cleanValue, { emitEvent: true });
     }
   }
 
@@ -25,6 +27,6 @@ export class DigitOnlyDirective {
 
     const input = event.target as HTMLInputElement;
     input.value = cleanValue;
-    input.dispatchEvent(new Event("input"));
+    this.ngControl?.control?.setValue(cleanValue, { emitEvent: true });
   }
 }

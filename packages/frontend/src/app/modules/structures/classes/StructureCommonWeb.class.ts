@@ -76,6 +76,7 @@ export class StructureCommonWeb implements StructureCommon {
   public lastLogin: Date | null = null;
   public reseau: string | null = null;
   public siret: string | null = null;
+  public noSiret: boolean | null = null;
   public registrationData?: StructureRegistrationData;
   public decision: StructureDecision;
   public statut: StructureDecisionStatut;
@@ -108,6 +109,7 @@ export class StructureCommonWeb implements StructureCommon {
       this.lastLogin = structure.lastLogin ?? this.lastLogin;
       this.reseau = structure.reseau ?? this.reseau;
       this.siret = structure?.siret ?? this.siret;
+      this.noSiret = structure?.noSiret ?? this.noSiret;
       this.statut = structure?.statut ?? this.statut;
       this.decision = structure?.decision ?? this.decision;
       this.registrationData =

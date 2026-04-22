@@ -60,6 +60,7 @@ export const POST_USER_STRUCTURE_BODY: Partial<UserStructure> = {
     acceptTerms: new Date(),
     telephone: { numero: "0602030405", countryCode: "fr" },
     siret: "13000680200016",
+    noSiret: false,
   },
   structureId: 100,
 };

@@ -277,6 +277,7 @@
                 [class.fr-input-group--error]="
                   (submitted || f.siret?.dirty) && f.siret?.errors
                 "
+                [class.fr-input-group--disabled]="f.noSiret?.value"
                 class="fr-input-group"
               >
                 <label class="fr-label" for="siret">Numéro SIRET</label>
@@ -290,7 +291,7 @@
                   maxlength="14"
                   pattern="[0-9]{14}"
                   appDigitOnly
-                  required
+                  [attr.disabled]="f.noSiret?.value ? true : null"
                   [attr.aria-invalid]="
                     (submitted || f.siret?.dirty) && f.siret?.errors
                       ? true
@@ -307,7 +308,7 @@
                     id="siret-description"
                     class="fr-message fr-message--info fr-mt-0"
                   >
-                    14 chiffres (Optionnel)
+                    14 chiffres
                   </li>
                   @if ((submitted || f.siret?.dirty) && f.siret?.errors) {
                   <li
@@ -317,7 +318,7 @@
                     {{
                           f.siret?.errors?.['invalidSiret']
                             ? 'Le format du numéro de SIRET est incorrect'
-                            : 'Si vous n\'avez pas de n° SIRET veuillez cochez la case ci-dessous'
+                            : 'Si vous n\'avez pas de n° SIRET veuillez cocher la case ci-dessous'
                     }}
                   </li>
                   }
@@ -332,7 +333,7 @@
               <div class="fr-checkbox-group">
                 <input
                   formControlName="noSiret"
-                  name="checkbox"
+                  name="noSiret"
                   id="noSiret"
                   type="checkbox"
                 />
@@ -549,7 +550,7 @@
             <!-- Réseau -->
             <div
               [class.fr-select-group--error]="
-                (submitted || f.reseau?.dirty) && f.reseau.errors
+                (submitted || f.reseau?.dirty) && f.reseau?.errors
               "
               class="fr-col-12 fr-select-group"
             >
@@ -561,14 +562,14 @@
                 formControlName="reseau"
                 name="reseau"
                 [attr.aria-describedby]="
-                  (submitted || f.reseau?.dirty) && f.reseau.errors
+                  (submitted || f.reseau?.dirty) && f.reseau?.errors
                     ? 'reseau-type-errors'
                     : null
                 "
                 [attr.aria-invalid]="
-                  (submitted || f.reseau?.dirty) && f.reseau.errors
+                  (submitted || f.reseau?.dirty) && f.reseau?.errors
                     ? true
-                    : false
+                    : null
                 "
                 class="fr-select"
               >
@@ -581,7 +582,7 @@
                 </option>
                 }
               </select>
-              @if ((submitted || f.reseau?.dirty) && f.reseau.errors) {
+              @if ((submitted || f.reseau?.dirty) && f.reseau?.errors) {
               <ul
                 class="fr-messages-group__list fr-pl-0"
                 id="reseau-type-errors"
@@ -918,13 +919,7 @@
 
             <!-- Complément adresse -->
             <div class="fr-col-12">
-              <div
-                [class.fr-input-group--error]="
-                  (f.complementAdresse.dirty || submitted) &&
-                  f.complementAdresse.errors
-                "
-                class="fr-input-group"
-              >
+              <div class="fr-input-group">
                 <label class="fr-label" for="complementAdresse">
                   Complément d'adresse
                 </label>
@@ -934,34 +929,11 @@
                   id="complementAdresse"
                   formControlName="complementAdresse"
                   name="complementAdresse"
-                  [attr.aria-describedby]="
-                    (f.complementAdresse.dirty || submitted) &&
-                    f.complementAdresse.errors
-                      ? 'complement-errors'
-                      : 'complement-description'
-                  "
-                  [attr.aria-invalid]="
-                    (f.complementAdresse.dirty || submitted) &&
-                    f.complementAdresse.errors
-                      ? true
-                      : false
-                  "
+                  aria-describedby="complement-description"
                 />
                 <small id="complement-description">
                   Lieu-dit, Bâtiment, étage, etc..
                 </small>
-                @if (submitted && f.complementAdresse.errors) {
-                <ul
-                  class="fr-messages-group__list fr-pl-0"
-                  id="complement-errors"
-                  role="alert"
-                  aria-live="polite"
-                >
-                  <li class="fr-message fr-message--error fr-mt-0">
-                    Veuillez vérifier le complément d'adresse
-                  </li>
-                </ul>
-                }
               </div>
             </div>
 

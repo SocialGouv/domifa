@@ -159,8 +159,14 @@
             <div class="d-flex justify-content-start py-3">
               <div class="fr-col d-flex flex-column">
                 <span class="fw-bold"> SIRET </span>
-                <span>
-                  {{ structure?.siret ?? "SIRET non renseigné" }}
+                <span *ngIf="structure?.siret">
+                  {{ structure.siret }}
+                </span>
+                <span *ngIf="!structure?.siret && structure?.noSiret">
+                  Pas de SIRET
+                </span>
+                <span *ngIf="!structure?.siret && !structure?.noSiret">
+                  SIRET non renseigné
                 </span>
               </div>
               <div class="fr-col d-flex flex-column gap-1">

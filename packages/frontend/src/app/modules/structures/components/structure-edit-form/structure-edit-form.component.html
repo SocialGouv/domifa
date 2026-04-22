@@ -423,7 +423,7 @@
         <div
           class="fr-select-group"
           [class.fr-select-group--error]="
-            (submitted || f.reseau?.dirty) && f.reseau.errors
+            (submitted || f.reseau?.dirty) && f.reseau?.errors
           "
         >
           <label class="fr-label" for="reseau">
@@ -436,7 +436,7 @@
             name="reseau"
             aria-describedby="reseau-messages"
             [attr.aria-invalid]="
-              (submitted || f.reseau?.dirty) && f.reseau.errors ? true : null
+              (submitted || f.reseau?.dirty) && f.reseau?.errors ? true : null
             "
           >
             <option [ngValue]="null">Non renseigné</option>
@@ -453,7 +453,7 @@
             id="reseau-messages"
             aria-live="polite"
           >
-            @if ((submitted || f.reseau?.dirty) && f.reseau.errors) {
+            @if ((submitted || f.reseau?.dirty) && f.reseau?.errors) {
             <p class="fr-message fr-message--error">
               Veuillez sélectionner un réseau
             </p>
@@ -693,13 +693,7 @@
 
       <!-- Complément d'adresse -->
       <div class="fr-col-12">
-        <div
-          class="fr-input-group"
-          [class.fr-input-group--error]="
-            (f.complementAdresse.dirty || submitted) &&
-            f.complementAdresse.errors
-          "
-        >
+        <div class="fr-input-group">
           <label class="fr-label" for="complementAdresse">
             Complément d'adresse
           </label>
@@ -707,32 +701,10 @@
           <input
             type="text"
             class="fr-input"
-            [class.fr-input--error]="
-              (f.complementAdresse.dirty || submitted) &&
-              f.complementAdresse.errors
-            "
             id="complementAdresse"
             formControlName="complementAdresse"
             name="complementAdresse"
-            aria-describedby="complementAdresse-messages"
-            [attr.aria-invalid]="
-              (f.complementAdresse.dirty || submitted) &&
-              f.complementAdresse.errors
-                ? true
-                : null
-            "
           />
-          <div
-            class="fr-messages-group"
-            id="complementAdresse-messages"
-            aria-live="polite"
-          >
-            @if (submitted && f.complementAdresse.errors) {
-            <p class="fr-message fr-message--error">
-              Veuillez vérifier le complément d'adresse
-            </p>
-            }
-          </div>
         </div>
       </div>
 
@@ -1067,6 +1039,7 @@
           [class.fr-input-group--error]="
             (submitted || f.siret?.dirty) && f.siret?.errors
           "
+          [class.fr-input-group--disabled]="f.noSiret?.value"
         >
           <label class="fr-label" for="siret">Numéro SIRET</label>
           <input
@@ -1082,7 +1055,7 @@
             maxlength="14"
             pattern="[0-9]{14}"
             appDigitOnly
-            required
+            [attr.disabled]="f.noSiret?.value ? true : null"
             aria-describedby="siret-messages"
             [attr.aria-invalid]="
               (submitted || f.siret?.dirty) && f.siret?.errors ? true : null
@@ -1093,7 +1066,7 @@
               id="siret-description"
               class="fr-message fr-message--info fr-mt-0"
             >
-              14 chiffres (Optionnel)
+              14 chiffres
             </li>
             @if ((submitted || f.siret?.dirty) && f.siret?.errors) { @if
             (f.siret?.errors?.['invalidSiret']) {
@@ -1103,8 +1076,32 @@
             >
               Le format du numéro de SIRET est incorrect
             </li>
+            } @else {
+            <li
+              id="siret-messages"
+              class="fr-message fr-message--error fr-mt-0"
+            >
+              Si vous n'avez pas de n° SIRET veuillez cocher la case ci-dessous
+            </li>
             } }
           </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Checkbox pas de SIRET -->
+    <div class="fr-grid-row fr-pt-1w fr-pb-4w">
+      <div class="fr-col-12">
+        <div class="fr-checkbox-group">
+          <input
+            formControlName="noSiret"
+            name="noSiret"
+            id="noSiret"
+            type="checkbox"
+          />
+          <label class="fr-label" for="noSiret">
+            Je n'ai pas de numéro Siret
+          </label>
         </div>
       </div>
     </div>

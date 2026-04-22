@@ -27,6 +27,7 @@ import {
   Trim,
   TrimOrNullTransform,
 } from "../../../_common/decorators";
+import { cleanSiret } from "@domifa/common";
 import { ValidationRegexp } from "../../../usagers/controllers/import/step2-validate-row";
 import {
   StructureType,
@@ -201,22 +202,21 @@ export class StructureDto {
     type: String,
     required: true,
   })
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   @Trim()
   @MaxLength(100)
   public reseau!: string;
 
-  @Transform(({ value }) => {
-    if (value === null || value === undefined || value === "") {
-      return null;
-    }
-    return typeof value === "string" ? value.replaceAll(/\D/g, "") : value;
-  })
-  @ValidateIf((_, value) => value !== null)
+  @Transform(({ value }) => cleanSiret(value))
+  @ValidateIf((o) => o.noSiret !== true)
   @IsString()
   @IsSIRET()
   siret: string | null;
+
+  @IsOptional()
+  @IsBoolean()
+  noSiret: boolean | null;
 
   @ValidateNested()
   @Type(() => StructureRegistrationDto)
