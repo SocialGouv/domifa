@@ -50,6 +50,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private readonly subscription = new Subscription();
 
   public readonly partnerLinks = LIENS_PARTENAIRES;
+  public dsfrBannerClosed = false;
 
   constructor(
     private readonly authService: AuthService,
@@ -65,6 +66,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.submitted = false;
     this.loading = false;
     this.me = null;
+    this.dsfrBannerClosed =
+      sessionStorage.getItem("dsfr-banner-closed") === "true";
     this.initCguForm();
     this.checkMatomo();
   }
@@ -214,6 +217,20 @@ export class AppComponent implements OnInit, OnDestroy {
       ...DEFAULT_MODAL_OPTIONS,
       keyboard: false,
     });
+  }
+
+  public trackDsfrBannerClick(): void {
+    this.matomo.trackEvent(
+      "DSFR_MIGRATION",
+      "BANNER_LINK_CLICK",
+      "PREVIEW_DOCS",
+      1
+    );
+  }
+
+  public closeDsfrBanner(): void {
+    this.dsfrBannerClosed = true;
+    sessionStorage.setItem("dsfr-banner-closed", "true");
   }
 
   public closeModals(): void {

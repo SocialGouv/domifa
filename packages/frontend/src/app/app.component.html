@@ -36,6 +36,39 @@
 </nav>
 <app-help-modal></app-help-modal>
 
+<div
+  *ngIf="!dsfrBannerClosed"
+  class="alert alert-info text-center mb-0 rounded-0 d-print-none alert-dismissible"
+  role="alert"
+>
+  <div class="container py-1">
+    <p class="mb-0">
+      🖌️
+      <strong
+        >Changement de design du site DomiFa prévu le mercredi 29 avril
+        2026</strong
+      ><br />
+      Dans le cadre de l'amélioration continue des services publics en ligne,
+      notre site adopte le design de l'État afin de renforcer sa lisibilité et
+      son accessibilité. <br />Cette évolution est sans impact sur vos
+      démarches, vos accès et vos données.
+      <a
+        href="https://pyassine.github.io/domifa-dsfr-docs/"
+        target="_blank"
+        rel="noopener noreferrer"
+        (click)="trackDsfrBannerClick()"
+        >Découvrez les exemples de changement à venir.</a
+      >
+    </p>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Fermer le message"
+      (click)="closeDsfrBanner()"
+    ></button>
+  </div>
+</div>
+
 <app-navbar [me]="me"></app-navbar>
 
 <main role="main" id="page">
