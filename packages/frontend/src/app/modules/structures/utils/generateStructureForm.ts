@@ -107,9 +107,14 @@ export function createform(
     organismeType: [structure.organismeType, []],
     ville: [structure.ville, [Validators.required, Validators.maxLength(255)]],
     acceptCgu: [null, []],
-    reseau: [structure.reseau, null],
-    siret: [structure?.siret, [siretValidator, Validators.required]],
-    noSiret: [null, []],
+    reseau: [structure.reseau, [Validators.required]],
+    siret: [
+      structure?.siret,
+      structure?.noSiret
+        ? [siretValidator]
+        : [siretValidator, Validators.required],
+    ],
+    noSiret: [structure?.noSiret ?? null, []],
     registrationData: formBuilder.group({
       source: [structure.registrationData?.source, [Validators.required]],
       sourceDetail: [structure.registrationData?.sourceDetail, []],
@@ -191,15 +196,15 @@ export const setupFormSubscriptions = (
   );
 
   subscription.add(
-    form.get("noSiret").valueChanges.subscribe((value) => {
+    form.get("noSiret")?.valueChanges.subscribe((value) => {
       const siretFormControl = form.get("siret");
-      if (!value) {
-        siretFormControl?.setValidators(Validators.required);
+      if (value) {
+        siretFormControl?.setValue(null);
+        siretFormControl?.setValidators([siretValidator]);
       } else {
-        siretFormControl?.setValidators([]);
+        siretFormControl?.setValidators([siretValidator, Validators.required]);
       }
-
-      siretFormControl.updateValueAndValidity();
+      siretFormControl?.updateValueAndValidity();
     })
   );
 

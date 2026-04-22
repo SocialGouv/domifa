@@ -66,6 +66,7 @@ export const USER_STRUCTURE_AUTH: UserStructureAuthenticated = {
       countryCode: "fr",
     },
     siret: "12345678901234",
+    noSiret: false,
     adresseCourrier: {
       actif: false,
       adresse: "",

@@ -112,6 +112,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
     enabledByStructure: false,
   },
   siret: "48018776400034",
+  noSiret: false,
   statut: "VALIDE",
   decision: {
     uuid: "xxxxx",

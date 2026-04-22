@@ -152,6 +152,9 @@ export class StructureTable
   @Column({ type: "text", nullable: true })
   siret: string;
 
+  @Column({ type: "boolean", nullable: true, default: null })
+  noSiret: boolean | null;
+
   @Column({ type: "text", nullable: true })
   domicilieSegment: DomiciliesSegmentEnum | null;
 
