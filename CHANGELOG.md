@@ -1,3 +1,10 @@
+## [2.235.2](https://github.com/SocialGouv/domifa/compare/v2.235.1...v2.235.2) (2026-04-22)
+
+
+### Bug Fixes
+
+* **frontend:** add dsfr banner ([b318698](https://github.com/SocialGouv/domifa/commit/b3186986ccb52da5e3e4884ed90697c6f9771144))
+
 ## [2.235.1](https://github.com/SocialGouv/domifa/compare/v2.235.0...v2.235.1) (2026-04-21)
 
 
