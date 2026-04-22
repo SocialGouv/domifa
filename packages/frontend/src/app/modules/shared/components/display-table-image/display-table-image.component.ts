@@ -30,16 +30,16 @@ export class DisplayTableImageComponent {
   public readonly STRUCTURE_DOC_ICONS: {
     [key: string]: string;
   } = {
-    "image/jpg": "image",
-    "image/jpeg": "image",
-    "image/png": "image",
-    "application/pdf": "pdf",
-    "application/msword": "word",
+    "image/jpg": "fr-icon-image-line",
+    "image/jpeg": "fr-icon-image-line",
+    "image/png": "fr-icon-image-line",
+    "application/pdf": "fr-icon-file-pdf-line",
+    "application/msword": "ri-file-word-line",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-      "word",
-    "application/vnd.oasis.opendocument.text": "word",
+      "ri-file-word-line",
+    "application/vnd.oasis.opendocument.text": "ri-file-word-line",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-      "excel",
-    "application/vnd.ms-excel": "excel",
+      "ri-file-excel-line",
+    "application/vnd.ms-excel": "ri-file-excel-line",
   };
 }

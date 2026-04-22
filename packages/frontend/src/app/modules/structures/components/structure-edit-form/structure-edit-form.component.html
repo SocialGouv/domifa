@@ -1220,7 +1220,7 @@
         <fieldset
           class="fr-fieldset"
           [class.fr-fieldset--error]="
-            (submitted || reg.dsp?.dirty) && reg.dsp?.errors
+            (submitted || f.dsp?.dirty) && f.dsp?.errors
           "
           aria-labelledby="dsp-legend dsp-messages"
         >
@@ -1260,7 +1260,7 @@
           </div>
 
           <div class="fr-messages-group" id="dsp-messages" aria-live="polite">
-            @if ((submitted || reg.dsp?.dirty) && reg.dsp?.errors) {
+            @if ((submitted || f.dsp?.dirty) && f.dsp?.errors) {
             <p class="fr-message fr-message--error">Ce champ est requis</p>
             }
           </div>

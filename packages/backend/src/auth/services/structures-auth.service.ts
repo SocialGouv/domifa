@@ -222,6 +222,7 @@ export class StructuresAuthService {
         "reseau",
         "registrationData",
         "siret",
+        "noSiret",
       ],
     });
 

@@ -38,9 +38,16 @@
         </select>
 
         @if (submitted && f.customDocType.errors) {
-        <p role="alert" class="fr-error-text" id="customDocType-errors">
-          Le type de document est obligatoire
-        </p>
+        <div
+          class="fr-messages-group"
+          id="customDocType-errors"
+          role="alert"
+          aria-live="polite"
+        >
+          <p class="fr-message fr-message--error">
+            Le type de document est obligatoire
+          </p>
+        </div>
         }
       </div>
     </div>
@@ -73,9 +80,16 @@
           required
         />
         @if (submitted && f.label.errors) {
-        <p id="label-errors" role="alert" class="fr-error-text">
-          Le nom du document est obligatoire
-        </p>
+        <div
+          class="fr-messages-group"
+          id="label-errors"
+          role="alert"
+          aria-live="polite"
+        >
+          <p class="fr-message fr-message--error">
+            Le nom du document est obligatoire
+          </p>
+        </div>
         }
       </div>
     </div>
@@ -113,13 +127,24 @@
         />
 
         @if (submitted && f.fileSource.errors) {
-        <div id="file-errors" class="fr-error-text">
+        <div
+          class="fr-messages-group"
+          id="file-errors"
+          role="alert"
+          aria-live="polite"
+        >
           @if (f.fileSource.errors.required) {
-          <p>Vous devez choisir un fichier</p>
+          <p class="fr-message fr-message--error">
+            Vous devez choisir un fichier
+          </p>
           } @if (f.fileSource.errors.fileType) {
-          <p>Format de fichier invalide</p>
+          <p class="fr-message fr-message--error">
+            Format de fichier non supporté
+          </p>
           } @if (f.fileSource.errors.fileSize) {
-          <p>La taille du fichier est trop grande</p>
+          <p class="fr-message fr-message--error">
+            La taille du fichier est trop grande
+          </p>
           }
         </div>
         } @if (isCustomDoc && templateError) {
@@ -154,4 +179,17 @@
       </div>
     </div>
   </div>
+
+  @if (uploadResponse.status === 'progress') {
+  <div class="fr-grid-row fr-grid-row--gutters fr-mt-3w">
+    <div class="fr-col-12">
+      <dsfr-ext-progressbar
+        [label]="'Téléchargement'"
+        [value]="uploadResponse.message"
+        [showValue]="true"
+        [showLabel]="true"
+      ></dsfr-ext-progressbar>
+    </div>
+  </div>
+  }
 </form>

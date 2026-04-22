@@ -1,4 +1,4 @@
-import { concatMap, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
@@ -16,6 +16,7 @@ import {
   USER_FONCTION_LABELS,
 } from "@domifa/common";
 import { ManageUsersService } from "../../services/manage-users.service";
+import { concatMap } from "rxjs";
 
 @Component({
   selector: "app-user-profil",
@@ -34,14 +35,10 @@ export class UserProfilComponent implements OnInit, OnDestroy {
 
   public selectedUser: UserStructureProfile | null;
   public newReferrerId: number | null = null;
-  public expectedRole: UserStructureRole | null = null;
   public selectedRole: UserStructureRole | null = null;
 
   public readonly USER_STRUCTURE_ROLES_LABELS = USER_STRUCTURE_ROLES_LABELS;
   public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
-
-  @ViewChild("assignReferrersModal")
-  public assignReferrersModal!: DsfrModalComponent;
 
   @ViewChild("deleteUserConfirmationModal")
   public deleteUserConfirmationModal!: DsfrModalComponent;
@@ -77,53 +74,8 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     });
   }
 
-  public openAssignReferrerModal(): void {
-    this.assignReferrersModal.open();
-  }
-
-  public onRoleChange(
-    user: UserStructureProfile,
-    newRole: UserStructureRole
-  ): void {
-    if (newRole === "facteur" || newRole === "agent") {
-      this.selectedUser = user;
-      this.expectedRole = newRole;
-      this.openAssignReferrerModal();
-    } else {
-      this.updateRole(user.uuid, newRole);
-    }
-  }
-
-  public resetRoles(): void {
-    this.selectedUser = null;
-    this.expectedRole = null;
-    this.newReferrerId = null;
-    this.assignReferrersModal.close();
-  }
-
-  public updateRole(uuid: string, role: UserStructureRole): void {
-    this.loading = true;
-    this.subscription.add(
-      this.manageUsersService.updateRole(uuid, role).subscribe({
-        next: (user: UserStructureProfile) => {
-          this.getUsers();
-          this.toastService.success(
-            "Les droits de " +
-              user.nom +
-              " " +
-              user.prenom +
-              " ont été mis à jour avec succès"
-          );
-          this.resetRoles();
-        },
-        error: () => {
-          this.loading = false;
-          this.toastService.error(
-            "Impossible de mettre à jour le rôle de l'utilisateur"
-          );
-        },
-      })
-    );
+  public get needsReferrerReassignment(): boolean {
+    return this.selectedRole === "facteur" || this.selectedRole === "agent";
   }
 
   public openDeleteConfirmation(user: UserStructure): void {
@@ -162,6 +114,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   public openUpdateUserModal(user: UserStructureProfile): void {
     this.selectedUser = user;
     this.selectedRole = user.role;
+    this.newReferrerId = null;
     this.updateUserModal.open();
   }
 
@@ -171,8 +124,33 @@ export class UserProfilComponent implements OnInit, OnDestroy {
       this.selectedRole &&
       this.selectedRole !== this.selectedUser.role
     ) {
-      this.updateUserModal.close();
-      this.onRoleChange(this.selectedUser, this.selectedRole);
+      this.loading = true;
+      this.subscription.add(
+        this.manageUsersService
+          .updateRole(
+            this.selectedUser.uuid,
+            this.selectedRole,
+            this.needsReferrerReassignment ? this.newReferrerId : undefined
+          )
+          .subscribe({
+            next: (user: UserStructureProfile) => {
+              this.getUsers();
+              this.toastService.success(
+                "Les droits de " +
+                  user.nom +
+                  " " +
+                  user.prenom +
+                  " ont été mis à jour avec succès"
+              );
+            },
+            error: () => {
+              this.loading = false;
+              this.toastService.error(
+                "Impossible de mettre à jour le rôle de l'utilisateur"
+              );
+            },
+          })
+      );
     }
   }
 
@@ -196,48 +174,8 @@ export class UserProfilComponent implements OnInit, OnDestroy {
     }
   }
 
-  public updateRoleAndReassign(): void {
-    if (this.selectedUser?.uuid) {
-      this.loading = true;
-      this.subscription.add(
-        this.manageUsersService
-          .reassignReferrers(this.selectedUser, this.newReferrerId)
-          .pipe(
-            concatMap(() =>
-              this.manageUsersService.updateRole(
-                this.selectedUser!.uuid,
-                this.expectedRole!
-              )
-            )
-          )
-          .subscribe({
-            next: () => {
-              this.getUsers();
-              this.toastService.success(
-                "Les droits de " +
-                  this.selectedUser!.nom +
-                  " " +
-                  this.selectedUser!.prenom +
-                  " ont été mis à jour avec succès"
-              );
-            },
-            error: () => {
-              this.loading = false;
-              this.toastService.error(
-                "Impossible de mettre à jour le rôle de l'utilisateur"
-              );
-            },
-            complete: () => {
-              this.loading = false;
-            },
-          })
-      );
-    }
-  }
-
   public closeModals(): void {
     this.deleteUserConfirmationModal?.close();
-    this.assignReferrersModal?.close();
     this.updateUserModal?.close();
   }
 

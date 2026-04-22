@@ -31,9 +31,16 @@
         />
 
         @if (submitted && u.label.errors) {
-        <p id="label-errors" class="fr-error-text" role="alert">
-          Le nom du document est obligatoire
-        </p>
+        <div
+          class="fr-messages-group"
+          id="label-errors"
+          role="alert"
+          aria-live="polite"
+        >
+          <p class="fr-message fr-message--error">
+            Le nom du document est obligatoire
+          </p>
+        </div>
         }
       </div>
     </div>
@@ -64,13 +71,24 @@
         />
 
         @if (submitted && u.fileSource.errors) {
-        <div id="file-errors" class="fr-error-text" role="alert">
+        <div
+          class="fr-messages-group"
+          id="file-errors"
+          role="alert"
+          aria-live="polite"
+        >
           @if (u.fileSource.errors['required']) {
-          <p>Vous devez choisir un fichier</p>
+          <p class="fr-message fr-message--error">
+            Vous devez choisir un fichier
+          </p>
           } @if (u.fileSource.errors['fileType']) {
-          <p>Format de fichier invalide</p>
+          <p class="fr-message fr-message--error">
+            Format de fichier non supporté
+          </p>
           } @if (u.fileSource.errors['fileSize']) {
-          <p>La taille du fichier est trop grande (max 6 Mo)</p>
+          <p class="fr-message fr-message--error">
+            La taille du fichier est trop grande (max 6 Mo)
+          </p>
           }
         </div>
         }

@@ -107,7 +107,10 @@ export function createform(
     organismeType: [structure.organismeType, []],
     ville: [structure.ville, [Validators.required, Validators.maxLength(255)]],
     acceptCgu: [null, []],
-    reseau: [structure.reseau, [Validators.required]],
+    reseau: [
+      structure.reseau,
+      structure.structureType === "asso" ? [Validators.required] : [],
+    ],
     siret: [
       structure?.siret,
       structure?.noSiret
@@ -162,18 +165,20 @@ export const setupFormSubscriptions = (
       form.get("departement")?.setValidators(null);
       form.get("organismeType")?.setValidators(null);
       form.get("dsp")?.setValidators(null);
+      form.get("reseau")?.setValidators(null);
 
       if (value === "asso") {
         form.get("agrement")?.setValidators(Validators.required);
         form.get("departement")?.setValidators(Validators.required);
-        form.get("organismeType");
         form.get("dsp")?.setValidators(Validators.required);
+        form.get("reseau")?.setValidators(Validators.required);
       }
 
       form.get("agrement")?.updateValueAndValidity();
       form.get("departement")?.updateValueAndValidity();
       form.get("organismeType")?.updateValueAndValidity();
       form.get("dsp")?.updateValueAndValidity();
+      form.get("reseau")?.updateValueAndValidity();
     })
   );
 
