@@ -2,8 +2,7 @@ div {
   text-align: center;
   padding: 0.3rem 0.4rem;
 
-  img {
-    width: 30px;
-    height: auto;
+  span:first-child {
+    font-size: 1.5rem;
   }
 }

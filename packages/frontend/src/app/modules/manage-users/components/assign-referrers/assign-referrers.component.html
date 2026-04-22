@@ -1,16 +1,18 @@
-<div class="fr-alert fr-alert--warning fr-mb-3w">
+@if (nbReferrers > 0) {
+<app-input-referrer
+  [submitted]="submitted"
+  [displayLabel]="true"
+  [displayHint]="false"
+  label="À qui assigner les référents ?"
+  [required]="true"
+  (outputFunction)="updateReferrers($event)"
+></app-input-referrer>
+
+<div class="fr-alert fr-alert--warning fr-mt-3w">
   <b>
     {{ currentUser | fullName }} est référent de
     {{ nbReferrers }} domiciliés.</b
   >
-  <br />À qui souhaitez-vous assigner ces dossiers ?
+  <br />Les dossiers seront réassignés au référent sélectionné.
 </div>
-
-<app-input-referrer
-  [submitted]="submitted"
-  [displayLabel]="false"
-  [displayHint]="false"
-  label="Liste des référents"
-  [required]="true"
-  (outputFunction)="updateReferrers($event)"
-></app-input-referrer>
+}

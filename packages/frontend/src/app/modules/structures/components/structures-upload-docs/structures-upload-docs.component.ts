@@ -15,9 +15,16 @@ import {
 import { Subscription } from "rxjs";
 
 import { StructureDocService } from "../../services/structure-doc.service";
-import { NoWhiteSpaceValidator, validateUpload } from "../../../../shared";
+import {
+  NoWhiteSpaceValidator,
+  UploadResponseType,
+  validateUpload,
+} from "../../../../shared";
 import { CustomToastService } from "../../../shared/services";
-import { STRUCTURE_CUSTOM_DOC_LABELS } from "@domifa/common";
+import {
+  STRUCTURE_CUSTOM_DOC_LABELS,
+  StructureCustomDocType,
+} from "@domifa/common";
 
 @Component({
   selector: "app-structures-upload-docs",
@@ -29,6 +36,7 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
   public submitted = false;
   public uploadForm!: UntypedFormGroup;
   public templateError: "TEMPLATE_ERROR" | "UNKNOWN_KEY" | null = null;
+  public uploadResponse: UploadResponseType;
 
   @Input({ required: true }) public isCustomDoc!: boolean;
   private readonly subscription = new Subscription();
@@ -43,7 +51,9 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
     private readonly formBuilder: UntypedFormBuilder,
     private readonly structureDocService: StructureDocService,
     private readonly toastService: CustomToastService
-  ) {}
+  ) {
+    this.uploadResponse = { status: "", message: 0 };
+  }
 
   public ngOnInit(): void {
     this.uploadForm = this.formBuilder.group({
@@ -67,18 +77,19 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
         ],
       ],
       customDocType: [null, this.isCustomDoc ? [Validators.required] : []],
-      isCustomDoc: [this.isCustomDoc ? "true" : "false", []],
     });
 
     this.subscription.add(
-      this.uploadForm.get("customDocType")?.valueChanges.subscribe((value) => {
-        this.uploadForm
-          .get("label")
-          ?.setValue(
-            value === "autre" ? "" : STRUCTURE_CUSTOM_DOC_LABELS[value]
-          );
-        this.uploadForm.get("label")?.updateValueAndValidity();
-      })
+      this.uploadForm
+        .get("customDocType")
+        ?.valueChanges.subscribe((value: StructureCustomDocType) => {
+          this.uploadForm
+            .get("label")
+            ?.setValue(
+              value === "autre" ? "" : STRUCTURE_CUSTOM_DOC_LABELS[value]
+            );
+          this.uploadForm.get("label")?.updateValueAndValidity();
+        })
     );
   }
 
@@ -114,7 +125,7 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
     const formData = new FormData();
     formData.append("file", this.uploadForm.controls.fileSource.value);
     formData.append("label", this.uploadForm.controls.label.value);
-    formData.append("custom", this.uploadForm.controls.isCustomDoc.value);
+    formData.append("custom", this.isCustomDoc ? "true" : "false");
 
     if (this.isCustomDoc) {
       formData.append(
@@ -125,22 +136,32 @@ export class StructuresUploadDocsComponent implements OnInit, OnDestroy {
 
     this.loading = true;
     this.templateError = null;
+    this.uploadResponse = { status: "", message: 0 };
     this.subscription.add(
       this.structureDocService.upload(formData).subscribe({
-        next: () => {
-          this.toastService.success("Fichier uploadé avec succès");
-          setTimeout(() => {
-            this.loading = false;
-            this.submitted = false;
-            this.templateError = null;
-            this.uploadForm.reset();
-            this.cancelModal.emit();
-            this.getAllStructureDocs.emit();
-          }, 500);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        next: (uploadResponse: any) => {
+          this.uploadResponse = uploadResponse;
+          if (uploadResponse.success) {
+            this.toastService.success("Fichier uploadé avec succès");
+            setTimeout(() => {
+              this.loading = false;
+              this.submitted = false;
+              this.templateError = null;
+              this.uploadResponse = { status: "", message: 0 };
+              this.uploadForm.reset();
+              this.cancelModal.emit();
+              this.getAllStructureDocs.emit();
+            }, 500);
+          }
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         error: (error: any) => {
           this.templateError = error?.error?.message ?? "TEMPLATE_ERROR";
+          this.uploadResponse = {
+            status: "error",
+            message: 0,
+          };
           this.toastService.error("Impossible d'uploader le fichier");
           this.loading = false;
           this.submitted = false;

@@ -1,12 +1,12 @@
 import { Component } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { AuthService } from "../../../../shared/services/auth.service";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { BaseUsagerProfilPageComponent } from "../base-usager-profil-page/base-usager-profil-page.component";
 import { Store } from "@ngrx/store";
 import { UsagerState } from "../../../../../shared";
+import { CustomToastService } from "../../../../shared/services";
 
 @Component({
   selector: "app-profil-dossier",

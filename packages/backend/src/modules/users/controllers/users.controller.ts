@@ -4,6 +4,7 @@ import {
   ALL_USER_STRUCTURE_ROLES,
 } from "@domifa/common";
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -132,6 +133,28 @@ export class UsersController {
     @Param("userUuid", new ParseUUIDPipe()) _userUuid: string,
     @CurrentChosenUserStructure() chosenUserStructure: UserStructure
   ): Promise<UserStructureProfile> {
+    // Reassign referrers if needed (role downgrade to facteur/agent, or explicit newReferrerId)
+    if (
+      updateRoleDto.newReferrerId !== undefined &&
+      (updateRoleDto.role === "facteur" || updateRoleDto.role === "agent")
+    ) {
+      if (updateRoleDto.newReferrerId !== null) {
+        const targetUser = await userStructureRepository.findOneBy({
+          id: updateRoleDto.newReferrerId,
+          structureId: userStructureAuth.structureId,
+        });
+
+        if (!targetUser) {
+          throw new BadRequestException("BAD_REQUEST");
+        }
+      }
+
+      await usagerRepository.update(
+        { referrerId: chosenUserStructure.id },
+        { referrerId: updateRoleDto.newReferrerId ?? null }
+      );
+    }
+
     await userStructureRepository.update(
       {
         uuid: chosenUserStructure.uuid,

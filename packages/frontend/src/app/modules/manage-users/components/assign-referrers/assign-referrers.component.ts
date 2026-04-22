@@ -36,6 +36,9 @@ export class AssignReferrersComponent implements OnInit, OnDestroy {
         .countReferrers(this.currentUser)
         .subscribe((nbReferrers: number) => {
           this.nbReferrers = nbReferrers;
+          if (nbReferrers === 0) {
+            this.newReferrerIdChange.emit(null);
+          }
         })
     );
   }

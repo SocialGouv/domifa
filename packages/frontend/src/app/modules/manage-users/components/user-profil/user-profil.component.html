@@ -3,15 +3,10 @@
   <div class="fr-container">
     <div class="fr-grid-row fr-grid-row--middle fr-grid-row--gutters">
       <div class="fr-col">
-        <h1>Gérer les utilisateurs</h1>
-      </div>
-      <div class="fr-col-auto">
-        <a
-          class="fr-btn fr-icon-file-text-line fr-btn--icon-left fr-btn--secondary"
-          href="#table-rights"
-        >
-          En savoir plus sur les rôles des utilisateurs
-        </a>
+        <h1>
+          <span class="fr-icon-group-line" aria-hidden="true"></span>Gérer les
+          utilisateurs
+        </h1>
       </div>
     </div>
   </div>
@@ -169,6 +164,10 @@
         </div>
       </div>
 
+      <h2 class="fr-col fr-h4">
+        <span class="fr-icon-information-line" aria-hidden="true"></span>
+        En savoir plus sur les droits et rôles des utilisateurs
+      </h2>
       <div
         id="table-rights"
         class="fr-table fr-table--bordered fr-table--no-caption fr-cell--multiline"
@@ -807,7 +806,7 @@
   class="fr-text--left"
   #updateUserModal
   dialogId="update-user-modal"
-  modalSize="MD"
+  [modalSize]="needsReferrerReassignment ? 'LG' : 'MD'"
   titleModal="Modifier le rôle de {{ selectedUser?.nom }} {{
     selectedUser?.prenom
   }}"
@@ -828,6 +827,15 @@
       <option value="agent">Agent d'accueil</option>
     </select>
   </div>
+
+  @if (needsReferrerReassignment) {
+  <div class="fr-mt-3w">
+    <app-assign-referrers
+      [currentUser]="selectedUser"
+      [(newReferrerId)]="newReferrerId"
+    />
+  </div>
+  }
 
   <ng-template #modalFooterTemplate>
     <div class="fr-btns-group fr-btns-group--inline fr-btns-group--right">
@@ -850,38 +858,6 @@
   </ng-template>
 </dsfr-modal>
 }
-
-<dsfr-modal
-  class="fr-text--left"
-  #assignReferrersModal
-  dialogId="assign-referrers-modal"
-  [modalSize]="'LG'"
-  titleModal="Réassignation des dossiers"
->
-  <app-assign-referrers
-    [currentUser]="selectedUser"
-    [(newReferrerId)]="newReferrerId"
-  />
-  <ng-template #modalFooterTemplate>
-    <div class="fr-btns-group fr-btns-group--inline fr-btns-group--right">
-      <button
-        type="button"
-        class="fr-btn fr-btn--secondary"
-        (click)="resetRoles()"
-      >
-        Annuler
-      </button>
-      <button
-        type="button"
-        class="fr-btn"
-        [disabled]="loading"
-        (click)="updateRoleAndReassign()"
-      >
-        Confirmer
-      </button>
-    </div>
-  </ng-template>
-</dsfr-modal>
 
 <dsfr-modal
   class="fr-text--left"

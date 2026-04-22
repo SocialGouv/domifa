@@ -26,6 +26,7 @@ import { TableHeadSortComponent } from "../shared/components/table-head-sort/tab
 import { DigitOnlyDirective } from "../shared/directives";
 import { PhoneInputComponent } from "../usager-shared/components/input-phone-international/input-phone-international.component";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { DsfrProgressBarComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
     DigitOnlyDirective,
     PhoneInputComponent,
     DsfrModalComponent,
+    DsfrProgressBarComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

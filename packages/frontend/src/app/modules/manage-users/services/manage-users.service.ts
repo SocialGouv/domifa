@@ -73,12 +73,14 @@ export class ManageUsersService {
 
   public updateRole(
     uuid: string,
-    role: UserStructureRole
+    role: UserStructureRole,
+    newReferrerId?: number | null
   ): Observable<UserStructureProfile> {
     return this.http.patch<UserStructureProfile>(
       `${this.endPoint}/update-role/${uuid}`,
       {
         role,
+        newReferrerId,
       }
     );
   }

@@ -154,11 +154,13 @@
         </div>
       </div>
     </div>
+
+    @if (displayDeleteButton) {
     <app-delete-usager-menu
-      context="PROFIL"
       [usager]="usager"
-      *ngIf="displayDeleteButton"
+      context="PROFIL"
       [me]="me"
     ></app-delete-usager-menu>
+    }
   </div>
 </div>

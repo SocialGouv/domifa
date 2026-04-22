@@ -63,5 +63,13 @@
         </div>
       </div>
     </div>
+
+    @if (displayDeleteButton) {
+    <app-delete-usager-menu
+      [usager]="usager"
+      context="PROFIL"
+      [me]="me"
+    ></app-delete-usager-menu>
+    }
   </div>
 </div>
