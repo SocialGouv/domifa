@@ -1,3 +1,16 @@
+# [2.236.0](https://github.com/SocialGouv/domifa/compare/v2.235.2...v2.236.0) (2026-04-26)
+
+
+### Bug Fixes
+
+* **backend:** fix siret edit ([a803085](https://github.com/SocialGouv/domifa/commit/a8030850bc955bece1e6fc5f0838ed8048f4c35d))
+* **frontend:** fix assign referrers ([eab98dc](https://github.com/SocialGouv/domifa/commit/eab98dc75599db7b257848d14b6f6f020f711bbe))
+
+
+### Features
+
+* **frontend:** delete changelog & add dsfr ([7e43c2a](https://github.com/SocialGouv/domifa/commit/7e43c2a7c9cfc458f6840abbf0d44a0852f42455))
+
 ## [2.235.2](https://github.com/SocialGouv/domifa/compare/v2.235.1...v2.235.2) (2026-04-22)
 
 
