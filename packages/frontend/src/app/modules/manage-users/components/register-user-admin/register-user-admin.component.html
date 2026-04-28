@@ -184,16 +184,12 @@
         >
           Annuler
         </button>
-        <button
+        <app-button
           type="submit"
-          class="fr-btn"
-          (click)="submitUser()"
-          [disabled]="loading"
-          [attr.aria-busy]="loading"
-        >
-          @if (!loading) { Valider l'inscription } @else { Veuillez patienter...
-          }
-        </button>
+          [loading]="loading"
+          content="Valider l'inscription"
+          (action)="submitUser()"
+        ></app-button>
       </div>
     </ng-template>
   </form>

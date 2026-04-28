@@ -79,14 +79,11 @@
                   required
                 />
 
-                <button
-                  [disabled]="loading"
-                  [attr.aria-busy]="loading"
+                <app-button
                   type="submit"
-                  class="fr-btn"
-                >
-                  @if (loading) { Veuillez patienter... } @else { Rechercher }
-                </button>
+                  [loading]="loading"
+                  content="Rechercher"
+                ></app-button>
               </div>
 
               @if ((f.codePostal.dirty || submitted) && f.codePostal.errors) {

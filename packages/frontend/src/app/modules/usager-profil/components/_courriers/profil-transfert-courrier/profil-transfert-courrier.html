@@ -206,19 +206,11 @@
       </div>
 
       <div class="fr-col-12" style="text-align: center">
-        <button
-          class="fr-btn"
+        <app-button
           type="submit"
-          [disabled]="loading"
-          [attr.aria-busy]="loading"
-        >
-          @if (!loading) { Enregistrer le transfert } @else {
-          <span
-            class="fr-icon-refresh-line fr-icon--spin"
-            aria-hidden="true"
-          ></span>
-          Veuillez patienter... }
-        </button>
+          [loading]="loading"
+          content="Enregistrer le transfert"
+        ></app-button>
       </div>
     </div>
   </form>

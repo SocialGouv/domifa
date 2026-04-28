@@ -1024,7 +1024,7 @@
           </div>
 
           <!-- Adresse courrier différente -->
-          <div formGroupName="adresseCourrier">
+          <div formGroupName="adresseCourrier" class="fr-my-2w">
             <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
               <div class="fr-col-12">
                 <div class="fr-checkbox-group fr-pl-0">
@@ -1684,22 +1684,11 @@
         <!-- Section: Submission -->
         <section>
           <div class="fr-my-3w fr-display-flex fr-justify-content-end">
-            <button
+            <app-button
               type="submit"
-              [disabled]="loading"
-              [attr.aria-busy]="loading"
-              class="fr-btn"
-            >
-              @if (loading) {
-              <span>
-                <span aria-hidden="true" class="fr-icon-spinner fr-icon--spin">
-                </span>
-                Veuillez patienter...
-              </span>
-              } @if (!loading) {
-              <span>Continuer</span>
-              }
-            </button>
+              [loading]="loading"
+              content="Continuer"
+            ></app-button>
           </div>
         </section>
       </form>

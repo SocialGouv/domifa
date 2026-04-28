@@ -98,9 +98,11 @@
     <div
       class="fr-col-12 fr-col-md-2 fr-displayefr-display-flex fr-flex-align-end"
     >
-      <button type="submit" class="fr-btn" [disabled]="loading">
-        Ajouter le fichier
-      </button>
+      <app-button
+        type="submit"
+        [loading]="loading"
+        content="Ajouter le fichier"
+      ></app-button>
     </div>
 
     <div

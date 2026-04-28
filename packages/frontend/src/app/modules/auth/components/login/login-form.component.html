@@ -103,19 +103,13 @@
     </a>
   </div>
   <div class="fr-input-group fr-my-2w fr-text--center">
-    <button type="submit" class="fr-btn fr-display-flex fr-flex-column w-100">
-      @if (!loading) {
-      <span>Se connecter</span>
-      } @if (loading) {
-      <span class="fr-loading">
-        <span
-          aria-hidden="true"
-          class="fr-icon-refresh-line fr-icon-spin"
-        ></span>
-        Connexion en cours...
-      </span>
-      }
-    </button>
+    <app-button
+      type="submit"
+      [loading]="loading"
+      content="Se connecter"
+      loadingText="Connexion en cours..."
+      customClass="fr-display-flex fr-flex-column w-100"
+    ></app-button>
   </div>
 
   <hr />
