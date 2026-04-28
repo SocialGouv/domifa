@@ -28,19 +28,12 @@
       <div
         class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
       >
-        <button
-          [disabled]="loading"
-          [attr.aria-busy]="loading"
+        <app-button
           type="submit"
-          class="fr-btn"
-          (click)="nextStep(4)"
-        >
-          @if (!loading) {
-          <span>Suivant</span>
-          } @else {
-          <span>Veuillez patienter...</span>
-          }
-        </button>
+          [loading]="loading"
+          content="Suivant"
+          (action)="nextStep(4)"
+        ></app-button>
         <a routerLink="/manage" class="fr-btn fr-btn--secondary">
           Continuer plus tard
         </a>

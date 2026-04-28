@@ -534,30 +534,22 @@
   </div>
 
   <div class="fr-mt-6w fr-mb-6w" style="text-align: center">
-    <button
+    <app-button
       *ngIf="editEntretien"
       type="submit"
-      class="fr-btn fr-btn--primary"
-      [disabled]="loading"
-      [attr.aria-busy]="loading"
-    >
-      <span *ngIf="!loading">Enregistrer les modifications</span>
-      <span *ngIf="loading">Veuillez patienter...</span>
-    </button>
+      [loading]="loading"
+      content="Enregistrer les modifications"
+    ></app-button>
 
     <div
       *ngIf="usager.decision.statut === 'INSTRUCTION' && !editEntretien"
       class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
     >
-      <button
+      <app-button
         type="submit"
-        class="fr-btn"
-        [disabled]="loading"
-        [attr.aria-busy]="loading"
-      >
-        <span *ngIf="!loading">Suivant</span>
-        <span *ngIf="loading">Veuillez patienter...</span>
-      </button>
+        [loading]="loading"
+        content="Suivant"
+      ></app-button>
       <a routerLink="/manage" class="fr-btn fr-btn--secondary">
         Continuer plus tard
       </a>

@@ -242,7 +242,7 @@
       Informations sur l'agrément
     </h2>
 
-    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-my-2w">
       <!-- Département -->
       <div class="fr-col-12 fr-col-md-6">
         <div
@@ -292,7 +292,6 @@
         </div>
       </div>
 
-      <!-- Numéro d'agrément -->
       <div class="fr-col-12 fr-col-md-6">
         <div
           class="fr-input-group"
@@ -783,7 +782,7 @@
     </div>
 
     <!-- Adresse courrier différente -->
-    <div formGroupName="adresseCourrier">
+    <div formGroupName="adresseCourrier" class="fr-my-2w">
       <div class="fr-toggle fr-mb-3w">
         <input
           type="checkbox"
@@ -801,9 +800,6 @@
           L'adresse de réception du courrier est différente de celle de
           l'organisme domiciliataire&nbsp;?
         </label>
-        <p class="fr-hint-text" id="adresseCourrier-hint">
-          Renseignez une adresse distincte si le courrier est reçu ailleurs
-        </p>
       </div>
 
       @if (f.adresseCourrier.get('actif')?.value === true) {
@@ -964,7 +960,7 @@
       Contact
     </h2>
 
-    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-my-2w">
       <!-- Téléphone -->
       <div class="fr-col-12 fr-col-md-6">
         <app-phone-input
@@ -1422,15 +1418,11 @@
   <!-- BOUTON SUBMIT                                           -->
   <!-- ====================================================== -->
   <div class="fr-grid-row fr-grid-row--center fr-my-4w">
-    <button
-      class="fr-btn"
-      [disabled]="loading"
-      [attr.aria-busy]="loading"
+    <app-button
       type="submit"
-    >
-      @if (!loading) { Enregistrer les modifications } @else { Veuillez
-      patienter… }
-    </button>
+      [loading]="loading"
+      content="Enregistrer les modifications"
+    ></app-button>
   </div>
 </form>
 }

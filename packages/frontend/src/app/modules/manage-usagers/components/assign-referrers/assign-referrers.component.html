@@ -34,17 +34,12 @@
   >
     Annuler
   </button>
-  <button
+  <app-button
     type="submit"
-    class="fr-btn"
-    (click)="assignReferrers()"
-    [disabled]="loading"
-    [attr.aria-busy]="loading"
-  >
-    @if (!loading) { Confirmer l'assignation } @else {
-    <span class="fr-icon-refresh-line fr-icon--spin" aria-hidden="true"></span>
-    Veuillez patienter... }
-  </button>
+    [loading]="loading"
+    content="Confirmer l'assignation"
+    (action)="assignReferrers()"
+  ></app-button>
 </div>
 } @if (template === 'modal') {
 <dsfr-modal

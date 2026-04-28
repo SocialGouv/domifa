@@ -76,16 +76,12 @@
         </div>
 
         <div class="fr-mt-3w fr-text--center">
-          <button
-            class="fr-btn"
+          <app-button
             type="submit"
-            (click)="submitStructurePortailForm()"
-            [disabled]="loading"
-            [attr.aria-busy]="loading"
-          >
-            @if (!loading) { Enregistrer les modifications } @else { Veuillez
-            patienter... }
-          </button>
+            [loading]="loading"
+            content="Enregistrer les modifications"
+            (action)="submitStructurePortailForm()"
+          ></app-button>
         </div>
       </form>
     </div>

@@ -250,19 +250,11 @@
             </fieldset>
 
             <div class="fr-text--center">
-              <button
-                class="fr-btn"
+              <app-button
                 type="submit"
-                [disabled]="loading"
-                [attr.aria-busy]="loading"
-              >
-                @if (!loading) { Enregistrer les modifications } @else {
-                <span
-                  class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
-                  aria-hidden="true"
-                ></span>
-                Veuillez patienter... }
-              </button>
+                [loading]="loading"
+                content="Enregistrer les modifications"
+              ></app-button>
             </div>
           </form>
           }

@@ -65,16 +65,12 @@
           Annuler
         </button>
 
-        <button
+        <app-button
           type="submit"
-          (click)="submit()"
-          class="fr-btn"
-          [disabled]="loading"
-          [attr.aria-busy]="loading"
-        >
-          <span *ngIf="!loading">Enregistrer la note</span>
-          <span *ngIf="loading"> Veuillez patienter... </span>
-        </button>
+          [loading]="loading"
+          content="Enregistrer la note"
+          (action)="submit()"
+        ></app-button>
       </div>
     </ng-template>
   </form>

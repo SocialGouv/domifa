@@ -95,24 +95,11 @@
     </div>
 
     <div class="fr-my-4w">
-      <button
+      <app-button
         type="submit"
-        class="fr-btn"
-        [disabled]="loading"
-        [attr.aria-busy]="loading"
-      >
-        @if (!loading) {
-        <span>Enregistrer les modifications</span>
-        } @else {
-        <span>
-          <span
-            class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
-            aria-hidden="true"
-          ></span>
-          Veuillez patienter...
-        </span>
-        }
-      </button>
+        [loading]="loading"
+        content="Enregistrer les modifications"
+      ></app-button>
     </div>
   </form>
 </ng-container>

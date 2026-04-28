@@ -254,19 +254,11 @@
             >
               Annuler les modifications
             </button>
-            <button
-              class="fr-btn"
+            <app-button
               type="submit"
-              [disabled]="loading"
-              [attr.aria-busy]="loading"
-            >
-              @if (loading) {
-              <span
-                class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
-                aria-hidden="true"
-              ></span>
-              Veuillez patienter... } @else { Enregistrer les changements }
-            </button>
+              [loading]="loading"
+              content="Enregistrer les changements"
+            ></app-button>
           </div>
         </form>
         }
@@ -360,19 +352,11 @@
             >
               Annuler les modifications
             </button>
-            <button
-              class="fr-btn"
+            <app-button
               type="submit"
-              [disabled]="loading"
-              [attr.aria-busy]="loading"
-            >
-              @if (loading) {
-              <span
-                class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
-                aria-hidden="true"
-              ></span>
-              Veuillez patienter... } @else { Enregistrer les changements }
-            </button>
+              [loading]="loading"
+              content="Enregistrer les changements"
+            ></app-button>
           </div>
         </form>
         }

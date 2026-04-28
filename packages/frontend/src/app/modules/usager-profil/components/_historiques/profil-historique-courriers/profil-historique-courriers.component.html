@@ -126,20 +126,12 @@
     <div
       class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
     >
-      <button
+      <app-button
         type="submit"
-        class="fr-btn"
-        (click)="deleteInteraction()"
-        [disabled]="loading"
-        [attr.aria-busy]="loading"
-      >
-        @if (!loading) { Confirmer la suppression } @else {
-        <span
-          class="fr-icon-refresh-line fr-icon--spin"
-          aria-hidden="true"
-        ></span>
-        Veuillez patienter... }
-      </button>
+        [loading]="loading"
+        content="Confirmer la suppression"
+        (action)="deleteInteraction()"
+      ></app-button>
       <button
         type="button"
         class="fr-btn fr-btn--secondary"

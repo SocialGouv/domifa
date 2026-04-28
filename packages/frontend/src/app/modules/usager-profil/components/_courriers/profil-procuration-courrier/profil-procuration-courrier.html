@@ -261,19 +261,11 @@
         Ajouter une procuration
       </button>
       }
-      <button
-        class="fr-btn"
-        [disabled]="loading"
-        [attr.aria-busy]="loading"
+      <app-button
         type="submit"
-      >
-        @if (!loading) { Enregistrer les procurations } @else {
-        <span
-          class="fr-icon-refresh-line fr-icon--spin"
-          aria-hidden="true"
-        ></span>
-        Veuillez patienter... }
-      </button>
+        [loading]="loading"
+        content="Enregistrer les procurations"
+      ></app-button>
     </div>
   </form>
   }
