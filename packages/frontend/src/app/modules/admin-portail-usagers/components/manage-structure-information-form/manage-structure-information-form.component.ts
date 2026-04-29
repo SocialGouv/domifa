@@ -78,15 +78,19 @@ export class ManageStructureInformationFormComponent implements OnDestroy {
     this.structureInformation = information;
     this.submitted = false;
     this.loading = false;
-    this.initForm();
-    this.editorModal.open();
+    this.tempMessageForm = null;
+
+    setTimeout(() => {
+      this.initForm();
+      this.editorModal.open();
+    });
   }
 
   public closeModal(): void {
     this.structureInformation = null;
     this.submitted = false;
     this.loading = false;
-    this.tempMessageForm?.reset();
+    this.tempMessageForm = null;
     this.editorModal.close();
   }
 

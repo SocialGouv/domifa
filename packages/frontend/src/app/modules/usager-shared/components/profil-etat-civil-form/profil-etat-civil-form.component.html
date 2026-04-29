@@ -6,11 +6,6 @@
   @let me = (currentUserSubject$ | async); @if (me) {
 
   <form [formGroup]="usagerForm" (ngSubmit)="updateInfos()" autocomplete="off">
-    <p class="fr-text--sm">
-      Les champs suivis d'un
-      <span class="fr-text--bold text-danger">*</span> sont obligatoires
-    </p>
-
     <fieldset class="fr-fieldset">
       <legend class="fr-fieldset__legend--regular fr-fieldset__legend">
         Civilité
@@ -49,7 +44,7 @@
             'fr-input-group--error': (f.nom.dirty || submitted) && f.nom.errors
           }"
         >
-          <label class="fr-label" for="nom"> Nom * </label>
+          <label class="fr-label" for="nom"> Nom </label>
           <p class="fr-hint-text">Précisez nom de naissance si nécessaire</p>
           <input
             type="text"
@@ -86,7 +81,7 @@
               (f.prenom.dirty || submitted) && f.prenom.errors
           }"
         >
-          <label class="fr-label" for="prenom"> Prénom(s) * </label>
+          <label class="fr-label" for="prenom"> Prénom(s) </label>
           <p class="fr-hint-text empty-hint"></p>
           <input
             type="text"
@@ -132,12 +127,12 @@
           />
         </div>
       </div>
-      <div class="fr-col-12 fr-col-md-4">
+      <div class="fr-col-12 fr-col-md-6">
         <dsfr-ext-datepicker
           [autoFilter]="false"
           [suggestions]="languageSuggestions"
           formControlName="dateNaissance"
-          [label]="'Date de naissance *'"
+          [label]="'Date de naissance'"
           hint="Le format de la date doit être jj/mm/aaaa"
           [min]="minDateNaissance"
           [max]="maxDateNaissance"
@@ -151,7 +146,7 @@
           [messageSeverity]="'error'"
         ></dsfr-ext-datepicker>
       </div>
-      <div class="fr-col-12 fr-col-md-4">
+      <div class="fr-col-12 fr-col-md-6">
         <div
           class="fr-input-group"
           [ngClass]="{
@@ -160,7 +155,7 @@
           }"
         >
           <label class="fr-label" for="villeNaissance">
-            Ville de naissance *
+            Ville de naissance
           </label>
           <p id="ville-description" class="fr-hint-text empty-hint">
             Préciser le pays si à l'étranger
@@ -199,8 +194,9 @@
           </div>
         </div>
       </div>
-
-      <div class="fr-col-12 fr-col-md-4">
+    </div>
+    <div class="fr-grid-row fr-grid-row--gutters fr-mb-3w">
+      <div class="fr-col-12 fr-col-md-6">
         <div class="fr-select-group">
           <label class="fr-label" for="langue">Langue parlée</label>
           <p class="fr-hint-text empty-hint"></p>
@@ -219,14 +215,60 @@
           </select>
         </div>
       </div>
-      <div class="fr-col-12 fr-col-md-4">
+      <div class="fr-col-12 fr-col-md-6">
         <app-input-nationality
           [parentFormGroup]="usagerForm"
           [submitted]="submitted"
           [usager]="usager"
         ></app-input-nationality>
       </div>
+    </div>
+    <hr />
+    <div class="fr-grid-row fr-grid-row--gutters fr-mb-3w">
+      <div class="fr-col-12 fr-col-md-4">
+        <div class="fr-input-group">
+          <label class="fr-label" for="customRef">
+            Identifiant personnalisé
+          </label>
+          <p class="fr-hint-text empty-hint"></p>
+          <input
+            type="text"
+            class="fr-input"
+            id="customRef"
+            formControlName="customRef"
+            name="customRef"
+            maxlength="50"
+          />
+        </div>
+      </div>
+      <div class="fr-col-12 fr-col-md-4">
+        <div class="fr-input-group">
+          <label class="fr-label" for="numeroDistribution">
+            Numéro de boite postale ou TSA
+          </label>
+          <p class="fr-hint-text">Exemple : BP 102, TSA 11000</p>
+          <input
+            type="text"
+            class="fr-input"
+            id="numeroDistribution"
+            formControlName="numeroDistribution"
+            name="numeroDistribution"
+            maxlength="20"
+          />
+        </div>
+      </div>
 
+      <div class="fr-col-12 fr-col-md-4">
+        <app-input-referrer
+          [submitted]="submitted"
+          [parentFormGroup]="usagerForm"
+          [displayLabel]="true"
+          [required]="false"
+          [referrerId]="f.referrerId.value"
+        ></app-input-referrer>
+      </div>
+    </div>
+    <div class="fr-grid-row fr-grid-row--gutters fr-mb-3w">
       <div class="fr-col-12 fr-col-md-4">
         <app-phone-input
           [isRequired]="f.contactByPhone.value === true"
@@ -294,33 +336,6 @@
             </p>
           </div>
         </div>
-      </div>
-
-      <div class="fr-col-12 fr-col-md-4">
-        <div class="fr-input-group">
-          <label class="fr-label" for="numeroDistribution">
-            Numéro de boite postale ou TSA
-          </label>
-          <p class="fr-hint-text">Exemple : BP 102, TSA 11000</p>
-          <input
-            type="text"
-            class="fr-input"
-            id="numeroDistribution"
-            formControlName="numeroDistribution"
-            name="numeroDistribution"
-            maxlength="20"
-          />
-        </div>
-      </div>
-
-      <div class="fr-col-12 fr-col-md-4">
-        <app-input-referrer
-          [submitted]="submitted"
-          [parentFormGroup]="usagerForm"
-          [displayLabel]="true"
-          [required]="false"
-          [referrerId]="f.referrerId.value"
-        ></app-input-referrer>
       </div>
     </div>
 
@@ -443,7 +458,7 @@
                     ayantsDroits.controls[i].get('nom')?.errors
                 }"
               >
-                <label class="fr-label" for="nom_{{ i }}"> Nom * </label>
+                <label class="fr-label" for="nom_{{ i }}"> Nom </label>
                 <input
                   #adName
                   id="nom_{{ i }}"
@@ -495,9 +510,7 @@
                     ayantsDroits.controls[i].get('prenom')?.errors
                 }"
               >
-                <label class="fr-label" for="ad_prenom_{{ i }}">
-                  Prénom *
-                </label>
+                <label class="fr-label" for="ad_prenom_{{ i }}"> Prénom </label>
                 <input
                   type="text"
                   id="ad_prenom_{{ i }}"
@@ -566,7 +579,7 @@
                     ayantsDroits.controls[i].get('lien')?.errors
                 }"
               >
-                <label class="fr-label" for="lien_{{ i }}"> Lien * </label>
+                <label class="fr-label" for="lien_{{ i }}"> Lien </label>
                 <select
                   formControlName="lien"
                   name="lien"

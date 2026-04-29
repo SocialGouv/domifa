@@ -16,9 +16,6 @@
           (ngSubmit)="doLogin()"
         >
           <h1 class="align-self-start">Connexion à Mon Domifa</h1>
-          <span class="col-12 col-md-12 fr-text-default--error">
-            * champs obligatoires
-          </span>
           <div
             [class.fr-input-group--error]="f.login.dirty && f.login.errors"
             class="fr-input-group required mb-0"

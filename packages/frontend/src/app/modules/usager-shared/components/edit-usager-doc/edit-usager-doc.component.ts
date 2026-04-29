@@ -13,7 +13,7 @@ import {
   Validators,
   UntypedFormBuilder,
 } from "@angular/forms";
-import { Usager, UsagerDoc, WithLoading } from "@domifa/common";
+import { Usager, UsagerDoc, UserStructure, WithLoading } from "@domifa/common";
 import { Subscription } from "rxjs";
 import { CustomToastService } from "../../../shared/services";
 import { DocumentService } from "../../services";
@@ -36,6 +36,7 @@ export class EditUsagerDocComponent implements OnInit, OnDestroy {
 
   @Input({ required: true }) public usager: Pick<Usager, "ref" | "options">;
   @Input({ required: true }) public doc: WithLoading<UsagerDoc>;
+  @Input({ required: true }) public me!: UserStructure;
   @Output() public readonly docChange = new EventEmitter<
     WithLoading<UsagerDoc>
   >();

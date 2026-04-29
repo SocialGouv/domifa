@@ -187,6 +187,17 @@ export class UsagersProfilProcurationCourrierComponent
       }
     );
 
+    if (
+      procurationFormData.some(
+        (p) => !p.dateFin || !p.dateDebut || !p.dateNaissance
+      )
+    ) {
+      this.toastService.error(
+        "Les dates sont obligatoires pour chaque procuration"
+      );
+      return;
+    }
+
     this.loading = true;
     this.subscription.add(
       this.usagerOptionsService

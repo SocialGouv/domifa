@@ -1,8 +1,4 @@
 <div>
-  <p *ngIf="!isEditMode">
-    <span class="fw-bold text-danger">*</span> champs obligatoires
-  </p>
-
   <form #form *ngIf="userForm" [formGroup]="userForm" (ngSubmit)="submitUser()">
     <div class="row">
       <div

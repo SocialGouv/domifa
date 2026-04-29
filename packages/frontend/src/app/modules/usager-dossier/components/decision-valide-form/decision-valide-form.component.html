@@ -11,15 +11,11 @@
   dialogId="decisionValideModal"
 >
   <form [formGroup]="valideForm" (ngSubmit)="setDecisionValide()">
-    <p class="fr-text--sm fr-mb-2w">
-      Les champs suivis d'un * sont obligatoires
-    </p>
-
     <div class="fr-grid-row fr-grid-row--gutters">
       <div class="fr-col-12 fr-col-md-6">
         <dsfr-ext-datepicker
           formControlName="dateDebut"
-          label="Date de début de la domiciliation *"
+          label="Date de début de la domiciliation"
           [min]="minDate"
           [max]="maxDate"
           [required]="true"
@@ -33,7 +29,7 @@
       <div class="fr-col-12 fr-col-md-6">
         <dsfr-ext-datepicker
           formControlName="dateFin"
-          label="Date de fin de la domiciliation *"
+          label="Date de fin de la domiciliation"
           [min]="minDate"
           [max]="maxEndDate"
           [required]="true"

@@ -69,46 +69,50 @@ export class ReportingFormComponent implements OnInit {
   public openModal(): void {
     this.modalTitle = `Compléter le rapport de l'année ${this.currentReport?.year}`;
     this.matomo.trackEvent("STATS", "ANNUAL_REPORT_FORM", "START", 1);
+    this.structureStatsForm = null;
 
-    this.structureStatsForm = this.fb.group({
-      waitingList: [this.currentReport.waitingList, Validators.required],
-      waitingTime: [
-        this.currentReport.waitingTime,
-        [
-          Validators.required,
-          valueInArrayValidator(Object.keys(WAITING_TIME_LABELS)),
+    setTimeout(() => {
+      this.structureStatsForm = this.fb.group({
+        waitingList: [this.currentReport.waitingList, Validators.required],
+        waitingTime: [
+          this.currentReport.waitingTime,
+          [
+            Validators.required,
+            valueInArrayValidator(Object.keys(WAITING_TIME_LABELS)),
+          ],
         ],
-      ],
-      workers: [
-        this.currentReport.workers,
-        [Validators.required, Validators.min(0)],
-      ],
-      volunteers: [
-        this.currentReport.volunteers,
-        [Validators.required, Validators.min(0)],
-      ],
-      humanCosts: [
-        this.currentReport.humanCosts,
-        [Validators.required, Validators.min(0)],
-      ],
-      totalCosts: [
-        this.currentReport.totalCosts,
-        [Validators.required, Validators.min(0)],
-      ],
-      year: [
-        this.currentReport.year,
-        [
-          Validators.required,
-          Validators.min(2020),
-          Validators.max(new Date().getFullYear()),
+        workers: [
+          this.currentReport.workers,
+          [Validators.required, Validators.min(0)],
         ],
-      ],
+        volunteers: [
+          this.currentReport.volunteers,
+          [Validators.required, Validators.min(0)],
+        ],
+        humanCosts: [
+          this.currentReport.humanCosts,
+          [Validators.required, Validators.min(0)],
+        ],
+        totalCosts: [
+          this.currentReport.totalCosts,
+          [Validators.required, Validators.min(0)],
+        ],
+        year: [
+          this.currentReport.year,
+          [
+            Validators.required,
+            Validators.min(2020),
+            Validators.max(new Date().getFullYear()),
+          ],
+        ],
+      });
+      this.completeReportModal.open();
     });
-    this.completeReportModal.open();
   }
 
   public closeModal(): void {
     this.submitted = false;
+    this.structureStatsForm = null;
     this.completeReportModal.close();
   }
 

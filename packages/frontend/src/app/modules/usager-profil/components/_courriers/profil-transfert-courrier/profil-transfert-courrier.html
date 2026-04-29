@@ -78,10 +78,6 @@
     class="fr-my-2w"
   >
     <div class="fr-grid-row fr-grid-row--gutters">
-      <div class="fr-col-12">
-        <p>Tous les champs sont obligatoires</p>
-      </div>
-
       <div class="fr-col-12 fr-col-md-3">
         <div
           class="fr-input-group"
@@ -90,7 +86,7 @@
           "
         >
           <label class="fr-label" for="transfert_nom">
-            Nom de l'établissement *
+            Nom de l'établissement
           </label>
           <p class="fr-hint-text">
             Exemple: Maison d'arrêt, Hôpital saint-louis, etc.
@@ -133,7 +129,7 @@
           "
         >
           <label class="fr-label" for="transfert_adresse">
-            Adresse de l'établissement *
+            Adresse de l'établissement
           </label>
           <p class="fr-hint-text">
             Précisez l'adresse complète, 10 caractères minimum
@@ -174,7 +170,7 @@
       <div class="fr-col-12 fr-col-md-3">
         <dsfr-ext-datepicker
           formControlName="dateDebut"
-          label="Valide du *"
+          label="Valide du"
           hint="Le format de la date doit être jj/mm/aaaa"
           [showMask]="true"
           [required]="true"
@@ -190,7 +186,7 @@
       <div class="fr-col-12 fr-col-md-3">
         <dsfr-ext-datepicker
           formControlName="dateFin"
-          label="Valide jusqu'au *"
+          label="Valide jusqu'au"
           hint="Le format de la date doit être jj/mm/aaaa"
           [required]="true"
           [showMask]="true"

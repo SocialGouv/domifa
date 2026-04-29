@@ -3,6 +3,7 @@
     *ngIf="me?.role !== 'facteur' && me?.role !== 'agent' && editPJ"
     (getUsagerDocs)="getUsagerDocs()"
     [usager]="usager"
+    [me]="me"
   ></app-upload>
 </div>
 
@@ -74,6 +75,7 @@
                 [doc]="document"
                 (docChange)="updateDocument($event, i)"
                 [usager]="usager"
+                [me]="me"
               ></app-edit-usager-doc>
               <app-button
                 (action)="getDocument(document)"

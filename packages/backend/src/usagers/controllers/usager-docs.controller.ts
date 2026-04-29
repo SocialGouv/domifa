@@ -97,6 +97,15 @@ export class UsagerDocsController {
     @Body() postData: PostUsagerDocDto,
     @Res() res: Response
   ) {
+    if (
+      (postData?.shared && !user.structure.portailUsager?.enabledByStructure) ||
+      !currentUsager.options?.portailUsagerEnabled
+    ) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "PORTAIL_NOT_ENABLED" });
+    }
+
     const encryptionContext = crypto.randomUUID();
     const userName = `${user.prenom} ${user.nom}`;
 
@@ -115,6 +124,7 @@ export class UsagerDocsController {
       encryptionContext,
       encryptionVersion: 0,
       filesize,
+      shared: postData.shared ?? false,
     });
 
     try {
@@ -162,6 +172,15 @@ export class UsagerDocsController {
     @Res() res: Response
   ) {
     if (updatedDoc.shared && usagerDoc.shared !== updatedDoc.shared) {
+      if (
+        !user.structure.portailUsager?.enabledByStructure ||
+        !currentUsager.options?.portailUsagerEnabled
+      ) {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "PORTAIL_NOT_ENABLED" });
+      }
+
       await this.appLogsService.create({
         userId: user.id,
         usagerRef: currentUsager.ref,

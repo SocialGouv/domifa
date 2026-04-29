@@ -220,7 +220,7 @@
       <div
         class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom d-print-none"
       >
-        <div class="fr-col-auto">
+        <div class="fr-col-md-3">
           <div class="fr-select-group">
             <label class="fr-label" for="searchStringField">
               Rechercher par
@@ -249,7 +249,7 @@
           </div>
         </div>
 
-        <div class="fr-col">
+        <div class="fr-col-md-6">
           <div class="fr-search-bar" role="search">
             <label class="fr-label" for="searchInput">
               {{
@@ -289,16 +289,14 @@
         <div class="fr-col-auto">
           <button
             type="button"
-            class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-filter-line"
+            class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-filter-line fr-mr-1w"
             [attr.aria-expanded]="showFilters"
             aria-controls="filter-zone"
             (click)="showFilters = !showFilters"
           >
             {{ showFilters ? "Masquer les filtres" : "Filtrer" }}
           </button>
-        </div>
 
-        <div class="fr-col-auto">
           <button
             type="button"
             class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-printer-line"

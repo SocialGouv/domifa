@@ -82,11 +82,11 @@ export class StructureDto {
 
   @ApiProperty({
     type: Number,
-    required: false,
+    required: true,
   })
   @Min(0)
   @IsNumber()
-  @IsOptional()
+  @IsNotEmpty()
   public capacite!: number;
 
   @ApiProperty({

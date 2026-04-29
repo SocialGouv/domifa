@@ -17,19 +17,13 @@
   [modalSize]="'LG'"
 >
   <form [formGroup]="documentForm" (ngSubmit)="patchDocument()">
-    <p>
-      Les champs suivis d'un
-      <span class="fr-text--bold fr-text-default--error">*</span> sont
-      obligatoires
-    </p>
-
     <div
       class="fr-input-group"
       [class.fr-input-group--error]="
         (submitted || u.label.dirty) && u.label.errors
       "
     >
-      <label class="fr-label" for="label"> Nom du document * </label>
+      <label class="fr-label" for="label"> Nom du document </label>
       <p class="fr-hint-text" id="label-description">
         Exemple : Cerfa signé, impots, carte identité, etc..
       </p>
@@ -64,7 +58,13 @@
       }
     </div>
 
-    <div class="fr-toggle" *ngIf="usager.options.portailUsagerEnabled">
+    <div
+      class="fr-toggle"
+      *ngIf="
+        me.structure?.portailUsager?.enabledByStructure &&
+        usager.options.portailUsagerEnabled
+      "
+    >
       <input
         type="checkbox"
         formControlName="shared"
@@ -82,7 +82,8 @@
       ></div>
     </div>
 
-    @if (usager.options.portailUsagerEnabled) {
+    @if (me.structure?.portailUsager?.enabledByStructure &&
+    usager.options.portailUsagerEnabled) {
     <div class="fr-alert fr-mt-2w fr-alert--info">
       <p>
         Attention: le domicilié pourra télécharger le document depuis un

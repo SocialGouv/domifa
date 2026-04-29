@@ -86,8 +86,6 @@
     autocomplete="off"
     #formProcurations
   >
-    <p>Tous les champs sont obligatoires</p>
-
     @for (procuration of form.controls; track $index; let i = $index) {
     <div formArrayName="procurations">
       <fieldset class="fr-fieldset">
@@ -101,9 +99,7 @@
                 form.controls[i].get('nom')?.errors
               "
             >
-              <label class="fr-label" for="procuration_nom_{{ i }}"
-                >Nom *</label
-              >
+              <label class="fr-label" for="procuration_nom_{{ i }}">Nom</label>
               <input
                 #procurationName
                 type="text"
@@ -147,7 +143,7 @@
               "
             >
               <label class="fr-label" for="procuration_prenom_{{ i }}"
-                >Prénom du mandataire *</label
+                >Prénom du mandataire</label
               >
               <input
                 type="text"
@@ -203,7 +199,7 @@
           <div class="fr-col-12 fr-col-md-2">
             <dsfr-ext-datepicker
               formControlName="dateDebut"
-              label="Valide du *"
+              label="Valide du"
               [required]="true"
               [showMask]="true"
               [message]="
@@ -218,7 +214,7 @@
           <div class="fr-col-12 fr-col-md-2">
             <dsfr-ext-datepicker
               formControlName="dateFin"
-              label="Valide jusqu'au *"
+              label="Valide jusqu'au"
               [required]="true"
               [showMask]="true"
               [message]="
@@ -251,9 +247,13 @@
     }
 
     <div
-      class="fr-my-2w fr-display-flex fr-justify-content-center fr-align-items-center fr-flex-wrap"
-      style="gap: 1rem"
+      class="fr-btns-group fr-btns-group--inline-reverse fr-btns-group--center fr-my-2w"
     >
+      <app-button
+        type="submit"
+        [loading]="loading"
+        content="Enregistrer les procurations"
+      ></app-button>
       @if (form.controls.length < 5) {
       <button
         class="fr-btn fr-btn--secondary fr-icon-add-line fr-btn--icon-left"
@@ -263,11 +263,6 @@
         Ajouter une procuration
       </button>
       }
-      <app-button
-        type="submit"
-        [loading]="loading"
-        content="Enregistrer les procurations"
-      ></app-button>
     </div>
   </form>
   }
