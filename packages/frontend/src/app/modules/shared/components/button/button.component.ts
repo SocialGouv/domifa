@@ -29,6 +29,7 @@ type ButtonIcon =
   templateUrl: "./button.component.html",
   styleUrl: "./button.component.scss",
   standalone: false,
+  host: { class: "d-print-none" },
 })
 export class ButtonComponent implements OnChanges {
   @Input() type: ButtonType = "button";

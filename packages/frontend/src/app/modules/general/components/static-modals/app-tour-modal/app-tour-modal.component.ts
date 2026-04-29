@@ -11,6 +11,7 @@ import { MatomoTracker } from "ngx-matomo-client";
 import { AuthService } from "../../../../shared/services";
 import { UserStructure } from "@domifa/common";
 import { Subscription } from "rxjs";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-app-tour-modal",
@@ -88,7 +89,8 @@ export class AppTourModalComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private readonly matomo: MatomoTracker,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly router: Router
   ) {
     this.me = this.authService.currentUserValue;
   }
@@ -166,6 +168,16 @@ export class AppTourModalComponent implements AfterViewInit, OnDestroy {
     localStorage.setItem("appTourSeen", "true");
     this.appTourModal.close();
     this.tourComplete.emit();
+  }
+
+  public goToContact(): void {
+    this.skipTour();
+    this.router.navigate(["/contact"]);
+  }
+
+  public goToFaq(): void {
+    this.skipTour();
+    this.router.navigate(["/faq"]);
   }
 
   public skipTour(): void {

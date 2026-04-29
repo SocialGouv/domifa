@@ -48,7 +48,8 @@
   #steps,
   button,
   #help-button,
-  .navbar {
+  .navbar,
+  .d-print-none {
     display: none !important;
   }
 

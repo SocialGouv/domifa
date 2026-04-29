@@ -3,9 +3,9 @@ import {
   IsNotEmpty,
   IsDate,
   IsIn,
-  IsOptional,
   IsBoolean,
   MaxLength,
+  ValidateIf,
 } from "class-validator";
 import { Transform, Type } from "class-transformer";
 import { StructureInformationType } from "@domifa/common";
@@ -41,15 +41,17 @@ export class StructureInformationDto {
   )
   description: string;
 
+  @ValidateIf((o) => o.isTemporary === true)
   @IsDate()
-  @IsOptional()
+  @IsNotEmpty()
   @Type(() => Date)
   startDate: Date;
 
+  @ValidateIf((o) => o.isTemporary === true)
   @IsDate()
-  @IsOptional()
+  @IsNotEmpty()
   @Type(() => Date)
-  endDate: Date | null;
+  endDate: Date;
 
   @IsBoolean()
   @IsNotEmpty()
