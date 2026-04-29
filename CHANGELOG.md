@@ -1,3 +1,10 @@
+## [2.236.2](https://github.com/SocialGouv/domifa/compare/v2.236.1...v2.236.2) (2026-04-29)
+
+
+### Bug Fixes
+
+* **frontend:** fix issues dsfr ([f019654](https://github.com/SocialGouv/domifa/commit/f019654d14b8fe8141b12a35e94800f32c1675a9))
+
 ## [2.236.1](https://github.com/SocialGouv/domifa/compare/v2.236.0...v2.236.1) (2026-04-29)
 
 
