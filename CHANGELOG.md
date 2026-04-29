@@ -1,3 +1,12 @@
+## [2.236.3](https://github.com/SocialGouv/domifa/compare/v2.236.2...v2.236.3) (2026-04-29)
+
+
+### Bug Fixes
+
+* **frontend:** fix build ([fe3cb72](https://github.com/SocialGouv/domifa/commit/fe3cb72ef64f39416f545ca8935995b5c85eba07))
+* **frontend:** fix frontend tests ([9e6af81](https://github.com/SocialGouv/domifa/commit/9e6af81a274939e4309088ae69ca82e56b0e1bf2))
+* **frontend:** fix labels of buttons ([0b35341](https://github.com/SocialGouv/domifa/commit/0b35341512001d8695dfb9b495ee52a0e337624f))
+
 ## [2.236.2](https://github.com/SocialGouv/domifa/compare/v2.236.1...v2.236.2) (2026-04-29)
 
 
