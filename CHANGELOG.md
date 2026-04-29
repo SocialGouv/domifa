@@ -1,3 +1,12 @@
+## [2.236.1](https://github.com/SocialGouv/domifa/compare/v2.236.0...v2.236.1) (2026-04-29)
+
+
+### Bug Fixes
+
+* **frontend:** add required ([f36b9cd](https://github.com/SocialGouv/domifa/commit/f36b9cdfb3d9d36d5fd8dcd022df14c5b19137e3))
+* **frontend:** fix fiches pratiques ([ead3d6f](https://github.com/SocialGouv/domifa/commit/ead3d6f4ed20a619039b5267e8d7e42317c6f3af))
+* **frontend:** fix forms & rgaa page ([d3300cb](https://github.com/SocialGouv/domifa/commit/d3300cb42e6790c38f1be7c184f3d33d4b0ee48d))
+
 # [2.236.0](https://github.com/SocialGouv/domifa/compare/v2.235.2...v2.236.0) (2026-04-26)
 
 
