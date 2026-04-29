@@ -23,7 +23,8 @@ describe("Directive: Date FR", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TestHoverFocusComponent, DateFrDirective],
+      declarations: [TestHoverFocusComponent],
+      imports: [DateFrDirective],
     });
 
     fixture = TestBed.createComponent(TestHoverFocusComponent);

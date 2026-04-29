@@ -10,7 +10,7 @@ describe("DisplayAyantsDroitsComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DisplayAyantsDroitsComponent],
+      imports: [DisplayAyantsDroitsComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DisplayAyantsDroitsComponent);

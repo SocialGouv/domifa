@@ -13,6 +13,7 @@ import { _usagerReducer } from "../../../../../shared";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { FullNamePipe } from "../../../../shared/pipes";
 
 describe("ProfilEditPortailUsagerPreferenceComponent", () => {
   let component: ProfilEditPortailUsagerPreferenceComponent;
@@ -24,7 +25,7 @@ describe("ProfilEditPortailUsagerPreferenceComponent", () => {
         CommonModule,
         FormsModule,
         RouterModule.forRoot([]),
-
+        FullNamePipe,
         ReactiveFormsModule,
         SharedModule,
         DsfrModalComponent,
